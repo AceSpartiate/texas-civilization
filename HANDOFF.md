@@ -1,3 +1,7 @@
+## Art update — Ben McCulloch (2026-09-28)
+
+McCulloch now has a dedicated 4×4 atlas in `scripts/art-deliveries/famous-mcculloch.mjs`. It includes directional walking and a three-frame round/ram/brace gun-service cycle, plus vent, pouch and listening poses. His roster and `PERSON_ART.mcculloch` keys bind the same figure to the existing San Jacinto Twin Sisters scenes; both `guns` and the following battery phase use `pose: gun`. Hockley commands beside him with a separate cycle. The simulation still owns cannon timing and historical outcomes. All frames and clips appear in `docs/ART_MANIFEST.md`, and source/prompt records in the art JSON files. Face and costume are interpretive, not a portrait claim.
+
 ## Art update — George W. Hockley (2026-09-28)
 
 Hockley has a dedicated 4×4 transparent atlas in `scripts/art-deliveries/famous-hockley.mjs`: directional walking, field gestures, and a three-frame point/signal/brace battery-command animation. His roster key and `PERSON_ART.hockley` select it. The existing San Jacinto Twin Sisters gun phases now assign him `pose: gun`, which draws the command cycle; the named McCulloch and generic gun crews remain responsible for physical service. No gun timing or historical outcome changed. Frames and clips appear in `docs/ART_MANIFEST.md`; prompt and source are in the art JSON records. Face and costume are interpretive.

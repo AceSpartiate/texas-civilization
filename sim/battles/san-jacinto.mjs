@@ -364,7 +364,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       people: [
         ...LINE_OFFICERS,
         { id: 'hockley', at: 'hockleyAt', face: 'breastwork', pose: 'gun' },
-        { id: 'mcculloch', at: 'mccullochAt', face: 'breastwork' },
+        { id: 'mcculloch', at: 'mccullochAt', face: 'breastwork', pose: 'gun' },
         { id: 'castrillon', at: 'crate', face: 'close', pose: 'command', during: [3, 6] },
       ],
       lines: [
@@ -386,7 +386,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
       people: [
         ...LINE_OFFICERS,
         { id: 'hockley', at: 'hockleyAt', face: 'breastwork', pose: 'gun' },
-        { id: 'mcculloch', at: 'mccullochAt', face: 'breastwork' },
+        { id: 'mcculloch', at: 'mccullochAt', face: 'breastwork', pose: 'gun' },
         { id: 'castrillon', at: 'crate', face: 'close', pose: 'command' },
       ],
       falls: [{ side: MEX, count: 3, at: 1, claimId: 'HIST-TEX-067' }],

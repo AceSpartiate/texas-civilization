@@ -257,6 +257,7 @@ test('the Twin Sisters are named and fire where the record puts them: before the
   assert.ok(station.reduce((sum, gun) => sum + gun.shots.length, 0) >= 3);
   for (const id of ['hockley', 'mcculloch']) assert.ok(personIn(guns.view, id), `${id} is not at the guns`);
   assert.equal(personIn(guns.view, 'hockley').pose, 'gun');
+  assert.equal(personIn(guns.view, 'mcculloch').pose, 'gun');
   assert.match(SAN_JACINTO_BATTLE.phases.find(p => p.id === 'parade').caption, /family story told later they were named at Brazoria for the twin daughters of Dr. Charles Rice/);
   assert.match(SAN_JACINTO_BATTLE.phases.find(p => p.id === 'guns').caption, /later tellers say broken horseshoes/);
   assert.equal(PEOPLE['twin-sisters'].map[0].with, 'houston');

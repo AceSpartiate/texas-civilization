@@ -2639,6 +2639,17 @@
       "runtimeFile": "public/assets/frontier-v1/atlases/famous-hockley.png",
       "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
       "review": "A command-and-brace cycle at the Twin Sisters, distinct from a gunner physically loading or ramming a cannon. Outfit and face are interpretive."
+    },
+    {
+      "sheet": "famous-mcculloch",
+      "promptId": "frontier-v1/famous-mcculloch",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "prompt": "Transparent 4x4 elevated painterly Texas Revolution game atlas of original interpretive young Ben McCulloch, lean sun-browned volunteer in dark olive slouch hat, ochre buckskin work coat, indigo shirt, faded red bandanna, dark trousers, boots and powder pouch. Four east walks, two south, two north, then idle, hold round shot, ram unseen cannon, step back, inspect vent, brace, reach pouch and listen. Same full-body identity, wide true-alpha gutters, no cannon, ground, text or exact portrait claim.",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-21888220-4973-4b01-b3f8-589ea6c1a16f.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/famous-mcculloch.png",
+      "postProcessing": "None. Copied unchanged; atlas builder measures alpha components and reading-order cells.",
+      "review": "Named physical service cycle for one Twin Sister, visually distinct from Hockley commanding the battery."
     }
   ]
 }

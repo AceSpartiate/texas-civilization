@@ -100,6 +100,7 @@ export const PERSON_ART = Object.freeze({
   sherman: { stand: 'sherman-idle', command: 'sherman-command', point: 'sherman-point', rally: 'sherman-rally', ride: 'clip:sherman-mounted-walk-e', rideIdle: 'sherman-mounted-idle-e', rideRally: 'sherman-mounted-rally-e', walk: 'sherman-walk-e' },
   rusk: { stand: 'rusk-idle', command: 'rusk-command', point: 'rusk-command', stop: 'clip:rusk-stop', write: 'rusk-write', ride: 'clip:rusk-mounted-walk-e', rideIdle: 'rusk-mounted-idle-e', walk: 'rusk-walk-e' },
   hockley: { stand: 'hockley-idle', command: 'hockley-point', point: 'hockley-point', gun: 'clip:hockley-battery-command', walk: 'hockley-walk-e' },
+  mcculloch: { stand: 'mcculloch-idle', gun: 'clip:mcculloch-gun-service', listen: 'mcculloch-listen', walk: 'mcculloch-walk-e' },
 });
 const lerp = (a, b, t) => a + (b - a) * t;
 

@@ -6584,6 +6584,130 @@
         ]
       }
     },
+    "famous-mcculloch": {
+      "image": "atlases/famous-mcculloch.png",
+      "width": 1330,
+      "height": 1182,
+      "bytes": 1041853,
+      "sha256": "b4e3a353a343630070fb024fa05c1cc4255dee88e56da19ae7e23ef4590d4706",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.759141,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              6,
+              279
+            ],
+            "columns": [
+              [
+                110,
+                260
+              ],
+              [
+                416,
+                590
+              ],
+              [
+                758,
+                920
+              ],
+              [
+                1080,
+                1262
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              294,
+              582
+            ],
+            "columns": [
+              [
+                106,
+                243
+              ],
+              [
+                430,
+                563
+              ],
+              [
+                769,
+                895
+              ],
+              [
+                1101,
+                1232
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              593,
+              884
+            ],
+            "columns": [
+              [
+                97,
+                226
+              ],
+              [
+                424,
+                557
+              ],
+              [
+                688,
+                1013
+              ],
+              [
+                1110,
+                1259
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              888,
+              1173
+            ],
+            "columns": [
+              [
+                80,
+                262
+              ],
+              [
+                410,
+                570
+              ],
+              [
+                748,
+                911
+              ],
+              [
+                1092,
+                1239
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-moore": {
       "image": "atlases/famous-moore.png",
       "width": 1254,
@@ -35094,6 +35218,406 @@
           402
         ],
         "visiblePixels": 98245,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-walk-e-1": {
+      "sheet": "famous-mcculloch",
+      "x": 110,
+      "y": 8,
+      "w": 150,
+      "h": 271,
+      "anchorX": 0.8033,
+      "anchorY": 0.9446,
+      "logicalHeight": 291,
+      "label": "mcculloch walk e 1",
+      "kind": "famous-mcculloch",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          112,
+          10,
+          146,
+          267
+        ],
+        "visiblePixels": 18165,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-walk-e-2": {
+      "sheet": "famous-mcculloch",
+      "x": 416,
+      "y": 8,
+      "w": 174,
+      "h": 266,
+      "anchorX": 0.5517,
+      "anchorY": 0.9286,
+      "logicalHeight": 291,
+      "label": "mcculloch walk e 2",
+      "kind": "famous-mcculloch",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          418,
+          10,
+          170,
+          262
+        ],
+        "visiblePixels": 17626,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-walk-e-3": {
+      "sheet": "famous-mcculloch",
+      "x": 758,
+      "y": 6,
+      "w": 162,
+      "h": 270,
+      "anchorX": 0.8179,
+      "anchorY": 0.9333,
+      "logicalHeight": 291,
+      "label": "mcculloch walk e 3",
+      "kind": "famous-mcculloch",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          760,
+          8,
+          158,
+          266
+        ],
+        "visiblePixels": 18623,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-walk-e-4": {
+      "sheet": "famous-mcculloch",
+      "x": 1080,
+      "y": 7,
+      "w": 182,
+      "h": 266,
+      "anchorX": 0.522,
+      "anchorY": 0.9286,
+      "logicalHeight": 291,
+      "label": "mcculloch walk e 4",
+      "kind": "famous-mcculloch",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1082,
+          9,
+          178,
+          262
+        ],
+        "visiblePixels": 17282,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-walk-s-1": {
+      "sheet": "famous-mcculloch",
+      "x": 106,
+      "y": 296,
+      "w": 137,
+      "h": 285,
+      "anchorX": 0.5949,
+      "anchorY": 0.9439,
+      "logicalHeight": 291,
+      "label": "mcculloch walk s 1",
+      "kind": "famous-mcculloch",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          108,
+          298,
+          133,
+          281
+        ],
+        "visiblePixels": 19929,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-walk-s-2": {
+      "sheet": "famous-mcculloch",
+      "x": 430,
+      "y": 294,
+      "w": 133,
+      "h": 288,
+      "anchorX": 0.4549,
+      "anchorY": 0.9444,
+      "logicalHeight": 291,
+      "label": "mcculloch walk s 2",
+      "kind": "famous-mcculloch",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          432,
+          296,
+          129,
+          284
+        ],
+        "visiblePixels": 19447,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-walk-n-1": {
+      "sheet": "famous-mcculloch",
+      "x": 769,
+      "y": 294,
+      "w": 126,
+      "h": 287,
+      "anchorX": 0.4008,
+      "anchorY": 0.9268,
+      "logicalHeight": 291,
+      "label": "mcculloch walk n 1",
+      "kind": "famous-mcculloch",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          771,
+          296,
+          122,
+          283
+        ],
+        "visiblePixels": 18299,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-walk-n-2": {
+      "sheet": "famous-mcculloch",
+      "x": 1101,
+      "y": 294,
+      "w": 131,
+      "h": 287,
+      "anchorX": 0.5763,
+      "anchorY": 0.9268,
+      "logicalHeight": 291,
+      "label": "mcculloch walk n 2",
+      "kind": "famous-mcculloch",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1103,
+          296,
+          127,
+          283
+        ],
+        "visiblePixels": 18341,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-idle": {
+      "sheet": "famous-mcculloch",
+      "x": 97,
+      "y": 593,
+      "w": 129,
+      "h": 291,
+      "anchorX": 0.5504,
+      "anchorY": 0.9278,
+      "logicalHeight": 291,
+      "label": "mcculloch idle",
+      "kind": "famous-mcculloch",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          99,
+          595,
+          125,
+          287
+        ],
+        "visiblePixels": 21805,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-hold-shot": {
+      "sheet": "famous-mcculloch",
+      "x": 424,
+      "y": 598,
+      "w": 133,
+      "h": 284,
+      "anchorX": 0.8383,
+      "anchorY": 0.9296,
+      "logicalHeight": 291,
+      "label": "mcculloch hold shot",
+      "kind": "famous-mcculloch",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          426,
+          600,
+          129,
+          280
+        ],
+        "visiblePixels": 20381,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-ram": {
+      "sheet": "famous-mcculloch",
+      "x": 688,
+      "y": 621,
+      "w": 325,
+      "h": 254,
+      "anchorX": 0.1015,
+      "anchorY": 0.9291,
+      "logicalHeight": 291,
+      "label": "mcculloch ram",
+      "kind": "famous-mcculloch",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          690,
+          623,
+          321,
+          250
+        ],
+        "visiblePixels": 23886,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-step-back": {
+      "sheet": "famous-mcculloch",
+      "x": 1110,
+      "y": 599,
+      "w": 149,
+      "h": 278,
+      "anchorX": 0.7718,
+      "anchorY": 0.9353,
+      "logicalHeight": 291,
+      "label": "mcculloch step back",
+      "kind": "famous-mcculloch",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1112,
+          601,
+          145,
+          274
+        ],
+        "visiblePixels": 20670,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-inspect": {
+      "sheet": "famous-mcculloch",
+      "x": 80,
+      "y": 955,
+      "w": 182,
+      "h": 163,
+      "anchorX": 0.5962,
+      "anchorY": 0.9264,
+      "logicalHeight": 291,
+      "label": "mcculloch inspect",
+      "kind": "famous-mcculloch",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          82,
+          957,
+          178,
+          159
+        ],
+        "visiblePixels": 18867,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-brace": {
+      "sheet": "famous-mcculloch",
+      "x": 410,
+      "y": 924,
+      "w": 160,
+      "h": 233,
+      "anchorX": 0.8906,
+      "anchorY": 0.927,
+      "logicalHeight": 291,
+      "label": "mcculloch brace",
+      "kind": "famous-mcculloch",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          412,
+          926,
+          156,
+          229
+        ],
+        "visiblePixels": 18223,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-powder-pouch": {
+      "sheet": "famous-mcculloch",
+      "x": 748,
+      "y": 896,
+      "w": 163,
+      "h": 276,
+      "anchorX": 0.2362,
+      "anchorY": 0.9312,
+      "logicalHeight": 291,
+      "label": "mcculloch powder pouch",
+      "kind": "famous-mcculloch",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          750,
+          898,
+          159,
+          272
+        ],
+        "visiblePixels": 22333,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "mcculloch-listen": {
+      "sheet": "famous-mcculloch",
+      "x": 1092,
+      "y": 888,
+      "w": 147,
+      "h": 285,
+      "anchorX": 0.2143,
+      "anchorY": 0.9298,
+      "logicalHeight": 291,
+      "label": "mcculloch listen",
+      "kind": "famous-mcculloch",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1094,
+          890,
+          143,
+          281
+        ],
+        "visiblePixels": 21971,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

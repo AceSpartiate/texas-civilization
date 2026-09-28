@@ -181,7 +181,7 @@ export const PEOPLE = Object.freeze({
   sherman: person('sherman', 'Sherman', TX, 'sherman', 2, 'HIST-TEX-565', { fullName: 'Sidney Sherman' }),
   lamar: person('lamar', 'Lamar', TX, 'lamar', 2, 'HIST-TEX-565', { fullName: 'Mirabeau B. Lamar' }),
   hockley: person('hockley', 'Hockley', TX, 'hockley', 2, 'HIST-TEX-558', { fullName: 'George W. Hockley' }),
-  mcculloch: person('mcculloch', 'McCulloch', TX, 'officer', 2, 'HIST-TEX-558', { fullName: 'Ben McCulloch' }),
+  mcculloch: person('mcculloch', 'McCulloch', TX, 'mcculloch', 2, 'HIST-TEX-558', { fullName: 'Ben McCulloch' }),
   almonte: person('almonte', 'Almonte', MX, 'almonte', 2, 'HIST-TEX-568', { fullName: 'Juan Nepomuceno Almonte' }),
   'emily-west': person('emily-west', 'Emily West', TX, 'emily-west', 1, 'HIST-TEX-569', {
     fullName: 'Emily D. West',

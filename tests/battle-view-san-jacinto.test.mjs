@@ -80,6 +80,13 @@ test('Hockley commands the Twin Sisters with his own battery poses', () => {
   assert.ok(art.drawn.some(one => one.clip === 'hockley-battery-command'));
 });
 
+test('McCulloch serves a Twin Sister in his own gun crew poses', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const mcculloch = { id: 'mcculloch', art: 'mcculloch', name: 'McCulloch', side: 'texian', x: 0, y: 0, right: true, pose: 'gun' };
+  run(view, minute => battle(minute, { phase: 'guns', people: [mcculloch] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'mcculloch-gun-service'));
+});
+
 test('only the named Twin Sisters use their dedicated service crew', () => {
   const art = fakeArt(), view = createBattleView(art);
   const guns = [

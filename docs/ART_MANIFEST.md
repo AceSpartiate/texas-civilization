@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1898 usable sprites, 183 PNG atlases, 606 clips** (378 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1914 usable sprites, 184 PNG atlases, 610 clips** (382 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -82,6 +82,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-karnes-mounted | 4 | 1246 × 1263 | 1175856 |
 | famous-lamar | 16 | 1312 × 1199 | 932028 |
 | famous-lamar-mounted | 4 | 1312 × 1199 | 1099794 |
+| famous-mcculloch | 16 | 1330 × 1182 | 1041853 |
 | famous-moore | 16 | 1254 × 1254 | 1092408 |
 | famous-houston-mounted | 4 | 1254 × 1254 | 1158924 |
 | famous-santa-anna-mounted | 4 | 1226 × 1283 | 1192703 |
@@ -933,6 +934,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | lamar-mounted-walk-e-2 | famous-lamar-mounted | lamar-mounted-walk-e |
 | lamar-mounted-idle-e | famous-lamar-mounted | State artwork; no motion required |
 | lamar-mounted-rescue-e | famous-lamar-mounted | State artwork; no motion required |
+| mcculloch-walk-e-1 | famous-mcculloch | mcculloch-walk-e |
+| mcculloch-walk-e-2 | famous-mcculloch | mcculloch-walk-e |
+| mcculloch-walk-e-3 | famous-mcculloch | mcculloch-walk-e |
+| mcculloch-walk-e-4 | famous-mcculloch | mcculloch-walk-e |
+| mcculloch-walk-s-1 | famous-mcculloch | mcculloch-walk-s |
+| mcculloch-walk-s-2 | famous-mcculloch | mcculloch-walk-s |
+| mcculloch-walk-n-1 | famous-mcculloch | mcculloch-walk-n |
+| mcculloch-walk-n-2 | famous-mcculloch | mcculloch-walk-n |
+| mcculloch-idle | famous-mcculloch | State artwork; no motion required |
+| mcculloch-hold-shot | famous-mcculloch | mcculloch-gun-service |
+| mcculloch-ram | famous-mcculloch | mcculloch-gun-service |
+| mcculloch-step-back | famous-mcculloch | State artwork; no motion required |
+| mcculloch-inspect | famous-mcculloch | State artwork; no motion required |
+| mcculloch-brace | famous-mcculloch | mcculloch-gun-service |
+| mcculloch-powder-pouch | famous-mcculloch | State artwork; no motion required |
+| mcculloch-listen | famous-mcculloch | State artwork; no motion required |
 | moore-walk-e-1 | famous-moore | moore-walk-e |
 | moore-walk-e-2 | famous-moore | moore-walk-e |
 | moore-walk-e-3 | famous-moore | moore-walk-e |
@@ -2334,6 +2351,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | lamar-walk-s | Pose cycle | 2 | 580 | yes | south |
 | lamar-walk-n | Pose cycle | 2 | 580 | yes | north |
 | lamar-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| mcculloch-walk-e | Pose cycle | 4 | 760 | yes | east |
+| mcculloch-walk-s | Pose cycle | 2 | 580 | yes | south |
+| mcculloch-walk-n | Pose cycle | 2 | 580 | yes | north |
+| mcculloch-gun-service | Pose cycle | 3 | 1080 | yes | east; mirror for west |
 | moore-walk-e | Pose cycle | 4 | 760 | yes | east |
 | moore-walk-s | Pose cycle | 2 | 580 | yes | south |
 | moore-walk-n | Pose cycle | 2 | 580 | yes | north |
