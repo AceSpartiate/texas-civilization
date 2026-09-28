@@ -430,6 +430,14 @@ try {
   const book = await page.evaluate(async () => (await (await fetch('/api/family')).json()).family.people);
   const tradedWith = principalId;
   const neighbour = app.state.world.households['hh-2'].principalId;
+  // Little ones with nothing to do call the principal aside, and he is sent nowhere until they have something (docs/CHILDREN.md;
+  // FAMILY_PANEL.md §18). Since 2026-09-28 the family's work at home ends sooner with more hands at it, so the proof may reach
+  // here with him already called: the children are given their play, as a student would, before he is sent.
+  const asideCookie = (await context.cookies()).map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
+  for (const child of world().entities[principalId].aside?.childIds || []) {
+    await fetch(url + '/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json', Cookie: asideCookie }, body: JSON.stringify({ id: `proof-play-${crypto.randomUUID()}`, action: 'chore', entityId: child, chore: 'child-play' }) }).catch(() => {});
+  }
+  if (world().entities[principalId].aside) measured.asideLeft = world().entities[principalId].aside;
   await asMain(page, principalId);
   await page.locator(`.panel-row[data-entity-id="${principalId}"] .panel-icon[data-key="travel-gonzales"]`).click();
   await sendTheWay(page, { way: 'foot' });
