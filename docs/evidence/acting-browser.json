@@ -1,0 +1,32 @@
+{
+  "record": "acting-browser",
+  "date": "2026-09-28",
+  "environment": "Same computer: a local classroom server and headless Chrome at 1366x768.",
+  "pass": [
+    "serving: Gregorio Proofwright is with Houston's army; the order to leave is a \"!\" on Bernarda Proofwright's row, and opens her card",
+    "serving: Bernarda Proofwright gave the order and the family left; Gregorio Proofwright stayed with the army",
+    "serving: \"¡Alto!\" was on Bernarda Proofwright's card with Gregorio Proofwright on auto in the camp, and she answered \"run\" - no lapse, no capture unasked",
+    "children: everybody of ten or more taken, the order is a \"!\" on Jasper Proofwright, 9, whose card says the oldest answers for the family",
+    "children: Jasper Proofwright gave the order to leave, and the children set out",
+    "children: \"¡Alto!\" was on Jasper Proofwright's card, and his \"halt\" was taken"
+  ],
+  "observed": {
+    "servingShown": {
+      "mainId": "hh-1-parent-1",
+      "actingId": "hh-1-parent-2"
+    },
+    "servingRun": {
+      "answer": "run",
+      "lapsed": 0
+    },
+    "childrenHalt": {
+      "answer": "halt"
+    }
+  },
+  "shots": [
+    "docs/evidence/acting-serving-order-on-mother.png",
+    "docs/evidence/acting-serving-alto-on-mother.png",
+    "docs/evidence/acting-children-order-on-child.png",
+    "docs/evidence/acting-children-alto-on-child.png"
+  ]
+}

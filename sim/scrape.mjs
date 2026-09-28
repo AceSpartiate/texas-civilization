@@ -183,6 +183,8 @@ export function fleeRefusal(world, household, { take = {}, refuge, route } = {})
 /** The settlement's word: this family is told to leave, and a "!" waits on its main person. */
 export function orderOut(world, household, causeId) {
   if (household.flight) return;
+  // A family with nobody living is not told anything, and holds nobody's clock (playthrough audit 7, 2026-09-28).
+  if (!people(world, household).some(person => !GONE.includes(person.health?.condition))) return;
   household.flight = { status: 'ordered', orderedMinute: world.minute };
   tell(world, household, `Word has come from ${world.map.sites[settlementOf(household)].name}: the Mexican army is coming, and every family is to leave for the east. Load what the wagon will carry and go. ${advanceModelled(world) ? 'What is left behind stays in the house, and if the Mexican army comes this way it will be burned.' : 'What is left behind will be burned so the enemy cannot use it.'}`, { type: 'pressure', causes: causeId ? [causeId] : [] });
 }
@@ -307,7 +309,9 @@ export function flee(world, household, { take = {}, refuge, route }) {
   const kept = { ...household.resources };
   // What is taken rides; the rest is left in the house for the fire.
   for (const good of Object.keys(FLIGHT_SPACE)) household.resources[good] = 0;
-  const goers = atHome(world, household).filter(person => person.health?.condition !== 'wounded');
+  // Everybody at home goes, the wounded too (design audit S19, 2026-09-28): carried in the wagon with the sick when there is one
+  // (sim/company.mjs seats them first), and on foot at a wounded man's pace when there is not (`walkingPace`).
+  const goers = atHome(world, household);
   // The flight waits at the flooded crossings by its own rule (`crossingsAlong`), not the ferries' ordinary hour.
   const path = planned ? planned.legs[0] : findWay(world, household.homeSiteId, refuge, mode, { ferries: false });
   if (!path) throw new Error('No road east from here.');
@@ -380,6 +384,8 @@ export function advanceFlight(world, minutes) {
   for (const household of Object.values(world.households)) {
     const flight = household.flight;
     if (!flight || !['fled', 'refuged', 'returning'].includes(flight.status)) continue;
+    // A family taken in by its neighbours goes where they go, and its road is theirs (sim/acting.mjs).
+    if (household.takenIn) continue;
     const travellers = [...household.members, ...(household.property || [])].map(id => world.entities[id]).filter(entity => entity?.travel && ['flee', 'return'].includes(entity.travel.purpose));
     const leader = travellers.find(entity => entity.kind === 'person') || travellers[0];
     // At a flooded river the whole family waits its turn, then goes over together.
@@ -510,9 +516,10 @@ export function advanceArmiesPassing(world) {
 export function turnHome(world, causeId) {
   for (const household of Object.values(world.households)) {
     const flight = household.flight;
-    if (!flight || flight.status !== 'refuged') continue;
+    if (!flight || flight.status !== 'refuged' || household.takenIn) continue;
     const at = flight.refuge;
-    const goers = people(world, household).filter(person => !GONE.includes(person.health?.condition) && person.service?.status !== 'serving' && person.location?.siteId === at && !person.travel && person.health.condition !== 'wounded');
+    // The wounded go home with the rest (interactions M4, 2026-09-28), in the wagon or at a wounded man's pace.
+    const goers = people(world, household).filter(person => !GONE.includes(person.health?.condition) && person.service?.status !== 'serving' && person.location?.siteId === at && !person.travel);
     // Home with the wagon only when every beast the family has is there with it, the wagon and an ox among them: as it was when a
     // family had one of each (all three at the refuge), and the same rule for one that bought more (sim/beasts.mjs).
     const all = beasts(world, household), there = all.filter(beast => beast.location.siteId === at);

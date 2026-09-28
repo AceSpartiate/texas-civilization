@@ -4,7 +4,7 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
-import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
+import { actingOf, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { mountErrand } from '/errand.js';
 import { asksTheWay, mountGoing } from '/going.js';
@@ -3782,7 +3782,7 @@ function renderRouteEditor(world, chosen, running) {
   let editor = $('#flight-route-editor');
   // Presentation evidence, read by scripts/scrape-pursuit-browser-proof.mjs and by nothing in the page.
   window.__routeEditor = { open: Boolean(routeDraft), picking: routePicking, stops: routeDraft ? [...routeDraft.stops] : [] };
-  const onRoad = world.flight && ['fled', 'refuged'].includes(world.flight.status) && world.role !== 'host' && chosen?.id === (world.household?.mainId || world.household?.principalId);
+  const onRoad = world.flight && ['fled', 'refuged'].includes(world.flight.status) && world.role !== 'host' && chosen?.id === actingOf(world) && !world.household?.takenIn;
   if (!onRoad || !routeDraft) {
     routePicking = false;
     if (editor) { editor.hidden = true; editor.replaceChildren(); }
@@ -3848,9 +3848,21 @@ document.addEventListener('change', event => {
 function renderFlight(world, chosen, running) {
   const wrap = $('#selection-flight');
   const flight = world.flight;
-  const main = world.household?.mainId || world.household?.principalId;
-  if (!flight || world.role === 'host' || chosen.id !== main) { wrap.hidden = true; wrap.replaceChildren(); flightFormKey = ''; return; }
+  // On whoever is with the family and answers for it (sim/acting.mjs, `actingOf`): not a father away with the army (interactions B1).
+  const main = actingOf(world);
+  const taken = world.household?.takenIn;
+  if ((!flight && !taken) || world.role === 'host' || chosen.id !== main) { wrap.hidden = true; wrap.replaceChildren(); flightFormKey = ''; return; }
   wrap.hidden = false;
+  // Taken in by a neighbour family (sim/acting.mjs): nothing here is the family's to decide; it goes where they go.
+  if (taken) {
+    const words = `${takenInWords(world)} Whatever they decide, the little ones go with them.`;
+    if (wrap.dataset.said !== words) { wrap.replaceChildren(element('p', words, 'ask-text flight-taken-in')); wrap.dataset.said = words; }
+    flightFormKey = '';
+    renderRouteEditor(world, null, running);
+    return;
+  }
+  // The oldest child answering for the family, with nobody grown with it (owner, 2026-09-28: "The oldest child steps up").
+  const stepped = world.household?.steppedUp ? `${chosen.name} is the oldest with the family, with nobody grown here, and answers for it.` : '';
   if (!['ordered', 'stayed'].includes(flight.status)) {
     // On the road (sim/road.mjs, docs/ROAD_EAST.md): where the family is, the weather, the mud, the camp, the danger - and
     // the road's question with its answers and their prices, in the shape every question here takes.
@@ -3881,9 +3893,10 @@ function renderFlight(world, chosen, running) {
       : chase.phase === 'caught' ? `${who} have the family.${chase.shotCount ? ` They fired ${chase.shotCount} ${chase.shotCount === 1 ? 'shot' : 'shots'}.` : ''}`
       : chase.phase === 'escaped' ? `The family got away from ${who}.${chase.shotCount ? ` They fired ${chase.shotCount} ${chase.shotCount === 1 ? 'shot' : 'shots'}; ${chase.hits ? `${chase.hits} hit` : 'none hit'}.` : ''}${hitWords}` : '';
     const canTimber = chase?.phase === 'seen' && chase.timber && flight.status === 'fled' && !flight.bog;
-    const said = JSON.stringify([where, road, routeWords, seenWords, chaseWords, canTimber, flight.ask?.openedMinute ?? null, (flight.ask?.options || []).map(option => [option.id, option.can]), running, Boolean(routeDraft)]);
+    const said = JSON.stringify([where, road, routeWords, seenWords, chaseWords, canTimber, flight.ask?.openedMinute ?? null, (flight.ask?.options || []).map(option => [option.id, option.can]), running, Boolean(routeDraft), stepped]);
     if (wrap.dataset.said !== said) {
       wrap.replaceChildren(element('p', where, 'ask-text'));
+      if (stepped) wrap.append(element('p', stepped, 'work-note flight-stepped-up'));
       if (road) wrap.append(element('p', road, 'work-note'));
       if (routeWords) wrap.append(element('p', routeWords, 'work-note flight-route-words'));
       if (seenWords) wrap.append(element('p', seenWords, 'work-note flight-seen'));
@@ -3917,10 +3930,12 @@ function renderFlight(world, chosen, running) {
     return;
   }
   renderRouteEditor(world, null, running);
-  const key = JSON.stringify([flight.room, flight.mode, flight.have, flight.refuges, flight.burned, flight.decidedToStay, running]);
+  const key = JSON.stringify([flight.room, flight.mode, flight.have, flight.refuges, flight.burned, flight.decidedToStay, running, stepped]);
   if (flightFormKey === key) return;
   flightFormKey = key;
   wrap.replaceChildren();
+  wrap.dataset.said = '';
+  if (stepped) wrap.append(element('p', stepped, 'work-note flight-stepped-up'));
   wrap.append(element('p', flight.burned ? 'The army has passed and burned the farm. The family can still go east with what it can carry.'
     : flight.decidedToStay ? 'The family is staying, and takes what comes. The road east is still open if it changes its mind.'
     : 'The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs what it can and goes by itself.', 'ask-text'));
@@ -3960,6 +3975,29 @@ function renderFlight(world, chosen, running) {
     stay.dataset.action = 'flight-stay'; stay.dataset.entityId = chosen.id; stay.disabled = !running;
     wrap.append(stay);
   }
+}
+/**
+ * Somebody very sick (sim/disease.mjs): who of the family can nurse them, each a button that sends that person to it (design audit
+ * S34, 2026-09-28). The sick person's "!" opens this: their own work is all refused (too sick to get up), and nursing is somebody
+ * else's to do. Who can, and why nobody can, are the server's (`nurses` on the sick person, sim/world.mjs).
+ */
+function renderNurse(world, chosen, running) {
+  const wrap = $('#selection-nurse');
+  if (!wrap) return;
+  const nurses = chosen.observed || world.role === 'host' || !chosen.sickness?.grave || !Array.isArray(chosen.nurses) ? null : chosen.nurses;
+  if (!nurses) { wrap.hidden = true; wrap.replaceChildren(); wrap.dataset.said = ''; return; }
+  wrap.hidden = false;
+  const said = JSON.stringify([chosen.id, nurses, running]);
+  if (wrap.dataset.said === said) return;
+  wrap.dataset.said = said;
+  wrap.replaceChildren(element('p', nurses.length ? `${chosen.name} is too sick to get up. Somebody of the family can nurse them:` : `${chosen.name} is too sick to get up, and nobody of the family can nurse them right now.`, 'ask-text'), ...nurses.map(nurse => {
+    const button = element('button', '', 'work-option ask-option-work');
+    button.dataset.action = 'chore'; button.dataset.chore = nurse.chore; button.dataset.entityId = nurse.id;
+    button.disabled = !running;
+    button.append(element('span', `${nurse.name} nurses ${chosen.name}`, 'work-name'),
+      element('span', nurse.chore === 'tend-sick' ? 'The family halts a day while they nurse. Nobody in their care dies while they nurse.' : 'Stays by them and nurses them: nobody in their care dies while they nurse.', 'work-note'));
+    return button;
+  }));
 }
 function renderCall(world, chosen, running) {
   const wrap = $('#selection-call');
@@ -4506,7 +4544,7 @@ function goToPerson(id) {
   if (world) { drawWorld(world); renderFamilyPanel(world); renderSelection(world); renderTutorial(world); }
 }
 /** Where on the card each need is answered. A rider has a panel of their own. */
-const NEED_SECTIONS = { army: '#selection-army', camp: '#selection-work', courier: '#selection-work', flight: '#selection-flight', road: '#selection-flight', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade', sick: '#selection-work' };
+const NEED_SECTIONS = { army: '#selection-army', camp: '#selection-work', courier: '#selection-work', flight: '#selection-flight', road: '#selection-flight', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade', sick: '#selection-nurse' };
 /**
  * The "!" on a row: go to the person and open what is waiting on them - the rider's conversation, or their card at the
  * question with its answers - and put the keyboard on the first answer. Nothing is decided here: the answers are the card's
@@ -4966,7 +5004,7 @@ function renderSelection(world) {
   const listen = $('#listen-rider');
   listen.hidden = !waiting || world.role === 'host';
   listen.textContent = waiting ? `Listen to ${world.encounter.carrierName}` : 'Listen';
-  renderCall(world, chosen, running); renderFlight(world, chosen, running);
+  renderCall(world, chosen, running); renderFlight(world, chosen, running); renderNurse(world, chosen, running);
   renderArmyControl(world, chosen, running);
   renderWork(world, chosen, settable);
   // Trading stays shut until the class is running, because the neighbour it is addressed

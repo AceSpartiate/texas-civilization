@@ -33,6 +33,8 @@ import { REGIONS, WATER_SHUT, rainingAt, waterAt, weatherAt, weatherOn } from '.
 import { record } from './events.mjs';
 import { familyAnsweredFor, recordLapse } from './lapse.mjs';
 import { canAnswerCalls, householdName, mainPersonId, tooYoung } from './family.mjs';
+// Who is with the family and answers for it (sim/acting.mjs, 2026-09-28): the road's questions are theirs.
+import { actingId } from './acting.mjs';
 import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
 import { beastsOf } from './beasts.mjs';
 import { findWay } from './ways.mjs';
@@ -457,7 +459,8 @@ export function overtake(world, household, near) {
   const eventId = record(world, 'consequence', { householdId: household.id, importance: 3, claimId: 'HIST-TEX-073', classification: 'FICTIONAL FOR GAMEPLAY', text });
   // Caught costs the family glory as a desertion does (owner, 2026-09-17: "Keep as it is, but with a minus glory
   // consequence", "Like a desertion"): twice what enlisting is worth, by the miles from home, once for each column.
-  const principal = mainPersonId(world, household) || household.members[0];
+  // Charged to whoever was answering for the family on the road, not to a father away with the army (interactions B1).
+  const principal = actingId(world, household) || mainPersonId(world, household) || household.members[0];
   awardGlory(world, { event: `overtaken-${near.id}`, claimId: 'HIST-TEX-073', personId: principal, householdId: household.id, role: 'enlisted', fromSiteId: siteNear(world, familyPoint(world, household)) || siteId, causes: eventId ? [eventId] : [], adjust: earned => -2 * earned, note: 'They stayed too long on the road and the Mexican army caught them.' });
   for (const one of prisoners) record(world, 'consequence', { actorId: one.id, householdId: household.id, importance: 3, claimId: 'HIST-TEX-073', text: `${one.name} was taken prisoner by the Mexican army ${where}.` });
   if (household.played) spotlight(world, { key: `overtaken:${household.id}:${near.id}`, text: `${near.name} overtakes ${householdName(world, household)} ${where === 'on the road' ? 'on the road east' : where} and takes the wagon, the animals and the goods${prisoners.length ? `, and ${prisoners.map(one => one.name).join(' and ')} prisoner` : ''}.`, x: familyPoint(world, household)?.x, y: familyPoint(world, household)?.y, claimId: 'HIST-TEX-073', householdId: household.id });
@@ -533,7 +536,7 @@ export function advanceRoad(world, household) {
   // A question nobody answered in its time. For a family a student is answering for, **it lapses** (owner, 2026-09-27;
   // sim/lapse.mjs): nothing new is done (`lapseRoad`). A family nobody is answering for is decided as auto decides.
   if (flight.ask && world.tick - flight.ask.openedTick >= ROAD_PATIENCE_TICKS) {
-    if (familyAnsweredFor(world, household) && !world.entities[mainPersonId(world, household)]?.auto) lapseRoad(world, household);
+    if (familyAnsweredFor(world, household) && !world.entities[actingId(world, household)]?.auto) lapseRoad(world, household);
     else {
       const option = roadAutoAnswer(world, household);
       if (option) answerRoad(world, household, option, 'silence'); else delete flight.ask;

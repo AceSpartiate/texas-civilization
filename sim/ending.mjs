@@ -239,12 +239,16 @@ export function hostEnding(world) {
       name: own.name,
       money: own.money, glory: own.glory, land: own.land, final: own.final, prisoners: own.prisoners.length,
       automatic: automatic(world, household),
+      // Nobody of the family living (playthrough audit 7, 2026-09-28): counted and shown, never named the winner.
+      ...(livingOf(world, household) === 0 && { wiped: true }),
       miles: milesFromGonzales(world, household),
       heard: firstWord(world, household)?.date || null,
       went: [...new Set(parts.map(part => part.name))],
     };
   });
-  const contenders = families.filter(family => !family.automatic);
+  // A family with nobody living cannot finish first (2026-09-28): a lone father killed at the Alamo was named the class's winner
+  // by the Alamo's glory on his coin, and "the family where everybody died wins" is the lesson the ending would teach.
+  const contenders = families.filter(family => !family.automatic && !family.wiped);
   const best = contenders.length ? Math.max(...contenders.map(family => family.final)) : null;
   const winners = best === null ? [] : contenders.filter(family => family.final === best).map(family => family.householdId);
   const reveal = surpriseReveal(world);

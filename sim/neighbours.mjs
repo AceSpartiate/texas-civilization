@@ -229,7 +229,9 @@ export function thinkFor(world, household, { project, act }) {
     const free = person => person && person.location?.siteId === view.household.homeSiteId && !person.travel
       && !['dead', 'captured'].includes(person.health?.condition) && person.service?.status !== 'serving';
     const byId = id => people.find(person => person.id === id);
-    const giver = [byId(view.household.mainId), byId(view.household.principalId), ...people].find(free);
+    // Whoever the server says is with the family and answers for it comes first (sim/acting.mjs, 2026-09-28): with nobody grown
+    // at home, the oldest child of seven or more, whom the order is taken from.
+    const giver = [byId(view.household.actingId), byId(view.household.mainId), byId(view.household.principalId), ...people].find(free);
     if (giver) attempt({ action: 'flee', entityId: giver.id, take, refuge });
   }
   // A man with Houston's army (sim/camp.mjs, docs/HOUSTON_CAMP.md): the camp's work at documented rates, chosen by a hashed
@@ -247,7 +249,8 @@ export function thinkFor(world, household, { project, act }) {
   // been warned does nothing but go.
   const flight = view.flight;
   if (flight && ['fled', 'refuged'].includes(flight.status)) {
-    const mainId = view.household.mainId || view.household.principalId;
+    // The road's question is answered by whoever is with the family (sim/acting.mjs): not a father away with the army.
+    const mainId = view.household.actingId || view.household.mainId || view.household.principalId;
     if (flight.ask) {
       const option = (flight.ask.fallback || []).find(id => flight.ask.options.some(choice => choice.id === id && choice.can !== false)) || flight.ask.options.find(choice => choice.can !== false)?.id;
       if (option) attempt({ action: 'road-answer', entityId: mainId, option });

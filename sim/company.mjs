@@ -70,6 +70,9 @@ export const CARRIED_UNDER = 2;
  */
 export const CHILD_WALK_SPEED = 2 / 3, SMALL_WALK_SPEED = 0.5;
 export function walkingPace(person) {
+  // Somebody lying wounded who must walk goes at a small child's pace (design audit S19, 2026-09-28; `FIC-GONZ-732`, invented):
+  // a family with no wagon to carry him is that much slower for him.
+  if (person?.health?.condition === 'wounded') return SMALL_WALK_SPEED;
   const age = person?.age;
   if (!Number.isFinite(age) || age >= 10) return WALK_SPEED;
   return age >= 6 ? CHILD_WALK_SPEED : SMALL_WALK_SPEED;

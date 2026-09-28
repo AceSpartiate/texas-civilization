@@ -347,3 +347,31 @@ printed edition (the 2000 transcription was used); Adele Looscan's articles; a R
 
 See HANDOFF.md, "Children, babies and the Scrape's own work (not released)", for the numbers of the test suite, the injections and
 the browser proofs, and docs/evidence/ for their records.
+
+---
+
+## 11. Amendment, 2026-09-28 — the oldest child steps up; a baby never goes to the war; nobody very sick is called
+
+Owner, 2026-09-28: "fix the blockers", and by multiple choice for a family left with nobody who can act: **"The oldest child steps
+up"** - a child of about seven or older can act for the family in an emergency (flee, fetch water, mind the little ones, go for
+help), as frontier children really did; with none, the student follows a neighbour family that takes them in. Built in
+sim/acting.mjs; the whole rule is docs/FAMILY_PANEL.md §20 (`FIC-GONZ-730` to `-734`). What it changes here:
+
+- **A child of seven to nine acts for the family** when nobody grown is with it: the order to leave, the route, staying, the road's
+  questions and "¡Alto!" are theirs, on their row and card. Water and minding the little ones were theirs already (§2); **going for
+  help** (`child-help`) is new, and is the one child's work with a road in it - a run on foot to the nearest neighbours, who take
+  the family in. A child under seven still answers nothing, and is told who does.
+- **A baby never goes to the war** (`takeBabyAlong`, `FIC-GONZ-733`; amends §6 "Leaving the baby"). The rule that the last grown
+  person at home takes the baby along holds for every journey that comes home - town, a call's help, a visit - and not for a man
+  going to join an army, the garrison or a call's volunteers: the baby stays with the nearest woman of age, else anybody of age,
+  else an older brother or sister, said in the record ("Elias went to the war and left Rosa at home with Benita: a baby does not go
+  with the army."). Before a man is sent to the war with only children under ten at home, the control says so. Until 2026-09-28 a
+  widower's baby marched with Houston's army on his hip (interactions audit S4).
+- **Nobody very sick or lying wounded is called** (`FIC-GONZ-734`; amends §3 and §6): a crying baby is not brought to them
+  (`whoComes`), an idle child does not come to stop their rest (`talkTarget`), and the tick they turn very sick a baby they held is
+  set down and a child with them let go (`settleTheUnable`).
+- **Nobody gone is heard** (interactions audit M1): the dead and the taken let go of the family's little ones in the same tick, and
+  neither `talkLines` nor `babyLines` gives a line to anybody gone.
+
+`ceiling:` the little ones taken in by the neighbours can be watched, and their own works at their own home are not open to them
+there; what they may do for the family that took them in is an owner's decision (docs/FAMILY_PANEL.md §20, decision 1).
