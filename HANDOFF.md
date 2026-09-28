@@ -1,5 +1,34 @@
 # Claude handoff — Astra foundation
 
+## A class ended by mistake is continued from Classes, paused — owner, 2026-09-28 (branch `continue-ended-class` off `integration-2026-09-28` a07b95ab; not released)
+
+The owner, asked whether a class ended part-way through a period may be continued: **"Yes, allow Continue"**. Removes the
+`ceiling:` of [HOST_PAGE §2.8](docs/HOST_PAGE.md); End Game keeps its two presses.
+
+- **Which class** (`endedEarly`, `continueRefusal` in `sim/periods.mjs`): ended by End Game before its period reached its own
+  end (the director not `complete`). A period that ended where it ends goes on by its own button; the war's end is final;
+  both are refused in words.
+- **Where**: **Classes** → beside the open class, **Continue this class** (two presses; the list says *ended part-way*). Host
+  action `continue-class`; `/api/classes` carries `continuable`.
+- **What it restores**: End Game changes only the status, and nothing ticks or takes an order while a class is ended, so
+  `continueEnded` sets it **paused** and writes one line in the Host's record (`visibility: 'host'`). Tested field by field: the
+  world after is the world before End Game, except the status and that line.
+- **What goes**: the ending, standings and flashback offer (all read from the status); the **flashback videos** of that ending
+  are thrown away (`discard` in `server/flashback.mjs`), and a Host page left open forgets what it made (`public/flashback.js`);
+  they are made again at the next end. End Game's armed words no longer say "It can't be undone": *"If it was a mistake,
+  Classes can take the class up again where it was, but the ending will have been seen."*
+
+**Evidence** (same computer only). `tests/classes.test.mjs` (2 new): continued where it was, paused, ending and flashbacks gone,
+resumed and ended again with no old video; the refusals. `scripts/design-blockers-injections.mjs --only Continue --browser`:
+**6 of 6** caught - no Continue, continued running, videos kept, no `continuable`, the war's end continued (each caught alone by
+its test), no Continue button (`test:host-bell` fails)
+([evidence](docs/evidence/design-blockers-injections-continue-browser.json)). `test:host-bell` **9** (new: End Game twice,
+Classes' Continue twice, the ending gone, Resume goes on), `test:classes` **15**, `test:ending` **10**. `npm test`: **1634 of
+1673 pass, 37 skipped, 2 fail**, both inherited: *"a student is sent exactly what it was before"* (tests/host-view.test.mjs, a
+town keeper's ambient `amb` field) fails identically with a07b95ab's own code put back; *"the news phase gives a student as
+many ticks of watching a rider come …"* (tests/clock.test.mjs, 13 in 100 against 8, a statistical count that took 12-13
+minutes under load) touches nothing of this branch.
+
 ## The errand proof green again: the list stands still, no tip over the popup, the horses held out — 2026-09-28 (not released)
 
 **The ask** (owner, 2026-09-28): `npm run test:errand` was red on main (check 3, "something is drawn over the popup's own

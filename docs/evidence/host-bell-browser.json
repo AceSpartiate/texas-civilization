@@ -12,7 +12,7 @@
     "Stop for today, pressed twice, saves the class paused at minute 660 and stops the server; the page says \"Your teacher stopped the class for today. It was saved and paused just as it stands, and it goes on from here next class.\"",
     "the next launch opens the same class paused where it stopped (\"11.0 hours · paused\"), offering resume, stop-for-today, end",
     "Resume carries the class on from where it stopped",
-    "End Game asked twice ends the class (\"Class CBE5EC · code CBE5EC · 5 of 5 families joined · ended part-way, September 29, 1835 (period 1)\"); Classes' \"Continue this class\", asked twice, takes it up again where it was (11.3 hours · paused), the ending gone, and Resume goes on",
+    "End Game asked twice ends the class (\"Class D7155C · code D7155C · 5 of 5 families joined · ended part-way, September 29, 1835 (period 1)\"); Classes' \"Continue this class\", asked twice, takes it up again where it was (12.3 hours · paused), the ending gone, and Resume goes on",
     "at 400 px the Host page does not scroll sideways",
     "no page errors"
   ],
@@ -42,12 +42,12 @@
       "date": "11.0 hours · paused"
     },
     "ended": {
-      "line": "Class CBE5EC · code CBE5EC · 5 of 5 families joined · ended part-way, September 29, 1835 (period 1)",
+      "line": "Class D7155C · code D7155C · 5 of 5 families joined · ended part-way, September 29, 1835 (period 1)",
       "label": "Continue this class"
     },
     "continued": {
-      "note": "Class CBE5EC is taken up again where End Game ended it, paused. Its ending and its flashbacks are gone; press Resume when the class is ready.",
-      "date": "11.3 hours · paused",
+      "note": "Class D7155C is taken up again where End Game ended it, paused. Its ending and its flashbacks are gone; press Resume when the class is ready.",
+      "date": "12.3 hours · paused",
       "controls": [
         "resume",
         "stop-for-today",
