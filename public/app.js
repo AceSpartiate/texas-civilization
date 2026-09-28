@@ -6486,7 +6486,7 @@ function showDoor(which) {
   $('#join').hidden = which !== 'join';
   $('#rejoin').hidden = which !== 'rejoin';
   $('#away').hidden = which !== 'away';
-  $(which === 'join' ? '#join input[name="name"]' : which === 'away' ? '#away input[name="code"]' : '#rejoin input[name="key"]')?.focus();
+  $(which === 'join' ? '#join input[name="name"]' : which === 'away' ? '#away input[name="away-code"]' : '#rejoin input[name="key"]')?.focus();
 }
 $('#rejoin-toggle').addEventListener('click', () => showDoor('rejoin'));
 $('#join-toggle').addEventListener('click', () => showDoor('join'));
@@ -6498,7 +6498,7 @@ $('#away-key-toggle')?.addEventListener('click', () => showDoor('rejoin'));
 // student on a cart or guest Chromebook who has no cookie and never wrote their family key down.
 $('#away').addEventListener('submit', async event => {
   event.preventDefault(); if (joinPending) return;
-  joinPending = true; const code = new FormData(event.target).get('code').trim().toUpperCase(), button = $('#away-find');
+  joinPending = true; const code = new FormData(event.target).get('away-code').trim().toUpperCase(), button = $('#away-find');
   button.disabled = true; say('');
   try {
     const { families } = await api('/api/away', { code });

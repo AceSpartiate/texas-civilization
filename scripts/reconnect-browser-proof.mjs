@@ -136,7 +136,7 @@ try {
   cart.on('pageerror', error => errors.push(`cart: ${error.message}`));
   await cart.goto(url);
   await cart.getByRole('button', { name: 'I was already in this class' }).click();
-  await cart.locator('#away [name=code]').fill(code.toLowerCase());
+  await cart.locator('#away [name=away-code]').fill(code.toLowerCase());
   await cart.getByRole('button', { name: 'Show the names' }).click();
   await cart.waitForFunction(() => document.querySelectorAll('#away-names [data-claim]').length > 0);
   const names = await cart.evaluate(() => [...document.querySelectorAll('#away-names [data-claim]')].map(button => button.textContent));
