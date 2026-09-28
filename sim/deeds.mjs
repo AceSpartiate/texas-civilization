@@ -27,6 +27,8 @@ export function noteDeed(world, { kind, fromId, toId = null, personId = null, ..
 }
 
 /** The room lent to or by this family in the wagons, for sim/scrape.mjs `flightRoom`: plus for the one lent it, minus for the lender. */
+// ceiling: the room lent is counted whole against the lender until it leaves, even if the helped family loaded less into it; the
+// lender learns only that the room is kept. Counting what the helped family took (a hook in sim/scrape.mjs `flee`) is the way out.
 export function lentRoom(world, household) {
   const lent = world.neighbourly?.lent;
   if (!lent || !household) return 0;

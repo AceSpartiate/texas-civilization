@@ -204,7 +204,11 @@ function closeAsk(world, ask) {
   world.neighbourly.last[askKey(ask.fromId, ask.toId, ask.kind)] = world.minute;
 }
 
-/** The help given: the goods moved or the room kept, the deed written, and both stories told through the person who carried it. */
+/**
+ * The help given: the goods moved or the room kept, the deed written, and both stories told through the person who carried it.
+ * ceiling: the food goes over in the telling - nobody is drawn walking it the few miles; a journey there and back (beginTravel with
+ * the food held, sim/keeping.mjs) is the way out if a class wants to watch it carried.
+ */
 function give(world, ask) {
   const helper = world.households[ask.fromId], needy = world.households[ask.toId];
   const person = world.entities[ask.personId];
