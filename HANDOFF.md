@@ -44,7 +44,14 @@ origin/main: `test:host-bell` 8, `test:family-panel` 18, `test:host-live` 11, `t
 15, `test:scrape` 7, `test:scrape-pursuit` 15, `test:ending` 10, all PASS. `tests/siege.test.mjs` read glory's awards off the
 interim wire and now reads them from `familyEnding`, asserting they are not on it.
 
-**Final, after merging origin/main again (f815d07e: who acts for a family, sound, the neighbours' ledger), head 3b56e2fe:** `npm
+**Last merge (origin/main with the flashback, the tutorial suspended, tips and the ranked "!"s):** the only conflicts were the
+import list and two lines of the bar, where *Make … the main person* was put back beside the ranked needs. `npm test` there:
+**1585 passed, 1 failed, 36 skipped, of 1622**. The one failure was *"a save Windows refuses for a moment is tried again for about a
+third of a second, and then written"* (tests/save-retry.test.mjs, new on main); it passed twice when run on its own, so it is a
+timing test that fails under load, not this branch. The injections and proofs were not run again after this merge, at the
+coordinator's word (they passed on the tree before it, below).
+
+**Before that, after merging origin/main (f815d07e: who acts for a family, sound, the neighbours' ledger), head 3b56e2fe:** `npm
 test` **1591 of 1591**; unit injections **13 of 13** caught alone; `test:host-bell` 8, `test:family-panel` 18, `test:scrape` 7,
 `test:ending` 10, `test:scrape-pursuit` 15, `test:host-live` 11, `test:classes` 15, all PASS. The chase's `attended` is now
 origin's `actingId` (it keeps the M32 fix); the M32 injection was re-aimed at it and is still caught alone.
