@@ -280,10 +280,9 @@ function drawCard(ctx, script, beat) {
     const x = VIDEO.width / 2 + (i - (people.length - 1) / 2) * gap, y = 300;
     const here = !closing || home.has(person.name);
     drawPerson(ctx, person, x, y, size, { alpha: here ? 1 : 0.28 });
-    // A death of sickness is never named here (docs/DISEASE.md §4): the closing card leaves such a person's name off. First
+    // Somebody who died of sickness is never named in the video (docs/DISEASE.md §4): the server marks them `unnamed`. First
     // names only: the family's name is over them.
-    const unnamed = closing && person.sickLost;
-    if (!unnamed) label(ctx, person.name.split(' ')[0], x, y + 22, 15, { colour: here ? '#3d3222' : '#8b7b62' });
+    if (!person.unnamed) label(ctx, person.name.split(' ')[0], x, y + 22, 15, { colour: here ? '#3d3222' : '#8b7b62' });
   });
 }
 
@@ -348,10 +347,7 @@ function drawWords(ctx, beat, local) {
  */
 export function flashbackPainter(script, world) {
   const home = world.map?.sites?.[script.homeSiteId] || { x: 0, y: 0 };
-  // Whoever of the family died of sickness is never named on the closing card: the server tells by leaving their name out.
-  const closing = script.beats.at(-1);
-  const people = script.people.map(person => ({ ...person, sickLost: closing?.scene?.home && !closing.scene.home.includes(person.name) && !closing.caption.includes(person.name) }));
-  const film = { ...script, people, home };
+  const film = { ...script, home };
   let prepared = [];
   // The battle renderer keeps its smoke and its fallen from frame to frame, by the time it is given: a pass that goes back to
   // the start of the video starts it afresh, or smoke born later than now would be drawn at a negative age.
@@ -418,7 +414,7 @@ export async function canEncode() {
   if (typeof VideoEncoder === 'undefined' || typeof VideoFrame === 'undefined') return false;
   try { return Boolean((await VideoEncoder.isConfigSupported(encoderConfig())).supported); } catch { return false; }
 }
-const encoderConfig = () => ({ codec: 'vp8', width: VIDEO.width, height: VIDEO.height, bitrate: VIDEO.bitrate, framerate: VIDEO.fps, latencyMode: 'quality' });
+const encoderConfig = () => ({ codec: 'vp8', width: VIDEO.width, height: VIDEO.height, bitrate: VIDEO.bitrate, framerate: VIDEO.fps, latencyMode: globalThis.__flashbackLatency || 'quality' });
 
 /**
  * One family's video, made: every frame drawn at its own time and encoded at that time, then put in a WebM file. Returns
@@ -442,23 +438,32 @@ export async function recordFlashback(script, world, { onProgress = () => {} } =
     });
     encoder.configure(encoderConfig());
     const keyEvery = Math.round(VIDEO.keyEveryMs / 1000 * VIDEO.fps);
+    // Where the drawing time goes, by the kind of picture: presentation evidence for the measurement (docs/FLASHBACK.md §7).
+    const paintMs = {};
     for (let i = 0; i < total; i++) {
       if (failed) throw failed;
       const t = i * 1000 / VIDEO.fps;
-      painter.paint(ctx, t);
+      const drawStart = performance.now();
+      const drawn = painter.paint(ctx, t);
+      const type = drawn?.scene?.type || 'card';
+      paintMs[type] = (paintMs[type] || 0) + performance.now() - drawStart;
       const frame = new VideoFrame(canvas, { timestamp: Math.round(t * 1000), duration: Math.round(1e6 / VIDEO.fps) });
       encoder.encode(frame, { keyFrame: i % keyEvery === 0 });
       frame.close();
+      const waitStart = performance.now();
       while (encoder.encodeQueueSize > 6) await yieldNow();
+      paintMs.encodeWait = (paintMs.encodeWait || 0) + performance.now() - waitStart;
       if (i % 10 === 0) { onProgress(i / total); await yieldNow(); }
     }
+    const flushStart = performance.now();
     await encoder.flush();
+    paintMs.flush = performance.now() - flushStart;
     encoder.close();
     if (failed) throw failed;
     chunks.sort((a, b) => a.timestampMs - b.timestampMs);
     const bytes = muxWebM({ width: VIDEO.width, height: VIDEO.height, frames: chunks, durationMs: script.durationMs, title: script.name });
     onProgress(1);
-    return { bytes, durationMs: script.durationMs, frames: chunks.length, how: 'webcodecs', warm };
+    return { bytes, durationMs: script.durationMs, frames: chunks.length, how: 'webcodecs', warm, paintMs: Object.fromEntries(Object.entries(paintMs).map(([k, v]) => [k, Math.round(v)])) };
   }
   // No encoder of its own: the picture played in real time into the browser's MediaRecorder, a minute for a minute.
   const stream = canvas.captureStream(0);
@@ -503,7 +508,7 @@ async function makeOne(householdId, world) {
   const saved = await upload.json();
   if (!upload.ok) throw new Error(saved.error || 'The video could not be saved.');
   making.how = video.how;
-  making.done.push({ householdId, madeMs, bytes: saved.bytes, durationMs: saved.durationMs, frames: video.frames, how: video.how, warm: video.warm });
+  making.done.push({ householdId, madeMs, bytes: saved.bytes, durationMs: saved.durationMs, frames: video.frames, how: video.how, warm: video.warm, paintMs: video.paintMs });
 }
 /** The families still wanting a video, the families students played first: they are waiting for theirs. */
 function wanted(snapshot) {

@@ -63,7 +63,9 @@ const sentence = text => { const t = String(text || '').trim(); return t ? t[0].
 /** The first sentence of the game's own words, for a caption. */
 const firstSentence = text => (String(text || '').match(/^.*?[.!?](\s|$)/)?.[0] || String(text || '')).trim();
 const list = names => names.length <= 1 ? names.join('') : `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`;
-const NUMBER_WORDS = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+const NUMBER_WORDS = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
+/** Somebody's first name: the family's own name is on the title card, and a caption reads better without it each time. */
+const firstName = person => String(person?.name || '').split(' ')[0];
 /** A sentence that starts with a small number starts with its word: "Six Mexican horsemen", not "6 Mexican horsemen". */
 const spellOut = text => sentence(String(text).replace(/^(\d+)\b/, (whole, n) => NUMBER_WORDS[Number(n)] || whole));
 const people = (world, household) => household.members.map(id => world.entities[id]).filter(entity => entity?.kind === 'person');
@@ -265,11 +267,13 @@ function candidates(world, household, trip) {
 
   // ---------------------------------------------------------------------------------------------- the arrival and the roll
   const founded = events.find(event => event.type === 'household-founded') || { minute: 0 };
-  const parents = members.filter(person => ['father', 'mother'].includes(person.kin?.role)).map(person => person.name);
-  const children = members.filter(person => ['son', 'daughter'].includes(person.kin?.role)).map(person => person.name);
+  const parents = members.filter(person => ['father', 'mother'].includes(person.kin?.role)).map(firstName);
+  const children = members.filter(person => ['son', 'daughter'].includes(person.kin?.role)).map(firstName);
   const means = household.means?.coin ? ` They had ${household.means.coin} reales in coin.` : '';
+  // A big family is counted rather than listed: fifteen names is not a caption anybody can read in four seconds.
+  const kids = children.length === 1 ? ` with their child ${children[0]}` : children.length <= 4 ? ` with their children ${list(children)}` : ` with their ${NUMBER_WORDS[children.length] || children.length} children`;
   add({ kind: 'arrival', weight: 96, minute: founded.minute ?? 0, place: home,
-    caption: `${parents.length ? list(parents) : 'The family'} came to new land${settlement ? ` near ${settlement}` : ''}${children.length ? ` with ${children.length === 1 ? 'their child' : 'their children'} ${list(children)}` : ''}.${means}`,
+    caption: `${parents.length ? list(parents) : 'The family'} came to new land${settlement ? ` near ${settlement}` : ''}${children.length ? kids : ''}.${means}`,
     scene: { type: 'home', house: { shelter: 'camp' }, people: at(founded.minute ?? 0), wagon: true } });
 
   // ------------------------------------------------------------------------------------------------------- the house
@@ -290,8 +294,8 @@ function candidates(world, household, trip) {
   const call = events.find(event => event.type === 'pressure' && event.claimId === 'FIC-GONZ-031');
   if (call) {
     const answers = events.filter(event => event.claimId === 'FIC-GONZ-031' && event.type === 'choice' && event.minute >= call.minute && event.minute <= call.minute + 3 * DAY);
-    const went = answers.filter(event => /will ride for Gonzales/.test(event.text)).map(event => event.text.split(' will ')[0]);
-    const stayed = answers.filter(event => /will stay home/.test(event.text)).map(event => event.text.split(' will ')[0]);
+    const went = answers.filter(event => /will ride for Gonzales/.test(event.text)).map(event => event.text.split(' will ')[0].split(' ')[0]);
+    const stayed = answers.filter(event => /will stay home/.test(event.text)).map(event => event.text.split(' will ')[0].split(' ')[0]);
     const able = members.filter(person => canAnswerCalls(person) && !(fates[person.id]?.minute <= call.minute));
     const why = went.length ? `${list(went)} rode for Gonzales with the volunteers.`
       : stayed.length ? `${list(stayed)} stayed home with the family.`
@@ -307,7 +311,7 @@ function candidates(world, household, trip) {
   for (const [event, taking] of byEvent) {
     const names = taking.map(part => world.entities[part.personId]).filter(Boolean);
     if (!names.length) continue;
-    const who = list(names.map(person => person.name));
+    const who = list(names.map(firstName));
     const minute = Math.min(...taking.map(part => part.minute));
     const engagement = ENGAGEMENT_OF[event];
     const fought = taking.some(part => part.role === 'fought');
@@ -316,10 +320,10 @@ function candidates(world, household, trip) {
       const staged = world.battles?.[engagement]?.fates?.[person.id];
       const fate = fates[person.id];
       const here = fate && Number.isFinite(fate.minute) && fate.minute >= minute - DAY && fate.minute <= minute + 10 * DAY && !fate.sickness;
-      if ((staged?.fate === 'killed' || (here && fate.kind === 'dead')) && fate?.kind === 'dead') return { person, said: `${person.name} was killed there.`, death: true };
-      if (staged?.fate === 'captured' || (here && fate?.kind === 'captured')) return { person, said: `${person.name} was taken prisoner.`, taken: true };
-      if (staged?.fate === 'wounded') return { person, said: `${person.name} was badly hurt, and lived.` };
-      if (staged?.fate === 'spared') return { person, said: `${person.name} was spared.` };
+      if ((staged?.fate === 'killed' || (here && fate.kind === 'dead')) && fate?.kind === 'dead') return { person, said: `${firstName(person)} was killed there.`, death: true };
+      if (staged?.fate === 'captured' || (here && fate?.kind === 'captured')) return { person, said: `${firstName(person)} was taken prisoner.`, taken: true };
+      if (staged?.fate === 'wounded') return { person, said: `${firstName(person)} was badly hurt, and lived.` };
+      if (staged?.fate === 'spared') return { person, said: `${firstName(person)} was spared.` };
       return { person, said: null };
     });
     const said = outcomes.map(one => one.said).filter(Boolean).join(' ');
@@ -345,11 +349,11 @@ function candidates(world, household, trip) {
         scene: { type: 'map', miles: 18, people: at(fate.minute + 1) } });
     } else if (fate.kind === 'dead') {
       const where = fate.text && /at ([A-Z][^,.]+)/.exec(fate.text)?.[1];
-      add({ kind: 'loss', weight: 93, minute: fate.minute, place: spot, death: true, caption: `${person.name} was killed${where ? ` at ${where}` : ''}.`, scene: { type: 'map', miles: 18, people: at(fate.minute + 1) } });
+      add({ kind: 'loss', weight: 93, minute: fate.minute, place: spot, death: true, caption: `${firstName(person)} was killed${where ? ` at ${where}` : ''}.`, scene: { type: 'map', miles: 18, people: at(fate.minute + 1) } });
     } else if (fate.kind === 'captured') {
       const atHomeTaken = fate.text && /at home/.test(fate.text);
       add({ kind: 'taken', weight: 88, minute: fate.minute, place: atHomeTaken ? home : spot, people: [person.id],
-        caption: atHomeTaken ? `${person.name} was at home when Mexican soldiers came, and was taken prisoner.` : sentence(`${person.name} was taken prisoner${fate.war ? ' by the Mexican army' : ''}.`),
+        caption: atHomeTaken ? `${firstName(person)} was at home when Mexican soldiers came, and was taken prisoner.` : sentence(`${firstName(person)} was taken prisoner${fate.war ? ' by the Mexican army' : ''}.`),
         scene: atHomeTaken ? { type: 'home', house: { shelter: 'house', layout: houseLayout }, people: [person.id] } : { type: 'map', miles: 18, people: [person.id] } });
     }
   }
@@ -393,7 +397,7 @@ function candidates(world, household, trip) {
     }
     const sick = events.filter(event => /has fallen sick|has the (measles|flux|whooping cough)|is very sick/.test(event.text) && event.minute >= (leftMinute ?? flight.orderedMinute ?? 0));
     if (sick.length) {
-      const names = [...new Set(sick.map(event => event.text.split(' ')[0]))].filter(name => members.some(person => person.name === name));
+      const names = [...new Set(sick.map(event => event.text.split(' ')[0]))].filter(name => members.some(person => firstName(person) === name));
       const nursed = events.some(event => /\bnursed\b/.test(event.text) && event.minute >= sick[0].minute);
       add({ kind: 'sickness', weight: 54, minute: sick[0].minute, place: null, caption: `On the road, ${list(names.slice(0, 3))} fell sick.${nursed ? ' The family nursed them as it went.' : ''}`,
         scene: { type: 'road', route: roadBetween(world, household.homeSiteId, flight.refuge, flight.mode), people: at(sick[0].minute), wagon: flight.mode === 'wagon', from: 0.5, to: 0.65 } });
@@ -452,7 +456,7 @@ function candidates(world, household, trip) {
       const cache = foundLines.find(text => /hidden there/.test(text));
       const stockWords = stock ? (/Nothing was found/.test(stock) ? ' None of the stock left on the range was found.' : ` They found ${stock.match(/Of the stock left on the range, (.*?) were found again/)?.[1] || 'some of the stock'} again.`) : '';
       const cacheWords = cache ? ' They dug up what they had hidden by the river.' : '';
-      const apart = trip.apart.filter(one => one.arrivedMinute).map(one => `${world.entities[one.personId]?.name} came home ${one.arrivedMinute > whenHome ? 'later' : 'too'}, on ${shortDay(world, one.arrivedMinute)}.`).join(' ');
+      const apart = trip.apart.filter(one => one.arrivedMinute).map(one => { const who = firstName(world.entities[one.personId]), when = shortDay(world, one.arrivedMinute); return one.arrivedMinute > whenHome + DAY / 2 ? `${who} came home later, on ${when}.` : one.arrivedMinute < whenHome - DAY / 2 ? `${who} was already there, home since ${when}.` : `${who} came home with them.`; }).join(" ");
       add({ kind: 'home', weight: 97, minute: whenHome, place: home, homecoming: true,
         caption: `${trip.status === 'stayed' ? 'The family had stayed home.' : 'The family came home.'} ${house}${cacheWords}${stockWords}${apart ? ` ${apart}` : ''}`,
         scene: { type: 'home', house: { shelter: trip.house === 'burned' ? 'ruined' : trip.house === 'standing' ? 'house' : 'camp', layout: houseLayout }, people: withFamilyAt(world, household, world.minute, fates) } });
@@ -476,19 +480,24 @@ function meanwhileFor(world, beat, pool, used) {
 function closing(world, household, trip, fates) {
   const members = people(world, household);
   const home = [], lines = [];
+  // Home, or - a family the road home did not bring in (sim/homecoming.mjs `stuck`) - still on the way.
+  const gotHome = !trip || trip.status !== 'trip' && trip.status !== 'stuck' || Number.isFinite(trip.arrivedMinute);
   for (const person of members) {
     const fate = fates[person.id];
     const apart = trip?.apart?.find(one => one.personId === person.id);
     if (fate?.kind === 'dead') continue;
-    if (fate?.kind === 'captured') { lines.push(`${person.name} was still a prisoner${fate.war ? ' of the Mexican army' : ''}.`); continue; }
-    if (apart?.still === 'army') { lines.push(`${person.name} was still with the army.`); continue; }
+    if (fate?.kind === 'captured') { lines.push(`${firstName(person)} was still a prisoner${fate.war ? ' of the Mexican army' : ''}.`); continue; }
+    if (apart?.still === 'army') { lines.push(`${firstName(person)} was still with the army.`); continue; }
     home.push(person.name);
   }
   const lost = members.filter(person => fates[person.id]?.kind === 'dead');
   const sickLost = lost.filter(person => fates[person.id].sickness), warLost = lost.filter(person => !fates[person.id].sickness);
-  if (warLost.length) lines.push(`${list(warLost.map(person => person.name))} did not come home.`);
+  if (warLost.length) lines.push(`${list(warLost.map(firstName))} did not come home.`);
   if (sickLost.length) lines.push(`The family lost ${sickLost.length === 1 ? whoTo(sickLost[0]) : `${sickLost.length} of its people`} to sickness.`);
-  return { home, lines, caption: `${home.length ? `${list(home)} ${home.length === 1 ? 'was' : 'were'} home in the spring of 1836.` : 'Nobody of the family was home in the spring of 1836.'}${lines.length ? ` ${lines.join(' ')}` : ''}` };
+  const where = gotHome ? 'home' : 'on the road home';
+  // Named when there are few enough to read; counted when there are more.
+  const who = home.length <= 4 ? list(home.map(name => name.split(' ')[0])) : lines.length ? `The other ${NUMBER_WORDS[home.length] || home.length} of the family` : `All ${NUMBER_WORDS[home.length] || home.length} of the family`;
+  return { home, lines, caption: `${home.length ? `${who} ${home.length === 1 ? 'was' : 'were'} ${where} in the spring of 1836.` : `Nobody of the family was ${where} in the spring of 1836.`}${lines.length ? ` ${lines.join(' ')}` : ''}` };
 }
 
 /**
@@ -514,11 +523,21 @@ export function flashbackScript(world, householdId, { trips = null } = {}) {
   }).slice(0, MOST_BEATS - 2).sort((a, b) => a.minute - b.minute || a.weight - b.weight);
   const pool = happenings(world, householdId);
   const used = new Set(chosen.filter(beat => beat.topicId).map(beat => beat.topicId));
+  // Somebody who died of sickness is never named in the video (docs/DISEASE.md §4: "never on the projector as a name", and the
+  // Host may play any family's to the class): wherever the story would say their name, it says who they were to the family.
+  const members = people(world, household);
+  const unnamed = new Set(members.filter(person => fates[person.id]?.kind === 'dead' && fates[person.id].sickness).map(person => person.id));
+  const firstNames = members.map(firstName);
+  const scrub = text => [...unnamed].reduce((said, id) => {
+    const person = world.entities[id], first = firstName(person);
+    const byName = said.split(person.name).join(whoTo(person));
+    return firstNames.filter(name => name === first).length === 1 ? byName.replace(new RegExp(`\\b${first}\\b`, 'g'), whoTo(person)) : byName;
+  }, text);
   const beats = [title, ...chosen, end].map((beat, index) => {
     const meanwhile = meanwhileFor(world, beat, pool, used);
     const at = beat.place || (beat.scene?.route?.length ? beat.scene.route[Math.floor(beat.scene.route.length * ((beat.scene.from + beat.scene.to) / 2 || 0))] : null) || place(world, household.homeSiteId);
     const columns = beat.minute >= 240000 && ['map', 'road', 'home'].includes(beat.scene.type) ? columnsNear(world, beat.minute, at) : [];
-    return { index, kind: beat.kind, minute: beat.minute, date: beat.kind === 'title' ? '1835–1836' : day(world, beat.minute), caption: beat.caption, place: at ? { x: round(at.x), y: round(at.y), ...(at.name && { name: at.name }), ...(at.siteId && { siteId: at.siteId }) } : null,
+    return { index, kind: beat.kind, minute: beat.minute, date: beat.kind === 'title' ? '1835–1836' : day(world, beat.minute), caption: scrub(beat.caption), place: at ? { x: round(at.x), y: round(at.y), ...(at.name && { name: at.name }), ...(at.siteId && { siteId: at.siteId }) } : null,
       scene: { ...beat.scene, ...(columns.length && { columns }) }, ...(meanwhile && { meanwhile }), ...(beat.death && { death: true }), ...(beat.homecoming && { homecoming: true }), ...(beat.reveal && { reveal: true }) };
   });
   // The minute shared out: the title and the close their own, the rest evenly, a fight or a loss a little longer to be read.
@@ -530,7 +549,7 @@ export function flashbackScript(world, householdId, { trips = null } = {}) {
   beats[0].startMs = 0; beats[0].durationMs = TITLE_MS; at = TITLE_MS;
   middle.forEach((beat, i) => { const ms = i === middle.length - 1 ? FLASHBACK_MS - CLOSING_MS - at : Math.round(share * weights[i] / total); beat.startMs = at; beat.durationMs = ms; at += ms; });
   beats.at(-1).startMs = at; beats.at(-1).durationMs = FLASHBACK_MS - at;
-  const figures = people(world, household).map(person => figure(world, person));
+  const figures = people(world, household).map(person => unnamed.has(person.id) ? { ...figure(world, person), name: whoTo(person), unnamed: true } : figure(world, person));
   const transcript = beats.map(beat => [beat.date, beat.caption, beat.meanwhile ? `Meanwhile: ${beat.meanwhile.text} ${beat.meanwhile.heard}` : null].filter(Boolean).join(' '));
   return { version: SCRIPT_VERSION, householdId, name, played: Boolean(household.played), durationMs: FLASHBACK_MS, people: figures, homeSiteId: household.homeSiteId, beats, transcript, ...(trip && { homecoming: { status: trip.status, arrivedMinute: trip.arrivedMinute ?? null, house: trip.house } }) };
 }

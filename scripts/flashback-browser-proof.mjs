@@ -52,6 +52,7 @@ async function hostPage(browser, room, errors) {
   const login = await context.request.post(`${room.url}/api/host`, { data: { key: room.hostKey } });
   assert.equal(login.status(), 200, 'the Host could not sign in');
   const page = await context.newPage();
+  if (process.env.FLASHBACK_LATENCY) await page.addInitScript(mode => { globalThis.__flashbackLatency = mode; }, process.env.FLASHBACK_LATENCY);
   page.on('pageerror', error => errors.push(`host: ${error.message}`));
   page.on('console', message => { if (message.type() === 'error' && !/Failed to load resource/.test(message.text())) errors.push(`host console: ${message.text()}`); });
   // A request the server refused, by what it asked for (a console line says only that one failed).

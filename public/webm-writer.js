@@ -67,7 +67,8 @@ export function muxWebM({ width, height, codec = 'V_VP8', frames, durationMs, ti
   ]);
   const info = element(ID.Info, [
     element(ID.TimecodeScale, uint(1000000)), element(ID.MuxingApp, text(app)), element(ID.WritingApp, text(app)),
-    element(ID.Duration, float64(durationMs)), ...(title ? [element(ID.Title, text(title))] : []),
+    // A null duration writes none, as a live recorder does (a test's MediaRecorder-shaped file).
+    ...(durationMs === null ? [] : [element(ID.Duration, float64(durationMs))]), ...(title ? [element(ID.Title, text(title))] : []),
   ]);
   const tracks = element(ID.Tracks, element(ID.TrackEntry, [
     element(ID.TrackNumber, uint(1)), element(ID.TrackUID, uint(1)), element(ID.FlagLacing, uint(0)), element(ID.CodecID, text(codec)), element(ID.TrackType, uint(1)),
