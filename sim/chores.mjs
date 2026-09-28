@@ -269,6 +269,8 @@ export const ASKS = {
   // the family's own crop when it is the season for it, then the garden, then the other crop (`cropsInOrder`).
   'crop-choice': {
     doing: 'at the field with the seed',
+    // When no crop is open, nothing is planted (not the first answer, as for the other questions): the work comes in.
+    noneOpen: { id: 'leave', label: 'Plant nothing' },
     fallback: (household, world) => world ? cropsInOrder(world, household) : ((household.field?.own || household.field?.crop || 'corn') === 'cotton' ? ['cotton', 'corn'] : ['corn', 'cotton']),
     text: (entity, world) => `${entity.name} can put in ${world ? listWords(cropsOffered(world).filter(crop => inSeason(world, crop)).map(crop => CROPS[crop].words)) || 'nothing this season' : 'corn, or cotton'}.`,
     options: (entity, world, household) => cropsInOrder(world, household).map(crop => ({ id: crop, label: `Plant ${CROPS[crop].short === 'garden' ? 'a garden' : crop}`, note: cropNote(world, crop) })),
@@ -481,16 +483,19 @@ export const CHORES = {
     steps: [
       { stroll: 'fields', doing: 'walking out to the fields' },
       { ask: 'crop-choice' },
-      { work: 4, doing: 'breaking the rows' },
+      // Everything after the question is the crop's: when nothing could go in - the seed gone to somebody else planting the
+      // same field first, or no crop in its season - nobody plants anything (found 2026-09-28 by the balance measure: six of a
+      // family sent to plant at once, the later ones found no seed, fell to the first answer, and put cotton in in November).
+      { when: ['corn', 'cotton', 'garden'], work: 4, doing: 'breaking the rows' },
       { when: ['corn'], consumePerPlot: { seed: SEED_PER_PLOT } },
       { when: ['cotton'], consumePerPlot: { seed: COTTON_SEED_PER_PLOT } },
       { when: ['garden'], consumePerPlot: { seed: CROPS.garden.seed } },
       { when: ['corn'], crop: 'corn' },
       { when: ['cotton'], crop: 'cotton' },
       { when: ['garden'], crop: 'garden' },
-      { work: 3, doing: 'putting in seed' },
-      { field: 'planted' },
-      { wear: 'hoe' },
+      { when: ['corn', 'cotton', 'garden'], work: 3, doing: 'putting in seed' },
+      { when: ['corn', 'cotton', 'garden'], field: 'planted' },
+      { when: ['corn', 'cotton', 'garden'], wear: 'hoe' },
       { stroll: 'yard', doing: 'coming in from the fields' },
     ],
   },
@@ -1832,7 +1837,7 @@ export function choresFor(world, household, entity, logsOut = null) {
 function settleAsk(world, household, entity, option, how = 'answered') {
   const state = entity.chore, ask = state.ask;
   // Nobody answering falls to 'leave' where nothing else can be; an ask with no such answer settles on its first.
-  const chosen = ask.options.find(candidate => candidate.id === option) || ask.options[0];
+  const chosen = ask.options.find(candidate => candidate.id === option) || (option === 'leave' && ASKS[ask.id]?.noneOpen) || ask.options[0];
   option = chosen.id;
   state.ask = null;
   state.flags = [...(state.flags || []), option, ...(option === 'leave' ? ['empty'] : [])];

@@ -182,6 +182,29 @@ test('the guided start on the real land: the autumn\'s garden is planted, the ha
   assert.ok(lesson.allow.includes('chore:harvest-field'));
 });
 
+test('two sent to plant at once with seed for one planting: the second plants nothing, and no crop goes in out of its season', () => {
+  // Found by the balance measure on 2026-09-28: the later planters found the seed gone, fell to the first answer at the rows - a
+  // cotton family's own crop - and put cotton in in November.
+  const world = realLand('seasons-two-planters');
+  const household = first(world);
+  household.field = { ...household.field, crop: 'cotton', state: 'bare' };
+  household.resources.seed = CROPS.garden.seed * clearedOf(household);
+  const [one, two] = household.members.map(id => world.entities[id]).filter(person => !Number.isFinite(person.age) || person.age >= 16).slice(0, 2);
+  for (const person of [one, two]) applyAction(world, household.id, { action: 'chore', entityId: person.id, chore: 'plant-field' });
+  for (let t = 0; t < 400 && !(one.chore?.ask && two.chore?.ask); t++) stepWorld(world);
+  assert.ok(one.chore?.ask && two.chore?.ask, 'the two were not both at the rows');
+  // The first puts the garden in; by the time the second is at the rows the seed is gone, and nobody answers the second.
+  applyAction(world, household.id, { action: 'answer-chore', entityId: one.id, option: 'garden' });
+  household.resources.seed = 0;
+  two.auto = true;
+  for (let t = 0; t < 800 && (one.chore || two.chore); t++) stepWorld(world);
+  assert.equal(household.field.state, 'planted');
+  assert.equal(household.field.crop, 'garden', `a crop out of its season went in: ${household.field.crop}`);
+  assert.equal(household.resources.seed, 0);
+  assert.ok(world.events.some(event => event.actorId === two.id && /plant nothing/.test(event.text || '')), `the second planter did not come in with nothing planted: ${world.events.filter(event => event.actorId === two.id).map(event => event.text).slice(-4).join(' / ')}`);
+  validateWorld(world);
+});
+
 test('a ripe field is read from the calendar and nothing else', () => {
   const world = realLand('seasons-pure');
   const field = { crop: 'cotton', state: 'planted', changedTick: 0, sownMinute: minuteOf(1836, 3, 25) };

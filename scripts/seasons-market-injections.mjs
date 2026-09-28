@@ -53,6 +53,12 @@ const INJECTIONS = [
     from: '      { test: (household, world) => !world || inSeason(world, crop), why: () => seasonWhy(crop) },',
     to: '',
   },
+  {
+    name: 'a planter who finds no crop open at the rows falls to the first answer and plants it, out of season or without seed',
+    file: 'sim/chores.mjs',
+    from: '  const chosen = ask.options.find(candidate => candidate.id === option) || (option === \'leave\' && ASKS[ask.id]?.noneOpen) || ask.options[0];',
+    to: '  const chosen = ask.options.find(candidate => candidate.id === option) || ask.options[0];',
+  },
   // The guided start (sim/lesson.mjs).
   {
     name: 'the guided start waits at the harvest step for a crop weeks off',
