@@ -24,6 +24,8 @@ import { dateOf } from './directors.mjs';
 import { canContinue, interimStandings, nextPeriodLabel } from './periods.mjs';
 import { landPromised } from './winter.mjs';
 import { surpriseReveal } from './surprise.mjs';
+// The spring said as it was, the war's prisoners named, and a debrief from the class's own story (sim/ending-story.mjs).
+import { classHooks, familyQuestions, flightLine, nobodyWentLine, warPrisoners } from './ending-story.mjs';
 // What families did for each other (sim/neighbourly.mjs, owner 2026-09-28: "helping is recorded in the ending").
 import { helpedLines, neighbourLines } from './neighbourly.mjs';
 
@@ -185,9 +187,10 @@ export function familyEnding(world, householdId) {
   const story = [
     miles === null ? null : `The family lived ${miles} road miles from Gonzales.`,
     heard ? `Word that soldiers had come for the cannon reached them on ${heard.date}.` : 'Word of the cannon never reached them before the end.',
-    parts.length ? null : 'Nobody from the family went to Gonzales or to the army. They stayed with the land.',
-    household.flight?.status === 'home' ? 'They fled east in the spring, and came home to a burned farm.' : household.flight ? 'They were told to leave in the spring.' : null,
+    parts.length ? null : nobodyWentLine(household),
+    flightLine(world, household),
     ...prisoners.map(one => one.text),
+    ...warPrisoners(world, household).map(one => one.text),
   ].filter(Boolean);
   // The coin as it is counted: the floor of one real, then the prisoners' parts taken out of it, each step said.
   const floored = money < COIN_FLOOR ? `${reales(money)}, counted as ${reales(COIN_FLOOR)}` : reales(money);
@@ -204,6 +207,8 @@ export function familyEnding(world, householdId) {
     counted, kept, prisoners, ...(prisoners.length && { prisonerRule: PRISONER_RULE }),
     sum: `${coinWords} × (1 + ${glory < 0 ? `${glory} glory, counted as 0` : `${glory} glory`})${land.reales ? ` + ${reales(land.reales)} of land (${land.acres} acres promised)` : ''} = ${final}`,
     story, coin, awards,
+    // Questions for the family about its own story (S24), shown under it.
+    questions: familyQuestions(world, household),
     // What the family did for its neighbours and they for it, in plain words and in the order it happened. Counted in no number:
     // whether helping earns glory is the owner's open question (docs/MONEY_AND_GLORY.md, the support tier).
     neighbours: neighbourLines(world, householdId).map(line => ({ date: day(world, line.minute), kind: line.kind, text: line.text })),
@@ -259,7 +264,8 @@ export function hostEnding(world) {
   const reveal = surpriseReveal(world);
   // Who helped whom across the class, one line a pair, in plain words (sim/neighbourly.mjs `helpedLines`).
   const helped = helpedLines(world).map(line => line.text);
-  return { families, winners, best, discussion: DISCUSSION, prisonerRule: PRISONER_RULE, helped, ...(reveal && { reveal }) };
+  // The class's own hooks first (S24, sim/ending-story.mjs), then the standing questions.
+  return { families, winners, best, discussion: [...classHooks(world), ...DISCUSSION], prisonerRule: PRISONER_RULE, helped, ...(reveal && { reveal }) };
 }
 
 /**

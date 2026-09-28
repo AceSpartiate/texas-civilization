@@ -50,6 +50,12 @@ function familyView(family) {
   const story = make('section');
   story.append(make('h3', 'Our story'));
   for (const line of family.story) story.append(make('p', line));
+  // Questions about the family's own story (sim/ending-story.mjs), the server's words.
+  if (family.questions?.length && !family.interim) {
+    const asked = make('ul', null, 'ending-questions');
+    for (const question of family.questions) asked.append(make('li', question, 'ending-ask'));
+    story.append(asked);
+  }
   parts.push(story);
   const coin = make('section');
   coin.append(make('h3', 'Where the coin came from and went'));

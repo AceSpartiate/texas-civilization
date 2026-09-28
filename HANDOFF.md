@@ -64,6 +64,98 @@ pass first) — **identically with the page and proof as they were before this b
 press on a portrait leaves the main person) is therefore not reached; `test:family-panel` and `test:scrape-pursuit` prove B11 in
 the browser. Also: glory is named during play in two recall notes (`sim/camp.mjs` "loses the glory of enlisting",
 `public/family-panel.js`/`app.js` "loses glory") — against MONEY_AND_GLORY §4, left for the owner.
+## The flashback: each family's story as a minute of video, made and kept on the Host's computer, with the trip home — owner, 2026-09-28 (worktree branch; not released)
+
+**The ask.** Owner, 2026-09-28: *"a full family recap and flashback story. it should be a 1 minute video generated from key
+points and decisions they made, recorded and saved on the host computer and played back for the student at the [end] of the
+game"*, and *"add their trip home as part of the end of game video flashback"*. Fixes the design audit's **B3** and **B6**, and
+**S24, S25, S27**. Full design, numbers and the open decisions: **docs/FLASHBACK.md**.
+
+- **The story** (`sim/flashback.mjs`): from the ended class's record, 10-15 beats sharing exactly 60 s - the arrival and the roll,
+  the house, the fields, the first call answered or not, who went to which fight and what came of it (the battle engine's own
+  projections), deaths and captures in plain words, the order to leave, the load, soldiers behind, a flooded river, sickness, help
+  given and taken, the refuge, the farm burned and when the family learned it, the news and how late - and the trip home. A
+  **"meanwhile"** on a beat is a true happening the family did not know yet (`world.truth` and the record's dates; never the
+  family's knowledge), with when it heard; the Mexican columns are drawn where they truly were. No gore, no virtue words, **no
+  glory at all**, and a death of sickness is never named (the Host may play any family's video).
+- **The trip home** (`sim/homecoming.mjs`): the game's own `turnHome` and `advanceFlight` run on a `structuredClone` of the ended
+  class until every family that can is home - house standing or ashes, cache dug up, cow home, stock found. Deterministic; the
+  save untouched. New: a family still going east turns home where it stands; a man let go from the army walks home;
+  `ceiling:` no sickness on this road (FIC-GONZ-780).
+- **The video** (`public/flashback.js`, `public/webm-writer.js`): drawn in the **Host's own page** with the game's drawing and art
+  (`bindFlashback` lends `flashbackCamera`, `flashbackGround`, `miniPerson`, `homesteadHouse`, `animated`, a video clock), each
+  frame encoded by the browser's **WebCodecs VP8** encoder at its own timestamp, muxed to WebM by our own ~120-line writer - faster
+  than real time, exact length, no library, no headless browser or ffmpeg on the teacher's PC. MediaRecorder is the fallback
+  (non-secure contexts). 854×480, 20 fps, ~600 kbit/s: **4.4-4.6 MB a video**. The Host's page makes them by itself when the class
+  ends, played families first; on Play Solo the player's page makes its own.
+- **Kept and served** (`server/flashback.mjs`, `server/webm.mjs`, routes in `server/app.mjs`): `POST /api/flashback/video` (WebM
+  body; checked as WebM with a video track, 20-120 s, ≤ 40 MB) → `<data>/flashbacks/<session>/hh-N.webm` + `.json`; `GET` with
+  ranges, the Host any family's, a student their own only; `GET /api/flashback/script` (and `?part=transcript`); each snapshot's
+  `flashback` says what is made. Nothing before the class has ended for good. No `saveVersion` moved: the save holds no video.
+- **Playback**: the student's ending panel plays its own video (autoplay, muted; captions in the picture), **Replay**, and **the
+  story in words** below; the Host lists every family with Play and **Play the whole class in turn**.
+- **The ending's words** (`sim/ending-story.mjs`, three calls from `sim/ending.mjs`): S25 the spring as it was (stayed/went,
+  burned by whom or standing, home or on the road - no more "came home to a burned farm" for a farm that stands); S27 the war's
+  prisoners named (`HIST-TEX-059`), not weighed; S24 the Host's debrief begins with this class's own named hooks, and each family
+  is asked two questions about its own story. `tests/ending.test.mjs` updated for S27 (the army's prisoner is now named).
+
+**Evidence.** `tests/flashback.test.mjs` (8), `tests/flashback-video.test.mjs` (5), `tests/ending-story.test.mjs` (3);
+`node scripts/flashback-injections.mjs`: **16 of 16** injected regressions caught (`docs/evidence/flashback-injections.json`).
+`npm run test:flashback` (11 checks; frames `docs/evidence/flashback-frame-*.png`), re-run after the last merge. `test:ending`
+12/12 and `test:whole-game` 13/13 after the last merge (whole-game failed twice at its children's auto switches under 100% CPU and
+passed alone). `test:solo-game` 14/14 after the first merge; after the second it fails at the children's auto switches, **the same
+way on origin/main f815d07e without this branch** - not the flashback's. `npm test` after the last merge: **1,600 of 1,601**; the
+one, `capacity: 30 HTTP households`, ran out its 30 s under load and passes alone (22 s).
+
+**Measured** (this computer, all 24 logical processors held near 100% by other builders' suites and a balance study, so these are
+worst cases): 5 families in 66 s (51 s at a quiet moment), 15 in 369 s (24.6 s each, 65.8 MB), 30 in 1,556 s (51.9 s each, 131.4 MB); every file 60.0 s and 4.27-4.56 MB. Drawing is 1.5-12 s of a video; the VP8 encoder is the rest (`docs/evidence/flashback-measure.json`).
+
+**Not done / next.** The owner's decisions in docs/FLASHBACK.md §10 (Host playing a family's video to the class; when videos are
+made; sickness on the road home; length; the Matamoros prisoners). Not tried on a Chromebook or a real teacher PC: same-computer
+headless Chrome only. A class that ends with the Host page closed makes no videos until the Host page is opened.
+
+## The tutorial suspended; tips at first meeting; the "!"s ranked — owner, 2026-09-28 (worktree branch; not released)
+
+**The decisions.** Owner, 2026-09-28: "fix the blockers" (design audit B8, S4-S6, S8, S33, S35; playthrough audit §5), and by
+multiple choice on how the later systems are taught, **"Short tips at first meeting"** - the first time each new thing appears,
+a one-line tip shows what to do and what it costs; nothing blocks play; each tip shown once. Later the same day, **"The starting
+tutorial needs to be removed for now. We'll redo it from scratch later. It currently just gets in the way of things."**
+
+**1. The guided start suspended** (docs/LESSON.md, top). `LESSON_ENABLED = false` in `sim/lesson.mjs` (`ceiling:`) makes
+`teachable` false for every family: no gate, no stored step, no `lesson`/`lessonResume` on the projection (no strip, pips, ring,
+X or Resume), and `inLesson` false, so a settlement's call spends its five minutes from the moment it arrives. The old "New to
+this?" walk-through is off too (`OLD_WALKTHROUGH_OFFERED` in `public/app.js`, which would otherwise have been offered to every
+family), and the title card now says tips will come instead of a guide. The code is kept as built for the rework, including
+the same day's narrowing of the gate to the farm steps (`FARM_WORK`, `NEVER_HELD`, `shut` on the projection, the lesson ending
+with the first period via `closeLessons`) - done before the owner's second word, tested and injected (34 of 34) while it was on,
+and now switched off with the rest. **Skipped while off, and said so:** `tests/lesson.test.mjs` (all 32 tests), the gate test in
+`tests/lesson-usability.test.mjs`; `npm run test:lesson` and `scripts/lesson-injections.mjs` exit at once with "SKIPPED". Held
+instead by `tests/lesson-off.test.mjs` (always runs). `scripts/means-browser-proof.mjs` no longer waits for an X that is not there.
+
+**2. Tips at first meeting** (docs/LESSON.md §9) - now the only guidance a new student has. Twenty tips (`public/tips.js`
+`TIPS`, ids in `sim/tips.mjs`): on the road in, how to give an order (both added for the suspension), the star, ¡Alto!, the
+road's question, the order to leave, sickness and nursing, the settlement's call and that it lapses, the army's questions, Watch,
+Resume tutorial (dormant), "Stop and rest a day", the route, the milk cow, the milk, a crying baby, a child with nothing to do,
+enlisting and voting, trading, the store (coin as the score; inside the errand). Due when its thing is in the family's own
+projection; one at a time over the map above the action bar, placed clear of the column, the card, the call, the messages and
+the strip (`placeTip`); the words let clicks through; "Got it" or Escape; never to the Host, never in the lobby or over the
+ending or the curtain. Put away, or retired when its thing goes while it stands, the page sends `seen-tip` and the server keeps
+`household.tipsSeen` (absent = seen none; validated; **no `saveVersion` move**). S6: hover-only costs are in the tips, and each
+line of the town errand opens what it does on a tap. `server/app.mjs` serves `/tips.js`.
+
+**3. The "!"s ranked** (S33, S35). `NEED_KINDS` is the order of urgency (¡Alto!, road, order to leave, very sick, rider, call, army,
+camp, courier, asking, offer); `rankNeeds` orders every row's "!" by it, ties by time left; the "!" carries its number and time
+left ("28s", "4 min"), counted down from `request.leftMs`, the person's `decisionLeftMs`, `flight.ask.ticksLeft`
+(`askTicksLeft`) and `flight.ticksLeft` at the class's pace; the first is ringed. Watch waits behind the order to leave, the
+road and ¡Alto!.
+
+**Evidence** (same computer only). `npm test` **1600 tests: 1562 pass, 36 skipped, 2 fail** on the tree merged with origin/main f815d07e: `tests/acting.test.mjs`'s ¡Alto! check read the "!" as kind `road`, which is `alto` since this work's ranking - brought up to date, 14 of 14; and `tests/solo.test.mjs`'s own Pause/Resume/Save saw a stop under the full suite's load and **passes alone**. (The run before, on bc8ead09: 1549 pass, 36 skipped, 0 fail, `tests/capacity.test.mjs` cancelled at its 30 s under load as recorded below before this work, passes alone.) (The run before, on origin/main e549ec1, found `tests/means.test.mjs` asserting a cart family is given a lesson; made conditional, 14 of 14.) The 36 skipped are the guided start's own: `tests/lesson.test.mjs` 32, and one each in `lesson-usability`, `afoot` (the cart/no-vehicle family's whole lesson), `call-lapse` (the call held during the lesson) and `auto-repeat` (auto and the gate); the lesson halves of one test each in `childhood`, `children` and `means` run only when it is on. New: `tests/tips.test.mjs` 5, `tests/need-ranking.test.mjs` 4, `tests/lesson-off.test.mjs` 2 (the switch), each **seen failing** by injection: [tips-injections.json](docs/evidence/tips-injections.json) **29 of 29 caught** by the test written for each (before the switch-off the harness ran 34 of 34, including the narrowed gate's nine, now not run). Browser: `npm run test:tips` **11 of 11** (1366 keyboard: no strip and no walk-through, the arrival's and the order's tips, the call's tip placed clear of everything and passed through to the map, Escape, kept by the server, not shown after a reload, nothing says "Not yet" in the first hour, nothing on the Host; 1024 touch: the order to leave with "3 min" on the "!", the route, ¡Alto! with "30s", each tapped away, none shown again after a reload); `test:family-panel` 17, `test:panels` 14, `test:scrape` 5 (one run of two failed on food 31.65 against 32 - a tick of eating between leaving and the check at the proof's 4-second pace; the rerun passed); `test:lesson` now prints SKIPPED.
+
+**Questions for the owner.** (a) With the tutorial gone, the tips are all a new student gets: is "on the road in" and "how to give
+an order" enough for the first minutes, or do you want the house, the field and the store taught as tips too until the tutorial
+is rebuilt? (b) The "Resume tutorial" tip and the lesson's narrowed gate stay in the tree, switched off - keep them for the rework
+or delete them? (c) `ceiling:` a tip with under 200px beside an open card waits under the card.
+
 ## Who acts for a family: the one with it answers the flight; the oldest child steps up — owner, 2026-09-28 (worktree branch; not released)
 
 **The decision.** Owner, 2026-09-28: "fix the blockers", and by multiple choice for a family left with nobody who can act: **"The
