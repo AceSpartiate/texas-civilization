@@ -319,6 +319,9 @@ export function ambientable(world, e, held = heldNow(world)) {
   if (e.courier || e.report || e.runner || e.carrier) return false;
   if (!['well', 'tired'].includes(e.health?.condition || 'well')) return false;
   if (e.task === 'rest' || (e.travel && !waiting(world, e.travel))) return false;
+  // The 1835 force's men are on its halted journey all the way to Béxar (sim/army.mjs `marchingTravel`): idle only while it
+  // stands in a camp (`army.camp`), never while it marches.
+  if (e.travel?.purpose === 'march' && !world.army?.camp) return false;
   // Halted in the wagon or on the horse (sim/company.mjs): drawn in their seat, as they are.
   if (e.travel && (e.travel.drives || e.travel.rides || e.travel.saddle || e.travel.carried)) return false;
   if (e.talk || e.aside || e.carriedBy || e.townHelp || held.has(e.id)) return false;

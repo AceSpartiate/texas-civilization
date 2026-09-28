@@ -158,7 +158,9 @@ const overlaps = (a, b) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h
  * one already drawn this frame - a child's, a town scene's - or a mark asking the student something (`avoid`) is left unsaid,
  * and so is a line whose speaker is not drawn on this page: words are never put in the air over nobody.
  */
-export function drawAmbientSpeech(ctx, lines, headOf, { now, bounds, avoid = [], evidence = null, max = ON_SCREEN } = {}) {
+export function drawAmbientSpeech(ctx, lines, headOfAny, { now, bounds, avoid = [], evidence = null, max = ON_SCREEN } = {}) {
+  // Only a speaker on the screen: a bubble is never pinned to the edge for somebody out of sight.
+  const headOf = id => { const head = headOfAny(id); return head && (!bounds || (head.x >= 0 && head.x <= bounds.width && head.y >= 0 && head.y <= bounds.height)) ? head : null; };
   const running = () => [...heard.values()].filter(one => one.admitted && now - one.at < REPLY_AFTER_MS + LINE_MS + 600).length;
   for (const line of lines || []) {
     const key = `${line.pair}:${line.id.split(':').slice(-2, -1)[0]}`;

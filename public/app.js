@@ -686,7 +686,7 @@ function townGround(world, entity, camera, now, frozen) {
     const one = ambientGround(entity, home, { walker: townWalker, now, time: animationTime, figure: camera.figure, scale: camera.scale, frozen, reducedMotion: reducedMotion.matches, whereIs: id => ambientSpots.get(id) });
     if (one) {
       ambientSpots.set(entity.id, one.at);
-      window.__townWalkers?.push({ id: entity.id, stepping: one.stepping, pose: one.amb?.p || null, x: one.at.x, y: one.at.y, ambient: one.amb?.a || null });
+      window.__townWalkers?.push({ id: entity.id, stepping: one.stepping, pose: one.amb?.p || null, x: one.at.x, y: one.at.y, ambient: one.amb?.a || null, ...(entity.amb?.at && { visit: true }) });
       return { at: one.at, stepping: one.stepping, pose: null, amb: one.amb, base: one.base };
     }
   }
@@ -3316,9 +3316,11 @@ export function drawWorld(world) {
     // norther has not reached keeps its rising puffs. The camp is drawn on the page's canvas every frame, not into the
     // kept ground, so this one reads the weather with its fade (no `STEADY`) and the smoke goes over as the day comes up.
     const campMix = weather ? weatherMix(weather, army.x, world.minute) : null;
+    // The clip each of the camp's men was drawn in: presentation evidence for the proofs (npm run test:chatter).
+    const menDrawn = [];
     const how = drawArmy(ctx, army, at, {
       scale: camera.scale, figure: camera.figure, time: animationTime,
-      draw: (clip, x, y, size, key, options) => animated(ctx, clip, x, y, size, key, options), mini: miniPerson,
+      draw: (clip, x, y, size, key, options) => { if (/^[^:]+:\d+$/.test(String(key))) menDrawn.push(clip); return animated(ctx, clip, x, y, size, key, options); }, mini: miniPerson,
       smoke: campMix && inGale(campMix) ? (x, y, size) => drawSprite(ctx, GALE_SMOKE, x, y, size) : null,
       // What each man is doing and the words over their heads (public/ambient.js, sim/ambient.mjs `campAmbient`).
       ...(world.ambient?.camps?.[army.id] && {
@@ -3359,7 +3361,7 @@ export function drawWorld(world) {
       return { x: Math.round(p.x), y: Math.round(p.y) };
     });
     return { id: army.id, side: army.side, ours: army.ours, strength: army.strength, how, boat, x: Math.round(at.x), y: Math.round(at.y), camp: Boolean(army.camp), foragers,
-      ...(how === 'camp' && world.ambient?.camps?.[army.id] && { acts: world.ambient.camps[army.id].acts.map(one => one.a) }) };
+      ...(how === 'camp' && { men: menDrawn }) };
   });
   // Neighbours talking (public/ambient.js, sim/ambient.mjs `EXCHANGES`): after the camps, whose men's heads are laid out with
   // them, and never over the family's own bubbles or a mark asking the student something. Quiet in a fight or a chase.
