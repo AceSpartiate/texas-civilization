@@ -1,5 +1,70 @@
 # Claude handoff — Astra foundation
 
+## The diseases merged with the Scrape's routes and chases; the owner's answers on firing, deaths and saving — 2026-09-27/28 (worktree branch; not released)
+
+Built on `worktree-agent-afb989c37cd01607a` at `62aa53d` (= `origin/main`, merged: nothing newer on it at the finish). Not pushed,
+not merged to main, not released. Local `main` carries 14 art commits `origin/main` does not have; they were not touched.
+
+**The merge** of `worktree-agent-a52ab4e2e5e711853` (the diseases, whose own section is further down) into the Scrape's routes and
+chases. Conflicts in `sim/road.mjs` and `sim/scrape.mjs` were imports and the road's daily sickness loop: kept both - the day's
+sickness is `roadSickness` (sim/disease.mjs), called where `advanceFlight` now also sends a family on to its next stop.
+**Rest against the new road** (sim/disease.mjs `activityOf`): every halt is rest (a crossing, the mud, a camp, "Stop and rest a
+day", the camp at a refuge or at the last stop of a route); a stop on a route is not a halt (the family goes on at once); **a
+chase is never rest** - anybody with a family soldiers are after counts as riding or running, even with the train stood still
+(`chasedNow`). No camp (rest, hunt, fish, nurse) can be made while they come on (`roadChoreRefusal`), and **a family that runs
+breaks whatever camp it held** (sim/road.mjs `breakCamp`, from `answerAlto`) - before this a running family on a halting chore was
+halted again by its own camp the next tick and ridden down. A person wounded in a chase is `wounded`, on the wound's own clock:
+the sickness neither mends nor sickens a wound. Test: tests/scrape-pursuit.test.mjs *rest and the chase*, seen failing at each
+of its three parts; four injections.
+
+**Claim IDs renumbered.** Both branches registered 661-668 the same day. The Scrape keeps `HIST-TEX-660`-`-668` and
+`FIC-GONZ-660`-`-667`; the diseases moved on by eight: **`HIST-TEX-669`-`-675`, `FIC-GONZ-669`-`-676`** (in `CLAIMS`, the
+tests, HISTORY.md, TECH.md, docs/DISEASE.md, CHILDREN.md, HOUSTON_CAMP.md, ROAD_EAST.md, sim/shops.mjs, the injection script).
+`tests/history-registry.test.mjs` passes.
+
+**Owner, 2026-09-27, by multiple choice:**
+- **Firing: "Only at men and animals"** (SCRAPE.md §16 a). A soldier aims at a grown man, an ox or a horse - never a woman or a
+  child, a man carrying a baby or riding in the wagon among them, a horse one of them is on, or the wagon. With nothing else to
+  fire at they **hold their fire**, say so ("¡Alto el fuego! Hay mujeres y niños." / "Hold your fire! There are women and
+  children."), and the family's record says why - Almonte at New Washington. They still come on, and take a family they come up
+  with. `ceiling:` "in the way" is read from who rides with whom, not where each walks. `FIC-GONZ-664`, `-665` amended. **Rarity
+  (§16 b): "Keep as built."** Two tests, seen failing first; six injections.
+- **Deaths: "3 in 100" is a mixed class's** (kept) and **"Yes, measles and cough lead"**: the measles and whooping cough turn
+  very sick and kill more and go round the crowds more, whooping cough turns children under five very sick as well as babies, and
+  the flux and a chill on the chest came down (docs/DISEASE.md §9.5, the table of what moved). Step 8 now fails unless the two
+  lead (seen failing on the first build's evidence: "lung-fever killed 10, measles 5").
+- **Saving: "Retry briefly"** - server/storage.mjs `writeSave` tries a file Windows says is held (EPERM, EBUSY, EACCES) again for
+  up to 333 ms before calling it a failure, for every class; other errors are not retried (tests/save-retry.test.mjs, the refusals
+  made by standing in for node:fs, seen failing before the retry). **Solo: Continue opens paused, 30 s before the solo server
+  stops, no "Save and quit" - all as built** (docs/DEPLOYMENT.md, *Closing the game*).
+
+**The diseases re-measured** (`scripts/disease-study.mjs`, six classes, twelve mixed flights, 1,956 people;
+docs/evidence/disease-study.json):
+
+| | Died | In a hundred | Under 2 | 2-5 | 6-15 | 16+ | Careful | Careless | Measles | Whooping cough | Chill | Flux |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Merged, rates as first built | 58 | 2.97 | 8.6 | 9.8 | 0.9 | 0.7 | 0.41 | 5.52 | 5 | 0 | 12 | 41 |
+| **Merged, retuned (the evidence)** | **58** | **2.97** | **5.7** | **9.2** | **1.5** | **0.9** | **0.51** | **5.42** | **30** | **14** | **8** | **6** |
+
+(Deaths in a hundred of each age and group; deaths by disease.) The routes and chases moved nothing visible: families nobody plays
+do not choose routes, and chases are rare. 40 of the 58 deaths were children under six; nobody died of a sickness in any autumn.
+
+**Evidence** (same computer only; no LAN or district claim). `npm test` **1495 of 1495** (on `92418a6`; only docs changed since).
+Browser proofs on the merged tree: `test:disease` 8/8, `test:scrape-pursuit` 14/14 (8 shots fired and drawn at the running
+wagon), `test:scrape` 5/5, `test:road` 7/7, `test:mexican-advance` 10/10, `test:family-panel`, `test:lesson`, `test:solo` all
+passed. Under heavy load (the full suite and the disease injections running beside them) the first runs of `test:disease` (a 15 s
+wait for the card), `test:scrape-pursuit` ("no shot was drawn") and `test:mexican-advance` (a screenshot timeout) failed and each
+passed on its rerun. Injections: `scripts/scrape-pursuit-injections.mjs` **27 of 27** caught by the check written for them - unit 23 of 23 (ten
+new: six for the firing, four for rest and the chase) and browser 4 of 4 (two first ran "caught by another check", a join-form
+timeout under the same load; all four caught on the rerun) - docs/evidence/scrape-pursuit-injections.json;
+`scripts/disease-injections.mjs` **48 of 48** caught by exactly their tests (one new: whooping cough dangerous to babies only),
+docs/evidence/disease-injections.json.
+
+**`test:children` still fails** at "the child at tag was drawn in 1 places in four seconds", as on `origin/main` before this.
+Not a timing flake: sampled every 200 ms over ticks 9-16, the server moved the child about the yard every tick (x 5.7848 →
+5.757 → 5.7482 → 5.7665) while the page drew it at a fixed offset from its parent (-46, -18 px) the whole time - the page is not
+drawing the play moves. Not mended here (a presentation bug, not a proof's).
+
 ## The family's own way east, and Mexican troops on it — the owner's request and choices of 2026-09-27 (worktree branch; not released)
 
 Built on `worktree-agent-afb989c37cd01607a` from main `ed4147b`, `origin/main` (`e937b72`) merged before finishing. Not pushed, not merged to
@@ -76,7 +141,8 @@ three-lane corridor; timber looked for on rings a tenth of a mile apart; the par
 wounded person keeps their seat. No `saveVersion` moved: `flight.route`, `flight.chase`, `flight.pursued`, `flight.lastPoint`,
 `travel.offRoad`, beasts' `dead`/`hurt` are all absent on an old save, which runs as before.
 
-**Decisions for the owner** (SCRAPE.md §16, multiple choice): (a) fire on a family that runs - as built / only men and animals, held
+**Decisions for the owner** (SCRAPE.md §16, multiple choice; **(a) answered "Only at men and animals" and (b) "Keep as built"
+on 2026-09-27, built in the section above**): (a) fire on a family that runs - as built / only men and animals, held
 where women and children are in the way / never; (b) rarity - keep / rarer / commoner; (c) what a hit does - keep / wounds only / as
 in battle; (d) running for the timber - keep / infantry follow and cavalry do not / no timber rule.
 ## Disease: the five sicknesses of 1835–36, and rest that mends — the owner's request and answers of 2026-09-27 (worktree branch from main e937b72, origin/main e86b281 merged; not released)
@@ -124,7 +190,8 @@ seconds" - **and fails the same on origin/main b9daabb** (run in a scratch workt
 
 **Not built**, each said where it is: re-seating the sick in the wagon mid-road (`sim/company.mjs`'s `ceiling:` stands - another
 builder had the flight open); Labadie's men sent home with the measles (docs/HOUSTON_CAMP.md §5); nursing in the camp; cholera as the
-towns' talk. **For the owner**: the flux kills most (43 of 58); whether "three in a hundred" is meant for a careless, a mixed or a
+towns' talk. **For the owner** (*the first two answered 2026-09-27 - a mixed class, and measles and cough lead - and built in the
+section at the top*): the flux kills most (43 of 58); whether "three in a hundred" is meant for a careless, a mixed or a
 careful class; whether nursing should stay a certainty for the day (docs/DISEASE.md §9.3–9.4).
 
 ## Play Solo closes itself: the window's X saves, pauses and stops — owner, 2026-09-27 (worktree branch; not released)

@@ -300,7 +300,18 @@
       "name": "the whooping cough is taken at any age",
       "file": "sim/disease.mjs",
       "failed": [
-        "step 3: whooping cough is a child's sickness, dangerous only to babies"
+        "step 3: whooping cough is a child's sickness, dangerous to babies above all, to small children, and to nobody past five"
+      ],
+      "expected": [
+        "step 3: whooping cough is a child"
+      ],
+      "ok": true
+    },
+    {
+      "name": "the whooping cough dangerous to babies only",
+      "file": "sim/disease.mjs",
+      "failed": [
+        "step 3: whooping cough is a child's sickness, dangerous to babies above all, to small children, and to nobody past five"
       ],
       "expected": [
         "step 3: whooping cough is a child"

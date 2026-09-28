@@ -786,7 +786,8 @@ hundred. In the autumns: 205 cases of the chills and fever among about 1,000 peo
 **nobody dead of a sickness**; in the winters, 32 relapses.
 
 **Injections** (`scripts/disease-injections.mjs`, docs/evidence/disease-injections.json): 47 of 47 caught by exactly the tests each
-names. The one guard not injected - that nobody dies the day they are seen very sick - is held twice over by the shape of
+names; **48 of 48** after the merge and the retuning of §9.5 (one added: the whooping cough dangerous to babies only). Rest and
+the chase are held by tests/scrape-pursuit.test.mjs and its own injections (docs/SCRAPE.md; HANDOFF.md). The one guard not injected - that nobody dies the day they are seen very sick - is held twice over by the shape of
 `sicknessDay`, and taking it out changes nothing; the script says so.
 
 `tests/disease.test.mjs` step 8 reads the evidence and fails if the rates it was measured against (`studiedRates`) are not the
