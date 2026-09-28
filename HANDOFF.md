@@ -39,7 +39,7 @@ held his men's fire for Burnet's family. The firing is the owner's rule (`FIC-GO
   100 yards), at dusk, at timber enough to hide in, or plainly outrun. Kept: the twenty-mile warning, the lookout, the bog, the
   crossings, the cow, sickness, the day's grace, never twice by the same column in a day.
 - **Held and lapsing**: a played family at its screen holds the class at two minutes a tick near the soldiers (`chaseStep`); the order
-  waits three ticks and **the family halts, written "Nobody answered..."**; a family nobody plays, absent, or on auto halts at once
+  waits three ticks and **the question lapses (sim/lapse.mjs, `FIC-GONZ-633`): the family stands as ordered and is taken, the lapse written down**; a family nobody plays, absent, or on auto halts at once
   and holds nothing - compatible with the concurrent "unanswered questions lapse" work.
 - **Drawn** (`public/chase-view.js`): the soldiers behind the family, a flash and drifting smoke at each shot's real moment, dust
   where a ball fell short, the orders over the lead man; the Host's map draws every chase. `stand-in:` request 2026-09-27 "Mexican

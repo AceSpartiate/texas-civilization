@@ -323,8 +323,7 @@ river bottom and hid in a cane-brake. That soldiers fire on a family that runs i
 
 - **Held** for a played family at its screen only (`chaseStep`): two minutes a tick once the soldiers are within hail, and in ticks
   that bring them to hail in two or three while they come on. The order waits three ticks (`ALTO_PATIENCE_TICKS`, about 28 seconds
-  at Study); then **the family halts, and it is written down** ("Nobody answered for the family. It did what most did: halt, as
-  they order."). A family nobody plays, one whose student has gone, or whose main person is on auto **halts when it is ordered
+  at Study); then **the family halts, and it is written down** (it **lapses**, as every unanswered question now does - sim/lapse.mjs, `FIC-GONZ-633`: nothing new is chosen, the family stands as it was ordered to, and the soldiers come up; "Nobody answered for the family in time, and the question lapsed..."). A family nobody plays, one whose student has gone, or whose main person is on auto **halts when it is ordered
   to**, at once, and holds nothing ("The family, deciding for itself, chose: halt, as they order."). This is "an unanswered question
   lapses" applied to the road's newest question.
 - **Rarity** (`npm run study:scrape-pursuit`, [evidence](evidence/scrape-pursuit-study.json)): ten classes of fifteen families
