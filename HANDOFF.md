@@ -27,7 +27,8 @@ market"**. Built on the worktree branch, origin/main merged, **not pushed, not m
   `sell-cotton` and `sell-food` refused at a full store, so the neighbours' director does not send them). Outside the keeper's purse
   as before (owner, 2026-09-16); coin stays the counter's default (owner, 2026-09-27). `world.markets` absent on old saves = a store
   holding nothing. `FIC-GONZ-722`.
-- **The guided start on the real land** (docs/LESSON.md, amended 2026-09-28; `sim/lesson.mjs`): the plant step says only a garden
+- **The guided start on the real land** - **dormant**: the owner suspended the guided start the same day (`LESSON_ENABLED` off,
+  merged from origin/main after this was built); the changes stay for whoever rebuilds it (docs/LESSON.md, amended 2026-09-28; `sim/lesson.mjs`): the plant step says only a garden
   will grow this late in the year; the harvest step finishes once a crop stands on the calendar and says when it will be ready; the
   harvest is allowed on every step after it (`AFTER_HARVEST`); the sell step asks for food while the crop grows. The invented country's
   lesson is unchanged. Coordination: another builder is narrowing the gate and adding tips; this touched only the plant, harvest and
@@ -66,6 +67,47 @@ market"**. Built on the worktree branch, origin/main merged, **not pushed, not m
 its season comes in before the war ends - recommended: count a standing crop at the ending; (2) selling decides more than it did -
 recommended: the director and the counter's default sell spare food within the store's want; (3) staying in the burn zone beats
 going again - recommended: prisoner weight 1.5; (4) the market's invented numbers.
+## The tutorial suspended; tips at first meeting; the "!"s ranked — owner, 2026-09-28 (worktree branch; not released)
+
+**The decisions.** Owner, 2026-09-28: "fix the blockers" (design audit B8, S4-S6, S8, S33, S35; playthrough audit §5), and by
+multiple choice on how the later systems are taught, **"Short tips at first meeting"** - the first time each new thing appears,
+a one-line tip shows what to do and what it costs; nothing blocks play; each tip shown once. Later the same day, **"The starting
+tutorial needs to be removed for now. We'll redo it from scratch later. It currently just gets in the way of things."**
+
+**1. The guided start suspended** (docs/LESSON.md, top). `LESSON_ENABLED = false` in `sim/lesson.mjs` (`ceiling:`) makes
+`teachable` false for every family: no gate, no stored step, no `lesson`/`lessonResume` on the projection (no strip, pips, ring,
+X or Resume), and `inLesson` false, so a settlement's call spends its five minutes from the moment it arrives. The old "New to
+this?" walk-through is off too (`OLD_WALKTHROUGH_OFFERED` in `public/app.js`, which would otherwise have been offered to every
+family), and the title card now says tips will come instead of a guide. The code is kept as built for the rework, including
+the same day's narrowing of the gate to the farm steps (`FARM_WORK`, `NEVER_HELD`, `shut` on the projection, the lesson ending
+with the first period via `closeLessons`) - done before the owner's second word, tested and injected (34 of 34) while it was on,
+and now switched off with the rest. **Skipped while off, and said so:** `tests/lesson.test.mjs` (all 32 tests), the gate test in
+`tests/lesson-usability.test.mjs`; `npm run test:lesson` and `scripts/lesson-injections.mjs` exit at once with "SKIPPED". Held
+instead by `tests/lesson-off.test.mjs` (always runs). `scripts/means-browser-proof.mjs` no longer waits for an X that is not there.
+
+**2. Tips at first meeting** (docs/LESSON.md §9) - now the only guidance a new student has. Twenty tips (`public/tips.js`
+`TIPS`, ids in `sim/tips.mjs`): on the road in, how to give an order (both added for the suspension), the star, ¡Alto!, the
+road's question, the order to leave, sickness and nursing, the settlement's call and that it lapses, the army's questions, Watch,
+Resume tutorial (dormant), "Stop and rest a day", the route, the milk cow, the milk, a crying baby, a child with nothing to do,
+enlisting and voting, trading, the store (coin as the score; inside the errand). Due when its thing is in the family's own
+projection; one at a time over the map above the action bar, placed clear of the column, the card, the call, the messages and
+the strip (`placeTip`); the words let clicks through; "Got it" or Escape; never to the Host, never in the lobby or over the
+ending or the curtain. Put away, or retired when its thing goes while it stands, the page sends `seen-tip` and the server keeps
+`household.tipsSeen` (absent = seen none; validated; **no `saveVersion` move**). S6: hover-only costs are in the tips, and each
+line of the town errand opens what it does on a tap. `server/app.mjs` serves `/tips.js`.
+
+**3. The "!"s ranked** (S33, S35). `NEED_KINDS` is the order of urgency (¡Alto!, road, order to leave, very sick, rider, call, army,
+camp, courier, asking, offer); `rankNeeds` orders every row's "!" by it, ties by time left; the "!" carries its number and time
+left ("28s", "4 min"), counted down from `request.leftMs`, the person's `decisionLeftMs`, `flight.ask.ticksLeft`
+(`askTicksLeft`) and `flight.ticksLeft` at the class's pace; the first is ringed. Watch waits behind the order to leave, the
+road and ¡Alto!.
+
+**Evidence** (same computer only). `npm test` **1600 tests: 1562 pass, 36 skipped, 2 fail** on the tree merged with origin/main f815d07e: `tests/acting.test.mjs`'s ¡Alto! check read the "!" as kind `road`, which is `alto` since this work's ranking - brought up to date, 14 of 14; and `tests/solo.test.mjs`'s own Pause/Resume/Save saw a stop under the full suite's load and **passes alone**. (The run before, on bc8ead09: 1549 pass, 36 skipped, 0 fail, `tests/capacity.test.mjs` cancelled at its 30 s under load as recorded below before this work, passes alone.) (The run before, on origin/main e549ec1, found `tests/means.test.mjs` asserting a cart family is given a lesson; made conditional, 14 of 14.) The 36 skipped are the guided start's own: `tests/lesson.test.mjs` 32, and one each in `lesson-usability`, `afoot` (the cart/no-vehicle family's whole lesson), `call-lapse` (the call held during the lesson) and `auto-repeat` (auto and the gate); the lesson halves of one test each in `childhood`, `children` and `means` run only when it is on. New: `tests/tips.test.mjs` 5, `tests/need-ranking.test.mjs` 4, `tests/lesson-off.test.mjs` 2 (the switch), each **seen failing** by injection: [tips-injections.json](docs/evidence/tips-injections.json) **29 of 29 caught** by the test written for each (before the switch-off the harness ran 34 of 34, including the narrowed gate's nine, now not run). Browser: `npm run test:tips` **11 of 11** (1366 keyboard: no strip and no walk-through, the arrival's and the order's tips, the call's tip placed clear of everything and passed through to the map, Escape, kept by the server, not shown after a reload, nothing says "Not yet" in the first hour, nothing on the Host; 1024 touch: the order to leave with "3 min" on the "!", the route, ¡Alto! with "30s", each tapped away, none shown again after a reload); `test:family-panel` 17, `test:panels` 14, `test:scrape` 5 (one run of two failed on food 31.65 against 32 - a tick of eating between leaving and the check at the proof's 4-second pace; the rerun passed); `test:lesson` now prints SKIPPED.
+
+**Questions for the owner.** (a) With the tutorial gone, the tips are all a new student gets: is "on the road in" and "how to give
+an order" enough for the first minutes, or do you want the house, the field and the store taught as tips too until the tutorial
+is rebuilt? (b) The "Resume tutorial" tip and the lesson's narrowed gate stay in the tree, switched off - keep them for the rework
+or delete them? (c) `ceiling:` a tip with under 200px beside an open card waits under the card.
 
 ## Who acts for a family: the one with it answers the flight; the oldest child steps up — owner, 2026-09-28 (worktree branch; not released)
 

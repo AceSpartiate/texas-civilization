@@ -100,6 +100,8 @@ const files = new Map([
   // The guided start, on the screen (docs/FAMILY_PANEL.md §12, public/lesson.js): what the server's `world.lesson` shuts,
   // points at and says. It decides nothing; the lesson itself is the world's.
   ['/lesson.js', ['../public/lesson.js', 'text/javascript']],
+  // Tips at first meeting (owner, 2026-09-28; public/tips.js): the words, and when each thing has first appeared. Decides nothing.
+  ['/tips.js', ['../public/tips.js', 'text/javascript']],
   // The errand to town, on the screen (docs/TOWNS.md §4b, public/errand.js): it draws the server's list and sends one order.
   ['/errand.js', ['../public/errand.js', 'text/javascript']],
   // How they will go, asked before anybody leaves (docs/FAMILY_PANEL.md §15, public/going.js): it draws the server's ways and

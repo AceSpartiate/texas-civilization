@@ -110,6 +110,8 @@
     "test:disease-injections": "node scripts/disease-injections.mjs",
     "test:acting": "node scripts/acting-browser-proof.mjs",
     "test:acting-injections": "node scripts/acting-injections.mjs",
-    "study:disease": "node scripts/disease-study.mjs"
+    "study:disease": "node scripts/disease-study.mjs",
+    "test:tips": "node scripts/tips-browser-proof.mjs",
+    "test:tips-injections": "node scripts/tips-injections.mjs"
   }
 }

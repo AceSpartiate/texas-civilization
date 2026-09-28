@@ -1,0 +1,293 @@
+{
+  "record": "tips-injections",
+  "date": "2026-09-28",
+  "files": [
+    "tests/lesson-off.test.mjs",
+    "tests/tips.test.mjs",
+    "tests/need-ranking.test.mjs",
+    "tests/lesson.test.mjs",
+    "tests/family-commands.test.mjs",
+    "tests/lesson-usability.test.mjs",
+    "tests/errands.test.mjs",
+    "tests/creation-words.test.mjs",
+    "tests/lesson-screen.test.mjs",
+    "tests/military-attention.test.mjs"
+  ],
+  "caught": 29,
+  "of": 29,
+  "injections": [
+    {
+      "name": "putting a tip away is not kept: the next snapshot, or a reload, shows it again",
+      "file": "sim/tips.mjs",
+      "expected": "seen tips are kept by the server",
+      "caught": true,
+      "failed": [
+        "a family's seen tips are kept by the server, go to its own page, survive a save, and are the family's alone",
+        "putting a tip away works in the lobby before the class begins, and in the first minute of a running class",
+        "a tip is shown once: until it is put away or its thing goes, and never again after, even across a reload"
+      ]
+    },
+    {
+      "name": "a tip put away twice is kept twice, and the save refuses the family",
+      "file": "sim/tips.mjs",
+      "expected": "seen tips are kept by the server",
+      "caught": true,
+      "failed": [
+        "a family's seen tips are kept by the server, go to its own page, survive a save, and are the family's alone"
+      ]
+    },
+    {
+      "name": "any word at all is kept as a tip seen",
+      "file": "sim/tips.mjs",
+      "expected": "seen tips are kept by the server",
+      "caught": true,
+      "failed": [
+        "a family's seen tips are kept by the server, go to its own page, survive a save, and are the family's alone"
+      ]
+    },
+    {
+      "name": "the director marks tips seen for a family whose student has gone",
+      "file": "sim/tips.mjs",
+      "expected": "seen tips are kept by the server",
+      "caught": true,
+      "failed": [
+        "a family's seen tips are kept by the server, go to its own page, survive a save, and are the family's alone"
+      ]
+    },
+    {
+      "name": "a save may carry anything as the tips seen",
+      "file": "sim/tips.mjs",
+      "expected": "seen tips are kept by the server",
+      "caught": true,
+      "failed": [
+        "a family's seen tips are kept by the server, go to its own page, survive a save, and are the family's alone"
+      ]
+    },
+    {
+      "name": "the tips seen never reach the family's page, so every reload shows them all again",
+      "file": "sim/world.mjs",
+      "expected": "seen tips are kept by the server",
+      "caught": true,
+      "failed": [
+        "a family's seen tips are kept by the server, go to its own page, survive a save, and are the family's alone",
+        "a tip is shown once: until it is put away or its thing goes, and never again after, even across a reload"
+      ]
+    },
+    {
+      "name": "the Host - the projector - is shown tips",
+      "file": "public/tips.js",
+      "expected": "each tip is due when its thing",
+      "caught": true,
+      "failed": [
+        "each tip is due when its thing is on the family's own screen, and never on the Host's"
+      ]
+    },
+    {
+      "name": "tips come up in the lobby and over the ending",
+      "file": "public/tips.js",
+      "expected": "each tip is due when its thing",
+      "caught": true,
+      "failed": [
+        "each tip is due when its thing is on the family's own screen, and never on the Host's"
+      ]
+    },
+    {
+      "name": "the star's tip comes up in the middle of the guided start",
+      "file": "public/tips.js",
+      "expected": "each tip is due when its thing",
+      "caught": true,
+      "failed": [
+        "each tip is due when its thing is on the family's own screen, and never on the Host's"
+      ]
+    },
+    {
+      "name": "a call the family cannot answer is taken for its first meeting with a call",
+      "file": "public/tips.js",
+      "expected": "each tip is due when its thing",
+      "caught": true,
+      "failed": [
+        "each tip is due when its thing is on the family's own screen, and never on the Host's"
+      ]
+    },
+    {
+      "name": "a tip being read is pulled away when a more urgent one comes",
+      "file": "public/tips.js",
+      "expected": "a tip is shown once",
+      "caught": true,
+      "failed": [
+        "a tip is shown once: until it is put away or its thing goes, and never again after, even across a reload"
+      ]
+    },
+    {
+      "name": "a tip whose thing went while it stood is never retired, so it comes back next time",
+      "file": "public/tips.js",
+      "expected": "a tip is shown once",
+      "caught": true,
+      "failed": [
+        "a tip is shown once: until it is put away or its thing goes, and never again after, even across a reload"
+      ]
+    },
+    {
+      "name": "the cost of resting on the road is only in the hover popup again",
+      "file": "public/tips.js",
+      "expected": "every tip the server can remember",
+      "caught": true,
+      "failed": [
+        "every tip the server can remember has words on the page, and every one is short, plain and says what to do"
+      ]
+    },
+    {
+      "name": "a row's needs are in the order they were found, not the most urgent first",
+      "file": "public/family-panel.js",
+      "expected": "every \"!\" of the column is in one order",
+      "caught": true,
+      "failed": [
+        "a call and an army question are \"!\"s on whoever may answer them, and nothing once answered",
+        "every \"!\" of the column is in one order, the most urgent first, numbered, with ties broken by the time left"
+      ]
+    },
+    {
+      "name": "the rows are not ranked against each other",
+      "file": "public/family-panel.js",
+      "expected": "every \"!\" of the column is in one order",
+      "caught": true,
+      "failed": [
+        "every \"!\" of the column is in one order, the most urgent first, numbered, with ties broken by the time left"
+      ]
+    },
+    {
+      "name": "ties are not broken by the time left",
+      "file": "public/family-panel.js",
+      "expected": "every \"!\" of the column is in one order",
+      "caught": true,
+      "failed": [
+        "every \"!\" of the column is in one order, the most urgent first, numbered, with ties broken by the time left"
+      ]
+    },
+    {
+      "name": "¡Alto! is one more road question, ranked with the bog",
+      "file": "public/family-panel.js",
+      "expected": "every \"!\" of the column is in one order",
+      "caught": true,
+      "failed": [
+        "a call and an army question are \"!\"s on whoever may answer them, and nothing once answered",
+        "every \"!\" of the column is in one order, the most urgent first, numbered, with ties broken by the time left"
+      ]
+    },
+    {
+      "name": "ticks are read as seconds, whatever the class's pace",
+      "file": "public/family-panel.js",
+      "expected": "the time left is read from what the server said",
+      "caught": true,
+      "failed": [
+        "every \"!\" of the column is in one order, the most urgent first, numbered, with ties broken by the time left",
+        "the time left is read from what the server said, in real time, and written in the fewest characters"
+      ]
+    },
+    {
+      "name": "the time left is rounded down, so a question with a moment left reads as gone",
+      "file": "public/family-panel.js",
+      "expected": "the time left is read from what the server said",
+      "caught": true,
+      "failed": [
+        "the time left is read from what the server said, in real time, and written in the fewest characters"
+      ]
+    },
+    {
+      "name": "the call goes to the page without its time left",
+      "file": "sim/directors.mjs",
+      "expected": "the server sends the time left",
+      "caught": true,
+      "failed": [
+        "the server sends the time left on the call, on the army's questions, on the road's and on the order to leave"
+      ]
+    },
+    {
+      "name": "the army's questions go to the page without their time left",
+      "file": "sim/decision-budget.mjs",
+      "expected": "the server sends the time left",
+      "caught": true,
+      "failed": [
+        "the server sends the time left on the call, on the army's questions, on the road's and on the order to leave"
+      ]
+    },
+    {
+      "name": "the call's five minutes are counted as a question of the person the clock names",
+      "file": "sim/decision-budget.mjs",
+      "expected": "the server sends the time left",
+      "caught": true,
+      "failed": [
+        "the server sends the time left on the call, on the army's questions, on the road's and on the order to leave"
+      ]
+    },
+    {
+      "name": "the order to leave goes to the page without its time left",
+      "file": "sim/world.mjs",
+      "expected": "the server sends the time left",
+      "caught": true,
+      "failed": [
+        "the server sends the time left on the call, on the army's questions, on the road's and on the order to leave"
+      ]
+    },
+    {
+      "name": "the soldiers' ¡Alto! is given the road's twelve ticks",
+      "file": "sim/road.mjs",
+      "expected": "the server sends the time left",
+      "caught": true,
+      "failed": [
+        "the server sends the time left on the call, on the army's questions, on the road's and on the order to leave"
+      ]
+    },
+    {
+      "name": "Watch springs open over the family's own road",
+      "file": "public/military-attention.js",
+      "expected": "the Watch alert waits",
+      "caught": true,
+      "failed": [
+        "the Watch alert waits behind the family's own road: the order to leave, the road's question and ¡Alto!"
+      ]
+    },
+    {
+      "name": "the guided start is switched back on, gating every new family and holding its call's minutes",
+      "file": "sim/lesson.mjs",
+      "expected": "the guided start is off",
+      "caught": true,
+      "failed": [
+        "the title card says what the game does at the start: no guide while the guided start is off, and the tips",
+        "the guided start is off: a new family is refused nothing by it, is sent no lesson, and has none stored",
+        "the settlement's call spends its minutes from the moment it arrives: nothing holds it for a guided start",
+        "each tip is due when its thing is on the family's own screen, and never on the Host's"
+      ]
+    },
+    {
+      "name": "an old save's stored lesson still gates and holds the call, whatever the switch says",
+      "file": "sim/lesson.mjs",
+      "expected": "spends its minutes from the moment it arrives",
+      "caught": true,
+      "failed": [
+        "the title card says what the game does at the start: no guide while the guided start is off, and the tips",
+        "the guided start is off: a new family is refused nothing by it, is sent no lesson, and has none stored",
+        "the settlement's call spends its minutes from the moment it arrives: nothing holds it for a guided start",
+        "each tip is due when its thing is on the family's own screen, and never on the Host's"
+      ]
+    },
+    {
+      "name": "how to give an order is told while the family is still on the road in",
+      "file": "public/tips.js",
+      "expected": "each tip is due when its thing",
+      "caught": true,
+      "failed": [
+        "each tip is due when its thing is on the family's own screen, and never on the Host's"
+      ]
+    },
+    {
+      "name": "the star comes before how to give an order",
+      "file": "public/tips.js",
+      "expected": "each tip is due when its thing",
+      "caught": true,
+      "failed": [
+        "each tip is due when its thing is on the family's own screen, and never on the Host's"
+      ]
+    }
+  ]
+}

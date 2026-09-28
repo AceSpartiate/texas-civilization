@@ -40,10 +40,33 @@
 // time it was pressed (`stoppedAt`, server milliseconds), `resume-lesson` puts the family back on that step inside
 // `LESSON_RESUME_MS` of the **first** press, and the Host's class panel says so in words (`lessonHostWords`).
 //
+// **Amended 2026-09-28: the gate holds back the farm steps and nothing else.** The owner: "fix the blockers" (the design
+// audit's S8, the playthrough audit's 5). A student following the steps was refused nursing a sick child, enlisting, voting,
+// Houston's army and every way of getting food but the crop - "Not yet - first, bring the crop in" - and, because nothing
+// ended the lesson, still refused them in February. Now the gate refuses only another farm step's own work (`FARM_WORK`),
+// never food, nursing, the war, the flight or anything the clock runs out on; and the lesson ends for every family when the
+// first period does (`teachable`, `closeLessons`), whatever step it is on.
+//
 // Invented entire. Nothing here asserts anything about 1835, so the block of `HIST-TEX` numbers set
 // aside for it is deliberately unused; docs/LESSON.md §7 says so.
 import { record } from './events.mjs';
 import { CHORES } from './chores.mjs';
+
+/**
+ * **The guided start is switched off** (owner, 2026-09-28: "The starting tutorial needs to be removed for now. We'll redo it
+ * from scratch later. It currently just gets in the way of things.").
+ *
+ * With this false no family is ever taught (`teachable`): the server holds no gate and every order is open from the first
+ * tick, nothing is projected (`lesson`, `lessonResume`), so no strip, pips, ring or Resume button appears, no step is stored,
+ * and a settlement's call spends its five minutes from the moment it arrives (`inLesson`, read by sim/decision-budget.mjs, is
+ * always false). A stored lesson in an old save is kept and read by nothing. Everything below is left as it was built - the
+ * steps, the gate narrowed to the farm on the same day, the X, Resume, the period's end - for the owner's rework to start from
+ * or throw away; its tests are skipped while this is false (tests/lesson.test.mjs `off`).
+ *
+ * ceiling: the tutorial is off for every class, solo games included. Turning it back on is this one line, and the owner has
+ * said it is to be redone from scratch rather than turned back on as it is.
+ */
+export const LESSON_ENABLED = false;
 import { choosing } from './homesite.mjs';
 import { houseOf, houseSettled } from './houses.mjs';
 import { clearedPlots, plotsOf, sownPlots } from './fields.mjs';
@@ -90,6 +113,8 @@ export const ALWAYS = Object.freeze([
   // And taking it back up (owner, later on 2026-09-22). Only a stopped family can, and a stopped family has no gate; it is
   // here so that anybody else who sends it is told the true reason, not "Not yet".
   'resume-lesson',
+  // And putting away a tip (sim/tips.mjs, owner 2026-09-28: "Short tips at first meeting"): it moves nothing in the world.
+  'seen-tip',
 ]);
 
 /**
@@ -335,6 +360,27 @@ export const STEPS = Object.freeze([
 /** Every action id the lesson knows about: what a family is told it may do once the lesson is over. */
 export const ALL_ACTIONS = Object.freeze([...new Set([...ALWAYS, ...STEPS.flatMap(step => step.allow())])]);
 
+/**
+ * Work a step names that the lesson never holds back on any step (2026-09-28): going to town, where food and remedies are
+ * bought, and hunting, which is how most families eat while the house goes up. A family of fourteen on the house step with
+ * no food in the larder was refused both until then (docs/audits/2026-09-28-playthrough.md §5). A hunt made early still
+ * finishes the hunt step when it comes (`hunted` is watched on every step), and a sale made early is simply made again.
+ */
+export const NEVER_HELD = Object.freeze(['chore:visit-shop', 'hunt-land', 'chore:hunt-land', 'chore:hunt-timber']);
+
+/**
+ * The farm steps' own work: building the house, staking, clearing, fencing, planting, the harvest, the sale and the well.
+ * **The whole of what the gate can refuse** since 2026-09-28, and only while it is another step's work. Everything else a
+ * family can be told - food of every kind, nursing the sick, the winter's enlisting, joining and voting, Houston's army, the
+ * calls, the army's and the road's questions, the flight - is never refused by the lesson, because none of it is one of its
+ * steps and most of it will not wait. Built from `STEPS`, so a step's new work is held back the day it is added. The `order`
+ * step's list is every work there is (`ANY_WORK`) and is not a farm step's own: it is left out.
+ */
+export const FARM_WORK = Object.freeze([...new Set(STEPS.filter(step => step.id !== 'order').flatMap(step => step.allow()))].filter(id => !NEVER_HELD.includes(id)));
+
+/** What this step holds back: every farm step's work that is not its own. */
+const shutBy = (step, world, household) => { const own = new Set(step.allow(world, household)); return FARM_WORK.filter(id => !own.has(id)); };
+
 const indexOf = id => STEPS.findIndex(step => step.id === id);
 
 /** The id `allow` is written in: a chore is `chore:<id>`, and everything else is the action's own name. */
@@ -349,8 +395,13 @@ export const actionId = input => input?.action === 'chore' ? `chore:${input.chor
  * east (sim/scrape.mjs): its farm is behind it, every step here is impossible, and a gate would
  * leave it standing on the road. `flee` is on `ALWAYS`, so the lesson can never keep a family from
  * going.
+ *
+ * **Nor has anybody after the first period** (2026-09-28). The first period is the farm's; the winter and the spring are the
+ * war's, and a lesson that could still say "first, bring the crop in" in February was refusing the war. A class saved in
+ * the second or third period with families mid-lesson opens with the gate gone: the stored step is kept for the record and
+ * read by nothing. `closeLessons` writes the end down when the Host continues the class.
  */
-const teachable = (world, household) => Boolean(household?.played) && world.status !== 'lobby' && !household.flight;
+const teachable = (world, household) => LESSON_ENABLED && Boolean(household?.played) && world.status !== 'lobby' && !household.flight && (world.period || 1) === 1;
 
 /**
  * The step a family that has never been looked at is on.
@@ -390,6 +441,8 @@ export function lessonProjection(world, household) {
   if (step === 'done') {
     // A family that pressed the X has no closing card: it said it was done being taught, and the key goes at once.
     if (household.lesson?.stopped) return null;
+    // Nor one closed by the end of the first period: the class moved on, and the card would be about October.
+    if (household.lesson?.closed) return null;
     const at = household.lesson?.at;
     if (!Number.isFinite(at) || world.minute - at > LESSON_DONE_MINUTES) return null;
     return {
@@ -397,18 +450,23 @@ export function lessonProjection(world, household) {
       title: 'The land is yours',
       says: 'That is the whole of it. The farm is yours to run now - work it as you see fit.',
       did: STEPS.at(-1).did(world, household),
-      allow: [...ALL_ACTIONS],
+      allow: [], shut: [],
       done: true,
     };
   }
   const index = indexOf(step);
   const current = STEPS[index];
+  // `allow` is this step's own work - what the ring and the words point at - and `shut` the farm work it holds back, which
+  // is the whole of what the page greys (public/lesson.js `allowsIcon`) and the whole of what `lessonRefusal` refuses.
+  // Until 2026-09-28 `allow` was the whole permission and everything off it was shut; the page still reads a lesson with no
+  // `shut` that way, so a server older than this is drawn as it always was.
   return {
     step: current.id, index: index + 1, of: STEPS.length,
     title: current.title,
     says: current.says(world, household),
     did: index > 0 ? STEPS[index - 1].did(world, household) : null,
-    allow: [...ALWAYS, ...current.allow(world, household)],
+    allow: [...current.allow(world, household)],
+    shut: shutBy(current, world, household),
     done: false,
   };
 }
@@ -428,9 +486,27 @@ export function lessonRefusal(world, household, input) {
   const step = stepOf(world, household);
   if (!step || step === 'done') return null;
   const current = STEPS[indexOf(step)];
-  const allowed = new Set([...ALWAYS, ...current.allow(world, household)]);
-  if (allowed.has(actionId(input))) return null;
+  // Only another farm step's own work is held back (2026-09-28). Food, nursing, the war, the flight and every question the
+  // game puts go through on every step: `FARM_WORK` names none of them.
+  const id = actionId(input);
+  if (ALWAYS.includes(id) || !FARM_WORK.includes(id)) return null;
+  if (current.allow(world, household).includes(id)) return null;
   return `Not yet - first, ${current.first}`;
+}
+
+/**
+ * The first period is over and the class goes on into the winter (sim/periods.mjs `beginSecondPeriod`): every family still
+ * being walked through the farm is let go, whatever step it was on (owner, 2026-09-28: "end the tutorial for a family when
+ * the first period ends"). Written down as finished and `closed`, so the gate is open, no closing card is shown and nothing
+ * can take it up again - the resume window belongs to the X and is gone with the period. A family that stopped it or
+ * finished it keeps what it has. `teachable` already treats every later period as lesson-free; this makes the save say so.
+ */
+export function closeLessons(world) {
+  for (const household of Object.values(world.households || {})) {
+    const lesson = household.lesson;
+    if (!lesson || lesson.step === 'done' || indexOf(lesson.step) < 0) continue;
+    household.lesson = { step: 'done', at: world.minute, closed: true };
+  }
 }
 
 /**
@@ -590,11 +666,11 @@ export function lessonInvalid(world, household) {
   if (typeof lesson !== 'object' || lesson === null || Array.isArray(lesson)) return 'Invalid lesson';
   if (lesson.step !== 'done' && indexOf(lesson.step) < 0) return 'Invalid lesson step';
   if (lesson.at !== undefined && (!Number.isFinite(lesson.at) || lesson.at < 0)) return 'Invalid lesson ending';
-  for (const marker of ['hunting', 'hunted', 'stopped', 'resumed']) {
+  for (const marker of ['hunting', 'hunted', 'stopped', 'resumed', 'closed']) {
     if (lesson[marker] !== undefined && lesson[marker] !== true) return 'Invalid lesson marker';
   }
-  // Stopped is a way of being finished, never a step still running with the gate half open.
-  if (lesson.stopped && lesson.step !== 'done') return 'Invalid lesson step';
+  // Stopped is a way of being finished, never a step still running with the gate half open. So is closed by the period's end.
+  if ((lesson.stopped || lesson.closed) && lesson.step !== 'done') return 'Invalid lesson step';
   // The step the X was pressed on, and the real time of the first press and the end of its window (2026-09-22). All three
   // are absent on a stop saved before then, which is a stop whose window is long gone.
   if (lesson.from !== undefined && (!lesson.stopped || indexOf(lesson.from) < 0)) return 'Invalid lesson step';

@@ -71,8 +71,9 @@ test('B1: soldiers call "¡Alto!" on a family whose father is serving and on aut
   const mother = person(world, household, one => one.kin?.role === 'mother');
   for (let t = 0; t < 60 && household.flight.ask?.id !== 'alto' && household.flight.chase?.phase !== 'caught'; t++) stepWorld(world);
   assert.equal(household.flight.ask?.id, 'alto', `the family was never asked to halt (${household.flight.chase?.phase || 'no chase'})`);
-  assert.ok(kinds(world, household.id, mother.id).includes('road'), 'the "¡Alto!" is not on the mother\'s row');
-  assert.ok(!kinds(world, household.id, father.id).includes('road'), 'the "¡Alto!" is on the father with the army');
+  // ¡Alto! is its own kind of "!" since the ranking of 2026-09-28 (public/family-panel.js `NEED_KINDS`), before every other.
+  assert.ok(kinds(world, household.id, mother.id).includes('alto'), 'the "¡Alto!" is not on the mother\'s row');
+  assert.ok(!kinds(world, household.id, father.id).some(kind => ['road', 'alto'].includes(kind)), 'the "¡Alto!" is on the father with the army');
   assert.throws(() => applyAction(world, household.id, { action: 'road-answer', entityId: father.id, option: 'run' }), /answers for it/);
   applyAction(world, household.id, { action: 'road-answer', entityId: mother.id, option: 'run' });
   assert.equal(household.flight.ask, undefined);

@@ -46,7 +46,7 @@ import { COLUMNS, ORDER_GRACE_MINUTES, ROAD_DETOUR, clockOf, columnLeg as advanc
 import { bundleRoom, cowPace, lookoutMiles, lookoutOf, loseCow } from './flight-work.mjs';
 // The soldiers who can see a family, the order to halt and the chase (sim/pursuit.mjs, owner 2026-09-27), and the family's own
 // route (sim/flight-route.mjs): a cycle through these, safe because each side uses the other only inside functions.
-import { advancePursuit, altoOptions, altoText, answerAlto, chaseProjection, runRefusal, sightMiles, strippedBy } from './pursuit.mjs';
+import { ALTO_PATIENCE_TICKS, advancePursuit, altoOptions, altoText, answerAlto, chaseProjection, runRefusal, sightMiles, strippedBy } from './pursuit.mjs';
 import { flightPlaces, routeProjection } from './flight-route.mjs';
 import { campedApart } from './disease.mjs';
 
@@ -273,7 +273,8 @@ export function roadAskProjection(world, household) {
   const ask = household.flight?.ask;
   if (!ask) return null;
   const spec = ROAD_ASKS[ask.id];
-  return { id: ask.id, openedMinute: ask.openedMinute, text: spec.text(world, household), fallback: spec.fallback, options: spec.options(world, household).map(option => ({ ...option, ...roadAskAvailability(world, household, option.id) })) };
+  const ticksLeft = askTicksLeft(world, ask);
+  return { id: ask.id, openedMinute: ask.openedMinute, ...(ticksLeft !== null && { ticksLeft }), text: spec.text(world, household), fallback: spec.fallback, options: spec.options(world, household).map(option => ({ ...option, ...roadAskAvailability(world, household, option.id) })) };
 }
 
 /** What the family decides when nobody answers for it: the fallback in order, the first that is open (`FIC-GONZ-048`'s rule). */
@@ -563,6 +564,17 @@ export function roadProjection(world, household) {
     ...(() => { const route = routeProjection(world, household); return route ? { route: { ...route, places: flightPlaces(world.map) } } : {}; })(),
     ...(() => { const sight = flight.status === 'fled' || flight.status === 'refuged' ? sightMiles(world, household) : null; return sight ? { seen: sight } : {}; })(),
   };
+}
+
+/**
+ * How many ticks the road's open question has left before silence answers it (`ROAD_PATIENCE_TICKS`, or the soldiers'
+ * `ALTO_PATIENCE_TICKS`), or null for a question with no opening tick. The page turns them into seconds at the class's pace
+ * for the countdown on the "!" (docs/audits/2026-09-28-design.md S33); the tick is still what lapses it.
+ */
+export function askTicksLeft(world, ask) {
+  if (!ask || !Number.isFinite(ask.openedTick)) return null;
+  const patience = ask.id === 'alto' ? ALTO_PATIENCE_TICKS : ROAD_PATIENCE_TICKS;
+  return Math.max(0, patience - (world.tick - ask.openedTick));
 }
 
 /** A saved road that cannot be, or null. */

@@ -263,10 +263,13 @@ try {
   assert.equal(chose, 200);
   for (let i = 0; i < 160 && (makerFamily().choosingSite || makerFamily().arriving); i++) await maker.page.waitForTimeout(500);
   assert.ok(!makerFamily().choosingSite && !makerFamily().arriving, 'the family never came to its house site');
-  // The guided start put by as a student does, with its X and "yes" (docs/LESSON.md).
-  await maker.page.locator('#lesson-stop').waitFor({ state: 'visible', timeout: 15000 });
-  await maker.page.locator('#lesson-stop').click();
-  await maker.page.locator('#lesson-stop-yes').click();
+  // The guided start put by as a student does, with its X and "yes" (docs/LESSON.md) - while there is one: the owner switched it
+  // off on 2026-09-28 (sim/lesson.mjs `LESSON_ENABLED`), and then there is nothing to put by.
+  if (await maker.page.evaluate(() => 'lesson' in window.__snapshot.world)) {
+    await maker.page.locator('#lesson-stop').waitFor({ state: 'visible', timeout: 15000 });
+    await maker.page.locator('#lesson-stop').click();
+    await maker.page.locator('#lesson-stop-yes').click();
+  }
   await maker.page.waitForFunction(() => window.__snapshot?.world && !('lesson' in window.__snapshot.world), null, { timeout: 20000 });
   const carpenter = makerFamily().members.map(id => maker.app.state.world.entities[id]).find(one => (one.age ?? 30) >= 16);
   await maker.page.locator(`.panel-portrait[data-portrait="${carpenter.id}"]`).click();

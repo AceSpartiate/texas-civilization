@@ -5,6 +5,7 @@
 // Each test is named for a rule. Every one was seen failing alone against the regression it guards -
 // `node scripts/childhood-injections.mjs`.
 import test from 'node:test';
+import { LESSON_ENABLED } from '../sim/lesson.mjs';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
@@ -144,10 +145,13 @@ test('the rule: with no parent at home a child goes to the nearest of age, and w
 });
 
 test('the rule: nobody is stopped by a child in the guided start, at night, on a calendar too fast to stop for, or in a family nobody plays', () => {
-  const lesson = family('childhood-quiet');
-  lesson.household.lesson = { step: 'survey' };
-  step(lesson.world, IDLE_TICKS + 3);
-  assert.equal(lesson.kid.talk, undefined, 'a child stopped a parent in the middle of the guided start');
+  // The guided start's part only while there is one (switched off by the owner, 2026-09-28; sim/lesson.mjs LESSON_ENABLED).
+  if (LESSON_ENABLED) {
+    const lesson = family('childhood-quiet');
+    lesson.household.lesson = { step: 'survey' };
+    step(lesson.world, IDLE_TICKS + 3);
+    assert.equal(lesson.kid.talk, undefined, 'a child stopped a parent in the middle of the guided start');
+  }
   const unplayed = family('childhood-quiet');
   unplayed.household.played = false;
   step(unplayed.world, IDLE_TICKS + 3);

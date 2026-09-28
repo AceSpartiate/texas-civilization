@@ -1,10 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
-import { lessonRefusal, ALWAYS } from '../sim/lesson.mjs';
+import { lessonRefusal, ALWAYS, LESSON_ENABLED } from '../sim/lesson.mjs';
 import { pointedKey } from '../public/lesson.js';
 
-test('tutorial gate accepts the actual chore commands needed to finish each map step', () => {
+// Skipped while the guided start is switched off (owner, 2026-09-28; sim/lesson.mjs LESSON_ENABLED): it exercises only the gate.
+test('tutorial gate accepts the actual chore commands needed to finish each map step', { skip: !LESSON_ENABLED && 'the guided start is switched off' }, () => {
   const world = createGonzalesWorld('lesson-usability', 5);
   world.status = 'running';
   const family = world.households['hh-1'];
@@ -12,7 +13,8 @@ test('tutorial gate accepts the actual chore commands needed to finish each map 
   for (const [step, chore] of [['house','fell-trees'], ['survey','survey-plot'], ['clear','clear-plot'], ['clear','fence-plot'], ['harvest','fence-plot'], ['hunt','hunt-land']]) {
     family.lesson = { step };
     assert.equal(lessonRefusal(world, family, { action: 'chore', chore, entityId: family.principalId }), null, `${step}: ${chore}`);
-    assert.ok(lessonRefusal(world, family, { action: 'chore', chore: 'practise-shooting', entityId: family.principalId }));
+    // Another farm step's work is still held back (2026-09-28: the gate is the farm steps' and nothing else's).
+    assert.ok(lessonRefusal(world, family, { action: 'chore', chore: 'dig-well', entityId: family.principalId }));
   }
 });
 

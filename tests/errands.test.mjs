@@ -62,14 +62,14 @@ test('the seed the owner could not buy: with the list sent, a person on auto com
   }
 });
 
-test('the seed can be bought on the guided start\'s planting step, and the popup says when a step does not allow the trip', () => {
+test('the seed can be bought on the guided start\'s planting step, and no step of it shuts the town', () => {
   const world = running('errand-lesson');
   const family = household(world), buyer = person(world, 'rosa');
   family.resources = { ...family.resources, seed: 2, food: 12 };
   family.lesson = { step: 'survey' };
-  // Step four is surveying: the town is shut, and the popup says so in the lesson's own words before anybody presses Send.
-  assert.match(errandFor(world, 'hh-1', buyer.id).shut, /^Not yet - first, stake out ten acres/);
-  assert.throws(() => send(world, buyer, [{ id: 'store:seed', n: 1, pay: 'food' }]), /Not yet/);
+  // Step four is surveying. Until 2026-09-28 the town was shut here - and with it the food and the doctor a family on the
+  // house step might need (docs/audits/2026-09-28-playthrough.md §5). The guided start holds back only the farm steps' work.
+  assert.equal(errandFor(world, 'hh-1', buyer.id).shut, undefined);
   // Planting, with not seed enough for the field: the store is how a student gets it (docs/LESSON.md step 6).
   family.lesson = { step: 'plant' };
   assert.equal(errandFor(world, 'hh-1', buyer.id).shut, undefined);
