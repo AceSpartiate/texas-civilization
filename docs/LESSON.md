@@ -10,8 +10,9 @@
 > only guidance a new student is given now is **the tips at first meeting (§9)**, which gained two for the start of the game:
 > the road in, and how to give an order.
 >
-> Suspended with it: `tests/lesson.test.mjs` (32 tests, skipped while the switch is off), the gate test of
-> `tests/lesson-usability.test.mjs` (skipped), `npm run test:lesson` and `scripts/lesson-injections.mjs` (each exits at once
+> Suspended with it: `tests/lesson.test.mjs` (32 tests, skipped while the switch is off), one test each in
+> `tests/lesson-usability.test.mjs`, `tests/afoot.test.mjs`, `tests/call-lapse.test.mjs` and `tests/auto-repeat.test.mjs` (skipped),
+> the lesson halves of one test each in `tests/childhood.test.mjs`, `tests/children.test.mjs` and `tests/means.test.mjs`, `npm run test:lesson` and `scripts/lesson-injections.mjs` (each exits at once
 > saying so). Held instead by `tests/lesson-off.test.mjs`, which always runs and fails if the switch is turned back on.
 
 **Amended 2026-09-28 — the owner: "fix the blockers".** Two changes, from the design audit's B8, S4–S6, S8, S33 and S35 and the
