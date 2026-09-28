@@ -3,7 +3,7 @@
   "date": "2026-09-28",
   "verdict": "PASS",
   "browser": "153.0.8010.53",
-  "task": "Design audit 2026-09-28 B2: End Game asked twice in words; Stop for today saves the class paused and stops the server; the next launch opens it paused and Resume goes on (docs/HOST_PAGE.md §2.7).",
+  "task": "Design audit 2026-09-28 B2: End Game asked twice in words; Stop for today saves the class paused and stops the server; the next launch opens it paused and Resume goes on (docs/HOST_PAGE.md §2.8).",
   "environment": "Same computer: two local classroom servers one after the other on one save file, at 200 ms a tick, five families joined by request, headless Chrome. The server's stop is a callback here; the launcher's own exit is Stop Server's, proved by tests/lifecycle.test.mjs. Not a physical LAN or a classroom.",
   "checks": [
     "while the class runs the Host offers pause, stop-for-today, end: Stop for today beside End Game, and no bare Stop Server",

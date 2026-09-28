@@ -6,9 +6,9 @@
   "task": "docs/HOST_PAGE.md: the class panel in words with presence and what waits; an absent family playing itself and back; the Rumor Mill; the spotlight taking the camera to the fight at Gonzales; the student sent none of it.",
   "environment": "Same computer: a local classroom server at 100 ms a tick with a 2500 ms absence grace (the build ships 120 s), five families, and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.",
   "checks": [
-    "the class panel lists all five families in words: the student's family here, the four joined with no page open gone; Asa on the road home",
+    "the class panel lists all five families in words: the student's family here, the four joined with no page open gone; Asa at home: working",
     "the student's page has no class panel and is sent no live page",
-    "the student's page closed: after 2583 ms the row says the family is playing itself, and the world has it absent",
+    "the student's page closed: after 2560 ms the row says the family is playing itself, and the world has it absent",
     "the absent family goes on by itself: somebody of it is at work or on a road with nobody at the screen",
     "the page opened again: the row says here the next tick, the family is the student's again, and the record says so",
     "the fight at Gonzales lit the spotlight: the camera went to the field and the banner reads \"October 2: On Williams’s land above Gonzales, the Texians fire the cann…\"",
@@ -24,27 +24,27 @@
         "id": "hh-1",
         "presence": "here",
         "people": [
-          "Asa on the road home",
-          "Temperance on the road home",
-          "Basilio on the road home",
-          "Rufino on the road home",
-          "Silvano on the road home",
-          "Pablo on the road home",
-          "Marcela on the road home",
-          "Jonas on the road home",
-          "Minerva on the road home",
-          "Levi on the road home"
+          "Asa at home: working",
+          "Temperance at home: working",
+          "Basilio at home",
+          "Rufino at home",
+          "Silvano at home",
+          "Pablo at home",
+          "Marcela at home",
+          "Jonas at home",
+          "Minerva at home",
+          "Levi at home"
         ]
       },
       {
         "id": "hh-2",
         "presence": "gone",
         "people": [
-          "Amos on the road home",
-          "Almira on the road home",
-          "Jonas on the road home",
-          "Soledad on the road home",
-          "Docia on the road home"
+          "Amos at home: working",
+          "Almira at home: working",
+          "Jonas at home",
+          "Soledad at home",
+          "Docia at home"
         ]
       },
       {
@@ -76,23 +76,23 @@
         "id": "hh-4",
         "presence": "gone",
         "people": [
-          "Caleb on the road home",
-          "Manuela on the road home",
-          "Loreta on the road home",
-          "Obed on the road home",
-          "Effie on the road home",
-          "Benita on the road home",
-          "Zadok on the road home",
-          "Chana on the road home",
-          "Ruperto on the road home",
-          "Ramona on the road home",
-          "Enos on the road home",
-          "Marcos on the road home",
-          "Paulita on the road home",
-          "Eli on the road home",
-          "Rosa on the road home",
-          "Simeon on the road home",
-          "Teodoro on the road home"
+          "Caleb at home: working",
+          "Manuela at home: working",
+          "Loreta at home: working",
+          "Obed at home: working",
+          "Effie at home: working",
+          "Benita at home",
+          "Zadok at home",
+          "Chana at home",
+          "Ruperto at home",
+          "Ramona at home",
+          "Enos at home",
+          "Marcos at home",
+          "Paulita at home",
+          "Eli at home",
+          "Rosa at home",
+          "Simeon at home",
+          "Teodoro at home"
         ]
       },
       {
@@ -111,20 +111,20 @@
         ]
       }
     ],
-    "absentAfterMs": 2583,
+    "absentAfterMs": 2560,
     "spotlight": {
       "date": "October 2",
       "text": "On Williams’s land above Gonzales, the Texians fire the cannon and advance, and the Mexican dragoons wheel and ride away toward Béxar. The war has begun.",
       "camera": {
         "kind": "battle",
-        "scale": 907.0564581098656,
+        "scale": 1437.7856492415501,
         "named": true,
-        "cx": 0.8010907074673306,
-        "cy": 1.995028498747665,
+        "cx": 0.8039879792966784,
+        "cy": 1.8269839747679129,
         "following": true,
-        "figure": 17.234072704087446,
+        "figure": 27.317927335589452,
         "house": {
-          "size": 56.872439923488564,
+          "size": 90.14916020744519,
           "one": false
         }
       }

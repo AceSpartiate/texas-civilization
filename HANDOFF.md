@@ -41,7 +41,16 @@ their injections — **14 of 14** caught ([evidence](docs/evidence/design-blocke
 coin-and-land answer; the new proof lines were re-run after it). New proof `npm run test:host-bell` (8). After merging
 origin/main: `test:host-bell` 8, `test:family-panel` 18, `test:host-live` 11, `test:host-view` 8, `test:lesson` 33, `test:solo`
 15, `test:scrape` 7, `test:scrape-pursuit` 15, `test:ending` 10, all PASS. `tests/siege.test.mjs` read glory's awards off the
-interim wire and now reads them from `familyEnding`, asserting they are not on it. `npm test`: see the run below.
+interim wire and now reads them from `familyEnding`, asserting they are not on it.
+
+**After merging the classroom blockers (e549ec1):** `npm test` **1538 of 1539** (34.6 min under load); the one is
+*"of several starts racing to recover one stale lock, exactly one owns the class"* (tests/stale-lock.test.mjs, new on main) - it
+fails 4 of 4 runs with e549ec1's own `server/app.mjs` put back in this tree and 2 of 3 with this branch's, so it is the stale-lock
+work's, not this. Unit injections re-run on the merged tree: **13 of 13** caught alone. Browser: `test:host-bell` 8,
+`test:family-panel` 18, `test:host-live` 11, `test:host-view` 8, `test:scrape` 7, `test:ending` 10, `test:classes` 15,
+`test:scrape-pursuit` 15 - all PASS. `test:scrape-pursuit` needed its staging put right after the merge: `stowAway` marks the
+first family played, and since e549ec1 a played family is not given to a student joining (the student got hh-2); the proof now
+leaves it nobody's until the student joins. Other proofs that stage a family `played` before a join may meet the same.
 
 **Not mine, found:** `npm run test:family-commands` fails at *"nobody still at a chore to hold a stale order"* (7 of its checks
 pass first) — **identically with the page and proof as they were before this branch** (checked by putting back 6bb5252's

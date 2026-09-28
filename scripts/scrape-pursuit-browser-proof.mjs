@@ -52,6 +52,9 @@ function atHarrisburg() {
   const home = world.map.sites[household.homeSiteId];
   for (const id of household.property || []) { const beast = world.entities[id]; if (beast) beast.location = { x: home.x, y: home.y, siteId: home.id }; }
   household.flight.mode = 'foot';
+  // Nobody's until the student joins: since the classroom blockers (e549ec1) a family already `played` is not given to a student
+  // joining, and `stowAway` marks it played. Joining marks it again.
+  delete household.played;
   world.status = 'lobby';
   return world;
 }
