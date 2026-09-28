@@ -148,7 +148,7 @@ export const PEOPLE = Object.freeze({
   // One of the two who rode out on the Laredo road when the bell rang on February 23, 1836, and whose horse fell with him in the mud
   // (his own narrative, `HIST-TEX-613`); sent to Gonzales that afternoon to rally the settlers (`HIST-TEX-616`).
   sutherland: person('sutherland', 'Sutherland', TX, 'rider', 2, 'HIST-TEX-613', { fullName: 'Dr. John Sutherland' }),
-  castrillon: person('castrillon', 'Castrillón', MX, 'general', 2, 'HIST-TEX-561', {
+  castrillon: person('castrillon', 'Castrillón', MX, 'castrillon', 2, 'HIST-TEX-561', {
     fullName: 'Manuel Fernández Castrillón',
     // At San Jacinto he stood on an ammunition crate trying to rally his men, then turned and walked away from the Texians and
     // was shot (Rusk's report, as the Handbook gives it).
@@ -165,7 +165,7 @@ export const PEOPLE = Object.freeze({
     ],
   }),
   // With the 500 he brought from Old Fort to San Jacinto (`HIST-TEX-589`), until the battle draws him.
-  cos: person('cos', 'Cos', MX, 'general', 1, 'HIST-TEX-557', { fullName: 'Martín Perfecto de Cos',
+  cos: person('cos', 'Cos', MX, 'cos', 1, 'HIST-TEX-557', { fullName: 'Martín Perfecto de Cos',
     map: [{ from: on(1836, 4, 18, 12), until: 'san-jacinto-field', with: 'column:cos', doing: 'ride', claimId: 'HIST-TEX-589' }] }),
   // The generals of the other columns of the advance (docs/battle-research/mexican-advance.md §3), each with his column.
   // Sesma with his division: on the Colorado, with Santa Anna from the Atascosito crossing to San Felipe, at Old Fort and then
@@ -193,8 +193,8 @@ export const PEOPLE = Object.freeze({
   filisola: person('filisola', 'Filisola', MX, 'general', 1, 'HIST-TEX-590', { fullName: 'Vicente Filisola',
     map: [{ from: on(1836, 3, 31, 8), until: on(1836, 5, 17, 12), with: 'column:filisola', doing: 'ride', claimId: 'HIST-TEX-590' }] }),
   // ---------------------------------------------------------------- 1835
-  moore: person('moore', 'Moore', TX, 'officer', 1, 'HIST-TEX-474', { fullName: 'John Henry Moore' }),
-  castaneda: person('castaneda', 'Castañeda', MX, 'general', 1, 'HIST-TEX-474', { fullName: 'Francisco de Castañeda' }),
+  moore: person('moore', 'Moore', TX, 'moore', 1, 'HIST-TEX-474', { fullName: 'John Henry Moore' }),
+  castaneda: person('castaneda', 'Castañeda', MX, 'castaneda', 1, 'HIST-TEX-474', { fullName: 'Francisco de Castañeda' }),
   'wp-smith': person('wp-smith', 'W. P. Smith', TX, 'officer', 2, 'HIST-TEX-470', { fullName: 'the Reverend W. P. Smith' }),
   smither: person('smither', 'Smither', TX, 'rider', 2, 'HIST-TEX-474', { fullName: 'Launcelot Smither' }),
   austin: person('austin', 'Austin', TX, 'officer', 1, 'HIST-TEX-553', {
@@ -202,7 +202,7 @@ export const PEOPLE = Object.freeze({
     // Commander of the volunteer army from October 11 to November 25, 1835: with the army wherever it marches (sim/army.mjs).
     map: [{ from: 'organised', until: 'austin-leaves', with: 'army:force', doing: 'command', claimId: 'HIST-TEX-553' }],
   }),
-  burleson: person('burleson', 'Burleson', TX, 'officer', 1, 'HIST-TEX-554', {
+  burleson: person('burleson', 'Burleson', TX, 'burleson', 1, 'HIST-TEX-554', {
     fullName: 'Edward Burleson',
     // With the army from Austin's leaving, except while the Grass Fight (its 215 minutes from Deaf Smith's ride in) and the
     // storming of Béxar draw him on their own fields.
@@ -256,7 +256,7 @@ export const PEOPLE = Object.freeze({
   lamar: person('lamar', 'Lamar', TX, 'rider', 2, 'HIST-TEX-565', { fullName: 'Mirabeau B. Lamar' }),
   hockley: person('hockley', 'Hockley', TX, 'officer', 2, 'HIST-TEX-558', { fullName: 'George W. Hockley' }),
   mcculloch: person('mcculloch', 'McCulloch', TX, 'officer', 2, 'HIST-TEX-558', { fullName: 'Ben McCulloch' }),
-  almonte: person('almonte', 'Almonte', MX, 'general', 2, 'HIST-TEX-568', { fullName: 'Juan Nepomuceno Almonte' }),
+  almonte: person('almonte', 'Almonte', MX, 'almonte', 2, 'HIST-TEX-568', { fullName: 'Juan Nepomuceno Almonte' }),
   'emily-west': person('emily-west', 'Emily West', TX, 'emily-west', 1, 'HIST-TEX-569', {
     fullName: 'Emily D. West',
     // A free woman of color from New York, under contract to James Morgan at New Washington; taken there by Santa Anna's army
@@ -278,7 +278,7 @@ export const PEOPLE = Object.freeze({
 });
 
 /** The poses a person may be given in a phase (public/battle-view.js draws each; a stand-in where the art has none). */
-export const PERSON_POSES = Object.freeze(['stand', 'command', 'fire', 'fire-hidden', 'hide', 'emerge', 'walk', 'ride', 'sick', 'captive', 'wounded', 'write', 'seated', 'point', 'surrender', 'prisoner', 'carry', 'gun']);
+export const PERSON_POSES = Object.freeze(['stand', 'command', 'fire', 'fire-hidden', 'hide', 'emerge', 'walk', 'ride', 'sick', 'captive', 'wounded', 'write', 'seated', 'point', 'surrender', 'offer-sword', 'receive-sword', 'sword-down', 'prisoner', 'interpret', 'carry', 'gun']);
 /** What may befall a famous person in the window. `told` fates are never drawn. */
 export const FATE_KINDS = Object.freeze(['killed', 'executed', 'wounded', 'captured']);
 /** A person by id, or throw: every name the engine draws is one of these. */

@@ -46,15 +46,16 @@ test('the steps come in one order, the same in a class and in Play Solo, and the
 
 test('the title screen names the game, the curtain covers the map, and the map is not drawn behind it', () => {
   const html = readFileSync(new URL('../public/index.html', import.meta.url), 'utf8');
-  assert.match(html, /<h1 id="creation-name">Family: Texas 1835\/36<\/h1>/);
-  assert.match(html, /<canvas id="creation-scene"/, 'the title screen has no scene');
+  assert.match(html, /<h1 id="creation-name">Family: Texas <span>1835\/36<\/span><\/h1>/);
+  assert.match(html, /id="creation-begin-button">Make my family/, 'the title has no clear next action');
   assert.match(html, /<section id="names"[^>]*role="dialog"/);
   const css = readFileSync(new URL('../public/style.css', import.meta.url), 'utf8');
   assert.match(css, /#creation\{position:fixed;inset:0/, 'the curtain does not cover the page');
   const app = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8');
   assert.match(app, /if \(creating\) \{ \/\* the curtain is up: nothing of the world is drawn \*\/ \}/, 'the map is drawn behind the curtain');
-  const art = readFileSync(new URL('../public/intro-art.js', import.meta.url), 'utf8');
-  assert.match(art, /stand-in: docs\/ART_REQUESTS\.md/, 'the drawn scene is not marked as a stand-in');
+  assert.match(css, /creation-title-landscape\.png/, 'the title screen has no painted scene');
+  const art = readFileSync(new URL('../public/assets/creation-title-landscape.png', import.meta.url));
+  assert.ok(art.length > 100_000, 'the painted title scene was not shipped');
   const server = readFileSync(new URL('../server/app.mjs', import.meta.url), 'utf8');
-  for (const name of ['creation', 'intro-art']) assert.ok(server.includes(`['/${name}.js', ['../public/${name}.js', 'text/javascript']]`), `the server does not serve ${name}.js`);
+  assert.ok(server.includes(`['/creation.js', ['../public/creation.js', 'text/javascript']]`));
 });

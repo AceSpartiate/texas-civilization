@@ -1,6 +1,6 @@
 # Complete art manifest
 
-Generated from the shipped library: **1570 usable sprites, 143 PNG atlases, 525 clips** (299 pose cycles; 4 layered rigs).
+Generated from the shipped library: **1722 usable sprites, 166 PNG atlases, 564 clips** (336 pose cycles; 4 layered rigs).
 
 Read [ASSETS.md](ASSETS.md) for integration. The complete machine-readable inventory is [manifest.json](../public/assets/frontier-v1/manifest.json); every frame, clip, duration, anchor, direction, rig part, checksum, location kit and exclusion is indexed there. Rebuild with `npm run build:art`.
 
@@ -14,11 +14,21 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | --- | ---: | --- | ---: |
 | alamo-face-strips | 5 | 1659 × 948 | 928904 |
 | alamo-funeral-pyre | 4 | 1254 × 1254 | 1841976 |
+| cannon-18pdr | 4 | 1254 × 1254 | 1234709 |
+| cannon-siege-battery | 4 | 1254 × 1254 | 1750288 |
 | joe-story-actions | 4 | 1254 × 1254 | 787824 |
 | famous-travis-still | 1 | 1536 × 1024 | 1367838 |
+| flag-red-siege | 4 | 1254 × 1254 | 1003596 |
+| smoke-column-far | 4 | 1254 × 1254 | 572269 |
+| alamo-scaling-ladders | 4 | 1254 × 1254 | 995871 |
+| regular-ladder-climb | 4 | 1254 × 1254 | 636351 |
 | artillery-service | 16 | 1254 × 1254 | 1171440 |
+| white-flag-regular | 4 | 1262 × 1246 | 786638 |
+| white-flag-volunteer | 4 | 1262 × 1246 | 816882 |
+| regular-bugler | 4 | 1262 × 1246 | 691857 |
 | biome-ground-bexar | 16 | 1254 × 1254 | 2215982 |
 | biome-trees-fields | 16 | 1254 × 1254 | 1966285 |
+| canister-burst | 4 | 1254 × 1254 | 822977 |
 | cannon-cartwheels | 4 | 1254 × 1254 | 1420895 |
 | cannon-sixpounder | 4 | 1254 × 1254 | 1284112 |
 | carreta-solid-wheels | 16 | 1254 × 1254 | 1525356 |
@@ -38,6 +48,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | people-children-walk | 12 | 1254 × 1254 | 1127437 |
 | people-children-care | 12 | 1254 × 1254 | 1425070 |
 | land-clearing | 16 | 1254 × 1254 | 904975 |
+| coleto-baggage-cart | 4 | 1254 × 1254 | 1333345 |
 | icons-family-actions-1 | 16 | 1254 × 1254 | 2324769 |
 | icons-family-actions-2 | 13 | 1254 × 1254 | 1706833 |
 | icons-family-service | 16 | 1254 × 1254 | 1734840 |
@@ -48,12 +59,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | famous-susanna-dickinson | 16 | 1254 × 1254 | 1461496 |
 | famous-angelina-dickinson | 4 | 1254 × 1254 | 1286027 |
 | famous-alavez | 16 | 1254 × 1254 | 1276763 |
+| famous-almonte | 16 | 1254 × 1254 | 1260800 |
 | famous-ben | 16 | 1312 × 1199 | 1136424 |
 | twin-sisters-limbered | 4 | 1254 × 1254 | 1010968 |
 | famous-milam | 16 | 1254 × 1254 | 1519856 |
 | famous-fannin | 16 | 1254 × 1254 | 1306380 |
+| famous-burleson | 16 | 1254 × 1254 | 1243988 |
+| famous-burleson-mounted | 4 | 1254 × 1254 | 1242276 |
+| famous-castaneda | 16 | 1254 × 1254 | 1167969 |
+| famous-castaneda-mounted | 4 | 1226 × 1283 | 1274697 |
+| famous-castrillon | 4 | 1254 × 1254 | 925993 |
+| famous-castrillon-fate | 4 | 1254 × 1254 | 975586 |
+| famous-cos | 16 | 1254 × 1254 | 1237092 |
+| famous-cos-mounted | 4 | 1226 × 1283 | 1307008 |
 | famous-crockett-fate | 4 | 1254 × 1254 | 948322 |
 | famous-esparza | 16 | 1254 × 1254 | 869799 |
+| famous-moore | 16 | 1254 × 1254 | 1092408 |
 | famous-houston-mounted | 4 | 1254 × 1254 | 1158924 |
 | famous-santa-anna-mounted | 4 | 1226 × 1283 | 1192703 |
 | famous-crockett | 16 | 1254 × 1254 | 1237962 |
@@ -117,6 +138,8 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | travel-markers | 16 | 1254 × 1254 | 1343435 |
 | trees-colonies-1 | 16 | 1254 × 1254 | 1626976 |
 | trees-colonies-2 | 16 | 1254 × 1254 | 1902468 |
+| twin-sisters-crew | 4 | 1254 × 1254 | 792510 |
+| regular-drummer | 4 | 1262 × 1246 | 833370 |
 | twin-sisters-painted | 4 | 1254 × 1254 | 1249122 |
 | people-wagon-drivers | 16 | 1254 × 1254 | 1460212 |
 | weather-norther | 5 | 1536 × 1024 | 1669037 |
@@ -169,11 +192,35 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | alamo-pyre-fire-1 | alamo-funeral-pyre | alamo-pyre-burning |
 | alamo-pyre-fire-2 | alamo-funeral-pyre | alamo-pyre-burning |
 | alamo-pyre-fire-3 | alamo-funeral-pyre | alamo-pyre-burning |
+| cannon-18pdr-e | cannon-18pdr | cannon-18pdr-e-recoil |
+| cannon-18pdr-recoil-e | cannon-18pdr | cannon-18pdr-e-recoil |
+| cannon-18pdr-w | cannon-18pdr | cannon-18pdr-w-recoil |
+| cannon-18pdr-recoil-w | cannon-18pdr | cannon-18pdr-w-recoil |
+| cannon-siege-battery-e | cannon-siege-battery | cannon-siege-battery-e-recoil |
+| cannon-siege-battery-recoil-e | cannon-siege-battery | cannon-siege-battery-e-recoil |
+| cannon-siege-battery-w | cannon-siege-battery | cannon-siege-battery-w-recoil |
+| cannon-siege-battery-recoil-w | cannon-siege-battery | cannon-siege-battery-w-recoil |
 | joe-door-aim | joe-story-actions | joe-fire-door |
 | joe-door-fire | joe-story-actions | joe-fire-door |
 | joe-hurt-e | joe-story-actions | State artwork; no motion required |
 | joe-hurt-s | joe-story-actions | State artwork; no motion required |
 | travis-still-ramp | famous-travis-still | State artwork; no motion required |
+| flag-red-still | flag-red-siege | flag-red-wind |
+| flag-red-wind-1 | flag-red-siege | flag-red-wind |
+| flag-red-wind-2 | flag-red-siege | flag-red-wind |
+| flag-red-wind-3 | flag-red-siege | flag-red-wind |
+| smoke-column-far-1 | smoke-column-far | smoke-column-far-rise |
+| smoke-column-far-2 | smoke-column-far | smoke-column-far-rise |
+| smoke-column-far-3 | smoke-column-far | smoke-column-far-rise |
+| smoke-column-far-4 | smoke-column-far | smoke-column-far-rise |
+| ladder-carried-e-1 | alamo-scaling-ladders | ladder-carried-e |
+| ladder-carried-e-2 | alamo-scaling-ladders | ladder-carried-e |
+| ladder-set-e | alamo-scaling-ladders | State artwork; no motion required |
+| ladder-set-w | alamo-scaling-ladders | State artwork; no motion required |
+| regular-climb-1 | regular-ladder-climb | regular-climb |
+| regular-climb-2 | regular-ladder-climb | regular-climb |
+| regular-climb-3 | regular-ladder-climb | regular-climb |
+| regular-climb-4 | regular-ladder-climb | regular-climb |
 | volunteer-rammer-carry-1 | artillery-service | volunteer-gun-ram |
 | volunteer-rammer-carry-2 | artillery-service | volunteer-gun-ram |
 | volunteer-ram-1 | artillery-service | volunteer-gun-ram |
@@ -190,6 +237,18 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | regular-roundshot-carry | artillery-service | regular-gun-shot-carry |
 | regular-lanyard-pull | artillery-service | regular-gun-fire |
 | regular-cover-ears | artillery-service | regular-gun-fire |
+| white-flag-regular-idle-e | white-flag-regular | State artwork; no motion required |
+| white-flag-regular-idle-s | white-flag-regular | State artwork; no motion required |
+| white-flag-regular-walk-e-1 | white-flag-regular | white-flag-regular-walk-e |
+| white-flag-regular-walk-e-2 | white-flag-regular | white-flag-regular-walk-e |
+| white-flag-volunteer-idle-e | white-flag-volunteer | State artwork; no motion required |
+| white-flag-volunteer-idle-s | white-flag-volunteer | State artwork; no motion required |
+| white-flag-volunteer-walk-e-1 | white-flag-volunteer | white-flag-volunteer-walk-e |
+| white-flag-volunteer-walk-e-2 | white-flag-volunteer | white-flag-volunteer-walk-e |
+| regular-bugler-idle | regular-bugler | regular-bugler-call |
+| regular-bugler-raise | regular-bugler | regular-bugler-call |
+| regular-bugler-sound | regular-bugler | regular-bugler-call |
+| regular-bugler-lower | regular-bugler | regular-bugler-call |
 | palmetto | biome-ground-bexar | State artwork; no motion required |
 | cypress-knees | biome-ground-bexar | State artwork; no motion required |
 | cane-1 | biome-ground-bexar | State artwork; no motion required |
@@ -222,6 +281,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | field-irrigated-young | biome-trees-fields | State artwork; no motion required |
 | field-irrigated-mature | biome-trees-fields | State artwork; no motion required |
 | field-fallow | biome-trees-fields | State artwork; no motion required |
+| canister-burst-1 | canister-burst | canister-burst |
+| canister-burst-2 | canister-burst | canister-burst |
+| canister-burst-3 | canister-burst | canister-burst |
+| canister-burst-4 | canister-burst | canister-burst |
 | cannon-cartwheels-e | cannon-cartwheels | cannon-cartwheels-e-recoil |
 | cannon-cartwheels-recoil-e | cannon-cartwheels | cannon-cartwheels-e-recoil |
 | cannon-cartwheels-w | cannon-cartwheels | cannon-cartwheels-w-recoil |
@@ -464,6 +527,10 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | clearing-brush-dry | land-clearing | State artwork; no motion required |
 | clearing-ash | land-clearing | State artwork; no motion required |
 | clearing-branches | land-clearing | State artwork; no motion required |
+| cart-baggage | coleto-baggage-cart | cart-baggage-tip |
+| cart-baggage-tilt-1 | coleto-baggage-cart | cart-baggage-tip |
+| cart-baggage-tilt-2 | coleto-baggage-cart | cart-baggage-tip |
+| cart-tipped | coleto-baggage-cart | cart-baggage-tip |
 | icon-survey-plot | icons-family-actions-1 | State artwork; no motion required |
 | icon-cut-lane | icons-family-actions-1 | State artwork; no motion required |
 | icon-dig-well | icons-family-actions-1 | State artwork; no motion required |
@@ -601,6 +668,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | alavez-beckon | famous-alavez | State artwork; no motion required |
 | alavez-guide | famous-alavez | State artwork; no motion required |
 | alavez-rest | famous-alavez | State artwork; no motion required |
+| almonte-walk-e-1 | famous-almonte | almonte-walk-e |
+| almonte-walk-e-2 | famous-almonte | almonte-walk-e |
+| almonte-walk-e-3 | famous-almonte | almonte-walk-e |
+| almonte-walk-e-4 | famous-almonte | almonte-walk-e |
+| almonte-walk-s-1 | famous-almonte | almonte-walk-s |
+| almonte-walk-s-2 | famous-almonte | almonte-walk-s |
+| almonte-walk-n-1 | famous-almonte | almonte-walk-n |
+| almonte-walk-n-2 | famous-almonte | almonte-walk-n |
+| almonte-idle | famous-almonte | State artwork; no motion required |
+| almonte-journal | famous-almonte | State artwork; no motion required |
+| almonte-command | famous-almonte | State artwork; no motion required |
+| almonte-surrender | famous-almonte | State artwork; no motion required |
+| almonte-offer-sword | famous-almonte | State artwork; no motion required |
+| almonte-prisoner | famous-almonte | State artwork; no motion required |
+| almonte-interpret | famous-almonte | State artwork; no motion required |
+| almonte-listen | famous-almonte | State artwork; no motion required |
 | ben-walk-e-1 | famous-ben | ben-walk-e |
 | ben-walk-e-2 | famous-ben | ben-walk-e |
 | ben-walk-e-3 | famous-ben | ben-walk-e |
@@ -653,6 +736,74 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | fannin-injured-seated | famous-fannin | State artwork; no motion required |
 | fannin-surrender | famous-fannin | State artwork; no motion required |
 | fannin-prisoner-seated | famous-fannin | State artwork; no motion required |
+| burleson-walk-e-1 | famous-burleson | burleson-walk-e |
+| burleson-walk-e-2 | famous-burleson | burleson-walk-e |
+| burleson-walk-e-3 | famous-burleson | burleson-walk-e |
+| burleson-walk-e-4 | famous-burleson | burleson-walk-e |
+| burleson-walk-s-1 | famous-burleson | burleson-walk-s |
+| burleson-walk-s-2 | famous-burleson | burleson-walk-s |
+| burleson-walk-n-1 | famous-burleson | burleson-walk-n |
+| burleson-walk-n-2 | famous-burleson | burleson-walk-n |
+| burleson-idle | famous-burleson | State artwork; no motion required |
+| burleson-command | famous-burleson | State artwork; no motion required |
+| burleson-point | famous-burleson | State artwork; no motion required |
+| burleson-listen | famous-burleson | State artwork; no motion required |
+| burleson-receive-sword | famous-burleson | State artwork; no motion required |
+| burleson-sword-down | famous-burleson | State artwork; no motion required |
+| burleson-read-note | famous-burleson | State artwork; no motion required |
+| burleson-rest | famous-burleson | State artwork; no motion required |
+| burleson-mounted-walk-e-1 | famous-burleson-mounted | burleson-mounted-walk-e |
+| burleson-mounted-walk-e-2 | famous-burleson-mounted | burleson-mounted-walk-e |
+| burleson-mounted-idle-e | famous-burleson-mounted | State artwork; no motion required |
+| burleson-mounted-idle-s | famous-burleson-mounted | State artwork; no motion required |
+| castaneda-walk-e-1 | famous-castaneda | castaneda-walk-e |
+| castaneda-walk-e-2 | famous-castaneda | castaneda-walk-e |
+| castaneda-walk-e-3 | famous-castaneda | castaneda-walk-e |
+| castaneda-walk-e-4 | famous-castaneda | castaneda-walk-e |
+| castaneda-walk-s-1 | famous-castaneda | castaneda-walk-s |
+| castaneda-walk-s-2 | famous-castaneda | castaneda-walk-s |
+| castaneda-walk-n-1 | famous-castaneda | castaneda-walk-n |
+| castaneda-walk-n-2 | famous-castaneda | castaneda-walk-n |
+| castaneda-idle | famous-castaneda | State artwork; no motion required |
+| castaneda-halt | famous-castaneda | State artwork; no motion required |
+| castaneda-parley | famous-castaneda | State artwork; no motion required |
+| castaneda-read-orders | famous-castaneda | State artwork; no motion required |
+| castaneda-listen | famous-castaneda | State artwork; no motion required |
+| castaneda-withdraw | famous-castaneda | State artwork; no motion required |
+| castaneda-look | famous-castaneda | State artwork; no motion required |
+| castaneda-at-ease | famous-castaneda | State artwork; no motion required |
+| castaneda-mounted-walk-e-1 | famous-castaneda-mounted | castaneda-mounted-walk-e |
+| castaneda-mounted-walk-e-2 | famous-castaneda-mounted | castaneda-mounted-walk-e |
+| castaneda-mounted-idle-e | famous-castaneda-mounted | State artwork; no motion required |
+| castaneda-mounted-idle-s | famous-castaneda-mounted | State artwork; no motion required |
+| castrillon-idle | famous-castrillon | State artwork; no motion required |
+| castrillon-walk-e-1 | famous-castrillon | castrillon-walk-e |
+| castrillon-walk-e-2 | famous-castrillon | castrillon-walk-e |
+| castrillon-command | famous-castrillon | State artwork; no motion required |
+| castrillon-turn-away | famous-castrillon-fate | castrillon-fall |
+| castrillon-stumble | famous-castrillon-fate | castrillon-fall |
+| castrillon-kneel | famous-castrillon-fate | castrillon-fall |
+| castrillon-still | famous-castrillon-fate | State artwork; no motion required |
+| cos-walk-e-1 | famous-cos | cos-walk-e |
+| cos-walk-e-2 | famous-cos | cos-walk-e |
+| cos-walk-e-3 | famous-cos | cos-walk-e |
+| cos-walk-e-4 | famous-cos | cos-walk-e |
+| cos-walk-s-1 | famous-cos | cos-walk-s |
+| cos-walk-s-2 | famous-cos | cos-walk-s |
+| cos-walk-n-1 | famous-cos | cos-walk-n |
+| cos-walk-n-2 | famous-cos | cos-walk-n |
+| cos-idle | famous-cos | State artwork; no motion required |
+| cos-command | famous-cos | State artwork; no motion required |
+| cos-point | famous-cos | State artwork; no motion required |
+| cos-map | famous-cos | State artwork; no motion required |
+| cos-sign-terms | famous-cos | State artwork; no motion required |
+| cos-hand-document | famous-cos | State artwork; no motion required |
+| cos-sword-down | famous-cos | State artwork; no motion required |
+| cos-prisoner | famous-cos | State artwork; no motion required |
+| cos-mounted-walk-e-1 | famous-cos-mounted | cos-mounted-walk-e |
+| cos-mounted-walk-e-2 | famous-cos-mounted | cos-mounted-walk-e |
+| cos-mounted-idle-e | famous-cos-mounted | State artwork; no motion required |
+| cos-mounted-idle-s | famous-cos-mounted | State artwork; no motion required |
 | crockett-captive-1 | famous-crockett-fate | crockett-captive |
 | crockett-captive-2 | famous-crockett-fate | crockett-captive |
 | crockett-still-side | famous-crockett-fate | State artwork; no motion required |
@@ -673,6 +824,22 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | esparza-aim | famous-esparza | State artwork; no motion required |
 | esparza-fire | famous-esparza | State artwork; no motion required |
 | esparza-still | famous-esparza | State artwork; no motion required |
+| moore-walk-e-1 | famous-moore | moore-walk-e |
+| moore-walk-e-2 | famous-moore | moore-walk-e |
+| moore-walk-e-3 | famous-moore | moore-walk-e |
+| moore-walk-e-4 | famous-moore | moore-walk-e |
+| moore-walk-s-1 | famous-moore | moore-walk-s |
+| moore-walk-s-2 | famous-moore | moore-walk-s |
+| moore-walk-n-1 | famous-moore | moore-walk-n |
+| moore-walk-n-2 | famous-moore | moore-walk-n |
+| moore-idle | famous-moore | State artwork; no motion required |
+| moore-point | famous-moore | State artwork; no motion required |
+| moore-parley | famous-moore | State artwork; no motion required |
+| moore-listen | famous-moore | State artwork; no motion required |
+| moore-command | famous-moore | State artwork; no motion required |
+| moore-read-note | famous-moore | State artwork; no motion required |
+| moore-field-glass | famous-moore | State artwork; no motion required |
+| moore-at-ease | famous-moore | State artwork; no motion required |
 | houston-mounted-walk-e-1 | famous-houston-mounted | houston-mounted-walk-e |
 | houston-mounted-walk-e-2 | famous-houston-mounted | houston-mounted-walk-e |
 | houston-mounted-idle-e | famous-houston-mounted | State artwork; no motion required |
@@ -1182,6 +1349,14 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | sweetgum-log | trees-colonies-2 | sweetgum-log-wind |
 | sweetgum-large | trees-colonies-2 | sweetgum-large-wind |
 | log-fallen-hardwood | trees-colonies-2 | State artwork; no motion required |
+| twin-crew-rammer-carry | twin-sisters-crew | twin-crew-gun-ram, twin-crew-gun-ready, twin-crew-gun-fire |
+| twin-crew-ram | twin-sisters-crew | twin-crew-gun-ram |
+| twin-crew-shot-carry | twin-sisters-crew | twin-crew-gun-shot-carry |
+| twin-crew-fire | twin-sisters-crew | twin-crew-gun-fire |
+| regular-drummer-idle | regular-drummer | regular-drummer-start |
+| regular-drummer-raise | regular-drummer | regular-drummer-start |
+| regular-drummer-beat-1 | regular-drummer | regular-drummer-start, regular-drummer-beat |
+| regular-drummer-beat-2 | regular-drummer | regular-drummer-beat |
 | twin-sister-painted-e | twin-sisters-painted | twin-sister-painted-e-recoil |
 | twin-sister-painted-recoil-e | twin-sisters-painted | twin-sister-painted-e-recoil |
 | twin-sister-painted-w | twin-sisters-painted | twin-sister-painted-w-recoil |
@@ -1736,13 +1911,24 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | Clip | Method | Frames | Duration (ms) | Loop | Direction |
 | --- | --- | ---: | ---: | --- | --- |
 | alamo-pyre-burning | Pose cycle | 3 | 1080 | yes | elevation; orient with structure geometry |
+| cannon-18pdr-e-recoil | Pose cycle | 3 | 770 | one-shot | east |
+| cannon-18pdr-w-recoil | Pose cycle | 3 | 770 | one-shot | west |
+| cannon-siege-battery-e-recoil | Pose cycle | 3 | 770 | one-shot | east |
+| cannon-siege-battery-w-recoil | Pose cycle | 3 | 770 | one-shot | west |
 | joe-fire-door | Pose cycle | 2 | 5200 | yes | east; mirror for west |
+| flag-red-wind | Pose cycle | 4 | 1590 | yes | not applicable |
+| smoke-column-far-rise | Pose cycle | 4 | 1760 | yes | not applicable |
+| ladder-carried-e | Pose cycle | 2 | 660 | yes | east; mirror for west |
+| regular-climb | Pose cycle | 4 | 880 | yes | north/up |
 | volunteer-gun-ram | Pose cycle | 4 | 1160 | one-shot | east; west by mirroring |
 | volunteer-gun-shot-carry | Pose cycle | 2 | 840 | yes | east; west by mirroring |
 | volunteer-gun-fire | Pose cycle | 2 | 1060 | one-shot | east; west by mirroring |
 | regular-gun-ram | Pose cycle | 4 | 1160 | one-shot | east; west by mirroring |
 | regular-gun-shot-carry | Pose cycle | 2 | 840 | yes | east; west by mirroring |
 | regular-gun-fire | Pose cycle | 2 | 1060 | one-shot | east; west by mirroring |
+| regular-bugler-call | Pose cycle | 4 | 1340 | one-shot | east; mirror for west |
+| white-flag-regular-walk-e | Pose cycle | 2 | 560 | yes | east |
+| white-flag-volunteer-walk-e | Pose cycle | 2 | 560 | yes | east |
 | cane-wind | Still state | 1 | 900 | yes | not applicable |
 | grass-tall-wind | Still state | 1 | 900 | yes | not applicable |
 | pine-longleaf-pole-wind | sway | 1 | 3800 | yes | not applicable |
@@ -1758,6 +1944,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | magnolia-large-wind | sway | 1 | 3800 | yes | not applicable |
 | beech-log-wind | sway | 1 | 3800 | yes | not applicable |
 | beech-large-wind | sway | 1 | 3800 | yes | not applicable |
+| canister-burst | Pose cycle | 4 | 820 | one-shot | east; mirror for west |
 | cannon-cartwheels-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
 | cannon-cartwheels-w-recoil | Pose cycle | 3 | 760 | one-shot | west |
 | cannon-sixpounder-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
@@ -1885,6 +2072,7 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | infant-idle-w | breathe | 1 | 3000 | yes | west |
 | infant-idle-e | breathe | 1 | 3000 | yes | east |
 | clearing-smoulder | Pose cycle | 4 | 2000 | yes | stationary |
+| cart-baggage-tip | Pose cycle | 4 | 2650 | one-shot | east; mirror for west |
 | bonham-walk-e | Pose cycle | 4 | 760 | yes | east |
 | bonham-walk-s | Pose cycle | 2 | 580 | yes | south |
 | bonham-walk-n | Pose cycle | 2 | 580 | yes | north |
@@ -1901,6 +2089,9 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | alavez-walk-e | Pose cycle | 4 | 760 | yes | east |
 | alavez-walk-s | Pose cycle | 2 | 580 | yes | south |
 | alavez-walk-n | Pose cycle | 2 | 580 | yes | north |
+| almonte-walk-e | Pose cycle | 4 | 760 | yes | east |
+| almonte-walk-s | Pose cycle | 2 | 580 | yes | south |
+| almonte-walk-n | Pose cycle | 2 | 580 | yes | north |
 | twin-sisters-limbered | Pose cycle | 2 | 600 | yes | east; mirror for west |
 | ben-walk-e | Pose cycle | 4 | 760 | yes | east |
 | ben-walk-s | Pose cycle | 2 | 580 | yes | south |
@@ -1911,10 +2102,27 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | fannin-walk-e | Pose cycle | 4 | 760 | yes | east |
 | fannin-walk-s | Pose cycle | 2 | 580 | yes | south |
 | fannin-walk-n | Pose cycle | 2 | 580 | yes | north |
+| burleson-walk-e | Pose cycle | 4 | 760 | yes | east |
+| burleson-walk-s | Pose cycle | 2 | 580 | yes | south |
+| burleson-walk-n | Pose cycle | 2 | 580 | yes | north |
+| burleson-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| castaneda-walk-e | Pose cycle | 4 | 760 | yes | east |
+| castaneda-walk-s | Pose cycle | 2 | 580 | yes | south |
+| castaneda-walk-n | Pose cycle | 2 | 580 | yes | north |
+| castaneda-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
+| castrillon-walk-e | Pose cycle | 2 | 540 | yes | east |
+| castrillon-fall | Pose cycle | 3 | 700 | one-shot | east; mirror for west |
+| cos-walk-e | Pose cycle | 4 | 760 | yes | east |
+| cos-walk-s | Pose cycle | 2 | 580 | yes | south |
+| cos-walk-n | Pose cycle | 2 | 580 | yes | north |
+| cos-mounted-walk-e | Pose cycle | 2 | 600 | yes | east |
 | crockett-captive | Pose cycle | 2 | 3100 | yes | east; mirror for west |
 | esparza-walk-e | Pose cycle | 4 | 760 | yes | east |
 | esparza-walk-s | Pose cycle | 2 | 580 | yes | south |
 | esparza-walk-n | Pose cycle | 2 | 580 | yes | north |
+| moore-walk-e | Pose cycle | 4 | 760 | yes | east |
+| moore-walk-s | Pose cycle | 2 | 580 | yes | south |
+| moore-walk-n | Pose cycle | 2 | 580 | yes | north |
 | houston-mounted-walk-e | Pose cycle | 2 | 640 | yes | east |
 | santa-anna-mounted-walk-e | Pose cycle | 2 | 640 | yes | east |
 | crockett-walk-e | Pose cycle | 4 | 760 | yes | east |
@@ -2052,6 +2260,12 @@ Assemblies: [Béxar town](BEXAR_ASSEMBLY.md) and [complete Alamo](ALAMO_LAYOUT.m
 | sweetgum-pole-wind | sway | 1 | 3800 | yes | not applicable |
 | sweetgum-log-wind | sway | 1 | 3800 | yes | not applicable |
 | sweetgum-large-wind | sway | 1 | 3800 | yes | not applicable |
+| twin-crew-gun-ram | Pose cycle | 3 | 1030 | one-shot | east; mirror for west |
+| twin-crew-gun-shot-carry | Still state | 1 | 360 | one-shot | east; mirror for west |
+| twin-crew-gun-ready | Still state | 1 | 360 | one-shot | east; mirror for west |
+| twin-crew-gun-fire | Pose cycle | 3 | 860 | one-shot | east; mirror for west |
+| regular-drummer-start | Pose cycle | 3 | 750 | one-shot | east; mirror for west |
+| regular-drummer-beat | Pose cycle | 2 | 480 | yes | east; mirror for west |
 | twin-sister-painted-e-recoil | Pose cycle | 3 | 760 | one-shot | east |
 | twin-sister-painted-w-recoil | Pose cycle | 3 | 760 | one-shot | west |
 | rust-wagon-driver-s | breathe | 1 | 2200 | yes | south |

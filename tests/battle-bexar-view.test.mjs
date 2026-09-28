@@ -75,6 +75,19 @@ test('in the houses most men are out of sight: the fire is flashes and smoke at 
   assert.ok(art.drawn.some(one => one.clip === 'rust-work' || one.clip === 'teal-work'), 'nobody digs the trench at night');
 });
 
+test('Burleson rides into the Béxar talks on his own mounted sheet', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  play(view, 'parley', { seconds: 2, into: tick => 55 + tick });
+  assert.ok(art.drawn.some(one => one.clip === 'burleson-mounted-walk-e'));
+  assert.ok(!art.drawn.some(one => one.clip === 'mounted-courier-e'));
+});
+
+test('Cos leaves Béxar on his own mounted sheet', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  play(view, 'marching-out', { seconds: 2, into: tick => 20 + tick });
+  assert.ok(art.drawn.some(one => one.clip === 'cos-mounted-walk-e'));
+});
+
 test('into the houses: the columns go down the streets, men on the Veramendi roof, and the officer\'s words before each volley at the barricade', () => {
   const view = createBattleView(fakeArt());
   const words = new Set();
@@ -111,7 +124,7 @@ test('Milam falls in the Veramendi yard at half past three, named, and nobody gi
 });
 
 test('dawn on the 9th: the guns stop, the bugle is heard, and a white flag comes to the plaza', () => {
-  const view = createBattleView(fakeArt());
+  const art = fakeArt(), view = createBattleView(art);
   const said = new Set();
   let shown = null;
   for (let t = 0; t < 12000; t += 50) {
@@ -120,6 +133,8 @@ test('dawn on the 9th: the guns stop, the bugle is heard, and a white flag comes
     for (const bubble of shown.bubbles) said.add(bubble.text);
   }
   assert.ok(shown.whiteFlag, 'no white flag was drawn');
+  assert.ok(art.drawn.some(one => one.sprite === 'white-flag-regular-idle-e' || one.clip === 'white-flag-regular-walk-e'), 'the Mexican flag bearer does not use his own art');
+  assert.ok(art.drawn.some(one => one.clip === 'regular-bugler-call'), 'the documented bugle call has no visible bugler');
   assert.ok([...said].some(text => /bugle/.test(text)) && [...said].some(text => /white flag/i.test(text)), `the flag's words: ${[...said]}`);
   const after = at('flag', 30);
   assert.ok(after.guns.every(gun => gun.shots.every(shot => shot <= after.minute - 20)), 'a gun fired after the cannonade stopped');

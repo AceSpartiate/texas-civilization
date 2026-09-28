@@ -11,13 +11,11 @@
 // The map is not drawn at all while the curtain is up: public/app.js skips `drawWorld`, so a slow computer spends nothing on
 // a world nobody is looking at yet.
 //
-// stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - the title scene, drawn here in canvas.
-
-import { drawIntroScene } from './intro-art.js';
+// The finished title landscape is a CSS background on #creation; it stays behind every creation step without canvas work.
 
 let actions = null;
 /** Where this page has got to: the title screen is behind it once `begun`, the names once `named`. Kept per family. */
-const state = { begun: false, named: false, householdId: null, drawn: false, focused: null };
+const state = { begun: false, named: false, householdId: null, focused: null };
 
 /**
  * The cards of the wizard that live inside the map's own stage rather than beside it. They are drawn *above* the curtain
@@ -117,7 +115,6 @@ export function showTitle() {
   veil.dataset.step = 'join';
   document.body.dataset.creating = 'true';
   sealTheCurtain(true);
-  if (!state.drawn) { state.drawn = true; drawIntroScene($('#creation-scene')); }
   $('#creation-begin').hidden = true;
   $('#names').hidden = true;
 }
@@ -136,7 +133,6 @@ export function renderCreation(world, family) {
   // Nothing of the world behind the curtain may be tabbed to, clicked or read out while a step is up.
   sealTheCurtain(Boolean(step));
   if (!step) { state.focused = null; return null; }
-  if (!state.drawn) { state.drawn = true; drawIntroScene($('#creation-scene')); }
   // The title screen is the whole of the first two steps; after that the scene is a quiet band behind the cards.
   veil.dataset.step = step;
   if (step === 'names') renderNames(family);

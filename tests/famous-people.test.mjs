@@ -135,6 +135,7 @@ test('the church guns and their gunners fall together; Castrillón falls walking
   }
   const cf = PEOPLE.castrillon.fate;
   const charge = fieldAt('san-jacinto', 'charge', cf.at);
+  assert.equal(personIn(charge.view, 'castrillon')?.art, 'castrillon');
   assert.ok(near(personIn(charge.view, 'castrillon'), at(SAN_JACINTO_BATTLE, 'castrillonWalk', charge.world)), 'Castrillón falls away from where he walked');
   assert.ok(Number.isFinite(personIn(charge.view, 'castrillon').fell));
   assert.ok(!personIn(fieldAt('san-jacinto', 'charge', cf.at - 1).view, 'castrillon').fell);
@@ -264,6 +265,13 @@ test('Houston rides with the line, is wounded in the charge at his minute, and l
   assert.ok(Number.isFinite(personIn(fieldAt('san-jacinto', 'charge', fate.at).view, 'houston').hurt), 'Houston is not hurt at his minute');
   const taken = fieldAt('san-jacinto', 'taken', 35).view;
   assert.deepEqual(taken.parley.people.map(one => one.id), ['houston', 'santa-anna']);
+  assert.equal(personIn(fieldAt('san-jacinto', 'prisoners', 10).view, 'almonte')?.pose, 'surrender');
+  assert.equal(personIn(fieldAt('san-jacinto', 'prisoners', 30).view, 'almonte')?.pose, 'offer-sword');
+  assert.equal(personIn(fieldAt('san-jacinto', 'prisoners', 30).view, 'burleson')?.pose, 'receive-sword');
+  assert.equal(personIn(fieldAt('san-jacinto', 'prisoners', 50).view, 'almonte')?.pose, 'prisoner');
+  assert.equal(personIn(fieldAt('san-jacinto', 'prisoners', 30).view, 'almonte')?.art, 'almonte');
+  assert.equal(personIn(fieldAt('san-jacinto', 'prisoners', 30).view, 'burleson')?.art, 'burleson');
+  assert.equal(personIn(taken, 'almonte')?.pose, 'interpret');
   assert.equal(taken.lines.find(line => line.id === 'sj-napoleon')?.name, 'Santa Anna');
 });
 

@@ -22,7 +22,7 @@ function fakeArt() {
   const drawn = [];
   return {
     drawn,
-    animated: (ctx, clip, x, y, size, seed, options) => { drawn.push({ clip, x, y, ...options }); return size; },
+    animated: (ctx, clip, x, y, size, seed, options) => { drawn.push({ clip, x, y, seed, ...options }); return size; },
     drawSprite: (ctx, sprite, x, y, size, options) => { drawn.push({ sprite, x, y, ...options }); return size; },
     miniPerson: () => {},
   };
@@ -62,11 +62,15 @@ test('the guns fire each dated shot once, the defenders\' canister throws a cone
   assert.ok(last.gunShotsBy['north-gun'] >= 3, `the north battery fired ${last.gunShotsBy['north-gun']} canister`);
   assert.ok(last.gunShotsBy.eighteen >= 1, 'the 18-pounder did not fire');
   assert.ok(last.smoke >= 30, `the canister left only ${last.smoke} puffs`);
+  assert.ok(art.drawn.some(one => one.clip === 'canister-burst'), 'the canister shot lacked its authored smoke-and-dust cone');
+  assert.ok(art.drawn.some(one => one.clip === 'cannon-18pdr-e-recoil' || one.clip === 'cannon-18pdr-w-recoil'), 'the 18-pounder used a generic field gun');
   assert.ok(art.drawn.some(one => one.clip === 'volunteer-gun-ram' || one.clip === 'volunteer-gun-fire'), 'no crew served the defenders\' guns');
   // A day of the siege: the Mexican batteries at work, and their crews are regulars.
   const artDay = fakeArt(), day = createBattleView(artDay);
   const siege = run(day, artDay, at('day-26'), { seconds: 20, perTick: 240, tickMs: 9500 }).last;
   assert.ok(Object.keys(siege.gunShotsBy).some(id => id.startsWith('battery-')), `no battery fired on a siege day: ${JSON.stringify(siege.gunShotsBy)}`);
+  assert.ok(artDay.drawn.some(one => /^cannon-siege-battery-/.test(one.sprite || one.clip || '')), 'the Mexican battery used a generic field gun');
+  assert.ok(artDay.drawn.filter(one => one.clip === 'canister-burst').every(one => !/battery-/.test(one.seed)), 'a Mexican siege battery was mistaken for canister');
   assert.ok(artDay.drawn.some(one => one.clip === 'regular-gun-ram' || one.clip === 'regular-gun-fire'), 'the batteries have no Mexican crews');
 });
 
@@ -93,7 +97,7 @@ test('a family\'s man at his post fires until the moment he falls, then goes dow
   assert.ok(view.evidence.memberFalls.some(one => one.id === man.id && one.fate === 'killed'));
 });
 
-test('Travis is drawn at the north battery, says only his documented words there, and falls among the first; Joe hides, then comes out', () => {
+test('Travis falls at the north battery; Joe fires from cover, hides when found, then comes out', () => {
   const art = fakeArt(), view = createBattleView(art);
   const { last } = run(view, art, at('alarm'), { seconds: 5, perTick: 1 });
   // Travis running to the north battery; since 2026-09-26 the rest of the famous garrison at their posts too (sim/people.mjs).
@@ -103,9 +107,10 @@ test('Travis is drawn at the north battery, says only his documented words there
   assert.ok(fall.people.find(one => one.name === 'Travis')?.fell, 'Travis did not fall in the repulse');
   const artRooms = fakeArt(), rooms = createBattleView(artRooms);
   run(rooms, artRooms, at('rooms'), { seconds: 2, perTick: 2 });
-  // Firing from the house he took cover in: `joe-fire-door` since the doorway art landed on main (4b151ba, 2026-09-26), whose own
-  // run of the named-person tests did not include this file; `joe-hide` before it.
-  assert.ok(artRooms.drawn.some(one => ['joe-fire-door', 'joe-hide'].includes(one.clip)), 'Joe was not drawn hiding');
+  assert.ok(artRooms.drawn.some(one => one.clip === 'joe-fire-door'), 'Joe was not drawn firing from cover');
+  const artHiding = fakeArt(), hiding = createBattleView(artHiding);
+  run(hiding, artHiding, at('end'), { seconds: 2, perTick: 2 });
+  assert.ok(artHiding.drawn.some(one => one.clip === 'joe-hide'), 'Joe was not drawn hiding when found');
   const artEnd = fakeArt(), end = createBattleView(artEnd);
   const said = run(end, artEnd, at('end', 5), { seconds: 12, perTick: 1 }).last;
   assert.ok(artEnd.drawn.some(one => one.clip === 'joe-emerge'), 'Joe was not drawn coming out');
@@ -113,10 +118,14 @@ test('Travis is drawn at the north battery, says only his documented words there
 });
 
 test('the columns carry ladders, climb the north wall on them, and the assault is fought in the dark until the dawn comes up', () => {
+  const artAdvance = fakeArt(), advance = createBattleView(artAdvance);
+  run(advance, artAdvance, at('advance'), { seconds: 1, perTick: 2 });
+  assert.ok(artAdvance.drawn.some(one => one.clip === 'ladder-carried-e'), 'the columns did not carry the dedicated ladder art');
+  assert.ok(!artAdvance.drawn.some(one => one.clip === 'regular-climb'), 'a soldier climbed before reaching the wall');
   const art = fakeArt(), view = createBattleView(art);
   const { ctx } = run(view, art, at('north-wall'), { seconds: 4, perTick: 2 });
-  assert.ok(art.drawn.some(one => one.clip === 'regular-march-n'), 'nobody was drawn going up a ladder');
-  assert.ok(ctx.calls.filter(call => call[0] === 'lineTo').length >= 12, 'no ladders were drawn');
+  assert.ok(art.drawn.some(one => one.clip === 'regular-climb'), 'nobody was drawn climbing a ladder');
+  assert.ok(art.drawn.some(one => one.sprite === 'ladder-set-e' || one.sprite === 'ladder-set-w'), 'no ladder was set against the wall');
   const dark = ctx.calls.find(call => call[0] === 'fillStyle' && /rgba\(14,20,44/.test(call[1]));
   assert.ok(dark, 'the assault before dawn was drawn in daylight');
   const artDay = fakeArt(), day = createBattleView(artDay);
@@ -127,10 +136,19 @@ test('the columns carry ladders, climb the north wall on them, and the assault i
 
 test('the red flag of no quarter flies over Béxar as a plain red field, never as the Come and Take It flag', () => {
   const art = fakeArt(), view = createBattleView(art);
-  const { ctx } = run(view, art, at('red-flag', 30), { seconds: 1, perTick: 20 });
-  assert.ok(ctx.calls.some(call => call[0] === 'fillStyle' && call[1] === '#a3241c'), 'the red flag was not drawn red');
+  run(view, art, at('red-flag', 30), { seconds: 1, perTick: 20 });
+  assert.ok(art.drawn.some(one => one.clip === 'flag-red-wind'), 'the red flag did not use its own waving sheet');
   assert.ok(!art.drawn.some(one => one.clip === 'flag-come-and-take-it-wind'), 'the Alamo was drawn with the Gonzales flag');
   assert.equal(alamo(at('red-flag', 30)).flag.kind, 'red');
+});
+
+test('the huts burn with a distant animated plume only after the fire begins', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  run(view, art, at('huts', 20), { seconds: 1 });
+  assert.ok(!art.drawn.some(one => one.clip === 'smoke-column-far-rise'), 'smoke began before the huts burned');
+  art.drawn.length = 0;
+  run(view, art, at('huts', 70), { seconds: 1, t0: 1000 });
+  assert.ok(art.drawn.some(one => one.clip === 'smoke-column-far-rise'), 'the burning huts did not draw their distant plume');
 });
 
 test('the storming\'s card goes up over the quiet reminder that somebody is inside, and not over a question', () => {

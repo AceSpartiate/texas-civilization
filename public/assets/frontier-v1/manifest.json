@@ -3,10 +3,10 @@
   "library": "frontier-v1",
   "maturity": "prototype",
   "counts": {
-    "sheets": 143,
-    "sprites": 1570,
-    "clips": 525,
-    "poseCycles": 299,
+    "sheets": 166,
+    "sprites": 1722,
+    "clips": 564,
+    "poseCycles": 336,
     "rigs": 4
   },
   "entrypoints": {
@@ -146,6 +146,122 @@
         ]
       }
     },
+    "cannon-18pdr": {
+      "image": "atlases/cannon-18pdr.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1234709,
+      "sha256": "2a4984cf47bdf54c670d97bc25c2247050111a4b12a898d57ea2db693729cc37",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.683998,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              194,
+              568
+            ],
+            "columns": [
+              [
+                29,
+                636
+              ],
+              [
+                669,
+                1232
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              732,
+              1110
+            ],
+            "columns": [
+              [
+                29,
+                625
+              ],
+              [
+                673,
+                1242
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "cannon-siege-battery": {
+      "image": "atlases/cannon-siege-battery.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1750288,
+      "sha256": "0a9fab55ee8e3d25e5e9d66d5e325775a33002281f05c19fc164624409109ef5",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.564968,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              196,
+              602
+            ],
+            "columns": [
+              [
+                14,
+                613
+              ],
+              [
+                641,
+                1239
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              765,
+              1180
+            ],
+            "columns": [
+              [
+                15,
+                615
+              ],
+              [
+                641,
+                1242
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "joe-story-actions": {
       "image": "atlases/joe-story-actions.png",
       "width": 1254,
@@ -235,6 +351,238 @@
               [
                 292,
                 1203
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "flag-red-siege": {
+      "image": "atlases/flag-red-siege.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1003596,
+      "sha256": "cb83a566f72f50a006c973bcbc6ec7461320d2c011055a7069b541a8dc5957ef",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.682416,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              34,
+              601
+            ],
+            "columns": [
+              [
+                138,
+                549
+              ],
+              [
+                764,
+                1227
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              658,
+              1226
+            ],
+            "columns": [
+              [
+                137,
+                669
+              ],
+              [
+                765,
+                1223
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "smoke-column-far": {
+      "image": "atlases/smoke-column-far.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 572269,
+      "sha256": "91802543a39b757f715bfc4c686d3392b1122cbc4aea47e786f27985539db0d7",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.831635,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              86,
+              577
+            ],
+            "columns": [
+              [
+                195,
+                455
+              ],
+              [
+                730,
+                1052
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              674,
+              1179
+            ],
+            "columns": [
+              [
+                135,
+                534
+              ],
+              [
+                722,
+                1083
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "alamo-scaling-ladders": {
+      "image": "atlases/alamo-scaling-ladders.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 995871,
+      "sha256": "d2f01e610613360c44644080ccc541b5055573e1e38787186e2eaaf7b3b81c68",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.772426,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              120,
+              468
+            ],
+            "columns": [
+              [
+                29,
+                633
+              ],
+              [
+                693,
+                1250
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              614,
+              1174
+            ],
+            "columns": [
+              [
+                122,
+                482
+              ],
+              [
+                769,
+                1128
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "regular-ladder-climb": {
+      "image": "atlases/regular-ladder-climb.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 636351,
+      "sha256": "76250e349410bdd45905f0a30d0944ad94124ae20ff0d697703cd574e8435463",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.83837,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              43,
+              609
+            ],
+            "columns": [
+              [
+                241,
+                452
+              ],
+              [
+                815,
+                1014
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              640,
+              1212
+            ],
+            "columns": [
+              [
+                240,
+                451
+              ],
+              [
+                816,
+                1021
               ]
             ]
           }
@@ -359,6 +707,180 @@
               [
                 1039,
                 1201
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "white-flag-regular": {
+      "image": "atlases/white-flag-regular.png",
+      "width": 1262,
+      "height": 1246,
+      "bytes": 786638,
+      "sha256": "bc98650db69b732e212bb93e90aea1f8095fd6a916a3ee7336f0daf9e322236c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.791758,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              11,
+              617
+            ],
+            "columns": [
+              [
+                221,
+                570
+              ],
+              [
+                833,
+                1136
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              623,
+              1203
+            ],
+            "columns": [
+              [
+                199,
+                545
+              ],
+              [
+                814,
+                1191
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "white-flag-volunteer": {
+      "image": "atlases/white-flag-volunteer.png",
+      "width": 1262,
+      "height": 1246,
+      "bytes": 816882,
+      "sha256": "8aa1d723a5b4d07b881af17162313ef5a2dc9042c1b8c34ce0679d98d85d28ad",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.783843,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              9,
+              617
+            ],
+            "columns": [
+              [
+                215,
+                572
+              ],
+              [
+                815,
+                1138
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              625,
+              1206
+            ],
+            "columns": [
+              [
+                195,
+                558
+              ],
+              [
+                803,
+                1196
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "regular-bugler": {
+      "image": "atlases/regular-bugler.png",
+      "width": 1262,
+      "height": 1246,
+      "bytes": 691857,
+      "sha256": "4d2fc4a16b11a6970addccb12dc8f8f063b5970821d0061652b836f884d783f5",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.822777,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              45,
+              589
+            ],
+            "columns": [
+              [
+                222,
+                425
+              ],
+              [
+                846,
+                1090
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              659,
+              1206
+            ],
+            "columns": [
+              [
+                227,
+                487
+              ],
+              [
+                850,
+                1065
               ]
             ]
           }
@@ -607,6 +1129,64 @@
               [
                 942,
                 1234
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "canister-burst": {
+      "image": "atlases/canister-burst.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 822977,
+      "sha256": "49ca399652d7d5d639de157da8dd566703ee1ff737802e966a83f57f6714f01c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.756907,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              202,
+              496
+            ],
+            "columns": [
+              [
+                99,
+                439
+              ],
+              [
+                695,
+                1227
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              754,
+              1098
+            ],
+            "columns": [
+              [
+                81,
+                659
+              ],
+              [
+                717,
+                1216
               ]
             ]
           }
@@ -2658,6 +3238,64 @@
         ]
       }
     },
+    "coleto-baggage-cart": {
+      "image": "atlases/coleto-baggage-cart.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1333345,
+      "sha256": "180f8afe566ff47247c172d94233078558e4742a4e51aa73689178dbaf095d0f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.686503,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              185,
+              592
+            ],
+            "columns": [
+              [
+                31,
+                627
+              ],
+              [
+                647,
+                1231
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              699,
+              1131
+            ],
+            "columns": [
+              [
+                52,
+                580
+              ],
+              [
+                652,
+                1231
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "icons-family-actions-1": {
       "image": "atlases/icons-family-actions-1.png",
       "width": 1254,
@@ -3770,6 +4408,130 @@
         ]
       }
     },
+    "famous-almonte": {
+      "image": "atlases/famous-almonte.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1260800,
+      "sha256": "8cc5d1fe46b8c440b2e611c9030098b16ce5673dceea0ae875104b4255957c03",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.686383,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              3,
+              319
+            ],
+            "columns": [
+              [
+                79,
+                283
+              ],
+              [
+                389,
+                590
+              ],
+              [
+                703,
+                911
+              ],
+              [
+                1028,
+                1229
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              322,
+              639
+            ],
+            "columns": [
+              [
+                93,
+                250
+              ],
+              [
+                403,
+                559
+              ],
+              [
+                719,
+                877
+              ],
+              [
+                1036,
+                1195
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              639,
+              950
+            ],
+            "columns": [
+              [
+                101,
+                229
+              ],
+              [
+                405,
+                559
+              ],
+              [
+                711,
+                949
+              ],
+              [
+                1031,
+                1212
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              951,
+              1252
+            ],
+            "columns": [
+              [
+                68,
+                287
+              ],
+              [
+                411,
+                531
+              ],
+              [
+                707,
+                911
+              ],
+              [
+                1050,
+                1185
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-ben": {
       "image": "atlases/famous-ben.png",
       "width": 1312,
@@ -4200,6 +4962,668 @@
         ]
       }
     },
+    "famous-burleson": {
+      "image": "atlases/famous-burleson.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1243988,
+      "sha256": "270bac2de3f9c4883bf0839eba1b7fedf83ce2d96c1d502b76b2e43d69583ab8",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.676202,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              6,
+              315
+            ],
+            "columns": [
+              [
+                81,
+                276
+              ],
+              [
+                396,
+                586
+              ],
+              [
+                697,
+                894
+              ],
+              [
+                1017,
+                1213
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              320,
+              633
+            ],
+            "columns": [
+              [
+                85,
+                251
+              ],
+              [
+                399,
+                566
+              ],
+              [
+                713,
+                869
+              ],
+              [
+                1032,
+                1185
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              632,
+              942
+            ],
+            "columns": [
+              [
+                96,
+                233
+              ],
+              [
+                399,
+                607
+              ],
+              [
+                709,
+                936
+              ],
+              [
+                1040,
+                1179
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              943,
+              1246
+            ],
+            "columns": [
+              [
+                79,
+                287
+              ],
+              [
+                395,
+                558
+              ],
+              [
+                718,
+                859
+              ],
+              [
+                1034,
+                1219
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-burleson-mounted": {
+      "image": "atlases/famous-burleson-mounted.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1242276,
+      "sha256": "83f22fe3ade88011030cd2b5d76f00f05fe5cb9368811bfcea361debead9303c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.645041,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              16,
+              605
+            ],
+            "columns": [
+              [
+                20,
+                635
+              ],
+              [
+                648,
+                1251
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              632,
+              1219
+            ],
+            "columns": [
+              [
+                72,
+                648
+              ],
+              [
+                848,
+                1082
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-castaneda": {
+      "image": "atlases/famous-castaneda.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1167969,
+      "sha256": "2c43eaa84ee4f37ffc6df9ce70a46654088e70f429ae35caf43896bb0ba6c30f",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.71039,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              2,
+              312
+            ],
+            "columns": [
+              [
+                100,
+                279
+              ],
+              [
+                401,
+                580
+              ],
+              [
+                718,
+                901
+              ],
+              [
+                1041,
+                1220
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              318,
+              634
+            ],
+            "columns": [
+              [
+                88,
+                241
+              ],
+              [
+                406,
+                561
+              ],
+              [
+                719,
+                877
+              ],
+              [
+                1042,
+                1192
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              630,
+              941
+            ],
+            "columns": [
+              [
+                113,
+                224
+              ],
+              [
+                419,
+                620
+              ],
+              [
+                719,
+                918
+              ],
+              [
+                1057,
+                1187
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              940,
+              1250
+            ],
+            "columns": [
+              [
+                108,
+                228
+              ],
+              [
+                370,
+                560
+              ],
+              [
+                732,
+                887
+              ],
+              [
+                1070,
+                1190
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-castaneda-mounted": {
+      "image": "atlases/famous-castaneda-mounted.png",
+      "width": 1226,
+      "height": 1283,
+      "bytes": 1274697,
+      "sha256": "42afc098fe3b4935e5c773125bb10d088895d46f15e48f7da6e37d00b7c6f96b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.665252,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              6,
+              589
+            ],
+            "columns": [
+              [
+                35,
+                611
+              ],
+              [
+                638,
+                1206
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              626,
+              1236
+            ],
+            "columns": [
+              [
+                59,
+                614
+              ],
+              [
+                815,
+                1052
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-castrillon": {
+      "image": "atlases/famous-castrillon.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 925993,
+      "sha256": "d674d1a9a95fa3e11f7eb12e61f8549d496a0b89ce254b400e643763f354c1b1",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.749955,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              34,
+              610
+            ],
+            "columns": [
+              [
+                202,
+                439
+              ],
+              [
+                734,
+                1071
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              640,
+              1223
+            ],
+            "columns": [
+              [
+                174,
+                522
+              ],
+              [
+                714,
+                1158
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-castrillon-fate": {
+      "image": "atlases/famous-castrillon-fate.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 975586,
+      "sha256": "877dadfb0d150f2b14d3a513a197c7924aa2b1accf363d46b6d5a6dadaa9a7f7",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.734152,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              25,
+              674
+            ],
+            "columns": [
+              [
+                192,
+                462
+              ],
+              [
+                713,
+                1161
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              782,
+              1218
+            ],
+            "columns": [
+              [
+                52,
+                493
+              ],
+              [
+                538,
+                1228
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-cos": {
+      "image": "atlases/famous-cos.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1237092,
+      "sha256": "3ae9a13a1a043e3ad32da253c080fba72c1cc583febb9dcf8cc0e0d89630b420",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.679698,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              1,
+              319
+            ],
+            "columns": [
+              [
+                88,
+                277
+              ],
+              [
+                401,
+                589
+              ],
+              [
+                704,
+                902
+              ],
+              [
+                1028,
+                1215
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              324,
+              639
+            ],
+            "columns": [
+              [
+                81,
+                240
+              ],
+              [
+                392,
+                555
+              ],
+              [
+                706,
+                874
+              ],
+              [
+                1031,
+                1194
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              635,
+              949
+            ],
+            "columns": [
+              [
+                95,
+                207
+              ],
+              [
+                388,
+                617
+              ],
+              [
+                697,
+                949
+              ],
+              [
+                1035,
+                1211
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              944,
+              1248
+            ],
+            "columns": [
+              [
+                64,
+                277
+              ],
+              [
+                396,
+                643
+              ],
+              [
+                715,
+                857
+              ],
+              [
+                1048,
+                1166
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-cos-mounted": {
+      "image": "atlases/famous-cos-mounted.png",
+      "width": 1226,
+      "height": 1283,
+      "bytes": 1307008,
+      "sha256": "6ff1e27baba0a3d8fc4faa3486d77ebba70fc15bba34bb6b417db3146dafb53d",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.662437,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              12,
+              590
+            ],
+            "columns": [
+              [
+                23,
+                607
+              ],
+              [
+                634,
+                1216
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              624,
+              1240
+            ],
+            "columns": [
+              [
+                59,
+                622
+              ],
+              [
+                794,
+                1033
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "famous-crockett-fate": {
       "image": "atlases/famous-crockett-fate.png",
       "width": 1254,
@@ -4376,6 +5800,130 @@
               [
                 952,
                 1202
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "famous-moore": {
+      "image": "atlases/famous-moore.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1092408,
+      "sha256": "bf5cc696428fe64f3e3534ce9e84d0f5d4d00e81ab4fd5b4e1916d1bb80c894a",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.715411,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              46,
+              327
+            ],
+            "columns": [
+              [
+                79,
+                274
+              ],
+              [
+                391,
+                578
+              ],
+              [
+                681,
+                875
+              ],
+              [
+                995,
+                1187
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              351,
+              630
+            ],
+            "columns": [
+              [
+                90,
+                247
+              ],
+              [
+                405,
+                563
+              ],
+              [
+                709,
+                855
+              ],
+              [
+                1019,
+                1165
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              650,
+              922
+            ],
+            "columns": [
+              [
+                97,
+                239
+              ],
+              [
+                405,
+                605
+              ],
+              [
+                715,
+                914
+              ],
+              [
+                1038,
+                1175
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              940,
+              1207
+            ],
+            "columns": [
+              [
+                91,
+                269
+              ],
+              [
+                399,
+                554
+              ],
+              [
+                704,
+                886
+              ],
+              [
+                1030,
+                1178
               ]
             ]
           }
@@ -9357,6 +10905,122 @@
         ]
       }
     },
+    "twin-sisters-crew": {
+      "image": "atlases/twin-sisters-crew.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 792510,
+      "sha256": "caae482e0bfefda4adf0c56694c6426904fcb3b2d8c60ea2d7f02ec871965bf7",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.789623,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              36,
+              617
+            ],
+            "columns": [
+              [
+                118,
+                457
+              ],
+              [
+                625,
+                1244
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              691,
+              1205
+            ],
+            "columns": [
+              [
+                104,
+                475
+              ],
+              [
+                629,
+                1128
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "regular-drummer": {
+      "image": "atlases/regular-drummer.png",
+      "width": 1262,
+      "height": 1246,
+      "bytes": 833370,
+      "sha256": "76b9f240414a8eb96836eaba60463d81ba67529b3852d92695e37e31c2753865",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.786085,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              40,
+              599
+            ],
+            "columns": [
+              [
+                216,
+                456
+              ],
+              [
+                818,
+                1088
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              655,
+              1209
+            ],
+            "columns": [
+              [
+                212,
+                464
+              ],
+              [
+                826,
+                1083
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "twin-sisters-painted": {
       "image": "atlases/twin-sisters-painted.png",
       "width": 1254,
@@ -14061,6 +15725,278 @@
       ],
       "promptId": "frontier-v1/alamo-funeral-pyre"
     },
+    "cannon-18pdr-e": {
+      "sheet": "cannon-18pdr",
+      "x": 29,
+      "y": 194,
+      "w": 607,
+      "h": 368,
+      "anchorX": 0.5881,
+      "anchorY": 0.9293,
+      "label": "cannon 18pdr e",
+      "kind": "cannon-18pdr",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          31,
+          196,
+          603,
+          364
+        ],
+        "visiblePixels": 119273,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cannon-18pdr.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-18pdr-e-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cannon-18pdr"
+    },
+    "cannon-18pdr-recoil-e": {
+      "sheet": "cannon-18pdr",
+      "x": 669,
+      "y": 198,
+      "w": 563,
+      "h": 370,
+      "anchorX": 0.6021,
+      "anchorY": 0.9297,
+      "label": "cannon 18pdr recoil e",
+      "kind": "cannon-18pdr",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          671,
+          200,
+          559,
+          366
+        ],
+        "visiblePixels": 119447,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cannon-18pdr.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-18pdr-e-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cannon-18pdr"
+    },
+    "cannon-18pdr-w": {
+      "sheet": "cannon-18pdr",
+      "x": 29,
+      "y": 732,
+      "w": 596,
+      "h": 367,
+      "anchorX": 0.4237,
+      "anchorY": 0.9292,
+      "label": "cannon 18pdr w",
+      "kind": "cannon-18pdr",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          31,
+          734,
+          592,
+          363
+        ],
+        "visiblePixels": 117066,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cannon-18pdr.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-18pdr-w-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cannon-18pdr"
+    },
+    "cannon-18pdr-recoil-w": {
+      "sheet": "cannon-18pdr",
+      "x": 673,
+      "y": 747,
+      "w": 569,
+      "h": 363,
+      "anchorX": 0.4446,
+      "anchorY": 0.9284,
+      "label": "cannon 18pdr recoil w",
+      "kind": "cannon-18pdr",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          675,
+          749,
+          565,
+          359
+        ],
+        "visiblePixels": 117621,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cannon-18pdr.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-18pdr-w-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cannon-18pdr"
+    },
+    "cannon-siege-battery-e": {
+      "sheet": "cannon-siege-battery",
+      "x": 14,
+      "y": 196,
+      "w": 599,
+      "h": 406,
+      "anchorX": 0.4624,
+      "anchorY": 0.9286,
+      "label": "cannon siege battery e",
+      "kind": "cannon-siege-battery",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          16,
+          198,
+          595,
+          402
+        ],
+        "visiblePixels": 162578,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cannon-siege-battery.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-siege-battery-e-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cannon-siege-battery"
+    },
+    "cannon-siege-battery-recoil-e": {
+      "sheet": "cannon-siege-battery",
+      "x": 641,
+      "y": 196,
+      "w": 598,
+      "h": 406,
+      "anchorX": 0.4624,
+      "anchorY": 0.9286,
+      "label": "cannon siege battery recoil e",
+      "kind": "cannon-siege-battery",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          643,
+          198,
+          594,
+          402
+        ],
+        "visiblePixels": 161380,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cannon-siege-battery.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-siege-battery-e-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cannon-siege-battery"
+    },
+    "cannon-siege-battery-w": {
+      "sheet": "cannon-siege-battery",
+      "x": 15,
+      "y": 765,
+      "w": 600,
+      "h": 415,
+      "anchorX": 0.5417,
+      "anchorY": 0.9277,
+      "label": "cannon siege battery w",
+      "kind": "cannon-siege-battery",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          17,
+          767,
+          596,
+          411
+        ],
+        "visiblePixels": 163331,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cannon-siege-battery.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-siege-battery-w-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cannon-siege-battery"
+    },
+    "cannon-siege-battery-recoil-w": {
+      "sheet": "cannon-siege-battery",
+      "x": 641,
+      "y": 765,
+      "w": 601,
+      "h": 415,
+      "anchorX": 0.5416,
+      "anchorY": 0.9277,
+      "label": "cannon siege battery recoil w",
+      "kind": "cannon-siege-battery",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          643,
+          767,
+          597,
+          411
+        ],
+        "visiblePixels": 163432,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/cannon-siege-battery.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cannon-siege-battery-w-recoil"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/cannon-siege-battery"
+    },
     "joe-door-aim": {
       "sheet": "joe-story-actions",
       "x": 117,
@@ -14237,6 +16173,546 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/famous-travis-still"
+    },
+    "flag-red-still": {
+      "sheet": "flag-red-siege",
+      "x": 138,
+      "y": 34,
+      "w": 411,
+      "h": 567,
+      "anchorX": 0.0669,
+      "anchorY": 0.963,
+      "label": "flag red still",
+      "kind": "flag-red-siege",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          140,
+          36,
+          407,
+          563
+        ],
+        "visiblePixels": 114963,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/flag-red-siege.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "flag-red-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/flag-red-siege"
+    },
+    "flag-red-wind-1": {
+      "sheet": "flag-red-siege",
+      "x": 764,
+      "y": 34,
+      "w": 463,
+      "h": 567,
+      "anchorX": 0.0616,
+      "anchorY": 0.9594,
+      "label": "flag red wind 1",
+      "kind": "flag-red-siege",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          766,
+          36,
+          459,
+          563
+        ],
+        "visiblePixels": 114393,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/flag-red-siege.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "flag-red-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/flag-red-siege"
+    },
+    "flag-red-wind-2": {
+      "sheet": "flag-red-siege",
+      "x": 137,
+      "y": 658,
+      "w": 532,
+      "h": 568,
+      "anchorX": 0.0536,
+      "anchorY": 0.9525,
+      "label": "flag red wind 2",
+      "kind": "flag-red-siege",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          139,
+          660,
+          528,
+          564
+        ],
+        "visiblePixels": 121026,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/flag-red-siege.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "flag-red-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/flag-red-siege"
+    },
+    "flag-red-wind-3": {
+      "sheet": "flag-red-siege",
+      "x": 765,
+      "y": 659,
+      "w": 458,
+      "h": 567,
+      "anchorX": 0.06,
+      "anchorY": 0.9418,
+      "label": "flag red wind 3",
+      "kind": "flag-red-siege",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          767,
+          661,
+          454,
+          563
+        ],
+        "visiblePixels": 115287,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/flag-red-siege.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "flag-red-wind"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/flag-red-siege"
+    },
+    "smoke-column-far-1": {
+      "sheet": "smoke-column-far",
+      "x": 195,
+      "y": 154,
+      "w": 260,
+      "h": 422,
+      "anchorX": 0.7692,
+      "anchorY": 0.9692,
+      "label": "smoke column far 1",
+      "kind": "smoke-column-far",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          197,
+          156,
+          256,
+          418
+        ],
+        "visiblePixels": 28322,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/smoke-column-far.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smoke-column-far-rise"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/smoke-column-far"
+    },
+    "smoke-column-far-2": {
+      "sheet": "smoke-column-far",
+      "x": 730,
+      "y": 86,
+      "w": 322,
+      "h": 491,
+      "anchorX": 0.7345,
+      "anchorY": 0.9756,
+      "label": "smoke column far 2",
+      "kind": "smoke-column-far",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          732,
+          88,
+          318,
+          487
+        ],
+        "visiblePixels": 56006,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/smoke-column-far.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smoke-column-far-rise"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/smoke-column-far"
+    },
+    "smoke-column-far-3": {
+      "sheet": "smoke-column-far",
+      "x": 135,
+      "y": 674,
+      "w": 399,
+      "h": 503,
+      "anchorX": 0.7556,
+      "anchorY": 0.9761,
+      "label": "smoke column far 3",
+      "kind": "smoke-column-far",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          137,
+          676,
+          395,
+          499
+        ],
+        "visiblePixels": 76250,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/smoke-column-far.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smoke-column-far-rise"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/smoke-column-far"
+    },
+    "smoke-column-far-4": {
+      "sheet": "smoke-column-far",
+      "x": 722,
+      "y": 714,
+      "w": 361,
+      "h": 465,
+      "anchorX": 0.7438,
+      "anchorY": 0.9742,
+      "label": "smoke column far 4",
+      "kind": "smoke-column-far",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          724,
+          716,
+          357,
+          461
+        ],
+        "visiblePixels": 39150,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/smoke-column-far.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "smoke-column-far-rise"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/smoke-column-far"
+    },
+    "ladder-carried-e-1": {
+      "sheet": "alamo-scaling-ladders",
+      "x": 29,
+      "y": 120,
+      "w": 604,
+      "h": 346,
+      "anchorX": 0.4536,
+      "anchorY": 0.9277,
+      "label": "ladder carried e 1",
+      "kind": "alamo-scaling-ladders",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          31,
+          122,
+          600,
+          342
+        ],
+        "visiblePixels": 108370,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-scaling-ladders.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ladder-carried-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-scaling-ladders"
+    },
+    "ladder-carried-e-2": {
+      "sheet": "alamo-scaling-ladders",
+      "x": 693,
+      "y": 123,
+      "w": 557,
+      "h": 345,
+      "anchorX": 0.5189,
+      "anchorY": 0.9275,
+      "label": "ladder carried e 2",
+      "kind": "alamo-scaling-ladders",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          695,
+          125,
+          553,
+          341
+        ],
+        "visiblePixels": 105324,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-scaling-ladders.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "ladder-carried-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-scaling-ladders"
+    },
+    "ladder-set-e": {
+      "sheet": "alamo-scaling-ladders",
+      "x": 122,
+      "y": 614,
+      "w": 360,
+      "h": 559,
+      "anchorX": 0.2236,
+      "anchorY": 0.941,
+      "label": "ladder set e",
+      "kind": "alamo-scaling-ladders",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          124,
+          616,
+          356,
+          555
+        ],
+        "visiblePixels": 42027,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-scaling-ladders.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-scaling-ladders"
+    },
+    "ladder-set-w": {
+      "sheet": "alamo-scaling-ladders",
+      "x": 769,
+      "y": 614,
+      "w": 359,
+      "h": 560,
+      "anchorX": 0.7744,
+      "anchorY": 0.9411,
+      "label": "ladder set w",
+      "kind": "alamo-scaling-ladders",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          771,
+          616,
+          355,
+          556
+        ],
+        "visiblePixels": 41953,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/alamo-scaling-ladders.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/alamo-scaling-ladders"
+    },
+    "regular-climb-1": {
+      "sheet": "regular-ladder-climb",
+      "x": 241,
+      "y": 46,
+      "w": 211,
+      "h": 555,
+      "anchorX": 0.4976,
+      "anchorY": 0.9676,
+      "label": "regular climb 1",
+      "kind": "regular-ladder-climb",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          243,
+          48,
+          207,
+          551
+        ],
+        "visiblePixels": 57782,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-ladder-climb.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-climb"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-ladder-climb"
+    },
+    "regular-climb-2": {
+      "sheet": "regular-ladder-climb",
+      "x": 815,
+      "y": 43,
+      "w": 199,
+      "h": 566,
+      "anchorX": 0.5452,
+      "anchorY": 0.97,
+      "label": "regular climb 2",
+      "kind": "regular-ladder-climb",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          817,
+          45,
+          195,
+          562
+        ],
+        "visiblePixels": 56582,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-ladder-climb.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-climb"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-ladder-climb"
+    },
+    "regular-climb-3": {
+      "sheet": "regular-ladder-climb",
+      "x": 240,
+      "y": 640,
+      "w": 211,
+      "h": 572,
+      "anchorX": 0.5024,
+      "anchorY": 0.9615,
+      "label": "regular climb 3",
+      "kind": "regular-ladder-climb",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          242,
+          642,
+          207,
+          568
+        ],
+        "visiblePixels": 57314,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-ladder-climb.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-climb"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-ladder-climb"
+    },
+    "regular-climb-4": {
+      "sheet": "regular-ladder-climb",
+      "x": 816,
+      "y": 643,
+      "w": 205,
+      "h": 569,
+      "anchorX": 0.5073,
+      "anchorY": 0.9631,
+      "label": "regular climb 4",
+      "kind": "regular-ladder-climb",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          818,
+          645,
+          201,
+          565
+        ],
+        "visiblePixels": 57797,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-ladder-climb.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-climb"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-ladder-climb"
     },
     "volunteer-rammer-carry-1": {
       "sheet": "artillery-service",
@@ -14781,6 +17257,406 @@
       ],
       "locationKits": [],
       "promptId": "frontier-v1/artillery-service"
+    },
+    "white-flag-regular-idle-e": {
+      "sheet": "white-flag-regular",
+      "x": 221,
+      "y": 11,
+      "w": 349,
+      "h": 606,
+      "anchorX": 0.2192,
+      "anchorY": 0.9587,
+      "label": "white flag regular idle e",
+      "kind": "white-flag-regular",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          223,
+          13,
+          345,
+          602
+        ],
+        "visiblePixels": 74281,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-regular.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-regular"
+    },
+    "white-flag-regular-idle-s": {
+      "sheet": "white-flag-regular",
+      "x": 833,
+      "y": 11,
+      "w": 303,
+      "h": 603,
+      "anchorX": 0.2409,
+      "anchorY": 0.9735,
+      "label": "white flag regular idle s",
+      "kind": "white-flag-regular",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          835,
+          13,
+          299,
+          599
+        ],
+        "visiblePixels": 72506,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-regular.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-regular"
+    },
+    "white-flag-regular-walk-e-1": {
+      "sheet": "white-flag-regular",
+      "x": 199,
+      "y": 623,
+      "w": 346,
+      "h": 574,
+      "anchorX": 0.3136,
+      "anchorY": 0.9355,
+      "label": "white flag regular walk e 1",
+      "kind": "white-flag-regular",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          201,
+          625,
+          342,
+          570
+        ],
+        "visiblePixels": 72944,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-regular.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "white-flag-regular-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-regular"
+    },
+    "white-flag-regular-walk-e-2": {
+      "sheet": "white-flag-regular",
+      "x": 814,
+      "y": 625,
+      "w": 377,
+      "h": 578,
+      "anchorX": 0.2851,
+      "anchorY": 0.9343,
+      "label": "white flag regular walk e 2",
+      "kind": "white-flag-regular",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          816,
+          627,
+          373,
+          574
+        ],
+        "visiblePixels": 74032,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-regular.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "white-flag-regular-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-regular"
+    },
+    "white-flag-volunteer-idle-e": {
+      "sheet": "white-flag-volunteer",
+      "x": 215,
+      "y": 9,
+      "w": 357,
+      "h": 608,
+      "anchorX": 0.2199,
+      "anchorY": 0.9408,
+      "label": "white flag volunteer idle e",
+      "kind": "white-flag-volunteer",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          217,
+          11,
+          353,
+          604
+        ],
+        "visiblePixels": 76908,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-volunteer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-volunteer"
+    },
+    "white-flag-volunteer-idle-s": {
+      "sheet": "white-flag-volunteer",
+      "x": 815,
+      "y": 9,
+      "w": 323,
+      "h": 607,
+      "anchorX": 0.2554,
+      "anchorY": 0.9769,
+      "label": "white flag volunteer idle s",
+      "kind": "white-flag-volunteer",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          817,
+          11,
+          319,
+          603
+        ],
+        "visiblePixels": 76104,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-volunteer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-volunteer"
+    },
+    "white-flag-volunteer-walk-e-1": {
+      "sheet": "white-flag-volunteer",
+      "x": 195,
+      "y": 626,
+      "w": 363,
+      "h": 574,
+      "anchorX": 0.314,
+      "anchorY": 0.9286,
+      "label": "white flag volunteer walk e 1",
+      "kind": "white-flag-volunteer",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          197,
+          628,
+          359,
+          570
+        ],
+        "visiblePixels": 75205,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-volunteer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "white-flag-volunteer-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-volunteer"
+    },
+    "white-flag-volunteer-walk-e-2": {
+      "sheet": "white-flag-volunteer",
+      "x": 803,
+      "y": 625,
+      "w": 393,
+      "h": 581,
+      "anchorX": 0.2952,
+      "anchorY": 0.9312,
+      "label": "white flag volunteer walk e 2",
+      "kind": "white-flag-volunteer",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          805,
+          627,
+          389,
+          577
+        ],
+        "visiblePixels": 76478,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/white-flag-volunteer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "white-flag-volunteer-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/white-flag-volunteer"
+    },
+    "regular-bugler-idle": {
+      "sheet": "regular-bugler",
+      "x": 222,
+      "y": 45,
+      "w": 203,
+      "h": 544,
+      "anchorX": 0.5271,
+      "anchorY": 0.9338,
+      "label": "regular bugler idle",
+      "kind": "regular-bugler",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          224,
+          47,
+          199,
+          540
+        ],
+        "visiblePixels": 62127,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-bugler.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-bugler-call"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-bugler"
+    },
+    "regular-bugler-raise": {
+      "sheet": "regular-bugler",
+      "x": 846,
+      "y": 46,
+      "w": 244,
+      "h": 543,
+      "anchorX": 0.4139,
+      "anchorY": 0.9337,
+      "label": "regular bugler raise",
+      "kind": "regular-bugler",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          848,
+          48,
+          240,
+          539
+        ],
+        "visiblePixels": 65414,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-bugler.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-bugler-call"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-bugler"
+    },
+    "regular-bugler-sound": {
+      "sheet": "regular-bugler",
+      "x": 227,
+      "y": 659,
+      "w": 260,
+      "h": 546,
+      "anchorX": 0.3827,
+      "anchorY": 0.9304,
+      "label": "regular bugler sound",
+      "kind": "regular-bugler",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          229,
+          661,
+          256,
+          542
+        ],
+        "visiblePixels": 66998,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-bugler.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-bugler-call"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-bugler"
+    },
+    "regular-bugler-lower": {
+      "sheet": "regular-bugler",
+      "x": 850,
+      "y": 662,
+      "w": 215,
+      "h": 544,
+      "anchorX": 0.4698,
+      "anchorY": 0.9375,
+      "label": "regular bugler lower",
+      "kind": "regular-bugler",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          852,
+          664,
+          211,
+          540
+        ],
+        "visiblePixels": 63566,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-bugler.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-bugler-call"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-bugler"
     },
     "palmetto": {
       "sheet": "biome-ground-bexar",
@@ -15835,6 +18711,142 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/biome-trees-fields"
+    },
+    "canister-burst-1": {
+      "sheet": "canister-burst",
+      "x": 99,
+      "y": 255,
+      "w": 340,
+      "h": 196,
+      "anchorX": 0.4,
+      "anchorY": 0.9286,
+      "label": "canister burst 1",
+      "kind": "canister-burst",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          101,
+          257,
+          336,
+          192
+        ],
+        "visiblePixels": 38077,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/canister-burst.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "canister-burst"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/canister-burst"
+    },
+    "canister-burst-2": {
+      "sheet": "canister-burst",
+      "x": 695,
+      "y": 202,
+      "w": 532,
+      "h": 294,
+      "anchorX": 0.4878,
+      "anchorY": 0.9286,
+      "label": "canister burst 2",
+      "kind": "canister-burst",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          697,
+          204,
+          528,
+          290
+        ],
+        "visiblePixels": 88818,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/canister-burst.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "canister-burst"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/canister-burst"
+    },
+    "canister-burst-3": {
+      "sheet": "canister-burst",
+      "x": 81,
+      "y": 754,
+      "w": 578,
+      "h": 344,
+      "anchorX": 0.5692,
+      "anchorY": 0.9273,
+      "label": "canister burst 3",
+      "kind": "canister-burst",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          756,
+          574,
+          340
+        ],
+        "visiblePixels": 115813,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/canister-burst.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "canister-burst"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/canister-burst"
+    },
+    "canister-burst-4": {
+      "sheet": "canister-burst",
+      "x": 717,
+      "y": 831,
+      "w": 499,
+      "h": 263,
+      "anchorX": 0.6764,
+      "anchorY": 0.943,
+      "label": "canister burst 4",
+      "kind": "canister-burst",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          719,
+          833,
+          495,
+          259
+        ],
+        "visiblePixels": 58719,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/canister-burst.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "canister-burst"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/canister-burst"
     },
     "cannon-cartwheels-e": {
       "sheet": "cannon-cartwheels",
@@ -24214,6 +27226,142 @@
       "locationKits": [],
       "promptId": "frontier-v1/land-clearing"
     },
+    "cart-baggage": {
+      "sheet": "coleto-baggage-cart",
+      "x": 31,
+      "y": 190,
+      "w": 596,
+      "h": 382,
+      "anchorX": 0.5344,
+      "anchorY": 0.9293,
+      "label": "cart baggage",
+      "kind": "coleto-baggage-cart",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          33,
+          192,
+          592,
+          378
+        ],
+        "visiblePixels": 126852,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/coleto-baggage-cart.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-baggage-tip"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/coleto-baggage-cart"
+    },
+    "cart-baggage-tilt-1": {
+      "sheet": "coleto-baggage-cart",
+      "x": 647,
+      "y": 185,
+      "w": 584,
+      "h": 407,
+      "anchorX": 0.9384,
+      "anchorY": 0.9287,
+      "label": "cart baggage tilt 1",
+      "kind": "coleto-baggage-cart",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          649,
+          187,
+          580,
+          403
+        ],
+        "visiblePixels": 125539,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/coleto-baggage-cart.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-baggage-tip"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/coleto-baggage-cart"
+    },
+    "cart-baggage-tilt-2": {
+      "sheet": "coleto-baggage-cart",
+      "x": 52,
+      "y": 699,
+      "w": 528,
+      "h": 432,
+      "anchorX": 0.7595,
+      "anchorY": 0.9282,
+      "label": "cart baggage tilt 2",
+      "kind": "coleto-baggage-cart",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          54,
+          701,
+          524,
+          428
+        ],
+        "visiblePixels": 115096,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/coleto-baggage-cart.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-baggage-tip"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/coleto-baggage-cart"
+    },
+    "cart-tipped": {
+      "sheet": "coleto-baggage-cart",
+      "x": 652,
+      "y": 866,
+      "w": 579,
+      "h": 248,
+      "anchorX": 0.5,
+      "anchorY": 0.9274,
+      "label": "cart tipped",
+      "kind": "coleto-baggage-cart",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          654,
+          868,
+          575,
+          244
+        ],
+        "visiblePixels": 95888,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/coleto-baggage-cart.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cart-baggage-tip"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/coleto-baggage-cart"
+    },
     "icon-survey-plot": {
       "sheet": "icons-family-actions-1",
       "x": 12,
@@ -28766,6 +31914,550 @@
       "locationKits": [],
       "promptId": "frontier-v1/famous-alavez"
     },
+    "almonte-walk-e-1": {
+      "sheet": "famous-almonte",
+      "x": 79,
+      "y": 4,
+      "w": 204,
+      "h": 315,
+      "anchorX": 0.5,
+      "anchorY": 0.927,
+      "logicalHeight": 316,
+      "label": "almonte walk e 1",
+      "kind": "famous-almonte",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          81,
+          6,
+          200,
+          311
+        ],
+        "visiblePixels": 26893,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almonte-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
+    "almonte-walk-e-2": {
+      "sheet": "famous-almonte",
+      "x": 389,
+      "y": 3,
+      "w": 201,
+      "h": 316,
+      "anchorX": 0.4876,
+      "anchorY": 0.9272,
+      "logicalHeight": 316,
+      "label": "almonte walk e 2",
+      "kind": "famous-almonte",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          391,
+          5,
+          197,
+          312
+        ],
+        "visiblePixels": 26744,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almonte-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
+    "almonte-walk-e-3": {
+      "sheet": "famous-almonte",
+      "x": 703,
+      "y": 3,
+      "w": 208,
+      "h": 316,
+      "anchorX": 0.4904,
+      "anchorY": 0.9272,
+      "logicalHeight": 316,
+      "label": "almonte walk e 3",
+      "kind": "famous-almonte",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          705,
+          5,
+          204,
+          312
+        ],
+        "visiblePixels": 27099,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almonte-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
+    "almonte-walk-e-4": {
+      "sheet": "famous-almonte",
+      "x": 1028,
+      "y": 5,
+      "w": 201,
+      "h": 314,
+      "anchorX": 0.4975,
+      "anchorY": 0.9299,
+      "logicalHeight": 316,
+      "label": "almonte walk e 4",
+      "kind": "famous-almonte",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1030,
+          7,
+          197,
+          310
+        ],
+        "visiblePixels": 27027,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almonte-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
+    "almonte-walk-s-1": {
+      "sheet": "famous-almonte",
+      "x": 93,
+      "y": 322,
+      "w": 157,
+      "h": 313,
+      "anchorX": 0.465,
+      "anchorY": 0.9649,
+      "logicalHeight": 316,
+      "label": "almonte walk s 1",
+      "kind": "famous-almonte",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          95,
+          324,
+          153,
+          309
+        ],
+        "visiblePixels": 26424,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almonte-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
+    "almonte-walk-s-2": {
+      "sheet": "famous-almonte",
+      "x": 403,
+      "y": 323,
+      "w": 156,
+      "h": 312,
+      "anchorX": 0.4199,
+      "anchorY": 0.9327,
+      "logicalHeight": 316,
+      "label": "almonte walk s 2",
+      "kind": "famous-almonte",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          405,
+          325,
+          152,
+          308
+        ],
+        "visiblePixels": 25721,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almonte-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
+    "almonte-walk-n-1": {
+      "sheet": "famous-almonte",
+      "x": 719,
+      "y": 325,
+      "w": 158,
+      "h": 314,
+      "anchorX": 0.5127,
+      "anchorY": 0.9299,
+      "logicalHeight": 316,
+      "label": "almonte walk n 1",
+      "kind": "famous-almonte",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          721,
+          327,
+          154,
+          310
+        ],
+        "visiblePixels": 26398,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almonte-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
+    "almonte-walk-n-2": {
+      "sheet": "famous-almonte",
+      "x": 1036,
+      "y": 324,
+      "w": 159,
+      "h": 315,
+      "anchorX": 0.5252,
+      "anchorY": 0.927,
+      "logicalHeight": 316,
+      "label": "almonte walk n 2",
+      "kind": "famous-almonte",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1038,
+          326,
+          155,
+          311
+        ],
+        "visiblePixels": 26088,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "almonte-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
+    "almonte-idle": {
+      "sheet": "famous-almonte",
+      "x": 101,
+      "y": 639,
+      "w": 128,
+      "h": 311,
+      "anchorX": 0.5273,
+      "anchorY": 0.955,
+      "logicalHeight": 316,
+      "label": "almonte idle",
+      "kind": "famous-almonte",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          103,
+          641,
+          124,
+          307
+        ],
+        "visiblePixels": 25476,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
+    "almonte-journal": {
+      "sheet": "famous-almonte",
+      "x": 405,
+      "y": 642,
+      "w": 154,
+      "h": 308,
+      "anchorX": 0.4675,
+      "anchorY": 0.961,
+      "logicalHeight": 316,
+      "label": "almonte journal",
+      "kind": "famous-almonte",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          407,
+          644,
+          150,
+          304
+        ],
+        "visiblePixels": 26596,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
+    "almonte-command": {
+      "sheet": "famous-almonte",
+      "x": 711,
+      "y": 643,
+      "w": 238,
+      "h": 307,
+      "anchorX": 0.334,
+      "anchorY": 0.9577,
+      "logicalHeight": 316,
+      "label": "almonte command",
+      "kind": "famous-almonte",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          713,
+          645,
+          234,
+          303
+        ],
+        "visiblePixels": 29737,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
+    "almonte-surrender": {
+      "sheet": "famous-almonte",
+      "x": 1031,
+      "y": 645,
+      "w": 181,
+      "h": 305,
+      "anchorX": 0.4724,
+      "anchorY": 0.9508,
+      "logicalHeight": 316,
+      "label": "almonte surrender",
+      "kind": "famous-almonte",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1033,
+          647,
+          177,
+          301
+        ],
+        "visiblePixels": 28908,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
+    "almonte-offer-sword": {
+      "sheet": "famous-almonte",
+      "x": 68,
+      "y": 952,
+      "w": 219,
+      "h": 298,
+      "anchorX": 0.3562,
+      "anchorY": 0.9564,
+      "logicalHeight": 316,
+      "label": "almonte offer sword",
+      "kind": "famous-almonte",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          70,
+          954,
+          215,
+          294
+        ],
+        "visiblePixels": 26354,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
+    "almonte-prisoner": {
+      "sheet": "famous-almonte",
+      "x": 411,
+      "y": 951,
+      "w": 120,
+      "h": 299,
+      "anchorX": 0.4958,
+      "anchorY": 0.9599,
+      "logicalHeight": 316,
+      "label": "almonte prisoner",
+      "kind": "famous-almonte",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          413,
+          953,
+          116,
+          295
+        ],
+        "visiblePixels": 23525,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
+    "almonte-interpret": {
+      "sheet": "famous-almonte",
+      "x": 707,
+      "y": 953,
+      "w": 204,
+      "h": 298,
+      "anchorX": 0.3873,
+      "anchorY": 0.9597,
+      "logicalHeight": 316,
+      "label": "almonte interpret",
+      "kind": "famous-almonte",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          709,
+          955,
+          200,
+          294
+        ],
+        "visiblePixels": 27603,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
+    "almonte-listen": {
+      "sheet": "famous-almonte",
+      "x": 1050,
+      "y": 954,
+      "w": 135,
+      "h": 298,
+      "anchorX": 0.4963,
+      "anchorY": 0.9497,
+      "logicalHeight": 316,
+      "label": "almonte listen",
+      "kind": "famous-almonte",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1052,
+          956,
+          131,
+          294
+        ],
+        "visiblePixels": 23213,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-almonte.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-almonte"
+    },
     "ben-walk-e-1": {
       "sheet": "famous-ben",
       "x": 64,
@@ -30530,6 +34222,2320 @@
       "locationKits": [],
       "promptId": "frontier-v1/famous-fannin"
     },
+    "burleson-walk-e-1": {
+      "sheet": "famous-burleson",
+      "x": 81,
+      "y": 6,
+      "w": 195,
+      "h": 309,
+      "anchorX": 0.4923,
+      "anchorY": 0.9288,
+      "logicalHeight": 312,
+      "label": "burleson walk e 1",
+      "kind": "famous-burleson",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          8,
+          191,
+          305
+        ],
+        "visiblePixels": 29316,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "burleson-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-walk-e-2": {
+      "sheet": "famous-burleson",
+      "x": 396,
+      "y": 6,
+      "w": 190,
+      "h": 308,
+      "anchorX": 0.5026,
+      "anchorY": 0.9286,
+      "logicalHeight": 312,
+      "label": "burleson walk e 2",
+      "kind": "famous-burleson",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          398,
+          8,
+          186,
+          304
+        ],
+        "visiblePixels": 28232,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "burleson-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-walk-e-3": {
+      "sheet": "famous-burleson",
+      "x": 697,
+      "y": 6,
+      "w": 197,
+      "h": 309,
+      "anchorX": 0.5051,
+      "anchorY": 0.9288,
+      "logicalHeight": 312,
+      "label": "burleson walk e 3",
+      "kind": "famous-burleson",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          8,
+          193,
+          305
+        ],
+        "visiblePixels": 28556,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "burleson-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-walk-e-4": {
+      "sheet": "famous-burleson",
+      "x": 1017,
+      "y": 6,
+      "w": 196,
+      "h": 308,
+      "anchorX": 0.5102,
+      "anchorY": 0.9286,
+      "logicalHeight": 312,
+      "label": "burleson walk e 4",
+      "kind": "famous-burleson",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1019,
+          8,
+          192,
+          304
+        ],
+        "visiblePixels": 26193,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "burleson-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-walk-s-1": {
+      "sheet": "famous-burleson",
+      "x": 85,
+      "y": 320,
+      "w": 166,
+      "h": 312,
+      "anchorX": 0.4127,
+      "anchorY": 0.9519,
+      "logicalHeight": 312,
+      "label": "burleson walk s 1",
+      "kind": "famous-burleson",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          87,
+          322,
+          162,
+          309
+        ],
+        "visiblePixels": 29619,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "burleson-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-walk-s-2": {
+      "sheet": "famous-burleson",
+      "x": 399,
+      "y": 321,
+      "w": 167,
+      "h": 312,
+      "anchorX": 0.518,
+      "anchorY": 0.9519,
+      "logicalHeight": 312,
+      "label": "burleson walk s 2",
+      "kind": "famous-burleson",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          401,
+          323,
+          163,
+          309
+        ],
+        "visiblePixels": 28467,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "burleson-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-walk-n-1": {
+      "sheet": "famous-burleson",
+      "x": 713,
+      "y": 322,
+      "w": 156,
+      "h": 310,
+      "anchorX": 0.5256,
+      "anchorY": 0.929,
+      "logicalHeight": 312,
+      "label": "burleson walk n 1",
+      "kind": "famous-burleson",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          715,
+          324,
+          152,
+          307
+        ],
+        "visiblePixels": 27784,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "burleson-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-walk-n-2": {
+      "sheet": "famous-burleson",
+      "x": 1032,
+      "y": 321,
+      "w": 153,
+      "h": 312,
+      "anchorX": 0.5588,
+      "anchorY": 0.9295,
+      "logicalHeight": 312,
+      "label": "burleson walk n 2",
+      "kind": "famous-burleson",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1034,
+          323,
+          149,
+          308
+        ],
+        "visiblePixels": 27552,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "burleson-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-idle": {
+      "sheet": "famous-burleson",
+      "x": 96,
+      "y": 632,
+      "w": 137,
+      "h": 309,
+      "anchorX": 0.5438,
+      "anchorY": 0.9385,
+      "logicalHeight": 312,
+      "label": "burleson idle",
+      "kind": "famous-burleson",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          98,
+          634,
+          133,
+          305
+        ],
+        "visiblePixels": 27044,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-command": {
+      "sheet": "famous-burleson",
+      "x": 399,
+      "y": 633,
+      "w": 208,
+      "h": 305,
+      "anchorX": 0.4038,
+      "anchorY": 0.941,
+      "logicalHeight": 312,
+      "label": "burleson command",
+      "kind": "famous-burleson",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          401,
+          634,
+          204,
+          302
+        ],
+        "visiblePixels": 30869,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-point": {
+      "sheet": "famous-burleson",
+      "x": 709,
+      "y": 632,
+      "w": 227,
+      "h": 308,
+      "anchorX": 0.3656,
+      "anchorY": 0.9448,
+      "logicalHeight": 312,
+      "label": "burleson point",
+      "kind": "famous-burleson",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          711,
+          634,
+          223,
+          304
+        ],
+        "visiblePixels": 31094,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-listen": {
+      "sheet": "famous-burleson",
+      "x": 1040,
+      "y": 633,
+      "w": 139,
+      "h": 309,
+      "anchorX": 0.5324,
+      "anchorY": 0.9482,
+      "logicalHeight": 312,
+      "label": "burleson listen",
+      "kind": "famous-burleson",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1042,
+          635,
+          135,
+          305
+        ],
+        "visiblePixels": 27851,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-receive-sword": {
+      "sheet": "famous-burleson",
+      "x": 79,
+      "y": 945,
+      "w": 208,
+      "h": 300,
+      "anchorX": 0.3846,
+      "anchorY": 0.9467,
+      "logicalHeight": 312,
+      "label": "burleson receive sword",
+      "kind": "famous-burleson",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          81,
+          947,
+          204,
+          296
+        ],
+        "visiblePixels": 29386,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-sword-down": {
+      "sheet": "famous-burleson",
+      "x": 395,
+      "y": 943,
+      "w": 163,
+      "h": 301,
+      "anchorX": 0.4969,
+      "anchorY": 0.9502,
+      "logicalHeight": 312,
+      "label": "burleson sword down",
+      "kind": "famous-burleson",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          397,
+          945,
+          159,
+          297
+        ],
+        "visiblePixels": 27882,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-read-note": {
+      "sheet": "famous-burleson",
+      "x": 718,
+      "y": 943,
+      "w": 141,
+      "h": 303,
+      "anchorX": 0.5461,
+      "anchorY": 0.9373,
+      "logicalHeight": 312,
+      "label": "burleson read note",
+      "kind": "famous-burleson",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          720,
+          945,
+          137,
+          299
+        ],
+        "visiblePixels": 26384,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-rest": {
+      "sheet": "famous-burleson",
+      "x": 1034,
+      "y": 993,
+      "w": 185,
+      "h": 253,
+      "anchorX": 0.4108,
+      "anchorY": 0.9289,
+      "logicalHeight": 312,
+      "label": "burleson rest",
+      "kind": "famous-burleson",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1036,
+          995,
+          181,
+          249
+        ],
+        "visiblePixels": 26962,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson"
+    },
+    "burleson-mounted-walk-e-1": {
+      "sheet": "famous-burleson-mounted",
+      "x": 20,
+      "y": 16,
+      "w": 615,
+      "h": 587,
+      "anchorX": 0.5098,
+      "anchorY": 0.9727,
+      "logicalHeight": 587,
+      "label": "burleson mounted walk e 1",
+      "kind": "famous-burleson-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          22,
+          18,
+          611,
+          583
+        ],
+        "visiblePixels": 150636,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "burleson-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson-mounted"
+    },
+    "burleson-mounted-walk-e-2": {
+      "sheet": "famous-burleson-mounted",
+      "x": 648,
+      "y": 21,
+      "w": 603,
+      "h": 584,
+      "anchorX": 0.4245,
+      "anchorY": 0.9298,
+      "logicalHeight": 587,
+      "label": "burleson mounted walk e 2",
+      "kind": "famous-burleson-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          650,
+          23,
+          599,
+          580
+        ],
+        "visiblePixels": 147361,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "burleson-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson-mounted"
+    },
+    "burleson-mounted-idle-e": {
+      "sheet": "famous-burleson-mounted",
+      "x": 72,
+      "y": 634,
+      "w": 576,
+      "h": 577,
+      "anchorX": 0.4323,
+      "anchorY": 0.9619,
+      "logicalHeight": 587,
+      "label": "burleson mounted idle e",
+      "kind": "famous-burleson-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          74,
+          636,
+          572,
+          573
+        ],
+        "visiblePixels": 143663,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson-mounted"
+    },
+    "burleson-mounted-idle-s": {
+      "sheet": "famous-burleson-mounted",
+      "x": 848,
+      "y": 632,
+      "w": 234,
+      "h": 587,
+      "anchorX": 0.5064,
+      "anchorY": 0.9574,
+      "logicalHeight": 587,
+      "label": "burleson mounted idle s",
+      "kind": "famous-burleson-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          850,
+          634,
+          230,
+          583
+        ],
+        "visiblePixels": 76468,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-burleson-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-burleson-mounted"
+    },
+    "castaneda-walk-e-1": {
+      "sheet": "famous-castaneda",
+      "x": 100,
+      "y": 3,
+      "w": 179,
+      "h": 308,
+      "anchorX": 0.4944,
+      "anchorY": 0.9286,
+      "logicalHeight": 315,
+      "label": "castaneda walk e 1",
+      "kind": "famous-castaneda",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          102,
+          5,
+          175,
+          304
+        ],
+        "visiblePixels": 24448,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-walk-e-2": {
+      "sheet": "famous-castaneda",
+      "x": 401,
+      "y": 2,
+      "w": 179,
+      "h": 309,
+      "anchorX": 0.4916,
+      "anchorY": 0.9288,
+      "logicalHeight": 315,
+      "label": "castaneda walk e 2",
+      "kind": "famous-castaneda",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          403,
+          4,
+          175,
+          305
+        ],
+        "visiblePixels": 24304,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-walk-e-3": {
+      "sheet": "famous-castaneda",
+      "x": 718,
+      "y": 2,
+      "w": 183,
+      "h": 310,
+      "anchorX": 0.4891,
+      "anchorY": 0.929,
+      "logicalHeight": 315,
+      "label": "castaneda walk e 3",
+      "kind": "famous-castaneda",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          720,
+          4,
+          179,
+          306
+        ],
+        "visiblePixels": 23853,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-walk-e-4": {
+      "sheet": "famous-castaneda",
+      "x": 1041,
+      "y": 2,
+      "w": 179,
+      "h": 309,
+      "anchorX": 0.4972,
+      "anchorY": 0.9288,
+      "logicalHeight": 315,
+      "label": "castaneda walk e 4",
+      "kind": "famous-castaneda",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1043,
+          4,
+          175,
+          305
+        ],
+        "visiblePixels": 24375,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-walk-s-1": {
+      "sheet": "famous-castaneda",
+      "x": 88,
+      "y": 318,
+      "w": 153,
+      "h": 312,
+      "anchorX": 0.4902,
+      "anchorY": 0.9391,
+      "logicalHeight": 315,
+      "label": "castaneda walk s 1",
+      "kind": "famous-castaneda",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          90,
+          320,
+          149,
+          308
+        ],
+        "visiblePixels": 23623,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-walk-s-2": {
+      "sheet": "famous-castaneda",
+      "x": 406,
+      "y": 318,
+      "w": 155,
+      "h": 311,
+      "anchorX": 0.4774,
+      "anchorY": 0.9357,
+      "logicalHeight": 315,
+      "label": "castaneda walk s 2",
+      "kind": "famous-castaneda",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          408,
+          320,
+          151,
+          307
+        ],
+        "visiblePixels": 23473,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-walk-n-1": {
+      "sheet": "famous-castaneda",
+      "x": 719,
+      "y": 319,
+      "w": 158,
+      "h": 313,
+      "anchorX": 0.5633,
+      "anchorY": 0.9553,
+      "logicalHeight": 315,
+      "label": "castaneda walk n 1",
+      "kind": "famous-castaneda",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          721,
+          321,
+          154,
+          311
+        ],
+        "visiblePixels": 24621,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-walk-n-2": {
+      "sheet": "famous-castaneda",
+      "x": 1042,
+      "y": 319,
+      "w": 150,
+      "h": 315,
+      "anchorX": 0.59,
+      "anchorY": 0.9556,
+      "logicalHeight": 315,
+      "label": "castaneda walk n 2",
+      "kind": "famous-castaneda",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1044,
+          321,
+          146,
+          311
+        ],
+        "visiblePixels": 24076,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-idle": {
+      "sheet": "famous-castaneda",
+      "x": 113,
+      "y": 630,
+      "w": 111,
+      "h": 311,
+      "anchorX": 0.5676,
+      "anchorY": 0.9421,
+      "logicalHeight": 315,
+      "label": "castaneda idle",
+      "kind": "famous-castaneda",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          115,
+          632,
+          107,
+          309
+        ],
+        "visiblePixels": 21246,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-halt": {
+      "sheet": "famous-castaneda",
+      "x": 419,
+      "y": 632,
+      "w": 201,
+      "h": 308,
+      "anchorX": 0.3433,
+      "anchorY": 0.9448,
+      "logicalHeight": 315,
+      "label": "castaneda halt",
+      "kind": "famous-castaneda",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          421,
+          634,
+          197,
+          304
+        ],
+        "visiblePixels": 26159,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-parley": {
+      "sheet": "famous-castaneda",
+      "x": 719,
+      "y": 632,
+      "w": 199,
+      "h": 307,
+      "anchorX": 0.3442,
+      "anchorY": 0.9479,
+      "logicalHeight": 315,
+      "label": "castaneda parley",
+      "kind": "famous-castaneda",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          721,
+          633,
+          195,
+          304
+        ],
+        "visiblePixels": 25377,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-read-orders": {
+      "sheet": "famous-castaneda",
+      "x": 1057,
+      "y": 634,
+      "w": 130,
+      "h": 304,
+      "anchorX": 0.4462,
+      "anchorY": 0.9441,
+      "logicalHeight": 315,
+      "label": "castaneda read orders",
+      "kind": "famous-castaneda",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1059,
+          636,
+          126,
+          300
+        ],
+        "visiblePixels": 22181,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-listen": {
+      "sheet": "famous-castaneda",
+      "x": 108,
+      "y": 941,
+      "w": 120,
+      "h": 308,
+      "anchorX": 0.5542,
+      "anchorY": 0.9383,
+      "logicalHeight": 315,
+      "label": "castaneda listen",
+      "kind": "famous-castaneda",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          110,
+          942,
+          116,
+          305
+        ],
+        "visiblePixels": 21632,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-withdraw": {
+      "sheet": "famous-castaneda",
+      "x": 370,
+      "y": 940,
+      "w": 190,
+      "h": 308,
+      "anchorX": 0.6579,
+      "anchorY": 0.9383,
+      "logicalHeight": 315,
+      "label": "castaneda withdraw",
+      "kind": "famous-castaneda",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          372,
+          942,
+          186,
+          304
+        ],
+        "visiblePixels": 24842,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-look": {
+      "sheet": "famous-castaneda",
+      "x": 732,
+      "y": 940,
+      "w": 155,
+      "h": 305,
+      "anchorX": 0.4484,
+      "anchorY": 0.9443,
+      "logicalHeight": 315,
+      "label": "castaneda look",
+      "kind": "famous-castaneda",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          734,
+          942,
+          151,
+          301
+        ],
+        "visiblePixels": 25745,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-at-ease": {
+      "sheet": "famous-castaneda",
+      "x": 1070,
+      "y": 940,
+      "w": 120,
+      "h": 310,
+      "anchorX": 0.4958,
+      "anchorY": 0.9484,
+      "logicalHeight": 315,
+      "label": "castaneda at ease",
+      "kind": "famous-castaneda",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1072,
+          942,
+          116,
+          306
+        ],
+        "visiblePixels": 21444,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda"
+    },
+    "castaneda-mounted-walk-e-1": {
+      "sheet": "famous-castaneda-mounted",
+      "x": 35,
+      "y": 6,
+      "w": 576,
+      "h": 583,
+      "anchorX": 0.5113,
+      "anchorY": 0.9365,
+      "logicalHeight": 610,
+      "label": "castaneda mounted walk e 1",
+      "kind": "famous-castaneda-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          37,
+          8,
+          572,
+          579
+        ],
+        "visiblePixels": 131411,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda-mounted"
+    },
+    "castaneda-mounted-walk-e-2": {
+      "sheet": "famous-castaneda-mounted",
+      "x": 638,
+      "y": 8,
+      "w": 568,
+      "h": 581,
+      "anchorX": 0.4974,
+      "anchorY": 0.9294,
+      "logicalHeight": 610,
+      "label": "castaneda mounted walk e 2",
+      "kind": "famous-castaneda-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          640,
+          10,
+          564,
+          577
+        ],
+        "visiblePixels": 129946,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castaneda-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda-mounted"
+    },
+    "castaneda-mounted-idle-e": {
+      "sheet": "famous-castaneda-mounted",
+      "x": 59,
+      "y": 627,
+      "w": 555,
+      "h": 607,
+      "anchorX": 0.4459,
+      "anchorY": 0.9605,
+      "logicalHeight": 610,
+      "label": "castaneda mounted idle e",
+      "kind": "famous-castaneda-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          61,
+          629,
+          551,
+          603
+        ],
+        "visiblePixels": 141123,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda-mounted"
+    },
+    "castaneda-mounted-idle-s": {
+      "sheet": "famous-castaneda-mounted",
+      "x": 815,
+      "y": 626,
+      "w": 237,
+      "h": 610,
+      "anchorX": 0.5021,
+      "anchorY": 0.9754,
+      "logicalHeight": 610,
+      "label": "castaneda mounted idle s",
+      "kind": "famous-castaneda-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          817,
+          628,
+          233,
+          606
+        ],
+        "visiblePixels": 73119,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castaneda-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castaneda-mounted"
+    },
+    "castrillon-idle": {
+      "sheet": "famous-castrillon",
+      "x": 202,
+      "y": 34,
+      "w": 237,
+      "h": 576,
+      "anchorX": 0.5549,
+      "anchorY": 0.9549,
+      "logicalHeight": 583,
+      "label": "castrillon idle",
+      "kind": "famous-castrillon",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          204,
+          36,
+          233,
+          572
+        ],
+        "visiblePixels": 85639,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castrillon.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castrillon"
+    },
+    "castrillon-walk-e-1": {
+      "sheet": "famous-castrillon",
+      "x": 734,
+      "y": 40,
+      "w": 337,
+      "h": 567,
+      "anchorX": 0.5,
+      "anchorY": 0.9295,
+      "logicalHeight": 583,
+      "label": "castrillon walk e 1",
+      "kind": "famous-castrillon",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          736,
+          42,
+          333,
+          563
+        ],
+        "visiblePixels": 88758,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castrillon.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castrillon-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castrillon"
+    },
+    "castrillon-walk-e-2": {
+      "sheet": "famous-castrillon",
+      "x": 174,
+      "y": 650,
+      "w": 348,
+      "h": 567,
+      "anchorX": 0.4928,
+      "anchorY": 0.9295,
+      "logicalHeight": 583,
+      "label": "castrillon walk e 2",
+      "kind": "famous-castrillon",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          176,
+          652,
+          344,
+          563
+        ],
+        "visiblePixels": 89814,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castrillon.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castrillon-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castrillon"
+    },
+    "castrillon-command": {
+      "sheet": "famous-castrillon",
+      "x": 714,
+      "y": 640,
+      "w": 444,
+      "h": 583,
+      "anchorX": 0.3896,
+      "anchorY": 0.9571,
+      "logicalHeight": 583,
+      "label": "castrillon command",
+      "kind": "famous-castrillon",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          716,
+          642,
+          440,
+          579
+        ],
+        "visiblePixels": 102302,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castrillon.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castrillon"
+    },
+    "castrillon-turn-away": {
+      "sheet": "famous-castrillon-fate",
+      "x": 192,
+      "y": 25,
+      "w": 270,
+      "h": 642,
+      "anchorX": 0.4741,
+      "anchorY": 0.9299,
+      "logicalHeight": 642,
+      "label": "castrillon turn away",
+      "kind": "famous-castrillon-fate",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          194,
+          27,
+          266,
+          638
+        ],
+        "visiblePixels": 97992,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castrillon-fate.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castrillon-fall"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castrillon-fate"
+    },
+    "castrillon-stumble": {
+      "sheet": "famous-castrillon-fate",
+      "x": 713,
+      "y": 76,
+      "w": 448,
+      "h": 598,
+      "anchorX": 0.5748,
+      "anchorY": 0.9298,
+      "logicalHeight": 642,
+      "label": "castrillon stumble",
+      "kind": "famous-castrillon-fate",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          715,
+          78,
+          444,
+          594
+        ],
+        "visiblePixels": 115988,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castrillon-fate.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castrillon-fall"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castrillon-fate"
+    },
+    "castrillon-kneel": {
+      "sheet": "famous-castrillon-fate",
+      "x": 52,
+      "y": 782,
+      "w": 441,
+      "h": 436,
+      "anchorX": 0.3912,
+      "anchorY": 0.9381,
+      "logicalHeight": 642,
+      "label": "castrillon kneel",
+      "kind": "famous-castrillon-fate",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          54,
+          784,
+          437,
+          432
+        ],
+        "visiblePixels": 97996,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castrillon-fate.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "castrillon-fall"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castrillon-fate"
+    },
+    "castrillon-still": {
+      "sheet": "famous-castrillon-fate",
+      "x": 538,
+      "y": 1006,
+      "w": 690,
+      "h": 185,
+      "anchorX": 0.0312,
+      "anchorY": 0.9297,
+      "logicalHeight": 642,
+      "label": "castrillon still",
+      "kind": "famous-castrillon-fate",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          540,
+          1008,
+          686,
+          181
+        ],
+        "visiblePixels": 77307,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-castrillon-fate.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-castrillon-fate"
+    },
+    "cos-walk-e-1": {
+      "sheet": "famous-cos",
+      "x": 88,
+      "y": 1,
+      "w": 189,
+      "h": 317,
+      "anchorX": 0.5106,
+      "anchorY": 0.9274,
+      "logicalHeight": 318,
+      "label": "cos walk e 1",
+      "kind": "famous-cos",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          90,
+          3,
+          185,
+          313
+        ],
+        "visiblePixels": 27762,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-walk-e-2": {
+      "sheet": "famous-cos",
+      "x": 401,
+      "y": 1,
+      "w": 188,
+      "h": 317,
+      "anchorX": 0.508,
+      "anchorY": 0.9274,
+      "logicalHeight": 318,
+      "label": "cos walk e 2",
+      "kind": "famous-cos",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          403,
+          3,
+          184,
+          313
+        ],
+        "visiblePixels": 27631,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-walk-e-3": {
+      "sheet": "famous-cos",
+      "x": 704,
+      "y": 1,
+      "w": 198,
+      "h": 318,
+      "anchorX": 0.5025,
+      "anchorY": 0.9277,
+      "logicalHeight": 318,
+      "label": "cos walk e 3",
+      "kind": "famous-cos",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          706,
+          3,
+          194,
+          314
+        ],
+        "visiblePixels": 25088,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-walk-e-4": {
+      "sheet": "famous-cos",
+      "x": 1028,
+      "y": 1,
+      "w": 187,
+      "h": 317,
+      "anchorX": 0.5107,
+      "anchorY": 0.9274,
+      "logicalHeight": 318,
+      "label": "cos walk e 4",
+      "kind": "famous-cos",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1030,
+          3,
+          183,
+          313
+        ],
+        "visiblePixels": 27369,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-walk-s-1": {
+      "sheet": "famous-cos",
+      "x": 81,
+      "y": 325,
+      "w": 159,
+      "h": 311,
+      "anchorX": 0.4937,
+      "anchorY": 0.9357,
+      "logicalHeight": 318,
+      "label": "cos walk s 1",
+      "kind": "famous-cos",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          83,
+          327,
+          155,
+          307
+        ],
+        "visiblePixels": 26357,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-walk-s-2": {
+      "sheet": "famous-cos",
+      "x": 392,
+      "y": 326,
+      "w": 163,
+      "h": 309,
+      "anchorX": 0.4877,
+      "anchorY": 0.932,
+      "logicalHeight": 318,
+      "label": "cos walk s 2",
+      "kind": "famous-cos",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          394,
+          328,
+          159,
+          306
+        ],
+        "visiblePixels": 26707,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-walk-n-1": {
+      "sheet": "famous-cos",
+      "x": 706,
+      "y": 326,
+      "w": 168,
+      "h": 311,
+      "anchorX": 0.5476,
+      "anchorY": 0.9293,
+      "logicalHeight": 318,
+      "label": "cos walk n 1",
+      "kind": "famous-cos",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          708,
+          328,
+          164,
+          307
+        ],
+        "visiblePixels": 27985,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-walk-n-2": {
+      "sheet": "famous-cos",
+      "x": 1031,
+      "y": 324,
+      "w": 163,
+      "h": 315,
+      "anchorX": 0.5153,
+      "anchorY": 0.927,
+      "logicalHeight": 318,
+      "label": "cos walk n 2",
+      "kind": "famous-cos",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1033,
+          326,
+          159,
+          311
+        ],
+        "visiblePixels": 27772,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-idle": {
+      "sheet": "famous-cos",
+      "x": 95,
+      "y": 637,
+      "w": 112,
+      "h": 312,
+      "anchorX": 0.5625,
+      "anchorY": 0.9455,
+      "logicalHeight": 318,
+      "label": "cos idle",
+      "kind": "famous-cos",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          97,
+          639,
+          108,
+          308
+        ],
+        "visiblePixels": 22253,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-command": {
+      "sheet": "famous-cos",
+      "x": 388,
+      "y": 635,
+      "w": 229,
+      "h": 311,
+      "anchorX": 0.3668,
+      "anchorY": 0.955,
+      "logicalHeight": 318,
+      "label": "cos command",
+      "kind": "famous-cos",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          390,
+          637,
+          225,
+          308
+        ],
+        "visiblePixels": 29872,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-point": {
+      "sheet": "famous-cos",
+      "x": 697,
+      "y": 637,
+      "w": 252,
+      "h": 308,
+      "anchorX": 0.3313,
+      "anchorY": 0.961,
+      "logicalHeight": 318,
+      "label": "cos point",
+      "kind": "famous-cos",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          699,
+          639,
+          248,
+          306
+        ],
+        "visiblePixels": 29728,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-map": {
+      "sheet": "famous-cos",
+      "x": 1035,
+      "y": 647,
+      "w": 176,
+      "h": 297,
+      "anchorX": 0.4318,
+      "anchorY": 0.9663,
+      "logicalHeight": 318,
+      "label": "cos map",
+      "kind": "famous-cos",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1037,
+          649,
+          172,
+          295
+        ],
+        "visiblePixels": 26940,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-sign-terms": {
+      "sheet": "famous-cos",
+      "x": 64,
+      "y": 953,
+      "w": 213,
+      "h": 295,
+      "anchorX": 0.5634,
+      "anchorY": 0.9288,
+      "logicalHeight": 318,
+      "label": "cos sign terms",
+      "kind": "famous-cos",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          66,
+          955,
+          209,
+          291
+        ],
+        "visiblePixels": 34235,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-hand-document": {
+      "sheet": "famous-cos",
+      "x": 396,
+      "y": 946,
+      "w": 247,
+      "h": 299,
+      "anchorX": 0.332,
+      "anchorY": 0.9465,
+      "logicalHeight": 318,
+      "label": "cos hand document",
+      "kind": "famous-cos",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          398,
+          948,
+          243,
+          295
+        ],
+        "visiblePixels": 28332,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-sword-down": {
+      "sheet": "famous-cos",
+      "x": 715,
+      "y": 945,
+      "w": 142,
+      "h": 301,
+      "anchorX": 0.5599,
+      "anchorY": 0.9435,
+      "logicalHeight": 318,
+      "label": "cos sword down",
+      "kind": "famous-cos",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          717,
+          945,
+          138,
+          299
+        ],
+        "visiblePixels": 25919,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-prisoner": {
+      "sheet": "famous-cos",
+      "x": 1048,
+      "y": 944,
+      "w": 118,
+      "h": 303,
+      "anchorX": 0.5212,
+      "anchorY": 0.9703,
+      "logicalHeight": 318,
+      "label": "cos prisoner",
+      "kind": "famous-cos",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1050,
+          945,
+          114,
+          300
+        ],
+        "visiblePixels": 23493,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos"
+    },
+    "cos-mounted-walk-e-1": {
+      "sheet": "famous-cos-mounted",
+      "x": 23,
+      "y": 12,
+      "w": 584,
+      "h": 578,
+      "anchorX": 0.512,
+      "anchorY": 0.9343,
+      "logicalHeight": 616,
+      "label": "cos mounted walk e 1",
+      "kind": "famous-cos-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          25,
+          14,
+          580,
+          574
+        ],
+        "visiblePixels": 134853,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos-mounted"
+    },
+    "cos-mounted-walk-e-2": {
+      "sheet": "famous-cos-mounted",
+      "x": 634,
+      "y": 14,
+      "w": 582,
+      "h": 572,
+      "anchorX": 0.4845,
+      "anchorY": 0.9301,
+      "logicalHeight": 616,
+      "label": "cos mounted walk e 2",
+      "kind": "famous-cos-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          636,
+          16,
+          578,
+          568
+        ],
+        "visiblePixels": 133225,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "cos-mounted-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos-mounted"
+    },
+    "cos-mounted-idle-e": {
+      "sheet": "famous-cos-mounted",
+      "x": 59,
+      "y": 632,
+      "w": 563,
+      "h": 600,
+      "anchorX": 0.4245,
+      "anchorY": 0.9633,
+      "logicalHeight": 616,
+      "label": "cos mounted idle e",
+      "kind": "famous-cos-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          61,
+          634,
+          559,
+          596
+        ],
+        "visiblePixels": 140974,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos-mounted"
+    },
+    "cos-mounted-idle-s": {
+      "sheet": "famous-cos-mounted",
+      "x": 794,
+      "y": 624,
+      "w": 239,
+      "h": 616,
+      "anchorX": 0.5021,
+      "anchorY": 0.9773,
+      "logicalHeight": 616,
+      "label": "cos mounted idle s",
+      "kind": "famous-cos-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          796,
+          626,
+          235,
+          612
+        ],
+        "visiblePixels": 77353,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-cos-mounted.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-cos-mounted"
+    },
     "crockett-captive-1": {
       "sheet": "famous-crockett-fate",
       "x": 181,
@@ -31209,6 +37215,550 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/famous-esparza"
+    },
+    "moore-walk-e-1": {
+      "sheet": "famous-moore",
+      "x": 79,
+      "y": 46,
+      "w": 195,
+      "h": 281,
+      "anchorX": 0.4974,
+      "anchorY": 0.9288,
+      "logicalHeight": 281,
+      "label": "moore walk e 1",
+      "kind": "famous-moore",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          81,
+          48,
+          191,
+          277
+        ],
+        "visiblePixels": 26739,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "moore-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
+    },
+    "moore-walk-e-2": {
+      "sheet": "famous-moore",
+      "x": 391,
+      "y": 46,
+      "w": 187,
+      "h": 280,
+      "anchorX": 0.5053,
+      "anchorY": 0.9286,
+      "logicalHeight": 281,
+      "label": "moore walk e 2",
+      "kind": "famous-moore",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          393,
+          48,
+          183,
+          276
+        ],
+        "visiblePixels": 25607,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "moore-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
+    },
+    "moore-walk-e-3": {
+      "sheet": "famous-moore",
+      "x": 681,
+      "y": 46,
+      "w": 194,
+      "h": 279,
+      "anchorX": 0.4974,
+      "anchorY": 0.9283,
+      "logicalHeight": 281,
+      "label": "moore walk e 3",
+      "kind": "famous-moore",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          683,
+          48,
+          190,
+          275
+        ],
+        "visiblePixels": 25636,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "moore-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
+    },
+    "moore-walk-e-4": {
+      "sheet": "famous-moore",
+      "x": 995,
+      "y": 46,
+      "w": 192,
+      "h": 279,
+      "anchorX": 0.5,
+      "anchorY": 0.9283,
+      "logicalHeight": 281,
+      "label": "moore walk e 4",
+      "kind": "famous-moore",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          997,
+          48,
+          188,
+          275
+        ],
+        "visiblePixels": 25689,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "moore-walk-e"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
+    },
+    "moore-walk-s-1": {
+      "sheet": "famous-moore",
+      "x": 90,
+      "y": 351,
+      "w": 157,
+      "h": 278,
+      "anchorX": 0.4331,
+      "anchorY": 0.9353,
+      "logicalHeight": 281,
+      "label": "moore walk s 1",
+      "kind": "famous-moore",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          92,
+          353,
+          153,
+          274
+        ],
+        "visiblePixels": 24637,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "moore-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
+    },
+    "moore-walk-s-2": {
+      "sheet": "famous-moore",
+      "x": 405,
+      "y": 351,
+      "w": 158,
+      "h": 278,
+      "anchorX": 0.4905,
+      "anchorY": 0.946,
+      "logicalHeight": 281,
+      "label": "moore walk s 2",
+      "kind": "famous-moore",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          407,
+          353,
+          154,
+          274
+        ],
+        "visiblePixels": 24151,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "moore-walk-s"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
+    },
+    "moore-walk-n-1": {
+      "sheet": "famous-moore",
+      "x": 709,
+      "y": 351,
+      "w": 146,
+      "h": 279,
+      "anchorX": 0.5582,
+      "anchorY": 0.9462,
+      "logicalHeight": 281,
+      "label": "moore walk n 1",
+      "kind": "famous-moore",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          711,
+          353,
+          142,
+          275
+        ],
+        "visiblePixels": 23497,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "moore-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
+    },
+    "moore-walk-n-2": {
+      "sheet": "famous-moore",
+      "x": 1019,
+      "y": 351,
+      "w": 146,
+      "h": 278,
+      "anchorX": 0.5616,
+      "anchorY": 0.9281,
+      "logicalHeight": 281,
+      "label": "moore walk n 2",
+      "kind": "famous-moore",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1021,
+          353,
+          142,
+          274
+        ],
+        "visiblePixels": 23196,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "moore-walk-n"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
+    },
+    "moore-idle": {
+      "sheet": "famous-moore",
+      "x": 97,
+      "y": 652,
+      "w": 142,
+      "h": 268,
+      "anchorX": 0.5423,
+      "anchorY": 0.9478,
+      "logicalHeight": 281,
+      "label": "moore idle",
+      "kind": "famous-moore",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          99,
+          654,
+          138,
+          264
+        ],
+        "visiblePixels": 23654,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
+    },
+    "moore-point": {
+      "sheet": "famous-moore",
+      "x": 405,
+      "y": 652,
+      "w": 200,
+      "h": 270,
+      "anchorX": 0.4,
+      "anchorY": 0.9444,
+      "logicalHeight": 281,
+      "label": "moore point",
+      "kind": "famous-moore",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          407,
+          654,
+          196,
+          266
+        ],
+        "visiblePixels": 26137,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
+    },
+    "moore-parley": {
+      "sheet": "famous-moore",
+      "x": 715,
+      "y": 650,
+      "w": 199,
+      "h": 271,
+      "anchorX": 0.392,
+      "anchorY": 0.952,
+      "logicalHeight": 281,
+      "label": "moore parley",
+      "kind": "famous-moore",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          717,
+          652,
+          195,
+          267
+        ],
+        "visiblePixels": 26310,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
+    },
+    "moore-listen": {
+      "sheet": "famous-moore",
+      "x": 1038,
+      "y": 651,
+      "w": 137,
+      "h": 271,
+      "anchorX": 0.5365,
+      "anchorY": 0.9373,
+      "logicalHeight": 281,
+      "label": "moore listen",
+      "kind": "famous-moore",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1040,
+          653,
+          133,
+          267
+        ],
+        "visiblePixels": 23759,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
+    },
+    "moore-command": {
+      "sheet": "famous-moore",
+      "x": 91,
+      "y": 940,
+      "w": 178,
+      "h": 266,
+      "anchorX": 0.4382,
+      "anchorY": 0.9398,
+      "logicalHeight": 281,
+      "label": "moore command",
+      "kind": "famous-moore",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          93,
+          942,
+          174,
+          262
+        ],
+        "visiblePixels": 26284,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
+    },
+    "moore-read-note": {
+      "sheet": "famous-moore",
+      "x": 399,
+      "y": 943,
+      "w": 155,
+      "h": 264,
+      "anchorX": 0.5226,
+      "anchorY": 0.9394,
+      "logicalHeight": 281,
+      "label": "moore read note",
+      "kind": "famous-moore",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          401,
+          945,
+          151,
+          260
+        ],
+        "visiblePixels": 23563,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
+    },
+    "moore-field-glass": {
+      "sheet": "famous-moore",
+      "x": 704,
+      "y": 940,
+      "w": 182,
+      "h": 266,
+      "anchorX": 0.4863,
+      "anchorY": 0.9511,
+      "logicalHeight": 281,
+      "label": "moore field glass",
+      "kind": "famous-moore",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          706,
+          942,
+          178,
+          262
+        ],
+        "visiblePixels": 25782,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
+    },
+    "moore-at-ease": {
+      "sheet": "famous-moore",
+      "x": 1030,
+      "y": 942,
+      "w": 148,
+      "h": 264,
+      "anchorX": 0.5203,
+      "anchorY": 0.9394,
+      "logicalHeight": 281,
+      "label": "moore at ease",
+      "kind": "famous-moore",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1032,
+          944,
+          144,
+          260
+        ],
+        "visiblePixels": 22784,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/famous-moore.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [],
+      "locationKits": [],
+      "promptId": "frontier-v1/famous-moore"
     },
     "houston-mounted-walk-e-1": {
       "sheet": "famous-houston-mounted",
@@ -48487,6 +55037,282 @@
       "clips": [],
       "locationKits": [],
       "promptId": "frontier-v1/trees-colonies-2"
+    },
+    "twin-crew-rammer-carry": {
+      "sheet": "twin-sisters-crew",
+      "x": 118,
+      "y": 36,
+      "w": 339,
+      "h": 581,
+      "anchorX": 0.4941,
+      "anchorY": 0.9432,
+      "label": "twin crew rammer carry",
+      "kind": "twin-sisters-crew",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          120,
+          38,
+          335,
+          577
+        ],
+        "visiblePixels": 76524,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/twin-sisters-crew.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle",
+        "state-artwork"
+      ],
+      "clips": [
+        "twin-crew-gun-ram",
+        "twin-crew-gun-ready",
+        "twin-crew-gun-fire"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/twin-sisters-crew"
+    },
+    "twin-crew-ram": {
+      "sheet": "twin-sisters-crew",
+      "x": 625,
+      "y": 189,
+      "w": 619,
+      "h": 428,
+      "anchorX": 0.2763,
+      "anchorY": 0.9299,
+      "label": "twin crew ram",
+      "kind": "twin-sisters-crew",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          627,
+          191,
+          615,
+          424
+        ],
+        "visiblePixels": 75440,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/twin-sisters-crew.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "twin-crew-gun-ram"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/twin-sisters-crew"
+    },
+    "twin-crew-shot-carry": {
+      "sheet": "twin-sisters-crew",
+      "x": 104,
+      "y": 691,
+      "w": 371,
+      "h": 514,
+      "anchorX": 0.5054,
+      "anchorY": 0.93,
+      "label": "twin crew shot carry",
+      "kind": "twin-sisters-crew",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          106,
+          693,
+          367,
+          510
+        ],
+        "visiblePixels": 73548,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/twin-sisters-crew.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "state-artwork"
+      ],
+      "clips": [
+        "twin-crew-gun-shot-carry"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/twin-sisters-crew"
+    },
+    "twin-crew-fire": {
+      "sheet": "twin-sisters-crew",
+      "x": 629,
+      "y": 729,
+      "w": 499,
+      "h": 473,
+      "anchorX": 0.6363,
+      "anchorY": 0.9302,
+      "label": "twin crew fire",
+      "kind": "twin-sisters-crew",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          631,
+          731,
+          495,
+          469
+        ],
+        "visiblePixels": 80920,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/twin-sisters-crew.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "twin-crew-gun-fire"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/twin-sisters-crew"
+    },
+    "regular-drummer-idle": {
+      "sheet": "regular-drummer",
+      "x": 216,
+      "y": 40,
+      "w": 240,
+      "h": 559,
+      "anchorX": 0.4583,
+      "anchorY": 0.9463,
+      "label": "regular drummer idle",
+      "kind": "regular-drummer",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          218,
+          42,
+          236,
+          555
+        ],
+        "visiblePixels": 74171,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-drummer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-drummer-start"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-drummer"
+    },
+    "regular-drummer-raise": {
+      "sheet": "regular-drummer",
+      "x": 818,
+      "y": 42,
+      "w": 270,
+      "h": 556,
+      "anchorX": 0.4889,
+      "anchorY": 0.9442,
+      "label": "regular drummer raise",
+      "kind": "regular-drummer",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          820,
+          44,
+          266,
+          552
+        ],
+        "visiblePixels": 78196,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-drummer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-drummer-start"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-drummer"
+    },
+    "regular-drummer-beat-1": {
+      "sheet": "regular-drummer",
+      "x": 212,
+      "y": 655,
+      "w": 252,
+      "h": 554,
+      "anchorX": 0.4583,
+      "anchorY": 0.9314,
+      "label": "regular drummer beat 1",
+      "kind": "regular-drummer",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          214,
+          657,
+          248,
+          550
+        ],
+        "visiblePixels": 77000,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-drummer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-drummer-start",
+        "regular-drummer-beat"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-drummer"
+    },
+    "regular-drummer-beat-2": {
+      "sheet": "regular-drummer",
+      "x": 826,
+      "y": 655,
+      "w": 257,
+      "h": 553,
+      "anchorX": 0.4825,
+      "anchorY": 0.9403,
+      "label": "regular drummer beat 2",
+      "kind": "regular-drummer",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          828,
+          657,
+          253,
+          549
+        ],
+        "visiblePixels": 78041,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      },
+      "source": "atlases/regular-drummer.png",
+      "status": "usable-prototype",
+      "classifications": [
+        "pose-frame-cycle"
+      ],
+      "clips": [
+        "regular-drummer-beat"
+      ],
+      "locationKits": [],
+      "promptId": "frontier-v1/regular-drummer"
     },
     "twin-sister-painted-e": {
       "sheet": "twin-sisters-painted",
@@ -67463,6 +74289,90 @@
       "motion": "none",
       "direction": "elevation; orient with structure geometry"
     },
+    "cannon-18pdr-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-18pdr-e",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-18pdr-recoil-e",
+          "duration": 210
+        },
+        {
+          "sprite": "cannon-18pdr-e",
+          "duration": 450
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "recoilSign": 1
+    },
+    "cannon-18pdr-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-18pdr-w",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-18pdr-recoil-w",
+          "duration": 210
+        },
+        {
+          "sprite": "cannon-18pdr-w",
+          "duration": 450
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "recoilSign": -1
+    },
+    "cannon-siege-battery-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-siege-battery-e",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-siege-battery-recoil-e",
+          "duration": 210
+        },
+        {
+          "sprite": "cannon-siege-battery-e",
+          "duration": 450
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east",
+      "recoilSign": 1
+    },
+    "cannon-siege-battery-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-siege-battery-w",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-siege-battery-recoil-w",
+          "duration": 210
+        },
+        {
+          "sprite": "cannon-siege-battery-w",
+          "duration": 450
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "west",
+      "recoilSign": -1
+    },
     "joe-fire-door": {
       "frames": [
         {
@@ -67478,6 +74388,94 @@
       "authored": true,
       "motion": "none",
       "direction": "east; mirror for west"
+    },
+    "flag-red-wind": {
+      "frames": [
+        {
+          "sprite": "flag-red-still",
+          "duration": 430
+        },
+        {
+          "sprite": "flag-red-wind-1",
+          "duration": 380
+        },
+        {
+          "sprite": "flag-red-wind-2",
+          "duration": 360
+        },
+        {
+          "sprite": "flag-red-wind-3",
+          "duration": 420
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
+    "smoke-column-far-rise": {
+      "frames": [
+        {
+          "sprite": "smoke-column-far-1",
+          "duration": 420
+        },
+        {
+          "sprite": "smoke-column-far-2",
+          "duration": 440
+        },
+        {
+          "sprite": "smoke-column-far-3",
+          "duration": 460
+        },
+        {
+          "sprite": "smoke-column-far-4",
+          "duration": 440
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
+    "ladder-carried-e": {
+      "frames": [
+        {
+          "sprite": "ladder-carried-e-1",
+          "duration": 330
+        },
+        {
+          "sprite": "ladder-carried-e-2",
+          "duration": 330
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "regular-climb": {
+      "frames": [
+        {
+          "sprite": "regular-climb-1",
+          "duration": 220
+        },
+        {
+          "sprite": "regular-climb-2",
+          "duration": 220
+        },
+        {
+          "sprite": "regular-climb-3",
+          "duration": 220
+        },
+        {
+          "sprite": "regular-climb-4",
+          "duration": 220
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north/up"
     },
     "volunteer-gun-ram": {
       "frames": [
@@ -67590,6 +74588,62 @@
       "authored": true,
       "motion": "none",
       "direction": "east; west by mirroring"
+    },
+    "regular-bugler-call": {
+      "frames": [
+        {
+          "sprite": "regular-bugler-idle",
+          "duration": 170
+        },
+        {
+          "sprite": "regular-bugler-raise",
+          "duration": 220
+        },
+        {
+          "sprite": "regular-bugler-sound",
+          "duration": 650
+        },
+        {
+          "sprite": "regular-bugler-lower",
+          "duration": 300
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "white-flag-regular-walk-e": {
+      "frames": [
+        {
+          "sprite": "white-flag-regular-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "white-flag-regular-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "white-flag-volunteer-walk-e": {
+      "frames": [
+        {
+          "sprite": "white-flag-volunteer-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "white-flag-volunteer-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
     },
     "cane-wind": {
       "frames": [
@@ -67770,6 +74824,30 @@
       "authored": false,
       "motion": "sway",
       "direction": "not applicable"
+    },
+    "canister-burst": {
+      "frames": [
+        {
+          "sprite": "canister-burst-1",
+          "duration": 110
+        },
+        {
+          "sprite": "canister-burst-2",
+          "duration": 170
+        },
+        {
+          "sprite": "canister-burst-3",
+          "duration": 230
+        },
+        {
+          "sprite": "canister-burst-4",
+          "duration": 310
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
     },
     "cannon-cartwheels-e-recoil": {
       "frames": [
@@ -69711,6 +76789,30 @@
       "motion": "none",
       "direction": "stationary"
     },
+    "cart-baggage-tip": {
+      "frames": [
+        {
+          "sprite": "cart-baggage",
+          "duration": 550
+        },
+        {
+          "sprite": "cart-baggage-tilt-1",
+          "duration": 450
+        },
+        {
+          "sprite": "cart-baggage-tilt-2",
+          "duration": 450
+        },
+        {
+          "sprite": "cart-tipped",
+          "duration": 1200
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "bonham-walk-e": {
       "frames": [
         {
@@ -70007,6 +77109,62 @@
       "motion": "none",
       "direction": "north"
     },
+    "almonte-walk-e": {
+      "frames": [
+        {
+          "sprite": "almonte-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "almonte-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "almonte-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "almonte-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "almonte-walk-s": {
+      "frames": [
+        {
+          "sprite": "almonte-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "almonte-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "almonte-walk-n": {
+      "frames": [
+        {
+          "sprite": "almonte-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "almonte-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "twin-sisters-limbered": {
       "frames": [
         {
@@ -70191,6 +77349,258 @@
       "motion": "none",
       "direction": "north"
     },
+    "burleson-walk-e": {
+      "frames": [
+        {
+          "sprite": "burleson-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "burleson-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "burleson-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "burleson-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "burleson-walk-s": {
+      "frames": [
+        {
+          "sprite": "burleson-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "burleson-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "burleson-walk-n": {
+      "frames": [
+        {
+          "sprite": "burleson-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "burleson-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "burleson-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "burleson-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "burleson-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "castaneda-walk-e": {
+      "frames": [
+        {
+          "sprite": "castaneda-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "castaneda-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "castaneda-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "castaneda-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "castaneda-walk-s": {
+      "frames": [
+        {
+          "sprite": "castaneda-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "castaneda-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "castaneda-walk-n": {
+      "frames": [
+        {
+          "sprite": "castaneda-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "castaneda-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "castaneda-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "castaneda-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "castaneda-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "castrillon-walk-e": {
+      "frames": [
+        {
+          "sprite": "castrillon-walk-e-1",
+          "duration": 270
+        },
+        {
+          "sprite": "castrillon-walk-e-2",
+          "duration": 270
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "castrillon-fall": {
+      "frames": [
+        {
+          "sprite": "castrillon-turn-away",
+          "duration": 180
+        },
+        {
+          "sprite": "castrillon-stumble",
+          "duration": 220
+        },
+        {
+          "sprite": "castrillon-kneel",
+          "duration": 300
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "cos-walk-e": {
+      "frames": [
+        {
+          "sprite": "cos-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "cos-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "cos-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "cos-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "cos-walk-s": {
+      "frames": [
+        {
+          "sprite": "cos-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "cos-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "cos-walk-n": {
+      "frames": [
+        {
+          "sprite": "cos-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "cos-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "cos-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "cos-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "cos-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "crockett-captive": {
       "frames": [
         {
@@ -70255,6 +77665,62 @@
         },
         {
           "sprite": "esparza-walk-n-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "moore-walk-e": {
+      "frames": [
+        {
+          "sprite": "moore-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "moore-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "moore-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "moore-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "moore-walk-s": {
+      "frames": [
+        {
+          "sprite": "moore-walk-s-1",
+          "duration": 290
+        },
+        {
+          "sprite": "moore-walk-s-2",
+          "duration": 290
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "moore-walk-n": {
+      "frames": [
+        {
+          "sprite": "moore-walk-n-1",
+          "duration": 290
+        },
+        {
+          "sprite": "moore-walk-n-2",
           "duration": 290
         }
       ],
@@ -72730,6 +80196,106 @@
       "authored": false,
       "motion": "sway",
       "direction": "not applicable"
+    },
+    "twin-crew-gun-ram": {
+      "frames": [
+        {
+          "sprite": "twin-crew-rammer-carry",
+          "duration": 280
+        },
+        {
+          "sprite": "twin-crew-ram",
+          "duration": 420
+        },
+        {
+          "sprite": "twin-crew-rammer-carry",
+          "duration": 330
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "twin-crew-gun-shot-carry": {
+      "frames": [
+        {
+          "sprite": "twin-crew-shot-carry",
+          "duration": 360
+        }
+      ],
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "twin-crew-gun-ready": {
+      "frames": [
+        {
+          "sprite": "twin-crew-rammer-carry",
+          "duration": 360
+        }
+      ],
+      "loop": false,
+      "authored": false,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "twin-crew-gun-fire": {
+      "frames": [
+        {
+          "sprite": "twin-crew-rammer-carry",
+          "duration": 160
+        },
+        {
+          "sprite": "twin-crew-fire",
+          "duration": 440
+        },
+        {
+          "sprite": "twin-crew-rammer-carry",
+          "duration": 260
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "regular-drummer-start": {
+      "frames": [
+        {
+          "sprite": "regular-drummer-idle",
+          "duration": 250
+        },
+        {
+          "sprite": "regular-drummer-raise",
+          "duration": 250
+        },
+        {
+          "sprite": "regular-drummer-beat-1",
+          "duration": 250
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "regular-drummer-beat": {
+      "frames": [
+        {
+          "sprite": "regular-drummer-beat-1",
+          "duration": 240
+        },
+        {
+          "sprite": "regular-drummer-beat-2",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
     },
     "twin-sister-painted-e-recoil": {
       "frames": [
@@ -81716,7 +89282,7 @@
   ],
   "provenance": {
     "tool": "Built-in image_gen.imagegen",
-    "sourceCount": 143,
+    "sourceCount": 166,
     "originalPNGsUnmodified": true,
     "referenceImagesRedistributed": false,
     "details": "docs/art-provenance.json"
