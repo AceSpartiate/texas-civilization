@@ -3736,6 +3736,8 @@ function populateTrade(world, chosen, running) {
 let flightFormKey = '';
 /** The places the family may make for (sim/flight-route.mjs `flightPlaces`): on the road, or in the order to leave. */
 const routePlacesOf = world => world.flight?.route?.places || world.flight?.places || [];
+/** A count of miles in words, "1 mile" and "17 miles" (sim/road.mjs `milesWord`; the card read "1 miles an hour", 2026-09-28). */
+function milesWord(miles) { return `${miles} ${miles === 1 ? 'mile' : 'miles'}`; }
 /** A distance in words: yards close in, miles further off. */
 const farWords = miles => (miles < 0.5 ? `${Math.max(10, Math.round(miles * 1760 / 10) * 10)} yards` : miles < 1.5 ? `${Math.round(miles * 4) / 4} of a mile`.replace('0.25', 'a quarter').replace('0.5', 'half').replace('0.75', 'three quarters').replace(/^1 of a mile$/, 'a mile').replace('1.25 of a mile', 'a mile and a quarter') : `${Math.round(miles)} miles`);
 /**
@@ -3861,12 +3863,12 @@ function renderFlight(world, chosen, running) {
       flight.cowPace ? 'On foot with the milk cow, the family goes no faster than she walks, about two miles an hour.' : '',
       flight.camp ? `The family has halted: ${flight.camp.toLowerCase()}.` : '',
       // Said once: while the warning is the open question, its own words carry the miles.
-      flight.danger && flight.ask?.id !== 'danger' ? `${flight.danger.name} is about ${flight.danger.miles} miles off, making for ${flight.danger.towardName}.` : '',
+      flight.danger && flight.ask?.id !== 'danger' ? `${flight.danger.name} is ${flight.danger.miles < 1 ? 'less than a mile' : `about ${milesWord(flight.danger.miles)}`} off, making for ${flight.danger.towardName}.` : '',
       flight.overtaken ? 'The Mexican army has come up with the family and taken what it had.' : '',
     ].filter(Boolean).join(' ');
     // Its own way (sim/flight-route.mjs): where it is making for, the next stop, the pace; and how far off it can be seen.
     const route = flight.route, stops = route?.stops || [];
-    const routeWords = flight.status === 'fled' && route?.next ? `Making for ${stops.at(-1)?.name}${stops.length > 1 ? `, by way of ${stops.slice(0, -1).map(stop => stop.name).join(' and ')}` : ''}. Next, ${route.next.name}: ${route.next.miles} miles ${route.way === 'country' ? 'across country' : 'by the road'}, at about ${route.mph} miles an hour.` : '';
+    const routeWords = flight.status === 'fled' && route?.next ? `Making for ${stops.at(-1)?.name}${stops.length > 1 ? `, by way of ${stops.slice(0, -1).map(stop => stop.name).join(' and ')}` : ''}. Next, ${route.next.name}: ${milesWord(route.next.miles)} ${route.way === 'country' ? 'across country' : 'by the road'}, at about ${milesWord(route.mph)} an hour.` : '';
     const seen = flight.seen;
     const seenWords = seen && ['fled', 'refuged'].includes(flight.status) ? `Mexican troops could see the family from about ${farWords(seen.miles)}: ${seen.what === 'wagon' ? 'the wagon' : seen.what === 'mounted' ? 'riders' : 'people on foot'} ${seen.way === 'country' ? 'off the road' : 'on the road'}${seen.cover === 'timber' ? ', in the timber' : seen.cover === 'brush' ? ', in the brush' : ', in the open'}${['rain', 'storm'].includes(seen.weather) ? ', in the rain' : seen.weather === 'fog' ? ', in the fog' : ''}${seen.night ? ', at night' : ''}.` : '';
     // The soldiers after it (sim/pursuit.mjs), as the family sees them.

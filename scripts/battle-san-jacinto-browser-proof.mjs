@@ -5,8 +5,9 @@
 // A real spring class on the colonies map, played in process to noon on April 17 (the first period alone is some four
 // hundred ticks), then joined by two students and the Host. Seed `sj-proof-90` (since 2026-09-26, when the land came to be
 // dealt half inside the burn zone and `sj-proof-1`'s first family lost its father to the road) deals the first family camped
-// at its refuge at Lynchburg (its grown man brought there from the farm in process), and the second family gone to
-// Nacogdoches with nobody in the army.
+// at its refuge at Lynchburg (its grown man brought there from the farm in process, and since 2026-09-28 its answer to the
+// warning there, "stay", given in process - see `beforeHarrisburg`), and the second family gone to Nacogdoches with nobody
+// in the army.
 // (Where the second family is camped at Lynchburg as well, it sees the first family's man set out from the camp they share,
 // and his id is rightly in what it is sent; the check below is of a family with nobody there.) It holds:
 //   - the first student sends the father to join Houston **from the refuge** (owner's J4) by pressing his icon on the family
@@ -33,6 +34,8 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { momentOf } from '../sim/directors.mjs';
+import { markPlayed } from '../sim/neighbours.mjs';
+import { answerRoad } from '../sim/road.mjs';
 import { sendTheWay } from './support/going.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { asMain } from './support/main-person.mjs';
@@ -50,7 +53,19 @@ function beforeHarrisburg(seed, playerCount) {
   beginSecondPeriod(world); world.status = 'running';
   for (let i = 0; i < 9000 && !world.director.complete; i++) stepWorld(world);
   beginThirdPeriod(world); world.status = 'running';
-  for (let i = 0; i < 2000 && world.minute < momentOf(world, 'houston-harrisburg'); i++) stepWorld(world);
+  // The first family keeps its camp at Lynchburg when it is warned (in process, said here, as tests/battle-san-jacinto.test.mjs
+  // has its refugees do). Since 2026-09-27 a family is taken only by soldiers who can see it (sim/pursuit.mjs), not by a circle
+  // round a column's head: this family, taken on the road by Santa Anna's dragoons, reaches Lynch's ferry the evening before as his
+  // column comes to Harrisburg thirteen miles off, and a family nobody plays answers that warning at once by pressing on to
+  // Liberty (the director, by the question's own fallback: sim/road.mjs `ROAD_ASKS.danger`). Before, the column itself had taken it near San Felipe, and never warned it again.
+  // From its arrival it is its student's (`markPlayed`), so the warning waits for an answer, and the answer is "stay" - one the
+  // student has on the card. None of sj-proof-91 to -120 had the family and a grown man at a refuge on April 17 by themselves.
+  const first = world.households['hh-1'];
+  for (let i = 0; i < 2000 && world.minute < momentOf(world, 'houston-harrisburg'); i++) {
+    stepWorld(world);
+    if (first.flight?.status === 'refuged' && first.flight.refuge === 'lynchburg') markPlayed(world, first.id);
+    if (first.flight?.status === 'refuged' && first.flight.ask?.id === 'danger') answerRoad(world, first, 'stay');
+  }
   // The first family's director had its men put a line in the river at the refuge (sim/road.mjs `fish-road`); the student who
   // takes it over finds them idle, in process, so the father can be sent (said here, as alamo-class.mjs says its own setting).
   for (const id of world.households['hh-1'].members) { const person = world.entities[id]; if (person.chore?.id === 'fish-road') { person.chore = null; person.task = 'rest'; } }

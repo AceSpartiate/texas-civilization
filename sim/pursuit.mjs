@@ -40,7 +40,7 @@ import { record } from './events.mjs';
 import { roadTicks, WAGON_SPEED, WALK_SPEED, HORSE_SPEED } from './travel.mjs';
 import { canAnswerCalls, householdName, sexOf } from './family.mjs';
 import { spotlight } from './host.mjs';
-import { abandonWagon, answerRoad, breakCamp, familyPoint, moveOn, nextRefuge, overtake, roadAutoAnswer, withFamily } from './road.mjs';
+import { abandonWagon, answerRoad, breakCamp, familyPoint, milesWord, moveOn, nextRefuge, overtake, roadAutoAnswer, withFamily } from './road.mjs';
 import { acrossCountry } from './flight-route.mjs';
 import { heldToCow, loseCow, cowPace } from './flight-work.mjs';
 import { drawnVehicles } from './company.mjs';
@@ -327,7 +327,7 @@ function beginChase(world, household, watcher, miles, point) {
     ...(leader?.travel && { leg: { from: leader.travel.from, to: leader.travel.to, progress: leader.travel.progress } }),
   };
   const words = watcher.kind === 'cavalry' ? `${watcher.men} Mexican horsemen` : 'Mexican soldiers';
-  record(world, 'consequence', { householdId: household.id, importance: 3, claimId: 'FIC-GONZ-663', text: `${words} of ${watcher.name} saw the family ${Math.round(miles * 10) / 10 < 1 ? `about ${Math.round(miles * YARDS / 10) * 10} yards` : `about ${Math.round(miles * 10) / 10} miles`} off, and are coming after it.` });
+  record(world, 'consequence', { householdId: household.id, importance: 3, claimId: 'FIC-GONZ-663', text: `${words} of ${watcher.name} saw the family ${Math.round(miles * 10) / 10 < 1 ? `about ${Math.round(miles * YARDS / 10) * 10} yards` : `about ${milesWord(Math.round(miles * 10) / 10)}`} off, and are coming after it.` });
   return flight.chase;
 }
 /** A line said in the chase, dated to its minute, in Spanish with the English under it (docs/BATTLES.md §2.5: reconstructed, never a named person's). */
@@ -847,18 +847,18 @@ export function altoText(world, household) {
 export function altoOptions(world, household) {
   const flight = household.flight, chase = flight.chase;
   const vS = pursuerMph(chase);
-  const pace = option => { const mph = runMph(world, household, option); return { mph, words: `about ${mph} miles an hour; they come on at about ${vS}${chase?.kind === 'cavalry' ? `, and gallop at ${GALLOP_MPH} for the last ${GALLOP_YARDS} yards` : ''}${mph > vS ? ', slower than the family' : mph < vS ? ', faster than the family' : ''}` }; };
+  const pace = option => { const mph = runMph(world, household, option); return { mph, words: `about ${milesWord(mph)} an hour; they come on at about ${vS}${chase?.kind === 'cavalry' ? `, and gallop at ${GALLOP_MPH} for the last ${GALLOP_YARDS} yards` : ''}${mph > vS ? ', slower than the family' : mph < vS ? ', faster than the family' : ''}` }; };
   const fireWords = chase?.kind === 'cavalry'
     ? 'After a second order each horseman fires his carbine once, from the saddle; from a galloping horse few balls hit.'
     : `After a second order they fire, each man stopping to load after every shot. A musket ball at ${FIRE_YARDS.infantry} yards seldom hits a running man; at fifty, more often.`;
   const options = [{ id: 'halt', label: 'Halt, as they order', note: 'The soldiers come up and take the wagon, the animals and what is carried, and may take the grown men prisoner. Nobody is shot.' }];
   const run = pace('run');
-  options.push({ id: 'run', label: `Run as we are (${run.mph} miles an hour)`, note: `The family goes at ${run.words}. ${fireWords} They aim at the men and the animals, never at a woman or a child, and hold their fire where one is in the way. They give up after a few miles, or at dark.` });
+  options.push({ id: 'run', label: `Run as we are (${milesWord(run.mph)} an hour)`, note: `The family goes at ${run.words}. ${fireWords} They aim at the men and the animals, never at a woman or a child, and hold their fire where one is in the way. They give up after a few miles, or at dark.` });
   const timber = chase?.timber || nearestTimber(world, familyPoint(world, household));
   if (timber && flight.status === 'fled') options.push({ id: 'timber-run', label: `Run for the timber (${timber.yards} yards off the road)`, note: `Off the road and into the trees, at ${run.words}, slower across the rough ground. Horsemen will not follow a family into the timber, and soldiers there cannot see far. ${fireWords}` });
   const { beasts } = withFamily(world, household);
-  if (drawnVehicles(beasts).length) { const foot = pace('abandon-run'); options.push({ id: 'abandon-run', label: `Leave the wagon and run on foot (${foot.mph} miles an hour)`, note: `The wagon, the oxen and what does not fit on the grown people's backs stay behind. On foot the family goes at ${foot.words}. ${fireWords}` }); }
-  if (heldToCow(world, household)) { const free = pace('cow-run'); options.push({ id: 'cow-run', label: `Let the milk cow go and run (${free.mph} miles an hour)`, note: `The cow is left to the soldiers. The family goes at ${free.words}. ${fireWords}` }); }
+  if (drawnVehicles(beasts).length) { const foot = pace('abandon-run'); options.push({ id: 'abandon-run', label: `Leave the wagon and run on foot (${milesWord(foot.mph)} an hour)`, note: `The wagon, the oxen and what does not fit on the grown people's backs stay behind. On foot the family goes at ${foot.words}. ${fireWords}` }); }
+  if (heldToCow(world, household)) { const free = pace('cow-run'); options.push({ id: 'cow-run', label: `Let the milk cow go and run (${milesWord(free.mph)} an hour)`, note: `The cow is left to the soldiers. The family goes at ${free.words}. ${fireWords}` }); }
   return options;
 }
 /** Why the family cannot run as it is, or null: the wagon in the mud, or waiting at a crossing, or no refuge further to run for. */

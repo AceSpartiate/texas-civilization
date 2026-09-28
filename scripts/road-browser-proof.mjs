@@ -5,7 +5,8 @@
 // question with its three priced answers, and Unload and dig it out is pressed; Hunt from the camp is pressed on a row of the
 // panel and the card says the family has halted while the Host's row says so in words; and later, camped at San Felipe as
 // Santa Anna's column nears, the "!" opens the warning with Go on east to Lynchburg, which is pressed, and the family is on
-// the road again. The class is a real one on the colonies map with rolled families, played in process through the first two
+// the road again (a warning of Sesma's division on the road before San Felipe, when one is put, is read off the card too and
+// left to lapse). The class is a real one on the colonies map with rolled families, played in process through the first two
 // periods and continued into the spring; the seed is the tests' own, chosen for rain on the family's first days on the road.
 //
 // Same computer only: headless Chrome. Run: npm run test:road
@@ -157,6 +158,8 @@ try {
   assert.ok(Number.isFinite(household().flight.oxSpentUntil), 'the ox was not spent');
   observed.dugOut = (await student.locator('#selection-flight').innerText()).replace(/\s+/g, ' ').trim();
   assert.match(observed.dugOut, /ox is spent/);
+  // The spent ox draws the wagon at half its pace, one mile an hour: it read "at about 1 miles an hour" (2026-09-28).
+  assert.doesNotMatch(observed.dugOut, /\b1 miles\b/, `the card says "1 miles": ${observed.dugOut}`);
   ok(`the wagon bogged on a rain day; the "!" opened the card at the question with three priced answers, and the Host's row read bogged; Unload and dig it out was pressed and the wagon came free with the ox spent`);
 
   // ---------------------------------------------------------------------------------------------- hunt from the camp
@@ -187,12 +190,36 @@ try {
 
   // ---------------------------------------------------------------------------------------------- the pursuit, at San Felipe
   // The class is run on fast (`app.setPace`; `app.state` is a copy, so the live world cannot be stepped in process) to the
-  // days the column nears San Felipe, the family answering nothing meanwhile (its questions are decided by silence, which
-  // digs out and presses on); the moment the warning is put, the pace is the class's again so the pages see it stand.
+  // days the column nears San Felipe, the family answering nothing meanwhile (since 2026-09-27 a question nobody answers
+  // lapses and nothing new is done, sim/lapse.mjs: a family on the move goes on); the moment the warning is put at San
+  // Felipe, the pace is the class's again so the pages see it stand.
+  //
+  // **A warning on the road first is the road working** (2026-09-28). Since the Mexican advance (2026-09-26, sim/advance.mjs)
+  // Sesma's division comes into Gonzales on March 14 and down this same road to the Colorado by the 20th, and a family that
+  // left on the order, stuck in the mud, dug out and stopped to hunt is inside twenty miles of it: the card says "Sesma's
+  // column is about 19 miles off" with Press on. Whether that is put before the hunt ends - and lapses unseen here - or
+  // after, turned on a tick or two of how long the page took to press the hunt; this waited for the first warning of any
+  // kind, and on a run where the hunt ended first it read Sesma's on the road as the one at San Felipe. It waits now for the
+  // warning put to the family **camped at San Felipe**, which is the one this section proves; a warning on the road before
+  // it is noted in the evidence with the words the card gave, and left to lapse as every other question here is.
   app.setPace(300);
   const started = Date.now();
-  while (household().flight?.ask?.id !== 'danger') {
-    assert.ok(Date.now() - started < 600000, `no warning came at San Felipe in ten minutes: ${JSON.stringify(household().flight)}`);
+  observed.roadWarnings = [];
+  while (!(household().flight?.ask?.id === 'danger' && household().flight.status === 'refuged')) {
+    const flight = household().flight;
+    assert.ok(Date.now() - started < 600000, `no warning came at San Felipe in ten minutes: ${JSON.stringify(flight)}`);
+    assert.ok(['fled', 'refuged'].includes(flight?.status) && !flight.overtaken, `the family was stopped on the road to San Felipe: ${JSON.stringify(flight)}`);
+    if (flight.ask?.id === 'danger' && flight.danger && !observed.roadWarnings.some(one => one.id === flight.danger.id)) {
+      // Read off the student's card at the class's pace (the question stands twelve ticks), then on fast again.
+      app.setPace(1500);
+      const seen = { id: flight.danger.id, tick: world().tick, status: flight.status };
+      observed.roadWarnings.push(seen);
+      await student.waitForFunction(id => window.__snapshot?.world.flight?.ask?.id === 'danger' && document.querySelector('#selection-flight [data-action="road-answer"][data-option="press-on"]'), seen.id, { timeout: 15000 });
+      seen.card = (await student.locator('#selection-flight').innerText()).replace(/\s+/g, ' ').trim();
+      assert.match(seen.card, /column is (about \d+ miles?|less than a mile) off/, `the warning on the road does not say how far off the column is: ${seen.card}`);
+      assert.doesNotMatch(seen.card, /\b1 miles\b/);
+      app.setPace(300);
+    }
     await new Promise(resolve => setTimeout(resolve, 40));
   }
   app.setPace(1500);
@@ -206,6 +233,7 @@ try {
   observed.dangerCard = (await student.locator('#selection-flight').innerText()).replace(/\s+/g, ' ').trim();
   assert.match(observed.dangerCard, /Santa Anna.s column is about \d+ miles off/);
   assert.match(observed.dangerCard, /Go on east to Lynchburg/);
+  assert.doesNotMatch(observed.dangerCard, /\b1 miles\b/);
   observed.hostWaiting = (await hostRow(host))?.waiting;
   assert.ok(observed.hostWaiting >= 1, 'the Host does not count the warning as waiting on the family');
   await shot(student, 'warned');
@@ -213,7 +241,7 @@ try {
   await student.waitForFunction(() => window.__snapshot?.world.flight?.status === 'fled' && window.__snapshot?.world.flight?.refuge === 'lynchburg', null, { timeout: 15000 });
   assert.equal(household().flight.refuge, 'lynchburg');
   assert.equal(household().flight.overtaken, undefined);
-  ok(`camped at San Felipe as Santa Anna's column neared, the "!" opened the warning (${observed.dangerCard.match(/about \d+ miles off/)?.[0]}); Go on east to Lynchburg was pressed and the family is on the road again`);
+  ok(`camped at San Felipe as Santa Anna's column neared, the "!" opened the warning (${observed.dangerCard.match(/about \d+ miles off/)?.[0]}); Go on east to Lynchburg was pressed and the family is on the road again${observed.roadWarnings.length ? ` (warned on the road before it, and read on the card: ${observed.roadWarnings.map(one => one.card.match(/\S+[’']s column is [^,]* off/)?.[0]).join('; ')})` : ''}`);
 
   await student.setViewportSize({ width: 400, height: 860 });
   await student.waitForTimeout(600);

@@ -93,6 +93,14 @@ export const CAMP_HUNT_FOOD = 6;
  */
 export const ROAD_FISH_FOOD = 2;
 
+/** A count of miles in words: "1 mile", "17 miles" (it read "1 miles an hour" and "about 1 miles off", 2026-09-28). */
+export const milesWord = miles => `${miles} ${miles === 1 ? 'mile' : 'miles'}`;
+/** How far off something is, rounded as the road says it: "about 17 miles", "about 1 mile", and under half a mile "less than a mile". */
+export function aboutMiles(miles) {
+  const whole = Math.round(miles);
+  return whole < 1 ? 'less than a mile' : `about ${milesWord(whole)}`;
+}
+
 /**
  * The Mexican columns as the refugees felt them. Since 2026-09-26 each is a body of men on its dated road with a commander,
  * its camps and its crossings (sim/advance.mjs `COLUMNS`, docs/battle-research/mexican-advance.md), marching along the map's
@@ -199,14 +207,14 @@ export const ROAD_ASKS = {
     requires: {},
   },
   danger: {
-    text: (world, household) => { const near = household.flight?.danger; return `${near?.name || 'The Mexican army'} is about ${Math.round(near?.miles ?? 0)} miles off, making for ${near?.towardName || 'the east'}. A family that sits still may be caught.`; },
+    text: (world, household) => { const near = household.flight?.danger; return `${near?.name || 'The Mexican army'} is ${aboutMiles(near?.miles ?? 0)} off, making for ${near?.towardName || 'the east'}. A family that sits still may be caught.`; },
     fallback: ['press-on', 'stay', 'abandon'],
     options: (world, household) => {
       const flight = household.flight, options = [];
       const camp = camping(world, household);
       if (flight.status === 'refuged') {
         const next = nextRefuge(world, household);
-        options.push(next ? { id: 'press-on', label: `Go on east to ${next.name}`, note: `About ${next.miles} miles. The family sets out the moment it is pressed${wagonWith(world, household) ? ', with the wagon' : ', on foot'}.` } : { id: 'press-on', label: 'Go on east', note: 'There is no refuge further east on the map from here.' });
+        options.push(next ? { id: 'press-on', label: `Go on east to ${next.name}`, note: `About ${milesWord(next.miles)}. The family sets out the moment it is pressed${wagonWith(world, household) ? ', with the wagon' : ', on foot'}.` } : { id: 'press-on', label: 'Go on east', note: 'There is no refuge further east on the map from here.' });
       } else if (camp) options.push({ id: 'press-on', label: 'Break camp and press on', note: 'The hunt or the nursing is left off where it stands, and the family moves the next tick.' });
       else if (flight.crossing) options.push({ id: 'press-on', label: 'Get over the moment the turn comes, and go on', note: 'The wait is the wait; the family goes the moment it is over.' });
       else options.push({ id: 'press-on', label: 'Press on as we are', note: 'The wagon keeps its pace. A family on the move is not caught unless the army is on top of it.' });
@@ -507,7 +515,7 @@ export function advanceRoad(world, household) {
     if (!flight.danger || flight.danger.id !== near.id) {
       flight.danger = { id: near.id, name: near.name, miles: near.miles, towardName: near.towardName, minute: world.minute };
       const watcher = near.miles > WARNING_MILES ? lookoutOf(world, household) : null;
-      record(world, 'consequence', { householdId: household.id, importance: 3, claimId: watcher ? 'FIC-GONZ-487' : 'FIC-GONZ-051', text: `${watcher ? `${watcher.name}, watching the road behind, saw the dust first. ` : ''}Word along the road: ${near.name} is about ${Math.round(near.miles)} miles off and coming this way, making for ${near.towardName}. A family that sits still may be caught.` });
+      record(world, 'consequence', { householdId: household.id, importance: 3, claimId: watcher ? 'FIC-GONZ-487' : 'FIC-GONZ-051', text: `${watcher ? `${watcher.name}, watching the road behind, saw the dust first. ` : ''}Word along the road: ${near.name} is ${aboutMiles(near.miles)} off and coming this way, making for ${near.towardName}. A family that sits still may be caught.` });
     } else Object.assign(flight.danger, { miles: near.miles, towardName: near.towardName });
     // Put to the family once for each column, after any bog it is in has been answered.
     if (!flight.danger.asked && !flight.ask) { flight.danger.asked = true; openAsk(world, household, 'danger', `${near.name} is close behind.`); }

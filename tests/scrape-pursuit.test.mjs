@@ -11,10 +11,10 @@ import { calendarMinutes } from '../sim/clock.mjs';
 import { on, clockOf } from '../sim/advance.mjs';
 import { stirredShare } from '../sim/shares.mjs';
 import { WAGON_SPEED, WALK_SPEED, HORSE_SPEED } from '../sim/travel.mjs';
-import { COUNTRY_SIGHT, FAMILY_RUN_MPH, GALLOP_MPH, HIT_RANGES, HIT_TABLE, INFANTRY_MPH, MOVING_SHARE, NIGHT_SIGHT_MILES, PATROLS, SIGHT, TROT_MPH, WEATHER_SIGHT_MILES, CAUGHT_YARDS, HAIL_YARDS, GROWN_AGE, ALTO_PATIENCE_TICKS, hitChance, patrolsNow, runMph, sightMiles, watchersNow, hidesIn } from '../sim/pursuit.mjs';
+import { COUNTRY_SIGHT, FAMILY_RUN_MPH, GALLOP_MPH, HIT_RANGES, HIT_TABLE, INFANTRY_MPH, MOVING_SHARE, NIGHT_SIGHT_MILES, PATROLS, SIGHT, TROT_MPH, WEATHER_SIGHT_MILES, CAUGHT_YARDS, HAIL_YARDS, GROWN_AGE, ALTO_PATIENCE_TICKS, altoOptions, hitChance, patrolsNow, runMph, sightMiles, watchersNow, hidesIn } from '../sim/pursuit.mjs';
 import { chaseStep } from '../sim/military-pacing.mjs';
 import { flightPlaces, planLeg, acrossCountry } from '../sim/flight-route.mjs';
-import { withFamily, familyPoint } from '../sim/road.mjs';
+import { ROAD_ASKS, withFamily, familyPoint } from '../sim/road.mjs';
 import { activityOf, mendSickness, sicknessDay } from '../sim/disease.mjs';
 import { choreAvailability } from '../sim/chores.mjs';
 import { sexOf } from '../sim/family.mjs';
@@ -457,4 +457,32 @@ test('rest and the chase (docs/DISEASE.md §3.7): a chase is never rest, no camp
   sicknessDay(world, household, hit, { day: Math.floor(world.minute / 1440) + 1, causes: [{ disease: 'lung-fever', key: 'wounded-test', chance: 1, text: 'x' }], where: 'road' });
   assert.deepEqual(hit.health, wound, 'the sickness touched a wound');
   validateWorld(world);
+});
+
+test('one mile is a mile: a column about a mile off, and a family running behind a lamed ox, are never "1 miles"', () => {
+  // The warning's words, in the family's record and in its question (sim/road.mjs), with Santa Anna's column about a mile
+  // behind the family when the tick is over, and then closer than half a mile ("about 0 miles off" was said before).
+  let world, scene;
+  for (const [ahead, miles, said] of [[2, 1, /is about 1 mile off/], [0.3, 0, /is less than a mile off/]]) {
+    world = spring();
+    scene = sceneFor(world, { kind: 'infantry', how: 'wagon', ahead });
+    stepWorld(world);
+    const word = world.events.find(event => event.householdId === scene.household.id && /^Word along the road/.test(event.text));
+    assert.ok(word && scene.household.flight.danger, `no warning came with the column ${ahead} miles behind`);
+    assert.equal(Math.round(scene.household.flight.danger.miles), miles, `the column is not where the check wants it: ${scene.household.flight.danger.miles}`);
+    const asked = ROAD_ASKS.danger.text(world, scene.household);
+    assert.match(word.text, said);
+    assert.match(asked, said);
+    for (const text of [word.text, asked]) assert.doesNotMatch(text, /\b[01] miles\b/);
+  }
+  // The order to halt's answers, priced in miles an hour: a lamed ox draws the wagon at one (sim/pursuit.mjs `runMph`).
+  world = spring();
+  scene = sceneFor(world, { kind: 'infantry', how: 'wagon' });
+  until(world, () => scene.household.flight.ask?.id === 'alto', 30);
+  withFamily(world, scene.household).beasts.find(beast => beast.kind === 'animal' && beast.species !== 'horse').hurt = true;
+  assert.equal(runMph(world, scene.household), 1);
+  const options = altoOptions(world, scene.household), run = options.find(option => option.id === 'run');
+  assert.match(run.label, /\(1 mile an hour\)/);
+  assert.match(run.note, /at about 1 mile an hour;/);
+  for (const option of options) assert.doesNotMatch(`${option.label} ${option.note}`, /\b1 miles\b/);
 });

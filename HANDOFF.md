@@ -1,5 +1,54 @@
 # Claude handoff — Astra foundation
 
+## Two proofs that failed on main 9ae8bfd: the road's and San Jacinto's, both the proof's; and "1 miles" — 2026-09-28 (worktree branch; not released)
+
+**`test:road`: the proof, not the product.** It waited for the first warning of any kind after the hunt and asserted it was
+Santa Anna's at San Felipe; it got **Sesma's column, about 19 miles off, on the road** 29.5 miles short of San Felipe. The card
+said so, with the miles and Press on - the warning is shown as it should be. Since the Mexican advance (2026-09-26,
+sim/advance.mjs) Sesma comes into Gonzales on March 14 and down the same road to the Colorado by the 20th, and a family that
+left on the order, stuck in the mud (tick 965), dug out and stopped to hunt is inside twenty miles of him. Whether that warning
+is put, and lapses unseen, before the hunt ends or after it turned on a tick or two of how long the page took; today it is put
+at tick ~976 and the hunt ends at 977 on every run. **Not a merge:** the whole tree of b9d7613 (where the proof last passed, its
+evidence) fails identically here (tick 965 bog, 977 hunt's end, Sesma at minute 249300), and so does main's page with b9d7613's
+`sim/` - it was a lucky tick. Fixed in the proof: it waits for the warning put to the family **camped at San Felipe**; a warning
+on the road first is read off the student's card (at the class's pace, the question standing its twelve ticks), must say how far
+off the column is, and is left to lapse as every question in that stretch is; the family must not be stopped on the way.
+
+**`test:battle-san-jacinto`: the proof's precondition, removed by a documented rule.** Bisected in process over `sim/` alone
+(scripts in the scratchpad, not kept): ab327ec (before the Scrape's routes and chases) and facc0d8 (the diseases alone) leave the
+first family of `sj-proof-90` refuged at Lynchburg on April 17; 62aa53d (the Scrape's routes and chases, before any merge) and
+every tree after do not. Before, Santa Anna's column **took** the family by the circle round its head, bogged 5 miles out of San
+Felipe, and "never twice by the same column" kept it from being warned of him again; it walked on to Lynchburg (tick 1113) and
+stayed. Since 2026-09-27 only soldiers who can see a family take it (SCRAPE.md §13): it keeps its wagon, bogs four more times
+in the rain, is taken by Santa Anna's *dragoons* (a patrol - its own id, so the column still warns, tick 1146), reaches
+Lynch's ferry (tick 1151, eighteen hours before the proof's noon of April 17) as Santa Anna comes to Harrisburg 13 miles off, and a family nobody plays answers the warning at once
+by pressing on to Liberty. Every step is a rule as built. `sj-proof-91` to `-120` were searched: none has the first family and a
+grown man at a refuge on April 17 (the few at Lynchburg had been taken, and their men with them). Fixed in the proof's staging,
+said in its header: from its arrival at Lynchburg the family is its student's (`markPlayed`), so the warning waits for an
+answer, and the answer given in process is **stay** - one the student has on the card, and what tests/battle-san-jacinto.test.mjs
+has its refugees do since the Scrape's build. Nothing it proves is changed; the father is still pressed from the refuge.
+
+**"1 miles" (product; sim/road.mjs `milesWord`, `aboutMiles`).** The flight card read *at about 1 miles an hour* behind a spent ox
+and the family's record *about 1 miles off* (and *about 0 miles off* with a column on top of it). Now "1 mile", and under half a
+mile "less than a mile": the warning's question and its line in the record, the next refuge's miles, the soldiers' "saw the family
+about 1 mile off", the order to halt's answers (*Run as we are (1 mile an hour)*, a lamed ox), and on the page (public/app.js
+`milesWord`, a hoisted function) the route's next stop and pace and the standing warning. Not changed: "away on the road ...
+about N miles off" (tests/map-base.test.mjs reads that source line; it is never one mile, being for journeys too fast to follow).
+
+**Evidence** (same computer only). New test in tests/scrape-pursuit.test.mjs (*one mile is a mile ...*), seen failing on main's
+code ("about 1 miles off"), and alone against each of two injections put back one at a time (the question's words; the Run
+label). `test:road` 7 of 7 **twice** (both runs warned of Sesma on the road and read it off the card: "Sesma's column is about 19
+miles off"), and its new dug-out check seen failing against the page's old words ("at about 1 miles an hour");
+`test:battle-san-jacinto` 15 of 15 **twice** (the father pressed from the refuge at Lynchburg, "with the army at Harrisburg about
+April 18"). `npm test` **1512 of 1512** (1511 and the new test). Also run on this tree: `test:scrape` 5, `test:scrape-pursuit` 14,
+`test:disease` 8, `test:children` 14, `test:mexican-advance` 10. Not re-run: `scripts/san-jacinto-injections.mjs browser`, whose
+browser injections run this proof.
+
+**Found, not changed (owner's call):** a family taken by a column's patrol (Santa Anna's dragoons) is warned by the column itself
+a tick later, a mile off, because a patrol is its own for "never twice" (SCRAPE.md §13 says "column or patrol"). And a family
+nobody plays at Lynchburg on April 17 nearly always goes on to Liberty - noticed on 2026-09-26 and now the rule for every seed
+searched.
+
 ## A child at play is drawn at the play: the late arrival's trail lets go when the server moves them — 2026-09-28 (worktree branch; not released)
 
 **The fault.** `npm run test:children` failed at "the child at tag was drawn in 1 places": in every sample the child was drawn a
