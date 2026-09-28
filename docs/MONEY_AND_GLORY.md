@@ -1,7 +1,7 @@
 # Money, glory, and the end of the game
 
 **Status: decided; money (steps 1–2) and hidden glory (step 3) built 2026-09-12** ([money](evidence/money.json),
-[glory](evidence/glory-hidden.json)). The ending (steps 4–5) built 2026-09-16 ([tests and drills](evidence/ending.json), [browser](evidence/ending-browser.json)); see §7.1. **The balance gate in §8 cannot be measured yet** — §7.1 says why. The owner has made every design decision it needs (§6); read
+[glory](evidence/glory-hidden.json)). The ending (steps 4–5) built 2026-09-16 ([tests and drills](evidence/ending.json), [browser](evidence/ending-browser.json)); see §7.1. **The balance gate in §8 was measured over 210 whole classes on 2026-09-27 — [BALANCE.md](BALANCE.md)** (§8.2); what §7.1 says about it predates the automatic families that earn coin and glory. The owner has made every design decision it needs (§6); read
 it in full before starting any of the rest.
 
 **Where it sits in the plan.** Steps 1–2 (§7) belong to Macro-Phase 1D, economy. Steps 3–5
@@ -385,7 +385,7 @@ Nothing here is finished until all of these hold.
 | Money is used | At least one thing a family will want is bought only with coin. |
 | Barter survives | A family that never touches coin can still plant, harvest, hunt, trade, answer the call and reach the end. |
 | No annihilation | A household with zero glory finishes with its money intact (`money × 1`). |
-| Winning without fighting is hard, not impossible | **Measured 2026-09-16, §8.1: holds for a cotton family, fails for a corn family.** In 3E's headless runs at 5–30 players, households that send nobody to fight win **some** runs, and **well below their share of the class**; households that fight win more often than their share. If non-fighting households never win, or win as often as fighting ones, the weights are wrong. |
+| Winning without fighting is hard, not impossible | **Measured again 2026-09-27 over 210 classes ([BALANCE.md](BALANCE.md)): holds only at five families (2 wins in 126); fails at fifteen and thirty (0 wins, 0 in the top three, of 567). Put to the owner; nothing changed.** Measured 2026-09-16, §8.1: held for a cotton family, failed for a corn family. In 3E's headless runs at 5–30 players, households that send nobody to fight win **some** runs, and **well below their share of the class**; households that fight win more often than their share. If non-fighting households never win, or win as often as fighting ones, the weights are wrong. |
 | Casualties earn nothing extra | A family member hurt, captured or lost adds no glory beyond their participation. |
 | No virtue labels | Nothing in the interface, the epilogue or the Host view names a family good, loyal, brave or patriotic. |
 | Save compatibility | A class saved before any of this opens, and no save version moves. Absent money reads as none; absent glory reads as zero. |
@@ -436,6 +436,21 @@ With that mended, over the same six classes: finals **25, 56, 26, 74, 67 and 1**
 class won**; the first family fought in every class (finals 154 to 226). Staying home is now possible but no longer shown
 winning. Much else moved between the two runs (the winter, the Alamo, Houston's march, the neighbours hunting and buying
 seed), so this is recorded, not tuned. Put to the owner the same day by multiple choice - measure more, tune it up, or leave it - the owner answered: **leave it**. Staying home and selling stays possible and hard.
+
+**Re-run 2026-09-27** after the neighbours' director was mended to take a family east when its main person is serving
+(`sim/neighbours.mjs`): the stay-home family's finals are unchanged (88, 66, 216, 118, 136, 125) and it still finishes first in no
+class; its place rose by one in three classes as neighbours that had stayed to be burned now fled; deaths unchanged at 10
+([evidence/balance-study.json](evidence/balance-study.json); [BALANCE.md](BALANCE.md) §7).
+
+### 8.2 The balance measure (2026-09-27)
+
+At the owner's word ("Yes, measure it now"), `scripts/balance-measure.mjs` ran **210 whole classes** (100 of five families, 70 of
+fifteen, 40 of thirty; 2,750 families), every family played by a strategy crossed over the war (none, the neighbours' way, one man,
+every man), selling for coin, farming harder, cotton and the Scrape (flee, stay, stay then flee). **A family that sends nobody won 2
+classes of 210, both of five families, and never reached the top three at fifteen or thirty; fighting and selling for coin together
+win three to four times their share; selling for coin decides more than fighting; the means die explains about 2 in 100 of where a
+family finishes; glory never rewards a death.** Four questions are put to the owner there; **no rule has changed.** Full report:
+[BALANCE.md](BALANCE.md).
 
 
 - **A patriotism meter.** `VISION.md` §11 still forbids it, and this is the mechanic most likely to
