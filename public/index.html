@@ -30,7 +30,9 @@
     <li><span>03</span> Name each person</li>
     <li><span>04</span> Choose the parents' looks</li>
   </ol>
-  <p class="creation-begin-after">A short guide leads you through the first farm tasks, one task at a time. Close it whenever you are ready.</p>
+  <!-- The guided start is switched off (owner, 2026-09-28: "The starting tutorial needs to be removed for now"; sim/lesson.mjs
+       LESSON_ENABLED), so the card promises no guide: short tips come up the first time each new thing appears (public/tips.js). -->
+  <p class="creation-begin-after">The first time something new happens, a short tip says what to do and what it costs.</p>
   <button type="button" id="creation-begin-button">Make my family <span aria-hidden="true">→</span></button>
 </section>
 <!-- Everybody's first name, on one card, already filled in with the names the game dealt (owner, 2026-09-17). -->
@@ -136,6 +138,14 @@
         <button type="button" id="military-next">Next message</button>
       </div>
     </section>
+    <!-- A tip at first meeting (owner, 2026-09-28: "Short tips at first meeting"; public/tips.js). One short line the first
+         time a thing appears for this family: what to do and what it costs. It blocks nothing - the words let clicks through
+         to the map - and "Got it" or Escape puts it away for good (the server keeps which were seen, sim/tips.mjs). -->
+    <section id="tip" hidden role="status" aria-live="polite" aria-label="Tip">
+      <strong class="tip-mark" aria-hidden="true">Tip</strong>
+      <p class="tip-words"></p>
+      <button type="button" class="tip-close" aria-label="Got it: put this tip away">Got it</button>
+    </section>
     <div id="hud-right" class="hud">
       <span id="connection" role="status"></span>
       <nav id="host-controls" aria-label="Teacher controls" hidden>
@@ -220,6 +230,12 @@
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5c-3-2-7-2-10-1v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1Z"/><path d="M12 5v15M5 8h4M5 11h4M15 8h4M15 11h4"/></svg>
         <span>Journal</span>
       </button>
+      <!-- The family's neighbours and help offered back between families (public/neighbours.js, sim/neighbourly.mjs, owner
+           2026-09-28): who is near, whose walls are going up, what lies between the families, and the offers waiting. -->
+      <button id="neighbours-toggle" type="button" aria-expanded="false" aria-controls="neighbours" title="Neighbours" hidden><span id="neighbours-unread" hidden aria-hidden="true"></span>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 11 7 7l5 4v8H2zM12 11l5-4 5 4v8H12z"/><path d="M6 19v-4h2v4M16 19v-4h2v4"/></svg>
+        <span>Neighbours</span>
+      </button>
       <nav id="map-nav" aria-label="Map view">
         <button data-view="follow" title="Follow my family">Follow</button>
         <button data-view="home" title="Go to my land" aria-label="Go to my land">Land</button>
@@ -248,6 +264,8 @@
       <div id="selection-call" hidden></div>
       <!-- The family's flight east (public/app.js renderFlight, sim/scrape.mjs). -->
       <div id="selection-flight" hidden></div>
+      <!-- Somebody very sick: who of the family can nurse them (public/app.js renderNurse, sim/disease.mjs). -->
+      <div id="selection-nurse" hidden></div>
       <div id="selection-army" hidden></div>
       <div id="selection-actions">
         <!-- A rider is a person standing in front of one of yours. Listening to them is
@@ -287,6 +305,13 @@
          draws them and sends the one order. Escape sends nobody; Enter sends the list. -->
     <div id="errand" hidden role="dialog" aria-labelledby="errand-title" aria-describedby="errand-text">
       <div id="errand-head"><span id="errand-title">To town</span><button type="button" id="errand-close" aria-label="Close, and send nobody">×</button></div>
+      <!-- The store's tip, the first time this family opens the errand (public/tips.js): here rather than over the map, where
+           the errand itself would cover it. -->
+      <div id="errand-tip" class="tip-inline" hidden role="status" aria-live="polite" aria-label="Tip">
+        <strong class="tip-mark" aria-hidden="true">Tip</strong>
+        <p class="tip-words"></p>
+        <button type="button" class="tip-close" aria-label="Got it: put this tip away">Got it</button>
+      </div>
       <p id="errand-text" class="ask-text"></p>
       <p id="errand-stock"></p>
       <div id="errand-lines"></div>
@@ -502,6 +527,20 @@
         <span class="eyebrow" id="ending-eyebrow">THE END OF THE STORY</span>
         <button id="ending-close" aria-label="Close, to look at the map">&times;</button>
       </header>
+      <!-- The flashback (public/flashback.js, docs/FLASHBACK.md): the family's story as a minute of video, made and kept on the
+           Host's computer; a student's own family's plays here, and the Host can play any family's or the whole class's. The
+           captions are in the picture and, below it, as words. -->
+      <section id="flashback" hidden aria-labelledby="flashback-title">
+        <h3 id="flashback-title">Our story, looking back</h3>
+        <p id="flashback-status" role="status"></p>
+        <video id="flashback-video" hidden controls playsinline muted preload="auto" aria-describedby="flashback-words"></video>
+        <div class="flashback-controls"><button id="flashback-replay" hidden>Replay</button><span id="flashback-now"></span></div>
+        <div id="flashback-host" hidden>
+          <button id="flashback-play-all">Play the whole class in turn</button>
+          <ol id="flashback-families"></ol>
+        </div>
+        <details id="flashback-words" open><summary>The story in words</summary><ol id="flashback-transcript"></ol></details>
+      </section>
       <div id="ending-body"></div>
     </section>
     <!-- Naming the family (owner, 2026-09-17): once the die is rolled, a family with no last name is asked for one. It cannot
@@ -567,6 +606,19 @@
     <div id="map-framing"></div>
 
     <div id="journal-backdrop" hidden aria-hidden="true"></div>
+    <section id="neighbours" data-open="false" aria-labelledby="neighbours-title">
+      <header class="journal-heading">
+        <div><span class="eyebrow">OUR NEIGHBOURS</span><h2 id="neighbours-title">Neighbours</h2></div>
+        <button type="button" id="neighbours-close" aria-label="Close the neighbours">×</button>
+      </header>
+      <div class="journal-body">
+        <div id="neighbours-asks" aria-live="polite"></div>
+        <p id="neighbours-lent" hidden></p>
+        <ul id="neighbours-list"></ul>
+        <p id="neighbours-empty" class="journal-note" hidden>No family lives within a few miles, and none has had dealings with yours yet.</p>
+        <p id="neighbours-note" role="status"></p>
+      </div>
+    </section>
     <!-- Closed visually, but existing text equivalents remain available to
          assistive technology. The visible journal is a secondary, optional view. -->
     <section id="family-journal" class="journal-sheet" data-open="false" aria-labelledby="journal-title">

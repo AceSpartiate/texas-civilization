@@ -13,11 +13,13 @@
 // on its land, and every class saved before today have no lesson at all.
 //
 // Each test here was proven by injecting the regression it guards (scripts/lesson-injections.mjs).
-import test from 'node:test';
+import nodeTest from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
-import { ALWAYS, LESSON_DONE_MINUTES, LESSON_RESUME_MS, STEPS, actionId, advanceLessons, lessonInvalid, lessonProjection, lessonRefusal } from '../sim/lesson.mjs';
+import { LESSON_ENABLED, ALWAYS, FARM_WORK, LESSON_DONE_MINUTES, LESSON_RESUME_MS, STEPS, actionId, advanceLessons, inLesson, lessonInvalid, lessonProjection, lessonRefusal } from '../sim/lesson.mjs';
+import { beginSecondPeriod } from '../sim/periods.mjs';
+import { allowsIcon } from '../public/lesson.js';
 import { RIPEN_TICKS } from '../sim/chores.mjs';
 import { clearedPlots, plotsOf } from '../sim/fields.mjs';
 import { houseSettled } from '../sim/houses.mjs';
@@ -27,6 +29,11 @@ import { huntRefusal } from '../sim/hunting.mjs';
 import { siteFactsFor } from '../sim/homesite.mjs';
 import { settle, taught } from './support/settled.mjs';
 
+// Switched off (owner, 2026-09-28: "The starting tutorial needs to be removed for now. We'll redo it from scratch later.";
+// sim/lesson.mjs `LESSON_ENABLED`): every test here exercises the guided start and is skipped while it is off, kept for the
+// rework to start from. What holds the switch itself is tests/lesson-off.test.mjs, which always runs.
+const off = !LESSON_ENABLED && 'the guided start is switched off (owner, 2026-09-28; sim/lesson.mjs LESSON_ENABLED)';
+const test = (name, fn) => nodeTest(name, { skip: off }, fn);
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const send = (world, householdId, input) => applyAction(world, householdId, input);
 /** One class under way, with the first family a student's and the rest nobody's. */
@@ -115,21 +122,23 @@ test('the server refuses what is not this step\'s work, in words a child can rea
   send(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'hunt-timber' });
   assert.ok(person.chore, 'the order step refused an order, which is the one thing it must not do');
 
-  // From the house on, the lesson is strict again: one thing at a time, and the rest refused in words.
+  // From the house on, the lesson holds back the other farm steps' work: one farm task at a time, the rest refused in words.
   advanceLessons(world);
   assert.equal(lessonOf(world, 'hh-1').step, 'house', 'giving an order did not finish the order step');
   const other = hands(world, household).find(one => one.id !== person.id && !one.chore);
-  assert.throws(() => send(world, 'hh-1', { action: 'chore', entityId: other.id, chore: 'hunt-timber' }), /Not yet - first, get the house up\./);
+  assert.throws(() => send(world, 'hh-1', { action: 'chore', entityId: other.id, chore: 'plant-field' }), /Not yet - first, get the house up\./);
   assert.equal(other.chore, null, 'a refused order moved nothing');
-  // The list on the page and the gate on the server are the same list, and the server is the one that holds.
-  const allow = new Set(lessonOf(world, 'hh-1').allow);
-  assert.ok(!allow.has('chore:hunt-timber'));
-  assert.ok(allow.has('chore:build-house'));
+  // The list on the page and the gate on the server are the same list, and the server is the one that holds: `allow` is
+  // the step's own work, `shut` the farm work it holds back (2026-09-28).
+  const card = lessonOf(world, 'hh-1');
+  assert.ok(card.shut.includes('chore:plant-field'));
+  assert.ok(!card.shut.includes('chore:build-house'));
+  assert.ok(card.allow.includes('chore:build-house'));
   assert.equal(lessonRefusal(world, household, { action: 'chore', chore: 'build-house' }), null);
   assert.equal(actionId({ action: 'chore', chore: 'plant-field' }), 'chore:plant-field');
   assert.equal(actionId({ action: 'survey-plot' }), 'survey-plot');
   // A family nobody plays is never gated: the director gives it its orders through this same door.
-  assert.equal(lessonRefusal(world, world.households['hh-2'], { action: 'chore', chore: 'hunt-timber' }), null);
+  assert.equal(lessonRefusal(world, world.households['hh-2'], { action: 'chore', chore: 'plant-field' }), null);
   validateWorld(world);
 });
 
@@ -165,7 +174,7 @@ test('a class saved before today opens, and a family already standing on its own
   const fleeing = started('lesson-fled');
   fleeing.households['hh-1'].flight = { status: 'fled' };
   assert.equal(lessonOf(fleeing, 'hh-1'), undefined);
-  assert.equal(lessonRefusal(fleeing, fleeing.households['hh-1'], { action: 'chore', chore: 'hunt-timber' }), null);
+  assert.equal(lessonRefusal(fleeing, fleeing.households['hh-1'], { action: 'chore', chore: 'plant-field' }), null);
 });
 
 test('each student goes at their own pace: two families of one class are on two different steps, and the clock is nobody\'s', () => {
@@ -312,7 +321,7 @@ test('on the real land the family chooses where the house stands before anything
   assert.equal(card.step, 'well');
   assert.equal(card.index, 10);
   assert.ok(card.allow.includes('chore:dig-well'));
-  assert.throws(() => send(world, 'hh-1', { action: 'hunt-land', entityId: person.id, x: wanted.x, y: wanted.y }), /Not yet - first, dig the well\./);
+  assert.throws(() => send(world, 'hh-1', { action: 'survey-plot', entityId: person.id, x: wanted.x, y: wanted.y }), /Not yet - first, dig the well\./);
   for (const hand of hands(world, household)) send(world, 'hh-1', { action: 'chore', entityId: hand.id, chore: 'dig-well' });
   until(world, () => household.well === true);
   assert.equal(household.lesson.step, 'done');
@@ -478,13 +487,13 @@ function atTheHouse(seed) {
 test('stopping the guided start opens the gate: an order the step refused a moment ago now goes through', () => {
   const { world, household } = atTheHouse('lesson-stop-gate');
   const person = hands(world, household)[0];
-  assert.throws(() => send(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'hunt-timber' }), /Not yet/, 'the step did not refuse, so this test would prove nothing');
+  assert.throws(() => send(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'plant-field' }), /Not yet/, 'the step did not refuse, so this test would prove nothing');
   assert.ok(ALWAYS.includes('stop-lesson'), 'the order to stop the lesson can be refused by the lesson');
   send(world, 'hh-1', { action: 'stop-lesson' });
   assert.equal(household.lesson.step, 'done');
   assert.equal(household.lesson.stopped, true);
-  send(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'hunt-timber' });
-  assert.equal(person.chore?.id, 'hunt-timber', 'the order is still refused after the student stopped the lesson');
+  send(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'plant-field' });
+  assert.equal(person.chore?.id, 'plant-field', 'the order is still refused after the student stopped the lesson');
   // And it stays off: the tick does not start it again, and nothing about the family walks it back to a step.
   for (let tick = 0; tick < 5; tick++) stepWorld(world);
   assert.equal(household.lesson.step, 'done');
@@ -511,7 +520,7 @@ test('a student can stop only their own family\'s guided start', () => {
   assert.equal(household.lesson.step, 'house', 'another family’s student stopped this family’s lesson');
   assert.equal(household.lesson.stopped, undefined);
   assert.equal(lessonOf(world, 'hh-1').step, 'house');
-  assert.throws(() => send(world, 'hh-1', { action: 'chore', entityId: hands(world, household)[0].id, chore: 'hunt-timber' }), /Not yet/);
+  assert.throws(() => send(world, 'hh-1', { action: 'chore', entityId: hands(world, household)[0].id, chore: 'plant-field' }), /Not yet/);
   // Nor is a family whose student has gone stopped on their behalf: the director runs it and never presses the X.
   household.absent = true;
   assert.throws(() => send(world, 'hh-1', { action: 'stop-lesson' }), /own student/);
@@ -536,8 +545,8 @@ test('a stopped lesson survives a save and reload, and stays stopped', () => {
   assert.deepEqual(reopened.households['hh-1'].lesson, household.lesson);
   assert.equal(view(reopened, 'hh-1').lesson, undefined);
   const person = hands(reopened, reopened.households['hh-1'])[0];
-  send(reopened, 'hh-1', { action: 'chore', entityId: person.id, chore: 'hunt-timber' });
-  assert.equal(person.chore?.id, 'hunt-timber', 'the reopened class put the gate back');
+  send(reopened, 'hh-1', { action: 'chore', entityId: person.id, chore: 'plant-field' });
+  assert.equal(person.chore?.id, 'plant-field', 'the reopened class put the gate back');
   // And a save cannot carry a stop that is not a way of being finished, or a marker that is not `true`.
   for (const bad of [{ step: 'house', stopped: true }, { step: 'done', stopped: 'yes' }]) {
     reopened.households['hh-1'].lesson = bad;
@@ -561,7 +570,7 @@ test('"Resume tutorial" puts the family back on the step it stopped on, with eve
   const person = hands(world, household)[0];
   sendAt(world, 'hh-1', { action: 'stop-lesson' }, T0);
   assert.equal(household.lesson.from, 'house', 'the X did not keep the step it was pressed on');
-  sendAt(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'hunt-timber' }, T0 + 1000);
+  sendAt(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'plant-field' }, T0 + 1000);
   sendAt(world, 'hh-1', { action: 'stop-chore', entityId: person.id }, T0 + 2000);
   sendAt(world, 'hh-1', { action: 'resume-lesson' }, T0 + 60_000);
   assert.equal(household.lesson.step, 'house', `the family came back on ${household.lesson.step}, not the step it stopped on`);
@@ -569,7 +578,7 @@ test('"Resume tutorial" puts the family back on the step it stopped on, with eve
   assert.equal(household.lesson.sold, true, 'what the family had gathered was thrown away by the X');
   assert.deepEqual(household.lesson.had, { cotton: 4, food: 9 });
   assert.equal(lessonOf(world, 'hh-1').step, 'house');
-  assert.throws(() => sendAt(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'hunt-timber' }, T0 + 61_000), /Not yet/, 'the gate stayed open after the resume');
+  assert.throws(() => sendAt(world, 'hh-1', { action: 'chore', entityId: person.id, chore: 'plant-field' }, T0 + 61_000), /Not yet/, 'the gate stayed open after the resume');
   validateWorld(world);
 });
 
@@ -676,4 +685,126 @@ test('a family that did the step\'s work while the guided start was off is walke
   sendAt(world, 'hh-1', { action: 'resume-lesson' }, T0 + 1000);
   assert.notEqual(household.lesson.step, 'hunt', 'the family was put back on a step the world says it has done');
   assert.equal(household.lesson.stopped, undefined);
+});
+
+// --------------------------------------------------------------------- the gate narrowed to the farm (2026-09-28)
+// The owner, 2026-09-28: "fix the blockers". The design audit's S8 and the playthrough audit's §5: a student following the
+// steps was refused nursing, enlisting, voting, Houston's army and every food but the crop - "Not yet - first, bring the
+// crop in" - and, because nothing ended the lesson, still in February. The gate now holds back only another farm step's own
+// work, and the lesson ends for every family when the first period does.
+
+/** Everything the lesson must never refuse: food, nursing, the war, the flight, every question with a clock on it. */
+const NEVER_REFUSED = Object.freeze([
+  'chore:nurse-home', 'chore:tend-sick', 'chore:rest-road', 'chore:camp-apart',
+  'chore:enlist-regular', 'chore:enlist-auxiliary', 'chore:join-garrison', 'chore:join-matamoros', 'chore:join-relief', 'chore:go-vote', 'chore:join-houston',
+  'chore:take-small-game', 'chore:fish-the-water', 'chore:butcher-hog', 'chore:butcher-beef', 'chore:gather-oysters', 'chore:cut-bee-tree', 'chore:look-to-stock',
+  'hunt-land', 'chore:hunt-land', 'chore:hunt-timber', 'chore:visit-shop', 'chore:practise-shooting',
+  'turn-out', 'help', 'go-upriver', 'army-answer', 'houston-answer', 'alamo-courier', 'send-for', 'winter-recall',
+  'road-answer', 'flee', 'flight-stay', 'flight-route', 'flight-timber', 'seen-tip',
+]);
+const inputOf = id => (id.startsWith('chore:') ? { action: 'chore', chore: id.slice(6) } : { action: id });
+
+test('the guided start never refuses food, nursing, the war, the flight or a question with a clock, on any step', () => {
+  const world = started('lesson-never-refused');
+  const household = world.households['hh-1'];
+  until(world, () => !household.arriving);
+  for (const step of STEPS) {
+    household.lesson = { step: step.id };
+    for (const id of NEVER_REFUSED) assert.equal(lessonRefusal(world, household, inputOf(id)), null, `${id} is refused on the ${step.id} step`);
+  }
+  // And through the whole door, not only the gate: on the house step - the one a slow reader is on when the news comes -
+  // somebody sick at home is nursed, and somebody is sent out after small game for the pot.
+  household.lesson = { step: 'house' };
+  const [sick, nurse, hunter] = hands(world, household);
+  sick.health = { condition: 'sick', recoversAt: world.minute + 2 * 1440 };
+  send(world, 'hh-1', { action: 'chore', entityId: nurse.id, chore: 'nurse-home' });
+  assert.equal(nurse.chore?.id, 'nurse-home', 'nobody could nurse the sick on the house step');
+  if (hunter) {
+    send(world, 'hh-1', { action: 'chore', entityId: hunter.id, chore: 'take-small-game' });
+    assert.equal(hunter.chore?.id, 'take-small-game', 'nobody could get food on the house step');
+  }
+  assert.equal(household.lesson.step, 'house', 'nursing or hunting finished a farm step');
+  validateWorld(world);
+});
+
+test('the guided start still holds back another farm step\'s work, and what the page greys is exactly what the server refuses', () => {
+  const world = started('lesson-farm-held');
+  const household = world.households['hh-1'];
+  until(world, () => !household.arriving);
+  for (const step of STEPS) {
+    household.lesson = { step: step.id };
+    const card = lessonProjection(world, household);
+    assert.ok(card.shut.length > 0, `the ${step.id} step holds nothing back`);
+    // Every farm work the page is told is shut, the server refuses in the step's own words; everything else goes through.
+    for (const id of FARM_WORK) {
+      const refused = lessonRefusal(world, household, inputOf(id));
+      assert.equal(Boolean(refused), card.shut.includes(id), `${id} on the ${step.id} step: the page and the gate disagree`);
+      // And the page's own reading of the card (public/lesson.js) greys the icon that sends it exactly when the server refuses
+      // it. A work done at a place on the map (survey, clear, fence, fell) is a chore icon that sends the bare action, so it
+      // is read by the bare id; `chore:survey-plot` itself is sent by no icon.
+      const bare = id.startsWith('chore:') && FARM_WORK.includes(id.slice(6));
+      if (!bare) {
+        const icon = id.startsWith('chore:') ? { key: id.slice(6), kind: 'chore' } : { key: id, kind: 'order' };
+        assert.equal(allowsIcon(card, icon), !refused, `${id} on the ${step.id} step: the bar ${refused ? 'offers what the server refuses' : 'greys what the server allows'}`);
+      }
+      if (refused) assert.equal(refused, `Not yet - first, ${step.first}`);
+    }
+    // And the step's own work is never shut by it.
+    for (const id of step.allow()) assert.ok(!card.shut.includes(id), `the ${step.id} step shuts its own ${id}`);
+  }
+  // The order step is about giving an order at all: no work on the bar is held back by it, only the map's own placements.
+  household.lesson = { step: 'order' };
+  assert.deepEqual(lessonProjection(world, household).shut.filter(id => id.startsWith('chore:')), []);
+});
+
+/** A class on the real land, standing at the end of its first period with the Host about to go on to the winter. */
+function atTheEndOfTheFirstPeriod(seed) {
+  const world = createGonzalesWorld(seed, 5, { map: 'colonies' });
+  for (const id of ['hh-1', 'hh-2']) world.households[id].played = true;
+  world.status = 'running';
+  const household = world.households['hh-1'];
+  until(world, () => !household.arriving && !world.households['hh-2'].arriving);
+  household.lesson = { step: 'house' };
+  world.households['hh-2'].lesson = { step: 'done', from: 'survey', at: world.minute, stopped: true };
+  world.status = 'ended';
+  world.director.milestones = { ...world.director.milestones, 'bexar-end': world.minute };
+  return { world, household };
+}
+
+test('the guided start ends for every family when the first period does, whatever step it is on', () => {
+  const { world, household } = atTheEndOfTheFirstPeriod('lesson-period-ends');
+  assert.equal(lessonRefusal(world, household, inputOf('chore:plant-field')), `Not yet - first, ${STEPS[2].first}`, 'the family was not mid-lesson, so this proves nothing');
+  const stopped = structuredClone(world.households['hh-2'].lesson);
+  beginSecondPeriod(world);
+  validateWorld(world);
+  assert.equal(household.lesson.step, 'done', 'the winter opened with the family still on a step of the farm');
+  assert.equal(household.lesson.closed, true);
+  assert.equal(lessonRefusal(world, household, inputOf('chore:plant-field')), null, 'the farm is still gated in the winter');
+  world.status = 'running';
+  assert.equal(view(world, 'hh-1').lesson, undefined, 'the winter is sent a lesson, or a closing card about October');
+  assert.equal(view(world, 'hh-1').lessonResume, undefined, 'the winter offers to take the guided start back up');
+  assert.deepEqual(world.households['hh-2'].lesson, stopped, 'a family that had stopped it lost what it had');
+  // And a save carries the close: `closed` is `true` on a finished lesson or nothing.
+  const reopened = JSON.parse(JSON.stringify(world));
+  validateWorld(reopened);
+  reopened.households['hh-1'].lesson = { step: 'house', closed: true };
+  assert.throws(() => validateWorld(reopened), /Invalid lesson step/);
+  reopened.households['hh-1'].lesson = { step: 'done', closed: 'yes' };
+  assert.throws(() => validateWorld(reopened), /Invalid lesson marker/);
+});
+
+test('a class saved in the winter with a family still on a farm step opens with no gate and no lesson, and its call is not held', () => {
+  // A class saved before today in its second period: nothing closed the lesson then, and the family was still on step 3.
+  const world = started('lesson-winter-save');
+  const household = world.households['hh-1'];
+  until(world, () => !household.arriving);
+  household.lesson = { step: 'house' };
+  assert.equal(inLesson(world, household), true);
+  world.period = 2;
+  assert.equal(inLesson(world, household), false, 'the winter still holds the family in the guided start - and its call\'s minutes with it');
+  assert.equal(lessonRefusal(world, household, inputOf('chore:plant-field')), null);
+  assert.equal(view(world, 'hh-1').lesson, undefined);
+  advanceLessons(world);
+  assert.equal(household.lesson.step, 'house', 'the tick walked a winter family through the farm');
+  validateWorld(world);
 });

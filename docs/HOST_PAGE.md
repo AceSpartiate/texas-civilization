@@ -141,7 +141,7 @@ clear, and tell the teacher up front how many class days a game takes at each pa
 ### 2.8 Nothing on the Host's page stands on anything else (2026-09-28)
 
 Owner, 2026-09-28: *"Check for UI elements that block others. Move them somewhere else."* `npm run test:overlap`
-(docs/FAMILY_PANEL.md §20) walks the Host's page at a projector's 1920x1080, 1280x720 and 1280x800, a 1024x768 one and a
+(docs/FAMILY_PANEL.md §21) walks the Host's page at a projector's 1920x1080, 1280x720 and 1280x800, a 1024x768 one and a
 1366x768 Chromebook: the lobby, Classes and Recover a student opened, a running class with the spotlight lit, the fight at
 Gonzales at first light, the ending and "How it ended". Found and moved:
 

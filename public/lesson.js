@@ -14,8 +14,12 @@
 //       title: 'Put somebody to work',
 //       says: 'One sentence telling the student what to do next.',
 //       did: 'What just happened, or null',
-//       allow: ['chore:build-house'],   // every action id the student may take now
+//       allow: ['chore:build-house'],   // this step's own work, which the ring and the words point at
+//       shut: ['chore:dig-well', ...],  // the farm work this step holds back (2026-09-28); nothing else is shut
 //       done: false,                    // when the lesson is over, `world.lesson` is absent entirely
+//
+// A lesson with no `shut` is from a server older than 2026-09-28, when `allow` was every action the student might take and
+// everything off it was shut; it is read that way still.
 //     }
 //
 // It imports nothing, so every rule it holds is tested headlessly (tests/lesson-screen.test.mjs) against the same shapes
@@ -41,7 +45,10 @@ export function lessonShowing(world) {
  * than the contract, or one that has not decided, and a page that locks a student out on a guess is worse than a page
  * that lets them meet the server's own refusal.
  */
-export const lessonLocks = lesson => Boolean(lesson) && Array.isArray(lesson.allow);
+export const lessonLocks = lesson => Boolean(lesson) && (Array.isArray(lesson.shut) || Array.isArray(lesson.allow));
+
+/** Whether this icon is one of the entries of a list of action ids, read the way the server writes them (below). */
+const names = (list, icon) => list.some(entry => entry === actionIdOf(icon) || entry === icon.key || entry === `chore:${icon.key}`);
 
 /**
  * The three icons that are one action to the server: Travel to Gonzales, Return home and Go to a neighbour's homestead all
@@ -75,8 +82,11 @@ export const actionIdOf = icon => {
  */
 export function allowsIcon(lesson, icon) {
   if (!lessonLocks(lesson) || !icon) return true;
-  const key = icon.key;
-  return lesson.allow.some(entry => entry === actionIdOf(icon) || entry === key || entry === `chore:${key}`);
+  // Since 2026-09-28 the server says what it holds back (`shut`: another farm step's own work) and nothing else is shut -
+  // not food, not nursing, not the war (sim/lesson.mjs `FARM_WORK`). A lesson with no `shut` is a server older than that,
+  // whose `allow` was the whole permission, and is read as it always was.
+  if (Array.isArray(lesson.shut)) return !names(lesson.shut, icon);
+  return names(lesson.allow, icon);
 }
 
 /** What a shut icon says when it is hovered, focused or pressed: never a scolding, always the one thing to do instead. */

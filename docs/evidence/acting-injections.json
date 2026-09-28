@@ -1,0 +1,242 @@
+{
+  "record": "acting-injections",
+  "date": "2026-09-28",
+  "note": "Who acts for a family, the oldest child who steps up, a family taken in, the left behind, the baby and the war, very sick in bed, the family with nobody living and the dead who never speak (docs/FAMILY_PANEL.md §20, 2026-09-28). Each injection is run against tests/acting.test.mjs; \"alone\" means the test named for the rule was the only one to fail.",
+  "injections": [
+    {
+      "name": "the order's \"!\" stays on the main person with the army",
+      "file": "public/family-panel.js",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "B1: the father serving with Houston, the order to leave goes to the mother at home - her \"!\", her answer - and his is refused in words that name her",
+        "the oldest child steps up: with everybody of ten or more taken, the order, the road and \"¡Alto!\" are the seven-year-old's; a five-year-old is refused and told who answers"
+      ]
+    },
+    {
+      "name": "the page is never told who is with the family",
+      "file": "sim/world.mjs",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "B1: the father serving with Houston, the order to leave goes to the mother at home - her \"!\", her answer - and his is refused in words that name her",
+        "B1: soldiers call \"¡Alto!\" on a family whose father is serving and on auto; the question is the mother's, her \"run\" is taken, and it does not lapse into capture",
+        "the oldest child steps up: with everybody of ten or more taken, the order, the road and \"¡Alto!\" are the seven-year-old's; a five-year-old is refused and told who answers"
+      ]
+    },
+    {
+      "name": "the refusal to a man with the army does not name who answers",
+      "file": "sim/world.mjs",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "B1: the father serving with Houston, the order to leave goes to the mother at home - her \"!\", her answer - and his is refused in words that name her",
+        "B1: soldiers call \"¡Alto!\" on a family whose father is serving and on auto; the question is the mother's, her \"run\" is taken, and it does not lapse into capture"
+      ]
+    },
+    {
+      "name": "a man with the army is counted with the family",
+      "file": "sim/acting.mjs",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "with nobody of seven or more, the nearest neighbours take the little ones in; they go where that family goes; and the father home from the army fetches them",
+        "taken in at the neighbours' own place, the father sent home from the army comes for the girls and they go home together"
+      ]
+    },
+    {
+      "name": "the chase reads the main person's switch, not who is with the family",
+      "file": "sim/pursuit.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "B1: soldiers call \"¡Alto!\" on a family whose father is serving and on auto; the question is the mother's, her \"run\" is taken, and it does not lapse into capture"
+      ]
+    },
+    {
+      "name": "a child is refused the family's decisions",
+      "file": "sim/world.mjs",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "the oldest child steps up: with everybody of ten or more taken, the order, the road and \"¡Alto!\" are the seven-year-old's; a five-year-old is refused and told who answers",
+        "the oldest child answers \"¡Alto!\" on the road for a family of children"
+      ]
+    },
+    {
+      "name": "a child steps up only at ten",
+      "file": "sim/acting.mjs",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "the oldest child steps up: with everybody of ten or more taken, the order, the road and \"¡Alto!\" are the seven-year-old's; a five-year-old is refused and told who answers",
+        "the oldest child answers \"¡Alto!\" on the road for a family of children",
+        "the oldest child at home may go for help: the neighbours take the family in"
+      ]
+    },
+    {
+      "name": "a smaller child is not told who answers",
+      "file": "sim/world.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the oldest child steps up: with everybody of ten or more taken, the order, the road and \"¡Alto!\" are the seven-year-old's; a five-year-old is refused and told who answers"
+      ]
+    },
+    {
+      "name": "nobody takes the little ones in",
+      "file": "sim/acting.mjs",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "with nobody of seven or more, the nearest neighbours take the little ones in; they go where that family goes; and the father home from the army fetches them",
+        "taken in at the neighbours' own place, the father sent home from the army comes for the girls and they go home together"
+      ]
+    },
+    {
+      "name": "the taken-in stay behind when the neighbours go",
+      "file": "sim/acting.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "with nobody of seven or more, the nearest neighbours take the little ones in; they go where that family goes; and the father home from the army fetches them"
+      ]
+    },
+    {
+      "name": "nobody grown of the family can fetch the children back",
+      "file": "sim/acting.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "taken in at the neighbours' own place, the father sent home from the army comes for the girls and they go home together"
+      ]
+    },
+    {
+      "name": "going for help is never offered",
+      "file": "sim/acting.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the oldest child at home may go for help: the neighbours take the family in"
+      ]
+    },
+    {
+      "name": "a child may not run to the neighbours",
+      "file": "sim/world.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the oldest child at home may go for help: the neighbours take the family in"
+      ]
+    },
+    {
+      "name": "nobody left behind follows",
+      "file": "sim/world.mjs",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "taken in at the neighbours' own place, the father sent home from the army comes for the girls and they go home together",
+        "left behind: a son in town when the family goes is told where it went, and follows it there"
+      ]
+    },
+    {
+      "name": "the wounded are left at home",
+      "file": "sim/scrape.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the wounded go with the family, in the wagon"
+      ]
+    },
+    {
+      "name": "the baby marches with the army",
+      "file": "sim/babies.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a baby never marches with the army: the lone father goes to Houston, the baby stays with the girls, and he is warned before he goes"
+      ]
+    },
+    {
+      "name": "nothing says the little ones are left alone",
+      "file": "sim/chores.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a baby never marches with the army: the lone father goes to Houston, the baby stays with the girls, and he is warned before he goes"
+      ]
+    },
+    {
+      "name": "work goes on for somebody too sick to get up",
+      "file": "sim/babies.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "very sick is in bed: the work in hand stops at once, a crying baby is not brought to her, and the card offers nursing by somebody else"
+      ]
+    },
+    {
+      "name": "a very sick woman is sent to the crying baby",
+      "file": "sim/babies.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "very sick is in bed: the work in hand stops at once, a crying baby is not brought to her, and the card offers nursing by somebody else"
+      ]
+    },
+    {
+      "name": "an idle child goes to stop a very sick parent's rest",
+      "file": "sim/childhood.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "very sick is in bed: the work in hand stops at once, a crying baby is not brought to her, and the card offers nursing by somebody else"
+      ]
+    },
+    {
+      "name": "nobody is offered to nurse the very sick",
+      "file": "sim/world.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "very sick is in bed: the work in hand stops at once, a crying baby is not brought to her, and the card offers nursing by somebody else"
+      ]
+    },
+    {
+      "name": "a dead family is told to leave",
+      "file": "sim/scrape.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a family with nobody living is not told to leave, holds nobody's clock, and is never named the winner"
+      ]
+    },
+    {
+      "name": "a dead family holds the clock",
+      "file": "sim/clock.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a family with nobody living is not told to leave, holds nobody's clock, and is never named the winner"
+      ]
+    },
+    {
+      "name": "a dead family can win",
+      "file": "sim/ending.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a family with nobody living is not told to leave, holds nobody's clock, and is never named the winner"
+      ]
+    },
+    {
+      "name": "the dead keep their little ones",
+      "file": "sim/babies.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the dead never speak: a mother who dies of a sickness in the tick is not heard replying to her children, and has let them go"
+      ]
+    }
+  ]
+}

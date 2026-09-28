@@ -49,6 +49,8 @@ import { stirredShare } from './shares.mjs';
 import { awake, endTalk, firstToday } from './childhood.mjs';
 import { CHORES } from './chores.mjs';
 import { MODES } from './travel.mjs';
+// Whether a journey is to the war, and the age a child steps up at (sim/acting.mjs, 2026-09-28).
+import { STEPS_UP_FROM, goingToWar } from './acting.mjs';
 
 const GONE = Object.freeze(['dead', 'captured']);
 const DAY = 1440;
@@ -77,6 +79,12 @@ const pronoun = baby => (sexOf(baby) === 'female' ? 'her' : sexOf(baby) === 'mal
 /** Where the family lives now: its own land, or its camp at the refuge on the road east. */
 export const placeOf = household => (household.flight?.status === 'refuged' ? household.flight.refuge : household.homeSiteId);
 const at = (person, place) => person && !GONE.includes(person.health?.condition) && !person.travel && person.location?.siteId === place && person.service?.status !== 'serving';
+/**
+ * Somebody at this place who can see to a baby: not very sick and not lying wounded (design audit S36, interactions S6, 2026-09-28).
+ * A woman too sick to get up is refused all work and travel (sim/chores.mjs, sim/world.mjs), and was still sent to a crying baby
+ * and left holding one; now the next nearest comes.
+ */
+const ableAt = (person, place) => at(person, place) && !person.health?.grave && person.health?.condition !== 'wounded';
 const tell = (world, household, entity, text, claimId = 'FIC-GONZ-483', importance = 1, ambient = true) => record(world, 'consequence', {
   actorId: entity.id, householdId: household.id, importance, classification: 'FICTIONAL FOR GAMEPLAY', claimId, text, ...(ambient && { ambient: true }),
 });
@@ -114,9 +122,18 @@ export function takeBabyAlong(world, entity) {
   const people = household.members.map(id => world.entities[id]).filter(Boolean);
   const babies = people.filter(person => isBaby(person) && at(person, place) && !person.carriedBy);
   if (!babies.length) return;
-  const stays = people.filter(person => person.id !== entity.id && at(person, place));
+  const stays = people.filter(person => person.id !== entity.id && ableAt(person, place));
   const woman = stays.find(womanOfAge);
   const names = babies.map(baby => baby.name).join(' and ');
+  // **A baby never goes to the war** (interactions S4, 2026-09-28): a man going to join the army, the garrison or a call does not
+  // carry it on his hip into the ranks. It stays at home with whoever is there - the nearest woman of age, else anybody of age, else
+  // an older brother or sister - and a family with nobody left who can act is taken in by its neighbours (sim/acting.mjs).
+  if (goingToWar(world, entity)) {
+    const older = stays.filter(person => Number.isFinite(person.age) && person.age >= STEPS_UP_FROM && !isBaby(person)).sort((a, b) => b.age - a.age)[0];
+    const keeper = woman || stays.find(ofAge) || older;
+    tell(world, household, entity, `${entity.name} went to the war and left ${names} at home${keeper ? ` with ${keeper.name}` : ''}: a baby does not go with the army.`, 'FIC-GONZ-733', 2, false);
+    return;
+  }
   if (woman) {
     // With another woman of age at home, the baby stays with her - said when it is the mother who goes.
     if (babies.some(baby => (baby.kin?.parents || []).includes(entity.id))) tell(world, household, entity, `${entity.name} left ${names} with ${woman.name}.`, 'FIC-GONZ-484', 2, false);
@@ -202,12 +219,12 @@ function ride(baby, carrier) {
 /** Who comes to a crying baby at this place: see the rule at the top. Returns { minder } or { holder } or { carer } or {}. */
 export function whoComes(world, household, baby, place) {
   const people = household.members.map(id => world.entities[id]).filter(person => person && person.id !== baby.id);
-  const minder = people.find(person => person.chore?.id === 'child-mind' && at(person, place));
+  const minder = people.find(person => person.chore?.id === 'child-mind' && ableAt(person, place));
   if (minder) return { minder };
-  const holder = people.find(person => person.aside?.kind === 'baby' && at(person, place));
+  const holder = people.find(person => person.aside?.kind === 'baby' && ableAt(person, place));
   if (holder) return { holder };
   const sick = baby.health?.condition === 'sick';
-  const free = people.filter(person => ofAge(person) && at(person, place) && (sick || takenToday(world, person) < COMFORT_CAP_TICKS));
+  const free = people.filter(person => ofAge(person) && ableAt(person, place) && (sick || takenToday(world, person) < COMFORT_CAP_TICKS));
   const far = person => Math.hypot(person.location.x - baby.location.x, person.location.y - baby.location.y);
   const nearest = list => [...list].sort((a, b) => far(a) - far(b) || a.id.localeCompare(b.id))[0] || null;
   const carer = nearest(free.filter(womanOfAge)) || nearest(free);
@@ -262,7 +279,8 @@ const hold = (baby, carer) => { baby.location = { x: r4(carer.location.x + 0.001
 function holding(world, household, person) {
   const aside = person.aside;
   const place = placeOf(household);
-  if (!at(person, place)) { letGo(world, person); return; }
+  // Gone from the place, or turned too sick to get up or wounded while holding: the baby is set down awake and nobody is restored.
+  if (!ableAt(person, place)) { letGo(world, person); return; }
   const babies = aside.babyIds.map(id => world.entities[id]).filter(baby => baby?.baby?.state === 'held' && baby.baby.by === person.id);
   if (world.tick < aside.until && babies.length) { for (const baby of babies) hold(baby, person); return; }
   for (const baby of babies) {
@@ -344,7 +362,8 @@ export function babyLines(world, household) {
     if (baby.baby?.state === 'cry') lines.push({ id: `${baby.id}:cry:${world.tick}`, sceneId: `baby:${baby.id}`, speakerId: baby.id, text: '(crying)', kind: 'reconstructed', claimId: 'FIC-GONZ-483' });
     if (baby.baby?.state === 'held') {
       const carer = world.entities[baby.baby.by];
-      if (!carer || carer.aside?.babyIds?.[0] !== baby.id) continue;
+      // Nobody gone hums (interactions M1): a holder who died or was taken this tick has let go already, and is never heard.
+      if (!carer || GONE.includes(carer.health?.condition) || carer.aside?.babyIds?.[0] !== baby.id) continue;
       const first = world.tick < carer.aside.until - 1;
       const lullaby = LULLABIES[Math.floor(stirredShare(world, carer.id, 'lullaby') * LULLABIES.length) % LULLABIES.length];
       lines.push(first
@@ -394,6 +413,49 @@ export function babyWord(world, household, entity) {
   return BABY_WORDS[entity.baby?.state] || BABY_WORDS.awake;
 }
 const BABY_WORDS = Object.freeze({ awake: 'crawling', cry: 'crying', held: 'held', nap: 'napping', night: 'asleep' });
+
+/**
+ * Last in the tick, once its deaths, captures and sicknesses have all happened (interactions audit M1 and S6, design audit S34
+ * and S36, 2026-09-28):
+ *
+ * - **The dead and the taken let go** of the family's little ones: a child talking with them is left with nothing to do, a baby
+ *   they held is set down, and nobody gone is left talking, holding or humming. Until this, a mother who died of a sickness in
+ *   the tick replied to her children in that tick's projection ("I am watching. Now let me be."), because the sickness is rolled
+ *   after the children's talk.
+ * - **Very sick or lying wounded means in bed**: their work in hand stops at once (not only when work was next begun, which let a
+ *   man "too sick to get up" shoot at the mark for six ticks), a baby they held is set down, and a child with them is let go.
+ *   Somebody on a road goes on to where they were going; the road east carries its sick in the wagon.
+ *
+ * Nobody is restored to anything; nothing is said but the one line of going to bed. The family's other people see to the rest.
+ */
+export function settleTheUnable(world) {
+  for (const household of Object.values(world.households)) {
+    for (const id of household.members) {
+      const person = world.entities[id];
+      if (!person || person.kind !== 'person') continue;
+      const gone = GONE.includes(person.health?.condition);
+      // Set out on a road that is not a journey of their own - the family's flight, the army's march (sim/scrape.mjs `flee`,
+      // sim/army.mjs) - they let go too, as `beginTravel` lets go of everybody it puts on a road (interactions M1).
+      if (!gone && person.travel && (person.aside || person.talk)) {
+        if (person.aside) { leaveAside(world, person); delete person.aside; }
+        if (person.talk) { endTalk(world, person); person.idleSince = world.tick; }
+      }
+      const abed = !gone && (person.health?.grave || person.health?.condition === 'wounded');
+      if (!gone && !abed) continue;
+      if (person.aside) { leaveAside(world, person); delete person.aside; }
+      if (person.talk) { endTalk(world, person); person.idleSince = world.tick; }
+      if (gone || person.travel) continue;
+      if (person.chore) {
+        const work = (CHORES[person.chore.id]?.name || 'the work').toLowerCase();
+        person.chore = null;
+        tell(world, household, person, person.health.grave
+          ? `${person.name} is too sick to go on with ${work}, and has gone to bed.`
+          : `${person.name} is lying wounded, and has left off ${work}.`, 'FIC-GONZ-734', 2, false);
+      }
+      if (person.task === 'work') person.task = 'rest';
+    }
+  }
+}
 
 /** A saved baby's state that cannot be, or null. */
 export function babiesInvalid(world) {

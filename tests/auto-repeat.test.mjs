@@ -5,6 +5,7 @@
 // that task becomes available again. i'm thinking that i could put a character on planting autoplay, and another one on
 // harvest. then they'd naturally keep going until i turned off autoplay for them."
 import test from 'node:test';
+import { LESSON_ENABLED } from '../sim/lesson.mjs';
 import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -142,7 +143,8 @@ test('the exits: off, called away, dead, and the family on the road east', () =>
   validateWorld(world);
 });
 
-test('the guided start holds the gate for auto: a task the step does not allow is not taken up, nor taken as a task to wait for', () => {
+// Skipped while the guided start is switched off (owner, 2026-09-28): it exercises only the guided start.
+test('the guided start holds the gate for auto: a task the step does not allow is not taken up, nor taken as a task to wait for', { skip: !LESSON_ENABLED && 'the guided start is switched off (owner, 2026-09-28; sim/lesson.mjs LESSON_ENABLED)' }, () => {
   const world = running('auto-lesson');
   const household = world.households['hh-1'];
   household.played = true;

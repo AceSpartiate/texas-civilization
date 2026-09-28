@@ -464,6 +464,19 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .journal-note{margin:0 0 8px;font-size:11px;color:#6d5f43}
 /* A mark on the book, not a card over the map: something new is written in here. */
 #journal-toggle{position:relative}
+/* The neighbours (public/neighbours.js): the journal's look, a sheet of its own. */
+#neighbours-toggle{position:relative;display:flex;align-items:center;gap:7px;background:#4b5133;color:#fff2d2;border-color:#b7a279}
+#neighbours-toggle[hidden]{display:none}
+#neighbours-unread{position:absolute;top:3px;right:3px;min-width:8px;height:8px;border-radius:5px;background:#c2582c;border:1px solid #f7e8c8}
+#neighbours[data-open=false]{display:none}
+#neighbours[data-open=true]{position:absolute;right:18px;top:100px;bottom:82px;width:min(400px,calc(100% - 36px));z-index:22;overflow:auto;background:var(--paper);border:double 4px #8f9b6b;box-shadow:0 16px 60px #241e1a66;border-radius:6px}
+.neighbour-ask{background:#f3e3bd;border:1px solid #c2582c;border-radius:5px;padding:8px 10px;margin:12px 0}
+.neighbour-ask p{margin:0 0 8px;font-size:14px}.neighbour-ask button{margin-right:6px}
+#neighbours-lent{font-size:13px;background:#e8ecd6;border-radius:5px;padding:6px 8px}
+.neighbour-head{margin:0;font-size:14px}.neighbour-tags{margin:3px 0;font-size:12px;color:#6b4a26}
+.neighbour-between{margin:2px 0;font-size:12px;color:#5c5442}.neighbour-buttons{margin-top:5px}
+#neighbours-note{font-size:12px;color:#6b4a26}
+@media(max-width:760px){#neighbours-toggle{padding:7px;font-size:12px}#neighbours[data-open=true]{top:70px;right:8px;bottom:64px;width:calc(100% - 16px)}}
 #journal-unread{position:absolute;top:3px;right:3px;min-width:8px;height:8px;border-radius:5px;background:#c2582c;border:1px solid #f7e8c8}
 /* Somebody is waiting to speak with this person. It sits with their other instructions
    because that is what it is - an instruction to one of your family, not a notification. */
@@ -641,6 +654,18 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .ending-table th,.ending-table td{border-bottom:1px solid #d6c59d;padding:5px 6px;text-align:left;vertical-align:top}
 .ending-table th{font-size:11px;letter-spacing:.05em;color:#84714c}
 .ending-table tr[data-first="true"] td{background:#ecd9a8;font-weight:600}
+#flashback{border-bottom:1px solid #c5b286;padding-bottom:10px;margin-bottom:6px}
+#flashback video{display:block;width:100%;aspect-ratio:854/480;background:#1c1610;border-radius:6px;margin:6px 0}
+#flashback video[hidden]{display:none}
+.flashback-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#flashback-now{font-style:italic;color:#5a4a2e}
+#flashback-families{padding-left:22px;font-size:14px}
+#flashback-families li{margin:3px 0}
+#flashback-families button{min-height:0;padding:2px 10px;margin-left:6px}
+.flashback-facts{color:#756342;font-size:13px}
+#flashback-transcript{padding-left:22px;font-size:14px}
+.flashback-meanwhile{display:block;color:#384e63;font-style:italic}
+#flashback-status{font-size:14px;color:#5a4a2e}
 @media(max-width:760px){#ending{padding:12px}.ending-numbers dd{font-size:21px}}
 /* The flight east (public/app.js renderFlight). */
 .flight-form{display:grid;gap:4px;margin:6px 0}
@@ -1122,6 +1147,47 @@ body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{left
   .panel-row[data-focused=true] .panel-icons{left:8px;right:8px;transform:none;width:auto;max-width:none;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:60px;justify-content:safe center;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:thin}
   .panel-icons .panel-icon{min-height:64px}
 }
+
+/* Tips at first meeting (owner, 2026-09-28; public/tips.js, docs/LESSON.md §9). One short line over the map above the action
+   bar, clear of the family's column (placed by `placeTip` in public/app.js). The words let every click through to the map;
+   only "Got it" takes a press. No z-index of its own, so the person's card and every dialog stand over it, never under it. */
+#tip{position:fixed;left:12px;right:12px;bottom:150px;margin:0 auto;width:fit-content;max-width:min(36rem,calc(100% - 24px));box-sizing:border-box;display:flex;align-items:center;gap:10px;padding:7px 7px 7px 11px;background:#fff7e3;color:#3b3427;border:1px solid #9c8259;border-left:5px solid #4f6b3f;border-radius:7px;box-shadow:0 4px 14px #30291f40;font-size:14px;line-height:1.4;pointer-events:none}
+#tip[hidden],#errand-tip[hidden]{display:none}
+#tip{flex-wrap:wrap;row-gap:4px}
+.tip-mark{flex:none;color:#4f6b3f;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+/* In a narrow place beside a card the words take a line of their own, under "Tip" and above "Got it". */
+.tip-words{margin:0;min-width:0;flex:1 1 13rem}
+.tip-close{pointer-events:auto;flex:none;min-height:36px;padding:6px 12px;border-radius:5px;background:#4f6b3f;color:#fff9e9;border:1px solid #3c5230;font-weight:600}
+.tip-close:hover,.tip-close:focus-visible{background:#5f7d4c}
+/* While a rider talks the bottom middle is the meeting's (the bar steps aside the same way). */
+body[data-meeting=true] #tip{display:none}
+/* The store's tip stands at the top of the errand's own list, where the errand cannot cover it. */
+.tip-inline{display:flex;align-items:center;gap:8px;margin:6px 0 4px;padding:6px 6px 6px 9px;background:#fff7e3;color:#3b3427;border:1px solid #9c8259;border-left:5px solid #4f6b3f;border-radius:6px;font-size:13.5px;line-height:1.35}
+@media(max-width:760px){#tip{left:8px;right:8px;max-width:none;width:auto;font-size:13.5px}}
+
+/* The "!"s ranked (docs/audits/2026-09-28-design.md S33): the tag is its number among the family's "!"s and the time left
+   where the question will lapse; the first to answer is ringed and keeps moving, the rest are still. */
+.panel-attention-badge{position:absolute;left:18px;top:19px;padding:0 4px;border-radius:7px;background:#fff8e6;color:#7a2e12;border:1px solid #c2582c;font:700 11px/1.35 system-ui;white-space:nowrap;pointer-events:none}
+.panel-attention-badge[hidden]{display:none}
+.panel-attention[data-urgent=true]{outline:3px solid #f2c14e;outline-offset:1px}
+.panel-attention[data-rank]:not([data-rank=""]):not([data-rank="1"]){animation:none}
+
+/* What a line of the town errand does, on a tap as well as a hover (S6: touch has no hover). */
+.errand-words[role=button]{cursor:pointer}
+.errand-does{font-size:12px;color:#3f4d3a;line-height:1.35;margin-top:2px}
+.errand-does[hidden]{display:none}
+
+/* The sound control beside the Journal (public/audio.js, docs/AUDIO.md): a button and a small panel of sliders above it. */
+#sound-control{position:relative;display:flex;align-items:flex-end}
+#sound-toggle{display:flex;align-items:center;gap:7px;background:#51462f;color:#fff2d2;border-color:#b7a279}
+#sound-toggle[data-muted="true"]{background:#6b6150}
+#sound-panel{position:absolute;bottom:calc(100% + 6px);left:0;min-width:220px;background:#fbf6e9;color:#2d2618;border:1px solid #b7a279;border-radius:8px;padding:10px 12px;box-shadow:0 6px 18px rgba(0,0,0,.25);display:grid;gap:7px;font-size:13px;z-index:30}
+#sound-panel[hidden]{display:none}
+.sound-mute{font-weight:600}
+.sound-row{display:grid;grid-template-columns:64px 1fr;align-items:center;gap:8px}
+.sound-note{margin:2px 0 0;font-size:11.5px;line-height:1.3;color:#5b4f38;max-width:220px}
+.sound-note:empty{display:none}
+@media (max-width:700px){#sound-toggle{padding:7px}}
 /* Coming back by name (2026-09-28, public/app.js `#away`): the same card as the family key's door. */
 #away{max-width:420px;margin:12vh auto;padding:26px 28px;background:var(--paper);border-radius:10px}
 #away .eyebrow{letter-spacing:.14em;font-size:11px;color:#62736b}

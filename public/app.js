@@ -4,8 +4,9 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
-import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
+import { actingOf, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
+import { TIPS, tipToShow } from '/tips.js';
 import { mountErrand } from '/errand.js';
 import { reconnector, reconnectWords } from '/reconnect.js';
 import { mountClassPanel } from '/class-panel.js';
@@ -29,6 +30,8 @@ import { drawHousePlot, houseFootprint, plotCell, plotted, renderHousePlot } fro
 import { CABIN_PEOPLE, PERSON_MILES, houseOnGround, spacingRefusal, standingAt } from '/sim/house-footprint.mjs';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
+import { bindFlashback, renderFlashback } from '/flashback.js';
+import { bindNeighbours, renderNeighbours } from '/neighbours.js';
 import { bindLooks, renderLooks } from '/appearance.js';
 import { avatarVariant, drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
 import { decodeAppearance } from '/look-vocabulary.js';
@@ -71,7 +74,20 @@ const battleView = createBattleView({ animated: (...args) => animated(...args), 
 // Up here with the battle's renderer, above the page's first `connect`, for the same TDZ guard.
 const chaseView = createChaseView({ animated: (...args) => animated(...args), miniPerson: (...args) => miniPerson(...args) });
 let routeDraft = null, routePicking = false, routeEditorKey = '';
+// The page's sound (public/audio.js, docs/AUDIO.md): told every snapshot and every frame, and given its button beside the
+// Journal. Fetched alongside the page rather than before it, so it never delays the first picture; until it has come the
+// page is simply silent. Up here with the battle's renderer, above the page's first `connect`, for the same TDZ guard.
+let soundscape = null;
+import('/audio.js').then(({ createSoundscape }) => {
+  soundscape = createSoundscape({ hostPage });
+  soundscape.mount($('#map-tools'));
+  if (window.__snapshot) soundscape.observe(window.__snapshot);
+}).catch(error => console.warn('The page has no sound:', error));
 let animationTime = 0, previousFrame = 0, paintedFrame = 0, animationDrawMs = 0;
+// The end-of-game flashback's recorder (public/flashback.js): the video's own clock while it draws a frame, which the figures'
+// cycles are timed by instead of the page's, and how many pictures of the land are still being made. Up here, above the page's
+// first `connect`, for the TDZ guard.
+let flashbackClock = null, landMaking = 0;
 // A traveller's cycle is played from their own place in their stride rather than the shared clock (public/motion.js `GaitClock`).
 const gaitClock = new GaitClock(), gaits = new Map();
 /**
@@ -98,7 +114,7 @@ function gaitTime(clip, gait) {
 }
 function animated(ctx, clip, x, y, size, seed = 0, { gait, ...options } = {}) {
   const own = gait && !options.paused && !('timeMs' in options) ? gaitTime(clip, gait) : undefined;
-  const width = drawClip(ctx, clip, x, y, size, { timeMs: own ?? animationTime, seed, reducedMotion: reducedMotion.matches, ...options });
+  const width = drawClip(ctx, clip, x, y, size, { timeMs: own ?? flashbackClock ?? animationTime, seed, reducedMotion: reducedMotion.matches, ...options });
   if (width) window.__animationClips?.add(clip);
   return width;
 }
@@ -2159,12 +2175,13 @@ function landPicture(grid) {
     return pictures;
   }
   landPictures.set(grid, LAND_MAKING);
+  landMaking++;
   smoothOffThread({ kind: 'land', grid: { columns: grid.columns, rows: grid.rows, cells: grid.cells, shade: grid.shade }, palette, upscale })
     .then(async ({ pictures: data }) => {
       const [wash, shade] = await Promise.all([toBitmap(data.wash), toBitmap(data.shade)]);
       landPictures.set(grid, { upscale, wash, shade });
       redrawForArrival();
-    });
+    }).finally(() => { landMaking--; });
   return null;
 }
 function layLandPicture(ctx, camera, grid, canvas, upscale, alpha) {
@@ -2806,6 +2823,27 @@ function noteTick(world) {
   if (lastTickSeen && world.tick === lastTickSeen.tick + 1 && world.minute > lastTickSeen.minute) minutesATick = world.minute - lastTickSeen.minute;
   lastTickSeen = { tick: world.tick, minute: world.minute };
 }
+/**
+ * A camera for the flashback (public/flashback.js): centred where it is told, at `scale` pixels a mile, on a canvas that is not
+ * the map's. The same shape `cameraFor` gives, so the ground, the houses and the figures are drawn at the sizes they always are.
+ */
+function flashbackCamera(canvas, cx, cy, scale) {
+  return {
+    cx, cy, scale, following: false, kind: 'flashback',
+    toScreen: p => ({ x: canvas.width / 2 + (p.x - cx) * scale, y: canvas.height / 2 + (p.y - cy) * scale }),
+    toWorld: s => ({ x: cx + (s.x - canvas.width / 2) / scale, y: cy + (s.y - canvas.height / 2) / scale }),
+    figure: Math.max(7, Math.min(150, scale * PERSON_MILES)), house: houseScale(scale), named: scale > 3.2,
+  };
+}
+/** The ground under a flashback's picture: the map's own land, water, scatter, terrain and fields, as the kept ground is drawn. */
+function flashbackGround(ctx, world, camera) {
+  ctx.fillStyle = '#9fbe73'; ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  drawRelief(ctx, world, camera);
+  // The scatter and the fields read the page's woods and plots; a flashback drawn before either has loaded is drawn without them.
+  try { drawGroundDetail(ctx, world, camera); } catch { /* the ground without its scatter */ }
+  drawTerrain(ctx, world, camera);
+  try { drawPlots(ctx, world, camera); } catch { /* the ground without the fields */ }
+}
 export function drawWorld(world) {
   noteTick(world);
   window.__animationClips = new Set();
@@ -3392,14 +3430,14 @@ export function drawWorld(world) {
   // fought, the fire, the smoke on the day's wind, the words, the cannon. It replaced `drawFormations` on 2026-09-25.
   const fight = world.battle?.sides ? world.battle : null;
   const fightWind = fight && weather ? weatherMix(weather, fight.sides[0].x, world.minute).wind : null;
-  window.__battleView = battleView.draw(ctx, fight, {
+  const battleSeen = window.__battleView = battleView.draw(ctx, fight, {
     camera, time: animationTime, now: frameNow, tickMs: window.__snapshot?.tickMs ?? 1000, wind: fightWind,
     reducedMotion: reducedMotion.matches, paused: world.status !== 'running', bounds: { width: canvas.width, height: canvas.height }, named: camera.named,
   });
   if (fight) drawBattleCaption(ctx, fight, canvas);
   // Mexican troops after a family (public/chase-view.js): the student's own family's, and every one on the Host's map.
   const chases = host ? world.chases || [] : world.flight?.chase ? [world.flight.chase] : [];
-  window.__chaseView = chaseView.draw(ctx, chases, { camera, now: frameNow, time: animationTime, tickMs: window.__snapshot?.tickMs ?? 1000, bounds: { width: canvas.width, height: canvas.height }, reducedMotion: reducedMotion.matches, paused: world.status !== 'running' });
+  const chaseSeen = window.__chaseView = chaseView.draw(ctx, chases, { camera, now: frameNow, time: animationTime, tickMs: window.__snapshot?.tickMs ?? 1000, bounds: { width: canvas.width, height: canvas.height }, reducedMotion: reducedMotion.matches, paused: world.status !== 'running' });
   window.__viewFormations = fight ? fight.formations.map(formation => formation.id) : [];
   canvas.dataset.formationIds = window.__viewFormations.join(' ');
   window.__viewEntities = entities.map(entity => entity.id);
@@ -3411,6 +3449,7 @@ export function drawWorld(world) {
   // tick while the figure is drawn every frame between.
   window.__seatedDrawn = Object.fromEntries(seatedDrawn);
   window.__drawnAt = Object.fromEntries([...drawnAt].map(([id, spot]) => [id, { x: spot.x, y: spot.y, size: spot.size }]));
+  soundscape?.frame({ camera, canvas, world, battle: battleSeen, chase: chaseSeen, drawnAt });
   // Presentation evidence, same contract as __viewEntities: who was drawn because they
   // were seen, kept as a separate list so a proof can tell the two apart.
   // On the Host's map, the ones inside the view.
@@ -3826,7 +3865,7 @@ function renderRouteEditor(world, chosen, running) {
   let editor = $('#flight-route-editor');
   // Presentation evidence, read by scripts/scrape-pursuit-browser-proof.mjs and by nothing in the page.
   window.__routeEditor = { open: Boolean(routeDraft), picking: routePicking, stops: routeDraft ? [...routeDraft.stops] : [] };
-  const onRoad = world.flight && ['fled', 'refuged'].includes(world.flight.status) && world.role !== 'host' && chosen?.id === (world.household?.mainId || world.household?.principalId);
+  const onRoad = world.flight && ['fled', 'refuged'].includes(world.flight.status) && world.role !== 'host' && chosen?.id === actingOf(world) && !world.household?.takenIn;
   if (!onRoad || !routeDraft) {
     routePicking = false;
     if (editor) { editor.hidden = true; editor.replaceChildren(); }
@@ -3892,9 +3931,21 @@ document.addEventListener('change', event => {
 function renderFlight(world, chosen, running) {
   const wrap = $('#selection-flight');
   const flight = world.flight;
-  const main = world.household?.mainId || world.household?.principalId;
-  if (!flight || world.role === 'host' || chosen.id !== main) { wrap.hidden = true; wrap.replaceChildren(); flightFormKey = ''; return; }
+  // On whoever is with the family and answers for it (sim/acting.mjs, `actingOf`): not a father away with the army (interactions B1).
+  const main = actingOf(world);
+  const taken = world.household?.takenIn;
+  if ((!flight && !taken) || world.role === 'host' || chosen.id !== main) { wrap.hidden = true; wrap.replaceChildren(); flightFormKey = ''; return; }
   wrap.hidden = false;
+  // Taken in by a neighbour family (sim/acting.mjs): nothing here is the family's to decide; it goes where they go.
+  if (taken) {
+    const words = `${takenInWords(world)} Whatever they decide, the little ones go with them.`;
+    if (wrap.dataset.said !== words) { wrap.replaceChildren(element('p', words, 'ask-text flight-taken-in')); wrap.dataset.said = words; }
+    flightFormKey = '';
+    renderRouteEditor(world, null, running);
+    return;
+  }
+  // The oldest child answering for the family, with nobody grown with it (owner, 2026-09-28: "The oldest child steps up").
+  const stepped = world.household?.steppedUp ? `${chosen.name} is the oldest with the family, with nobody grown here, and answers for it.` : '';
   if (!['ordered', 'stayed'].includes(flight.status)) {
     // On the road (sim/road.mjs, docs/ROAD_EAST.md): where the family is, the weather, the mud, the camp, the danger - and
     // the road's question with its answers and their prices, in the shape every question here takes.
@@ -3925,9 +3976,10 @@ function renderFlight(world, chosen, running) {
       : chase.phase === 'caught' ? `${who} have the family.${chase.shotCount ? ` They fired ${chase.shotCount} ${chase.shotCount === 1 ? 'shot' : 'shots'}.` : ''}`
       : chase.phase === 'escaped' ? `The family got away from ${who}.${chase.shotCount ? ` They fired ${chase.shotCount} ${chase.shotCount === 1 ? 'shot' : 'shots'}; ${chase.hits ? `${chase.hits} hit` : 'none hit'}.` : ''}${hitWords}` : '';
     const canTimber = chase?.phase === 'seen' && chase.timber && flight.status === 'fled' && !flight.bog;
-    const said = JSON.stringify([where, road, routeWords, seenWords, chaseWords, canTimber, flight.ask?.openedMinute ?? null, (flight.ask?.options || []).map(option => [option.id, option.can]), running, Boolean(routeDraft)]);
+    const said = JSON.stringify([where, road, routeWords, seenWords, chaseWords, canTimber, flight.ask?.openedMinute ?? null, (flight.ask?.options || []).map(option => [option.id, option.can]), running, Boolean(routeDraft), stepped]);
     if (wrap.dataset.said !== said) {
       wrap.replaceChildren(element('p', where, 'ask-text'));
+      if (stepped) wrap.append(element('p', stepped, 'work-note flight-stepped-up'));
       if (road) wrap.append(element('p', road, 'work-note'));
       if (routeWords) wrap.append(element('p', routeWords, 'work-note flight-route-words'));
       if (seenWords) wrap.append(element('p', seenWords, 'work-note flight-seen'));
@@ -3961,10 +4013,12 @@ function renderFlight(world, chosen, running) {
     return;
   }
   renderRouteEditor(world, null, running);
-  const key = JSON.stringify([flight.room, flight.mode, flight.have, flight.refuges, flight.burned, flight.decidedToStay, running]);
+  const key = JSON.stringify([flight.room, flight.mode, flight.have, flight.refuges, flight.burned, flight.decidedToStay, running, stepped]);
   if (flightFormKey === key) return;
   flightFormKey = key;
   wrap.replaceChildren();
+  wrap.dataset.said = '';
+  if (stepped) wrap.append(element('p', stepped, 'work-note flight-stepped-up'));
   wrap.append(element('p', flight.burned ? 'The army has passed and burned the farm. The family can still go east with what it can carry.'
     : flight.decidedToStay ? 'The family is staying, and takes what comes. The road east is still open if it changes its mind.'
     : 'The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs what it can and goes by itself.', 'ask-text'));
@@ -4004,6 +4058,29 @@ function renderFlight(world, chosen, running) {
     stay.dataset.action = 'flight-stay'; stay.dataset.entityId = chosen.id; stay.disabled = !running;
     wrap.append(stay);
   }
+}
+/**
+ * Somebody very sick (sim/disease.mjs): who of the family can nurse them, each a button that sends that person to it (design audit
+ * S34, 2026-09-28). The sick person's "!" opens this: their own work is all refused (too sick to get up), and nursing is somebody
+ * else's to do. Who can, and why nobody can, are the server's (`nurses` on the sick person, sim/world.mjs).
+ */
+function renderNurse(world, chosen, running) {
+  const wrap = $('#selection-nurse');
+  if (!wrap) return;
+  const nurses = chosen.observed || world.role === 'host' || !chosen.sickness?.grave || !Array.isArray(chosen.nurses) ? null : chosen.nurses;
+  if (!nurses) { wrap.hidden = true; wrap.replaceChildren(); wrap.dataset.said = ''; return; }
+  wrap.hidden = false;
+  const said = JSON.stringify([chosen.id, nurses, running]);
+  if (wrap.dataset.said === said) return;
+  wrap.dataset.said = said;
+  wrap.replaceChildren(element('p', nurses.length ? `${chosen.name} is too sick to get up. Somebody of the family can nurse them:` : `${chosen.name} is too sick to get up, and nobody of the family can nurse them right now.`, 'ask-text'), ...nurses.map(nurse => {
+    const button = element('button', '', 'work-option ask-option-work');
+    button.dataset.action = 'chore'; button.dataset.chore = nurse.chore; button.dataset.entityId = nurse.id;
+    button.disabled = !running;
+    button.append(element('span', `${nurse.name} nurses ${chosen.name}`, 'work-name'),
+      element('span', nurse.chore === 'tend-sick' ? 'The family halts a day while they nurse. Nobody in their care dies while they nurse.' : 'Stays by them and nurses them: nobody in their care dies while they nurse.', 'work-note'));
+    return button;
+  }));
 }
 function renderCall(world, chosen, running) {
   const wrap = $('#selection-call');
@@ -4209,6 +4286,11 @@ function renderFamilyPanel(world) {
   // below shuts anything: the panel is exactly what it was.
   const lesson = lessonShowing(world), lessonNote = lockedNote(lesson);
   for (const [id, row] of panelRows) if (!byId.has(id)) { row.item.remove(); panelRows.delete(id); }
+  // Every "!" of the column in one order, the most urgent first, with the time each has left where it will lapse
+  // (public/family-panel.js `rankNeeds`, docs/audits/2026-09-28-design.md S33). The rows keep the family's own order.
+  const tickMs = window.__snapshot?.tickMs;
+  const ranked = rankNeeds(world, order, { tickMs });
+  const rankOf = new Map(ranked.map(one => [one.id, one]));
   const seen = [];
   order.forEach((id, at) => {
     const entity = byId.get(id), person = book.get(id);
@@ -4227,11 +4309,21 @@ function renderFamilyPanel(world) {
     // Somebody is waiting on this person - a rider, the army, a call, work that has stopped to ask, an offer - and the "!"
     // takes the student to them and to the thing waiting (docs/FAMILY_PANEL.md §11). Read from the projection every tick, so
     // it goes the tick the answer is given.
-    const needs = needsOf(world, id);
+    const needs = needsOf(world, id, { tickMs });
     const need = needs[0] || null;
     setData(row.item, 'waiting', String(Boolean(need)));
     if (row.attention.hidden !== !need) row.attention.hidden = !need;
-    const needLabel = need ? `${need.text}${needs.length > 1 ? ` And ${needs.length - 1} more.` : ''} Go to ${entity.name} and answer.` : '';
+    // Its place among the family's "!"s and its time left: on the mark itself, so a Chromebook or a touch screen sees it
+    // without hovering (S6), and said first in its name for a screen reader.
+    const place = rankOf.get(id);
+    setData(row.attention, 'urgent', String(Boolean(place && place.rank === 1 && ranked.length > 1)));
+    setData(row.attention, 'rank', place ? String(place.rank) : '');
+    row.needDeadline = Number.isFinite(need?.leftMs) ? performance.now() + need.leftMs : null;
+    row.needRank = place && ranked.length > 1 ? place.rank : null;
+    paintNeedBadge(row);
+    const ahead = place && ranked.length > 1 ? (place.rank === 1 ? 'Answer this first. ' : `Number ${place.rank} to answer. `) : '';
+    const timeLeft = leftWords(need?.leftMs);
+    const needLabel = need ? `${ahead}${need.text}${timeLeft ? ` About ${timeLeft} left.` : ''}${needs.length > 1 ? ` And ${needs.length - 1} more.` : ''} Go to ${entity.name} and answer.` : '';
     if (need && row.attention.dataset.need !== need.kind) { row.attention.dataset.need = need.kind; paintMark(row.attention, need.kind === 'rider' ? 'mark-need-rider' : 'mark-need'); }
     if (row.attention.getAttribute('aria-label') !== needLabel) { row.attention.setAttribute('aria-label', needLabel); row.attention.title = needLabel; }
     const canLead = !(entity.age < 10) && !['dead', 'captured'].includes(entity.health?.condition);
@@ -4342,12 +4434,12 @@ function renderFamilyPanel(world) {
     const idle = isIdle(entity, icons, { withArmy: army.has(id) });
     setData(row.item, 'idle', String(idle));
     if (row.idle.hidden !== !idle) row.idle.hidden = !idle;
-    seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), idle, focused, auto: onAuto, autoSays: autoSays || null, autoWaiting: Boolean(onAuto && entity.autoTask?.waiting), reason: reason || null, why: silence || null, travelling: travelling || null, life: life || null, word: shortWord || null, switchShown: !noSwitch, bar });
+    seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), needRank: place?.rank ?? null, needLeftMs: need?.leftMs ?? null, idle, focused, auto: onAuto, autoSays: autoSays || null, autoWaiting: Boolean(onAuto && entity.autoTask?.waiting), reason: reason || null, why: silence || null, travelling: travelling || null, life: life || null, word: shortWord || null, switchShown: !noSwitch, bar });
     const visibleIcons = icons.filter(icon => icon.active || (icon.can && (!shutting || allowsIcon(lesson, icon))));
     // Somebody with the men in a fight says why nothing can be asked of them (sim/battle-stage.mjs `heldByBattle`).
     // A baby's bar says what the baby is doing (docs/CHILDREN.md §6): it is given no work, and "too young" is not news.
     const visibleReason = visibleIcons.length ? null : travelling || entity.held || (entity.baby && life) || reason || 'No actions available right now.';
-    const key = JSON.stringify([visibleReason, travelling, visibleIcons, shutting ? [lesson.step, lesson.allow, pointed] : null]);
+    const key = JSON.stringify([visibleReason, travelling, visibleIcons, shutting ? [lesson.step, lesson.allow, lesson.shut, pointed] : null]);
     if (row.iconsKey !== key) {
       row.iconsKey = key;
       row.icons.setAttribute('aria-label', `What ${entity.name} can do`);
@@ -4377,7 +4469,7 @@ function renderFamilyPanel(world) {
   });
   window.__familyPanel = order.map((id, at) => {
     const row = panelRows.get(id);
-    return { id, role: row.item.dataset.role, name: byId.get(id).name, active: [...row.icons.querySelectorAll('[data-active=true]')].map(icon => icon.dataset.key), ...seen[at] };
+    return { id, role: row.item.dataset.role, name: byId.get(id).name, age: byId.get(id).age, active: [...row.icons.querySelectorAll('[data-active=true]')].map(icon => icon.dataset.key), ...seen[at] };
   });
 }
 /**
@@ -4560,7 +4652,24 @@ function goToPerson(id) {
   if (world) { drawWorld(world); renderFamilyPanel(world); renderSelection(world); renderTutorial(world); }
 }
 /** Where on the card each need is answered. A rider has a panel of their own. */
-const NEED_SECTIONS = { army: '#selection-army', camp: '#selection-work', courier: '#selection-work', flight: '#selection-flight', road: '#selection-flight', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade', sick: '#selection-work' };
+const NEED_SECTIONS = { alto: '#selection-flight', army: '#selection-army', camp: '#selection-work', courier: '#selection-work', flight: '#selection-flight', road: '#selection-flight', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade', sick: '#selection-nurse' };
+/**
+ * The tag on a "!": its number among the family's "!"s when there is more than one, and the time left where the question
+ * will lapse, counted down on this page's own clock from what the server last said (S33). The server's clock is the one that
+ * lapses the question; this only reads it out between ticks, which at the Study pace are nine and a half seconds apart.
+ */
+function paintNeedBadge(row) {
+  const left = row.needDeadline === null ? null : leftWords(Math.max(0, row.needDeadline - performance.now()));
+  const words = [row.needRank ? String(row.needRank) : '', left || ''].filter(Boolean).join(' · ');
+  if (row.needBadge.textContent !== words) row.needBadge.textContent = words;
+  if (row.needBadge.hidden !== !words) row.needBadge.hidden = !words;
+}
+// Once a second, the countdowns on the "!"s and whether a tip's thing has come or gone (the town errand opens with no
+// snapshot). Declared above the page's start-up, for the TDZ guard in tests/page-startup.test.mjs.
+setInterval(() => {
+  for (const row of panelRows.values()) if (row.needDeadline !== null) paintNeedBadge(row);
+  if (window.__snapshot?.world) renderTip(window.__snapshot.world);
+}, 1000);
 /**
  * The "!" on a row: go to the person and open what is waiting on them - the rider's conversation, or their card at the
  * question with its answers - and put the keyboard on the first answer. Nothing is decided here: the answers are the card's
@@ -4727,6 +4836,11 @@ function panelRow(id) {
   attention.type = 'button';
   attention.dataset.attention = id;
   attention.hidden = true;
+  // Which "!" to answer first and how long it has (S33, 2026-09-28): a small tag on the mark, written by `paintNeedBadge`.
+  const needBadge = element('span', '', 'panel-attention-badge');
+  needBadge.setAttribute('aria-hidden', 'true');
+  needBadge.hidden = true;
+  attention.append(needBadge);
   const body = element('div', '', 'panel-body');
   const label = element('label', '', 'panel-label');
   const input = document.createElement('input');
@@ -4784,7 +4898,7 @@ function panelRow(id) {
   sick.hidden = true;
   body.append(label, input, tools, note, why, autoSays, life, sick);
   item.append(portrait, attention, body, icons);
-  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, autoSays, life, sick, sickMark, word, note, why, face: null, iconsKey: null };
+  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, idle, house, focus, auto, autoSays, life, sick, sickMark, word, note, why, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }
@@ -5020,7 +5134,7 @@ function renderSelection(world) {
   const listen = $('#listen-rider');
   listen.hidden = !waiting || world.role === 'host';
   listen.textContent = waiting ? `Listen to ${world.encounter.carrierName}` : 'Listen';
-  renderCall(world, chosen, running); renderFlight(world, chosen, running);
+  renderCall(world, chosen, running); renderFlight(world, chosen, running); renderNurse(world, chosen, running);
   renderArmyControl(world, chosen, running);
   renderWork(world, chosen, settable);
   // Trading stays shut until the class is running, because the neighbour it is addressed
@@ -5963,8 +6077,17 @@ function shutByLesson(world, key, kind = 'order') {
   const lesson = lessonShowing(world);
   return lessonLocks(lesson) && !allowsIcon(lesson, { key, kind });
 }
+/**
+ * The old skippable walk-through ("New to this?") is not offered either (owner, 2026-09-28: "The starting tutorial needs to be
+ * removed for now. We'll redo it from scratch later."). It was offered to every family with no guided start, which with the
+ * guided start switched off (sim/lesson.mjs `LESSON_ENABLED`) would have been every family. The tips at first meeting
+ * (public/tips.js) are the only guidance a new student is given now.
+ * ceiling: off for everybody; the owner's rework of the tutorial replaces both.
+ */
+const OLD_WALKTHROUGH_OFFERED = false;
 function renderTutorial(world) {
   const panel = $('#tutorial');
+  if (!OLD_WALKTHROUGH_OFFERED) { if (panel) panel.hidden = true; return; }
   // A rider standing in the yard outranks a lesson in how to hold a hoe, and the two use
   // the same corner of the screen.
   // The die comes first: the walk-through sets people to work, and a family that has been
@@ -6083,6 +6206,115 @@ $('#military-go')?.addEventListener('click', async () => {
   if (notice.kind === 'siege' || notice.kind === 'account') $('#selection-close')?.focus();
   else openNeed(notice.entityId);
 });
+/**
+ * Tips at first meeting (owner, 2026-09-28: "Short tips at first meeting"; public/tips.js, sim/tips.mjs, docs/LESSON.md §9).
+ * One short tip at a time, over the map above the action bar - or, for the town errand, at the top of the errand's own list -
+ * the first time its thing is on this student's screen. It blocks nothing: the words let clicks through to the map, and only
+ * "Got it" takes a press. Put away by "Got it" or by Escape on it, or retired when its thing goes while it stands; either way
+ * the server is told (`seen-tip`) and keeps it, so a reload or another Chromebook never shows it again. Never on the Host's
+ * page (public/tips.js shows the Host nothing), so never on the projector.
+ */
+let tipShowing = null, tipFamily = null, tipPutAway = new Set(), tipBottom = null;
+function renderTip(world, { hidden = false } = {}) {
+  const panel = $('#tip'), inline = $('#errand-tip');
+  if (!panel) return;
+  if ((world?.householdId || null) !== tipFamily) { tipFamily = world?.householdId || null; tipShowing = null; tipPutAway = new Set(); }
+  // Behind the curtain of making a family nothing is shown, and the tip standing is kept for when the curtain lifts: it is the
+  // same showing, not a second one.
+  if (hidden || document.body.dataset.creating === 'true') { panel.hidden = true; if (inline) inline.hidden = true; return; }
+  const seen = [...(world?.household?.tipsSeen || []), ...tipPutAway];
+  const errandOpen = document.body.dataset.errand === 'true';
+  const { show, retire } = tipToShow(world, { seen, showing: tipShowing, errandOpen });
+  if (retire) putTipAway(retire);
+  // Presentation evidence for scripts/tips-browser-proof.mjs, read by nothing in the page: the tip standing, and every tip
+  // this page has put up, in order, once each time one is put up.
+  if (show && show !== tipShowing) (window.__tipsShown ??= []).push(show);
+  tipShowing = show;
+  window.__tip = show;
+  const host = show === 'store' && inline ? inline : panel;
+  for (const one of [panel, inline]) if (one && one !== host && !one.hidden) one.hidden = true;
+  if (!show) { panel.hidden = true; if (inline) inline.hidden = true; return; }
+  if (host.dataset.tip !== show) {
+    host.dataset.tip = show;
+    host.querySelector('.tip-words').textContent = TIPS[show] || '';
+  }
+  host.hidden = false;
+  if (host === panel) placeTip(panel);
+}
+/**
+ * The tip over the map stands above the action bar, clear of the family's column, centred in what is left - and above the
+ * person's card, the call's menu, a rider's meeting or the messages if one of them stands where it would, so it is read
+ * rather than hidden under them. Where there is no room above one, it stays above the bar and the card stands over it: a
+ * card the student opened outranks a tip.
+ */
+const TIP_CLEAR_OF = ['#selection', '#call-menu', '#encounter', '#military-notice', '#lesson', '#lesson-resume', '#tutorial'];
+function placeTip(panel) {
+  const bar = document.querySelector('.panel-row[data-focused=true] .panel-icons');
+  const barBox = bar ? bar.getBoundingClientRect() : null;
+  // While a rider talks or a way is chosen the bar is not drawn: the tip keeps the place the bar last left it.
+  if (barBox && barBox.height > 1) tipBottom = Math.round(innerHeight - barBox.top + 8);
+  const column = $('#family-panel');
+  const columnBox = column && !column.hidden && innerWidth > 760 ? column.getBoundingClientRect() : null;
+  const edge = innerWidth > 760 ? 12 : 8;
+  const left = columnBox && columnBox.width > 1 ? Math.round(columnBox.right + 8) : edge;
+  const base = tipBottom ?? 150;
+  const put = ({ bottom = base, from = left, to = edge } = {}) => {
+    for (const [key, value] of [['bottom', `${bottom}px`], ['left', `${from}px`], ['right', `${to}px`]]) if (panel.style[key] !== value) panel.style[key] = value;
+    return panel.getBoundingClientRect();
+  };
+  const over = (a, b) => a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
+  const standing = TIP_CLEAR_OF.map(selector => $(selector)).filter(one => one && !one.hidden && getComputedStyle(one).visibility !== 'hidden' && getComputedStyle(one).display !== 'none')
+    .map(one => one.getBoundingClientRect()).filter(box => box.width > 1 && box.height > 1);
+  const clear = box => box.top >= 48 && !standing.some(one => over(box, one));
+  let box = put();
+  if (clear(box)) return;
+  const hit = standing.filter(one => over(box, one));
+  // Beside whatever stands at the bar's height, in the widest stretch left free there...
+  let free = [[left, innerWidth - edge]];
+  for (const one of standing.filter(other => other.top < box.bottom && box.top < other.bottom)) {
+    free = free.flatMap(([a, b]) => [[a, Math.min(b, one.left - 8)], [Math.max(a, one.right + 8), b]]).filter(([a, b]) => b - a > 0);
+  }
+  const [from, to] = free.reduce((best, span) => (span[1] - span[0] > best[1] - best[0] ? span : best), [0, 0]);
+  // ceiling: 200px, where the words stand on their own lines under "Tip" and "Got it" (public/style.css); narrower than that a
+  // tip is a column of single words, and it waits under the card instead. A card that could make room is the way out.
+  if (to - from >= 200) {
+    box = put({ from: Math.round(from), to: Math.round(innerWidth - to) });
+    if (clear(box)) return;
+  }
+  // ...or above it...
+  box = put({ bottom: Math.round(innerHeight - Math.min(...hit.map(one => one.top)) + 8) });
+  if (clear(box)) return;
+  // ...and where there is no room anywhere, at the bar with the card over it: a card the student opened outranks a tip.
+  put();
+}
+function putTipAway(id) {
+  if (!id || tipPutAway.has(id)) return;
+  tipPutAway.add(id);
+  // The page remembers it at once; the server keeps it for good. A refusal (the family's student has gone) changes nothing here.
+  api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'seen-tip', tip: id }).catch(() => {});
+}
+function dismissTip() {
+  const id = tipShowing;
+  if (!id) return;
+  const focused = document.activeElement?.closest?.('#tip, #errand-tip');
+  putTipAway(id);
+  tipShowing = null;
+  if (window.__snapshot?.world) renderTip(window.__snapshot.world);
+  // The keyboard goes back to the map rather than into nothing, unless the next tip took the same place.
+  if (focused && focused.hidden) (focused.id === 'errand-tip' ? $('#errand-send') : $('#world-map'))?.focus?.({ preventScroll: true });
+}
+for (const selector of ['#tip', '#errand-tip']) {
+  $(selector)?.querySelector('.tip-close')?.addEventListener('click', dismissTip);
+  $(selector)?.addEventListener('keydown', event => {
+    // Enter on "Got it" presses "Got it" and nothing else: inside the errand, Enter anywhere else sends the list
+    // (public/errand.js), and a student putting a tip away must never send somebody to town by it.
+    if (event.key === 'Enter' || event.key === ' ') { event.stopPropagation(); return; }
+    if (event.key !== 'Escape') return;
+    // Escape on the tip puts the tip away and nothing else: not the errand it stands in, not the card behind it.
+    event.preventDefault(); event.stopPropagation();
+    dismissTip();
+  });
+}
 /** The camera on a fight's field: both sides and the gun in the frame if they are drawn, or the field's middle close in. */
 function watchField(world, field) {
   const canvas = $('#world-map'), view = cameraFor(world, canvas);
@@ -6230,6 +6462,14 @@ document.addEventListener('click', event => {
   if (window.__snapshot) renderEncounter(window.__snapshot.world);
 });
 bindEnding();
+// The end-of-game flashback (public/flashback.js, docs/FLASHBACK.md): drawn with this page's own ground, houses and figures, on
+// a camera of its own, at the video's own clock.
+bindFlashback({
+  camera: flashbackCamera, ground: flashbackGround, miniPerson, miniAnimal, miniWagon, homesteadHouse, animated,
+  withClock: (ms, draw) => { const was = flashbackClock; flashbackClock = ms; try { return draw(); } finally { flashbackClock = was; } },
+  landSettled: () => landMaking === 0 && !landLevels.pending,
+});
+bindNeighbours({ command: order => api('/api/command', { ...order, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }) });
 bindCreation({
   command: order => api('/api/command', { ...order, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }),
   refresh: () => { forgetFamily(); if (window.__snapshot) render(window.__snapshot); },
@@ -6463,6 +6703,8 @@ function render(snapshot) {
   renderClassPanel(snapshot);
   renderSlice(world);
   renderEnding(world);
+  renderFlashback(snapshot);
+  renderNeighbours(world);
   // Making the family comes before the world is seen (public/creation.js): the curtain, and no map drawn behind it.
   const creating = renderCreation(world, familyCache);
   renderLooks(familyCache, { blocked: creating !== 'looks' });
@@ -6472,6 +6714,9 @@ function render(snapshot) {
   renderTownScene(world);
   renderInteriorPanel(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderLesson(world); renderMilitaryNotice(world); renderTutorial(world);
   renderPanelBackdrop();
+  // After the panels, so the tip is placed above the bar as it is drawn this time; never over the curtain of making a family.
+  renderTip(world, { hidden: Boolean(creating) });
+  soundscape?.observe(snapshot);
 }
 /**
  * The dim behind a panel that stands where the family's own column is (owner, 2026-09-21). It is read off the panels

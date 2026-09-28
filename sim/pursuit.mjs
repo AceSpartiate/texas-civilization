@@ -45,6 +45,8 @@ import { acrossCountry } from './flight-route.mjs';
 import { heldToCow, loseCow, cowPace } from './flight-work.mjs';
 import { drawnVehicles } from './company.mjs';
 import { recordLapse } from './lapse.mjs';
+// Who is with the family and answers for it (sim/acting.mjs, 2026-09-28).
+import { actingId } from './acting.mjs';
 
 const YARDS = 1760;
 const round = (value, places = 2) => Math.round(value * 10 ** places) / 10 ** places;
@@ -306,10 +308,15 @@ export function sightMiles(world, household, point = familyPoint(world, househol
 
 // ------------------------------------------------------------------------------------------------ the chase
 
-/** Whether a student is answering for this family now: played, at the screen, its main person not on auto. */
+/**
+ * Whether a student is answering for this family now: played, at the screen, and whoever is with the family and answers for it
+ * (sim/acting.mjs `actingFor`: the main person when they are with it, else the next grown person there, else the oldest child of
+ * seven or more) not on auto. Until 2026-09-28 this read the raw main person - a father with Houston's army on auto made his family
+ * halt at once, and a dead main person was read one way here and another on the road (interactions B1, design M32).
+ */
 function attended(world, household) {
-  const main = world.entities[household.mainId || household.principalId];
-  return Boolean(household.played && !household.absent && main && !main.auto);
+  const actor = world.entities[actingId(world, household)];
+  return Boolean(household.played && !household.absent && actor && !actor.auto);
 }
 const grown = person => !Number.isFinite(person.age) || person.age >= GROWN_AGE;
 /** The family's train's pace this tick, in yards a second of going (0 while it is held). */
