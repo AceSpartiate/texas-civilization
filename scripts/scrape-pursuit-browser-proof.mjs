@@ -201,6 +201,21 @@ async function run({ width, height, answer }) {
     app.setPace(10000);
     const scene = sceneFor(world(), { kind: 'cavalry', how: 'wagon' });
     assert.ok(household().flight.chase, `the dragoons did not see the family: ${JSON.stringify({ at: dateOf(world(), world().minute).toISOString(), seen: sightMiles(world(), household()), watchers: watchersNow(world()).map(one => [one.id, Math.round(Math.hypot(one.x - familyPoint(world(), household()).x, one.y - familyPoint(world(), household()).y) * 100) / 100]) })}`);
+    // Design audit 2026-09-28 B11: somebody grown put on auto, and their portrait pressed to see where they are. Until then the press made
+    // them the main person, and on auto the main person answers the soldiers for the family: the chase ended in a halt and ¡Alto!
+    // was never asked. Now the portrait only chooses them, and the order to halt is still the student's to answer below.
+    if (tag === '1366') {
+      const son = scene.household.members.map(id => world().entities[id]).find(one => one.id !== scene.main.id && one.kind === 'person' && !(one.age < 16) && one.travel && !['dead', 'captured'].includes(one.health?.condition));
+      assert.ok(son, 'the family has nobody grown on the road but its main person');
+      // Pressed as the page's own buttons, wherever the column has them (a folded column keeps them in the DOM).
+      await student.evaluate(id => document.querySelector(`.panel-row[data-entity-id="${id}"] [data-auto="${id}"]`).click(), son.id);
+      await student.waitForFunction(id => window.__snapshot?.world.entities.find(one => one.id === id)?.auto, son.id, { timeout: 15000 });
+      await student.evaluate(id => document.querySelector(`[data-portrait="${id}"]`).click(), son.id);
+      await student.waitForFunction(id => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId === id, son.id, { timeout: 10000 });
+      assert.equal(household().mainId, scene.main.id, `pressing ${son.name}'s portrait made them the main person`);
+      observed.lookedAt = { son: son.id, onAuto: true, main: household().mainId };
+      ok(`${tag}: ${son.name} on auto and their portrait pressed: chosen, and ${scene.main.name} is still the main person`);
+    }
     app.setPace(1500);
     await student.waitForFunction(() => window.__snapshot?.world.flight?.chase, null, { timeout: 20000 });
     await student.waitForFunction(() => window.__snapshot?.world.flight?.ask?.id === 'alto', null, { timeout: 60000 });

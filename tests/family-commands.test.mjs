@@ -13,7 +13,8 @@ import { applyAction, dispatchReport, projectWorld, stepWorld, validateWorld } f
 import { createSettledWorld } from './support/settled.mjs';
 import { choreCatalogue } from '../sim/chores.mjs';
 import { mainPersonId } from '../sim/family.mjs';
-import { NEED_KINDS, callMenu, callPlan, focusFor, isIdle, needsOf, panelActions } from '../public/family-panel.js';
+import { readFileSync } from 'node:fs';
+import { NEED_KINDS, barPerson, callMenu, callPlan, focusFor, isIdle, needsOf, panelActions } from '../public/family-panel.js';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const catalogue = new Map(choreCatalogue().map(chore => [chore.id, chore]));
@@ -234,6 +235,32 @@ test('the main person is held by the server: set-main chooses one at a time, and
   household.mainId = 'hh-2-thomas';
   assert.throws(() => validateWorld(world), /main person is not one of the family/);
   delete household.mainId;
+});
+
+test('choosing somebody shows their bar and leaves the main person as it was; only a living person chosen takes the bar', () => {
+  // Design audit 2026-09-28 B11: a portrait press sent `set-main`, and the main person's auto decides the family's flight and its
+  // answers to soldiers. Now choosing is `barPerson` alone - whoever is chosen, grown or a child - and the main person moves only
+  // by `set-main`, which the page sends from the star and the bar's labelled *Make … the main person* and nowhere else.
+  const people = new Map([
+    ['father', { id: 'father', age: 40, health: { condition: 'well' } }],
+    ['son', { id: 'son', age: 19, health: { condition: 'well' } }],
+    ['girl', { id: 'girl', age: 6, health: { condition: 'well' } }],
+    ['uncle', { id: 'uncle', age: 50, health: { condition: 'dead' } }],
+    ['aunt', { id: 'aunt', age: 45, health: { condition: 'captured' } }],
+  ]);
+  assert.equal(barPerson({ viewedId: 'son', mainId: 'father', entities: people }), 'son', 'a grown son chosen does not show his own bar');
+  assert.equal(barPerson({ viewedId: 'girl', mainId: 'father', entities: people }), 'girl', 'a child chosen does not show her own bar');
+  assert.equal(barPerson({ viewedId: 'father', mainId: 'father', entities: people }), 'father');
+  assert.equal(barPerson({ viewedId: 'uncle', mainId: 'father', entities: people }), 'father', 'somebody dead took the bar');
+  assert.equal(barPerson({ viewedId: 'aunt', mainId: 'father', entities: people }), 'father', 'somebody taken took the bar');
+  assert.equal(barPerson({ viewedId: null, mainId: 'father', entities: people }), 'father');
+  // The page's portrait handler sends nothing: it only chooses (goToPerson). Read from the page's own source, as the star is.
+  const source = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
+  const portrait = source.slice(source.indexOf("const portrait = event.target.closest('[data-portrait]');"), source.indexOf("const attention = event.target.closest('[data-attention]');"));
+  assert.ok(portrait.length > 0, 'the portrait handler was not found');
+  assert.doesNotMatch(portrait, /chooseFocus|set-main/, 'pressing a portrait changes the main person');
+  const notice = source.slice(source.indexOf("$('#military-go')?.addEventListener"), source.indexOf('function watchField'));
+  assert.doesNotMatch(notice, /chooseFocus|set-main/, 'a notice\'s Go to changes the main person');
 });
 
 test('the call’s one menu lists exactly who the server lets answer, and its confirm is one command per ticked person, else the keeping answer', () => {

@@ -99,6 +99,75 @@ test('a graceful stop is host-only, checkpoints a real pause and releases the sa
   } finally { await app?.close(); rmSync(dir, { recursive: true, force: true }); }
 });
 
+test('Stop for today saves the class paused and stops the server; the next launch opens the same class paused, and Resume goes on', async () => {
+  // Design audit 2026-09-28 B2: at the bell the only obvious button was End Game, final. Stop for today is the class stopped, never ended.
+  const dir = mkdtempSync(join(tmpdir(), 'texas-today-'));
+  const savePath = join(dir, 'class.json');
+  let requested = 0;
+  let app = createClassroom({ savePath, playerCount: 5, tickMs: 40, stopDelayMs: 5, onStopRequested: () => { requested++; } });
+  const port = await app.listen();
+  try {
+    const host = client(port), students = [];
+    await host.call('/api/host', { key: app.state.hostKey });
+    for (let i = 0; i < 5; i++) {
+      const student = client(port);
+      await student.call('/api/join', { name: `Family ${i + 1}`, code: app.state.sessionCode });
+      students.push(student);
+    }
+    const lobby = await command(host, 'stop-for-today');
+    assert.equal(lobby.status, 400, 'a class not yet begun was stopped for today');
+    assert.equal((await command(host, 'start')).status, 200);
+    await delay(160);
+    const minute = app.state.world.minute, session = app.state.sessionId;
+    assert.ok(minute > 0, 'the class did not run');
+
+    const stopped = await command(host, 'stop-for-today');
+    assert.equal(stopped.status, 200);
+    assert.equal(stopped.body.stoppedForToday, true);
+    assert.equal(stopped.body.stopping, true);
+    const saved = JSON.parse(readFileSync(savePath, 'utf8'));
+    assert.equal(saved.world.status, 'paused', 'the class was not saved paused');
+    assert.notEqual(saved.world.status, 'ended');
+    const told = (await students[0].call('/api/state')).body.lifecycle;
+    assert.equal(told.state, 'stopping');
+    assert.match(told.message, /stopped the class for today/);
+    await delay(60);
+    assert.equal(requested, 1, 'the server was not asked to stop');
+
+    await app.close();
+    app = createClassroom({ savePath, playerCount: 5, tickMs: 40 });
+    const again = await app.listen();
+    assert.equal(app.state.sessionId, session, 'the next launch opened another class');
+    assert.equal(app.state.world.status, 'paused', 'the next launch did not open the class paused');
+    assert.ok(app.state.world.minute >= minute, 'the class went back in time');
+    assert.equal(Object.keys(app.state.clients).length, 5);
+    const back = client(again);
+    await back.call('/api/host', { key: app.state.hostKey });
+    assert.equal((await command(back, 'resume')).status, 200);
+    assert.equal(app.state.world.status, 'running', 'Resume did not carry the class on');
+  } finally { await app?.close(); rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('Stop for today on a server that cannot close itself still saves the class paused, and says it is not stopping', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'texas-today-dev-'));
+  const savePath = join(dir, 'class.json');
+  const app = createClassroom({ savePath, playerCount: 5, tickMs: 40 });
+  const port = await app.listen();
+  try {
+    const host = client(port);
+    await host.call('/api/host', { key: app.state.hostKey });
+    for (let i = 0; i < 5; i++) await client(port).call('/api/join', { name: `Family ${i + 1}`, code: app.state.sessionCode });
+    await command(host, 'start');
+    await delay(100);
+    const stopped = await command(host, 'stop-for-today');
+    assert.equal(stopped.status, 200);
+    assert.equal(stopped.body.stoppedForToday, true);
+    assert.equal(stopped.body.stopping, undefined, 'a server with no way to stop said it was stopping');
+    assert.equal(JSON.parse(readFileSync(savePath, 'utf8')).world.status, 'paused');
+    assert.equal((await host.call('/api/state')).body.lifecycle ?? null, null);
+  } finally { await app.close(); rmSync(dir, { recursive: true, force: true }); }
+});
+
 test('a live class cannot be discarded, and New Class archives it, clears students and keeps the class size', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'texas-newclass-'));
   const savePath = join(dir, 'class.json');

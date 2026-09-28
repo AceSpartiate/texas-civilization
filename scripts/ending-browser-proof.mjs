@@ -3,10 +3,12 @@
 // tests/ending.test.mjs proves the numbers and that nothing of the ending is on the wire while
 // the class runs. This proves what a student and a teacher actually see when it ends: a real
 // class on the real land, one family's man in the army and another family with coin in the house,
-// run live in the browser to its last tick. Until then neither page shows an ending or a glory;
-// then the family sees its own coin, glory, the multiplication and why, and the Host sees every
-// family's three numbers in household order and the family that leads (this is the first of two class periods) - with no word on
-// either page naming a virtue.
+// run live in the browser to its last tick. Until then neither page shows an ending or a glory.
+// This is the end of the first of three class periods, so what comes is interim standings, and since 2026-09-28 (design audit
+// B4, VISION §20) they carry no glory at all - **coin and land only**, the owner's choice of the same day: the family sees its
+// coin and its land promised; the Host every family's coin and land in household order, nobody named as leading - with no word
+// on either page naming a virtue. The final reckoning, glory, story and prisoners and all, is tests/ending.test.mjs's and npm run
+// test:whole-game's; the prisoner planted below is kept to show the interim does not tell it.
 //
 // The class is played in process to the day before it ends, because the march takes about 250
 // ticks. The coin is placed in process too, and says so in the record: selling for coin is proved
@@ -105,20 +107,27 @@ try {
 
   await student.locator('#ending').waitFor({ state: 'visible' });
   const family = await student.evaluate(() => window.__snapshot.world.ending.family);
-  observed.family = { name: family.name, money: family.money, glory: family.glory, final: family.final, sum: family.sum, story: family.story, awards: family.awards.map(award => award.text) };
+  observed.family = { name: family.name, money: family.money, story: family.story, keys: Object.keys(family) };
   const familyText = await student.locator('#ending').innerText();
   observed.familyText = familyText;
-  assert.equal(family.glory, app.state.world.glory['hh-1'].total, 'the family was shown a glory that is not its own');
-  assert.ok(familyText.includes(family.sum), 'the multiplication is not on the page');
-  assert.ok(family.awards.every(award => familyText.includes(award.text)), 'what earned the glory is not on the page');
-  assert.ok(family.story.every(line => familyText.includes(line)), 'the story is not on the page');
+  // The end of the first period is interim standings, and interim standings carry no glory (VISION §20; design audit 2026-09-28
+  // B4): not the number, not the final number it multiplies, not the sum, not what earned it - on the wire or on the page. The
+  // final reckoning, with all of it, is the last period's: tests/ending.test.mjs and npm run test:whole-game.
+  assert.equal(family.interim, true, 'the end of the first period was not interim');
+  assert.ok(app.state.world.glory['hh-1'].total > 0, 'hh-1 earned no glory, so its absence proves nothing');
+  const familyWire = await student.evaluate(() => JSON.stringify(window.__snapshot.world.ending));
+  for (const key of ['glory', 'final', 'sum', 'awards']) assert.ok(!(key in family), `the family's interim standings carry ${key}`);
+  assert.doesNotMatch(familyWire, /glory/i, 'the family\'s interim standings on the wire speak of glory');
+  assert.doesNotMatch(familyText, /glory|final number/i, 'the family\'s interim page shows glory');
+  // Coin and land only (owner, 2026-09-28, by multiple choice): the coin held and the land promised. The story, what moved the
+  // coin and who was taken (the planted prisoner) are the final reckoning's, with the glory.
+  assert.deepEqual(Object.keys(family).sort(), ['acres', 'householdId', 'interim', 'land', 'money', 'name'], `the family's interim standing carries ${Object.keys(family)}`);
+  assert.match(familyText, /coin in the house/i, 'the coin is not on the page');
+  assert.match(familyText, /land promised/i, 'the land is not on the page');
+  assert.ok(familyText.includes(`${family.money} real`), 'the coin held is not the number on the page');
+  assert.doesNotMatch(familyText, /taken prisoner|our story/i, 'the family\'s interim page tells the ending\'s story');
   assert.equal(await student.evaluate(() => window.__snapshot.world.ending.host), undefined, 'a family was sent the Host view');
-  // The prisoner: named in the family's story and its own section, the rule said, and the part taken out of the coin in the sum.
-  assert.deepEqual(family.prisoners.map(one => one.name), [observed.planted.prisoner], 'the prisoner was not in the family\'s reckoning');
-  assert.ok(familyText.includes('Taken prisoner') && familyText.includes(family.prisoners[0].text) && familyText.includes(family.prisonerRule), 'the prisoner is not on the page');
-  assert.match(family.sum, /taken prisoner, counted as/, 'the sum does not take the prisoner\'s part out of the coin');
-  ok(`the family sees who was taken prisoner, and what it took: ${family.prisoners[0].text}`);
-  ok(`the family sees its own reckoning: ${family.sum}`);
+  ok(`the family sees where it stands so far - coin and land only - and no glory, on the page or the wire (${family.money} reales)`);
 
   // Closed to look at the map, and opened again.
   await student.locator('#ending-close').click();
@@ -133,31 +142,25 @@ try {
   await host.locator('#ending').waitFor({ state: 'visible' });
   const closing = await host.evaluate(() => window.__snapshot.world.ending.host);
   const hostText = await host.locator('#ending').innerText();
-  observed.host = { winners: closing.winners, best: closing.best, families: closing.families.map(f => `${f.name}: ${f.money} × (1 + ${f.glory}) = ${f.final}`) };
+  observed.host = { keys: Object.keys(closing), families: closing.families.map(f => `${f.name}: ${f.money} reales`) };
   observed.hostText = hostText;
   const rows = await host.locator('#ending tbody tr td:first-child').allInnerTexts();
-  // The Host's table counts each family's prisoners: hh-1's one, and nobody else's.
   const heads = await host.locator('#ending thead th').allInnerTexts();
-  const takenColumn = heads.indexOf('Taken prisoner');
-  assert.ok(takenColumn > 0, `the Host table has no prisoners column: ${heads.join(' | ')}`);
-  const takenCells = await host.locator(`#ending tbody tr td:nth-child(${takenColumn + 1})`).allInnerTexts();
-  assert.deepEqual(takenCells, closing.families.map(f => (f.prisoners ? String(f.prisoners) : '—')), 'the prisoners column is not the server\'s');
-  assert.equal(closing.families.find(f => f.householdId === 'hh-1').prisoners, 1);
-  assert.ok(hostText.includes(closing.prisonerRule), 'the Host is not told the rule');
-  ok(`the Host's table counts the prisoners: ${takenCells.join(', ')}`);
+  assert.deepEqual(heads, ['Family', 'Coin', 'Land'], `the Host's interim table is not coin and land only: ${heads.join(' | ')}`);
+  const coinCells = await host.locator('#ending tbody tr td:nth-child(2)').allInnerTexts();
+  assert.deepEqual(coinCells, closing.families.map(f => `${f.money} ${f.money === 1 ? 'real' : 'reales'}`), 'the coin column is not the server\'s');
   assert.deepEqual(rows.map(row => row.replace(/ \(nobody played them\)$/, '')), closing.families.map(f => f.name), 'the rows are not in household order');
   assert.deepEqual(closing.families.map(f => f.householdId), ['hh-1', 'hh-2', 'hh-3', 'hh-4', 'hh-5']);
-  assert.ok(closing.winners.length >= 1, 'nobody was named');
-  for (const id of closing.winners) {
-    const name = closing.families.find(f => f.householdId === id).name;
-    assert.ok(hostText.includes(name), `${name} leads and is not named`);
-  }
-  // The first of two class periods (sim/periods.mjs, docs/COLONIES.md §7e): the families stand and one leads; nobody has
-  // finished, because the war goes on in the next class. tests/periods.test.mjs proves the second period's final reckoning.
+  // The first of three class periods (sim/periods.mjs, docs/COLONIES.md §7e): where the families stand, the war not over. No glory
+  // and nobody named as leading by it, on the Host's wire or its page (VISION §20: glory is hidden from the Host too until the
+  // ending; design audit 2026-09-28 B4).
   assert.equal(closing.interim, true, 'the end of the first period was not interim');
-  assert.match(hostText, /\blead(s|, level)\b/);
-  assert.doesNotMatch(hostText, /finished first/, 'the first period named a family that finished first');
-  ok(`the Host names the family that leads after Béxar: ${closing.winners.join(', ')} at ${closing.best}`);
+  for (const key of ['winners', 'best']) assert.ok(!(key in closing), `the Host's interim standings carry ${key}`);
+  for (const one of closing.families) for (const key of ['glory', 'final']) assert.ok(!(key in one), `${one.name}'s row carries ${key}`);
+  assert.doesNotMatch(await host.evaluate(() => JSON.stringify(window.__snapshot.world.ending)), /glory/i, 'the Host\'s interim standings on the wire speak of glory');
+  assert.doesNotMatch(hostText, /glory|final number|\bleads?\b|finished first/i, 'the Host\'s interim page shows glory or who leads');
+  assert.equal(await host.locator('#ending tbody tr[data-first=true]').count(), 0, 'a row was marked first');
+  ok(`the Host sees where every family stands so far - coin and land only (${heads.join(' | ')}: ${coinCells.join(', ')}) - with no glory and nobody named as leading`);
 
   for (const [who, text] of [['family', familyText], ['Host', hostText]]) {
     assert.doesNotMatch(text, VIRTUE, `the ${who} page names a virtue`);

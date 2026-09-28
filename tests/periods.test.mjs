@@ -16,6 +16,32 @@ import { eatenADay } from '../sim/family.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 8000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
+/** Every key anywhere in a value, however deep. */
+const keysOf = value => value && typeof value === 'object' ? Object.entries(value).flatMap(([key, one]) => [key, ...keysOf(one)]) : [];
+const GLORY_KEYS = ['glory', 'final', 'sum', 'awards', 'winners', 'best'];
+/**
+ * VISION §20: glory is hidden from every student and from the Host until the ending, and interim standings are not the ending
+ * (design audit 2026-09-28 B4). No interim projection - the Host's or any family's - carries glory, the final number it
+ * multiplies, the sum that shows it, what earned it or who leads by it, nor the word itself.
+ */
+function noGloryInInterim(world) {
+  const host = view(world, undefined, 'host').ending.host;
+  assert.equal(host.interim, true);
+  const shown = [['the Host', host], ...Object.keys(world.households).map(id => [id, view(world, id).ending.family])];
+  for (const [who, ending] of shown) {
+    assert.equal(ending.interim, true, `${who} was not shown interim standings`);
+    const leaked = keysOf(ending).filter(key => GLORY_KEYS.includes(key));
+    assert.deepEqual(leaked, [], `${who}'s interim standings carry ${leaked.join(', ')}`);
+    assert.doesNotMatch(JSON.stringify(ending), /glory/i, `${who}'s interim standings speak of glory`);
+  }
+  // Coin and land only (owner, 2026-09-28, by multiple choice): the coin held and the land promised, and nothing more.
+  assert.deepEqual(Object.keys(host).sort(), ['canContinue', 'families', 'interim', 'nextLabel'], 'the Host\'s interim standings carry more than coin and land');
+  for (const family of host.families) assert.deepEqual(Object.keys(family).sort(), ['automatic', 'householdId', 'land', 'money', 'name'], `${family.name}'s row carries more than coin and land`);
+  for (const [who, family] of shown.slice(1)) {
+    assert.deepEqual(Object.keys(family).sort(), ['acres', 'householdId', 'interim', 'land', 'money', 'name'], `${who}'s interim standing carries more than coin and land`);
+    assert.equal(family.money, world.households[who].resources.money ?? 0, `${who} was shown coin it does not hold`);
+  }
+}
 
 let shared = null;
 /** A real-land class played to the end of its first period, with one family's volunteer sent to the army. */
@@ -41,6 +67,9 @@ test('the first period ends with interim standings and the winter offered to the
   assert.equal(host.interim, true, 'the Host was shown a finished class');
   assert.equal(host.canContinue, true, 'the Host was not offered the winter');
   assert.equal(canContinue(world), true);
+  // Glory was earned (hh-1's volunteer) and none of it is on anybody's interim standings (design audit 2026-09-28 B4).
+  assert.ok(world.glory?.['hh-1']?.total > 0, 'nobody earned glory, so its absence proves nothing');
+  noGloryInInterim(world);
 
   const invented = createGonzalesWorld('periods-invented', 5);
   invented.status = 'running';
@@ -123,6 +152,7 @@ test('the second period plays its own moments, none of 1835 again, and ends with
   // The second period ends interim too, with the spring to follow (docs/COLONIES.md §7g).
   assert.equal(host.interim, true, 'the end of the second period was shown as final');
   assert.equal(host.canContinue, true, 'the Host was not offered the spring');
+  noGloryInInterim(world);
 });
 
 test('a saved class period that is not one of the three is refused', () => {

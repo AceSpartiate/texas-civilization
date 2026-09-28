@@ -13,8 +13,8 @@ import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from 
 import { beginSecondPeriod, beginThirdPeriod, canContinue, nextPeriodLabel } from '../sim/periods.mjs';
 import { momentOf } from '../sim/directors.mjs';
 import { calendarMinutes } from '../sim/clock.mjs';
-import { CAPTURED_AT_HOME, FLIGHT_ROOM, SETTLEMENT_DAYS, share } from '../sim/scrape.mjs';
-import { needsOf } from '../public/family-panel.js';
+import { CAPTURED_AT_HOME, FLIGHT_ROOM, SETTLEMENT_DAYS, fleeRefusal, packFlight, share } from '../sim/scrape.mjs';
+import { lightLoad, loadSpace, needsOf } from '../public/family-panel.js';
 import { beastsOf } from '../sim/beasts.mjs';
 import { burnMinute, farmFate } from '../sim/advance.mjs';
 import { thinkFor } from '../sim/neighbours.mjs';
@@ -83,6 +83,32 @@ test('each settlement is told to leave on its day, its main person carries the "
   assert.equal(calendarMinutes(world), 20, 'the calendar did not hold for a played family deciding');
   untilMinute(world, SETTLEMENT_DAYS[elsewhere.settlementId].order);
   assert.equal(elsewhere.flight?.status, 'ordered', `${elsewhere.settlementId} was never told to leave`);
+});
+
+test('the family\'s card opens on the packing a family deciding alone takes - food first, as much as fits - and a load far under it is told apart', () => {
+  // Design audit 2026-09-28 B7: every box opened at 0, so "Leave for the east" pressed twice left all the food behind.
+  const world = spring();
+  const household = families(world, 'gonzales')[0];
+  household.played = true;
+  stepWorld(world);
+  household.resources = { ...household.resources, food: 400, seed: 6, cotton: 10, powder: 2 };
+  const shown = view(world, household.id).flight;
+  assert.equal(shown.status, 'ordered');
+  assert.ok(shown.packed, 'the card was sent no load to open with');
+  assert.deepEqual(shown.packed, packFlight(shown), 'the card does not open on the packing a family deciding alone takes');
+  assert.ok(shown.packed.take.food > 0, 'the load opens without food');
+  assert.equal(shown.packed.refuge, [...shown.refuges].sort((a, b) => a.miles - b.miles)[0].id, 'the load is not for the nearest refuge east');
+  assert.ok(loadSpace(shown.space, shown.packed.take) <= shown.room + 1e-9, 'the load does not fit');
+  assert.equal(fleeRefusal(world, household, shown.packed), null, 'the load the card opens with is refused');
+  // Food first: with more food than room, the load is all food.
+  assert.equal(shown.packed.take.food, Math.floor(shown.room / shown.space.food));
+  assert.equal(lightLoad(shown, shown.packed.take), null, 'the full load was called light');
+  assert.equal(lightLoad(shown, { food: 0, seed: 0, cotton: 0, powder: 0 }), 'empty');
+  assert.equal(lightLoad(shown, { food: Math.floor(shown.packed.take.food / 4) }), 'light');
+  // Nothing in the house to take: nothing is light.
+  household.resources = { ...household.resources, food: 0, seed: 0, cotton: 0, powder: 0 };
+  const bare = view(world, household.id).flight;
+  assert.equal(lightLoad(bare, {}), null, 'a family with nothing to take was told it was leaving things behind');
 });
 
 test('the family loads what fits and sets out together for the east, leaving the farm standing with what did not fit; the rivers hold it; it camps at the refuge and comes home with the victory', () => {

@@ -28,7 +28,9 @@ Clean `app.close()` stops the timer and connections and removes only the lock be
 
 For a teacher-run hidden server, use either graceful stop. Both authenticate as the Host, checkpoint the class as paused, tell connected browsers what happened, and let the process exit so the save lease is released:
 
-- **Host page → Stop Server**, confirmed with a second click.
+- **Host page → Stop for today** while a class is under way (since 2026-09-28, docs/HOST_PAGE.md §2.7), confirmed with a second
+  click: the same checkpointed pause and stop, never an end, with every page told the class stopped for today. **Stop Server**,
+  confirmed with a second click, is the same stop offered in the lobby and after the end.
 - **Stop.vbs**, when the Host window is already closed.
 
 `Stop.vbs` never terminates a process. If the server does not exit it reports that and stops, because forcing the process is exactly what leaves a stale lock. Stopping an already-stopped classroom is a safe no-op that clears leftover launcher metadata.

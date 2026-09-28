@@ -34,13 +34,18 @@ let closed = false;
 
 function familyView(family) {
   const parts = [make('h2', family.name, 'ending-title')];
-  if (family.interim) parts.push(make('p', 'This is where your family stands after the fall of Béxar. The war is not over: the next class goes on into 1836, and these numbers will change.', 'ending-sum'));
   const numbers = make('dl', null, 'ending-numbers');
-  for (const [term, value] of [['Coin in the house', reales(family.money)], ['Glory', String(family.glory)], ['Final number', String(family.final)]]) {
+  // Between periods, coin and land only (owner, 2026-09-28; sim/ending.mjs `interimFamily`, VISION §20): no glory, and none of
+  // the ending's story, which is the end's to tell.
+  const shown = family.interim
+    ? [['Coin in the house', reales(family.money)], ['Land promised', family.land ? `${family.acres} acres` : 'none']]
+    : [['Coin in the house', reales(family.money)], ['Glory', String(family.glory)], ['Final number', String(family.final)]];
+  for (const [term, value] of shown) {
     const pair = make('div');
     pair.append(make('dt', term), make('dd', value));
     numbers.append(pair);
   }
+  if (family.interim) return [...parts, make('p', 'This is where your family stands so far. The war is not over: the next class goes on from here.', 'ending-sum'), numbers];
   parts.push(numbers, make('p', family.sum, 'ending-sum'));
   const story = make('section');
   story.append(make('h3', 'Our story'));
@@ -75,20 +80,42 @@ function familyView(family) {
   return parts;
 }
 
-function hostView(closing) {
-  const names = Object.fromEntries(closing.families.map(family => [family.householdId, family.name]));
-  const first = closing.winners.map(id => names[id]);
-  // The first of two periods names who leads, not who finished first: the war is not over (sim/periods.mjs).
-  const lead = closing.interim ? ['lead', 'leads', 'How the families stand after Béxar'] : ['finished first', 'finished first', 'How the families finished'];
-  const parts = [make('h2', lead[2], 'ending-title')];
-  parts.push(make('p', first.length
-    ? `${first.length > 1 ? `${first.slice(0, -1).join(', ')} and ${first.at(-1)} ${lead[0]}, level` : `${first[0]} ${lead[1]}`}, with a final number of ${closing.best}.`
-    : 'No family a student played finished this class.', 'ending-winner'));
-  if (closing.interim) parts.push(make('p', `These are interim standings. The war goes on in the next class: press ${closing.nextLabel || 'Continue'} when the class meets again.`, 'ending-sum'));
+/**
+ * The Host between periods: coin and land only (owner, 2026-09-28; sim/ending.mjs `interimHost`; VISION §20: glory is hidden from
+ * the Host too until the ending). Every family's coin and land in household order, nobody named, and the next period offered.
+ */
+function interimHostView(closing) {
   const wrap = make('div', null, 'ending-table-wrap');
   const table = make('table', null, 'ending-table');
   const head = make('tr');
-  for (const label of ['Family', 'Road miles from Gonzales', 'Heard of the cannon', 'Who went', 'Taken prisoner', 'Coin', 'Glory', 'Land', 'Final']) head.append(make('th', label));
+  for (const label of ['Family', 'Coin', 'Land']) head.append(make('th', label));
+  const thead = make('thead');
+  thead.append(head);
+  const body = make('tbody');
+  for (const family of closing.families) {
+    const row = make('tr');
+    row.append(make('td', family.automatic ? `${family.name} (nobody played them)` : family.name), make('td', reales(family.money)), make('td', family.land ? reales(family.land) : '—'));
+    body.append(row);
+  }
+  table.append(thead, body);
+  wrap.append(table);
+  return [make('h2', 'How the families stand so far', 'ending-title'),
+    make('p', `The war is not over. The class goes on from here: press ${closing.nextLabel || 'Continue'} when the class meets again.`, 'ending-sum'), wrap];
+}
+
+function hostView(closing) {
+  if (closing.interim) return interimHostView(closing);
+  const names = Object.fromEntries(closing.families.map(family => [family.householdId, family.name]));
+  const parts = [make('h2', 'How the families finished', 'ending-title')];
+  const first = closing.winners.map(id => names[id]);
+  parts.push(make('p', first.length
+    ? `${first.length > 1 ? `${first.slice(0, -1).join(', ')} and ${first.at(-1)} finished first, level` : `${first[0]} finished first`}, with a final number of ${closing.best}.`
+    : 'No family a student played finished this class.', 'ending-winner'));
+  const wrap = make('div', null, 'ending-table-wrap');
+  const table = make('table', null, 'ending-table');
+  const head = make('tr');
+  const labels = ['Family', 'Road miles from Gonzales', 'Heard of the cannon', 'Who went', 'Taken prisoner', 'Coin', 'Glory', 'Land', 'Final'];
+  for (const label of labels) head.append(make('th', label));
   const thead = make('thead');
   thead.append(head);
   table.append(thead);

@@ -112,6 +112,32 @@ died of sickness."* (`lost`); the dead of a sickness are not on the Host's map (
 and Lynch's ferry reaches the Rumor Mill as the families hear it (`sickness-trinity`, `sickness-lynchburg`). Proof: `npm run
 test:disease`.
 
+### 2.7 The bell: Stop for today, and End Game asked twice (2026-09-28)
+
+Found by the design audit of 2026-09-28 (B2, [audits/2026-09-28-design.md](audits/2026-09-28-design.md) §1.2) and fixed at
+the owner's word, *"fix the blockers when they come in"*: **End Game** was one press, with no confirmation, and final - a class
+ended part-way through a period can never be continued (`sim/periods.mjs` `canContinue` wants the period's own end) - and at
+the bell it was the obvious button. The safe way (Pause, Stop Server, relaunch, Resume) was written down nowhere as "carry on
+next class".
+
+- **Stop for today** (host action `stop-for-today`, `server/app.mjs`), beside Pause while a class is running or paused. Asked
+  twice; while it waits for the second press the notice line says *"This pauses the class and saves it where it stands, then
+  closes the server. Next class, open the Host as usual: the class is there, paused, and Resume carries on."* It commits the
+  class **paused** and writes it at once, never ended; then, on a server that can close itself (the launcher's), every page is
+  told *"Your teacher stopped the class for today. It was saved and paused just as it stands, and it goes on from here next
+  class."* (`STOPPED_FOR_TODAY`) and the server stops as Stop Server does. On a server that cannot (a developer's terminal) the
+  class is saved paused all the same and the Host is told to close the server in its own window. The next launch opens the same
+  save - the same class, day, families and keys - paused, with **Resume** offered.
+- **End Game** is asked twice, like New Class and Stop Server. Pressed once it reads *Confirm: end the whole game* and the
+  notice line says *"This ends the whole game for everyone and shows the ending. It can't be undone. To stop at the bell and
+  carry on next class, use Stop for today instead."*; left alone it disarms itself after six seconds and the words go.
+- **Stop Server** is offered only in the lobby and after the end; while a class is under way Stop for today is the stop, with
+  the words. The server still takes `stop-server` in any state (`Stop.vbs` uses it).
+
+`ceiling:` a class ended part-way through a period still cannot be continued: the confirmation and Stop for today make it hard
+to do by accident, but it is still final. Letting `canContinue` accept a class ended early (the audit's third direction) is the
+way out if a class is ever ended by mistake anyway.
+
 ## 3. Proof
 
 - `tests/absence.test.mjs` (4): the marker; the director's, questions answered at once, nothing held; back again; the
@@ -122,6 +148,12 @@ test:disease`.
 - `tests/host-page.test.mjs` (4): the page's words.
 - `tests/lesson.test.mjs`, *the Host's class panel says quietly that a family stopped and resumed the guided start; no
   student is told* (§2.5), proven by two injections in `scripts/lesson-injections.mjs`.
+- `tests/lifecycle.test.mjs`, *Stop for today saves the class paused and stops the server; the next launch opens the same class
+  paused, and Resume goes on* and *… on a server that cannot close itself …* (§2.7); `npm run test:host-bell`
+  (`scripts/host-bell-browser-proof.mjs`, same computer): End Game pressed once ends nothing and says what it does, then disarms;
+  Stop for today pressed twice saves the class paused, tells the page and stops the server; a second server on the same save
+  opens the class paused where it stopped, and Resume carries it on. Each is proved by injection in
+  `scripts/design-blockers-injections.mjs` (`docs/evidence/design-blockers-injections*.json`).
 - `npm run test:host-live` (`scripts/host-live-browser-proof.mjs`, same computer): the panel; a student's page closed and
   the row reading *playing itself* after the grace while the family goes on; the page opened again and *here*; the
   spotlight at the fight at Gonzales taking the camera there and *Whole class* bringing it back; the Rumor Mill filling;

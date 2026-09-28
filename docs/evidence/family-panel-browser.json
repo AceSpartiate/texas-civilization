@@ -13,13 +13,14 @@
     "hovering an icon shows a small popup with one sentence: \"Rest\" - \"Sit still at home, which is the only thing that mends tiredness.\"",
     "focusing an icon from the keyboard shows the same popup, and Escape puts it away",
     "pressing \"Practise at the mark\" sets hh-1-parent-2 to it on the server, and its icon glows",
-    "it glowed through the practice (12 samples) and went out when the server said it was done (powder 5 to 3)",
-    "one click selects an adult, their action bar and their map location together",
+    "it glowed through the practice (13 samples) and went out when the server said it was done (powder 5 to 3)",
+    "one click selects an adult, their action bar and their map location together, sends nothing and leaves hh-1-parent-2 the main person; their bar opens with \"Make Gregorio the main person\"",
+    "\"Make Gregorio the main person\" makes them the main person on the server, and the button goes from their bar",
     "pressing a portrait moves the camera onto that person and zooms in (scale 678 to 2605, 0.000 miles off)",
     "all 14 names changed in place and saved themselves - left by Tab, and the last by a pause in typing: Asa, Keziah, Hiram, Delia, Obed, Minerva, Levi, Soledad, Jonas, Effie, Silas, Orpha, Enos, Tomasa",
     "a name with no letters is refused in the server’s words, and the box goes back to the name the world holds",
     "after a reload every new name is in its box on the panel and in the family book",
-    "on a 400 px phone the panel is a column of portraits with one row open, taking 8% of the screen and no row outside the column and that row, with the map on top at 45% of the 192 points the guided start leaves",
+    "on a 400 px phone the panel is a column of portraits with one row open, taking 8% of the screen and no row outside the column and that row, with the map on top at 44% of the 192 points the guided start leaves",
     "on a phone, pressing another portrait opens that person’s row",
     "no page errors anywhere in the run"
   ],
@@ -53,9 +54,15 @@
     },
     "glow": {
       "worker": "hh-1-parent-2",
-      "samplesGlowingWhileBusy": 12,
+      "samplesGlowingWhileBusy": 13,
       "powderBefore": 5,
       "powderAfter": 3
+    },
+    "portrait": {
+      "looked": "hh-1-parent-1",
+      "mainKept": "hh-1-parent-2",
+      "sent": 0,
+      "make": "Make Gregorio the main person"
     },
     "camera": {
       "before": {
@@ -73,26 +80,28 @@
     "phone": {
       "panel": {
         "x": 12,
-        "y": 382.484375,
+        "y": 381.484375,
         "width": 376,
-        "height": 274
+        "height": 275
       },
       "openRows": 1,
       "columnRight": 56,
       "openRow": {
-        "y": 408,
+        "y": 407,
         "height": 46
       },
-      "stripBottom": 263,
+      "stripBottom": 262,
       "sampled": 192,
-      "mapShare": 0.453125,
+      "mapShare": 0.4375,
       "strays": [],
       "bar": {
         "points": 36,
         "top": 683
       },
-      "chrome": [],
-      "covered": 0.0759164779663086,
+      "chrome": [
+        "BUTTON#family-collapse"
+      ],
+      "covered": 0.0760539779663086,
       "pageScrolls": false
     }
   },

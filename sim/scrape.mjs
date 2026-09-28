@@ -574,7 +574,7 @@ export function flightProjection(world, household) {
   // On the road: the weather, the bog, the camp, the danger and the open question (sim/road.mjs).
   if (!['ordered', 'stayed'].includes(flight.status)) return { ...shown, ...roadProjection(world, household) };
   const { room, mode, wagons, cart, carreta } = flightRoom(world, household);
-  return {
+  const deciding = {
     // What carries it, for the card's words: the cart of a family of the poorest means, or how many wagons (sim/means.mjs).
     ...shown, room, mode, ...(wagons && { wagons }), ...(cart && { vehicle: 'cart' }), ...(carreta && { vehicle: 'carreta' }), space: FLIGHT_SPACE, ...(flight.stayedMinute !== undefined && { decidedToStay: true }),
     have: Object.fromEntries(Object.keys(FLIGHT_SPACE).map(good => [good, Math.floor(household.resources?.[good] ?? 0)])),
@@ -585,6 +585,10 @@ export function flightProjection(world, household) {
     // Burned as far as the family knows: a farm burned while nobody of it could see is not burned on its page yet (`unseen`).
     burned: Boolean(flight.burned && !flight.unseen),
   };
+  // The load the card opens with (design audit 2026-09-28 B7): the packing a family that decides alone takes (`packFlight`), so
+  // the obvious two presses leave with the food rather than with nothing. The student may change every number before going.
+  if (deciding.refuges.length) deciding.packed = packFlight(deciding);
+  return deciding;
 }
 
 export const FLIGHT_STATUSES = Object.freeze(['ordered', 'fled', 'stayed', 'refuged', 'returning', 'home']);

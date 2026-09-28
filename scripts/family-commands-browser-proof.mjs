@@ -504,11 +504,15 @@ try {
   await page.waitForTimeout(400);
   const back = await page.evaluate(id => { const e = window.__snapshot.world.entities.find(one => one.id === id); return Math.hypot(window.__camera.cx - e.location.x, window.__camera.cy - e.location.y); }, mother);
   assert.ok(back < 0.05, `the camera is ${back} miles from the main person`);
-  // Double-clicking a portrait also chooses the main person.
+  // A portrait, even pressed twice, chooses whose bar is shown and never the main person (design audit 2026-09-28 B11): the
+  // main person's auto decides the family's flight, and looking at somebody must not hand it to them.
   await page.locator(`.panel-portrait[data-portrait="${principalId}"]`).dblclick();
   await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.focused === 'true', principalId);
+  await page.waitForTimeout(600);
+  assert.equal(world().households['hh-1'].mainId, mother, 'a double press on a portrait changed the main person');
+  assert.equal(await page.locator(`.panel-row[data-entity-id="${mother}"]`).getAttribute('data-main'), 'true', 'the main person\'s star moved off her');
   await shot(page, 'main-person');
-  ok(`pressing the main person's star from Gonzales brings the camera back to them (${back.toFixed(3)} mi); a double-click on a portrait chooses another`);
+  ok(`pressing the main person's star from Gonzales brings the camera back to them (${back.toFixed(3)} mi); a double press on another's portrait shows their bar and leaves ${mother} the main person`);
 
   // ----------------------------------------------------------------------------------------- cheap on a slow computer
   // A quiet stretch of ticks: how much of the panel's DOM is rebuilt. Rows and icons are kept and changed in place.

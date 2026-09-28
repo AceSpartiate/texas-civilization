@@ -385,6 +385,16 @@ Bounded steps, each shippable and provable alone, in order. This mirrors
 
 `ceiling:` the discussion questions are fixed text, not drawn from what this class did. `ceiling:` the tutorial card and the person's controls can still show behind the ending on a student's screen; they do nothing once the class has ended.
 
+**The interim standings carry no glory (2026-09-28).** The first and second class periods end with interim standings
+(docs/COLONIES.md §6m). Until the design audit of 2026-09-28 (B4) they were this whole reckoning - glory, the final number,
+the sum, *What earned glory*, and the Host naming the family that **leads** - twice before the ending, against §4 above and
+VISION §20: after day 1 every student knew glory existed, what earned it and who led, and could play days 2 and 3 for it.
+Now `endingProjection` sends an interim family `interimFamily` - its coin, any land promised, its story, what moved the coin
+and who was taken - and the Host `interimHost` - every family's coin, land and facts in household order, the questions that
+are not about glory, and nobody named or marked first. No `glory`, `final`, `sum`, `awards`, `winners` or `best` is on the
+wire, and the word itself is on neither page (`tests/periods.test.mjs` for both interims, `npm run test:ending` on both
+pages; injections in `scripts/design-blockers-injections.mjs`). Only the end of the last period reveals glory.
+
 ---
 
 ## 8. Gates

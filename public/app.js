@@ -4,7 +4,7 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
-import { autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
+import { autoLabel, autoLine, barPerson, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, lightLoad, loadSpace, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { mountErrand } from '/errand.js';
 import { asksTheWay, mountGoing } from '/going.js';
@@ -129,9 +129,33 @@ function element(tag, content, className) { const el = document.createElement(ta
 // itself, so a browser dialog never blocks the projected Host.
 // Sending for somebody is asked twice, like the other two that cannot be taken back: they lose
 // their place in the ranks and whatever the army does next happens without them.
-const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', 'send-for': 'Confirm: bring them home', 'winter-recall': 'Confirm: send for them', flee: 'Confirm: leave, and let it burn', 'flight-stay': 'Confirm: stay, and take the risk', 'road-abandon': 'Confirm: leave the wagon behind' };
-/** Which confirmation an action wants: leaving the wagon in the mud is the one road answer asked twice (sim/road.mjs). */
-const confirmKeyOf = button => button.dataset.action === 'road-answer' ? (button.dataset.option === 'abandon' ? 'road-abandon' : null) : button.dataset.action;
+// End Game is asked twice too, and says what it does (design audit 2026-09-28 B2): it was one press, final, at the moment a
+// teacher reaches for a button at the bell. *Stop for today* is the button for the bell (docs/HOST_PAGE.md §2.7).
+const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', end: 'Confirm: end the whole game', 'stop-for-today': 'Confirm: save and stop for today', 'send-for': 'Confirm: bring them home', 'winter-recall': 'Confirm: send for them', flee: 'Confirm: leave, and let it burn', 'flee-light': 'Confirm: leave most of it behind', 'flee-empty': 'Confirm: leave with nothing', 'flight-stay': 'Confirm: stay, and take the risk', 'road-abandon': 'Confirm: leave the wagon behind' };
+/** What an armed Host button does, said on the Host's notice line while it waits for the second press. */
+const confirmWords = {
+  end: 'This ends the whole game for everyone and shows the ending. It can\'t be undone. To stop at the bell and carry on next class, use Stop for today instead.',
+  'stop-for-today': 'This pauses the class and saves it where it stands, then closes the server. Next class, open the Host as usual: the class is there, paused, and Resume carries on.',
+};
+/**
+ * Confirmations a double press must not get through (design audit 2026-09-28 B7): leaving for the east with almost nothing
+ * loaded. The second press counts only once this long has passed since the first armed it.
+ */
+const SLOW_CONFIRM = new Set(['flee-light', 'flee-empty']);
+const SLOW_CONFIRM_MS = 1000;
+/**
+ * Which confirmation an action wants: leaving the wagon in the mud is the one road answer asked twice (sim/road.mjs); leaving for
+ * the east with a load far under what the family could take is asked in its own words (`lightLoad`, public/flight-load.js).
+ */
+const confirmKeyOf = button => {
+  if (button.dataset.action === 'road-answer') return button.dataset.option === 'abandon' ? 'road-abandon' : null;
+  if (button.dataset.action === 'flee') {
+    const flight = window.__snapshot?.world?.flight;
+    const light = flight ? lightLoad(flight, Object.fromEntries([...document.querySelectorAll('#selection-flight .flight-amount')].map(one => [one.dataset.take, Number(one.value) || 0]))) : null;
+    return light ? `flee-${light}` : 'flee';
+  }
+  return button.dataset.action;
+};
 let confirming = null, confirmTimer = null, authRecheck = false, startAnyway = false;
 // The map is public geography that never changes during a class, so it is fetched once
 // and re-attached to each snapshot. A new class rotates the session id and invalidates it.
@@ -254,7 +278,9 @@ function ensureHomes(snapshot) {
 function resetConfirm(button) {
   if (!button?.dataset.confirming) return;
   button.textContent = button.dataset.label || button.textContent;
-  delete button.dataset.confirming;
+  const notice = $('#host-notice');
+  if (notice?.dataset.confirmFor && notice.dataset.confirmFor === button.dataset.confirmKey) { notice.hidden = true; notice.textContent = ''; delete notice.dataset.confirmFor; }
+  delete button.dataset.confirming; delete button.dataset.confirmKey; delete button.dataset.armedAt;
   if (confirming === button) { clearTimeout(confirmTimer); confirming = null; }
 }
 function stableOffset(id) {
@@ -3931,7 +3957,9 @@ function renderFlight(world, chosen, running) {
     const label = element('label', '', 'flight-take');
     label.append(element('span', `${good} (${flight.have[good]} in the house)`));
     const input = document.createElement('input');
-    input.type = 'number'; input.min = '0'; input.max = String(flight.have[good]); input.step = '1'; input.value = '0';
+    // Opened on the server's own packing (sim/scrape.mjs `packFlight`, design audit 2026-09-28 B7): food first, then seed, cotton
+    // and powder, as much as fits. Until then every box opened at 0, and the obvious two presses left all the food behind.
+    input.type = 'number'; input.min = '0'; input.max = String(flight.have[good]); input.step = '1'; input.value = String(flight.packed?.take?.[good] ?? 0);
     input.dataset.take = good; input.className = 'flight-amount';
     label.append(input);
     form.append(label);
@@ -3943,16 +3971,22 @@ function renderFlight(world, chosen, running) {
   const sites = world.map?.sites || {};
   const others = (flight.places || []).filter(id => !flight.refuges.some(one => one.id === id) && sites[id]).sort((a, b) => sites[a].name.localeCompare(sites[b].name));
   if (others.length) { const group = document.createElement('optgroup'); group.label = 'Other places'; for (const id of others) { const choice = element('option', sites[id].name); choice.value = id; group.append(choice); } refuge.append(group); }
+  // The nearest refuge east, as the packing is for (`packFlight`).
+  if (flight.packed?.refuge) refuge.value = flight.packed.refuge;
   const way = document.createElement('select'); way.id = 'flight-way';
   for (const [value, label] of [['road', 'By the road (quicker, seen from further off)'], ['country', 'Across country (slower, seen from half as far)']]) { const option = element('option', label); option.value = value; way.append(option); }
   const go = element('button', 'Leave for the east', 'work-stop');
   go.dataset.action = 'flee'; go.dataset.entityId = chosen.id; go.disabled = !running;
   const tally = () => {
-    const used = [...form.querySelectorAll('.flight-amount')].reduce((sum, input) => sum + (Number(input.value) || 0) * flight.space[input.dataset.take], 0);
-    room.textContent = `Loaded ${Math.round(used * 100) / 100} of ${flight.room}.`;
+    const take = Object.fromEntries([...form.querySelectorAll('.flight-amount')].map(input => [input.dataset.take, Number(input.value) || 0]));
+    const used = loadSpace(flight.space, take), light = lightLoad(flight, take);
+    // A load far under what the family could take is said so, beside the room (design audit 2026-09-28 B7).
+    room.textContent = `Loaded ${Math.round(used * 100) / 100} of ${flight.room}.${light === 'empty' ? ' Nothing is loaded: everything would be left behind.' : light === 'light' ? ' Most of what the family could carry would be left behind.' : ''}`;
     room.dataset.over = String(used > flight.room + 1e-9);
+    room.dataset.light = light || '';
   };
-  form.addEventListener('input', tally); tally();
+  // A changed load disarms a Leave already pressed once, so the second press always confirms the load it is shown.
+  form.addEventListener('input', () => { tally(); resetConfirm(go); }); tally();
   wrap.append(form, room, element('label', 'Make for', 'flight-where'), refuge, element('label', 'How', 'flight-where'), way, go);
   // Refusing to go is an answer of its own (sim/scrape.mjs `stayHome`), offered only while the order stands unanswered.
   if (flight.status === 'ordered') {
@@ -4156,8 +4190,9 @@ function renderFamilyPanel(world) {
   // (docs/CHILDREN.md §2, 2026-09-26). A child under ten cannot be the main person (the server refuses `set-main`), so until this
   // no page could show a child's own works at all: the row's icons are only ever drawn as the bar. The main person stays main
   // for journeys and the house; the child's bar goes back to theirs the moment their portrait or star is chosen.
-  const viewed = byId.get(panelExpanded);
-  const barId = viewed && Number.isFinite(viewed.age) && viewed.age < 10 && !['dead', 'captured'].includes(viewed.health?.condition) ? panelExpanded : focusedId;
+  // Since 2026-09-28 (design audit B11) that is anybody's portrait, not only a child's: choosing a person shows their bar and never
+  // makes them main (`barPerson`, public/family-panel.js).
+  const barId = barPerson({ viewedId: panelExpanded, mainId: focusedId, entities: byId });
   const land = world.land;
   const house = Boolean(land?.interior?.kind);
   const army = new Set((world.army?.ours || []).map(one => one.id));
@@ -4191,9 +4226,9 @@ function renderFamilyPanel(world) {
     if (need && row.attention.dataset.need !== need.kind) { row.attention.dataset.need = need.kind; paintMark(row.attention, need.kind === 'rider' ? 'mark-need-rider' : 'mark-need'); }
     if (row.attention.getAttribute('aria-label') !== needLabel) { row.attention.setAttribute('aria-label', needLabel); row.attention.title = needLabel; }
     const canLead = !(entity.age < 10) && !['dead', 'captured'].includes(entity.health?.condition);
-    const portraitLabel = `${entity.name}, ${role}${age}${focused ? ', selected' : ''}. ${canLead ? 'Select and follow' : 'View'} ${entity.name}${canLead ? '; show their actions' : ''}${need ? '; somebody is waiting on them' : ''}.`;
+    const portraitLabel = `${entity.name}, ${role}${age}${focused ? ', your main person' : ''}${bar ? ', selected' : ''}. Select and follow ${entity.name}; show their actions${need ? '; somebody is waiting on them' : ''}.`;
     if (row.portrait.getAttribute('aria-label') !== portraitLabel) row.portrait.setAttribute('aria-label', portraitLabel);
-    row.portrait.setAttribute('aria-pressed', String(focused));
+    row.portrait.setAttribute('aria-pressed', String(bar));
     const focusLabel = focused ? `Go back to ${entity.name}, your main person` : `Make ${entity.name} your main person`;
     if (row.focus.getAttribute('aria-label') !== focusLabel) { row.focus.setAttribute('aria-label', focusLabel); row.focus.title = focusLabel; row.focus.querySelector('.panel-mark-text').textContent = focused ? '★' : '☆'; row.focus.setAttribute('aria-pressed', String(focused)); }
     // The auto switch, read from the server's `auto` on the person every tick (docs/FAMILY_PANEL.md §11.7).
@@ -4303,14 +4338,16 @@ function renderFamilyPanel(world) {
     // Somebody with the men in a fight says why nothing can be asked of them (sim/battle-stage.mjs `heldByBattle`).
     // A baby's bar says what the baby is doing (docs/CHILDREN.md §6): it is given no work, and "too young" is not news.
     const visibleReason = visibleIcons.length ? null : travelling || entity.held || (entity.baby && life) || reason || 'No actions available right now.';
-    const key = JSON.stringify([visibleReason, travelling, visibleIcons, shutting ? [lesson.step, lesson.allow, pointed] : null]);
+    // Somebody chosen who is not the main person: their bar opens with the labelled way to make them main, and says why it matters.
+    const makeMain = bar && !focused && canLead && settable ? `Make ${entity.given || entity.name} the main person` : '';
+    const key = JSON.stringify([visibleReason, travelling, visibleIcons, shutting ? [lesson.step, lesson.allow, pointed] : null, makeMain]);
     if (row.iconsKey !== key) {
       row.iconsKey = key;
       row.icons.setAttribute('aria-label', `What ${entity.name} can do`);
       // Changed in place, icon by icon: the button a student has focused or is pointing at stays the same button while what
       // it says changes around it, so keyboard focus and the popup survive every tick.
       const kept = new Map([...row.icons.querySelectorAll('.panel-icon')].map(button => [button.dataset.key, button]));
-      row.icons.style.setProperty('--action-columns', Math.max(1, Math.ceil(visibleIcons.length / 2)));
+      row.icons.style.setProperty('--action-columns', Math.max(makeMain ? 3 : 1, Math.ceil(visibleIcons.length / 2)));
       const wanted = visibleIcons.length ? visibleIcons.map(icon => {
         const button = kept.get(icon.key) || panelIcon(id, icon);
         kept.delete(icon.key);
@@ -4326,7 +4363,13 @@ function renderFamilyPanel(world) {
         word.textContent = travelling;
         wanted.push(word);
       }
-      for (const leftover of [...kept.values(), ...[...row.icons.querySelectorAll('.panel-reason')].filter(node => !wanted.includes(node))]) leftover.remove();
+      if (makeMain) {
+        row.makeMain.textContent = makeMain;
+        const note = 'Only the main person travels, rests and works about the place, and on auto the main person decides the family’s leaving and its answers on the road.';
+        row.makeMain.title = note; row.makeMain.setAttribute('aria-label', `${makeMain}. ${note}`);
+        wanted.unshift(row.makeMain);
+      }
+      for (const leftover of [...kept.values(), ...[...row.icons.querySelectorAll('.panel-reason, .panel-make-main')].filter(node => !wanted.includes(node))]) leftover.remove();
       wanted.forEach((node, at) => { if (row.icons.children[at] !== node) row.icons.insertBefore(node, row.icons.children[at] || null); });
       if (panelTipFor?.entityId === id) showPanelTip(row.icons.querySelector(`[data-key="${panelTipFor.key}"]`));
     }
@@ -4730,7 +4773,12 @@ function panelRow(id) {
   sick.hidden = true;
   body.append(label, input, tools, note, why, autoSays, life, sick);
   item.append(portrait, attention, body, icons);
-  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, autoSays, life, sick, sickMark, word, note, why, face: null, iconsKey: null };
+  // The one labelled way besides the star to change who the main person is (design audit 2026-09-28 B11): first in the bar of
+  // somebody chosen who is not main. It sends `set-main` through the star's own handler (`data-focus`).
+  const makeMain = element('button', '', 'panel-make-main');
+  makeMain.type = 'button';
+  makeMain.dataset.focus = id;
+  const row = { item, portrait, canvas, label, input, icons, attention, idle, house, focus, auto, autoSays, life, sick, sickMark, word, note, why, makeMain, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }
@@ -4944,6 +4992,7 @@ function renderSelection(world) {
   $('#action-subject').textContent = commands ? `Ask ${chosen.name} to…`
     : hostView(world) ? 'The teacher watches; only the family gives orders.'
     : chosen.observed ? `${chosen.name} is not one of your family.`
+    : !(chosen.age < 10) && !['dead', 'captured'].includes(chosen.health?.condition) ? `${chosen.name} is not the main person: only the main person travels, rests and works about the place.`
     : `${chosen.name} follows the household's work.`;
   const running = world.status === 'running';
   // Work can be set out before the teacher begins. Nothing advances until then - the
@@ -5959,8 +6008,7 @@ $('#military-go')?.addEventListener('click', async () => {
   // Watch: the camera on the field, both sides in the frame when they are drawn (docs/BATTLES.md §2.7). Only ever on this
   // press - the card itself never moves the camera, so it cannot take the view away mid-drag or mid-order.
   if (notice.kind === 'battle') { watchField(world, notice.field); return; }
-  const person = entitiesOf(world).find(one => one.id === notice.entityId);
-  if (notice.entityId !== focusedId && person && !(person.age < 10) && !['dead', 'captured'].includes(person.health?.condition)) await chooseFocus(notice.entityId);
+  // To the person, chosen but not made main (B11, as a portrait): the army's questions are theirs to answer whoever is main.
   goToPerson(notice.entityId);
   if (notice.kind === 'siege' || notice.kind === 'account') $('#selection-close')?.focus();
   else openNeed(notice.entityId);
@@ -6328,7 +6376,9 @@ function render(snapshot) {
   if (next && world.ending?.host?.nextLabel && next.textContent !== world.ending.host.nextLabel && !next.dataset.confirming) next.textContent = world.ending.host.nextLabel;
   const statusLabel = world.slice?.complete ? 'story preserved' : { lobby: 'waiting to begin', running: '', paused: 'paused', ended: 'session ended' }[world.status] ?? world.status;
   $('#world').textContent = [world.historicalDate || timeLabel(world.minute ?? 0), statusLabel].filter(Boolean).join(' · ');
-  const whenAvailable = { start: ['lobby'], pause: ['running'], resume: ['paused'], end: ['running', 'paused'], 'new-class': ['lobby', 'ended'], 'stop-server': ['lobby', 'running', 'paused', 'ended'] };
+  // While a class is under way the stop is *Stop for today* (docs/HOST_PAGE.md §2.7): it saves the class paused, and stops the
+  // server when it can. Stop Server, which does the same without the words, is offered only when no class is under way.
+  const whenAvailable = { start: ['lobby'], pause: ['running'], resume: ['paused'], 'stop-for-today': ['running', 'paused'], end: ['running', 'paused'], 'new-class': ['lobby', 'ended'], 'stop-server': ['lobby', 'ended'] };
   for (const button of $('#host-controls').querySelectorAll('button')) {
     // Continuing to the winter is offered only where the server says this class can go on (sim/periods.mjs).
     const allowed = button.dataset.action === 'next-period' ? Boolean(world.ending?.host?.canContinue) : (whenAvailable[button.dataset.action] || []).includes(world.status);
@@ -6512,14 +6562,12 @@ document.addEventListener('click', async event => {
   // A portrait on the family panel: choose the person, and the camera goes to them and zooms in (docs/FAMILY_PANEL.md §3).
   // The same watch the roster starts - `cameraFor` centres on where they are drawn and zooms to at least 55 in 100 of the
   // closest zoom - so it walks with them until the student pans, zooms or presses Follow.
+  // Choosing only (design audit 2026-09-28 B11): the portrait selects the person - camera, card, their bar - and never makes them
+  // the main person. Until then it sent `set-main`, and the main person's auto decides the family's flight: pressing a son on
+  // auto to see where he was handed him the family's leaving and its answers to soldiers. The star and the bar's *Make … the
+  // main person* are the one way to change who that is.
   const portrait = event.target.closest('[data-portrait]');
-  if (portrait) {
-    const id = portrait.dataset.portrait;
-    const person = entitiesOf(window.__snapshot?.world).find(one => one.id === id);
-    if (id !== focusedId && person && !(person.age < 10) && !['dead', 'captured'].includes(person.health?.condition)) await chooseFocus(id);
-    goToPerson(id);
-    return;
-  }
+  if (portrait) { goToPerson(portrait.dataset.portrait); return; }
   // The "!" on a row: to the person, and open what is waiting on them (docs/FAMILY_PANEL.md §11).
   const attention = event.target.closest('[data-attention]');
   if (attention) { openNeed(attention.dataset.attention); return; }
@@ -6571,13 +6619,20 @@ document.addEventListener('click', async event => {
   if (action !== 'start') startAnyway = false;
   if (confirmLabel[confirmKeyOf(button)] && button.dataset.confirming !== 'true') {
     resetConfirm(confirming);
+    const key = confirmKeyOf(button);
     button.dataset.label = button.dataset.label || button.textContent;
-    button.textContent = confirmLabel[confirmKeyOf(button)];
+    button.textContent = confirmLabel[key];
     button.dataset.confirming = 'true';
+    button.dataset.confirmKey = key;
+    button.dataset.armedAt = String(Date.now());
     confirming = button;
+    // The Host's armed button says what it does, on the notice line, until it is pressed again or disarms.
+    if (confirmWords[key]) { $('#host-notice').textContent = confirmWords[key]; $('#host-notice').hidden = false; $('#host-notice').dataset.confirmFor = key; }
     confirmTimer = setTimeout(() => resetConfirm(button), 6000);
     return;
   }
+  // A double press is not a second thought: leaving for the east with next to nothing waits a moment for the second press.
+  if (button.dataset.confirming === 'true' && SLOW_CONFIRM.has(button.dataset.confirmKey) && Date.now() - Number(button.dataset.armedAt || 0) < SLOW_CONFIRM_MS) return;
   resetConfirm(button);
   const world = window.__snapshot?.world;
   const input = { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action };
@@ -6613,9 +6668,12 @@ document.addEventListener('click', async event => {
   try {
     const result = await api('/api/command', input);
     if (action === 'flight-route') { routeDraft = null; routePicking = false; routeEditorKey = ''; }
-    $('#host-notice').hidden = !(result.archived || result.stopping);
+    $('#host-notice').hidden = !(result.archived || result.stopping || result.stoppedForToday);
     if (result.archived) $('#host-notice').textContent = `New class ready. The previous class was archived as ${result.archived}. Share the new class code; students join again.`;
     if (result.stopping) $('#host-notice').textContent = 'Stopping the classroom server. The class was saved and paused.';
+    if (result.stoppedForToday) $('#host-notice').textContent = result.stopping
+      ? 'Stopped for today. The class was saved and paused where it stands, and the server is closing. Next class, open the Host as usual and press Resume.'
+      : 'Stopped for today. The class was saved and paused where it stands. This server cannot close itself from here: stop it in its own window when you are ready. Next class, press Resume.';
   } catch (error) {
     if (action === 'start' && /Press Start again/.test(error.message)) startAnyway = true;
     say(error.message);

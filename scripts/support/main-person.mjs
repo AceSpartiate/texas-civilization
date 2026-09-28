@@ -11,7 +11,8 @@
 
 /** Make this person the family's main one and wait for the page to say so. Returns at once if they already are. */
 export async function asMain(page, id, { timeout = 15000 } = {}) {
-  const already = await page.evaluate(one => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId === one, id);
+  // Main and on the bar both: since 2026-09-28 (design audit B11) a portrait chooses whose bar is shown without making them main.
+  const already = await page.evaluate(one => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId === one && document.querySelector(`.panel-row[data-entity-id="${one}"]`)?.dataset.main === 'true', id);
   if (already) return;
   await page.locator(`.panel-focus[data-focus="${id}"]`).click({ timeout }).catch(async error => {
     // Said with where the star is and what hides it, so a failure here reads as the page's state and not a bare timeout.
@@ -32,5 +33,5 @@ export async function asMain(page, id, { timeout = 15000 } = {}) {
     }, id);
     throw new Error(`${id} could not be made the main person: ${JSON.stringify(why)} (${error.message.split('\n')[0]})`);
   });
-  await page.waitForFunction(one => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId === one, id, { timeout });
+  await page.waitForFunction(one => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId === one && document.querySelector(`.panel-row[data-entity-id="${one}"]`)?.dataset.main === 'true', id, { timeout });
 }

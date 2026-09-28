@@ -38,7 +38,7 @@ import { woodsRule } from './woods.mjs';
 import { stirredShare } from './shares.mjs';
 import { record } from './events.mjs';
 import { roadTicks, WAGON_SPEED, WALK_SPEED, HORSE_SPEED } from './travel.mjs';
-import { canAnswerCalls, householdName, sexOf } from './family.mjs';
+import { canAnswerCalls, householdName, mainPersonId, sexOf } from './family.mjs';
 import { spotlight } from './host.mjs';
 import { abandonWagon, answerRoad, breakCamp, familyPoint, milesWord, moveOn, nextRefuge, overtake, roadAutoAnswer, withFamily } from './road.mjs';
 import { acrossCountry } from './flight-route.mjs';
@@ -294,7 +294,10 @@ export function sightMiles(world, household, point = familyPoint(world, househol
 
 /** Whether a student is answering for this family now: played, at the screen, its main person not on auto. */
 function attended(world, household) {
-  const main = world.entities[household.mainId || household.principalId];
+  // The main person as every other rule reads it (`mainPersonId`: a chosen person dead or taken gives way to the principal, then
+  // the oldest left). Until 2026-09-28 this read the raw `mainId`, so with the chosen man dead and the one who stood in for him on
+  // auto the chase counted the family attended while the road's time-out counted it answered for (design audit M32, with B11).
+  const main = world.entities[mainPersonId(world, household)];
   return Boolean(household.played && !household.absent && main && !main.auto);
 }
 const grown = person => !Number.isFinite(person.age) || person.age >= GROWN_AGE;

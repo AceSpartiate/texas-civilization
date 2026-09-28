@@ -964,3 +964,36 @@ export function drawPortrait(canvas, { clip, figure = null, band, principal = fa
   ctx.beginPath(); ctx.arc(size / 2, size * .44, size * .2, 0, Math.PI * 2); ctx.fillStyle = skin; ctx.fill(); ctx.stroke();
   return false;
 }
+
+// ---------------------------------------------------------------------------------------------- the load for the east
+// Design audit 2026-09-28 B7: "Leave for the east" opened with every good at 0, so the obvious two presses sent a family east
+// with no food. The card now opens on the server's packing (`flight.packed`, sim/scrape.mjs `packFlight`: food first, then seed,
+// cotton and powder, as a family that decides alone packs), and a load far under that is asked in its own words and cannot be
+// sent by a double press (public/app.js `SLOW_CONFIRM`).
+
+/** How much room a load takes, by the flight's own space for each good. */
+export const loadSpace = (space = {}, take = {}) => Object.entries(take || {}).reduce((sum, [good, amount]) => sum + (space?.[good] ?? 0) * (Number(amount) || 0), 0);
+
+/**
+ * Whether a load leaves most of what the family could carry: `'empty'` when it takes nothing, `'light'` when it takes less than
+ * half the room the server's own packing would fill, otherwise null - and null when there was nothing to take in the first place.
+ */
+export function lightLoad(flight, take) {
+  const full = loadSpace(flight?.space, flight?.packed?.take);
+  if (!(full > 0)) return null;
+  const used = loadSpace(flight.space, take);
+  return used <= 0 ? 'empty' : used < full / 2 ? 'light' : null;
+}
+
+// ---------------------------------------------------------------------------------------------- whose bar is shown
+/**
+ * Whose icons are the bar at the bottom (design audit 2026-09-28 B11): the person the student chose on the panel - by their
+ * portrait, the "!", a notice's Go to - if they are alive and free to be looked at, otherwise the main person. Choosing somebody
+ * never changes who the main person is: that is `set-main`, sent only by the star and the bar's *Make … the main person*,
+ * because the main person is who travels, rests, works about the place and - on auto - decides the family's flight and its
+ * answers on the road (sim/auto.mjs, sim/pursuit.mjs).
+ */
+export function barPerson({ viewedId = null, mainId = null, entities = new Map() } = {}) {
+  const viewed = viewedId ? entities.get(viewedId) : null;
+  return viewed && !['dead', 'captured'].includes(viewed.health?.condition) ? viewedId : mainId;
+}

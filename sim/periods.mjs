@@ -2,7 +2,8 @@
 //
 // "Day 1 ends after Béxar and saves; day 2 opens the same families in January 1836." The first period is the class every
 // real-land class has always been, ending on the evening of December 15 when word of Béxar reaches the government. It
-// ends with **interim standings** - each family's glory and a provisional ranking - rather than a winner, because the war
+// ends with **interim standings** - since 2026-09-28 without glory or a ranking, which VISION §20 keeps for the ending
+// (sim/ending.mjs `interimFamily`, `interimHost`) - rather than a winner, because the war
 // is not over. The Host then **continues** the class instead of starting a new one: the same save, the same family keys,
 // the same people.
 //
