@@ -138,6 +138,22 @@ clear, and tell the teacher up front how many class days a game takes at each pa
   (public/reconnect.js); only a sign-out goes to the join screen, which has **I was already in this class** (the class
   code, then your own name) beside the family key.
 
+### 2.8 Nothing on the Host's page stands on anything else (2026-09-28)
+
+Owner, 2026-09-28: *"Check for UI elements that block others. Move them somewhere else."* `npm run test:overlap`
+(docs/FAMILY_PANEL.md §20) walks the Host's page at a projector's 1920x1080, 1280x720 and 1280x800, a 1024x768 one and a
+1366x768 Chromebook: the lobby, Classes and Recover a student opened, a running class with the spotlight lit, the fight at
+Gonzales at first light, the ending and "How it ended". Found and moved:
+
+- **The spotlight's banner** stood in the top middle across *The class* on a 1024 screen, and across it during the fight at
+  every projector size. The Host has no ability bar, so the banner now stands in the **bottom middle**, over the map's buttons.
+- **The teacher's column** down the right, with Classes open, ran off the foot of the screen and over the map's buttons
+  (1366x768, 1280x720, 1024x768). It stops 200px above the foot, as *The class* does on the left, and scrolls inside itself.
+- **The fight's caption**, drawn at the top of the map, was 15-40% under *The class*. It keeps to the room between the class
+  on the left and the teacher's controls on the right, narrower and taller where that room is narrow.
+- **The small print** about the map sat under the Journal and map buttons at 1280 and 1024: it is at the bottom left.
+- **"How it ended"** sat on Gonzales, + and -: it stands on top of the map's buttons.
+
 ## 3. Proof
 
 - `tests/absence.test.mjs` (4): the marker; the director's, questions answered at once, nothing held; back again; the
@@ -157,6 +173,8 @@ clear, and tell the teacher up front how many class days a game takes at each pa
   students free and chosen, the thirty-first refused, a new class and the first opened again, a signed-out page carrying on)
   and `npm run test:reconnect` (the real server killed for 5 s and for 30 s, both pages back by themselves, the away list on
   a page with no cookie). Each was seen failing against the code it guards (HANDOFF).
+- §2.8: `npm run test:overlap` (the Host's page at five sizes in five states, nothing sharing pixels that is not meant to)
+  and `npm run test:overlap-injections`.
 
 ## 4. Ceilings
 

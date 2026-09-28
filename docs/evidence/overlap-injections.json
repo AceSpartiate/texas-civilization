@@ -1,0 +1,198 @@
+{
+  "record": "overlap-injections",
+  "date": "2026-09-28",
+  "proof": "scripts/overlap-browser-proof.mjs",
+  "note": "Owner, 2026-09-28: \"Check for UI elements that block others. Move them somewhere else.\" Each injection puts one moved piece back where it stood on something else; `byItsOwnCheck` is whether the fault the proof printed is the one written for it. Same computer, headless Chrome.",
+  "clean": "passes",
+  "injections": [
+    {
+      "name": "\"How it ended\" dropped back onto the map's buttons",
+      "file": "public/style.css",
+      "caught": true,
+      "byItsOwnCheck": true,
+      "ownFaults": [
+        "overlap: map buttons and ending button share "
+      ],
+      "otherFaults": [
+        "covered: \"Zoom in\" in map buttons is under ending button",
+        "covered: \"Zoom out\" in map buttons is under ending button"
+      ],
+      "failed": "33 things on the screen stand on something else"
+    },
+    {
+      "name": "the meeting back in the bottom middle, over the person the rider is talking to",
+      "file": "public/style.css",
+      "caught": true,
+      "byItsOwnCheck": true,
+      "ownFaults": [
+        "overlap: meeting and site chooser share ",
+        "canvas: the person being spoken to is 100% under meeting"
+      ],
+      "otherFaults": [],
+      "failed": "11 things on the screen stand on something else"
+    },
+    {
+      "name": "the card no longer stands aside while the meeting or the call's menu is open",
+      "file": "public/style.css",
+      "caught": true,
+      "byItsOwnCheck": true,
+      "ownFaults": [
+        "overlap: person card and meeting share ",
+        "covered: \"Close\" in person card is under meeting",
+        "covered: \"Go: ride for GonzalesElena takes the fam\" in person card is under meeting",
+        "overlap: person card and call menu share ",
+        "covered: \"Close\" in person card is under call menu",
+        "covered: \"The neighbours\" in person card is under call menu",
+        "covered: \"Go: ride for GonzalesRamón takes the fam\" in person card is under call menu"
+      ],
+      "otherFaults": [],
+      "failed": "25 things on the screen stand on something else"
+    },
+    {
+      "name": "the card is not held to the room between the strip and the map's buttons (no height cap)",
+      "file": "public/app.js",
+      "caught": true,
+      "byItsOwnCheck": true,
+      "ownFaults": [
+        "overlap: journal button and person card share ",
+        "overlap: map buttons and person card share ",
+        "off the screen: person card at {\"x\":753,\"y\":228,\"w\":260,\"h\":445}",
+        "off the screen: person card at {\"x\":582,\"y\":228,\"w\":260,\"h\":445}"
+      ],
+      "otherFaults": [
+        "covered: \"Following\" in map buttons is under person card",
+        "covered: \"Go to my land\" in map buttons is under person card",
+        "covered: \"Gonzales\" in map buttons is under person card",
+        "covered: \"Watching Ramón\" in map buttons is under person card"
+      ],
+      "failed": "37 things on the screen stand on something else"
+    },
+    {
+      "name": "the lines the page says back in the middle of the top, under the guided start's strip",
+      "file": "public/style.css",
+      "caught": true,
+      "byItsOwnCheck": true,
+      "ownFaults": [
+        "overlap: status: session and error line share "
+      ],
+      "otherFaults": [],
+      "failed": "12 things on the screen stand on something else"
+    },
+    {
+      "name": "the teacher's column unbounded again, running off the foot of the screen with Classes open",
+      "file": "public/style.css",
+      "caught": true,
+      "byItsOwnCheck": true,
+      "ownFaults": [
+        "overlap: classes and map buttons share ",
+        "off the screen: classes at {\"x\":928,\"y\":506,\"w\":340,\"h\":293}",
+        "off the screen: classes at {\"x\":672,\"y\":506,\"w\":340,\"h\":293}",
+        "off the screen: classes at {\"x\":1014,\"y\":506,\"w\":340,\"h\":293}"
+      ],
+      "otherFaults": [
+        "overlap: spotlight and classes share ",
+        "covered: \"Go to a family's land or a town\" in map buttons is under classes",
+        "covered: \"Gonzales\" in map buttons is under classes",
+        "covered: \"Zoom in\" in map buttons is under classes",
+        "covered: \"Zoom out\" in map buttons is under classes"
+      ],
+      "failed": "27 things on the screen stand on something else"
+    },
+    {
+      "name": "packing the wagon back over the family and the status lines",
+      "file": "public/style.css",
+      "caught": true,
+      "byItsOwnCheck": true,
+      "ownFaults": [
+        "overlap: status: world and wagon load share ",
+        "overlap: status: food and wagon load share ",
+        "overlap: status: supplies and wagon load share ",
+        "overlap: family: fold and wagon load share ",
+        "overlap: family: row 1 and wagon load share ",
+        "overlap: family: row 2 and wagon load share ",
+        "overlap: family: row 3 and wagon load share ",
+        "overlap: family: row 4 and wagon load share ",
+        "overlap: family: row 5 and wagon load share ",
+        "overlap: family: row 6 and wagon load share ",
+        "overlap: family: row 7 and wagon load share ",
+        "overlap: family: row 8 and wagon load share ",
+        "overlap: family: row 9 and wagon load share ",
+        "overlap: family: row 10 and wagon load share ",
+        "overlap: family: row 11 and wagon load share "
+      ],
+      "otherFaults": [
+        "covered: \"Nicolás, father, selected. Select and fo\" in family: row 1 is under wagon load",
+        "covered: \"panel-name-hh-1-thomas\" in family: row 1 is under wagon load",
+        "covered: \"Go inside the house to set out the furni\" in family: row 1 is under wagon load",
+        "covered: \"Let Nicolás decide for themself: repeat \" in family: row 1 is under wagon load",
+        "covered: \"Go back to Nicolás, your main person\" in family: row 1 is under wagon load",
+        "covered: \"Refugia, mother. Select and follow Refug\" in family: row 2 is under wagon load",
+        "covered: \"panel-name-hh-1-elena\" in family: row 2 is under wagon load",
+        "covered: \"Let Refugia decide for themself: repeat \" in family: row 2 is under wagon load",
+        "covered: \"Make Refugia your main person\" in family: row 2 is under wagon load",
+        "covered: \"Tomasa, daughter. Select and follow Toma\" in family: row 3 is under wagon load",
+        "covered: \"panel-name-hh-1-rosa\" in family: row 3 is under wagon load",
+        "covered: \"Let Tomasa decide for themself: repeat t\" in family: row 3 is under wagon load",
+        "covered: \"Make Tomasa your main person\" in family: row 3 is under wagon load",
+        "covered: \"Zadok, son. Select and follow Zadok; sho\" in family: row 4 is under wagon load",
+        "covered: \"panel-name-hh-1-mateo\" in family: row 4 is under wagon load",
+        "covered: \"Let Zadok decide for themself: repeat th\" in family: row 4 is under wagon load",
+        "covered: \"Make Zadok your main person\" in family: row 4 is under wagon load",
+        "covered: \"Ramón Solitaire, father, 43, selected. S\" in family: row 1 is under wagon load",
+        "covered: \"panel-name-hh-1-parent-1\" in family: row 1 is under wagon load",
+        "covered: \"Let Ramón Solitaire decide for themself:\" in family: row 1 is under wagon load",
+        "covered: \"Go back to Ramón Solitaire, your main pe\" in family: row 1 is under wagon load",
+        "covered: \"Drusilla Solitaire, mother, 39. Select a\" in family: row 2 is under wagon load",
+        "covered: \"panel-name-hh-1-parent-2\" in family: row 2 is under wagon load",
+        "covered: \"Let Drusilla Solitaire decide for themse\" in family: row 2 is under wagon load",
+        "covered: \"Make Drusilla Solitaire your main person\" in family: row 2 is under wagon load",
+        "covered: \"Winnie Solitaire, daughter, 19. Select a\" in family: row 3 is under wagon load",
+        "covered: \"panel-name-hh-1-child-1\" in family: row 3 is under wagon load",
+        "covered: \"Let Winnie Solitaire decide for themself\" in family: row 3 is under wagon load",
+        "covered: \"Make Winnie Solitaire your main person\" in family: row 3 is under wagon load",
+        "covered: \"Soledad Solitaire, daughter, 16. Select \" in family: row 4 is under wagon load",
+        "covered: \"panel-name-hh-1-child-2\" in family: row 4 is under wagon load",
+        "covered: \"Let Soledad Solitaire decide for themsel\" in family: row 4 is under wagon load",
+        "covered: \"Make Soledad Solitaire your main person\" in family: row 4 is under wagon load",
+        "covered: \"Eli Solitaire, son, 14. Select and follo\" in family: row 5 is under wagon load",
+        "covered: \"panel-name-hh-1-child-3\" in family: row 5 is under wagon load",
+        "covered: \"Let Eli Solitaire decide for themself: r\" in family: row 5 is under wagon load",
+        "covered: \"Make Eli Solitaire your main person\" in family: row 5 is under wagon load",
+        "covered: \"Pablo Solitaire, son, 12. Select and fol\" in family: row 6 is under wagon load",
+        "covered: \"panel-name-hh-1-child-4\" in family: row 6 is under wagon load",
+        "covered: \"Let Pablo Solitaire decide for themself:\" in family: row 6 is under wagon load",
+        "covered: \"Make Pablo Solitaire your main person\" in family: row 6 is under wagon load",
+        "covered: \"Obed Solitaire, son, 10. Select and foll\" in family: row 7 is under wagon load",
+        "covered: \"panel-name-hh-1-child-5\" in family: row 7 is under wagon load",
+        "covered: \"Let Obed Solitaire decide for themself: \" in family: row 7 is under wagon load",
+        "covered: \"Make Obed Solitaire your main person\" in family: row 7 is under wagon load",
+        "covered: \"Delia Solitaire, daughter, 7. View Delia\" in family: row 8 is under wagon load",
+        "covered: \"panel-name-hh-1-child-6\" in family: row 8 is under wagon load",
+        "covered: \"Let Delia Solitaire decide for themself:\" in family: row 8 is under wagon load",
+        "covered: \"Make Delia Solitaire your main person\" in family: row 8 is under wagon load",
+        "covered: \"Mateo Solitaire, son, 5. View Mateo Soli\" in family: row 9 is under wagon load",
+        "covered: \"panel-name-hh-1-child-7\" in family: row 9 is under wagon load",
+        "covered: \"Let Mateo Solitaire decide for themself:\" in family: row 9 is under wagon load",
+        "covered: \"Make Mateo Solitaire your main person\" in family: row 9 is under wagon load",
+        "covered: \"Jasper Solitaire, son, 2. View Jasper So\" in family: row 10 is under wagon load",
+        "covered: \"panel-name-hh-1-child-8\" in family: row 10 is under wagon load",
+        "covered: \"Let Jasper Solitaire decide for themself\" in family: row 10 is under wagon load",
+        "covered: \"Make Jasper Solitaire your main person\" in family: row 10 is under wagon load",
+        "covered: \"Andrés Solitaire, son, under a year. Vie\" in family: row 11 is under wagon load",
+        "covered: \"panel-name-hh-1-child-9\" in family: row 11 is under wagon load",
+        "covered: \"Make Andrés Solitaire your main person\" in family: row 11 is under wagon load"
+      ],
+      "failed": "778 things on the screen stand on something else"
+    },
+    {
+      "name": "a speech bubble no longer slides out from under a panel",
+      "file": "public/speech.js",
+      "caught": false,
+      "byItsOwnCheck": false,
+      "ownFaults": [],
+      "otherFaults": [],
+      "failed": null
+    }
+  ],
+  "after": "passes"
+}

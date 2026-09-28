@@ -526,7 +526,7 @@ world.lesson = {
   the strip at all; a test counts them and fails at one.
 - **The strip** stands over the top middle of the map: the step's number, its title, its one sentence, a `✓` line for what
   just happened, and a run of pips filled to the step behind the one the world says we are on. The lines the page shouts —
-  an error, a save fault — move below it while it stands.
+  an error, a save fault — move below it while it stands (since 2026-09-28 they stand in the status column instead, §20).
 - **What is shut.** Every icon on the bar that `allow` does not name is dimmed, carries `aria-disabled`, and its popup says
   *"Not this yet. …"* with the step's own sentence rather than a refusal. The one that is named gets a ring and a caret; the
   button itself never moves, because a control a student has to hit with a Chromebook touchpad must hold still.
@@ -795,7 +795,8 @@ other — the "!" on a portrait's corner, a round badge's corner points landing 
 as the placement panel covering them. It now counts by what is on top.
 
 **Not proved.** Same computer only. The fold is shown opening again after "Not now", not after a house site is really
-set. The meeting over the family's column — the whole column on a phone — is still open and nobody has chosen it.
+set. The meeting over the family's column — the whole column on a phone — is still open and nobody has chosen it. (On a
+desktop it is closed since 2026-09-28: the meeting stands down the right, §20.)
 
 ## 13. The family-creation wizard as a thing on a screen — 2026-09-21
 
@@ -1364,6 +1365,54 @@ Proved in a browser by `npm run test:children` at 1366x768 and 1024x768 (docs/ev
 - **The card** adds the line, and "has had the measles" for anybody who has - dealt by age from the class seed, as a family knew.
 - **The new work**: "Stop and rest a day" (`rest-road`) on the road; "Camp apart from the crowd" (`camp-apart`) at a crossing or a
   refuge; "Nurse the sick" at home (`nurse-home`) beside the road's `tend-sick`.
+
+## 20. Nothing stands on anything else — owner 2026-09-28, built the same day
+
+> "Check for UI elements that block others. Move them somewhere else."
+
+`npm run test:overlap` (`scripts/overlap-browser-proof.mjs`, one instrument in `scripts/support/screen-furniture.mjs`) walks
+five real classes through everything the student's page and the Host's page put on the screen - the column, the bar and its
+tip, the card, the errand, the way of going, the meeting, the call's menu, the land chooser, the journal, a refusal, the
+guided start and "Resume tutorial", the lobby and the wagon, a late student's first screen, the town's talk, the ending and
+"How it ended", Play Solo's Pause/Save; on the Host the lobby, Classes and Recover open, the spotlight, a fight, the ending -
+at **1366x768 and 1366x657, 1280x800 and 1280x689** (a Chromebook full screen and in a browser window with its bars),
+**1024x600** (a smaller window) and **1920x1080**; the Host at 1920x1080, 1280x720, 1280x800, 1024x768 and 1366x768. It asks
+the browser, never the stylesheet: which pieces share pixels (a pair fails unless it is listed as deliberate, with its reason:
+a dialog with its dim, the tip, the house panels with theirs), which controls something else is over, which pieces run off the
+screen, which controls a box that does not scroll has cut away, and whether a panel stands over what the canvas draws for a
+student to read - the person being given an order (when the student has put the camera on them), the person a rider talks to,
+the fight's caption and the speech bubbles.
+
+**Before: 981 faults over 167 screens. After: none** (`docs/evidence/overlap-before.json`, `overlap-after.json`).
+
+| Found | Moved to |
+| --- | --- |
+| The card beside a person stood on the bar's right-hand icons (1366x768), ran off the foot of a window with the browser's bars (1366x657, 1280x689) over Journal and Follow, and on a small window stood on its own person | Held to the room between the strip and whatever is below it, capped and scrolling; steps sideways off the bar; turns back from the panels down the right (messages, wagon, town scene, house plot, walk-through) as from the screen's edge; narrows to 190px between a land chooser and the messages; goes above or below its own person rather than on them (`positionSelection`) |
+| The meeting stood in the bottom middle over the person the rider was talking to, the card and the land chooser | Down the right, under the strip, at most half the screen wide. The bar still steps aside while a rider talks (§12.13) |
+| The call's menu stood in the top middle over the person asked, the card, the chooser's words and the bar's top row | Down the right under the strip, stopping above the bar where the bar reaches under it (`--right-foot`) |
+| The card stayed open under the meeting and the call's menu, every button covered | Stands aside while either is open (it asked the same question) and is back when it closes |
+| The refusal line (`#error`, and the save fault, the stopping line, the Host's notice) sat at `top:118px`, inside the strip, and would have been over the chooser | In the status column, under the status lines, in its flow |
+| Packing the wagon stood over the whole family and over the food and seed lines it is packed against; short, its Done button was cut off below a box that did not scroll | Down the right in the lobby; scrolls as a whole, the load list never squeezed to nothing. A message (only possible in a class handed over in the lobby) waits until it is packed |
+| "How it ended" sat on Gonzales, + and - | On top of the map's buttons, right-aligned |
+| The small print about the map sat under Journal at 1024 | Bottom left |
+| The land chooser ran down over the bar at 1024x600 and stood on the chosen person | Stops above the bar (`--bar-room`), and short of the middle of the screen |
+| The journal covered the lower half of the strip | Opens under it while a lesson runs |
+| The walk-through stood on the bar's right-hand icons at 1024 | Above the bar |
+| Messages on a small window with a card open: no room for both | The messages fold to their button while that card is open (`cardCrowding`); a folded message is only as wide as its button; opening them anyway is the student's choice and holds |
+| Town talk was 89% under the land chooser (1280x800) | A bubble slides along into the room clear of the panels at its height (`speechRoom`, `drawSpeech`'s `bounds.room`), its tail still to the speaker |
+
+The Host's page is in `docs/HOST_PAGE.md` §2.8.
+
+**Gates.** `npm run test:overlap` - every state and size above, nothing reached-but-empty (each state asserts its own panel is
+drawn), no page errors. `npm run test:overlap-injections` (`docs/evidence/overlap-injections.json`) puts eight of the moves
+back one at a time: seven caught by the check written for each; the eighth, a bubble no longer sliding out from under a
+panel, was missed on its run because no bubble stood behind one when measured - the bubble check is a measurement more than a gate. `test:panels` (14), `test:family-panel` (17) and `test:navigation` (13) pass on the moved layout; the
+meeting no longer shares anything with the family's column at 1024, the one pair §12.13 left open.
+
+**Not proved.** Same computer, headless Chrome at emulated sizes: no Chromebook, no projector, no touch screen. The family
+frame (Follow) can put a family member under a panel; pressing their portrait brings them to the middle, and that is what is
+held. A student's own view of a fight is not reached (the Host's is). `ceiling:` the save fault and the stopping line share
+the status column with a refusal and stack in its flow; the reconnecting banner still stands over everything on purpose.
 
 ## Usability amendment — 2026-09-21
 
