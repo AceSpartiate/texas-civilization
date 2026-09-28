@@ -6,9 +6,9 @@
     "tests/motion-binding.test.mjs",
     "tests/animation.test.mjs"
   ],
-  "caught": 16,
+  "caught": 20,
   "onlyThat": 13,
-  "of": 16,
+  "of": 20,
   "results": [
     {
       "kind": "unit",
@@ -173,6 +173,34 @@
       "failed": [
         "each strike is told once to whoever listens (the work sounds)"
       ]
+    },
+    {
+      "kind": "browser",
+      "name": "at work drawn frozen, with nothing over it",
+      "expect": "/hoeing cycle showed|dust was never thrown|pixels round the hoer/",
+      "caught": true,
+      "failed": "AssertionError [ERR_ASSERTION]: the dust was never thrown, or never settled: 0\r /   code: 'ERR_ASSERTION',\r"
+    },
+    {
+      "kind": "browser",
+      "name": "the page never draws anybody at the work",
+      "expect": "/working about the place|__workDrawn|Timeout/",
+      "caught": true,
+      "failed": "page.waitForFunction: Timeout 20000ms exceeded.\r /   name: 'TimeoutError'\r"
+    },
+    {
+      "kind": "browser",
+      "name": "three on the house drawn on one spot",
+      "expect": "/stacked on one spot/",
+      "caught": true,
+      "failed": "AssertionError [ERR_ASSERTION]: two on the house are drawn 0.0 px apart, a figure being 77 px: stacked on one spot\r /   code: 'ERR_ASSERTION',\r"
+    },
+    {
+      "kind": "browser",
+      "name": "the survey drawn standing still",
+      "expect": "/pacing:/",
+      "caught": true,
+      "failed": "AssertionError [ERR_ASSERTION]: pacing: rust-walk, shifts 0, facing false\r /   code: 'ERR_ASSERTION',\r"
     }
   ]
 }

@@ -1,5 +1,46 @@
 # Claude handoff — Astra foundation
 
+## People at work, drawn at the work — owner, 2026-09-28 (worktree branch; not released)
+
+**The ask.** Owner, 2026-09-28: *"When someone is working, I should see them actually working, not just standing near their
+task. If art requests need to be updated, please do that."*
+
+- **One table.** `public/work-art.js` `WORK` maps every activity the server reports - each chore's id (`entity.chore.id`, the
+  field the panel's glowing icon reads) and working about the place / helping (`entity.task`) - to a stroke in `STROKES`: a
+  delivered cast cycle (`-work` hoeing, `-sow`, `-repair`, `-care`, `-search`, `-trade`, `-carry`) or the nearest one with a
+  procedural **stand-in** drawn over it (a long rifle, a cane pole and float, a lean, a pace to and fro, and chips, earth, dust,
+  chaff, shavings or smoke timed to the pose's own strike frame). The chore's words only pick a part of the work (`by`: felling
+  timber on a clearing chops, grubbing digs; the house's stage fells first) and walking to it / carrying from it; a change of
+  words leaves the base stroke, never standing. Other builders renaming work orders: add or rename the key in `WORK`; the test
+  names what is missing. **70 chores + 2 tasks**, table in the report of this branch and in `STROKES` (`art` says which is which).
+- **Drawn.** `public/motion.js` `grownClip` asks `workClip` for the family's own people and the Host's whole class (never a
+  student's neighbours, who expose only a broad task). `public/app.js` `drawAtWork` times the pose and its layer to one clock
+  (`strokeClock`), `atTheirWork` tells it whether they are at home (working about the place happens nowhere else, and never for
+  a child) and which way the server is stepping them over their land (`ProjectionMotion.heading` - they walk while it moves them,
+  and work once it stops). Cheap: the bindings are made once per stroke and figure, the slot and the clock are written into two
+  module objects, effects are at most six rectangles or arcs a figure from a hash, and nothing is drawn under reduced motion.
+- **Several on one task.** `workSlot`: people at the same activity within a few yards stand round the point in id order (the
+  same ring on every screen), each facing it; the first alone stands to its west facing east. **The house** is stood along its
+  front (`arc: 'front'`), and **the server now walks builders to the front of the house as drawn** (`houseFront` in
+  sim/house-placement.mjs, the `walk: 'house'` step of `build-house`) - until now they were walked to the yard, two people off
+  the house's corner. No save change: a class saved mid-walk walks on to the new point.
+- **Audio hook.** `onWorkBeat(listener)` in public/work-art.js: `{ id, activity, stroke, x, y }` once a strike, on the frame it
+  lands; costs nothing while nobody listens.
+- **Art.** docs/ART_REQUESTS.md **Request 2026-09-28 — people at work**: sixteen items in the people-sheet contract (eight grown
+  cast figures, 4x4 sheets, the strike frame named in the delivery note): `-chop`, `-split`, `-notch`/`-lift`, `-dig`/`-dig-well`,
+  `-reap`, `-carpentry`, `-aim`/`-fire`, `-fish`, `-gather`, `-butcher`, `-drill`/`-guard`, `-stake`, the children's `-shoo`,
+  `-gather`, `-carry-water`, `-tend-fire`, five effect sheets and `tree-fall`, and **the wood pile** (`wood-pile-1..4`). Sixteen
+  new rows under *Stand-ins in use*. The guided start's marks are **parked** (the tutorial is removed for now); the hauling
+  mentions in the trees, fetch-logs and action-icon requests say hauling is going.
+- **Tests.** `tests/work-art.test.mjs` (7): reads every chore any sim module registers and every task any module sets, and fails
+  on one the table does not draw; every stroke is a pose the library holds for all eight cast figures, moving, and every stand-in
+  names an item of its request; each chore drawn at its work; parts and walking; the ring and the house's front; the strike's
+  timing and the effect moving; the beat hook. `node scripts/work-injections.mjs`: 16 of 16 unit injections caught, 13 by their own test alone. Browser: `npm run test:work`
+  (scripts/work-browser-proof.mjs, same computer only, headless Chrome 1366x768, real orders through the join flow): 4 checks PASS (hoeing about the place, three on the house along its front, the rifle at the mark, the survey paced), and 4 of 4 browser injections caught (`docs/evidence/work-injections.json`, 20 of 20 in all).
+- `ceiling:` the effects are canvas marks, not a particle system; a tree felled is not drawn shaking or falling (item 15's
+  `tree-fall`); a neighbour seen at work is still drawn standing (the projection sends a student only a broad task); the digging
+  of a well is drawn beside the yard point, not in a drawn well (item 4's `-dig-well`).
+
 ## Classroom blockers: class size, late students, reconnecting, an unclean stop, several classes, several class days — owner, 2026-09-28 (worktree branch; not released)
 
 **The ask.** Owner, 2026-09-28: *"check for problems with the game ... things that would prevent the game from being played as
