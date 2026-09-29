@@ -1064,6 +1064,12 @@ export function createBattleView(art) {
         }
       } else {
         const marsh = work.kind === 'marsh', n = marsh ? 36 : 22;
+        // Under the marsh's reeds, its edge: Claude's `marsh-edge-1`..`-3` tiles of open water ringed with cordgrass (*Claude-drawn
+        // stand-ins*, area F), scattered over the marsh; without that sheet, the reeds and ripples alone.
+        if (marsh) for (let i = 0; i < 7; i++) {
+          const a = hash(`${work.id}:edge:${i}:a`), r = 0.15 + Math.sqrt(hash(`${work.id}:edge:${i}:r`)) * 0.3;
+          put(at(Math.cos(a * Math.PI * 2) * r * work.width, Math.sin(a * Math.PI * 2) * r * work.width * 0.55), p => art.drawSprite(ctx, `marsh-edge-${1 + (i % 3)}`, p.x, p.y, figurePx * 1.6, { flip: i % 2 === 1 }));
+        }
         for (let i = 0; i < n; i++) {
           const a = hash(`${work.id}:${i}:a`), b = hash(`${work.id}:${i}:b`), r = Math.sqrt(hash(`${work.id}:${i}:r`)) * 0.5;
           const point = at(Math.cos(a * Math.PI * 2) * r * work.width, Math.sin(a * Math.PI * 2) * r * work.width * 0.55);
