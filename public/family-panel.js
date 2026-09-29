@@ -1074,7 +1074,8 @@ export function lightLoad(flight, take) {
 /**
  * Whose icons are the bar at the bottom (design audit 2026-09-28 B11): the person the student chose on the panel - by their
  * portrait, the "!", a notice's Go to - if they are alive and free to be looked at, otherwise the main person. Choosing somebody
- * never changes who the main person is: that is `set-main`, sent only by the star and the bar's *Make … the main person*,
+ * by the "!" or a notice never changes who the main person is: that is `set-main`, sent by the star, by the portrait (owner
+ * 2026-09-29: the same as the star, docs/FAMILY_PANEL.md) and by the bar's *Make … the main person*,
  * because the main person is who travels, rests, works about the place and - on auto - decides the family's flight and its
  * answers on the road (sim/auto.mjs, sim/pursuit.mjs).
  */

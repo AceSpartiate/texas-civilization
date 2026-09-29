@@ -17,9 +17,9 @@ import {plotArt} from '/field-art.js';
 import { drawFieldSurface } from '/field-surface.js';
 import {drawGonzalesGround,gonzalesDrawables,GONZALES_ART_BOUNDS} from '/gonzales-art.js';
 import { TOWN_WALK, TownWalker, drawTownSpeech, renderSceneCard, townSceneAt, townSceneDrawables } from '/town-scenes.js';
-import { drawSpeech } from '/speech.js';
+import { drawSpeech, speechLayout } from '/speech.js';
 import { ambientGround, campMan, crowdDrawables, drawAmbientSpeech, propItem } from '/ambient.js';
-import { drawTownGround, townDrawables } from '/town-art.js';
+import { drawTownGround, townDrawables, townLabelsDrawn } from '/town-art.js';
 import { placeSprite } from '/place-art.js';
 import { renderInterior, clearInteriorChoice } from '/interior.js';
 import { TOWN_LAYOUTS, townPoint } from '/town-layouts.js';
@@ -1253,7 +1253,8 @@ function layOutCaptions(ctx, labels, placeFont) {
     if (!box) { dropped.push(label.name); continue; }
     placed.push(box);
     caption(ctx, label.name, label.x, box.y);
-    drawn.push({ name: label.name, x: Math.round(label.x), y: Math.round(box.y), steppedDown: Math.round(box.y - label.y) });
+    // Its box too, for the speech bubbles' layout, which keeps every bubble off a name (public/speech.js `speechLayout`).
+    drawn.push({ name: label.name, x: Math.round(label.x), y: Math.round(box.y), steppedDown: Math.round(box.y - label.y), box: { x: box.left, y: box.top, w: box.right - box.left, h: box.bottom - box.top } });
   }
   return { drawn, dropped };
 }
@@ -3265,6 +3266,9 @@ function drawWorldNow(world) {
   // their cabin is in front of it and one standing north is behind it. Sorting the two
   // separately would put every person on top of every roof in the county.
   const labels = [];
+  // The shops' and buildings' names drawn on the map this frame, which no speech bubble may cover (`speechLayout` below).
+  const shopNames = [];
+  townLabelsDrawn.length = 0;
   const standing = [];
   // Heads in Gonzales this frame, for the words said over them (public/town-scenes.js); filled as the figures are laid out.
   townHeads.clear(); townSceneSpots.clear(); window.__townCast = []; window.__townWalkers = [];
@@ -3369,7 +3373,7 @@ function drawWorldNow(world) {
           const p = camera.toScreen({ x: site.x + shop.x, y: site.y + shop.y }), height = 0.024 * camera.scale;
           standing.push({ y: p.y, draw: () => {
             drawSprite(ctx, shop.sprite, p.x, p.y, height);
-            if (camera.scale > 1000) { ctx.save(); ctx.font = '12px Georgia'; ctx.textAlign = 'center'; ctx.lineWidth = 3; ctx.strokeStyle = '#f2e6c9'; ctx.strokeText(shop.label, p.x, p.y + 16); ctx.fillStyle = '#4c422e'; ctx.fillText(shop.label, p.x, p.y + 16); ctx.restore(); }
+            if (camera.scale > 1000) { ctx.save(); ctx.font = '12px Georgia'; ctx.textAlign = 'center'; ctx.lineWidth = 3; ctx.strokeStyle = '#f2e6c9'; ctx.strokeText(shop.label, p.x, p.y + 16); ctx.fillStyle = '#4c422e'; ctx.fillText(shop.label, p.x, p.y + 16); const w = ctx.measureText(shop.label).width + 6; shopNames.push({ x: p.x - w / 2, y: p.y + 4, w, h: 16, name: shop.label }); ctx.restore(); }
           } });
         }
         window.__shopsDrawn = { ...(window.__shopsDrawn || {}), [site.id]: world.map.shops[site.id].length };
@@ -3659,32 +3663,6 @@ function drawWorldNow(world) {
   window.__ambientCrowd = crowd;
   standing.sort((a, b) => a.y - b.y);
   for (const item of standing) item.draw();
-  // What is being said in Gonzales, over whoever is saying it (public/speech.js), above every figure and building.
-  if (world.townScenes && camera.scale >= 200) {
-    const said = [];
-    // Over the head as walked into the town, or else as the figure was drawn at all (`drawnAt` keeps its middle).
-    const headOf = id => townHeads.get(id) || (drawnAt.has(id) ? { x: drawnAt.get(id).x, y: drawnAt.get(id).y - drawnAt.get(id).size * .55 } : null);
-    drawTownSpeech(ctx, world.townScenes, headOf, { now: frameNow, tickMs: window.__snapshot?.tickMs ?? 9500, bounds: { width: canvas.width, height: canvas.height, room: speechRoom(canvas) }, evidence: said });
-    window.__townSaid = said;
-  } else window.__townSaid = [];
-  // What the family's own children and babies are saying, over them (sim/childhood.mjs `talkLines`, sim/babies.mjs `babyLines`):
-  // a child with nothing to do and the parent they have stopped, a baby crying and the one who holds it humming. The same
-  // bubbles as the town's (public/speech.js), dashed, because every word of it is reconstructed.
-  // Both halves of an exchange at once, over the two who say them, for the tick it is said: the child's line and the reply are
-  // over different heads, and a tick of the class is the nine seconds they are read in (not the town's staggered scene).
-  // Where the family's own bubbles went, so the neighbours' talk is never drawn over them (public/ambient.js).
-  const familyBoxes = [];
-  if (world.familyTalk?.lines?.length && camera.figure > 14) {
-    const said = [], room = speechRoom(canvas);
-    for (const line of world.familyTalk.lines) {
-      const head = drawnAt.get(line.speakerId);
-      if (!head) continue;
-      // The bubble's box goes with it, for the overlap proof: whether a panel stands over words a student has to read.
-      const box = drawSpeech(ctx, line, head.x, head.y - head.size * .55, { bounds: { width: canvas.width, height: canvas.height, room } });
-      if (box) { familyBoxes.push(box); said.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text, ...(line.manner && { manner: line.manner }), box }); }
-    }
-    window.__familySaid = said;
-  } else window.__familySaid = [];
   drawTravelRoads(ctx, roads, camera, canvas);
   const placeFont = `${Math.round(Math.max(11, Math.min(16, camera.scale * 1.1)))}px system-ui`;
   window.__labelsDrawn = layOutCaptions(ctx, labels, placeFont);
@@ -3755,19 +3733,6 @@ function drawWorldNow(world) {
     return { id: army.id, side: army.side, ours: army.ours, strength: army.strength, how, boat, x: Math.round(at.x), y: Math.round(at.y), camp: Boolean(army.camp), foragers,
       ...(how === 'camp' && { men: menDrawn }) };
   });
-  // Neighbours talking (public/ambient.js, sim/ambient.mjs `EXCHANGES`): after the camps, whose men's heads are laid out with
-  // them, and never over the family's own bubbles or a mark asking the student something. Quiet in a fight or a chase.
-  // Called whether or not this tick brought words, so an exchange begun on the last one is finished.
-  if (camera.figure > 14 && !world.battle?.sides && !world.flight?.chase) {
-    const said = [];
-    // Everybody talks; the bubble slides into the room clear of the panels at its height (`speechRoom`), its tail still to the
-    // speaker. Suppressing a line whose bubble touched a panel - or whose speaker stood under one, the card beside a family
-    // stands over the rest of it - silenced the farm entirely (test:chatter, 2026-09-28).
-    const headOf = id => ambientHeads.get(id) || (drawnAt.has(id) ? { x: drawnAt.get(id).x, y: drawnAt.get(id).y - drawnAt.get(id).size * .55 } : null);
-    const avoid = [...familyBoxes, ...pending.map(mark => ({ x: mark.x - mark.size * .5, y: mark.y - mark.size * 1.1, w: mark.size, h: mark.size * 1.2 }))];
-    drawAmbientSpeech(ctx, world.ambient?.lines || [], headOf, { now: frameNow, bounds: { width: canvas.width, height: canvas.height, room: speechRoom(canvas) }, avoid, evidence: said });
-    window.__ambientSaid = said;
-  } else window.__ambientSaid = [];
   // Smoke over a burning town or farm, where the server says this page could see it (sim/advance.mjs `firesSeen`): a column
   // of smoke seen from afar, never what is burning (VISION.md §16). stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the
   // Mexican advance", item 2 - Claude's `farm-smoke-rise` and `town-smoke-rise` (a dark column leaning over a low glow,
@@ -3792,6 +3757,57 @@ function drawWorldNow(world) {
     animated: (...args) => animated(...args), drawSprite: (...args) => drawSprite(...args), miniPerson: (...args) => miniPerson(...args),
     time: animationTime, bounds: { width: canvas.width, height: canvas.height },
   });
+  // Every speech bubble of the frame, laid out together (public/speech.js `speechLayout`), after every figure, name and mark it
+  // must keep off. Owner, 2026-09-29: *"When playing, text boxes for npc and player characters overlap frequently."* The
+  // family's talk, the town's scenes and the neighbours' were drawn each on its own, over its own speaker, and piled on each
+  // other and on the names on the map; now each is placed in turn - the family's own first, then the town's, then the
+  // neighbours' - clear of the bubbles before it, their tails, the names (places, shops, buildings, the famous people) and the
+  // marks asking the student something, lifted or slid as little as will clear them, its tail still to its speaker. What is
+  // said is the server's; only where it stands is the page's.
+  const speechBounds = { width: canvas.width, height: canvas.height, room: speechRoom(canvas) };
+  const speech = speechLayout({ ...speechBounds, now: frameNow, avoid: [
+    ...(window.__labelsDrawn?.drawn || []).map(one => one.box), ...shopNames, ...townLabelsDrawn,
+    ...(window.__famousDrawn || []).map(one => one.label),
+    ...pending.map(mark => ({ x: mark.x - mark.size * .5, y: mark.y - mark.size * 1.1, w: mark.size, h: mark.size * 1.2 })),
+  ] });
+  // What the family's own children and babies are saying, over them (sim/childhood.mjs `talkLines`, sim/babies.mjs `babyLines`):
+  // a child with nothing to do and the parent they have stopped, a baby crying and the one who holds it humming. The same
+  // bubbles as the town's (public/speech.js), dashed, because every word of it is reconstructed.
+  // Both halves of an exchange at once, over the two who say them, for the tick it is said: the child's line and the reply are
+  // over different heads, and a tick of the class is the nine seconds they are read in (not the town's staggered scene). The
+  // two stand a step apart, so the second is lifted above the first or slid beside it by the layout.
+  if (world.familyTalk?.lines?.length && camera.figure > 14) {
+    const said = [];
+    for (const line of world.familyTalk.lines) {
+      const head = drawnAt.get(line.speakerId);
+      if (!head) continue;
+      // The bubble's box goes with it, for the overlap proof: whether a panel stands over words a student has to read.
+      const box = drawSpeech(ctx, line, head.x, head.y - head.size * .55, { bounds: speechBounds, layout: speech });
+      if (box) said.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text, ...(line.manner && { manner: line.manner }), box, tail: box.tail });
+    }
+    window.__familySaid = said;
+  } else window.__familySaid = [];
+  // What is being said in Gonzales, over whoever is saying it (public/speech.js), above every figure and building.
+  if (world.townScenes && camera.scale >= 200) {
+    const said = [];
+    // Over the head as walked into the town, or else as the figure was drawn at all (`drawnAt` keeps its middle).
+    const headOf = id => townHeads.get(id) || (drawnAt.has(id) ? { x: drawnAt.get(id).x, y: drawnAt.get(id).y - drawnAt.get(id).size * .55 } : null);
+    drawTownSpeech(ctx, world.townScenes, headOf, { now: frameNow, tickMs: window.__snapshot?.tickMs ?? 9500, bounds: speechBounds, layout: speech, evidence: said });
+    window.__townSaid = said;
+  } else window.__townSaid = [];
+  // Neighbours talking (public/ambient.js, sim/ambient.mjs `EXCHANGES`): after the camps, whose men's heads are laid out with
+  // them, and never over the family's own bubbles, the town's or a mark asking the student something. Quiet in a fight or a chase.
+  // Called whether or not this tick brought words, so an exchange begun on the last one is finished.
+  if (camera.figure > 14 && !world.battle?.sides && !world.flight?.chase) {
+    const said = [];
+    // Everybody talks; the bubble slides into the room clear of the panels at its height (`speechRoom`), its tail still to the
+    // speaker. Suppressing a line whose bubble touched a panel - or whose speaker stood under one, the card beside a family
+    // stands over the rest of it - silenced the farm entirely (test:chatter, 2026-09-28). A line with no room near its
+    // speaker waits for some (public/ambient.js).
+    const headOf = id => ambientHeads.get(id) || (drawnAt.has(id) ? { x: drawnAt.get(id).x, y: drawnAt.get(id).y - drawnAt.get(id).size * .55 } : null);
+    drawAmbientSpeech(ctx, world.ambient?.lines || [], headOf, { now: frameNow, bounds: speechBounds, layout: speech, evidence: said });
+    window.__ambientSaid = said;
+  } else window.__ambientSaid = [];
   // The fight, if this page may watch one (public/battle-view.js; sim/battle-stage.mjs `projectBattle`): both sides as they
   // fought, the fire, the smoke on the day's wind, the words, the cannon. It replaced `drawFormations` on 2026-09-25.
   const fight = world.battle?.sides ? world.battle : null;
@@ -4705,7 +4721,8 @@ function renderFamilyPanel(world) {
     if (need && row.attention.dataset.need !== need.kind) { row.attention.dataset.need = need.kind; paintMark(row.attention, need.kind === 'rider' ? 'mark-need-rider' : 'mark-need'); }
     if (row.attention.getAttribute('aria-label') !== needLabel) { row.attention.setAttribute('aria-label', needLabel); row.attention.title = needLabel; }
     const canLead = !(entity.age < 10) && !['dead', 'captured'].includes(entity.health?.condition);
-    const portraitLabel = `${entity.name}, ${role}${age}${focused ? ', your main person' : ''}${bar ? ', selected' : ''}. Select and follow ${entity.name}; show their actions${need ? '; somebody is waiting on them' : ''}.`;
+    // What pressing it does, which is what the star does (owner, 2026-09-29).
+    const portraitLabel = `${entity.name}, ${role}${age}${focused ? ', your main person' : ''}${bar ? ', selected' : ''}. ${focused ? `Go back to ${entity.name}` : `Make ${entity.name} your main person`}, follow them and show their actions${need ? '; somebody is waiting on them' : ''}.`;
     if (row.portrait.getAttribute('aria-label') !== portraitLabel) row.portrait.setAttribute('aria-label', portraitLabel);
     row.portrait.setAttribute('aria-pressed', String(bar));
     const focusLabel = focused ? `Go back to ${entity.name}, your main person` : `Make ${entity.name} your main person`;
@@ -5029,6 +5046,14 @@ async function chooseFocus(id) {
   say('');
   try { await api('/api/command', { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action: 'set-main', entityId: id }); }
   catch (error) { say(error.message); }
+}
+/**
+ * The star, and since 2026-09-29 the portrait (owner: *"it should be treated the same as clicking on the star"*): make this person
+ * the main one - unless they are already - and go to them. One handler, so the two never drift apart.
+ */
+function pressStar(id) {
+  if (id !== focusedId) chooseFocus(id);
+  goToPerson(id);
 }
 /**
  * Take the camera to one of the family and open their card: the same watch a portrait starts (`cameraFor` centres on where
@@ -7445,15 +7470,16 @@ document.addEventListener('click', async event => {
     if (world) { drawWorld(world); renderSelection(world); renderTutorial(world); }
     return;
   }
-  // A portrait on the family panel: choose the person, and the camera goes to them and zooms in (docs/FAMILY_PANEL.md §3).
-  // The same watch the roster starts - `cameraFor` centres on where they are drawn and zooms to at least 55 in 100 of the
-  // closest zoom - so it walks with them until the student pans, zooms or presses Follow.
-  // Choosing only (design audit 2026-09-28 B11): the portrait selects the person - camera, card, their bar - and never makes them
-  // the main person. Until then it sent `set-main`, and the main person's auto decides the family's flight: pressing a son on
-  // auto to see where he was handed him the family's leaving and its answers to soldiers. The star and the bar's *Make … the
-  // main person* are the one way to change who that is.
+  // A portrait on the family panel does exactly what their star does (owner, 2026-09-29: *"When clicking on a character portrait
+  // it should be treated the same as clicking on the star."*, docs/FAMILY_PANEL.md, amendment 2026-09-29): it makes the person
+  // the family's main person (`set-main`, refused in the server's own words, said on the refusal line, for anybody too young or
+  // gone - the star's refusal), and the camera goes to them and zooms in, their card opens and the bar is theirs, as the
+  // portrait always did (`goToPerson`: the same watch the roster starts, walking with them until the student pans, zooms or
+  // presses Follow). Pressing the main person's portrait sends nothing and takes the camera back to them. This reverses the
+  // design audit's B11 of 2026-09-28 (a portrait only chose): on auto the main person decides the family's leaving and its
+  // answers on the road, and the owner has chosen that a press on a face hands that over, as the star does.
   const portrait = event.target.closest('[data-portrait]');
-  if (portrait) { goToPerson(portrait.dataset.portrait); return; }
+  if (portrait) { pressStar(portrait.dataset.portrait); return; }
   // The "!" on a row: to the person, and open what is waiting on them (docs/FAMILY_PANEL.md §11).
   const attention = event.target.closest('[data-attention]');
   if (attention) { openNeed(attention.dataset.attention); return; }
@@ -7462,11 +7488,7 @@ document.addEventListener('click', async event => {
   if (sw) { setAutoFor(sw.dataset.auto, sw.getAttribute('aria-pressed') !== 'true'); return; }
   // The star: make this person the main one; on the main person already, go back to them.
   const star = event.target.closest('[data-focus]');
-  if (star) {
-    if (star.dataset.focus !== focusedId) chooseFocus(star.dataset.focus);
-    goToPerson(star.dataset.focus);
-    return;
-  }
+  if (star) { pressStar(star.dataset.focus); return; }
   // The main person's House: the rooms inside, as tapping the house on the map opens them.
   const indoors = event.target.closest('[data-house]');
   if (indoors) {

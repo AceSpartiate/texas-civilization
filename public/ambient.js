@@ -6,9 +6,9 @@
 // a tick. This file only draws it: a person walked to a neighbour's door and back at a person's pace (the town's own walker,
 // public/town-scenes.js), a load carried a few steps back and forth, the fire, the pot, the bucket and the hens beside the
 // people at them, the camp's men and the crowd in their poses, and the words over the right heads - a few at a time, each
-// held long enough to read, never over a bubble already drawn or a mark asking the student something.
+// held long enough to read, never over a bubble already drawn, a name on the map or a mark asking the student something.
 import { drawClip, drawSprite } from '/art.js';
-import { drawSpeech, speechAlpha } from '/speech.js';
+import { drawSpeech, speechAlpha, speechLayout } from '/speech.js';
 import { TOWN_WALK } from '/town-scenes.js';
 
 /** At most this many ambient bubbles on the screen at once, and exchanges running at once (`npm run test:chatter`). */
@@ -171,14 +171,19 @@ function fallback(ctx, x, y, size) {
  * ceiling: kept for thirty seconds and then forgotten - a page open all afternoon holds the last half-minute of talk only.
  */
 const heard = new Map();
-const overlaps = (a, b) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+/** How long an exchange waits for room to be said before it is let go unsaid. */
+const WAIT_MS = 8000;
 /**
  * The words between neighbours (sim/ambient.mjs `EXCHANGES`), over the heads that say them: the first line, then the reply a
- * little after, each held `LINE_MS` to be read and faded in and out, at most `ON_SCREEN` at once. A bubble that would cover
- * one already drawn this frame - a child's, a town scene's - or a mark asking the student something (`avoid`) is left unsaid,
- * and so is a line whose speaker is not drawn on this page: words are never put in the air over nobody.
+ * little after, each held `LINE_MS` to be read and faded in and out, at most `ON_SCREEN` at once. Every bubble goes through the
+ * frame's layout (public/speech.js `speechLayout`, given as `layout`, or made here from `avoid`), which lifts or slides it clear
+ * of the bubbles already placed - the family's, a town scene's - their tails, the names on the map and the marks asking the
+ * student something. A line with no room near its speaker **waits** (owner 2026-09-29: the bubbles overlapped): its exchange
+ * starts again from that line when there is room, for up to `WAIT_MS`, and is then let go. A line whose speaker is not drawn on
+ * this page is never said: words are never put in the air over nobody.
  */
-export function drawAmbientSpeech(ctx, lines, headOfAny, { now, bounds, avoid = [], evidence = null, max = ON_SCREEN } = {}) {
+export function drawAmbientSpeech(ctx, lines, headOfAny, { now, bounds, avoid = [], evidence = null, max = ON_SCREEN, layout = null } = {}) {
+  layout ||= speechLayout({ width: bounds?.width ?? ctx.canvas.width, height: bounds?.height ?? ctx.canvas.height, room: bounds?.room, avoid });
   // Only a speaker on the screen: a bubble is never pinned to the edge for somebody out of sight.
   const headOf = id => { const head = headOfAny(id); return head && (!bounds || (head.x >= 0 && head.x <= bounds.width && head.y >= 0 && head.y <= bounds.height)) ? head : null; };
   const running = () => [...heard.values()].filter(one => one.admitted && now - one.at < REPLY_AFTER_MS + LINE_MS + 600).length;
@@ -197,21 +202,28 @@ export function drawAmbientSpeech(ctx, lines, headOfAny, { now, bounds, avoid = 
     for (const line of exchange.lines) {
       const age = now - exchange.at - line.order * REPLY_AFTER_MS;
       const alpha = speechAlpha(age, LINE_MS);
-      if (alpha > 0) showing.push({ line, alpha, age });
+      if (alpha > 0) showing.push({ line, alpha, age, exchange });
     }
   }
   // The oldest first: a reply is never cut off by a newer exchange starting.
   showing.sort((a, b) => b.age - a.age);
-  const boxes = [...avoid], shown = [];
-  for (const { line, alpha } of showing) {
+  const shown = [];
+  for (const { line, alpha, age, exchange } of showing) {
     if (shown.length >= max) break;
     const head = headOf(line.speakerId);
     if (!head) continue;
-    const box = drawSpeech(ctx, line, head.x, head.y, { alpha, bounds, measure: true });
-    if (!box || boxes.some(other => overlaps(box, other))) continue;
-    drawSpeech(ctx, line, head.x, head.y, { alpha, bounds });
-    boxes.push(box);
-    shown.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text, box: { x: Math.round(box.x), y: Math.round(box.y), w: Math.round(box.w), h: Math.round(box.h) } });
+    const box = drawSpeech(ctx, line, head.x, head.y, { alpha, bounds, layout });
+    if (!box) {
+      // Nowhere to say it yet: a line only beginning waits, its exchange held back to begin again from it.
+      if (age < 250) {
+        exchange.waited ??= now;
+        if (now - exchange.waited > WAIT_MS) exchange.admitted = false;
+        else exchange.at = now - line.order * REPLY_AFTER_MS;
+      }
+      continue;
+    }
+    delete exchange.waited;
+    shown.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text, box: { x: Math.round(box.x), y: Math.round(box.y), w: Math.round(box.w), h: Math.round(box.h) }, tail: box.tail });
   }
   evidence?.push(...shown);
   return shown;

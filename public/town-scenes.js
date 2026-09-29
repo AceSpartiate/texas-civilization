@@ -265,10 +265,12 @@ function personItem(ctx, person, stepped, { toScreen, figure, scale, time, drawn
 
 /**
  * The words said this tick, each over its speaker, one after another within the tick (the server sends them in order). A
- * line whose speaker is not drawn on this page is not drawn either: words are never put in the air over nobody.
+ * line whose speaker is not drawn on this page is not drawn either: words are never put in the air over nobody. With the
+ * frame's `layout` (public/speech.js `speechLayout`) each bubble is lifted or slid clear of the others and the names on the
+ * map (owner 2026-09-29); a line only beginning with no room yet waits for it, its reading time kept whole.
  */
 const firstSeen = new Map();
-export function drawTownSpeech(ctx, scenes, pointOf, { now, tickMs = 9500, bounds, scale = 1, evidence = null } = {}) {
+export function drawTownSpeech(ctx, scenes, pointOf, { now, tickMs = 9500, bounds, scale = 1, evidence = null, layout = null } = {}) {
   if (!scenes?.lines?.length) return [];
   const boxes = [], shown = [];
   const byScene = new Map();
@@ -283,8 +285,9 @@ export function drawTownSpeech(ctx, scenes, pointOf, { now, tickMs = 9500, bound
       if (alpha <= 0) return;
       const at = pointOf(line.speakerId);
       if (!at) return;
-      const box = drawSpeech(ctx, line, at.x, at.y, { alpha, bounds, scale });
-      if (box) { boxes.push(box); shown.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text, box }); }
+      const box = drawSpeech(ctx, line, at.x, at.y, { alpha, bounds, scale, layout });
+      if (box) { boxes.push(box); shown.push({ id: line.id, speakerId: line.speakerId, kind: line.kind, text: line.text, box, tail: box.tail }); }
+      else if (layout && age < 250) firstSeen.set(line.id, now - index * slot - sceneIndex * 600);
     });
     sceneIndex++;
   }

@@ -1,0 +1,26 @@
+{
+  "record": "design-blockers-injections",
+  "date": "2026-09-29",
+  "files": [
+    "tests/lifecycle.test.mjs",
+    "tests/absence.test.mjs",
+    "tests/periods.test.mjs",
+    "tests/scrape.test.mjs",
+    "tests/scrape-pursuit.test.mjs",
+    "tests/family-commands.test.mjs",
+    "tests/family-panel.test.mjs",
+    "tests/ending.test.mjs",
+    "tests/classes.test.mjs"
+  ],
+  "browser": false,
+  "injections": [
+    {
+      "name": "B11: the \"!\" makes the person it goes to the main person",
+      "file": "public/app.js",
+      "failed": [
+        "choosing somebody shows their bar and leaves the main person as it was; only a living person chosen takes the bar; a portrait is the star"
+      ],
+      "alone": true
+    }
+  ]
+}

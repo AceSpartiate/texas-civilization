@@ -209,8 +209,9 @@ try {
 
   // --------------------------------------------------------------------------------- the portrait takes the camera there
   const youngest = rows.at(-1).id;
-  // A portrait chooses and never makes main (design audit 2026-09-28 B11): the main person's auto decides the family's flight
-  // and its answers to soldiers, so looking at somebody must not hand those to them. The bar's labelled button does that.
+  // A portrait is the star (owner, 2026-09-29: "When clicking on a character portrait it should be treated the same as clicking
+  // on the star."; docs/FAMILY_PANEL.md, amendment 2026-09-29, which reverses the design audit's B11 of 2026-09-28): one press
+  // makes the person the main person on the server, and still takes the camera to them, opens their card and gives them the bar.
   const otherAdult = rows.find(person => person.id !== worker && !(person.age < 16))?.id || rows[0].id;
   const mainNow = () => page.evaluate(() => window.__snapshot.world.household.mainId || window.__snapshot.world.household.principalId);
   assert.equal(await mainNow(), worker);
@@ -218,24 +219,50 @@ try {
   const capture = request => { if (request.url().endsWith('/api/command')) sent.push(request.postDataJSON()); };
   page.on('request', capture);
   await page.locator(`.panel-portrait[data-portrait="${otherAdult}"]`).click();
-  await page.waitForFunction(id => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId === id, otherAdult, { timeout: 4000 });
+  await page.waitForFunction(id => (window.__snapshot.world.household.mainId || window.__snapshot.world.household.principalId) === id, otherAdult, { timeout: 10000 }).catch(() => {});
+  await page.waitForFunction(id => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId === id, otherAdult, { timeout: 10000 });
   await page.waitForTimeout(800);
   page.off('request', capture);
-  assert.deepEqual(sent.map(command => command.action), [], `pressing a portrait sent ${sent.map(command => command.action).join(', ')}`);
-  assert.equal(await mainNow(), worker, 'pressing a portrait changed the main person');
-  assert.equal(await page.locator(`.panel-row[data-entity-id="${worker}"]`).getAttribute('data-main'), 'true', 'the main person\'s star moved to the person looked at');
+  assert.deepEqual(sent.map(command => [command.action, command.entityId]), [['set-main', otherAdult]], `pressing a portrait sent ${JSON.stringify(sent.map(command => [command.action, command.entityId]))}, not the star's one set-main`);
+  assert.equal(await mainNow(), otherAdult, 'pressing a portrait did not make them the main person');
+  await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.main === 'true', otherAdult, { timeout: 10000 });
+  assert.notEqual(await page.locator(`.panel-row[data-entity-id="${worker}"]`).getAttribute('data-main'), 'true', 'the star stayed on the person who was main');
   assert.equal(await page.locator(`#selection`).getAttribute('data-entity-id'), otherAdult, 'their card did not open');
-  const make = page.locator(`.panel-row[data-entity-id="${otherAdult}"] .panel-make-main`);
-  await make.waitFor({ state: 'visible', timeout: 10000 });
-  const makeWords = (await make.innerText()).trim();
-  assert.match(makeWords, /^Make .+ the main person$/, `the bar's way to make them main says "${makeWords}"`);
+  assert.equal(await page.locator(`.panel-row[data-entity-id="${otherAdult}"] .panel-make-main`).count(), 0, 'their bar still offers to make them main');
   await page.screenshot({ path: 'test-results/family-panel-make-main.png' });
-  ok(`one click selects an adult, their action bar and their map location together, sends nothing and leaves ${worker} the main person; their bar opens with "${makeWords}"`);
-  await make.click();
-  await page.waitForFunction(id => (window.__snapshot.world.household.mainId || window.__snapshot.world.household.principalId) === id, otherAdult, { timeout: 10000 });
-  await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.main === 'true' && !document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-make-main`), otherAdult, { timeout: 10000 });
-  measured.portrait = { looked: otherAdult, mainKept: worker, sent: sent.length, make: makeWords };
-  ok(`"${makeWords}" makes them the main person on the server, and the button goes from their bar`);
+  ok(`one press on an adult's portrait makes ${otherAdult} the main person on the server (one set-main, the star's), and opens their card, their bar and the map on them`);
+  // The main person's own portrait, like their filled star, sends nothing; the star still works, and says the same as the portrait.
+  sent.length = 0;
+  page.on('request', capture);
+  await page.locator(`.panel-portrait[data-portrait="${otherAdult}"]`).click();
+  await page.waitForTimeout(800);
+  page.off('request', capture);
+  assert.deepEqual(sent.map(command => command.action), [], `pressing the main person's own portrait sent ${sent.map(command => command.action).join(', ')}`);
+  await page.locator(`.panel-focus[data-focus="${worker}"]`).click();
+  await page.waitForFunction(id => (window.__snapshot.world.household.mainId || window.__snapshot.world.household.principalId) === id, worker, { timeout: 10000 });
+  const portraitSays = await page.locator(`.panel-portrait[data-portrait="${otherAdult}"]`).getAttribute('aria-label');
+  assert.match(portraitSays, /Make .+ your main person/, `the portrait does not say it makes them main: "${portraitSays}"`);
+  // Somebody the server will not have as main person: the portrait is refused in the star's own words, and still opens them.
+  const young = rows.find(person => person.age < 10)?.id;
+  let refusal = null;
+  if (young) {
+    await page.evaluate(() => { document.querySelector('#error').textContent = ''; });
+    await page.locator(`.panel-focus[data-focus="${young}"]`).click();
+    await page.waitForFunction(() => (document.querySelector('#error')?.textContent || '').trim(), null, { timeout: 10000 });
+    const starSaid = (await page.locator('#error').textContent()).trim();
+    await page.evaluate(() => { document.querySelector('#error').textContent = ''; });
+    await page.locator(`.panel-portrait[data-portrait="${young}"]`).click();
+    await page.waitForFunction(() => (document.querySelector('#error')?.textContent || '').trim(), null, { timeout: 10000 });
+    const portraitSaid = (await page.locator('#error').textContent()).trim();
+    assert.equal(portraitSaid, starSaid, 'the portrait of somebody who cannot be main is refused in other words than the star');
+    assert.equal(await mainNow(), worker, 'a refused portrait changed the main person');
+    assert.equal(await page.locator('#selection').getAttribute('data-entity-id'), young, 'a refused portrait did not open their card');
+    assert.equal(await page.evaluate(() => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId), young, 'a refused portrait did not give them the bar');
+    refusal = portraitSaid;
+    await page.evaluate(() => { document.querySelector('#error').textContent = ''; });
+  }
+  measured.portrait = { pressed: otherAdult, madeMain: true, sent: 1, starBack: worker, refusal };
+  ok(`the main person's portrait sends nothing, the star makes ${worker} main again${refusal ? `, and a child's portrait is refused as the star is: "${refusal}", their card and bar still opened` : ''}`);
   // Back out first. Choosing the practising worker as the main person (§12: their work has to be on the screen to be
   // pressed) took the camera to them and zoomed it to the stop, and a camera already at the stop cannot zoom in again.
   for (let step = 0; step < 4; step++) await page.locator('#map-nav [data-view=out]').click();

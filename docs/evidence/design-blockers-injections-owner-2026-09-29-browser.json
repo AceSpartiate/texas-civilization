@@ -1,0 +1,31 @@
+{
+  "record": "design-blockers-injections",
+  "date": "2026-09-29",
+  "files": [
+    "tests/lifecycle.test.mjs",
+    "tests/absence.test.mjs",
+    "tests/periods.test.mjs",
+    "tests/scrape.test.mjs",
+    "tests/scrape-pursuit.test.mjs",
+    "tests/family-commands.test.mjs",
+    "tests/family-panel.test.mjs",
+    "tests/ending.test.mjs",
+    "tests/classes.test.mjs"
+  ],
+  "browser": true,
+  "injections": [
+    {
+      "name": "owner 2026-09-29: pressing a portrait only chooses again, and does not do what the star does",
+      "file": "public/app.js",
+      "failed": [
+        "choosing somebody shows their bar and leaves the main person as it was; only a living person chosen takes the bar; a portrait is the star"
+      ],
+      "alone": true,
+      "proof": {
+        "script": "test:family-panel",
+        "failed": true,
+        "why": "AssertionError [ERR_ASSERTION]: pressing a portrait sent [], not the star's one set-main + actual - expected"
+      }
+    }
+  ]
+}

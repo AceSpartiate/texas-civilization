@@ -38,6 +38,11 @@ export function drawTownGround(ctx, layout, project, scale) {
  * again on every frame was about 105 ms of a nine-second load on a Chromebook-slow CPU (2026-09-17, docs/PERFORMANCE_LOAD.md).
  */
 const keptDrawables = new WeakMap();
+/**
+ * The buildings' names drawn this frame, as boxes on the canvas: the page empties it before it draws and hands it to the
+ * speech bubbles' layout, which keeps every bubble off a name (public/speech.js `speechLayout`, owner 2026-09-29).
+ */
+export const townLabelsDrawn = [];
 export function townDrawables(ctx, layout, project, scale, labels = {}) {
   const corner = project(townPoint(layout, { x: 0, y: 0 })), across = project(townPoint(layout, { x: 100, y: 0 }));
   const key = [scale, corner.x, corner.y, across.x, across.y, JSON.stringify(labels)].join('|');
@@ -86,7 +91,10 @@ function makeTownDrawables(ctx, layout, project, scale, labels) {
       // where the names of a street of buildings no longer sit on top of each other.
       if (label && scale > (labels[building.id] ? 1000 : 2600)) {
         ctx.save(); ctx.font = '12px Georgia'; ctx.textAlign = 'center'; ctx.lineWidth = 3; ctx.strokeStyle = '#f2e6c9';
-        ctx.strokeText(label, p.x, p.y + 16); ctx.fillStyle = '#4c422e'; ctx.fillText(label, p.x, p.y + 16); ctx.restore();
+        ctx.strokeText(label, p.x, p.y + 16); ctx.fillStyle = '#4c422e'; ctx.fillText(label, p.x, p.y + 16);
+        const w = ctx.measureText(label).width + 6;
+        townLabelsDrawn.push({ x: p.x - w / 2, y: p.y + 4, w, h: 16, name: label });
+        ctx.restore();
       }
     } };
   })];

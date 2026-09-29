@@ -24,7 +24,7 @@ const INTERIM = [
   'the second period plays its own moments, none of 1835 again, and ends with interim standings and the spring offered',
 ];
 const PACKED = ['the family\'s card opens on the packing a family deciding alone takes - food first, as much as fits - and a load far under it is told apart'];
-const CHOOSING = ['choosing somebody shows their bar and leaves the main person as it was; only a living person chosen takes the bar'];
+const CHOOSING = ['choosing somebody shows their bar and leaves the main person as it was; only a living person chosen takes the bar; a portrait is the star'];
 const CONTINUED = ['a class ended part-way through a period is continued from Classes where it was, paused; its ending and flashbacks go'];
 const DELETED = ['a kept class is deleted from the list into the archive with its flashbacks, never the open one, and put back by hand'];
 const ANSWERS = ['who answers the soldiers is the main person every rule reads: somebody else on auto never answers for a family by hand, and a dead choice gives way'];
@@ -126,12 +126,13 @@ const INJECTIONS = [
     to: 'const SLOW_CONFIRM = new Set();',
     browser: 'test:scrape',
   },
-  // B11: choosing is not making main.
+  // B11: choosing is not making main - except the portrait, which the owner made the star again on 2026-09-29
+  // (docs/FAMILY_PANEL.md, amendment 2026-09-29); its injection is now the portrait going back to choosing only.
   {
-    name: 'B11: pressing a portrait makes that person the main person again',
+    name: 'owner 2026-09-29: pressing a portrait only chooses again, and does not do what the star does',
     file: 'public/app.js',
-    from: "  if (portrait) { goToPerson(portrait.dataset.portrait); return; }",
-    to: "  if (portrait) { const id = portrait.dataset.portrait; if (id !== focusedId) await chooseFocus(id); goToPerson(id); return; }",
+    from: "  if (portrait) { pressStar(portrait.dataset.portrait); return; }",
+    to: "  if (portrait) { goToPerson(portrait.dataset.portrait); return; }",
     expect: CHOOSING,
     browser: 'test:family-panel',
   },
@@ -151,12 +152,14 @@ const INJECTIONS = [
     to: '  const actor = world.entities[household.mainId || household.principalId];',
     expect: ANSWERS,
   },
+  // 'B11: a portrait pressed in the chase hands the family to somebody on auto' is gone with the owner's reversal of 2026-09-29:
+  // a portrait is the star, and hands the family to whoever is pressed, as the star always has.
   {
-    name: 'B11: a portrait pressed in the chase hands the family to somebody on auto, and ¡Alto! is never asked',
+    name: 'B11: the "!" makes the person it goes to the main person',
     file: 'public/app.js',
-    from: "  if (portrait) { goToPerson(portrait.dataset.portrait); return; }",
-    to: "  if (portrait) { const id = portrait.dataset.portrait; if (id !== focusedId) await chooseFocus(id); goToPerson(id); return; }",
-    browser: 'test:scrape-pursuit',
+    from: "  if (attention) { openNeed(attention.dataset.attention); return; }",
+    to: "  if (attention) { if (attention.dataset.attention !== focusedId) chooseFocus(attention.dataset.attention); openNeed(attention.dataset.attention); return; }",
+    expect: CHOOSING,
   },
   // Continue: a class ended by mistake, part-way through a period (owner, 2026-09-28: "Yes, allow Continue"; HOST_PAGE §2.8).
   {

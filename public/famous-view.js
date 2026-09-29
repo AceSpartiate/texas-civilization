@@ -72,7 +72,8 @@ export function drawFamous(ctx, list, camera, { animated, drawSprite, miniPerson
     ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.strokeText(one.name, p.x, top + font);
     ctx.fillStyle = '#26382e'; ctx.fillText(one.name, p.x, top + font);
     ctx.restore();
-    drawn.push({ id: one.id, name: one.name, x: Math.round(p.x), y: Math.round(p.y), how });
+    // The name's box with it, so the speech bubbles keep off it (public/speech.js `speechLayout`).
+    drawn.push({ id: one.id, name: one.name, x: Math.round(p.x), y: Math.round(p.y), how, label: boxes.at(-1) });
   }
   return drawn;
 }

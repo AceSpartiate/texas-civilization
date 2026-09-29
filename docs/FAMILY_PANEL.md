@@ -344,8 +344,8 @@ does not. What raises it, most pressing first — a person with several shows th
 ### 11.3 The main person
 
 - Every row has a star button. Pressing a hollow star makes that person the student's **main person** and goes to them;
-  pressing the main person's filled star takes the camera back to them. A double press on a portrait also makes them the main
-  person.
+  pressing the main person's filled star takes the camera back to them. **Pressing a portrait does exactly the same** (owner,
+  2026-09-29; amendment 2026-09-29 at the end of this document).
 - The main person's portrait and row have a gold edge and a star in the corner. Until one is chosen it is the principal.
 - **The world's, not the browser's** (owner, 2026-09-16: *"If any character (that's old enough) is selected as the main person
   (only one at a time) then they can be sent on travelling. I should be able to select the dad of the family as the main, send
@@ -1665,6 +1665,9 @@ No save, simulation, historical information, or progression rules changed. The b
 
 ## Amendment, 2026-09-28 — a portrait chooses; the main person changes only on purpose (design audit B11)
 
+*The portrait's half of this amendment is reversed by the owner on 2026-09-29 (next amendment): a portrait press is the star.
+The "!", a notice's Go to and the bar's* Make … the main person *stand as written here.*
+
 Found by the design audit of 2026-09-28 (B11, [audits/2026-09-28-design.md](audits/2026-09-28-design.md) §7.2) and fixed at the
 owner's word, *"fix the blockers when they come in"*. Pressing a portrait sent `set-main` without a word, and the main person is
 more than who may be sent on a road: **on auto the main person decides for the family** - the order to leave is answered at
@@ -1699,3 +1702,38 @@ asked); each by injection in `scripts/design-blockers-injections.mjs`.
 The audit's second direction, *make the family's decider somebody travelling with it*, was built the same day on another
 branch (§20, `sim/acting.mjs` `actingFor`): the chase now reads `actingId`, which keeps the M32 fix above (a dead main person
 gives way) and also passes over a main person who is away. The injection for M32 was re-aimed at it.
+
+## Amendment, 2026-09-29 — a portrait is the star (owner-decided)
+
+The owner, 2026-09-29, verbatim: *"When clicking on a character portrait it should be treated the same as clicking on the
+star."* This reverses the portrait's half of the 2026-09-28 amendment (design audit B11), and the release notes of
+v2026.09.29.1 (*"Pressing a portrait only selects that person. The star makes someone the main person."*) no longer hold.
+
+- **A portrait press is a star press.** Both call one handler (`pressStar` in public/app.js): if the person is not the main
+  person, `set-main` is sent; then the camera goes to them and zooms in, their card opens and **the bar at the bottom is
+  theirs** - everything the portrait did before. Pressing the main person's own portrait, like their filled star, sends nothing
+  and takes the camera back to them. A double press sends `set-main` at most twice for the same person; the second changes
+  nothing.
+- **Refusals are the star's.** The server refuses `set-main` in its own words for anybody who may not be the main person - a
+  child under ten (*"Prudence Proofwright is too young to be sent."*), the dead, the taken - and the page says those words on
+  the refusal line, exactly as for the star. The portrait still opens their card and gives them the bar (a child's own bar,
+  §18), so a small child's works are still reached from their face; the refusal line says why they are not the main person.
+- **What it hands over.** On auto the main person decides the family's leaving and its answers on the road (sim/auto.mjs,
+  sim/pursuit.mjs via `actingFor`), which is why B11 had taken this off the portrait. The owner has chosen that a press on a
+  face does what the star does; a student who presses a son on auto during the Scrape makes him the main person, as the star
+  always has.
+- **Unchanged.** The "!" and a notice's *Go to* still only choose (card, camera, bar) and send nothing. The bar's labelled
+  *Make … the main person* stays for somebody chosen that way. The portrait's tooltip and accessible name now say what it does:
+  *"Make Mary your main person, follow them and show their actions"* (or *"Go back to …"* for the main person).
+- **Tips.** Neither public/tips.js nor sim/tips.mjs said a portrait only selects (the only tip naming a picture, the child's
+  "!", reads true either way); nothing changed there.
+
+No save, action or projection field changed; no save version moved. Proof: `tests/family-commands.test.mjs` (*… a portrait is
+the star*: the portrait and the star call `pressStar`; the "!" still does not change the main person), `npm run
+test:family-panel` (one press on an adult's portrait sends exactly one `set-main` for them and makes them main on the server,
+opens their card and bar; the main person's own portrait sends nothing; the star still works; a child's portrait is refused in
+the same words as the child's star, and still opens their card and bar), `npm run test:family-commands` (a double press on a
+portrait makes that person main). Injections in `scripts/design-blockers-injections.mjs`: the portrait back to choosing only is
+caught by the unit test alone and by `test:family-panel`; the "!" made to change the main person is caught by the unit test
+alone. `test:scrape-pursuit`'s B11 step (a son on auto, his portrait pressed, the main person unchanged) was removed with the
+rule it held.

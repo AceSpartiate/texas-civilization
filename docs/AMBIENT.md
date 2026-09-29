@@ -51,8 +51,11 @@ Built 2026-09-28 in a worktree branch (not released). Claims `FIC-GONZ-820` to `
    word could have walked from where it happened at fifteen miles a day after a quarter of a day (`FIC-GONZ-822`; never the
    Host's public reports). A rumour is said as a rumour ("They say ...") until everyone at the table has it for sure.
 5. **Pacing.** A student's page is sent at most two exchanges a tick, the Host's twelve (one a place). The page lets two
-   exchanges run at once and draws at most three bubbles, each held 3.8 seconds; a bubble is never drawn over another, over
-   the family's own bubbles, or over a mark asking the student something, and only for a speaker on the screen. None at
+   exchanges run at once and draws at most three bubbles, each held 3.8 seconds, and only for a speaker on the screen. Every
+   bubble of a frame - the family's own, the town's scenes, the neighbours' - is placed by one layout (public/speech.js
+   `speechLayout`, owner 2026-09-29: *"text boxes for npc and player characters overlap frequently"*): never over another
+   bubble or its tail, a name on the map or a mark asking the student something; lifted or slid as little as clears them, with
+   its tail to the speaker; and a neighbour's line with no room near its speaker waits for some (up to 8 s). None at
    night, none while the page watches a fight or a chase, none while a rider is talking with one of the family, and none in a
    town whose dated scene is talking (Gonzales before the fight).
 6. **Sight.** The activities ride on the people the page is already sent (`amb` on each), the camps' men on the armies it is

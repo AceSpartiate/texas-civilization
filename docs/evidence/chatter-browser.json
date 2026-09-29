@@ -1,82 +1,32 @@
 {
   "record": "chatter-browser",
-  "date": "2026-09-28",
+  "date": "2026-09-29",
   "note": "Same computer only: headless Chrome at 1366x768. A farm (the student's family at home), a town (San Felipe on the Host's page) and the 1835 force halted on the Cibolo (the student following their own man), each watched for 45 seconds at a tick of 1.5 s. No LAN, Chromebook or district claim.",
   "results": [
     {
-      "label": "farm: people at activities, none drawn standing idle",
+      "label": "crowd: measured where many talk at once",
       "pass": true,
-      "detail": "6 people, poses rest, care, repair, carry, walk"
+      "detail": "6 screens, 266 frames with two bubbles or more, most 5 at once"
     },
     {
-      "label": "farm: bubbles drawn, short, reconstructed",
+      "label": "crowd: no bubble over another bubble",
       "pass": true,
-      "detail": "6 lines: \"My back aches today.\" \"That horse of yours looks thin.\" \"Mind the snakes by the creek.\" \"Supper is nearly ready.\" \"I can smell it from here.\" \"I saw a big one yesterday.\""
+      "detail": "0 frames"
     },
     {
-      "label": "farm: at most 3 bubbles at once, never over each other, on the screen",
+      "label": "crowd: no bubble over a name on the map",
       "pass": true,
-      "detail": "most 2"
+      "detail": "0 frames"
     },
     {
-      "label": "farm: the map draws inside the gate",
+      "label": "crowd: no bubble over another's tail",
       "pass": true,
-      "detail": "{\"count\":490,\"median\":3.8,\"p95\":6.1,\"max\":8.7}"
+      "detail": "0 frames"
     },
     {
-      "label": "town: people at activities, none drawn standing idle",
+      "label": "crowd: every bubble near its speaker, with a tail",
       "pass": true,
-      "detail": "11 people, poses rest, walk, speak, search, carry, repair, walk-s, walk-n"
-    },
-    {
-      "label": "town: bubbles drawn, short, reconstructed",
-      "pass": true,
-      "detail": "12 lines: \"Slow day for trade.\" \"This rain will not quit.\" \"It will pick up.\" \"Mud up to our knees.\" \"More families came this week.\" \"The store has new cloth.\""
-    },
-    {
-      "label": "town: at most 3 bubbles at once, never over each other, on the screen",
-      "pass": true,
-      "detail": "most 2"
-    },
-    {
-      "label": "town: the map draws inside the gate",
-      "pass": true,
-      "detail": "{\"count\":489,\"median\":3.3,\"p95\":11,\"max\":14.2}"
-    },
-    {
-      "label": "town: a keeper walked to a neighbour's door to talk",
-      "pass": true,
-      "detail": "walked and arrived: town-store-liberty, town-carpenter-columbia, town-ibarra, town-tavern-columbia, town-blacksmith-matagorda, town-store-matagorda, town-blacksmith-liberty, town-carpenter-liberty, town-crandall, town-mill-san-felipe, town-weaver-gonzales, town-doctor-san-felipe (walking 16, arrived 12)"
-    },
-    {
-      "label": "camp: the force's men at the fire, the cards, a rifle - not a body of men standing",
-      "pass": true,
-      "detail": "clips: ochre-repair, blue-rest, blue-repair, elder-speak, blue-speak, blue-care, volunteer-idle-e, ochre-care, volunteer-idle-w, ochre-rest, ochre-speak, elder-rest"
-    },
-    {
-      "label": "camp: the men talk among themselves",
-      "pass": true,
-      "detail": "camp:force:0, camp:force:0, camp:force:1"
-    },
-    {
-      "label": "camp: people at activities, none drawn standing idle",
-      "pass": true,
-      "detail": "1 people, poses carry, rest, walk, sow, care, repair"
-    },
-    {
-      "label": "camp: bubbles drawn, short, reconstructed",
-      "pass": true,
-      "detail": "3 lines: \"I miss my own bed.\" \"The geese are flying south.\" \"Winter is coming, then.\""
-    },
-    {
-      "label": "camp: at most 3 bubbles at once, never over each other, on the screen",
-      "pass": true,
-      "detail": "most 1"
-    },
-    {
-      "label": "camp: the map draws inside the gate",
-      "pass": true,
-      "detail": "{\"count\":466,\"median\":7.8,\"p95\":21.6,\"max\":37.3}"
+      "detail": "longest tail 136px against 170 (gonzales 1366x768: \"Where do we put the horses?\" box {\"x\":569.4658203125,\"y\":234.24,\"w\":177.5341796875,\"h\":27,\"tail\":[739,261,817,373]} tail [739,261,817,373])"
     },
     {
       "label": "no page error",
@@ -85,321 +35,154 @@
     }
   ],
   "shots": [
-    "test-results/chatter-farm.png",
-    "test-results/chatter-town.png",
-    "test-results/chatter-camp.png"
+    "test-results/chatter-crowd-gonzales-1366x768.png",
+    "test-results/chatter-crowd-gonzales-1024x600.png",
+    "test-results/chatter-crowd-gonzales-1024x768.png",
+    "test-results/chatter-crowd-refuge-1366x768.png",
+    "test-results/chatter-crowd-refuge-1024x600.png",
+    "test-results/chatter-crowd-refuge-1024x768.png"
   ],
   "evidence": {
-    "farm": {
-      "frames": {
-        "count": 490,
-        "median": 3.8,
-        "p95": 6.1,
-        "max": 8.7
+    "crowd": [
+      {
+        "place": "gonzales",
+        "at": "1366x768",
+        "frames": 99,
+        "crowded": 81,
+        "most": 3,
+        "lines": 14,
+        "faults": {
+          "bubbles": [],
+          "labels": [],
+          "tails": []
+        },
+        "longestTail": 136,
+        "longestWhat": "\"Where do we put the horses?\" box {\"x\":569.4658203125,\"y\":234.24,\"w\":177.5341796875,\"h\":27,\"tail\":[739,261,817,373]} tail [739,261,817,373]",
+        "tailMissing": 0,
+        "width": 1366,
+        "height": 768,
+        "counts": {
+          "bubbles": 0,
+          "labels": 0,
+          "tails": 0
+        }
       },
-      "bubbles": [
-        "hh-1-parent-2: My back aches today.",
-        "hh-1-child-3: That horse of yours looks thin.",
-        "hh-1-child-3: Mind the snakes by the creek.",
-        "hh-1-child-4: Supper is nearly ready.",
-        "hh-1-child-3: I can smell it from here.",
-        "hh-1-child-4: I saw a big one yesterday."
-      ],
-      "most": 2,
-      "overlaps": [],
-      "outside": [],
-      "drawn": {
-        "hh-1-parent-2": [
-          "sit:indigo-rest",
-          "fire:indigo-care",
-          "sleep:indigo-rest"
-        ],
-        "hh-1-child-1": [
-          "pipe:indigo-rest",
-          "whittle:indigo-repair",
-          "fire:indigo-care",
-          "sleep:indigo-rest"
-        ],
-        "hh-1-child-2": [
-          "mend:indigo-repair",
-          "wood:indigo-carry",
-          "sit:indigo-walk",
-          "sit:indigo-rest",
-          "sleep:indigo-rest",
-          "fire:indigo-care"
-        ],
-        "hh-1-child-3": [
-          "pipe:indigo-rest",
-          "shell:indigo-repair",
-          "fire:indigo-care",
-          "dominoes:indigo-rest",
-          "fireside:indigo-rest",
-          "sleep:indigo-rest"
-        ],
-        "hh-1-child-4": [
-          "company:indigo-rest",
-          "dominoes:indigo-rest",
-          "fireside:indigo-rest",
-          "fire:indigo-care",
-          "sleep:indigo-rest"
-        ],
-        "hh-1-child-5": [
-          "company:indigo-rest",
-          "dominoes:indigo-rest",
-          "sit:indigo-rest",
-          "shell:indigo-repair",
-          "fire:indigo-care"
-        ]
+      {
+        "place": "gonzales",
+        "at": "1024x600",
+        "frames": 100,
+        "crowded": 23,
+        "most": 3,
+        "lines": 10,
+        "faults": {
+          "bubbles": [],
+          "labels": [],
+          "tails": []
+        },
+        "longestTail": 118,
+        "longestWhat": "\"They made at the ford again. Only feints.\" box {\"x\":97.43012304687483,\"y\":446.83630780470037,\"w\":206.44775390625,\"h\":42,\"tail\":[201,489,201,607]} tail [201,489,201,607]",
+        "tailMissing": 0,
+        "width": 1024,
+        "height": 600,
+        "counts": {
+          "bubbles": 0,
+          "labels": 0,
+          "tails": 0
+        }
       },
-      "walking": [],
-      "arrived": [],
-      "camps": []
-    },
-    "town": {
-      "frames": {
-        "count": 489,
-        "median": 3.3,
-        "p95": 11,
-        "max": 14.2
+      {
+        "place": "gonzales",
+        "at": "1024x768",
+        "frames": 100,
+        "crowded": 82,
+        "most": 5,
+        "lines": 19,
+        "faults": {
+          "bubbles": [],
+          "labels": [],
+          "tails": []
+        },
+        "longestTail": 116,
+        "longestWhat": "\"Powder and lead - every man that rides in asks me for them.\" box {\"x\":415.59375,\"y\":147.872,\"w\":204.51171875,\"h\":42,\"tail\":[424,190,308,198]} tail [424,190,308,198]",
+        "tailMissing": 0,
+        "width": 1024,
+        "height": 768,
+        "counts": {
+          "bubbles": 0,
+          "labels": 0,
+          "tails": 0
+        }
       },
-      "bubbles": [
-        "town-wheelwright-san-felipe: Slow day for trade.",
-        "town-blacksmith-san-felipe: This rain will not quit.",
-        "town-stockman-san-felipe: It will pick up.",
-        "town-tanner-san-felipe: Mud up to our knees.",
-        "town-tanner-san-felipe: More families came this week.",
-        "town-store-san-felipe: The store has new cloth.",
-        "town-blacksmith-san-felipe: Texas fills up fast.",
-        "town-gunsmith-san-felipe: Blue, or only brown again?",
-        "town-store-san-felipe: Busy at the smithy?",
-        "town-doctor-san-felipe: The store has new cloth.",
-        "town-gunsmith-san-felipe: Horses always need shoes.",
-        "town-wheelwright-san-felipe: Blue, or only brown again?"
-      ],
-      "most": 2,
-      "overlaps": [],
-      "outside": [],
-      "drawn": {
-        "town-store-san-felipe": [
-          "sleep:ochre-rest",
-          "sleep:ochre-walk",
-          "talk:ochre-walk",
-          "talk:ochre-speak",
-          "dominoes:ochre-rest"
-        ],
-        "town-carpenter-san-felipe": [
-          "sleep:elder-rest",
-          "sleep:elder-walk",
-          "watch:elder-walk",
-          "watch:elder-search",
-          "goods:elder-carry",
-          "water:elder-carry",
-          "dominoes:elder-rest",
-          "cards:elder-rest"
-        ],
-        "town-blacksmith-san-felipe": [
-          "sleep:elder-rest",
-          "sleep:elder-walk",
-          "talk:elder-speak",
-          "talk:elder-walk",
-          "company:elder-rest",
-          "water:elder-carry"
-        ],
-        "town-gunsmith-san-felipe": [
-          "sleep:ochre-rest",
-          "sleep:ochre-walk",
-          "talk:ochre-walk",
-          "talk:ochre-speak",
-          "dominoes:ochre-rest"
-        ],
-        "town-doctor-san-felipe": [
-          "sleep:ochre-rest",
-          "sleep:ochre-walk",
-          "whittle:ochre-walk",
-          "whittle:ochre-repair",
-          "watch:ochre-search",
-          "watch:ochre-walk",
-          "talk:ochre-walk-s",
-          "talk:ochre-speak",
-          "talk:ochre-walk",
-          "watch:ochre-walk-n"
-        ],
-        "town-tavern-san-felipe": [
-          "sleep:teal-rest",
-          "sleep:teal-walk",
-          "whittle:teal-walk",
-          "whittle:teal-repair",
-          "watch:teal-search",
-          "talk:teal-speak",
-          "talk:teal-walk",
-          "company:teal-rest",
-          "dominoes:teal-walk",
-          "dominoes:teal-rest",
-          "cards:teal-rest"
-        ],
-        "town-tanner-san-felipe": [
-          "sleep:elder-rest",
-          "sleep:elder-walk",
-          "talk:elder-walk",
-          "talk:elder-speak",
-          "company:elder-rest",
-          "dominoes:elder-rest"
-        ],
-        "town-wheelwright-san-felipe": [
-          "sleep:elder-rest",
-          "sleep:elder-walk",
-          "talk:elder-walk",
-          "talk:elder-speak",
-          "company:elder-rest",
-          "goods:elder-carry"
-        ],
-        "town-mill-san-felipe": [
-          "sleep:elder-rest",
-          "sleep:elder-walk",
-          "watch:elder-search",
-          "pipe:elder-rest",
-          "pipe:elder-walk",
-          "talk:elder-walk-n",
-          "whittle:elder-walk-s",
-          "whittle:elder-repair",
-          "talk:elder-speak",
-          "talk:elder-walk",
-          "sit:elder-walk-s"
-        ],
-        "town-weaver-san-felipe": [
-          "sleep:teal-rest",
-          "sleep:teal-walk",
-          "watch:teal-walk",
-          "watch:teal-search",
-          "talk:teal-walk",
-          "talk:teal-speak",
-          "company:teal-rest",
-          "dominoes:teal-rest"
-        ],
-        "town-stockman-san-felipe": [
-          "sleep:elder-rest",
-          "sleep:elder-walk",
-          "talk:elder-walk",
-          "talk:elder-speak",
-          "company:elder-rest",
-          "harness:elder-walk",
-          "harness:elder-repair",
-          "whittle:elder-repair",
-          "whittle:elder-walk"
-        ]
+      {
+        "place": "refuge",
+        "at": "1366x768",
+        "frames": 99,
+        "crowded": 78,
+        "most": 2,
+        "lines": 5,
+        "faults": {
+          "bubbles": [],
+          "labels": [],
+          "tails": []
+        },
+        "longestTail": 44,
+        "longestWhat": "\"We left near all we had.\" box {\"x\":780,\"y\":316,\"w\":146,\"h\":27} tail [788,343,745,351]",
+        "tailMissing": 0,
+        "width": 1366,
+        "height": 768,
+        "counts": {
+          "bubbles": 0,
+          "labels": 0,
+          "tails": 0
+        }
       },
-      "walking": [
-        "town-store-liberty",
-        "town-carpenter-columbia",
-        "town-ibarra",
-        "town-tanner-gonzales",
-        "town-tavern-columbia",
-        "town-blacksmith-matagorda",
-        "town-carpenter",
-        "town-store-matagorda",
-        "town-blacksmith-liberty",
-        "town-carpenter-liberty",
-        "town-crandall",
-        "town-mill-san-felipe",
-        "town-weaver-gonzales",
-        "town-doctor-san-felipe",
-        "town-store-columbia",
-        "town-mill-gonzales"
-      ],
-      "arrived": [
-        "town-carpenter-columbia",
-        "town-blacksmith-matagorda",
-        "town-store-liberty",
-        "town-tavern-columbia",
-        "town-ibarra",
-        "town-blacksmith-liberty",
-        "town-store-matagorda",
-        "town-carpenter-liberty",
-        "town-crandall",
-        "town-weaver-gonzales",
-        "town-doctor-san-felipe",
-        "town-mill-san-felipe"
-      ],
-      "camps": []
-    },
-    "camp": {
-      "frames": {
-        "count": 466,
-        "median": 7.8,
-        "p95": 21.6,
-        "max": 37.3
+      {
+        "place": "refuge",
+        "at": "1024x600",
+        "frames": 100,
+        "crowded": 2,
+        "most": 2,
+        "lines": 4,
+        "faults": {
+          "bubbles": [],
+          "labels": [],
+          "tails": []
+        },
+        "longestTail": 24,
+        "longestWhat": "\"Of course. Just say when.\" box {\"x\":433,\"y\":222,\"w\":157,\"h\":27} tail [518,249,518,273]",
+        "tailMissing": 0,
+        "width": 1024,
+        "height": 600,
+        "counts": {
+          "bubbles": 0,
+          "labels": 0,
+          "tails": 0
+        }
       },
-      "bubbles": [
-        "camp:force:0: I miss my own bed.",
-        "camp:force:0: The geese are flying south.",
-        "camp:force:1: Winter is coming, then."
-      ],
-      "most": 1,
-      "overlaps": [],
-      "outside": [],
-      "drawn": {
-        "hh-1-parent-2": [
-          "wood:rust-woman-carry",
-          "water:rust-woman-carry",
-          "sit:rust-woman-rest",
-          "sleep:rust-woman-rest",
-          "pipe:rust-woman-rest",
-          "sleep:rust-woman-walk",
-          "hens:rust-woman-walk",
-          "hens:rust-woman-sow",
-          "cook:rust-woman-care",
-          "cook:rust-woman-walk",
-          "wash:rust-woman-walk",
-          "wash:rust-woman-care",
-          "shell:rust-woman-repair",
-          "fire:rust-woman-care"
-        ]
-      },
-      "walking": [],
-      "arrived": [],
-      "camps": [
-        "force:ochre-repair",
-        "force:blue-rest",
-        "force:blue-repair",
-        "force:elder-speak",
-        "force:blue-speak",
-        "force:blue-care",
-        "force:volunteer-idle-e",
-        "force:ochre-care",
-        "force:volunteer-idle-w",
-        "force:ochre-rest",
-        "force:ochre-speak",
-        "force:elder-rest"
-      ],
-      "armies": {
-        "drawn": [
-          {
-            "id": "force",
-            "side": "texian",
-            "ours": 1,
-            "strength": 3,
-            "how": "camp",
-            "boat": null,
-            "x": 664,
-            "y": -474,
-            "camp": false,
-            "foragers": [],
-            "men": [
-              "elder-rest",
-              "blue-rest",
-              "blue-rest"
-            ]
-          }
-        ],
-        "figure": 49.50000000000001,
-        "scale": 2605.263157894737,
-        "principal": {
-          "x": 683,
-          "y": 361.725,
-          "size": 49.50000000000001
+      {
+        "place": "refuge",
+        "at": "1024x768",
+        "frames": 99,
+        "crowded": 0,
+        "most": 1,
+        "lines": 3,
+        "faults": {
+          "bubbles": [],
+          "labels": [],
+          "tails": []
+        },
+        "longestTail": 28,
+        "longestWhat": "\"The coffee is almost gone.\" box {\"x\":453,\"y\":281,\"w\":160,\"h\":27} tail [533,308,533,336]",
+        "tailMissing": 0,
+        "width": 1024,
+        "height": 768,
+        "counts": {
+          "bubbles": 0,
+          "labels": 0,
+          "tails": 0
         }
       }
-    }
+    ]
   },
   "errors": []
 }

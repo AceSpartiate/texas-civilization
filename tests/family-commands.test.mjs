@@ -240,7 +240,7 @@ test('the main person is held by the server: set-main chooses one at a time, and
   delete household.mainId;
 });
 
-test('choosing somebody shows their bar and leaves the main person as it was; only a living person chosen takes the bar', () => {
+test('choosing somebody shows their bar and leaves the main person as it was; only a living person chosen takes the bar; a portrait is the star', () => {
   // Design audit 2026-09-28 B11: a portrait press sent `set-main`, and the main person's auto decides the family's flight and its
   // answers to soldiers. Now choosing is `barPerson` alone - whoever is chosen, grown or a child - and the main person moves only
   // by `set-main`, which the page sends from the star and the bar's labelled *Make … the main person* and nowhere else.
@@ -257,11 +257,20 @@ test('choosing somebody shows their bar and leaves the main person as it was; on
   assert.equal(barPerson({ viewedId: 'uncle', mainId: 'father', entities: people }), 'father', 'somebody dead took the bar');
   assert.equal(barPerson({ viewedId: 'aunt', mainId: 'father', entities: people }), 'father', 'somebody taken took the bar');
   assert.equal(barPerson({ viewedId: null, mainId: 'father', entities: people }), 'father');
-  // The page's portrait handler sends nothing: it only chooses (goToPerson). Read from the page's own source, as the star is.
+  // Owner, 2026-09-29 (docs/FAMILY_PANEL.md, amendment 2026-09-29, reversing B11 for the portrait): "When clicking on a character
+  // portrait it should be treated the same as clicking on the star." The portrait and the star call the one handler, `pressStar`,
+  // which sends `set-main` unless they are main already and goes to them. Read from the page's own source.
   const source = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
   const portrait = source.slice(source.indexOf("const portrait = event.target.closest('[data-portrait]');"), source.indexOf("const attention = event.target.closest('[data-attention]');"));
   assert.ok(portrait.length > 0, 'the portrait handler was not found');
-  assert.doesNotMatch(portrait, /chooseFocus|set-main/, 'pressing a portrait changes the main person');
+  assert.match(portrait, /if \(portrait\) \{ pressStar\(portrait\.dataset\.portrait\); return; \}/, 'pressing a portrait does not do what the star does');
+  const star = source.slice(source.indexOf("const star = event.target.closest('[data-focus]');"), source.indexOf("const indoors = event.target.closest('[data-house]');"));
+  assert.match(star, /if \(star\) \{ pressStar\(star\.dataset\.focus\); return; \}/, 'the star does not go through the one handler');
+  const press = source.slice(source.indexOf('function pressStar(id) {'), source.indexOf('function goToPerson('));
+  assert.match(press, /if \(id !== focusedId\) chooseFocus\(id\);\s*goToPerson\(id\);/, 'the star\'s handler no longer makes them main and goes to them');
+  // The "!" and a notice's Go to still only choose.
+  const attention = source.slice(source.indexOf("const attention = event.target.closest('[data-attention]');"), source.indexOf("const sw = event.target.closest('[data-auto]');"));
+  assert.doesNotMatch(attention, /chooseFocus|pressStar/, 'the "!" changes the main person');
   const notice = source.slice(source.indexOf("$('#military-go')?.addEventListener"), source.indexOf('function watchField'));
   assert.doesNotMatch(notice, /chooseFocus|set-main/, 'a notice\'s Go to changes the main person');
 });
