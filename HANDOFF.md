@@ -1,5 +1,54 @@
 # Claude handoff — Astra foundation
 
+## The house's card, and a family member's big moments as story cards — owner, 2026-09-29 (not released)
+
+Branch `house-card` off origin/main c92e715f (origin/main 7b099ab5 merged in); not pushed. The owner: *"The choosing of a house
+button is hard to miss"* (easy to miss) - *"I like what you did with the ask the neighbors for help one. Let's do the same thing with
+the house button"* - and then *"let's use that same style as the alert for when a family member is going through a major event like
+a battle, etc. Use your best judgement."* Written up in docs/FAMILY_PANEL.md §20b and docs/BATTLES.md §8.4a.
+
+- **One frame, `.story-card`** (public/style.css): the neighbours' card's warm paper, edge, ring and slow glow, made of custom
+  properties so each kind has its own accent (`data-accent`) and beat. The neighbours' card is `gold` in it, unchanged to look at.
+- **The house's card** (`#house-card`, moss green, the family panel's own build-a-house icon) replaces the `#house-open` pill at the
+  head of the column, under the neighbours' card; its button *is* `#house-open`, so it shows exactly when the pill did and does what
+  it did. **No "Not now"**: once a house is chosen it goes quiet (icon and *Your house*, no glow) and stays to open the plan again.
+  While the site is still to be chosen it is not shown, as the pill was not; the land chooser, open then, now says *"Once the place
+  is chosen, you choose the house."* (A first turn showed the card waiting as a greyed icon; at 1024x600 that overflowed the folded
+  column under a refusal - `test:overlap` found it.) **Hide names** is above both cards (`z-index`), the owner's screenshot fixed.
+  A short column (1024x600 with both cards) sets `data-short`: the cards stand side by side, each its button.
+- **The messages card is a story card** (`#military-notice`): every alert it carried (rider, couriers, camp questions, the Alamo
+  inside, the fight to Watch/Follow, the account of a wounding, death or capture) plus five moments that were only a row's "!"
+  (¡Alto!, the road, the order to leave, the call to arms and the other requests, somebody very sick) - each with its accent, eyebrow,
+  icon (existing sprites; no new art) and, where it lapses, *About N left to answer* counted down each second. Urgency shows in the
+  beat (¡Alto! 0.9 s ... the siege 4.2 s); the account is still and charcoal. **No timing or ranking moved**: the new cards are
+  added after the Watch card's hold-back is decided, so the flight/road/¡Alto! still hold it back and a sickness still does not.
+- **Left as they were:** the first-meeting tips, the refusal line and the Host's notices, the errand/going/call menu/meeting (the
+  answers a card opens), news of the Alamo's fall (journal and riders), a death by sickness (journal only), the Host's page.
+
+Evidence (same computer, headless Chrome; no Chromebook, no touch screen): `npm test` **1748 pass, 0 fail** (36 skipped) after the
+merge; `tests/military-attention.test.mjs` one new test, **5 of 5** node injections caught (`scripts/story-cards-injections.mjs`,
+[record](docs/evidence/story-cards-injections.json)); `npm run test:story-cards` 4 checks (both cards, eleven moments in nine
+accents, the flight card standing with no Watch card) with `docs/evidence/story-card-*.png` and `story-cards-both.png`;
+`test:family-panel` checks the house card (`house-card.png`); `test:overlap` **189 screens, 0 faults** with a new `story-cards` state
+(both column cards and the call's card at 1366x768, 1024x600 and a 400 px phone) and the lone parent's states on the phone. On the
+phone only the column's cards are held; the phone's other pairs (the bar over the map's buttons, the messages card over the status
+lines, the tip over the rows) are recorded as `phoneRecorded` and not held - the phone is not a supported size - and the floating
+person card is PENDING on the builder removing it. Column pictures: `docs/evidence/story-cards-column-*.png`. The page's regressions
+by `node scripts/story-cards-injections.mjs --browser`: **7 of 7 caught** (the house card never shown, its colour lost, its glow lost,
+an alert with no accent, no icon, no time left, the Watch card over the order to leave;
+[record](docs/evidence/story-cards-injections-browser.json)); `scripts/lone-parent-injections.mjs`'s "the ability does not glow" now
+targets the shared rule and was caught by `test:lone-parent`. After the merge: `test:family-panel`, `test:tips` 13,
+`test:lone-parent` 10, `test:creation-screen` 4, `test:story-cards` 4, `test:battle-gonzales` 12, `test:battle-bexar` 15,
+`test:battle-alamo` 13, `test:battle-san-jacinto` 15, `test:battle-coleto` 17, `test:battle-concepcion` and `test:battle-grass`,
+`test:scrape` 7, `test:scrape-pursuit` 15, `test:host-live` 11 passed.
+
+Not green, and failing identically on origin/main 7b099ab5 (run from a clean checkout of it): `test:battle-south` - *"no account of
+San Patricio came"*; the world holds no account at all (`world.accounts` empty), a server matter. And
+`scripts/house-plot-browser-proof.mjs`: here at *"the refused spot is not over the first house as drawn"* (sim geometry, after the
+page's steps through `#house-open` pass), on origin/main earlier, at the sills' *"Next: ..."* line; this branch does not touch
+`sim/`. `scripts/house-plot-regression-proof.mjs` passes (8 of 8). `test:battle-bexar` failed once at a portrait press here and passed on both re-runs;
+origin/main's own run failed at *"the Host's camera was not on the town in the afternoon"* - timing, both ways.
+
 ## Astra's art always wins, by subject: Claude's temporary art only where she has drawn nothing — owner, 2026-09-29 (not released)
 
 Branch `astra-art-wins` off origin/main (3dd5209d, origin/main af25547a merged in); not pushed. The owner played the released

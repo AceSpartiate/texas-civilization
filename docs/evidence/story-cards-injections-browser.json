@@ -1,0 +1,85 @@
+{
+  "record": "story-cards-injections",
+  "date": "2026-09-29",
+  "injections": [
+    {
+      "name": "the Watch card goes up over the order to leave and ¡Alto!",
+      "files": [
+        "public/military-attention.js"
+      ],
+      "proofs": "story",
+      "caught": true,
+      "failed": [
+        "scripts/story-cards-browser-proof.mjs failed after 2 checks: AssertionError [ERR_ASSERTION]: the Watch card stood over the order to leave"
+      ]
+    },
+    {
+      "name": "the house card is never shown",
+      "files": [
+        "public/app.js"
+      ],
+      "proofs": "both",
+      "caught": true,
+      "failed": [
+        "scripts/story-cards-browser-proof.mjs failed after 0 checks: locator.waitFor: Timeout 30000ms exceeded.",
+        "scripts/family-panel-browser-proof.mjs failed after 7 checks: page.waitForFunction: Timeout 30000ms exceeded."
+      ]
+    },
+    {
+      "name": "the house card loses its own colour, and cannot be told from the neighbours' card",
+      "files": [
+        "public/style.css"
+      ],
+      "proofs": "story",
+      "caught": true,
+      "failed": [
+        "scripts/story-cards-browser-proof.mjs failed after 0 checks: AssertionError [ERR_ASSERTION]: the two cards cannot be told apart"
+      ]
+    },
+    {
+      "name": "the house card does not glow",
+      "files": [
+        "public/style.css"
+      ],
+      "proofs": "both",
+      "caught": true,
+      "failed": [
+        "scripts/story-cards-browser-proof.mjs failed after 0 checks: AssertionError [ERR_ASSERTION]: the house card does not glow",
+        "scripts/family-panel-browser-proof.mjs failed after 9 checks: AssertionError [ERR_ASSERTION]: the house card does not glow"
+      ]
+    },
+    {
+      "name": "an alert keeps the old plain look: no accent of its own",
+      "files": [
+        "public/app.js"
+      ],
+      "proofs": "story",
+      "caught": true,
+      "failed": [
+        "scripts/story-cards-browser-proof.mjs failed after 1 checks: AssertionError [ERR_ASSERTION]: alto: the card is in the undefined accent"
+      ]
+    },
+    {
+      "name": "an alert has no icon",
+      "files": [
+        "public/app.js"
+      ],
+      "proofs": "story",
+      "caught": true,
+      "failed": [
+        "scripts/story-cards-browser-proof.mjs failed after 1 checks: AssertionError [ERR_ASSERTION]: alto: no icon drawn"
+      ]
+    },
+    {
+      "name": "an alert's time left is not on its card",
+      "files": [
+        "public/app.js"
+      ],
+      "proofs": "story",
+      "caught": true,
+      "failed": [
+        "scripts/story-cards-browser-proof.mjs failed after 1 checks: AssertionError [ERR_ASSERTION]: alto: no time left on the card"
+      ]
+    }
+  ]
+}

@@ -121,7 +121,7 @@ const INJECTIONS = [
     { file: 'public/courtship.js', from: '  if (ready(own)) return { id: own, flip: face === \'w\' };', to: '  return { id: own, flip: face === \'w\' };' }] },
   // ------------------------------------------------------------------------------------------------ the browser's (npm run test:lone-parent)
   { name: 'the ability does not glow', browser: true, edits: [
-    { file: 'public/style.css', from: 'box-shadow:0 0 0 1px #fff3cf inset,0 0 0 3px #c2582c55,0 0 14px 3px #ffcf6a88;animation:ask-glow 2.6s ease-in-out infinite}', to: 'box-shadow:0 0 0 1px #fff3cf inset}' }] },
+    { file: 'public/style.css', from: 'box-shadow:0 0 0 1px #fff3cf inset,0 0 0 3px var(--card-ring),0 0 10px 2px var(--card-glow);animation:card-glow var(--card-beat) ease-in-out infinite}', to: 'box-shadow:0 0 0 1px #fff3cf inset}' }] },
   { name: 'a change of place is a cut, not a fade to black', browser: true, edits: [
     { file: 'public/courtship.js', from: 'export const FADE_MS = 1100, REDUCED_FADE_MS = 280,', to: 'export const FADE_MS = 0, REDUCED_FADE_MS = 0,' }] },
   { name: 'less motion asked for is a cut', browser: true, edits: [
