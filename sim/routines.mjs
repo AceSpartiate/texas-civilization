@@ -67,7 +67,13 @@ export function advanceRoutine(world, minutes) {
     household.resources.food = Math.round(kept * 10000) / 10000;
   }
   for (const entity of Object.values(world.entities)) {
-    if (['minor-injury', 'wounded'].includes(entity.health?.condition) && Number.isFinite(entity.health.recoversAt) && entity.health.recoversAt <= world.minute) entity.health = { condition: 'well' };
+    if (['minor-injury', 'wounded'].includes(entity.health?.condition) && Number.isFinite(entity.health.recoversAt) && entity.health.recoversAt <= world.minute) {
+      // Somebody who lay wounded away from home is marked where they mended, for the family to be told and for them to start
+      // home (sim/army.mjs `sendMendedHome`, run by the tick after this): mending was silent, and a man wounded at Béxar was
+      // still standing there on February 23 and shut in the Alamo (design audit S13).
+      if (entity.health.condition === 'wounded' && entity.kind === 'person' && entity.householdId && !entity.travel && entity.location?.siteId) entity.mendedAt = entity.location.siteId;
+      entity.health = { condition: 'well' };
+    }
     restAndTire(world, entity, minutes);
   }
 }

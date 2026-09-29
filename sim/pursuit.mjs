@@ -363,8 +363,8 @@ const spared = one => !grown(one) || sexOf(one) !== 'male';
 /**
  * What a soldier aims at (owner, 2026-09-27, by multiple choice: "Only at men and animals"): a grown man of the family, an ox
  * or a horse, as they come - never a woman or a child, and never a man or a horse with one of them: a man carrying a baby, a
- * man riding in the wagon or cart the women and children ride in, a horse a woman or a child is on; and never the wagon, which
- * carries them. Almonte held his men's fire at New Washington so as not to endanger Burnet's family (`HIST-TEX-665`).
+ * man riding in or driving the wagon or cart the women and children ride in (the father on the driver's bench is in it), a
+ * horse a woman or a child is on; and never the wagon, which carries them. Almonte held his men's fire at New Washington so as not to endanger Burnet's family (`HIST-TEX-665`).
  * ceiling: "in the way" is read from who rides with whom, not from where each walks - the chase is a line, so a man walking
  * beside the women is fired at, and so is the ox at the head of their wagon. Places within the train would justify reading
  * it from them.
@@ -372,10 +372,12 @@ const spared = one => !grown(one) || sexOf(one) !== 'male';
 function targetsOf(world, household) {
   const { people, beasts } = withFamily(world, household);
   const living = people.filter(one => one.health?.condition !== 'dead');
-  // Where the women and children are: the vehicles and horses they ride, and whoever carries a baby.
+  // Where the women and children are: the vehicles and horses they ride or drive, and whoever carries a baby.
   const withThem = new Set();
-  for (const one of living.filter(spared)) { if (one.travel?.rides) withThem.add(one.travel.rides); if (one.travel?.carried) withThem.add(one.travel.carried); }
-  const targets = living.filter(one => !spared(one) && !withThem.has(one.id) && !(one.travel?.rides && withThem.has(one.travel.rides)))
+  for (const one of living.filter(spared)) for (const seat of [one.travel?.rides, one.travel?.drives, one.travel?.carried]) if (seat) withThem.add(seat);
+  // A man riding in or driving the vehicle they are in is in it with them (interactions audit I-S5: the driver was fired on).
+  const inIt = one => [one.travel?.rides, one.travel?.drives].some(seat => seat && withThem.has(seat));
+  const targets = living.filter(one => !spared(one) && !withThem.has(one.id) && !inIt(one))
     .map(one => ({ kind: 'person', id: one.id, name: one.given || one.name, size: 'man' }));
   for (const beast of beasts) if (beast.kind === 'animal' && ['ox', 'horse'].includes(beast.species || 'ox') && !withThem.has(beast.id)) targets.push({ kind: 'beast', id: beast.id, name: beast.species === 'horse' ? 'horse' : 'ox', size: 'beast' });
   return targets;

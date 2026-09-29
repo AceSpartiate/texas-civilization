@@ -19,7 +19,7 @@ import { battleMinutes } from '../sim/military-pacing.mjs';
 import { CHORES } from '../sim/chores.mjs';
 import { WAGON_SPEED, WALK_SPEED } from '../sim/travel.mjs';
 import { share } from '../sim/scrape.mjs';
-import { BOG_SHARE, ROAD_FISH_FOOD, DIG_MILES, PRISONER_SHARE, SPENT_PACE, WARNING_MILES, OVERTAKEN_MILES, columnHead, columns, dayOf, pursuit, weatherOf } from '../sim/road.mjs';
+import { BOG_SHARE, ROAD_FISH_FOOD, DIG_MILES, PRISONER_SHARE, SPENT_PACE, WARNING_MILES, columnHead, columns, dayOf, pursuit, weatherOf } from '../sim/road.mjs';
 import { clockOf } from '../sim/advance.mjs';
 import { WATER_HIGH, WATER_SHUT, waterAt } from '../sim/weather.mjs';
 import { FORAGE } from '../sim/gathering.mjs';
@@ -227,6 +227,10 @@ test('the pursuit: a family camped at San Felipe is warned as Santa Anna’s col
   const shown = view(world, household.id).flight;
   assert.equal(shown.ask?.id, 'danger');
   assert.match(shown.ask.text, /Santa Anna/);
+  // The rule the game uses (sim/pursuit.mjs, since 2026-09-27; design audit S20): soldiers come after a family they can see, and
+  // the question says from how far they could see this one now - never the old distance rule ("sits still", "on top of it").
+  assert.match(shown.ask.text, /only when they can see it, and as it is now they could see the wagon from about \d+ (miles?|yards) \(on the road, in the (open|brush|timber)(, in the (rain|fog))?(, at night)?\)\./);
+  for (const text of [shown.ask.text, ...shown.ask.options.map(one => one.note)]) assert.doesNotMatch(text, /sits still|on top of it|If the army comes/, `a note still describes the distance rule: ${text}`);
   assert.deepEqual(shown.ask.options.map(option => option.id), ['press-on', 'stay', 'abandon']);
   assert.match(shown.ask.options[0].label, /Lynchburg/);
   assert.deepEqual(needsOf(shown ? view(world, household.id) : null, person.id).map(need => need.kind), ['road']);
@@ -244,6 +248,13 @@ test('the pursuit: a family camped at San Felipe is warned as Santa Anna’s col
   until(world, () => household.flight.status === 'refuged', 300);
   assert.equal(household.flight.refuge, 'lynchburg', 'the family never reached Lynchburg');
   assert.equal(household.flight.overtaken, undefined, 'a family that pressed on was overtaken');
+  // Warned of once, and asked once, for the column on the stretch (interactions audit M5): setting out from the refuge cleared
+  // the danger, and the column still near brought the word and the question - and the hold on the class - back the next tick.
+  const told = pattern => world.events.filter(event => event.householdId === household.id && pattern.test(event.text)).length;
+  assert.equal(told(/Word along the road: Santa Anna/), 1, 'the word of Santa Anna’s column was written again');
+  assert.equal(told(/Santa Anna.* is close behind\. The family is asked/), 1, 'the family was asked about Santa Anna’s column again');
+  // At the new refuge the list is cleared: a column coming on again there is a new question, whether to go on further east.
+  assert.equal(household.flight.warned, undefined, 'the columns warned of on the way were kept at the new refuge');
   validateWorld(world);
 });
 
@@ -297,7 +308,8 @@ test('a family that stays is overtaken: the wagon, the animals and the goods tak
   const before = people(world, household).filter(one => one.health.condition !== 'dead' && one.location.siteId === 'san-felipe');
   until(world, () => household.flight.overtaken, 400);
   assert.ok(household.flight.overtaken, 'the family that stayed was never overtaken');
-  assert.ok(pursuit(world, world.map.sites['san-felipe']).miles <= OVERTAKEN_MILES || (household.flight.overtakenBy || []).includes('santa-anna'));
+  // Taken by the soldiers who saw it and came after it (sim/pursuit.mjs), not by a distance from a column's head (gone 2026-09-27).
+  assert.equal(household.flight.overtaken.column, household.flight.chase?.by ?? household.flight.pursued?.at(-1)?.by, 'the family was taken by soldiers who never came after it');
   assert.deepEqual([household.resources.food, household.resources.seed, household.resources.cotton, household.resources.powder], [0, 0, 0, 0], 'the goods were not taken');
   assert.equal(household.resources.money, 2, 'the coin was taken');
   for (const role of ['wagon', 'animal', 'horse']) { const beast = world.entities[`${household.id}-${role}`]; assert.equal(beast.condition, 'taken', `the ${role} was not taken`); assert.ok(world.map.sites[beast.location.siteId], `the ${role} is nowhere`); }

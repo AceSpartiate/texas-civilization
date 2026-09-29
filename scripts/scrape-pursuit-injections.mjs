@@ -48,6 +48,9 @@ const UNIT = [
     from: "const spared = one => !grown(one) || sexOf(one) !== 'male';", to: 'const spared = one => !grown(one);', expect: [NAMES.menOnly, NAMES.alone] },
   { name: 'the wagon the women and children ride in fired at', file: 'sim/pursuit.mjs',
     from: '  return targets;\n}\n/**\n * Nothing to fire at', to: "  if (drawnVehicles(beasts).length) targets.push({ kind: 'wagon', id: drawnVehicles(beasts)[0].id, name: 'wagon', size: 'wagon' });\n  return targets;\n}\n/**\n * Nothing to fire at", expect: [NAMES.menOnly, NAMES.alone] },
+  // The father on the driver's bench of the wagon the children ride in (interactions audit I-S5, triage 1.11, 2026-09-29).
+  { name: 'the man driving the wagon the women and children ride in fired at', file: 'sim/pursuit.mjs',
+    from: 'const inIt = one => [one.travel?.rides, one.travel?.drives].some(', to: 'const inIt = one => [one.travel?.rides].some(', expect: NAMES.menOnly },
   { name: 'the horse a woman or a child is on fired at', file: 'sim/pursuit.mjs',
     from: " && !withThem.has(beast.id)) targets.push(", to: ') targets.push(', expect: NAMES.alone },
   { name: 'the soldiers hold their fire and nobody hears it', file: 'sim/pursuit.mjs',

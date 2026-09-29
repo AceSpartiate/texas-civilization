@@ -57,7 +57,7 @@ if (-not (Test-Path -LiteralPath (Join-Path $Runtime 'node.exe'))) { throw "No r
 function New-Source([string]$Folder) {
   if (Test-Path -LiteralPath $Folder) { Remove-Item -LiteralPath $Folder -Recurse -Force }
   New-Item -ItemType Directory -Force (Join-Path $Folder 'scripts') | Out-Null
-  foreach ($name in @('server', 'sim', 'public', 'package.json', 'Launch.vbs', 'Stop.vbs', 'GAME.md', 'HISTORY.md', 'README.md')) {
+  foreach ($name in @('server', 'sim', 'public', 'package.json', 'Launch.vbs', 'Stop.vbs', 'GAME.md', 'HISTORY.md', 'README.md', 'TEACHER.md')) {
     Copy-Item -LiteralPath (Join-Path $repo $name) -Destination $Folder -Recurse -Force
   }
   foreach ($name in @('package.ps1', 'release-changes.ps1', 'launch.ps1', 'stop.ps1', 'appinfo.mjs')) {

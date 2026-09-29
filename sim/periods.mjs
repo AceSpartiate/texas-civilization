@@ -116,6 +116,7 @@ export function beginSecondPeriod(world) {
   closeLessons(world);
 
   // Everyone who went home arrives home; anyone still lying wounded stays where the surgeon has them until the wound mends.
+  const lying = [];
   for (const household of Object.values(world.households)) {
     const home = household.homeSiteId;
     for (const id of [...household.members, ...(household.property || [])]) {
@@ -131,6 +132,9 @@ export function beginSecondPeriod(world) {
         for (const promise of entity.commitments || []) if (promise.status === 'active' && promise.id === 'volunteer') promise.status = 'ended';
       }
       if (entity.borrowedBy && !mending) entity.borrowedBy = null;
+      // Still lying wounded where the surgeon has them, outside any service: the family is told so below, since the winter
+      // opens with the men home. When the wound mends they are told again and start home (sim/army.mjs `sendMendedHome`).
+      if (mending && entity.kind === 'person' && entity.location?.siteId && entity.location.siteId !== home && entity.service?.status !== 'serving') lying.push(entity);
       if (mending) continue;
       setDown(world, entity, home);
     }
@@ -152,10 +156,13 @@ export function beginSecondPeriod(world) {
   world.director.complete = false;
   world.director.phase = 'home';
   world.status = 'paused';
-  return record(world, 'period-opens', {
+  const opened = record(world, 'period-opens', {
     visibility: 'public', importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-044',
     text: 'The winter has passed. It is January 25, 1836. The men who took Béxar are home, and the families are at work on their land again. The war is not over.',
   });
+  // Except a man still lying wounded (design audit S13): his family is told where he is, and that he comes home when he mends.
+  for (const person of lying) record(world, 'consequence', { actorId: person.id, householdId: person.householdId, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-041', causes: [opened], text: `${person.name} is still lying wounded at ${world.map.sites[person.location.siteId]?.name || 'the surgeon’s'}, and will start home when the wound mends.` });
+  return opened;
 }
 
 /**

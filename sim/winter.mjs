@@ -18,9 +18,9 @@
 // the road, the mode, the refusals and the family panel are the ones every errand already has. Somebody serving is in one
 // place and does nothing else until they are sent for.
 //
-// ceiling: the service has no fights yet. What happens to the garrison on February 23 and to the Matamoros men at San
-// Patricio and Agua Dulce is the Alamo's and Matamoros's own research, not this step's; until then serving is standing
-// where they went, and the second period ends on February 23.
+// What happens to the service is not this step's: the garrison's siege from February 23 and its fall are sim/alamo.mjs's, the
+// Matamoros men's fights at San Patricio and Agua Dulce sim/south.mjs's, and the second period runs on through them to the
+// night Gonzales burns (`alamo-end`, sim/directors.mjs).
 import { record } from './events.mjs';
 import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, canFight, cannotFightWhy, cannotAnswerWhy } from './family.mjs';

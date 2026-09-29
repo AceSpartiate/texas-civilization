@@ -78,7 +78,7 @@ import { chooseSite, siteInvalid, siteProjection } from './homesite.mjs';
 import { plotProjection, plotRefusal, plotsInvalid } from './survey.mjs';
 import { advanceExpresses, expressesInvalid } from './expresses.mjs';
 import { callsInvalid, handleCall } from './calls.mjs';
-import { answerQuestion, answerDetachment, armyInvalid, armyProjection, callHome, callHomeRefusal } from './army.mjs';
+import { answerQuestion, answerDetachment, armyInvalid, armyProjection, callHome, callHomeRefusal, sendMendedHome } from './army.mjs';
 import { endingProjection } from './ending.mjs';
 import { hostOverview } from './overview.mjs';
 import { appearanceInvalid, setAppearance } from './appearance.mjs';
@@ -716,6 +716,8 @@ export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs
   advanceDepartures(world, { beginTravel });
   // Days of the calendar: what is eaten, what spoils, what mends, whatever the tick was worth.
   advanceRoutine(world, calendar); deliverReports(world);
+  // Somebody whose wound mended away from home, outside any service, is told to the family and starts home (sim/army.mjs).
+  sendMendedHome(world, { beginTravel });
   // The families on the road east (sim/scrape.mjs): the rivers, the food, the sickness, arriving.
   advanceFlight(world, calendar);
   // A family with nobody who can act is taken in by its nearest neighbours and goes where they go; and anybody of a family left

@@ -1,6 +1,6 @@
 {
   "record": "scrape-pursuit-browser",
-  "date": "2026-09-28",
+  "date": "2026-09-29",
   "environment": "Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x768.",
   "pass": [
     "1366: the student chose two stops, one from the list and one by tapping the map, the first across country, and the family set out",
@@ -63,13 +63,7 @@
           "alto"
         ],
         "heard": [],
-        "spoken": [
-          {
-            "id": "alto",
-            "x": 408,
-            "y": 658
-          }
-        ]
+        "spoken": []
       },
       "ask": [
         "halt",
@@ -99,41 +93,41 @@
         ],
         "heard": [
           {
-            "x": 613,
-            "y": 517,
+            "x": 605,
+            "y": 528,
             "size": 1
           },
           {
-            "x": 596,
-            "y": 490,
+            "x": 588,
+            "y": 501,
             "size": 1
           },
           {
-            "x": 628,
-            "y": 545,
+            "x": 620,
+            "y": 556,
             "size": 1
           },
           {
-            "x": 511,
-            "y": 398,
+            "x": 503,
+            "y": 409,
             "size": 1
           },
           {
-            "x": 492,
-            "y": 374,
+            "x": 484,
+            "y": 385,
             "size": 1
           },
           {
-            "x": 562,
-            "y": 477,
+            "x": 554,
+            "y": 488,
             "size": 1
           }
         ],
         "spoken": [
           {
             "id": "fire",
-            "x": 607,
-            "y": 582
+            "x": 599,
+            "y": 593
           }
         ]
       },
@@ -273,11 +267,11 @@
           "yards": 46,
           "shooter": "mounted",
           "target": {
-            "kind": "person",
-            "name": "Gregorio",
-            "id": "hh-1-parent-1"
+            "kind": "beast",
+            "name": "ox",
+            "id": "hh-1-animal"
           },
-          "p": 0.042,
+          "p": 0.063,
           "hit": false,
           "minute": 288256.367
         },
@@ -315,11 +309,11 @@
           "yards": 46,
           "shooter": "mounted",
           "target": {
-            "kind": "person",
-            "name": "Gregorio",
-            "id": "hh-1-parent-1"
+            "kind": "beast",
+            "name": "ox",
+            "id": "hh-1-animal"
           },
-          "p": 0.042,
+          "p": 0.063,
           "hit": false,
           "minute": 288256.433
         }
@@ -415,13 +409,7 @@
           "alto"
         ],
         "heard": [],
-        "spoken": [
-          {
-            "id": "alto",
-            "x": 237,
-            "y": 658
-          }
-        ]
+        "spoken": []
       },
       "ask": [
         "halt",
