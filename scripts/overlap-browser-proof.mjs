@@ -125,6 +125,21 @@ mkdirSync('docs/evidence', { recursive: true });
 
 const record = [];
 const notReached = [];
+// The card beside a person opens only for a matter it alone holds (owner, 2026-09-29: "just gets in the way"; docs/FAMILY_PANEL.md,
+// amendment 2026-09-29). A portrait pressed on somebody with nothing to answer that opens it is a fault here.
+const cardFaults = [];
+/** After a portrait press: the card is shut, or it holds a matter (a filled section, a rider waiting) and is measured. */
+async function personCard(page, state, where) {
+  const card = await page.evaluate(() => {
+    const node = document.querySelector('#selection');
+    const filled = ['#selection-call', '#selection-flight', '#selection-nurse', '#selection-army', '#selection-work', '#selection-trade'].filter(selector => { const one = document.querySelector(selector); return one && !one.hidden && one.childElementCount; });
+    const rider = document.querySelector('#listen-rider');
+    return { open: Boolean(node && !node.hidden), matter: filled.length > 0 || Boolean(rider && !rider.hidden), filled, who: node?.dataset.entityId || null };
+  });
+  if (card.open && !card.matter) cardFaults.push({ where, what: 'person card', text: `the card opened on ${card.who} with nothing to answer` });
+  else if (card.open) await walk(page, state, { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'person card' });
+  return card;
+}
 const errors = [];
 
 /** Measure the page at every size, with a screenshot of each, and keep what was found. */
@@ -216,8 +231,7 @@ try {
       await page.setViewportSize(STUDENT_SIZES[0]);
       await page.locator('.panel-portrait').first().click().catch(() => {});
       await page.waitForTimeout(600);
-      if (await page.locator('#selection').isVisible()) await walk(page, 'person-card', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'person card' });
-      else notReached.push('student person-card (guided start): no card opened');
+      await personCard(page, 'person-card', 'student guided start, a portrait pressed');
 
       // The tip over an icon of the bar.
       await page.setViewportSize(STUDENT_SIZES[0]);
@@ -347,8 +361,7 @@ try {
       await page.setViewportSize(STUDENT_SIZES[0]);
       await page.locator('.panel-portrait').first().click().catch(() => {});
       await page.waitForTimeout(700);
-      if (await page.locator('#selection').isVisible()) await walk(page, 'home-person-card', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'person card' });
-      else notReached.push('student home-person-card: no card opened');
+      await personCard(page, 'home-person-card', 'student at home, a portrait pressed');
       await page.locator('#selection-close').click({ force: true }).catch(() => {});
 
       // The errand to town, chosen in a popup before anybody leaves (docs/TOWNS.md §4b).
@@ -492,7 +505,7 @@ try {
         await page.setViewportSize(STUDENT_SIZES[0]);
         await page.locator('.panel-portrait').first().click().catch(() => {});
         await page.waitForTimeout(600);
-        if (await page.locator('#selection').isVisible()) await walk(page, 'solo-person-card', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'person card' });
+        await personCard(page, 'solo-person-card', 'Play Solo, a portrait pressed');
         await page.locator('#selection-close').click({ force: true }).catch(() => {});
         await page.locator('[data-solo=solo-save]').click().catch(() => {});
         await page.waitForTimeout(500);
@@ -506,7 +519,7 @@ try {
 }
 
 // -------------------------------------------------------------------------------------------------------- the verdict
-const faults = [];
+const faults = [...cardFaults];
 const allowed = [];
 const held = [];
 for (const one of record) {

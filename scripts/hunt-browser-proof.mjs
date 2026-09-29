@@ -63,7 +63,8 @@ try {
   await page.locator('#journal-toggle').click();
   await page.locator('[data-select="hh-1-mateo"]').click();
   await page.locator('#journal-close').click();
-  await page.locator('#selection').waitFor({ state: 'visible' });
+  // The card beside a person opens only for a matter since 2026-09-29 (docs/FAMILY_PANEL.md): choosing is enough.
+  await page.waitForTimeout(300);
   // Before anybody sets out: a hand that has never had the knack can be taught one, and
   // the price of the lesson is on the button.
   // His work is on his row of the family panel (docs/FAMILY_PANEL.md); the price is in the icon's popup.

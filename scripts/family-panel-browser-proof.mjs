@@ -227,10 +227,11 @@ try {
   assert.equal(await mainNow(), otherAdult, 'pressing a portrait did not make them the main person');
   await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.main === 'true', otherAdult, { timeout: 10000 });
   assert.notEqual(await page.locator(`.panel-row[data-entity-id="${worker}"]`).getAttribute('data-main'), 'true', 'the star stayed on the person who was main');
-  assert.equal(await page.locator(`#selection`).getAttribute('data-entity-id'), otherAdult, 'their card did not open');
+  // No card beside them (owner, 2026-09-29: the card "just gets in the way"): with nothing to answer, a portrait opens nothing.
+  assert.equal(await page.locator('#selection').isVisible(), false, `a card opened beside ${otherAdult}, who has nothing to answer`);
   assert.equal(await page.locator(`.panel-row[data-entity-id="${otherAdult}"] .panel-make-main`).count(), 0, 'their bar still offers to make them main');
   await page.screenshot({ path: 'test-results/family-panel-make-main.png' });
-  ok(`one press on an adult's portrait makes ${otherAdult} the main person on the server (one set-main, the star's), and opens their card, their bar and the map on them`);
+  ok(`one press on an adult's portrait makes ${otherAdult} the main person on the server (one set-main, the star's), gives them the bar and the map, and opens no card`);
   // The main person's own portrait, like their filled star, sends nothing; the star still works, and says the same as the portrait.
   sent.length = 0;
   page.on('request', capture);
@@ -256,13 +257,13 @@ try {
     const portraitSaid = (await page.locator('#error').textContent()).trim();
     assert.equal(portraitSaid, starSaid, 'the portrait of somebody who cannot be main is refused in other words than the star');
     assert.equal(await mainNow(), worker, 'a refused portrait changed the main person');
-    assert.equal(await page.locator('#selection').getAttribute('data-entity-id'), young, 'a refused portrait did not open their card');
+    assert.equal(await page.locator('#selection').isVisible(), false, 'a refused portrait opened a card');
     assert.equal(await page.evaluate(() => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId), young, 'a refused portrait did not give them the bar');
     refusal = portraitSaid;
     await page.evaluate(() => { document.querySelector('#error').textContent = ''; });
   }
   measured.portrait = { pressed: otherAdult, madeMain: true, sent: 1, starBack: worker, refusal };
-  ok(`the main person's portrait sends nothing, the star makes ${worker} main again${refusal ? `, and a child's portrait is refused as the star is: "${refusal}", their card and bar still opened` : ''}`);
+  ok(`the main person's portrait sends nothing, the star makes ${worker} main again${refusal ? `, and a child's portrait is refused as the star is: "${refusal}", and still gives them their bar` : ''}`);
   // Back out first. Choosing the practising worker as the main person (§12: their work has to be on the screen to be
   // pressed) took the camera to them and zoomed it to the stop, and a camera already at the stop cannot zoom in again.
   for (let step = 0; step < 4; step++) await page.locator('#map-nav [data-view=out]').click();
@@ -279,7 +280,7 @@ try {
   assert.equal(after.camera.following, false);
   const off = Math.hypot(after.camera.cx - after.at.x, after.camera.cy - after.at.y);
   assert.ok(off < 0.02, `the camera is ${off.toFixed(3)} miles from the person`);
-  assert.equal(await page.locator('#selection').getAttribute('data-entity-id'), youngest, 'their card did not open');
+  assert.equal(await page.locator('#selection').isVisible(), false, 'a card opened beside the youngest, who has nothing to answer');
   measured.camera = { before: { cx: before.cx, cy: before.cy, scale: before.scale }, after: { cx: after.camera.cx, cy: after.camera.cy, scale: after.camera.scale }, milesFromPerson: +off.toFixed(4) };
   ok(`pressing a portrait moves the camera onto that person and zooms in (scale ${Math.round(before.scale)} to ${Math.round(after.camera.scale)}, ${off.toFixed(3)} miles off)`);
   await page.screenshot({ path: 'test-results/family-panel-portrait.png' });

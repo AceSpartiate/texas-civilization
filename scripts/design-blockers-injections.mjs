@@ -152,6 +152,28 @@ const INJECTIONS = [
     to: '  const actor = world.entities[household.mainId || household.principalId];',
     expect: ANSWERS,
   },
+  // Owner 2026-09-29: the card beside a person opens only for a matter it alone holds (docs/FAMILY_PANEL.md, amendment 2026-09-29).
+  {
+    name: 'owner 2026-09-29: the card beside a person opens on everybody chosen again (family panel)',
+    file: 'public/app.js',
+    from: "  if (!hostView(world) && !selectionMatter()) { panel.hidden = true; delete panel.dataset.entityId; releaseCrowding(); return; }",
+    to: "  if (false) { panel.hidden = true; delete panel.dataset.entityId; releaseCrowding(); return; }",
+    browser: 'test:family-panel',
+  },
+  {
+    name: 'owner 2026-09-29: the card beside a person opens on everybody chosen again (overlap)',
+    file: 'public/app.js',
+    from: "  if (!hostView(world) && !selectionMatter()) { panel.hidden = true; delete panel.dataset.entityId; releaseCrowding(); return; }",
+    to: "  if (false) { panel.hidden = true; delete panel.dataset.entityId; releaseCrowding(); return; }",
+    browser: 'test:overlap',
+  },
+  {
+    name: 'owner 2026-09-29: the bar\'s way to a neighbour opens the card again, not the Neighbours list',
+    file: 'public/app.js',
+    from: "    if (panelButton.dataset.visit) { hidePanelTip(); openNeighbours(); return; }",
+    to: "    if (panelButton.dataset.visit) { selectedId = panelButton.dataset.entityId; selectionDismissed = false; if (window.__snapshot) renderSelection(window.__snapshot.world); $('#selection').hidden = false; return; }",
+    browser: 'test:neighbours',
+  },
   // 'B11: a portrait pressed in the chase hands the family to somebody on auto' is gone with the owner's reversal of 2026-09-29:
   // a portrait is the star, and hands the family to whoever is pressed, as the star always has.
   {

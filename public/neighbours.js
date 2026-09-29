@@ -48,6 +48,12 @@ async function order(input, note) {
   catch (error) { if (said) said.textContent = error.message; }
 }
 
+/**
+ * Open the list: the bar's *Go to a neighbour's homestead* comes here since the person card was taken off the map (owner,
+ * 2026-09-29: "just gets in the way"); each neighbour's *Send … there* is the journey the card's *Go there* was.
+ */
+export function openNeighbours() { setOpen(true); }
+
 /** Drawn on every snapshot; rebuilt only when what it shows has changed. */
 export function renderNeighbours(world) {
   const toggle = $('#neighbours-toggle'), sheet = $('#neighbours');

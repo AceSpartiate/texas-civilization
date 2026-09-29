@@ -115,12 +115,12 @@ try {
 
   // The lasting mark placed in process, on the person's own card.
   await page.waitForFunction(id => window.__snapshot?.world.entities?.find(e => e.id === id)?.marks?.length, volunteer, { timeout: 30000 });
-  await page.locator(`.panel-row[data-entity-id="${volunteer}"] .panel-portrait`).click();
-  await page.waitForTimeout(500);
-  observed.card = await page.locator('#selection-state').innerText();
+  // On their portrait's words since the card beside a person was taken off (owner, 2026-09-29).
+  await page.waitForFunction(id => /lost an eye/.test(document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-portrait`)?.title || ''), volunteer, { timeout: 15000 }).catch(() => {});
+  observed.card = await page.locator(`.panel-row[data-entity-id="${volunteer}"] .panel-portrait`).getAttribute('title');
   await page.screenshot({ path: 'docs/evidence/storming-news.png' });
-  assert.match(observed.card, /lost an eye/, `the lasting mark is not on the card: "${observed.card}"`);
-  ok(`a lasting mark shows on the person's card: "${observed.card}"`);
+  assert.match(observed.card || '', /lost an eye/, `the lasting mark is not on the person's portrait: "${observed.card}"`);
+  ok(`a lasting mark shows on the person's portrait: "${observed.card}"`);
 
   assert.deepEqual(errors, [], `the page threw: ${errors.join(' | ')}`);
   ok('no page errors');

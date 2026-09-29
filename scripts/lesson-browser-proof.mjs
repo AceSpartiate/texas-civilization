@@ -265,6 +265,8 @@ try {
   // stay above, and it is overhead, not underfoot (2026-09-21). And the card's own journey block - three stamps, a
   // paragraph and a list of neighbours, 250 px of the right of a Chromebook screen - is put away while the step starts
   // nobody on a road.
+  // Stale since 2026-09-29, and skipped with the lesson: the card beside a person no longer opens on a portrait, and its
+  // neighbours list and "More" fold are gone (docs/FAMILY_PANEL.md, amendment 2026-09-29). Rewrite this step with the tutorial.
   await page.locator(`.panel-portrait[data-portrait="${focusedId}"]`).click();
   await page.locator('#selection').waitFor({ state: 'visible', timeout: 10000 });
   await page.waitForTimeout(500);

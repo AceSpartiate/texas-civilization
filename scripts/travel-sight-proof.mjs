@@ -150,7 +150,8 @@ async function play(name, { worldFactory, tickMs }) {
         location: person.location, away: Boolean(person.travel?.away),
         travel: person.travel && { to: person.travel.to, miles: person.travel.miles ?? null, back: person.travel.back ?? null, progress: person.travel.progress ?? null, step: person.travel.step ?? null, points: person.travel.points?.length ?? 0 },
         drawn: drawn ? { x: Math.round(drawn.x), y: Math.round(drawn.y) } : null,
-        card: document.querySelector('#selection-state')?.textContent || '',
+        // The card beside a person opens only for a matter since 2026-09-29 (owner: "just gets in the way"); how they are is the row's.
+        cardOpen: !document.querySelector('#selection')?.hidden,
         row: reason,
         spoken: document.querySelector('#world-description')?.textContent || '',
       };
@@ -185,7 +186,7 @@ try {
   const slow = record.slow.seen;
   ok(`at twenty minutes a tick the walker is on the map, ${slow.travel.step} mile a tick, and the page draws them`,
     slow.away === false && slow.location && slow.drawn && slow.travel.points > 1 && slow.travel.step <= WATCHABLE_MILES_A_TICK);
-  ok(`and the card says how far along the road they are: "${slow.card}"`, /On the road to Gonzales · \d+%/.test(slow.card));
+  ok(`and no card opens beside them to say it (owner, 2026-09-29): their row and the map are where they are`, slow.cardOpen === false);
   ok('the teacher sees the same walker on the same road', Boolean(record.slow.teacher.location) && record.slow.teacher.road > 1);
 
   // ------------------------------------------------- 2. the gathering: three and a half miles a tick, and out of sight
@@ -195,7 +196,6 @@ try {
   ok('at four hours a tick the server sends no place for them at all', fast.away === true && fast.location === null && fast.travel.points === 0);
   ok('and no road, no progress and no pace with it', fast.travel.progress === null && fast.travel.step === null);
   ok('so the page draws nobody: there is no figure to skate across the map', fast.drawn === null);
-  ok(`the card says what became of them: "${fast.card}"`, /^Away on the road to Gonzales · about \d+ miles off · should be there /.test(fast.card));
   ok(`their row on the family panel says the same: "${fast.row}"`, /is away on the road to Gonzales, about \d+ miles off, and should be there /.test(fast.row));
   ok(`and the page says it aloud for a screen reader: "${fast.spoken.slice(0, 120)}"`, /is away on the road to Gonzales/.test(fast.spoken));
   ok(`the teacher is not a family and still has them on the road at ${JSON.stringify(record.fast.teacher.location)}`,

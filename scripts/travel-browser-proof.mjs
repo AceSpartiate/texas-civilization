@@ -64,7 +64,8 @@ try {
     await page.locator('#journal-toggle').click();
     await page.locator(`[data-select="${id}"]`).click();
     await page.locator('#journal-close').click();
-    await page.locator('#selection').waitFor({ state: 'visible' });
+    // The card beside a person opens only for a matter since 2026-09-29 (docs/FAMILY_PANEL.md): choosing is enough.
+    await page.waitForTimeout(300);
   };
 
   // ------------------------------------------------------------------ the control exists

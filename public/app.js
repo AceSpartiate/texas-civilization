@@ -33,7 +33,7 @@ import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woo
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindFlashback, renderFlashback } from '/flashback.js';
 import { createCourtship } from '/courtship.js';
-import { bindNeighbours, renderNeighbours } from '/neighbours.js';
+import { bindNeighbours, openNeighbours, renderNeighbours } from '/neighbours.js';
 import { bindLooks, renderLooks } from '/appearance.js';
 import { avatarVariant, drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
 import { decodeAppearance } from '/look-vocabulary.js';
@@ -4799,6 +4799,9 @@ function renderFamilyPanel(world) {
     // What pressing it does, which is what the star does (owner, 2026-09-29).
     const portraitLabel = `${entity.name}, ${role}${age}${focused ? ', your main person' : ''}${bar ? ', selected' : ''}. ${focused ? `Go back to ${entity.name}` : `Make ${entity.name} your main person`}, follow them and show their actions${need ? '; somebody is waiting on them' : ''}.`;
     if (row.portrait.getAttribute('aria-label') !== portraitLabel) row.portrait.setAttribute('aria-label', portraitLabel);
+    // What only the card said of them (owner 2026-09-29: the card is gone): a lasting wound, and having had the measles.
+    const about = [entity.name, ...(entity.marks || []), entity.hadMeasles && 'has had the measles'].filter(Boolean).join(' · ');
+    if (row.portrait.title !== about) row.portrait.title = about;
     row.portrait.setAttribute('aria-pressed', String(bar));
     const focusLabel = focused ? `Go back to ${entity.name}, your main person` : `Make ${entity.name} your main person`;
     if (row.focus.getAttribute('aria-label') !== focusLabel) { row.focus.setAttribute('aria-label', focusLabel); row.focus.title = focusLabel; row.focus.querySelector('.panel-mark-text').textContent = focused ? '★' : '☆'; row.focus.setAttribute('aria-pressed', String(focused)); }
@@ -5532,36 +5535,12 @@ function repaintFamilyPanel() {
   }
   if (window.__snapshot) renderFamilyPanel(window.__snapshot.world);
 }
-/**
- * The neighbours' homesteads this person could set out for, nearest to where they stand first.
- *
- * Named as the map names them. ceiling: that is the name the map was generated with ("Family 2 home"),
- * not the family's own name, which only a meeting tells you (`observedBy`); a list of every family's
- * chosen name sent to everybody would be knowing who lives where without ever having been.
- */
-function renderVisits(world, chosen, commands) {
-  const select = $('#visit-select'), go = $('#visit-go');
-  if (!select || !go) return;
-  const row = $('#visit-row');
-  const from = chosen.location?.siteId ? world.map?.sites?.[chosen.location.siteId] : chosen.location;
-  const homes = sitesOf(world).filter(site => site.kind === 'homestead' && site.id !== homeOf(world));
-  row.hidden = !commands || !homes.length || !from || chosen.service?.status === 'serving';
-  if (row.hidden) return;
-  const miles = site => Math.hypot(site.x - from.x, site.y - from.y);
-  const ordered = homes.sort((a, b) => miles(a) - miles(b));
-  const shape = ordered.map(site => `${site.id}:${miles(site).toFixed(1)}`).join('|');
-  if (select.dataset.shape !== shape) {
-    const kept = select.value;
-    select.replaceChildren(...ordered.map(site => { const option = element('option', `${site.name} · ${miles(site).toFixed(1)} miles`); option.value = site.id; return option; }));
-    if (ordered.some(site => site.id === kept)) select.value = kept;
-    select.dataset.shape = shape;
-  }
-  go.dataset.destination = select.value;
-}
-$('#visit-select')?.addEventListener('change', () => { if (window.__snapshot) renderSelection(window.__snapshot.world); });
 function renderSelection(world) {
   const panel = $('#selection'), chosen = selectedEntity(world);
   const household = world.household;
+  // Who is chosen on the map, card or none (presentation evidence for the proofs: since 2026-09-29 the card opens only for a
+  // matter, so it no longer says who a tap chose; scripts/support/navigation.mjs reads this).
+  window.__selected = chosen && !selectionDismissed ? chosen.id : null;
   // Nobody to give orders to until the die is rolled: setting one of the founding four to
   // work would use up the family's roll on people it is about to replace.
   // The Host may look at anybody in the class, read only: every person on its map is `observed`, so no control below is offered.
@@ -5575,6 +5554,8 @@ function renderSelection(world) {
   const commands = chosen.id === (household?.mainId || household?.principalId) && !chosen.observed;
   const task = taskFor(world, chosen);
   $('#selection-name').textContent = chosen.name;
+  // How they are, in a line: the Host's look only. On a student's page it is on the person's row (owner, 2026-09-29).
+  $('#selection-state').hidden = !hostView(world);
   // What someone is doing is the chore's own words when they are on one - "breaking the
   // rows" says more than "work", and it is the step the server is actually running.
   if (hostView(world)) {
@@ -5627,16 +5608,6 @@ function renderSelection(world) {
   // server does not tick a lobby - so this is a family getting ready rather than a family
   // getting ahead, and every plan in the class starts on the same minute.
   const settable = running || world.status === 'lobby';
-  renderVisits(world, chosen, commands);
-  for (const button of $('#selection-actions').querySelectorAll('button')) {
-    const action = button.dataset.action;
-    if (button.id === 'listen-rider') continue;
-    const destination = button.dataset.destination === 'home' ? homeOf(world) : button.dataset.destination;
-    button.hidden = !commands;
-    // The card's own journey ("Go there", to a neighbour's homestead) is the `visit` icon by another route, so the guided
-    // start shuts it with the same rule (public/lesson.js): a student led to one step must not find a second way round it.
-    button.disabled = !settable || Boolean(chosen.travel) || (action === 'travel' && (!destination || chosen.location?.siteId === destination || shutByLesson(world, 'visit')));
-  }
   // Somebody is standing in front of this person waiting to be spoken to. The button is
   // theirs and nobody else's: a rider stopped one named person, and that is who can listen.
   const waiting = world.encounter?.status === 'open' && world.encounter.listenerId === chosen.id;
@@ -5649,40 +5620,22 @@ function renderSelection(world) {
   // Trading stays shut until the class is running, because the neighbour it is addressed
   // to may not have joined yet. An offer to an empty chair is not a trade.
   renderTrade(world, chosen, running);
-  renderCardFold(world, chosen);
+  // Owner, 2026-09-29, of this card as it opened on every person chosen - a name, a line of how they are, a neighbour's homestead
+  // and *Go there*: *"just gets in the way. I haven't found a good use for it. Let's remove it if it isn't necessary for
+  // something later."* (docs/FAMILY_PANEL.md, amendment 2026-09-29). On a student's page it opens only for a matter it alone
+  // holds: a question put to this person (a call, work that stopped to ask, the army's, Travis's riders, the road east), the
+  // family's flight on whoever answers for it, who nurses somebody very sick, somebody serving or taken, a rider waiting on
+  // them, or a trade with them. Choosing a person - portrait, star, map, roster - with none of those opens nothing: how they are
+  // is on their row, a neighbour's homestead is the Neighbours list (the bar's *Go to a neighbour's homestead* opens it).
+  // The Host's read-only look at anybody in the class is kept as it was.
+  if (!hostView(world) && !selectionMatter()) { panel.hidden = true; delete panel.dataset.entityId; releaseCrowding(); return; }
   positionSelection(world, chosen);
 }
-/**
- * The card folded while a step of the guided start is running (owner's coordinator, 2026-09-21: "during a lesson the step
- * card is the one thing that must be readable").
- *
- * *Going by* and the list of neighbours are the card's two tallest blocks - three stamps, a paragraph and a dropdown,
- * about 250 px of the right of a Chromebook screen. **Nothing is shut:** the server allows `travel` on every step of the
- * lesson on purpose (`ALWAYS` in sim/lesson.mjs), so a page that put them out of reach would be stopping what the world
- * permits. They are folded, with a press to open them, and they are simply open when no step is running.
- */
-let cardUnfolded = null;
-function renderCardFold(world, chosen) {
-  const panel = $('#selection'), more = $('#selection-more');
-  if (!panel || !more) return;
-  const stepRunning = Boolean(lessonShowing(world));
-  const foldable = stepRunning && [$('#visit-row')].some(part => part && !part.hidden);
-  if (cardUnfolded && cardUnfolded !== chosen.id) cardUnfolded = null;
-  const folded = foldable && cardUnfolded !== chosen.id;
-  setData(panel, 'detail', folded ? 'folded' : 'open');
-  if (more.hidden !== !foldable) more.hidden = !foldable;
-  if (!foldable) return;
-  more.setAttribute('aria-expanded', String(!folded));
-  const words = folded ? 'The neighbours' : 'Put that away';
-  if (more.textContent !== words) { more.textContent = words; more.setAttribute('aria-label', words); }
+/** Whether the card has anything but its name on it: a section with something in it, or a rider waiting (see renderSelection). */
+function selectionMatter() {
+  const filled = selector => { const one = $(selector); return Boolean(one && !one.hidden && one.childElementCount); };
+  return ['#selection-call', '#selection-flight', '#selection-nurse', '#selection-army', '#selection-work', '#selection-trade'].some(filled) || !$('#listen-rider')?.hidden;
 }
-$('#selection-more')?.addEventListener('click', () => {
-  const world = window.__snapshot?.world;
-  const chosen = world && selectedEntity(world);
-  if (!chosen) return;
-  cardUnfolded = cardUnfolded === chosen.id ? null : chosen.id;
-  renderSelection(world);
-});
 /**
  * The boxes the card is placed among, measured once and again only when something about them changes size - never on every
  * frame. Placing the card read five boxes and wrote its position on every animation frame, which forced the browser to lay
@@ -7639,10 +7592,13 @@ document.addEventListener('click', async event => {
     // Going to town to trade asks first what to buy and sell (docs/TOWNS.md §4b, owner 2026-09-24): the popup sends the order.
     // The tip over the map waits at once, not on the next second's look (public/tips.js `tipToShow`): never over the popup.
     if (panelButton.dataset.chore === 'visit-shop') { hidePanelTip(); errandPopup.open(panelButton.dataset.entityId); if (window.__snapshot?.world) renderTip(window.__snapshot.world); return; }
-    if (panelButton.dataset.visit || panelButton.dataset.key === 'winter-recall') {
+    // A neighbour's homestead is chosen from the Neighbours list, whose *Send … there* is the journey (owner, 2026-09-29: the
+    // card that held a list of homesteads and *Go there* is gone).
+    if (panelButton.dataset.visit) { hidePanelTip(); openNeighbours(); return; }
+    if (panelButton.dataset.key === 'winter-recall') {
       selectedId = panelButton.dataset.entityId; selectionDismissed = false;
       const world = window.__snapshot?.world;
-      if (world) { renderSelection(world); (panelButton.dataset.visit ? $('#visit-select') : document.querySelector('#selection-work [data-action="winter-recall"]'))?.focus(); }
+      if (world) { renderSelection(world); document.querySelector('#selection-work [data-action="winter-recall"]')?.focus(); }
       return;
     }
     hidePanelTip();

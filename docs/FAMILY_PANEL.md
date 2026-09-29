@@ -1737,3 +1737,42 @@ portrait makes that person main). Injections in `scripts/design-blockers-injecti
 caught by the unit test alone and by `test:family-panel`; the "!" made to change the main person is caught by the unit test
 alone. `test:scrape-pursuit`'s B11 step (a son on auto, his portrait pressed, the main person unchanged) was removed with the
 rule it held.
+
+## Amendment, 2026-09-29 — the card beside a person opens only for a matter (owner-decided)
+
+The owner, 2026-09-29, circling the card that opened beside whoever was chosen (*Asa Hollister ×*, *work · Family 1 home · well ·
+has had the measles*, a neighbour's homestead and **Go there**): *"The piece of interface that i've circled just gets in the way.
+I haven't found a good use for it. Let's remove it if it isn't necessary for something later."*
+
+**What it did, and where each thing is now** (public/app.js `renderSelection`, public/index.html `#selection`):
+
+| On the card | Now |
+|---|---|
+| The name and a line of how they are (work, where, well or sick) | **Gone from a student's page.** The row says it: the work glowing on the bar, the *Idle* tag, the reason line, the sickness line and badge (§19), the road line. |
+| A lasting wound, *has had the measles* | The **portrait's tooltip** (`title`): *Asa Hollister · lost an eye · has had the measles*. |
+| A neighbour's homestead and **Go there** | **Gone.** The bar's *Go to a neighbour's homestead* opens the **Neighbours list**, whose *Send … there* is that journey (public/neighbours.js `openNeighbours`). `ceiling:` the list shows the families met and those within its near miles (eight at most), where the card listed every homestead on the map; a far family never met is no longer a destination from the page. |
+| *More* / *The neighbours*, the fold the guided start used | **Gone** with the list it folded (the lesson is off; `scripts/lesson-browser-proof.mjs` marks its step stale). |
+| *Ask … to…*, *… is not the main person* | Kept only on the Host's look. The portrait's words say it makes them main (amendment above). |
+
+**Kept, opening only for its matter.** The card is still the one place for these, so it opens when one of them is there and at no
+other time (`selectionMatter`): a question put to this person (`#selection-call`: a call or ask; `#selection-work`: work that
+stopped to ask, Travis's riders, the army's questions to a man with Houston, somebody serving with its *Send for them*, a prisoner's
+word), **the family's flight** on whoever answers for it (`#selection-flight`: the load, the route, *Leave*, the road east - opened
+by the flight's "!" or the main person's portrait while it is on), **who nurses** somebody very sick (`#selection-nurse`, the sick
+"!"), a man away with the 1835 army (`#selection-army`), **a rider waiting** on them (*Listen*), and **a trade** with another
+family's person standing where one of yours stands (`#selection-trade`). The "!" opens it at its section as before. Choosing a person
+with none of these - portrait, star, a tap on the map, the journal's roster - opens nothing; the map rings them, the bar is theirs.
+
+**Kept whole: the Host's look.** The teacher's read-only card on anybody in the class (whose they are, what they are doing, where,
+how they are) is unchanged: the owner circled a student's card, and the Host has no row to carry it. Flagged for the owner.
+
+`TIP_CLEAR_OF` keeps `#selection` (a tip still keeps clear of the card when it is open for a matter). `window.__selected` says who
+is chosen, for the proofs that read it off the card (scripts/support/navigation.mjs). No save, action or projection change.
+
+Proof: `npm run test:family-panel` (a portrait on an adult, the main person and a small child: no card), `npm run test:overlap`
+(a portrait pressed at the guided start, at home and in Play Solo: the card shut, or holding a matter and measured - a card with
+nothing to answer is a fault), `npm run test:neighbours` (the bar's *Go to a neighbour's homestead* opens the Neighbours list, no
+card), `test:watching` (a watched family's portrait opens no card); `test:disease`, `test:storming`, `travel-sight-proof` read the
+row and the portrait instead of the card. Injections in `scripts/design-blockers-injections.mjs`: the card opening on everybody
+again (caught by `test:family-panel` and by `test:overlap`), the bar's way to a neighbour opening the card again (`test:neighbours`).
+

@@ -137,11 +137,12 @@ try {
   observed.badge = await badge(page, cast.patient);
   assert.ok(observed.badge && observed.badge.w >= 16, 'no sick badge on the portrait');
   assert.ok(observed.badge.drawn, 'the sick badge is not the drawn mark-sick');
+  // The card beside a person opens only for a matter since 2026-09-29 (owner: "just gets in the way"); the row says the sickness.
   await page.locator(`[data-portrait="${cast.patient}"]`).click({ force: true });
-  await page.waitForFunction(() => /chill on the chest/.test(document.querySelector('#selection-state')?.textContent || ''), null, { timeout: 15000 });
-  observed.card = (await page.locator('#selection-state').innerText()).trim();
+  await page.waitForTimeout(600);
+  observed.card = await page.locator('#selection').isVisible() ? (await page.locator('#selection').innerText()).trim() : null;
   await shot(page, 'row-1366');
-  ok(`a sick person's row: "${observed.rowMoving.text}", the badge ${observed.badge.w}px on the portrait, and the card: "${observed.card}"`);
+  ok(`a sick person's row: "${observed.rowMoving.text}", the badge ${observed.badge.w}px on the portrait${observed.card ? `, and the card for what is to be done: "${observed.card.slice(0, 80)}"` : ', and no card'}`);
 
   // 3. The Host: the sickness named in the class panel and counted in words, while the family's sick are sick.
   await host.waitForFunction(() => /sick with a chill on the chest/.test(document.querySelector('#host-families')?.textContent || ''), null, { timeout: 20000 });

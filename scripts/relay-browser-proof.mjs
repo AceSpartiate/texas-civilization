@@ -218,7 +218,8 @@ try {
   await page.locator('#journal-toggle').click();
   await page.locator(`[data-select="${sibling}"]`).click();
   await page.locator('#journal-close').click();
-  await page.locator('#selection').waitFor({ state: 'visible' });
+  // The card beside a person opens only for a matter since 2026-09-29 (docs/FAMILY_PANEL.md): choosing is enough.
+  await page.waitForTimeout(300);
   assert.equal(await page.locator('#listen-rider').isVisible(), false,
     'the invitation to listen was offered on somebody the rider never spoke to');
   record.invitationIsInTheWorld = 'PASS';

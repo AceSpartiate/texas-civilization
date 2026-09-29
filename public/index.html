@@ -271,15 +271,11 @@
       </nav>
     </div>
 
-    <!-- Instructions remain contextual to the chosen person in the shared world. -->
+    <!-- The card beside a person: only for a matter it alone holds (a question put to them, the flight, nursing, the army, a rider,
+         a trade), and the Host's look (owner 2026-09-29, docs/FAMILY_PANEL.md: the card on every person chosen "just gets in the way"). -->
     <div id="selection" hidden role="dialog" aria-label="Give an instruction">
       <div id="selection-head"><span id="selection-name"></span><button id="selection-close" aria-label="Close">×</button></div>
       <p id="selection-state"></p>
-      <!-- While a step of the guided start is running, the card opens with the person and their questions and nothing
-           else: the step is the one thing that has to be readable, and the list of neighbours is a block of the right of
-           a Chromebook screen. Nothing is shut - the server allows travel throughout the lesson (sim/lesson.mjs ALWAYS) -
-           it is one press away. How they go is asked when they are sent (#going), not set here (owner, 2026-09-24). -->
-      <button type="button" id="selection-more" hidden aria-expanded="false" aria-controls="visit-row">More</button>
       <p id="selection-task" hidden></p>
       <!-- Somebody outside the family is asking this person for something. It is built
            from what the server sent - the question, and each answer with its own price -
@@ -296,12 +292,6 @@
              therefore an instruction to that person, on that person's own panel, and not
              a card that appears in the corner of the screen. -->
         <button id="listen-rider" data-open-encounter="now" hidden>Listen</button>
-        <!-- A neighbour's land, nearest first. The only way to stand with a family at home is to go
-             there - to trade, or to help raise their walls (docs/SETTLING_IN.md step 5). -->
-        <span id="visit-row">
-          <select id="visit-select" aria-label="A neighbour's homestead"></select>
-          <button data-action="travel" data-destination="" id="visit-go">Go there</button>
-        </span>
       </div>
       <div id="selection-work"></div>
       <!-- Trading only exists where two people are standing together, so its controls

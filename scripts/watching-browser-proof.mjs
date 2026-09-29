@@ -143,18 +143,20 @@ try {
         await shot(student, 'line');
         await noSideways(student, 'the watching page');
         ok(`${tag}: everybody died; the page says so and follows ${seen.watching.ofName}, whose people are the column - no "!", no bar, no Auto, no star, no tip, nothing of the Host's`);
-        // A portrait opens the card, which offers nothing.
+        // A portrait opens no card: there is nothing of the watched family's to answer (owner, 2026-09-29: the card beside a
+        // person opens only for a matter).
         const first = seen.rows[0];
         await student.locator(`[data-portrait="${first}"]`).click();
-        await student.locator('#selection').waitFor({ state: 'visible', timeout: 10000 });
+        await student.waitForTimeout(800);
         const card = await student.evaluate(() => ({
-          name: document.querySelector('#selection-name')?.textContent,
+          open: !document.querySelector('#selection')?.hidden,
           buttons: [...document.querySelectorAll('#selection button')].filter(button => button.id !== 'selection-close' && button.getClientRects().length && getComputedStyle(button).visibility !== 'hidden').map(button => button.textContent.trim() || button.dataset.action || button.id),
         }));
         assert.deepEqual(card.buttons, [], `the card offers something to do: ${card.buttons.join(', ')}`);
+        assert.equal(card.open, false, 'a card opened beside a watched person');
         await shot(student, 'card');
-        await noSideways(student, 'the watched person\'s card');
-        ok(`${tag}: ${card.name}'s card opens from the portrait and offers nothing to do`);
+        await noSideways(student, 'the watched person pressed');
+        ok(`${tag}: a portrait of the watched family opens no card and offers nothing to do`);
         // An order sent anyway is refused in the server's words.
         const refused = await student.evaluate(async id => {
           const response = await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `watch-${Date.now()}`, action: 'chore', entityId: id, chore: 'rest' }) });

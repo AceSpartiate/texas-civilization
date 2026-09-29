@@ -94,7 +94,8 @@ try {
     await page.locator('#journal-toggle').click();
     await press(`[data-select="${id}"]`);
     await page.locator('#journal-close').click();
-    await page.locator('#selection').waitFor({ state: 'visible' });
+    // The card beside a person opens only for a matter since 2026-09-29 (docs/FAMILY_PANEL.md): choosing is enough.
+    await page.waitForTimeout(300);
   };
   // Close in, or the field is drawn too small for a fence to be worth painting. The
   // selector is asserted rather than swallowed: a zoom control that quietly does not exist

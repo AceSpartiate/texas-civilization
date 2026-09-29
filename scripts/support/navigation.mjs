@@ -43,7 +43,8 @@ const INSTRUMENT = () => {
 const pct = (values, p) => { if (!values.length) return null; const sorted = [...values].sort((a, b) => a - b); return Math.round(sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * p))]); };
 const cam = page => page.evaluate(() => { const c = document.querySelector('#world-map'); return { ...window.__camera, width: c.width, height: c.height, rect: c.getBoundingClientRect().toJSON() }; });
 export const mark = page => page.evaluate(() => ({ draws: window.__nav.draws.length, inputs: window.__nav.inputs.length }));
-const selection = page => page.evaluate(() => { const panel = document.querySelector('#selection'); return panel.hidden ? null : panel.dataset.entityId; });
+// Who a tap chose: the page's `__selected` (the card beside a person opens only for a matter since 2026-09-29), else the card.
+const selection = page => page.evaluate(() => { if ('__selected' in window) return window.__selected; const panel = document.querySelector('#selection'); return panel.hidden ? null : panel.dataset.entityId; });
 const toScreen = (c, p) => ({ x: c.rect.x + (c.width / 2 + (p.x - c.cx) * c.scale) * c.rect.width / c.width, y: c.rect.y + (c.height / 2 + (p.y - c.cy) * c.scale) * c.rect.height / c.height });
 const toWorld = (c, s) => ({ x: c.cx + ((s.x - c.rect.x) * c.width / c.rect.width - c.width / 2) / c.scale, y: c.cy + ((s.y - c.rect.y) * c.height / c.rect.height - c.height / 2) / c.scale });
 const drift = (before, after, point) => { const now = toScreen(after, toWorld(before, point)); return Math.round(Math.hypot(now.x - point.x, now.y - point.y) * 10) / 10; };

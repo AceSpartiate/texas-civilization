@@ -120,6 +120,16 @@ try {
   await host.getByRole('button', { name: 'Start' }).click();
   await helper.waitForFunction(() => window.__snapshot?.world.status === 'running');
 
+  // The bar's "Go to a neighbour's homestead" opens this list (owner, 2026-09-29: the card beside a person, with its list of
+  // homesteads and "Go there", is gone; docs/FAMILY_PANEL.md, amendment 2026-09-29).
+  await helper.locator('#neighbours-toggle').waitFor({ state: 'visible', timeout: 30000 });
+  if (await helper.locator('#neighbours').getAttribute('data-open') === 'true') await helper.locator('#neighbours-close').click();
+  const visit = helper.locator('.panel-row[data-focused=true] .panel-icon[data-visit]');
+  await visit.waitFor({ state: 'attached', timeout: 30000 });
+  await visit.evaluate(node => node.click());
+  await helper.waitForFunction(() => document.querySelector('#neighbours')?.dataset.open === 'true', null, { timeout: 5000 });
+  assert.equal(await helper.locator('#selection').isVisible(), false, 'the bar\'s way to a neighbour opened the card beside the person');
+  ok('the bar\'s "Go to a neighbour\'s homestead" opens the Neighbours list, and no card');
   // Autumn: the helper's student finds the raising on its Neighbours list and sends somebody.
   await openNeighbours(helper);
   const row = helper.locator(`#neighbours-list [data-household="${HELPED}"]`);
