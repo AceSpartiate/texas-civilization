@@ -127,6 +127,48 @@ test('every clip is a usable animation of Claude frames, as Astra\'s clips are d
   }
 });
 
+// ---------------------------------------------------------------------------------------------------------------------
+// The plan and Astra's list (owner, 2026-09-28): one table, scripts/claude-art/plan.mjs, writes docs/CLAUDE_ART_PLAN.md and
+// "What Astra still needs to make" in ART_REQUESTS.md; every stand-in in the code must name something on it.
+const { ITEMS, AREA_KEYS, patternsOf, standInComments, itemNamed } = await import('../scripts/claude-art/plan.mjs');
+const { planDoc, astraSection, START, END, PLAN_FILE } = await import('../scripts/claude-art/write-plan.mjs');
+const headings = new Set([...requests.matchAll(/^## (.+?)\r?$/gm)].map(m => m[1]));
+const lf = text => text.replace(/\r\n/g, '\n');
+
+test('every item on the plan names a request heading of ART_REQUESTS.md, and every area module one of the plan\'s areas', () => {
+  for (const item of ITEMS) {
+    assert.ok(headings.has(item.request), `${item.id}: "${item.request}" is not a heading of docs/ART_REQUESTS.md`);
+    assert.ok([1, 2, 3].includes(item.priority), `${item.id}: priority`);
+    assert.ok(item.status === 'open' || item.status.startsWith('skipped: '), `${item.id}: status "${item.status}"`);
+    for (const field of ['deliver', 'frames', 'size', 'plugs', 'standIn']) assert.ok(item[field], `${item.id}: no ${field}`);
+  }
+  assert.equal(new Set(ITEMS.map(i => i.id)).size, ITEMS.length, 'item ids are unique');
+  for (const m of modules) assert.ok(Object.values(AREA_KEYS).includes(m.AREA), `${m.module}: AREA '${m.AREA}' is none of ${Object.values(AREA_KEYS).join(', ')}`);
+});
+
+test('every Claude frame is an item on Astra\'s list, marked as having a Claude stand-in', () => {
+  const clipsOf = name => Object.entries(manifest.clips).filter(([, clip]) => clip.frames.some(f => f.sprite === name)).map(([clip]) => clip);
+  for (const name of Object.keys(manifest.frames)) {
+    const onList = ITEMS.filter(item => item.status === 'open' && patternsOf(item).some(p => p.test(name) || clipsOf(name).some(clip => p.test(clip))));
+    assert.ok(onList.length, `${name} is a Claude frame that no open item in scripts/claude-art/plan.mjs names - add its name to the item it stands in for`);
+  }
+});
+
+test('docs/CLAUDE_ART_PLAN.md and the "What Astra still needs to make" section are what the plan writes now', () => {
+  assert.equal(lf(readFileSync(PLAN_FILE, 'utf8')), planDoc(manifest) + '\n', 'docs/CLAUDE_ART_PLAN.md is stale - run node scripts/claude-art/write-plan.mjs');
+  const a = lf(requests).indexOf(START), b = lf(requests).indexOf(END);
+  assert.ok(a >= 0 && b > a, 'ART_REQUESTS.md has its generated "What Astra still needs to make" section');
+  assert.equal(lf(requests).slice(a, b + END.length), astraSection(manifest), 'the "What Astra still needs to make" section is stale - run node scripts/claude-art/write-plan.mjs');
+  assert.ok(lf(requests).indexOf('## Standard practice for missing art') < a && a < lf(requests).indexOf('## Stand-ins in use'), 'the section sits after "Standard practice for missing art"');
+});
+
+test('every `stand-in:` in the code names an item on Astra\'s list', () => {
+  const comments = standInComments();
+  assert.ok(comments.length > 60, `only ${comments.length} stand-in comments were found - the walk missed files`);
+  const unnamed = comments.filter(comment => !itemNamed(comment.text));
+  assert.deepEqual(unnamed.map(c => `${c.where}: ${c.text.slice(0, 160)}`), [], 'these stand-ins name nothing on "What Astra still needs to make" (docs/ART_REQUESTS.md): add the item to scripts/claude-art/plan.mjs, or a phrase the comment uses to its item, and run node scripts/claude-art/write-plan.mjs');
+});
+
 test('every frame is a usable sprite: inside its sheet, transparent-cornered, non-empty, on an anchor inside it', () => {
   const images = {};
   for (const [name, sheet] of Object.entries(manifest.sheets)) {
