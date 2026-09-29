@@ -39,7 +39,7 @@
       "caught": true,
       "alone": false,
       "failed": [
-        "test:lone-parent failed after 7 checks: AssertionError [ERR_ASSERTION]: with less motion asked for the fade was not short, or was a cut: {\"full\":[1119,1109],\"reduced\":[12]}"
+        "test:lone-parent failed after 8 checks: AssertionError [ERR_ASSERTION]: with less motion asked for the fade was not short, or was a cut: {\"full\":[1110,1108],\"reduced\":[8]}"
       ]
     },
     {
