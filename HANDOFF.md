@@ -1,5 +1,82 @@
 # Claude handoff — Astra foundation
 
+## Speech bubbles laid out together; a portrait is the star; the card beside a person only for a matter — owner, 2026-09-29 (not released)
+
+Branch `bubbles-portrait-star` off origin/main (af25547a; origin/main merged at c92e715f, d5f4d391 and 7b099ab5); not pushed. Three owner
+reports of 2026-09-29, verbatim: *"When playing, text boxes for npc and player characters overlap frequently."* - *"When clicking
+on a character portrait it should be treated the same as clicking on the star."* - and, circling the card that opened beside a
+chosen person (*Asa Hollister ×*, *work · Family 1 home · well · has had the measles*, a homestead, **Go there**): *"The piece of
+interface that i've circled just gets in the way. I haven't found a good use for it. Let's remove it if it isn't necessary for
+something later."*
+
+- **Why the bubbles overlapped.** Three kinds of bubble were each drawn by their own code over their own speaker, with nothing
+  between them: the family's talk (sim/childhood.mjs, sim/babies.mjs) draws both halves of an exchange at once over a child and
+  the parent it stopped, who stand a step apart - two bubbles on one spot every tick; the town's scenes (public/town-scenes.js)
+  collected their boxes and never used them, so two scenes talked over each other; the neighbours' chatter (public/ambient.js)
+  kept off the family's bubbles but not the town's; and the names on the map (`layOutCaptions`, shops, buildings) were drawn after
+  the bubbles and never measured against them. Measured before (origin/main c92e715f, the new crowd check): at a farm **every
+  frame** for 15 s at 1024x768 had bubbles on each other (447 faults in 149 frames), **1377 frames** of bubble on bubble and **396**
+  of bubble on a name over 12 screens.
+- **The fix** (public/speech.js `speechLayout`, one per frame, built in `drawWorldNow` after every figure, name and mark): every
+  bubble is placed in turn - the family's first, then the town's, then the neighbours' - where it would stand over its speaker if
+  that is clear of the bubbles already placed, their **tails**, the **names** (places and people from `layOutCaptions`, shops,
+  town buildings `townLabelsDrawn`, the famous people's names) and the **marks** (the "!", the lone parent's path marker); else
+  **lifted** above what is in the way (up to 110 px) or **slid** beside it, nearest the speaker first, inside the room clear of the
+  panels (`speechRoom`), its tail kept to the speaker and never longer than 150 px. A bubble keeps last frame's place while it is
+  clear, so nothing being read jumps. A neighbour's line with no room **waits** (its exchange starts again from that line, up to
+  8 s); a town line not yet begun waits the same way; a speaker under a panel with no room in reach says nothing until they come
+  out (the 2026-09-28 room-slide could throw a bubble 718 px across the screen from its speaker). The server's chatter is
+  unchanged; only placement is the page's. `ceiling:` first come, first placed - a later bubble never moves an earlier one.
+- **Portrait = star** ([FAMILY_PANEL, amendment 2026-09-29](docs/FAMILY_PANEL.md)). Both call `pressStar` (public/app.js): `set-main`
+  unless already main, refused in the server's words on the refusal line (a child: *"… is too young to be sent."*), then the camera,
+  bar and follow as the portrait always did. This reverses the portrait half of design audit B11 (the "!" and a notice's Go to
+  still only choose) and the v2026.09.29.1 release note *"Pressing a portrait only selects that person."* (not in the repo; not
+  edited). Portrait tooltip/name now say *"Make … your main person, follow them and show their actions"*. No tip said the portrait
+  only selects; public/tips.js and sim/tips.mjs unchanged. `test:scrape-pursuit`'s B11 step was removed with its rule.
+- **The card beside a person** ([FAMILY_PANEL, amendment 2026-09-29, the card](docs/FAMILY_PANEL.md)). On a student's page it opens
+  only for a matter it alone holds (`selectionMatter`): a question put to the person, the flight east on whoever answers for it,
+  who nurses somebody very sick, the 1835 army, somebody serving or a prisoner, a rider waiting, a trade with another family's
+  person. Choosing anybody else opens nothing. **Removed:** the how-they-are line (the row has it; wounds and measles moved to
+  the portrait's tooltip), the homestead list and **Go there** (the bar's *Go to a neighbour's homestead* opens the Neighbours list,
+  whose *Send … there* is the journey; `ceiling:` that list holds met and near families, eight at most), the *More* fold.
+  **Kept:** the Host's read-only look at anybody (unchanged; the owner circled a student's card - flagged), `#selection` in
+  `TIP_CLEAR_OF` (the card still opens for matters). `window.__selected` says who a tap chose (navigation proof).
+
+**Evidence** (same computer only; headless Chrome; no Chromebook, LAN or classroom claim).
+New crowd check in `npm run test:chatter` (`CHATTER_ONLY=crowd` alone): a farm, Gonzales on the morning of September 29, three
+families at the Liberty refuge with its crowd, and the 1835 force's camp, each watched 15 s at 1366x768, 1024x600 and 1024x768; every
+frame's bubbles (`__familySaid`, `__townSaid`, `__ambientSaid`, now with their tails) against each other, the names (`__labelsDrawn`
+now with boxes, `__famousDrawn` labels) and the other tails, and the longest tail (170 px). **Before** (origin/main c92e715f): fails,
+1377 frames bubble on bubble, 396 bubble on a name. **After** (head, origin/main 7b099ab5 merged): `test:chatter` **21 of 21** -
+crowd 12 screens, 743 frames with two bubbles or more, up to 5 at once, **0 / 0 / 0**, longest tail 149 px. Injections
+(`CHATTER_ONLY=crowd node scripts/chatter-injections.mjs "^crowd"`, docs/evidence/chatter-injections.json): **4 of 4 caught
+alone** - placed without looking at the bubbles placed, the names not kept clear, a bubble on another's tail, a bubble as far from
+its speaker as it may go. The first clean run of the crowd found the 718 px tail (fixed above); the first final `test:overlap` found
+a town bubble **72% under the bar** at 1280x800 (fixed: a bubble with no room in reach may have at most a quarter under a panel,
+`room.under`, else it waits).
+Portrait and card: unit test (tests/family-commands.test.mjs, *... a portrait is the star*); `node scripts/design-blockers-injections.mjs
+--only "owner 2026-09-29" --browser` **4 of 4** (docs/evidence/design-blockers-injections-owner-2026-09-29-browser.json): the portrait
+back to choosing only (unit test alone, and `test:family-panel`), the card opening on everybody again (`test:family-panel`, and
+`test:overlap` with its two new "person card" faults), the bar's way to a neighbour opening the card again (`test:neighbours`); and
+the "!" made to change the main person, caught alone by the unit test (docs/evidence/design-blockers-injections-b11-the.json).
+Browser proofs on the final tree: `test:overlap` **173 screens, 32 states, 0 faults**, 24 bubbles measured, none under a panel;
+`test:family-panel` **18**; `test:family-commands` **23** (its reload step and three camera checks now read `__selected`; one run's
+node-churn check failed, and so did one of two runs on a clean origin/main - flaky, not this branch); `test:tips` **13** (one run
+beside `npm test` failed "Escape did not put the tip away", 13 alone); `test:panels` **14**; `test:children` **16** (one run under
+load timed out at the hens, 16 alone and 16 on origin/main); `test:neighbours` **9**; `test:watching` **8**. `npm test` (tree before
+the last page-only change): **1783 tests, 1746 pass, 0 fail, 36 skipped, 1 cancelled** - `capacity` under the load of two browser
+proofs, which passes alone.
+
+Screenshots: before `docs/evidence/bubbles-before-farm-1024x768.png`, `docs/evidence/bubbles-before-gonzales-1024x600.png`
+(origin/main c92e715f); after `docs/evidence/bubbles-after-farm-1024x768.png`, `bubbles-after-gonzales-1024x768.png`,
+`bubbles-after-gonzales-1024x600.png`.
+
+**Left / not run.** The other proofs that pressed a portrait or waited for the card were updated but not run: `test:disease`,
+`test:storming`, `travel-sight-proof`, `test:farm`, `test:hunt`, `test:relay`, `test:travel`, `test:navigation`; the lesson proof's
+card-fold step is marked stale (skipped while the lesson is off). Battle bubbles (public/battle-view.js) and the chase's are not in
+the layout (another builder's files; ambient talk is quiet in both). The full `test:chatter-injections` (the six older ones) was not
+re-run; its pile-up injection was re-aimed at the layout.
+
 ## Astra's art always wins, by subject: Claude's temporary art only where she has drawn nothing — owner, 2026-09-29 (not released)
 
 Branch `astra-art-wins` off origin/main (3dd5209d, origin/main af25547a merged in); not pushed. The owner played the released

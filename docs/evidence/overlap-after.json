@@ -67,31 +67,18 @@
     }
   ],
   "summary": {
-    "screens": 185,
+    "screens": 173,
     "faults": 0,
-    "allowed": 155,
-    "bubblesMeasured": 16,
-    "bubblesUnderAPanel": 1
+    "allowed": 162,
+    "bubblesMeasured": 24,
+    "bubblesUnderAPanel": 0
   },
   "faults": [],
   "pendingElsewhere": [],
   "notReached": [
     "student resume-offered: the guided start has no X"
   ],
-  "bubbles": [
-    {
-      "where": "student town-talk 1024x600",
-      "what": "bubble \"Eighteen men at the crossing. \"",
-      "under": "site chooser",
-      "share": 0.1,
-      "box": {
-        "x": 383,
-        "y": 260,
-        "w": 224,
-        "h": 42
-      }
-    }
-  ],
+  "bubbles": [],
   "pageErrors": [],
   "screens": [
     {
@@ -117,7 +104,7 @@
         "sound button 790,710 46x44",
         "map framing 12,746 135x16",
         "messages 1024,44 330x177",
-        "person card 712,25 260x485",
+        "person card 712,147 260x363",
         "site chooser 110,169 384x126",
         "first-meeting tip 121,435 576x75"
       ],
@@ -156,7 +143,7 @@
         "sound button 790,599 46x44",
         "map framing 12,635 135x16",
         "messages 1024,44 330x177",
-        "person card 711,8 260x391",
+        "person card 711,36 260x363",
         "site chooser 110,169 384x126",
         "first-meeting tip 121,324 576x75"
       ],
@@ -195,7 +182,7 @@
         "sound button 704,742 46x44",
         "map framing 12,778 135x16",
         "messages 938,44 330x177",
-        "person card 669,57 260x485",
+        "person card 669,179 260x363",
         "site chooser 110,169 384x126",
         "first-meeting tip 114,467 547x75"
       ],
@@ -234,7 +221,7 @@
         "sound button 704,631 46x44",
         "map framing 12,667 135x16",
         "messages 938,44 330x177",
-        "person card 669,8 260x423",
+        "person card 669,68 260x363",
         "site chooser 110,169 384x126",
         "first-meeting tip 114,356 547x75"
       ],
@@ -310,9 +297,9 @@
         "sound button 1344,1022 46x44",
         "map framing 12,1058 135x16",
         "messages 1578,44 330x177",
-        "person card 990,275 260x485",
+        "person card 990,336 260x363",
         "site chooser 110,169 384x126",
-        "first-meeting tip 260,747 576x75"
+        "first-meeting tip 723,747 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -791,7 +778,7 @@
         "map framing 12,746 135x16",
         "messages 1024,44 330x177",
         "error line 12,167 232x35",
-        "person card 664,25 260x485",
+        "person card 664,147 260x363",
         "site chooser 110,209 384x126",
         "first-meeting tip 114,435 542x75"
       ],
@@ -831,7 +818,7 @@
         "map framing 12,635 135x16",
         "messages 1024,44 330x177",
         "error line 12,167 232x35",
-        "person card 664,8 260x391",
+        "person card 664,36 260x363",
         "site chooser 110,209 384x126",
         "first-meeting tip 932,305 422x94"
       ],
@@ -871,7 +858,7 @@
         "map framing 12,778 135x16",
         "messages 938,44 330x177",
         "error line 12,167 232x35",
-        "person card 621,57 260x485",
+        "person card 621,179 260x363",
         "site chooser 110,209 384x126",
         "first-meeting tip 114,467 499x75"
       ],
@@ -911,7 +898,7 @@
         "map framing 12,667 135x16",
         "messages 938,44 330x177",
         "error line 12,167 232x35",
-        "person card 621,8 260x423",
+        "person card 621,68 260x363",
         "site chooser 110,209 384x126",
         "first-meeting tip 114,356 499x75"
       ],
@@ -990,9 +977,9 @@
         "map framing 12,1058 135x16",
         "messages 1578,44 330x177",
         "error line 12,167 232x35",
-        "person card 941,275 260x485",
+        "person card 941,336 260x363",
         "site chooser 110,209 384x126",
-        "first-meeting tip 236,747 576x75"
+        "first-meeting tip 723,747 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -1029,7 +1016,7 @@
         "sound button 744,710 46x44",
         "map framing 12,746 135x16",
         "messages 1024,44 330x177",
-        "person card 664,25 260x485",
+        "person card 664,147 260x363",
         "site chooser 110,169 384x126",
         "first-meeting tip 114,435 542x75"
       ],
@@ -1068,7 +1055,7 @@
         "sound button 744,599 46x44",
         "map framing 12,635 135x16",
         "messages 1024,44 330x177",
-        "person card 664,8 260x391",
+        "person card 664,36 260x363",
         "site chooser 110,169 384x126",
         "first-meeting tip 114,324 499x75"
       ],
@@ -1107,7 +1094,7 @@
         "sound button 658,742 46x44",
         "map framing 12,778 135x16",
         "messages 938,44 330x177",
-        "person card 621,57 260x485",
+        "person card 621,179 260x363",
         "site chooser 110,169 384x126",
         "first-meeting tip 114,467 499x75"
       ],
@@ -1146,7 +1133,7 @@
         "sound button 658,631 46x44",
         "map framing 12,667 135x16",
         "messages 938,44 330x177",
-        "person card 621,8 260x423",
+        "person card 621,68 260x363",
         "site chooser 110,169 384x126",
         "first-meeting tip 114,356 499x75"
       ],
@@ -1223,9 +1210,9 @@
         "sound button 1298,1022 46x44",
         "map framing 12,1058 135x16",
         "messages 1578,44 330x177",
-        "person card 941,275 260x485",
+        "person card 941,336 260x363",
         "site chooser 110,169 384x126",
-        "first-meeting tip 236,747 576x75"
+        "first-meeting tip 723,747 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -1262,7 +1249,7 @@
         "sound button 744,710 46x44",
         "map framing 12,746 135x16",
         "messages 1024,44 330x177",
-        "person card 664,25 260x485",
+        "person card 664,147 260x363",
         "site chooser 110,169 384x126",
         "icon tip 394,621 272x88",
         "first-meeting tip 114,435 542x75"
@@ -1558,10 +1545,10 @@
         "\"Go to a neighbour’s homestead. Choose a \" in ability bar under #journal-backdrop",
         "\"Work about the place. Do the everyday wo\" in ability bar under #journal-backdrop",
         "\"Rest. Sit still at home, which is the on\" in ability bar under #journal-backdrop",
-        "\"Elena, mother. Select and follow Elena; \" in family: row 2 under #journal-backdrop",
+        "\"Elena, mother. Make Elena your main pers\" in family: row 2 under #journal-backdrop",
         "\"Answer this first. Ned Falk has stopped \" in family: row 2 under #journal-backdrop",
-        "\"Benita, daughter. Select and follow Beni\" in family: row 3 under #journal-backdrop",
-        "\"Ruperto, son. Select and follow Ruperto;\" in family: row 4 under #journal-backdrop",
+        "\"Benita, daughter. Make Benita your main \" in family: row 3 under #journal-backdrop",
+        "\"Ruperto, son. Make Ruperto your main per\" in family: row 4 under #journal-backdrop",
         "\"Follow\" in map buttons under #journal-backdrop",
         "\"Go to my land\" in map buttons under #journal-backdrop",
         "\"Gonzales\" in map buttons under #journal-backdrop",
@@ -1628,10 +1615,10 @@
         "\"Go to a neighbour’s homestead. Choose a \" in ability bar under #journal-backdrop",
         "\"Work about the place. Do the everyday wo\" in ability bar under #journal-backdrop",
         "\"Rest. Sit still at home, which is the on\" in ability bar under #journal-backdrop",
-        "\"Elena, mother. Select and follow Elena; \" in family: row 2 under #journal-backdrop",
+        "\"Elena, mother. Make Elena your main pers\" in family: row 2 under #journal-backdrop",
         "\"Answer this first. Ned Falk has stopped \" in family: row 2 under #journal-backdrop",
-        "\"Benita, daughter. Select and follow Beni\" in family: row 3 under #journal-backdrop",
-        "\"Ruperto, son. Select and follow Ruperto;\" in family: row 4 under #journal-backdrop",
+        "\"Benita, daughter. Make Benita your main \" in family: row 3 under #journal-backdrop",
+        "\"Ruperto, son. Make Ruperto your main per\" in family: row 4 under #journal-backdrop",
         "\"Follow\" in map buttons under #journal-backdrop",
         "\"Go to my land\" in map buttons under #journal-backdrop",
         "\"Gonzales\" in map buttons under #journal-backdrop",
@@ -1698,10 +1685,10 @@
         "\"Go to a neighbour’s homestead. Choose a \" in ability bar under #journal-backdrop",
         "\"Work about the place. Do the everyday wo\" in ability bar under #journal-backdrop",
         "\"Rest. Sit still at home, which is the on\" in ability bar under #journal-backdrop",
-        "\"Elena, mother. Select and follow Elena; \" in family: row 2 under #journal-backdrop",
+        "\"Elena, mother. Make Elena your main pers\" in family: row 2 under #journal-backdrop",
         "\"Answer this first. Ned Falk has stopped \" in family: row 2 under #journal-backdrop",
-        "\"Benita, daughter. Select and follow Beni\" in family: row 3 under #journal-backdrop",
-        "\"Ruperto, son. Select and follow Ruperto;\" in family: row 4 under #journal-backdrop",
+        "\"Benita, daughter. Make Benita your main \" in family: row 3 under #journal-backdrop",
+        "\"Ruperto, son. Make Ruperto your main per\" in family: row 4 under #journal-backdrop",
         "\"Follow\" in map buttons under #journal-backdrop",
         "\"Go to my land\" in map buttons under #journal-backdrop",
         "\"Gonzales\" in map buttons under #journal-backdrop",
@@ -1768,10 +1755,10 @@
         "\"Go to a neighbour’s homestead. Choose a \" in ability bar under #journal-backdrop",
         "\"Work about the place. Do the everyday wo\" in ability bar under #journal-backdrop",
         "\"Rest. Sit still at home, which is the on\" in ability bar under #journal-backdrop",
-        "\"Elena, mother. Select and follow Elena; \" in family: row 2 under #journal-backdrop",
+        "\"Elena, mother. Make Elena your main pers\" in family: row 2 under #journal-backdrop",
         "\"Answer this first. Ned Falk has stopped \" in family: row 2 under #journal-backdrop",
-        "\"Benita, daughter. Select and follow Beni\" in family: row 3 under #journal-backdrop",
-        "\"Ruperto, son. Select and follow Ruperto;\" in family: row 4 under #journal-backdrop",
+        "\"Benita, daughter. Make Benita your main \" in family: row 3 under #journal-backdrop",
+        "\"Ruperto, son. Make Ruperto your main per\" in family: row 4 under #journal-backdrop",
         "\"Follow\" in map buttons under #journal-backdrop",
         "\"Go to my land\" in map buttons under #journal-backdrop",
         "\"Gonzales\" in map buttons under #journal-backdrop",
@@ -1837,9 +1824,9 @@
         "\"Go to a neighbour’s homestead. Choose a \" in ability bar under #journal-backdrop",
         "\"Work about the place. Do the everyday wo\" in ability bar under journal, #journal-backdrop",
         "\"Rest. Sit still at home, which is the on\" in ability bar under journal, #journal-backdrop",
-        "\"Elena, mother. Select and follow Elena; \" in family: row 2 under #journal-backdrop",
+        "\"Elena, mother. Make Elena your main pers\" in family: row 2 under #journal-backdrop",
         "\"Answer this first. Ned Falk has stopped \" in family: row 2 under #journal-backdrop",
-        "\"Benita, daughter. Select and follow Beni\" in family: row 3 under #journal-backdrop",
+        "\"Benita, daughter. Make Benita your main \" in family: row 3 under #journal-backdrop",
         "\"Follow\" in map buttons under #journal-backdrop",
         "\"Go to my land\" in map buttons under #journal-backdrop",
         "\"Gonzales\" in map buttons under #journal-backdrop",
@@ -1904,10 +1891,10 @@
         "\"Go to a neighbour’s homestead. Choose a \" in ability bar under #journal-backdrop",
         "\"Work about the place. Do the everyday wo\" in ability bar under #journal-backdrop",
         "\"Rest. Sit still at home, which is the on\" in ability bar under #journal-backdrop",
-        "\"Elena, mother. Select and follow Elena; \" in family: row 2 under #journal-backdrop",
+        "\"Elena, mother. Make Elena your main pers\" in family: row 2 under #journal-backdrop",
         "\"Answer this first. Ned Falk has stopped \" in family: row 2 under #journal-backdrop",
-        "\"Benita, daughter. Select and follow Beni\" in family: row 3 under #journal-backdrop",
-        "\"Ruperto, son. Select and follow Ruperto;\" in family: row 4 under #journal-backdrop",
+        "\"Benita, daughter. Make Benita your main \" in family: row 3 under #journal-backdrop",
+        "\"Ruperto, son. Make Ruperto your main per\" in family: row 4 under #journal-backdrop",
         "\"Follow\" in map buttons under #journal-backdrop",
         "\"Go to my land\" in map buttons under #journal-backdrop",
         "\"Gonzales\" in map buttons under #journal-backdrop",
@@ -1952,8 +1939,7 @@
         "map buttons 956,710 396x44",
         "sound button 790,710 46x44",
         "map framing 12,746 135x16",
-        "person card 709,282 260x178",
-        "first-meeting tip 324,416 377x94"
+        "first-meeting tip 551,455 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -1988,8 +1974,7 @@
         "map buttons 956,599 396x44",
         "sound button 790,599 46x44",
         "map framing 12,635 135x16",
-        "person card 709,221 260x178",
-        "first-meeting tip 551,158 576x55"
+        "first-meeting tip 551,344 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -2026,7 +2011,6 @@
         "map buttons 870,742 396x44",
         "sound button 704,742 46x44",
         "map framing 12,778 135x16",
-        "person card 758,298 260x178",
         "first-meeting tip 508,487 576x55"
       ],
       "overlaps": [],
@@ -2063,8 +2047,7 @@
         "map buttons 870,631 396x44",
         "sound button 704,631 46x44",
         "map framing 12,667 135x16",
-        "person card 758,243 260x178",
-        "first-meeting tip 324,356 426x75"
+        "first-meeting tip 508,376 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -2098,25 +2081,12 @@
         "map buttons 614,542 396x44",
         "sound button 448,542 46x44",
         "map framing 12,578 135x16",
-        "person card 614,200 260x178",
-        "first-meeting tip 324,219 282x134"
+        "first-meeting tip 380,298 576x55"
       ],
       "overlaps": [],
       "covered": [],
       "offScreen": [],
-      "canvas": [
-        {
-          "what": "the person being ordered",
-          "under": "first-meeting tip",
-          "share": 1,
-          "box": {
-            "x": 512,
-            "y": 286,
-            "w": 4,
-            "h": 7
-          }
-        }
-      ],
+      "canvas": [],
       "flags": {
         "panel": "false",
         "meeting": "false",
@@ -2148,7 +2118,6 @@
         "map buttons 1510,1022 396x44",
         "sound button 1344,1022 46x44",
         "map framing 12,1058 135x16",
-        "person card 1030,432 260x178",
         "first-meeting tip 828,778 576x55"
       ],
       "overlaps": [],
@@ -2186,7 +2155,6 @@
         "map buttons 956,710 396x44",
         "sound button 790,710 46x44",
         "map framing 12,746 135x16",
-        "person card 753,282 260x178",
         "first-meeting tip 551,466 576x55"
       ],
       "overlaps": [],
@@ -2223,8 +2191,7 @@
         "map buttons 956,599 396x44",
         "sound button 790,599 46x44",
         "map framing 12,635 135x16",
-        "person card 753,228 260x178",
-        "first-meeting tip 324,335 421x75"
+        "first-meeting tip 551,355 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -2261,7 +2228,6 @@
         "map buttons 870,742 396x44",
         "sound button 704,742 46x44",
         "map framing 12,778 135x16",
-        "person card 758,298 260x178",
         "first-meeting tip 508,498 576x55"
       ],
       "overlaps": [],
@@ -2298,8 +2264,7 @@
         "map buttons 870,631 396x44",
         "sound button 704,631 46x44",
         "map framing 12,667 135x16",
-        "person card 758,243 260x178",
-        "first-meeting tip 324,367 426x75"
+        "first-meeting tip 508,387 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -2333,25 +2298,12 @@
         "map buttons 614,542 396x44",
         "sound button 448,542 46x44",
         "map framing 12,578 135x16",
-        "person card 614,200 260x178",
-        "first-meeting tip 324,219 282x134"
+        "first-meeting tip 380,298 576x55"
       ],
       "overlaps": [],
       "covered": [],
       "offScreen": [],
-      "canvas": [
-        {
-          "what": "the person being ordered",
-          "under": "first-meeting tip",
-          "share": 1,
-          "box": {
-            "x": 512,
-            "y": 286,
-            "w": 4,
-            "h": 7
-          }
-        }
-      ],
+      "canvas": [],
       "flags": {
         "panel": "false",
         "meeting": "false",
@@ -2383,7 +2335,6 @@
         "map buttons 1510,1022 396x44",
         "sound button 1344,1022 46x44",
         "map framing 12,1058 135x16",
-        "person card 1030,432 260x178",
         "first-meeting tip 828,778 576x55"
       ],
       "overlaps": [],
@@ -2448,11 +2399,11 @@
         "\"Go to a neighbour’s homestead. Choose a \" in ability bar under lone parent scenes",
         "\"Work about the place. Do the everyday wo\" in ability bar under lone parent scenes",
         "\"Rest. Sit still at home, which is the on\" in ability bar under lone parent scenes",
-        "\"Adela Proofwright, daughter, 7. Select a\" in family: row 2 under lone parent scenes",
+        "\"Adela Proofwright, daughter, 7. Make Ade\" in family: row 2 under lone parent scenes",
         "\"panel-name-hh-1-child-1\" in family: row 2 under lone parent scenes",
         "\"Let Adela Proofwright decide for themsel\" in family: row 2 under lone parent scenes",
         "\"Make Adela Proofwright your main person\" in family: row 2 under lone parent scenes",
-        "\"Loreta Proofwright, daughter, 5. Select \" in family: row 3 under lone parent scenes",
+        "\"Loreta Proofwright, daughter, 5. Make Lo\" in family: row 3 under lone parent scenes",
         "\"panel-name-hh-1-child-2\" in family: row 3 under lone parent scenes",
         "\"Let Loreta Proofwright decide for themse\" in family: row 3 under lone parent scenes",
         "\"Make Loreta Proofwright your main person\" in family: row 3 under lone parent scenes",
@@ -2525,11 +2476,11 @@
         "\"Go to a neighbour’s homestead. Choose a \" in ability bar under lone parent scenes",
         "\"Work about the place. Do the everyday wo\" in ability bar under lone parent scenes",
         "\"Rest. Sit still at home, which is the on\" in ability bar under lone parent scenes",
-        "\"Adela Proofwright, daughter, 7. Select a\" in family: row 2 under lone parent scenes",
+        "\"Adela Proofwright, daughter, 7. Make Ade\" in family: row 2 under lone parent scenes",
         "\"panel-name-hh-1-child-1\" in family: row 2 under lone parent scenes",
         "\"Let Adela Proofwright decide for themsel\" in family: row 2 under lone parent scenes",
         "\"Make Adela Proofwright your main person\" in family: row 2 under lone parent scenes",
-        "\"Loreta Proofwright, daughter, 5. Select \" in family: row 3 under lone parent scenes",
+        "\"Loreta Proofwright, daughter, 5. Make Lo\" in family: row 3 under lone parent scenes",
         "\"panel-name-hh-1-child-2\" in family: row 3 under lone parent scenes",
         "\"Let Loreta Proofwright decide for themse\" in family: row 3 under lone parent scenes",
         "\"Make Loreta Proofwright your main person\" in family: row 3 under lone parent scenes",
@@ -2573,6 +2524,7 @@
         "map buttons 870,742 396x44",
         "sound button 704,742 46x44",
         "map framing 12,778 135x16",
+        "first-meeting tip 508,498 576x55",
         "lone parent scenes 0,0 1280x800"
       ],
       "overlaps": [
@@ -2589,7 +2541,8 @@
         "journal button x lone parent scenes 104x44",
         "map buttons x lone parent scenes 396x44",
         "sound button x lone parent scenes 46x44",
-        "map framing x lone parent scenes 135x16"
+        "map framing x lone parent scenes 135x16",
+        "first-meeting tip x lone parent scenes 576x55"
       ],
       "covered": [
         "\"Paz Proofwright, mother, 40, your main p\" in family: row 1 under lone parent scenes",
@@ -2601,11 +2554,11 @@
         "\"Go to a neighbour’s homestead. Choose a \" in ability bar under lone parent scenes",
         "\"Work about the place. Do the everyday wo\" in ability bar under lone parent scenes",
         "\"Rest. Sit still at home, which is the on\" in ability bar under lone parent scenes",
-        "\"Adela Proofwright, daughter, 7. Select a\" in family: row 2 under lone parent scenes",
+        "\"Adela Proofwright, daughter, 7. Make Ade\" in family: row 2 under lone parent scenes",
         "\"panel-name-hh-1-child-1\" in family: row 2 under lone parent scenes",
         "\"Let Adela Proofwright decide for themsel\" in family: row 2 under lone parent scenes",
         "\"Make Adela Proofwright your main person\" in family: row 2 under lone parent scenes",
-        "\"Loreta Proofwright, daughter, 5. Select \" in family: row 3 under lone parent scenes",
+        "\"Loreta Proofwright, daughter, 5. Make Lo\" in family: row 3 under lone parent scenes",
         "\"panel-name-hh-1-child-2\" in family: row 3 under lone parent scenes",
         "\"Let Loreta Proofwright decide for themse\" in family: row 3 under lone parent scenes",
         "\"Make Loreta Proofwright your main person\" in family: row 3 under lone parent scenes",
@@ -2614,7 +2567,8 @@
         "\"Gonzales\" in map buttons under lone parent scenes",
         "\"Béxar\" in map buttons under lone parent scenes",
         "\"Zoom in\" in map buttons under lone parent scenes",
-        "\"Zoom out\" in map buttons under lone parent scenes"
+        "\"Zoom out\" in map buttons under lone parent scenes",
+        "\"Got it: put this tip away\" in first-meeting tip under lone parent scenes"
       ],
       "offScreen": [],
       "canvas": [],
@@ -2648,6 +2602,7 @@
         "map buttons 870,631 396x44",
         "sound button 704,631 46x44",
         "map framing 12,667 135x16",
+        "first-meeting tip 508,387 576x55",
         "lone parent scenes 0,0 1280x689"
       ],
       "overlaps": [
@@ -2664,7 +2619,8 @@
         "journal button x lone parent scenes 104x44",
         "map buttons x lone parent scenes 396x44",
         "sound button x lone parent scenes 46x44",
-        "map framing x lone parent scenes 135x16"
+        "map framing x lone parent scenes 135x16",
+        "first-meeting tip x lone parent scenes 576x55"
       ],
       "covered": [
         "\"Paz Proofwright, mother, 40, your main p\" in family: row 1 under lone parent scenes",
@@ -2676,11 +2632,11 @@
         "\"Go to a neighbour’s homestead. Choose a \" in ability bar under lone parent scenes",
         "\"Work about the place. Do the everyday wo\" in ability bar under lone parent scenes",
         "\"Rest. Sit still at home, which is the on\" in ability bar under lone parent scenes",
-        "\"Adela Proofwright, daughter, 7. Select a\" in family: row 2 under lone parent scenes",
+        "\"Adela Proofwright, daughter, 7. Make Ade\" in family: row 2 under lone parent scenes",
         "\"panel-name-hh-1-child-1\" in family: row 2 under lone parent scenes",
         "\"Let Adela Proofwright decide for themsel\" in family: row 2 under lone parent scenes",
         "\"Make Adela Proofwright your main person\" in family: row 2 under lone parent scenes",
-        "\"Loreta Proofwright, daughter, 5. Select \" in family: row 3 under lone parent scenes",
+        "\"Loreta Proofwright, daughter, 5. Make Lo\" in family: row 3 under lone parent scenes",
         "\"panel-name-hh-1-child-2\" in family: row 3 under lone parent scenes",
         "\"Let Loreta Proofwright decide for themse\" in family: row 3 under lone parent scenes",
         "\"Make Loreta Proofwright your main person\" in family: row 3 under lone parent scenes",
@@ -2689,7 +2645,8 @@
         "\"Gonzales\" in map buttons under lone parent scenes",
         "\"Béxar\" in map buttons under lone parent scenes",
         "\"Zoom in\" in map buttons under lone parent scenes",
-        "\"Zoom out\" in map buttons under lone parent scenes"
+        "\"Zoom out\" in map buttons under lone parent scenes",
+        "\"Got it: put this tip away\" in first-meeting tip under lone parent scenes"
       ],
       "offScreen": [],
       "canvas": [],
@@ -2751,7 +2708,7 @@
         "\"Go to a neighbour’s homestead. Choose a \" in ability bar under lone parent scenes",
         "\"Work about the place. Do the everyday wo\" in ability bar under lone parent scenes",
         "\"Rest. Sit still at home, which is the on\" in ability bar under lone parent scenes",
-        "\"Adela Proofwright, daughter, 7. Select a\" in family: row 2 under lone parent scenes",
+        "\"Adela Proofwright, daughter, 7. Make Ade\" in family: row 2 under lone parent scenes",
         "\"panel-name-hh-1-child-1\" in family: row 2 under lone parent scenes",
         "\"Let Adela Proofwright decide for themsel\" in family: row 2 under lone parent scenes",
         "\"Make Adela Proofwright your main person\" in family: row 2 under lone parent scenes",
@@ -2795,6 +2752,7 @@
         "map buttons 1510,1022 396x44",
         "sound button 1344,1022 46x44",
         "map framing 12,1058 135x16",
+        "first-meeting tip 828,778 576x55",
         "lone parent scenes 0,0 1920x1080"
       ],
       "overlaps": [
@@ -2811,7 +2769,8 @@
         "journal button x lone parent scenes 104x44",
         "map buttons x lone parent scenes 396x44",
         "sound button x lone parent scenes 46x44",
-        "map framing x lone parent scenes 135x16"
+        "map framing x lone parent scenes 135x16",
+        "first-meeting tip x lone parent scenes 576x55"
       ],
       "covered": [
         "\"Paz Proofwright, mother, 40, your main p\" in family: row 1 under lone parent scenes",
@@ -2823,11 +2782,11 @@
         "\"Go to a neighbour’s homestead. Choose a \" in ability bar under lone parent scenes",
         "\"Work about the place. Do the everyday wo\" in ability bar under lone parent scenes",
         "\"Rest. Sit still at home, which is the on\" in ability bar under lone parent scenes",
-        "\"Adela Proofwright, daughter, 7. Select a\" in family: row 2 under lone parent scenes",
+        "\"Adela Proofwright, daughter, 7. Make Ade\" in family: row 2 under lone parent scenes",
         "\"panel-name-hh-1-child-1\" in family: row 2 under lone parent scenes",
         "\"Let Adela Proofwright decide for themsel\" in family: row 2 under lone parent scenes",
         "\"Make Adela Proofwright your main person\" in family: row 2 under lone parent scenes",
-        "\"Loreta Proofwright, daughter, 5. Select \" in family: row 3 under lone parent scenes",
+        "\"Loreta Proofwright, daughter, 5. Make Lo\" in family: row 3 under lone parent scenes",
         "\"panel-name-hh-1-child-2\" in family: row 3 under lone parent scenes",
         "\"Let Loreta Proofwright decide for themse\" in family: row 3 under lone parent scenes",
         "\"Make Loreta Proofwright your main person\" in family: row 3 under lone parent scenes",
@@ -2836,7 +2795,8 @@
         "\"Gonzales\" in map buttons under lone parent scenes",
         "\"Béxar\" in map buttons under lone parent scenes",
         "\"Zoom in\" in map buttons under lone parent scenes",
-        "\"Zoom out\" in map buttons under lone parent scenes"
+        "\"Zoom out\" in map buttons under lone parent scenes",
+        "\"Got it: put this tip away\" in first-meeting tip under lone parent scenes"
       ],
       "offScreen": [],
       "canvas": [],
@@ -2856,7 +2816,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x470",
         "rumor mill 12,573 267x72",
@@ -2892,7 +2852,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x326",
         "rumor mill 12,429 267x72",
@@ -2928,7 +2888,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x358",
         "rumor mill 12,461 267x72",
@@ -2964,7 +2924,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x345",
         "rumor mill 12,448 267x72",
@@ -3000,7 +2960,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x345",
         "rumor mill 12,448 267x72",
@@ -3036,7 +2996,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x470",
         "rumor mill 12,573 267x72",
@@ -3072,7 +3032,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x326",
         "rumor mill 12,429 267x72",
@@ -3108,7 +3068,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x358",
         "rumor mill 12,461 267x72",
@@ -3144,7 +3104,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x345",
         "rumor mill 12,448 267x72",
@@ -3180,7 +3140,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x345",
         "rumor mill 12,448 267x72",
@@ -3230,7 +3190,6 @@
         "map buttons 1021,710 331x44",
         "sound button 855,710 46x44",
         "map framing 12,746 135x16",
-        "person card 395,272 260x197",
         "wagon load 954,64 400x438"
       ],
       "overlaps": [],
@@ -3267,7 +3226,6 @@
         "map buttons 1021,599 331x44",
         "sound button 855,599 46x44",
         "map framing 12,635 135x16",
-        "person card 395,202 260x197",
         "wagon load 954,64 400x327"
       ],
       "overlaps": [],
@@ -3304,7 +3262,6 @@
         "map buttons 935,742 331x44",
         "sound button 769,742 46x44",
         "map framing 12,778 135x16",
-        "person card 352,289 260x197",
         "wagon load 868,64 400x470"
       ],
       "overlaps": [],
@@ -3341,7 +3298,6 @@
         "map buttons 935,631 331x44",
         "sound button 769,631 46x44",
         "map framing 12,667 135x16",
-        "person card 352,234 260x197",
         "wagon load 868,64 400x359"
       ],
       "overlaps": [],
@@ -3377,7 +3333,6 @@
         "map buttons 679,542 331x44",
         "sound button 513,542 46x44",
         "map framing 12,578 135x16",
-        "person card 324,80 260x197",
         "wagon load 612,64 400x270"
       ],
       "overlaps": [],
@@ -3414,7 +3369,6 @@
         "map buttons 1575,1022 331x44",
         "sound button 1409,1022 46x44",
         "map framing 12,1058 135x16",
-        "person card 983,423 260x197",
         "wagon load 1508,64 400x934"
       ],
       "overlaps": [],
@@ -3451,8 +3405,7 @@
         "journal button 909,710 104x44",
         "map buttons 1021,710 331x44",
         "sound button 855,710 46x44",
-        "map framing 12,746 135x16",
-        "person card 395,272 260x197"
+        "map framing 12,746 135x16"
       ],
       "overlaps": [],
       "covered": [],
@@ -3488,8 +3441,7 @@
         "journal button 909,599 104x44",
         "map buttons 1021,599 331x44",
         "sound button 855,599 46x44",
-        "map framing 12,635 135x16",
-        "person card 707,202 260x197"
+        "map framing 12,635 135x16"
       ],
       "overlaps": [],
       "covered": [],
@@ -3525,8 +3477,7 @@
         "journal button 823,742 104x44",
         "map buttons 935,742 331x44",
         "sound button 769,742 46x44",
-        "map framing 12,778 135x16",
-        "person card 664,289 260x197"
+        "map framing 12,778 135x16"
       ],
       "overlaps": [],
       "covered": [],
@@ -3562,8 +3513,7 @@
         "journal button 823,631 104x44",
         "map buttons 935,631 331x44",
         "sound button 769,631 46x44",
-        "map framing 12,667 135x16",
-        "person card 664,234 260x197"
+        "map framing 12,667 135x16"
       ],
       "overlaps": [],
       "covered": [],
@@ -3598,8 +3548,7 @@
         "journal button 567,542 104x44",
         "map buttons 679,542 331x44",
         "sound button 513,542 46x44",
-        "map framing 12,578 135x16",
-        "person card 567,145 260x197"
+        "map framing 12,578 135x16"
       ],
       "overlaps": [],
       "covered": [],
@@ -3635,8 +3584,7 @@
         "journal button 1463,1022 104x44",
         "map buttons 1575,1022 331x44",
         "sound button 1409,1022 46x44",
-        "map framing 12,1058 135x16",
-        "person card 983,423 260x197"
+        "map framing 12,1058 135x16"
       ],
       "overlaps": [],
       "covered": [],
@@ -3672,8 +3620,7 @@
         "map buttons 1021,710 331x44",
         "sound button 855,710 46x44",
         "map framing 12,746 135x16",
-        "person card 707,272 260x197",
-        "first-meeting tip 975,416 379x94"
+        "first-meeting tip 551,455 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -3709,8 +3656,7 @@
         "map buttons 1021,599 331x44",
         "sound button 855,599 46x44",
         "map framing 12,635 135x16",
-        "person card 707,202 260x197",
-        "first-meeting tip 975,305 379x94"
+        "first-meeting tip 551,344 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -3746,7 +3692,6 @@
         "map buttons 935,742 331x44",
         "sound button 769,742 46x44",
         "map framing 12,778 135x16",
-        "person card 664,289 260x197",
         "first-meeting tip 508,487 576x55"
       ],
       "overlaps": [],
@@ -3783,8 +3728,7 @@
         "map buttons 935,631 331x44",
         "sound button 769,631 46x44",
         "map framing 12,667 135x16",
-        "person card 664,234 260x197",
-        "first-meeting tip 932,337 336x94"
+        "first-meeting tip 508,376 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -3819,8 +3763,7 @@
         "map buttons 679,542 331x44",
         "sound button 513,542 46x44",
         "map framing 12,578 135x16",
-        "person card 567,145 260x197",
-        "first-meeting tip 380,82 576x55"
+        "first-meeting tip 380,287 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -3856,7 +3799,6 @@
         "map buttons 1575,1022 331x44",
         "sound button 1409,1022 46x44",
         "map framing 12,1058 135x16",
-        "person card 983,423 260x197",
         "first-meeting tip 828,767 576x55"
       ],
       "overlaps": [],
@@ -3879,7 +3821,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 94x31",
         "the class 12,95 263x470",
         "rumor mill 12,573 263x72",
@@ -3915,7 +3857,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 94x31",
         "the class 12,95 263x326",
         "rumor mill 12,429 263x72",
@@ -3951,7 +3893,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 94x31",
         "the class 12,95 263x358",
         "rumor mill 12,461 263x72",
@@ -3987,7 +3929,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 94x31",
         "the class 12,95 263x345",
         "rumor mill 12,448 263x72",
@@ -4023,7 +3965,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 94x31",
         "the class 12,95 263x345",
         "rumor mill 12,448 263x72",
@@ -4074,8 +4016,7 @@
         "sound button 855,710 46x44",
         "sound panel 1106,512 246x190",
         "map framing 12,746 135x16",
-        "person card 707,272 260x197",
-        "first-meeting tip 975,416 379x94"
+        "first-meeting tip 551,455 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -4112,8 +4053,7 @@
         "sound button 855,599 46x44",
         "sound panel 1106,401 246x190",
         "map framing 12,635 135x16",
-        "person card 707,202 260x197",
-        "first-meeting tip 975,305 379x94"
+        "first-meeting tip 551,344 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -4150,7 +4090,6 @@
         "sound button 769,742 46x44",
         "sound panel 1020,544 246x190",
         "map framing 12,778 135x16",
-        "person card 664,289 260x197",
         "first-meeting tip 508,487 576x55"
       ],
       "overlaps": [],
@@ -4188,8 +4127,7 @@
         "sound button 769,631 46x44",
         "sound panel 1020,433 246x190",
         "map framing 12,667 135x16",
-        "person card 664,234 260x197",
-        "first-meeting tip 932,337 336x94"
+        "first-meeting tip 508,376 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -4225,8 +4163,7 @@
         "sound button 513,542 46x44",
         "sound panel 764,344 246x190",
         "map framing 12,578 135x16",
-        "person card 567,139 260x197",
-        "first-meeting tip 380,76 576x55"
+        "first-meeting tip 380,287 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -4263,7 +4200,6 @@
         "sound button 1409,1022 46x44",
         "sound panel 1660,824 246x190",
         "map framing 12,1058 135x16",
-        "person card 983,423 260x197",
         "first-meeting tip 828,767 576x55"
       ],
       "overlaps": [],
@@ -4301,8 +4237,7 @@
         "sound button 855,710 46x44",
         "map framing 12,746 135x16",
         "error line 12,167 232x35",
-        "person card 707,272 260x197",
-        "first-meeting tip 975,416 379x94"
+        "first-meeting tip 551,455 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -4339,8 +4274,7 @@
         "sound button 855,599 46x44",
         "map framing 12,635 135x16",
         "error line 12,167 232x35",
-        "person card 707,202 260x197",
-        "first-meeting tip 975,305 379x94"
+        "first-meeting tip 551,344 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -4377,7 +4311,6 @@
         "sound button 769,742 46x44",
         "map framing 12,778 135x16",
         "error line 12,167 232x35",
-        "person card 664,289 260x197",
         "first-meeting tip 508,487 576x55"
       ],
       "overlaps": [],
@@ -4415,8 +4348,7 @@
         "sound button 769,631 46x44",
         "map framing 12,667 135x16",
         "error line 12,167 232x35",
-        "person card 664,234 260x197",
-        "first-meeting tip 932,337 336x94"
+        "first-meeting tip 508,376 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -4452,8 +4384,7 @@
         "sound button 513,542 46x44",
         "map framing 12,578 135x16",
         "error line 12,167 232x35",
-        "person card 567,145 260x197",
-        "first-meeting tip 380,82 576x55"
+        "first-meeting tip 380,287 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -4490,228 +4421,6 @@
         "sound button 1409,1022 46x44",
         "map framing 12,1058 135x16",
         "error line 12,167 232x35",
-        "person card 983,423 260x197",
-        "first-meeting tip 828,767 576x55"
-      ],
-      "overlaps": [],
-      "covered": [],
-      "offScreen": [],
-      "canvas": [],
-      "flags": {
-        "panel": "false",
-        "meeting": "false",
-        "placing": "false",
-        "backdrop": false,
-        "journalBackdrop": false
-      }
-    },
-    {
-      "page": "student",
-      "state": "home-person-card",
-      "at": "1366x768",
-      "shot": "test-results\\overlap\\student-home-person-card-1366x768.png",
-      "following": false,
-      "unreachable": [],
-      "drawn": [
-        "status: session 12,12 180x38",
-        "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 248x31",
-        "family: fold 12,169 83x20",
-        "family: row 1 12,193 300x48",
-        "family: row 2 12,246 300x48",
-        "family: row 3 12,299 300x48",
-        "family: row 4 12,352 300x48",
-        "ability bar 435,518 496x186",
-        "journal button 861,710 104x44",
-        "map buttons 973,710 379x44",
-        "sound button 807,710 46x44",
-        "map framing 12,746 135x16",
-        "person card 664,263 260x197",
-        "first-meeting tip 932,435 422x75"
-      ],
-      "overlaps": [],
-      "covered": [],
-      "offScreen": [],
-      "canvas": [],
-      "flags": {
-        "panel": "false",
-        "meeting": "false",
-        "placing": "false",
-        "backdrop": false,
-        "journalBackdrop": false
-      }
-    },
-    {
-      "page": "student",
-      "state": "home-person-card",
-      "at": "1366x657",
-      "shot": "test-results\\overlap\\student-home-person-card-1366x657.png",
-      "following": false,
-      "unreachable": [],
-      "drawn": [
-        "status: session 12,12 180x38",
-        "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 248x31",
-        "family: fold 12,169 83x20",
-        "family: row 1 12,193 300x48",
-        "family: row 2 12,246 300x48",
-        "family: row 3 12,299 300x48",
-        "family: row 4 12,352 300x47",
-        "ability bar 435,407 496x186",
-        "journal button 861,599 104x44",
-        "map buttons 973,599 379x44",
-        "sound button 807,599 46x44",
-        "map framing 12,635 135x16",
-        "person card 664,202 260x197",
-        "first-meeting tip 932,324 422x75"
-      ],
-      "overlaps": [],
-      "covered": [],
-      "offScreen": [],
-      "canvas": [],
-      "flags": {
-        "panel": "false",
-        "meeting": "false",
-        "placing": "false",
-        "backdrop": false,
-        "journalBackdrop": false
-      }
-    },
-    {
-      "page": "student",
-      "state": "home-person-card",
-      "at": "1280x800",
-      "shot": "test-results\\overlap\\student-home-person-card-1280x800.png",
-      "following": false,
-      "unreachable": [],
-      "drawn": [
-        "status: session 12,12 180x38",
-        "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 248x31",
-        "family: fold 12,169 83x20",
-        "family: row 1 12,193 300x48",
-        "family: row 2 12,246 300x48",
-        "family: row 3 12,299 300x48",
-        "family: row 4 12,352 300x48",
-        "ability bar 392,550 496x186",
-        "journal button 775,742 104x44",
-        "map buttons 887,742 379x44",
-        "sound button 721,742 46x44",
-        "map framing 12,778 135x16",
-        "person card 621,279 260x197",
-        "first-meeting tip 508,487 576x55"
-      ],
-      "overlaps": [],
-      "covered": [],
-      "offScreen": [],
-      "canvas": [],
-      "flags": {
-        "panel": "false",
-        "meeting": "false",
-        "placing": "false",
-        "backdrop": false,
-        "journalBackdrop": false
-      }
-    },
-    {
-      "page": "student",
-      "state": "home-person-card",
-      "at": "1280x689",
-      "shot": "test-results\\overlap\\student-home-person-card-1280x689.png",
-      "following": false,
-      "unreachable": [],
-      "drawn": [
-        "status: session 12,12 180x38",
-        "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 248x31",
-        "family: fold 12,169 83x20",
-        "family: row 1 12,193 300x48",
-        "family: row 2 12,246 300x48",
-        "family: row 3 12,299 300x48",
-        "family: row 4 12,352 300x48",
-        "ability bar 392,439 496x186",
-        "journal button 775,631 104x44",
-        "map buttons 887,631 379x44",
-        "sound button 721,631 46x44",
-        "map framing 12,667 135x16",
-        "person card 621,224 260x197",
-        "first-meeting tip 889,337 379x94"
-      ],
-      "overlaps": [],
-      "covered": [],
-      "offScreen": [],
-      "canvas": [],
-      "flags": {
-        "panel": "false",
-        "meeting": "false",
-        "placing": "false",
-        "backdrop": false,
-        "journalBackdrop": false
-      }
-    },
-    {
-      "page": "student",
-      "state": "home-person-card",
-      "at": "1024x600",
-      "shot": "test-results\\overlap\\student-home-person-card-1024x600.png",
-      "following": false,
-      "unreachable": [],
-      "drawn": [
-        "status: session 12,12 180x38",
-        "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 248x31",
-        "family: fold 12,169 83x20",
-        "family: row 1 12,193 300x48",
-        "family: row 2 12,246 300x48",
-        "family: row 3 12,299 300x43",
-        "ability bar 264,350 496x186",
-        "journal button 519,542 104x44",
-        "map buttons 631,542 379x44",
-        "sound button 465,542 46x44",
-        "map framing 12,578 135x16",
-        "person card 519,145 260x197",
-        "first-meeting tip 787,187 225x155"
-      ],
-      "overlaps": [],
-      "covered": [],
-      "offScreen": [],
-      "canvas": [],
-      "flags": {
-        "panel": "false",
-        "meeting": "false",
-        "placing": "false",
-        "backdrop": false,
-        "journalBackdrop": false
-      }
-    },
-    {
-      "page": "student",
-      "state": "home-person-card",
-      "at": "1920x1080",
-      "shot": "test-results\\overlap\\student-home-person-card-1920x1080.png",
-      "following": false,
-      "unreachable": [],
-      "drawn": [
-        "status: session 12,12 180x38",
-        "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 248x31",
-        "family: fold 12,169 83x20",
-        "family: row 1 12,193 300x48",
-        "family: row 2 12,246 300x48",
-        "family: row 3 12,299 300x48",
-        "family: row 4 12,352 300x48",
-        "ability bar 712,830 496x186",
-        "journal button 1415,1022 104x44",
-        "map buttons 1527,1022 379x44",
-        "sound button 1361,1022 46x44",
-        "map framing 12,1058 135x16",
-        "person card 941,419 260x197",
         "first-meeting tip 828,767 576x55"
       ],
       "overlaps": [],
@@ -5199,15 +4908,15 @@
         "\"Go to a neighbour’s homestead. Choose a \" in ability bar under #journal-backdrop",
         "\"Work about the place. Do the everyday wo\" in ability bar under #journal-backdrop",
         "\"Rest. Sit still at home, which is the on\" in ability bar under #journal-backdrop, journal",
-        "\"Refugia, mother. Select and follow Refug\" in family: row 2 under #journal-backdrop",
+        "\"Refugia, mother. Make Refugia your main \" in family: row 2 under #journal-backdrop",
         "\"panel-name-hh-1-elena\" in family: row 2 under #journal-backdrop",
         "\"Let Refugia decide for themself: repeat \" in family: row 2 under #journal-backdrop",
         "\"Make Refugia your main person\" in family: row 2 under #journal-backdrop",
-        "\"Tomasa, daughter. Select and follow Toma\" in family: row 3 under #journal-backdrop",
+        "\"Tomasa, daughter. Make Tomasa your main \" in family: row 3 under #journal-backdrop",
         "\"panel-name-hh-1-rosa\" in family: row 3 under #journal-backdrop",
         "\"Let Tomasa decide for themself: repeat t\" in family: row 3 under #journal-backdrop",
         "\"Make Tomasa your main person\" in family: row 3 under #journal-backdrop",
-        "\"Zadok, son. Select and follow Zadok; sho\" in family: row 4 under #journal-backdrop",
+        "\"Zadok, son. Make Zadok your main person,\" in family: row 4 under #journal-backdrop",
         "\"panel-name-hh-1-mateo\" in family: row 4 under #journal-backdrop",
         "\"Let Zadok decide for themself: repeat th\" in family: row 4 under #journal-backdrop",
         "\"Make Zadok your main person\" in family: row 4 under #journal-backdrop",
@@ -5278,15 +4987,15 @@
         "\"Go to a neighbour’s homestead. Choose a \" in ability bar under #journal-backdrop",
         "\"Work about the place. Do the everyday wo\" in ability bar under #journal-backdrop",
         "\"Rest. Sit still at home, which is the on\" in ability bar under #journal-backdrop, journal",
-        "\"Refugia, mother. Select and follow Refug\" in family: row 2 under #journal-backdrop",
+        "\"Refugia, mother. Make Refugia your main \" in family: row 2 under #journal-backdrop",
         "\"panel-name-hh-1-elena\" in family: row 2 under #journal-backdrop",
         "\"Let Refugia decide for themself: repeat \" in family: row 2 under #journal-backdrop",
         "\"Make Refugia your main person\" in family: row 2 under #journal-backdrop",
-        "\"Tomasa, daughter. Select and follow Toma\" in family: row 3 under #journal-backdrop",
+        "\"Tomasa, daughter. Make Tomasa your main \" in family: row 3 under #journal-backdrop",
         "\"panel-name-hh-1-rosa\" in family: row 3 under #journal-backdrop",
         "\"Let Tomasa decide for themself: repeat t\" in family: row 3 under #journal-backdrop",
         "\"Make Tomasa your main person\" in family: row 3 under #journal-backdrop",
-        "\"Zadok, son. Select and follow Zadok; sho\" in family: row 4 under #journal-backdrop",
+        "\"Zadok, son. Make Zadok your main person,\" in family: row 4 under #journal-backdrop",
         "\"panel-name-hh-1-mateo\" in family: row 4 under #journal-backdrop",
         "\"Let Zadok decide for themself: repeat th\" in family: row 4 under #journal-backdrop",
         "\"Make Zadok your main person\" in family: row 4 under #journal-backdrop",
@@ -5657,11 +5366,9 @@
         "map buttons 1527,1022 379x44",
         "sound button 1361,1022 46x44",
         "map framing 12,1058 135x16",
-        "ending 580,110 760x860"
+        "ending 580,170 760x739"
       ],
-      "overlaps": [
-        "ability bar x ending 62x53"
-      ],
+      "overlaps": [],
       "covered": [],
       "offScreen": [],
       "canvas": [],
@@ -5897,10 +5604,11 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x470",
         "rumor mill 12,573 263x72",
+        "spotlight 592,899 736x109",
         "connection 1715,12 193x31",
         "pace 1726,61 182x30",
         "recover 1756,97 152x44",
@@ -5911,7 +5619,9 @@
         "map framing 12,1058 135x16",
         "ending 580,176 760x727"
       ],
-      "overlaps": [],
+      "overlaps": [
+        "spotlight x ending 736x5"
+      ],
       "covered": [],
       "offScreen": [],
       "canvas": [],
@@ -5931,10 +5641,11 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x326",
         "rumor mill 12,429 263x72",
+        "spotlight 320,539 640x109",
         "connection 1075,12 193x31",
         "pace 1086,61 182x30",
         "recover 1116,97 152x44",
@@ -5948,10 +5659,13 @@
       "overlaps": [
         "the class x ending 15x326",
         "rumor mill x ending 15x72",
+        "spotlight x ending 640x109",
         "map buttons x ending 219x8",
         "journal button x ending 104x8"
       ],
-      "covered": [],
+      "covered": [
+        "\"Whole class\" in spotlight under ending"
+      ],
       "offScreen": [],
       "canvas": [],
       "flags": {
@@ -5970,10 +5684,11 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x358",
         "rumor mill 12,461 263x72",
+        "spotlight 320,619 640x109",
         "connection 1075,12 193x31",
         "pace 1086,61 182x30",
         "recover 1116,97 152x44",
@@ -5986,9 +5701,12 @@
       ],
       "overlaps": [
         "the class x ending 15x358",
-        "rumor mill x ending 15x72"
+        "rumor mill x ending 15x72",
+        "spotlight x ending 640x109"
       ],
-      "covered": [],
+      "covered": [
+        "\"Whole class\" in spotlight under ending"
+      ],
       "offScreen": [],
       "canvas": [],
       "flags": {
@@ -6007,10 +5725,11 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x345",
         "rumor mill 12,448 263x72",
+        "spotlight 256,587 512x109",
         "connection 819,12 193x31",
         "pace 830,61 182x30",
         "recover 860,97 152x44",
@@ -6025,6 +5744,7 @@
         "status: world x ending 66x31",
         "the class x ending 143x345",
         "rumor mill x ending 143x72",
+        "spotlight x ending 512x109",
         "pace x ending 62x30",
         "recover x ending 32x44",
         "map buttons x ending 347x4",
@@ -6033,6 +5753,7 @@
       "covered": [
         "\"The class\" in the class under ending",
         "\"The Rumor Mill\" in rumor mill under ending",
+        "\"Whole class\" in spotlight under ending",
         "\"Study\" in pace under ending"
       ],
       "offScreen": [],
@@ -6053,10 +5774,11 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x345",
         "rumor mill 12,448 263x72",
+        "spotlight 342,587 683x109",
         "connection 1161,12 193x31",
         "pace 1172,61 182x30",
         "recover 1202,97 152x44",
@@ -6068,10 +5790,13 @@
         "ending 303,54 760x660"
       ],
       "overlaps": [
+        "spotlight x ending 683x109",
         "map buttons x ending 176x4",
         "journal button x ending 104x4"
       ],
-      "covered": [],
+      "covered": [
+        "\"Whole class\" in spotlight under ending"
+      ],
       "offScreen": [],
       "canvas": [],
       "flags": {
@@ -6090,10 +5815,11 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x470",
         "rumor mill 12,573 263x72",
+        "spotlight 592,899 736x109",
         "connection 1715,12 193x31",
         "pace 1726,61 182x30",
         "recover 1756,97 152x44",
@@ -6124,10 +5850,11 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x326",
         "rumor mill 12,429 263x72",
+        "spotlight 320,539 640x109",
         "connection 1075,12 193x31",
         "pace 1086,61 182x30",
         "recover 1116,97 152x44",
@@ -6158,10 +5885,11 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x358",
         "rumor mill 12,461 263x72",
+        "spotlight 320,619 640x109",
         "connection 1075,12 193x31",
         "pace 1086,61 182x30",
         "recover 1116,97 152x44",
@@ -6192,10 +5920,11 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x345",
         "rumor mill 12,448 263x72",
+        "spotlight 256,587 512x109",
         "connection 819,12 193x31",
         "pace 830,61 182x30",
         "recover 860,97 152x44",
@@ -6226,10 +5955,11 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 207x38",
+        "status: session 12,12 205x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x345",
         "rumor mill 12,448 263x72",
+        "spotlight 342,587 683x109",
         "connection 1161,12 193x31",
         "pace 1172,61 182x30",
         "recover 1202,97 152x44",
@@ -6260,7 +5990,7 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 203x38",
+        "status: session 12,12 206x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x470",
         "rumor mill 12,573 476x231",
@@ -6295,7 +6025,7 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 203x38",
+        "status: session 12,12 206x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x326",
         "rumor mill 12,429 476x91",
@@ -6330,7 +6060,7 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 203x38",
+        "status: session 12,12 206x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x358",
         "rumor mill 12,461 476x139",
@@ -6365,7 +6095,7 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 203x38",
+        "status: session 12,12 206x38",
         "status: world 12,56 94x31",
         "the class 12,95 447x345",
         "rumor mill 12,448 447x120",
@@ -6400,7 +6130,7 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 203x38",
+        "status: session 12,12 206x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x345",
         "rumor mill 12,448 476x120",
@@ -6449,25 +6179,12 @@
         "map buttons 1021,710 331x44",
         "sound button 711,710 46x44",
         "map framing 12,746 135x16",
-        "person card 765,505 260x197",
-        "first-meeting tip 324,446 433x75"
+        "first-meeting tip 551,466 576x55"
       ],
       "overlaps": [],
       "covered": [],
       "offScreen": [],
-      "canvas": [
-        {
-          "what": "the person being ordered",
-          "under": "ability bar",
-          "share": 1,
-          "box": {
-            "x": 633,
-            "y": 660,
-            "w": 4,
-            "h": 7
-          }
-        }
-      ],
+      "canvas": [],
       "flags": {
         "panel": "false",
         "meeting": "false",
@@ -6498,25 +6215,12 @@
         "map buttons 1021,599 331x44",
         "sound button 711,599 46x44",
         "map framing 12,635 135x16",
-        "person card 765,394 260x197",
-        "first-meeting tip 324,335 433x75"
+        "first-meeting tip 551,355 576x55"
       ],
       "overlaps": [],
       "covered": [],
       "offScreen": [],
-      "canvas": [
-        {
-          "what": "the person being ordered",
-          "under": "ability bar",
-          "share": 1,
-          "box": {
-            "x": 640,
-            "y": 563,
-            "w": 4,
-            "h": 7
-          }
-        }
-      ],
+      "canvas": [],
       "flags": {
         "panel": "false",
         "meeting": "false",
@@ -6547,25 +6251,12 @@
         "map buttons 935,742 331x44",
         "sound button 625,742 46x44",
         "map framing 12,778 135x16",
-        "person card 710,537 260x197",
-        "first-meeting tip 324,459 378x94"
+        "first-meeting tip 508,498 576x55"
       ],
       "overlaps": [],
       "covered": [],
       "offScreen": [],
-      "canvas": [
-        {
-          "what": "the person being ordered",
-          "under": "ability bar",
-          "share": 1,
-          "box": {
-            "x": 588,
-            "y": 687,
-            "w": 4,
-            "h": 7
-          }
-        }
-      ],
+      "canvas": [],
       "flags": {
         "panel": "false",
         "meeting": "false",
@@ -6596,25 +6287,12 @@
         "map buttons 935,631 331x44",
         "sound button 625,631 46x44",
         "map framing 12,667 135x16",
-        "person card 710,426 260x197",
-        "first-meeting tip 324,348 378x94"
+        "first-meeting tip 508,387 576x55"
       ],
       "overlaps": [],
       "covered": [],
       "offScreen": [],
-      "canvas": [
-        {
-          "what": "the person being ordered",
-          "under": "ability bar",
-          "share": 1,
-          "box": {
-            "x": 595,
-            "y": 591,
-            "w": 4,
-            "h": 7
-          }
-        }
-      ],
+      "canvas": [],
       "flags": {
         "panel": "false",
         "meeting": "false",
@@ -6645,25 +6323,12 @@
         "map buttons 679,542 331x44",
         "sound button 369,542 46x44",
         "map framing 12,578 135x16",
-        "person card 582,337 260x197",
-        "first-meeting tip 324,198 250x155"
+        "first-meeting tip 380,298 576x55"
       ],
       "overlaps": [],
       "covered": [],
       "offScreen": [],
-      "canvas": [
-        {
-          "what": "the person being ordered",
-          "under": "ability bar",
-          "share": 1,
-          "box": {
-            "x": 473,
-            "y": 514,
-            "w": 4,
-            "h": 7
-          }
-        }
-      ],
+      "canvas": [],
       "flags": {
         "panel": "false",
         "meeting": "false",
@@ -6694,8 +6359,7 @@
         "map buttons 1575,1022 331x44",
         "sound button 1265,1022 46x44",
         "map framing 12,1058 135x16",
-        "person card 1030,817 260x197",
-        "first-meeting tip 385,778 576x55"
+        "first-meeting tip 828,778 576x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -6885,19 +6549,7 @@
       "overlaps": [],
       "covered": [],
       "offScreen": [],
-      "canvas": [
-        {
-          "what": "bubble \"Eighteen men at the crossing. \"",
-          "under": "site chooser",
-          "share": 0.1,
-          "box": {
-            "x": 383,
-            "y": 260,
-            "w": 224,
-            "h": 42
-          }
-        }
-      ],
+      "canvas": [],
       "flags": {
         "panel": "false",
         "meeting": "false",
@@ -6968,7 +6620,6 @@
         "sound button 711,710 46x44",
         "map framing 12,746 135x16",
         "solo controls 1299,12 55x34",
-        "person card 683,272 260x197",
         "wagon load 954,64 400x438"
       ],
       "overlaps": [],
@@ -7006,7 +6657,6 @@
         "sound button 711,599 46x44",
         "map framing 12,635 135x16",
         "solo controls 1299,12 55x34",
-        "person card 374,202 260x197",
         "wagon load 954,64 400x327"
       ],
       "overlaps": [],
@@ -7047,7 +6697,6 @@
         "sound button 625,742 46x44",
         "map framing 12,778 135x16",
         "solo controls 1213,12 55x34",
-        "person card 329,289 260x197",
         "wagon load 868,64 400x470",
         "icon tip 535,572 272x69"
       ],
@@ -7089,7 +6738,6 @@
         "sound button 625,631 46x44",
         "map framing 12,667 135x16",
         "solo controls 1213,12 55x34",
-        "person card 330,234 260x197",
         "wagon load 868,64 400x359"
       ],
       "overlaps": [],
@@ -7126,7 +6774,6 @@
         "sound button 369,542 46x44",
         "map framing 12,578 135x16",
         "solo controls 957,12 55x34",
-        "person card 324,80 260x197",
         "wagon load 612,64 400x270"
       ],
       "overlaps": [],
@@ -7164,256 +6811,13 @@
         "family: row 8 12,564 300x48",
         "family: row 9 12,617 300x48",
         "family: row 10 12,670 300x48",
-        "family: row 11 12,723 300x48",
-        "family: row 12 12,776 300x46",
+        "family: row 11 12,723 300x59",
         "ability bar 774,830 372x186",
         "journal button 1319,1022 104x44",
         "map buttons 1575,1022 331x44",
         "sound button 1265,1022 46x44",
         "map framing 12,1058 135x16",
         "solo controls 1853,12 55x34",
-        "person card 949,423 260x197",
-        "wagon load 1508,64 400x934"
-      ],
-      "overlaps": [],
-      "covered": [],
-      "offScreen": [],
-      "canvas": [],
-      "flags": {
-        "panel": "false",
-        "meeting": "false",
-        "placing": "false",
-        "backdrop": false,
-        "journalBackdrop": false
-      }
-    },
-    {
-      "page": "student",
-      "state": "solo-person-card",
-      "at": "1366x768",
-      "shot": "test-results\\overlap\\student-solo-person-card-1366x768.png",
-      "following": false,
-      "unreachable": [],
-      "drawn": [
-        "status: session 12,12 218x38",
-        "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 248x31",
-        "family: fold 12,169 83x20",
-        "family: row 1 12,193 300x48",
-        "family: row 2 12,246 300x48",
-        "family: row 3 12,299 300x48",
-        "family: row 4 12,352 300x48",
-        "family: row 5 12,405 300x48",
-        "family: row 6 12,458 300x48",
-        "ability bar 497,518 372x186",
-        "journal button 663,710 104x44",
-        "map buttons 919,710 433x44",
-        "sound button 609,710 46x44",
-        "map framing 12,746 135x16",
-        "solo controls 1299,12 55x34",
-        "person card 664,263 260x197",
-        "wagon load 954,64 400x438"
-      ],
-      "overlaps": [],
-      "covered": [],
-      "offScreen": [],
-      "canvas": [],
-      "flags": {
-        "panel": "false",
-        "meeting": "false",
-        "placing": "false",
-        "backdrop": false,
-        "journalBackdrop": false
-      }
-    },
-    {
-      "page": "student",
-      "state": "solo-person-card",
-      "at": "1366x657",
-      "shot": "test-results\\overlap\\student-solo-person-card-1366x657.png",
-      "following": false,
-      "unreachable": [],
-      "drawn": [
-        "status: session 12,12 218x38",
-        "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 248x31",
-        "family: fold 12,169 83x20",
-        "family: row 1 12,193 300x48",
-        "family: row 2 12,246 300x48",
-        "family: row 3 12,299 300x48",
-        "family: row 4 12,352 300x47",
-        "ability bar 497,407 372x186",
-        "journal button 663,599 104x44",
-        "map buttons 919,599 433x44",
-        "sound button 609,599 46x44",
-        "map framing 12,635 135x16",
-        "solo controls 1299,12 55x34",
-        "person card 664,202 260x197",
-        "wagon load 954,64 400x327"
-      ],
-      "overlaps": [],
-      "covered": [],
-      "offScreen": [],
-      "canvas": [],
-      "flags": {
-        "panel": "false",
-        "meeting": "false",
-        "placing": "false",
-        "backdrop": false,
-        "journalBackdrop": false
-      }
-    },
-    {
-      "page": "student",
-      "state": "solo-person-card",
-      "at": "1280x800",
-      "shot": "test-results\\overlap\\student-solo-person-card-1280x800.png",
-      "following": false,
-      "unreachable": [],
-      "drawn": [
-        "status: session 12,12 218x38",
-        "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 248x31",
-        "family: fold 12,169 83x20",
-        "family: row 1 12,193 300x48",
-        "family: row 2 12,246 300x48",
-        "family: row 3 12,299 300x48",
-        "family: row 4 12,352 300x48",
-        "family: row 5 12,405 300x48",
-        "family: row 6 12,458 300x48",
-        "family: row 7 12,511 300x31",
-        "ability bar 454,550 372x186",
-        "journal button 577,742 104x44",
-        "map buttons 833,742 433x44",
-        "sound button 523,742 46x44",
-        "map framing 12,778 135x16",
-        "solo controls 1213,12 55x34",
-        "person card 324,143 260x197",
-        "wagon load 868,64 400x470"
-      ],
-      "overlaps": [],
-      "covered": [],
-      "offScreen": [],
-      "canvas": [],
-      "flags": {
-        "panel": "false",
-        "meeting": "false",
-        "placing": "false",
-        "backdrop": false,
-        "journalBackdrop": false
-      }
-    },
-    {
-      "page": "student",
-      "state": "solo-person-card",
-      "at": "1280x689",
-      "shot": "test-results\\overlap\\student-solo-person-card-1280x689.png",
-      "following": false,
-      "unreachable": [],
-      "drawn": [
-        "status: session 12,12 218x38",
-        "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 248x31",
-        "family: fold 12,169 83x20",
-        "family: row 1 12,193 300x48",
-        "family: row 2 12,246 300x48",
-        "family: row 3 12,299 300x48",
-        "family: row 4 12,352 300x48",
-        "family: row 5 12,405 300x26",
-        "ability bar 454,439 372x186",
-        "journal button 577,631 104x44",
-        "map buttons 833,631 433x44",
-        "sound button 523,631 46x44",
-        "map framing 12,667 135x16",
-        "solo controls 1213,12 55x34",
-        "person card 324,88 260x197",
-        "wagon load 868,64 400x359"
-      ],
-      "overlaps": [],
-      "covered": [],
-      "offScreen": [],
-      "canvas": [],
-      "flags": {
-        "panel": "false",
-        "meeting": "false",
-        "placing": "false",
-        "backdrop": false,
-        "journalBackdrop": false
-      }
-    },
-    {
-      "page": "student",
-      "state": "solo-person-card",
-      "at": "1024x600",
-      "shot": "test-results\\overlap\\student-solo-person-card-1024x600.png",
-      "following": false,
-      "unreachable": [],
-      "drawn": [
-        "status: session 12,12 218x38",
-        "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 248x31",
-        "family: fold 12,169 83x20",
-        "family: row 1 12,193 300x48",
-        "family: row 2 12,246 300x48",
-        "family: row 3 12,299 300x43",
-        "ability bar 326,350 372x186",
-        "journal button 321,542 104x44",
-        "map buttons 577,542 433x44",
-        "sound button 267,542 46x44",
-        "map framing 12,578 135x16",
-        "solo controls 957,12 55x34",
-        "person card 324,43 260x197",
-        "wagon load 612,64 400x270"
-      ],
-      "overlaps": [],
-      "covered": [],
-      "offScreen": [],
-      "canvas": [],
-      "flags": {
-        "panel": "false",
-        "meeting": "false",
-        "placing": "false",
-        "backdrop": false,
-        "journalBackdrop": false
-      }
-    },
-    {
-      "page": "student",
-      "state": "solo-person-card",
-      "at": "1920x1080",
-      "shot": "test-results\\overlap\\student-solo-person-card-1920x1080.png",
-      "following": false,
-      "unreachable": [],
-      "drawn": [
-        "status: session 12,12 218x38",
-        "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 248x31",
-        "family: fold 12,169 83x20",
-        "family: row 1 12,193 300x48",
-        "family: row 2 12,246 300x48",
-        "family: row 3 12,299 300x48",
-        "family: row 4 12,352 300x48",
-        "family: row 5 12,405 300x48",
-        "family: row 6 12,458 300x48",
-        "family: row 7 12,511 300x48",
-        "family: row 8 12,564 300x48",
-        "family: row 9 12,617 300x48",
-        "family: row 10 12,670 300x48",
-        "family: row 11 12,723 300x48",
-        "family: row 12 12,776 300x46",
-        "ability bar 774,830 372x186",
-        "journal button 1217,1022 104x44",
-        "map buttons 1473,1022 433x44",
-        "sound button 1163,1022 46x44",
-        "map framing 12,1058 135x16",
-        "solo controls 1853,12 55x34",
-        "person card 941,419 260x197",
         "wagon load 1508,64 400x934"
       ],
       "overlaps": [],
@@ -7448,11 +6852,11 @@
         "family: row 5 12,405 300x48",
         "family: row 6 12,458 300x48",
         "ability bar 497,518 372x186",
-        "journal button 663,710 104x44",
-        "map buttons 919,710 433x44",
-        "sound button 609,710 46x44",
+        "journal button 652,710 104x44",
+        "map buttons 908,710 444x44",
+        "sound button 598,710 46x44",
         "map framing 12,746 135x16",
-        "solo controls 1186,12 168x34",
+        "solo controls 1180,12 174x34",
         "wagon load 954,64 400x438"
       ],
       "overlaps": [],
@@ -7485,11 +6889,11 @@
         "family: row 3 12,299 300x48",
         "family: row 4 12,352 300x47",
         "ability bar 497,407 372x186",
-        "journal button 663,599 104x44",
-        "map buttons 919,599 433x44",
-        "sound button 609,599 46x44",
+        "journal button 652,599 104x44",
+        "map buttons 908,599 444x44",
+        "sound button 598,599 46x44",
         "map framing 12,635 135x16",
-        "solo controls 1186,12 168x34",
+        "solo controls 1180,12 174x34",
         "wagon load 954,64 400x327"
       ],
       "overlaps": [],
@@ -7525,11 +6929,11 @@
         "family: row 6 12,458 300x48",
         "family: row 7 12,511 300x31",
         "ability bar 454,550 372x186",
-        "journal button 577,742 104x44",
-        "map buttons 833,742 433x44",
-        "sound button 523,742 46x44",
+        "journal button 566,742 104x44",
+        "map buttons 822,742 444x44",
+        "sound button 512,742 46x44",
         "map framing 12,778 135x16",
-        "solo controls 1100,12 168x34",
+        "solo controls 1094,12 174x34",
         "wagon load 868,64 400x470"
       ],
       "overlaps": [],
@@ -7563,11 +6967,11 @@
         "family: row 4 12,352 300x48",
         "family: row 5 12,405 300x26",
         "ability bar 454,439 372x186",
-        "journal button 577,631 104x44",
-        "map buttons 833,631 433x44",
-        "sound button 523,631 46x44",
+        "journal button 566,631 104x44",
+        "map buttons 822,631 444x44",
+        "sound button 512,631 46x44",
         "map framing 12,667 135x16",
-        "solo controls 1100,12 168x34",
+        "solo controls 1094,12 174x34",
         "wagon load 868,64 400x359"
       ],
       "overlaps": [],
@@ -7599,11 +7003,11 @@
         "family: row 2 12,246 300x48",
         "family: row 3 12,299 300x43",
         "ability bar 326,350 372x186",
-        "journal button 321,542 104x44",
-        "map buttons 577,542 433x44",
-        "sound button 267,542 46x44",
+        "journal button 310,542 104x44",
+        "map buttons 566,542 444x44",
+        "sound button 256,542 46x44",
         "map framing 12,578 135x16",
-        "solo controls 844,12 168x34",
+        "solo controls 838,12 174x34",
         "wagon load 612,64 400x270"
       ],
       "overlaps": [],
@@ -7641,14 +7045,13 @@
         "family: row 8 12,564 300x48",
         "family: row 9 12,617 300x48",
         "family: row 10 12,670 300x48",
-        "family: row 11 12,723 300x48",
-        "family: row 12 12,776 300x46",
+        "family: row 11 12,723 300x59",
         "ability bar 774,830 372x186",
-        "journal button 1217,1022 104x44",
-        "map buttons 1473,1022 433x44",
-        "sound button 1163,1022 46x44",
+        "journal button 1206,1022 104x44",
+        "map buttons 1462,1022 444x44",
+        "sound button 1152,1022 46x44",
         "map framing 12,1058 135x16",
-        "solo controls 1740,12 168x34",
+        "solo controls 1734,12 174x34",
         "wagon load 1508,64 400x934"
       ],
       "overlaps": [],

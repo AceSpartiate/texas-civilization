@@ -175,7 +175,7 @@ try {
   const riderOpened = await page.evaluate(id => {
     const entity = window.__snapshot.world.entities.find(e => e.id === id);
     const camera = window.__camera;
-    return { opened: window.__needOpened, miles: Math.hypot(camera.cx - entity.location.x, camera.cy - entity.location.y), card: document.querySelector('#selection').dataset.entityId,
+    return { opened: window.__needOpened, miles: Math.hypot(camera.cx - entity.location.x, camera.cy - entity.location.y), card: window.__selected ?? document.querySelector('#selection').dataset.entityId,
       focusInEncounter: Boolean(document.activeElement?.closest('#encounter')), focused: document.activeElement?.id || document.activeElement?.getAttribute('aria-label') };
   }, listener);
   assert.equal(riderOpened.opened.kind, 'rider');
@@ -202,7 +202,7 @@ try {
   await pressMark(page, callers.at(-1), 'click');
   await page.waitForFunction(() => !document.querySelector('#call-menu').hidden && document.activeElement?.closest?.('#call-menu') && document.activeElement.matches('input'), null, { timeout: 5000 });
   const called = await page.evaluate(() => ({ text: document.querySelector('#call-menu-text')?.textContent, kind: window.__snapshot.world.request.kind, menu: window.__callMenu,
-    inputs: [...document.querySelectorAll('#call-menu input')].map(input => input.type), focused: document.activeElement.dataset.callMenuPerson, card: document.querySelector('#selection').dataset.entityId, opened: window.__needOpened }));
+    inputs: [...document.querySelectorAll('#call-menu input')].map(input => input.type), focused: document.activeElement.dataset.callMenuPerson, card: window.__selected ?? document.querySelector('#selection').dataset.entityId, opened: window.__needOpened }));
   assert.equal(called.card, callers.at(-1), 'the camera and card did not go to the person whose "!" was pressed');
   assert.deepEqual(called.menu.rows.map(row => row.id).sort(), [...answerers].sort(), 'the menu does not list exactly the people the server lets answer');
   assert.equal(called.menu.several, false); assert.ok(called.inputs.every(type => type === 'radio'), `a one-person call offers ${called.inputs}`);
@@ -412,7 +412,7 @@ try {
     await page.waitForFunction(id => Boolean(window.__snapshot?.world.entities.find(e => e.id === id)?.chore), asker, { timeout: 15000 });
   }
   assert.ok(opened, `${asker}'s question could not be opened before it lapsed, in ${measured.askerSentAgain || 0} tries`);
-  const asked = await page.evaluate(id => ({ card: document.querySelector('#selection').dataset.entityId, question: document.querySelector('#selection-work .ask-text')?.textContent,
+  const asked = await page.evaluate(id => ({ card: window.__selected ?? document.querySelector('#selection').dataset.entityId, question: document.querySelector('#selection-work .ask-text')?.textContent,
     focused: document.activeElement.querySelector('.work-name')?.textContent || document.activeElement.textContent, watching: document.querySelector('#map-nav [data-view=follow]').textContent }), asker);
   assert.equal(asked.card, asker);
   assert.ok(asked.watching.startsWith('Watching'), asked.watching);
@@ -457,7 +457,7 @@ try {
   await shot(page, 'offer-mark');
   await pressMark(page, tradedWith, 'click');
   await page.waitForFunction(() => document.activeElement?.dataset?.action === 'accept-offer', null, { timeout: 5000 });
-  const offered = await page.evaluate(() => ({ card: document.querySelector('#selection').dataset.entityId, said: document.querySelector('#selection-trade .trade-note')?.textContent, watching: document.querySelector('#map-nav [data-view=follow]').textContent }));
+  const offered = await page.evaluate(() => ({ card: window.__selected ?? document.querySelector('#selection').dataset.entityId, said: document.querySelector('#selection-trade .trade-note')?.textContent, watching: document.querySelector('#map-nav [data-view=follow]').textContent }));
   assert.equal(offered.card, tradedWith);
   assert.ok(offered.watching.startsWith('Watching'));
   measured.offer = { tradedWith, neighbour, ...offered };
@@ -540,6 +540,8 @@ try {
   await page.locator(`.panel-portrait[data-portrait="${principalId}"]`).dblclick();
   await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.focused === 'true' && document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.main === 'true', principalId, { timeout: 15000 });
   assert.equal(world().households['hh-1'].mainId, principalId, 'a double press on a portrait did not make them the main person');
+  // Their bar grows the main person's journeys, the yard and rest; let that land before the quiet stretch below counts nodes.
+  await page.waitForTimeout(2000);
   await shot(page, 'main-person');
   ok(`pressing the main person's star from Gonzales brings the camera back to them (${back.toFixed(3)} mi); a double press on another's portrait makes ${principalId} the main person, as the star does`);
 
@@ -683,7 +685,7 @@ try {
   // Then on the desk: opened from the second person's "!", both ticked, confirmed; both sent, the camera on the first.
   await pressMark(page2, opener, 'click');
   await page2.waitForFunction(() => !document.querySelector('#call-menu').hidden && document.activeElement?.closest?.('#call-menu'), null, { timeout: 5000 });
-  const menu2 = await page2.evaluate(() => ({ ...window.__callMenu, text: document.querySelector('#call-menu-text').textContent, types: [...document.querySelectorAll('#call-menu input')].map(input => input.type), card: document.querySelector('#selection').dataset.entityId }));
+  const menu2 = await page2.evaluate(() => ({ ...window.__callMenu, text: document.querySelector('#call-menu-text').textContent, types: [...document.querySelectorAll('#call-menu input')].map(input => input.type), card: window.__selected ?? document.querySelector('#selection').dataset.entityId }));
   assert.equal(menu2.several, true, 'a settlement’s call is offered as a single choice');
   assert.ok(menu2.types.every(type => type === 'checkbox'), `the rows are ${menu2.types}`);
   assert.deepEqual(menu2.rows.map(row => row.id).sort(), [...answerers2].sort());
@@ -702,7 +704,7 @@ try {
     assert.ok(person.travel?.to === 'gonzales' || person.location.siteId === 'gonzales', `${id} is not on the road to Gonzales`);
     assert.ok(person.commitments.some(c => c.id === 'volunteer' && c.status === 'active'), `${id} made no promise`);
   }
-  const afterSend = await page2.evaluate(() => ({ card: document.querySelector('#selection').dataset.entityId, error: (document.querySelector('#error')?.textContent || '').trim(), watching: document.querySelector('#map-nav [data-view=follow]')?.textContent }));
+  const afterSend = await page2.evaluate(() => ({ card: window.__selected ?? document.querySelector('#selection').dataset.entityId, error: (document.querySelector('#error')?.textContent || '').trim(), watching: document.querySelector('#map-nav [data-view=follow]')?.textContent }));
   assert.equal(afterSend.card, canGo[0], 'the camera did not go to the first person sent');
   assert.equal(afterSend.error, '', `a refusal was said: ${afterSend.error}`);
   await page2.waitForTimeout(400);

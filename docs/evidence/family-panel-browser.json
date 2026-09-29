@@ -13,10 +13,10 @@
     "hovering an icon shows a small popup with one sentence: \"Rest\" - \"Sit still at home, which is the only thing that mends tiredness.\"",
     "focusing an icon from the keyboard shows the same popup, and Escape puts it away",
     "pressing \"Practise at the mark\" sets hh-1-child-2 to it on the server, and its icon glows",
-    "it glowed through the practice (13 samples) and went out when the server said it was done (powder 5 to 3)",
-    "one press on an adult's portrait makes hh-1-parent-1 the main person on the server (one set-main, the star's), and opens their card, their bar and the map on them",
-    "the main person's portrait sends nothing, the star makes hh-1-child-2 main again, and a child's portrait is refused as the star is: \"Prudence Proofwright is too young to be sent.\", their card and bar still opened",
-    "pressing a portrait moves the camera onto that person and zooms in (scale 678 to 2605, 0.000 miles off)",
+    "it glowed through the practice (8 samples) and went out when the server said it was done (powder 5 to 3)",
+    "one press on an adult's portrait makes hh-1-parent-1 the main person on the server (one set-main, the star's), gives them the bar and the map, and opens no card",
+    "the main person's portrait sends nothing, the star makes hh-1-child-2 main again, and a child's portrait is refused as the star is: \"Prudence Proofwright is too young to be sent.\", and still gives them their bar",
+    "pressing a portrait moves the camera onto that person and zooms in (scale 678 to 2605, 0.004 miles off)",
     "all 14 names changed in place and saved themselves - left by Tab, and the last by a pause in typing: Asa, Keziah, Hiram, Delia, Obed, Minerva, Levi, Soledad, Jonas, Effie, Silas, Orpha, Enos, Tomasa",
     "a name with no letters is refused in the server’s words, and the box goes back to the name the world holds",
     "after a reload every new name is in its box on the panel and in the family book",
@@ -54,7 +54,7 @@
     },
     "glow": {
       "worker": "hh-1-child-2",
-      "samplesGlowingWhileBusy": 13,
+      "samplesGlowingWhileBusy": 8,
       "powderBefore": 5,
       "powderAfter": 3
     },
@@ -72,11 +72,11 @@
         "scale": 678.1713759617705
       },
       "after": {
-        "cx": 2.6475,
-        "cy": -10.7785,
+        "cx": 2.6514798400012016,
+        "cy": -10.7774966400002,
         "scale": 2605.263157894737
       },
-      "milesFromPerson": 0
+      "milesFromPerson": 0.0042
     },
     "phone": {
       "panel": {
