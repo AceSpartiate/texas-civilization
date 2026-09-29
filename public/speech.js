@@ -126,7 +126,7 @@ export function drawSpeech(ctx, line, x, y, { alpha = 1, bounds = null, scale = 
  * ceiling: bubbles are placed first come, first served, never moved to make room for a later one; a real solver (every bubble
  * at once) would fit more in a crowd, and is the way out if a crowded screen ever has to hold more than the few it does.
  */
-const MARGIN = 4, MAX_RAISE = 110, MAX_TAIL = 150, KEEP_MS = 1500;
+const MARGIN = 4, MAX_RAISE = 110, MAX_TAIL = 150, KEEP_MS = 1500, UNDER_AT_MOST = 0.25;
 /** Where each line stood last, relative to where it would stand over its speaker (`dx`, `dy`), and when. */
 const lastSpot = new Map();
 /** Two boxes sharing more than their edges, with `margin` round the first. */
@@ -217,14 +217,15 @@ export function speechLayout({ width, height, room = null, avoid = [], now = (ty
         const found = inRoom(l, t, w, h, x) && fits(l, t);
         if (found) return keep(l, t, found);
       }
-      // No room clear of the panels within reach of the speaker. A speaker the student can see keeps their words beside them,
-      // partly under the panel, rather than on another's or across the screen (the overlap proof holds a panel to half a
-      // bubble); a speaker under a panel says nothing until they come out from it, and the neighbours' line waits.
+      // No room clear of the panels within reach of the speaker. A speaker the student can see keeps their words beside them
+      // with a panel over a corner of the bubble at most (`UNDER_AT_MOST`, measured by `room.under`), rather than on another's,
+      // across the screen or mostly under a panel (the overlap proof fails half: 72% under the bar at 1280x800 before this
+      // limit); otherwise - and for a speaker under a panel - nothing is said until there is room, and the neighbours' line waits.
       const seen = !room || (spot => spot && spot.left <= x && x <= spot.right)(room(y - 2, y, x, 0));
       if (!seen) return null;
       for (const { l, t } of tries) {
         const found = fits(l, t);
-        if (found) return keep(l, t, found);
+        if (found && !(room?.under && room.under(found.box) > UNDER_AT_MOST)) return keep(l, t, found);
       }
       return null;
     },

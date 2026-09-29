@@ -1569,7 +1569,7 @@ function speechRoom(canvas) {
       .map(box => ({ left: (box.left - frame.left) * k, right: (box.right - frame.left) * k, top: (box.top - frame.top) * k, bottom: (box.bottom - frame.top) * k }));
   };
   // The stretch clear of every piece at the bubble's height nearest where it wants to stand, wide enough for it (`w`), or null.
-  return (top, bottom, x = canvas.width / 2, w = 0) => {
+  const room = (top, bottom, x = canvas.width / 2, w = 0) => {
     boxes ||= measure();
     let free = [[2, canvas.width - 2]];
     for (const box of boxes) {
@@ -1582,6 +1582,16 @@ function speechRoom(canvas) {
     const [left, right] = fits.reduce((best, span) => (away(span) < away(best) ? span : best));
     return { left, right };
   };
+  // How much of a box (canvas pixels) the pieces stand over, 0 to 1: the speech layout holds a bubble it could not fit in the
+  // room to a little of it (public/speech.js `UNDER_AT_MOST`; the overlap proof fails half).
+  room.under = box => {
+    boxes ||= measure();
+    const area = box.w * box.h || 1;
+    let covered = 0;
+    for (const one of boxes) covered += Math.max(0, Math.min(box.x + box.w, one.right) - Math.max(box.x, one.left)) * Math.max(0, Math.min(box.y + box.h, one.bottom) - Math.max(box.y, one.top));
+    return Math.min(1, covered / area);
+  };
+  return room;
 }
 function drawBattleCaption(ctx, battle, canvas) {
   const text = battle.caption || '', title = battle.title || '';
