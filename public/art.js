@@ -23,11 +23,31 @@ export function onArtReady(listener) {
 export function artStatus() { return art.status; }
 export function hasSprite(name) {
   const frame = art.frames[name];
+  if (frame && !art.images[frame.sheet]) missing?.add(frame.sheet);
   return Boolean(frame && art.images[frame.sheet]);
 }
 
-function notifyReady() {
-  for (const listener of listeners) listener(art.status);
+/** Each listener is told the status and the sheet that has just arrived. */
+function notifyReady(sheet) {
+  for (const listener of listeners) listener(art.status, sheet);
+}
+/**
+ * The sheets a drawing asked about and did not have (`watchMissing`): what the map's kept ground was drawn without, so that
+ * only the arrival of one of those draws the ground again (public/app.js `redrawForArrival`).
+ *
+ * Every arriving sheet used to throw the kept ground away, and in the first seconds of a class, or when the famous people are
+ * sent, a dozen sheets land at once, so the first frames that drew them drew the whole ground again too (30-55 ms of it here).
+ * Measured 2026-09-29 at the Alamo (`window.__mapDraws`; HANDOFF.md): the Host's first frame with the famous people went from
+ * 45-52 ms to 32-37 ms, and a student's first draws from 500-570 ms in all to about 400.
+ * Asked about means drawn (`drawSprite`) or asked after (`hasSprite`, `clipReady`, `spriteReady`), so a ground that drew a
+ * fallback because a sheet was not there still wants it. Before the manifests have been read nothing can be named, and the
+ * answer is null: anything that arrives may be wanted.
+ */
+let missing = null, manifestsRead = false;
+export function watchMissing() {
+  const noted = manifestsRead ? new Set() : null;
+  missing = noted;
+  return () => { if (missing === noted) missing = null; return noted; };
 }
 /**
  * A sheet, decoded before anything draws it (docs/PERFORMANCE_LOAD.md). Fetched as bytes and made an ImageBitmap, the
@@ -36,6 +56,11 @@ function notifyReady() {
  * ceiling: a bitmap holds its decoded pixels (about 6 MB a 1254-pixel sheet) for as long as the page is open, where the
  * browser may drop an <img>'s decode under memory pressure. The first view uses 13 sheets; `ImageBitmap.close()` on
  * sheets unused for minutes is the way out if a 4 GB Chromebook runs short over a whole game.
+ * Measured 2026-09-29 (Chrome tracing, HANDOFF.md): the accelerated canvas still prepares each bitmap on the main thread the
+ * first time a canvas draws it (GpuImageDecodeCache, about 5-10 ms a large sheet), so a frame that draws a dozen new sheets
+ * pays for all of them. Preparing each sheet ahead, as it arrives, was tried and not kept: it took a third off that frame but
+ * doubled the steady frames' 95th percentile in the battle view (10 to 20-30 ms), most likely the browser throwing out
+ * pictures it was using to keep the ones prepared. `img.decode()` was worse: an <img> on the canvas paid again at its second draw.
  */
 async function loadImage(source) {
   if (typeof fetch === 'function' && typeof createImageBitmap === 'function') {
@@ -83,12 +108,16 @@ function ensureManifests() {
       art.sheets = atlas?.sheets || {};
       art.clips = animation?.clips || {};
       mergeStandins(standins);
+      manifestsRead = true;
       if (!atlas) art.status = 'unavailable';
       return Boolean(atlas);
     })();
   }
   return manifestPending;
 }
+/** How many different sheets have been drawn at least once: the proofs' mark of a draw that used a sheet for the first time. */
+const drawnSheets = new Set();
+export const sheetsFirstDrawn = () => drawnSheets.size;
 /** How many sheets are on their way now: the flashback's recorder waits for none before it draws a frame (public/flashback.js). */
 let sheetsLoading = 0;
 export const sheetsInFlight = () => sheetsLoading;
@@ -105,7 +134,7 @@ function requestSheet(name) {
       sheetsLoading--;
       if (image) art.images[name] = image;
       art.status = Object.keys(art.images).length ? 'ready' : 'unavailable';
-      notifyReady();
+      notifyReady(name);
       return image;
     })());
   }
@@ -158,9 +187,10 @@ export function drawSprite(ctx, name, x, y, height, { flip = false, alpha = 1, a
   const frame = art.frames[name];
   const image = frame && art.images[frame.sheet];
   if (!image || !(height > 0)) {
-    if (frame && !image) requestSheet(frame.sheet);
+    if (frame && !image) { missing?.add(frame.sheet); requestSheet(frame.sheet); }
     return 0;
   }
+  drawnSheets.add(frame.sheet);
   const scale = height / (frame.logicalHeight || frame.h);
   const width = frame.w * scale, drawnHeight = frame.h * scale;
   // Undone by hand rather than with save and restore: the map lays down hundreds of sprites a redraw, and save and restore
@@ -201,6 +231,7 @@ export function clipReady(name) {
   const frame = typeof sprite === 'string' ? art.frames[sprite] : null;
   if (!frame) return false;
   if (art.images[frame.sheet]) return true;
+  missing?.add(frame.sheet);
   requestSheet(frame.sheet);
   return false;
 }
@@ -214,6 +245,7 @@ export function spriteReady(name) {
   const frame = art.frames[name];
   if (!frame) return false;
   if (art.images[frame.sheet]) return true;
+  missing?.add(frame.sheet);
   requestSheet(frame.sheet);
   return false;
 }

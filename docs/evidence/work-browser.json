@@ -6,7 +6,7 @@
   "checks": [
     "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 0/1/2/3, dust on the strike, 20 different pictures in 2.4 s",
     "three sent to the house (\"felling and hauling logs\") are drawn round it (738,409 / 859,384 / 617,384, a figure 77 px), each facing it, swinging an axe with the chips flying (chop in rust-chop, chop in teal-chop, chop in rust-chop; stand-in: Request 2026-09-28 — people at work, item 1)",
-    "at the mark Serafina Proofwright is drawn in teal-fire (frames 2/0/1) and a puff of smoke once a cycle (marks 0/4/3); surveying, Barnabas Proofwright drives the stakes in rust-stake (frames 0/1)",
+    "at the mark Serafina Proofwright is drawn in teal-idle-e,teal-fire (frames 0/1/2) and a puff of smoke once a cycle (marks 4/0/3); surveying, Barnabas Proofwright drives the stakes in rust-stake (frames 0/1)",
     "thirty-five logs on the pile are drawn as wood-pile-4, one sprite (projected {\"wall\":28,\"sill\":4,\"poor\":3,\"lying\":0})",
     "no page errors"
   ],
@@ -142,15 +142,16 @@
           "rust-work"
         ],
         "frames": [
-          4,
-          0,
-          3,
           5,
-          2
+          0,
+          2,
+          3,
+          4,
+          1
         ],
         "marks": [
-          1,
-          0
+          0,
+          1
         ],
         "shifts": [
           0
@@ -184,16 +185,16 @@
           "teal-work"
         ],
         "frames": [
-          4,
-          0,
-          1,
-          3,
           5,
-          2
+          0,
+          2,
+          3,
+          4,
+          1
         ],
         "marks": [
-          1,
-          0
+          0,
+          1
         ],
         "shifts": [
           0
@@ -231,8 +232,8 @@
           4,
           5,
           0,
-          1,
-          2
+          2,
+          1
         ],
         "marks": [
           1,
@@ -270,15 +271,16 @@
           "rust-chop"
         ],
         "frames": [
-          4,
-          0,
-          3,
           5,
-          2
+          0,
+          2,
+          3,
+          4,
+          1
         ],
         "marks": [
-          1,
-          0
+          0,
+          1
         ]
       },
       {
@@ -287,16 +289,16 @@
           "teal-chop"
         ],
         "frames": [
-          4,
-          0,
-          1,
-          3,
           5,
-          2
+          0,
+          2,
+          3,
+          4,
+          1
         ],
         "marks": [
-          1,
-          0
+          0,
+          1
         ]
       },
       {
@@ -309,8 +311,8 @@
           4,
           5,
           0,
-          1,
-          2
+          2,
+          1
         ],
         "marks": [
           1,
@@ -369,13 +371,13 @@
           "teal-idle-e"
         ],
         "frames": [
-          2,
           0,
-          1
+          1,
+          2
         ],
         "marks": [
-          0,
           4,
+          0,
           3
         ],
         "shifts": [
@@ -385,21 +387,24 @@
           false
         ],
         "tools": [
+          "rifle",
           null
         ],
         "workClips": [
+          "teal-idle-e",
           "teal-fire"
         ],
         "arts": [
+          "stand-in",
           "drawn"
         ],
-        "prints": 7,
+        "prints": 9,
         "at": {
           "x": 653,
           "y": 362,
           "size": 50
         },
-        "art": "drawn",
+        "art": "stand-in",
         "request": "Request 2026-09-28 — people at work, item 7"
       }
     },
