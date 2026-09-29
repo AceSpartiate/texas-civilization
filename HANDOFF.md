@@ -42,15 +42,15 @@ stand-ins* (area F). Each is drawn only where the game already asks for it, and 
   on hold** with the tutorial (owner, 2026-09-28).
 - **Proofs.** `node scripts/claude-art/land/proof.mjs gale trees` (docs/evidence/claude-art/land-gale-40.png, -77, land-trees-40,
   -77); `npm run art:compare -- land-gale land-trees land-effects land-ground land-scenery`.
-- **Evidence** (after merging `integration-2026-09-28` with area B): **`npm test` 1,661 pass, 0 fail, 36 skipped**;
-  `test:claude-art` clean; `test:work` 5 checks; `test:biome-game` 6; `test:battle-concepcion` 13 (the fog banks and the cut bank
-  seen in test-results/battle-concepcion-ringed-1366.png, which is why the banks are now scattered and softer). New tests, each
-  failed by injection first: `GALE_POSES` (weather-art), `own`/`ownStump` (woods-view), the drawn effects (work-art), the night
-  campfire and the mott (battle-view-south), the marsh edge (battle-view-san-jacinto), the ground pieces' fallback and the fog
-  (battle-view-groups). **Not green, and not this work's:** `scripts/weather-browser-proof.mjs` times out waiting for a running
-  solo game before anything is drawn (already recorded failing at HEAD, above); `test:mexican-advance` passes its nine checks
-  (the Host drawn the smoke) and fails on page errors "queue is not defined" from `public/flashback.js` (an undeclared `queue`,
-  last touched by ca368008 "Merge continue-ended-class"); `tests/save-retry.test.mjs` is timing-sensitive and failed once of four
+- **Evidence** (after merging `integration-2026-09-28` at 4e6a5787, with areas A, B and E and the looks-face fix): **`npm test`
+  1,670 pass, 0 fail, 36 skipped**; `test:claude-art` clean; `test:art` PASS; `test:work` 5 checks; `test:biome-game` 6;
+  `test:battle-concepcion` 13 (the fog banks and the cut bank seen in test-results/battle-concepcion-ringed-1366.png, which is
+  why the banks are now scattered and softer); `test:mexican-advance` 10 (the Host drawn the smoke; the undeclared `queue` in
+  flashback.js was fixed on integration). New tests, each failed by injection first: `GALE_POSES` (weather-art),
+  `own`/`ownStump` (woods-view), the night campfire and the mott (battle-view-south), the marsh edge (battle-view-san-jacinto),
+  the ground pieces' fallback and the fog (battle-view-groups); the drawn-effects test went with area F's effects path. **Not
+  green, and not this work's:** `scripts/weather-browser-proof.mjs` times out waiting for a running solo game before anything
+  is drawn (already recorded failing at HEAD, above); `tests/save-retry.test.mjs` is timing-sensitive and failed once of four
   under a browser proof's load.
 
 ## The parents' faces in How We Look: no hair over the face — owner, 2026-09-28 (branch `looks-face-2026-09-28` off `integration-2026-09-28` 600425eb; not released)
