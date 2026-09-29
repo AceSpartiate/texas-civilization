@@ -1,0 +1,95 @@
+{
+  "when": "2026-09-29T16:13:59.263Z",
+  "seen": {
+    "1366x768": {
+      "widths": {
+        "panel": 304,
+        "cards": 306,
+        "ask": 296,
+        "house": 296
+      },
+      "tight": "true",
+      "short": "false",
+      "fold": {
+        "top": 169,
+        "bottom": 189,
+        "inView": true
+      },
+      "ask": {
+        "top": 201,
+        "bottom": 303,
+        "inView": true
+      },
+      "house": {
+        "top": 317,
+        "bottom": 386,
+        "inView": true
+      },
+      "rows": {
+        "top": 396,
+        "bottom": 563,
+        "inView": false
+      }
+    },
+    "1024x600": {
+      "widths": {
+        "panel": 304,
+        "cards": 298,
+        "ask": 147,
+        "house": 137
+      },
+      "tight": "true",
+      "short": "true",
+      "fold": {
+        "top": 169,
+        "bottom": 189,
+        "inView": true
+      },
+      "ask": {
+        "top": 196,
+        "bottom": 250,
+        "inView": true
+      },
+      "house": {
+        "top": 196,
+        "bottom": 230,
+        "inView": true
+      },
+      "rows": {
+        "top": 256,
+        "bottom": 493,
+        "inView": false
+      }
+    },
+    "400x780": {
+      "widths": {
+        "panel": 376,
+        "cards": 306,
+        "ask": 296,
+        "house": 296
+      },
+      "tight": "true",
+      "short": "false",
+      "fold": {
+        "top": 123,
+        "bottom": 143,
+        "inView": true
+      },
+      "ask": {
+        "top": 155,
+        "bottom": 258,
+        "inView": true
+      },
+      "house": {
+        "top": 272,
+        "bottom": 340,
+        "inView": true
+      },
+      "rows": {
+        "top": 350,
+        "bottom": 535,
+        "inView": true
+      }
+    }
+  }
+}

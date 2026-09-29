@@ -1450,6 +1450,88 @@ selects" from "set main person", design audit B11; this rule sits beside it, for
 3. **A lone father sent to the war with only small children at home**: (A) warned on the control, as built; (B) refused, as a
    last woman of age with a baby once was proposed (interactions S3's direction); (C) allowed only once a neighbour has agreed to
    take them in.
+## 20b. Story cards: the house, and a family member's big moments — owner 2026-09-29 (not released)
+
+> "The choosing of a house button is hard to miss" [easy to miss]. "I like what you did with the ask the neighbors for help one.
+> Let's do the same thing with the house button." — and the same day: "In fact, let's use that same style as the alert for when a
+> family member is going through a major event like a battle, etc. Use your best judgement."
+>
+> — the owner, 2026-09-29
+
+**One frame for the family's big moments** (`.story-card`, public/style.css): warm paper in a framed edge, an icon in a halo, a
+small-capitals eyebrow, a title, one line, a primary button, and a slow glow that breathes - the frame of the lone parent's card
+(docs/FAMILY_CREATION.md, *The lone parent's path*). Each kind has its own accent (`data-accent`), so two cards on the screen are
+told apart at a glance, and urgency shows in how fast the glow breathes.
+
+| Card | Where | Accent | Glow | Icon |
+| --- | --- | --- | --- | --- |
+| Ask the neighbours for help | head of the family's column | gold and rose | 2.6 s | Claude's `icon-ask-neighbours` |
+| **Choose your house** | under it | **moss green** | 2.6 s; still once a house is chosen | `icon-build-house` |
+| ¡Alto! | the messages card, top right | alarm red | **0.9 s** | `icon-flee-hide` |
+| The road is asking / Told to leave for the east | the messages card | ember orange | 1.6 s | `icon-road-lookout` / `icon-flee-bundle` |
+| A call to arms (the march, a request: *Your family is being asked*) | the messages card | deep red | 2 s | `icon-enlist-auxiliary` |
+| A rider has stopped to speak | the messages card | leather brown | 2.2 s | `mark-need-rider` |
+| Riders wanted at the Alamo, a runner coming | the messages card | dusk violet | 2.4 s | `icon-join-relief` |
+| The fighting (Watch/Follow), in camp (the army asks) | the messages card | steel blue | 3.2 s | `icon-camp-guard`, `icon-camp-drill` |
+| Somebody very sick | the messages card | sickroom green | 3 s | `icon-nurse-home` |
+| Inside the Alamo | the messages card | adobe | 4.2 s | `icon-join-garrison` |
+| After the fight (wounded, killed, taken: the account) | the messages card | charcoal | **still** | `icon-travel-home` |
+
+### The house's card
+
+- **Replaces the "Choose a house" pill** that stood above the column (`#house-open`, absolutely placed at `top:104px` and easy to
+  miss). The card is `#house-card` in the column's own flow, under Hide names and over the rows; its button is `#house-open`, the
+  pill's own id, so it **shows exactly when the pill did and does exactly what it did** (opens the houses, or the house plot).
+- **No "Not now", on purpose.** A family must have a roof, and the card stops asking the moment a house is chosen: then it is
+  **quiet** (`data-quiet`) - the icon and *Your house* / *House: Round-log cabin* on one line, no glow, no eyebrow - and stays, as the
+  pill did, to open the plan again. Folded with the column (Hide names), it is its icon, which opens the houses.
+- **Where the house site must be chosen first** (the real land, on arrival), the card is not shown, as the pill was not, and the
+  words that say so are the land chooser's, which is always open in that moment: *"Tap a place on your land, inside the dashed
+  line, to look it over. Once the place is chosen, you choose the house."* The first turn of this showed the card waiting, a greyed
+  icon in the column folded for the chooser; at 1024x600 with a refusal on the screen that made the folded column overflow and
+  scroll Hide names out from under the chooser (`test:overlap`, guided-start-refused), so the chooser says it instead.
+- **A lone parent on arrival sees both**, the neighbours' card first: taking that path raises the house.
+- **Hide names** stays above both cards: the cards stand a little lower (`margin-top`) and the fold sits over any glow
+  (`z-index`), which the owner's screenshot showed partly covered.
+
+### The moments: what became a card, and what did not
+
+Converted (`public/military-attention.js` `militaryNotices`, drawn by `renderMilitaryNotice`): **every alert the messages card
+already carried** - the rider at the gate, Travis's runner and the call for couriers, the army's and Houston's questions in camp,
+inside the Alamo, a fight to Watch or a march to Follow, and the account after it (where a family member's wounding, death or capture
+is told) - **and five moments that were only the "!" on a row**: ¡Alto!, the road's question, the order to leave, the settlement's
+call to arms (and the march upriver and the other requests, titled for what they are), and somebody very sick. Their words and time
+left are the "!"'s own (public/family-panel.js `needsOf`); the card counts the time down each second as the "!" does; its button
+goes where the "!" goes (`openNeed`).
+
+**Nothing about timing or ranking moved.** The new cards are added after the rule that holds the Watch card back is read, so the
+order to leave, the road's question and ¡Alto! still hold it back (`roadAsking`), the call still does (`request`), and a sickness,
+which never did, still does not. Among the cards: ¡Alto!, then the road and the order to leave, then the call, then the rider, the
+couriers and camp, then the fight, then somebody very sick, then the account, then the quiet reminder of the Alamo - the "!"s'
+own order (`byUrgency`) where they overlap.
+
+Left as they were, and why: **the tips at first meeting** (they teach, they are not a moment); **the refusal line and the Host's
+notices** (a sentence, not an event); **the errand, the way of going, the call's menu and the meeting** (they are the answer, opened
+by a card's button, not the alert); **the fall of the Alamo and other news reaching the family** (they come as reports in the journal
+and by riders - the rider's card is the moment); **a death by sickness** (one plain sentence in the journal, by the owner's rule of
+2026-09-27, never a card on a projector-visible screen); **the Host's page** (the Host has no family, and its spotlight is its own).
+
+### Gates and evidence
+
+| Gate | What it means |
+| --- | --- |
+| Hard to miss | The house's card glows in its own accent at the head of the column, under the neighbours' card, from the moment the pill would show. |
+| The same button | `#house-open` is in the card; every proof that pressed the pill presses it; it opens the houses and the card comes back when they close. |
+| One frame, told apart | Every moment is a card of its kind: its accent, eyebrow, icon and glow (the account still); nine accents over eleven kinds. |
+| Nothing reordered | ¡Alto! first; the road and the order to leave hold the Watch card back; a sickness does not. |
+| Nothing covered | `test:overlap` with both cards and the call's card together, at 1366x768, 1024x600 and a 400 px phone: 0 faults. On a short column (1024x600, both cards) the cards stand side by side, each its button (`data-short`). On the phone the two column cards are held clear of everything; the phone's other pairs (the bar's two rows over the map's buttons, the messages card over the status lines, the first-meeting tip over the rows) are written to the record as `phoneRecorded` and not held - the phone is not a supported size (`test:panels` does the same) - and the floating person card over the column there is PENDING on the builder removing it. |
+
+`tests/military-attention.test.mjs` (one new test), proved by `node scripts/story-cards-injections.mjs` (5 of 5,
+[record](evidence/story-cards-injections.json)); `npm run test:story-cards` ([record](evidence/story-cards-browser.json)) - both
+cards, then each of the eleven moments put into a paused page and photographed (`docs/evidence/story-card-*.png`,
+`story-cards-both.png`); `test:family-panel` checks the house card (`docs/evidence/house-card.png`); the page's regressions by
+`node scripts/story-cards-injections.mjs --browser` ([record](evidence/story-cards-injections-browser.json)). Same computer only.
+
 ## 20a. Follow and watch — owner 2026-09-29 ("Follow and watch"), built the same day
 
 The owner, by multiple choice on the triage's D3(a) (docs/audits/2026-09-29-triage.md): a student whose whole family is gone, or whose

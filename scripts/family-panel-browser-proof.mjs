@@ -207,6 +207,29 @@ try {
   measured.glow = { worker, samplesGlowingWhileBusy: sawGlowWhileBusy, powderBefore, powderAfter };
   ok(`it glowed through the practice (${sawGlowWhileBusy} samples) and went out when the server said it was done (powder ${powderBefore} to ${powderAfter})`);
 
+  // ------------------------------------------------------ the house's card (owner, 2026-09-29: "The choosing of a house button is hard to miss")
+  // In place of the "Choose a house" pill: a card in the story cards' frame, moss green, glowing, at the head of the column under
+  // Hide names and over the rows, standing on neither; its button opens the houses, as the pill did.
+  await page.locator('#house-card').waitFor({ state: 'visible', timeout: 20000 });
+  measured.houseCard = await page.evaluate(() => {
+    const card = document.querySelector('#house-card'), style = getComputedStyle(card), box = one => one.getBoundingClientRect();
+    const fold = box(document.querySelector('#family-collapse')), c = box(card), rows = box(document.querySelector('#family-rows'));
+    return { accent: card.dataset.accent, glow: style.animationName, quiet: card.dataset.quiet, title: document.querySelector('#house-card-title').textContent,
+      button: document.querySelector('#house-card #house-open')?.textContent || null, inColumn: Boolean(card.closest('#family-panel')),
+      clearOfFold: c.top >= fold.bottom, aboveRows: c.bottom <= rows.top + 1, icon: document.querySelector('#house-card-icon').dataset.drawn };
+  });
+  assert.equal(measured.houseCard.button, 'Choose a house', 'the house card has no "Choose a house" button');
+  assert.equal(measured.houseCard.accent, 'house'); assert.equal(measured.houseCard.glow, 'card-glow', 'the house card does not glow');
+  assert.equal(measured.houseCard.inColumn, true); assert.equal(measured.houseCard.clearOfFold, true, 'the house card stands on Hide names');
+  assert.equal(measured.houseCard.aboveRows, true, 'the house card stands on the family’s rows');
+  await page.locator('#house-open').click();
+  await page.waitForFunction(() => ['#house-plan', '#house-plot'].some(one => document.querySelector(one) && !document.querySelector(one).hidden), null, { timeout: 15000 });
+  assert.equal(await page.locator('#house-card').isHidden(), true, 'the house card stayed up over the open plan');
+  await page.locator('#house-close:visible, #plot-close:visible').first().click();
+  await page.locator('#house-card').waitFor({ state: 'visible', timeout: 15000 });
+  await page.screenshot({ path: 'docs/evidence/house-card.png' });
+  ok(`the house card: "${measured.houseCard.title}", moss green and glowing (${measured.houseCard.glow}), under Hide names and over the rows; its button opens the houses and it comes back when they close`);
+
   // --------------------------------------------------------------------------------- the portrait takes the camera there
   const youngest = rows.at(-1).id;
   // A portrait is the star (owner, 2026-09-29: "When clicking on a character portrait it should be treated the same as clicking
@@ -289,7 +312,7 @@ try {
   // The lone parent's ability (public/app.js `renderAskNeighbours`, owner 2026-09-29) stands at the head of the column with its own
   // three buttons when it is offered; this family has two parents, and it is not.
   assert.equal(await page.locator('#ask-neighbours').isHidden(), true, 'a family with two parents was offered the lone parent path');
-  assert.equal(await page.locator('#family-panel button:not(.panel-portrait):not(.panel-icon):not(.panel-attention):not(.panel-focus):not(.panel-make-main):not(.panel-house):not(.panel-auto):not(#family-collapse):not(#ask-neighbours button)').count(), 0, 'the panel has a button that is not a portrait, an icon, one of the §11 controls (the "!", the star and its labelled twin in the bar, House, auto) or §12\u2019s Hide names');
+  assert.equal(await page.locator('#family-panel button:not(.panel-portrait):not(.panel-icon):not(.panel-attention):not(.panel-focus):not(.panel-make-main):not(.panel-house):not(.panel-auto):not(#family-collapse):not(#ask-neighbours button):not(#house-card button)').count(), 0, 'the panel has a button that is not a portrait, an icon, one of the §11 controls (the "!", the star and its labelled twin in the bar, House, auto) or §12\u2019s Hide names');
   assert.equal(await page.locator('#family-journal .name-row button, #family-name-form button').count(), 0, 'the family book still has Rename buttons');
   // Twenty, because a family may now be twenty (owner, 2026-09-22: the number rolled is the family); this seed rolls fourteen.
   const newNames = ['Asa', 'Keziah', 'Hiram', 'Delia', 'Obed', 'Minerva', 'Levi', 'Soledad', 'Jonas', 'Effie',

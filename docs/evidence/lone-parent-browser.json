@@ -1,16 +1,16 @@
 {
   "proof": "npm run test:lone-parent",
-  "when": "2026-09-29T15:07:50.807Z",
+  "when": "2026-09-29T17:41:40.691Z",
   "pass": [
     "on the land, before the house site is chosen: the ability is there, says to choose the site first, and cannot be pressed",
-    "on the land the ability waits, glowing (ask-glow), with the land marked on the map, standing on nothing: \"Take the children to the farms nearby and ask the neighbours to help Serafina raise a house.\"",
+    "on the land the ability waits, glowing (card-glow), with the land marked on the map, standing on nothing: \"Take the children to the farms nearby and ask the neighbours to help Serafina raise a house.\"",
     "Not now folds it to its glowing icon, which waits and opens it again: offered, never pressed on the student",
     "the scenes open on black with the travel said on it: \"Serafina and the children walk to the nearest farm.\"",
     "a reload in the middle of the second farm takes the scenes up at the same line",
     "the four scenes in order, 26 presses of Continue, 6 fades to and from black, every figure and building drawn",
     "home: 4 people, two parents on the panel, a round-log house standing, and the ability gone",
     "the family took his name - the page reads \"The Whitlow family\" - and Amos, the new husband, is its main person and principal",
-    "fades to black take 1114, 1109 ms; with less motion asked for, 288 ms - shorter, never a cut",
+    "fades to black take 1105, 1119 ms; with less motion asked for, 297 ms - shorter, never a cut",
     "no page errors on the student's, the other student's or the Host's page"
   ],
   "observed": {
@@ -35,7 +35,7 @@
       "title": "Ask the neighbours for help",
       "says": "Take the children to the farms nearby and ask the neighbours to help Serafina raise a house.",
       "note": "The family is away about 4 hours.",
-      "glow": "ask-glow",
+      "glow": "card-glow",
       "shadow": "rgb(255, 243, 207) 0px 0px 0px 1px inset, rgba(194, 88, 44, ",
       "marker": {
         "x": 690,
@@ -46,9 +46,9 @@
     },
     "cardBox": {
       "left": 16,
-      "top": 236.625,
+      "top": 200.625,
       "right": 312,
-      "bottom": 339.46875
+      "bottom": 303.46875
     },
     "between": {
       "mode": "between",
@@ -56,7 +56,7 @@
       "between": "Serafina and the children walk to the nearest farm."
     },
     "fades": [
-      0.38,
+      0.42,
       0.59
     ],
     "reload": {
@@ -66,7 +66,7 @@
     "scenes": [
       {
         "id": "first",
-        "where": "The Salcedo farm, past the ford · Evening",
+        "where": "The Salcedo farm, past the ford · Night",
         "lines": [
           {
             "step": 0,
@@ -152,7 +152,7 @@
       },
       {
         "id": "second",
-        "where": "The Whitlow place, by the big pecan · Evening",
+        "where": "The Whitlow place, by the big pecan · Night",
         "lines": [
           {
             "step": 0,
@@ -161,7 +161,7 @@
           },
           {
             "step": 1,
-            "who": "Serafina Whitlow",
+            "who": "Serafina Hollister",
             "said": "Then you know why we've come. I'm asking for a day's help with a house."
           },
           {
@@ -176,7 +176,7 @@
           },
           {
             "step": 4,
-            "who": "Serafina Whitlow",
+            "who": "Serafina Hollister",
             "said": "Then I hope she's right about you."
           },
           {
@@ -253,12 +253,12 @@
       },
       {
         "id": "wedding",
-        "where": "Your own land · Night",
+        "where": "Your own land · Morning",
         "lines": [
           {
             "step": 0,
             "who": "",
-            "said": "By nightfall a cabin stands where you camped."
+            "said": "By mid-morning a cabin stands where you camped."
           },
           {
             "step": 1,
@@ -272,7 +272,7 @@
           },
           {
             "step": 3,
-            "who": "Serafina Whitlow",
+            "who": "Serafina Hollister",
             "said": "I will."
           },
           {
@@ -287,7 +287,7 @@
           },
           {
             "step": 6,
-            "who": "Serafina Whitlow",
+            "who": "Serafina Hollister",
             "said": "I take you, Amos, to be my husband, and I will keep faith with you alone."
           },
           {
@@ -388,7 +388,7 @@
             "drawn": true
           }
         ],
-        "backdrop": "courtship-yard-evening",
+        "backdrop": "courtship-yard-morning",
         "buildings": [
           "house-round-log",
           "home-table"
@@ -459,7 +459,7 @@
             "drawn": true
           }
         ],
-        "backdrop": "courtship-yard-evening",
+        "backdrop": "courtship-yard-morning",
         "buildings": [
           "house-round-log"
         ],
@@ -500,11 +500,11 @@
     },
     "fadeMs": {
       "full": [
-        1114,
-        1109
+        1105,
+        1119
       ],
       "reduced": [
-        288
+        297
       ]
     }
   },

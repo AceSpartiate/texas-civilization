@@ -28,12 +28,14 @@ export const STUDENT_FURNITURE = [
   { name: 'status: food', selector: '#food', kind: 'status' },
   { name: 'status: supplies', selector: '#supplies', kind: 'status' },
   { name: 'wagon button', selector: '#wagon-open', kind: 'control' },
-  { name: 'house button', selector: '#house-open', kind: 'control' },
+
   // Down the left (owner-decided, docs/FAMILY_PANEL.md §7).
   { name: 'family: fold', selector: '#family-collapse', kind: 'family' },
   { name: 'family: row', selector: '#family-rows > .panel-row', kind: 'family', every: true },
   // The lone parent's path, offered at the head of the column (sim/courtship.mjs, owner 2026-09-29).
   { name: 'lone parent ability', selector: '#ask-neighbours', kind: 'family' },
+  // The house's card (owner, 2026-09-29), under it: it replaced the "Choose a house" pill that stood above the column.
+  { name: 'house card', selector: '#house-card', kind: 'family' },
   // Bottom middle: the main person's work (docs/FAMILY_PANEL.md §12.2).
   { name: 'ability bar', selector: '.panel-row[data-focused=true] .panel-icons', kind: 'bar' },
   // Bottom right: the map's own buttons, and the ending's way back.

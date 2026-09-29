@@ -587,6 +587,17 @@ place he reached. `join-houston` may be started from the refuge or the family's 
 army. A serving man is never counted with his refugee family (not taken by the column, not fed or sickened with it). A
 serving man not in the line is said as what he was (`service.absent`: `baggage`, `camp`, `road`) and released at the word.
 
+### 8.4a The alert and the account as story cards — owner 2026-09-29 (not released)
+
+The owner, 2026-09-29: *"let's use that same style as the alert for when a family member is going through a major event like a
+battle, etc. Use your best judgement."* The fight's alert (Watch, or Follow for a march or a muster) and the account after it are drawn
+in the story cards' frame (docs/FAMILY_PANEL.md §20b): the alert in **steel blue**, breathing slowly (3.2 s), with the rifleman's
+icon; the account - where a family member's wounding, death or capture is told - in **charcoal and still**, with the icon of coming
+home; inside the Alamo in adobe; the call for couriers in dusk violet. **When the alert goes up, what outranks it, and what its button
+does are unchanged**: never over a decision that is open, never over the family's own road (`roadAsking`), and Watch still only
+frames the field when pressed. Proved by `npm run test:story-cards` (the alert and the account photographed:
+`docs/evidence/story-card-battle.png`, `story-card-account.png`) and `tests/military-attention.test.mjs`.
+
 ### 8.5 Viewers, alerts, aftermath (FIC-GONZ-443, -444)
 
 A family with a man in the camp is sent the battle from noon on the 20th; its man is alerted through twice (the armies meet;

@@ -6,21 +6,22 @@
   "environment": "Same computer: a local classroom server and headless Chrome. Not a physical LAN, a classroom or a real phone.",
   "checks": [
     "the rows are father, mother, then the children oldest first: father 39, mother 38, daughter 20, daughter 18, son 17, daughter 15, daughter 13, daughter 11, daughter 9, son 7, son 5, son 2, daughter 1, daughter 0",
-    "down the left of the map (x 12, 304 by 510)",
+    "down the left of the map (x 12, 304 by 550)",
     "every icon (1) and mark (70) is drawn from a frame, none a glyph or type (drawn by: astra)",
     "in the lobby the bar shows travel status and only 1 available order",
     "every available action has a readable name without hovering",
     "hovering an icon shows a small popup with one sentence: \"Rest\" - \"Sit still at home, which is the only thing that mends tiredness.\"",
     "focusing an icon from the keyboard shows the same popup, and Escape puts it away",
     "pressing \"Practise at the mark\" sets hh-1-child-2 to it on the server, and its icon glows",
-    "it glowed through the practice (8 samples) and went out when the server said it was done (powder 5 to 3)",
-    "one press on an adult's portrait makes hh-1-parent-1 the main person on the server (one set-main, the star's), gives them the bar and the map, and opens no card",
-    "the main person's portrait sends nothing, the star makes hh-1-child-2 main again, and a child's portrait is refused as the star is: \"Prudence Proofwright is too young to be sent.\", and still gives them their bar",
-    "pressing a portrait moves the camera onto that person and zooms in (scale 678 to 2605, 0.004 miles off)",
+    "it glowed through the practice (2 samples) and went out when the server said it was done (powder 5 to 3)",
+    "the house card: \"Choose your house\", moss green and glowing (card-glow), under Hide names and over the rows; its button opens the houses and it comes back when they close",
+    "one click selects an adult, their action bar and their map location together, sends nothing and leaves hh-1-child-2 the main person; their bar opens with \"Make Gregorio the main person\"",
+    "\"Make Gregorio the main person\" makes them the main person on the server, and the button goes from their bar",
+    "pressing a portrait moves the camera onto that person and zooms in (scale 678 to 2605, 0.001 miles off)",
     "all 14 names changed in place and saved themselves - left by Tab, and the last by a pause in typing: Asa, Keziah, Hiram, Delia, Obed, Minerva, Levi, Soledad, Jonas, Effie, Silas, Orpha, Enos, Tomasa",
     "a name with no letters is refused in the server’s words, and the box goes back to the name the world holds",
     "after a reload every new name is in its box on the panel and in the family book",
-    "on a 400 px phone the panel is a column of portraits with one row open, taking 11% of the screen and no row outside the column and that row, with the map on top at 45% of the 288 points the guided start leaves",
+    "on a 400 px phone the panel is a column of portraits with one row open, taking 10% of the screen and no row outside the column and that row, with the map on top at 45% of the 288 points the guided start leaves",
     "on a phone, pressing another portrait opens that person’s row",
     "no page errors anywhere in the run"
   ],
@@ -54,41 +55,51 @@
     },
     "glow": {
       "worker": "hh-1-child-2",
-      "samplesGlowingWhileBusy": 8,
+      "samplesGlowingWhileBusy": 2,
       "powderBefore": 5,
       "powderAfter": 3
     },
+    "houseCard": {
+      "accent": "house",
+      "glow": "card-glow",
+      "quiet": "false",
+      "title": "Choose your house",
+      "button": "Choose a house",
+      "inColumn": true,
+      "clearOfFold": true,
+      "aboveRows": true,
+      "icon": "true"
+    },
     "portrait": {
-      "pressed": "hh-1-parent-1",
-      "madeMain": true,
-      "sent": 1,
-      "starBack": "hh-1-child-2",
-      "refusal": "Prudence Proofwright is too young to be sent."
+      "looked": "hh-1-parent-1",
+      "mainKept": "hh-1-child-2",
+      "sent": 0,
+      "make": "Make Gregorio the main person"
     },
     "camera": {
       "before": {
-        "cx": 2.506,
-        "cy": -10.7786,
+        "cx": 2.49,
+        "cy": -10.79,
         "scale": 678.1713759617705
       },
       "after": {
-        "cx": 2.6514798400012016,
-        "cy": -10.7774966400002,
+        "cx": 2.6481436800006866,
+        "cy": -10.778356959999847,
         "scale": 2605.263157894737
       },
-      "milesFromPerson": 0.0042
+      "milesFromPerson": 0.0012
     },
     "phone": {
       "panel": {
         "x": 12,
-        "y": 127.484375,
+        "y": 87.484375,
         "width": 376,
-        "height": 518
+        "height": 558
       },
       "openRows": 1,
       "columnRight": 56,
       "openRow": {
-        "y": 297,
+        "y": 200,
         "height": 46
       },
       "stripBottom": 0,
@@ -99,8 +110,11 @@
         "points": 36,
         "top": 683
       },
-      "chrome": [],
-      "covered": 0.107524609375,
+      "chrome": [
+        "SECTION#house-card.story-card",
+        "CANVAS#house-card-canvas"
+      ],
+      "covered": 0.10090710296630859,
       "pageScrolls": false
     }
   },

@@ -1,0 +1,39 @@
+{
+  "proof": "npm run test:story-cards",
+  "when": "2026-09-29T17:40:24.412Z",
+  "pass": [
+    "the neighbours' card (rgb(217, 164, 65)) first and the house's (rgb(127, 154, 63)) under it, both glowing, under Hide names and over the rows"
+  ],
+  "observed": {
+    "column": {
+      "askAccent": "gold",
+      "houseAccent": "house",
+      "askGlow": "card-glow",
+      "houseGlow": "card-glow",
+      "askEdge": "rgb(217, 164, 65)",
+      "houseEdge": "rgb(127, 154, 63)",
+      "order": true,
+      "clearOfFold": true,
+      "aboveRows": true
+    },
+    "cards": {
+      "alto": {
+        "hidden": false,
+        "accent": "alto",
+        "glow": "card-glow",
+        "edge": "rgb(179, 38, 30)",
+        "eyebrow": "¡Alto!",
+        "title": "¡Alto! Soldiers on the road",
+        "button": "Answer now",
+        "left": null,
+        "icon": "icon-flee-hide:1",
+        "open": true
+      }
+    }
+  },
+  "shots": [
+    "docs/evidence/story-cards-both.png"
+  ],
+  "errors": [],
+  "note": "Same computer only: headless Chrome at 1366x768. Each moment drawn from a projection put into the paused page (window.__render); who is sent which moment is tests/military-attention.test.mjs."
+}

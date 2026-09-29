@@ -63,7 +63,7 @@ const HOST_SIZES = [{ width: 1920, height: 1080 }, { width: 1280, height: 720 },
 const DELIBERATE = [
   { kind: 'dialog', why: 'A dialog stands over the map on purpose and says so: the journal behind its own dimmed backdrop, the ending, the inside of the house, "reconnecting". Its own controls are held clear of everything (the covered check), and the guided start is not in this allowance - see below.', except: /^guided start$/ },
   { kind: 'tip', why: 'The tip is drawn at the icon the pointer or the keyboard is on, over whatever is beside it; it goes the moment the pointer leaves (docs/FAMILY_PANEL.md §4).' },
-  { a: /^(house plans|house plot)$/, b: /^(family: |ability bar|map buttons|journal button|status: |wagon button|house button)/, when: flags => flags.backdrop,
+  { a: /^(house plans|house plot)$/, b: /^(family: |ability bar|map buttons|journal button|status: |wagon button|house card|lone parent ability)/, when: flags => flags.backdrop,
     why: 'Choosing a house and packing the wagon want the whole screen: the map behind goes dim and the panel says the family is behind it (docs/FAMILY_PANEL.md §12.11).' },
 ];
 /**
@@ -73,8 +73,22 @@ const DELIBERATE = [
  */
 const PENDING = [
   // The tip over the open errand was here until 2026-09-28, owned by the errand builder: fixed (a tip with no room waits).
+  // The floating person card is being taken away by another builder (coordinator, 2026-09-29: a portrait's press to act as the
+  // star). On the phone it lies over the column and its cards; at the supported sizes it stands on nothing, and is held there.
+  { a: /^person card$/, b: /./, at: /^400x780$/, owner: 'the builder removing the floating person card (#selection), 2026-09-29' },
 ];
-const pending = pair => PENDING.find(rule => (rule.a.test(pair.a) && rule.b.test(pair.b)) || (rule.a.test(pair.b) && rule.b.test(pair.a)));
+const pending = (pair, where = '') => PENDING.find(rule => (!rule.at || rule.at.test(where.split(' ').pop())) && ((rule.a.test(pair.a) && rule.b.test(pair.b)) || (rule.a.test(pair.b) && rule.b.test(pair.a))));
+/**
+ * The phone (owner, 2026-09-29, for the story cards): not a size a class is supported on - the gates hold 1366x768 down to
+ * 1024x600, and `npm run test:panels` records its 390px pairs rather than holding them (its own note). Here the phone is held
+ * for the cards at the head of the column, which must stand clear of everything on it; every other pair a phone makes (the
+ * ability bar's two rows over the map's buttons, the messages over the status lines, the first-meeting tip over the rows) is
+ * written to the evidence as `phoneRecorded`, printed on every run, and not held.
+ * `ceiling:` the phone's own layout is not built; a supported phone size would move these into the faults.
+ */
+const PHONE_HELD = /^(house card|lone parent ability)$/;
+const phoneOnly = (where, a, b) => where.endsWith(' 400x780') && !PHONE_HELD.test(a) && !PHONE_HELD.test(b);
+const phoneRecorded = [];
 const deliberate = (pair, flags) => DELIBERATE.find(rule => {
   if (rule.when && !rule.when(flags)) return false;
   if (rule.except && (rule.except.test(pair.a) || rule.except.test(pair.b))) return false;
@@ -102,6 +116,19 @@ function lonelyOnTheLand(seed, playerCount) {
   world.status = 'lobby';
   return world;
 }
+/**
+ * The same family, still with no house, on the morning its settlement's call reaches it: the neighbours' card, the house's card and
+ * the call to arms (in the story cards' frame since 2026-09-29, public/military-attention.js) all on the screen at once.
+ */
+function lonelyAtTheCall(seed, playerCount) {
+  const world = lonelyOnTheLand(seed, playerCount);
+  world.status = 'running';
+  for (let i = 0; i < 4000 && !world.calls?.['hh-1'] && !world.director.complete; i++) stepWorld(world);
+  world.status = 'lobby';
+  return world;
+}
+/** A phone, for the cards: the family's column across the top and the cards in it. */
+const PHONE = { width: 400, height: 780 };
 
 /** scripts/gonzales-town-browser-proof.mjs's class: the first family's main person in Gonzales on September 29. */
 function playedToTheTown(seed, playerCount) {
@@ -276,7 +303,7 @@ try {
     try {
       const { page, errors: pageErrors, context } = await openClass(room.app, browser, STUDENT_SIZES[0], room);
       await page.locator('#ask-neighbours').waitFor({ state: 'visible', timeout: 30000 });
-      await walk(page, 'lone-parent-ability', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'lone parent ability' });
+      await walk(page, 'lone-parent-ability', { sizes: [...STUDENT_SIZES, PHONE], furniture: STUDENT_FURNITURE, expect: 'lone parent ability' });
       // Folded by "Not now" to its glowing icon, which stays.
       await page.setViewportSize(STUDENT_SIZES[0]);
       await page.locator('#ask-neighbours-later').click();
@@ -287,6 +314,20 @@ try {
       await page.locator('#courtship').waitFor({ state: 'visible', timeout: 20000 });
       await page.waitForFunction(() => window.__courtship?.mode === 'scene', null, { timeout: 30000 });
       await walk(page, 'lone-parent-scenes', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'lone parent scenes' });
+      errors.push(...pageErrors);
+      await context.close();
+    } finally { await room.app.close(); }
+  }
+  // ================================ the story cards together (owner, 2026-09-29): the neighbours', the house's and the call to arms
+  {
+    const room = await startClassroom(lonelyAtTheCall, LONE_SEED);
+    try {
+      const { page, errors: pageErrors, context } = await openClass(room.app, browser, STUDENT_SIZES[0], room);
+      await page.locator('#house-card').waitFor({ state: 'visible', timeout: 30000 });
+      await page.waitForFunction(() => !document.querySelector('#military-notice').hidden, null, { timeout: 30000 }).catch(() => {});
+      const cards = await page.evaluate(() => ({ ask: !document.querySelector('#ask-neighbours').hidden, alert: document.querySelector('#military-notice').hidden ? null : document.querySelector('#military-notice').dataset.accent }));
+      if (!cards.ask || !cards.alert) notReached.push(`student story-cards: the neighbours' card ${cards.ask ? 'shown' : 'not shown'}, the alert ${cards.alert || 'not shown'}`);
+      await walk(page, 'story-cards', { sizes: [STUDENT_SIZES[0], STUDENT_SIZES[4], PHONE], furniture: STUDENT_FURNITURE, expect: 'house card' });
       errors.push(...pageErrors);
       await context.close();
     } finally { await room.app.close(); }
@@ -526,16 +567,18 @@ for (const one of record) {
   const where = `${one.page} ${one.state} ${one.at}`;
   for (const pair of one.overlaps) {
     const rule = deliberate(pair, one.flags);
-    const theirs = pending(pair);
+    const theirs = pending(pair, where);
     if (rule) allowed.push({ where, a: pair.a, b: pair.b, shared: pair.shared, why: rule.why });
     else if (theirs) held.push({ where, a: pair.a, b: pair.b, shared: pair.shared, owner: theirs.owner });
+    else if (phoneOnly(where, pair.a, pair.b)) phoneRecorded.push(`${where}: ${pair.a} and ${pair.b} share ${pair.shared.w}x${pair.shared.h}px`);
     else faults.push({ where, what: 'overlap', text: `${pair.a} and ${pair.b} share ${pair.shared.w}x${pair.shared.h}px at ${pair.at.x},${pair.at.y}` });
   }
   for (const entry of one.covered) {
     if (!entry.centre && entry.points < 3) continue;
     if (entry.by.every(by => DELIBERATE_COVER.test(by))) continue;
-    const theirs = entry.by.every(by => pending({ a: entry.in, b: by }));
-    if (theirs) { held.push({ where, a: entry.in, b: entry.by.join(', '), shared: { w: 0, h: 0 }, owner: pending({ a: entry.in, b: entry.by[0] }).owner, control: entry.control }); continue; }
+    const theirs = entry.by.every(by => pending({ a: entry.in, b: by }, where));
+    if (theirs) { held.push({ where, a: entry.in, b: entry.by.join(', '), shared: { w: 0, h: 0 }, owner: pending({ a: entry.in, b: entry.by[0] }, where).owner, control: entry.control }); continue; }
+    if (entry.by.every(by => phoneOnly(where, entry.in, by))) { phoneRecorded.push(`${where}: "${entry.control}" in ${entry.in} under ${entry.by.join(', ')}`); continue; }
     faults.push({ where, what: 'covered', text: `"${entry.control}" in ${entry.in} is under ${entry.by.join(', ')} (${entry.points} of ${entry.of} points${entry.centre ? ', the middle too' : ''})` });
   }
   for (const entry of one.offScreen) faults.push({ where, what: 'off the screen', text: `${entry.name} at ${JSON.stringify(entry.box)}` });
@@ -560,6 +603,7 @@ console.log(`\n${record.length} screens measured (${new Set(record.map(one => `$
 for (const [key, where] of byWhat) console.log(`FAULT ${key}\n      at ${where.join('; ')}`);
 for (const line of notReached) console.log(`NOT REACHED ${line}`);
 for (const one of held) console.log(`PENDING ${one.where}: ${one.a} and ${one.b} share ${one.shared.w}x${one.shared.h}px - owned by ${one.owner}`);
+for (const line of phoneRecorded) console.log(`PHONE (recorded, not held) ${line}`);
 console.log(`speech bubbles: ${bubblesSeen} measured, ${bubbles.length} partly under a panel${bubbles.length ? `: ${bubbles.map(one => `${one.where} ${one.what} under ${one.under} ${Math.round(one.share * 100)}%`).join('; ')}` : ''}`);
 if (errors.length) console.log(`page errors: ${errors.join(' | ')}`);
 
@@ -570,7 +614,7 @@ writeFileSync(OUT, `${JSON.stringify({
   studentSizes: STUDENT_SIZES, hostSizes: HOST_SIZES, deliberate: DELIBERATE.map(rule => ({ ...(rule.kind ? { kind: rule.kind } : { a: String(rule.a), b: String(rule.b) }), why: rule.why })),
   summary: { screens: record.length, faults: faults.length, allowed: allowed.length, bubblesMeasured: bubblesSeen, bubblesUnderAPanel: bubbles.length },
   // Grouped: one entry per thing wrong, with every screen it was wrong on.
-  faults: [...byWhat].map(([what, where]) => ({ what, where })), pendingElsewhere: held, notReached, bubbles, pageErrors: errors,
+  faults: [...byWhat].map(([what, where]) => ({ what, where })), pendingElsewhere: held, phoneRecorded, notReached, bubbles, pageErrors: errors,
   // Each screen as measured, kept small: what was drawn where, every pair that shared pixels, and the controls that count.
   screens: record.map(one => ({ page: one.page, state: one.state, at: one.at, shot: one.shot, following: one.following, unreachable: one.unreachable, drawn: one.drawn.map(piece => `${piece.name} ${piece.box.x},${piece.box.y} ${piece.box.w}x${piece.box.h}`), overlaps: one.overlaps.map(pair => `${pair.a} x ${pair.b} ${pair.shared.w}x${pair.shared.h}`), covered: one.covered.filter(entry => entry.centre || entry.points >= 3).map(entry => `"${entry.control}" in ${entry.in} under ${entry.by.join(', ')}`), offScreen: one.offScreen, canvas: one.canvas.hidden, ...(Object.values(one.flags).some(Boolean) && { flags: one.flags }) })),
 }, null, 2)}\n`);

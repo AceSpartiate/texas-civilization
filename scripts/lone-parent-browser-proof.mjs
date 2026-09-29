@@ -129,7 +129,7 @@ try {
   });
   assert.equal(observed.card.title, 'Ask the neighbours for help');
   assert.match(observed.card.says, /raise a house/);
-  assert.equal(observed.card.glow, 'ask-glow', 'the ability does not glow');
+  assert.equal(observed.card.glow, 'card-glow', 'the ability does not glow');
   assert.ok(observed.card.marker, 'the family\'s land was not marked on the map');
   const card = await boxOf(student, '#ask-neighbours');
   const standing = { bar: await boxOf(student, '.panel-row[data-focused=true] .panel-icons'), tools: await boxOf(student, '#map-tools'), nav: await boxOf(student, '#map-nav'), journal: await boxOf(student, '#journal-toggle'), tip: await boxOf(student, '#tip:not([hidden])') };

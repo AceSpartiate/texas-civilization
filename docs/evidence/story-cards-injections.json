@@ -1,0 +1,56 @@
+{
+  "record": "story-cards-injections",
+  "date": "2026-09-29",
+  "injections": [
+    {
+      "name": "the family's big moments are not put up as cards (as before)",
+      "files": [
+        "public/military-attention.js"
+      ],
+      "caught": true,
+      "failed": [
+        "the family's big moments are cards of their own kind, ¡Alto! first, each with its time left, and the Watch card still held back"
+      ]
+    },
+    {
+      "name": "the call to arms is put up once for every person who may answer it",
+      "files": [
+        "public/military-attention.js"
+      ],
+      "caught": true,
+      "failed": [
+        "the family's big moments are cards of their own kind, ¡Alto! first, each with its time left, and the Watch card still held back"
+      ]
+    },
+    {
+      "name": "a very sick person holds the Watch card back",
+      "files": [
+        "public/military-attention.js"
+      ],
+      "caught": true,
+      "failed": [
+        "the family's big moments are cards of their own kind, ¡Alto! first, each with its time left, and the Watch card still held back"
+      ]
+    },
+    {
+      "name": "the Watch card goes up over the order to leave and ¡Alto!",
+      "files": [
+        "public/military-attention.js"
+      ],
+      "caught": true,
+      "failed": [
+        "the family's big moments are cards of their own kind, ¡Alto! first, each with its time left, and the Watch card still held back"
+      ]
+    },
+    {
+      "name": "¡Alto! is not first",
+      "files": [
+        "public/military-attention.js"
+      ],
+      "caught": true,
+      "failed": [
+        "the family's big moments are cards of their own kind, ¡Alto! first, each with its time left, and the Watch card still held back"
+      ]
+    }
+  ]
+}
