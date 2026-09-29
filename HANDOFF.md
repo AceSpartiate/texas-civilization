@@ -1,5 +1,44 @@
 # Claude handoff — Astra foundation
 
+## Claude's temporary art, area D: riders, horses, wagons, the carreta — owner, 2026-09-28 (worktree branch; not released)
+
+**The ask.** Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it
+makes the final versions."* Area D of [docs/CLAUDE_ART_PLAN.md](docs/CLAUDE_ART_PLAN.md): all fifteen items now have a Claude
+stand-in (327 frames, 136 clips; every one `madeBy: "claude"`, with its written intent in docs/claude-art-provenance.json and its
+names in area D's row of *Claude-drawn stand-ins*). The ferry, the Yellow Stone, the logs fetched and the rider who gets down
+were already delivered by Astra and need nothing (DS3, DS4, FS9, D16).
+
+- **The horse, first** (`scripts/claude-art/kit/quadruped.mjs`, replacing the foundation's plank horse in `kit/horse.mjs`): a
+  body carrying its upper leg masses; smooth jointed legs (shoulder, elbow, knee forward, fetlock, pastern in front; hip, stifle,
+  hock back behind), clipped to come out of the body's edge; a planted leg solved to stand straight, the hoof breaking over at the
+  end of its stance and flipping in the air. Gaits by phase and duty factor: the four-beat lateral walk (three feet down), the
+  two-beat trot, the gallop with its suspension; the rider sits it a beat late. East, and end-on south and north. Mule, milk cow,
+  ox and longhorn are the same skeleton reshaped. Before: docs/evidence/claude-art/before/horse-foundation-rust-woman.png; after:
+  rig-rust-woman.png.
+- **Modules** (`AREA: 'transport'`, drawn at half size by `kit/horse.mjs` `wrap`, a mounted frame's logical height 270 near her
+  205-314): `transport-riders` (D3 the children on the horse, D6 the Tejano horseman, D7 the volunteer mounted, D13 Seguín and
+  Sutherland), `transport-cavalry` (D2 the dragoon at the gallop and firing, D8 lancers, D9 foragers, D10 the wounded led off),
+  `transport-animals` (D1 the milk cow, D11 the herd, D12 pack mules under grass and limber mules), `transport-vehicles` (D5 the
+  cart, D14 the wagon and its ox, D15 the laden carreta; `kit/vehicles.mjs` builds them in 3-D and projects them), and
+  `transport-seated` (D4 the second cast and children driving, `<figure>-wagon-driver-<dir>`; D5 riders in the bed).
+- **Wired**, each through `clipReady` (the one gate area B's `drawnClipOf` and `drawSeated` use), falling back to the older
+  stand-in: `seatedClip` (`CLAUDE_RIDING_FIGURES`, `CLAUDE_DRIVING_FIGURES`) and `passengerClip` in public/motion.js; the cow,
+  the foragers, the cart and the laden carreta in public/app.js; the chase's dragoons (public/chase-view.js); lancers, the Texian
+  horseman, a dragoon firing, the pack train, the herd, the wounded dragoon and Seguín/Sutherland riding in public/battle-view.js;
+  the Tejano volunteers in public/town-scenes.js. **Not wired:** `wagon-ox-*` (`seatLayout('wagon')` still draws the ox and the
+  wagon apart; one part would change the driver's placement and its test).
+- **History, and what is interpretation:** the wagon an ox-drawn farm wagon (`HIST-TEX-441`); the carreta's pegged plank wheels,
+  wooden axle and rawhide (`HIST-TEX-443`); one ox in a single neck yoke is the game's hitch, oxen usually went in pairs; the
+  dragoon follows Astra's figure (sources differ on cavalry colours); the Tejano's dress, Seguín and Sutherland are interpretations.
+- **Evidence:** compare sheets `docs/evidence/claude-art/compare-transport-*.png` (40/77/150 px; `compare.mjs` now wraps long
+  modules), moving previews `loops-transport-gaits.png|.html` and `loops-transport-wheels.png|.html` (`scripts/claude-art/loops.mjs`:
+  each clip's frames, an onion skin, and a page that plays them beside Astra's). `test:children` draws `milk-cow-walk-n` on the road.
+- **Tests:** tests/transport-standins.test.mjs (Claude's drawn only once `clipReady`, the old stand-in until then; both
+  injections caught), tests/riding.test.mjs holds the Claude lists to Claude's manifest (both injections caught).
+- **Honest limit:** at 40-77 px the riders, dragoons, cattle and vehicles read as what they are, at Astra's sizes; at 150 px they
+  are flat and simple beside her painted horses - no coat texture, legs straighter and knees less lifted than hers, the cattle long
+  in the body, the end-on wagon mostly ox. Everything stays on her list.
+
 ## Claude's temporary art, area B: children, babies and sickness — owner, 2026-09-28 (worktree branch; not released)
 
 Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it makes the
