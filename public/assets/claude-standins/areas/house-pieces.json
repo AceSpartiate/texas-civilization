@@ -24,16 +24,16 @@
     },
     "claude-house-roof-join": {
       "image": "/assets/claude-standins/claude-house-roof-join.png",
-      "width": 808,
+      "width": 1212,
       "height": 299,
-      "bytes": 215572,
-      "sha256": "484ffa01552cd14cd4cb47483d5dadef6046a0ab1cc146cd3d95c84be5bd54c2",
+      "bytes": 223185,
+      "sha256": "460391f4739f4c7be735ec2c2db7590db02ae66ffae0acfda612bf1338009e9d",
       "madeBy": "claude",
       "module": "house-pieces",
       "request": "Request 2026-09-24 — one roof over a two-pen house",
       "layout": {
         "rows": 1,
-        "columns": 2,
+        "columns": 3,
         "cell": {
           "w": 404,
           "h": 299
@@ -45,8 +45,8 @@
       "image": "/assets/claude-standins/claude-house-jacal.png",
       "width": 1146,
       "height": 303,
-      "bytes": 277326,
-      "sha256": "c70badc521cb8a71178ebfbff590e7b4adc711804506f1f4cb789019d948b0be",
+      "bytes": 277279,
+      "sha256": "540385288364f2f6e172f2c69590c11c5cd2897dcca15e8fcc1267dac3721f00",
       "madeBy": "claude",
       "module": "house-pieces",
       "request": "Request 2026-09-15 — the house plot's pieces",
@@ -60,31 +60,12 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-house-join-chimney": {
-      "image": "/assets/claude-standins/claude-house-join-chimney.png",
-      "width": 404,
-      "height": 299,
-      "bytes": 29880,
-      "sha256": "04bbe17eb9ca29ecc1012f737e39a7b2d421ab7779a7a3431f4ab76c5f8735ac",
-      "madeBy": "claude",
-      "module": "house-pieces",
-      "request": "Request 2026-09-24 — one roof over a two-pen house",
-      "layout": {
-        "rows": 1,
-        "columns": 1,
-        "cell": {
-          "w": 404,
-          "h": 299
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-house-plot": {
       "image": "/assets/claude-standins/claude-house-plot.png",
       "width": 660,
       "height": 690,
-      "bytes": 238727,
-      "sha256": "2c416b8f0f6ff4243984aae6e35b36c7e4e548d0572ce1f37192099028a78a56",
+      "bytes": 238725,
+      "sha256": "df05faa83bcf3c779009cb6c17a5f5c6da26744f0d7e142adb18deb7ebe683cc",
       "madeBy": "claude",
       "module": "house-pieces",
       "request": "Request 2026-09-15 — the house plot's pieces",
@@ -102,8 +83,8 @@
       "image": "/assets/claude-standins/claude-house-ends.png",
       "width": 808,
       "height": 760,
-      "bytes": 307038,
-      "sha256": "32544868024e527175338994e76c54e18d1631fbe5bdae6e9687e93e31ea04c5",
+      "bytes": 307039,
+      "sha256": "ab6ff2c777a88fa265122824674df5b72a0e346421fb1ad0da20e22a8695174a",
       "madeBy": "claude",
       "module": "house-pieces",
       "request": "Request 2026-09-23 — the house from its other sides",
@@ -311,6 +292,39 @@
       "label": "house roof join partial",
       "kind": "claude-house-roof-join"
     },
+    "house-roof-join-chimney": {
+      "sheet": "claude-house-roof-join",
+      "x": 808,
+      "y": 0,
+      "w": 404,
+      "h": 299,
+      "anchorX": 0.6535,
+      "anchorY": 0.8595,
+      "logicalHeight": 251,
+      "seatX": 0.4988,
+      "seatY": 0.5686,
+      "ridge": [
+        [
+          0.3094,
+          0.4264
+        ],
+        [
+          0.5948,
+          0.1051
+        ]
+      ],
+      "chimneyAt": [
+        0.4988,
+        0.9566
+      ],
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-24 — one roof over a two-pen house",
+      "replaceWith": "house-roof-join-chimney: the roof over the passage between two pens at exactly the pens' pitch, ridge and eaves, with no gable ends and no end poles; the ridge line marked",
+      "source": "svg/house-pieces/claude-house-roof-join-chimney.svg",
+      "label": "house roof join chimney",
+      "kind": "claude-house-roof-join"
+    },
     "house-jacal-posts": {
       "sheet": "claude-house-jacal",
       "x": 0,
@@ -407,39 +421,6 @@
       "source": "svg/house-pieces/claude-house-jacal-thatch.svg",
       "label": "house jacal thatch",
       "kind": "claude-house-jacal"
-    },
-    "house-roof-join-chimney": {
-      "sheet": "claude-house-join-chimney",
-      "x": 0,
-      "y": 0,
-      "w": 404,
-      "h": 299,
-      "anchorX": 0.6535,
-      "anchorY": 0.8595,
-      "logicalHeight": 251,
-      "seatX": 0.4988,
-      "seatY": 0.5686,
-      "ridge": [
-        [
-          0.3094,
-          0.4264
-        ],
-        [
-          0.5948,
-          0.1051
-        ]
-      ],
-      "chimneyAt": [
-        0.4988,
-        0.9566
-      ],
-      "madeBy": "claude",
-      "module": "house-pieces",
-      "request": "Request 2026-09-24 — one roof over a two-pen house",
-      "replaceWith": "house-roof-join-chimney: the roof section between a saddlebag's two pens with its double chimney rising through the ridge (or the section drawn so a chimney can stand through it)",
-      "source": "svg/house-pieces/claude-house-roof-join-chimney.svg",
-      "label": "house roof join chimney",
-      "kind": "claude-house-join-chimney"
     },
     "house-chimney-double": {
       "sheet": "claude-house-plot",
@@ -750,6 +731,20 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's house-roof-join-partial"
     },
+    "house-roof-join-chimney": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-roof-join",
+      "request": "Request 2026-09-24 — one roof over a two-pen house",
+      "prompt": "The roof section between a saddlebag house's two pens, drawn so its double chimney stands through the ridge: Astra's finished roof's middle repeated along its ridge (as house-roof-join), with an opening cut where the chimney's stack rises above the right slope, so the chimney drawn before it shows through and the boards in front of its foot stay. Carries where the chimney's foot is (`chimneyAt`) and its ridge (`ridge`). Corner-on three-quarter view, her pitch, eaves, scale and outline. Transparent ground.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-roof-join-chimney.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-roof-join-chimney"
+    },
     "house-jacal-posts": {
       "kind": "frame",
       "madeBy": "claude",
@@ -791,20 +786,6 @@
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's house-jacal-thatch"
-    },
-    "house-roof-join-chimney": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "house-pieces",
-      "area": "places",
-      "sheet": "claude-house-join-chimney",
-      "request": "Request 2026-09-24 — one roof over a two-pen house",
-      "prompt": "The roof section between a saddlebag house's two pens, drawn so its double chimney stands through the ridge: Astra's finished roof's middle repeated along its ridge (as house-roof-join), with an opening cut where the chimney's stack rises above the right slope, so the chimney drawn before it shows through and the boards in front of its foot stay. Carries where the chimney's foot is (`chimneyAt`) and its ridge (`ridge`). Corner-on three-quarter view, her pitch, eaves, scale and outline. Transparent ground.",
-      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-roof-join-chimney.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's house-roof-join-chimney"
     },
     "house-chimney-double": {
       "kind": "frame",
