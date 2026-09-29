@@ -10,7 +10,7 @@
     "with a corn-husk doll the child is drawn sitting (smallchild-rest)",
     "scattering corn for the hens the child is drawn in Astra's rust-sow, not Claude's scatter",
     "the child's automation turned itself off, and the row says \"Auto went off: Cayetano has been good as long as a child can be.\", with an \"!\" on it",
-    "the baby crawled (13 places in three seconds), cried and was picked up by Paz, 36, who said \"There, there. I have you.\" and was drawn indigo-carry; the baby was put down to nap and she went back to where she stood, at \"work\"",
+    "the baby crawled (14 places in three seconds), cried and was picked up by Paz, 36, who said \"There, there. I have you.\" and was drawn indigo-carry; the baby was put down to nap and she went back to where she stood, at \"work\"",
     "on foot with the baby on her hip Paz walks at three quarters of her pace (0.75 a tick): her row says \"On foot with Docia on her hip: walking a quarter slower for it.\", the baby's \"Carried by Paz.\"",
     "at 1024x768 the child's own bar is on the screen and nothing scrolls sideways",
     "told to leave, hiding what the wagon cannot carry is on the main person's bar and glows when pressed; the child's bar has a bundle to make up (child-play, child-doll, child-cart, child-tag, child-hide, child-hoop, child-marbles, child-kindling, child-eggs, child-water, child-mind, flee-bundle, flee-cow)",
@@ -55,8 +55,8 @@
         "kind": "reconstructed",
         "text": "Where does the wind come from?",
         "box": {
-          "x": 433.05194142778464,
-          "y": 905.6323761255456,
+          "x": 431.71334966591144,
+          "y": 912.6573013889623,
           "w": 203.953125,
           "h": 27
         }
@@ -67,8 +67,8 @@
         "kind": "reconstructed",
         "text": "Go and play, and keep where I can see you.",
         "box": {
-          "x": 352.01509974307857,
-          "y": 886.9082470877502,
+          "x": 350.58703359044745,
+          "y": 893.6591052638188,
           "w": 229.90234375,
           "h": 42
         }
@@ -262,9 +262,9 @@
         false
       ],
       [
-        "w",
+        "e",
         "smallchild-walk",
-        true
+        false
       ],
       [
         "w",
@@ -346,7 +346,7 @@
     "autoOff": "Auto went off: Cayetano has been good as long as a child can be.",
     "autoOffNeed": "Answer this first. Ada Swinney has stopped to speak with Cayetano Proofwright. About 2 min left. And 1 more. Go to Cayetano Proofwright and answer.",
     "crawl": {
-      "places": 13,
+      "places": 14,
       "clips": [
         "infant-idle-e"
       ],
@@ -466,17 +466,17 @@
       "row": "Driving the milk cow along behind the family.",
       "drawn": {
         "by": "hh-1-child-4",
-        "x": 527,
-        "y": 1096,
+        "x": 508,
+        "y": 1248,
         "clip": "cattle-longhorn-red-idle",
         "child": {
-          "x": 607,
-          "y": 1090
+          "x": 588,
+          "y": 1242
         }
       },
       "child": {
-        "x": 606.9037407273561,
-        "y": 1050.1519972580743,
+        "x": 587.9114568431833,
+        "y": 1202.0902683314575,
         "size": 89.10000000000001
       },
       "herdLeft": {

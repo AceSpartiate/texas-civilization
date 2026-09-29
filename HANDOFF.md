@@ -93,7 +93,10 @@ docs/evidence/astra-vs-claude/game-riding-wagon.png, game-work-house-close.png, 
 game-work-pace-close.png, game-work-about-close.png, game-children-play-1366.png.
 
 **Evidence (same computer; headless Chrome; no Chromebook, LAN or classroom claim).** On the branch with origin/main c92e715f and
-`looks-solid-tiles` merged: `npm test` **1779 tests, 1743 pass, 0 fail, 36 skipped**. Browser proofs: `test:riding` 16,
+`looks-solid-tiles` merged: `npm test` **1779 tests, 1743 pass, 0 fail, 36 skipped**; after origin/main d5f4d391 (every work
+at half its length) merged too: 1783 tests, 1746 pass, 1 fail - `classroom-doors`' ping timing, run beside three browser proofs;
+alone it passes 5/5 three times - and `test:work` 5 (its surveyor may now finish and sit inside the watch, so the pacing check
+allows the rest after the walk), `test:children` 16, `test:riding` 16. Browser proofs: `test:riding` 16,
 `test:children` 16, `test:work` 5, `test:lone-parent` 10, `test:battle-gonzales` 12, `test:looks-face` 12, `test:creation` 10,
 `test:creation-screen` 4, `test:overlap` pass, `test:art` pass; before the last merge also `test:looks` 9, `test:family-panel` 18,
 `test:battle-bexar` 15, `test:battle-alamo` 13, `test:battle-san-jacinto` 15, `test:battle-concepcion` 13. `test:famous-people` 22 (run alone; once, beside

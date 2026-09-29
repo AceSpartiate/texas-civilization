@@ -4,9 +4,9 @@
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768. A real class through the join flow on the invented country (seed work-proof-3). The well, the house, the felling, the mark and the water are the server's own chore state set in process; working about the place is the server's own. No LAN or district claim.",
   "checks": [
-    "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 0/2/3/1, dust on the strike, 20 different pictures in 2.4 s",
-    "three sent to the house (\"felling and hauling logs\") are drawn round it (738,409 / 859,384 / 617,384, a figure 77 px), each facing it, swinging an axe with the chips flying (chop in rust-work with a drawn axe, chop in teal-work with a drawn axe, chop in rust-work with a drawn axe; stand-in: Request 2026-09-28 — people at work, item 1)",
-    "at the mark Serafina Proofwright is drawn with the rifle up and a puff of smoke once a cycle (marks 1/4); surveying, Barnabas Proofwright paces the ground to and fro (23 places, turning both ways)",
+    "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 2/0/1/3, dust on the strike, 20 different pictures in 2.4 s",
+    "three sent to the house (\"raising the walls\") are drawn round it (738,409 / 859,384 / 617,384, a figure 77 px), each facing it, swinging an axe with the chips flying (chopnotch in rust-work with a drawn axe, chopnotch in teal-work with a drawn axe, chopnotch in rust-work with a drawn axe; stand-in: Request 2026-09-28 — people at work, item 1)",
+    "at the mark Serafina Proofwright is drawn with the rifle up and a puff of smoke once a cycle (marks 1/5/4); surveying, Barnabas Proofwright paces the ground to and fro (21 places, turning both ways)",
     "thirty-five logs on the pile are drawn as Astra's logs, 4 in a row, not Claude's pile (null; projected {\"wall\":28,\"sill\":4,\"poor\":3,\"lying\":0})",
     "no page errors"
   ],
@@ -98,10 +98,10 @@
         "rust-work"
       ],
       "frames": [
-        0,
         2,
-        3,
-        1
+        0,
+        1,
+        3
       ],
       "marks": [
         1,
@@ -133,19 +133,20 @@
     },
     "houseFigure": 77.45928530252208,
     "house": {
-      "doing": "felling and hauling logs",
+      "doing": "raising the walls",
       "hh-1-parent-1": {
         "strokes": [
-          "chop"
+          "chop",
+          "notch"
         ],
         "clips": [
           "rust-work"
         ],
         "frames": [
+          0,
           1,
           2,
-          3,
-          0
+          3
         ],
         "marks": [
           2,
@@ -177,16 +178,17 @@
       },
       "hh-1-parent-2": {
         "strokes": [
-          "chop"
+          "chop",
+          "notch"
         ],
         "clips": [
           "teal-work"
         ],
         "frames": [
+          0,
           1,
           2,
-          3,
-          0
+          3
         ],
         "marks": [
           2,
@@ -218,16 +220,17 @@
       },
       "hh-1-child-1": {
         "strokes": [
-          "chop"
+          "chop",
+          "notch"
         ],
         "clips": [
           "rust-work"
         ],
         "frames": [
+          2,
           3,
           0,
-          1,
-          2
+          1
         ],
         "marks": [
           3,
@@ -268,7 +271,8 @@
           "pace"
         ],
         "clips": [
-          "rust-walk"
+          "rust-walk",
+          "rust-rest"
         ],
         "frames": [
           0
@@ -277,29 +281,27 @@
           0
         ],
         "shifts": [
-          -7.9,
-          -1.2,
-          2.2,
-          5.6,
-          8.8,
-          14.4,
-          15.1,
-          18.6,
-          19.5,
+          -5.7,
+          1.1,
+          4.5,
+          7.8,
+          10.8,
+          17.7,
+          19,
+          19.7,
           19.8,
-          17.2,
-          15.2,
-          12.8,
-          9.9,
-          3.5,
-          0.1,
-          -3.4,
-          -6.7,
-          -12.7,
-          -15.1,
-          -17.1,
-          -18.6,
-          -19.8
+          18.2,
+          16.6,
+          14.4,
+          8.9,
+          5.7,
+          2.4,
+          -4.5,
+          -7.8,
+          -10.8,
+          -13.5,
+          -17.7,
+          -19
         ],
         "flips": [
           false,
@@ -335,6 +337,7 @@
         ],
         "marks": [
           1,
+          5,
           4
         ],
         "shifts": [

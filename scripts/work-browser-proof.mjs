@@ -287,7 +287,8 @@ try {
   else assert.ok(shooter.clips.every(clip => /-idle-e$/.test(clip)) && shooter.marks.some(n => n > 1) && shooter.marks.includes(1), `at the mark: rifle ${shooter.clips}, smoke ${shooter.marks}`);
   const drawnStake = pacer.workClips.some(clip => /-stake$/.test(clip));
   if (drawnStake) assert.ok(pacer.arts.includes('drawn') && pacer.frames.length >= 2, `staking in ${pacer.workClips}: frames ${pacer.frames}`);
-  else assert.ok(pacer.clips.every(clip => /-walk$/.test(clip)) && pacer.shifts.length >= 5 && pacer.flips.length === 2, `pacing: ${pacer.clips}, shifts ${pacer.shifts}, facing ${pacer.flips}`);
+  // Every work at half its length (2026-09-29): ten acres may be paced out inside the watch, and the surveyor sits down after.
+  else assert.ok(pacer.clips.some(clip => /-walk$/.test(clip)) &&pacer.clips.every(clip => /-(walk|rest)$/.test(clip)) && pacer.shifts.length >= 5 && pacer.flips.length === 2, `pacing: ${pacer.clips}, shifts ${pacer.shifts}, facing ${pacer.flips}`);
   // A drawn two-frame cycle (the staking) is two pictures by design; everything else changes more often than that.
   for (const id of Object.keys(two)) assert.ok(two[id].prints >= (id === surveyor.id && drawnStake ? 2 : 3), `the pixels round ${id} changed ${two[id].prints} times`);
   ok(`at the mark ${marksman.name} is drawn ${drawnShot ? `in ${shooter.workClips} (frames ${shooter.frames.join('/')})` : 'with the rifle up'} and a puff of smoke once a cycle (marks ${shooter.marks.join('/')}); surveying, ${surveyor.name} ${drawnStake ? `drives the stakes in ${pacer.workClips} (frames ${pacer.frames.join('/')})` : `paces the ground to and fro (${pacer.shifts.length} places, turning both ways)`}`);
