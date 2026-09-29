@@ -24,13 +24,22 @@ Branch `cards-merge-fix` off `integration-2026-09-28` (37838614: `house-card` me
   who goes out of sight. Host and watching pages unchanged. The page's fade depends on the zoom, so a family running flat out can be
   drawn from the family frame and out of sight close in; the rows follow what is drawn, and a student presses Follow to see them.
 
-Evidence (same computer, headless Chrome): `test:story-cards` 4, `test:family-panel`, `test:chatter` 21, `test:lone-parent` 10,
-`test:tips` 13, `test:travel-sight` (the new checks: greyed, refused, camera not on them, live on arrival; a drawn walker's row live),
-`test:scrape-pursuit` 15, `test:scrape` 7, `test:host-live` 11, `test:battle-bexar` 15, `test:family-commands` 23, `test:armies`,
-`test:riding`, `test:road`, `test:siege`, `test:storming`, `bexar-alarm`, `travel-drawn`, `test:watching` passed; node tests for the
-panel, commands, attention, tips, travel sight and pursuit 81 of 81 (`tests/family-commands.test.mjs`'s source check now requires
-the portrait and the star behind the same out-of-sight guard; `scripts/design-blockers-injections.mjs` updated to the new line and
-still caught). Injections: `node scripts/unseen-and-auto-injections.mjs` ([record](docs/evidence/unseen-and-auto-injections.json)).
+- **After merging `integration-2026-09-28` 692b5282**: the away line is written through `setText`. The messages card is placed again
+  whenever the column is fitted (`placeMilitaryNotice`), and on a phone below the column's story cards: with the person card no
+  longer opening for a rider, nothing folded the call's card there, and a resize in a paused class left it where the wider window
+  had it (`test:overlap` found it over *Go and ask* at 400 px). `test:chatter` now waits, with Follow, for the family's man
+  marching to camp to be drawn before pressing his portrait.
+
+Evidence on the merged tree (same computer, headless Chrome): `npm test` **1757 pass, 0 fail** (36 skipped); `test:story-cards` 4,
+`test:family-panel` (phone map share 48%), `test:chatter` 21, `test:lone-parent` 10, `test:tips` 13, `test:travel-sight` (greyed,
+refused, the camera that was on him let go, live on arrival; a drawn walker's row live), `test:scrape-pursuit` 15, `test:overlap`
+**177 screens, 0 faults**, `test:battle-concepcion` passed. Before the last merge also `test:scrape` 7, `test:host-live` 11,
+`test:battle-bexar` 15, `test:battle-grass`, `test:family-commands` 23, `test:armies`, `test:riding`, `test:road`, `test:siege`,
+`test:storming`, `bexar-alarm`, `travel-drawn`, `test:watching`. `tests/family-commands.test.mjs`'s source check requires the portrait
+and the star behind the same out-of-sight guard, and `scripts/design-blockers-injections.mjs` targets the new line (still caught).
+Injections: `node scripts/unseen-and-auto-injections.mjs` **7 of 7 caught** ([record](docs/evidence/unseen-and-auto-injections.json));
+`scripts/story-cards-injections.mjs` 5 of 5 and `--browser` 7 of 7 (two of its lines re-pointed at `deciding`, which the south-news fix now wraps in
+`!world.watching && (…)`).
 
 Proofs repaired because the merged tree had outgrown them: `battle-1835` (concepcion) pressed the portrait of a man away with the army
 to reach his question - now his "!" while he is out of sight. `travel-sight-proof` takes the red-proofs builder's repair (the other

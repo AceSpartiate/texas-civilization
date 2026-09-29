@@ -22,7 +22,7 @@
       "caught": true,
       "failed": [
         "scripts/story-cards-browser-proof.mjs failed after 0 checks: locator.waitFor: Timeout 30000ms exceeded.",
-        "scripts/family-panel-browser-proof.mjs failed after 7 checks: page.waitForFunction: Timeout 30000ms exceeded."
+        "scripts/family-panel-browser-proof.mjs failed after 9 checks: locator.waitFor: Timeout 20000ms exceeded."
       ]
     },
     {

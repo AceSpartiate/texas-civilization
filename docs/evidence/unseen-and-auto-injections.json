@@ -53,8 +53,10 @@
     {
       "name": "the camera keeps its watch on somebody out of sight",
       "proof": "scripts/travel-sight-proof.mjs",
-      "caught": false,
-      "failed": []
+      "caught": true,
+      "failed": [
+        "scripts/travel-sight-proof.mjs failed after 14 checks: AssertionError [ERR_ASSERTION]: on arrival their row is live again (drawn in Gonzales), the camera not back on them by itself, and their portrait goes to them with nothing refused"
+      ]
     }
   ]
 }

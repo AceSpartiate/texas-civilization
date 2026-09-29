@@ -1,6 +1,6 @@
 {
   "proof": "npm run test:lone-parent",
-  "when": "2026-09-29T21:35:58.986Z",
+  "when": "2026-09-29T22:13:45.739Z",
   "pass": [
     "on the land, before the house site is chosen: the ability is there, says to choose the site first, and cannot be pressed",
     "on the land the ability waits, glowing (card-glow), with the land marked on the map, standing on nothing: \"Take the children to the farms nearby and ask the neighbours to help Serafina raise a house.\"",
@@ -10,7 +10,7 @@
     "the four scenes in order, 26 presses of Continue, 6 fades to and from black, every figure and building drawn",
     "home: 4 people, two parents on the panel, a round-log house standing, and the ability gone",
     "the family took his name - the page reads \"The Whitlow family\" - and Amos, the new husband, is its main person and principal",
-    "fades to black take 1117, 1112 ms; with less motion asked for, 297 ms - shorter, never a cut",
+    "fades to black take 1102, 1124 ms; with less motion asked for, 280 ms - shorter, never a cut",
     "no page errors on the student's, the other student's or the Host's page"
   ],
   "observed": {
@@ -39,7 +39,7 @@
       "shadow": "rgb(255, 243, 207) 0px 0px 0px 1px inset, rgba(194, 88, 44, ",
       "marker": {
         "x": 690,
-        "y": 336,
+        "y": 335,
         "r": 12
       },
       "icon": "drawn"
@@ -56,8 +56,8 @@
       "between": "Serafina and the children walk to the nearest farm."
     },
     "fades": [
-      0.47,
-      0.59
+      0.46,
+      0.58
     ],
     "reload": {
       "scene": "second",
@@ -500,11 +500,11 @@
     },
     "fadeMs": {
       "full": [
-        1117,
-        1112
+        1102,
+        1124
       ],
       "reduced": [
-        297
+        280
       ]
     }
   },
