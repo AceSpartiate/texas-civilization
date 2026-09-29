@@ -23,6 +23,11 @@ export const FEET_PER_MILE = 5280;
  * ceiling: one factor for every building; a house and a two-storey hall keep their proportion to each other, not to people.
  */
 export const DRAWN_HEIGHT = 4;
+/*
+ * A building's `art`, where given, is a drawing of that building itself (a Claude-drawn stand-in or, later, Astra's frame of
+ * the same name) drawn in its place at `artHeight` (else `height`) once its sheet has loaded (public/town-art.js); a building
+ * or a wall marked `standInFor` that name is then not drawn - the library pieces that stood for it. Until then, `sprite`.
+ */
 
 /** Where a point of a layout falls, in miles east and south of the town's site point. */
 export function townPoint(layout, point) {
@@ -368,18 +373,21 @@ const BRAZORIA = {
 // ---------------------------------------------------------------------------------------------- Velasco
 // docs/town-research/velasco.md §8: six buildings in two fenced enclosures, measured off Harkort's drawing, and the 1832
 // circular fort derelict with a new gun on its mound. The origin is Monument Square, the map's point.
-// stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - a circular log-and-sand fort. Palisade pieces in a ring, gapped.
+// stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - a circular log-and-sand fort. Claude's `fort-velasco` (docs/ART_REQUESTS.md,
+// "Claude-drawn stand-ins") on the gun's point when its sheet has loaded; until then palisade pieces in a ring, gapped, and the gun.
 const VELASCO = {
   name: 'Velasco', research: 'docs/town-research/velasco.md', bearing: 130.8, anchor: { x: 0, y: 0 },
   streets: [],
   squares: [],
   walls: [
-    { name: 'Fort Velasco', points: ring({ x: -420, y: -180 }, 45, 20), sprite: 'palisade', breach: 'alamo-palisade-broken', breachEvery: 3, spacing: 14, height: 8 },
+    { name: 'Fort Velasco', points: ring({ x: -420, y: -180 }, 45, 20), sprite: 'palisade', breach: 'alamo-palisade-broken', breachEvery: 3, spacing: 14, height: 8, standInFor: 'fort-velasco' },
     { name: 'The enclosures', points: [{ x: -900, y: -560 }, { x: -500, y: -560 }, { x: -500, y: -230 }, { x: -900, y: -230 }, { x: -900, y: -560 }], sprite: 'fence-rail', spacing: 40, height: 5 },
     { name: '', points: [{ x: -700, y: -560 }, { x: -700, y: -230 }], sprite: 'fence-rail', spacing: 40, height: 5 },
   ],
   buildings: [
-    { id: 'vel-fort-gun', sprite: 'cannon-iron-e', x: -420, y: -180, height: 7, label: 'Fort Velasco' },
+    // Drawn at half its true size against the town's exaggeration (`artHeight` 10 of the frame's 20 ft): about 180 ft across,
+    // the ring of pieces' own span, so it does not cover the enclosures beside it.
+    { id: 'vel-fort-gun', sprite: 'cannon-iron-e', x: -420, y: -180, height: 7, label: 'Fort Velasco', art: 'fort-velasco', artHeight: 10 },
     { id: 'vel-brown-hoskins', sprite: 'frame-hall', x: -760, y: -430, height: 28, label: 'Brown & Hoskins’ tavern' },
     { id: 'vel-custom-house', sprite: 'trading-house', x: -620, y: -300, height: 18, label: 'The custom house' },
     { id: 'vel-pilot-house', sprite: 'cabin-wide', x: -560, y: -520, height: 16, label: 'The pilot’s house' },
@@ -401,10 +409,12 @@ const HARRISBURG = {
   ],
   squares: [],
   buildings: [
-    // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the buildings the towns' research found. The steam sawmill.
-    { id: 'hbg-mill', sprite: 'timber-hall', x: 620, y: -500, height: 24, label: 'Harrisburg Steam Mills' },
-    { id: 'hbg-mill-boiler', sprite: 'storehouse', x: 700, y: -470, height: 14 },
-    { id: 'hbg-mill-logs', sprite: 'pine-loblolly-log', x: 560, y: -560, height: 6 },
+    // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the buildings the towns' research found. The steam sawmill: Claude's
+    // `sawmill-steam` (shed, boiler house, logs and lumber in one; "Claude-drawn stand-ins") when loaded, at 0.4 of its true
+    // size against the town's exaggeration; until then `timber-hall`, `storehouse` and a log.
+    { id: 'hbg-mill', sprite: 'timber-hall', x: 620, y: -500, height: 24, label: 'Harrisburg Steam Mills', art: 'sawmill-steam', artHeight: 8 },
+    { id: 'hbg-mill-boiler', sprite: 'storehouse', x: 700, y: -470, height: 14, standInFor: 'sawmill-steam' },
+    { id: 'hbg-mill-logs', sprite: 'pine-loblolly-log', x: 560, y: -560, height: 6, standInFor: 'sawmill-steam' },
     { id: 'hbg-harris-house', sprite: 'house-dog-run', x: 220, y: -600, height: 20, label: 'The Harris house' },
     { id: 'hbg-dch-store', sprite: 'trading-house', x: 300, y: -1000, height: 18, label: 'D. C. Harris’s store' },
     { id: 'hbg-warehouse', sprite: 'storehouse', x: 560, y: -980, height: 18 },
@@ -469,8 +479,10 @@ const NACOGDOCHES = {
     { label: 'Church plaza', points: [{ x: -640, y: -470 }, { x: -470, y: -420 }, { x: -500, y: -250 }, { x: -660, y: -300 }] },
   ],
   buildings: [
-    // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the buildings the towns' research found. The two-storey Stone House.
-    { id: 'nac-stone-house', sprite: 'stone-tile-house', x: -60, y: -60, height: 20, label: 'The Stone House' },
+    // stand-in: docs/ART_REQUESTS.md, request 2026-09-16 - the buildings the towns' research found. The two-storey Stone House:
+    // Claude's `stone-house-nacogdoches` ("Claude-drawn stand-ins") when loaded, at half its true 70 ft against the town's
+    // exaggeration; `stone-tile-house` until then.
+    { id: 'nac-stone-house', sprite: 'stone-tile-house', x: -60, y: -60, height: 20, label: 'The Stone House', art: 'stone-house-nacogdoches', artHeight: 10 },
     { id: 'nac-red-house', sprite: 'adobe-flat', x: -470, y: -60, height: 16, label: 'The Red House' },
     { id: 'nac-church-ruin', sprite: 'roofless-church-shell', x: -560, y: -380, height: 18, label: 'The old church' },
     { id: 'nac-sterne', sprite: 'timber-hall', x: 1186, y: 872, height: 22, label: 'Sterne’s house' },
