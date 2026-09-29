@@ -59,30 +59,38 @@ SPECIES.mule = {
 };
 SPECIES.cow = {
   ...SPECIES.horse, size: 0.86,
-  body: [[26, 94], [8, 95], [-22, 95], [-46, 97], [-60, 95], [-68, 90], [-72, 80], [-72, 66], [-66, 55], [-48, 49], [-24, 42], [4, 41], [22, 44], [32, 48], [46, 55], [56, 64], [60, 76], [58, 88], [42, 97]],
+  body: [[26, 96], [8, 97], [-22, 97], [-46, 99], [-60, 97], [-68, 92], [-72, 82], [-72, 66], [-66, 52], [-54, 44], [-44, 45], [-34, 40], [-10, 36.5], [10, 36.5], [26, 39], [34, 43], [46, 47], [56, 60], [62, 74], [60, 88], [42, 98]],
   neck: [[30, 96], [44, 99], [58, 101], [72, 103], [80, 104], [86, 82], [76, 72], [64, 64], [56, 64]],
   head: [[78, 105], [88, 106], [98, 100], [108, 88], [114, 78], [113, 71], [106, 68], [98, 70], [90, 78], [86, 84], [80, 90]],
   neckPivot: [44, 84], poll: [80, 102],
   ears: [[[80, 99], [70, 97], [79, 94]], [[82, 101], [74, 104], [82, 98]]],
-  horns: [[82, 104], [86, 113], [90, 116]],
+  horns: [[82, 104], [88, 110], [95, 111]],
   eye: [94, 94], nostril: [111, 74], mouth: [[104, 69.5], [111, 70]], muzzle: [[104, 69], [106, 80], [114, 78], [114, 71], [108, 67]], blaze: null,
   bridle: { cheek: [[82, 100], [88, 88], [94, 78]], nose: [[94, 78], [104, 80], [112, 80]], brow: [[82, 100], [88, 100], [92, 98]], bit: [104, 72] },
   shoulder: [[30, 94], [46, 86], [58, 74], [54, 60]], haunch: [[-44, 96], [-60, 92], [-70, 80], [-70, 64]],
-  fore: { root: [48, 70], upper: 24, mid: 22, low: 15, x: 36, rest: [-12, -21] },
-  hind: { root: [-52, 72], upper: 24, mid: 24, low: 19, x: -56, rest: [12, -21] },
-  tailRoot: [-66, 93], tail: 'switch', mane: false, udder: true, hoof: 4.2, cloven: true, dewlap: true, half: 25,
+  fore: { root: [48, 66], upper: 22, mid: 22, low: 15, x: 38, rest: [-10, -20] },
+  hind: { root: [-52, 70], upper: 24, mid: 24, low: 17, x: -56, rest: [12, -21] },
+  tailRoot: [-66, 93], tail: 'switch', mane: false, udder: true, hoof: 4.2, cloven: true, dewlap: false, half: 30, neckFirst: true,
 };
 SPECIES.ox = {
   ...SPECIES.cow, size: 0.95,
-  body: [[26, 100], [14, 102], [-8, 97], [-30, 96], [-50, 98], [-62, 95], [-70, 88], [-74, 76], [-72, 62], [-64, 52], [-44, 46], [-18, 42], [6, 41], [24, 43], [36, 48], [48, 56], [58, 66], [62, 80], [58, 92], [42, 102]],
+  body: [[26, 100], [14, 103], [-8, 98], [-30, 97], [-50, 99], [-62, 96], [-70, 89], [-74, 76], [-72, 60], [-64, 47], [-50, 44], [-40, 41], [-18, 37], [6, 36.5], [24, 38.5], [34, 42], [46, 47], [58, 62], [63, 78], [58, 92], [42, 103]],
   neck: [[28, 100], [44, 101], [58, 99], [72, 98], [80, 98], [86, 78], [76, 68], [64, 60], [56, 62]],
   head: [[78, 99], [90, 100], [100, 94], [110, 82], [116, 72], [115, 64], [107, 61], [98, 63], [90, 72], [86, 78], [80, 86]],
   poll: [82, 97], horns: [[84, 99], [96, 108], [101, 118]], ears: [[[80, 94], [68, 91], [78, 89]], [[82, 96], [72, 99], [82, 93]]],
   eye: [96, 89], nostril: [113, 67], mouth: [[106, 62.5], [113, 63]], muzzle: [[106, 62], [108, 74], [116, 72], [116, 64], [110, 60]],
   bridle: { cheek: [[84, 96], [90, 84], [96, 72]], nose: [[96, 72], [106, 74], [114, 73]], brow: [[84, 96], [90, 96], [94, 94]], bit: [106, 65] },
   shoulder: [[30, 100], [46, 92], [58, 78], [56, 62]], haunch: [[-46, 97], [-62, 93], [-72, 80], [-70, 62]],
-  udder: false, hump: true, half: 27,
+  udder: false, hump: true, half: 32,
 };
+/** A bigger head for the cattle than the horse's landmarks give: every head landmark scaled about the poll. */
+function scaleHead(S, k) {
+  const c = S.poll, f = p => [c[0] + (p[0] - c[0]) * k, c[1] + (p[1] - c[1]) * k];
+  return { ...S, head: S.head.map(f), ears: S.ears.map(e => e.map(f)), horns: S.horns && S.horns.map(f), eye: f(S.eye), nostril: f(S.nostril), mouth: S.mouth.map(f), muzzle: S.muzzle && S.muzzle.map(f),
+    bridle: { cheek: S.bridle.cheek.map(f), nose: S.bridle.nose.map(f), brow: S.bridle.brow.map(f), bit: f(S.bridle.bit) } };
+}
+SPECIES.cow = scaleHead(SPECIES.cow, 1.28);
+SPECIES.ox = scaleHead(SPECIES.ox, 1.25);
 
 // The range steer the foragers drive off: a cow's frame, heavier, with the long spreading horns of the Texas cattle.
 SPECIES.longhorn = { ...SPECIES.cow, size: 0.9, udder: false, dewlap: false, horns: [[82, 104], [96, 110], [118, 114]] };
@@ -207,7 +215,8 @@ export function drawQuadSide(ink, speciesName, pose, { coat = COATS.bay, tack = 
   drawLeg(g, S, L.ff, coat, far);
   drawLeg(g, S, L.fh, coat, far);
   drawTail(g, S, P, coat, pose);
-  // Body, then the neck and the head.
+  // Body, then the neck and the head (a bullock's thick short neck goes behind the body, whose front it grows from).
+  if (S.neckFirst) g.shape(blob(S.neck.map(N), 0.85), coat.coat, { off: 2, lift: true });
   g.shape(blob(S.body.map(P), 0.9), coat.coat, { off: 2.6, lift: true });
   if (coat.patches) drawPatches(g, S, P, coat);
   if (coat.belly) g.dot(blob([P([-36, 52]), P([-10, 48]), P([20, 48]), P([10, 56]), P([-26, 58])], 0.9), coat.belly, 0.6);
@@ -217,7 +226,7 @@ export function drawQuadSide(ink, speciesName, pose, { coat = COATS.bay, tack = 
     for (const x of [-40, -33, -27]) g.shape(capsule(P([x, 39]), P([x - 0.5, 35]), 1.1, 0.9), '#dc9c88', { shade: false, outline: LINE.fine });
   }
   if (S.dewlap) g.shape(blob([N([58, 78]), N([70, 66]), N([80, 70]), N([76, 82])], 0.9), tone(coat.coat, -0.04), { off: 1 });
-  g.shape(blob(S.neck.map(N), 0.85), coat.coat, { off: 2, lift: true });
+  if (!S.neckFirst) g.shape(blob(S.neck.map(N), 0.85), coat.coat, { off: 2, lift: true });
   if (S.hump) g.shape(blob([P([14, 100]), P([26, 108]), P([38, 104]), P([40, 96]), P([22, 94])], 0.9), coat.coat, { off: 1.4, lift: true });
   const head = S.head.map(H);
   g.shape(blob(head, 0.9), coat.coat, { off: 1.8, lift: true });
@@ -274,7 +283,7 @@ export function drawQuadSide(ink, speciesName, pose, { coat = COATS.bay, tack = 
   const u = v => mul(v, z);
   return {
     seat: u(P([-4, 99])), cantle: u(P([-16, 104])), horn: u(P([10, 104])), bit: u(H(S.bridle.bit)), withers: u(P(S.body[0])),
-    poll: u(H(S.poll)), muzzle: u(H(S.nostril)), croup: u(P([-44, 99])), chest: u(P([58, 80])), pose, scale: z,
+    poll: u(H(S.poll)), muzzle: u(H(S.nostril)), croup: u(P([-44, 99])), chest: u(P([58, 80])), ring: u(N([44, 66])), pose, scale: z,
   };
 }
 
@@ -318,7 +327,7 @@ function drawLeg(g, S, leg, coat, shade) {
   const hr = S.hoof;
   const turn = Math.atan2(pastern[1], pastern[0]) - Math.atan2(10.5, -3.5);
   const coronet = add(hoof, rot([0.4, hr], turn * 180 / Math.PI));
-  const k = S.cloven ? 1.1 : 1;
+  const k = S.cloven ? 1.22 : 1;
   // One smooth leg from the elbow or stifle to the hoof: the forearm or gaskin muscled, narrowing to the knee or hock, the
   // cannon thin, a round fetlock, the pastern.
   const pts = fore
@@ -439,7 +448,7 @@ export function drawQuadFrontal(ink, speciesName, view, { frame = null, coat = C
   // The horse's left (near) side is screen right coming toward us and screen left going away.
   const side = key => (key[0] === 'n' ? 1 : -1) * (toward ? 1 : -1);
   const hw = S.half;
-  const rise = 13; // how much higher the far end of the body is drawn: the camera is a little above
+  const rise = cow ? 8 : 13; // how much higher the far end of the body is drawn: the camera is a little above
   const nearEnd = toward ? 'f' : 'h';
   const legs = {};
   for (const key of ['nf', 'ff', 'nh', 'fh']) {
@@ -465,7 +474,7 @@ export function drawQuadFrontal(ink, speciesName, view, { frame = null, coat = C
     if (cow) g.line(`M ${f(leg.hoof)} L ${f(add(leg.hoof, [0, 4.5]))}`, { width: LINE.fine });
   };
   const farLegs = Object.values(legs).filter(l => !l.near), nearLegs = Object.values(legs).filter(l => l.near);
-  const lo = 48 + bob, hi = 98 + bob;
+  const lo = (cow ? 40 : 48) + bob, hi = (cow ? 92 : 98) + bob;
   const barrel = () => {
     // The barrel from end to end: a long rounded shape rising into the distance, its back seen from above.
     g.shape(blob([[-hw + roll, lo + 6], [-hw - 2 + roll, (lo + hi) / 2], [-hw + 1 + roll, hi - 4 + rise * 0.5], [-hw * 0.6 + roll, hi + rise], [hw * 0.6 + roll, hi + rise],
@@ -485,20 +494,22 @@ export function drawQuadFrontal(ink, speciesName, view, { frame = null, coat = C
   const head = () => {
     const nod = frame == null ? 0 : [0, -1.6, 0, -1.6][frame % 4];
     if (cow) {
-      g.shape(blob([[-14 + roll, 62 + bob], [-13 + roll, 90 + bob], [13 + roll, 90 + bob], [14 + roll, 62 + bob], [roll, 56 + bob]], 0.85), coat.coat, { off: 1.4 });
-      if (S.dewlap) g.shape(blob([[-5 + roll, 64 + bob], [5 + roll, 64 + bob], [3 + roll, 50 + bob], [-3 + roll, 50 + bob]], 0.8), tone(coat.coat, -0.05), { off: 0.6 });
-      const hc = [roll * 0.5, 92 + nod + bob];
-      if (S.horns) for (const s of [-1, 1]) g.shape(capsule(add(hc, [s * 7, 10]), add(hc, [s * (S.hump ? 22 : 16), 18]), 2.6, 1), coat.horn || '#e8dcc0', { shade: false, outline: LINE.inner + 0.6 });
-      for (const s of [-1, 1]) g.shape(ellipse(add(hc, [s * 13.5, 6]), 6, 3, s * -15), coat.coat, { shade: false, outline: LINE.inner + 0.6 });
+      // The broad chest, and the head carried low in front of it.
+      g.shape(blob([[-24 + roll, 42 + bob], [-27 + roll, 62 + bob], [-20 + roll, 86 + bob], [20 + roll, 86 + bob], [27 + roll, 62 + bob], [24 + roll, 42 + bob], [roll, 38 + bob]], 0.85), coat.coat, { off: 1.6, lift: true });
+      if (S.dewlap) g.shape(blob([[-6 + roll, 60 + bob], [6 + roll, 60 + bob], [4 + roll, 42 + bob], [-4 + roll, 42 + bob]], 0.8), tone(coat.coat, -0.05), { off: 0.6 });
+      const hc0 = [roll * 0.5, 76 + nod + bob], F = v => add(hc0, [v[0] * 1.3, v[1] * 1.3]);
+      const hc = hc0;
+      if (S.horns) for (const s of [-1, 1]) g.shape(capsule(F([s * 7, 10]), F([s * (S.hump ? 22 : 16), 18]), 2.6, 1), coat.horn || '#e8dcc0', { shade: false, outline: LINE.inner + 0.6 });
+      for (const s of [-1, 1]) g.shape(ellipse(F([s * 13.5, 6]), 6, 3, s * -15), coat.coat, { shade: false, outline: LINE.inner + 0.6 });
       const face = coat.patches ? '#f4ead6' : coat.coat;
-      g.shape(blob([add(hc, [-10, 12]), add(hc, [10, 12]), add(hc, [9, -4]), add(hc, [6, -13]), add(hc, [-6, -13]), add(hc, [-9, -4])], 0.85), face, { off: 1.2, lift: true });
-      if (coat.patches) g.dot(blob([add(hc, [-10, 12]), add(hc, [-1, 13]), add(hc, [-3, 2]), add(hc, [-9, -2])], 0.8), coat.patches);
-      g.shape(ellipse(add(hc, [0, -11]), 7, 4.4), coat.muzzle, { off: 0.5, outline: LINE.inner + 0.6 });
-      for (const s of [-1, 1]) { g.dot(ellipse(add(hc, [s * 2.5, -11]), 1.1, 0.9), LINE.ink); g.dot(ellipse(add(hc, [s * 6.5, 4]), 1.5, 1.8), LINE.ink); }
-      if (rope) g.line(curve([add(hc, [-7, 10]), add(hc, [-11, 0]), add(hc, [-14, -30]), [-16 + roll, 3]]), { colour: '#c8a878', width: 2.6 });
+      g.shape(blob([F([-10, 12]), F([10, 12]), F([9, -4]), F([6, -13]), F([-6, -13]), F([-9, -4])], 0.85), face, { off: 1.2, lift: true });
+      if (coat.patches) g.dot(blob([F([-10, 12]), F([-1, 13]), F([-3, 2]), F([-9, -2])], 0.8), coat.patches);
+      g.shape(ellipse(F([0, -11]), 7, 4.4), coat.muzzle, { off: 0.5, outline: LINE.inner + 0.6 });
+      for (const s of [-1, 1]) { g.dot(ellipse(F([s * 2.5, -11]), 1.1, 0.9), LINE.ink); g.dot(ellipse(F([s * 6.5, 4]), 1.5, 1.8), LINE.ink); }
+      if (rope) g.line(curve([F([-7, 10]), F([-11, 0]), F([-14, -30]), [-16 + roll, 3]]), { colour: '#c8a878', width: 2.6 });
       if (yoke) {
-        g.line(curve([add(hc, [-11, 16]), add(hc, [-13, 0]), add(hc, [0, -6]), add(hc, [13, 0]), add(hc, [11, 16])]), { width: 3, colour: '#c8a878' });
-        g.shape(blob([add(hc, [-26, 16]), add(hc, [26, 16]), add(hc, [26, 21]), add(hc, [-26, 21])], 0.4), '#8a5e34', { off: 0.8 });
+        g.line(curve([F([-11, 16]), F([-13, 0]), F([0, -6]), F([13, 0]), F([11, 16])]), { width: 3, colour: '#c8a878' });
+        g.shape(blob([F([-26, 16]), F([26, 16]), F([26, 21]), F([-26, 21])], 0.4), '#8a5e34', { off: 0.8 });
       }
       return hc;
     }
@@ -544,7 +555,7 @@ export function drawQuadFrontal(ink, speciesName, view, { frame = null, coat = C
   };
   const farHead = () => {
     // Going away the head is beyond the body: the ears and the top of the neck show over the withers.
-    const c = [roll * 0.6 + (cow ? 0 : 12), (cow ? 108 : 124) + rise + bob];
+    const c = [roll * 0.6 + (cow ? 0 : 12), (cow ? 100 : 124) + rise + bob];
     if (cow) {
       if (S.horns) for (const s of [-1, 1]) g.shape(capsule(add(c, [s * 5, -6]), add(c, [s * (S.hump ? 20 : 14), 2]), 2.4, 1), coat.horn || '#e8dcc0', { shade: false, outline: LINE.inner + 0.6 });
       for (const s of [-1, 1]) g.shape(ellipse(add(c, [s * 12, -9]), 5, 2.6, s * -15), tone(coat.coat, -0.1), { shade: false, outline: LINE.inner + 0.6 });

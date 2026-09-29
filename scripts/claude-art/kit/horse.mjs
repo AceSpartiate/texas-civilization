@@ -112,13 +112,13 @@ export function drawMounted(ink, figure, frame = null, opts = {}) {
 }
 
 /** Draw `fn(sub)` into `ink` moved by (dx, dy) rig units: one member of a group (a party of riders, a herd). */
-export function placed(ink, dx, dy, fn) {
-  const sub = new Ink(`${ink.prefix}-p${ink.n}`, ink.k, { yUp: true });
+export function placed(ink, dx, dy, fn, { flip = false, scale = 1 } = {}) {
+  const sub = new Ink(`${ink.prefix}-p${ink.n}`, ink.k * scale, { yUp: true });
   sub.n = ink.n + 1;
   const out = fn(sub);
   ink.n = sub.n + 1;
   ink.defs.push(...sub.defs);
-  ink.raw(`<g transform="translate(${f2(dx)} ${f2(dy)})">${sub}</g>`);
+  ink.raw(`<g transform="translate(${f2(dx)} ${f2(dy)})${flip ? ' scale(-1 1)' : ''}${scale !== 1 ? ` scale(${scale})` : ''}">${sub}</g>`);
   return out;
 }
 

@@ -1,0 +1,3341 @@
+{
+  "module": "transport-vehicles",
+  "area": "transport",
+  "date": "2026-09-28",
+  "sheets": {
+    "claude-cart": {
+      "image": "/assets/claude-standins/claude-cart.png",
+      "width": 1600,
+      "height": 1680,
+      "bytes": 247141,
+      "sha256": "08c3399069f670a4b39d58ec63a6acd1677a7fdae5a7ca8b6e0546651ffc1a40",
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "layout": {
+        "rows": 6,
+        "columns": 5,
+        "cell": {
+          "w": 320,
+          "h": 280
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-carreta-loaded": {
+      "image": "/assets/claude-standins/claude-carreta-loaded.png",
+      "width": 1320,
+      "height": 870,
+      "bytes": 126352,
+      "sha256": "9bfad41648e3fae5c94afeb9c3af7664459a62b59e375ede3de4edbe2dd986fb",
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — the carreta",
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "cell": {
+          "w": 330,
+          "h": 290
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-wagon-ox": {
+      "image": "/assets/claude-standins/claude-wagon-ox.png",
+      "width": 2840,
+      "height": 930,
+      "bytes": 837281,
+      "sha256": "28e41c86d893cb1cb3dccb1b08738a4f7d6173bd94f1fefc8ddce9cb40bcc7b2",
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "cell": {
+          "w": 710,
+          "h": 310
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-wagon-ox-ns": {
+      "image": "/assets/claude-standins/claude-wagon-ox-ns.png",
+      "width": 1840,
+      "height": 1290,
+      "bytes": 816535,
+      "sha256": "24f6ceb04c62894af7de5617d7efba5f5490bc3217be9112a03ae78802d9f4ac",
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "layout": {
+        "rows": 3,
+        "columns": 8,
+        "cell": {
+          "w": 230,
+          "h": 430
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "cart-travel-e-1": {
+      "sheet": "claude-cart",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.3906,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-e-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-e-1.svg",
+      "label": "cart travel e 1",
+      "kind": "claude-cart"
+    },
+    "cart-travel-e-2": {
+      "sheet": "claude-cart",
+      "x": 320,
+      "y": 0,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.3906,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-e-2: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-e-2.svg",
+      "label": "cart travel e 2",
+      "kind": "claude-cart"
+    },
+    "cart-travel-e-3": {
+      "sheet": "claude-cart",
+      "x": 640,
+      "y": 0,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.3906,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-e-3: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-e-3.svg",
+      "label": "cart travel e 3",
+      "kind": "claude-cart"
+    },
+    "cart-travel-e-4": {
+      "sheet": "claude-cart",
+      "x": 960,
+      "y": 0,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.3906,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-e-4: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-e-4.svg",
+      "label": "cart travel e 4",
+      "kind": "claude-cart"
+    },
+    "cart-idle-e": {
+      "sheet": "claude-cart",
+      "x": 1280,
+      "y": 0,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.3906,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-idle-e: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-idle-e.svg",
+      "label": "cart idle e",
+      "kind": "claude-cart"
+    },
+    "cart-travel-s-1": {
+      "sheet": "claude-cart",
+      "x": 0,
+      "y": 280,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-s-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-s-1.svg",
+      "label": "cart travel s 1",
+      "kind": "claude-cart"
+    },
+    "cart-travel-s-2": {
+      "sheet": "claude-cart",
+      "x": 320,
+      "y": 280,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-s-2: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-s-2.svg",
+      "label": "cart travel s 2",
+      "kind": "claude-cart"
+    },
+    "cart-travel-s-3": {
+      "sheet": "claude-cart",
+      "x": 640,
+      "y": 280,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-s-3: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-s-3.svg",
+      "label": "cart travel s 3",
+      "kind": "claude-cart"
+    },
+    "cart-travel-s-4": {
+      "sheet": "claude-cart",
+      "x": 960,
+      "y": 280,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-s-4: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-s-4.svg",
+      "label": "cart travel s 4",
+      "kind": "claude-cart"
+    },
+    "cart-idle-s": {
+      "sheet": "claude-cart",
+      "x": 1280,
+      "y": 280,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-idle-s: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-idle-s.svg",
+      "label": "cart idle s",
+      "kind": "claude-cart"
+    },
+    "cart-travel-n-1": {
+      "sheet": "claude-cart",
+      "x": 0,
+      "y": 560,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-n-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-n-1.svg",
+      "label": "cart travel n 1",
+      "kind": "claude-cart"
+    },
+    "cart-travel-n-2": {
+      "sheet": "claude-cart",
+      "x": 320,
+      "y": 560,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-n-2: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-n-2.svg",
+      "label": "cart travel n 2",
+      "kind": "claude-cart"
+    },
+    "cart-travel-n-3": {
+      "sheet": "claude-cart",
+      "x": 640,
+      "y": 560,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-n-3: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-n-3.svg",
+      "label": "cart travel n 3",
+      "kind": "claude-cart"
+    },
+    "cart-travel-n-4": {
+      "sheet": "claude-cart",
+      "x": 960,
+      "y": 560,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-n-4: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-n-4.svg",
+      "label": "cart travel n 4",
+      "kind": "claude-cart"
+    },
+    "cart-idle-n": {
+      "sheet": "claude-cart",
+      "x": 1280,
+      "y": 560,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-idle-n: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-idle-n.svg",
+      "label": "cart idle n",
+      "kind": "claude-cart"
+    },
+    "cart-travel-loaded-e-1": {
+      "sheet": "claude-cart",
+      "x": 0,
+      "y": 840,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.3906,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-loaded-e-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-loaded-e-1.svg",
+      "label": "cart travel loaded e 1",
+      "kind": "claude-cart"
+    },
+    "cart-travel-loaded-e-2": {
+      "sheet": "claude-cart",
+      "x": 320,
+      "y": 840,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.3906,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-loaded-e-2: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-loaded-e-2.svg",
+      "label": "cart travel loaded e 2",
+      "kind": "claude-cart"
+    },
+    "cart-travel-loaded-e-3": {
+      "sheet": "claude-cart",
+      "x": 640,
+      "y": 840,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.3906,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-loaded-e-3: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-loaded-e-3.svg",
+      "label": "cart travel loaded e 3",
+      "kind": "claude-cart"
+    },
+    "cart-travel-loaded-e-4": {
+      "sheet": "claude-cart",
+      "x": 960,
+      "y": 840,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.3906,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-loaded-e-4: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-loaded-e-4.svg",
+      "label": "cart travel loaded e 4",
+      "kind": "claude-cart"
+    },
+    "cart-idle-loaded-e": {
+      "sheet": "claude-cart",
+      "x": 1280,
+      "y": 840,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.3906,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-idle-loaded-e: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-idle-loaded-e.svg",
+      "label": "cart idle loaded e",
+      "kind": "claude-cart"
+    },
+    "cart-travel-loaded-s-1": {
+      "sheet": "claude-cart",
+      "x": 0,
+      "y": 1120,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-loaded-s-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-loaded-s-1.svg",
+      "label": "cart travel loaded s 1",
+      "kind": "claude-cart"
+    },
+    "cart-travel-loaded-s-2": {
+      "sheet": "claude-cart",
+      "x": 320,
+      "y": 1120,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-loaded-s-2: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-loaded-s-2.svg",
+      "label": "cart travel loaded s 2",
+      "kind": "claude-cart"
+    },
+    "cart-travel-loaded-s-3": {
+      "sheet": "claude-cart",
+      "x": 640,
+      "y": 1120,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-loaded-s-3: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-loaded-s-3.svg",
+      "label": "cart travel loaded s 3",
+      "kind": "claude-cart"
+    },
+    "cart-travel-loaded-s-4": {
+      "sheet": "claude-cart",
+      "x": 960,
+      "y": 1120,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-loaded-s-4: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-loaded-s-4.svg",
+      "label": "cart travel loaded s 4",
+      "kind": "claude-cart"
+    },
+    "cart-idle-loaded-s": {
+      "sheet": "claude-cart",
+      "x": 1280,
+      "y": 1120,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-idle-loaded-s: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-idle-loaded-s.svg",
+      "label": "cart idle loaded s",
+      "kind": "claude-cart"
+    },
+    "cart-travel-loaded-n-1": {
+      "sheet": "claude-cart",
+      "x": 0,
+      "y": 1400,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-loaded-n-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-loaded-n-1.svg",
+      "label": "cart travel loaded n 1",
+      "kind": "claude-cart"
+    },
+    "cart-travel-loaded-n-2": {
+      "sheet": "claude-cart",
+      "x": 320,
+      "y": 1400,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-loaded-n-2: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-loaded-n-2.svg",
+      "label": "cart travel loaded n 2",
+      "kind": "claude-cart"
+    },
+    "cart-travel-loaded-n-3": {
+      "sheet": "claude-cart",
+      "x": 640,
+      "y": 1400,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-loaded-n-3: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-loaded-n-3.svg",
+      "label": "cart travel loaded n 3",
+      "kind": "claude-cart"
+    },
+    "cart-travel-loaded-n-4": {
+      "sheet": "claude-cart",
+      "x": 960,
+      "y": 1400,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-travel-loaded-n-4: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-travel-loaded-n-4.svg",
+      "label": "cart travel loaded n 4",
+      "kind": "claude-cart"
+    },
+    "cart-idle-loaded-n": {
+      "sheet": "claude-cart",
+      "x": 1280,
+      "y": 1400,
+      "w": 320,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.9464,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "cart-idle-loaded-n: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-idle-loaded-n.svg",
+      "label": "cart idle loaded n",
+      "kind": "claude-cart"
+    },
+    "carreta-loaded-travel-e-1": {
+      "sheet": "claude-carreta-loaded",
+      "x": 0,
+      "y": 0,
+      "w": 330,
+      "h": 290,
+      "anchorX": 0.3788,
+      "anchorY": 0.9483,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — the carreta",
+      "replaceWith": "carreta-loaded-travel-e-1: a loaded carreta travelling east, south and north, 4 frames each, at the delivered carreta scale",
+      "source": "svg/transport-vehicles/claude-carreta-loaded-travel-e-1.svg",
+      "label": "carreta loaded travel e 1",
+      "kind": "claude-carreta-loaded"
+    },
+    "carreta-loaded-travel-e-2": {
+      "sheet": "claude-carreta-loaded",
+      "x": 330,
+      "y": 0,
+      "w": 330,
+      "h": 290,
+      "anchorX": 0.3788,
+      "anchorY": 0.9483,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — the carreta",
+      "replaceWith": "carreta-loaded-travel-e-2: a loaded carreta travelling east, south and north, 4 frames each, at the delivered carreta scale",
+      "source": "svg/transport-vehicles/claude-carreta-loaded-travel-e-2.svg",
+      "label": "carreta loaded travel e 2",
+      "kind": "claude-carreta-loaded"
+    },
+    "carreta-loaded-travel-e-3": {
+      "sheet": "claude-carreta-loaded",
+      "x": 660,
+      "y": 0,
+      "w": 330,
+      "h": 290,
+      "anchorX": 0.3788,
+      "anchorY": 0.9483,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — the carreta",
+      "replaceWith": "carreta-loaded-travel-e-3: a loaded carreta travelling east, south and north, 4 frames each, at the delivered carreta scale",
+      "source": "svg/transport-vehicles/claude-carreta-loaded-travel-e-3.svg",
+      "label": "carreta loaded travel e 3",
+      "kind": "claude-carreta-loaded"
+    },
+    "carreta-loaded-travel-e-4": {
+      "sheet": "claude-carreta-loaded",
+      "x": 990,
+      "y": 0,
+      "w": 330,
+      "h": 290,
+      "anchorX": 0.3788,
+      "anchorY": 0.9483,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — the carreta",
+      "replaceWith": "carreta-loaded-travel-e-4: a loaded carreta travelling east, south and north, 4 frames each, at the delivered carreta scale",
+      "source": "svg/transport-vehicles/claude-carreta-loaded-travel-e-4.svg",
+      "label": "carreta loaded travel e 4",
+      "kind": "claude-carreta-loaded"
+    },
+    "carreta-loaded-travel-s-1": {
+      "sheet": "claude-carreta-loaded",
+      "x": 0,
+      "y": 290,
+      "w": 330,
+      "h": 290,
+      "anchorX": 0.5,
+      "anchorY": 0.9483,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — the carreta",
+      "replaceWith": "carreta-loaded-travel-s-1: a loaded carreta travelling east, south and north, 4 frames each, at the delivered carreta scale",
+      "source": "svg/transport-vehicles/claude-carreta-loaded-travel-s-1.svg",
+      "label": "carreta loaded travel s 1",
+      "kind": "claude-carreta-loaded"
+    },
+    "carreta-loaded-travel-s-2": {
+      "sheet": "claude-carreta-loaded",
+      "x": 330,
+      "y": 290,
+      "w": 330,
+      "h": 290,
+      "anchorX": 0.5,
+      "anchorY": 0.9483,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — the carreta",
+      "replaceWith": "carreta-loaded-travel-s-2: a loaded carreta travelling east, south and north, 4 frames each, at the delivered carreta scale",
+      "source": "svg/transport-vehicles/claude-carreta-loaded-travel-s-2.svg",
+      "label": "carreta loaded travel s 2",
+      "kind": "claude-carreta-loaded"
+    },
+    "carreta-loaded-travel-s-3": {
+      "sheet": "claude-carreta-loaded",
+      "x": 660,
+      "y": 290,
+      "w": 330,
+      "h": 290,
+      "anchorX": 0.5,
+      "anchorY": 0.9483,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — the carreta",
+      "replaceWith": "carreta-loaded-travel-s-3: a loaded carreta travelling east, south and north, 4 frames each, at the delivered carreta scale",
+      "source": "svg/transport-vehicles/claude-carreta-loaded-travel-s-3.svg",
+      "label": "carreta loaded travel s 3",
+      "kind": "claude-carreta-loaded"
+    },
+    "carreta-loaded-travel-s-4": {
+      "sheet": "claude-carreta-loaded",
+      "x": 990,
+      "y": 290,
+      "w": 330,
+      "h": 290,
+      "anchorX": 0.5,
+      "anchorY": 0.9483,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — the carreta",
+      "replaceWith": "carreta-loaded-travel-s-4: a loaded carreta travelling east, south and north, 4 frames each, at the delivered carreta scale",
+      "source": "svg/transport-vehicles/claude-carreta-loaded-travel-s-4.svg",
+      "label": "carreta loaded travel s 4",
+      "kind": "claude-carreta-loaded"
+    },
+    "carreta-loaded-travel-n-1": {
+      "sheet": "claude-carreta-loaded",
+      "x": 0,
+      "y": 580,
+      "w": 330,
+      "h": 290,
+      "anchorX": 0.5,
+      "anchorY": 0.9483,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — the carreta",
+      "replaceWith": "carreta-loaded-travel-n-1: a loaded carreta travelling east, south and north, 4 frames each, at the delivered carreta scale",
+      "source": "svg/transport-vehicles/claude-carreta-loaded-travel-n-1.svg",
+      "label": "carreta loaded travel n 1",
+      "kind": "claude-carreta-loaded"
+    },
+    "carreta-loaded-travel-n-2": {
+      "sheet": "claude-carreta-loaded",
+      "x": 330,
+      "y": 580,
+      "w": 330,
+      "h": 290,
+      "anchorX": 0.5,
+      "anchorY": 0.9483,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — the carreta",
+      "replaceWith": "carreta-loaded-travel-n-2: a loaded carreta travelling east, south and north, 4 frames each, at the delivered carreta scale",
+      "source": "svg/transport-vehicles/claude-carreta-loaded-travel-n-2.svg",
+      "label": "carreta loaded travel n 2",
+      "kind": "claude-carreta-loaded"
+    },
+    "carreta-loaded-travel-n-3": {
+      "sheet": "claude-carreta-loaded",
+      "x": 660,
+      "y": 580,
+      "w": 330,
+      "h": 290,
+      "anchorX": 0.5,
+      "anchorY": 0.9483,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — the carreta",
+      "replaceWith": "carreta-loaded-travel-n-3: a loaded carreta travelling east, south and north, 4 frames each, at the delivered carreta scale",
+      "source": "svg/transport-vehicles/claude-carreta-loaded-travel-n-3.svg",
+      "label": "carreta loaded travel n 3",
+      "kind": "claude-carreta-loaded"
+    },
+    "carreta-loaded-travel-n-4": {
+      "sheet": "claude-carreta-loaded",
+      "x": 990,
+      "y": 580,
+      "w": 330,
+      "h": 290,
+      "anchorX": 0.5,
+      "anchorY": 0.9483,
+      "logicalHeight": 142,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-25 — the carreta",
+      "replaceWith": "carreta-loaded-travel-n-4: a loaded carreta travelling east, south and north, 4 frames each, at the delivered carreta scale",
+      "source": "svg/transport-vehicles/claude-carreta-loaded-travel-n-4.svg",
+      "label": "carreta loaded travel n 4",
+      "kind": "claude-carreta-loaded"
+    },
+    "wagon-ox-e-1": {
+      "sheet": "claude-wagon-ox",
+      "x": 0,
+      "y": 0,
+      "w": 710,
+      "h": 310,
+      "anchorX": 0.3099,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-e-1: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-e-1.svg",
+      "label": "wagon ox e 1",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-e-2": {
+      "sheet": "claude-wagon-ox",
+      "x": 710,
+      "y": 0,
+      "w": 710,
+      "h": 310,
+      "anchorX": 0.3099,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-e-2: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-e-2.svg",
+      "label": "wagon ox e 2",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-e-3": {
+      "sheet": "claude-wagon-ox",
+      "x": 1420,
+      "y": 0,
+      "w": 710,
+      "h": 310,
+      "anchorX": 0.3099,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-e-3: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-e-3.svg",
+      "label": "wagon ox e 3",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-e-4": {
+      "sheet": "claude-wagon-ox",
+      "x": 2130,
+      "y": 0,
+      "w": 710,
+      "h": 310,
+      "anchorX": 0.3099,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-e-4: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-e-4.svg",
+      "label": "wagon ox e 4",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-loaded-e-1": {
+      "sheet": "claude-wagon-ox",
+      "x": 0,
+      "y": 310,
+      "w": 710,
+      "h": 310,
+      "anchorX": 0.3099,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-loaded-e-1: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-loaded-e-1.svg",
+      "label": "wagon ox loaded e 1",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-loaded-e-2": {
+      "sheet": "claude-wagon-ox",
+      "x": 710,
+      "y": 310,
+      "w": 710,
+      "h": 310,
+      "anchorX": 0.3099,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-loaded-e-2: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-loaded-e-2.svg",
+      "label": "wagon ox loaded e 2",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-loaded-e-3": {
+      "sheet": "claude-wagon-ox",
+      "x": 1420,
+      "y": 310,
+      "w": 710,
+      "h": 310,
+      "anchorX": 0.3099,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-loaded-e-3: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-loaded-e-3.svg",
+      "label": "wagon ox loaded e 3",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-loaded-e-4": {
+      "sheet": "claude-wagon-ox",
+      "x": 2130,
+      "y": 310,
+      "w": 710,
+      "h": 310,
+      "anchorX": 0.3099,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-loaded-e-4: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-loaded-e-4.svg",
+      "label": "wagon ox loaded e 4",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-empty-e-1": {
+      "sheet": "claude-wagon-ox",
+      "x": 0,
+      "y": 620,
+      "w": 710,
+      "h": 310,
+      "anchorX": 0.3099,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-empty-e-1: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-empty-e-1.svg",
+      "label": "wagon ox empty e 1",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-empty-e-2": {
+      "sheet": "claude-wagon-ox",
+      "x": 710,
+      "y": 620,
+      "w": 710,
+      "h": 310,
+      "anchorX": 0.3099,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-empty-e-2: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-empty-e-2.svg",
+      "label": "wagon ox empty e 2",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-empty-e-3": {
+      "sheet": "claude-wagon-ox",
+      "x": 1420,
+      "y": 620,
+      "w": 710,
+      "h": 310,
+      "anchorX": 0.3099,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-empty-e-3: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-empty-e-3.svg",
+      "label": "wagon ox empty e 3",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-empty-e-4": {
+      "sheet": "claude-wagon-ox",
+      "x": 2130,
+      "y": 620,
+      "w": 710,
+      "h": 310,
+      "anchorX": 0.3099,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-empty-e-4: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-empty-e-4.svg",
+      "label": "wagon ox empty e 4",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-s-1": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 0,
+      "y": 0,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-s-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-s-1.svg",
+      "label": "wagon ox s 1",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-s-2": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 230,
+      "y": 0,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-s-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-s-2.svg",
+      "label": "wagon ox s 2",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-s-3": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 460,
+      "y": 0,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-s-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-s-3.svg",
+      "label": "wagon ox s 3",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-s-4": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 690,
+      "y": 0,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-s-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-s-4.svg",
+      "label": "wagon ox s 4",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-n-1": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 920,
+      "y": 0,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-n-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-n-1.svg",
+      "label": "wagon ox n 1",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-n-2": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 1150,
+      "y": 0,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-n-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-n-2.svg",
+      "label": "wagon ox n 2",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-n-3": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 1380,
+      "y": 0,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-n-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-n-3.svg",
+      "label": "wagon ox n 3",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-n-4": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 1610,
+      "y": 0,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-n-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-n-4.svg",
+      "label": "wagon ox n 4",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-loaded-s-1": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 0,
+      "y": 430,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-loaded-s-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-loaded-s-1.svg",
+      "label": "wagon ox loaded s 1",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-loaded-s-2": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 230,
+      "y": 430,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-loaded-s-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-loaded-s-2.svg",
+      "label": "wagon ox loaded s 2",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-loaded-s-3": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 460,
+      "y": 430,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-loaded-s-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-loaded-s-3.svg",
+      "label": "wagon ox loaded s 3",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-loaded-s-4": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 690,
+      "y": 430,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-loaded-s-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-loaded-s-4.svg",
+      "label": "wagon ox loaded s 4",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-loaded-n-1": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 920,
+      "y": 430,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-loaded-n-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-loaded-n-1.svg",
+      "label": "wagon ox loaded n 1",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-loaded-n-2": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 1150,
+      "y": 430,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-loaded-n-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-loaded-n-2.svg",
+      "label": "wagon ox loaded n 2",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-loaded-n-3": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 1380,
+      "y": 430,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-loaded-n-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-loaded-n-3.svg",
+      "label": "wagon ox loaded n 3",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-loaded-n-4": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 1610,
+      "y": 430,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-loaded-n-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-loaded-n-4.svg",
+      "label": "wagon ox loaded n 4",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-empty-s-1": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 0,
+      "y": 860,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-empty-s-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-empty-s-1.svg",
+      "label": "wagon ox empty s 1",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-empty-s-2": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 230,
+      "y": 860,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-empty-s-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-empty-s-2.svg",
+      "label": "wagon ox empty s 2",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-empty-s-3": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 460,
+      "y": 860,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-empty-s-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-empty-s-3.svg",
+      "label": "wagon ox empty s 3",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-empty-s-4": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 690,
+      "y": 860,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-empty-s-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-empty-s-4.svg",
+      "label": "wagon ox empty s 4",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-empty-n-1": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 920,
+      "y": 860,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-empty-n-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-empty-n-1.svg",
+      "label": "wagon ox empty n 1",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-empty-n-2": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 1150,
+      "y": 860,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-empty-n-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-empty-n-2.svg",
+      "label": "wagon ox empty n 2",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-empty-n-3": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 1380,
+      "y": 860,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-empty-n-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-empty-n-3.svg",
+      "label": "wagon ox empty n 3",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-empty-n-4": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 1610,
+      "y": 860,
+      "w": 230,
+      "h": 430,
+      "anchorX": 0.5,
+      "anchorY": 0.9651,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-empty-n-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "source": "svg/transport-vehicles/claude-wagon-ox-empty-n-4.svg",
+      "label": "wagon ox empty n 4",
+      "kind": "claude-wagon-ox-ns"
+    }
+  },
+  "clips": {
+    "cart-travel-e": {
+      "frames": [
+        {
+          "sprite": "cart-travel-e-1",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-e-2",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-e-3",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-e-4",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "cart-travel-s": {
+      "frames": [
+        {
+          "sprite": "cart-travel-s-1",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-s-2",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-s-3",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-s-4",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "cart-travel-n": {
+      "frames": [
+        {
+          "sprite": "cart-travel-n-1",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-n-2",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-n-3",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-n-4",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "cart-travel-loaded-e": {
+      "frames": [
+        {
+          "sprite": "cart-travel-loaded-e-1",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-loaded-e-2",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-loaded-e-3",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-loaded-e-4",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "cart-travel-loaded-s": {
+      "frames": [
+        {
+          "sprite": "cart-travel-loaded-s-1",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-loaded-s-2",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-loaded-s-3",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-loaded-s-4",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "cart-travel-loaded-n": {
+      "frames": [
+        {
+          "sprite": "cart-travel-loaded-n-1",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-loaded-n-2",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-loaded-n-3",
+          "duration": 240
+        },
+        {
+          "sprite": "cart-travel-loaded-n-4",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "cart-idle-e": {
+      "frames": [
+        {
+          "sprite": "cart-idle-e",
+          "duration": 2000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "cart-idle-s": {
+      "frames": [
+        {
+          "sprite": "cart-idle-s",
+          "duration": 2000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "cart-idle-n": {
+      "frames": [
+        {
+          "sprite": "cart-idle-n",
+          "duration": 2000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "cart-idle-loaded-e": {
+      "frames": [
+        {
+          "sprite": "cart-idle-loaded-e",
+          "duration": 2000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "cart-idle-loaded-s": {
+      "frames": [
+        {
+          "sprite": "cart-idle-loaded-s",
+          "duration": 2000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "cart-idle-loaded-n": {
+      "frames": [
+        {
+          "sprite": "cart-idle-loaded-n",
+          "duration": 2000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "carreta-loaded-travel-e": {
+      "frames": [
+        {
+          "sprite": "carreta-loaded-travel-e-1",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-loaded-travel-e-2",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-loaded-travel-e-3",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-loaded-travel-e-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "carreta-loaded-travel-s": {
+      "frames": [
+        {
+          "sprite": "carreta-loaded-travel-s-1",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-loaded-travel-s-2",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-loaded-travel-s-3",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-loaded-travel-s-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "carreta-loaded-travel-n": {
+      "frames": [
+        {
+          "sprite": "carreta-loaded-travel-n-1",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-loaded-travel-n-2",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-loaded-travel-n-3",
+          "duration": 245
+        },
+        {
+          "sprite": "carreta-loaded-travel-n-4",
+          "duration": 245
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "wagon-ox-e": {
+      "frames": [
+        {
+          "sprite": "wagon-ox-e-1",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-e-2",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-e-3",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-e-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "wagon-ox-s": {
+      "frames": [
+        {
+          "sprite": "wagon-ox-s-1",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-s-2",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-s-3",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-s-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "wagon-ox-n": {
+      "frames": [
+        {
+          "sprite": "wagon-ox-n-1",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-n-2",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-n-3",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-n-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "wagon-ox-loaded-e": {
+      "frames": [
+        {
+          "sprite": "wagon-ox-loaded-e-1",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-loaded-e-2",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-loaded-e-3",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-loaded-e-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "wagon-ox-loaded-s": {
+      "frames": [
+        {
+          "sprite": "wagon-ox-loaded-s-1",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-loaded-s-2",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-loaded-s-3",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-loaded-s-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "wagon-ox-loaded-n": {
+      "frames": [
+        {
+          "sprite": "wagon-ox-loaded-n-1",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-loaded-n-2",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-loaded-n-3",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-loaded-n-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "wagon-ox-empty-e": {
+      "frames": [
+        {
+          "sprite": "wagon-ox-empty-e-1",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-empty-e-2",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-empty-e-3",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-empty-e-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "wagon-ox-empty-s": {
+      "frames": [
+        {
+          "sprite": "wagon-ox-empty-s-1",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-empty-s-2",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-empty-s-3",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-empty-s-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "wagon-ox-empty-n": {
+      "frames": [
+        {
+          "sprite": "wagon-ox-empty-n-1",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-empty-n-2",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-empty-n-3",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-empty-n-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    }
+  },
+  "provenance": {
+    "cart-travel-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, empty, rolling east (west is the game's mirror), frame 1 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-e-1"
+    },
+    "cart-travel-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, empty, rolling east (west is the game's mirror), frame 2 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-e-2"
+    },
+    "cart-travel-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, empty, rolling east (west is the game's mirror), frame 3 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-e-3"
+    },
+    "cart-travel-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, empty, rolling east (west is the game's mirror), frame 4 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-e-4"
+    },
+    "cart-idle-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The cart standing, e.",
+      "frames": [
+        "cart-idle-e"
+      ],
+      "status": "temporary: replace with Astra's cart-idle-e"
+    },
+    "cart-travel-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, empty, rolling toward the camera (south), frame 1 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-s-1"
+    },
+    "cart-travel-s-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, empty, rolling toward the camera (south), frame 2 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-s-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-s-2"
+    },
+    "cart-travel-s-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, empty, rolling toward the camera (south), frame 3 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-s-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-s-3"
+    },
+    "cart-travel-s-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, empty, rolling toward the camera (south), frame 4 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-s-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-s-4"
+    },
+    "cart-idle-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The cart standing, s.",
+      "frames": [
+        "cart-idle-s"
+      ],
+      "status": "temporary: replace with Astra's cart-idle-s"
+    },
+    "cart-travel-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, empty, rolling away from the camera (north), frame 1 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-n-1"
+    },
+    "cart-travel-n-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, empty, rolling away from the camera (north), frame 2 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-n-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-n-2"
+    },
+    "cart-travel-n-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, empty, rolling away from the camera (north), frame 3 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-n-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-n-3"
+    },
+    "cart-travel-n-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, empty, rolling away from the camera (north), frame 4 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-n-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-n-4"
+    },
+    "cart-idle-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The cart standing, n.",
+      "frames": [
+        "cart-idle-n"
+      ],
+      "status": "temporary: replace with Astra's cart-idle-n"
+    },
+    "cart-travel-loaded-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, loaded with sacks, a barrel and a rolled blanket, rolling east (west is the game's mirror), frame 1 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-loaded-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-loaded-e-1"
+    },
+    "cart-travel-loaded-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, loaded with sacks, a barrel and a rolled blanket, rolling east (west is the game's mirror), frame 2 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-loaded-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-loaded-e-2"
+    },
+    "cart-travel-loaded-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, loaded with sacks, a barrel and a rolled blanket, rolling east (west is the game's mirror), frame 3 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-loaded-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-loaded-e-3"
+    },
+    "cart-travel-loaded-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, loaded with sacks, a barrel and a rolled blanket, rolling east (west is the game's mirror), frame 4 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-loaded-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-loaded-e-4"
+    },
+    "cart-idle-loaded-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The cart standing, loaded, e.",
+      "frames": [
+        "cart-idle-loaded-e"
+      ],
+      "status": "temporary: replace with Astra's cart-idle-loaded-e"
+    },
+    "cart-travel-loaded-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, loaded with sacks, a barrel and a rolled blanket, rolling toward the camera (south), frame 1 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-loaded-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-loaded-s-1"
+    },
+    "cart-travel-loaded-s-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, loaded with sacks, a barrel and a rolled blanket, rolling toward the camera (south), frame 2 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-loaded-s-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-loaded-s-2"
+    },
+    "cart-travel-loaded-s-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, loaded with sacks, a barrel and a rolled blanket, rolling toward the camera (south), frame 3 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-loaded-s-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-loaded-s-3"
+    },
+    "cart-travel-loaded-s-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, loaded with sacks, a barrel and a rolled blanket, rolling toward the camera (south), frame 4 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-loaded-s-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-loaded-s-4"
+    },
+    "cart-idle-loaded-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The cart standing, loaded, s.",
+      "frames": [
+        "cart-idle-loaded-s"
+      ],
+      "status": "temporary: replace with Astra's cart-idle-loaded-s"
+    },
+    "cart-travel-loaded-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, loaded with sacks, a barrel and a rolled blanket, rolling away from the camera (north), frame 1 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-loaded-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-loaded-n-1"
+    },
+    "cart-travel-loaded-n-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, loaded with sacks, a barrel and a rolled blanket, rolling away from the camera (north), frame 2 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-loaded-n-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-loaded-n-2"
+    },
+    "cart-travel-loaded-n-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, loaded with sacks, a barrel and a rolled blanket, rolling away from the camera (north), frame 3 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-loaded-n-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-loaded-n-3"
+    },
+    "cart-travel-loaded-n-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-cart",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, loaded with sacks, a barrel and a rolled blanket, rolling away from the camera (north), frame 4 of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-travel-loaded-n-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-travel-loaded-n-4"
+    },
+    "cart-idle-loaded-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The cart standing, loaded, n.",
+      "frames": [
+        "cart-idle-loaded-n"
+      ],
+      "status": "temporary: replace with Astra's cart-idle-loaded-n"
+    },
+    "carreta-loaded-travel-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-carreta-loaded",
+      "request": "Request 2026-09-25 — the carreta",
+      "prompt": "The carreta laden and travelling east (west is the game's mirror), without its ox: two great solid wheels of pegged planks on a wooden axle, no iron tyre; an open frame of poles lashed with rawhide; a pole tongue; loaded with sacks of corn, a barrel and a striped blanket; frame 1 of 4, the plank seams and pegs of the wheels turning an eighth of a turn a frame (the wheel repeats every half turn, so the loop has no jump). The record: \"great, clumsy, solid wooden wheels\" and rawhide (Smithwick), \"the unhewn sticks which squeak in the holes of the plank wheels\" (Woodman's guide, 1835) - HIST-TEX-443. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-carreta-loaded-travel-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's carreta-loaded-travel-e-1"
+    },
+    "carreta-loaded-travel-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-carreta-loaded",
+      "request": "Request 2026-09-25 — the carreta",
+      "prompt": "The carreta laden and travelling east (west is the game's mirror), without its ox: two great solid wheels of pegged planks on a wooden axle, no iron tyre; an open frame of poles lashed with rawhide; a pole tongue; loaded with sacks of corn, a barrel and a striped blanket; frame 2 of 4, the plank seams and pegs of the wheels turning an eighth of a turn a frame (the wheel repeats every half turn, so the loop has no jump). The record: \"great, clumsy, solid wooden wheels\" and rawhide (Smithwick), \"the unhewn sticks which squeak in the holes of the plank wheels\" (Woodman's guide, 1835) - HIST-TEX-443. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-carreta-loaded-travel-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's carreta-loaded-travel-e-2"
+    },
+    "carreta-loaded-travel-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-carreta-loaded",
+      "request": "Request 2026-09-25 — the carreta",
+      "prompt": "The carreta laden and travelling east (west is the game's mirror), without its ox: two great solid wheels of pegged planks on a wooden axle, no iron tyre; an open frame of poles lashed with rawhide; a pole tongue; loaded with sacks of corn, a barrel and a striped blanket; frame 3 of 4, the plank seams and pegs of the wheels turning an eighth of a turn a frame (the wheel repeats every half turn, so the loop has no jump). The record: \"great, clumsy, solid wooden wheels\" and rawhide (Smithwick), \"the unhewn sticks which squeak in the holes of the plank wheels\" (Woodman's guide, 1835) - HIST-TEX-443. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-carreta-loaded-travel-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's carreta-loaded-travel-e-3"
+    },
+    "carreta-loaded-travel-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-carreta-loaded",
+      "request": "Request 2026-09-25 — the carreta",
+      "prompt": "The carreta laden and travelling east (west is the game's mirror), without its ox: two great solid wheels of pegged planks on a wooden axle, no iron tyre; an open frame of poles lashed with rawhide; a pole tongue; loaded with sacks of corn, a barrel and a striped blanket; frame 4 of 4, the plank seams and pegs of the wheels turning an eighth of a turn a frame (the wheel repeats every half turn, so the loop has no jump). The record: \"great, clumsy, solid wooden wheels\" and rawhide (Smithwick), \"the unhewn sticks which squeak in the holes of the plank wheels\" (Woodman's guide, 1835) - HIST-TEX-443. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-carreta-loaded-travel-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's carreta-loaded-travel-e-4"
+    },
+    "carreta-loaded-travel-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-carreta-loaded",
+      "request": "Request 2026-09-25 — the carreta",
+      "prompt": "The carreta laden and travelling toward the camera (south), without its ox: two great solid wheels of pegged planks on a wooden axle, no iron tyre; an open frame of poles lashed with rawhide; a pole tongue; loaded with sacks of corn, a barrel and a striped blanket; frame 1 of 4, the plank seams and pegs of the wheels turning an eighth of a turn a frame (the wheel repeats every half turn, so the loop has no jump). The record: \"great, clumsy, solid wooden wheels\" and rawhide (Smithwick), \"the unhewn sticks which squeak in the holes of the plank wheels\" (Woodman's guide, 1835) - HIST-TEX-443. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-carreta-loaded-travel-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's carreta-loaded-travel-s-1"
+    },
+    "carreta-loaded-travel-s-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-carreta-loaded",
+      "request": "Request 2026-09-25 — the carreta",
+      "prompt": "The carreta laden and travelling toward the camera (south), without its ox: two great solid wheels of pegged planks on a wooden axle, no iron tyre; an open frame of poles lashed with rawhide; a pole tongue; loaded with sacks of corn, a barrel and a striped blanket; frame 2 of 4, the plank seams and pegs of the wheels turning an eighth of a turn a frame (the wheel repeats every half turn, so the loop has no jump). The record: \"great, clumsy, solid wooden wheels\" and rawhide (Smithwick), \"the unhewn sticks which squeak in the holes of the plank wheels\" (Woodman's guide, 1835) - HIST-TEX-443. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-carreta-loaded-travel-s-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's carreta-loaded-travel-s-2"
+    },
+    "carreta-loaded-travel-s-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-carreta-loaded",
+      "request": "Request 2026-09-25 — the carreta",
+      "prompt": "The carreta laden and travelling toward the camera (south), without its ox: two great solid wheels of pegged planks on a wooden axle, no iron tyre; an open frame of poles lashed with rawhide; a pole tongue; loaded with sacks of corn, a barrel and a striped blanket; frame 3 of 4, the plank seams and pegs of the wheels turning an eighth of a turn a frame (the wheel repeats every half turn, so the loop has no jump). The record: \"great, clumsy, solid wooden wheels\" and rawhide (Smithwick), \"the unhewn sticks which squeak in the holes of the plank wheels\" (Woodman's guide, 1835) - HIST-TEX-443. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-carreta-loaded-travel-s-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's carreta-loaded-travel-s-3"
+    },
+    "carreta-loaded-travel-s-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-carreta-loaded",
+      "request": "Request 2026-09-25 — the carreta",
+      "prompt": "The carreta laden and travelling toward the camera (south), without its ox: two great solid wheels of pegged planks on a wooden axle, no iron tyre; an open frame of poles lashed with rawhide; a pole tongue; loaded with sacks of corn, a barrel and a striped blanket; frame 4 of 4, the plank seams and pegs of the wheels turning an eighth of a turn a frame (the wheel repeats every half turn, so the loop has no jump). The record: \"great, clumsy, solid wooden wheels\" and rawhide (Smithwick), \"the unhewn sticks which squeak in the holes of the plank wheels\" (Woodman's guide, 1835) - HIST-TEX-443. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-carreta-loaded-travel-s-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's carreta-loaded-travel-s-4"
+    },
+    "carreta-loaded-travel-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-carreta-loaded",
+      "request": "Request 2026-09-25 — the carreta",
+      "prompt": "The carreta laden and travelling away from the camera (north), without its ox: two great solid wheels of pegged planks on a wooden axle, no iron tyre; an open frame of poles lashed with rawhide; a pole tongue; loaded with sacks of corn, a barrel and a striped blanket; frame 1 of 4, the plank seams and pegs of the wheels turning an eighth of a turn a frame (the wheel repeats every half turn, so the loop has no jump). The record: \"great, clumsy, solid wooden wheels\" and rawhide (Smithwick), \"the unhewn sticks which squeak in the holes of the plank wheels\" (Woodman's guide, 1835) - HIST-TEX-443. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-carreta-loaded-travel-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's carreta-loaded-travel-n-1"
+    },
+    "carreta-loaded-travel-n-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-carreta-loaded",
+      "request": "Request 2026-09-25 — the carreta",
+      "prompt": "The carreta laden and travelling away from the camera (north), without its ox: two great solid wheels of pegged planks on a wooden axle, no iron tyre; an open frame of poles lashed with rawhide; a pole tongue; loaded with sacks of corn, a barrel and a striped blanket; frame 2 of 4, the plank seams and pegs of the wheels turning an eighth of a turn a frame (the wheel repeats every half turn, so the loop has no jump). The record: \"great, clumsy, solid wooden wheels\" and rawhide (Smithwick), \"the unhewn sticks which squeak in the holes of the plank wheels\" (Woodman's guide, 1835) - HIST-TEX-443. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-carreta-loaded-travel-n-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's carreta-loaded-travel-n-2"
+    },
+    "carreta-loaded-travel-n-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-carreta-loaded",
+      "request": "Request 2026-09-25 — the carreta",
+      "prompt": "The carreta laden and travelling away from the camera (north), without its ox: two great solid wheels of pegged planks on a wooden axle, no iron tyre; an open frame of poles lashed with rawhide; a pole tongue; loaded with sacks of corn, a barrel and a striped blanket; frame 3 of 4, the plank seams and pegs of the wheels turning an eighth of a turn a frame (the wheel repeats every half turn, so the loop has no jump). The record: \"great, clumsy, solid wooden wheels\" and rawhide (Smithwick), \"the unhewn sticks which squeak in the holes of the plank wheels\" (Woodman's guide, 1835) - HIST-TEX-443. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-carreta-loaded-travel-n-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's carreta-loaded-travel-n-3"
+    },
+    "carreta-loaded-travel-n-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-carreta-loaded",
+      "request": "Request 2026-09-25 — the carreta",
+      "prompt": "The carreta laden and travelling away from the camera (north), without its ox: two great solid wheels of pegged planks on a wooden axle, no iron tyre; an open frame of poles lashed with rawhide; a pole tongue; loaded with sacks of corn, a barrel and a striped blanket; frame 4 of 4, the plank seams and pegs of the wheels turning an eighth of a turn a frame (the wheel repeats every half turn, so the loop has no jump). The record: \"great, clumsy, solid wooden wheels\" and rawhide (Smithwick), \"the unhewn sticks which squeak in the holes of the plank wheels\" (Woodman's guide, 1835) - HIST-TEX-443. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-carreta-loaded-travel-n-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's carreta-loaded-travel-n-4"
+    },
+    "wagon-ox-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas cover on its bows, puckered at both ends, with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 1 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-e-1"
+    },
+    "wagon-ox-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas cover on its bows, puckered at both ends, with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 2 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-e-2"
+    },
+    "wagon-ox-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas cover on its bows, puckered at both ends, with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 3 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-e-3"
+    },
+    "wagon-ox-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas cover on its bows, puckered at both ends, with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 4 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-e-4"
+    },
+    "wagon-ox-loaded-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over a load of sacks, a barrel and a rolled blanket, with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 1 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-loaded-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-loaded-e-1"
+    },
+    "wagon-ox-loaded-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over a load of sacks, a barrel and a rolled blanket, with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 2 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-loaded-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-loaded-e-2"
+    },
+    "wagon-ox-loaded-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over a load of sacks, a barrel and a rolled blanket, with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 3 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-loaded-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-loaded-e-3"
+    },
+    "wagon-ox-loaded-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over a load of sacks, a barrel and a rolled blanket, with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 4 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-loaded-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-loaded-e-4"
+    },
+    "wagon-ox-empty-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over an empty bed, with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 1 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-empty-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-empty-e-1"
+    },
+    "wagon-ox-empty-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over an empty bed, with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 2 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-empty-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-empty-e-2"
+    },
+    "wagon-ox-empty-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over an empty bed, with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 3 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-empty-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-empty-e-3"
+    },
+    "wagon-ox-empty-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over an empty bed, with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 4 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-empty-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-empty-e-4"
+    },
+    "wagon-ox-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas cover on its bows, puckered at both ends, with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 1 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-s-1"
+    },
+    "wagon-ox-s-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas cover on its bows, puckered at both ends, with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 2 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-s-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-s-2"
+    },
+    "wagon-ox-s-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas cover on its bows, puckered at both ends, with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 3 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-s-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-s-3"
+    },
+    "wagon-ox-s-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas cover on its bows, puckered at both ends, with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 4 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-s-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-s-4"
+    },
+    "wagon-ox-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas cover on its bows, puckered at both ends, with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 1 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-n-1"
+    },
+    "wagon-ox-n-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas cover on its bows, puckered at both ends, with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 2 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-n-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-n-2"
+    },
+    "wagon-ox-n-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas cover on its bows, puckered at both ends, with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 3 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-n-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-n-3"
+    },
+    "wagon-ox-n-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas cover on its bows, puckered at both ends, with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 4 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-n-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-n-4"
+    },
+    "wagon-ox-loaded-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over a load of sacks, a barrel and a rolled blanket, with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 1 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-loaded-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-loaded-s-1"
+    },
+    "wagon-ox-loaded-s-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over a load of sacks, a barrel and a rolled blanket, with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 2 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-loaded-s-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-loaded-s-2"
+    },
+    "wagon-ox-loaded-s-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over a load of sacks, a barrel and a rolled blanket, with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 3 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-loaded-s-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-loaded-s-3"
+    },
+    "wagon-ox-loaded-s-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over a load of sacks, a barrel and a rolled blanket, with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 4 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-loaded-s-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-loaded-s-4"
+    },
+    "wagon-ox-loaded-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over a load of sacks, a barrel and a rolled blanket, with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 1 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-loaded-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-loaded-n-1"
+    },
+    "wagon-ox-loaded-n-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over a load of sacks, a barrel and a rolled blanket, with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 2 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-loaded-n-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-loaded-n-2"
+    },
+    "wagon-ox-loaded-n-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over a load of sacks, a barrel and a rolled blanket, with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 3 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-loaded-n-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-loaded-n-3"
+    },
+    "wagon-ox-loaded-n-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over a load of sacks, a barrel and a rolled blanket, with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 4 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-loaded-n-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-loaded-n-4"
+    },
+    "wagon-ox-empty-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over an empty bed, with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 1 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-empty-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-empty-s-1"
+    },
+    "wagon-ox-empty-s-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over an empty bed, with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 2 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-empty-s-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-empty-s-2"
+    },
+    "wagon-ox-empty-s-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over an empty bed, with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 3 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-empty-s-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-empty-s-3"
+    },
+    "wagon-ox-empty-s-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over an empty bed, with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 4 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-empty-s-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-empty-s-4"
+    },
+    "wagon-ox-empty-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over an empty bed, with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 1 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-empty-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-empty-n-1"
+    },
+    "wagon-ox-empty-n-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over an empty bed, with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 2 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-empty-n-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-empty-n-2"
+    },
+    "wagon-ox-empty-n-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over an empty bed, with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 3 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-empty-n-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-empty-n-3"
+    },
+    "wagon-ox-empty-n-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its bows bare over an empty bed, with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 4 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-empty-n-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-empty-n-4"
+    },
+    "cart-travel-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The cart rolling e: a four-frame loop, the wheels turning.",
+      "frames": [
+        "cart-travel-e-1",
+        "cart-travel-e-2",
+        "cart-travel-e-3",
+        "cart-travel-e-4"
+      ],
+      "status": "temporary: replace with Astra's cart-travel-e"
+    },
+    "cart-travel-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The cart rolling s: a four-frame loop, the wheels turning.",
+      "frames": [
+        "cart-travel-s-1",
+        "cart-travel-s-2",
+        "cart-travel-s-3",
+        "cart-travel-s-4"
+      ],
+      "status": "temporary: replace with Astra's cart-travel-s"
+    },
+    "cart-travel-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The cart rolling n: a four-frame loop, the wheels turning.",
+      "frames": [
+        "cart-travel-n-1",
+        "cart-travel-n-2",
+        "cart-travel-n-3",
+        "cart-travel-n-4"
+      ],
+      "status": "temporary: replace with Astra's cart-travel-n"
+    },
+    "cart-travel-loaded-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The cart rolling e, loaded: a four-frame loop, the wheels turning.",
+      "frames": [
+        "cart-travel-loaded-e-1",
+        "cart-travel-loaded-e-2",
+        "cart-travel-loaded-e-3",
+        "cart-travel-loaded-e-4"
+      ],
+      "status": "temporary: replace with Astra's cart-travel-loaded-e"
+    },
+    "cart-travel-loaded-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The cart rolling s, loaded: a four-frame loop, the wheels turning.",
+      "frames": [
+        "cart-travel-loaded-s-1",
+        "cart-travel-loaded-s-2",
+        "cart-travel-loaded-s-3",
+        "cart-travel-loaded-s-4"
+      ],
+      "status": "temporary: replace with Astra's cart-travel-loaded-s"
+    },
+    "cart-travel-loaded-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The cart rolling n, loaded: a four-frame loop, the wheels turning.",
+      "frames": [
+        "cart-travel-loaded-n-1",
+        "cart-travel-loaded-n-2",
+        "cart-travel-loaded-n-3",
+        "cart-travel-loaded-n-4"
+      ],
+      "status": "temporary: replace with Astra's cart-travel-loaded-n"
+    },
+    "carreta-loaded-travel-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — the carreta",
+      "prompt": "The carreta laden and rolling e: a four-frame loop at the delivered carreta's 245 ms.",
+      "frames": [
+        "carreta-loaded-travel-e-1",
+        "carreta-loaded-travel-e-2",
+        "carreta-loaded-travel-e-3",
+        "carreta-loaded-travel-e-4"
+      ],
+      "status": "temporary: replace with Astra's carreta-loaded-travel-e"
+    },
+    "carreta-loaded-travel-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — the carreta",
+      "prompt": "The carreta laden and rolling s: a four-frame loop at the delivered carreta's 245 ms.",
+      "frames": [
+        "carreta-loaded-travel-s-1",
+        "carreta-loaded-travel-s-2",
+        "carreta-loaded-travel-s-3",
+        "carreta-loaded-travel-s-4"
+      ],
+      "status": "temporary: replace with Astra's carreta-loaded-travel-s"
+    },
+    "carreta-loaded-travel-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — the carreta",
+      "prompt": "The carreta laden and rolling n: a four-frame loop at the delivered carreta's 245 ms.",
+      "frames": [
+        "carreta-loaded-travel-n-1",
+        "carreta-loaded-travel-n-2",
+        "carreta-loaded-travel-n-3",
+        "carreta-loaded-travel-n-4"
+      ],
+      "status": "temporary: replace with Astra's carreta-loaded-travel-n"
+    },
+    "wagon-ox-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The wagon and its ox going e (covered): a four-frame loop, the ox's plod and the wheels turning together.",
+      "frames": [
+        "wagon-ox-e-1",
+        "wagon-ox-e-2",
+        "wagon-ox-e-3",
+        "wagon-ox-e-4"
+      ],
+      "status": "temporary: replace with Astra's wagon-ox-e"
+    },
+    "wagon-ox-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The wagon and its ox going s (covered): a four-frame loop, the ox's plod and the wheels turning together.",
+      "frames": [
+        "wagon-ox-s-1",
+        "wagon-ox-s-2",
+        "wagon-ox-s-3",
+        "wagon-ox-s-4"
+      ],
+      "status": "temporary: replace with Astra's wagon-ox-s"
+    },
+    "wagon-ox-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The wagon and its ox going n (covered): a four-frame loop, the ox's plod and the wheels turning together.",
+      "frames": [
+        "wagon-ox-n-1",
+        "wagon-ox-n-2",
+        "wagon-ox-n-3",
+        "wagon-ox-n-4"
+      ],
+      "status": "temporary: replace with Astra's wagon-ox-n"
+    },
+    "wagon-ox-loaded-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The wagon and its ox going e (loaded): a four-frame loop, the ox's plod and the wheels turning together.",
+      "frames": [
+        "wagon-ox-loaded-e-1",
+        "wagon-ox-loaded-e-2",
+        "wagon-ox-loaded-e-3",
+        "wagon-ox-loaded-e-4"
+      ],
+      "status": "temporary: replace with Astra's wagon-ox-loaded-e"
+    },
+    "wagon-ox-loaded-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The wagon and its ox going s (loaded): a four-frame loop, the ox's plod and the wheels turning together.",
+      "frames": [
+        "wagon-ox-loaded-s-1",
+        "wagon-ox-loaded-s-2",
+        "wagon-ox-loaded-s-3",
+        "wagon-ox-loaded-s-4"
+      ],
+      "status": "temporary: replace with Astra's wagon-ox-loaded-s"
+    },
+    "wagon-ox-loaded-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The wagon and its ox going n (loaded): a four-frame loop, the ox's plod and the wheels turning together.",
+      "frames": [
+        "wagon-ox-loaded-n-1",
+        "wagon-ox-loaded-n-2",
+        "wagon-ox-loaded-n-3",
+        "wagon-ox-loaded-n-4"
+      ],
+      "status": "temporary: replace with Astra's wagon-ox-loaded-n"
+    },
+    "wagon-ox-empty-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The wagon and its ox going e (empty): a four-frame loop, the ox's plod and the wheels turning together.",
+      "frames": [
+        "wagon-ox-empty-e-1",
+        "wagon-ox-empty-e-2",
+        "wagon-ox-empty-e-3",
+        "wagon-ox-empty-e-4"
+      ],
+      "status": "temporary: replace with Astra's wagon-ox-empty-e"
+    },
+    "wagon-ox-empty-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The wagon and its ox going s (empty): a four-frame loop, the ox's plod and the wheels turning together.",
+      "frames": [
+        "wagon-ox-empty-s-1",
+        "wagon-ox-empty-s-2",
+        "wagon-ox-empty-s-3",
+        "wagon-ox-empty-s-4"
+      ],
+      "status": "temporary: replace with Astra's wagon-ox-empty-s"
+    },
+    "wagon-ox-empty-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The wagon and its ox going n (empty): a four-frame loop, the ox's plod and the wheels turning together.",
+      "frames": [
+        "wagon-ox-empty-n-1",
+        "wagon-ox-empty-n-2",
+        "wagon-ox-empty-n-3",
+        "wagon-ox-empty-n-4"
+      ],
+      "status": "temporary: replace with Astra's wagon-ox-empty-n"
+    }
+  }
+}
