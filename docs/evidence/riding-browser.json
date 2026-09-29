@@ -13,12 +13,12 @@
     "a second person is told who has the horse: \"Bartolo has the horse, on the road to Gonzales.\"",
     "and an order for it sent anyway is refused by the server: 400 \"Bartolo has the horse, on the road to Gonzales.\"",
     "hh-1-mateo is drawn whole on the map, nothing of them faded away (1.00 of them drawn)",
-    "the wagon and its ox drawn as one (wagon-ox-e), with the driver on it",
+    "Astra's wagon and her ox, drawn apart, with the driver on the wagon (rig null)",
+    "none of Claude's wagon-and-ox drawing is drawn",
     "drawn as his family's own figure on the seat, cut at the hip (null)",
     "drawn this tick, at 45px on the canvas",
-    "sitting up on the wagon's seat, not walking on the road (feet 14px above the rig's ground)",
+    "sitting up on the wagon's box, not walking on the road (feet 15px above the wagon's ground)",
     "the ox and the wagon are not drawn again by themselves",
-    "with the ox walking and the wagon rolling in the one drawing: wagon-ox-e",
     "no page errors anywhere in the run"
   ],
   "measured": {
@@ -47,13 +47,18 @@
       "seat": "wagon",
       "direction": "w",
       "art": null,
-      "rig": "wagon-ox-e",
+      "rig": null,
       "parts": [
         {
-          "part": "rig",
-          "clip": "wagon-ox-e",
-          "x": 943,
-          "y": 593,
+          "part": "ox",
+          "x": 822,
+          "y": 594,
+          "height": 72
+        },
+        {
+          "part": "wagon",
+          "x": 932,
+          "y": 594,
           "height": 77
         },
         {
@@ -73,7 +78,7 @@
   "delivered": {
     "ridden": null,
     "driven": null,
-    "rig": "wagon-ox-e"
+    "rig": null
   },
   "notProved": [
     "Same computer only: one browser and the server on one machine. Nothing here is LAN or district evidence.",
