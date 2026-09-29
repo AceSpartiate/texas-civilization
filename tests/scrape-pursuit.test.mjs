@@ -225,9 +225,15 @@ test('only the men and the animals are fired at: never a woman or a child, nor a
     // The living women and children going with the family (a baby the sickness took before the scene is not one of them).
     const spared = scene.household.members.map(id => world.entities[id]).filter(one => one.kind === 'person' && (!grown(one) || sexOf(one) !== 'male') && !['dead', 'captured'].includes(one.health?.condition));
     assert.ok(spared.some(one => !grown(one)) && spared.some(one => grown(one)), `${householdId} has no women and children to test by`);
-    // Who is with them, as the shots are aimed (the seats as they were when the soldiers fired).
-    const withThem = new Set();
-    const seen = play(world, scene.household, scene.main, 'run', { each: () => { for (const one of spared) { if (one.travel?.rides) withThem.add(one.travel.rides); if (one.travel?.carried) withThem.add(one.travel.carried); } } });
+    // Who is with them, as the shots are aimed (the seats as they were when the soldiers fired): the vehicle or horse they ride,
+    // whoever carries a baby, and every man riding in or driving that vehicle (owner, 2026-09-27: never a man in the wagon the
+    // women and children ride in - the father on the driver's bench is in it; interactions audit I-S5).
+    const withThem = new Set(), inTheWay = new Set();
+    const men = scene.household.members.map(id => world.entities[id]).filter(one => one.kind === 'person' && grown(one) && sexOf(one) === 'male');
+    const seen = play(world, scene.household, scene.main, 'run', { each: () => {
+      for (const one of spared) for (const seat of [one.travel?.rides, one.travel?.drives, one.travel?.carried]) if (seat) withThem.add(seat);
+      for (const man of men) for (const seat of [man.travel?.rides, man.travel?.drives]) if (seat && withThem.has(seat)) inTheWay.add(man.id);
+    } });
     shots += seen.shots.length; hits += seen.shots.filter(shot => shot.hit).length;
     for (const shot of seen.shots) {
       assert.notEqual(shot.target.kind, 'wagon', 'a shot was fired at the wagon the women and children ride in');
@@ -236,6 +242,7 @@ test('only the men and the animals are fired at: never a woman or a child, nor a
       const person = world.entities[shot.target.id];
       assert.ok(person && scene.household.members.includes(person.id) && grown(person) && sexOf(person) === 'male', `a shot was aimed at ${shot.target.name} (${person?.age}, ${sexOf(person)}), who is no grown man of the family`);
       assert.ok(!withThem.has(person.id), `a shot was aimed at ${person.name}, who was carrying a baby`);
+      assert.ok(!inTheWay.has(person.id), `a shot was aimed at ${person.name}, who ${person.travel?.drives ? 'drives' : 'rides in'} the wagon the women and children ride in`);
       aimedAtPeople++;
     }
     for (const one of spared) assert.ok(!['dead', 'wounded'].includes(one.health.condition), `${one.name} (${one.age}) was hurt in the chase`);

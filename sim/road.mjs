@@ -20,9 +20,10 @@
 // it takes to dig out and what it costs the ox and the diggers, that a family may leave its wagon and go on on foot, a hunt
 // from the camp with the family halted, a real for two food among the families camped at a crossing or a refuge, a day of
 // nursing that keeps the sick alive and mends them sooner, and the pursuit: each Mexican column as a head moving between
-// the record's dated places (sim/advance.mjs since 2026-09-26), a warning when one is within `WARNING_MILES`, and a family overtaken when it sits
-// within `OVERTAKEN_MILES` of one - robbed of its wagon, its animals and its goods, its grown men taken prisoner at a share,
-// the rest let go to walk on with nothing.
+// the record's dated places (sim/advance.mjs since 2026-09-26), a warning when one is within `WARNING_MILES` (once for each
+// column on each stretch of the road, `flight.warned`), and a family overtaken when soldiers who can see it come up with it (sim/pursuit.mjs
+// since 2026-09-27; before that, whenever it sat within five miles of a column's head) - robbed of its wagon, its animals and
+// its goods, its grown men taken prisoner at a share, the rest let go to walk on with nothing.
 //
 // The chores here register themselves into the one table (`registerChores`); the flight's state stays on
 // `household.flight` (sim/scrape.mjs), and every field this module adds to it is absent until it happens, so no saved class
@@ -79,10 +80,11 @@ export const DIG_MILES = 8;
 export const OX_SPENT_HOURS = 24, SPENT_PACE = 0.5;
 /** A road question waits this many ticks for the family before it lapses (`lapseRoad`; the calendar holds for a played family). */
 export const ROAD_PATIENCE_TICKS = 12;
-/** A column within this many miles is a warning; within `OVERTAKEN_MILES` it has come up with a family that is not moving. */
-export const WARNING_MILES = 20, OVERTAKEN_MILES = 5;
-/** A family moving on the road is only overtaken when a column is on top of it. */
-export const CLOSE_MILES = 1.5;
+/**
+ * A column within this many miles is a warning. Being overtaken is not a distance (since 2026-09-27): it is soldiers who can see
+ * the family coming up with it (sim/pursuit.mjs `sightMiles`, `advancePursuit`).
+ */
+export const WARNING_MILES = 20;
 /** Grown men of an overtaken family are taken prisoner at this share (`HIST-TEX-073`: men, workmen and a boy taken; no count). */
 export const PRISONER_SHARE = 0.5;
 /** Among the families camped at a crossing or a refuge, a real buys this much food: dear, because bread was scarce on the road. */
@@ -101,6 +103,20 @@ export const milesWord = miles => `${miles} ${miles === 1 ? 'mile' : 'miles'}`;
 export function aboutMiles(miles) {
   const whole = Math.round(miles);
   return whole < 1 ? 'less than a mile' : `about ${milesWord(whole)}`;
+}
+/** How far off the soldiers could see the family, as the road says it: "about 3 miles", "about 440 yards", "about 50 yards". */
+const sightWords = miles => (miles >= 1 ? `about ${milesWord(Math.round(miles))}` : `about ${Math.max(10, Math.round(miles * 1760 / 10) * 10)} yards`);
+/**
+ * Who the soldiers come after, in the words the danger question uses (sim/pursuit.mjs, `FIC-GONZ-661`; design audit S20: these
+ * notes described a distance rule the game had not used since 2026-09-27): only a family they can see - and this one, as it is
+ * now, from about so far.
+ */
+function seenFrom(world, household) {
+  const sight = sightMiles(world, household);
+  if (!sight) return 'Soldiers come after a family only when they can see it.';
+  const what = sight.what === 'wagon' ? 'the wagon' : sight.what === 'mounted' ? 'the family on horseback' : 'the family on foot';
+  const where = [sight.way === 'country' ? 'off the road' : 'on the road', sight.cover === 'timber' ? 'in the timber' : sight.cover === 'brush' ? 'in the brush' : 'in the open', ...(['rain', 'storm'].includes(sight.weather) ? ['in the rain'] : sight.weather === 'fog' ? ['in the fog'] : []), ...(sight.night ? ['at night'] : [])];
+  return `Soldiers come after a family only when they can see it, and as it is now they could see ${what} from ${sightWords(sight.miles)} (${where.join(', ')}).`;
 }
 
 /**
@@ -209,7 +225,7 @@ export const ROAD_ASKS = {
     requires: {},
   },
   danger: {
-    text: (world, household) => { const near = household.flight?.danger; return `${near?.name || 'The Mexican army'} is ${aboutMiles(near?.miles ?? 0)} off, making for ${near?.towardName || 'the east'}. A family that sits still may be caught.`; },
+    text: (world, household) => { const near = household.flight?.danger; return `${near?.name || 'The Mexican army'} is ${aboutMiles(near?.miles ?? 0)} off, making for ${near?.towardName || 'the east'}. ${seenFrom(world, household)}`; },
     fallback: ['press-on', 'stay', 'abandon'],
     options: (world, household) => {
       const flight = household.flight, options = [];
@@ -219,9 +235,9 @@ export const ROAD_ASKS = {
         options.push(next ? { id: 'press-on', label: `Go on east to ${next.name}`, note: `About ${milesWord(next.miles)}. The family sets out the moment it is pressed${wagonWith(world, household) ? ', with the wagon' : ', on foot'}.` } : { id: 'press-on', label: 'Go on east', note: 'There is no refuge further east on the map from here.' });
       } else if (camp) options.push({ id: 'press-on', label: 'Break camp and press on', note: 'The hunt or the nursing is left off where it stands, and the family moves the next tick.' });
       else if (flight.crossing) options.push({ id: 'press-on', label: 'Get over the moment the turn comes, and go on', note: 'The wait is the wait; the family goes the moment it is over.' });
-      else options.push({ id: 'press-on', label: 'Press on as we are', note: 'The wagon keeps its pace. A family on the move is not caught unless the army is on top of it.' });
-      options.push({ id: 'stay', label: 'Stay as we are, and take the risk', note: flight.status === 'refuged' ? 'The family keeps its camp. If the army comes it takes the wagon, the animals and the goods, and may take the men.' : 'Whatever the family is doing goes on. If the army comes it takes the wagon, the animals and the goods, and may take the men.' });
-      if (wagonWith(world, household)) options.push({ id: 'abandon', label: 'Leave the wagon and go on on foot', note: `The wagon and the ox stay where they are${flight.crossing ? '; on foot the family fords at once' : ''}. The family carries ${carriedRoom(world, household)} room’s worth (food first) and the rest is lost; on foot it goes faster.` });
+      else options.push({ id: 'press-on', label: 'Press on as we are', note: wagonWith(world, household) ? 'The family keeps its pace. An ox wagon is slower than marching soldiers, and its white top is seen furthest: three miles over open prairie on the road, half that across country, much less in brush or timber, in rain or at night.' : 'The family keeps its pace. People on foot or on horseback are a little faster than marching soldiers, though not than horsemen, and are seen from less far off than a wagon.' });
+      options.push({ id: 'stay', label: 'Stay as we are, and take the risk', note: `${flight.status === 'refuged' ? 'The family keeps its camp.' : 'Whatever the family is doing goes on.'} If soldiers come near enough to see it, they call on it to halt; a family they take loses the wagon, the animals and the goods, and may lose the men.` });
+      if (wagonWith(world, household)) options.push({ id: 'abandon', label: 'Leave the wagon and go on on foot', note: `The wagon and the ox stay where they are${flight.crossing ? '; on foot the family fords at once' : ''}. The family carries ${carriedRoom(world, household)} room’s worth (food first) and the rest is lost; on foot it goes faster, and people on foot are seen from a third as far off as a wagon in the open.` });
       return options;
     },
     requires: {
@@ -505,7 +521,8 @@ export function advanceRoad(world, household) {
     for (const one of [...withFamily(world, household).people, ...withFamily(world, household).beasts]) if (one.travel && one.travel.mode === 'wagon') one.travel.speed = WAGON_SPEED;
     tell(world, household, 'The ox has rested and pulls at its pace again.', { importance: 1 });
   }
-  // The pursuit: a warning while a column is near, put to the family once for each column; overtaken when it sits in reach.
+  // The pursuit: a warning while a column is near, written and put to the family once for each column on each stretch; being
+  // overtaken is the soldiers who can see the family coming up with it (`advancePursuit`, below).
   const point = familyPoint(world, household);
   const nearest = point ? pursuit(world, point) : null;
   // The column the family was warned of stays the one it is warned of while it is still within reach, though another
@@ -518,9 +535,20 @@ export function advanceRoad(world, household) {
   // Never of a column whose army has stripped the family, it or one of its patrols (owner, 2026-09-28, "One army"; `strippedBy`).
   if (near && near.miles <= warnAt && !strippedBy(flight, near.id)) {
     if (!flight.danger || flight.danger.id !== near.id) {
-      flight.danger = { id: near.id, name: near.name, miles: near.miles, towardName: near.towardName, minute: world.minute };
-      const watcher = near.miles > WARNING_MILES ? lookoutOf(world, household) : null;
-      record(world, 'consequence', { householdId: household.id, importance: 3, claimId: watcher ? 'FIC-GONZ-487' : 'FIC-GONZ-051', text: `${watcher ? `${watcher.name}, watching the road behind, saw the dust first. ` : ''}Word along the road: ${near.name} is ${aboutMiles(near.miles)} off and coming this way, making for ${near.towardName}. A family that sits still may be caught.` });
+      // Once for each column on each stretch of the road (interactions audit M5): at the edge of the range the warning came and
+      // went, and setting out from a refuge cleared it, and each time the word was written again and the question put again,
+      // holding the class again. A column already warned of comes back as danger (the card shows it), with no word and no
+      // question. The list is cleared when the family reaches a refuge (sim/scrape.mjs): a column coming on again there is a
+      // new question - whether to go on further east - and is put.
+      // ceiling: a column that left the range while another road question was still open is not asked about when it comes
+      // back; the family goes on as it was. A separate "asked" list would justify itself if a class meets it.
+      const warned = (flight.warned || []).includes(near.id);
+      flight.danger = { id: near.id, name: near.name, miles: near.miles, towardName: near.towardName, minute: world.minute, ...(warned && { asked: true }) };
+      if (!warned) {
+        flight.warned = [...(flight.warned || []), near.id];
+        const watcher = near.miles > WARNING_MILES ? lookoutOf(world, household) : null;
+        record(world, 'consequence', { householdId: household.id, importance: 3, claimId: watcher ? 'FIC-GONZ-487' : 'FIC-GONZ-051', text: `${watcher ? `${watcher.name}, watching the road behind, saw the dust first. ` : ''}Word along the road: ${near.name} is ${aboutMiles(near.miles)} off and coming this way, making for ${near.towardName}. Its soldiers come after a family they can see.` });
+      }
     } else Object.assign(flight.danger, { miles: near.miles, towardName: near.towardName });
     // Put to the family once for each column, after any bog it is in has been answered.
     if (!flight.danger.asked && !flight.ask) { flight.danger.asked = true; openAsk(world, household, 'danger', `${near.name} is close behind.`); }

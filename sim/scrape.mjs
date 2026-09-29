@@ -445,6 +445,8 @@ export function advanceFlight(world, minutes) {
     if (flight.status === 'fled' && !travellers.length && !onward) {
       delete flight.route;
       flight.status = 'refuged'; flight.arrivedMinute = world.minute;
+      // A column that comes on again here is a new warning: whether to go on further east (sim/road.mjs `flight.warned`).
+      delete flight.warned;
       tell(world, household, `The family has reached ${world.map.sites[flight.refuge].name}, and camps there with the other families from the west.`);
     }
     if (flight.status === 'returning' && !travellers.length) {
