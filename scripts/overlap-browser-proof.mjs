@@ -196,11 +196,12 @@ try {
       if (meeting.reached) await walk(page, 'meeting', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'meeting' });
       else notReached.push('student meeting: no rider was standing');
       await page.locator('#encounter-close').click({ force: true, timeout: 3000 }).catch(() => {});
-      // The card comes back when the meeting closes (it stands aside while the rider talks).
+      // The card comes back when the meeting closes (it stands aside while the rider talks) - or what waited behind the rider
+      // comes up in its place, since closing a conversation moves straight on to it (owner, 2026-09-29, docs/COLONIES.md §5.4b).
       if (meeting.reached && await page.locator('#selection').evaluate(node => !node.hidden).catch(() => false)) {
         await page.setViewportSize(STUDENT_SIZES[0]);
         await page.waitForTimeout(300);
-        assert.ok(await page.locator('#selection').isVisible(), 'the card did not come back when the meeting closed');
+        assert.ok(await page.locator('#selection').isVisible() || await page.locator('#call-menu').isVisible(), 'neither the card nor what waited came back when the meeting closed');
       }
 
       const call = await openCallMenu(page);

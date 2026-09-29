@@ -27,6 +27,7 @@ import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settl
 // A settled class: these families are at home under a roof, as every class began before arrivals
 // (docs/SETTLING_IN.md step 2). This proves the work, not the arrival - tests/arrival.test.mjs does that.
 import { HISTORICAL_OUTCOME } from '../sim/directors.mjs';
+import { untilPastRiders } from './support/riders.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const physical = Object.entries(networkInterfaces()).filter(([name]) => !/vpn|nord|vethernet|virtual|wsl/i.test(name)).flatMap(([, entries]) => entries).find(e => e.family === 'IPv4' && !e.internal)?.address;
@@ -75,7 +76,8 @@ try {
   const refuserId = await refuser.evaluate(() => window.__snapshot.world.entities.find(one => one.principal)?.id);
   const refuserHome = app.state.world.entities[refuserId].location.siteId;
   assert.ok(personId && refuserId && refuserHome, 'a family has no principal at home');
-  const callFor = page => page.waitForFunction(() => window.__snapshot.world.request?.status === 'open' && ['supplies', 'rumor'].includes(window.__snapshot.world.request.kind), null, { timeout: 150000 });
+  // The question waits behind the rider who brought the word (owner, 2026-09-29, docs/COLONIES.md §5.4b): he is heard out first.
+  const callFor = page => untilPastRiders(page, () => window.__snapshot.world.request?.status === 'open' && ['supplies', 'rumor'].includes(window.__snapshot.world.request.kind), { label: 'the call never came' });
   await callFor(participant);
   // The call as a student meets it: a question, and answers that each carry their price.
   // Kept as evidence because this is the control the hunt rehearses.
