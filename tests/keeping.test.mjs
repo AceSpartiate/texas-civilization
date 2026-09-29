@@ -10,6 +10,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, beginTravel, projectWorld, stepWorld, travelModesFor, validateWorld } from '../sim/world.mjs';
 import { propertyId } from '../sim/travel.mjs';
 import { oxFree } from '../sim/felling.mjs';
+import { heardOut } from './support/heard-out.mjs';
 
 const running = seed => { const world = createSettledWorld(seed, 5); world.status = 'running'; return world; };
 const person = (world, name) => world.entities[`hh-1-${name}`];
@@ -100,6 +101,7 @@ test('a volunteer who rode to the army has the horse with them in the ranks, and
   const until = (done, limit = 3000) => { for (let tick = 0; tick < limit && !done() && !world.director.complete; tick++) stepWorld(world); };
   const household = Object.values(world.households).find(h => ['san-felipe', 'mina', 'victoria'].includes(h.settlementId));
   until(() => world.calls?.[household.id]);
+  heardOut(world, household.id);
   const answerers = projectWorld(world, household.id, 'student', { includeMap: false }).request.answerers;
   const [volunteerId] = Object.entries(answerers).find(([, options]) => options.find(o => o.id === 'turn-out').can);
   const volunteer = world.entities[volunteerId];

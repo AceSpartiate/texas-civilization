@@ -8,11 +8,11 @@
     "a solo game on the real land, fifteen families, the player's family at matagorda",
     "the rider reins in alone (Silas Roe), with one \"!\" on the family and the call waiting behind him (\"One more thing is waiting for your family after this.\")",
     "the conversation ends with one clear control (\"Done — let Silas Roe ride on\"), and says \"One more thing is waiting for your family after this. Ask what you like, then press Done. Nothing said is lost when he rides on.\"",
-    "the same word, firmer, from Abner Teel mid-conversation is known at once (confirmed, \"Abner Teel, who rode from Gonzales\") and never becomes a second meeting; the call's clock has not started",
-    "Done closed the conversation and the call came up next, 207 ms later: \"The committee at Matagorda asks the volunteers of the town and the cou...\"",
+    "the same word, firmer, from Concepción Mora mid-conversation is known at once (confirmed, \"Concepción Mora, who rode from Gonzales\") and never becomes a second meeting; the call's clock has not started",
+    "Done closed the conversation and the call came up next, 81 ms later: \"The committee at Matagorda asks the volunteers of the town and the cou...\"",
     "the call's five minutes began when it was shown, not while it waited",
     "the same news is never a second meeting",
-    "Escape ended the next conversation (Willa Hines, the fight's outcome) and put it away",
+    "Escape ended the next conversation (Abner Teel, the fight's outcome) and put it away",
     "no page errors"
   ],
   "measured": {
@@ -21,12 +21,12 @@
     "firstRider": {
       "name": "Silas Roe",
       "status": "unconfirmed",
-      "openedMinute": 4860,
-      "callPutMinute": 4860
+      "openedMinute": 4920,
+      "callPutMinute": 4920
     },
     "secondRider": {
-      "id": "courier-19",
-      "name": "Abner Teel"
+      "id": "courier-18",
+      "name": "Concepción Mora"
     },
     "arrival": {
       "ridersDrawn": [
@@ -57,24 +57,24 @@
     },
     "duplicate": {
       "knownStatus": "confirmed",
-      "knownSource": "Abner Teel, who rode from Gonzales",
-      "receivedMinute": 4900,
+      "knownSource": "Concepción Mora, who rode from Gonzales",
+      "receivedMinute": 4920,
       "firstStillOpen": true,
       "visits": 1,
       "secondStillCarrying": false,
       "joined": [
         {
-          "carrierId": "courier-19",
-          "name": "Abner Teel",
+          "carrierId": "courier-18",
+          "name": "Concepción Mora",
           "status": "confirmed",
-          "minute": 4900,
-          "eventId": "ev-2279"
+          "minute": 4920,
+          "eventId": "ev-2641"
         }
       ],
       "drawn": false
     },
     "next": {
-      "msAfterDone": 207,
+      "msAfterDone": 81,
       "encounterHidden": true,
       "text": "The committee at Matagorda asks the volunteers of the town and the country east of it to gather at James Kerr's on the Lavaca as speedily as they can. The town is badly armed and its men are few. Does somebody from your family go?"
     },
@@ -83,7 +83,7 @@
         "carrier": "Silas Roe",
         "topic": "cannon-request",
         "status": "unconfirmed",
-        "opened": 4860
+        "opened": 4920
       }
     ]
   },

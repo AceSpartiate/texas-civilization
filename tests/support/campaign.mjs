@@ -5,6 +5,7 @@
 import { createGonzalesWorld } from '../../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld } from '../../sim/world.mjs';
 import { momentOf } from '../../sim/directors.mjs';
+import { heardOut } from './heard-out.mjs';
 
 export const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 export const until = (world, done, limit = 4000) => { for (let tick = 0; tick < limit && !done() && world.status === 'running'; tick++) stepWorld(world); return done(); };
@@ -26,6 +27,7 @@ export function armyClass(seed, { modes = ['horse', 'horse', 'foot'], to = 'deta
     const sent = [];
     for (const household of families.slice(0, modes.length)) {
       until(world, () => world.calls?.[household.id]);
+      heardOut(world, household.id);
       const answerers = view(world, household.id).request?.answerers || {};
       const found = Object.entries(answerers).find(([, options]) => options.find(option => option.id === 'turn-out')?.can);
       if (!found) continue;

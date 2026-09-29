@@ -156,7 +156,10 @@ try {
   // enough that the conversation could time out while the proof looked.
   if (after) await student.waitForFunction(() => window.__snapshot?.world?.reports?.find(one => one.topicId === 'cannon-request')?.status === 'confirmed', null, { timeout: 60000 });
   else await until('the second rider reaching the family', () => { const w = world(); return !w.entities[second.id].report || w.entities[second.id].location.siteId === w.households['hh-1'].homeSiteId; }, 60000);
-  // One copy of the server's state for all of it (a copy of the real land is slow, and the class runs on while it is taken).
+  // Paused while the server's state is copied and read, as a student may pause Play Solo: a copy of the real land is slow, and
+  // under load the class ran on far enough behind it for the fight's outcome to come before Done could be pressed.
+  await student.locator('[data-solo="solo-pause"]').click();
+  await student.waitForFunction(() => window.__snapshot?.world?.status === 'paused', null, { timeout: 10000 });
   const w3 = world();
   const known = w3.knowledge.households['hh-1'][TOPIC];
   const visits3 = Object.values(w3.encounters).filter(one => one.householdId === 'hh-1' && !one.kind);
@@ -174,6 +177,8 @@ try {
   }
 
   // ------------------------------------------------------------------ 4. Done, and straight on to the call
+  await student.locator('[data-solo="solo-resume"]').click();
+  await student.waitForFunction(() => window.__snapshot?.world?.status === 'running', null, { timeout: 10000 });
   await student.locator('#encounter .ask-leave').click();
   const doneAt = Date.now();
   await until('the conversation closing', () => firstNow().status === 'closed', 10000);
