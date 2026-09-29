@@ -78,6 +78,11 @@ function beforeHarrisburg(seed, playerCount) {
   const refuge = world.households['hh-1'].flight?.refuge, camp = refuge && world.map.sites[refuge];
   const man = camp && world.households['hh-1'].members.map(id => world.entities[id]).find(one => one.kind === 'person' && one.sex === 'male' && (one.age ?? 0) >= 16 && !one.service && one.health.condition === 'well');
   if (man && man.location?.siteId !== refuge) Object.assign(man, { travel: null, chore: null, task: 'rest', location: { x: camp.x, y: camp.y, siteId: refuge } });
+  // The family was marked a student's only so the director would leave the warning to the answer given above. Since the
+  // classroom's late joining (2026-09-28) a family already marked played is never handed to a joining student (server/app.mjs
+  // `seatFor`: nobody's, and not `played`), so the mark is taken off again before the class opens: the student who joins takes
+  // it, and is marked then, as every student is.
+  delete first.played;
   world.status = 'lobby';
   return world;
 }
