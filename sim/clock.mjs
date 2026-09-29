@@ -99,6 +99,12 @@ export function calendarMinutes(world) {
  * entirely. `resolveTimeJump` already refuses to run compressed time past a conversation that has
  * not finished; this is the same rule, applied to the calendar instead of to a Host's jump.
  *
+ * **Every hold here is bounded in real seconds** (owner, 2026-09-29, "Real-time limits"; sim/decision-budget.mjs
+ * `QUESTION_BUDGETS`): a rider waits ninety real seconds for a student, the order to leave three real minutes, the road's
+ * question ninety - the same at every pace - so one student who does not answer holds the class for at most that long, where
+ * a rider's sixty ticks held it 9.5 real minutes at Study and the order's day 11.4 (docs/audits/2026-09-29-triage.md 1.2). A
+ * question in the middle of work holds nothing here: it waits on the one person, not on the class.
+ *
  * ceiling: two windows, named here, because two is what the built slice has. As the later phases
  * bring their own dated decisions this wants to be a question the director answers - what is open
  * in front of anybody right now - rather than a list kept in the clock.
@@ -111,15 +117,15 @@ function deciding(world) {
   // of those put eighty-five minutes on a fifty-minute lesson when it was measured.
   // Nor for a family whose student has gone (sim/absence.mjs): the director answers for it in the same tick.
   if (Object.values(world.encounters || {}).some(encounter => encounter.status === 'open' && world.households[encounter.householdId]?.played && !world.households[encounter.householdId].absent)) return true;
-  // A played family told to leave in the spring (sim/scrape.mjs): the calendar holds at the farming scale until it has gone, or
-  // the army has passed and burned it out, which is at most two days.
+  // A played family told to leave in the spring (sim/scrape.mjs): the calendar holds at the farming scale until it has gone - by
+  // its word, or packed off when its three real minutes are out (sim/auto.mjs) - or the army has burned it out.
   // Only a family with somebody with it to answer (sim/acting.mjs `actingFor`): a family wiped out, with nobody at home but a man
   // away with the army, or taken in by its neighbours holds nobody (playthrough audit 7, 2026-09-28: a dead family held the class
   // at twenty minutes a tick for 144 ticks).
   const answering = household => !household.takenIn && ['main', 'grown', 'child'].includes(actingFor(world, household)?.how);
   if (Object.values(world.households).some(household => household.played && !household.absent && household.flight?.status === 'ordered' && !household.flight.burned && answering(household))) return true;
   // A played family with the road's question in front of it (sim/road.mjs): the bogged wagon, the army close behind. Only
-  // while it is deciding - `ROAD_PATIENCE_TICKS` at most - and never for the road itself; a family nobody is at the screen
+  // while it is deciding - ninety real seconds at most (sim/decision-budget.mjs) - and never for the road itself; a family nobody is at the screen
   // for (sim/absence.mjs) is answered the next tick and holds nothing.
   if (Object.values(world.households).some(household => household.played && !household.absent && household.flight?.ask && answering(household))) return true;
   // A question Houston's army has put to a played family's man (sim/camp.mjs: leaving after the word of Goliad, the fork of

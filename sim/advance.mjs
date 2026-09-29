@@ -45,8 +45,9 @@ export const DETACHMENT_MILES = 3;
  */
 export const FORAGE_AFTER_HOURS = 12, FORAGER_MPH = 5;
 /**
- * No farm is reached until a day after its family was told to leave (`FIC-GONZ-465`): the day the order gives, the same day
- * a family by hand is waited for before it is packed off (sim/auto.mjs `FLIGHT_PATIENCE`). The record's families near
+ * No farm is reached until a day after its family was told to leave (`FIC-GONZ-465`): the day the order gives. Until
+ * 2026-09-29 it was also the day a family by hand was waited for before it was packed off; that wait is three real minutes now
+ * (sim/decision-budget.mjs `QUESTION_BUDGETS.flight`), and this day stands on its own. The record's families near
  * Gonzales left with Houston the night before the game's order comes; this is the game's allowance, not the record's.
  */
 export const ORDER_GRACE_MINUTES = 1440;

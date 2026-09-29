@@ -29,6 +29,7 @@ import { record } from './events.mjs';
 import { learn, wouldLearn } from './knowledge.mjs';
 import { TICK_MINUTES, calendarMinutes } from './clock.mjs';
 import { courierIfUnanswered } from './lapse.mjs';
+import { limitLeft, limitOut, riderLimitKey, riderOnLimit } from './decision-budget.mjs';
 import { RIDER_SPEED } from './travel.mjs';
 
 /**
@@ -85,6 +86,12 @@ export const seenComing = world => SIGHT_MILES * stretch(world);
 // would really sit on a horse, and at twenty fictional minutes a tick the two cannot both
 // be right. `FIC-GONZ-003` already owns that whole disagreement. Untuned: it was half
 // this, and half this was not long enough to notice a conversation and open it.
+//
+// **Since 2026-09-29 only for a family nobody is reading** (owner, "Real-time limits": a rider gets 90 real seconds). At a
+// played family whose student is at the screen the rider waits **ninety real seconds** from the last thing said, the same at
+// every pace (sim/decision-budget.mjs `QUESTION_BUDGETS.rider`, `riderOnLimit`), the errand rider on his short stop the same:
+// sixty ticks stretched with the calendar was 9.5 real minutes at Study, with the whole class's calendar held for it
+// (docs/audits/2026-09-29-triage.md 1.2). This and `PASSING_MINUTES` are what a rider does at a gate nobody is watching.
 export const PATIENCE_MINUTES = 1200;
 // How long a rider who still has somewhere to be will stand about.
 //
@@ -470,9 +477,12 @@ export function advanceEncounters(world) {
       || (apart <= EARSHOT_MILES * 2 && !blockedByWater(world, carrier.location, listener.location));
     if (!together) { finish(world, encounter, 'parted'); continue; }
     // Somebody met on the way gets a short stop; the family the word is for gets as long
-    // as it takes, because by then the rider has nowhere else to be.
+    // as it takes, because by then the rider has nowhere else to be. A student reading him has ninety real seconds from the
+    // last thing said, either way (owner, 2026-09-29; sim/decision-budget.mjs).
     const errand = carrier.report && carrier.report.audience !== encounter.householdId;
-    if (world.minute - encounter.lastSpokenMinute >= attention(world, errand ? PASSING_MINUTES : PATIENCE_MINUTES, encounter.householdId)) finish(world, encounter, 'unanswered');
+    const waited = riderOnLimit(world, encounter) ? limitOut(world, riderLimitKey(encounter))
+      : world.minute - encounter.lastSpokenMinute >= attention(world, errand ? PASSING_MINUTES : PATIENCE_MINUTES, encounter.householdId);
+    if (waited) finish(world, encounter, 'unanswered');
   }
   const opened = [];
   // Two passes. On the first a rider may only stop for the family they were sent to; on the
@@ -709,6 +719,8 @@ export function encounterProjection(world, householdId, role) {
     reportStatus: encounter.reportStatus || 'confirmed',
     said: encounter.said.map(({ speaker, text, minute }) => ({ speaker, text, minute })),
     questions: open ? questionsFor(encounter).map(({ id, ask }) => ({ id, ask })) : [],
+    // The real milliseconds he will wait yet, for the countdown on the "!" (owner, 2026-09-29, "Real-time limits").
+    ...(riderOnLimit(world, encounter) && { leftMs: limitLeft(world, riderLimitKey(encounter), 'rider') }),
   };
 }
 

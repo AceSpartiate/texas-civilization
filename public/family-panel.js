@@ -73,9 +73,9 @@ export const PANEL_SUMMARIES = Object.freeze({
   'camp-guard': 'Stand a night on the camp guard.',
   'camp-scout': 'Ride out with the scouts for a day to find the enemy, which wants a horse and can bring them back hurt.',
   // What a family's children can be set to (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21).
-  'child-play': 'Let them have the hour to themselves at whatever play they choose, which makes nothing and is the point of it.',
+  'child-play': 'Let them have the rest of the day to themselves at whatever play they choose, which makes nothing and is the point of it.',
   // The kinds of play and the hens (sim/children.mjs `PLAY_KINDS`, owner 2026-09-26: "different types of play").
-  'child-stick-horse': 'Let them gallop a stick horse up and down the yard for the hour.',
+  'child-stick-horse': 'Let them gallop a stick horse up and down the yard for the rest of the day.',
   'child-doll': 'Let them sit by the house with a corn-husk doll and keep house for it.',
   'child-tag': 'Let them run at tag about the yard with the other children.',
   'child-hide': 'Let them play hide-and-seek behind the house and the woodpile.',
@@ -430,13 +430,13 @@ export function meetingFor(world, entity) {
 
 /**
  * Every kind of need, **most urgent first** (docs/audits/2026-09-28-design.md S33, the owner's "fix the blockers"): the
- * soldiers' ¡Alto! (a few ticks before silence halts the family), the road's question, the order to leave, somebody very
+ * soldiers' ¡Alto! (thirty real seconds before silence halts the family), the road's question, the order to leave, somebody very
  * sick (a day to nurse them), a rider standing with them (who rides on, and whose word is often what the call is about),
  * the settlement's call (five real minutes), the army's and the camp's and Travis's questions (ninety real seconds each),
- * work that has stopped to ask, an offer. A person with more than one shows the first, and across the whole column the rows
+ * work that has stopped to ask, a small child whose own auto went off (2026-09-29), an offer. A person with more than one shows the first, and across the whole column the rows
  * are ranked by it (`rankNeeds`). Also which card section answers each (`NEED_SECTIONS` in public/app.js).
  */
-export const NEED_KINDS = Object.freeze(['alto', 'road', 'flight', 'sick', 'rider', 'call', 'army', 'camp', 'courier', 'asking', 'offer']);
+export const NEED_KINDS = Object.freeze(['alto', 'road', 'flight', 'sick', 'rider', 'call', 'army', 'camp', 'courier', 'asking', 'child', 'offer']);
 
 /**
  * Who is with the family and answers its own decisions - the order to leave, the route, the road's questions, "¡Alto!" - as the
@@ -454,27 +454,28 @@ export function takenInWords(world) {
 /**
  * What this person is waiting on the student for, most urgent first (`NEED_KINDS`). Every one is a thing the server has
  * already sent this family and will take an answer to; the words say who and what, and never what an answer risks
- * (docs/COLONIES.md §7a). Where the question will lapse, `leftMs` is how long it has in real time, as the server last said:
- * real milliseconds for the call and the army's questions, and ticks at the class's pace (`tickMs`, which the snapshot
- * carries) for the road's, ¡Alto! and the order to leave. Absent where nothing lapses or the clock has not begun.
+ * (docs/COLONIES.md §7a). Where the question will lapse, `leftMs` is how long it has in real time, as the server last said, in
+ * real milliseconds for every one: the call, the army's questions, and since 2026-09-29 (owner, "Real-time limits") the rider,
+ * the order to leave, the road's question, ¡Alto! and a question in the middle of work, which count real seconds the same at
+ * every pace. Absent where nothing lapses or the clock has not begun.
  */
-export function needsOf(world, entityId, { tickMs = null } = {}) {
+export function needsOf(world, entityId) {
   const entity = (world?.entities || []).find(one => one.id === entityId);
-  if (gone(entity) || world.role === 'host') return [];
+  // Nothing waits on a student watching another family (sim/watching.mjs): nobody on the page is theirs to answer for.
+  if (gone(entity) || world.role === 'host' || world.watching) return [];
   const name = entity.name || 'Somebody';
   const needs = [];
-  const ticks = count => (Number.isFinite(count) && Number.isFinite(tickMs) && tickMs > 0 ? { leftMs: count * tickMs } : {});
   const ms = value => (Number.isFinite(value) ? { leftMs: value } : {});
   const meeting = meetingFor(world, entity);
-  if (meeting) needs.push({ kind: 'rider', text: `${meeting.carrierName || 'A rider'} has stopped to speak with ${name}.` });
+  if (meeting) needs.push({ kind: 'rider', text: `${meeting.carrierName || 'A rider'} has stopped to speak with ${name}.`, ...ms(meeting.leftMs) });
   // Told to leave (sim/scrape.mjs): the family's decision, on the row of whoever is with the family and answers for it - the main
   // person when they are with it, else the next grown person there, else the oldest child of seven or more (sim/acting.mjs,
   // `actingOf`). Not on a father away with the army (interactions B1, 2026-09-28). Nothing while neighbours have taken it in.
   const acting = actingOf(world);
-  if (world.flight?.status === 'ordered' && !world.household?.takenIn && entityId === acting) needs.push({ kind: 'flight', text: 'The family has been told to leave for the east.', ...ticks(world.flight.ticksLeft) });
+  if (world.flight?.status === 'ordered' && !world.household?.takenIn && entityId === acting) needs.push({ kind: 'flight', text: 'The family has been told to leave for the east.', ...ms(world.flight.leftMs) });
   // The road's question (sim/road.mjs): the bogged wagon, the army close behind - the family's, on the same row. The soldiers'
   // ¡Alto! is its own kind: it is the most urgent thing in the game.
-  if (world.flight?.ask && !world.household?.takenIn && entityId === acting) needs.push({ kind: world.flight.ask.id === 'alto' ? 'alto' : 'road', text: world.flight.ask.text || 'The road is asking the family something.', ...ticks(world.flight.ask.ticksLeft) });
+  if (world.flight?.ask && !world.household?.takenIn && entityId === acting) needs.push({ kind: world.flight.ask.id === 'alto' ? 'alto' : 'road', text: world.flight.ask.text || 'The road is asking the family something.', ...ms(world.flight.ask.leftMs) });
   const ours = world.army?.ours?.find(one => one.id === entityId);
   if (ours && (ours.detachment === 'open' || (ours.questions || []).some(question => question.answer === 'open'))) {
     needs.push({ kind: 'army', text: `The army is asking ${name} something.`, ...ms(entity.decisionLeftMs) });
@@ -486,7 +487,10 @@ export function needsOf(world, entityId, { tickMs = null } = {}) {
   if (entity.service?.courier === 'open') needs.push({ kind: 'courier', text: `Travis is asking whether ${name} will ride out with his letters.`, ...ms(entity.decisionLeftMs) });
   const asked = requestFor(world, entity);
   if (asked?.options?.length) needs.push({ kind: 'call', text: `${name} can answer what the family is being asked.`, ...ms(asked.leftMs) });
-  if (entity.chore?.ask) needs.push({ kind: 'asking', text: `${name}’s work has stopped to ask something.` });
+  if (entity.chore?.ask) needs.push({ kind: 'asking', text: `${name}’s work has stopped to ask something.`, ...ms(entity.chore.ask.leftMs) });
+  // A small child whose own automation has gone off, given nothing since (owner, 2026-09-29, "Until the day ends"; sim/childhood.mjs
+  // `autoOffAsking`): after work that has stopped to ask, before an offer. Never how long it had lasted.
+  if (entity.autoOff) needs.push({ kind: 'child', text: `${name}’s auto went off. Give ${name} something to do, or put Auto on again.` });
   for (const offer of world.offers || []) {
     if (offer.direction === 'received' && offer.ourEntityId === entityId) { needs.push({ kind: 'offer', text: `${offer.theirName || 'A neighbour'} has offered ${name} a trade.` }); break; }
   }
@@ -508,10 +512,10 @@ function byUrgency(a, b) {
  * themselves keep the family's order (father, mother, children oldest first - docs/FAMILY_PANEL.md): it is the "!" that
  * says which to answer first, with its number and, where the question will lapse, the time it has left.
  */
-export function rankNeeds(world, ids = [], options = {}) {
+export function rankNeeds(world, ids = []) {
   const ranked = [];
   for (const id of ids) {
-    const needs = needsOf(world, id, options);
+    const needs = needsOf(world, id);
     if (needs.length) ranked.push({ id, ...needs[0], more: needs.length - 1 });
   }
   ranked.sort(byUrgency);

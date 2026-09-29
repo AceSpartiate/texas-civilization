@@ -27,9 +27,12 @@ import { houstonCamp, joinEstimateWords } from './houston.mjs';
 import { southSite } from './south.mjs';
 import { record } from './events.mjs';
 import { answeredFor, recordLapse } from './lapse.mjs';
+import { limitLeft, limitOut, workLimitKey, workOnLimit } from './decision-budget.mjs';
 // Who is left at home when a man goes to the war (sim/acting.mjs, design audit S14, 2026-09-28): said on the control.
 import { WAR_CHORES, leavesLittleOnes } from './acting.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
+// A small child's play lasts until the day ends (owner, 2026-09-29; sim/child-day.mjs): the `allDay` step below.
+import { dayBegun, dayOf, dayOver } from './child-day.mjs';
 import { awayProjection, milesATick, tooFastToFollow } from './sight.mjs';
 import { purseHeld, purseOf, recordTrade, traderAt } from './town.mjs';
 import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
@@ -77,12 +80,18 @@ export { TOOL_LIFE };
 export const SKILLS = ['farming', 'hunting', 'hands'];
 
 /**
- * How long somebody downwind will hold before the question lapses (`lapsedChoice`, owner 2026-09-27).
+ * How long somebody downwind will hold before the question is answered, for a family nobody is reading.
  *
  * Two fictional hours. A hunt that waited for ever on a student who had gone to look at
  * something else would be a chore that silently stopped being work, and a class where one
  * person simply never comes home. A rider's patience works the same way and for the same
  * reason (`PASSING_MINUTES` in sim/encounters.mjs).
+ *
+ * **A student's question waits ninety real seconds instead** (owner, 2026-09-29, "Real-time limits": sim/decision-budget.mjs
+ * `QUESTION_BUDGETS.work`, `workOnLimit`) and then lapses (`lapsedChoice`, owner 2026-09-27), the same at every pace and in
+ * every phase. Two hours of the calendar was one tick in the winter and the spring, where a tick is four or twelve hours - 9.5
+ * seconds at Study, one at Quick - so every hunt run by hand was lost (docs/audits/2026-09-29-triage.md 1.3). It holds only
+ * the one person: the class's calendar goes on while a hunter waits on a shot.
  */
 export const ASK_PATIENCE = 120;
 
@@ -236,7 +245,8 @@ export function askAvailability(world, household, entity, optionId) {
 export function askProjection(world, household, entity) {
   const ask = entity.chore?.ask;
   if (!ask) return null;
-  return { ...ask, options: ask.options.map(option => ({ ...option, ...askAvailability(world, household, entity, option.id) })) };
+  // With the real milliseconds it will wait yet, for the countdown on the "!" (owner, 2026-09-29, "Real-time limits").
+  return { ...ask, options: ask.options.map(option => ({ ...option, ...askAvailability(world, household, entity, option.id) })), ...(workOnLimit(world, entity) && { leftMs: limitLeft(world, workLimitKey(entity, ask), 'work') }) };
 }
 
 /**
@@ -1981,6 +1991,17 @@ export function answerChore(world, household, entity, option) {
   return settleAsk(world, household, entity, option, false);
 }
 
+/**
+ * Whether this is the first play this child has set out to today, and marks it so: kept in the same `told` the family's little ones'
+ * other once-a-day lines use (sim/childhood.mjs `firstToday`), written out here because that module imports this one.
+ */
+function firstPlayToday(world, entity) {
+  const day = dayOf(world);
+  if (entity.told?.play === day) return false;
+  entity.told = { ...(entity.told || {}), play: day };
+  return true;
+}
+
 export function beginChore(world, household, entity, choreId, { beginTravel, modeAvailability }, modeId = DEFAULT_MODE, extra = {}) {
   const chore = CHORES[choreId];
   // Clearing and fencing need the plot, sent the same way, and are refused for that plot first: the plot chosen is what the refusal is about.
@@ -2051,7 +2072,9 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   // the beasts its road will take. The axe is asked again with the plot chosen: a clearing through timber wants it.
   if (extra.plotId) { const why = takenWhy(world, household, entity, choreId, extra); if (why) throw new Error(why); }
   const { held, shares } = heldBy(world, household, entity, chore, modeId, choreId, extra);
-  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }), ...(errand && { errand }), ...(town && { town }), ...(held.length && { with: held }), ...(shares.length && { shares }) };
+  // `spell`: play a child's own automation or a wander took up between jobs, which goes its old couple of hours and not the
+  // whole day (owner, 2026-09-29; sim/childhood.mjs): the automation itself is what lasts until the day ends.
+  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(extra.spell && chore.play && { spell: true }), ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }), ...(errand && { errand }), ...(town && { town }), ...(held.length && { with: held }), ...(shares.length && { shares }) };
   entity.task = 'work';
   // A chore kept in its own module may need to set something up as it begins: a road chore halts the family (sim/road.mjs).
   chore.begin?.(world, household, entity);
@@ -2061,7 +2084,10 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
     const host = hostOf(world, entity);
     Object.assign(entity.chore, { hostHouseholdId: host.id, spells: 0 });
     recordHelpBegun(world, household, entity, host);
-  } else record(world, 'assignment', { actorId: entity.id, householdId: household.id, text: `${entity.name} set out: ${chore.name.toLowerCase()}.` });
+    // A child's play is said once a day (interactions audit M5, triage 2.3): a child alone at home, or on auto, took up play
+    // dozens of times an afternoon and wrote "set out: play" every time, pushing out what the family must read. The row and the
+    // map show the play every tick; the record hears of the first each day, and the play's own line when it is over.
+  } else if (!chore.play || firstPlayToday(world, entity)) record(world, 'assignment', { actorId: entity.id, householdId: household.id, text: `${entity.name} set out: ${chore.name.toLowerCase()}.` });
   advanceChore(world, household, entity, { beginTravel });
   return entity.chore;
 }
@@ -2110,8 +2136,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
   // past - without this the question would be asked and answered by the next tick, which
   // is a question in name only.
   if (state.ask) {
-    // A family whose student has gone (sim/absence.mjs) is not waited for.
-    if (!household.absent && world.minute - state.ask.openedMinute < ASK_PATIENCE) return;
+    // A family whose student has gone (sim/absence.mjs) is not waited for. A student's question waits its real seconds
+    // (`workOnLimit`, owner 2026-09-29); a family nobody plays, its two hours of the calendar.
+    if (workOnLimit(world, entity) ? !limitOut(world, workLimitKey(entity, state.ask)) : !household.absent && world.minute - state.ask.openedMinute < ASK_PATIENCE) return;
     // Nobody answered in time. For a family a student is answering for, **the question lapses** (owner, 2026-09-27;
     // sim/lapse.mjs): nothing new is chosen (`lapsedChoice`: the shot is left, and ordered work goes on by the question's own
     // fallback). A family nobody is answering for - gone from its screen, or nobody plays it - is decided as auto decides
@@ -2127,6 +2154,12 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
   // may be more or less than a tick of it a tick; what a faster crew does past the end of a step is carried into the next work
   // (`over`), so the whole job comes out at the crew's pace and not a tick longer for every step. Walking is never quicker for
   // company. Work saved before 2026-09-28 has no `crewed` and goes a tick a tick, exactly as it did.
+  // A small child's play, until the day ends (owner, 2026-09-29; sim/child-day.mjs): nothing is spent, the day is waited out.
+  if (state.allDay) {
+    if (!dayOver(world, state.allDay)) return;
+    delete state.allDay;
+    state.wait = 0;
+  }
   if (state.wait > 0) {
     const pace = state.crewed ? handsPace(world, household, entity, chore, state) : 1;
     state.wait = round(state.wait - pace);
@@ -2295,6 +2328,12 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
     if (step.clearWork) {
       const plot = plotsOf(world, household).find(candidate => candidate.id === state.plotId);
       state.doing = plot?.ground === 'timber' ? 'felling timber on the clearing' : plot?.ground === 'brush' ? 'grubbing out brush' : 'breaking prairie sod';
+    }
+    // A small child's play lasts until the day ends (owner, 2026-09-29, "Until the day ends"; sim/child-day.mjs), unless it is a
+    // spell of play the child's own automation or a wander took up (`spell`), which goes its old `work` ticks.
+    if (step.allDay && !state.spell) {
+      state.allDay = dayBegun(world);
+      return;
     }
     // Heavy work goes at the pace of the person's hidden strength as well as their skill.
     // Heavy work at home goes slower still while the family carries its water from far off (sim/homesite.mjs).

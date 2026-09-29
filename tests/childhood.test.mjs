@@ -11,7 +11,9 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { projectFamily } from '../sim/world.mjs';
 import { OBEDIENCE_DIE, obedienceOf, obedienceRoll, rolledPeople } from '../sim/family.mjs';
-import { CHILD_AUTO_TICKS, IDLE_TICKS, NOTICE_TICKS, childAutoTicks, talkTarget } from '../sim/childhood.mjs';
+import { IDLE_TICKS, NOTICE_TICKS, talkTarget } from '../sim/childhood.mjs';
+import { DAY_FLOOR_TICKS, DAY_MINUTES, dayOf } from '../sim/child-day.mjs';
+import { needsOf } from '../public/family-panel.js';
 import { OBEDIENCE_RATES, autoOffChance, dawdleChance, wanderChance, wandersOff, tiresOfAuto } from '../sim/obedience.mjs';
 import { stirredShare } from '../sim/shares.mjs';
 import { settle, taught } from './support/settled.mjs';
@@ -94,7 +96,8 @@ test('the rule: a child at play is seen at it - moved about the yard by the kind
       assert.equal(kid.location.siteId, household.homeSiteId, `${chore} took the child off the land`);
       assert.ok(Math.hypot(kid.location.x - home.x, kid.location.y - home.y) < 0.08, `${chore} took the child out of the yard`);
     }
-    for (let t = 0; t < 12 && kid.chore; t++) stepWorld(world);
+    // Play lasts until the day ends (owner, 2026-09-29): called off, rather than waited out.
+    if (kid.chore) applyAction(world, household.id, { action: 'stop-chore', entityId: kid.id });
     return { places: places.size, doing: [...doing] };
   };
   const tag = watch('child-tag', 4);
@@ -137,7 +140,9 @@ test('the rule: with no parent at home a child goes to the nearest of age, and w
   // And with nobody of age at home at all, the child finds their own play, and stops nobody.
   applyAction(world, household.id, { action: 'chore', entityId: kid.id, chore: 'child-doll' });
   others[0].location = { ...world.map.sites.gonzales, siteId: 'gonzales' };
-  for (let t = 0; t < 30 && kid.chore; t++) stepWorld(world);
+  // Play lasts the day now (owner, 2026-09-29): the doll put down, rather than waited out.
+  step(world, 2);
+  applyAction(world, household.id, { action: 'stop-chore', entityId: kid.id });
   step(world, IDLE_TICKS + 1);
   assert.ok(kid.chore && /child-/.test(kid.chore.id), 'a child alone at home was left standing with nothing');
   assert.equal(kid.talk, undefined);
@@ -167,33 +172,98 @@ test('the rule: nobody is stopped by a child in the guided start, at night, on a
   assert.equal(fast.kid.talk, undefined, 'a child stopped a parent for four hours a tick');
 });
 
-test('the rule: a child’s own automation finds them things to do, lasts a time scaled by their obedience, and goes off by itself with a notice', () => {
+test('the rule: a child’s own automation finds them things to do, lasts until the day ends whatever their roll, and goes off with a notice and an "!" that stays until they are given something to do', () => {
   const lasting = roll => {
     const { world, household, kid } = family('childhood-auto', 7);
     kid.traits = { ...kid.traits, obedience: roll };
+    // Mid-morning of the first day: the day ends at the next turn of `DAY_MINUTES`, well past the floor.
+    world.minute = 4 * 60;
     applyAction(world, household.id, { action: 'set-auto', entityId: kid.id, auto: true });
     assert.equal(kid.auto, true, 'a child of seven could not be put on automation');
-    const on = world.tick;
-    let busy = 0;
-    for (let t = 0; t < 200 && kid.auto; t++) { stepWorld(world); if (kid.chore) busy++; }
+    const day = dayOf(world), on = world.tick;
+    let busy = 0, tired = false;
+    for (let t = 0; t < 300 && kid.auto; t++) {
+      stepWorld(world);
+      if (kid.chore) busy++;
+      if (kid.auto && dayOf(world) > day && world.tick - on >= DAY_FLOOR_TICKS) assert.fail(`the automation outlasted the day: still on at tick ${world.tick - on}`);
+      if (!kid.auto && world.events.some(event => event.actorId === kid.id && /decided they have done enough/.test(event.text))) tired = true;
+    }
     assert.equal(kid.auto, undefined, `a child of roll ${roll} was on automation for ever`);
-    assert.ok(world.tick - on <= childAutoTicks(roll) + 1, `the automation outlasted its time: ${world.tick - on} ticks`);
+    // It went off with the day, not before - unless the child tired of it by their roll, which is the one way it goes sooner.
+    if (!tired) assert.ok(dayOf(world) > day, `a child of roll ${roll} was taken off automation before the day was out, at tick ${world.tick - on}`);
     assert.ok(busy > 0, 'a child on automation found nothing to do');
-    // The notice: in the family's record for good, and on the child's row for a while - never how long it had left.
+    // The notice: in the family's record for good, and on the child's row for a while - never how long it had lasted.
     assert.ok(world.events.some(event => event.actorId === kid.id && /automation is off/.test(event.text)), 'the automation went off without a word');
     assert.match(row(world, household, kid.id).life || '', /^Auto went off/);
+    // And the "!": on the child's row, ranked with the family's other needs, until they are given something to do.
+    const asks = () => needsOf(view(world, household), kid.id).find(need => need.kind === 'child') || null;
+    assert.ok(asks(), 'no "!" when the child’s auto went off');
     step(world, NOTICE_TICKS);
     assert.doesNotMatch(row(world, household, kid.id).life || '', /^Auto went off/, 'the notice never left the row');
-    return world.tick - on;
+    assert.ok(asks(), 'the "!" left the row before the child was given anything');
+    // Called off what the automation had begun is not something to do; given a work is.
+    if (kid.chore) applyAction(world, household.id, { action: 'stop-chore', entityId: kid.id });
+    assert.ok(asks(), 'the "!" left the row when the child was only called off');
+    applyAction(world, household.id, { action: 'chore', entityId: kid.id, chore: 'child-tag' });
+    assert.equal(asks(), null, 'the "!" stayed on a child given something to do');
+    step(world, 1);
+    assert.equal(kid.autoNotice, undefined, 'the notice was kept on a child busy again');
+    validateWorld(world);
+    return { tired, ticks: world.tick - on };
   };
-  assert.deepEqual(CHILD_AUTO_TICKS, [18, 56]);
-  assert.ok(childAutoTicks(1) < childAutoTicks(10) && childAutoTicks(10) < childAutoTicks(OBEDIENCE_DIE), 'a better child is not trusted with longer');
-  lasting(1); lasting(20);
+  // Neither a hard child nor an easy one is trusted with longer: both go off with the day (the roll only lets a child tire of it).
+  const low = lasting(1), high = lasting(20);
+  assert.ok(!high.tired, 'a child of roll 20 tired of it in this class: the test proves nothing of the day');
   // An infant has nothing it could choose, and is refused in words.
   const { world, household } = family('childhood-auto', 7);
   const baby = household.members.map(id => world.entities[id]).find(p => ['son', 'daughter'].includes(p.kin?.role) && p.age >= 16);
   baby.age = 1; baby.task = 'rest';
   assert.throws(() => applyAction(world, household.id, { action: 'set-auto', entityId: baby.id, auto: true }), /too small/);
+  assert.ok(low.ticks > 0);
+});
+
+test('the rule: a child’s play lasts until the day ends - a spell of it between jobs on auto does not - and never sooner than the floor on a fast calendar', () => {
+  const { world, household, kid } = family('childhood-day', 6);
+  world.minute = 3 * 60;
+  const day = dayOf(world), on = world.tick;
+  applyAction(world, household.id, { action: 'chore', entityId: kid.id, chore: 'child-doll' });
+  let t = 0;
+  for (; t < 200 && kid.chore?.id === 'child-doll'; t++) stepWorld(world);
+  assert.ok(dayOf(world) > day, `the doll was put down before the day was out, after ${world.tick - on} ticks`);
+  assert.ok(world.minute - (day + 1) * DAY_MINUTES <= 20 * 2, `the doll was kept long past the day's end: minute ${world.minute}`);
+  // The play's own line, once, when it is over.
+  assert.ok(world.events.some(event => event.actorId === kid.id && /corn-husk doll/.test(event.text)), 'the day of play told the family nothing');
+  // On auto, play between jobs is a spell of the old couple of hours: the automation is what lasts the day.
+  const auto = family('childhood-day-auto', 6);
+  auto.world.minute = 3 * 60;
+  applyAction(auto.world, auto.household.id, { action: 'set-auto', entityId: auto.kid.id, auto: true });
+  const picks = new Set();
+  for (let n = 0; n < 40 && auto.kid.auto; n++) { stepWorld(auto.world); if (auto.kid.chore) picks.add(`${auto.kid.chore.id}:${auto.kid.chore.began ?? ''}`); }
+  assert.ok(picks.size >= 3, `a child on auto took up only ${picks.size} things in forty ticks: its play ran the day`);
+  // Four hours a tick: a day is six ticks, and the play lasts the floor at least.
+  const fast = family('childhood-day-fast', 6);
+  fast.world.director.phase = 'gathering';
+  const began = fast.world.tick;
+  applyAction(fast.world, fast.household.id, { action: 'chore', entityId: fast.kid.id, chore: 'child-tag' });
+  for (let n = 0; n < 100 && fast.kid.chore?.id === 'child-tag'; n++) stepWorld(fast.world);
+  assert.ok(fast.world.tick - began >= DAY_FLOOR_TICKS, `on a four-hour tick the play lasted ${fast.world.tick - began} ticks`);
+  validateWorld(world);
+});
+
+test('the rule: a child’s play is written into the family’s record as set out at most once a day', () => {
+  const { world, household, kid, father, mother, others } = family('childhood-set-out', 6);
+  // Nobody at home: the child goes off to play by themself whenever the play ends, and on auto takes up spell after spell.
+  for (const one of [father, mother, ...others]) one.location = { ...world.map.sites.gonzales, siteId: 'gonzales' };
+  applyAction(world, household.id, { action: 'set-auto', entityId: kid.id, auto: true });
+  const day = dayOf(world), plays = new Set();
+  for (let t = 0; t < 60 && dayOf(world) === day; t++) {
+    if (!kid.auto) applyAction(world, household.id, { action: 'set-auto', entityId: kid.id, auto: true });
+    stepWorld(world);
+    if (kid.chore && /^child-(play|stick-horse|doll|tag|hide|cart|hoop|marbles)$/.test(kid.chore.id)) plays.add(`${kid.chore.id}:${kid.chore.began}`);
+  }
+  assert.ok(plays.size >= 3, `the child took up play only ${plays.size} times, so this proves nothing`);
+  const said = world.events.filter(event => event.actorId === kid.id && event.type === 'assignment' && /set out: (play|ride a stick horse|make a toy|roll a hoop|marbles)/i.test(event.text) && Math.floor(event.minute / DAY_MINUTES) === day);
+  assert.ok(said.length <= 1, `the record was told a child set out to play ${said.length} times in one day`);
 });
 
 test('the rule: obedience decides how often a child dawdles, wanders off and switches their automation off - a lower roll always more, measured over many ticks', () => {

@@ -1,0 +1,186 @@
+{
+  "record": "real-time-limits-injections",
+  "date": "2026-09-29",
+  "files": [
+    "tests/real-time-limits.test.mjs",
+    "tests/need-ranking.test.mjs"
+  ],
+  "caught": 17,
+  "only": 15,
+  "of": 17,
+  "injections": [
+    {
+      "name": "a student's rider waits his calendar minutes again, stretched with the phase",
+      "file": "sim/encounters.mjs",
+      "expected": "a student's rider waits ninety real seconds",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a student's rider waits ninety real seconds, the same at Study and at Quick, and every question starts them again"
+      ]
+    },
+    {
+      "name": "a question put to the rider does not start his ninety seconds again",
+      "file": "sim/decision-budget.mjs",
+      "expected": "a student's rider waits ninety real seconds",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a student's rider waits ninety real seconds, the same at Study and at Quick, and every question starts them again"
+      ]
+    },
+    {
+      "name": "a rider stopped with a family nobody plays is put on the real clock",
+      "file": "sim/decision-budget.mjs",
+      "expected": "a question nobody is reading keeps its own count",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a question nobody is reading keeps its own count: an unplayed family's rider is not on the real clock"
+      ]
+    },
+    {
+      "name": "the rider goes to the page without his time left",
+      "file": "sim/encounters.mjs",
+      "expected": "a class the server does not measure",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a class the server does not measure spends none of it; the page is sent the real time left"
+      ]
+    },
+    {
+      "name": "a tick the server measured as no time is counted as a Study tick",
+      "file": "sim/decision-budget.mjs",
+      "expected": "a class the server does not measure",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a class the server does not measure spends none of it; the page is sent the real time left"
+      ]
+    },
+    {
+      "name": "a tick stepped in process counts no time, so a stepped class never lapses a work question",
+      "file": "sim/decision-budget.mjs",
+      "expected": "a hunter's question waits ninety real seconds",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a hunter's question waits ninety real seconds in every phase: a tick of four hours does not lapse it"
+      ]
+    },
+    {
+      "name": "the order to leave waits its day of the calendar again",
+      "file": "sim/auto.mjs",
+      "expected": "the order to leave waits three real minutes",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the order to leave waits three real minutes at every pace, with the calendar held only while it does"
+      ]
+    },
+    {
+      "name": "at Quick the order waits its three minutes past the day of grace, into the burning",
+      "file": "sim/auto.mjs",
+      "expected": "the order to leave waits three real minutes",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the order to leave waits three real minutes at every pace, with the calendar held only while it does"
+      ]
+    },
+    {
+      "name": "the order's \"!\" at Quick counts the three minutes the family will not get",
+      "file": "sim/auto.mjs",
+      "expected": "the order to leave waits three real minutes",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the order to leave waits three real minutes at every pace, with the calendar held only while it does"
+      ]
+    },
+    {
+      "name": "the road's question waits its twelve ticks again",
+      "file": "sim/road.mjs",
+      "expected": "the road's question waits ninety real seconds",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the road's question waits ninety real seconds at every pace before it lapses",
+        "¡Alto! waits thirty real seconds at every pace with the chase held: nobody moves until it is answered or lapses"
+      ]
+    },
+    {
+      "name": "the road's question goes to the page without its time left",
+      "file": "sim/road.mjs",
+      "expected": "the road's question waits ninety real seconds",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the server sends the time left on the call, on the army's questions, on the road's and on the order to leave",
+        "the road's question waits ninety real seconds at every pace before it lapses",
+        "¡Alto! waits thirty real seconds at every pace with the chase held: nobody moves until it is answered or lapses"
+      ]
+    },
+    {
+      "name": "¡Alto! lapses after three ticks again, whatever the pace",
+      "file": "sim/pursuit.mjs",
+      "expected": "waits thirty real seconds at every pace with the chase held",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "¡Alto! waits thirty real seconds at every pace with the chase held: nobody moves until it is answered or lapses"
+      ]
+    },
+    {
+      "name": "¡Alto! is given the road's ninety seconds",
+      "file": "sim/decision-budget.mjs",
+      "expected": "waits thirty real seconds at every pace with the chase held",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "¡Alto! waits thirty real seconds at every pace with the chase held: nobody moves until it is answered or lapses"
+      ]
+    },
+    {
+      "name": "the soldiers come on while the family decides",
+      "file": "sim/pursuit.mjs",
+      "expected": "waits thirty real seconds at every pace with the chase held",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "¡Alto! waits thirty real seconds at every pace with the chase held: nobody moves until it is answered or lapses"
+      ]
+    },
+    {
+      "name": "the family draws away from soldiers standing still while it decides",
+      "file": "sim/pursuit.mjs",
+      "expected": "waits thirty real seconds at every pace with the chase held",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "¡Alto! waits thirty real seconds at every pace with the chase held: nobody moves until it is answered or lapses"
+      ]
+    },
+    {
+      "name": "a hunter's question waits its two hours of the calendar again",
+      "file": "sim/chores.mjs",
+      "expected": "a hunter's question waits ninety real seconds",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a hunter's question waits ninety real seconds in every phase: a tick of four hours does not lapse it"
+      ]
+    },
+    {
+      "name": "a hunter's question goes to the page without its time left",
+      "file": "sim/chores.mjs",
+      "expected": "a hunter's question waits ninety real seconds",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a hunter's question waits ninety real seconds in every phase: a tick of four hours does not lapse it"
+      ]
+    }
+  ]
+}

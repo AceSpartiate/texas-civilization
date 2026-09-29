@@ -135,10 +135,11 @@ the family nothing but the job. It applies to children of two to nine; see §9 f
 
 A child of two or more has the Auto switch on their row now (an infant has none, and is refused it in words). On it, the child
 **finds themself things to do**: the jobs they are big enough for, most useful first - the eggs, the pail, the little ones, kindling,
-the birds, the hens - with play between, one after the other. It lasts `childAutoTicks` of their roll, **eighteen ticks at a 1 to
-fifty-six at a 20** (about three to nine minutes of a lesson at the Study pace; six hours to most of a farming day), and then goes
-off by itself: *"Tom has been good for as long as a child can be, and has stopped finding themself things to do."* The child may also
-switch it off themself (§4). **How long it has left is never shown**: it is their roll, and a number on the row would be the roll.
+the birds, the hens - with play between, one after the other. **Since 2026-09-29 it lasts until the day ends** (§12); until then it
+lasted `childAutoTicks` of their roll, eighteen ticks at a 1 to fifty-six at a 20. It then goes off by itself: *"Tom has been good for as
+long as a child can be, and has stopped finding themself things to do."* - and an "!" stands on the child's row until they are given
+something to do (§12). The child may also switch it off themself (§4). **How long it has left is never shown**: a child's row says what
+they are doing, never how long they will keep at it.
 
 ---
 
@@ -373,5 +374,59 @@ sim/acting.mjs; the whole rule is docs/FAMILY_PANEL.md §20 (`FIC-GONZ-730` to `
 - **Nobody gone is heard** (interactions audit M1): the dead and the taken let go of the family's little ones in the same tick, and
   neither `talkLines` nor `babyLines` gives a line to anybody gone.
 
-`ceiling:` the little ones taken in by the neighbours can be watched, and their own works at their own home are not open to them
-there; what they may do for the family that took them in is an owner's decision (docs/FAMILY_PANEL.md §20, decision 1).
+~~`ceiling:` the little ones taken in by the neighbours can be watched, and their own works at their own home are not open to them
+there; what they may do for the family that took them in is an owner's decision (docs/FAMILY_PANEL.md §20, decision 1).~~ **Decided
+2026-09-29: "Follow and watch"** - the student follows the family that took them in and watches it, and gives no orders (§12,
+docs/FAMILY_PANEL.md §20a).
+
+---
+
+## 12. Amendment, 2026-09-29 — until the day ends; follow and watch
+
+The owner, by multiple choice on the triage of the 2026-09-28 audits (docs/audits/2026-09-29-triage.md, D2 and D3):
+
+**D2, "Until the day ends."** Small children needed an order about every seventy-six seconds: play lasted six ticks, a child's auto
+eighteen to fifty-six by their roll, and a child with nothing to do stopped a parent after two; a child's auto going off raised no "!".
+In a family of eight to eighteen children that was most of what the student did (playthrough audit #9, design audit M7, M13, M26). Now:
+
+- **A child's play lasts until the day ends** (`allDay` on the play's step, sim/chores.mjs; sim/child-day.mjs `dayOver`): every kind of
+  play of §2, set by the student or taken up by a child alone at home for want of anybody to go to (§3). The play's own line goes into
+  the record once, when the day is over.
+- **A child's own automation lasts until the day ends** (§5). The jobs it finds and the play between go their old lengths - a spell of
+  play is its couple of hours (`spell`), so a child on auto still takes up the eggs, the pail and the hens between - and the automation
+  itself is what lasts the day. The child may still tire of it sooner by their hidden roll (§4); **the roll stays hidden**: two classes
+  the same but for their children's rolls still send every page the same bytes.
+- **An "!" when a child's auto goes off** (`autoOffAsking`, sim/childhood.mjs; public/family-panel.js `needsOf`, kind `child`, ranked
+  after work that has stopped to ask and before an offer): *"Tom's auto went off. Give Tom something to do, or put Auto on again."* It
+  stays until the child is given a work, play, or their auto again - not when they are only called off, and not when they take up play
+  alone - and it never says how long the auto had lasted. The row's "Auto went off" line is still there for six ticks.
+- **"Set out: play" at most once a day** (interactions audit M5, triage 2.3): the first play a child sets out to each day is written in
+  the record, and the rest are on the row and the map (`firstPlayToday`, sim/chores.mjs, in the child's `told`).
+- **The day** is the one the simulation already keeps, `Math.floor(minute / 1440)`: in a class whose families arrive by wagon it turns
+  at six in the morning, when the children wake (sim/clock.mjs `dateOf`), and in an older class at midnight, in the dark.
+- **Unchanged**: a child with nothing to do still goes to a parent after `IDLE_TICKS`; with play lasting the day that is at the day's
+  turn, or when the student calls a child off. Obedience, dawdling and wandering off (§4) are as they were; a child who wanders off from
+  a job is off at a spell of play, not the rest of the day.
+- `ceiling:` **never sooner than eighteen ticks** (`DAY_FLOOR_TICKS`, sim/child-day.mjs). On the real land's faster calendars a day is
+  six ticks or two, under a minute of a lesson, and an "!" on every child on auto every twenty seconds is the time sink the owner ruled
+  out (§1). A day counted in the student's own minutes there is the way out.
+
+**D3(a), "Follow and watch."** A student whose whole family is gone - everybody dead or a prisoner, the one meaning the ending uses
+(sim/ending.mjs `nobodyLeft`) - or whose little ones have all been taken in by a neighbour family (§11), with nobody else of the family
+left to play (a man serving with the army is still theirs), follows the family that took them in, or else the nearest neighbour family,
+and watches it. The whole rule, the page and the refusals are docs/FAMILY_PANEL.md §20a
+(sim/watching.mjs). Taken in, the little ones are on that family's page, where they are; when somebody grown of their own comes for
+them, the page is the family's own again. **D3(b)** (the age a child steps up at) and **D3(c)** (a lone father sent to the war with only
+small children at home) were not asked again: seven, and a warning, as built.
+
+**The two edges the triage found (D3).**
+
+- **A straggler at the refuge when the family turns home** is sent home after it: *"Tom came to Washington to find the family gone home.
+  Tom follows it home."* (`followTo`, sim/acting.mjs). Until now he stood at the refuge for the rest of the game.
+- **Little ones at home with no neighbour family near** - every one gone east, or with nobody grown at home - are not left without a word:
+  *"Nobody grown is left at home with Benita, Chana and Rosa, and there is no neighbour family near to take them in: every one has
+  gone. They wait at home."*, in the family's record, once a day while it is so (`nobodyNear`). `ceiling:` **they wait at home**: nobody
+  turns back for them, and a child of six is sent on no road. The family's order to leave goes by itself after its day and takes them
+  east, and at the refuge the families camped there take them in; a neighbour's wagon turning in for them is the way out.
+
+Evidence: HANDOFF.md, "Small children until the day ends; follow and watch (not released)".

@@ -1,5 +1,147 @@
 # Claude handoff — Astra foundation
 
+## Small children until the day ends; follow and watch — owner, 2026-09-29 (not released)
+
+Branch `owner-children-watch`, off origin/main (1859f219, which has `audit-triage-2026-09-29` in it); not pushed. The owner's answers
+to the triage's D1 to D4 ([audits/2026-09-29-triage.md](docs/audits/2026-09-29-triage.md)), by multiple choice; the triage marks
+D2, D3, 2.3's play line, 2.17 and its two found edges fixed, and records D1 and D4.
+
+- **D2, "Until the day ends"** ([CHILDREN §12](docs/CHILDREN.md)). A small child's play and a child's own auto last until the day
+  ends - the simulation's own day, `Math.floor(minute / 1440)`, which turns at dawn in a class whose families arrive by wagon -
+  instead of play's 6 ticks and auto's 18-56 by the roll (`sim/child-day.mjs` `dayOver`; `allDay` on the play's step in
+  `sim/chores.mjs`; `childAuto` is `{ day, since, picks }`, an old save's `{ until }` retimed when first seen). When a child's auto
+  goes off, an **"!"** (need kind `child`, after `asking`, before `offer`) stands on their row until they are given a work, play or
+  Auto again (`autoOffAsking`, sim/childhood.mjs; `autoOff: true` on the page). Obedience stays hidden (the page-bytes test still
+  holds); a spell of play between jobs on auto, or a wander, keeps its old two hours (`spell`). "Set out: play" is written at most
+  once a day per child (`firstPlayToday`; interactions M5's open half). `IDLE_TICKS` unchanged. `ceiling:` never sooner than 18 ticks
+  (`DAY_FLOOR_TICKS`): on the four- and twelve-hour calendars a day is 6 or 2 ticks, and the "!" would come every 20 seconds.
+- **D3(a), "Follow and watch"** ([FAMILY_PANEL §20a](docs/FAMILY_PANEL.md)). A student whose whole family is dead or prisoners
+  (the ending's `nobodyLeft`), or whose little ones were all taken in **with nobody else of the family left to play**, follows the
+  family that took them in, or else the nearest neighbour family by land, and watches it (`sim/watching.mjs`). `projectPage`
+  (sim/world.mjs, called by `server/app.mjs` `view`) sends that family's own student page, byte for byte less its controls (work,
+  ways of going, offers, call, rider, neighbours' asks, guided start), the student's own `householdId` and own ending, and
+  `watching` with a plain line: *"Everybody of the Proofwright family has died. You are following Anselmo's family, your nearest
+  neighbours, and watching what becomes of them. You cannot give orders."* Nothing of the Host's. `applyAction` refuses every order
+  (`watchRefusal`) but a tip put away and the family's name. Page: `#watching` in the status column, `body[data-watching]` takes off
+  the "!", the bar, Auto, the star, the card's sections, the watched family's own choosers; no tip; names read-only. **Judgement
+  call, flagged:** a father serving with the army keeps the family's own page (his questions are the student's, and his road home
+  fetches the little ones), since the owner's question was "the student with nobody left"; a prisoner of war does not count. Nothing
+  stored; no `saveVersion` move. The Host's page is unchanged.
+- **D3's two edges.** A straggler reaching the refuge after the family turned home follows it home (`followTo` for `returning` /
+  `home`). Little ones at home with no neighbour near are told of in the family's record once a day (`nobodyNear`,
+  `household.leftAlone`, validated); `ceiling:` they wait at home - the auto flight takes them east and the refuge's families take
+  them in.
+- **D1, "As now"**: foragers take anybody at home at 50%; no change. **D4**: *"neither. i have a plan for this that we'll implement
+  later."* - nothing built.
+- Also: `tests/empty-pause.test.mjs` parsed the stream's `event: ping` as a snapshot and failed on origin/main after the
+  `tier1-classroom` merge (the ping now goes first); it skips pings now. `scripts/acting-injections.mjs`'s "a dead family can win" was
+  stale against 1.4's `contenders` line; updated. `tests/family-commands.test.mjs`'s need order includes `child`.
+
+**Evidence** (same computer only; no Chromebook, LAN or classroom claim). New tests: 3 in `tests/childhood.test.mjs` (play until the
+day ends, spells and the floor; "set out" once a day; the auto test rewritten for the day and the "!"), 4 in `tests/watching.test.mjs`.
+`node scripts/childhood-injections.mjs` on the new and changed rules: **11 of 11** caught, 10 alone (a spell lasting the day also
+fails the once-a-day test, which then has too few plays to prove anything); `npm run test:watching-injections`: **15 of 15** caught, 13 alone (the order refusal and the whole watching page are shared by both watching tests)
+([evidence](docs/evidence/watching-injections.json)); `npm run test:acting-injections`: **25 of 25** caught, 17 alone ([evidence](docs/evidence/acting-injections.json); its "nobody takes the little ones in" now leaves the new `else` whole). New browser proof **`npm run
+test:watching`** (`scripts/watching-browser-proof.mjs`) **8 checks** at 1366x768 and 1024x768: everybody dies, the line and the
+followed family's column, no "!", bar, Auto, star, chooser or tip (a tip came back once a second on its first run - the page's own
+interval - fixed), the card offers nothing, an order sent anyway is refused in the server's words; the little ones taken in, the page
+follows that family and they are on its map, and when a grown daughter comes for them the page is the family's own again. It also
+found that a watching page must keep the student's own id (the title screen came back over the world). `npm test` **1743 tests, 1706 pass, 1 fail, 36 skipped**: the one is `save-retry`, run beside two browser proofs (known flaky under load), and passes alone; the first run's two failures (the empty-pause ping, the need order) are fixed above.
+Browser proofs re-run green: `test:children` **16** (it now calls play off from the bar instead of waiting it out, and checks the "!" when the child's auto goes off), `test:family-panel` 18, `test:tips` 13, `test:panels` 14, `test:acting` 7, `test:overlap` 167 screens / 31 states / **0 faults** (a first run beside `test:panels` had one: a town-talk bubble half under the first-meeting tip at 1024x600, not seen again alone). Only `test:watching`'s, `test:children`'s record and auto-off picture and the acting injections' evidence are committed.
+
+**Left:** the full `test:children-injections` evidence file was not re-run end to end (the new and changed injections were, above);
+`test:overlap` has no watching state; D3(b) and (c) were not asked again (seven, and a warning, as built).
+
+## Real-time limits: a rider 90 s, the order to leave 3 min, ¡Alto! 30 s with the chase held — owner, 2026-09-29 (not released)
+
+**The ask.** Owner, 2026-09-29, answering the triage's C2 with A (docs/audits/2026-09-29-triage.md 1.2 and 1.3): *"real-time
+budgets: a rider 90 s, the order to leave 3 min, ¡Alto! about 30 s with the chase held, and road and hunt questions timed in
+real seconds."* Claim `FIC-GONZ-906`. Branch `owner-real-time-limits` (off origin/main at 0ffa9663, with the triage branch merged).
+
+- **One clock, the military questions' own** (`sim/decision-budget.mjs`): `QUESTION_BUDGETS` = rider 90 s, flight 180 s, alto
+  30 s, road 90 s, work 90 s. Only for a question a **student is answering** (a played family at its screen, its answerer by hand:
+  `riderOnLimit`, `flightOnLimit`, `roadOnLimit`, `workOnLimit`); `openLimits` lists them and `spendDecisionBudget` spends each
+  tick's `realMs` on them in `world.decisionClock` (entries marked `limit`, skipped by `decisionLeft`/`decisionPressing`). Paused
+  time is never counted (`realTimeMeter`), the clock is in the save, and **a tick stepped in process counts as one Study tick**
+  (`STUDY_TICK_MS`, the crops' rule), so the sim stays deterministic and a stepped class plays like Study.
+- **What happens at the end is unchanged, and happens where it always did**; each module asks `limitOut`: the rider rides on
+  (`advanceEncounters`; every question put to him starts his 90 s again), the family is packed off (`advanceAuto` via
+  `flightWaited`), the road's question lapses (`advanceRoad`), ¡Alto! lapses and the family is taken (`advancePursuit`), the
+  hunter leaves the shot (`advanceChores`). A family nobody reads keeps its old counts (`PATIENCE_MINUTES`, `PASSING_MINUTES`,
+  `ROAD_PATIENCE_TICKS`, `ASK_PATIENCE`). `FLIGHT_PATIENCE`, `ALTO_PATIENCE_TICKS` and `askTicksLeft` are gone.
+- **¡Alto! holds the chase**: while it waits on an attended family, `runChase` is not run (soldiers stand) and the family is held
+  on the road (`advancePursuit` returns `waiting()`), until it is answered or its 30 s are out.
+- **The hunt's question at every phase**: it waited two hours of the calendar, one tick in the winter and the spring (9.5 s at
+  Study, 1 s at Quick). Now 90 real seconds anywhere. It holds only its person, not the class's calendar (`deciding` is unchanged
+  for work questions: one student's hunt must not slow thirty).
+- **The calendar holds stay bounded** by these (the rider's and the order's holds in `sim/clock.mjs deciding` now last at most
+  90 s and 3 min of real time).
+- **One judgement call, flagged:** at **Quick** the order's day of grace (`ORDER_GRACE_MINUTES`, 72 ticks at the held 20 minutes =
+  72 real seconds) comes before its 3 minutes, and the family is packed off then, as it was when that day was its whole wait - so
+  no farm is burned under a student still deciding (`flightWaited`, marked `ceiling:`). Study (19 ticks) and Brisk (45) get the
+  full 3 minutes. If the owner wants 3 minutes at Quick too, the burning has to wait on the order.
+- **The "!" counts real time** (`leftMs` on the encounter, `flight`, `flight.ask`, a work `chore.ask`; `needsOf` takes no `tickMs`
+  any more). The flight card and the flight tip no longer say "a day": "Answer before the time on the “!” runs out" / "No answer
+  in time". Server option `questionBudgets` (env `QUESTION_BUDGETS_MS`, JSON) shortens any of them for a proof; `test:road` uses it
+  to keep its old 12- and 6-tick lapses at its 1.5 s pace. **No save version**: a missing entry is nothing spent.
+- **Docs**: SCRAPE §14, ROAD_EAST, FAMILY_PANEL §11.7, COLONIES §5.7 and the flight amendment, GAME, TECH, LESSON's tip row,
+  HISTORY `FIC-GONZ-906`, the triage (1.2, 1.3 and C2 marked). docs/BATTLES.md and docs/TOWNS.md describe no patience today (TOWNS'
+  `ASK_PATIENCE` passage is the history of the errand fix) and are unchanged.
+
+**Evidence** (same computer only; no Chromebook or LAN claim):
+
+- `npm test`: **1720 tests, 1683 pass, 1 fail, 36 skipped** (the suspended tutorial). The one failure was the flight tip grown to
+  193 characters (limit 190); shortened, and **re-run at 3e81dc71: 1720 tests, 1684 pass, 0 fail, 36 skipped**.
+- `tests/real-time-limits.test.mjs` (7 tests): the rider at Study (10 ticks) and Quick (90) and reset by a question; zero-ms
+  ticks spend nothing and the page gets the real time left; the order at Study (19) and Brisk (45), the calendar held at 20 while
+  it waits, and at Quick the day of grace (72); the road's bog at Study (10) and Quick (90); ¡Alto! at Study (4) and Quick (30)
+  with the soldiers, the gap and the family's progress unchanged every tick it waits; the hunt's shot at 20- and 240-minute ticks
+  (10 each; it was 1 at 240); an unplayed family is not on the clock. Updated: `clock`, `road`, `auto`, `scrape-pursuit`,
+  `need-ranking`.
+- **Injections: `npm run test:real-time-limits-injections` 17 of 17 caught, 15 by the written test alone**
+  ([record](docs/evidence/real-time-limits-injections.json)); the two road injections also fail the ¡Alto! test and the
+  need-ranking projection test, which read the same code. `npm run test:tips-injections` 37 of 37 (four patterns moved to the new
+  code).
+- Browser proofs: `test:scrape-pursuit` 15 checks, `test:road` 7, `test:relay` (riders) green, `test:tips` 13 (the ¡Alto! "!"
+  reads "30s"), `test:auto` 14, `test:scrape` 7.
+
+**`server/class-days.mjs` is now pessimistic at its high end - flagged, not re-measured.** Its `ceiling:` asks for a re-measure
+when the calendar's holds change, and they did. The audit's scripted-student harness is not in the repository, so its rows
+(`c5s`, `k15`, `a30i`, `a30m`) could not be re-run. Measured instead, in process at Study, 30 played families whose students never
+answer anything (the upper bound on the holds), origin/main against this branch: seed `measure-idle` P1 847 → 666 ticks, P2 300
+→ 300, P3 1109 → 820; seed `measure-b` P1 848 → 665, P3 1082 → 789 (about −21% in P1 and −26% to −27% in P3). A class nobody
+plays is identical (560/300/392 both). A class that answers promptly should not move. `PERIOD_TICKS`' high end (P1 999, P3 1035)
+is therefore too high by up to about a fifth; re-measure with the audit's mix before the next release changes the Host's
+estimate. Found in passing, on both trees alike: seed `measure-c` (30 idle families) ran P3 for 13,656 and 13,462 ticks before the
+director completed - not caused by this change, and worth its own look.
+
+## "Done packing" back on its own card at 1366x768, and the creation-screen proof green again — 2026-09-29 (not released)
+
+Branch `wagon-done-fold` off origin/main (3dd5209d); not pushed. `npm run test:creation-screen` failed at 1366x768 - *"the
+button that ends the wagon at 1366x768 step is below the fold of its own card: #wagon-done "Done packing" is 58px past it"* -
+and on the released v2026.09.29.1 too.
+
+- **Cause.** The overlap work (d29a4ff3, 2026-09-28) moved packing the wagon to the right and, on screens wider than 760px,
+  made the *whole card* scroll (`overflow-y:auto`) with the list held open at `min-height:132px`. The words, the stock choice
+  (252px) and 132px of list stood above Done, so Done sat 58px under the card's fold at 1366x768 (177px at 1024x768), with the
+  list scrolling inside a card that scrolled. The proof did not say so on the day because it was already failing at its first
+  step: the title was redesigned the evening before (d08e28c1, `#creation-begin-title` *"Who will your family be?"*) and the
+  proof still expected *"Your family"*. The last green evidence was 00d76e7f (2026-09-27), before both.
+- **Fix** (`public/index.html`, `public/style.css`). Everything between the title and Done - the words, the stock choice and
+  the load - is in one scroller, `#wagon-body`; the heading, the refusal line (`#wagon-note`) and **Done packing** stay put in
+  the card's foot, which no longer scrolls as a whole. The list no longer scrolls by itself (one scroller, not two). The card's
+  place and size are unchanged, so nothing the overlap proof measures moved. The proof's title heading now expects *"Who will
+  your family be?"*.
+
+**Evidence** (same computer only; no Chromebook, LAN or classroom claim). `test:creation-screen` with only the heading
+corrected: **fails**, Done 58px past the fold at 1366x768; with the fix: **4 checks, 24 step-and-size measurements, pass**
+(Done 14px inside the card at 1366x768, 1024x768 and 390x844). Injected on the fixed tree - the card scrolling as a whole
+again (panel `overflow-y:auto`, `#wagon-body` not scrolling) - it fails with the same message (Done 1015px past the fold),
+then passes with the injection removed. `test:creation` 10 checks pass; `test:overlap` 167 screens / 31 states / 0 faults
+(the card's place and size unchanged; its evidence file not re-committed, to keep the merge small); the node tests that read the page or the wagon (`creation-words`, `creation`,
+`family-column`, `surname`, `wagon-load`, `classroom-doors`, `asset-http`, `lobby-ready`) 38 of 38; `npm test` **1737 tests,
+1701 pass, 0 fail, 36 skipped** (the suspended tutorial).
+
 ## The empty class pauses itself, any played family can win, the lobby shows who is ready — owner, 2026-09-29 (not released)
 
 Branch `owner-pause-win-lobby`, off origin/main (0ffa9663) with `audit-triage-2026-09-29` merged in; not pushed. The owner's

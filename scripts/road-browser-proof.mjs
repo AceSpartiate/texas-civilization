@@ -54,9 +54,11 @@ function inTheSpring(seed, playerCount) {
   return world;
 }
 
-// A tick every second and a half: the road's question holds the calendar twelve ticks for a played family, which is time to
-// read it and press; the hunt's shot is decided by the family's own patience and is not pressed here.
-const app = createClassroom({ seed: 'road-1638', playerCount: 8, tickMs: 1500, worldFactory: inTheSpring });
+// A tick every second and a half. Since 2026-09-29 a student's road question waits ninety real seconds and a work question
+// ninety (sim/decision-budget.mjs `QUESTION_BUDGETS`); this proof leaves several to lapse, so it shortens them to what they
+// were at this pace - the road's twelve ticks (18 s) and the hunt's six (9 s) - through the server's own option. That the
+// real budgets hold is tests/real-time-limits.test.mjs's to prove.
+const app = createClassroom({ seed: 'road-1638', playerCount: 8, tickMs: 1500, worldFactory: inTheSpring, questionBudgets: { road: 18_000, work: 9_000 } });
 assert.equal(app.state.world.period, 3, 'the class did not reach the spring');
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });

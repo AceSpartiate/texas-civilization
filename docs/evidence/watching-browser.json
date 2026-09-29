@@ -1,0 +1,278 @@
+{
+  "record": "watching-browser",
+  "date": "2026-09-29",
+  "environment": "Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x768.",
+  "pass": [
+    "gone-1366: everybody died; the page says so and follows Anselmo's family, whose people are the column - no \"!\", no bar, no Auto, no star, no tip, nothing of the Host's",
+    "gone-1366: Anselmo's card opens from the portrait and offers nothing to do",
+    "gone-1366: an order sent anyway is refused: \"Nobody of your family is left to give an order to.\"",
+    "gone-1024: everybody died; the page says so and follows Anselmo's family, whose people are the column - no \"!\", no bar, no Auto, no star, no tip, nothing of the Host's",
+    "gone-1024: Anselmo's card opens from the portrait and offers nothing to do",
+    "gone-1024: an order sent anyway is refused: \"Nobody of your family is left to give an order to.\"",
+    "taken-in: the little ones were taken in by Anselmo's family; the page follows that family and they are on its map",
+    "taken-in: Loreta Proofwright came for the little ones, and the page is the family's own again"
+  ],
+  "observed": {
+    "gone-1366": {
+      "watching": {
+        "why": "gone",
+        "householdId": "hh-1",
+        "name": "the Proofwright family",
+        "line": "Everybody of the Proofwright family has died. You are following Anselmo's family, your nearest neighbours, and watching what becomes of them. You cannot give orders.",
+        "of": "hh-3",
+        "ofName": "Anselmo's family",
+        "people": [
+          {
+            "id": "hh-3-parent-1",
+            "role": "father",
+            "age": 32
+          },
+          {
+            "id": "hh-3-parent-2",
+            "role": "mother",
+            "age": 30
+          },
+          {
+            "id": "hh-3-child-1",
+            "role": "daughter",
+            "age": 13
+          },
+          {
+            "id": "hh-3-child-2",
+            "role": "daughter",
+            "age": 12
+          },
+          {
+            "id": "hh-3-child-3",
+            "role": "son",
+            "age": 10
+          },
+          {
+            "id": "hh-3-child-4",
+            "role": "son",
+            "age": 7
+          },
+          {
+            "id": "hh-3-child-5",
+            "role": "son",
+            "age": 5
+          },
+          {
+            "id": "hh-3-child-6",
+            "role": "son",
+            "age": 2
+          },
+          {
+            "id": "hh-3-child-7",
+            "role": "son",
+            "age": 0
+          }
+        ]
+      },
+      "householdId": "hh-1",
+      "line": "Everybody of the Proofwright family has died. You are following Anselmo's family, your nearest neighbours, and watching what becomes of them. You cannot give orders.",
+      "body": "true",
+      "rows": [
+        "hh-3-parent-1",
+        "hh-3-parent-2",
+        "hh-3-child-1",
+        "hh-3-child-2",
+        "hh-3-child-3",
+        "hh-3-child-4",
+        "hh-3-child-5",
+        "hh-3-child-6",
+        "hh-3-child-7"
+      ],
+      "attention": 0,
+      "icons": 0,
+      "auto": 0,
+      "star": 0,
+      "readOnly": true,
+      "tip": false,
+      "hostKeys": [],
+      "panelLabel": "The people of Anselmo's family, whom you are watching",
+      "popups": []
+    },
+    "gone-1366-refused": {
+      "status": 400,
+      "body": {
+        "error": "Nobody of your family is left to give an order to."
+      }
+    },
+    "gone-1024": {
+      "watching": {
+        "why": "gone",
+        "householdId": "hh-1",
+        "name": "the Proofwright family",
+        "line": "Everybody of the Proofwright family has died. You are following Anselmo's family, your nearest neighbours, and watching what becomes of them. You cannot give orders.",
+        "of": "hh-3",
+        "ofName": "Anselmo's family",
+        "people": [
+          {
+            "id": "hh-3-parent-1",
+            "role": "father",
+            "age": 32
+          },
+          {
+            "id": "hh-3-parent-2",
+            "role": "mother",
+            "age": 30
+          },
+          {
+            "id": "hh-3-child-1",
+            "role": "daughter",
+            "age": 13
+          },
+          {
+            "id": "hh-3-child-2",
+            "role": "daughter",
+            "age": 12
+          },
+          {
+            "id": "hh-3-child-3",
+            "role": "son",
+            "age": 10
+          },
+          {
+            "id": "hh-3-child-4",
+            "role": "son",
+            "age": 7
+          },
+          {
+            "id": "hh-3-child-5",
+            "role": "son",
+            "age": 5
+          },
+          {
+            "id": "hh-3-child-6",
+            "role": "son",
+            "age": 2
+          },
+          {
+            "id": "hh-3-child-7",
+            "role": "son",
+            "age": 0
+          }
+        ]
+      },
+      "householdId": "hh-1",
+      "line": "Everybody of the Proofwright family has died. You are following Anselmo's family, your nearest neighbours, and watching what becomes of them. You cannot give orders.",
+      "body": "true",
+      "rows": [
+        "hh-3-parent-1",
+        "hh-3-parent-2",
+        "hh-3-child-1",
+        "hh-3-child-2",
+        "hh-3-child-3",
+        "hh-3-child-4",
+        "hh-3-child-5",
+        "hh-3-child-6",
+        "hh-3-child-7"
+      ],
+      "attention": 0,
+      "icons": 0,
+      "auto": 0,
+      "star": 0,
+      "readOnly": true,
+      "tip": false,
+      "hostKeys": [],
+      "panelLabel": "The people of Anselmo's family, whom you are watching",
+      "popups": []
+    },
+    "gone-1024-refused": {
+      "status": 400,
+      "body": {
+        "error": "Nobody of your family is left to give an order to."
+      }
+    },
+    "takenIn": {
+      "watching": {
+        "why": "taken-in",
+        "householdId": "hh-1",
+        "name": "the Proofwright family",
+        "line": "Nobody grown of the Proofwright family was left to see to the little ones, and Anselmo's family took them in. You are watching Anselmo's family, who have them now. You cannot give orders until somebody grown of your family comes for them.",
+        "of": "hh-3",
+        "ofName": "Anselmo's family",
+        "people": [
+          {
+            "id": "hh-3-parent-1",
+            "role": "father",
+            "age": 32
+          },
+          {
+            "id": "hh-3-parent-2",
+            "role": "mother",
+            "age": 30
+          },
+          {
+            "id": "hh-3-child-1",
+            "role": "daughter",
+            "age": 13
+          },
+          {
+            "id": "hh-3-child-2",
+            "role": "daughter",
+            "age": 12
+          },
+          {
+            "id": "hh-3-child-3",
+            "role": "son",
+            "age": 10
+          },
+          {
+            "id": "hh-3-child-4",
+            "role": "son",
+            "age": 7
+          },
+          {
+            "id": "hh-3-child-5",
+            "role": "son",
+            "age": 5
+          },
+          {
+            "id": "hh-3-child-6",
+            "role": "son",
+            "age": 2
+          },
+          {
+            "id": "hh-3-child-7",
+            "role": "son",
+            "age": 0
+          }
+        ]
+      },
+      "householdId": "hh-1",
+      "line": "Nobody grown of the Proofwright family was left to see to the little ones, and Anselmo's family took them in. You are watching Anselmo's family, who have them now. You cannot give orders until somebody grown of your family comes for them.",
+      "body": "true",
+      "rows": [
+        "hh-3-parent-1",
+        "hh-3-parent-2",
+        "hh-3-child-1",
+        "hh-3-child-2",
+        "hh-3-child-3",
+        "hh-3-child-4",
+        "hh-3-child-5",
+        "hh-3-child-6",
+        "hh-3-child-7"
+      ],
+      "attention": 0,
+      "icons": 0,
+      "auto": 0,
+      "star": 0,
+      "readOnly": true,
+      "tip": false,
+      "hostKeys": [],
+      "panelLabel": "The people of Anselmo's family, whom you are watching",
+      "popups": []
+    },
+    "fetchedAt": "home-3"
+  },
+  "shots": [
+    "docs/evidence/watching-gone-1366-line.png",
+    "docs/evidence/watching-gone-1366-card.png",
+    "docs/evidence/watching-gone-1024-line.png",
+    "docs/evidence/watching-gone-1024-card.png",
+    "docs/evidence/watching-taken-in-line.png",
+    "docs/evidence/watching-taken-in-fetched.png"
+  ]
+}
