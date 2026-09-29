@@ -1,6 +1,10 @@
 # Claude handoff — Astra foundation
 
-## Claude's temporary art, area C: soldiers, battles and famous people — owner, 2026-09-28 (worktree branch; not released)
+## Released as v2026.09.29.1 — 2026-09-29
+
+Everything below marked *(released in v2026.09.29.1)* shipped in this release: simpler work (one wood pile, auto, more hands, an axe each), the tutorial suspended and tips at first meeting, people drawn at their work, ambient life and chatter, sound and music, crops in real minutes with a slow winter and open stores until the Scrape, neighbours who repay (and count toward glory), who acts for a family, the flashback video, Stop for today / Continue / Delete in Classes, the overlap fixes, the errand list that stands still, the looks recolouring that finds the face, and Claude's temporary art in six areas (docs/CLAUDE_ART_PLAN.md). Verified on a clean tree at 9bed9f43: `npm test` 1713 tests, 1677 pass, 0 fail, 36 skipped (the suspended tutorial); 26 of 28 browser proofs green first time, `test:solo-game` green on rerun, `test:famous-people` green on one of two reruns (its Host frame sample is 2-7 frames; a follow-up is open). Same computer only; no Chromebook or LAN claim.
+
+## Claude's temporary art, area C: soldiers, battles and famous people — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The ask.** Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it makes
 the final versions."* Area C of docs/CLAUDE_ART_PLAN.md, drawn from the rig with a battle kit of its own; every frame `madeBy: "claude"`,
@@ -54,7 +58,7 @@ with its written intent and a compare list; Astra's frame or clip of the same na
   fire cycle, the march and the run read as those actions. At 150 px they are plainly a simpler hand: even limbs, stiff joints, tiny
   plain faces, guns as thin lines, and the rig's horse (a plank body on straight legs) beside her muscled ones. No likeness is claimed
   for anybody.
-## Claude's temporary art, area D: riders, horses, wagons, the carreta — owner, 2026-09-28 (worktree branch; not released)
+## Claude's temporary art, area D: riders, horses, wagons, the carreta — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The ask.** Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it
 makes the final versions."* Area D of [docs/CLAUDE_ART_PLAN.md](docs/CLAUDE_ART_PLAN.md): all fifteen items now have a Claude
@@ -98,7 +102,7 @@ were already delivered by Astra and need nothing (DS3, DS4, FS9, D16).
   are flat and simple beside her painted horses - no coat texture, legs straighter and knees less lifted than hers, the cattle long
   in the body, the end-on wagon mostly ox. Everything stays on her list.
 
-## Claude's temporary art, area F: terrain, trees, the norther, effects and the fights' ground — 2026-09-28 (worktree branch; not released)
+## Claude's temporary art, area F: terrain, trees, the norther, effects and the fights' ground — 2026-09-28 (released in v2026.09.29.1)
 
 Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it makes the
 final versions."* Area F of docs/CLAUDE_ART_PLAN.md, drawn in six modules (`scripts/claude-art/areas/land-*.mjs`, `AREA: 'land'`),
@@ -151,7 +155,7 @@ stand-ins* (area F). Each is drawn only where the game already asks for it, and 
   is drawn (already recorded failing at HEAD, above); `tests/save-retry.test.mjs` is timing-sensitive and failed once of four
   under a browser proof's load.
 
-## The parents' faces in How We Look: no hair over the face — owner, 2026-09-28 (branch `looks-face-2026-09-28` off `integration-2026-09-28` 600425eb; not released)
+## The parents' faces in How We Look: no hair over the face — owner, 2026-09-28 (released in v2026.09.29.1)
 
 The owner: "there seems to be a graphical glitch with the character creation screens for the mom and dad", then "the dad's
 hair covers his face in the preview". Seen on the installed release **v2026.09.28.1** (its `public/` is byte-identical to
@@ -190,7 +194,7 @@ still asked the title card for the suspended walk-through ("one task at a time")
 **Not done.** The installed launcher window was found running (its server not up); it was not touched. The ochre man's sow
 pose leaves a sleeve undyed; small, and away from the face.
 
-## Area A of Claude's temporary art: people at work and ambient poses — owner, 2026-09-28 (worktree branch; not released)
+## Area A of Claude's temporary art: people at work and ambient poses — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The ask.** Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as
 it makes the final versions."* and *"make sure the chop swings look natural"*. Area A of docs/CLAUDE_ART_PLAN.md, less the chop
@@ -238,7 +242,7 @@ it makes the final versions."* and *"make sure the chop swings look natural"*. A
   load of the browser proofs beside it; alone it passes), `test:work` 5, `test:children` 15, `test:disease` 8,
   `test:claude-art` every injection caught, `test:art` PASS.
 
-## Claude's temporary art, area E: buildings, houses, towns, Béxar, the Alamo, interiors — owner, 2026-09-28 (worktree branch; not released)
+## Claude's temporary art, area E: buildings, houses, towns, Béxar, the Alamo, interiors — owner, 2026-09-28 (released in v2026.09.29.1)
 
 Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it makes the
 final versions."* Every open item of area E in docs/CLAUDE_ART_PLAN.md (E1-E14; E15 was already in place) has a Claude-drawn
@@ -281,7 +285,7 @@ stand-in, `madeBy: "claude"`, named as the request asks, each on Astra's list st
   px) and hard to see there. Not done: the house-plot proof stops later at a server-side spacing assertion ("the refused spot
   is not over the first house as drawn") that none of this touches; its drawn-house checks at 0/90/180/270 pass.
 
-## Claude's temporary art, area B: children, babies and sickness — owner, 2026-09-28 (worktree branch; not released)
+## Claude's temporary art, area B: children, babies and sickness — owner, 2026-09-28 (released in v2026.09.29.1)
 
 Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it makes the
 final versions."* Every item of area B in docs/CLAUDE_ART_PLAN.md (B1-B11) now has a Claude-drawn stand-in, `madeBy: "claude"`,
@@ -320,7 +324,7 @@ each still on Astra's list; hers of the same name wins in the loader.
   single-object icons at 38 px. Not asked for yet: `-play-run-s`/`-n` and `-carry-water-s`/`-n` are drawn but the page does
   not read a child's heading about the yard (a `ceiling:` in `littleClip`).
 
-## A third of the pace in the winter, a real for three food — owner, 2026-09-28 (branch `winter-third` off `integration-2026-09-28` 0ee43284; not released)
+## A third of the pace in the winter, a real for three food — owner, 2026-09-28 (released in v2026.09.29.1)
 
 The owner's answers to BALANCE.md §13.4: **"A third in winter"** (`WINTER_SLOWER` 3: corn twelve real minutes, cotton eighteen, December to
 February, blended across the change; a `ceiling:`) and **"1 real for 3 food"** (the store's food lot three, six from half full after the
@@ -333,7 +337,7 @@ harder at fifteen and thirty 1.14 / 0.86 (unchanged); families rolled to corn 15
 to 38,784; the stay-home family 35 to 534, 12th to 15th; deaths 11. **Questions** (§14.4): the food limit 24 or 32; spare corn beyond
 one week or three.
 
-## Claude's temporary art: the foundation and the plan — owner, 2026-09-28 (worktree branch; not released)
+## Claude's temporary art: the foundation and the plan — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The ask.** Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of the remaining art. yours will be
 temporary. label yours so astra can replace as it makes the final versions."*, then *"add to the art requests list which items
@@ -390,7 +394,7 @@ worked example; parallel builders draw the rest area by area.
   flat shade, stiffer joints, small plain faces, arms in front of the body where hers turn three-quarter, a horse with straight
   tapered legs).
 
-## Slower in the winter, and corn ten food a plot — owner, 2026-09-28 (branch `scrape-market`, `integration-2026-09-28` 4f529cbb merged; not released)
+## Slower in the winter, and corn ten food a plot — owner, 2026-09-28 (released in v2026.09.29.1)
 
 The owner's answers to BALANCE.md §12.5: **"32 food"** after the Scrape (as built), **"10 food a plot"** for corn, and for the big
 winners **"increase the time until harvest during the winter. that way it feels more fluid."**
@@ -413,7 +417,7 @@ winners **"increase the time until harvest during the winter. that way it feels 
 pace (recommended), C the whole second period as winter; (2) corn is still far behind cotton - A leave, B a real for three food
 (recommended), C corn fifteen food a plot.
 
-## No limit until the Scrape, spare corn sold, corn four minutes and cotton six; the auto proof's clock — owner, 2026-09-28 (branch `scrape-market` off `integration-2026-09-28` db6d908a; not released)
+## No limit until the Scrape, spare corn sold, corn four minutes and cotton six; the auto proof's clock — owner, 2026-09-28 (released in v2026.09.29.1)
 
 The owner's answers to BALANCE.md §11.6: **"no limit on selling until the runaway scrape. after that, limit it to 4 per family."**,
 **"Sell spare corn too"**, **"i want 4 minutes for corn and 6 minutes for cotton in real life"** ("time speeds up and slows down too at
@@ -445,7 +449,7 @@ times. it'll have to adjust for that").
 **Questions for the owner** (BALANCE.md §12.5): (1) "4 per family" for food read as 32 food - A keep (recommended), B 16 food, C no food
 limit; (2) corn does not pay - A leave, B ten food a plot (recommended), C spare beyond one week; (3) winners in the tens of thousands
 again - A leave (recommended), B cotton a real a bale, C limit from the winter.
-## Nothing on the screen stands on anything else — owner, 2026-09-28 (worktree branch; not released)
+## Nothing on the screen stands on anything else — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The ask.** Owner, 2026-09-28: *"Check for UI elements that block others. Move them somewhere else."* Students play on
 Chromebooks (1366x768 and 1280x800, often inside a browser window with its bars, sometimes smaller); the Host goes on a projector.
@@ -510,7 +514,7 @@ piece that is not drawn, and every new piece of furniture should be added to `ST
 scripts/support/screen-furniture.mjs (a mute control, a video player). The walk-through offered to a late student on the morning of
 the fight ("sets your family up for the day ... when the class starts") reads wrong; that is the tutorial builder's.
 
-## Tips for the house, the field and going to town — owner, 2026-09-28 (branch `tips-house-field-store`; not released)
+## Tips for the house, the field and going to town — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The decision.** Owner, 2026-09-28, answering "is the road in and how to give an order enough for the first minutes?": **"Yes, add
 them"** - until the tutorial is rebuilt, a first-meeting tip for the house, the field and the store.
@@ -537,7 +541,7 @@ tip; "Choose a house" pressed while it stands, the plan opens and the tip is pla
 field's and the town's tips), with the popup check **seen failing** when the clearance and the hold were injected away ("a tip stands
 over the open house plan"). `npm run test:errand` **16 of 16**.
 
-## Delete a kept class from Classes, into the archive — owner, 2026-09-28 (branch `delete-kept-class` off `integration-2026-09-28` db6d908a; not released)
+## Delete a kept class from Classes, into the archive — owner, 2026-09-28 (released in v2026.09.29.1)
 
 The owner: **"Yes, with a confirm"**. [HOST_PAGE §2.9](docs/HOST_PAGE.md); how to get one back: [RECOVERY, *A deleted
 class*](docs/RECOVERY.md).
@@ -563,7 +567,7 @@ on the real land fell, haul and raise houses of pieces …"* (tests/house-plot.t
 **Also:** `test:classes` raced its own first tick - it asserted `tick > 0` the moment a late student's page opened, at 1.5 s a
 tick, and failed about half the runs here (twice under injection runs and once plain). It now waits up to 15 s for it.
 
-## Crops in real minutes, the market re-tuned, prisoners weighed 1.5; the clock test's riders pooled — owner, 2026-09-28 (branch `crops-real-minutes` off `integration-2026-09-28`; not released)
+## Crops in real minutes, the market re-tuned, prisoners weighed 1.5; the clock test's riders pooled — owner, 2026-09-28 (released in v2026.09.29.1)
 
 Two branches, off `integration-2026-09-28` (92fb2509), not pushed:
 
@@ -610,11 +614,11 @@ the crop a family holds at the end at the store's price; (2) cotton is the bette
 paid for corn - recommended: the director and the counter's default sell spare corn too; (3) crops in real minutes take 180 ticks at
 the Quick pace - recommended: keep real minutes, as asked.
 
-## Seasons and a limited market: crops in their real season, a store that fills — owner, 2026-09-28 (worktree branch; not released) — the seasons superseded the same afternoon (above)
+## Seasons and a limited market: crops in their real season, a store that fills — owner, 2026-09-28 (released in v2026.09.29.1) — the seasons superseded the same afternoon (above)
 
 The owner's answer to the design audit's blocker B9 (docs/audits/2026-09-28-design.md §3.1: *farming is a money pump - crops ripen
 in 18 ticks in any season, the store buys without limit, winners reach 122k-347k*), by multiple choice: **"Seasons and a limited
-market"**. Built on the worktree branch, origin/main merged, **not pushed, not merged to main, not released.**
+market"**. Built on the worktree branch, origin/main merged, **since released in v2026.09.29.1.**
 
 **What was built**
 
@@ -678,7 +682,7 @@ market"**. Built on the worktree branch, origin/main merged, **not pushed, not m
 its season comes in before the war ends - recommended: count a standing crop at the ending; (2) selling decides more than it did -
 recommended: the director and the counter's default sell spare food within the store's want; (3) staying in the burn zone beats
 going again - recommended: prisoner weight 1.5; (4) the market's invented numbers.
-## A drawn axe at the work — owner, 2026-09-28 (branch work-axe-2026-09-28 off integration-2026-09-28; not released)
+## A drawn axe at the work — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The ask.** Owner, answering the work-drawing question: *"Add a drawn axe"* - until Astra delivers `-chop`, `-notch` and
 `-split`, felling, the lane, the bee tree, the carreta's wheels, raising the house and splitting rails show a felling axe in
@@ -700,7 +704,7 @@ hand, moving with the swing, in place of the hoe look; a maul for splitting rail
   2 failing, both on files this branch does not touch and present at its base 92fb2509: `tests/host-view.test.mjs` (a student
   sent the idle builder's `amb` for people it cannot see) and the 15-minute news-phase test in `tests/clock.test.mjs`.
 
-## Sound in class: everything on, quiet — owner, 2026-09-28 (branch `audio-quiet-default` from `integration-2026-09-28`; not released)
+## Sound in class: everything on, quiet — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The decision.** Owner, answering AU1 (docs/AUDIO.md §9): **"Everything on, quiet."** A student's page in a class now
 starts with music and effects on and the master volume at **30%** (`STUDENT_MASTER`, public/audio-mix.js), against 80% for
@@ -722,7 +726,7 @@ student's press not starting the engine → *"the join flow's presses did not st
 
 **Not claimed.** Whether 30% is right in a real room of thirty Chromebooks; `STUDENT_MASTER` is the one number to move.
 
-## A class ended by mistake is continued from Classes, paused — owner, 2026-09-28 (branch `continue-ended-class` off `integration-2026-09-28` a07b95ab; not released)
+## A class ended by mistake is continued from Classes, paused — owner, 2026-09-28 (released in v2026.09.29.1)
 
 The owner, asked whether a class ended part-way through a period may be continued: **"Yes, allow Continue"**. Removes the
 `ceiling:` of [HOST_PAGE §2.8](docs/HOST_PAGE.md); End Game keeps its two presses.
@@ -751,7 +755,7 @@ town keeper's ambient `amb` field) fails identically with a07b95ab's own code pu
 many ticks of watching a rider come …"* (tests/clock.test.mjs, 13 in 100 against 8, a statistical count that took 12-13
 minutes under load) touches nothing of this branch.
 
-## Help to another family earns hidden glory — owner, 2026-09-28 (branch `neighbours-glory`, off `integration-2026-09-28`; not released)
+## Help to another family earns hidden glory — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The decision.** Owner, 2026-09-28, answering the neighbours builder's three questions by multiple choice: **glory for help,
 "Any help"** - any help to another family earns hidden glory at the support weight; wagon room **"Goods only (as built)"**; lending
@@ -787,7 +791,7 @@ which failed the same way on its base a07b95ab and is fixed on the integration b
 `test:neighbours` **8 of 8** (new check: both families' *What earned glory* lists the raising and the wagon room with their points);
 `test:ending` **10 of 10**. Both proofs run after the merge. Not pushed.
 
-## Each feller needs an axe — owner, 2026-09-28 (branch `axe-per-feller`, off `integration-2026-09-28`; not released)
+## Each feller needs an axe — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The decision.** The owner answered FAMILY_PANEL.md §21.6's first question: *"Each needs an axe."* Felling now holds a felling axe of
 its own, one copy a feller (sim/chores.mjs `axeFor` 'own': held, never shared), released however the felling ends (§4c's counted
@@ -806,7 +810,7 @@ on stopping; a feller on auto waiting about the place and taking the axe up). **
 new tests. Updated on purpose: felling (two fellers are given two axes), tools and war-rifle (the refusal's new words; the
 shared-at-home test uses the lane). `npm test` **1631 of 1631 run pass** (1668 tests, 37 skipped). Browser, same computer: `test:auto` 14, `test:family-panel`, `test:biome-game` 6, all passing.
 
-## The errand proof green again: the list stands still, no tip over the popup, the horses held out — 2026-09-28 (not released)
+## The errand proof green again: the list stands still, no tip over the popup, the horses held out — 2026-09-28 (released in v2026.09.29.1)
 
 **The ask** (owner, 2026-09-28): `npm run test:errand` was red on main (check 3, "something is drawn over the popup's own
 controls: Got it") and flaky on branches (a + press on a detached button; the new wagon quoted "Rides the horse").
@@ -832,7 +836,7 @@ controls: Got it") and flaky on branches (a + press on a detached button; the ne
 - **Evidence** (same computer only): `npm run test:errand` 15 of 15, twice; `npm run test:tips` 11 of 11; `npm test` 1645 tests, 1609 pass, 0 fail, 36 skipped. origin/main had
   nothing new at the final merge. `docs/evidence/errand-browser.json` rewritten by the proof.
 
-## `test:gonzales-town` on main 7b4218d: the proof's timing, not the game; and glory named during play — 2026-09-28 (worktree branch; not released)
+## `test:gonzales-town` on main 7b4218d: the proof's timing, not the game; and glory named during play — 2026-09-28 (released in v2026.09.29.1)
 
 **`test:gonzales-town`: the proof, not the game.** Reproduced on a clean origin/main 7b4218d: every check passed up to the
 Host's, which got `{"beats":[],"cast":0}`. The reported misses of "street-alarm" and "crossing-hold" did not repeat on this
@@ -879,75 +883,7 @@ outside the ending (`public/ending.js`, `sim/ending.mjs`).
   `test:battle-gonzales` 12/12 and `test:family-panel` 17/17.
 - `npm test`: **1619 tests, 1583 pass, 0 fail, 36 skipped** (the guided start's, which is switched off), in 16 min.
 
-## Seasons and a limited market: crops in their real season, a store that fills — owner, 2026-09-28 (worktree branch; not released)
-
-The owner's answer to the design audit's blocker B9 (docs/audits/2026-09-28-design.md §3.1: *farming is a money pump - crops ripen
-in 18 ticks in any season, the store buys without limit, winners reach 122k-347k*), by multiple choice: **"Seasons and a limited
-market"**. Built on the worktree branch, origin/main merged, **not pushed, not merged to main, not released.**
-
-**What was built**
-
-- **The farming year**, `sim/seasons.mjs` (`CROPS`, `inSeason`, `cropNow`, `plantingRefusal`, `ripe`, `ripensAt`, `readyWords`,
-  `fieldInvalid`). On the real land a crop goes in only in its window and ripens after its days on the class's own calendar: a
-  **garden of turnips and greens** Sept 1 - Apr 30, 42 days, one seed a plot, food; **corn** Feb 15 - Apr 15, 120 days; **cotton**
-  Mar 20 - May 15, 150 days. A family reaching raw land in September plants a garden (ready about November 9 if sown the first
-  morning); nothing sown in corn's or cotton's season comes in before the war ends. The question at the rows offers the season's
-  crops open and the rest closed in words; silence plants the family's own crop in its season, then a garden, then the other
-  (`field.own` keeps the crop it came meaning to grow while a garden stands). The harvest's refusal says when: *"The garden is not
-  ready: it will be about November 9."* The invented Gonzales country keeps the eighteen-tick crop (`RIPEN_TICKS`, a lesson rhythm);
-  a crop sown in a class saved before today ripens as promised. `HIST-TEX-720` (Harris, the *Telegraph*, Bryan, Holley, Taylor),
-  `FIC-GONZ-721`. **No save version moved**: `sownMinute` and `own` are absent on old saves and mean "as it was".
-- **The limited market**, `sim/market.mjs` (`MARKET`, `heldAt`, `tierAt`, `marketSale`, `recordSale`, `marketWords`, `priceNow`,
-  `marketRefusal`, `marketsInvalid`). Each town's store wants 30 food and 4 bales for every family near it, its weaver 2 bales; full
-  price to half, half price to full (a real for ten food, a real a bale; the weaver a real or a food and a half), nothing when full; it
-  sells on its whole want in 30 calendar days. Used by every road to the store: the errand (`sim/errands.mjs` `reckon`,
-  `carryOutErrand`, `errandOffers` - the list shows the price now and the room left, a full store's line is shut in its words), the
-  counter (`sim/shops.mjs` `counterRefusal`, `takeCounter`) and the director's own errands (`sim/chores.mjs` the `sell` step;
-  `sell-cotton` and `sell-food` refused at a full store, so the neighbours' director does not send them). Outside the keeper's purse
-  as before (owner, 2026-09-16); coin stays the counter's default (owner, 2026-09-27). `world.markets` absent on old saves = a store
-  holding nothing. `FIC-GONZ-722`.
-- **The guided start on the real land** - **dormant**: the owner suspended the guided start the same day (`LESSON_ENABLED` off,
-  merged from origin/main after this was built); the changes stay for whoever rebuilds it (docs/LESSON.md, amended 2026-09-28; `sim/lesson.mjs`): the plant step says only a garden
-  will grow this late in the year; the harvest step finishes once a crop stands on the calendar and says when it will be ready; the
-  harvest is allowed on every step after it (`AFTER_HARVEST`); the sell step asks for food while the crop grows. The invented country's
-  lesson is unchanged. Coordination: another builder is narrowing the gate and adding tips; this touched only the plant, harvest and
-  sell steps' words and the three `allow` lists after the harvest.
-- **Found by the balance measure and mended**: a planter who reaches the rows when nothing is open (the seed gone to another planter
-  of the same field, or no crop in season) plants nothing (`noneOpen` on the `crop-choice` question, the crop's steps gated on the
-  crop chosen) - before, the first answer was planted, and cotton went in in November.
-- **Art**: a garden is drawn with the young cotton's low leaves (`stand-in:` in `public/field-surface.js`); request *Request
-  2026-09-28 — the garden* in docs/ART_REQUESTS.md (`garden-young`, `garden-mature`), listed under *Stand-ins in use*.
-
-**Evidence**
-
-- `tests/seasons.test.mjs` (8; the guided-start one skipped while the owner has it off) and `tests/market.test.mjs` (4); **16 of 16
-  injections caught** with the guided start off (17 of 17 before the suspension was merged),
-  `docs/evidence/seasons-market-injections.json` (renamed crops-market-injections.json) (`node scripts/seasons-market-injections.mjs`).
-- Tests changed with reasons: `tests/errands.test.mjs` (twenty bales for food fetch thirty food at a filling store, not forty),
-  `tests/rumour-story.test.mjs` (resolved to origin/main's wider rule for the latest word).
-- **Balance** ([docs/BALANCE.md](docs/BALANCE.md) §10; [evidence/balance-measure.json](docs/evidence/balance-measure.json),
-  [balance-study.json](docs/evidence/balance-study.json)), measured on the branch before merging origin/main: class winners at about
-  **2,044 / 4,800 / 8,212** (five / fifteen / thirty families) against 122,138 / 231,219 / 347,413; mean coin at the end 10 against
-  485. The means die matters (three reales index 0.53, ten 1.46; it did nothing before), farming harder matters (1.28 against 0.73),
-  the crop choice does not (0.99 against 1.01). Fighting and selling dominate more than before (*all, sells* 3.71). Staying home: one
-  class of 210 won (five families), none of fifteen or thirty, as before. Staying in the burn zone beats going again (0.81 against
-  0.70); a prisoner weight of 1.5 would put it back below. Food does not constrain more (S11 not addressed by seasons). Deaths 301
-  against 274 (the war's, re-rolled). Class time: unchanged (1,252 ticks a class); the guided start is shorter on the real land.
-- After merging origin/main (ef4d4f73; then 7b4218d3, the flashback, after which `npm test` was run again): **`npm test` 1,591 pass, 0 fail, 37 skipped** after the last merge (the guided start's, switched
-  off; 784 s); injections 16 of 16; **`test:ending` 12 checks, `test:auto` 14 checks** (one run of auto under load timed out at its
-  planting step and passed alone), `test:lesson` skips itself (tutorial off). **`test:errand` is not green**: updated for the market
-  (the cotton line shows the store's price and its room, *"The store is buying: full price for about 10 bales more, then half until
-  it has 20 bales."*; fourteen bales bring 24 reales - ten at two, four at one), it passed its first 13 checks, those two included,
-  on the first merge; on the tree merged with ef4d4f73 it fails at check 3 exactly as origin/main's own run does (the first-meeting
-  tip drawn over the popup's controls). Other races later in it: the popup's lines are redrawn whenever the family's stock changes
-  (food every tick), and the new-wagon step can find a rider home already. A task was offered to steady it. `test:trade` does not
-  exist (`test:trade-animation` is the neighbours' trade and was not touched).
-
-**Questions for the owner** (BALANCE.md §10.9, each with a recommendation): (1) what the crop choice should mean when nothing sown in
-its season comes in before the war ends - recommended: count a standing crop at the ending; (2) selling decides more than it did -
-recommended: the director and the counter's default sell spare food within the store's want; (3) staying in the burn zone beats
-going again - recommended: prisoner weight 1.5; (4) the market's invented numbers.
-## One wood pile, felling and building on auto, more hands faster — owner, 2026-09-28 (worktree branch; not released)
+## One wood pile, felling and building on auto, more hands faster — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The ask.** Owner, 2026-09-28: *"the tasks are way too complicated. Why do we need multiple action buttons for moving logs? That
 should be consolidated and an automatic part of felling trees. Any task that pulls from wood should be able to pull from the
@@ -999,7 +935,7 @@ sent to town), biome-game. `scripts/house-plot-browser-proof.mjs` stops at *the 
 TOWNS §4b); clearing and fencing on auto (built: next nearest plot, never survey); the hands curve (built: 1/.8/.6/.4, four, a fifth
 refused); the pile cap (built: the house's want plus ten).
 
-## Ambient life and chatter: nobody idle stands about, and neighbours talk in short lines — owner, 2026-09-28 (worktree branch; not released)
+## Ambient life and chatter: nobody idle stands about, and neighbours talk in short lines — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The ask**, verbatim: *"introduce "chatter" while you're at it. i don't want to see npc just standing around when they're idle.
 they should participate in various things to make them appear active. they should talk to each other too via chat bubbles over
@@ -1047,7 +983,7 @@ person does anything new (the famous people keep their own art); phones and a Ch
 
 
 
-## Four blockers of the design audit fixed: Stop for today, no glory between periods, the load for the east, a portrait only chooses — 2026-09-28 (worktree branch `worktree-agent-a0f627ea23082156d`, origin/main merged at 59a7dad and again with the classroom blockers e549ec1; not released)
+## Four blockers of the design audit fixed: Stop for today, no glory between periods, the load for the east, a portrait only chooses — 2026-09-28 (released in v2026.09.29.1)
 
 Owner, 2026-09-28: *"check for problems with the game ... things that would prevent the game from being played as intended"*,
 then *"fix the blockers when they come in"*. [docs/audits/2026-09-28-design.md](docs/audits/2026-09-28-design.md) B2, B4, B7,
@@ -1118,7 +1054,7 @@ pass first) — **identically with the page and proof as they were before this b
 press on a portrait leaves the main person) is therefore not reached; `test:family-panel` and `test:scrape-pursuit` prove B11 in
 the browser. Also: glory is named during play in two recall notes (`sim/camp.mjs` "loses the glory of enlisting",
 `public/family-panel.js`/`app.js` "loses glory") — against MONEY_AND_GLORY §4, left for the owner.
-## People at work, drawn at the work — owner, 2026-09-28 (worktree branch; not released)
+## People at work, drawn at the work — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The ask.** Owner, 2026-09-28: *"When someone is working, I should see them actually working, not just standing near their
 task. If art requests need to be updated, please do that."*
@@ -1159,7 +1095,7 @@ task. If art requests need to be updated, please do that."*
   `tree-fall`); a neighbour seen at work is still drawn standing (the projection sends a student only a broad task); the digging
   of a well is drawn beside the yard point, not in a drawn well (item 4's `-dig-well`).
 
-## The flashback: each family's story as a minute of video, made and kept on the Host's computer, with the trip home — owner, 2026-09-28 (worktree branch; not released)
+## The flashback: each family's story as a minute of video, made and kept on the Host's computer, with the trip home — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The ask.** Owner, 2026-09-28: *"a full family recap and flashback story. it should be a 1 minute video generated from key
 points and decisions they made, recorded and saved on the host computer and played back for the student at the [end] of the
@@ -1210,7 +1146,7 @@ worst cases): 5 families in 66 s (51 s at a quiet moment), 15 in 369 s (24.6 s e
 made; sickness on the road home; length; the Matamoros prisoners). Not tried on a Chromebook or a real teacher PC: same-computer
 headless Chrome only. A class that ends with the Host page closed makes no videos until the Host page is opened.
 
-## The tutorial suspended; tips at first meeting; the "!"s ranked — owner, 2026-09-28 (worktree branch; not released)
+## The tutorial suspended; tips at first meeting; the "!"s ranked — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The decisions.** Owner, 2026-09-28: "fix the blockers" (design audit B8, S4-S6, S8, S33, S35; playthrough audit §5), and by
 multiple choice on how the later systems are taught, **"Short tips at first meeting"** - the first time each new thing appears,
@@ -1252,7 +1188,7 @@ an order" enough for the first minutes, or do you want the house, the field and 
 is rebuilt? (b) The "Resume tutorial" tip and the lesson's narrowed gate stay in the tree, switched off - keep them for the rework
 or delete them? (c) `ceiling:` a tip with under 200px beside an open card waits under the card.
 
-## Who acts for a family: the one with it answers the flight; the oldest child steps up — owner, 2026-09-28 (worktree branch; not released)
+## Who acts for a family: the one with it answers the flight; the oldest child steps up — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The decision.** Owner, 2026-09-28: "fix the blockers", and by multiple choice for a family left with nobody who can act: **"The
 oldest child steps up"** - a child of about seven or older can act for the family in an emergency (flee, fetch water, mind the
@@ -1301,7 +1237,7 @@ took them in (A watch / B the road's children's works / C that family's road que
 steps up at (A seven / B eight / C five for the order only); a lone father sent to the war with only small children at home (A
 warned / B refused / C only once a neighbour agrees).
 
-## Sound and music, made by the page — owner, 2026-09-28 (worktree branch; not released)
+## Sound and music, made by the page — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The request.** Owner, 2026-09-28: *"also: we need audio. we need sound effects, music, etc. everything has to be free, and
 shouldn't prevent me from selling the game in the future."* Design, sound list and owner questions: **docs/AUDIO.md**;
@@ -1342,7 +1278,7 @@ are formant sketches (`ceiling:`; AU3 is the way out).
 **Owner questions** (docs/AUDIO.md §9, recommendations built): AU1 student default; AU2 what the projector plays; AU3
 CC0 recordings for animals and the baby; AU4 the music list; AU5 reduced motion; AU6 solo default; AU7 documented bugle calls.
 
-## Neighbours remember and repay: one ledger of help between families, repaid when needed, named at the ending — owner, 2026-09-28 (worktree branch; not released)
+## Neighbours remember and repay: one ledger of help between families, repaid when needed, named at the ending — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The decision.** Owner, 2026-09-28, by multiple choice on docs/audits/2026-09-28-design.md B5 ("help between families is recorded
 and never used again"): **"Yes: they remember and repay"** - a family you helped offers help back when you need it, and helping is
@@ -1391,7 +1327,7 @@ near families at once; no seats for people in another family's wagon, no loan of
    the families travel together to one refuge; (c) yes, the children ride with the other family and rejoin at the refuge.*
 3. A **loan of a tool, a horse or an ox** as repayment? *(a) not now; (b) yes, for a day's work, returned when it ends.*
 
-## Classroom blockers: class size, late students, reconnecting, an unclean stop, several classes, several class days — owner, 2026-09-28 (worktree branch; not released)
+## Classroom blockers: class size, late students, reconnecting, an unclean stop, several classes, several class days — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The ask.** Owner, 2026-09-28: *"check for problems with the game ... things that would prevent the game from being played as
 intended"*, then *"fix the blockers when they come in"*; on class length, by multiple choice, **"Plan for several class days"** -
@@ -1448,7 +1384,7 @@ student page carrying on by itself 4.8 s after; `test:host-view` 8, `test:host-l
 (`test:join*` do not exist in package.json.) Not proved: a Chromebook asleep, Wi-Fi roaming, a real Windows restart or shutdown
 (the kill stands in), 30 real devices.
 
-## One army: a column and its patrols strip a family once between them; families at Lynchburg move on — owner, 2026-09-28 (worktree branch; not released)
+## One army: a column and its patrols strip a family once between them; families at Lynchburg move on — owner, 2026-09-28 (released in v2026.09.29.1)
 
 **The decision.** Owner, 2026-09-28, by multiple choice: **"One army"** - once a Mexican column or one of its patrols has
 stripped a family, neither the column nor any of its patrols troubles that family again (docs/SCRAPE.md §16 e). Before, "never
