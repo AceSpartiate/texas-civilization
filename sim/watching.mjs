@@ -23,7 +23,8 @@
 // that family, role `student`) - its people, its land, its journal, the country as its people see it - and nothing of the Host's
 // and nothing of any other family. Its controls are taken off: no work, no ways of going, no offers, no call, no rider's
 // conversation, no guided start. A plain line says what happened and whose family they are watching (`watching.line`). At the
-// class's end their own family's ending is theirs, not the watched family's.
+// class's end their own family's ending is theirs, not the watched family's; and their own man's fight, its card and the account of
+// what became of him stay theirs all along (sim/world.mjs `ownWar`, 2026-09-29).
 //
 // **They give no orders** (`watchRefusal`, sim/world.mjs `applyAction`): every order is refused in words that say why, except
 // putting a tip away and naming the family - neither touches the world.
