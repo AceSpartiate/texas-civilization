@@ -98,6 +98,44 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
+    "claude-house-loopholed": {
+      "image": "/assets/claude-standins/claude-house-loopholed.png",
+      "width": 288,
+      "height": 203,
+      "bytes": 108203,
+      "sha256": "b5155a720266e0400a7c1625f095a38bac5f621d65af1540c73d9a6eeb403869",
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 288,
+          "h": 203
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-window-lit": {
+      "image": "/assets/claude-standins/claude-window-lit.png",
+      "width": 1200,
+      "height": 250,
+      "bytes": 13284,
+      "sha256": "af75ff80c097cc9ba55ce5d643697b1472170a8d694b3ca6e676e9b35f1d51de",
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek",
+      "layout": {
+        "rows": 1,
+        "columns": 4,
+        "cell": {
+          "w": 300,
+          "h": 250
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
     "claude-house-ends": {
       "image": "/assets/claude-standins/claude-house-ends.png",
       "width": 808,
@@ -571,6 +609,91 @@
       "label": "interior saddlebag",
       "kind": "claude-interior-saddlebag"
     },
+    "house-loopholed": {
+      "sheet": "claude-house-loopholed",
+      "x": 0,
+      "y": 0,
+      "w": 288,
+      "h": 203,
+      "anchorX": 0.4948,
+      "anchorY": 0.936,
+      "logicalHeight": 181,
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "house-loopholed: item 1: a flat-roofed stone house, a parapet about four feet high, loopholes in its walls, at the stone-tile-house scale",
+      "source": "svg/house-pieces/claude-house-loopholed.svg",
+      "label": "house loopholed",
+      "kind": "claude-house-loopholed"
+    },
+    "window-lit-adobe-flat": {
+      "sheet": "claude-window-lit",
+      "x": 0,
+      "y": 0,
+      "w": 300,
+      "h": 250,
+      "anchorX": 0.495,
+      "anchorY": 0.948,
+      "logicalHeight": 181,
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek",
+      "replaceWith": "window-lit-adobe-flat: item 2: a lit-window overlay registered to the building it overlays",
+      "source": "svg/house-pieces/claude-window-lit-adobe-flat.svg",
+      "label": "window lit adobe flat",
+      "kind": "claude-window-lit"
+    },
+    "window-lit-house-jacal": {
+      "sheet": "claude-window-lit",
+      "x": 300,
+      "y": 0,
+      "w": 300,
+      "h": 250,
+      "anchorX": 0.5,
+      "anchorY": 0.952,
+      "logicalHeight": 166,
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek",
+      "replaceWith": "window-lit-house-jacal: item 2: a lit-window overlay registered to the building it overlays",
+      "source": "svg/house-pieces/claude-window-lit-house-jacal.svg",
+      "label": "window lit house jacal",
+      "kind": "claude-window-lit"
+    },
+    "window-lit-jacal-poor": {
+      "sheet": "claude-window-lit",
+      "x": 600,
+      "y": 0,
+      "w": 300,
+      "h": 250,
+      "anchorX": 0.5017,
+      "anchorY": 0.952,
+      "logicalHeight": 167,
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek",
+      "replaceWith": "window-lit-jacal-poor: item 2: a lit-window overlay registered to the building it overlays",
+      "source": "svg/house-pieces/claude-window-lit-jacal-poor.svg",
+      "label": "window lit jacal poor",
+      "kind": "claude-window-lit"
+    },
+    "window-lit-cabin-small": {
+      "sheet": "claude-window-lit",
+      "x": 900,
+      "y": 0,
+      "w": 300,
+      "h": 250,
+      "anchorX": 0.5,
+      "anchorY": 0.928,
+      "logicalHeight": 243,
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek",
+      "replaceWith": "window-lit-cabin-small: item 2: a lit-window overlay registered to the building it overlays",
+      "source": "svg/house-pieces/claude-window-lit-cabin-small.svg",
+      "label": "window lit cabin small",
+      "kind": "claude-window-lit"
+    },
     "house-porch-end": {
       "sheet": "claude-house-ends",
       "x": 0,
@@ -891,6 +1014,76 @@
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's interior-saddlebag"
+    },
+    "house-loopholed": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-loopholed",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "A flat-roofed Béxar house held in the street fighting of December 1835 (\"a pigeon nursery\", Lopez; HIST-TEX-490 to -496): Astra's plastered adobe-flat with its parapet raised to about four feet over the roof for men to fire from, loopholes - narrow slits splayed outside - cut along the parapet and beside the door and window, the window shuttered with planks nailed across. The number and placing of the loopholes is an interpretation; Béxar's houses were stone or adobe, plastered, flat-roofed. Her frontal three-quarter view, scale and outline. Transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-loopholed.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-loopholed"
+    },
+    "window-lit-adobe-flat": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-window-lit",
+      "request": "Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek",
+      "prompt": "Lamplight in the window of Astra's adobe-flat at night: an overlay in her frame's own box, anchor and logical height, clear except the window, filled with a warm lamp glow (pale yellow at the middle to orange at the edges) with a soft halo and her dark mullions across it; laid over her house after the night's darkness so the window shines. San Patricio, February 1836: local men left lanterns burning in their own windows (FIC-GONZ-435). Transparent elsewhere.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-window-lit-adobe-flat.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's window-lit-adobe-flat"
+    },
+    "window-lit-house-jacal": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-window-lit",
+      "request": "Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek",
+      "prompt": "Lamplight in the window of Astra's house-jacal at night: an overlay in her frame's own box, anchor and logical height, clear except the window, filled with a warm lamp glow (pale yellow at the middle to orange at the edges) with a soft halo; laid over her house after the night's darkness so the window shines. San Patricio, February 1836: local men left lanterns burning in their own windows (FIC-GONZ-435). Transparent elsewhere.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-window-lit-house-jacal.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's window-lit-house-jacal"
+    },
+    "window-lit-jacal-poor": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-window-lit",
+      "request": "Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek",
+      "prompt": "Lamplight in the window of Astra's jacal-poor at night: an overlay in her frame's own box, anchor and logical height, clear except the window, filled with a warm lamp glow (pale yellow at the middle to orange at the edges) with a soft halo; laid over her house after the night's darkness so the window shines. San Patricio, February 1836: local men left lanterns burning in their own windows (FIC-GONZ-435). Transparent elsewhere.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-window-lit-jacal-poor.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's window-lit-jacal-poor"
+    },
+    "window-lit-cabin-small": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-window-lit",
+      "request": "Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek",
+      "prompt": "Lamplight in the window of Astra's cabin-small at night: an overlay in her frame's own box, anchor and logical height, clear except the window, filled with a warm lamp glow (pale yellow at the middle to orange at the edges) with a soft halo and her dark mullions across it; laid over her house after the night's darkness so the window shines. San Patricio, February 1836: local men left lanterns burning in their own windows (FIC-GONZ-435). Transparent elsewhere.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-window-lit-cabin-small.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's window-lit-cabin-small"
     },
     "house-porch-end": {
       "kind": "frame",

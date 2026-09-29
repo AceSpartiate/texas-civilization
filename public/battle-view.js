@@ -627,8 +627,13 @@ export function createBattleView(art) {
         }
         // Inside a stone house, firing through the holes cut in its wall ("a pigeon nursery", Lopez): only a man or two is seen
         // in the doorway or the yard; the rest are a flash and a puff at the wall, each on his own reload.
-        // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a flat-roofed stone house with loopholes" - the town's houses as
-        // drawn, with the flashes and the smoke at their walls.
+        // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a flat-roofed stone house with loopholes" - Claude-drawn stand-in
+        // `house-loopholed` (see *Claude-drawn stand-ins*): the house the group holds, stood once behind its men, its wall
+        // where the flashes come; while it has not loaded, the town's houses as drawn, with the flashes and the smoke there.
+        if (side.cover === 'loophole' && slot.index === 1 && art.hasSprite?.('house-loopholed')) {
+          const wall = camera.toScreen({ x: centre.x - facing.x * 0.004, y: centre.y - facing.y * 0.004 - 0.002 });
+          figures.push({ y: wall.y - 1, kind: 'cover', side: side.side, point: wall, size: figurePx * 2.4, sprite: 'house-loopholed', clip: null, flip: !right });
+        }
         if (side.cover === 'loophole' && slot.index % 4 !== 0) {
           if (still || side.fire === 'none') continue;
           const pause = WAIT_MIN_MS + hash(`${seed}:lw`) * WAIT_SPAN_MS * 1.4, round = FIRE_CLIP_MS + pause;
@@ -937,6 +942,10 @@ export function createBattleView(art) {
       if (!item.lit) continue;
       const p = camera.toScreen(item);
       glow(ctx, p.x, p.y - figurePx * (item.kind === 'campfire' ? 0.2 : 0.6), figurePx * (item.kind === 'campfire' ? 2.6 : 1.8), 'rgba(255,184,96,.55)');
+      // The lamp in the house's window, laid over the house after the dark so it shines: an overlay registered to the house's
+      // own picture. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the south's fights" item 2 - Claude-drawn stand-ins
+      // `window-lit-*` (see *Claude-drawn stand-ins*); the glow alone while they have not loaded.
+      if (item.kind !== 'campfire' && item.sprite && art.hasSprite?.(item.sprite)) art.drawSprite(ctx, `window-lit-${item.sprite}`, p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip });
       lit++;
     }
     return { lit };
