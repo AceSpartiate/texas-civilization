@@ -1,5 +1,45 @@
 # Claude handoff — Astra foundation
 
+## Area A of Claude's temporary art: people at work and ambient poses — owner, 2026-09-28 (worktree branch; not released)
+
+**The ask.** Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as
+it makes the final versions."* and *"make sure the chop swings look natural"*. Area A of docs/CLAUDE_ART_PLAN.md, less the chop
+(the foundation's). Everything here is Claude-drawn and temporary; Astra's frame or clip of the same name replaces each.
+
+- **Drawn, for all eight grown cast figures** (modules in `scripts/claude-art/areas/`, `AREA: 'work'`; kit additions
+  `kit/work-poses.mjs`, `kit/work-props.mjs`): ambient `-whittle`, `-mend-harness`, `-sew`, `-shell-corn`, `-clean-rifle`,
+  `-pipe`, `-cards` (seated on a stool, 2), `-wash` (kneeling, 2), `-sweep` (4), `-carry-water` (4) — `ambient.mjs`; work
+  `-split`, `-dig`, `-dig-well` (the foundation's six-frame natural swings, with the log and wedge, the cut in the ground, or the
+  well's hole drawn where the tool lands), `-notch` (4), `-lift` (2), `-reap` (4), `-carpentry` (4), `-aim` (1), `-fire` (the aim
+  held, the recoil, the lowering), `-fish`, `-gather`, `-butcher` (no carcass, no blood), `-guard`, `-stake`, `-tend-fire` (2),
+  `-drill` (4) — `work.mjs`; `volunteer-`/`regular-` `-clean-rifle`, `-camp-sit`, `-camp-cook` — `camp-rest.mjs`; `fx-wood-chips`,
+  `fx-earth-toss`, `fx-dust`, `fx-shavings`, `fx-ripple` (3 each) and `tree-fall` (4) — `work-fx.mjs`; `washtub`,
+  `woodpile-frontier`, `hens-pecking` — `yard-props.mjs`. 635 frames and 221 clips; the people sheets at 0.6 scale.
+- **Measured size.** Astra draws a seated, kneeling or crouching cast figure to fill the row as a standing one (her `-repair`,
+  `-rest`, `-care`, `-sow` stand 0.87-0.95 of the logical height; measured from her atlas), so area A's seated and kneeling cast
+  frames are drawn at `SIT_SCALE` 1.3 (their tops 0.82-0.9). Her military sheets are not normalised that way, so the soldiers are not.
+- **In the game.** `STROKES.<stroke>.drawn` in public/work-art.js for split, notch, dig, grub, the well (`well`, a stroke of
+  its own for `dig-well`), reap, whittle, shoot, the shot, fish, gather, butcher, drill, guard, pace (the staking) and fire,
+  per figure through `clipReady`, the canvas stand-in kept until the sheet loads; `drawnStroke` also drops `cycleMs`/`reach` and
+  carries `at`/`muzzle`/`ownFire` so the effect comes from the drawn frame. Effects: `EFFECTS[*].sheet`, drawn by
+  `drawWorkLayer` through app.js `workEffect`, the canvas marks until they load. Ambient: `AMBIENT_DRAWN` (motion.js) and
+  `ownClip` (app.js) by `amb.a`, the server's delivered pose kept as the fallback. Soldiers: `SOLDIERS_AT_REST` (ambient.js,
+  `base` the delivered pose), sitting and cooking added to both camps in sim/ambient.mjs. Props: `propItem`. `tree-fall`: when the
+  felling's words move on from the felling (as audio-cues.js hears it), `treesFalling` in app.js.
+- **Checks.** `tests/claude-work-poses.test.mjs` (5): feet planted where the work does not walk (a foot may lift, never slide),
+  every hand a pose places reached by its arm - which found hands left in the air in gather, lift, wash, tend-fire, aim and fire
+  and the soldiers' rag and spoon, now fixed - the ambient clips and the page asking for them, the effect sheets replacing the
+  marks, the soldiers' clips. `npm run test:claude-art`: five new injections, each caught by its test only.
+- **Looking.** `node scripts/claude-art/preview-poses.mjs <module> [figure]` renders each clip moving beside Astra's nearest
+  (docs/evidence/claude-art/preview-<module>.apng, `-strip.png` every 200 ms at 77 px, `-onion.png`, `-frames.png` at 200 px);
+  `npm run art:compare -- <module> --match <regex>` keeps a module of hundreds of frames to a readable sheet.
+- **Honest limits.** At a person 40 px the work reads as work and the figures as the same people; at 77 px the tools, the
+  stool, the tub and the fire read; at 150 px it is plainly the rig's simpler hand - thin even limbs, arms that fold in front of
+  the body, small props. Two-frame loops (whittle, sew, harness) move one hand a little, as hers do, so they read more by prop
+  than by motion. `-lift` jumps from the ground to the shoulder in its two frames, as the contract asks. The staking is drawn for
+  the whole of "pacing out and staking" (a `ceiling:`); every felled tree falls as the one hardwood drawing (a `ceiling:`).
+  Not done in area A: A12 (the Gonzales scenes: `-paint-seated`, `-forge`, `-point`, `forge-anvil`) and A18 (layered people).
+
 ## Claude's temporary art: the foundation and the plan — owner, 2026-09-28 (worktree branch; not released)
 
 **The ask.** Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of the remaining art. yours will be
