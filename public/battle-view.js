@@ -18,6 +18,8 @@
 // tells app.js which pose they are in (`memberPose`) so they fire and load with the men around them.
 // Relative, so the same module loads in the page (as /speech.js) and under node for tests/battle-view.test.mjs.
 import { drawSpeech, speechAlpha } from './speech.js';
+// San Fernando's place in the town the map draws, for the red flag on its tower (`drawFlag`).
+import { BEXAR_LAYOUT, bexarToSite } from './bexar-layout.js';
 
 /** Miles between figures, by style. A person is drawn 0.019 miles tall (sim/house-footprint.mjs `PERSON_MILES`). */
 const LAYOUT = Object.freeze({
@@ -890,7 +892,9 @@ export function createBattleView(art) {
         }
       } else if (item.kind === 'campfire') {
         if (!art.animated(ctx, 'campfire', p.x, p.y, figurePx * 0.9, item.id, { timeMs: time })) art.drawSprite(ctx, 'campfire', p.x, p.y, figurePx * 0.9);
-      } else if (!art.drawSprite(ctx, item.sprite || 'cabin-small', p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip })) {
+      } else if (!art.drawSprite(ctx, item.sprite || 'cabin-small', p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip })
+        // An item's library `fallback` (Concepción's `church-generic`) while its own drawing's sheet is on its way.
+        && !(item.fallback && art.drawSprite(ctx, item.fallback, p.x, p.y, figurePx * (item.fallbackSize || item.size || 2.4), { flip: item.flip }))) {
         ctx.fillStyle = '#8a7658'; ctx.fillRect(p.x - figurePx, p.y - figurePx * 1.2, figurePx * 2, figurePx * 1.2);
       }
       count++;
@@ -1367,7 +1371,26 @@ export function createBattleView(art) {
   function drawFlag(ctx, flag, camera, figurePx, time, wind) {
     const texian = flag.fixed ? null : view.sides.get(flag.side), side = texian ? placeAt(texian, performance.now()) : null;
     const base = side ? { x: flag.x + (side.x - texian.to.x), y: flag.y + (side.y - texian.to.y) } : flag;
-    const p = camera.toScreen(base), pole = figurePx * 1.9, w = figurePx * 1.15, h = figurePx * 0.72;
+    let p = camera.toScreen(base), pole = figurePx * 1.9;
+    const w = figurePx * 1.15, h = figurePx * 0.72;
+    // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 5 - the red flag on San Fernando's tower. Claude's
+    // `san-fernando-tower-1836` ("Claude-drawn stand-ins") is the church's own south-east corner and tower, laid over the church
+    // the map draws (public/bexar-layout.js `san-fernando`, at the town's scale, so it never stands beside it as a second
+    // tower), and the pole stands on its lantern. The numbers are scripts/claude-art/areas/civic.mjs `towerOnChurch()`: where
+    // the tower frame's anchor lies from the church frame's (source pixels right and up), both logical heights, and the
+    // lantern as shares of the tower's drawn height. Without the sheet, the flag at the town's point as before.
+    // ceiling: registered to Claude's church frame; when Astra's `bexar-san-fernando-1836` lands with her own tower, deliver
+    // the tower frame with it (or read the numbers from her frame) - the way out is a `flagFoot` in the manifest.
+    if (flag.kind === 'red') {
+      const TOWER = { name: 'san-fernando-tower-1836', offset: [158.9, 10.5], churchLogical: 204, towerLogical: 480, foot: [0.1093, 0.9236] };
+      const church = BEXAR_LAYOUT.buildings.find(b => b.id === 'san-fernando'), o = church && bexarToSite(church);
+      if (o) {
+        const at = camera.toScreen({ x: base.x + o.x, y: base.y + o.y }), mile = camera.toScreen({ x: base.x + o.x + 1, y: base.y + o.y });
+        const k = church.heightFeet * Math.hypot(mile.x - at.x, mile.y - at.y) / 5280 / TOWER.churchLogical, tall = TOWER.towerLogical * k;
+        const anchor = { x: at.x + TOWER.offset[0] * k, y: at.y - TOWER.offset[1] * k };
+        if (art.drawSprite(ctx, TOWER.name, anchor.x, anchor.y, tall)) { p = { x: anchor.x + tall * TOWER.foot[0], y: anchor.y - tall * TOWER.foot[1] }; pole = figurePx * 1.3; }
+      }
+    }
     // The delivered cloth is the Come and Take It flag: only that flag is drawn with it, never the Alamo's red one.
     if (flag.kind !== 'red' && art.animated(ctx, 'flag-come-and-take-it-wind', p.x, p.y, pole, 'gonzales-flag', { timeMs: time })) {
       return { x: Math.round(p.x), y: Math.round(p.y - pole), w: Math.round(w), h: Math.round(h), words: figurePx >= 22 };
