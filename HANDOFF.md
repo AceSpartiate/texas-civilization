@@ -32,10 +32,11 @@ panel, commands, attention, tips, travel sight and pursuit 81 of 81 (`tests/fami
 the portrait and the star behind the same out-of-sight guard; `scripts/design-blockers-injections.mjs` updated to the new line and
 still caught). Injections: `node scripts/unseen-and-auto-injections.mjs` ([record](docs/evidence/unseen-and-auto-injections.json)).
 
-Proofs repaired because the merged tree had outgrown them: `travel-sight-proof` began its class with four students joined and no page
-open, whose riders each held the calendar for their ninety real seconds, so the gathering never reached four hours a tick - it now
-begins with one student (`anyway`) and answers the call *Nobody goes*; `battle-1835` (concepcion) pressed the portrait of a man away
-with the army to reach his question - now his "!" while he is out of sight.
+Proofs repaired because the merged tree had outgrown them: `battle-1835` (concepcion) pressed the portrait of a man away with the army
+to reach his question - now his "!" while he is out of sight. `travel-sight-proof` takes the red-proofs builder's repair (the other
+families' riders answered by command) and adds: the camera put on the traveller before he sets out, this family's own riders let go by
+command in the fast case (pressing the listener's portrait moved the camera, and the first run of the camera injection was missed for
+exactly that), and the riders answered all the way to his arrival.
 
 Still failing, the same without this branch's changes (checked on bed10685): `scripts/going-browser-proof.mjs` at the last step, *"the
 next person: one way left … they walk straight away"* - the order goes out on foot (`__goingSkipped`), but the server starts

@@ -1581,14 +1581,14 @@ step is ever noticed.
 ### Gates
 
 `npm run test:travel-sight` (the gathering, four hours a tick): out of sight the row is greyed and says where they went, the portrait
-and star are held and a press on either is refused, the camera is not on them; on arrival in Gonzales the row is live, the camera
+and star are held and a press on either is refused, and the camera that was on him as he set out is not; on arrival in Gonzales the row is live, the camera
 not back on them by itself, and their portrait goes to them. On the farming day a walker drawn on the road has a live row.
 `npm run test:scrape-pursuit`: the warning, and ¡Alto! still answered from the "!" with the family out of sight. Both proved by
 `node scripts/unseen-and-auto-injections.mjs` ([record](evidence/unseen-and-auto-injections.json)). Same computer only.
 
-This proof also needed two repairs of its own on the merged tree: the class is begun with one student (four joined with no page
-were played families whose riders each held the calendar for their ninety real seconds, so the gathering never ran at four hours a
-tick), and the settlement's call is answered *Nobody goes* from its "!".
+For the camera check the travel-sight proof puts the camera on the traveller before he sets out and lets its own family's riders go by
+command in the fast case: pressing a listener's portrait moves the camera, and the first run of the camera injection was missed for
+exactly that.
 
 ## 20a. Follow and watch — owner 2026-09-29 ("Follow and watch"), built the same day
 

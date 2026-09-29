@@ -16,7 +16,7 @@ const INJECTIONS = [
   { name: 'made main on auto in the flight, and nothing is said', proof: PURSUIT, edits: [{ file: 'public/app.js', from: '  if (warning) say(warning);\n', to: '' }] },
   { name: 'the warning is said for the order to leave in the chase too (the wrong words)', proof: PURSUIT, edits: [{ file: 'public/app.js', from: "${flight.status === 'ordered' ? 'the order to leave' : 'the soldiers'}", to: "${'the order to leave'}" }] },
   { name: 'a traveller out of sight keeps a live row', proof: SIGHT, edits: [{ file: 'public/app.js', from: "    setData(row.item, 'unseen', String(Boolean(words)));", to: "    setData(row.item, 'unseen', 'false');" }] },
-  { name: 'the row greys but does not say where they are going', proof: SIGHT, edits: [{ file: 'public/app.js', from: "    if (row.away.textContent !== words) row.away.textContent = words;", to: '' }] },
+  { name: 'the row greys but does not say where they are going', proof: SIGHT, edits: [{ file: 'public/app.js', from: "    setText(row.away, words);", to: '' }] },
   { name: 'a press on an unseen traveller\'s portrait goes through', proof: SIGHT, edits: [{ file: 'public/app.js', from: '  if (portrait) { if (!refusedUnseen(portrait.dataset.portrait)) pressStar(portrait.dataset.portrait); return; }', to: '  if (portrait) { pressStar(portrait.dataset.portrait); return; }' }] },
   { name: 'the row is never live again once they are back in view', proof: SIGHT, edits: [{ file: 'public/app.js', from: "  noteUnseen(host || world.watching ? new Map() : unseenNext, world);", to: "  noteUnseen(host || world.watching ? new Map() : new Map([...unseenOnRoad, ...unseenNext]), world);" }] },
   { name: 'the camera keeps its watch on somebody out of sight', proof: SIGHT, edits: [

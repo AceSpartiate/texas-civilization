@@ -107,6 +107,14 @@ async function play(name, { worldFactory, tickMs }) {
       const person = world?.entities.find(entity => entity.principal);
       return person && !person.travel && person.location?.siteId ? person.id : null;
     }, null, { timeout: 120000, polling: 100 }).then(handle => handle.jsonValue());
+    // In the fast case the camera is put on him before he sets out, as a student watching him go would: out of sight from the first
+    // tick of the journey, he is not followed, and the watch is not taken up again on its own when he arrives.
+    let watchedWhileDrawn = null;
+    if (name === 'fast') {
+      await page.locator(`.panel-portrait[data-portrait="${main}"]`).click();
+      await page.waitForTimeout(400);
+      watchedWhileDrawn = await page.evaluate(() => window.__camera?.watching ?? null);
+    }
     const sent = await page.evaluate(async id => {
       const command = body => fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `${body.action}-${crypto.randomUUID()}`, entityId: id, ...body }) });
       await command({ action: 'stop-chore' });
@@ -133,6 +141,13 @@ async function play(name, { worldFactory, tickMs }) {
       for (let i = 0; i < 4; i++) {
         const listener = await page.evaluate(() => (window.__snapshot?.world?.encounter?.status === 'open' ? window.__snapshot.world.encounter.listenerId : null));
         if (!listener) return;
+        // In the fast case by command from this page, as the other families' are: pressing the listener's portrait would take the
+        // camera to them, and where the camera is when the traveller goes out of sight is what the fast case reads.
+        if (name === 'fast') {
+          await page.evaluate(async id => { await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `leave-${crypto.randomUUID()}`, action: 'leave-rider', entityId: id }) }); }, listener);
+          await page.waitForTimeout(400);
+          continue;
+        }
         await page.locator(`.panel-portrait[data-portrait="${listener}"]`).click().catch(() => {});
         await page.waitForTimeout(400);
         for (const control of ['#listen-rider', '#encounter .ask-leave', '#encounter-close']) {
@@ -150,11 +165,9 @@ async function play(name, { worldFactory, tickMs }) {
         const state = await page.evaluate(id => {
           const person = window.__snapshot.world.entities.find(entity => entity.id === id);
           const unseen = document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.unseen === 'true';
-          return person?.travel ? { away: Boolean(person.travel.away), progress: person.travel.progress ?? null, miles: person.travel.miles ?? null, unseen } : null;
+          return person?.travel ? { away: Boolean(person.travel.away), progress: person.travel.progress ?? null, miles: person.travel.miles ?? null, unseen, watching: window.__camera?.watching ?? null } : null;
         }, main);
         if (state && (wanted ? state.away && state.miles > 0 && state.unseen : !state.away && state.progress > 0)) return;
-        // While they are still drawn, the camera is kept on them, as a student watching them set out would: out of sight, it lets them go.
-        if (wanted && state && !state.away) await page.evaluate(id => document.querySelector(`.panel-portrait[data-portrait="${id}"]`)?.click(), main);
         assert.ok(Date.now() < deadline, `${name}: the journey never reached the state this proof reads: ${JSON.stringify(state)}`);
         await page.waitForTimeout(wanted ? 150 : 400);
       }
@@ -231,7 +244,14 @@ async function play(name, { worldFactory, tickMs }) {
     // journey is let run to Gonzales, and on arrival the row is live and the portrait goes to them again.
     let back = null;
     if (wanted) {
-      await page.waitForFunction(id => { const person = window.__snapshot.world.entities.find(one => one.id === id); return !person?.travel && person?.location; }, main, { timeout: 180000, polling: 200 });
+      // The riders answered all the way, as on the way out: one left waiting holds the whole class's calendar for his ninety seconds.
+      for (let until = Date.now() + 300000; ;) {
+        const arrived = await page.evaluate(id => { const person = window.__snapshot.world.entities.find(one => one.id === id); return Boolean(!person?.travel && person?.location); }, main);
+        if (arrived) break;
+        assert.ok(Date.now() < until, 'fast: the traveller never arrived in Gonzales');
+        await answerOthers();
+        await page.waitForTimeout(300);
+      }
       await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.unseen === 'false', main, { timeout: 10000 }).catch(() => {});
       await page.evaluate(() => { document.querySelector('#error').textContent = ''; });
       back = await rowState();
@@ -241,7 +261,7 @@ async function play(name, { worldFactory, tickMs }) {
       back.afterPress = await page.evaluate(() => ({ refusal: document.querySelector('#error').textContent, following: window.__camera?.watching ?? null }));
       if (WRITE) { const arrived = `${SHOTS}/${name}-arrived.png`; await page.screenshot({ path: arrived }); shots.push(arrived); }
     }
-    return { person: main, seen, teacher, greyed, back };
+    return { person: main, seen, teacher, greyed: greyed && { ...greyed, watchedWhileDrawn }, back };
   } finally {
     await context.close();
     await hostContext.close();
@@ -278,7 +298,7 @@ try {
   ok(`their portrait and star are held, and a press on either is refused: "${greyed.refusal}"`,
     greyed.portrait === 'true' && greyed.star === 'true' && /cannot be chosen while out of sight\. On the road to Gonzales — back in view when they arrive\./.test(greyed.refusal)
     && /cannot be chosen while out of sight/.test(greyed.starRefusal));
-  ok(`and the camera is not following them (watching ${greyed.following || 'nobody'})`, greyed.following !== record.fast.person);
+  ok(`the camera was on them while they were drawn, and out of sight it is not (watching ${greyed.following || 'nobody'})`, greyed.watchedWhileDrawn === record.fast.person && greyed.following !== record.fast.person);
   ok(`on arrival their row is live again (${back.drawn ? 'drawn' : 'placed'} in Gonzales), the camera not back on them by itself, and their portrait goes to them with nothing refused`,
     back.unseen === 'false' && back.line === '' && back.portrait === null && back.star === null && back.opacity > 0.9 && back.following !== record.fast.person && back.afterPress.refusal === '' && back.afterPress.following === record.fast.person);
   assert.deepEqual(errors, [], 'the pages raised errors');

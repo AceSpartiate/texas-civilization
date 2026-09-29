@@ -5163,6 +5163,7 @@ function fitColumn() {
     const next = scrollToShow({ top, bottom: top + row.height }, { scrollTop: panel.scrollTop, clientHeight: panel.clientHeight });
     if (Math.abs(next - panel.scrollTop) >= 1) panel.scrollTop = next;
   }
+  placeMilitaryNotice();
   window.__column = { room, tight: panel.dataset.tight === 'true', barTop: bar ? Math.round(bar.top) : null, bottom: Math.round(panel.getBoundingClientRect().bottom) };
 }
 /**
@@ -5313,7 +5314,7 @@ function markUnseenRows(world) {
     for (const button of [row.portrait, row.focus, row.makeMain]) {
       if (words) button.setAttribute('aria-disabled', 'true'); else button.removeAttribute('aria-disabled');
     }
-    if (row.away.textContent !== words) row.away.textContent = words;
+    setText(row.away, words);
     if (row.away.hidden !== !words) { row.away.hidden = !words; queueColumnFit(); }
   }
 }
@@ -6885,14 +6886,26 @@ function renderMilitaryNotice(world) {
     icon.dataset.drawn = drawn ? `${ICONS[notice.kind]}:1` : '';
   }
   $('#military-next').hidden = notices.length < 2;
+  placeMilitaryNotice();
+}
+/**
+ * Where the messages card stands. Worked out on every render and again whenever the family's column is fitted (`fitColumn`: a
+ * resize, a story card coming or going), so a window made smaller in a paused class does not leave it where the wider one had it
+ * (the overlap proof, story cards at 400 px, 2026-09-29).
+ */
+function placeMilitaryNotice() {
+  const panel = $('#military-notice');
+  if (!panel || panel.hidden) return;
   // Below the guided start and below an open land chooser, never over either one's words or buttons (panels proof, 390px).
-  const above = ['#lesson', '#lesson-resume', '#site-choose', '#survey-choose'].map(selector => $(selector)).filter(one => one && !one.hidden);
+  // And below the story cards at the head of the family's column (the neighbours', the house's), which on a phone run across under
+  // the status lines where this card starts: never over their buttons (the overlap proof, story cards at 400 px, 2026-09-29).
+  // On a wider screen the column is on the other side and the stretch test below leaves it out.
+  const above = ['#lesson', '#lesson-resume', '#site-choose', '#survey-choose', '#family-cards'].map(selector => $(selector)).filter(one => one && !one.hidden && one.getBoundingClientRect().height > 1);
   // Only what stands in the notice's own stretch of the screen: a land chooser beside the faces on the left no longer pushes
   // the messages on the right down onto the bar (the overlap proof, 1024x600, 2026-09-28). A phone's notice is as wide as
   // the screen, so there everything counts.
   const reach = innerWidth < 760 ? 0 : innerWidth - 12 - panel.offsetWidth;
   const top = Math.max(44, ...above.map(one => one.getBoundingClientRect()).filter(box => box.right > reach).map(box => box.bottom + 8));
-  panel.style.top = `${top}px`;
   // And never down over the ability bar where it reaches under the right-hand side (1024x600): it scrolls instead.
   const foot = `calc(100% - ${Math.round(top)}px - var(--right-foot, 74px))`;
   if (panel.style.maxHeight !== foot) { panel.style.maxHeight = foot; panel.style.overflowY = 'auto'; }
@@ -6902,6 +6915,7 @@ function renderMilitaryNotice(world) {
     .map(one => one.getBoundingClientRect()).filter(box => box.width && box.right < innerWidth / 2).map(box => box.right + 8) : [];
   const left = faces.length ? `${Math.round(Math.max(...faces))}px` : '';
   if (panel.style.left !== left) panel.style.left = left;
+  if (panel.style.top !== `${top}px`) panel.style.top = `${top}px`;
 }
 $('#military-toggle')?.addEventListener('click', () => {
   // Folded to make room for a card: opening them is the student's choice, and it stands for as long as that card does.

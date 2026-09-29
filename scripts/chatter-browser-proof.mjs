@@ -163,6 +163,13 @@ async function toThePrincipal(page) {
   // To the family's own man in the camp by his portrait (the camera goes to him), and whatever that opened put away, as a
   // student would, so the camp is seen.
   const principal = await page.evaluate(() => window.__snapshot.world.household.principalId || window.__snapshot.world.entities.find(one => one.principal)?.id);
+  // A man marching with the army can be out of sight - the page draws nothing of him - and then his row is greyed and his portrait
+  // refused until he is drawn again (owner, 2026-09-29, docs/FAMILY_PANEL.md §20c): Follow, and wait for him, as a student would.
+  if (await page.locator(`.panel-row[data-entity-id="${principal}"]`).getAttribute('data-unseen') === 'true') {
+    await page.locator('#map-nav [data-view=follow]').click();
+    await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.unseen === 'false', principal, { timeout: 60000 })
+      .catch(async () => { throw new Error(`the family's man stayed out of sight for a minute: ${await page.evaluate(id => (window.__unseenOnRoad || new Map()).get(id), principal)}`); });
+  }
   await page.locator(`[data-portrait="${principal}"]`).click({ force: true });
   await page.waitForTimeout(1000);
   for (const selector of ['#selection-close', '#town-scene .town-scene-close']) if (await page.locator(selector).isVisible()) await page.locator(selector).click();
