@@ -50,6 +50,56 @@
       "failed": [
         "a stroke with a drawn cycle of the work names a clip one of the libraries holds, and drawn in it the stand-in tool goes"
       ]
+    },
+    {
+      "guards": "area C: tests/battle-bexar-view.test.mjs",
+      "injected": "the street barricade is the palisade again",
+      "failed": [
+        "with Claude's temporary sheets loaded: the barricade, the trench dug by a volunteer, the loophole's man and the crowbar are their own frames"
+      ]
+    },
+    {
+      "guards": "area C: tests/battle-view-groups.test.mjs",
+      "injected": "men under a bank never climb it",
+      "failed": [
+        "with Claude's temporary sheets loaded, men under a bank climb the cut to fire and kneel under it to load, at the same place"
+      ]
+    },
+    {
+      "guards": "area C: tests/battle-view-san-jacinto.test.mjs",
+      "injected": "the breastwork is never packs and baggage",
+      "failed": [
+        "with Claude's temporary sheets loaded, the camp sits at rest with its arms stacked and the breastwork is packs and baggage with the gun's gap"
+      ]
+    },
+    {
+      "guards": "area C: tests/battle-view-south.test.mjs",
+      "injected": "men asleep are drawn as the reclining dead",
+      "failed": [
+        "with Claude's temporary sheets loaded, men asleep are drawn asleep with their heads on their packs, never as a man killed"
+      ]
+    },
+    {
+      "guards": "area C: tests/famous-people-view.test.mjs",
+      "injected": "a famous person is never drawn from Claude's sheet",
+      "failed": [
+        "at the Alamo the Esparza family is drawn as a woman and children, Ana's words come out of her under her name, and Gregorio's body is carried as a wrapped bundle, never as a body",
+        "with Claude's temporary sheets loaded, the Esparza family, the burial party and the roster's remaining people are drawn from their own frames, not the library's"
+      ]
+    },
+    {
+      "guards": "area C: tests/battle-bexar-view.test.mjs",
+      "injected": "a figure's library fallback is never drawn while a Claude sheet loads",
+      "failed": [
+        "in the houses most men are out of sight: the fire is flashes and smoke at the walls, the roofs are manned, and the guns fire their dated shots once each"
+      ]
+    },
+    {
+      "guards": "area C: tests/famous-people-view.test.mjs",
+      "injected": "a famous person's library fallback is never drawn while a Claude sheet loads",
+      "failed": [
+        "at the Alamo the Esparza family is drawn as a woman and children, Ana's words come out of her under her name, and Gregorio's body is carried as a wrapped bundle, never as a body"
+      ]
     }
   ],
   "cleanRunFailures": {
