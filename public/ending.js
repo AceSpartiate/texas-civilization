@@ -29,6 +29,13 @@ function revealView(reveal) {
   return section;
 }
 
+/**
+ * A family's name in the Host's tables, marked when no student was playing it at the end (sim/ending.mjs): one nobody ever
+ * played, or one a student played that the computer was running when the class ended - its student away (owner, 2026-09-29:
+ * "Any played family", marked if the computer finished it). Only the first is "nobody played them".
+ */
+export const familyLabel = family => family.finishedByDirector ? `${family.name} (finished by the computer)` : family.automatic ? `${family.name} (nobody played them)` : family.name;
+
 let shown = '';
 let closed = false;
 
@@ -109,7 +116,7 @@ function interimHostView(closing) {
   const body = make('tbody');
   for (const family of closing.families) {
     const row = make('tr');
-    row.append(make('td', family.automatic ? `${family.name} (nobody played them)` : family.name), make('td', reales(family.money)), make('td', family.land ? reales(family.land) : '—'));
+    row.append(make('td', familyLabel(family)), make('td', reales(family.money)), make('td', family.land ? reales(family.land) : '—'));
     body.append(row);
   }
   table.append(thead, body);
@@ -139,7 +146,7 @@ function hostView(closing) {
     const row = make('tr');
     if (closing.winners.includes(family.householdId)) row.dataset.first = 'true';
     row.append(
-      make('td', family.automatic ? `${family.name} (nobody played them)` : family.name),
+      make('td', familyLabel(family)),
       make('td', family.miles ?? '—'),
       make('td', family.heard || 'never'),
       make('td', family.went.length ? family.went.join(', ') : 'nobody'),

@@ -13,7 +13,7 @@
 // words of their tellings and as firm as they had it, never the truth beside it (sim/rumour-story.mjs), so the Host still
 // reflects what the colonies knew (VISION.md §18) even though the teacher's map has no fog.
 import { record } from './events.mjs';
-import { householdName } from './family.mjs';
+import { familyMaking, householdName } from './family.mjs';
 import { CHORES } from './chores.mjs';
 import { SERVICE } from './winter.mjs';
 import { campName } from './houston.mjs';
@@ -120,6 +120,9 @@ export function waitingOn(world, household) {
   return count;
 }
 
+/** A played family in the lobby that has rolled, been named and chosen its looks (`familyMaking`), and pressed Done packing. */
+export const readyInLobby = (world, household) => world.status === 'lobby' && Boolean(household.played && household.roll && household.packed) && !familyMaking(world, household);
+
 /** Every family, in words: who plays it and whether they are here is the server's to add (presence); the rest is the world's. */
 // `guidedOf` is sim/lesson.mjs `lessonHostWords`, handed in by `projectWorld` rather than imported: this file importing
 // the lesson closes a loop through sim/chores.mjs that leaves `CHORES` unread when the server starts.
@@ -131,6 +134,9 @@ export function familiesOverview(world, guidedOf = () => null) {
     // Kept small: thirty families go to the Host every tick (tests/host-view.test.mjs holds the payload's bound).
     ...(household.played && { played: true }),
     ...(household.absent && { absent: true }),
+    // In the lobby, ready: rolled, named and packed (owner, 2026-09-29: "Show name + ready"; sim/wagon.mjs `donePacking`). The
+    // teacher sees who is still packing before Start; Start itself waits for nobody.
+    ...(readyInLobby(world, household) && { ready: true }),
     waiting: waitingOn(world, household),
     // Whether the student pressed the X on the guided start, or took it back up (owner, 2026-09-22: "quietly show
     // dismissal/resumption to the teacher"): a line of words on the row, absent for every family that did neither.

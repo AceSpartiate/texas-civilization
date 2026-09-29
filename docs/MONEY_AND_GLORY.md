@@ -245,7 +245,7 @@ storm never came. A volunteer who runs home from the Grass Fight has the fight's
 negative), with the note shown in the ending labelled as the game's own reading: no man in the record was punished for going
 home (`HIST-TEX-027`, `FIC-GONZ-040`).
 
-**Automatic neighbours are never ranked** (owner, 2026-09-14, `docs/COLONIES.md` §5.9): when the ending is built it ranks only families with `household.played`; an automatic family's money and glory are counted but it is never named winner or placed in a ranking.
+**Automatic neighbours are never ranked** (owner, 2026-09-14, `docs/COLONIES.md` §5.9): when the ending is built it ranks only families with `household.played`; an automatic family's money and glory are counted but it is never named winner or placed in a ranking. A played family the director finishes because its student is away at the end is ranked (owner, 2026-09-29, §5 *Who can finish first*).
 
 ### Where it lives
 
@@ -326,6 +326,32 @@ At the end the fog lifts (`VISION.md` §20) and each family sees, for the first 
 - **Name the winner, never a virtue.** "Family 7 finished first" is a fact. "Most patriotic",
   "bravest" or "best patriot" is a judgement, and the last is the phrase the constitution still
   forbids by name.
+
+### Who can finish first — owner decision, 2026-09-29
+
+The owner, by multiple choice over the triage of 2026-09-29 (C3; [audits/2026-09-29-triage.md](audits/2026-09-29-triage.md)
+1.4, playthrough audit #6, design audit S23): **"Any played family"** — *every family a student played that has somebody
+living can win, marked if the computer finished it.*
+
+- **Ranked on played and not wiped** (`hostEnding`, `sim/ending.mjs`). A family whose student is away at the end — a
+  Chromebook asleep in the last minutes, a student off sick on the last day — is run by the director from then on
+  ([HOST_PAGE.md](HOST_PAGE.md) §2.4), and until this it could not finish first and the projector said nobody had played it.
+  It is still the student's family: it is ranked, and if it finishes first it is named.
+- **Marked.** The Host's table (the ending and the standings between periods) labels such a family *(finished by the
+  computer)* (`finishedByDirector`; `familyLabel` in `public/ending.js`). *(nobody played them)* is only for a family no
+  student ever played, which is still never ranked or named (2026-09-14, above).
+- **In the class's own debrief.** The hooks drawn from the class's story (`classHooks`, `sim/ending-story.mjs`) name every
+  played family, away at the end or not, and never a family nobody played.
+- **"Somebody living" means somebody left free.** Found while checking the triage: "nobody left" meant dead *or captured* for
+  the order to leave (`sim/scrape.mjs`) and for which family a late student is given (`livingIn`, `server/app.mjs`), but dead
+  only at the ending, so a family whose people were all prisoners — a father spared at Goliad, the rest dead — could be named
+  the winner on his coin (the army's prisoners are not weighed). Prisoners are never set free in this game. Now the ending uses
+  the same words (`nobodyLeft`): **a family every one of whose people is dead or a prisoner is counted and shown, and never
+  named first.** Nothing else about prisoners changed: a prisoner is still one of the family's living people for the share a
+  prisoner's part is of (`livingOf`, `keptShare`), and the Scrape's weight is the same.
+- Proof: `tests/ending.test.mjs` (*a family a student played can finish first with its student away at the end …*, *a family
+  with nobody left free …*), `tests/ending-story.test.mjs` (*… still named in the class's own debrief …*); each regression
+  injected in `scripts/owner-pause-win-lobby-injections.mjs` ([evidence](evidence/owner-pause-win-lobby-injections.json)).
 
 ---
 

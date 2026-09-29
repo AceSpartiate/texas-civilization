@@ -71,7 +71,7 @@ import { MEANS_TABLE, applyMeans, meansInvalid, meansProjection, settleMeans } f
 // The carreta a family makes at home (owner, 2026-09-25): its chore registers itself into the one table (sim/chores.mjs).
 import './carreta.mjs';
 import { seatOfTravel } from './company.mjs';
-import { defaultLoad, householdFromLoad, loadForWagons, loadInvalid, setLoad, wagonProjection } from './wagon.mjs';
+import { defaultLoad, donePacking, householdFromLoad, loadForWagons, loadInvalid, setLoad, wagonProjection } from './wagon.mjs';
 import { editPlot, houseInvalid, houseProjection, noteLandSeen, planHouse, recordHelpDone } from './houses.mjs';
 import { grantInvalid, grantProjection, layOutGrants, setStock } from './grants.mjs';
 import { chooseSite, siteInvalid, siteProjection } from './homesite.mjs';
@@ -908,9 +908,12 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   if (input.action === 'seen-tip') { markTipSeen(world, household, input.tip); return; }
   if (input.action === 'roll-family') { rollFamily(world, household); return; }
   // Packing the wagon is the household's, like the roll, and names nobody in it.
-  if (input.action === 'load-wagon') { setLoad(world, household, input.item, input.amount); return; }
+  // A family that changes its load is packing again: the Host's ready mark waits for its next Done packing (`donePacking`).
+  if (input.action === 'load-wagon') { setLoad(world, household, input.item, input.amount); delete household.packed; return; }
   // So is whether stock is driven in behind it, which decides how much land the family holds (sim/grants.mjs).
-  if (input.action === 'bring-stock') { setStock(world, household, input.stock); return; }
+  if (input.action === 'bring-stock') { setStock(world, household, input.stock); delete household.packed; return; }
+  // "Done packing" in a class's lobby: the family is ready as far as its wagon goes (sim/wagon.mjs `donePacking`).
+  if (input.action === 'done-packing') { donePacking(world, household); return; }
   // So is choosing the house, which can be changed until the first spell of work goes into it.
   if (input.action === 'plan-house') { planHouse(world, household, input.layout, input.additional === true, input.placement); return; }
   // How a parent looks (sim/appearance.mjs). Checked before the rules about who can act, because it is not an act:
@@ -1534,6 +1537,8 @@ export function validateWorld(world) {
     if (household.played !== undefined && household.played !== true) throw new Error('Invalid played marker');
     // Absent is true or absent, never false (sim/absence.mjs), and only a played family can be absent.
     if (household.absent !== undefined && (household.absent !== true || !household.played)) throw new Error('Invalid absent marker');
+    // Done packing (sim/wagon.mjs `donePacking`): true or absent.
+    if (household.packed !== undefined && household.packed !== true) throw new Error('Invalid packed marker');
     if (household.settlementId !== undefined && world.map.sites[household.settlementId]?.kind !== 'town') throw new Error('A family belongs to a settlement that is not there');
     if (household.name !== undefined && (typeof household.name !== 'string' || !household.name.trim() || household.name.length > NAME_LIMIT)) throw new Error('Invalid household name');
     if (household.surname !== undefined && (typeof household.surname !== 'string' || !household.surname.trim() || household.surname.length > NAME_LIMIT)) throw new Error('Invalid family last name');

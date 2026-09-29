@@ -1,0 +1,299 @@
+{
+  "record": "owner-pause-win-lobby-injections",
+  "date": "2026-09-29",
+  "files": [
+    "tests/empty-pause.test.mjs",
+    "tests/lobby-ready.test.mjs",
+    "tests/host-page.test.mjs",
+    "tests/ending.test.mjs",
+    "tests/ending-story.test.mjs",
+    "tests/acting.test.mjs",
+    "tests/host-live.test.mjs",
+    "tests/absence.test.mjs",
+    "tests/wagon-load.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "a class left empty never pauses itself (as before)",
+      "files": [
+        "server/app.mjs"
+      ],
+      "failed": [
+        "a running class with no student page open for the span pauses itself, says why to the Host alone, and Resume gives it the whole span again"
+      ]
+    },
+    {
+      "name": "a class pauses itself with a student's page open",
+      "files": [
+        "server/app.mjs"
+      ],
+      "failed": [
+        "a running class with no student page open for the span pauses itself, says why to the Host alone, and Resume gives it the whole span again"
+      ]
+    },
+    {
+      "name": "Resume gives a class only what was left of its span",
+      "files": [
+        "server/app.mjs"
+      ],
+      "failed": [
+        "a running class with no student page open for the span pauses itself, says why to the Host alone, and Resume gives it the whole span again"
+      ]
+    },
+    {
+      "name": "a class in its lobby pauses itself",
+      "files": [
+        "server/app.mjs"
+      ],
+      "failed": [
+        "a running class with no student page open for the span pauses itself, says why to the Host alone, and Resume gives it the whole span again"
+      ]
+    },
+    {
+      "name": "the Host is never told why the class paused",
+      "files": [
+        "server/app.mjs"
+      ],
+      "failed": [
+        "a running class with no student page open for the span pauses itself, says why to the Host alone, and Resume gives it the whole span again"
+      ]
+    },
+    {
+      "name": "a student is sent why the class paused",
+      "files": [
+        "server/app.mjs"
+      ],
+      "failed": [
+        "a running class with no student page open for the span pauses itself, says why to the Host alone, and Resume gives it the whole span again"
+      ]
+    },
+    {
+      "name": "the reason stays on the Host's page after Resume",
+      "files": [
+        "server/app.mjs"
+      ],
+      "failed": [
+        "a running class with no student page open for the span pauses itself, says why to the Host alone, and Resume gives it the whole span again"
+      ]
+    },
+    {
+      "name": "the reason is set after the pause is broadcast, so the Host's page never hears it",
+      "files": [
+        "server/app.mjs"
+      ],
+      "failed": [
+        "a running class with no student page open for the span pauses itself, says why to the Host alone, and Resume gives it the whole span again"
+      ]
+    },
+    {
+      "name": "every class in process watches, and the tests and proofs are paused from under them",
+      "files": [
+        "server/app.mjs"
+      ],
+      "failed": [
+        "a class the tests and proofs run in process is never paused from under them: the watch is the real server's"
+      ]
+    },
+    {
+      "name": "ten minutes, not the owner's three",
+      "files": [
+        "server/app.mjs"
+      ],
+      "failed": [
+        "three minutes is what the owner chose"
+      ]
+    },
+    {
+      "name": "the real classroom server is never given the watch",
+      "files": [
+        "server/main.mjs"
+      ],
+      "failed": [
+        "the class a teacher actually opens watches for an empty room, and Play Solo does not"
+      ]
+    },
+    {
+      "name": "the Host's words for the pause are empty",
+      "files": [
+        "public/live-page.js"
+      ],
+      "failed": [
+        "a class that paused itself says so plainly, with when and why and what to press; nothing when it did not"
+      ]
+    },
+    {
+      "name": "a played family whose student is away at the end cannot finish first (as before)",
+      "files": [
+        "sim/ending.mjs"
+      ],
+      "failed": [
+        "a family a student played can finish first with its student away at the end, marked as finished by the computer, and never \"nobody played them\""
+      ]
+    },
+    {
+      "name": "a family the computer finished is not marked so",
+      "files": [
+        "sim/ending.mjs"
+      ],
+      "failed": [
+        "a family a student played can finish first with its student away at the end, marked as finished by the computer, and never \"nobody played them\""
+      ]
+    },
+    {
+      "name": "the Host's table says nobody played a family the computer finished (as before)",
+      "files": [
+        "public/ending.js"
+      ],
+      "failed": [
+        "a family a student played can finish first with its student away at the end, marked as finished by the computer, and never \"nobody played them\""
+      ]
+    },
+    {
+      "name": "the standings between periods drop the mark",
+      "files": [
+        "sim/ending.mjs"
+      ],
+      "failed": [
+        "a family a student played can finish first with its student away at the end, marked as finished by the computer, and never \"nobody played them\""
+      ]
+    },
+    {
+      "name": "a family whose people are all dead or prisoners can be named the winner (as before)",
+      "files": [
+        "sim/ending.mjs"
+      ],
+      "failed": [
+        "a family with nobody left free - dead or a prisoner - is never named the winner, and its prisoners still count among its living"
+      ]
+    },
+    {
+      "name": "a prisoner stops counting among the family's living for the prisoners' share",
+      "files": [
+        "sim/ending.mjs"
+      ],
+      "failed": [
+        "a family with nobody left free - dead or a prisoner - is never named the winner, and its prisoners still count among its living",
+        "the people taken prisoner in the Scrape, at home and on the road, are named and weighed; the army's prisoners are not"
+      ]
+    },
+    {
+      "name": "the class's debrief leaves out a family the computer finished (as before)",
+      "files": [
+        "sim/ending-story.mjs"
+      ],
+      "failed": [
+        "a played family whose student is away at the end is still named in the class's own debrief; a family nobody played is not"
+      ]
+    },
+    {
+      "name": "the class's debrief names a family nobody played",
+      "files": [
+        "sim/ending-story.mjs"
+      ],
+      "failed": [
+        "a played family whose student is away at the end is still named in the class's own debrief; a family nobody played is not"
+      ]
+    },
+    {
+      "name": "the Host is not sent the students' names",
+      "files": [
+        "server/app.mjs"
+      ],
+      "failed": [
+        "the Host's row names the student and marks the family ready once it is rolled, named and packed; a new load takes it away; Start is unchanged; a student is sent neither"
+      ]
+    },
+    {
+      "name": "nobody is ever marked ready",
+      "files": [
+        "sim/host.mjs"
+      ],
+      "failed": [
+        "the Host's row names the student and marks the family ready once it is rolled, named and packed; a new load takes it away; Start is unchanged; a student is sent neither",
+        "the packed mark is true or absent, is the family's own, and is taken away by a change of stock too"
+      ]
+    },
+    {
+      "name": "a family made but not packed is ready",
+      "files": [
+        "sim/host.mjs"
+      ],
+      "failed": [
+        "the Host's row names the student and marks the family ready once it is rolled, named and packed; a new load takes it away; Start is unchanged; a student is sent neither"
+      ]
+    },
+    {
+      "name": "a family packed but never made is ready",
+      "files": [
+        "sim/host.mjs"
+      ],
+      "failed": [
+        "the Host's row names the student and marks the family ready once it is rolled, named and packed; a new load takes it away; Start is unchanged; a student is sent neither"
+      ]
+    },
+    {
+      "name": "the ready mark stays after Start",
+      "files": [
+        "sim/host.mjs"
+      ],
+      "failed": [
+        "the Host's row names the student and marks the family ready once it is rolled, named and packed; a new load takes it away; Start is unchanged; a student is sent neither",
+        "the packed mark is true or absent, is the family's own, and is taken away by a change of stock too"
+      ]
+    },
+    {
+      "name": "a new load after Done packing keeps the mark",
+      "files": [
+        "sim/world.mjs"
+      ],
+      "failed": [
+        "the Host's row names the student and marks the family ready once it is rolled, named and packed; a new load takes it away; Start is unchanged; a student is sent neither"
+      ]
+    },
+    {
+      "name": "a new stock choice after Done packing keeps the mark",
+      "files": [
+        "sim/world.mjs"
+      ],
+      "failed": [
+        "the packed mark is true or absent, is the family's own, and is taken away by a change of stock too"
+      ]
+    },
+    {
+      "name": "Done packing is taken after Start",
+      "files": [
+        "sim/wagon.mjs"
+      ],
+      "failed": [
+        "the Host's row names the student and marks the family ready once it is rolled, named and packed; a new load takes it away; Start is unchanged; a student is sent neither"
+      ]
+    },
+    {
+      "name": "a save may hold any packed mark",
+      "files": [
+        "sim/world.mjs"
+      ],
+      "failed": [
+        "the packed mark is true or absent, is the family's own, and is taken away by a change of stock too"
+      ]
+    },
+    {
+      "name": "the Host's rows carry no student's name",
+      "files": [
+        "public/live-page.js"
+      ],
+      "failed": [
+        "each row names the student playing the family and, in the lobby, marks it ready (owner, 2026-09-29: \"Show name + ready\")"
+      ]
+    },
+    {
+      "name": "the Host's rows carry no ready mark",
+      "files": [
+        "public/live-page.js"
+      ],
+      "failed": [
+        "each row names the student playing the family and, in the lobby, marks it ready (owner, 2026-09-29: \"Show name + ready\")"
+      ]
+    }
+  ]
+}

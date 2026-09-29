@@ -91,10 +91,10 @@ button:disabled{opacity:.4;cursor:default}
 #selection-actions button[data-action=help]:hover:enabled{background:#a8471f}
 
 
-#error,#save-fault,#lifecycle,#host-notice{position:absolute;left:50%;transform:translateX(-50%);top:12px;max-width:min(70%,560px);margin:0;padding:10px 16px;border-radius:8px;font-size:14px;text-align:center}
+#error,#save-fault,#lifecycle,#host-paused,#host-notice{position:absolute;left:50%;transform:translateX(-50%);top:12px;max-width:min(70%,560px);margin:0;padding:10px 16px;border-radius:8px;font-size:14px;text-align:center}
 #error{background:#fdece7;color:#8a3b22;border:1px solid #c98d75}
 #error:empty{display:none}
-#save-fault,#lifecycle{background:#fff0d4;color:#66311f;border:2px solid #91452c}
+#save-fault,#lifecycle,#host-paused{background:#fff0d4;color:#66311f;border:2px solid #91452c}
 #host-notice{background:#e8efe4;color:#2c4238;border:1px solid #85988a}
 #map-framing{position:absolute;left:50%;transform:translateX(-50%);bottom:6px;font-size:11px;color:rgba(240,238,224,.65);pointer-events:none}
 
@@ -403,7 +403,7 @@ button:hover:enabled{background:#60673e}
 .lesson-pip[data-done=true]{background:#c2582c}
 /* The lines the page shouts - an error, a save fault, the lifecycle - share this corner, so while a lesson stands they
    move below it rather than over it. */
-body[data-lesson=true] #error,body[data-lesson=true] #save-fault,body[data-lesson=true] #lifecycle,body[data-lesson=true] #host-notice{top:118px}
+body[data-lesson=true] #error,body[data-lesson=true] #save-fault,body[data-lesson=true] #lifecycle,body[data-lesson=true] #host-paused,body[data-lesson=true] #host-notice{top:118px}
 /* The call's one menu (§11.2) opens at the top middle too, and a call outranks the lesson rather than hiding under it.
    The strip moved to the right and above the dimmed panels on 2026-09-21, so the menu is lifted over it again here: it
    outranked the strip by being the higher number before that move, and nothing about a call changed.
@@ -433,7 +433,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
   #hud-left{top:calc(12px + var(--lesson-room,0px))}
   #lesson h2{font-size:15px}
   #lesson p{font-size:13px}
-  body[data-lesson=true] #error,body[data-lesson=true] #save-fault,body[data-lesson=true] #lifecycle,body[data-lesson=true] #host-notice{top:108px}
+  body[data-lesson=true] #error,body[data-lesson=true] #save-fault,body[data-lesson=true] #lifecycle,body[data-lesson=true] #host-paused,body[data-lesson=true] #host-notice{top:108px}
   /* Everything that opens at the top of a phone goes under the strip by the strip's own height, for the reason the
      column already does. Each of these four was measured standing *inside* it (docs/evidence/screen-overlap-390.json):
      the meeting covered the guided start's only control outright, so did the call's menu, `#site-choose` was drawn
@@ -758,6 +758,9 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .host-presence{font:600 10px/1 system-ui;letter-spacing:.06em;text-transform:uppercase;padding:3px 6px;border-radius:9px;background:#3b3427;color:#f7eed5}
 .host-presence[data-presence=here]{background:#4f7a3a}.host-presence[data-presence=away]{background:#8a6a2a}.host-presence[data-presence=absent]{background:#8a3b22}
 .host-waiting{font:800 10px/1 system-ui;padding:3px 6px;border-radius:9px;background:#c2582c;color:#fff8e6}
+/* The student's own name and, in the lobby, the ready mark (owner, 2026-09-29: "Show name + ready"). */
+.host-student{font:italic 500 11.5px/1.3 system-ui;color:#f1e6c8}
+.host-ready{font:700 10px/1 system-ui;letter-spacing:.06em;text-transform:uppercase;padding:3px 6px;border-radius:9px;background:#4f7a3a;color:#f7eed5}
 .host-guided{margin:2px 0 0;font:italic 11.5px/1.35 system-ui;color:#cdbf9c}
 /* The class's sickness counted, and a child lost to it counted, never named (sim/disease.mjs, the owner 2026-09-27). */
 #host-sickness{margin:2px 0 6px;font:600 12px/1.35 system-ui;color:#f3c1a8}
@@ -1287,7 +1290,7 @@ body:has(#encounter:not([hidden])) #selection,body:has(#call-menu:not([hidden]))
 body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{max-height:calc(100% - var(--place-top,64px) - var(--bar-room,12px) - 8px)}
 @media (min-width:761px){body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{width:min(24rem,calc(100% - var(--place-left,12px) - 12px),calc(40% - var(--place-left,12px)))}}
 /* The lines the page says, in the status column (public/index.html): as wide as the column at most, in its flow. */
-#hud-left #error,#hud-left #save-fault,#hud-left #lifecycle,#hud-left #host-notice{position:static;left:auto;top:auto;transform:none;max-width:min(19rem,calc(100vw - 24px));padding:7px 12px;font-size:13px;text-align:left;box-sizing:border-box}
+#hud-left #error,#hud-left #save-fault,#hud-left #lifecycle,#hud-left #host-paused,#hud-left #host-notice{position:static;left:auto;top:auto;transform:none;max-width:min(19rem,calc(100vw - 24px));padding:7px 12px;font-size:13px;text-align:left;box-sizing:border-box}
 /* The journal opens under the guided start's strip rather than over its lower half, where "Show placement controls" was. */
 body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px + var(--lesson-room,108px)))}
 /* The sound's panel of sliders opens over the right-hand end of the map's buttons, where "How it ended" stands, rather than

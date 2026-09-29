@@ -101,6 +101,8 @@ export const HOST_FURNITURE = [
   { name: 'error line', selector: '#error', kind: 'notice' },
   { name: 'save fault', selector: '#save-fault', kind: 'notice' },
   { name: 'lifecycle line', selector: '#lifecycle', kind: 'notice' },
+  // Why the class paused itself with nobody in it (server/app.mjs `pauseIfEmpty`, owner 2026-09-29).
+  { name: 'paused itself', selector: '#host-paused', kind: 'notice' },
   { name: 'host notice', selector: '#host-notice', kind: 'notice' },
   { name: 'ending', selector: '#ending', kind: 'dialog' },
   { name: 'reconnecting', selector: '#reconnecting', kind: 'dialog' },

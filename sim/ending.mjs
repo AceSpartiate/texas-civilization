@@ -82,6 +82,20 @@ export const keptFor = (taken, living, weight = PRISONER_WEIGHT) => taken ? Math
 const livingOf = (world, household) => household.members.filter(id => world.entities[id] && world.entities[id].health?.condition !== GONE_FOR_GOOD).length;
 /** The share of the family's coin still counted: its living people less the prisoners' parts, weighed. */
 export const keptShare = (world, household) => keptFor(scrapePrisoners(world, household).length, livingOf(world, household));
+/**
+ * **Nobody left** of the family: every one of it dead or a prisoner (triage 2026-09-29, found while checking 1.4). The same words
+ * the rest of the game uses: the order to leave tells nobody when nobody is left (sim/scrape.mjs `GONE`), and a late student is
+ * not given such a family (server/app.mjs `livingIn`). Until this the ending alone meant *dead*, so a family whose people were
+ * all prisoners could be named the winner - on its land alone, since its prisoners' weight counts no coin. Prisoners are never
+ * set free in this game, so a family of prisoners is not one anybody is left to finish.
+ *
+ * Only who can finish first. A prisoner is still one of the family's living people for the share a prisoner's part is of
+ * (`livingOf`, `keptShare`), and the prisoners' weight is unchanged.
+ */
+export const nobodyLeft = (world, household) => !household.members.some(id => {
+  const person = world.entities[id];
+  return person && !['dead', 'captured'].includes(person.health?.condition);
+});
 
 const reales = amount => `${amount} ${amount === 1 ? 'real' : 'reales'}`;
 const day = (world, minute) => dateOf(world, minute).toLocaleDateString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' });
@@ -246,6 +260,12 @@ export const DISCUSSION = Object.freeze([
  * automatic neighbour's numbers are counted and shown, and it is never named or ranked. A tie names
  * every family that shares the highest number.
  *
+ * **A family a student played is still theirs when the student is away at the end** (owner, 2026-09-29, by multiple choice:
+ * *"Any played family"*; triage 1.4, playthrough audit #6, design audit S23). A Chromebook asleep in the last minutes or a
+ * student off sick on the last day hands the family to the director (sim/absence.mjs), and until this it could no longer win
+ * and the projector said nobody had played it. Now every family a student played that has somebody left (`nobodyLeft`) can
+ * finish first, and one the director was running at the end is marked so (`finishedByDirector`), never "nobody played them".
+ *
  * ceiling: a class in which nobody earned anything ties every played family at nothing, and names
  * them all. That is the owner's rule applied literally; a class that bare has not really played.
  */
@@ -258,8 +278,11 @@ export function hostEnding(world) {
       name: own.name,
       money: own.money, glory: own.glory, land: own.land, final: own.final, prisoners: own.prisoners.length,
       automatic: automatic(world, household),
-      // Nobody of the family living (playthrough audit 7, 2026-09-28): counted and shown, never named the winner.
-      ...(livingOf(world, household) === 0 && { wiped: true }),
+      // A family a student played that the director was running at the end: its student was away (sim/absence.mjs).
+      ...(automatic(world, household) && household.played && { finishedByDirector: true }),
+      // Nobody of the family left, dead or a prisoner (playthrough audit 7, 2026-09-28; `nobodyLeft`): counted and shown, never
+      // named the winner.
+      ...(nobodyLeft(world, household) && { wiped: true }),
       miles: milesFromGonzales(world, household),
       heard: firstWord(world, household)?.date || null,
       went: [...new Set(parts.map(part => part.name))],
@@ -267,7 +290,8 @@ export function hostEnding(world) {
   });
   // A family with nobody living cannot finish first (2026-09-28): a lone father killed at the Alamo was named the class's winner
   // by the Alamo's glory on his coin, and "the family where everybody died wins" is the lesson the ending would teach.
-  const contenders = families.filter(family => !family.automatic && !family.wiped);
+  // Ranked on played and not wiped (owner, 2026-09-29): a family nobody played never, a played one whose student is away still.
+  const contenders = families.filter(family => (!family.automatic || family.finishedByDirector) && !family.wiped);
   const best = contenders.length ? Math.max(...contenders.map(family => family.final)) : null;
   const winners = best === null ? [] : contenders.filter(family => family.final === best).map(family => family.householdId);
   const reveal = surpriseReveal(world);
@@ -308,5 +332,5 @@ export function endingProjection(world, householdId, role) {
 export const interimFamily = family => ({ householdId: family.householdId, name: family.name, money: family.money, land: family.land, acres: family.acres });
 /** The Host's standings so far: every family's coin and land in household order, a family nobody played marked, nobody named. */
 export function interimHost(host) {
-  return { families: host.families.map(one => ({ householdId: one.householdId, name: one.name, money: one.money, land: one.land, automatic: one.automatic })) };
+  return { families: host.families.map(one => ({ householdId: one.householdId, name: one.name, money: one.money, land: one.land, automatic: one.automatic, ...(one.finishedByDirector && { finishedByDirector: true }) })) };
 }

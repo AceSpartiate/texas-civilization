@@ -1,5 +1,52 @@
 # Claude handoff — Astra foundation
 
+## The empty class pauses itself, any played family can win, the lobby shows who is ready — owner, 2026-09-29 (not released)
+
+Branch `owner-pause-win-lobby`, off origin/main (0ffa9663) with `audit-triage-2026-09-29` merged in; not pushed. The owner's
+three answers to the triage's quick confirmations ([audits/2026-09-29-triage.md](docs/audits/2026-09-29-triage.md) C1, C3,
+C5), by multiple choice. Triage items 1.1, 1.4 and 1.7 and its extra finding on prisoners are marked fixed there.
+
+- **"Pause after 3 min"** (1.1; [HOST_PAGE §2.11](docs/HOST_PAGE.md)). A running class in which no student's page has been
+  open for three real minutes pauses itself and is written at once (`EMPTY_PAUSE_MS`, `pauseIfEmpty` in `server/app.mjs`,
+  checked each tick; a page that opened and closed between ticks counts). The lobby never pauses. The Host's page says why
+  under the status line until Resume (`#host-paused`, `emptyPauseWords` in `public/live-page.js`): *"The class paused itself at
+  10:42 AM: no student had the game open for 3 minutes, so nothing went on without them. Press Resume when the class is
+  back."*; the Host's record has a line; no student is sent either. Resume - and any Pause and Resume of the teacher's own -
+  gives the whole span again. **Only the real classroom server watches** (`server/main.mjs` passes `emptyPauseMs`;
+  `EMPTY_PAUSE_MS` env shortens it for a proof), as with Play Solo's watch: in-process tests and browser proofs are never
+  paused from under them. `server/app.mjs` edits are kept to the presence block, the host payload (one line), one line after a
+  command's commit, and the function beside `tick()`, for the concurrent app.mjs work. `ceiling:` presence is the stream alone.
+- **"Any played family"** (1.4; [MONEY_AND_GLORY §5 *Who can finish first*](docs/MONEY_AND_GLORY.md)). `hostEnding` ranks
+  families on played and not wiped; a played family the director was running at the end is marked `finishedByDirector` and
+  labelled *(finished by the computer)* on the Host's ending and interim tables (`familyLabel`, `public/ending.js`);
+  *(nobody played them)* only for never-played families; `classHooks` names every played family. **"Wiped" made coherent**:
+  the ending's "nobody left" is now dead *or a prisoner* (`nobodyLeft`, `sim/ending.mjs`), as the order to leave's and the
+  late seat's are - a family whose only living man is the army's prisoner (not weighed) could otherwise win on his coin.
+  Prisoners still count among the family's living for the prisoners' share; the weight is unchanged.
+- **"Show name + ready"** (1.7; [HOST_PAGE §2.12](docs/HOST_PAGE.md)). Each played family's row names its student
+  (`presence.students`, Host only) for the whole class; in the lobby a *ready* mark once rolled, named, looks chosen and packed
+  (`readyInLobby`, `sim/host.mjs`). **Done packing in a class now tells the server** (`done-packing` → `household.packed`, true
+  or absent, `donePacking` in `sim/wagon.mjs`; validated in `validateWorld`); a load or stock change after it takes the mark
+  away; refused after Start. Start unchanged. No `saveVersion` move: an old save has nobody packed, which is what its lobby shows.
+
+**Evidence** (same computer only; no Chromebook, LAN or classroom claim). New tests: `tests/empty-pause.test.mjs` (4),
+`tests/lobby-ready.test.mjs` (2), 2 in `tests/ending.test.mjs`, 1 in `tests/ending-story.test.mjs`, 2 in
+`tests/host-page.test.mjs`. `scripts/owner-pause-win-lobby-injections.mjs`: **31 of 31** injected regressions caught by the node
+tests, each by the test written for it (one, a prisoner no longer counted among the living, also by the existing Scrape-prisoner
+test) ([evidence](docs/evidence/owner-pause-win-lobby-injections.json)); `--browser`: **3 of 3** caught by `npm run
+test:host-lobby` (the page not drawing the reason, not sending Done packing, not drawing the mark)
+([evidence](docs/evidence/owner-pause-win-lobby-injections-browser.json)). New browser proof **`npm run test:host-lobby`**
+(`scripts/host-lobby-pause-browser-proof.mjs`) **9 checks**: a student's page walking the die, name and looks and pressing Done
+packing marks the Host's row *ready* beside "Sam Reyes", the other student named and unmarked; Start unchanged; the last page
+closed and the class paused 3.2 s later with the words shown; Resume; 400 px. It found a real fault on its first run: the reason
+was set after the pause's broadcast, and a paused class sends nothing more, so the Host's page never heard it (now set before;
+the node test watches the Host's stream for it too). `npm test` **1724 tests, 1688 pass, 0 fail, 36 skipped** (the suspended
+tutorial). Browser proofs re-run green: `test:ending` 10, `test:host-bell` 9, `test:classes` 16, `test:host-live` 11,
+`test:overlap` 167 screens / 31 states / 0 faults (their evidence files were not re-committed, to keep the merge small).
+
+**Left:** the overlap proof has no state with `#host-paused` shown (it is listed in the Host's furniture); the concurrent
+server/app.mjs branch (pace saved, class code O/0, duplicate names, 4th tab) must be merged with this one.
+
 ## Released as v2026.09.29.1 — 2026-09-29
 
 Everything below marked *(released in v2026.09.29.1)* shipped in this release: simpler work (one wood pile, auto, more hands, an axe each), the tutorial suspended and tips at first meeting, people drawn at their work, ambient life and chatter, sound and music, crops in real minutes with a slow winter and open stores until the Scrape, neighbours who repay (and count toward glory), who acts for a family, the flashback video, Stop for today / Continue / Delete in Classes, the overlap fixes, the errand list that stands still, the looks recolouring that finds the face, and Claude's temporary art in six areas (docs/CLAUDE_ART_PLAN.md). Verified on a clean tree at 9bed9f43: `npm test` 1713 tests, 1677 pass, 0 fail, 36 skipped (the suspended tutorial); 26 of 28 browser proofs green first time, `test:solo-game` green on rerun, `test:famous-people` green on one of two reruns (its Host frame sample is 2-7 frames; a follow-up is open). Same computer only; no Chromebook or LAN claim.

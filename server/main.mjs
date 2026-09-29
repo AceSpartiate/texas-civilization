@@ -1,7 +1,7 @@
 import { dirname, join } from 'node:path';
 import { writeFileSync, readFileSync, rmSync, existsSync, statSync } from 'node:fs';
 import { readSave, writeSave } from './storage.mjs';
-import { createClassroom, PACES } from './app.mjs';
+import { createClassroom, EMPTY_PAUSE_MS, PACES } from './app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { resolveDataDir, resolveSavePath, joinCandidates, soloPaths } from './deployment.mjs';
 
@@ -55,6 +55,9 @@ const app = createClassroom({
   // Play Solo saves, pauses and stops itself when its player's page has gone (server/app.mjs `SOLO_WATCH`, owner 2026-09-27).
   // SOLO_LEAVE_MS shortens the wait after the page closes, for a browser proof; nobody else needs it.
   ...(solo && { soloWatch: Number(process.env.SOLO_LEAVE_MS) > 0 ? { leaveMs: Number(process.env.SOLO_LEAVE_MS) } : {} }),
+  // A class pauses itself once no student's page has been open for three minutes (server/app.mjs `EMPTY_PAUSE_MS`, owner
+  // 2026-09-29: "Pause after 3 min"). EMPTY_PAUSE_MS shortens it for a browser proof; nobody else needs it.
+  ...(!solo && { emptyPauseMs: Number(process.env.EMPTY_PAUSE_MS) > 0 ? Number(process.env.EMPTY_PAUSE_MS) : EMPTY_PAUSE_MS }),
   // Real milliseconds an unanswered military question may stay open (sim/decision-budget.mjs, 90 000 by default).
   ...(Number(process.env.DECISION_BUDGET_MS) > 0 && { decisionBudgetMs: Number(process.env.DECISION_BUDGET_MS) }),
   // Real milliseconds a played family's settlement call stays open (sim/decision-budget.mjs, 300 000 by default).

@@ -218,6 +218,21 @@ export const STOPPED_FOR_TODAY = 'Your teacher stopped the class for today. It w
  * ceiling: a player whose page stays open but who has walked away is still here; the Pause on their page is for that.
  */
 export const SOLO_WATCH = Object.freeze({ leaveMs: 30000, enterMs: 120000, chooseMs: 600000 });
+/**
+ * A class left running with nobody in it pauses itself (owner, 2026-09-29, by multiple choice: **"Pause after 3 min"**;
+ * triage 1.1, classroom audit S1, design audit S1). A teacher who leaves at the bell without Pause or *Stop for today* left a
+ * class that played itself: every family went to the director and people died with no student watching. Now, once no
+ * student's page has been open for three real minutes while the class runs, it is paused, the Host's record says so, and
+ * the Host's page says why (`emptyPaused`) until the teacher's own Resume. A class in its lobby is not running and never
+ * pauses; a running class that no student has opened yet does, three minutes after it began running. The teacher's Host
+ * page does not count: it is a projector as often as it is a teacher.
+ *
+ * Only the real classroom server watches (server/main.mjs passes `emptyPauseMs`), as only the real solo server watches its
+ * player: the in-process classes of the tests and browser proofs are never paused from under them. Play Solo has its own
+ * watch and never this one. ceiling: presence is the page's stream alone (docs/HOST_PAGE.md §4), so a room of open
+ * Chromebooks whose students have gone keeps a class running; the "!" counts on the class panel are what tell a teacher that.
+ */
+export const EMPTY_PAUSE_MS = 180000;
 
 /** The most woods tiles one request may ask for. */
 export const WOODS_BATCH_MAX = 64;
@@ -226,7 +241,7 @@ export const WOODS_BATCH_MAX = 64;
  * `LESSON_RESUME_MS`, five minutes when not given). Both are options only so a test or a browser proof can hold the clock,
  * jump it, or shorten the window; a real class passes neither.
  */
-export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, decisionBudgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, now = Date.now, lessonResumeMs, soloWatch = null, flashbackDir } = {}) {
+export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, decisionBudgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, now = Date.now, lessonResumeMs, soloWatch = null, flashbackDir, emptyPauseMs = null } = {}) {
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   if (!Number.isFinite(decisionBudgetMs) || decisionBudgetMs <= 0) throw new Error('A decision budget must be a positive number of milliseconds');
   if (!Number.isFinite(callBudgetMs) || callBudgetMs <= 0) throw new Error('A call budget must be a positive number of milliseconds');
@@ -302,6 +317,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   // who left; a household whose stream has closed is *away* until the grace window passes.
   const AWAY_GRACE_MS = 90000;
   const lastSeen = new Map();
+  // A class left running with nobody in it (`pauseIfEmpty`, below): since when, and why it paused itself.
+  let emptySince = null, emptyPaused = null;
   /**
    * Presence begins again with every launch, and a family's absence must not be forgotten with it (classroom audit
    * 2026-09-28, with *Stop for today*, docs/HOST_PAGE.md §2.8): with nothing seen, `markAbsences` counted every joined family
@@ -323,16 +340,18 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   function presence() {
     const here = streaming(), now = Date.now();
     let away = 0;
-    const households = {};
+    const households = {}, students = {};
     for (const client of Object.values(state.clients)) {
       const id = client.householdId;
       if (!id) continue;
+      // The student's own name on the family's row (owner, 2026-09-29: "Show name + ready"). The Host alone is sent presence.
+      students[id] = client.name;
       const at = lastSeen.get(id);
       // 'absent' is the world's word (sim/absence.mjs): the family is being run for. It outranks the grace.
       households[id] = here.has(id) ? 'here' : state.world.households[id]?.absent ? 'absent' : at !== undefined && now - at < AWAY_GRACE_MS ? 'away' : 'gone';
       if (households[id] === 'away') away++;
     }
-    return { here: here.size, away, joined: Object.keys(state.clients).length, households };
+    return { here: here.size, away, joined: Object.keys(state.clients).length, households, students };
   }
   /**
    * Absent families go on by themselves (sim/absence.mjs): a joined household whose stream has been closed for `absentMs`
@@ -520,6 +539,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       classSize: state.world.playerCount, className: state.className || null, keepsClasses: Boolean(shelfDir),
       lateSeat: state.lateSeat || null, seats: seats(), schedule: classSchedule(state.world, PACES),
       ...(recoveredLock && { recoveredLock: { reason: recoveredLock.reason, backup: recoveredLock.backup && basename(recoveredLock.backup) } }),
+      // Why the class is paused, when it paused itself with nobody in it (`pauseIfEmpty`, owner 2026-09-29).
+      ...(emptyPaused?.sessionId === state.sessionId && state.world.status === 'paused' && { emptyPaused: { at: emptyPaused.at, ms: emptyPaused.ms } }),
     });
     // A household is told its own key and no other. The Host page deliberately carries
     // none of them, because a teacher's screen is sometimes a projector.
@@ -1424,12 +1445,41 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         // The flashbacks told the class as it was ended; continued, they are thrown away and made again at its next end.
         if (continued) flashbacks.discard(continued);
         if (wantedPace) setPace(wantedPace);
+        // Resumed, or ended: the Host's page no longer says why the class paused itself (`pauseIfEmpty`).
+        if (state.world.status !== 'paused') emptyPaused = null;
         if (stopping) requestStop(forToday ? STOPPED_FOR_TODAY : null);
         return json(res, 200, { ok: true, ...(archived && { archived: basename(archived) }), ...(deleted && { deleted }), ...(stopping && { stopping: true }), ...(forToday && { stoppedForToday: true }), ...(soloControl && { saved: state.revision }) });
       }
       json(res, 404, { error: 'Not found' });
     } catch (error) { if (!res.headersSent) json(res, error.status || 400, { error: error.message }); else res.destroy(); }
   });
+  /**
+   * A class left running with nobody in it (`EMPTY_PAUSE_MS`, owner 2026-09-29): `emptySince` is when the running class was
+   * first seen with no student's page open, forgotten whenever one is open or the class is not running, so the teacher's
+   * Resume always gives a class its full three minutes again. `emptyPaused` is why it paused, for the Host's page, until the
+   * class runs again or another class is opened. Declared with presence (above), which the Host's view reads it beside.
+   */
+  function pauseIfEmpty() {
+    emptyPaused = null;
+    if (!emptyPauseMs || solo) return false;
+    if (playerHere()) { emptySince = null; return false; }
+    const at = Date.now();
+    emptySince ??= at;
+    // A page that opened and closed again between two ticks was a student here: its closing is the last time one was seen.
+    if (at - Math.max(emptySince, ...lastSeen.values()) < emptyPauseMs) return false;
+    const span = emptyPauseMs >= 60000 ? `${Math.round(emptyPauseMs / 60000)} minutes` : `${Math.round(emptyPauseMs / 1000)} seconds`;
+    // Set before the commit, whose broadcast is the Host's only word of it: a paused class sends nothing more until it changes.
+    emptyPaused = { at: new Date(at).toISOString(), ms: emptyPauseMs, sessionId: state.sessionId };
+    try {
+      commit(s => {
+        s.world.status = 'paused';
+        record(s.world, 'lifecycle', { visibility: 'host', importance: 2, text: `The class paused itself: no student had the game open for ${span}.` });
+      });
+    } catch (error) { emptyPaused = null; throw error; }
+    emptySince = null;
+    console.log(`No student's page has been open for ${span}: the class is paused and saved (revision ${state.revision}). Resume carries it on.`);
+    return true;
+  }
   function tick() {
     // Play Solo's clock waits while the player's family is being made (sim/family.mjs `familyMaking`): the whole world, the
     // neighbours too, as a class waits in its lobby. Still 'running', so the die, the name and the looks are taken.
@@ -1437,7 +1487,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       && !(solo && Object.values(state.clients).some(client => familyMaking(state.world, state.world.households[client.householdId])));
     // Measured before anything else, so a paused or waiting class is always a lap not run (`realTimeMeter`).
     const realMs = realTime.lap(running, Math.max(3 * pace, 2000));
-    if (!running) return;
+    if (!running) { emptySince = null; return; }
+    try { if (pauseIfEmpty()) return; } catch (error) { console.error('The class could not pause itself:', error.cause?.message || error.message); }
     try { commit(s => { markAbsences(s.world); stepWorld(s.world, { realMs, decisionBudgetMs, callBudgetMs }); }, { when: 'tick' }); }
     catch (error) { if (!runtimeFault) suspend('SIMULATION_FAILED'); console.error('Simulation paused:', error.cause?.message || error.message); }
   }

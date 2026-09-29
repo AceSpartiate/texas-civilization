@@ -3,7 +3,7 @@ import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtRea
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
-import { familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
+import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
 import { actingOf, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { TIPS, tipToShow } from '/tips.js';
@@ -4877,6 +4877,9 @@ function renderHostLive(snapshot, host) {
       item.dataset.householdId = row.id; item.dataset.presence = row.presence;
       const head = element('div', '', 'host-family-head');
       head.append(element('span', row.name), element('span', row.settlement, 'host-family-settlement'));
+      // Who plays it, and in the lobby a ready mark once it is rolled, named and packed (owner, 2026-09-29: "Show name + ready").
+      if (row.student) head.append(element('span', row.student, 'host-student'));
+      if (row.ready) { const ready = element('span', 'ready', 'host-ready'); ready.title = 'Rolled, named and packed'; head.append(ready); }
       const presence = element('span', PRESENCE_LABELS[row.presence] || row.presence, 'host-presence'); presence.dataset.presence = row.presence;
       head.append(presence);
       if (row.waiting) { const waiting = element('span', `${row.waiting} waiting`, 'host-waiting'); waiting.title = `${row.waiting} thing${row.waiting === 1 ? '' : 's'} wait${row.waiting === 1 ? 's' : ''} unanswered on this family`; head.append(waiting); }
@@ -6024,6 +6027,12 @@ $('#wagon-done')?.addEventListener('click', async () => {
   wagonPacking = false;
   const solo = window.__snapshot?.solo, lobby = window.__snapshot?.world?.status === 'lobby';
   if (solo && lobby) await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'begin-solo' });
+  // In a class the teacher starts it, and the server is told the family is packed: the Host's row marks it ready once it is
+  // rolled, named and packed too (owner, 2026-09-29: "Show name + ready"; sim/wagon.mjs `donePacking`).
+  else if (lobby) {
+    try { await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'done-packing' }); }
+    catch (error) { say(error.message); }
+  }
   if (window.__snapshot) render(window.__snapshot);
   $('#wagon-open')?.focus();
 });
@@ -6997,6 +7006,11 @@ function render(snapshot) {
   $('#save-fault').textContent = snapshot.fault?.message || '';
   $('#lifecycle').hidden = !snapshot.lifecycle;
   $('#lifecycle').textContent = snapshot.lifecycle?.message || '';
+  // The class paused itself with no student in it (owner, 2026-09-29: "Pause after 3 min"; server/app.mjs `pauseIfEmpty`): why,
+  // said plainly on the Host's page until Resume. The server sends it to the Host alone, and only while the class is paused.
+  const pausedWords = emptyPauseWords(snapshot.emptyPaused);
+  if ($('#host-paused').textContent !== pausedWords) $('#host-paused').textContent = pausedWords;
+  $('#host-paused').hidden = !pausedWords;
   window.__snapshot = snapshot;
   // For a proof that changes the snapshot in the page's hand and needs it drawn without waiting for a tick - a lobby does
   // not tick at all (scripts/support/lesson-stub.mjs). Nothing in the page ever calls it.
