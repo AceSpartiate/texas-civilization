@@ -51,7 +51,9 @@ try {
   assert.deepEqual(await catalog.evaluate(()=>window.__catalog.missingSheets),[]);
   await catalog.locator('#catalog-kind').selectOption('clip');await catalog.locator('#catalog-search').fill('rust-walk');
   const tile=catalog.locator('[data-clip="rust-walk"] canvas');await tile.scrollIntoViewIfNeeded();
-  const p1=await tile.evaluate(c=>c.toDataURL());await catalog.waitForTimeout(310);const p2=await tile.evaluate(c=>c.toDataURL());assert.notEqual(p1,p2,'authored walk changes pixels');
+  // The catalog decodes every sheet of both libraries (Claude's stand-ins too, 2026-09-28) while five class pages run beside it; a
+  // walk that has not yet been painted, or a paint held back a frame by that load, is sampled again, up to three seconds.
+  const p1=await tile.evaluate(c=>c.toDataURL());let p2=p1;for(let i=0;i<10&&p2===p1;i++){await catalog.waitForTimeout(310);p2=await tile.evaluate(c=>c.toDataURL());}assert.notEqual(p1,p2,'authored walk changes pixels');
   await catalog.locator('#catalog-play').click();
   await catalog.waitForTimeout(100);const held=await tile.evaluate(c=>c.toDataURL());await catalog.waitForTimeout(300);assert.equal(await tile.evaluate(c=>c.toDataURL()),held);
   // Astra's four deliveries of the evening of 2026-09-21, each painting real ink in a real browser: the mounted family,
