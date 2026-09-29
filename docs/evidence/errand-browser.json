@@ -8,14 +8,14 @@
     "the store's line says its price now and how much it wants: \"pays 2 reales or 2 food for 1 bale\", \"The store buys all the cotton it is brought, at full price, until the Runaway Scrape; after that only what it can use.\"",
     "selling the cotton, Coin is pressed before the student chooses, and Food is not",
     "the popup says how they will go, in the server's words: \"Takes the wagon: 14 of 20 loads, more than the horse carries (7).\" (1366x768: 500x616, clear of the column, nothing over its controls, no tip over the map standing on it)",
-    "the list stands still while the family eats: food 30.0415 → 30.2075, the stock redrawn (\"The family has 30.2 food · 2 seed · 3 po…\"), and the + on the cotton is the same button",
+    "the list stands still while the family eats: food 30.0498 → 30.2075, the stock redrawn (\"The family has 30.2 food · 2 seed · 3 po…\"), and the + on the cotton is the same button",
     "Enter sends the one order: Alvin drives off to Gonzales with the ox and wagon",
     "a second person is refused the wagon with who has it and what to do: \"This wants the wagon: 10 loads, and the horse carries 7. Alvin has the ox and wagon, on the road to Gonzales. Send a smaller load, or wait until the wagon is free.\"; five bales go instead: \"Rides the horse: 5 of 7 loads.\"",
     "Escape closes the popup and sends nobody, and the ability bar is back",
     "at 1024x768 the popup fits (500x616), keeps off the column and has nothing over its controls",
     "the student chooses: the popup marks the horse quickest and the wagon shut (\"Alvin has the ox and wagon, on the road to Gonzales.\"); on foot is chosen and said, \"Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker.\", and Keziah walks while the horse stays home",
     "the goods come home: 177 reales (the 150 put by, 28 for the cotton, 1 paid for seed) and 2 more seed in the house, the wagon free again, and the story says so: \"Alvin sold 14 cotton to Marta Ibarra for 28 reales.\" \"Alvin bought 2 seed at the store for 1 real.\"",
-    "a second rifle is bought at the gunsmith (\"Buy a rifle: 8 reales or 16 food\", the stock line \"The family has 27.5 food · 4 seed · 6 powder · 177 reales. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.\"), and Alvin and Keziah are both out hunting at once",
+    "a second rifle is bought at the gunsmith (\"Buy a rifle: 8 reales or 16 food\", the stock line \"The family has 27.6 food · 4 seed · 6 powder · 177 reales. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.\"), and Alvin and Keziah are both out hunting at once",
     "a second horse is bought at the stock pens (Buy a horse: 25 reales, Buy an ox: 15 reales, Buy a cow and calf: 10 reales, Buy a hog: 4 reales or 14 food): \"Rides the horse: 0 of 7 loads. Leads the new horse home on a halter.\"; Dandy the gelding is seen led home beside Alvin, who rides Bess, and stands drawn in the yard beside her",
     "two riders at once: Alvin and Keziah each ride to Gonzales on a horse of their own, both drawn in the saddle",
     "the wheelwright's wagon (Buy a new wagon: 100 reales) is refused alone (\"A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.\"), sent with an ox from the pens: \"Goes on foot: 0 of 5 loads. Alvin and Keziah have both horses. Drives the new wagon home behind the new ox, at an ox's pace.\"; Soledad drives it home behind Buck the ox (drawn wagon) and it stands in the yard 558 px from the family wagon",
@@ -64,7 +64,7 @@
     },
     "keptWhileEating": {
       "before": {
-        "food": 30.0415,
+        "food": 30.0498,
         "stock": "The family has 30 food · 2 seed · 3 powder · 150 reales · 14 cotton. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox."
       },
       "after": {
@@ -119,7 +119,7 @@
     ],
     "chosen": "Goes on foot: 3 of 5 loads, as you chose. The horse would be quicker.",
     "home": {
-      "food": 27.6373,
+      "food": 27.6512,
       "seed": 4,
       "powder": 6,
       "money": 177,
@@ -134,7 +134,7 @@
       "price": "8 reales or 16 food",
       "shut": false
     },
-    "toolsStock": "The family has 27.5 food · 4 seed · 6 powder · 177 reales. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.",
+    "toolsStock": "The family has 27.6 food · 4 seed · 6 powder · 177 reales. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.",
     "pens": [
       {
         "id": "stockman:horse",
@@ -162,7 +162,7 @@
       }
     ],
     "horseHow": "Rides the horse: 0 of 7 loads. Leads the new horse home on a halter.",
-    "animalsStock": "The family has 26.9 food · 4 seed · 6 powder · 166 reales. Tools: 2 rifles · a hoe · 2 felling axes. Animals: a horse · an ox.",
+    "animalsStock": "The family has 26.8 food · 4 seed · 6 powder · 166 reales. Tools: 2 rifles · a hoe · 2 felling axes. Animals: a horse · an ox.",
     "animalsAt1366": {
       "screen": {
         "w": 1366,
@@ -190,13 +190,13 @@
     "ledTrails": 58,
     "yard": {
       "bess": {
-        "x": 695.4228131140866,
-        "y": 293.6134905347999,
+        "x": 696.0335174262447,
+        "y": 294.6593216693747,
         "size": 74.25000000000001
       },
       "bought": {
-        "x": 626.884351575625,
-        "y": 293.6134905347999,
+        "x": 627.4950558877831,
+        "y": 294.6593216693747,
         "size": 74.25000000000001
       }
     },
@@ -272,13 +272,13 @@
     },
     "wagonsInYard": {
       "first": {
-        "x": 208.8269126550566,
-        "y": -160.2244080296254,
+        "x": 209.8355010944509,
+        "y": -158.49720032717,
         "size": 76.72500000000001
       },
       "second": {
-        "x": 631.6488656930396,
-        "y": 204.13397096087436,
+        "x": 632.6528549691513,
+        "y": 205.85330259620332,
         "size": 76.72500000000001
       }
     },

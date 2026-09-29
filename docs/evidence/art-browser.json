@@ -1,13 +1,13 @@
 {
   "result": "PASS",
-  "date": "2026-09-29T02:47:44.660Z",
+  "date": "2026-09-29T04:45:36.658Z",
   "browser": "153.0.8010.53",
   "catalog": {
-    "sprites": 2004,
-    "clips": 683,
-    "sheets": 184,
+    "sprites": 2344,
+    "clips": 825,
+    "sheets": 203,
     "missingSheets": [],
-    "shown": 683
+    "shown": 825
   },
   "actualAnimatedPixels": true,
   "pauseFreezesPixels": true,
@@ -15,13 +15,13 @@
   "phoneNoOverflow": true,
   "journalKeyboard": true,
   "externalRequests": 0,
-  "observedDrawMs": 1.899999976158142,
+  "observedDrawMs": 8,
   "deliveredPixels": {
     "rust-ride-e": 47332,
     "blue-girl-ride-n": 35209,
-    "blue-wagon-driver-w": 26570,
+    "blue-wagon-driver-w": 26640,
     "mustang-graze": 93288,
-    "steamboat-laden": 71248,
+    "steamboat-laden": 71196,
     "alamo-face-church-south": 56640,
     "alamo-face-gate": 109269
   },
