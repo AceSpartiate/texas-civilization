@@ -98,6 +98,17 @@ const gaitClock = new GaitClock(), gaits = new Map();
 // People at their work (public/work-art.js): where each stands round a shared piece of work and where in its stroke they are,
 // written into these once a figure rather than made new, and each pose's frame lengths read once from the library.
 const workSlotOut = { x: 0, y: 0, face: null }, workClockOut = { period: 0, since: 0, count: 0, frame: 0 }, workFrames = new Map(), workSeeds = new Map();
+// The work's effect sheets (`fx-*`), drawn by public/work-art.js `drawWorkLayer` through `workEffect`; one options object each
+// way, so a frame makes nothing.
+const EFFECT_EAST = Object.freeze({ flip: false }), EFFECT_WEST = Object.freeze({ flip: true });
+// A tree felled while the page watches goes over once (`tree-fall`, request 2026-09-28 — people at work, item 15): when the
+// felling's own words move on from the felling (as public/audio-cues.js hears the fall), the tree just off the feller's axe
+// falls where they stood, the way they faced. By person: the words last drawn, and a fall under way (where, which way, when).
+// stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)", area A - `tree-fall` is Claude-drawn.
+// ceiling: every felled tree falls as the one hardwood drawing, pine or oak, beside the stump the server puts down; a fall per
+// kind, set on the new stump itself, is the way out if it jars.
+const fellingWords = new Map(), treesFalling = new Map(), TREE_FALL_MS = 1240;
+function workEffect(ctx, name, x, y, height, flip) { return drawSprite(ctx, name, x, y, height, flip ? EFFECT_WEST : EFFECT_EAST); }
 /**
  * What was drawn of each traveller this frame (public/motion.js `travelSight`): how much of them was drawn (1 in view, 0
  * away), where along the road they were drawn, how fast they were drawn going in their own heights a second and what the
@@ -347,6 +358,13 @@ function atTheirWork(entity, homeSiteId, now, frozen) {
 }
 function drawAtWork(ctx, binding, clip, x, y, size, entity) {
   let stroke = binding.work;
+  // The felling's words moving on from the felling: the tree goes over (`treesFalling`).
+  const felling = entity.chore && (entity.chore.id === 'fell-trees' || entity.chore.id === 'fetch-logs') ? entity.chore.doing : null;
+  if (entity.id && felling !== undefined) {
+    const was = fellingWords.get(entity.id);
+    if (was && felling !== was && /fell/i.test(was) && entity.location) treesFalling.set(entity.id, { at: animationTime, where: entity.location, flip: Boolean(entity.flip) });
+    if (felling) fellingWords.set(entity.id, felling); else fellingWords.delete(entity.id);
+  }
   // A cycle of the work itself where this figure has one (public/work-art.js `drawnStroke`): `rust-chop` for rust felling.
   if (stroke.drawn && stroke.art !== 'journey' && !entity.strolling) {
     const own = `${clip.slice(0, clip.length - stroke.pose.length - 1)}-${stroke.drawn.pose}`;
@@ -370,7 +388,7 @@ function drawAtWork(ctx, binding, clip, x, y, size, entity) {
   });
   if (!width) return 0;
   // The cast figure the pose is drawn in (`rust-work` is rust's), whose hands a drawn axe is put in (public/work-art.js `HAFTS`).
-  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still, clip.slice(0, clip.length - stroke.pose.length - 1));
+  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still, clip.slice(0, clip.length - stroke.pose.length - 1), workEffect);
   // Presentation evidence for the proofs (npm run test:work), read by nothing in the application: what each of the family at work
   // was last drawn doing, which frame of it, and how many marks of its tool and effect. One record a person, kept and rewritten.
   if (id) {
@@ -382,13 +400,22 @@ function drawAtWork(ctx, binding, clip, x, y, size, entity) {
   }
   return width;
 }
+/**
+ * The clip somebody is drawn in: the activity's own (`drawn`, public/motion.js `AMBIENT_DRAWN`) where the library holds it for
+ * this figure and it can be drawn now, else the delivered pose the binding names. `as` renames a clip to another figure first.
+ * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)", area A (ambient life).
+ */
+function ownClip(binding, as = null) {
+  if (binding.drawn) { const own = as ? as(binding.drawn) : binding.drawn; if (clipReady(own)) return own; }
+  return as ? as(binding.id) : binding.id;
+}
 function miniPerson(ctx, x, y, size, entity) {
   // A child is drawn smaller than a grown person, in their own figure or a grown one (public/motion.js `entityClip`).
   if (!entity.side) size *= figureScale(entity);
   if (entity.appearance) {
     const binding = entityClip(entity, entity.observed);
     const cast = avatarVariant(entity.appearance, entity.sex);
-    const clip = binding.id.replace(/^(rust-woman|blue-girl|indigo|ochre|elder|rust|teal|blue)-/, `${cast}-`);
+    const clip = ownClip(binding, id => id.replace(/^(rust-woman|blue-girl|indigo|ochre|elder|rust|teal|blue)-/, `${cast}-`));
     // The pose each of the family was last drawn in, by id: presentation evidence for the proofs (npm run test:children), read by
     // nothing in the application.
     if (entity.id) (window.__clipsDrawn ??= {})[entity.id] = clip;
@@ -399,11 +426,12 @@ function miniPerson(ctx, x, y, size, entity) {
     })) return;
   }
   const binding = entity.side ? { id: `${entity.side === 'mexican' ? 'regular' : 'volunteer'}-idle-e` } : entityClip(entity, entity.observed);
-  if (entity.id && !entity.side) (window.__clipsDrawn ??= {})[entity.id] = binding.id;
+  const shown = ownClip(binding);
+  if (entity.id && !entity.side) (window.__clipsDrawn ??= {})[entity.id] = shown;
   if (binding.work && drawAtWork(ctx, binding, binding.id, x, y, size, entity)) return;
   // A north or south cycle is drawn facing that way already; mirroring it would turn a
   // person walking away into a person walking away backwards.
-  if (!binding.work && animated(ctx, binding.id, x, y, size, entity.id || entity.side, { paused: binding.frozen, flip: binding.upright ? false : entity.flip, gait: entity.gait })) return;
+  if (!binding.work && animated(ctx, shown, x, y, size, entity.id || entity.side, { paused: binding.frozen, flip: binding.upright ? false : entity.flip, gait: entity.gait })) return;
   const tint = hashOf(entity.id || entity.name || 'person');
   const coat = entity.side === 'mexican' ? '#4a6079' : entity.side === 'texian' ? '#7d5f45'
     // The principal's rust coat marks the one person a student directs, and nobody who is
@@ -2541,6 +2569,13 @@ function drawGroundDetail(ctx, world, camera) {
       if (stump.left > 0) scattered.push({ tree: pine || soft ? 'log-fallen' : 'log-fallen-hardwood', height: figure * SIZE.stump * .8, point: { x: point.x + figure * .35, y: point.y + figure * .08 }, seed: 0, alpha: treesShown });
     }
     window.__stumpsDrawn = stumps.length;
+    for (const [id, fall] of treesFalling) {
+      const since = animationTime - fall.at;
+      if (since < 0 || since > TREE_FALL_MS) { treesFalling.delete(id); continue; }
+      const point = camera.toScreen(fall.where);
+      scattered.push({ fall: since, flip: fall.flip, height: figure, point: { x: point.x + (fall.flip ? -1 : 1) * figure * .55, y: point.y }, seed: 0, alpha: treesShown });
+      window.__treesFalling = (window.__treesFalling || 0) + 1;
+    }
   } else if (landWoods) window.__stumpsDrawn = 0;
   // Painted back to front, so a tuft in front of a rock overlaps it rather than being cut in half by it.
   scattered.sort((a, b) => a.point.y - b.point.y);
@@ -2579,8 +2614,10 @@ function drawGroundDetail(ctx, world, camera) {
       ctx.stroke();
     }
   };
-  for (const { share, seed, timber, point, tree, height, alpha, ground, lean = 0, gale = false } of scattered) {
-    if (tree) {
+  for (const { share, seed, timber, point, tree, height, alpha, ground, lean = 0, gale = false, fall, flip } of scattered) {
+    if (fall !== undefined) {
+      faded(alpha, () => drawClip(ctx, 'tree-fall', point.x, point.y, height, { timeMs: fall, flip }));
+    } else if (tree) {
       faded(alpha, () => {
         if (gale && GALE_POSES[tree] && drawSprite(ctx, GALE_POSES[tree], point.x, point.y, height)) { galeDrawn++; return; }
         if (!drawSprite(ctx, tree, point.x, point.y, height, { lean })) postOak(ctx, point.x, point.y, height, seed, lean, gale);

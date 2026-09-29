@@ -119,7 +119,7 @@ export const AMBIENT = {
   // Cleaning a rifle: the rifle across the knees, the far hand steadying the barrel, the near hand running a rag along it.
   'clean-rifle': F => {
     const butt = pt(F, -8, 29), muzzle = pt(F, 44, 33);
-    return [0, 1].map(i => seated(F, { lean: 14, hands: { far: pt(F, 20, 31.5), near: i ? pt(F, 32, 33.5) : pt(F, 12, 31.5) }, elbows: { near: -1, far: -1 },
+    return [0, 1].map(i => seated(F, { lean: 14, hands: { far: pt(F, 20, 31.5), near: i ? pt(F, 27, 33) : pt(F, 12, 31.5) }, elbows: { near: -1, far: -1 },
       tool: { kind: 'rifle', butt, tip: muzzle, side: 1 }, after: (ink, j) => W.drawRag(ink, j.handNear) }));
   },
   // A pipe: sitting back at ease, the pipe up to the mouth (a thread of smoke), then lowered to the chest, the bowl smoking.
@@ -139,12 +139,12 @@ export const AMBIENT = {
       if (i) W.drawCardDown(ink, add(j.handNear, pt(F, 1.5, -1)));
     } })),
   // Washing: kneeling at the tub (drawn beside by the `washtub` prop), both hands on the board scrubbing down, then back up.
-  wash: F => [0, 1].map(i => kneeling(F, { lean: 30 + i * 6, tilt: -8, dy: i ? -0.6 : 0, hands: { near: pt(F, 24 + i * 2, i ? 10 : 15), far: pt(F, 21 + i * 2, i ? 11 : 16) },
+  wash: F => [0, 1].map(i => kneeling(F, { lean: i ? 44 : 32, tilt: -8, dy: i ? -0.6 : 0, hands: { near: i ? pt(F, 22, 14) : pt(F, 19, 20), far: i ? pt(F, 19, 15) : pt(F, 16, 21) },
     after: (ink, j) => W.drawRag(ink, j.handNear, '#d8e0e4') })),
   // Sweeping: a broom held low in both hands, the head swept from ahead back toward the feet, lifted and set forward again.
   sweep: F => {
     const stance = { near: foot(F, 8), far: foot(F, -7) };
-    const broom = (grip, aim, lean, dy) => ({ view: 'e', pelvis: P(F, -2, dy), lean, feet: stance, tool: rigid(F, 'broom', grip, aim, 0.18, 0.6, { side: 1 }), elbows: { near: 1, far: -1 } });
+    const broom = (grip, aim, lean, dy) => ({ view: 'e', pelvis: P(F, -2, dy), lean, feet: stance, tool: rigid(F, 'broom', grip, aim, 0.18, 0.54, { side: 1 }), elbows: { near: 1, far: -1 } });
     const swept = (b, extra) => ({ ...b, after: ink => { W.drawBroomHead(ink, b.tool.tip, sub(b.tool.tip, b.tool.butt), g(F)); extra?.(ink); } });
     return [
       swept(broom([12, -12], [38, -60], 26, -3.5)),
@@ -251,7 +251,7 @@ export const WORK = {
   lift: F => {
     const r = 6 * g(F), far = 70 * g(F);
     return [
-      { view: 'e', pelvis: P(F, -6, -11), lean: 52, tilt: -14, feet: { near: foot(F, 8), far: foot(F, -9) }, hands: { near: pt(F, 17, 2.5), far: pt(F, 14, 3.5) }, elbows: { near: 1, far: 1 },
+      { view: 'e', pelvis: P(F, -6, -18), lean: 66, tilt: -16, feet: { near: foot(F, 8), far: foot(F, -9) }, hands: { near: pt(F, 16, 3), far: pt(F, 13, 4) }, elbows: { near: 1, far: 1 },
         before: ink => W.drawWallLog(ink, 15 * g(F), far, r - 0.5, r, { end: 'rough' }), after: (ink, j) => skinHand(ink, j.handNear, F) },
       { view: 'e', pelvis: P(F, -1, -2), lean: 8, tilt: -4, feet: { near: foot(F, 8), far: foot(F, -9) }, hands: { near: at(F, 7, 3), far: at(F, 4, -5) }, elbows: { near: -1, far: -1 },
         after: (ink, j) => { W.drawWallLog(ink, 1 * g(F), far, j.S[1] + r * 0.7, r, { end: 'rough' }); skinHand(ink, j.handNear, F); } },
@@ -288,10 +288,10 @@ export const WORK = {
   },
   // A civilian with a rifle (item 7), in the figure's own clothes: the long rifle level at the shoulder; then the recoil (the
   // muzzle thrown up, the chest back) and the rifle lowered to the port. The smoke stays the library's `musket-smoke`.
-  aim: F => [rifleStance(F, { lean: 10, tilt: -6, butt: [1, 1], muzzle: [58, 3], near: 0.22, far: 0.5 })],
+  aim: F => [rifleStance(F, { lean: 10, tilt: -6, butt: [1, 1], muzzle: [58, 3], near: 0.22, far: 0.38 })],
   fire: F => [
-    rifleStance(F, { lean: 3, tilt: 2, butt: [-2, 3], muzzle: [54, 13], near: 0.22, far: 0.5, dx: -1 }),
-    rifleStance(F, { lean: 6, tilt: -2, butt: [-3, -14], muzzle: [44, -28], near: 0.24, far: 0.52, dx: -0.5 }),
+    rifleStance(F, { lean: 3, tilt: 2, butt: [-2, 3], muzzle: [54, 13], near: 0.22, far: 0.34, dx: -1 }),
+    rifleStance(F, { lean: 6, tilt: -2, butt: [-3, -14], muzzle: [44, -28], near: 0.24, far: 0.4, dx: -0.5 }),
   ],
   // Fishing (item 8): sitting on the bank, knees up, the cane pole out over the water, the line down to a float; the pole twitched up.
   fish: F => [0, 1].map(i => {
@@ -304,9 +304,9 @@ export const WORK = {
   gather: F => {
     const basket = ink => W.drawBasket(ink, pt(F, 23, 0), { w: 12 * g(F), h: 7 * g(F), fill: '#d8c28a' });
     return [
-      { view: 'e', pelvis: P(F, -6, -10), lean: 62, tilt: -16, feet: { near: foot(F, 8), far: foot(F, -9) }, hands: { near: pt(F, 15, 2.5), far: pt(F, 9, 12) }, elbows: { near: 1, far: 1 },
+      { view: 'e', pelvis: P(F, -6, -16), lean: 68, tilt: -18, feet: { near: foot(F, 8), far: foot(F, -9) }, hands: { near: pt(F, 17, 5), far: pt(F, 10, 14) }, elbows: { near: 1, far: 1 },
         after: (ink, j) => { basket(ink); ink.dot(oval(j.handNear, 1.4, 1.1), '#e8dcc4'); } },
-      { view: 'e', pelvis: P(F, -4, -6), lean: 40, tilt: -12, feet: { near: foot(F, 8), far: foot(F, -9) }, hands: { near: pt(F, 22, 10), far: pt(F, 10, 18) }, elbows: { near: 1, far: 1 }, after: basket },
+      { view: 'e', pelvis: P(F, -5, -14), lean: 60, tilt: -16, feet: { near: foot(F, 8), far: foot(F, -9) }, hands: { near: pt(F, 20, 11), far: pt(F, 11, 16) }, elbows: { near: 1, far: 1 }, after: basket },
     ];
   },
   // Dressing meat (item 10), non-graphic: at a plank table cutting a joint wrapped in cloth; no carcass, no blood.
@@ -345,7 +345,7 @@ export const WORK = {
     const [face] = headFaces(down.tool, 3.2, 2.4);
     const stake = ink => W.drawStake(ink, face[0], face[1] - 0.3);
     return [
-      { view: 'e', pelvis: P(F, -4, -5), lean: 32, tilt: -8, feet: stance, tool: mallet([10, 46], [6, 66]), hands: { far: pt(F, 14, 24) }, elbows: { near: -1, far: 1 }, before: stake },
+      { view: 'e', pelvis: P(F, -4, -5), lean: 32, tilt: -8, feet: stance, tool: mallet([10, 46], [6, 66]), hands: { far: pt(F, 13, 27) }, elbows: { near: -1, far: 1 }, before: stake },
       { ...down, before: stake },
     ];
   },
@@ -353,7 +353,7 @@ export const WORK = {
   'tend-fire': F => {
     const fire = pt(F, FIRE_AT, 0);
     return [
-      kneeling(F, { lean: 30, hands: { near: pt(F, 18, 11), far: pt(F, 13, 19) }, after: (ink, j) => W.drawSmallFire(ink, fire, { k: 0.85 * g(F), stick: [j.handNear, add(fire, pt(F, -1, 2))] }) }),
+      kneeling(F, { lean: 38, hands: { near: pt(F, 17, 15), far: pt(F, 13, 19) }, after: (ink, j) => W.drawSmallFire(ink, fire, { k: 0.85 * g(F), stick: [j.handNear, add(fire, pt(F, -1, 2))] }) }),
       kneeling(F, { lean: 58, tilt: -14, dy: -2, mouth: 'open', hands: { near: pt(F, 16, 6), far: pt(F, 13, 9) }, after: (ink, j) => { W.drawSmallFire(ink, fire, { k: 1.3 * g(F) }); W.wisp(ink, add(j.H, pt(F, 5, -4)), 0.7 * g(F), 0.5); } }),
     ];
   },
@@ -383,14 +383,14 @@ export const WORK_TIMING = {
 // height), so these are drawn at the soldiers' own size, not SIT_SCALE.
 const logSeat = F => ink => { const top = seatY(F) - F.B.limb * 0.6, r = top / 2; W.drawWallLog(ink, -12 * g(F), 7 * g(F), r, r, { end: 'rough', colour: '#7a5a38' }); };
 export const CAMP = {
-  'clean-rifle': F => [0, 1].map(i => ({ ...seated(F, { lean: 14, hands: { far: pt(F, 20, 31.5), near: i ? pt(F, 32, 33.5) : pt(F, 12, 31.5) }, tool: { kind: 'rifle', butt: pt(F, -8, 29), tip: pt(F, 44, 33), side: 1 }, after: (ink, j) => W.drawRag(ink, j.handNear) }),
+  'clean-rifle': F => [0, 1].map(i => ({ ...seated(F, { lean: 16, hands: { far: pt(F, 20, 31.5), near: i ? pt(F, 24.5, 33) : pt(F, 12, 31.5) }, tool: { kind: 'rifle', butt: pt(F, -8, 29), tip: pt(F, 44, 33), side: 1 }, after: (ink, j) => W.drawRag(ink, j.handNear) }),
     before: logSeat(F), scale: 1 })),
   'camp-sit': F => [0, 1].map(i => ({ ...seated(F, { lean: 20 - i * 12, tilt: i ? -10 : 6, feet: { near: foot(F, 15), far: foot(F, 11) },
     hands: { near: i ? add(headOf(F, 8, -3), [F.B.head * 1.2, -F.B.head * 1.3]) : pt(F, 14, 29), far: pt(F, 12, 28) },
     after: (ink, j) => { if (i) W.drawCup(ink, j.handNear); } }), before: logSeat(F), scale: 1 })),
   'camp-cook': F => {
     const fire = pt(F, 25, 0);
-    return [0, 1].map(i => ({ ...kneeling(F, { lean: 32 + i * 4, hands: { near: pt(F, 20 + i * 3, 17), far: pt(F, 15, 18) },
+    return [0, 1].map(i => ({ ...kneeling(F, { lean: 36 + i * 4, hands: { near: pt(F, 19 + i * 2, 18), far: pt(F, 15, 19) },
       after: (ink, j) => { W.drawSmallFire(ink, fire, { k: 0.7 * g(F) }); W.drawPot(ink, add(fire, pt(F, 0, 4)), g(F)); W.drawSpoon(ink, j.handNear, add(fire, pt(F, i ? 2 : -1.5, 10))); W.wisp(ink, add(fire, pt(F, i ? -2 : 2, 12)), 0.9 * g(F), 0.5); } }), scale: 1 }));
   },
 };

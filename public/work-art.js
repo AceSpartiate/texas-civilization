@@ -53,23 +53,31 @@ export const STROKES = Object.freeze({
   // `drawn`: a figure whose library holds a cycle of the work itself (`<figure>-chop`, six frames Claude-drawn today for all eight, Astra's
   // when she delivers) is drawn in it instead, with only the chips (`drawnStroke`).
   chop: { pose: 'work', art: 'stand-in', tool: 'axe', effect: 'chips', beat: 2, request: item(1), drawn: { pose: 'chop', beat: 3 } },
-  split: { pose: 'work', art: 'stand-in', tool: 'maul', effect: 'chips', beat: 2, request: item(2) },
-  notch: { pose: 'work', art: 'stand-in', tool: 'axe', effect: 'chips', beat: 2, request: item(3) },
-  dig: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2, request: item(4) },
-  grub: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2, request: item(4) },
-  reap: { pose: 'work', art: 'stand-in', effect: 'chaff', beat: 2, request: item(5) },
-  whittle: { pose: 'repair', art: 'stand-in', effect: 'shavings', beat: 1, request: item(6) },
-  shoot: { pose: 'idle-e', art: 'stand-in', tool: 'rifle', effect: 'smoke', cycleMs: 2600, request: item(7) },
-  shot: { pose: 'idle-e', art: 'stand-in', tool: 'rifle', frozen: true, request: item(7) },
-  fish: { pose: 'rest', art: 'stand-in', tool: 'rod', effect: 'ripple', cycleMs: 2400, request: item(8) },
-  gather: { pose: 'sow', art: 'stand-in', motion: 'bob', cycleMs: 1400, request: item(9) },
-  butcher: { pose: 'care', art: 'stand-in', motion: 'bob', cycleMs: 1100, request: item(10) },
-  drill: { pose: 'walk', art: 'stand-in', motion: 'in-place', request: item(11) },
-  guard: { pose: 'search', art: 'stand-in', tool: 'rifle', request: item(11) },
-  pace: { pose: 'walk', art: 'stand-in', motion: 'pace', cycleMs: 3600, reach: 0.4, request: item(12) },
+  // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)", area A - every `drawn` below but the chop's
+  // is a Claude-drawn cycle for all eight cast figures (scripts/claude-art/areas/work.mjs; the chop is chop.mjs), and Astra's
+  // `<figure>-<pose>` of the same name replaces it. `at` is where the effect comes from in the drawn frame (figure heights
+  // ahead and up); `muzzle` where the rifle's smoke comes from; `ownFire` that the frame draws the fire itself.
+  split: { pose: 'work', art: 'stand-in', tool: 'maul', effect: 'chips', beat: 2, request: item(2), drawn: { pose: 'split', beat: 3, at: [0.27, 0.02] } },
+  notch: { pose: 'work', art: 'stand-in', tool: 'axe', effect: 'chips', beat: 2, request: item(3), drawn: { pose: 'notch', beat: 2, at: [0.25, 0.26] } },
+  dig: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2, request: item(4), drawn: { pose: 'dig', beat: 3, at: [-0.06, 0.85] } },
+  // The well dug waist-deep in its hole (item 4, `-dig-well`); until it is drawn, the dig.
+  well: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2, request: item(4), drawn: { pose: 'dig-well', beat: 3, at: [-0.06, 0.65] } },
+  grub: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2, request: item(4), drawn: { pose: 'dig', beat: 3, at: [-0.06, 0.85] } },
+  reap: { pose: 'work', art: 'stand-in', effect: 'chaff', beat: 2, request: item(5), drawn: { pose: 'reap', beat: 1, at: [0.11, 0.63] } },
+  whittle: { pose: 'repair', art: 'stand-in', effect: 'shavings', beat: 1, request: item(6), drawn: { pose: 'carpentry', beat: 1, at: [0.21, 0.3] } },
+  shoot: { pose: 'idle-e', art: 'stand-in', tool: 'rifle', effect: 'smoke', cycleMs: 2600, request: item(7), drawn: { pose: 'fire', beat: 1, muzzle: [0.55, 0.59] } },
+  shot: { pose: 'idle-e', art: 'stand-in', tool: 'rifle', frozen: true, request: item(7), drawn: { pose: 'aim', beat: 0 } },
+  fish: { pose: 'rest', art: 'stand-in', tool: 'rod', effect: 'ripple', cycleMs: 2400, request: item(8), drawn: { pose: 'fish', beat: 1, at: [0.627, -0.105] } },
+  gather: { pose: 'sow', art: 'stand-in', motion: 'bob', cycleMs: 1400, request: item(9), drawn: { pose: 'gather', beat: 0 } },
+  butcher: { pose: 'care', art: 'stand-in', motion: 'bob', cycleMs: 1100, request: item(10), drawn: { pose: 'butcher', beat: 1 } },
+  drill: { pose: 'walk', art: 'stand-in', motion: 'in-place', request: item(11), drawn: { pose: 'drill', beat: 0 } },
+  guard: { pose: 'search', art: 'stand-in', tool: 'rifle', request: item(11), drawn: { pose: 'guard', beat: 0 } },
+  // ceiling: pacing out and staking is one step of the chore, so the drawn cycle is the staking only; the pacing (the walk,
+  // paced to and fro) is what somebody with no `-stake` is drawn at. A part told by the chore's words would show both.
+  pace: { pose: 'walk', art: 'stand-in', motion: 'pace', cycleMs: 3600, reach: 0.4, request: item(12), drawn: { pose: 'stake', beat: 1 } },
   shoo: { pose: 'walk', art: 'stand-in', motion: 'pace', cycleMs: 1800, reach: 0.22, request: item(13) },
   scatter: { pose: 'sow', art: 'stand-in', request: `${PLAY_REQUEST}, item 1 (\`-scatter\`)` },
-  fire: { pose: 'care', art: 'stand-in', effect: 'smoke', cycleMs: 1700, request: item(14) },
+  fire: { pose: 'care', art: 'stand-in', effect: 'smoke', cycleMs: 1700, request: item(14), drawn: { pose: 'tend-fire', beat: 1, at: [0.295, 0], ownFire: true } },
 });
 
 /**
@@ -85,8 +93,10 @@ export function drawnStroke(stroke) {
   if (!stroke?.drawn) return null;
   let made = DRAWN.get(stroke);
   if (!made) {
-    const { tool, motion, drawn, ...rest } = stroke;
-    made = Object.freeze({ ...rest, pose: drawn.pose, beat: drawn.beat, art: 'drawn' });
+    // The stand-in's own tool, motion and pace go with it (the clip's own frames time it, not `cycleMs`); the effect stays,
+    // from where the drawn frame puts it.
+    const { tool, motion, drawn, cycleMs, reach, ...rest } = stroke;
+    made = Object.freeze({ ...rest, pose: drawn.pose, beat: drawn.beat, art: 'drawn', ...(drawn.at && { at: drawn.at }), ...(drawn.muzzle && { muzzle: drawn.muzzle }), ...(drawn.ownFire && { ownFire: true }) });
     DRAWN.set(stroke, made);
   }
   return made;
@@ -103,7 +113,7 @@ export const WORK = Object.freeze({
   // At home: the land, the field, the house and the well (docs/LAND_GRANTS.md, docs/WOODS_AND_BUILDING.md).
   'survey-plot': { stroke: 'pace', spread: 0.6 },
   'cut-lane': { stroke: 'chop', spread: 0.6, by: [[/brush|grub/, 'grub']] },
-  'dig-well': { stroke: 'dig', spread: 0.45 },
+  'dig-well': { stroke: 'well', spread: 0.45 },
   'plant-field': { stroke: 'hoe', spread: 0.8, by: [[/putting in seed|seed/, 'sow']] },
   'harvest-field': { stroke: 'reap', spread: 0.8, by: [[/carrying/, 'carry']] },
   'clear-plot': { stroke: 'grub', spread: 0.8, by: [[/felling|timber/, 'chop'], [/prairie sod|breaking/, 'hoe']] },
@@ -344,10 +354,13 @@ const scatter = (a, b) => { const s = Math.sin(a * 12.9898 + b * 78.233) * 43758
 
 const EFFECTS = Object.freeze({
   // colour, how many, how long they fly, how far out and up (in figure heights), and their size.
-  chips: { colour: '#d9b77a', n: 5, life: 460, out: 0.55, up: 0.42, size: 0.045, from: 0.2 },
-  shavings: { colour: '#ead6a4', n: 3, life: 520, out: 0.25, up: 0.2, size: 0.035, from: 0.42 },
-  earth: { colour: '#6b4a2b', n: 4, life: 560, out: -0.5, up: 0.55, size: 0.055, from: 0.08 },
-  dust: { colour: 'rgba(190,165,120,.55)', n: 3, life: 620, out: 0.3, up: 0.12, size: 0.1, from: 0.02, puff: true },
+  // `sheet`: the effect sheet that replaces these marks once it has loaded (stand-in: docs/ART_REQUESTS.md, "Claude-drawn
+  // stand-ins (replace with Astra's)", area A - `fx-*` are Claude-drawn; Astra's of the same names replace them).
+  chips: { colour: '#d9b77a', n: 5, life: 460, out: 0.55, up: 0.42, size: 0.045, from: 0.2, sheet: 'fx-wood-chips' },
+  shavings: { colour: '#ead6a4', n: 3, life: 520, out: 0.25, up: 0.2, size: 0.035, from: 0.42, sheet: 'fx-shavings' },
+  earth: { colour: '#6b4a2b', n: 4, life: 560, out: -0.5, up: 0.55, size: 0.055, from: 0.08, sheet: 'fx-earth-toss' },
+  dust: { colour: 'rgba(190,165,120,.55)', n: 3, life: 620, out: 0.3, up: 0.12, size: 0.1, from: 0.02, puff: true, sheet: 'fx-dust' },
+  ripple: { life: 1200, from: 0, ring: true, sheet: 'fx-ripple' },
   chaff: { colour: 'rgba(214,190,120,.7)', n: 4, life: 700, out: 0.35, up: 0.25, size: 0.04, from: 0.18 },
 });
 
@@ -420,7 +433,7 @@ export function drawHaftTool(ctx, tool, figure, frame, x, y, size, dir) {
  * (x, y), `size` tall, facing `dir` (1 east, -1 west). Does nothing for a delivered stroke with no effect, or under reduced
  * motion except the still tool. Returns how many marks it drew, which the proofs read.
  */
-export function drawWorkLayer(ctx, stroke, x, y, size, dir, clock, still = false, figure = null) {
+export function drawWorkLayer(ctx, stroke, x, y, size, dir, clock, still = false, figure = null, sprite = null) {
   let drawn = 0;
   const since = clock.since;
   // Under reduced motion the pose is held at its first frame, and so is the tool in its hands.
@@ -434,15 +447,7 @@ export function drawWorkLayer(ctx, stroke, x, y, size, dir, clock, still = false
     ctx.beginPath(); ctx.moveTo(x - dir * size * 0.08, y - size * 0.56); ctx.lineTo(x + dir * size * 0.62, y - size * (0.6 + up)); ctx.stroke();
     ctx.restore();
     drawn++;
-    if (!still && stroke.effect === 'smoke' && since < 700) {
-      // The flash and the smoke at the muzzle, once a cycle.
-      const u = since / 700, mx = x + dir * size * 0.66, my = y - size * 0.61;
-      ctx.save();
-      if (u < 0.12) { ctx.fillStyle = 'rgba(255,214,120,.9)'; ctx.beginPath(); ctx.arc(mx, my, size * 0.05, 0, Math.PI * 2); ctx.fill(); drawn++; }
-      ctx.fillStyle = `rgba(222,218,206,${(0.75 * (1 - u)).toFixed(3)})`;
-      for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.arc(mx + dir * size * (0.06 + 0.12 * u) * (i + 1), my - size * 0.05 * u * i, size * (0.04 + 0.08 * u), 0, Math.PI * 2); ctx.fill(); drawn++; }
-      ctx.restore();
-    }
+    if (!still && stroke.effect === 'smoke' && since < 700) drawn += muzzleSmoke(ctx, x + dir * size * 0.66, y - size * 0.61, size, dir, since);
   } else if (stroke.tool === 'rod') {
     // A cane pole out over the water, the line down to a float that bobs, and rings spreading from it.
     const bob = still ? 0 : Math.sin((since / clock.period) * Math.PI * 2) * size * 0.025;
@@ -464,23 +469,41 @@ export function drawWorkLayer(ctx, stroke, x, y, size, dir, clock, still = false
     ctx.restore();
   }
   if (still) return drawn;
+  // A drawn cycle of shooting (`-fire`): the flash and the smoke at its muzzle, from the shot.
+  if (stroke.muzzle) return stroke.effect === 'smoke' && since < 700 ? drawn + muzzleSmoke(ctx, x + dir * size * stroke.muzzle[0], y - size * stroke.muzzle[1], size, dir, since) : drawn;
   if (stroke.effect === 'smoke' && !stroke.tool) {
     // A fire tended: grey puffs going up from in front of the kneeling figure.
     ctx.save();
+    // From the fire: in front of the kneeling figure, or where a drawn cycle has its own fire (`at`, `ownFire`).
+    const fx = stroke.at ? stroke.at[0] : 0.5;
     for (let i = 0; i < 3; i++) {
       const u = ((since / clock.period) + i / 3) % 1;
       ctx.fillStyle = `rgba(150,146,138,${(0.45 * (1 - u)).toFixed(3)})`;
-      ctx.beginPath(); ctx.arc(x + dir * size * (0.5 + 0.05 * Math.sin(u * 6 + i)), y - size * (0.1 + 0.7 * u), size * (0.05 + 0.07 * u), 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(x + dir * size * (fx + 0.05 * Math.sin(u * 6 + i)), y - size * (0.1 + 0.7 * u), size * (0.05 + 0.07 * u), 0, Math.PI * 2); ctx.fill();
       drawn++;
     }
-    ctx.fillStyle = 'rgba(240,150,60,.85)';
-    ctx.beginPath(); ctx.arc(x + dir * size * 0.5, y - size * 0.04, size * (0.035 + 0.01 * Math.sin(since / 90)), 0, Math.PI * 2); ctx.fill();
+    if (!stroke.ownFire) {
+      ctx.fillStyle = 'rgba(240,150,60,.85)';
+      ctx.beginPath(); ctx.arc(x + dir * size * fx, y - size * 0.04, size * (0.035 + 0.01 * Math.sin(since / 90)), 0, Math.PI * 2); ctx.fill();
+      drawn++;
+    }
+    ctx.restore();
+    return drawn;
+  }
+  const effect = stroke.tool === 'rod' ? null : EFFECTS[stroke.effect]; // the rod draws its own rings
+  if (!effect || since > effect.life) return drawn;
+  const u = since / effect.life, sx = x + dir * size * (stroke.at ? stroke.at[0] : 0.5), sy = y - size * (stroke.at ? stroke.at[1] : effect.from);
+  // The effect's own sheet where it has loaded (`fx-*`, three frames from the strike, drawn at the worker's height on the point
+  // the effect comes from); the canvas marks below until then.
+  if (sprite && effect.sheet && sprite(ctx, `${effect.sheet}-${Math.min(3, 1 + Math.floor(u * 3))}`, sx, sy, size, dir < 0)) return drawn + 1;
+  if (effect.ring) {
+    // Rings spreading from a float: the canvas stand-in for `fx-ripple`.
+    ctx.save();
+    ctx.strokeStyle = `rgba(230,240,245,${(0.6 * (1 - u)).toFixed(3)})`; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.ellipse(sx, sy, size * (0.04 + 0.16 * u), size * (0.015 + 0.05 * u), 0, 0, Math.PI * 2); ctx.stroke();
     ctx.restore();
     return drawn + 1;
   }
-  const effect = EFFECTS[stroke.effect];
-  if (!effect || since > effect.life) return drawn;
-  const u = since / effect.life, sx = x + dir * size * 0.5, sy = y - size * effect.from;
   ctx.save();
   ctx.fillStyle = effect.colour;
   for (let i = 0; i < effect.n; i++) {
@@ -495,6 +518,18 @@ export function drawWorkLayer(ctx, stroke, x, y, size, dir, clock, still = false
   }
   ctx.restore();
   return drawn;
+}
+
+/** The flash and the smoke at a rifle's muzzle, once a shot (`since` under 700 ms). Returns how many marks it drew. */
+function muzzleSmoke(ctx, mx, my, size, dir, since) {
+  const u = since / 700;
+  let marks = 0;
+  ctx.save();
+  if (u < 0.12) { ctx.fillStyle = 'rgba(255,214,120,.9)'; ctx.beginPath(); ctx.arc(mx, my, size * 0.05, 0, Math.PI * 2); ctx.fill(); marks++; }
+  ctx.fillStyle = `rgba(222,218,206,${(0.75 * (1 - u)).toFixed(3)})`;
+  for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.arc(mx + dir * size * (0.06 + 0.12 * u) * (i + 1), my - size * 0.05 * u * i, size * (0.04 + 0.08 * u), 0, Math.PI * 2); ctx.fill(); marks++; }
+  ctx.restore();
+  return marks;
 }
 
 /**
