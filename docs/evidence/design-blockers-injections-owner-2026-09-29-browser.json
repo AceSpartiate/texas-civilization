@@ -26,6 +26,33 @@
         "failed": true,
         "why": "AssertionError [ERR_ASSERTION]: pressing a portrait sent [], not the star's one set-main + actual - expected"
       }
+    },
+    {
+      "name": "owner 2026-09-29: the card beside a person opens on everybody chosen again (family panel)",
+      "file": "public/app.js",
+      "proof": {
+        "script": "test:family-panel",
+        "failed": true,
+        "why": "AssertionError [ERR_ASSERTION]: a card opened beside hh-1-parent-1, who has nothing to answer"
+      }
+    },
+    {
+      "name": "owner 2026-09-29: the card beside a person opens on everybody chosen again (overlap)",
+      "file": "public/app.js",
+      "proof": {
+        "script": "test:overlap",
+        "failed": true,
+        "why": "AssertionError [ERR_ASSERTION]: 2 things on the screen stand on something else + actual - expected"
+      }
+    },
+    {
+      "name": "owner 2026-09-29: the bar's way to a neighbour opens the card again, not the Neighbours list",
+      "file": "public/app.js",
+      "proof": {
+        "script": "test:neighbours",
+        "failed": true,
+        "why": "TimeoutError'"
+      }
     }
   ]
 }

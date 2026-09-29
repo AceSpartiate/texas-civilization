@@ -519,13 +519,14 @@ try {
   await shot(page, 'main-person-house');
   await page.locator('#interior-close').click();
   ok(`${mother}'s row alone has House, which opens the rooms`);
-  // Kept by the server through a reload, and the card that opens with nobody chosen is theirs.
+  // Kept by the server through a reload, and with nobody chosen it is they who are chosen.
   await page.reload();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
   await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.focused === 'true', mother, { timeout: 15000 });
   if (await page.locator('#tutorial-skip').isVisible()) await page.locator('#tutorial-skip').click({ timeout: 5000 }).catch(() => {});
-  await page.waitForFunction(id => document.querySelector('#selection')?.dataset.entityId === id, mother, { timeout: 10000 });
-  ok('after a reload the same person is starred, and the card that opens with nobody chosen is theirs');
+  // Since 2026-09-29 the card beside a person opens only for a matter (docs/FAMILY_PANEL.md): who is chosen is `__selected`.
+  await page.waitForFunction(id => window.__selected === id && !(document.querySelector('#selection')?.dataset.entityId && document.querySelector('#selection')?.dataset.entityId !== id), mother, { timeout: 10000 });
+  ok('after a reload the same person is starred, and with nobody chosen it is they who are chosen');
   // Away and back: the star on the main person returns the camera to them.
   await page.locator('#map-nav [data-view=gonzales]').click();
   await page.waitForTimeout(300);
