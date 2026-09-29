@@ -34,7 +34,12 @@ were already delivered by Astra and need nothing (DS3, DS4, FS9, D16).
   modules), moving previews `loops-transport-gaits.png|.html` and `loops-transport-wheels.png|.html` (`scripts/claude-art/loops.mjs`:
   each clip's frames, an onion skin, and a page that plays them beside Astra's). `test:children` draws `milk-cow-walk-n` on the road.
 - **Tests:** tests/transport-standins.test.mjs (Claude's drawn only once `clipReady`, the old stand-in until then; both
-  injections caught), tests/riding.test.mjs holds the Claude lists to Claude's manifest (both injections caught).
+  injections caught), tests/riding.test.mjs holds the Claude lists to Claude's manifest (both injections caught). After merging
+  areas A, B, E and F (integration 4d39da45): the battle view's Claude clips go through area E's `fallback` and the Tejano volunteers
+  through its stand-in path in town-scenes.js, all on `clipReady`. `npm test` 1,672 pass, 0 fail, 36 skipped; `test:art`;
+  `test:claude-art` 15 of 15 caught; `test:children`, `test:riding`, `test:battle-south`, `test:battle-bexar`, `test:errand`,
+  `test:scrape` pass. For area C: `drawMounted`, `mountedFrame`, `riderSide`/`riderFrontal` (kit/horse.mjs) and the rider poses in
+  kit/riders.mjs put any rig figure on the quadruped horse.
 - **Honest limit:** at 40-77 px the riders, dragoons, cattle and vehicles read as what they are, at Astra's sizes; at 150 px they
   are flat and simple beside her painted horses - no coat texture, legs straighter and knees less lifted than hers, the cattle long
   in the body, the end-on wagon mostly ox. Everything stays on her list.
