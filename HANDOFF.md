@@ -1,5 +1,56 @@
 # Claude handoff — Astra foundation
 
+## Claude's temporary art, area C: soldiers, battles and famous people — owner, 2026-09-28 (worktree branch; not released)
+
+**The ask.** Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it makes
+the final versions."* Area C of docs/CLAUDE_ART_PLAN.md, drawn from the rig with a battle kit of its own; every frame `madeBy: "claude"`,
+with its written intent and a compare list; Astra's frame or clip of the same name replaces it on registration.
+
+- **The battle kit** (`scripts/claude-art/battle-kit/`): gear (the long rifle and the India Pattern musket, ramrod, sword, crossbelts,
+  packs, coat skirts, epaulettes, sashes, tall boots; the shako, bicorne, forage cap, top hat, round hat and sombrero, a rebozo), the
+  figures (the volunteer and regular after her `volunteer-*`/`regular-*`, a cazador, a column officer, three Gonzales settlers, nine
+  famous people, the Esparza family, a padre) with the soldiers' own build refitted on the proof grid, poses (the fire cycle, march,
+  run, kneeling fire, fall, an officer's gestures, sitting), group drawing, ground pieces. The rig gained two additive hooks: a spec's
+  `dress` layers and `build`, a tool or hat that draws itself. Sources for every uniform detail, each labelled as sure as it is, are in
+  `battle-kit/figures.mjs` (Potter's eyewitness, the 1821 regulations, the Handbook; the Mexican crossbelts' colour is disputed and
+  drawn white, as hers are; J. W. Smith's "El Colorado" is documented, red hair is an interpretation).
+- **Modules and what they draw** (369 frames and 111 clips; C1-C19 all drawn):
+  `battle-cast` (C1: each cast figure's `-fire-reload`, `-load`, `-ramrod`, `-injured`, `-reclining`); `battle-soldiers` (C2 bearers,
+  C3 camp at rest, C4 rest-sit and sleep, C5 loophole, crowbar, trench, C6 parapet e/s/n, C7 prone cazador, C8 skirmisher, C10 bank
+  climb, C11 wading, C12 settler gun crew); `battle-works` (C4 stacked arms and the breastwork of packs, C5 barricade and sandbags,
+  C9 the column on the march, C15 Castrillón's crate, C16 the Grass Fight's bundle and a padre's cart, C17 the flag without its
+  disputed star and half-painted on the table, C18 the armies' camps, C19 the Alamo's north and church guns); `famous-officers` (C13:
+  J. W. Smith, Kimbell, Martin, Horton, W. P. Smith, Smither, Condelle, Sánchez Navarro, Barragán, five of them mounted; C15
+  Castrillón's north and south walks); `esparza-family` (C14: Ana, María de Jesús, Enrique, Francisco, the burial party carrying a body
+  wholly wrapped, Gregorio asleep seated).
+- **Not drawn, on purpose:** the twelve famous people Astra delivered on `main` after the plan was written (Austin, Urrea, Deaf Smith,
+  Karnes with his crowbar, Neill, Lamar, Sherman, Rusk, Hockley, McCulloch, Johnson, Grant) - hers would win in the loader anyway.
+  Travis's firing cycle (C15) is delivered in her sheet. The flag without the star is drawn and registered but nothing asks for it:
+  which flag the game shows is the owner's call (FIC-GONZ-419).
+- **Wiring**, each with the library stand-in it replaced drawn while the Claude sheet loads: `public/battle-view.js` (a figure's `alt`;
+  `personArt()` - Astra's `PERSON_ART` over `public/claude-person-art.js`, hers always winning - and a person's `fallback`; the bank,
+  loophole, prone cazador, marsh, camp, barricade, crowbar, bearers, settler crew, Alamo guns, breastwork); `public/app.js` (a member
+  with an appearance fires, loads and falls in their own cast figure through `drawnClipOf`, areas A and B's one mechanism; a fight's
+  people's sheets asked for with the snapshot); `public/chase-view.js`, `public/army-view.js`, `public/ambient.js` + `sim/ambient.mjs`
+  (soldiers clean rifles, sit and cook in camp); `sim/people.mjs` (the famous people's own `art` keys); `sim/battles/coleto.mjs`
+  (`cover: 'grass'`, added to `COVERS`).
+- **Evidence.** `npm test` 1,664 pass, 0 fail, 36 skipped (one run had `save-retry` time out under load; it passes alone, 3 of 3).
+  Five renderer tests draw with Claude's sheets loaded and hold the library stand-ins when they are not (`tests/support/claude-names.mjs`);
+  **17 of 17 injections caught** in `npm run test:claude-art` (seven of them area C's). `test:battle-gonzales` 12 checks, now asserting a
+  member with an appearance fired in their own cast figure (`rust-fire-reload`, `rust-battle-load`; injection caught);
+  `test:battle-alamo` 13; `test:famous-people` 22; `test:art` passes (one run failed its catalog walk-tile timing check; passed on rerun).
+  Play size: `docs/evidence/claude-art/compare-{battle-cast,battle-soldiers,battle-works,famous-officers,esparza-family}.png`; moving,
+  beside her clips: `docs/evidence/claude-art/motion-battles.png` (each clip's cycle sampled evenly and onion-skinned; no video: the
+  Playwright here has no ffmpeg).
+- **Open.** `test:battle-san-jacinto` times out at its join: the first student is seated in `hh-2`, not `hh-1` - household assignment,
+  nothing drawn; not traced here. In the famous-people proof the burial is seen for one frame only, before its sheet has loaded, so it
+  records the fallback (`rust-walk+shroud`); the unit test proves `burial-party-walk-e` once loaded.
+- **Honest limit.** At a figure of 40-77 px they read as the same kinds of men as hers - the volunteer's brown coat and hat, the
+  regular's blue, white and shako, a general's bicorne and sash, a Tejana's rebozo - at her height and on her ground line, and the
+  fire cycle, the march and the run read as those actions. At 150 px they are plainly a simpler hand: even limbs, stiff joints, tiny
+  plain faces, guns as thin lines, and the rig's horse (a plank body on straight legs) beside her muscled ones. No likeness is claimed
+  for anybody.
+
 ## Claude's temporary art, area B: children, babies and sickness — owner, 2026-09-28 (worktree branch; not released)
 
 Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it makes the
