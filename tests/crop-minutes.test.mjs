@@ -150,13 +150,13 @@ test('the seed gone while a planter stands at the rows: nothing is planted, and 
   validateWorld(world);
 });
 
-test('in the winter a crop grows at half its pace, and one that stands across the change blends', () => {
-  // Owner, 2026-09-28: "increase the time until harvest during the winter. that way it feels more fluid". December to February on the
-  // real land: corn eight real minutes, cotton twelve.
+test('in the winter a crop grows at a third of its pace, and one that stands across the change blends', () => {
+  // Owner, 2026-09-28: "increase the time until harvest during the winter. that way it feels more fluid", then "A third in winter".
+  // December to February on the real land: corn twelve real minutes, cotton eighteen.
   const world = realLand('minutes-winter');
   const household = first(world);
   const at = (year, month, day) => (Date.UTC(year, month - 1, day, 6) - Date.UTC(1835, 8, 28, 6)) / 60000;
-  assert.equal(WINTER_SLOWER, 2);
+  assert.equal(WINTER_SLOWER, 3);
   world.minute = at(1835, 11, 30);
   assert.equal(inWinter(world), false, 'November is winter');
   assert.deepEqual([minutesNow(world, 'corn'), minutesNow(world, 'cotton')], [4, 6]);
@@ -164,26 +164,26 @@ test('in the winter a crop grows at half its pace, and one that stands across th
   // Two real minutes in November: half of corn's four.
   growCrop(world, household, 2 * MINUTE);
   assert.equal(household.field.grownMs, 2 * MINUTE);
-  // Into December: the same real minutes are half the growing.
+  // Into December: three real minutes are one minute's growing.
   world.minute = at(1835, 12, 1);
   assert.equal(inWinter(world), true);
-  assert.deepEqual([minutesNow(world, 'corn'), minutesNow(world, 'cotton')], [8, 12]);
-  growCrop(world, household, 2 * MINUTE);
+  assert.deepEqual([minutesNow(world, 'corn'), minutesNow(world, 'cotton')], [12, 18]);
+  growCrop(world, household, 3 * MINUTE);
   assert.equal(household.field.grownMs, 3 * MINUTE, 'December grew the crop at its full pace');
   const words = view(world, household.id).work[household.members[0]].find(work => work.id === 'harvest-field').why;
-  assert.match(words, /it will be in about 2 minutes\./, `the winter's pace is not in the harvest's words: ${words}`);
-  growCrop(world, household, 2 * MINUTE);
+  assert.match(words, /it will be in about 3 minutes\./, `the winter's pace is not in the harvest's words: ${words}`);
+  growCrop(world, household, 3 * MINUTE);
   assert.equal(household.field.grownMs, 4 * MINUTE);
   stepWorld(world, { realMs: 0 });
-  assert.equal(household.field.state, 'ripe', 'two November minutes and four December ones did not bring corn in');
-  // A whole crop sown in January: eight real minutes of corn, and not seven.
+  assert.equal(household.field.state, 'ripe', 'two November minutes and six December ones did not bring corn in');
+  // A whole crop sown in January: twelve real minutes of corn, and not eleven.
   const other = realLand('minutes-winter-2');
   const family = first(other);
   other.minute = at(1836, 1, 26);
   sown(other, family, 'corn');
-  for (let m = 1; m <= 8; m++) {
+  for (let m = 1; m <= 12; m++) {
     growCrop(other, family, MINUTE);
-    assert.equal(family.field.grownMs >= growMs('corn'), m === 8, `corn in January was ripe after ${m} minutes`);
+    assert.equal(family.field.grownMs >= growMs('corn') - 1e-6, m === 12, `corn in January was ripe after ${m} minutes`);
   }
   // The invented country's September afternoon is never winter.
   const invented = running('minutes-winter-invented');
