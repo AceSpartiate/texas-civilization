@@ -48,7 +48,11 @@ pressing instead of folding; [record](docs/evidence/lone-parent-injections-brows
 (`docs/evidence/lone-parent-*.png`, [record](docs/evidence/lone-parent-browser.json)). `test:overlap` gained three states (the
 ability, folded, the scenes open): **185 screens, 34 states, 0 faults**; it found the person card docked over the rows while its
 person was away, and a tip over a long supplies line - both fixed. `test:family-panel` 18, `test:tips` 13, `test:classes` 16,
-`test:ending` 10.
+`test:ending` 10, `test:creation-screen` 4 over 24 measurements. **Re-run after merging origin/main (af25547a)**: `npm test`
+**1763 tests, 1727 pass, 0 fail, 36 skipped** (the suspended tutorial); `test:lone-parent` 9, `test:overlap` 185 screens / 34 states
+/ 0 faults, `test:family-panel` 18, `test:tips` 13 (it once failed "Escape did not put the tip away" run beside another proof, and
+passed alone), `test:classes` 16, `test:ending` 10, `test:creation-screen` 4. The house is raised from the code's own constants
+(`HOUSES`, `PIECES`, `planPieces`), so the concurrent halving of work amounts (`work-halved`) merges without a number to change.
 
 **Open for the owner:** (1) the new husband takes the family's last name - or should the family take his (1835 practice)?
 (2) the lone parent stays the principal - or does a new husband become it? (3) a Victoria family: by bond as now, or a church

@@ -1,9 +1,16 @@
 {
   "proof": "npm run test:lone-parent",
-  "when": "2026-09-29T13:26:33.259Z",
+  "when": "2026-09-29T13:44:23.540Z",
   "pass": [
     "on the land, before the house site is chosen: the ability is there, says to choose the site first, and cannot be pressed",
-    "on the land the ability waits, glowing (ask-glow), with the land marked on the map, standing on nothing: \"Take the children to the farms nearby and ask the neighbours to help Asa raise a house.\""
+    "on the land the ability waits, glowing (ask-glow), with the land marked on the map, standing on nothing: \"Take the children to the farms nearby and ask the neighbours to help Asa raise a house.\"",
+    "Not now folds it to its glowing icon, which waits and opens it again: offered, never pressed on the student",
+    "the scenes open on black with the travel said on it: \"Asa and the children walk to the nearest farm.\"",
+    "a reload in the middle of the second farm takes the scenes up at the same line",
+    "the four scenes in order, 32 presses of Continue, 6 fades to and from black, every figure and building drawn",
+    "home: 4 people, two parents on the panel, a round-log house standing, and the ability gone",
+    "fades to black take 1109, 1103 ms; with less motion asked for, 285 ms - shorter, never a cut",
+    "no page errors on the student's, the other student's or the Host's page"
   ],
   "observed": {
     "family": [
@@ -31,7 +38,7 @@
       "shadow": "rgb(255, 243, 207) 0px 0px 0px 1px inset, rgba(194, 88, 44, ",
       "marker": {
         "x": 694,
-        "y": 334,
+        "y": 335,
         "r": 12
       },
       "icon": "drawn"
@@ -41,11 +48,505 @@
       "top": 236.625,
       "right": 312,
       "bottom": 339.46875
+    },
+    "between": {
+      "mode": "between",
+      "dark": 1,
+      "between": "Asa and the children walk to the nearest farm."
+    },
+    "fades": [
+      0.37,
+      0.76
+    ],
+    "reload": {
+      "scene": "second",
+      "step": 3
+    },
+    "scenes": [
+      {
+        "id": "first",
+        "where": "The Tolliver farm, over the rise · Evening",
+        "lines": [
+          {
+            "step": 0,
+            "who": "Nicolás Tolliver",
+            "said": "Good evening! You must be the new family on the creek. Come in, come in."
+          },
+          {
+            "step": 1,
+            "who": "Asa Hollister",
+            "said": "We are. I'm Asa, and these are Adela and Chana. We've no house yet, and only my two hands to raise one."
+          },
+          {
+            "step": 2,
+            "who": "Rhoda Tolliver",
+            "said": "Then you won't raise it alone. Nobody should sleep under the sky with neighbours this near."
+          },
+          {
+            "step": 3,
+            "who": "Nicolás Tolliver",
+            "said": "We'll come with our axes. And go and ask the Montañez family, across the bottom. They have strong arms, and good hearts."
+          },
+          {
+            "step": 4,
+            "who": "Eli Tolliver",
+            "said": "Will you come back and play, Adela? We have a new calf."
+          },
+          {
+            "step": 5,
+            "who": "Adela Hollister",
+            "said": "If Pa says so!"
+          },
+          {
+            "step": 6,
+            "who": "Asa Hollister",
+            "said": "We'll come back. Thank you, both of you."
+          }
+        ],
+        "drawn": [
+          {
+            "id": "hh-1-parent-1",
+            "clip": "rust-idle-e",
+            "x": 570,
+            "y": 561,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-child-1",
+            "clip": "indigo-idle-e",
+            "x": 468,
+            "y": 561,
+            "h": 184,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-nb-1-p1",
+            "clip": "ochre-greet",
+            "x": 796,
+            "y": 561,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-nb-1-p2",
+            "clip": "indigo-idle-w",
+            "x": 898,
+            "y": 561,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-child-2",
+            "clip": "girl-idle-e",
+            "x": 365,
+            "y": 585,
+            "h": 143,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-nb-1-p3",
+            "clip": "boy-idle-w",
+            "x": 1001,
+            "y": 585,
+            "h": 143,
+            "drawn": true
+          }
+        ],
+        "backdrop": "courtship-yard-evening",
+        "buildings": [
+          "farm-neighbour-porch"
+        ],
+        "shot": true
+      },
+      {
+        "id": "second",
+        "where": "The Montañez place, across the bottom · Evening",
+        "lines": [
+          {
+            "step": 0,
+            "who": "Anselmo Montañez",
+            "said": "Welcome! Sit down and rest. Eli ran over to say you'd be coming."
+          },
+          {
+            "step": 1,
+            "who": "Asa Hollister",
+            "said": "Then you know why we've come. I'm asking for a day's help with a house."
+          },
+          {
+            "step": 2,
+            "who": "Lucinda Montañez",
+            "said": "You'll have it. And you'll have Sarah too - the best hand with an axe on this creek."
+          },
+          {
+            "step": 3,
+            "who": "Sarah",
+            "said": "Mother says that about everybody."
+          },
+          {
+            "step": 4,
+            "who": "Asa Hollister",
+            "said": "Then I hope she's right about you."
+          },
+          {
+            "step": 5,
+            "who": "Lucinda Montañez",
+            "said": "Sarah hasn't taken her eyes off you since you came through the gate."
+          },
+          {
+            "step": 6,
+            "who": "Sarah",
+            "said": "Mother!"
+          },
+          {
+            "step": 7,
+            "who": "Adela Hollister",
+            "said": "I like her."
+          },
+          {
+            "step": 8,
+            "who": "Sarah",
+            "said": "I'll fetch my axe and come right behind you, Asa."
+          }
+        ],
+        "drawn": [
+          {
+            "id": "hh-1-parent-1",
+            "clip": "rust-idle-e",
+            "x": 570,
+            "y": 561,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-child-1",
+            "clip": "indigo-idle-e",
+            "x": 468,
+            "y": 561,
+            "h": 184,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-nb-2-p1",
+            "clip": "elder-greet",
+            "x": 796,
+            "y": 561,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-nb-2-p2",
+            "clip": "indigo-idle-w",
+            "x": 898,
+            "y": 561,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-spouse",
+            "clip": "teal-shy",
+            "x": 1001,
+            "y": 561,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-child-2",
+            "clip": "girl-idle-e",
+            "x": 365,
+            "y": 585,
+            "h": 143,
+            "drawn": true
+          }
+        ],
+        "backdrop": "courtship-yard-evening",
+        "buildings": [
+          "farm-neighbour-ramada"
+        ],
+        "shot": true
+      },
+      {
+        "id": "wedding",
+        "where": "Your own land · Night",
+        "lines": [
+          {
+            "step": 0,
+            "who": "",
+            "said": "By nightfall a cabin stands where you camped."
+          },
+          {
+            "step": 1,
+            "who": "Nicolás Tolliver",
+            "said": "There - walls up and the roof on. You'll sleep dry tonight."
+          },
+          {
+            "step": 2,
+            "who": "Sarah",
+            "said": "I've worked beside you today, Asa, and I'd gladly work beside you every day after, if you'll have me."
+          },
+          {
+            "step": 3,
+            "who": "Asa Hollister",
+            "said": "I will."
+          },
+          {
+            "step": 4,
+            "who": "The commissioner",
+            "said": "There is no priest in the colony to marry you. So make your promises before these witnesses, and sign the bond to be married by a priest as soon as one comes."
+          },
+          {
+            "step": 5,
+            "who": "Sarah",
+            "said": "I take you, Asa, to be my husband, and I will keep faith with you alone."
+          },
+          {
+            "step": 6,
+            "who": "Asa Hollister",
+            "said": "I take you, Sarah, to be my wife, and I will keep faith with you alone."
+          },
+          {
+            "step": 7,
+            "who": "Chana Hollister",
+            "said": "Can I sign too?"
+          },
+          {
+            "step": 8,
+            "who": "The commissioner",
+            "said": "You can watch, and remember it. That is what witnesses are for."
+          },
+          {
+            "step": 9,
+            "who": "The commissioner",
+            "said": "Then sign here, and your neighbours will sign as witnesses. You are married by bond."
+          },
+          {
+            "step": 10,
+            "who": "Anselmo Montañez",
+            "said": "The Tollivers brought cornbread and a ham, and we brought tamales. Let's eat - and somebody find the fiddle!"
+          },
+          {
+            "step": 11,
+            "who": "From the record",
+            "said": "In Mexican Texas only a Catholic priest could marry a couple, and priests were few. Couples in the colonies often signed a bond like this before a local officer and witnesses, promising to be married by a priest when one came."
+          }
+        ],
+        "drawn": [
+          {
+            "id": "commissioner",
+            "clip": "elder-idle-w",
+            "x": 872,
+            "y": 552,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-parent-1",
+            "clip": "rust-idle-e",
+            "x": 633,
+            "y": 561,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-spouse",
+            "clip": "teal-idle-w",
+            "x": 733,
+            "y": 561,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-nb-1-p1",
+            "clip": "ochre-idle-e",
+            "x": 298,
+            "y": 561,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-nb-1-p2",
+            "clip": "indigo-idle-e",
+            "x": 204,
+            "y": 561,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-nb-2-p1",
+            "clip": "elder-idle-w",
+            "x": 980,
+            "y": 561,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-nb-2-p2",
+            "clip": "indigo-idle-w",
+            "x": 1074,
+            "y": 561,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-child-1",
+            "clip": "indigo-idle-e",
+            "x": 523,
+            "y": 575,
+            "h": 184,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-child-2",
+            "clip": "girl-idle-e",
+            "x": 454,
+            "y": 575,
+            "h": 143,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-nb-1-p3",
+            "clip": "boy-idle-e",
+            "x": 109,
+            "y": 585,
+            "h": 143,
+            "drawn": true
+          }
+        ],
+        "backdrop": "courtship-yard-evening",
+        "buildings": [
+          "house-round-log",
+          "wedding-table"
+        ],
+        "shot": true,
+        "vowShot": true,
+        "historyShot": true
+      },
+      {
+        "id": "after",
+        "where": "Your own land · Afterwards",
+        "lines": [
+          {
+            "step": 0,
+            "who": "Chana Hollister",
+            "said": "Is this our house now?"
+          },
+          {
+            "step": 1,
+            "who": "Asa Hollister",
+            "said": "It is. Ours - all of us."
+          },
+          {
+            "step": 2,
+            "who": "Sarah",
+            "said": "And a good one. The Tollivers and my family built it to last."
+          },
+          {
+            "step": 3,
+            "who": "",
+            "said": "Sarah is one of the family now. The Hollister family has two parents again, a roof of its own, and two families of neighbours who will not forget this day."
+          }
+        ],
+        "drawn": [
+          {
+            "id": "hh-1-parent-1",
+            "clip": "rust-idle-s",
+            "x": 636,
+            "y": 561,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-spouse",
+            "clip": "teal-idle-s",
+            "x": 730,
+            "y": 561,
+            "h": 205,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-child-1",
+            "clip": "indigo-idle-s",
+            "x": 556,
+            "y": 585,
+            "h": 184,
+            "drawn": true
+          },
+          {
+            "id": "hh-1-child-2",
+            "clip": "girl-idle-s",
+            "x": 810,
+            "y": 585,
+            "h": 143,
+            "drawn": true
+          },
+          {
+            "id": "fiddler",
+            "clip": "rust-fiddle",
+            "x": 1175,
+            "y": 561,
+            "h": 189,
+            "drawn": true
+          }
+        ],
+        "backdrop": "courtship-yard-evening",
+        "buildings": [
+          "house-round-log"
+        ],
+        "shot": true
+      }
+    ],
+    "presses": 32,
+    "fadeCount": 6,
+    "home": {
+      "members": [
+        {
+          "id": "hh-1-parent-1",
+          "role": "father",
+          "age": 33
+        },
+        {
+          "id": "hh-1-spouse",
+          "role": "mother",
+          "age": 33
+        },
+        {
+          "id": "hh-1-child-1",
+          "role": "daughter",
+          "age": 10
+        },
+        {
+          "id": "hh-1-child-2",
+          "role": "daughter",
+          "age": 9
+        }
+      ],
+      "house": "round-log",
+      "rows": 4
+    },
+    "fadeMs": {
+      "full": [
+        1109,
+        1103
+      ],
+      "reduced": [
+        285
+      ]
     }
   },
   "shots": [
     "docs/evidence/lone-parent-1-choose-site-first.png",
-    "docs/evidence/lone-parent-2-ability.png"
+    "docs/evidence/lone-parent-2-ability.png",
+    "docs/evidence/lone-parent-3-folded.png",
+    "docs/evidence/lone-parent-4-travel-on-black.png",
+    "docs/evidence/lone-parent-5-fade-up.png",
+    "docs/evidence/lone-parent-6-scene-first.png",
+    "docs/evidence/lone-parent-5b-fade-down.png",
+    "docs/evidence/lone-parent-6-scene-second.png",
+    "docs/evidence/lone-parent-6-scene-wedding.png",
+    "docs/evidence/lone-parent-7-the-vow.png",
+    "docs/evidence/lone-parent-8-from-the-record.png",
+    "docs/evidence/lone-parent-6-scene-after.png",
+    "docs/evidence/lone-parent-9-home-married.png"
   ],
   "errors": [],
   "note": "Same computer only: headless Chrome at 1366x768 (and 1024x768 with reduced motion). No Chromebook, LAN or classroom claim."
