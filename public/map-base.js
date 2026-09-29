@@ -134,9 +134,21 @@ export function wadesOf(line, courses, crossings = [], { clear = 0.25, apart = 0
 /**
  * Set a node's text only when it differs. Assigning `textContent` replaces the node's children even with the same words,
  * which the drawing loop did twelve times a second to five nodes: a DOM mutation and a style and layout pass each time.
+ *
+ * And when it does differ, the words are changed **in place**: a node holding one text node keeps that text node, and only
+ * its words change. `textContent =` throws the old text node away and adds a new one, which the family panel did every
+ * time a baby went from napping to crawling to asleep, a line of work changed, or the "!"'s countdown ticked a second - on
+ * twenty rows, most of what the panel added to the page in a quiet stretch (2026-09-29; scripts/family-commands-browser-proof.mjs
+ * counts the nodes added: kept and changed in place, not rebuilt). Only an empty node, or one holding more than words, is
+ * given a new text node. `null` is the empty line.
  */
 export function setText(node, text) {
-  if (node && node.textContent !== text) node.textContent = text;
+  const words = text == null ? '' : String(text);
+  if (!node || node.textContent === words) return false;
+  const only = node.childNodes?.length === 1 && node.firstChild?.nodeType === 3 ? node.firstChild : null;
+  if (only && words) only.data = words;
+  else node.textContent = words;
+  return true;
 }
 
 /**

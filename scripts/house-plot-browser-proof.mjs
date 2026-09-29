@@ -118,7 +118,9 @@ try{
  // What the next stage wants, on the panel where the student reads it (owner, 2026-09-17: 'say what the next house stage needs').
  await press('#house-open');await page.waitForTimeout(2500);
  const nextSaid=await page.evaluate(()=>[...document.querySelectorAll('#plot-summary .house-line')].map(n=>n.textContent).find(text=>text.startsWith('Next:')));
- assert.match(nextSaid,/^Next: laying the sills on the round-log pen\. It wants 4 sill logs and about \d+ hours’ work; \d+ sound( and \d+ poor)? at the house/);
+ // Since every family work went at half its length (owner, 2026-09-29, sim/work-pace.mjs) the sills are "about 1 hour’s work",
+ // one hour in the singular (public/house-plot.js `nextLine`); the words for half an hour and for hours are the same line's.
+ assert.match(nextSaid,/^Next: laying the sills on the round-log pen\. It wants 4 sill logs and about (half an hour’s|1 hour’s|\d+(\.\d+)? hours’) work; \d+ sound( and \d+ poor)? at the house/);
  await page.screenshot({path:'test-results/house-plot.png'});
  await page.setViewportSize({width:390,height:844});await page.waitForTimeout(200);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);await page.setViewportSize({width:1440,height:1000});await press('#plot-close');
  // Build it. A wet day holds the daub and the roof (sim/weather.mjs `rainHold`) and the builder goes off to rest, so when the
@@ -214,11 +216,20 @@ try{
  const takes=(who,at)=>{try{checkHousePlacement(liveWorld,who,at,'round-log');return null;}catch(error){return error.message;}};
  const EPS=0.001,ways=[];
  // Just clear each way round, at either turn and slid along that side: its claim (ground and pictures) an EPS of a mile off
- // the first's. Over: moved half way back to the first house.
+ // the first's. Over: half way back to the first house from where their own ground would just touch, the same way round and
+ // slid the same - so the refused spot stands on the first house as drawn, not merely inside its pictures' reach. Until
+ // 2026-09-29 it was half way back from the clear spot, which is on the first's ground only while the reach is small: since
+ // the reach grew for the dog-run's ridge (f5174d70, ab16bf88), half way back from a round-log cabin north of the first stands
+ // it 2.25 cells off a house 2 cells deep - refused for its roof, and this proof's assertion below stopped there ever since.
  for(const rotation of [0,90]){
    const unit=houseOnGround({plan:'round-log'},cat,{x:0,y:0,rotation}),w=firstGround.claim.maxX-firstGround.claim.minX,h=firstGround.claim.maxY-firstGround.claim.minY;
-   for(const slide of [0,-.25,.25,-.5,.5])for(const [way,at] of [['east',{x:firstGround.claim.maxX-unit.claim.minX+EPS,y:firstAt.y+slide*h}],['west',{x:firstGround.claim.minX-unit.claim.maxX-EPS,y:firstAt.y+slide*h}],['south',{x:firstAt.x+slide*w,y:firstGround.claim.maxY-unit.claim.minY+EPS}],['north',{x:firstAt.x+slide*w,y:firstGround.claim.minY-unit.claim.maxY-EPS}]])
-     ways.push({way:`${way}, turned ${rotation}, slid ${slide}`,clear:{...at,rotation},over:{x:(at.x+firstAt.x)/2,y:(at.y+firstAt.y)/2,rotation}});
+   const f=firstGround.footprint,u=unit.footprint;
+   for(const slide of [0,-.25,.25,-.5,.5])for(const [way,at,touch] of [
+     ['east',{x:firstGround.claim.maxX-unit.claim.minX+EPS,y:firstAt.y+slide*h},{x:f.maxX-u.minX,y:firstAt.y+slide*h}],
+     ['west',{x:firstGround.claim.minX-unit.claim.maxX-EPS,y:firstAt.y+slide*h},{x:f.minX-u.maxX,y:firstAt.y+slide*h}],
+     ['south',{x:firstAt.x+slide*w,y:firstGround.claim.maxY-unit.claim.minY+EPS},{x:firstAt.x+slide*w,y:f.maxY-u.minY}],
+     ['north',{x:firstAt.x+slide*w,y:firstGround.claim.minY-unit.claim.maxY-EPS},{x:firstAt.x+slide*w,y:f.minY-u.maxY}]])
+     ways.push({way:`${way}, turned ${rotation}, slid ${slide}`,clear:{...at,rotation},over:{x:(touch.x+firstAt.x)/2,y:(touch.y+firstAt.y)/2,rotation}});
  }
  const pair=ways.find(w=>!takes(withFirst,w.clear)&&!takes(alone,w.over)&&takes(withFirst,w.over)===SPACE_REFUSAL);
  assert.ok(pair,`no way round the first house has ground for a second: ${JSON.stringify(ways.map(w=>[w.way,takes(withFirst,w.clear),takes(alone,w.over)]))}`);

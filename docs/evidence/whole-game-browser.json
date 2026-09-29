@@ -1,40 +1,41 @@
 {
   "record": "whole-game-browser",
-  "date": "2026-09-28",
+  "date": "2026-09-29",
   "verdict": "PASS",
   "browser": "153.0.8010.53",
   "task": "One class from the lobby to the road home through all three periods, a student and the Host in the browser the whole way: nothing stalls, refuses wrongly or throws.",
-  "environment": "Same computer: a local classroom server at 100 ms a tick (not the Study pace) with five families, four automatic, and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.",
+  "environment": "Same computer: a local classroom server at 100 ms a tick (not the Study pace; 1000 ms, the Quick pace, while the student gives orders and answers the call, the winter's order and the order to leave) with five families, four automatic, and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.",
   "checks": [
     "the student joined as hh-1 in columbia and rolled a family of 8: Amos Proofwright (father, 31), Mahala Proofwright (mother, 34), Nieves Proofwright (daughter, 12), Jonas Proofwright (son, 10), Simeon Proofwright (son, 8), Lavinia Proofwright (daughter, 6), Docia Proofwright (daughter, 3), Teodoro Proofwright (son, 2)",
     "the Host started the class with five families joined",
     "the family arrived and the house site was chosen on its grant at (99.0104, 22.799599999999998)",
-    "8 of the family set to auto from the panel: Amos Proofwright, Mahala Proofwright, Nieves Proofwright, Jonas Proofwright, Simeon Proofwright, Lavinia Proofwright, Docia Proofwright, Teodoro Proofwright",
-    "4 orders given from the panel and taken",
+    "7 of the family set to auto from the panel: Amos Proofwright, Mahala Proofwright, Nieves Proofwright, Jonas Proofwright, Lavinia Proofwright, Docia Proofwright, Teodoro Proofwright",
+    "3 orders given from the panel and taken",
     "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Amos Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (835 ticks, 113.3 s)",
+    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (2282 ticks, 250.6 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "the second period ended on its own at minute 241920 (300 ticks, 38.4 s)",
+    "Amos Proofwright was sent to enlist auxiliary from the panel",
+    "the second period ended on its own at minute 241920 (300 ticks, 33.5 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (815 ticks, 187.3 s)",
+    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (2373 ticks, 260.9 s)",
     "no page errors on either page across the whole game"
   ],
   "measured": {
     "periods": {
       "first": {
-        "ticks": 835,
-        "seconds": 113.3,
+        "ticks": 2282,
+        "seconds": 250.6,
         "endedAtMinute": 114060
       },
       "second": {
         "ticks": 300,
-        "seconds": 38.4,
+        "seconds": 33.5,
         "endedAtMinute": 241920
       },
       "third": {
-        "ticks": 815,
-        "seconds": 187.3,
+        "ticks": 2373,
+        "seconds": 260.9,
         "endedAtMinute": 302580
       }
     },
@@ -53,7 +54,6 @@
       "Mahala Proofwright",
       "Nieves Proofwright",
       "Jonas Proofwright",
-      "Simeon Proofwright",
       "Lavinia Proofwright",
       "Docia Proofwright",
       "Teodoro Proofwright"
@@ -67,7 +67,7 @@
       {
         "id": "hh-1-parent-2",
         "key": "cut-lane",
-        "took": true
+        "took": "Mahala has stopped to talk with Simeon, who has nothing to do. Give Simeon something to do and Mahala goes back to work."
       },
       {
         "id": "hh-1-child-1",
@@ -84,18 +84,33 @@
       "text": "Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca and go on from there. Does somebody from your family go?",
       "sent": "Amos Proofwright"
     },
-    "winterOutcome": null,
+    "winter": {
+      "key": "enlist-auxiliary",
+      "id": "hh-1-parent-1",
+      "name": "Amos Proofwright"
+    },
+    "winterOutcome": {
+      "voted": false,
+      "service": {
+        "kind": "auxiliary-year",
+        "status": "serving",
+        "since": 177120,
+        "siteId": "san-felipe",
+        "acres": 320
+      }
+    },
     "flight": {
+      "answeredBy": "hh-1-parent-2",
       "refuge": "lynchburg",
-      "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs w"
+      "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer before the time on the “!” runs out, "
     },
     "ending": {
-      "host": "THE END OF THE STORY × The families’ flashbacks This server keeps no videos: it was started without a save folder. Play the whole class in turn the Proofwright family · waiting to be made Asa's family · waiting to be made Ignacio's family · waiting to be made Ezra's family · waiting to be made Vicen",
+      "host": "THE END OF THE STORY × The families’ flashbacks This server keeps no videos: it was started without a save folder. Look up one family's flashback How the families finished the Proofwright family finished first, with a final number of 631. Family Road miles from Gonzales Heard of the cannon Who went ",
       "family": "THE END OF THE STORY × Our story, looking back This server keeps no videos: it was started without a save folder. The story in words 1835–1836. This is the story of the Proofwright family, from the fall of 1835 to the spring of 1836. September 28, 1835. Amos and Mahala came to new land near Columbia",
       "flight": "returning",
       "minute": 302580
     },
-    "totalSeconds": 339
+    "totalSeconds": 545
   },
   "screenshots": [
     "docs/evidence/whole-game-at-work.png",
