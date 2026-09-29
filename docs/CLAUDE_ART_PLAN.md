@@ -13,8 +13,8 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | C — Soldiers, battles and famous people | 19 | 1 | 0 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 0 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 15 | 1 | 1 | 3 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 1 | 2 | 17 |
-| **Total** | **88** | **15** | **5** | **27** |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 1 | 3 | 17 |
+| **Total** | **88** | **15** | **6** | **27** |
 
 ## How a builder works
 
@@ -505,7 +505,7 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 6-8 frames, looping. **Size:** Readable at 30-160 px, anchored at the foot of the column
   - **Plugs into:** the `fires` in `drawWorld`, `public/app.js` (`window.__firesDrawn`)
   - **Stands in now:** the library's `smoke-rise` drawn three to four figures tall; a painted grey plume (Astra's library art reused)
-- [ ] **F5** (priority 3) — [Request 2026-09-20 — the country in a norther: trees and grass bent by the wind](ART_REQUESTS.md#request-2026-09-20--the-country-in-a-norther-trees-and-grass-bent-by-the-wind), remaining trees
+- [ ] **F5** (priority 3) — [Request 2026-09-20 — the country in a norther: trees and grass bent by the wind](ART_REQUESTS.md#request-2026-09-20--the-country-in-a-norther-trees-and-grass-bent-by-the-wind), remaining trees — **Claude stand-in in place** (`pine-loblolly-pole-wind`, `cedar-pole-wind`, `mesquite-pole-wind`, `live-oak-pole-wind`, `elm-pole-wind`, `post-oak-pole-wind`, `blackjack-pole-wind`, `pecan-pole-wind`, `hackberry-pole-wind`, `sweetgum-pole-wind`, `pine-loblolly-log-wind`, `cedar-log-wind`, `mesquite-log-wind`, `live-oak-log-wind`, `elm-log-wind`, `post-oak-log-wind`, `blackjack-log-wind`, `pecan-log-wind`, `hackberry-log-wind`, `sweetgum-log-wind`, `pine-loblolly-large-wind`, `cedar-large-wind`, `mesquite-large-wind`, `live-oak-large-wind`, `elm-large-wind`, `post-oak-large-wind`, `blackjack-large-wind`, `pecan-large-wind`, `hackberry-large-wind`, `sweetgum-large-wind`, `pine-longleaf-pole-wind`, `pine-longleaf-log-wind`, `pine-longleaf-large-wind`, `palm-sabal-pole-wind`, `palm-sabal-log-wind`, `palm-sabal-large-wind`, `cypress-bald-pole-wind`, `cypress-bald-log-wind`, `cypress-bald-large-wind`, `magnolia-log-wind`, `magnolia-large-wind`, `beech-log-wind`, `beech-large-wind`, `cottonwood-wind`, `scrub-wind`, `reeds-wind`, `prickly-pear-wind`, `marsh-cordgrass-wind`, `dune-grass-wind`, `thicket-thorn-1-wind`, `thicket-thorn-2-wind`, `palmetto-wind`, `yucca-wind`); Astra's replaces it
   - **Deliver:** a gale silhouette for each remaining tree kind and ground mark - pine, cedar, mesquite, live oak, elm, scrub, reeds, prickly pear, and every sized tree of `trees-colonies-1` and `-2` (`<tree>-wind`)
   - **Frames:** 1 each. **Size:** Exactly the scale and anchor of the upright sprite
   - **Plugs into:** `GALE_POSES` and `windLean` in `public/weather-art.js`
