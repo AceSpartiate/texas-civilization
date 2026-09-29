@@ -59,11 +59,20 @@ async function readManifest(name) {
     return response.ok ? await response.json() : null;
   } catch { return null; }
 }
-/** Add the Claude-drawn stand-ins behind Astra's frames: hers keep their names, theirs fill the gaps. */
+/**
+ * Add the Claude-drawn stand-ins behind Astra's frames: hers keep their names, theirs fill the gaps. The same for clips
+ * (2026-09-28): a Claude clip is taken only where her animation.json has none of that name, and only while every frame it
+ * names is still a Claude frame - once one of hers has taken a frame's name, a half-hers, half-Claude cycle would be drawn,
+ * so the Claude clip steps aside and the caller falls back as it would with no clip at all.
+ */
 function mergeStandins(standins) {
   if (!standins?.sheets || !standins.frames) return;
   for (const [name, sheet] of Object.entries(standins.sheets)) if (!art.sheets[name]) art.sheets[name] = sheet;
   for (const [name, frame] of Object.entries(standins.frames)) if (!art.frames[name] && art.sheets[frame.sheet]) art.frames[name] = frame;
+  for (const [name, clip] of Object.entries(standins.clips || {})) {
+    if (art.clips[name] || !Array.isArray(clip.frames)) continue;
+    if (clip.frames.every(frame => art.frames[frame.sprite] && art.frames[frame.sprite] === standins.frames[frame.sprite])) art.clips[name] = clip;
+  }
 }
 function ensureManifests() {
   if (!manifestPending) {

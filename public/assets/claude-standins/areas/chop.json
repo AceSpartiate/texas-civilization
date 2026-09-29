@@ -1,0 +1,199 @@
+{
+  "module": "chop",
+  "area": "work",
+  "date": "2026-09-28",
+  "sheets": {
+    "claude-chop": {
+      "image": "/assets/claude-standins/claude-chop.png",
+      "width": 1600,
+      "height": 400,
+      "bytes": 155138,
+      "sha256": "f2930986e91f52aab585862fe8a6d3b52592fce5c66e5e9b23b4de5161a52b6f",
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "layout": {
+        "rows": 1,
+        "columns": 4,
+        "cell": {
+          "w": 400,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "rust-chop-1": {
+      "sheet": "claude-chop",
+      "x": 0,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "rust-chop-1: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-rust-chop-1.svg",
+      "label": "rust chop 1",
+      "kind": "claude-chop"
+    },
+    "rust-chop-2": {
+      "sheet": "claude-chop",
+      "x": 400,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "rust-chop-2: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-rust-chop-2.svg",
+      "label": "rust chop 2",
+      "kind": "claude-chop"
+    },
+    "rust-chop-3": {
+      "sheet": "claude-chop",
+      "x": 800,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "rust-chop-3: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-rust-chop-3.svg",
+      "label": "rust chop 3",
+      "kind": "claude-chop"
+    },
+    "rust-chop-4": {
+      "sheet": "claude-chop",
+      "x": 1200,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "rust-chop-4: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-rust-chop-4.svg",
+      "label": "rust chop 4",
+      "kind": "claude-chop"
+    }
+  },
+  "clips": {
+    "rust-chop": {
+      "frames": [
+        {
+          "sprite": "rust-chop-1",
+          "duration": 320
+        },
+        {
+          "sprite": "rust-chop-2",
+          "duration": 140
+        },
+        {
+          "sprite": "rust-chop-3",
+          "duration": 300
+        },
+        {
+          "sprite": "rust-chop-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "beat": 2,
+      "authored": true,
+      "madeBy": "claude",
+      "module": "chop"
+    }
+  },
+  "provenance": {
+    "rust-chop-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "chop",
+      "area": "work",
+      "sheet": "claude-chop",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "rust felling a tree with a long-handled felling axe, side on and facing east, frame 1 of 4: the axe back over the shoulder, weight on the back foot. The same person, face, hat, hair, clothes and colours as Astra's rust sheets; Texas 1835 frontier clothes; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/chop/claude-rust-chop-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-chop-1"
+    },
+    "rust-chop-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "chop",
+      "area": "work",
+      "sheet": "claude-chop",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "rust felling a tree with a long-handled felling axe, side on and facing east, frame 2 of 4: the swing coming through, the axe head level with the hat. The same person, face, hat, hair, clothes and colours as Astra's rust sheets; Texas 1835 frontier clothes; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/chop/claude-rust-chop-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-chop-2"
+    },
+    "rust-chop-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "chop",
+      "area": "work",
+      "sheet": "claude-chop",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "rust felling a tree with a long-handled felling axe, side on and facing east, frame 3 of 4: the bite: the axe head in the trunk at hip height, just past the frame's right edge, the body bent into it. The same person, face, hat, hair, clothes and colours as Astra's rust sheets; Texas 1835 frontier clothes; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/chop/claude-rust-chop-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-chop-3"
+    },
+    "rust-chop-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "chop",
+      "area": "work",
+      "sheet": "claude-chop",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "rust felling a tree with a long-handled felling axe, side on and facing east, frame 4 of 4: the pull back: the axe drawn out of the cut and rising. The same person, face, hat, hair, clothes and colours as Astra's rust sheets; Texas 1835 frontier clothes; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/chop/claude-rust-chop-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-chop-4"
+    },
+    "rust-chop": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "chop",
+      "area": "work",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "rust felling with an axe: back, swing, bite, pull back, looping at the cast hoeing cycle's pace; the axe lands on the third frame.",
+      "frames": [
+        "rust-chop-1",
+        "rust-chop-2",
+        "rust-chop-3",
+        "rust-chop-4"
+      ],
+      "status": "temporary: replace with Astra's rust-chop"
+    }
+  }
+}

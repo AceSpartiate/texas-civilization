@@ -34,7 +34,7 @@ export const POSES = {
   'chop': F => {
     const S = sh(F), stance = { near: foot(F, 8.5), far: foot(F, -9) };
     return [
-      { view: 'e', pelvis: P(F, -1.5, -1.5), lean: -9, tilt: 6, feet: stance, tool: { kind: 'axe', butt: [3, S - 4], tip: [-20, S + 26], side: -1, near: 0.04, far: 0.3 }, elbows: { near: -1, far: -1 } },
+      { view: 'e', pelvis: P(F, -1.5, -1.5), lean: -9, tilt: 6, feet: stance, tool: { kind: 'axe', butt: [3, S - 4], tip: [-20, S + 26], side: -1, near: 0.04, far: 0.3, behind: true }, elbows: { near: -1, far: -1 } },
       { view: 'e', pelvis: P(F, 0, -2), lean: 4, feet: stance, tool: { kind: 'axe', butt: [2, S - 2], tip: [24, S + 22], side: -1, near: 0.04, far: 0.2 }, elbows: { near: -1, far: -1 } },
       { view: 'e', pelvis: P(F, 1.5, -3.5), lean: 16, tilt: -6, feet: stance, tool: { kind: 'axe', butt: [8, S - 23], tip: [50, S - 21], side: 1, near: 0.03, far: 0.14 }, elbows: { near: 1, far: 1 } },
       { view: 'e', pelvis: P(F, 0.5, -2.5), lean: 8, tilt: -2, feet: stance, tool: { kind: 'axe', butt: [6, S - 12], tip: [42, S - 2], side: 1, near: 0.04, far: 0.22 }, elbows: { near: 1, far: 1 } },
