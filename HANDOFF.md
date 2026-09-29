@@ -1,5 +1,58 @@
 # Claude handoff — Astra foundation
 
+## Tier 1 of the triage, the game's own items — 2026-09-29 (not released)
+
+**The ask.** Owner's request, 2026-09-29: fix the Tier 1 items of [docs/audits/2026-09-29-triage.md](docs/audits/2026-09-29-triage.md)
+that need no owner decision (1.10, 1.11, 1.12, 1.13, and 2.3's danger half). Branch `tier1-game` off `origin/main` 0ffa9663 with
+the triage merged. Each row there is marked with its commit.
+
+- **1.11, the wagon's driver shot at** (b2498f6d, interactions I-S5). `targetsOf` (`sim/pursuit.mjs`) counts `travel.drives` as
+  `rides`, for the women and children as for the men: the father on the bench of the wagon his children ride in is never fired
+  on (owner, 2026-09-27). The pursuit test's "with them" set was built from `rides` only; it now asks of every shot at a man
+  whether he rode in or drove their vehicle. Bug put back: that test alone fails (16 of 17), *"a shot was aimed at Gregorio, who
+  drives the wagon the women and children ride in"*. Added to `scripts/scrape-pursuit-injections.mjs`, where it is caught by that
+  test alone.
+- **1.10, "army close behind" describes a gone rule** (b2498f6d, design S20). The danger question now says soldiers come after a
+  family only when they can see it, and from how far they could see this family now (`sightMiles`): *"... they could see the
+  wagon from about 200 yards (on the road, in the open, in the rain)."* The notes: an ox wagon slower than marching soldiers and
+  its top seen three miles over open prairie, half that across country, much less in brush, timber, rain or dark; people on foot
+  a little faster and seen from a third as far in the open; staying means soldiers who see the family call on it to halt.
+  `OVERTAKEN_MILES` and `CLOSE_MILES` deleted; `tests/road.test.mjs` checks the words (injected: the old text fails it).
+  `FIC-GONZ-051` and docs/ROAD_EAST.md amended.
+- **2.3, the warning re-asked** (b2498f6d, interactions M5). The word and the question come once for each column **on each
+  stretch of the road** (`flight.warned`, cleared when the family reaches a refuge in `sim/scrape.mjs`). Not "once for the whole
+  flight", as first asked: that left a family at Lynchburg never asked about Santa Anna's column coming on again, and the
+  director's family sat there (the existing director test failed that way). Setting out from a refuge had also cleared the
+  warning and brought it back the next tick (seen: *"go on east to Lynchburg"*, then *"press on as we are"* one tick later);
+  gone. Proved by two injections (no list; the list not cleared at the refuge). An absent list is empty: no save version. The
+  child's play line (the other half of 2.3) is still open.
+- **1.12, a wounded man shut in the Alamo** (64e0145a, design S13). A `wounded` condition that mends away from home marks
+  `mendedAt` (`sim/routines.mjs`); `sendMendedHome` (`sim/army.mjs`, from `stepWorld` after the routine) tells the family
+  *"X's wound has mended, and X has started home from San Antonio de Béxar"* and starts him home as `leaveArmy` does - never for
+  anybody serving or held (`serving`, `prisoner`, `captured`: Coleto's wounded stay prisoners), nor for a family on the road east.
+  The winter's opening also tells a family whose man still lies wounded where he is. Tests: `tests/alamo.test.mjs` (mended,
+  told, on the road home, not besieged; the man the family sent to the garrison is besieged and not sent home) and
+  `tests/periods.test.mjs`, each assertion proved by injection. `FIC-GONZ-041` amended.
+- **1.13, no teacher guide** (54d22e6f, design S3). [TEACHER.md](TEACHER.md), one page: class days by pace and per period (from
+  `server/class-days.mjs`), Pause / Stop for today / End Game, a period's end and Continue, Classes, the pace going back to Study
+  on reopening (triage 1.5, still open, said plainly), getting back in, the debrief. Shipped beside README.md
+  (`scripts/package.ps1`, and `scripts/verify-delta-update.ps1`'s copy). `tests/class-days.test.mjs` holds its day counts to the
+  Host page's, its words to the Host's buttons and the four standing debrief questions, and the package to shipping it (two
+  injections). Retired after checking each against the code: README :18/:22 (Stop for today), :26 (the one wood pile), :64 (tests),
+  :68 (what ships); GAME.md :17 (the ending exists), :206 (anybody can be given orders), :291 (three periods), :327;
+  `sim/winter.mjs` 21-23, `sim/directors.mjs` 144, docs/COLONIES.md §6m (the second period ends at `alamo-end`, not Feb 23).
+
+**Evidence (same computer only; no Chromebook or LAN claim).** `npm test` on the branch: **1,715 tests, 1,677 pass, 1 fail,
+1 cancelled, 36 skipped** (the suspended tutorial). The two were the known-flaky ones under load: `capacity` (timed out at 30 s)
+and `save-retry` (a 200 ms timing); run again alone, **2 of 2 pass**. Browser proofs: `test:scrape-pursuit` **15 of 15**,
+`test:road` **7 of 7**, `test:scrape` **7 of 7**, `test:ending` **10 of 10**. `test:scrape-pursuit-injections unit`: the new
+driver injection caught by its own test alone.
+
+**Left.** `scripts/scrape-pursuit-injections.mjs` is stale on `main` itself, before this branch: its route injection is MISSED
+(every test passes), two are caught by more than one test, and it throws at *"another family sent the first family's route"*
+because the `flightProjection` line it replaces in `sim/world.mjs` no longer exists. Not fixed here. The rest of 2.3 (a child
+alone writing *"set out: play"* dozens of times) is open.
+
 ## Released as v2026.09.29.1 — 2026-09-29
 
 Everything below marked *(released in v2026.09.29.1)* shipped in this release: simpler work (one wood pile, auto, more hands, an axe each), the tutorial suspended and tips at first meeting, people drawn at their work, ambient life and chatter, sound and music, crops in real minutes with a slow winter and open stores until the Scrape, neighbours who repay (and count toward glory), who acts for a family, the flashback video, Stop for today / Continue / Delete in Classes, the overlap fixes, the errand list that stands still, the looks recolouring that finds the face, and Claude's temporary art in six areas (docs/CLAUDE_ART_PLAN.md). Verified on a clean tree at 9bed9f43: `npm test` 1713 tests, 1677 pass, 0 fail, 36 skipped (the suspended tutorial); 26 of 28 browser proofs green first time, `test:solo-game` green on rerun, `test:famous-people` green on one of two reruns (its Host frame sample is 2-7 frames; a follow-up is open). Same computer only; no Chromebook or LAN claim.
