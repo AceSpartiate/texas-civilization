@@ -38,7 +38,7 @@ export function frameOf(figure) {
 /**
  * Draw `figure` in `pose` into `ink` (rig units). Returns the joints, for a caller that needs a hand or the head.
  * pose: { view, pelvis:[x,y], lean, tilt, feet:{near,far}, hands:{near,far}, tool:{kind,butt,tip,side,near,far}, mouth,
- *         arms:{near,far} (elbow bend), lying, sit, headTurn:'s' }
+ *         arms:{near,far} (elbow bend), lying, sit, headTurn:'s', overBody(ink, joints), after(ink, joints) }
  */
 export function drawPerson(ink, figure, pose = {}) {
   const F = frameOf(figure), { spec, B } = F;
@@ -99,6 +99,9 @@ function drawSide(ink, F, pose) {
   drawLeg(ink, spec, B, hipNear, legNear, feet.near, c => c, skirt);
   drawTorsoSide(ink, spec, B, P, N, t, fwd, lean);
   if (skirt) drawSkirtSide(ink, spec, B, P, t, fwd, feet, legNear, legFar, false, pose);
+  // A caller's own clothing over the body and under the near arm and the head (a sash, a short jacket's hem, a shawl's back):
+  // `pose.overBody(ink, joints)`, as `pose.after` is over everything.
+  if (pose.overBody) pose.overBody(ink, joints);
   // Arms raised in front of the face pass beside the head, as in her three-quarter work frames, not across it: then the
   // near arm and its tool are drawn before the head. Raised behind the head, they are drawn over its back as usual.
   const raised = armNear.end[1] > S[1] + B.head * 0.6 && armNear.end[0] > H[0] - B.head * 0.4;
@@ -269,6 +272,7 @@ function drawFrontal(ink, F, pose, view) {
   for (const leg of legs) drawLegFrontal(ink, spec, B, leg, skirt);
   drawTorsoFrontal(ink, spec, B, P, N, hw, sw, back);
   if (skirt) drawSkirtFrontal(ink, spec, B, P, hw, legs, back);
+  if (pose.overBody) pose.overBody(ink, { ...joints, back, hw, sw });
   for (const a of arms) drawArmFrontal(ink, spec, B, a);
   drawHeadFrontal(ink, spec, B, H, N, back, pose);
   if (pose.after) pose.after(ink, joints);
