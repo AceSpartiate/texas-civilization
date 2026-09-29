@@ -85,7 +85,7 @@ async function closeIn({ app, page, post, hostCookie }, drivers) {
   const principal = app.state.world.households['hh-1'].principalId;
   await page.locator(`.panel-portrait[data-portrait="${principal}"]`).click();
   await page.waitForTimeout(900);
-  const wagonAt = () => page.evaluate(() => Object.values(window.__seatedDrawn || {}).find(one => one.seat === 'wagon')?.parts.find(part => part.part === 'wagon'));
+  const wagonAt = () => page.evaluate(() => Object.values(window.__seatedDrawn || {}).find(one => one.seat === 'wagon')?.parts.find(part => part.part === 'wagon' || part.part === 'rig'));
   for (let i = 0; i < 6; i++) {
     const at = await wagonAt();
     if (!at || at.height >= 60) break;
@@ -133,7 +133,7 @@ try {
   const road = await poor.page.evaluate(() => {
     const [id, drawn] = Object.entries(window.__seatedDrawn || {}).find(([, one]) => one.seat === 'wagon');
     const walkers = window.__snapshot.world.entities.filter(one => one.kind === 'person' && one.travel?.afoot).map(one => one.id);
-    return { driver: id, passengers: drawn.parts.filter(part => part.part === 'passenger'), wagon: drawn.parts.find(part => part.part === 'wagon'), walkers: walkers.map(one => ({ id: one, at: window.__drawnAt[one] || null })) };
+    return { driver: id, passengers: drawn.parts.filter(part => part.part === 'passenger'), wagon: drawn.parts.find(part => part.part === 'wagon' || part.part === 'rig'), walkers: walkers.map(one => ({ id: one, at: window.__drawnAt[one] || null })) };
   });
   observed.poorOnTheRoad = road;
   const truth = poorFamily().members.map(id => poor.app.state.world.entities[id]);
@@ -169,7 +169,7 @@ try {
   await rich.page.locator('#wagon-done').click();
   await startClass(rich);
   await closeIn(rich, 3);
-  const train = await rich.page.evaluate(() => Object.entries(window.__seatedDrawn || {}).filter(([, one]) => one.seat === 'wagon').map(([id, one]) => ({ id, art: one.art, passengers: one.parts.filter(part => part.part === 'passenger').length, wagon: one.parts.find(part => part.part === 'wagon') })));
+  const train = await rich.page.evaluate(() => Object.entries(window.__seatedDrawn || {}).filter(([, one]) => one.seat === 'wagon').map(([id, one]) => ({ id, art: one.art, rig: one.rig, passengers: one.parts.filter(part => part.part === 'passenger').length, wagon: one.parts.find(part => part.part === 'wagon' || part.part === 'rig') })));
   observed.richOnTheRoad = train;
   assert.equal(train.length, 3, 'three wagons are not each drawn with a driver');
   assert.equal(train.reduce((sum, one) => sum + one.passengers, 0) + 3, 8, 'the family of eight is not all riding');
