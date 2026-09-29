@@ -26,7 +26,7 @@ const INJECTIONS = [
   { name: 'a child steps up only at ten', file: ACTING, from: 'export const STEPS_UP_FROM = 7;', to: 'export const STEPS_UP_FROM = 10;', expect: /^the oldest child steps up/ },
   { name: 'a smaller child is not told who answers', file: WORLD, from: "is the oldest with the family, and answers for it' : 'answers for it'}.` : ''}`);", to: "' : ''}.` : ''}`);", expect: /^the oldest child steps up/ },
   // Taken in (FIC-GONZ-731).
-  { name: 'nobody takes the little ones in', file: ACTING, from: '        if (host) takeIn(world, household, host);', to: '', expect: /^with nobody of seven or more, the nearest neighbours take/ },
+  { name: 'nobody takes the little ones in', file: ACTING, from: '        if (host) takeIn(world, household, host);', to: '        if (false) takeIn(world, household, host);', expect: /^with nobody of seven or more, the nearest neighbours take/ },
   { name: 'the taken-in stay behind when the neighbours go', file: ACTING, from: '    goWith(world, host, ours);', to: '', expect: /^with nobody of seven or more, the nearest neighbours take/ },
   { name: 'nobody grown of the family can fetch the children back', file: ACTING, from: '    if (grown) { release(world, household, host, grown, { beginTravel }); continue; }', to: '', expect: /^taken in at the neighbours' own place/ },
   { name: 'going for help is never offered', file: ACTING, from: "      offered: (world, household, entity) => entity.age >= STEPS_UP_FROM && actingFor", to: "      offered: (world, household, entity) => false && actingFor", expect: /^the oldest child at home may go for help/ },
@@ -45,7 +45,7 @@ const INJECTIONS = [
   // A family with nobody living (playthrough 7).
   { name: 'a dead family is told to leave', file: SCRAPE, from: '  if (!people(world, household).some(person => !GONE.includes(person.health?.condition))) return;\n', to: '', expect: /^a family with nobody living/ },
   { name: 'a dead family holds the clock', file: CLOCK, from: " && !household.flight.burned && answering(household))) return true;", to: ' && !household.flight.burned)) return true;', expect: /^a family with nobody living/ },
-  { name: 'a dead family can win', file: ENDING, from: '  const contenders = families.filter(family => !family.automatic && !family.wiped);', to: '  const contenders = families.filter(family => !family.automatic);', expect: /^a family with nobody living/ },
+  { name: 'a dead family can win', file: ENDING, from: '  const contenders = families.filter(family => (!family.automatic || family.finishedByDirector) && !family.wiped);', to: '  const contenders = families.filter(family => (!family.automatic || family.finishedByDirector));', expect: /^a family with nobody living/ },
   // The dead never speak (interactions M1).
   { name: 'the dead keep their little ones', file: BABIES, from: '      if (!gone && !abed) continue;', to: '      if (!abed) continue;', expect: /^the dead never speak/ },
 ];

@@ -57,6 +57,7 @@ import { BABY_UNDER } from './furniture.mjs';
 import { share, stirredShare } from './shares.mjs';
 // Whether a child starts a job at once (sim/obedience.mjs, docs/CHILDREN.md §4): rolled as the job is given.
 import { beginsJob } from './obedience.mjs';
+import { dayInvalid } from './child-day.mjs';
 
 const DAY = 1440;
 
@@ -266,26 +267,26 @@ export const CHILD_WORK_TICKS = Object.freeze({ 'child-play': 6, 'child-hens': 1
  */
 export const PLAY_KINDS = Object.freeze({
   'child-stick-horse': { name: 'Ride a stick horse', move: 'gallop', away: 'on a stick horse', doing: 'galloping a stick horse up and down the yard',
-    describe: 'A couple of hours up and down the yard on a stick horse with a string for a bridle.',
+    describe: 'Up and down the yard on a stick horse with a string for a bridle.',
     line: name => `${name} galloped a stick horse up and down the yard until one of them gave out.` },
   'child-doll': { name: 'Play with a corn-husk doll', move: 'sit', away: 'to play with a corn-husk doll', doing: 'playing house with a corn-husk doll',
-    describe: 'A couple of hours by the house with a doll made of corn husks, keeping house the way the grown people do.',
+    describe: 'By the house with a doll made of corn husks, keeping house the way the grown people do.',
     line: name => `${name} sat by the house all the hour with a corn-husk doll, keeping house for it.` },
   // Smithwick's, from Martin Varner's boy: an axle through two of his mother's biscuits, hard enough to be wheels (`HIST-TEX-631`).
   'child-cart': { name: 'Make a toy cart', move: 'kneel', away: 'to make a toy cart', doing: 'making a toy cart with biscuit wheels',
-    describe: 'A couple of hours on their knees making a toy ox cart, with a stick for an axle and two of the hardest biscuits in the house for wheels.',
+    describe: 'On their knees making a toy ox cart, with a stick for an axle and two of the hardest biscuits in the house for wheels.',
     line: name => `${name} made a toy cart with two hard biscuits for wheels and drove it all round the yard.` },
   'child-tag': { name: 'Play tag', move: 'run', away: 'to play tag', doing: 'running at tag about the yard',
-    describe: 'A couple of hours running at tag about the yard, with the other children if there are any and the dog if there are not.',
+    describe: 'Running at tag about the yard, with the other children if there are any and the dog if there are not.',
     line: name => `${name} ran at tag about the yard until there was no breath left to run with.` },
   'child-hide': { name: 'Play hide-and-seek', move: 'hide', away: 'to hide behind the house', doing: 'running off to hide',
-    describe: 'A couple of hours of hiding behind the house and the woodpile, and being found.',
+    describe: 'Hiding behind the house and the woodpile, and being found.',
     line: name => `${name} hid behind the house so well that nobody found them, and came out in the end to say so.` },
   'child-hoop': { name: 'Roll a hoop', move: 'line', away: 'down the lane after a hoop', doing: 'rolling a hoop down the lane with a stick',
-    describe: 'A couple of hours driving an old barrel hoop down the lane with a stick, and running after it back.',
+    describe: 'Driving an old barrel hoop down the lane with a stick, and running after it back.',
     line: name => `${name} drove a barrel hoop down the lane and back with a stick, and lost it in the brush only once.` },
   'child-marbles': { name: 'Marbles and knucklebones', move: 'kneel', away: 'to play marbles in the dirt', doing: 'at marbles and knucklebones in the dirt',
-    describe: 'A couple of hours on their knees in the dirt with clay marbles and a set of knucklebones.',
+    describe: 'On their knees in the dirt with clay marbles and a set of knucklebones.',
     line: name => `${name} knelt in the dirt at marbles and knucklebones, and won every game against themself.` },
 });
 /**
@@ -347,16 +348,17 @@ const work = (id, name, describe, doing, run) => ({
 /** A kind of play as a work of its own: offered by the ladder, drawn by `playStep`, told by its own line. */
 const playWork = (id, kind) => ({
   id, name: kind.name, skill: 'hands', where: 'home', child: true, play: true,
-  describe: `${kind.describe} It makes nothing and costs nothing, and it is what a child of this age would be doing with the hour.`,
+  describe: `${kind.describe} It makes nothing and costs nothing, and it is what a child of this age would be doing with the day: it lasts until the day ends.`,
   offered: (world, household, entity) => childOffered(world, household, entity, id),
   refusal: (world, household, entity) => childRefusal(world, household, entity, id),
   begin: (world, household, entity) => { entity.chore.began = world.tick; entity.chore.doing = kind.doing; },
-  steps: [{ work: CHILD_WORK_TICKS['child-play'] }, { run: (world, household, entity) => tell(world, entity, kind.line(entity.name), 'FIC-GONZ-475') }],
+  // Until the day ends (owner, 2026-09-29; sim/child-day.mjs `allDay`), or `work` ticks for a spell between jobs on auto.
+  steps: [{ work: CHILD_WORK_TICKS['child-play'], allDay: true }, { run: (world, household, entity) => tell(world, entity, kind.line(entity.name), 'FIC-GONZ-475') }],
 });
 registerChores(Object.fromEntries([
   {
     ...work('child-play', 'Play as they please',
-      `A couple of hours that are theirs, at whatever they choose: the creek, a stick horse, hiding in the brush, the other children. It makes nothing, costs nothing and is not a job. The kinds of play beside it are the same, chosen for them.`,
+      `The rest of the day is theirs, at whatever they choose: the creek, a stick horse, hiding in the brush, the other children. It makes nothing, costs nothing and is not a job, and it lasts until the day ends. The kinds of play beside it are the same, chosen for them.`,
       'playing about the place', RUNS.play),
     play: true,
     // What they choose is chosen as they go, and is what they are drawn at (`playOf`, `playStep`) and what the record says.
@@ -364,7 +366,7 @@ registerChores(Object.fromEntries([
       const line = playLine(world, entity);
       Object.assign(entity.chore, { began: world.tick, line, doing: PLAYED_AS[line].doing });
     },
-    steps: [{ work: CHILD_WORK_TICKS['child-play'] }, { run: RUNS.play }],
+    steps: [{ work: CHILD_WORK_TICKS['child-play'], allDay: true }, { run: RUNS.play }],
   },
   ...Object.entries(PLAY_KINDS).map(([id, kind]) => playWork(id, kind)),
   work('child-hens', 'Scatter corn for the hens',
@@ -407,6 +409,7 @@ export function childrenInvalid(world) {
   }
   for (const entity of Object.values(world.entities)) {
     if (entity.chore && isChildWork(entity.chore.id) && !oldEnoughFor(entity, entity.chore.id)) return 'Child work by somebody it is not for';
+    if (entity.chore?.allDay !== undefined && dayInvalid(world, entity.chore.allDay)) return 'Invalid day of play';
   }
   return null;
 }

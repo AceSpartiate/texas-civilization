@@ -73,9 +73,9 @@ export const PANEL_SUMMARIES = Object.freeze({
   'camp-guard': 'Stand a night on the camp guard.',
   'camp-scout': 'Ride out with the scouts for a day to find the enemy, which wants a horse and can bring them back hurt.',
   // What a family's children can be set to (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21).
-  'child-play': 'Let them have the hour to themselves at whatever play they choose, which makes nothing and is the point of it.',
+  'child-play': 'Let them have the rest of the day to themselves at whatever play they choose, which makes nothing and is the point of it.',
   // The kinds of play and the hens (sim/children.mjs `PLAY_KINDS`, owner 2026-09-26: "different types of play").
-  'child-stick-horse': 'Let them gallop a stick horse up and down the yard for the hour.',
+  'child-stick-horse': 'Let them gallop a stick horse up and down the yard for the rest of the day.',
   'child-doll': 'Let them sit by the house with a corn-husk doll and keep house for it.',
   'child-tag': 'Let them run at tag about the yard with the other children.',
   'child-hide': 'Let them play hide-and-seek behind the house and the woodpile.',
@@ -433,10 +433,10 @@ export function meetingFor(world, entity) {
  * soldiers' ¡Alto! (thirty real seconds before silence halts the family), the road's question, the order to leave, somebody very
  * sick (a day to nurse them), a rider standing with them (who rides on, and whose word is often what the call is about),
  * the settlement's call (five real minutes), the army's and the camp's and Travis's questions (ninety real seconds each),
- * work that has stopped to ask, an offer. A person with more than one shows the first, and across the whole column the rows
+ * work that has stopped to ask, a small child whose own auto went off (2026-09-29), an offer. A person with more than one shows the first, and across the whole column the rows
  * are ranked by it (`rankNeeds`). Also which card section answers each (`NEED_SECTIONS` in public/app.js).
  */
-export const NEED_KINDS = Object.freeze(['alto', 'road', 'flight', 'sick', 'rider', 'call', 'army', 'camp', 'courier', 'asking', 'offer']);
+export const NEED_KINDS = Object.freeze(['alto', 'road', 'flight', 'sick', 'rider', 'call', 'army', 'camp', 'courier', 'asking', 'child', 'offer']);
 
 /**
  * Who is with the family and answers its own decisions - the order to leave, the route, the road's questions, "¡Alto!" - as the
@@ -461,7 +461,8 @@ export function takenInWords(world) {
  */
 export function needsOf(world, entityId) {
   const entity = (world?.entities || []).find(one => one.id === entityId);
-  if (gone(entity) || world.role === 'host') return [];
+  // Nothing waits on a student watching another family (sim/watching.mjs): nobody on the page is theirs to answer for.
+  if (gone(entity) || world.role === 'host' || world.watching) return [];
   const name = entity.name || 'Somebody';
   const needs = [];
   const ms = value => (Number.isFinite(value) ? { leftMs: value } : {});
@@ -487,6 +488,9 @@ export function needsOf(world, entityId) {
   const asked = requestFor(world, entity);
   if (asked?.options?.length) needs.push({ kind: 'call', text: `${name} can answer what the family is being asked.`, ...ms(asked.leftMs) });
   if (entity.chore?.ask) needs.push({ kind: 'asking', text: `${name}’s work has stopped to ask something.`, ...ms(entity.chore.ask.leftMs) });
+  // A small child whose own automation has gone off, given nothing since (owner, 2026-09-29, "Until the day ends"; sim/childhood.mjs
+  // `autoOffAsking`): after work that has stopped to ask, before an offer. Never how long it had lasted.
+  if (entity.autoOff) needs.push({ kind: 'child', text: `${name}’s auto went off. Give ${name} something to do, or put Auto on again.` });
   for (const offer of world.offers || []) {
     if (offer.direction === 'received' && offer.ourEntityId === entityId) { needs.push({ kind: 'offer', text: `${offer.theirName || 'A neighbour'} has offered ${name} a trade.` }); break; }
   }

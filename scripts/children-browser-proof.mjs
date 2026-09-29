@@ -161,6 +161,8 @@ try {
   }
   observed.tagTurns = tagged.turns;
   ok(`at tag in the yard the child runs the way they are drawn going: ${[...new Set(running.map(([heading, clip, flip]) => `${heading} as ${clip}${flip ? ' mirrored' : ''}`))].join(', ')}`);
+  // Play lasts until the day ends (owner, 2026-09-29): called off from the bar, as a student does, rather than waited out.
+  await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="stop-chore"]').click();
   await page.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, kid.id, { timeout: 30000 });
   await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="child-doll"]').click();
   await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.chore?.id === 'child-doll', kid.id, { timeout: 15000 });
@@ -169,6 +171,9 @@ try {
   ok(`with a corn-husk doll the child is drawn sitting (${sitting.clips.join(', ')})`);
   // The hens are work: the child is drawn in their own scattering (`smallchild-scatter`, Claude-drawn until Astra's lands),
   // through the work table's drawn stroke in the child's own figure (public/app.js `drawAtWork`), not the grown sowing.
+  // The doll is put down first: play lasts until the day ends (2026-09-29).
+  await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="stop-chore"]').click();
+  await page.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, kid.id, { timeout: 30000 });
   await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="child-hens"]').click();
   await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.chore?.id === 'child-hens', kid.id, { timeout: 15000 });
   await page.waitForFunction(id => /^(girl|boy|smallchild)-scatter$/.test(window.__workDrawn?.[id]?.clip || ''), kid.id, { timeout: 60000 })
@@ -185,8 +190,11 @@ try {
   await page.waitForFunction(id => { const line = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-life-line`); return line && !line.hidden && /^Auto went off/.test(line.textContent); }, kid.id, { timeout: 120000 });
   observed.autoOff = await lifeOf(page, kid.id);
   assert.equal(await autoSwitch.getAttribute('aria-pressed'), 'false');
+  // And an "!" on the child's row (owner, 2026-09-29, "Until the day ends"), which stays until the child is given something to do.
+  await page.waitForFunction(id => { const mark = document.querySelector(`[data-attention="${id}"]`); return mark && !mark.hidden; }, kid.id, { timeout: 15000 });
+  observed.autoOffNeed = await page.evaluate(id => document.querySelector(`[data-attention="${id}"]`)?.getAttribute('aria-label') || document.querySelector(`[data-attention="${id}"]`)?.title || '', kid.id);
   await shot(page, 'auto-off-1366');
-  ok(`the child's automation turned itself off, and the row says "${observed.autoOff}"`);
+  ok(`the child's automation turned itself off, and the row says "${observed.autoOff}", with an "!" on it`);
 
   // 4. The baby: crawls, cries, is picked up and hummed to, put down to nap, and whoever held it is back as they were.
   const crawl = await drawnOver(page, baby.id, 3000, 200, parentId);

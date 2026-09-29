@@ -94,9 +94,10 @@ test('a call and an army question are "!"s on whoever may answer them, and nothi
   // Nothing about what an answer risks, which the owner hid (docs/COLONIES.md §7a).
   assert.doesNotMatch(needsOf({ entities: [entity], army: army('open') }, 'a')[0].text, /kill|die|death|danger|risk|wound/i);
   // The most urgent first (docs/audits/2026-09-28-design.md S33, 2026-09-28): the road's question, the order to leave, very
-  // sick, a rider who will ride on, the call, the army, Houston's camp, Travis asking for riders, work asking, an offer.
+  // sick, a rider who will ride on, the call, the army, Houston's camp, Travis asking for riders, work asking, a small child whose
+  // auto went off (owner, 2026-09-29), an offer.
   const everything = {
-    entities: [{ ...entity, chore: { ask: { id: 'shot' } }, service: { kind: 'garrison', status: 'serving', besieged: true, courier: 'open', leave: 'open' }, sickness: { grave: true, line: 'Very sick with the measles.' } }], request: call, army: army('open'),
+    entities: [{ ...entity, autoOff: true, chore: { ask: { id: 'shot' } }, service: { kind: 'garrison', status: 'serving', besieged: true, courier: 'open', leave: 'open' }, sickness: { grave: true, line: 'Very sick with the measles.' } }], request: call, army: army('open'),
     encounter: { status: 'open', listenerId: 'a', carrierName: 'Ben' }, offers: [{ direction: 'received', ourEntityId: 'a', theirName: 'Cy' }],
     flight: { status: 'ordered', ask: { id: 'bog', text: 'The wagon is fast in the mud.' } }, household: { mainId: 'a' },
   };

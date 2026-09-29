@@ -1,0 +1,144 @@
+{
+  "record": "watching-injections",
+  "date": "2026-09-29",
+  "note": "Follow and watch (owner, 2026-09-29; sim/watching.mjs), the straggler at the refuge and the little ones with nobody near (triage D3). Each injection is run against tests/watching.test.mjs; \"alone\" means the test named for the rule was the only one to fail.",
+  "injections": [
+    {
+      "name": "a gone family’s student is sent their own empty page",
+      "file": "sim/watching.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a student whose whole family is gone follows the nearest neighbour family and sees exactly its page, read-only, with a line that says what happened"
+      ]
+    },
+    {
+      "name": "the student follows the furthest family, not the nearest",
+      "file": "sim/watching.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a student whose whole family is gone follows the nearest neighbour family and sees exactly its page, read-only, with a line that says what happened"
+      ]
+    },
+    {
+      "name": "the watching page is sent the Host’s knowledge",
+      "file": "sim/watching.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a student whose whole family is gone follows the nearest neighbour family and sees exactly its page, read-only, with a line that says what happened"
+      ]
+    },
+    {
+      "name": "the watching page keeps the watched family’s work to give",
+      "file": "sim/watching.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a student whose whole family is gone follows the nearest neighbour family and sees exactly its page, read-only, with a line that says what happened"
+      ]
+    },
+    {
+      "name": "the watching page takes the watched family for its own",
+      "file": "sim/watching.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a student whose whole family is gone follows the nearest neighbour family and sees exactly its page, read-only, with a line that says what happened"
+      ]
+    },
+    {
+      "name": "the ending shown is the watched family’s",
+      "file": "sim/watching.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a student whose whole family is gone follows the nearest neighbour family and sees exactly its page, read-only, with a line that says what happened"
+      ]
+    },
+    {
+      "name": "a watching student’s orders are taken",
+      "file": "sim/world.mjs",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "the rule: a student whose whole family is gone follows the nearest neighbour family and sees exactly its page, read-only, with a line that says what happened",
+        "the rule: a student whose little ones were taken in, with nobody else of the family left to play, watches the family that took them in, until somebody grown comes for them"
+      ]
+    },
+    {
+      "name": "the line does not say what happened",
+      "file": "sim/watching.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a student whose whole family is gone follows the nearest neighbour family and sees exactly its page, read-only, with a line that says what happened"
+      ]
+    },
+    {
+      "name": "the server sends the page no line at all",
+      "file": "sim/world.mjs",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "the rule: a student whose whole family is gone follows the nearest neighbour family and sees exactly its page, read-only, with a line that says what happened",
+        "the rule: a student whose little ones were taken in, with nobody else of the family left to play, watches the family that took them in, until somebody grown comes for them"
+      ]
+    },
+    {
+      "name": "the student whose little ones were taken in watches nobody",
+      "file": "sim/watching.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a student whose little ones were taken in, with nobody else of the family left to play, watches the family that took them in, until somebody grown comes for them"
+      ]
+    },
+    {
+      "name": "a student whose father serves with the army is made to watch",
+      "file": "sim/watching.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a student whose little ones were taken in, with nobody else of the family left to play, watches the family that took them in, until somebody grown comes for them"
+      ]
+    },
+    {
+      "name": "a prisoner of war counts as somebody left to play",
+      "file": "sim/watching.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: a student whose little ones were taken in, with nobody else of the family left to play, watches the family that took them in, until somebody grown comes for them"
+      ]
+    },
+    {
+      "name": "a straggler at the refuge is left there when the family has gone home",
+      "file": "sim/acting.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: somebody who reaches the refuge after the family has turned for home follows it home"
+      ]
+    },
+    {
+      "name": "little ones with nobody near are left without a word",
+      "file": "sim/acting.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: little ones at home with no neighbour family near to take them in are not left without a word"
+      ]
+    },
+    {
+      "name": "the family is told the little ones are alone every tick",
+      "file": "sim/acting.mjs",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rule: little ones at home with no neighbour family near to take them in are not left without a word"
+      ]
+    }
+  ]
+}
