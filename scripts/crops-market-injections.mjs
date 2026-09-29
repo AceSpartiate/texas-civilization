@@ -7,7 +7,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
-const FILES = ['tests/crop-minutes.test.mjs', 'tests/market.test.mjs', 'tests/ending.test.mjs', 'tests/money.test.mjs', 'tests/store.test.mjs'];
+const FILES = ['tests/crop-minutes.test.mjs', 'tests/market.test.mjs', 'tests/ending.test.mjs', 'tests/money.test.mjs', 'tests/store.test.mjs', 'tests/shops.test.mjs', 'tests/carreta.test.mjs'];
 const INJECTIONS = [
   // Crops in real minutes (sim/crops.mjs).
   {
@@ -115,6 +115,24 @@ const INJECTIONS = [
     to: '',
   },
   // Slower in the winter (sim/crops.mjs), and corn ten food a plot (sim/improvements.mjs).
+  {
+    name: 'the winter slows a crop to a half, as it did before the owner asked for a third',
+    file: 'sim/crops.mjs',
+    from: 'export const WINTER_SLOWER = 3;',
+    to: 'export const WINTER_SLOWER = 2;',
+  },
+  {
+    name: 'the store pays a real for four food, as it did before the owner asked for three',
+    file: 'sim/market.mjs',
+    from: "  'store:food': Object.freeze({ want: 32, tiers: Object.freeze([{ coinEach: 1, per: 3 }, { coinEach: 1, per: 6 }]) }),",
+    to: "  'store:food': Object.freeze({ want: 32, tiers: Object.freeze([{ coinEach: 1, per: 4 }, { coinEach: 1, per: 8 }]) }),",
+  },
+  {
+    name: 'the counter food lot stays four when the market pays for three',
+    file: 'sim/shops.mjs',
+    from: "        id: 'food', kind: 'buy', label: 'Sell food', coinEach: 1, per: 3, good: 'food',",
+    to: "        id: 'food', kind: 'buy', label: 'Sell food', coinEach: 1, per: 4, good: 'food',",
+  },
   {
     name: 'the winter grows a crop as fast as the summer',
     file: 'sim/crops.mjs',

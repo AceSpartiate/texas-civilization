@@ -19,9 +19,10 @@
 //
 // **Slower in the winter** (owner, 2026-09-28: "increase the time until harvest during the winter. that way it feels more fluid"). In
 // the winter months of the class's own calendar - December, January and February, on the real land; the invented country's one
-// September afternoon never reaches them - a crop grows at half its pace: corn takes eight real minutes, cotton twelve. What is
+// September afternoon never reaches them - a crop grows at a third of its pace ("A third in winter", the owner's second word; a half
+// until then): corn takes twelve real minutes, cotton eighteen. What is
 // counted is the crop's progress, not its minutes: each tick adds its real time at the pace of the month that tick falls in, so a
-// crop sown in late November that stands into December blends, the part before December at full pace and the rest at half.
+// crop sown in late November that stands into December blends, the part before December at full pace and the rest at a third.
 import { COTTON_SEED_PER_PLOT, SEED_PER_PLOT } from './improvements.mjs';
 import { dateOf } from './clock.mjs';
 
@@ -44,12 +45,12 @@ export const CROPS = Object.freeze({
  * rather than read from the weather; a cold snap that stops growth, or a crop hardier than another, would want the weather
  * (sim/weather.mjs) and a number per crop. `FIC-GONZ-721`.
  */
-export const WINTER_SLOWER = 2;
+export const WINTER_SLOWER = 3;
 /** The winter months of the class's calendar (1-based): December to February. */
 export const WINTER_MONTHS = Object.freeze([12, 1, 2]);
 /** Whether this minute of the class's calendar is in the winter, on the real land. */
 export const inWinter = (world, minute = world.minute) => Boolean(world?.map?.source) && WINTER_MONTHS.includes(dateOf(world, minute).getUTCMonth() + 1);
-/** The share of its full pace a crop grows at now: a half in the winter, whole otherwise. */
+/** The share of its full pace a crop grows at now: a third in the winter, whole otherwise. */
 export const growPace = world => inWinter(world) ? 1 / WINTER_SLOWER : 1;
 /** The real minutes this crop stands now, if it were sown now: "4", or "8" in the winter. */
 export const minutesNow = (world, crop) => (CROPS[crop]?.minutes ?? CROPS.corn.minutes) / growPace(world);

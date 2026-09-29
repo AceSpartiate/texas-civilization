@@ -1,12 +1,14 @@
 {
   "record": "crops-market-injections",
-  "date": "2026-09-28",
+  "date": "2026-09-29",
   "files": [
     "tests/crop-minutes.test.mjs",
     "tests/market.test.mjs",
     "tests/ending.test.mjs",
     "tests/money.test.mjs",
-    "tests/store.test.mjs"
+    "tests/store.test.mjs",
+    "tests/shops.test.mjs",
+    "tests/carreta.test.mjs"
   ],
   "injections": [
     {
@@ -15,7 +17,7 @@
       "failed": [
         "corn ripens after four real minutes and cotton after six, counted from the real time each tick took",
         "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace",
-        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+        "in the winter a crop grows at a third of its pace, and one that stands across the change blends"
       ]
     },
     {
@@ -24,7 +26,7 @@
       "failed": [
         "corn ripens after four real minutes and cotton after six, counted from the real time each tick took",
         "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace",
-        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+        "in the winter a crop grows at a third of its pace, and one that stands across the change blends"
       ]
     },
     {
@@ -34,7 +36,7 @@
         "corn ripens after four real minutes and cotton after six, counted from the real time each tick took",
         "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace",
         "either crop goes in in any month on the real land, and the harvest says how many minutes are left",
-        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+        "in the winter a crop grows at a third of its pace, and one that stands across the change blends"
       ]
     },
     {
@@ -43,7 +45,7 @@
       "failed": [
         "corn ripens after four real minutes and cotton after six, counted from the real time each tick took",
         "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace",
-        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+        "in the winter a crop grows at a third of its pace, and one that stands across the change blends"
       ]
     },
     {
@@ -146,31 +148,56 @@
       ]
     },
     {
+      "name": "the winter slows a crop to a half, as it did before the owner asked for a third",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "in the winter a crop grows at a third of its pace, and one that stands across the change blends"
+      ]
+    },
+    {
+      "name": "the store pays a real for four food, as it did before the owner asked for three",
+      "file": "sim/market.mjs",
+      "failed": [
+        "before the Runaway Scrape the store buys all it is brought, at its full price, and nothing is held against it",
+        "the price curve: full price to half the want, half price to the want, and then nothing",
+        "food can be sold for coin, in whole reales, and what is left over stays in the house",
+        "the store buys food and cotton for coin whatever its purse holds, pays everything else from it, and coin paid in goes back into it",
+        "the store sells the seed, the powder and the hoe the town errands used to fetch, and buys food three for a real"
+      ]
+    },
+    {
+      "name": "the counter food lot stays four when the market pays for three",
+      "file": "sim/shops.mjs",
+      "failed": [
+        "it is used as the wagon is, one person at a time, and carries less: twelve on a trip, ten in the flight, two riders"
+      ]
+    },
+    {
       "name": "the winter grows a crop as fast as the summer",
       "file": "sim/crops.mjs",
       "failed": [
-        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+        "in the winter a crop grows at a third of its pace, and one that stands across the change blends"
       ]
     },
     {
       "name": "the winter is read from the season a crop was sown in, not the month each tick falls in: no blend",
       "file": "sim/crops.mjs",
       "failed": [
-        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+        "in the winter a crop grows at a third of its pace, and one that stands across the change blends"
       ]
     },
     {
       "name": "the winter reaches into March",
       "file": "sim/crops.mjs",
       "failed": [
-        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+        "in the winter a crop grows at a third of its pace, and one that stands across the change blends"
       ]
     },
     {
       "name": "the harvest's words count the minutes left at the summer's pace in the winter",
       "file": "sim/crops.mjs",
       "failed": [
-        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+        "in the winter a crop grows at a third of its pace, and one that stands across the change blends"
       ]
     },
     {

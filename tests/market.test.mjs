@@ -33,7 +33,7 @@ test('before the Runaway Scrape the store buys all it is brought, at its full pr
   assert.equal(limited(world), false);
   const cotton = offer('store', 'cotton'), food = offer('store', 'food');
   assert.deepEqual(marketSale(world, town, 'store', cotton, 60, 'coin'), { sold: 60, got: 120, lots: 60, full: false }, 'the store did not take sixty bales at two reales');
-  assert.deepEqual(marketSale(world, town, 'store', food, 400, 'coin'), { sold: 400, got: 100, lots: 100, full: false }, 'the store did not take four hundred food at four a real');
+  assert.deepEqual(marketSale(world, town, 'store', food, 400, 'coin'), { sold: 399, got: 133, lots: 133, full: false }, 'the store did not take four hundred food at three a real');
   recordSale(world, town, 'store', 'cotton', 60);
   assert.equal(world.markets, undefined, 'a sale before the Scrape was held against the store');
   assert.equal(marketRefusal(world, town, 'store', 'cotton'), null);
@@ -88,9 +88,10 @@ test('the price curve: full price to half the want, half price to the want, and 
   assert.deepEqual(all, { sold: 20, got: 10 * 2 + 10 * 1, lots: 20, full: true });
   // Paid in food: two food a bale, then one.
   assert.deepEqual(marketSale(world, town, 'store', cotton, 12, 'food'), { sold: 12, got: 10 * 2 + 2 * 1, lots: 12, full: false });
-  // Food for coin: a real for four to eighty, then a real for eight; a hundred and sixty wanted (thirty-two a family).
+  // Food for coin: a real for three to eighty (the last lot taking it to eighty-one), then a real for six; a hundred and sixty wanted
+  // (thirty-two a family), the last lot taken while there was room for part of it.
   const food = offer('store', 'food');
-  assert.deepEqual(marketSale(world, town, 'store', food, 200, 'coin'), { sold: 160, got: 20 + 10, lots: 30, full: true });
+  assert.deepEqual(marketSale(world, town, 'store', food, 200, 'coin'), { sold: 165, got: 27 + 14, lots: 41, full: true });
   // The weaver wants its own, smaller share and pays its own prices.
   const weaver = marketSale(world, town, 'weaver', offer('weaver', 'cotton'), 30, 'food');
   assert.equal(weaver.sold, MARKET['weaver:cotton'].want * 5);

@@ -184,26 +184,26 @@ test('a new hoe is coin only, and mending the old one at home still costs none',
 });
 
 test('food can be sold for coin, in whole reales, and what is left over stays in the house', () => {
-  // On foot a person carries five: the store buys four of them for a real (four food a real since 2026-09-28, five until then;
-  // sim/market.mjs), and the fifth comes home.
+  // Sent the quickest way, the horse, seven are carried: the store buys six of them for two reales (three food a real since 2026-09-28,
+  // owner: "1 real for 3 food"; four and five before; sim/market.mjs), and one comes home.
   const walked = running('sell-food-foot');
   const walker = Object.values(walked.households)[0];
   // Twelve spare beyond three weeks of the family's eating: the director's errand sells nothing below that (sim/market.mjs).
   walker.resources.food = foodKept(walked, walker) + 12;
   const onFoot = toCounter(walked, walker.id, walker.members[1], 'sell-food');
   finish(walked, onFoot);
-  assert.equal(walker.resources.money, 1, 'five carried, four sold, one real');
-  assert.ok(walked.events.some(event => /sold 4 food at the store and brought home 1 real\./.test(event.text)));
+  assert.equal(walker.resources.money, 2, 'seven carried, six sold, two reales');
+  assert.ok(walked.events.some(event => /sold 6 food at the store and brought home 2 reales\./.test(event.text)));
 
-  // On the horse, seven: four sold, one real, and three come home.
+  // On the horse, seven: six sold, two reales, and one comes home.
   const world = running('sell-food-horse');
   const household = Object.values(world.households)[0];
   household.resources.food = foodKept(world, household) + 12;
   const rider = household.members[1];
   applyAction(world, household.id, { action: 'chore', entityId: rider, chore: 'sell-food', mode: 'horse' });
   finish(world, world.entities[rider]);
-  assert.equal(household.resources.money, 1, 'seven carried, four sold, one real');
-  assert.ok(world.events.some(event => /sold 4 food at the store and brought home 1 real\./.test(event.text)));
+  assert.equal(household.resources.money, 2, 'seven carried, six sold, two reales');
+  assert.ok(world.events.some(event => /sold 6 food at the store and brought home 2 reales\./.test(event.text)));
 });
 
 test('a family that never touches a coin still farms, hunts and buys what it needs with food', () => {
@@ -236,12 +236,12 @@ test('the store buys food and cotton for coin whatever its purse holds, pays eve
   marta.purse = 0;
   const [first, second, third] = Object.values(world.households);
   first.resources.food = foodKept(world, first) + 12;
-  // On the horse, seven carried: five sold for a real, and the empty purse does not stop it (owner, 2026-09-16,
+  // On the horse, seven carried: six sold for two reales (three food a real), and the empty purse does not stop it (owner, 2026-09-16,
   // docs/MONEY_AND_GLORY.md §8.1): the store ships the corn on its own credit.
   applyAction(world, first.id, { action: 'chore', entityId: first.members[1], chore: 'sell-food', mode: 'horse' });
   const seller = world.entities[first.members[1]];
   finish(world, seller);
-  assert.equal(first.resources.money, 1, 'an empty purse stopped the food sale');
+  assert.equal(first.resources.money, 2, 'an empty purse stopped the food sale');
   assert.equal(marta.purse, 0);
 
   // Cotton is the owner's exception (2026-09-16, docs/COLONIES.md §7e): the store buys a family's whole crop for coin,

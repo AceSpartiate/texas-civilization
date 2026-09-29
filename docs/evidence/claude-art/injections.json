@@ -18,7 +18,7 @@
     },
     {
       "guards": "every Claude frame is named in the \"Claude-drawn stand-ins\" table",
-      "injected": "the area A row no longer names `rust-chop`",
+      "injected": "the area A row no longer names the chop clips or frames",
       "failed": [
         "every Claude frame is named in the \"Claude-drawn stand-ins\" table of docs/ART_REQUESTS.md"
       ]
@@ -45,6 +45,27 @@
       ]
     },
     {
+      "guards": "every swing: hands on a rigid handle, feet planted, an even arc",
+      "injected": "the chop's front foot slides forward on the pull-free frame",
+      "failed": [
+        "every swing, for every cast figure: hands on a rigid handle, feet planted, the head on an even arc"
+      ]
+    },
+    {
+      "guards": "every swing: hands on a rigid handle ...",
+      "injected": "the chop's wind-up grip is put out of the arms' reach, so the bottom hand leaves the handle",
+      "failed": [
+        "every swing, for every cast figure: hands on a rigid handle, feet planted, the head on an even arc"
+      ]
+    },
+    {
+      "guards": "each swing holds its wind-up and its strike",
+      "injected": "the chop is timed evenly, every frame 200 ms",
+      "failed": [
+        "each swing holds its wind-up and its strike longer than the in-betweens, and names the frame it lands on"
+      ]
+    },
+    {
       "guards": "a stroke with a drawn cycle ... the stand-in tool goes",
       "injected": "drawnStroke keeps the stand-in axe over the drawn cycle",
       "failed": [
@@ -54,6 +75,7 @@
   ],
   "cleanRunFailures": {
     "standins": [],
-    "work": []
+    "work": [],
+    "rig": []
   }
 }

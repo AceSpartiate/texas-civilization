@@ -134,9 +134,9 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   ['camp-drill', { glyph: 'drill' }], ['camp-forage', { glyph: 'forage' }], ['camp-guard', { glyph: 'guard' }], ['camp-scout', { glyph: 'scout' }],
   // The road's chores (sim/road.mjs, docs/ROAD_EAST.md) have registered `icon-<key>` frames; glyphs are load fallbacks.
   ['hunt-road', { glyph: 'hunt-road' }], ['tend-sick', { glyph: 'tend-sick' }], ['trade-crossing', { glyph: 'trade-crossing' }],
-  // Sickness (sim/disease.mjs). stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "the sickness icons" - resting a day on the
-  // road draws the rest order's picture, nursing at home the road's nursing, and camping apart a drawn glyph (two camps, one
-  // up the bank alone); Astra's `icon-rest-road`, `icon-nurse-home` and `icon-camp-apart` replace them on registration.
+  // Sickness (sim/disease.mjs). stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "the sickness icons" - `icon-rest-road`,
+  // `icon-nurse-home` and `icon-camp-apart` are Claude-drawn today ("Claude-drawn stand-ins", taken first by `drawIcon`); without
+  // their sheet, the rest order's picture, the road's nursing and a drawn glyph. Astra's of the same names replace Claude's.
   ['rest-road', { sprite: 'icon-rest' }], ['nurse-home', { sprite: 'icon-tend-sick', glyph: 'tend-sick' }], ['camp-apart', { glyph: 'camp-apart' }],
   // Fetching logs from the timber uses registered `icon-fetch-logs`; the glyph is a load fallback.
   ['fetch-logs', { glyph: 'fetch-logs' }],
@@ -152,8 +152,8 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   ['child-play', { sprite: 'icon-child-play' }], ['child-kindling', { sprite: 'icon-child-kindling' }],
   ['child-birds', { sprite: 'icon-child-birds' }], ['child-eggs', { sprite: 'icon-child-eggs' }],
   ['child-water', { sprite: 'icon-child-water' }], ['child-mind', { sprite: 'icon-child-mind' }],
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - children's play and the Scrape's work. Stroked glyphs until Astra's
-  // `icon-<key>` frames are registered, which replace them with no change here.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - children's play and the Scrape's work. Claude-drawn `icon-<key>` frames
+  // today ("Claude-drawn stand-ins"), the stroked glyphs under them until a sheet loads; Astra's replace them with no change here.
   ...['child-stick-horse', 'child-doll', 'child-tag', 'child-hide', 'child-cart', 'child-hoop', 'child-marbles', 'child-hens',
     'flee-hide', 'flee-bundle', 'flee-cow', 'road-lookout', 'road-sing', 'road-little-ones', 'camp-fire', 'ferry-help', 'share-food', 'ford-carry',
     // stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - the oldest child going for help (sim/acting.mjs).
@@ -698,8 +698,9 @@ export function drawIcon(canvas, key, { drawSprite, spriteFrame }) {
   const ctx = canvas.getContext('2d'), size = canvas.width;
   ctx.clearRect(0, 0, size, size);
   const icon = PANEL_ICONS[key];
-  // An icon with a glyph and no sprite still takes the `icon-<key>` frame the moment one is registered (the road's icons).
-  const sprite = icon?.sprite || (icon?.glyph && spriteFrame(`icon-${key}`) ? `icon-${key}` : null);
+  // The key's own `icon-<key>` frame first, the moment one is registered (the road's icons, the children's, the sickness icons
+  // standing in on another key's picture), then the picture the table names, then the glyph.
+  const sprite = spriteFrame(`icon-${key}`) ? `icon-${key}` : icon?.sprite || null;
   const frame = sprite && spriteFrame(sprite);
   if (frame) {
     const fit = Math.min(size * .86 / frame.w, size * .86 / frame.h);
