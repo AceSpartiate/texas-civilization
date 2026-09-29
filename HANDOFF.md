@@ -1,5 +1,44 @@
 # Claude handoff — Astra foundation
 
+## Claude's temporary art, area B: children, babies and sickness — owner, 2026-09-28 (worktree branch; not released)
+
+Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it makes the
+final versions."* Every item of area B in docs/CLAUDE_ART_PLAN.md (B1-B11) now has a Claude-drawn stand-in, `madeBy: "claude"`,
+each still on Astra's list; hers of the same name wins in the loader.
+
+- **Modules** (`AREA: 'children'`): `scripts/claude-art/areas/children.mjs` (for girl, boy, smallchild: `-play-run` e/s/n,
+  `-play-gallop`, `-play-hide`, `-play-kneel`, `-play-sit-doll`, `-play-hoop`, `-scatter`, `-shoo`, `-gather`, `-carry-water`
+  e/s/n, `-speak`, `-tug`), `babies.mjs` (`infant-crawl`, `infant-crawl-w`, `infant-cry`, `infant-sleep`; `-hold-baby` and
+  `-carry-baby-walk` e/s/n for all eight cast figures), `sickness.mjs` (`-sick-rest-s`/`-e` for the eleven figures,
+  `infant-sick`, `mark-sick`, `icon-rest-road`, `icon-camp-apart`, `icon-nurse-home`), `children-icons.mjs` (the seventeen
+  children's and Scrape icons, `icon-child-help`, `icon-flee-cow`). 282 frames and 119 clips in the Claude library now; area B's
+  own drawing pieces are new kit files (`kit/little.mjs`, `kit/icon-bits.mjs`) so the shared rig is untouched.
+- **Scale.** The rig's children stood about a tenth shorter than Astra's (0.84-0.88 of the logical height against her
+  0.93-0.94): child frames are drawn `CHILD_SCALE` larger (girl 1.11, boy 1.08, small child 1.06). The baby's head is her basket
+  baby's size and its frames a quarter larger again (`BABY_FRAME_SCALE`, a `ceiling:`); a held baby is drawn at the infant's own
+  scale in the grown-up's frame (`HELD`) and wrapped in a blue-grey shawl so it is not lost against a cream apron.
+- **Wiring.** A binding can now ask for a pose the delivered library lacks, by name, over a delivered fallback:
+  `drawn: { from, pose, upright, west, holding }` (public/motion.js `drawnPose`, `drawnClipName`), taken by `drawnClipOf` in
+  `miniPerson` (public/app.js) once `clipReady` says it can be drawn, else the older stand-in exactly as before. Used by
+  `littleClip` (play, talk, the baby's crawl/cry/sleep/sick, `-hold-baby`), `grownClip` (`-sick-rest` over `-injured-rest`) and
+  `carrying` (the walk with the baby on the hip when public/app.js marks `carryingBaby`). A baby in a holder's own frame is not
+  drawn again beside them (`babiesHeldNow`/`babiesHeldLast`, `window.__babiesInArms`). `STROKES.shoo`, `.gather`, `.scatter`
+  and the new `.water` (`child-water`) carry `drawn`, and `drawAtWork` takes a child's own figure's cycle. `drawIcon` takes a
+  key's own `icon-<key>` first (the sickness icons were standing in on `icon-rest` and `icon-tend-sick`). The sick badge is
+  `mark-sick` (`paintSickMark`, repainted when the sheet arrives; the disc behind it goes, `data-drawn`).
+- **Evidence.** Compare sheets at 40, 77 and 150 px: docs/evidence/claude-art/compare-children.png, compare-babies.png,
+  compare-sickness.png, compare-children-icons.png. Looping previews beside Astra's nearest clip:
+  docs/evidence/claude-art/loops-children-play.gif, loops-children-chores.gif, loops-babies.gif (and their `-strip.png`).
+  Tests: a new motion-binding test (every area B pose asked for by name, in the right figure, over a delivered fallback) and
+  the work-art drawn-stroke test extended to the children's strokes; seven injections run, six caught by exactly their test;
+  the seventh (a figure field no fallback ever needed) showed the line guarded nothing and it was removed.
+- **Honest limit.** At a person 40 px the children read as her children at their play and the sick as somebody in bed under a
+  quilt; the play poses are subtle at that size (a gallop or a run reads mostly by the stick horse, the hoop and the lean).
+  At 77 px and up they are plainly the rig's simpler hand: skirts hide the running legs, the stride of a woman carrying the
+  baby is short under her skirt, the baby is small beside her basket row, and the icons with figures are thinner than her
+  single-object icons at 38 px. Not asked for yet: `-play-run-s`/`-n` and `-carry-water-s`/`-n` are drawn but the page does
+  not read a child's heading about the yard (a `ceiling:` in `littleClip`).
+
 ## A third of the pace in the winter, a real for three food — owner, 2026-09-28 (branch `winter-third` off `integration-2026-09-28` 0ee43284; not released)
 
 The owner's answers to BALANCE.md §13.4: **"A third in winter"** (`WINTER_SLOWER` 3: corn twelve real minutes, cotton eighteen, December to
