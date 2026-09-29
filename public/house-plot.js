@@ -587,7 +587,8 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
       // behind the near pen's roof.
       const complete = p.stage >= p.kind.stageCount, high = cell * DOUBLE_RISE;
       const double = complete && spriteFrame('house-chimney-double'), walls = row && spriteFrame(row.walls);
-      if (double && walls && sprite(ctx, 'house-chimney-double', footX, footY, cell * 2.2 * (double.logicalHeight || double.h) / (walls.logicalHeight || walls.h), { flip: row.flip })) {
+      // Stood by the middle of its foot (`centre`), where `standChimneys` puts it; its own anchor is its front corner.
+      if (double?.centre && walls && sprite(ctx, 'house-chimney-double', footX, footY, cell * 2.2 * (double.logicalHeight || double.h) / (walls.logicalHeight || walls.h), { flip: row.flip, anchor: double.centre })) {
         const cover = spriteFrame('house-roof-join-chimney');
         if (cover?.chimneyAt && row.pens.every(pen => pen.stage >= 12)) {
           // Laid with the chimney's foot on its own mark, so the opening is where the stack stands.

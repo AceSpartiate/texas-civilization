@@ -432,8 +432,8 @@ const boxCorners = ([a0, b0, z0], [a1, b1, z1]) => [[a0, b0, z0], [a1, b0, z0], 
 // The saddlebag's one big chimney between its two pens (HIST-TEX-017; sim/houseplot.mjs `chimney-double`): a broad stone
 // mass filling the eight feet between the near pen's back gable and the far pen's front gable, a fire-box opening into
 // each pen, drawing up into one tall stack that rises through the ridge. Laid in Astra's own stone from her stone chimney.
-// Its ground anchor is the middle of its foot - the point between the two gables on the pens' centre line, where
-// `standChimneys` stands it - and `foot` gives its four foot corners. Saddlebag chimneys were built of stone or of sticks
+// Its ground anchor is its front corner (the lowest point of its foot); `centre` is the middle of its foot - the point
+// between the two gables on the pens' centre line, where `standChimneys` stands it - and `foot` its four foot corners. Saddlebag chimneys were built of stone or of sticks
 // and clay; stone is drawn (her stone chimney's) and is an interpretation, not a record of any one house.
 //
 // Her roof's ridge runs steeper than the pen's long side (RIDGE in public/house-plot.js), so the stack is set where her
@@ -453,7 +453,7 @@ function stackOutline() {
 
 function doubleChimney() {
   const { a, b, mass, stack } = DOUBLE;
-  const f = fitted('house-chimney-double', [...boxCorners([a[0], b[0], 0], [a[1], b[1], mass]), ...boxCorners([stack.a[0] - 2, stack.b[0], 0], [stack.a[1], stack.b[1], stack.z[1]])], [8, 20, 0], 14);
+  const f = fitted('house-chimney-double', [...boxCorners([a[0], b[0], 0], [a[1], b[1], mass]), ...boxCorners([stack.a[0] - 2, stack.b[0], 0], [stack.a[1], stack.b[1], stack.z[1]])], [DOUBLE.a[1], DOUBLE.b[0], 0], 14);
   const { m } = f;
   // The mass between the pens: its long side toward the viewer's right, the shoulders drawing in to the stack.
   m.box([a[0], b[0], 0], [a[1], b[1], mass], 'stone', { shade: 0.22, grain: 'a' });
@@ -472,7 +472,7 @@ function doubleChimney() {
   m.offset = save;
   const c = m.c;
   return { svg: m.svg('the saddlebag house\'s double chimney between its two pens, in Astra\'s stone'), anchorX: f.anchorX, anchorY: f.anchorY, logicalHeight: WALLS.h,
-    extra: { foot: [[a[0], b[0]], [a[1], b[0]], [a[1], b[1]], [a[0], b[1]]].map(([aa, bb]) => frac(c, m.p([aa, bb, 0]))) } };
+    extra: { centre: frac(c, m.p([8, 20, 0])), foot: [[a[0], b[0]], [a[1], b[0]], [a[1], b[1]], [a[0], b[1]]].map(([aa, bb]) => frac(c, m.p([aa, bb, 0]))) } };
 }
 
 /** The join roof with an opening where the double chimney's stack stands through its ridge. */
@@ -503,7 +503,7 @@ const SHED_LH = Math.round(her('house-shed-room').h * Math.hypot(...PEN.A) / 16.
 
 function shedFrame() {
   const lo = 7, hi = 8.6;
-  const f = fitted('house-shed-frame', [...boxCorners([0, -0.8, 0], [16, 8.3, hi + 0.4])], [8, 0, 0], 12), { m } = f;
+  const f = fitted('house-shed-frame', [...boxCorners([0, -0.8, 0], [16, 8.3, hi + 0.4])], [16, 0, 0], 12), { m } = f;
   m.beam([0, 8, 0.3], [16, 8, 0.3], 0.35); m.beam([0, 0, 0.3], [0, 8, 0.3], 0.35);
   for (const a of [0, 8, 16]) m.post([a, 8], 0, hi, 0.4);
   m.beam([0, 8, hi], [16, 8, hi], 0.32);
@@ -547,7 +547,7 @@ function deck(m, [a0, b0], [a1, b1], z) {
 
 function porchEnd() {
   const hiZ = 9, loZ = 7.6;
-  const f = fitted('house-porch-end', boxCorners([-0.6, -0.8, 0], [8.8, 16.8, hiZ + 0.2]), [4, 0, 0], 10), { m } = f;
+  const f = fitted('house-porch-end', boxCorners([-0.6, -0.8, 0], [8.8, 16.8, hiZ + 0.2]), [8, 0, 0], 10), { m } = f;
   m.post([0.6, 15.4], 1, hiZ);
   deck(m, [0, 0], [8, 16], 1.1);
   for (const b of [15.4, 8, 0.6]) m.post([7.4, b], 1.1, loZ);
@@ -561,7 +561,7 @@ function porchEnd() {
 
 function shedRoomEnd() {
   const hiZ = 8.6, loZ = 7;
-  const f = fitted('house-shed-room-end', boxCorners([-0.5, -0.8, 0], [8.8, 16.8, hiZ + 0.4]), [4, 0, 0], 10), { m } = f;
+  const f = fitted('house-shed-room-end', boxCorners([-0.5, -0.8, 0], [8.8, 16.8, hiZ + 0.4]), [8, 0, 0], 10), { m } = f;
   // The end toward the viewer, higher at the pen's side, with the door in it; the long side in shade.
   m.face([[0, 0, 0], [8, 0, 0], [8, 0, loZ], [0, 0, hiZ]], 'boards', { origin3: [0, 0, hiZ], u3: [0, 0, -1], v3: [1, 0, 0] });
   m.hole([[3, 0, 0], [5.6, 0, 0], [5.6, 0, 6.2], [3, 0, 6.2]], '#5a3d24');
@@ -573,7 +573,7 @@ function shedRoomEnd() {
 }
 
 function passageFloorEnd() {
-  const f = fitted('house-passage-floor-end', boxCorners([0, 0, 0], [12, 16, 1.2]), [6, 0, 0], 8), { m } = f;
+  const f = fitted('house-passage-floor-end', boxCorners([0, 0, 0], [12, 16, 1.2]), [12, 0, 0], 8), { m } = f;
   deck(m, [0, 0], [12, 16], 1.1);
   return { svg: m.svg('the passage floor seen end-on, running away from the viewer'), anchorX: f.anchorX, anchorY: f.anchorY, logicalHeight: PASSAGE_FLOOR_LH };
 }
@@ -633,7 +633,8 @@ function saddlebagInterior() {
   piece([[back - 2, 0], [f.w, 0], [f.w, f.h], [back + 12, f.h], [back + 8, 170], [back + 2, 60]], ox - back);
   piece([[0, 0], [cut, 0], [cut - 2, 60], [cut - 6, 170], [cut - 10, f.h], [0, f.h]], ox + west - lap);
   return { svg: c.svg('Astra\'s dog-run rooms cut at the passage and laid the other way round: a saddlebag\'s two pens round one central double chimney'),
-    anchorX: f.anchorX, anchorY: f.anchorY };
+    // Anchored at the foot of its front logs (the page lays the picture by its own box, public/interior.js, so this moves nothing).
+    anchorX: f.anchorX, anchorY: 0.985 };
 }
 
 // ---------------------------------------------------------------------------------------------------------------- E7: the loopholed house
@@ -687,7 +688,9 @@ function litWindow(house) {
   const g = c.id('lamp'), blur = c.id('halo');
   c.defs.push(`<radialGradient id="${g}" cx="0.5" cy="0.6" r="0.7"><stop offset="0" stop-color="#fff1b8"/><stop offset="0.55" stop-color="#ffc867"/><stop offset="1" stop-color="#e08a32"/></radialGradient>`);
   c.defs.push(`<filter id="${blur}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>`);
-  c.raw(`<rect x="${x - 5}" y="${y - 5}" width="${w + 10}" height="${h + 10}" rx="4" fill="#ffc867" opacity="0.35" filter="url(#${blur})"/>`);
+  c.raw(`<rect x="${x - 7}" y="${y - 7}" width="${w + 14}" height="${h + 14}" rx="4" fill="#ffc867" opacity="0.35" filter="url(#${blur})"/>`);
+  // Her own window frame round it, so the overlay carries the whole window lit (and matches her picture pixel for pixel).
+  c.raw(`<g clip-path="url(#${c.clipRect(x - 5, y - 5, w + 10, h + 10)})">${c.image(f, 0, 0)}</g>`);
   c.raw(`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#${g})"/>`);
   if (cross) {
     c.line([[x + w / 2, y], [x + w / 2, y + h]], { width: LINE.inner, colour: '#3a2414' });
@@ -741,7 +744,7 @@ export const SHEETS = {
     replaceWith: 'a saddlebag interior in the home-interiors style, camera and scale exactly as interior-dog-run: two round-log pens wall to wall round one central stone chimney, a fireplace into each, no passage',
     frames: [{ name: 'interior-saddlebag', draw: saddlebagInterior, compare: [['interior-dog-run', 3]], height: 3,
       prompt: 'The rooms of a saddlebag house, cut away as Astra\'s interior-dog-run is and in exactly its camera and scale: two round-log pens wall to wall, a stone fireplace in the middle wall of each, their two stacks side by side over the middle as one double chimney, a window in each back wall, earth floors, no passage. Made from her own dog-run rooms cut at the passage and laid the other way round (each pen seen from its own middle, a cutaway convention that opens the middle wall so both hearths show). Saddlebag houses had one central chimney serving both pens (HIST-TEX-017). Transparent background.' }] },
-  'claude-house-loopholed': { cell: { w: 288, h: 203 }, request: 'Request 2026-09-25 — the storming of Béxar',
+  'claude-house-loopholed': { cell: { w: 296, h: 204 }, request: 'Request 2026-09-25 — the storming of Béxar',
     replaceWith: 'item 1: a flat-roofed stone house, a parapet about four feet high, loopholes in its walls, at the stone-tile-house scale',
     frames: [{ name: 'house-loopholed', draw: loopholedHouse, height: 2.4, compare: [['adobe-flat', 2.4], ['stone-tile-house', 2.4], ['volunteer-e', 1]],
       prompt: 'A flat-roofed Béxar house held in the street fighting of December 1835 ("a pigeon nursery", Lopez; HIST-TEX-490 to -496): Astra\'s plastered adobe-flat with its parapet raised to about four feet over the roof for men to fire from, loopholes - narrow slits splayed outside - cut along the parapet and beside the door and window, the window shuttered with planks nailed across. The number and placing of the loopholes is an interpretation; Béxar\'s houses were stone or adobe, plastered, flat-roofed. Her frontal three-quarter view, scale and outline. Transparent ground, no shadow.' }] },

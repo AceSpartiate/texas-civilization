@@ -189,7 +189,9 @@ test('every frame is a usable sprite: inside its sheet, transparent-cornered, no
     for (let y = frame.y; y < frame.y + frame.h; y++) for (let x = frame.x; x < frame.x + frame.w; x++) {
       const alpha = image.data[(y * image.width + x) * 4 + 3];
       if (alpha > 24) visible++;
-      if (alpha === 255) opaque++;
+      // Solid paint: Astra's own painted sheets lay their body at alpha 240-254, not 255 (her round sill has 158 pixels at 255
+      // and 18,887 at 240 or more), and a Claude piece cut from her pixels (the pen from behind) keeps them.
+      if (alpha >= 240) opaque++;
     }
     assert.ok(visible > 1200, `${name} is a real sprite, not empty transparency (${visible} visible pixels)`);
     assert.ok(visible < frame.w * frame.h * 0.9, `${name} fills its whole cell; a stand-in has real alpha round it (${visible} of ${frame.w * frame.h})`);
