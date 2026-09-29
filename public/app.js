@@ -46,7 +46,7 @@ const $ = selector => document.querySelector(selector);
 import { militaryNotices } from '/military-attention.js';
 import { createBattleView } from '/battle-view.js';
 import { createChaseView } from '/chase-view.js';
-import { activityOf, drawsAtWork, drawWorkLayer, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
+import { activityOf, drawnStroke, drawsAtWork, drawWorkLayer, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error', '#away-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
 let events;
@@ -346,7 +346,12 @@ function atTheirWork(entity, homeSiteId, now, frozen) {
   return shown;
 }
 function drawAtWork(ctx, binding, clip, x, y, size, entity) {
-  const stroke = binding.work;
+  let stroke = binding.work;
+  // A cycle of the work itself where this figure has one (public/work-art.js `drawnStroke`): `rust-chop` for rust felling.
+  if (stroke.drawn && stroke.art !== 'journey' && !entity.strolling) {
+    const own = `${clip.slice(0, clip.length - stroke.pose.length - 1)}-${stroke.drawn.pose}`;
+    if (clipReady(own)) { clip = own; stroke = drawnStroke(stroke); }
+  }
   if (stroke.art === 'journey' || entity.strolling) {
     return animated(ctx, clip, x, y, size, entity.id, { paused: binding.frozen, flip: binding.upright ? false : entity.flip, gait: entity.gait, appearance: entity.appearance });
   }
@@ -3200,14 +3205,26 @@ export function drawWorld(world) {
         }
         window.__shopsDrawn = { ...(window.__shopsDrawn || {}), [site.id]: world.map.shops[site.id].length };
       }
-      // The family's log pile beside the house, a log drawn for every ten or part of ten, up to four (sim/felling.mjs).
-      // stand-in: a pile is `log-fallen` laid side by side until a log pile is drawn. Request 2026-09-15 - the trees of the colonies.
+      // The family's wood pile beside the house (sim/felling.mjs), one sprite for its size: about ten, twenty, thirty or forty
+      // logs (`wood-pile-1`..`-4`), a pile for every ten or part of ten, up to four.
+      // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - the wood pile is Claude-drawn (request
+      // 2026-09-28 — people at work, item 16); Astra's `wood-pile-*` of the same names replace it. Until its sheet has arrived
+      // the pile is the older stand-in, `log-fallen` laid side by side.
       const piled = theirs ? theirs.logs || 0 : ownLand && world.land?.logs ? world.land.logs.wall + world.land.logs.sill + world.land.logs.poor : 0;
-      for (let i = 0; i < Math.min(4, Math.ceil(piled / 10)); i++) {
+      const pile = Math.min(4, Math.ceil(piled / 10));
+      if (pile && spriteReady(`wood-pile-${pile}`)) {
+        // The pile's anchor is the front of its base: set where the old row of logs lay, its middle.
+        const x = q.x - yard * .95 - camera.figure * SIZE.logPile * .7, y = q.y + yard * .36;
+        standing.push({ y, draw: () => {
+          const width = drawSprite(ctx, `wood-pile-${pile}`, x, y, camera.figure * SIZE.logPile);
+          // Where it was drawn, for the proofs (npm run test:work), read by nothing in the application.
+          if (ownLand) window.__woodPileAt = { x, y, width, height: camera.figure * SIZE.logPile };
+        } });
+      } else for (let i = 0; i < pile; i++) {
         const x = q.x - yard * (.9 + i * .06), y = q.y + yard * (.28 + i * .07);
         standing.push({ y, draw: () => drawSprite(ctx, 'log-fallen', x, y, camera.figure * SIZE.logPile) });
       }
-      if (ownLand) window.__logPileDrawn = Math.min(4, Math.ceil(piled / 10));
+      if (ownLand) { window.__logPileDrawn = pile; window.__woodPileSprite = pile && spriteReady(`wood-pile-${pile}`) ? `wood-pile-${pile}` : null; }
       // Own land only: these grazing animals illustrate the projected stock choice; the herd is not an entity yet.
       if (theirs ? theirs.stock && !theirs.arriving : ownLand && world.household?.stock && world.land && !world.land.arriving) {
         const coat = ['red', 'pied', 'dun'][Array.from(site.id).reduce((sum, letter) => sum + letter.charCodeAt(0), 0) % 3];

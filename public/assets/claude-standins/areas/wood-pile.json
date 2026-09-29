@@ -1,0 +1,155 @@
+{
+  "module": "wood-pile",
+  "area": "work",
+  "date": "2026-09-28",
+  "sheets": {
+    "claude-wood-pile": {
+      "image": "/assets/claude-standins/claude-wood-pile.png",
+      "width": 896,
+      "height": 640,
+      "bytes": 406025,
+      "sha256": "ba2086d96baba3a585d26f9c83f92276dbbf11a669dd907a885c0c4856b0cd63",
+      "madeBy": "claude",
+      "module": "wood-pile",
+      "request": "Request 2026-09-28 — people at work",
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "cell": {
+          "w": 448,
+          "h": 320
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "wood-pile-1": {
+      "sheet": "claude-wood-pile",
+      "x": 0,
+      "y": 0,
+      "w": 448,
+      "h": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.9375,
+      "logicalHeight": 192,
+      "madeBy": "claude",
+      "module": "wood-pile",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "wood-pile-1: item 16: one sprite a size, a pile of wall logs seen three-quarter on the ground anchor, about as long as log-fallen and no taller than a person's waist",
+      "source": "svg/wood-pile/claude-wood-pile-1.svg",
+      "label": "wood pile 1",
+      "kind": "claude-wood-pile"
+    },
+    "wood-pile-2": {
+      "sheet": "claude-wood-pile",
+      "x": 448,
+      "y": 0,
+      "w": 448,
+      "h": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.9375,
+      "logicalHeight": 192,
+      "madeBy": "claude",
+      "module": "wood-pile",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "wood-pile-2: item 16: one sprite a size, a pile of wall logs seen three-quarter on the ground anchor, about as long as log-fallen and no taller than a person's waist",
+      "source": "svg/wood-pile/claude-wood-pile-2.svg",
+      "label": "wood pile 2",
+      "kind": "claude-wood-pile"
+    },
+    "wood-pile-3": {
+      "sheet": "claude-wood-pile",
+      "x": 0,
+      "y": 320,
+      "w": 448,
+      "h": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.9375,
+      "logicalHeight": 192,
+      "madeBy": "claude",
+      "module": "wood-pile",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "wood-pile-3: item 16: one sprite a size, a pile of wall logs seen three-quarter on the ground anchor, about as long as log-fallen and no taller than a person's waist",
+      "source": "svg/wood-pile/claude-wood-pile-3.svg",
+      "label": "wood pile 3",
+      "kind": "claude-wood-pile"
+    },
+    "wood-pile-4": {
+      "sheet": "claude-wood-pile",
+      "x": 448,
+      "y": 320,
+      "w": 448,
+      "h": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.9375,
+      "logicalHeight": 192,
+      "madeBy": "claude",
+      "module": "wood-pile",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "wood-pile-4: item 16: one sprite a size, a pile of wall logs seen three-quarter on the ground anchor, about as long as log-fallen and no taller than a person's waist",
+      "source": "svg/wood-pile/claude-wood-pile-4.svg",
+      "label": "wood pile 4",
+      "kind": "claude-wood-pile"
+    }
+  },
+  "clips": {},
+  "provenance": {
+    "wood-pile-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "wood-pile",
+      "area": "work",
+      "sheet": "claude-wood-pile",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "The family's wood pile by the house at about 10 logs (4 + 3 + 3 a layer, bottom first): bark-on wall logs, each about as long as log-fallen, lying side by side and stacked in layers that sit in each other's grooves, the pile turned a little so the cut ends - pale end grain with a ring and a dark heart - face the camera; no more than four logs high, about a person's waist; three-quarter north-up view, warm brown bark, dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/wood-pile/claude-wood-pile-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wood-pile-1"
+    },
+    "wood-pile-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "wood-pile",
+      "area": "work",
+      "sheet": "claude-wood-pile",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "The family's wood pile by the house at about 20 logs (6 + 5 + 5 + 4 a layer, bottom first): bark-on wall logs, each about as long as log-fallen, lying side by side and stacked in layers that sit in each other's grooves, the pile turned a little so the cut ends - pale end grain with a ring and a dark heart - face the camera; a few darker cedar sills among them; no more than four logs high, about a person's waist; three-quarter north-up view, warm brown bark, dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/wood-pile/claude-wood-pile-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wood-pile-2"
+    },
+    "wood-pile-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "wood-pile",
+      "area": "work",
+      "sheet": "claude-wood-pile",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "The family's wood pile by the house at about 30 logs (8 + 8 + 7 + 7 a layer, bottom first): bark-on wall logs, each about as long as log-fallen, lying side by side and stacked in layers that sit in each other's grooves, the pile turned a little so the cut ends - pale end grain with a ring and a dark heart - face the camera; a few darker cedar sills among them; no more than four logs high, about a person's waist; three-quarter north-up view, warm brown bark, dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/wood-pile/claude-wood-pile-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wood-pile-3"
+    },
+    "wood-pile-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "wood-pile",
+      "area": "work",
+      "sheet": "claude-wood-pile",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "The family's wood pile by the house at about 40 logs (11 + 10 + 10 + 9 a layer, bottom first): bark-on wall logs, each about as long as log-fallen, lying side by side and stacked in layers that sit in each other's grooves, the pile turned a little so the cut ends - pale end grain with a ring and a dark heart - face the camera; a few darker cedar sills among them; no more than four logs high, about a person's waist; three-quarter north-up view, warm brown bark, dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/wood-pile/claude-wood-pile-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wood-pile-4"
+    }
+  }
+}

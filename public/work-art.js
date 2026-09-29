@@ -50,7 +50,9 @@ export const STROKES = Object.freeze({
   rest: { pose: 'rest', art: 'still', upright: true, why: 'a day of rest on the road is rest' },
   wait: { pose: 'idle-s', art: 'still', upright: true, why: 'standing in a line to sign the roll, vote or report' },
   // A felling axe (a maul, splitting rails) drawn over the hoe in the hoeing cycle's hands (owner, 2026-09-28: "Add a drawn axe").
-  chop: { pose: 'work', art: 'stand-in', tool: 'axe', effect: 'chips', beat: 2, request: item(1) },
+  // `drawn`: a figure whose library holds a cycle of the work itself (`<figure>-chop`, Claude-drawn today for rust, Astra's
+  // when she delivers) is drawn in it instead, with only the chips (`drawnStroke`).
+  chop: { pose: 'work', art: 'stand-in', tool: 'axe', effect: 'chips', beat: 2, request: item(1), drawn: { pose: 'chop', beat: 2 } },
   split: { pose: 'work', art: 'stand-in', tool: 'maul', effect: 'chips', beat: 2, request: item(2) },
   notch: { pose: 'work', art: 'stand-in', tool: 'axe', effect: 'chips', beat: 2, request: item(3) },
   dig: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2, request: item(4) },
@@ -69,6 +71,26 @@ export const STROKES = Object.freeze({
   scatter: { pose: 'sow', art: 'stand-in', request: `${PLAY_REQUEST}, item 1 (\`-scatter\`)` },
   fire: { pose: 'care', art: 'stand-in', effect: 'smoke', cycleMs: 1700, request: item(14) },
 });
+
+/**
+ * A stroke as it is drawn in a cycle of the work itself, for a figure whose library holds one (`<figure>-<drawn.pose>`): the
+ * pose is that clip, the beat its own strike, and the stand-in's drawn tool, lean and pace go - the effect (the chips) stays,
+ * timed to the new beat. The page asks for it only once `clipReady` says the clip can be drawn, figure by figure, so the
+ * seven figures with no cycle yet keep the drawn axe over the hoe. Made once a stroke; frozen, so a frame makes nothing.
+ * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - the only drawn cycle today, `rust-chop`,
+ * is Claude-drawn (request 2026-09-28 — people at work, item 1); Astra's `<figure>-chop` of the same name replaces it.
+ */
+const DRAWN = new Map();
+export function drawnStroke(stroke) {
+  if (!stroke?.drawn) return null;
+  let made = DRAWN.get(stroke);
+  if (!made) {
+    const { tool, motion, drawn, ...rest } = stroke;
+    made = Object.freeze({ ...rest, pose: drawn.pose, beat: drawn.beat, art: 'drawn' });
+    DRAWN.set(stroke, made);
+  }
+  return made;
+}
 
 /**
  * Every activity the server reports, and how it is drawn at the work. `stroke` is the base; `by` a part of the work told by

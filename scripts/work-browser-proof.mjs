@@ -120,7 +120,7 @@ async function sample(page, ids, ms = 2400, every = 120) {
       strokes: [...new Set(works.map(one => one.stroke))], clips: [...new Set(mine.map(one => one.clip).filter(Boolean))],
       frames: [...new Set(works.map(one => one.frame))], marks: [...new Set(works.map(one => one.marks))],
       shifts: [...new Set(works.map(one => one.shift))], flips: [...new Set(works.map(one => one.flip))],
-      tools: [...new Set(works.map(one => one.tool))],
+      tools: [...new Set(works.map(one => one.tool))], workClips: [...new Set(works.map(one => one.clip))], arts: [...new Set(works.map(one => one.art))],
       prints: new Set(mine.map(one => one.print).filter(one => one !== null)).size,
       at: mine.find(one => one.at)?.at || null, art: works[0]?.art || null, request: works[0]?.request || null,
     }];
@@ -213,14 +213,19 @@ try {
   for (const [i, one] of crew.entries()) {
     const seen = house[one.id];
     assert.ok(seen.frames.length >= 3 && seen.marks.some(n => n > 0), `${one.name} on the house: frames ${seen.frames}, marks ${seen.marks}`);
+    // Felling for the house is the hoeing cycle with a drawn axe over it (the stand-in), or - for a figure whose library holds
+    // a cycle of felling itself, `rust-chop` since 2026-09-28 (Claude-drawn) - that cycle, with its own axe and the chips.
+    const ownCycle = seen.workClips.length > 0 && seen.workClips.every(clip => /-chop$/.test(clip));
     assert.ok(seen.clips.every(clip => /-work$/.test(clip)), `${one.name} on the house is drawn in ${seen.clips}`);
-    assert.ok(seen.tools.length === 1 && ['axe', 'maul'].includes(seen.tools[0]) && seen.marks.every(n => n >= 2), `${one.name} on the house has no drawn axe in hand (the owner, 2026-09-28): tools ${seen.tools}, marks ${seen.marks}`);
+    if (ownCycle) assert.ok(seen.arts.every(art => art === 'drawn') && seen.marks.some(n => n > 0), `${one.name} felling in ${seen.workClips}: art ${seen.arts}, the chips ${seen.marks}`);
+    else assert.ok(seen.tools.length === 1 && ['axe', 'maul'].includes(seen.tools[0]) && seen.marks.every(n => n >= 2), `${one.name} on the house has no drawn axe in hand (the owner, 2026-09-28): tools ${seen.tools}, marks ${seen.marks}`);
+    if (ownCycle) observed.ownCycle = [...(observed.ownCycle || []), { name: one.name, clips: seen.workClips, frames: seen.frames, marks: seen.marks }];
     if (Math.abs(spots[i].x - middle) > figure * 0.2) assert.deepEqual(seen.flips, [spots[i].x > middle], `${one.name} does not face the house`);
     assert.ok(seen.prints >= 3, `the pixels round ${one.name} on the house changed ${seen.prints} times`);
   }
   await shot(page, 'house-1366');
   await closeUp(page, crew.map(one => one.id), 'house-close');
-  ok(`three sent to the house ("${observed.house.doing}") are drawn round it (${spots.map(spot => `${spot.x},${spot.y}`).join(' / ')}, a figure ${figure} px), each facing it, swinging a drawn ${house[crew[0].id].tools.join('')} with the chips flying (${crew.map(one => house[one.id].strokes.join('')).join(', ')}; stand-in: ${house[crew[0].id].request})`);
+  ok(`three sent to the house ("${observed.house.doing}") are drawn round it (${spots.map(spot => `${spot.x},${spot.y}`).join(' / ')}, a figure ${figure} px), each facing it, swinging an axe with the chips flying (${crew.map(one => `${house[one.id].strokes.join('')} in ${house[one.id].workClips.join('')}${house[one.id].tools.filter(Boolean).length ? ' with a drawn ' + house[one.id].tools.join('') : ''}`).join(', ')}; stand-in: ${house[crew[0].id].request})`);
 
   // 3. Practice at the mark, and pacing out a survey: each ordered, each in its own stroke, and what is drawn changes.
   // A slower class pace, so an afternoon at the mark (five ticks) lasts long enough to be watched.
@@ -271,6 +276,39 @@ try {
   assert.ok(pacer.clips.every(clip => /-walk$/.test(clip)) && pacer.shifts.length >= 5 && pacer.flips.length === 2, `pacing: ${pacer.clips}, shifts ${pacer.shifts}, facing ${pacer.flips}`);
   for (const id of Object.keys(two)) assert.ok(two[id].prints >= 3, `the pixels round ${id} changed ${two[id].prints} times`);
   ok(`at the mark ${marksman.name} is drawn with the rifle up and a puff of smoke once a cycle (${shooter.clips}; marks ${shooter.marks.join('/')}); surveying, ${surveyor.name} paces the ground to and fro (${pacer.shifts.length} places, turning both ways)`);
+  // 4. The wood pile by the house (request 2026-09-28, item 16; Claude-drawn `wood-pile-1`..`-4` since 2026-09-28). A class of
+  // its own, made with thirty-five logs on the family's pile (the server hands a proof a copy of its state, so the pile is set
+  // when the class is made, as scripts/means-browser-proof.mjs sets its logs): drawn as the one sprite of a forty-log pile,
+  // not four fallen logs in a row.
+  const piled = await classroom({ seed: 'work-proof-pile', tickMs: 1000, viewport: { width: 1366, height: 768 },
+    worldFactory: seed => { const made = createGonzalesWorld(seed, 5); made.households['hh-1'].logs = { wall: 28, sill: 4, poor: 3 }; return made; } });
+  const pileFamily = await piled.page.evaluate(() => window.__snapshot.world.entities.filter(one => one.kind === 'person').map(one => one.id));
+  await watch(piled.page, pileFamily[0]);
+  await piled.page.waitForFunction(() => window.__logPileDrawn === 4 && window.__woodPileSprite === 'wood-pile-4', null, { timeout: 30000 })
+    .catch(async error => { console.log('DEBUG', JSON.stringify(await piled.page.evaluate(() => ({ pile: window.__logPileDrawn, sprite: window.__woodPileSprite, logs: window.__snapshot.world.land?.logs })))); throw error; });
+  observed.woodPile = await piled.page.evaluate(() => ({ drawn: window.__logPileDrawn, sprite: window.__woodPileSprite, logs: window.__snapshot.world.land?.logs }));
+  await zoomTo(piled.page, pileFamily[0], 60);
+  await piled.page.waitForTimeout(600);
+  const gotIt = piled.page.getByRole('button', { name: 'Got it' });
+  if (await gotIt.first().isVisible().catch(() => false)) { await gotIt.first().click(); await piled.page.waitForTimeout(300); }
+  // The family's own land, where the pile stands by the house (the camera's Land button).
+  await piled.page.locator('[data-view=home]').click();
+  await piled.page.waitForTimeout(1500);
+  await shot(piled.page, 'wood-pile-1366');
+  // The pile itself, at the size the class sees it, with the family panel put aside for the picture.
+  const pileBox = await piled.page.evaluate(() => {
+    const c = document.querySelector('#world-map'), r = c.getBoundingClientRect(), k = r.width / c.width, at = window.__woodPileAt;
+    for (const el of document.querySelectorAll('#family-panel, .family-panel, #selection')) el.style.visibility = 'hidden';
+    if (!at) return null;
+    const x = Math.max(0, r.left + (at.x - at.width * 0.75) * k), y = Math.max(0, r.top + (at.y - at.height * 1.6) * k);
+    return { x, y, width: Math.min(innerWidth - x, at.width * 1.5 * k), height: Math.min(innerHeight - y, at.height * 2.1 * k) };
+  });
+  assert.ok(pileBox && pileBox.width > 20, `the wood pile's place was not recorded: ${JSON.stringify(pileBox)}`);
+  observed.woodPile.box = pileBox;
+  await piled.page.screenshot({ path: 'docs/evidence/work-wood-pile-close.png', clip: pileBox });
+  shots.push('docs/evidence/work-wood-pile-close.png');
+  ok(`thirty-five logs on the pile are drawn as ${observed.woodPile.sprite}, one sprite (projected ${JSON.stringify(observed.woodPile.logs)})`);
+  await piled.app.close();
   assert.deepEqual(errors, [], `a page threw: ${errors.join(' | ')}`);
   ok('no page errors');
   writeFileSync('docs/evidence/work-browser.json', `${JSON.stringify({

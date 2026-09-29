@@ -1,0 +1,59 @@
+{
+  "record": "The Claude stand-in tests proved by injection (scripts/claude-art/injections.mjs)",
+  "date": "2026-09-29",
+  "results": [
+    {
+      "guards": "every Claude frame and clip has its provenance",
+      "injected": "rust-chop-3 loses its written intent (the prompt) in the provenance record",
+      "failed": [
+        "every Claude frame and clip has its provenance: made by Claude, the date, the written intent, the source, temporary"
+      ]
+    },
+    {
+      "guards": "every stand-in is marked as Claude-drawn",
+      "injected": "rust-chop-2 is marked madeBy \"astra\" in its area JSON and the merged manifest",
+      "failed": [
+        "every stand-in is marked as Claude-drawn, in the manifest and on disk"
+      ]
+    },
+    {
+      "guards": "every Claude frame is named in the \"Claude-drawn stand-ins\" table",
+      "injected": "the area A row no longer names `rust-chop`",
+      "failed": [
+        "every Claude frame is named in the \"Claude-drawn stand-ins\" table of docs/ART_REQUESTS.md"
+      ]
+    },
+    {
+      "guards": "every `stand-in:` in the code names an item",
+      "injected": "a stand-in comment naming a request that is not on the list",
+      "failed": [
+        "every `stand-in:` in the code names an item on Astra's list"
+      ]
+    },
+    {
+      "guards": "the \"What Astra still needs to make\" section",
+      "injected": "the generated list is hand-edited (an item dropped) without rerunning the writer",
+      "failed": [
+        "docs/CLAUDE_ART_PLAN.md and the \"What Astra still needs to make\" section are what the plan writes now"
+      ]
+    },
+    {
+      "guards": "every Claude frame is an item on Astra's list",
+      "injected": "no item names the wood pile any more (the plan and the docs regenerated to match)",
+      "failed": [
+        "every Claude frame is an item on Astra's list, marked as having a Claude stand-in"
+      ]
+    },
+    {
+      "guards": "a stroke with a drawn cycle ... the stand-in tool goes",
+      "injected": "drawnStroke keeps the stand-in axe over the drawn cycle",
+      "failed": [
+        "a stroke with a drawn cycle of the work names a clip one of the libraries holds, and drawn in it the stand-in tool goes"
+      ]
+    }
+  ],
+  "cleanRunFailures": {
+    "standins": [],
+    "work": []
+  }
+}

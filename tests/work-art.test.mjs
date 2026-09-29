@@ -221,3 +221,29 @@ test('each strike is told once to whoever listens (the work sounds)', () => {
   assert.equal(heard.length, 2);
   assert.deepEqual(Object.keys(heard[0]).sort(), ['activity', 'id', 'stroke', 'x', 'y']);
 });
+
+test('a stroke with a drawn cycle of the work names a clip one of the libraries holds, and drawn in it the stand-in tool goes', async () => {
+  const { drawnStroke } = await import('../public/work-art.js');
+  // Claude's stand-in library (public/assets/claude-standins/) is loaded behind Astra's (public/art.js `mergeStandins`).
+  const standins = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/claude-standins/atlas.json', import.meta.url)), 'utf8')).clips;
+  const withDrawn = Object.entries(STROKES).filter(([, stroke]) => stroke.drawn);
+  assert.ok(withDrawn.some(([key]) => key === 'chop'), 'felling has its drawn cycle (rust-chop, 2026-09-28)');
+  for (const [key, stroke] of withDrawn) {
+    const holders = CAST.filter(figure => clips[`${figure}-${stroke.drawn.pose}`] || standins[`${figure}-${stroke.drawn.pose}`]);
+    assert.ok(holders.length, `${key}: no figure in either library has a ${stroke.drawn.pose} cycle`);
+    for (const figure of holders) {
+      const clip = clips[`${figure}-${stroke.drawn.pose}`] || standins[`${figure}-${stroke.drawn.pose}`];
+      assert.ok(stroke.drawn.beat >= 0 && stroke.drawn.beat < clip.frames.length, `${key}: the beat is a frame of ${figure}-${stroke.drawn.pose}`);
+      if (clip.beat !== undefined) assert.equal(stroke.drawn.beat, clip.beat, `${key}: the stroke's beat is the frame ${figure}-${stroke.drawn.pose} says the tool lands on`);
+    }
+    const drawn = drawnStroke(stroke);
+    assert.equal(drawn, drawnStroke(stroke), 'made once a stroke');
+    assert.equal(drawn.pose, stroke.drawn.pose);
+    assert.equal(drawn.art, 'drawn');
+    assert.equal(drawn.tool, undefined, `${key}: drawn in its own cycle, the stand-in axe is not drawn over it`);
+    assert.equal(drawn.effect, stroke.effect, `${key}: the chips still fly`);
+    const clock = { frame: 2, since: 10, period: 1000, count: 1 };
+    const ctx = new Proxy({}, { get: () => () => {}, set: () => true });
+    assert.equal(drawWorkLayer(ctx, drawn, 0, 0, 40, 1, clock, true, 'rust'), 0, `${key}: nothing drawn over the drawn cycle held still`);
+  }
+});
