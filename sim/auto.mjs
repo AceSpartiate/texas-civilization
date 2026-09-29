@@ -207,14 +207,18 @@ function heldWhy(world, household, person, order) {
  * "Real-time limits"; sim/decision-budget.mjs `QUESTION_BUDGETS.flight`), or the day of grace the order gives before any farm
  * can be reached (sim/advance.mjs `ORDER_GRACE_MINUTES`), whichever is first.
  *
- * ceiling: the day of grace only comes first at the Quick pace, where the calendar held at twenty minutes a tick runs a day in
- * 72 real seconds; there the family is packed off then, as it always was when that day was its whole wait, so no farm is burned
- * with a student still deciding. If the owner wants the full three minutes at Quick too, the burning has to wait on the order.
+ * The day of grace only comes first at the Quick pace, where the calendar held at twenty minutes a tick runs a day in 72 real
+ * seconds: there the family has 72 seconds. **Confirmed by the owner, 2026-09-29**: "72 s at quick, but if the student doesn't
+ * respond, burn their house. They should have been paying attention." Packed off by silence, at any pace, the family's house
+ * burns behind it (sim/scrape.mjs `burnForSilence`, `FIC-GONZ-907`), and the order says so before it runs out
+ * (`FLIGHT_IF_UNANSWERED`).
  */
 export function flightWaited(world, household) {
   const flight = household.flight;
   return limitOut(world, flightLimitKey(household)) || (Number.isFinite(flight?.orderedMinute) && world.minute - flight.orderedMinute >= ORDER_GRACE_MINUTES);
 }
+/** What the order to leave says will happen if its student lets it run out (owner, 2026-09-29; `FIC-GONZ-907`). */
+export const FLIGHT_IF_UNANSWERED = 'No answer in time, and the family leaves in a rush — the house is lost, burned behind it.';
 /**
  * The real milliseconds the order to leave has left for the "!" (docs/audits/2026-09-28-design.md S33), or null when nobody is
  * reading it: the three minutes' remainder, or less where the day of grace comes first (`flightWaited`), that day's ticks counted

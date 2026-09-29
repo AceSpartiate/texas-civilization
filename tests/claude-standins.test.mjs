@@ -194,6 +194,14 @@ test('every frame is a usable sprite: inside its sheet, transparent-cornered, no
       if (alpha >= 240) opaque++;
     }
     assert.ok(visible > 1200, `${name} is a real sprite, not empty transparency (${visible} visible pixels)`);
+    // A backdrop (the lone parent's yards, request 2026-09-29) is a whole painting the page draws to cover its scene, not a
+    // sprite: it is held to the opposite rule - painted edge to edge, save the two-pixel notch at each corner that keeps its
+    // PNG RGBA - and it is the only kind of frame allowed to be.
+    if (frame.backdrop) {
+      assert.ok(visible > frame.w * frame.h * 0.999, `${name} is a backdrop: it is painted edge to edge (${visible} of ${frame.w * frame.h})`);
+      assert.equal(frame.anchorY, 1, `${name} is a backdrop: anchored at its foot`);
+      continue;
+    }
     assert.ok(visible < frame.w * frame.h * 0.9, `${name} fills its whole cell; a stand-in has real alpha round it (${visible} of ${frame.w * frame.h})`);
     assert.ok(opaque > 600, `${name} has solid paint, not a ghost (${opaque} opaque pixels)`);
     // Nothing is painted under the ground line except the lower foot of a stride or a log's round underside: a figure

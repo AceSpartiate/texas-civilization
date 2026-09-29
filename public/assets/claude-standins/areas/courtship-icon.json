@@ -1,0 +1,61 @@
+{
+  "module": "courtship-icon",
+  "area": "land",
+  "date": "2026-09-29",
+  "sheets": {
+    "claude-courtship-icon": {
+      "image": "/assets/claude-standins/claude-courtship-icon.png",
+      "width": 128,
+      "height": 128,
+      "bytes": 19861,
+      "sha256": "e7e93635937606ece282c223f2bed2e0d68df46fe69b101ca1b752a902ce80fd",
+      "madeBy": "claude",
+      "module": "courtship-icon",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 128,
+          "h": 128
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "icon-ask-neighbours": {
+      "sheet": "claude-courtship-icon",
+      "x": 0,
+      "y": 0,
+      "w": 128,
+      "h": 128,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "madeBy": "claude",
+      "module": "courtship-icon",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "icon-ask-neighbours: item 6: one frame in the family icon atlas, 128 by 128, a single silhouette with a thin dark outline, reading at 34-38 CSS px and dimmed to 40%",
+      "source": "svg/courtship-icon/claude-icon-ask-neighbours.svg",
+      "label": "icon ask neighbours",
+      "kind": "claude-courtship-icon"
+    }
+  },
+  "clips": {},
+  "provenance": {
+    "icon-ask-neighbours": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-icon",
+      "area": "land",
+      "sheet": "claude-courtship-icon",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "Asking the neighbours: a father and his little girl walking side on, hand in hand, up a worn tan track toward a neighbour's small log cabin a way off on a rise of grass, a pale thread of smoke curling up from its stick-and-mud chimney - somebody is at home. One silhouette on a transparent ground, a thin dark olive-brown outline, flat shade with the light from the upper left, the warm moss, rust, cream and ochre palette of the family panel's icons; no text. Reads at 34-38 CSS px and dimmed to 40%. (Request 2026-09-29 — the lone parent's wedding.)",
+      "source": "public/assets/claude-standins/svg/courtship-icon/claude-icon-ask-neighbours.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's icon-ask-neighbours"
+    }
+  }
+}

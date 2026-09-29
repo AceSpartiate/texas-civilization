@@ -1,0 +1,3159 @@
+{
+  "module": "courtship-people",
+  "area": "work",
+  "date": "2026-09-29",
+  "sheets": {
+    "claude-courtship-greet": {
+      "image": "/assets/claude-standins/claude-courtship-greet.png",
+      "width": 560,
+      "height": 2240,
+      "bytes": 302281,
+      "sha256": "1ad915e08d425e76dbe8a13a0e986dbcf512226e84bc7c200f2d872d07325bbe",
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 8,
+        "columns": 2,
+        "cell": {
+          "w": 280,
+          "h": 280
+        },
+        "drawnCell": {
+          "w": 400,
+          "h": 400
+        },
+        "scale": 0.7,
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-shy": {
+      "image": "/assets/claude-standins/claude-courtship-shy.png",
+      "width": 560,
+      "height": 2240,
+      "bytes": 300796,
+      "sha256": "6b5c742d4129ab4dc3ea7195cc62fa4e587e41afccf70aaf0424be9173486aef",
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 8,
+        "columns": 2,
+        "cell": {
+          "w": 280,
+          "h": 280
+        },
+        "drawnCell": {
+          "w": 400,
+          "h": 400
+        },
+        "scale": 0.7,
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-laugh": {
+      "image": "/assets/claude-standins/claude-courtship-laugh.png",
+      "width": 560,
+      "height": 2240,
+      "bytes": 329796,
+      "sha256": "d21c1e413d93474a6806d7faf9867ab774e5510c0210ecf968936d3cdcc1a6c2",
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 8,
+        "columns": 2,
+        "cell": {
+          "w": 280,
+          "h": 280
+        },
+        "drawnCell": {
+          "w": 400,
+          "h": 400
+        },
+        "scale": 0.7,
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-vow": {
+      "image": "/assets/claude-standins/claude-courtship-vow.png",
+      "width": 280,
+      "height": 2240,
+      "bytes": 217579,
+      "sha256": "3f296276d4eb3bc762e40a01f742ec3a1e3adcadb43faae95770f953b1ea0305",
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 8,
+        "columns": 1,
+        "cell": {
+          "w": 280,
+          "h": 280
+        },
+        "drawnCell": {
+          "w": 400,
+          "h": 400
+        },
+        "scale": 0.7,
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-commissioner": {
+      "image": "/assets/claude-standins/claude-courtship-commissioner.png",
+      "width": 560,
+      "height": 280,
+      "bytes": 41640,
+      "sha256": "ccb44d6f5d3e58fb09134019409199407be6b36b7ee63403691caeecd85fb76c",
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 1,
+        "columns": 2,
+        "cell": {
+          "w": 280,
+          "h": 280
+        },
+        "drawnCell": {
+          "w": 400,
+          "h": 400
+        },
+        "scale": 0.7,
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-fiddle": {
+      "image": "/assets/claude-standins/claude-courtship-fiddle.png",
+      "width": 560,
+      "height": 560,
+      "bytes": 69650,
+      "sha256": "2506719e9c9c73538bc2fe363cfdbe8c5e57e1b6f7696325c244081063638c53",
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "cell": {
+          "w": 280,
+          "h": 280
+        },
+        "drawnCell": {
+          "w": 400,
+          "h": 400
+        },
+        "scale": 0.7,
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "rust-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-greet-1.svg",
+      "label": "rust greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "rust-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-greet-2.svg",
+      "label": "rust greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "teal-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "teal-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-teal-greet-1.svg",
+      "label": "teal greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "teal-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "teal-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-teal-greet-2.svg",
+      "label": "teal greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "elder-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 560,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-greet-1.svg",
+      "label": "elder greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "elder-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 560,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-greet-2.svg",
+      "label": "elder greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "blue-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 840,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-greet-1.svg",
+      "label": "blue greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "blue-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 840,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-greet-2.svg",
+      "label": "blue greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "rust-woman-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 1120,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-woman-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-woman-greet-1.svg",
+      "label": "rust woman greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "rust-woman-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 1120,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-woman-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-woman-greet-2.svg",
+      "label": "rust woman greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "indigo-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 1400,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "indigo-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-indigo-greet-1.svg",
+      "label": "indigo greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "indigo-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 1400,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "indigo-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-indigo-greet-2.svg",
+      "label": "indigo greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "ochre-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 1680,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-greet-1.svg",
+      "label": "ochre greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "ochre-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 1680,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-greet-2.svg",
+      "label": "ochre greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "blue-girl-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 1960,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-girl-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-girl-greet-1.svg",
+      "label": "blue girl greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "blue-girl-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 1960,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-girl-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-girl-greet-2.svg",
+      "label": "blue girl greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "rust-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-shy-1.svg",
+      "label": "rust shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "rust-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-shy-2.svg",
+      "label": "rust shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "teal-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "teal-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-teal-shy-1.svg",
+      "label": "teal shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "teal-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "teal-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-teal-shy-2.svg",
+      "label": "teal shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "elder-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 560,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-shy-1.svg",
+      "label": "elder shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "elder-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 560,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-shy-2.svg",
+      "label": "elder shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "blue-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 840,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-shy-1.svg",
+      "label": "blue shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "blue-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 840,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-shy-2.svg",
+      "label": "blue shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "rust-woman-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 1120,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-woman-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-woman-shy-1.svg",
+      "label": "rust woman shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "rust-woman-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 1120,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-woman-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-woman-shy-2.svg",
+      "label": "rust woman shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "indigo-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 1400,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "indigo-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-indigo-shy-1.svg",
+      "label": "indigo shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "indigo-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 1400,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "indigo-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-indigo-shy-2.svg",
+      "label": "indigo shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "ochre-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 1680,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-shy-1.svg",
+      "label": "ochre shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "ochre-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 1680,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-shy-2.svg",
+      "label": "ochre shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "blue-girl-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 1960,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-girl-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-girl-shy-1.svg",
+      "label": "blue girl shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "blue-girl-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 1960,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-girl-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-girl-shy-2.svg",
+      "label": "blue girl shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "rust-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-laugh-1.svg",
+      "label": "rust laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "rust-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-laugh-2.svg",
+      "label": "rust laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "teal-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "teal-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-teal-laugh-1.svg",
+      "label": "teal laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "teal-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "teal-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-teal-laugh-2.svg",
+      "label": "teal laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "elder-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 560,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-laugh-1.svg",
+      "label": "elder laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "elder-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 560,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-laugh-2.svg",
+      "label": "elder laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "blue-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 840,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-laugh-1.svg",
+      "label": "blue laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "blue-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 840,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-laugh-2.svg",
+      "label": "blue laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "rust-woman-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 1120,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-woman-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-woman-laugh-1.svg",
+      "label": "rust woman laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "rust-woman-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 1120,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-woman-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-woman-laugh-2.svg",
+      "label": "rust woman laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "indigo-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 1400,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "indigo-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-indigo-laugh-1.svg",
+      "label": "indigo laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "indigo-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 1400,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "indigo-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-indigo-laugh-2.svg",
+      "label": "indigo laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "ochre-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 1680,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-laugh-1.svg",
+      "label": "ochre laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "ochre-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 1680,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-laugh-2.svg",
+      "label": "ochre laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "blue-girl-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 1960,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-girl-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-girl-laugh-1.svg",
+      "label": "blue girl laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "blue-girl-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 1960,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-girl-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-girl-laugh-2.svg",
+      "label": "blue girl laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "rust-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-vow-1.svg",
+      "label": "rust vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "teal-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "teal-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-teal-vow-1.svg",
+      "label": "teal vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "elder-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 560,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-vow-1.svg",
+      "label": "elder vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "blue-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 840,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-vow-1.svg",
+      "label": "blue vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "rust-woman-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 1120,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-woman-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-woman-vow-1.svg",
+      "label": "rust woman vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "indigo-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 1400,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "indigo-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-indigo-vow-1.svg",
+      "label": "indigo vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "ochre-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 1680,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-vow-1.svg",
+      "label": "ochre vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "blue-girl-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 1960,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-girl-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-girl-vow-1.svg",
+      "label": "blue girl vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "elder-read-paper-1": {
+      "sheet": "claude-courtship-commissioner",
+      "x": 0,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-read-paper-1: item 2: `elder-read-paper`, 2 frames, east-facing and mirrored for west, the elder's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-read-paper-1.svg",
+      "label": "elder read paper 1",
+      "kind": "claude-courtship-commissioner"
+    },
+    "elder-read-paper-2": {
+      "sheet": "claude-courtship-commissioner",
+      "x": 280,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-read-paper-2: item 2: `elder-read-paper`, 2 frames, east-facing and mirrored for west, the elder's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-read-paper-2.svg",
+      "label": "elder read paper 2",
+      "kind": "claude-courtship-commissioner"
+    },
+    "rust-fiddle-1": {
+      "sheet": "claude-courtship-fiddle",
+      "x": 0,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-fiddle-1: item 7: `-fiddle`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-fiddle-1.svg",
+      "label": "rust fiddle 1",
+      "kind": "claude-courtship-fiddle"
+    },
+    "rust-fiddle-2": {
+      "sheet": "claude-courtship-fiddle",
+      "x": 280,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-fiddle-2: item 7: `-fiddle`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-fiddle-2.svg",
+      "label": "rust fiddle 2",
+      "kind": "claude-courtship-fiddle"
+    },
+    "ochre-fiddle-1": {
+      "sheet": "claude-courtship-fiddle",
+      "x": 0,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-fiddle-1: item 7: `-fiddle`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-fiddle-1.svg",
+      "label": "ochre fiddle 1",
+      "kind": "claude-courtship-fiddle"
+    },
+    "ochre-fiddle-2": {
+      "sheet": "claude-courtship-fiddle",
+      "x": 280,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-fiddle-2: item 7: `-fiddle`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-fiddle-2.svg",
+      "label": "ochre fiddle 2",
+      "kind": "claude-courtship-fiddle"
+    }
+  },
+  "clips": {
+    "rust-greet": {
+      "frames": [
+        {
+          "sprite": "rust-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "rust-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-shy": {
+      "frames": [
+        {
+          "sprite": "rust-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "rust-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-laugh": {
+      "frames": [
+        {
+          "sprite": "rust-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "rust-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-vow": {
+      "frames": [
+        {
+          "sprite": "rust-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "teal-greet": {
+      "frames": [
+        {
+          "sprite": "teal-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "teal-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "teal-shy": {
+      "frames": [
+        {
+          "sprite": "teal-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "teal-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "teal-laugh": {
+      "frames": [
+        {
+          "sprite": "teal-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "teal-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "teal-vow": {
+      "frames": [
+        {
+          "sprite": "teal-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "elder-greet": {
+      "frames": [
+        {
+          "sprite": "elder-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "elder-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "elder-shy": {
+      "frames": [
+        {
+          "sprite": "elder-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "elder-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "elder-laugh": {
+      "frames": [
+        {
+          "sprite": "elder-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "elder-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "elder-vow": {
+      "frames": [
+        {
+          "sprite": "elder-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-greet": {
+      "frames": [
+        {
+          "sprite": "blue-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "blue-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-shy": {
+      "frames": [
+        {
+          "sprite": "blue-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "blue-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-laugh": {
+      "frames": [
+        {
+          "sprite": "blue-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "blue-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-vow": {
+      "frames": [
+        {
+          "sprite": "blue-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-woman-greet": {
+      "frames": [
+        {
+          "sprite": "rust-woman-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "rust-woman-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-woman-shy": {
+      "frames": [
+        {
+          "sprite": "rust-woman-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "rust-woman-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-woman-laugh": {
+      "frames": [
+        {
+          "sprite": "rust-woman-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "rust-woman-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-woman-vow": {
+      "frames": [
+        {
+          "sprite": "rust-woman-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "indigo-greet": {
+      "frames": [
+        {
+          "sprite": "indigo-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "indigo-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "indigo-shy": {
+      "frames": [
+        {
+          "sprite": "indigo-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "indigo-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "indigo-laugh": {
+      "frames": [
+        {
+          "sprite": "indigo-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "indigo-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "indigo-vow": {
+      "frames": [
+        {
+          "sprite": "indigo-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "ochre-greet": {
+      "frames": [
+        {
+          "sprite": "ochre-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "ochre-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "ochre-shy": {
+      "frames": [
+        {
+          "sprite": "ochre-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "ochre-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "ochre-laugh": {
+      "frames": [
+        {
+          "sprite": "ochre-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "ochre-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "ochre-vow": {
+      "frames": [
+        {
+          "sprite": "ochre-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-girl-greet": {
+      "frames": [
+        {
+          "sprite": "blue-girl-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "blue-girl-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-girl-shy": {
+      "frames": [
+        {
+          "sprite": "blue-girl-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "blue-girl-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-girl-laugh": {
+      "frames": [
+        {
+          "sprite": "blue-girl-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "blue-girl-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-girl-vow": {
+      "frames": [
+        {
+          "sprite": "blue-girl-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-fiddle": {
+      "frames": [
+        {
+          "sprite": "rust-fiddle-1",
+          "duration": 300
+        },
+        {
+          "sprite": "rust-fiddle-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "ochre-fiddle": {
+      "frames": [
+        {
+          "sprite": "ochre-fiddle-1",
+          "duration": 300
+        },
+        {
+          "sprite": "ochre-fiddle-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "elder-read-paper": {
+      "frames": [
+        {
+          "sprite": "elder-read-paper-1",
+          "duration": 900
+        },
+        {
+          "sprite": "elder-read-paper-2",
+          "duration": 1100
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    }
+  },
+  "provenance": {
+    "rust-greet-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust, meeting the neighbours, frame 1 of 2: two fingers touched to the hat's brim with a small bow and a nod, a quiet smile. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's rust sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-greet-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-greet-1"
+    },
+    "rust-greet-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust, meeting the neighbours, frame 2 of 2: the hand lifted from the brim and out a little in greeting, upright again, speaking. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's rust sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-greet-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-greet-2"
+    },
+    "teal-greet-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "teal, meeting the neighbours, frame 1 of 2: a hand raised open beside the face in greeting, the mouth open to say good morning. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's teal sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-teal-greet-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's teal-greet-1"
+    },
+    "teal-greet-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "teal, meeting the neighbours, frame 2 of 2: the raised hand waved out a little, the head tipped toward it, smiling. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's teal sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-teal-greet-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's teal-greet-2"
+    },
+    "elder-greet-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "elder, meeting the neighbours, frame 1 of 2: two fingers touched to the hat's brim with a small bow and a nod, a quiet smile. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's elder sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-elder-greet-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's elder-greet-1"
+    },
+    "elder-greet-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "elder, meeting the neighbours, frame 2 of 2: the hand lifted from the brim and out a little in greeting, upright again, speaking. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's elder sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-elder-greet-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's elder-greet-2"
+    },
+    "blue-greet-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue, meeting the neighbours, frame 1 of 2: a hand raised open beside the face in greeting, the mouth open to say good morning. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's blue sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-blue-greet-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-greet-1"
+    },
+    "blue-greet-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue, meeting the neighbours, frame 2 of 2: the raised hand waved out a little, the head tipped toward it, smiling. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's blue sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-blue-greet-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-greet-2"
+    },
+    "rust-woman-greet-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust-woman, meeting the neighbours, frame 1 of 2: a hand raised open beside the face in greeting, the mouth open to say good morning. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's rust-woman sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-woman-greet-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-greet-1"
+    },
+    "rust-woman-greet-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust-woman, meeting the neighbours, frame 2 of 2: the raised hand waved out a little, the head tipped toward it, smiling. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's rust-woman sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-woman-greet-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-greet-2"
+    },
+    "indigo-greet-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "indigo, meeting the neighbours, frame 1 of 2: a hand raised open beside the face in greeting, the mouth open to say good morning. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's indigo sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-indigo-greet-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-greet-1"
+    },
+    "indigo-greet-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "indigo, meeting the neighbours, frame 2 of 2: the raised hand waved out a little, the head tipped toward it, smiling. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's indigo sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-indigo-greet-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-greet-2"
+    },
+    "ochre-greet-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "ochre, meeting the neighbours, frame 1 of 2: a hand raised open beside the face in greeting, the mouth open to say good morning. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's ochre sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-ochre-greet-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-greet-1"
+    },
+    "ochre-greet-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "ochre, meeting the neighbours, frame 2 of 2: the raised hand waved out a little, the head tipped toward it, smiling. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's ochre sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-ochre-greet-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-greet-2"
+    },
+    "blue-girl-greet-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue-girl, meeting the neighbours, frame 1 of 2: a hand raised open beside the face in greeting, the mouth open to say good morning. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's blue-girl sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-blue-girl-greet-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-greet-1"
+    },
+    "blue-girl-greet-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-greet",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue-girl, meeting the neighbours, frame 2 of 2: the raised hand waved out a little, the head tipped toward it, smiling. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's blue-girl sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-blue-girl-greet-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-greet-2"
+    },
+    "rust-shy-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust, meeting the neighbours, frame 1 of 2: shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's rust sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-shy-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-shy-1"
+    },
+    "rust-shy-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust, meeting the neighbours, frame 2 of 2: a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's rust sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-shy-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-shy-2"
+    },
+    "teal-shy-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "teal, meeting the neighbours, frame 1 of 2: shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's teal sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-teal-shy-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's teal-shy-1"
+    },
+    "teal-shy-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "teal, meeting the neighbours, frame 2 of 2: a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's teal sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-teal-shy-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's teal-shy-2"
+    },
+    "elder-shy-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "elder, meeting the neighbours, frame 1 of 2: shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's elder sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-elder-shy-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's elder-shy-1"
+    },
+    "elder-shy-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "elder, meeting the neighbours, frame 2 of 2: a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's elder sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-elder-shy-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's elder-shy-2"
+    },
+    "blue-shy-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue, meeting the neighbours, frame 1 of 2: shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's blue sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-blue-shy-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-shy-1"
+    },
+    "blue-shy-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue, meeting the neighbours, frame 2 of 2: a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's blue sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-blue-shy-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-shy-2"
+    },
+    "rust-woman-shy-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust-woman, meeting the neighbours, frame 1 of 2: shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's rust-woman sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-woman-shy-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-shy-1"
+    },
+    "rust-woman-shy-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust-woman, meeting the neighbours, frame 2 of 2: a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's rust-woman sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-woman-shy-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-shy-2"
+    },
+    "indigo-shy-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "indigo, meeting the neighbours, frame 1 of 2: shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's indigo sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-indigo-shy-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-shy-1"
+    },
+    "indigo-shy-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "indigo, meeting the neighbours, frame 2 of 2: a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's indigo sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-indigo-shy-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-shy-2"
+    },
+    "ochre-shy-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "ochre, meeting the neighbours, frame 1 of 2: shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's ochre sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-ochre-shy-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-shy-1"
+    },
+    "ochre-shy-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "ochre, meeting the neighbours, frame 2 of 2: a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's ochre sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-ochre-shy-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-shy-2"
+    },
+    "blue-girl-shy-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue-girl, meeting the neighbours, frame 1 of 2: shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's blue-girl sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-blue-girl-shy-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-shy-1"
+    },
+    "blue-girl-shy-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-shy",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue-girl, meeting the neighbours, frame 2 of 2: a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's blue-girl sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-blue-girl-shy-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-shy-2"
+    },
+    "rust-laugh-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust, meeting the neighbours, frame 1 of 2: laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's rust sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-laugh-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-laugh-1"
+    },
+    "rust-laugh-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust, meeting the neighbours, frame 2 of 2: the laugh settling to a chuckle: the head and shoulders forward, the eyes still creased, the hand at the chest. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's rust sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-laugh-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-laugh-2"
+    },
+    "teal-laugh-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "teal, meeting the neighbours, frame 1 of 2: laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's teal sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-teal-laugh-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's teal-laugh-1"
+    },
+    "teal-laugh-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "teal, meeting the neighbours, frame 2 of 2: the laugh settling to a chuckle: the head forward, the eyes still creased, a hand raised to the mouth. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's teal sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-teal-laugh-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's teal-laugh-2"
+    },
+    "elder-laugh-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "elder, meeting the neighbours, frame 1 of 2: laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's elder sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-elder-laugh-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's elder-laugh-1"
+    },
+    "elder-laugh-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "elder, meeting the neighbours, frame 2 of 2: the laugh settling to a chuckle: the head and shoulders forward, the eyes still creased, the hand at the chest. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's elder sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-elder-laugh-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's elder-laugh-2"
+    },
+    "blue-laugh-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue, meeting the neighbours, frame 1 of 2: laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's blue sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-blue-laugh-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-laugh-1"
+    },
+    "blue-laugh-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue, meeting the neighbours, frame 2 of 2: the laugh settling to a chuckle: the head and shoulders forward, the eyes still creased, the hand at the chest. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's blue sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-blue-laugh-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-laugh-2"
+    },
+    "rust-woman-laugh-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust-woman, meeting the neighbours, frame 1 of 2: laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's rust-woman sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-woman-laugh-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-laugh-1"
+    },
+    "rust-woman-laugh-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust-woman, meeting the neighbours, frame 2 of 2: the laugh settling to a chuckle: the head forward, the eyes still creased, a hand raised to the mouth. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's rust-woman sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-woman-laugh-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-laugh-2"
+    },
+    "indigo-laugh-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "indigo, meeting the neighbours, frame 1 of 2: laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's indigo sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-indigo-laugh-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-laugh-1"
+    },
+    "indigo-laugh-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "indigo, meeting the neighbours, frame 2 of 2: the laugh settling to a chuckle: the head forward, the eyes still creased, a hand raised to the mouth. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's indigo sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-indigo-laugh-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-laugh-2"
+    },
+    "ochre-laugh-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "ochre, meeting the neighbours, frame 1 of 2: laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's ochre sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-ochre-laugh-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-laugh-1"
+    },
+    "ochre-laugh-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "ochre, meeting the neighbours, frame 2 of 2: the laugh settling to a chuckle: the head and shoulders forward, the eyes still creased, the hand at the chest. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's ochre sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-ochre-laugh-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-laugh-2"
+    },
+    "blue-girl-laugh-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue-girl, meeting the neighbours, frame 1 of 2: laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's blue-girl sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-blue-girl-laugh-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-laugh-1"
+    },
+    "blue-girl-laugh-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-laugh",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue-girl, meeting the neighbours, frame 2 of 2: the laugh settling to a chuckle: the head forward, the eyes still creased, a hand raised to the mouth. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's blue-girl sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-blue-girl-laugh-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-laugh-2"
+    },
+    "rust-vow-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-vow",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust, at the wedding, frame 1 of 1: the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's rust sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-vow-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-vow-1"
+    },
+    "teal-vow-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-vow",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "teal, at the wedding, frame 1 of 1: the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's teal sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-teal-vow-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's teal-vow-1"
+    },
+    "elder-vow-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-vow",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "elder, at the wedding, frame 1 of 1: the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's elder sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-elder-vow-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's elder-vow-1"
+    },
+    "blue-vow-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-vow",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue, at the wedding, frame 1 of 1: the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's blue sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-blue-vow-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-vow-1"
+    },
+    "rust-woman-vow-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-vow",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust-woman, at the wedding, frame 1 of 1: the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's rust-woman sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-woman-vow-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-vow-1"
+    },
+    "indigo-vow-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-vow",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "indigo, at the wedding, frame 1 of 1: the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's indigo sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-indigo-vow-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-vow-1"
+    },
+    "ochre-vow-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-vow",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "ochre, at the wedding, frame 1 of 1: the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's ochre sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-ochre-vow-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-vow-1"
+    },
+    "blue-girl-vow-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-vow",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue-girl, at the wedding, frame 1 of 1: the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet. Side on, facing east. The same person, face, hat, hair, clothes and colours as Astra's blue-girl sheets; Texas 1835 frontier clothes; gentle and classroom-appropriate; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-blue-girl-vow-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-vow-1"
+    },
+    "elder-read-paper-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-commissioner",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "The commissioner who reads the bond at a frontier wedding by bond (an invented local officer, FIC-GONZ-950, not a portrait of anybody), drawn as Astra's elder figure - the same grey hair, bushy grey beard, face and brimmed hat - in a dark brown frock coat over his olive waistcoat and a white stock, standing side on facing east, frame 1 of 2: reading down the page: the head bowed to the paper held open in both hands at the chest. The paper's back is to us, plain, with a red ribbon and seal at its corner; nothing written shows. Warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-elder-read-paper-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's elder-read-paper-1"
+    },
+    "elder-read-paper-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-commissioner",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "The commissioner who reads the bond at a frontier wedding by bond (an invented local officer, FIC-GONZ-950, not a portrait of anybody), drawn as Astra's elder figure - the same grey hair, bushy grey beard, face and brimmed hat - in a dark brown frock coat over his olive waistcoat and a white stock, standing side on facing east, frame 2 of 2: reading aloud: the paper lowered a little, the head raised toward the couple, the mouth open on the words. The paper's back is to us, plain, with a red ribbon and seal at its corner; nothing written shows. Warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-elder-read-paper-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's elder-read-paper-2"
+    },
+    "rust-fiddle-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-fiddle",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust as a neighbour playing the fiddle at a frontier wedding supper, standing side on and facing east, frame 1 of 2: the fiddle under his chin on the far shoulder, its neck forward to his far hand, the bow drawn out long across the strings, the weight on both feet; the head bent a little to it, smiling. The same person, face, hat, hair, clothes and colours as Astra's rust sheets; Texas 1835 frontier clothes; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-fiddle-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-fiddle-1"
+    },
+    "rust-fiddle-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-fiddle",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust as a neighbour playing the fiddle at a frontier wedding supper, standing side on and facing east, frame 2 of 2: the fiddle under his chin on the far shoulder, its neck forward to his far hand, the bow pushed in to the strings, the near foot tapping the time, toe up; the head bent a little to it, smiling. The same person, face, hat, hair, clothes and colours as Astra's rust sheets; Texas 1835 frontier clothes; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-rust-fiddle-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-fiddle-2"
+    },
+    "ochre-fiddle-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-fiddle",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "ochre as a neighbour playing the fiddle at a frontier wedding supper, standing side on and facing east, frame 1 of 2: the fiddle under his chin on the far shoulder, its neck forward to his far hand, the bow drawn out long across the strings, the weight on both feet; the head bent a little to it, smiling. The same person, face, hat, hair, clothes and colours as Astra's ochre sheets; Texas 1835 frontier clothes; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-ochre-fiddle-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-fiddle-1"
+    },
+    "ochre-fiddle-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "sheet": "claude-courtship-fiddle",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "ochre as a neighbour playing the fiddle at a frontier wedding supper, standing side on and facing east, frame 2 of 2: the fiddle under his chin on the far shoulder, its neck forward to his far hand, the bow pushed in to the strings, the near foot tapping the time, toe up; the head bent a little to it, smiling. The same person, face, hat, hair, clothes and colours as Astra's ochre sheets; Texas 1835 frontier clothes; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-people/claude-ochre-fiddle-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-fiddle-2"
+    },
+    "rust-greet": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust greet, 2 frames looping gently (560, 460 ms): two fingers touched to the hat's brim with a small bow and a nod, a quiet smile; the hand lifted from the brim and out a little in greeting, upright again, speaking.",
+      "frames": [
+        "rust-greet-1",
+        "rust-greet-2"
+      ],
+      "status": "temporary: replace with Astra's rust-greet"
+    },
+    "rust-shy": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust shy, 2 frames looping gently (620, 540 ms): shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped; a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front.",
+      "frames": [
+        "rust-shy-1",
+        "rust-shy-2"
+      ],
+      "status": "temporary: replace with Astra's rust-shy"
+    },
+    "rust-laugh": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust laugh, 2 frames looping gently (420, 460 ms): laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest; the laugh settling to a chuckle: the head and shoulders forward, the eyes still creased, the hand at the chest.",
+      "frames": [
+        "rust-laugh-1",
+        "rust-laugh-2"
+      ],
+      "status": "temporary: replace with Astra's rust-laugh"
+    },
+    "rust-vow": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust vow, 1 frame looping gently (1200 ms): the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet.",
+      "frames": [
+        "rust-vow-1"
+      ],
+      "status": "temporary: replace with Astra's rust-vow"
+    },
+    "teal-greet": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "teal greet, 2 frames looping gently (560, 460 ms): a hand raised open beside the face in greeting, the mouth open to say good morning; the raised hand waved out a little, the head tipped toward it, smiling.",
+      "frames": [
+        "teal-greet-1",
+        "teal-greet-2"
+      ],
+      "status": "temporary: replace with Astra's teal-greet"
+    },
+    "teal-shy": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "teal shy, 2 frames looping gently (620, 540 ms): shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped; a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front.",
+      "frames": [
+        "teal-shy-1",
+        "teal-shy-2"
+      ],
+      "status": "temporary: replace with Astra's teal-shy"
+    },
+    "teal-laugh": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "teal laugh, 2 frames looping gently (420, 460 ms): laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest; the laugh settling to a chuckle: the head forward, the eyes still creased, a hand raised to the mouth.",
+      "frames": [
+        "teal-laugh-1",
+        "teal-laugh-2"
+      ],
+      "status": "temporary: replace with Astra's teal-laugh"
+    },
+    "teal-vow": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "teal vow, 1 frame looping gently (1200 ms): the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet.",
+      "frames": [
+        "teal-vow-1"
+      ],
+      "status": "temporary: replace with Astra's teal-vow"
+    },
+    "elder-greet": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "elder greet, 2 frames looping gently (560, 460 ms): two fingers touched to the hat's brim with a small bow and a nod, a quiet smile; the hand lifted from the brim and out a little in greeting, upright again, speaking.",
+      "frames": [
+        "elder-greet-1",
+        "elder-greet-2"
+      ],
+      "status": "temporary: replace with Astra's elder-greet"
+    },
+    "elder-shy": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "elder shy, 2 frames looping gently (620, 540 ms): shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped; a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front.",
+      "frames": [
+        "elder-shy-1",
+        "elder-shy-2"
+      ],
+      "status": "temporary: replace with Astra's elder-shy"
+    },
+    "elder-laugh": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "elder laugh, 2 frames looping gently (420, 460 ms): laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest; the laugh settling to a chuckle: the head and shoulders forward, the eyes still creased, the hand at the chest.",
+      "frames": [
+        "elder-laugh-1",
+        "elder-laugh-2"
+      ],
+      "status": "temporary: replace with Astra's elder-laugh"
+    },
+    "elder-vow": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "elder vow, 1 frame looping gently (1200 ms): the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet.",
+      "frames": [
+        "elder-vow-1"
+      ],
+      "status": "temporary: replace with Astra's elder-vow"
+    },
+    "blue-greet": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue greet, 2 frames looping gently (560, 460 ms): a hand raised open beside the face in greeting, the mouth open to say good morning; the raised hand waved out a little, the head tipped toward it, smiling.",
+      "frames": [
+        "blue-greet-1",
+        "blue-greet-2"
+      ],
+      "status": "temporary: replace with Astra's blue-greet"
+    },
+    "blue-shy": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue shy, 2 frames looping gently (620, 540 ms): shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped; a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front.",
+      "frames": [
+        "blue-shy-1",
+        "blue-shy-2"
+      ],
+      "status": "temporary: replace with Astra's blue-shy"
+    },
+    "blue-laugh": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue laugh, 2 frames looping gently (420, 460 ms): laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest; the laugh settling to a chuckle: the head and shoulders forward, the eyes still creased, the hand at the chest.",
+      "frames": [
+        "blue-laugh-1",
+        "blue-laugh-2"
+      ],
+      "status": "temporary: replace with Astra's blue-laugh"
+    },
+    "blue-vow": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue vow, 1 frame looping gently (1200 ms): the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet.",
+      "frames": [
+        "blue-vow-1"
+      ],
+      "status": "temporary: replace with Astra's blue-vow"
+    },
+    "rust-woman-greet": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust-woman greet, 2 frames looping gently (560, 460 ms): a hand raised open beside the face in greeting, the mouth open to say good morning; the raised hand waved out a little, the head tipped toward it, smiling.",
+      "frames": [
+        "rust-woman-greet-1",
+        "rust-woman-greet-2"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-greet"
+    },
+    "rust-woman-shy": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust-woman shy, 2 frames looping gently (620, 540 ms): shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped; a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front.",
+      "frames": [
+        "rust-woman-shy-1",
+        "rust-woman-shy-2"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-shy"
+    },
+    "rust-woman-laugh": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust-woman laugh, 2 frames looping gently (420, 460 ms): laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest; the laugh settling to a chuckle: the head forward, the eyes still creased, a hand raised to the mouth.",
+      "frames": [
+        "rust-woman-laugh-1",
+        "rust-woman-laugh-2"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-laugh"
+    },
+    "rust-woman-vow": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust-woman vow, 1 frame looping gently (1200 ms): the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet.",
+      "frames": [
+        "rust-woman-vow-1"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-vow"
+    },
+    "indigo-greet": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "indigo greet, 2 frames looping gently (560, 460 ms): a hand raised open beside the face in greeting, the mouth open to say good morning; the raised hand waved out a little, the head tipped toward it, smiling.",
+      "frames": [
+        "indigo-greet-1",
+        "indigo-greet-2"
+      ],
+      "status": "temporary: replace with Astra's indigo-greet"
+    },
+    "indigo-shy": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "indigo shy, 2 frames looping gently (620, 540 ms): shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped; a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front.",
+      "frames": [
+        "indigo-shy-1",
+        "indigo-shy-2"
+      ],
+      "status": "temporary: replace with Astra's indigo-shy"
+    },
+    "indigo-laugh": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "indigo laugh, 2 frames looping gently (420, 460 ms): laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest; the laugh settling to a chuckle: the head forward, the eyes still creased, a hand raised to the mouth.",
+      "frames": [
+        "indigo-laugh-1",
+        "indigo-laugh-2"
+      ],
+      "status": "temporary: replace with Astra's indigo-laugh"
+    },
+    "indigo-vow": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "indigo vow, 1 frame looping gently (1200 ms): the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet.",
+      "frames": [
+        "indigo-vow-1"
+      ],
+      "status": "temporary: replace with Astra's indigo-vow"
+    },
+    "ochre-greet": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "ochre greet, 2 frames looping gently (560, 460 ms): a hand raised open beside the face in greeting, the mouth open to say good morning; the raised hand waved out a little, the head tipped toward it, smiling.",
+      "frames": [
+        "ochre-greet-1",
+        "ochre-greet-2"
+      ],
+      "status": "temporary: replace with Astra's ochre-greet"
+    },
+    "ochre-shy": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "ochre shy, 2 frames looping gently (620, 540 ms): shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped; a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front.",
+      "frames": [
+        "ochre-shy-1",
+        "ochre-shy-2"
+      ],
+      "status": "temporary: replace with Astra's ochre-shy"
+    },
+    "ochre-laugh": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "ochre laugh, 2 frames looping gently (420, 460 ms): laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest; the laugh settling to a chuckle: the head and shoulders forward, the eyes still creased, the hand at the chest.",
+      "frames": [
+        "ochre-laugh-1",
+        "ochre-laugh-2"
+      ],
+      "status": "temporary: replace with Astra's ochre-laugh"
+    },
+    "ochre-vow": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "ochre vow, 1 frame looping gently (1200 ms): the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet.",
+      "frames": [
+        "ochre-vow-1"
+      ],
+      "status": "temporary: replace with Astra's ochre-vow"
+    },
+    "blue-girl-greet": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue-girl greet, 2 frames looping gently (560, 460 ms): a hand raised open beside the face in greeting, the mouth open to say good morning; the raised hand waved out a little, the head tipped toward it, smiling.",
+      "frames": [
+        "blue-girl-greet-1",
+        "blue-girl-greet-2"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-greet"
+    },
+    "blue-girl-shy": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue-girl shy, 2 frames looping gently (620, 540 ms): shy: the head bowed and the eyes lowered, a flush on the cheek and a small smile, the hands clasped low in front, the weight on one foot and the other toe turned in on its point - bashful, not sad: the chest up, nothing slumped; a shy glance up with a small smile, the flush still on the cheek, the hands still clasped in front.",
+      "frames": [
+        "blue-girl-shy-1",
+        "blue-girl-shy-2"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-shy"
+    },
+    "blue-girl-laugh": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue-girl laugh, 2 frames looping gently (420, 460 ms): laughing: the head tipped back, the eyes closed in a laugh, the mouth open, the near hand to the chest; the laugh settling to a chuckle: the head forward, the eyes still creased, a hand raised to the mouth.",
+      "frames": [
+        "blue-girl-laugh-1",
+        "blue-girl-laugh-2"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-laugh"
+    },
+    "blue-girl-vow": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "blue-girl vow, 1 frame looping gently (1200 ms): the vow: standing and leaning a little toward the partner, both hands held forward at the waist as if holding the partner's hands, a quiet smile; two facing figures 0.491 of the drawn height apart, one mirrored, have their hands meet.",
+      "frames": [
+        "blue-girl-vow-1"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-vow"
+    },
+    "rust-fiddle": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "rust playing the fiddle at the wedding supper, looping at a lively 300 ms a frame: the bow drawn out long across the strings, the weight on both feet; the bow pushed in to the strings, the near foot tapping the time, toe up.",
+      "frames": [
+        "rust-fiddle-1",
+        "rust-fiddle-2"
+      ],
+      "status": "temporary: replace with Astra's rust-fiddle"
+    },
+    "ochre-fiddle": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "ochre playing the fiddle at the wedding supper, looping at a lively 300 ms a frame: the bow drawn out long across the strings, the weight on both feet; the bow pushed in to the strings, the near foot tapping the time, toe up.",
+      "frames": [
+        "ochre-fiddle-1",
+        "ochre-fiddle-2"
+      ],
+      "status": "temporary: replace with Astra's ochre-fiddle"
+    },
+    "elder-read-paper": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-people",
+      "area": "work",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "The commissioner reading the bond, looping slowly (900, 1100 ms): the head bowed to the paper, then raised toward the couple, reading aloud.",
+      "frames": [
+        "elder-read-paper-1",
+        "elder-read-paper-2"
+      ],
+      "status": "temporary: replace with Astra's elder-read-paper"
+    }
+  }
+}

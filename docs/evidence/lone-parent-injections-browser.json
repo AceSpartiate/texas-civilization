@@ -1,0 +1,70 @@
+{
+  "record": "lone-parent-injections",
+  "date": "2026-09-29",
+  "files": [
+    "tests/courtship.test.mjs"
+  ],
+  "browser": "npm run test:lone-parent",
+  "injections": [
+    {
+      "name": "the ability does not glow",
+      "files": [
+        "public/style.css"
+      ],
+      "browser": true,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "test:lone-parent failed after 1 checks: AssertionError [ERR_ASSERTION]: the ability does not glow"
+      ]
+    },
+    {
+      "name": "a change of place is a cut, not a fade to black",
+      "files": [
+        "public/courtship.js"
+      ],
+      "browser": true,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "test:lone-parent failed after 4 checks: AssertionError [ERR_ASSERTION]: the first scene never faded up"
+      ]
+    },
+    {
+      "name": "less motion asked for is a cut",
+      "files": [
+        "public/courtship.js"
+      ],
+      "browser": true,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "test:lone-parent failed after 8 checks: AssertionError [ERR_ASSERTION]: with less motion asked for the fade was not short, or was a cut: {\"full\":[1110,1108],\"reduced\":[8]}"
+      ]
+    },
+    {
+      "name": "a reload loses the student's place in the scenes",
+      "files": [
+        "public/courtship.js"
+      ],
+      "browser": true,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "test:lone-parent failed after 4 checks: AssertionError [ERR_ASSERTION]: a reload lost the student's place in the scenes"
+      ]
+    },
+    {
+      "name": "Not now presses the path instead of folding it",
+      "files": [
+        "public/app.js"
+      ],
+      "browser": true,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "test:lone-parent failed after 2 checks: AssertionError [ERR_ASSERTION]: Not now did not fold the ability"
+      ]
+    }
+  ]
+}

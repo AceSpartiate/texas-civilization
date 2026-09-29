@@ -32,6 +32,7 @@ import { CABIN_PEOPLE, PERSON_MILES, houseOnGround, spacingRefusal, standingAt }
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
 import { bindEnding, renderEnding } from '/ending.js';
 import { bindFlashback, renderFlashback } from '/flashback.js';
+import { createCourtship } from '/courtship.js';
 import { bindNeighbours, renderNeighbours } from '/neighbours.js';
 import { bindLooks, renderLooks } from '/appearance.js';
 import { avatarVariant, drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
@@ -88,6 +89,14 @@ import('/audio.js').then(({ createSoundscape }) => {
   soundscape.mount($('#map-tools'));
   if (window.__snapshot) soundscape.observe(window.__snapshot);
 }).catch(error => console.warn('The page has no sound:', error));
+// The lone parent's path as scenes over the whole screen (public/courtship.js, sim/courtship.mjs): opened by the snapshot that
+// carries them, and telling the sound to look again when the wedding's tune should start or stop. Up here, above the page's first
+// `connect`, for the TDZ guard.
+const courtshipScenes = createCourtship({
+  root: $('#courtship'),
+  send: input => api('/api/command', { ...input, id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}` }),
+  onMood: () => { if (window.__snapshot) soundscape?.observe(window.__snapshot); },
+});
 let animationTime = 0, previousFrame = 0, paintedFrame = 0, animationDrawMs = 0, drawingAnimation = false;
 // The end-of-game flashback's recorder (public/flashback.js): the video's own clock while it draws a frame, which the figures'
 // cycles are timed by instead of the page's, and how many pictures of the land are still being made. Up here, above the page's
@@ -1256,6 +1265,63 @@ function layOutCaptions(ctx, labels, placeFont) {
     drawn.push({ name: label.name, x: Math.round(label.x), y: Math.round(box.y), steppedDown: Math.round(box.y - label.y) });
   }
   return { drawn, dropped };
+}
+/**
+ * The lone parent's path on the map (sim/courtship.mjs, docs/FAMILY_CREATION.md *The lone parent's path*): where the family's
+ * own land is on the screen, and how big a person is drawn there, or null when it is off the screen or too far out to matter.
+ */
+function pathGlowAt(world, camera, canvas) {
+  const home = sitesOf(world).find(site => site.id === homeOf(world));
+  if (!home) return null;
+  const at = camera.toScreen(home);
+  const size = Math.max(14, Math.min(90, camera.figure || 24));
+  if (at.x < -size * 4 || at.y < -size * 4 || at.x > canvas.width + size * 4 || at.y > canvas.height + size * 4) return null;
+  return { x: at.x, y: at.y, size };
+}
+/** A slow warm glow on the ground of the family's land while the ability waits (still, where less motion is asked for). */
+function drawPathGlow(ctx, at, camera) {
+  const breath = reducedMotion.matches ? 0.5 : 0.5 + 0.5 * Math.sin(performance.now() / 700);
+  const radius = at.size * (2.6 + breath * 0.5);
+  ctx.save();
+  const glow = ctx.createRadialGradient(at.x, at.y, radius * 0.1, at.x, at.y, radius);
+  glow.addColorStop(0, `rgba(255,214,110,${0.42 + breath * 0.18})`); glow.addColorStop(0.55, 'rgba(255,170,90,.18)'); glow.addColorStop(1, 'rgba(255,170,90,0)');
+  ctx.fillStyle = glow;
+  ctx.beginPath(); ctx.ellipse(at.x, at.y, radius, radius * 0.45, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = `rgba(255,220,130,${0.55 + breath * 0.35})`; ctx.lineWidth = Math.max(1.5, at.size * 0.06);
+  ctx.beginPath(); ctx.ellipse(at.x, at.y, radius * 0.72, radius * 0.72 * 0.45, 0, 0, Math.PI * 2); ctx.stroke();
+  ctx.restore();
+}
+/** Over the land, the ability's own icon in a halo, bobbing a little. Returns where it was drawn, for the proofs. */
+function drawPathMarker(ctx, at, camera) {
+  const bob = reducedMotion.matches ? 0 : Math.sin(performance.now() / 520) * at.size * 0.08;
+  const r = Math.max(12, at.size * 0.55), x = at.x, y = at.y - at.size * 2.7 + bob;
+  ctx.save();
+  const halo = ctx.createRadialGradient(x, y, r * 0.6, x, y, r * 1.9);
+  halo.addColorStop(0, 'rgba(255,214,110,.75)'); halo.addColorStop(1, 'rgba(255,214,110,0)');
+  ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(x, y, r * 1.9, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#fff4d4'; ctx.strokeStyle = '#d9a441'; ctx.lineWidth = Math.max(1.5, r * 0.12);
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  drawAskIcon(ctx, x, y, r * 1.7);
+  ctx.restore();
+  return { x: Math.round(x), y: Math.round(y), r: Math.round(r) };
+}
+/**
+ * The ability's icon: `icon-ask-neighbours` (docs/ART_REQUESTS.md, request 2026-09-29 - the lone parent's wedding, item 6), or,
+ * until it can be drawn, a cabin with smoke and a heart over it in the panel's stroke. stand-in: that request, item 6.
+ */
+function drawAskIcon(ctx, x, y, size) {
+  if (spriteFrame('icon-ask-neighbours') && drawSprite(ctx, 'icon-ask-neighbours', x, y + size * 0.42, size * 0.84)) return 'drawn';
+  const s = size / 2;
+  ctx.save();
+  ctx.lineJoin = 'round'; ctx.lineWidth = Math.max(1.2, s * 0.09); ctx.strokeStyle = '#3d220c';
+  ctx.fillStyle = '#9a6a3a';
+  ctx.beginPath(); ctx.moveTo(x - s * 0.55, y + s * 0.45); ctx.lineTo(x - s * 0.55, y - s * 0.02); ctx.lineTo(x, y - s * 0.4); ctx.lineTo(x + s * 0.55, y - s * 0.02); ctx.lineTo(x + s * 0.55, y + s * 0.45); ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#3d220c'; ctx.fillRect(x - s * 0.12, y + s * 0.12, s * 0.24, s * 0.33);
+  ctx.fillStyle = '#c2582c';
+  const hx = x + s * 0.02, hy = y - s * 0.62, hr = s * 0.17;
+  ctx.beginPath(); ctx.moveTo(hx, hy + hr * 1.6); ctx.bezierCurveTo(hx - hr * 2.2, hy + hr * 0.2, hx - hr * 0.9, hy - hr * 1.4, hx, hy - hr * 0.3); ctx.bezierCurveTo(hx + hr * 0.9, hy - hr * 1.4, hx + hr * 2.2, hy + hr * 0.2, hx, hy + hr * 1.6); ctx.fill();
+  ctx.restore();
+  return 'stand-in';
 }
 function drawTaskMark(ctx, { x, y, size, glyph = '!', tone = '#c2582c' }) {
   const mark = Math.max(9, Math.min(26, size * .34));
@@ -3662,8 +3728,13 @@ function drawWorldNow(world) {
   const crowd = [];
   if (world.ambient?.crowds && camera.figure > 8) standing.push(...crowdDrawables(ctx, world.ambient.crowds, { toScreen: p => camera.toScreen(p), figure: camera.figure, time: animationTime, reducedMotion: reducedMotion.matches, heads: ambientHeads, evidence: crowd }));
   window.__ambientCrowd = crowd;
+  // The lone parent's path while it is offered (sim/courtship.mjs): a warm glow on the ground of the family's own land, under
+  // everything standing on it, and a marker over it drawn after them (`drawPathMarker`), so the ability is seen on the map too.
+  const pathHome = !host && world.courtship?.offer ? pathGlowAt(world, camera, canvas) : null;
+  if (pathHome) drawPathGlow(ctx, pathHome, camera);
   standing.sort((a, b) => a.y - b.y);
   for (const item of standing) item.draw();
+  window.__pathMarker = pathHome ? drawPathMarker(ctx, pathHome, camera) : null;
   // What is being said in Gonzales, over whoever is saying it (public/speech.js), above every figure and building.
   if (world.townScenes && camera.scale >= 200) {
     const said = [];
@@ -4384,7 +4455,7 @@ function renderFlight(world, chosen, running) {
     return;
   }
   renderRouteEditor(world, null, running);
-  const key = JSON.stringify([flight.room, flight.mode, flight.have, flight.refuges, flight.burned, flight.decidedToStay, running, stepped]);
+  const key = JSON.stringify([flight.room, flight.mode, flight.have, flight.refuges, flight.burned, flight.decidedToStay, flight.ifUnanswered, running, stepped]);
   if (flightFormKey === key) return;
   flightFormKey = key;
   wrap.replaceChildren();
@@ -4393,6 +4464,8 @@ function renderFlight(world, chosen, running) {
   wrap.append(element('p', flight.burned ? 'The army has passed and burned the farm. The family can still go east with what it can carry.'
     : flight.decidedToStay ? 'The family is staying, and takes what comes. The road east is still open if it changes its mind.'
     : 'The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer before the time on the “!” runs out, or the family packs what it can and goes by itself.', 'ask-text'));
+  // A student at the screen who lets it run out loses the house (owner, 2026-09-29; sim/scrape.mjs `burnForSilence`): said first.
+  if (flight.ifUnanswered && !flight.burned && !flight.decidedToStay) wrap.append(element('p', flight.ifUnanswered, 'work-note flight-if-unanswered'));
   const carrier = flight.vehicle === 'cart' ? ' in the cart' : flight.vehicle === 'carreta' ? ' in the carreta' : flight.wagons ? ` in the ${flight.wagons} wagons` : ' in the wagon';
   wrap.append(element('p', `Room for ${flight.room}${flight.mode === 'wagon' ? carrier : ', carried on foot'}. Food takes ${flight.space.food} each, seed ${flight.space.seed}, cotton ${flight.space.cotton}, powder ${flight.space.powder}.`, 'work-note'));
   const form = element('div', '', 'flight-form');
@@ -4931,7 +5004,9 @@ function fitColumn() {
     if (document.body.style.getPropertyValue('--column-room') !== roomText) document.body.style.setProperty('--column-room', roomText);
   }
   const lines = [...panel.querySelectorAll('.panel-auto-line, .panel-life-line')].filter(line => !line.hidden).map(line => line.textContent);
-  const key = JSON.stringify([room, Math.round(stage.height), panelRows.size, lines, panel.dataset.collapsed || '', focusedId]);
+  // And whether the lone parent's ability stands at the head of the column, open or folded (public/courtship.js): it takes room.
+  const ask = $('#ask-neighbours');
+  const key = JSON.stringify([room, Math.round(stage.height), panelRows.size, lines, panel.dataset.collapsed || '', focusedId, ask ? `${ask.hidden}:${ask.dataset.folded || ''}` : '']);
   if (key !== columnKey) {
     columnKey = key;
     const kept = panel.scrollTop;
@@ -5469,6 +5544,9 @@ function renderSelection(world) {
   // work would use up the family's roll on people it is about to replace.
   // The Host may look at anybody in the class, read only: every person on its map is `observed`, so no control below is offered.
   if (!chosen || (world.role === 'host' && !chosen.observed) || selectionDismissed || familyCache?.canRoll || rollState === 'rolling') { panel.hidden = true; return; }
+  // Nor for somebody away with the family at the neighbours' farms (sim/courtship.mjs): there is nobody on the map to stand beside,
+  // nothing they may be sent to, and their row says where they are. The card comes back when they are home.
+  if (chosen.visiting) { panel.hidden = true; releaseCrowding(); return; }
   panel.hidden = false;
   panel.dataset.entityId = chosen.id;
   // The detailed controls - Going by, a neighbour's homestead - are the main person's (docs/FAMILY_PANEL.md §11.3), as the server holds it.
@@ -6686,7 +6764,9 @@ function renderTip(world, { hidden = false } = {}) {
  */
 const TIP_CLEAR_OF = ['#selection', '#call-menu', '#encounter', '#military-notice', '#lesson', '#lesson-resume', '#tutorial',
   '#errand', '#going', '#site-choose', '#survey-choose', '#wagon-load', '#house-plan', '#house-plot', '#house-placement', '#town-scene',
-  '#interior', '#ending', '#family-journal[data-open=true]', ...TIP_HELD_BY];
+  '#interior', '#ending', '#family-journal[data-open=true]', '#ask-neighbours',
+  // And the status lines at the top left, which can run wider than the column (a long supplies line; the overlap proof, 2026-09-29).
+  '#session', '#world', '#food', '#supplies', '#wagon-open', '#house-open', ...TIP_HELD_BY];
 function placeTip(panel) {
   const bar = document.querySelector('.panel-row[data-focused=true] .panel-icons');
   const barBox = bar ? bar.getBoundingClientRect() : null;
@@ -7201,10 +7281,14 @@ function render(snapshot) {
   // gesture: a whole draw there is the stall a student feels as the map sticking under their finger.
   if (creating) { /* the curtain is up: nothing of the world is drawn */ } else if (performance.now() < handOnMapUntil) requestMapDraw(); else drawWorld(world);
   renderTownScene(world);
+  // The lone parent's path: the ability at the head of the family's column while it is offered, and the scenes once pressed.
+  renderAskNeighbours(world, { hidden: Boolean(creating) });
+  courtshipScenes.update(creating ? null : world);
   renderInteriorPanel(world); renderHousehold(world); renderKnowledge(world); renderEncounter(world); renderFamilyRoll(world); renderWagonLoad(world); renderHousePlan(world); renderSite(world); renderSurvey(world); renderLesson(world); renderMilitaryNotice(world); renderTutorial(world);
   renderPanelBackdrop();
   // After the panels, so the tip is placed above the bar as it is drawn this time; never over the curtain of making a family.
-  renderTip(world, { hidden: Boolean(creating) });
+  // Nor over the lone parent's scenes, which are the whole screen while they last (public/courtship.js).
+  renderTip(world, { hidden: Boolean(creating) || courtshipScenes.open });
   soundscape?.observe(snapshot);
 }
 /**
@@ -7221,6 +7305,52 @@ function render(snapshot) {
  * was open. The owner's decision was about a panel that covers the family *while the family can be worked*; this is not
  * one, and a dim that only takes things away is not worth having.
  */
+/**
+ * The lone parent's path, offered (sim/courtship.mjs `offerView`; owner 2026-09-29: "a special ability appears when they reach their
+ * land. this ability should be highlighted and special looking"). A glowing card at the head of the family's column: what it is,
+ * what it costs the family's day, **Go and ask**, and **Not now**, which folds it to its glowing icon - it is offered, never
+ * pressed on the student, and it waits. Every sentence is the server's, and so is the refusal when it cannot be pressed yet.
+ * Folded is remembered in this browser only (a per-viewer convenience).
+ */
+const ASK_FOLDED_KEY = 'texas-civ:ask-neighbours-folded';
+let askSending = false, askError = '';
+function askFolded() { try { return localStorage.getItem(ASK_FOLDED_KEY) === 'yes'; } catch { return false; } }
+function setAskFolded(folded) { try { localStorage.setItem(ASK_FOLDED_KEY, folded ? 'yes' : 'no'); } catch { /* not kept */ } }
+function renderAskNeighbours(world, { hidden = false } = {}) {
+  const card = $('#ask-neighbours');
+  if (!card) return;
+  const offer = !hidden && world.role !== 'host' ? world.courtship?.offer : null;
+  if (card.hidden !== !offer) { card.hidden = !offer; queueColumnFit(); }
+  if (!offer) { askError = ''; return; }
+  // Drawn again until the icon itself has been drawn (its sheet may arrive after the card first shows).
+  if (card.dataset.icon !== 'drawn') {
+    const icon = $('#ask-neighbours-icon'), ctx = icon.getContext('2d');
+    ctx.clearRect(0, 0, icon.width, icon.height);
+    card.dataset.icon = drawAskIcon(ctx, icon.width / 2, icon.height / 2 + 4, icon.width * 0.8);
+  }
+  setData(card, 'folded', String(askFolded()));
+  const text = (selector, words) => { const node = $(selector); if (node.textContent !== words) node.textContent = words; };
+  text('#ask-neighbours-title', offer.title);
+  text('#ask-neighbours-says', offer.says);
+  // Said on hover too, for a column too short to show it (public/style.css, `data-tight`).
+  if (card.title !== offer.says) card.title = offer.says;
+  text('#ask-neighbours-note', offer.note || '');
+  const why = askError || (offer.can ? '' : offer.why || '');
+  text('#ask-neighbours-why', why);
+  $('#ask-neighbours-why').hidden = !why;
+  $('#ask-neighbours-go').disabled = !offer.can || askSending;
+}
+$('#ask-neighbours-go')?.addEventListener('click', async () => {
+  if (askSending) return;
+  askSending = true; askError = '';
+  $('#ask-neighbours-go').disabled = true;
+  try { await api('/api/command', { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action: 'ask-neighbours' }); }
+  catch (error) { askError = error.message; }
+  finally { askSending = false; if (window.__snapshot) render(window.__snapshot); }
+});
+$('#ask-neighbours-later')?.addEventListener('click', () => { setAskFolded(true); if (window.__snapshot) render(window.__snapshot); });
+// The glowing icon unfolds the card (and, in a column folded to its faces, says what it is on hover and to a screen reader).
+$('#ask-neighbours-open')?.addEventListener('click', () => { setAskFolded(false); if (window.__snapshot) render(window.__snapshot); });
 const COVERING = ['#house-plan', '#house-plot'];
 function renderPanelBackdrop() {
   const covering = COVERING.some(one => $(one) && !$(one).hidden);

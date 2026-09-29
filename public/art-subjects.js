@@ -27,6 +27,19 @@ const RULES = [
   [/^mark-sick$/, 'the sick mark', ['mark-sick', 'icon-tend-sick']], // her nursing icon in a disc stood for it
   [/^icon-rest-road$/, 'rest', ['icon-rest-road', 'icon-rest']],
   [/^(icon|mark)-(.+)$/, '$1-$2', ['$1-$2']],
+  // The lone parent's wedding (public/courtship.js): the cast's gestures of the courtship and the supper - the greeting, the shy
+  // glance, the laugh, the vow, the commissioner reading the bond, the fiddle - are taken as a scene of their own, which Astra has
+  // not drawn (the coordinator's decision, 2026-09-29, not the owner's; the ONE place a Claude drawing of her cast figures is
+  // shown). ceiling: the same reasoning would have kept Claude's chop and play; delete this line and the wedding falls back to her
+  // figures speaking and standing (`POSE_STANDIN`), as everything else does.
+  [/^(rust|teal|elder|blue|rust-woman|indigo|ochre|blue-girl)-(greet|shy|laugh|vow|fiddle)(-|$)/, 'the wedding\'s $2', ['$1-$2']],
+  [/^elder-read-paper/, 'the wedding\'s reading of the bond', ['elder-read-paper']],
+  // Its places: the farmsteads are her cabin and her jacal with a porch and an olla added, the supper table her table - hers
+  // (`FARM_ART`'s second names, `home-table`); the painted yards behind the scenes are Claude's, she has painted none.
+  [/^farm-neighbour-porch/, 'cabin', ['cabin-wide', 'house-porch']],
+  [/^farm-neighbour-ramada/, 'jacal with a ramada', ['jacal-ramada']],
+  [/^wedding-table/, 'table', ['home-table']],
+  [/^courtship-yard-/, 'a yard painted behind a scene', ['courtship-yard']],
   // The family: the eight grown cast figures (at work, at ease, holding the baby, sick, fighting, driving, riding in the wagon),
   // the three children and the baby. `blue-girl` and `rust-woman` before `blue` and `rust`.
   [/^(rust-woman|blue-girl|rust|teal|elder|blue|indigo|ochre)-/, '$1', ['$1']],

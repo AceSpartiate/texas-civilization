@@ -42,8 +42,19 @@ test('no Claude frame of a person, animal, vehicle, house or tree Astra has draw
   }
   for (const figure of ['rust', 'rust-woman', 'blue-girl', 'girl', 'boy', 'smallchild', 'infant', 'volunteer', 'regular', 'dragoon', 'castrillon', 'esparza', 'seguin', 'cow', 'horse', 'ox', 'wagon', 'carreta'])
     assert.ok(figures.has(figure), `${figure} is one of Astra's figures (the check itself is sound)`);
-  const hers = claudeDrawable.filter(name => [...figures].some(figure => name.startsWith(`${figure}-`)));
+  // The one exception, written down in public/art-subjects.js: the wedding's gestures (the coordinator's decision, 2026-09-29).
+  const WEDDING = /^(rust|teal|elder|blue|rust-woman|indigo|ochre|blue-girl)-(greet|shy|laugh|vow|fiddle|read-paper)-\d+$/;
+  const hers = claudeDrawable.filter(name => !WEDDING.test(name) && [...figures].some(figure => name.startsWith(`${figure}-`)));
   assert.deepEqual(hers, [], 'Claude frames of subjects Astra has drawn are drawable');
+  // And that exception is gestures only: nobody at the wedding walks, idles or speaks in Claude's hand.
+  const ordinary = claudeDrawable.filter(name => /^(rust|teal|elder|blue|rust-woman|indigo|ochre|blue-girl|girl|boy|smallchild|infant)-/.test(name) && !WEDDING.test(name));
+  assert.deepEqual(ordinary, [], 'a Claude drawing of a family figure outside the wedding\'s gestures is drawable');
+});
+
+test('the wedding: its farmsteads and table are Astra\'s cabin, jacal and table; the painted yards behind it are Claude\'s', () => {
+  for (const name of ['farm-neighbour-porch', 'farm-neighbour-ramada', 'wedding-table'].filter(name => claude.frames[name]))
+    assert.ok(!drawable.has(name), `${name}: Claude's version of her building or table is drawable`);
+  for (const name of ['courtship-yard-morning'].filter(name => claude.frames[name])) assert.ok(drawable.has(name), `${name} is held back`);
 });
 
 test('the subjects the owner saw replaced are Astra\'s again: work, ease, children, the baby, the wagon, riders, soldiers, trees', () => {

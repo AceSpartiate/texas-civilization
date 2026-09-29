@@ -8,13 +8,13 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
-| A — People at work and ambient poses | 18 | 5 | 16 | 0 |
+| A — People at work and ambient poses | 20 | 6 | 18 | 0 |
 | B — Children, babies and sickness | 11 | 5 | 11 | 2 |
 | C — Soldiers, battles and famous people | 19 | 1 | 19 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 15 | 4 |
-| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 15 | 1 | 15 | 3 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 1 | 10 | 17 |
-| **Total** | **88** | **15** | **86** | **27** |
+| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 18 | 2 | 18 | 3 |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 11 | 2 | 11 | 17 |
+| **Total** | **94** | **18** | **92** | **27** |
 
 ## How a builder works
 
@@ -33,7 +33,7 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 ## A — People at work and ambient poses
 
-Scope: the eight grown cast figures' action poses at home and in town, ambient life, the Gonzales town scenes, layered people; the wood pile. 18 to make, 0 skipped.
+Scope: the eight grown cast figures' action poses at home and in town, ambient life, the Gonzales town scenes, layered people; the wood pile. 20 to make, 0 skipped.
 
 - [ ] **A1** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-chop`, `teal-chop`, `elder-chop`, `blue-chop`, `rust-woman-chop`, `indigo-chop`, `ochre-chop`, `blue-girl-chop`)
   - **Deliver:** `<cast>-chop` (felling with an axe) for each of the eight: `<figure>-chop-1`..`-4`, clip `<figure>-chop`, the axe landing on frame 3
@@ -60,6 +60,11 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Frames:** 2-4 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `ambientClip` in `public/motion.js`; `ACTIVITIES` in `sim/ambient.mjs`
   - **Stands in now:** the nearest delivered pose: seated `-repair`, kneeling `-care`, seated `-rest`, the hoe's `-work`, the harvest `-carry` (Astra's library art reused)
+- [ ] **A19** (priority 1) — [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding), items 1-2 — **Claude stand-in in place** (`rust-greet`, `rust-shy`, `rust-laugh`, `rust-vow`, `teal-greet`, `teal-shy`, `teal-laugh`, `teal-vow`, `elder-greet`, `elder-shy`, `elder-laugh`, `elder-vow`, `blue-greet`, `blue-shy`, `blue-laugh`, `blue-vow`, `rust-woman-greet`, `rust-woman-shy`, `rust-woman-laugh`, `rust-woman-vow`, `indigo-greet`, `indigo-shy`, `indigo-laugh`, `indigo-vow`, `ochre-greet`, `ochre-shy`, `ochre-laugh`, `ochre-vow`, `blue-girl-greet`, `blue-girl-shy`, `blue-girl-laugh`, `blue-girl-vow`, `elder-read-paper`); Astra's replaces it
+  - **Deliver:** for each of the eight: `<cast>-greet` (a hand raised, or a hat touched, 2 frames), `<cast>-shy` (head down and aside, hands together, 2), `<cast>-laugh` (a hand to the chest or mouth, head tipped back, 2), `<cast>-vow` (both hands held forward at the waist, 1); and `elder-read-paper` (the commissioner in a dark coat reading a paper held open, 2)
+  - **Frames:** 2, 2, 2, 1 each; 2, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `scenePose` in `public/courtship.js` (drawn through `drawAvatar`)
+  - **Stands in now:** the nearest cast poses in `scenePose` (idle, speak, trade), a wave or a bow drawn by the page; Claude's `<cast>-greet`, `-shy`, `-laugh`, `-vow` and `elder-read-paper` (Claude-drawn)
 - [ ] **A6** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 2 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-split`, `teal-split`, `elder-split`, `blue-split`, `rust-woman-split`, `indigo-split`, `ochre-split`, `blue-girl-split`)
   - **Deliver:** `<cast>-split` (maul raised, coming down, on the wedge in a log on the ground, back)
   - **Frames:** 4 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
@@ -126,6 +131,11 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Frames:** every frame of every people sheet. **Size:** Registered pixel for pixel with the sheet they layer; greyscale value masks; see the request
   - **Plugs into:** `public/avatar-art.js`, `public/person-palette.js`, `public/appearance.js`
   - **Stands in now:** the painted cast recoloured by a region classifier (`public/person-palette.js`, 2026-09-28), some head styles the nearest cast silhouette (Astra's library art reused)
+- [ ] **A20** (priority 3) — [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding), item 7 — **Claude stand-in in place** (`rust-fiddle`, `ochre-fiddle`); Astra's replaces it
+  - **Deliver:** `rust-fiddle` and `ochre-fiddle` (a farmer standing and playing a fiddle at the wedding supper)
+  - **Frames:** 2 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** the wedding scene in `public/courtship.js`
+  - **Stands in now:** the Béxar fandango fiddler, `fiddler-play` (Astra's library art reused)
 
 ## B — Children, babies and sickness
 
@@ -392,7 +402,7 @@ Skipped:
 
 ## E — Buildings, houses, towns, Béxar, the Alamo, interiors
 
-Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 15 to make, 3 skipped.
+Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 18 to make, 3 skipped.
 
 - [ ] **E1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 2 — **Claude stand-in in place** (`bexar-man-walk`, `bexar-man-walk-s`, `bexar-man-walk-n`, `bexar-man-idle-s`, `bexar-man-idle-e`, `bexar-man-idle-w`, `bexar-man-idle-n`, `bexar-man-listen-s`, `bexar-man-listen-n`, `bexar-man-speak`, `bexar-man-carry`, `bexar-woman-walk`, `bexar-woman-walk-s`, `bexar-woman-walk-n`, `bexar-woman-idle-s`, `bexar-woman-idle-e`, `bexar-woman-idle-w`, `bexar-woman-idle-n`, `bexar-woman-listen-s`, `bexar-woman-listen-n`, `bexar-woman-speak`, `bexar-woman-carry`, `bexar-girl-walk`, `bexar-girl-walk-s`, `bexar-girl-walk-n`, `bexar-girl-idle-s`, `bexar-girl-idle-e`, `bexar-girl-idle-w`, `bexar-girl-idle-n`, `bexar-girl-listen-s`, `bexar-girl-listen-n`, `bexar-girl-speak`, `bexar-girl-carry`, `bexar-boy-walk`, `bexar-boy-walk-s`, `bexar-boy-walk-n`, `bexar-boy-idle-s`, `bexar-boy-idle-e`, `bexar-boy-idle-w`, `bexar-boy-idle-n`, `bexar-boy-listen-s`, `bexar-boy-listen-n`, `bexar-boy-speak`, `bexar-boy-carry`); Astra's replaces it
   - **Deliver:** Tejano townspeople of Béxar - a man, a woman in a rebozo, a girl and a boy - each `walk`, `idle-s`, `carry` (loading a cart), `speak`, `listen`, in 1830s Béxar dress (`bexar-man-*`, `bexar-woman-*`, `bexar-girl-*`, `bexar-boy-*`); also the storming's townspeople of 1835 walking out of a house (request 2026-09-25 the storming of Béxar, item 6)
@@ -400,6 +410,11 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Plugs into:** `BEXAR_CAST` in `sim/town-scenes.mjs` (`figure`); `TOWNSFOLK` in `public/battle-view.js`
   - **Stands in now:** the colonists' cast figures (`ochre`, `teal`, `elder`, `indigo`, `blue`, `blue-girl`, `girl`, `boy`); `rust-woman`, `indigo`, `elder`, `smallchild` leaving a house (Astra's library art reused)
   - **Research first:** Béxar dress, 1835-36: rebozo, short jacket, sombrero; original interpretations
+- [ ] **E17** (priority 1) — [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding), item 3 — **Claude stand-in held back: Astra has drawn the subject** (cabin, jacal with a ramada), so the page draws hers (`farm-neighbour-porch`, `farm-neighbour-ramada`)
+  - **Deliver:** `farm-neighbour-porch` (a log cabin with a roofed porch, its door open, a bench and bucket, a rail fence, a chopping block) and `farm-neighbour-ramada` (a thatched jacal with a brush ramada, an olla hung from its beam, a picket corral)
+  - **Frames:** 1 each. **Size:** Building: the house-modules or town-buildings style, corner-on three-quarter view, anchored at the base centre, seats and ground corners measurable; drawn beside the cast at their heights
+  - **Plugs into:** `FARM_ART` in `public/courtship.js`
+  - **Stands in now:** Claude's `farm-neighbour-porch` and `farm-neighbour-ramada`, built on Astra's `cabin-wide` and `jacal-ramada` (Claude-drawn)
 - [ ] **E2** (priority 2) — [Request 2026-09-23 — the house from its other sides](ART_REQUESTS.md#request-2026-09-23--the-house-from-its-other-sides) — **Claude stand-in held back: Astra has drawn the subject** (house-round, house-hewn, house-porch, house-shed-room, house-passage-floor, house-passage-roof), so the page draws hers (`house-round-back-sill`, `house-round-back-low-walls`, `house-round-back-full-walls`, `house-hewn-back-sill`, `house-hewn-back-low-walls`, `house-hewn-back-full-walls`, `house-porch-end`, `house-shed-room-end`, `house-passage-floor-end`, `house-passage-roof-end`)
   - **Deliver:** `house-round-back-sill`, `-back-low-walls`, `-back-full-walls` and the same for `hewn` (the pen from behind, no door in the gable toward the viewer); `house-passage-floor-end`, `house-passage-roof-end`, `house-porch-end`, `house-shed-room-end`
   - **Frames:** 1 each. **Size:** Building: the house-modules or town-buildings style, corner-on three-quarter view, anchored at the base centre, seats and ground corners measurable
@@ -442,6 +457,16 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Frames:** 4 each, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** the `sentry` and `townsfolk` groups of `arrival` in `sim/battles/alamo.mjs`
   - **Stands in now:** one standing volunteer at the church; the engine's civilian figures (Astra's library art reused)
+- [ ] **E18** (priority 2) — [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding), item 4 — **Claude stand-in held back: Astra has drawn the subject** (table), so the page draws hers (`wedding-table`)
+  - **Deliver:** `wedding-table` (planks on two trestles with the neighbours' dishes: cornbread, a ham, an iron pot, a coffee pot, tin cups)
+  - **Frames:** 1. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside
+  - **Plugs into:** the wedding scene in `public/courtship.js`
+  - **Stands in now:** Claude's `wedding-table` (Claude-drawn)
+- [ ] **E19** (priority 2) — [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding), item 5 — **Claude stand-in in place** (`courtship-yard-morning`, `courtship-yard-noon`, `courtship-yard-evening`); Astra's replaces it
+  - **Deliver:** `courtship-yard-morning`, `courtship-yard-noon`, `courtship-yard-evening` (a farm yard with trees behind and sky above, no people, no buildings)
+  - **Frames:** 1 each. **Size:** 960×540, a whole painting the page draws to cover the scene, anchored at its foot
+  - **Plugs into:** `BACKDROP` in `public/courtship.js`
+  - **Stands in now:** Claude's three yards; without them the sky and ground painted in canvas (Claude-drawn)
 - [ ] **E10** (priority 3) — [Request 2026-09-26 — the Mexican advance](ART_REQUESTS.md#request-2026-09-26--the-mexican-advance), item 4 — **Claude stand-in in place** (`plantation-sugar`, `blockhouse-village`, `townsite-bay`, `tavern-house`); Astra's replaces it
   - **Deliver:** `plantation-sugar`, `blockhouse-village`, `townsite-bay`, `tavern-house`
   - **Frames:** 1 each. **Size:** Map cutout as `public/place-art.js` gives the places past the box
@@ -484,13 +509,18 @@ Skipped:
 
 ## F — Terrain, trees, the norther, fields, icons, marks and effects
 
-Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 10 to make, 17 skipped.
+Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 11 to make, 17 skipped.
 
 - [ ] **F1** (priority 1) — [Request 2026-09-15 — face portraits for the family panel](ART_REQUESTS.md#request-2026-09-15--face-portraits-for-the-family-panel) — **Claude stand-in in place** (`portrait-rust`, `portrait-teal`, `portrait-elder`, `portrait-blue`, `portrait-rust-woman`, `portrait-indigo`, `portrait-ochre`, `portrait-blue-girl`, `portrait-girl`, `portrait-boy`, `portrait-smallchild`, `portrait-infant`); Astra's replaces it
   - **Deliver:** `portrait-rust`, `-teal`, `-elder`, `-blue`, `-rust-woman`, `-indigo`, `-ochre`, `-blue-girl`, `-girl`, `-boy`, `-smallchild`, `-infant`
   - **Frames:** 12. **Size:** 192×192, head and shoulders facing the viewer, matching the sheet figure
   - **Plugs into:** `drawPortrait` in `public/family-panel.js`
   - **Stands in now:** Claude's `claude-portraits.png`; without it, the idle clip cropped (Claude-drawn)
+- [ ] **F16** (priority 1) — [Request 2026-09-29 — the lone parent's wedding](ART_REQUESTS.md#request-2026-09-29--the-lone-parents-wedding), item 6 — **Claude stand-in in place** (`icon-ask-neighbours`); Astra's replaces it
+  - **Deliver:** `icon-ask-neighbours` (a parent and a child walking up a track toward a neighbour's cabin with smoke from its chimney)
+  - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
+  - **Plugs into:** the special button (`#ask-neighbours` in `public/app.js`)
+  - **Stands in now:** Claude's `icon-ask-neighbours`; without it a stroked glyph on the special button (Claude-drawn)
 - [ ] **F2** (priority 2) — [Request 2026-09-16 — the family panel's marks](ART_REQUESTS.md#request-2026-09-16--the-family-panels-marks) — **Claude stand-in in place** (`mark-need`, `mark-need-rider`, `mark-main`, `mark-idle`, `mark-auto-off`, `mark-auto-on`); Astra's replaces it
   - **Deliver:** `mark-need`, `mark-need-rider`, `mark-main`, `mark-idle`, `mark-auto-off`, `mark-auto-on`
   - **Frames:** 6. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px

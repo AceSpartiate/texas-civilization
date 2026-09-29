@@ -472,6 +472,27 @@ Each step is shippable and provable alone.
 
 Weather and the day/night cycle come after this document and plug into §5's hooks.
 
+### 8a. The house the neighbours raise — the lone parent's path, owner 2026-09-29 (not released)
+
+The owner: *"a basic house is also prebuilt for the player to make up for lost time with this series of things going on."* A family
+rolled with one parent may take the lone parent's path (docs/FAMILY_CREATION.md, *The lone parent's path*; `sim/courtship.mjs`): it
+is away four hours at two neighbours' farms, and comes home married, **to a house its neighbours raised that day** - the house-raising
+of §6, given to the family that has nobody to raise walls with.
+
+- **The plainest house**: the round-log cabin (`RAISED_PLAN`) - on the real land its plan's pieces (a round-log pen and a stick-and-mud
+  chimney, sim/houseplot.mjs `PLANS`) every one finished; on the invented country the whole house, its work done. `improvements.cabin`
+  is sound at once: the family sleeps under it that night, `houseBuilt` and `houseSettled` are true, the land line and the interior
+  are a house's, *Work on the house* says it is built, and the ability is no longer offered.
+- **Where it stands**: where the family had meant to place its own house, if a cabin may stand there; otherwise the nearest place to
+  the house site the placement rule allows (sim/house-placement.mjs `checkHousePlacement`, the student's own rule: on the family's
+  buildable ground, inside its line, off the water and the field, clear of its other houses), searched in rings from the site; else no
+  placement, drawn at the site as every director's house is.
+- **A house the family had begun is finished for it**, not replaced: every piece of a planned house brought to its last stage, or a
+  whole house's work completed. Its logs are the neighbours' (nothing is taken from the pile).
+- **Nothing is asked of the neighbours' own houses**: the two families are invented and have none on the map.
+- `ceiling:` raised in a day, as every house here goes up in hours (§5). No save version moved: a family that has not taken the path
+  has no `courtship`, and its house is as it was.
+
 ## 9. Gates
 
 | Gate | What it means |

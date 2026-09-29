@@ -856,3 +856,188 @@ grown is with the family**, the oldest child of seven or more answers its own de
 the road's questions and "¡Alto!" - and may run to the nearest neighbours for help. Who may be sent to fight, who answers a call and
 who may be sent on the family's other roads are unchanged. The rule and its evidence are docs/FAMILY_PANEL.md §20 (`FIC-GONZ-730`,
 `-731`); a man sent to the war with only children under ten at home is told so first (`FIC-GONZ-733`).
+
+## Amendment, 2026-09-29 — the lone parent's path
+
+**Owner-decided, 2026-09-29. Built the same day (not released).** `sim/courtship.mjs`, `public/courtship.js`; claims
+`HIST-TEX-740` (marriage by bond) and `FIC-GONZ-950` (everything invented). This amends §2's lone parent: a family rolled with one
+parent is no longer only "widowed" for the whole class.
+
+> "at the start of the game. if a player is unlucky enough to have a lone parent, the following path is made available. a special
+> ability appears when they reach their land. this ability should be highlighted and special looking. it will send them, with
+> their children to visit other nearby farms to ask neighbors for help in raising their house. travel is skipped, and we see the
+> family visit and talk to a family. on the 2nd family they meet a family that has a son of eligible marriage age. the age will be
+> the same as our lone parent. light flirting occurs. travel is skipped again and we see the couple with the families gathered at
+> our farm for a marriage. a short ceremony is shown and afterwards we find our new family with two parents. a basic house is also
+> prebuilt for the player to make up for lost time with this series of things going on."
+>
+> "take your time with this. use fades to black to smooth transitions. carefully build this, and any new placeholder art needed.
+> it should feel special" - and: "be creative and feel free to improve on my plan if it needs to"
+>
+> — the owner, 2026-09-29
+
+| Question | Owner's answer, 2026-09-29 |
+| --- | --- |
+| A lone father? | **The mirrored path**: the second family has a **daughter** his age. |
+| Who are the two families? | **Invented families nobody plays**, made for the scene near the player's land. No other student's family is touched or seen. |
+| Forced, or offered? | **Offered, and can be declined**: it waits, highlighted, until pressed; it stays until the family builds a house itself or uses it. |
+| The new spouse? | **Rolled like a parent**: hidden stats on the same dice; looks and name **chosen automatically**; renamed later the usual way. |
+
+### Who is offered it, and when
+
+- **A student's own family rolled with one parent** (§2: a 1, 2 or 3), that has **reached its land** and has **no roof of its own**
+  (`pathShown`). Not on the road in, not in the lobby, not to a family with two parents, not once the family has raised a house.
+- **The computer never takes it.** A family nobody plays, and a played family whose student has gone (`absent`, run by the
+  director), is neither offered it nor allowed it (`pathRefusal`: "Only the family's own student can take this path."). A student
+  who comes back finds it still waiting. Auto never presses it. **Owner-decided, 2026-09-29: never.**
+- **On the real land, the house site first.** While the family is still choosing where its house will stand, the ability is shown and
+  says *"Choose where your house will stand first, so the neighbours know where to raise it."* - it cannot be pressed until then.
+- **Refused in words**, never hidden, when the parent is away from home, very sick, the class is paused, or the family is on the
+  road east.
+
+### The day away (travel is skipped)
+
+Pressed (`ask-neighbours`), everybody of the family at home sets out together; whatever they were at is left, and a child who had
+stopped a parent to talk goes with them. **The family is away four hours of the calendar** (`AWAY_MINUTES`, 240; the second farm an
+hour and a half in): its people are refused work, roads and trades in their own names (*"... is away with the family at the
+neighbours' farms, home by about half past eleven in the morning."*), drawn nowhere on the family's own map, seen by no other
+family standing on the land, and the children do not idle at home (sim/childhood.mjs skips a family away). At the hour they come home
+married, with the house raised. The scenes are the student's to walk at their own pace meanwhile; each is lit and headed by the hour
+the class's clock gives it (`partOfDay`), so a family that sets out at seven is married before noon and one that sets out at three by
+lamplight, and nothing on the screen contradicts the clock. `ceiling:` the courtship is one day, as a house goes up in hours
+(SETTLING_IN.md §5); the scenes never say how long the two have known each other. `ceiling:` a rider who reaches the land while the
+family is away finds its people there (the server keeps them at home; only orders and the family's own drawing know they are away).
+
+### The neighbours
+
+Two invented families, dealt from the seed: the first from one kind of farmstead (a log cabin with a porch) and the second from the
+other (a jacal under a brush ramada), so the two visits are two different homes - Ashby, Tolliver, Kittredge or Whitlow; Salcedo,
+Montañez, Treviño or Villa, never the family's own name, their people named from the game's own pools (`FIC-GONZ-017`'s terms: not
+real colonists). The second has the grown son or daughter. **They are not households**: they live in `household.courtship.neighbours`
+with stable ids (`hh-3-nb-1`, `hh-3-nb-1-p1` ...), are never in `world.households`, never a contender, never counted as a class family,
+run by no director and drawn on nobody's map.
+
+### The new parent
+
+- **Id `<household>-spouse`**, new and stable. **The lone parent's own age** (the owner), born on a day of that year of their own.
+- **Rolled like a parent**: `dealTraits` on the parent's dice for their sex and age - hidden, sent to no page (the stored record is
+  kept out of the household's projection; tested with a planted value). **Looks dealt and kept** as a parent's are when nobody
+  chooses (`lookChosen`), so the student is not asked; a first name dealt from the pool for the role, not one the family already uses.
+- **The second parent**: `kin.role` father or mother, married both ways (`kin.spouse`), second in the family's order after the
+  parent they married. Everything that reads parents sees them: the panel (father, mother, children), who may answer a call and who
+  may be sent to the fighting (a new husband like any father), what the family eats, the ending and the flashback.
+- **The children's step-parent** (`kin.stepchildren`): the family book says *"Married to Bernarda. Stepfather to Delia and Soledad.
+  Born a Kittredge, of the farm down the creek."* `ceiling:` the children's own `kin.parents` do not change, so how they look (taken
+  after their parents, sim/appearance.mjs) does not change on the wedding day, and a child calls the new parent by name.
+- **The family takes the husband's name — owner-decided, 2026-09-29 ("His name").** When a lone mother marries, the family takes the
+  surname the new husband was born to, as a bride did in 1835: `household.surname` becomes his, every member is called by it, and
+  so the page's heading, the family book, the Host's rows and the ending read *the Whitlow family*. The name it had is kept
+  (`courtship.formerName`, `formerSurname`): the book's `formerly`, the mother's line (*"... Mother to Lavinia and Obed. Until the
+  wedding, the Hollister family."*) and one line in the family's story (*"The family took Amos's name, Whitlow. Until the wedding it
+  was the Hollister family."*). This is the one change to a last name §*The family's last name* allows after it is set. **Only names
+  change**: every person's id and the household's id stay as they were. When a lone father marries he keeps his name and his wife
+  takes it.
+- **The new husband leads — owner-decided, 2026-09-29 ("New husband leads").** A new husband becomes the family's **principal**
+  (`household.principalId`, `principal: true`), to whom the settlement's calls and the war's questions are put, and its **main
+  person** (the star; a main person the mother had chosen before the wedding is let go, so the main person is the principal), and
+  so the one who answers the family's own decisions while he is with it (sim/acting.mjs `actingFor`). A new wife does not lead: a lone
+  father stays the principal. (This is §2's "the principal is the father when there is one", kept.)
+- **Victoria: by bond — owner-decided, 2026-09-29.** A family of De León's colony marries by bond like every other, as built.
+- **The computer: never — owner-decided, 2026-09-29.** A family nobody plays, or whose student has gone, is never taken down the
+  path, as built.
+- The rolled family's size check allows the one person more (`marriedIn`); nothing else about the roll changes.
+
+### The wedding: by bond (`HIST-TEX-740`)
+
+In Mexican Texas only a priest could marry a couple and there was no civil ceremony; the church sent one resident priest to the
+Anglo colonies (Muldoon, 1831-32), and in 1835 there were two secular priests in all Texas. Couples who could not reach one signed a
+**bond** before the local authority and witnesses, binding themselves to be married by a priest when one came - a Brazoria County bond
+of 1829 was made "before the commissioner for the precinct". **Every start a family can have is an empresario colony with no
+resident priest in the sources read, and the game models no family's faith, so every wedding here is by bond**, before an invented,
+unnamed commissioner of the precinct; the vows are written for the scene after the bond's form, never quoted, and the scene carries one
+documented line under it. `ceiling:` a Victoria family (De León's colony, whose empresario brought priests from La Bahía, Nacogdoches
+and Béxar, undated) may have waited for a priest instead - the owner chose **by bond** for Victoria too (2026-09-29); `RITES` is where a church wedding would go. NOT FOUND: a bond made in
+DeWitt's colony.
+
+### The page
+
+- **The ability**: a card at the head of the family's column, gold and rose on warm paper, breathing a slow glow, with its icon in a
+  halo: *"A path open to you. Ask the neighbours for help. Take the children to the farms nearby and ask the neighbours to help Asa
+  raise a house. The family is away about 4 hours."*, **Go and ask** and **Not now**, which folds it to its glowing icon (remembered
+  in the browser). On the map, a warm glow on the family's land and the icon over it. In the column's own flow, it covers nothing
+  (`test:overlap`), and the tip at first meeting keeps clear of it.
+- **The scenes** (`#courtship`): the whole screen, four scenes - the first farm, the second, the wedding at the family's own land,
+  afterwards - each a drawn yard with the family and its neighbours in it, the speaker's name over their head and a warm ring at their
+  feet, their words in a strip along the foot (dashed edge: invented; solid: the record). **Continue is the only way on.** Every change
+  of place is a **fade to black and back** (1.1 s), the travel said on the black ("On past the ford, to the Salcedo place."); where
+  less motion is asked for, a fade of 0.28 s - shorter, never a cut. The wedding and afterwards have their own tune (*The Bond at the
+  Cabin*, a slow waltz written for the game, public/audio-music.js) and motes of warm light. A reload takes the scenes up at the
+  same line; walked to the end, the server keeps them as watched and sends them no more.
+
+### The scenes' words
+
+Server-written (`courtshipScript`), gentle and short, for a middle-school class: shy glances, a compliment, a laugh, joined hands.
+With a lone mother Bernarda, two daughters, the Montañez family and the Kittredges' son Ignacio:
+
+1. *The Montañez farm, across the bottom. Morning.* Ramón: "Good morning! You must be the new family on the creek. Come in, come in."
+   Bernarda: "We are. I'm Bernarda, and these are Delia and Soledad. We've no house yet, and only my two hands to raise one." Patience:
+   "Then you won't raise it alone. Nobody should sleep under the sky with neighbours this near." Ramón: "We'll come with our axes. And
+   go and ask the Kittredges, down the creek. They have strong arms, and good hearts." Teodoro: "Will you come back and play, Delia?
+   We have a new calf." Delia: "If Ma says so!" Bernarda: "We'll come back. Thank you, both of you."
+2. *The Kittredge place, down the creek.* Cipriano: "Welcome! Sit down and rest. Teodoro and Prudence ran over to say you'd be coming."
+   Bernarda: "Then you know why we've come. I'm asking for a day's help with a house." Serafina: "You'll have it. And you'll have
+   Ignacio too - the best hand with an axe on this creek." Ignacio (shy): "Mother says that about everybody." Bernarda (laughing):
+   "Then I hope she's right about you." Serafina: "Ignacio hasn't taken his eyes off you since you came through the gate." Ignacio:
+   "Mother!" Delia: "I like him." Ignacio: "I'll fetch my axe and come right behind you, Bernarda."
+3. *Your own land.* "By midday a cabin stands where you camped." Ramón: "There - walls up and the roof on. You'll sleep dry tonight."
+   Ignacio: "I've worked beside you today, Bernarda, and I'd gladly work beside you every day after, if you'll have me." Bernarda:
+   "I will." The commissioner: "There is no priest in the colony to marry you. So make your promises before these witnesses, and sign
+   the bond to be married by a priest as soon as one comes." Ignacio: "I take you, Bernarda, to be my wife, and I will keep faith
+   with you alone." Bernarda: "I take you, Ignacio, to be my husband, and I will keep faith with you alone." Soledad: "Can I sign
+   too?" The commissioner: "You can watch, and remember it. That is what witnesses are for." ... "Then sign here, and your neighbours
+   will sign as witnesses. You are married by bond." Cipriano: "The Montañez family brought cornbread and a ham, and we brought
+   tamales. Let's eat - and somebody find the fiddle!" *From the record:* "In Mexican Texas only a Catholic priest could marry a
+   couple, and priests were few. Couples in the colonies often signed a bond like this before a local officer and witnesses,
+   promising to be married by a priest when one came."
+4. *Afterwards.* Soledad: "Is this our house now?" Bernarda: "It is. Ours - all of us." Ignacio: "And a good one. The Montañez family
+   and my family built it to last." *"Ignacio is one of the family now, and Bernarda and the children take his name. The Kittredge family has two parents again, a roof of its own,
+   and two families of neighbours who will not forget this day."*
+
+### Where this goes beyond the owner's plan (each the owner's to keep or cut)
+
+1. **A reason for each visit**: the first family sends them to the second ("they have strong arms, and good hearts"); the first
+   family's children ran over to say they were coming. *Why:* the second visit is a consequence, not a coincidence.
+2. **The children's part**: an invitation to play and a new calf; "I like him"; "Can I sign too?" - "That is what witnesses are for";
+   "Is this our house now?". *Why:* the owner's "with their children", and the children are the students' too.
+3. **A proposal before the ceremony**, spoken while the house is raised. *Why:* a same-day wedding needs a moment of asking.
+4. **The house raised by both families on the wedding day**, a frontier house-raising (SETTLING_IN.md §6) - the "prebuilt" house
+   given a reason; and **a house the family had begun is finished for it** rather than thrown away for a round-log cabin.
+5. **What the neighbours bring**: cornbread and a ham, tamales, a fiddle. Invented (`FIC-GONZ-950`); no source names a supper.
+6. **The one line of history** under the wedding, and **the wedding by bond** itself. *Why:* it teaches something true about 1835.
+7. **A lasting tie**: the new parent's book line names the family they were born to and where it lives; the family's flashback has
+   the wedding as one of its moments (sim/flashback.mjs), and does not put the new parent on the road in.
+8. **The time of day** carried into the scenes, the map's glow on the family's land, the scenes' own tune, and **Not now**.
+
+### Not built, on purpose
+
+- **No glory changes.** The owner has **a separate plan, not yet built, for how a family that does not fight can win**; nothing here
+  touches glory, coin or the ending's ranking beyond the new parent being one of the family.
+- No church wedding (above). No second marriage for a family that loses a parent later: this is the lone parent rolled at the start.
+
+### Gates
+
+| Gate | What it means |
+| --- | --- |
+| Offered, never pressed on them | Only a student's own lone-parent family on its land with no roof; declinable, waits, folds; never the computer's. |
+| Travel skipped, time kept | The family is away `AWAY_MINUTES` of the calendar, refused work and roads, drawn and seen nowhere, home at its hour. |
+| Rolled like a parent | The new parent: stable id, the lone parent's age, `dealTraits`, looks dealt and kept, second parent in every reader. |
+| Nobody else | No other family, and not the Host, is sent anything of it; the neighbours are no households and no entities. |
+| A house | The plainest house raised (or the family's own finished), lived in, and seen as built by the house work and the tips. |
+| Honest | By bond, before an invented officer, the priest's marriage promised; one documented line; nothing uncertain as fact. |
+| Special | A glowing ability; scenes with fades to black (shorter, never cut, with less motion); a tune; Continue the only way on. |
+| His name, and he leads | A lone mother's family takes the husband's surname (ids unchanged, the old name in the book) and he is principal and main person; a lone father keeps both. |
+| Old classes open | Absent `courtship` is a family that has not taken it; no save version moved. |
+
+**Evidence.** `tests/courtship.test.mjs` (16 tests; the last three for the owner's answers of 2026-09-29, the husband's name and his leading), each proved by `node scripts/lone-parent-injections.mjs`
+([record](evidence/lone-parent-injections.json)); `npm run test:lone-parent` ([record](evidence/lone-parent-browser.json)), with a
+screenshot of every scene and a fade (`docs/evidence/lone-parent-*.png`). Same computer only: no Chromebook, LAN or classroom claim.

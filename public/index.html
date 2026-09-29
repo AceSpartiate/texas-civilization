@@ -123,6 +123,22 @@
            This is the way out the ceiling in docs/FAMILY_PANEL.md §7 named. -->
       <section id="family-panel" aria-label="Your family's people" hidden>
         <button type="button" id="family-collapse" aria-expanded="true" aria-controls="family-rows">Hide names</button>
+        <!-- The lone parent's path (sim/courtship.mjs, public/courtship.js): a special ability, offered on the family's land to a
+             family rolled with one parent, glowing until it is pressed or the family raises its own house. -->
+        <section id="ask-neighbours" hidden aria-labelledby="ask-neighbours-title">
+          <button type="button" id="ask-neighbours-open" aria-label="Ask the neighbours for help" title="Ask the neighbours for help"><canvas id="ask-neighbours-icon" width="96" height="96" aria-hidden="true"></canvas></button>
+          <div class="ask-neighbours-body">
+            <span class="eyebrow">A PATH OPEN TO YOU</span>
+            <h3 id="ask-neighbours-title">Ask the neighbours for help</h3>
+            <p id="ask-neighbours-says"></p>
+            <p id="ask-neighbours-note"></p>
+            <p id="ask-neighbours-why" role="status" hidden></p>
+            <div class="ask-neighbours-buttons">
+              <button type="button" id="ask-neighbours-go">Go and ask</button>
+              <button type="button" id="ask-neighbours-later">Not now</button>
+            </div>
+          </div>
+        </section>
         <ol id="family-rows"></ol>
       </section>
       <!-- The Host's live page (docs/HOST_PAGE.md, owner 2026-09-16): the class family by family in words, and the Rumor
@@ -587,6 +603,17 @@
         <p id="looks-error" role="alert"></p>
         <button id="looks-done" type="submit">Done</button>
       </form>
+    </section>
+    <!-- The lone parent's path, as scenes (public/courtship.js, sim/courtship.mjs): over the whole screen, fading to black between
+         places, with Continue the only way on. The family's own page only. -->
+    <section id="courtship" hidden role="dialog" aria-modal="true" aria-labelledby="courtship-where">
+      <canvas id="courtship-canvas" aria-hidden="true"></canvas>
+      <div id="courtship-strip" aria-live="polite">
+        <p id="courtship-where" class="eyebrow"></p>
+        <p id="courtship-who"></p>
+        <p id="courtship-said"></p>
+        <button type="button" id="courtship-next">Continue</button>
+      </div>
     </section>
     <!-- Inside the house (public/interior.js, docs/SETTLING_IN.md step 7): opened by clicking the family's own house. -->
     <section id="interior" hidden role="dialog" aria-labelledby="interior-title">
