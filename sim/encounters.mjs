@@ -490,6 +490,8 @@ function joinVisit(world, carrier, { person, householdId, joining }) {
   });
   learn(world, householdId, report.topicId, { status: report.status, hands: said.hands, source: sourceOf(carrier, said), causes: [eventId] });
   (joining.joined ||= []).push({ carrierId: carrier.id, name: carrier.name, status: report.status, minute: world.minute, eventId });
+  // Kept on the rider, so the family is never drawn him riding away from a visit it never saw him join (`ridersInSight`).
+  carrier.foldedInto = householdId;
   if (householdId === report.audience) delete carrier.report;
 }
 
@@ -835,31 +837,44 @@ export function ridersInSight(world, householdId) {
   const spokenWith = met && world.entities[met.carrierId];
   // Standing with them, or riding away and still in sight. Watching somebody go is the
   // other half of watching them come.
-  const words = new Set();
-  if (spokenWith && !goneFromSight(spokenWith) && (met.status === 'open' || inSight(spokenWith))) { seen.push(spokenWith); words.add(met.topicId); }
-  // **One rider for each word** (owner, 2026-09-29: "If they're all carrying similar news, why does the family receive
-  // multiples?"; "it should be an off screen thing"; `FIC-GONZ-909`). Word leaves a place for every family at the same minute,
-  // one rider each (sim/directors.mjs, sim/expresses.mjs), so the riders for a family and for its neighbours came up the road
-  // together and reined in within sight of one another: measured on the real land, 21 of a class of 30 families saw two to five
-  // riders at the moment theirs spoke, and on the invented country up to fifteen. The world keeps every one of them - each family
-  // still hears when its own road says, from whoever reached it - but a family is drawn only the riders who have something for
-  // it: the one it is talking with (or who is riding away from it), and of the riders still bringing it a word, one for each
-  // word - its own if he is in sight, else the nearest. A rider carrying word it already has, and a rider riding home from
-  // somebody else, is somebody else's business and is not drawn. Before 2026-09-29 every rider in sight was drawn, so that a
-  // student could watch the word go on down the road; the owner's seamless visit takes precedence over that.
-  // ceiling: when a family's own rider is not yet in sight, the nearest rider with the word stands for it and may change as
-  // riders come and go at the edge of sight; a rider remembered for the family would stop that if a class ever notices it.
-  const coming = new Map();
+  if (spokenWith && !goneFromSight(spokenWith) && (met.status === 'open' || inSight(spokenWith))) seen.push(spokenWith);
+  // **Every rider in sight** (owner, 2026-09-29, answering whether riders with nothing for the family are drawn: "Show all, but
+  // show them riding at a normal looking speed, after they pass by have them fade away and speed up to make up for lost time.";
+  // `FIC-GONZ-909`, docs/COLONIES.md §5.4b). Carrying word, or riding home with his errand done (`advanceDepartures`): a rider
+  // on the road is seen going by either way, and the page draws one who is only passing at a riding pace near the family and
+  // fades him out once he is by (`passingOf`, public/motion.js `passingSight`). Only a rider whose word was taken into this
+  // family's own visit off the screen (`joinVisit`), or is about to be, is not drawn to it: that is the merging the owner asked
+  // never to be seen. The Host sees every rider where he truly is (sim/overview.mjs).
   for (const carrier of Object.values(world.entities)) {
-    const report = carrier.report;
-    if (seen.includes(carrier) || !report?.inPerson || words.has(report.topicId)) continue;
-    if (!wouldLearn(world, householdId, report.topicId, report.status) || !inSight(carrier)) continue;
-    const rank = [report.audience === householdId ? 0 : 1, Math.min(...family.map(person => between(carrier.location, person.location))), carrier.id];
-    const held = coming.get(report.topicId);
-    if (!held || rank[0] < held.rank[0] || (rank[0] === held.rank[0] && (rank[1] < held.rank[1] || (rank[1] === held.rank[1] && rank[2] < held.rank[2])))) coming.set(report.topicId, { carrier, rank });
+    if (seen.includes(carrier)) continue;
+    if (!carrier.report?.inPerson && !carrier.leaving) continue;
+    if (carrier.foldedInto === householdId || joiningHere(world, householdId, carrier, met)) continue;
+    if (inSight(carrier)) seen.push(carrier);
   }
-  for (const { carrier } of coming.values()) seen.push(carrier);
   return seen;
+}
+/** A rider bringing this family more of the word its visit is about: his word will be taken into it off the screen. */
+function joiningHere(world, householdId, carrier, met) {
+  const report = carrier.report;
+  if (!report?.inPerson || report.audience !== householdId || !met || met.carrierId === carrier.id) return false;
+  return Boolean(visitAbout(world, householdId, report.topicId));
+}
+/**
+ * How far along his road a rider who is only passing this family comes nearest its home, for the page to draw him passing
+ * at a riding pace (public/motion.js `passingSight`); or null for a rider who is not passing - the one bringing the family
+ * word, the one talking with it or riding away from it - and for one with no road. In the miles his road's progress counts.
+ * ceiling: measured to the family's home, not to wherever its people are; a family out on the road is passed by riders drawn
+ * as if it were at home, which the fade hides unless a class notices it.
+ */
+export function passingOf(world, householdId, carrier) {
+  const household = world.households[householdId], travel = carrier.travel;
+  if (!household || !travel?.points?.length || travel.halted) return null;
+  if (carrier.report?.audience === householdId && wouldLearn(world, householdId, carrier.report.topicId, carrier.report.status)) return null;
+  if (Object.values(world.encounters || {}).some(one => one.householdId === householdId && one.carrierId === carrier.id)) return null;
+  const home = world.map.sites[household.homeSiteId] || world.entities[household.members[0]]?.location;
+  if (!home) return null;
+  const near = nearestAlong(travel.points, 0, travel.distance, home);
+  return near && Number.isFinite(near.progress) ? Math.round(near.progress * 1e6) / 1e6 : null;
 }
 
 // How long a line takes to say. Two ticks: long enough to read as speech, short enough

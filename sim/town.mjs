@@ -18,7 +18,7 @@ import { record } from './events.mjs';
 import { appearanceCode, appearanceOf } from './appearance.mjs';
 import { advanceShopkeepers, createShopkeepers, keeperSex, KEEPERS } from './shops.mjs';
 import { householdName, sexOf, bandOf } from './family.mjs';
-import { facingOf, goneFromSight, ridersInSight } from './encounters.mjs';
+import { facingOf, goneFromSight, passingOf, ridersInSight } from './encounters.mjs';
 import { heldByBattle } from './battle-stage.mjs';
 import { advanceTownScenes, residentSpot } from './town-scenes.mjs';
 
@@ -276,6 +276,7 @@ export function observedBy(world, householdId) {
   // people, since a rider now stops for whoever they come alongside; what they carry stays
   // on the server exactly as before.
   const riders = ridersInSight(world, householdId).filter(rider => !standingWith.includes(rider));
+  let near = null;
   return [...standingWith, ...riders]
     .map(entity => ({
       id: entity.id, name: entity.name, kind: 'person', ...(entity.about && { about: entity.about }),
@@ -301,7 +302,9 @@ export function observedBy(world, householdId) {
       // Only a rider's route travels, and only to the family it is riding to - so the
       // road on the wire is the road up to that student's own door. It is here so the
       // approach is drawn as movement rather than as a figure jumping a mile a tick.
-      ...((entity.courier || entity.report) && entity.travel ? { travel: { points: entity.travel.points, progress: entity.travel.progress, distance: entity.travel.distance } } : {}),
+      // A rider only passing the family carries how far along his road he comes nearest its home (`near`), so the page can draw
+      // him going by at a riding pace and fade him out after (sim/encounters.mjs `passingOf`, owner 2026-09-29).
+      ...((entity.courier || entity.report) && entity.travel ? { travel: { points: entity.travel.points, progress: entity.travel.progress, distance: entity.travel.distance, ...(Number.isFinite(near = passingOf(world, householdId, entity)) && { near }) } } : {}),
       task: entity.task === 'travel' ? 'travel' : entity.task,
       condition: entity.health?.condition || 'well',
       observed: true,

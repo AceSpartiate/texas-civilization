@@ -1109,6 +1109,62 @@ export function travelSight({ distance, miles, milesASecond, gait, leaves = 0, e
     : held + (rejoin - held) * (at - out - fade) / Math.max(1e-9, back - out - fade);
   return { miles: Math.min(far, Math.max(0, drawn)), alpha, rate, lead, tail, faded: true, end: far };
 }
+/** How much road a rider only passing a family is drawn riding before he comes nearest its home, and after (`passBegin`). */
+export const PASS_BEFORE_MILES = 0.6, PASS_AFTER_MILES = 0.15;
+/** The same road, told by its ends and its length: a rider's projection carries no names for it. */
+export const sameRoad = (a, b) => Boolean(a?.points?.length && b?.points?.length && a.distance === b.distance
+  && a.points[0].x === b.points[0].x && a.points[0].y === b.points[0].y && a.points.at(-1).x === b.points.at(-1).x && a.points.at(-1).y === b.points.at(-1).y);
+/**
+ * A rider only passing this family, drawn riding past it at his own pace (owner, 2026-09-29, verbatim: "Show all, but show them
+ * riding at a normal looking speed, after they pass by have them fade away and speed up to make up for lost time."; docs/COLONIES.md
+ * §5.4b, `FIC-GONZ-909`).
+ *
+ * `near` is where along his road he comes nearest the family's home (sim/encounters.mjs `passingOf`). From `before` up the road
+ * of it he is drawn riding at his own pace in real time, **behind** where the server has him and never ahead of it, to `after`
+ * past it; then he fades out, and is not drawn again while the server carries him on - he has made up his lost time out of
+ * sight. The page keeps drawing him to the end of it even once the server has him out of sight or gone home (public/app.js
+ * `passGhosts`), and a road that ends right by the family (the fork the word changes hands at, a neighbour's gate) is ridden
+ * to its end and handed back to where the server has him, which is there.
+ *
+ * Begun only while the server has him between `before` and `near`: one first seen already past the family has passed it
+ * while nobody watched, and is not drawn (`gone`); one still further off waits, not drawn, until he comes up to it.
+ */
+export function passBegin({ road, serverMiles, before = PASS_BEFORE_MILES, after = PASS_AFTER_MILES }) {
+  const near = road?.near, distance = road?.distance;
+  if (!Number.isFinite(near) || !(distance > 0)) return null;
+  const from = Math.max(0, near - before);
+  if (serverMiles > near + 1e-9) return { state: 'gone', road };
+  if (serverMiles < from) return { state: 'waiting', road };
+  return passRide({ state: 'waiting', road }, { before, after });
+}
+/**
+ * A pass waiting for its rider to come up the road, begun: ridden from the start of the stretch whatever the server has done
+ * since - at a fast class pace he can be carried past it, or off this road altogether, between two ticks - so he is drawn behind
+ * the server, never ahead of it.
+ */
+export function passRide(pass, { before = PASS_BEFORE_MILES, after = PASS_AFTER_MILES } = {}) {
+  const { near, distance } = pass.road;
+  return Object.assign(pass, { state: 'riding', d: Math.max(0, near - before), until: Math.min(distance, near + after), fading: 0, alpha: 1 });
+}
+/**
+ * One frame of a pass: `pace` miles a real second, never past `cap` (where the server has him on this same road, or its end once
+ * he is off it), fading once past `until`, or once at the end of a road he is no longer standing at the end of (`standing`).
+ * `handed` when he reaches the end of a road the server still has him standing at: drawn where he is from then on.
+ */
+export function passStep(pass, { dtMs, pace, cap = Infinity, standing = false, fadeMs = TRAVEL_FADE_MS }) {
+  if (pass.state !== 'riding' && pass.state !== 'fading') return pass;
+  const was = pass.d;
+  pass.d = Math.min(pass.d + Math.max(0, pace) * Math.max(0, dtMs) / 1000, pass.road.distance, Math.max(was, cap));
+  const atEnd = pass.d >= pass.road.distance - 1e-9;
+  if (pass.state === 'riding' && atEnd && standing) { pass.state = 'handed'; pass.alpha = 1; return pass; }
+  if (pass.state === 'riding' && (pass.d >= pass.until - 1e-9 || atEnd)) pass.state = 'fading';
+  if (pass.state === 'fading') {
+    pass.fading += Math.max(0, dtMs);
+    pass.alpha = Math.max(0, 1 - pass.fading / Math.max(1, fadeMs));
+    if (pass.alpha === 0) pass.state = 'gone';
+  }
+  return pass;
+}
 /**
  * Whether somebody still drawn walking the last of their road in (public/app.js `trailOf`) is still, as the server has it, where
  * that road put them (`stood`, their place on the tick they arrived). A trail walks the figure to the end of the road; once the

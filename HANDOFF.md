@@ -56,10 +56,14 @@ and the pile.
   In the browser (Matagorda, seed `q2`): **7 "!"s, 3 riders, the call card and its clock running → 1 "!", 1 rider, "One more
   thing is waiting", call clock 0**; the firmer duplicate **a second meeting 10 hours later → known at the minute he came, no
   second meeting**.
-- `tests/one-rider.test.mjs` (6 tests). **`npm run test:one-rider-injections`: 14 of 14 caught by the test written for them, 7
+- `tests/one-rider.test.mjs` (7 tests since the owner's answers). **`npm run test:one-rider-injections`: 14 of 14 caught by the test written for them, 7
   by it alone** ([record](docs/evidence/one-rider-injections.json)).
-- `npm test`: **1789 tests, 1753 pass, 0 fail, 36 skipped** (the suspended tutorial).
-- Browser proofs: **`test:one-rider` 9 checks** ([after](docs/evidence/one-rider-after.json), [before](docs/evidence/one-rider-before.json)),
+- `npm test`: **1789 tests, 1753 pass, 0 fail, 36 skipped** (the suspended tutorial). After the owner's answers: **1790 tests,
+  1753 pass, 1 fail, 36 skipped** - the one failure `save-retry` (known flaky under load), which passes alone on a rerun.
+- After the owner's answers: **`test:one-rider` 10 checks** (the passing rider's check added), `test:relay`, `test:slice` 12,
+  `test:tips` 13, `test:whole-game` 13, `test:overlap` green; `test:information` passed 2 of 4 runs - it must pause the class within one 150 ms tick of a courier's
+  delivery to find him still at the gate, and passes on the commit before these answers as it does here when it wins that race.
+- Browser proofs before the owner's answers: **`test:one-rider` 9 checks** ([after](docs/evidence/one-rider-after.json), [before](docs/evidence/one-rider-before.json)),
   `test:relay`, `test:information`, `test:slice` 12, `test:tips` 13, `test:overlap`, `test:whole-game` 13 all green.
   `test:family-commands` passes its rider and call steps and fails later at the panel's churn count; `test:travel-sight` fails
   at its fast journey - **both fail the same way on origin/main 7b099ab5** (run from an export of it), so not this change.
@@ -72,13 +76,25 @@ and the pile.
   [after: the call next](docs/evidence/one-rider-after-next.png); the Host at the same moment ([before](docs/evidence/one-rider-before-host-arrival.png),
   [after](docs/evidence/one-rider-after-host-arrival.png)).
 
-**Open questions for the owner** (the conservative option is built):
+**The owner's answers (2026-09-29), and what was built for them:**
 
-1. **Riders not bringing your family anything**: hidden from the family (built), or drawn as before (the word visibly going on
-   down the road), or drawn only while they ride past, never while they stand at a neighbour's gate?
-2. **A question already on the screen when a rider comes** stays up beside him (built); or it steps aside until he has gone too?
-3. **The same word, firmer, the next day** (after six hours) is its own conversation (built); or never a second conversation
-   about a word the family has, whatever the gap - only the journal line changes?
+1. **Riders with nothing for your family** - *"Show all, but show them riding at a normal looking speed, after they pass by have
+   them fade away and speed up to make up for lost time."* The one-rider-per-word drawing is gone: every rider in sight is drawn
+   (`ridersInSight`), except one whose word was or is about to be taken into the family's visit. A rider only passing carries
+   `travel.near` (`passingOf`), and the page rides him past at his own pace in real time, behind the server and never ahead,
+   from 0.6 mi up the road of the family's nearest point to 0.15 past it, then fades him out and draws him no more
+   (public/motion.js `passBegin`/`passRide`/`passStep`, public/app.js `passSightOf`, `passGhosts` drawing him on once the server
+   has carried him out of sight). On the real land a rider usually passes a family at a fork (legs end where the lanes meet
+   the road), and a leg that ends there is ridden to the fork and faded, or handed back if he is still standing at it. Proved
+   in the browser: the Matagorda family's passing rider was drawn in view for 112 frames at no more than 1.2 of his heights a
+   second while the server carried him at about 1,178, faded once by, and never stood at the gate.
+   **`npm run test:one-rider-browser-injections`: 4 of 4 caught by the passing rider's own check** (not drawn at all; drawn at
+   six times his pace; never faded; drawn at the gate - [record](docs/evidence/one-rider-browser-injections.json)).
+   **`npm run test:one-rider-injections`: 18 of 18 caught, 11 by the test written for them alone** (five new, on the drawing
+   and the pass). Nothing of the server's timing changes; the Host sees all. Closing a conversation now opens what waited
+   behind it before a rider who reined in since (`moveOn`, in the order it came).
+2. **A question already on the screen when a rider comes** - *"Stays up".* As built.
+3. **The same word, firmer, after six hours** - *"Own conversation".* As built.
 ## Astra's art always wins, by subject: Claude's temporary art only where she has drawn nothing — owner, 2026-09-29 (not released)
 
 Branch `astra-art-wins` off origin/main (3dd5209d, origin/main af25547a merged in); not pushed. The owner played the released

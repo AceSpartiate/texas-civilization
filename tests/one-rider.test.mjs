@@ -21,6 +21,7 @@ import { VISIT_MINUTES, seenComing } from '../sim/encounters.mjs';
 import { establishTruth } from '../sim/knowledge.mjs';
 import { findPath } from '../sim/geography.mjs';
 import { readSave, writeSave } from '../server/storage.mjs';
+import { PASS_AFTER_MILES, PASS_BEFORE_MILES, passBegin, passRide, passStep, sameRoad } from '../public/motion.js';
 
 const TOPIC = 'cannon-request';
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
@@ -164,8 +165,8 @@ test('a question put while a rider talks waits behind him; one already in front 
   assert.equal(view(other, home).request?.kind, 'supplies', 'a question already in front of the family was taken away when a rider came');
 });
 
-test('a family sees one rider bring each word, however many ride up together', () => {
-  // The director's own riders: one for every family, all leaving town at the same minute.
+test('a family is drawn every rider in sight, each only passing it with where he comes nearest; its own rider is not passing', () => {
+  // The director's own riders: one for every family, all leaving town at the same minute (owner, 2026-09-29: "Show all").
   const world = createGonzalesWorld('one-rider-pack', 15);
   world.status = 'running';
   let most = null;
@@ -179,11 +180,59 @@ test('a family sees one rider bring each word, however many ride up together', (
       const near = Object.values(world.entities).filter(one => one.courier && !one.gone && (one.report?.inPerson || one.leaving)
         && family.some(person => Math.hypot(one.location.x - person.location.x, one.location.y - person.location.y) <= seenComing(world)));
       const drawn = view(world, visit.householdId).others.filter(other => other.carrier);
-      assert.deepEqual(drawn.map(other => other.id), [visit.carrierId], `${visit.householdId} is drawn ${drawn.length} riders as its own reins in, with ${near.length} in sight`);
-      if (!most || near.length > most.near) most = { householdId: visit.householdId, near: near.length };
+      assert.deepEqual(drawn.map(other => other.id).sort(), near.map(one => one.id).sort(), `${visit.householdId} is drawn ${drawn.length} of the ${near.length} riders in sight`);
+      assert.equal(drawn.find(other => other.id === visit.carrierId)?.travel?.near, undefined, 'the rider talking with the family is drawn as only passing it');
+      for (const other of drawn) {
+        if (other.id === visit.carrierId || !other.travel) continue;
+        assert.ok(Number.isFinite(other.travel.near) && other.travel.near >= 0 && other.travel.near <= other.travel.distance, `${other.id} rides past without where he comes nearest`);
+      }
+      if (!most || near.length > most.near) most = { householdId: visit.householdId, near: near.length, passing: drawn.filter(other => Number.isFinite(other.travel?.near)).length };
     }
   }
-  assert.ok(most?.near >= 3, `no family had more than ${most?.near} riders in sight: this proves nothing about a crowd`);
+  assert.ok(most?.near >= 3 && most.passing >= 1, `no family had a crowd of riders with one passing it: ${JSON.stringify(most)}`);
+});
+
+test('a passing rider is drawn riding by at his own pace, never ahead of the server, then fades out and stays gone', () => {
+  // A road of six miles that comes nearest the family three miles along, ridden by the server at four miles a real second.
+  const road = { points: [{ x: 0, y: 0 }, { x: 6, y: 0 }], distance: 6, near: 3 };
+  const pace = 0.1, serverASecond = 4, frameMs = 50;
+  const waiting = passBegin({ road, serverMiles: 1 });
+  assert.equal(waiting.state, 'waiting', 'begun while he is still far up the road');
+  // Carried past the stretch between two ticks, as a fast class carries him: ridden from the start of it all the same.
+  assert.deepEqual([passRide(waiting).state, waiting.d], ['riding', 3 - PASS_BEFORE_MILES]);
+  assert.equal(passBegin({ road, serverMiles: 3.5 }).state, 'gone', 'begun for a rider first seen already past the family');
+  const pass = passBegin({ road, serverMiles: 2.5 });
+  assert.equal(pass.state, 'riding');
+  assert.equal(pass.d, 3 - PASS_BEFORE_MILES, 'not drawn from the start of the stretch up the road');
+  let server = 2.5, frames = 0, fadedAt = null;
+  const drawn = [];
+  while (pass.state === 'riding' || pass.state === 'fading') {
+    server = Math.min(6, server + serverASecond * frameMs / 1000);
+    const was = pass.d;
+    passStep(pass, { dtMs: frameMs, pace, cap: server });
+    drawn.push({ d: pass.d, alpha: pass.alpha, state: pass.state, server });
+    assert.ok(pass.d - was <= pace * frameMs / 1000 + 1e-9, `drawn faster than his pace on frame ${frames}`);
+    assert.ok(pass.d <= server + 1e-9, `drawn ahead of the server on frame ${frames}`);
+    if (pass.state === 'fading' && fadedAt === null) fadedAt = pass.d;
+    assert.ok(++frames < 2000, 'the pass never ended');
+  }
+  assert.ok(drawn.some(one => one.alpha === 1 && Math.abs(one.d - 3) < 0.01), 'never drawn whole going by the family');
+  assert.ok(fadedAt >= 3 + PASS_AFTER_MILES - 1e-9 && fadedAt < 3 + PASS_AFTER_MILES + 0.01, `faded at ${fadedAt}, not once a little way past the family`);
+  assert.equal(pass.state, 'gone');
+  assert.ok(drawn.at(-1).server > drawn.at(-1).d, 'the server was not ahead of him: this proves nothing about making up time');
+  passStep(pass, { dtMs: frameMs, pace, cap: 6 });
+  assert.equal(pass.state, 'gone', 'drawn again after he had gone');
+  // Riding up to a fork right by the family and still standing there when he gets to it: handed back, drawn where he is.
+  const fork = { points: [{ x: 0, y: 0 }, { x: 3.05, y: 0 }], distance: 3.05, near: 3 };
+  const up = passBegin({ road: fork, serverMiles: 2.9 });
+  for (let i = 0; i < 500 && up.state === 'riding'; i++) passStep(up, { dtMs: frameMs, pace, cap: 3.05, standing: true });
+  assert.equal(up.state, 'handed', 'a rider standing at the fork he rode up to was faded out there, not handed back');
+  // And gone on by the time he gets there: faded out at the fork instead.
+  const on = passBegin({ road: fork, serverMiles: 2.9 });
+  for (let i = 0; i < 500 && (on.state === 'riding' || on.state === 'fading'); i++) passStep(on, { dtMs: frameMs, pace, cap: 3.05, standing: false });
+  assert.equal(on.state, 'gone');
+  // The same road, told by its ends and length: a rider's projection names neither end.
+  assert.ok(sameRoad(road, { ...road, points: road.points.map(point => ({ ...point })) }) && !sameRoad(road, fork));
 });
 
 test('a class saved with a second rider standing at the gate of a family still being told opens and takes his word into the visit', () => {

@@ -11,8 +11,9 @@ import { spawnSync } from 'node:child_process';
 const FILES = ['tests/one-rider.test.mjs', 'tests/call-lapse.test.mjs'];
 const T = {
   fold: 'the same word, firmer, from a second rider mid-conversation', window: 'a firmer account a little after the visit',
-  other: 'a rider with other word waits his turn', queue: 'a question put while a rider talks', sight: 'a family sees one rider bring each word',
+  other: 'a rider with other word waits his turn', queue: 'a question put while a rider talks', sight: 'a family is drawn every rider in sight',
   save: 'a class saved with a second rider', clock: 'a played family\'s settlement call lapses after five real minutes',
+  pass: 'a passing rider is drawn riding by at his own pace',
 };
 const E = 'sim/encounters.mjs';
 const INJECTIONS = [
@@ -29,7 +30,11 @@ const INJECTIONS = [
   { name: 'a question already in front of the family is taken away when a rider comes', file: E, from: '  return Boolean(visit && !visit.kind && question.offeredMinute >= visit.openedMinute);', to: '  return Boolean(visit && !visit.kind);', expect: T.queue },
   { name: 'the conversation does not say something waits after it', file: E, from: '    ...(count && { waiting:', to: '    ...(false && { waiting:', expect: T.queue },
   { name: 'the call\'s five minutes run while it waits behind the rider', file: 'sim/decision-budget.mjs', from: ' || questionWaits(world, householdId, call), expire', to: ', expire', expect: T.clock },
-  { name: 'every rider in sight is drawn, as before', file: E, from: '  for (const { carrier } of coming.values()) seen.push(carrier);', to: '  for (const carrier of Object.values(world.entities)) if (!seen.includes(carrier) && (carrier.report?.inPerson || carrier.leaving) && inSight(carrier)) seen.push(carrier);', expect: T.sight },
+  { name: 'another family\'s rider is not drawn to the family', file: E, from: '    if (!carrier.report?.inPerson && !carrier.leaving) continue;', to: '    if (!carrier.report?.inPerson || carrier.report.audience !== householdId) continue;', expect: T.sight },
+  { name: 'the rider whose word was taken into the visit is drawn riding up and away', file: E, from: '    if (carrier.foldedInto === householdId || joiningHere(world, householdId, carrier, met)) continue;', to: '', expect: T.fold },
+  { name: 'a passing rider is drawn at the server\'s pace', file: 'public/motion.js', from: '  pass.d = Math.min(pass.d + Math.max(0, pace) * Math.max(0, dtMs) / 1000, pass.road.distance, Math.max(was, cap));', to: '  pass.d = Math.min(pass.road.distance, Math.max(was, cap));', expect: T.pass },
+  { name: 'a passing rider never fades out once he is by', file: 'public/motion.js', from: "  if (pass.state === 'riding' && (pass.d >= pass.until - 1e-9 || atEnd)) pass.state = 'fading';", to: '', expect: T.pass },
+  { name: 'a passing rider is drawn from where the server first has him, not from the start of the stretch', file: 'public/motion.js', from: "  return Object.assign(pass, { state: 'riding', d: Math.max(0, near - before),", to: "  return Object.assign(pass, { state: 'riding', d: near,", expect: T.pass },
 ];
 
 const failing = output => [...new Set([...output.matchAll(/^\s*✖ (.+?) \(\d/gm)].map(match => match[1].trim()).filter(name => !/^tests[\\/]/.test(name) && name !== 'failing tests:'))];

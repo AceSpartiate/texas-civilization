@@ -26,6 +26,8 @@ import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { relayReport, rollFamily, stepWorld } from '../sim/world.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { nearestAlong } from '../sim/encounters.mjs';
+import { GAIT_CEILING } from '../public/motion.js';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -61,8 +63,36 @@ function beforeTheRider(_seed, count) {
   if (!rider) throw new Error('q2: no rider on his last leg to the first family');
   const second = relayReport(world, { topicId: TOPIC, householdId: 'hh-1', fromSiteId: rider.base, originSiteId: 'gonzales', status: 'confirmed', provenance: [], causeId: world.truth[TOPIC].eventId });
   secondId = second.id;
+  // And a rider for another family whose road runs past this one, a mile or two off: the owner's answer of 2026-09-29 ("Show
+  // all, but show them riding at a normal looking speed, after they pass by have them fade away"). Chosen by trying each other
+  // family's road in a copy of the class, for one he rides without stopping for anybody on the way past this family.
+  const passer = passerFor(world, rider);
+  if (!passer) throw new Error('q2: no other family\'s rider rides past the first family');
+  passerId = relayReport(world, { topicId: TOPIC, householdId: passer, fromSiteId: rider.base, originSiteId: 'gonzales', status: 'rumor', provenance: [], causeId: world.truth[TOPIC].eventId }).id;
   delete world.households['hh-1'].played;
   return world;
+}
+let passerId = null;
+/** Where along this road it comes nearest the first family's home, and how near. */
+function nearestHome(world, travel) {
+  const home = world.map.sites[world.households['hh-1'].homeSiteId];
+  return nearestAlong(travel.points, 0, travel.distance, home);
+}
+function passerFor(world, rider) {
+  for (const household of Object.values(world.households)) {
+    if (household.id === 'hh-1') continue;
+    const trial = structuredClone(world);
+    const passer = relayReport(trial, { topicId: TOPIC, householdId: household.id, fromSiteId: rider.base, originSiteId: 'gonzales', status: 'rumor', provenance: [], causeId: trial.truth[TOPIC].eventId });
+    const near = passer.travel && nearestHome(trial, passer.travel);
+    if (!near || near.distance < 0.6 || near.distance > 3) continue;
+    let clean = true;
+    for (let t = 0; t < 60 && passer.report; t++) {
+      stepWorld(trial);
+      if (passer.travel?.halted || Object.values(trial.encounters).some(one => one.carrierId === passer.id)) { clean = false; break; }
+    }
+    if (clean) return household.id;
+  }
+  return null;
 }
 const app = createClassroom({ seed: 'one-rider', playerCount: 15, tickMs: TICK_MS, solo: true, worldFactory: beforeTheRider });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
@@ -78,8 +108,27 @@ const until = async (label, check, ms = 60000) => {
 
 try {
   const game = app.newSoloGame('One rider');
-  const student = await (await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } })).newPage();
+  // Motion on: how a passing rider is drawn is what is proved here, and a page that asks for reduced motion draws every
+  // journey where the server has it.
+  const student = await (await browser.newContext({ viewport: { width: 1440, height: 900 } })).newPage();
   student.on('pageerror', error => errors.push(`student: ${error.message}`));
+  // Every projection as it comes off the wire, for one question only: was any rider drawn standing at this family's gate other
+  // than one who talks with it. A tick lasts a tenth of a second here, too short to be sure of catching by looking.
+  await student.addInitScript(() => {
+    let latest;
+    window.__gate = [];
+    Object.defineProperty(window, '__snapshot', {
+      configurable: true,
+      get() { return latest; },
+      set(value) {
+        latest = value;
+        try {
+          const w = value?.world, home = w?.household?.homeSiteId;
+          for (const other of w?.others || []) if (home && other.carrier && other.location?.siteId === home && other.id !== w.encounter?.carrierId) window.__gate.push({ tick: w.tick, id: other.id });
+        } catch { /* a snapshot of another shape */ }
+      },
+    });
+  });
   await student.goto(url + game.path);
   await student.waitForFunction(() => window.__snapshot?.world?.householdId === 'hh-1', null, { timeout: 30000 });
   await meetFamily(student);
@@ -87,6 +136,25 @@ try {
   await student.locator('#wagon-done').waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
   if (await student.locator('#wagon-done').isVisible()) await student.locator('#wagon-done').click();
   await student.waitForFunction(() => window.__snapshot.world.status === 'running', null, { timeout: 30000 });
+  // What the page drew of the passing rider, read from Node every tenth of a second all through (public/app.js
+  // `window.__travelSight`): a timer inside the page was found to stop being run part-way through the proof.
+  const passSamples = [];
+  let sampling = true;
+  const passHome = world().map.sites[world().households['hh-1'].homeSiteId];
+  const sampler = (async () => {
+    while (sampling) {
+      const sample = await student.evaluate(({ id, home }) => {
+        const w = window.__snapshot?.world, seen = window.__travelSight?.get(id), other = (w?.others || []).find(one => one.id === id);
+        if (!window.__rafCount) { window.__rafCount = 1; const count = () => { window.__rafCount++; requestAnimationFrame(count); }; requestAnimationFrame(count); }
+        return { now: Math.round(performance.now()), raf: window.__rafCount, sent: Boolean(other), status: w?.status, siteId: other?.location?.siteId ?? null, near: other?.travel?.near ?? null, server: other?.travel?.progress ?? null,
+          passing: Boolean(seen?.passing), alpha: seen?.alpha ?? null, wanted: seen?.wanted ?? null, miles: seen?.miles ?? null, leapt: Boolean(seen?.leapt),
+          shown: seen?.shownHeightsPerSecond ?? null, server_hps: seen?.serverHeightsPerSecond ?? null,
+          atHome: Boolean(seen?.painted && Math.hypot(seen.painted.x - home.x, seen.painted.y - home.y) < 0.05 && (seen.alpha ?? 1) > 0.5) };
+      }, { id: passerId, home: passHome }).catch(() => null);
+      if (sample) passSamples.push(sample);
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+  })();
   // Tips at first meeting are put away as they come: they are another proof's business.
   const tips = setInterval(() => { student.locator('#tip:not([hidden]) .tip-close').click({ timeout: 200 }).catch(() => {}); }, 400);
   const host = await (await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } })).newPage();
@@ -112,6 +180,7 @@ try {
     const notice = document.querySelector('#military-notice');
     return {
       ridersDrawn: (w.others || []).filter(other => other.carrier).map(other => other.name),
+      riderIds: (w.others || []).filter(other => other.carrier).map(other => other.id),
       needs: (window.__familyPanel || []).filter(row => row.needs?.length).map(row => ({ name: row.name, needs: row.needs })),
       request: w.request ? { kind: w.request.kind, status: w.request.status } : null,
       waiting: w.encounter?.waiting || null,
@@ -125,16 +194,16 @@ try {
   const marks = arrival.needs.reduce((sum, row) => sum + row.needs.length, 0);
   console.log('arrival', JSON.stringify(arrival));
   if (after) {
-    assert.deepEqual(arrival.ridersDrawn, [first.carrierName], `the family sees ${arrival.ridersDrawn.length} riders bring one word: ${arrival.ridersDrawn.join(', ')}`);
+    assert.ok(arrival.ridersDrawn.includes(first.carrierName) && !arrival.riderIds.includes(second.id), `the rider talking is not drawn, or the rider whose word will be taken into the visit is: ${arrival.ridersDrawn.join(", ")}`);
     assert.equal(arrival.request, null, 'the call is shown over the rider who is still talking');
     assert.equal(marks, 1, `${marks} "!" marks while one rider talks: ${JSON.stringify(arrival.needs)}`);
     assert.equal(arrival.waiting?.count, 1, 'nothing says one more thing is waiting');
-    ok(`the rider reins in alone (${arrival.ridersDrawn[0]}), with one "!" on the family and the call waiting behind him ("${arrival.waiting.words}")`);
+    ok(`the rider reins in (${first.carrierName}; ${arrival.ridersDrawn.length} riders drawn in sight, never the one whose word will be taken into the visit), with one "!" on the family and the call waiting behind him ("${arrival.waiting.words}")`);
   }
 
   // ------------------------------------------------------------------ 2. the conversation, its end control, the call's clock held
   const listener = first.listenerId;
-  await student.locator(`.panel-row[data-entity-id="${listener}"] .panel-attention`).click();
+  await student.locator(`.panel-row[data-entity-id="${listener}"] .panel-attention`).click({ force: true });
   await student.waitForFunction(() => !document.querySelector('#encounter').hidden, null, { timeout: 5000 });
   await student.waitForTimeout(400);
   const talk = await student.evaluate(() => ({
@@ -216,13 +285,42 @@ try {
     await until('the fight\'s outcome reaching the family', () => visits().some(one => one.topicId === 'gonzales-outcome' && one.status === 'open'), 240000);
     const outcome = visits().find(one => one.topicId === 'gonzales-outcome');
     await student.waitForFunction(() => window.__snapshot?.world?.encounter?.topicId === 'gonzales-outcome' && window.__snapshot.world.encounter.status === 'open', null, { timeout: 10000 });
-    await student.locator(`.panel-row[data-entity-id="${outcome.listenerId}"] .panel-attention`).click();
+    await student.locator(`.panel-row[data-entity-id="${outcome.listenerId}"] .panel-attention`).click({ force: true });
     await student.waitForFunction(() => !document.querySelector('#encounter').hidden, null, { timeout: 5000 });
     await student.keyboard.press('Escape');
     await until('Escape sending the rider on', () => world().encounters[outcome.id].status === 'closed', 10000);
     assert.equal(world().encounters[outcome.id].reason, 'farewell');
     assert.equal(await student.locator('#encounter').isHidden(), true, 'Escape left the conversation on the screen');
     ok(`Escape ended the next conversation (${outcome.carrierName}, the fight's outcome) and put it away`);
+  }
+  // ------------------------------------------------------------------ 6. another family's rider rides past, and goes
+  // He rides his stretch at his own pace in real time, which takes longer than the rest of this proof: wait for him to go by.
+  await until('the passing rider riding by and going', () => student.evaluate(id => Boolean(window.__travelSight?.get(id)?.passFaded), passerId).catch(() => false), 120000).catch(() => {});
+  sampling = false;
+  await sampler;
+  const samples = passSamples;
+  if (process.env.ONE_RIDER_SAMPLES) writeFileSync(process.env.ONE_RIDER_SAMPLES, JSON.stringify(samples));
+  // Every frame of the class running, whether the server was still sending him or the page was drawing him on out of its sight.
+  const sent = samples.filter(one => one.status === 'running' && (one.sent || one.passing));
+  // What the page kept of every frame of him (public/app.js `passSightOf`), and what this proof saw of him itself.
+  const kept = await student.evaluate(id => { const seen = window.__travelSight?.get(id); return seen ? { frames: seen.passFrames || 0, fastest: seen.passFastest || 0, faded: Boolean(seen.passFaded), server: seen.serverHeightsPerSecond || 0 } : null; }, passerId);
+  const fastest = kept?.fastest ?? 0, serverPace = Math.max(kept?.server ?? 0, ...sent.map(one => one.server_hps || 0));
+  const inView = { length: kept?.frames ?? 0 };
+  const fadedBy = kept?.faded ? 1 : -1;
+  // At the gate on any tick, except a rider who talks with the family (a second word waiting its turn there is one).
+  const talked = new Set(visits().map(one => one.carrierId));
+  const gate = (await student.evaluate(() => window.__gate || [])).filter(one => !talked.has(one.id));
+  const atGate = gate.length + sent.filter(one => one.atHome).length;
+  measured.passer = { id: passerId, samples: sent.length, drawnInView: inView.length, fastestDrawnHeightsPerSecond: +fastest.toFixed(2), serverHeightsPerSecond: +serverPace.toFixed(2), gaitCeiling: GAIT_CEILING, fadedAfterPassing: fadedBy > 0, atOurGate: atGate };
+  console.log('passer', JSON.stringify(measured.passer));
+  if (after) {
+    assert.ok(fastest <= GAIT_CEILING * 1.05, `another family's rider was drawn faster than a ride: ${fastest.toFixed(2)} of his own heights a second, the ceiling ${GAIT_CEILING}`);
+    assert.ok(inView.length >= 3, `another family's rider riding past was never drawn in view (${inView.length} frames)`);
+    assert.ok(serverPace > GAIT_CEILING * 1.05, `the server never carried him faster than a ride (${serverPace.toFixed(2)} heights a second): this proves nothing about his pace`);
+    assert.ok(fadedBy > 0, 'another family\'s rider did not fade out once he had passed');
+    assert.equal(atGate, 0, `a rider not talking with the family was drawn standing at its gate (${atGate} frames)`);
+    assert.ok(!visits().some(one => one.carrierId === passerId), 'the passing rider stopped to talk with the family: this proves nothing about passing');
+    ok(`another family's rider rode past in view for ${inView.length} frames at no more than ${fastest.toFixed(2)} of his heights a second (the server carried him at ${serverPace.toFixed(2)}), faded out once by, and was never drawn at the family's gate`);
   }
   clearInterval(tips);
   assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);

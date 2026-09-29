@@ -307,11 +307,17 @@ seeds measured, but it was shown several things at once:
   account always had. The visit keeps who joined it (`joined`) and the causal record says whose visit it joined
   (`encounter-joined`, no household on it); the family's own record is the journal's line, which names him. The same word at
   the same or a fainter status was already dropped before it reached anybody (`sim/knowledge.mjs` `wouldLearn`), unchanged.
-- **One rider for each word, drawn.** A family is drawn only the riders who have something for it (`ridersInSight`): the one it
-  is talking with or who is riding away from it, and of the riders still bringing it a word, one per word - its own if he is in
-  sight, else the nearest. A rider with word it already has, or riding home from somebody else, is not drawn to it out on the
-  road. The world keeps every rider: each family still hears when its own road
-  says, from whoever reached it. The Host still sees every rider where he truly is.
+- **Every rider in sight drawn, the passing ones at a riding pace** (owner-decided 2026-09-29, below). A family is drawn every
+  rider in its sight (`ridersInSight`) - except one whose word was, or is about to be, taken into its own visit, which is the
+  merging it is never to see. A rider only passing it (`passingOf`: not bringing it word, not talking with it) carries on the
+  wire where along his road he comes nearest its home (`travel.near`), and the page draws him riding past at his own pace in
+  real time from 0.6 of a mile up the road of that point to 0.15 past it (`PASS_BEFORE_MILES`, `PASS_AFTER_MILES`), **behind**
+  where the server has him and never ahead of it, then fades him out, and does not draw him again while the server carries him
+  on at whatever speed his errand needs (public/motion.js `passBegin`, `passRide`, `passStep`; public/app.js `passSightOf`). A
+  rider the server has already carried out of sight or home is drawn on to the end of his pass (`passGhosts`); one first seen
+  already past the family is not drawn; one who rides up to a gate or fork right by the family and is still standing there is
+  handed back to where the server has him. The rider bringing the family its own word still rides up and stops at its gate as
+  before. Nothing of the server's timing or knowledge changes; the Host sees every rider where he truly is.
 - **One conversation at a time, the rest queued.** A question put while a rider is still talking with the family, or on the
   tick he speaks, waits until he has gone (`questionWaits`): not shown, no "!" for it, and **its real minutes do not run**
   (`sim/decision-budget.mjs`: the settlement's call's five minutes start when it is shown). It is put, and written in the
@@ -324,6 +330,14 @@ seeds measured, but it was shown several things at once:
   conversation has its own **Done**. Closing it moves straight on to what waited behind it, opened as its "!" opens it. Travis's
   runner, who needs an answer, is only put away by the ×, and his card still says he waits.
 
+**The owner's answers, 2026-09-29** (owner-decided; the builder's three questions, answered the same day):
+
+1. *Riders with nothing for the family* - verbatim: *"Show all, but show them riding at a normal looking speed, after they pass
+   by have them fade away and speed up to make up for lost time."* Built as above: every rider drawn, the passing ones ridden
+   past at their pace and faded out; the server's timing untouched. This replaced the one-rider-per-word drawing built first.
+2. *A question already on the screen when a rider comes* - *"Stays up".* As built.
+3. *A firmer account of the same word after the six hours* - *"Own conversation".* As built.
+
 **Where riders pile up, beyond the start.** The only news in this game carried by a person who stops to talk is the
 cannon-request and the fight's outcome (`CONVERSATIONS`), in the first period; both are covered above, at Gonzales and by
 express alike. Every later word - the siege and fall of the Alamo, Goliad, San Patricio and Agua Dulce, the declaration, the
@@ -333,8 +347,9 @@ as a rumour and then confirmed) is one journal entry that firms up. The later qu
 questions, the army's, Travis's runner) are already one card at a time, decisions first (`public/military-attention.js`). A topic
 converted to a conversation in future gets all of the above for nothing: the rules are per word, not per topic.
 
-`ceiling:` when a family's own rider is not yet in sight, the nearest rider with the word stands for it and may change as riders
-come and go at the edge of sight; remembering the one drawn for a family would stop that if a class ever notices it.
+`ceiling:` a passing rider's nearest point is measured to the family's home, not to wherever its people are; a family out on
+the road is passed as if it were at home, which the fade hides unless a class notices it. `ceiling:` under reduced motion every
+rider is drawn where the server has him, as every journey is.
 `ceiling:` a question already on the screen is not queued behind a rider who comes later, so the two can stand together.
 `ceiling:` only the call has real minutes to pause; the neighbour's request and the march upriver close on the calendar
 (the approach, first light), which cannot wait for one family - but a rider talking with a played family holds the calendar at

@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, sheetsFirstDrawn, spriteFrame, spriteReady, watchMissing } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
 import { actingOf, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -1027,6 +1027,13 @@ function sightOf(entity, height, marks) {
   // Only somebody the server has on the road now is scheduled. On the tick they arrive they are still drawn walking the last
   // of the road in, at the pace the schedule left them at, and whole - which is how a hunter is drawn reading the ground.
   const journey = entity.facing || entity.speaking ? null : motionProjection.journey(entity, marks.frozen);
+  // A rider only passing this family: ridden past at his pace and faded out once by (`passSightOf`, owner 2026-09-29) - held
+  // where he is drawn while the class is paused, rather than put back where the server has him.
+  if (reducedMotion.matches) delete seen.pass;
+  else {
+    const passed = passSightOf(entity, height, marks, seen, since, journey);
+    if (passed !== undefined) return passed;
+  }
   if (!marks.running || reducedMotion.matches) { seen.alpha = 1; delete seen.trail; delete seen.walk; return null; }
   // Home before the drawing is (a journey paced on the family's own land, public/motion.js `pacedSight`): still walking the
   // last of the land in at their own pace, never hurried to where the server already has them.
@@ -1083,6 +1090,62 @@ function sightOf(entity, height, marks) {
   seen.shownHeightsPerSecond = sight.rate * seen.heightsPerSecond;
   seen.faded = sight.faded; seen.lead = sight.lead; seen.tail = sight.tail;
   seen.at = alongRoute(journey.points, sight.miles - (journey.base || 0)) || null;
+  return seen;
+}
+/**
+ * A rider only passing this family, as its page draws him (owner, 2026-09-29: "Show all, but show them riding at a normal
+ * looking speed, after they pass by have them fade away and speed up to make up for lost time."; public/motion.js `passBegin`,
+ * `passStep`; sim/encounters.mjs `passingOf`). Undefined for anybody else, and for a rider handed back to where the server has
+ * him, who is drawn as any traveller. Kept going for a rider the server has already carried out of sight or home (`passGhosts`)
+ * until he has faded, so he never vanishes mid-stride. Nothing here changes where the server has him or when.
+ */
+const passGhosts = new Map();
+function passSightOf(entity, height, marks, seen, since, live) {
+  if (!entity.carrier) return undefined;
+  const server = live ? motionProjection.drawnMiles(entity, marks.now, marks.frozen) : null;
+  // How fast the server is carrying him over this screen, in his drawn heights a second, from his last two ticks on one road:
+  // the pace he is not drawn at. Presentation evidence (`window.__travelSight`), read by the one-rider proof.
+  const before = motionProjection.records.get(entity.id)?.previous?.travel;
+  if (entity.travel && before && sameRoad(before, entity.travel) && entity.travel.progress > before.progress && marks.tickMs > 0) {
+    seen.serverHeightsPerSecond = Math.max(seen.serverHeightsPerSecond || 0, (entity.travel.progress - before.progress) / (marks.tickMs / 1000) * marks.scale / height);
+  }
+  let pass = seen.pass;
+  // A fresh approach down a road with the family on it - the first sight of him, or a new road after he had gone by.
+  if ((!pass || (pass.state === 'gone' || pass.state === 'handed') && live && !sameRoad(live, pass.road)) && live && Number.isFinite(live.near) && !entity.facing && !entity.speaking) {
+    const begun = passBegin({ road: live, serverMiles: server });
+    // Gone by already on a road he was never drawn riding: a rider handed back and riding on from where he stood is drawn as
+    // any traveller; one first seen past the family has passed it while nobody watched.
+    if (!(begun.state === 'gone' && pass?.state === 'handed')) pass = seen.pass = begun;
+  }
+  if (!pass || pass.state === 'handed') return undefined;
+  // Waiting for him to come up the road: once the server has him on the stretch - or has carried him past it, or off this road,
+  // between two of its ticks, as a fast class does - he is ridden from the start of it, behind the server (`passRide`).
+  if (pass.state === 'waiting') {
+    passGhosts.set(entity.id, entity);
+    if (live && !entity.ghost && sameRoad(live, pass.road) && server < Math.max(0, pass.road.near - PASS_BEFORE_MILES)) { seen.pass = pass; }
+    else passRide(pass);
+  }
+  // Not drawn, and no road drawn for him either (`drawTravelRoads`): he is somebody else's business once he has gone by.
+  const hidden = () => { seen.alpha = 0; seen.wanted = 0; seen.passing = true; seen.journey = null; seen.at = live ? alongRoute(live.points, server - (live.base || 0)) || seen.at : seen.at; seen.leapt = true; return seen; };
+  if (pass.state === 'waiting' || pass.state === 'gone') return hidden();
+  const same = live && !entity.ghost && sameRoad(live, pass.road);
+  // Standing, as the server has him, at the end of the road the page is drawing him riding: handed back there once he gets to it.
+  const end = pass.road.points.at(-1);
+  const standing = !entity.ghost && !entity.travel && Boolean(entity.location) && Math.hypot(entity.location.x - end.x, entity.location.y - end.y) < 0.02;
+  const dt = marks.running && since > 0 && since < 1000 ? since : 0;
+  const was = pass.d;
+  passStep(pass, { dtMs: dt, pace: paceMilesASecond({ scale: marks.scale, heightPx: height, personPx: marks.figure }), cap: same ? server : pass.road.distance, standing });
+  if (pass.state === 'handed') { seen.alpha = 1; return undefined; }
+  if (pass.state === 'gone' && seen.passFrames) seen.passFaded = true;
+  passGhosts.set(entity.id, entity);
+  seen.passing = true; seen.alpha = pass.alpha; seen.wanted = pass.state === 'riding' ? 1 : 0; seen.leapt = false; seen.faded = false;
+  seen.miles = pass.d; seen.serverMiles = server; seen.journey = null;
+  seen.shownHeightsPerSecond = dt > 0 ? (pass.d - was) / (dt / 1000) * marks.scale / height : 0;
+  // Kept over the whole pass, frame by frame, for a proof that cannot look at every frame: how many frames he was drawn whole,
+  // the fastest he was drawn going while more than half drawn, and whether he has gone again after being seen.
+  if (pass.alpha >= 0.9) seen.passFrames = (seen.passFrames || 0) + 1;
+  if (pass.alpha > 0.5 && dt > 0) seen.passFastest = Math.max(seen.passFastest || 0, seen.shownHeightsPerSecond);
+  seen.at = alongRoute(pass.road.points, pass.d - (pass.road.base || 0)) || seen.at;
   return seen;
 }
 /**
@@ -3536,6 +3599,13 @@ function drawWorldNow(world) {
   // Everyone else standing where your family is standing. Drawn plainly, never with a
   // request mark and never with a selection ring that implies you can order them.
   const observed = observedOf(world).filter(entity => entity.location);
+  // A passing rider the server has carried out of this family's sight or home before the page has finished drawing him ride by
+  // and fade (`passSightOf`): drawn on from where he was, until he has. Never on the Host's page, which sees every rider as he is.
+  for (const [id, ghost] of passGhosts) {
+    const state = travelSeen.get(id)?.pass?.state;
+    if (world.role === 'host' || !['waiting', 'riding', 'fading'].includes(state)) { passGhosts.delete(id); continue; }
+    if (!observed.some(one => one.id === id)) observed.push({ ...ghost, travel: null, facing: null, speaking: false, ghost: true });
+  }
   drawnAt.clear();
   seatedDrawn.clear();
   const chosen = selectedEntity(world);
@@ -5145,10 +5215,10 @@ setInterval(() => {
  * question with its answers - and put the keyboard on the first answer. Nothing is decided here: the answers are the card's
  * buttons, sent as they always were, and the "!" goes when the projection stops saying anything is waiting.
  */
-function openNeed(id) {
+function openNeed(id, kind = null) {
   const world = window.__snapshot?.world;
   if (!world) return;
-  const need = needsOf(world, id)[0];
+  const need = (kind && needsOf(world, id).find(one => one.kind === kind)) || needsOf(world, id)[0];
   goToPerson(id);
   if (!need) return;
   let target = null;
@@ -7016,7 +7086,7 @@ function renderAsks(world, encounter, { live, runner }) {
  * only put away, as it always was, with his card still saying he waits. Then, once the server has him gone, whatever waited
  * behind him comes up by itself (`moveOn`): the student asked to be done with this one, so the next is theirs to see.
  */
-let moveOnFrom = null, moveOnUntil = 0;
+let moveOnFrom = null, moveOnUntil = 0, moveOnQuestion = false;
 function endConversation(sendOn = true) {
   const encounter = window.__snapshot?.world?.encounter;
   const leave = $('#encounter .ask-leave:not(.ask-done)');
@@ -7024,7 +7094,7 @@ function endConversation(sendOn = true) {
   encounterOpen = false;
   $('#encounter').hidden = true;
   renderScreenMoments();
-  if (encounter && encounter.kind !== 'alamo-runner') { moveOnFrom = encounter.id; moveOnUntil = performance.now() + 8000; }
+  if (encounter && encounter.kind !== 'alamo-runner') { moveOnFrom = encounter.id; moveOnUntil = performance.now() + 8000; moveOnQuestion = Boolean(encounter.waiting); }
 }
 /** After a conversation was put away: the first thing waiting on the family, opened as its "!" opens it, once he has gone. */
 function moveOn(world) {
@@ -7034,6 +7104,9 @@ function moveOn(world) {
   moveOnFrom = null;
   if (encounterOpen || callMenuFor) return;
   const own = entitiesOf(world).filter(person => person.householdId === world.householdId).map(person => person.id);
+  // In the order it came (owner, 2026-09-29): what waited behind him first, even if another rider has reined in since.
+  const waited = moveOnQuestion && own.find(id => needsOf(world, id).some(one => one.kind === 'call'));
+  if (waited) { openNeed(waited, 'call'); return; }
   const next = rankNeeds(world, own)[0];
   if (next && ['rider', 'call', 'courier'].includes(next.kind)) openNeed(next.id);
 }
