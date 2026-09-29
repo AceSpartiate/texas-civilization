@@ -31,7 +31,11 @@ const DIRS = ['e', 's', 'n'];
 // One unit of the cart's own height (stake top, 100 units) is its logical height in every heading, so it does not change size
 // when it turns; the page draws the cart at 0.8 of a wagon, as it draws the delivered `cart-open` views.
 const CART = { w: 640, h: 560 };
-const cartFrame = (name, h, o) => groupFrame(name, { cell: CART, originX: h === 'e' ? 250 : CART.w / 2, groundY: CART.h - 30, logical: 100 * UNIT, res: RES, note: o.note }, ink => drawCart(ink, h, o));
+// Side-on its logical height is the cart's own (stake top, 100 units). End-on it is the whole drawing's height, the bed rising into
+// the distance included, as Astra's `cart-open-s`/`-n` and `carreta-travel-s`/`-n` are cropped and drawn - so a Claude cart or
+// carreta turning south is the same size as hers.
+const VERTICAL = { cart: { s: 152, n: 156 }, carreta: { s: 162, n: 162 } };
+const cartFrame = (name, h, o) => groupFrame(name, { cell: CART, originX: h === 'e' ? 250 : CART.w / 2, groundY: CART.h - 30, logical: (h === 'e' ? 100 : VERTICAL.cart[h]) * UNIT, res: RES, note: o.note }, ink => drawCart(ink, h, o));
 const CART_WHO = loaded => `The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring${loaded ? ', loaded with sacks, a barrel and a rolled blanket' : ', empty'}`;
 const cartSets = [];
 for (const loaded of [false, true]) for (const h of DIRS) {
@@ -49,7 +53,7 @@ for (const loaded of [false, true]) for (const h of DIRS) {
 const CARRETA = { w: 660, h: 580 };
 const carretaLoaded = DIRS.map(h => [0, 1, 2, 3].map(i => ({ name: `carreta-loaded-travel-${h}-${i + 1}`, height: 1.24, compare: [[`carreta-travel-${h}-1`, 1.24], ['carreta-loaded-e', 1.24]],
   prompt: `The carreta laden and travelling ${HEADINGS[h]}, without its ox: two great solid wheels of pegged planks on a wooden axle, no iron tyre; an open frame of poles lashed with rawhide; a pole tongue; loaded with sacks of corn, a barrel and a striped blanket; frame ${i + 1} of 4, the plank seams and pegs of the wheels turning an eighth of a turn a frame (the wheel repeats every half turn, so the loop has no jump). The record: "great, clumsy, solid wooden wheels" and rawhide (Smithwick), "the unhewn sticks which squeak in the holes of the plank wheels" (Woodman's guide, 1835) - HIST-TEX-443. ${STYLE}`,
-  draw: () => groupFrame(`carreta-loaded-travel-${h}-${i + 1}`, { cell: CARRETA, originX: h === 'e' ? 250 : CARRETA.w / 2, groundY: CARRETA.h - 30, logical: 100 * UNIT, res: RES, note: `the carreta laden, ${h}, frame ${i + 1} of 4` },
+  draw: () => groupFrame(`carreta-loaded-travel-${h}-${i + 1}`, { cell: CARRETA, originX: h === 'e' ? 250 : CARRETA.w / 2, groundY: CARRETA.h - 30, logical: (h === 'e' ? 100 : VERTICAL.carreta[h]) * UNIT, res: RES, note: `the carreta laden, ${h}, frame ${i + 1} of 4` },
     ink => drawCarreta(ink, h, { frame: i, loaded: true })) })));
 
 // ------------------------------------------------------------------------------------------------------------ D14 the wagon and its ox
@@ -57,12 +61,12 @@ const carretaLoaded = DIRS.map(h => [0, 1, 2, 3].map(i => ({ name: `carreta-load
 // `wagon-covered`), and the ox is drawn at 1.3 of the rig's own ox so that its horns stand at the 1.45 of a person the game draws
 // `ox-walk` at. Side-on the anchor is the ground under the middle of the wagon's bed; end-on it is the ground under the nearest
 // end (the ox's forefeet going south, the tail of the wagon going north).
-const RIG = { w: 1420, h: 620 }, RIG_V = { w: 460, h: 860 }, OX = 1.3, OX_AT = 186;
+const RIG = { w: 1660, h: 620 }, RIG_V = { w: 480, h: 900 }, OX = 1.3, OX_AT = 226;
 const COVERS = { on: 'its canvas cover on its bows, puckered at both ends', loaded: 'its bows bare over a load of sacks, a barrel and a rolled blanket', empty: 'its bows bare over an empty bed' };
 function wagonRig(name, h, i, cover) {
   const vertical = h !== 'e';
   const cell = vertical ? RIG_V : RIG;
-  return groupFrame(name, { cell, originX: vertical ? cell.w / 2 : 440, groundY: cell.h - 30, logical: 164 * UNIT, res: RES, note: `the wagon and its ox, ${h}, ${cover}, frame ${i + 1} of 4` }, ink => {
+  return groupFrame(name, { cell, originX: vertical ? cell.w / 2 : 520, groundY: cell.h - 30, logical: 164 * UNIT, res: RES, note: `the wagon and its ox, ${h}, ${cover}, frame ${i + 1} of 4` }, ink => {
     const ox = quadPose('ox', { gait: 'walk', frame: i });
     if (h === 'e') {
       // The tongue runs from the front axle forward under the ox to the ring of its yoke; the ox over it.
@@ -74,11 +78,11 @@ function wagonRig(name, h, i, cover) {
     // End-on the wagon is long and short: the ox ahead of it is nearer the camera going south (drawn last, lower) and beyond it
     // going north (drawn first, higher).
     const tongueTo = [OX_AT - 20, 0, 40];
-    const P = projector(h, { depth: 0.22, near: h === 's' ? OX_AT + 10 : -86 });
+    const P = projector(h, { depth: 0.22, near: h === 's' ? OX_AT + 10 : -134 });
     const oxAt = P([OX_AT, 0, 0]);
     const drawOx = () => placed(ink, oxAt[0], oxAt[1], sub => drawQuadFrontal(sub, 'ox', h, { frame: i, coat: COATS.ox, yoke: true }), { scale: OX });
     if (h === 'n') drawOx();
-    drawWagon(ink, h, { frame: i, cover, tongueTo, near: h === 's' ? OX_AT + 10 : -86 });
+    drawWagon(ink, h, { frame: i, cover, tongueTo, near: h === 's' ? OX_AT + 10 : -134 });
     if (h === 's') drawOx();
   });
 }

@@ -61,7 +61,8 @@ export function wheel(ink, h, P, [u, v], r, { angle = 0, spokes = 12, solid = fa
     return;
   }
   // End-on: the rim seen edge-on, tall and narrow; a few dark marks on the tread roll down (south) or up (north) as it turns.
-  const ry = r * Math.sqrt(1 + D * D), rx = thick * 0.5 + 1.8;
+  // A wheel seen nearly edge-on still shows a sliver of its face, as her end-on carts draw it: a fifth of its height wide.
+  const ry = r * Math.sqrt(1 + D * D), rx = Math.max(thick * 0.5 + 1.8, r * 0.2);
   ink.shape(ellipse(c, rx, ry), shade(solid ? WOOD_LIGHT : WOOD), { off: 0.8 });
   for (let k = 0; k < 3; k++) {
     const t = ((angle / 90 + k / 3) % 1) * 2 - 1, y = c[1] + (h === 's' ? -t : t) * ry * 0.8;
@@ -147,7 +148,7 @@ function tongue(ink, P, from, to, { ring = true, bend = 6 } = {}) {
  * a tongue, no ox. Its full height, stake top to the ground, is 100 units.
  */
 export function drawCart(ink, h, { frame = 0, loaded = false, rolling = true } = {}) {
-  const P = projector(h, { near: h === 's' ? 36 + 62 : -46 }), R = 28, U0 = -46, U1 = 36, HV = 27, W0 = 34, W1 = 78;
+  const P = projector(h, { near: h === 's' ? 36 + 62 : -46 }), R = 28, U0 = -46, U1 = 36, HV = 46, W0 = 34, W1 = 78;
   const angle = rolling ? -frame * 7.5 : 0; // twelve spokes: a quarter of their spacing a frame, turning forward
   const wheelAt = v => wheel(ink, h, P, [-4, v], R, { angle: h === 'e' ? angle : frame * 22.5, far: h === 'e' ? v > 0 : false });
   const draw = () => {
@@ -165,7 +166,7 @@ export function drawCart(ink, h, { frame = 0, loaded = false, rolling = true } =
  * frame of poles lashed with rawhide; a pole tongue; no ox. Its full height, post top to the ground, is 100 units.
  */
 export function drawCarreta(ink, h, { frame = 0, loaded = false } = {}) {
-  const P = projector(h, { near: h === 's' ? 38 + 66 : -44 }), R = 31, U0 = -44, U1 = 38, HV = 25, W0 = 42, W1 = 82;
+  const P = projector(h, { near: h === 's' ? 38 + 66 : -44 }), R = 31, U0 = -44, U1 = 38, HV = 42, W0 = 42, W1 = 82;
   const wheelAt = v => wheel(ink, h, P, [0, v], R, { angle: h === 'e' ? -frame * 45 : frame * 22.5, solid: true, tyre: false, far: h === 'e' ? v > 0 : false, thick: 8 });
   const draw = () => {
     const cargo = loaded ? () => load(ink, P, h, { u0: U0 + 6, u1: U1 - 6, v0: HV - 6, w0: W0, big: 1.5 }) : null;
@@ -183,11 +184,11 @@ export function drawCarreta(ink, h, { frame = 0, loaded = false } = {}) {
  * empty bed. Returns where the tongue ends, for the team. Its full height, cover top to the ground, is 164 units (1.55 of a
  * person, as the game draws `wagon-covered`).
  */
-export function drawWagon(ink, h, { frame = 0, cover = 'on', tongueTo = [150, 0, 36], near = h === 's' ? tongueTo[0] : -86 } = {}) {
-  const P = projector(h, { depth: 0.22, near }), U0 = -82, U1 = 68, HV = 28, W0 = 48, W1 = 76;
-  const wheels = [[-50, 30], [42, 24]];
+export function drawWagon(ink, h, { frame = 0, cover = 'on', tongueTo = [190, 0, 36], near = h === 's' ? tongueTo[0] : -134 } = {}) {
+  const P = projector(h, { depth: 0.22, near }), U0 = -130, U1 = 110, HV = 34, W0 = 48, W1 = 76;
+  const wheels = [[-88, 32], [74, 26]];
   const wheelAt = ([u, r], v) => wheel(ink, h, P, [u, v], r, { angle: h === 'e' ? -frame * 7.5 * (30 / r) : frame * 22.5, far: h === 'e' ? v > 0 : false });
-  const bows = [-78, -40, -4, 32, 64];
+  const bows = [-124, -66, -8, 50, 104];
   const arch = (u, s = 1) => [-1, -0.92, -0.7, -0.38, 0, 0.38, 0.7, 0.92, 1].map(t => [u, t * (HV + 9) * s, W1 + 66 * Math.sqrt(1 - t * t)]);
   const coverDraw = () => {
     if (cover !== 'on') {

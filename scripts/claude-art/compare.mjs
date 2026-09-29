@@ -47,11 +47,15 @@ async function compareModule(page, m) {
     ...frames.map(f => ({ lib: 'c', name: f.name, frame: claude.frames[f.name], h: heightOf(f), label: `Claude: ${f.name}` }))];
   const sizes = [40, 77, 150];
   const gap = s => s * 1.25;
-  const width = Math.max(900, 40 + items.reduce((sum, it) => sum + Math.max(gap(150), it.frame.w * (150 * it.h / (it.frame.logicalHeight || it.frame.h)) + 20), 0));
-  const rowH = sizes.map(s => s * 2.1 + 40), height = 60 + rowH.reduce((a, b) => a + b, 0);
+  // A module of many frames wraps onto several lines of the three rows, each line no wider than about 2600 px at 150 px.
+  const span = it => Math.max(gap(150), it.frame.w * (150 * it.h / (it.frame.logicalHeight || it.frame.h)) + 20);
+  const lines = [[]];
+  for (const it of items) { const line = lines.at(-1); if (line.length && line.reduce((sum, one) => sum + span(one), 0) + span(it) > 2600) lines.push([it]); else line.push(it); }
+  const width = Math.max(900, 40 + Math.max(...lines.map(line => line.reduce((sum, it) => sum + span(it), 0))));
+  const rowH = sizes.map(s => s * 2.1 + 40), height = 60 + lines.length * rowH.reduce((a, b) => a + b, 0);
   const html = `<!doctype html><meta charset="utf-8"><body style="margin:0;background:${GRASS}"><canvas id="c" width="${Math.ceil(width)}" height="${Math.ceil(height)}"></canvas>
 <script>
-const items = ${JSON.stringify(items)}, sizes = ${JSON.stringify(sizes)}, rowH = ${JSON.stringify(rowH)}, sources = ${JSON.stringify(images)};
+const lines = ${JSON.stringify(lines)}, sizes = ${JSON.stringify(sizes)}, rowH = ${JSON.stringify(rowH)}, sources = ${JSON.stringify(images)};
 const c = document.getElementById('c'), ctx = c.getContext('2d');
 ctx.fillStyle = '${GRASS}'; ctx.fillRect(0, 0, c.width, c.height);
 // A little of the map's texture: darker flecks, as its grass has.
@@ -64,7 +68,7 @@ window.onerror = message => { document.title = 'error: ' + message; };
   const img = {};
   for (const [key, src] of Object.entries(sources)) img[key] = await load(src);
   let top = 50;
-  sizes.forEach((size, row) => {
+  for (const items of lines) sizes.forEach((size, row) => {
     const ground = top + size * 1.75;
     let x = 30;
     ctx.fillStyle = '#23180f'; ctx.font = '12px Georgia'; ctx.fillText(size + ' px', 4, ground - size * 0.5);
