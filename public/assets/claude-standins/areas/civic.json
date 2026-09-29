@@ -1,0 +1,214 @@
+{
+  "module": "civic",
+  "area": "places",
+  "date": "2026-09-28",
+  "sheets": {
+    "claude-bexar-civic": {
+      "image": "/assets/claude-standins/claude-bexar-civic.png",
+      "width": 720,
+      "height": 560,
+      "bytes": 303320,
+      "sha256": "0840609070498154d11bce7db9a03f52add4809b9ce3935c2afa5830b8ac5844",
+      "madeBy": "claude",
+      "module": "civic",
+      "request": "Request 2026-09-14 — Béxar civic architecture",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 720,
+          "h": 560
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-bexar-palace": {
+      "image": "/assets/claude-standins/claude-bexar-palace.png",
+      "width": 560,
+      "height": 230,
+      "bytes": 152945,
+      "sha256": "2e4610aad67c873e0b56245fed364c57ef6947e10a5a26399be0fe2bbdb92c82",
+      "madeBy": "claude",
+      "module": "civic",
+      "request": "Request 2026-09-14 — Béxar civic architecture",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 560,
+          "h": 230
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-alamo-tower": {
+      "image": "/assets/claude-standins/claude-alamo-tower.png",
+      "width": 240,
+      "height": 480,
+      "bytes": 95851,
+      "sha256": "0a1c7a11fafad4dfbde07475b9c3ed9eda8d17b059e44d9ce79e895cfeaa3311",
+      "madeBy": "claude",
+      "module": "civic",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 240,
+          "h": 480
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-mission-concepcion": {
+      "image": "/assets/claude-standins/claude-mission-concepcion.png",
+      "width": 600,
+      "height": 440,
+      "bytes": 204272,
+      "sha256": "6b52078d6458292683b64c370bc28723569a544d36080fe8fb374bffb6b36b43",
+      "madeBy": "claude",
+      "module": "civic",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 600,
+          "h": 440
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "bexar-san-fernando-1836": {
+      "0": 518.748,
+      "1": 71.13999999999999,
+      "sheet": "claude-bexar-civic",
+      "x": 0,
+      "y": 0,
+      "w": 720,
+      "h": 560,
+      "anchorX": 0.4269,
+      "anchorY": 0.9374,
+      "logicalHeight": 204,
+      "madeBy": "claude",
+      "module": "civic",
+      "request": "Request 2026-09-14 — Béxar civic architecture",
+      "replaceWith": "bexar-san-fernando-1836: a researched 1836 façade in the frontier-v1 style, matched to chapel/adobe-flat scale and ground anchors",
+      "source": "svg/civic/claude-bexar-san-fernando-1836.svg",
+      "label": "bexar san fernando 1836",
+      "kind": "claude-bexar-civic"
+    },
+    "bexar-governors-palace-1836": {
+      "sheet": "claude-bexar-palace",
+      "x": 0,
+      "y": 0,
+      "w": 560,
+      "h": 230,
+      "anchorX": 0.4619,
+      "anchorY": 0.8823,
+      "logicalHeight": 140,
+      "madeBy": "claude",
+      "module": "civic",
+      "request": "Request 2026-09-14 — Béxar civic architecture",
+      "replaceWith": "bexar-governors-palace-1836: a researched 1836 façade in the frontier-v1 style, matched to chapel/adobe-flat scale and ground anchors",
+      "source": "svg/civic/claude-bexar-governors-palace-1836.svg",
+      "label": "bexar governors palace 1836",
+      "kind": "claude-bexar-palace"
+    },
+    "san-fernando-tower-1836": {
+      "sheet": "claude-alamo-tower",
+      "x": 0,
+      "y": 0,
+      "w": 240,
+      "h": 480,
+      "anchorX": 0.3429,
+      "anchorY": 0.9572,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "civic",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "san-fernando-tower-1836: item 5: San Fernando's tower as the red flag's setting, placed under the flag",
+      "source": "svg/civic/claude-san-fernando-tower-1836.svg",
+      "label": "san fernando tower 1836",
+      "kind": "claude-alamo-tower"
+    },
+    "mission-concepcion": {
+      "sheet": "claude-mission-concepcion",
+      "x": 0,
+      "y": 0,
+      "w": 600,
+      "h": 440,
+      "anchorX": 0.2667,
+      "anchorY": 0.9318,
+      "logicalHeight": 440,
+      "madeBy": "claude",
+      "module": "civic",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "replaceWith": "mission-concepcion: item 4: the church with its twin towers and dome, seen from about 500 yards",
+      "source": "svg/civic/claude-mission-concepcion.svg",
+      "label": "mission concepcion",
+      "kind": "claude-mission-concepcion"
+    }
+  },
+  "clips": {},
+  "provenance": {
+    "bexar-san-fernando-1836": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "civic",
+      "area": "places",
+      "sheet": "claude-bexar-civic",
+      "request": "Request 2026-09-14 — Béxar civic architecture",
+      "prompt": "San Fernando church at Béxar as it stood in 1836, before the Gothic Revival front of 1868-73 (rejected). Seen from the south in the game's north-up three-quarter view, so its long south side faces the camera and its front - which faced east onto the Plaza de las Islas (Main Plaza), the apse and dome backing onto the Plaza de Armas (Military Plaza) - is the right-hand end. DOCUMENTED (HABS TX-34): a Latin-cross church of stuccoed rubble limestone, the roof vaults hidden by a plain parapet so the roof reads flat; three buttresses on each side, each with one set-back; polygonal transepts and apse; a low dome with a small lantern over the crossing; one tower only, octagonal, on the south-east corner, standing on the roof like a cupola, with round-arched openings and an octagonal pyramid roof with a small lantern; the east front a plain rectangle with a single round-arched door under a heavy moulded entablature. The stucco drawn grey and weathered (the stone \"gray old\" until whitewashed in 1859). UNCERTAIN, and drawn as a reading: the church's dimensions and proportions (none were found: the nave is drawn short so it fits between the plazas), the number and place of the side windows, the small window over the door, whether the lantern and belfry cap were whole in 1836, and the state of the roof (in 1840 it was \"half gone\"; drawn whole). A bell drawn in the front opening of the tower. Warm hand-drawn storybook style, thin dark olive-brown outline, flat facets lit from the upper left, transparent ground, no shadow, no text. Sources: HABS TX-34 (Library of Congress); TSHA San Fernando Cathedral; Portal to Texas History metapth459982; docs/LOCATION_ART_GUIDE.md.",
+      "source": "public/assets/claude-standins/svg/civic/claude-bexar-san-fernando-1836.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-san-fernando-1836"
+    },
+    "bexar-governors-palace-1836": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "civic",
+      "area": "places",
+      "sheet": "claude-bexar-palace",
+      "request": "Request 2026-09-14 — Béxar civic architecture",
+      "prompt": "The Governor's Palace - the comandancia on the west side of the Plaza de Armas (Military Plaza), not the Casas Reales on Main Plaza - as it stood in 1836. DOCUMENTED (TSHA; the City of San Antonio's archaeology report): a long one-storey building of plastered rubble stone with walls about three feet thick, a flat roof behind a parapet with spouts (canales), walnut lintels, and a keystone carved with the date 1749 and royal arms over the door; the original a simple rectangle two rooms deep. Its front faced east onto the plaza; drawn, as every building in the library is, with the front to the camera. REJECTED as later: Harvey P. Smith's 1930 restoration (the U-plan, the walled garden and fountain, added rooms and doorway, the carved doors), and the mid- to late-1800s tin roof, shop fronts and new windows. UNCERTAIN: the number and place of the front's windows (drawn four small barred ones), the length (drawn about 64 ft), the bench, and its use in 1836 (probably still a Pérez family house). The keystone's date and arms are not drawn (no text); TSHA calls the arms Habsburg and other accounts Ferdinand VI's, and they disagree. Warm limewash worn to the stone in patches, thin dark olive-brown outline, flat facets lit from the upper left, transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/civic/claude-bexar-governors-palace-1836.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-governors-palace-1836"
+    },
+    "san-fernando-tower-1836": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "civic",
+      "area": "places",
+      "sheet": "claude-alamo-tower",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "The south-east corner of San Fernando church at Béxar in February 1836 with its one tower, drawn alone as the setting of the red flag of no quarter that Santa Anna raised on the church tower (HIST-TEX-054, -504; battlefields.org, The Siege of the Alamo). The same tower as bexar-san-fernando-1836 (HABS TX-34): octagonal, standing on the roof at the corner on a square pedestal, round-arched openings with a bell in the front one, an octagonal pyramid roof and a small lantern, on which the flag's pole stands; below it a short stretch of the stuccoed south wall with one buttress and the parapet. UNCERTAIN: the tower's height and proportions (not recorded; drawn about 28 ft over the roof), the bell, and the state of the lantern in 1836. The church stood on the west side of the Plaza de las Islas; the battle draws this at the flag's point. Warm hand-drawn storybook style, grey weathered stucco, thin dark olive-brown outline, flat facets lit from the upper left, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/civic/claude-san-fernando-tower-1836.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's san-fernando-tower-1836"
+    },
+    "mission-concepcion": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "civic",
+      "area": "places",
+      "sheet": "claude-mission-concepcion",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "prompt": "Mission Nuestra Señora de la Purísima Concepción de Acuña, two miles below Béxar, as it stood on October 28, 1835, drawn small as it is seen from about 500 yards - the Texians' lookouts were in its tower (HIST-TEX-480). DOCUMENTED (TSHA; NPS; UTSA): a cross-plan stone church about 89 x 22 ft inside with walls nearly four feet thick; its front faces west, with two square bell towers flanking it and a carved stone portal; a dome with a lantern on a drum over the crossing (the oldest unrestored masonry dome in the United States); the front once painted in bright geometric patterns, faded to bare limestone with red and ochre traces round the tower windows; a row of stone rooms (the granary) and the friars' convento joined on the south; secularized in 1794 and used by settlers as a barn, with bats in it in 1846. Drawn with the west front to the camera, the dome behind it, the convento's arcade to the south (the right) and its far end broken. PROBABLE: the towers' pyramid caps are what stood in 1835, the church being unrestored. UNCERTAIN: how much of the paint showed in 1835 (drawn as faint traces), the convento's form and how much of it and the compound wall stood (drawn a short arcade, broken at its end, and no wall), the cap finials. REJECTED: the 1861 repairs and the bell added later. Tan-grey limestone and tufa, thin dark olive-brown outline, flat facets lit from the upper left, transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/civic/claude-mission-concepcion.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's mission-concepcion"
+    }
+  }
+}
