@@ -1,5 +1,170 @@
 # Claude handoff — Astra foundation
 
+## Astra's art always wins, by subject: Claude's temporary art only where she has drawn nothing — owner, 2026-09-29 (not released)
+
+Branch `astra-art-wins` off origin/main (3dd5209d, origin/main af25547a merged in); not pushed. The owner played the released
+v2026.09.29.1 (installed files identical to the release): *"serious graphical issues. a lot of astra art has been replaced with
+worse versions."*
+
+**The cause.** `public/art.js` let Astra's frame win only over a Claude frame of the **same name**, and nothing of Claude's
+shares a name with hers (the stand-in test forbids it). But the areas A-F wired the page to ask first for names she had never
+used - `rust-chop`, `rust-whittle`, `girl-play-run`, `indigo-hold-baby`, `infant-crawl`, `girl-ride-e`, `indigo-wagon-driver-e`,
+`cart-travel-e`, `milk-cow-walk-e`, `herd-drove`, `lancer-march`, `volunteer-mounted`, `rust-fire-reload`, `castrillon-walk-s`,
+`esparza-seated`, `house-round-back-*`, `pine-loblolly-large-wind`, `wood-pile-3` - and to fall back to her figure only while
+Claude's sheet was loading. So every one of those, on screen, was a Claude drawing of a subject she had drawn: her family at
+work, at ease and holding the baby, her children, her baby, her horses, carts, carreta, milk cow and herd, her soldiers, her
+Castrillón and Gregorio Esparza, her houses from behind, her trees in the norther. Astra's own atlas did not change between
+v2026.09.28.1 and v2026.09.29.1; the unreleased main (3dd5209d) added more of the same (the wagon and its ox as one Claude
+drawing, `wagon-ox-*`, its open tail, the children's `-play-run-n`/`-s` and `-carry-water-*` headings).
+
+**The fix: one rule, in one place.** `public/art-subjects.js` says what every Claude frame shows - the subject, not the pose -
+and which of Astra's names prove she has drawn it (her `rust`, her `girl`, her `wagon-covered` and `ox-walk`, her `castrillon`,
+her `pine-loblolly`...). `mergeStandins` in `public/art.js` leaves out every Claude frame whose subject she has drawn (and so
+every clip made of them), and records why (`withheldStandins()`). The page's callers already asked `clipReady`/`spriteReady` and
+fell back to her figure, so the page draws what it drew in v2026.09.28.1: her rust at the hoe with the drawn axe, her girl
+walking, her wagon and ox apart, her dragoon for a lancer, her upright tree sheared by the wind. **What stays Claude's** is only
+what she has nothing of: named people she has not drawn (Kimbell, Martin, J. W. Smith, Horton, W. P. Smith, Smither, Condelle,
+Sánchez Navarro, Barragán, Sutherland; Ana, María de Jesús, Enrique and Francisco Esparza and the burial party), the people of
+Béxar and their fandango, a Tejano rider, the pack mule, the padre's carts, named places and buildings (San Fernando, the
+Governor's Palace, Concepción, Velasco, the far places), the portraits and marks (Claude's since v2026.09.28.1), icons of
+meanings she has not drawn, the riverbanks, fog, night grades, lit windows, work effects, a tree going over, four trees she has
+not drawn (anacua, ebony, tupelo, willow), the washtub, the musket stack, the army camps. When she draws one of those, **every**
+Claude frame of that subject steps aside at once, not only the one of the same name. A subject is a judgement written as one
+line (`ceiling:` in the file: a lancer is her dragoon; a Tejano rider is not her mounted courier; a shortleaf pine is her pine);
+changing a line is the whole way to overturn one. Of 1940 Claude frames (with the wedding's), 511 are drawn and 1429 held back. The generated plan and
+Astra's list now say, item by item, *Claude stand-in held back: Astra has drawn the subject* (`scripts/claude-art/write-plan.mjs`);
+the rule is written into docs/ART_REQUESTS.md (*Claude-drawn stand-ins*), docs/ART_STYLE.md and docs/CLAUDE_ART_PLAN.md (step 5a).
+
+**Inventory** (subject → v2026.09.28.1 / v2026.09.29.1 → fixed), every one drawn by the builds' own `art.js` and manifests in
+docs/evidence/astra-vs-claude/ (one row a build: v2026.09.28.1, v2026.09.29.1, main 3dd5209d, this branch; a red label is a Claude
+frame, blue Astra's; `index.json` lists what each drew): 
+
+| Subject | v2026.09.28.1 | v2026.09.29.1 | Fixed | Evidence |
+| --- | --- | --- | --- | --- |
+| The family at work (chop, split, dig, notch, lift, reap, aim, fire, fish, gather, carpentry, butcher, drill, guard, stake, tend the fire) | her figure at the hoe/idle/rest with the canvas tool | Claude's figure | hers | a-work.png |
+| The family at ease (whittle, harness, sew, shell corn, rifle, pipe, cards, wash, sweep, carry water); firewood, hens, the wall-log pile | her repair/care/rest/work/carry; her firewood, chicken, `log-fallen` | Claude's | hers | a-ambient.png |
+| Children at play and chores, going north/south, carrying water, sick; the baby crawling, crying, asleep, sick; holding the baby | her child's walk/rest/injured-rest; the infant's idle; the carry | Claude's | hers | b-children.png |
+| The family in a fight (fire-reload, load, ramrod, injured, reclining) | her volunteer | Claude's cast in battle | hers | c-battles.png |
+| Soldiers at camp, asleep, prone, at loopholes, parapets, the bank, wading, the crowbar, the trench, bearers, the bell's sentry, the settlers' gun, the march column | her volunteer/regular poses | Claude's | hers | c-battles.png |
+| Castrillón walking N/S; Gregorio Esparza asleep sitting | her Castrillón's east walk; her volunteer's rest | Claude's | hers | c-battles.png |
+| Kimbell, Martin, the other Claude-sheet officers; the Esparza women and boys, the burial party | her volunteer / woman / children | Claude's | **Claude's** (she has not drawn them) | c-battles.png |
+| Riders: children on horses, the volunteer mounted, Seguín riding; wagon drivers (women, children); riders in the wagon | her figure over her horse; her courier; her Seguín mounted | Claude's | hers | d-transport.png |
+| The wagon and its ox (main only), its open tail; the cart; the carreta laden | her wagon and ox apart; her `cart-open`; her carreta | Claude's | hers | d-transport.png |
+| The milk cow; the horse herd; lancers, foragers, dragoons galloping, firing, led wounded; the limber's mules | her cow; her mustangs; her dragoon; her limber | Claude's | hers | d-transport.png |
+| A Tejano rider; the pack mule | her cast riding; her horse | Claude's | **Claude's** | d-transport.png |
+| Houses from behind, their ends, the roof over the passage, the jacal's stages, the double chimney, the shed frame, floor and loft, the loopholed house, the saddlebag's room | her fronts mirrored, her jacal, her chimney, her lean-to (or nothing) | Claude's | hers | e-places.png |
+| The people of Béxar, fandango, fiddler; San Fernando, the Palace, Concepción, the far places | her cast; generic chapel, `adobe-flat` | Claude's | **Claude's** | e-places.png |
+| Trees in the norther; the live-oak mott; shortleaf pine, cedar elm; the stumps; smoke rising; the campfire at night; the marsh's edge | her uprights sheared; her live oaks, loblolly, elm, stumps, smoke, campfire, cordgrass | Claude's | hers | f-land.png |
+| Anacua, ebony, tupelo, willow; riverbanks, fog, grades; a tree falling | her oak, elm, cottonwood; canvas | Claude's | **Claude's** | f-land.png |
+
+**Tests.** `tests/astra-art-wins.test.mjs` (7) loads the real manifests through `public/art.js` as the page does: every Claude
+frame has a subject; no Claude frame of anything she has an idle, walk, march, travel or ride of is drawable (found apart from the
+rules); the 35 frames and 6 clips the owner saw replaced are held back; the 14 she has nothing of are still drawn; a delivery of
+one `kimbell-idle` takes every Claude Kimbell out; the wedding's farmsteads and table are hers and its yards Claude's; nothing
+outside `art.js` reads Claude's library. Proved by injection in
+`npm run test:claude-art` (docs/evidence/claude-art/injections.json): the released same-name rule (`const why = null`), the
+children with no subject, the wagon held to its own name, and a page reading Claude's library around the rule each fail exactly
+the tests they guard; clean runs 0 failing. **Proofs changed on purpose:** `test:riding` now requires her wagon and ox drawn
+apart (`rig` null, no `wagon-ox-*` drawn) with the driver on her wagon's box; `test:children` requires her child walking at
+tag (N/S as her `-walk-n/-s`) and her carry for the baby held, never Claude's `play-*` or `hold-baby`. `node scripts/astra-vs-claude-shots.mjs`
+redraws the evidence from the two tags, main and this tree.
+
+**The lone parent's wedding (merged from origin/main dc863f4f) - one exception, not the owner's.** The coordinator decided the
+wedding's cast gestures (`<cast>-greet`, `-shy`, `-laugh`, `-vow`, `rust-/ochre-fiddle`, `elder-read-paper`) are a scene Astra has
+not drawn and stay Claude's. That is the only place a Claude drawing of her cast figures is shown, and it is the same reasoning
+that would have kept Claude's chop and play, so it is one marked line in `public/art-subjects.js` (`ceiling:`); delete it and the
+wedding falls back to her figures speaking and standing (`POSE_STANDIN` in public/courtship.js). **Owner to confirm.** Its places
+follow the rule: the two farmsteads are her `cabin-wide` and `jacal-ramada` with a porch and an olla added, so hers are drawn; the
+supper table is her `home-table`; the painted yards behind the scenes stay Claude's. Nobody at the wedding walks or idles in
+Claude's hand (the test holds it).
+
+**A page that would not have loaded.** The server hands out public/ from a fixed list (`files` in server/app.mjs), so the new
+`public/art-subjects.js`, imported by art.js, was a 404 and the page never showed its join form - `npm test` could not see it,
+the first browser proofs could. It is served now, and `tests/served-imports.test.mjs` walks every relative import from the page,
+the art catalog and the Alamo workshop and fails on one the server does not serve (proved by removing the route: fails with
+`/art-subjects.js (401)`).
+
+**For the other builders.** A new Claude area module must add its subject to `public/art-subjects.js` (the test fails until it
+does), and anything it draws of her figures - children's new headings, a new pose of her cast - will be held back while hers
+exist. Draw what she has nothing of.
+
+**In-game before/after** (the proofs' own close-ups; before = main 3dd5209d's committed evidence, after = this branch's run):
+docs/evidence/astra-vs-claude/game-riding-wagon.png, game-work-house-close.png, game-work-shoot-close.png,
+game-work-pace-close.png, game-work-about-close.png, game-children-play-1366.png.
+
+**Evidence (same computer; headless Chrome; no Chromebook, LAN or classroom claim).** On the branch with origin/main c92e715f and
+`looks-solid-tiles` merged: `npm test` **1779 tests, 1743 pass, 0 fail, 36 skipped**; after origin/main d5f4d391 (every work
+at half its length) merged too: 1783 tests, 1746 pass, 1 fail - `classroom-doors`' ping timing, run beside three browser proofs;
+alone it passes 5/5 three times - and `test:work` 5 (its surveyor may now finish and sit inside the watch, so the pacing check
+allows the rest after the walk), `test:children` 16, `test:riding` 16. Browser proofs: `test:riding` 16,
+`test:children` 16, `test:work` 5, `test:lone-parent` 10, `test:battle-gonzales` 12, `test:looks-face` 12, `test:creation` 10,
+`test:creation-screen` 4, `test:overlap` pass, `test:art` pass; before the last merge also `test:looks` 9, `test:family-panel` 18,
+`test:battle-bexar` 15, `test:battle-alamo` 13, `test:battle-san-jacinto` 15, `test:battle-concepcion` 13. `test:famous-people` 22 (run alone; once, beside
+a clean-main Coleto run, it missed Neill hurt at the guns, a sampling miss under load).
+**Failing, and failing the same on clean origin/main c92e715f (not this branch):** `test:battle-south` ("no account of San
+Patricio came", 13 checks pass first, identical on a clean checkout of c92e715f) and `test:battle-coleto` (here "no account came
+through the family at the word" after 16 checks; on the clean checkout it fails earlier, "no Follow card came through the man when
+the column marched out") - both a news card not arriving, after every drawing check has passed.
+
+## The character creator's solid-colour tiles — owner, 2026-09-29 (not released)
+
+Branch `looks-solid-tiles`, off origin/main (3dd5209d); not pushed. The owner, on the released v2026.09.29.1: *"multiple choices
+in the character creator screens are just solid colors."* Also from the owner-side check: with Fair hair the father's
+"Moustache" and "Bareheaded" choices were the same young, clean-shaven blond face.
+
+**Reproducing.** Not reproduced with every sheet arriving: v2026.09.28.1, v2026.09.29.1 and the fix all drew every choice as a
+figure, walking title, die, surname, names, both parents' looks (every option of every part picked in turn, 2,590 pictures
+measured) and the family panel - headed Chrome 153 (GPU), headless, `--disable-gpu`, `--use-angle=warp|d3d9|gl|swiftshader`,
+`--disable-accelerated-2d-canvas`, `--force-gpu-rasterization`, `--force-color-profile=display-p3-d65|hdr10|scrgb-linear`,
+`--force-device-scale-factor=1.5`, 1366x768, 1280x800 and 1920x1080, a class and Play Solo. The recolouring
+(`public/person-palette.js`) and `appearanceFrame` never gave a flat tile: the least-drawn choice changed 54% of its card from
+the backdrop, with 1,814 colours (a plain backdrop has 218). **Reproduced exactly by losing one request** for the second cast
+sheet (`people-cast2-idle`, the bareheaded father, the bonnet, headscarf, braid, loose hair and straw hat): every choice drawn
+from it stays the card's plain tan backdrop for as long as the page is open - the whole mother's card but "Hair pinned up",
+and the father's Bareheaded and Moustache. v2026.09.28.1 behaves the same; the weakness is older than the release, and what
+lost the owner's request on the day is not known (a server restart the page lives through - which since v2026.09.29.1's
+`public/reconnect.js` the page survives without a reload - a Wi-Fi roam, or a school filter extension are all enough).
+
+**Cause.** `requestSheet` in `public/art.js` kept a sheet's failed request for the life of the page ("Concurrent calls share
+... including failed requests"): `loadImage` swallowed the error and returned null, `sheetPending` kept that promise, and every
+later ask got the same null. `drawSprite` then drew nothing, and `drawAvatarPortrait` left only its backdrop.
+
+**Fix.** A failed sheet is asked for again, 1, 2, 4, 8, 15 then every 30 seconds (`retrySheet`, `RETRY_SHEET_MS`); between tries
+the failure is still shared, so a map drawing the missing sheet every frame asks once. On arrival `onArtReady` already redraws
+the pop-up. `ceiling:` it retries for the life of the page. **This touches `public/art.js` outside `appearanceFrame`**
+(`requestSheet` and the lines above it, and the import line) - kept to those lines for the concurrent art.js work.
+
+**The moustache.** Not a recolouring fault: `avatarVariant` draws both "Bareheaded" and "Moustache" as her ochre man, the only
+bareheaded man she has painted, and he is clean-shaven (the rust man's near-black beard not taking Fair is the existing
+`ceiling:` in person-palette.js). A stand-in moustache is now painted in the hair colour above the mouth the palette finds, on
+the face's own skin only, in the frames that face the viewer (`paintMoustache`, `MOUSTACHED`, `FACING_US`; `stand-in:` A18,
+row added under *Stand-ins in use*); `appearanceFrame` keys its cache by `paletteKey`, which includes a moustache. "Bareheaded"
+is still the young man until A18's layers let a hat and a beard come off the same man.
+
+**Proof.** `npm run test:looks-face` 12/12 (was 10), three new checks: (1) at 1366x768 every choice of every part picked for
+both parents and after each every picture must be a figure (`figureless`: 25% of the card changed from the plain backdrop,
+300 colours, 1% ink); (2) the father's Moustache picture is not the Bareheaded one; (3) a page whose first request for the
+second cast sheet is lost must draw every choice within 20 seconds. `tests/art-retry.test.mjs` (new): a sheet whose first
+request fails is not asked again at once, then is fetched again, arrives and draws. `tests/person-palette.test.mjs` +1: the
+moustache is on the face's skin only, over the mouth, in the hair colour, and not in profile.
+
+**Injections** (each removed after): the release's `requestSheet` (no retry) - `test:looks-face` fails only check (3), "parent
+1: the first request for the second cast sheet was lost (1 asked) and 20 seconds later these pictures are still plain
+swatches", and `art-retry` fails ("never fetched again ... asked 1 time(s)"); a recolour that fills the figure with one colour
+only for red hair with navy clothes - only check (1) fails ("parent 1, hair "red" picked: these pictures are not a figure"),
+the existing every-swatch check passing it; `appearanceFrame`'s old cache key (no head) - only check (2) fails; no
+`paintMoustache` - only the new palette test fails.
+
+**Screenshots** (`docs/evidence/looks-solid/`, 1366x768): `v2026.09.28.1-lost-sheet-parent-{1,2}.png`,
+`v2026.09.29.1-lost-sheet-parent-{1,2}.png` (the solid tiles) and `fixed-lost-sheet-parent-{1,2}.png` (the same lost request,
+drawn); `proof-lost-sheet-parent-{1,2}.png` from the proof; `<v2026.09.28.1|v2026.09.29.1|fixed>-fair-hair-father-headwear.png`
+and `-preview.png` (the Moustache choice).
+
+**Evidence (same computer; no Chromebook, LAN or classroom claim).** `npm test` 1703 of 1739, 0 failed, 36 skipped.
+`test:looks-face` 12/12, `test:looks` 9/9, `test:creation` 10/10, `test:family-panel` pass. `test:creation-screen` fails on this
+branch and identically on clean origin/main (3dd5209d): it expects the title card to be announced as "Your family" and it
+reads "Who will your family be?" - not touched here.
+
 ## Every family work at half its length — owner, 2026-09-29 (not released)
 
 Branch `work-halved`, off origin/main (af25547a); not pushed. The owner, verbatim: *"Tasks are taking far too long. Cutting down

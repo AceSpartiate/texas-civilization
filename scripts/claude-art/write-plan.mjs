@@ -6,6 +6,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { AREAS, ITEMS, claudeFor } from './plan.mjs';
+import { namePrefixes, standinWithheld } from '../../public/art-subjects.js';
 
 const DOCS = fileURLToPath(new URL('../../docs/', import.meta.url));
 export const PLAN_FILE = DOCS + 'CLAUDE_ART_PLAN.md';
@@ -19,9 +20,18 @@ export const slug = heading => '#' + heading.toLowerCase().replace(/[^\p{L}\p{N}
 const open = item => item.status === 'open';
 const byPriority = (a, b) => a.priority - b.priority || a.id.localeCompare(b.id, 'en', { numeric: true });
 
+// Astra's art wins by subject (owner, 2026-09-29; public/art-subjects.js): a Claude stand-in of a subject she has drawn is built
+// but never drawn - the page draws hers - and the item says so, naming the subject.
+const HERS = namePrefixes(Object.keys(JSON.parse(readFileSync(fileURLToPath(new URL('../../public/assets/frontier-v1/atlas.json', import.meta.url)), 'utf8')).frames));
 function claudeNote(item, manifest) {
   const drawn = claudeFor(item, manifest);
-  return drawn.length ? `**Claude stand-in in place** (${drawn.map(n => `\`${n}\``).join(', ')}); Astra's replaces it` : '';
+  if (!drawn.length) return '';
+  const firstFrame = name => manifest.clips[name]?.frames?.[0]?.sprite || name;
+  const held = drawn.filter(name => standinWithheld(firstFrame(name), HERS)), shown = drawn.filter(name => !held.includes(name));
+  const list = names => names.map(n => `\`${n}\``).join(', ');
+  const subjects = [...new Set(held.map(name => standinWithheld(firstFrame(name), HERS)))].join(', ');
+  return [shown.length && `**Claude stand-in in place** (${list(shown)}); Astra's replaces it`,
+    held.length && `**Claude stand-in held back: Astra has drawn the subject** (${subjects}), so the page draws hers (${list(held)})`].filter(Boolean).join('; ');
 }
 
 /** The section of ART_REQUESTS.md, between the markers. */
@@ -64,6 +74,7 @@ export function planDoc(manifest) {
     '3. **Name frames and clips exactly as the request asks** (`<figure>-<pose>-<n>`, clip `<figure>-<pose>`), so the game\'s own clip name picks up the stand-in and Astra\'s of the same name replaces it. A clip is declared as hers are in `animation.json` (frames with durations, `loop`, `motion`, `direction`), plus `beat` for the frame a tool lands on.',
     '4. **Build and look.** `npm run build:standins -- --only <name>` renders your sheets, writes `public/assets/claude-standins/areas/<name>.json` and merges `atlas.json` and `docs/claude-art-provenance.json`. `node scripts/claude-art/compare.mjs <name>` draws your frames beside hers at 40, 77 and 150 px on the map\'s grass (docs/evidence/claude-art/compare-<name>.png). Look at it before you commit.',
     '5. **Wire it only where the game does not already ask for the name.** Most items plug in with no code: the renderer asks for `<figure>-<pose>` and art.js lets a Claude clip fill the gap. Where the code still draws a stand-in of its own (a canvas tool, a `log-fallen` row), switch it the way `STROKES.chop.drawn` and the wood pile in `drawWorld` do - per figure, falling back when the sheet has not loaded - and keep a `stand-in:` comment naming the request and *Claude-drawn stand-ins*.',
+    '5a. **Astra\'s art always wins, by subject, not by name** (owner, 2026-09-29: *"a lot of astra art has been replaced with worse versions"*). A Claude frame is drawn only for a subject she has not drawn in any pose under any name - a person of the family, a child, the baby, a soldier, a named person, an animal, a vehicle, a house, a kind of tree, a prop. `public/art-subjects.js` says what each Claude frame shows and which of her names prove she has drawn it; `public/art.js` leaves out every one whose subject she has drawn, so the page asks for Claude\'s pose, finds none and draws hers, as before Claude\'s art. A new area module adds a line there for anything it draws (`tests/astra-art-wins.test.mjs` fails until it does), and a frame of her rust, her girl, her wagon or her Castrillón is built but never shown - the items below say *held back*. Draw what she has nothing of.',
     '6. **Record it.** Add your names to your area\'s row of *Claude-drawn stand-ins* in ART_REQUESTS.md (one row an area: nobody else edits it), and rerun `node scripts/claude-art/write-plan.mjs` so this plan and Astra\'s list mark the item. `npm test` (`tests/claude-standins.test.mjs`) fails on a frame without provenance, `madeBy`, a row, or a list item.',
     '7. **After a merge** of two builders\' branches, take either side of a conflict in `public/assets/claude-standins/atlas.json`, `docs/claude-art-provenance.json`, `docs/CLAUDE_ART_PLAN.md` or the generated section of ART_REQUESTS.md, then `npm run build:standins -- --merge` and `node scripts/claude-art/write-plan.mjs`: they are pure functions of the per-module files.', '',
     '**Sizes at a glance.** A person is drawn so that the logical height (300 source px in Claude\'s people frames) is the height the game asks for; the ground is 0.945 of it; `personFrame` makes a 400×400 cell with the ground at y 372 and room for a raised tool. Soldiers use their own longer build (`BUILD.soldier`), as her military atlases do; the baby its own small drawing (`INFANT_POSES`). A mounted frame is 1.8 of a person (`mountedFrame`, logical 540). A prop or building carries its own `logicalHeight` for the height the page draws it at (the wood pile: 1.2 of a person). Icons are 128×128 and marks 96×96, drawn in pixels.', '',

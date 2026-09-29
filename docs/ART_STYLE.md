@@ -19,7 +19,9 @@ as it makes the final versions."*). Kept here verbatim:
 There is no image model in this environment. Claude draws in SVG - by hand, or generated from a style kit and a person
 rig - and rasterises it with the Playwright/Chrome the browser proofs use. Everything Claude draws is **temporary**, kept in
 its own library (`public/assets/claude-standins/`, `madeBy: "claude"` on every sheet, frame and clip), and replaced by
-Astra's frame or clip of the same name the moment hers is registered. See *Claude-drawn stand-ins* in
+Astra's frame or clip of the same name the moment hers is registered. And it is never drawn for a subject she has drawn at all
+(owner, 2026-09-29: `public/art-subjects.js`): her rust, her girl, her wagon are hers in every pose; Claude draws only what she
+has nothing of. See *Claude-drawn stand-ins* in
 [ART_REQUESTS.md](ART_REQUESTS.md) and the plan, [CLAUDE_ART_PLAN.md](CLAUDE_ART_PLAN.md).
 
 Each line of the brief, and what enforces it:

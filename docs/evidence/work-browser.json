@@ -4,10 +4,10 @@
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768. A real class through the join flow on the invented country (seed work-proof-3). The well, the house, the felling, the mark and the water are the server's own chore state set in process; working about the place is the server's own. No LAN or district claim.",
   "checks": [
-    "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 0/1/2/3, dust on the strike, 20 different pictures in 2.4 s",
-    "three sent to the house (\"felling and hauling logs\") are drawn round it (738,409 / 859,384 / 617,384, a figure 77 px), each facing it, swinging an axe with the chips flying (chop in rust-chop, chop in teal-chop, chop in rust-chop; stand-in: Request 2026-09-28 — people at work, item 1)",
-    "at the mark Serafina Proofwright is drawn in teal-idle-e,teal-fire (frames 0/1/2) and a puff of smoke once a cycle (marks 4/0/3); surveying, Barnabas Proofwright drives the stakes in rust-stake (frames 0/1)",
-    "thirty-five logs on the pile are drawn as wood-pile-4, one sprite (projected {\"wall\":28,\"sill\":4,\"poor\":3,\"lying\":0})",
+    "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 2/0/1/3, dust on the strike, 20 different pictures in 2.4 s",
+    "three sent to the house (\"raising the walls\") are drawn round it (738,409 / 859,384 / 617,384, a figure 77 px), each facing it, swinging an axe with the chips flying (chopnotch in rust-work with a drawn axe, chopnotch in teal-work with a drawn axe, chopnotch in rust-work with a drawn axe; stand-in: Request 2026-09-28 — people at work, item 1)",
+    "at the mark Serafina Proofwright is drawn with the rifle up and a puff of smoke once a cycle (marks 1/5/4); surveying, Barnabas Proofwright paces the ground to and fro (21 places, turning both ways)",
+    "thirty-five logs on the pile are drawn as Astra's logs, 4 in a row, not Claude's pile (null; projected {\"wall\":28,\"sill\":4,\"poor\":3,\"lying\":0})",
     "no page errors"
   ],
   "observed": {
@@ -98,9 +98,9 @@
         "rust-work"
       ],
       "frames": [
+        2,
         0,
         1,
-        2,
         3
       ],
       "marks": [
@@ -133,25 +133,24 @@
     },
     "houseFigure": 77.45928530252208,
     "house": {
-      "doing": "felling and hauling logs",
+      "doing": "raising the walls",
       "hh-1-parent-1": {
         "strokes": [
-          "chop"
+          "chop",
+          "notch"
         ],
         "clips": [
           "rust-work"
         ],
         "frames": [
-          5,
           0,
+          1,
           2,
-          3,
-          4,
-          1
+          3
         ],
         "marks": [
-          0,
-          1
+          2,
+          3
         ],
         "shifts": [
           0
@@ -160,13 +159,13 @@
           false
         ],
         "tools": [
-          null
+          "axe"
         ],
         "workClips": [
-          "rust-chop"
+          "rust-work"
         ],
         "arts": [
-          "drawn"
+          "stand-in"
         ],
         "prints": 20,
         "at": {
@@ -174,27 +173,26 @@
           "y": 409,
           "size": 77
         },
-        "art": "drawn",
+        "art": "stand-in",
         "request": "Request 2026-09-28 — people at work, item 1"
       },
       "hh-1-parent-2": {
         "strokes": [
-          "chop"
+          "chop",
+          "notch"
         ],
         "clips": [
           "teal-work"
         ],
         "frames": [
-          5,
           0,
+          1,
           2,
-          3,
-          4,
-          1
+          3
         ],
         "marks": [
-          0,
-          1
+          2,
+          3
         ],
         "shifts": [
           0
@@ -203,13 +201,13 @@
           true
         ],
         "tools": [
-          null
+          "axe"
         ],
         "workClips": [
-          "teal-chop"
+          "teal-work"
         ],
         "arts": [
-          "drawn"
+          "stand-in"
         ],
         "prints": 20,
         "at": {
@@ -217,27 +215,26 @@
           "y": 384,
           "size": 77
         },
-        "art": "drawn",
+        "art": "stand-in",
         "request": "Request 2026-09-28 — people at work, item 1"
       },
       "hh-1-child-1": {
         "strokes": [
-          "chop"
+          "chop",
+          "notch"
         ],
         "clips": [
           "rust-work"
         ],
         "frames": [
-          3,
-          4,
-          5,
-          0,
           2,
+          3,
+          0,
           1
         ],
         "marks": [
-          1,
-          0
+          3,
+          2
         ],
         "shifts": [
           0
@@ -246,13 +243,13 @@
           false
         ],
         "tools": [
-          null
+          "axe"
         ],
         "workClips": [
-          "rust-chop"
+          "rust-work"
         ],
         "arts": [
-          "drawn"
+          "stand-in"
         ],
         "prints": 20,
         "at": {
@@ -260,66 +257,10 @@
           "y": 384,
           "size": 77
         },
-        "art": "drawn",
+        "art": "stand-in",
         "request": "Request 2026-09-28 — people at work, item 1"
       }
     },
-    "ownCycle": [
-      {
-        "name": "Barnabas Proofwright",
-        "clips": [
-          "rust-chop"
-        ],
-        "frames": [
-          5,
-          0,
-          2,
-          3,
-          4,
-          1
-        ],
-        "marks": [
-          0,
-          1
-        ]
-      },
-      {
-        "name": "Serafina Proofwright",
-        "clips": [
-          "teal-chop"
-        ],
-        "frames": [
-          5,
-          0,
-          2,
-          3,
-          4,
-          1
-        ],
-        "marks": [
-          0,
-          1
-        ]
-      },
-      {
-        "name": "Basilio Proofwright",
-        "clips": [
-          "rust-chop"
-        ],
-        "frames": [
-          3,
-          4,
-          5,
-          0,
-          2,
-          1
-        ],
-        "marks": [
-          1,
-          0
-        ]
-      }
-    ],
     "surveyed": {
       "dx": -0.12,
       "dy": 0
@@ -330,37 +271,58 @@
           "pace"
         ],
         "clips": [
-          "rust-walk"
+          "rust-walk",
+          "rust-rest"
         ],
         "frames": [
-          0,
-          1
+          0
         ],
         "marks": [
           0
         ],
         "shifts": [
-          0
+          -5.7,
+          1.1,
+          4.5,
+          7.8,
+          10.8,
+          17.7,
+          19,
+          19.7,
+          19.8,
+          18.2,
+          16.6,
+          14.4,
+          8.9,
+          5.7,
+          2.4,
+          -4.5,
+          -7.8,
+          -10.8,
+          -13.5,
+          -17.7,
+          -19
         ],
         "flips": [
-          false
+          false,
+          true
         ],
         "tools": [
           null
         ],
         "workClips": [
-          "rust-stake"
+          "rust-walk"
         ],
         "arts": [
-          "drawn"
+          "stand-in"
         ],
-        "prints": 2,
+        "prints": 24,
         "at": {
           "x": 653,
           "y": 362,
           "size": 50
         },
-        "art": "drawn",
+        "art": "stand-in",
         "request": "Request 2026-09-28 — people at work, item 12"
       },
       "hh-1-parent-2": {
@@ -371,14 +333,12 @@
           "teal-idle-e"
         ],
         "frames": [
-          0,
-          1,
-          2
+          0
         ],
         "marks": [
-          4,
-          0,
-          3
+          1,
+          5,
+          4
         ],
         "shifts": [
           0
@@ -387,18 +347,15 @@
           false
         ],
         "tools": [
-          "rifle",
-          null
+          "rifle"
         ],
         "workClips": [
-          "teal-idle-e",
-          "teal-fire"
+          "teal-idle-e"
         ],
         "arts": [
-          "stand-in",
-          "drawn"
+          "stand-in"
         ],
-        "prints": 9,
+        "prints": 24,
         "at": {
           "x": 653,
           "y": 362,
@@ -410,7 +367,7 @@
     },
     "woodPile": {
       "drawn": 4,
-      "sprite": "wood-pile-4",
+      "sprite": null,
       "logs": {
         "wall": 28,
         "sill": 4,
@@ -418,9 +375,9 @@
         "lying": 0
       },
       "box": {
-        "x": 264.2879150000001,
-        "y": 333.54777839999997,
-        "width": 289.47995999999995,
+        "x": 274.67317531612906,
+        "y": 315.35189519999994,
+        "width": 407.246277367742,
         "height": 173.687976
       }
     }
