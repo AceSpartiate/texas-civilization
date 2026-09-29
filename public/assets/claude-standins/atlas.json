@@ -14551,11 +14551,19 @@
         },
         {
           "sprite": "volunteer-dig-3",
-          "duration": 320
+          "duration": 240
         },
         {
           "sprite": "volunteer-dig-4",
+          "duration": 320
+        },
+        {
+          "sprite": "volunteer-dig-5",
           "duration": 260
+        },
+        {
+          "sprite": "volunteer-dig-6",
+          "duration": 220
         }
       ],
       "loop": true,

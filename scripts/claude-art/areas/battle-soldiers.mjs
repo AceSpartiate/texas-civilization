@@ -158,10 +158,10 @@ for (const side of ['volunteer', 'regular']) {
     const F = frameOf(VOLUNTEER);
     POSES.dig(F).forEach((p, i) => {
       const name = `volunteer-dig-${i + 1}`;
-      rows.push([name, `${WHO.volunteer}, his rifle laid by; digging a trench across a street of Béxar at night with a spade - driven in, levered, the earth thrown up onto the bank, back (frame ${i + 1} of 4) - standing in the trench behind the fresh earth of its near bank. ${STYLE}`,
+      rows.push([name, `${WHO.volunteer}, his rifle laid by; digging a trench across a street of Béxar at night with a spade - driven in, levered, the earth thrown up onto the bank, back (frame ${i + 1} of ${POSES.dig(F).length}) - standing in the trench behind the fresh earth of its near bank. ${STYLE}`,
         () => frame(name, VOLUNTEER, p, { after: ink => trenchBank(ink) }), [['rust-work-2', 1]]]);
     });
-    clips['volunteer-dig'] = clip([1, 2, 3, 4].map(i => [`volunteer-dig-${i}`, [300, 260, 320, 260][i - 1]]), { beat: 0, prompt: `${WHO.volunteer}: digging a trench at night, the spade cycle looping; the spade goes in on the first frame.` });
+    clips['volunteer-dig'] = clip(POSES.dig(F).map((p, i) => [`volunteer-dig-${i + 1}`, [300, 260, 240, 320, 260, 220][i] ?? 260]), { beat: 0, prompt: `${WHO.volunteer}: digging a trench at night, the spade cycle looping; the spade goes in on the first frame.` });
   }
   sheet('claude-bexar-streets', R.storming, 'items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height', rows);
 }

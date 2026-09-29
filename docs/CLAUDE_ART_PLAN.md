@@ -215,7 +215,7 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Plugs into:** the `camp` branch of `draw` and `drawWorks` in `public/battle-view.js`
   - **Stands in now:** the standing idle and seated wounded; `crate`, `sacks`, `barrel`, `packed-belongings` in a line (Astra's library art reused)
   - **Research first:** HIST-TEX-522 (Houston: "packs and baggage, leaving an opening in the centre")
-- [ ] **C5** (priority 2) — [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar), items 1, 3, 4 — **Claude stand-in in place** (`volunteer-loophole-fire`, `regular-loophole-fire`, `volunteer-crowbar`, `volunteer-dig`, `volunteer-dig-5`, `volunteer-dig-6`, `barricade-street`, `sandbag-breastwork`); Astra's replaces it
+- [ ] **C5** (priority 2) — [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar), items 1, 3, 4 — **Claude stand-in in place** (`volunteer-loophole-fire`, `regular-loophole-fire`, `volunteer-crowbar`, `volunteer-dig`, `barricade-street`, `sandbag-breastwork`); Astra's replaces it
   - **Deliver:** `volunteer-loophole-fire` and `regular-loophole-fire` (the barrel at the wall, the man half hidden, 2-4 frames); `volunteer-crowbar` (4 frames, forcing a door); `volunteer-dig` (a spade in a trench at night); `barricade-street` (ditch, bank, post palisade, gun embrasure); `sandbag-breastwork`
   - **Frames:** 2-4 frames; props 1. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure; props at `palisade` scale
   - **Plugs into:** `draw` (`cover`), `drawBreaches` in `public/battle-view.js`
