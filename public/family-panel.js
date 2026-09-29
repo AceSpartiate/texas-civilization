@@ -472,7 +472,7 @@ export function needsOf(world, entityId) {
   // person when they are with it, else the next grown person there, else the oldest child of seven or more (sim/acting.mjs,
   // `actingOf`). Not on a father away with the army (interactions B1, 2026-09-28). Nothing while neighbours have taken it in.
   const acting = actingOf(world);
-  if (world.flight?.status === 'ordered' && !world.household?.takenIn && entityId === acting) needs.push({ kind: 'flight', text: 'The family has been told to leave for the east.', ...ms(world.flight.leftMs) });
+  if (world.flight?.status === 'ordered' && !world.household?.takenIn && entityId === acting) needs.push({ kind: 'flight', text: `The family has been told to leave for the east.${world.flight.ifUnanswered ? ` ${world.flight.ifUnanswered}` : ''}`, ...ms(world.flight.leftMs) });
   // The road's question (sim/road.mjs): the bogged wagon, the army close behind - the family's, on the same row. The soldiers'
   // ¡Alto! is its own kind: it is the most urgent thing in the game.
   if (world.flight?.ask && !world.household?.takenIn && entityId === acting) needs.push({ kind: world.flight.ask.id === 'alto' ? 'alto' : 'road', text: world.flight.ask.text || 'The road is asking the family something.', ...ms(world.flight.ask.leftMs) });

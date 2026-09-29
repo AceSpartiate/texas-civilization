@@ -56,6 +56,18 @@ export const TUNES = Object.freeze({
     melody: 'G4:2 B4:.5 G4:.5 B4:2 A4:1 G4:2 E4:1 D4:2 D4:1 G4:2 B4:.5 G4:.5 B4:2 A4:1 D5:3 D5:2 B4:1 '
       + 'D5:2 B4:.5 G4:.5 B4:2 A4:1 G4:2 E4:1 D4:2 D4:1 G4:2 B4:.5 G4:.5 B4:2 A4:1 G4:3 G4:2 D4:1',
   },
+  // The lone parent's wedding (sim/courtship.mjs, public/courtship.js; owner 2026-09-29: "it should feel special"): a slow waltz on
+  // the fiddle over a plucked guitar, for the wedding by bond and the family by its new house. Written for this game; it does not
+  // claim to be anything played at a frontier wedding.
+  'bond-at-the-cabin': {
+    title: 'The Bond at the Cabin', mood: 'wedding', bpm: 84, beats: 3, lead: 'fiddle', accompany: 'pluck', level: 0.75,
+    source: { kind: 'original', composition: 'written for this game, 2026-09-29' },
+    chords: 'D G D A D G A D G D G A D G A D',
+    melody: 'F#4:1 A4:1 D5:1 B4:1.5 A4:.5 G4:1 F#4:1 A4:1 F#4:1 E4:3 '
+      + 'F#4:1 A4:1 D5:1 D5:1.5 E5:.5 D5:1 C#5:1 B4:1 A4:1 D5:3 '
+      + 'B4:1 D5:1 G5:1 F#5:1.5 E5:.5 D5:1 B4:1 D5:1 B4:1 A4:3 '
+      + 'F#4:1 A4:1 D5:1 G5:1.5 F#5:.5 E5:1 C#5:1 E5:1 C#5:1 D5:3',
+  },
   'auld-lang-syne': {
     title: 'Auld Lang Syne', mood: 'ending', bpm: 72, beats: 4, lead: 'fiddle', accompany: 'pad', level: 0.75,
     source: { kind: 'public-domain-tune', composition: 'Auld Lang Syne, Scottish traditional air as printed with Burns\'s words, 1799; arrangement written for this game' },
@@ -68,6 +80,7 @@ export const TUNES = Object.freeze({
 /** What is played for each moment of the game; a list is played in turn. */
 export const MOODS = Object.freeze({
   title: ['folia'], farm: ['brazos-morning'], war: ['muster'], battle: ['before-the-guns'], scrape: ['long-road-east'], ending: ['new-britain', 'auld-lang-syne'],
+  wedding: ['bond-at-the-cabin'],
 });
 
 const NAMES = { C: 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11 };

@@ -270,7 +270,8 @@ function candidates(world, household, trip) {
 
   // ---------------------------------------------------------------------------------------------- the arrival and the roll
   const founded = events.find(event => event.type === 'household-founded') || { minute: 0 };
-  const parents = members.filter(person => ['father', 'mother'].includes(person.kin?.role)).map(firstName);
+  // Who came: a lone parent's husband or wife, married on the family's land (sim/courtship.mjs), was not on the road in.
+  const parents = members.filter(person => ['father', 'mother'].includes(person.kin?.role) && person.id !== household.courtship?.spouse?.id).map(firstName);
   const children = members.filter(person => ['son', 'daughter'].includes(person.kin?.role)).map(firstName);
   const means = household.means?.coin ? ` They had ${household.means.coin} reales in coin.` : '';
   // A big family is counted rather than listed: fifteen names is not a caption anybody can read in four seconds.
@@ -284,6 +285,16 @@ function candidates(world, household, trip) {
   if (built) {
     const what = built.text.match(/^The house is built: (.*?)\.?$/)?.[1];
     add({ kind: 'house', weight: 82, minute: built.minute, place: home, caption: `The family raised its own house${what ? `: ${what}` : ''}.`, scene: { type: 'home', house: { shelter: 'house', layout: houseLayout }, people: at(built.minute) } });
+  }
+  // ------------------------------------------------------------------------------ the lone parent's wedding (sim/courtship.mjs)
+  // The day the family went to its neighbours and came home with two parents and a house raised: one of the moments a family
+  // that began with one parent will remember first.
+  const wed = household.courtship?.stage === 'home' ? events.find(event => event.type === 'courtship' && /married by bond/.test(event.text)) : null;
+  if (wed) {
+    const lone = members.find(person => person.id === household.courtship.parentId), spouse = members.find(person => person.id === household.courtship.spouse.id);
+    add({ kind: 'wedding', weight: 90, minute: wed.minute, place: home,
+      caption: `${lone ? firstName(lone) : 'The family'} and ${spouse ? firstName(spouse) : 'a neighbour'} were married by bond, the neighbours their witnesses, beside the house the neighbours raised.`,
+      scene: { type: 'home', house: { shelter: 'house', layout: houseLayout }, people: at(wed.minute) } });
   }
   // ------------------------------------------------------------------------------------------------------- the fields
   const orderMinute = household.flight?.orderedMinute ?? Infinity;

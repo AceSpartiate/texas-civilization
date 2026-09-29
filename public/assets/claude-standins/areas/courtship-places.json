@@ -1,0 +1,296 @@
+{
+  "module": "courtship-places",
+  "area": "places",
+  "date": "2026-09-29",
+  "sheets": {
+    "claude-courtship-farms": {
+      "image": "/assets/claude-standins/claude-courtship-farms.png",
+      "width": 1080,
+      "height": 1120,
+      "bytes": 935900,
+      "sha256": "851e95f47fc2223a828311897a2d13ce667cc035985e6ee5ce635805245f1fa9",
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 2,
+        "columns": 1,
+        "cell": {
+          "w": 1080,
+          "h": 560
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-table": {
+      "image": "/assets/claude-standins/claude-courtship-table.png",
+      "width": 560,
+      "height": 330,
+      "bytes": 84262,
+      "sha256": "5bf7f67ed1c002a102ae122ebdccbbe9ab5cfd1266e03bece40b0959a5bf88fa",
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 560,
+          "h": 330
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-yard-morning": {
+      "image": "/assets/claude-standins/claude-courtship-yard-morning.png",
+      "width": 960,
+      "height": 540,
+      "bytes": 214311,
+      "sha256": "31c7a01207a3591b2a5b0d01536811e0e24374ee22aec37c8f4b5bc1bfd61ba9",
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 960,
+          "h": 540
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-yard-noon": {
+      "image": "/assets/claude-standins/claude-courtship-yard-noon.png",
+      "width": 960,
+      "height": 540,
+      "bytes": 195861,
+      "sha256": "3aa05ccb10e6c30968102970d2591254e39833d5adedbfb2e546f92c345e0c58",
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 960,
+          "h": 540
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-yard-evening": {
+      "image": "/assets/claude-standins/claude-courtship-yard-evening.png",
+      "width": 960,
+      "height": 540,
+      "bytes": 213565,
+      "sha256": "3593d0fda49749992b9ed0e8a9e3022a2b7f92d019388d37e61ec3bf1ffa2ace",
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 960,
+          "h": 540
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "farm-neighbour-porch": {
+      "sheet": "claude-courtship-farms",
+      "x": 0,
+      "y": 0,
+      "w": 1080,
+      "h": 560,
+      "anchorX": 0.5494,
+      "anchorY": 0.9822,
+      "logicalHeight": 129,
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "farm-neighbour-porch: item 3: building contract, corner-on three-quarter view, anchored at the base centre, drawn beside the cast at their heights",
+      "source": "svg/courtship-places/claude-farm-neighbour-porch.svg",
+      "label": "farm neighbour porch",
+      "kind": "claude-courtship-farms"
+    },
+    "farm-neighbour-ramada": {
+      "sheet": "claude-courtship-farms",
+      "x": 0,
+      "y": 560,
+      "w": 1080,
+      "h": 560,
+      "anchorX": 0.4194,
+      "anchorY": 0.9821,
+      "logicalHeight": 139,
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "farm-neighbour-ramada: item 3: building contract, corner-on three-quarter view, anchored at the base centre, drawn beside the cast at their heights",
+      "source": "svg/courtship-places/claude-farm-neighbour-ramada.svg",
+      "label": "farm neighbour ramada",
+      "kind": "claude-courtship-farms"
+    },
+    "wedding-table": {
+      "sheet": "claude-courtship-table",
+      "x": 0,
+      "y": 0,
+      "w": 560,
+      "h": 330,
+      "anchorX": 0.5037,
+      "anchorY": 0.9091,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "wedding-table: item 4: prop contract, transparent, anchored at its base, at the scale of the people beside it",
+      "source": "svg/courtship-places/claude-wedding-table.svg",
+      "label": "wedding table",
+      "kind": "claude-courtship-table"
+    },
+    "courtship-yard-morning": {
+      "sheet": "claude-courtship-yard-morning",
+      "x": 0,
+      "y": 0,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "logicalHeight": 540,
+      "backdrop": true,
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "courtship-yard-morning: item 5: 960 by 540, a painted yard with no people and no buildings, drawn to cover the scene",
+      "source": "svg/courtship-places/claude-courtship-yard-morning.svg",
+      "label": "courtship yard morning",
+      "kind": "claude-courtship-yard-morning"
+    },
+    "courtship-yard-noon": {
+      "sheet": "claude-courtship-yard-noon",
+      "x": 0,
+      "y": 0,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "logicalHeight": 540,
+      "backdrop": true,
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "courtship-yard-noon: item 5: 960 by 540, a painted yard with no people and no buildings, drawn to cover the scene",
+      "source": "svg/courtship-places/claude-courtship-yard-noon.svg",
+      "label": "courtship yard noon",
+      "kind": "claude-courtship-yard-noon"
+    },
+    "courtship-yard-evening": {
+      "sheet": "claude-courtship-yard-evening",
+      "x": 0,
+      "y": 0,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "logicalHeight": 540,
+      "backdrop": true,
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "courtship-yard-evening: item 5: 960 by 540, a painted yard with no people and no buildings, drawn to cover the scene",
+      "source": "svg/courtship-places/claude-courtship-yard-evening.svg",
+      "label": "courtship yard evening",
+      "kind": "claude-courtship-yard-evening"
+    }
+  },
+  "clips": {},
+  "provenance": {
+    "farm-neighbour-porch": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-places",
+      "area": "places",
+      "sheet": "claude-courtship-farms",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "The first neighbours' farmstead, a family's home: a log cabin with a shingle roof and a stone chimney (Astra's own cabin-wide, her pixels), a roofed porch across its whole front on four round posts with a plank floor a foot up and a step down from the door, the roof laid in the same shingles; the door standing open on the dark of the room, a plank bench under the left window and a water bucket by the door (her home-bench and bucket); her split-rail fence zigzagging off to the left; a chopping block with the axe bitten into it and split sticks by it in the yard at the right; a thread of smoke from the chimney. Front square to the camera with the right end and roof showing, as her building sheets; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no people, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-places/claude-farm-neighbour-porch.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's farm-neighbour-porch"
+    },
+    "farm-neighbour-ramada": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-places",
+      "area": "places",
+      "sheet": "claude-courtship-farms",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "The second neighbours' farmstead, a family's home and a different one: a jacal of upright posts and mud with a thatched roof and a brush ramada giving shade before it (Astra's own jacal-ramada, her pixels), a round red clay olla hung in a rope sling from the ramada's front beam and sweating, her plank bench in the ramada's shade, her iron pot on a tripod over a small fire in the yard to the left, and at the right a small corral of pickets set close with a pole lashed along each side, a hollow-log trough inside and a pole laid across the gate. Front square to the camera, as her building sheets; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no people, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-places/claude-farm-neighbour-ramada.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's farm-neighbour-ramada"
+    },
+    "wedding-table": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-places",
+      "area": "places",
+      "sheet": "claude-courtship-table",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "The wedding supper laid out of doors by the neighbours: a long table of three planks on two splayed trestles, a cream cloth run down its middle and hanging over the front edge, and on it a pan of golden cornbread cut in squares, a jar of goldenrod and purple asters, a glazed ham on a pale platter, a black iron pot with its lid on and steam rising, a tall tin coffee pot with its spout and handle, and four tin cups along the front. Three-quarter view in her building sheets' projection, at the scale of the people who stand at it; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/courtship-places/claude-wedding-table.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wedding-table"
+    },
+    "courtship-yard-morning": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-places",
+      "area": "places",
+      "sheet": "claude-courtship-yard-morning",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "A farm yard to stand the lone parent's scenes in, at early morning: a pale clear sky warming to gold at the horizon, the low sun off to the left behind a soft glow, fresh green grass, soft shadows. A painting 960 by 540: the ground of the yard over the lower 58% (the horizon at y 228) - grass with a worn patch of bare earth in the middle where the people stand, a few wildflowers and pebbles - a line of oaks and pecans along a creek behind, the creek glinting through a gap at the left, a far blue line of woods, a rail fence far off at the right, a big live oak framing the near left and another the right; sky above. No people, no buildings, no text. Warm hand-drawn storybook style: flat shapes, thin dark olive-brown outlines on the trees and clouds, the moss, rust, cream and ochre palette.",
+      "source": "public/assets/claude-standins/svg/courtship-places/claude-courtship-yard-morning.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's courtship-yard-morning"
+    },
+    "courtship-yard-noon": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-places",
+      "area": "places",
+      "sheet": "claude-courtship-yard-noon",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "A farm yard to stand the lone parent's scenes in, at noon: a deep clear blue sky with a few white clouds, bright green grass and trees, the light high and the shadows short. A painting 960 by 540: the ground of the yard over the lower 58% (the horizon at y 228) - grass with a worn patch of bare earth in the middle where the people stand, a few wildflowers and pebbles - a line of oaks and pecans along a creek behind, the creek glinting through a gap at the left, a far blue line of woods, a rail fence far off at the right, a big live oak framing the near left and another the right; sky above. No people, no buildings, no text. Warm hand-drawn storybook style: flat shapes, thin dark olive-brown outlines on the trees and clouds, the moss, rust, cream and ochre palette.",
+      "source": "public/assets/claude-standins/svg/courtship-places/claude-courtship-yard-noon.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's courtship-yard-noon"
+    },
+    "courtship-yard-evening": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "courtship-places",
+      "area": "places",
+      "sheet": "claude-courtship-yard-evening",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "prompt": "A farm yard to stand the lone parent's scenes in, at a warm golden evening: a sky from dusky violet overhead to orange and gold at the horizon, the low sun glowing behind the trees at the right, the grass and trees warmed gold, long shadows. A painting 960 by 540: the ground of the yard over the lower 58% (the horizon at y 228) - grass with a worn patch of bare earth in the middle where the people stand, a few wildflowers and pebbles - a line of oaks and pecans along a creek behind, the creek glinting through a gap at the left, a far blue line of woods, a rail fence far off at the right, a big live oak framing the near left and another the right; sky above. No people, no buildings, no text. Warm hand-drawn storybook style: flat shapes, thin dark olive-brown outlines on the trees and clouds, the moss, rust, cream and ochre palette.",
+      "source": "public/assets/claude-standins/svg/courtship-places/claude-courtship-yard-evening.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's courtship-yard-evening"
+    }
+  }
+}

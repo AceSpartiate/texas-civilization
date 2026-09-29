@@ -285,7 +285,10 @@ try {
   await page.screenshot({ path: 'test-results/family-panel-portrait.png' });
 
   // ---------------------------------------------------------------------------------- every name, saved without a button
-  assert.equal(await page.locator('#family-panel button:not(.panel-portrait):not(.panel-icon):not(.panel-attention):not(.panel-focus):not(.panel-make-main):not(.panel-house):not(.panel-auto):not(#family-collapse)').count(), 0, 'the panel has a button that is not a portrait, an icon, one of the §11 controls (the "!", the star and its labelled twin in the bar, House, auto) or §12\u2019s Hide names');
+  // The lone parent's ability (public/app.js `renderAskNeighbours`, owner 2026-09-29) stands at the head of the column with its own
+  // three buttons when it is offered; this family has two parents, and it is not.
+  assert.equal(await page.locator('#ask-neighbours').isHidden(), true, 'a family with two parents was offered the lone parent path');
+  assert.equal(await page.locator('#family-panel button:not(.panel-portrait):not(.panel-icon):not(.panel-attention):not(.panel-focus):not(.panel-make-main):not(.panel-house):not(.panel-auto):not(#family-collapse):not(#ask-neighbours button)').count(), 0, 'the panel has a button that is not a portrait, an icon, one of the §11 controls (the "!", the star and its labelled twin in the bar, House, auto) or §12\u2019s Hide names');
   assert.equal(await page.locator('#family-journal .name-row button, #family-name-form button').count(), 0, 'the family book still has Rename buttons');
   // Twenty, because a family may now be twenty (owner, 2026-09-22: the number rolled is the family); this seed rolls fourteen.
   const newNames = ['Asa', 'Keziah', 'Hiram', 'Delia', 'Obed', 'Minerva', 'Levi', 'Soledad', 'Jonas', 'Effie',

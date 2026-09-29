@@ -114,6 +114,9 @@ export const ALWAYS = Object.freeze([
   'resume-lesson',
   // And putting away a tip (sim/tips.mjs, owner 2026-09-28: "Short tips at first meeting"): it moves nothing in the world.
   'seen-tip',
+  // And the lone parent's path (sim/courtship.mjs, owner 2026-09-29): a house is what the lesson would teach, and the neighbours
+  // raise one; a lesson that refused it would be refusing the family its roof.
+  'ask-neighbours', 'courtship-watched',
 ]);
 
 /**

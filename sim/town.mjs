@@ -267,7 +267,9 @@ export function observedBy(world, householdId) {
     // Nor a messenger whose errand is done and who has gone (owner, 2026-09-27: "riders delivering messages should leave after
     // their interactions are complete"): a rider ridden home (sim/encounters.mjs `advanceDepartures`), or Travis's runner back
     // inside the colonel's quarters (sim/encounters.mjs `goneFromSight`).
-    .filter(entity => !goneFromSight(entity));
+    .filter(entity => !goneFromSight(entity))
+    // Nor a lone parent's family away at the neighbours' farms (sim/courtship.mjs): not at home to be seen.
+    .filter(entity => !entity.visiting);
   // A rider carrying word is visible while they are still coming, because watching
   // somebody ride up to your door is the arrival, and news that materialises at the moment
   // it is spoken has no approach at all. Anybody within sight of one of this family's own

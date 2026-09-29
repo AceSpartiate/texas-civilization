@@ -24,7 +24,7 @@ import { militaryNotices } from './military-attention.js';
 export const TIPS = Object.freeze({
   alto: 'Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, and running risks their shots. No answer means you halt.',
   road: 'The road is asking your family something. Press the “!” to answer - each answer says what it costs. No answer in time, and nothing is done.',
-  flight: 'Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and the family packs and goes.',
+  flight: 'Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and it leaves in a rush and the house is lost.',
   route: 'On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.',
   sick: 'Someone is sick, and resting helps them mend. Have another grown-up choose “Nurse the sick”: nobody dies while being nursed. A very sick person can die within a day.',
   rest: '“Stop and rest a day”: the sick mend twice as fast, but the family makes no miles and the Mexican army keeps coming.',

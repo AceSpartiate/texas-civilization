@@ -20,7 +20,7 @@ export function createSoundscape({ hostPage = false, win = globalThis.window, do
   let role = audioRole({ hostPage });
   let settings = loadSettings(role, storage);
   let ctx = null, noise = null, master = null, buses = null, music = null, timer = null;
-  let unlocked = false, lastAmbient = 0, lastWorld = null, creating = false;
+  let unlocked = false, lastAmbient = 0, lastWorld = null, creating = false, wedding = false;
   const mixer = new Mixer();
   const cueState = createCueState();
   const beds = new Map();
@@ -60,7 +60,7 @@ export function createSoundscape({ hostPage = false, win = globalThis.window, do
     const set = (param, value) => { param.cancelScheduledValues(now); param.setValueAtTime(param.value, now); param.linearRampToValueAtTime(value, now + 0.3); };
     set(buses.music.gain, levels.music * duck); set(buses.fx.gain, levels.fx); set(buses.ui.gain, levels.ui);
     if (settings.muted) { music?.setMood(null); for (const bed of beds.values()) bed.set(0); }
-    else if (lastWorld) setMood(moodFor(lastWorld, { creating }));
+    else if (lastWorld) setMood(moodFor(lastWorld, { creating, wedding }));
   }
   function performanceNow() { return win?.performance?.now?.() ?? Date.now(); }
 
@@ -71,7 +71,7 @@ export function createSoundscape({ hostPage = false, win = globalThis.window, do
     if (settings.muted) return;
     ensureContext();
     if (ctx?.state === 'suspended' && !doc?.hidden) ctx.resume?.().catch?.(() => {});
-    if (lastWorld) setMood(moodFor(lastWorld, { creating }));
+    if (lastWorld) setMood(moodFor(lastWorld, { creating, wedding }));
   }
 
   function setMood(mood) {
@@ -138,10 +138,12 @@ export function createSoundscape({ hostPage = false, win = globalThis.window, do
     if (nextRole !== role) { role = nextRole; evidence.role = role; settings = loadSettings(role, storage); if (unlocked && !settings.muted) ensureContext(); applyLevels(); renderControl(); }
     lastWorld = world;
     creating = doc?.body?.dataset?.creating === 'true';
+    // The lone parent's wedding scenes (public/courtship.js) mark the page while they are shown.
+    wedding = doc?.body?.dataset?.wedding === 'true';
     const cues = snapshotCues(cueState, snapshot);
     for (const cue of cues) record(evidence.cues, { id: cue.id, at: Math.round(performanceNow()) });
     if (settings.muted) { evidence.mood = null; return; }
-    setMood(moodFor(world, { creating }));
+    setMood(moodFor(world, { creating, wedding }));
     pending.push(...cues);
   }
   // Snapshot sounds that stand somewhere are placed at the next frame, when the page knows where things were drawn.

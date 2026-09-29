@@ -1,5 +1,108 @@
 # Claude handoff — Astra foundation
 
+## An order to leave that runs out burns the house — owner, 2026-09-29 (not released)
+
+**The ask.** Owner, 2026-09-29, answering the `flightWaited` ceiling of the real-time limits: *"72 s at quick, but if the
+student doesn't respond, burn their house. They should have been paying attention."* Claim `FIC-GONZ-907`. Branch
+`flight-lapse-burns` off origin/main at af25547a.
+
+- **Timing unchanged**: the order to leave waits three real minutes at Study and Brisk, 72 real seconds at Quick (the calendar's
+  day of grace comes first there, `flightWaited`; its `ceiling:` is now the owner's confirmed rule).
+- **The lapse** (`sim/scrape.mjs` `burnForSilence`, called from `autoFlee` only when it packs a family off by silence): the family
+  is packed off as before, and **men of the Texas army burn the farm behind it** - house, field, fences and what was left in the
+  house - as every farm in the game burns. Counted as every burning: `flight.burned`, `burnedBy { hand: 'texian', lapsed: true,
+  lost }`, the world's record (`recordFarmBurned`, now worded for the Texas army), the family's own knowledge (it watched it go,
+  so nothing is `unseen`, `burnKnown.how = 'there'`), the Host's spotlight, the journal line (*"Nobody answered the order to leave
+  in time, and the family left in a rush. ... The house is lost."*), and the ending (`flightLine`: *"Nobody answered the order in
+  time, and they left in a rush: the Texas army burned the farm behind them"*); the homecoming and the flashback already tell a
+  Texas-army burning. The herd is not touched.
+- **Who burns it, and why**: the Texas army - the game's own burner of farms as families leave (invented country, `FIC-GONZ-046`)
+  and the documented burner of Gonzales and San Felipe on its retreat (`HIST-TEX-594`). HISTORY.md `FIC-GONZ-907` says plainly
+  that nothing read documents a farm burned because its family left late, or by whom. A new "the family burned it" hand would
+  have been as invented and would have touched five more files that read `burnedBy.hand`.
+- **Only a student at the screen**: the call sits behind `advanceAuto`'s existing guard (played, not absent, answerer by hand).
+  A family nobody plays, an absent one and one on auto keep the old answer, the farm left standing.
+- **Warned first**: the projection's `flight.ifUnanswered` (`FLIGHT_IF_UNANSWERED` in `sim/auto.mjs`: *"No answer in time, and the
+  family leaves in a rush — the house is lost, burned behind it."*) is sent only while the order is on the student's clock; the
+  flight card shows it and the "!" text carries it; the flight tip now ends *"No answer in time, and it leaves in a rush and the
+  house is lost."*
+- No save version: `lapsed` is a new optional field on `burnedBy`, whose validator reads only `hand`.
+
+**Evidence** (same computer only; no Chromebook or LAN claim):
+
+- `tests/flight-lapse-burns.test.mjs` (3 tests): the lapse at Study (19 ticks) and Quick (72) packs the family off and burns the
+  house, counted, told, known and in the ending; the card and the "!" warn first; answered by hand, on auto, absent or unplayed,
+  nothing burns for silence.
+- **`npm run test:flight-lapse-burns-injections`: 11 of 11 caught, all 11 by the test written for them alone**
+  ([record](docs/evidence/flight-lapse-burns-injections.json)).
+- `npm test`: **1753 tests, 1717 pass, 0 fail, 36 skipped** (the suspended tutorial).
+- Browser proofs: `test:scrape` 7 checks, `test:scrape-pursuit` 15, `test:tips` 13, `test:auto` 14, `test:ending` 10, all green.
+  None of them lets an order to leave lapse on a watched family, so the card's warning line and the burned house are proven in
+  process, not in a browser.
+
+## The lone parent's path: two neighbours' farms, a wedding by bond, and a house the neighbours raise — owner, 2026-09-29 (not released)
+
+Branch `lone-parent-wedding`, off origin/main (3dd5209d); not pushed. The owner: *"if a player is unlucky enough to have a lone
+parent, the following path is made available. a special ability appears when they reach their land ... we see the family visit and
+talk to a family. on the 2nd family they meet a family that has a son of eligible marriage age ... light flirting occurs ... a short
+ceremony is shown and afterwards we find our new family with two parents. a basic house is also prebuilt"*; then *"use fades to
+black to smooth transitions ... it should feel special"* and *"be creative and feel free to improve on my plan"*. Answers: a lone
+father meets a **daughter**; the two families are **invented, nobody plays them**; **offered and declinable**; the spouse **rolled
+like a parent**, looks and name dealt. Specified in [FAMILY_CREATION.md](docs/FAMILY_CREATION.md) *The lone parent's path* (with the
+scenes' words and the list of where this goes beyond the owner's plan) and [SETTLING_IN.md](docs/SETTLING_IN.md) §8a.
+
+- **Server** (`sim/courtship.mjs`, the authority): `ask-neighbours` and `courtship-watched`; `household.courtship` (absent until
+  pressed - no save version moved). Offered only to a student's own family rolled with one parent, on its land, with no roof of its
+  own; on the real land not before the house site is chosen; **never taken by the computer** (a family nobody plays, or whose
+  student has gone). Pressed, everybody at home is away **four hours of the calendar** (`AWAY_MINUTES`): refused work, roads and
+  trades in words, sent with no place to their own page, seen by no neighbour on the land, the children not idling
+  (`sim/childhood.mjs` skips the family - one line). At the hour they come home: the new parent joins (id `<household>-spouse`,
+  the lone parent's age, `dealTraits`, looks dealt and kept, father or mother, spouse both ways, step-parent to the children,
+  second in the family's order) and the house is raised - the round-log plan's pieces all finished, placed where the placement rule
+  allows nearest the site, or the family's own begun house finished. The two families live only in the record (`<household>-nb-1`,
+  `-nb-2`), never households or entities. The stored record (with the spouse's hidden stats) is kept out of the household's
+  projection. `HIST-TEX-740` (marriage by bond, researched and quoted from TSHA and a transcribed 1829 Brazoria bond) and
+  `FIC-GONZ-950` in HISTORY.md. The flashback remembers the wedding and no longer puts the new parent on the road in.
+- **Page**: the ability is a glowing card at the head of the family's column (`#ask-neighbours`, gold and rose, a breathing glow,
+  its icon in a halo; **Not now** folds it to the icon; compact in a tight column) and a warm glow with the icon over the family's
+  land on the map. The scenes (`public/courtship.js`, `#courtship`) are the whole screen: four drawn yards (the neighbours'
+  farmsteads, the family's own land with the supper table, afterwards before the new house), everybody in the recoloured cast in
+  their scene's poses, the speaker named with a warm ring at their feet, the words in a strip (dashed: invented; solid: the one
+  documented line), **Continue** the only way on, **fades to black** 1.1 s with the travel said on the black (0.28 s where less
+  motion is asked for, never a cut), the time of day from the class's clock, motes of warm light and a slow waltz written for the
+  wedding (`bond-at-the-cabin`, `public/audio-music.js`, licensed project-owned). A reload resumes at the same line. The person card
+  steps aside while its person is away; the tip at first meeting keeps off the card and, since this run, off the status lines.
+- **Art** (Claude, temporary, `madeBy: "claude"`): request *2026-09-29 — the lone parent's wedding* in
+  [ART_REQUESTS.md](docs/ART_REQUESTS.md) (7 items); drawn by a Claude art builder in `scripts/claude-art/areas/courtship-*.mjs` -
+  see *Claude-drawn stand-ins* and CLAUDE_ART_PLAN.md. Library stand-ins listed under *Stand-ins in use* (while a sheet loads: the
+  canvas-painted yard, the library's buildings and poses, and the fandango's fiddler). Drawn by Claude: 56 frames of four poses for
+  the eight cast figures, the commissioner reading the bond, a farmer with a fiddle, two farmsteads (from Astra's own pixels), the
+  supper table, three yards (morning, noon, evening) and the ability's icon ([compare](docs/evidence/claude-art/compare-courtship-people.png)).
+
+**Evidence** (same computer only; no Chromebook, LAN or classroom claim). `tests/courtship.test.mjs` **13 tests**;
+`node scripts/lone-parent-injections.mjs`: **32 of 32** injected regressions caught by the test written for each, 28 by that test
+alone ([record](docs/evidence/lone-parent-injections.json)); `--browser`: **5 of 5** caught by `npm run test:lone-parent`, each
+at the check written for it (the card not glowing, a cut for a fade, a cut with less motion, a reload losing the place, *Not now*
+pressing instead of folding; [record](docs/evidence/lone-parent-injections-browser.json)). New browser proof **`npm run test:lone-parent`**
+(`scripts/lone-parent-browser-proof.mjs`) **9 checks**, with a screenshot of each scene and of a fade
+(`docs/evidence/lone-parent-*.png`, [record](docs/evidence/lone-parent-browser.json)). `test:overlap` gained three states (the
+ability, folded, the scenes open): **185 screens, 34 states, 0 faults**; it found the person card docked over the rows while its
+person was away, and a tip over a long supplies line - both fixed. `test:family-panel` 18, `test:tips` 13, `test:classes` 16,
+`test:ending` 10, `test:creation-screen` 4 over 24 measurements. **Re-run after merging origin/main (af25547a)**: `npm test`
+**1763 tests, 1727 pass, 0 fail, 36 skipped** (the suspended tutorial); `test:lone-parent` 9, `test:overlap` 185 screens / 34 states
+/ 0 faults, `test:family-panel` 18, `test:tips` 13 (it once failed "Escape did not put the tip away" run beside another proof, and
+passed alone), `test:classes` 16, `test:ending` 10, `test:creation-screen` 4. The house is raised from the code's own constants
+(`HOUSES`, `PIECES`, `planPieces`), so the concurrent halving of work amounts (`work-halved`) merges without a number to change.
+
+**The owner's answers (2026-09-29), built the same day:** (1) **"His name"** - a lone mother's family takes the new husband's
+surname at the wedding (`takeHisName`): every member renamed, so the heading, the book, the Host's rows and the ending read it; the
+old name kept in the book (`formerly`, the mother's line) and the story; every id unchanged. A lone father keeps his name. (2) **"New
+husband leads"** - he becomes principal and main person (`heLeads`; the mother's chosen main person let go), so calls, the war's
+questions and `actingFor` go to him; a new wife does not lead. (3) Victoria: **by bond**, as built. (4) The computer: **never**, as
+built. Three more tests (16 in all), **5 more injections, each caught by its own test alone** (37 of 37, 32 alone);
+`test:lone-parent` now walks a lone mother and gains a check - the page reads *"The Whitlow family"* and the new husband has the star
+(**10 checks**, `docs/evidence/lone-parent-10-his-name.png`); `test:family-panel` 18 and `test:ending` 10 re-run green.
+
 ## Small children until the day ends; follow and watch — owner, 2026-09-29 (not released)
 
 Branch `owner-children-watch`, off origin/main (1859f219, which has `audit-triage-2026-09-29` in it); not pushed. The owner's answers

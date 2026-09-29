@@ -347,9 +347,24 @@ animals, holding their fire where women and children are in the way, as Almonte 
   answered or its seconds are out (`waiting` in `advancePursuit`). Out of time it lapses exactly as above. The order to leave
   waits **three real minutes** (`QUESTION_BUDGETS.flight`), where it waited a day of the calendar (72 ticks, 11.4 real minutes
   at Study, the class's calendar held all the while); at Quick the order's day of grace (`ORDER_GRACE_MINUTES`, 72 real
-  seconds there) comes first and the family goes then, so no farm is burned under a student still deciding (`flightWaited`,
-  its `ceiling:`). The road's questions (the bog, the army close behind) wait **ninety real seconds**. The "!" counts each down
-  in real seconds.
+  seconds there) comes first and the family goes then (`flightWaited`). The road's questions (the bog, the army close behind)
+  wait **ninety real seconds**. The "!" counts each down in real seconds.
+- **An order to leave that runs out burns the house** (owner, 2026-09-29: *"72 s at quick, but if the student doesn't respond,
+  burn their house. They should have been paying attention."*; `FIC-GONZ-907`, `sim/scrape.mjs` `burnForSilence`). The
+  timing stays three real minutes at Study and Brisk and 72 real seconds at Quick. When a played family at its screen lets it
+  run out, at any pace, the family is still packed off as before (`autoFlee`), and **men of the Texas army burn the farm behind
+  it** - the house, the field and the fences, and whatever was left in the house - as every farm in the game burns. It is
+  counted as every burning is (`flight.burned`, `burnedBy` `{ hand: 'texian', lapsed: true }`, the world's record, the family's
+  own knowledge): the land shows the house ruined at once (the family watched it go, so nothing is `unseen`), the journal says
+  *"Nobody answered the order to leave in time, and the family left in a rush. ... The house is lost."*, the Host's camera goes
+  to it, and the homecoming, the flashback and the ending tell it (*"Nobody answered the order in time, and they left in a
+  rush: the Texas army burned the farm behind them"*). The stock is not touched: driving it off is the foragers'. **Warned
+  first**: while the order stands, its card and its "!" say *"No answer in time, and the family leaves in a rush — the house is
+  lost, burned behind it."* (`FLIGHT_IF_UNANSWERED`), and the flight tip says so too. **Why the Texas army:** it is the game's
+  own burner of farms as families leave (the invented country, `FIC-GONZ-046`) and burned Gonzales and San Felipe on its
+  retreat (`HIST-TEX-594`); the record read here says nothing of any farm burned because its family left late, so this is the
+  game's. A family nobody plays, one whose student has gone, and one whose answerer is on auto keep the old answer: the farm
+  is left standing for the foragers, or not. On the invented country every farm already burns as its family leaves.
 - **Rarity** (`npm run study:scrape-pursuit`, [evidence](evidence/scrape-pursuit-study.json)): ten classes of fifteen families
   nobody plays, through the spring: of **123 families that fled, 17 (13.8%) were seen and followed, 15 (12.2%) were called on to
   halt, 9 (7.3%) met horsemen**; 106 never met Mexican troops at all. The rule before this, asked in the same classes and not

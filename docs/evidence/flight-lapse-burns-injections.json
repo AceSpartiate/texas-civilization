@@ -1,0 +1,122 @@
+{
+  "record": "flight-lapse-burns-injections",
+  "date": "2026-09-29",
+  "files": [
+    "tests/flight-lapse-burns.test.mjs"
+  ],
+  "caught": 11,
+  "only": 11,
+  "of": 11,
+  "injections": [
+    {
+      "name": "the order lapses and the family goes, but nothing burns",
+      "file": "sim/scrape.mjs",
+      "expected": "a student who lets the order to leave run out is packed off",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a student who lets the order to leave run out is packed off, and the house burns behind the family, said plainly and counted"
+      ]
+    },
+    {
+      "name": "the house burns but the burning is not counted on the flight",
+      "file": "sim/scrape.mjs",
+      "expected": "a student who lets the order to leave run out is packed off",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a student who lets the order to leave run out is packed off, and the house burns behind the family, said plainly and counted"
+      ]
+    },
+    {
+      "name": "the journal does not say the order went unanswered and the house burned",
+      "file": "sim/scrape.mjs",
+      "expected": "a student who lets the order to leave run out is packed off",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a student who lets the order to leave run out is packed off, and the house burns behind the family, said plainly and counted"
+      ]
+    },
+    {
+      "name": "the family is not told its own house burned",
+      "file": "sim/scrape.mjs",
+      "expected": "a student who lets the order to leave run out is packed off",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a student who lets the order to leave run out is packed off, and the house burns behind the family, said plainly and counted"
+      ]
+    },
+    {
+      "name": "the ending tells it as a burning while the family was away",
+      "file": "sim/ending-story.mjs",
+      "expected": "a student who lets the order to leave run out is packed off",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a student who lets the order to leave run out is packed off, and the house burns behind the family, said plainly and counted"
+      ]
+    },
+    {
+      "name": "at Quick the order waits its three minutes, not the day of grace",
+      "file": "sim/auto.mjs",
+      "expected": "a student who lets the order to leave run out is packed off",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a student who lets the order to leave run out is packed off, and the house burns behind the family, said plainly and counted"
+      ]
+    },
+    {
+      "name": "the order does not warn what silence costs",
+      "file": "sim/world.mjs",
+      "expected": "the order warns before it runs out",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the order warns before it runs out: the card's words and the \"!\" say the house will be lost"
+      ]
+    },
+    {
+      "name": "the \"!\" does not warn of the house",
+      "file": "public/family-panel.js",
+      "expected": "the order warns before it runs out",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the order warns before it runs out: the card's words and the \"!\" say the house will be lost"
+      ]
+    },
+    {
+      "name": "a family on auto is burned too, as if its student had not answered",
+      "file": "sim/auto.mjs",
+      "expected": "answered in time, or on auto",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "answered in time, or on auto, or nobody plays it, or its student has gone: the house is not burned for silence"
+      ]
+    },
+    {
+      "name": "a family whose student has gone is packed off and burned for silence",
+      "file": "sim/auto.mjs",
+      "expected": "answered in time, or on auto",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "answered in time, or on auto, or nobody plays it, or its student has gone: the house is not burned for silence"
+      ]
+    },
+    {
+      "name": "a family nobody plays is packed off and burned for silence",
+      "file": "sim/auto.mjs",
+      "expected": "answered in time, or on auto",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "answered in time, or on auto, or nobody plays it, or its student has gone: the house is not burned for silence"
+      ]
+    }
+  ]
+}

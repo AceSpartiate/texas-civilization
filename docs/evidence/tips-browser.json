@@ -12,7 +12,7 @@
     "Escape put the tip away, and the server keeps it as seen",
     "after a reload, with the call still open, its tip is not shown again",
     "in the first hour, nothing says \"Not yet\": nursing the sick goes through, food goes through, enlisting only for its own reason (\"Paz Proofwright is already nursing the sick.\"), the well only for its own reason (\"Paz Proofwright is already nursing the sick.\")",
-    "the order to leave: its tip (\"Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and the family packs and goes.\"), put away with a tap, and the \"!\" on the main person with \"3 min\" left on it",
+    "the order to leave: its tip (\"Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and it leaves in a rush and the house is lost.\"), put away with a tap, and the \"!\" on the main person with \"3 min\" left on it",
     "on the road: the route's tip (\"On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.\"), put away with a tap",
     "¡Alto!: its tip (\"Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, and running risks their shots. No answer means you halt.\"), the \"!\" with \"30s\" on it, put away with a tap",
     "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, order, flight, house, field, rest, route, road, star, alto)"
@@ -41,6 +41,7 @@
       "order",
       "house",
       "rest",
+      "road",
       "star"
     ],
     "call": {
@@ -48,8 +49,8 @@
       "shown": true,
       "text": "Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.",
       "box": {
-        "left": 973,
-        "top": 396,
+        "left": 907,
+        "top": 416,
         "right": 1354,
         "bottom": 510
       },
@@ -103,7 +104,7 @@
       "tip": {
         "id": "flight",
         "shown": true,
-        "text": "Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and the family packs and goes.",
+        "text": "Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and it leaves in a rush and the house is lost.",
         "box": {
           "left": 324,
           "top": 356,
@@ -120,7 +121,7 @@
         "closeReached": true
       },
       "badge": "3 min",
-      "label": "The family has been told to leave for the east. About 3 min left. Go to Gregorio Proofwright and answer."
+      "label": "The family has been told to leave for the east. No answer in time, and the family leaves in a rush — the house is lost, burned behind it. About 3 min left. Go to Gregorio Proofwright and answer."
     },
     "route": {
       "id": "route",

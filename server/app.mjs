@@ -85,6 +85,8 @@ const files = new Map([
   ['/webm-writer.js', ['../public/webm-writer.js', 'text/javascript']],
   // The family's neighbours and help offered back between families (sim/neighbourly.mjs, owner 2026-09-28).
   ['/neighbours.js', ['../public/neighbours.js', 'text/javascript']],
+  // The lone parent's path, as scenes over the whole screen (sim/courtship.mjs, owner 2026-09-29).
+  ['/courtship.js', ['../public/courtship.js', 'text/javascript']],
   ['/appearance.js', ['../public/appearance.js', 'text/javascript']],
   ['/looks-art.js', ['../public/looks-art.js', 'text/javascript']],
   ['/avatar-art.js', ['../public/avatar-art.js', 'text/javascript']],
