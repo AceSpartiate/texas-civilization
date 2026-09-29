@@ -124,7 +124,7 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Deliver:** aligned layer PNGs `<sheet>--line`, `--skin`, `--hair`, `--clothes` and the head items (`--hat`, `--beard`, `--moustache`, `--straw-hat`, `--bonnet`, `--pinned`, `--braid`, `--loose`, `--headscarf`) for every people sheet, one figure per sex and age band
   - **Frames:** every frame of every people sheet. **Size:** Registered pixel for pixel with the sheet they layer; greyscale value masks; see the request
   - **Plugs into:** `public/avatar-art.js`, `public/person-palette.js`, `public/appearance.js`
-  - **Stands in now:** the painted cast recoloured by a pixel classifier (`public/person-palette.js`), some head styles the nearest cast silhouette (Astra's library art reused)
+  - **Stands in now:** the painted cast recoloured by a region classifier (`public/person-palette.js`, 2026-09-28), some head styles the nearest cast silhouette (Astra's library art reused)
 
 ## B — Children, babies and sickness
 
