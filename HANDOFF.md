@@ -39,7 +39,7 @@ real seconds."* Claim `FIC-GONZ-906`. Branch `owner-real-time-limits` (off origi
 **Evidence** (same computer only; no Chromebook or LAN claim):
 
 - `npm test`: **1720 tests, 1683 pass, 1 fail, 36 skipped** (the suspended tutorial). The one failure was the flight tip grown to
-  193 characters (limit 190); shortened, `tests/tips.test.mjs` 7 of 7 pass.
+  193 characters (limit 190); shortened, and **re-run at 3e81dc71: 1720 tests, 1684 pass, 0 fail, 36 skipped**.
 - `tests/real-time-limits.test.mjs` (7 tests): the rider at Study (10 ticks) and Quick (90) and reset by a question; zero-ms
   ticks spend nothing and the page gets the real time left; the order at Study (19) and Brisk (45), the calendar held at 20 while
   it waits, and at Quick the day of grace (72); the road's bog at Study (10) and Quick (90); ¡Alto! at Study (4) and Quick (30)
