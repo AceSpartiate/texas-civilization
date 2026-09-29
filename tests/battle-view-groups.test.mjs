@@ -142,6 +142,22 @@ test('the pack train is drawn as horses under packs, a Mexican gun is served by 
   assert.ok(art.drawn.some(one => one.sprite === 'earth-rampart') && art.drawn.some(one => one.clip === 'pecan-large-wind'), 'the bank and the trees were not drawn');
 });
 
+test('a ground piece with its own art falls back to the library piece it stood in for, and fog lies in drifting banks', () => {
+  // Claude's `riverbank-cut-e` (sim/battles/concepcion.mjs) where the library has it; `earth-rampart` where it does not;
+  // `fallback: 'none'` leaves the piece out rather than drawing a block.
+  const scenery = [{ sprite: 'riverbank-cut-e', fallback: 'earth-rampart', x: -0.08, y: 0, size: 1.3 }, { sprite: 'creek-ford', fallback: 'none', x: 0.1, y: 0.05, size: 1.6 }];
+  const has = fakeArt();
+  run(createBattleView(has), minute => battle(minute, { scenery, fog: 0.8 }), 2);
+  assert.ok(has.drawn.some(one => one.sprite === 'riverbank-cut-e') && !has.drawn.some(one => one.sprite === 'earth-rampart'), 'the bank was not drawn as its own art');
+  assert.ok(has.drawn.some(one => one.clip === 'fog-bank-dense'), 'thick fog was not drawn as dense banks');
+  const lacks = fakeArt(), plain = lacks.drawSprite, ctx = [];
+  lacks.drawSprite = (c, sprite, ...rest) => (['riverbank-cut-e', 'creek-ford'].includes(sprite) ? 0 : plain(c, sprite, ...rest));
+  const shown = run(createBattleView(lacks), minute => battle(minute, { scenery, fog: 0.3 }), 2);
+  assert.ok(lacks.drawn.some(one => one.sprite === 'earth-rampart'), 'without its own art the bank was not drawn as earth-rampart');
+  assert.ok(lacks.drawn.some(one => one.clip === 'fog-bank-thin') && shown.fogBanks > 0, 'lifting fog was not drawn as thin banks');
+  void ctx;
+});
+
 test('every body of men at Concepción and the Grass Fight is laid out whole: no sample is drawn short because its ground is too small for it', () => {
   const short = [];
   for (const id of ['concepcion', 'grass-fight']) {

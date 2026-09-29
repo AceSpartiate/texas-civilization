@@ -126,10 +126,15 @@ test('the guns at the corners and the battery fire, each shot once, served by me
   // The night: the field darkened, and the flashes drawn over the dark.
   const night = projected(COLETO, 'night', 60);
   assert.equal(night.light, 'night');
-  const ctx = fakeContext();
-  run(createBattleView(fakeArt()), () => night, { seconds: 8, ctx });
-  const fills = ctx.calls.filter(call => call[0] === 'fillStyle').map(call => call[1]);
-  assert.ok(fills.some(fill => /rgba\(8,12,30/.test(fill)), 'the night was not drawn');
+  // The night's grade (Claude's `night-grade`) multiplied over the view, or the wash where the library has none.
+  const ctx = fakeContext(), nightArt = fakeArt();
+  run(createBattleView(nightArt), () => night, { seconds: 8, ctx });
+  assert.ok(nightArt.drawn.some(one => one.sprite === 'night-grade'), 'the night was not drawn');
+  const washCtx = fakeContext(), noGrade = fakeArt(), plain = noGrade.drawSprite;
+  noGrade.drawSprite = (c, sprite, ...rest) => (sprite.endsWith('-grade') ? 0 : plain(c, sprite, ...rest));
+  run(createBattleView(noGrade), () => night, { seconds: 1, ctx: washCtx });
+  const fills = washCtx.calls.filter(call => call[0] === 'fillStyle').map(call => call[1]);
+  assert.ok(fills.some(fill => /rgba\(8,12,30/.test(fill)), 'without its grade the night was not drawn');
   // And dusk, a lighter wash of its own.
   const dusk = projected(COLETO, 'dusk', 20), dim = fakeContext();
   run(createBattleView(fakeArt()), () => dusk, { seconds: 1, ctx: dim });

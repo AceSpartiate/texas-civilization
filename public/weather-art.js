@@ -205,11 +205,22 @@ export function galeForce(mix) {
 }
 export function inGale(mix) { return galeForce(mix) >= GALE; }
 /**
- * The authored pose for an upright sprite: only the four the delivery painted. Anything else the map scatters - a pine, a
- * cedar, a mesquite, prickly pear, reeds, and every sized tree of `trees-colonies-1` and `-2` - has no gale pose and
- * keeps the shear at every strength of wind.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-20 - the country in a norther. A pine in a hard norther is still the
- * library's own upright pine sheared about its foot. More gale silhouettes replace it, one sprite at a time.
+ * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - request 2026-09-20 - the country in a
+ * norther, remaining trees. Every other tree and ground mark the map scatters has a gale pose Claude made on 2026-09-28 by
+ * bending Astra's own upright painting (scripts/claude-art/areas/land-gale.mjs): `<upright>-wind` in the Claude library. A
+ * sheet that has not loaded draws nothing, `drawSprite` returns 0, and every caller falls back to the sheared upright as
+ * before; Astra's frame of the same name wins the moment it is registered. (`reeds-wind` is drawn too, but reeds are not in the
+ * scatter: only a battle's marsh draws them, with their sway clip.)
+ */
+const CLAUDE_GALE = Object.fromEntries([
+  ...['pine-loblolly', 'cedar', 'mesquite', 'live-oak', 'elm', 'post-oak', 'blackjack', 'pecan', 'hackberry', 'sweetgum', 'pine-longleaf', 'palm-sabal', 'cypress-bald']
+    .flatMap(tree => ['pole', 'log', 'large'].map(size => `${tree}-${size}`)),
+  'magnolia-log', 'magnolia-large', 'beech-log', 'beech-large',
+  'cottonwood', 'scrub', 'prickly-pear', 'marsh-cordgrass', 'dune-grass', 'thicket-thorn-1', 'thicket-thorn-2', 'palmetto', 'yucca',
+].map(upright => [upright, `${upright}-wind`]));
+/**
+ * The authored pose for an upright sprite: the seven Astra painted, and, behind them, Claude's for everything else the map
+ * scatters (below). A sprite with neither keeps the shear at every strength of wind.
  *
  * The names collide with four one-frame `*-wind` CLIPS that predate the delivery and hold the upright sprite swaying
  * (public/assets/frontier-v1/animation.json). Frames and clips are separate tables in public/art.js, so `drawSprite`
@@ -226,6 +237,7 @@ export const GALE_POSES = Object.freeze({
   'grass-tall': 'grass-tall-wind',
   'cane-1': 'cane-wind',
   'cane-2': 'cane-wind',
+  ...CLAUDE_GALE,
 });
 /** The gale pose to draw this sprite as, or null to draw it upright and sheared by `windLean`. */
 export function galePose(sprite, mix) {

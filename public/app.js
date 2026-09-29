@@ -2589,17 +2589,22 @@ function drawGroundDetail(ctx, world, camera) {
       const sizedTree = `${tree.kind.picture}-${sizeName}`;
       const deliveredSizes = tree.kind.sized ?? ['pine-loblolly', 'cedar', 'mesquite', 'live-oak', 'elm', 'post-oak', 'blackjack', 'pecan', 'hackberry', 'sweetgum'].includes(tree.kind.picture);
       const mix = windAt ? windAt(tree.x) : null;
-      scattered.push({ tree: tree.kind.pictures?.[tree.size] || (deliveredSizes ? sizedTree : tree.kind.picture), height, point, seed: Math.round(tree.x * 1e5), alpha: treesShown, lean: mix ? windLean(mix) : 0, gale: mix ? inGale(mix) : false });
+      const picture = tree.kind.pictures?.[tree.size] || (deliveredSizes ? sizedTree : tree.kind.picture);
+      // The kind's own art first where it has some (`own`, sim/woods.mjs): the picture it borrowed is what is drawn while that
+      // sheet is missing. stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the country of 1836, remaining species.
+      scattered.push({ tree: tree.kind.own ? `${tree.kind.own}-${sizeName}` : picture, standIn: tree.kind.own ? picture : null, height, point, seed: Math.round(tree.x * 1e5), alpha: treesShown, lean: mix ? windLean(mix) : 0, gale: mix ? inGale(mix) : false });
     }
     // What the family has felled: a stump, and a log lying beside it while any are left to haul (sim/felling.mjs). The
     // trunk is `log-fallen-hardwood` (trees-colonies-2, 2026-09-21) where a hardwood was cut and the softer `log-fallen`
     // where a pine or a cottonwood was.
-    // stand-in: hardwood stumps still use the nearest post-oak or cottonwood stump. Pine has its delivered stump.
-    // Request 2026-09-15 - the trees of the colonies.
+    // stand-in: hardwood stumps use the nearest post-oak or cottonwood stump of Astra's, behind the kind's own (`ownStump`:
+    // hickory, walnut, ash, the oaks, the live oak), which is Claude-drawn today. Pine has its delivered stump.
+    // Request 2026-09-15 - the trees of the colonies; request 2026-09-19 - the country of 1836, remaining species.
     const stumps = stumpsVisible(camera, canvas, woodsCatalogue);
     for (const stump of stumps) {
       const point = camera.toScreen(stump), pine = ['loblolly', 'shortleaf', 'longleaf'].includes(stump.kind.id), soft = ['cottonwood', 'sycamore', 'willow'].includes(stump.kind.id);
-      scattered.push({ tree: stump.kind.stump || (pine ? 'stump-pine-loblolly' : soft ? 'stump-cottonwood' : 'stump-post-oak'), height: figure * SIZE.stump, point, seed: 0, alpha: treesShown });
+      const borrowed = stump.kind.stump || (pine ? 'stump-pine-loblolly' : soft ? 'stump-cottonwood' : 'stump-post-oak');
+      scattered.push({ tree: stump.kind.ownStump || borrowed, standIn: stump.kind.ownStump ? borrowed : null, height: figure * SIZE.stump, point, seed: 0, alpha: treesShown });
       if (stump.left > 0) scattered.push({ tree: pine || soft ? 'log-fallen' : 'log-fallen-hardwood', height: figure * SIZE.stump * .8, point: { x: point.x + figure * .35, y: point.y + figure * .08 }, seed: 0, alpha: treesShown });
     }
     window.__stumpsDrawn = stumps.length;
@@ -2648,13 +2653,16 @@ function drawGroundDetail(ctx, world, camera) {
       ctx.stroke();
     }
   };
-  for (const { share, seed, timber, point, tree, height, alpha, ground, lean = 0, gale = false, fall, flip } of scattered) {
+  for (const { share, seed, timber, point, tree, standIn = null, height, alpha, ground, lean = 0, gale = false, fall, flip } of scattered) {
     if (fall !== undefined) {
       faded(alpha, () => drawClip(ctx, 'tree-fall', point.x, point.y, height, { timeMs: fall, flip }));
     } else if (tree) {
       faded(alpha, () => {
         if (gale && GALE_POSES[tree] && drawSprite(ctx, GALE_POSES[tree], point.x, point.y, height)) { galeDrawn++; return; }
-        if (!drawSprite(ctx, tree, point.x, point.y, height, { lean })) postOak(ctx, point.x, point.y, height, seed, lean, gale);
+        if (drawSprite(ctx, tree, point.x, point.y, height, { lean })) return;
+        // A kind's own art not loaded (or not there): the picture it borrowed, in its gale pose where it has one.
+        if (standIn && gale && GALE_POSES[standIn] && drawSprite(ctx, GALE_POSES[standIn], point.x, point.y, height)) { galeDrawn++; return; }
+        if (!(standIn && drawSprite(ctx, standIn, point.x, point.y, height, { lean }))) postOak(ctx, point.x, point.y, height, seed, lean, gale);
       });
     } else if (timber && share < .5) {
       // A scattered oak in the timber, handing over to the real trees where the land's trees are drawn.
@@ -3664,15 +3672,18 @@ export function drawWorld(world) {
   } else window.__ambientSaid = [];
   // Smoke over a burning town or farm, where the server says this page could see it (sim/advance.mjs `firesSeen`): a column
   // of smoke seen from afar, never what is burning (VISION.md §16). stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the
-  // Mexican advance", item 2 - the library's rising chimney smoke, drawn large, until a burning-farm plume exists.
+  // Mexican advance", item 2 - Claude's `farm-smoke-rise` and `town-smoke-rise` (a dark column leaning over a low glow,
+  // *Claude-drawn stand-ins*, area F) first; without that sheet, the library's rising chimney smoke drawn large.
   window.__firesDrawn = (world.fires || []).map(fire => {
     const p = camera.toScreen(fire), size = Math.max(26, Math.min(160, camera.figure * (fire.kind === 'town' ? 4.4 : 3)));
-    if (!animated(ctx, 'smoke-rise', p.x, p.y, size, `fire:${fire.id}`)) {
+    const plume = fire.kind === 'town' ? 'town-smoke-rise' : 'farm-smoke-rise';
+    const drawnAs = animated(ctx, plume, p.x, p.y, size, `fire:${fire.id}`) ? plume : animated(ctx, 'smoke-rise', p.x, p.y, size, `fire:${fire.id}`) ? 'smoke-rise' : null;
+    if (!drawnAs) {
       const g = ctx.createLinearGradient(p.x, p.y, p.x, p.y - size * 1.6);
       g.addColorStop(0, 'rgba(90,86,80,.55)'); g.addColorStop(1, 'rgba(160,156,150,0)');
       ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(p.x, p.y - size * .8, size * .28, size * .8, 0, 0, Math.PI * 2); ctx.fill();
     }
-    return { id: fire.id, kind: fire.kind, x: Math.round(p.x), y: Math.round(p.y) };
+    return { id: fire.id, kind: fire.kind, x: Math.round(p.x), y: Math.round(p.y), art: drawnAs };
   });
   // The famous people on the map between their battles, with their names, where the server says this page could see them
   // (sim/famous.mjs, public/famous-view.js; docs/BATTLES.md §2c).

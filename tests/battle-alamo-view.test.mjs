@@ -126,11 +126,16 @@ test('the columns carry ladders, climb the north wall on them, and the assault i
   const { ctx } = run(view, art, at('north-wall'), { seconds: 4, perTick: 2 });
   assert.ok(art.drawn.some(one => one.clip === 'regular-climb'), 'nobody was drawn climbing a ladder');
   assert.ok(art.drawn.some(one => one.sprite === 'ladder-set-e' || one.sprite === 'ladder-set-w'), 'no ladder was set against the wall');
-  const dark = ctx.calls.find(call => call[0] === 'fillStyle' && /rgba\(14,20,44/.test(call[1]));
-  assert.ok(dark, 'the assault before dawn was drawn in daylight');
+  // The dark is Claude's `night-grade` multiplied over the view, warmed by `dawn-grade` as the light comes; the wash without them.
+  assert.ok(art.drawn.some(one => one.sprite === 'night-grade' && one.alpha > 0.1), 'the assault before dawn was drawn in daylight');
+  const washed = fakeArt(), plain = washed.drawSprite;
+  washed.drawSprite = (c, sprite, ...rest) => (sprite.endsWith('-grade') ? 0 : plain(c, sprite, ...rest));
+  const { ctx: washCtx } = run(createBattleView(washed), washed, at('north-wall'), { seconds: 1, perTick: 2 });
+  assert.ok(washCtx.calls.find(call => call[0] === 'fillStyle' && /rgba\(14,20,44/.test(call[1])), 'without its grade the assault before dawn was drawn in daylight');
+  assert.ok(ctx, 'ran');
   const artDay = fakeArt(), day = createBattleView(artDay);
   const noon = run(day, artDay, at('day-26', 300), { seconds: 1 }).ctx;
-  assert.ok(!noon.calls.some(call => call[0] === 'fillStyle' && /rgba\(14,20,44/.test(call[1])), 'a siege day was drawn dark');
+  assert.ok(!noon.calls.some(call => call[0] === 'fillStyle' && /rgba\(14,20,44/.test(call[1])) && !artDay.drawn.some(one => /-grade$/.test(one.sprite || '')), 'a siege day was drawn dark');
   assert.ok(alamo(at('advance')).light > alamo(at('end', 25)).light, 'the dawn did not come up through the assault');
 });
 

@@ -39,6 +39,59 @@ were already delivered by Astra and need nothing (DS3, DS4, FS9, D16).
   are flat and simple beside her painted horses - no coat texture, legs straighter and knees less lifted than hers, the cattle long
   in the body, the end-on wagon mostly ox. Everything stays on her list.
 
+## Claude's temporary art, area F: terrain, trees, the norther, effects and the fights' ground — 2026-09-28 (worktree branch; not released)
+
+Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it makes the
+final versions."* Area F of docs/CLAUDE_ART_PLAN.md, drawn in six modules (`scripts/claude-art/areas/land-*.mjs`, `AREA: 'land'`),
+every frame `madeBy: "claude"`, with its written intent in docs/claude-art-provenance.json and its row in *Claude-drawn
+stand-ins* (area F). Each is drawn only where the game already asks for it, and falls back to what stood in before.
+
+- **F5, the norther (53 frames, `land-gale`).** A gale pose `<upright>-wind` for every tree and ground mark the map scatters that
+  Astra's `weather-norther` did not paint: the ten sized kinds of `trees-colonies-1`/`-2` at three sizes, longleaf, sabal palm,
+  bald cypress, magnolia, beech, cottonwood, scrub, reeds, prickly pear, cordgrass, dune grass, thorn thickets, palmetto, yucca.
+  **Each is her own upright painting bent** (scripts/claude-art/land/bend.mjs: the trunk curved from a foot that stays put, the
+  crown streamed to leeward and pressed in to windward, the windward edge torn and turned pale side up) with Claude's loose
+  leaves - so in a norther the country keeps her trees and her hand. Wired through `CLAUDE_GALE` in `GALE_POSES`
+  (public/weather-art.js). The first proof showed the gale *less* windy than the shear before it; every kind now goes over by
+  `GUST` more. A prickly pear and a yucca do not bend (dry grass blows past them). ceiling-worthy: one frame each, as hers are;
+  nothing sways, because the scattered country is drawn into the kept ground (the `windLean` ceiling in weather-art.js).
+- **F6, the remaining species (18 trees, 5 stumps, `land-trees`).** Anacua, Texas ebony, tupelo, cedar elm, willow and shortleaf
+  pine at pole/log/large, grown from their limbs outward (scripts/claude-art/land/tree.mjs); hickory, walnut, ash, oak and live
+  oak stumps (stump.mjs). `own`/`ownStump` in `KINDS` (sim/woods.mjs), sent in the woods catalogue, drawn first by
+  `drawGroundDetail` with the borrowed picture as the fallback. The catalogue now also sends `pictures` (beech and magnolia's
+  large frames were never reaching the page). Species shapes from general botanical descriptions, not 1836 sources.
+- **F3, the work's effects - reconciled with area A (2026-09-29).** Both areas drew the five `fx-*` sheets and `tree-fall`; one
+  set of each name is kept. **The effects are area A's** (`work-fx`, wired through `EFFECTS[].sheet` and `workEffect`, one path;
+  its soft dust and its anchors per effect), and area F's `fx-*` frames, its sprite-drawer path in `drawWorkLayer` and its test
+  are gone. **`tree-fall` is area F's** (`land-scenery`: Astra's own post oak turned about its foot, dust and leaves as it lands,
+  beside A's flat-drawn tree it reads as her tree at play size), **played by area A's wiring** (`treesFalling` in public/app.js,
+  when a person's felling words move on, with A's timing so it lands with the sound); its logical height makes it a `-log` tree
+  (1.95 × 0.7 of a person) at the person's height A draws it at.
+- **F4, smoke seen from afar.** `farm-smoke-rise` and `town-smoke-rise`, 8-frame loops, for the advance's `fires`
+  (`window.__firesDrawn[].art` says which was drawn).
+- **F7, the night grades.** `night-grade`, `moonlight-grade`, `dawn-grade`: layers multiplied over the view by `drawGrade`
+  (public/battle-view.js) at the strength the phase's light gives, from `drawNight` and the Alamo's numeric light; the washes
+  without them.
+- **F8, F9, F10, the fights' ground.** `riverbank-cut-e`/`-w` along Concepción's bank and `creek-bed-dry`/`creek-ford` at the
+  Grass Fight (scenery items now take a `fallback`, `earth-rampart`); drifting `fog-bank-dense`/`-thin` in `drawFog` under a
+  lighter veil; `marsh-edge-1`..`-3` under San Jacinto's reeds; `campfire-night` in a night fight (again over the dark);
+  `live-oak-mott` (four of her live oaks over their shade) for a battle's grove. `river-bend` is drawn, not placed.
+- **Not made, and why.** F1 and F2 (portraits, marks) were already Claude's; the road's, camp's, gathering and stock icons, the
+  Play Solo trash can, cleared ground and the game of 1836 are delivered by Astra (plan F11-F19); **the guided start's marks are
+  on hold** with the tutorial (owner, 2026-09-28).
+- **Proofs.** `node scripts/claude-art/land/proof.mjs gale trees` (docs/evidence/claude-art/land-gale-40.png, -77, land-trees-40,
+  -77); `npm run art:compare -- land-gale land-trees land-effects land-ground land-scenery`.
+- **Evidence** (after merging `integration-2026-09-28` at 4e6a5787, with areas A, B and E and the looks-face fix): **`npm test`
+  1,670 pass, 0 fail, 36 skipped**; `test:claude-art` clean; `test:art` PASS; `test:work` 5 checks; `test:biome-game` 6;
+  `test:battle-concepcion` 13 (the fog banks and the cut bank seen in test-results/battle-concepcion-ringed-1366.png, which is
+  why the banks are now scattered and softer); `test:mexican-advance` 10 (the Host drawn the smoke; the undeclared `queue` in
+  flashback.js was fixed on integration). New tests, each failed by injection first: `GALE_POSES` (weather-art),
+  `own`/`ownStump` (woods-view), the night campfire and the mott (battle-view-south), the marsh edge (battle-view-san-jacinto),
+  the ground pieces' fallback and the fog (battle-view-groups); the drawn-effects test went with area F's effects path. **Not
+  green, and not this work's:** `scripts/weather-browser-proof.mjs` times out waiting for a running solo game before anything
+  is drawn (already recorded failing at HEAD, above); `tests/save-retry.test.mjs` is timing-sensitive and failed once of four
+  under a browser proof's load.
+
 ## The parents' faces in How We Look: no hair over the face — owner, 2026-09-28 (branch `looks-face-2026-09-28` off `integration-2026-09-28` 600425eb; not released)
 
 The owner: "there seems to be a graphical glitch with the character creation screens for the mom and dad", then "the dad's

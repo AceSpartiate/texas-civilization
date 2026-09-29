@@ -317,6 +317,12 @@ export function standOf(stand, rule = 'biomes') {
  * invented (`FIC-GONZ-032`, `FIC-GONZ-061`). `picture` is the tree art it is drawn with; `sized` when the art comes at `-pole`,
  * `-log` and `-large`; `scale` how much taller than the picture's own height it is drawn; `stump` the stump's picture.
  * The order is the trees tiles' numbering (sim/woods-view.mjs): a new kind goes at the end.
+ *
+ * `own` and `ownStump`: the kind's own art where it has some that is not yet in Astra's library - `<own>-pole`, `-log` and
+ * `-large`, and its stump - drawn first, with `picture` (and `stump`) as what the page falls back to while that sheet is
+ * missing. stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - request 2026-09-19 - the country
+ * of 1836, remaining species: every `own` below is Claude-drawn today (scripts/claude-art/areas/land-trees.mjs); Astra's
+ * frame of the same name replaces it in the loader, and then `picture` can become the own name and `own` go.
  */
 const kind = (name, logs, use, fell, picture, look = {}) => Object.freeze({ name, logs: Object.freeze(logs), use, fell, picture, sized: false, scale: 1, stump: 'stump-post-oak', ...look });
 const SIZED = { sized: true };
@@ -325,38 +331,38 @@ export const KINDS = Object.freeze({
   // large art (docs/ART_DELIVERY_2026-09-21-TREES-COLONIES-2.md). The other oaks take the post oak's - they are oaks, and
   // it is nearer than the generic broadleaf they had - and the hickory, walnut and ash the pecan's, as they always did.
   'post-oak': kind('post oak', [1, 2, 2], 'sill', 1, 'post-oak', SIZED),
-  blackjack: kind('blackjack oak', [1, 1, 2], 'poor', 1, 'blackjack', SIZED),
-  hickory: kind('hickory', [1, 2, 2], 'wall', 1.2, 'pecan', SIZED),
-  'live-oak': kind('live oak', [0, 1, 1], 'sill', 1.5, 'live-oak', SIZED),
-  'water-oak': kind('water oak', [1, 2, 3], 'wall', 1, 'post-oak', SIZED),
+  blackjack: kind('blackjack oak', [1, 1, 2], 'poor', 1, 'blackjack', { ...SIZED, ownStump: 'stump-oak' }),
+  hickory: kind('hickory', [1, 2, 2], 'wall', 1.2, 'pecan', { ...SIZED, ownStump: 'stump-hickory' }),
+  'live-oak': kind('live oak', [0, 1, 1], 'sill', 1.5, 'live-oak', { ...SIZED, ownStump: 'stump-oak-live' }),
+  'water-oak': kind('water oak', [1, 2, 3], 'wall', 1, 'post-oak', { ...SIZED, ownStump: 'stump-oak' }),
   pecan: kind('pecan', [1, 2, 2], 'wall', 1.2, 'pecan', SIZED),
-  walnut: kind('walnut', [1, 2, 2], 'wall', 1.2, 'pecan', SIZED),
+  walnut: kind('walnut', [1, 2, 2], 'wall', 1.2, 'pecan', { ...SIZED, ownStump: 'stump-walnut' }),
   elm: kind('elm', [1, 2, 2], 'poor', 1, 'elm', SIZED),
-  ash: kind('ash', [1, 2, 3], 'wall', 1, 'pecan', SIZED),
+  ash: kind('ash', [1, 2, 3], 'wall', 1, 'pecan', { ...SIZED, ownStump: 'stump-ash' }),
   hackberry: kind('hackberry', [1, 1, 2], 'poor', 0.8, 'hackberry', SIZED),
   cottonwood: kind('cottonwood', [2, 3, 3], 'poor', 0.6, 'cottonwood', { stump: 'stump-cottonwood' }),
   sycamore: kind('sycamore', [1, 2, 3], 'poor', 1, 'cottonwood', { stump: 'stump-cottonwood' }),
   cedar: kind('cedar', [1, 1, 2], 'sill', 0.8, 'cedar', SIZED),
   loblolly: kind('loblolly pine', [2, 3, 4], 'wall', 0.8, 'pine-loblolly', { sized: true, stump: 'stump-pine-loblolly' }),
-  shortleaf: kind('shortleaf pine', [2, 3, 3], 'wall', 0.8, 'pine-loblolly', { sized: true, stump: 'stump-pine-loblolly' }),
+  shortleaf: kind('shortleaf pine', [2, 3, 3], 'wall', 0.8, 'pine-loblolly', { sized: true, stump: 'stump-pine-loblolly', own: 'pine-shortleaf' }),
   mesquite: kind('mesquite', [0, 0, 0], 'none', 0.6, 'mesquite', SIZED),
   // The biomes of 1836 (docs/BIOMES.md §7.1, 2026-09-19). stand-in: docs/ART_REQUESTS.md, request 2026-09-19 - the country of
   // The principal indicator species now have their own art. Beech and magnolia have log and large frames; their rare pole-size
   // juveniles use the log frame at reduced scale until a botanically useful juvenile silhouette is requested.
-  'bur-oak': kind('bur oak', [1, 2, 2], 'sill', 1.1, 'post-oak', SIZED),
+  'bur-oak': kind('bur oak', [1, 2, 2], 'sill', 1.1, 'post-oak', { ...SIZED, ownStump: 'stump-oak' }),
   longleaf: kind('longleaf pine', [2, 3, 4], 'wall', 0.8, 'pine-longleaf', { sized: true, stump: 'stump-pine-loblolly' }),
   beech: kind('beech', [1, 2, 3], 'poor', 1.1, 'beech-log', { pictures: ['beech-log', 'beech-log', 'beech-large'] }),
   magnolia: kind('magnolia', [1, 2, 2], 'poor', 1, 'magnolia-log', { pictures: ['magnolia-log', 'magnolia-log', 'magnolia-large'] }),
-  'white-oak': kind('white oak', [1, 2, 3], 'sill', 1.1, 'post-oak', SIZED),
+  'white-oak': kind('white oak', [1, 2, 3], 'sill', 1.1, 'post-oak', { ...SIZED, ownStump: 'stump-oak' }),
   sweetgum: kind('sweetgum', [1, 2, 3], 'poor', 0.9, 'sweetgum', SIZED),
   'bald-cypress': kind('bald cypress', [2, 3, 4], 'sill', 1, 'cypress-bald', { sized: true }),
-  tupelo: kind('tupelo', [1, 2, 2], 'poor', 0.9, 'elm', SIZED),
-  'cedar-elm': kind('cedar elm', [1, 1, 2], 'poor', 1, 'elm', SIZED),
-  anacua: kind('anacua', [0, 1, 1], 'poor', 1, 'oak-spreading'),
-  ebony: kind('Texas ebony', [0, 1, 1], 'poor', 1.3, 'oak-spreading'),
-  willow: kind('willow', [1, 2, 2], 'poor', 0.6, 'cottonwood', { stump: 'stump-cottonwood' }),
+  tupelo: kind('tupelo', [1, 2, 2], 'poor', 0.9, 'elm', { ...SIZED, own: 'tupelo' }),
+  'cedar-elm': kind('cedar elm', [1, 1, 2], 'poor', 1, 'elm', { ...SIZED, own: 'cedar-elm' }),
+  anacua: kind('anacua', [0, 1, 1], 'poor', 1, 'oak-spreading', { own: 'anacua' }),
+  ebony: kind('Texas ebony', [0, 1, 1], 'poor', 1.3, 'oak-spreading', { own: 'ebony' }),
+  willow: kind('willow', [1, 2, 2], 'poor', 0.6, 'cottonwood', { stump: 'stump-cottonwood', own: 'willow' }),
   palm: kind('Texas palm', [0, 1, 1], 'poor', 0.8, 'palm-sabal', { sized: true }),
-  'texas-oak': kind('Texas oak', [1, 1, 2], 'poor', 1, 'post-oak', SIZED),
+  'texas-oak': kind('Texas oak', [1, 1, 2], 'poor', 1, 'post-oak', { ...SIZED, ownStump: 'stump-oak' }),
 });
 export const SIZES = Object.freeze(['pole', 'log', 'large']);
 

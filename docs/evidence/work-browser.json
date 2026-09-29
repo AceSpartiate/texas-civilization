@@ -6,7 +6,7 @@
   "checks": [
     "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 0/1/2/3, dust on the strike, 20 different pictures in 2.4 s",
     "three sent to the house (\"felling and hauling logs\") are drawn round it (738,409 / 859,384 / 617,384, a figure 77 px), each facing it, swinging an axe with the chips flying (chop in rust-chop, chop in teal-chop, chop in rust-chop; stand-in: Request 2026-09-28 — people at work, item 1)",
-    "at the mark Serafina Proofwright is drawn in teal-fire (frames 2/0/1) and a puff of smoke once a cycle (marks 3/0/4); surveying, Barnabas Proofwright drives the stakes in rust-stake (frames 1/0)",
+    "at the mark Serafina Proofwright is drawn in teal-fire (frames 2/0/1) and a puff of smoke once a cycle (marks 0/4/3); surveying, Barnabas Proofwright drives the stakes in rust-stake (frames 0/1)",
     "thirty-five logs on the pile are drawn as wood-pile-4, one sprite (projected {\"wall\":28,\"sill\":4,\"poor\":3,\"lying\":0})",
     "no page errors"
   ],
@@ -142,11 +142,10 @@
           "rust-work"
         ],
         "frames": [
-          3,
           4,
-          5,
           0,
-          1,
+          3,
+          5,
           2
         ],
         "marks": [
@@ -185,11 +184,11 @@
           "teal-work"
         ],
         "frames": [
-          3,
           4,
-          5,
           0,
           1,
+          3,
+          5,
           2
         ],
         "marks": [
@@ -228,16 +227,16 @@
           "rust-work"
         ],
         "frames": [
-          0,
           3,
           4,
           5,
-          2,
-          1
+          0,
+          1,
+          2
         ],
         "marks": [
-          0,
-          1
+          1,
+          0
         ],
         "shifts": [
           0
@@ -271,11 +270,10 @@
           "rust-chop"
         ],
         "frames": [
-          3,
           4,
-          5,
           0,
-          1,
+          3,
+          5,
           2
         ],
         "marks": [
@@ -289,11 +287,11 @@
           "teal-chop"
         ],
         "frames": [
-          3,
           4,
-          5,
           0,
           1,
+          3,
+          5,
           2
         ],
         "marks": [
@@ -307,16 +305,16 @@
           "rust-chop"
         ],
         "frames": [
-          0,
           3,
           4,
           5,
-          2,
-          1
+          0,
+          1,
+          2
         ],
         "marks": [
-          0,
-          1
+          1,
+          0
         ]
       }
     ],
@@ -333,8 +331,8 @@
           "rust-walk"
         ],
         "frames": [
-          1,
-          0
+          0,
+          1
         ],
         "marks": [
           0
@@ -376,9 +374,9 @@
           1
         ],
         "marks": [
-          3,
           0,
-          4
+          4,
+          3
         ],
         "shifts": [
           0
@@ -395,7 +393,7 @@
         "arts": [
           "drawn"
         ],
-        "prints": 9,
+        "prints": 7,
         "at": {
           "x": 653,
           "y": 362,

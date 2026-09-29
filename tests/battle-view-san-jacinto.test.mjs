@@ -164,6 +164,10 @@ test('a group of horse is drawn apart from its side, as riders, with its own fal
   assert.ok(e.works > 20, `only ${e.works} pieces of works drawn`);
   for (const piece of ['crate', 'sacks', 'barrel']) assert.ok(art.drawn.some(one => one.sprite === piece), `no ${piece} in the breastwork`);
   assert.ok(art.drawn.some(one => one.clip === 'reeds-wind') && art.drawn.some(one => one.clip === 'fire-flicker'));
+  // The marsh's edge under its reeds (Claude's `marsh-edge-*` tiles), all three kinds of tile, before the first reed.
+  const firstEdge = art.drawn.findIndex(one => /^marsh-edge-\d$/.test(one.sprite || '')), firstReed = art.drawn.findIndex(one => one.clip === 'reeds-wind');
+  assert.deepEqual([...new Set(art.drawn.filter(one => /^marsh-edge-\d$/.test(one.sprite || '')).map(one => one.sprite))].sort(), ['marsh-edge-1', 'marsh-edge-2', 'marsh-edge-3'], 'the marsh has no edge');
+  assert.ok(firstEdge >= 0 && firstEdge < firstReed, 'the marsh edge is drawn under its reeds');
   // The opening in the middle of the breastwork where the gun stood (`HIST-TEX-522`).
   const pieces = art.drawn.filter(one => ['crate', 'sacks', 'barrel', 'packed-belongings'].includes(one.sprite)).map(one => one.y);
   assert.ok(!pieces.some(y => Math.abs(y - 384) < 0.015 * 1800), 'the breastwork has no opening for the gun');

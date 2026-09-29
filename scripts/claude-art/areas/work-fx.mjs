@@ -1,14 +1,13 @@
 // The work's effects and the tree coming down (request 2026-09-28 — people at work, item 15): `fx-wood-chips` (pale chips
 // flying from a cut), `fx-earth-toss` (a spadeful of dark earth), `fx-dust` (a low puff where a hoe strikes dry ground),
 // `fx-shavings` (curls off a drawknife or a knife) and `fx-ripple` (rings round a float), three frames each played from the
-// strike; and `tree-fall` (four frames: a hardwood of `-log` size leaning, going over, down, a last bounce), played once where
-// a tree is felled.
+// strike. (`tree-fall`, the tree coming down, was drawn here too; the two sets were reconciled on 2026-09-29 and the one kept is
+// area F's, bent from Astra's own post oak: scripts/claude-art/areas/land-scenery.mjs.)
 //
 // Scale and anchor: every frame is drawn at a person's scale (a logical height of 480, at 1.6 times the people frames' resolution) with its anchor at the
 // effect's own origin - the cut, the spade, the ground under the hoe, the knife, the float - so the page draws it with the
 // same height as the worker at the point its canvas marks came from (public/work-art.js `EFFECTS`, `drawWorkLayer`). The
-// chips, dust and shavings fly toward +x (the way the worker faces; mirrored for west), the earth toward -x (behind). The tree
-// is anchored at its stump and falls east; drawn at a person's height it is a `-log` tree (1.95 x 0.7 of a person).
+// chips, dust and shavings fly toward +x (the way the worker faces; mirrored for west), the earth toward -x (behind).
 // Temporary: Astra's sheets of the same names replace them.
 import { personFrame } from '../kit/rig.mjs';
 import { LINE, PALETTE, tone } from '../kit/style.mjs';
@@ -69,49 +68,6 @@ export const FX = {
   } },
 };
 
-// The tree coming down: the trunk and crown of a hardwood about 1.36 of a person tall, turned about the stump.
-const TREE = 144; // rig units: 1.95 x 0.7 of a person (a person is 100 / 0.945 units from the ground to the logical top)
-const FALL = [{ a: 14, what: 'leaning, the cut opening, a few leaves shaken loose' }, { a: 52, what: 'going over, the crown sweeping down' },
-  { a: 90, what: 'down along the ground, leaves thrown up at the crown' }, { a: 84, what: 'the last bounce, the crown lifted a little off the ground' }];
-function tree(ink) {
-  const bark = '#6e4a2c', leaf = ['#3f5a26', '#56722f', '#6f8c3a'], light = '#93aa55';
-  ink.shape(capsule([0, 2], [0, TREE * 0.46], 8.5, 6), bark, { off: 1.2, lift: true });
-  ink.shape(capsule([0, TREE * 0.36], [-24, TREE * 0.58], 4, 2.4), bark, { off: 0.8 });
-  ink.shape(capsule([0, TREE * 0.4], [26, TREE * 0.6], 4, 2.4), bark, { off: 0.8 });
-  const clump = (c, r, col, seed) => ink.shape(scallop([0, 1, 2, 3, 4, 5, 6, 7].map(k => add(c, [Math.cos(k * 0.785 + seed) * r * (0.85 + rand(seed + k) * 0.25), Math.sin(k * 0.785 + seed) * r * 0.8 * (0.85 + rand(seed + k + 9) * 0.25)])), 0.18), col, { off: 2 });
-  clump([-28, TREE * 0.62], 26, leaf[0], 1); clump([28, TREE * 0.64], 26, leaf[0], 2);
-  clump([0, TREE * 0.72], 34, leaf[1], 3); clump([-16, TREE * 0.84], 22, leaf[2], 4); clump([16, TREE * 0.86], 21, leaf[2], 5);
-  ink.dot(ellipse([-6, TREE * 0.93], 12, 6), light, 0.6);
-}
-// Down on the ground the crown is seen from above, as the view sees anything lying: spread out round the trunk's end and
-// flattened, never below the ground line (so nothing is painted under the anchor).
-function lyingTree(ink, lift) {
-  const bark = '#6e4a2c', leaf = ['#3f5a26', '#56722f', '#6f8c3a'], y = 9 + lift;
-  const clump = (c, rx, ry, col, seed) => ink.shape(scallop([0, 1, 2, 3, 4, 5, 6, 7].map(k => add(c, [Math.cos(k * 0.785 + seed) * rx * (0.85 + rand(seed + k) * 0.25), Math.sin(k * 0.785 + seed) * ry * (0.85 + rand(seed + k + 9) * 0.25)])), 0.18), col, { off: 2 });
-  clump([TREE * 0.76, y + 24], 44, 20, leaf[0], 1);
-  ink.shape(capsule([7, y], [TREE * 0.5, y + lift * 0.4 + 1], 7, 5.5), bark, { off: 1.2, lift: true });
-  ink.shape(capsule([TREE * 0.38, y + 1], [TREE * 0.58, y + 14], 3.4, 2.2), bark, { off: 0.8 });
-  clump([TREE * 0.62, y + 11], 32, 15, leaf[1], 2); clump([TREE * 0.9, y + 13], 36, 16, leaf[1], 3); clump([TREE * 0.8, y + 32], 26, 12, leaf[2], 4);
-}
-function treeFall(n) {
-  const { a, what } = FALL[n];
-  return personFrame(`tree-fall-${n + 1}`, ink => {
-    // The stump stays; the tree turns about the hinge on its east side, and lies with its crown spread when it is down.
-    ink.shape(poly([[-8, 0], [8, 0], [7.5, 9], [-7.5, 9]]), '#6e4a2c', { off: 1 });
-    ink.shape(ellipse([0, 9], 7.5, 2.6), PALETTE.endGrain, { shade: false, outline: LINE.inner });
-    if (n >= 2) lyingTree(ink, n === 3 ? 5 : 0);
-    else {
-      const inner = new Ink(`${ink.prefix}t`, ink.k, { yUp: true });
-      inner.n = ink.n + 300;
-      tree(inner);
-      ink.defs.push(...inner.defs);
-      ink.raw(`<g transform="translate(7 9) rotate(${-a}) translate(-7 0)">${inner}</g>`);
-    }
-    if (n === 2) for (let i = 0; i < 7; i++) ink.shape(ellipse([TREE * (0.5 + rand(i) * 0.5), 34 + rand(i + 4) * 22], 2.4, 1.3, rand(i) * 90), '#6f8c3a', { shade: false, outline: LINE.fine });
-    if (n === 0) for (let i = 0; i < 3; i++) ink.shape(ellipse([40 + i * 10, TREE * (0.75 - i * 0.12)], 2.2, 1.2, 40), '#6f8c3a', { shade: false, outline: LINE.fine });
-  }, { cell: { w: 640, h: 520 }, originX: 90, groundY: 480, note: `a felled hardwood, frame ${n + 1} of 4: ${what}` });
-}
-
 export const SHEETS = {
   'claude-work-fx': { cell: { w: 320, h: 320 }, columns: 3, request: REQUEST,
     replaceWith: 'item 15: three frames on the ground anchor of the work, one played from the strike, at the worker\'s scale',
@@ -121,17 +77,10 @@ export const SHEETS = {
       // Drawn at 1.6 times the people frames' resolution (a logical height of 480 for a person), so the small bits keep their line.
       draw: () => ({ ...personFrame(`${name}-${i + 1}`, ink => fx.draw(ink, t), { cell: { w: 320, h: 320 }, originX: fx.origin[0] * 1.6, groundY: fx.origin[1] * 1.6, scale: 1.6, note: `${fx.what}, frame ${i + 1} of 3` }), logicalHeight: 480 }),
     }))) },
-  'claude-tree-fall': { cell: { w: 640, h: 520 }, scale: 0.6, columns: 2, request: REQUEST,
-    replaceWith: 'item 15: `tree-fall`, four frames, a hardwood of -log size leaning, going over, down, a last bounce, anchored at the stump',
-    frames: FALL.map((f, i) => ({ name: `tree-fall-${i + 1}`, compare: [['post-oak-log', 1.365], ['log-fallen-hardwood', 0.8], ['stump-post-oak', 1]],
-      prompt: `A felled hardwood of the -log size (about 1.4 people tall), frame ${i + 1} of 4: ${f.what}. Brown bark, a rounded crown of moss and olive greens in clumps, three-quarter north-up view, falling east from its stump; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.`,
-      draw: () => treeFall(i) })) },
 };
-/** The clips: each effect played once from the strike, and the tree's fall once. */
+/** The clips: each effect played once from the strike. */
 export const CLIPS = {
   ...Object.fromEntries(Object.entries(FX).map(([name, fx]) => [name, { frames: T.map((_, i) => ({ sprite: `${name}-${i + 1}`, duration: 150 })), loop: false, motion: 'none',
     direction: 'east; west by mirroring', prompt: `${fx.what}: three frames of 150 ms from the strike, played once.` }])),
-  'tree-fall': { frames: [520, 240, 160, 320].map((duration, i) => ({ sprite: `tree-fall-${i + 1}`, duration })), loop: false, motion: 'none', direction: 'east; west by mirroring',
-    prompt: 'A felled hardwood going over once: leaning (held), going over, down, the last bounce.' },
 };
 export const FIGURES = [];
