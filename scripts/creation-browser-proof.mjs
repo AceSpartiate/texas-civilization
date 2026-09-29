@@ -78,7 +78,9 @@ try {
   // ---------------------------------------------------------------- the title card
   await page.locator('#creation-begin').waitFor({ state: 'visible', timeout: 30000 });
   observed.titleCard = await readable(page, '#creation-begin');
-  assert.match(observed.titleCard, /one task at a time/, 'the title card does not warn that the game walks the student through the farm');
+  // Since the tutorial was suspended (owner, 2026-09-28; docs/LESSON.md §9) the title card promises the tips, not a walk-through.
+  assert.match(observed.titleCard, /a short tip says what to do/, 'the title card does not say the tips will say what to do');
+  assert.doesNotMatch(observed.titleCard, /one task at a time/, 'the title card still promises the suspended walk-through');
   assert.doesNotMatch(observed.titleCard, /yours to work: the field, the timber, the town/, 'the old unqualified promise is on the title card');
   await fits(page, '#creation-begin', '#creation-begin-button', CHROMEBOOK);
   await page.screenshot({ path: 'docs/evidence/creation-title.png' });

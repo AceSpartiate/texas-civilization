@@ -1,5 +1,44 @@
 # Claude handoff — Astra foundation
 
+## The parents' faces in How We Look: no hair over the face — owner, 2026-09-28 (branch `looks-face-2026-09-28` off `integration-2026-09-28` 600425eb; not released)
+
+The owner: "there seems to be a graphical glitch with the character creation screens for the mom and dad", then "the dad's
+hair covers his face in the preview". Seen on the installed release **v2026.09.28.1** (its `public/` is byte-identical to
+the tag) and still on `integration-2026-09-28`: the recolouring had not changed between them (`public/person-palette.js`
+last touched 2026-09-26, 4a07fe47, released since v2026.09.26.5; the box classifier itself since v2026.09.26.4). Nothing in today's merges - the Claude art in
+`public/art.js`, the rig, the overlap work, the tips - is involved: the release and integration portrait grids are
+pixel-identical, and nothing stands over the pop-up at 1366x768, 1280x800 or 1024x600, in a class or in Play Solo.
+
+**Cause.** `recolourPersonFrame` decided each pixel alone, by its colour and by fixed boxes in the frame ("the face is 29-72%
+across, 11.5-38.5% down"). Her figures do not keep to the boxes, so the hair dye landed in rectangles on the hat brim either
+side of a hatted father's face and on a bareheaded father's ears, a band of the old skin was left across his forehead, the
+mothers' foreheads and cheeks took the hair colour, and the shirts came out two-toned at the box edges.
+
+**Fix.** The frame is cut into regions of like colour (her painting is flat colour between ink) and each region takes one
+part from the figure's own measured colours (`REFS`), placed relative to the figure's own face - the skin-coloured region
+with eyes and brows in it: hair only on the head (never above a hatted face, where the band is the hair's brown), clothing
+below the chin and no further than the garment reaches, skin never above the face nor larger than it. Specks take the part
+of the like-coloured region they touch; hair painted nearly as dark as ink is dyed where hair surrounds it. The part map is
+cached per frame. `ceiling:` in the file: the rust man's hair and beard are painted almost black, so a fair or red choice
+shows on him as flecks; Astra's layered masks (ART_REQUESTS A18) retire all of it.
+
+**Proof.** `npm run test:looks-face` (new, `scripts/looks-face-proof.mjs`): through `drawSprite`, for all six figures a
+parent can be drawn in and every walk frame, no hair dye on pixels painted in no hair colour (limit 0.5%; the release had
+3.4-8.4%) and the face's own paint all takes the skin (limit 1%; the release left up to 15%); then both parents' pop-ups at
+the three screens. Injected with the release's `person-palette.js` it fails on the first figure ("the hair choice dyes 354 of
+6034 head pixels that are painted in no hair colour (5.9%)"). `tests/person-palette.test.mjs` now tests Astra's frames (the
+brim beside the father's face, a bareheaded forehead, a mother's face); injected with the release code the three glitch
+tests fail and the two others pass. Before and after: `docs/evidence/looks-face-before-release-*.png`,
+`docs/evidence/looks-face-after-*.png`.
+
+**Evidence on this branch (2026-09-28/29).** `npm test` 1661 of 1698 (36 skipped); its one failure, the save-retry timer
+(`Date.now() - other < 200` under a loaded machine), passes alone. `test:looks-face` 10/10, `test:looks` 9/9,
+`test:creation` 10/10, `test:family-panel` pass, `test:overlap` pass. `test:creation` had been failing on integration: it
+still asked the title card for the suspended walk-through ("one task at a time"); it now asks for the tips' line.
+
+**Not done.** The installed launcher window was found running (its server not up); it was not touched. The ochre man's sow
+pose leaves a sleeve undyed; small, and away from the face.
+
 ## Area A of Claude's temporary art: people at work and ambient poses — owner, 2026-09-28 (worktree branch; not released)
 
 **The ask.** Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as

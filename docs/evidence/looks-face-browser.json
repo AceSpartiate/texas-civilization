@@ -1,0 +1,183 @@
+{
+  "record": "The parents' faces in How We Look: no hair dye off the hair, the face takes the skin (2026-09-28)",
+  "date": "2026-09-29",
+  "verdict": "PASS",
+  "note": "Same computer, headless Chrome. Measured through public/art.js drawSprite, the call the preview, the swatches, the family portrait and the map make. Colours and face boxes measured on the art, not read from the code under test. No LAN or district claim.",
+  "limits": {
+    "strayHair": 0.005,
+    "undyedFace": 0.01
+  },
+  "checks": [
+    "rust (male: hat, male: hat and beard, male: straw hat): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.15% left)",
+    "elder (male: beard): no hair dye off the hair (0.24% standing, 0.23% at worst walking) and the face takes the skin (0.40% left)",
+    "ochre (male: bareheaded, male: moustache): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.07% left)",
+    "rust-woman (female: bonnet, female: headscarf): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
+    "teal (female: pinned hair): no hair dye off the hair (0.00% standing, 0.02% at worst walking) and the face takes the skin (0.00% left)",
+    "indigo (female: braid, female: loose hair, female: straw hat): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
+    "at 1366x768 both parents' pop-ups draw the preview, the figure and every swatch (How Ezra looks; How Rhoda looks)",
+    "at 1280x800 both parents' pop-ups draw the preview, the figure and every swatch (How Asa looks; How Serafina looks)",
+    "at 1024x600 both parents' pop-ups draw the preview, the figure and every swatch (How Caleb looks; How Patience looks)",
+    "no page errors"
+  ],
+  "observed": {
+    "figures": {
+      "rust": {
+        "heads": [
+          "male: hat",
+          "male: hat and beard",
+          "male: straw hat"
+        ],
+        "head": 6034,
+        "stray": 0,
+        "face": 654,
+        "undyed": 1,
+        "strayAt": []
+      },
+      "elder": {
+        "heads": [
+          "male: beard"
+        ],
+        "head": 7618,
+        "stray": 18,
+        "face": 754,
+        "undyed": 3,
+        "strayAt": [
+          [
+            56,
+            44,
+            63,
+            50,
+            40
+          ],
+          [
+            55,
+            47,
+            58,
+            44,
+            43
+          ],
+          [
+            114,
+            55,
+            68,
+            49,
+            39
+          ],
+          [
+            116,
+            55,
+            65,
+            52,
+            38
+          ],
+          [
+            113,
+            57,
+            57,
+            48,
+            42
+          ],
+          [
+            54,
+            59,
+            56,
+            41,
+            27
+          ]
+        ]
+      },
+      "ochre": {
+        "heads": [
+          "male: bareheaded",
+          "male: moustache"
+        ],
+        "head": 6299,
+        "stray": 0,
+        "face": 1354,
+        "undyed": 1,
+        "strayAt": []
+      },
+      "rust-woman": {
+        "heads": [
+          "female: bonnet",
+          "female: headscarf"
+        ],
+        "head": 8157,
+        "stray": 0,
+        "face": 1626,
+        "undyed": 0,
+        "strayAt": []
+      },
+      "teal": {
+        "heads": [
+          "female: pinned hair"
+        ],
+        "head": 5320,
+        "stray": 0,
+        "face": 1872,
+        "undyed": 0,
+        "strayAt": []
+      },
+      "indigo": {
+        "heads": [
+          "female: braid",
+          "female: loose hair",
+          "female: straw hat"
+        ],
+        "head": 6067,
+        "stray": 0,
+        "face": 1925,
+        "undyed": 0,
+        "strayAt": []
+      }
+    },
+    "walks": {
+      "rust": 0,
+      "elder": 0.23,
+      "ochre": 0,
+      "rust-woman": 0,
+      "teal": 0.02,
+      "indigo": 0
+    },
+    "screens": [
+      {
+        "view": "1366x768",
+        "parent": 1,
+        "title": "How Ezra looks"
+      },
+      {
+        "view": "1366x768",
+        "parent": 2,
+        "title": "How Rhoda looks"
+      },
+      {
+        "view": "1280x800",
+        "parent": 1,
+        "title": "How Asa looks"
+      },
+      {
+        "view": "1280x800",
+        "parent": 2,
+        "title": "How Serafina looks"
+      },
+      {
+        "view": "1024x600",
+        "parent": 1,
+        "title": "How Caleb looks"
+      },
+      {
+        "view": "1024x600",
+        "parent": 2,
+        "title": "How Patience looks"
+      }
+    ]
+  },
+  "screenshots": [
+    "docs/evidence/looks-face-1366x768-parent-1.png",
+    "docs/evidence/looks-face-1366x768-parent-2.png",
+    "docs/evidence/looks-face-1280x800-parent-1.png",
+    "docs/evidence/looks-face-1280x800-parent-2.png",
+    "docs/evidence/looks-face-1024x600-parent-1.png",
+    "docs/evidence/looks-face-1024x600-parent-2.png"
+  ]
+}
