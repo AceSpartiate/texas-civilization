@@ -19,7 +19,7 @@ const WHAT = ['the axe back over the shoulder, weight on the back foot', 'the sw
 export const SHEETS = {
   'claude-chop': { cell: { w: 400, h: 400 }, columns: 4, request: 'Request 2026-09-28 — people at work', replaceWith: 'item 1: 4 frames, east-facing and mirrored for west, the cast figure\'s own logical height and foot baseline; name the frame the axe lands on',
     frames: FIGURES.flatMap(figure => POSES.chop(frameOf(figure)).map((pose, i) => ({
-      name: `${figure}-chop-${i + 1}`,
+      name: `${figure}-chop-${i + 1}`, compare: [[`${figure}-idle-e`, 1], [`${figure}-work-${i + 1}`, 1]],
       prompt: `${figure} felling a tree with a long-handled felling axe, side on and facing east, frame ${i + 1} of 4: ${WHAT[i]}. The same person, face, hat, hair, clothes and colours as Astra's ${figure} sheets; Texas 1835 frontier clothes; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.`,
       draw: () => personFrame(`${figure}-chop-${i + 1}`, ink => drawPerson(ink, figure, pose), { note: `${figure} felling, frame ${i + 1} of 4: ${WHAT[i]}` }),
     }))) },

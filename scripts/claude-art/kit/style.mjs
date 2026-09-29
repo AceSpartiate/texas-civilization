@@ -101,7 +101,7 @@ export const PALETTE = Object.freeze({
 const rgb = ([r, gg, b]) => '#' + [r, gg, b].map(v => v.toString(16).padStart(2, '0')).join('');
 export const CAST = Object.freeze({
   rust: { sex: 'm', age: 'adult', skin: rgb([218, 157, 96]), hair: rgb([64, 45, 32]), hat: { kind: 'brim', colour: '#ae7e4b', band: '#5b321a' },
-    beard: rgb([64, 45, 32]), shirt: rgb([151, 76, 48]), kerchief: '#2a2622', braces: '#bc8d50', lower: { kind: 'trousers', colour: '#855c33' }, feet: '#4b2e1a' },
+    beard: rgb([64, 45, 32]), shirt: rgb([151, 76, 48]), kerchief: '#2a2622', braces: '#bc8d50', lower: { kind: 'trousers', colour: '#a07a4c' }, feet: '#4b2e1a' },
   teal: { sex: 'f', age: 'adult', skin: rgb([185, 112, 61]), hair: rgb([64, 47, 37]), hairStyle: 'bun', shirt: rgb([78, 126, 123]), shirtShade: '#53675f',
     apron: '#e8c8a5', lower: { kind: 'skirt', colour: '#b57828' }, feet: '#4a301b' },
   elder: { sex: 'm', age: 'elder', skin: rgb([113, 75, 50]), hair: rgb([181, 177, 160]), hat: { kind: 'brim', colour: '#a97b4a', band: '#5a321a' },
@@ -137,7 +137,7 @@ export const CAST = Object.freeze({
 
 /** Proportions by age, in rig units (a grown figure 100 from the ground to the top of the hat; the head big, as hers are). */
 export const BUILD = Object.freeze({
-  adult: { head: 16, neck: 1.5, torso: 23, hipW: 22, shoulderW: 29, depth: 9.5, thigh: 17.5, shin: 15.5, foot: 9, upperArm: 12.5, forearm: 11.5, limb: 9.4, body: 1 },
+  adult: { head: 16, neck: 1.5, torso: 23, hipW: 22, shoulderW: 29, depth: 11, thigh: 17.5, shin: 15.5, foot: 9, upperArm: 12.5, forearm: 11.5, limb: 9.4, body: 1 },
   elder: { head: 16, neck: 1, torso: 23, hipW: 23, shoulderW: 29, depth: 10.5, thigh: 17.5, shin: 15.5, foot: 9, upperArm: 12.5, forearm: 11.5, limb: 9.8, body: 1.04 },
   youth: { head: 16.5, neck: 1.5, torso: 22, hipW: 19, shoulderW: 25, depth: 8.5, thigh: 18, shin: 16.5, foot: 8.5, upperArm: 12, forearm: 11.5, limb: 8.4, body: 1 },
   // Children are drawn to fill the cell as a grown figure does (the renderer shrinks them by age: request 2026-09-12, the

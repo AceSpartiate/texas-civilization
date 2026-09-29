@@ -32,12 +32,13 @@ export const POSES = {
   // Felling with an axe (request 2026-09-28, people at work, item 1): the axe back over the shoulder, the swing, the bite
   // (the head in the trunk at hip height, just off the frame's right edge), the pull back. The strike is frame 3 (beat 2).
   'chop': F => {
-    const S = sh(F), stance = { near: foot(F, 8.5), far: foot(F, -9) };
+    // A wide stance, knees bent, the whole body in the swing (Astra's -work is the measure of how far a pose goes).
+    const S = sh(F), stance = { near: foot(F, 12), far: foot(F, -12) };
     return [
-      { view: 'e', pelvis: P(F, -1.5, -1.5), lean: -9, tilt: 6, feet: stance, tool: { kind: 'axe', butt: [3, S - 4], tip: [-20, S + 26], side: -1, near: 0.04, far: 0.3, behind: true }, elbows: { near: -1, far: -1 } },
-      { view: 'e', pelvis: P(F, 0, -2), lean: 4, feet: stance, tool: { kind: 'axe', butt: [2, S - 2], tip: [24, S + 22], side: -1, near: 0.04, far: 0.2 }, elbows: { near: -1, far: -1 } },
-      { view: 'e', pelvis: P(F, 1.5, -3.5), lean: 16, tilt: -6, feet: stance, tool: { kind: 'axe', butt: [8, S - 23], tip: [50, S - 21], side: 1, near: 0.03, far: 0.14 }, elbows: { near: 1, far: 1 } },
-      { view: 'e', pelvis: P(F, 0.5, -2.5), lean: 8, tilt: -2, feet: stance, tool: { kind: 'axe', butt: [6, S - 12], tip: [42, S - 2], side: 1, near: 0.04, far: 0.22 }, elbows: { near: 1, far: 1 } },
+      { view: 'e', pelvis: P(F, -2.5, -3.5), lean: -12, tilt: 8, feet: stance, tool: { kind: 'axe', butt: [2, S + 2], tip: [-16, S + 44], side: -1, near: 0.04, far: 0.26, behind: true }, elbows: { near: -1, far: -1 } },
+      { view: 'e', pelvis: P(F, 0, -5), lean: 8, feet: stance, tool: { kind: 'axe', butt: [6, S - 4], tip: [40, S + 16], side: -1, near: 0.04, far: 0.2 }, elbows: { near: -1, far: -1 } },
+      { view: 'e', pelvis: P(F, 2.5, -8), lean: 24, tilt: -8, feet: stance, tool: { kind: 'axe', butt: [11, S - 27], tip: [53, S - 25], side: 1, near: 0.03, far: 0.14 }, elbows: { near: 1, far: 1 } },
+      { view: 'e', pelvis: P(F, 1, -6), lean: 14, tilt: -3, feet: stance, tool: { kind: 'axe', butt: [8, S - 16], tip: [44, S - 2], side: 1, near: 0.04, far: 0.22 }, elbows: { near: 1, far: 1 } },
     ];
   },
   // Hoeing (Astra's own -work is the reference: raised, swing, down, back).

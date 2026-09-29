@@ -74,6 +74,6 @@ export function woodPile(count) {
 
 export const SHEETS = {
   'claude-wood-pile': { cell: { w: W, h: H }, columns: 2, request: 'Request 2026-09-28 — people at work', replaceWith: 'item 16: one sprite a size, a pile of wall logs seen three-quarter on the ground anchor, about as long as log-fallen and no taller than a person\'s waist',
-    frames: [1, 2, 3, 4].map(n => ({ name: `wood-pile-${n}`, draw: () => woodPile(n),
+    frames: [1, 2, 3, 4].map(n => ({ name: `wood-pile-${n}`, draw: () => woodPile(n), height: 1.2, compare: [['log-fallen', 1.2], ['rust-idle-s', 1], ['stump', 1]],
       prompt: `The family's wood pile by the house at about ${n * 10} logs (${LAYERS[n].join(' + ')} a layer, bottom first): bark-on wall logs, each about as long as log-fallen, lying side by side and stacked in layers that sit in each other's grooves, the pile turned a little so the cut ends - pale end grain with a ring and a dark heart - face the camera; ${n >= 2 ? 'a few darker cedar sills among them; ' : ''}no more than four logs high, about a person's waist; three-quarter north-up view, warm brown bark, dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow.` })) },
 };

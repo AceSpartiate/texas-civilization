@@ -7,7 +7,7 @@ import { add, sub, mul, norm, perp, lerp, capsule, poly, blob, ellipse, len } fr
 
 /** Tool lengths in rig units (a grown figure is 100 tall). The library's tools read big, as its hoe does (about 0.45 of the figure). */
 export const TOOLS = Object.freeze({
-  axe: { length: 42, haft: PALETTE.woodLight, head: 'axe' },
+  axe: { length: 42, haft: PALETTE.woodLight, head: 'axe', scale: 1.45 },
   maul: { length: 38, haft: PALETTE.woodLight, head: 'maul' },
   hoe: { length: 46, haft: PALETTE.woodLight, head: 'hoe' },
   spade: { length: 40, haft: PALETTE.woodLight, head: 'spade' },
@@ -26,7 +26,7 @@ export const along = (butt, tip, t) => lerp(butt, tip, t);
  * haft's left normal (+1 turns the bit to the left of the butt-to-tip direction).
  */
 export function drawTool(ink, kind, butt, tip, { side = 1, scale = 1 } = {}) {
-  const spec = TOOLS[kind], d = norm(sub(tip, butt)), n = mul(perp(d), side), s = scale;
+  const spec = TOOLS[kind], d = norm(sub(tip, butt)), n = mul(perp(d), side), s = scale * (spec.scale || 1);
   if (kind === 'rifle') return drawRifle(ink, butt, tip, side);
   if (kind === 'lance') {
     ink.shape(capsule(butt, tip, 0.7 * s, 0.6 * s), spec.haft, { shade: false, outline: 3 });
@@ -37,7 +37,7 @@ export function drawTool(ink, kind, butt, tip, { side = 1, scale = 1 } = {}) {
     return;
   }
   // The haft: a pale wood capsule, a little thicker at the butt, with its light edge.
-  const hr = (kind === 'mallet' ? 1.1 : 1.0) * s;
+  const hr = (kind === 'mallet' ? 1.1 : 1.0) * Math.min(s, 1.2);
   ink.shape(capsule(butt, tip, hr * 1.05, hr * 0.9), spec.haft, { outline: 3.2, off: 0.5 });
   if (kind === 'axe') {
     // A felling axe's head: a heavy poll behind, the bit flaring out to a curved edge on `side`.
