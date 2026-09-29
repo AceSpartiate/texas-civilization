@@ -34,7 +34,9 @@ import { battleState } from '../sim/battle-stage.mjs';
 import { spotlight } from '../sim/host.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
-import { applyAction, stepWorld } from '../sim/world.mjs';
+import { applyAction, rollFamily, stepWorld } from '../sim/world.mjs';
+import { familyRoll } from '../sim/family.mjs';
+import { chooseSite } from '../sim/homesite.mjs';
 import { on, sceneClock } from '../sim/town-scenes.mjs';
 import { playedToTheCall, startClassroom, openClass, openEncounter, openCallMenu, openSite } from './support/panel-states.mjs';
 import { STUDENT_FURNITURE, HOST_FURNITURE, measureScreen } from './support/screen-furniture.mjs';
@@ -80,7 +82,26 @@ const deliberate = (pair, flags) => DELIBERATE.find(rule => {
   return (rule.a.test(pair.a) && rule.b.test(pair.b)) || (rule.a.test(pair.b) && rule.b.test(pair.a));
 });
 /** What may lie over a control without that being a fault: a dialog or a tooltip, or the dim a dialog brings with it. */
-const DELIBERATE_COVER = /^(journal|ending|inside the house|reconnecting|icon tip|#journal-backdrop|#panel-backdrop)$/;
+const DELIBERATE_COVER = /^(journal|ending|inside the house|reconnecting|icon tip|lone parent scenes|#journal-backdrop|#panel-backdrop)$/;
+
+/**
+ * A class on the real land whose first family was rolled with one parent, in at its land with the house site chosen: the lone
+ * parent's path is offered at the head of its column (sim/courtship.mjs, owner 2026-09-29). Rolled and brought in in process,
+ * and put back in its lobby for the student to join, as `playedToTheTown` does.
+ */
+const LONE_SEED = (() => { for (let n = 0; n < 100000; n++) if (familyRoll(`overlap-lone-${n}`, 'hh-1') === 3) return `overlap-lone-${n}`; throw new Error('no seed'); })();
+function lonelyOnTheLand(seed, playerCount) {
+  const world = createGonzalesWorld(seed, playerCount, { map: 'colonies' });
+  rollFamily(world, world.households['hh-1']);
+  world.status = 'running';
+  let guard = 0;
+  while (Object.values(world.households).some(h => h.arriving) && guard++ < 800) stepWorld(world);
+  const household = world.households['hh-1'];
+  if (household.choosingSite) chooseSite(world, household, world.map.sites[household.homeSiteId]);
+  while (household.arriving && guard++ < 1200) stepWorld(world);
+  world.status = 'lobby';
+  return world;
+}
 
 /** scripts/gonzales-town-browser-proof.mjs's class: the first family's main person in Gonzales on September 29. */
 function playedToTheTown(seed, playerCount) {
@@ -230,6 +251,28 @@ try {
         if (await page.locator('#lesson-resume').isVisible()) await walk(page, 'resume-offered', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'resume tutorial' });
         else notReached.push('student resume-offered: no "Resume tutorial" after the X');
       } else notReached.push('student resume-offered: the guided start has no X');
+      errors.push(...pageErrors);
+      await context.close();
+    } finally { await room.app.close(); }
+  }
+
+  // ================================================== the lone parent's path: the ability at the head of the column, and the scenes
+  {
+    const room = await startClassroom(lonelyOnTheLand, LONE_SEED);
+    try {
+      const { page, errors: pageErrors, context } = await openClass(room.app, browser, STUDENT_SIZES[0], room);
+      await page.locator('#ask-neighbours').waitFor({ state: 'visible', timeout: 30000 });
+      await walk(page, 'lone-parent-ability', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'lone parent ability' });
+      // Folded by "Not now" to its glowing icon, which stays.
+      await page.setViewportSize(STUDENT_SIZES[0]);
+      await page.locator('#ask-neighbours-later').click();
+      await walk(page, 'lone-parent-folded', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'lone parent ability' });
+      await page.setViewportSize(STUDENT_SIZES[0]);
+      await page.locator('#ask-neighbours-open').click();
+      await page.locator('#ask-neighbours-go').click();
+      await page.locator('#courtship').waitFor({ state: 'visible', timeout: 20000 });
+      await page.waitForFunction(() => window.__courtship?.mode === 'scene', null, { timeout: 30000 });
+      await walk(page, 'lone-parent-scenes', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'lone parent scenes' });
       errors.push(...pageErrors);
       await context.close();
     } finally { await room.app.close(); }

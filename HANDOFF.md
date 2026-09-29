@@ -1,5 +1,59 @@
 # Claude handoff — Astra foundation
 
+## The lone parent's path: two neighbours' farms, a wedding by bond, and a house the neighbours raise — owner, 2026-09-29 (not released)
+
+Branch `lone-parent-wedding`, off origin/main (3dd5209d); not pushed. The owner: *"if a player is unlucky enough to have a lone
+parent, the following path is made available. a special ability appears when they reach their land ... we see the family visit and
+talk to a family. on the 2nd family they meet a family that has a son of eligible marriage age ... light flirting occurs ... a short
+ceremony is shown and afterwards we find our new family with two parents. a basic house is also prebuilt"*; then *"use fades to
+black to smooth transitions ... it should feel special"* and *"be creative and feel free to improve on my plan"*. Answers: a lone
+father meets a **daughter**; the two families are **invented, nobody plays them**; **offered and declinable**; the spouse **rolled
+like a parent**, looks and name dealt. Specified in [FAMILY_CREATION.md](docs/FAMILY_CREATION.md) *The lone parent's path* (with the
+scenes' words and the list of where this goes beyond the owner's plan) and [SETTLING_IN.md](docs/SETTLING_IN.md) §8a.
+
+- **Server** (`sim/courtship.mjs`, the authority): `ask-neighbours` and `courtship-watched`; `household.courtship` (absent until
+  pressed - no save version moved). Offered only to a student's own family rolled with one parent, on its land, with no roof of its
+  own; on the real land not before the house site is chosen; **never taken by the computer** (a family nobody plays, or whose
+  student has gone). Pressed, everybody at home is away **four hours of the calendar** (`AWAY_MINUTES`): refused work, roads and
+  trades in words, sent with no place to their own page, seen by no neighbour on the land, the children not idling
+  (`sim/childhood.mjs` skips the family - one line). At the hour they come home: the new parent joins (id `<household>-spouse`,
+  the lone parent's age, `dealTraits`, looks dealt and kept, father or mother, spouse both ways, step-parent to the children,
+  second in the family's order) and the house is raised - the round-log plan's pieces all finished, placed where the placement rule
+  allows nearest the site, or the family's own begun house finished. The two families live only in the record (`<household>-nb-1`,
+  `-nb-2`), never households or entities. The stored record (with the spouse's hidden stats) is kept out of the household's
+  projection. `HIST-TEX-740` (marriage by bond, researched and quoted from TSHA and a transcribed 1829 Brazoria bond) and
+  `FIC-GONZ-950` in HISTORY.md. The flashback remembers the wedding and no longer puts the new parent on the road in.
+- **Page**: the ability is a glowing card at the head of the family's column (`#ask-neighbours`, gold and rose, a breathing glow,
+  its icon in a halo; **Not now** folds it to the icon; compact in a tight column) and a warm glow with the icon over the family's
+  land on the map. The scenes (`public/courtship.js`, `#courtship`) are the whole screen: four drawn yards (the neighbours'
+  farmsteads, the family's own land with the supper table, afterwards before the new house), everybody in the recoloured cast in
+  their scene's poses, the speaker named with a warm ring at their feet, the words in a strip (dashed: invented; solid: the one
+  documented line), **Continue** the only way on, **fades to black** 1.1 s with the travel said on the black (0.28 s where less
+  motion is asked for, never a cut), the time of day from the class's clock, motes of warm light and a slow waltz written for the
+  wedding (`bond-at-the-cabin`, `public/audio-music.js`, licensed project-owned). A reload resumes at the same line. The person card
+  steps aside while its person is away; the tip at first meeting keeps off the card and, since this run, off the status lines.
+- **Art** (Claude, temporary, `madeBy: "claude"`): request *2026-09-29 — the lone parent's wedding* in
+  [ART_REQUESTS.md](docs/ART_REQUESTS.md) (7 items); drawn by a Claude art builder in `scripts/claude-art/areas/courtship-*.mjs` -
+  see *Claude-drawn stand-ins* and CLAUDE_ART_PLAN.md. Library stand-ins listed under *Stand-ins in use* (while a sheet loads: the
+  canvas-painted yard, the library's buildings and poses, and the fandango's fiddler). Drawn by Claude: 56 frames of four poses for
+  the eight cast figures, the commissioner reading the bond, a farmer with a fiddle, two farmsteads (from Astra's own pixels), the
+  supper table, three yards (morning, noon, evening) and the ability's icon ([compare](docs/evidence/claude-art/compare-courtship-people.png)).
+
+**Evidence** (same computer only; no Chromebook, LAN or classroom claim). `tests/courtship.test.mjs` **13 tests**;
+`node scripts/lone-parent-injections.mjs`: **32 of 32** injected regressions caught by the test written for each, 28 by that test
+alone ([record](docs/evidence/lone-parent-injections.json)); `--browser`: **5 of 5** caught by `npm run test:lone-parent`, each
+at the check written for it (the card not glowing, a cut for a fade, a cut with less motion, a reload losing the place, *Not now*
+pressing instead of folding; [record](docs/evidence/lone-parent-injections-browser.json)). New browser proof **`npm run test:lone-parent`**
+(`scripts/lone-parent-browser-proof.mjs`) **9 checks**, with a screenshot of each scene and of a fade
+(`docs/evidence/lone-parent-*.png`, [record](docs/evidence/lone-parent-browser.json)). `test:overlap` gained three states (the
+ability, folded, the scenes open): **185 screens, 34 states, 0 faults**; it found the person card docked over the rows while its
+person was away, and a tip over a long supplies line - both fixed. `test:family-panel` 18, `test:tips` 13, `test:classes` 16,
+`test:ending` 10.
+
+**Open for the owner:** (1) the new husband takes the family's last name - or should the family take his (1835 practice)?
+(2) the lone parent stays the principal - or does a new husband become it? (3) a Victoria family: by bond as now, or a church
+wedding by a visiting priest? (4) should the computer ever take the path for a family whose student has gone (built: never)?
+
 ## The empty class pauses itself, any played family can win, the lobby shows who is ready — owner, 2026-09-29 (not released)
 
 Branch `owner-pause-win-lobby`, off origin/main (0ffa9663) with `audit-triage-2026-09-29` merged in; not pushed. The owner's

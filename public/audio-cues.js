@@ -257,10 +257,12 @@ export function fireLevel(world, camera, size, home = homeOf(world)) {
  * family is on the road east; war while the war has reached this family (a call to arms, a man with the army, the alarm);
  * the farm otherwise. The Host follows the class's war by its date, not any one family's.
  */
-export function moodFor(world, { creating = false } = {}) {
+export function moodFor(world, { creating = false, wedding = false } = {}) {
   if (!world) return 'title';
   if (world.status === 'ended' && world.ending && (world.ending.family || world.ending.host)) return 'ending';
   if (world.status === 'lobby' || creating) return 'title';
+  // The lone parent's wedding and the family by its new house (public/courtship.js marks the page while those scenes are shown).
+  if (wedding) return 'wedding';
   const battle = world.battle?.sides ? world.battle : null;
   if (battle && !battle.over) return 'battle';
   if (world.role === 'host') {

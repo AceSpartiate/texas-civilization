@@ -387,6 +387,21 @@
       "file": null
     },
     {
+      "id": "bond-at-the-cabin",
+      "kind": "music",
+      "what": "The Bond at the Cabin",
+      "made": "public/audio-music.js TUNES[\"bond-at-the-cabin\"], played by the page's own instruments",
+      "composition": "written for this game, 2026-09-29",
+      "compositionStatus": "project-owned",
+      "compositionEvidence": "Composed for this game, for the lone parent's wedding (sim/courtship.mjs).",
+      "licence": "project-owned",
+      "author": "Written for Texas Civilization (by Claude, for the owner), 2026-09-29",
+      "source": "Notes written into this repository and played by the page's own instruments; no recording, score scan or published arrangement was copied",
+      "checked": "2026-09-29",
+      "attribution": null,
+      "file": null
+    },
+    {
       "id": "muster",
       "kind": "music",
       "what": "Muster",

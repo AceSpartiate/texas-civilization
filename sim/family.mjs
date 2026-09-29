@@ -767,10 +767,19 @@ export function familyProjection(world, household) {
       // A lone parent in a rolled family is widowed, and the book says so rather than leaving
       // a student to wonder where the other one went.
       const widowed = parent && !kin.spouse && Number.isFinite(entity?.age) ? 'Widowed. ' : '';
+      // A lone parent's new husband or wife (sim/courtship.mjs): the children's step-parent, and where they came from - the one
+      // family of neighbours the family keeps in its book (owner, 2026-09-29).
+      const stepchildren = (kin.stepchildren || []).map(nameOf);
+      const path = household.courtship;
+      const from = path?.spouse?.id === id ? path.neighbours?.[1] : null;
+      const born = from ? ` Born a ${from.surname}, of the farm ${from.where}.` : '';
       const of = !kin.role ? null
+        : stepchildren.length
+          ? `Married to ${nameOf(kin.spouse)}. Step${kin.role} to ${listWords(stepchildren)}.${born}`
         : children.length
           ? `${kin.spouse ? `Married to ${nameOf(kin.spouse)}. ` : widowed}${Role} to ${listWords(children)}.`
           : parents.length ? `${Role} of ${parents.join(' and ')}.`
+          : kin.spouse ? `Married to ${nameOf(kin.spouse)}.${born}`
           : widowed ? 'Widowed, with no children.' : null;
       // Age is visible; the hidden stats are not, and are deliberately not read here at all.
       // How they look, in words and as the choices behind them (sim/appearance.mjs). Only a parent's can be chosen.

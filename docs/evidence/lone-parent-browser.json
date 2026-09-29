@@ -1,0 +1,52 @@
+{
+  "proof": "npm run test:lone-parent",
+  "when": "2026-09-29T13:26:33.259Z",
+  "pass": [
+    "on the land, before the house site is chosen: the ability is there, says to choose the site first, and cannot be pressed",
+    "on the land the ability waits, glowing (ask-glow), with the land marked on the map, standing on nothing: \"Take the children to the farms nearby and ask the neighbours to help Asa raise a house.\""
+  ],
+  "observed": {
+    "family": [
+      {
+        "id": "hh-1-parent-1",
+        "role": "father",
+        "age": 33
+      },
+      {
+        "id": "hh-1-child-1",
+        "role": "daughter",
+        "age": 10
+      },
+      {
+        "id": "hh-1-child-2",
+        "role": "daughter",
+        "age": 9
+      }
+    ],
+    "card": {
+      "title": "Ask the neighbours for help",
+      "says": "Take the children to the farms nearby and ask the neighbours to help Asa raise a house.",
+      "note": "The family is away about 4 hours.",
+      "glow": "ask-glow",
+      "shadow": "rgb(255, 243, 207) 0px 0px 0px 1px inset, rgba(194, 88, 44, ",
+      "marker": {
+        "x": 694,
+        "y": 334,
+        "r": 12
+      },
+      "icon": "drawn"
+    },
+    "cardBox": {
+      "left": 16,
+      "top": 236.625,
+      "right": 312,
+      "bottom": 339.46875
+    }
+  },
+  "shots": [
+    "docs/evidence/lone-parent-1-choose-site-first.png",
+    "docs/evidence/lone-parent-2-ability.png"
+  ],
+  "errors": [],
+  "note": "Same computer only: headless Chrome at 1366x768 (and 1024x768 with reduced motion). No Chromebook, LAN or classroom claim."
+}

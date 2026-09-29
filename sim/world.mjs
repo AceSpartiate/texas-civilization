@@ -22,6 +22,8 @@ import { advanceRunners, runnerInvalid } from './alamo-runner.mjs';
 import { decisionClockInvalid, decisionLeft, decisionPressing, spendDecisionBudget } from './decision-budget.mjs';
 // The tips a family has seen go to its own page as `household.tipsSeen`, with the rest of the household (`projectHousehold`).
 import { markTipSeen, tipsInvalid } from './tips.mjs';
+// The lone parent's path (owner, 2026-09-29; docs/FAMILY_CREATION.md, *The lone parent's path*).
+import { advanceCourtship, askNeighbours, courtshipInvalid, courtshipView, markWatched, marriedIn, visitingWhy } from './courtship.mjs';
 import { advanceFlight, flee, flightProjection, householdAsKnown, scrapeInvalid, share, stayHome } from './scrape.mjs';
 import { advanceDisease, diseaseInvalid, mendSickness, registerDiseaseChores, sickRefusal, sicknessShown } from './disease.mjs';
 import { answerRoad, registerRoadChores } from './road.mjs';
@@ -680,6 +682,8 @@ export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs
   advanceRunners(world);
   // A family whose last wagon wheel came in off the road this tick has arrived.
   advanceArrivals(world);
+  // A lone parent's family away at the neighbours' comes home at its hour, married and with a house raised (sim/courtship.mjs).
+  advanceCourtship(world);
   // What each family's people can see of the homesteads they are standing on (sim/houses.mjs).
   noteLandSeen(world);
   // Anybody a rider came by on the road this tick is met before the word changes hands at a fork: a rider who has given
@@ -908,6 +912,12 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   if (input.action === 'resume-lesson') { resumeLesson(world, household, { now }); return; }
   // A tip put away (sim/tips.mjs, owner 2026-09-28): the family's own, naming nobody in it, and kept so it is never shown again.
   if (input.action === 'seen-tip') { markTipSeen(world, household, input.tip); return; }
+  // The lone parent's path (sim/courtship.mjs): the family sets out together to ask the neighbours, and the student's page has
+  // walked the scenes. Both the family's own, naming nobody in it.
+  if (input.action === 'ask-neighbours') { askNeighbours(world, household); return; }
+  if (input.action === 'courtship-watched') { markWatched(world, household); return; }
+  // While the family is away visiting, its house waits for it: nothing is planned or placed until it is home.
+  if (household?.courtship?.stage === 'away' && ['plan-house', 'place-piece', 'remove-piece', 'choose-site'].includes(input.action)) throw new Error('The family is away at the neighbours\' farms. The house waits until they are home.');
   if (input.action === 'roll-family') { rollFamily(world, household); return; }
   // Packing the wagon is the household's, like the roll, and names nobody in it.
   // A family that changes its load is packing again: the Host's ready mark waits for its next Done packing (`donePacking`).
@@ -937,6 +947,8 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   if (world.status === 'lobby' && !LOBBY_ACTIONS.has(input.action)) throw new Error('Your neighbours are still arriving. You can see to your own family now; anything between families waits for the class to begin.');
   if (!entity || entity.householdId !== householdId || entity.kind !== 'person') throw new Error('Choose one of your family.');
   if (entity.health.condition === 'dead' || entity.health.condition === 'captured') throw new Error('This person cannot act.');
+  // Away with the family at the neighbours' farms (sim/courtship.mjs): no work, no road and no trade until they are home.
+  if (entity.visiting && VISITING_REFUSED.has(input.action)) throw new Error(visitingWhy(world, entity));
   // A child under ten is not sent anywhere (`docs/FAMILY_CREATION.md` §3): not on a road, not to answer for the family.
   // They can still be named, rest, and be spoken to - and, since the owner's amendment of 2026-09-21, be set to the
   // children's own works and call them off again (`childAction`, sim/children.mjs), which are the only work in the game
@@ -1239,6 +1251,9 @@ function projectHousehold(world, household) {
   const acting = household.flight ? actingFor(world, household) : null;
   const taken = household.takenIn && world.households[household.takenIn.by];
   delete shown.takenIn;
+  // The lone parent's path is sent as the page draws it (sim/courtship.mjs `courtshipView`), never as stored: the stored record
+  // carries the new parent's hidden stats, rolled at the press.
+  delete shown.courtship;
   return { ...shown, ...(main !== household.principalId && { mainId: main }),
     ...(acting && acting.id !== main && { actingId: acting.id }), ...(acting?.how === 'child' && { steppedUp: true }),
     ...(taken && { takenIn: { householdId: taken.id, name: householdName(world, taken), ids: [...household.takenIn.ids] } }) };
@@ -1314,6 +1329,9 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // Somebody of the family who died of a sickness is told in one plain sentence and not drawn (the owner, 2026-09-27): sent with
     // no place, as somebody away is, so the page has nothing to draw them at and nothing to decide.
     ...(e.kind === 'person' && e.health?.condition === 'dead' && e.health.disease && { location: null }),
+    // Away with the family at the neighbours' farms (sim/courtship.mjs): sent with no place, as somebody away on the road is, so
+    // the family's own map draws them nowhere until they are home.
+    ...(e.visiting && { visiting: true, location: null }),
   }));
   // What each person could be asked to do, with the reason for anything refused, is
   // computed on the server. The client must never decide for itself what is possible:
@@ -1364,6 +1382,9 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // one of this family is standing where it can be seen, and to the Host. Absent otherwise, which is also a class saved
     // before it existed.
     ...townScenesView(world, householdId, role),
+    // The lone parent's path (sim/courtship.mjs): the ability while it is offered, and the scenes while the family's student has
+    // not walked them. The family's own page only: never the Host's, never another family's.
+    ...courtshipView(world, householdId, role),
     // The family's neighbours, the help offered back and room kept in a wagon (sim/neighbourly.mjs). Absent for the Host and for a
     // family with none of it.
     ...neighbourlyView(world, householdId, role),
@@ -1411,6 +1432,11 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
 const townScenesView = (world, householdId, role) => { const townScenes = townScenesFor(world, householdId, role); return townScenes ? { townScenes } : {}; };
 /** The orders refused to somebody called aside by the family's little ones: their own work and their own journeys. */
 const ASIDE_REFUSED = new Set(['chore', 'travel', 'work', 'survey-plot', 'fell-trees', 'hunt-land', 'clear-plot', 'fence-plot', 'town-help']);
+/**
+ * The orders refused to somebody away with the family at the neighbours' farms (sim/courtship.mjs): the same work and journeys,
+ * and a trade, which is made standing with another family. The game's own questions are not refused: they are the game's.
+ */
+const VISITING_REFUSED = new Set([...ASIDE_REFUSED, 'offer']);
 /** One person's share of the family's little ones, for the family's own projection (sim/childhood.mjs, sim/babies.mjs). */
 function littleOnes(world, household, e) {
   // The child with the milk cow on the Scrape says so on their row (sim/flight-work.mjs `cowLine`, owner 2026-09-27).
@@ -1454,7 +1480,7 @@ export function validateWorld(world) {
     // correctly as a household it cannot describe rather than a broken one.
     if (entity.kin !== undefined) {
       if (!ROLES.includes(entity.kin.role)) throw new Error('Invalid kin role');
-      for (const relative of [entity.kin.spouse, ...(entity.kin.parents || []), ...(entity.kin.children || [])]) {
+      for (const relative of [entity.kin.spouse, ...(entity.kin.parents || []), ...(entity.kin.children || []), ...(entity.kin.stepchildren || [])]) {
         if (relative && !world.entities[relative]) throw new Error('Kin names somebody who does not exist');
       }
     }
@@ -1510,7 +1536,8 @@ export function validateWorld(world) {
     if (household.roll !== undefined) {
       let size = null;
       try { const { parents, children } = compositionFor(household.roll, tableOf(household)); size = parents + children; } catch { size = null; }
-      if (size === null || household.members.length !== size) throw new Error('A rolled family must be the size it rolled');
+      // And one more once a lone parent has married (sim/courtship.mjs): the new parent is of the family, and was not rolled.
+      if (size === null || household.members.length !== size + marriedIn(household)) throw new Error('A rolled family must be the size it rolled');
     }
     // Coin is counted in whole reales. A class saved before there was coin has none, which is
     // the correct empty value, so no save version moved.
@@ -1530,7 +1557,9 @@ export function validateWorld(world) {
     // standing in its own house has nothing to be walked through, so no save version moved.
     const badLoad = loadInvalid(household) || houseInvalid(world, household) || grantInvalid(world, household) || siteInvalid(world, household) || plotsInvalid(world, household) || lessonInvalid(world, household)
       // Absent on every class saved before tips (sim/tips.mjs, 2026-09-28): "seen none", so no save version moved.
-      || tipsInvalid(household);
+      || tipsInvalid(household)
+      // Absent on every family that has not taken the lone parent's path, and every save before it (sim/courtship.mjs).
+      || courtshipInvalid(world, household);
     if (badLoad) throw new Error(badLoad);
     // Absent on a class nobody has named, which is the correct empty value and why no save
     // version moved. Present, it is a name somebody typed and has to stay one.

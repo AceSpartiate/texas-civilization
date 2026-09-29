@@ -1,0 +1,476 @@
+// The lone parent's wedding (request 2026-09-29 — the lone parent's wedding, items 3, 4 and 5): the two neighbours'
+// farmsteads, the wedding supper's table and the three yards the scenes stand in, for public/courtship.js (scenes drawn over
+// the whole screen at about 960 by 540, a person 150 to 190 px tall).
+//
+// **The farmsteads are made from Astra's own pixels** where they can be, as house-pieces.mjs makes the house plot's pieces:
+// a flatter, simpler hand beside her painted logs and thatch would show every seam, and each farm has to read as somebody's
+// home at a size larger than the map ever draws a house. So the first family's home is her `cabin-wide` with a porch built
+// across its front (the porch roof laid in her own shingles, cut from the same cabin's roof), its door standing open, her
+// `home-bench` and `bucket` on the porch, her `fence-rail` running off to the left and a chopping block with the axe in it;
+// the second family's is her `jacal-ramada` with an olla hung from the ramada's beam, her `home-bench` in its shade, her
+// tripod and pot (`cooking-pot`) in the yard and a picket corral beside it. Claude draws only what is new (the porch, the
+// open door, the olla, the corral, the block, the smoke), in her projection and colours, outlined in her ink. Her files are
+// only read (scripts/build-claude-standins.mjs `resolveLibraryImages` inlines them).
+//
+// **Sizes.** Every frame here is sized by the people who stand beside it: `logicalHeight` is the height of a person at the
+// frame's own scale (a person's logical height; the figure is 0.945 of it), so the page draws a farm or the table with the
+// *same height it gives a person* and both stand at their true size on the same ground (multiply by a depth factor to set a
+// farm back behind the people). The yards are full 960 by 540 paintings (`backdrop: true`, logical height 540, anchored at
+// the bottom centre): the page draws them to cover the canvas, anchored at the bottom, so everything that matters is kept
+// in the lower middle and the horizon sits well down (y 228 of 540), where a little cropping at the top or sides takes only sky.
+//
+// Temporary, like every Claude frame: Astra's frame of the same name replaces each the moment it is registered.
+import { readFileSync } from 'node:fs';
+import { LINE, tone } from '../kit/style.mjs';
+import { Ink, f2, add, ellipse, blob, curve, capsule, poly } from '../kit/svg.mjs';
+import { buildingFrame, MATERIAL, rand } from '../kit/oblique.mjs';
+
+export const AREA = 'places';
+export const DATE = '2026-09-29';
+const REQUEST = 'Request 2026-09-29 — the lone parent\'s wedding';
+
+const ASTRA = JSON.parse(readFileSync(new URL('../../../public/assets/frontier-v1/atlas.json', import.meta.url), 'utf8'));
+function her(name) {
+  const frame = ASTRA.frames[name];
+  if (!frame) throw new Error(`courtship-places: Astra's atlas has no ${name}`);
+  const sheet = ASTRA.sheets[frame.sheet];
+  return { ...frame, name, href: `/assets/frontier-v1/${sheet.image}` };
+}
+/** A person is about 6.45 feet of logical height (a man of 5 foot 9 in a hat is 0.945 of it). */
+const PERSON_FEET = 6.45;
+
+/**
+ * A drawing that lays Astra's pixels and Claude's shapes in order, in her frame's pixels (`K` output pixels to one of hers):
+ * her pieces plain, Claude's in the grain every Claude frame has, each layer where it falls back to front.
+ */
+class Composite {
+  constructor(name, { w, h, K, origin }) {
+    Object.assign(this, { name, w, h, K, origin, layers: [], defs: [], n: 0 });
+    this.ink = new Ink(name, K, { yUp: false, shadeOffset: 1.4 });
+  }
+  flush() {
+    if (this.ink.parts.length) this.layers.push(`<g filter="url(#grain)">${this.ink}</g>`);
+    this.defs.push(...this.ink.defs);
+    this.ink.parts = []; this.ink.defs = [];
+  }
+  /** Her frame `name` scaled by `s`, its own anchor put at (x, y). */
+  her(name, [x, y], s = 1, { flip = false, clip } = {}) {
+    this.flush();
+    const f = her(name), id = `${this.name}-her-${this.n++}`;
+    this.defs.push(`<clipPath id="${id}"><rect x="0" y="0" width="${f.w}" height="${f.h}"/></clipPath>`);
+    const ox = x - f.anchorX * f.w * s * (flip ? -1 : 1), oy = y - f.anchorY * f.h * s;
+    const img = `<g transform="translate(${f2(ox)} ${f2(oy)}) scale(${f2(flip ? -s : s)} ${f2(s)})"><g clip-path="url(#${id})"><image href="${f.href}" x="${-f.x}" y="${-f.y}"/></g></g>`;
+    if (clip) {
+      const cid = `${this.name}-cut-${this.n++}`;
+      this.defs.push(`<clipPath id="${cid}"><path d="${clip}"/></clipPath>`);
+      this.layers.push(`<g clip-path="url(#${cid})">${img}</g>`);
+    } else this.layers.push(img);
+    return f;
+  }
+  svg(note) {
+    this.flush();
+    const [ox, oy] = this.origin;
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${this.w}" height="${this.h}" viewBox="0 0 ${this.w} ${this.h}">
+  <!-- ${this.name}: ${note}
+       Claude-made stand-in (temporary: replace with Astra's ${this.name}). Generated by scripts/claude-art/areas/courtship-places.mjs,
+       laid from Astra's own pixels where it is her picture, Claude-drawn where it is new; do not hand-edit. -->
+  <defs>${this.defs.join('')}</defs>
+  <g transform="scale(${this.K}) translate(${f2(ox)} ${f2(oy)})" stroke-linejoin="round" stroke-linecap="round">${this.layers.join('')}</g>
+</svg>
+`;
+  }
+  /** A world point (her pixels) to the frame's output pixels. */
+  out([x, y]) { return [(x + this.origin[0]) * this.K, (y + this.origin[1]) * this.K]; }
+}
+
+// -------------------------------------------------------------------------------------------------------- pieces
+/** Her building sheets' view (kit/oblique.mjs): x feet east, y up, z feet into the picture, from a point `o` on her frame. */
+const view = (o, pxft) => (x, y, z = 0) => [o[0] + (x + z * 0.34) * pxft, o[1] - (y + z * 0.3) * pxft];
+const WOOD = '#8a6440', WOOD_LIGHT = '#a88258', WOOD_DARK = '#5a3c22';
+
+/** An upright post (a porch post, a ramada's pole): a round stick from `a` up to `b`. */
+function post(ink, a, b, r, colour = WOOD) {
+  ink.shape(capsule(a, b, r, r * 0.92), colour, { off: r * 0.5, outline: LINE.inner + 0.8 });
+  ink.line(curve([add(a, [r * 0.35, -r]), add(b, [r * 0.3, r])]), { width: LINE.fine, colour: tone(colour, -0.4), opacity: 0.6 });
+}
+/** A soft patch of worn yard earth, no outline: it lies over the scene's own ground. */
+function yardEarth(ink, c, rx, ry, colour = '#b0915e', opacity = 0.5) { ink.dot(ellipse(c, rx, ry), colour, opacity); }
+/** A thread of chimney smoke curling up and drifting left, pale and half clear. */
+function smoke(ink, [x, y], s = 1) {
+  // Soft overlapping wisps with no outline, thinning as they rise, as her `smoke-rise` is painted.
+  const puffs = [[0, 0, 4, 3.4], [-2, -7, 5, 4], [-6, -15, 6.5, 4.6], [-12, -24, 8, 5.4], [-20, -34, 9.5, 6], [-30, -44, 11, 6.4]];
+  puffs.forEach(([dx, dy, rx, ry], i) => { ink.dot(ellipse([x + dx * s, y + dy * s], rx * s, ry * s), '#e9e4dc', 0.5 - i * 0.07); ink.dot(ellipse([x + (dx - 1.5) * s, y + (dy - 1) * s], rx * 0.55 * s, ry * 0.5 * s), '#f8f5ef', 0.35 - i * 0.05); });
+}
+/** A chopping block (a short round of oak on end), the axe bitten into its top, a few split sticks by it. */
+function choppingBlock(ink, [x, y], k) {
+  const r = 8 * k, hgt = 12 * k, ry = r * 0.42;
+  for (const [a, b] of [[[-16, 2], [-4, -1]], [[-14, -1.5], [-2, 3]], [[10, 2], [21, 0]]]) ink.shape(capsule(add([x, y], [a[0] * k, a[1] * k]), add([x, y], [b[0] * k, b[1] * k]), 1.6 * k, 1.4 * k), '#b98f5c', { off: 0.4, outline: LINE.inner });
+  ink.shape(`M ${x - r} ${y - hgt} L ${x - r} ${y} A ${r} ${ry} 0 0 0 ${x + r} ${y} L ${x + r} ${y - hgt} Z`, '#7a5634', { off: 1, outline: LINE.inner + 0.8 });
+  ink.line(curve([[x - r * 0.4, y - hgt + ry], [x - r * 0.5, y - hgt * 0.4], [x - r * 0.35, y + ry * 0.6]]), { width: LINE.fine, colour: '#4a3220', opacity: 0.7 });
+  ink.shape(ellipse([x, y - hgt], r, ry), '#dcb784', { shade: false, outline: LINE.inner + 0.8 });
+  ink.line(ellipse([x + 0.4 * k, y - hgt], r * 0.5, ry * 0.5), { width: LINE.fine, colour: '#b08a58', opacity: 0.8 });
+  // The axe: the head bitten into the top a little off centre, the haft rising up and to the right.
+  const bite = [x - 1.5 * k, y - hgt - 1 * k], end = [x + 11 * k, y - hgt - 20 * k];
+  ink.shape(capsule(bite, end, 1.1 * k, 0.9 * k), '#c8a36c', { off: 0.4, outline: LINE.inner });
+  ink.shape(poly([add(bite, [-4.5 * k, 1 * k]), add(bite, [2 * k, 0.5 * k]), add(bite, [2.4 * k, -3 * k]), add(bite, [-3.5 * k, -3.6 * k])]), '#6d7072', { off: 0.4, outline: LINE.inner });
+}
+/** An olla, the porous clay water jar, hung in a rope sling from a beam at `hang`, its body centred below. */
+function olla(ink, hang, k) {
+  const c = [hang[0], hang[1] + 19 * k], r = 6.6 * k;
+  for (const dx of [-4.2, 0, 4.2]) ink.line(`M ${hang[0]} ${hang[1]} L ${c[0] + dx * k} ${c[1] - 2 * k}`, { width: LINE.inner, colour: '#5a4630' });
+  ink.shape(blob([[c[0] - r, c[1] - 1 * k], [c[0] - r * 0.7, c[1] - r * 0.95], [c[0] - 2.6 * k, c[1] - r * 1.25], [c[0] + 2.6 * k, c[1] - r * 1.25], [c[0] + r * 0.7, c[1] - r * 0.95], [c[0] + r, c[1] - 1 * k], [c[0] + r * 0.72, c[1] + r * 0.72], [c[0], c[1] + r * 1.02], [c[0] - r * 0.72, c[1] + r * 0.72]], 0.9), '#b8683a', { off: 1.4, lift: true, outline: LINE.inner + 0.8 });
+  ink.shape(ellipse([c[0], c[1] - r * 1.25], 3.2 * k, 1.2 * k), '#8e4a26', { shade: false, outline: LINE.inner });
+  ink.line(curve([[c[0] - r * 0.95, c[1] - 1.5 * k], [c[0], c[1] + 0.8 * k], [c[0] + r * 0.95, c[1] - 1.5 * k]]), { width: LINE.fine, colour: '#f0d4a8', opacity: 0.8 });
+  // The sweat that keeps the water cool: a darker damp at the jar's foot and a drip.
+  ink.dot(ellipse([c[0] + 0.5 * k, c[1] + r * 0.62], r * 0.55, r * 0.26), '#8a4a28', 0.55);
+  ink.dot(ellipse([c[0] + 1 * k, c[1] + r * 1.35], 0.7 * k, 1 * k), '#9ab4c0', 0.8);
+}
+
+// ------------------------------------------------------------------------------------------ farm-neighbour-porch
+// In `cabin-wide`'s own pixels (her frame's top left at 0, 0): the front wall runs x 16-290 and stands on y 205, the eave at
+// y 121, the door opening x 140-177 by y 137-201 (hinged on the right: the latch is on the left), the windows x 67-104 and
+// 211-249; a door of 6.5 feet is 64 of her pixels, so about 10 of her pixels a foot. Measured on a 3.5-times grid.
+const CABIN = { pxft: 10, ground: 205, wall: [16, 290], eave: 121, door: [140, 177, 137, 201] };
+function porchFarm() {
+  const K = 2, w = 940, h = 560, origin = [124, 52];
+  const c = new Composite('farm-neighbour-porch', { w, h, K, origin }), ink = c.ink;
+  const V = view([CABIN.wall[0], CABIN.ground], CABIN.pxft), k = CABIN.pxft / 10;
+  // Behind: the rail fence running off to the left, two of her panels zigzagging away.
+  c.her('fence-rail', [-44, 188], 0.26);
+  c.her('fence-rail', [10, 196], 0.27);
+  // The yard's worn earth, under the porch and out to the block.
+  yardEarth(ink, [150, 216], 210, 8, '#b0915e', 0.45);
+  c.her('cabin-wide', [her('cabin-wide').anchorX * her('cabin-wide').w, her('cabin-wide').anchorY * her('cabin-wide').h]);
+  // The door standing open: the dark of the room inside, a sliver of its lit floor, and the leaf swung in on its right hinge.
+  const [d0, d1, dt, db] = CABIN.door;
+  ink.shape(poly([[d0 + 0.5, dt + 0.5], [d1 - 0.5, dt + 0.5], [d1 - 0.5, db], [d0 + 0.5, db]]), '#2b1d12', { shade: false, outline: LINE.inner });
+  ink.dot(poly([[d0 + 1, db - 6], [d1 - 14, db - 9], [d1 - 14, db], [d0 + 1, db]]), '#5b3f26', 0.9);
+  ink.dot(poly([[d0 + 1, dt + 1], [d0 + 6, dt + 3], [d0 + 6, db - 7], [d0 + 1, db - 6]]), '#4a3322', 0.9);
+  const leaf = [[d1 - 0.6, dt + 0.6], [d1 - 15, dt - 6], [d1 - 15, db - 7], [d1 - 0.6, db]];
+  ink.shape(poly(leaf), '#5a3a20', { off: 0.8, outline: LINE.inner });
+  for (const t of [0.33, 0.66]) ink.line(`M ${f2(d1 - 0.6 - 14.4 * t)} ${f2(dt + 0.6 - 6.6 * t)} L ${f2(d1 - 0.6 - 14.4 * t)} ${f2(db - 7 * t)}`, { width: LINE.fine, colour: '#3a2414', opacity: 0.8 });
+  // The porch: a plank floor a foot off the ground along the front, four posts, a shed roof from under the eave, in her
+  // shingles. Four and a half feet deep and nearly flat, so that from her raised view the roof's front edge still clears the
+  // door's head and the doorway shows whole; from 2 to 25.8 feet along the wall (the chimney end left clear).
+  const x0 = 1.6, x1 = 25.8, z1 = -4.5, fl = 0.9, back = 8.2, front = 8.0;
+  ink.shape(poly([V(x0, 0, z1), V(x1, 0, z1), V(x1, fl, z1), V(x0, fl, z1)]), tone(WOOD, -0.18), { shade: false, outline: LINE.inner + 0.8 });
+  ink.shape(poly([V(x0, fl, 0), V(x1, fl, 0), V(x1, fl, z1), V(x0, fl, z1)]), WOOD_LIGHT, { shade: false, outline: LINE.inner + 0.8 });
+  for (let x = x0 + 0.9; x < x1; x += 0.9) ink.line(`M ${V(x, fl, 0).map(f2).join(' ')} L ${V(x, fl, z1).map(f2).join(' ')}`, { width: LINE.fine, colour: tone(WOOD_LIGHT, -0.35), opacity: 0.55 });
+  // The step down from the door.
+  const sx = (d0 + d1) / 2 / CABIN.pxft - CABIN.wall[0] / CABIN.pxft + 1.7;
+  ink.shape(poly([V(sx - 1.6, 0, z1 - 1.3), V(sx + 1.6, 0, z1 - 1.3), V(sx + 1.6, 0.45, z1 - 1.3), V(sx - 1.6, 0.45, z1 - 1.3)]), tone(WOOD, -0.1), { shade: false, outline: LINE.inner + 0.6 });
+  ink.shape(poly([V(sx - 1.6, 0.45, z1), V(sx + 1.6, 0.45, z1), V(sx + 1.6, 0.45, z1 - 1.3), V(sx - 1.6, 0.45, z1 - 1.3)]), WOOD_LIGHT, { shade: false, outline: LINE.inner + 0.6 });
+  // On the porch: her bench under the left window, her bucket by the door.
+  c.her('home-bench', V(4.6, fl, -1.2), 0.16);
+  c.her('bucket', V(18.6, fl, -1.0), 0.058);
+  // The roof, cut from the cabin's own roof: her shingles moved down onto the porch roof's face.
+  const roof = poly([V(x0 - 0.4, back, 0), V(x1 + 0.4, back, 0), V(x1 + 0.4, front, z1 - 0.3), V(x0 - 0.4, front, z1 - 0.3)]);
+  const cab = her('cabin-wide'), home = [cab.anchorX * cab.w, cab.anchorY * cab.h + 58];
+  const split = [V(10, back, 0), V(10, front, z1 - 0.3)];
+  const left = poly([V(x0 - 0.4, back, 0), split[0], split[1], V(x0 - 0.4, front, z1 - 0.3)]);
+  const right = poly([split[0], V(x1 + 0.4, back, 0), V(x1 + 0.4, front, z1 - 0.3), split[1]]);
+  c.her('cabin-wide', [home[0] - 30, home[1]], 1, { clip: left });
+  c.her('cabin-wide', [home[0] + 30, home[1]], 1, { clip: right });
+  ink.dot(roof, '#3a2a1a', 0.16);
+  ink.line(roof, { width: LINE.inner + 0.8 });
+  ink.shape(poly([V(x0 - 0.4, front, z1 - 0.3), V(x1 + 0.4, front, z1 - 0.3), V(x1 + 0.4, front - 0.35, z1 - 0.3), V(x0 - 0.4, front - 0.35, z1 - 0.3)]), WOOD, { shade: false, outline: LINE.inner + 0.6 });
+  // The posts, drawn last: in front of everything on the porch.
+  for (const x of [2.3, 10, 17.6, 25.1]) post(ink, V(x, fl, z1 + 0.4), V(x, front - 0.35, z1 + 0.4), 1.25 * k);
+  // The yard: the chopping block and its axe beyond the chimney end, and smoke from the chimney (somebody is at home).
+  choppingBlock(ink, [322, 214], 0.95);
+  smoke(ink, [285, -2], 1.1);
+  const a = c.out(V((x0 + x1) / 2, 0, z1));
+  return { svg: c.svg('the first neighbours\' home: Astra\'s cabin-wide with a porch across its front, the door open, a bench and a bucket on the porch, a rail fence and a chopping block'),
+    anchorX: +(a[0] / w).toFixed(4), anchorY: +(a[1] / h).toFixed(4), logicalHeight: Math.round(PERSON_FEET * CABIN.pxft * K) };
+}
+
+// ----------------------------------------------------------------------------------------- farm-neighbour-ramada
+// In `jacal-ramada`'s own pixels: the house stands on y 174, its right corner at x 300; the ramada's front beam runs from
+// (11, 83) down to (140, 69) on posts at x 24, 64 and 131; the door is 70 of her pixels, about 10.8 a foot.
+const JACAL = { pxft: 10.8, ground: 174, right: 300 };
+function ramadaFarm() {
+  const K = 2, w = 1080, h = 420, origin = [72, 22];
+  const c = new Composite('farm-neighbour-ramada', { w, h, K, origin }), ink = c.ink;
+  const V = view([JACAL.right, JACAL.ground], JACAL.pxft), k = JACAL.pxft / 10;
+  // The picket corral beside the house: pickets set close in a trench, a pole lashed along each side, a gap for a gate.
+  const cx0 = 2, cx1 = 12, cz0 = -1, cz1 = 8, top = y => 4.6 + (rand(y * 7.3) - 0.5) * 0.7;
+  // Each picket a split or round stick of weathered mesquite or oak, as her ramada's poles are: a little crooked, its top
+  // rough, a lighter grey-brown than a post, with her fine line - a light fence, not a stockade.
+  const picket = (x, z, i) => {
+    const lean = (rand(i * 3.1) - 0.5) * 0.35, a = V(x, 0, z), b = V(x + lean, top(i), z), r = (0.17 + rand(i * 1.7) * 0.06) * JACAL.pxft;
+    const colour = [WOOD_LIGHT, '#9a7a56', '#b09070'][i % 3];
+    ink.shape(capsule(a, b, r, r * 0.8), z > cz0 + 0.5 ? tone(colour, -0.08) : colour, { off: r * 0.4, outline: LINE.fine + 0.6 });
+    ink.line(curve([add(a, [r * 0.3, -2]), add(b, [r * 0.2, 2])]), { width: LINE.fine, colour: tone(colour, -0.35), opacity: 0.5 });
+  };
+  const rail = (p, q) => { ink.line(`M ${p.map(f2).join(' ')} L ${q.map(f2).join(' ')}`, { width: LINE.inner + 1.4, colour: LINE.ink }); ink.line(`M ${p.map(f2).join(' ')} L ${q.map(f2).join(' ')}`, { width: LINE.inner - 0.2, colour: '#8a6a44' }); };
+  yardEarth(ink, V((cx0 + cx1) / 2, 0, (cz0 + cz1) / 2), 62, 16, '#9a7a4e', 0.55);
+  let i = 0;
+  for (let x = cx0; x <= cx1 + 1e-6; x += 0.62) picket(x, cz1, i++);
+  rail(V(cx0, 3.2, cz1), V(cx1, 3.2, cz1));
+  for (let z = cz1 - 0.62; z > cz0; z -= 0.62) picket(cx1, z, i++);
+  rail(V(cx1, 3.2, cz1), V(cx1, 3.2, cz0));
+  // A hollowed log for a trough inside.
+  const t0 = V(6, 0.5, 4), t1 = V(10.5, 0.5, 4);
+  ink.shape(capsule(t0, t1, 0.55 * JACAL.pxft, 0.55 * JACAL.pxft), '#7a5634', { off: 1, outline: LINE.inner + 0.6 });
+  ink.shape(capsule(add(t0, [2, -3]), add(t1, [-2, -3]), 0.25 * JACAL.pxft, 0.25 * JACAL.pxft), '#6f93a6', { shade: false, outline: LINE.fine });
+  for (let z = cz1 - 0.62; z > cz0; z -= 0.62) picket(cx0, z, i++);
+  // The front run, with a gap for the gate and a pole laid across it.
+  for (let x = cx0; x <= cx1 + 1e-6; x += 0.62) if (x < 6.4 || x > 9.2) picket(x, cz0, i++);
+  rail(V(cx0, 3.2, cz0), V(6.6, 3.2, cz0));
+  rail(V(9.2, 3.2, cz0), V(cx1, 3.2, cz0));
+  ink.shape(capsule(V(6.3, 2.2, cz0 - 0.2), V(9.5, 2.5, cz0 - 0.2), 0.3 * JACAL.pxft, 0.3 * JACAL.pxft), '#8a6440', { off: 0.6, outline: LINE.inner });
+  // The yard's earth, the house, and the life of it.
+  yardEarth(ink, [120, 175], 190, 5, '#b0915e', 0.4);
+  c.her('jacal-ramada', [her('jacal-ramada').anchorX * her('jacal-ramada').w, her('jacal-ramada').anchorY * her('jacal-ramada').h]);
+  c.her('home-bench', [80, 160], 0.15);
+  // The olla hung from the ramada's front beam, between its first two posts.
+  olla(ink, [44, 79.5], 0.95);
+  // Her tripod and pot over a small fire in the yard, to the left of the ramada.
+  c.her('cooking-pot', [-34, 178], 0.16);
+  const a = c.out([her('jacal-ramada').anchorX * her('jacal-ramada').w, JACAL.ground]);
+  return { svg: c.svg('the second neighbours\' home: Astra\'s jacal-ramada with an olla hung from the ramada\'s beam, a bench in its shade, a tripod and pot in the yard and a picket corral'),
+    anchorX: +(a[0] / w).toFixed(4), anchorY: +(a[1] / h).toFixed(4), logicalHeight: Math.round(PERSON_FEET * JACAL.pxft * K) };
+}
+
+// ------------------------------------------------------------------------------------------------ wedding-table
+// Planks on two trestles, a cloth down the middle, and the neighbours' dishes: drawn in her building sheets' view
+// (kit/oblique.mjs) at 46.5 pixels a foot, so that a person's logical height (PERSON_FEET) is 300, as a people frame.
+const TABLE_PX = 300 / PERSON_FEET;
+function weddingTable() {
+  const w = 560, h = 330;
+  return buildingFrame('wedding-table', { w, h, origin: [96, 300], px: TABLE_PX, logicalHeight: 300, anchor: [4, 0], note: 'the wedding supper laid out of doors: planks on two trestles, a cloth, the neighbours\' dishes' }, (o, ink) => {
+    const L = 8, D = 2.4, H = 2.5, T = 0.16;
+    // A trestle leg splays out from under the top to the ground (`out` feet), as a sawhorse's legs do.
+    const leg = (x, out, z, top, colour) => o.face([[x + out - 0.13, 0, z], [x + out + 0.13, 0, z], [x + 0.1, top, z], [x - 0.1, top, z]], colour, { outline: LINE.inner + 0.6 });
+    const brace = (x, z, colour) => o.face([[x - 0.42, 0.95, z], [x + 0.42, 0.95, z], [x + 0.38, 1.15, z], [x - 0.38, 1.15, z]], colour, { outline: LINE.inner + 0.4 });
+    // Each trestle: two splayed legs under each end of the top, a stretcher between them. The far legs first.
+    for (const x of [1.1, L - 1.1]) { leg(x, 0.55, D - 0.15, H - T, tone(WOOD, -0.25)); leg(x, -0.55, D - 0.15, H - T, tone(WOOD, -0.25)); brace(x, D - 0.15, tone(WOOD, -0.25)); }
+    o.face([[0.7, 0.6, D / 2 - 0.1], [L - 0.7, 0.6, D / 2 - 0.1], [L - 0.7, 0.85, D / 2 - 0.1], [0.7, 0.85, D / 2 - 0.1]], tone(WOOD, -0.15), { outline: LINE.inner + 0.4 });
+    for (const x of [1.1, L - 1.1]) { leg(x, 0.55, 0.15, H - T, WOOD); leg(x, -0.55, 0.15, H - T, WOOD); brace(x, 0.15, WOOD); }
+    // The top: three planks side by side, their front edges, and a cream cloth laid down the middle hanging over the ends.
+    o.box({ x0: 0, x1: L, z0: 0, z1: D, y0: H - T, y1: H }, WOOD_LIGHT);
+    for (const z of [D / 3, (2 * D) / 3]) o.line([[0, H, z], [L, H, z]], { width: LINE.fine, colour: tone(WOOD_LIGHT, -0.4), opacity: 0.8 });
+    const cloth = '#f1e6cc';
+    o.face([[0.55, H + 0.01, -0.04], [L - 0.55, H + 0.01, -0.04], [L - 0.55, H + 0.01, D + 0.02], [0.55, H + 0.01, D + 0.02]], cloth, { outline: LINE.inner });
+    const hem = [];
+    for (let x = 0.55, i = 0; x <= L - 0.55 + 1e-6; x += (L - 1.1) / 16, i++) hem.push(o.at(x, H - 0.55 + (i % 2 ? 0.06 : 0), -0.05));
+    ink.shape(`M ${o.at(0.55, H + 0.01, -0.05).join(' ')} L ${o.at(L - 0.55, H + 0.01, -0.05).join(' ')} L ${hem.slice().reverse().map(q => q.map(f2).join(' ')).join(' L ')} Z`, tone(cloth, -0.06), { off: 1.2, outline: LINE.inner });
+    for (let x = 1.2; x < L - 0.8; x += 0.95) o.line([[x, H - 0.02, -0.05], [x + 0.08, H - 0.5, -0.05]], { width: LINE.fine, colour: '#c8b890', opacity: 0.8 });
+    // The dishes, back to front: at the table's middle depth, from left to right.
+    const at = (x, z, y = H) => o.at(x, y, z);
+    // A jar of goldenrod and asters, the one thing on the table that is only for the day.
+    const jar = at(3.0, 1.9);
+    ink.shape(`M ${jar[0] - 7} ${jar[1]} L ${jar[0] - 6} ${jar[1] - 16} L ${jar[0] + 6} ${jar[1] - 16} L ${jar[0] + 7} ${jar[1]} Z`, '#a8b8a0', { off: 1.2, outline: LINE.inner + 0.6, opacity: 0.95 });
+    for (const [dx, dy, col] of [[-10, -34, '#e0b030'], [-3, -40, '#e8c040'], [5, -36, '#9a7ac0'], [11, -30, '#e0b030'], [-6, -27, '#8a6ab0'], [2, -29, '#f0d060']]) {
+      ink.line(`M ${jar[0]} ${jar[1] - 15} L ${jar[0] + dx * 0.8} ${jar[1] + dy + 4}`, { width: LINE.fine + 0.4, colour: '#5a7a3a' });
+      ink.shape(ellipse([jar[0] + dx, jar[1] + dy], 4.2, 3.4), col, { shade: false, outline: LINE.fine });
+    }
+    // A pan of cornbread cut in squares.
+    o.box({ x0: 1.0, x1: 2.2, z0: 0.9, z1: 1.7, y0: H, y1: H + 0.16 }, '#5d5f5b', { outline: LINE.inner });
+    o.face([[1.07, H + 0.17, 0.97], [2.13, H + 0.17, 0.97], [2.13, H + 0.17, 1.63], [1.07, H + 0.17, 1.63]], '#e0b04a', { outline: LINE.fine });
+    for (const x of [1.43, 1.78]) o.line([[x, H + 0.17, 0.97], [x, H + 0.17, 1.63]], { width: LINE.fine, colour: '#a87a28' });
+    o.line([[1.07, H + 0.17, 1.3], [2.13, H + 0.17, 1.3]], { width: LINE.fine, colour: '#a87a28' });
+    // The ham on a platter.
+    const ham = at(3.9, 1.1);
+    ink.shape(ellipse([ham[0], ham[1] - 2], 40, 12), '#d8d2c4', { off: 1, outline: LINE.inner + 0.6 });
+    ink.shape(blob([[ham[0] - 30, ham[1] - 4], [ham[0] - 24, ham[1] - 22], [ham[0] - 2, ham[1] - 30], [ham[0] + 22, ham[1] - 20], [ham[0] + 28, ham[1] - 6], [ham[0] - 2, ham[1] + 2]], 0.85), '#b8583a', { off: 2, lift: true });
+    ink.shape(blob([[ham[0] + 8, ham[1] - 24], [ham[0] + 22, ham[1] - 20], [ham[0] + 28, ham[1] - 6], [ham[0] + 18, ham[1] - 2], [ham[0] + 14, ham[1] - 14]], 0.8), '#e8c8a0', { off: 0.8 });
+    ink.shape(capsule([ham[0] - 28, ham[1] - 12], [ham[0] - 42, ham[1] - 17], 3.4, 3), '#efe4cc', { off: 0.6, outline: LINE.inner });
+    for (const dx of [-14, -4, 6]) ink.line(curve([[ham[0] + dx - 4, ham[1] - 26], [ham[0] + dx, ham[1] - 14], [ham[0] + dx - 2, ham[1] - 2]]), { width: LINE.fine, colour: '#7a3020', opacity: 0.6 });
+    // The iron pot with its lid, steaming.
+    o.cylinder(5.4, 1.5, 0.48, H, H + 0.55, '#35322e');
+    ink.shape(ellipse(at(5.4, 1.5, H + 0.56), 0.46 * TABLE_PX, 0.14 * TABLE_PX), '#4a4640', { shade: false, outline: LINE.inner });
+    ink.shape(ellipse(add(at(5.4, 1.5, H + 0.62), [0, 0]), 5, 3), '#2a2724', { shade: false, outline: LINE.fine });
+    for (const s of [-1, 1]) ink.line(ellipse(add(at(5.4 + s * 0.52, 1.5, H + 0.42), [0, 0]), 4, 3), { width: LINE.inner, colour: '#2a2724' });
+    for (const [dx, dy, r, op] of [[-4, -36, 6, 0.5], [2, -50, 7.5, 0.35], [-3, -64, 8.5, 0.22]]) { const p = at(5.4, 1.5, H + 0.6); ink.dot(ellipse([p[0] + dx, p[1] + dy], r, r * 0.75), '#f6f2ea', op); }
+    // The coffee pot, a tall tin pot with a spout and a handle.
+    const cp = at(6.75, 1.55);
+    ink.shape(`M ${cp[0] - 12} ${cp[1]} L ${cp[0] - 9} ${cp[1] - 38} L ${cp[0] + 9} ${cp[1] - 38} L ${cp[0] + 12} ${cp[1]} Z`, '#8e9899', { off: 1.6, lift: true, outline: LINE.inner + 0.8 });
+    ink.shape(ellipse([cp[0], cp[1] - 38], 9, 3), '#a6aeae', { shade: false, outline: LINE.inner });
+    ink.shape(ellipse([cp[0], cp[1] - 42], 3, 2.4), '#6d7475', { shade: false, outline: LINE.fine });
+    ink.shape(poly([[cp[0] - 10, cp[1] - 14], [cp[0] - 24, cp[1] - 34], [cp[0] - 20, cp[1] - 35], [cp[0] - 9, cp[1] - 22]]), '#8e9899', { shade: false, outline: LINE.inner });
+    ink.line(`M ${cp[0] + 11} ${cp[1] - 32} C ${cp[0] + 24} ${cp[1] - 30} ${cp[0] + 24} ${cp[1] - 10} ${cp[0] + 12} ${cp[1] - 8}`, { width: LINE.inner + 1.2, colour: '#6d7475' });
+    // Tin cups along the front edge.
+    for (const [x, z] of [[2.6, 0.5], [4.9, 0.55], [6.1, 0.5], [7.3, 0.9]]) {
+      const b = at(x, z);
+      ink.shape(`M ${b[0] - 6} ${b[1]} L ${b[0] - 5.5} ${b[1] - 12} L ${b[0] + 5.5} ${b[1] - 12} L ${b[0] + 6} ${b[1]} Z`, '#a3abab', { off: 0.8, lift: true, outline: LINE.inner });
+      ink.shape(ellipse([b[0], b[1] - 12], 5.5, 1.8), '#6d7475', { shade: false, outline: LINE.fine });
+      ink.line(`M ${b[0] + 6} ${b[1] - 10} C ${b[0] + 11} ${b[1] - 10} ${b[0] + 11} ${b[1] - 3} ${b[0] + 6} ${b[1] - 3}`, { width: LINE.inner, colour: '#6d7475' });
+    }
+  });
+}
+
+// ---------------------------------------------------------------------------------------------------- the yards
+// Three paintings of the same farm yard, 960 by 540: sky, a far line of blue woods, a nearer line of oaks and pecans along a
+// creek, and the yard's grass with a worn patch of earth in the middle where the people stand (y 300-520). No people, no
+// buildings. Opaque, so the corner and alpha rules of a sprite do not hold (`backdrop: true`; tests/claude-standins.test.mjs).
+const YW = 960, YH = 540, HORIZON = 228;
+const LIGHTS = {
+  morning: { sky: ['#9fc3d8', '#d8e6e0', '#f3e2c0'], sun: { at: [150, 150], r: 34, colour: '#fff4d6', glow: '#ffeec8' }, far: '#8fa8a8', trees: '#6c8a4c', treesShade: '#4f6a3a', grass: ['#8fae5c', '#7f9f52'], earth: '#bc9d68', creek: '#9cc0cc', cloud: '#fbf6ec', light: '#fff6dc', wash: ['#fff0d0', 0.10], shadow: 1 },
+  noon: { sky: ['#6fa6d0', '#a6cbe0', '#dcebe8'], sun: null, far: '#86a0a4', trees: '#5f8446', treesShade: '#44633a', grass: ['#86a852', '#779a48'], earth: '#c4a470', creek: '#86b4c8', cloud: '#ffffff', light: '#fffbe8', wash: null, shadow: 0.4 },
+  evening: { sky: ['#6f6a90', '#e79a62', '#f7cf82'], sun: { at: [760, 206], r: 40, colour: '#fff0b8', glow: '#ffc070' }, far: '#8a7688', trees: '#5a5a38', treesShade: '#3e4028', grass: ['#9a9a4c', '#86863e'], earth: '#c8935a', creek: '#e8b87a', cloud: '#f8c8a0', light: '#ffe0a0', wash: ['#ff9a40', 0.14], shadow: 2.2 },
+};
+function yard(time) {
+  const L = LIGHTS[time], ink = new Ink(`courtship-yard-${time}`, 1, { yUp: false, shadeOffset: 3 });
+  const defs = [];
+  const id = what => `yard-${time}-${what}`;
+  defs.push(`<linearGradient id="${id('sky')}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${L.sky[0]}"/><stop offset="0.62" stop-color="${L.sky[1]}"/><stop offset="1" stop-color="${L.sky[2]}"/></linearGradient>`);
+  defs.push(`<linearGradient id="${id('grass')}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${tone(L.grass[0], 0.06)}"/><stop offset="1" stop-color="${L.grass[1]}"/></linearGradient>`);
+  const parts = [];
+  parts.push(`<rect x="0" y="0" width="${YW}" height="${YH}" fill="url(#${id('sky')})"/>`);
+  if (L.sun) {
+    defs.push(`<radialGradient id="${id('glow')}"><stop offset="0" stop-color="${L.sun.glow}" stop-opacity="0.9"/><stop offset="1" stop-color="${L.sun.glow}" stop-opacity="0"/></radialGradient>`);
+    parts.push(`<circle cx="${L.sun.at[0]}" cy="${L.sun.at[1]}" r="${L.sun.r * 5}" fill="url(#${id('glow')})"/>`);
+    parts.push(`<circle cx="${L.sun.at[0]}" cy="${L.sun.at[1]}" r="${L.sun.r}" fill="${L.sun.colour}" opacity="0.95"/>`);
+  }
+  // Clouds: storybook cumulus, a row of round bumps on a flat foot, lit on top and shaded underneath.
+  const clouds = time === 'noon' ? [[210, 70, 1.1], [590, 44, 0.9], [830, 112, 0.7]] : time === 'morning' ? [[420, 62, 1], [760, 96, 0.8]] : [[300, 88, 1.2], [560, 58, 0.9], [880, 128, 0.7]];
+  for (const [x, y, s] of clouds) {
+    const bumps = [[-44, 2, 16, 12], [-24, -8, 21, 17], [2, -14, 25, 21], [28, -8, 20, 16], [48, 2, 15, 11], [0, 4, 58, 10]].map(([dx, dy, rx, ry]) => ellipse([x + dx * s, y + dy * s], rx * s, ry * s));
+    // Outlined, then filled again over the outlines, so only the cloud's outer edge keeps its line.
+    for (const d of bumps) ink.shape(d, L.cloud, { shade: false, outline: LINE.inner, opacity: 1 });
+    for (const d of bumps) ink.dot(d, L.cloud);
+    ink.dot(ellipse([x + 2 * s, y + 7 * s], 54 * s, 6 * s), tone(L.cloud, -0.1), 0.7);
+    ink.dot(ellipse([x - 10 * s, y - 16 * s], 18 * s, 7 * s), tone(L.cloud, 0.1), 0.8);
+  }
+  // The far woods: a low blue line of treetops along the horizon.
+  const far = [[0, HORIZON + 4]];
+  for (let x = 0; x <= YW; x += 18) far.push([x, HORIZON - 16 - rand(x * 0.37) * 16 - Math.sin(x / 140) * 6]);
+  far.push([YW, HORIZON + 4]);
+  ink.shape(blob(far, 0.5), L.far, { shade: false, outline: LINE.fine, opacity: 0.95 });
+  // A tree's crown as her trees are painted: a mass of round clumps, the far and lower ones in shade, the upper left lit.
+  const crown = (cx, cy, r, seed, colour, { line = LINE.inner } = {}) => {
+    const clumps = [];
+    for (let i = 0; i < 9; i++) {
+      const t = rand(seed + i * 1.37) * Math.PI * 2, d = Math.sqrt(rand(seed + i * 2.11)) * r * 0.62;
+      clumps.push([cx + Math.cos(t) * d * 1.2, cy + Math.sin(t) * d * 0.75, r * (0.36 + rand(seed + i * 3.7) * 0.2)]);
+    }
+    const hull = Array.from({ length: 14 }, (_, i) => { const t = (i / 14) * Math.PI * 2, rr = r * (0.9 + rand(seed + i * 0.7) * 0.18); return [cx + Math.cos(t) * rr * 1.18, cy + Math.sin(t) * rr * 0.8]; });
+    ink.shape(blob(hull, 0.9), tone(colour, -0.2), { shade: false, outline: line });
+    clumps.sort((p, q) => (q[1] - q[0] * 0.5) - (p[1] - p[0] * 0.5));
+    for (const [x, y, rr] of clumps) {
+      const lit = (cy - y) / r * 0.5 + (cx - x) / r * 0.25;
+      ink.shape(ellipse([x, y], rr * 1.12, rr * 0.9), tone(colour, Math.max(-0.14, Math.min(0.14, lit * 0.22))), { off: rr * 0.3, outline: 0, lift: lit > 0.1 });
+      ink.line(curve([[x + rr * 0.2, y + rr * 0.86], [x + rr * 0.9, y + rr * 0.45], [x + rr * 1.1, y - rr * 0.1]]), { width: line * 0.55, colour: tone(colour, -0.45), opacity: 0.55 });
+    }
+  };
+  // A trunk: tapered, rooted a little wide, forking into two limbs that go up into the crown.
+  const trunk = (x, foot, top, w, lean = 0) => {
+    const bark = '#5e4a34';
+    ink.shape(blob([[x - w * 0.9, foot], [x - w * 0.5, foot - (foot - top) * 0.15], [x - w * 0.45 + lean * 0.5, top + (foot - top) * 0.3], [x - w * 1.4 + lean, top], [x - w * 0.9 + lean, top - 4], [x + lean * 0.8, top + (foot - top) * 0.2], [x + w * 1.1 + lean, top - 2], [x + w * 1.5 + lean, top + 2], [x + w * 0.5 + lean * 0.5, top + (foot - top) * 0.3], [x + w * 0.55, foot - (foot - top) * 0.15], [x + w * 1.0, foot]], 0.7), bark, { off: w * 0.25, outline: LINE.inner + 0.4 });
+    ink.line(curve([[x + w * 0.1, foot - 6], [x + w * 0.2 + lean * 0.3, (foot + top) / 2], [x + w * 0.1 + lean * 0.6, top + 10]]), { width: LINE.fine, colour: tone(bark, -0.35), opacity: 0.6 });
+  };
+  // The creek's line of oaks and pecans, broken into groves with gaps, their trunks going down into the shade under them.
+  const groves = [[-40, 250], [300, 470], [560, 700], [770, 1010]];
+  for (const [a, b] of groves) {
+    const trees = [];
+    for (let x = a; x < b; x += 34) trees.push([x + rand(x) * 12, HORIZON - 36 - rand(x * 1.7) * 38, 24 + rand(x * 2.3) * 14]);
+    for (const [x, y, r] of trees) trunk(x, HORIZON + 4, y + r * 0.4, 2.6, (rand(x * 5) - 0.5) * 4);
+    for (const [x, y, r] of trees) crown(x, y, r, x, rand(x * 3.1) > 0.5 ? L.trees : tone(L.trees, -0.06));
+    ink.dot(`M ${a} ${HORIZON + 6} L ${b} ${HORIZON + 6} L ${b} ${HORIZON - 6} Q ${(a + b) / 2} ${HORIZON} ${a} ${HORIZON - 6} Z`, L.treesShade, 0.75);
+  }
+  // The ground: the yard's grass from the horizon down.
+  ink.raw(`<path d="M 0 ${HORIZON} Q ${YW * 0.3} ${HORIZON - 6} ${YW * 0.55} ${HORIZON + 2} T ${YW} ${HORIZON - 2} L ${YW} ${YH} L 0 ${YH} Z" fill="url(#${id('grass')})"/>`);
+  ink.line(`M 0 ${HORIZON} Q ${YW * 0.3} ${HORIZON - 6} ${YW * 0.55} ${HORIZON + 2} T ${YW} ${HORIZON - 2}`, { width: LINE.inner, colour: tone(L.grass[1], -0.35), opacity: 0.7 });
+  // Bands of the field's grass, a shade apart, so the ground recedes.
+  for (const [y0, y1, amt, op] of [[HORIZON + 2, HORIZON + 26, -0.06, 0.5], [HORIZON + 44, HORIZON + 70, 0.05, 0.35]]) ink.dot(`M 0 ${y0} Q ${YW / 2} ${y0 + 8} ${YW} ${y0 - 2} L ${YW} ${y1} Q ${YW / 2} ${y1 + 6} 0 ${y1} Z`, tone(L.grass[0], amt), op);
+  // The creek: a ribbon of water coming out of the gap in the trees at the left, winding toward us and off the left edge.
+  ink.shape(`M 262 ${HORIZON + 2} C 250 ${HORIZON + 10} 214 ${HORIZON + 16} 176 ${HORIZON + 22} C 120 ${HORIZON + 31} 60 ${HORIZON + 34} -10 ${HORIZON + 46} L -10 ${HORIZON + 62} C 70 ${HORIZON + 48} 136 ${HORIZON + 40} 190 ${HORIZON + 29} C 230 ${HORIZON + 21} 262 ${HORIZON + 12} 282 ${HORIZON + 3} Z`, L.creek, { shade: false, outline: LINE.fine + 0.2 });
+  ink.line(`M 20 ${HORIZON + 50} C 90 ${HORIZON + 40} 150 ${HORIZON + 32} 220 ${HORIZON + 19}`, { width: LINE.fine, colour: L.light, opacity: 0.75 });
+  ink.line(`M -10 ${HORIZON + 64} C 70 ${HORIZON + 50} 136 ${HORIZON + 42} 190 ${HORIZON + 31}`, { width: LINE.inner, colour: '#6a5a3a', opacity: 0.5 });
+  // A rail fence far off along the field's edge on the right, the only work of hands in the picture.
+  for (let x = 610; x < 960; x += 34) {
+    const y = HORIZON + 14 + (x - 610) * 0.03;
+    ink.line(`M ${x} ${y} L ${x + 34} ${y - 6} M ${x} ${y - 7} L ${x + 34} ${y - 13} M ${x + 17} ${y + 2} L ${x + 17} ${y - 15}`, { width: LINE.fine + 0.4, colour: tone(L.trees, -0.35), opacity: 0.8 });
+  }
+  // The worn yard: bare earth in the middle where the people stand, its edge ragged where the grass comes into it, a path
+  // running back from it toward the creek.
+  const ragged = (cx, cy, rx, ry, seed) => Array.from({ length: 22 }, (_, i) => { const t = (i / 22) * Math.PI * 2, k = 0.88 + rand(seed + i * 1.9) * 0.2; return [cx + Math.cos(t) * rx * k, cy + Math.sin(t) * ry * k]; });
+  ink.dot(`M 468 ${HORIZON + 12} C 446 ${HORIZON + 40} 400 ${HORIZON + 66} 360 ${HORIZON + 90} L 470 ${HORIZON + 90} C 494 ${HORIZON + 60} 490 ${HORIZON + 32} 482 ${HORIZON + 12} Z`, L.earth, 0.5);
+  ink.dot(blob(ragged(492, 420, 350, 104, 3), 0.8), L.earth, 0.5);
+  ink.dot(blob(ragged(494, 426, 280, 80, 11), 0.8), L.earth, 0.4);
+  ink.dot(blob(ragged(500, 432, 190, 54, 23), 0.8), tone(L.earth, 0.08), 0.35);
+  // Grass: tufts over the whole field, smaller toward the horizon, thin on the worn earth and none in its middle.
+  for (let i = 0; i < 520; i++) {
+    const y = HORIZON + 8 + Math.pow(rand(i * 1.9), 0.8) * (YH - HORIZON - 4), x = rand(i * 3.7) * YW;
+    const e = ((x - 492) / 330) ** 2 + ((y - 422) / 96) ** 2;
+    if (e < 0.55 || (e < 1 && rand(i * 5.1) > 0.3)) continue;
+    const s = 0.4 + ((y - HORIZON) / (YH - HORIZON)) * 1.4, c = rand(i * 2.9) > 0.5 ? tone(L.grass[1], -0.28) : tone(L.grass[0], 0.14);
+    ink.line(`M ${f2(x - 4 * s)} ${f2(y)} Q ${f2(x - 3 * s)} ${f2(y - 6 * s)} ${f2(x - 5 * s)} ${f2(y - 9 * s)} M ${f2(x)} ${f2(y)} Q ${f2(x + 1 * s)} ${f2(y - 8 * s)} ${f2(x + 0.5 * s)} ${f2(y - 12 * s)} M ${f2(x + 4 * s)} ${f2(y)} Q ${f2(x + 4 * s)} ${f2(y - 6 * s)} ${f2(x + 7 * s)} ${f2(y - 8 * s)}`, { width: 1 + s * 0.7, colour: c, opacity: 0.85 });
+  }
+  // A few wildflowers in the grass at the edges, small and warm.
+  for (let i = 0; i < 46; i++) {
+    const x = rand(i * 8.3 + 1) * YW, y = HORIZON + 30 + rand(i * 4.1 + 2) * (YH - HORIZON - 40);
+    if (((x - 490) / 360) ** 2 + ((y - 420) / 110) ** 2 < 1) continue;
+    const s = 0.6 + ((y - HORIZON) / (YH - HORIZON)) * 1.4;
+    ink.dot(ellipse([x, y], 2.4 * s, 2 * s), ['#e8c040', '#f0ece0', '#b890d0'][i % 3], 0.9);
+  }
+  // Pebbles on the worn earth.
+  for (let i = 0; i < 26; i++) {
+    const t = rand(i * 6.1) * Math.PI * 2, rr = Math.sqrt(rand(i * 2.3));
+    const x = 490 + Math.cos(t) * 300 * rr, y = 420 + Math.sin(t) * 80 * rr;
+    ink.dot(ellipse([x, y], 2.4 + rand(i) * 2, 1.4 + rand(i) * 1.2), tone(L.earth, -0.25), 0.6);
+  }
+  // A big live oak in the near left corner and another at the right, framing the yard, off the people's ground.
+  const oak = (x, top, r, flip, seed) => {
+    trunk(x, YH + 12, top + r * 0.35, 20, flip * 12);
+    crown(x + flip * 26, top, r, seed, L.trees, { line: LINE.inner + 0.8 });
+  };
+  oak(36, 128, 120, 1, 7);
+  oak(944, 176, 96, -1, 19);
+  // The light: long soft shadows across the ground from the trees, then the time of day's wash over everything.
+  if (L.shadow) {
+    ink.dot(`M 0 ${YH - 50} C 120 ${YH - 70} 240 ${YH - 58} ${120 + 180 * L.shadow} ${YH - 40} L ${100 + 170 * L.shadow} ${YH} L 0 ${YH} Z`, '#2a3018', 0.14);
+    ink.dot(`M ${YW} ${YH - 44} C ${YW - 90} ${YH - 60} ${YW - 160} ${YH - 50} ${YW - 90 - 60 * L.shadow} ${YH - 30} L ${YW - 70 - 60 * L.shadow} ${YH} L ${YW} ${YH} Z`, '#2a3018', 0.14);
+  }
+  if (L.wash) ink.raw(`<rect x="0" y="0" width="${YW}" height="${YH}" fill="${L.wash[0]}" opacity="${L.wash[1]}"/>`);
+  const body = parts.join('') + ink.toString();
+  // The painting is opaque but for a notch of two pixels at each corner. ceiling: the notch is there only so the PNG is
+  // written with an alpha channel (Chrome writes a wholly opaque screenshot as RGB, and the build's and tests' decoder,
+  // scripts/build-atlas-manifest.mjs `decodeRgba`, reads RGBA only) and its corners are clear as every sheet's are; nobody
+  // sees two pixels under a cover-fit. Teaching the decoder RGB would be the way out.
+  defs.push(`<clipPath id="${id('notch')}"><path d="M 2 0 L ${YW - 2} 0 L ${YW} 2 L ${YW} ${YH - 2} L ${YW - 2} ${YH} L 2 ${YH} L 0 ${YH - 2} L 0 2 Z"/></clipPath>`);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${YW}" height="${YH}" viewBox="0 0 ${YW} ${YH}">
+  <!-- courtship-yard-${time}: a farm yard at ${time}, a painting to stand the scenes in (no people, no buildings)
+       Claude-drawn stand-in (temporary: replace with Astra's courtship-yard-${time}). Generated by scripts/claude-art/areas/courtship-places.mjs; do not hand-edit. -->
+  <defs>${defs.join('')}${ink.defs.join('')}</defs>
+  <g clip-path="url(#${id('notch')})" stroke-linejoin="round" stroke-linecap="round">${body}</g>
+</svg>
+`;
+  return { svg, anchorX: 0.5, anchorY: 1, logicalHeight: YH, extra: { backdrop: true } };
+}
+const YARD_WORDS = {
+  morning: 'early morning: a pale clear sky warming to gold at the horizon, the low sun off to the left behind a soft glow, fresh green grass, soft shadows',
+  noon: 'noon: a deep clear blue sky with a few white clouds, bright green grass and trees, the light high and the shadows short',
+  evening: 'a warm golden evening: a sky from dusky violet overhead to orange and gold at the horizon, the low sun glowing behind the trees at the right, the grass and trees warmed gold, long shadows',
+};
+
+// ----------------------------------------------------------------------------------------------------------- sheets
+export const SHEETS = {
+  'claude-courtship-farms': { cell: { w: 1080, h: 560 }, columns: 1, request: REQUEST,
+    replaceWith: 'item 3: building contract, corner-on three-quarter view, anchored at the base centre, drawn beside the cast at their heights',
+    frames: [
+      { name: 'farm-neighbour-porch', height: 1, compare: [['cabin-wide', 1.6], ['house-round-log', 1.6], ['rust-idle-e', 1], ['rust-woman-idle-e', 1]], draw: () => fitCell(porchFarm(), 1080, 560),
+        prompt: 'The first neighbours\' farmstead, a family\'s home: a log cabin with a shingle roof and a stone chimney (Astra\'s own cabin-wide, her pixels), a roofed porch across its whole front on four round posts with a plank floor a foot up and a step down from the door, the roof laid in the same shingles; the door standing open on the dark of the room, a plank bench under the left window and a water bucket by the door (her home-bench and bucket); her split-rail fence zigzagging off to the left; a chopping block with the axe bitten into it and split sticks by it in the yard at the right; a thread of smoke from the chimney. Front square to the camera with the right end and roof showing, as her building sheets; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no people, no text.' },
+      { name: 'farm-neighbour-ramada', height: 1, compare: [['jacal-ramada', 1.6], ['house-jacal', 1.6], ['ochre-idle-e', 1], ['indigo-idle-e', 1]], draw: () => fitCell(ramadaFarm(), 1080, 560),
+        prompt: 'The second neighbours\' farmstead, a family\'s home and a different one: a jacal of upright posts and mud with a thatched roof and a brush ramada giving shade before it (Astra\'s own jacal-ramada, her pixels), a round red clay olla hung in a rope sling from the ramada\'s front beam and sweating, her plank bench in the ramada\'s shade, her iron pot on a tripod over a small fire in the yard to the left, and at the right a small corral of pickets set close with a pole lashed along each side, a hollow-log trough inside and a pole laid across the gate. Front square to the camera, as her building sheets; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no people, no text.' },
+    ] },
+  'claude-courtship-table': { cell: { w: 560, h: 330 }, columns: 1, request: REQUEST,
+    replaceWith: 'item 4: prop contract, transparent, anchored at its base, at the scale of the people beside it',
+    frames: [{ name: 'wedding-table', height: 1, compare: [['home-table', 0.45], ['alamo-table', 0.45], ['rust-idle-e', 1], ['teal-idle-e', 1]], draw: weddingTable,
+      prompt: 'The wedding supper laid out of doors by the neighbours: a long table of three planks on two splayed trestles, a cream cloth run down its middle and hanging over the front edge, and on it a pan of golden cornbread cut in squares, a jar of goldenrod and purple asters, a glazed ham on a pale platter, a black iron pot with its lid on and steam rising, a tall tin coffee pot with its spout and handle, and four tin cups along the front. Three-quarter view in her building sheets\' projection, at the scale of the people who stand at it; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.' }] },
+  ...Object.fromEntries(Object.keys(LIGHTS).map(time => [`claude-courtship-yard-${time}`, { cell: { w: YW, h: YH }, columns: 1, request: REQUEST,
+    replaceWith: 'item 5: 960 by 540, a painted yard with no people and no buildings, drawn to cover the scene',
+    frames: [{ name: `courtship-yard-${time}`, height: 3, compare: [['rust-idle-e', 1], ['teal-idle-e', 1]], draw: () => yard(time),
+      prompt: `A farm yard to stand the lone parent's scenes in, at ${YARD_WORDS[time]}. A painting 960 by 540: the ground of the yard over the lower 58% (the horizon at y 228) - grass with a worn patch of bare earth in the middle where the people stand, a few wildflowers and pebbles - a line of oaks and pecans along a creek behind, the creek glinting through a gap at the left, a far blue line of woods, a rail fence far off at the right, a big live oak framing the near left and another the right; sky above. No people, no buildings, no text. Warm hand-drawn storybook style: flat shapes, thin dark olive-brown outlines on the trees and clouds, the moss, rust, cream and ochre palette.` }] }])),
+};
+export const CLIPS = {};
+
+/** A drawing made in a cell of its own size set into the sheet's cell: centred across it, its ground 10 px above the cell's foot. */
+function fitCell(drawn, W, H) {
+  const [w, h] = drawn.svg.match(/viewBox="0 0 (\d+) (\d+)"/).slice(1).map(Number);
+  const dx = Math.round((W - w) / 2), dy = Math.round(H - 10 - drawn.anchorY * h);
+  const svg = drawn.svg.replace(`width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"`, `width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"`)
+    .replace(/<g transform="scale\(/, `<g transform="translate(${dx} ${dy}) scale(`);
+  return { ...drawn, svg, anchorX: +((drawn.anchorX * w + dx) / W).toFixed(4), anchorY: +((drawn.anchorY * h + dy) / H).toFixed(4) };
+}

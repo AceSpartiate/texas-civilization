@@ -347,6 +347,8 @@ export function talkLines(world, household) {
 /** Every tick, after the chores: play drawn, a job wandered from, a child's automation, and the idle child. */
 export function advanceChildhood(world, travel) {
   for (const household of Object.values(world.households)) {
+    // A lone parent's family away at the neighbours' farms (sim/courtship.mjs): the children are with the grown-ups, not idle at home.
+    if (household.courtship?.stage === 'away') continue;
     for (const id of household.members) {
       const entity = world.entities[id];
       if (!entity || entity.kind !== 'person') continue;

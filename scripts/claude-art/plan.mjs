@@ -90,6 +90,7 @@ const R = {
   concepcion: 'Request 2026-09-25 — Concepción and the Grass Fight',
   seguin: 'Request 2026-09-27 — Seguín, the ashes, and the later church claim',
   garden: 'Request 2026-09-28 — the garden — WITHDRAWN 2026-09-28',
+  wedding: 'Request 2026-09-29 — the lone parent\'s wedding',
   armies: 'Claude-drawn stand-ins (replace with Astra\'s)',
 };
 
@@ -133,6 +134,12 @@ export const ITEMS = [
     frames: '2 frames, east', size: PEOPLE, standIn: 'the kneeling nursing pose with a small flame and puffs in canvas', kind: 'code', plugs: '`STROKES.fire` in `public/work-art.js`', status: 'open' },
   { id: 'A18', area: 'A', priority: 3, request: R.settling, item: 'layered people', deliver: 'aligned layer PNGs `<sheet>--line`, `--skin`, `--hair`, `--clothes` and the head items (`--hat`, `--beard`, `--moustache`, `--straw-hat`, `--bonnet`, `--pinned`, `--braid`, `--loose`, `--headscarf`) for every people sheet, one figure per sex and age band', names: [],
     frames: 'every frame of every people sheet', size: 'Registered pixel for pixel with the sheet they layer; greyscale value masks; see the request', standIn: 'the painted cast recoloured by a region classifier (`public/person-palette.js`, 2026-09-28), some head styles the nearest cast silhouette', kind: 'library', plugs: '`public/avatar-art.js`, `public/person-palette.js`, `public/appearance.js`', status: 'open', phrases: ['layered people'] },
+
+  { id: 'A19', area: 'A', priority: 1, request: R.wedding, item: 'items 1-2', deliver: 'for each of the eight: `<cast>-greet` (a hand raised, or a hat touched, 2 frames), `<cast>-shy` (head down and aside, hands together, 2), `<cast>-laugh` (a hand to the chest or mouth, head tipped back, 2), `<cast>-vow` (both hands held forward at the waist, 1); and `elder-read-paper` (the commissioner in a dark coat reading a paper held open, 2)',
+    names: ['<cast>-greet', '<cast>-greet-*', '<cast>-shy', '<cast>-shy-*', '<cast>-laugh', '<cast>-laugh-*', '<cast>-vow', '<cast>-vow-*', 'elder-read-paper', 'elder-read-paper-*'],
+    frames: '2, 2, 2, 1 each; 2, east', size: PEOPLE, standIn: 'the nearest cast poses in `scenePose` (idle, speak, trade), a wave or a bow drawn by the page; Claude\'s `<cast>-greet`, `-shy`, `-laugh`, `-vow` and `elder-read-paper`', kind: 'claude', plugs: '`scenePose` in `public/courtship.js` (drawn through `drawAvatar`)', status: 'open', phrases: ['the lone parent\'s wedding'] },
+  { id: 'A20', area: 'A', priority: 3, request: R.wedding, item: 'item 7', deliver: '`rust-fiddle` and `ochre-fiddle` (a farmer standing and playing a fiddle at the wedding supper)', names: ['rust-fiddle', 'rust-fiddle-*', 'ochre-fiddle', 'ochre-fiddle-*'],
+    frames: '2 frames each, east', size: PEOPLE, standIn: 'the Béxar fandango fiddler, `fiddler-play`', kind: 'library', plugs: 'the wedding scene in `public/courtship.js`', status: 'open' },
 
   // ---------------------------------------------------------------- B: children, babies and sickness
   { id: 'B1', area: 'B', priority: 1, request: R.play, item: 'item 1', deliver: 'for `girl`, `boy`, `smallchild`: `-play-gallop` (stick horse, 4, east), `-play-run` (4, east, and `-n`/`-s`), `-play-hide` (1), `-play-kneel` (2), `-play-sit-doll` (1), `-play-hoop` (4, the hoop in the frame), `-scatter` (throwing corn, 2)',
@@ -270,6 +277,12 @@ export const ITEMS = [
   { id: 'E15', area: 'E', priority: 3, request: R.settling, item: 'the wagon\'s tools', deliver: '`home-hoe`, `home-felling-axe`, `home-broadaxe`, `home-froe`, `home-auger`', names: ['home-hoe', 'home-felling-axe', 'home-broadaxe', 'home-froe', 'home-auger'],
     frames: '1 each', size: 'The `home-furnishings` style and scale, standing or leaning as in a cabin', standIn: 'Claude\'s `claude-home-tools.png`', kind: 'claude', plugs: '`INTERIOR_ART` `tool:*` in `sim/interior-data.mjs`', status: 'open', phrases: ['The wagon\'s five tools'] },
   { id: 'E16', area: 'E', priority: 3, request: R.shops, item: '', deliver: '— (all ten `shop-*` delivered 2026-09-26)', names: [], frames: '—', size: '—', standIn: 'none', kind: 'none', plugs: '`SHOP_SPRITES` in `sim/shops.mjs`', status: 'skipped: delivered 2026-09-26 (the `stand-in:` comment in sim/shops.mjs is stale)' },
+  { id: 'E17', area: 'E', priority: 1, request: R.wedding, item: 'item 3', deliver: '`farm-neighbour-porch` (a log cabin with a roofed porch, its door open, a bench and bucket, a rail fence, a chopping block) and `farm-neighbour-ramada` (a thatched jacal with a brush ramada, an olla hung from its beam, a picket corral)', names: ['farm-neighbour-porch', 'farm-neighbour-ramada'],
+    frames: '1 each', size: BUILDING + '; drawn beside the cast at their heights', standIn: 'Claude\'s `farm-neighbour-porch` and `farm-neighbour-ramada`, built on Astra\'s `cabin-wide` and `jacal-ramada`', kind: 'claude', plugs: '`FARM_ART` in `public/courtship.js`', status: 'open' },
+  { id: 'E18', area: 'E', priority: 2, request: R.wedding, item: 'item 4', deliver: '`wedding-table` (planks on two trestles with the neighbours\' dishes: cornbread, a ham, an iron pot, a coffee pot, tin cups)', names: ['wedding-table'],
+    frames: '1', size: PROP, standIn: 'Claude\'s `wedding-table`', kind: 'claude', plugs: 'the wedding scene in `public/courtship.js`', status: 'open' },
+  { id: 'E19', area: 'E', priority: 2, request: R.wedding, item: 'item 5', deliver: '`courtship-yard-morning`, `courtship-yard-noon`, `courtship-yard-evening` (a farm yard with trees behind and sky above, no people, no buildings)', names: ['courtship-yard-*'],
+    frames: '1 each', size: '960×540, a whole painting the page draws to cover the scene, anchored at its foot', standIn: 'Claude\'s three yards; without them the sky and ground painted in canvas', kind: 'claude', plugs: '`BACKDROP` in `public/courtship.js`', status: 'open', phrases: ['the sky and ground are painted in canvas'] },
 
   // ---------------------------------------------------------------- F: terrain, trees, the norther, fields, icons, marks and effects
   { id: 'F1', area: 'F', priority: 1, request: R.portraits, item: '', deliver: '`portrait-rust`, `-teal`, `-elder`, `-blue`, `-rust-woman`, `-indigo`, `-ochre`, `-blue-girl`, `-girl`, `-boy`, `-smallchild`, `-infant`', names: ['portrait-*'],
@@ -297,6 +310,8 @@ export const ITEMS = [
   { id: 'F13', area: 'F', priority: 3, request: R.fields, item: '', deliver: '— (the acequia pieces are delivered; what is missing is the researched layout of the ditches)', names: [], frames: '—', size: '—', standIn: 'the `fields` wash', kind: 'none', plugs: '`public/bexar-layout.js`', status: 'skipped: delivered 2026-09-21; the layout is research and code' },
   { id: 'F14', area: 'F', priority: 3, request: R.lesson, item: '', deliver: '`lesson-point`, `lesson-ring`, `lesson-pip`, `lesson-pip-done`', names: [], frames: '4', size: '96×96', standIn: 'CSS', kind: 'code', plugs: '`.panel-icon[data-pointed=true]`, `.lesson-pip` in `public/style.css`', status: 'skipped: on hold 2026-09-28 - the tutorial is removed for now; do not draw until it returns' },
   { id: 'F15', area: 'F', priority: 3, request: R.garden, item: '', deliver: '`garden-young`, `garden-mature`', names: [], frames: '2', size: 'as `corn-young`', standIn: 'none', kind: 'none', plugs: '`public/field-surface.js`', status: 'skipped: withdrawn 2026-09-28 (crops no longer follow the seasons)' },
+  { id: 'F16', area: 'F', priority: 1, request: R.wedding, item: 'item 6', deliver: '`icon-ask-neighbours` (a parent and a child walking up a track toward a neighbour\'s cabin with smoke from its chimney)', names: ['icon-ask-neighbours'],
+    frames: '1', size: ICON, standIn: 'Claude\'s `icon-ask-neighbours`; without it a stroked glyph on the special button', kind: 'claude', plugs: 'the special button (`#ask-neighbours` in `public/app.js`)', status: 'open', phrases: ['a cabin with smoke and a heart over it'] },
   // Requests delivered whole or withdrawn: kept on the list, skipped, so nobody draws them again.
   ...[
     ['B', 'Request 2026-09-21 — the children\'s icons', 'delivered 2026-09-22 (`icons-children.png`)'],

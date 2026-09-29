@@ -1,0 +1,398 @@
+{
+  "record": "lone-parent-injections",
+  "date": "2026-09-29",
+  "files": [
+    "tests/courtship.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "a family with two parents is offered the path",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "the ability is offered to a student's family rolled with one parent, once it is on its land, and to nobody else",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "the ability is offered to a student's family rolled with one parent, once it is on its land, and to nobody else",
+        "nobody else is sent any of it: not another family, not the Host; the neighbours are no households and hide nothing"
+      ]
+    },
+    {
+      "name": "the computer takes the path for a family whose student has gone",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "the ability is offered to a student's family rolled with one parent, once it is on its land, and to nobody else",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the ability is offered to a student's family rolled with one parent, once it is on its land, and to nobody else"
+      ]
+    },
+    {
+      "name": "the path is offered on the road in",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "not on the road in, not in the lobby, and on the real land not before the house site is chosen",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "not on the road in, not in the lobby, and on the real land not before the house site is chosen"
+      ]
+    },
+    {
+      "name": "on the real land the path can be pressed before the house site is chosen",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "not on the road in, not in the lobby, and on the real land not before the house site is chosen",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "not on the road in, not in the lobby, and on the real land not before the house site is chosen"
+      ]
+    },
+    {
+      "name": "a family that raised its own house is still offered the path",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "the family that raised its own house is not offered the path",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the family that raised its own house is not offered the path"
+      ]
+    },
+    {
+      "name": "nobody is away: the family goes on working at home",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "pressed, the family is away for the day: its people refused work and roads, and seen by nobody",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "pressed, the family is away for the day: its people refused work and roads, and seen by nobody"
+      ]
+    },
+    {
+      "name": "somebody away can be given orders",
+      "files": [
+        "sim/world.mjs"
+      ],
+      "expect": "pressed, the family is away for the day: its people refused work and roads, and seen by nobody",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "pressed, the family is away for the day: its people refused work and roads, and seen by nobody"
+      ]
+    },
+    {
+      "name": "somebody away can be set to work",
+      "files": [
+        "sim/chores.mjs",
+        "sim/world.mjs"
+      ],
+      "expect": "pressed, the family is away for the day: its people refused work and roads, and seen by nobody",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "pressed, the family is away for the day: its people refused work and roads, and seen by nobody"
+      ]
+    },
+    {
+      "name": "the house can be planned while the family is away",
+      "files": [
+        "sim/world.mjs"
+      ],
+      "expect": "pressed, the family is away for the day: its people refused work and roads, and seen by nobody",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "pressed, the family is away for the day: its people refused work and roads, and seen by nobody"
+      ]
+    },
+    {
+      "name": "another family standing on the land sees the family that is away",
+      "files": [
+        "sim/town.mjs"
+      ],
+      "expect": "pressed, the family is away for the day: its people refused work and roads, and seen by nobody",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "pressed, the family is away for the day: its people refused work and roads, and seen by nobody"
+      ]
+    },
+    {
+      "name": "the family's own page draws the family that is away",
+      "files": [
+        "sim/world.mjs"
+      ],
+      "expect": "pressed, the family is away for the day: its people refused work and roads, and seen by nobody",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "pressed, the family is away for the day: its people refused work and roads, and seen by nobody"
+      ]
+    },
+    {
+      "name": "the children idle at home while the family is away",
+      "files": [
+        "sim/childhood.mjs"
+      ],
+      "expect": "pressed, the family is away for the day: its people refused work and roads, and seen by nobody",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "pressed, the family is away for the day: its people refused work and roads, and seen by nobody"
+      ]
+    },
+    {
+      "name": "pressing it again sends the family out again",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "pressed, the family is away for the day: its people refused work and roads, and seen by nobody",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "pressed, the family is away for the day: its people refused work and roads, and seen by nobody"
+      ]
+    },
+    {
+      "name": "the family is married the moment it sets out, not when it comes home",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "home again, the family has two parents: the new one rolled like a parent, the lone parent's own age, with a stable id",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "pressed, the family is away for the day: its people refused work and roads, and seen by nobody",
+        "home again, the family has two parents: the new one rolled like a parent, the lone parent's own age, with a stable id"
+      ]
+    },
+    {
+      "name": "the new parent is not the lone parent's own age",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "home again, the family has two parents: the new one rolled like a parent, the lone parent's own age, with a stable id",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "home again, the family has two parents: the new one rolled like a parent, the lone parent's own age, with a stable id",
+        "a lone father meets a daughter his own age"
+      ]
+    },
+    {
+      "name": "the new parent is not rolled on a parent's dice",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "home again, the family has two parents: the new one rolled like a parent, the lone parent's own age, with a stable id",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "home again, the family has two parents: the new one rolled like a parent, the lone parent's own age, with a stable id"
+      ]
+    },
+    {
+      "name": "the new parent's looks are left for the student to choose",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "home again, the family has two parents: the new one rolled like a parent, the lone parent's own age, with a stable id",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "home again, the family has two parents: the new one rolled like a parent, the lone parent's own age, with a stable id"
+      ]
+    },
+    {
+      "name": "the children are made the new parent's own, and change how they look",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "home again, the family has two parents: the new one rolled like a parent, the lone parent's own age, with a stable id",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "home again, the family has two parents: the new one rolled like a parent, the lone parent's own age, with a stable id"
+      ]
+    },
+    {
+      "name": "the family book does not say who the new parent is to the children",
+      "files": [
+        "sim/family.mjs"
+      ],
+      "expect": "home again, the family has two parents: the new one rolled like a parent, the lone parent's own age, with a stable id",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "home again, the family has two parents: the new one rolled like a parent, the lone parent's own age, with a stable id"
+      ]
+    },
+    {
+      "name": "a lone father meets a son",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "a lone father meets a daughter his own age",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a lone father meets a daughter his own age"
+      ]
+    },
+    {
+      "name": "no house is raised",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "a basic house is raised and lived in: built, the family under its roof, and the house work sees it as built",
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "a basic house is raised and lived in: built, the family under its roof, and the house work sees it as built",
+        "a house the family had begun is finished for it, not thrown away for another"
+      ]
+    },
+    {
+      "name": "the raised house is set down nowhere on the real land",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "a basic house is raised and lived in: built, the family under its roof, and the house work sees it as built",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a basic house is raised and lived in: built, the family under its roof, and the house work sees it as built"
+      ]
+    },
+    {
+      "name": "a house the family had begun is thrown away for a round-log cabin",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "a house the family had begun is finished for it, not thrown away for another",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a house the family had begun is finished for it, not thrown away for another"
+      ]
+    },
+    {
+      "name": "the new parent's hidden stats are sent with the household",
+      "files": [
+        "sim/world.mjs"
+      ],
+      "expect": "nobody else is sent any of it: not another family, not the Host; the neighbours are no households and hide nothing",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "nobody else is sent any of it: not another family, not the Host; the neighbours are no households and hide nothing"
+      ]
+    },
+    {
+      "name": "the Host is sent a family's path",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "nobody else is sent any of it: not another family, not the Host; the neighbours are no households and hide nothing",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "nobody else is sent any of it: not another family, not the Host; the neighbours are no households and hide nothing"
+      ]
+    },
+    {
+      "name": "the scenes are sent again after the student has walked them",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "the scenes: four, in order, gentle, with the wedding by bond and its one line of history, until the student has walked them",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the scenes: four, in order, gentle, with the wedding by bond and its one line of history, until the student has walked them"
+      ]
+    },
+    {
+      "name": "the line of history is drawn as invented",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "the scenes: four, in order, gentle, with the wedding by bond and its one line of history, until the student has walked them",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the scenes: four, in order, gentle, with the wedding by bond and its one line of history, until the student has walked them"
+      ]
+    },
+    {
+      "name": "the flashback forgets the wedding",
+      "files": [
+        "sim/flashback.mjs"
+      ],
+      "expect": "the family's flashback remembers the wedding, and does not put the new parent on the road in",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the family's flashback remembers the wedding, and does not put the new parent on the road in"
+      ]
+    },
+    {
+      "name": "the flashback puts the new parent on the road in",
+      "files": [
+        "sim/flashback.mjs"
+      ],
+      "expect": "the family's flashback remembers the wedding, and does not put the new parent on the road in",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the family's flashback remembers the wedding, and does not put the new parent on the road in"
+      ]
+    },
+    {
+      "name": "a save may hold any rite",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "a class saved with the family away opens away, and comes home; a save from before opens as it was",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a class saved with the family away opens away, and comes home; a save from before opens as it was"
+      ]
+    },
+    {
+      "name": "the couple stand too far apart to hold hands",
+      "files": [
+        "public/courtship.js"
+      ],
+      "expect": "the page: everybody in a scene stands on it, the couple face each other close enough to hold hands, and a missing pose falls back",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the page: everybody in a scene stands on it, the couple face each other close enough to hold hands, and a missing pose falls back"
+      ]
+    },
+    {
+      "name": "a pose not drawn yet is asked for anyway, and nothing is drawn",
+      "files": [
+        "public/courtship.js"
+      ],
+      "expect": "the page: everybody in a scene stands on it, the couple face each other close enough to hold hands, and a missing pose falls back",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the page: everybody in a scene stands on it, the couple face each other close enough to hold hands, and a missing pose falls back"
+      ]
+    }
+  ]
+}

@@ -1260,6 +1260,264 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
+    "claude-courtship-icon": {
+      "image": "/assets/claude-standins/claude-courtship-icon.png",
+      "width": 128,
+      "height": 128,
+      "bytes": 19861,
+      "sha256": "e7e93635937606ece282c223f2bed2e0d68df46fe69b101ca1b752a902ce80fd",
+      "madeBy": "claude",
+      "module": "courtship-icon",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 128,
+          "h": 128
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-greet": {
+      "image": "/assets/claude-standins/claude-courtship-greet.png",
+      "width": 560,
+      "height": 2240,
+      "bytes": 302281,
+      "sha256": "1ad915e08d425e76dbe8a13a0e986dbcf512226e84bc7c200f2d872d07325bbe",
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 8,
+        "columns": 2,
+        "cell": {
+          "w": 280,
+          "h": 280
+        },
+        "drawnCell": {
+          "w": 400,
+          "h": 400
+        },
+        "scale": 0.7,
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-shy": {
+      "image": "/assets/claude-standins/claude-courtship-shy.png",
+      "width": 560,
+      "height": 2240,
+      "bytes": 300796,
+      "sha256": "6b5c742d4129ab4dc3ea7195cc62fa4e587e41afccf70aaf0424be9173486aef",
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 8,
+        "columns": 2,
+        "cell": {
+          "w": 280,
+          "h": 280
+        },
+        "drawnCell": {
+          "w": 400,
+          "h": 400
+        },
+        "scale": 0.7,
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-laugh": {
+      "image": "/assets/claude-standins/claude-courtship-laugh.png",
+      "width": 560,
+      "height": 2240,
+      "bytes": 329796,
+      "sha256": "d21c1e413d93474a6806d7faf9867ab774e5510c0210ecf968936d3cdcc1a6c2",
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 8,
+        "columns": 2,
+        "cell": {
+          "w": 280,
+          "h": 280
+        },
+        "drawnCell": {
+          "w": 400,
+          "h": 400
+        },
+        "scale": 0.7,
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-vow": {
+      "image": "/assets/claude-standins/claude-courtship-vow.png",
+      "width": 280,
+      "height": 2240,
+      "bytes": 217579,
+      "sha256": "3f296276d4eb3bc762e40a01f742ec3a1e3adcadb43faae95770f953b1ea0305",
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 8,
+        "columns": 1,
+        "cell": {
+          "w": 280,
+          "h": 280
+        },
+        "drawnCell": {
+          "w": 400,
+          "h": 400
+        },
+        "scale": 0.7,
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-commissioner": {
+      "image": "/assets/claude-standins/claude-courtship-commissioner.png",
+      "width": 560,
+      "height": 280,
+      "bytes": 41640,
+      "sha256": "ccb44d6f5d3e58fb09134019409199407be6b36b7ee63403691caeecd85fb76c",
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 1,
+        "columns": 2,
+        "cell": {
+          "w": 280,
+          "h": 280
+        },
+        "drawnCell": {
+          "w": 400,
+          "h": 400
+        },
+        "scale": 0.7,
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-fiddle": {
+      "image": "/assets/claude-standins/claude-courtship-fiddle.png",
+      "width": 560,
+      "height": 560,
+      "bytes": 69650,
+      "sha256": "2506719e9c9c73538bc2fe363cfdbe8c5e57e1b6f7696325c244081063638c53",
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "cell": {
+          "w": 280,
+          "h": 280
+        },
+        "drawnCell": {
+          "w": 400,
+          "h": 400
+        },
+        "scale": 0.7,
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-farms": {
+      "image": "/assets/claude-standins/claude-courtship-farms.png",
+      "width": 1080,
+      "height": 1120,
+      "bytes": 935900,
+      "sha256": "851e95f47fc2223a828311897a2d13ce667cc035985e6ee5ce635805245f1fa9",
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 2,
+        "columns": 1,
+        "cell": {
+          "w": 1080,
+          "h": 560
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-table": {
+      "image": "/assets/claude-standins/claude-courtship-table.png",
+      "width": 560,
+      "height": 330,
+      "bytes": 84262,
+      "sha256": "5bf7f67ed1c002a102ae122ebdccbbe9ab5cfd1266e03bece40b0959a5bf88fa",
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 560,
+          "h": 330
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-yard-morning": {
+      "image": "/assets/claude-standins/claude-courtship-yard-morning.png",
+      "width": 960,
+      "height": 540,
+      "bytes": 214311,
+      "sha256": "31c7a01207a3591b2a5b0d01536811e0e24374ee22aec37c8f4b5bc1bfd61ba9",
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 960,
+          "h": 540
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-yard-noon": {
+      "image": "/assets/claude-standins/claude-courtship-yard-noon.png",
+      "width": 960,
+      "height": 540,
+      "bytes": 195861,
+      "sha256": "3aa05ccb10e6c30968102970d2591254e39833d5adedbfb2e546f92c345e0c58",
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 960,
+          "h": 540
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-courtship-yard-evening": {
+      "image": "/assets/claude-standins/claude-courtship-yard-evening.png",
+      "width": 960,
+      "height": 540,
+      "bytes": 213565,
+      "sha256": "3593d0fda49749992b9ed0e8a9e3022a2b7f92d019388d37e61ec3bf1ffa2ace",
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 960,
+          "h": 540
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
     "claude-ana-esparza": {
       "image": "/assets/claude-standins/claude-ana-esparza.png",
       "width": 1600,
@@ -15359,6 +15617,1181 @@
       "source": "svg/civic/claude-mission-concepcion.svg",
       "label": "mission concepcion",
       "kind": "claude-mission-concepcion"
+    },
+    "icon-ask-neighbours": {
+      "sheet": "claude-courtship-icon",
+      "x": 0,
+      "y": 0,
+      "w": 128,
+      "h": 128,
+      "anchorX": 0.5,
+      "anchorY": 0.92,
+      "madeBy": "claude",
+      "module": "courtship-icon",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "icon-ask-neighbours: item 6: one frame in the family icon atlas, 128 by 128, a single silhouette with a thin dark outline, reading at 34-38 CSS px and dimmed to 40%",
+      "source": "svg/courtship-icon/claude-icon-ask-neighbours.svg",
+      "label": "icon ask neighbours",
+      "kind": "claude-courtship-icon"
+    },
+    "rust-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-greet-1.svg",
+      "label": "rust greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "rust-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-greet-2.svg",
+      "label": "rust greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "teal-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "teal-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-teal-greet-1.svg",
+      "label": "teal greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "teal-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "teal-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-teal-greet-2.svg",
+      "label": "teal greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "elder-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 560,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-greet-1.svg",
+      "label": "elder greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "elder-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 560,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-greet-2.svg",
+      "label": "elder greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "blue-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 840,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-greet-1.svg",
+      "label": "blue greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "blue-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 840,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-greet-2.svg",
+      "label": "blue greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "rust-woman-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 1120,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-woman-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-woman-greet-1.svg",
+      "label": "rust woman greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "rust-woman-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 1120,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-woman-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-woman-greet-2.svg",
+      "label": "rust woman greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "indigo-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 1400,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "indigo-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-indigo-greet-1.svg",
+      "label": "indigo greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "indigo-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 1400,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "indigo-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-indigo-greet-2.svg",
+      "label": "indigo greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "ochre-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 1680,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-greet-1.svg",
+      "label": "ochre greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "ochre-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 1680,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-greet-2.svg",
+      "label": "ochre greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "blue-girl-greet-1": {
+      "sheet": "claude-courtship-greet",
+      "x": 0,
+      "y": 1960,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-girl-greet-1: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-girl-greet-1.svg",
+      "label": "blue girl greet 1",
+      "kind": "claude-courtship-greet"
+    },
+    "blue-girl-greet-2": {
+      "sheet": "claude-courtship-greet",
+      "x": 280,
+      "y": 1960,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-girl-greet-2: item 1: `-greet`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-girl-greet-2.svg",
+      "label": "blue girl greet 2",
+      "kind": "claude-courtship-greet"
+    },
+    "rust-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-shy-1.svg",
+      "label": "rust shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "rust-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-shy-2.svg",
+      "label": "rust shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "teal-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "teal-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-teal-shy-1.svg",
+      "label": "teal shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "teal-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "teal-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-teal-shy-2.svg",
+      "label": "teal shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "elder-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 560,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-shy-1.svg",
+      "label": "elder shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "elder-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 560,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-shy-2.svg",
+      "label": "elder shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "blue-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 840,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-shy-1.svg",
+      "label": "blue shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "blue-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 840,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-shy-2.svg",
+      "label": "blue shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "rust-woman-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 1120,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-woman-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-woman-shy-1.svg",
+      "label": "rust woman shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "rust-woman-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 1120,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-woman-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-woman-shy-2.svg",
+      "label": "rust woman shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "indigo-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 1400,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "indigo-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-indigo-shy-1.svg",
+      "label": "indigo shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "indigo-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 1400,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "indigo-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-indigo-shy-2.svg",
+      "label": "indigo shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "ochre-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 1680,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-shy-1.svg",
+      "label": "ochre shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "ochre-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 1680,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-shy-2.svg",
+      "label": "ochre shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "blue-girl-shy-1": {
+      "sheet": "claude-courtship-shy",
+      "x": 0,
+      "y": 1960,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-girl-shy-1: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-girl-shy-1.svg",
+      "label": "blue girl shy 1",
+      "kind": "claude-courtship-shy"
+    },
+    "blue-girl-shy-2": {
+      "sheet": "claude-courtship-shy",
+      "x": 280,
+      "y": 1960,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-girl-shy-2: item 1: `-shy`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-girl-shy-2.svg",
+      "label": "blue girl shy 2",
+      "kind": "claude-courtship-shy"
+    },
+    "rust-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-laugh-1.svg",
+      "label": "rust laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "rust-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-laugh-2.svg",
+      "label": "rust laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "teal-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "teal-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-teal-laugh-1.svg",
+      "label": "teal laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "teal-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "teal-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-teal-laugh-2.svg",
+      "label": "teal laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "elder-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 560,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-laugh-1.svg",
+      "label": "elder laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "elder-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 560,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-laugh-2.svg",
+      "label": "elder laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "blue-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 840,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-laugh-1.svg",
+      "label": "blue laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "blue-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 840,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-laugh-2.svg",
+      "label": "blue laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "rust-woman-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 1120,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-woman-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-woman-laugh-1.svg",
+      "label": "rust woman laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "rust-woman-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 1120,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-woman-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-woman-laugh-2.svg",
+      "label": "rust woman laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "indigo-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 1400,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "indigo-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-indigo-laugh-1.svg",
+      "label": "indigo laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "indigo-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 1400,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "indigo-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-indigo-laugh-2.svg",
+      "label": "indigo laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "ochre-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 1680,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-laugh-1.svg",
+      "label": "ochre laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "ochre-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 1680,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-laugh-2.svg",
+      "label": "ochre laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "blue-girl-laugh-1": {
+      "sheet": "claude-courtship-laugh",
+      "x": 0,
+      "y": 1960,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-girl-laugh-1: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-girl-laugh-1.svg",
+      "label": "blue girl laugh 1",
+      "kind": "claude-courtship-laugh"
+    },
+    "blue-girl-laugh-2": {
+      "sheet": "claude-courtship-laugh",
+      "x": 280,
+      "y": 1960,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-girl-laugh-2: item 1: `-laugh`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-girl-laugh-2.svg",
+      "label": "blue girl laugh 2",
+      "kind": "claude-courtship-laugh"
+    },
+    "rust-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-vow-1.svg",
+      "label": "rust vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "teal-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "teal-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-teal-vow-1.svg",
+      "label": "teal vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "elder-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 560,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-vow-1.svg",
+      "label": "elder vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "blue-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 840,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-vow-1.svg",
+      "label": "blue vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "rust-woman-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 1120,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-woman-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-woman-vow-1.svg",
+      "label": "rust woman vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "indigo-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 1400,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "indigo-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-indigo-vow-1.svg",
+      "label": "indigo vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "ochre-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 1680,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-vow-1.svg",
+      "label": "ochre vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "blue-girl-vow-1": {
+      "sheet": "claude-courtship-vow",
+      "x": 0,
+      "y": 1960,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "blue-girl-vow-1: item 1: `-vow`, 1 frame, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-blue-girl-vow-1.svg",
+      "label": "blue girl vow 1",
+      "kind": "claude-courtship-vow"
+    },
+    "elder-read-paper-1": {
+      "sheet": "claude-courtship-commissioner",
+      "x": 0,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-read-paper-1: item 2: `elder-read-paper`, 2 frames, east-facing and mirrored for west, the elder's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-read-paper-1.svg",
+      "label": "elder read paper 1",
+      "kind": "claude-courtship-commissioner"
+    },
+    "elder-read-paper-2": {
+      "sheet": "claude-courtship-commissioner",
+      "x": 280,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "elder-read-paper-2: item 2: `elder-read-paper`, 2 frames, east-facing and mirrored for west, the elder's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-elder-read-paper-2.svg",
+      "label": "elder read paper 2",
+      "kind": "claude-courtship-commissioner"
+    },
+    "rust-fiddle-1": {
+      "sheet": "claude-courtship-fiddle",
+      "x": 0,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-fiddle-1: item 7: `-fiddle`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-fiddle-1.svg",
+      "label": "rust fiddle 1",
+      "kind": "claude-courtship-fiddle"
+    },
+    "rust-fiddle-2": {
+      "sheet": "claude-courtship-fiddle",
+      "x": 280,
+      "y": 0,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "rust-fiddle-2: item 7: `-fiddle`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-rust-fiddle-2.svg",
+      "label": "rust fiddle 2",
+      "kind": "claude-courtship-fiddle"
+    },
+    "ochre-fiddle-1": {
+      "sheet": "claude-courtship-fiddle",
+      "x": 0,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-fiddle-1: item 7: `-fiddle`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-fiddle-1.svg",
+      "label": "ochre fiddle 1",
+      "kind": "claude-courtship-fiddle"
+    },
+    "ochre-fiddle-2": {
+      "sheet": "claude-courtship-fiddle",
+      "x": 280,
+      "y": 280,
+      "w": 280,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 210,
+      "madeBy": "claude",
+      "module": "courtship-people",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "ochre-fiddle-2: item 7: `-fiddle`, 2 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline",
+      "source": "svg/courtship-people/claude-ochre-fiddle-2.svg",
+      "label": "ochre fiddle 2",
+      "kind": "claude-courtship-fiddle"
+    },
+    "farm-neighbour-porch": {
+      "sheet": "claude-courtship-farms",
+      "x": 0,
+      "y": 0,
+      "w": 1080,
+      "h": 560,
+      "anchorX": 0.5494,
+      "anchorY": 0.9822,
+      "logicalHeight": 129,
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "farm-neighbour-porch: item 3: building contract, corner-on three-quarter view, anchored at the base centre, drawn beside the cast at their heights",
+      "source": "svg/courtship-places/claude-farm-neighbour-porch.svg",
+      "label": "farm neighbour porch",
+      "kind": "claude-courtship-farms"
+    },
+    "farm-neighbour-ramada": {
+      "sheet": "claude-courtship-farms",
+      "x": 0,
+      "y": 560,
+      "w": 1080,
+      "h": 560,
+      "anchorX": 0.4194,
+      "anchorY": 0.9821,
+      "logicalHeight": 139,
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "farm-neighbour-ramada: item 3: building contract, corner-on three-quarter view, anchored at the base centre, drawn beside the cast at their heights",
+      "source": "svg/courtship-places/claude-farm-neighbour-ramada.svg",
+      "label": "farm neighbour ramada",
+      "kind": "claude-courtship-farms"
+    },
+    "wedding-table": {
+      "sheet": "claude-courtship-table",
+      "x": 0,
+      "y": 0,
+      "w": 560,
+      "h": 330,
+      "anchorX": 0.5037,
+      "anchorY": 0.9091,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "wedding-table: item 4: prop contract, transparent, anchored at its base, at the scale of the people beside it",
+      "source": "svg/courtship-places/claude-wedding-table.svg",
+      "label": "wedding table",
+      "kind": "claude-courtship-table"
+    },
+    "courtship-yard-morning": {
+      "sheet": "claude-courtship-yard-morning",
+      "x": 0,
+      "y": 0,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "logicalHeight": 540,
+      "backdrop": true,
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "courtship-yard-morning: item 5: 960 by 540, a painted yard with no people and no buildings, drawn to cover the scene",
+      "source": "svg/courtship-places/claude-courtship-yard-morning.svg",
+      "label": "courtship yard morning",
+      "kind": "claude-courtship-yard-morning"
+    },
+    "courtship-yard-noon": {
+      "sheet": "claude-courtship-yard-noon",
+      "x": 0,
+      "y": 0,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "logicalHeight": 540,
+      "backdrop": true,
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "courtship-yard-noon: item 5: 960 by 540, a painted yard with no people and no buildings, drawn to cover the scene",
+      "source": "svg/courtship-places/claude-courtship-yard-noon.svg",
+      "label": "courtship yard noon",
+      "kind": "claude-courtship-yard-noon"
+    },
+    "courtship-yard-evening": {
+      "sheet": "claude-courtship-yard-evening",
+      "x": 0,
+      "y": 0,
+      "w": 960,
+      "h": 540,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "logicalHeight": 540,
+      "backdrop": true,
+      "madeBy": "claude",
+      "module": "courtship-places",
+      "request": "Request 2026-09-29 — the lone parent's wedding",
+      "replaceWith": "courtship-yard-evening: item 5: 960 by 540, a painted yard with no people and no buildings, drawn to cover the scene",
+      "source": "svg/courtship-places/claude-courtship-yard-evening.svg",
+      "label": "courtship yard evening",
+      "kind": "claude-courtship-yard-evening"
     },
     "ana-esparza-walk-e-1": {
       "sheet": "claude-ana-esparza",
@@ -40713,6 +42146,604 @@
       "authored": true,
       "madeBy": "claude",
       "module": "chop"
+    },
+    "rust-greet": {
+      "frames": [
+        {
+          "sprite": "rust-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "rust-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-shy": {
+      "frames": [
+        {
+          "sprite": "rust-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "rust-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-laugh": {
+      "frames": [
+        {
+          "sprite": "rust-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "rust-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-vow": {
+      "frames": [
+        {
+          "sprite": "rust-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "teal-greet": {
+      "frames": [
+        {
+          "sprite": "teal-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "teal-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "teal-shy": {
+      "frames": [
+        {
+          "sprite": "teal-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "teal-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "teal-laugh": {
+      "frames": [
+        {
+          "sprite": "teal-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "teal-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "teal-vow": {
+      "frames": [
+        {
+          "sprite": "teal-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "elder-greet": {
+      "frames": [
+        {
+          "sprite": "elder-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "elder-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "elder-shy": {
+      "frames": [
+        {
+          "sprite": "elder-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "elder-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "elder-laugh": {
+      "frames": [
+        {
+          "sprite": "elder-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "elder-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "elder-vow": {
+      "frames": [
+        {
+          "sprite": "elder-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-greet": {
+      "frames": [
+        {
+          "sprite": "blue-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "blue-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-shy": {
+      "frames": [
+        {
+          "sprite": "blue-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "blue-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-laugh": {
+      "frames": [
+        {
+          "sprite": "blue-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "blue-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-vow": {
+      "frames": [
+        {
+          "sprite": "blue-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-woman-greet": {
+      "frames": [
+        {
+          "sprite": "rust-woman-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "rust-woman-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-woman-shy": {
+      "frames": [
+        {
+          "sprite": "rust-woman-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "rust-woman-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-woman-laugh": {
+      "frames": [
+        {
+          "sprite": "rust-woman-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "rust-woman-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-woman-vow": {
+      "frames": [
+        {
+          "sprite": "rust-woman-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "indigo-greet": {
+      "frames": [
+        {
+          "sprite": "indigo-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "indigo-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "indigo-shy": {
+      "frames": [
+        {
+          "sprite": "indigo-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "indigo-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "indigo-laugh": {
+      "frames": [
+        {
+          "sprite": "indigo-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "indigo-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "indigo-vow": {
+      "frames": [
+        {
+          "sprite": "indigo-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "ochre-greet": {
+      "frames": [
+        {
+          "sprite": "ochre-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "ochre-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "ochre-shy": {
+      "frames": [
+        {
+          "sprite": "ochre-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "ochre-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "ochre-laugh": {
+      "frames": [
+        {
+          "sprite": "ochre-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "ochre-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "ochre-vow": {
+      "frames": [
+        {
+          "sprite": "ochre-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-girl-greet": {
+      "frames": [
+        {
+          "sprite": "blue-girl-greet-1",
+          "duration": 560
+        },
+        {
+          "sprite": "blue-girl-greet-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-girl-shy": {
+      "frames": [
+        {
+          "sprite": "blue-girl-shy-1",
+          "duration": 620
+        },
+        {
+          "sprite": "blue-girl-shy-2",
+          "duration": 540
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-girl-laugh": {
+      "frames": [
+        {
+          "sprite": "blue-girl-laugh-1",
+          "duration": 420
+        },
+        {
+          "sprite": "blue-girl-laugh-2",
+          "duration": 460
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "blue-girl-vow": {
+      "frames": [
+        {
+          "sprite": "blue-girl-vow-1",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "rust-fiddle": {
+      "frames": [
+        {
+          "sprite": "rust-fiddle-1",
+          "duration": 300
+        },
+        {
+          "sprite": "rust-fiddle-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "ochre-fiddle": {
+      "frames": [
+        {
+          "sprite": "ochre-fiddle-1",
+          "duration": 300
+        },
+        {
+          "sprite": "ochre-fiddle-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
+    },
+    "elder-read-paper": {
+      "frames": [
+        {
+          "sprite": "elder-read-paper-1",
+          "duration": 900
+        },
+        {
+          "sprite": "elder-read-paper-2",
+          "duration": 1100
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "courtship-people"
     },
     "ana-esparza-walk-e": {
       "frames": [

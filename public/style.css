@@ -1300,3 +1300,52 @@ body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px +
 #sound-panel{left:auto;right:0;bottom:calc(100% + 8px)}
 /* "How it ended" stands on the map's buttons, right-aligned, instead of across Gonzales, + and - (public/index.html). */
 #ending-open{position:absolute;right:0;bottom:calc(100% + 8px);z-index:1;white-space:nowrap}
+/* The lone parent's path (docs/FAMILY_CREATION.md, *The lone parent's path*; owner 2026-09-29: "this ability should be highlighted
+   and special looking"). A card at the head of the family's column, gold and rose on warm paper, breathing a slow glow, with its
+   own icon in a halo. It sits in the column's own flow, so it covers nothing; folded ("Not now", or the column folded to its
+   faces) it is the glowing icon alone, and still pressable. */
+#ask-neighbours{pointer-events:auto;flex:none;position:relative;isolation:isolate;display:flex;gap:10px;align-items:flex-start;box-sizing:border-box;width:min(18.5rem,calc(100vw - 32px));margin:4px 6px 6px 4px;padding:8px 10px 9px 8px;border-radius:12px;color:#40250f;
+  background:radial-gradient(circle at 18% 22%,#fff8dc 0,#fbe9c0 38%,#f3d49b 100%);border:2px solid #d9a441;
+  box-shadow:0 0 0 1px #fff3cf inset,0 0 0 3px #c2582c55,0 0 14px 3px #ffcf6a88;animation:ask-glow 2.6s ease-in-out infinite}
+#ask-neighbours .eyebrow{display:block;color:#a2471e;font:700 9.5px/1.2 system-ui;letter-spacing:.14em}
+#ask-neighbours h3{margin:1px 0 3px;font:700 15px/1.15 Georgia,serif;color:#3d220c}
+#ask-neighbours p{margin:0 0 5px;font:12.5px/1.3 Georgia,serif}
+#ask-neighbours #ask-neighbours-note{color:#6b4a26;font-size:12px;font-style:italic}
+#ask-neighbours #ask-neighbours-why{color:#8a3b22;font:600 12px/1.35 system-ui}
+#ask-neighbours-open{flex:none;width:48px;height:48px;padding:0;border-radius:50%;border:2px solid #e8b04e;background:radial-gradient(circle,#fffbe8 0,#ffe7a6 60%,#f0c060 100%);box-shadow:0 0 10px 3px #ffd35ccc;cursor:pointer;animation:ask-halo 2.6s ease-in-out infinite}
+#ask-neighbours-open canvas{display:block;width:100%;height:100%;border-radius:50%}
+.ask-neighbours-body{min-width:0}
+.ask-neighbours-buttons{display:flex;gap:8px;flex-wrap:wrap}
+#ask-neighbours-go{font:700 14px/1 Georgia,serif;padding:7px 14px;border-radius:18px;border:1px solid #8a3b22;color:#fff8e6;background:linear-gradient(#d06a3a,#a2471e);box-shadow:0 2px 0 #6b2a12,0 0 10px #ffb45c99;cursor:pointer}
+#ask-neighbours-go:disabled{opacity:.5;cursor:default;box-shadow:none}
+#ask-neighbours-later{font:600 12px/1 system-ui;padding:7px 10px;border-radius:14px;border:1px solid #b08a52;background:#fff7e0;color:#6b4a26;cursor:pointer}
+#ask-neighbours[data-folded=true],#family-panel[data-collapsed=true] #ask-neighbours{width:auto;padding:3px;border-radius:50%;gap:0}
+#ask-neighbours[data-folded=true] .ask-neighbours-body,#family-panel[data-collapsed=true] #ask-neighbours .ask-neighbours-body{display:none}
+/* A column too short for the card and every row (a small window, a large family): the card keeps its title, its cost and its two
+   buttons, and says the rest on hover, so the family's rows stay in sight beneath it. */
+#family-panel[data-tight=true] #ask-neighbours .eyebrow,#family-panel[data-tight=true] #ask-neighbours-says{display:none}
+#family-panel[data-tight=true] #ask-neighbours{padding:6px 8px 7px 6px}
+#family-panel[data-tight=true] #ask-neighbours-open{width:40px;height:40px}
+@keyframes ask-glow{0%,100%{box-shadow:0 0 0 1px #fff3cf inset,0 0 0 3px #c2582c55,0 0 10px 2px #ffcf6a88}50%{box-shadow:0 0 0 1px #fff3cf inset,0 0 0 3px #c2582c99,0 0 18px 5px #ffcf6acc}}
+@keyframes ask-halo{0%,100%{box-shadow:0 0 8px 2px #ffd35caa}50%{box-shadow:0 0 16px 6px #ffd35cee}}
+@media(prefers-reduced-motion:reduce){#ask-neighbours,#ask-neighbours-open{animation:none}}
+/* The scenes themselves (public/courtship.js): the whole screen, a canvas under a strip of words along its foot, Continue the only
+   way on. Above everything but the connection line. */
+#courtship{position:fixed;inset:0;z-index:50;background:#000;display:block}
+#courtship[hidden]{display:none}
+#courtship-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#courtship-strip{position:absolute;left:50%;bottom:clamp(10px,3vh,28px);transform:translateX(-50%);box-sizing:border-box;width:min(760px,calc(100% - 32px));padding:12px 18px 14px;border-radius:12px;
+  background:linear-gradient(180deg,#fff9e8f2,#f3e2bcf2);border:1px solid #b48a4a;box-shadow:0 0 0 1px #fff4d6 inset,0 8px 28px #1a0f0580;color:#3a2410;display:grid;grid-template-columns:1fr auto;align-items:end;gap:2px 16px;transition:opacity .6s ease}
+#courtship-strip[data-mode=between],#courtship-strip[data-mode=fade-out],#courtship-strip[data-mode=fade-in]{opacity:0}
+#courtship-where{grid-column:1/-1;margin:0;color:#8a4a1e;font:700 10.5px/1.3 system-ui;letter-spacing:.13em;text-transform:uppercase}
+#courtship-who{grid-column:1;margin:4px 0 0;font:700 15px/1.2 Georgia,serif;color:#5a2f10}
+#courtship-said{grid-column:1;margin:2px 0 0;font:19px/1.4 Georgia,serif;min-height:1.4em}
+#courtship-strip[data-kind=caption] #courtship-said,#courtship-strip[data-kind=closing] #courtship-said{font-style:italic}
+#courtship-strip[data-kind=history]{border:2px solid #4c422e}
+/* As a speech bubble's edge (public/speech.js): words invented for the scene have a dashed edge, the record's a solid one. */
+#courtship-strip[data-source=reconstructed]{border:1.5px dashed #9a7440}
+#courtship-strip[data-kind=history] #courtship-who{font:700 10.5px/1.3 system-ui;letter-spacing:.12em;text-transform:uppercase;color:#4c422e}
+#courtship-next{grid-column:2;grid-row:2/4;align-self:end;font:700 16px/1 Georgia,serif;padding:11px 20px;border-radius:22px;border:1px solid #8a3b22;color:#fff8e6;background:linear-gradient(#d06a3a,#a2471e);box-shadow:0 2px 0 #6b2a12;cursor:pointer;min-width:7.5rem}
+#courtship-next:disabled{opacity:.55;cursor:default}
+@media (max-width:560px){#courtship-strip{grid-template-columns:1fr}#courtship-next{grid-column:1;grid-row:auto;justify-self:end}#courtship-said{font-size:16px}}
+@media(prefers-reduced-motion:reduce){#courtship-strip{transition:none}}

@@ -32,6 +32,8 @@ export const STUDENT_FURNITURE = [
   // Down the left (owner-decided, docs/FAMILY_PANEL.md §7).
   { name: 'family: fold', selector: '#family-collapse', kind: 'family' },
   { name: 'family: row', selector: '#family-rows > .panel-row', kind: 'family', every: true },
+  // The lone parent's path, offered at the head of the column (sim/courtship.mjs, owner 2026-09-29).
+  { name: 'lone parent ability', selector: '#ask-neighbours', kind: 'family' },
   // Bottom middle: the main person's work (docs/FAMILY_PANEL.md §12.2).
   { name: 'ability bar', selector: '.panel-row[data-focused=true] .panel-icons', kind: 'bar' },
   // Bottom right: the map's own buttons, and the ending's way back.
@@ -75,6 +77,8 @@ export const STUDENT_FURNITURE = [
   { name: 'journal', selector: '#family-journal[data-open=true]', kind: 'dialog' },
   { name: 'ending', selector: '#ending', kind: 'dialog' },
   { name: 'inside the house', selector: '#interior', kind: 'dialog' },
+  // The lone parent's scenes: the whole screen while they last, Continue the only way on (public/courtship.js).
+  { name: 'lone parent scenes', selector: '#courtship', kind: 'dialog' },
   { name: 'reconnecting', selector: '#reconnecting', kind: 'dialog' },
 ];
 
