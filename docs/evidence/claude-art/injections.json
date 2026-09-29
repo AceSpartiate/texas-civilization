@@ -108,6 +108,37 @@
       ]
     },
     {
+      "guards": "Astra's art wins by subject",
+      "injected": "the library takes every Claude frame whose name Astra has not used (the released v2026.09.29.1 rule)",
+      "failed": [
+        "no Claude frame of a person, animal, vehicle, house or tree Astra has drawn can be drawn, whatever its name",
+        "the subjects the owner saw replaced are Astra's again: work, ease, children, the baby, the wagon, riders, soldiers, trees"
+      ]
+    },
+    {
+      "guards": "Astra's art wins by subject",
+      "injected": "the children are nobody's subject: a Claude girl at play is drawn beside Astra's girl",
+      "failed": [
+        "no Claude frame of a person, animal, vehicle, house or tree Astra has drawn can be drawn, whatever its name",
+        "the subjects the owner saw replaced are Astra's again: work, ease, children, the baby, the wagon, riders, soldiers, trees"
+      ]
+    },
+    {
+      "guards": "Astra's art wins by subject",
+      "injected": "the wagon and its ox are held to a name she has not used",
+      "failed": [
+        "no Claude frame of a person, animal, vehicle, house or tree Astra has drawn can be drawn, whatever its name",
+        "the subjects the owner saw replaced are Astra's again: work, ease, children, the baby, the wagon, riders, soldiers, trees"
+      ]
+    },
+    {
+      "guards": "Astra's art wins by subject",
+      "injected": "a page draws from Claude's library around the rule",
+      "failed": [
+        "only public/art.js reads Claude's library: nothing draws from it around the rule"
+      ]
+    },
+    {
       "guards": "area C: tests/battle-bexar-view.test.mjs",
       "injected": "the street barricade is the palisade again",
       "failed": [
@@ -163,6 +194,7 @@
     "standins": [],
     "work": [],
     "rig": [],
-    "areaA": []
+    "areaA": [],
+    "wins": []
   }
 }

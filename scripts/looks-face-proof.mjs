@@ -16,6 +16,13 @@
 // Then it walks the real pop-up for both parents at the three classroom screens and keeps a screenshot of each, with the
 // preview, the figure and every swatch drawn.
 //
+// Since 2026-09-29 (the owner, v2026.09.29.1: "multiple choices in the character creator screens are just solid colors"):
+//   - at 1366x768 every choice of every part is picked in turn, and after each every picture in the pop-up must be a figure,
+//     not the plain backdrop a choice shows when its figure was not drawn (`figureless`);
+//   - the father's "Moustache" is not drawn as the same man as "Bareheaded" (a painted stand-in moustache);
+//   - a page whose first request for the second cast sheet is lost draws every choice once the sheet is asked for again
+//     (public/art.js used to keep that failure for the life of the page).
+//
 // The colours and face boxes below are measured on Astra's frames (2026-09-28), not taken from the code under test.
 // Same computer only, headless Chrome. Run: npm run test:looks-face
 import assert from 'node:assert/strict';
@@ -94,6 +101,45 @@ async function measure(page, name, figure, faceBox) {
   }, { name, figure, faceBox });
 }
 
+/**
+ * The pop-up's pictures that are not a figure (2026-09-29; the owner, v2026.09.29.1: "multiple choices in the character
+ * creator screens are just solid colors"). A choice whose figure was not drawn is the card's backdrop alone - a tan wash that
+ * reads as a colour swatch. Each canvas is compared with the backdrop drawn by itself at its size: a figure changes at
+ * least FIGURE_SHARE of it, and brings its own ink and many colours. Returns the ones that fail, with their numbers.
+ */
+const FIGURE_SHARE = .25, FIGURE_COLOURS = 300, FIGURE_INK = .01;
+function figureless(page) {
+  return page.evaluate(async ({ share, colours, ink }) => {
+    const { drawAvatarPortrait } = await import('/avatar-art.js');
+    const backdrops = new Map();
+    const out = [];
+    for (const canvas of document.querySelectorAll('#looks canvas')) {
+      const { width: w, height: h } = canvas;
+      if (!backdrops.has(`${w}x${h}`)) {
+        const plain = document.createElement('canvas');
+        plain.width = w; plain.height = h;
+        drawAvatarPortrait(plain, null);
+        backdrops.set(`${w}x${h}`, plain.getContext('2d').getImageData(0, 0, w, h).data);
+      }
+      const plain = backdrops.get(`${w}x${h}`), data = canvas.getContext('2d').getImageData(0, 0, w, h).data;
+      const seen = new Set();
+      let changed = 0, dark = 0;
+      for (let i = 0; i < data.length; i += 4) {
+        seen.add((data[i] << 16) | (data[i + 1] << 8) | data[i + 2]);
+        if (Math.abs(data[i] - plain[i]) + Math.abs(data[i + 1] - plain[i + 1]) + Math.abs(data[i + 2] - plain[i + 2]) > 36) changed++;
+        if (data[i] + data[i + 1] + data[i + 2] < 150) dark++;
+      }
+      const n = w * h, button = canvas.closest('button[data-part]');
+      const tile = { what: button ? `${button.dataset.part}: ${button.dataset.value}` : canvas.id, changed: +(changed / n).toFixed(3), colours: seen.size, ink: +(dark / n).toFixed(3) };
+      // The figure beside the preview is a whole small person on a ground strip: less of its card is the figure.
+      const least = canvas.id === 'looks-figure' ? share / 2 : share;
+      if (tile.changed < least || tile.colours < colours || tile.ink < ink) out.push(tile);
+      else for (const key of ['changed', 'colours', 'ink']) if (canvas.id !== 'looks-figure') window.__leastFigure = { ...window.__leastFigure, [key]: Math.min(window.__leastFigure?.[key] ?? Infinity, tile[key]) };
+    }
+    return out;
+  }, { share: FIGURE_SHARE, colours: FIGURE_COLOURS, ink: FIGURE_INK });
+}
+
 try {
   mkdirSync('docs/evidence', { recursive: true });
   const context = await browser.newContext({ viewport: VIEWS[0] });
@@ -163,6 +209,30 @@ try {
         for (let i = 0; i < data.length; i += 4) if (data[i] + data[i + 1] + data[i + 2] < 150) dark++;
         return dark > canvas.width * canvas.height * .01;
       }), null, { timeout: 15000 });
+      // Every choice of every part picked in turn, and after each every picture is a figure, not a plain swatch.
+      if (index === 0) {
+        const options = await student.locator('#looks-parts button[data-part]').evaluateAll(buttons => buttons.map(b => [b.dataset.part, b.dataset.value]));
+        let pictures = 0;
+        for (const [part, value] of options) {
+          await student.locator(`#looks-parts button[data-part="${part}"][data-value="${value}"]`).click();
+          const flat = await figureless(student);
+          assert.deepEqual(flat, [], `parent ${parent + 1}, ${part} "${value}" picked: these pictures are not a figure (a plain swatch): ${JSON.stringify(flat)}`);
+          pictures += await student.locator('#looks canvas').count();
+        }
+        observed.everyChoice = (observed.everyChoice || 0) + pictures;
+        // A father's "Moustache" is painted on the bareheaded man (stand-in, public/person-palette.js): its picture is not
+        // the "Bareheaded" one, whichever of the two was drawn first (the recoloured frame is cached by what it shows).
+        const tile = value => student.locator(`#looks-parts button[data-part="head"][data-value="${value}"] canvas`);
+        if (await tile('moustache').count() && await tile('bareheaded').count()) {
+          for (const value of ['moustache', 'bareheaded']) {
+            await student.locator(`#looks-parts button[data-part="head"][data-value="${value}"]`).click();
+            const [a, b] = [await tile('moustache').evaluate(c => c.toDataURL()), await tile('bareheaded').evaluate(c => c.toDataURL())];
+            assert.notEqual(a, b, `with "${value}" picked the Moustache choice is drawn as the same man as Bareheaded`);
+          }
+          observed.moustache = 'drawn apart from bareheaded';
+        }
+        observed.leastFigure = await student.evaluate(() => window.__leastFigure);
+      }
       // The hair set to the palest choice, so any hair drawn where it is not would stand out in the picture kept.
       const fair = student.locator('#looks-parts button[data-part="hair"][data-value="fair"]');
       await fair.click();
@@ -177,6 +247,51 @@ try {
     }
     ok(`at ${view.width}x${view.height} both parents' pop-ups draw the preview, the figure and every swatch (${observed.screens.filter(one => one.view === `${view.width}x${view.height}`).map(one => one.title).join('; ')})`);
     await meetFamily(student, 'Facewright', { timeout: 2000 });
+    await screen.close();
+  }
+  ok(`at 1366x768 every choice of every part was picked for both parents, and after each all ${observed.everyChoice} pictures were figures (at least ${FIGURE_SHARE * 100}% of the card changed from the plain backdrop, ${FIGURE_COLOURS} colours, ${FIGURE_INK * 100}% ink; the least seen ${JSON.stringify(observed.leastFigure)})${observed.moustache ? ', and the father\'s Moustache is drawn apart from Bareheaded' : ''}`);
+
+  // ---------------------------------------------------------------- a sheet whose first request is lost
+  // The owner's solid colours (v2026.09.29.1): a page whose one request for the second cast sheet failed drew every choice
+  // from it - the bareheaded father, the bonnet, the braid, the loose hair - as the plain backdrop for as long as the page
+  // was open. Now the sheet is asked for again, and the pop-up draws the choices when it lands.
+  {
+    const screen = await browser.newContext({ viewport: VIEWS[0] });
+    const student = await screen.newPage();
+    student.on('pageerror', error => errors.push(error.message));
+    let lost = 0;
+    await student.route(/people-cast2-idle\.png/, route => (lost++ ? route.continue() : route.abort('connectionreset')));
+    await student.goto(url);
+    await student.locator('[name=name]').fill('Lost sheet');
+    await student.locator('[name=code]').fill(app.state.sessionCode);
+    await student.getByRole('button', { name: 'Join', exact: true }).click();
+    await student.locator('#creation-begin-button').waitFor({ state: 'visible', timeout: 30000 });
+    await student.locator('#creation-begin-button').click();
+    await student.locator('#roll-family').click();
+    await student.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 20000 });
+    await student.locator('#roll-family').click();
+    await student.locator('#surname-input').fill('Lostsheet');
+    await student.locator('#surname-save').click();
+    await student.locator('#names').waitFor({ state: 'visible', timeout: 15000 });
+    await student.locator('#names-done').click();
+    const kept = [];
+    for (let parent = 0; parent < 2; parent++) {
+      await student.locator('#looks').waitFor({ state: 'visible', timeout: 15000 });
+      const who = await student.locator('#looks').getAttribute('data-entity-id');
+      let flat = await figureless(student);
+      for (let i = 0; flat.length && i < 40; i++) { await student.waitForTimeout(500); flat = await figureless(student); }
+      const file = `docs/evidence/looks-solid/proof-lost-sheet-parent-${parent + 1}.png`;
+      mkdirSync('docs/evidence/looks-solid', { recursive: true });
+      await student.locator('#looks').screenshot({ path: file });
+      shots.push(file);
+      assert.deepEqual(flat, [], `parent ${parent + 1}: the first request for the second cast sheet was lost (${lost} asked) and 20 seconds later these pictures are still plain swatches: ${JSON.stringify(flat)}`);
+      kept.push(await student.locator('#looks canvas').count());
+      await student.locator('#looks-done').click();
+      await student.waitForFunction(id => document.querySelector('#looks').hidden || document.querySelector('#looks').dataset.entityId !== id, who, { timeout: 15000 });
+    }
+    assert.ok(lost >= 2, `the lost sheet was never asked for again (${lost} request(s))`);
+    observed.lostSheet = { requests: lost, pictures: kept };
+    ok(`the first request for the second cast sheet lost: it was asked for again (${lost} requests) and both parents' pop-ups drew every picture as a figure (${kept.join(' and ')} pictures)`);
     await screen.close();
   }
 
