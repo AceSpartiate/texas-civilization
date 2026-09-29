@@ -11,6 +11,7 @@
 import { distanceToPolyline } from './terrain.mjs';
 import { landAround, onRealLand } from './ground.mjs';
 import { patchAt, timberMilesFrom, woodsRule } from './woods.mjs';
+import { hoursSaid, workHours } from './work-pace.mjs';
 
 export const PLOT_ACRES = 10;
 /** About an eighth of a mile a side. */
@@ -110,12 +111,13 @@ export function fenceWork(world, household, plot) {
 
 /** How the fence would go up, in the words on the control: "Rails carried from the timber 1.2 miles off: about 5 hours." */
 export function fenceWords(work) {
-  const hours = Math.max(1, Math.round(work.ticks / 3));
-  if (work.how === 'mesquite') return `Mesquite posts and brush from where it stands: about ${hours} hours.`;
-  if (work.how === 'rails') return `Rails split from the timber at hand: about ${hours} hours.`;
+  // At the family's pace (owner, 2026-09-29; sim/work-pace.mjs): the ticks are the country's, the time half of them.
+  const hours = hoursSaid(workHours(work.ticks));
+  if (work.how === 'mesquite') return `Mesquite posts and brush from where it stands: about ${hours}.`;
+  if (work.how === 'rails') return `Rails split from the timber at hand: about ${hours}.`;
   // From the family's own wood pile, where the timber is far (sim/woodpile.mjs `fenceBy`, owner 2026-09-28).
-  if (work.how === 'pile') return `Rails split from ${work.logs} logs off the pile at the house: about ${hours} hours.`;
+  if (work.how === 'pile') return `Rails split from ${work.logs} logs off the pile at the house: about ${hours}.`;
   return work.miles === null
-    ? `No timber within ${FENCE_REACH} miles: the rails come from far off, about ${hours} hours.`
-    : `Rails carried from the timber ${work.miles} miles off: about ${hours} hours.`;
+    ? `No timber within ${FENCE_REACH} miles: the rails come from far off, about ${hours}.`
+    : `Rails carried from the timber ${work.miles} miles off: about ${hours}.`;
 }

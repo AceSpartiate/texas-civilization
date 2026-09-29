@@ -26,6 +26,7 @@
 import { record } from './events.mjs';
 import { householdName, tooYoung } from './family.mjs';
 import { raising } from './houses.mjs';
+import { hoursSaid } from './work-pace.mjs';
 import { FLIGHT_SPACE, flightRoom, scrapeOn } from './scrape.mjs';
 import { EATEN_A_DAY, FOOD_KEPT_PER_PERSON, automatic, mouthsAt } from './neighbours.mjs';
 import { DEED_WEIGHT, ROOM_WAIT_MINUTES, noteDeed, state } from './deeds.mjs';
@@ -425,7 +426,7 @@ export function deedLine(world, deed, householdId) {
   if (!ours && !theirs) return null;
   const other = ours ? to : from;
   const them = other ? named(world, other) : '';
-  const hours = deed.hours ? ` (${deed.hours} ${deed.hours === 1 ? 'hour' : 'hours'})` : '';
+  const hours = deed.hours ? ` (${hoursSaid(deed.hours)})` : '';
   switch (deed.kind) {
     case 'raising': return ours ? `${person || 'Somebody of the family'} helped ${them} raise their walls${hours}.` : `${person || 'Somebody'} of ${them} helped raise the family's walls${hours}.`;
     case 'food': return ours ? `${person || 'The family'} carried ${deed.amount} food to ${them}.` : `${person || 'Somebody'} of ${them} brought ${deed.amount} food when the family was short.`;
@@ -467,7 +468,7 @@ export function helpedLines(world) {
     const pair = pairs.get(key);
     pair.kinds.set(deed.kind, (pair.kinds.get(deed.kind) || 0) + (deed.hours || deed.amount || 1));
   }
-  const words = { raising: n => `helped raise their walls (${n} ${n === 1 ? 'hour' : 'hours'})`, food: n => `brought ${n} food`, room: n => `kept room for ${n} in their wagon`, shelter: () => 'took in their children' };
+  const words = { raising: n => `helped raise their walls (${hoursSaid(n)})`, food: n => `brought ${n} food`, room: n => `kept room for ${n} in their wagon`, shelter: () => 'took in their children' };
   return [...pairs.values()].sort((a, b) => a.minute - b.minute).map(pair => ({
     fromId: pair.fromId, toId: pair.toId,
     text: `${cap(named(world, world.households[pair.fromId]))} → ${named(world, world.households[pair.toId])}: ${[...pair.kinds].map(([kind, n]) => words[kind]?.(n)).filter(Boolean).join('; ')}.`,

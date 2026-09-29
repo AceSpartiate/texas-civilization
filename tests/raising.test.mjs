@@ -29,6 +29,12 @@ function scene(seed = 'raising', share = RAISING_FROM) {
   return { world, host, neighbour, helper };
 }
 const builder = (world, household) => household.members.map(id => world.entities[id]).find(person => !tooYoung(person));
+/**
+ * Ordinary hands, skill two with no hidden strength: since every family work went at half its length (owner, 2026-09-29;
+ * sim/work-pace.mjs) this seed's skilled builder raises a spell a tick, the least a step can take, and the tick a helper
+ * spends starting would be a sixth of the walls; the rule held here is the help, not the knack.
+ */
+const ordinary = entity => { entity.skills = { ...entity.skills, hands: 2 }; if (entity.traits) delete entity.traits.strength; return entity; };
 
 test('help is a thing to do only on a neighbour\'s land, and only while the walls are going up', () => {
   const { world, host, neighbour, helper } = scene();
@@ -54,14 +60,15 @@ test('help is a thing to do only on a neighbour\'s land, and only while the wall
 test('a neighbour\'s work goes into the house, speeds the walls, and stops when they are up', () => {
   // The host family raising its walls with one pair of hands.
   const alone = scene('raising-speed');
-  applyAction(alone.world, 'hh-1', { action: 'chore', entityId: builder(alone.world, alone.host).id, chore: 'build-house' });
+  applyAction(alone.world, 'hh-1', { action: 'chore', entityId: ordinary(builder(alone.world, alone.host)).id, chore: 'build-house' });
   const aloneStart = alone.world.tick;
   for (let tick = 0; tick < 300 && raising(alone.host); tick++) stepWorld(alone.world);
   const aloneTicks = alone.world.tick - aloneStart;
 
   // The same, with a neighbour beside them.
   const helped = scene('raising-speed');
-  const own = builder(helped.world, helped.host);
+  const own = ordinary(builder(helped.world, helped.host));
+  ordinary(helped.helper);
   applyAction(helped.world, 'hh-1', { action: 'chore', entityId: own.id, chore: 'build-house' });
   applyAction(helped.world, 'hh-2', { action: 'chore', entityId: helped.helper.id, chore: 'help-raise' });
   assert.equal(helped.helper.chore.hostHouseholdId, 'hh-1');
