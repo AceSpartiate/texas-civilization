@@ -243,11 +243,18 @@ test('a stroke with a drawn cycle of the work names a clip one of the libraries 
   const standins = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/claude-standins/atlas.json', import.meta.url)), 'utf8')).clips;
   const withDrawn = Object.entries(STROKES).filter(([, stroke]) => stroke.drawn);
   assert.ok(withDrawn.some(([key]) => key === 'chop'), 'felling has its drawn cycle (rust-chop, 2026-09-28)');
+  // The children's own work (request 2026-09-28 — people at work, item 13: `-shoo`, `-gather`, `-carry-water`; `-scatter`) is
+  // drawn in the child's own figure (public/app.js `drawAtWork`), so a child holding the cycle is a holder too.
+  const CHILDREN = ['girl', 'boy', 'smallchild'];
+  for (const key of ['shoo', 'gather', 'scatter', 'water']) assert.ok(STROKES[key].drawn, `${key}: the child's own cycle of the work is never asked for`);
   for (const [key, stroke] of withDrawn) {
-    const holders = CAST.filter(figure => clips[`${figure}-${stroke.drawn.pose}`] || standins[`${figure}-${stroke.drawn.pose}`]);
+    const holders = [...CAST, ...CHILDREN].filter(figure => clips[`${figure}-${stroke.drawn.pose}`] || standins[`${figure}-${stroke.drawn.pose}`]);
     assert.ok(holders.length, `${key}: no figure in either library has a ${stroke.drawn.pose} cycle`);
+    if (['shoo', 'gather', 'scatter', 'water'].includes(key)) for (const child of CHILDREN) assert.ok(clips[`${child}-${stroke.drawn.pose}`] || standins[`${child}-${stroke.drawn.pose}`], `${key}: the ${child} has no ${stroke.drawn.pose} of their own`);
     for (const figure of holders) {
       const clip = clips[`${figure}-${stroke.drawn.pose}`] || standins[`${figure}-${stroke.drawn.pose}`];
+      // A stroke with no strike (shooing, gathering, carrying) has no beat; one with a tool names the frame it lands on.
+      if (stroke.drawn.beat === undefined) { assert.equal(stroke.beat, undefined, `${key}: a struck stroke's drawn cycle names its beat`); continue; }
       assert.ok(stroke.drawn.beat >= 0 && stroke.drawn.beat < clip.frames.length, `${key}: the beat is a frame of ${figure}-${stroke.drawn.pose}`);
       if (clip.beat !== undefined) assert.equal(stroke.drawn.beat, clip.beat, `${key}: the stroke's beat is the frame ${figure}-${stroke.drawn.pose} says the tool lands on`);
     }

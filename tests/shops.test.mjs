@@ -209,7 +209,7 @@ test('the wheelwright, the mill and the weaver each do their one thing', () => {
   assert.ok(rest(true) < rest(false), 'blankets mended nothing by the wagon');
 });
 
-test('the store sells the seed, the powder and the hoe the town errands used to fetch, and buys food four for a real', () => {
+test('the store sells the seed, the powder and the hoe the town errands used to fetch, and buys food three for a real', () => {
   // The errands that walked a person to this same counter left the family panel on 2026-09-17 (owner: "do we need two hunting
   // options? problem solve the various things characters can do and make improvements"). What they did is done here now, at
   // the prices they paid (`COIN` in sim/chores.mjs), so a student has one way to the store and one set of prices to read.
@@ -239,23 +239,23 @@ test('the store sells the seed, the powder and the hoe the town errands used to 
   assert.equal(household.tools.hoe, 0, 'the worn hoe was not replaced');
   assert.equal(household.resources.money, 1);
 
-  // Food is bought by the lot: four a real (five until 2026-09-28, sim/market.mjs), and what will not make a whole real stays in the
-  // house. The store pays for food in coin only - paying a family in the very thing it is selling would be no trade at all. One lot
-  // on the list: four food.
+  // Food is bought by the lot: three a real (owner, 2026-09-28: "1 real for 3 food"; four and five before; sim/market.mjs), and what
+  // will not make a whole real stays in the house. The store pays for food in coin only - paying a family in the very thing it is
+  // selling would be no trade at all. One lot on the list: three food.
   household.resources.food = 12;
   const sold = spent('food');
   assert.deepEqual(lineOf(world, household, person, 'store:food').pays, ['coin'], 'the store offered to pay for food in food');
   shop(world, household, person, 'store:food:coin');
-  assert.ok(sold() >= 4 && sold() < 5, `the store took ${sold().toFixed(2)} food for its real, not the four it paid for`);
-  assert.equal(household.resources.money, 2, 'a real for four food');
-  assert.ok(storyOf(world, household.id).some(text => /sold 4 food to .* for 1 real\./.test(text)), 'the sale was not said');
+  assert.ok(sold() >= 3 && sold() < 4, `the store took ${sold().toFixed(2)} food for its real, not the three it paid for`);
+  assert.equal(household.resources.money, 2, 'a real for three food');
+  assert.ok(storyOf(world, household.id).some(text => /sold 3 food to .* for 1 real\./.test(text)), 'the sale was not said');
 
   // And the refusals are said rather than silently doing nothing.
   const bare = running('shops-store-bare');
   const poor = bare.households['hh-1'];
   poor.resources = { ...poor.resources, money: 0, food: 2, cotton: 0 };
   const hand = bare.entities[poor.members[0]];
-  assert.match(lineOf(bare, poor, hand, 'store:food').why, /not four food/);
+  assert.match(lineOf(bare, poor, hand, 'store:food').why, /not three food/);
   assert.match(lineOf(bare, poor, hand, 'store:cotton').why, /no whole bale/);
   assert.match(errandFor(bare, poor.id, hand.id, [{ id: 'store:seed', n: 1, pay: 'coin' }]).quote.why, /not be that much coin/);
   validateWorld(world);

@@ -8,7 +8,7 @@
     "the store's line says its price now and how much it wants: \"pays 2 reales or 2 food for 1 bale\", \"The store buys all the cotton it is brought, at full price, until the Runaway Scrape; after that only what it can use.\"",
     "selling the cotton, Coin is pressed before the student chooses, and Food is not",
     "the popup says how they will go, in the server's words: \"Takes the wagon: 14 of 20 loads, more than the horse carries (7).\" (1366x768: 500x616, clear of the column, nothing over its controls, no tip over the map standing on it)",
-    "the list stands still while the family eats: food 30.0332 → 30.2075, the stock redrawn (\"The family has 30.2 food · 2 seed · 3 po…\"), and the + on the cotton is the same button",
+    "the list stands still while the family eats: food 30.0415 → 30.2075, the stock redrawn (\"The family has 30.2 food · 2 seed · 3 po…\"), and the + on the cotton is the same button",
     "Enter sends the one order: Alvin drives off to Gonzales with the ox and wagon",
     "a second person is refused the wagon with who has it and what to do: \"This wants the wagon: 10 loads, and the horse carries 7. Alvin has the ox and wagon, on the road to Gonzales. Send a smaller load, or wait until the wagon is free.\"; five bales go instead: \"Rides the horse: 5 of 7 loads.\"",
     "Escape closes the popup and sends nobody, and the ability bar is back",
@@ -64,7 +64,7 @@
     },
     "keptWhileEating": {
       "before": {
-        "food": 30.0332,
+        "food": 30.0415,
         "stock": "The family has 30 food · 2 seed · 3 powder · 150 reales · 14 cotton. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox."
       },
       "after": {
@@ -190,13 +190,13 @@
     "ledTrails": 58,
     "yard": {
       "bess": {
-        "x": 695.0156768655289,
-        "y": 292.9162697091373,
+        "x": 695.4228131140866,
+        "y": 293.6134905347999,
         "size": 74.25000000000001
       },
       "bought": {
-        "x": 626.4772153270674,
-        "y": 292.9162697091373,
+        "x": 626.884351575625,
+        "y": 293.6134905347999,
         "size": 74.25000000000001
       }
     },
@@ -272,13 +272,13 @@
     },
     "wagonsInYard": {
       "first": {
-        "x": 208.42347713501644,
-        "y": -160.91529135770105,
+        "x": 208.8269126550566,
+        "y": -160.2244080296254,
         "size": 76.72500000000001
       },
       "second": {
-        "x": 631.2472698389718,
-        "y": 203.4462380607804,
+        "x": 631.6488656930396,
+        "y": 204.13397096087436,
         "size": 76.72500000000001
       }
     },

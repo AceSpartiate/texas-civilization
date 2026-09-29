@@ -1,6 +1,6 @@
 {
   "record": "Disease, in a browser: docs/DISEASE.md build steps 1-7",
-  "date": "2026-09-28",
+  "date": "2026-09-29",
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768 and 1024x768. The Scrape proof's class (real land, rolled families, two periods played in process, continued into the spring); before it was served its first family was sent east, one of its people given a chill on the chest, one child the measles at its worst and one child set as dead of the measles - the rules that bring those about are tests/disease.test.mjs's. No LAN or district claim.",
   "cast": {
@@ -12,8 +12,8 @@
     "refuge": "san-felipe"
   },
   "checks": [
-    "very sick: the \"!\" (\"Mateo Proofwright: Very sick with the measles: could die without nursing and warmth. Nurse him and let him rest. Go to Mateo Proofwright and answer.\") and the row in red: \"Very sick with the measles: could die without nursing and warmth. Nurse him and let him rest.\"",
-    "a sick person's row: \"Has a chill on the chest: walking. Resting would mend it sooner, and he may get worse.\", the badge 20px on the portrait, and the card: \"On the road to San Felipe de Austin · 1% · Has a chill on the chest: walking. Resting would mend it sooner, and he may get worse. · has had the measles\"",
+    "very sick: the \"!\" (\"Number 2 to answer. Mateo Proofwright: Very sick with the measles: could die without nursing and warmth. Nurse him and let him rest. Go to Mateo Proofwright and answer.\") and the row in red: \"Very sick with the measles: could die without nursing and warmth. Nurse him and let him rest.\"",
+    "a sick person's row: \"Has a chill on the chest: walking. Resting would mend it sooner, and he may get worse.\", the badge 22px on the portrait, and the card: \"On the road to San Felipe de Austin · 1% · Has a chill on the chest: walking. Resting would mend it sooner, and he may get worse. · has had the measles\"",
     "the Host's class panel: \"Enos Proofwright sick with a chill on the chest, on the road east to San Felipe de Austin\"; \"Chill on the chest: 1 sick. Measles: 1 sick, 1 very sick. 1 has died of sickness.\"",
     "\"Stop and rest a day\" glowed on the main person's bar and halted the family; the row said \"Has a chill on the chest: resting, well in about 10 days.\"; resting mended 2 days a day, and a day on after it 0.5 (walking)",
     "the child dead of the measles is not named on the Host's class panel (\"A child of this family died of sickness.\"), not on the Host's map, and not drawn on the family's",
@@ -26,14 +26,15 @@
       "text": "Very sick with the measles: could die without nursing and warmth. Nurse him and let him rest.",
       "grave": true
     },
-    "need": "Mateo Proofwright: Very sick with the measles: could die without nursing and warmth. Nurse him and let him rest. Go to Mateo Proofwright and answer.",
+    "need": "Number 2 to answer. Mateo Proofwright: Very sick with the measles: could die without nursing and warmth. Nurse him and let him rest. Go to Mateo Proofwright and answer.",
     "rowMoving": {
       "text": "Has a chill on the chest: walking. Resting would mend it sooner, and he may get worse.",
       "grave": false
     },
     "badge": {
-      "w": 20,
-      "h": 20
+      "w": 22,
+      "h": 22,
+      "drawn": true
     },
     "card": "On the road to San Felipe de Austin · 1% · Has a chill on the chest: walking. Resting would mend it sooner, and he may get worse. · has had the measles",
     "hostWords": "Enos Proofwright sick with a chill on the chest, on the road east to San Felipe de Austin",

@@ -158,10 +158,10 @@ export const TRADES = Object.freeze({
       {
         // Five food a real, and the sixth stays in the house: `per` is the lot the keeper pays for, so no part of a real is
         // ever paid. This is the errand's own arithmetic (`COIN.foodPerReal`), moved to the counter.
-        id: 'food', kind: 'buy', label: 'Sell food', coinEach: 1, per: 4, good: 'food',
+        id: 'food', kind: 'buy', label: 'Sell food', coinEach: 1, per: 3, good: 'food',
         // Only as much as the store can use, and less as it fills (sim/market.mjs, 2026-09-28).
-        does: 'The store pays a real for every four food it can sell on, every eight once it is filling, whole reales only; full, it takes no more until it has sold some on.',
-        refuse: (world, household) => (household.resources.food ?? 0) >= 4 ? null : 'There is not four food in the house to sell.',
+        does: 'The store pays a real for every three food it can sell on, every six once it is filling, whole reales only; full, it takes no more until it has sold some on.',
+        refuse: (world, household) => (household.resources.food ?? 0) >= 3 ? null : 'There is not three food in the house to sell.',
       },
       {
         id: 'cotton', kind: 'buy', label: 'Sell the cotton', coinEach: STORE_BALE_COIN, foodEach: 2, good: 'cotton',
