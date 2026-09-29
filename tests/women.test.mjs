@@ -11,6 +11,7 @@ import { momentOf } from '../sim/directors.mjs';
 import { canFight, cannotFightWhy } from '../sim/family.mjs';
 import { callAvailability } from '../sim/calls.mjs';
 import { winterRefusal } from '../sim/winter.mjs';
+import { heardOut } from './support/heard-out.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -38,6 +39,7 @@ test('a settlement\'s call: turning out is refused to a mother in words on the c
   household.played = true;
   world.status = 'running';
   until(world, () => world.calls?.[household.id]);
+  heardOut(world, household.id);
   const her = mother(household)(world), him = father(household)(world);
   assert.equal(callAvailability(world, household.id, her, 'turn-out').can, false);
   assert.match(callAvailability(world, household.id, her, 'turn-out').why, /does not go to the fighting/);

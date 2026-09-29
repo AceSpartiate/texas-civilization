@@ -14,6 +14,10 @@ const CALL_BUDGET_MS = budget.CALL_BUDGET_MS ?? 300_000;
 import { LESSON_ENABLED, STEPS, inLesson, stopLesson } from '../sim/lesson.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
+/** The rider who brought the word, let go as a student lets him go with Done. */
+const heardOut = (world, householdId) => {
+  for (const one of Object.values(world.encounters)) if (one.householdId === householdId && one.status === 'open' && !one.kind) applyAction(world, householdId, { action: 'leave-rider', entityId: one.listenerId });
+};
 let shared = null;
 /** A real-land class at the moment a far family is first asked its settlement's call, with the rider still at its gate. */
 const asked = () => {
@@ -37,6 +41,15 @@ test('a played family\'s settlement call lapses after five real minutes: nobody 
   const { world, household, call } = asked();
   assert.equal(budget.CALL_BUDGET_MS, 300_000, 'the call does not stand five minutes');
   assert.equal(inLesson(world, household), false, 'the fixture family is in the guided start');
+  // While the rider who brought the word still stands there the call waits behind him, and its five minutes do not run
+  // (owner, 2026-09-29: "Each queued request's real-time budget must not run out while it waits behind another";
+  // sim/encounters.mjs `questionWaits`, `FIC-GONZ-909`). They start when he has gone.
+  assert.equal(view(world, household.id).request, null, 'the call was shown over the rider still talking');
+  assert.equal(view(world, household.id).encounter.waiting?.count, 1, "the rider's conversation does not say something waits");
+  stepWorld(world, { realMs: 60_000 });
+  assert.equal(world.decisionClock?.[`call:${household.id}`], undefined, "the call's minutes ran while it waited behind the rider");
+  const meeting = Object.values(world.encounters).find(one => one.householdId === household.id && one.topicId === 'cannon-request');
+  heardOut(world, household.id);
   assert.match(view(world, household.id).request.lapses || '', /the call lapses and nobody from the family turns out/, 'the lapse is not said before it happens');
   stepWorld(world, { realMs: 200_000 });
   assert.equal(call.status, 'open', 'the call closed before its five minutes');
@@ -48,7 +61,6 @@ test('a played family\'s settlement call lapses after five real minutes: nobody 
   assert.ok(!world.events.some(event => event.householdId === household.id && ['turn-out', 'stay-put'].includes(event.decision)), 'a lapsed call was written down as a choice');
   assert.ok(world.events.some(event => event.householdId === household.id && event.lapsed && /Nobody from this family answered the settlement's call in time, and it lapsed\. Nothing was chosen: nobody from the family turned out\./.test(event.text)), 'the journal does not say the call lapsed');
   assert.equal(view(world, household.id).request.lapsed, true, 'the card does not say the call lapsed');
-  const meeting = Object.values(world.encounters).find(one => one.householdId === household.id && one.topicId === 'cannon-request');
   assert.equal(meeting.status, 'closed', 'the rider is still standing with the family');
   stepWorld(world);
   const rider = world.entities[meeting.carrierId];
@@ -81,9 +93,11 @@ test('nobody\'s call lapses for a family whose student has gone or that nobody p
 
 test('the call\'s budget is a server option carried through the tick, apart from the military questions\'', () => {
   const { world, call } = asked();
+  heardOut(world, world.testHousehold);
   stepWorld(world, { realMs: 1_500, callBudgetMs: 1_000, decisionBudgetMs: 900_000 });
   assert.notEqual(call.status, 'open', 'a one-second call budget did not run out in a second and a half');
   const other = asked();
+  heardOut(other.world, other.world.testHousehold);
   stepWorld(other.world, { realMs: 100_000, decisionBudgetMs: 1_000 });
   assert.equal(other.call.status, 'open', 'the call ran on the military questions\' ninety seconds');
 });

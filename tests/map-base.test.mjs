@@ -57,6 +57,39 @@ test('a node is written only when its words change, so the drawing loop does not
   assert.equal(text, 'Watching Rosa');
 });
 
+// A node as the page's DOM has it, for `setText`: `textContent =` replaces whatever is inside with one new text node (or none).
+function fakeNode(text) {
+  const node = { childNodes: [], replaced: 0 };
+  const put = words => { node.childNodes = words ? [{ nodeType: 3, data: words }] : []; };
+  Object.defineProperty(node, 'firstChild', { get: () => node.childNodes[0] || null });
+  Object.defineProperty(node, 'textContent', { get: () => node.childNodes.map(child => child.data).join(''), set: words => { node.replaced++; put(words); } });
+  put(text);
+  return node;
+}
+
+test('the panel changes a line\'s words in place: the same text node, never a new one each tick', () => {
+  // A baby napping, then crawling, then asleep, and the "!"'s countdown every second: each was a text node thrown away and a
+  // new one added, which scripts/family-commands-browser-proof.mjs counts as the family panel rebuilt (2026-09-29).
+  const line = fakeNode('Napping.'), kept = line.firstChild;
+  assert.equal(setText(line, 'Crawling about the yard.'), true);
+  assert.equal(line.textContent, 'Crawling about the yard.');
+  assert.equal(line.firstChild, kept, 'the text node was replaced rather than changed');
+  assert.equal(line.replaced, 0);
+  assert.equal(setText(line, 'Crawling about the yard.'), false, 'the same words were set again');
+  // Emptied, and filled from empty: there is no text node to keep, so one is made.
+  assert.equal(setText(line, ''), true);
+  assert.equal(line.textContent, '');
+  assert.equal(setText(line, null), false, 'nothing is the empty line');
+  assert.equal(setText(line, 'Asleep for the night.'), true);
+  assert.equal(line.textContent, 'Asleep for the night.');
+  // A node holding more than one text node (an icon and its words) is replaced whole, as before.
+  const mixed = fakeNode('x');
+  mixed.childNodes.push({ nodeType: 1, data: 'y' });
+  setText(mixed, 'z');
+  assert.equal(mixed.textContent, 'z');
+  assert.equal(mixed.replaced, 1);
+});
+
 test('a course is measured against only its segments near the view, and every distance in the view is unchanged', () => {
   // A long wandering course, like a river across the colonies.
   const points = Array.from({ length: 1200 }, (_, i) => ({ x: i * 0.25, y: Math.sin(i / 7) * 3 + Math.cos(i / 31) * 9 }));

@@ -10,6 +10,7 @@ import { TIMELINE, HISTORICAL_OUTCOME } from '../sim/directors.mjs';
 import { runScenario } from '../sim/headless.mjs';
 import { resolveTimeJump } from '../sim/time.mjs';
 import { readSave, writeSave } from '../server/storage.mjs';
+import { heardOut } from './support/heard-out.mjs';
 const advance = (world, minute) => { while (world.minute < minute && world.status === 'running') stepWorld(world); };
 // The word leaves Gonzales at the notice and reaches each family down its own road, so a
 // test that needs a family to have been asked waits for it to have heard.
@@ -61,6 +62,7 @@ test('Gate D: requests require household knowledge; historical truth and battle 
   advance(world, TIMELINE.notice);
   assert.equal(projectWorld(world, 'hh-1', 'student').request, null, 'the thing has happened and nobody has told this family yet');
   toldBy(world, 'hh-1');
+  heardOut(world, 'hh-1');
   assert.ok(projectWorld(world, 'hh-1', 'student').request);
   const unaware = Object.keys(world.households).find(id => !world.knowledge.households[id]['cannon-request']);
   assert.ok(unaware, 'the class still has a family the word has not reached');

@@ -13,6 +13,7 @@ import { momentOf } from '../sim/directors.mjs';
 import { WINTER_FLOOR_DAYS, beginSecondPeriod, canContinue } from '../sim/periods.mjs';
 import { createClassroom } from '../server/app.mjs';
 import { eatenADay } from '../sim/family.mjs';
+import { heardOut } from './support/heard-out.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 8000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -50,6 +51,7 @@ const firstPeriod = () => structuredClone(shared ??= (() => {
   world.status = 'running';
   const household = world.households['hh-1'];
   until(world, () => world.calls?.[household.id]);
+  heardOut(world, household.id);
   const found = Object.entries(view(world, household.id).request?.answerers || {}).find(([, options]) => options.find(o => o.id === 'turn-out')?.can);
   assert.ok(found, 'nobody in hh-1 could turn out');
   applyAction(world, household.id, { action: 'turn-out', entityId: found[0], mode: 'horse' });

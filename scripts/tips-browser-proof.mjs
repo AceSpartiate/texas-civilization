@@ -27,6 +27,7 @@ import { chooseSite } from '../sim/homesite.mjs';
 import { spring, SPRING_SEED } from '../tests/support/scrape-spring.mjs';
 import { sceneFor } from '../tests/support/scrape-scene.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { heardOut } from '../tests/support/heard-out.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -169,6 +170,8 @@ async function firstPeriod() {
     // ------------------------------------------------------------------------------------------- the call's tip
     for (let t = 0; t < 9000 && !(world().calls?.['hh-1']?.status === 'open'); t++) stepWorld(world());
     assert.equal(world().calls?.['hh-1']?.status, 'open', 'no settlement call ever reached the family, so this proves nothing');
+    // The call waits behind the rider who brought the word (owner, 2026-09-29, docs/COLONIES.md §5.4b): he is heard out first.
+    heardOut(world(), 'hh-1');
     const call = await waitForTip(student, 'call', 'the call reached the family and no tip said what to do');
     placed('1366, the call', call);
     assert.match(call.text, /tick who goes/);

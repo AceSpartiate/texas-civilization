@@ -5,16 +5,16 @@
   "environment": "Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x768. Not physical LAN or district acceptance.",
   "checks": [
     "the father Ignacio Lineman was pressed to join Houston from the refuge at Lynchburg; the control said \"Going on foot, Ignacio Lineman would be with the army at Harrisburg about April 18.\"",
-    "he joined the army at Lynchburg",
+    "he joined the army at Harrisburg",
     "\"The armies face each other\" came through Ignacio Lineman at 295560 (arrive), before contact; Watch put the camera 0.61 miles from the field",
     "\"The attack at San Jacinto\" came at the parade (parade), before contact: \"At Ignacio Lineman's side: the captain passes the word down the company - \"Parade under arms. We're going at them this afternoon.\" Ignacio Lineman is in the line.\"",
     "Emily West and Santa Anna are visible at the picnic as a labelled later story, with animated conversation before the guns",
     "the formed Texian line against the camp at rest: nearest-neighbour spread 0.038 against 0.369; the breastwork and the marsh drawn (82 pieces)",
-    "fire and smoke on the screen at every one of 13 sampled moments (shots 46 -> 247; smoke in view 47-170; the guns fired 14 times)",
-    "the line came apart into a rout on both sides; 37 figures down and lying still, 13 with hands raised - no blood, no gore",
-    "words over the speakers: sj-stop-firing, sj-there, sj-many, command:0, command:1, sj-grape, command:2, sj-colonel, sj-out, sj-taunt, sj-cobardes, sj-back, sj-more, sj-bridge, sj-wait, sj-emily-waiting-0, sj-emily-waiting-1, sj-fall-in, sj-emily-parade-0, sj-finally, sj-about-time, sj-hold, sj-emily-advance-0, sj-dress, sj-tejanos, sj-formar, sj-emily-guns-0, sj-armas, command:texian:0, command:texian:1, sj-alamo-0, sj-alamo-1, sj-fuego, sj-alamo-2, sj-goliad-0, sj-goliad-1, sj-goliad-2, sj-over, sj-rindo, sj-me-no-alamo, sj-alamo-again-0, sj-alamo-again-1, sj-alamo-again-2, sj-stop, sj-piedad, sj-cease",
+    "fire and smoke on the screen at every one of 13 sampled moments (shots 21 -> 208; smoke in view 40-170; the guns fired 14 times)",
+    "the line came apart into a rout on both sides; 37 figures down and lying still, 15 with hands raised - no blood, no gore",
+    "words over the speakers: sj-stop-firing, sj-there, sj-many, command:2, sj-grape, sj-colonel, sj-out, sj-taunt, sj-cobardes, sj-back, sj-more, sj-bridge, sj-wait, sj-emily-waiting-0, sj-emily-waiting-1, sj-fall-in, sj-emily-parade-0, sj-finally, sj-about-time, sj-hold, sj-emily-advance-0, sj-dress, sj-tejanos, sj-formar, sj-emily-guns-0, sj-armas, command:texian:2, sj-alamo-0, sj-alamo-1, sj-fuego, sj-alamo-2, sj-goliad-0, sj-goliad-1, sj-goliad-2, sj-over, sj-rindo, sj-me-no-alamo, sj-alamo-again-0, sj-alamo-again-1, sj-alamo-again-2, sj-stop, sj-piedad, sj-cease",
     "Ignacio Lineman is in the line and drawn doing what it does: volunteer-idle-w, volunteer-idle-e, volunteer-march, volunteer-fire-reload, volunteer-e",
-    "the battle draws in 5.3 ms at its slowest 95th percentile",
+    "the battle draws in 4.2 ms at its slowest 95th percentile",
     "the Host sees it live (killing), its camera on the field; spotlights seen: sj-arrive:295560, sj-skirmish:295800, sj-bridge:296880, sj-parade:297210, san-jacinto:297270",
     "the family with nobody there was sent nothing of the fight - no battle, no alert, no name - before and after a reload",
     "Santa Anna brought before the wounded Houston, the prisoners calling ¡El Presidente! ¡El Presidente!",
@@ -33,19 +33,18 @@
           "mexican": 60
         },
         "regularity": {
-          "texian": 0.03779921991306992,
+          "texian": 0.03779921991306527,
           "mexican": 0.3689299943694827
         },
         "styles": {
           "texian": "ranks",
           "mexican": "camp"
         },
-        "shotsTotal": 31,
+        "shotsTotal": 9,
         "shotsBy": {
-          "texian": 5,
-          "mexican": 20
+          "texian": 3
         },
-        "smokeInView": 49,
+        "smokeInView": 27,
         "bubbles": [
           "About time."
         ],
@@ -70,9 +69,9 @@
           "y": 572
         },
         "frameMs": {
-          "last": 1.4,
-          "median": 2.1,
-          "p95": 3.7
+          "last": 1.9,
+          "median": 1.5,
+          "p95": 2.9
         }
       }
     },
@@ -95,12 +94,12 @@
           "texian": "ranks",
           "mexican": "ranks"
         },
-        "shotsTotal": 46,
+        "shotsTotal": 21,
         "shotsBy": {
-          "texian": 5,
-          "mexican": 34
+          "texian": 3,
+          "mexican": 11
         },
-        "smokeInView": 47,
+        "smokeInView": 40,
         "bubbles": [
           "¡Los tejanos! ¡A las armas!"
         ],
@@ -126,8 +125,8 @@
         },
         "frameMs": {
           "last": 1.5,
-          "median": 1.9,
-          "p95": 4.3
+          "median": 1.5,
+          "p95": 3.4
         }
       }
     },
@@ -150,12 +149,12 @@
           "texian": "ranks",
           "mexican": "ranks"
         },
-        "shotsTotal": 59,
+        "shotsTotal": 28,
         "shotsBy": {
-          "texian": 5,
-          "mexican": 45
+          "texian": 3,
+          "mexican": 16
         },
-        "smokeInView": 64,
+        "smokeInView": 53,
         "bubbles": [
           "¡Los tejanos! ¡A las armas!",
           "¡A formar! ¡A formar!",
@@ -183,9 +182,9 @@
           "y": 464
         },
         "frameMs": {
-          "last": 3.4,
-          "median": 2,
-          "p95": 4.8
+          "last": 1.3,
+          "median": 1.5,
+          "p95": 3.4
         }
       }
     },
@@ -208,15 +207,16 @@
           "texian": "ranks",
           "mexican": "ranks"
         },
-        "shotsTotal": 67,
+        "shotsTotal": 38,
         "shotsBy": {
           "texian": 5,
-          "mexican": 50
+          "mexican": 22
         },
-        "smokeInView": 77,
+        "smokeInView": 69,
         "bubbles": [
           "¡A formar! ¡A formar!",
-          "¡Mi fusil! ¿Dónde está mi fusil?"
+          "¡Mi fusil! ¿Dónde está mi fusil?",
+          "Fire!"
         ],
         "fallen": 2,
         "surrendering": 0,
@@ -227,15 +227,16 @@
           "volunteer-idle-w",
           "volunteer-idle-e",
           "volunteer-march",
-          "volunteer-fire-reload"
+          "volunteer-fire-reload",
+          "volunteer-e"
         ],
         "gunShots": 11,
         "works": 63,
         "legendScene": null,
         "frameMs": {
-          "last": 2.9,
-          "median": 2,
-          "p95": 4.3
+          "last": 3.2,
+          "median": 1.5,
+          "p95": 2.9
         }
       }
     },
@@ -258,12 +259,12 @@
           "texian": "loose",
           "mexican": "ranks"
         },
-        "shotsTotal": 100,
+        "shotsTotal": 53,
         "shotsBy": {
-          "texian": 31,
-          "mexican": 55
+          "texian": 10,
+          "mexican": 30
         },
-        "smokeInView": 114,
+        "smokeInView": 89,
         "bubbles": [
           "¡A formar! ¡A formar!",
           "¡Mi fusil! ¿Dónde está mi fusil?"
@@ -277,15 +278,16 @@
           "volunteer-idle-w",
           "volunteer-idle-e",
           "volunteer-march",
-          "volunteer-fire-reload"
+          "volunteer-fire-reload",
+          "volunteer-e"
         ],
         "gunShots": 13,
         "works": 63,
         "legendScene": null,
         "frameMs": {
-          "last": 2.7,
-          "median": 1.9,
-          "p95": 3.8
+          "last": 1.4,
+          "median": 1.5,
+          "p95": 2.8
         }
       }
     },
@@ -301,19 +303,19 @@
           "mexican": 57
         },
         "regularity": {
-          "texian": 0.2952549907949637,
+          "texian": 0.2952549907949635,
           "mexican": 0.22229647465356434
         },
         "styles": {
           "texian": "loose",
           "mexican": "ranks"
         },
-        "shotsTotal": 117,
+        "shotsTotal": 67,
         "shotsBy": {
-          "texian": 42,
-          "mexican": 61
+          "texian": 15,
+          "mexican": 39
         },
-        "smokeInView": 131,
+        "smokeInView": 103,
         "bubbles": [
           "¡Mi fusil! ¿Dónde está mi fusil?",
           "Remember the Alamo!"
@@ -334,9 +336,9 @@
         "works": 58,
         "legendScene": null,
         "frameMs": {
-          "last": 1.9,
-          "median": 1.9,
-          "p95": 4.3
+          "last": 1.6,
+          "median": 1.5,
+          "p95": 2.8
         }
       }
     },
@@ -352,19 +354,19 @@
           "mexican": 49
         },
         "regularity": {
-          "texian": 0.2453280204865765,
-          "mexican": 0.31202252128338487
+          "texian": 0.24532802048657668,
+          "mexican": 0.3120727120263223
         },
         "styles": {
           "texian": "rout",
           "mexican": "rout"
         },
-        "shotsTotal": 172,
+        "shotsTotal": 133,
         "shotsBy": {
-          "texian": 69,
-          "mexican": 88
+          "texian": 52,
+          "mexican": 66
         },
-        "smokeInView": 163,
+        "smokeInView": 144,
         "bubbles": [
           "Remember Goliad!",
           "Remember Goliad!",
@@ -386,9 +388,9 @@
         "works": 48,
         "legendScene": null,
         "frameMs": {
-          "last": 1.8,
-          "median": 1.9,
-          "p95": 5.3
+          "last": 1.4,
+          "median": 1.5,
+          "p95": 4.2
         }
       }
     },
@@ -404,19 +406,19 @@
           "mexican": 44
         },
         "regularity": {
-          "texian": 0.24532802048647467,
-          "mexican": 0.3764387130750592
+          "texian": 0.2453280204864747,
+          "mexican": 0.37736992401098635
         },
         "styles": {
           "texian": "rout",
           "mexican": "rout"
         },
-        "shotsTotal": 184,
+        "shotsTotal": 142,
         "shotsBy": {
-          "texian": 80,
-          "mexican": 88
+          "texian": 61,
+          "mexican": 66
         },
-        "smokeInView": 169,
+        "smokeInView": 156,
         "bubbles": [
           "Remember Goliad!",
           "Over! Over the top!",
@@ -438,9 +440,9 @@
         "works": 57,
         "legendScene": null,
         "frameMs": {
-          "last": 1.7,
-          "median": 1.9,
-          "p95": 4.7
+          "last": 1.6,
+          "median": 1.5,
+          "p95": 3.2
         }
       }
     },
@@ -456,19 +458,19 @@
           "mexican": 45
         },
         "regularity": {
-          "texian": 0.24532802048655364,
-          "mexican": 0.45842651485357927
+          "texian": 0.2453280204865534,
+          "mexican": 0.48351148190217347
         },
         "styles": {
           "texian": "rout",
           "mexican": "rout"
         },
-        "shotsTotal": 195,
+        "shotsTotal": 154,
         "shotsBy": {
-          "texian": 91,
-          "mexican": 88
+          "texian": 73,
+          "mexican": 66
         },
-        "smokeInView": 170,
+        "smokeInView": 168,
         "bubbles": [
           "¡Me rindo! ¡Me rindo!"
         ],
@@ -488,9 +490,9 @@
         "works": 72,
         "legendScene": null,
         "frameMs": {
-          "last": 1.3,
-          "median": 1.9,
-          "p95": 4.5
+          "last": 1.6,
+          "median": 1.5,
+          "p95": 3.2
         }
       }
     },
@@ -507,16 +509,16 @@
         },
         "regularity": {
           "texian": 0.24532802048655086,
-          "mexican": 0.48886158137886243
+          "mexican": 0.4884638683467118
         },
         "styles": {
           "texian": "rout",
           "mexican": "rout"
         },
-        "shotsTotal": 207,
+        "shotsTotal": 161,
         "shotsBy": {
-          "texian": 103,
-          "mexican": 88
+          "texian": 80,
+          "mexican": 66
         },
         "smokeInView": 170,
         "bubbles": [
@@ -539,9 +541,9 @@
         "works": 88,
         "legendScene": null,
         "frameMs": {
-          "last": 1.7,
-          "median": 1.9,
-          "p95": 4.5
+          "last": 1.6,
+          "median": 1.5,
+          "p95": 3.2
         }
       }
     },
@@ -557,17 +559,17 @@
           "mexican": 41
         },
         "regularity": {
-          "texian": 0.2453280204865251,
-          "mexican": 0.5124188063423925
+          "texian": 0.24532802048652497,
+          "mexican": 0.512579791350569
         },
         "styles": {
           "texian": "rout",
           "mexican": "rout"
         },
-        "shotsTotal": 215,
+        "shotsTotal": 171,
         "shotsBy": {
-          "texian": 111,
-          "mexican": 88
+          "texian": 90,
+          "mexican": 66
         },
         "smokeInView": 170,
         "bubbles": [
@@ -590,9 +592,9 @@
         "works": 90,
         "legendScene": null,
         "frameMs": {
-          "last": 1.7,
-          "median": 1.8,
-          "p95": 4.3
+          "last": 1.8,
+          "median": 1.6,
+          "p95": 3.2
         }
       }
     },
@@ -605,28 +607,28 @@
       "view": {
         "figures": {
           "texian": 57,
-          "mexican": 35
+          "mexican": 38
         },
         "regularity": {
           "texian": 0.2525298389917151,
-          "mexican": 0.5530575897509338
+          "mexican": 0.5477964778322162
         },
         "styles": {
           "texian": "loose",
           "mexican": "rout"
         },
-        "shotsTotal": 234,
+        "shotsTotal": 188,
         "shotsBy": {
-          "texian": 129,
-          "mexican": 88
+          "texian": 106,
+          "mexican": 66
         },
         "smokeInView": 170,
         "bubbles": [
           "Remember the Alamo!",
           "Remember the Alamo!"
         ],
-        "fallen": 30,
-        "surrendering": 13,
+        "fallen": 27,
+        "surrendering": 15,
         "members": [
           "hh-1-parent-1"
         ],
@@ -641,9 +643,9 @@
         "works": 91,
         "legendScene": null,
         "frameMs": {
-          "last": 1.6,
-          "median": 1.7,
-          "p95": 3.7
+          "last": 1.4,
+          "median": 1.6,
+          "p95": 2.9
         }
       }
     },
@@ -660,16 +662,16 @@
         },
         "regularity": {
           "texian": 0.25252983899200143,
-          "mexican": 0.5929400844792262
+          "mexican": 0.5858800850624915
         },
         "styles": {
           "texian": "loose",
           "mexican": "rout"
         },
-        "shotsTotal": 239,
+        "shotsTotal": 200,
         "shotsBy": {
-          "texian": 134,
-          "mexican": 88
+          "texian": 118,
+          "mexican": 66
         },
         "smokeInView": 170,
         "bubbles": [
@@ -693,9 +695,9 @@
         "works": 91,
         "legendScene": null,
         "frameMs": {
-          "last": 1.9,
-          "median": 1.7,
-          "p95": 3.6
+          "last": 1.7,
+          "median": 1.6,
+          "p95": 2.9
         }
       }
     },
@@ -712,16 +714,16 @@
         },
         "regularity": {
           "texian": 0.25252983899187387,
-          "mexican": 0.6001690038699141
+          "mexican": 0.5909781880441907
         },
         "styles": {
           "texian": "loose",
           "mexican": "rout"
         },
-        "shotsTotal": 247,
+        "shotsTotal": 208,
         "shotsBy": {
-          "texian": 142,
-          "mexican": 88
+          "texian": 126,
+          "mexican": 66
         },
         "smokeInView": 170,
         "bubbles": [
@@ -745,9 +747,9 @@
         "works": 91,
         "legendScene": null,
         "frameMs": {
-          "last": 1.5,
-          "median": 1.7,
-          "p95": 3.4
+          "last": 1.6,
+          "median": 1.6,
+          "p95": 2.8
         }
       }
     }
@@ -782,22 +784,22 @@
   ],
   "estimate": "Going on foot, Ignacio Lineman would be with the army at Harrisburg about April 18.",
   "frameMs": {
-    "battleP95Max": 5.3,
-    "battleMedianMax": 2,
+    "battleP95Max": 4.2,
+    "battleMedianMax": 1.6,
     "mapDrawMs": [
-      7.299999952316284,
-      10.399999976158142,
-      9.399999976158142,
-      9.799999952316284,
-      8.800000071525574,
-      6,
-      8.399999976158142,
-      6.5,
-      14.200000047683716,
-      7.5,
       5.899999976158142,
-      7.700000047683716,
-      7.199999928474426
+      5.399999976158142,
+      6.299999952316284,
+      6,
+      5.5,
+      6.100000023841858,
+      6.899999976158142,
+      6,
+      11.299999952316284,
+      7.299999952316284,
+      4.699999928474426,
+      6.699999928474426,
+      5.700000047683716
     ]
   },
   "heard": "nobody of the family was standing at Lynchburg when the guns opened",

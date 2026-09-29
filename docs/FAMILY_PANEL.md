@@ -1624,6 +1624,12 @@ student whose little ones were taken in watched their own rows standing idle at 
   no Auto, no star, no house or wagon buttons, no card sections that give work, no chooser of the watched family's own (its house site,
   its survey), no tip; the names cannot be typed in. A portrait still takes the camera to the person and opens their card, which says
   what they are doing and offers nothing.
+- **Their own family's war stays theirs** (2026-09-29, found by `test:battle-south`; `ownWar` in sim/world.mjs), as their ending
+  does: the fight their own man is in, the card through him (the Palm Sunday muster through a prisoner of Coleto, marked with the
+  family's id because he is not on the watched family's rows - public/military-attention.js), and the account of what became of him
+  when the word comes, with its line added to the journal. A lone father killed at San Patricio, his little ones taken in, turned the
+  page to the neighbours' the moment he fell, and the rest of his fight and the word of his death never reached his student. Each is
+  the family's own projection (`directorProjection`), never another family's; with none, the page is the watched family's exactly.
 - **The Host's page is unchanged**: the Host sees every family as it always did (docs/HOST_PAGE.md); nothing is added to it.
 - `ceiling:` a gone family follows the **nearest** family by its land, not the one its people knew best or last helped; the neighbours'
   ledger (sim/neighbourly.mjs) is the way in, as `hostsFor` already reads it for taking in.

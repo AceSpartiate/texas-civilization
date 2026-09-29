@@ -104,6 +104,22 @@ export const PATIENCE_MINUTES = 1200;
 // is actually talking to them keeps them; a student who is not does not hold up the county.
 // Untuned like its larger cousin, and for the same reason: no class has played it.
 export const PASSING_MINUTES = 200;
+/**
+ * One rider, one visit (owner, 2026-09-29, verbatim: "At the start of the game, there's multiple riders that arrive at the
+ * same time. If they're all carrying similar news, why does the family receive multiples? Why don't we integrate and simplify
+ * things?", and the same day: "players shouldn't see riders merge, they should have a seamless experience. it should be an off
+ * screen thing."; docs/COLONIES.md §5.4b, `FIC-GONZ-909`).
+ *
+ * A second rider bringing a family a word it is being told right now, or was told by a rider less than this long ago, is part
+ * of that same visit: what he adds - a firmer account, told by somebody nearer to it - is taken into the family's knowledge
+ * the minute he comes (`joinVisit`), with his own name as its source, and he never opens a second conversation about the same
+ * thing. Six hours of 1835, and not a number of ticks, because it is about the word and not about a student: it is the time the
+ * word is held at a settlement while the letter is read and copied (sim/expresses.mjs `RELAY_MINUTES`), so every rider of one
+ * wave of the same letters falls inside it, while an account of the same thing arriving the next day is a new round of word
+ * and gets its own visit, as any firmer account always did. A rider with a different word is never folded: he waits his turn
+ * at the gate (one family listens to one person at a time) and his ninety seconds start when he speaks.
+ */
+export const VISIT_MINUTES = 360;
 
 // Riders are invented people, in exactly the way the households of `FIC-GONZ-001` and the
 // three residents of `FIC-GONZ-009` are invented. They are not identified couriers, and
@@ -328,6 +344,29 @@ function approachTo(world, carrier, person) {
 }
 
 const openFor = (world, householdId) => Object.values(world.encounters || {}).find(e => e.householdId === householdId && e.status === 'open');
+/**
+ * Whether one of the family's questions - the neighbour at the door, the rumor, the settlement's call, the march upriver - waits
+ * behind a rider who is talking with the family (owner, 2026-09-29: "One conversation at a time, the rest queued";
+ * `FIC-GONZ-909`). A question put to the family while a rider it raises from is still standing there, or on the very tick he
+ * speaks, waits until he has gone: the word first, then what the word asks. One already in front of the family when a rider comes
+ * stays where it is, so nothing is taken off the screen from under a student. Only what is shown waits: the question is put, and
+ * written in the family's record, at the time it truly came, and while it waits its real minutes do not run
+ * (sim/decision-budget.mjs `openDecisions`), so it is never short of time for having queued.
+ */
+export function questionWaits(world, householdId, question) {
+  if (!question || question.status !== 'open' || !Number.isFinite(question.offeredMinute)) return false;
+  const visit = openFor(world, householdId);
+  return Boolean(visit && !visit.kind && question.offeredMinute >= visit.openedMinute);
+}
+/** Everything waiting on the family behind the rider it is talking with: a question, and riders with other word at the gate. */
+function waitingBehind(world, encounter) {
+  const householdId = encounter.householdId;
+  const questions = [world.marches, world.calls, world.requests, world.rumors].map(table => table?.[householdId]).filter(question => questionWaits(world, householdId, question));
+  const home = world.households[householdId]?.homeSiteId;
+  const riders = Object.values(world.entities).filter(one => one.id !== encounter.carrierId && one.report?.inPerson && one.report.audience === householdId
+    && !one.travel && one.location?.siteId === home && wouldLearn(world, householdId, one.report.topicId, one.report.status));
+  return { questions: questions.length ? 1 : 0, riders: riders.length };
+}
 const placeName = (world, siteId) => world.map.sites[siteId]?.name || 'elsewhere';
 /**
  * A place as somebody standing in it would say it, rather than as the map labels it.
@@ -415,14 +454,45 @@ function begin(world, carrier, person, point, householdId) {
   // now, because a person told them, and not because a courier touched a map pin. How
   // they know is part of what they know: the journal names the rider, and when the word
   // came through other people it says so and how many.
-  learn(world, encounter.householdId, encounter.topicId, {
-    status: report.status, hands: said.hands,
-    source: said.firsthand
-      ? `${carrier.name}, who rode from ${said.origin}`
-      : `${carrier.name}, who had it from ${said.toldBy} at ${said.toldAt}${said.tellerSaw ? '' : ', and it had passed through other hands before that'}`,
-    causes: [spokenId],
-  });
+  learn(world, encounter.householdId, encounter.topicId, { status: report.status, hands: said.hands, source: sourceOf(carrier, said), causes: [spokenId] });
   return encounter;
+}
+/** How the journal names the person a word came from: who rode, and through whose hands. */
+const sourceOf = (carrier, said) => said.firsthand
+  ? `${carrier.name}, who rode from ${said.origin}`
+  : `${carrier.name}, who had it from ${said.toldBy} at ${said.toldAt}${said.tellerSaw ? '' : ', and it had passed through other hands before that'}`;
+
+/**
+ * The rider visit this family is having, or had a moment ago, about this word (`VISIT_MINUTES`): open, or closed less than
+ * that long ago. Never Travis's runner, who is a question and not a word.
+ */
+export function visitAbout(world, householdId, topicId) {
+  return Object.values(world.encounters || {}).find(one => one.householdId === householdId && !one.kind && one.topicId === topicId
+    && (one.status === 'open' || world.minute - (one.closedMinute ?? one.openedMinute) < VISIT_MINUTES)) || null;
+}
+/**
+ * A second rider's account of a word the family is already being told, taken into that visit off the screen (`VISIT_MINUTES`).
+ *
+ * Nothing is lost and nothing is late: the family knows what he brought the minute he came, as firm as he had it and in his
+ * name (`learn`, which writes the journal's line), and the causal record says whose visit it joined. Nobody is shown a second
+ * rider or a second conversation: he does not rein in, and if the family was his errand it is done and he turns for home
+ * (`advanceDepartures`) like any rider whose word is delivered; if not, he rides on with it. `joined` on the visit keeps who
+ * came, for the record and for the Host; it never goes to the family's page.
+ */
+function joinVisit(world, carrier, { person, householdId, joining }) {
+  const report = carrier.report;
+  const truth = world.truth[report.topicId];
+  const said = accountOf(world, { provenance: report.provenance || [], originSiteId: report.originSiteId, departedMinute: report.departedMinute, observedMinute: truth.minute, openedMinute: world.minute });
+  const eventId = record(world, 'encounter-joined', {
+    // The causal record only, like a hand-off (sim/world.mjs `advanceRelays`): the family's own line is the journal's.
+    actorId: carrier.id, topicId: report.topicId, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-909', causes: [joining.metEventId],
+    text: `${carrier.name} brought the same word to ${person.name}'s family while ${joining.carrierName}'s visit stood, and it was taken with that visit.`,
+  });
+  learn(world, householdId, report.topicId, { status: report.status, hands: said.hands, source: sourceOf(carrier, said), causes: [eventId] });
+  (joining.joined ||= []).push({ carrierId: carrier.id, name: carrier.name, status: report.status, minute: world.minute, eventId });
+  // Kept on the rider, so the family is never drawn him riding away from a visit it never saw him join (`ridersInSight`).
+  carrier.foldedInto = householdId;
+  if (householdId === report.audience) delete carrier.report;
 }
 
 function finish(world, encounter, reason) {
@@ -515,9 +585,12 @@ export function advanceEncounters(world) {
     let best = null;
     for (const household of Object.values(world.households)) {
       if (ownOnly && household.id !== report.audience) continue;
-      // One family listens to one person at a time.
-      if (openFor(world, household.id)) continue;
       if (!wouldLearn(world, household.id, report.topicId, report.status)) continue;
+      // The same word the family is being told, or was told a moment ago, joins that visit (`VISIT_MINUTES`), even while it is
+      // still open: what he adds is known the minute he comes. Any other word waits: one family listens to one person at a time.
+      const joining = visitAbout(world, household.id, report.topicId);
+      const open = openFor(world, household.id);
+      if (open && open !== joining) continue;
       for (const id of household.members) {
         const person = world.entities[id];
         if (!canSpeak(person)) continue;
@@ -527,13 +600,20 @@ export function advanceEncounters(world) {
         const near = approachTo(world, carrier, person);
         if (!near) continue;
         // Nearest first, then by id, so the same class always meets the same person.
-        if (!best || near.distance < best.near.distance || (near.distance === best.near.distance && id < best.person.id)) best = { near, person, householdId: household.id };
+        if (!best || near.distance < best.near.distance || (near.distance === best.near.distance && id < best.person.id)) best = { near, person, householdId: household.id, joining };
       }
     }
     // The stretch is only marked as looked at once both passes have looked at it.
     if (!best) {
       if (!ownOnly && carrier.travel) carrier.travel.scannedProgress = carrier.travel.progress;
       if (!ownOnly) delete report.lastLeg;
+      continue;
+    }
+    // More of a word the family is already being told: taken into that visit, off the screen, and he does not rein in.
+    if (best.joining) {
+      joinVisit(world, carrier, best);
+      if (carrier.travel) carrier.travel.scannedProgress = carrier.travel.progress;
+      delete report.lastLeg;
       continue;
     }
     // Met short of the place the leg ended at: back on that road where they came alongside, halted, to finish the ride
@@ -706,7 +786,12 @@ export function encounterProjection(world, householdId, role) {
     };
   }
   const said = accountOf(world, encounter);
+  // What waits behind him, said calmly and only as a count (owner, 2026-09-29: "Players shouldn't miss anything, but also
+  // shouldn't be quickly overwhelmed"): never what it is, which the family will see when he has gone.
+  const behind = open ? waitingBehind(world, encounter) : { questions: 0, riders: 0 };
+  const count = behind.questions + behind.riders;
   return {
+    ...(count && { waiting: { count, words: count === 1 ? (behind.riders ? 'Another rider is waiting to speak with your family after this.' : 'One more thing is waiting for your family after this.') : `${count} more things are waiting for your family after this.` } }),
     id: encounter.id, status: encounter.status, reason: encounter.reason || null, topicId: encounter.topicId,
     carrierId: encounter.carrierId, carrierName: encounter.carrierName, listenerId: encounter.listenerId,
     origin: placeName(world, encounter.originSiteId),
@@ -751,16 +836,45 @@ export function ridersInSight(world, householdId) {
   const met = mine.find(e => e.status === 'open') || mine.at(-1);
   const spokenWith = met && world.entities[met.carrierId];
   // Standing with them, or riding away and still in sight. Watching somebody go is the
-  // other half of watching them come, and it is how a student sees that the rider they
-  // were talking to has now gone on to tell somebody else.
+  // other half of watching them come.
   if (spokenWith && !goneFromSight(spokenWith) && (met.status === 'open' || inSight(spokenWith))) seen.push(spokenWith);
+  // **Every rider in sight** (owner, 2026-09-29, answering whether riders with nothing for the family are drawn: "Show all, but
+  // show them riding at a normal looking speed, after they pass by have them fade away and speed up to make up for lost time.";
+  // `FIC-GONZ-909`, docs/COLONIES.md §5.4b). Carrying word, or riding home with his errand done (`advanceDepartures`): a rider
+  // on the road is seen going by either way, and the page draws one who is only passing at a riding pace near the family and
+  // fades him out once he is by (`passingOf`, public/motion.js `passingSight`). Only a rider whose word was taken into this
+  // family's own visit off the screen (`joinVisit`), or is about to be, is not drawn to it: that is the merging the owner asked
+  // never to be seen. The Host sees every rider where he truly is (sim/overview.mjs).
   for (const carrier of Object.values(world.entities)) {
     if (seen.includes(carrier)) continue;
-    // Carrying word, or riding home with his errand done (`advanceDepartures`): a rider on the road is seen going by either way.
     if (!carrier.report?.inPerson && !carrier.leaving) continue;
+    if (carrier.foldedInto === householdId || joiningHere(world, householdId, carrier, met)) continue;
     if (inSight(carrier)) seen.push(carrier);
   }
   return seen;
+}
+/** A rider bringing this family more of the word its visit is about: his word will be taken into it off the screen. */
+function joiningHere(world, householdId, carrier, met) {
+  const report = carrier.report;
+  if (!report?.inPerson || report.audience !== householdId || !met || met.carrierId === carrier.id) return false;
+  return Boolean(visitAbout(world, householdId, report.topicId));
+}
+/**
+ * How far along his road a rider who is only passing this family comes nearest its home, for the page to draw him passing
+ * at a riding pace (public/motion.js `passingSight`); or null for a rider who is not passing - the one bringing the family
+ * word, the one talking with it or riding away from it - and for one with no road. In the miles his road's progress counts.
+ * ceiling: measured to the family's home, not to wherever its people are; a family out on the road is passed by riders drawn
+ * as if it were at home, which the fade hides unless a class notices it.
+ */
+export function passingOf(world, householdId, carrier) {
+  const household = world.households[householdId], travel = carrier.travel;
+  if (!household || !travel?.points?.length || travel.halted) return null;
+  if (carrier.report?.audience === householdId && wouldLearn(world, householdId, carrier.report.topicId, carrier.report.status)) return null;
+  if (Object.values(world.encounters || {}).some(one => one.householdId === householdId && one.carrierId === carrier.id)) return null;
+  const home = world.map.sites[household.homeSiteId] || world.entities[household.members[0]]?.location;
+  if (!home) return null;
+  const near = nearestAlong(travel.points, 0, travel.distance, home);
+  return near && Number.isFinite(near.progress) ? Math.round(near.progress * 1e6) / 1e6 : null;
 }
 
 // How long a line takes to say. Two ticks: long enough to read as speech, short enough

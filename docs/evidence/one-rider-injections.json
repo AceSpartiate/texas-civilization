@@ -1,0 +1,203 @@
+{
+  "record": "one-rider-injections",
+  "date": "2026-09-29",
+  "files": [
+    "tests/one-rider.test.mjs",
+    "tests/call-lapse.test.mjs"
+  ],
+  "caught": 18,
+  "only": 11,
+  "of": 18,
+  "injections": [
+    {
+      "name": "a second rider with the same word waits his turn and tells it all again",
+      "file": "sim/encounters.mjs",
+      "expected": "the same word, firmer, from a second rider mid-conversation",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the same word, firmer, from a second rider mid-conversation is known the minute he comes, in his name, and is never a second meeting",
+        "a class saved with a second rider standing at the gate of a family still being told opens and takes his word into the visit"
+      ]
+    },
+    {
+      "name": "nothing joins a visit: every firmer account is a meeting of its own",
+      "file": "sim/encounters.mjs",
+      "expected": "the same word, firmer, from a second rider mid-conversation",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the same word, firmer, from a second rider mid-conversation is known the minute he comes, in his name, and is never a second meeting",
+        "a firmer account a little after the visit joins it; one a day after is its own visit",
+        "a class saved with a second rider standing at the gate of a family still being told opens and takes his word into the visit"
+      ]
+    },
+    {
+      "name": "the joined account is never learned",
+      "file": "sim/encounters.mjs",
+      "expected": "the same word, firmer, from a second rider mid-conversation",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the same word, firmer, from a second rider mid-conversation is known the minute he comes, in his name, and is never a second meeting",
+        "a firmer account a little after the visit joins it; one a day after is its own visit",
+        "a class saved with a second rider standing at the gate of a family still being told opens and takes his word into the visit"
+      ]
+    },
+    {
+      "name": "the joined account is learned in the first rider's name",
+      "file": "sim/encounters.mjs",
+      "expected": "the same word, firmer, from a second rider mid-conversation",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the same word, firmer, from a second rider mid-conversation is known the minute he comes, in his name, and is never a second meeting"
+      ]
+    },
+    {
+      "name": "the joining is written in the family's own record, on its screen",
+      "file": "sim/encounters.mjs",
+      "expected": "the same word, firmer, from a second rider mid-conversation",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the same word, firmer, from a second rider mid-conversation is known the minute he comes, in his name, and is never a second meeting"
+      ]
+    },
+    {
+      "name": "the visit never closes: a firmer account a day later is folded too",
+      "file": "sim/encounters.mjs",
+      "expected": "a firmer account a little after the visit",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a firmer account a little after the visit joins it; one a day after is its own visit"
+      ]
+    },
+    {
+      "name": "only an open visit is joined: a firmer account a moment after it is told again",
+      "file": "sim/encounters.mjs",
+      "expected": "a firmer account a little after the visit",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a firmer account a little after the visit joins it; one a day after is its own visit"
+      ]
+    },
+    {
+      "name": "any word joins the visit, not only the same one",
+      "file": "sim/encounters.mjs",
+      "expected": "a rider with other word waits his turn",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a rider with other word waits his turn at the gate, and is his own conversation when the first is done",
+        "a question put while a rider talks waits behind him; one already in front of the family stays where it is"
+      ]
+    },
+    {
+      "name": "a rider waiting at the gate is not counted among what waits",
+      "file": "sim/encounters.mjs",
+      "expected": "a rider with other word waits his turn",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a rider with other word waits his turn at the gate, and is his own conversation when the first is done"
+      ]
+    },
+    {
+      "name": "the question is shown over the rider still talking",
+      "file": "sim/directors.mjs",
+      "expected": "a question put while a rider talks",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a played family's settlement call lapses after five real minutes: nobody turns out, the journal says so, and the rider rides on",
+        "a question put while a rider talks waits behind him; one already in front of the family stays where it is"
+      ]
+    },
+    {
+      "name": "a question already in front of the family is taken away when a rider comes",
+      "file": "sim/encounters.mjs",
+      "expected": "a question put while a rider talks",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a question put while a rider talks waits behind him; one already in front of the family stays where it is"
+      ]
+    },
+    {
+      "name": "the conversation does not say something waits after it",
+      "file": "sim/encounters.mjs",
+      "expected": "a question put while a rider talks",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a played family's settlement call lapses after five real minutes: nobody turns out, the journal says so, and the rider rides on",
+        "a rider with other word waits his turn at the gate, and is his own conversation when the first is done",
+        "a question put while a rider talks waits behind him; one already in front of the family stays where it is"
+      ]
+    },
+    {
+      "name": "the call's five minutes run while it waits behind the rider",
+      "file": "sim/decision-budget.mjs",
+      "expected": "a played family's settlement call lapses after five real minutes",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a played family's settlement call lapses after five real minutes: nobody turns out, the journal says so, and the rider rides on"
+      ]
+    },
+    {
+      "name": "another family's rider is not drawn to the family",
+      "file": "sim/encounters.mjs",
+      "expected": "a family is drawn every rider in sight",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a family is drawn every rider in sight, each only passing it with where he comes nearest; its own rider is not passing"
+      ]
+    },
+    {
+      "name": "the rider whose word was taken into the visit is drawn riding up and away",
+      "file": "sim/encounters.mjs",
+      "expected": "the same word, firmer, from a second rider mid-conversation",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the same word, firmer, from a second rider mid-conversation is known the minute he comes, in his name, and is never a second meeting",
+        "a class saved with a second rider standing at the gate of a family still being told opens and takes his word into the visit"
+      ]
+    },
+    {
+      "name": "a passing rider is drawn at the server's pace",
+      "file": "public/motion.js",
+      "expected": "a passing rider is drawn riding by at his own pace",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a passing rider is drawn riding by at his own pace, never ahead of the server, then fades out and stays gone"
+      ]
+    },
+    {
+      "name": "a passing rider never fades out once he is by",
+      "file": "public/motion.js",
+      "expected": "a passing rider is drawn riding by at his own pace",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a passing rider is drawn riding by at his own pace, never ahead of the server, then fades out and stays gone"
+      ]
+    },
+    {
+      "name": "a passing rider is drawn from where the server first has him, not from the start of the stretch",
+      "file": "public/motion.js",
+      "expected": "a passing rider is drawn riding by at his own pace",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a passing rider is drawn riding by at his own pace, never ahead of the server, then fades out and stays gone"
+      ]
+    }
+  ]
+}

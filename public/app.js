@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, sheetsFirstDrawn, spriteFrame, spriteReady, watchMissing } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
 import { actingOf, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -1039,6 +1039,13 @@ function sightOf(entity, height, marks) {
   // Only somebody the server has on the road now is scheduled. On the tick they arrive they are still drawn walking the last
   // of the road in, at the pace the schedule left them at, and whole - which is how a hunter is drawn reading the ground.
   const journey = entity.facing || entity.speaking ? null : motionProjection.journey(entity, marks.frozen);
+  // A rider only passing this family: ridden past at his pace and faded out once by (`passSightOf`, owner 2026-09-29) - held
+  // where he is drawn while the class is paused, rather than put back where the server has him.
+  if (reducedMotion.matches) delete seen.pass;
+  else {
+    const passed = passSightOf(entity, height, marks, seen, since, journey);
+    if (passed !== undefined) return passed;
+  }
   if (!marks.running || reducedMotion.matches) { seen.alpha = 1; delete seen.trail; delete seen.walk; return null; }
   // Home before the drawing is (a journey paced on the family's own land, public/motion.js `pacedSight`): still walking the
   // last of the land in at their own pace, never hurried to where the server already has them.
@@ -1095,6 +1102,62 @@ function sightOf(entity, height, marks) {
   seen.shownHeightsPerSecond = sight.rate * seen.heightsPerSecond;
   seen.faded = sight.faded; seen.lead = sight.lead; seen.tail = sight.tail;
   seen.at = alongRoute(journey.points, sight.miles - (journey.base || 0)) || null;
+  return seen;
+}
+/**
+ * A rider only passing this family, as its page draws him (owner, 2026-09-29: "Show all, but show them riding at a normal
+ * looking speed, after they pass by have them fade away and speed up to make up for lost time."; public/motion.js `passBegin`,
+ * `passStep`; sim/encounters.mjs `passingOf`). Undefined for anybody else, and for a rider handed back to where the server has
+ * him, who is drawn as any traveller. Kept going for a rider the server has already carried out of sight or home (`passGhosts`)
+ * until he has faded, so he never vanishes mid-stride. Nothing here changes where the server has him or when.
+ */
+const passGhosts = new Map();
+function passSightOf(entity, height, marks, seen, since, live) {
+  if (!entity.carrier) return undefined;
+  const server = live ? motionProjection.drawnMiles(entity, marks.now, marks.frozen) : null;
+  // How fast the server is carrying him over this screen, in his drawn heights a second, from his last two ticks on one road:
+  // the pace he is not drawn at. Presentation evidence (`window.__travelSight`), read by the one-rider proof.
+  const before = motionProjection.records.get(entity.id)?.previous?.travel;
+  if (entity.travel && before && sameRoad(before, entity.travel) && entity.travel.progress > before.progress && marks.tickMs > 0) {
+    seen.serverHeightsPerSecond = Math.max(seen.serverHeightsPerSecond || 0, (entity.travel.progress - before.progress) / (marks.tickMs / 1000) * marks.scale / height);
+  }
+  let pass = seen.pass;
+  // A fresh approach down a road with the family on it - the first sight of him, or a new road after he had gone by.
+  if ((!pass || (pass.state === 'gone' || pass.state === 'handed') && live && !sameRoad(live, pass.road)) && live && Number.isFinite(live.near) && !entity.facing && !entity.speaking) {
+    const begun = passBegin({ road: live, serverMiles: server });
+    // Gone by already on a road he was never drawn riding: a rider handed back and riding on from where he stood is drawn as
+    // any traveller; one first seen past the family has passed it while nobody watched.
+    if (!(begun.state === 'gone' && pass?.state === 'handed')) pass = seen.pass = begun;
+  }
+  if (!pass || pass.state === 'handed') return undefined;
+  // Waiting for him to come up the road: once the server has him on the stretch - or has carried him past it, or off this road,
+  // between two of its ticks, as a fast class does - he is ridden from the start of it, behind the server (`passRide`).
+  if (pass.state === 'waiting') {
+    passGhosts.set(entity.id, entity);
+    if (live && !entity.ghost && sameRoad(live, pass.road) && server < Math.max(0, pass.road.near - PASS_BEFORE_MILES)) { seen.pass = pass; }
+    else passRide(pass);
+  }
+  // Not drawn, and no road drawn for him either (`drawTravelRoads`): he is somebody else's business once he has gone by.
+  const hidden = () => { seen.alpha = 0; seen.wanted = 0; seen.passing = true; seen.journey = null; seen.at = live ? alongRoute(live.points, server - (live.base || 0)) || seen.at : seen.at; seen.leapt = true; return seen; };
+  if (pass.state === 'waiting' || pass.state === 'gone') return hidden();
+  const same = live && !entity.ghost && sameRoad(live, pass.road);
+  // Standing, as the server has him, at the end of the road the page is drawing him riding: handed back there once he gets to it.
+  const end = pass.road.points.at(-1);
+  const standing = !entity.ghost && !entity.travel && Boolean(entity.location) && Math.hypot(entity.location.x - end.x, entity.location.y - end.y) < 0.02;
+  const dt = marks.running && since > 0 && since < 1000 ? since : 0;
+  const was = pass.d;
+  passStep(pass, { dtMs: dt, pace: paceMilesASecond({ scale: marks.scale, heightPx: height, personPx: marks.figure }), cap: same ? server : pass.road.distance, standing });
+  if (pass.state === 'handed') { seen.alpha = 1; return undefined; }
+  if (pass.state === 'gone' && seen.passFrames) seen.passFaded = true;
+  passGhosts.set(entity.id, entity);
+  seen.passing = true; seen.alpha = pass.alpha; seen.wanted = pass.state === 'riding' ? 1 : 0; seen.leapt = false; seen.faded = false;
+  seen.miles = pass.d; seen.serverMiles = server; seen.journey = null;
+  seen.shownHeightsPerSecond = dt > 0 ? (pass.d - was) / (dt / 1000) * marks.scale / height : 0;
+  // Kept over the whole pass, frame by frame, for a proof that cannot look at every frame: how many frames he was drawn whole,
+  // the fastest he was drawn going while more than half drawn, and whether he has gone again after being seen.
+  if (pass.alpha >= 0.9) seen.passFrames = (seen.passFrames || 0) + 1;
+  if (pass.alpha > 0.5 && dt > 0) seen.passFastest = Math.max(seen.passFastest || 0, seen.shownHeightsPerSecond);
+  seen.at = alongRoute(pass.road.points, pass.d - (pass.road.base || 0)) || seen.at;
   return seen;
 }
 /**
@@ -3572,6 +3635,13 @@ function drawWorldNow(world) {
   // Everyone else standing where your family is standing. Drawn plainly, never with a
   // request mark and never with a selection ring that implies you can order them.
   const observed = observedOf(world).filter(entity => entity.location);
+  // A passing rider the server has carried out of this family's sight or home before the page has finished drawing him ride by
+  // and fade (`passSightOf`): drawn on from where he was, until he has. Never on the Host's page, which sees every rider as he is.
+  for (const [id, ghost] of passGhosts) {
+    const state = travelSeen.get(id)?.pass?.state;
+    if (world.role === 'host' || !['waiting', 'riding', 'fading'].includes(state)) { passGhosts.delete(id); continue; }
+    if (!observed.some(one => one.id === id)) observed.push({ ...ghost, travel: null, facing: null, speaking: false, ghost: true });
+  }
   drawnAt.clear();
   seatedDrawn.clear();
   const chosen = selectedEntity(world);
@@ -4849,7 +4919,7 @@ function renderFamilyPanel(world) {
     if (row.portrait.title !== about) row.portrait.title = about;
     row.portrait.setAttribute('aria-pressed', String(bar));
     const focusLabel = focused ? `Go back to ${entity.name}, your main person` : `Make ${entity.name} your main person`;
-    if (row.focus.getAttribute('aria-label') !== focusLabel) { row.focus.setAttribute('aria-label', focusLabel); row.focus.title = focusLabel; row.focus.querySelector('.panel-mark-text').textContent = focused ? '★' : '☆'; row.focus.setAttribute('aria-pressed', String(focused)); }
+    if (row.focus.getAttribute('aria-label') !== focusLabel) { row.focus.setAttribute('aria-label', focusLabel); row.focus.title = focusLabel; setText(row.focus.querySelector('.panel-mark-text'), focused ? '★' : '☆'); row.focus.setAttribute('aria-pressed', String(focused)); }
     // The auto switch, read from the server's `auto` on the person every tick (docs/FAMILY_PANEL.md §11.7).
     const onAuto = Boolean(entity.auto);
     // 'onAuto', not 'auto': the switch button carries data-auto, and a row attribute of the same name would catch its presses.
@@ -4858,29 +4928,29 @@ function renderFamilyPanel(world) {
       row.auto.setAttribute('aria-pressed', String(onAuto)); paintMark(row.auto, onAuto ? 'mark-auto-on' : 'mark-auto-off');
       // The word is always shown beside the key (owner, 2026-09-25: "isn't quite visible enough"), so on and off are told
       // apart by what it says and not by its colour alone.
-      row.auto.querySelector('.panel-auto-word').textContent = onAuto ? 'Auto ✓' : 'Auto';
+      setText(row.auto.querySelector('.panel-auto-word'), onAuto ? 'Auto ✓' : 'Auto');
     }
     const autoWords = autoLabel(entity, onAuto);
     if (row.auto.getAttribute('aria-label') !== autoWords) { row.auto.setAttribute('aria-label', autoWords); row.auto.title = autoWords; }
     const autoSays = autoLine(entity);
-    if (row.autoSays.textContent !== autoSays) row.autoSays.textContent = autoSays;
+    setText(row.autoSays, autoSays);
     if (row.autoSays.hidden !== !autoSays) row.autoSays.hidden = !autoSays;
     // What the family's little ones are doing to this person, or this little one is doing (docs/CHILDREN.md): the server's own
     // sentence on a line of its own - a parent stopped to talk with a child who has nothing to do, a child gone to find them, a
     // child's automation just gone off, a baby crawling, crying, held or asleep. On every row, the main person's too.
     const life = lifeLine(entity);
-    if (row.life.textContent !== life) row.life.textContent = life;
+    setText(row.life, life);
     if (row.life.hidden !== !life) row.life.hidden = !life;
     setData(row.life, 'kind', entity.aside ? 'stopped' : entity.baby ? 'baby' : entity.talk ? 'talk' : 'child');
     // A baby's short word, which stands in for its sentence when the column is tight (docs/CHILDREN.md §9); the sentence on hover.
     const shortWord = lifeWord(entity);
-    if (row.word.textContent !== shortWord) row.word.textContent = shortWord;
+    setText(row.word, shortWord);
     if (row.word.hidden !== !shortWord) row.word.hidden = !shortWord;
     if (row.word.title !== life) row.word.title = life;
     setData(row.autoSays, 'waiting', String(Boolean(onAuto && entity.autoTask?.waiting)));
     // The sickness (sim/disease.mjs): the server's line under the rest, and the badge on the portrait; very sick is said in red.
     const sickSays = sickLine(entity);
-    if (row.sick.textContent !== sickSays) row.sick.textContent = sickSays;
+    setText(row.sick, sickSays);
     if (row.sick.hidden !== !sickSays) row.sick.hidden = !sickSays;
     setData(row.sick, 'grave', String(Boolean(entity.sickness?.grave)));
     setData(row.item, 'sick', String(Boolean(entity.sickness)));
@@ -4894,10 +4964,10 @@ function renderFamilyPanel(world) {
     const houseShown = focused && house;
     if (row.house.hidden !== !houseShown) row.house.hidden = !houseShown;
     // What the person has become goes on the row after what they are: the mark and the camp drill (docs/FAMILY_PANEL.md).
-    if (row.label.textContent !== `${role}${age}`) row.label.textContent = `${role}${age}`;
+    setText(row.label, `${role}${age}`);
     // What they have become goes under the name: the mark and the camp drill (docs/FAMILY_PANEL.md §11).
     const become = standing(entity);
-    if (row.note.textContent !== become) row.note.textContent = become;
+    setText(row.note, become);
     if (row.note.hidden !== !become) row.note.hidden = !become;
     const firstName = entity.given || entity.name;
     if (mayOverwriteName(row.input, firstName)) row.input.value = firstName;
@@ -4937,7 +5007,7 @@ function renderFamilyPanel(world) {
     // A baby's row says what the baby is doing on its own line (`life`), not that it is too young to be sent, and a grown-up stopped
     // by the little ones says why there once, not twice (docs/CHILDREN.md §3, §6).
     const silence = bar ? '' : travelling || (entity.baby || entity.aside ? '' : reason) || '';
-    if (row.why.textContent !== silence) row.why.textContent = silence;
+    setText(row.why, silence);
     if (row.why.hidden !== !silence) row.why.hidden = !silence;
     // No switch on a child too young to be sent, who has nothing for auto to repeat or answer. Only that case: somebody on
     // the road or in the ranks has a reason on their row too, and theirs is the switch auto-fight is for.
@@ -4975,15 +5045,15 @@ function renderFamilyPanel(world) {
       }) : [];
       if (!visibleIcons.length) {
         const word = row.icons.querySelector('.panel-reason:not(.panel-travelling)') || element('span', '', 'panel-reason');
-        word.textContent = visibleReason;
+        setText(word, visibleReason);
         wanted.push(word);
       } else if (travelling) {
         const word = row.icons.querySelector('.panel-travelling') || element('span', '', 'panel-reason panel-travelling');
-        word.textContent = travelling;
+        setText(word, travelling);
         wanted.push(word);
       }
       if (makeMain) {
-        row.makeMain.textContent = makeMain;
+        setText(row.makeMain, makeMain);
         const note = 'Only the main person travels, rests and works about the place, and on auto the main person decides the family’s leaving and its answers on the road.';
         row.makeMain.title = note; row.makeMain.setAttribute('aria-label', `${makeMain}. ${note}`);
         wanted.unshift(row.makeMain);
@@ -5265,7 +5335,7 @@ const NEED_SECTIONS = { alto: '#selection-flight', army: '#selection-army', camp
 function paintNeedBadge(row) {
   const left = row.needDeadline === null ? null : leftWords(Math.max(0, row.needDeadline - performance.now()));
   const words = [row.needRank ? String(row.needRank) : '', left || ''].filter(Boolean).join(' · ');
-  if (row.needBadge.textContent !== words) row.needBadge.textContent = words;
+  setText(row.needBadge, words);
   if (row.needBadge.hidden !== !words) row.needBadge.hidden = !words;
 }
 // Once a second, the countdowns on the "!"s and whether a tip's thing has come or gone (the town errand opens with no
@@ -5280,10 +5350,10 @@ setInterval(() => {
  * question with its answers - and put the keyboard on the first answer. Nothing is decided here: the answers are the card's
  * buttons, sent as they always were, and the "!" goes when the projection stops saying anything is waiting.
  */
-function openNeed(id) {
+function openNeed(id, kind = null) {
   const world = window.__snapshot?.world;
   if (!world) return;
-  const need = needsOf(world, id)[0];
+  const need = (kind && needsOf(world, id).find(one => one.kind === kind)) || needsOf(world, id)[0];
   goToPerson(id);
   if (!need) return;
   let target = null;
@@ -7071,6 +7141,7 @@ function renderEncounter(world) {
   panel.hidden = !encounter || !encounterOpen || world.role === 'host';
   // Every way in - the panel's "!", Listen, the mark on the map - comes through here, so the bar is told here.
   renderScreenMoments();
+  moveOn(world);
   if (panel.hidden) return;
   panel.dataset.encounterId = encounter.id;
   panel.dataset.status = encounter.status;
@@ -7125,6 +7196,24 @@ function renderEncounter(world) {
   // that those converge, and that nothing is held back for ever.
   window.__conversation = { id: encounter.id, revealed: shown.length, total: lines.length };
   $('#encounter-asks').hidden = Boolean(speakingNow);
+  // Rebuilt only when what it offers changes: rebuilt every tick, a button was replaced between the press and the release and
+  // the press was lost - found on 2026-09-29 by the one-rider proof at a tenth of a second a tick, pressing Done.
+  const asksKey = JSON.stringify([encounter.id, live, runner, world.status === 'running', encounter.questions.map(question => question.id), runner ? (encounter.choices || []).map(choice => choice.answer) : []]);
+  if ($('#encounter-asks').dataset.key !== asksKey) renderAsks(world, encounter, { live, runner });
+  $('#encounter-asks').dataset.key = asksKey;
+  $('#encounter-close').setAttribute('aria-label', runner && live ? 'Close this for now: he is still waiting for an answer' : live ? `Done: let ${encounter.carrierName} ride on` : 'Done');
+  $('#encounter-note').textContent = runner
+    ? live ? `${encounter.pressing ? `${encounter.carrierName} cannot wait much longer.` : `${encounter.carrierName} is waiting for an answer to take back.`} ${encounter.ifUnanswered || ''}`.trim()
+      : encounter.reason === 'unanswered' ? `Nobody answered ${encounter.carrierName} in time, and the question lapsed: ${name} stays at their post, and he has gone back to Colonel Travis.` : `${name} gave ${encounter.carrierName} an answer, and he has gone back to Colonel Travis.`
+    : live
+      // What waits behind him, as a count and nothing more (sim/encounters.mjs `encounterProjection`).
+      ? `${encounter.waiting ? `${encounter.waiting.words} ` : ''}Ask what you like, then press Done. Nothing said is lost when he rides on.`
+      : encounter.reason === 'unanswered' ? `${encounter.carrierName} would wait no longer and rode on.`
+        : encounter.reason === 'parted' ? `${name} and ${encounter.carrierName} were separated.`
+          : `${name} let ${encounter.carrierName} ride on.`;
+}
+/** The conversation's buttons: the questions still to ask, the runner's two answers, and the one way out. */
+function renderAsks(world, encounter, { live, runner }) {
   $('#encounter-asks').replaceChildren(...encounter.questions.map(question => {
     const button = element('button', question.ask, 'ask-option');
     button.dataset.action = 'ask-rider';
@@ -7141,22 +7230,57 @@ function renderEncounter(world) {
     button.disabled = world.status !== 'running';
     $('#encounter-asks').append(button);
   }
+  // One way out of every rider's conversation, the same every time (owner, 2026-09-29: "at the end of a conversation, sometimes
+  // it's weird figuring out how to get rid of the conversation"): Done, last and primary, whether anything is left to ask or
+  // not. It sends him on and puts the conversation away, and whatever waited behind him comes up next (`moveOn`). The × and
+  // Escape do the same (`endConversation`). A finished one has its own Done, which only puts it away. Travis's runner needs an
+  // answer, and his card says so rather than offering a way round it.
   if (live && !runner) {
-    const leave = element('button', `Let ${encounter.carrierName} ride on`, 'ask-leave');
+    const leave = element('button', `Done — let ${encounter.carrierName} ride on`, 'ask-leave');
     leave.dataset.action = 'leave-rider';
     leave.dataset.entityId = encounter.listenerId;
     leave.disabled = world.status !== 'running';
     $('#encounter-asks').append(leave);
-  }
-  $('#encounter-note').textContent = runner
-    ? live ? `${encounter.pressing ? `${encounter.carrierName} cannot wait much longer.` : `${encounter.carrierName} is waiting for an answer to take back.`} ${encounter.ifUnanswered || ''}`.trim()
-      : encounter.reason === 'unanswered' ? `Nobody answered ${encounter.carrierName} in time, and the question lapsed: ${name} stays at their post, and he has gone back to Colonel Travis.` : `${name} gave ${encounter.carrierName} an answer, and he has gone back to Colonel Travis.`
-    : live
-      ? 'They will not wait for ever. Closing this does not unhear anything already said.'
-      : encounter.reason === 'unanswered' ? `${encounter.carrierName} would wait no longer and rode on.`
-        : encounter.reason === 'parted' ? `${name} and ${encounter.carrierName} were separated.`
-          : `${name} let ${encounter.carrierName} ride on.`;
+  } else if (!live) $('#encounter-asks').append(element('button', 'Done', 'ask-leave ask-done'));
 }
+/**
+ * The conversation put away by Done, the × or Escape (owner, 2026-09-29): a rider still standing there is let go - the one
+ * thing a student can mean by closing a conversation that asks nothing of them - and Travis's runner, who needs an answer, is
+ * only put away, as it always was, with his card still saying he waits. Then, once the server has him gone, whatever waited
+ * behind him comes up by itself (`moveOn`): the student asked to be done with this one, so the next is theirs to see.
+ */
+let moveOnFrom = null, moveOnUntil = 0, moveOnQuestion = false;
+function endConversation(sendOn = true) {
+  const encounter = window.__snapshot?.world?.encounter;
+  const leave = $('#encounter .ask-leave:not(.ask-done)');
+  if (sendOn && leave && !leave.disabled && !$('#encounter').hidden) leave.click();
+  encounterOpen = false;
+  $('#encounter').hidden = true;
+  renderScreenMoments();
+  if (encounter && encounter.kind !== 'alamo-runner') { moveOnFrom = encounter.id; moveOnUntil = performance.now() + 8000; moveOnQuestion = Boolean(encounter.waiting); }
+}
+/** After a conversation was put away: the first thing waiting on the family, opened as its "!" opens it, once he has gone. */
+function moveOn(world) {
+  if (!moveOnFrom || world.role === 'host') return;
+  if (performance.now() > moveOnUntil) { moveOnFrom = null; return; }
+  if (world.encounter?.id === moveOnFrom && world.encounter.status === 'open') return;
+  moveOnFrom = null;
+  if (encounterOpen || callMenuFor) return;
+  const own = entitiesOf(world).filter(person => person.householdId === world.householdId).map(person => person.id);
+  // In the order it came (owner, 2026-09-29): what waited behind him first, even if another rider has reined in since.
+  const waited = moveOnQuestion && own.find(id => needsOf(world, id).some(one => one.kind === 'call'));
+  if (waited) { openNeed(waited, 'call'); return; }
+  const next = rankNeeds(world, own)[0];
+  if (next && ['rider', 'call', 'courier'].includes(next.kind)) openNeed(next.id);
+}
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape' || $('#encounter').hidden) return;
+  // A tip standing over it is put away first, by its own Escape.
+  if ($('#tip') && !$('#tip').hidden) return;
+  event.preventDefault();
+  if (window.__snapshot?.world?.encounter?.kind === 'alamo-runner') { encounterOpen = false; $('#encounter').hidden = true; renderScreenMoments(); return; }
+  endConversation();
+});
 document.addEventListener('click', event => {
   if (!event.target.closest('[data-open-encounter]')) return;
   encounterOpen = true;
@@ -7181,7 +7305,13 @@ bindLooks({
   refresh: () => { forgetFamily(); if (window.__snapshot) render(window.__snapshot); },
   family: () => familyCache,
 });
+$('#encounter')?.addEventListener('click', event => {
+  // Done: sent as every answer is (the action dispatcher), and the conversation goes with it.
+  if (event.target.closest('.ask-leave')) setTimeout(() => endConversation(false), 0);
+});
 $('#encounter-close')?.addEventListener('click', () => {
+  // A rider is let go (`endConversation`); a runner still waiting for an answer is only put away.
+  if (window.__snapshot?.world?.encounter?.kind !== 'alamo-runner') endConversation();
   encounterOpen = false;
   $('#encounter').hidden = true;
   renderScreenMoments();

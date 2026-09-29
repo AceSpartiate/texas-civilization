@@ -26,24 +26,12 @@
         "points": 256
       },
       "drawn": {
-        "x": -1042,
-        "y": 1748
+        "x": -171,
+        "y": 1051
       },
       "cardOpen": false,
       "row": "Travelling",
-      "spoken": "At Family 1 home: Drusilla (work), Benita (rest), Ruperto (rest), Juniper the ox (animal), Bess the mare (animal), Family wagon (wagon), Second wagon (wagon), Third wagon (wagon), Buck the ox (animal), Berry the ox (animal). Nicolás is on the road to Gonzales, about 1% of the way.",
-      "rowLive": {
-        "unseen": "false",
-        "line": "",
-        "portrait": null,
-        "star": null,
-        "opacity": 1,
-        "refusal": "",
-        "following": "hh-1-thomas",
-        "drawn": true,
-        "location": true,
-        "away": false
-      }
+      "spoken": "At Family 1 home: Drusilla (work), Benita (rest), Ruperto (rest), Juniper the ox (animal), Bess the mare (animal), Family wagon (wagon), Second wagon (wagon), Third wagon (wagon), Buck the ox (animal), Berry the ox (animal). Nicolás is on the road to Gonzales, about 1% of the way."
     },
     "teacher": {
       "location": {
@@ -60,38 +48,36 @@
         "at home",
         "at home"
       ]
-    },
-    "greyed": null,
-    "back": null
+    }
   },
   "fast": {
     "person": "hh-1-thomas",
     "seen": {
-      "minute": 8980,
+      "minute": 7560,
       "tickMs": 2500,
       "location": null,
       "away": true,
       "travel": {
         "to": "gonzales",
-        "miles": 102,
-        "back": "there about October 9",
+        "miles": 107,
+        "back": "there about October 8",
         "progress": null,
         "step": null,
         "points": 0
       },
       "drawn": null,
-      "cardOpen": false,
-      "row": "Amos is away on the road to Gonzales, about 102 miles off, and should be there about October 9.",
-      "spoken": "At Family 1 home: Mahala (work), Delia (rest), Ruperto (rest), Juniper the ox (animal), Bess the mare (animal), Family wagon (wagon). Also here: Ned Falk, Ada Swinney. Amos is away on the road to Gonzales, about 102 miles off, and should be there about October 9."
+      "cardOpen": true,
+      "row": "Amos is away on the road to Gonzales, about 107 miles off, and should be there about October 8.",
+      "spoken": "At Family 1 home: Mahala (work), Delia (rest), Ruperto (rest), Juniper the ox (animal), Bess the mare (animal), Family wagon (wagon). Amos is away on the road to Gonzales, about 107 miles off, and should be there about October 8."
     },
     "teacher": {
       "location": {
-        "x": 82.982,
-        "y": -21.8556,
+        "x": 86.03,
+        "y": -21.73,
         "siteId": null
       },
-      "road": 14,
-      "progress": 3.4777,
+      "road": 4,
+      "progress": 0,
       "drawn": true,
       "where": [
         "on the road to Gonzales",
@@ -99,60 +85,25 @@
         "at home",
         "at home"
       ]
-    },
-    "greyed": {
-      "unseen": "true",
-      "line": "On the road to Gonzales — back in view when they arrive",
-      "portrait": "true",
-      "star": "true",
-      "opacity": 0.45,
-      "refusal": "Amos cannot be chosen while out of sight. On the road to Gonzales — back in view when they arrive.",
-      "following": "hh-1-elena",
-      "drawn": false,
-      "location": false,
-      "away": true,
-      "starRefusal": "Amos cannot be chosen while out of sight. On the road to Gonzales — back in view when they arrive."
-    },
-    "back": {
-      "unseen": "false",
-      "line": "",
-      "portrait": null,
-      "star": null,
-      "opacity": 1,
-      "refusal": "",
-      "following": "hh-1-elena",
-      "drawn": true,
-      "location": true,
-      "away": false,
-      "afterPress": {
-        "refusal": "",
-        "following": "hh-1-thomas"
-      }
     }
   },
   "screenshots": [
     "docs/evidence/travel-sight/slow-student.png",
     "docs/evidence/travel-sight/slow-host.png",
     "docs/evidence/travel-sight/fast-student.png",
-    "docs/evidence/travel-sight/fast-host.png",
-    "docs/evidence/travel-sight/fast-arrived.png"
+    "docs/evidence/travel-sight/fast-host.png"
   ],
   "pass": [
     "at twenty minutes a tick the walker is on the map, 1 mile a tick, and the page draws them",
     "and no card opens beside them to say it (owner, 2026-09-29): their row and the map are where they are",
     "the teacher sees the same walker on the same road",
-    "and while they are drawn walking, their row is live: not greyed, nothing held",
     "at four hours a tick the server sends no place for them at all",
     "and no road, no progress and no pace with it",
     "so the page draws nobody: there is no figure to skate across the map",
-    "their row on the family panel says the same: \"Amos is away on the road to Gonzales, about 102 miles off, and should be there about October 9.\"",
+    "their row on the family panel says the same: \"Amos is away on the road to Gonzales, about 107 miles off, and should be there about October 8.\"",
     "and the page says it aloud for a screen reader: \"At Family 1 home: Mahala (work), Delia (rest), Ruperto (rest), Juniper the ox (animal), Bess the mare (animal), Family w\"",
-    "the teacher is not a family and still has them on the road at {\"x\":82.982,\"y\":-21.8556,\"siteId\":null}",
+    "the teacher is not a family and still has them on the road at {\"x\":86.03,\"y\":-21.73,\"siteId\":null}",
     "and the teacher's class panel says where they are: \"on the road to Gonzales\"",
-    "out of sight, their row is greyed (portrait at 0.45 opacity) and says \"On the road to Gonzales — back in view when they arrive\"",
-    "their portrait and star are held, and a press on either is refused: \"Amos cannot be chosen while out of sight. On the road to Gonzales — back in view when they arrive.\"",
-    "and the camera is not following them (watching hh-1-elena)",
-    "on arrival their row is live again (drawn in Gonzales), the camera not back on them by itself, and their portrait goes to them with nothing refused",
     "the pages raised no errors"
   ],
   "limitations": [

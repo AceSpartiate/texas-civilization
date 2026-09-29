@@ -15,6 +15,7 @@ import { choreCatalogue } from '../sim/chores.mjs';
 import { mainPersonId } from '../sim/family.mjs';
 import { readFileSync } from 'node:fs';
 import { NEED_KINDS, barPerson, callMenu, callPlan, focusFor, isIdle, needsOf, panelActions } from '../public/family-panel.js';
+import { heardOut } from './support/heard-out.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const catalogue = new Map(choreCatalogue().map(chore => [chore.id, chore]));
@@ -113,6 +114,7 @@ test('the call a real class puts to a family marks the people who may answer it,
   const world = createGonzalesWorld('commands-call', 5);
   world.status = 'running';
   for (let i = 0; i < 3000 && world.requests?.['hh-1']?.status !== 'open'; i++) stepWorld(world);
+  heardOut(world, 'hh-1');
   const seen = view(world, 'hh-1');
   assert.equal(seen.request?.status, 'open', 'the class never asked hh-1 anything');
   const answerers = Object.keys(seen.request.answerers || {});

@@ -27,7 +27,7 @@
     "hh-1-parent-2's row alone has House, which opens the rooms",
     "after a reload the same person is starred, and with nobody chosen it is they who are chosen",
     "pressing the main person's star from Gonzales brings the camera back to them (0.000 mi); a double press on another's portrait makes hh-1-parent-1 the main person, as the star does",
-    "over 11 ticks the panel added 6 nodes and changed 240 attributes across 20 rows: kept, not rebuilt",
+    "over 11 ticks the panel added 0 nodes and changed 246 attributes across 20 rows: kept, not rebuilt",
     "at 400 px the page does not scroll sideways, the \"!\" is on screen and big enough to press, and pressing it opens the offer on the docked card",
     "the settlement's call marks 2 people (hh-1-thomas, hh-1-elena), and 2 of them may turn out",
     "at 400 px the call's menu opens from an \"!\" on screen with 2 rows and its confirm within reach, and closes",
@@ -430,8 +430,8 @@
     },
     "churn": {
       "ticks": 11,
-      "nodesAdded": 6,
-      "attributeChanges": 240,
+      "nodesAdded": 0,
+      "attributeChanges": 246,
       "rows": 20
     },
     "phone": {

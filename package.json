@@ -134,6 +134,9 @@
     "test:real-time-limits-injections": "node scripts/real-time-limits-injections.mjs",
     "test:flight-lapse-burns-injections": "node scripts/flight-lapse-burns-injections.mjs",
     "test:watching": "node scripts/watching-browser-proof.mjs",
-    "test:watching-injections": "node scripts/watching-injections.mjs"
+    "test:watching-injections": "node scripts/watching-injections.mjs",
+    "test:one-rider": "node scripts/one-rider-browser-proof.mjs",
+    "test:one-rider-injections": "node scripts/one-rider-injections.mjs",
+    "test:one-rider-browser-injections": "node scripts/one-rider-browser-injections.mjs"
   }
 }

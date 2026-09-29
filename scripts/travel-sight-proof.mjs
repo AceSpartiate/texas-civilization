@@ -83,11 +83,14 @@ async function play(name, { worldFactory, tickMs }) {
     await page.getByRole('button', { name: 'Join', exact: true }).click();
     await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
     await meetFamily(page);
-    // One student, and the class begun anyway (the Host's second press of Start): the other four families are the director's.
-    // Four students joined with no page open were played families whose riders each waited their ninety real seconds for an
-    // answer nobody gave (sim/clock.mjs `deciding`, owner 2026-09-29 "Real-time limits"), so the gathering never ran at four
-    // hours a tick and the journey never went out of sight (found on the merged tree, 2026-09-29).
-    await post('/api/command', { id: `start-${crypto.randomUUID()}`, action: 'start', anyway: true }, hostCookie);
+    // The other four students, each with their own cookie: they have no page open, so the riders who stop with their families
+    // are answered for them below, as their students would answer.
+    const readers = {};
+    for (let i = 2; i <= 5; i++) {
+      const joined = await post('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
+      readers[(await joined.json()).world.householdId] = joined.headers.get('set-cookie').split(';')[0];
+    }
+    await post('/api/command', { id: `start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
     await page.waitForFunction(() => window.__snapshot?.world.status === 'running');
     for (const id of ['#journal-close', '#wagon-done', '#tutorial-skip', '#house-close', '#plot-close']) {
       if (await page.locator(id).isVisible().catch(() => false)) await page.locator(id).click().catch(() => {});
@@ -114,17 +117,19 @@ async function play(name, { worldFactory, tickMs }) {
     // A rider standing at the gate holds the whole class's calendar at the farming scale for as long as the family has not
     // answered him (sim/clock.mjs `deciding`), which is right and is exactly why this proof kept finding a four-hour class
     // running at twenty minutes a tick. So any rider waiting is heard and let go before the road is read.
-    const answerRiders = async () => {
-      // And the settlement's call, which holds the calendar the same way while it is open (sim/clock.mjs `deciding`): answered
-      // "Nobody goes" from its "!", as a student would. Without this the gathering ran at twenty minutes a tick and the journey
-      // never went out of sight (found on the merged tree, 2026-09-29).
-      if (await page.evaluate(() => window.__snapshot?.world?.request?.status === 'open')) {
-        await page.evaluate(() => document.querySelector('.panel-attention:not([hidden])[data-need="call"]')?.click());
-        await page.waitForTimeout(400);
-        if (await page.locator('#call-menu-stay').isVisible().catch(() => false)) await page.locator('#call-menu-stay').click().catch(() => {});
-        await page.waitForTimeout(400);
-        await page.locator('#call-menu-close').click({ timeout: 2000 }).catch(() => {});
+    // Every family's, not only this page's: since 2026-09-29 a rider waits ninety real seconds for a played family whose student
+    // is there (sim/decision-budget.mjs `riderOnLimit`), and the four joined above were never on a page, so are never absent.
+    // Until then his wait was counted in calendar minutes, which the class's four-hour ticks before this handover had
+    // already spent; now the couriers to Readers 2-5 held the calendar one after another for longer than this proof waits.
+    const answerOthers = async () => {
+      for (const encounter of Object.values(app.state.world.encounters || {})) {
+        const cookie = encounter.status === 'open' && readers[encounter.householdId];
+        if (!cookie) continue;
+        await fetch(url + '/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json', Cookie: cookie }, body: JSON.stringify({ id: `leave-${crypto.randomUUID()}`, action: 'leave-rider', entityId: encounter.listenerId }) }).catch(() => {});
       }
+    };
+    const answerRiders = async () => {
+      await answerOthers();
       for (let i = 0; i < 4; i++) {
         const listener = await page.evaluate(() => (window.__snapshot?.world?.encounter?.status === 'open' ? window.__snapshot.world.encounter.listenerId : null));
         if (!listener) return;

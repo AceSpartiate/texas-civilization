@@ -89,7 +89,7 @@ try {
     verdict: 'PASS',
     browser: await browser.version(),
     task: 'One class from the lobby to the road home through all three periods, a student and the Host in the browser the whole way: nothing stalls, refuses wrongly or throws.',
-    environment: `Same computer: a local classroom server at ${TICK_MS} ms a tick (not the Study pace) with five families, four automatic, and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.`,
+    environment: `Same computer: a local classroom server at ${TICK_MS} ms a tick (not the Study pace; 1000 ms, the Quick pace, while the student gives orders and answers the call, the winter's order and the order to leave) with five families, four automatic, and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.`,
     checks: pass,
     measured,
     screenshots: shots,

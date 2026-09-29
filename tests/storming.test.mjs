@@ -15,6 +15,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, beginTravel, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { momentOf } from '../sim/directors.mjs';
 import { STORMING_DEATH_RISK, STORMING_WOUND_RISK, WOUND_GRADES, dieOfWounds, fightStorming, openQuestion, stormedIn, withTheArmy } from '../sim/army.mjs';
+import { heardOut } from './support/heard-out.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const until = (world, done) => { for (let t = 0; t < 6000 && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -33,6 +34,7 @@ const storming = () => shared ??= (() => {
   const sent = [];
   for (const household of families) {
     until(world, () => world.calls?.[household.id]);
+    heardOut(world, household.id);
     const found = Object.entries(view(world, household.id).request?.answerers || {}).find(([, options]) => options.find(o => o.id === 'turn-out')?.can);
     if (found) { applyAction(world, household.id, { action: 'turn-out', entityId: found[0], mode: 'horse' }); sent.push({ household, person: world.entities[found[0]] }); }
   }

@@ -23,6 +23,7 @@ import { userOf } from '../sim/keeping.mjs';
 import { toolCount } from '../sim/tools.mjs';
 import { readSave, writeSave } from '../server/storage.mjs';
 import { createSettledWorld, taught, modestMeans } from './support/settled.mjs';
+import { heardOut } from './support/heard-out.mjs';
 
 const view = (world, id) => projectWorld(world, id, 'student', { includeMap: false });
 const until = (world, done, limit = 8000) => { for (let t = 0; t < limit && !done() && world.status === 'running' && !world.director?.complete; t++) stepWorld(world); };
@@ -47,6 +48,7 @@ function called() {
 }
 function turnOut(world) {
   const household = Object.values(world.households).find(h => ['san-felipe', 'mina', 'victoria'].includes(h.settlementId) && world.calls?.[h.id]?.status === 'open');
+  heardOut(world, household.id);
   const answerers = view(world, household.id).request.answerers;
   const [id] = Object.entries(answerers).find(([, options]) => options.find(o => o.id === 'turn-out').can);
   const volunteer = world.entities[id];

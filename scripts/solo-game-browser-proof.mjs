@@ -81,9 +81,14 @@ try {
   assert.equal(seen.path, '/', 'the ticket left in the address bar');
   // The family's last name and how the parents look, asked for once the rolled family is the player's (owner, 2026-09-17).
   await meetFamily(student);
-  if (await student.locator('#journal-close').isVisible()) await student.locator('#journal-close').click();
-  if (await student.locator('#wagon-done').isVisible()) await student.locator('#wagon-done').click();
-  await student.waitForFunction(() => window.__snapshot.world.status === 'running', null, { timeout: 30000 });
+  // The journal and the wagon are closed as they come, until the game runs: read once, a page slowed by load had not drawn the
+  // wagon yet, so "Done packing" was never pressed and the game never started (seen 2026-09-29).
+  for (const until = Date.now() + 60000; !(await student.evaluate(() => window.__snapshot.world.status === 'running'));) {
+    assert.ok(Date.now() < until, 'the solo game did not start once the wagon was packed');
+    if (await student.locator('#journal-close').isVisible()) await student.locator('#journal-close').click().catch(() => {});
+    if (await student.locator('#wagon-done').isVisible()) await student.locator('#wagon-done').click().catch(() => {});
+    await student.waitForTimeout(300);
+  }
   if (await student.locator('#tutorial-skip').isVisible()) await student.locator('#tutorial-skip').click();
   assert.equal(Object.values(world().households).filter(h => h.played).length, 1, 'more than one family is played');
   ok(`the solo game opens joined as hh-1 in ${world().households['hh-1'].settlementId}, rolled, and running once the wagon was packed, no join form, no teacher's Start; the other four families automatic`);
@@ -117,7 +122,7 @@ try {
     verdict: 'PASS',
     browser: await browser.version(),
     task: 'Solo Mode end to end: the real solo server dealing on the real land; a solo game played from its dealt start to the road home through all three periods, the solo class view continuing it; a new game dealt after the end.',
-    environment: `Same computer: an in-process solo classroom at ${TICK_MS} ms a tick with five families, four automatic, and headless Chrome; server/main.mjs --solo run for real only to check what it deals. Not the launcher's window, a real phone or a weak computer.`,
+    environment: `Same computer: an in-process solo classroom at ${TICK_MS} ms a tick (1000 ms, the Quick pace, while the student gives orders and answers the call, the winter's order and the order to leave) with five families, four automatic, and headless Chrome; server/main.mjs --solo run for real only to check what it deals. Not the launcher's window, a real phone or a weak computer.`,
     checks: pass,
     measured,
     screenshots: shots,
