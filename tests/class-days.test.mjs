@@ -10,6 +10,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { momentOf } from '../sim/directors.mjs';
 import { createClassroom, PACES } from '../server/app.mjs';
 import { classSchedule, PERIOD_TICKS, PLAY_MINUTES_A_DAY } from '../server/class-days.mjs';
+import { DISCUSSION } from '../sim/ending.mjs';
 
 test('the whole game is several class days at Study, fewer at Brisk, and the measured ticks say so', () => {
   const world = createGonzalesWorld('days', 5, { map: 'colonies', neighbours: true });
@@ -66,4 +67,21 @@ test('the teacher\'s README no longer says a class is one afternoon of 54 minute
   const readme = readFileSync(new URL('../README.md', import.meta.url), 'utf8');
   assert.doesNotMatch(readme, /54 minutes|prototype of one afternoon/);
   assert.match(readme, /class days/);
+});
+
+test('the teacher\'s guide ships, and its class days are the Host page\'s (design audit S3)', () => {
+  const guide = readFileSync(new URL('../TEACHER.md', import.meta.url), 'utf8');
+  const schedule = classSchedule(createGonzalesWorld('days-guide', 5, { map: 'colonies', neighbours: true }), PACES);
+  // Each pace's row of the table: the whole game's days, as the Host page shows them.
+  for (const pace of ['study', 'brisk', 'quick']) {
+    const row = guide.split(/\r?\n/).find(line => line.toLowerCase().startsWith(`| **${pace}**`));
+    assert.ok(row, `TEACHER.md has no row for ${pace}`);
+    const [low, high] = schedule.whole[pace].days;
+    assert.match(row, new RegExp(`\\| ${low} to ${high}( class days)? \\|`), `TEACHER.md says something else than ${low} to ${high} days at ${pace}: ${row}`);
+  }
+  // The words on the Host's own buttons, and the debrief's standing questions, as the game has them.
+  for (const words of ['Stop for today', 'End Game', 'Pause', 'Resume', 'Continue this class', 'Recover a student', 'I was already in this class', 'For the class']) assert.ok(guide.includes(words), `TEACHER.md does not say "${words}"`);
+  for (const question of DISCUSSION) assert.ok(guide.includes(question), `TEACHER.md is missing the debrief question "${question}"`);
+  // In the package, beside the README (scripts/package.ps1), and in the delta proof's copy of it.
+  for (const script of ['package.ps1', 'verify-delta-update.ps1']) assert.match(readFileSync(new URL(`../scripts/${script}`, import.meta.url), 'utf8'), /'README\.md', 'TEACHER\.md'/, `${script} does not ship TEACHER.md`);
 });

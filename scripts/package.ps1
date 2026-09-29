@@ -59,7 +59,7 @@ New-Item -ItemType Directory -Force $app | Out-Null
 $ship = @(
   'server', 'sim', 'public', 'runtime',
   'package.json', 'Launch.vbs', 'Stop.vbs',
-  'GAME.md', 'HISTORY.md', 'README.md'
+  'GAME.md', 'HISTORY.md', 'README.md', 'TEACHER.md'
 )
 foreach ($name in $ship) {
   $source = Join-Path $root $name

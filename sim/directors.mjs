@@ -140,9 +140,9 @@ const FROM_MIDNIGHT_SEPT_29 = Object.freeze({
   'white-flag': 102660, terms: 103800, capitulation: 105840, 'wound-deaths': 107280, 'cos-marches': bexarAt('marching-out'), 'bexar-victory': 111600, 'bexar-end': 112320,
   // The second class period (docs/COLONIES.md §7e, sim/periods.mjs), the winter of 1835-36. January 25, 1836 is day 118 from
   // midnight on September 29, 1835 (169920). It opens at dawn with the quiet farming scale; the winter's news begins at dawn
-  // on the 26th on the campaign calendar; the period stops at dawn on February 23, the day Santa Anna reached Béxar
-  // (`HIST-TEX-053` proposed; research in docs/battle-research/winter-1835-36.md). ceiling: until the Alamo is built the
-  // second period ends there, with the final reckoning.
+  // on the 26th on the campaign calendar; on February 23, the day Santa Anna reached Béxar (`HIST-TEX-053` proposed; research
+  // in docs/battle-research/winter-1835-36.md), the siege begins (the Alamo, below), and the period runs on to the night
+  // Gonzales burns (`alamo-end`), with where the families stand, not the final reckoning, which is the spring's.
   // The polls are open on February 1 (`HIST-TEX-052`): from noon on January 31, so a man can ride in, to midnight on the 2nd,
   // on the hourly calendar so the day lasts long enough to go. Travis's arrival (February 3) and Crockett's (the 8th) are
   // heard about five days after. Since 2026-09-26 (owner: "news appropriate to that, but not that he's marching";

@@ -817,7 +817,9 @@ Decided by the owner by multiple choice (§7e). `FIC-GONZ-044`.
 - **The second period opens paused at dawn on January 25, 1836** (`winter-opens`) on the farming scale, so the teacher
   starts it; the winter's news moves the calendar to the campaign scale at dawn on the 26th (`winter-news`), and the
   period ends at dawn on February 23 (`winter-end`) with the **final** reckoning. `ceiling:` until the Alamo is built the
-  second period stops there. None of 1835's moments fire again (`advanceDirectors` branches on `world.period`).
+  second period stops there. **(No longer: since §6o the second period runs on through the Alamo to the night Gonzales burns,
+  March 13 (`alamo-end`), and ends with interim standings, coin and land only; `winter-end` is gone, and the final reckoning is
+  the spring's (§7g). Corrected 2026-09-29, design audit S3.)** None of 1835's moments fire again (`advanceDirectors` branches on `world.period`).
 - **Stored** as `world.period` (absent is the first); validated as 1 or 2. No save version moved.
 - Tests `tests/periods.test.mjs` (5, proven by 12 injections); browser `npm run test:ending`, which now ends the first period,
   checks the standings are interim, continues into the winter on both pages and gives an order in January 1836
