@@ -1,0 +1,3589 @@
+{
+  "module": "transport-seated",
+  "area": "transport",
+  "date": "2026-09-28",
+  "sheets": {
+    "claude-wagon-drivers": {
+      "image": "/assets/claude-standins/claude-wagon-drivers.png",
+      "width": 3200,
+      "height": 1600,
+      "bytes": 970280,
+      "sha256": "dc9f3b6595632e6dbb5b3372228910f06e5ce673afdba851842a89441dea4d5f",
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "layout": {
+        "rows": 4,
+        "columns": 8,
+        "cell": {
+          "w": 400,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-wagon-riders": {
+      "image": "/assets/claude-standins/claude-wagon-riders.png",
+      "width": 3600,
+      "height": 1600,
+      "bytes": 1038421,
+      "sha256": "bf2025ac42c7cd7305aac09b04667a5817bfe75a06f2c899ee5c82b9181cf66d",
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "layout": {
+        "rows": 4,
+        "columns": 9,
+        "cell": {
+          "w": 400,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "rust-woman-wagon-driver-s-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 0,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "rust-woman-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-s-1.svg",
+      "label": "rust woman wagon driver s 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "rust-woman-wagon-driver-e-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 400,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "rust-woman-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-e-1.svg",
+      "label": "rust woman wagon driver e 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "rust-woman-wagon-driver-w-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 800,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "rust-woman-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-w-1.svg",
+      "label": "rust woman wagon driver w 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "rust-woman-wagon-driver-n-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 1200,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "rust-woman-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-n-1.svg",
+      "label": "rust woman wagon driver n 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "indigo-wagon-driver-s-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 1600,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "indigo-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-indigo-wagon-driver-s-1.svg",
+      "label": "indigo wagon driver s 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "indigo-wagon-driver-e-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2000,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "indigo-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-indigo-wagon-driver-e-1.svg",
+      "label": "indigo wagon driver e 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "indigo-wagon-driver-w-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2400,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "indigo-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-indigo-wagon-driver-w-1.svg",
+      "label": "indigo wagon driver w 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "indigo-wagon-driver-n-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2800,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "indigo-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-indigo-wagon-driver-n-1.svg",
+      "label": "indigo wagon driver n 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "ochre-wagon-driver-s-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 0,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "ochre-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-ochre-wagon-driver-s-1.svg",
+      "label": "ochre wagon driver s 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "ochre-wagon-driver-e-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 400,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "ochre-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-ochre-wagon-driver-e-1.svg",
+      "label": "ochre wagon driver e 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "ochre-wagon-driver-w-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 800,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "ochre-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-ochre-wagon-driver-w-1.svg",
+      "label": "ochre wagon driver w 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "ochre-wagon-driver-n-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 1200,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "ochre-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-ochre-wagon-driver-n-1.svg",
+      "label": "ochre wagon driver n 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "blue-girl-wagon-driver-s-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 1600,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "blue-girl-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-s-1.svg",
+      "label": "blue girl wagon driver s 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "blue-girl-wagon-driver-e-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2000,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "blue-girl-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-e-1.svg",
+      "label": "blue girl wagon driver e 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "blue-girl-wagon-driver-w-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2400,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "blue-girl-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-w-1.svg",
+      "label": "blue girl wagon driver w 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "blue-girl-wagon-driver-n-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2800,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "blue-girl-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-n-1.svg",
+      "label": "blue girl wagon driver n 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "girl-wagon-driver-s-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 0,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "girl-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-girl-wagon-driver-s-1.svg",
+      "label": "girl wagon driver s 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "girl-wagon-driver-e-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 400,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "girl-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-girl-wagon-driver-e-1.svg",
+      "label": "girl wagon driver e 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "girl-wagon-driver-w-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 800,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "girl-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-girl-wagon-driver-w-1.svg",
+      "label": "girl wagon driver w 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "girl-wagon-driver-n-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 1200,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "girl-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-girl-wagon-driver-n-1.svg",
+      "label": "girl wagon driver n 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "boy-wagon-driver-s-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 1600,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "boy-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-boy-wagon-driver-s-1.svg",
+      "label": "boy wagon driver s 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "boy-wagon-driver-e-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2000,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "boy-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-boy-wagon-driver-e-1.svg",
+      "label": "boy wagon driver e 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "boy-wagon-driver-w-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2400,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "boy-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-boy-wagon-driver-w-1.svg",
+      "label": "boy wagon driver w 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "boy-wagon-driver-n-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2800,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "boy-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-boy-wagon-driver-n-1.svg",
+      "label": "boy wagon driver n 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "smallchild-wagon-driver-s-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 0,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "smallchild-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-smallchild-wagon-driver-s-1.svg",
+      "label": "smallchild wagon driver s 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "smallchild-wagon-driver-e-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 400,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "smallchild-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-smallchild-wagon-driver-e-1.svg",
+      "label": "smallchild wagon driver e 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "smallchild-wagon-driver-w-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 800,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "smallchild-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-smallchild-wagon-driver-w-1.svg",
+      "label": "smallchild wagon driver w 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "smallchild-wagon-driver-n-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 1200,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "smallchild-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-smallchild-wagon-driver-n-1.svg",
+      "label": "smallchild wagon driver n 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "rust-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 0,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "rust-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-rust-ride-wagon-e-1.svg",
+      "label": "rust ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "rust-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 400,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "rust-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-rust-ride-wagon-s-1.svg",
+      "label": "rust ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "rust-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 800,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "rust-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-rust-ride-wagon-n-1.svg",
+      "label": "rust ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "teal-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1200,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "teal-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-teal-ride-wagon-e-1.svg",
+      "label": "teal ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "teal-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1600,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "teal-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-teal-ride-wagon-s-1.svg",
+      "label": "teal ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "teal-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2000,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "teal-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-teal-ride-wagon-n-1.svg",
+      "label": "teal ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "elder-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2400,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "elder-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-elder-ride-wagon-e-1.svg",
+      "label": "elder ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "elder-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2800,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "elder-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-elder-ride-wagon-s-1.svg",
+      "label": "elder ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "elder-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 3200,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "elder-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-elder-ride-wagon-n-1.svg",
+      "label": "elder ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "blue-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 0,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "blue-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-blue-ride-wagon-e-1.svg",
+      "label": "blue ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "blue-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 400,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "blue-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-blue-ride-wagon-s-1.svg",
+      "label": "blue ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "blue-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 800,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "blue-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-blue-ride-wagon-n-1.svg",
+      "label": "blue ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "rust-woman-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1200,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "rust-woman-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-rust-woman-ride-wagon-e-1.svg",
+      "label": "rust woman ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "rust-woman-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1600,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "rust-woman-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-rust-woman-ride-wagon-s-1.svg",
+      "label": "rust woman ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "rust-woman-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2000,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "rust-woman-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-rust-woman-ride-wagon-n-1.svg",
+      "label": "rust woman ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "indigo-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2400,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "indigo-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-indigo-ride-wagon-e-1.svg",
+      "label": "indigo ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "indigo-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2800,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "indigo-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-indigo-ride-wagon-s-1.svg",
+      "label": "indigo ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "indigo-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 3200,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "indigo-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-indigo-ride-wagon-n-1.svg",
+      "label": "indigo ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "ochre-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 0,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "ochre-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-ochre-ride-wagon-e-1.svg",
+      "label": "ochre ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "ochre-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 400,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "ochre-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-ochre-ride-wagon-s-1.svg",
+      "label": "ochre ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "ochre-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 800,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "ochre-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-ochre-ride-wagon-n-1.svg",
+      "label": "ochre ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "blue-girl-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1200,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "blue-girl-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-blue-girl-ride-wagon-e-1.svg",
+      "label": "blue girl ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "blue-girl-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1600,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "blue-girl-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-blue-girl-ride-wagon-s-1.svg",
+      "label": "blue girl ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "blue-girl-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2000,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "blue-girl-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-blue-girl-ride-wagon-n-1.svg",
+      "label": "blue girl ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "girl-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2400,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "girl-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-girl-ride-wagon-e-1.svg",
+      "label": "girl ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "girl-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2800,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "girl-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-girl-ride-wagon-s-1.svg",
+      "label": "girl ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "girl-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 3200,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "girl-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-girl-ride-wagon-n-1.svg",
+      "label": "girl ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "boy-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 0,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "boy-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-boy-ride-wagon-e-1.svg",
+      "label": "boy ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "boy-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 400,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "boy-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-boy-ride-wagon-s-1.svg",
+      "label": "boy ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "boy-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 800,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "boy-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-boy-ride-wagon-n-1.svg",
+      "label": "boy ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "smallchild-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1200,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "smallchild-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-smallchild-ride-wagon-e-1.svg",
+      "label": "smallchild ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "smallchild-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1600,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "smallchild-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-smallchild-ride-wagon-s-1.svg",
+      "label": "smallchild ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "smallchild-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2000,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "smallchild-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-smallchild-ride-wagon-n-1.svg",
+      "label": "smallchild ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    }
+  },
+  "clips": {
+    "rust-woman-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-woman-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-woman-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-w-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "west",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-woman-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "indigo-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "indigo-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "indigo-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-w-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "west",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "indigo-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "ochre-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "ochre-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "ochre-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-w-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "west",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "ochre-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-girl-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-girl-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-girl-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-w-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "west",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-girl-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "girl-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "girl-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "girl-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-w-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "west",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "girl-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "boy-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "boy-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "boy-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-w-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "west",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "boy-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "smallchild-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "smallchild-wagon-driver-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "smallchild-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "smallchild-wagon-driver-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "smallchild-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "smallchild-wagon-driver-w-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "west",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "smallchild-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "smallchild-wagon-driver-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "rust-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "rust-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "rust-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "teal-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "teal-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "teal-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "teal-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "teal-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "teal-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "elder-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "elder-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "elder-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "elder-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "elder-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "elder-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "blue-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "blue-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "blue-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-woman-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "rust-woman-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-woman-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "rust-woman-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-woman-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "rust-woman-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "indigo-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "indigo-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "indigo-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "indigo-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "indigo-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "indigo-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "ochre-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "ochre-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "ochre-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "ochre-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "ochre-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "ochre-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-girl-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "blue-girl-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-girl-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "blue-girl-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-girl-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "blue-girl-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "girl-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "girl-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "girl-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "girl-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "girl-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "girl-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "boy-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "boy-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "boy-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "boy-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "boy-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "boy-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "smallchild-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "smallchild-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "smallchild-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "smallchild-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "smallchild-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "smallchild-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    }
+  },
+  "provenance": {
+    "rust-woman-wagon-driver-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the woman in her rust blouse, cream sunbonnet and apron sitting as the wagon's driver, facing the camera: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-rust-woman-wagon-driver-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-wagon-driver-s-1"
+    },
+    "rust-woman-wagon-driver-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the woman in her rust blouse, cream sunbonnet and apron sitting as the wagon's driver, facing east: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-rust-woman-wagon-driver-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-wagon-driver-e-1"
+    },
+    "rust-woman-wagon-driver-w-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the woman in her rust blouse, cream sunbonnet and apron sitting as the wagon's driver, facing west (the east drawing mirrored): seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-rust-woman-wagon-driver-w-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-wagon-driver-w-1"
+    },
+    "rust-woman-wagon-driver-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the woman in her rust blouse, cream sunbonnet and apron sitting as the wagon's driver, seen from behind, going away: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-rust-woman-wagon-driver-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-wagon-driver-n-1"
+    },
+    "indigo-wagon-driver-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the woman in her indigo dress and cream kerchief sitting as the wagon's driver, facing the camera: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-indigo-wagon-driver-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-wagon-driver-s-1"
+    },
+    "indigo-wagon-driver-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the woman in her indigo dress and cream kerchief sitting as the wagon's driver, facing east: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-indigo-wagon-driver-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-wagon-driver-e-1"
+    },
+    "indigo-wagon-driver-w-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the woman in her indigo dress and cream kerchief sitting as the wagon's driver, facing west (the east drawing mirrored): seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-indigo-wagon-driver-w-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-wagon-driver-w-1"
+    },
+    "indigo-wagon-driver-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the woman in her indigo dress and cream kerchief sitting as the wagon's driver, seen from behind, going away: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-indigo-wagon-driver-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-wagon-driver-n-1"
+    },
+    "ochre-wagon-driver-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the man in his ochre shirt and dark waistcoat sitting as the wagon's driver, facing the camera: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-ochre-wagon-driver-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-wagon-driver-s-1"
+    },
+    "ochre-wagon-driver-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the man in his ochre shirt and dark waistcoat sitting as the wagon's driver, facing east: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-ochre-wagon-driver-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-wagon-driver-e-1"
+    },
+    "ochre-wagon-driver-w-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the man in his ochre shirt and dark waistcoat sitting as the wagon's driver, facing west (the east drawing mirrored): seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-ochre-wagon-driver-w-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-wagon-driver-w-1"
+    },
+    "ochre-wagon-driver-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the man in his ochre shirt and dark waistcoat sitting as the wagon's driver, seen from behind, going away: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-ochre-wagon-driver-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-wagon-driver-n-1"
+    },
+    "blue-girl-wagon-driver-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the girl of about fourteen in her blue dress, apron and braid sitting as the wagon's driver, facing the camera: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-blue-girl-wagon-driver-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-wagon-driver-s-1"
+    },
+    "blue-girl-wagon-driver-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the girl of about fourteen in her blue dress, apron and braid sitting as the wagon's driver, facing east: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-blue-girl-wagon-driver-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-wagon-driver-e-1"
+    },
+    "blue-girl-wagon-driver-w-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the girl of about fourteen in her blue dress, apron and braid sitting as the wagon's driver, facing west (the east drawing mirrored): seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-blue-girl-wagon-driver-w-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-wagon-driver-w-1"
+    },
+    "blue-girl-wagon-driver-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the girl of about fourteen in her blue dress, apron and braid sitting as the wagon's driver, seen from behind, going away: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-blue-girl-wagon-driver-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-wagon-driver-n-1"
+    },
+    "girl-wagon-driver-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the family's girl of about eight, two braids, rust dress sitting as the wagon's driver, facing the camera: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-girl-wagon-driver-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's girl-wagon-driver-s-1"
+    },
+    "girl-wagon-driver-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the family's girl of about eight, two braids, rust dress sitting as the wagon's driver, facing east: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-girl-wagon-driver-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's girl-wagon-driver-e-1"
+    },
+    "girl-wagon-driver-w-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the family's girl of about eight, two braids, rust dress sitting as the wagon's driver, facing west (the east drawing mirrored): seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-girl-wagon-driver-w-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's girl-wagon-driver-w-1"
+    },
+    "girl-wagon-driver-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the family's girl of about eight, two braids, rust dress sitting as the wagon's driver, seen from behind, going away: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-girl-wagon-driver-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's girl-wagon-driver-n-1"
+    },
+    "boy-wagon-driver-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the family's boy of about eight, fair hair, cream shirt, barefoot sitting as the wagon's driver, facing the camera: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-boy-wagon-driver-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's boy-wagon-driver-s-1"
+    },
+    "boy-wagon-driver-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the family's boy of about eight, fair hair, cream shirt, barefoot sitting as the wagon's driver, facing east: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-boy-wagon-driver-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's boy-wagon-driver-e-1"
+    },
+    "boy-wagon-driver-w-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the family's boy of about eight, fair hair, cream shirt, barefoot sitting as the wagon's driver, facing west (the east drawing mirrored): seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-boy-wagon-driver-w-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's boy-wagon-driver-w-1"
+    },
+    "boy-wagon-driver-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the family's boy of about eight, fair hair, cream shirt, barefoot sitting as the wagon's driver, seen from behind, going away: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-boy-wagon-driver-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's boy-wagon-driver-n-1"
+    },
+    "smallchild-wagon-driver-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the family's small child of about four in a cream smock sitting as the wagon's driver, facing the camera: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-smallchild-wagon-driver-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's smallchild-wagon-driver-s-1"
+    },
+    "smallchild-wagon-driver-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the family's small child of about four in a cream smock sitting as the wagon's driver, facing east: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-smallchild-wagon-driver-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's smallchild-wagon-driver-e-1"
+    },
+    "smallchild-wagon-driver-w-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the family's small child of about four in a cream smock sitting as the wagon's driver, facing west (the east drawing mirrored): seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-smallchild-wagon-driver-w-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's smallchild-wagon-driver-w-1"
+    },
+    "smallchild-wagon-driver-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-drivers",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "the family's small child of about four in a cream smock sitting as the wagon's driver, seen from behind, going away: seated on the box with the feet on the footboard, the lines in one hand and a short ox goad held up in the other, the back upright. The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-smallchild-wagon-driver-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's smallchild-wagon-driver-n-1"
+    },
+    "rust-ride-wagon-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the principal in his rust shirt, brim hat and full beard riding in the bed of the family's wagon or cart, facing east: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-rust-ride-wagon-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-ride-wagon-e-1"
+    },
+    "rust-ride-wagon-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the principal in his rust shirt, brim hat and full beard riding in the bed of the family's wagon or cart, facing the camera: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-rust-ride-wagon-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-ride-wagon-s-1"
+    },
+    "rust-ride-wagon-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the principal in his rust shirt, brim hat and full beard riding in the bed of the family's wagon or cart, seen from behind, going away: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-rust-ride-wagon-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-ride-wagon-n-1"
+    },
+    "teal-ride-wagon-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the teal-bodiced woman with her bun and ochre skirt riding in the bed of the family's wagon or cart, facing east: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-teal-ride-wagon-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's teal-ride-wagon-e-1"
+    },
+    "teal-ride-wagon-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the teal-bodiced woman with her bun and ochre skirt riding in the bed of the family's wagon or cart, facing the camera: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-teal-ride-wagon-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's teal-ride-wagon-s-1"
+    },
+    "teal-ride-wagon-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the teal-bodiced woman with her bun and ochre skirt riding in the bed of the family's wagon or cart, seen from behind, going away: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-teal-ride-wagon-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's teal-ride-wagon-n-1"
+    },
+    "elder-ride-wagon-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the grey-bearded elder in his olive waistcoat riding in the bed of the family's wagon or cart, facing east: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-elder-ride-wagon-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's elder-ride-wagon-e-1"
+    },
+    "elder-ride-wagon-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the grey-bearded elder in his olive waistcoat riding in the bed of the family's wagon or cart, facing the camera: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-elder-ride-wagon-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's elder-ride-wagon-s-1"
+    },
+    "elder-ride-wagon-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the grey-bearded elder in his olive waistcoat riding in the bed of the family's wagon or cart, seen from behind, going away: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-elder-ride-wagon-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's elder-ride-wagon-n-1"
+    },
+    "blue-ride-wagon-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the youth in his blue shirt and rolled trousers riding in the bed of the family's wagon or cart, facing east: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-blue-ride-wagon-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-ride-wagon-e-1"
+    },
+    "blue-ride-wagon-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the youth in his blue shirt and rolled trousers riding in the bed of the family's wagon or cart, facing the camera: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-blue-ride-wagon-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-ride-wagon-s-1"
+    },
+    "blue-ride-wagon-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the youth in his blue shirt and rolled trousers riding in the bed of the family's wagon or cart, seen from behind, going away: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-blue-ride-wagon-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-ride-wagon-n-1"
+    },
+    "rust-woman-ride-wagon-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the woman in her rust blouse, cream sunbonnet and apron riding in the bed of the family's wagon or cart, facing east: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-rust-woman-ride-wagon-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-ride-wagon-e-1"
+    },
+    "rust-woman-ride-wagon-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the woman in her rust blouse, cream sunbonnet and apron riding in the bed of the family's wagon or cart, facing the camera: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-rust-woman-ride-wagon-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-ride-wagon-s-1"
+    },
+    "rust-woman-ride-wagon-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the woman in her rust blouse, cream sunbonnet and apron riding in the bed of the family's wagon or cart, seen from behind, going away: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-rust-woman-ride-wagon-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-ride-wagon-n-1"
+    },
+    "indigo-ride-wagon-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the woman in her indigo dress and cream kerchief riding in the bed of the family's wagon or cart, facing east: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-indigo-ride-wagon-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-ride-wagon-e-1"
+    },
+    "indigo-ride-wagon-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the woman in her indigo dress and cream kerchief riding in the bed of the family's wagon or cart, facing the camera: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-indigo-ride-wagon-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-ride-wagon-s-1"
+    },
+    "indigo-ride-wagon-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the woman in her indigo dress and cream kerchief riding in the bed of the family's wagon or cart, seen from behind, going away: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-indigo-ride-wagon-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-ride-wagon-n-1"
+    },
+    "ochre-ride-wagon-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the man in his ochre shirt and dark waistcoat riding in the bed of the family's wagon or cart, facing east: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-ochre-ride-wagon-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-ride-wagon-e-1"
+    },
+    "ochre-ride-wagon-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the man in his ochre shirt and dark waistcoat riding in the bed of the family's wagon or cart, facing the camera: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-ochre-ride-wagon-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-ride-wagon-s-1"
+    },
+    "ochre-ride-wagon-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the man in his ochre shirt and dark waistcoat riding in the bed of the family's wagon or cart, seen from behind, going away: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-ochre-ride-wagon-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-ride-wagon-n-1"
+    },
+    "blue-girl-ride-wagon-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the girl of about fourteen in her blue dress, apron and braid riding in the bed of the family's wagon or cart, facing east: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-blue-girl-ride-wagon-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-ride-wagon-e-1"
+    },
+    "blue-girl-ride-wagon-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the girl of about fourteen in her blue dress, apron and braid riding in the bed of the family's wagon or cart, facing the camera: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-blue-girl-ride-wagon-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-ride-wagon-s-1"
+    },
+    "blue-girl-ride-wagon-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the girl of about fourteen in her blue dress, apron and braid riding in the bed of the family's wagon or cart, seen from behind, going away: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-blue-girl-ride-wagon-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-ride-wagon-n-1"
+    },
+    "girl-ride-wagon-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the family's girl of about eight, two braids, rust dress riding in the bed of the family's wagon or cart, facing east: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-girl-ride-wagon-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's girl-ride-wagon-e-1"
+    },
+    "girl-ride-wagon-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the family's girl of about eight, two braids, rust dress riding in the bed of the family's wagon or cart, facing the camera: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-girl-ride-wagon-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's girl-ride-wagon-s-1"
+    },
+    "girl-ride-wagon-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the family's girl of about eight, two braids, rust dress riding in the bed of the family's wagon or cart, seen from behind, going away: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-girl-ride-wagon-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's girl-ride-wagon-n-1"
+    },
+    "boy-ride-wagon-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the family's boy of about eight, fair hair, cream shirt, barefoot riding in the bed of the family's wagon or cart, facing east: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-boy-ride-wagon-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's boy-ride-wagon-e-1"
+    },
+    "boy-ride-wagon-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the family's boy of about eight, fair hair, cream shirt, barefoot riding in the bed of the family's wagon or cart, facing the camera: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-boy-ride-wagon-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's boy-ride-wagon-s-1"
+    },
+    "boy-ride-wagon-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the family's boy of about eight, fair hair, cream shirt, barefoot riding in the bed of the family's wagon or cart, seen from behind, going away: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-boy-ride-wagon-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's boy-ride-wagon-n-1"
+    },
+    "smallchild-ride-wagon-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the family's small child of about four in a cream smock riding in the bed of the family's wagon or cart, facing east: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-smallchild-ride-wagon-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's smallchild-ride-wagon-e-1"
+    },
+    "smallchild-ride-wagon-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the family's small child of about four in a cream smock riding in the bed of the family's wagon or cart, facing the camera: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-smallchild-ride-wagon-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's smallchild-ride-wagon-s-1"
+    },
+    "smallchild-ride-wagon-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "sheet": "claude-wagon-riders",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "the family's small child of about four in a cream smock riding in the bed of the family's wagon or cart, seen from behind, going away: sitting on the load or the floor with the knees up and the hands resting in the lap, as the family's youngest and sick ride on its journeys (sim/company.mjs). The same face, hair, clothes and colours as Astra's sheets of this figure. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade; no bench, wagon, team or ground drawn - transparent all round, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-seated/claude-smallchild-ride-wagon-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's smallchild-ride-wagon-n-1"
+    },
+    "rust-woman-wagon-driver-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "rust-woman driving the wagon, s: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "rust-woman-wagon-driver-s-1"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-wagon-driver-s"
+    },
+    "rust-woman-wagon-driver-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "rust-woman driving the wagon, e: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "rust-woman-wagon-driver-e-1"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-wagon-driver-e"
+    },
+    "rust-woman-wagon-driver-w": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "rust-woman driving the wagon, w: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "rust-woman-wagon-driver-w-1"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-wagon-driver-w"
+    },
+    "rust-woman-wagon-driver-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "rust-woman driving the wagon, n: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "rust-woman-wagon-driver-n-1"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-wagon-driver-n"
+    },
+    "indigo-wagon-driver-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "indigo driving the wagon, s: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "indigo-wagon-driver-s-1"
+      ],
+      "status": "temporary: replace with Astra's indigo-wagon-driver-s"
+    },
+    "indigo-wagon-driver-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "indigo driving the wagon, e: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "indigo-wagon-driver-e-1"
+      ],
+      "status": "temporary: replace with Astra's indigo-wagon-driver-e"
+    },
+    "indigo-wagon-driver-w": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "indigo driving the wagon, w: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "indigo-wagon-driver-w-1"
+      ],
+      "status": "temporary: replace with Astra's indigo-wagon-driver-w"
+    },
+    "indigo-wagon-driver-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "indigo driving the wagon, n: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "indigo-wagon-driver-n-1"
+      ],
+      "status": "temporary: replace with Astra's indigo-wagon-driver-n"
+    },
+    "ochre-wagon-driver-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "ochre driving the wagon, s: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "ochre-wagon-driver-s-1"
+      ],
+      "status": "temporary: replace with Astra's ochre-wagon-driver-s"
+    },
+    "ochre-wagon-driver-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "ochre driving the wagon, e: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "ochre-wagon-driver-e-1"
+      ],
+      "status": "temporary: replace with Astra's ochre-wagon-driver-e"
+    },
+    "ochre-wagon-driver-w": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "ochre driving the wagon, w: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "ochre-wagon-driver-w-1"
+      ],
+      "status": "temporary: replace with Astra's ochre-wagon-driver-w"
+    },
+    "ochre-wagon-driver-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "ochre driving the wagon, n: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "ochre-wagon-driver-n-1"
+      ],
+      "status": "temporary: replace with Astra's ochre-wagon-driver-n"
+    },
+    "blue-girl-wagon-driver-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "blue-girl driving the wagon, s: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "blue-girl-wagon-driver-s-1"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-wagon-driver-s"
+    },
+    "blue-girl-wagon-driver-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "blue-girl driving the wagon, e: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "blue-girl-wagon-driver-e-1"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-wagon-driver-e"
+    },
+    "blue-girl-wagon-driver-w": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "blue-girl driving the wagon, w: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "blue-girl-wagon-driver-w-1"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-wagon-driver-w"
+    },
+    "blue-girl-wagon-driver-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "blue-girl driving the wagon, n: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "blue-girl-wagon-driver-n-1"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-wagon-driver-n"
+    },
+    "girl-wagon-driver-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "girl driving the wagon, s: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "girl-wagon-driver-s-1"
+      ],
+      "status": "temporary: replace with Astra's girl-wagon-driver-s"
+    },
+    "girl-wagon-driver-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "girl driving the wagon, e: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "girl-wagon-driver-e-1"
+      ],
+      "status": "temporary: replace with Astra's girl-wagon-driver-e"
+    },
+    "girl-wagon-driver-w": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "girl driving the wagon, w: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "girl-wagon-driver-w-1"
+      ],
+      "status": "temporary: replace with Astra's girl-wagon-driver-w"
+    },
+    "girl-wagon-driver-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "girl driving the wagon, n: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "girl-wagon-driver-n-1"
+      ],
+      "status": "temporary: replace with Astra's girl-wagon-driver-n"
+    },
+    "boy-wagon-driver-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "boy driving the wagon, s: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "boy-wagon-driver-s-1"
+      ],
+      "status": "temporary: replace with Astra's boy-wagon-driver-s"
+    },
+    "boy-wagon-driver-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "boy driving the wagon, e: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "boy-wagon-driver-e-1"
+      ],
+      "status": "temporary: replace with Astra's boy-wagon-driver-e"
+    },
+    "boy-wagon-driver-w": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "boy driving the wagon, w: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "boy-wagon-driver-w-1"
+      ],
+      "status": "temporary: replace with Astra's boy-wagon-driver-w"
+    },
+    "boy-wagon-driver-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "boy driving the wagon, n: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "boy-wagon-driver-n-1"
+      ],
+      "status": "temporary: replace with Astra's boy-wagon-driver-n"
+    },
+    "smallchild-wagon-driver-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "smallchild driving the wagon, s: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "smallchild-wagon-driver-s-1"
+      ],
+      "status": "temporary: replace with Astra's smallchild-wagon-driver-s"
+    },
+    "smallchild-wagon-driver-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "smallchild driving the wagon, e: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "smallchild-wagon-driver-e-1"
+      ],
+      "status": "temporary: replace with Astra's smallchild-wagon-driver-e"
+    },
+    "smallchild-wagon-driver-w": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "smallchild driving the wagon, w: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "smallchild-wagon-driver-w-1"
+      ],
+      "status": "temporary: replace with Astra's smallchild-wagon-driver-w"
+    },
+    "smallchild-wagon-driver-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "smallchild driving the wagon, n: one held seated frame, breathing, as the delivered drivers.",
+      "frames": [
+        "smallchild-wagon-driver-n-1"
+      ],
+      "status": "temporary: replace with Astra's smallchild-wagon-driver-n"
+    },
+    "rust-ride-wagon-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "rust riding in the wagon's bed, e: one held seated frame, breathing.",
+      "frames": [
+        "rust-ride-wagon-e-1"
+      ],
+      "status": "temporary: replace with Astra's rust-ride-wagon-e"
+    },
+    "rust-ride-wagon-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "rust riding in the wagon's bed, s: one held seated frame, breathing.",
+      "frames": [
+        "rust-ride-wagon-s-1"
+      ],
+      "status": "temporary: replace with Astra's rust-ride-wagon-s"
+    },
+    "rust-ride-wagon-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "rust riding in the wagon's bed, n: one held seated frame, breathing.",
+      "frames": [
+        "rust-ride-wagon-n-1"
+      ],
+      "status": "temporary: replace with Astra's rust-ride-wagon-n"
+    },
+    "teal-ride-wagon-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "teal riding in the wagon's bed, e: one held seated frame, breathing.",
+      "frames": [
+        "teal-ride-wagon-e-1"
+      ],
+      "status": "temporary: replace with Astra's teal-ride-wagon-e"
+    },
+    "teal-ride-wagon-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "teal riding in the wagon's bed, s: one held seated frame, breathing.",
+      "frames": [
+        "teal-ride-wagon-s-1"
+      ],
+      "status": "temporary: replace with Astra's teal-ride-wagon-s"
+    },
+    "teal-ride-wagon-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "teal riding in the wagon's bed, n: one held seated frame, breathing.",
+      "frames": [
+        "teal-ride-wagon-n-1"
+      ],
+      "status": "temporary: replace with Astra's teal-ride-wagon-n"
+    },
+    "elder-ride-wagon-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "elder riding in the wagon's bed, e: one held seated frame, breathing.",
+      "frames": [
+        "elder-ride-wagon-e-1"
+      ],
+      "status": "temporary: replace with Astra's elder-ride-wagon-e"
+    },
+    "elder-ride-wagon-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "elder riding in the wagon's bed, s: one held seated frame, breathing.",
+      "frames": [
+        "elder-ride-wagon-s-1"
+      ],
+      "status": "temporary: replace with Astra's elder-ride-wagon-s"
+    },
+    "elder-ride-wagon-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "elder riding in the wagon's bed, n: one held seated frame, breathing.",
+      "frames": [
+        "elder-ride-wagon-n-1"
+      ],
+      "status": "temporary: replace with Astra's elder-ride-wagon-n"
+    },
+    "blue-ride-wagon-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "blue riding in the wagon's bed, e: one held seated frame, breathing.",
+      "frames": [
+        "blue-ride-wagon-e-1"
+      ],
+      "status": "temporary: replace with Astra's blue-ride-wagon-e"
+    },
+    "blue-ride-wagon-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "blue riding in the wagon's bed, s: one held seated frame, breathing.",
+      "frames": [
+        "blue-ride-wagon-s-1"
+      ],
+      "status": "temporary: replace with Astra's blue-ride-wagon-s"
+    },
+    "blue-ride-wagon-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "blue riding in the wagon's bed, n: one held seated frame, breathing.",
+      "frames": [
+        "blue-ride-wagon-n-1"
+      ],
+      "status": "temporary: replace with Astra's blue-ride-wagon-n"
+    },
+    "rust-woman-ride-wagon-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "rust-woman riding in the wagon's bed, e: one held seated frame, breathing.",
+      "frames": [
+        "rust-woman-ride-wagon-e-1"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-ride-wagon-e"
+    },
+    "rust-woman-ride-wagon-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "rust-woman riding in the wagon's bed, s: one held seated frame, breathing.",
+      "frames": [
+        "rust-woman-ride-wagon-s-1"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-ride-wagon-s"
+    },
+    "rust-woman-ride-wagon-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "rust-woman riding in the wagon's bed, n: one held seated frame, breathing.",
+      "frames": [
+        "rust-woman-ride-wagon-n-1"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-ride-wagon-n"
+    },
+    "indigo-ride-wagon-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "indigo riding in the wagon's bed, e: one held seated frame, breathing.",
+      "frames": [
+        "indigo-ride-wagon-e-1"
+      ],
+      "status": "temporary: replace with Astra's indigo-ride-wagon-e"
+    },
+    "indigo-ride-wagon-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "indigo riding in the wagon's bed, s: one held seated frame, breathing.",
+      "frames": [
+        "indigo-ride-wagon-s-1"
+      ],
+      "status": "temporary: replace with Astra's indigo-ride-wagon-s"
+    },
+    "indigo-ride-wagon-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "indigo riding in the wagon's bed, n: one held seated frame, breathing.",
+      "frames": [
+        "indigo-ride-wagon-n-1"
+      ],
+      "status": "temporary: replace with Astra's indigo-ride-wagon-n"
+    },
+    "ochre-ride-wagon-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "ochre riding in the wagon's bed, e: one held seated frame, breathing.",
+      "frames": [
+        "ochre-ride-wagon-e-1"
+      ],
+      "status": "temporary: replace with Astra's ochre-ride-wagon-e"
+    },
+    "ochre-ride-wagon-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "ochre riding in the wagon's bed, s: one held seated frame, breathing.",
+      "frames": [
+        "ochre-ride-wagon-s-1"
+      ],
+      "status": "temporary: replace with Astra's ochre-ride-wagon-s"
+    },
+    "ochre-ride-wagon-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "ochre riding in the wagon's bed, n: one held seated frame, breathing.",
+      "frames": [
+        "ochre-ride-wagon-n-1"
+      ],
+      "status": "temporary: replace with Astra's ochre-ride-wagon-n"
+    },
+    "blue-girl-ride-wagon-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "blue-girl riding in the wagon's bed, e: one held seated frame, breathing.",
+      "frames": [
+        "blue-girl-ride-wagon-e-1"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-ride-wagon-e"
+    },
+    "blue-girl-ride-wagon-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "blue-girl riding in the wagon's bed, s: one held seated frame, breathing.",
+      "frames": [
+        "blue-girl-ride-wagon-s-1"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-ride-wagon-s"
+    },
+    "blue-girl-ride-wagon-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "blue-girl riding in the wagon's bed, n: one held seated frame, breathing.",
+      "frames": [
+        "blue-girl-ride-wagon-n-1"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-ride-wagon-n"
+    },
+    "girl-ride-wagon-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "girl riding in the wagon's bed, e: one held seated frame, breathing.",
+      "frames": [
+        "girl-ride-wagon-e-1"
+      ],
+      "status": "temporary: replace with Astra's girl-ride-wagon-e"
+    },
+    "girl-ride-wagon-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "girl riding in the wagon's bed, s: one held seated frame, breathing.",
+      "frames": [
+        "girl-ride-wagon-s-1"
+      ],
+      "status": "temporary: replace with Astra's girl-ride-wagon-s"
+    },
+    "girl-ride-wagon-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "girl riding in the wagon's bed, n: one held seated frame, breathing.",
+      "frames": [
+        "girl-ride-wagon-n-1"
+      ],
+      "status": "temporary: replace with Astra's girl-ride-wagon-n"
+    },
+    "boy-ride-wagon-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "boy riding in the wagon's bed, e: one held seated frame, breathing.",
+      "frames": [
+        "boy-ride-wagon-e-1"
+      ],
+      "status": "temporary: replace with Astra's boy-ride-wagon-e"
+    },
+    "boy-ride-wagon-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "boy riding in the wagon's bed, s: one held seated frame, breathing.",
+      "frames": [
+        "boy-ride-wagon-s-1"
+      ],
+      "status": "temporary: replace with Astra's boy-ride-wagon-s"
+    },
+    "boy-ride-wagon-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "boy riding in the wagon's bed, n: one held seated frame, breathing.",
+      "frames": [
+        "boy-ride-wagon-n-1"
+      ],
+      "status": "temporary: replace with Astra's boy-ride-wagon-n"
+    },
+    "smallchild-ride-wagon-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "smallchild riding in the wagon's bed, e: one held seated frame, breathing.",
+      "frames": [
+        "smallchild-ride-wagon-e-1"
+      ],
+      "status": "temporary: replace with Astra's smallchild-ride-wagon-e"
+    },
+    "smallchild-ride-wagon-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "smallchild riding in the wagon's bed, s: one held seated frame, breathing.",
+      "frames": [
+        "smallchild-ride-wagon-s-1"
+      ],
+      "status": "temporary: replace with Astra's smallchild-ride-wagon-s"
+    },
+    "smallchild-ride-wagon-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-seated",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "smallchild riding in the wagon's bed, n: one held seated frame, breathing.",
+      "frames": [
+        "smallchild-ride-wagon-n-1"
+      ],
+      "status": "temporary: replace with Astra's smallchild-ride-wagon-n"
+    }
+  }
+}

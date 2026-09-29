@@ -270,7 +270,9 @@ function drawFrontal(ink, F, pose, view) {
     const hip = add(P, [side * hw * 0.55, 0]);
     // Astride a horse (area D, 2026-09-28) the feet are where the stirrups are, down either side of it, and the knees bow out.
     const foot = pose.feetFrontal?.[side < 0 ? 'left' : 'right'] || [side * hw * 0.62, F.ankle + (back ? -fwd : fwd) * -1.4 + (fwd < 0 ? 2.2 : 0)];
-    return { side, hip, foot, chain: ik(hip, foot, B.thigh, B.shin, pose.feetFrontal ? side : side * 0.001) };
+    // Seated facing the camera (a wagon's driver, area D): the thigh comes toward us, so the knee is given, foreshortened.
+    const knee = pose.kneesFrontal?.[side < 0 ? 'left' : 'right'];
+    return { side, hip, foot, chain: knee ? { joint: knee, end: foot } : ik(hip, foot, B.thigh, B.shin, pose.feetFrontal ? side : side * 0.001) };
   });
   const swing = pose.step ? 1 : 0;
   const hands = pose.hands || {};

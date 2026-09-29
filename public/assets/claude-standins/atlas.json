@@ -326,6 +326,44 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
+    "claude-wagon-drivers": {
+      "image": "/assets/claude-standins/claude-wagon-drivers.png",
+      "width": 3200,
+      "height": 1600,
+      "bytes": 970280,
+      "sha256": "dc9f3b6595632e6dbb5b3372228910f06e5ce673afdba851842a89441dea4d5f",
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "layout": {
+        "rows": 4,
+        "columns": 8,
+        "cell": {
+          "w": 400,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-wagon-riders": {
+      "image": "/assets/claude-standins/claude-wagon-riders.png",
+      "width": 3600,
+      "height": 1600,
+      "bytes": 1038421,
+      "sha256": "bf2025ac42c7cd7305aac09b04667a5817bfe75a06f2c899ee5c82b9181cf66d",
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "layout": {
+        "rows": 4,
+        "columns": 9,
+        "cell": {
+          "w": 400,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
     "claude-cart": {
       "image": "/assets/claude-standins/claude-cart.png",
       "width": 1600,
@@ -3528,6 +3566,1043 @@
       "label": "sutherland ride n 4",
       "kind": "claude-ride-famous"
     },
+    "rust-woman-wagon-driver-s-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 0,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "rust-woman-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-s-1.svg",
+      "label": "rust woman wagon driver s 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "rust-woman-wagon-driver-e-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 400,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "rust-woman-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-e-1.svg",
+      "label": "rust woman wagon driver e 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "rust-woman-wagon-driver-w-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 800,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "rust-woman-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-w-1.svg",
+      "label": "rust woman wagon driver w 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "rust-woman-wagon-driver-n-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 1200,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "rust-woman-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-rust-woman-wagon-driver-n-1.svg",
+      "label": "rust woman wagon driver n 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "indigo-wagon-driver-s-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 1600,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "indigo-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-indigo-wagon-driver-s-1.svg",
+      "label": "indigo wagon driver s 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "indigo-wagon-driver-e-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2000,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "indigo-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-indigo-wagon-driver-e-1.svg",
+      "label": "indigo wagon driver e 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "indigo-wagon-driver-w-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2400,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "indigo-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-indigo-wagon-driver-w-1.svg",
+      "label": "indigo wagon driver w 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "indigo-wagon-driver-n-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2800,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "indigo-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-indigo-wagon-driver-n-1.svg",
+      "label": "indigo wagon driver n 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "ochre-wagon-driver-s-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 0,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "ochre-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-ochre-wagon-driver-s-1.svg",
+      "label": "ochre wagon driver s 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "ochre-wagon-driver-e-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 400,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "ochre-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-ochre-wagon-driver-e-1.svg",
+      "label": "ochre wagon driver e 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "ochre-wagon-driver-w-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 800,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "ochre-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-ochre-wagon-driver-w-1.svg",
+      "label": "ochre wagon driver w 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "ochre-wagon-driver-n-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 1200,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "ochre-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-ochre-wagon-driver-n-1.svg",
+      "label": "ochre wagon driver n 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "blue-girl-wagon-driver-s-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 1600,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "blue-girl-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-s-1.svg",
+      "label": "blue girl wagon driver s 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "blue-girl-wagon-driver-e-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2000,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "blue-girl-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-e-1.svg",
+      "label": "blue girl wagon driver e 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "blue-girl-wagon-driver-w-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2400,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "blue-girl-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-w-1.svg",
+      "label": "blue girl wagon driver w 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "blue-girl-wagon-driver-n-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2800,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "blue-girl-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-blue-girl-wagon-driver-n-1.svg",
+      "label": "blue girl wagon driver n 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "girl-wagon-driver-s-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 0,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "girl-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-girl-wagon-driver-s-1.svg",
+      "label": "girl wagon driver s 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "girl-wagon-driver-e-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 400,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "girl-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-girl-wagon-driver-e-1.svg",
+      "label": "girl wagon driver e 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "girl-wagon-driver-w-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 800,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "girl-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-girl-wagon-driver-w-1.svg",
+      "label": "girl wagon driver w 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "girl-wagon-driver-n-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 1200,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "girl-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-girl-wagon-driver-n-1.svg",
+      "label": "girl wagon driver n 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "boy-wagon-driver-s-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 1600,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "boy-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-boy-wagon-driver-s-1.svg",
+      "label": "boy wagon driver s 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "boy-wagon-driver-e-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2000,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "boy-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-boy-wagon-driver-e-1.svg",
+      "label": "boy wagon driver e 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "boy-wagon-driver-w-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2400,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "boy-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-boy-wagon-driver-w-1.svg",
+      "label": "boy wagon driver w 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "boy-wagon-driver-n-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 2800,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "boy-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-boy-wagon-driver-n-1.svg",
+      "label": "boy wagon driver n 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "smallchild-wagon-driver-s-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 0,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "smallchild-wagon-driver-s-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-smallchild-wagon-driver-s-1.svg",
+      "label": "smallchild wagon driver s 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "smallchild-wagon-driver-e-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 400,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "smallchild-wagon-driver-e-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-smallchild-wagon-driver-e-1.svg",
+      "label": "smallchild wagon driver e 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "smallchild-wagon-driver-w-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 800,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "smallchild-wagon-driver-w-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-smallchild-wagon-driver-w-1.svg",
+      "label": "smallchild wagon driver w 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "smallchild-wagon-driver-n-1": {
+      "sheet": "claude-wagon-drivers",
+      "x": 1200,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "smallchild-wagon-driver-n-1: a seated driver layer on the four headings as the delivered sixteen in people-wagon-drivers, anchored at the rig's seat point",
+      "source": "svg/transport-seated/claude-smallchild-wagon-driver-n-1.svg",
+      "label": "smallchild wagon driver n 1",
+      "kind": "claude-wagon-drivers"
+    },
+    "rust-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 0,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "rust-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-rust-ride-wagon-e-1.svg",
+      "label": "rust ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "rust-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 400,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "rust-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-rust-ride-wagon-s-1.svg",
+      "label": "rust ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "rust-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 800,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "rust-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-rust-ride-wagon-n-1.svg",
+      "label": "rust ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "teal-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1200,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "teal-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-teal-ride-wagon-e-1.svg",
+      "label": "teal ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "teal-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1600,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "teal-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-teal-ride-wagon-s-1.svg",
+      "label": "teal ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "teal-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2000,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "teal-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-teal-ride-wagon-n-1.svg",
+      "label": "teal ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "elder-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2400,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "elder-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-elder-ride-wagon-e-1.svg",
+      "label": "elder ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "elder-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2800,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "elder-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-elder-ride-wagon-s-1.svg",
+      "label": "elder ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "elder-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 3200,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "elder-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-elder-ride-wagon-n-1.svg",
+      "label": "elder ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "blue-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 0,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "blue-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-blue-ride-wagon-e-1.svg",
+      "label": "blue ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "blue-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 400,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "blue-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-blue-ride-wagon-s-1.svg",
+      "label": "blue ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "blue-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 800,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "blue-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-blue-ride-wagon-n-1.svg",
+      "label": "blue ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "rust-woman-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1200,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "rust-woman-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-rust-woman-ride-wagon-e-1.svg",
+      "label": "rust woman ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "rust-woman-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1600,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "rust-woman-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-rust-woman-ride-wagon-s-1.svg",
+      "label": "rust woman ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "rust-woman-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2000,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "rust-woman-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-rust-woman-ride-wagon-n-1.svg",
+      "label": "rust woman ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "indigo-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2400,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "indigo-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-indigo-ride-wagon-e-1.svg",
+      "label": "indigo ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "indigo-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2800,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "indigo-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-indigo-ride-wagon-s-1.svg",
+      "label": "indigo ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "indigo-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 3200,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "indigo-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-indigo-ride-wagon-n-1.svg",
+      "label": "indigo ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "ochre-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 0,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "ochre-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-ochre-ride-wagon-e-1.svg",
+      "label": "ochre ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "ochre-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 400,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "ochre-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-ochre-ride-wagon-s-1.svg",
+      "label": "ochre ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "ochre-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 800,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "ochre-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-ochre-ride-wagon-n-1.svg",
+      "label": "ochre ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "blue-girl-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1200,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "blue-girl-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-blue-girl-ride-wagon-e-1.svg",
+      "label": "blue girl ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "blue-girl-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1600,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "blue-girl-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-blue-girl-ride-wagon-s-1.svg",
+      "label": "blue girl ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "blue-girl-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2000,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "blue-girl-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-blue-girl-ride-wagon-n-1.svg",
+      "label": "blue girl ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "girl-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2400,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "girl-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-girl-ride-wagon-e-1.svg",
+      "label": "girl ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "girl-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2800,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "girl-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-girl-ride-wagon-s-1.svg",
+      "label": "girl ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "girl-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 3200,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "girl-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-girl-ride-wagon-n-1.svg",
+      "label": "girl ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "boy-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 0,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "boy-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-boy-ride-wagon-e-1.svg",
+      "label": "boy ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "boy-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 400,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "boy-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-boy-ride-wagon-s-1.svg",
+      "label": "boy ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "boy-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 800,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "boy-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-boy-ride-wagon-n-1.svg",
+      "label": "boy ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
+    "smallchild-ride-wagon-e-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1200,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "smallchild-ride-wagon-e-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-smallchild-ride-wagon-e-1.svg",
+      "label": "smallchild ride wagon e 1",
+      "kind": "claude-wagon-riders"
+    },
+    "smallchild-ride-wagon-s-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 1600,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "smallchild-ride-wagon-s-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-smallchild-ride-wagon-s-1.svg",
+      "label": "smallchild ride wagon s 1",
+      "kind": "claude-wagon-riders"
+    },
+    "smallchild-ride-wagon-n-1": {
+      "sheet": "claude-wagon-riders",
+      "x": 2000,
+      "y": 1200,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 276,
+      "madeBy": "claude",
+      "module": "transport-seated",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "replaceWith": "smallchild-ride-wagon-n-1: item 2: a seated rider for the bed of a wagon or cart, east, north and south, anchored at the hip like the delivered driver layers",
+      "source": "svg/transport-seated/claude-smallchild-ride-wagon-n-1.svg",
+      "label": "smallchild ride wagon n 1",
+      "kind": "claude-wagon-riders"
+    },
     "cart-travel-e-1": {
       "sheet": "claude-cart",
       "x": 0,
@@ -6161,6 +7236,860 @@
       "authored": true,
       "madeBy": "claude",
       "module": "transport-riders"
+    },
+    "rust-woman-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-woman-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-woman-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-w-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "west",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-woman-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "rust-woman-wagon-driver-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "indigo-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "indigo-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "indigo-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-w-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "west",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "indigo-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "indigo-wagon-driver-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "ochre-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "ochre-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "ochre-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-w-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "west",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "ochre-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "ochre-wagon-driver-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-girl-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-girl-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-girl-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-w-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "west",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-girl-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "blue-girl-wagon-driver-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "girl-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "girl-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "girl-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-w-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "west",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "girl-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "girl-wagon-driver-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "boy-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "boy-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "boy-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-w-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "west",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "boy-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "boy-wagon-driver-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "smallchild-wagon-driver-s": {
+      "frames": [
+        {
+          "sprite": "smallchild-wagon-driver-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "smallchild-wagon-driver-e": {
+      "frames": [
+        {
+          "sprite": "smallchild-wagon-driver-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "smallchild-wagon-driver-w": {
+      "frames": [
+        {
+          "sprite": "smallchild-wagon-driver-w-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "west",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "smallchild-wagon-driver-n": {
+      "frames": [
+        {
+          "sprite": "smallchild-wagon-driver-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "rust-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "rust-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "rust-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "teal-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "teal-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "teal-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "teal-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "teal-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "teal-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "elder-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "elder-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "elder-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "elder-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "elder-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "elder-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "blue-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "blue-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "blue-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-woman-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "rust-woman-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-woman-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "rust-woman-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "rust-woman-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "rust-woman-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "indigo-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "indigo-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "indigo-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "indigo-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "indigo-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "indigo-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "ochre-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "ochre-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "ochre-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "ochre-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "ochre-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "ochre-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-girl-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "blue-girl-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-girl-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "blue-girl-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "blue-girl-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "blue-girl-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "girl-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "girl-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "girl-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "girl-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "girl-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "girl-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "boy-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "boy-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "boy-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "boy-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "boy-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "boy-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "smallchild-ride-wagon-e": {
+      "frames": [
+        {
+          "sprite": "smallchild-ride-wagon-e-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "smallchild-ride-wagon-s": {
+      "frames": [
+        {
+          "sprite": "smallchild-ride-wagon-s-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "south",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
+    },
+    "smallchild-ride-wagon-n": {
+      "frames": [
+        {
+          "sprite": "smallchild-ride-wagon-n-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "north",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-seated"
     },
     "cart-travel-e": {
       "frames": [
