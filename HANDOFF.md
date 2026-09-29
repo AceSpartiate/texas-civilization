@@ -1,5 +1,45 @@
 # Claude handoff — Astra foundation
 
+## An order to leave that runs out burns the house — owner, 2026-09-29 (not released)
+
+**The ask.** Owner, 2026-09-29, answering the `flightWaited` ceiling of the real-time limits: *"72 s at quick, but if the
+student doesn't respond, burn their house. They should have been paying attention."* Claim `FIC-GONZ-907`. Branch
+`flight-lapse-burns` off origin/main at af25547a.
+
+- **Timing unchanged**: the order to leave waits three real minutes at Study and Brisk, 72 real seconds at Quick (the calendar's
+  day of grace comes first there, `flightWaited`; its `ceiling:` is now the owner's confirmed rule).
+- **The lapse** (`sim/scrape.mjs` `burnForSilence`, called from `autoFlee` only when it packs a family off by silence): the family
+  is packed off as before, and **men of the Texas army burn the farm behind it** - house, field, fences and what was left in the
+  house - as every farm in the game burns. Counted as every burning: `flight.burned`, `burnedBy { hand: 'texian', lapsed: true,
+  lost }`, the world's record (`recordFarmBurned`, now worded for the Texas army), the family's own knowledge (it watched it go,
+  so nothing is `unseen`, `burnKnown.how = 'there'`), the Host's spotlight, the journal line (*"Nobody answered the order to leave
+  in time, and the family left in a rush. ... The house is lost."*), and the ending (`flightLine`: *"Nobody answered the order in
+  time, and they left in a rush: the Texas army burned the farm behind them"*); the homecoming and the flashback already tell a
+  Texas-army burning. The herd is not touched.
+- **Who burns it, and why**: the Texas army - the game's own burner of farms as families leave (invented country, `FIC-GONZ-046`)
+  and the documented burner of Gonzales and San Felipe on its retreat (`HIST-TEX-594`). HISTORY.md `FIC-GONZ-907` says plainly
+  that nothing read documents a farm burned because its family left late, or by whom. A new "the family burned it" hand would
+  have been as invented and would have touched five more files that read `burnedBy.hand`.
+- **Only a student at the screen**: the call sits behind `advanceAuto`'s existing guard (played, not absent, answerer by hand).
+  A family nobody plays, an absent one and one on auto keep the old answer, the farm left standing.
+- **Warned first**: the projection's `flight.ifUnanswered` (`FLIGHT_IF_UNANSWERED` in `sim/auto.mjs`: *"No answer in time, and the
+  family leaves in a rush — the house is lost, burned behind it."*) is sent only while the order is on the student's clock; the
+  flight card shows it and the "!" text carries it; the flight tip now ends *"No answer in time, and it leaves in a rush and the
+  house is lost."*
+- No save version: `lapsed` is a new optional field on `burnedBy`, whose validator reads only `hand`.
+
+**Evidence** (same computer only; no Chromebook or LAN claim):
+
+- `tests/flight-lapse-burns.test.mjs` (3 tests): the lapse at Study (19 ticks) and Quick (72) packs the family off and burns the
+  house, counted, told, known and in the ending; the card and the "!" warn first; answered by hand, on auto, absent or unplayed,
+  nothing burns for silence.
+- **`npm run test:flight-lapse-burns-injections`: 11 of 11 caught, all 11 by the test written for them alone**
+  ([record](docs/evidence/flight-lapse-burns-injections.json)).
+- `npm test`: **1753 tests, 1717 pass, 0 fail, 36 skipped** (the suspended tutorial).
+- Browser proofs: `test:scrape` 7 checks, `test:scrape-pursuit` 15, `test:tips` 13, `test:auto` 14, `test:ending` 10, all green.
+  None of them lets an order to leave lapse on a watched family, so the card's warning line and the burned house are proven in
+  process, not in a browser.
+
 ## Small children until the day ends; follow and watch — owner, 2026-09-29 (not released)
 
 Branch `owner-children-watch`, off origin/main (1859f219, which has `audit-triage-2026-09-29` in it); not pushed. The owner's answers

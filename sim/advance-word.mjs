@@ -31,6 +31,8 @@ export const farmTopic = household => `farm-burned:${household.id}`;
 /** The world's record that the farm burned, written when it burns so the report's age is the burning's (`observedMinute`). */
 export function recordFarmBurned(world, household) {
   const by = household.flight.burnedBy || {};
+  // Burned by the Texas army as a family left late (sim/scrape.mjs `burnForSilence`, `FIC-GONZ-907`), or by a column's foragers.
+  if (by.hand === 'texian') return establishTruth(world, { id: farmTopic(household), text: 'The Texas army burned the farm as the family left.', siteId: household.homeSiteId, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-907' });
   return establishTruth(world, { id: farmTopic(household), text: `Foragers of ${by.name || 'the Mexican army'} burned the farm.`, siteId: household.homeSiteId, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-465' });
 }
 

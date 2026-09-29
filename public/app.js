@@ -4379,7 +4379,7 @@ function renderFlight(world, chosen, running) {
     return;
   }
   renderRouteEditor(world, null, running);
-  const key = JSON.stringify([flight.room, flight.mode, flight.have, flight.refuges, flight.burned, flight.decidedToStay, running, stepped]);
+  const key = JSON.stringify([flight.room, flight.mode, flight.have, flight.refuges, flight.burned, flight.decidedToStay, flight.ifUnanswered, running, stepped]);
   if (flightFormKey === key) return;
   flightFormKey = key;
   wrap.replaceChildren();
@@ -4388,6 +4388,8 @@ function renderFlight(world, chosen, running) {
   wrap.append(element('p', flight.burned ? 'The army has passed and burned the farm. The family can still go east with what it can carry.'
     : flight.decidedToStay ? 'The family is staying, and takes what comes. The road east is still open if it changes its mind.'
     : 'The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer before the time on the “!” runs out, or the family packs what it can and goes by itself.', 'ask-text'));
+  // A student at the screen who lets it run out loses the house (owner, 2026-09-29; sim/scrape.mjs `burnForSilence`): said first.
+  if (flight.ifUnanswered && !flight.burned && !flight.decidedToStay) wrap.append(element('p', flight.ifUnanswered, 'work-note flight-if-unanswered'));
   const carrier = flight.vehicle === 'cart' ? ' in the cart' : flight.vehicle === 'carreta' ? ' in the carreta' : flight.wagons ? ` in the ${flight.wagons} wagons` : ' in the wagon';
   wrap.append(element('p', `Room for ${flight.room}${flight.mode === 'wagon' ? carrier : ', carried on foot'}. Food takes ${flight.space.food} each, seed ${flight.space.seed}, cotton ${flight.space.cotton}, powder ${flight.space.powder}.`, 'work-note'));
   const form = element('div', '', 'flight-form');

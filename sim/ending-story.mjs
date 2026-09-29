@@ -35,7 +35,10 @@ export function flightLine(world, household) {
       : 'They were told to leave in the spring and stayed on the farm. The Mexican army never came that way, and the house stands.';
   }
   const went = `They fled east in the spring${refuge ? `, to ${refuge}` : ''}.`;
-  const farm = burned
+  // Nobody answered the order in time, and the house burned as they went (sim/scrape.mjs `burnForSilence`, `FIC-GONZ-907`).
+  const farm = burned && flight.burnedBy?.lapsed
+    ? ` Nobody answered the order in time, and they left in a rush: ${burnedBy} burned the farm behind them, on ${day(world, flight.burned)}.`
+    : burned
     ? ` While they were gone, ${burnedBy} burned the farm, on ${day(world, flight.burned)}.`
     : ' The farm they left was never burned.';
   const end = flight.status === 'home'
