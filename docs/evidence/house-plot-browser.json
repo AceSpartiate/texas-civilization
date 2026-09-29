@@ -1,5 +1,5 @@
 {
-  "date": "2026-09-24T16:11:57.661Z",
+  "date": "2026-09-29T20:47:57.311Z",
   "result": "PASS",
   "scope": "Same-computer student integration",
   "checks": [
@@ -7,7 +7,7 @@
     "preview drawn a house high in the people’s yardstick",
     "preview turned a quarter",
     "Build here places at the preview’s turn",
-    "the next stage says what it wants: Next: laying the sills on the round-log pen. It wants 4 sill logs and about 2 hours’ work; 132 sound and 12 poor at the house.",
+    "the next stage says what it wants: Next: laying the sills on the round-log pen. It wants 4 sill logs and about 1 hour’s work; 132 sound and 12 poor at the house.",
     "phone fits",
     "stage construction consumes 50 logs",
     "built house the preview’s size, turn and footprint",
@@ -58,10 +58,10 @@
   },
   "turns": {
     "0": {
-      "pictures": 39,
-      "chimneysAgainstTheirPen": 13,
+      "pictures": 36,
+      "chimneysAgainstTheirPen": 12,
       "chimneyOverDoor": false,
-      "housePicturesOnTheMap": 1794,
+      "housePicturesOnTheMap": 1488,
       "turned": 0,
       "mirrored": 0,
       "footprintCells": {
@@ -70,24 +70,24 @@
       }
     },
     "90": {
-      "pictures": 36,
-      "chimneysAgainstTheirPen": 12,
+      "pictures": 33,
+      "chimneysAgainstTheirPen": 11,
       "chimneyOverDoor": true,
-      "housePicturesOnTheMap": 1656,
+      "housePicturesOnTheMap": 1364,
       "turned": 0,
-      "mirrored": 36,
+      "mirrored": 33,
       "footprintCells": {
         "w": 2,
         "h": 3
       }
     },
     "180": {
-      "pictures": 30,
-      "chimneysAgainstTheirPen": 10,
+      "pictures": 39,
+      "chimneysAgainstTheirPen": 13,
       "chimneyOverDoor": false,
-      "housePicturesOnTheMap": 1380,
+      "housePicturesOnTheMap": 1612,
       "turned": 0,
-      "mirrored": 20,
+      "mirrored": 26,
       "footprintCells": {
         "w": 3,
         "h": 2
@@ -97,7 +97,7 @@
       "pictures": 33,
       "chimneysAgainstTheirPen": 11,
       "chimneyOverDoor": false,
-      "housePicturesOnTheMap": 1518,
+      "housePicturesOnTheMap": 1364,
       "turned": 0,
       "mirrored": 33,
       "footprintCells": {
@@ -107,19 +107,19 @@
     }
   },
   "spacing": {
-    "way": "south, turned 90, slid 0",
+    "way": "east, turned 0, slid 0",
     "refusedAt": {
-      "x": 108.56,
-      "y": 21.00809125,
-      "rotation": 90
+      "x": 99.168215,
+      "y": 21.1,
+      "rotation": 0
     },
     "refusedPreview": "Leave space between this house and the existing house.",
     "refusedByServer": "Leave space between this house and the existing house.",
     "secondFinished": "set on the class, as a later class would find it",
     "builtAt": {
-      "x": 108.56,
-      "y": 21.0861825,
-      "rotation": 90
+      "x": 99.27643200000001,
+      "y": 21.1,
+      "rotation": 0
     },
     "claimGapMiles": 0.001,
     "claimGapFeet": 5.3,
@@ -127,16 +127,16 @@
     "scale": 2883.0703341924977,
     "drawnBoxes": [
       {
-        "left": 522.0907865364945,
-        "top": 16.72527762367477,
-        "right": 773.9091804026677,
-        "bottom": 252.989641538378
+        "left": 342.3914076912499,
+        "top": 246.1643510108343,
+        "right": 594.2098015574231,
+        "bottom": 482.4287149255375
       },
       {
-        "left": 522.0907865364945,
-        "top": 467.0104100936942,
-        "right": 773.9091804026677,
-        "bottom": 703.2747740083973
+        "left": 701.7901888587262,
+        "top": 237.57126052666277,
+        "right": 953.6085827248994,
+        "bottom": 482.4287149255375
       }
     ],
     "shot": "test-results/houses-closest.png"
@@ -155,16 +155,16 @@
         "drawn": 2,
         "boxes": [
           {
-            "left": 522.1,
-            "top": 16.7,
-            "right": 773.9,
-            "bottom": 253
+            "left": 342.4,
+            "top": 246.2,
+            "right": 594.2,
+            "bottom": 482.4
           },
           {
-            "left": 522.1,
-            "top": 467,
-            "right": 773.9,
-            "bottom": 703.3
+            "left": 701.8,
+            "top": 237.6,
+            "right": 953.6,
+            "bottom": 482.4
           }
         ],
         "taps": 2
@@ -177,16 +177,16 @@
         "drawn": 2,
         "boxes": [
           {
-            "left": 544.8,
-            "top": 78.6,
-            "right": 751.2,
-            "bottom": 272.3
+            "left": 397.4,
+            "top": 266.7,
+            "right": 603.9,
+            "bottom": 460.4
           },
           {
-            "left": 544.8,
-            "top": 447.7,
-            "right": 751.2,
-            "bottom": 641.4
+            "left": 692.1,
+            "top": 259.6,
+            "right": 898.6,
+            "bottom": 460.4
           }
         ],
         "taps": 2
@@ -199,16 +199,16 @@
         "drawn": 2,
         "boxes": [
           {
-            "left": 563.4,
-            "top": 129.3,
-            "right": 732.6,
-            "bottom": 288.1
+            "left": 442.6,
+            "top": 283.5,
+            "right": 611.8,
+            "bottom": 442.3
           },
           {
-            "left": 563.4,
-            "top": 431.9,
-            "right": 732.6,
-            "bottom": 590.7
+            "left": 684.2,
+            "top": 277.7,
+            "right": 853.4,
+            "bottom": 442.3
           }
         ],
         "taps": 2
@@ -221,16 +221,16 @@
         "drawn": 2,
         "boxes": [
           {
-            "left": 578.6,
-            "top": 170.8,
-            "right": 717.4,
-            "bottom": 301
+            "left": 479.6,
+            "top": 297.3,
+            "right": 618.4,
+            "bottom": 427.5
           },
           {
-            "left": 578.6,
-            "top": 419,
-            "right": 717.4,
-            "bottom": 549.2
+            "left": 677.6,
+            "top": 292.5,
+            "right": 816.4,
+            "bottom": 427.5
           }
         ],
         "taps": 2
@@ -243,16 +243,16 @@
         "drawn": 2,
         "boxes": [
           {
-            "left": 591.1,
-            "top": 204.9,
-            "right": 704.9,
-            "bottom": 311.7
+            "left": 509.9,
+            "top": 308.6,
+            "right": 623.7,
+            "bottom": 415.3
           },
           {
-            "left": 591.1,
-            "top": 408.3,
-            "right": 704.9,
-            "bottom": 515.1
+            "left": 672.3,
+            "top": 304.7,
+            "right": 786.1,
+            "bottom": 415.3
           }
         ],
         "taps": 2
@@ -265,16 +265,16 @@
         "drawn": 2,
         "boxes": [
           {
-            "left": 601.4,
-            "top": 232.8,
-            "right": 694.6,
-            "bottom": 320.4
+            "left": 534.8,
+            "top": 317.8,
+            "right": 628.1,
+            "bottom": 405.4
           },
           {
-            "left": 601.4,
-            "top": 399.6,
-            "right": 694.6,
-            "bottom": 487.2
+            "left": 667.9,
+            "top": 314.6,
+            "right": 761.2,
+            "bottom": 405.4
           }
         ],
         "taps": 2
@@ -287,16 +287,16 @@
         "drawn": 2,
         "boxes": [
           {
-            "left": 609.8,
-            "top": 255.7,
-            "right": 686.2,
-            "bottom": 327.5
+            "left": 555.2,
+            "top": 325.4,
+            "right": 631.7,
+            "bottom": 397.2
           },
           {
-            "left": 609.8,
-            "top": 392.5,
-            "right": 686.2,
-            "bottom": 464.3
+            "left": 664.3,
+            "top": 322.8,
+            "right": 740.8,
+            "bottom": 397.2
           }
         ],
         "taps": 2
@@ -309,16 +309,16 @@
         "drawn": 2,
         "boxes": [
           {
-            "left": 616.6,
-            "top": 274.5,
-            "right": 679.4,
-            "bottom": 333.4
+            "left": 571.9,
+            "top": 331.7,
+            "right": 634.6,
+            "bottom": 390.5
           },
           {
-            "left": 616.6,
-            "top": 386.6,
-            "right": 679.4,
-            "bottom": 445.5
+            "left": 661.4,
+            "top": 329.5,
+            "right": 724.1,
+            "bottom": 390.5
           }
         ],
         "taps": 2
@@ -331,16 +331,16 @@
         "drawn": 2,
         "boxes": [
           {
-            "left": 622.3,
-            "top": 289.9,
-            "right": 673.7,
-            "bottom": 338.2
+            "left": 585.6,
+            "top": 336.8,
+            "right": 637,
+            "bottom": 385
           },
           {
-            "left": 622.3,
-            "top": 381.8,
-            "right": 673.7,
-            "bottom": 430.1
+            "left": 659,
+            "top": 335,
+            "right": 710.4,
+            "bottom": 385
           }
         ],
         "taps": 2
@@ -353,16 +353,16 @@
         "drawn": 2,
         "boxes": [
           {
-            "left": 626.9,
-            "top": 302.5,
-            "right": 669.1,
-            "bottom": 342.1
+            "left": 596.9,
+            "top": 340.9,
+            "right": 639,
+            "bottom": 380.5
           },
           {
-            "left": 626.9,
-            "top": 377.9,
-            "right": 669.1,
-            "bottom": 417.5
+            "left": 657,
+            "top": 339.5,
+            "right": 699.1,
+            "bottom": 380.5
           }
         ],
         "taps": 2
@@ -375,16 +375,16 @@
         "drawn": 2,
         "boxes": [
           {
-            "left": 630.7,
-            "top": 312.9,
-            "right": 665.3,
-            "bottom": 345.3
+            "left": 606.1,
+            "top": 344.4,
+            "right": 640.6,
+            "bottom": 376.8
           },
           {
-            "left": 630.7,
-            "top": 374.7,
-            "right": 665.3,
-            "bottom": 407.1
+            "left": 655.4,
+            "top": 343.2,
+            "right": 689.9,
+            "bottom": 376.8
           }
         ],
         "taps": 2
@@ -397,16 +397,16 @@
         "drawn": 2,
         "boxes": [
           {
-            "left": 633.8,
-            "top": 321.4,
-            "right": 662.2,
-            "bottom": 348
+            "left": 613.6,
+            "top": 347.2,
+            "right": 641.9,
+            "bottom": 373.8
           },
           {
-            "left": 633.8,
-            "top": 372,
-            "right": 662.2,
-            "bottom": 398.6
+            "left": 654.1,
+            "top": 346.2,
+            "right": 682.4,
+            "bottom": 373.8
           }
         ],
         "taps": 2
@@ -419,16 +419,16 @@
         "drawn": 2,
         "boxes": [
           {
-            "left": 636.4,
-            "top": 328.3,
-            "right": 659.6,
-            "bottom": 350.1
+            "left": 619.8,
+            "top": 349.5,
+            "right": 643,
+            "bottom": 371.3
           },
           {
-            "left": 636.4,
-            "top": 369.9,
-            "right": 659.6,
-            "bottom": 391.7
+            "left": 653,
+            "top": 348.7,
+            "right": 676.2,
+            "bottom": 371.3
           }
         ],
         "taps": 2
@@ -441,10 +441,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 637.1,
-            "top": 332.2,
-            "right": 659.4,
-            "bottom": 353.1
+            "left": 623.5,
+            "top": 349.6,
+            "right": 645.8,
+            "bottom": 370.5
           }
         ],
         "taps": 1
@@ -457,10 +457,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 637.3,
-            "top": 334.9,
-            "right": 659.6,
-            "bottom": 355.9
+            "left": 626.2,
+            "top": 349.2,
+            "right": 648.5,
+            "bottom": 370.1
           }
         ],
         "taps": 1
@@ -473,10 +473,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 637.5,
-            "top": 337.2,
-            "right": 659.8,
-            "bottom": 358.1
+            "left": 628.4,
+            "top": 348.9,
+            "right": 650.6,
+            "bottom": 369.8
           }
         ],
         "taps": 1
@@ -489,10 +489,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 637.7,
-            "top": 339,
-            "right": 659.9,
-            "bottom": 359.9
+            "left": 630.2,
+            "top": 348.6,
+            "right": 652.5,
+            "bottom": 369.5
           }
         ],
         "taps": 1
@@ -505,10 +505,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 637.8,
-            "top": 340.5,
-            "right": 660.1,
-            "bottom": 361.5
+            "left": 631.6,
+            "top": 348.4,
+            "right": 653.9,
+            "bottom": 369.3
           }
         ],
         "taps": 1
@@ -521,10 +521,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 637.9,
-            "top": 341.8,
-            "right": 660.2,
-            "bottom": 362.7
+            "left": 632.8,
+            "top": 348.2,
+            "right": 655.1,
+            "bottom": 369.1
           }
         ],
         "taps": 1
@@ -537,10 +537,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 638,
-            "top": 342.8,
-            "right": 660.3,
-            "bottom": 363.7
+            "left": 633.8,
+            "top": 348.1,
+            "right": 656.1,
+            "bottom": 369
           }
         ],
         "taps": 1
@@ -553,10 +553,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 638,
-            "top": 343.6,
-            "right": 660.3,
-            "bottom": 364.5
+            "left": 634.7,
+            "top": 347.9,
+            "right": 656.9,
+            "bottom": 368.9
           }
         ],
         "taps": 1
@@ -569,10 +569,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 638.1,
-            "top": 344.3,
-            "right": 660.4,
-            "bottom": 365.2
+            "left": 635.3,
+            "top": 347.9,
+            "right": 657.6,
+            "bottom": 368.8
           }
         ],
         "taps": 1
@@ -585,10 +585,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 638.1,
-            "top": 344.9,
-            "right": 660.4,
-            "bottom": 365.8
+            "left": 635.9,
+            "top": 347.8,
+            "right": 658.2,
+            "bottom": 368.7
           }
         ],
         "taps": 1
@@ -601,10 +601,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 638.2,
-            "top": 345.3,
-            "right": 660.5,
-            "bottom": 366.2
+            "left": 636.3,
+            "top": 347.7,
+            "right": 658.6,
+            "bottom": 368.6
           }
         ],
         "taps": 1
@@ -617,10 +617,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 638.2,
-            "top": 345.7,
-            "right": 660.5,
-            "bottom": 366.6
+            "left": 636.7,
+            "top": 347.7,
+            "right": 659,
+            "bottom": 368.6
           }
         ],
         "taps": 1
@@ -633,10 +633,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 638.2,
-            "top": 346,
-            "right": 660.5,
-            "bottom": 366.9
+            "left": 637,
+            "top": 347.6,
+            "right": 659.3,
+            "bottom": 368.5
           }
         ],
         "taps": 1
@@ -649,10 +649,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 638.3,
-            "top": 346.3,
-            "right": 660.5,
-            "bottom": 367.2
+            "left": 637.2,
+            "top": 347.6,
+            "right": 659.5,
+            "bottom": 368.5
           }
         ],
         "taps": 1
@@ -665,10 +665,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 638.3,
-            "top": 346.5,
-            "right": 660.6,
-            "bottom": 367.4
+            "left": 637.4,
+            "top": 347.5,
+            "right": 659.7,
+            "bottom": 368.5
           }
         ],
         "taps": 1
@@ -681,10 +681,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 638.3,
-            "top": 346.6,
-            "right": 660.6,
-            "bottom": 367.6
+            "left": 637.6,
+            "top": 347.5,
+            "right": 659.9,
+            "bottom": 368.4
           }
         ],
         "taps": 1
@@ -697,10 +697,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 638.3,
-            "top": 346.8,
-            "right": 660.6,
-            "bottom": 367.7
+            "left": 637.7,
+            "top": 347.5,
+            "right": 660,
+            "bottom": 368.4
           }
         ],
         "taps": 1
@@ -713,10 +713,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 638.3,
-            "top": 346.9,
-            "right": 660.6,
-            "bottom": 367.8
+            "left": 637.8,
+            "top": 347.5,
+            "right": 660.1,
+            "bottom": 368.4
           }
         ],
         "taps": 1
@@ -729,10 +729,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 638.3,
-            "top": 347,
-            "right": 660.6,
-            "bottom": 367.9
+            "left": 637.9,
+            "top": 347.5,
+            "right": 660.2,
+            "bottom": 368.4
           }
         ],
         "taps": 1
@@ -745,10 +745,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 775.8,
-            "top": 347.1,
-            "right": 798.1,
-            "bottom": 368
+            "left": 728.7,
+            "top": 347.5,
+            "right": 751,
+            "bottom": 368.4
           }
         ],
         "taps": 1
@@ -761,10 +761,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 893.7,
-            "top": 347.1,
-            "right": 916,
-            "bottom": 368
+            "left": 855.1,
+            "top": 347.5,
+            "right": 877.4,
+            "bottom": 368.4
           }
         ],
         "taps": 1
@@ -777,10 +777,10 @@
         "drawn": 1,
         "boxes": [
           {
-            "left": 984.1,
-            "top": 347.2,
-            "right": 1006.4,
-            "bottom": 368.1
+            "left": 951.9,
+            "top": 347.4,
+            "right": 974.2,
+            "bottom": 368.4
           }
         ],
         "taps": 1
@@ -796,12 +796,12 @@
     ]
   },
   "roomsOpenedAt": {
-    "x": 800.5,
-    "y": 323
+    "x": 735.3,
+    "y": 252.4
   },
   "placement": {
-    "x": 108.56,
-    "y": 20.93,
+    "x": 99.14,
+    "y": 21.1,
     "rotation": 90
   },
   "errors": []

@@ -1,5 +1,66 @@
 # Claude handoff — Astra foundation
 
+## Four red proofs green: `test:solo-game`, `test:family-commands`, `test:travel-sight` and the house plot — 2026-09-29 (not released)
+
+Branch `red-proofs` off `integration-2026-09-28` 88446353; not pushed. Each was red here and reported red on origin/main today.
+Bisected over the first-parent merges since v2026.09.29.1 in scratch worktrees (`git log --merges v2026.09.29.1..HEAD`).
+
+- **`test:travel-sight` - the proof, since cff47690 (`owner-real-time-limits`).** 1d4b02de (its first parent) passes the fast journey;
+  cff47690 fails exactly as integration does (*"fast: the journey never reached the state this proof reads"*, the walker still at
+  twenty minutes a tick). The proof joins four more students by the API; they never open a page, so they are played and never
+  absent (`markAbsences` judges only a family it has seen). Since the real-time limits a rider waits **ninety real seconds** for
+  such a family (`riderOnLimit`), where his patience had been counted in calendar minutes that the class's in-process run at four
+  hours a tick had already spent. So the couriers to Readers 2-5 held the calendar at the farming scale one after another, past
+  the proof's three minutes. The rule is the owner's and right. **Fix**: the proof answers every family's rider as that family's
+  student does (`leave-rider` with the student's own cookie), as it already did for hh-1's. No game change.
+- **`test:family-commands` - the game: the panel threw its text nodes away.** Its quiet stretch counts nodes added to
+  `#family-rows`; here it counted 10 to 16 in 11 to 12 ticks, integration and cff47690/af25547a alike (13), against 0 at the
+  release's evidence. Every one was a **text node**: `textContent =` replaces a line's text node each time the words change, and
+  a baby's line (crying → held → napping → crawling → asleep, three lines each: the life line, the short word, the bar's reason)
+  changes every few ticks now that the stretch falls in the small children's day, as does the "!"'s countdown each second when
+  one stands. Plus, once, the mother's (hidden) bar gaining its seven icons at dusk - real content, kept. Trees before cff47690 stop
+  earlier in this proof on this computer (the stale order's refusal), so the one merge that moved the stretch was not pinned.
+  **Fix**: `setText` (public/map-base.js, already the page's one text writer for the map's labels) now changes a node's one text
+  node in place, and the family panel writes every line through it (life, word, why, auto line, sickness, label, note, the
+  bar's reason and travelling words, make-main, the "!"'s badge). After: **0 nodes** in the stretch. **Test**:
+  tests/map-base.test.mjs *"the panel changes a line's words in place"* - seen failing alone with the in-place write removed.
+- **House plot (`scripts/house-plot-browser-proof.mjs`, no npm script) - the proof, twice.** (1) d5f4d391 (work halved): the sills
+  are *"about 1 hour’s work"*, singular, and the proof wanted `\d+ hours’`; it now takes the line's three forms. (2) Red since
+  2026-09-24, before the release (HANDOFF has it stopping there since e549ec1): the "over" spot was half way back from the spot just
+  clear of the first house, which is on the first house's ground only while the pictures' reach is small; f5174d70/ab16bf88 grew
+  it (`PICTURE_REACH` up 1.6, down 0.9 cells), so a round-log cabin north of the first stood 2.25 cells off a house 2 deep -
+  refused for its roof, over none of the first's ground. It is now half way back from where the two houses' own ground would
+  just touch, so it is over the first as drawn by construction, and the assertion that says so is unchanged. No sim change.
+- **`test:solo-game` - the proof, under load; not one merge.** Alone it passed 3 of 3; beside `npm test` or a second copy it
+  failed 7 of 11, each at a different step, as reported. Read from the server at each failure (new: `stateOf`, every failure
+  now says where the person, the flight and the page stood): the winter's order refused because a little one had just called the
+  father aside (sim/aside.mjs; with every small child put on auto at the start and their auto going off at each day's end, at a
+  tenth of a second a tick a parent is called aside every few seconds); the order taken and **already done** (serving) before a
+  loaded page drew its glow; the call's menu redrawn under the press; a bar's icon gone under the press; "Done packing" never
+  pressed because the wagon was read once, before it was drawn; and the order to leave pressed on the **main** person's "!"
+  when the winter had sent him to the army - since 741d0d28 (2026-09-28, in the release) the order is on the row of whoever is
+  with the family, and that person was left on auto, so in every earlier run here the order was answered by auto unseen and the
+  flight step skipped. **Fix** (scripts/support/whole-game.mjs, shared with `test:whole-game`): the student's own moments
+  (orders, the call, the winter's order, the order to leave) are played at the **Quick pace**, a second a tick, and the rest
+  at the proof's own; a parent called aside is freed as the row says (that child's Auto on again) and waited for on the server;
+  the winter's order counts as taken when it glows **or** the server has it done; a refusal closes the chooser and the order is
+  given again; the one who answers the flight (`actingId`) is taken off auto and their "!" pressed. The wagon and journal are
+  closed as they come until the game runs. Nothing checked was removed: the flight step now runs, 16 checks where it was 15.
+  Suspects cleared: `pauseIfEmpty` never fires for Play Solo (`solo` returns first) and was never seen; nothing waited on a
+  flight-lapse burning or on follow-and-watch.
+
+**Evidence** (same computer, headless Chrome; no Chromebook, LAN or classroom claim): `test:travel-sight` 11 and 11 in a row;
+the house plot PASS twice in a row (its one check and record, docs/evidence/house-plot-browser.json); `test:family-commands` 23 and
+23 in a row, the quiet stretch adding 1 and 0 nodes in 11 ticks; `test:solo-game` 16 checks four times running with two copies
+at once, the first two beside `npm test` (the order to leave pressed by hand each time); `test:whole-game` 14 checks (was 13: its
+order to leave now runs, answered by the mother with the father at the war); `test:auto` 14. `npm test` **1786 tests, 1750 pass,
+0 fail, 36 skipped** (the suspended tutorial), run alone; of three runs under load beside the proofs, one failed the known
+classroom-doors ping test (*"a page that stops answering its pings is let go"*).
+**Not green, and not this branch's**: `test:family-panel` stops after 16 checks at its phone step (*"below the guided start's strip
+the map is the top thing at only 39%"*) - identically, twice, on a clean worktree of 88446353: the call's story card stands over
+the phone's map (the `cards-merge-fix` branch's work). Evidence files rewritten by these runs are committed; the failing
+family-panel run's picture is not.
+
 ## One rider, one visit: no pack of riders, no second telling, one conversation at a time — owner, 2026-09-29 (not released)
 
 **The ask.** Owner, 2026-09-29: *"At the start of the game, there's multiple riders that arrive at the same time. If they're all

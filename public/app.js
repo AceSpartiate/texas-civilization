@@ -4890,7 +4890,7 @@ function renderFamilyPanel(world) {
     if (row.portrait.title !== about) row.portrait.title = about;
     row.portrait.setAttribute('aria-pressed', String(bar));
     const focusLabel = focused ? `Go back to ${entity.name}, your main person` : `Make ${entity.name} your main person`;
-    if (row.focus.getAttribute('aria-label') !== focusLabel) { row.focus.setAttribute('aria-label', focusLabel); row.focus.title = focusLabel; row.focus.querySelector('.panel-mark-text').textContent = focused ? '★' : '☆'; row.focus.setAttribute('aria-pressed', String(focused)); }
+    if (row.focus.getAttribute('aria-label') !== focusLabel) { row.focus.setAttribute('aria-label', focusLabel); row.focus.title = focusLabel; setText(row.focus.querySelector('.panel-mark-text'), focused ? '★' : '☆'); row.focus.setAttribute('aria-pressed', String(focused)); }
     // The auto switch, read from the server's `auto` on the person every tick (docs/FAMILY_PANEL.md §11.7).
     const onAuto = Boolean(entity.auto);
     // 'onAuto', not 'auto': the switch button carries data-auto, and a row attribute of the same name would catch its presses.
@@ -4899,29 +4899,29 @@ function renderFamilyPanel(world) {
       row.auto.setAttribute('aria-pressed', String(onAuto)); paintMark(row.auto, onAuto ? 'mark-auto-on' : 'mark-auto-off');
       // The word is always shown beside the key (owner, 2026-09-25: "isn't quite visible enough"), so on and off are told
       // apart by what it says and not by its colour alone.
-      row.auto.querySelector('.panel-auto-word').textContent = onAuto ? 'Auto ✓' : 'Auto';
+      setText(row.auto.querySelector('.panel-auto-word'), onAuto ? 'Auto ✓' : 'Auto');
     }
     const autoWords = autoLabel(entity, onAuto);
     if (row.auto.getAttribute('aria-label') !== autoWords) { row.auto.setAttribute('aria-label', autoWords); row.auto.title = autoWords; }
     const autoSays = autoLine(entity);
-    if (row.autoSays.textContent !== autoSays) row.autoSays.textContent = autoSays;
+    setText(row.autoSays, autoSays);
     if (row.autoSays.hidden !== !autoSays) row.autoSays.hidden = !autoSays;
     // What the family's little ones are doing to this person, or this little one is doing (docs/CHILDREN.md): the server's own
     // sentence on a line of its own - a parent stopped to talk with a child who has nothing to do, a child gone to find them, a
     // child's automation just gone off, a baby crawling, crying, held or asleep. On every row, the main person's too.
     const life = lifeLine(entity);
-    if (row.life.textContent !== life) row.life.textContent = life;
+    setText(row.life, life);
     if (row.life.hidden !== !life) row.life.hidden = !life;
     setData(row.life, 'kind', entity.aside ? 'stopped' : entity.baby ? 'baby' : entity.talk ? 'talk' : 'child');
     // A baby's short word, which stands in for its sentence when the column is tight (docs/CHILDREN.md §9); the sentence on hover.
     const shortWord = lifeWord(entity);
-    if (row.word.textContent !== shortWord) row.word.textContent = shortWord;
+    setText(row.word, shortWord);
     if (row.word.hidden !== !shortWord) row.word.hidden = !shortWord;
     if (row.word.title !== life) row.word.title = life;
     setData(row.autoSays, 'waiting', String(Boolean(onAuto && entity.autoTask?.waiting)));
     // The sickness (sim/disease.mjs): the server's line under the rest, and the badge on the portrait; very sick is said in red.
     const sickSays = sickLine(entity);
-    if (row.sick.textContent !== sickSays) row.sick.textContent = sickSays;
+    setText(row.sick, sickSays);
     if (row.sick.hidden !== !sickSays) row.sick.hidden = !sickSays;
     setData(row.sick, 'grave', String(Boolean(entity.sickness?.grave)));
     setData(row.item, 'sick', String(Boolean(entity.sickness)));
@@ -4935,10 +4935,10 @@ function renderFamilyPanel(world) {
     const houseShown = focused && house;
     if (row.house.hidden !== !houseShown) row.house.hidden = !houseShown;
     // What the person has become goes on the row after what they are: the mark and the camp drill (docs/FAMILY_PANEL.md).
-    if (row.label.textContent !== `${role}${age}`) row.label.textContent = `${role}${age}`;
+    setText(row.label, `${role}${age}`);
     // What they have become goes under the name: the mark and the camp drill (docs/FAMILY_PANEL.md §11).
     const become = standing(entity);
-    if (row.note.textContent !== become) row.note.textContent = become;
+    setText(row.note, become);
     if (row.note.hidden !== !become) row.note.hidden = !become;
     const firstName = entity.given || entity.name;
     if (mayOverwriteName(row.input, firstName)) row.input.value = firstName;
@@ -4978,7 +4978,7 @@ function renderFamilyPanel(world) {
     // A baby's row says what the baby is doing on its own line (`life`), not that it is too young to be sent, and a grown-up stopped
     // by the little ones says why there once, not twice (docs/CHILDREN.md §3, §6).
     const silence = bar ? '' : travelling || (entity.baby || entity.aside ? '' : reason) || '';
-    if (row.why.textContent !== silence) row.why.textContent = silence;
+    setText(row.why, silence);
     if (row.why.hidden !== !silence) row.why.hidden = !silence;
     // No switch on a child too young to be sent, who has nothing for auto to repeat or answer. Only that case: somebody on
     // the road or in the ranks has a reason on their row too, and theirs is the switch auto-fight is for.
@@ -5016,15 +5016,15 @@ function renderFamilyPanel(world) {
       }) : [];
       if (!visibleIcons.length) {
         const word = row.icons.querySelector('.panel-reason:not(.panel-travelling)') || element('span', '', 'panel-reason');
-        word.textContent = visibleReason;
+        setText(word, visibleReason);
         wanted.push(word);
       } else if (travelling) {
         const word = row.icons.querySelector('.panel-travelling') || element('span', '', 'panel-reason panel-travelling');
-        word.textContent = travelling;
+        setText(word, travelling);
         wanted.push(word);
       }
       if (makeMain) {
-        row.makeMain.textContent = makeMain;
+        setText(row.makeMain, makeMain);
         const note = 'Only the main person travels, rests and works about the place, and on auto the main person decides the family’s leaving and its answers on the road.';
         row.makeMain.title = note; row.makeMain.setAttribute('aria-label', `${makeMain}. ${note}`);
         wanted.unshift(row.makeMain);
@@ -5246,7 +5246,7 @@ const NEED_SECTIONS = { alto: '#selection-flight', army: '#selection-army', camp
 function paintNeedBadge(row) {
   const left = row.needDeadline === null ? null : leftWords(Math.max(0, row.needDeadline - performance.now()));
   const words = [row.needRank ? String(row.needRank) : '', left || ''].filter(Boolean).join(' · ');
-  if (row.needBadge.textContent !== words) row.needBadge.textContent = words;
+  setText(row.needBadge, words);
   if (row.needBadge.hidden !== !words) row.needBadge.hidden = !words;
 }
 // Once a second, the countdowns on the "!"s and whether a tip's thing has come or gone (the town errand opens with no

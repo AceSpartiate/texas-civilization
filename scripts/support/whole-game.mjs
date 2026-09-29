@@ -11,6 +11,7 @@ import { projectWorld } from '../../sim/world.mjs';
 import { asMain } from './main-person.mjs';
 import { pickSite } from '../../sim/neighbours.mjs';
 import { tooYoung } from '../../sim/family.mjs';
+import { actingId } from '../../sim/acting.mjs';
 import { sendTheWay } from './going.mjs';
 
 /**
@@ -40,6 +41,48 @@ export async function playWholeGame(ctx) {
   measured.periods ??= {};
   let from = { tick: world().tick, ms: Date.now() };
   const periodStats = name => { measured.periods[name] = { ticks: world().tick - from.tick, seconds: Math.round((Date.now() - from.ms) / 100) / 10, endedAtMinute: world().minute }; from = { tick: world().tick, ms: Date.now() }; };
+  // Where the server and the page stood when a step did not come, so a failure reads as the game's state and not a bare timeout.
+  const stateOf = async id => {
+    const person = world().entities[id], flight = household().flight;
+    return {
+      tick: world().tick, status: world().status,
+      person: person && { chore: person.chore?.id || null, task: person.task, travel: person.travel?.purpose || Boolean(person.travel), aside: person.aside?.kind || null, auto: Boolean(person.auto), service: person.service?.status || null, health: person.health?.condition },
+      flight: flight && { status: flight.status, burned: Boolean(flight.burned) }, acting: actingId(world(), household()),
+      page: await student.evaluate(id => ({ error: (document.querySelector('#error')?.textContent || '').trim(), going: Boolean(window.__goingPending), needOpened: window.__needOpened || null,
+        row: window.__familyPanel?.find(row => row.id === id) && (row => ({ needs: row.needs, auto: row.auto, reason: row.reason, active: row.active }))(window.__familyPanel.find(row => row.id === id)),
+        open: ['#selection', '#selection-flight', '#going', '#encounter', '#military-notice', '#call-menu'].filter(s => document.querySelector(s) && !document.querySelector(s).hidden) }), id).catch(() => null),
+    };
+  };
+  // The student's own moments - giving orders, answering the call, the winter's order, the order to leave - are played at the
+  // Quick pace, a second a tick, the fastest a class is run at; the stretches between, where the proof only waits for the
+  // periods to end, keep the proof's own pace. At a tenth of a second a tick the world moves on under every press: a parent is
+  // called aside by a little one, a menu is drawn again, an order is done and gone, the order to leave's day of grace (72 ticks)
+  // is 7.2 seconds - and a page slowed by load missed each of them in turn (2026-09-29: a different late step on each run).
+  // Nothing checked is changed; the student is given a class's time to do what a student does. Returns the way back.
+  const CLASS_PACE_MS = 1000;
+  const atClassPace = () => { const was = app.pace; app.setPace(Math.max(was, CLASS_PACE_MS)); return () => app.setPace(was); };
+  // A chooser of how they go left open by a refusal is closed, as a student closes it, so it stands over nothing pressed next.
+  const closeTheWay = async () => { if (await student.locator('#going').isVisible().catch(() => false)) await student.locator('#going-cancel').click({ timeout: 5000 }).catch(() => {}); };
+  // A grown-up the family's little ones have called aside (sim/aside.mjs, docs/CHILDREN.md §3) is refused new work and every
+  // journey until the child has something to do, and the row says so: "Give X something to do and Y goes back to work." Every
+  // small child here was put on auto at the start, and a child's auto goes off by design (at the day's end since 2026-09-29,
+  // sim/child-day.mjs), so at this pace a parent is called aside every few seconds. The proof does what the row says - that
+  // child's Auto on again - and waits on the server until the grown-up is free; a baby being held is waited out.
+  const freeOfLittleOnes = async id => {
+    const pressed = new Set();
+    await untilLive(ctx, async () => {
+      const w = world(), aside = w.entities[id]?.aside;
+      if (!aside || w.status === 'ended') return true;
+      for (const child of aside.kind === 'talk' ? aside.childIds || [] : []) {
+        if (pressed.has(child) || w.entities[child]?.auto) continue;
+        pressed.add(child);
+        const toggle = student.locator(`.panel-row[data-entity-id="${child}"] .panel-auto`);
+        await toggle.scrollIntoViewIfNeeded().catch(() => {});
+        await toggle.click({ timeout: 5000 }).catch(() => pressed.delete(child));
+      }
+      return false;
+    }, { label: `${id} to be free of the little ones`, timeoutMs: 60000 });
+  };
   const people = household().members.map(id => world().entities[id]).filter(one => one.kind === 'person');
   measured.family = people.map(one => `${one.name} (${one.kin?.role || 'principal'}, ${one.age})`);
 
@@ -87,7 +130,7 @@ export async function playWholeGame(ctx) {
   measured.onAuto = await student.evaluate(() => window.__familyPanel.filter(row => row.auto).map(row => row.name));
   ok(`${measured.onAuto.length} of the family set to auto from the panel: ${measured.onAuto.join(', ')}`);
   // One order each where one is open, so the chores run while the news comes: the first icon the server allows.
-  const given = [];
+  const given = [], ordersDone = atClassPace();
   // Each person chosen first, as a student does, and their order read off their own bar once they are the main person: the bar
   // draws only what the server and the step allow for the person it belongs to (docs/FAMILY_PANEL.md §12; 8e6ecd5), which is
   // not what a row that is not the main person's holds. Until 2026-09-26 this read the key first, off rows that are never drawn,
@@ -99,12 +142,18 @@ export async function playWholeGame(ctx) {
     await asMain(student, id);
     const key = await student.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon:not([aria-disabled="true"])[data-action="chore"]`)].map(b => b.dataset.key).find(k => !['hunt-land', 'fell-trees', 'survey-plot'].includes(k)) || null, id);
     if (!key) continue;
-    await student.locator(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`).click();
+    // The icon can go from the bar between reading it and pressing it - the person called aside by a little one, their work
+    // changed - and a bar redrawn at every tick of this pace takes it away under the press (seen 2026-09-29 under load: a
+    // 30-second wait on a button no longer there). That order is not given; the next person's is.
+    const pressed = await student.locator(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`).click({ timeout: 5000 }).then(() => true, () => false);
+    if (!pressed) { given.push({ id, key, took: 'gone from the bar before it was pressed' }); continue; }
     // A work that is a journey asks how they go first (owner, 2026-09-24): the server's suggestion, as a student most often takes.
     await sendTheWay(student);
     const took = await student.waitForFunction(({ id, key }) => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`)?.dataset.active === 'true' || (document.querySelector('#error')?.textContent || '').trim() || null, { id, key }, { timeout: 8000 }).then(h => h.jsonValue()).catch(() => 'no answer');
+    await closeTheWay();
     given.push({ id, key, took });
   }
+  ordersDone();
   measured.orders = given;
   assert.ok(given.some(one => one.took === true), `no order from the panel was taken: ${JSON.stringify(given)}`);
   ok(`${given.filter(one => one.took === true).length} orders given from the panel and taken`);
@@ -114,6 +163,7 @@ export async function playWholeGame(ctx) {
   let sent = null;
   await untilLive(ctx, async () => world().status === 'ended' || (await student.evaluate(() => window.__familyPanel?.some(row => row.needs.includes('call')))), { label: 'the settlement\'s call or the end of the first period' });
   if (world().status !== 'ended') {
+    const callDone = atClassPace();
     const caller = await student.evaluate(() => window.__familyPanel.find(row => row.needs.includes('call')).id);
     // The "!" opens the first thing waiting on that person (`openNeed`). When the rider who brought the word is still standing
     // with them, that is the conversation, not the call: the student closes it and presses "!" again, so the proof does too.
@@ -124,17 +174,27 @@ export async function playWholeGame(ctx) {
       if (opened === 'call') break;
       await student.locator('#encounter-close').click({ timeout: 5000 }).catch(() => {});
     }
-    await student.waitForFunction(() => !document.querySelector('#call-menu').hidden, null, { timeout: 5000 });
+    await student.waitForFunction(() => !document.querySelector('#call-menu').hidden, null, { timeout: 15000 });
     const text = await student.locator('#call-menu-text').textContent();
     const input = student.locator('#call-menu input:not([disabled])').first();
     if (await input.count()) {
+      const goes = await input.getAttribute('data-call-menu-person');
       await input.check();
-      await student.locator('#call-menu-confirm').click();
-      // Whoever the call sends goes on a road, and since 2026-09-24 that asks how they go first (public/going.js).
-      await sendTheWay(student);
-      await student.waitForFunction(() => document.querySelector('#call-menu').hidden, null, { timeout: 15000 });
+      // Confirmed once the one who goes is free of the little ones; refused because a child called them aside in between (the
+      // menu stays open with the server's words and the tick kept), they are freed again and it is confirmed again.
+      let closed = false;
+      for (let attempt = 0; attempt < 3 && !closed; attempt++) {
+        if (goes) await freeOfLittleOnes(goes);
+        await student.locator('#call-menu-confirm').click();
+        // Whoever the call sends goes on a road, and since 2026-09-24 that asks how they go first (public/going.js).
+        await sendTheWay(student);
+        closed = await student.waitForFunction(() => document.querySelector('#call-menu').hidden, null, { timeout: 15000 }).then(() => true, () => false);
+        if (!closed) await closeTheWay();
+      }
+      if (!closed) throw new Error(`the call's menu did not close once confirmed: ${JSON.stringify({ said: await student.locator('#call-menu-said').textContent(), menu: await student.evaluate(() => window.__callMenu), goes: goes && await stateOf(goes) })}`);
       sent = household().members.map(id => world().entities[id]).find(one => one.task === 'help' || one.travel?.purpose === 'help' || one.commitments?.some(c => c.id === 'volunteer' && c.status === 'active'));
     }
+    callDone();
     measured.call = { text, sent: sent?.name || null };
     ok(`the call came ("${text.slice(0, 90)}…") and ${sent ? `${sent.name} was sent from the one menu` : 'was answered from the one menu'}`);
   }
@@ -162,10 +222,27 @@ export async function playWholeGame(ctx) {
   let winterOrder = null;
   await untilLive(ctx, async () => world().status === 'ended' || (winterOrder = await student.evaluate(keys => { for (const key of keys) { const button = document.querySelector(`.panel-icon[data-key="${key}"]:not([aria-disabled="true"])`); if (button) return { key, id: button.closest('.panel-row').dataset.entityId }; } return null; }, winterKeys)), { label: 'a winter order to be offered' });
   if (winterOrder) {
-    await asMain(student, winterOrder.id);
-    await student.locator(`.panel-row[data-entity-id="${winterOrder.id}"] .panel-icon[data-key="${winterOrder.key}"]`).click();
-    await sendTheWay(student);
-    await student.waitForFunction(({ id, key }) => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`)?.dataset.active === 'true', winterOrder, { timeout: 10000 });
+    const winterDone = atClassPace();
+    const { id, key } = winterOrder, before = world().entities[id];
+    const was = { chore: before.chore?.id || null, service: before.service?.status || null, voted: Boolean(before.voted) };
+    // Taken: its icon glows, or the server already has the person at it or has done it. At this pace enlisting where the
+    // committee sits can be over in a tick or two, so the glow alone was a moment a page slowed by load could miss (seen
+    // 2026-09-29: the man already serving, the proof still waiting for his icon to light).
+    const taken = async () => {
+      if (await student.evaluate(({ id, key }) => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`)?.dataset.active === 'true', winterOrder)) return true;
+      const now = world().entities[id];
+      return (now.chore?.id === key && was.chore !== key) || (key === 'go-vote' ? Boolean(now.voted) && !was.voted : Boolean(now.service?.status) && now.service.status !== was.service);
+    };
+    let took = false;
+    for (let attempt = 0; attempt < 4 && !took && world().status !== 'ended'; attempt++) {
+      await freeOfLittleOnes(id);
+      await asMain(student, id);
+      if (await student.locator(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`).click({ timeout: 5000 }).then(() => true, () => false)) await sendTheWay(student);
+      for (const until = Date.now() + 10000; Date.now() < until && !(took = await taken());) await student.waitForTimeout(200);
+      if (!took) await closeTheWay();
+    }
+    if (!took) throw new Error(`the winter order ${JSON.stringify(winterOrder)} was not taken: ${JSON.stringify(await stateOf(id))}`);
+    winterDone();
     measured.winter = { ...winterOrder, name: world().entities[winterOrder.id].name };
     ok(`${measured.winter.name} was sent to ${winterOrder.key.replace('-', ' ')} from the panel`);
   }
@@ -184,27 +261,47 @@ export async function playWholeGame(ctx) {
   await student.waitForFunction(() => window.__snapshot?.world.status === 'running', null, { timeout: 15000 });
   assert.equal(world().period, 3);
   ok(`the Host continued the class into the spring: period 3 opens on ${await student.locator('#world').textContent()}`);
-  // Told to leave: by hand, from the "!", so the card is pressed once in a whole game; the main person is taken off auto.
-  const main = () => household().mainId || household().principalId;
-  const mainSwitch = student.locator(`.panel-row[data-entity-id="${main()}"] .panel-auto`);
-  if (await mainSwitch.getAttribute('aria-pressed') === 'true') { await mainSwitch.click(); await student.waitForFunction(id => window.__familyPanel.find(row => row.id === id)?.auto === false, main(), { timeout: 10000 }); }
-  await untilLive(ctx, () => world().status === 'ended' || ['ordered', 'fled', 'stayed'].includes(household().flight?.status), { label: 'the order to leave' });
+  // Told to leave: by hand, from the "!", so the card is pressed once in a whole game. Whoever answers for the family is taken off
+  // auto first, or auto answers the order the tick it comes: since 2026-09-28 that is the one with the family (sim/acting.mjs) -
+  // the main person when they are at home, and not a father away with the army, whose "!" carries no order to leave (interactions
+  // B1). Until 2026-09-29 this took the main person off auto and pressed his "!", so when the winter's order had sent him to the
+  // army the one who answered stayed on auto and the order was answered unseen, or his "!" opened something else and the card
+  // never came (seen under load). Who answers can change as people come and go, so it is read again all the while it waits.
+  const offAuto = new Set();
+  await untilLive(ctx, async () => {
+    if (world().status === 'ended' || ['ordered', 'fled', 'stayed'].includes(household().flight?.status)) return true;
+    const id = actingId(world(), household());
+    if (id && !offAuto.has(id) && world().entities[id]?.auto) {
+      const toggle = student.locator(`.panel-row[data-entity-id="${id}"] .panel-auto`);
+      await toggle.scrollIntoViewIfNeeded().catch(() => {});
+      if (await toggle.getAttribute('aria-pressed').catch(() => null) === 'true' && await toggle.click({ timeout: 5000 }).then(() => true, () => false)) offAuto.add(id);
+    }
+    return false;
+  }, { label: 'the order to leave' });
   if (household().flight?.status === 'ordered') {
-    const attention = student.locator(`[data-attention="${main()}"]`);
-    await attention.waitFor({ state: 'visible', timeout: 30000 });
-    await attention.click({ force: true });
-    await student.locator('#selection-flight [data-action="flee"]').waitFor({ state: 'visible', timeout: 15000 });
-    const card = (await student.locator('#selection-flight').innerText()).replace(/\s+/g, ' ').trim();
-    assert.match(card, /told to leave/);
-    assert.ok(await student.locator('#selection-flight [data-action="flight-stay"]').count(), 'the card has no way to say the family stays');
-    const have = projectWorld(world(), 'hh-1', 'student', { includeMap: false }).flight;
-    await student.locator('#selection-flight .flight-amount[data-take="food"]').fill(String(Math.min(have.have.food, Math.floor(have.room / have.space.food))));
-    await student.locator('#selection-flight [data-action="flee"]').click();
-    await student.locator('#selection-flight [data-action="flee"]', { hasText: 'Confirm' }).click();
-    await student.waitForFunction(() => window.__snapshot?.world.flight?.status === 'fled', null, { timeout: 15000 });
-    measured.flight = { refuge: household().flight.refuge, card: card.slice(0, 160) };
-    ok(`told to leave, the "!" opened the card and the family left for ${household().flight.refuge} with what fit; the farm burned behind it`);
-    await shot(student, 'leaving');
+    // Read and answered at the class's pace (`atClassPace`): the order's day of grace is 72 ticks (sim/advance.mjs
+    // `ORDER_GRACE_MINUTES`), 72 seconds for a student at Quick and 7.2 at this proof's own pace.
+    const flightDone = atClassPace();
+    try {
+      const answering = await student.waitForFunction(() => window.__familyPanel?.find(row => row.need === 'flight')?.id || null, null, { timeout: 30000 }).then(handle => handle.jsonValue())
+        .catch(async error => { throw new Error(`no "!" for the order to leave on any row: ${JSON.stringify(await stateOf(actingId(world(), household())))} (${error.message.split('\n')[0]})`); });
+      const attention = student.locator(`[data-attention="${answering}"]`);
+      await attention.waitFor({ state: 'visible', timeout: 30000 });
+      await attention.click({ force: true });
+      await student.locator('#selection-flight [data-action="flee"]').waitFor({ state: 'visible', timeout: 15000 })
+        .catch(async error => { throw new Error(`the order to leave's card did not open from ${answering}'s "!": ${JSON.stringify(await stateOf(answering))} (${error.message.split('\n')[0]})`); });
+      const card = (await student.locator('#selection-flight').innerText()).replace(/\s+/g, ' ').trim();
+      assert.match(card, /told to leave/);
+      assert.ok(await student.locator('#selection-flight [data-action="flight-stay"]').count(), 'the card has no way to say the family stays');
+      const have = projectWorld(world(), 'hh-1', 'student', { includeMap: false }).flight;
+      await student.locator('#selection-flight .flight-amount[data-take="food"]').fill(String(Math.min(have.have.food, Math.floor(have.room / have.space.food))));
+      await student.locator('#selection-flight [data-action="flee"]').click();
+      await student.locator('#selection-flight [data-action="flee"]', { hasText: 'Confirm' }).click();
+      await student.waitForFunction(() => window.__snapshot?.world.flight?.status === 'fled', null, { timeout: 15000 });
+      measured.flight = { answeredBy: answering, refuge: household().flight.refuge, card: card.slice(0, 160) };
+      ok(`told to leave, the "!" opened the card and the family left for ${household().flight.refuge} with what fit; the farm burned behind it`);
+      await shot(student, 'leaving');
+    } finally { flightDone(); }
   } else measured.flight = { status: household().flight?.status || null };
 
   await untilLive(ctx, () => world().status === 'ended', { label: 'the end of the game' });
