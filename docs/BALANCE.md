@@ -13,6 +13,9 @@ The rule it measures is `docs/MONEY_AND_GLORY.md` §5 and §8 (*winning without 
 > corn ever planted cotton**, so "selling for coin" meant selling food, and "cotton made no difference" measured nothing. The record
 > in [evidence/balance-measure.json](evidence/balance-measure.json) is now the re-measure; the first is in git (commit 363fb33).
 >
+> **Slower in the winter, corn ten food a plot (2026-09-28, not released): §13** (winners at about 41,000 / 68,000 / 114,000). The
+> record is now that run.
+>
 > **No limit until the Scrape, spare corn sold, corn four minutes and cotton six (2026-09-28, not released): §12** (winners at about
 > 51,000 / 80,000 / 123,000). The record is now that run.
 >
@@ -864,3 +867,68 @@ ticks, at the Quick pace 240 and 360.
    - **A. (Recommended)** Leave it: it is the market the owner chose; the ending still ranks the families.
    - B. Keep the no-limit rule and halve cotton to a real a bale.
    - C. Limit from the winter (the second period), not the Scrape.
+
+---
+
+## 13. Slower in the winter, and corn ten food a plot (2026-09-28, not released)
+
+The owner's answers to §12.5: **"32 food"** (as built), **"10 food a plot"** for corn, and, for the big winners, **"increase the time
+until harvest during the winter. that way it feels more fluid."** Built on `scrape-market` after merging `integration-2026-09-28`
+(4f529cbb); the same 210 classes run again on the merged tree before the change and after it (the merge alone moved no number: its
+record is identical to §12's).
+
+### 13.1 What was built
+
+- **Half pace in the winter** (`sim/crops.mjs` `WINTER_SLOWER` 2, `WINTER_MONTHS` December to February, a `ceiling:`). The winter is the
+  months of the class's own calendar, not a class period: December 1-15 of the first period and January 25 to the end of February of
+  the second, on the real land; the invented country's September afternoon never reaches it. In the winter a tick adds half its real
+  time to the crop, so corn takes eight real minutes and cotton twelve. What is stored is the crop's progress at full pace, so a crop
+  that stands across the change blends: every tick grows it at the pace of the month that tick falls in. The words say so: the harvest
+  counts the minutes left at the pace of now, and the question at the rows says "ripe in 8 minutes, slower in the winter".
+- **Corn ten food a plot** (`sim/improvements.mjs` `CORN_YIELD_PER_PLOT`), cotton five bales.
+
+### 13.2 The numbers, before and after
+
+| | before (§12) | **after** |
+| --- | --- | --- |
+| Class winner, middle case: five / fifteen / thirty | 51,073 / 79,595 / 122,598 | **40,781 / 68,094 / 113,800** |
+| Highest final of any family | 295,696 | **264,041** |
+| Mean coin at the end (most any family held) | 178.1 (685) | **160.2 (606)** |
+| Farms hard / plain, fifteen and thirty families | 1.16 / 0.84 | **1.14 / 0.86** |
+| farms hard / plain, fifteen | 1.22 / 0.79 | 1.22 / 0.79 |
+| farms hard / plain, thirty | 1.06 / 0.93 | 1.02 / 0.98 |
+| Cotton meant / its own crop | 1.34 / 0.64 | **1.32 / 0.66** |
+| its own crop, rolled to corn: index / coin / median final | 0.02 / 5.3 / 137 | **0.04 / 15.2 / 211** |
+| sells / never | 0.93 / 1.07 | 0.96 / 1.04 |
+| war: all / one / neighbour / none | 2.57 / 1.03 / 0.42 / 0.04 | 2.67 / 1.01 / 0.36 / 0.02 |
+| means die: 3 / 10 reales | 1.03 / 0.97 | 0.88 / 1.07 |
+| Burn zone: stay / go at once | 0.39 / 1.08 | 0.42 / 1.11 |
+| Classes won by a family that sent nobody | 2 | 1 (`measure-5-66`) |
+| Deaths | 317 | 319 |
+
+- **The winter takes a fifth off the winners** (a fifth at five families, a seventh at fifteen, a thirteenth at thirty): the second
+  period's crops, January 25 to the end of February, grow at half pace. The first period's winter is only its last fortnight, and the
+  third period is all spring.
+- **Corn pays three times what it did and still little** (15 reales against cotton's 204): ten food a plot every four minutes is more
+  than a family eats, but spare corn fetches a real for four at a store, where a plot of cotton fetches ten reales.
+- **Farming harder still matters at fifteen families** (1.22 against 0.79) and hardly at thirty (1.02 against 0.98).
+
+### 13.3 The older study, before and after
+
+| | before (§12) | **after** |
+| --- | --- | --- |
+| The class's first family | 50,880 / 24,086 / 32,407 / 31,060 / 25,201 / 33,712 | **46,656 / 31,652 / 31,309 / 23,668 / 23,821 / 33,346** |
+| The stay-home family's final | 14 / 3 / 633 / 195 / 510 / 16 | **29 / 33 / 564 / 184 / 418 / 50** |
+| Its place | 14 / 15 / 6 / 10 / 8 / 12 | **15 / 15 / 12 / 13 / 12 / 14** |
+| Deaths | 9 | 10 |
+
+### 13.4 Questions for the owner
+
+1. **The winter moved the winners by a fifth at most**, because most of the class is not winter.
+   - A. Leave it at half pace.
+   - **B. (Recommended)** A third of the pace in the winter (corn twelve minutes, cotton eighteen).
+   - C. Count the whole second period as winter (to March 13), not just December to February.
+2. **Corn is still far behind cotton** (families rolled to corn: index 0.04, 15 reales; cotton: 1.28, 204).
+   - A. Leave it: corn feeds, cotton pays.
+   - **B. (Recommended)** A real for three food at the store (four now), so a corn farm's spare pays nearer a cotton farm's.
+   - C. Corn fifteen food a plot.
