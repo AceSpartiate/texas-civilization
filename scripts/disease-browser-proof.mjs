@@ -85,7 +85,7 @@ assert.equal(app.state.world.period, 3, 'the class did not reach the spring');
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const rowLine = (page, id) => page.evaluate(id => { const line = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-sick-line`); return line && !line.hidden ? { text: line.textContent, grave: line.dataset.grave === 'true' } : null; }, id);
-const badge = (page, id) => page.evaluate(id => { const mark = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-sick-mark`); if (!mark || mark.hidden) return null; const box = mark.getBoundingClientRect(); return { w: Math.round(box.width), h: Math.round(box.height) }; }, id);
+const badge = (page, id) => page.evaluate(id => { const mark = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-sick-mark`); if (!mark || mark.hidden) return null; const box = mark.getBoundingClientRect(); return { w: Math.round(box.width), h: Math.round(box.height), drawn: mark.dataset.drawn === 'true' }; }, id);
 const noOverflow = page => page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
 /** The days a sick person has to go, and the class's minute, as the family's own page is sent them. */
 const mending = (page, id) => page.evaluate(id => { const world = window.__snapshot?.world; const one = world?.entities.find(e => e.id === id); return one && { minute: world.minute, left: (one.health.recoversAt - world.minute) / 1440, sick: one.health.condition === 'sick', chore: one.chore?.id || null, progress: one.travel?.progress ?? null, halted: Boolean(one.travel?.halted), riding: Boolean(one.travel?.rides || one.travel?.drives || one.travel?.saddle || one.travel?.carried) }; }, id);
@@ -132,8 +132,11 @@ try {
   await page.waitForFunction(id => !document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-sick-line`)?.hidden, cast.patient, { timeout: 20000 });
   observed.rowMoving = await rowLine(page, cast.patient);
   assert.match(observed.rowMoving.text, /^Has a chill on the chest: (riding|walking)\. Resting would mend it sooner/);
+  // The badge is `mark-sick` (Claude-drawn until Astra's lands, public/app.js `paintSickMark`) once its sheet has arrived.
+  await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-sick-mark`)?.dataset.drawn === 'true', cast.patient, { timeout: 20000 });
   observed.badge = await badge(page, cast.patient);
   assert.ok(observed.badge && observed.badge.w >= 16, 'no sick badge on the portrait');
+  assert.ok(observed.badge.drawn, 'the sick badge is not the drawn mark-sick');
   await page.locator(`[data-portrait="${cast.patient}"]`).click({ force: true });
   await page.waitForFunction(() => /chill on the chest/.test(document.querySelector('#selection-state')?.textContent || ''), null, { timeout: 15000 });
   observed.card = (await page.locator('#selection-state').innerText()).trim();

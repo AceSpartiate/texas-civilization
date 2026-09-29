@@ -4,7 +4,7 @@
 // which scenes this page may see at all (sim/town-scenes.mjs `townScenesFor`). This file only draws it - the townspeople and
 // their props, the words over their heads (public/speech.js), and the small card a student opens by clicking a scene - and
 // walks anybody whose place changed to the new place at a person's pace, so nobody in the town slides or jumps.
-import { clipInfo, drawClip, drawSprite } from '/art.js';
+import { clipInfo, clipReady, drawClip, drawSprite } from '/art.js';
 import { clipGait, fadeToward, MOUNTED_HEIGHT, STRIDE } from '/motion.js';
 import { drawSpeech, speechAlpha } from '/speech.js';
 
@@ -233,7 +233,7 @@ function personItem(ctx, person, stepped, { toScreen, figure, scale, time, drawn
     // Feet (and hooves) keep to the ground they cross: the cycle is played by how far they have gone.
     const own = stepped.moving ? stepTime(clip.id, stepped.walked, height / Math.max(1, scale), clip.mounted ? STRIDE.hoof : STRIDE.foot) : undefined;
     // A rider standing still sits a horse standing still: the riding cycle held on its first frame.
-    let width = clip.prefer ? drawClip(ctx, clip.prefer, p.x, p.y, height, { timeMs: own ?? time, seed: person.id, flip: clip.flip, paused: person.rides && !stepped.moving }) : 0;
+    let width = clip.prefer && clipReady(clip.prefer) ? drawClip(ctx, clip.prefer, p.x, p.y, height, { timeMs: own ?? time, seed: person.id, flip: clip.flip, paused: person.rides && !stepped.moving }) : 0;
     if (!width) width = drawClip(ctx, clip.id, p.x, p.y, height, { timeMs: own ?? time, seed: person.id, flip: clip.flip, paused: person.rides && !stepped.moving });
     if (!width) fallbackPerson(ctx, p.x, p.y, height, person.figure === 'volunteer' ? '#7d5f45' : '#6d5a68');
     if (person.carries === 'flag') drawFlag(ctx, p.x + height * .18 * (clip.flip ? -1 : 1), p.y - height * .2, height * 1.5, { time });

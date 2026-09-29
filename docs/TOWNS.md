@@ -136,7 +136,7 @@ press could land on a detached button, which failed `npm run test:errand` at ran
 
 ### The rules (sim/errands.mjs)
 
-- **What a line counts**: purchases of what a shop sells (two seed a purchase), lots of what it buys (four food a real since 2026-09-28, a
+- **What a line counts**: purchases of what a shop sells (two seed a purchase), lots of what it buys (three food a real since 2026-09-28, a
   bale, a hide), food for the mill. Things bought once - a tool, shoes, the rifle put in order, the doctor - one at most.
 - **In what order**: what the family sells first, then the mill, then what it buys, each in the list's order - so the coin or
   food a sale brings can pay for a purchase, whichever the student put first.

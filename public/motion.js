@@ -435,11 +435,44 @@ export function entityClip(entity, observed = false) {
   // at a person's height, because this is the figure-only path (public/app.js `miniPerson`); the whole painted rig is
   // asked for by name in `drawSeated`, which knows it has a mount's height to give it.
   if (!observed && seatOf(entity) === 'horse') return seatedClip(entity, travelDirection(entity) || 'e', null);
-  const clip = grownClip(entity, observed);
+  const clip = carrying(entity, grownClip(entity, observed));
   const grown = castVariant(entity, observed), young = entity.kind === 'person' && figureOf(entity, observed);
   if (!young || young === grown) return clip;
   const pose = clip.id.slice(grown.length + 1);
   return CHILD_POSES[young].includes(pose) ? { ...clip, id: `${young}-${pose}` } : clip;
+}
+/**
+ * A pose the delivered library has no picture of, asked for by name with the delivered pose it falls back to: the binding's
+ * `id` is the fallback (a clip the library holds), and `drawn` names the pose to draw instead wherever the figure has it -
+ * `{ from, pose, upright, west }`: the fallback's pose, the pose asked for, whether that one is turned by its own sheet (never
+ * mirrored), and a west-facing clip of its own. The figure is the fallback's: every fallback a child is given is the child's own
+ * (CHILD_POSES), so a child's drawn pose is the child's.
+ * public/app.js `drawnClipOf` takes it once `clipReady` says it can be drawn, figure by figure, and draws the fallback until
+ * then. stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - area B's poses (children at play,
+ * a baby crawling, crying and asleep, a woman holding a baby, the sick lying down) are Claude-drawn today; Astra's clips of
+ * the same names (request 2026-09-26 - children at play, babies; request 2026-09-27 - sickness) take their place.
+ */
+/**
+ * Carrying the baby on the hip on the way somewhere (sim/babies.mjs `takeBabyAlong`; public/app.js sets `carryingBaby` on the
+ * one a baby is `carriedBy`): walking, the walk with the baby in the carrier's own frame (`-carry-baby-walk`, and `-s`/`-n`)
+ * wherever that can be drawn, and the baby is then not drawn again beside them. stand-in: docs/ART_REQUESTS.md, request
+ * 2026-09-26 - a woman with a baby on her hip; Claude-drawn today.
+ */
+function carrying(entity, clip) {
+  if (!entity.carryingBaby) return clip;
+  const walk = /-(walk(?:-[ns])?)$/.exec(clip.id);
+  if (!walk) return clip;
+  const heading = walk[1].slice(4);
+  return { ...clip, drawn: { from: walk[1], pose: `carry-baby-walk${heading}`, upright: Boolean(heading), holding: true } };
+}
+const drawnPose = (variant, from, pose, extra = {}, drawn = {}) => ({ id: `${variant}-${from}`, ...extra, drawn: { from, pose, ...drawn } });
+/** The clip a `drawn` binding names for the figure whose fallback clip is `clip`, facing west when `west`; or null. */
+export function drawnClipName(binding, clip, west = false) {
+  const drawn = binding?.drawn;
+  if (!drawn) return null;
+  const figure = clip.endsWith(`-${drawn.from}`) ? clip.slice(0, clip.length - drawn.from.length - 1) : null;
+  if (!figure) return null;
+  return `${figure}-${west && drawn.west ? drawn.west : drawn.pose}`;
 }
 function grownClip(entity, observed) {
   // Somebody else's principal is not this student's principal: an observed person never
@@ -448,8 +481,8 @@ function grownClip(entity, observed) {
   const condition = entity.health?.condition || entity.condition;
   // Somebody hurt is drawn hurt, and a condition outranks whatever they were doing.
   if (HURT_CONDITIONS.includes(condition)) return { id: `${variant}-injured-rest`, frozen: true, upright: true };
-  // Sick and resting: lying down, as the hurt are (`restingSick`).
-  if (restingSick({ ...entity, condition })) return { id: `${variant}-injured-rest`, frozen: true, upright: true };
+  // Sick and resting: lying down under a blanket (`restingSick`), in the hurt's lying pose until `-sick-rest` can be drawn.
+  if (restingSick({ ...entity, condition })) return drawnPose(variant, 'injured-rest', 'sick-rest', { frozen: true, upright: true }, { upright: true });
   // Capture and death stay a still upright pose; a lying-down figure would be a depiction
   // this project never chose.
   if (STILL_CONDITIONS.includes(condition)) return { id: `${variant}-idle-s`, frozen: true, upright: true };
@@ -545,29 +578,45 @@ function grownClip(entity, observed) {
 }
 /**
  * The poses of the family's little ones, from what the server says they are doing (docs/CHILDREN.md, sim/childhood.mjs,
- * sim/babies.mjs), or null. Every pose named here is one the children's sheets and the cast figures already hold; the children's
- * figure is taken wherever it has the pose (`entityClip`).
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - children at play, a baby crawling, and a woman holding a baby. Until they
- * land: running play is the child's walk, a doll or the grass the child's sitting rest, a toy cart and marbles the side-on
- * rest (the hens are work since 2026-09-28: public/work-art.js `scatter`), hiding the back-turned idle; a crawling baby is the infant's standing pose moved over the ground; a woman holding
- * a baby is the harvest's carrying pose with the infant beside her.
+ * sim/babies.mjs), or null. Each is a pose the children's sheets and the cast figures already hold (`id`), and where the play,
+ * the baby or the holding has a picture of its own, that pose `drawn` (`drawnPose`), taken wherever the figure has it.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - children at play, a baby crawling, and a woman holding a baby. The
+ * drawn poses are Claude-drawn (`-play-run`, `-play-gallop`, `-play-hoop`, `-play-hide`, `-play-sit-doll`, `-play-kneel`,
+ * `-speak`, `-tug`, `infant-crawl`, `infant-cry`, `infant-sleep`, `infant-sick`, `-hold-baby`) until Astra's land; under them,
+ * the older stand-ins - running play is the child's walk, a doll or the grass the child's sitting rest, a toy cart and marbles
+ * the side-on rest (the hens are work since 2026-09-28: public/work-art.js `scatter`), hiding the back-turned idle; a crawling
+ * baby is the infant's standing pose moved over the ground; a woman holding a baby is the harvest's carrying pose with the
+ * infant beside her.
+ * ceiling: play is drawn east or west (mirrored); the running play's `-play-run-s`/`-n` are drawn but not asked for, because
+ * the page does not read a child's heading about the yard. Reading `ProjectionMotion.heading` for play would use them.
  */
 export function littleClip(entity, variant) {
   const baby = entity.baby?.state;
   if (baby) {
-    if (baby === 'nap' || baby === 'night') return { id: `${variant}-rest`, upright: true };
-    if (baby === 'cry') return { id: `${variant}-idle-s`, upright: true };
-    return { id: `${variant}-idle-e` };
+    // In somebody's arms or on their hip: drawn by whoever holds it (public/app.js), and in its own pose only until they are.
+    if (baby === 'held' || baby === 'carried') return { id: `${variant}-idle-e` };
+    // Sick: swaddled and lying down, with a cool cloth (request 2026-09-27, item 3); `restingSick` leaves a baby to here.
+    if ((entity.health?.condition || entity.condition) === 'sick') return drawnPose(variant, 'rest', 'sick', { upright: true });
+    if (baby === 'nap' || baby === 'night') return drawnPose(variant, 'rest', 'sleep', { upright: true });
+    if (baby === 'cry') return drawnPose(variant, 'idle-s', 'cry', { upright: true }, { upright: true });
+    return drawnPose(variant, 'idle-e', 'crawl', {}, { west: 'crawl-w' });
   }
-  if (entity.aside?.kind === 'baby') return { id: `${variant}-carry` };
+  if (entity.aside?.kind === 'baby') return drawnPose(variant, 'carry', 'hold-baby', {}, { upright: true, holding: true });
   if (entity.aside?.kind === 'talk') return { id: `${variant}-listen-s`, upright: true };
-  if (entity.talk) return entity.talk.phase === 'going' ? { id: `${variant}-walk` } : { id: `${variant}-idle-s`, upright: true };
+  if (entity.talk) {
+    if (entity.talk.phase === 'going') return { id: `${variant}-walk` };
+    // Come to a grown-up: a small child tugs at the sleeve, an older one tells it.
+    return drawnPose(variant, 'idle-s', entity.band === 'small' ? 'tug' : 'speak', { upright: true });
+  }
   const doing = entity.chore?.doing || '';
-  if (/galloping|running at tag|running off to hide|coming out to be found|rolling a hoop/.test(doing)) return { id: `${variant}-walk` };
-  if (/hiding behind the house/.test(doing)) return { id: `${variant}-idle-n`, upright: true };
-  if (/playing house|lying on their back/.test(doing)) return { id: `${variant}-rest`, upright: true };
+  if (/galloping/.test(doing)) return drawnPose(variant, 'walk', 'play-gallop');
+  if (/rolling a hoop/.test(doing)) return drawnPose(variant, 'walk', 'play-hoop');
+  if (/running at tag|running off to hide|coming out to be found/.test(doing)) return drawnPose(variant, 'walk', 'play-run');
+  if (/hiding behind the house/.test(doing)) return drawnPose(variant, 'idle-n', 'play-hide', { upright: true });
+  if (/playing house/.test(doing)) return drawnPose(variant, 'rest', 'play-sit-doll', { upright: true });
+  if (/lying on their back/.test(doing)) return { id: `${variant}-rest`, upright: true };
   // The hens are work, not play: public/work-art.js draws the scattering (`child-hens`).
-  if (/marbles|toy cart|fort of sticks|edge of the water/.test(doing)) return { id: `${variant}-rest-e` };
+  if (/marbles|toy cart|fort of sticks|edge of the water/.test(doing)) return drawnPose(variant, 'rest-e', 'play-kneel');
   return null;
 }
 /**

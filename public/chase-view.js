@@ -91,11 +91,11 @@ export function createChaseView(art) {
         // from the saddle are Claude's `dragoon-gallop-*` and `dragoon-carbine-fire` (request 2026-09-27 "Mexican troops after a
         // family on the road"), riding the way he goes; `dragoon-march` wherever those are not loaded.
         let ok = 0;
-        if (view.kind === 'cavalry' && moving) {
+        if (view.kind === 'cavalry' && moving && art.clipReady) {
           const vx = -view.dir.x, vy = -view.dir.y, vertical = Math.abs(vy) > Math.abs(vx) * 1.2;
           const shot = [...view.shots.values()].find(one => one.man === i && now >= one.at && now - one.at < 760);
           const hard = shot ? 'dragoon-carbine-fire' : vertical ? `dragoon-gallop-${vy > 0 ? 's' : 'n'}` : 'dragoon-gallop-e';
-          ok = art.animated(ctx, hard, p.x, p.y, size, `${chase.id}:${i}`, { timeMs: shot ? now - shot.at : time + i * 173, flip: vertical && !shot ? false : !toward });
+          if (art.clipReady(hard)) ok = art.animated(ctx, hard, p.x, p.y, size, `${chase.id}:${i}`, { timeMs: shot ? now - shot.at : time + i * 173, flip: vertical && !shot ? false : !toward });
         }
         if (!ok) ok = art.animated(ctx, clip, p.x, p.y, size, `${chase.id}:${i}`, { timeMs: still ? 0 : time + i * 173, flip: moving || soldier.loading ? !toward : false });
         if (!ok) art.miniPerson(ctx, p.x, p.y, size, { side: 'mexican' });

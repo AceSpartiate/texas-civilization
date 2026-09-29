@@ -13,6 +13,9 @@ The rule it measures is `docs/MONEY_AND_GLORY.md` §5 and §8 (*winning without 
 > corn ever planted cotton**, so "selling for coin" meant selling food, and "cotton made no difference" measured nothing. The record
 > in [evidence/balance-measure.json](evidence/balance-measure.json) is now the re-measure; the first is in git (commit 363fb33).
 >
+> **A third of the pace in the winter, a real for three food (2026-09-28, not released): §14** (winners at about 40,000 / 63,000 /
+> 105,000). The record is now that run.
+>
 > **Slower in the winter, corn ten food a plot (2026-09-28, not released): §13** (winners at about 41,000 / 68,000 / 114,000). The
 > record is now that run.
 >
@@ -931,4 +934,63 @@ record is identical to §12's).
 2. **Corn is still far behind cotton** (families rolled to corn: index 0.04, 15 reales; cotton: 1.28, 204).
    - A. Leave it: corn feeds, cotton pays.
    - **B. (Recommended)** A real for three food at the store (four now), so a corn farm's spare pays nearer a cotton farm's.
+   - C. Corn fifteen food a plot.
+
+---
+
+## 14. A third of the pace in the winter, and a real for three food (2026-09-28, not released)
+
+The owner's answers to §13.4: **"A third in winter"** and **"1 real for 3 food"**. Built on `winter-third` off `integration-2026-09-28`
+(0ee43284); the same 210 classes run on that tree before the change and after it.
+
+### 14.1 What was built
+
+- **Winter at a third of the pace** (`sim/crops.mjs` `WINTER_SLOWER` 3, a `ceiling:`): in December to February of the class's calendar a
+  tick adds a third of its real time to the crop, so corn takes twelve real minutes and cotton eighteen; a crop across the change still
+  blends, each tick at the pace of its month.
+- **A real for three food** at the store (`sim/market.mjs`, `sim/shops.mjs`, `COIN.foodPerReal`), a real for six from half full after the
+  Scrape. The lot a student puts on the errand's list is three food.
+- **The post-Scrape food limit no longer matches its analogy.** 32 food was read as what four bales fetch at full price, eight reales,
+  at four food a real; at three food a real, eight reales are **24 food**, and 32 food is 10.7 reales at full price. The owner answered
+  "32 food" before the price changed, so it is kept, and the question is put again (§14.4).
+
+### 14.2 The numbers, before and after
+
+| | before (§13) | **after** |
+| --- | --- | --- |
+| Class winner, middle case: five / fifteen / thirty | 40,781 / 68,094 / 113,800 | **39,760 / 63,408 / 105,185** |
+| Highest final of any family | 264,041 | **254,546** |
+| Mean coin at the end (most any family held) | 160.2 (606) | **149.6 (509)** |
+| Farms hard / plain, fifteen and thirty families | 1.14 / 0.86 | **1.14 / 0.86** |
+| Cotton meant / its own crop | 1.32 / 0.66 | **1.32 / 0.66** |
+| its own crop, rolled to corn: index / coin / median final | 0.04 / 15.2 / 211 | **0.04 / 17.9 / 204** |
+| its own crop, rolled to cotton: coin | 203.5 | 188.5 |
+| sells / never | 0.96 / 1.04 | 0.93 / 1.07 |
+| war: all / one / neighbour / none | 2.67 / 1.01 / 0.36 / 0.02 | 2.57 / 1.05 / 0.42 / 0.02 |
+| Burn zone: stay / go at once | 0.42 / 1.11 | 0.36 / 1.18 |
+| Classes won by a family that sent nobody | 1 | 1 (`measure-5-66`) |
+| Deaths | 319 | 334 |
+
+- **A third in the winter moves the winners a little further**: 3 in 100 at five families, 7 at fifteen, 8 at thirty - about a
+  fifth to a quarter below where they were before the winter slowed crops at all (51,073 / 79,595 / 122,598, §12).
+- **Corn pays a sixth more (18 reales against 15) and still a tenth of cotton**: a corn family's spare is little, however it is priced,
+  because a family keeps three weeks of its eating before it sells.
+
+### 14.3 The older study, before and after
+
+| | before (§13) | **after** |
+| --- | --- | --- |
+| The class's first family | 46,656 / 31,652 / 31,309 / 23,668 / 23,821 / 33,346 | **38,784 / 27,388 / 28,031 / 22,612 / 20,601 / 31,882** |
+| The stay-home family's final | 29 / 33 / 564 / 184 / 418 / 50 | **35 / 51 / 534 / 168 / 380 / 73** |
+| Its place | 15 / 15 / 12 / 13 / 12 / 14 | **15 / 15 / 12 / 13 / 12 / 13** |
+| Deaths | 10 | 11 |
+
+### 14.4 Questions for the owner
+
+1. **The food limit after the Scrape**: 32 food was four bales' worth at four food a real; at three it is 24.
+   - A. Keep 32 food (a little more room for food than for cotton).
+   - **B. (Recommended)** 24 food, so food and cotton stay the same eight reales' worth.
+2. **Corn still earns a tenth of cotton**, because a family sells only what it holds beyond three weeks of its eating.
+   - A. Leave it: corn feeds, cotton pays.
+   - **B. (Recommended)** Spare corn beyond one week's eating, not three.
    - C. Corn fifteen food a plot.

@@ -725,7 +725,7 @@ export function createBattleView(art) {
     for (const f of figures) {
       if (f.kind === 'fallen') { drawFallen(ctx, f, now); continue; }
       if (f.kind === 'packhorse') {
-        if (art.animated(ctx, f.mule, f.point.x, f.point.y, f.size, f.seed, { timeMs: time, flip: f.muleFlip, paused: reducedMotion || !f.moving })) continue;
+        if (art.clipReady?.(f.mule) && art.animated(ctx, f.mule, f.point.x, f.point.y, f.size, f.seed, { timeMs: time, flip: f.muleFlip, paused: reducedMotion || !f.moving })) continue;
         if (!art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: time, flip: f.flip, paused: reducedMotion })) { ctx.fillStyle = '#7a5a3a'; ctx.fillRect(f.point.x - f.size * 0.35, f.point.y - f.size * 0.45, f.size * 0.7, f.size * 0.25); }
         if (!art.drawSprite(ctx, 'packed-belongings', f.point.x, f.point.y - f.size * 0.42, f.size * 0.45)) { ctx.fillStyle = '#b9a46a'; ctx.fillRect(f.point.x - f.size * 0.2, f.point.y - f.size * 0.62, f.size * 0.4, f.size * 0.18); }
         continue;
@@ -737,7 +737,7 @@ export function createBattleView(art) {
       }
       let ok = 0;
       // A Claude-drawn clip the figure prefers (`prefer`), where its sheet is loaded; the library's clip otherwise.
-      if (f.prefer) ok = art.animated(ctx, f.prefer.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.prefer.timeMs ?? f.timeMs, flip: f.prefer.flip ?? f.flip, paused: reducedMotion });
+      if (f.prefer && art.clipReady?.(f.prefer.clip)) ok = art.animated(ctx, f.prefer.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.prefer.timeMs ?? f.timeMs, flip: f.prefer.flip ?? f.flip, paused: reducedMotion });
       if (!ok && f.clip) ok = art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: reducedMotion });
       else if (!ok && f.sprite) ok = art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip });
       if (!ok) art.miniPerson(ctx, f.point.x, f.point.y, f.size, { side: f.side, flip: f.flip });
@@ -907,7 +907,7 @@ export function createBattleView(art) {
     // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - where Claude's herd is loaded, the drove
     // (`herd-drove`) or its scattering (`herd-scatter`) drawn as a few masses of a dozen horses each, one mass for every six of
     // the mustangs that would stand in for them; the mustangs otherwise.
-    if (herd.moving || herd.scatter) {
+    if ((herd.moving || herd.scatter) && art.clipReady?.(herd.scatter ? 'herd-scatter' : 'herd-drove')) {
       const masses = Math.max(1, Math.round(n / 6));
       let drawn = 0;
       for (let i = 0; i < masses; i++) {
@@ -968,7 +968,7 @@ export function createBattleView(art) {
       const back = -Math.min(1, since / 25000) * f.size * 2.4 * (f.facingRight ? 1 : -1);
       // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - a dragoon hit in the saddle, where
       // Claude's `dragoon-wounded-led` is loaded: slumped on his horse, led back by a comrade on foot.
-      if (f.mounted && art.animated(ctx, 'dragoon-wounded-led', x + back, y, f.size * 1.35, `${f.slot.index}:led`, { flip: f.facingRight })) return;
+      if (f.mounted && art.clipReady?.('dragoon-wounded-led') && art.animated(ctx, 'dragoon-wounded-led', x + back, y, f.size * 1.35, `${f.slot.index}:led`, { flip: f.facingRight })) return;
       if (!art.drawSprite(ctx, `${kind}-injured`, x + back, y, f.size)) art.miniPerson(ctx, x + back, y, f.size, { side: f.side });
       for (const off of [-0.45, 0.45]) art.animated(ctx, `${kind}-march`, x + back + off * f.size, y + 2, f.size, `${f.slot.index}:${off}`, { flip: f.facingRight });
       return;
@@ -1273,7 +1273,7 @@ export function createBattleView(art) {
     if (pose === 'ride') {
       // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - full mounted movement for Seguín and
       // Dr. Sutherland (`seguin-ride-e`, `sutherland-ride-e`; request 2026-09-26 "the famous people") where it is loaded.
-      const moving = person.moving && ['seguin', 'sutherland'].includes(person.id) && clip(`${person.id}-ride-e`, time, { size: figurePx * 1.35 });
+      const moving = person.moving && art.clipReady?.(`${person.id}-ride-e`) && clip(`${person.id}-ride-e`, time, { size: figurePx * 1.35 });
       if (moving) return moving;
       if (typeof named === 'string' && named.startsWith('clip:')) return clip(named.slice(5), time, { size: figurePx * 1.35 });
       if (named) return sprite(named);

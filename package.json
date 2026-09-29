@@ -15,6 +15,7 @@
     "art:plan": "node scripts/claude-art/write-plan.mjs",
     "art:compare": "node scripts/claude-art/compare.mjs",
     "art:rig": "node scripts/claude-art/proof-rig.mjs",
+    "art:preview": "node scripts/claude-art/preview-swing.mjs",
     "test:claude-art": "node scripts/claude-art/injections.mjs",
     "test:art": "node scripts/art-browser-proof.mjs",
     "test:alamo": "node scripts/alamo-browser-proof.mjs",
