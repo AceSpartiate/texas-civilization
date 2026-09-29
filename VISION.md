@@ -300,7 +300,7 @@ The game only restricts what the household can act upon based on what it has act
 
 Students may verbally share information with one another. The classroom itself becomes an informal communication network.
 
-**One rider, one visit** (owner-decided 2026-09-29, `FIC-GONZ-908`, [docs/COLONIES.md §5.4b](docs/COLONIES.md)): *"If they're
+**One rider, one visit** (owner-decided 2026-09-29, `FIC-GONZ-909`, [docs/COLONIES.md §5.4b](docs/COLONIES.md)): *"If they're
 all carrying similar news, why does the family receive multiples? ... it should be an off screen thing."* A family sees one
 rider bring each word and has one conversation about it; more of the same word arriving meanwhile is known the minute it comes,
 in its bringer's name, without a second rider or a second conversation. What the word asks waits until the rider has gone, its

@@ -166,8 +166,10 @@ test('the panel says what the next stage wants, not only what the whole plan wan
   assert.deepEqual(sills.house.wants.logs, { sill: 4 }, 'the sills want their four sill logs and nothing else');
   assert.equal(sills.house.wants.piece, 'the round-log pen');
   assert.ok(sills.house.wants.hours > 0, 'the stage asks for no work at all');
+  // Two spells of the sills: an hour's work since the family's work was halved (owner, 2026-09-29; sim/work-pace.mjs), two before.
+  assert.equal(sills.house.wants.hours, 1);
   assert.equal(nextLine(sills.house, sills.logs),
-    `Next: laying the sills on the round-log pen. It wants 4 sill logs and about ${sills.house.wants.hours} hours\u2019 work; 3 sound and 1 poor at the house.`);
+    'Next: laying the sills on the round-log pen. It wants 4 sill logs and about 1 hour\u2019s work; 3 sound and 1 poor at the house.');
   // The whole plan's want is a different, larger number: that is the line this one was added beside.
   assert.ok(plotNeeds(household.house.pieces).logs.wall > 4, 'the plan wants no more wall logs than one stage does');
 
@@ -181,7 +183,7 @@ test('the panel says what the next stage wants, not only what the whole plan wan
 
   // A stage already begun has taken its logs: it wants no more, and the line says so rather than asking twice.
   const begun = { ...land().house, wants: { ...stageWants(household.house.pieces), logs: {} } };
-  assert.match(nextLine(begun, { wall: 36, sill: 8, poor: 0, lying: 6 }), /It wants about \d+ hours\u2019 work; 44 sound at the house, 6 lying out\./);
+  assert.match(nextLine(begun, { wall: 36, sill: 8, poor: 0, lying: 6 }), /It wants about (half an hour\u2019s|1 hour\u2019s|[\d.]+ hours\u2019) work; 44 sound at the house, 6 lying out\./);
   // And a house with nothing to start says only what it is at.
   assert.equal(nextLine({ stage: 'waiting on the pens' }, null), 'Next: waiting on the pens.');
   validateWorld(world);

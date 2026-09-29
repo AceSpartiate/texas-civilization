@@ -85,7 +85,8 @@ test('clearing a staked plot costs days of work and makes the field bigger for g
   const before = world.tick;
   clearAnother(world, 'hh-1', thomas.id);
   assert.equal(clearedOf(household), 2, 'the ground was cleared and the field is no bigger');
-  assert.ok(world.tick - before >= 30, `clearing ten acres of prairie took ${world.tick - before} ticks`);
+  // Ten spells of three ticks; each at half its length since 2026-09-29 (owner; sim/work-pace.mjs): fifteen ticks at the least.
+  assert.ok(world.tick - before >= 15, `clearing ten acres of prairie took ${world.tick - before} ticks`);
   assert.ok(world.events.some(event => /finished clearing ten acres of prairie/.test(event.text)), 'nothing in the family record says they did it');
   // It is permanent: nothing gives it back except ruin.
   for (let tick = 0; tick < 40; tick++) stepWorld(world);

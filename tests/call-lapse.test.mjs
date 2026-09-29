@@ -43,7 +43,7 @@ test('a played family\'s settlement call lapses after five real minutes: nobody 
   assert.equal(inLesson(world, household), false, 'the fixture family is in the guided start');
   // While the rider who brought the word still stands there the call waits behind him, and its five minutes do not run
   // (owner, 2026-09-29: "Each queued request's real-time budget must not run out while it waits behind another";
-  // sim/encounters.mjs `questionWaits`, `FIC-GONZ-908`). They start when he has gone.
+  // sim/encounters.mjs `questionWaits`, `FIC-GONZ-909`). They start when he has gone.
   assert.equal(view(world, household.id).request, null, 'the call was shown over the rider still talking');
   assert.equal(view(world, household.id).encounter.waiting?.count, 1, "the rider's conversation does not say something waits");
   stepWorld(world, { realMs: 60_000 });

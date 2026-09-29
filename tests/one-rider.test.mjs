@@ -2,7 +2,7 @@
 // time. If they're all carrying similar news, why does the family receive multiples? Why don't we integrate and simplify
 // things?", and the same day: "players shouldn't see riders merge, they should have a seamless experience. it should be an off
 // screen thing. ... the player should see the requests as they arrive unless it's duplicate. Players shouldn't miss anything,
-// but also shouldn't be quickly overwhelmed with a lot of stuff."; docs/COLONIES.md §5.4b, `FIC-GONZ-908`).
+// but also shouldn't be quickly overwhelmed with a lot of stuff."; docs/COLONIES.md §5.4b, `FIC-GONZ-909`).
 //
 // What was measured before: word leaves a place for every family at the same minute, one rider each, so a family met its rider
 // with up to fifteen more in sight (two to five on the real land), and the question the word raises - the neighbour at the

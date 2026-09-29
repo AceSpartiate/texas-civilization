@@ -215,7 +215,8 @@ test('water carried from far off slows the heavy work until a well is dug, and a
   while (digger.chore && ticks < 400) { stepWorld(digging); ticks++; }
   const dug = digging.households['hh-1'];
   assert.equal(dug.well, true, 'the well is dug');
-  assert.ok(ticks >= wellTicks(dug) * 0.7, 'and it was a long piece of work');
+  // Its ticks at the best pace a hand has, halved since 2026-09-29 (owner; sim/work-pace.mjs).
+  assert.ok(ticks >= wellTicks(dug) * 0.7 * 0.5, 'and it was a long piece of work');
   assert.match(storyOf(digging, 'hh-1').join(' '), /struck water/);
   assert.equal(waterBurden(dug), 1, 'nobody carries water now');
   assert.ok(!choresFor(digging, dug, digger).some(chore => chore.id === 'dig-well'), 'and no second well is offered');

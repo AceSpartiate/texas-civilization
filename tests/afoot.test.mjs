@@ -22,6 +22,7 @@ import { PACK_SPACE } from '../sim/wagon.mjs';
 import { WALK_SPEED } from '../sim/travel.mjs';
 import { beastsOf } from '../sim/beasts.mjs';
 import { HAND_CARRY_TICKS, choreAvailability } from '../sim/chores.mjs';
+import { WORK_PACE } from '../sim/work-pace.mjs';
 import { LESSON_ENABLED, advanceLessons } from '../sim/lesson.mjs';
 import { RIPEN_TICKS } from '../sim/chores.mjs';
 import { clearedPlots, plotsOf } from '../sim/fields.mjs';
@@ -255,7 +256,8 @@ test('a crop that would want the wagon is brought in by hand by a family with no
   driving.status = 'running'; wagonFamily.played = true;
   const byWagon = bringIn(driving, wagonFamily);
   assert.deepEqual(byWagon.held, ['ox', 'wagon']);
-  assert.ok(byHand.ticks >= byWagon.ticks + HAND_CARRY_TICKS - 1, `by hand took ${byHand.ticks} ticks and by the wagon ${byWagon.ticks}`);
+  // The carrying is work, at the family's pace since 2026-09-29 (sim/work-pace.mjs): three ticks more for an ordinary hand, not six.
+  assert.ok(byHand.ticks >= byWagon.ticks + HAND_CARRY_TICKS * WORK_PACE - 1, `by hand took ${byHand.ticks} ticks and by the wagon ${byWagon.ticks}`);
   // A family whose wagon is away is still told to fetch it: that is a thing a family can get wrong, not a lack.
   const away = taught(settle(modestMeans(rolled(1, 5, { stem: 'hand' })))); ripe(away); away.status = 'running';
   away.entities['hh-1-wagon'].location = { ...away.map.sites.gonzales, siteId: 'gonzales' };

@@ -28,6 +28,7 @@
 import { landAround, onRealLand } from './ground.mjs';
 import { huntingPlace } from './hunting.mjs';
 import { distanceToPolyline } from './terrain.mjs';
+import { workHours } from './work-pace.mjs';
 
 /** How far from the house a family will go for a day's gathering, in miles: near work, not an expedition. */
 export const FORAGE_REACH = 3;
@@ -115,6 +116,12 @@ export function onSaltWater(world, point, reach = FORAGE_REACH) {
  *
  * `cover` is the ground at the house's own hunting place, which is the same ground the hunt is told about.
  */
+/**
+ * The hours a work takes now: `hours` above is the work before the family's pace, three ticks an hour, and since the owner
+ * halved every family work on 2026-09-29 it goes at half of it (sim/work-pace.mjs) - fishing an hour, small game half of one.
+ */
+const pacedHours = work => workHours(work.hours * 3);
+
 export function forageFacts(world, household, kind, home, { cover = null, axe = false, powder = false } = {}) {
   const work = FORAGE[kind];
   if (!work || !home) return { can: false, why: 'No such work.' };
@@ -127,10 +134,10 @@ export function forageFacts(world, household, kind, home, { cover = null, axe = 
     const water = fishingWater(world, home);
     if (!water) return { can: false, why: 'There is no water within reach of the house that runs all year.' };
     const named = water.name ? `${/River$/.test(water.name) ? 'the ' : ''}${water.name}` : water.kind === 'river' ? 'the river' : 'the creek';
-    return { can: true, where: named, miles: Math.round(water.miles * 10) / 10, food: work.food, hours: work.hours, what: work.what };
+    return { can: true, where: named, miles: Math.round(water.miles * 10) / 10, food: work.food, hours: pacedHours(work), what: work.what };
   }
   if (work.salt && !onSaltWater(world, home)) return { can: false, why: 'The oyster beds are on the coast, and this land is not.' };
-  return { can: true, ...(work.salt && { where: 'the beds along the shore' }), food: work.food, hours: work.hours, what: work.what };
+  return { can: true, ...(work.salt && { where: 'the beds along the shore' }), food: work.food, hours: pacedHours(work), what: work.what };
 }
 
 // The winter turkey and the lean deer - the fourth thing this session built - live in sim/hunting.mjs, with the rest of

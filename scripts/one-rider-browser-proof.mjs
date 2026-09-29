@@ -2,7 +2,7 @@
 // there's multiple riders that arrive at the same time. If they're all carrying similar news, why does the family receive
 // multiples? Why don't we integrate and simplify things?", refined the same day: "players shouldn't see riders merge, they
 // should have a seamless experience. it should be an off screen thing. ... Players shouldn't miss anything, but also
-// shouldn't be quickly overwhelmed with a lot of stuff."; docs/COLONIES.md §5.4b, `FIC-GONZ-908`).
+// shouldn't be quickly overwhelmed with a lot of stuff."; docs/COLONIES.md §5.4b, `FIC-GONZ-909`).
 //
 // A Play Solo game on the real land, fifteen families, the player's family a Matagorda family whose word comes by express
 // (seed `q2`): its rider reins in beside two more riders carrying the same word to its neighbours and home, and its

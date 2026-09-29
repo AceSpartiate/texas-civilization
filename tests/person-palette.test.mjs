@@ -64,3 +64,29 @@ test('a frame of no cast figure is left alone', () => {
   recolourPersonFrame(image, 'volunteer-idle-e', look);
   assert.deepEqual([...image.data], before);
 });
+
+test('a father who chooses a moustache is drawn with one, on his face only, in his hair colour (stand-in until A18)', () => {
+  // Found 2026-09-29: "Moustache" was drawn as the same clean-shaven bareheaded man as "Bareheaded".
+  const name = 'ochre-idle-s', parts = framePartsOf(frame(name), name);
+  const bare = dyed(name, { ...look, head: 'bareheaded' }), fair = dyed(name, { ...look, head: 'moustache' });
+  const black = dyed(name, { ...look, hair: 'black', head: 'moustache' });
+  const { width, height } = bare;
+  let changed = 0, offFace = 0, lowest = 0, highest = height, followsHair = 0;
+  for (let p = 0; p < width * height; p++) {
+    const i = p * 4;
+    if (bare.data[i] === fair.data[i] && bare.data[i + 1] === fair.data[i + 1] && bare.data[i + 2] === fair.data[i + 2]) continue;
+    changed++;
+    if (parts[p] !== 1) offFace++;
+    const y = Math.floor(p / width);
+    lowest = Math.max(lowest, y); highest = Math.min(highest, y);
+    if (fair.data[i] !== black.data[i]) followsHair++;
+  }
+  assert.ok(changed >= 40, `the moustache choice changes only ${changed} pixels of the bareheaded man`);
+  assert.equal(offFace, 0, `${offFace} moustache pixels are off the face's own skin`);
+  // Below the eyes and above the chin: the face is 10-28% down the frame (measured on the art).
+  assert.ok(highest > height * .18 && lowest < height * .29, `the moustache is drawn from ${(highest / height).toFixed(3)} to ${(lowest / height).toFixed(3)} down the frame, not over the mouth`);
+  assert.equal(followsHair, changed, 'the moustache does not take the hair choice');
+  // In profile no band is painted across the face.
+  const side = 'ochre-idle-e', sideBare = dyed(side, { ...look, head: 'bareheaded' }), sideMoustache = dyed(side, { ...look, head: 'moustache' });
+  assert.deepEqual([...sideMoustache.data], [...sideBare.data], 'a moustache is painted on a face in profile');
+});

@@ -66,7 +66,7 @@ export function openDecisions(world, { heldFor } = {}) {
   }
   // A settlement's call to turn out (sim/calls.mjs), put to a played family whose student is at the screen: `CALL_BUDGET_MS`
   // from when the word reached them, not counted while that student is still in the guided start (`held`), nor while the call
-  // waits behind the rider who brought the word (sim/encounters.mjs `questionWaits`, owner 2026-09-29, `FIC-GONZ-908`): its
+  // waits behind the rider who brought the word (sim/encounters.mjs `questionWaits`, owner 2026-09-29, `FIC-GONZ-909`): its
   // five minutes start when it is shown, so a call that queued is never short of time for it.
   for (const [householdId, call] of Object.entries(world.calls || {})) {
     const household = world.households?.[householdId];

@@ -63,6 +63,7 @@ import { beastsOf, kept, wagonWith } from './beasts.mjs';
 import { holdingOf } from './grants.mjs';
 import { TOOL_LIFE, allWorn, anyWorn, mendWorst, soundestFirst, toolCount } from './tools.mjs';
 import { plotNeeds } from './houseplot.mjs';
+import { WORK_PACE, hoursSaid, workHours, workPaceOf } from './work-pace.mjs';
 import { houseFront } from './house-placement.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
 import { HOUSES, SPELL_TICKS, buildRefusal, buildSpell, handsOn, helpRefusal, hostOf, houseBuilt, houseOf, houseSettled, pieced, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
@@ -347,7 +348,7 @@ export const ASKS = {
     fallback: ['shelves', 'benches', 'cradle', 'table', 'bedstead'],
     text: entity => `What should ${entity.name} make? It means a trip to the timber for a small tree, and then the work of it.`,
     options: () => [
-      ...PIECES.map(piece => ({ id: piece, label: `Make ${FURNITURE[piece].a}`, note: `${FURNITURE[piece].does} ${FURNITURE[piece].work} spells of work.` })),
+      ...PIECES.map(piece => ({ id: piece, label: `Make ${FURNITURE[piece].a}`, note: `${FURNITURE[piece].does} About ${hoursSaid(workHours(FURNITURE[piece].work))} of work.` })),
       { id: 'leave', label: 'Make nothing', note: 'Nothing spent' },
     ],
     requires: Object.fromEntries(PIECES.map(piece => [piece, { test: household => !makeRefusal(household, piece), why: household => makeRefusal(household, piece) }])),
@@ -983,7 +984,7 @@ export function fetchLogsFacts(world, household) {
   const miles = Math.hypot(wood.x - home.x, wood.y - home.y);
   // The wagon's pace is miles a tick of twenty minutes (sim/travel.mjs): there and back, and the felling; out on foot to a team
   // left at the timber.
-  const hours = Math.max(1, Math.round(((teamLeft ? miles / MODES.foot.speed : miles / MODES.wagon.speed) + miles / MODES.wagon.speed + FETCH_FELL_TICKS) / 3));
+  const hours = Math.max(1, Math.round(((teamLeft ? miles / MODES.foot.speed : miles / MODES.wagon.speed) + miles / MODES.wagon.speed + FETCH_FELL_TICKS * WORK_PACE) / 3));
   const where = `${wood.name.charAt(0).toLowerCase()}${wood.name.slice(1)}, ${miles < 0.2 ? 'beside the house' : `${Math.round(miles * 10) / 10} miles off`}`;
   return { can: true, miles: round(miles), hours, teamLeft, cost: teamLeft ? `about ${hours} ${hours === 1 ? 'hour' : 'hours'}, on foot to the ox and wagon left at ${where}, and home with them` : `the ox and wagon for about ${hours} ${hours === 1 ? 'hour' : 'hours'}, to ${where}` };
 }
@@ -1088,10 +1089,11 @@ const forageBegin = kind => (world, household, entity) => {
 const forageOffered = kind => (world, household) => forageFor(world, household, kind).can;
 /** Said on the control before anybody is sent: the hours, where they would go, and the powder if it takes one. */
 function forageCost(world, household, choreId) {
-  const chore = CHORES[choreId], facts = forageFor(world, household, chore.forage), hours = FORAGE[chore.forage].hours;
+  const chore = CHORES[choreId], facts = forageFor(world, household, chore.forage);
   const where = facts.where ? `, ${facts.where}${facts.miles > 0.2 ? ` ${facts.miles} miles off` : ''}` : '';
   const powder = FORAGE[chore.forage].powder ? `, ${SHOT_COST} powder` : '';
-  return `${hours} ${hours === 1 ? 'hour' : 'hours'}${where}${powder}`;
+  // The work itself, at the family's pace (owner, 2026-09-29; sim/gathering.mjs `forageFacts`): the walk there is the map's.
+  return `${hoursSaid(facts.hours ?? workHours(FORAGE[chore.forage].hours * 3))}${where}${powder}`;
 }
 
 // ---- the family's own stock (sim/stock.mjs, docs/STOCK.md) ----------------------------------
@@ -1155,7 +1157,7 @@ CHORES['take-small-game'] = {
   name: 'Take small game', skill: 'hunting', where: 'home', hauls: true, forage: 'smallgame',
   offered: forageOffered('smallgame'), begin: forageBegin('smallgame'),
   needs: { powder: SHOT_COST },
-  describe: 'An hour in the timber or the brush with the rifle, after squirrels and rabbits. It is nothing like the long wait for a deer: nobody has to have the knack, nothing is stalked, and nobody comes home empty — but a squirrel or two is a squirrel or two.',
+  describe: 'Half an hour in the timber or the brush with the rifle, after squirrels and rabbits. It is nothing like the long wait for a deer: nobody has to have the knack, nothing is stalked, and nobody comes home empty — but a squirrel or two is a squirrel or two.',
   steps: [
     { travel: 'timber', doing: 'out after small game in {cover}' },
     { work: 3, doing: 'looking for squirrels in {cover}' },
@@ -2361,7 +2363,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // A parent with a baby at home and no cradle does heavy work slower, and it says so (sim/furniture.mjs).
       const baby = chore.heavy && chore.where === 'home' && entity.location.siteId === household.homeSiteId && mindingBaby(world, household, entity) ? BABY_BURDEN : 1;
       if (baby > 1 && state.doing && !state.doing.includes('the baby')) state.doing = `${state.doing}, with the baby to mind`;
-      workFor(state, paceFor(ticks, skill, (chore.heavy ? heavyWorkPace(entity) : 1) * burden * baby));
+      // Half as long as it was, for a family's work (owner, 2026-09-29; sim/work-pace.mjs): after the person's own pace, so the
+      // halving is exact and the fraction carries into the next work (`over`) rather than rounding back up to a whole tick.
+      workFor(state, paceFor(ticks, skill, (chore.heavy ? heavyWorkPace(entity) : 1) * burden * baby) * workPaceOf(chore));
       return;
     }
     if (step.consume) {
@@ -2539,7 +2543,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       if (!stroll(world, household, entity, { x: tree.x, y: tree.y })) { state.step--; return; }
       state.felling = tree.id;
       state.doing = `felling ${/^[aeiou]/.test(KINDS[tree.kind].name) ? 'an' : 'a'} ${KINDS[tree.kind].name}`;
-      workFor(state, paceFor(fellAndCarryTicks(tree), skill, heavyWorkPace(entity) * waterBurden(household)));
+      workFor(state, paceFor(fellAndCarryTicks(tree), skill, heavyWorkPace(entity) * waterBurden(household)) * workPaceOf(chore));
       state.step--;
       return;
     }

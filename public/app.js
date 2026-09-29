@@ -3444,7 +3444,8 @@ function drawWorldNow(world) {
       // logs (`wood-pile-1`..`-4`), a pile for every ten or part of ten, up to four.
       // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - the wood pile is Claude-drawn (request
       // 2026-09-28 — people at work, item 16); Astra's `wood-pile-*` of the same names replace it. Until its sheet has arrived
-      // the pile is the older stand-in, `log-fallen` laid side by side.
+      // the pile is the older stand-in, `log-fallen` laid side by side - and while her `log-fallen` is in the library the Claude
+      // pile is held back and her logs are drawn (owner, 2026-09-29, public/art-subjects.js: her art wins by subject).
       const piled = theirs ? theirs.logs || 0 : ownLand && world.land?.logs ? world.land.logs.wall + world.land.logs.sill + world.land.logs.poor : 0;
       const pile = Math.min(4, Math.ceil(piled / 10));
       if (pile && spriteReady(`wood-pile-${pile}`)) {
@@ -3457,7 +3458,11 @@ function drawWorldNow(world) {
         } });
       } else for (let i = 0; i < pile; i++) {
         const x = q.x - yard * (.9 + i * .06), y = q.y + yard * (.28 + i * .07);
-        standing.push({ y, draw: () => drawSprite(ctx, 'log-fallen', x, y, camera.figure * SIZE.logPile) });
+        standing.push({ y, draw: () => {
+          const width = drawSprite(ctx, 'log-fallen', x, y, camera.figure * SIZE.logPile);
+          // Where the row was drawn, for the proofs (npm run test:work): the whole row, from its first log.
+          if (ownLand && i === 0) window.__woodPileAt = { x, y, width: width * 1.6, height: camera.figure * SIZE.logPile };
+        } });
       }
       if (ownLand) { window.__logPileDrawn = pile; window.__woodPileSprite = pile && spriteReady(`wood-pile-${pile}`) ? `wood-pile-${pile}` : null; }
       // Own land only: these grazing animals illustrate the projected stock choice; the herd is not an entity yet.
@@ -4062,7 +4067,8 @@ function renderHousehold(world) {
     ? ` They live in a ${houseName(land.house.layout)}: rest there mends ${inHundred(land.home.restShare)} in 100 of the usual, and ${inHundred(land.home.spoilagePerDay)} in 100 of the food spoil each day.${land.home.crowded ? ' It is crowded: more of the family sleep in it than it holds, and they rest the worse for it.' : ''}`
     : land.house
     ? land.house.work > 0
-      ? ` They are building a ${houseName(land.house.layout)}: ${land.house.stage}, ${land.house.work} of ${land.house.total} hours of work done.`
+      // Hours at the family's pace, from the server (sim/houses.mjs; half a spell's old hour since 2026-09-29).
+      ? ` They are building a ${houseName(land.house.layout)}: ${land.house.stage}, ${land.house.hours?.[0] ?? land.house.work} of ${land.house.hours?.[1] ?? land.house.total} hours of work done.`
       : ` They mean to build a ${houseName(land.house.layout)}, and nobody has started on it.`
     : '';
   const ground = land ? [(() => {

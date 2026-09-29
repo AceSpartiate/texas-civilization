@@ -1,6 +1,6 @@
 // The regressions one rider, one visit guards (owner, 2026-09-29: "If they're all carrying similar news, why does the family
 // receive multiples? Why don't we integrate and simplify things?"; sim/encounters.mjs `VISIT_MINUTES`, `joinVisit`,
-// `questionWaits`, `ridersInSight`; `FIC-GONZ-908`), injected one at a time (CLAUDE.md: "A new test is not evidence until it has
+// `questionWaits`, `ridersInSight`; `FIC-GONZ-909`), injected one at a time (CLAUDE.md: "A new test is not evidence until it has
 // failed"). Each replaces one exact piece of a file with the mistake a test is written against, runs the test files, records
 // which tests failed, checks that the test written for it is among them, and puts the file back byte for byte.
 //
@@ -20,7 +20,7 @@ const INJECTIONS = [
   { name: 'nothing joins a visit: every firmer account is a meeting of its own', file: E, from: '      const joining = visitAbout(world, household.id, report.topicId);', to: '      const joining = null;', expect: T.fold },
   { name: 'the joined account is never learned', file: E, from: '  learn(world, householdId, report.topicId, { status: report.status, hands: said.hands, source: sourceOf(carrier, said), causes: [eventId] });', to: '', expect: T.fold },
   { name: 'the joined account is learned in the first rider\'s name', file: E, from: 'source: sourceOf(carrier, said), causes: [eventId] });', to: 'source: joining.carrierName, causes: [eventId] });', expect: T.fold },
-  { name: 'the joining is written in the family\'s own record, on its screen', file: E, from: "    actorId: carrier.id, topicId: report.topicId, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-908', causes: [joining.metEventId],", to: "    actorId: carrier.id, householdId, topicId: report.topicId, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-908', causes: [joining.metEventId],", expect: T.fold },
+  { name: 'the joining is written in the family\'s own record, on its screen', file: E, from: "    actorId: carrier.id, topicId: report.topicId, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-909', causes: [joining.metEventId],", to: "    actorId: carrier.id, householdId, topicId: report.topicId, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-909', causes: [joining.metEventId],", expect: T.fold },
   { name: 'the visit never closes: a firmer account a day later is folded too', file: E, from: 'export const VISIT_MINUTES = 360;', to: 'export const VISIT_MINUTES = Infinity;', expect: T.window },
   { name: 'only an open visit is joined: a firmer account a moment after it is told again', file: E, from: "&& (one.status === 'open' || world.minute - (one.closedMinute ?? one.openedMinute) < VISIT_MINUTES)) || null;", to: "&& one.status === 'open') || null;", expect: T.window },
   { name: 'any word joins the visit, not only the same one', file: E, from: "one.householdId === householdId && !one.kind && one.topicId === topicId\n", to: "one.householdId === householdId && !one.kind\n", expect: T.other },

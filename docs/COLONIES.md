@@ -270,7 +270,7 @@ coast, where staying to guard the coast is an honourable answer the letters them
 companies from Nacogdoches; and everywhere the same shortage, "more men than guns", so powder and a rifle are part of
 what a family sends. Liberty and Mina have no documented call in these letters and would get the general circular.
 
-### 5.4b One rider, one visit — owner-decided 2026-09-29 (`FIC-GONZ-908`)
+### 5.4b One rider, one visit — owner-decided 2026-09-29 (`FIC-GONZ-909`)
 
 **The ask.** Owner, 2026-09-29, verbatim: *"At the start of the game, there's multiple riders that arrive at the same time. If
 they're all carrying similar news, why does the family receive multiples? Why don't we integrate and simplify things?"* And the

@@ -108,7 +108,7 @@ export const PASSING_MINUTES = 200;
  * One rider, one visit (owner, 2026-09-29, verbatim: "At the start of the game, there's multiple riders that arrive at the
  * same time. If they're all carrying similar news, why does the family receive multiples? Why don't we integrate and simplify
  * things?", and the same day: "players shouldn't see riders merge, they should have a seamless experience. it should be an off
- * screen thing."; docs/COLONIES.md §5.4b, `FIC-GONZ-908`).
+ * screen thing."; docs/COLONIES.md §5.4b, `FIC-GONZ-909`).
  *
  * A second rider bringing a family a word it is being told right now, or was told by a rider less than this long ago, is part
  * of that same visit: what he adds - a firmer account, told by somebody nearer to it - is taken into the family's knowledge
@@ -347,7 +347,7 @@ const openFor = (world, householdId) => Object.values(world.encounters || {}).fi
 /**
  * Whether one of the family's questions - the neighbour at the door, the rumor, the settlement's call, the march upriver - waits
  * behind a rider who is talking with the family (owner, 2026-09-29: "One conversation at a time, the rest queued";
- * `FIC-GONZ-908`). A question put to the family while a rider it raises from is still standing there, or on the very tick he
+ * `FIC-GONZ-909`). A question put to the family while a rider it raises from is still standing there, or on the very tick he
  * speaks, waits until he has gone: the word first, then what the word asks. One already in front of the family when a rider comes
  * stays where it is, so nothing is taken off the screen from under a student. Only what is shown waits: the question is put, and
  * written in the family's record, at the time it truly came, and while it waits its real minutes do not run
@@ -485,7 +485,7 @@ function joinVisit(world, carrier, { person, householdId, joining }) {
   const said = accountOf(world, { provenance: report.provenance || [], originSiteId: report.originSiteId, departedMinute: report.departedMinute, observedMinute: truth.minute, openedMinute: world.minute });
   const eventId = record(world, 'encounter-joined', {
     // The causal record only, like a hand-off (sim/world.mjs `advanceRelays`): the family's own line is the journal's.
-    actorId: carrier.id, topicId: report.topicId, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-908', causes: [joining.metEventId],
+    actorId: carrier.id, topicId: report.topicId, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-909', causes: [joining.metEventId],
     text: `${carrier.name} brought the same word to ${person.name}'s family while ${joining.carrierName}'s visit stood, and it was taken with that visit.`,
   });
   learn(world, householdId, report.topicId, { status: report.status, hands: said.hands, source: sourceOf(carrier, said), causes: [eventId] });
@@ -838,7 +838,7 @@ export function ridersInSight(world, householdId) {
   const words = new Set();
   if (spokenWith && !goneFromSight(spokenWith) && (met.status === 'open' || inSight(spokenWith))) { seen.push(spokenWith); words.add(met.topicId); }
   // **One rider for each word** (owner, 2026-09-29: "If they're all carrying similar news, why does the family receive
-  // multiples?"; "it should be an off screen thing"; `FIC-GONZ-908`). Word leaves a place for every family at the same minute,
+  // multiples?"; "it should be an off screen thing"; `FIC-GONZ-909`). Word leaves a place for every family at the same minute,
   // one rider each (sim/directors.mjs, sim/expresses.mjs), so the riders for a family and for its neighbours came up the road
   // together and reined in within sight of one another: measured on the real land, 21 of a class of 30 families saw two to five
   // riders at the moment theirs spoke, and on the invented country up to fifteen. The world keeps every one of them - each family

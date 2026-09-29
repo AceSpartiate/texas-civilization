@@ -134,8 +134,10 @@ try {
   await page.waitForFunction(() => document.querySelector('.panel-row[data-focused=true] .panel-icon[data-key="child-tag"]')?.dataset.active === 'true', null, { timeout: 10000 });
   const playing = await drawnOver(page, kid.id, 4000, 200, parentId);
   assert.ok(playing.places >= 3, `the child at tag was drawn in ${playing.places} places in four seconds`);
-  // Running at tag: the child's own run (`-play-run`, Claude-drawn until Astra's lands), or the walk while that sheet is on its way.
-  assert.ok(playing.clips.some(clip => /play-run|walk/.test(clip)), `the child at tag was never drawn running: ${playing.clips}`);
+  // Running at tag: Astra's child walking (owner, 2026-09-29: her art always wins, public/art-subjects.js) - never Claude's
+  // `-play-run`, a Claude drawing of her girl, boy or small child - until her own running frames land under that name.
+  assert.ok(playing.clips.some(clip => /walk/.test(clip)), `the child at tag was never drawn running: ${playing.clips}`);
+  assert.ok(!playing.clips.some(clip => /play-/.test(clip)), `the child at tag was drawn in Claude's play frames, not Astra's child: ${playing.clips}`);
   observed.play = playing;
   await shot(page, 'play-1366');
   ok(`given tag, the parent went back to work at once; the icon glows and the child is drawn in ${playing.places} places in four seconds, as ${playing.clips.join(', ')}`);
@@ -146,13 +148,14 @@ try {
   // (`walkOn`). Sitting down with a doll is looked for once they are there, not while they are still walking up.
   await page.waitForFunction(id => { const seen = window.__travelSight?.get(id); return !seen?.walk && !seen?.trail; }, kid.id, { timeout: 60000 });
   // Tag again, now they are in the yard: running the way they are seen going (owner, 2026-09-29), north and south in their own
-  // running frames (`-play-run-n`, `-s`, or their walk that way while that sheet is on its way), east and west the side-on run -
+  // walk that way (Astra's `-walk-n`, `-s`; Claude's `-play-run-n`/`-s` are held back while hers are drawn), east and west side-on -
   // the way read off the drawing (`window.__yardHeading`), never the side-on run carried up or down the page. (The first tag above
   // is mostly the walk up to the yard, which the town's walker turns.)
   await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="child-tag"]').click();
   await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.chore?.id === 'child-tag', kid.id, { timeout: 15000 });
   const tagged = await drawnOver(page, kid.id, 3000, 100, parentId);
-  const running = tagged.turns.filter(([heading, clip]) => heading && /play-run|walk/.test(clip));
+  const running = tagged.turns.filter(([heading, clip]) => heading && /walk/.test(clip));
+  assert.ok(!tagged.turns.some(([, clip]) => /play-/.test(clip || '')), `the child at tag was drawn in Claude's play frames: ${JSON.stringify(tagged.turns)}`);
   assert.ok(running.length >= 5, `the child at tag in the yard was turned in only ${running.length} samples: ${JSON.stringify(tagged.turns)}`);
   for (const [heading, clip, flip] of running) {
     const way = /-(?:play-run|walk)-([ns])$/.exec(clip)?.[1] || null;
@@ -169,18 +172,18 @@ try {
   const sitting = await drawnOver(page, kid.id, 2000);
   assert.ok(sitting.clips.some(clip => /play-sit-doll|rest/.test(clip)), `the child with a doll was not drawn sitting: ${sitting.clips}`);
   ok(`with a corn-husk doll the child is drawn sitting (${sitting.clips.join(', ')})`);
-  // The hens are work: the child is drawn in their own scattering (`smallchild-scatter`, Claude-drawn until Astra's lands),
-  // through the work table's drawn stroke in the child's own figure (public/app.js `drawAtWork`), not the grown sowing.
+  // The hens are work: the child is drawn in Astra's grown sowing at a child's size (the stand-in, public/app.js `drawAtWork`) -
+  // never Claude's `-scatter`, a Claude drawing of her child, while her child is in the library (owner, 2026-09-29).
   // The doll is put down first: play lasts until the day ends (2026-09-29).
   await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="stop-chore"]').click();
   await page.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, kid.id, { timeout: 30000 });
   await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="child-hens"]').click();
   await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.chore?.id === 'child-hens', kid.id, { timeout: 15000 });
-  await page.waitForFunction(id => /^(girl|boy|smallchild)-scatter$/.test(window.__workDrawn?.[id]?.clip || ''), kid.id, { timeout: 60000 })
+  await page.waitForFunction(id => /-sow$/.test(window.__workDrawn?.[id]?.clip || ''), kid.id, { timeout: 60000 })
     .catch(async error => { console.log('DEBUG hens', JSON.stringify(await page.evaluate(id => ({ work: window.__workDrawn?.[id], clip: window.__clipsDrawn?.[id], chore: window.__snapshot.world.entities.find(one => one.id === id)?.chore }), kid.id))); throw error; });
   observed.hens = await page.evaluate(id => window.__workDrawn[id].clip, kid.id);
   await shot(page, 'hens-1366');
-  ok(`scattering corn for the hens the child is drawn in their own ${observed.hens}`);
+  ok(`scattering corn for the hens the child is drawn in Astra's ${observed.hens}, not Claude's scatter`);
 
   // 3. The child's own automation turns itself off, with a notice on the row.
   const autoSwitch = page.locator(`.panel-row[data-entity-id="${kid.id}"] .panel-auto`);
@@ -212,8 +215,9 @@ try {
   const held = await page.evaluate(id => ({ said: window.__familySaid.filter(line => line.speakerId === id).map(line => line.text), clip: window.__clipsDrawn?.[id] }), carer.id);
   observed.held = { carer: carer.name, ...held, babyLife: await lifeOf(page, baby.id), carerLife: await lifeOf(page, carer.id) };
   assert.match(observed.held.babyLife || '', /^Held by/);
-  // Holding the baby to the shoulder (`-hold-baby`, Claude-drawn), or the older stand-in, the harvest's carry.
-  assert.match(held.clip || '', /hold-baby|carry/, `the carer is not drawn holding anything: ${held.clip}`);
+  // Holding the baby: Astra's figure at the harvest's carry, the baby drawn with them (owner, 2026-09-29: her art always wins) -
+  // never Claude's `-hold-baby`, a Claude drawing of her figure.
+  assert.match(held.clip || '', /carry$/, `the carer is not drawn as Astra's figure carrying: ${held.clip}`);
   await shot(page, 'baby-held-1366');
   await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.baby?.state === 'nap', baby.id, { timeout: 30000 });
   const after = await person(page, carer.id);
