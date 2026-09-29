@@ -73,7 +73,7 @@ const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 // The one battle renderer (public/battle-view.js, docs/BATTLES.md §3): drawn with the page's own art, and asked by
 // `drawFigure` which pose a family's own person in the force is in. Declared up here, above the page's first `connect`, so a
 // page opened in the middle of a fight has it (the TDZ guard in tests/app-module.test.mjs).
-const battleView = createBattleView({ animated: (...args) => animated(...args), drawSprite: (...args) => drawSprite(...args), miniPerson: (...args) => miniPerson(...args) });
+const battleView = createBattleView({ animated: (...args) => animated(...args), drawSprite: (...args) => drawSprite(...args), miniPerson: (...args) => miniPerson(...args), clipReady: name => clipReady(name) });
 // Mexican troops after a family on the Scrape (public/chase-view.js, sim/pursuit.mjs), and the family's own route: the stops it
 // is choosing (`routeDraft`), whether a tap on the map adds one (`routePicking`), and the key its editor was last drawn for.
 // Up here with the battle's renderer, above the page's first `connect`, for the same TDZ guard.

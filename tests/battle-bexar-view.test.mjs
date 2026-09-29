@@ -109,7 +109,8 @@ test('Karnes\'s door: a man at the bar until it gives, then the hole; the family
   assert.ok(art.drawn.some(one => one.sprite === 'wall-breach'), 'the door never gave');
   assert.ok(shown.breachesOpened >= 1);
   assert.ok(shown.civiliansSeen >= 3, `the family inside was not seen: ${shown.civiliansSeen}`);
-  const folk = art.drawn.filter(one => /^(rust-woman|smallchild|elder|indigo)-/.test(one.clip || one.sprite || ''));
+  // Béxar's own townspeople (Claude-drawn stand-ins), or the settlers' figures behind them while their sheet has not loaded.
+  const folk = art.drawn.filter(one => /^(bexar-(woman|man|girl|boy)|rust-woman|smallchild|elder|indigo)-/.test(one.clip || one.sprite || ''));
   assert.ok(folk.length > 0 && folk.every(one => !/fire|injured|reclining/.test(one.clip || one.sprite)), 'a townsperson was drawn firing or hurt');
   assert.ok(view.evidence.unitsSeen.includes('york'), 'York\'s company never followed him in');
 });

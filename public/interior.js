@@ -31,11 +31,13 @@ export function renderInterior(root, interior, { title, readOnly = false, send, 
   const stage = el('div', null, 'interior-stage');
   const canvas = el('canvas', null, 'interior-canvas');
   const width = Math.min(640, Math.max(280, (root.clientWidth || 640) - 36));
-  // The dog-run's picture is wide; the saddlebag is drawn on it too (stand-in: sim/interior-data.mjs).
-  const wide = room.sprite === 'interior-dog-run';
+  // The two-pen pictures are wide. A room whose picture has not loaded is drawn as its `fallback` (the saddlebag as the
+  // dog-run while Claude's stand-in has not loaded; sim/interior-data.mjs).
+  const sprite = !spriteFrame(room.sprite) && room.fallback && spriteFrame(room.fallback) ? room.fallback : room.sprite;
+  const wide = sprite === 'interior-dog-run' || sprite === 'interior-saddlebag';
   // The picture fills the stage's width. It is drawn from its anchor (its feet, off centre), so the anchor is placed where
   // the picture's own box puts it; the spots are fractions of that same box (sim/interior-data.mjs).
-  const frame = spriteFrame(room.sprite) || { w: 1, h: wide ? 0.44 : 0.87, anchorX: 0.5, anchorY: 0.93 };
+  const frame = spriteFrame(sprite) || { w: 1, h: wide ? 0.44 : 0.87, anchorX: 0.5, anchorY: 0.93 };
   const pictureWidth = width * 0.98, pictureHeight = pictureWidth * frame.h / frame.w;
   const height = Math.round(pictureHeight * 1.02);
   canvas.width = width; canvas.height = height;
@@ -43,10 +45,10 @@ export function renderInterior(root, interior, { title, readOnly = false, send, 
   stage.append(canvas);
   const ctx = canvas.getContext('2d');
   const box = { left: (width - pictureWidth) / 2, top: (height - pictureHeight) / 2, width: pictureWidth, height: pictureHeight };
-  drawSprite(ctx, room.sprite, box.left + frame.anchorX * pictureWidth, box.top + frame.anchorY * pictureHeight, pictureHeight);
+  drawSprite(ctx, sprite, box.left + frame.anchorX * pictureWidth, box.top + frame.anchorY * pictureHeight, pictureHeight);
   const spotAt = ([, , fx, fy]) => ({ x: box.left + fx * box.width, y: box.top + fy * box.height });
   const itemScale = wide ? pictureHeight * 1.5 : pictureHeight;
-  if (!spriteFrame(room.sprite)) ctx.fillText('The rooms are still loading.', 12, 20);
+  if (!spriteFrame(sprite)) ctx.fillText('The rooms are still loading.', 12, 20);
   const drawn = [];
   // Back of the room first, so a thing by the door stands in front of a thing against the back wall.
   for (const spot of [...room.spots].sort((a, b) => a[3] - b[3])) {
