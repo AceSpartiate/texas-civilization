@@ -521,7 +521,7 @@ store's cotton three bales a family; `FIC-GONZ-722`). **"Weigh prisoners more"**
 
 The owner's answers to BALANCE.md §11.6, the same day: **"no limit on selling until the runaway scrape. after that, limit it to 4 per
 family"** - every store and weaver buys all it is brought at full price until the third class period, and from then on four bales of
-cotton a family (32 food, by analogy, a reading put to the owner); **"Sell spare corn too"** - the neighbours' director, and so a family
+cotton a family (24 food since 2026-09-29, the same eight reales at three food a real - "Lower to 24 food"; 32 until then); **"Sell spare corn too"** - the neighbours' director, and so a family
 whose student has gone, sells food beyond three weeks of its eating; **"i want 4 minutes for corn and 6 minutes for cotton in real
 life"** - measured from the real time each tick of the class took (`sim/crops.mjs`). Measured in [BALANCE.md](BALANCE.md) §12.
 

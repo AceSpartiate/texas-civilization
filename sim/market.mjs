@@ -54,10 +54,10 @@ export const SELLS_ON_DAYS = 30;
  */
 export const MARKET = Object.freeze({
   // The wants hold from the Runaway Scrape on (`limited`). Four bales of cotton a family, the owner's own number (2026-09-28: "limit
-  // it to 4 per family"); food 32, the owner's answer to the reading put to them ("32 food": what four bales fetched at four food a
-  // real). Food a real for three since the owner's later word ("1 real for 3 food"; four, and five, before) - at which four bales'
-  // eight reales are 24 food, so 32 is now a little more than the analogy, put to the owner again (docs/BALANCE.md §14).
-  'store:food': Object.freeze({ want: 32, tiers: Object.freeze([{ coinEach: 1, per: 3 }, { coinEach: 1, per: 6 }]) }),
+  // it to 4 per family"); food 24, what four bales fetch at full price - eight reales at a real for three food (owner, 2026-09-29:
+  // "Lower to 24 food"; 32 until then, the same eight reales at four food a real). Food a real for three since "1 real for 3 food"
+  // (four, and five, before).
+  'store:food': Object.freeze({ want: 24, tiers: Object.freeze([{ coinEach: 1, per: 3 }, { coinEach: 1, per: 6 }]) }),
   'store:cotton': Object.freeze({ want: 4, tiers: Object.freeze([{ coinEach: 2, foodEach: 2 }, { coinEach: 1, foodEach: 1 }]) }),
   'weaver:cotton': Object.freeze({ want: 2, tiers: Object.freeze([{ coinEach: 2, foodEach: 3 }, { coinEach: 1, foodEach: 1.5 }]) }),
 });

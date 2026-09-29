@@ -994,3 +994,9 @@ The owner's answers to §13.4: **"A third in winter"** and **"1 real for 3 food"
    - A. Leave it: corn feeds, cotton pays.
    - **B. (Recommended)** Spare corn beyond one week's eating, not three.
    - C. Corn fifteen food a plot.
+
+**Answered 2026-09-29**: question 1 *"Lower to 24 food"* - built: the store wants 24 food a family after the Scrape (`sim/market.mjs`),
+four bales' eight reales at three food a real, and food and cotton are the same coin's worth again. Question 2 *"Leave it"*: spare
+corn stays what is beyond three weeks of eating. The 210 classes were not run again for this: nothing is limited before the third
+period, and a town's food want after it moves from 32 to 24 food a family; `tests/market.test.mjs` holds the curve (120 food in a
+town of five, 30 reales), proved by injection.

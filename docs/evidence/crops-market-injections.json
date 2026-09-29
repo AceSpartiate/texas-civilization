@@ -166,6 +166,13 @@
       ]
     },
     {
+      "name": "the store wants thirty-two food a family after the Scrape, not the owner's twenty-four",
+      "file": "sim/market.mjs",
+      "failed": [
+        "the price curve: full price to half the want, half price to the want, and then nothing"
+      ]
+    },
+    {
       "name": "the counter food lot stays four when the market pays for three",
       "file": "sim/shops.mjs",
       "failed": [

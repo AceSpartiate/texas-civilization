@@ -124,8 +124,14 @@ const INJECTIONS = [
   {
     name: 'the store pays a real for four food, as it did before the owner asked for three',
     file: 'sim/market.mjs',
-    from: "  'store:food': Object.freeze({ want: 32, tiers: Object.freeze([{ coinEach: 1, per: 3 }, { coinEach: 1, per: 6 }]) }),",
-    to: "  'store:food': Object.freeze({ want: 32, tiers: Object.freeze([{ coinEach: 1, per: 4 }, { coinEach: 1, per: 8 }]) }),",
+    from: "  'store:food': Object.freeze({ want: 24, tiers: Object.freeze([{ coinEach: 1, per: 3 }, { coinEach: 1, per: 6 }]) }),",
+    to: "  'store:food': Object.freeze({ want: 24, tiers: Object.freeze([{ coinEach: 1, per: 4 }, { coinEach: 1, per: 8 }]) }),",
+  },
+  {
+    name: 'the store wants thirty-two food a family after the Scrape, not the owner\'s twenty-four',
+    file: 'sim/market.mjs',
+    from: "  'store:food': Object.freeze({ want: 24, tiers: Object.freeze([{ coinEach: 1, per: 3 }, { coinEach: 1, per: 6 }]) }),",
+    to: "  'store:food': Object.freeze({ want: 32, tiers: Object.freeze([{ coinEach: 1, per: 3 }, { coinEach: 1, per: 6 }]) }),",
   },
   {
     name: 'the counter food lot stays four when the market pays for three',

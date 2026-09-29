@@ -1,5 +1,14 @@
 # Claude handoff — Astra foundation
 
+## The store's food after the Scrape: 24 a family — owner, 2026-09-29 (branch `food-limit-24` off origin/main 0ffa9663; not released)
+
+The owner's answer to BALANCE.md §14.4: **"Lower to 24 food"** - from the Runaway Scrape the store wants 24 food a family (32 until now),
+four bales' eight reales at a real for three food, so food and cotton are the same coin's worth (`sim/market.mjs`, `FIC-GONZ-722`); corn is
+left as it is (*"Leave it"*). `tests/market.test.mjs` holds the curve - 120 food in a town of five, 20 reales at three and 10 at six - and
+the want; **33 of 33 injections caught**, the new one putting 32 back ([docs/evidence/crops-market-injections.json](docs/evidence/crops-market-injections.json)).
+Docs: BALANCE.md §14.4 (answered), MONEY_AND_GLORY §8.6, GAME.md, HISTORY `FIC-GONZ-722`. **`npm test` 1,677 pass, 0 fail, 36 skipped**;
+`test:ending` 10 checks, `test:errand` 16. The balance measure was not run again: nothing is limited before the third period.
+
 ## Released as v2026.09.29.1 — 2026-09-29
 
 Everything below marked *(released in v2026.09.29.1)* shipped in this release: simpler work (one wood pile, auto, more hands, an axe each), the tutorial suspended and tips at first meeting, people drawn at their work, ambient life and chatter, sound and music, crops in real minutes with a slow winter and open stores until the Scrape, neighbours who repay (and count toward glory), who acts for a family, the flashback video, Stop for today / Continue / Delete in Classes, the overlap fixes, the errand list that stands still, the looks recolouring that finds the face, and Claude's temporary art in six areas (docs/CLAUDE_ART_PLAN.md). Verified on a clean tree at 9bed9f43: `npm test` 1713 tests, 1677 pass, 0 fail, 36 skipped (the suspended tutorial); 26 of 28 browser proofs green first time, `test:solo-game` green on rerun, `test:famous-people` green on one of two reruns (its Host frame sample is 2-7 frames; a follow-up is open). Same computer only; no Chromebook or LAN claim.

@@ -88,10 +88,11 @@ test('the price curve: full price to half the want, half price to the want, and 
   assert.deepEqual(all, { sold: 20, got: 10 * 2 + 10 * 1, lots: 20, full: true });
   // Paid in food: two food a bale, then one.
   assert.deepEqual(marketSale(world, town, 'store', cotton, 12, 'food'), { sold: 12, got: 10 * 2 + 2 * 1, lots: 12, full: false });
-  // Food for coin: a real for three to eighty (the last lot taking it to eighty-one), then a real for six; a hundred and sixty wanted
-  // (thirty-two a family), the last lot taken while there was room for part of it.
+  // Food for coin: a real for three to sixty, then a real for six to a hundred and twenty - twenty-four a family (owner, 2026-09-29:
+  // "Lower to 24 food"), four bales' eight reales at full price - and not a food more.
+  assert.equal(MARKET['store:food'].want, 24);
   const food = offer('store', 'food');
-  assert.deepEqual(marketSale(world, town, 'store', food, 200, 'coin'), { sold: 165, got: 27 + 14, lots: 41, full: true });
+  assert.deepEqual(marketSale(world, town, 'store', food, 200, 'coin'), { sold: 120, got: 20 + 10, lots: 30, full: true });
   // The weaver wants its own, smaller share and pays its own prices.
   const weaver = marketSale(world, town, 'weaver', offer('weaver', 'cotton'), 30, 'food');
   assert.equal(weaver.sold, MARKET['weaver:cotton'].want * 5);
