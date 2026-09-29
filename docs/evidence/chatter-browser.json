@@ -6,12 +6,12 @@
     {
       "label": "farm: people at activities, none drawn standing idle",
       "pass": true,
-      "detail": "6 people, poses repair, care, rest, carry, walk"
+      "detail": "6 people, poses rest, repair, care, carry, walk"
     },
     {
       "label": "farm: bubbles drawn, short, reconstructed",
       "pass": true,
-      "detail": "4 lines: \"That horse of yours looks thin.\" \"He needs more corn, is all.\" \"Supper is nearly ready.\" \"I can smell it from here.\""
+      "detail": "6 lines: \"Will you trade me some salt?\" \"For a little coffee, I will.\" \"That horse of yours looks thin.\" \"He needs more corn, is all.\" \"Supper is nearly ready.\" \"I can smell it from here.\""
     },
     {
       "label": "farm: at most 3 bubbles at once, never over each other, on the screen",
@@ -21,17 +21,17 @@
     {
       "label": "farm: the map draws inside the gate",
       "pass": true,
-      "detail": "{\"count\":445,\"median\":8.1,\"p95\":10.8,\"max\":29.8}"
+      "detail": "{\"count\":446,\"median\":4.5,\"p95\":7,\"max\":12.1}"
     },
     {
       "label": "town: people at activities, none drawn standing idle",
       "pass": true,
-      "detail": "11 people, poses rest, walk, speak, search, carry, repair, walk-s, walk-n, trade"
+      "detail": "11 people, poses rest, walk, speak, search, carry, repair, walk-s, walk-n"
     },
     {
       "label": "town: bubbles drawn, short, reconstructed",
       "pass": true,
-      "detail": "16 lines: \"Slow day for trade.\" \"This rain will not quit.\" \"It will pick up.\" \"Mud up to our knees.\" \"More families came this week.\" \"The store has new cloth.\""
+      "detail": "15 lines: \"Slow day for trade.\" \"This rain will not quit.\" \"It will pick up.\" \"Mud up to our knees.\" \"More families came this week.\" \"The store has new cloth.\""
     },
     {
       "label": "town: at most 3 bubbles at once, never over each other, on the screen",
@@ -41,12 +41,12 @@
     {
       "label": "town: the map draws inside the gate",
       "pass": true,
-      "detail": "{\"count\":445,\"median\":6.1,\"p95\":8.8,\"max\":23.6}"
+      "detail": "{\"count\":475,\"median\":3.4,\"p95\":5,\"max\":14.6}"
     },
     {
       "label": "town: a keeper walked to a neighbour's door to talk",
       "pass": true,
-      "detail": "walked and arrived: town-store-liberty, town-carpenter-columbia, town-ibarra, town-tavern-columbia, town-blacksmith-matagorda, town-store-matagorda, town-blacksmith-liberty, town-carpenter-liberty, town-crandall, town-mill-san-felipe, town-weaver-gonzales, town-doctor-san-felipe, town-store-columbia, town-mill-gonzales (walking 16, arrived 14)"
+      "detail": "walked and arrived: town-store-liberty, town-carpenter-columbia, town-ibarra, town-tavern-columbia, town-blacksmith-matagorda, town-store-matagorda, town-blacksmith-liberty, town-carpenter-liberty, town-crandall, town-mill-san-felipe, town-weaver-gonzales, town-doctor-san-felipe, town-store-columbia (walking 16, arrived 13)"
     },
     {
       "label": "camp: the force's men at the fire, the cards, a rifle - not a body of men standing",
@@ -61,7 +61,7 @@
     {
       "label": "camp: people at activities, none drawn standing idle",
       "pass": true,
-      "detail": "1 people, poses carry, walk, rest, sow, care, repair"
+      "detail": "1 people, poses carry, walk, rest, sow, care"
     },
     {
       "label": "camp: bubbles drawn, short, reconstructed",
@@ -76,12 +76,12 @@
     {
       "label": "camp: the map draws inside the gate",
       "pass": true,
-      "detail": "{\"count\":439,\"median\":6.2,\"p95\":13.5,\"max\":25.9}"
+      "detail": "{\"count\":476,\"median\":3.9,\"p95\":11.3,\"max\":20.9}"
     },
     {
       "label": "crowd: measured where many talk at once",
       "pass": true,
-      "detail": "12 screens, 743 frames with two bubbles or more, most 5 at once"
+      "detail": "12 screens, 1002 frames with two bubbles or more, most 5 at once"
     },
     {
       "label": "crowd: no bubble over another bubble",
@@ -129,12 +129,14 @@
   "evidence": {
     "farm": {
       "frames": {
-        "count": 445,
-        "median": 8.1,
-        "p95": 10.8,
-        "max": 29.8
+        "count": 446,
+        "median": 4.5,
+        "p95": 7,
+        "max": 12.1
       },
       "bubbles": [
+        "hh-1-child-4: Will you trade me some salt?",
+        "hh-1-child-5: For a little coffee, I will.",
         "hh-1-child-3: That horse of yours looks thin.",
         "hh-1-child-4: He needs more corn, is all.",
         "hh-1-child-4: Supper is nearly ready.",
@@ -145,6 +147,7 @@
       "outside": [],
       "drawn": {
         "hh-1-child-1": [
+          "pipe:indigo-rest",
           "whittle:indigo-repair",
           "fire:indigo-care",
           "sleep:indigo-rest"
@@ -158,18 +161,21 @@
           "fire:indigo-care"
         ],
         "hh-1-child-3": [
+          "shell:indigo-repair",
           "fire:indigo-care",
           "dominoes:indigo-rest",
           "fireside:indigo-rest",
           "sleep:indigo-rest"
         ],
         "hh-1-child-4": [
+          "company:indigo-rest",
           "dominoes:indigo-rest",
           "fireside:indigo-rest",
           "fire:indigo-care",
           "sleep:indigo-rest"
         ],
         "hh-1-child-5": [
+          "company:indigo-rest",
           "dominoes:indigo-rest",
           "sit:indigo-rest",
           "shell:indigo-repair",
@@ -186,10 +192,10 @@
     },
     "town": {
       "frames": {
-        "count": 445,
-        "median": 6.1,
-        "p95": 8.8,
-        "max": 23.6
+        "count": 475,
+        "median": 3.4,
+        "p95": 5,
+        "max": 14.6
       },
       "bubbles": [
         "town-wheelwright-san-felipe: Slow day for trade.",
@@ -206,8 +212,7 @@
         "town-wheelwright-san-felipe: Blue, or only brown again?",
         "town-store-san-felipe: More families came this week.",
         "town-tanner-san-felipe: How long have you been in Texas?",
-        "town-gunsmith-san-felipe: Texas fills up fast.",
-        "town-weaver-san-felipe: Three years this spring."
+        "town-gunsmith-san-felipe: Texas fills up fast."
       ],
       "most": 2,
       "overlaps": [],
@@ -215,6 +220,7 @@
       "drawn": {
         "town-store-san-felipe": [
           "sleep:ochre-rest",
+          "sleep:ochre-walk",
           "talk:ochre-walk",
           "talk:ochre-speak",
           "dominoes:ochre-rest"
@@ -243,6 +249,7 @@
         ],
         "town-gunsmith-san-felipe": [
           "sleep:ochre-rest",
+          "sleep:ochre-walk",
           "talk:ochre-walk",
           "talk:ochre-speak",
           "dominoes:ochre-rest"
@@ -284,11 +291,11 @@
         ],
         "town-wheelwright-san-felipe": [
           "sleep:elder-rest",
+          "sleep:elder-walk",
           "talk:elder-walk",
           "talk:elder-speak",
           "company:elder-rest",
-          "goods:elder-carry",
-          "count:elder-trade"
+          "goods:elder-carry"
         ],
         "town-mill-san-felipe": [
           "sleep:elder-rest",
@@ -317,6 +324,7 @@
         ],
         "town-stockman-san-felipe": [
           "sleep:elder-rest",
+          "sleep:elder-walk",
           "talk:elder-walk",
           "talk:elder-speak",
           "company:elder-rest",
@@ -358,17 +366,16 @@
         "town-weaver-gonzales",
         "town-doctor-san-felipe",
         "town-mill-san-felipe",
-        "town-store-columbia",
-        "town-mill-gonzales"
+        "town-store-columbia"
       ],
       "camps": []
     },
     "camp": {
       "frames": {
-        "count": 439,
-        "median": 6.2,
-        "p95": 13.5,
-        "max": 25.9
+        "count": 476,
+        "median": 3.9,
+        "p95": 11.3,
+        "max": 20.9
       },
       "bubbles": [
         "camp:force:0: That horse of yours looks thin.",
@@ -396,8 +403,7 @@
           "cook:rust-woman-care",
           "cook:rust-woman-walk",
           "wash:rust-woman-walk",
-          "wash:rust-woman-care",
-          "shell:rust-woman-repair"
+          "wash:rust-woman-care"
         ]
       },
       "walking": [],
@@ -451,17 +457,17 @@
       {
         "place": "farm",
         "at": "1366x768",
-        "frames": 149,
-        "crowded": 128,
+        "frames": 155,
+        "crowded": 80,
         "most": 3,
-        "lines": 13,
+        "lines": 7,
         "faults": {
           "bubbles": [],
           "labels": [],
           "tails": []
         },
-        "longestTail": 104,
-        "longestWhat": "\"You will be taller than the corn by harvest.\" box {\"x\":370.447795024671,\"y\":317.0789473684211,\"w\":205.14013671875,\"h\":42,\"tail\":[568,359,672,367]} tail [568,359,672,367]",
+        "longestTail": 73,
+        "longestWhat": "\"I counted the chickens. There are eleven. Or twelve.\" box {\"x\":559.8864943778467,\"y\":267.30789473684194,\"w\":202.28369140625,\"h\":42,\"tail\":[661,309,661,382]} tail [661,309,661,382]",
         "tailMissing": 0,
         "width": 1366,
         "height": 768,
@@ -475,7 +481,7 @@
         "place": "farm",
         "at": "1024x600",
         "frames": 149,
-        "crowded": 89,
+        "crowded": 107,
         "most": 2,
         "lines": 10,
         "faults": {
@@ -506,8 +512,8 @@
           "labels": [],
           "tails": []
         },
-        "longestTail": 105,
-        "longestWhat": "\"The red hen will not let me catch her.\" box {\"x\":185.6806640625,\"y\":297.30789473684194,\"w\":224.9130859375,\"h\":27,\"tail\":[403,324,490,382]} tail [403,324,490,382]",
+        "longestTail": 98,
+        "longestWhat": "\"The wind comes from the Gulf, I expect.\" box {\"x\":213.31201171875,\"y\":317.0789473684211,\"w\":197.28173828125,\"h\":42,\"tail\":[403,359,501,367]} tail [403,359,501,367]",
         "tailMissing": 0,
         "width": 1024,
         "height": 768,
@@ -520,10 +526,10 @@
       {
         "place": "gonzales",
         "at": "1366x768",
-        "frames": 146,
-        "crowded": 119,
+        "frames": 165,
+        "crowded": 135,
         "most": 3,
-        "lines": 21,
+        "lines": 22,
         "faults": {
           "bubbles": [],
           "labels": [],
@@ -543,17 +549,17 @@
       {
         "place": "gonzales",
         "at": "1024x600",
-        "frames": 148,
-        "crowded": 7,
+        "frames": 167,
+        "crowded": 13,
         "most": 2,
-        "lines": 9,
+        "lines": 4,
         "faults": {
           "bubbles": [],
           "labels": [],
           "tails": []
         },
-        "longestTail": 117,
-        "longestWhat": "\"They made at the ford again. Only feints.\" box {\"x\":97.43012304687483,\"y\":448.41915667733326,\"w\":206.44775390625,\"h\":42,\"tail\":[201,490,201,607]} tail [201,490,201,607]",
+        "longestTail": 118,
+        "longestWhat": "\"They made at the ford again. Only feints.\" box {\"x\":97.43012304687483,\"y\":447.3052119069555,\"w\":206.44775390625,\"h\":42,\"tail\":[201,489,201,607]} tail [201,489,201,607]",
         "tailMissing": 0,
         "width": 1024,
         "height": 600,
@@ -566,8 +572,8 @@
       {
         "place": "gonzales",
         "at": "1024x768",
-        "frames": 147,
-        "crowded": 118,
+        "frames": 165,
+        "crowded": 121,
         "most": 5,
         "lines": 30,
         "faults": {
@@ -575,8 +581,8 @@
           "labels": [],
           "tails": []
         },
-        "longestTail": 129,
-        "longestWhat": "\"Yesterday there were eighteen here. Look at it now.\" box {\"x\":266.0833608774038,\"y\":322.59200000000004,\"w\":216.36279296875,\"h\":42,\"tail\":[474,365,603,373]} tail [474,365,603,373]",
+        "longestTail": 95,
+        "longestWhat": "\"From this bank, I hope.\" box {\"x\":5.5064718749999315,\"y\":656.12,\"w\":146.4306640625,\"h\":27,\"tail\":[144,683,239,691]} tail [144,683,239,691]",
         "tailMissing": 0,
         "width": 1024,
         "height": 768,
@@ -589,17 +595,17 @@
       {
         "place": "refuge",
         "at": "1366x768",
-        "frames": 146,
-        "crowded": 53,
+        "frames": 165,
+        "crowded": 98,
         "most": 2,
-        "lines": 4,
+        "lines": 7,
         "faults": {
           "bubbles": [],
           "labels": [],
           "tails": []
         },
-        "longestTail": 139,
-        "longestWhat": "\"Of course. Just say when.\" box {\"x\":467,\"y\":316,\"w\":157,\"h\":27} tail [616,343,755,351]",
+        "longestTail": 50,
+        "longestWhat": "\"How long have you been in Texas?\" box {\"x\":371,\"y\":316,\"w\":209,\"h\":27} tail [572,343,621,354]",
         "tailMissing": 0,
         "width": 1366,
         "height": 768,
@@ -612,17 +618,17 @@
       {
         "place": "refuge",
         "at": "1024x600",
-        "frames": 147,
-        "crowded": 0,
-        "most": 0,
-        "lines": 0,
+        "frames": 165,
+        "crowded": 128,
+        "most": 2,
+        "lines": 8,
         "faults": {
           "bubbles": [],
           "labels": [],
           "tails": []
         },
-        "longestTail": null,
-        "longestWhat": null,
+        "longestTail": 138,
+        "longestWhat": "\"Sit down and rest it.\" box {\"x\":618,\"y\":232,\"w\":127,\"h\":27} tail [626,259,490,285]",
         "tailMissing": 0,
         "width": 1024,
         "height": 600,
@@ -635,17 +641,17 @@
       {
         "place": "refuge",
         "at": "1024x768",
-        "frames": 146,
-        "crowded": 0,
-        "most": 0,
-        "lines": 0,
+        "frames": 166,
+        "crowded": 91,
+        "most": 2,
+        "lines": 7,
         "faults": {
           "bubbles": [],
           "labels": [],
           "tails": []
         },
-        "longestTail": null,
-        "longestWhat": null,
+        "longestTail": 73,
+        "longestWhat": "\"We have a little extra beef.\" box {\"x\":416,\"y\":269,\"w\":163,\"h\":27} tail [490,296,490,369]",
         "tailMissing": 0,
         "width": 1024,
         "height": 768,
@@ -658,8 +664,8 @@
       {
         "place": "camp",
         "at": "1366x768",
-        "frames": 133,
-        "crowded": 25,
+        "frames": 159,
+        "crowded": 80,
         "most": 2,
         "lines": 4,
         "faults": {
@@ -667,8 +673,8 @@
           "labels": [],
           "tails": []
         },
-        "longestTail": 84,
-        "longestWhat": "\"I miss my wife's cooking.\" box {\"x\":627,\"y\":248,\"w\":155,\"h\":27} tail [705,275,705,359]",
+        "longestTail": 116,
+        "longestWhat": "\"Soldiers came for the Gonzales cannon.\" box {\"x\":278,\"y\":305,\"w\":188,\"h\":42} tail [458,347,574,355]",
         "tailMissing": 0,
         "width": 1366,
         "height": 768,
@@ -681,7 +687,30 @@
       {
         "place": "camp",
         "at": "1024x600",
-        "frames": 138,
+        "frames": 164,
+        "crowded": 0,
+        "most": 1,
+        "lines": 4,
+        "faults": {
+          "bubbles": [],
+          "labels": [],
+          "tails": []
+        },
+        "longestTail": 84,
+        "longestWhat": "\"My back aches today.\" box {\"x\":423,\"y\":164,\"w\":134,\"h\":27} tail [490,191,490,275]",
+        "tailMissing": 0,
+        "width": 1024,
+        "height": 600,
+        "counts": {
+          "bubbles": 0,
+          "labels": 0,
+          "tails": 0
+        }
+      },
+      {
+        "place": "camp",
+        "at": "1024x768",
+        "frames": 161,
         "crowded": 0,
         "most": 1,
         "lines": 3,
@@ -690,31 +719,8 @@
           "labels": [],
           "tails": []
         },
-        "longestTail": 87,
-        "longestWhat": "\"The coffee is almost gone.\" box {\"x\":416,\"y\":164,\"w\":160,\"h\":27} tail [424,191,403,275]",
-        "tailMissing": 0,
-        "width": 1024,
-        "height": 600,
-        "counts": {
-          "bubbles": 0,
-          "labels": 0,
-          "tails": 0
-        }
-      },
-      {
-        "place": "camp",
-        "at": "1024x768",
-        "frames": 138,
-        "crowded": 55,
-        "most": 2,
-        "lines": 6,
-        "faults": {
-          "bubbles": [],
-          "labels": [],
-          "tails": []
-        },
-        "longestTail": 111,
-        "longestWhat": "\"When do we fight?\" box {\"x\":181,\"y\":324,\"w\":119,\"h\":27} tail [292,351,403,359]",
+        "longestTail": 84,
+        "longestWhat": "\"I miss my wife's cooking.\" box {\"x\":456,\"y\":248,\"w\":155,\"h\":27} tail [534,275,534,359]",
         "tailMissing": 0,
         "width": 1024,
         "height": 768,

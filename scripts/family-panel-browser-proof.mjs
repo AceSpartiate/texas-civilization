@@ -363,6 +363,14 @@ try {
   if (await small.locator('#tutorial-skip').isVisible()) await small.locator('#tutorial-skip').click();
   // A rider may have come to the door while the family was being made; the card is closed before the panel is measured.
   if (await small.locator('#selection-close').isVisible()) await small.locator('#selection-close').click();
+  // And the messages card put away with its own "Keep playing", as a student would: since 2026-09-29 a question to the family (the
+  // call, a request) is a story card there as well as the "!" on its row (docs/FAMILY_PANEL.md §20b), and since portrait = star a
+  // matter comes up in it rather than in the person card closed above. Open, it is the moment's own alert, 318x212 of a 400 px
+  // phone; what is measured below is the panel. Folded, it is still on the screen, which is held here.
+  if (await small.locator('#military-message').isVisible()) {
+    await small.locator('#military-toggle').click();
+    await small.waitForFunction(() => document.querySelector('#military-message').hidden && !document.querySelector('#military-notice').hidden && /^Open messages/.test(document.querySelector('#military-toggle').textContent), null, { timeout: 5000 });
+  }
   await small.waitForTimeout(600);
   // docs/FAMILY_PANEL.md §7, the phone rule in the owner's own words: the panel "takes no more than the left portrait
   // column and one row, so the map stays visible".

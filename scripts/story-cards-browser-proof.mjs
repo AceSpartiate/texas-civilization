@@ -18,6 +18,8 @@ import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { familyRoll } from '../sim/family.mjs';
 import { EYEBROWS } from '../public/military-attention.js';
+import { projectWorld } from '../sim/world.mjs';
+import { orderOut } from '../sim/scrape.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
@@ -81,10 +83,21 @@ try {
     const grown = [...own].sort((x, y) => (y.age ?? 30) - (x.age ?? 30))[0];
     return { id: grown.id, name: grown.name };
   });
+  // Each set as the server projects it (sim/road.mjs `roadAskProjection`): a road question always comes with its answers, which the
+  // person card - opened for a matter since portrait = star - lists. The first turn of this left them out, and the ask id was not a real one.
+  // The order to leave, as the server projects it (sim/scrape.mjs `orderOut`, sim/world.mjs `projectWorld`): told on a copy of the class's
+  // own world, so the card and the person card opened for it read what a family is really sent - its room, its load, its time left.
+  const orderedFlight = () => {
+    const copy = structuredClone(app.state.world);
+    orderOut(copy, copy.households['hh-1'], 'story-cards');
+    const flight = projectWorld(copy, 'hh-1', 'student', { includeMap: false }).flight;
+    assert.ok(flight?.status === 'ordered' && Number.isFinite(flight.leftMs), `the order to leave was not projected with its time left: ${JSON.stringify(flight)?.slice(0, 200)}`);
+    return flight;
+  };
   const cases = [
-    { kind: 'alto', left: true, set: `w.flight = { status: 'fled', ask: { id: 'alto', text: 'Soldiers on the road shout “¡Alto!”: halt, and lose the wagon, or run for it.', leftMs: 30000 } };` },
-    { kind: 'road', left: true, set: `w.flight = { status: 'fled', ask: { id: 'bogged', text: 'The wagon is bogged to the axles at the creek. Dig it out, or leave it?', leftMs: 90000 } };` },
-    { kind: 'flight', left: true, set: `w.flight = { status: 'ordered', leftMs: 180000, ifUnanswered: 'No answer, and the family leaves in a rush.' };` },
+    { kind: 'alto', left: true, set: `w.flight = { status: 'fled', ask: { id: 'alto', openedMinute: w.minute, text: 'Soldiers on the road shout “¡Alto!”: halt, and lose the wagon, or run for it.', leftMs: 30000, fallback: ['halt'], options: [{ id: 'halt', label: 'Halt, as they order', note: 'The soldiers take the wagon.' }, { id: 'run', label: 'Run for it', note: 'They fire after a second order.' }] } };` },
+    { kind: 'road', left: true, set: `w.flight = { status: 'fled', ask: { id: 'bog', openedMinute: w.minute, text: 'The wagon is bogged to the axles at the creek. Dig it out, or leave it?', leftMs: 90000, fallback: ['wait'], options: [{ id: 'dig', label: 'Unload and dig it out', note: 'Hours of work.' }, { id: 'wait', label: 'Wait for the ground to dry', note: 'Nothing spent.' }, { id: 'abandon', label: 'Leave the wagon and go on on foot', note: 'The wagon stays in the mud.' }] } };` },
+    { kind: 'flight', left: true, set: `w.flight = ${JSON.stringify(orderedFlight())};` },
     { kind: 'call', left: true, set: `w.request = { id: 'call-proof', kind: 'call', status: 'open', text: 'Gonzales asks every man who can bear arms to turn out.', answerers: { [P]: [{ id: 'turn-out', label: 'Turn out' }] }, options: [{ id: 'turn-out', label: 'Turn out' }], leftMs: 90000 };` },
     { kind: 'sick', left: false, set: `person.sickness = { grave: true, line: 'very sick with the measles: nurse them, keep them warm.' };` },
     { kind: 'rider', left: false, set: `w.encounter = { id: 'enc-proof', status: 'open', listenerId: P, carrierName: 'Silas Roe' };` },
@@ -130,13 +143,13 @@ try {
   ok(`every moment in its own card: ${Object.entries(observed.cards).map(([kind, card]) => `${kind} "${card.title}"`).join(', ')} - ${edges.size} accents, the account still, the others glowing`);
 
   // ------------------------------------------------------------------ the road outranks the fight
-  const both = await page.evaluate(P => {
+  const both = await page.evaluate(({ P, flight }) => {
     const base = structuredClone(window.__cleanSnapshot), w = base.world;
-    w.flight = { status: 'ordered', leftMs: 120000 };
+    w.flight = flight;
     w.battleAlert = { id: 'alert-ranked', entityId: P, title: 'The fight', text: 'At their side.', action: 'Watch', field: null };
     window.__render(base);
     return true;
-  }, moments.id);
+  }, { P: moments.id, flight: orderedFlight() });
   assert.ok(both);
   await page.waitForTimeout(500);
   observed.ranked = await page.evaluate(() => ({ accent: document.querySelector('#military-notice').dataset.accent, next: !document.querySelector('#military-next').hidden }));
