@@ -45,8 +45,8 @@
       "image": "/assets/claude-standins/claude-march-column.png",
       "width": 3400,
       "height": 1200,
-      "bytes": 1687205,
-      "sha256": "49b6000f13e8f8d29adf6972ef6d04141055bf58b97d66e8a53c110b880a5fe4",
+      "bytes": 1940224,
+      "sha256": "785100ec71cc09b496f8ae9d24ec008db22a29a035dc578b73b8249c095b2813",
       "madeBy": "claude",
       "module": "battle-works",
       "request": "Request 2026-09-26 — the Mexican advance",
@@ -102,8 +102,8 @@
       "image": "/assets/claude-standins/claude-padre-carts.png",
       "width": 1600,
       "height": 840,
-      "bytes": 439485,
-      "sha256": "bb04eb5bd8c8910c98d33310a9ffa113457a23d9e7fb3ee2fdfee2a62337de30",
+      "bytes": 611745,
+      "sha256": "40cae0d58394eac21412f767ff3d65d52ef9da21cc9a2a84b1c0ebdbe782e0d2",
       "madeBy": "claude",
       "module": "battle-works",
       "request": "Request 2026-09-25 — Concepción and the Grass Fight",
@@ -826,6 +826,34 @@
       "madeBy": "claude",
       "module": "battle-works"
     },
+    "army-camp-mexican-pitched": {
+      "frames": [
+        {
+          "sprite": "army-camp-mexican",
+          "duration": 4000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "as drawn",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-works"
+    },
+    "army-camp-texian-pitched": {
+      "frames": [
+        {
+          "sprite": "army-camp-texian",
+          "duration": 4000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "as drawn",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-works"
+    },
     "cannon-alamo-north-e-recoil": {
       "frames": [
         {
@@ -1106,7 +1134,7 @@
       "area": "battles",
       "sheet": "claude-padre-carts",
       "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "After Concepción, October 28, 1835: a padre of Béxar in a black cassock and a broad flat hat walking east beside a two-wheeled cart drawn by a mule, come for the Mexican dead and wounded (Smithwick gives it only in outline; kept general). The cart's load is covered with a blanket: no one is shown in it, no wound, no blood (VISION.md §16). Frame 1 of 4. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "prompt": "After Concepción, October 28, 1835: a padre of Béxar in a black cassock and a broad flat hat walking east ahead of a two-wheeled cart drawn by a mule, leading it, come for the Mexican dead and wounded (Smithwick gives it only in outline; kept general). The cart's load is covered with a blanket: no one is shown in it, no wound, no blood (VISION.md §16). Frame 1 of 4. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
       "source": "public/assets/claude-standins/svg/battle-works/claude-padre-carts-1.svg",
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
@@ -1120,7 +1148,7 @@
       "area": "battles",
       "sheet": "claude-padre-carts",
       "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "After Concepción, October 28, 1835: a padre of Béxar in a black cassock and a broad flat hat walking east beside a two-wheeled cart drawn by a mule, come for the Mexican dead and wounded (Smithwick gives it only in outline; kept general). The cart's load is covered with a blanket: no one is shown in it, no wound, no blood (VISION.md §16). Frame 2 of 4. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "prompt": "After Concepción, October 28, 1835: a padre of Béxar in a black cassock and a broad flat hat walking east ahead of a two-wheeled cart drawn by a mule, leading it, come for the Mexican dead and wounded (Smithwick gives it only in outline; kept general). The cart's load is covered with a blanket: no one is shown in it, no wound, no blood (VISION.md §16). Frame 2 of 4. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
       "source": "public/assets/claude-standins/svg/battle-works/claude-padre-carts-2.svg",
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
@@ -1134,7 +1162,7 @@
       "area": "battles",
       "sheet": "claude-padre-carts",
       "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "After Concepción, October 28, 1835: a padre of Béxar in a black cassock and a broad flat hat walking east beside a two-wheeled cart drawn by a mule, come for the Mexican dead and wounded (Smithwick gives it only in outline; kept general). The cart's load is covered with a blanket: no one is shown in it, no wound, no blood (VISION.md §16). Frame 3 of 4. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "prompt": "After Concepción, October 28, 1835: a padre of Béxar in a black cassock and a broad flat hat walking east ahead of a two-wheeled cart drawn by a mule, leading it, come for the Mexican dead and wounded (Smithwick gives it only in outline; kept general). The cart's load is covered with a blanket: no one is shown in it, no wound, no blood (VISION.md §16). Frame 3 of 4. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
       "source": "public/assets/claude-standins/svg/battle-works/claude-padre-carts-3.svg",
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
@@ -1148,7 +1176,7 @@
       "area": "battles",
       "sheet": "claude-padre-carts",
       "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "After Concepción, October 28, 1835: a padre of Béxar in a black cassock and a broad flat hat walking east beside a two-wheeled cart drawn by a mule, come for the Mexican dead and wounded (Smithwick gives it only in outline; kept general). The cart's load is covered with a blanket: no one is shown in it, no wound, no blood (VISION.md §16). Frame 4 of 4. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "prompt": "After Concepción, October 28, 1835: a padre of Béxar in a black cassock and a broad flat hat walking east ahead of a two-wheeled cart drawn by a mule, leading it, come for the Mexican dead and wounded (Smithwick gives it only in outline; kept general). The cart's load is covered with a blanket: no one is shown in it, no wound, no blood (VISION.md §16). Frame 4 of 4. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
       "source": "public/assets/claude-standins/svg/battle-works/claude-padre-carts-4.svg",
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
@@ -1424,6 +1452,32 @@
         "flag-come-and-take-it-no-star-wind-3"
       ],
       "status": "temporary: replace with Astra's flag-come-and-take-it-no-star-wind"
+    },
+    "army-camp-mexican-pitched": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "request": "Claude-drawn stand-ins (replace with Astra's)",
+      "prompt": "The mexican army's camp on the map, held still: the page draws the fire and its smoke over it.",
+      "frames": [
+        "army-camp-mexican"
+      ],
+      "status": "temporary: replace with Astra's army-camp-mexican-pitched"
+    },
+    "army-camp-texian-pitched": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "request": "Claude-drawn stand-ins (replace with Astra's)",
+      "prompt": "The texian army's camp on the map, held still: the page draws the fire and its smoke over it.",
+      "frames": [
+        "army-camp-texian"
+      ],
+      "status": "temporary: replace with Astra's army-camp-texian-pitched"
     },
     "cannon-alamo-north-e-recoil": {
       "kind": "clip",

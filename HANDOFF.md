@@ -50,6 +50,232 @@ with its written intent and a compare list; Astra's frame or clip of the same na
   fire cycle, the march and the run read as those actions. At 150 px they are plainly a simpler hand: even limbs, stiff joints, tiny
   plain faces, guns as thin lines, and the rig's horse (a plank body on straight legs) beside her muscled ones. No likeness is claimed
   for anybody.
+## Claude's temporary art, area D: riders, horses, wagons, the carreta — owner, 2026-09-28 (worktree branch; not released)
+
+**The ask.** Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it
+makes the final versions."* Area D of [docs/CLAUDE_ART_PLAN.md](docs/CLAUDE_ART_PLAN.md): all fifteen items now have a Claude
+stand-in (327 frames, 136 clips; every one `madeBy: "claude"`, with its written intent in docs/claude-art-provenance.json and its
+names in area D's row of *Claude-drawn stand-ins*). The ferry, the Yellow Stone, the logs fetched and the rider who gets down
+were already delivered by Astra and need nothing (DS3, DS4, FS9, D16).
+
+- **The horse, first** (`scripts/claude-art/kit/quadruped.mjs`, replacing the foundation's plank horse in `kit/horse.mjs`): a
+  body carrying its upper leg masses; smooth jointed legs (shoulder, elbow, knee forward, fetlock, pastern in front; hip, stifle,
+  hock back behind), clipped to come out of the body's edge; a planted leg solved to stand straight, the hoof breaking over at the
+  end of its stance and flipping in the air. Gaits by phase and duty factor: the four-beat lateral walk (three feet down), the
+  two-beat trot, the gallop with its suspension; the rider sits it a beat late. East, and end-on south and north. Mule, milk cow,
+  ox and longhorn are the same skeleton reshaped. Before: docs/evidence/claude-art/before/horse-foundation-rust-woman.png; after:
+  rig-rust-woman.png.
+- **Modules** (`AREA: 'transport'`, drawn at half size by `kit/horse.mjs` `wrap`, a mounted frame's logical height 270 near her
+  205-314): `transport-riders` (D3 the children on the horse, D6 the Tejano horseman, D7 the volunteer mounted, D13 Seguín and
+  Sutherland), `transport-cavalry` (D2 the dragoon at the gallop and firing, D8 lancers, D9 foragers, D10 the wounded led off),
+  `transport-animals` (D1 the milk cow, D11 the herd, D12 pack mules under grass and limber mules), `transport-vehicles` (D5 the
+  cart, D14 the wagon and its ox, D15 the laden carreta; `kit/vehicles.mjs` builds them in 3-D and projects them), and
+  `transport-seated` (D4 the second cast and children driving, `<figure>-wagon-driver-<dir>`; D5 riders in the bed).
+- **Wired**, each through `clipReady` (the one gate area B's `drawnClipOf` and `drawSeated` use), falling back to the older
+  stand-in: `seatedClip` (`CLAUDE_RIDING_FIGURES`, `CLAUDE_DRIVING_FIGURES`) and `passengerClip` in public/motion.js; the cow,
+  the foragers, the cart and the laden carreta in public/app.js; the chase's dragoons (public/chase-view.js); lancers, the Texian
+  horseman, a dragoon firing, the pack train, the herd, the wounded dragoon and Seguín/Sutherland riding in public/battle-view.js;
+  the Tejano volunteers in public/town-scenes.js. **Not wired:** `wagon-ox-*` (`seatLayout('wagon')` still draws the ox and the
+  wagon apart; one part would change the driver's placement and its test).
+- **History, and what is interpretation:** the wagon an ox-drawn farm wagon (`HIST-TEX-441`); the carreta's pegged plank wheels,
+  wooden axle and rawhide (`HIST-TEX-443`); one ox in a single neck yoke is the game's hitch, oxen usually went in pairs; the
+  dragoon follows Astra's figure (sources differ on cavalry colours); the Tejano's dress, Seguín and Sutherland are interpretations.
+- **Evidence:** compare sheets `docs/evidence/claude-art/compare-transport-*.png` (40/77/150 px; `compare.mjs` now wraps long
+  modules), moving previews `loops-transport-gaits.png|.html` and `loops-transport-wheels.png|.html` (`scripts/claude-art/loops.mjs`:
+  each clip's frames, an onion skin, and a page that plays them beside Astra's). `test:children` draws `milk-cow-walk-n` on the road.
+- **Tests:** tests/transport-standins.test.mjs (Claude's drawn only once `clipReady`, the old stand-in until then; both
+  injections caught), tests/riding.test.mjs holds the Claude lists to Claude's manifest (both injections caught). After merging
+  areas A, B, E and F (integration 4d39da45): the battle view's Claude clips go through area E's `fallback` and the Tejano volunteers
+  through its stand-in path in town-scenes.js, all on `clipReady`. `npm test` 1,672 pass, 0 fail, 36 skipped; `test:art`;
+  `test:claude-art` 15 of 15 caught; `test:children`, `test:riding`, `test:battle-south`, `test:battle-bexar`, `test:errand`,
+  `test:scrape` pass. For area C: `drawMounted`, `mountedFrame`, `riderSide`/`riderFrontal` (kit/horse.mjs) and the rider poses in
+  kit/riders.mjs put any rig figure on the quadruped horse.
+- **Honest limit:** at 40-77 px the riders, dragoons, cattle and vehicles read as what they are, at Astra's sizes; at 150 px they
+  are flat and simple beside her painted horses - no coat texture, legs straighter and knees less lifted than hers, the cattle long
+  in the body, the end-on wagon mostly ox. Everything stays on her list.
+
+## Claude's temporary art, area F: terrain, trees, the norther, effects and the fights' ground — 2026-09-28 (worktree branch; not released)
+
+Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it makes the
+final versions."* Area F of docs/CLAUDE_ART_PLAN.md, drawn in six modules (`scripts/claude-art/areas/land-*.mjs`, `AREA: 'land'`),
+every frame `madeBy: "claude"`, with its written intent in docs/claude-art-provenance.json and its row in *Claude-drawn
+stand-ins* (area F). Each is drawn only where the game already asks for it, and falls back to what stood in before.
+
+- **F5, the norther (53 frames, `land-gale`).** A gale pose `<upright>-wind` for every tree and ground mark the map scatters that
+  Astra's `weather-norther` did not paint: the ten sized kinds of `trees-colonies-1`/`-2` at three sizes, longleaf, sabal palm,
+  bald cypress, magnolia, beech, cottonwood, scrub, reeds, prickly pear, cordgrass, dune grass, thorn thickets, palmetto, yucca.
+  **Each is her own upright painting bent** (scripts/claude-art/land/bend.mjs: the trunk curved from a foot that stays put, the
+  crown streamed to leeward and pressed in to windward, the windward edge torn and turned pale side up) with Claude's loose
+  leaves - so in a norther the country keeps her trees and her hand. Wired through `CLAUDE_GALE` in `GALE_POSES`
+  (public/weather-art.js). The first proof showed the gale *less* windy than the shear before it; every kind now goes over by
+  `GUST` more. A prickly pear and a yucca do not bend (dry grass blows past them). ceiling-worthy: one frame each, as hers are;
+  nothing sways, because the scattered country is drawn into the kept ground (the `windLean` ceiling in weather-art.js).
+- **F6, the remaining species (18 trees, 5 stumps, `land-trees`).** Anacua, Texas ebony, tupelo, cedar elm, willow and shortleaf
+  pine at pole/log/large, grown from their limbs outward (scripts/claude-art/land/tree.mjs); hickory, walnut, ash, oak and live
+  oak stumps (stump.mjs). `own`/`ownStump` in `KINDS` (sim/woods.mjs), sent in the woods catalogue, drawn first by
+  `drawGroundDetail` with the borrowed picture as the fallback. The catalogue now also sends `pictures` (beech and magnolia's
+  large frames were never reaching the page). Species shapes from general botanical descriptions, not 1836 sources.
+- **F3, the work's effects - reconciled with area A (2026-09-29).** Both areas drew the five `fx-*` sheets and `tree-fall`; one
+  set of each name is kept. **The effects are area A's** (`work-fx`, wired through `EFFECTS[].sheet` and `workEffect`, one path;
+  its soft dust and its anchors per effect), and area F's `fx-*` frames, its sprite-drawer path in `drawWorkLayer` and its test
+  are gone. **`tree-fall` is area F's** (`land-scenery`: Astra's own post oak turned about its foot, dust and leaves as it lands,
+  beside A's flat-drawn tree it reads as her tree at play size), **played by area A's wiring** (`treesFalling` in public/app.js,
+  when a person's felling words move on, with A's timing so it lands with the sound); its logical height makes it a `-log` tree
+  (1.95 × 0.7 of a person) at the person's height A draws it at.
+- **F4, smoke seen from afar.** `farm-smoke-rise` and `town-smoke-rise`, 8-frame loops, for the advance's `fires`
+  (`window.__firesDrawn[].art` says which was drawn).
+- **F7, the night grades.** `night-grade`, `moonlight-grade`, `dawn-grade`: layers multiplied over the view by `drawGrade`
+  (public/battle-view.js) at the strength the phase's light gives, from `drawNight` and the Alamo's numeric light; the washes
+  without them.
+- **F8, F9, F10, the fights' ground.** `riverbank-cut-e`/`-w` along Concepción's bank and `creek-bed-dry`/`creek-ford` at the
+  Grass Fight (scenery items now take a `fallback`, `earth-rampart`); drifting `fog-bank-dense`/`-thin` in `drawFog` under a
+  lighter veil; `marsh-edge-1`..`-3` under San Jacinto's reeds; `campfire-night` in a night fight (again over the dark);
+  `live-oak-mott` (four of her live oaks over their shade) for a battle's grove. `river-bend` is drawn, not placed.
+- **Not made, and why.** F1 and F2 (portraits, marks) were already Claude's; the road's, camp's, gathering and stock icons, the
+  Play Solo trash can, cleared ground and the game of 1836 are delivered by Astra (plan F11-F19); **the guided start's marks are
+  on hold** with the tutorial (owner, 2026-09-28).
+- **Proofs.** `node scripts/claude-art/land/proof.mjs gale trees` (docs/evidence/claude-art/land-gale-40.png, -77, land-trees-40,
+  -77); `npm run art:compare -- land-gale land-trees land-effects land-ground land-scenery`.
+- **Evidence** (after merging `integration-2026-09-28` at 4e6a5787, with areas A, B and E and the looks-face fix): **`npm test`
+  1,670 pass, 0 fail, 36 skipped**; `test:claude-art` clean; `test:art` PASS; `test:work` 5 checks; `test:biome-game` 6;
+  `test:battle-concepcion` 13 (the fog banks and the cut bank seen in test-results/battle-concepcion-ringed-1366.png, which is
+  why the banks are now scattered and softer); `test:mexican-advance` 10 (the Host drawn the smoke; the undeclared `queue` in
+  flashback.js was fixed on integration). New tests, each failed by injection first: `GALE_POSES` (weather-art),
+  `own`/`ownStump` (woods-view), the night campfire and the mott (battle-view-south), the marsh edge (battle-view-san-jacinto),
+  the ground pieces' fallback and the fog (battle-view-groups); the drawn-effects test went with area F's effects path. **Not
+  green, and not this work's:** `scripts/weather-browser-proof.mjs` times out waiting for a running solo game before anything
+  is drawn (already recorded failing at HEAD, above); `tests/save-retry.test.mjs` is timing-sensitive and failed once of four
+  under a browser proof's load.
+
+## The parents' faces in How We Look: no hair over the face — owner, 2026-09-28 (branch `looks-face-2026-09-28` off `integration-2026-09-28` 600425eb; not released)
+
+The owner: "there seems to be a graphical glitch with the character creation screens for the mom and dad", then "the dad's
+hair covers his face in the preview". Seen on the installed release **v2026.09.28.1** (its `public/` is byte-identical to
+the tag) and still on `integration-2026-09-28`: the recolouring had not changed between them (`public/person-palette.js`
+last touched 2026-09-26, 4a07fe47, released since v2026.09.26.5; the box classifier itself since v2026.09.26.4). Nothing in today's merges - the Claude art in
+`public/art.js`, the rig, the overlap work, the tips - is involved: the release and integration portrait grids are
+pixel-identical, and nothing stands over the pop-up at 1366x768, 1280x800 or 1024x600, in a class or in Play Solo.
+
+**Cause.** `recolourPersonFrame` decided each pixel alone, by its colour and by fixed boxes in the frame ("the face is 29-72%
+across, 11.5-38.5% down"). Her figures do not keep to the boxes, so the hair dye landed in rectangles on the hat brim either
+side of a hatted father's face and on a bareheaded father's ears, a band of the old skin was left across his forehead, the
+mothers' foreheads and cheeks took the hair colour, and the shirts came out two-toned at the box edges.
+
+**Fix.** The frame is cut into regions of like colour (her painting is flat colour between ink) and each region takes one
+part from the figure's own measured colours (`REFS`), placed relative to the figure's own face - the skin-coloured region
+with eyes and brows in it: hair only on the head (never above a hatted face, where the band is the hair's brown), clothing
+below the chin and no further than the garment reaches, skin never above the face nor larger than it. Specks take the part
+of the like-coloured region they touch; hair painted nearly as dark as ink is dyed where hair surrounds it. The part map is
+cached per frame. `ceiling:` in the file: the rust man's hair and beard are painted almost black, so a fair or red choice
+shows on him as flecks; Astra's layered masks (ART_REQUESTS A18) retire all of it.
+
+**Proof.** `npm run test:looks-face` (new, `scripts/looks-face-proof.mjs`): through `drawSprite`, for all six figures a
+parent can be drawn in and every walk frame, no hair dye on pixels painted in no hair colour (limit 0.5%; the release had
+3.4-8.4%) and the face's own paint all takes the skin (limit 1%; the release left up to 15%); then both parents' pop-ups at
+the three screens. Injected with the release's `person-palette.js` it fails on the first figure ("the hair choice dyes 354 of
+6034 head pixels that are painted in no hair colour (5.9%)"). `tests/person-palette.test.mjs` now tests Astra's frames (the
+brim beside the father's face, a bareheaded forehead, a mother's face); injected with the release code the three glitch
+tests fail and the two others pass. Before and after: `docs/evidence/looks-face-before-release-*.png`,
+`docs/evidence/looks-face-after-*.png`.
+
+**Evidence on this branch (2026-09-28/29).** `npm test` 1661 of 1698 (36 skipped); its one failure, the save-retry timer
+(`Date.now() - other < 200` under a loaded machine), passes alone. `test:looks-face` 10/10, `test:looks` 9/9,
+`test:creation` 10/10, `test:family-panel` pass, `test:overlap` pass. `test:creation` had been failing on integration: it
+still asked the title card for the suspended walk-through ("one task at a time"); it now asks for the tips' line.
+
+**Not done.** The installed launcher window was found running (its server not up); it was not touched. The ochre man's sow
+pose leaves a sleeve undyed; small, and away from the face.
+
+## Area A of Claude's temporary art: people at work and ambient poses — owner, 2026-09-28 (worktree branch; not released)
+
+**The ask.** Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as
+it makes the final versions."* and *"make sure the chop swings look natural"*. Area A of docs/CLAUDE_ART_PLAN.md, less the chop
+(the foundation's). Everything here is Claude-drawn and temporary; Astra's frame or clip of the same name replaces each.
+
+- **Drawn, for all eight grown cast figures** (modules in `scripts/claude-art/areas/`, `AREA: 'work'`; kit additions
+  `kit/work-poses.mjs`, `kit/work-props.mjs`): ambient `-whittle`, `-mend-harness`, `-sew`, `-shell-corn`, `-clean-rifle`,
+  `-pipe`, `-cards` (seated on a stool, 2), `-wash` (kneeling, 2), `-sweep` (4), `-carry-water` (4) — `ambient.mjs`; work
+  `-split`, `-dig`, `-dig-well` (the foundation's six-frame natural swings, with the log and wedge, the cut in the ground, or the
+  well's hole drawn where the tool lands), `-notch` (4), `-lift` (2), `-reap` (4), `-carpentry` (4), `-aim` (1), `-fire` (the aim
+  held, the recoil, the lowering), `-fish`, `-gather`, `-butcher` (no carcass, no blood), `-guard`, `-stake`, `-tend-fire` (2),
+  `-drill` (4) — `work.mjs`; `volunteer-`/`regular-` `-clean-rifle`, `-camp-sit`, `-camp-cook` — `camp-rest.mjs`; `fx-wood-chips`,
+  `fx-earth-toss`, `fx-dust`, `fx-shavings`, `fx-ripple` (3 each) and `tree-fall` (4) — `work-fx.mjs`; `washtub`,
+  `woodpile-frontier`, `hens-pecking` — `yard-props.mjs`. 635 frames and 221 clips; the people sheets at 0.6 scale.
+- **Measured size.** Astra draws a seated, kneeling or crouching cast figure to fill the row as a standing one (her `-repair`,
+  `-rest`, `-care`, `-sow` stand 0.87-0.95 of the logical height; measured from her atlas), so area A's seated and kneeling cast
+  frames are drawn at `SIT_SCALE` 1.3 (their tops 0.82-0.9). Her military sheets are not normalised that way, so the soldiers are not.
+- **In the game.** `STROKES.<stroke>.drawn` in public/work-art.js for split, notch, dig, grub, the well (`well`, a stroke of
+  its own for `dig-well`), reap, whittle, shoot, the shot, fish, gather, butcher, drill, guard, pace (the staking) and fire,
+  per figure through `clipReady`, the canvas stand-in kept until the sheet loads; `drawnStroke` also drops `cycleMs`/`reach` and
+  carries `at`/`muzzle`/`ownFire` so the effect comes from the drawn frame. Effects: `EFFECTS[*].sheet`, drawn by
+  `drawWorkLayer` through app.js `workEffect`, the canvas marks until they load. Ambient: `AMBIENT_DRAWN` (motion.js) by `amb.a`,
+  a `drawn: { from, pose }` drawn through area B's `drawnClipOf` (app.js, the one mechanism for both areas), the server's
+  delivered pose kept as the fallback. Soldiers: `SOLDIERS_AT_REST` (ambient.js,
+  `base` the delivered pose), sitting and cooking added to both camps in sim/ambient.mjs. Props: `propItem`. `tree-fall`: when the
+  felling's words move on from the felling (as audio-cues.js hears it), `treesFalling` in app.js.
+- **Checks.** `tests/claude-work-poses.test.mjs` (5): feet planted where the work does not walk (a foot may lift, never slide),
+  every hand a pose places reached by its arm - which found hands left in the air in gather, lift, wash, tend-fire, aim and fire
+  and the soldiers' rag and spoon, now fixed - the ambient clips and the page asking for them, the effect sheets replacing the
+  marks, the soldiers' clips. `npm run test:claude-art`: five new injections, each caught by its test only.
+- **Looking.** `node scripts/claude-art/preview-poses.mjs <module> [figure]` renders each clip moving beside Astra's nearest
+  (docs/evidence/claude-art/preview-<module>.apng, `-strip.png` every 200 ms at 77 px, `-onion.png`, `-frames.png` at 200 px);
+  `npm run art:compare -- <module> --match <regex>` keeps a module of hundreds of frames to a readable sheet.
+- **Honest limits.** At a person 40 px the work reads as work and the figures as the same people; at 77 px the tools, the
+  stool, the tub and the fire read; at 150 px it is plainly the rig's simpler hand - thin even limbs, arms that fold in front of
+  the body, small props. Two-frame loops (whittle, sew, harness) move one hand a little, as hers do, so they read more by prop
+  than by motion. `-lift` jumps from the ground to the shoulder in its two frames, as the contract asks. The staking is drawn for
+  the whole of "pacing out and staking" (a `ceiling:`); every felled tree falls as the one hardwood drawing (a `ceiling:`).
+  Not done in area A: A12 (the Gonzales scenes: `-paint-seated`, `-forge`, `-point`, `forge-anvil`) and A18 (layered people).
+- **Merged with area B** (`integration-2026-09-28` 600425eb): one drawn-pose mechanism, B's `binding.drawn { from, pose, west,
+  holding, upright }` through `drawnClipOf`; the children's `shoo`, `gather`, `scatter` keep their drawn poses (a child's is its own
+  figure's). **The release package** (`scripts/package.ps1`) now leaves out `public/assets/claude-standins/svg/` (about 32 MB
+  of SVG sources for areas A and B, read only by `npm run build:standins`, never at run time) and refuses to package if any are
+  left. After the merge: `npm test` 1,664 pass, 0 fail (a second run hit `tests/save-retry.test.mjs`'s timing once under the
+  load of the browser proofs beside it; alone it passes), `test:work` 5, `test:children` 15, `test:disease` 8,
+  `test:claude-art` every injection caught, `test:art` PASS.
+
+## Claude's temporary art, area E: buildings, houses, towns, Béxar, the Alamo, interiors — owner, 2026-09-28 (worktree branch; not released)
+
+Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it makes the
+final versions."* Every open item of area E in docs/CLAUDE_ART_PLAN.md (E1-E14; E15 was already in place) has a Claude-drawn
+stand-in, `madeBy: "claude"`, named as the request asks, each on Astra's list still, each drawn only while hers is missing.
+
+- **House pieces cut from her own pixels** (`scripts/claude-art/areas/house-pieces.mjs`). Where a piece is her picture seen
+  another way it is made from `house-modules.png` itself (scripts/build-claude-standins.mjs now inlines a `/assets/...png` an SVG
+  names, and passes `seat`/`ground`/extra fields through): **E2** `house-{round,hewn}-back-{sill,low-walls,full-walls}` (her
+  doorway filled with her own logs moved along their courses; her seat and ground); **E3** `house-roof-join`, `-partial`
+  (her roof's middle repeated along its ridge: no gable ends, no end poles; `ridge` given) and `-join-chimney` (open where the
+  double chimney's stack stands; `chimneyAt`). Where a piece is new it is built in her pen's projection (`PEN`, read off her
+  full walls' ground corners) and laid with her own planks, boards, posts, stone, daub and thatch as affine-mapped textures:
+  **E4** `house-jacal-posts`, `-wattle`, `-thatch` (a jacal by stages, seated like her pens), `house-chimney-double` (stone, its
+  foot and centre given), `house-shed-frame`, `house-floor`, `house-loft`; **E2** `house-porch-end`, `house-shed-room-end`,
+  `house-passage-floor-end`, `house-passage-roof-end`. **E5** `interior-saddlebag`: her dog-run rooms cut at the passage and
+  laid the other way round, the two hearths back to back, spots re-measured (same ids). **E7** `house-loopholed` (her
+  adobe-flat, parapet raised to about four feet, loopholes, window shuttered). **E13** `window-lit-*` for `adobe-flat`,
+  `house-jacal`, `jacal-poor`, `cabin-small`.
+- **Wired, each with its fallback.** `public/house-plot.js`: a pen with a chimney against its door's gable is drawn from behind
+  (`housePicture` sets `back`) - the chimney no longer covers a door at 90 degrees; the row's roof over the gap is the join,
+  laid after the near pen so it runs over both gable ends; the saddlebag draws the stone double chimney with the join-chimney
+  over it; a jacal goes up by stages (`drawJacalPen`); a finished puncheon floor shows under a pen; shed frame and end views
+  at a quarter turn. `sim/interior-data.mjs`/`public/interior.js` (`fallback` the dog-run). `public/battle-view.js`: a
+  loophole group's house; lamplight in lit houses after the night's wash (`drawNight`).
+- **Helpers' parts** (same branch): Béxar's people, fandango and bell (E1, E8, E9: `bexar-people.mjs`; rig hook
+  `pose.overBody`), and Béxar's civic buildings, Concepción, three town buildings and the advance's places (E6, E10, E11,
+  E12, E14: `civic.mjs`, `far-places.mjs`, `kit/oblique.mjs`), each with its research and uncertainty in its prompt (San
+  Fernando's east front and octagonal south-east tower from HABS TX-34; the 1868-73 Gothic front and the 1930 palace
+  restoration rejected).
+- **One mechanism** (after merging areas A and B): Béxar's figures in town scenes and battle figures with a `fallback` are
+  chosen by `clipReady`, the test `drawnClipOf` makes; the battle view's `art` now carries `clipReady` (app.js, flashback.js).
+- **Evidence**: docs/evidence/claude-art/compare-house-pieces.png, compare-bexar-people.png, compare-civic.png,
+  compare-far-places.png; area-e-houses.png beside area-e-houses-before.png (every preset at every turn, the page's own
+  `drawHousePlot`); area-e-saddlebag-rooms.png. `tests/claude-standins.test.mjs` counts alpha 240 and up as solid paint (her
+  own sheets paint their body at 240-254; a 200-alpha ghost still has none).
+- **Play size, honestly.** The pieces cut from her pixels are hers at every size: the pen from behind, the join roof and the
+  saddlebag's rooms read as her art, with faint seams at 150 px. The built pieces read right at play size (a house about 60-90
+  px) but are flatter than hers up close: hard polygon edges, repeated texture tiles, even posts; the jacal's hipped thatch is
+  plainer than her broadside jacal. The lit windows and the loopholed house are small at the battle view's scale (houses 15-20
+  px) and hard to see there. Not done: the house-plot proof stops later at a server-side spacing assertion ("the refused spot
+  is not over the first house as drawn") that none of this touches; its drawn-house checks at 0/90/180/270 pass.
 
 ## Claude's temporary art, area B: children, babies and sickness — owner, 2026-09-28 (worktree branch; not released)
 

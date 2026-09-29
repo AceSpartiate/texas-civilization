@@ -1,0 +1,1485 @@
+{
+  "module": "transport-cavalry",
+  "area": "transport",
+  "date": "2026-09-28",
+  "sheets": {
+    "claude-dragoon-ride": {
+      "image": "/assets/claude-standins/claude-dragoon-ride.png",
+      "width": 1440,
+      "height": 1120,
+      "bytes": 623493,
+      "sha256": "d057e3e8057c39c332487990673b1153ac9aaeac1182187c59b95e0ec21c789f",
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "cell": {
+          "w": 360,
+          "h": 280
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-lancers": {
+      "image": "/assets/claude-standins/claude-lancers.png",
+      "width": 1140,
+      "height": 1080,
+      "bytes": 492471,
+      "sha256": "e84cecf57d74aeb40943607f491f0a30db2a5932130798242b96ec1254339717",
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "layout": {
+        "rows": 3,
+        "columns": 3,
+        "cell": {
+          "w": 380,
+          "h": 360
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-dragoon-wounded": {
+      "image": "/assets/claude-standins/claude-dragoon-wounded.png",
+      "width": 860,
+      "height": 280,
+      "bytes": 115907,
+      "sha256": "07fd0320f05516ff8df81931f2f9cb1d1289cd028a39a44deb3dbc2ad2e455b7",
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "layout": {
+        "rows": 1,
+        "columns": 2,
+        "cell": {
+          "w": 430,
+          "h": 280
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-foragers": {
+      "image": "/assets/claude-standins/claude-foragers.png",
+      "width": 1500,
+      "height": 1440,
+      "bytes": 1481977,
+      "sha256": "51aecb4587174d6fc9a5e49608b14c53fba7d1c70928cff12d198692d3159bdc",
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "layout": {
+        "rows": 4,
+        "columns": 2,
+        "cell": {
+          "w": 750,
+          "h": 360
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "dragoon-gallop-e-1": {
+      "sheet": "claude-dragoon-ride",
+      "x": 0,
+      "y": 0,
+      "w": 360,
+      "h": 280,
+      "anchorX": 0.4444,
+      "anchorY": 0.95,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "dragoon-gallop-e-1: items 1-2: the escort dragoon at the gallop east, north and south, and firing his carbine from the saddle, at the mounted size",
+      "source": "svg/transport-cavalry/claude-dragoon-gallop-e-1.svg",
+      "label": "dragoon gallop e 1",
+      "kind": "claude-dragoon-ride"
+    },
+    "dragoon-gallop-e-2": {
+      "sheet": "claude-dragoon-ride",
+      "x": 360,
+      "y": 0,
+      "w": 360,
+      "h": 280,
+      "anchorX": 0.4444,
+      "anchorY": 0.95,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "dragoon-gallop-e-2: items 1-2: the escort dragoon at the gallop east, north and south, and firing his carbine from the saddle, at the mounted size",
+      "source": "svg/transport-cavalry/claude-dragoon-gallop-e-2.svg",
+      "label": "dragoon gallop e 2",
+      "kind": "claude-dragoon-ride"
+    },
+    "dragoon-gallop-e-3": {
+      "sheet": "claude-dragoon-ride",
+      "x": 720,
+      "y": 0,
+      "w": 360,
+      "h": 280,
+      "anchorX": 0.4444,
+      "anchorY": 0.95,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "dragoon-gallop-e-3: items 1-2: the escort dragoon at the gallop east, north and south, and firing his carbine from the saddle, at the mounted size",
+      "source": "svg/transport-cavalry/claude-dragoon-gallop-e-3.svg",
+      "label": "dragoon gallop e 3",
+      "kind": "claude-dragoon-ride"
+    },
+    "dragoon-gallop-e-4": {
+      "sheet": "claude-dragoon-ride",
+      "x": 1080,
+      "y": 0,
+      "w": 360,
+      "h": 280,
+      "anchorX": 0.4444,
+      "anchorY": 0.95,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "dragoon-gallop-e-4: items 1-2: the escort dragoon at the gallop east, north and south, and firing his carbine from the saddle, at the mounted size",
+      "source": "svg/transport-cavalry/claude-dragoon-gallop-e-4.svg",
+      "label": "dragoon gallop e 4",
+      "kind": "claude-dragoon-ride"
+    },
+    "dragoon-gallop-n-1": {
+      "sheet": "claude-dragoon-ride",
+      "x": 0,
+      "y": 280,
+      "w": 360,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.95,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "dragoon-gallop-n-1: items 1-2: the escort dragoon at the gallop east, north and south, and firing his carbine from the saddle, at the mounted size",
+      "source": "svg/transport-cavalry/claude-dragoon-gallop-n-1.svg",
+      "label": "dragoon gallop n 1",
+      "kind": "claude-dragoon-ride"
+    },
+    "dragoon-gallop-n-2": {
+      "sheet": "claude-dragoon-ride",
+      "x": 360,
+      "y": 280,
+      "w": 360,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.95,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "dragoon-gallop-n-2: items 1-2: the escort dragoon at the gallop east, north and south, and firing his carbine from the saddle, at the mounted size",
+      "source": "svg/transport-cavalry/claude-dragoon-gallop-n-2.svg",
+      "label": "dragoon gallop n 2",
+      "kind": "claude-dragoon-ride"
+    },
+    "dragoon-gallop-s-1": {
+      "sheet": "claude-dragoon-ride",
+      "x": 720,
+      "y": 280,
+      "w": 360,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.95,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "dragoon-gallop-s-1: items 1-2: the escort dragoon at the gallop east, north and south, and firing his carbine from the saddle, at the mounted size",
+      "source": "svg/transport-cavalry/claude-dragoon-gallop-s-1.svg",
+      "label": "dragoon gallop s 1",
+      "kind": "claude-dragoon-ride"
+    },
+    "dragoon-gallop-s-2": {
+      "sheet": "claude-dragoon-ride",
+      "x": 1080,
+      "y": 280,
+      "w": 360,
+      "h": 280,
+      "anchorX": 0.5,
+      "anchorY": 0.95,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "dragoon-gallop-s-2: items 1-2: the escort dragoon at the gallop east, north and south, and firing his carbine from the saddle, at the mounted size",
+      "source": "svg/transport-cavalry/claude-dragoon-gallop-s-2.svg",
+      "label": "dragoon gallop s 2",
+      "kind": "claude-dragoon-ride"
+    },
+    "dragoon-carbine-fire-1": {
+      "sheet": "claude-dragoon-ride",
+      "x": 0,
+      "y": 560,
+      "w": 360,
+      "h": 280,
+      "anchorX": 0.4444,
+      "anchorY": 0.95,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "dragoon-carbine-fire-1: items 1-2: the escort dragoon at the gallop east, north and south, and firing his carbine from the saddle, at the mounted size",
+      "source": "svg/transport-cavalry/claude-dragoon-carbine-fire-1.svg",
+      "label": "dragoon carbine fire 1",
+      "kind": "claude-dragoon-ride"
+    },
+    "dragoon-carbine-fire-2": {
+      "sheet": "claude-dragoon-ride",
+      "x": 360,
+      "y": 560,
+      "w": 360,
+      "h": 280,
+      "anchorX": 0.4444,
+      "anchorY": 0.95,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "dragoon-carbine-fire-2: items 1-2: the escort dragoon at the gallop east, north and south, and firing his carbine from the saddle, at the mounted size",
+      "source": "svg/transport-cavalry/claude-dragoon-carbine-fire-2.svg",
+      "label": "dragoon carbine fire 2",
+      "kind": "claude-dragoon-ride"
+    },
+    "dragoon-carbine-fire-3": {
+      "sheet": "claude-dragoon-ride",
+      "x": 720,
+      "y": 560,
+      "w": 360,
+      "h": 280,
+      "anchorX": 0.4444,
+      "anchorY": 0.95,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "dragoon-carbine-fire-3: items 1-2: the escort dragoon at the gallop east, north and south, and firing his carbine from the saddle, at the mounted size",
+      "source": "svg/transport-cavalry/claude-dragoon-carbine-fire-3.svg",
+      "label": "dragoon carbine fire 3",
+      "kind": "claude-dragoon-ride"
+    },
+    "dragoon-fire-1": {
+      "sheet": "claude-dragoon-ride",
+      "x": 1080,
+      "y": 560,
+      "w": 360,
+      "h": 280,
+      "anchorX": 0.4444,
+      "anchorY": 0.95,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "dragoon-fire-1: items 1-2: the escort dragoon at the gallop east, north and south, and firing his carbine from the saddle, at the mounted size",
+      "source": "svg/transport-cavalry/claude-dragoon-fire-1.svg",
+      "label": "dragoon fire 1",
+      "kind": "claude-dragoon-ride"
+    },
+    "dragoon-fire-2": {
+      "sheet": "claude-dragoon-ride",
+      "x": 0,
+      "y": 840,
+      "w": 360,
+      "h": 280,
+      "anchorX": 0.4444,
+      "anchorY": 0.95,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "dragoon-fire-2: items 1-2: the escort dragoon at the gallop east, north and south, and firing his carbine from the saddle, at the mounted size",
+      "source": "svg/transport-cavalry/claude-dragoon-fire-2.svg",
+      "label": "dragoon fire 2",
+      "kind": "claude-dragoon-ride"
+    },
+    "lancer-march-1": {
+      "sheet": "claude-lancers",
+      "x": 0,
+      "y": 0,
+      "w": 380,
+      "h": 360,
+      "anchorX": 0.4474,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "lancer-march-1: item 7: lancers marching, standing and charging with the lance level, at the mounted size; never striking",
+      "source": "svg/transport-cavalry/claude-lancer-march-1.svg",
+      "label": "lancer march 1",
+      "kind": "claude-lancers"
+    },
+    "lancer-march-2": {
+      "sheet": "claude-lancers",
+      "x": 380,
+      "y": 0,
+      "w": 380,
+      "h": 360,
+      "anchorX": 0.4474,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "lancer-march-2: item 7: lancers marching, standing and charging with the lance level, at the mounted size; never striking",
+      "source": "svg/transport-cavalry/claude-lancer-march-2.svg",
+      "label": "lancer march 2",
+      "kind": "claude-lancers"
+    },
+    "lancer-march-3": {
+      "sheet": "claude-lancers",
+      "x": 760,
+      "y": 0,
+      "w": 380,
+      "h": 360,
+      "anchorX": 0.4474,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "lancer-march-3: item 7: lancers marching, standing and charging with the lance level, at the mounted size; never striking",
+      "source": "svg/transport-cavalry/claude-lancer-march-3.svg",
+      "label": "lancer march 3",
+      "kind": "claude-lancers"
+    },
+    "lancer-march-4": {
+      "sheet": "claude-lancers",
+      "x": 0,
+      "y": 360,
+      "w": 380,
+      "h": 360,
+      "anchorX": 0.4474,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "lancer-march-4: item 7: lancers marching, standing and charging with the lance level, at the mounted size; never striking",
+      "source": "svg/transport-cavalry/claude-lancer-march-4.svg",
+      "label": "lancer march 4",
+      "kind": "claude-lancers"
+    },
+    "lancer-idle-1": {
+      "sheet": "claude-lancers",
+      "x": 380,
+      "y": 360,
+      "w": 380,
+      "h": 360,
+      "anchorX": 0.4474,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "lancer-idle-1: item 7: lancers marching, standing and charging with the lance level, at the mounted size; never striking",
+      "source": "svg/transport-cavalry/claude-lancer-idle-1.svg",
+      "label": "lancer idle 1",
+      "kind": "claude-lancers"
+    },
+    "lancer-charge-1": {
+      "sheet": "claude-lancers",
+      "x": 760,
+      "y": 360,
+      "w": 380,
+      "h": 360,
+      "anchorX": 0.4474,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "lancer-charge-1: item 7: lancers marching, standing and charging with the lance level, at the mounted size; never striking",
+      "source": "svg/transport-cavalry/claude-lancer-charge-1.svg",
+      "label": "lancer charge 1",
+      "kind": "claude-lancers"
+    },
+    "lancer-charge-2": {
+      "sheet": "claude-lancers",
+      "x": 0,
+      "y": 720,
+      "w": 380,
+      "h": 360,
+      "anchorX": 0.4474,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "lancer-charge-2: item 7: lancers marching, standing and charging with the lance level, at the mounted size; never striking",
+      "source": "svg/transport-cavalry/claude-lancer-charge-2.svg",
+      "label": "lancer charge 2",
+      "kind": "claude-lancers"
+    },
+    "lancer-charge-3": {
+      "sheet": "claude-lancers",
+      "x": 380,
+      "y": 720,
+      "w": 380,
+      "h": 360,
+      "anchorX": 0.4474,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "lancer-charge-3: item 7: lancers marching, standing and charging with the lance level, at the mounted size; never striking",
+      "source": "svg/transport-cavalry/claude-lancer-charge-3.svg",
+      "label": "lancer charge 3",
+      "kind": "claude-lancers"
+    },
+    "lancer-charge-4": {
+      "sheet": "claude-lancers",
+      "x": 760,
+      "y": 720,
+      "w": 380,
+      "h": 360,
+      "anchorX": 0.4474,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "lancer-charge-4: item 7: lancers marching, standing and charging with the lance level, at the mounted size; never striking",
+      "source": "svg/transport-cavalry/claude-lancer-charge-4.svg",
+      "label": "lancer charge 4",
+      "kind": "claude-lancers"
+    },
+    "dragoon-wounded-led-1": {
+      "sheet": "claude-dragoon-wounded",
+      "x": 0,
+      "y": 0,
+      "w": 430,
+      "h": 280,
+      "anchorX": 0.3721,
+      "anchorY": 0.95,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "dragoon-wounded-led-1: item 3: a dragoon slumped in the saddle, another leading the horse, 2 frames east",
+      "source": "svg/transport-cavalry/claude-dragoon-wounded-led-1.svg",
+      "label": "dragoon wounded led 1",
+      "kind": "claude-dragoon-wounded"
+    },
+    "dragoon-wounded-led-2": {
+      "sheet": "claude-dragoon-wounded",
+      "x": 430,
+      "y": 0,
+      "w": 430,
+      "h": 280,
+      "anchorX": 0.3721,
+      "anchorY": 0.95,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "dragoon-wounded-led-2: item 3: a dragoon slumped in the saddle, another leading the horse, 2 frames east",
+      "source": "svg/transport-cavalry/claude-dragoon-wounded-led-2.svg",
+      "label": "dragoon wounded led 2",
+      "kind": "claude-dragoon-wounded"
+    },
+    "forager-ride-1": {
+      "sheet": "claude-foragers",
+      "x": 0,
+      "y": 0,
+      "w": 750,
+      "h": 360,
+      "anchorX": 0.5467,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "forager-ride-1: item 1: a foraging party riding with a pack mule of corn, and two horsemen driving cattle, 4 frames each, east",
+      "source": "svg/transport-cavalry/claude-forager-ride-1.svg",
+      "label": "forager ride 1",
+      "kind": "claude-foragers"
+    },
+    "forager-ride-2": {
+      "sheet": "claude-foragers",
+      "x": 750,
+      "y": 0,
+      "w": 750,
+      "h": 360,
+      "anchorX": 0.5467,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "forager-ride-2: item 1: a foraging party riding with a pack mule of corn, and two horsemen driving cattle, 4 frames each, east",
+      "source": "svg/transport-cavalry/claude-forager-ride-2.svg",
+      "label": "forager ride 2",
+      "kind": "claude-foragers"
+    },
+    "forager-ride-3": {
+      "sheet": "claude-foragers",
+      "x": 0,
+      "y": 360,
+      "w": 750,
+      "h": 360,
+      "anchorX": 0.5467,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "forager-ride-3: item 1: a foraging party riding with a pack mule of corn, and two horsemen driving cattle, 4 frames each, east",
+      "source": "svg/transport-cavalry/claude-forager-ride-3.svg",
+      "label": "forager ride 3",
+      "kind": "claude-foragers"
+    },
+    "forager-ride-4": {
+      "sheet": "claude-foragers",
+      "x": 750,
+      "y": 360,
+      "w": 750,
+      "h": 360,
+      "anchorX": 0.5467,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "forager-ride-4: item 1: a foraging party riding with a pack mule of corn, and two horsemen driving cattle, 4 frames each, east",
+      "source": "svg/transport-cavalry/claude-forager-ride-4.svg",
+      "label": "forager ride 4",
+      "kind": "claude-foragers"
+    },
+    "forager-drive-1": {
+      "sheet": "claude-foragers",
+      "x": 0,
+      "y": 720,
+      "w": 750,
+      "h": 360,
+      "anchorX": 0.4733,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "forager-drive-1: item 1: a foraging party riding with a pack mule of corn, and two horsemen driving cattle, 4 frames each, east",
+      "source": "svg/transport-cavalry/claude-forager-drive-1.svg",
+      "label": "forager drive 1",
+      "kind": "claude-foragers"
+    },
+    "forager-drive-2": {
+      "sheet": "claude-foragers",
+      "x": 750,
+      "y": 720,
+      "w": 750,
+      "h": 360,
+      "anchorX": 0.4733,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "forager-drive-2: item 1: a foraging party riding with a pack mule of corn, and two horsemen driving cattle, 4 frames each, east",
+      "source": "svg/transport-cavalry/claude-forager-drive-2.svg",
+      "label": "forager drive 2",
+      "kind": "claude-foragers"
+    },
+    "forager-drive-3": {
+      "sheet": "claude-foragers",
+      "x": 0,
+      "y": 1080,
+      "w": 750,
+      "h": 360,
+      "anchorX": 0.4733,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "forager-drive-3: item 1: a foraging party riding with a pack mule of corn, and two horsemen driving cattle, 4 frames each, east",
+      "source": "svg/transport-cavalry/claude-forager-drive-3.svg",
+      "label": "forager drive 3",
+      "kind": "claude-foragers"
+    },
+    "forager-drive-4": {
+      "sheet": "claude-foragers",
+      "x": 750,
+      "y": 1080,
+      "w": 750,
+      "h": 360,
+      "anchorX": 0.4733,
+      "anchorY": 0.9611,
+      "logicalHeight": 270,
+      "madeBy": "claude",
+      "module": "transport-cavalry",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "forager-drive-4: item 1: a foraging party riding with a pack mule of corn, and two horsemen driving cattle, 4 frames each, east",
+      "source": "svg/transport-cavalry/claude-forager-drive-4.svg",
+      "label": "forager drive 4",
+      "kind": "claude-foragers"
+    }
+  },
+  "clips": {
+    "dragoon-gallop-e": {
+      "frames": [
+        {
+          "sprite": "dragoon-gallop-e-1",
+          "duration": 120
+        },
+        {
+          "sprite": "dragoon-gallop-e-2",
+          "duration": 120
+        },
+        {
+          "sprite": "dragoon-gallop-e-3",
+          "duration": 120
+        },
+        {
+          "sprite": "dragoon-gallop-e-4",
+          "duration": 120
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-cavalry"
+    },
+    "dragoon-gallop-n": {
+      "frames": [
+        {
+          "sprite": "dragoon-gallop-n-1",
+          "duration": 150
+        },
+        {
+          "sprite": "dragoon-gallop-n-2",
+          "duration": 150
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-cavalry"
+    },
+    "dragoon-gallop-s": {
+      "frames": [
+        {
+          "sprite": "dragoon-gallop-s-1",
+          "duration": 150
+        },
+        {
+          "sprite": "dragoon-gallop-s-2",
+          "duration": 150
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-cavalry"
+    },
+    "dragoon-carbine-fire": {
+      "frames": [
+        {
+          "sprite": "dragoon-carbine-fire-1",
+          "duration": 240
+        },
+        {
+          "sprite": "dragoon-carbine-fire-2",
+          "duration": 200
+        },
+        {
+          "sprite": "dragoon-carbine-fire-3",
+          "duration": 320
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "beat": 1,
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-cavalry"
+    },
+    "dragoon-fire": {
+      "frames": [
+        {
+          "sprite": "dragoon-fire-1",
+          "duration": 700
+        },
+        {
+          "sprite": "dragoon-fire-2",
+          "duration": 500
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "beat": 1,
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-cavalry"
+    },
+    "lancer-march": {
+      "frames": [
+        {
+          "sprite": "lancer-march-1",
+          "duration": 200
+        },
+        {
+          "sprite": "lancer-march-2",
+          "duration": 200
+        },
+        {
+          "sprite": "lancer-march-3",
+          "duration": 200
+        },
+        {
+          "sprite": "lancer-march-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-cavalry"
+    },
+    "lancer-idle": {
+      "frames": [
+        {
+          "sprite": "lancer-idle-1",
+          "duration": 2200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "transport-cavalry"
+    },
+    "lancer-charge": {
+      "frames": [
+        {
+          "sprite": "lancer-charge-1",
+          "duration": 120
+        },
+        {
+          "sprite": "lancer-charge-2",
+          "duration": 120
+        },
+        {
+          "sprite": "lancer-charge-3",
+          "duration": 120
+        },
+        {
+          "sprite": "lancer-charge-4",
+          "duration": 120
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-cavalry"
+    },
+    "dragoon-wounded-led": {
+      "frames": [
+        {
+          "sprite": "dragoon-wounded-led-1",
+          "duration": 420
+        },
+        {
+          "sprite": "dragoon-wounded-led-2",
+          "duration": 420
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-cavalry"
+    },
+    "forager-ride": {
+      "frames": [
+        {
+          "sprite": "forager-ride-1",
+          "duration": 230
+        },
+        {
+          "sprite": "forager-ride-2",
+          "duration": 230
+        },
+        {
+          "sprite": "forager-ride-3",
+          "duration": 230
+        },
+        {
+          "sprite": "forager-ride-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-cavalry"
+    },
+    "forager-drive": {
+      "frames": [
+        {
+          "sprite": "forager-drive-1",
+          "duration": 230
+        },
+        {
+          "sprite": "forager-drive-2",
+          "duration": 230
+        },
+        {
+          "sprite": "forager-drive-3",
+          "duration": 230
+        },
+        {
+          "sprite": "forager-drive-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-cavalry"
+    }
+  },
+  "provenance": {
+    "dragoon-gallop-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-dragoon-ride",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "A Mexican dragoon of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, riding hard east (west mirrored) at the gallop, frame 1 of 4 of a four-beat gallop (the hind legs landing one after the other, then the forelegs, then a moment with all four gathered under him in the air), the body rocking and the neck pumping; he leans forward over the neck, his carbine slung across his back. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-gallop-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's dragoon-gallop-e-1"
+    },
+    "dragoon-gallop-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-dragoon-ride",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "A Mexican dragoon of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, riding hard east (west mirrored) at the gallop, frame 2 of 4 of a four-beat gallop (the hind legs landing one after the other, then the forelegs, then a moment with all four gathered under him in the air), the body rocking and the neck pumping; he leans forward over the neck, his carbine slung across his back. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-gallop-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's dragoon-gallop-e-2"
+    },
+    "dragoon-gallop-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-dragoon-ride",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "A Mexican dragoon of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, riding hard east (west mirrored) at the gallop, frame 3 of 4 of a four-beat gallop (the hind legs landing one after the other, then the forelegs, then a moment with all four gathered under him in the air), the body rocking and the neck pumping; he leans forward over the neck, his carbine slung across his back. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-gallop-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's dragoon-gallop-e-3"
+    },
+    "dragoon-gallop-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-dragoon-ride",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "A Mexican dragoon of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, riding hard east (west mirrored) at the gallop, frame 4 of 4 of a four-beat gallop (the hind legs landing one after the other, then the forelegs, then a moment with all four gathered under him in the air), the body rocking and the neck pumping; he leans forward over the neck, his carbine slung across his back. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-gallop-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's dragoon-gallop-e-4"
+    },
+    "dragoon-gallop-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-dragoon-ride",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "A Mexican dragoon of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, riding hard away from the camera, frame 1 of 2 of the gallop (the forelegs folded high, the body up), his carbine slung. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-gallop-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's dragoon-gallop-n-1"
+    },
+    "dragoon-gallop-n-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-dragoon-ride",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "A Mexican dragoon of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, riding hard away from the camera, frame 2 of 2 of the gallop (the hind legs driving under, the forelegs reaching), his carbine slung. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-gallop-n-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's dragoon-gallop-n-2"
+    },
+    "dragoon-gallop-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-dragoon-ride",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "A Mexican dragoon of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, riding hard toward the camera, frame 1 of 2 of the gallop (the forelegs folded high, the body up), his carbine slung. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-gallop-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's dragoon-gallop-s-1"
+    },
+    "dragoon-gallop-s-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-dragoon-ride",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "A Mexican dragoon of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, riding hard toward the camera, frame 2 of 2 of the gallop (the hind legs driving under, the forelegs reaching), his carbine slung. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-gallop-s-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's dragoon-gallop-s-2"
+    },
+    "dragoon-carbine-fire-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-dragoon-ride",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "A Mexican dragoon of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, at the gallop east (frames 1-3 of the gallop), brings the carbine up across his body: one shot from a galloping horse, as the chase has it (sim/pursuit.mjs). No flash or smoke is painted - the chase draws its own at the muzzle - and nothing is shown hit. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-carbine-fire-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's dragoon-carbine-fire-1"
+    },
+    "dragoon-carbine-fire-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-dragoon-ride",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "A Mexican dragoon of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, at the gallop east (frames 1-3 of the gallop), fires it from the shoulder, the muzzle kicked up: one shot from a galloping horse, as the chase has it (sim/pursuit.mjs). No flash or smoke is painted - the chase draws its own at the muzzle - and nothing is shown hit. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-carbine-fire-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's dragoon-carbine-fire-2"
+    },
+    "dragoon-carbine-fire-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-dragoon-ride",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "A Mexican dragoon of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, at the gallop east (frames 1-3 of the gallop), lowers it again: one shot from a galloping horse, as the chase has it (sim/pursuit.mjs). No flash or smoke is painted - the chase draws its own at the muzzle - and nothing is shown hit. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-carbine-fire-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's dragoon-carbine-fire-3"
+    },
+    "dragoon-fire-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-dragoon-ride",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "A Mexican dragoon of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, on a standing horse, facing east: firing his carbine from the saddle - aimed level from the shoulder. No flash or smoke painted (the battle draws its own); nothing shown hit. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-fire-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's dragoon-fire-1"
+    },
+    "dragoon-fire-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-dragoon-ride",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "A Mexican dragoon of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, on a standing horse, facing east: firing his carbine from the saddle - the recoil, the muzzle kicked up. No flash or smoke painted (the battle draws its own); nothing shown hit. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-fire-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's dragoon-fire-2"
+    },
+    "lancer-march-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-lancers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "A Mexican lancer of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, a lance with a small red pennon: walking east (west mirrored), the lance upright with its butt by the stirrup, frame 1 of 4 of the walk. The lance is never shown striking anyone. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-lancer-march-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's lancer-march-1"
+    },
+    "lancer-march-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-lancers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "A Mexican lancer of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, a lance with a small red pennon: walking east (west mirrored), the lance upright with its butt by the stirrup, frame 2 of 4 of the walk. The lance is never shown striking anyone. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-lancer-march-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's lancer-march-2"
+    },
+    "lancer-march-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-lancers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "A Mexican lancer of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, a lance with a small red pennon: walking east (west mirrored), the lance upright with its butt by the stirrup, frame 3 of 4 of the walk. The lance is never shown striking anyone. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-lancer-march-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's lancer-march-3"
+    },
+    "lancer-march-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-lancers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "A Mexican lancer of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, a lance with a small red pennon: walking east (west mirrored), the lance upright with its butt by the stirrup, frame 4 of 4 of the walk. The lance is never shown striking anyone. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-lancer-march-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's lancer-march-4"
+    },
+    "lancer-idle-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-lancers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "A Mexican lancer of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, a lance with a small red pennon: his horse standing square, the lance upright, facing east (the game mirrors it for west). The lance is never shown striking anyone. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-lancer-idle-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's lancer-idle-1"
+    },
+    "lancer-charge-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-lancers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "A Mexican lancer of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, a lance with a small red pennon: charging east at the gallop, frame 1 of 4 of a four-beat gallop (the hind legs landing one after the other, then the forelegs, then a moment with all four gathered under him in the air), the body rocking and the neck pumping, the lance couched level under his arm, pointing ahead and a little down. The lance is never shown striking anyone. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-lancer-charge-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's lancer-charge-1"
+    },
+    "lancer-charge-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-lancers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "A Mexican lancer of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, a lance with a small red pennon: charging east at the gallop, frame 2 of 4 of a four-beat gallop (the hind legs landing one after the other, then the forelegs, then a moment with all four gathered under him in the air), the body rocking and the neck pumping, the lance couched level under his arm, pointing ahead and a little down. The lance is never shown striking anyone. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-lancer-charge-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's lancer-charge-2"
+    },
+    "lancer-charge-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-lancers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "A Mexican lancer of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, a lance with a small red pennon: charging east at the gallop, frame 3 of 4 of a four-beat gallop (the hind legs landing one after the other, then the forelegs, then a moment with all four gathered under him in the air), the body rocking and the neck pumping, the lance couched level under his arm, pointing ahead and a little down. The lance is never shown striking anyone. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-lancer-charge-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's lancer-charge-3"
+    },
+    "lancer-charge-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-lancers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "A Mexican lancer of 1835-36 as Astra draws him - dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth, a lance with a small red pennon: charging east at the gallop, frame 4 of 4 of a four-beat gallop (the hind legs landing one after the other, then the forelegs, then a moment with all four gathered under him in the air), the body rocking and the neck pumping, the lance couched level under his arm, pointing ahead and a little down. The lance is never shown striking anyone. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-lancer-charge-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's lancer-charge-4"
+    },
+    "dragoon-wounded-led-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-dragoon-wounded",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "A wounded Mexican dragoon slumped forward in the saddle, his head down and his hands on the pommel, nothing of a wound shown; a comrade on foot at the horse's head leads it east by the reins, walking (frame 1 of 2). Both in dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-wounded-led-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's dragoon-wounded-led-1"
+    },
+    "dragoon-wounded-led-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-dragoon-wounded",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "A wounded Mexican dragoon slumped forward in the saddle, his head down and his hands on the pommel, nothing of a wound shown; a comrade on foot at the horse's head leads it east by the reins, walking (frame 2 of 2). Both in dark blue coatee with red collar and facings, white crossbelts, brass helmet with a black crest, pale trousers, black boots - on a chestnut with a dark blue saddle cloth. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-dragoon-wounded-led-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's dragoon-wounded-led-2"
+    },
+    "forager-ride-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-foragers",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "prompt": "A foraging party of a Mexican column riding east (west mirrored), frame 1 of 4 of the walk: two dragoons in their blue coatees and helmets, the second a little behind and further off, the first leading a pack mule loaded with sacks of corn on a sawbuck saddle by a lead rope. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-forager-ride-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's forager-ride-1"
+    },
+    "forager-ride-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-foragers",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "prompt": "A foraging party of a Mexican column riding east (west mirrored), frame 2 of 4 of the walk: two dragoons in their blue coatees and helmets, the second a little behind and further off, the first leading a pack mule loaded with sacks of corn on a sawbuck saddle by a lead rope. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-forager-ride-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's forager-ride-2"
+    },
+    "forager-ride-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-foragers",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "prompt": "A foraging party of a Mexican column riding east (west mirrored), frame 3 of 4 of the walk: two dragoons in their blue coatees and helmets, the second a little behind and further off, the first leading a pack mule loaded with sacks of corn on a sawbuck saddle by a lead rope. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-forager-ride-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's forager-ride-3"
+    },
+    "forager-ride-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-foragers",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "prompt": "A foraging party of a Mexican column riding east (west mirrored), frame 4 of 4 of the walk: two dragoons in their blue coatees and helmets, the second a little behind and further off, the first leading a pack mule loaded with sacks of corn on a sawbuck saddle by a lead rope. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-forager-ride-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's forager-ride-4"
+    },
+    "forager-drive-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-foragers",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "prompt": "Two Mexican dragoons of a foraging party driving four head of range cattle east (west mirrored) before them - longhorned, red, dun and pied - frame 1 of 4 of the walk, one rider behind the cattle and one out to the side. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-forager-drive-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's forager-drive-1"
+    },
+    "forager-drive-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-foragers",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "prompt": "Two Mexican dragoons of a foraging party driving four head of range cattle east (west mirrored) before them - longhorned, red, dun and pied - frame 2 of 4 of the walk, one rider behind the cattle and one out to the side. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-forager-drive-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's forager-drive-2"
+    },
+    "forager-drive-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-foragers",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "prompt": "Two Mexican dragoons of a foraging party driving four head of range cattle east (west mirrored) before them - longhorned, red, dun and pied - frame 3 of 4 of the walk, one rider behind the cattle and one out to the side. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-forager-drive-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's forager-drive-3"
+    },
+    "forager-drive-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "sheet": "claude-foragers",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "prompt": "Two Mexican dragoons of a foraging party driving four head of range cattle east (west mirrored) before them - longhorned, red, dun and pied - frame 4 of 4 of the walk, one rider behind the cattle and one out to the side. Warm hand-drawn storybook style, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-cavalry/claude-forager-drive-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's forager-drive-4"
+    },
+    "dragoon-gallop-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "The escort dragoon riding hard east (west mirrored): a four-frame gallop at 120 ms a frame.",
+      "frames": [
+        "dragoon-gallop-e-1",
+        "dragoon-gallop-e-2",
+        "dragoon-gallop-e-3",
+        "dragoon-gallop-e-4"
+      ],
+      "status": "temporary: replace with Astra's dragoon-gallop-e"
+    },
+    "dragoon-gallop-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "The escort dragoon riding hard away (north): a two-frame gallop.",
+      "frames": [
+        "dragoon-gallop-n-1",
+        "dragoon-gallop-n-2"
+      ],
+      "status": "temporary: replace with Astra's dragoon-gallop-n"
+    },
+    "dragoon-gallop-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "The escort dragoon riding hard toward the camera (south): a two-frame gallop.",
+      "frames": [
+        "dragoon-gallop-s-1",
+        "dragoon-gallop-s-2"
+      ],
+      "status": "temporary: replace with Astra's dragoon-gallop-s"
+    },
+    "dragoon-carbine-fire": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "The dragoon fires his carbine once from the galloping horse: raise, fire (beat 1), lower.",
+      "frames": [
+        "dragoon-carbine-fire-1",
+        "dragoon-carbine-fire-2",
+        "dragoon-carbine-fire-3"
+      ],
+      "status": "temporary: replace with Astra's dragoon-carbine-fire"
+    },
+    "dragoon-fire": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "A dragoon fires from a standing horse: aim, then the recoil on the shot (beat 1).",
+      "frames": [
+        "dragoon-fire-1",
+        "dragoon-fire-2"
+      ],
+      "status": "temporary: replace with Astra's dragoon-fire"
+    },
+    "lancer-march": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "A lancer riding east at the walk, the lance upright: a four-frame loop at the dragoons' 200 ms.",
+      "frames": [
+        "lancer-march-1",
+        "lancer-march-2",
+        "lancer-march-3",
+        "lancer-march-4"
+      ],
+      "status": "temporary: replace with Astra's lancer-march"
+    },
+    "lancer-idle": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "A lancer on a standing horse, the lance upright, breathing.",
+      "frames": [
+        "lancer-idle-1"
+      ],
+      "status": "temporary: replace with Astra's lancer-idle"
+    },
+    "lancer-charge": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "A lancer charging at the gallop, the lance level: a four-frame loop; never striking.",
+      "frames": [
+        "lancer-charge-1",
+        "lancer-charge-2",
+        "lancer-charge-3",
+        "lancer-charge-4"
+      ],
+      "status": "temporary: replace with Astra's lancer-charge"
+    },
+    "dragoon-wounded-led": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "A wounded dragoon slumped in the saddle, his horse led off at a walk by a comrade on foot: two frames.",
+      "frames": [
+        "dragoon-wounded-led-1",
+        "dragoon-wounded-led-2"
+      ],
+      "status": "temporary: replace with Astra's dragoon-wounded-led"
+    },
+    "forager-ride": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "prompt": "A foraging party riding, one leading a pack mule of corn: a four-frame walk loop.",
+      "frames": [
+        "forager-ride-1",
+        "forager-ride-2",
+        "forager-ride-3",
+        "forager-ride-4"
+      ],
+      "status": "temporary: replace with Astra's forager-ride"
+    },
+    "forager-drive": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-cavalry",
+      "area": "transport",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "prompt": "Two horsemen driving four head of cattle: a four-frame walk loop.",
+      "frames": [
+        "forager-drive-1",
+        "forager-drive-2",
+        "forager-drive-3",
+        "forager-drive-4"
+      ],
+      "status": "temporary: replace with Astra's forager-drive"
+    }
+  }
+}

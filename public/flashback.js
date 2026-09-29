@@ -18,7 +18,7 @@
 //
 // Nothing here decides anything about the story: the beats, their words and their order are the server's.
 import { muxWebM } from '/webm-writer.js';
-import { drawSprite, sheetsInFlight, loadArt } from '/art.js';
+import { drawSprite, sheetsInFlight, loadArt, clipReady } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawRoad } from '/landscape-art.js';
 import { placeSprite } from '/place-art.js';
@@ -352,7 +352,7 @@ export function flashbackPainter(script, world) {
   let prepared = [];
   // The battle renderer keeps its smoke and its fallen from frame to frame, by the time it is given: a pass that goes back to
   // the start of the video starts it afresh, or smoke born later than now would be drawn at a negative age.
-  const freshBattleView = () => createBattleView({ animated: (...args) => art.animated(...args), drawSprite: (...args) => drawSprite(...args), miniPerson: (...args) => art.miniPerson(...args) });
+  const freshBattleView = () => createBattleView({ animated: (...args) => art.animated(...args), drawSprite: (...args) => drawSprite(...args), miniPerson: (...args) => art.miniPerson(...args), clipReady: name => clipReady(name) });
   let battleView = freshBattleView();
   return {
     prepare() { prepared = film.beats.map(beat => prepareBeat(beat, film, world)); battleView = freshBattleView(); return prepared.length; },
@@ -631,7 +631,7 @@ export function renderFlashback(snapshot) {
     // A class ended by mistake and taken up again (docs/HOST_PAGE.md §2.8): what this page made or failed to make, played and
     // read belongs to that ending, and its videos are gone from the server. When the class ends again it all starts afresh.
     if (!making.running && (making.done.length || making.failed.size || shownKey || transcriptOf)) {
-      making.done.length = 0; making.failed.clear(); shownKey = ''; autoplayed = false; transcriptOf = null; queue = [];
+      making.done.length = 0; making.failed.clear(); shownKey = ''; autoplayed = false; transcriptOf = null;
     }
     return;
   }

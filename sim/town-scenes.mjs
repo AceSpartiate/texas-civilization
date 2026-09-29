@@ -61,25 +61,33 @@ export const sceneClock = world => world.minute - (world.director?.arrival ? SCE
  */
 /**
  * Béxar's people in the days before February 23, 1836 (`BEXAR_BEATS`): a picture of the town, not a count, nobody named.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-27 - the milk cow on the run, and Béxar before the bell. The library has no Tejano townspeople, no
- * dancers and no fiddler: the colonists' cast figures stand in for the families of the town, the cast's riders for the Tejano
- * volunteers, and a man of the cast speaking for the fiddler.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-27 - the milk cow on the run, and Béxar before the bell, items 2 and 4:
+ * Claude-drawn stand-ins (temporary, replaced by Astra's frames of the same names): the town's families are `bexar-man`,
+ * `bexar-woman`, `bexar-girl` and `bexar-boy`, the dance `dancers-couple` (the first of each pair draws both, `partner`; the
+ * second is drawn in the couple, `lead`), the fiddler `fiddler`. `standIn` is the colonists' cast figure the page draws while
+ * that sheet has not loaded. The Tejano volunteers are still the cast's riders (item 3).
  */
 const BEXAR_CAST = Object.freeze({
-  'bx-father-1': { label: 'a man of Béxar', figure: 'ochre' },
-  'bx-mother-1': { label: 'a woman of Béxar', figure: 'teal' },
-  'bx-girl-1': { label: 'a girl of Béxar', figure: 'girl', small: .72 },
-  'bx-boy-1': { label: 'a boy of Béxar', figure: 'boy', small: .72 },
-  'bx-father-2': { label: 'a man of Béxar', figure: 'elder' },
-  'bx-mother-2': { label: 'a woman of Béxar', figure: 'indigo' },
-  'bx-neighbour': { label: 'a man of Béxar', figure: 'blue' },
-  'bx-neighbour-woman': { label: 'a woman of Béxar', figure: 'blue-girl' },
+  'bx-father-1': { label: 'a man of Béxar', figure: 'bexar-man', standIn: 'ochre' },
+  'bx-mother-1': { label: 'a woman of Béxar', figure: 'bexar-woman', standIn: 'teal' },
+  'bx-girl-1': { label: 'a girl of Béxar', figure: 'bexar-girl', standIn: 'girl', small: .72 },
+  'bx-boy-1': { label: 'a boy of Béxar', figure: 'bexar-boy', standIn: 'boy', small: .72 },
+  'bx-father-2': { label: 'a man of Béxar', figure: 'bexar-man', standIn: 'elder' },
+  'bx-mother-2': { label: 'a woman of Béxar', figure: 'bexar-woman', standIn: 'indigo' },
+  'bx-neighbour': { label: 'a man of Béxar', figure: 'bexar-man', standIn: 'blue' },
+  'bx-neighbour-woman': { label: 'a woman of Béxar', figure: 'bexar-woman', standIn: 'blue-girl' },
   // "Fifteen of the Tejano volunteers" (`HIST-TEX-650`), drawn as five.
   ...Object.fromEntries([1, 2, 3, 4, 5].map(n => [`bx-tejano-${n}`, { label: 'one of the Tejano volunteers', figure: ['elder', 'ochre', 'blue', 'ochre', 'elder'][n - 1], rides: true }])),
   'bx-garrison-1': { label: 'a man of the garrison', figure: 'volunteer' },
   'bx-garrison-2': { label: 'a man of the garrison', figure: 'volunteer' },
-  ...Object.fromEntries([1, 2, 3, 4, 5, 6].map(n => [`bx-dancer-${n}`, { label: 'somebody at the fandango', figure: ['teal', 'ochre', 'indigo', 'blue', 'blue-girl', 'elder'][n - 1] }])),
-  'bx-fiddler': { label: 'a fiddler', figure: 'elder' },
+  // Two couples dancing (1 with 2, 3 with 4) and two of the town watching.
+  'bx-dancer-1': { label: 'somebody at the fandango', figure: 'dancers-couple', partner: 'bx-dancer-2', standIn: 'teal' },
+  'bx-dancer-2': { label: 'somebody at the fandango', figure: 'dancers-couple', lead: 'bx-dancer-1', standIn: 'ochre' },
+  'bx-dancer-3': { label: 'somebody at the fandango', figure: 'dancers-couple', partner: 'bx-dancer-4', standIn: 'indigo' },
+  'bx-dancer-4': { label: 'somebody at the fandango', figure: 'dancers-couple', lead: 'bx-dancer-3', standIn: 'blue' },
+  'bx-dancer-5': { label: 'somebody at the fandango', figure: 'bexar-woman', standIn: 'blue-girl' },
+  'bx-dancer-6': { label: 'somebody at the fandango', figure: 'bexar-man', standIn: 'elder' },
+  'bx-fiddler': { label: 'a fiddler', figure: 'fiddler', standIn: 'elder' },
 });
 
 export const TOWN_CAST = Object.freeze({
@@ -928,6 +936,7 @@ function beatPeople(world, beat, now) {
     // description for each of forty people was a tenth of the snapshot.
     people.push({ id: one.id, sceneId: beat.scene, ...(cast.name && { name: cast.name }), figure: cast.figure,
       ...(cast.rides && { rides: true }), ...(cast.small && { small: cast.small }), ...(one.carries && { carries: one.carries }),
+      ...(cast.standIn && { standIn: cast.standIn }), ...(cast.partner && { partner: cast.partner }), ...(cast.lead && { lead: cast.lead }),
       x: spot.x, y: spot.y, pose: moving || waiting ? 'idle' : one.pose || 'idle', face: faceOf(world, one.face || 's') });
   });
   return people;

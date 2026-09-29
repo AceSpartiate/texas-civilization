@@ -273,6 +273,16 @@ export const RIDING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'r
  */
 export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue']);
 /**
+ * The figures Claude drew on the horse and on the wagon's box (2026-09-28), temporary until Astra paints them: the children
+ * riding (`<child>-ride-*`) and the second cast and the children driving (`<figure>-wagon-driver-*`), in
+ * public/assets/claude-standins/. Asked for by the same names hers would have; a sheet not yet loaded, or not there, falls
+ * back to the composite exactly as before (public/app.js `drawSeated` asks `clipReady`).
+ * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - requests 2026-09-14 (family members on
+ * horseback) and 2026-09-16 (driving the ox wagon). The baby rides only in somebody's arms (sim/company.mjs), so has neither.
+ */
+export const CLAUDE_RIDING_FIGURES = Object.freeze(['girl', 'boy', 'smallchild']);
+export const CLAUDE_DRIVING_FIGURES = Object.freeze(['rust-woman', 'indigo', 'ochre', 'blue-girl', 'girl', 'boy', 'smallchild']);
+/**
  * Which figure somebody is drawn as: their own child's figure if the children's sheets draw them, else their cast figure.
  * **The one chooser.** The map (`entityClip`, which keeps a grown figure's pose for a child where the child's sheet has none),
  * a seat on the horse or the wagon (`seatedClip`), and the family panel's portrait (public/app.js `renderFamilyPanel`) all
@@ -294,12 +304,12 @@ export function seatedClip(entity, direction = 'e', seat = 'horse') {
   const facing = ['n', 's', 'e', 'w'].includes(direction) ? direction : 'e';
   // No west sheet: west is the east cycle mirrored, which the caller's `flip` does. North and south are painted and are
   // never mirrored, which is what `upright` means everywhere else in this file.
-  if (seat === 'horse' && RIDING_FIGURES.includes(figure)) {
+  if (seat === 'horse' && (RIDING_FIGURES.includes(figure) || CLAUDE_RIDING_FIGURES.includes(figure))) {
     return { id: `${figure}-ride-${facing === 'w' ? 'e' : facing}`, whole: true, ...(facing === 'n' || facing === 's' ? { upright: true } : {}) };
   }
   // Each heading is painted, west included, so a driver is never mirrored. Not frozen: the delivery registers one held
   // breathing frame and the renderer's own breath is what keeps it alive.
-  if (seat === 'wagon' && DRIVING_FIGURES.includes(figure)) return { id: `${figure}-wagon-driver-${facing}`, upright: true, seated: true };
+  if (seat === 'wagon' && (DRIVING_FIGURES.includes(figure) || CLAUDE_DRIVING_FIGURES.includes(figure))) return { id: `${figure}-wagon-driver-${facing}`, upright: true, seated: true };
   // The infant's sheet has no back view.
   const pose = figure === 'infant' && facing === 'n' ? 'idle-s' : `idle-${facing}`;
   return { id: `${figure}-${pose}`, upright: true, frozen: true };
@@ -378,6 +388,17 @@ export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rid
   const back = vertical ? (direction === 'n' ? 1 : -1) * 0.13 * wagon * (row + 1) : 0;
   const seat = wagon * SEAT.wagonSeat * (1.02 - 0.04 * side);
   return { part: 'passenger', dx, dy: -seat + SEAT.hip * rider + back, height: rider, shown: 1 - SEAT.hip + SEAT.overlap, ...(direction === 'n' && { front: true }) };
+}
+/**
+ * Somebody sitting in the bed of an open cart or carreta, whole (`<figure>-ride-wagon-<dir>`, Claude-drawn 2026-09-28: request
+ * 2026-09-25 "riders, walkers and the cart", item 2), drawn to the seated drivers' contract (`SEAT.driverHeight`,
+ * `driverHip`); west is east mirrored. Null for the baby, who rides in somebody's arms.
+ */
+export function passengerClip(entity, direction = 'e') {
+  const figure = seatFigure(entity);
+  if (figure === 'infant') return null;
+  const facing = direction === 'n' || direction === 's' ? direction : 'e';
+  return { id: `${figure}-ride-wagon-${facing}`, upright: facing !== 'e', seated: true };
 }
 export function carrierClip(entity) {
   const vertical = entity.facing === 'n' || entity.facing === 's';
@@ -482,7 +503,7 @@ function grownClip(entity, observed) {
   if (entity.kind === 'person' && entity.stepping) {
     // Carrying water or wood a few steps back and forth (sim/ambient.mjs `pace`, public/ambient.js): the carry cycle, which has
     // an east sheet only, so it is only ever walked east and west.
-    if (entity.amb?.p === 'carry' && (entity.stepping === 'e' || entity.stepping === 'w')) return { id: `${variant}-carry` };
+    if (entity.amb?.p === 'carry' && (entity.stepping === 'e' || entity.stepping === 'w')) return entity.amb.a === 'water' ? { id: `${variant}-carry`, drawn: { from: 'carry', pose: 'carry-water' } } : { id: `${variant}-carry` };
     return entity.stepping === 'n' || entity.stepping === 's' ? { id: `${variant}-walk-${entity.stepping}`, upright: true } : { id: `${variant}-walk` };
   }
   // Doing something in one of the town's scenes before the fight (sim/town-scenes.mjs): the pose the server names, which is
@@ -609,8 +630,21 @@ export function ambientClip(variant, amb) {
   if (pose === 'idle') return { id: `${variant}-idle-${face}`, upright: true };
   if (pose.startsWith('idle-')) return { id: `${variant}-${pose}`, upright: true };
   if (pose === 'listen') return { id: `${variant}-listen-s`, upright: true };
-  return { id: `${variant}-${pose}` };
+  const own = AMBIENT_DRAWN[amb.a];
+  return own ? { id: `${variant}-${pose}`, drawn: { from: pose, pose: own } } : { id: `${variant}-${pose}` };
 }
+/**
+ * The pose of the activity itself (request 2026-09-28 - ambient life, item 1), by the server's activity id (`amb.a`): the page
+ * draws `drawn` where the library holds it for the figure (public/app.js `drawnClipOf`, the one way a binding asks for a pose
+ * beyond the delivered library) and the delivered pose the server names
+ * (`amb.p`) until then, so a figure without the sheet, or before it has loaded, is still drawn at something.
+ * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)", area A - every one of these is Claude-drawn
+ * for the eight cast figures today (scripts/claude-art/areas/ambient.mjs); Astra's clip of the same name replaces it.
+ */
+export const AMBIENT_DRAWN = Object.freeze({
+  whittle: 'whittle', harness: 'mend-harness', mend: 'sew', shell: 'shell-corn', rifle: 'clean-rifle', wash: 'wash',
+  pipe: 'pipe', cards: 'cards', dominoes: 'cards', sweep: 'sweep', water: 'carry-water',
+});
 /** The point `miles` along a road, for a caller drawing somebody somewhere other than where `position` puts them. */
 export const alongRoute = (points, miles) => along(points, miles);
 function along(points, distance) {

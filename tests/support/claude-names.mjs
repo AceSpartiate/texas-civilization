@@ -7,3 +7,5 @@ const atlas = JSON.parse(readFileSync(new URL('../../public/assets/claude-standi
 export const CLAUDE_NAMES = new Set([...Object.keys(atlas.frames), ...Object.keys(atlas.clips)]);
 /** Whether a name is Claude's. */
 export const isClaude = name => CLAUDE_NAMES.has(name);
+/** Whether a fake art given `claude` (true, false, or a test of the name) draws this Claude frame. */
+export const drawsClaude = (claude, name) => typeof claude === 'function' ? claude(name) : Boolean(claude);

@@ -87,10 +87,21 @@ export function createChaseView(art) {
         const size = view.kind === 'cavalry' ? figurePx * 1.35 : figurePx;
         const clip = view.kind === 'cavalry' ? (moving ? 'dragoon-march' : toward ? 'dragoon-idle-e' : 'dragoon-idle-w')
           : soldier.loading ? 'regular-fire-reload' : moving ? 'regular-march' : toward ? 'regular-idle-e' : 'regular-idle-w';
-        // Claude's skirmisher (running, kneeling to fire) first; the line's regular while its sheet loads.
-        const own = view.kind === 'cavalry' ? null : soldier.loading ? 'skirmisher-kneel-fire' : moving ? 'skirmisher-run-e' : null;
+        // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - a dragoon at the gallop and firing
+        // from the saddle are Claude's `dragoon-gallop-*` and `dragoon-carbine-fire` (request 2026-09-27 "Mexican troops after a
+        // family on the road"), riding the way he goes; `dragoon-march` wherever those are not loaded.
+        let ok = 0;
+        if (view.kind === 'cavalry' && moving && art.clipReady) {
+          const vx = -view.dir.x, vy = -view.dir.y, vertical = Math.abs(vy) > Math.abs(vx) * 1.2;
+          const shot = [...view.shots.values()].find(one => one.man === i && now >= one.at && now - one.at < 760);
+          const hard = shot ? 'dragoon-carbine-fire' : vertical ? `dragoon-gallop-${vy > 0 ? 's' : 'n'}` : 'dragoon-gallop-e';
+          if (art.clipReady(hard)) ok = art.animated(ctx, hard, p.x, p.y, size, `${chase.id}:${i}`, { timeMs: shot ? now - shot.at : time + i * 173, flip: vertical && !shot ? false : !toward });
+        }
+        // Claude's skirmisher (running, kneeling to fire; request 2026-09-27 item 3) the same way; the line's regular while it loads.
+        const foot = view.kind === 'cavalry' ? null : soldier.loading ? 'skirmisher-kneel-fire' : moving ? 'skirmisher-run-e' : null;
         const options = { timeMs: still ? 0 : time + i * 173, flip: moving || soldier.loading ? !toward : false };
-        const ok = (own && art.animated(ctx, own, p.x, p.y, size, `${chase.id}:${i}`, options)) || art.animated(ctx, clip, p.x, p.y, size, `${chase.id}:${i}`, options);
+        if (!ok && foot && (!art.clipReady || art.clipReady(foot))) ok = art.animated(ctx, foot, p.x, p.y, size, `${chase.id}:${i}`, options);
+        if (!ok) ok = art.animated(ctx, clip, p.x, p.y, size, `${chase.id}:${i}`, options);
         if (!ok) art.miniPerson(ctx, p.x, p.y, size, { side: 'mexican' });
         drawnSoldiers.push({ i, x: Math.round(p.x), y: Math.round(p.y), size: Math.round(size) });
       });

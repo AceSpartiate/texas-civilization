@@ -77,14 +77,13 @@ function fire(ctx, x, y, size, time, smoke = null) {
  * camp falls back to the plain figures the map already uses for anybody.
  */
 export function drawArmy(ctx, army, at, { scale, figure, time = 0, draw = null, mini = null, smoke = null, man = null, onMan = null, prop = null }) {
-  // ceiling: a Claude clip is asked for by name through `draw` (the page's `animated`), so the sprite-only camp is a one-frame clip.
   const colours = army.side === 'mexican' ? MEXICAN : TEXIAN;
   if (scale < CAMP_SCALE) { drawArmyMark(ctx, army, at, colours, Math.max(11, Math.min(20, figure))); return 'mark'; }
   const size = Math.max(10, Math.min(46, figure * 1.1));
   // A column on the march (sim/advance.mjs): no tents and no fire, the men in files on the road, the horse at the head.
   // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the Mexican advance", item 3 - Claude's `regular-march-column` (files of
   // three, the officer riding at the head, the cart behind); while it loads, the battles' marching regulars in files and one
-  // dragoon.
+  // dragoon. ceiling: asked for through `draw` (the page's `animated`), so a one-sprite piece is a clip.
   if (army.moving && army.side === 'mexican' && draw && draw('regular-march-column', at.x, at.y, size, `${army.id}:column`, { flip: army.right === false })) {
     drawArmyLabel(ctx, army, { x: at.x, y: at.y - size * 1.9 }, colours);
     return 'column';
@@ -106,7 +105,7 @@ export function drawArmy(ctx, army, at, { scale, figure, time = 0, draw = null, 
   }
   // The tents behind, the fire in the middle, the men in front of it: a camp read at a glance.
   const tents = army.side === 'mexican' ? 2 : 3;
-  if (!(draw && draw(`army-camp-${army.side === 'mexican' ? 'mexican' : 'texian'}`, at.x, at.y, size, `${army.id}:camp`, {})))
+  if (!(draw && draw(`army-camp-${army.side === 'mexican' ? 'mexican' : 'texian'}-pitched`, at.x, at.y, size, `${army.id}:camp`, {})))
     for (let i = 0; i < tents; i++) tent(ctx, at.x + (i - (tents - 1) / 2) * size * 1.5, at.y - size * 0.55, size, colours);
   fire(ctx, at.x, at.y, size * 0.7, time, smoke);
   const men = menDrawn(army.strength ?? CAMP_MEN);
@@ -120,7 +119,8 @@ export function drawArmy(ctx, army, at, { scale, figure, time = 0, draw = null, 
     const x = at.x + (column - 2.5) * size * 0.95 + (doing?.dx || 0) * size, y = at.y + size * (0.5 + row * 0.55);
     const flip = doing ? doing.flip : army.side === 'mexican';
     if (doing?.prop && prop) prop(index, doing, { x, y }, size);
-    const drawn = draw && (draw(doing ? doing.id : `${role}-idle-${flip ? 'w' : 'e'}`, x, y, size, `${army.id}:${index}`, { flip }) || (doing?.alt && draw(doing.alt, x, y, size, `${army.id}:${index}`, { flip })));
+    const drawn = draw && (draw(doing ? doing.id : `${role}-idle-${flip ? 'w' : 'e'}`, x, y, size, `${army.id}:${index}`, { flip })
+      || (doing?.base && draw(doing.base, x, y, size, `${army.id}:${index}`, { flip: doing.baseFlip })));
     if (!drawn && mini) mini(ctx, x, y, size, { side: army.side, flip });
     onMan?.(index, x, y, size);
   }

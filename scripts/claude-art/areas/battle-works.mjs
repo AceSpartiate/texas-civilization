@@ -17,8 +17,9 @@
 import { personFrame, drawPerson, frameOf } from '../kit/rig.mjs';
 import { Ink, frameSvg, add, lerp, blob, capsule, curve, ellipse, poly, f2 } from '../kit/svg.mjs';
 import { LINE, PALETTE, UNIT, tone } from '../kit/style.mjs';
-import { drawHorse, RIDER_SCALE } from '../kit/horse.mjs';
-import { riderPose, POSES } from '../kit/poses.mjs';
+import { drawMounted } from '../kit/horse.mjs';
+import { COATS, quadPose, drawQuadSide } from '../kit/quadruped.mjs';
+import { POSES } from '../kit/poses.mjs';
 import { REGULAR_PACK, MX_OFFICER, PADRE } from '../battle-kit/figures.mjs';
 import * as PO from '../battle-kit/poses.mjs';
 import { drawGun, seg, COLOURS } from '../battle-kit/gear.mjs';
@@ -103,14 +104,13 @@ const prop = (name, cell, originX, draw, { persons = 1, groundY } = {}) => ({ ..
 // ---------------------------------------------------------------------------------------------------- C9: a column on the march
 {
   const F = frameOf(REGULAR_PACK), march = PO.march(F, { kind: 'musket' });
-  const mule = { coat: '#6e5a48', mane: '#2a2018', hoof: '#2a2018', blaze: '#6e5a48', tack: '#4a3020', saddle: '#4a3020', blanket: '#6e5a48' };
   const frames = [0, 1, 2, 3].map(i => ({ name: `regular-march-column-${i + 1}`, height: 1, compare: [['regular-march-1', 1], ['dragoon-march-1', 1.35]],
     prompt: `A Mexican column on the march through the Runaway Scrape, spring 1836 (frame ${i + 1} of 4, east): eight infantrymen in files of three - blue coatees, white trousers, shakos, knapsacks with blanket rolls, muskets at the trail - a mounted officer at the head in a shako with a gold pompom and a red sash, and a two-wheeled baggage cart behind drawn by a mule, loaded with sacks under a cloth. Seen from a little above and to the side; the files in step. ${STYLE}`,
     draw: () => personFrame(`regular-march-column-${i + 1}`, ink => {
       // The cart behind, with its mule.
-      const cx = -250;
-      group(ink, [cx + 58, 0], 0.62, sub => drawHorse(sub, { frame: i, tack: false, colours: mule }));
-      ink.line(seg([cx + 18, 26], [cx + 60, 40]), { colour: '#6a4a2e', width: 3 });
+      const cx = -320;
+      group(ink, [cx + 70, 0], 0.8, sub => drawQuadSide(sub, 'mule', quadPose('mule', { gait: 'walk', frame: i }), { coat: COATS.mouse, halter: true }));
+      ink.line(seg([cx + 18, 26], [cx + 80, 42]), { colour: '#6a4a2e', width: 3 });
       ink.shape(poly([[cx - 34, 20], [cx + 22, 20], [cx + 24, 40], [cx - 36, 40]]), '#8a6a44', { off: 1 });
       ink.shape(blob([[cx - 32, 40], [cx - 26, 58], [cx - 4, 62], [cx + 16, 56], [cx + 22, 40]], 0.6), '#d8c8a0', { off: 1.2, lift: true });
       ink.shape(ellipse([cx - 4, 18], 17, 17), '#6a4a2e', { off: 1 }); ink.shape(ellipse([cx - 4, 18], 4, 4), '#3a2616', { shade: false, outline: 1.8 });
@@ -122,12 +122,7 @@ const prop = (name, cell, originX, draw, { persons = 1, groundY } = {}) => ({ ..
       for (const m of men) nested(ink, REGULAR_PACK, march[(i + (m.file === 1 ? 0 : 0)) % 4], [m.x, m.y], 1);
       // The officer at the head, on a dark horse.
       const hx = 70, dark = { coat: '#4a2e1e', mane: '#1a1210', hoof: '#1e1612', blaze: '#f2e6cc', tack: '#3a2418', saddle: '#3a2418', blanket: '#2f3f6a' };
-      let seat;
-      group(ink, [hx, 0], 1, sub => { seat = drawHorse(sub, { frame: i, colours: dark }).seat; });
-      const Fo = frameOf(MX_OFFICER), local = [seat[0] / RIDER_SCALE, seat[1] / RIDER_SCALE];
-      const pose = riderPose(Fo, local, { reins: [8, -2] });
-      pose.feet.far = add(local, [3, -5]);
-      group(ink, [hx, 0], RIDER_SCALE, sub => drawPerson(sub, MX_OFFICER, pose));
+      group(ink, [hx, 0], 1, sub => drawMounted(sub, MX_OFFICER, i, { coat: COATS.black, tack: 'military', blanket: dark.blanket }));
     }, { note: `regular-march-column ${i + 1}`, cell: { w: 1700, h: 600 }, originX: 1060, groundY: 560 }) }));
   sheet('claude-march-column', R.advance, 'item 3: `regular-march-column` (six to eight infantry in files of three, a mounted officer at the head, a cart behind; 4 frames, east), the `regular-*`/`dragoon-*` height', { w: 1700, h: 600 }, frames, 2);
   clips['regular-march-column'] = clip([1, 2, 3, 4].map(n => [`regular-march-column-${n}`, 200]), { prompt: 'A Mexican column on the march, east: files in step, the officer riding at the head, the cart behind; four frames at the regulars\' march pace.' });
@@ -156,18 +151,17 @@ sheet('claude-ammunition-crate', R.famous, 'Castrillón and the rest: a scale-ma
       for (let i = 0; i < 9; i++) ink.line(curve([[8 + i * 4, 6 + (i % 3) * 3], [22 + i * 3, 4 + (i % 2) * 5], [40 + i * 2, 1 + (i % 3)]]), { colour: '#8a7a30', width: 1.4 });
     }) }]);
   const F = frameOf(PADRE), walk = PO.shortWalk(F, POSES.walk(F), 0.7);
-  const mule = { coat: '#6e5a48', mane: '#2a2018', hoof: '#2a2018', blaze: '#6e5a48', tack: '#4a3020', saddle: '#4a3020', blanket: '#6e5a48' };
   const frames = walk.map((pose, i) => ({ name: `padre-carts-${i + 1}`, compare: [['cart-baggage', 1.25], ['volunteer-march-1', 1]],
-    prompt: `After Concepción, October 28, 1835: a padre of Béxar in a black cassock and a broad flat hat walking east beside a two-wheeled cart drawn by a mule, come for the Mexican dead and wounded (Smithwick gives it only in outline; kept general). The cart's load is covered with a blanket: no one is shown in it, no wound, no blood (VISION.md §16). Frame ${i + 1} of 4. ${STYLE}`,
+    prompt: `After Concepción, October 28, 1835: a padre of Béxar in a black cassock and a broad flat hat walking east ahead of a two-wheeled cart drawn by a mule, leading it, come for the Mexican dead and wounded (Smithwick gives it only in outline; kept general). The cart's load is covered with a blanket: no one is shown in it, no wound, no blood (VISION.md §16). Frame ${i + 1} of 4. ${STYLE}`,
     draw: () => personFrame(`padre-carts-${i + 1}`, ink => {
-      const cx = -60;
-      group(ink, [cx + 74, 0], 0.62, sub => drawHorse(sub, { frame: i, tack: false, colours: mule }));
-      ink.line(seg([cx + 22, 26], [cx + 74, 42]), { colour: '#6a4a2e', width: 3 });
+      const cx = -100;
+      group(ink, [cx + 80, 0], 0.8, sub => drawQuadSide(sub, 'mule', quadPose('mule', { gait: 'walk', frame: i }), { coat: COATS.mouse, halter: true }));
+      ink.line(seg([cx + 22, 26], [cx + 90, 42]), { colour: '#6a4a2e', width: 3 });
       ink.shape(poly([[cx - 40, 20], [cx + 26, 20], [cx + 28, 38], [cx - 42, 38]]), '#8a6a44', { off: 1 });
       ink.shape(blob([[cx - 38, 38], [cx - 30, 50], [cx - 4, 53], [cx + 20, 49], [cx + 26, 38]], 0.6), '#7a6a5a', { off: 1.2, lift: true });
       ink.shape(ellipse([cx - 6, 18], 17, 17), '#6a4a2e', { off: 1 }); ink.shape(ellipse([cx - 6, 18], 4, 4), '#3a2616', { shade: false, outline: 1.8 });
       for (let a = 0; a < 6; a++) ink.line(seg([cx - 6, 18], [cx - 6 + Math.cos(a) * 15, 18 + Math.sin(a) * 15]), { width: 1.8 });
-      nested(ink, PADRE, { ...pose, hands: { near: PO.at(F, 3, -14), far: PO.at(F, 1, -13) }, elbows: { near: 1, far: 1 } }, [cx + 10, -3], 1);
+      nested(ink, PADRE, { ...pose, hands: { near: PO.at(F, 3, -14), far: PO.at(F, 1, -13) }, elbows: { near: 1, far: 1 } }, [cx + 196, -3], 1);
     }, { note: `padre with a cart ${i + 1}`, cell: { w: 800, h: 420 }, originX: 420, groundY: 392 }) }));
   sheet('claude-padre-carts', R.concepcion, 'item 8: a padre with carts for the dead and wounded after Concepción (told in the caption today); nothing of the dead shown', { w: 800, h: 420 }, frames, 2);
   clips['padre-carts'] = clip([1, 2, 3, 4].map(n => [`padre-carts-${n}`, 260]), { prompt: `A padre walking beside a covered cart after Concepción: four frames at a slow walk. ${NO_GORE}` });
@@ -260,6 +254,8 @@ sheet('claude-ammunition-crate', R.famous, 'Castrillón and the rest: a scale-ma
     prompt: `The ${side === 'mexican' ? 'Mexican army\'s' : 'Texian army\'s'} camp on the campaign map: ${side === 'mexican' ? 'three' : 'four'} wedge tents, a kettle on a crane over the fire's place, stacked arms and a colour on a pole (${side === 'mexican' ? 'the green, white and red tricolour of 1823' : 'a plain buff company colour - no single Texian flag flew in 1835-36, an interpretation'}), seen from a little above; the page draws the fire, its smoke and the men. ${STYLE}`,
     // Its logical height is set so that the page's camp size (`size` in public/army-view.js) draws the tents as tall as its canvas tents.
     draw: () => ({ ...camp(`army-camp-${side}`, side), logicalHeight: 96 }) }));
+  // As one-frame clips (a clip's name is never a frame's), because the map asks for the camp through its `animated` (public/army-view.js).
+  for (const side of ['mexican', 'texian']) clips[`army-camp-${side}-pitched`] = clip([[`army-camp-${side}`, 4000]], { direction: 'as drawn', prompt: `The ${side} army's camp on the map, held still: the page draws the fire and its smoke over it.` });
   sheet('claude-army-camp', R.armies, 'the armies on the map: a camp of three or four wedge tents, a cook fire with a pot, stacked arms and a colour on a pole, 192 by 192 in the map art\'s own light', { w: 520, h: 520 }, frames, 2);
 }
 

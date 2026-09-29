@@ -78,8 +78,11 @@ export function grassGround(world) {
 function grassScenery(ground) {
   const { creekBed, ditch, ford } = ground;
   const items = [{ water: [{ x: ford.x - 0.08, y: ford.y - 0.14 }, { x: ford.x + 0.01, y: ford.y }, { x: ford.x + 0.06, y: ford.y + 0.16 }], width: 0.03 }];
-  for (let i = 0; i < 6; i++) items.push({ sprite: 'earth-rampart', x: creekBed.x - 0.06 + i * 0.024, y: creekBed.y - 0.02 + i * 0.006, size: 1.0 });
-  for (let i = 0; i < 4; i++) items.push({ sprite: 'earth-rampart', x: ditch.x - 0.03 + i * 0.02, y: ditch.y + 0.01 - i * 0.012, size: 0.9 });
+  // Claude's `creek-bed-dry` and `creek-ford` (*Claude-drawn stand-ins*, area F) where the sheet has come; `earth-rampart`, and
+  // the ribbon alone at the ford, where it has not.
+  items.push({ sprite: 'creek-ford', fallback: 'none', x: ford.x, y: ford.y + 0.012, size: 1.6 });
+  for (let i = 0; i < 6; i++) items.push({ sprite: 'creek-bed-dry', fallback: 'earth-rampart', x: creekBed.x - 0.06 + i * 0.024, y: creekBed.y - 0.02 + i * 0.006, size: 1.0 });
+  for (let i = 0; i < 4; i++) items.push({ sprite: 'creek-bed-dry', fallback: 'earth-rampart', x: ditch.x - 0.03 + i * 0.02, y: ditch.y + 0.01 - i * 0.012, size: 0.9 });
   const brush = [[-0.05, -0.04], [0.04, -0.035], [-0.02, 0.05], [0.06, 0.03], [-0.08, 0.01], [0.09, -0.01]];
   for (const [dx, dy] of brush) items.push({ clip: 'mesquite-large-wind', x: ditch.x + dx, y: ditch.y + dy, size: 2.6 });
   for (const [dx, dy] of brush) items.push({ clip: 'mesquite-large-wind', x: creekBed.x + dx * 1.4, y: creekBed.y + dy * 1.4 + 0.02, size: 2.6 });

@@ -8,6 +8,9 @@ import { fileURLToPath } from 'node:url';
 import { carriedWithRider, seatLayout, seatOf, seatedClip, wagonDriverId } from '../public/motion.js';
 
 const clips = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/frontier-v1/animation.json', import.meta.url)), 'utf8')).clips;
+// Claude's temporary stand-ins (public/assets/claude-standins/, area D 2026-09-28): the children riding and the second cast and
+// children driving, asked for by the names Astra's would have.
+const claudeClips = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/claude-standins/atlas.json', import.meta.url)), 'utf8')).clips;
 const east = mode => ({ from: 'a', to: 'b', points: [{ x: 0, y: 0 }, { x: 9, y: 0 }], distance: 9, speed: 1, progress: 1, mode });
 const person = (id, extra = {}) => ({ id, kind: 'person', householdId: 'hh-1', health: { condition: 'well' }, task: 'travel', ...extra });
 const horse = extra => ({ id: 'hh-1-horse', kind: 'animal', species: 'horse', householdId: 'hh-1', ...extra });
@@ -93,17 +96,29 @@ test("the eight riders and the four drivers Astra painted are what is drawn, and
     assert.equal(clip.seated, true, 'a delivered driver is a whole seated figure, not one cut at the hip');
     assert.equal(clip.upright, true, 'every heading is painted, so a driver is never mirrored');
   }
-  // Nobody Astra has not painted is given a layer that does not exist. The second cast's drivers are the open request.
+  // Nobody Astra has not painted is given a layer that does not exist: a figure Claude drew is given Claude's (which the page
+  // falls back from while it is not loaded), and anybody else the composite.
+  const { CLAUDE_RIDING_FIGURES, CLAUDE_DRIVING_FIGURES } = await import('../public/motion.js');
   for (const figure of cast) {
     if (!RIDING_FIGURES.includes(figure)) for (const direction of ['e', 'w', 's', 'n']) {
       const clip = seatedClipFor(figure, direction, 'horse');
-      assert.ok(!clip.whole && clips[clip.id], `${figure} riding draws ${clip.id}, which the library does not hold`);
+      if (CLAUDE_RIDING_FIGURES.includes(figure)) assert.ok(clip.whole && claudeClips[clip.id]?.madeBy === 'claude', `${figure} riding asks for ${clip.id}, which Claude has not drawn`);
+      else assert.ok(!clip.whole && clips[clip.id], `${figure} riding draws ${clip.id}, which the library does not hold`);
     }
     if (!DRIVING_FIGURES.includes(figure)) for (const direction of ['e', 'w', 's', 'n']) {
       const clip = seatedClipFor(figure, direction, 'wagon');
-      assert.ok(!clip.seated && clips[clip.id], `${figure} driving draws ${clip.id}, which the library does not hold`);
+      if (CLAUDE_DRIVING_FIGURES.includes(figure)) assert.ok(clip.seated && claudeClips[clip.id]?.madeBy === 'claude', `${figure} driving asks for ${clip.id}, which Claude has not drawn`);
+      else assert.ok(!clip.seated && clips[clip.id], `${figure} driving draws ${clip.id}, which the library does not hold`);
     }
   }
+  // Every figure a family can put in the bed of a cart has its seated rider, three ways; the baby has none (it is carried).
+  const { passengerClip } = await import('../public/motion.js');
+  for (const [band, sex] of [['adult', 'male'], ['adult', 'female'], ['youth', 'male'], ['youth', 'female'], ['child', 'male'], ['child', 'female'], ['small', undefined]]) for (let n = 0; n < 30; n++) for (const direction of ['e', 'w', 's', 'n']) {
+    const clip = passengerClip(person(`hh-${n}-x`, { band, sex }), direction);
+    assert.ok(clip && claudeClips[clip.id], `a ${band} riding in a cart asks for ${clip?.id}, which is not drawn`);
+    assert.equal(clip.upright, direction === 'n' || direction === 's', `${clip.id}: mirrored the wrong way`);
+  }
+  assert.equal(passengerClip(person('hh-1-baby', { band: 'infant' }), 'e'), null, 'a baby is given a seat of its own');
   for (const direction of ['e', 'w', 'n', 's']) {
     // The painted rig: one part, standing on the hooves, at the height a rider and horse have always been drawn - and no
     // horse under it, because the horse is in the picture.

@@ -19,6 +19,8 @@
 // Relative, so the same module loads in the page (as /speech.js) and under node for tests/battle-view.test.mjs.
 import { drawSpeech, speechAlpha } from './speech.js';
 import { CLAUDE_PERSON_ART } from './claude-person-art.js';
+// San Fernando's place in the town the map draws, for the red flag on its tower (`drawFlag`).
+import { BEXAR_LAYOUT, bexarToSite } from './bexar-layout.js';
 
 /** Miles between figures, by style. A person is drawn 0.019 miles tall (sim/house-footprint.mjs `PERSON_MILES`). */
 const LAYOUT = Object.freeze({
@@ -194,8 +196,13 @@ const bodiesOf = battle => [
     : [{ ...side, key: side.side }]),
   ...(battle.groups || []).map(group => ({ ...group, key: `g:${group.id}` })),
 ];
-/** Who the townspeople are drawn as, in turn: the library's own women, children and old men (never soldiers). */
-const TOWNSFOLK = ['rust-woman', 'smallchild', 'elder', 'indigo'];
+/**
+ * Who the townspeople are drawn as, in turn: Béxar's own women, children and men (never soldiers), each [figure, size, the
+ * library figure drawn while that sheet has not loaded, its size].
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the storming of Béxar", item 6, and request 2026-09-27 (Béxar before
+ * the bell), item 2 - Claude-drawn stand-ins `bexar-woman`, `bexar-boy`, `bexar-man`, `bexar-girl`; the settlers' sheets behind them.
+ */
+const TOWNSFOLK = [['bexar-woman', 0.95, 'rust-woman', 0.95], ['bexar-boy', 0.68, 'smallchild', 0.62], ['bexar-man', 0.95, 'elder', 0.95], ['bexar-girl', 0.68, 'indigo', 0.95]];
 /** A figure's place on the ground from its slot: the side's centre, turned to face the way the side faces. */
 const onGround = (centre, facing, slot) => ({
   x: centre.x + facing.x * slot.along - facing.y * slot.across,
@@ -219,7 +226,8 @@ export function regularity(points) {
 
 /**
  * The renderer. `art` is what app.js already draws with: `animated(ctx, clip, x, y, size, seed, options)` (returns 0 when a
- * clip is not loaded), `drawSprite`, `hasSprite` and `miniPerson` for the fallback figure.
+ * clip is not loaded), `drawSprite`, `miniPerson` for the fallback figure, and `clipReady` (public/art.js) - whether a
+ * Claude-drawn clip can be drawn now, the one test public/app.js `drawnClipOf` also makes - where a figure has a `fallback`.
  */
 export function createBattleView(art) {
   const view = {
@@ -515,7 +523,7 @@ export function createBattleView(art) {
         const front = camera.toScreen({ x: centre.x + facing.x * 0.012, y: centre.y + facing.y * 0.012 });
         const barricade = side.cover === 'barricade';
         if (!offScreen(front)) figures.push({ y: front.y + 1, kind: 'cover', point: front, sprite: barricade ? 'barricade-street' : 'sandbag-breastwork', size: figurePx,
-          alt: { sprite: barricade ? 'palisade' : 'sacks', size: figurePx * (barricade ? 2.2 : 1.5) }, flip: !sideRight });
+          fallback: { sprite: barricade ? 'palisade' : 'sacks', size: figurePx * (barricade ? 2.2 : 1.5) }, flip: !sideRight });
       }
       const pose = side.pose && side.pose !== 'stand' ? side.pose : side.style === 'camp' ? 'asleep' : 'stand';
       for (const slot of slots) {
@@ -542,13 +550,13 @@ export function createBattleView(art) {
         const seed = seedKey;
         // Which way this man faces: out of his face of a square, or the way his body of men faces.
         const right = slot.out ? (facing.x * slot.out.along - facing.y * slot.out.across) >= 0 : sideRight;
-        let clip = null, sprite = null, timeMs = time, flip = !right, still = false, dy = 0;
+        let clip = null, sprite = null, timeMs = time, flip = !right, still = false, dy = 0, prefer = null;
         if (down) {
           // A wounded man went with his side when it left the field.
           if (down.wounded && side.action === 'gone') continue;
           // Falling, then lying still: no blood, no gore (VISION.md §16), and carried off once the fighting is over.
           // Hurt inside a square, he is helped in among the carts, not back from a line that faces every way.
-          figures.push({ y: point.y, kind: 'fallen', side: side.side, point, size: figurePx, down, slot, ground, facingRight: right, ...(side.style === 'square' && { inward: camera.toScreen(centre) }) });
+          figures.push({ y: point.y, kind: 'fallen', side: side.side, point, size: figurePx, down, slot, ground, facingRight: right, mounted: kind === 'dragoon', ...(side.style === 'square' && { inward: camera.toScreen(centre) }) });
           continue;
         }
         if (side.action === 'gone') continue;
@@ -572,7 +580,7 @@ export function createBattleView(art) {
           // Jacinto", item 2 - Claude's `*-sleep` (never to be mistaken for a man killed); the library's rolled-in-a-blanket
           // `volunteer-reclining` while it loads.
           poses.asleep++;
-          figures.push({ y: point.y, kind, side: side.side, point, size: figurePx, clip: null, sprite: `${side.side === 'mexican' ? 'regular' : 'volunteer'}-sleep`, alt: { sprite: 'volunteer-reclining' }, timeMs, flip: slot.index % 2 === 0, still: true, seed });
+          figures.push({ y: point.y, kind, side: side.side, point, size: figurePx, clip: null, sprite: `${side.side === 'mexican' ? 'regular' : 'volunteer'}-sleep`, fallback: { sprite: 'volunteer-reclining' }, timeMs, flip: slot.index % 2 === 0, still: true, seed });
           drawnBy[side.key].push(point); if (side.key === side.side || side.part) drawn[side.side].push(point);
           continue;
         }
@@ -585,7 +593,11 @@ export function createBattleView(art) {
         if (kind === 'rider') {
           // A man on horseback: riding, and his shot from where his hands are, as a dragoon's is.
           poses.rider++;
-          figures.push({ y: point.y, kind, side: side.side, point, size, clip: 'mounted-courier-e', sprite: null, timeMs: time, flip: !right, still: false, seed });
+          // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - a Texian horseman is Claude's
+          // `volunteer-mounted` (request 2026-09-25 "San Jacinto", item 3) where it is loaded, and fires from the saddle
+          // (`volunteer-mounted-fire`); the mounted courier otherwise.
+          const horseman = { y: point.y, kind, side: side.side, point, size, clip: 'volunteer-mounted', sprite: null, timeMs: time, flip: !right, still: false, seed, fallback: { clip: 'mounted-courier-e', flip: !right } };
+          figures.push(horseman);
           if (!still && (side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 4 === 0))) {
             const wait = 7000 + hash(`${seed}:rw`) * 12000, shifted = time + hash(`${seed}:rp`) * 25000, t = shifted % wait;
             const shotKey = `${seed}:r${Math.floor(shifted / wait)}`;
@@ -594,6 +606,8 @@ export function createBattleView(art) {
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
               puff(muzzle.x, muzzle.y, now, { wind }); flash(muzzle.x, muzzle.y, right, now, 1);
             }
+            // The rifle at the shoulder as the shot goes, then the recoil (the clip's beat is its second frame).
+            if (t < 500 || wait - t < 700) Object.assign(horseman, { clip: 'volunteer-mounted-fire', timeMs: t < 500 ? t + 700 : 700 - (wait - t) });
           }
           drawnBy[side.key].push(point); if (side.key === side.side || side.part) drawn[side.side].push(point);
           continue;
@@ -603,7 +617,11 @@ export function createBattleView(art) {
         // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 6 - the Grass Fight's pack train is a
         // horse with a pack on its back, until the mules under grass are drawn.
         if (side.figure === 'packhorse') {
-          figures.push({ y: point.y, kind: 'packhorse', side: side.side, point, size: figurePx * 1.3, clip: moving ? 'horse-walk' : 'horse-graze', flip: !right, seed });
+          // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - Claude's mule under grass
+          // (`mule-packed-grass-walk-*`) where it is loaded, before the horse with a pack.
+          const vertical = Math.abs(facing.y) > Math.abs(facing.x) * 1.2;
+          const mule = vertical ? `mule-packed-grass-walk-${facing.y >= 0 ? 's' : 'n'}` : 'mule-packed-grass-walk-e';
+          figures.push({ y: point.y, kind: 'packhorse', side: side.side, point, size: figurePx * 1.3, clip: moving ? 'horse-walk' : 'horse-graze', flip: !right, seed, mule, muleFlip: vertical ? false : !right, moving });
           drawnBy[side.key].push(point);
           continue;
         }
@@ -620,16 +638,37 @@ export function createBattleView(art) {
           drawnBy[side.key].push(point); civilians++;
           continue;
         }
+        // The sentry on San Fernando's roof ringing the bell (`HIST-TEX-613`): the church's wall, its bell arch and the man on
+        // it are one drawing, set on the ground; his words come from up on the roof. stand-in: docs/ART_REQUESTS.md, request
+        // 2026-09-26 "the bell at Béxar", item 1 - Claude-drawn stand-ins `sentry-bell-ring`; a standing volunteer while not loaded.
+        if (side.figure === 'sentry-bell') {
+          const roof = { x: point.x, y: point.y - figurePx * 1.2 };
+          figures.push({ y: point.y, kind: 'sentry', side: side.side, point, size: figurePx, clip: 'sentry-bell-ring', timeMs: time, flip: !right, seed,
+            fallback: { sprite: `volunteer-${right ? 'e' : 'w'}`, flip: false } });
+          drawnBy[side.key].push(roof); if (side.key === side.side || side.part) drawn[side.side].push(roof);
+          continue;
+        }
         if (side.civilians) {
-          const who = TOWNSFOLK[slot.index % TOWNSFOLK.length];
-          figures.push({ y: point.y, kind: 'townsfolk', side: side.side, point, size: figurePx * (who === 'smallchild' ? 0.62 : 0.95), clip: moving ? `${who}-walk` : `${who}-idle-s`, timeMs: time, flip: !right, seed });
+          const [who, whoSize, old, oldSize] = TOWNSFOLK[slot.index % TOWNSFOLK.length];
+          // The first of a leaving family (`figure: 'townsfolk-leave'`): the man at the ox's head, the laden carreta, the woman
+          // and a child after it, as one drawing. stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the bell at Béxar",
+          // item 2 - Claude-drawn stand-ins `townsfolk-leave`; the townspeople one by one while it has not loaded.
+          const cart = side.figure === 'townsfolk-leave' && slot.index === 0;
+          figures.push({ y: point.y, kind: 'townsfolk', side: side.side, point, size: figurePx * (cart ? 0.95 : whoSize),
+            clip: cart ? (moving ? 'townsfolk-leave' : null) : moving ? `${who}-walk` : `${who}-idle-s`, sprite: cart && !moving ? 'townsfolk-leave-1' : null, timeMs: time, flip: !right, seed,
+            fallback: { clip: moving ? `${old}-walk` : `${old}-idle-s`, size: figurePx * oldSize, flip: !right } });
           drawnBy[side.key].push(point); civilians++;
           continue;
         }
         // Inside a stone house, firing through the holes cut in its wall ("a pigeon nursery", Lopez): only a man or two is seen
         // in the doorway or the yard; the rest are a flash and a puff at the wall, each on his own reload.
-        // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a flat-roofed stone house with loopholes" - the town's houses as
-        // drawn, with the flashes and the smoke at their walls.
+        // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a flat-roofed stone house with loopholes" - Claude-drawn stand-in
+        // `house-loopholed` (see *Claude-drawn stand-ins*): the house the group holds, stood once behind its men, its wall
+        // where the flashes come; while it has not loaded, the town's houses as drawn, with the flashes and the smoke there.
+        if (side.cover === 'loophole' && slot.index === 1) {
+          const wall = camera.toScreen({ x: centre.x - facing.x * 0.004, y: centre.y - facing.y * 0.004 - 0.002 });
+          figures.push({ y: wall.y - 1, kind: 'cover', side: side.side, point: wall, size: figurePx * 2.4, sprite: 'house-loopholed', clip: null, flip: !right });
+        }
         if (side.cover === 'loophole' && slot.index % 4 !== 0) {
           if (still || side.fire === 'none') continue;
           const pause = WAIT_MIN_MS + hash(`${seed}:lw`) * WAIT_SPAN_MS * 1.4, round = FIRE_CLIP_MS + pause;
@@ -642,7 +681,7 @@ export function createBattleView(art) {
           }
           continue;
         }
-        let alt = null;
+        let fallback = null;
         if (hands) {
           // Surrendering, hands raised (`*-surrender`): drawn, never counted (docs/battle-research/staging.md §8.5).
           clip = `${kind === 'volunteer' ? 'volunteer' : 'regular'}-surrender`; flip = !right; surrendering++;
@@ -651,6 +690,12 @@ export function createBattleView(art) {
           // Alamo's walls) are drawn as the library's dragoons, without lances, until a lancer set exists.
           clip = kind === 'rider' ? (moving ? 'mounted-courier-e' : 'mounted-courier-listen') : moving ? 'dragoon-march' : right ? 'dragoon-idle-e' : 'dragoon-idle-w';
           flip = kind === 'rider' ? !right : moving ? !right : false;
+          // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - where Claude's are loaded: a
+          // Texian horseman is `volunteer-mounted` (request 2026-09-25 "San Jacinto", item 3), Ramírez y Sesma's lancers carry
+          // lances (`lancer-march`, `lancer-idle`, `lancer-charge`), and a dragoon firing from the saddle is `dragoon-fire`.
+          const lancers = kind === 'dragoon' && /lancer/i.test(`${side.name || ''} ${side.id || ''} ${side.key || ''}`);
+          if (kind === 'rider') prefer = { clip: moving ? 'volunteer-mounted' : 'volunteer-mounted-idle', flip: !right };
+          else if (lancers) prefer = { clip: side.action === 'charge' ? 'lancer-charge' : moving ? 'lancer-march' : 'lancer-idle', flip: !right };
           // A dragoon firing his carbine from the saddle: the flash and the smoke from where his hands are, on his own long
           // wait between shots. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a dragoon firing from the saddle" - the
           // library has no mounted firing pose, so the rider holds his pose and only the shot is drawn.
@@ -662,6 +707,8 @@ export function createBattleView(art) {
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
               puff(muzzle.x, muzzle.y, now, { wind }); flash(muzzle.x, muzzle.y, right, now, 1);
             }
+            // The carbine at the shoulder as the shot goes, then the recoil (the clip's beat is its second frame).
+            if (!moving && !lancers && (t < 500 || wait - t < 700)) prefer = { clip: 'dragoon-fire', timeMs: t < 500 ? t + 700 : 700 - (wait - t), flip: !right };
           }
         } else if (side.fire === 'scattered' || (side.fire === 'picket' && slot.along > -0.03 && slot.index % 5 === 0)) {
           const wait = slot.wait ?? (WAIT_MIN_MS + hash(`${seed}:w`) * WAIT_SPAN_MS), cycle = FIRE_CLIP_MS + wait;
@@ -676,18 +723,18 @@ export function createBattleView(art) {
           const loophole = side.cover === 'loophole' && (kind === 'volunteer' || kind === 'regular');
           // Lying in the tall grass (Coleto's cazadores at night): Claude's `regular-prone-*`.
           const prone = side.cover === 'grass' && kind === 'regular';
-          if (climbing && t >= wait - 500) { clip = 'volunteer-bank-climb'; timeMs = t - wait + 500; flip = !right; alt = { clip: `${kind}-fire-reload`, timeMs: t - wait }; }
+          if (climbing && t >= wait - 500) { clip = 'volunteer-bank-climb'; timeMs = t - wait + 500; flip = !right; fallback = { clip: `${kind}-fire-reload`, timeMs: t - wait }; }
           else if (t < wait) {
             sprite = slot.kneel ? `${kind}-load` : `${kind}-${right ? 'e' : 'w'}`; still = true; flip = slot.kneel ? !right : false;
             if (side.style === 'bank') { sprite = `${kind}-load`; flip = !right; dy = figurePx * 0.32; }
-            if (climbing) { sprite = 'volunteer-bank-climb-5'; dy = 0; alt = { sprite: `${kind}-load`, dy: figurePx * 0.32 }; }
-            if (loophole) { sprite = `${kind}-loophole-fire-3`; flip = !right; alt = { sprite: `${kind}-${right ? 'e' : 'w'}`, flip: false }; }
-            if (prone) { sprite = 'regular-prone-lie'; flip = !right; alt = { sprite: slot.kneel ? 'regular-load' : `regular-${right ? 'e' : 'w'}`, flip: slot.kneel ? !right : false }; }
+            if (climbing) { sprite = 'volunteer-bank-climb-5'; dy = 0; fallback = { sprite: `${kind}-load`, dy: figurePx * 0.32 }; }
+            if (loophole) { sprite = `${kind}-loophole-fire-3`; flip = !right; fallback = { sprite: `${kind}-${right ? 'e' : 'w'}`, flip: false }; }
+            if (prone) { sprite = 'regular-prone-lie'; flip = !right; fallback = { sprite: slot.kneel ? 'regular-load' : `regular-${right ? 'e' : 'w'}`, flip: slot.kneel ? !right : false }; }
           }
           else if (loophole) {
-            clip = `${kind}-loophole-fire`; timeMs = t - wait; flip = !right; alt = { clip: `${kind}-fire-reload` };
+            clip = `${kind}-loophole-fire`; timeMs = t - wait; flip = !right; fallback = { clip: `${kind}-fire-reload` };
           }
-          else if (prone) { clip = 'regular-prone-fire-cycle'; timeMs = t - wait; flip = !right; alt = { clip: 'regular-fire-reload' }; }
+          else if (prone) { clip = 'regular-prone-fire-cycle'; timeMs = t - wait; flip = !right; fallback = { clip: 'regular-fire-reload' }; }
           if (t >= wait) {
             if (!climbing && !loophole && !prone) { clip = `${kind}-fire-reload`; timeMs = t - wait; }
             const shotKey = `${seed}:${Math.floor((time + (slot.phase ?? 0) * 20000) / cycle)}`;
@@ -714,21 +761,25 @@ export function createBattleView(art) {
           // street" - Claude's `volunteer-dig` in the trench; the library's settler at work while it loads (the volunteers were
           // settlers in their own clothes).
           clip = side.side === 'mexican' ? 'regular-idle-s' : 'volunteer-dig'; flip = !right;
-          if (side.side !== 'mexican') alt = { clip: slot.index % 2 ? 'rust-work' : 'teal-work' };
+          if (side.side !== 'mexican') fallback = { clip: slot.index % 2 ? 'rust-work' : 'teal-work' };
         } else if (moving) {
           clip = `${kind}-march`; flip = !right;
           // Into the marsh (San Jacinto's rout, Peggy's Lake): wading to the thighs. stand-in: docs/ART_REQUESTS.md, request
           // 2026-09-25 "San Jacinto", item 4 - Claude's `figure-wading-*`; marching over the water while it loads.
-          if ((kind === 'volunteer' || kind === 'regular') && inWater(battle, ground)) { clip = `figure-wading-${kind}`; alt = { clip: `${kind}-march` }; }
+          if ((kind === 'volunteer' || kind === 'regular') && inWater(battle, ground)) { clip = `figure-wading-${kind}`; fallback = { clip: `${kind}-march` }; }
         }
         else if (side.style === 'camp') {
           // At rest in camp: standing about, or sitting. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "San Jacinto",
           // item 2 - a man sitting at rest is Claude's `*-rest-sit` (the piece across his knees); the library's seated soldier
           // (`*-injured-rest`) while it loads.
-          if (slot.rest === 'sit') { sprite = `${kind}-rest-sit`; still = true; alt = { clip: `${kind}-injured-rest` }; } else clip = `${kind}-idle-${right ? 'e' : 'w'}`;
+          if (slot.rest === 'sit') { sprite = `${kind}-rest-sit`; still = true; fallback = { clip: `${kind}-injured-rest` }; } else clip = `${kind}-idle-${right ? 'e' : 'w'}`;
           flip = slot.rest === 'sit' ? !right : false;
         } else { sprite = `${kind}-${right ? 'e' : 'w'}`; still = true; flip = false; }
-        figures.push({ y: point.y, kind, side: side.side, point: dy ? { x: point.x, y: point.y + dy } : point, size, clip, sprite, timeMs, flip, still, seed, alt });
+        // A Claude-drawn clip this figure is drawn in (`prefer`), with the library's figure it stands in for as its `fallback`
+        // until `clipReady` says it can be drawn.
+        const placedAt = dy ? { x: point.x, y: point.y + dy } : point;
+        if (prefer) figures.push({ y: point.y, kind, side: side.side, point: placedAt, size, clip: prefer.clip, timeMs: prefer.timeMs ?? timeMs, flip: prefer.flip ?? flip, still, seed, fallback: clip ? { clip, flip } : { sprite, flip } });
+        else figures.push({ y: point.y, kind, side: side.side, point: placedAt, size, clip, sprite, timeMs, flip, still, seed, ...(fallback && { fallback }) });
         if (side.key === side.side || side.part) drawn[side.side].push(point);
         drawnBy[side.key].push(point);
       }
@@ -756,22 +807,28 @@ export function createBattleView(art) {
     for (const f of figures) {
       if (f.kind === 'fallen') { drawFallen(ctx, f, now); continue; }
       if (f.kind === 'packhorse') {
+        if (art.clipReady?.(f.mule) && art.animated(ctx, f.mule, f.point.x, f.point.y, f.size, f.seed, { timeMs: time, flip: f.muleFlip, paused: reducedMotion || !f.moving })) continue;
         if (!art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: time, flip: f.flip, paused: reducedMotion })) { ctx.fillStyle = '#7a5a3a'; ctx.fillRect(f.point.x - f.size * 0.35, f.point.y - f.size * 0.45, f.size * 0.7, f.size * 0.25); }
         if (!art.drawSprite(ctx, 'packed-belongings', f.point.x, f.point.y - f.size * 0.42, f.size * 0.45)) { ctx.fillStyle = '#b9a46a'; ctx.fillRect(f.point.x - f.size * 0.2, f.point.y - f.size * 0.62, f.size * 0.4, f.size * 0.18); }
         continue;
       }
       if (f.kind === 'cover') {
         if (!f.clip || !art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, `cover:${f.point.x}:${f.point.y}`, { timeMs: f.timeMs, flip: f.flip, paused: still }))
-          art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip }) || (f.alt && art.drawSprite(ctx, f.alt.sprite, f.point.x, f.point.y, f.alt.size, { flip: f.flip }));
+          art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip }) || (f.fallback && art.drawSprite(ctx, f.fallback.sprite, f.point.x, f.point.y, f.fallback.size, { flip: f.flip }));
         continue;
       }
       let ok = 0;
-      if (f.clip) ok = art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: reducedMotion });
+      // A Claude-drawn figure with a `fallback` is drawn as that fallback until its clip can be drawn (`clipReady`).
+      const own = !(f.fallback && f.clip && art.clipReady && !art.clipReady(f.clip));
+      if (!own) ok = 0;
+      else if (f.clip) ok = art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: reducedMotion });
       else if (f.sprite) ok = art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip });
-      // `alt`: what was drawn here before a Claude stand-in existed, drawn while its sheet has not loaded.
-      if (!ok && f.alt) {
-        const q = { x: f.point.x, y: f.point.y + (f.alt.dy || 0) }, flip = f.alt.flip ?? f.flip;
-        ok = f.alt.clip ? art.animated(ctx, f.alt.clip, q.x, q.y, f.size, f.seed, { timeMs: f.alt.timeMs ?? f.timeMs, flip, paused: reducedMotion }) : art.drawSprite(ctx, f.alt.sprite, q.x, q.y, f.size, { flip });
+      // A Claude-drawn figure whose sheet has not loaded: the library's own figure it stood in for.
+      // A fallback may stand lower than its figure (`dy`: the old loading figure under a bank) and keep its own clock (`timeMs`).
+      if (!ok && f.fallback) {
+        const fb = f.fallback, at = { x: f.point.x, y: f.point.y + (fb.dy || 0) }, flip = fb.flip ?? f.flip;
+        ok = fb.clip ? art.animated(ctx, fb.clip, at.x, at.y, fb.size || f.size, f.seed, { timeMs: fb.timeMs ?? f.timeMs, flip, paused: reducedMotion })
+          : art.drawSprite(ctx, fb.sprite, at.x, at.y, fb.size || f.size, { flip });
       }
       if (!ok) art.miniPerson(ctx, f.point.x, f.point.y, f.size, { side: f.side, flip: f.flip });
     }
@@ -793,10 +850,13 @@ export function createBattleView(art) {
     // Night (§6.13): the field dark but for lit windows, the fire and the flashes, which are drawn over it.
     const night = battle.light === 'night' || battle.light === 'dawn' ? drawNight(ctx, battle, camera, figurePx, now, bounds) : null;
     // A darkness given as a number (the Alamo's nights, and the dawn coming up through the assault, 0 to 1), over the ground and
-    // the men but under the flashes and the words. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 4 - a
-    // darkening wash until night art exists.
+    // the men but under the flashes and the words. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 4 -
+    // Claude's `night-grade`, with `dawn-grade` warming it as the light comes (*Claude-drawn stand-ins*, area F), each at a
+    // strength that follows the number, so a change of pace changes only the strength; a darkening wash without them.
     if (typeof battle.light === 'number' && battle.light > 0) {
-      ctx.save(); ctx.fillStyle = `rgba(14,20,44,${(0.62 * battle.light).toFixed(3)})`; ctx.fillRect(0, 0, ctx.canvas?.width || bounds?.width || 0, ctx.canvas?.height || bounds?.height || 0); ctx.restore();
+      const dark = Math.min(1, battle.light);
+      if (drawGrade(ctx, 'night-grade', dark * 0.9, bounds)) drawGrade(ctx, 'dawn-grade', Math.sin(Math.PI * dark) * 0.45, bounds);
+      else { ctx.save(); ctx.fillStyle = `rgba(14,20,44,${(0.62 * battle.light).toFixed(3)})`; ctx.fillRect(0, 0, ctx.canvas?.width || bounds?.width || 0, ctx.canvas?.height || bounds?.height || 0); ctx.restore(); }
     }
     // Dusk and fog (Coleto, 2026-09-25): a lighter wash over the field, under the flashes. ceiling: the light is drawn only while a
     // fight is shown; the country itself has no night yet.
@@ -815,8 +875,9 @@ export function createBattleView(art) {
       flashes++;
     }
     // Fog lying over the field (the phase's `fog`, 0 to 1): Concepción's morning, thinning as it lifts about eight.
-    // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 3 - a pale veil until a fog bank exists.
-    const fogShown = battle.fog > 0 ? drawFog(ctx, battle, camera, bounds) : 0;
+    // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 3 - Claude's drifting fog banks
+    // (*Claude-drawn stand-ins*, area F) over a lighter veil; the veil alone without them.
+    const fogShown = battle.fog > 0 ? drawFog(ctx, battle, camera, bounds, figurePx, time) : 0;
     const smokeDrawn = drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds);
     const bubbles = drawLines(ctx, battle, camera, figurePx, now, time, bounds, drawn, drawnBy);
     view.civiliansSeen = Math.max(view.civiliansSeen, civilians);
@@ -852,7 +913,7 @@ export function createBattleView(art) {
       memberFates: Object.fromEntries([...view.memberFallAt.entries()].filter(([id, fall]) => fall.at <= now && view.members.has(id)).map(([id, fall]) => [id, fall.fate])),
       // The Alamo (docs/BATTLES.md §9): each gun's shots, the named people, the dark, the plumes, and each group's own order
       // (a column's files against a wall's line against a crowd: nearest-neighbour spread over the mean).
-      gunShotsBy: { ...view.gunShotsBy }, people: peopleShown, light: typeof battle.light === 'number' ? battle.light : battle.light || 'day', plumes: (battle.plumes || []).length,
+      gunShotsBy: { ...view.gunShotsBy }, people: peopleShown, light: typeof battle.light === 'number' ? battle.light : battle.light || 'day', plumes: (battle.plumes || []).length, fogBanks: battle.fog > 0 ? view.fogBanks || 0 : 0,
       groupStyles: Object.fromEntries((battle.groups || []).map(group => [group.id, group.style])),
       groupRegularity: Object.fromEntries(Object.entries(drawnBy).filter(([key]) => key.startsWith('g:')).map(([key, points]) => [key.slice(2), regularity(points)])),
       // Concepción and the Grass Fight: how regularly each body stands, the fog, the scenery drawn.
@@ -913,14 +974,25 @@ export function createBattleView(art) {
       // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the south's fights" items 2 and 5 - the library's jacal and cabin for
       // San Patricio's houses and its live oaks and mesquite for the groves at Agua Dulce.
       if (item.kind === 'grove') {
+        // The live oaks as one mott over its shade (Claude's `live-oak-mott`, *Claude-drawn stand-ins* area F, her live oaks
+        // placed), with the grove's mesquite round it; without that sheet, each tree on its own as before.
+        const mott = art.drawSprite(ctx, 'live-oak-mott', p.x, p.y, figurePx * 3.2);
         for (let i = 0; i < (item.trees || 5); i++) {
+          if (mott && i % 3 !== 2) continue;
           const a = hash(`${item.id}:${i}:a`) * Math.PI * 2, r = Math.sqrt(hash(`${item.id}:${i}:r`)) * (item.spread || 0.08);
           const q = camera.toScreen({ x: item.x + Math.cos(a) * r, y: item.y + Math.sin(a) * r * 0.7 });
           if (!art.drawSprite(ctx, i % 3 === 2 ? 'mesquite-large' : 'live-oak-large', q.x, q.y, figurePx * 3.2)) { ctx.fillStyle = '#5d7148'; ctx.beginPath(); ctx.arc(q.x, q.y - figurePx, figurePx * 1.1, 0, Math.PI * 2); ctx.fill(); }
         }
       } else if (item.kind === 'campfire') {
-        if (!art.animated(ctx, 'campfire', p.x, p.y, figurePx * 0.9, item.id, { timeMs: time })) art.drawSprite(ctx, 'campfire', p.x, p.y, figurePx * 0.9);
-      } else if (!art.drawSprite(ctx, item.sprite || 'cabin-small', p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip })) {
+        // At night the fire burning in the dark (Claude's `campfire-night`, drawn again over the night's wash by `drawNight`).
+        // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the south's fights" item 2 - Claude-drawn (*Claude-drawn
+        // stand-ins*, area F); without it, the library's day campfire.
+        const dark = battle.light === 'night' || (typeof battle.light === 'number' && battle.light > 0.35);
+        if (!(dark && art.animated(ctx, 'campfire-night', p.x, p.y, figurePx * 0.9, item.id, { timeMs: time })) && !art.animated(ctx, 'campfire', p.x, p.y, figurePx * 0.9, item.id, { timeMs: time })) art.drawSprite(ctx, 'campfire', p.x, p.y, figurePx * 0.9);
+      } else if (!art.drawSprite(ctx, item.sprite || 'cabin-small', p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip })
+        // A piece with a `fallback` (Claude's ground pieces, sim/battles/concepcion.mjs and grass-fight.mjs) is drawn as the
+        // library art it stood in for while its own sheet is missing; `fallback: 'none'` is simply left out.
+        && !(item.fallback && (item.fallback === 'none' || art.drawSprite(ctx, item.fallback, p.x, p.y, figurePx * (item.fallbackSize || item.size || 2.4), { flip: item.flip })))) {
         ctx.fillStyle = '#8a7658'; ctx.fillRect(p.x - figurePx, p.y - figurePx * 1.2, figurePx * 2, figurePx * 1.2);
       }
       count++;
@@ -937,6 +1009,18 @@ export function createBattleView(art) {
     const at = placeAt(herd, now), right = herd.to.x >= herd.from.x;
     const n = Math.min(24, Math.max(6, Math.round((herd.count || 60) / 12)));
     const width = herd.scatter ? 0.7 : 0.26, depth = herd.scatter ? 0.5 : 0.16;
+    // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - where Claude's herd is loaded, the drove
+    // (`herd-drove`) or its scattering (`herd-scatter`) drawn as a few masses of a dozen horses each, one mass for every six of
+    // the mustangs that would stand in for them; the mustangs otherwise.
+    if ((herd.moving || herd.scatter) && art.clipReady?.(herd.scatter ? 'herd-scatter' : 'herd-drove')) {
+      const masses = Math.max(1, Math.round(n / 6));
+      let drawn = 0;
+      for (let i = 0; i < masses; i++) {
+        const q = camera.toScreen({ x: at.x + (hash(`herd:m${i}:x`) - 0.5) * width * 0.6, y: at.y + (i - (masses - 1) / 2) * depth / masses });
+        if (art.animated(ctx, herd.scatter ? 'herd-scatter' : 'herd-drove', q.x, q.y, figurePx * 1.15, `herd:m${i}`, { timeMs: time + i * 157, flip: !right })) drawn++;
+      }
+      if (drawn) return drawn * 12;
+    }
     for (let i = 0; i < n; i++) {
       const q = camera.toScreen({ x: at.x + (hash(`herd:${i}:x`) - 0.5) * width, y: at.y + (hash(`herd:${i}:y`) - 0.5) * depth });
       if (!art.animated(ctx, herd.moving || herd.scatter ? 'mustang-gallop' : 'mustang-graze', q.x, q.y, figurePx * 1.15, `herd:${i}`, { timeMs: time + i * 211, flip: !right })) {
@@ -944,6 +1028,23 @@ export function createBattleView(art) {
       }
     }
     return n;
+  }
+  /**
+   * A grade of light (`night-grade`, `moonlight-grade`, `dawn-grade`: a layer, not a sprite) stretched over the whole view and
+   * multiplied into it at `strength` (0 to 1). Its frame carries a clear gutter of a sixteenth each side (the library's sprite
+   * rule); the inside is what covers the view. Returns false when the grade is not in the library, for the caller's wash.
+   */
+  const GRADE_GUTTER = 16 / 256;
+  function drawGrade(ctx, name, strength, bounds) {
+    const W = bounds?.width ?? ctx.canvas?.width ?? 0, H = bounds?.height ?? ctx.canvas?.height ?? 0;
+    if (!(strength > 0.001) || !(W > 0) || !(H > 0)) return strength <= 0.001;
+    const h = H / (1 - 2 * GRADE_GUTTER);
+    ctx.save();
+    ctx.globalCompositeOperation = 'multiply';
+    ctx.scale(W / H, 1);
+    const drawn = art.drawSprite(ctx, name, -GRADE_GUTTER * h, H + GRADE_GUTTER * h, h, { anchor: [0, 1], alpha: Math.min(1, strength) });
+    ctx.restore();
+    return Boolean(drawn);
   }
   /** A warm light on the ground: a lantern, the fire, a musket's flash in the dark. */
   function glow(ctx, x, y, r, colour) {
@@ -957,12 +1058,22 @@ export function createBattleView(art) {
    */
   function drawNight(ctx, battle, camera, figurePx, now, bounds) {
     const width = bounds?.width ?? ctx.canvas?.width ?? 0, height = bounds?.height ?? ctx.canvas?.height ?? 0;
-    ctx.save(); ctx.fillStyle = battle.light === 'dawn' ? 'rgba(20,26,48,.3)' : 'rgba(8,12,30,.7)'; ctx.fillRect(0, 0, width, height); ctx.restore();
+    // Claude's grades (a moonless night; moonlight at Béxar's storming; first light), the wash without them.
+    const grade = battle.light === 'dawn' ? 'dawn-grade' : battle.id === 'bexar-storming' ? 'moonlight-grade' : 'night-grade';
+    if (!drawGrade(ctx, grade, battle.light === 'dawn' ? 0.75 : 1, bounds)) {
+      ctx.save(); ctx.fillStyle = battle.light === 'dawn' ? 'rgba(20,26,48,.3)' : 'rgba(8,12,30,.7)'; ctx.fillRect(0, 0, width, height); ctx.restore();
+    }
     let lit = 0;
     for (const item of battle.scenery || []) {
       if (!item.lit) continue;
       const p = camera.toScreen(item);
       glow(ctx, p.x, p.y - figurePx * (item.kind === 'campfire' ? 0.2 : 0.6), figurePx * (item.kind === 'campfire' ? 2.6 : 1.8), 'rgba(255,184,96,.55)');
+      // A fire gives its own light: drawn again over the dark, so it burns bright in it rather than under it.
+      if (item.kind === 'campfire' && battle.light === 'night') art.animated(ctx, 'campfire-night', p.x, p.y, figurePx * 0.9, item.id, { timeMs: now });
+      // The lamp in the house's window, laid over the house after the dark so it shines: an overlay registered to the house's
+      // own picture. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the south's fights" item 2 - Claude-drawn stand-ins
+      // `window-lit-*` (see *Claude-drawn stand-ins*); the glow alone while they have not loaded.
+      if (item.kind !== 'campfire' && item.sprite) art.drawSprite(ctx, `window-lit-${item.sprite}`, p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip });
       lit++;
     }
     return { lit };
@@ -987,6 +1098,9 @@ export function createBattleView(art) {
       // library's seated wounded soldier helped back by two comrades on foot, until a mounted wounded pose exists.
       // Away from the enemy: the side faces right when the enemy is to its right, so the rear is to its left.
       const back = -Math.min(1, since / 25000) * f.size * 2.4 * (f.facingRight ? 1 : -1);
+      // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - a dragoon hit in the saddle, where
+      // Claude's `dragoon-wounded-led` is loaded: slumped on his horse, led back by a comrade on foot.
+      if (f.mounted && art.clipReady?.('dragoon-wounded-led') && art.animated(ctx, 'dragoon-wounded-led', x + back, y, f.size * 1.35, `${f.slot.index}:led`, { flip: f.facingRight })) return;
       if (!art.drawSprite(ctx, `${kind}-injured`, x + back, y, f.size)) art.miniPerson(ctx, x + back, y, f.size, { side: f.side });
       for (const off of [-0.45, 0.45]) art.animated(ctx, `${kind}-march`, x + back + off * f.size, y + 2, f.size, `${f.slot.index}:${off}`, { flip: f.facingRight });
       return;
@@ -1100,6 +1214,12 @@ export function createBattleView(art) {
         }
       } else {
         const marsh = work.kind === 'marsh', n = marsh ? 36 : 22;
+        // Under the marsh's reeds, its edge: Claude's `marsh-edge-1`..`-3` tiles of open water ringed with cordgrass (*Claude-drawn
+        // stand-ins*, area F), scattered over the marsh; without that sheet, the reeds and ripples alone.
+        if (marsh) for (let i = 0; i < 7; i++) {
+          const a = hash(`${work.id}:edge:${i}:a`), r = 0.15 + Math.sqrt(hash(`${work.id}:edge:${i}:r`)) * 0.3;
+          put(at(Math.cos(a * Math.PI * 2) * r * work.width, Math.sin(a * Math.PI * 2) * r * work.width * 0.55), p => art.drawSprite(ctx, `marsh-edge-${1 + (i % 3)}`, p.x, p.y, figurePx * 1.6, { flip: i % 2 === 1 }));
+        }
         for (let i = 0; i < n; i++) {
           const a = hash(`${work.id}:${i}:a`), b = hash(`${work.id}:${i}:b`), r = Math.sqrt(hash(`${work.id}:${i}:r`)) * 0.5;
           const point = at(Math.cos(a * Math.PI * 2) * r * work.width, Math.sin(a * Math.PI * 2) * r * work.width * 0.55);
@@ -1320,6 +1440,10 @@ export function createBattleView(art) {
       return clip(`${kind}-march`);
     }
     if (pose === 'ride') {
+      // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - full mounted movement for Seguín and
+      // Dr. Sutherland (`seguin-ride-e`, `sutherland-ride-e`; request 2026-09-26 "the famous people") where it is loaded.
+      const moving = person.moving && art.clipReady?.(`${person.id}-ride-e`) && clip(`${person.id}-ride-e`, time, { size: figurePx * 1.35 });
+      if (moving) return moving;
       if (typeof named === 'string' && named.startsWith('clip:')) return clip(named.slice(5), time, { size: figurePx * 1.35 });
       if (named) return sprite(named);
       return clip(mexican ? 'dragoon-march' : 'mounted-courier-e', time, { size: figurePx * 1.35 });
@@ -1431,7 +1555,26 @@ export function createBattleView(art) {
   function drawFlag(ctx, flag, camera, figurePx, time, wind) {
     const texian = flag.fixed ? null : view.sides.get(flag.side), side = texian ? placeAt(texian, performance.now()) : null;
     const base = side ? { x: flag.x + (side.x - texian.to.x), y: flag.y + (side.y - texian.to.y) } : flag;
-    const p = camera.toScreen(base), pole = figurePx * 1.9, w = figurePx * 1.15, h = figurePx * 0.72;
+    let p = camera.toScreen(base), pole = figurePx * 1.9;
+    const w = figurePx * 1.15, h = figurePx * 0.72;
+    // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 5 - the red flag on San Fernando's tower. Claude's
+    // `san-fernando-tower-1836` ("Claude-drawn stand-ins") is the church's own south-east corner and tower, laid over the church
+    // the map draws (public/bexar-layout.js `san-fernando`, at the town's scale, so it never stands beside it as a second
+    // tower), and the pole stands on its lantern. The numbers are scripts/claude-art/areas/civic.mjs `towerOnChurch()`: where
+    // the tower frame's anchor lies from the church frame's (source pixels right and up), both logical heights, and the
+    // lantern as shares of the tower's drawn height. Without the sheet, the flag at the town's point as before.
+    // ceiling: registered to Claude's church frame; when Astra's `bexar-san-fernando-1836` lands with her own tower, deliver
+    // the tower frame with it (or read the numbers from her frame) - the way out is a `flagFoot` in the manifest.
+    if (flag.kind === 'red') {
+      const TOWER = { name: 'san-fernando-tower-1836', offset: [158.9, 10.5], churchLogical: 204, towerLogical: 480, foot: [0.1093, 0.9236] };
+      const church = BEXAR_LAYOUT.buildings.find(b => b.id === 'san-fernando'), o = church && bexarToSite(church);
+      if (o) {
+        const at = camera.toScreen({ x: base.x + o.x, y: base.y + o.y }), mile = camera.toScreen({ x: base.x + o.x + 1, y: base.y + o.y });
+        const k = church.heightFeet * Math.hypot(mile.x - at.x, mile.y - at.y) / 5280 / TOWER.churchLogical, tall = TOWER.towerLogical * k;
+        const anchor = { x: at.x + TOWER.offset[0] * k, y: at.y - TOWER.offset[1] * k };
+        if (art.drawSprite(ctx, TOWER.name, anchor.x, anchor.y, tall)) { p = { x: anchor.x + tall * TOWER.foot[0], y: anchor.y - tall * TOWER.foot[1] }; pole = figurePx * 1.3; }
+      }
+    }
     // The delivered cloth is the Come and Take It flag: only that flag is drawn with it, never the Alamo's red one.
     if (flag.kind !== 'red' && art.animated(ctx, 'flag-come-and-take-it-wind', p.x, p.y, pole, 'gonzales-flag', { timeMs: time })) {
       return { x: Math.round(p.x), y: Math.round(p.y - pole), w: Math.round(w), h: Math.round(h), words: figurePx >= 22 };
@@ -1505,14 +1648,30 @@ export function createBattleView(art) {
   }
 
   /** A pale veil of fog over the field, thickest at its middle, at the phase's density (0 to 1). Returns the density drawn. */
-  function drawFog(ctx, battle, camera, bounds) {
+  function drawFog(ctx, battle, camera, bounds, figurePx = 30, time = 0) {
     const shown = [...battle.sides, ...(battle.groups || [])].filter(side => side.action !== 'gone');
     if (!shown.length) return 0;
     const centre = { x: shown.reduce((s, side) => s + side.x, 0) / shown.length, y: shown.reduce((s, side) => s + side.y, 0) / shown.length };
     const c = camera.toScreen(centre), edge = camera.toScreen({ x: centre.x + 0.9, y: centre.y });
     const radius = Math.max(80, Math.hypot(edge.x - c.x, edge.y - c.y));
+    // Banks of fog lying on the field round the fight, drifting, dense while it is thick and in wisps as it lifts, at the
+    // strength of the phase's fog; where they are drawn the veil over them is lighter. Placed by row and column, so stable.
+    // Scattered, not in rows: a bank a cell where a hash says so, moved about in it, at its own size (a grid of them read as
+    // rows of cartoon clouds in the first proof, test-results/battle-concepcion-ringed-1366.png, 2026-09-28).
+    const clip = battle.fog > 0.55 ? 'fog-bank-dense' : 'fog-bank-thin', cell = Math.max(60, figurePx * 5.5);
+    let banks = 0;
+    for (let row = -3; row <= 3; row++) for (let col = -3; col <= 3; col++) {
+      const key = `fog:${row}:${col}`;
+      if (hash(`${key}:on`) < 0.45) continue;
+      const x = c.x + (col + hash(`${key}:x`) - 0.5) * cell, y = c.y + (row + hash(`${key}:y`) - 0.5) * cell * 0.45;
+      if (Math.hypot(x - c.x, (y - c.y) * 1.6) > radius * 0.85) continue;
+      const size = cell * (0.35 + 0.3 * hash(`${key}:s`));
+      if (art.animated(ctx, clip, x, y, size, key, { timeMs: time, flip: hash(`${key}:f`) < 0.5, alpha: Math.min(0.6, battle.fog * 0.65) })) banks++;
+    }
+    view.fogBanks = banks;
+    const veil = banks ? 0.55 : 1;
     const g = ctx.createRadialGradient(c.x, c.y, radius * 0.1, c.x, c.y, radius);
-    g.addColorStop(0, `rgba(226,229,226,${0.78 * battle.fog})`); g.addColorStop(0.6, `rgba(226,229,226,${0.6 * battle.fog})`); g.addColorStop(1, 'rgba(226,229,226,0)');
+    g.addColorStop(0, `rgba(226,229,226,${0.78 * battle.fog * veil})`); g.addColorStop(0.6, `rgba(226,229,226,${0.6 * battle.fog * veil})`); g.addColorStop(1, 'rgba(226,229,226,0)');
     ctx.save(); ctx.fillStyle = g;
     ctx.fillRect(Math.max(0, c.x - radius), Math.max(0, c.y - radius), Math.min(bounds?.width ?? radius * 2, radius * 2), Math.min(bounds?.height ?? radius * 2, radius * 2));
     ctx.restore();

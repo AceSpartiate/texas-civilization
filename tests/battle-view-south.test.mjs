@@ -5,7 +5,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createBattleView } from '../public/battle-view.js';
-import { isClaude } from './support/claude-names.mjs';
+import { isClaude, drawsClaude } from './support/claude-names.mjs';
 
 function fakeContext() {
   const calls = [];
@@ -17,14 +17,15 @@ function fakeContext() {
 }
 /**
  * The page's art, recorded. By default it answers "not loaded" for Claude's temporary frames (tests/support/claude-names.mjs),
- * so these tests hold the library stand-ins drawn while a Claude sheet is on its way; `{ claude: true }` draws them too.
+ * so these tests hold the library stand-ins drawn while a Claude sheet is on its way; `{ claude: true }` draws them too, and
+ * `{ claude: name => ... }` draws those it says yes to.
  */
 function fakeArt({ claude = false } = {}) {
   const drawn = [];
   return {
     drawn,
-    animated: (ctx, clip, x, y, size, seed, options) => { if (!claude && isClaude(clip)) return 0; drawn.push({ clip, x, y, size, ...options }); return size; },
-    drawSprite: (ctx, sprite, x, y, size, options) => { if (!claude && isClaude(sprite)) return 0; drawn.push({ sprite, x, y, size, ...options }); return size; },
+    animated: (ctx, clip, x, y, size, seed, options) => { if (isClaude(clip) && !drawsClaude(claude, clip)) return 0; drawn.push({ clip, x, y, size, ...options }); return size; },
+    drawSprite: (ctx, sprite, x, y, size, options) => { if (isClaude(sprite) && !drawsClaude(claude, sprite)) return 0; drawn.push({ sprite, x, y, size, ...options }); return size; },
     miniPerson: () => {},
   };
 }
@@ -65,16 +66,29 @@ test('a side in parts is drawn part by part: men asleep lying down, men in a hou
 });
 
 test('a night fight is dark but for the lit windows, the fire and the flashes', () => {
-  const art = fakeArt(), view = createBattleView(art), ctx = fakeContext();
+  const art = fakeArt({ claude: true }), view = createBattleView(art), ctx = fakeContext();
   const evidence = run(view, minute => night(minute, [part('square', 8, 0, { pose: 'stand', fire: 'scattered' })]), { seconds: 4, art, ctx });
   assert.equal(evidence.night, true);
   assert.equal(evidence.lit, 2, 'the lantern and the fire are not lit');
-  assert.ok(ctx.calls.some(call => call[0] === 'set:fillStyle' && /rgba\(8,12,30/.test(call[1])), 'no dark was laid over the field');
+  // The dark is the night's grade multiplied over the view (Claude's `night-grade`, a moonless night at San Patricio), or the
+  // wash where the library has no grade.
+  assert.ok(art.drawn.some(one => one.sprite === 'night-grade') && ctx.calls.some(call => call[0] === 'set:globalCompositeOperation' && call[1] === 'multiply'), 'no night grade was laid over the field');
+  const washed = fakeArt(); washed.drawSprite = (c, sprite, ...rest) => (sprite.endsWith('-grade') ? 0 : rest[2]);
+  const washCtx = fakeContext();
+  run(createBattleView(washed), minute => night(minute, [part('square', 8, 0)]), { seconds: 0.1, art: washed, ctx: washCtx });
+  assert.ok(washCtx.calls.some(call => call[0] === 'set:fillStyle' && /rgba\(8,12,30/.test(call[1])), 'without the grade no dark was laid over the field');
   assert.ok(ctx.calls.some(call => call[0] === 'set:globalCompositeOperation' && call[1] === 'lighter'), 'nothing glows through the dark');
   // By day, none of it.
   const day = createBattleView(fakeArt()).draw(fakeContext(), { ...night(1, [part('square', 8, 0)]), light: undefined }, { camera, time: 0, now: 0, tickMs: 1000, bounds: { width: 1366, height: 768 } });
   assert.equal(day.night, false);
   assert.equal(evidence.scenery, 3, 'the houses and the fire are not drawn');
+  // The fire at night is the night campfire (Claude's `campfire-night`), drawn under the dark and again over it, never the
+  // day's; by day, the day's.
+  const fires = art.drawn.filter(one => /^campfire/.test(one.clip || one.sprite || ''));
+  assert.ok(fires.length && fires.every(one => one.clip === 'campfire-night'), `the night fire was drawn as ${[...new Set(fires.map(one => one.clip || one.sprite))]}`);
+  const dayArt = fakeArt();
+  createBattleView(dayArt).draw(fakeContext(), { ...night(1, [part('square', 8, 0)]), light: undefined }, { camera, time: 0, now: 0, tickMs: 1000, bounds: { width: 1366, height: 768 } });
+  assert.ok(dayArt.drawn.some(one => one.clip === 'campfire') && !dayArt.drawn.some(one => one.clip === 'campfire-night'), 'by day the fire is the day campfire');
 });
 
 test('a man who falls lies where he fell while the rest of his part is marched off', () => {
@@ -93,7 +107,7 @@ test('a man who falls lies where he fell while the rest of his part is marched o
 });
 
 test('the groves hide the dragoons, and a herd is driven and scattered; Grant\'s men ride', () => {
-  const art = fakeArt(), view = createBattleView(art);
+  const art = fakeArt({ claude: true }), view = createBattleView(art);
   const battle = minute => ({
     id: 'agua-dulce', phase: 'ambush', minute, caption: 'x', live: true, over: false,
     sides: [
@@ -107,9 +121,15 @@ test('the groves hide the dragoons, and a herd is driven and scattered; Grant\'s
   const evidence = run(view, battle, { seconds: 6, art });
   assert.ok(evidence.herd >= 20, `the herd is ${evidence.herd} horses`);
   assert.ok(art.drawn.some(one => one.clip === 'mustang-gallop'), 'the herd is not galloping');
-  assert.ok(art.drawn.filter(one => one.sprite === 'live-oak-large' || one.sprite === 'mesquite-large').length >= 7, 'the grove is not drawn');
+  // The grove's live oaks as one mott (Claude's `live-oak-mott`) with its mesquite round it; each tree alone without the mott.
+  assert.ok(art.drawn.some(one => one.sprite === 'live-oak-mott') && art.drawn.some(one => one.sprite === 'mesquite-large') && !art.drawn.some(one => one.sprite === 'live-oak-large'), 'the grove is not drawn as a mott');
+  const alone = fakeArt(), plain = alone.drawSprite;
+  alone.drawSprite = (c, sprite, ...rest) => (sprite === 'live-oak-mott' ? 0 : plain(c, sprite, ...rest));
+  run(createBattleView(alone), battle, { seconds: 1, art: alone });
+  assert.ok(alone.drawn.filter(one => one.sprite === 'live-oak-large' || one.sprite === 'mesquite-large').length >= 7, 'without the mott the grove is not drawn');
   assert.equal(evidence.poses.rider, 20, 'Grant\'s men are not drawn riding');
-  assert.ok(art.drawn.some(one => one.clip === 'mounted-courier-e'));
+  // Grant's men ride as Claude's `volunteer-mounted` where it can be drawn, the mounted courier before it.
+  assert.ok(art.drawn.some(one => one.clip === 'mounted-courier-e' || one.clip === 'volunteer-mounted'));
 });
 
 test('a family\'s man is drawn in his part - asleep, in the house, giving up - and once his fate has come, in it', () => {

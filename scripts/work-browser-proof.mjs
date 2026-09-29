@@ -214,8 +214,9 @@ try {
     const seen = house[one.id];
     assert.ok(seen.frames.length >= 3 && seen.marks.some(n => n > 0), `${one.name} on the house: frames ${seen.frames}, marks ${seen.marks}`);
     // Felling for the house is the hoeing cycle with a drawn axe over it (the stand-in), or - for a figure whose library holds
-    // a cycle of felling itself, `rust-chop` since 2026-09-28 (Claude-drawn) - that cycle, with its own axe and the chips.
-    const ownCycle = seen.workClips.length > 0 && seen.workClips.every(clip => /-chop$/.test(clip));
+    // a cycle of the work itself, `-chop` and `-notch` since 2026-09-28 (Claude-drawn, all eight) - that cycle, with its own axe
+    // and the chips.
+    const ownCycle = seen.workClips.length > 0 && seen.workClips.every(clip => /-(chop|notch)$/.test(clip));
     assert.ok(seen.clips.every(clip => /-work$/.test(clip)), `${one.name} on the house is drawn in ${seen.clips}`);
     if (ownCycle) assert.ok(seen.arts.every(art => art === 'drawn') && seen.marks.some(n => n > 0), `${one.name} felling in ${seen.workClips}: art ${seen.arts}, the chips ${seen.marks}`);
     else assert.ok(seen.tools.length === 1 && ['axe', 'maul'].includes(seen.tools[0]) && seen.marks.every(n => n >= 2), `${one.name} on the house has no drawn axe in hand (the owner, 2026-09-28): tools ${seen.tools}, marks ${seen.marks}`);
@@ -272,10 +273,19 @@ try {
   await sampleAt(marksman.id, 'shoot');
   observed.two = two;
   const shooter = two[marksman.id], pacer = two[surveyor.id];
-  assert.ok(shooter.clips.every(clip => /-idle-e$/.test(clip)) && shooter.marks.some(n => n > 1) && shooter.marks.includes(1), `at the mark: rifle ${shooter.clips}, smoke ${shooter.marks}`);
-  assert.ok(pacer.clips.every(clip => /-walk$/.test(clip)) && pacer.shifts.length >= 5 && pacer.flips.length === 2, `pacing: ${pacer.clips}, shifts ${pacer.shifts}, facing ${pacer.flips}`);
-  for (const id of Object.keys(two)) assert.ok(two[id].prints >= 3, `the pixels round ${id} changed ${two[id].prints} times`);
-  ok(`at the mark ${marksman.name} is drawn with the rifle up and a puff of smoke once a cycle (${shooter.clips}; marks ${shooter.marks.join('/')}); surveying, ${surveyor.name} paces the ground to and fro (${pacer.shifts.length} places, turning both ways)`);
+  // The stand-in (a rifle drawn over the side-on idle, the walk paced to and fro) or, for a figure whose library holds the work
+  // itself, its drawn cycle: `-fire` (the aim held, the recoil, the lowering) with the smoke at its muzzle once a cycle, and
+  // `-stake` (Claude-drawn, 2026-09-28) stepping through its frames.
+  // (The sheet arrives while it is watched, so the first samples may still be the stand-in.)
+  const drawnShot = shooter.workClips.some(clip => /-fire$/.test(clip));
+  if (drawnShot) assert.ok(shooter.arts.includes('drawn') && shooter.marks.some(n => n > 1) && shooter.marks.includes(0) && shooter.frames.length >= 2, `at the mark in ${shooter.workClips}: frames ${shooter.frames}, smoke ${shooter.marks}`);
+  else assert.ok(shooter.clips.every(clip => /-idle-e$/.test(clip)) && shooter.marks.some(n => n > 1) && shooter.marks.includes(1), `at the mark: rifle ${shooter.clips}, smoke ${shooter.marks}`);
+  const drawnStake = pacer.workClips.some(clip => /-stake$/.test(clip));
+  if (drawnStake) assert.ok(pacer.arts.includes('drawn') && pacer.frames.length >= 2, `staking in ${pacer.workClips}: frames ${pacer.frames}`);
+  else assert.ok(pacer.clips.every(clip => /-walk$/.test(clip)) && pacer.shifts.length >= 5 && pacer.flips.length === 2, `pacing: ${pacer.clips}, shifts ${pacer.shifts}, facing ${pacer.flips}`);
+  // A drawn two-frame cycle (the staking) is two pictures by design; everything else changes more often than that.
+  for (const id of Object.keys(two)) assert.ok(two[id].prints >= (id === surveyor.id && drawnStake ? 2 : 3), `the pixels round ${id} changed ${two[id].prints} times`);
+  ok(`at the mark ${marksman.name} is drawn ${drawnShot ? `in ${shooter.workClips} (frames ${shooter.frames.join('/')})` : 'with the rifle up'} and a puff of smoke once a cycle (marks ${shooter.marks.join('/')}); surveying, ${surveyor.name} ${drawnStake ? `drives the stakes in ${pacer.workClips} (frames ${pacer.frames.join('/')})` : `paces the ground to and fro (${pacer.shifts.length} places, turning both ways)`}`);
   // 4. The wood pile by the house (request 2026-09-28, item 16; Claude-drawn `wood-pile-1`..`-4` since 2026-09-28). A class of
   // its own, made with thirty-five logs on the family's pile (the server hands a proof a copy of its state, so the pile is set
   // when the class is made, as scripts/means-browser-proof.mjs sets its logs): drawn as the one sprite of a forty-log pile,

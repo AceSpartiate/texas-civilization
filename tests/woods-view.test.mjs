@@ -72,6 +72,24 @@ test('each tile is the woods themselves: the trees in it, its patches and its sh
   }
 });
 
+test('a kind with its own art names frames that exist, and is sent them, with the picture it borrowed to fall back on', () => {
+  // `own` / `ownStump` (2026-09-28): anacua, ebony, tupelo, cedar elm, willow, shortleaf, and the hardwood stumps have art of
+  // their own - Claude-drawn stand-ins today (public/assets/claude-standins/), Astra's when she delivers the same names.
+  const astra = new Set(Object.keys(JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url), 'utf8')).frames));
+  const claude = new Set(Object.keys(JSON.parse(readFileSync(new URL('../public/assets/claude-standins/atlas.json', import.meta.url), 'utf8')).frames));
+  const own = Object.entries(KINDS).filter(([, kind]) => kind.own || kind.ownStump);
+  assert.deepEqual(own.filter(([, kind]) => kind.own).map(([id]) => id).sort(), ['anacua', 'cedar-elm', 'ebony', 'shortleaf', 'tupelo', 'willow']);
+  const sent = Object.fromEntries(woodsCatalogue().kinds.map(kind => [kind.id, kind]));
+  for (const [id, kind] of own) {
+    for (const name of kind.own ? ['pole', 'log', 'large'].map(size => `${kind.own}-${size}`) : []) assert.ok(astra.has(name) || claude.has(name), `${id}: ${name} is in neither library`);
+    if (kind.ownStump) assert.ok(astra.has(kind.ownStump) || claude.has(kind.ownStump), `${id}: ${kind.ownStump} is in neither library`);
+    assert.equal(sent[id].own, kind.own, `${id}: the page is sent its own art`);
+    assert.equal(sent[id].ownStump, kind.ownStump, `${id}: the page is sent its own stump`);
+  }
+  // The hardwoods that used to borrow the post oak's stump now each have one of their own.
+  for (const id of ['hickory', 'walnut', 'ash', 'live-oak', 'blackjack', 'water-oak', 'white-oak', 'bur-oak', 'texas-oak']) assert.ok(KINDS[id].ownStump, `${id} has its own stump`);
+});
+
 test("the page asks for its view's tiles and reads timber and trees out of what it was sent", async () => {
   const requests = [];
   let calls = 0;

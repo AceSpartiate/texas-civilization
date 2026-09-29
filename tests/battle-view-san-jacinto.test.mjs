@@ -6,7 +6,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createBattleView, layoutSide, regularity } from '../public/battle-view.js';
-import { isClaude } from './support/claude-names.mjs';
+import { isClaude, drawsClaude } from './support/claude-names.mjs';
 
 function fakeContext() {
   const ctx = new Proxy({ measureText: text => ({ width: String(text).length * 6 }), createRadialGradient: () => ({ addColorStop() {} }) }, {
@@ -17,14 +17,15 @@ function fakeContext() {
 }
 /**
  * The page's art, recorded. By default it answers "not loaded" for Claude's temporary frames (tests/support/claude-names.mjs),
- * so these tests hold the library stand-ins drawn while a Claude sheet is on its way; `{ claude: true }` draws them too.
+ * so these tests hold the library stand-ins drawn while a Claude sheet is on its way; `{ claude: true }` draws them too, and
+ * `{ claude: name => ... }` draws those it says yes to.
  */
 function fakeArt({ claude = false } = {}) {
   const drawn = [];
   return {
     drawn,
-    animated: (ctx, clip, x, y, size, seed, options) => { if (!claude && isClaude(clip)) return 0; drawn.push({ clip, x, y, ...options }); return size; },
-    drawSprite: (ctx, sprite, x, y, size, options) => { if (!claude && isClaude(sprite)) return 0; drawn.push({ sprite, x, y, ...options }); return size; },
+    animated: (ctx, clip, x, y, size, seed, options) => { if (isClaude(clip) && !drawsClaude(claude, clip)) return 0; drawn.push({ clip, x, y, ...options }); return size; },
+    drawSprite: (ctx, sprite, x, y, size, options) => { if (isClaude(sprite) && !drawsClaude(claude, sprite)) return 0; drawn.push({ sprite, x, y, ...options }); return size; },
     miniPerson: () => {},
   };
 }
@@ -150,7 +151,8 @@ test('in the rout a share of the broken side gives itself up where it stands, an
 });
 
 test('a group of horse is drawn apart from its side, as riders, with its own fall; the breastwork, the fires and the marsh stand on the ground', () => {
-  const art = fakeArt(), view = createBattleView(art);
+  // Claude's horsemen drawn; the breastwork held at the library's pieces this test checks (Claude's breastwork has its own test).
+  const art = fakeArt({ claude: name => !/^(breastwork-packs|musket-stack)/.test(name) }), view = createBattleView(art);
   const works = [
     { id: 'breastwork', kind: 'breastwork', x: 0.2, y: 0, width: 0.3, across: { x: 0, y: 1 } },
     { id: 'fires', kind: 'fires', x: 0.3, y: 0, width: 0.2, across: { x: 0, y: 1 } },
@@ -163,11 +165,16 @@ test('a group of horse is drawn apart from its side, as riders, with its own fal
   assert.equal(e.figures.texian, 60, 'the group was counted in the side');
   assert.equal(e.fallenBy['g:sherman'], 1);
   assert.equal(e.fallenBy.texian, undefined);
-  assert.ok(art.drawn.some(one => /^mounted-courier/.test(one.clip || '')), 'the Texian horsemen are not drawn riding');
+  // A Texian horseman is Claude's `volunteer-mounted` where it can be drawn, the mounted courier before it (tests/transport-standins.test.mjs).
+  assert.ok(art.drawn.some(one => /^(mounted-courier|volunteer-mounted)/.test(one.clip || '')), 'the Texian horsemen are not drawn riding');
   assert.ok(e.shotsBy.texian > 0, 'the horsemen did not fire');
   assert.ok(e.works > 20, `only ${e.works} pieces of works drawn`);
   for (const piece of ['crate', 'sacks', 'barrel']) assert.ok(art.drawn.some(one => one.sprite === piece), `no ${piece} in the breastwork`);
   assert.ok(art.drawn.some(one => one.clip === 'reeds-wind') && art.drawn.some(one => one.clip === 'fire-flicker'));
+  // The marsh's edge under its reeds (Claude's `marsh-edge-*` tiles), all three kinds of tile, before the first reed.
+  const firstEdge = art.drawn.findIndex(one => /^marsh-edge-\d$/.test(one.sprite || '')), firstReed = art.drawn.findIndex(one => one.clip === 'reeds-wind');
+  assert.deepEqual([...new Set(art.drawn.filter(one => /^marsh-edge-\d$/.test(one.sprite || '')).map(one => one.sprite))].sort(), ['marsh-edge-1', 'marsh-edge-2', 'marsh-edge-3'], 'the marsh has no edge');
+  assert.ok(firstEdge >= 0 && firstEdge < firstReed, 'the marsh edge is drawn under its reeds');
   // The opening in the middle of the breastwork where the gun stood (`HIST-TEX-522`).
   const pieces = art.drawn.filter(one => ['crate', 'sacks', 'barrel', 'packed-belongings'].includes(one.sprite)).map(one => one.y);
   assert.ok(!pieces.some(y => Math.abs(y - 384) < 0.015 * 1800), 'the breastwork has no opening for the gun');

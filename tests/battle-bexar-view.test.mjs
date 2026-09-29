@@ -9,7 +9,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createBattleView } from '../public/battle-view.js';
-import { isClaude } from './support/claude-names.mjs';
+import { isClaude, drawsClaude } from './support/claude-names.mjs';
 import { armBattle, projectBattle, schedule } from '../sim/battle-stage.mjs';
 import { BEXAR_STORMING } from '../sim/battles/bexar-storming.mjs';
 import { bexarClass, momentOf } from './support/bexar.mjs';
@@ -25,14 +25,15 @@ function fakeContext() {
 }
 /**
  * The page's art, recorded. By default it answers "not loaded" for Claude's temporary frames (tests/support/claude-names.mjs),
- * so these tests hold the library stand-ins drawn while a Claude sheet is on its way; `{ claude: true }` draws them too.
+ * so these tests hold the library stand-ins drawn while a Claude sheet is on its way; `{ claude: true }` draws them too, and
+ * `{ claude: name => ... }` draws those it says yes to.
  */
 function fakeArt({ claude = false } = {}) {
   const drawn = [];
   return {
     drawn,
-    animated: (ctx, clip, x, y, size, seed, options) => { if (!claude && isClaude(clip)) return 0; drawn.push({ clip, x, y, ...options }); return size; },
-    drawSprite: (ctx, sprite, x, y, size, options) => { if (!claude && isClaude(sprite)) return 0; drawn.push({ sprite, x, y, ...options }); return size; },
+    animated: (ctx, clip, x, y, size, seed, options) => { if (isClaude(clip) && !drawsClaude(claude, clip)) return 0; drawn.push({ clip, x, y, ...options }); return size; },
+    drawSprite: (ctx, sprite, x, y, size, options) => { if (isClaude(sprite) && !drawsClaude(claude, sprite)) return 0; drawn.push({ sprite, x, y, ...options }); return size; },
     miniPerson: () => {},
   };
 }
@@ -114,7 +115,8 @@ test('Karnes\'s door: a man at the bar until it gives, then the hole; the family
   assert.ok(art.drawn.some(one => one.sprite === 'wall-breach'), 'the door never gave');
   assert.ok(shown.breachesOpened >= 1);
   assert.ok(shown.civiliansSeen >= 3, `the family inside was not seen: ${shown.civiliansSeen}`);
-  const folk = art.drawn.filter(one => /^(rust-woman|smallchild|elder|indigo)-/.test(one.clip || one.sprite || ''));
+  // Béxar's own townspeople (Claude-drawn stand-ins), or the settlers' figures behind them while their sheet has not loaded.
+  const folk = art.drawn.filter(one => /^(bexar-(woman|man|girl|boy)|rust-woman|smallchild|elder|indigo)-/.test(one.clip || one.sprite || ''));
   assert.ok(folk.length > 0 && folk.every(one => !/fire|injured|reclining/.test(one.clip || one.sprite)), 'a townsperson was drawn firing or hurt');
   assert.ok(view.evidence.unitsSeen.includes('york'), 'York\'s company never followed him in');
 });

@@ -51,21 +51,24 @@ export const INTERIORS = Object.freeze({
     ['east-middle', 'In the east pen', 0.77, 0.76],
     ['east-front', 'At the front of the east pen', 0.66, 0.78],
   ] },
-  // stand-in: Request 2026-09-12 (second) — interiors and furnishings. A saddlebag house (two pens round one central chimney,
-  // sim/houseplot.mjs) has no interior picture, so it is drawn as the dog-run's and its spots are measured on that picture: the
-  // hearths are where the dog-run draws them, at the outer ends, and nothing is set in the passage the picture shows between
-  // the pens. When `interior-saddlebag` is delivered, name it here and re-measure the spots, the hearths at the centre.
-  saddlebag: { sprite: 'interior-dog-run', spots: [
-    ['west-hearth', 'By the west hearth', 0.17, 0.66],
-    ['west-window', "Under the west pen's window", 0.27, 0.53],
-    ['west-back', "Against the west pen's back wall", 0.19, 0.53],
-    ['west-middle', 'In the west pen', 0.26, 0.69],
-    ['west-door', "By the west pen's door", 0.31, 0.79],
-    ['east-hearth', 'By the east hearth', 0.83, 0.66],
-    ['east-window', "Under the east pen's window", 0.74, 0.53],
-    ['east-back', "Against the east pen's back wall", 0.81, 0.53],
-    ['east-middle', 'In the east pen', 0.74, 0.69],
-    ['east-door', "By the east pen's door", 0.69, 0.79],
+  // stand-in: Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen
+  // (a saddlebag interior). A saddlebag house (two pens round one central chimney, sim/houseplot.mjs) is drawn as Claude's
+  // `interior-saddlebag` (docs/ART_REQUESTS.md, "Claude-drawn stand-ins"): Astra's dog-run rooms cut at the passage and laid
+  // the other way round, so the two hearths stand back to back in the middle wall. Its spots are measured on that picture
+  // (the ids kept, so a pot already set by a hearth stays by it). While the Claude sheet has not loaded the page draws the
+  // dog-run's picture (`fallback`), whose hearths are at the outer ends. When Astra's `interior-saddlebag` is delivered,
+  // re-measure the spots on hers.
+  saddlebag: { sprite: 'interior-saddlebag', fallback: 'interior-dog-run', spots: [
+    ['west-hearth', 'By the west hearth', 0.333, 0.66],
+    ['west-window', "Under the west pen's window", 0.263, 0.53],
+    ['west-back', "Against the west pen's back wall", 0.2, 0.56],
+    ['west-middle', 'In the west pen', 0.26, 0.7],
+    ['west-door', "By the west pen's door", 0.17, 0.79],
+    ['east-hearth', 'By the east hearth', 0.657, 0.66],
+    ['east-window', "Under the east pen's window", 0.747, 0.53],
+    ['east-back', "Against the east pen's back wall", 0.8, 0.56],
+    ['east-middle', 'In the east pen', 0.74, 0.7],
+    ['east-door', "By the east pen's door", 0.83, 0.79],
   ] },
 });
 

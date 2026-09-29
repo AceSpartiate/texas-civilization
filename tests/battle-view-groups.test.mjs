@@ -7,7 +7,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createBattleView, layoutSide } from '../public/battle-view.js';
-import { isClaude } from './support/claude-names.mjs';
+import { isClaude, drawsClaude } from './support/claude-names.mjs';
 import { ENGAGEMENTS } from '../sim/battle-stage.mjs';
 
 function fakeContext() {
@@ -20,14 +20,15 @@ function fakeContext() {
 }
 /**
  * The page's art, recorded. By default it answers "not loaded" for Claude's temporary frames (tests/support/claude-names.mjs),
- * so these tests hold the library stand-ins drawn while a Claude sheet is on its way; `{ claude: true }` draws them too.
+ * so these tests hold the library stand-ins drawn while a Claude sheet is on its way; `{ claude: true }` draws them too, and
+ * `{ claude: name => ... }` draws those it says yes to.
  */
 function fakeArt({ claude = false } = {}) {
   const drawn = [];
   return {
     drawn,
-    animated: (ctx, clip, x, y, size, seed, options) => { if (!claude && isClaude(clip)) return 0; drawn.push({ clip, x, y, size, seed, ...options }); return size; },
-    drawSprite: (ctx, sprite, x, y, size, options) => { if (!claude && isClaude(sprite)) return 0; drawn.push({ sprite, x, y, size, ...options }); return size; },
+    animated: (ctx, clip, x, y, size, seed, options) => { if (isClaude(clip) && !drawsClaude(claude, clip)) return 0; drawn.push({ clip, x, y, size, seed, ...options }); return size; },
+    drawSprite: (ctx, sprite, x, y, size, options) => { if (isClaude(sprite) && !drawsClaude(claude, sprite)) return 0; drawn.push({ sprite, x, y, size, ...options }); return size; },
     miniPerson: () => {},
   };
 }
@@ -136,7 +137,7 @@ test('a family\'s person is drawn at their own fate: hit, then lying still, or s
 });
 
 test('the pack train is drawn as horses under packs, a Mexican gun is served by regulars where it stands, and the ground the map lacks is drawn', () => {
-  const art = fakeArt(), view = createBattleView(art);
+  const art = fakeArt({ claude: true }), view = createBattleView(art);
   const train = group('train', 'mexican', 'column', 'none', 0.3, { figure: 'packhorse', drawn: 8, moving: true, action: 'advance' });
   const scenery = [{ water: [{ x: -0.2, y: -0.1 }, { x: -0.22, y: 0 }, { x: -0.2, y: 0.1 }], width: 0.03 }, { sprite: 'earth-rampart', x: -0.08, y: 0, size: 1.3 }, { clip: 'pecan-large-wind', x: -0.25, y: 0, size: 3 }];
   const guns = [{ id: 'brass', side: 'mexican', x: 0.08, y: 0.02, facing: { x: -1, y: 0 }, shots: [1], crew: 3, metal: 'bronze' }];
@@ -145,6 +146,22 @@ test('the pack train is drawn as horses under packs, a Mexican gun is served by 
   assert.ok(art.drawn.some(one => /^regular-gun-/.test(one.clip || '')), 'the Mexican gun was served by volunteers');
   assert.equal(shown.scenery, 3);
   assert.ok(art.drawn.some(one => one.sprite === 'earth-rampart') && art.drawn.some(one => one.clip === 'pecan-large-wind'), 'the bank and the trees were not drawn');
+});
+
+test('a ground piece with its own art falls back to the library piece it stood in for, and fog lies in drifting banks', () => {
+  // Claude's `riverbank-cut-e` (sim/battles/concepcion.mjs) where the library has it; `earth-rampart` where it does not;
+  // `fallback: 'none'` leaves the piece out rather than drawing a block.
+  const scenery = [{ sprite: 'riverbank-cut-e', fallback: 'earth-rampart', x: -0.08, y: 0, size: 1.3 }, { sprite: 'creek-ford', fallback: 'none', x: 0.1, y: 0.05, size: 1.6 }];
+  const has = fakeArt({ claude: true });
+  run(createBattleView(has), minute => battle(minute, { scenery, fog: 0.8 }), 2);
+  assert.ok(has.drawn.some(one => one.sprite === 'riverbank-cut-e') && !has.drawn.some(one => one.sprite === 'earth-rampart'), 'the bank was not drawn as its own art');
+  assert.ok(has.drawn.some(one => one.clip === 'fog-bank-dense'), 'thick fog was not drawn as dense banks');
+  const lacks = fakeArt({ claude: true }), plain = lacks.drawSprite, ctx = [];
+  lacks.drawSprite = (c, sprite, ...rest) => (['riverbank-cut-e', 'creek-ford'].includes(sprite) ? 0 : plain(c, sprite, ...rest));
+  const shown = run(createBattleView(lacks), minute => battle(minute, { scenery, fog: 0.3 }), 2);
+  assert.ok(lacks.drawn.some(one => one.sprite === 'earth-rampart'), 'without its own art the bank was not drawn as earth-rampart');
+  assert.ok(lacks.drawn.some(one => one.clip === 'fog-bank-thin') && shown.fogBanks > 0, 'lifting fog was not drawn as thin banks');
+  void ctx;
 });
 
 test('every body of men at Concepción and the Grass Fight is laid out whole: no sample is drawn short because its ground is too small for it', () => {

@@ -144,20 +144,22 @@ const homeSafe = one => one.pose !== 'work' && (one.pose !== 'sow' || one.prop =
  * (`HIST-TEX-075`), so his camp drills. A Mexican column's camp is the regulars' own sheet only, and says nothing here.
  * ceiling: the Mexican camps are silent - their talk would be Spanish with an English gloss (docs/BATTLES.md §2.5), and a
  * line of it written for idle soldiers is the owner's to ask for (docs/AMBIENT.md, decisions).
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - ambient life, item 3: cleaning a rifle is the ramrod's stroke.
+ * The soldiers at rest - a rifle cleaned, a man sitting, a man cooking - name the delivered pose (`p`) the page falls back to;
+ * the page draws each activity's own clip where the library holds it (public/ambient.js `SOLDIERS_AT_REST`).
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - ambient life, item 3: cleaning a rifle is the ramrod's stroke, sitting
+ * and cooking the standing idle, until `<volunteer|regular>-clean-rifle`, `-camp-sit` and `-camp-cook` are drawn.
  */
-// A rifle is cleaned at rest, not loaded (request 2026-09-28 "ambient life", item 3): `clean-rifle`, `camp-sit` and `camp-cook`
-// are Claude's temporary frames until Astra's (public/ambient.js `figureClip` draws the library's pose while they load).
 const CAMP_TEXIAN = Object.freeze([
-  { a: 'rifle', f: 'volunteer', p: 'clean-rifle' }, { a: 'sit', f: 'volunteer', p: 'camp-sit' }, { a: 'guard', f: 'volunteer', p: 'idle' }, { a: 'fire', f: 'cast', p: 'care', prop: 'fire' },
+  { a: 'rifle', f: 'volunteer', p: 'gun-ram' }, { a: 'guard', f: 'volunteer', p: 'idle' }, { a: 'fire', f: 'cast', p: 'care', prop: 'fire' },
+  { a: 'sit', f: 'volunteer', p: 'idle' }, { a: 'cook', f: 'volunteer', p: 'idle' },
   { a: 'cook', f: 'cast', p: 'care', prop: 'pot' }, { a: 'mend', f: 'cast', p: 'repair' }, { a: 'wood', f: 'cast', p: 'carry', pace: true },
   { a: 'sit', f: 'cast', p: 'rest' }, { a: 'pipe', f: 'cast', p: 'rest' }, { a: 'whittle', f: 'cast', p: 'repair' },
 ]);
 const CAMP_DRILL = Object.freeze({ a: 'drill', f: 'volunteer', p: 'march', pace: true });
 const CAMP_MEXICAN = Object.freeze([
-  { a: 'rifle', f: 'regular', p: 'clean-rifle' }, { a: 'guard', f: 'regular', p: 'idle' }, { a: 'drill', f: 'regular', p: 'march', pace: true },
-  { a: 'sit', f: 'regular', p: 'camp-sit' }, { a: 'cook', f: 'regular', p: 'camp-cook' },
+  { a: 'rifle', f: 'regular', p: 'gun-ram' }, { a: 'guard', f: 'regular', p: 'idle' }, { a: 'drill', f: 'regular', p: 'march', pace: true },
   { a: 'shot', f: 'regular', p: 'gun-shot-carry' }, { a: 'drum', f: 'regular', p: 'drummer-beat' },
+  { a: 'sit', f: 'regular', p: 'idle' }, { a: 'cook', f: 'regular', p: 'idle' },
 ]);
 const CAMP_NIGHT = Object.freeze([{ a: 'sleep', f: 'cast', p: 'rest' }, { a: 'sleep', f: 'cast', p: 'rest' }, { a: 'fire', f: 'cast', p: 'care', prop: 'fire' }]);
 /** The civilian men of the cast who stand for volunteers in their own clothes (never `rust`, the student's own mark). */

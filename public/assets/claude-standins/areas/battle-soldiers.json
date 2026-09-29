@@ -25,14 +25,14 @@
     "claude-volunteer-camp": {
       "image": "/assets/claude-standins/claude-volunteer-camp.png",
       "width": 1920,
-      "height": 800,
-      "bytes": 214342,
-      "sha256": "a1f66c32835bb672f3035c9b43b9f7c83d6352fc79fb6e15fcbcf259a935da9a",
+      "height": 400,
+      "bytes": 77467,
+      "sha256": "2a2af7b9c7cfeff9c7a08b501efc29943f3959e654c70f69ddc398ade6cb0d95",
       "madeBy": "claude",
       "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
+      "request": "Request 2026-09-25 — San Jacinto",
       "layout": {
-        "rows": 2,
+        "rows": 1,
         "columns": 4,
         "cell": {
           "w": 480,
@@ -44,14 +44,14 @@
     "claude-regular-camp": {
       "image": "/assets/claude-standins/claude-regular-camp.png",
       "width": 1920,
-      "height": 800,
-      "bytes": 226128,
-      "sha256": "b62287e5d8a099d7c49700d58b1f078bf08f9881aa1104a8882a99675282b58d",
+      "height": 400,
+      "bytes": 78770,
+      "sha256": "801d62033319c12a6b4aa2b6d1746c499b796237a219a5e99f1ead1d92669ce1",
       "madeBy": "claude",
       "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
+      "request": "Request 2026-09-25 — San Jacinto",
       "layout": {
-        "rows": 2,
+        "rows": 1,
         "columns": 4,
         "cell": {
           "w": 480,
@@ -263,112 +263,10 @@
       "label": "bearers carry 4",
       "kind": "claude-bearers-carry"
     },
-    "volunteer-clean-rifle-1": {
-      "sheet": "claude-volunteer-camp",
-      "x": 0,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-clean-rifle-1: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-volunteer-clean-rifle-1.svg",
-      "label": "volunteer clean rifle 1",
-      "kind": "claude-volunteer-camp"
-    },
-    "volunteer-clean-rifle-2": {
-      "sheet": "claude-volunteer-camp",
-      "x": 480,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-clean-rifle-2: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-volunteer-clean-rifle-2.svg",
-      "label": "volunteer clean rifle 2",
-      "kind": "claude-volunteer-camp"
-    },
-    "volunteer-camp-sit-1": {
-      "sheet": "claude-volunteer-camp",
-      "x": 960,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-camp-sit-1: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-volunteer-camp-sit-1.svg",
-      "label": "volunteer camp sit 1",
-      "kind": "claude-volunteer-camp"
-    },
-    "volunteer-camp-sit-2": {
-      "sheet": "claude-volunteer-camp",
-      "x": 1440,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-camp-sit-2: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-volunteer-camp-sit-2.svg",
-      "label": "volunteer camp sit 2",
-      "kind": "claude-volunteer-camp"
-    },
-    "volunteer-camp-cook-1": {
-      "sheet": "claude-volunteer-camp",
-      "x": 0,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-camp-cook-1: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-volunteer-camp-cook-1.svg",
-      "label": "volunteer camp cook 1",
-      "kind": "claude-volunteer-camp"
-    },
-    "volunteer-camp-cook-2": {
-      "sheet": "claude-volunteer-camp",
-      "x": 480,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-camp-cook-2: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-volunteer-camp-cook-2.svg",
-      "label": "volunteer camp cook 2",
-      "kind": "claude-volunteer-camp"
-    },
     "volunteer-rest-sit": {
       "sheet": "claude-volunteer-camp",
-      "x": 960,
-      "y": 400,
+      "x": 0,
+      "y": 0,
       "w": 480,
       "h": 400,
       "anchorX": 0.3958,
@@ -376,16 +274,16 @@
       "logicalHeight": 300,
       "madeBy": "claude",
       "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-rest-sit: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "volunteer-rest-sit: request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
       "source": "svg/battle-soldiers/claude-volunteer-rest-sit.svg",
       "label": "volunteer rest sit",
       "kind": "claude-volunteer-camp"
     },
     "volunteer-sleep": {
       "sheet": "claude-volunteer-camp",
-      "x": 1440,
-      "y": 400,
+      "x": 480,
+      "y": 0,
       "w": 480,
       "h": 400,
       "anchorX": 0.3958,
@@ -393,118 +291,16 @@
       "logicalHeight": 300,
       "madeBy": "claude",
       "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "volunteer-sleep: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "volunteer-sleep: request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
       "source": "svg/battle-soldiers/claude-volunteer-sleep.svg",
       "label": "volunteer sleep",
       "kind": "claude-volunteer-camp"
     },
-    "regular-clean-rifle-1": {
-      "sheet": "claude-regular-camp",
-      "x": 0,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-clean-rifle-1: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-regular-clean-rifle-1.svg",
-      "label": "regular clean rifle 1",
-      "kind": "claude-regular-camp"
-    },
-    "regular-clean-rifle-2": {
-      "sheet": "claude-regular-camp",
-      "x": 480,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-clean-rifle-2: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-regular-clean-rifle-2.svg",
-      "label": "regular clean rifle 2",
-      "kind": "claude-regular-camp"
-    },
-    "regular-camp-sit-1": {
-      "sheet": "claude-regular-camp",
-      "x": 960,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-camp-sit-1: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-regular-camp-sit-1.svg",
-      "label": "regular camp sit 1",
-      "kind": "claude-regular-camp"
-    },
-    "regular-camp-sit-2": {
-      "sheet": "claude-regular-camp",
-      "x": 1440,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-camp-sit-2: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-regular-camp-sit-2.svg",
-      "label": "regular camp sit 2",
-      "kind": "claude-regular-camp"
-    },
-    "regular-camp-cook-1": {
-      "sheet": "claude-regular-camp",
-      "x": 0,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-camp-cook-1: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-regular-camp-cook-1.svg",
-      "label": "regular camp cook 1",
-      "kind": "claude-regular-camp"
-    },
-    "regular-camp-cook-2": {
-      "sheet": "claude-regular-camp",
-      "x": 480,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-camp-cook-2: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-regular-camp-cook-2.svg",
-      "label": "regular camp cook 2",
-      "kind": "claude-regular-camp"
-    },
     "regular-rest-sit": {
       "sheet": "claude-regular-camp",
-      "x": 960,
-      "y": 400,
+      "x": 0,
+      "y": 0,
       "w": 480,
       "h": 400,
       "anchorX": 0.3958,
@@ -512,16 +308,16 @@
       "logicalHeight": 300,
       "madeBy": "claude",
       "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-rest-sit: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "regular-rest-sit: request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
       "source": "svg/battle-soldiers/claude-regular-rest-sit.svg",
       "label": "regular rest sit",
       "kind": "claude-regular-camp"
     },
     "regular-sleep": {
       "sheet": "claude-regular-camp",
-      "x": 1440,
-      "y": 400,
+      "x": 480,
+      "y": 0,
       "w": 480,
       "h": 400,
       "anchorX": 0.3958,
@@ -529,8 +325,8 @@
       "logicalHeight": 300,
       "madeBy": "claude",
       "module": "battle-soldiers",
-      "request": "Request 2026-09-28 — ambient life",
-      "replaceWith": "regular-sleep: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "regular-sleep: request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
       "source": "svg/battle-soldiers/claude-regular-sleep.svg",
       "label": "regular sleep",
       "kind": "claude-regular-camp"
@@ -1549,114 +1345,6 @@
       "madeBy": "claude",
       "module": "battle-soldiers"
     },
-    "volunteer-clean-rifle": {
-      "frames": [
-        {
-          "sprite": "volunteer-clean-rifle-1",
-          "duration": 520
-        },
-        {
-          "sprite": "volunteer-clean-rifle-2",
-          "duration": 520
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "volunteer-camp-sit": {
-      "frames": [
-        {
-          "sprite": "volunteer-camp-sit-1",
-          "duration": 2200
-        },
-        {
-          "sprite": "volunteer-camp-sit-2",
-          "duration": 1600
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "volunteer-camp-cook": {
-      "frames": [
-        {
-          "sprite": "volunteer-camp-cook-1",
-          "duration": 520
-        },
-        {
-          "sprite": "volunteer-camp-cook-2",
-          "duration": 520
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "regular-clean-rifle": {
-      "frames": [
-        {
-          "sprite": "regular-clean-rifle-1",
-          "duration": 520
-        },
-        {
-          "sprite": "regular-clean-rifle-2",
-          "duration": 520
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "regular-camp-sit": {
-      "frames": [
-        {
-          "sprite": "regular-camp-sit-1",
-          "duration": 2200
-        },
-        {
-          "sprite": "regular-camp-sit-2",
-          "duration": 1600
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "regular-camp-cook": {
-      "frames": [
-        {
-          "sprite": "regular-camp-cook-1",
-          "duration": 520
-        },
-        {
-          "sprite": "regular-camp-cook-2",
-          "duration": 520
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
     "volunteer-loophole-fire": {
       "frames": [
         {
@@ -2134,90 +1822,6 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's bearers-carry-4"
     },
-    "volunteer-clean-rifle-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-volunteer-camp",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; sitting on the ground cleaning his piece: the barrel across his knees, a wiping rod worked into the muzzle (frame 1 of 2: the rod pushed in). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-clean-rifle-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's volunteer-clean-rifle-1"
-    },
-    "volunteer-clean-rifle-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-volunteer-camp",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; sitting on the ground cleaning his piece: the barrel across his knees, a wiping rod worked into the muzzle (frame 2 of 2: the rod drawn out). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-clean-rifle-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's volunteer-clean-rifle-2"
-    },
-    "volunteer-camp-sit-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-volunteer-camp",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; sitting on the ground in camp, the arms round the knees, the piece laid beside him, looking ahead (frame 1 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-camp-sit-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's volunteer-camp-sit-1"
-    },
-    "volunteer-camp-sit-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-volunteer-camp",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; sitting on the ground in camp, the arms round the knees, the piece laid beside him, the head turned to talk (frame 2 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-camp-sit-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's volunteer-camp-sit-2"
-    },
-    "volunteer-camp-cook-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-volunteer-camp",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; crouched on one knee at a small cook fire, stirring a kettle hung over it with a stick (frame 1 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-camp-cook-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's volunteer-camp-cook-1"
-    },
-    "volunteer-camp-cook-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-volunteer-camp",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; crouched on one knee at a small cook fire, stirring a kettle hung over it with a stick (frame 2 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-camp-cook-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's volunteer-camp-cook-2"
-    },
     "volunteer-rest-sit": {
       "kind": "frame",
       "madeBy": "claude",
@@ -2225,7 +1829,7 @@
       "module": "battle-soldiers",
       "area": "battles",
       "sheet": "claude-volunteer-camp",
-      "request": "Request 2026-09-28 — ambient life",
+      "request": "Request 2026-09-25 — San Jacinto",
       "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; sitting at rest on the ground, the piece across his knees, the hands on it: resting, not hurt. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
       "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-rest-sit.svg",
       "method": "generated SVG (scripts/claude-art/)",
@@ -2239,96 +1843,12 @@
       "module": "battle-soldiers",
       "area": "battles",
       "sheet": "claude-volunteer-camp",
-      "request": "Request 2026-09-28 — ambient life",
+      "request": "Request 2026-09-25 — San Jacinto",
       "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; asleep on his back on the ground, his head on his pack, his knees drawn up, his hat tipped over his face and a blanket over his legs, the piece beside him - plainly asleep, never to be mistaken for `volunteer-reclining` (a man killed, lying flat under a blanket to the chin). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
       "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-sleep.svg",
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's volunteer-sleep"
-    },
-    "regular-clean-rifle-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-regular-camp",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; sitting on the ground cleaning his piece: the barrel across his knees, a wiping rod worked into the muzzle (frame 1 of 2: the rod pushed in). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-clean-rifle-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's regular-clean-rifle-1"
-    },
-    "regular-clean-rifle-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-regular-camp",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; sitting on the ground cleaning his piece: the barrel across his knees, a wiping rod worked into the muzzle (frame 2 of 2: the rod drawn out). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-clean-rifle-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's regular-clean-rifle-2"
-    },
-    "regular-camp-sit-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-regular-camp",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; sitting on the ground in camp, the arms round the knees, the piece laid beside him, looking ahead (frame 1 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-camp-sit-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's regular-camp-sit-1"
-    },
-    "regular-camp-sit-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-regular-camp",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; sitting on the ground in camp, the arms round the knees, the piece laid beside him, the head turned to talk (frame 2 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-camp-sit-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's regular-camp-sit-2"
-    },
-    "regular-camp-cook-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-regular-camp",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; crouched on one knee at a small cook fire, stirring a kettle hung over it with a stick (frame 1 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-camp-cook-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's regular-camp-cook-1"
-    },
-    "regular-camp-cook-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-regular-camp",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; crouched on one knee at a small cook fire, stirring a kettle hung over it with a stick (frame 2 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-camp-cook-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's regular-camp-cook-2"
     },
     "regular-rest-sit": {
       "kind": "frame",
@@ -2337,7 +1857,7 @@
       "module": "battle-soldiers",
       "area": "battles",
       "sheet": "claude-regular-camp",
-      "request": "Request 2026-09-28 — ambient life",
+      "request": "Request 2026-09-25 — San Jacinto",
       "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; sitting at rest on the ground, the piece across his knees, the hands on it: resting, not hurt. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
       "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-rest-sit.svg",
       "method": "generated SVG (scripts/claude-art/)",
@@ -2351,7 +1871,7 @@
       "module": "battle-soldiers",
       "area": "battles",
       "sheet": "claude-regular-camp",
-      "request": "Request 2026-09-28 — ambient life",
+      "request": "Request 2026-09-25 — San Jacinto",
       "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; asleep on his back on the ground, his head on his pack, his knees drawn up, his hat tipped over his face and a blanket over his legs, the piece beside him - plainly asleep, never to be mistaken for `regular-reclining` (a man killed, lying flat under a blanket to the chin). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
       "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-sleep.svg",
       "method": "generated SVG (scripts/claude-art/)",
@@ -3185,90 +2705,6 @@
         "bearers-carry-4"
       ],
       "status": "temporary: replace with Astra's bearers-carry"
-    },
-    "volunteer-clean-rifle": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, at rest in camp: clean rifle, two frames looping.",
-      "frames": [
-        "volunteer-clean-rifle-1",
-        "volunteer-clean-rifle-2"
-      ],
-      "status": "temporary: replace with Astra's volunteer-clean-rifle"
-    },
-    "volunteer-camp-sit": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, at rest in camp: camp sit, two frames looping.",
-      "frames": [
-        "volunteer-camp-sit-1",
-        "volunteer-camp-sit-2"
-      ],
-      "status": "temporary: replace with Astra's volunteer-camp-sit"
-    },
-    "volunteer-camp-cook": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, at rest in camp: camp cook, two frames looping.",
-      "frames": [
-        "volunteer-camp-cook-1",
-        "volunteer-camp-cook-2"
-      ],
-      "status": "temporary: replace with Astra's volunteer-camp-cook"
-    },
-    "regular-clean-rifle": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, at rest in camp: clean rifle, two frames looping.",
-      "frames": [
-        "regular-clean-rifle-1",
-        "regular-clean-rifle-2"
-      ],
-      "status": "temporary: replace with Astra's regular-clean-rifle"
-    },
-    "regular-camp-sit": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, at rest in camp: camp sit, two frames looping.",
-      "frames": [
-        "regular-camp-sit-1",
-        "regular-camp-sit-2"
-      ],
-      "status": "temporary: replace with Astra's regular-camp-sit"
-    },
-    "regular-camp-cook": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, at rest in camp: camp cook, two frames looping.",
-      "frames": [
-        "regular-camp-cook-1",
-        "regular-camp-cook-2"
-      ],
-      "status": "temporary: replace with Astra's regular-camp-cook"
     },
     "volunteer-loophole-fire": {
       "kind": "clip",

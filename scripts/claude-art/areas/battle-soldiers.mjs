@@ -77,25 +77,7 @@ for (const side of ['volunteer', 'regular']) {
   const knees = add(sit.pelvis, [F.B.thigh * 0.62, F.B.thigh * 0.72]);
   const across = (ink, dy = 0) => drawGun(ink, add(knees, [-len * 0.62 * g, 1.5 + dy]), add(knees, [len * 0.38 * g, 5 + dy]), { kind, down: -1 });
   const rows = [];
-  // Cleaning the rifle: sitting, the piece across the knees, a wiping rod worked in and out of the muzzle.
-  for (const [i, x] of [[1, 6], [2, 16]]) {
-    const name = `${side}-clean-rifle-${i}`;
-    rows.push([name, `${WHO[side]}; sitting on the ground cleaning his piece: the barrel across his knees, a wiping rod worked into the muzzle (frame ${i} of 2: the rod ${i === 1 ? 'pushed in' : 'drawn out'}). ${STYLE}`,
-      () => frame(name, spec, { ...sit, hands: { near: add(knees, [x * g, 5]), far: add(knees, [-6 * g, 3]) } }, { after: ink => { across(ink); drawRamrod(ink, add(knees, [(x - 2) * g, 5.5]), add(knees, [(x + 24) * g, 6.5])); } }), [[`${side}-ramrod`, 1], [`${side}-injured`, 1]]]);
-  }
-  // Sitting at the fire, the arms on the knees; the head turned to the next man and back.
-  for (const i of [1, 2]) {
-    const name = `${side}-camp-sit-${i}`;
-    rows.push([name, `${WHO[side]}; sitting on the ground in camp, the arms round the knees, the piece laid beside him, ${i === 1 ? 'looking ahead' : 'the head turned to talk'} (frame ${i} of 2). ${STYLE}`,
-      () => frame(name, spec, { ...PO.sitFloor(F, { hug: true, lean: 10, tilt: i === 1 ? 6 : -14 }), mouth: i === 2 ? 'open' : undefined }, { before: ink => drawGun(ink, [-30 * g, 1], [(len - 30) * g, 3], { kind, down: -1 }) }), [[`${side}-injured`, 1]]]);
-  }
-  // Cooking: crouched at a small fire, stirring the kettle.
-  for (const i of [1, 2]) {
-    const name = `${side}-camp-cook-${i}`, k = PO.kneelPose(F, { lean: 26 });
-    rows.push([name, `${WHO[side]}; crouched on one knee at a small cook fire, stirring a kettle hung over it with a stick (frame ${i} of 2). ${STYLE}`,
-      () => frame(name, spec, { ...k, tilt: -8, hands: { near: PO.at(F, 22 + (i === 1 ? 0 : 3), -34), far: PO.at(F, 8, -38) }, elbows: { near: 1, far: 1 } },
-        { before: ink => cookFire(ink, 33 * g, { phase: i - 1 }), after: ink => ink.line(seg(PO.at(F, 22 + (i === 1 ? 0 : 3), -33), [33 * g + (i === 1 ? -1 : 2), 13]), { colour: COLOURS.leatherLight, width: 2.2 }) }), [['campfire', 0.9]]]);
-  }
+  // Cleaning a rifle, sitting and cooking in camp (request 2026-09-28 "ambient life", item 3) are area A's (areas/camp-rest.mjs).
   // At rest (San Jacinto's camp, the afternoon of April 21): sitting with the piece across the knees; asleep.
   {
     const name = `${side}-rest-sit`;
@@ -115,8 +97,7 @@ for (const side of ['volunteer', 'regular']) {
         ink.shape(blob([[head[0] + 42, 1], [head[0] + 44, 17], [head[0] + 70, 17], [head[0] + 86, 13], [head[0] + 88, 1]], 0.6), '#8a7f6e', { off: 1 });
       }, { note: sleep, ...AT }), [[`${side}-reclining`, 1], [`${side}-injured`, 1]]]);
   }
-  sheet(`claude-${side}-camp`, side === 'volunteer' ? R.ambient : R.ambient, `${R.ambient} item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the \`${side}-*\` logical height, east mirrored for west`, rows);
-  for (const act of ['clean-rifle', 'camp-sit', 'camp-cook']) clips[`${side}-${act}`] = clip([[`${side}-${act}-1`, act === 'camp-sit' ? 2200 : 520], [`${side}-${act}-2`, act === 'camp-sit' ? 1600 : 520]], { prompt: `${WHO[side]}, at rest in camp: ${act.replace('-', ' ')}, two frames looping.` });
+  sheet(`claude-${side}-camp`, R.sanjac, `request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the \`${side}-*\` logical height, east mirrored for west`, rows);
 }
 
 // ---------------------------------------------------------------------------------------------------- C5: Béxar's streets
