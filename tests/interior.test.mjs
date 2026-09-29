@@ -25,7 +25,8 @@ const land = (world, id = 'hh-1') => projectWorld(world, id, 'student', { includ
 
 test('every interior\'s spots lie on its picture and every thing that can be set out has art the library has', () => {
   for (const [kind, room] of Object.entries(INTERIORS)) {
-    assert.ok(atlas.frames[room.sprite], `${kind} is drawn as ${room.sprite}, which the library does not have`);
+    assert.ok(inLibrary(room.sprite), `${kind} is drawn as ${room.sprite}, which neither library has`);
+    if (room.fallback) assert.ok(atlas.frames[room.fallback], `${kind}'s fallback ${room.fallback} is not in Astra's library`);
     assert.ok(room.spots.length >= 8, `${kind} has too few places`);
     assert.equal(new Set(room.spots.map(([id]) => id)).size, room.spots.length, `${kind} names a place twice`);
     for (const [id, label, x, y] of room.spots) assert.ok(label && x > 0 && x < 1 && y > 0 && y < 1, `${kind}'s ${id} is off the picture`);

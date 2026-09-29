@@ -51,6 +51,13 @@ export class TownWalker {
 }
 
 const GROWN = new Set(['teal', 'indigo', 'elder', 'ochre', 'blue', 'blue-girl']);
+/**
+ * Béxar's own townspeople (sim/town-scenes.mjs `BEXAR_CAST`), children too, have every pose a scene asks for: speaking,
+ * listening and carrying as well as standing and walking. stand-in: docs/ART_REQUESTS.md, request 2026-09-27 - the milk cow
+ * on the run, and Béxar before the bell, item 2: Claude-drawn stand-ins; a person's `standIn` cast figure is drawn while
+ * their sheet has not loaded.
+ */
+const ALL_POSES = new Set(['bexar-man', 'bexar-woman', 'bexar-girl', 'bexar-boy']);
 const CHILD_POSES = new Set(['idle-s', 'idle-e', 'idle-w', 'idle-n', 'walk', 'walk-s', 'walk-n', 'rest']);
 /**
  * The clip for one of the scene's people doing `pose`, facing `face`, or walking `dir` when `moving`. Returns
@@ -65,8 +72,8 @@ export function sceneClip(person, { moving = false, dir = 's' } = {}) {
     // The Tejano volunteers of Béxar ride as Claude's Tejano horseman (`tejano-rider-ride-*`) where it is loaded, their cast
     // figure's ride otherwise. stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - request
     // 2026-09-27 "the milk cow on the run, and Béxar before the bell", item 3.
-    const tejano = /^bx-tejano-/.test(person.id || '') ? { prefer: `tejano-rider-ride-${heading === 'n' || heading === 's' ? heading : 'e'}` } : {};
-    return heading === 'n' || heading === 's' ? { id: `${figure}-ride-${heading}`, flip: false, mounted: true, ...tejano } : { id: `${figure}-ride-e`, flip: heading === 'w', mounted: true, ...tejano };
+    const ride = heading === 'n' || heading === 's' ? { id: `${figure}-ride-${heading}`, flip: false, mounted: true } : { id: `${figure}-ride-e`, flip: heading === 'w', mounted: true };
+    return /^bx-tejano-/.test(person.id || '') ? { ...ride, id: `tejano-rider-ride-${heading === 'n' || heading === 's' ? heading : 'e'}`, standInClip: ride.id } : ride;
   }
   // A man with his rifle, and a dragoon on his horse: the military sheets, which have standing and marching and no more. Any
   // other pose asked of them - speaking, listening - is their standing pose, and the words go over it.
@@ -77,7 +84,11 @@ export function sceneClip(person, { moving = false, dir = 's' } = {}) {
   }
   if (moving) return dir === 'n' || dir === 's' ? { id: `${figure}-walk-${dir}`, flip: false } : { id: `${figure}-walk`, flip: dir === 'w' };
   const face = person.face || 's', pose = person.pose || 'idle';
-  const child = !GROWN.has(figure);
+  // The fandango (request 2026-09-27, item 4): a couple dancing is one drawing, made by the first of the pair (`partner`
+  // names the other, who is drawn in it: `lead` names the first); the fiddler plays whatever pose the scene gives him.
+  if (figure === 'dancers-couple') return { id: 'dancers-couple', flip: face === 'w', couple: person.lead ? 'partner' : 'lead' };
+  if (figure === 'fiddler') return { id: 'fiddler-play', flip: face === 'w' };
+  const child = !GROWN.has(figure) && !ALL_POSES.has(figure);
   if (pose === 'idle' || (child && !CHILD_POSES.has(pose))) return { id: `${figure}-idle-${face}`, flip: false };
   if (pose === 'listen') return { id: `${figure}-listen-${face === 'n' ? 'n' : 's'}`, flip: false };
   // A player's helper may be any adult figure. Keep the older working pose until that figure gets its own sewing frames.
@@ -172,15 +183,15 @@ function drawProp(ctx, prop, p, figure, time) {
     case 'flag-work': drawFlag(ctx, p.x, p.y - figure * .42, figure * .9, { stage: prop.stage || 'cloth', flat: true }); return;
     case 'flag': drawFlag(ctx, p.x, p.y, figure * 1.7, { time, stage: 'done' }); return;
     // Béxar before the bell (sim/town-scenes.mjs `BEXAR_BEATS`): a family's carreta, loaded standing or going down the road; and
-    // the fandango's lights. stand-in: docs/ART_REQUESTS.md, request 2026-09-27 - the milk cow on the run, and Béxar before the bell: the fandango's lanterns
-    // are the camp fire's flicker drawn small until a lantern on a post is drawn.
+    // the fandango's lights. stand-in: docs/ART_REQUESTS.md, request 2026-09-27 - the milk cow on the run, and Béxar before the bell, item 4:
+    // a lantern on a post (`lantern-post`, Claude-drawn stand-ins), and the camp fire's flicker drawn small while it has not loaded.
     case 'carreta': {
       const heading = prop.face === 's' || prop.face === 'n' ? prop.face : 'e';
       if (prop.moving && drawClip(ctx, `carreta-travel-${heading}`, p.x, p.y, figure * 1.1, { timeMs: time, seed: prop.id, flip: heading === 'e' && flip })) return;
       drawSprite(ctx, 'carreta-loaded-e', p.x, p.y, figure * 1.05, { flip }) || drawSprite(ctx, 'wagon-loaded', p.x, p.y, figure * 1.1, { flip: !flip });
       return;
     }
-    case 'lights': drawClip(ctx, 'fire-flicker', p.x, p.y, figure * .3, { timeMs: time, seed: prop.id }) || drawSprite(ctx, 'campfire', p.x, p.y, figure * .28); return;
+    case 'lights': drawSprite(ctx, 'lantern-post', p.x, p.y, figure * 1.4) || drawClip(ctx, 'fire-flicker', p.x, p.y, figure * .3, { timeMs: time, seed: prop.id }) || drawSprite(ctx, 'campfire', p.x, p.y, figure * .28); return;
     default:
   }
 }
@@ -209,11 +220,12 @@ export function townSceneDrawables(ctx, scenes, { toScreen, figure, scale, now, 
     const stepped = walker.step(id, one.at, now, 0, { present: false });
     if (stepped.alpha > 0.01) items.push(personItem(ctx, one.person, stepped, { toScreen, figure, scale, time, drawn }));
   }
+  const byId = new Map((scenes.people || []).map(person => [person.id, person]));
   for (const person of scenes.people || []) {
     const pace = TOWN_WALK * heightOf(person, figure) / Math.max(1, scale);
     const stepped = walker.step(person.id, person, now, reducedMotion || frozen ? 1e3 : pace);
     stepped.person = person;
-    items.push(personItem(ctx, person, stepped, { toScreen, figure, scale, time, drawn }));
+    items.push(personItem(ctx, person, stepped, { toScreen, figure, scale, time, drawn, partner: person.partner ? byId.get(person.partner) : null }));
     const box = drawn.get(person.id)?.box;
     evidence?.push({ id: person.id, sceneId: person.sceneId, pose: person.pose, moving: stepped.moving, clip: sceneClip(person, stepped).id, x: stepped.at.x, y: stepped.at.y,
       ...(box && { sx: Math.round(box.x + box.w / 2), sy: Math.round(box.y + box.h / 2) }) });
@@ -222,19 +234,29 @@ export function townSceneDrawables(ctx, scenes, { toScreen, figure, scale, now, 
 }
 /** A person's drawn height: a rider and a dragoon with the horse under them, a child smaller. */
 const heightOf = (person, figure) => figure * (person.rides || person.figure === 'dragoon' ? MOUNTED_HEIGHT : 1) * (person.small || 1);
-function personItem(ctx, person, stepped, { toScreen, figure, scale, time, drawn }) {
+function personItem(ctx, person, stepped, { toScreen, figure, scale, time, drawn, partner = null }) {
   const p = toScreen(stepped.at);
   const height = heightOf(person, figure);
   const clip = sceneClip(person, stepped);
   drawn.set(person.id, { x: p.x, y: p.y - height, size: height, box: { x: p.x - height * .3, y: p.y - height, w: height * .6, h: height } });
-  return { y: p.y, draw: () => {
+  // A couple is drawn between the two dancers' places.
+  const q = clip.couple === 'lead' && partner ? toScreen(partner) : null;
+  const at = q ? { x: (p.x + q.x) / 2, y: (p.y + q.y) / 2 } : p;
+  return { y: at.y, draw: () => {
     const was = ctx.globalAlpha;
     ctx.globalAlpha = was * Math.max(0, Math.min(1, stepped.alpha));
     // Feet (and hooves) keep to the ground they cross: the cycle is played by how far they have gone.
-    const own = stepped.moving ? stepTime(clip.id, stepped.walked, height / Math.max(1, scale), clip.mounted ? STRIDE.hoof : STRIDE.foot) : undefined;
-    // A rider standing still sits a horse standing still: the riding cycle held on its first frame.
-    let width = clip.prefer && clipReady(clip.prefer) ? drawClip(ctx, clip.prefer, p.x, p.y, height, { timeMs: own ?? time, seed: person.id, flip: clip.flip, paused: person.rides && !stepped.moving }) : 0;
-    if (!width) width = drawClip(ctx, clip.id, p.x, p.y, height, { timeMs: own ?? time, seed: person.id, flip: clip.flip, paused: person.rides && !stepped.moving });
+    const timeOf = id => (stepped.moving ? stepTime(id, stepped.walked, height / Math.max(1, scale), clip.mounted ? STRIDE.hoof : STRIDE.foot) : undefined) ?? time;
+    // A rider standing still sits a horse standing still: the riding cycle held on its first frame. The second of a dancing
+    // couple is in the first one's drawing, and draws nothing of their own while it can be drawn.
+    // Béxar's own figures are drawn once their clip can be drawn (`clipReady`, the one test public/app.js `drawnClipOf` makes);
+    // until then the colonists' cast figure that stood in before them, each at their own place.
+    // Béxar's Tejano volunteers ride as Claude's Tejano horseman the same way, their cast figure's ride until it can be drawn.
+    const own = (!person.standIn && !clip.standInClip) || clipReady(clip.id);
+    const shown = own ? clip : clip.standInClip ? { ...clip, id: clip.standInClip } : sceneClip({ ...person, figure: person.standIn }, stepped);
+    const place = own ? at : p;
+    let width = own && clip.couple === 'partner' ? -1
+      : drawClip(ctx, shown.id, place.x, place.y, height, { timeMs: timeOf(shown.id), seed: person.id, flip: shown.flip, paused: person.rides && !stepped.moving });
     if (!width) fallbackPerson(ctx, p.x, p.y, height, person.figure === 'volunteer' ? '#7d5f45' : '#6d5a68');
     if (person.carries === 'flag') drawFlag(ctx, p.x + height * .18 * (clip.flip ? -1 : 1), p.y - height * .2, height * 1.5, { time });
     ctx.globalAlpha = was;

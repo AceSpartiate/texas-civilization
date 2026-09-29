@@ -158,7 +158,8 @@ test('a group of horse is drawn apart from its side, as riders, with its own fal
   assert.equal(e.figures.texian, 60, 'the group was counted in the side');
   assert.equal(e.fallenBy['g:sherman'], 1);
   assert.equal(e.fallenBy.texian, undefined);
-  assert.ok(art.drawn.some(one => /^mounted-courier/.test(one.clip || '')), 'the Texian horsemen are not drawn riding');
+  // A Texian horseman is Claude's `volunteer-mounted` where it can be drawn, the mounted courier before it (tests/transport-standins.test.mjs).
+  assert.ok(art.drawn.some(one => /^(mounted-courier|volunteer-mounted)/.test(one.clip || '')), 'the Texian horsemen are not drawn riding');
   assert.ok(e.shotsBy.texian > 0, 'the horsemen did not fire');
   assert.ok(e.works > 20, `only ${e.works} pieces of works drawn`);
   for (const piece of ['crate', 'sacks', 'barrel']) assert.ok(art.drawn.some(one => one.sprite === piece), `no ${piece} in the breastwork`);

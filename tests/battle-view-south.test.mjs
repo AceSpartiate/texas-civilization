@@ -104,7 +104,8 @@ test('the groves hide the dragoons, and a herd is driven and scattered; Grant\'s
   assert.ok(art.drawn.some(one => one.clip === 'mustang-gallop'), 'the herd is not galloping');
   assert.ok(art.drawn.filter(one => one.sprite === 'live-oak-large' || one.sprite === 'mesquite-large').length >= 7, 'the grove is not drawn');
   assert.equal(evidence.poses.rider, 20, 'Grant\'s men are not drawn riding');
-  assert.ok(art.drawn.some(one => one.clip === 'mounted-courier-e'));
+  // Grant's men ride as Claude's `volunteer-mounted` where it can be drawn, the mounted courier before it.
+  assert.ok(art.drawn.some(one => one.clip === 'mounted-courier-e' || one.clip === 'volunteer-mounted'));
 });
 
 test('a family\'s man is drawn in his part - asleep, in the house, giving up - and once his fate has come, in it', () => {

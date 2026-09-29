@@ -503,7 +503,7 @@ function grownClip(entity, observed) {
   if (entity.kind === 'person' && entity.stepping) {
     // Carrying water or wood a few steps back and forth (sim/ambient.mjs `pace`, public/ambient.js): the carry cycle, which has
     // an east sheet only, so it is only ever walked east and west.
-    if (entity.amb?.p === 'carry' && (entity.stepping === 'e' || entity.stepping === 'w')) return { id: `${variant}-carry` };
+    if (entity.amb?.p === 'carry' && (entity.stepping === 'e' || entity.stepping === 'w')) return entity.amb.a === 'water' ? { id: `${variant}-carry`, drawn: { from: 'carry', pose: 'carry-water' } } : { id: `${variant}-carry` };
     return entity.stepping === 'n' || entity.stepping === 's' ? { id: `${variant}-walk-${entity.stepping}`, upright: true } : { id: `${variant}-walk` };
   }
   // Doing something in one of the town's scenes before the fight (sim/town-scenes.mjs): the pose the server names, which is
@@ -630,8 +630,21 @@ export function ambientClip(variant, amb) {
   if (pose === 'idle') return { id: `${variant}-idle-${face}`, upright: true };
   if (pose.startsWith('idle-')) return { id: `${variant}-${pose}`, upright: true };
   if (pose === 'listen') return { id: `${variant}-listen-s`, upright: true };
-  return { id: `${variant}-${pose}` };
+  const own = AMBIENT_DRAWN[amb.a];
+  return own ? { id: `${variant}-${pose}`, drawn: { from: pose, pose: own } } : { id: `${variant}-${pose}` };
 }
+/**
+ * The pose of the activity itself (request 2026-09-28 - ambient life, item 1), by the server's activity id (`amb.a`): the page
+ * draws `drawn` where the library holds it for the figure (public/app.js `drawnClipOf`, the one way a binding asks for a pose
+ * beyond the delivered library) and the delivered pose the server names
+ * (`amb.p`) until then, so a figure without the sheet, or before it has loaded, is still drawn at something.
+ * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)", area A - every one of these is Claude-drawn
+ * for the eight cast figures today (scripts/claude-art/areas/ambient.mjs); Astra's clip of the same name replaces it.
+ */
+export const AMBIENT_DRAWN = Object.freeze({
+  whittle: 'whittle', harness: 'mend-harness', mend: 'sew', shell: 'shell-corn', rifle: 'clean-rifle', wash: 'wash',
+  pipe: 'pipe', cards: 'cards', dominoes: 'cards', sweep: 'sweep', water: 'carry-water',
+});
 /** The point `miles` along a road, for a caller drawing somebody somewhere other than where `position` puts them. */
 export const alongRoute = (points, miles) => along(points, miles);
 function along(points, distance) {

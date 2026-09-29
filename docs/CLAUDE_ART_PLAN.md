@@ -8,13 +8,13 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
-| A — People at work and ambient poses | 18 | 5 | 2 | 0 |
+| A — People at work and ambient poses | 18 | 5 | 16 | 0 |
 | B — Children, babies and sickness | 11 | 5 | 11 | 2 |
-| C — Soldiers, battles and famous people | 19 | 1 | 0 | 1 |
+| C — Soldiers, battles and famous people | 19 | 1 | 1 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 15 | 4 |
-| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 15 | 1 | 1 | 3 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 1 | 2 | 17 |
-| **Total** | **88** | **15** | **31** | **27** |
+| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 15 | 1 | 15 | 3 |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 1 | 3 | 17 |
+| **Total** | **88** | **15** | **61** | **27** |
 
 ## How a builder works
 
@@ -44,47 +44,47 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Frames:** one sprite a size. **Size:** A pile of wall logs three-quarter on the ground anchor, about as long as `log-fallen`, no taller than a person's waist; Claude: 448×320 cell drawn at 1.2 of a person
   - **Plugs into:** the wood pile in `drawWorld`, `public/app.js` (`window.__woodPileSprite`)
   - **Stands in now:** Claude's `wood-pile-1`..`-4`; without the sheet, `log-fallen` laid side by side (Claude-drawn)
-- [ ] **A3** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 3
+- [ ] **A3** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 3 — **Claude stand-in in place** (`rust-notch`, `rust-lift`, `teal-notch`, `teal-lift`, `elder-notch`, `elder-lift`, `blue-notch`, `blue-lift`, `rust-woman-notch`, `rust-woman-lift`, `indigo-notch`, `indigo-lift`, `ochre-notch`, `ochre-lift`, `blue-girl-notch`, `blue-girl-lift`); Astra's replaces it
   - **Deliver:** `<cast>-notch` (4 frames: notching a wall log's end with an axe) and `<cast>-lift` (2 frames: stooped under a log end, the log end at the shoulder; two facing across the frame read as one log lifted)
   - **Frames:** 4 and 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.notch` in `public/work-art.js`; `workSlot` stands several along the house front
   - **Stands in now:** the hoeing cycle with a drawn axe (drawn in code (canvas or CSS))
-- [ ] **A4** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 4
+- [ ] **A4** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 4 — **Claude stand-in in place** (`rust-dig`, `rust-dig-well`, `teal-dig`, `teal-dig-well`, `elder-dig`, `elder-dig-well`, `blue-dig`, `blue-dig-well`, `rust-woman-dig`, `rust-woman-dig-well`, `indigo-dig`, `indigo-dig-well`, `ochre-dig`, `ochre-dig-well`, `blue-girl-dig`, `blue-girl-dig-well`); Astra's replaces it
   - **Deliver:** `<cast>-dig` (spade driven in with the foot, levered, earth thrown behind, back) and `<cast>-dig-well` (the same waist-deep in a square hole with a low bank of earth)
   - **Frames:** 4 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.dig`, `STROKES.grub` in `public/work-art.js`
   - **Stands in now:** the hoeing cycle with dark clods thrown up (drawn in code (canvas or CSS))
-- [ ] **A5** (priority 1) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 1
+- [ ] **A5** (priority 1) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 1 — **Claude stand-in in place** (`rust-whittle`, `rust-mend-harness`, `rust-sew`, `rust-shell-corn`, `rust-clean-rifle`, `rust-pipe`, `rust-cards`, `rust-wash`, `rust-sweep`, `rust-carry-water`, `teal-whittle`, `teal-mend-harness`, `teal-sew`, `teal-shell-corn`, `teal-clean-rifle`, `teal-pipe`, `teal-cards`, `teal-wash`, `teal-sweep`, `teal-carry-water`, `elder-whittle`, `elder-mend-harness`, `elder-sew`, `elder-shell-corn`, `elder-clean-rifle`, `elder-pipe`, `elder-cards`, `elder-wash`, `elder-sweep`, `elder-carry-water`, `blue-whittle`, `blue-mend-harness`, `blue-sew`, `blue-shell-corn`, `blue-clean-rifle`, `blue-pipe`, `blue-cards`, `blue-wash`, `blue-sweep`, `blue-carry-water`, `rust-woman-whittle`, `rust-woman-mend-harness`, `rust-woman-sew`, `rust-woman-shell-corn`, `rust-woman-clean-rifle`, `rust-woman-pipe`, `rust-woman-cards`, `rust-woman-wash`, `rust-woman-sweep`, `rust-woman-carry-water`, `indigo-whittle`, `indigo-mend-harness`, `indigo-sew`, `indigo-shell-corn`, `indigo-clean-rifle`, `indigo-pipe`, `indigo-cards`, `indigo-wash`, `indigo-sweep`, `indigo-carry-water`, `ochre-whittle`, `ochre-mend-harness`, `ochre-sew`, `ochre-shell-corn`, `ochre-clean-rifle`, `ochre-pipe`, `ochre-cards`, `ochre-wash`, `ochre-sweep`, `ochre-carry-water`, `blue-girl-whittle`, `blue-girl-mend-harness`, `blue-girl-sew`, `blue-girl-shell-corn`, `blue-girl-clean-rifle`, `blue-girl-pipe`, `blue-girl-cards`, `blue-girl-wash`, `blue-girl-sweep`, `blue-girl-carry-water`); Astra's replaces it
   - **Deliver:** for each of the eight: `-whittle`, `-mend-harness`, `-sew`, `-shell-corn`, `-clean-rifle` (seated, 2 frames each), `-wash` (kneeling at a tub, 2), `-pipe`, `-cards` (seated, 2), `-sweep` (a broom, 4), `-carry-water` (a bucket in each hand, walking, 4, east)
   - **Frames:** 2-4 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `ambientClip` in `public/motion.js`; `ACTIVITIES` in `sim/ambient.mjs`
   - **Stands in now:** the nearest delivered pose: seated `-repair`, kneeling `-care`, seated `-rest`, the hoe's `-work`, the harvest `-carry` (Astra's library art reused)
-- [ ] **A6** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 2
+- [ ] **A6** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 2 — **Claude stand-in in place** (`rust-split`, `teal-split`, `elder-split`, `blue-split`, `rust-woman-split`, `indigo-split`, `ochre-split`, `blue-girl-split`); Astra's replaces it
   - **Deliver:** `<cast>-split` (maul raised, coming down, on the wedge in a log on the ground, back)
   - **Frames:** 4 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.split` in `public/work-art.js`
   - **Stands in now:** the hoeing cycle with a drawn maul (drawn in code (canvas or CSS))
-- [ ] **A7** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 5
+- [ ] **A7** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 5 — **Claude stand-in in place** (`rust-reap`, `teal-reap`, `elder-reap`, `blue-reap`, `rust-woman-reap`, `indigo-reap`, `ochre-reap`, `blue-girl-reap`); Astra's replaces it
   - **Deliver:** `<cast>-reap` (reaching up to an ear, snapping it, dropping it in a basket or sack, stepping on)
   - **Frames:** 4 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.reap` in `public/work-art.js`
   - **Stands in now:** the hoeing cycle with chaff (drawn in code (canvas or CSS))
-- [ ] **A8** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 7
+- [ ] **A8** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 7 — **Claude stand-in in place** (`rust-aim`, `rust-fire`, `teal-aim`, `teal-fire`, `elder-aim`, `elder-fire`, `blue-aim`, `blue-fire`, `rust-woman-aim`, `rust-woman-fire`, `indigo-aim`, `indigo-fire`, `ochre-aim`, `ochre-fire`, `blue-girl-aim`, `blue-girl-fire`); Astra's replaces it
   - **Deliver:** `<cast>-aim` (1 frame, a long rifle level at the shoulder) and `<cast>-fire` (2 frames: recoil, lowering), in the figure's own clothes
   - **Frames:** 1 + 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.shoot`, `STROKES.shot` in `public/work-art.js`
   - **Stands in now:** the side-on idle with a rifle line and a flash drawn in canvas (drawn in code (canvas or CSS))
-- [ ] **A9** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 8
+- [ ] **A9** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 8 — **Claude stand-in in place** (`rust-fish`, `teal-fish`, `elder-fish`, `blue-fish`, `rust-woman-fish`, `indigo-fish`, `ochre-fish`, `blue-girl-fish`); Astra's replaces it
   - **Deliver:** `<cast>-fish` (sitting on the bank, cane pole out, the pole twitched)
   - **Frames:** 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.fish`, `drawWorkLayer` in `public/work-art.js`
   - **Stands in now:** the seated rest with a cane pole, line and bobbing float in canvas (drawn in code (canvas or CSS))
-- [ ] **A10** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 9
+- [ ] **A10** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 9 — **Claude stand-in in place** (`rust-gather`, `teal-gather`, `elder-gather`, `blue-gather`, `rust-woman-gather`, `indigo-gather`, `ochre-gather`, `blue-girl-gather`); Astra's replaces it
   - **Deliver:** `<cast>-gather` (bent to the ground picking up, then into a basket or apron)
   - **Frames:** 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.gather` in `public/work-art.js`
   - **Stands in now:** the sowing crouch bobbing at the ground (drawn in code (canvas or CSS))
-- [ ] **A11** (priority 2) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 2
+- [ ] **A11** (priority 2) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 2 — **Claude stand-in in place** (`hens-pecking`, `washtub`, `woodpile-frontier`); Astra's replaces it
   - **Deliver:** `washtub` (a wooden tub with a board), `woodpile-frontier` (split rails stacked by a cabin), `hens-pecking` (two hens, 2 frames)
   - **Frames:** 1, 1 and 2 frames. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside
   - **Plugs into:** `propItem` in `public/ambient.js`
@@ -95,27 +95,27 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Plugs into:** `STAND_INS` in `sim/town-scenes.mjs`; `drawProp` in `public/town-scenes.js`
   - **Stands in now:** the delivered `repair`, `work`, `search` and `speak` poses (Astra's library art reused)
   - **Research first:** the Gonzales scenes of September 29 - October 2, 1835 (docs/battle-research/gonzales-town.md, HIST-TEX-460-469)
-- [ ] **A13** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 6
+- [ ] **A13** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 6 — **Claude stand-in in place** (`rust-carpentry`, `teal-carpentry`, `elder-carpentry`, `blue-carpentry`, `rust-woman-carpentry`, `indigo-carpentry`, `ochre-carpentry`, `blue-girl-carpentry`); Astra's replaces it
   - **Deliver:** `<cast>-carpentry` (at a shaving horse drawing a drawknife, 2 frames, then boring with an auger, 2)
   - **Frames:** 4 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.whittle` in `public/work-art.js`
   - **Stands in now:** the seated mending cycle with shavings (drawn in code (canvas or CSS))
-- [ ] **A14** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 10
+- [ ] **A14** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 10 — **Claude stand-in in place** (`rust-butcher`, `teal-butcher`, `elder-butcher`, `blue-butcher`, `rust-woman-butcher`, `indigo-butcher`, `ochre-butcher`, `blue-girl-butcher`); Astra's replaces it
   - **Deliver:** `<cast>-butcher` (at a plank table cutting a joint wrapped in cloth, or salting it down in a barrel; no carcass, no blood)
   - **Frames:** 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.butcher` in `public/work-art.js`
   - **Stands in now:** the kneeling nursing pose, bobbing (drawn in code (canvas or CSS))
-- [ ] **A15** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 11
+- [ ] **A15** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 11 — **Claude stand-in in place** (`rust-drill`, `rust-guard`, `teal-drill`, `teal-guard`, `elder-drill`, `elder-guard`, `blue-drill`, `blue-guard`, `rust-woman-drill`, `rust-woman-guard`, `indigo-drill`, `indigo-guard`, `ochre-drill`, `ochre-guard`, `blue-girl-drill`, `blue-girl-guard`); Astra's replaces it
   - **Deliver:** `<cast>-drill` (stepping out with a rifle at the shoulder, 4 frames) and `<cast>-guard` (sentry, rifle sloped, turning the head, 2)
   - **Frames:** 4 and 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.drill`, `STROKES.guard` in `public/work-art.js`
   - **Stands in now:** the walk stepped on the spot; the searching pose with a rifle sloped (drawn in code (canvas or CSS))
-- [ ] **A16** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 12
+- [ ] **A16** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 12 — **Claude stand-in in place** (`rust-stake`, `teal-stake`, `elder-stake`, `blue-stake`, `rust-woman-stake`, `indigo-stake`, `ochre-stake`, `blue-girl-stake`); Astra's replaces it
   - **Deliver:** `<cast>-stake` (a mallet raised over a stake and driving it)
   - **Frames:** 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.pace` in `public/work-art.js`
   - **Stands in now:** the walk cycle paced to and fro (drawn in code (canvas or CSS))
-- [ ] **A17** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 14
+- [ ] **A17** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 14 — **Claude stand-in in place** (`rust-tend-fire`, `teal-tend-fire`, `elder-tend-fire`, `blue-tend-fire`, `rust-woman-tend-fire`, `indigo-tend-fire`, `ochre-tend-fire`, `blue-girl-tend-fire`); Astra's replaces it
   - **Deliver:** `<cast>-tend-fire` (kneeling, feeding a stick into a small fire, blowing on it; the fire in the frame)
   - **Frames:** 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.fire` in `public/work-art.js`
@@ -124,7 +124,7 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Deliver:** aligned layer PNGs `<sheet>--line`, `--skin`, `--hair`, `--clothes` and the head items (`--hat`, `--beard`, `--moustache`, `--straw-hat`, `--bonnet`, `--pinned`, `--braid`, `--loose`, `--headscarf`) for every people sheet, one figure per sex and age band
   - **Frames:** every frame of every people sheet. **Size:** Registered pixel for pixel with the sheet they layer; greyscale value masks; see the request
   - **Plugs into:** `public/avatar-art.js`, `public/person-palette.js`, `public/appearance.js`
-  - **Stands in now:** the painted cast recoloured by a pixel classifier (`public/person-palette.js`), some head styles the nearest cast silhouette (Astra's library art reused)
+  - **Stands in now:** the painted cast recoloured by a region classifier (`public/person-palette.js`, 2026-09-28), some head styles the nearest cast silhouette (Astra's library art reused)
 
 ## B — Children, babies and sickness
 
@@ -204,7 +204,7 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Frames:** 4 frames, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `drawFallen` in `public/battle-view.js`
   - **Stands in now:** the seated wounded helped back by two walking figures; `*-reclining` with two beside (Astra's library art reused)
-- [ ] **C3** (priority 2) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 3
+- [ ] **C3** (priority 2) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 3 — **Claude stand-in in place** (`volunteer-clean-rifle`, `volunteer-camp-sit`, `volunteer-camp-cook`, `regular-clean-rifle`, `regular-camp-sit`, `regular-camp-cook`); Astra's replaces it
   - **Deliver:** `volunteer-clean-rifle`, `volunteer-camp-sit`, `volunteer-camp-cook` and the same for `regular-` (2 frames each)
   - **Frames:** 2 frames each, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `CAMP_TEXIAN`, `CAMP_MEXICAN` in `sim/ambient.mjs`; `figureClip` in `public/ambient.js`
@@ -393,78 +393,78 @@ Skipped:
 
 Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 15 to make, 3 skipped.
 
-- [ ] **E1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 2
+- [ ] **E1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 2 — **Claude stand-in in place** (`bexar-man-walk`, `bexar-man-walk-s`, `bexar-man-walk-n`, `bexar-man-idle-s`, `bexar-man-idle-e`, `bexar-man-idle-w`, `bexar-man-idle-n`, `bexar-man-listen-s`, `bexar-man-listen-n`, `bexar-man-speak`, `bexar-man-carry`, `bexar-woman-walk`, `bexar-woman-walk-s`, `bexar-woman-walk-n`, `bexar-woman-idle-s`, `bexar-woman-idle-e`, `bexar-woman-idle-w`, `bexar-woman-idle-n`, `bexar-woman-listen-s`, `bexar-woman-listen-n`, `bexar-woman-speak`, `bexar-woman-carry`, `bexar-girl-walk`, `bexar-girl-walk-s`, `bexar-girl-walk-n`, `bexar-girl-idle-s`, `bexar-girl-idle-e`, `bexar-girl-idle-w`, `bexar-girl-idle-n`, `bexar-girl-listen-s`, `bexar-girl-listen-n`, `bexar-girl-speak`, `bexar-girl-carry`, `bexar-boy-walk`, `bexar-boy-walk-s`, `bexar-boy-walk-n`, `bexar-boy-idle-s`, `bexar-boy-idle-e`, `bexar-boy-idle-w`, `bexar-boy-idle-n`, `bexar-boy-listen-s`, `bexar-boy-listen-n`, `bexar-boy-speak`, `bexar-boy-carry`); Astra's replaces it
   - **Deliver:** Tejano townspeople of Béxar - a man, a woman in a rebozo, a girl and a boy - each `walk`, `idle-s`, `carry` (loading a cart), `speak`, `listen`, in 1830s Béxar dress (`bexar-man-*`, `bexar-woman-*`, `bexar-girl-*`, `bexar-boy-*`); also the storming's townspeople of 1835 walking out of a house (request 2026-09-25 the storming of Béxar, item 6)
   - **Frames:** the people-sheet poses. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `BEXAR_CAST` in `sim/town-scenes.mjs` (`figure`); `TOWNSFOLK` in `public/battle-view.js`
   - **Stands in now:** the colonists' cast figures (`ochre`, `teal`, `elder`, `indigo`, `blue`, `blue-girl`, `girl`, `boy`); `rust-woman`, `indigo`, `elder`, `smallchild` leaving a house (Astra's library art reused)
   - **Research first:** Béxar dress, 1835-36: rebozo, short jacket, sombrero; original interpretations
-- [ ] **E2** (priority 2) — [Request 2026-09-23 — the house from its other sides](ART_REQUESTS.md#request-2026-09-23--the-house-from-its-other-sides)
+- [ ] **E2** (priority 2) — [Request 2026-09-23 — the house from its other sides](ART_REQUESTS.md#request-2026-09-23--the-house-from-its-other-sides) — **Claude stand-in in place** (`house-round-back-sill`, `house-round-back-low-walls`, `house-round-back-full-walls`, `house-hewn-back-sill`, `house-hewn-back-low-walls`, `house-hewn-back-full-walls`, `house-porch-end`, `house-shed-room-end`, `house-passage-floor-end`, `house-passage-roof-end`); Astra's replaces it
   - **Deliver:** `house-round-back-sill`, `-back-low-walls`, `-back-full-walls` and the same for `hewn` (the pen from behind, no door in the gable toward the viewer); `house-passage-floor-end`, `house-passage-roof-end`, `house-porch-end`, `house-shed-room-end`
   - **Frames:** 1 each. **Size:** Building: the house-modules or town-buildings style, corner-on three-quarter view, anchored at the base centre, seats and ground corners measurable
   - **Plugs into:** `drawHousePlot`, `drawLogPen` in `public/house-plot.js`
   - **Stands in now:** the one front view, mirrored at a quarter turn; a chimney toward the viewer covers the door (Astra's library art reused)
-- [ ] **E3** (priority 2) — [Request 2026-09-24 — one roof over a two-pen house](ART_REQUESTS.md#request-2026-09-24--one-roof-over-a-two-pen-house)
+- [ ] **E3** (priority 2) — [Request 2026-09-24 — one roof over a two-pen house](ART_REQUESTS.md#request-2026-09-24--one-roof-over-a-two-pen-house) — **Claude stand-in in place** (`house-roof-join`, `house-roof-join-partial`, `house-roof-join-chimney`); Astra's replaces it
   - **Deliver:** `house-roof-join`, `house-roof-join-partial`, `house-roof-join-chimney`, and the ridge line marked on the roof frames
   - **Frames:** 1 each. **Size:** Building: the house-modules or town-buildings style, corner-on three-quarter view, anchored at the base centre, seats and ground corners measurable
   - **Plugs into:** `drawHousePlot` (`alongRidge`, `RIDGE`) in `public/house-plot.js`
   - **Stands in now:** the pens' own roof laid over the passage (Astra's library art reused)
-- [ ] **E4** (priority 2) — [Request 2026-09-15 — the house plot's pieces](ART_REQUESTS.md#request-2026-09-15--the-house-plots-pieces), remaining pieces
+- [ ] **E4** (priority 2) — [Request 2026-09-15 — the house plot's pieces](ART_REQUESTS.md#request-2026-09-15--the-house-plots-pieces), remaining pieces — **Claude stand-in in place** (`house-jacal-posts`, `house-jacal-wattle`, `house-jacal-thatch`, `house-chimney-double`, `house-shed-frame`, `house-floor`, `house-loft`); Astra's replaces it
   - **Deliver:** jacal modules (post, wattle, thatch stages: `house-jacal-*`), `house-shed-frame`, `house-chimney-double` (two-sided, its foot marked), `house-floor` and `house-loft` overlays
   - **Frames:** a frame a stage. **Size:** Building: the house-modules or town-buildings style, corner-on three-quarter view, anchored at the base centre, seats and ground corners measurable
   - **Plugs into:** `drawHousePlot`, `standChimneys` in `public/house-plot.js`
   - **Stands in now:** whole jacal stage sprites; `lean-to`; the single stick chimney drawn double (Astra's library art reused)
-- [ ] **E5** (priority 2) — [Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen](ART_REQUESTS.md#request-2026-09-12-second--settling-in-houses-interiors-furnishings-and-people-whose-looks-can-be-chosen), a saddlebag interior
+- [ ] **E5** (priority 2) — [Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen](ART_REQUESTS.md#request-2026-09-12-second--settling-in-houses-interiors-furnishings-and-people-whose-looks-can-be-chosen), a saddlebag interior — **Claude stand-in in place** (`interior-saddlebag`); Astra's replaces it
   - **Deliver:** `interior-saddlebag` (two round-log pens wall to wall round one central stone chimney, a fireplace into each, no passage)
   - **Frames:** 1. **Size:** The `home-interiors` style, camera and scale exactly as `interior-dog-run`
   - **Plugs into:** `INTERIORS.saddlebag` in `sim/interior-data.mjs`, `public/interior.js`
   - **Stands in now:** the dog-run's picture, drawn wide (Astra's library art reused)
-- [ ] **E6** (priority 2) — [Request 2026-09-14 — Béxar civic architecture](ART_REQUESTS.md#request-2026-09-14--béxar-civic-architecture)
+- [ ] **E6** (priority 2) — [Request 2026-09-14 — Béxar civic architecture](ART_REQUESTS.md#request-2026-09-14--béxar-civic-architecture) — **Claude stand-in in place** (`bexar-san-fernando-1836`, `bexar-governors-palace-1836`); Astra's replaces it
   - **Deliver:** `bexar-san-fernando-1836` and `bexar-governors-palace-1836`
   - **Frames:** 1 each. **Size:** Matched to `chapel`/`adobe-flat` scale and ground anchors, three-quarter
   - **Plugs into:** `public/bexar-layout.js`
   - **Stands in now:** the generic `chapel` and `adobe-flat` (Astra's library art reused)
   - **Research first:** **needs research first**: the 1836 appearance of San Fernando and the Governor's Palace; reject later additions and preserve uncertainty
-- [ ] **E7** (priority 2) — [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar), item 1
+- [ ] **E7** (priority 2) — [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar), item 1 — **Claude stand-in in place** (`house-loopholed`); Astra's replaces it
   - **Deliver:** `house-loopholed` (a flat-roofed stone house, a parapet about four feet high, loopholes in its walls)
   - **Frames:** 1. **Size:** As `stone-tile-house`
   - **Plugs into:** `draw` (`cover: 'loophole'`) in `public/battle-view.js`
   - **Stands in now:** the town's own house with flashes at its wall (Astra's library art reused)
-- [ ] **E8** (priority 2) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 4
+- [ ] **E8** (priority 2) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 4 — **Claude stand-in in place** (`dancers-couple`, `fiddler-play`, `lantern-post`); Astra's replaces it
   - **Deliver:** `dancers-couple` (4), `fiddler-play` (2), `lantern-post` (a lantern on a post, lit)
   - **Frames:** 4, 2, 1. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372; the lantern as a prop
   - **Plugs into:** `bx-dancer-*`, `bx-fiddler`, the `lights` prop in `public/town-scenes.js`
   - **Stands in now:** the cast figures; `fire-flicker` drawn small for the lanterns (Astra's library art reused)
   - **Research first:** the fandango in Béxar before February 23, 1836 (docs/battle-research/surprise-at-bexar.md §6)
-- [ ] **E9** (priority 2) — [Request 2026-09-26 — the bell at Béxar](ART_REQUESTS.md#request-2026-09-26--the-bell-at-béxar), items 1-2
+- [ ] **E9** (priority 2) — [Request 2026-09-26 — the bell at Béxar](ART_REQUESTS.md#request-2026-09-26--the-bell-at-béxar), items 1-2 — **Claude stand-in in place** (`sentry-bell-ring`, `townsfolk-leave`); Astra's replaces it
   - **Deliver:** `sentry-bell-ring-1`..`-4` (a man on a flat church roof by a bell arch pulling the rope, then pointing west) and `townsfolk-leave-1`..`-4` (a Tejano family, a man leading a laden carreta, a woman with a child)
   - **Frames:** 4 each, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** the `sentry` and `townsfolk` groups of `arrival` in `sim/battles/alamo.mjs`
   - **Stands in now:** one standing volunteer at the church; the engine's civilian figures (Astra's library art reused)
-- [ ] **E10** (priority 3) — [Request 2026-09-26 — the Mexican advance](ART_REQUESTS.md#request-2026-09-26--the-mexican-advance), item 4
+- [ ] **E10** (priority 3) — [Request 2026-09-26 — the Mexican advance](ART_REQUESTS.md#request-2026-09-26--the-mexican-advance), item 4 — **Claude stand-in in place** (`plantation-sugar`, `blockhouse-village`, `townsite-bay`, `tavern-house`); Astra's replaces it
   - **Deliver:** `plantation-sugar`, `blockhouse-village`, `townsite-bay`, `tavern-house`
   - **Frames:** 1 each. **Size:** Map cutout as `public/place-art.js` gives the places past the box
   - **Plugs into:** `public/place-art.js`
   - **Stands in now:** the places named on the map and nothing more (told in words, not drawn)
   - **Research first:** Stafford's, the Old Fort, New Washington and Mrs. Powell's (docs/MAP_ACCURACY.md §14)
-- [ ] **E11** (priority 3) — [Request 2026-09-25 — Concepción and the Grass Fight](ART_REQUESTS.md#request-2026-09-25--concepción-and-the-grass-fight), item 4
+- [ ] **E11** (priority 3) — [Request 2026-09-25 — Concepción and the Grass Fight](ART_REQUESTS.md#request-2026-09-25--concepción-and-the-grass-fight), item 4 — **Claude stand-in in place** (`mission-concepcion`); Astra's replaces it
   - **Deliver:** `mission-concepcion` (the church with twin towers and a dome, seen from about 500 yards)
   - **Frames:** 1. **Size:** Building: the house-modules or town-buildings style, corner-on three-quarter view, anchored at the base centre, seats and ground corners measurable
   - **Plugs into:** `concepcionScenery` in `sim/battles/concepcion.mjs`
   - **Stands in now:** `church-generic` (Astra's library art reused)
   - **Research first:** the mission as it stood in 1835
-- [ ] **E12** (priority 3) — [Request 2026-09-16 — the buildings the towns' research found](ART_REQUESTS.md#request-2026-09-16--the-buildings-the-towns-research-found), items 8-10
+- [ ] **E12** (priority 3) — [Request 2026-09-16 — the buildings the towns' research found](ART_REQUESTS.md#request-2026-09-16--the-buildings-the-towns-research-found), items 8-10 — **Claude stand-in in place** (`fort-velasco`, `sawmill-steam`, `stone-house-nacogdoches`); Astra's replaces it
   - **Deliver:** Fort Velasco (a circular log-and-sand fort, gapped and derelict: `fort-velasco`), the Harrisburg steam sawmill (`sawmill-steam`), the two-storey Stone House at Nacogdoches (`stone-house-nacogdoches`)
   - **Frames:** 1 each. **Size:** The scale of `house-hewn-log` and `trading-house`, south-facing
   - **Plugs into:** each building's `sprite` in `sim/town-layouts.mjs`
   - **Stands in now:** `palisade` pieces in a ring; `timber-hall` and `storehouse`; `stone-tile-house` (Astra's library art reused)
   - **Research first:** docs/town-research/ for each
-- [ ] **E13** (priority 3) — [Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek](ART_REQUESTS.md#request-2026-09-25--the-souths-fights-san-patricio-by-night-and-agua-dulce-creek), item 2
+- [ ] **E13** (priority 3) — [Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek](ART_REQUESTS.md#request-2026-09-25--the-souths-fights-san-patricio-by-night-and-agua-dulce-creek), item 2 — **Claude stand-in in place** (`window-lit-adobe-flat`, `window-lit-house-jacal`, `window-lit-jacal-poor`, `window-lit-cabin-small`); Astra's replaces it
   - **Deliver:** a lit-window overlay for `adobe-flat` and `house-jacal` (`window-lit-*`)
   - **Frames:** 1 each. **Size:** Registered to the building it overlays
   - **Plugs into:** `drawScenery`, `glow` in `public/battle-view.js`
   - **Stands in now:** a warm glow drawn on the canvas (drawn in code (canvas or CSS))
-- [ ] **E14** (priority 3) — [Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night](ART_REQUESTS.md#request-2026-09-25--the-alamo-ladders-the-guns-served-the-walls-manned-night), item 5
+- [ ] **E14** (priority 3) — [Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night](ART_REQUESTS.md#request-2026-09-25--the-alamo-ladders-the-guns-served-the-walls-manned-night), item 5 — **Claude stand-in in place** (`san-fernando-tower-1836`); Astra's replaces it
   - **Deliver:** San Fernando's tower as the red flag's setting
   - **Frames:** 1. **Size:** Building: the house-modules or town-buildings style, corner-on three-quarter view, anchored at the base centre, seats and ground corners measurable
   - **Plugs into:** `drawFlag` in `public/battle-view.js`
@@ -495,7 +495,7 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 6. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px
   - **Plugs into:** `panelMark`/`paintMark` in `public/app.js`, `drawMark` in `public/family-panel.js`
   - **Stands in now:** Claude's `claude-marks.png` (Claude-drawn)
-- [ ] **F3** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 15
+- [ ] **F3** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 15 — **Claude stand-in in place** (`fx-wood-chips`, `fx-earth-toss`, `fx-dust`, `fx-shavings`, `fx-ripple`, `tree-fall`); Astra's replaces it
   - **Deliver:** `fx-wood-chips`, `fx-earth-toss`, `fx-dust`, `fx-shavings`, `fx-ripple` (3 frames each, played from the strike) and `tree-fall` (4 frames: a hardwood leaning, going over, down, a bounce)
   - **Frames:** 3 each; 4. **Size:** Effect: 3 frames on the ground anchor of the work, one played from the strike
   - **Plugs into:** `EFFECTS` and `drawWorkLayer` in `public/work-art.js`

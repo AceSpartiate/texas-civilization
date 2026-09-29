@@ -47,7 +47,9 @@ try{
  const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
  // Every picture of a house the map draws, cut from the house sheets, with the transform it is drawn under: a house turned
  // on the ground must never be drawn turned (2026-09-23: at 90 degrees it lay on its side, at 180 it stood on its roof).
- await page.addInitScript(()=>{const drawImage=CanvasRenderingContext2D.prototype.drawImage;fetch('/assets/frontier-v1/atlas.json').then(r=>r.json()).then(atlas=>{window.__houseCuts=new Map(Object.entries(atlas.frames).filter(([,f])=>f.sheet==='house-modules'||f.sheet==='houses-settling').map(([name,f])=>[`${f.x},${f.y},${f.w},${f.h}`,name]));});
+ await page.addInitScript(()=>{const drawImage=CanvasRenderingContext2D.prototype.drawImage;fetch('/assets/frontier-v1/atlas.json').then(r=>r.json()).then(atlas=>{const cuts=new Map(Object.entries(atlas.frames).filter(([,f])=>f.sheet==='house-modules'||f.sheet==='houses-settling').map(([name,f])=>[`${f.x},${f.y},${f.w},${f.h}`,name]));
+   // And Claude's house pieces - the pen from behind, the roof over the gap, the jacal, the double chimney - stand-ins drawn where hers are.
+   return fetch('/assets/claude-standins/atlas.json').then(r=>r.ok?r.json():{frames:{}}).catch(()=>({frames:{}})).then(claude=>{for(const [name,f] of Object.entries(claude.frames))if(/^house-/.test(name))cuts.set(`${f.x},${f.y},${f.w},${f.h}`,name);window.__houseCuts=cuts;});});
   CanvasRenderingContext2D.prototype.drawImage=function(...args){const name=args.length===9&&window.__houseCuts?.get(`${args[1]},${args[2]},${args[3]},${args[4]}`);if(name&&!this.canvas.closest?.('#house-plot')){const t=this.getTransform();(window.__houseImages||=[]).push({name,a:t.a,b:t.b,c:t.c,d:t.d,e:t.e,f:t.f,x:args[5],y:args[6],w:args[7],h:args[8],sw:args[3],sh:args[4]});}return drawImage.apply(this,args);};});
  await page.goto(url);await page.locator('[name=name]').fill('Builder');await page.locator('[name=code]').fill(app.state.sessionCode);await page.getByRole('button',{name:'Join',exact:true}).click();await page.waitForFunction(()=>window.__snapshot?.world.householdId==='hh-1');
  const press=async selector=>{await page.waitForFunction(s=>{const e=document.querySelector(s);return e&&!e.disabled&&!e.hidden;},selector);await page.evaluate(s=>document.querySelector(s).click(),selector);};
@@ -166,14 +168,16 @@ try{
    // No chimney in front of a door (2026-09-24, owner: "fix the chimney standing in front of the door"). In one frame's drawing,
    // a chimney drawn after a pen's walls must not cover the door in them: the sheet's door, read by eye off its ten-pixel grid
    // (tests/house-chimney.test.mjs `DOOR`), through the transform the walls were drawn with. The cabin's chimney is east of its
-   // pen, which faces the viewer at 90 degrees: there, and only there, it still does - the stand-in until the sheet has the
-   // back of a pen (docs/ART_REQUESTS.md, request 2026-09-23).
+   // pen, which faces the viewer at 90 degrees: there it stood in front of the door until the pen could be drawn from behind
+   // (docs/ART_REQUESTS.md, request 2026-09-23); since 2026-09-28 that pen is Claude's `house-*-back-*`, its gable toward
+   // the viewer blank logs, and no chimney covers a door at any turn.
    const DOOR={'house-round-full-walls':[84,117,140,228],'house-hewn-full-walls':[86,115,138,232]};
    const perFrame=new Set(images.map(i=>`${i.name},${i.e.toFixed(2)},${i.f.toFixed(2)}`)).size,frame=images.slice(0,perFrame);
    const boxOf=(i,[l,r,t,b])=>{const xs=[l,r].map(u=>i.e+i.a*(i.x+u*i.w/i.sw)),ys=[t,b].map(v=>i.f+i.d*(i.y+v*i.h/i.sh));return {left:Math.min(...xs),right:Math.max(...xs),top:Math.min(...ys),bottom:Math.max(...ys)};};
    const meet=(p,q)=>p.left<=q.right&&q.left<=p.right&&p.top<=q.bottom&&q.top<=p.bottom;
    const overDoor=frame.filter((c,k)=>/chimney/.test(c.name)&&frame.some((w,j)=>j<k&&DOOR[w.name]&&meet(boxOf(c,[0,c.sw,0,c.sh]),boxOf(w,DOOR[w.name]))));
-   assert.equal(overDoor.length>0,rotation===90,`at ${rotation} degrees a chimney is ${overDoor.length?'':'not '}drawn over the door: ${JSON.stringify(frame.map(i=>[i.name,+i.e.toFixed(1),+i.a.toFixed(2)]))}`);
+   const fromBehind=images.some(i=>/-back-full-walls$/.test(i.name));
+   assert.equal(overDoor.length>0,rotation===90&&!fromBehind,`at ${rotation} degrees a chimney is ${overDoor.length?'':'not '}drawn over the door: ${JSON.stringify(frame.map(i=>[i.name,+i.e.toFixed(1),+i.a.toFixed(2)]))}`);
    const at=drawnHouse;await shoot(`house-built-${rotation}`,at);
    turns[rotation]={pictures:images.length,chimneysAgainstTheirPen:chimneys.length-away.length,chimneyOverDoor:overDoor.length>0,housePicturesOnTheMap:all.length,turned:turned.length,mirrored:images.filter(i=>i.a<0).length,footprintCells:{w:+(at.footprint.w/at.cell).toFixed(3),h:+(at.footprint.h/at.cell).toFixed(3)}};
  }

@@ -71,11 +71,47 @@
       "failed": [
         "a stroke with a drawn cycle of the work names a clip one of the libraries holds, and drawn in it the stand-in tool goes"
       ]
+    },
+    {
+      "guards": "area A poses that do not walk keep both feet where they stood",
+      "injected": "the notch's front foot slides forward on the downswing",
+      "failed": [
+        "area A poses that do not walk keep both feet where they stood, for every cast figure"
+      ]
+    },
+    {
+      "guards": "every hand an area A pose places is reached by its arm",
+      "injected": "the whittled stick is put out of the far hand's reach",
+      "failed": [
+        "every hand an area A pose places is reached by its arm: on the stick, the rag, the haft, the basket - never in the air"
+      ]
+    },
+    {
+      "guards": "each ambient activity ... the page asks for it",
+      "injected": "the page stops asking for the washing's own clip",
+      "failed": [
+        "each ambient activity the server names has its own clip for all eight cast figures, and the page asks for it"
+      ]
+    },
+    {
+      "guards": "each work effect has its three-frame sheet, drawn in place of the canvas marks",
+      "injected": "the dust keeps its canvas puffs and never asks for fx-dust",
+      "failed": [
+        "each work effect has its three-frame sheet, drawn in place of the canvas marks once it has loaded"
+      ]
+    },
+    {
+      "guards": "the soldiers at rest have their clips",
+      "injected": "the Mexican camp has nobody sitting",
+      "failed": [
+        "the soldiers at rest have their clips, and the page asks for them by the camp's activity"
+      ]
     }
   ],
   "cleanRunFailures": {
     "standins": [],
     "work": [],
-    "rig": []
+    "rig": [],
+    "areaA": []
   }
 }

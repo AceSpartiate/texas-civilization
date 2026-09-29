@@ -31,8 +31,9 @@ function comparedWith(frame) {
   return figure ? [[`${figure}-idle-e`, 1], [`${figure}-idle-s`, 1]] : [];
 }
 
-async function compareModule(page, m) {
-  const frames = Object.values(m.SHEETS).flatMap(spec => spec.frames).filter(f => claude.frames[f.name]);
+async function compareModule(page, m, match = null) {
+  // `match` (a regular expression) keeps a module of hundreds of frames to one readable sheet: `--match "^rust-"` for one figure.
+  const frames = Object.values(m.SHEETS).flatMap(spec => spec.frames).filter(f => claude.frames[f.name] && (!match || new RegExp(match).test(f.name)));
   if (!frames.length) return null;
   const heightOf = f => f.height ?? 1; // a Claude frame's drawn height, as a multiple of a person
   const refs = [...new Map(frames.flatMap(comparedWith).filter(([name]) => astra.frames[name]).map(r => [r[0], r])).values()];
@@ -89,15 +90,16 @@ window.onerror = message => { document.title = 'error: ' + message; };
   await page.waitForFunction(() => document.title === 'done' || document.title.startsWith('error'));
   const title = await page.title();
   if (title !== 'done') throw new Error(`${m.module}: ${title}`);
-  const path = `${OUT}compare-${m.module}.png`;
+  const path = `${OUT}compare-${m.module}${match ? '-' + match.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '') : ''}.png`;
   await page.screenshot({ path, clip: { x: 0, y: 0, width: Math.ceil(width), height: Math.ceil(height) } });
   return path;
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   mkdirSync(OUT, { recursive: true });
-  const only = process.argv.slice(2);
+  const args = process.argv.slice(2), at = args.indexOf('--match'), match = at >= 0 ? args[at + 1] : null;
+  const only = args.filter((a, i) => at < 0 || (i !== at && i !== at + 1));
   const modules = (await loadModules()).filter(m => !only.length || only.includes(m.module));
   // A fresh page each module: one page reused for a second, larger canvas never ran its script.
-  await withBrowser(async (first, browser) => { for (const m of modules) { const page = await browser.newPage({ deviceScaleFactor: 1 }); const path = await compareModule(page, m); await page.close(); if (path) console.log(path); } });
+  await withBrowser(async (first, browser) => { for (const m of modules) { const page = await browser.newPage({ deviceScaleFactor: 1 }); const path = await compareModule(page, m, match); await page.close(); if (path) console.log(path); } });
 }

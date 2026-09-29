@@ -67,9 +67,12 @@ const seedOf = id => { let n = 0; for (const c of String(id)) n = (Math.imul(n, 
  * The thing beside somebody at an activity, as a standing item the map sorts with its people: the fire and the pot at the
  * hands of whoever is kneeling at them, the bucket beside the washing, the woodpile at the end of the carrying, and two hens
  * at the feet of whoever feeds them. Null for an activity with nothing beside it.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - ambient life, item 2: the washing is the plain bucket, the woodpile the
- * Alamo's firewood, until a washtub and a woodpile of the frontier are drawn.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - ambient life, item 2: the washtub, the frontier woodpile and the two hens
+ * pecking are Claude-drawn ("Claude-drawn stand-ins (replace with Astra's)", area A: `washtub`, `woodpile-frontier`,
+ * `hens-pecking`), drawn at the height of the person beside them; Astra's of the same names replace them. Before their sheet
+ * has loaded, the plain bucket, the Alamo's firewood and `chicken-idle` stand in as they did.
  */
+const EAST = Object.freeze({ flip: false }), WEST = Object.freeze({ flip: true });
 export function propItem(ctx, amb, point, figure, { time = 0, flip = false } = {}) {
   if (!amb?.prop) return null;
   const ahead = flip ? -1 : 1, size = figure;
@@ -77,12 +80,14 @@ export function propItem(ctx, amb, point, figure, { time = 0, flip = false } = {
   switch (amb.prop) {
     case 'fire': { const p = at(.5, .02); return { y: p.y + .5, kind: 'fire', draw: () => drawClip(ctx, 'fire-flicker', p.x, p.y, size * .42, { timeMs: time, seed: 'amb-fire' }) || drawSprite(ctx, 'campfire', p.x, p.y, size * .36) } }
     case 'pot': { const p = at(.52, .02); return { y: p.y + .5, kind: 'pot', draw: () => { drawClip(ctx, 'fire-flicker', p.x, p.y, size * .34, { timeMs: time, seed: 'amb-pot' }) || drawSprite(ctx, 'campfire', p.x, p.y, size * .3); drawSprite(ctx, 'cooking-pot', p.x, p.y - size * .06, size * .26); } } }
-    case 'bucket': { const p = at(.42, .01); return { y: p.y + .5, kind: 'bucket', draw: () => drawSprite(ctx, 'bucket', p.x, p.y, size * .24) } }
+    // The washtub where the kneeling washer's hands reach (its board leans toward her: mirrored with her).
+    case 'bucket': { const p = at(.36, .01); return { y: p.y + .5, kind: 'bucket', draw: () => drawSprite(ctx, 'washtub', p.x, p.y, size, flip ? WEST : EAST) || drawSprite(ctx, 'bucket', at(.42, .01).x, p.y, size * .24) } }
     // At the west end of the few steps the wood is carried (`ambientGround`), whichever way the carrier is turned.
-    case 'firewood': { const p = { x: point.x - size * 1.05, y: point.y - size * .02 }; return { y: p.y - .5, kind: 'firewood', draw: () => drawSprite(ctx, 'alamo-firewood', p.x, p.y, size * .3) } }
+    case 'firewood': { const p = { x: point.x - size * 1.05, y: point.y - size * .02 }; return { y: p.y - .5, kind: 'firewood', draw: () => drawSprite(ctx, 'woodpile-frontier', p.x, p.y, size) || drawSprite(ctx, 'alamo-firewood', p.x, p.y, size * .3) } }
     case 'hens': {
       const a = at(.55, .04), b = at(.85, -.02);
-      return { y: a.y + .5, kind: 'hens', draw: () => { drawClip(ctx, 'chicken-idle', a.x, a.y, size * .26, { timeMs: time, seed: 'amb-hen-a', flip }); drawClip(ctx, 'chicken-idle', b.x, b.y, size * .24, { timeMs: time, seed: 'amb-hen-b', flip: !flip }); } };
+      const pair = at(.7, .02);
+      return { y: a.y + .5, kind: 'hens', draw: () => { if (drawClip(ctx, 'hens-pecking', pair.x, pair.y, size, { timeMs: time, seed: 'amb-hens', flip })) return; drawClip(ctx, 'chicken-idle', a.x, a.y, size * .26, { timeMs: time, seed: 'amb-hen-a', flip }); drawClip(ctx, 'chicken-idle', b.x, b.y, size * .24, { timeMs: time, seed: 'amb-hen-b', flip: !flip }); } };
     }
     default: return null;
   }
@@ -90,12 +95,18 @@ export function propItem(ctx, amb, point, figure, { time = 0, flip = false } = {
 
 /**
  * The clip for one of a camp's men (public/army-view.js) or the crowd at a refuge doing `one.p`, facing `one.face`: the
- * military sheets' own poses for a rifleman or a regular, the cast's for everybody else. Returns `{ id, flip }`.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - ambient life, item 3: a rifle cleaned is the ramrod's stroke.
+ * military sheets' own poses for a rifleman or a regular, the cast's for everybody else. Returns `{ id, flip }`, and `base`
+ * where `id` is a soldier at rest (`SOLDIERS_AT_REST`) whose sheet may not be drawable yet: the delivered pose to draw then.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - ambient life, item 3: a rifle cleaned, a man sitting and a man cooking
+ * are Claude-drawn (`<volunteer|regular>-clean-rifle`, `-camp-sit`, `-camp-cook`; "Claude-drawn stand-ins (replace with
+ * Astra's)", area A), and until they load the ramrod's stroke and the standing idle.
  */
+export const SOLDIERS_AT_REST = Object.freeze({ rifle: 'clean-rifle', sit: 'camp-sit', cook: 'camp-cook' });
 export function figureClip(one, stepping = null) {
   const figure = one.f || one.figure, face = one.face === 'w' ? 'w' : 'e';
   if (figure === 'volunteer' || figure === 'regular') {
+    const rest = SOLDIERS_AT_REST[one.a];
+    if (rest) return { id: `${figure}-${rest}`, flip: face === 'w', base: one.p === 'idle' ? `${figure}-idle-${face}` : `${figure}-${one.p}`, baseFlip: one.p === 'idle' ? false : face === 'w' };
     if (one.p === 'idle') return { id: `${figure}-idle-${face}`, flip: false };
     if (one.p === 'march') return { id: `${figure}-march`, flip: (stepping || face) === 'w' };
     return { id: `${figure}-${one.p}`, flip: face === 'w' };
@@ -139,7 +150,7 @@ export function crowdDrawables(ctx, crowds, { toScreen, figure, time = 0, reduce
       const p = toScreen({ x: one.x + step.dx * PERSON_WIDTH_MILES, y: one.y });
       const clip = figureClip(one, step.stepping);
       heads.set(one.id, { x: p.x, y: p.y - height, size: height });
-      items.push({ y: p.y, draw: () => { if (!drawClip(ctx, clip.id, p.x, p.y, height, { timeMs: time, seed: one.id, flip: clip.flip })) fallback(ctx, p.x, p.y, height); } });
+      items.push({ y: p.y, draw: () => { if (!drawClip(ctx, clip.id, p.x, p.y, height, { timeMs: time, seed: one.id, flip: clip.flip }) && !(clip.base && drawClip(ctx, clip.base, p.x, p.y, height, { timeMs: time, seed: one.id, flip: clip.baseFlip }))) fallback(ctx, p.x, p.y, height); } });
       evidence?.push({ id: one.id, act: one.a, clip: clip.id });
     }
   }

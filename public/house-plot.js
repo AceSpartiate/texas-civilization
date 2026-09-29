@@ -141,18 +141,46 @@ export function roofSeat(walls, roof, x, y, height, flip = false) {
  * seated - no sheet, no frames, no seats - so the caller draws the pen's whole picture instead (`penPicture`). `flip`
  * says the `drawSprite` given mirrors every picture about its foot, so the roof's seat is mirrored with the walls.
  */
-function drawLogPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip = false) {
-  if (p.type === 'pen-jacal' || !spriteFrame) return 0;
+function drawLogPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip = false, { back = false, floor = false } = {}) {
+  if (!spriteFrame) return 0;
+  if (p.type === 'pen-jacal') return drawJacalPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip);
   const material = p.type === 'pen-hewn' ? 'hewn' : 'round';
   const course = Math.max(0, p.stage - 1);
-  const base = course === 0 ? `house-${material}-sill` : course <= 4 ? `house-${material}-low-walls` : `house-${material}-full-walls`;
-  const walls = spriteFrame(`house-${material}-full-walls`), frame = spriteFrame(base);
-  const roofName = penRoof([p]);
-  const seat = p.stage >= 12 ? roofSeat(walls, spriteFrame(roofName), x, y, height, flip) : null;
-  if (!walls || !frame || (p.stage >= 12 && !seat)) return 0;
-  const drawn = drawSprite(ctx, base, x, y, height * (frame.logicalHeight || frame.h) / (walls.logicalHeight || walls.h));
-  if (!drawn) return 0;
-  if (seat) drawSprite(ctx, roofName, seat.x, seat.y, seat.height, { anchor: seat.anchor });
+  const stage = course === 0 ? 'sill' : course <= 4 ? 'low-walls' : 'full-walls';
+  // The pen from behind - the gable toward the viewer without its door - where a chimney stands against that gable
+  // (`housePicture`). stand-in: docs/ART_REQUESTS.md, request 2026-09-23 - the house from its other sides: Claude-drawn
+  // stand-ins `house-*-back-*` (see *Claude-drawn stand-ins*), her own logs laid over her doorway; her front picture while
+  // they have not loaded, the chimney then covering the door as before.
+  for (const set of back ? [`${material}-back`, material] : [material]) {
+    const base = `house-${set}-${stage}`, walls = spriteFrame(`house-${set}-full-walls`), frame = spriteFrame(base);
+    const roofName = penRoof([p]);
+    const seat = p.stage >= 12 ? roofSeat(walls, spriteFrame(roofName), x, y, height, flip) : null;
+    if (!walls || !frame || (p.stage >= 12 && !seat)) continue;
+    // A puncheon floor under the walls, where the pen has one: it shows through the doorway and over the low courses.
+    // stand-in: docs/ART_REQUESTS.md, request 2026-09-15 - the house plot's pieces: Claude-drawn stand-in `house-floor`.
+    if (floor && spriteFrame('house-floor')) drawSprite(ctx, 'house-floor', x, y, height * (spriteFrame('house-floor').logicalHeight || 1) / (walls.logicalHeight || walls.h));
+    const drawn = drawSprite(ctx, base, x, y, height * (frame.logicalHeight || frame.h) / (walls.logicalHeight || walls.h));
+    if (!drawn) continue;
+    if (seat) drawSprite(ctx, roofName, seat.x, seat.y, seat.height, { anchor: seat.anchor });
+    return drawn;
+  }
+  return 0;
+}
+
+/**
+ * A jacal pen from its pieces, as a log pen is (`drawLogPen`): its posts until the walls are woven and daubed, then its
+ * walls, then its thatch seated on them. Returns 0 when the pieces are not loaded, and the pen is drawn as the whole jacal
+ * of the houses-settling sheet at its stage (`penPicture`), as it always was.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-15 - the house plot's pieces (jacal post, wattle and thatch stages):
+ * Claude-drawn stand-ins `house-jacal-posts`, `house-jacal-wattle`, `house-jacal-thatch` (see *Claude-drawn stand-ins*).
+ */
+function drawJacalPen(ctx, p, x, y, height, drawSprite, spriteFrame, flip = false) {
+  const walls = spriteFrame('house-jacal-wattle'), thatch = spriteFrame('house-jacal-thatch');
+  const name = p.stage >= 2 ? 'house-jacal-wattle' : 'house-jacal-posts', frame = spriteFrame(name);
+  if (!walls || !frame || !thatch) return 0;
+  const seat = p.stage >= 3 ? roofSeat(walls, thatch, x, y, height, flip) : null;
+  const drawn = drawSprite(ctx, name, x, y, height * (frame.logicalHeight || frame.h) / (walls.logicalHeight || walls.h));
+  if (drawn && seat) drawSprite(ctx, 'house-jacal-thatch', seat.x, seat.y, seat.height, { anchor: seat.anchor });
   return drawn;
 }
 
@@ -286,6 +314,15 @@ function housePicture(order, rotation, flip) {
   const onDoors = mirrored => gables.filter(([dx, dy]) => doorGable(dx, dy, mirrored)).length;
   const chosen = onDoors(!flip) < onDoors(flip) ? !flip : flip;
   for (const pen of logPens) pen.flip = chosen;
+  // A pen with a chimney against its door's gable all the same is drawn from behind (`drawLogPen`'s `back`): the gable
+  // toward the viewer blank logs, the door in the far one - where a dog-run's near pen and a saddlebag's far pen have it.
+  for (const { walls } of chimneyGables(order)) {
+    for (const [pen, east] of walls) {
+      if (!pen || pen.p.type === 'pen-jacal') continue;
+      const [dx, dy] = turned(east ? 1 : -1, 0, rotation);
+      if (doorGable(dx, dy, chosen)) pen.back = true;
+    }
+  }
   return chosen;
 }
 
@@ -475,19 +512,31 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
   const order = placed.sort((a, b) => a.front - b.front);
   const row = alongRidge(order, rotation, cell, spriteFrame, housePicture(order, rotation, flip), catalogue, x, y);
   standChimneys(order, rotation, cell, spriteFrame);
-  for (const { p, w, h, footX, footY, flip: penFlip } of order) {
+  // The first of `names` that draws: a Claude stand-in first where one is named, then the picture it stands in for.
+  const first = (names, sx, sy, height, options) => { for (const name of names) { const width = sprite(ctx, name, sx, sy, height, options); if (width) return width; } return 0; };
+  // The roof over the gap between two pens in a row is laid after the near pen, so that it runs over the near pen's back
+  // gable end as it runs over the far pen's front one (`late`, drawn once every pen of the row is down).
+  const late = [], rowPens = order.filter(each => row?.pens.includes(each.p));
+  let pensDown = 0;
+  const floors = new Set(pieces.filter(each => each.type === 'floor' && each.stage >= each.kind.stageCount).map(each => `${each.x},${each.y}`));
+  for (const { p, w, h, footX, footY, flip: penFlip, back } of order) {
     if (p.kind.pen) {
       // The modular pen drawn the way `housePicture` chose; its whole picture, where the pieces cannot be drawn, as the house is.
       const penSprite = (c, name, sx, sy, height, options) => sprite(c, name, sx, sy, height, { ...options, flip: penFlip });
-      if (!drawLogPen(ctx, p, footX, footY, cell * 2.2, penSprite, spriteFrame, penFlip)) sprite(ctx, penPicture(p), footX, footY, cell * 2.2);
+      if (!drawLogPen(ctx, p, footX, footY, cell * 2.2, penSprite, spriteFrame, penFlip, { back, floor: floors.has(`${p.x},${p.y}`) })) sprite(ctx, penPicture(p), footX, footY, cell * 2.2);
+      if (rowPens.some(each => each.p === p) && ++pensDown === rowPens.length) for (const draw of late.splice(0)) draw();
       continue;
     }
+    // A shed room, porch or lone passage whose long side runs into the screen (a quarter turn) is drawn from its end.
+    // stand-in: docs/ART_REQUESTS.md, request 2026-09-23 - the house from its other sides, and 2026-09-15 - the house plot's
+    // pieces (the shed frame): Claude-drawn stand-ins `house-*-end` and `house-shed-frame` (see *Claude-drawn stand-ins*);
+    // her broadside picture, and the lean-to for the frame, while they have not loaded.
+    const end = name => (flip ? [`${name}-end`, name] : [name]);
     if (p.type === 'shed') {
-      const name = p.stage >= p.kind.stageCount ? 'house-shed-room' : 'lean-to';
-      if (!sprite(ctx, name, footX, footY, cell * 1.1) && name !== 'lean-to') sprite(ctx, 'lean-to', footX, footY, cell * 1.1);
+      if (!first(p.stage >= p.kind.stageCount ? end('house-shed-room') : ['house-shed-frame'], footX, footY, cell * 1.1)) sprite(ctx, 'lean-to', footX, footY, cell * 1.1);
       continue;
     }
-    if (p.type === 'porch') { if (!sprite(ctx, 'house-porch', footX, footY, cell * 0.9)) sprite(ctx, 'shed-open', footX, footY, cell * 0.9); continue; }
+    if (p.type === 'porch') { if (!first(end('house-porch'), footX, footY, cell * 0.9)) sprite(ctx, 'shed-open', footX, footY, cell * 0.9); continue; }
     ctx.save();
     if (p.type === 'passage' && row) {
       // Between two pens along their ridge (`alongRidge`): the floor with its back edge on the far pen's front wall, and
@@ -506,14 +555,21 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
       }
       const walls = spriteFrame(row.walls), roofName = penRoof(row.pens), roof = spriteFrame(roofName);
       const seat = p.stage >= p.kind.stageCount ? roofSeat(walls, roof, footX, footY, cell * 2.2, row.flip) : null;
-      if (seat) sprite(ctx, roofName, seat.x, seat.y, seat.height, { anchor: seat.anchor, flip: row.flip });
+      // One roof over the house: the section with no gable ends, laid after the near pen so it runs into both pens' roofs.
+      // stand-in: docs/ART_REQUESTS.md, request 2026-09-24 - one roof over a two-pen house: Claude-drawn stand-ins
+      // `house-roof-join`, `house-roof-join-partial` (see *Claude-drawn stand-ins*); the pens' own roof while not loaded.
+      const joinName = roofName === 'house-hewn-roof-finished' ? 'house-roof-join' : 'house-roof-join-partial';
+      const joinSeat = seat && roofSeat(walls, spriteFrame(joinName), footX, footY, cell * 2.2, row.flip);
+      const pensRoof = () => sprite(ctx, roofName, seat.x, seat.y, seat.height, { anchor: seat.anchor, flip: row.flip });
+      if (joinSeat) late.push(() => sprite(ctx, joinName, joinSeat.x, joinSeat.y, joinSeat.height, { anchor: joinSeat.anchor, flip: row.flip }) || pensRoof());
+      else if (seat) pensRoof();
     } else if (p.type === 'passage') {
-      const floor = sprite(ctx, 'house-passage-floor', footX, footY, cell * .72);
+      const floor = first(end('house-passage-floor'), footX, footY, cell * .72);
       if (!floor) {
         ctx.fillStyle = '#7b6a52';
         ctx.fillRect(footX - w * cell / 2, footY - (h - .4) * cell, w * cell, cell * .35);
       }
-      if (p.stage >= p.kind.stageCount) sprite(ctx, 'house-passage-roof', footX, footY, cell * 1.35);
+      if (p.stage >= p.kind.stageCount) first(end('house-passage-roof'), footX, footY, cell * 1.35);
     } else if (p.type === 'chimney' || p.type === 'chimney-stone') {
       const complete = p.stage >= p.kind.stageCount;
       const name = p.type === 'chimney-stone' ? 'house-chimney-stone' : complete ? 'house-chimney-stick' : 'house-chimney-stick-building';
@@ -523,12 +579,22 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
         ctx.fillRect(footX - wide / 2, footY - tall, wide, tall);
       }
     } else {
-      // stand-in: docs/ART_REQUESTS.md, request 2026-09-15 - the double chimney, two-sided, to its two-cell footprint. Until
-      // then it is the single stick-and-mud chimney's picture (since 2026-09-24; it was a flat rectangle), between the far
-      // pen's front gable and the near pen's back gable, taller than a single chimney so it hides the far pen's door,
-      // its foot behind the near pen's roof.
+      // stand-in: docs/ART_REQUESTS.md, request 2026-09-15 - the double chimney, two-sided, to its two-cell footprint:
+      // Claude-drawn stand-in `house-chimney-double` (see *Claude-drawn stand-ins*), a broad stone mass between the pens at
+      // the walls' own scale, with the roof over the gap (`house-roof-join-chimney`, request 2026-09-24) laid after the near
+      // pen, open where its stack stands through the ridge. Until they load it is the single stick-and-mud chimney's picture
+      // (since 2026-09-24; it was a flat rectangle), taller than a single chimney so it hides the far pen's door, its foot
+      // behind the near pen's roof.
       const complete = p.stage >= p.kind.stageCount, high = cell * DOUBLE_RISE;
-      if (!sprite(ctx, complete ? 'house-chimney-stick' : 'house-chimney-stick-building', footX, footY, high)) {
+      const double = complete && spriteFrame('house-chimney-double'), walls = row && spriteFrame(row.walls);
+      // Stood by the middle of its foot (`centre`), where `standChimneys` puts it; its own anchor is its front corner.
+      if (double?.centre && walls && sprite(ctx, 'house-chimney-double', footX, footY, cell * 2.2 * (double.logicalHeight || double.h) / (walls.logicalHeight || walls.h), { flip: row.flip, anchor: double.centre })) {
+        const cover = spriteFrame('house-roof-join-chimney');
+        if (cover?.chimneyAt && row.pens.every(pen => pen.stage >= 12)) {
+          // Laid with the chimney's foot on its own mark, so the opening is where the stack stands.
+          late.push(() => sprite(ctx, 'house-roof-join-chimney', footX, footY, cell * 2.2 * (cover.logicalHeight || cover.h) / (walls.logicalHeight || walls.h), { anchor: cover.chimneyAt, flip: row.flip }));
+        }
+      } else if (!sprite(ctx, complete ? 'house-chimney-stick' : 'house-chimney-stick-building', footX, footY, high)) {
         ctx.fillStyle = '#9a6b43';
         const wide = cell * 0.6, tall = high * Math.min(1, (p.stage + 0.3) / p.kind.stageCount);
         ctx.fillRect(footX - wide / 2, footY - tall, wide, tall);
@@ -537,5 +603,6 @@ export function drawHousePlot(ctx, x, y, size, land, catalogue, drawSprite, spri
     }
     ctx.restore();
   }
+  for (const draw of late) draw();
   return pieces.length;
 }
