@@ -13,8 +13,8 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | C — Soldiers, battles and famous people | 19 | 1 | 0 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 0 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 15 | 1 | 1 | 3 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 1 | 7 | 17 |
-| **Total** | **88** | **15** | **10** | **27** |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 1 | 10 | 17 |
+| **Total** | **88** | **15** | **13** | **27** |
 
 ## How a builder works
 
@@ -516,18 +516,18 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Plugs into:** `KINDS` in `sim/woods.mjs`, `drawGroundDetail` in `public/app.js`
   - **Stands in now:** `oak-spreading`, `elm`, `cottonwood`; the loblolly for shortleaf; the post-oak or cottonwood stump (Astra's library art reused)
   - **Research first:** which trees grew where in 1836 (docs/BIOMES.md)
-- [ ] **F7** (priority 3) — [Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night](ART_REQUESTS.md#request-2026-09-25--the-alamo-ladders-the-guns-served-the-walls-manned-night), item 4
+- [ ] **F7** (priority 3) — [Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night](ART_REQUESTS.md#request-2026-09-25--the-alamo-ladders-the-guns-served-the-walls-manned-night), item 4 — **Claude stand-in in place** (`night-grade`, `moonlight-grade`, `dawn-grade`); Astra's replaces it
   - **Deliver:** a night grade and a dawn grade for ground and figures (the Alamo assault), a moonlit night for Béxar's storming, and a moonless rain night for San Patricio under which lit windows and fires read (`night-grade`, `dawn-grade`, `moonlight-grade`)
   - **Frames:** grades. **Size:** A full-view light layer the renderer lays over the ground and figures (not a sprite); must not snap when the pace changes
   - **Plugs into:** `draw` and `drawNight` in `public/battle-view.js`
   - **Stands in now:** a dark blue wash by the phase's `light`; no night at Béxar (drawn in code (canvas or CSS))
   - **Research first:** sunrise 6:20 on March 6, 1836 (computed)
-- [ ] **F8** (priority 3) — [Request 2026-09-25 — Concepción and the Grass Fight](ART_REQUESTS.md#request-2026-09-25--concepción-and-the-grass-fight), items 1, 3, 7
+- [ ] **F8** (priority 3) — [Request 2026-09-25 — Concepción and the Grass Fight](ART_REQUESTS.md#request-2026-09-25--concepción-and-the-grass-fight), items 1, 3, 7 — **Claude stand-in in place** (`fog-bank-dense`, `fog-bank-thin`, `riverbank-cut-e`, `riverbank-cut-w`, `river-bend`, `creek-bed-dry`, `creek-ford`); Astra's replaces it
   - **Deliver:** `riverbank-cut-e`/`-w` (a bank face with steps), `river-bend`, `fog-bank-dense`, `fog-bank-thin`, `creek-bed-dry`, `creek-ford`
   - **Frames:** 1 each (fog 2-4 drifting). **Size:** Ground piece: seen from above at the map's scale, transparent, tiles or scatters
   - **Plugs into:** `concepcionScenery`, `grassScenery`, `drawFog` in `public/battle-view.js`
   - **Stands in now:** `earth-rampart` along the bank with trees and a drawn ribbon of water; a pale radial veil for fog (Astra's library art reused)
-- [ ] **F9** (priority 3) — [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto), item 4
+- [ ] **F9** (priority 3) — [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto), item 4 — **Claude stand-in in place** (`marsh-edge-1`, `marsh-edge-2`, `marsh-edge-3`); Astra's replaces it
   - **Deliver:** `marsh-edge` (tiles of cordgrass and open water, to scatter)
   - **Frames:** a few tiles. **Size:** Ground piece: seen from above at the map's scale, transparent, tiles or scatters
   - **Plugs into:** `drawWorks` in `public/battle-view.js`

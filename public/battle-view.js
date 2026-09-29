@@ -739,10 +739,13 @@ export function createBattleView(art) {
     // Night (§6.13): the field dark but for lit windows, the fire and the flashes, which are drawn over it.
     const night = battle.light === 'night' || battle.light === 'dawn' ? drawNight(ctx, battle, camera, figurePx, now, bounds) : null;
     // A darkness given as a number (the Alamo's nights, and the dawn coming up through the assault, 0 to 1), over the ground and
-    // the men but under the flashes and the words. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 4 - a
-    // darkening wash until night art exists.
+    // the men but under the flashes and the words. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 4 -
+    // Claude's `night-grade`, with `dawn-grade` warming it as the light comes (*Claude-drawn stand-ins*, area F), each at a
+    // strength that follows the number, so a change of pace changes only the strength; a darkening wash without them.
     if (typeof battle.light === 'number' && battle.light > 0) {
-      ctx.save(); ctx.fillStyle = `rgba(14,20,44,${(0.62 * battle.light).toFixed(3)})`; ctx.fillRect(0, 0, ctx.canvas?.width || bounds?.width || 0, ctx.canvas?.height || bounds?.height || 0); ctx.restore();
+      const dark = Math.min(1, battle.light);
+      if (drawGrade(ctx, 'night-grade', dark * 0.9, bounds)) drawGrade(ctx, 'dawn-grade', Math.sin(Math.PI * dark) * 0.45, bounds);
+      else { ctx.save(); ctx.fillStyle = `rgba(14,20,44,${(0.62 * battle.light).toFixed(3)})`; ctx.fillRect(0, 0, ctx.canvas?.width || bounds?.width || 0, ctx.canvas?.height || bounds?.height || 0); ctx.restore(); }
     }
     // Dusk and fog (Coleto, 2026-09-25): a lighter wash over the field, under the flashes. ceiling: the light is drawn only while a
     // fight is shown; the country itself has no night yet.
@@ -761,8 +764,9 @@ export function createBattleView(art) {
       flashes++;
     }
     // Fog lying over the field (the phase's `fog`, 0 to 1): Concepción's morning, thinning as it lifts about eight.
-    // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 3 - a pale veil until a fog bank exists.
-    const fogShown = battle.fog > 0 ? drawFog(ctx, battle, camera, bounds) : 0;
+    // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 3 - Claude's drifting fog banks
+    // (*Claude-drawn stand-ins*, area F) over a lighter veil; the veil alone without them.
+    const fogShown = battle.fog > 0 ? drawFog(ctx, battle, camera, bounds, figurePx, time) : 0;
     const smokeDrawn = drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds);
     const bubbles = drawLines(ctx, battle, camera, figurePx, now, time, bounds, drawn, drawnBy);
     view.civiliansSeen = Math.max(view.civiliansSeen, civilians);
@@ -798,7 +802,7 @@ export function createBattleView(art) {
       memberFates: Object.fromEntries([...view.memberFallAt.entries()].filter(([id, fall]) => fall.at <= now && view.members.has(id)).map(([id, fall]) => [id, fall.fate])),
       // The Alamo (docs/BATTLES.md §9): each gun's shots, the named people, the dark, the plumes, and each group's own order
       // (a column's files against a wall's line against a crowd: nearest-neighbour spread over the mean).
-      gunShotsBy: { ...view.gunShotsBy }, people: peopleShown, light: typeof battle.light === 'number' ? battle.light : battle.light || 'day', plumes: (battle.plumes || []).length,
+      gunShotsBy: { ...view.gunShotsBy }, people: peopleShown, light: typeof battle.light === 'number' ? battle.light : battle.light || 'day', plumes: (battle.plumes || []).length, fogBanks: battle.fog > 0 ? view.fogBanks || 0 : 0,
       groupStyles: Object.fromEntries((battle.groups || []).map(group => [group.id, group.style])),
       groupRegularity: Object.fromEntries(Object.entries(drawnBy).filter(([key]) => key.startsWith('g:')).map(([key, points]) => [key.slice(2), regularity(points)])),
       // Concepción and the Grass Fight: how regularly each body stands, the fog, the scenery drawn.
@@ -870,7 +874,10 @@ export function createBattleView(art) {
         // stand-ins*, area F); without it, the library's day campfire.
         const dark = battle.light === 'night' || (typeof battle.light === 'number' && battle.light > 0.35);
         if (!(dark && art.animated(ctx, 'campfire-night', p.x, p.y, figurePx * 0.9, item.id, { timeMs: time })) && !art.animated(ctx, 'campfire', p.x, p.y, figurePx * 0.9, item.id, { timeMs: time })) art.drawSprite(ctx, 'campfire', p.x, p.y, figurePx * 0.9);
-      } else if (!art.drawSprite(ctx, item.sprite || 'cabin-small', p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip })) {
+      } else if (!art.drawSprite(ctx, item.sprite || 'cabin-small', p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip })
+        // A piece with a `fallback` (Claude's ground pieces, sim/battles/concepcion.mjs and grass-fight.mjs) is drawn as the
+        // library art it stood in for while its own sheet is missing; `fallback: 'none'` is simply left out.
+        && !(item.fallback && (item.fallback === 'none' || art.drawSprite(ctx, item.fallback, p.x, p.y, figurePx * (item.fallbackSize || item.size || 2.4), { flip: item.flip })))) {
         ctx.fillStyle = '#8a7658'; ctx.fillRect(p.x - figurePx, p.y - figurePx * 1.2, figurePx * 2, figurePx * 1.2);
       }
       count++;
@@ -895,6 +902,23 @@ export function createBattleView(art) {
     }
     return n;
   }
+  /**
+   * A grade of light (`night-grade`, `moonlight-grade`, `dawn-grade`: a layer, not a sprite) stretched over the whole view and
+   * multiplied into it at `strength` (0 to 1). Its frame carries a clear gutter of a sixteenth each side (the library's sprite
+   * rule); the inside is what covers the view. Returns false when the grade is not in the library, for the caller's wash.
+   */
+  const GRADE_GUTTER = 16 / 256;
+  function drawGrade(ctx, name, strength, bounds) {
+    const W = bounds?.width ?? ctx.canvas?.width ?? 0, H = bounds?.height ?? ctx.canvas?.height ?? 0;
+    if (!(strength > 0.001) || !(W > 0) || !(H > 0)) return strength <= 0.001;
+    const h = H / (1 - 2 * GRADE_GUTTER);
+    ctx.save();
+    ctx.globalCompositeOperation = 'multiply';
+    ctx.scale(W / H, 1);
+    const drawn = art.drawSprite(ctx, name, -GRADE_GUTTER * h, H + GRADE_GUTTER * h, h, { anchor: [0, 1], alpha: Math.min(1, strength) });
+    ctx.restore();
+    return Boolean(drawn);
+  }
   /** A warm light on the ground: a lantern, the fire, a musket's flash in the dark. */
   function glow(ctx, x, y, r, colour) {
     const g = ctx.createRadialGradient(x, y, 0, x, y, r);
@@ -907,7 +931,11 @@ export function createBattleView(art) {
    */
   function drawNight(ctx, battle, camera, figurePx, now, bounds) {
     const width = bounds?.width ?? ctx.canvas?.width ?? 0, height = bounds?.height ?? ctx.canvas?.height ?? 0;
-    ctx.save(); ctx.fillStyle = battle.light === 'dawn' ? 'rgba(20,26,48,.3)' : 'rgba(8,12,30,.7)'; ctx.fillRect(0, 0, width, height); ctx.restore();
+    // Claude's grades (a moonless night; moonlight at Béxar's storming; first light), the wash without them.
+    const grade = battle.light === 'dawn' ? 'dawn-grade' : battle.id === 'bexar-storming' ? 'moonlight-grade' : 'night-grade';
+    if (!drawGrade(ctx, grade, battle.light === 'dawn' ? 0.75 : 1, bounds)) {
+      ctx.save(); ctx.fillStyle = battle.light === 'dawn' ? 'rgba(20,26,48,.3)' : 'rgba(8,12,30,.7)'; ctx.fillRect(0, 0, width, height); ctx.restore();
+    }
     let lit = 0;
     for (const item of battle.scenery || []) {
       if (!item.lit) continue;
@@ -1423,14 +1451,25 @@ export function createBattleView(art) {
   }
 
   /** A pale veil of fog over the field, thickest at its middle, at the phase's density (0 to 1). Returns the density drawn. */
-  function drawFog(ctx, battle, camera, bounds) {
+  function drawFog(ctx, battle, camera, bounds, figurePx = 30, time = 0) {
     const shown = [...battle.sides, ...(battle.groups || [])].filter(side => side.action !== 'gone');
     if (!shown.length) return 0;
     const centre = { x: shown.reduce((s, side) => s + side.x, 0) / shown.length, y: shown.reduce((s, side) => s + side.y, 0) / shown.length };
     const c = camera.toScreen(centre), edge = camera.toScreen({ x: centre.x + 0.9, y: centre.y });
     const radius = Math.max(80, Math.hypot(edge.x - c.x, edge.y - c.y));
+    // Banks of fog lying on the field round the fight, drifting, dense while it is thick and in wisps as it lifts, at the
+    // strength of the phase's fog; where they are drawn the veil over them is lighter. Placed by row and column, so stable.
+    const clip = battle.fog > 0.55 ? 'fog-bank-dense' : 'fog-bank-thin', size = Math.max(36, figurePx * 2.4);
+    let banks = 0;
+    for (let row = -2; row <= 2; row++) for (let col = -3; col <= 3; col++) {
+      const x = c.x + (col + (row & 1) * 0.5) * size * 2.3, y = c.y + row * size * 0.9 + size * 0.5;
+      if (Math.hypot(x - c.x, y - c.y) > radius * 0.9) continue;
+      if (art.animated(ctx, clip, x, y, size, `fog:${row}:${col}`, { timeMs: time, alpha: Math.min(0.85, battle.fog * 0.9) })) banks++;
+    }
+    view.fogBanks = banks;
+    const veil = banks ? 0.55 : 1;
     const g = ctx.createRadialGradient(c.x, c.y, radius * 0.1, c.x, c.y, radius);
-    g.addColorStop(0, `rgba(226,229,226,${0.78 * battle.fog})`); g.addColorStop(0.6, `rgba(226,229,226,${0.6 * battle.fog})`); g.addColorStop(1, 'rgba(226,229,226,0)');
+    g.addColorStop(0, `rgba(226,229,226,${0.78 * battle.fog * veil})`); g.addColorStop(0.6, `rgba(226,229,226,${0.6 * battle.fog * veil})`); g.addColorStop(1, 'rgba(226,229,226,0)');
     ctx.save(); ctx.fillStyle = g;
     ctx.fillRect(Math.max(0, c.x - radius), Math.max(0, c.y - radius), Math.min(bounds?.width ?? radius * 2, radius * 2), Math.min(bounds?.height ?? radius * 2, radius * 2));
     ctx.restore();

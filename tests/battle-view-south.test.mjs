@@ -64,7 +64,13 @@ test('a night fight is dark but for the lit windows, the fire and the flashes', 
   const evidence = run(view, minute => night(minute, [part('square', 8, 0, { pose: 'stand', fire: 'scattered' })]), { seconds: 4, art, ctx });
   assert.equal(evidence.night, true);
   assert.equal(evidence.lit, 2, 'the lantern and the fire are not lit');
-  assert.ok(ctx.calls.some(call => call[0] === 'set:fillStyle' && /rgba\(8,12,30/.test(call[1])), 'no dark was laid over the field');
+  // The dark is the night's grade multiplied over the view (Claude's `night-grade`, a moonless night at San Patricio), or the
+  // wash where the library has no grade.
+  assert.ok(art.drawn.some(one => one.sprite === 'night-grade') && ctx.calls.some(call => call[0] === 'set:globalCompositeOperation' && call[1] === 'multiply'), 'no night grade was laid over the field');
+  const washed = fakeArt(); washed.drawSprite = (c, sprite, ...rest) => (sprite.endsWith('-grade') ? 0 : rest[2]);
+  const washCtx = fakeContext();
+  run(createBattleView(washed), minute => night(minute, [part('square', 8, 0)]), { seconds: 0.1, art: washed, ctx: washCtx });
+  assert.ok(washCtx.calls.some(call => call[0] === 'set:fillStyle' && /rgba\(8,12,30/.test(call[1])), 'without the grade no dark was laid over the field');
   assert.ok(ctx.calls.some(call => call[0] === 'set:globalCompositeOperation' && call[1] === 'lighter'), 'nothing glows through the dark');
   // By day, none of it.
   const day = createBattleView(fakeArt()).draw(fakeContext(), { ...night(1, [part('square', 8, 0)]), light: undefined }, { camera, time: 0, now: 0, tickMs: 1000, bounds: { width: 1366, height: 768 } });
