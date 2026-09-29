@@ -8,13 +8,13 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
-| A — People at work and ambient poses | 18 | 5 | 2 | 0 |
+| A — People at work and ambient poses | 18 | 5 | 16 | 0 |
 | B — Children, babies and sickness | 11 | 5 | 0 | 2 |
-| C — Soldiers, battles and famous people | 19 | 1 | 0 | 1 |
+| C — Soldiers, battles and famous people | 19 | 1 | 1 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 0 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 15 | 1 | 1 | 3 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 1 | 2 | 17 |
-| **Total** | **88** | **15** | **5** | **27** |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 1 | 3 | 17 |
+| **Total** | **88** | **15** | **21** | **27** |
 
 ## How a builder works
 
@@ -44,47 +44,47 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Frames:** one sprite a size. **Size:** A pile of wall logs three-quarter on the ground anchor, about as long as `log-fallen`, no taller than a person's waist; Claude: 448×320 cell drawn at 1.2 of a person
   - **Plugs into:** the wood pile in `drawWorld`, `public/app.js` (`window.__woodPileSprite`)
   - **Stands in now:** Claude's `wood-pile-1`..`-4`; without the sheet, `log-fallen` laid side by side (Claude-drawn)
-- [ ] **A3** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 3
+- [ ] **A3** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 3 — **Claude stand-in in place** (`rust-notch`, `rust-lift`, `teal-notch`, `teal-lift`, `elder-notch`, `elder-lift`, `blue-notch`, `blue-lift`, `rust-woman-notch`, `rust-woman-lift`, `indigo-notch`, `indigo-lift`, `ochre-notch`, `ochre-lift`, `blue-girl-notch`, `blue-girl-lift`); Astra's replaces it
   - **Deliver:** `<cast>-notch` (4 frames: notching a wall log's end with an axe) and `<cast>-lift` (2 frames: stooped under a log end, the log end at the shoulder; two facing across the frame read as one log lifted)
   - **Frames:** 4 and 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.notch` in `public/work-art.js`; `workSlot` stands several along the house front
   - **Stands in now:** the hoeing cycle with a drawn axe (drawn in code (canvas or CSS))
-- [ ] **A4** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 4
+- [ ] **A4** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 4 — **Claude stand-in in place** (`rust-dig`, `rust-dig-well`, `teal-dig`, `teal-dig-well`, `elder-dig`, `elder-dig-well`, `blue-dig`, `blue-dig-well`, `rust-woman-dig`, `rust-woman-dig-well`, `indigo-dig`, `indigo-dig-well`, `ochre-dig`, `ochre-dig-well`, `blue-girl-dig`, `blue-girl-dig-well`); Astra's replaces it
   - **Deliver:** `<cast>-dig` (spade driven in with the foot, levered, earth thrown behind, back) and `<cast>-dig-well` (the same waist-deep in a square hole with a low bank of earth)
   - **Frames:** 4 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.dig`, `STROKES.grub` in `public/work-art.js`
   - **Stands in now:** the hoeing cycle with dark clods thrown up (drawn in code (canvas or CSS))
-- [ ] **A5** (priority 1) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 1
+- [ ] **A5** (priority 1) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 1 — **Claude stand-in in place** (`rust-whittle`, `rust-mend-harness`, `rust-sew`, `rust-shell-corn`, `rust-clean-rifle`, `rust-pipe`, `rust-cards`, `rust-wash`, `rust-sweep`, `rust-carry-water`, `teal-whittle`, `teal-mend-harness`, `teal-sew`, `teal-shell-corn`, `teal-clean-rifle`, `teal-pipe`, `teal-cards`, `teal-wash`, `teal-sweep`, `teal-carry-water`, `elder-whittle`, `elder-mend-harness`, `elder-sew`, `elder-shell-corn`, `elder-clean-rifle`, `elder-pipe`, `elder-cards`, `elder-wash`, `elder-sweep`, `elder-carry-water`, `blue-whittle`, `blue-mend-harness`, `blue-sew`, `blue-shell-corn`, `blue-clean-rifle`, `blue-pipe`, `blue-cards`, `blue-wash`, `blue-sweep`, `blue-carry-water`, `rust-woman-whittle`, `rust-woman-mend-harness`, `rust-woman-sew`, `rust-woman-shell-corn`, `rust-woman-clean-rifle`, `rust-woman-pipe`, `rust-woman-cards`, `rust-woman-wash`, `rust-woman-sweep`, `rust-woman-carry-water`, `indigo-whittle`, `indigo-mend-harness`, `indigo-sew`, `indigo-shell-corn`, `indigo-clean-rifle`, `indigo-pipe`, `indigo-cards`, `indigo-wash`, `indigo-sweep`, `indigo-carry-water`, `ochre-whittle`, `ochre-mend-harness`, `ochre-sew`, `ochre-shell-corn`, `ochre-clean-rifle`, `ochre-pipe`, `ochre-cards`, `ochre-wash`, `ochre-sweep`, `ochre-carry-water`, `blue-girl-whittle`, `blue-girl-mend-harness`, `blue-girl-sew`, `blue-girl-shell-corn`, `blue-girl-clean-rifle`, `blue-girl-pipe`, `blue-girl-cards`, `blue-girl-wash`, `blue-girl-sweep`, `blue-girl-carry-water`); Astra's replaces it
   - **Deliver:** for each of the eight: `-whittle`, `-mend-harness`, `-sew`, `-shell-corn`, `-clean-rifle` (seated, 2 frames each), `-wash` (kneeling at a tub, 2), `-pipe`, `-cards` (seated, 2), `-sweep` (a broom, 4), `-carry-water` (a bucket in each hand, walking, 4, east)
   - **Frames:** 2-4 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `ambientClip` in `public/motion.js`; `ACTIVITIES` in `sim/ambient.mjs`
   - **Stands in now:** the nearest delivered pose: seated `-repair`, kneeling `-care`, seated `-rest`, the hoe's `-work`, the harvest `-carry` (Astra's library art reused)
-- [ ] **A6** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 2
+- [ ] **A6** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 2 — **Claude stand-in in place** (`rust-split`, `teal-split`, `elder-split`, `blue-split`, `rust-woman-split`, `indigo-split`, `ochre-split`, `blue-girl-split`); Astra's replaces it
   - **Deliver:** `<cast>-split` (maul raised, coming down, on the wedge in a log on the ground, back)
   - **Frames:** 4 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.split` in `public/work-art.js`
   - **Stands in now:** the hoeing cycle with a drawn maul (drawn in code (canvas or CSS))
-- [ ] **A7** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 5
+- [ ] **A7** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 5 — **Claude stand-in in place** (`rust-reap`, `teal-reap`, `elder-reap`, `blue-reap`, `rust-woman-reap`, `indigo-reap`, `ochre-reap`, `blue-girl-reap`); Astra's replaces it
   - **Deliver:** `<cast>-reap` (reaching up to an ear, snapping it, dropping it in a basket or sack, stepping on)
   - **Frames:** 4 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.reap` in `public/work-art.js`
   - **Stands in now:** the hoeing cycle with chaff (drawn in code (canvas or CSS))
-- [ ] **A8** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 7
+- [ ] **A8** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 7 — **Claude stand-in in place** (`rust-aim`, `rust-fire`, `teal-aim`, `teal-fire`, `elder-aim`, `elder-fire`, `blue-aim`, `blue-fire`, `rust-woman-aim`, `rust-woman-fire`, `indigo-aim`, `indigo-fire`, `ochre-aim`, `ochre-fire`, `blue-girl-aim`, `blue-girl-fire`); Astra's replaces it
   - **Deliver:** `<cast>-aim` (1 frame, a long rifle level at the shoulder) and `<cast>-fire` (2 frames: recoil, lowering), in the figure's own clothes
   - **Frames:** 1 + 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.shoot`, `STROKES.shot` in `public/work-art.js`
   - **Stands in now:** the side-on idle with a rifle line and a flash drawn in canvas (drawn in code (canvas or CSS))
-- [ ] **A9** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 8
+- [ ] **A9** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 8 — **Claude stand-in in place** (`rust-fish`, `teal-fish`, `elder-fish`, `blue-fish`, `rust-woman-fish`, `indigo-fish`, `ochre-fish`, `blue-girl-fish`); Astra's replaces it
   - **Deliver:** `<cast>-fish` (sitting on the bank, cane pole out, the pole twitched)
   - **Frames:** 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.fish`, `drawWorkLayer` in `public/work-art.js`
   - **Stands in now:** the seated rest with a cane pole, line and bobbing float in canvas (drawn in code (canvas or CSS))
-- [ ] **A10** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 9
+- [ ] **A10** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 9 — **Claude stand-in in place** (`rust-gather`, `teal-gather`, `elder-gather`, `blue-gather`, `rust-woman-gather`, `indigo-gather`, `ochre-gather`, `blue-girl-gather`); Astra's replaces it
   - **Deliver:** `<cast>-gather` (bent to the ground picking up, then into a basket or apron)
   - **Frames:** 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.gather` in `public/work-art.js`
   - **Stands in now:** the sowing crouch bobbing at the ground (drawn in code (canvas or CSS))
-- [ ] **A11** (priority 2) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 2
+- [ ] **A11** (priority 2) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 2 — **Claude stand-in in place** (`hens-pecking`, `washtub`, `woodpile-frontier`); Astra's replaces it
   - **Deliver:** `washtub` (a wooden tub with a board), `woodpile-frontier` (split rails stacked by a cabin), `hens-pecking` (two hens, 2 frames)
   - **Frames:** 1, 1 and 2 frames. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside
   - **Plugs into:** `propItem` in `public/ambient.js`
@@ -95,27 +95,27 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Plugs into:** `STAND_INS` in `sim/town-scenes.mjs`; `drawProp` in `public/town-scenes.js`
   - **Stands in now:** the delivered `repair`, `work`, `search` and `speak` poses (Astra's library art reused)
   - **Research first:** the Gonzales scenes of September 29 - October 2, 1835 (docs/battle-research/gonzales-town.md, HIST-TEX-460-469)
-- [ ] **A13** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 6
+- [ ] **A13** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 6 — **Claude stand-in in place** (`rust-carpentry`, `teal-carpentry`, `elder-carpentry`, `blue-carpentry`, `rust-woman-carpentry`, `indigo-carpentry`, `ochre-carpentry`, `blue-girl-carpentry`); Astra's replaces it
   - **Deliver:** `<cast>-carpentry` (at a shaving horse drawing a drawknife, 2 frames, then boring with an auger, 2)
   - **Frames:** 4 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.whittle` in `public/work-art.js`
   - **Stands in now:** the seated mending cycle with shavings (drawn in code (canvas or CSS))
-- [ ] **A14** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 10
+- [ ] **A14** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 10 — **Claude stand-in in place** (`rust-butcher`, `teal-butcher`, `elder-butcher`, `blue-butcher`, `rust-woman-butcher`, `indigo-butcher`, `ochre-butcher`, `blue-girl-butcher`); Astra's replaces it
   - **Deliver:** `<cast>-butcher` (at a plank table cutting a joint wrapped in cloth, or salting it down in a barrel; no carcass, no blood)
   - **Frames:** 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.butcher` in `public/work-art.js`
   - **Stands in now:** the kneeling nursing pose, bobbing (drawn in code (canvas or CSS))
-- [ ] **A15** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 11
+- [ ] **A15** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 11 — **Claude stand-in in place** (`rust-drill`, `rust-guard`, `teal-drill`, `teal-guard`, `elder-drill`, `elder-guard`, `blue-drill`, `blue-guard`, `rust-woman-drill`, `rust-woman-guard`, `indigo-drill`, `indigo-guard`, `ochre-drill`, `ochre-guard`, `blue-girl-drill`, `blue-girl-guard`); Astra's replaces it
   - **Deliver:** `<cast>-drill` (stepping out with a rifle at the shoulder, 4 frames) and `<cast>-guard` (sentry, rifle sloped, turning the head, 2)
   - **Frames:** 4 and 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.drill`, `STROKES.guard` in `public/work-art.js`
   - **Stands in now:** the walk stepped on the spot; the searching pose with a rifle sloped (drawn in code (canvas or CSS))
-- [ ] **A16** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 12
+- [ ] **A16** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 12 — **Claude stand-in in place** (`rust-stake`, `teal-stake`, `elder-stake`, `blue-stake`, `rust-woman-stake`, `indigo-stake`, `ochre-stake`, `blue-girl-stake`); Astra's replaces it
   - **Deliver:** `<cast>-stake` (a mallet raised over a stake and driving it)
   - **Frames:** 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.pace` in `public/work-art.js`
   - **Stands in now:** the walk cycle paced to and fro (drawn in code (canvas or CSS))
-- [ ] **A17** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 14
+- [ ] **A17** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 14 — **Claude stand-in in place** (`rust-tend-fire`, `teal-tend-fire`, `elder-tend-fire`, `blue-tend-fire`, `rust-woman-tend-fire`, `indigo-tend-fire`, `ochre-tend-fire`, `blue-girl-tend-fire`); Astra's replaces it
   - **Deliver:** `<cast>-tend-fire` (kneeling, feeding a stick into a small fire, blowing on it; the fire in the frame)
   - **Frames:** 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.fire` in `public/work-art.js`
@@ -204,7 +204,7 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Frames:** 4 frames, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `drawFallen` in `public/battle-view.js`
   - **Stands in now:** the seated wounded helped back by two walking figures; `*-reclining` with two beside (Astra's library art reused)
-- [ ] **C3** (priority 2) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 3
+- [ ] **C3** (priority 2) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 3 — **Claude stand-in in place** (`volunteer-clean-rifle`, `volunteer-camp-sit`, `volunteer-camp-cook`, `regular-clean-rifle`, `regular-camp-sit`, `regular-camp-cook`); Astra's replaces it
   - **Deliver:** `volunteer-clean-rifle`, `volunteer-camp-sit`, `volunteer-camp-cook` and the same for `regular-` (2 frames each)
   - **Frames:** 2 frames each, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `CAMP_TEXIAN`, `CAMP_MEXICAN` in `sim/ambient.mjs`; `figureClip` in `public/ambient.js`
@@ -495,7 +495,7 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 6. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px
   - **Plugs into:** `panelMark`/`paintMark` in `public/app.js`, `drawMark` in `public/family-panel.js`
   - **Stands in now:** Claude's `claude-marks.png` (Claude-drawn)
-- [ ] **F3** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 15
+- [ ] **F3** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 15 — **Claude stand-in in place** (`fx-wood-chips`, `fx-earth-toss`, `fx-dust`, `fx-shavings`, `fx-ripple`, `tree-fall`); Astra's replaces it
   - **Deliver:** `fx-wood-chips`, `fx-earth-toss`, `fx-dust`, `fx-shavings`, `fx-ripple` (3 frames each, played from the strike) and `tree-fall` (4 frames: a hardwood leaning, going over, down, a bounce)
   - **Frames:** 3 each; 4. **Size:** Effect: 3 frames on the ground anchor of the work, one played from the strike
   - **Plugs into:** `EFFECTS` and `drawWorkLayer` in `public/work-art.js`

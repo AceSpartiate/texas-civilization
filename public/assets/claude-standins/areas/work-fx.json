@@ -1,0 +1,872 @@
+{
+  "module": "work-fx",
+  "area": "work",
+  "date": "2026-09-28",
+  "sheets": {
+    "claude-work-fx": {
+      "image": "/assets/claude-standins/claude-work-fx.png",
+      "width": 960,
+      "height": 1600,
+      "bytes": 187131,
+      "sha256": "38b8180b4eca7cdac7074fb3cdfa85a99d079f4f29d96cac3a2cca90406f2348",
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "layout": {
+        "rows": 5,
+        "columns": 3,
+        "cell": {
+          "w": 320,
+          "h": 320
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-tree-fall": {
+      "image": "/assets/claude-standins/claude-tree-fall.png",
+      "width": 768,
+      "height": 624,
+      "bytes": 158635,
+      "sha256": "0245d1921c0ce57cd56694c67500415e6bf5492b09ca85be08ff234c8343fddc",
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "cell": {
+          "w": 384,
+          "h": 312
+        },
+        "drawnCell": {
+          "w": 640,
+          "h": 520
+        },
+        "scale": 0.6,
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "fx-wood-chips-1": {
+      "sheet": "claude-work-fx",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.3,
+      "anchorY": 0.75,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-wood-chips-1: item 15: three frames on the ground anchor of the work, one played from the strike, at the worker's scale",
+      "source": "svg/work-fx/claude-fx-wood-chips-1.svg",
+      "label": "fx wood chips 1",
+      "kind": "claude-work-fx"
+    },
+    "fx-wood-chips-2": {
+      "sheet": "claude-work-fx",
+      "x": 320,
+      "y": 0,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.3,
+      "anchorY": 0.75,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-wood-chips-2: item 15: three frames on the ground anchor of the work, one played from the strike, at the worker's scale",
+      "source": "svg/work-fx/claude-fx-wood-chips-2.svg",
+      "label": "fx wood chips 2",
+      "kind": "claude-work-fx"
+    },
+    "fx-wood-chips-3": {
+      "sheet": "claude-work-fx",
+      "x": 640,
+      "y": 0,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.3,
+      "anchorY": 0.75,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-wood-chips-3: item 15: three frames on the ground anchor of the work, one played from the strike, at the worker's scale",
+      "source": "svg/work-fx/claude-fx-wood-chips-3.svg",
+      "label": "fx wood chips 3",
+      "kind": "claude-work-fx"
+    },
+    "fx-earth-toss-1": {
+      "sheet": "claude-work-fx",
+      "x": 0,
+      "y": 320,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.75,
+      "anchorY": 0.75,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-earth-toss-1: item 15: three frames on the ground anchor of the work, one played from the strike, at the worker's scale",
+      "source": "svg/work-fx/claude-fx-earth-toss-1.svg",
+      "label": "fx earth toss 1",
+      "kind": "claude-work-fx"
+    },
+    "fx-earth-toss-2": {
+      "sheet": "claude-work-fx",
+      "x": 320,
+      "y": 320,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.75,
+      "anchorY": 0.75,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-earth-toss-2: item 15: three frames on the ground anchor of the work, one played from the strike, at the worker's scale",
+      "source": "svg/work-fx/claude-fx-earth-toss-2.svg",
+      "label": "fx earth toss 2",
+      "kind": "claude-work-fx"
+    },
+    "fx-earth-toss-3": {
+      "sheet": "claude-work-fx",
+      "x": 640,
+      "y": 320,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.75,
+      "anchorY": 0.75,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-earth-toss-3: item 15: three frames on the ground anchor of the work, one played from the strike, at the worker's scale",
+      "source": "svg/work-fx/claude-fx-earth-toss-3.svg",
+      "label": "fx earth toss 3",
+      "kind": "claude-work-fx"
+    },
+    "fx-dust-1": {
+      "sheet": "claude-work-fx",
+      "x": 0,
+      "y": 640,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.4,
+      "anchorY": 0.8,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-dust-1: item 15: three frames on the ground anchor of the work, one played from the strike, at the worker's scale",
+      "source": "svg/work-fx/claude-fx-dust-1.svg",
+      "label": "fx dust 1",
+      "kind": "claude-work-fx"
+    },
+    "fx-dust-2": {
+      "sheet": "claude-work-fx",
+      "x": 320,
+      "y": 640,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.4,
+      "anchorY": 0.8,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-dust-2: item 15: three frames on the ground anchor of the work, one played from the strike, at the worker's scale",
+      "source": "svg/work-fx/claude-fx-dust-2.svg",
+      "label": "fx dust 2",
+      "kind": "claude-work-fx"
+    },
+    "fx-dust-3": {
+      "sheet": "claude-work-fx",
+      "x": 640,
+      "y": 640,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.4,
+      "anchorY": 0.8,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-dust-3: item 15: three frames on the ground anchor of the work, one played from the strike, at the worker's scale",
+      "source": "svg/work-fx/claude-fx-dust-3.svg",
+      "label": "fx dust 3",
+      "kind": "claude-work-fx"
+    },
+    "fx-shavings-1": {
+      "sheet": "claude-work-fx",
+      "x": 0,
+      "y": 960,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.45,
+      "anchorY": 0.55,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-shavings-1: item 15: three frames on the ground anchor of the work, one played from the strike, at the worker's scale",
+      "source": "svg/work-fx/claude-fx-shavings-1.svg",
+      "label": "fx shavings 1",
+      "kind": "claude-work-fx"
+    },
+    "fx-shavings-2": {
+      "sheet": "claude-work-fx",
+      "x": 320,
+      "y": 960,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.45,
+      "anchorY": 0.55,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-shavings-2: item 15: three frames on the ground anchor of the work, one played from the strike, at the worker's scale",
+      "source": "svg/work-fx/claude-fx-shavings-2.svg",
+      "label": "fx shavings 2",
+      "kind": "claude-work-fx"
+    },
+    "fx-shavings-3": {
+      "sheet": "claude-work-fx",
+      "x": 640,
+      "y": 960,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.45,
+      "anchorY": 0.55,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-shavings-3: item 15: three frames on the ground anchor of the work, one played from the strike, at the worker's scale",
+      "source": "svg/work-fx/claude-fx-shavings-3.svg",
+      "label": "fx shavings 3",
+      "kind": "claude-work-fx"
+    },
+    "fx-ripple-1": {
+      "sheet": "claude-work-fx",
+      "x": 0,
+      "y": 1280,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-ripple-1: item 15: three frames on the ground anchor of the work, one played from the strike, at the worker's scale",
+      "source": "svg/work-fx/claude-fx-ripple-1.svg",
+      "label": "fx ripple 1",
+      "kind": "claude-work-fx"
+    },
+    "fx-ripple-2": {
+      "sheet": "claude-work-fx",
+      "x": 320,
+      "y": 1280,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-ripple-2: item 15: three frames on the ground anchor of the work, one played from the strike, at the worker's scale",
+      "source": "svg/work-fx/claude-fx-ripple-2.svg",
+      "label": "fx ripple 2",
+      "kind": "claude-work-fx"
+    },
+    "fx-ripple-3": {
+      "sheet": "claude-work-fx",
+      "x": 640,
+      "y": 1280,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.6,
+      "logicalHeight": 480,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-ripple-3: item 15: three frames on the ground anchor of the work, one played from the strike, at the worker's scale",
+      "source": "svg/work-fx/claude-fx-ripple-3.svg",
+      "label": "fx ripple 3",
+      "kind": "claude-work-fx"
+    },
+    "tree-fall-1": {
+      "sheet": "claude-tree-fall",
+      "x": 0,
+      "y": 0,
+      "w": 384,
+      "h": 312,
+      "anchorX": 0.1406,
+      "anchorY": 0.9231,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "tree-fall-1: item 15: `tree-fall`, four frames, a hardwood of -log size leaning, going over, down, a last bounce, anchored at the stump",
+      "source": "svg/work-fx/claude-tree-fall-1.svg",
+      "label": "tree fall 1",
+      "kind": "claude-tree-fall"
+    },
+    "tree-fall-2": {
+      "sheet": "claude-tree-fall",
+      "x": 384,
+      "y": 0,
+      "w": 384,
+      "h": 312,
+      "anchorX": 0.1406,
+      "anchorY": 0.9231,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "tree-fall-2: item 15: `tree-fall`, four frames, a hardwood of -log size leaning, going over, down, a last bounce, anchored at the stump",
+      "source": "svg/work-fx/claude-tree-fall-2.svg",
+      "label": "tree fall 2",
+      "kind": "claude-tree-fall"
+    },
+    "tree-fall-3": {
+      "sheet": "claude-tree-fall",
+      "x": 0,
+      "y": 312,
+      "w": 384,
+      "h": 312,
+      "anchorX": 0.1406,
+      "anchorY": 0.9231,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "tree-fall-3: item 15: `tree-fall`, four frames, a hardwood of -log size leaning, going over, down, a last bounce, anchored at the stump",
+      "source": "svg/work-fx/claude-tree-fall-3.svg",
+      "label": "tree fall 3",
+      "kind": "claude-tree-fall"
+    },
+    "tree-fall-4": {
+      "sheet": "claude-tree-fall",
+      "x": 384,
+      "y": 312,
+      "w": 384,
+      "h": 312,
+      "anchorX": 0.1406,
+      "anchorY": 0.9231,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "tree-fall-4: item 15: `tree-fall`, four frames, a hardwood of -log size leaning, going over, down, a last bounce, anchored at the stump",
+      "source": "svg/work-fx/claude-tree-fall-4.svg",
+      "label": "tree fall 4",
+      "kind": "claude-tree-fall"
+    }
+  },
+  "clips": {
+    "fx-wood-chips": {
+      "frames": [
+        {
+          "sprite": "fx-wood-chips-1",
+          "duration": 150
+        },
+        {
+          "sprite": "fx-wood-chips-2",
+          "duration": 150
+        },
+        {
+          "sprite": "fx-wood-chips-3",
+          "duration": 150
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "work-fx"
+    },
+    "fx-earth-toss": {
+      "frames": [
+        {
+          "sprite": "fx-earth-toss-1",
+          "duration": 150
+        },
+        {
+          "sprite": "fx-earth-toss-2",
+          "duration": 150
+        },
+        {
+          "sprite": "fx-earth-toss-3",
+          "duration": 150
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "work-fx"
+    },
+    "fx-dust": {
+      "frames": [
+        {
+          "sprite": "fx-dust-1",
+          "duration": 150
+        },
+        {
+          "sprite": "fx-dust-2",
+          "duration": 150
+        },
+        {
+          "sprite": "fx-dust-3",
+          "duration": 150
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "work-fx"
+    },
+    "fx-shavings": {
+      "frames": [
+        {
+          "sprite": "fx-shavings-1",
+          "duration": 150
+        },
+        {
+          "sprite": "fx-shavings-2",
+          "duration": 150
+        },
+        {
+          "sprite": "fx-shavings-3",
+          "duration": 150
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "work-fx"
+    },
+    "fx-ripple": {
+      "frames": [
+        {
+          "sprite": "fx-ripple-1",
+          "duration": 150
+        },
+        {
+          "sprite": "fx-ripple-2",
+          "duration": 150
+        },
+        {
+          "sprite": "fx-ripple-3",
+          "duration": 150
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "work-fx"
+    },
+    "tree-fall": {
+      "frames": [
+        {
+          "sprite": "tree-fall-1",
+          "duration": 520
+        },
+        {
+          "sprite": "tree-fall-2",
+          "duration": 240
+        },
+        {
+          "sprite": "tree-fall-3",
+          "duration": 160
+        },
+        {
+          "sprite": "tree-fall-4",
+          "duration": 320
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "work-fx"
+    }
+  },
+  "provenance": {
+    "fx-wood-chips-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "pale chips of wood flying out and up from the cut, frame 1 of 3 from the strike; a small transparent effect at a person's scale, anchored where it comes from, flying the way the worker faces; flat colour, the dark olive-brown outline on the solid bits, no text, no shadow.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-fx-wood-chips-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's fx-wood-chips-1"
+    },
+    "fx-wood-chips-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "pale chips of wood flying out and up from the cut, frame 2 of 3 from the strike; a small transparent effect at a person's scale, anchored where it comes from, flying the way the worker faces; flat colour, the dark olive-brown outline on the solid bits, no text, no shadow.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-fx-wood-chips-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's fx-wood-chips-2"
+    },
+    "fx-wood-chips-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "pale chips of wood flying out and up from the cut, frame 3 of 3 from the strike; a small transparent effect at a person's scale, anchored where it comes from, flying the way the worker faces; flat colour, the dark olive-brown outline on the solid bits, no text, no shadow.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-fx-wood-chips-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's fx-wood-chips-3"
+    },
+    "fx-earth-toss-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "a spadeful of dark earth thrown back over the shoulder, breaking into clods and crumbs, frame 1 of 3 from the strike; a small transparent effect at a person's scale, anchored where it comes from, flying the way the worker faces; flat colour, the dark olive-brown outline on the solid bits, no text, no shadow.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-fx-earth-toss-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's fx-earth-toss-1"
+    },
+    "fx-earth-toss-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "a spadeful of dark earth thrown back over the shoulder, breaking into clods and crumbs, frame 2 of 3 from the strike; a small transparent effect at a person's scale, anchored where it comes from, flying the way the worker faces; flat colour, the dark olive-brown outline on the solid bits, no text, no shadow.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-fx-earth-toss-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's fx-earth-toss-2"
+    },
+    "fx-earth-toss-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "a spadeful of dark earth thrown back over the shoulder, breaking into clods and crumbs, frame 3 of 3 from the strike; a small transparent effect at a person's scale, anchored where it comes from, flying the way the worker faces; flat colour, the dark olive-brown outline on the solid bits, no text, no shadow.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-fx-earth-toss-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's fx-earth-toss-3"
+    },
+    "fx-dust-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "a low puff of pale dust where the hoe strikes dry ground, spreading and thinning, frame 1 of 3 from the strike; a small transparent effect at a person's scale, anchored where it comes from, flying the way the worker faces; flat colour, the dark olive-brown outline on the solid bits, no text, no shadow.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-fx-dust-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's fx-dust-1"
+    },
+    "fx-dust-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "a low puff of pale dust where the hoe strikes dry ground, spreading and thinning, frame 2 of 3 from the strike; a small transparent effect at a person's scale, anchored where it comes from, flying the way the worker faces; flat colour, the dark olive-brown outline on the solid bits, no text, no shadow.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-fx-dust-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's fx-dust-2"
+    },
+    "fx-dust-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "a low puff of pale dust where the hoe strikes dry ground, spreading and thinning, frame 3 of 3 from the strike; a small transparent effect at a person's scale, anchored where it comes from, flying the way the worker faces; flat colour, the dark olive-brown outline on the solid bits, no text, no shadow.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-fx-dust-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's fx-dust-3"
+    },
+    "fx-shavings-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "pale curls of wood peeling off the blade and falling, frame 1 of 3 from the strike; a small transparent effect at a person's scale, anchored where it comes from, flying the way the worker faces; flat colour, the dark olive-brown outline on the solid bits, no text, no shadow.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-fx-shavings-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's fx-shavings-1"
+    },
+    "fx-shavings-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "pale curls of wood peeling off the blade and falling, frame 2 of 3 from the strike; a small transparent effect at a person's scale, anchored where it comes from, flying the way the worker faces; flat colour, the dark olive-brown outline on the solid bits, no text, no shadow.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-fx-shavings-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's fx-shavings-2"
+    },
+    "fx-shavings-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "pale curls of wood peeling off the blade and falling, frame 3 of 3 from the strike; a small transparent effect at a person's scale, anchored where it comes from, flying the way the worker faces; flat colour, the dark olive-brown outline on the solid bits, no text, no shadow.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-fx-shavings-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's fx-shavings-3"
+    },
+    "fx-ripple-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "rings of water spreading round a bobbing float, frame 1 of 3 from the strike; a small transparent effect at a person's scale, anchored where it comes from, flying the way the worker faces; flat colour, the dark olive-brown outline on the solid bits, no text, no shadow.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-fx-ripple-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's fx-ripple-1"
+    },
+    "fx-ripple-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "rings of water spreading round a bobbing float, frame 2 of 3 from the strike; a small transparent effect at a person's scale, anchored where it comes from, flying the way the worker faces; flat colour, the dark olive-brown outline on the solid bits, no text, no shadow.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-fx-ripple-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's fx-ripple-2"
+    },
+    "fx-ripple-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-work-fx",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "rings of water spreading round a bobbing float, frame 3 of 3 from the strike; a small transparent effect at a person's scale, anchored where it comes from, flying the way the worker faces; flat colour, the dark olive-brown outline on the solid bits, no text, no shadow.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-fx-ripple-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's fx-ripple-3"
+    },
+    "tree-fall-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-tree-fall",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "A felled hardwood of the -log size (about 1.4 people tall), frame 1 of 4: leaning, the cut opening, a few leaves shaken loose. Brown bark, a rounded crown of moss and olive greens in clumps, three-quarter north-up view, falling east from its stump; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-tree-fall-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's tree-fall-1"
+    },
+    "tree-fall-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-tree-fall",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "A felled hardwood of the -log size (about 1.4 people tall), frame 2 of 4: going over, the crown sweeping down. Brown bark, a rounded crown of moss and olive greens in clumps, three-quarter north-up view, falling east from its stump; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-tree-fall-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's tree-fall-2"
+    },
+    "tree-fall-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-tree-fall",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "A felled hardwood of the -log size (about 1.4 people tall), frame 3 of 4: down along the ground, leaves thrown up at the crown. Brown bark, a rounded crown of moss and olive greens in clumps, three-quarter north-up view, falling east from its stump; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-tree-fall-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's tree-fall-3"
+    },
+    "tree-fall-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "sheet": "claude-tree-fall",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "A felled hardwood of the -log size (about 1.4 people tall), frame 4 of 4: the last bounce, the crown lifted a little off the ground. Brown bark, a rounded crown of moss and olive greens in clumps, three-quarter north-up view, falling east from its stump; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/work-fx/claude-tree-fall-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's tree-fall-4"
+    },
+    "fx-wood-chips": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "pale chips of wood flying out and up from the cut: three frames of 150 ms from the strike, played once.",
+      "frames": [
+        "fx-wood-chips-1",
+        "fx-wood-chips-2",
+        "fx-wood-chips-3"
+      ],
+      "status": "temporary: replace with Astra's fx-wood-chips"
+    },
+    "fx-earth-toss": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "a spadeful of dark earth thrown back over the shoulder, breaking into clods and crumbs: three frames of 150 ms from the strike, played once.",
+      "frames": [
+        "fx-earth-toss-1",
+        "fx-earth-toss-2",
+        "fx-earth-toss-3"
+      ],
+      "status": "temporary: replace with Astra's fx-earth-toss"
+    },
+    "fx-dust": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "a low puff of pale dust where the hoe strikes dry ground, spreading and thinning: three frames of 150 ms from the strike, played once.",
+      "frames": [
+        "fx-dust-1",
+        "fx-dust-2",
+        "fx-dust-3"
+      ],
+      "status": "temporary: replace with Astra's fx-dust"
+    },
+    "fx-shavings": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "pale curls of wood peeling off the blade and falling: three frames of 150 ms from the strike, played once.",
+      "frames": [
+        "fx-shavings-1",
+        "fx-shavings-2",
+        "fx-shavings-3"
+      ],
+      "status": "temporary: replace with Astra's fx-shavings"
+    },
+    "fx-ripple": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "rings of water spreading round a bobbing float: three frames of 150 ms from the strike, played once.",
+      "frames": [
+        "fx-ripple-1",
+        "fx-ripple-2",
+        "fx-ripple-3"
+      ],
+      "status": "temporary: replace with Astra's fx-ripple"
+    },
+    "tree-fall": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "work-fx",
+      "area": "work",
+      "request": "Request 2026-09-28 — people at work",
+      "prompt": "A felled hardwood going over once: leaning (held), going over, down, the last bounce.",
+      "frames": [
+        "tree-fall-1",
+        "tree-fall-2",
+        "tree-fall-3",
+        "tree-fall-4"
+      ],
+      "status": "temporary: replace with Astra's tree-fall"
+    }
+  }
+}
