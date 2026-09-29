@@ -520,7 +520,7 @@ export function createBattleView(art) {
         const seed = seedKey;
         // Which way this man faces: out of his face of a square, or the way his body of men faces.
         const right = slot.out ? (facing.x * slot.out.along - facing.y * slot.out.across) >= 0 : sideRight;
-        let clip = null, sprite = null, timeMs = time, flip = !right, still = false, dy = 0;
+        let clip = null, sprite = null, timeMs = time, flip = !right, still = false, dy = 0, prefer = null;
         if (down) {
           // A wounded man went with his side when it left the field.
           if (down.wounded && side.action === 'gone') continue;
@@ -570,6 +570,8 @@ export function createBattleView(art) {
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
               puff(muzzle.x, muzzle.y, now, { wind }); flash(muzzle.x, muzzle.y, right, now, 1);
             }
+            // The carbine at the shoulder as the shot goes, then the recoil (the clip's beat is its second frame).
+            if (!moving && !lancers && (t < 500 || wait - t < 700)) prefer = { clip: 'dragoon-fire', timeMs: t < 500 ? t + 700 : 700 - (wait - t), flip: !right };
           }
           drawnBy[side.key].push(point); if (side.key === side.side || side.part) drawn[side.side].push(point);
           continue;
@@ -579,7 +581,11 @@ export function createBattleView(art) {
         // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 6 - the Grass Fight's pack train is a
         // horse with a pack on its back, until the mules under grass are drawn.
         if (side.figure === 'packhorse') {
-          figures.push({ y: point.y, kind: 'packhorse', side: side.side, point, size: figurePx * 1.3, clip: moving ? 'horse-walk' : 'horse-graze', flip: !right, seed });
+          // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - Claude's mule under grass
+          // (`mule-packed-grass-walk-*`) where it is loaded, before the horse with a pack.
+          const vertical = Math.abs(facing.y) > Math.abs(facing.x) * 1.2;
+          const mule = vertical ? `mule-packed-grass-walk-${facing.y >= 0 ? 's' : 'n'}` : 'mule-packed-grass-walk-e';
+          figures.push({ y: point.y, kind: 'packhorse', side: side.side, point, size: figurePx * 1.3, clip: moving ? 'horse-walk' : 'horse-graze', flip: !right, seed, mule, muleFlip: vertical ? false : !right, moving });
           drawnBy[side.key].push(point);
           continue;
         }
@@ -626,6 +632,12 @@ export function createBattleView(art) {
           // Alamo's walls) are drawn as the library's dragoons, without lances, until a lancer set exists.
           clip = kind === 'rider' ? (moving ? 'mounted-courier-e' : 'mounted-courier-listen') : moving ? 'dragoon-march' : right ? 'dragoon-idle-e' : 'dragoon-idle-w';
           flip = kind === 'rider' ? !right : moving ? !right : false;
+          // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - where Claude's are loaded: a
+          // Texian horseman is `volunteer-mounted` (request 2026-09-25 "San Jacinto", item 3), Ramírez y Sesma's lancers carry
+          // lances (`lancer-march`, `lancer-idle`, `lancer-charge`), and a dragoon firing from the saddle is `dragoon-fire`.
+          const lancers = kind === 'dragoon' && /lancer/i.test(`${side.name || ''} ${side.id || ''} ${side.key || ''}`);
+          if (kind === 'rider') prefer = { clip: moving ? 'volunteer-mounted' : 'volunteer-mounted-idle', flip: !right };
+          else if (lancers) prefer = { clip: side.action === 'charge' ? 'lancer-charge' : moving ? 'lancer-march' : 'lancer-idle', flip: !right };
           // A dragoon firing his carbine from the saddle: the flash and the smoke from where his hands are, on his own long
           // wait between shots. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a dragoon firing from the saddle" - the
           // library has no mounted firing pose, so the rider holds his pose and only the shot is drawn.
@@ -679,7 +691,7 @@ export function createBattleView(art) {
           // item 2 - a man sitting at rest is the library's seated soldier (`*-injured-rest`) until a resting pose exists.
           clip = slot.rest === 'sit' ? `${kind}-injured-rest` : `${kind}-idle-${right ? 'e' : 'w'}`; flip = slot.rest === 'sit' ? !right : false;
         } else { sprite = `${kind}-${right ? 'e' : 'w'}`; still = true; flip = false; }
-        figures.push({ y: point.y, kind, side: side.side, point: dy ? { x: point.x, y: point.y + dy } : point, size, clip, sprite, timeMs, flip, still, seed });
+        figures.push({ y: point.y, kind, side: side.side, point: dy ? { x: point.x, y: point.y + dy } : point, size, clip, sprite, timeMs, flip, still, seed, prefer });
         if (side.key === side.side || side.part) drawn[side.side].push(point);
         drawnBy[side.key].push(point);
       }
@@ -707,6 +719,7 @@ export function createBattleView(art) {
     for (const f of figures) {
       if (f.kind === 'fallen') { drawFallen(ctx, f, now); continue; }
       if (f.kind === 'packhorse') {
+        if (art.animated(ctx, f.mule, f.point.x, f.point.y, f.size, f.seed, { timeMs: time, flip: f.muleFlip, paused: reducedMotion || !f.moving })) continue;
         if (!art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: time, flip: f.flip, paused: reducedMotion })) { ctx.fillStyle = '#7a5a3a'; ctx.fillRect(f.point.x - f.size * 0.35, f.point.y - f.size * 0.45, f.size * 0.7, f.size * 0.25); }
         if (!art.drawSprite(ctx, 'packed-belongings', f.point.x, f.point.y - f.size * 0.42, f.size * 0.45)) { ctx.fillStyle = '#b9a46a'; ctx.fillRect(f.point.x - f.size * 0.2, f.point.y - f.size * 0.62, f.size * 0.4, f.size * 0.18); }
         continue;
@@ -717,8 +730,10 @@ export function createBattleView(art) {
         continue;
       }
       let ok = 0;
-      if (f.clip) ok = art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: reducedMotion });
-      else if (f.sprite) ok = art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip });
+      // A Claude-drawn clip the figure prefers (`prefer`), where its sheet is loaded; the library's clip otherwise.
+      if (f.prefer) ok = art.animated(ctx, f.prefer.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.prefer.timeMs ?? f.timeMs, flip: f.prefer.flip ?? f.flip, paused: reducedMotion });
+      if (!ok && f.clip) ok = art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: reducedMotion });
+      else if (!ok && f.sprite) ok = art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip });
       if (!ok) art.miniPerson(ctx, f.point.x, f.point.y, f.size, { side: f.side, flip: f.flip });
     }
     // The cannon and the men serving it.
@@ -883,6 +898,18 @@ export function createBattleView(art) {
     const at = placeAt(herd, now), right = herd.to.x >= herd.from.x;
     const n = Math.min(24, Math.max(6, Math.round((herd.count || 60) / 12)));
     const width = herd.scatter ? 0.7 : 0.26, depth = herd.scatter ? 0.5 : 0.16;
+    // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - where Claude's herd is loaded, the drove
+    // (`herd-drove`) or its scattering (`herd-scatter`) drawn as a few masses of a dozen horses each, one mass for every six of
+    // the mustangs that would stand in for them; the mustangs otherwise.
+    if (herd.moving || herd.scatter) {
+      const masses = Math.max(1, Math.round(n / 6));
+      let drawn = 0;
+      for (let i = 0; i < masses; i++) {
+        const q = camera.toScreen({ x: at.x + (hash(`herd:m${i}:x`) - 0.5) * width * 0.6, y: at.y + (i - (masses - 1) / 2) * depth / masses });
+        if (art.animated(ctx, herd.scatter ? 'herd-scatter' : 'herd-drove', q.x, q.y, figurePx * 1.15, `herd:m${i}`, { timeMs: time + i * 157, flip: !right })) drawn++;
+      }
+      if (drawn) return drawn * 12;
+    }
     for (let i = 0; i < n; i++) {
       const q = camera.toScreen({ x: at.x + (hash(`herd:${i}:x`) - 0.5) * width, y: at.y + (hash(`herd:${i}:y`) - 0.5) * depth });
       if (!art.animated(ctx, herd.moving || herd.scatter ? 'mustang-gallop' : 'mustang-graze', q.x, q.y, figurePx * 1.15, `herd:${i}`, { timeMs: time + i * 211, flip: !right })) {
