@@ -4062,7 +4062,8 @@ function renderHousehold(world) {
     ? ` They live in a ${houseName(land.house.layout)}: rest there mends ${inHundred(land.home.restShare)} in 100 of the usual, and ${inHundred(land.home.spoilagePerDay)} in 100 of the food spoil each day.${land.home.crowded ? ' It is crowded: more of the family sleep in it than it holds, and they rest the worse for it.' : ''}`
     : land.house
     ? land.house.work > 0
-      ? ` They are building a ${houseName(land.house.layout)}: ${land.house.stage}, ${land.house.work} of ${land.house.total} hours of work done.`
+      // Hours at the family's pace, from the server (sim/houses.mjs; half a spell's old hour since 2026-09-29).
+      ? ` They are building a ${houseName(land.house.layout)}: ${land.house.stage}, ${land.house.hours?.[0] ?? land.house.work} of ${land.house.hours?.[1] ?? land.house.total} hours of work done.`
       : ` They mean to build a ${houseName(land.house.layout)}, and nobody has started on it.`
     : '';
   const ground = land ? [(() => {
