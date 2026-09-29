@@ -561,7 +561,11 @@ export function createBattleView(art) {
         if (kind === 'rider') {
           // A man on horseback: riding, and his shot from where his hands are, as a dragoon's is.
           poses.rider++;
-          figures.push({ y: point.y, kind, side: side.side, point, size, clip: 'mounted-courier-e', sprite: null, timeMs: time, flip: !right, still: false, seed });
+          // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - a Texian horseman is Claude's
+          // `volunteer-mounted` (request 2026-09-25 "San Jacinto", item 3) where it is loaded, and fires from the saddle
+          // (`volunteer-mounted-fire`); the mounted courier otherwise.
+          const horseman = { y: point.y, kind, side: side.side, point, size, clip: 'mounted-courier-e', sprite: null, timeMs: time, flip: !right, still: false, seed, prefer: { clip: 'volunteer-mounted', flip: !right } };
+          figures.push(horseman);
           if (!still && (side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 4 === 0))) {
             const wait = 7000 + hash(`${seed}:rw`) * 12000, shifted = time + hash(`${seed}:rp`) * 25000, t = shifted % wait;
             const shotKey = `${seed}:r${Math.floor(shifted / wait)}`;
@@ -570,8 +574,8 @@ export function createBattleView(art) {
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
               puff(muzzle.x, muzzle.y, now, { wind }); flash(muzzle.x, muzzle.y, right, now, 1);
             }
-            // The carbine at the shoulder as the shot goes, then the recoil (the clip's beat is its second frame).
-            if (!moving && !lancers && (t < 500 || wait - t < 700)) prefer = { clip: 'dragoon-fire', timeMs: t < 500 ? t + 700 : 700 - (wait - t), flip: !right };
+            // The rifle at the shoulder as the shot goes, then the recoil (the clip's beat is its second frame).
+            if (t < 500 || wait - t < 700) horseman.prefer = { clip: 'volunteer-mounted-fire', timeMs: t < 500 ? t + 700 : 700 - (wait - t), flip: !right };
           }
           drawnBy[side.key].push(point); if (side.key === side.side || side.part) drawn[side.side].push(point);
           continue;
@@ -649,6 +653,8 @@ export function createBattleView(art) {
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
               puff(muzzle.x, muzzle.y, now, { wind }); flash(muzzle.x, muzzle.y, right, now, 1);
             }
+            // The carbine at the shoulder as the shot goes, then the recoil (the clip's beat is its second frame).
+            if (!moving && !lancers && (t < 500 || wait - t < 700)) prefer = { clip: 'dragoon-fire', timeMs: t < 500 ? t + 700 : 700 - (wait - t), flip: !right };
           }
         } else if (side.fire === 'scattered' || (side.fire === 'picket' && slot.along > -0.03 && slot.index % 5 === 0)) {
           const wait = slot.wait ?? (WAIT_MIN_MS + hash(`${seed}:w`) * WAIT_SPAN_MS), cycle = FIRE_CLIP_MS + wait;
@@ -1267,7 +1273,7 @@ export function createBattleView(art) {
     if (pose === 'ride') {
       // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - full mounted movement for Seguín and
       // Dr. Sutherland (`seguin-ride-e`, `sutherland-ride-e`; request 2026-09-26 "the famous people") where it is loaded.
-      const moving = person.moving && clip(`${person.id}-ride-e`, time, { size: figurePx * 1.35 });
+      const moving = person.moving && ['seguin', 'sutherland'].includes(person.id) && clip(`${person.id}-ride-e`, time, { size: figurePx * 1.35 });
       if (moving) return moving;
       if (typeof named === 'string' && named.startsWith('clip:')) return clip(named.slice(5), time, { size: figurePx * 1.35 });
       if (named) return sprite(named);

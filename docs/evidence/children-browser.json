@@ -1,6 +1,6 @@
 {
   "record": "Children, babies and the Runaway Scrape's own work, in a browser (docs/CHILDREN.md)",
-  "date": "2026-09-28",
+  "date": "2026-09-29",
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768 and 1024x768. Two real classes through the join flow: the invented country (seed children-proof-96) for the home, and the real land played in process into the spring (seed scrape-proof-1) for the Scrape. No LAN or district claim.",
   "checks": [
@@ -14,7 +14,7 @@
     "told to leave, hiding what the wagon cannot carry is on the main person's bar and glows when pressed; the child's bar has a bundle to make up (child-play, child-doll, child-cart, child-tag, child-hide, child-hoop, child-marbles, child-kindling, child-eggs, child-water, child-mind, flee-bundle, flee-cow)",
     "Mateo has the milk cow on a rope before the family goes: \"Has the milk cow on a rope, ready to go.\"",
     "the family left, and what it hid is in the river bottom, not in the house for the fire: {\"powder\":3,\"seed\":4,\"cotton\":3}",
-    "on the road Mateo's row says \"Driving the milk cow along behind the family.\", the cow is drawn beside them (cattle-longhorn-red-idle), and the herd left on the range is 5 cattle",
+    "on the road Mateo's row says \"Driving the milk cow along behind the family.\", the cow is drawn beside them (milk-cow-walk-n), and the herd left on the range is 5 cattle",
     "on the road the child's bar has the road's own work (road-lookout, road-sing), and watching the road behind glows when pressed",
     "at 1024x768 the road's bar is shown and nothing scrolls sideways",
     "no page errors"
@@ -51,13 +51,25 @@
         "id": "hh-1-child-1:talk:9",
         "speakerId": "hh-1-child-1",
         "kind": "reconstructed",
-        "text": "Where does the wind come from?"
+        "text": "Where does the wind come from?",
+        "box": {
+          "x": 432.60858537802653,
+          "y": 907.1070366402535,
+          "w": 203.953125,
+          "h": 27
+        }
       },
       {
         "id": "hh-1-child-1:reply:9",
         "speakerId": "hh-1-parent-2",
         "kind": "reconstructed",
-        "text": "Go and play, and keep where I can see you."
+        "text": "Go and play, and keep where I can see you.",
+        "box": {
+          "x": 351.62422271233135,
+          "y": 888.7560294149055,
+          "w": 229.90234375,
+          "h": 42
+        }
       }
     ],
     "parentRow": "Stopped to talk with Cayetano, who has nothing to do. Give Cayetano something to do and Paz goes back to the work about the place.",
@@ -120,16 +132,16 @@
       "drawn": {
         "by": "hh-1-child-4",
         "x": 603,
-        "y": 489,
-        "clip": "cattle-longhorn-red-idle",
+        "y": 487,
+        "clip": "milk-cow-walk-n",
         "child": {
           "x": 683,
-          "y": 484
+          "y": 481
         }
       },
       "child": {
-        "x": 682.6949030731159,
-        "y": 443.82269849199565,
+        "x": 683,
+        "y": 441.38192307692304,
         "size": 89.10000000000001
       },
       "herdLeft": {
