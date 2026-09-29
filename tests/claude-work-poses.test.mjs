@@ -15,7 +15,7 @@ import { AMBIENT, WORK, CAMP, drawPosed } from '../scripts/claude-art/kit/work-p
 import { POSES } from '../scripts/claude-art/kit/poses.mjs';
 import { frameOf } from '../scripts/claude-art/kit/rig.mjs';
 import { Ink, len, sub } from '../scripts/claude-art/kit/svg.mjs';
-import { ambientClip, AMBIENT_DRAWN } from '../public/motion.js';
+import { ambientClip, AMBIENT_DRAWN, drawnClipName } from '../public/motion.js';
 import { STROKES, drawnStroke, drawWorkLayer } from '../public/work-art.js';
 
 const CAST = ['rust', 'teal', 'elder', 'blue', 'rust-woman', 'indigo', 'ochre', 'blue-girl'];
@@ -70,7 +70,7 @@ test('each ambient activity the server names has its own clip for all eight cast
     for (const figure of CAST) {
       assert.ok(standins.clips[`${figure}-${pose}`], `${figure}-${pose} (for ${activity}) is not drawn`);
       const clip = ambientClip(figure, { a: activity, p: 'repair' });
-      assert.equal(clip.drawn, `${figure}-${pose}`, `${activity}: the page does not ask for ${figure}-${pose}`);
+      assert.equal(drawnClipName(clip, clip.id), `${figure}-${pose}`, `${activity}: the page does not ask for ${figure}-${pose}`);
       assert.equal(clip.id, `${figure}-repair`, `${activity}: the delivered pose the server names is not kept for a figure without the clip`);
     }
   }

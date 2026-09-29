@@ -133,7 +133,8 @@ try {
   await page.waitForFunction(() => document.querySelector('.panel-row[data-focused=true] .panel-icon[data-key="child-tag"]')?.dataset.active === 'true', null, { timeout: 10000 });
   const playing = await drawnOver(page, kid.id, 4000, 200, parentId);
   assert.ok(playing.places >= 3, `the child at tag was drawn in ${playing.places} places in four seconds`);
-  assert.ok(playing.clips.some(clip => /walk/.test(clip)), `the child at tag was never drawn running: ${playing.clips}`);
+  // Running at tag: the child's own run (`-play-run`, Claude-drawn until Astra's lands), or the walk while that sheet is on its way.
+  assert.ok(playing.clips.some(clip => /play-run|walk/.test(clip)), `the child at tag was never drawn running: ${playing.clips}`);
   observed.play = playing;
   await shot(page, 'play-1366');
   ok(`given tag, the parent went back to work at once; the icon glows and the child is drawn in ${playing.places} places in four seconds, as ${playing.clips.join(', ')}`);
@@ -146,8 +147,17 @@ try {
   await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="child-doll"]').click();
   await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.chore?.id === 'child-doll', kid.id, { timeout: 15000 });
   const sitting = await drawnOver(page, kid.id, 2000);
-  assert.ok(sitting.clips.some(clip => /rest/.test(clip)), `the child with a doll was not drawn sitting: ${sitting.clips}`);
+  assert.ok(sitting.clips.some(clip => /play-sit-doll|rest/.test(clip)), `the child with a doll was not drawn sitting: ${sitting.clips}`);
   ok(`with a corn-husk doll the child is drawn sitting (${sitting.clips.join(', ')})`);
+  // The hens are work: the child is drawn in their own scattering (`smallchild-scatter`, Claude-drawn until Astra's lands),
+  // through the work table's drawn stroke in the child's own figure (public/app.js `drawAtWork`), not the grown sowing.
+  await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="child-hens"]').click();
+  await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.chore?.id === 'child-hens', kid.id, { timeout: 15000 });
+  await page.waitForFunction(id => /^(girl|boy|smallchild)-scatter$/.test(window.__workDrawn?.[id]?.clip || ''), kid.id, { timeout: 60000 })
+    .catch(async error => { console.log('DEBUG hens', JSON.stringify(await page.evaluate(id => ({ work: window.__workDrawn?.[id], clip: window.__clipsDrawn?.[id], chore: window.__snapshot.world.entities.find(one => one.id === id)?.chore }), kid.id))); throw error; });
+  observed.hens = await page.evaluate(id => window.__workDrawn[id].clip, kid.id);
+  await shot(page, 'hens-1366');
+  ok(`scattering corn for the hens the child is drawn in their own ${observed.hens}`);
 
   // 3. The child's own automation turns itself off, with a notice on the row.
   const autoSwitch = page.locator(`.panel-row[data-entity-id="${kid.id}"] .panel-auto`);
@@ -176,7 +186,8 @@ try {
   const held = await page.evaluate(id => ({ said: window.__familySaid.filter(line => line.speakerId === id).map(line => line.text), clip: window.__clipsDrawn?.[id] }), carer.id);
   observed.held = { carer: carer.name, ...held, babyLife: await lifeOf(page, baby.id), carerLife: await lifeOf(page, carer.id) };
   assert.match(observed.held.babyLife || '', /^Held by/);
-  assert.match(held.clip || '', /carry/, `the carer is not drawn holding anything: ${held.clip}`);
+  // Holding the baby to the shoulder (`-hold-baby`, Claude-drawn), or the older stand-in, the harvest's carry.
+  assert.match(held.clip || '', /hold-baby|carry/, `the carer is not drawn holding anything: ${held.clip}`);
   await shot(page, 'baby-held-1366');
   await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.baby?.state === 'nap', baby.id, { timeout: 30000 });
   const after = await person(page, carer.id);

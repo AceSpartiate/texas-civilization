@@ -280,3 +280,46 @@ test("Astra's second delivery is drawn: children in their own figures where the 
   }
   for (const layout of HOUSE_IDS) for (const stage of ['', '-site', '-walls', '-roofing']) assert.ok(frames[`house-${layout}${stage}`], `house-${layout}${stage} is on the atlas`);
 });
+
+// Area B (docs/CLAUDE_ART_PLAN.md): the play, the baby, a grown-up holding it and the sick lying down each ask for a pose of
+// their own by name (`drawn`), which a library may hold - Claude's stand-ins today, Astra's when they land - and keep a
+// delivered fallback (`id`) for a page on which that sheet has not arrived.
+test("area B's own poses are asked for by name, each in the right figure, with a delivered pose under it", async () => {
+  const { drawnClipName } = await import('../public/motion.js');
+  const standins = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/claude-standins/atlas.json', import.meta.url)), 'utf8')).clips;
+  const own = (entity, west = false) => { const clip = entityClip(entity); return [clip.id, drawnClipName(clip, clip.id, west)]; };
+  const child = extra => person({ id: 'hh-1-child-3', sex: 'female', band: 'child', task: 'play', ...extra });
+  const baby = state => person({ id: 'hh-1-child-4', sex: 'male', band: 'infant', task: 'rest', baby: { state } });
+  const cases = [
+    [child({ chore: { id: 'child-tag', doing: 'running at tag about the yard' } }), 'girl-walk', 'girl-play-run'],
+    [child({ chore: { id: 'child-stick-horse', doing: 'galloping a stick horse up and down the yard' } }), 'girl-walk', 'girl-play-gallop'],
+    [child({ chore: { id: 'child-hoop', doing: 'rolling a hoop down the lane with a stick' } }), 'girl-walk', 'girl-play-hoop'],
+    [child({ chore: { id: 'child-hide', doing: 'hiding behind the house' } }), 'girl-idle-n', 'girl-play-hide'],
+    [child({ chore: { id: 'child-doll', doing: 'playing house with a corn-husk doll' } }), 'girl-rest', 'girl-play-sit-doll'],
+    [child({ sex: 'male', chore: { id: 'child-marbles', doing: 'at marbles and knucklebones in the dirt' } }), 'boy-rest-e', 'boy-play-kneel'],
+    [child({ talk: { phase: 'talking', with: 'hh-1-rosa' } }), 'girl-idle-s', 'girl-speak'],
+    [child({ band: 'small', talk: { phase: 'talking', with: 'hh-1-rosa' } }), 'smallchild-idle-s', 'smallchild-tug'],
+    [baby('awake'), 'infant-idle-e', 'infant-crawl'],
+    [baby('cry'), 'infant-idle-s', 'infant-cry'],
+    [baby('nap'), 'infant-rest', 'infant-sleep'],
+    [{ ...baby('awake'), health: { condition: 'sick' } }, 'infant-rest', 'infant-sick'],
+    [person({ sex: 'female', band: 'adult', aside: { kind: 'baby', babyIds: ['hh-1-child-4'] } }), null, 'hold-baby'],
+    [person({ task: 'rest', health: { condition: 'sick' } }), null, 'sick-rest'],
+    [child({ task: 'rest', chore: null, health: { condition: 'sick' } }), 'girl-injured-rest', 'girl-sick-rest'],
+    [person({ carryingBaby: true, travel: road([{ x: 0, y: 0 }, { x: 0, y: 9 }]) }), null, 'carry-baby-walk-s'],
+  ];
+  for (const [entity, fallback, drawn] of cases) {
+    const [id, name] = own(entity);
+    if (fallback) assert.equal(id, fallback, `${drawn}: the fallback`);
+    assert.ok(clips[id], `${drawn}: its fallback ${id} is a delivered clip`);
+    assert.ok(name && name.endsWith(drawn), `${id}: asks for ${name}, not ${drawn}`);
+    assert.ok(standins[name] || clips[name], `${name} is in neither library`);
+  }
+  // A baby crawling west has its own west crawl; the rest of the cast's `-hold-baby` and the sick lying are the same person.
+  assert.equal(own(baby('awake'), true)[1], 'infant-crawl-w');
+  const woman = entityClip(person({ sex: 'female', band: 'adult', aside: { kind: 'baby', babyIds: [] } }));
+  assert.equal(drawnClipName(woman, woman.id.replace(/^[a-z-]+-carry$/, 'teal-carry')), 'teal-hold-baby', 'a recoloured figure holds the baby in its own clip');
+  // Held or carried, the baby is drawn by whoever holds it; nobody walking with no baby is asked to carry one.
+  assert.equal(entityClip(baby('held')).drawn, undefined);
+  assert.equal(entityClip(person({ travel: road([{ x: 0, y: 0 }, { x: 9, y: 0 }]) })).drawn, undefined);
+});

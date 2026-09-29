@@ -189,8 +189,8 @@ export const COTTON_RATE = 2;
 // Food at five a real (owner, 2026-09-16, docs/MONEY_AND_GLORY.md §8.1, measured: at three a corn family that sold everything
 // placed second in most classes; corn is the modest path and cotton, a real a bale - two since 2026-09-27, sim/shops.mjs
 // `STORE_BALE_COIN` - the profitable one).
-// Food at four a real since 2026-09-28 (sim/market.mjs, docs/BALANCE.md §11), five until then.
-export const COIN = Object.freeze({ cottonBale: STORE_BALE_COIN, foodPerReal: 4, powder: 1, seed: 1, hoe: 2 });
+// Food at three a real since 2026-09-28 (owner: "1 real for 3 food"; sim/market.mjs, docs/BALANCE.md §14), four and five before.
+export const COIN = Object.freeze({ cottonBale: STORE_BALE_COIN, foodPerReal: 3, powder: 1, seed: 1, hoe: 2 });
 export const reales = amount => amount === 1 ? '1 real' : `${amount} reales`;
 /** What the choice at the rows says of a crop: its seed, what it is, and how many real minutes it stands (sim/crops.mjs). */
 const cropNote = (crop, world) => `${seedFor(crop)} seed a plot; ${crop === 'cotton' ? `the store pays up to ${reales(COIN.cottonBale)} a bale` : 'the crop is food'}; ripe in ${world ? minutesNow(world, crop) : CROPS[crop].minutes} minutes${world && inWinter(world) ? ', slower in the winter' : ''}`;

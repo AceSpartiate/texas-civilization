@@ -44,6 +44,8 @@ export const STROKES = Object.freeze({
   search: { pose: 'search', art: 'delivered' },
   trade: { pose: 'trade', art: 'delivered' },
   carry: { pose: 'carry', art: 'delivered' },
+  // Carrying water in pails (a child between the water and the house): the carry, or the pails where the figure has them.
+  water: { pose: 'carry', art: 'delivered', drawn: { pose: 'carry-water' } },
   walk: { pose: 'walk', art: 'journey' },
   play: { art: 'play', request: PLAY_REQUEST },
   hold: { pose: 'idle-s', art: 'still', frozen: true, upright: true, why: 'a hunter waiting downwind holds still, or he is seen' },
@@ -75,12 +77,16 @@ export const STROKES = Object.freeze({
   // ceiling: pacing out and staking is one step of the chore, so the drawn cycle is the staking only; the pacing (the walk,
   // paced to and fro) is what somebody with no `-stake` is drawn at. A part told by the chore's words would show both.
   pace: { pose: 'walk', art: 'stand-in', motion: 'pace', cycleMs: 3600, reach: 0.4, request: item(12), drawn: { pose: 'stake', beat: 1 } },
-  shoo: { pose: 'walk', art: 'stand-in', motion: 'pace', cycleMs: 1800, reach: 0.22, request: item(13) },
-  scatter: { pose: 'sow', art: 'stand-in', request: `${PLAY_REQUEST}, item 1 (\`-scatter\`)` },
+  shoo: { pose: 'walk', art: 'stand-in', motion: 'pace', cycleMs: 1800, reach: 0.22, request: item(13), drawn: { pose: 'shoo' } },
+  scatter: { pose: 'sow', art: 'stand-in', request: `${PLAY_REQUEST}, item 1 (\`-scatter\`)`, drawn: { pose: 'scatter' } },
   fire: { pose: 'care', art: 'stand-in', effect: 'smoke', cycleMs: 1700, request: item(14), drawn: { pose: 'tend-fire', beat: 1, at: [0.295, 0], ownFire: true } },
 });
 
 /**
+ * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - the children's own `-shoo`, `-gather`,
+ * `-scatter` and `-carry-water` (request 2026-09-28 — people at work, item 13; request 2026-09-26, `-scatter`) are Claude-drawn
+ * and drawn for a child through `drawn` the same way; a child's is its own figure's (public/app.js `drawAtWork`).
+ *
  * A stroke as it is drawn in a cycle of the work itself, for a figure whose library holds one (`<figure>-<drawn.pose>`): the
  * pose is that clip, the beat its own strike, and the stand-in's drawn tool, lean and pace go - the effect (the chips) stays,
  * timed to the new beat. The page asks for it only once `clipReady` says the clip can be drawn, figure by figure, so the
@@ -183,7 +189,7 @@ export const WORK = Object.freeze({
   'child-kindling': { stroke: 'gather', spread: 0.6 },
   'child-birds': { stroke: 'shoo', spread: 0.8 },
   'child-eggs': { stroke: 'gather', spread: 0.5 },
-  'child-water': { stroke: 'carry', spread: 0.5 },
+  'child-water': { stroke: 'water', spread: 0.5 },
   'child-mind': { stroke: 'tend', spread: 0.5 },
   // The Runaway Scrape's own work (sim/flight-work.mjs).
   'flee-hide': { stroke: 'carry', spread: 0.6 },
