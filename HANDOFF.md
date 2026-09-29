@@ -1,5 +1,48 @@
 # Claude handoff — Astra foundation
 
+## Claude's temporary art, area E: buildings, houses, towns, Béxar, the Alamo, interiors — owner, 2026-09-28 (worktree branch; not released)
+
+Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it makes the
+final versions."* Every open item of area E in docs/CLAUDE_ART_PLAN.md (E1-E14; E15 was already in place) has a Claude-drawn
+stand-in, `madeBy: "claude"`, named as the request asks, each on Astra's list still, each drawn only while hers is missing.
+
+- **House pieces cut from her own pixels** (`scripts/claude-art/areas/house-pieces.mjs`). Where a piece is her picture seen
+  another way it is made from `house-modules.png` itself (scripts/build-claude-standins.mjs now inlines a `/assets/...png` an SVG
+  names, and passes `seat`/`ground`/extra fields through): **E2** `house-{round,hewn}-back-{sill,low-walls,full-walls}` (her
+  doorway filled with her own logs moved along their courses; her seat and ground); **E3** `house-roof-join`, `-partial`
+  (her roof's middle repeated along its ridge: no gable ends, no end poles; `ridge` given) and `-join-chimney` (open where the
+  double chimney's stack stands; `chimneyAt`). Where a piece is new it is built in her pen's projection (`PEN`, read off her
+  full walls' ground corners) and laid with her own planks, boards, posts, stone, daub and thatch as affine-mapped textures:
+  **E4** `house-jacal-posts`, `-wattle`, `-thatch` (a jacal by stages, seated like her pens), `house-chimney-double` (stone, its
+  foot and centre given), `house-shed-frame`, `house-floor`, `house-loft`; **E2** `house-porch-end`, `house-shed-room-end`,
+  `house-passage-floor-end`, `house-passage-roof-end`. **E5** `interior-saddlebag`: her dog-run rooms cut at the passage and
+  laid the other way round, the two hearths back to back, spots re-measured (same ids). **E7** `house-loopholed` (her
+  adobe-flat, parapet raised to about four feet, loopholes, window shuttered). **E13** `window-lit-*` for `adobe-flat`,
+  `house-jacal`, `jacal-poor`, `cabin-small`.
+- **Wired, each with its fallback.** `public/house-plot.js`: a pen with a chimney against its door's gable is drawn from behind
+  (`housePicture` sets `back`) - the chimney no longer covers a door at 90 degrees; the row's roof over the gap is the join,
+  laid after the near pen so it runs over both gable ends; the saddlebag draws the stone double chimney with the join-chimney
+  over it; a jacal goes up by stages (`drawJacalPen`); a finished puncheon floor shows under a pen; shed frame and end views
+  at a quarter turn. `sim/interior-data.mjs`/`public/interior.js` (`fallback` the dog-run). `public/battle-view.js`: a
+  loophole group's house; lamplight in lit houses after the night's wash (`drawNight`).
+- **Helpers' parts** (same branch): Béxar's people, fandango and bell (E1, E8, E9: `bexar-people.mjs`; rig hook
+  `pose.overBody`), and Béxar's civic buildings, Concepción, three town buildings and the advance's places (E6, E10, E11,
+  E12, E14: `civic.mjs`, `far-places.mjs`, `kit/oblique.mjs`), each with its research and uncertainty in its prompt (San
+  Fernando's east front and octagonal south-east tower from HABS TX-34; the 1868-73 Gothic front and the 1930 palace
+  restoration rejected).
+- **One mechanism** (after merging areas A and B): Béxar's figures in town scenes and battle figures with a `fallback` are
+  chosen by `clipReady`, the test `drawnClipOf` makes; the battle view's `art` now carries `clipReady` (app.js, flashback.js).
+- **Evidence**: docs/evidence/claude-art/compare-house-pieces.png, compare-bexar-people.png, compare-civic.png,
+  compare-far-places.png; area-e-houses.png beside area-e-houses-before.png (every preset at every turn, the page's own
+  `drawHousePlot`); area-e-saddlebag-rooms.png. `tests/claude-standins.test.mjs` counts alpha 240 and up as solid paint (her
+  own sheets paint their body at 240-254; a 200-alpha ghost still has none).
+- **Play size, honestly.** The pieces cut from her pixels are hers at every size: the pen from behind, the join roof and the
+  saddlebag's rooms read as her art, with faint seams at 150 px. The built pieces read right at play size (a house about 60-90
+  px) but are flatter than hers up close: hard polygon edges, repeated texture tiles, even posts; the jacal's hipped thatch is
+  plainer than her broadside jacal. The lit windows and the loopholed house are small at the battle view's scale (houses 15-20
+  px) and hard to see there. Not done: the house-plot proof stops later at a server-side spacing assertion ("the refused spot
+  is not over the first house as drawn") that none of this touches; its drawn-house checks at 0/90/180/270 pass.
+
 ## Claude's temporary art, area B: children, babies and sickness — owner, 2026-09-28 (worktree branch; not released)
 
 Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it makes the
