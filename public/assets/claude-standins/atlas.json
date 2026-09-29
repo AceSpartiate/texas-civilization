@@ -5,20 +5,25 @@
   "sheets": {
     "claude-chop": {
       "image": "/assets/claude-standins/claude-chop.png",
-      "width": 1600,
-      "height": 400,
-      "bytes": 180365,
-      "sha256": "b3c957cdbacbd41f9a060ebff17900a8138f8e97e6850da31791c860f1f62e6f",
+      "width": 1440,
+      "height": 1920,
+      "bytes": 925015,
+      "sha256": "52130a869f7507eed29bb8e25ccd3ae1711a34965ffc7fddb66c54fa5aa23af3",
       "madeBy": "claude",
       "module": "chop",
       "request": "Request 2026-09-28 — people at work",
       "layout": {
-        "rows": 1,
-        "columns": 4,
+        "rows": 8,
+        "columns": 6,
         "cell": {
+          "w": 240,
+          "h": 240
+        },
+        "drawnCell": {
           "w": 400,
           "h": 400
         },
+        "scale": 0.6,
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
@@ -104,11 +109,11 @@
       "sheet": "claude-chop",
       "x": 0,
       "y": 0,
-      "w": 400,
-      "h": 400,
+      "w": 240,
+      "h": 240,
       "anchorX": 0.5,
       "anchorY": 0.93,
-      "logicalHeight": 300,
+      "logicalHeight": 180,
       "madeBy": "claude",
       "module": "chop",
       "request": "Request 2026-09-28 — people at work",
@@ -119,13 +124,13 @@
     },
     "rust-chop-2": {
       "sheet": "claude-chop",
-      "x": 400,
+      "x": 240,
       "y": 0,
-      "w": 400,
-      "h": 400,
+      "w": 240,
+      "h": 240,
       "anchorX": 0.5,
       "anchorY": 0.93,
-      "logicalHeight": 300,
+      "logicalHeight": 180,
       "madeBy": "claude",
       "module": "chop",
       "request": "Request 2026-09-28 — people at work",
@@ -136,13 +141,13 @@
     },
     "rust-chop-3": {
       "sheet": "claude-chop",
-      "x": 800,
+      "x": 480,
       "y": 0,
-      "w": 400,
-      "h": 400,
+      "w": 240,
+      "h": 240,
       "anchorX": 0.5,
       "anchorY": 0.93,
-      "logicalHeight": 300,
+      "logicalHeight": 180,
       "madeBy": "claude",
       "module": "chop",
       "request": "Request 2026-09-28 — people at work",
@@ -153,19 +158,767 @@
     },
     "rust-chop-4": {
       "sheet": "claude-chop",
-      "x": 1200,
+      "x": 720,
       "y": 0,
-      "w": 400,
-      "h": 400,
+      "w": 240,
+      "h": 240,
       "anchorX": 0.5,
       "anchorY": 0.93,
-      "logicalHeight": 300,
+      "logicalHeight": 180,
       "madeBy": "claude",
       "module": "chop",
       "request": "Request 2026-09-28 — people at work",
       "replaceWith": "rust-chop-4: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
       "source": "svg/chop/claude-rust-chop-4.svg",
       "label": "rust chop 4",
+      "kind": "claude-chop"
+    },
+    "rust-chop-5": {
+      "sheet": "claude-chop",
+      "x": 960,
+      "y": 0,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "rust-chop-5: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-rust-chop-5.svg",
+      "label": "rust chop 5",
+      "kind": "claude-chop"
+    },
+    "rust-chop-6": {
+      "sheet": "claude-chop",
+      "x": 1200,
+      "y": 0,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "rust-chop-6: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-rust-chop-6.svg",
+      "label": "rust chop 6",
+      "kind": "claude-chop"
+    },
+    "teal-chop-1": {
+      "sheet": "claude-chop",
+      "x": 0,
+      "y": 240,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "teal-chop-1: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-teal-chop-1.svg",
+      "label": "teal chop 1",
+      "kind": "claude-chop"
+    },
+    "teal-chop-2": {
+      "sheet": "claude-chop",
+      "x": 240,
+      "y": 240,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "teal-chop-2: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-teal-chop-2.svg",
+      "label": "teal chop 2",
+      "kind": "claude-chop"
+    },
+    "teal-chop-3": {
+      "sheet": "claude-chop",
+      "x": 480,
+      "y": 240,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "teal-chop-3: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-teal-chop-3.svg",
+      "label": "teal chop 3",
+      "kind": "claude-chop"
+    },
+    "teal-chop-4": {
+      "sheet": "claude-chop",
+      "x": 720,
+      "y": 240,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "teal-chop-4: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-teal-chop-4.svg",
+      "label": "teal chop 4",
+      "kind": "claude-chop"
+    },
+    "teal-chop-5": {
+      "sheet": "claude-chop",
+      "x": 960,
+      "y": 240,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "teal-chop-5: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-teal-chop-5.svg",
+      "label": "teal chop 5",
+      "kind": "claude-chop"
+    },
+    "teal-chop-6": {
+      "sheet": "claude-chop",
+      "x": 1200,
+      "y": 240,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "teal-chop-6: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-teal-chop-6.svg",
+      "label": "teal chop 6",
+      "kind": "claude-chop"
+    },
+    "elder-chop-1": {
+      "sheet": "claude-chop",
+      "x": 0,
+      "y": 480,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "elder-chop-1: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-elder-chop-1.svg",
+      "label": "elder chop 1",
+      "kind": "claude-chop"
+    },
+    "elder-chop-2": {
+      "sheet": "claude-chop",
+      "x": 240,
+      "y": 480,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "elder-chop-2: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-elder-chop-2.svg",
+      "label": "elder chop 2",
+      "kind": "claude-chop"
+    },
+    "elder-chop-3": {
+      "sheet": "claude-chop",
+      "x": 480,
+      "y": 480,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "elder-chop-3: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-elder-chop-3.svg",
+      "label": "elder chop 3",
+      "kind": "claude-chop"
+    },
+    "elder-chop-4": {
+      "sheet": "claude-chop",
+      "x": 720,
+      "y": 480,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "elder-chop-4: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-elder-chop-4.svg",
+      "label": "elder chop 4",
+      "kind": "claude-chop"
+    },
+    "elder-chop-5": {
+      "sheet": "claude-chop",
+      "x": 960,
+      "y": 480,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "elder-chop-5: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-elder-chop-5.svg",
+      "label": "elder chop 5",
+      "kind": "claude-chop"
+    },
+    "elder-chop-6": {
+      "sheet": "claude-chop",
+      "x": 1200,
+      "y": 480,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "elder-chop-6: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-elder-chop-6.svg",
+      "label": "elder chop 6",
+      "kind": "claude-chop"
+    },
+    "blue-chop-1": {
+      "sheet": "claude-chop",
+      "x": 0,
+      "y": 720,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "blue-chop-1: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-blue-chop-1.svg",
+      "label": "blue chop 1",
+      "kind": "claude-chop"
+    },
+    "blue-chop-2": {
+      "sheet": "claude-chop",
+      "x": 240,
+      "y": 720,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "blue-chop-2: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-blue-chop-2.svg",
+      "label": "blue chop 2",
+      "kind": "claude-chop"
+    },
+    "blue-chop-3": {
+      "sheet": "claude-chop",
+      "x": 480,
+      "y": 720,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "blue-chop-3: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-blue-chop-3.svg",
+      "label": "blue chop 3",
+      "kind": "claude-chop"
+    },
+    "blue-chop-4": {
+      "sheet": "claude-chop",
+      "x": 720,
+      "y": 720,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "blue-chop-4: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-blue-chop-4.svg",
+      "label": "blue chop 4",
+      "kind": "claude-chop"
+    },
+    "blue-chop-5": {
+      "sheet": "claude-chop",
+      "x": 960,
+      "y": 720,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "blue-chop-5: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-blue-chop-5.svg",
+      "label": "blue chop 5",
+      "kind": "claude-chop"
+    },
+    "blue-chop-6": {
+      "sheet": "claude-chop",
+      "x": 1200,
+      "y": 720,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "blue-chop-6: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-blue-chop-6.svg",
+      "label": "blue chop 6",
+      "kind": "claude-chop"
+    },
+    "rust-woman-chop-1": {
+      "sheet": "claude-chop",
+      "x": 0,
+      "y": 960,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "rust-woman-chop-1: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-rust-woman-chop-1.svg",
+      "label": "rust woman chop 1",
+      "kind": "claude-chop"
+    },
+    "rust-woman-chop-2": {
+      "sheet": "claude-chop",
+      "x": 240,
+      "y": 960,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "rust-woman-chop-2: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-rust-woman-chop-2.svg",
+      "label": "rust woman chop 2",
+      "kind": "claude-chop"
+    },
+    "rust-woman-chop-3": {
+      "sheet": "claude-chop",
+      "x": 480,
+      "y": 960,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "rust-woman-chop-3: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-rust-woman-chop-3.svg",
+      "label": "rust woman chop 3",
+      "kind": "claude-chop"
+    },
+    "rust-woman-chop-4": {
+      "sheet": "claude-chop",
+      "x": 720,
+      "y": 960,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "rust-woman-chop-4: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-rust-woman-chop-4.svg",
+      "label": "rust woman chop 4",
+      "kind": "claude-chop"
+    },
+    "rust-woman-chop-5": {
+      "sheet": "claude-chop",
+      "x": 960,
+      "y": 960,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "rust-woman-chop-5: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-rust-woman-chop-5.svg",
+      "label": "rust woman chop 5",
+      "kind": "claude-chop"
+    },
+    "rust-woman-chop-6": {
+      "sheet": "claude-chop",
+      "x": 1200,
+      "y": 960,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "rust-woman-chop-6: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-rust-woman-chop-6.svg",
+      "label": "rust woman chop 6",
+      "kind": "claude-chop"
+    },
+    "indigo-chop-1": {
+      "sheet": "claude-chop",
+      "x": 0,
+      "y": 1200,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "indigo-chop-1: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-indigo-chop-1.svg",
+      "label": "indigo chop 1",
+      "kind": "claude-chop"
+    },
+    "indigo-chop-2": {
+      "sheet": "claude-chop",
+      "x": 240,
+      "y": 1200,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "indigo-chop-2: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-indigo-chop-2.svg",
+      "label": "indigo chop 2",
+      "kind": "claude-chop"
+    },
+    "indigo-chop-3": {
+      "sheet": "claude-chop",
+      "x": 480,
+      "y": 1200,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "indigo-chop-3: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-indigo-chop-3.svg",
+      "label": "indigo chop 3",
+      "kind": "claude-chop"
+    },
+    "indigo-chop-4": {
+      "sheet": "claude-chop",
+      "x": 720,
+      "y": 1200,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "indigo-chop-4: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-indigo-chop-4.svg",
+      "label": "indigo chop 4",
+      "kind": "claude-chop"
+    },
+    "indigo-chop-5": {
+      "sheet": "claude-chop",
+      "x": 960,
+      "y": 1200,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "indigo-chop-5: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-indigo-chop-5.svg",
+      "label": "indigo chop 5",
+      "kind": "claude-chop"
+    },
+    "indigo-chop-6": {
+      "sheet": "claude-chop",
+      "x": 1200,
+      "y": 1200,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "indigo-chop-6: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-indigo-chop-6.svg",
+      "label": "indigo chop 6",
+      "kind": "claude-chop"
+    },
+    "ochre-chop-1": {
+      "sheet": "claude-chop",
+      "x": 0,
+      "y": 1440,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "ochre-chop-1: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-ochre-chop-1.svg",
+      "label": "ochre chop 1",
+      "kind": "claude-chop"
+    },
+    "ochre-chop-2": {
+      "sheet": "claude-chop",
+      "x": 240,
+      "y": 1440,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "ochre-chop-2: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-ochre-chop-2.svg",
+      "label": "ochre chop 2",
+      "kind": "claude-chop"
+    },
+    "ochre-chop-3": {
+      "sheet": "claude-chop",
+      "x": 480,
+      "y": 1440,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "ochre-chop-3: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-ochre-chop-3.svg",
+      "label": "ochre chop 3",
+      "kind": "claude-chop"
+    },
+    "ochre-chop-4": {
+      "sheet": "claude-chop",
+      "x": 720,
+      "y": 1440,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "ochre-chop-4: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-ochre-chop-4.svg",
+      "label": "ochre chop 4",
+      "kind": "claude-chop"
+    },
+    "ochre-chop-5": {
+      "sheet": "claude-chop",
+      "x": 960,
+      "y": 1440,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "ochre-chop-5: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-ochre-chop-5.svg",
+      "label": "ochre chop 5",
+      "kind": "claude-chop"
+    },
+    "ochre-chop-6": {
+      "sheet": "claude-chop",
+      "x": 1200,
+      "y": 1440,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "ochre-chop-6: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-ochre-chop-6.svg",
+      "label": "ochre chop 6",
+      "kind": "claude-chop"
+    },
+    "blue-girl-chop-1": {
+      "sheet": "claude-chop",
+      "x": 0,
+      "y": 1680,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "blue-girl-chop-1: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-blue-girl-chop-1.svg",
+      "label": "blue girl chop 1",
+      "kind": "claude-chop"
+    },
+    "blue-girl-chop-2": {
+      "sheet": "claude-chop",
+      "x": 240,
+      "y": 1680,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "blue-girl-chop-2: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-blue-girl-chop-2.svg",
+      "label": "blue girl chop 2",
+      "kind": "claude-chop"
+    },
+    "blue-girl-chop-3": {
+      "sheet": "claude-chop",
+      "x": 480,
+      "y": 1680,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "blue-girl-chop-3: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-blue-girl-chop-3.svg",
+      "label": "blue girl chop 3",
+      "kind": "claude-chop"
+    },
+    "blue-girl-chop-4": {
+      "sheet": "claude-chop",
+      "x": 720,
+      "y": 1680,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "blue-girl-chop-4: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-blue-girl-chop-4.svg",
+      "label": "blue girl chop 4",
+      "kind": "claude-chop"
+    },
+    "blue-girl-chop-5": {
+      "sheet": "claude-chop",
+      "x": 960,
+      "y": 1680,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "blue-girl-chop-5: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-blue-girl-chop-5.svg",
+      "label": "blue girl chop 5",
+      "kind": "claude-chop"
+    },
+    "blue-girl-chop-6": {
+      "sheet": "claude-chop",
+      "x": 1200,
+      "y": 1680,
+      "w": 240,
+      "h": 240,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 180,
+      "madeBy": "claude",
+      "module": "chop",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "blue-girl-chop-6: item 1: 4 frames, east-facing and mirrored for west, the cast figure's own logical height and foot baseline; name the frame the axe lands on",
+      "source": "svg/chop/claude-blue-girl-chop-6.svg",
+      "label": "blue girl chop 6",
       "kind": "claude-chop"
     },
     "home-hoe": {
@@ -610,25 +1363,278 @@
       "frames": [
         {
           "sprite": "rust-chop-1",
-          "duration": 320
+          "duration": 380
         },
         {
           "sprite": "rust-chop-2",
-          "duration": 140
+          "duration": 110
         },
         {
           "sprite": "rust-chop-3",
-          "duration": 300
+          "duration": 90
         },
         {
           "sprite": "rust-chop-4",
-          "duration": 260
+          "duration": 300
+        },
+        {
+          "sprite": "rust-chop-5",
+          "duration": 150
+        },
+        {
+          "sprite": "rust-chop-6",
+          "duration": 170
         }
       ],
       "loop": true,
       "motion": "none",
       "direction": "east; west by mirroring",
-      "beat": 2,
+      "beat": 3,
+      "authored": true,
+      "madeBy": "claude",
+      "module": "chop"
+    },
+    "teal-chop": {
+      "frames": [
+        {
+          "sprite": "teal-chop-1",
+          "duration": 380
+        },
+        {
+          "sprite": "teal-chop-2",
+          "duration": 110
+        },
+        {
+          "sprite": "teal-chop-3",
+          "duration": 90
+        },
+        {
+          "sprite": "teal-chop-4",
+          "duration": 300
+        },
+        {
+          "sprite": "teal-chop-5",
+          "duration": 150
+        },
+        {
+          "sprite": "teal-chop-6",
+          "duration": 170
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "beat": 3,
+      "authored": true,
+      "madeBy": "claude",
+      "module": "chop"
+    },
+    "elder-chop": {
+      "frames": [
+        {
+          "sprite": "elder-chop-1",
+          "duration": 380
+        },
+        {
+          "sprite": "elder-chop-2",
+          "duration": 110
+        },
+        {
+          "sprite": "elder-chop-3",
+          "duration": 90
+        },
+        {
+          "sprite": "elder-chop-4",
+          "duration": 300
+        },
+        {
+          "sprite": "elder-chop-5",
+          "duration": 150
+        },
+        {
+          "sprite": "elder-chop-6",
+          "duration": 170
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "beat": 3,
+      "authored": true,
+      "madeBy": "claude",
+      "module": "chop"
+    },
+    "blue-chop": {
+      "frames": [
+        {
+          "sprite": "blue-chop-1",
+          "duration": 380
+        },
+        {
+          "sprite": "blue-chop-2",
+          "duration": 110
+        },
+        {
+          "sprite": "blue-chop-3",
+          "duration": 90
+        },
+        {
+          "sprite": "blue-chop-4",
+          "duration": 300
+        },
+        {
+          "sprite": "blue-chop-5",
+          "duration": 150
+        },
+        {
+          "sprite": "blue-chop-6",
+          "duration": 170
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "beat": 3,
+      "authored": true,
+      "madeBy": "claude",
+      "module": "chop"
+    },
+    "rust-woman-chop": {
+      "frames": [
+        {
+          "sprite": "rust-woman-chop-1",
+          "duration": 380
+        },
+        {
+          "sprite": "rust-woman-chop-2",
+          "duration": 110
+        },
+        {
+          "sprite": "rust-woman-chop-3",
+          "duration": 90
+        },
+        {
+          "sprite": "rust-woman-chop-4",
+          "duration": 300
+        },
+        {
+          "sprite": "rust-woman-chop-5",
+          "duration": 150
+        },
+        {
+          "sprite": "rust-woman-chop-6",
+          "duration": 170
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "beat": 3,
+      "authored": true,
+      "madeBy": "claude",
+      "module": "chop"
+    },
+    "indigo-chop": {
+      "frames": [
+        {
+          "sprite": "indigo-chop-1",
+          "duration": 380
+        },
+        {
+          "sprite": "indigo-chop-2",
+          "duration": 110
+        },
+        {
+          "sprite": "indigo-chop-3",
+          "duration": 90
+        },
+        {
+          "sprite": "indigo-chop-4",
+          "duration": 300
+        },
+        {
+          "sprite": "indigo-chop-5",
+          "duration": 150
+        },
+        {
+          "sprite": "indigo-chop-6",
+          "duration": 170
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "beat": 3,
+      "authored": true,
+      "madeBy": "claude",
+      "module": "chop"
+    },
+    "ochre-chop": {
+      "frames": [
+        {
+          "sprite": "ochre-chop-1",
+          "duration": 380
+        },
+        {
+          "sprite": "ochre-chop-2",
+          "duration": 110
+        },
+        {
+          "sprite": "ochre-chop-3",
+          "duration": 90
+        },
+        {
+          "sprite": "ochre-chop-4",
+          "duration": 300
+        },
+        {
+          "sprite": "ochre-chop-5",
+          "duration": 150
+        },
+        {
+          "sprite": "ochre-chop-6",
+          "duration": 170
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "beat": 3,
+      "authored": true,
+      "madeBy": "claude",
+      "module": "chop"
+    },
+    "blue-girl-chop": {
+      "frames": [
+        {
+          "sprite": "blue-girl-chop-1",
+          "duration": 380
+        },
+        {
+          "sprite": "blue-girl-chop-2",
+          "duration": 110
+        },
+        {
+          "sprite": "blue-girl-chop-3",
+          "duration": 90
+        },
+        {
+          "sprite": "blue-girl-chop-4",
+          "duration": 300
+        },
+        {
+          "sprite": "blue-girl-chop-5",
+          "duration": 150
+        },
+        {
+          "sprite": "blue-girl-chop-6",
+          "duration": 170
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "beat": 3,
       "authored": true,
       "madeBy": "claude",
       "module": "chop"

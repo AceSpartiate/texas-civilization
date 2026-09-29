@@ -50,9 +50,9 @@ export const STROKES = Object.freeze({
   rest: { pose: 'rest', art: 'still', upright: true, why: 'a day of rest on the road is rest' },
   wait: { pose: 'idle-s', art: 'still', upright: true, why: 'standing in a line to sign the roll, vote or report' },
   // A felling axe (a maul, splitting rails) drawn over the hoe in the hoeing cycle's hands (owner, 2026-09-28: "Add a drawn axe").
-  // `drawn`: a figure whose library holds a cycle of the work itself (`<figure>-chop`, Claude-drawn today for rust, Astra's
+  // `drawn`: a figure whose library holds a cycle of the work itself (`<figure>-chop`, six frames Claude-drawn today for all eight, Astra's
   // when she delivers) is drawn in it instead, with only the chips (`drawnStroke`).
-  chop: { pose: 'work', art: 'stand-in', tool: 'axe', effect: 'chips', beat: 2, request: item(1), drawn: { pose: 'chop', beat: 2 } },
+  chop: { pose: 'work', art: 'stand-in', tool: 'axe', effect: 'chips', beat: 2, request: item(1), drawn: { pose: 'chop', beat: 3 } },
   split: { pose: 'work', art: 'stand-in', tool: 'maul', effect: 'chips', beat: 2, request: item(2) },
   notch: { pose: 'work', art: 'stand-in', tool: 'axe', effect: 'chips', beat: 2, request: item(3) },
   dig: { pose: 'work', art: 'stand-in', effect: 'earth', beat: 2, request: item(4) },

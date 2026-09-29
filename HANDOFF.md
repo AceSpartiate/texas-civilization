@@ -42,6 +42,16 @@ worked example; parallel builders draw the rest area by area.
   raised arms no longer cross the face. The horse was refitted to her mounted frames (1.8 of a person: saddle ~95, head ~130,
   rump -68 to chest +62) and the rider is drawn at her riders' 1.3 size. Before-and-after: `docs/evidence/claude-art/before/`
   beside `compare-chop.png`, `rig-rust.png`, `rig-rust-woman.png`.
+- **Natural swings (owner, same day: "make sure the chop swings look natural").** The chop, hoe, split and dig are six frames of
+  one swing each (`POSES` and `SWINGS` in `kit/poses.mjs`): wind-up held (tool back over the shoulder, chest turned away with
+  `twist`, weight on the back foot), start down, downswing (turning in, the top hand sliding down), strike held, recovery, rise.
+  The tool is rigid (`rigidTool` in `kit/rig.mjs`: `grip` and `aim`, the handle always its own length) and the top hand slides
+  along it to stay within reach; the feet never move. `tests/claude-rig.test.mjs` checks every swing for all eight cast figures
+  with `kit/swing-check.mjs` (hands on the handle, handle length, planted feet, an even arc) and the timing (wind-up and strike
+  held; 1.2 s a stroke). `<figure>-chop` is drawn for **all eight** (48 frames, `claude-chop.png` rasterised at 0.6 so it decodes
+  to ~11 MB, not ~30), the axe landing on frame 4 (`STROKES.chop.drawn.beat` 3). Motion previews beside her hoeing cycle:
+  `npm run art:preview` writes docs/evidence/claude-art/swing-preview.apng (77 and 150 px, animated), chop-cast-preview.apng (all
+  eight), swing-strip.png (every 100 ms) and swing-onion.png (frames overlaid, the head's arc and the feet marked).
 - **Honest limit.** At a person 40 px the rig reads as the same person as hers by silhouette, costume and colour, at the same
   height on the same foot line, and the work reads as work; at 150 px it is plainly a simpler hand (even limbs with no folds, one
   flat shade, stiffer joints, small plain faces, arms in front of the body where hers turn three-quarter, a horse with straight

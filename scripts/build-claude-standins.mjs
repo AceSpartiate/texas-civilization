@@ -92,7 +92,9 @@ const shared = () => readFileSync(root + 'svg/_shared-defs.svg', 'utf8');
 
 /** One sheet's page: every frame inlined at its cell, in rows of `columns` (default the square root), transparent ground. */
 export function sheetPage(sheet, spec) {
-  const { w, h } = spec.cell, count = spec.frames.length;
+  // `scale` rasterises the cell smaller than it was drawn (a sheet of many people frames would otherwise decode to tens of
+  // megabytes on a Chromebook); the frame's size and logical height scale with it, its anchors are fractions and do not.
+  const { w, h } = spec.cell, count = spec.frames.length, k = spec.scale || 1, W = Math.round(w * k), Hh = Math.round(h * k);
   const columns = spec.columns || Math.ceil(Math.sqrt(count)), rows = Math.ceil(count / columns);
   const ids = new Map();
   const pieces = spec.frames.map(({ frame, source }, index) => {
@@ -103,11 +105,11 @@ export function sheetPage(sheet, spec) {
       ids.set(id[1], frame.name);
     }
     if (!new RegExp(`viewBox="0 0 ${w} ${h}"`).test(svg)) throw new Error(`${frame.name}: viewBox must be 0 0 ${w} ${h}`);
-    const x = (index % columns) * w, y = Math.floor(index / columns) * h;
-    return { frame, source, x, y, html: `<div style="position:absolute;left:${x}px;top:${y}px;width:${w}px;height:${h}px">${svg.replace(/<svg /, `<svg style="width:${w}px;height:${h}px;display:block" `)}</div>` };
+    const x = (index % columns) * W, y = Math.floor(index / columns) * Hh;
+    return { frame, source, x, y, html: `<div style="position:absolute;left:${x}px;top:${y}px;width:${W}px;height:${Hh}px">${svg.replace(/<svg /, `<svg style="width:${W}px;height:${Hh}px;display:block" `)}</div>` };
   });
   const html = `<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:transparent}</style><svg width="0" height="0" style="position:absolute">${shared()}</svg>${pieces.map(piece => piece.html).join('')}`;
-  return { html, width: columns * w, height: rows * h, columns, rows, pieces };
+  return { html, width: columns * W, height: rows * Hh, columns, rows, pieces, cellPx: { w: W, h: Hh } };
 }
 
 /** The clips of a module whose every frame is drawn. */
@@ -126,7 +128,7 @@ function readyClips(m, frames) {
 export async function renderModule(page, m) {
   const sheets = {}, frames = {}, provenance = {};
   for (const [sheet, spec] of Object.entries(plannedSheets(m))) {
-    const { html, width, height, columns, rows, pieces } = sheetPage(sheet, spec);
+    const { html, width, height, columns, rows, pieces, cellPx } = sheetPage(sheet, spec);
     for (const { frame, source } of pieces) if (source.generated) {
       mkdirSync(root + `svg/${m.module}`, { recursive: true });
       writeFileSync(root + sourceOf(m.module, frame.name), source.svg);
@@ -146,10 +148,10 @@ export async function renderModule(page, m) {
     }
     writeFileSync(root + file, png);
     sheets[sheet] = { image: WEB_ROOT + file, width, height, bytes: png.length, sha256: createHash('sha256').update(png).digest('hex'),
-      madeBy: 'claude', module: m.module, request: spec.request, layout: { rows, columns, cell: spec.cell, method: 'Fixed cells; each frame is one whole cell of the SVG it was drawn in.' } };
+      madeBy: 'claude', module: m.module, request: spec.request, layout: { rows, columns, cell: cellPx, ...(spec.scale && { drawnCell: spec.cell, scale: spec.scale }), method: 'Fixed cells; each frame is one whole cell of the SVG it was drawn in.' } };
     for (const { frame, source, x, y } of pieces) {
-      frames[frame.name] = { sheet, x, y, w: spec.cell.w, h: spec.cell.h, anchorX: source.anchorX, anchorY: source.anchorY,
-        ...(source.logicalHeight && { logicalHeight: source.logicalHeight }),
+      frames[frame.name] = { sheet, x, y, w: cellPx.w, h: cellPx.h, anchorX: source.anchorX, anchorY: source.anchorY,
+        ...(source.logicalHeight && { logicalHeight: +(source.logicalHeight * (spec.scale || 1)).toFixed(2) }),
         madeBy: 'claude', module: m.module, request: spec.request, replaceWith: `${frame.name}: ${spec.replaceWith}`, source: sourceOf(m.module, frame.name),
         label: frame.name.replaceAll('-', ' '), kind: sheet };
       provenance[frame.name] = { kind: 'frame', madeBy: 'claude', date: frame.date || m.DATE, module: m.module, area: m.AREA, sheet, request: spec.request,
