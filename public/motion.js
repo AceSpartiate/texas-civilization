@@ -273,6 +273,16 @@ export const RIDING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue', 'r
  */
 export const DRIVING_FIGURES = Object.freeze(['rust', 'teal', 'elder', 'blue']);
 /**
+ * The figures Claude drew on the horse and on the wagon's box (2026-09-28), temporary until Astra paints them: the children
+ * riding (`<child>-ride-*`) and the second cast and the children driving (`<figure>-wagon-driver-*`), in
+ * public/assets/claude-standins/. Asked for by the same names hers would have; a sheet not yet loaded, or not there, falls
+ * back to the composite exactly as before (public/app.js `drawSeated` asks `clipReady`).
+ * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - requests 2026-09-14 (family members on
+ * horseback) and 2026-09-16 (driving the ox wagon). The baby rides only in somebody's arms (sim/company.mjs), so has neither.
+ */
+export const CLAUDE_RIDING_FIGURES = Object.freeze(['girl', 'boy', 'smallchild']);
+export const CLAUDE_DRIVING_FIGURES = Object.freeze(['rust-woman', 'indigo', 'ochre', 'blue-girl', 'girl', 'boy', 'smallchild']);
+/**
  * Which figure somebody is drawn as: their own child's figure if the children's sheets draw them, else their cast figure.
  * **The one chooser.** The map (`entityClip`, which keeps a grown figure's pose for a child where the child's sheet has none),
  * a seat on the horse or the wagon (`seatedClip`), and the family panel's portrait (public/app.js `renderFamilyPanel`) all
@@ -294,12 +304,12 @@ export function seatedClip(entity, direction = 'e', seat = 'horse') {
   const facing = ['n', 's', 'e', 'w'].includes(direction) ? direction : 'e';
   // No west sheet: west is the east cycle mirrored, which the caller's `flip` does. North and south are painted and are
   // never mirrored, which is what `upright` means everywhere else in this file.
-  if (seat === 'horse' && RIDING_FIGURES.includes(figure)) {
+  if (seat === 'horse' && (RIDING_FIGURES.includes(figure) || CLAUDE_RIDING_FIGURES.includes(figure))) {
     return { id: `${figure}-ride-${facing === 'w' ? 'e' : facing}`, whole: true, ...(facing === 'n' || facing === 's' ? { upright: true } : {}) };
   }
   // Each heading is painted, west included, so a driver is never mirrored. Not frozen: the delivery registers one held
   // breathing frame and the renderer's own breath is what keeps it alive.
-  if (seat === 'wagon' && DRIVING_FIGURES.includes(figure)) return { id: `${figure}-wagon-driver-${facing}`, upright: true, seated: true };
+  if (seat === 'wagon' && (DRIVING_FIGURES.includes(figure) || CLAUDE_DRIVING_FIGURES.includes(figure))) return { id: `${figure}-wagon-driver-${facing}`, upright: true, seated: true };
   // The infant's sheet has no back view.
   const pose = figure === 'infant' && facing === 'n' ? 'idle-s' : `idle-${facing}`;
   return { id: `${figure}-${pose}`, upright: true, frozen: true };
@@ -378,6 +388,17 @@ export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rid
   const back = vertical ? (direction === 'n' ? 1 : -1) * 0.13 * wagon * (row + 1) : 0;
   const seat = wagon * SEAT.wagonSeat * (1.02 - 0.04 * side);
   return { part: 'passenger', dx, dy: -seat + SEAT.hip * rider + back, height: rider, shown: 1 - SEAT.hip + SEAT.overlap, ...(direction === 'n' && { front: true }) };
+}
+/**
+ * Somebody sitting in the bed of an open cart or carreta, whole (`<figure>-ride-wagon-<dir>`, Claude-drawn 2026-09-28: request
+ * 2026-09-25 "riders, walkers and the cart", item 2), drawn to the seated drivers' contract (`SEAT.driverHeight`,
+ * `driverHip`); west is east mirrored. Null for the baby, who rides in somebody's arms.
+ */
+export function passengerClip(entity, direction = 'e') {
+  const figure = seatFigure(entity);
+  if (figure === 'infant') return null;
+  const facing = direction === 'n' || direction === 's' ? direction : 'e';
+  return { id: `${figure}-ride-wagon-${facing}`, upright: facing !== 'e', seated: true };
 }
 export function carrierClip(entity) {
   const vertical = entity.facing === 'n' || entity.facing === 's';

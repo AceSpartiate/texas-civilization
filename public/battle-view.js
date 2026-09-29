@@ -526,7 +526,7 @@ export function createBattleView(art) {
           if (down.wounded && side.action === 'gone') continue;
           // Falling, then lying still: no blood, no gore (VISION.md §16), and carried off once the fighting is over.
           // Hurt inside a square, he is helped in among the carts, not back from a line that faces every way.
-          figures.push({ y: point.y, kind: 'fallen', side: side.side, point, size: figurePx, down, slot, ground, facingRight: right, ...(side.style === 'square' && { inward: camera.toScreen(centre) }) });
+          figures.push({ y: point.y, kind: 'fallen', side: side.side, point, size: figurePx, down, slot, ground, facingRight: right, mounted: kind === 'dragoon', ...(side.style === 'square' && { inward: camera.toScreen(centre) }) });
           continue;
         }
         if (side.action === 'gone') continue;
@@ -960,6 +960,9 @@ export function createBattleView(art) {
       // library's seated wounded soldier helped back by two comrades on foot, until a mounted wounded pose exists.
       // Away from the enemy: the side faces right when the enemy is to its right, so the rear is to its left.
       const back = -Math.min(1, since / 25000) * f.size * 2.4 * (f.facingRight ? 1 : -1);
+      // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - a dragoon hit in the saddle, where
+      // Claude's `dragoon-wounded-led` is loaded: slumped on his horse, led back by a comrade on foot.
+      if (f.mounted && art.animated(ctx, 'dragoon-wounded-led', x + back, y, f.size * 1.35, `${f.slot.index}:led`, { flip: f.facingRight })) return;
       if (!art.drawSprite(ctx, `${kind}-injured`, x + back, y, f.size)) art.miniPerson(ctx, x + back, y, f.size, { side: f.side });
       for (const off of [-0.45, 0.45]) art.animated(ctx, `${kind}-march`, x + back + off * f.size, y + 2, f.size, `${f.slot.index}:${off}`, { flip: f.facingRight });
       return;

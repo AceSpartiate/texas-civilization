@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame, spriteReady } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
 import { actingOf, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -520,10 +520,18 @@ function miniWagon(ctx, x, y, size, entity = {}, flip = false) {
   if (entity.carreta || entity.cart) size *= 0.8;
   const heading = entity.travel ? travelHeading(entity) : null;
   if (entity.carreta && (!entity.condition || entity.condition === 'sound')) {
+    // Laden, Claude's `carreta-loaded-travel-*` (request 2026-09-25 "the carreta") where it is loaded; the delivered cycle otherwise.
+    if (entity.travel && entity.laden && animated(ctx, `carreta-loaded-travel-${heading || 'e'}`, x, y, size, entity.id, { flip: heading ? false : flip, gait: entity.gait })) return;
     if (entity.travel && animated(ctx, `carreta-travel-${heading || 'e'}`, x, y, size, entity.id, { flip: heading ? false : flip, gait: entity.gait })) return;
     if (drawSprite(ctx, entity.laden ? 'carreta-loaded-e' : `carreta-idle-${heading || 'e'}`, x, y, size, { flip: heading ? false : flip })) return;
   }
-  if (entity.cart && (!entity.condition || entity.condition === 'sound') && drawSprite(ctx, `cart-open-${heading || 'e'}`, x, y, size, { flip: heading ? false : flip })) return;
+  // The cart rolling with its wheels turning, and standing, loaded or empty: Claude's `cart-travel-*` and `cart-idle-*` (request
+  // 2026-09-25 "riders, walkers and the cart", item 1) where they are loaded, the delivered static `cart-open` views otherwise.
+  if (entity.cart && (!entity.condition || entity.condition === 'sound')) {
+    const cart = `cart-${entity.travel ? 'travel' : 'idle'}-${entity.laden ? 'loaded-' : ''}${heading || 'e'}`;
+    if (animated(ctx, cart, x, y, size, entity.id, { flip: heading ? false : flip, gait: entity.travel ? entity.gait : undefined })) return;
+    if (drawSprite(ctx, `cart-open-${heading || 'e'}`, x, y, size, { flip: heading ? false : flip })) return;
+  }
   const rolling = entity.travel ? (entity.laden ? 'wagon-loaded-travel' : 'wagon-travel') : 'wagon-idle';
   if (entity.condition === 'sound' && animated(ctx, rolling, x, y, size, entity.id, { flip: !flip, gait: entity.gait })) return;
   // A wagon that has come to harm shows it. Nothing here invents that state: it is drawn
@@ -729,6 +737,17 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   for (const part of layout) {
     const px = x + part.dx * size * along, py = y + part.dy * size, height = part.height * size;
     if (part.part === 'passenger') {
+      // In an open cart or carreta, the whole seated rider where Claude's is loaded (`passengerClip`): the hip on the seat the
+      // layout gives, the rest of them sitting in the bed. stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace
+      // with Astra's)"; in the covered wagon, and wherever it is not loaded, the cut figure below.
+      const open = mount.wagon?.cart || mount.wagon?.carreta, sits = open && !part.rider.appearance && passengerClip(part.rider, direction);
+      if (sits && clipReady(sits.id)) {
+        const hip = py - height * SEAT.hip, whole = height * SEAT.driverHeight;
+        animated(ctx, sits.id, px, hip + whole * SEAT.driverHip, whole, part.rider.id, { flip: sits.upright ? false : flip });
+        drawnAt.set(part.rider.id, { x: px, y: hip, size: height });
+        drawn.push({ part: 'passenger', id: part.rider.id, x: Math.round(px), y: Math.round(py), height: Math.round(height), seated: true });
+        continue;
+      }
       // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - riders in the wagon. Their own idle figure, cut below the waist.
       ctx.save();
       ctx.beginPath(); ctx.rect(px - height * 2, py - height * 1.5, height * 4, height * (.5 + part.shown)); ctx.clip();
@@ -3374,14 +3393,19 @@ export function drawWorld(world) {
     // a range longhorn's standing and grazing frames moved over the ground with the child, until a milk cow on a rope is drawn.
     if (world.flight?.cow?.by === entity.id && !carrier) {
       const west = destination ? destination.x < entity.location.x : false;
-      const clip = entity.travel ? 'cattle-longhorn-red-idle' : 'cattle-longhorn-red-graze';
+      // Claude's milk cow on her rope (`milk-cow-walk-*`, `milk-cow-graze`) where it is loaded - "Claude-drawn stand-ins
+      // (replace with Astra's)" - walking the way the child goes; the range longhorn otherwise.
+      const heading = entity.travel ? travelDirection(entity) : null;
+      const milk = entity.travel ? `milk-cow-walk-${heading === 'n' || heading === 's' ? heading : 'e'}` : 'milk-cow-graze';
+      let clip = entity.travel ? 'cattle-longhorn-red-idle' : 'cattle-longhorn-red-graze';
       // Sorted just in front of the child, and drawn from where the child was actually drawn this frame (`drawnAt`: beside a
       // wagon a walker is drawn off the road's point), a body's length behind them.
       standing.push({ y: point.y + camera.figure * .12, draw: () => {
         const child = drawnAt.get(entity.id);
         const feet = child ? { x: child.x, y: child.y + child.size * .45 } : point, size = child?.size || camera.figure;
         const cow = { x: feet.x + size * (west ? .9 : -.9), y: feet.y + size * .06 };
-        animated(ctx, clip, cow.x, cow.y, size * 1.2, `milk-cow:${entity.id}`, { flip: west });
+        if (animated(ctx, milk, cow.x, cow.y, size * 1.2, `milk-cow:${entity.id}`, { flip: heading === 'n' || heading === 's' ? false : west })) clip = milk;
+        else animated(ctx, clip, cow.x, cow.y, size * 1.2, `milk-cow:${entity.id}`, { flip: west });
         window.__cowDrawn = { by: entity.id, x: Math.round(cow.x), y: Math.round(cow.y), clip, child: child ? { x: Math.round(feet.x), y: Math.round(feet.y) } : null };
       } });
     }
@@ -3551,6 +3575,9 @@ export function drawWorld(world) {
     // battles already draw, riding, until a foraging party (horsemen driving cattle, a cart) exists.
     const foragers = (army.foragers || []).map((party, index) => {
       const p = camera.toScreen(party), size = Math.max(9, Math.min(28, camera.figure * .8));
+      // Claude's foraging party (`forager-ride`, `forager-drive`: request 2026-09-26 "the Mexican advance", item 1), one sprite
+      // for the party, where it is loaded - every other party driving off cattle.
+      if (animated(ctx, index % 2 ? 'forager-drive' : 'forager-ride', p.x, p.y, size, `${army.id}:forager:${index}`, { flip: party.right === false })) return { x: Math.round(p.x), y: Math.round(p.y) };
       for (let rider = 0; rider < 3; rider++) {
         const x = p.x + (rider - 1) * size * .7, y = p.y + (rider % 2) * size * .25;
         if (!animated(ctx, 'dragoon-march', x, y, size, `${army.id}:forager:${index}:${rider}`, { flip: party.right === false })) miniPerson(ctx, x, y, size, { side: 'mexican', flip: party.right === false });
