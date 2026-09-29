@@ -133,7 +133,7 @@ const mapFrames = (page, ms = 4000) => page.evaluate(async ms => {
 function note(seen, one) {
   for (const person of one.view?.people || []) {
     const at = (seen[one.phase] ||= {}), was = (at[person.id] ||= { name: person.name, poses: new Set(), drawnAs: new Set(), fell: false, hurt: false, onScreen: false, tag: null });
-    was.poses.add(person.pose); if (person.drawnAs) was.drawnAs.add(person.drawnAs); if (person.labelled) was.labelled = true; if (person.fell) was.fell = true; if (person.hurt) was.hurt = true; if (person.onScreen) was.onScreen = true; if (person.tag) was.tag = person.tag;
+    was.poses.add(person.pose); if (person.drawnAs) was.drawnAs.add(person.drawnAs); if (person.labelled) was.labelled = true; if (person.fell) was.fell = true; if (person.hurt) was.hurt = true; if (person.onScreen) was.onScreen = true; if (person.first && !was.first) was.first = person.first; if (person.tag) was.tag = person.tag;
     if (person.bears) was.bears = person.bears;
   }
 }
@@ -260,7 +260,17 @@ try {
   const burial = [seen, seenHost].map(s => s.burial?.['francisco-esparza']).find(one => one?.bears);
   assert.ok(burial, 'Gregorio Esparza’s body was not carried away by his brother');
   assert.equal(burial.bears, 'esparza');
-  assert.ok([...burial.drawnAs].some(how => /\+shroud$/.test(how)), `the body was not drawn as a wrapped bundle: ${[...burial.drawnAs]}`);
+  // Drawn from the burial party's own frames (Claude's `burial-party-walk-e`, temporary: two men and the body wholly wrapped between
+  // them, never a body) on every page that saw it, from its very first frame on the field (`first`, public/battle-view.js
+  // `peopleFirst`) - not the settler's walk and a shroud drawn on the canvas while the sheet was on its way. Its sheet is asked for
+  // with the snapshot while the Esparzas are on the field (public/claude-person-art.js `BURIAL`), because the burial is reached by
+  // a jump of the clock (owner, 2026-09-29: "the browser proof sees the burial for one frame, before its sheet loads").
+  for (const [who, page] of [['student', seen], ['Host', seenHost]]) {
+    const one = page.burial?.['francisco-esparza'];
+    if (!one?.bears) continue;
+    assert.equal(one.first, 'burial-party-walk-e', `the ${who}'s page first drew the burial as ${one.first}, before the burial party's own sheet`);
+    assert.deepEqual([...one.drawnAs], ['burial-party-walk-e'], `the ${who}'s page drew the burial as ${[...one.drawnAs]}`);
+  }
   assert.ok(burial.labelled && burial.onScreen, 'Francisco Esparza was not named on the screen');
   assert.ok([seen, seenHost].every(s => !s.after?.esparza && !s.burial?.esparza), 'Gregorio was drawn as a body in the afternoon');
   assert.match(captions.burial || '', /only defender given a Christian burial/);

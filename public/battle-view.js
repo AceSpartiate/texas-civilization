@@ -243,7 +243,7 @@ export function createBattleView(art) {
     fallenSide: new Map(),
     // Presentation evidence across frames, read by scripts/battle-gonzales-browser-proof.mjs and by nothing in the page.
     shotsTotal: 0, shotsBy: {}, linesShown: new Set(), memberClips: new Set(),
-    loopholeShots: 0, gunShotsTotal: 0, gunShotsBy: {}, peopleFellAt: new Map(), peopleSpots: {}, peopleShown: new Set(), civiliansSeen: 0, breachesSeen: new Set(), namedFalls: new Set(), unitsSeen: new Set(),
+    loopholeShots: 0, gunShotsTotal: 0, gunShotsBy: {}, peopleFellAt: new Map(), peopleSpots: {}, peopleShown: new Set(), peopleFirst: new Map(), civiliansSeen: 0, breachesSeen: new Set(), namedFalls: new Set(), unitsSeen: new Set(),
     // §6.13: where each fallen figure went down (he lies there while his part moves on), and the herd.
     fallenSpots: new Map(), herd: null,
     // Joe's shots from the house he took cover in, each fired once (a flash and a puff at its door).
@@ -1366,8 +1366,10 @@ export function createBattleView(art) {
       const how = drawPerson(ctx, person, p, figurePx, time, { fell, fellAgo: fell ? now - fellAt : 0, hurt, now });
       view.peopleSpots[person.id] = view.peopleSpots[person.name] = { x: p.x, y: p.y - figurePx * (person.pose === 'ride' && !fell ? 1.35 : 1) };
       view.peopleShown.add(person.id);
+      // How each was drawn the first frame they were on the field (the burial party before its sheet arrived, or not).
+      if (!view.peopleFirst.has(person.id)) view.peopleFirst.set(person.id, how);
       labels.push({ person, x: p.x, y: p.y });
-      shown.push({ id: person.id, name: person.name, fell, hurt, pose: fell ? person.still || 'still' : hurt ? 'wounded' : person.moving ? 'walk' : person.pose, drawnAs: how, ...(person.bears && { bears: person.bears }), x: Math.round(p.x), y: Math.round(p.y), labelled: false, onScreen: !bounds || (p.x >= 0 && p.y >= 0 && p.x <= bounds.width && p.y <= bounds.height) });
+      shown.push({ id: person.id, name: person.name, fell, hurt, pose: fell ? person.still || 'still' : hurt ? 'wounded' : person.moving ? 'walk' : person.pose, drawnAs: how, first: view.peopleFirst.get(person.id), ...(person.bears && { bears: person.bears }), x: Math.round(p.x), y: Math.round(p.y), labelled: false, onScreen: !bounds || (p.x >= 0 && p.y >= 0 && p.x <= bounds.width && p.y <= bounds.height) });
     }
     // Every famous person's name under them (owner, docs/BATTLES.md §2c.2: "names on the map, no cards"), stepped down out of
     // each other's way where several stand together (the church guns at the Alamo; the sacristy, where Mrs. Dickinson and the
