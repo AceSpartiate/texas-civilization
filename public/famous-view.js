@@ -10,14 +10,14 @@
 // the battle view). Until 2026-09-27 app.js handed this wrappers that took the clip first, so on the map every famous person
 // was `miniPerson` (owner, 2026-09-27: "Fix it and re-measure"; tests/famous-map-art.test.mjs fails on the swapped order).
 // Imported relatively so a test can load this file; in the page it is the same module as app.js's '/battle-view.js'.
-import { PERSON_ART } from './battle-view.js';
+import { personArt } from './battle-view.js';
 
 /**
  * The sprites and clips a famous person may be drawn with on the map, in the order `drawFamous` tries them: the page asks for
  * their sheets when the person is sent (public/app.js), so the sheet is on its way before the first frame that draws them.
  */
 export function famousArt(one) {
-  const own = PERSON_ART[one?.art] || null, kind = one?.side === 'mexican' ? 'regular' : 'volunteer';
+  const own = personArt(one?.art), kind = one?.side === 'mexican' ? 'regular' : 'volunteer';
   const sprites = new Set(), clips = new Set();
   const add = name => { if (typeof name !== 'string') return; if (name.startsWith('clip:')) clips.add(name.slice(5)); else sprites.add(name); };
   // The Twin Sisters' own paired road sheet (Astra, 2026-09-27), with the library's iron gun as its fallback.
@@ -40,7 +40,7 @@ export function drawFamous(ctx, list, camera, { animated, drawSprite, miniPerson
   for (const one of list || []) {
     const p = camera.toScreen(one);
     if (bounds && (p.x < -60 || p.y < -60 || p.x > bounds.width + 60 || p.y > bounds.height + 60)) continue;
-    const own = PERSON_ART[one.art] || null, kind = one.side === 'mexican' ? 'regular' : 'volunteer';
+    const own = personArt(one.art), kind = one.side === 'mexican' ? 'regular' : 'volunteer';
     const flip = !one.right;
     let how = null;
     if (one.thing) {

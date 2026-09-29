@@ -1045,7 +1045,12 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
     // A rider is drawn a horse's height (docs/BATTLES.md §6.13: Grant's men at Agua Dulce).
     const drawnSize = size * (pose.scale || 1);
     let done;
-    if (entity.appearance && entity.fallen) { recliningAvatar(ctx, x, y, drawnSize, entity); done = true; }
+    // In their own cast figure where it is drawn (public/battle-view.js `poseOf` `cast`: Claude's `<cast>-fire-reload`, `-load`,
+    // `-injured`, `-reclining`; stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "battles: the pieces the engine stands in
+    // for", item 1); the recoloured idle laid down or the hoeing cycle while it loads.
+    const castClip = entity.appearance && (pose.cast || (entity.fallen && 'reclining')) ? `${avatarVariant(entity.appearance, entity.sex)}-${pose.cast || 'reclining'}` : null;
+    if (castClip && drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: (pose.timeMs || 0) / 165, working: true, flip: pose.flip, clip: castClip })) done = true;
+    else if (entity.appearance && entity.fallen) { recliningAvatar(ctx, x, y, drawnSize, entity); done = true; }
     else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : performance.now() / 165, working: true, flip: pose.flip });
     else done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, drawnSize, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, drawnSize, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
     if (!done) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });

@@ -52,7 +52,7 @@ export const WORK_KINDS = Object.freeze(['breastwork', 'fires', 'marsh', 'water'
  * house, firing through holes cut in the wall - only the flash and the smoke are seen. `roof`: on a flat roof behind its
  * parapet. `barricade`: behind a street's palisade. `sandbags`: behind a breastwork of filled sacks.
  */
-export const COVERS = Object.freeze(['loophole', 'roof', 'barricade', 'sandbags']);
+export const COVERS = Object.freeze(['loophole', 'roof', 'barricade', 'sandbags', 'grass']);
 /** The flags a phase may show where the record puts them: a white flag of truce. (The red or black flag is told in words.) */
 export const FLAG_KINDS = Object.freeze(['white']);
 /**

@@ -1846,15 +1846,15 @@
       "frames": [
         {
           "sprite": "regular-prone-aim",
-          "duration": 900
+          "duration": 700
         },
         {
           "sprite": "regular-prone-fire",
-          "duration": 140
+          "duration": 120
         },
         {
           "sprite": "regular-prone-lie",
-          "duration": 1800
+          "duration": 1650
         }
       ],
       "loop": false,

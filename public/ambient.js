@@ -97,6 +97,10 @@ export function figureClip(one, stepping = null) {
   const figure = one.f || one.figure, face = one.face === 'w' ? 'w' : 'e';
   if (figure === 'volunteer' || figure === 'regular') {
     if (one.p === 'idle') return { id: `${figure}-idle-${face}`, flip: false };
+    // stand-in: docs/ART_REQUESTS.md, request 2026-09-28 "ambient life", item 3 - soldiers at rest are Claude's
+    // `*-clean-rifle`, `*-camp-sit`, `*-camp-cook`; `alt` is the library's ramrod stroke, seated soldier or idle, drawn while it loads.
+    const alt = { 'clean-rifle': `${figure}-gun-ram`, 'camp-sit': `${figure}-injured-rest`, 'camp-cook': `${figure}-idle-${face}` }[one.p];
+    if (alt) return { id: `${figure}-${one.p}`, flip: face === 'w', alt };
     if (one.p === 'march') return { id: `${figure}-march`, flip: (stepping || face) === 'w' };
     return { id: `${figure}-${one.p}`, flip: face === 'w' };
   }

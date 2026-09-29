@@ -223,7 +223,7 @@ for (const side of ['volunteer', 'regular']) {
       () => frame(name, CAZADOR, p, { before, cell: { w: 520, h: 400 }, originX: 250 }), [['regular-load', 1], ['regular-reclining', 1]]]);
   });
   sheet('claude-prone', R.coleto, 'item 1: `regular-prone-lie`, `regular-prone-aim`, `regular-prone-fire` (a cazador in the tall grass at night), east', rows, { w: 520, h: 400 }, 3);
-  clips['regular-prone-fire'] = clip([['regular-prone-aim', 900], ['regular-prone-fire', 140], ['regular-prone-lie', 1800]], { loop: false, prompt: 'A cazador lying in the grass: aiming, the shot, and down again to load, as the fire-reload clip is timed.' });
+  clips['regular-prone-fire'] = clip([['regular-prone-aim', 700], ['regular-prone-fire', 120], ['regular-prone-lie', 1650]], { loop: false, prompt: 'A cazador lying in the grass: aiming, the shot, and down again to load, as the fire-reload clip is timed.' });
 }
 
 // ---------------------------------------------------------------------------------------------------- C8: after a family on the road

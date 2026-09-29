@@ -87,16 +87,16 @@ const assault = ({ left, right, front, rear }) => ({
 });
 /**
  * The Mexicans between assaults and at night: formed back out of range, or lying in the grass all round.
- * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "Coleto and Goliad", item 1 - the marksmen in the grass are drawn in the
- * loose order's standing and kneeling poses, firing, until a man lying in the grass firing is drawn.
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "Coleto and Goliad", item 1 - the marksmen in the grass (`cover: 'grass'`)
+ * are drawn lying in it, Claude's `regular-prone-*`; the loose order's standing and kneeling poses while that sheet loads.
  */
 const ringed = ({ fire = 'picket', grass = false, count = 280, drawn = 18 } = {}) => ({
   mexican: grass
-    ? { style: 'loose', action: 'hold', fire, count, drawn, at: 'front-grass', spread: { width: 0.3, depth: 0.05 } }
+    ? { style: 'loose', action: 'hold', fire, count, drawn, at: 'front-grass', spread: { width: 0.3, depth: 0.05 }, cover: 'grass' }
     : { style: 'ranks', action: 'hold', fire, count, drawn, at: 'front-far' },
   groups: [
     ...['left', 'right'].map(id => grass
-      ? { id, side: MEX, style: 'loose', fire, drawn: 14, spread: { width: 0.3, depth: 0.05 }, at: `${id}-grass`, face: 'square' }
+      ? { id, side: MEX, style: 'loose', fire, drawn: 14, spread: { width: 0.3, depth: 0.05 }, at: `${id}-grass`, face: 'square', cover: 'grass' }
       : { id, side: MEX, style: 'ranks', fire: 'none', drawn: 14, at: `${id}-far`, face: 'square' }),
     { id: 'rear', side: MEX, style: 'mounted', fire: 'none', mounted: true, drawn: 11, at: 'rear-far', face: 'square' },
   ],

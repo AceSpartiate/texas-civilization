@@ -558,8 +558,8 @@
       "image": "/assets/claude-standins/claude-ana-esparza.png",
       "width": 1600,
       "height": 1200,
-      "bytes": 325703,
-      "sha256": "4cf40be5264662767e19df3f594f84dbcdbaa36bcef1cc86d59fcc2c326189e6",
+      "bytes": 325777,
+      "sha256": "ae69a92015cc1366b628567ec0f460824f8a1cbafe05d5c42dba7463bba1d12d",
       "madeBy": "claude",
       "module": "esparza-family",
       "request": "Request 2026-09-26 — the Esparza family",
@@ -900,8 +900,8 @@
       "image": "/assets/claude-standins/claude-famous-condelle.png",
       "width": 1600,
       "height": 1600,
-      "bytes": 413599,
-      "sha256": "efc5d8ecc62ffd80b218bcf0221e3edf042a3f2f92660ef90c6f3a039f98da46",
+      "bytes": 413691,
+      "sha256": "04369f566dfdd2677924bb4a7c5fe5ec8d881431f0488ad070cedce9aa5d0a48",
       "madeBy": "claude",
       "module": "famous-officers",
       "request": "Request 2026-09-26 — the famous people: the roster's remaining figures and poses",
@@ -919,8 +919,8 @@
       "image": "/assets/claude-standins/claude-famous-sanchez-navarro.png",
       "width": 1600,
       "height": 1600,
-      "bytes": 411515,
-      "sha256": "fd295a3e6b2253ea96faedaf0eb2766e58e29569a53548b5914aced1eb92eea3",
+      "bytes": 411794,
+      "sha256": "50a2bab8235eb6248f9bed85782a462be4da06e7937b9eb7e235238a68b8a704",
       "madeBy": "claude",
       "module": "famous-officers",
       "request": "Request 2026-09-26 — the famous people: the roster's remaining figures and poses",
@@ -938,8 +938,8 @@
       "image": "/assets/claude-standins/claude-famous-barragan.png",
       "width": 1600,
       "height": 1600,
-      "bytes": 394317,
-      "sha256": "f9a105691c928b96883230e534fc7b3c091e3145e5a50bc1c219b48d534105af",
+      "bytes": 394338,
+      "sha256": "fc5bc467a43360f78148d667c1dc276bf1ca99d637ca8761a554918b15ae021c",
       "madeBy": "claude",
       "module": "famous-officers",
       "request": "Request 2026-09-26 — the famous people: the roster's remaining figures and poses",
@@ -957,8 +957,8 @@
       "image": "/assets/claude-standins/claude-famous-castrillon-ns.png",
       "width": 1600,
       "height": 400,
-      "bytes": 98127,
-      "sha256": "7e1459cc0a7825e4f8168180af15c9f91931f1d1b9af8a51cd007be0c8f712f1",
+      "bytes": 98157,
+      "sha256": "da2d3f15e252e602225e88c5843bcf9cafdafae87dba2ae6c73df52d89fbad02",
       "madeBy": "claude",
       "module": "famous-officers",
       "request": "Request 2026-09-26 — the famous people: the roster's remaining figures and poses",
@@ -8690,15 +8690,15 @@
       "frames": [
         {
           "sprite": "regular-prone-aim",
-          "duration": 900
+          "duration": 700
         },
         {
           "sprite": "regular-prone-fire",
-          "duration": 140
+          "duration": 120
         },
         {
           "sprite": "regular-prone-lie",
-          "duration": 1800
+          "duration": 1650
         }
       ],
       "loop": false,

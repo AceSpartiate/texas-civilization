@@ -87,7 +87,10 @@ export function createChaseView(art) {
         const size = view.kind === 'cavalry' ? figurePx * 1.35 : figurePx;
         const clip = view.kind === 'cavalry' ? (moving ? 'dragoon-march' : toward ? 'dragoon-idle-e' : 'dragoon-idle-w')
           : soldier.loading ? 'regular-fire-reload' : moving ? 'regular-march' : toward ? 'regular-idle-e' : 'regular-idle-w';
-        const ok = art.animated(ctx, clip, p.x, p.y, size, `${chase.id}:${i}`, { timeMs: still ? 0 : time + i * 173, flip: moving || soldier.loading ? !toward : false });
+        // Claude's skirmisher (running, kneeling to fire) first; the line's regular while its sheet loads.
+        const own = view.kind === 'cavalry' ? null : soldier.loading ? 'skirmisher-kneel-fire' : moving ? 'skirmisher-run-e' : null;
+        const options = { timeMs: still ? 0 : time + i * 173, flip: moving || soldier.loading ? !toward : false };
+        const ok = (own && art.animated(ctx, own, p.x, p.y, size, `${chase.id}:${i}`, options)) || art.animated(ctx, clip, p.x, p.y, size, `${chase.id}:${i}`, options);
         if (!ok) art.miniPerson(ctx, p.x, p.y, size, { side: 'mexican' });
         drawnSoldiers.push({ i, x: Math.round(p.x), y: Math.round(p.y), size: Math.round(size) });
       });

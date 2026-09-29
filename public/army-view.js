@@ -5,8 +5,9 @@
 // many men the simulation holds in it and how many are this family's. Close up it is a camp - tents, a fire and a body of men
 // - and far off a marker with its name, so a family can see where the armies are without the map filling with figures.
 //
-// stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - the camp: the tents and the fire are drawn
-// here in canvas; the men are the militia and regular figures the battles already use (public/art.js), or `miniPerson`.
+// stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - the camp: Claude's `army-camp-mexican` and
+// `army-camp-texian` (tents, stacked arms, the colour, the kettle); the fire and its smoke drawn here in canvas over it; while the
+// sheet loads the tents too are canvas. The men are the militia and regular figures the battles already use, or `miniPerson`.
 
 /** A camp is drawn from this many pixels a mile up; below it the army is a marker. */
 export const CAMP_SCALE = 120;
@@ -76,12 +77,18 @@ function fire(ctx, x, y, size, time, smoke = null) {
  * camp falls back to the plain figures the map already uses for anybody.
  */
 export function drawArmy(ctx, army, at, { scale, figure, time = 0, draw = null, mini = null, smoke = null, man = null, onMan = null, prop = null }) {
+  // ceiling: a Claude clip is asked for by name through `draw` (the page's `animated`), so the sprite-only camp is a one-frame clip.
   const colours = army.side === 'mexican' ? MEXICAN : TEXIAN;
   if (scale < CAMP_SCALE) { drawArmyMark(ctx, army, at, colours, Math.max(11, Math.min(20, figure))); return 'mark'; }
   const size = Math.max(10, Math.min(46, figure * 1.1));
   // A column on the march (sim/advance.mjs): no tents and no fire, the men in files on the road, the horse at the head.
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the Mexican advance", item 3 - the battles' marching regulars in files
-  // and one dragoon, until a column on the march exists.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the Mexican advance", item 3 - Claude's `regular-march-column` (files of
+  // three, the officer riding at the head, the cart behind); while it loads, the battles' marching regulars in files and one
+  // dragoon.
+  if (army.moving && army.side === 'mexican' && draw && draw('regular-march-column', at.x, at.y, size, `${army.id}:column`, { flip: army.right === false })) {
+    drawArmyLabel(ctx, army, { x: at.x, y: at.y - size * 1.9 }, colours);
+    return 'column';
+  }
   if (army.moving) {
     const men = menDrawn(army.strength ?? CAMP_MEN), role = army.side === 'mexican' ? 'regular' : 'volunteer', dir = army.right === false ? 1 : -1;
     for (let index = 0; index < men; index++) {
@@ -99,7 +106,8 @@ export function drawArmy(ctx, army, at, { scale, figure, time = 0, draw = null, 
   }
   // The tents behind, the fire in the middle, the men in front of it: a camp read at a glance.
   const tents = army.side === 'mexican' ? 2 : 3;
-  for (let i = 0; i < tents; i++) tent(ctx, at.x + (i - (tents - 1) / 2) * size * 1.5, at.y - size * 0.55, size, colours);
+  if (!(draw && draw(`army-camp-${army.side === 'mexican' ? 'mexican' : 'texian'}`, at.x, at.y, size, `${army.id}:camp`, {})))
+    for (let i = 0; i < tents; i++) tent(ctx, at.x + (i - (tents - 1) / 2) * size * 1.5, at.y - size * 0.55, size, colours);
   fire(ctx, at.x, at.y, size * 0.7, time, smoke);
   const men = menDrawn(army.strength ?? CAMP_MEN);
   const role = army.side === 'mexican' ? 'regular' : 'volunteer';
@@ -112,7 +120,7 @@ export function drawArmy(ctx, army, at, { scale, figure, time = 0, draw = null, 
     const x = at.x + (column - 2.5) * size * 0.95 + (doing?.dx || 0) * size, y = at.y + size * (0.5 + row * 0.55);
     const flip = doing ? doing.flip : army.side === 'mexican';
     if (doing?.prop && prop) prop(index, doing, { x, y }, size);
-    const drawn = draw && draw(doing ? doing.id : `${role}-idle-${flip ? 'w' : 'e'}`, x, y, size, `${army.id}:${index}`, { flip });
+    const drawn = draw && (draw(doing ? doing.id : `${role}-idle-${flip ? 'w' : 'e'}`, x, y, size, `${army.id}:${index}`, { flip }) || (doing?.alt && draw(doing.alt, x, y, size, `${army.id}:${index}`, { flip })));
     if (!drawn && mini) mini(ctx, x, y, size, { side: army.side, flip });
     onMan?.(index, x, y, size);
   }
