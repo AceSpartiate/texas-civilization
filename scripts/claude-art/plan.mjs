@@ -287,7 +287,7 @@ export const ITEMS = [
   { id: 'F7', area: 'F', priority: 3, request: R.alamo, item: 'item 4', deliver: 'a night grade and a dawn grade for ground and figures (the Alamo assault), a moonlit night for Béxar\'s storming, and a moonless rain night for San Patricio under which lit windows and fires read (`night-grade`, `dawn-grade`, `moonlight-grade`)', names: ['night-grade*', 'dawn-grade*', 'moonlight-grade*'],
     frames: 'grades', size: LAYER, standIn: 'a dark blue wash by the phase\'s `light`; no night at Béxar', kind: 'code', plugs: '`draw` and `drawNight` in `public/battle-view.js`', status: 'open', research: 'sunrise 6:20 on March 6, 1836 (computed)', phrases: ['Night at Béxar', 'a darkening, moonlit layer', 'The dark of a night fight'] },
   { id: 'F8', area: 'F', priority: 3, request: R.concepcion, item: 'items 1, 3, 7', deliver: '`riverbank-cut-e`/`-w` (a bank face with steps), `river-bend`, `fog-bank-dense`, `fog-bank-thin`, `creek-bed-dry`, `creek-ford`', names: ['riverbank-cut*', 'river-bend*', 'fog-bank-*', 'creek-bed-dry*', 'creek-ford*'],
-    frames: '1 each (fog 2-4 drifting)', size: GROUND, standIn: '`earth-rampart` along the bank with trees and a drawn ribbon of water; a pale radial veil for fog', kind: 'library', plugs: '`concepcionScenery`, `grassScenery`, `drawFog` in `public/battle-view.js`', status: 'open', phrases: ['a cut riverbank', 'a pale veil', 'the dry creek bed'] },
+    frames: '1 each (fog 2-4 drifting)', size: GROUND, standIn: '`earth-rampart` along the bank with trees and a drawn ribbon of water; a pale radial veil for fog', kind: 'library', plugs: '`concepcionScenery`, `grassScenery`, `drawFog` in `public/battle-view.js`', status: 'open', phrases: ['a cut riverbank', 'a pale veil', 'the dry creek bed', 'a dry creek bed'] },
   { id: 'F9', area: 'F', priority: 3, request: R.sanjac, item: 'item 4', deliver: '`marsh-edge` (tiles of cordgrass and open water, to scatter)', names: ['marsh-edge*'],
     frames: 'a few tiles', size: GROUND, standIn: 'the library\'s cordgrass, reeds and water ripples scattered', kind: 'library', plugs: '`drawWorks` in `public/battle-view.js`', status: 'open' },
   { id: 'F10', area: 'F', priority: 3, request: R.south, item: 'items 2 and 5', deliver: 'a campfire burning at night (`campfire-night`) and a live-oak mott as one sprite with shade under it (`live-oak-mott`)', names: ['campfire-night*', 'live-oak-mott*'],
@@ -352,7 +352,10 @@ export function standInComments(read = path => readFileSync(path, 'utf8')) {
       lines.forEach((line, i) => {
         // "Not a stand-in:" says what is not one; `stand-in:` in backticks refers to the practice, not to a stand-in here.
         if (!/stand-in:/.test(line) || /not a stand-in:/i.test(line) || /`stand-in:`/.test(line)) return;
-        found.push({ where: `${path.replace(/^.*?(public|sim)\//, '$1/')}:${i + 1}`, text: lines.slice(i, i + 3).join(' ') });
+        // The comment's own line, and up to two more lines only while they are still comment lines (never the code after it).
+        const window = [line];
+        for (let k = i + 1; k < Math.min(lines.length, i + 3) && /^\s*(\/\/|\*|\/\*)/.test(lines[k]); k++) window.push(lines[k].replace(/^\s*(\/\/|\/\*\*?|\*)\s?/, ''));
+        found.push({ where: `${path.replace(/^.*?(public|sim)\//, '$1/')}:${i + 1}`, text: window.join(' ') });
       });
     }
   };
