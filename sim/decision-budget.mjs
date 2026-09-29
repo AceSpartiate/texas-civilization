@@ -27,6 +27,8 @@ import { decideCampQuestionFor } from './camp.mjs';
 import { answeredFor } from './lapse.mjs';
 import { lapseCall } from './calls.mjs';
 import { sendOnFrom } from './encounters.mjs';
+import { actingId } from './acting.mjs';
+import { STUDY_TICK_MS } from './crops.mjs';
 
 /** Real milliseconds an unanswered military question may stay open. A server option or `DECISION_BUDGET_MS` overrides it. */
 export const DECISION_BUDGET_MS = 90_000;
@@ -78,10 +80,12 @@ export function openDecisions(world, { heldFor } = {}) {
  * Spend this tick's real milliseconds on every open question, and decide the ones whose budget is gone. Returns the keys
  * decided. A question answered or closed since the last tick is forgotten, so a new one opened later starts at nothing.
  */
-export function spendDecisionBudget(world, realMs, { budgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, heldFor, beginTravel } = {}) {
+export function spendDecisionBudget(world, realMs, { budgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, heldFor, beginTravel, questionBudgets } = {}) {
   const open = openDecisions(world, { heldFor });
-  const keys = new Set(open.map(decision => decision.key));
+  const limited = openLimits(world);
+  const keys = new Set([...open, ...limited].map(decision => decision.key));
   for (const key of Object.keys(world.decisionClock || {})) if (!keys.has(key)) delete world.decisionClock[key];
+  spendLimits(world, limited, realMs, questionBudgets);
   const decided = [];
   if (Number.isFinite(realMs) && realMs > 0) {
     for (const decision of open) {
@@ -102,9 +106,121 @@ export function spendDecisionBudget(world, realMs, { budgetMs = DECISION_BUDGET_
   return decided;
 }
 
+// ------------------------------------------------------------------------------------------------ the real-time limits
+//
+// **Real-time limits** (owner, 2026-09-29, by multiple choice on the triage's C2: "A (recommended) real-time budgets: a rider
+// 90 s, the order to leave 3 min, ¡Alto! about 30 s with the chase held, and road and hunt questions timed in real seconds";
+// docs/audits/2026-09-29-triage.md 1.2 and 1.3, `FIC-GONZ-906`). Until this those questions waited a count of ticks or of
+// calendar minutes: a rider 1,200 minutes stretched with the calendar (sixty ticks, 9.5 real minutes at Study), the order to
+// leave a day of the calendar (72 ticks, 11.4 minutes, the calendar held at the farming scale all the while), the road's
+// questions twelve ticks, ¡Alto! three ticks (3 seconds at Quick), and a question in the middle of work two hours of the calendar
+// - one tick in the winter and the spring, where a tick is four or twelve hours, so every hunt run by hand was lost. Now each
+// is counted in **real seconds, the same at every pace and in every phase**, on this module's clock:
+//
+// - Only for a question a **student is answering**: a played family at its screen, the one it would fall to not on auto. A
+//   family nobody plays, one whose student has gone (sim/absence.mjs) or a person on auto is answered as before - at once, or
+//   by the tick or calendar count the module keeps for it - because there is no reader to time.
+// - **The same real milliseconds as the military questions** (`realTimeMeter`): suspended while the Host has paused, kept in
+//   the save, and the first tick after Resume counts nothing. A tick stepped in process (the tests, the balance measure, a
+//   headless world) says nothing of real time and **counts as one tick at the Study pace** (`STUDY_TICK_MS`), as a crop in the
+//   ground does (sim/crops.mjs), so the simulation stays deterministic and a stepped class answers as a class at Study would.
+// - **What happens when the time is out is unchanged**, and stays where it always was: the rider rides on (sim/encounters.mjs),
+//   the family is packed off as auto packs it (sim/auto.mjs), the road's question and the hunt's lapse (sim/road.mjs,
+//   sim/chores.mjs, sim/lapse.mjs), the order to halt lapses and the family is taken (sim/pursuit.mjs). This module only keeps
+//   the time: each asks `limitOut` in its own place in the tick.
+// - **The calendar hold stays bounded by them.** A rider, the order to leave and the road's questions hold the class's calendar
+//   at the farming scale while a student decides (sim/clock.mjs `deciding`), and the chase is held at its step (sim/pursuit.mjs);
+//   those holds now last at most these real seconds. A question in the middle of work holds nothing but the one person.
+// - The page counts each down on its "!" from the real time left (`limitLeft`, projected as `leftMs`).
+
+/** Real milliseconds each question on a real-time limit waits for its student. A server option (`questionBudgets`) overrides any of them. */
+export const QUESTION_BUDGETS = Object.freeze({ rider: 90_000, flight: 180_000, alto: 30_000, road: 90_000, work: 90_000 });
+
+/** The person answering for a family now (sim/acting.mjs), or its main person, or the first of it still in the world. */
+function answererOf(world, household) {
+  const id = [actingId(world, household), household.mainId, household.principalId, ...(household.members || [])].find(one => one && world.entities[one]);
+  return id ? world.entities[id] : null;
+}
+/** A played family with its student at the screen. */
+const watched = household => Boolean(household?.played && !household.absent);
+/** A rider's wait is on the real clock: he has stopped with a played family whose student is there (not Travis's runner). */
+export function riderOnLimit(world, encounter) {
+  return Boolean(encounter?.status === 'open' && !encounter.kind && watched(world.households?.[encounter.householdId]));
+}
+/** The order to leave is on the real clock: a played family at its screen, told to go, not burned out or taken in, its answerer by hand. */
+export function flightOnLimit(world, household) {
+  const flight = household?.flight;
+  if (!watched(household) || flight?.status !== 'ordered' || flight.burned || household.takenIn) return false;
+  const answerer = answererOf(world, household);
+  return Boolean(answerer && !answerer.auto);
+}
+/** The road's open question (the bog, the army close behind, ¡Alto!) is on the real clock: a played family at its screen, answered by hand. */
+export function roadOnLimit(world, household) {
+  if (!household?.flight?.ask || !watched(household)) return false;
+  const answerer = world.entities[actingId(world, household)];
+  return Boolean(answerer && answeredFor(world, answerer));
+}
+/** A question in the middle of this person's work is on the real clock: a played family at its screen, the person by hand. */
+export function workOnLimit(world, entity) {
+  return Boolean(entity?.chore?.ask && world.households?.[entity.householdId]?.played && answeredFor(world, entity));
+}
+/**
+ * The keys of the clock. A rider's names the questions put to him so far, so **every question asked starts his ninety seconds
+ * again** (the rule the calendar count always kept); the others name when they were opened, so a new one starts at nothing.
+ */
+export const riderLimitKey = encounter => `rider:${encounter.id}:${encounter.asked?.length || 0}`;
+export const flightLimitKey = household => `flight:${household.id}`;
+export const roadLimitKey = (household, ask) => `${ask.id === 'alto' ? 'alto' : 'road'}:${household.id}:${ask.openedTick}`;
+export const workLimitKey = (entity, ask) => `work:${entity.id}:${ask.openedMinute}`;
+
+/** Every question on a real-time limit open now, each with its key, its kind and who it is put to. */
+export function openLimits(world) {
+  const open = [];
+  for (const encounter of Object.values(world.encounters || {})) {
+    if (riderOnLimit(world, encounter) && world.entities[encounter.listenerId]) open.push({ key: riderLimitKey(encounter), kind: 'rider', personId: encounter.listenerId });
+  }
+  for (const household of Object.values(world.households || {})) {
+    if (flightOnLimit(world, household)) open.push({ key: flightLimitKey(household), kind: 'flight', personId: answererOf(world, household).id });
+    if (roadOnLimit(world, household)) open.push({ key: roadLimitKey(household, household.flight.ask), kind: household.flight.ask.id === 'alto' ? 'alto' : 'road', personId: actingId(world, household) });
+  }
+  for (const entity of Object.values(world.entities || {})) {
+    if (workOnLimit(world, entity)) open.push({ key: workLimitKey(entity, entity.chore.ask), kind: 'work', personId: entity.id });
+  }
+  return open;
+}
+/** The budget of a kind of question: the server's override, or the owner's number. */
+const budgetOf = (kind, questionBudgets) => questionBudgets?.[kind] ?? QUESTION_BUDGETS[kind];
+
+/** Spend this tick's real time - or a Study tick, stepped in process - on every question on a real-time limit. */
+function spendLimits(world, limited, realMs, questionBudgets) {
+  const ms = Number.isFinite(realMs) ? Math.max(0, realMs) : STUDY_TICK_MS;
+  for (const question of limited) {
+    const of = budgetOf(question.kind, questionBudgets);
+    world.decisionClock ??= {};
+    const entry = world.decisionClock[question.key] ??= { personId: question.personId, spent: 0, of, limit: question.kind };
+    entry.spent += ms;
+    entry.of = of;
+    // The pace of the last measured tick, for a countdown that has to turn ticks into real time (sim/auto.mjs `flightLeftMs`).
+    if (ms > 0) entry.tickMs = ms;
+  }
+}
+/** Whether the question under this key has had its real time. Kept until the question closes, so its own module acts on it. */
+export function limitOut(world, key) {
+  const entry = world.decisionClock?.[key];
+  return Boolean(entry && entry.spent >= entry.of);
+}
+/**
+ * The real milliseconds this question has left, for the countdown on the "!": what is left of its budget, or the whole budget
+ * before its first tick has been counted. The server's clock is what closes it; the page only counts down from what it heard.
+ */
+export function limitLeft(world, key, kind) {
+  const entry = world.decisionClock?.[key];
+  return entry ? Math.max(0, Math.round(entry.of - entry.spent)) : QUESTION_BUDGETS[kind];
+}
+
 /** Whether this person has a question open that has used most of its budget: the page says what will happen if unanswered. */
 export const decisionPressing = (world, personId) => Object.entries(world.decisionClock || {})
-  .some(([key, entry]) => !key.startsWith('call:') && entry.personId === personId && entry.spent >= entry.of * PRESSING_SHARE);
+  .some(([key, entry]) => !key.startsWith('call:') && !entry.limit && entry.personId === personId && entry.spent >= entry.of * PRESSING_SHARE);
 /**
  * The real milliseconds left before this person's soonest open question lapses, or null when none has started to spend
  * (docs/audits/2026-09-28-design.md S33: "a visible countdown on every timed question"). The page counts it down from the
@@ -113,7 +229,7 @@ export const decisionPressing = (world, personId) => Object.entries(world.decisi
 export function decisionLeft(world, personId) {
   let left = null;
   for (const [key, entry] of Object.entries(world.decisionClock || {})) {
-    if (key.startsWith('call:') || entry.personId !== personId) continue;
+    if (key.startsWith('call:') || entry.limit || entry.personId !== personId) continue;
     const now = Math.max(0, Math.round(entry.of - entry.spent));
     left = left === null ? now : Math.min(left, now);
   }

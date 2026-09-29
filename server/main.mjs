@@ -62,6 +62,9 @@ const app = createClassroom({
   ...(Number(process.env.DECISION_BUDGET_MS) > 0 && { decisionBudgetMs: Number(process.env.DECISION_BUDGET_MS) }),
   // Real milliseconds a played family's settlement call stays open (sim/decision-budget.mjs, 300 000 by default).
   ...(Number(process.env.CALL_BUDGET_MS) > 0 && { callBudgetMs: Number(process.env.CALL_BUDGET_MS) }),
+  // The real-time limits of a student's questions (sim/decision-budget.mjs `QUESTION_BUDGETS`: a rider 90 s, the order to leave
+  // 3 min, ¡Alto! 30 s, the road's and work's 90 s), as JSON, e.g. QUESTION_BUDGETS_MS='{"rider":5000}', for a browser proof.
+  ...(() => { try { const budgets = JSON.parse(process.env.QUESTION_BUDGETS_MS || 'null'); return budgets && typeof budgets === 'object' ? { questionBudgets: budgets } : {}; } catch { return {}; } })(),
 });
 await app.listen(port, solo ? '127.0.0.1' : '0.0.0.0');
 // A class whose last server did not stop cleanly opened anyway, because that server had certainly gone (server/storage.mjs).

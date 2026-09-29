@@ -1,6 +1,6 @@
 {
   "record": "tips-injections",
-  "date": "2026-09-28",
+  "date": "2026-09-29",
   "files": [
     "tests/lesson-off.test.mjs",
     "tests/tips.test.mjs",
@@ -177,12 +177,11 @@
       ]
     },
     {
-      "name": "ticks are read as seconds, whatever the class's pace",
+      "name": "a rider's real seconds are not carried to the \"!\"",
       "file": "public/family-panel.js",
       "expected": "the time left is read from what the server said",
       "caught": true,
       "failed": [
-        "every \"!\" of the column is in one order, the most urgent first, numbered, with ties broken by the time left",
         "the time left is read from what the server said, in real time, and written in the fewest characters"
       ]
     },
@@ -232,7 +231,7 @@
       ]
     },
     {
-      "name": "the soldiers' ¡Alto! is given the road's twelve ticks",
+      "name": "the soldiers' ¡Alto! is given the road's ninety seconds",
       "file": "sim/road.mjs",
       "expected": "the server sends the time left",
       "caught": true,

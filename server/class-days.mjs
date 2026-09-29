@@ -12,6 +12,9 @@
 //
 // ceiling: one seed per row, measured in process on one computer; a real class's readers sit somewhere in this range and
 // the range is what is shown. Re-measure (the audit's recipe) if the calendar's holds change, and change these numbers.
+// They did change on 2026-09-29 (real-time limits, sim/decision-budget.mjs `QUESTION_BUDGETS`) and are not yet re-measured: a
+// class of idle students measured about a fifth fewer ticks in the first and third periods, so the high end here is pessimistic
+// (HANDOFF.md, "Real-time limits").
 import { momentOf } from '../sim/directors.mjs';
 import { periodOf } from '../sim/periods.mjs';
 

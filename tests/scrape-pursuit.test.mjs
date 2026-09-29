@@ -11,8 +11,9 @@ import { calendarMinutes } from '../sim/clock.mjs';
 import { on, clockOf } from '../sim/advance.mjs';
 import { stirredShare } from '../sim/shares.mjs';
 import { WAGON_SPEED, WALK_SPEED, HORSE_SPEED } from '../sim/travel.mjs';
-import { COUNTRY_SIGHT, FAMILY_RUN_MPH, GALLOP_MPH, HIT_RANGES, HIT_TABLE, INFANTRY_MPH, MOVING_SHARE, NIGHT_SIGHT_MILES, PATROLS, SIGHT, TROT_MPH, WEATHER_SIGHT_MILES, CAUGHT_YARDS, HAIL_YARDS, GROWN_AGE, ALTO_PATIENCE_TICKS, altoOptions, hitChance, patrolsNow, runMph, sightMiles, watchersNow, hidesIn } from '../sim/pursuit.mjs';
+import { COUNTRY_SIGHT, FAMILY_RUN_MPH, GALLOP_MPH, HIT_RANGES, HIT_TABLE, INFANTRY_MPH, MOVING_SHARE, NIGHT_SIGHT_MILES, PATROLS, SIGHT, TROT_MPH, WEATHER_SIGHT_MILES, CAUGHT_YARDS, HAIL_YARDS, GROWN_AGE, altoOptions, hitChance, patrolsNow, runMph, sightMiles, watchersNow, hidesIn } from '../sim/pursuit.mjs';
 import { chaseStep } from '../sim/military-pacing.mjs';
+import { QUESTION_BUDGETS } from '../sim/decision-budget.mjs';
 import { flightPlaces, planLeg, acrossCountry } from '../sim/flight-route.mjs';
 import { ROAD_ASKS, withFamily, familyPoint } from '../sim/road.mjs';
 import { activityOf, mendSickness, sicknessDay } from '../sim/disease.mjs';
@@ -367,7 +368,8 @@ test('an automatic family halts when it is ordered to, and an order nobody answe
   // It lapses (sim/lapse.mjs, `FIC-GONZ-633`): nothing new is chosen, and the family stands as it was ordered to.
   const silence = world.events.find(event => event.householdId === scene.household.id && event.lapsed && /soldiers ordered/.test(event.text));
   assert.match(silence?.text || '', /Nobody answered for the family in time, and the question lapsed/);
-  assert.ok(ALTO_PATIENCE_TICKS <= 4, 'the order waits too long for an answer');
+  // About thirty real seconds (owner, 2026-09-29, "Real-time limits"), with the chase held while it waits (tests/real-time-limits.test.mjs).
+  assert.ok(QUESTION_BUDGETS.alto <= 35_000, 'the order waits too long for an answer');
   // A family nobody plays is not held for either.
   world = spring();
   scene = sceneFor(world, { kind: 'cavalry', how: 'wagon' });

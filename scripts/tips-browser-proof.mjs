@@ -284,7 +284,7 @@ async function theSpring() {
     orderOut(world(), household());
     const flight = await waitForTip(student, 'flight', 'the family was told to leave and no tip said what to do');
     placed('1024 touch, the order to leave', flight);
-    assert.match(flight.text, /No answer in a day/);
+    assert.match(flight.text, /No answer in time/);
     const main = household().actingId || household().mainId || household().principalId;
     await until(student, 'the order to leave has no "!" ranked first with its time left', id => {
       const mark = document.querySelector(`[data-attention="${id}"]`);

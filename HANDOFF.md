@@ -1,5 +1,68 @@
 # Claude handoff — Astra foundation
 
+## Real-time limits: a rider 90 s, the order to leave 3 min, ¡Alto! 30 s with the chase held — owner, 2026-09-29 (not released)
+
+**The ask.** Owner, 2026-09-29, answering the triage's C2 with A (docs/audits/2026-09-29-triage.md 1.2 and 1.3): *"real-time
+budgets: a rider 90 s, the order to leave 3 min, ¡Alto! about 30 s with the chase held, and road and hunt questions timed in
+real seconds."* Claim `FIC-GONZ-906`. Branch `owner-real-time-limits` (off origin/main at 0ffa9663, with the triage branch merged).
+
+- **One clock, the military questions' own** (`sim/decision-budget.mjs`): `QUESTION_BUDGETS` = rider 90 s, flight 180 s, alto
+  30 s, road 90 s, work 90 s. Only for a question a **student is answering** (a played family at its screen, its answerer by hand:
+  `riderOnLimit`, `flightOnLimit`, `roadOnLimit`, `workOnLimit`); `openLimits` lists them and `spendDecisionBudget` spends each
+  tick's `realMs` on them in `world.decisionClock` (entries marked `limit`, skipped by `decisionLeft`/`decisionPressing`). Paused
+  time is never counted (`realTimeMeter`), the clock is in the save, and **a tick stepped in process counts as one Study tick**
+  (`STUDY_TICK_MS`, the crops' rule), so the sim stays deterministic and a stepped class plays like Study.
+- **What happens at the end is unchanged, and happens where it always did**; each module asks `limitOut`: the rider rides on
+  (`advanceEncounters`; every question put to him starts his 90 s again), the family is packed off (`advanceAuto` via
+  `flightWaited`), the road's question lapses (`advanceRoad`), ¡Alto! lapses and the family is taken (`advancePursuit`), the
+  hunter leaves the shot (`advanceChores`). A family nobody reads keeps its old counts (`PATIENCE_MINUTES`, `PASSING_MINUTES`,
+  `ROAD_PATIENCE_TICKS`, `ASK_PATIENCE`). `FLIGHT_PATIENCE`, `ALTO_PATIENCE_TICKS` and `askTicksLeft` are gone.
+- **¡Alto! holds the chase**: while it waits on an attended family, `runChase` is not run (soldiers stand) and the family is held
+  on the road (`advancePursuit` returns `waiting()`), until it is answered or its 30 s are out.
+- **The hunt's question at every phase**: it waited two hours of the calendar, one tick in the winter and the spring (9.5 s at
+  Study, 1 s at Quick). Now 90 real seconds anywhere. It holds only its person, not the class's calendar (`deciding` is unchanged
+  for work questions: one student's hunt must not slow thirty).
+- **The calendar holds stay bounded** by these (the rider's and the order's holds in `sim/clock.mjs deciding` now last at most
+  90 s and 3 min of real time).
+- **One judgement call, flagged:** at **Quick** the order's day of grace (`ORDER_GRACE_MINUTES`, 72 ticks at the held 20 minutes =
+  72 real seconds) comes before its 3 minutes, and the family is packed off then, as it was when that day was its whole wait - so
+  no farm is burned under a student still deciding (`flightWaited`, marked `ceiling:`). Study (19 ticks) and Brisk (45) get the
+  full 3 minutes. If the owner wants 3 minutes at Quick too, the burning has to wait on the order.
+- **The "!" counts real time** (`leftMs` on the encounter, `flight`, `flight.ask`, a work `chore.ask`; `needsOf` takes no `tickMs`
+  any more). The flight card and the flight tip no longer say "a day": "Answer before the time on the “!” runs out" / "No answer
+  in time". Server option `questionBudgets` (env `QUESTION_BUDGETS_MS`, JSON) shortens any of them for a proof; `test:road` uses it
+  to keep its old 12- and 6-tick lapses at its 1.5 s pace. **No save version**: a missing entry is nothing spent.
+- **Docs**: SCRAPE §14, ROAD_EAST, FAMILY_PANEL §11.7, COLONIES §5.7 and the flight amendment, GAME, TECH, LESSON's tip row,
+  HISTORY `FIC-GONZ-906`, the triage (1.2, 1.3 and C2 marked). docs/BATTLES.md and docs/TOWNS.md describe no patience today (TOWNS'
+  `ASK_PATIENCE` passage is the history of the errand fix) and are unchanged.
+
+**Evidence** (same computer only; no Chromebook or LAN claim):
+
+- `npm test`: **1720 tests, 1683 pass, 1 fail, 36 skipped** (the suspended tutorial). The one failure was the flight tip grown to
+  193 characters (limit 190); shortened, and **re-run at 3e81dc71: 1720 tests, 1684 pass, 0 fail, 36 skipped**.
+- `tests/real-time-limits.test.mjs` (7 tests): the rider at Study (10 ticks) and Quick (90) and reset by a question; zero-ms
+  ticks spend nothing and the page gets the real time left; the order at Study (19) and Brisk (45), the calendar held at 20 while
+  it waits, and at Quick the day of grace (72); the road's bog at Study (10) and Quick (90); ¡Alto! at Study (4) and Quick (30)
+  with the soldiers, the gap and the family's progress unchanged every tick it waits; the hunt's shot at 20- and 240-minute ticks
+  (10 each; it was 1 at 240); an unplayed family is not on the clock. Updated: `clock`, `road`, `auto`, `scrape-pursuit`,
+  `need-ranking`.
+- **Injections: `npm run test:real-time-limits-injections` 17 of 17 caught, 15 by the written test alone**
+  ([record](docs/evidence/real-time-limits-injections.json)); the two road injections also fail the ¡Alto! test and the
+  need-ranking projection test, which read the same code. `npm run test:tips-injections` 37 of 37 (four patterns moved to the new
+  code).
+- Browser proofs: `test:scrape-pursuit` 15 checks, `test:road` 7, `test:relay` (riders) green, `test:tips` 13 (the ¡Alto! "!"
+  reads "30s"), `test:auto` 14, `test:scrape` 7.
+
+**`server/class-days.mjs` is now pessimistic at its high end - flagged, not re-measured.** Its `ceiling:` asks for a re-measure
+when the calendar's holds change, and they did. The audit's scripted-student harness is not in the repository, so its rows
+(`c5s`, `k15`, `a30i`, `a30m`) could not be re-run. Measured instead, in process at Study, 30 played families whose students never
+answer anything (the upper bound on the holds), origin/main against this branch: seed `measure-idle` P1 847 → 666 ticks, P2 300
+→ 300, P3 1109 → 820; seed `measure-b` P1 848 → 665, P3 1082 → 789 (about −21% in P1 and −26% to −27% in P3). A class nobody
+plays is identical (560/300/392 both). A class that answers promptly should not move. `PERIOD_TICKS`' high end (P1 999, P3 1035)
+is therefore too high by up to about a fifth; re-measure with the audit's mix before the next release changes the Host's
+estimate. Found in passing, on both trees alike: seed `measure-c` (30 idle families) ran P3 for 13,656 and 13,462 ticks before the
+director completed - not caused by this change, and worth its own look.
+
 ## "Done packing" back on its own card at 1366x768, and the creation-screen proof green again — 2026-09-29 (not released)
 
 Branch `wagon-done-fold` off origin/main (3dd5209d); not pushed. `npm run test:creation-screen` failed at 1366x768 - *"the

@@ -386,7 +386,7 @@ take when several are due at once (the same order as the "!"s):
 |---|---|---|
 | `alto` | the soldiers' ¡Alto! is the road's question | answer fast on the ★ card; halting loses the wagon and goods, running risks shots; no answer means you halt |
 | `road` | any other road question | answer on the ★ card; each answer says its cost; no answer and nothing is done |
-| `flight` | told to leave | load and press Leave, or stay; no answer in a day and the family packs and goes |
+| `flight` | told to leave | load and press Leave, or stay; no answer before the time on the "!" runs out (three real minutes, 2026-09-29) and the family packs and goes |
 | `sick` | anybody of the family sick | rest mends; another grown-up's "Nurse the sick" keeps them alive; very sick can die in a day |
 | `call` | the settlement's call, answerable by one of the family | press the "!" and tick who goes; each takes powder and the rifle; closes in about 5 minutes |
 | `army` | the army's, Houston's camp's or Travis's question | press the "!"; no answer in about a minute and a half and nothing is chosen |

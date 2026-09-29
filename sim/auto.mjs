@@ -11,8 +11,10 @@
 //
 // **Amended by the owner, 2026-09-27**: "questions that are not answered fast enough disappear." A player by hand whose window
 // runs out is no longer answered by auto: the question lapses and nothing is chosen (sim/lapse.mjs). The switch itself is
-// unchanged - a person on auto still answers what they are asked, at once. The family told to leave, given a day, is not a
-// question of this kind and still goes when the day is out (`FLIGHT_PATIENCE`).
+// unchanged - a person on auto still answers what they are asked, at once. The family told to leave is not a question of this
+// kind and still goes when its time is out. **Since 2026-09-29 that time is three real minutes** (owner, "Real-time limits":
+// sim/decision-budget.mjs `QUESTION_BUDGETS.flight`, the same at every pace); it was a day of the calendar (`FLIGHT_PATIENCE`,
+// 1,440 minutes), which held the whole class at the farming scale for 72 ticks, 11.4 real minutes at Study.
 //
 // What auto decides lives where each question lives - the shot in sim/chores.mjs (`autoChoice`), the army's questions and
 // the detachment in sim/army.mjs, Travis's couriers in sim/alamo.mjs, the wagon in sim/scrape.mjs (`autoFlee`) - at the
@@ -53,6 +55,10 @@ import { campChoice } from './camp.mjs';
 import { record } from './events.mjs';
 // Who is with the family and answers its own decisions (sim/acting.mjs, 2026-09-28): the main person when they are with it.
 import { actingId } from './acting.mjs';
+import { flightLimitKey, flightOnLimit, limitLeft, limitOut } from './decision-budget.mjs';
+import { ORDER_GRACE_MINUTES } from './advance.mjs';
+import { calendarMinutes } from './clock.mjs';
+import { STUDY_TICK_MS } from './crops.mjs';
 import { lessonRefusal } from './lesson.mjs';
 import { autoFlee } from './scrape.mjs';
 import { answerRoad, roadAutoAnswer } from './road.mjs';
@@ -87,8 +93,6 @@ const PLOT_WORK = Object.freeze(['clear-plot', 'fence-plot']);
 /** The hunts that go out with nothing to fire and leave the deer standing: held for a shot in the house, as a neighbour hunts. */
 const SHOOTS = Object.freeze(['hunt-timber', 'hunt-land']);
 const GONE = Object.freeze(['dead', 'captured']);
-/** How long a family by hand, told to leave, is waited for before auto packs the wagon: one day of the calendar. */
-export const FLIGHT_PATIENCE = 1440;
 
 const taskWords = choreId => CHORES[choreId]?.name.toLowerCase() || 'their work';
 
@@ -198,6 +202,33 @@ function heldWhy(world, household, person, order) {
   return null;
 }
 
+/**
+ * Whether a played family by hand, told to leave, has been waited for long enough: its three real minutes (owner, 2026-09-29,
+ * "Real-time limits"; sim/decision-budget.mjs `QUESTION_BUDGETS.flight`), or the day of grace the order gives before any farm
+ * can be reached (sim/advance.mjs `ORDER_GRACE_MINUTES`), whichever is first.
+ *
+ * ceiling: the day of grace only comes first at the Quick pace, where the calendar held at twenty minutes a tick runs a day in
+ * 72 real seconds; there the family is packed off then, as it always was when that day was its whole wait, so no farm is burned
+ * with a student still deciding. If the owner wants the full three minutes at Quick too, the burning has to wait on the order.
+ */
+export function flightWaited(world, household) {
+  const flight = household.flight;
+  return limitOut(world, flightLimitKey(household)) || (Number.isFinite(flight?.orderedMinute) && world.minute - flight.orderedMinute >= ORDER_GRACE_MINUTES);
+}
+/**
+ * The real milliseconds the order to leave has left for the "!" (docs/audits/2026-09-28-design.md S33), or null when nobody is
+ * reading it: the three minutes' remainder, or less where the day of grace comes first (`flightWaited`), that day's ticks counted
+ * at the pace of the last tick the clock measured.
+ */
+export function flightLeftMs(world, household) {
+  if (!flightOnLimit(world, household)) return null;
+  const key = flightLimitKey(household), left = limitLeft(world, key, 'flight');
+  const orderedMinute = household.flight.orderedMinute;
+  if (!Number.isFinite(orderedMinute)) return left;
+  const ticks = Math.max(0, Math.ceil((orderedMinute + ORDER_GRACE_MINUTES - world.minute) / Math.max(1, calendarMinutes(world))));
+  return Math.min(left, ticks * (world.decisionClock?.[key]?.tickMs || STUDY_TICK_MS));
+}
+
 /** Whether this person is where auto can give them anything: at home, free, not called away. */
 const homeAndFree = (household, person) => !person.chore && !person.travel && !person.service && person.task !== 'help'
   && person.location?.siteId === household.homeSiteId && !(household.flight && household.flight.status !== 'home');
@@ -205,17 +236,17 @@ const homeAndFree = (household, person) => !person.chore && !person.travel && !p
 /**
  * Every tick, after the chores: somebody on auto who is home and free takes up their task again, or works about the place
  * while it cannot be done and says why once; a family told to leave goes at once if its main person is on auto, and after
- * `FLIGHT_PATIENCE` if nobody has answered by hand. Asked every tick, so a task comes back the tick it can be done. A family
+ * its three real minutes (sim/decision-budget.mjs `QUESTION_BUDGETS.flight`) if nobody has answered by hand. Asked every tick, so a task comes back the tick it can be done. A family
  * nobody plays is never on auto - the switch is a student's order - so no gate on `played` is needed here.
  */
 export function advanceAuto(world, { beginTravel, modeAvailability }) {
   for (const household of Object.values(world.households)) {
     const flight = household.flight;
-    // The day's patience is a played family's: a family nobody plays is fled by its director (sim/neighbours.mjs) or,
-    // in a class without one, left as it was.
+    // The wait is a played family's: a family nobody plays is fled by its director (sim/neighbours.mjs) or, in a class
+    // without one, left as it was. Three real minutes (owner, 2026-09-29), on the real-time clock (`flightLimitKey`).
     if (household.played && !household.absent && flight?.status === 'ordered' && !flight.burned && !household.takenIn) {
       const main = world.entities[actingId(world, household)];
-      if (main?.auto || world.minute - flight.orderedMinute >= FLIGHT_PATIENCE) autoFlee(world, household, { why: main?.auto ? 'auto' : 'waited' });
+      if (main?.auto || flightWaited(world, household)) autoFlee(world, household, { why: main?.auto ? 'auto' : 'waited' });
     }
     // The road's questions (sim/road.mjs) - the bogged wagon, the army close behind - are the family's, answered the tick after
     // they are put when its main person is on auto or nobody is at its screen (sim/absence.mjs), as its neighbours answer.

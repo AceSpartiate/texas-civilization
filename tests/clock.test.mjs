@@ -14,7 +14,9 @@ import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { projectWorld, stepWorld } from '../sim/world.mjs';
 import { CALENDAR_SCALE, TICK_MINUTES, calendarMinutes } from '../sim/clock.mjs';
-import { PATIENCE_MINUTES, seenComing } from '../sim/encounters.mjs';
+import { seenComing } from '../sim/encounters.mjs';
+import { QUESTION_BUDGETS } from '../sim/decision-budget.mjs';
+import { STUDY_TICK_MS } from '../sim/crops.mjs';
 import { RIDER_SPEED } from '../sim/travel.mjs';
 import { advanceRoutine } from '../sim/routines.mjs';
 import { battleState } from '../sim/battle-stage.mjs';
@@ -105,10 +107,12 @@ test('the news phase gives a student as many ticks of watching a rider come as t
     `${(appearances(news) * 100).toFixed(0)} in 100 riders appeared without an approach in the news phase (${news.filter(ticks => ticks === 0).length} of ${news.length}), against ${(appearances(farming) * 100).toFixed(0)} while farming (${farming.filter(ticks => ticks === 0).length} of ${farming.length}), over ${SEEDS.length} classes`);
 });
 
-test('a student gets the same ticks to answer a rider whatever the date is doing', () => {
+test('a student gets the same real seconds to answer a rider whatever the date is doing', () => {
   // How many ticks a rider waits, unanswered, for the first family one speaks to. It is a
-  // number about noticing a prompt and reading five lines, so it is a number of ticks: at an
-  // hour a tick the same twenty fictional hours would be a third of the time to read it.
+  // number about noticing a prompt and reading five lines: at an hour a tick the same twenty
+  // fictional hours would be a third of the time to read it. Since 2026-09-29 it is ninety real
+  // seconds (owner, "Real-time limits"; sim/decision-budget.mjs), and a tick stepped in process
+  // counts as one at the Study pace - so ten ticks here, whatever the calendar is doing.
   const ticksWaited = hold => {
     const world = colonies('clock-patience', 30, { neighbours: false });
     // A family somebody is playing: the patience this measures is a student's reading time, and
@@ -128,9 +132,10 @@ test('a student gets the same ticks to answer a rider whatever the date is doing
   };
   const farming = ticksWaited('home'), news = ticksWaited(null);
   assert.ok(farming.ticks, 'no rider ever spoke to anybody');
-  // Sixty ticks either way, give or take the one the phase changes on. Counted in minutes of
-  // 1835 instead, the news phase would leave twenty - a third of the time to read the same prompt.
-  assert.ok(news.ticks >= 50, `a student had ${news.ticks} ticks to answer in the news phase`);
+  // The same ticks either way, give or take the one the phase changes on. Counted in minutes of
+  // 1835 instead, the news phase would leave a third of the time to read the same prompt.
+  const limit = Math.ceil(QUESTION_BUDGETS.rider / STUDY_TICK_MS);
+  assert.ok(Math.abs(news.ticks - limit) <= 1, `a student had ${news.ticks} ticks to answer in the news phase, not the ${limit} of ninety real seconds at Study`);
   assert.ok(Math.abs(news.ticks - farming.ticks) <= 1, `${farming.ticks} ticks to answer while farming, ${news.ticks} in the news`);
 });
 
@@ -143,7 +148,7 @@ test('the calendar holds through the night the force crossed, so the upriver que
   until(world, () => world.director.milestones.approach);
   const ticks = world.tick - opened;
   // Eight hours of 1835 at the farming scale. At an hour a tick it would be eight ticks, which is
-  // less than it takes to notice a prompt and read it (`PATIENCE_MINUTES` in sim/encounters.mjs).
+  // less than it takes to notice a prompt and read it.
   assert.ok(ticks >= 20, `the upriver question was open for ${ticks} ticks`);
   // From first light the fight itself is watched (docs/BATTLES.md §2.2, sim/battle-stage.mjs `battleStep`): the clock is held
   // to the fight's own step, never faster than the news, and picks the news up again once the men leave the field.

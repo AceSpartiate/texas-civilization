@@ -439,6 +439,13 @@ one behind the parent, **the main person's switch** decides, a family by hand be
   lapsed. Nothing was chosen: …"* and what that meant. Work the family already ordered goes on as it was begun, by the question's own fallback (the counter paid in food as it always was; the planting
   puts in the family's own crop). The switch itself is unchanged: a person on auto answers at once, at the same shares. The
   wagon's day (`FLIGHT_PATIENCE`) is an order to leave rather than a question, and still packs the wagon when it is out.
+  **Amended by the owner, 2026-09-29 ("Real-time limits", `FIC-GONZ-906`): every window a student has is in real seconds,
+  the same at every pace and in every phase** (`QUESTION_BUDGETS` in `sim/decision-budget.mjs`, on the military questions'
+  clock): a hunt's question (any question in the middle of work) **ninety seconds**, where its two hours of the calendar were
+  one tick in the winter and the spring; a rider **ninety seconds** from the last thing said; the road's questions **ninety
+  seconds**; ¡Alto! **thirty seconds** with the chase held; and the wagon **three minutes** in place of its day
+  (`FLIGHT_PATIENCE` is gone; at Quick the order's day of grace still comes first). What happens when a window closes is
+  unchanged. A family nobody plays keeps the old counts. The "!" shows the real time left on every one of them.
 - **Refusing to go is an answer.** Since silence now packs the wagon after a day, a family that means to stay says so: *Stay,
   and take the risk* on the flight card (`flight-stay`, `sim/scrape.mjs` `stayHome`), which releases the calendar, keeps the
   farm to be burned when the army passes and the family at risk when the enemy comes, and leaves the road east open.
