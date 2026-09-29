@@ -1265,6 +1265,10 @@ export function createBattleView(art) {
       return clip(`${kind}-march`);
     }
     if (pose === 'ride') {
+      // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - full mounted movement for Seguín and
+      // Dr. Sutherland (`seguin-ride-e`, `sutherland-ride-e`; request 2026-09-26 "the famous people") where it is loaded.
+      const moving = person.moving && clip(`${person.id}-ride-e`, time, { size: figurePx * 1.35 });
+      if (moving) return moving;
       if (typeof named === 'string' && named.startsWith('clip:')) return clip(named.slice(5), time, { size: figurePx * 1.35 });
       if (named) return sprite(named);
       return clip(mexican ? 'dragoon-march' : 'mounted-courier-e', time, { size: figurePx * 1.35 });

@@ -62,7 +62,11 @@ export function sceneClip(person, { moving = false, dir = 's' } = {}) {
   if (person.rides) {
     const heading = moving ? dir : person.face || 'e';
     if (figure === 'courier') return heading === 'n' || heading === 's' ? { id: `mounted-courier-${heading}`, flip: false, mounted: true } : { id: moving ? 'mounted-courier-e' : 'mounted-courier-graze', flip: heading === 'w', mounted: true };
-    return heading === 'n' || heading === 's' ? { id: `${figure}-ride-${heading}`, flip: false, mounted: true } : { id: `${figure}-ride-e`, flip: heading === 'w', mounted: true };
+    // The Tejano volunteers of Béxar ride as Claude's Tejano horseman (`tejano-rider-ride-*`) where it is loaded, their cast
+    // figure's ride otherwise. stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - request
+    // 2026-09-27 "the milk cow on the run, and Béxar before the bell", item 3.
+    const tejano = /^bx-tejano-/.test(person.id || '') ? { prefer: `tejano-rider-ride-${heading === 'n' || heading === 's' ? heading : 'e'}` } : {};
+    return heading === 'n' || heading === 's' ? { id: `${figure}-ride-${heading}`, flip: false, mounted: true, ...tejano } : { id: `${figure}-ride-e`, flip: heading === 'w', mounted: true, ...tejano };
   }
   // A man with his rifle, and a dragoon on his horse: the military sheets, which have standing and marching and no more. Any
   // other pose asked of them - speaking, listening - is their standing pose, and the words go over it.
@@ -229,7 +233,8 @@ function personItem(ctx, person, stepped, { toScreen, figure, scale, time, drawn
     // Feet (and hooves) keep to the ground they cross: the cycle is played by how far they have gone.
     const own = stepped.moving ? stepTime(clip.id, stepped.walked, height / Math.max(1, scale), clip.mounted ? STRIDE.hoof : STRIDE.foot) : undefined;
     // A rider standing still sits a horse standing still: the riding cycle held on its first frame.
-    const width = drawClip(ctx, clip.id, p.x, p.y, height, { timeMs: own ?? time, seed: person.id, flip: clip.flip, paused: person.rides && !stepped.moving });
+    let width = clip.prefer ? drawClip(ctx, clip.prefer, p.x, p.y, height, { timeMs: own ?? time, seed: person.id, flip: clip.flip, paused: person.rides && !stepped.moving }) : 0;
+    if (!width) width = drawClip(ctx, clip.id, p.x, p.y, height, { timeMs: own ?? time, seed: person.id, flip: clip.flip, paused: person.rides && !stepped.moving });
     if (!width) fallbackPerson(ctx, p.x, p.y, height, person.figure === 'volunteer' ? '#7d5f45' : '#6d5a68');
     if (person.carries === 'flag') drawFlag(ctx, p.x + height * .18 * (clip.flip ? -1 : 1), p.y - height * .2, height * 1.5, { time });
     ctx.globalAlpha = was;
