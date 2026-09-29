@@ -110,7 +110,9 @@ function hatSide(ink, spec, h, R) {
     ink.shape(ellipse(R(0.1, 2.25), h * 0.18, h * 0.3), hat.band, { shade: false, outline: LINE.fine });
   } else if (hat.kind === 'helmet') {
     ink.shape(blob([R(-0.85, 0.5), R(-0.8, 1.2), R(0.1, 1.42), R(0.85, 1.1), R(0.9, 0.5)], 0.8), c, { off: 0.8, lift: true });
-    ink.shape(blob([R(-0.9, 1.25), R(-0.2, 1.62), R(0.6, 1.5), R(0.1, 1.3)], 0.8), hat.band, { shade: false, outline: LINE.inner });
+    // A dragoon's helmet (Astra's `dragoon-*`, area D 2026-09-28): a tall black crest over the comb, sweeping back.
+    if (hat.crest) ink.shape(blob([R(0.7, 1.3), R(0.4, 2.15), R(-0.5, 2.3), R(-1.35, 1.7), R(-1.5, 0.9), R(-1.0, 1.2), R(-0.3, 1.55)], 0.85), hat.crest, { off: 0.8 });
+    else ink.shape(blob([R(-0.9, 1.25), R(-0.2, 1.62), R(0.6, 1.5), R(0.1, 1.3)], 0.8), hat.band, { shade: false, outline: LINE.inner });
     ink.shape(poly([R(0.85, 0.52), R(1.3, 0.45), R(0.9, 0.66)]), '#2a2a2a', { shade: false, outline: LINE.fine });
   }
 }
@@ -195,6 +197,7 @@ function hatFrontal(ink, spec, h, R, back) {
     }
   } else if (hat.kind === 'helmet') {
     ink.shape(blob([R(-0.92, 0.45), R(-0.85, 1.2), R(0, 1.45), R(0.85, 1.2), R(0.92, 0.45)], 0.8), c, { off: 0.8, lift: true });
-    ink.shape(capsule(R(0, 1.2), R(0, 1.72), h * 0.2, h * 0.14), hat.band, { shade: false, outline: LINE.inner });
+    if (hat.crest) ink.shape(blob([R(-0.45, 1.2), R(-0.55, 2.0), R(0, 2.35), R(0.55, 2.0), R(0.45, 1.2)], 0.85), hat.crest, { off: 0.8 });
+    else ink.shape(capsule(R(0, 1.2), R(0, 1.72), h * 0.2, h * 0.14), hat.band, { shade: false, outline: LINE.inner });
   }
 }

@@ -180,6 +180,19 @@ function drawSkirtSide(ink, spec, B, P, t, fwd, feet, legNear, legFar, back, pos
     front = K[0] + 7; rear = P[0] - B.depth * 1.15;
   }
   const mid = (rear + front) / 2;
+  if (pose.riding) {
+    // A riding skirt astride (area D, 2026-09-28): over the seat and the thigh to the knee, then hanging down the horse's side to
+    // a little above the stirrup, cut full enough to fall behind the calf; the apron, if any, only over the lap.
+    const foot = feet.near, Kn = legNear.joint;
+    const drop = foot[1] + (spec.lower.short ? 11 : 8);
+    if (back) { ink.shape(blob([at(-6.2, top), [P[0] - B.depth * 1.2, P[1] - 2], [P[0] - B.depth * 0.9, drop + 4], [foot[0] - 2, drop + 2], at(0, top - 1)], 0.7), tone(spec.lower.colour, -0.25), { off: 1 }); return; }
+    const pts = [at(-6.4, top), [P[0] - B.depth * 1.15, P[1] - 1], [P[0] - B.depth * 0.8, drop + 3], [(P[0] + foot[0]) / 2, drop - 0.5], [foot[0] + 6, drop + 1.5], [Kn[0] + 6, Kn[1] - 3], [Kn[0] + 4, Kn[1] + 5.5], at(6.8, top)];
+    ink.shape(blob(pts, 0.7), spec.lower.colour, { off: 1.8, lift: true });
+    ink.line(curve([[P[0] - 2, drop + 1], [P[0] + 1, (P[1] + drop) / 2], [Kn[0] - 2, Kn[1] + 2]]), { width: LINE.fine, opacity: 0.5 });
+    ink.line(curve([[foot[0] + 1, drop + 1], [Kn[0] + 1, Kn[1] - 4]]), { width: LINE.fine, opacity: 0.45 });
+    if (spec.apron) ink.shape(blob([at(1, top), at(6.8, top), [Kn[0] + 3, Kn[1] + 4], [Kn[0] - 3, Kn[1] - 1], [P[0] + 3, P[1] - 1]], 0.6), spec.apron, { off: 1 });
+    return;
+  }
   if (back) {
     ink.shape(blob([at(-6.2, top), [rear - 1, hem + 2], [mid, hem - 0.5], at(0, top - 1)], 0.7), tone(spec.lower.colour, -0.25), { off: 1 });
     return;
@@ -255,8 +268,9 @@ function drawFrontal(ink, F, pose, view) {
     const fwd = side === step ? 1 : side === -step ? -1 : 0;
     // A leg stepping toward the camera is drawn a little lower and longer; the other lifts its heel.
     const hip = add(P, [side * hw * 0.55, 0]);
-    const foot = [side * hw * 0.62, F.ankle + (back ? -fwd : fwd) * -1.4 + (fwd < 0 ? 2.2 : 0)];
-    return { side, hip, foot, chain: ik(hip, foot, B.thigh, B.shin, side * 0.001) };
+    // Astride a horse (area D, 2026-09-28) the feet are where the stirrups are, down either side of it, and the knees bow out.
+    const foot = pose.feetFrontal?.[side < 0 ? 'left' : 'right'] || [side * hw * 0.62, F.ankle + (back ? -fwd : fwd) * -1.4 + (fwd < 0 ? 2.2 : 0)];
+    return { side, hip, foot, chain: ik(hip, foot, B.thigh, B.shin, pose.feetFrontal ? side : side * 0.001) };
   });
   const swing = pose.step ? 1 : 0;
   const hands = pose.hands || {};
@@ -268,7 +282,7 @@ function drawFrontal(ink, F, pose, view) {
   const joints = { P, N, H };
   for (const leg of legs) drawLegFrontal(ink, spec, B, leg, skirt);
   drawTorsoFrontal(ink, spec, B, P, N, hw, sw, back);
-  if (skirt) drawSkirtFrontal(ink, spec, B, P, hw, legs, back);
+  if (skirt) drawSkirtFrontal(ink, spec, B, P, hw, legs, back, pose);
   for (const a of arms) drawArmFrontal(ink, spec, B, a);
   drawHeadFrontal(ink, spec, B, H, N, back, pose);
   if (pose.after) pose.after(ink, joints);
@@ -285,10 +299,12 @@ function drawLegFrontal(ink, spec, B, leg, skirt) {
   } else ink.shape(capsule(add(A, [0, 5]), A, r * 0.75, r * 0.72), bare ? boot : tone(spec.lower.colour, -0.3), { off: 0.4 });
   ink.shape(ellipse(add(A, [leg.side * 0.4, -1.2]), B.foot * 0.42, 2.6), boot, { off: 0.5 });
 }
-function drawSkirtFrontal(ink, spec, B, P, hw, legs, back) {
+function drawSkirtFrontal(ink, spec, B, P, hw, legs, back, pose = {}) {
   const top = spec.lower.kind === 'gown' ? B.torso * 0.72 : B.torso * 0.5;
-  const hem = spec.lower.short ? 12 : spec.lower.kind === 'gown' ? 7 : 5.5;
-  const wide = hw * 2.15 + 3;
+  let hem = spec.lower.short ? 12 : spec.lower.kind === 'gown' ? 7 : 5.5;
+  let wide = hw * 2.15 + 3;
+  // A riding skirt astride: spread over the saddle and down both sides of the horse to a little above the stirrups.
+  if (pose.feetFrontal) { hem = Math.min(...legs.map(l => l.foot[1])) + (spec.lower.short ? 12 : 7); wide = Math.max(...legs.map(l => Math.abs(l.foot[0] - P[0]))) + 4; }
   const pts = [add(P, [-hw * 0.95, top]), [P[0] - wide * 0.8, (P[1] + hem) / 2], [P[0] - wide, hem + 2], [P[0] - wide + 1, hem - 0.5], [P[0], hem - 1.8], [P[0] + wide - 1, hem - 0.5], [P[0] + wide, hem + 2], [P[0] + wide * 0.8, (P[1] + hem) / 2], add(P, [hw * 0.95, top]), add(P, [0, top + 1])];
   ink.shape(blob(pts, 0.7), spec.lower.colour, { off: 1.6, lift: true });
   for (const s of [-1, 1]) ink.line(curve([[P[0] + s * wide * 0.5, hem + 1], [P[0] + s * wide * 0.3, P[1] + top * 0.4]]), { width: LINE.fine, opacity: 0.55 });
