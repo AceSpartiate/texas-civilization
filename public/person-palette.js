@@ -17,6 +17,9 @@
 // a hat band are the hair's brown), where the region lies relative to the figure's own face decides: hair is on the head,
 // clothing below the face. The specks between regions take the part of the like-coloured region beside them.
 //
+// ceiling: her rust man's curls and beard are painted nearly black, mostly darker than the ink line this keeps, so a fair
+// or red hair choice shows on him as a lighter fleck through dark hair, not as fair hair; only a layered hair mask (A18) can
+// fix that without dyeing his outline.
 // ceiling: the colours are measured from each figure's south idle and hold across its walk, work and battle frames because
 // she painted them from one palette. A new cast figure needs its row in REFS (scripts/looks-face-proof.mjs reports a figure
 // with none); Astra's layered masks (A18) retire all of this.
@@ -119,6 +122,8 @@ export const variantOf = frameName => VARIANTS.find(name => frameName.startsWith
 // from the region's own average. Measured on her eight south idles, 2026-09-28: these keep the elder's face apart from his
 // beard and the rust man's forehead apart from his brim, and leave each garment one region.
 const STEP = 22, DRIFT = 45, INK = 38;
+/** Darker than ink but not black: hair painted in shadow, dyed where hair surrounds it. */
+const DARK_HAIR = 18;
 /** A region this small is a speck of texture or an edge, and takes its part from what it touches. */
 const SPECK = 60;
 /** Further than this from every measured colour, a region is kept as painted. */
@@ -310,6 +315,23 @@ export function framePartsOf(imageData, frameName, debug = null) {
   const edgeSpeck = s => { const part = judge(s); return part === HAIR ? curl(s) : part; };
   for (let id = 0; id < stats.length; id++) if (stats[id].part < 0) stats[id].part = edge[id] ? edgeSpeck(stats[id]) : judge(stats[id]);
   for (let p = 0; p < n; p++) if (region[p] >= 0) parts[p] = stats[region[p]].part;
+  // Her dark-haired figures' hair is painted nearly as dark as ink (the rust man's curls and beard are mostly below it), so
+  // only its flecks were dyed and a fair choice left him dark-haired. A dark pixel among hair, well inside it - most of the
+  // 5x5 around it hair and none of it skin - is hair; the outline between hair and face touches skin and stays ink.
+  for (let pass = 0; pass < 2; pass++) {
+    const grow = [];
+    for (let y = 2; y < height - 2; y++) for (let x = 2; x < width - 2; x++) {
+      const p = y * width + x, i = p * 4;
+      if (ok[p] || parts[p] || data[i + 3] < 32 || light(data[i], data[i + 1], data[i + 2]) < DARK_HAIR) continue;
+      let hair = 0, skin = 0;
+      for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) {
+        const part = parts[p + dy * width + dx];
+        if (part === HAIR) hair++; else if (part === SKIN) skin++;
+      }
+      if (hair >= 6 && !skin) grow.push(p);
+    }
+    for (const p of grow) parts[p] = HAIR;
+  }
   if (debug) Object.assign(debug, { face, stats, faces });
   return parts;
 }
