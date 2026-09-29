@@ -33,7 +33,9 @@ export const CLAUDE_PERSON_ART = Object.freeze({
   'ana-esparza': { stand: 'ana-esparza-idle', seated: 'ana-esparza-seated', sick: 'ana-esparza-seated', shelter: 'ana-esparza-shelter-with-children', carry: 'clip:ana-esparza-carry-toddler', blanket: 'ana-esparza-hold-blanket', walk: 'ana-esparza-walk-e', fallback: 'woman', ...BURIAL },
   'maria-de-jesus': { stand: 'maria-de-jesus-idle', seated: 'maria-de-jesus-seated-huddled', sick: 'maria-de-jesus-seated-huddled', walk: 'maria-de-jesus-walk-e', fallback: 'girl', ...BURIAL },
   'enrique-esparza': { stand: 'enrique-esparza-idle', seated: 'enrique-esparza-seated-huddled', sick: 'enrique-esparza-seated-huddled', look: 'enrique-esparza-look', walk: 'enrique-esparza-walk-e', fallback: 'boy', ...BURIAL },
-  // Poses Astra's delivered sheets lack: Gregorio asleep sitting (night of March 5), Castrillón walking north and south.
+  // Poses Astra's delivered sheets lack: Gregorio asleep sitting (night of March 5), Castrillón walking north and south. Held
+  // back (owner, 2026-09-29, public/art-subjects.js): she has drawn both men, so these Claude frames are never in the library and
+  // her own figure is drawn in its nearest pose, as before Claude's art. Kept so her own pose of the name is taken when it lands.
   esparza: { seated: 'esparza-seated', ...BURIAL },
   castrillon: { walkSouth: 'castrillon-walk-s', walkNorth: 'castrillon-walk-n' },
   'francisco-esparza': { stand: 'francisco-esparza-idle', kneel: 'francisco-esparza-kneel-at-grave', walk: 'francisco-esparza-walk-e', carry: 'clip:burial-party-walk-e', bearers: 'burial-party-walk-e', fallback: 'townsman' },

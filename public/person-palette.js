@@ -333,7 +333,30 @@ export function framePartsOf(imageData, frameName, debug = null) {
     for (const p of grow) parts[p] = HAIR;
   }
   if (debug) Object.assign(debug, { face, stats, faces });
+  parts.lip = face ? lipOf(face, stats.indexOf(face), region, data, width, faceW, faceH) : null;
   return parts;
+}
+
+/**
+ * Where a painted moustache goes: the top of the mouth, which is the lowest feature painted inside the face's own outline -
+ * her mouths are a red line, not ink (the eyes and brows are higher; the chin's line is its edge, not inside it). Null when the
+ * face shows no mouth, or one off to the side (a profile).
+ */
+function lipOf(face, id, region, data, width, faceW, faceH) {
+  let top = -1, x0 = Infinity, x1 = -1;
+  for (let y = face.maxY; y >= face.minY + .5 * faceH; y--) {
+    let left = -1, right = -1, inked = 0, ix0 = Infinity, ix1 = -1;
+    for (let x = face.minX; x <= face.maxX; x++) if (region[y * width + x] === id) { if (left < 0) left = x; right = x; }
+    for (let x = left + 1; left >= 0 && x < right; x++) {
+      const p = y * width + x;
+      if (region[p] === id || data[p * 4 + 3] < 32) continue;
+      inked++; if (x < ix0) ix0 = x; if (x > ix1) ix1 = x;
+    }
+    if (inked >= 2) { top = y; x0 = Math.min(x0, ix0); x1 = Math.max(x1, ix1); } else if (top >= 0) break;
+  }
+  // ceiling: a father with a moustache shows it facing the viewer and not in profile (FACING_US); A18's layer draws both.
+  if (top < 0 || Math.abs((x0 + x1) / 2 - (face.minX + face.maxX) / 2) > .12 * faceW) return null;
+  return { x0, x1, y: top, faceW, faceH };
 }
 
 const partsCache = new Map();
@@ -371,5 +394,37 @@ export function recolourPersonFrame(imageData, frameName, appearance) {
     const strength = part === 'clothing' && isWoman ? .96 : .97;
     for (let c = 0; c < 3; c++) data[index + c] = clamp((1 - strength) * data[index + c] + strength * desired[c] * ratio);
   }
+  if (appearance.head === 'moustache' && MOUSTACHED.has(variant) && FACING_US.test(frameName) && parts.lip) paintMoustache(data, imageData.width, parts, target.hair);
   return imageData;
 }
+
+/**
+ * stand-in: docs/ART_REQUESTS.md A18, "layered people" (its `--moustache` layer). No figure of hers has a moustache without
+ * a beard, so a father who chooses one is drawn in her bareheaded ochre man - a young, clean-shaven face - and the choice showed nothing of what it
+ * named (found 2026-09-29: with Fair hair, the "Moustache" tile was the same beardless blond face as "Bareheaded"). Until her
+ * layered moustache arrives, one is painted in the hair colour above the mouth the palette found, on the face's own skin
+ * only, so it never lands off the face. Retire it, and this set, when the `--moustache` layer is wired.
+ */
+const MOUSTACHED = new Set(['ochre']);
+/** The frames that face the viewer (-idle-s, -walk-s-1, -ride-s-2): a band across a face in profile reads as a gag. */
+const FACING_US = /-s(-\d+)?$/;
+function paintMoustache(data, width, parts, hair) {
+  const { x0, x1, y, faceW, faceH } = parts.lip;
+  const thick = Math.max(2, Math.round(faceH * .09)), centre = (x0 + x1) / 2;
+  const half = Math.max((x1 - x0) / 2 + .1 * faceW, .17 * faceW);
+  for (let row = -thick - 1; row <= 1; row++) {
+    const py = y + row;
+    // Fullest just above the lip, narrowing upward; its ends droop a little beside the mouth.
+    const reach = row > 0 ? half : half * (1 - .35 * (-row - 1) / thick);
+    for (let px = Math.round(centre - reach); px <= Math.round(centre + reach); px++) {
+      const p = py * width + px;
+      if (p < 0 || p >= parts.length || parts[p] !== SKIN) continue;
+      if (row >= 0 && Math.abs(px - centre) < half * .7) continue;
+      const shade = row === -thick - 1 || row >= 0 ? .62 : .85, i = p * 4;
+      for (let c = 0; c < 3; c++) data[i + c] = clamp(hair[c] * shade);
+    }
+  }
+}
+
+/** What makes a recoloured frame different: the colours, and the one head choice painted on rather than chosen by figure. */
+export const paletteKey = appearance => `${appearance.skin}|${appearance.hair}|${appearance.clothing}${appearance.head === 'moustache' ? '|moustache' : ''}`;

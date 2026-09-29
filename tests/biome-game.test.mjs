@@ -475,7 +475,7 @@ test('a fence takes as long as its rails are far: at hand in the timber, carried
       seen[work.how].push({ household, point, work });
       if (work.how === 'hauled') assert.equal(work.ticks, FENCE_TICKS + Math.round(FENCE_TICKS_A_MILE * (work.miles ?? 3)));
       else assert.equal(work.ticks, FENCE_TICKS);
-      assert.match(fenceWords(work), /about \d+ hours\.$/);
+      assert.match(fenceWords(work), /about [\d.]+ hours\.$/);
     }
   }
   for (const how of ['rails', 'hauled']) assert.ok(seen[how].length > 0, `no ${how} fence anywhere`);

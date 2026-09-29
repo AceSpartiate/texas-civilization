@@ -122,13 +122,16 @@ test('more hands build faster, and a dog-run is hard for a family alone to finis
   assert.ok(houseBuilt(household));
   assert.ok(ticks < soloTicks * 0.6, `the whole family (${ticks} ticks) is much quicker than one of them (${soloTicks})`);
 
-  // The notice is at tick 84. A family of four working on nothing else only just gets a dog-run up.
+  // The notice is at tick 84. Until 2026-09-29 a family of four working on nothing else only just got a dog-run up by then (past
+  // tick 60); with every family work at half its length (owner, 2026-09-29; sim/work-pace.mjs) it is up in about half that, and
+  // still three times the whole family's work of a round-log cabin (120 spells to 40).
   const big = lobby('dog-run');
   const bigHousehold = big.households['hh-1'];
   arrive(big, bigHousehold);
   plan(big, 'dog-run');
   const { ticks: dogRunTicks } = build(big, bigHousehold);
-  assert.ok(big.tick > 60, `a dog-run finished at tick ${big.tick} is not an easy house (${dogRunTicks} ticks of the whole family's work)`);
+  assert.ok(big.tick > 30, `a dog-run finished at tick ${big.tick} is not an easy house (${dogRunTicks} ticks of the whole family's work)`);
+  assert.ok(big.tick < 84, `a family of four working on nothing else has its dog-run up only at tick ${big.tick}, after the news`);
 });
 
 test('what a house does: rest and food, crowding, and the camp before it', () => {

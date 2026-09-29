@@ -17,6 +17,8 @@
     "at 1366x768 both parents' pop-ups draw the preview, the figure and every swatch (How Ezra looks; How Rhoda looks)",
     "at 1280x800 both parents' pop-ups draw the preview, the figure and every swatch (How Asa looks; How Serafina looks)",
     "at 1024x600 both parents' pop-ups draw the preview, the figure and every swatch (How Caleb looks; How Patience looks)",
+    "at 1366x768 every choice of every part was picked for both parents, and after each all 2590 pictures were figures (at least 25% of the card changed from the plain backdrop, 300 colours, 1% ink; the least seen {\"changed\":0.541,\"colours\":1814,\"ink\":0.07}), and the father's Moustache is drawn apart from Bareheaded",
+    "the first request for the second cast sheet lost: it was asked for again (2 requests) and both parents' pop-ups drew every picture as a figure (37 and 37 pictures)",
     "no page errors"
   ],
   "observed": {
@@ -170,7 +172,21 @@
         "parent": 2,
         "title": "How Patience looks"
       }
-    ]
+    ],
+    "everyChoice": 2590,
+    "moustache": "drawn apart from bareheaded",
+    "leastFigure": {
+      "changed": 0.541,
+      "colours": 1814,
+      "ink": 0.07
+    },
+    "lostSheet": {
+      "requests": 2,
+      "pictures": [
+        37,
+        37
+      ]
+    }
   },
   "screenshots": [
     "docs/evidence/looks-face-1366x768-parent-1.png",
@@ -178,6 +194,8 @@
     "docs/evidence/looks-face-1280x800-parent-1.png",
     "docs/evidence/looks-face-1280x800-parent-2.png",
     "docs/evidence/looks-face-1024x600-parent-1.png",
-    "docs/evidence/looks-face-1024x600-parent-2.png"
+    "docs/evidence/looks-face-1024x600-parent-2.png",
+    "docs/evidence/looks-solid/proof-lost-sheet-parent-1.png",
+    "docs/evidence/looks-solid/proof-lost-sheet-parent-2.png"
   ]
 }
