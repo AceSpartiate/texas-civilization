@@ -1,0 +1,1512 @@
+{
+  "a-work": {
+    "v2026.09.28.1": [
+      {
+        "label": "rust felling",
+        "want": "rust-chop",
+        "drew": "rust-work",
+        "claude": false
+      },
+      {
+        "label": "teal splitting",
+        "want": "teal-split",
+        "drew": "teal-work",
+        "claude": false
+      },
+      {
+        "label": "elder digging",
+        "want": "elder-dig",
+        "drew": "elder-work",
+        "claude": false
+      },
+      {
+        "label": "indigo reaping",
+        "want": "indigo-reap",
+        "drew": "indigo-work",
+        "claude": false
+      },
+      {
+        "label": "rust at the mark",
+        "want": "rust-aim",
+        "drew": "rust-idle-e",
+        "claude": false
+      },
+      {
+        "label": "ochre fishing",
+        "want": "ochre-fish",
+        "drew": "ochre-rest",
+        "claude": false
+      },
+      {
+        "label": "blue-girl gathering",
+        "want": "blue-girl-gather",
+        "drew": "blue-girl-sow",
+        "claude": false
+      },
+      {
+        "label": "rust-woman butchering",
+        "want": "rust-woman-butcher",
+        "drew": "rust-woman-care",
+        "claude": false
+      }
+    ],
+    "v2026.09.29.1 (released)": [
+      {
+        "label": "rust felling",
+        "want": "rust-chop",
+        "drew": "rust-chop",
+        "claude": true
+      },
+      {
+        "label": "teal splitting",
+        "want": "teal-split",
+        "drew": "teal-split",
+        "claude": true
+      },
+      {
+        "label": "elder digging",
+        "want": "elder-dig",
+        "drew": "elder-dig",
+        "claude": true
+      },
+      {
+        "label": "indigo reaping",
+        "want": "indigo-reap",
+        "drew": "indigo-reap",
+        "claude": true
+      },
+      {
+        "label": "rust at the mark",
+        "want": "rust-aim",
+        "drew": "rust-aim",
+        "claude": true
+      },
+      {
+        "label": "ochre fishing",
+        "want": "ochre-fish",
+        "drew": "ochre-fish",
+        "claude": true
+      },
+      {
+        "label": "blue-girl gathering",
+        "want": "blue-girl-gather",
+        "drew": "blue-girl-gather",
+        "claude": true
+      },
+      {
+        "label": "rust-woman butchering",
+        "want": "rust-woman-butcher",
+        "drew": "rust-woman-butcher",
+        "claude": true
+      }
+    ],
+    "main 3dd5209d (unreleased, before the fix)": [
+      {
+        "label": "rust felling",
+        "want": "rust-chop",
+        "drew": "rust-chop",
+        "claude": true
+      },
+      {
+        "label": "teal splitting",
+        "want": "teal-split",
+        "drew": "teal-split",
+        "claude": true
+      },
+      {
+        "label": "elder digging",
+        "want": "elder-dig",
+        "drew": "elder-dig",
+        "claude": true
+      },
+      {
+        "label": "indigo reaping",
+        "want": "indigo-reap",
+        "drew": "indigo-reap",
+        "claude": true
+      },
+      {
+        "label": "rust at the mark",
+        "want": "rust-aim",
+        "drew": "rust-aim",
+        "claude": true
+      },
+      {
+        "label": "ochre fishing",
+        "want": "ochre-fish",
+        "drew": "ochre-fish",
+        "claude": true
+      },
+      {
+        "label": "blue-girl gathering",
+        "want": "blue-girl-gather",
+        "drew": "blue-girl-gather",
+        "claude": true
+      },
+      {
+        "label": "rust-woman butchering",
+        "want": "rust-woman-butcher",
+        "drew": "rust-woman-butcher",
+        "claude": true
+      }
+    ],
+    "this tree (fixed)": [
+      {
+        "label": "rust felling",
+        "want": "rust-chop",
+        "drew": "rust-work",
+        "claude": false
+      },
+      {
+        "label": "teal splitting",
+        "want": "teal-split",
+        "drew": "teal-work",
+        "claude": false
+      },
+      {
+        "label": "elder digging",
+        "want": "elder-dig",
+        "drew": "elder-work",
+        "claude": false
+      },
+      {
+        "label": "indigo reaping",
+        "want": "indigo-reap",
+        "drew": "indigo-work",
+        "claude": false
+      },
+      {
+        "label": "rust at the mark",
+        "want": "rust-aim",
+        "drew": "rust-idle-e",
+        "claude": false
+      },
+      {
+        "label": "ochre fishing",
+        "want": "ochre-fish",
+        "drew": "ochre-rest",
+        "claude": false
+      },
+      {
+        "label": "blue-girl gathering",
+        "want": "blue-girl-gather",
+        "drew": "blue-girl-sow",
+        "claude": false
+      },
+      {
+        "label": "rust-woman butchering",
+        "want": "rust-woman-butcher",
+        "drew": "rust-woman-care",
+        "claude": false
+      }
+    ]
+  },
+  "a-ambient": {
+    "v2026.09.28.1": [
+      {
+        "label": "rust whittling",
+        "want": "rust-whittle",
+        "drew": "rust-repair",
+        "claude": false
+      },
+      {
+        "label": "indigo sewing",
+        "want": "indigo-sew",
+        "drew": "indigo-repair",
+        "claude": false
+      },
+      {
+        "label": "teal at his pipe",
+        "want": "teal-pipe",
+        "drew": "teal-rest",
+        "claude": false
+      },
+      {
+        "label": "rust-woman washing",
+        "want": "rust-woman-wash",
+        "drew": "rust-woman-care",
+        "claude": false
+      },
+      {
+        "label": "elder sweeping",
+        "want": "elder-sweep",
+        "drew": "elder-work",
+        "claude": false
+      },
+      {
+        "label": "ochre carrying water",
+        "want": "ochre-carry-water",
+        "drew": "ochre-carry",
+        "claude": false
+      },
+      {
+        "label": "firewood by the house",
+        "want": "woodpile-frontier",
+        "drew": "alamo-firewood",
+        "claude": false
+      },
+      {
+        "label": "hens",
+        "want": "hens-pecking",
+        "drew": "chicken-idle",
+        "claude": false
+      },
+      {
+        "label": "the wall logs",
+        "want": "wood-pile-3",
+        "drew": "log-fallen",
+        "claude": false
+      }
+    ],
+    "v2026.09.29.1 (released)": [
+      {
+        "label": "rust whittling",
+        "want": "rust-whittle",
+        "drew": "rust-whittle",
+        "claude": true
+      },
+      {
+        "label": "indigo sewing",
+        "want": "indigo-sew",
+        "drew": "indigo-sew",
+        "claude": true
+      },
+      {
+        "label": "teal at his pipe",
+        "want": "teal-pipe",
+        "drew": "teal-pipe",
+        "claude": true
+      },
+      {
+        "label": "rust-woman washing",
+        "want": "rust-woman-wash",
+        "drew": "rust-woman-wash",
+        "claude": true
+      },
+      {
+        "label": "elder sweeping",
+        "want": "elder-sweep",
+        "drew": "elder-sweep",
+        "claude": true
+      },
+      {
+        "label": "ochre carrying water",
+        "want": "ochre-carry-water",
+        "drew": "ochre-carry-water",
+        "claude": true
+      },
+      {
+        "label": "firewood by the house",
+        "want": "woodpile-frontier",
+        "drew": "woodpile-frontier",
+        "claude": true
+      },
+      {
+        "label": "hens",
+        "want": "hens-pecking",
+        "drew": "hens-pecking",
+        "claude": true
+      },
+      {
+        "label": "the wall logs",
+        "want": "wood-pile-3",
+        "drew": "wood-pile-3",
+        "claude": true
+      }
+    ],
+    "main 3dd5209d (unreleased, before the fix)": [
+      {
+        "label": "rust whittling",
+        "want": "rust-whittle",
+        "drew": "rust-whittle",
+        "claude": true
+      },
+      {
+        "label": "indigo sewing",
+        "want": "indigo-sew",
+        "drew": "indigo-sew",
+        "claude": true
+      },
+      {
+        "label": "teal at his pipe",
+        "want": "teal-pipe",
+        "drew": "teal-pipe",
+        "claude": true
+      },
+      {
+        "label": "rust-woman washing",
+        "want": "rust-woman-wash",
+        "drew": "rust-woman-wash",
+        "claude": true
+      },
+      {
+        "label": "elder sweeping",
+        "want": "elder-sweep",
+        "drew": "elder-sweep",
+        "claude": true
+      },
+      {
+        "label": "ochre carrying water",
+        "want": "ochre-carry-water",
+        "drew": "ochre-carry-water",
+        "claude": true
+      },
+      {
+        "label": "firewood by the house",
+        "want": "woodpile-frontier",
+        "drew": "woodpile-frontier",
+        "claude": true
+      },
+      {
+        "label": "hens",
+        "want": "hens-pecking",
+        "drew": "hens-pecking",
+        "claude": true
+      },
+      {
+        "label": "the wall logs",
+        "want": "wood-pile-3",
+        "drew": "wood-pile-3",
+        "claude": true
+      }
+    ],
+    "this tree (fixed)": [
+      {
+        "label": "rust whittling",
+        "want": "rust-whittle",
+        "drew": "rust-repair",
+        "claude": false
+      },
+      {
+        "label": "indigo sewing",
+        "want": "indigo-sew",
+        "drew": "indigo-repair",
+        "claude": false
+      },
+      {
+        "label": "teal at his pipe",
+        "want": "teal-pipe",
+        "drew": "teal-rest",
+        "claude": false
+      },
+      {
+        "label": "rust-woman washing",
+        "want": "rust-woman-wash",
+        "drew": "rust-woman-care",
+        "claude": false
+      },
+      {
+        "label": "elder sweeping",
+        "want": "elder-sweep",
+        "drew": "elder-work",
+        "claude": false
+      },
+      {
+        "label": "ochre carrying water",
+        "want": "ochre-carry-water",
+        "drew": "ochre-carry",
+        "claude": false
+      },
+      {
+        "label": "firewood by the house",
+        "want": "woodpile-frontier",
+        "drew": "alamo-firewood",
+        "claude": false
+      },
+      {
+        "label": "hens",
+        "want": "hens-pecking",
+        "drew": "chicken-idle",
+        "claude": false
+      },
+      {
+        "label": "the wall logs",
+        "want": "wood-pile-3",
+        "drew": "log-fallen",
+        "claude": false
+      }
+    ]
+  },
+  "b-children": {
+    "v2026.09.28.1": [
+      {
+        "label": "girl at play",
+        "want": "girl-play-run",
+        "drew": "girl-walk",
+        "claude": false
+      },
+      {
+        "label": "girl at play, going south",
+        "want": "girl-play-run-s",
+        "drew": "girl-walk-s",
+        "claude": false
+      },
+      {
+        "label": "boy galloping a stick horse",
+        "want": "boy-play-gallop",
+        "drew": "boy-walk",
+        "claude": false
+      },
+      {
+        "label": "small child with a doll",
+        "want": "smallchild-play-sit-doll",
+        "drew": "smallchild-rest",
+        "claude": false
+      },
+      {
+        "label": "girl carrying water",
+        "want": "girl-carry-water",
+        "drew": "girl-walk",
+        "claude": false
+      },
+      {
+        "label": "boy sick",
+        "want": "boy-sick-rest-e",
+        "drew": "boy-injured-rest-e",
+        "claude": false
+      },
+      {
+        "label": "the baby crawling",
+        "want": "infant-crawl",
+        "drew": "infant-idle-e",
+        "claude": false
+      },
+      {
+        "label": "the baby crying",
+        "want": "infant-cry",
+        "drew": "infant-idle-s",
+        "claude": false
+      },
+      {
+        "label": "indigo holding the baby",
+        "want": "indigo-hold-baby",
+        "drew": "indigo-carry",
+        "claude": false
+      }
+    ],
+    "v2026.09.29.1 (released)": [
+      {
+        "label": "girl at play",
+        "want": "girl-play-run",
+        "drew": "girl-play-run",
+        "claude": true
+      },
+      {
+        "label": "girl at play, going south",
+        "want": "girl-play-run-s",
+        "drew": "girl-play-run-s",
+        "claude": true
+      },
+      {
+        "label": "boy galloping a stick horse",
+        "want": "boy-play-gallop",
+        "drew": "boy-play-gallop",
+        "claude": true
+      },
+      {
+        "label": "small child with a doll",
+        "want": "smallchild-play-sit-doll",
+        "drew": "smallchild-play-sit-doll",
+        "claude": true
+      },
+      {
+        "label": "girl carrying water",
+        "want": "girl-carry-water",
+        "drew": "girl-carry-water",
+        "claude": true
+      },
+      {
+        "label": "boy sick",
+        "want": "boy-sick-rest-e",
+        "drew": "boy-sick-rest-e",
+        "claude": true
+      },
+      {
+        "label": "the baby crawling",
+        "want": "infant-crawl",
+        "drew": "infant-crawl",
+        "claude": true
+      },
+      {
+        "label": "the baby crying",
+        "want": "infant-cry",
+        "drew": "infant-cry",
+        "claude": true
+      },
+      {
+        "label": "indigo holding the baby",
+        "want": "indigo-hold-baby",
+        "drew": "indigo-hold-baby",
+        "claude": true
+      }
+    ],
+    "main 3dd5209d (unreleased, before the fix)": [
+      {
+        "label": "girl at play",
+        "want": "girl-play-run",
+        "drew": "girl-play-run",
+        "claude": true
+      },
+      {
+        "label": "girl at play, going south",
+        "want": "girl-play-run-s",
+        "drew": "girl-play-run-s",
+        "claude": true
+      },
+      {
+        "label": "boy galloping a stick horse",
+        "want": "boy-play-gallop",
+        "drew": "boy-play-gallop",
+        "claude": true
+      },
+      {
+        "label": "small child with a doll",
+        "want": "smallchild-play-sit-doll",
+        "drew": "smallchild-play-sit-doll",
+        "claude": true
+      },
+      {
+        "label": "girl carrying water",
+        "want": "girl-carry-water",
+        "drew": "girl-carry-water",
+        "claude": true
+      },
+      {
+        "label": "boy sick",
+        "want": "boy-sick-rest-e",
+        "drew": "boy-sick-rest-e",
+        "claude": true
+      },
+      {
+        "label": "the baby crawling",
+        "want": "infant-crawl",
+        "drew": "infant-crawl",
+        "claude": true
+      },
+      {
+        "label": "the baby crying",
+        "want": "infant-cry",
+        "drew": "infant-cry",
+        "claude": true
+      },
+      {
+        "label": "indigo holding the baby",
+        "want": "indigo-hold-baby",
+        "drew": "indigo-hold-baby",
+        "claude": true
+      }
+    ],
+    "this tree (fixed)": [
+      {
+        "label": "girl at play",
+        "want": "girl-play-run",
+        "drew": "girl-walk",
+        "claude": false
+      },
+      {
+        "label": "girl at play, going south",
+        "want": "girl-play-run-s",
+        "drew": "girl-walk-s",
+        "claude": false
+      },
+      {
+        "label": "boy galloping a stick horse",
+        "want": "boy-play-gallop",
+        "drew": "boy-walk",
+        "claude": false
+      },
+      {
+        "label": "small child with a doll",
+        "want": "smallchild-play-sit-doll",
+        "drew": "smallchild-rest",
+        "claude": false
+      },
+      {
+        "label": "girl carrying water",
+        "want": "girl-carry-water",
+        "drew": "girl-walk",
+        "claude": false
+      },
+      {
+        "label": "boy sick",
+        "want": "boy-sick-rest-e",
+        "drew": "boy-injured-rest-e",
+        "claude": false
+      },
+      {
+        "label": "the baby crawling",
+        "want": "infant-crawl",
+        "drew": "infant-idle-e",
+        "claude": false
+      },
+      {
+        "label": "the baby crying",
+        "want": "infant-cry",
+        "drew": "infant-idle-s",
+        "claude": false
+      },
+      {
+        "label": "indigo holding the baby",
+        "want": "indigo-hold-baby",
+        "drew": "indigo-carry",
+        "claude": false
+      }
+    ]
+  },
+  "c-battles": {
+    "v2026.09.28.1": [
+      {
+        "label": "rust firing",
+        "want": "rust-fire-reload",
+        "drew": "volunteer-fire-reload",
+        "claude": false
+      },
+      {
+        "label": "a volunteer sitting at camp",
+        "want": "volunteer-camp-sit",
+        "drew": "volunteer-injured-rest",
+        "claude": false
+      },
+      {
+        "label": "a regular lying in the grass",
+        "want": "regular-prone-lie",
+        "drew": "regular-load",
+        "claude": false
+      },
+      {
+        "label": "a Texian horseman",
+        "want": "volunteer-mounted",
+        "drew": "mounted-courier-e",
+        "claude": false
+      },
+      {
+        "label": "the wounded carried",
+        "want": "bearers-carry",
+        "drew": "volunteer-march",
+        "claude": false
+      },
+      {
+        "label": "the sentry at the bell",
+        "want": "sentry-bell-ring",
+        "drew": "volunteer-e",
+        "claude": false
+      },
+      {
+        "label": "Castrillón walking south",
+        "want": "castrillon-walk-s",
+        "drew": "castrillon-walk-e",
+        "claude": false
+      },
+      {
+        "label": "Gregorio Esparza asleep sitting",
+        "want": "esparza-seated",
+        "drew": "volunteer-injured-rest",
+        "claude": false
+      },
+      {
+        "label": "Kimbell (Astra has not drawn him)",
+        "want": "kimbell-idle",
+        "drew": "volunteer-e",
+        "claude": false
+      },
+      {
+        "label": "Ana Esparza (Astra has not drawn her)",
+        "want": "ana-esparza-idle",
+        "drew": "indigo-idle-e",
+        "claude": false
+      }
+    ],
+    "v2026.09.29.1 (released)": [
+      {
+        "label": "rust firing",
+        "want": "rust-fire-reload",
+        "drew": "rust-fire-reload",
+        "claude": true
+      },
+      {
+        "label": "a volunteer sitting at camp",
+        "want": "volunteer-camp-sit",
+        "drew": "volunteer-camp-sit",
+        "claude": true
+      },
+      {
+        "label": "a regular lying in the grass",
+        "want": "regular-prone-lie",
+        "drew": "regular-prone-lie",
+        "claude": true
+      },
+      {
+        "label": "a Texian horseman",
+        "want": "volunteer-mounted",
+        "drew": "volunteer-mounted",
+        "claude": true
+      },
+      {
+        "label": "the wounded carried",
+        "want": "bearers-carry",
+        "drew": "bearers-carry",
+        "claude": true
+      },
+      {
+        "label": "the sentry at the bell",
+        "want": "sentry-bell-ring",
+        "drew": "sentry-bell-ring",
+        "claude": true
+      },
+      {
+        "label": "Castrillón walking south",
+        "want": "castrillon-walk-s",
+        "drew": "castrillon-walk-s",
+        "claude": true
+      },
+      {
+        "label": "Gregorio Esparza asleep sitting",
+        "want": "esparza-seated",
+        "drew": "esparza-seated",
+        "claude": true
+      },
+      {
+        "label": "Kimbell (Astra has not drawn him)",
+        "want": "kimbell-idle",
+        "drew": "kimbell-idle",
+        "claude": true
+      },
+      {
+        "label": "Ana Esparza (Astra has not drawn her)",
+        "want": "ana-esparza-idle",
+        "drew": "ana-esparza-idle",
+        "claude": true
+      }
+    ],
+    "main 3dd5209d (unreleased, before the fix)": [
+      {
+        "label": "rust firing",
+        "want": "rust-fire-reload",
+        "drew": "rust-fire-reload",
+        "claude": true
+      },
+      {
+        "label": "a volunteer sitting at camp",
+        "want": "volunteer-camp-sit",
+        "drew": "volunteer-camp-sit",
+        "claude": true
+      },
+      {
+        "label": "a regular lying in the grass",
+        "want": "regular-prone-lie",
+        "drew": "regular-prone-lie",
+        "claude": true
+      },
+      {
+        "label": "a Texian horseman",
+        "want": "volunteer-mounted",
+        "drew": "volunteer-mounted",
+        "claude": true
+      },
+      {
+        "label": "the wounded carried",
+        "want": "bearers-carry",
+        "drew": "bearers-carry",
+        "claude": true
+      },
+      {
+        "label": "the sentry at the bell",
+        "want": "sentry-bell-ring",
+        "drew": "sentry-bell-ring",
+        "claude": true
+      },
+      {
+        "label": "Castrillón walking south",
+        "want": "castrillon-walk-s",
+        "drew": "castrillon-walk-s",
+        "claude": true
+      },
+      {
+        "label": "Gregorio Esparza asleep sitting",
+        "want": "esparza-seated",
+        "drew": "esparza-seated",
+        "claude": true
+      },
+      {
+        "label": "Kimbell (Astra has not drawn him)",
+        "want": "kimbell-idle",
+        "drew": "kimbell-idle",
+        "claude": true
+      },
+      {
+        "label": "Ana Esparza (Astra has not drawn her)",
+        "want": "ana-esparza-idle",
+        "drew": "ana-esparza-idle",
+        "claude": true
+      }
+    ],
+    "this tree (fixed)": [
+      {
+        "label": "rust firing",
+        "want": "rust-fire-reload",
+        "drew": "volunteer-fire-reload",
+        "claude": false
+      },
+      {
+        "label": "a volunteer sitting at camp",
+        "want": "volunteer-camp-sit",
+        "drew": "volunteer-injured-rest",
+        "claude": false
+      },
+      {
+        "label": "a regular lying in the grass",
+        "want": "regular-prone-lie",
+        "drew": "regular-load",
+        "claude": false
+      },
+      {
+        "label": "a Texian horseman",
+        "want": "volunteer-mounted",
+        "drew": "mounted-courier-e",
+        "claude": false
+      },
+      {
+        "label": "the wounded carried",
+        "want": "bearers-carry",
+        "drew": "volunteer-march",
+        "claude": false
+      },
+      {
+        "label": "the sentry at the bell",
+        "want": "sentry-bell-ring",
+        "drew": "volunteer-e",
+        "claude": false
+      },
+      {
+        "label": "Castrillón walking south",
+        "want": "castrillon-walk-s",
+        "drew": "castrillon-walk-e",
+        "claude": false
+      },
+      {
+        "label": "Gregorio Esparza asleep sitting",
+        "want": "esparza-seated",
+        "drew": "volunteer-injured-rest",
+        "claude": false
+      },
+      {
+        "label": "Kimbell (Astra has not drawn him)",
+        "want": "kimbell-idle",
+        "drew": "kimbell-idle",
+        "claude": true
+      },
+      {
+        "label": "Ana Esparza (Astra has not drawn her)",
+        "want": "ana-esparza-idle",
+        "drew": "ana-esparza-idle",
+        "claude": true
+      }
+    ]
+  },
+  "d-transport": {
+    "v2026.09.28.1": [
+      {
+        "label": "the milk cow",
+        "want": "milk-cow-walk-e",
+        "drew": "cow-walk",
+        "claude": false
+      },
+      {
+        "label": "the horse herd",
+        "want": "herd-drove",
+        "drew": "mustang-gallop",
+        "claude": false
+      },
+      {
+        "label": "a lancer",
+        "want": "lancer-march",
+        "drew": "dragoon-march",
+        "claude": false
+      },
+      {
+        "label": "a dragoon at the gallop",
+        "want": "dragoon-gallop-e",
+        "drew": "dragoon-march",
+        "claude": false
+      },
+      {
+        "label": "the girl riding",
+        "want": "girl-ride-e",
+        "drew": "horse-walk+girl-idle-e",
+        "claude": false
+      },
+      {
+        "label": "indigo driving the wagon",
+        "want": "indigo-wagon-driver-e",
+        "drew": "indigo-idle-e",
+        "claude": false
+      },
+      {
+        "label": "the wagon and its ox",
+        "want": "wagon-ox-e",
+        "drew": "ox-walk+wagon-travel",
+        "claude": false
+      },
+      {
+        "label": "the wagon, its tail open",
+        "want": "wagon-ox-open-e",
+        "drew": "ox-walk+wagon-travel",
+        "claude": false
+      },
+      {
+        "label": "the cart",
+        "want": "cart-travel-e",
+        "drew": "cart-open-e",
+        "claude": false
+      },
+      {
+        "label": "the carreta laden",
+        "want": "carreta-loaded-travel-e",
+        "drew": "carreta-travel-e",
+        "claude": false
+      },
+      {
+        "label": "Seguín riding",
+        "want": "seguin-ride-e",
+        "drew": "seguin-mounted-e",
+        "claude": false
+      },
+      {
+        "label": "a Tejano rider (Astra has not drawn one)",
+        "want": "tejano-rider-ride-e",
+        "drew": "rust-ride-e",
+        "claude": false
+      },
+      {
+        "label": "a pack mule (Astra has not drawn one)",
+        "want": "mule-packed-grass-walk-e",
+        "drew": "horse-walk",
+        "claude": false
+      }
+    ],
+    "v2026.09.29.1 (released)": [
+      {
+        "label": "the milk cow",
+        "want": "milk-cow-walk-e",
+        "drew": "milk-cow-walk-e",
+        "claude": true
+      },
+      {
+        "label": "the horse herd",
+        "want": "herd-drove",
+        "drew": "herd-drove",
+        "claude": true
+      },
+      {
+        "label": "a lancer",
+        "want": "lancer-march",
+        "drew": "lancer-march",
+        "claude": true
+      },
+      {
+        "label": "a dragoon at the gallop",
+        "want": "dragoon-gallop-e",
+        "drew": "dragoon-gallop-e",
+        "claude": true
+      },
+      {
+        "label": "the girl riding",
+        "want": "girl-ride-e",
+        "drew": "girl-ride-e",
+        "claude": true
+      },
+      {
+        "label": "indigo driving the wagon",
+        "want": "indigo-wagon-driver-e",
+        "drew": "indigo-wagon-driver-e",
+        "claude": true
+      },
+      {
+        "label": "the wagon and its ox",
+        "want": "wagon-ox-e",
+        "drew": "wagon-ox-e",
+        "claude": true
+      },
+      {
+        "label": "the wagon, its tail open",
+        "want": "wagon-ox-open-e",
+        "drew": "ox-walk+wagon-travel",
+        "claude": false
+      },
+      {
+        "label": "the cart",
+        "want": "cart-travel-e",
+        "drew": "cart-travel-e",
+        "claude": true
+      },
+      {
+        "label": "the carreta laden",
+        "want": "carreta-loaded-travel-e",
+        "drew": "carreta-loaded-travel-e",
+        "claude": true
+      },
+      {
+        "label": "Seguín riding",
+        "want": "seguin-ride-e",
+        "drew": "seguin-ride-e",
+        "claude": true
+      },
+      {
+        "label": "a Tejano rider (Astra has not drawn one)",
+        "want": "tejano-rider-ride-e",
+        "drew": "tejano-rider-ride-e",
+        "claude": true
+      },
+      {
+        "label": "a pack mule (Astra has not drawn one)",
+        "want": "mule-packed-grass-walk-e",
+        "drew": "mule-packed-grass-walk-e",
+        "claude": true
+      }
+    ],
+    "main 3dd5209d (unreleased, before the fix)": [
+      {
+        "label": "the milk cow",
+        "want": "milk-cow-walk-e",
+        "drew": "milk-cow-walk-e",
+        "claude": true
+      },
+      {
+        "label": "the horse herd",
+        "want": "herd-drove",
+        "drew": "herd-drove",
+        "claude": true
+      },
+      {
+        "label": "a lancer",
+        "want": "lancer-march",
+        "drew": "lancer-march",
+        "claude": true
+      },
+      {
+        "label": "a dragoon at the gallop",
+        "want": "dragoon-gallop-e",
+        "drew": "dragoon-gallop-e",
+        "claude": true
+      },
+      {
+        "label": "the girl riding",
+        "want": "girl-ride-e",
+        "drew": "girl-ride-e",
+        "claude": true
+      },
+      {
+        "label": "indigo driving the wagon",
+        "want": "indigo-wagon-driver-e",
+        "drew": "indigo-wagon-driver-e",
+        "claude": true
+      },
+      {
+        "label": "the wagon and its ox",
+        "want": "wagon-ox-e",
+        "drew": "wagon-ox-e",
+        "claude": true
+      },
+      {
+        "label": "the wagon, its tail open",
+        "want": "wagon-ox-open-e",
+        "drew": "wagon-ox-open-e",
+        "claude": true
+      },
+      {
+        "label": "the cart",
+        "want": "cart-travel-e",
+        "drew": "cart-travel-e",
+        "claude": true
+      },
+      {
+        "label": "the carreta laden",
+        "want": "carreta-loaded-travel-e",
+        "drew": "carreta-loaded-travel-e",
+        "claude": true
+      },
+      {
+        "label": "Seguín riding",
+        "want": "seguin-ride-e",
+        "drew": "seguin-ride-e",
+        "claude": true
+      },
+      {
+        "label": "a Tejano rider (Astra has not drawn one)",
+        "want": "tejano-rider-ride-e",
+        "drew": "tejano-rider-ride-e",
+        "claude": true
+      },
+      {
+        "label": "a pack mule (Astra has not drawn one)",
+        "want": "mule-packed-grass-walk-e",
+        "drew": "mule-packed-grass-walk-e",
+        "claude": true
+      }
+    ],
+    "this tree (fixed)": [
+      {
+        "label": "the milk cow",
+        "want": "milk-cow-walk-e",
+        "drew": "cow-walk",
+        "claude": false
+      },
+      {
+        "label": "the horse herd",
+        "want": "herd-drove",
+        "drew": "mustang-gallop",
+        "claude": false
+      },
+      {
+        "label": "a lancer",
+        "want": "lancer-march",
+        "drew": "dragoon-march",
+        "claude": false
+      },
+      {
+        "label": "a dragoon at the gallop",
+        "want": "dragoon-gallop-e",
+        "drew": "dragoon-march",
+        "claude": false
+      },
+      {
+        "label": "the girl riding",
+        "want": "girl-ride-e",
+        "drew": "horse-walk+girl-idle-e",
+        "claude": false
+      },
+      {
+        "label": "indigo driving the wagon",
+        "want": "indigo-wagon-driver-e",
+        "drew": "indigo-idle-e",
+        "claude": false
+      },
+      {
+        "label": "the wagon and its ox",
+        "want": "wagon-ox-e",
+        "drew": "ox-walk+wagon-travel",
+        "claude": false
+      },
+      {
+        "label": "the wagon, its tail open",
+        "want": "wagon-ox-open-e",
+        "drew": "ox-walk+wagon-travel",
+        "claude": false
+      },
+      {
+        "label": "the cart",
+        "want": "cart-travel-e",
+        "drew": "cart-open-e",
+        "claude": false
+      },
+      {
+        "label": "the carreta laden",
+        "want": "carreta-loaded-travel-e",
+        "drew": "carreta-travel-e",
+        "claude": false
+      },
+      {
+        "label": "Seguín riding",
+        "want": "seguin-ride-e",
+        "drew": "seguin-mounted-e",
+        "claude": false
+      },
+      {
+        "label": "a Tejano rider (Astra has not drawn one)",
+        "want": "tejano-rider-ride-e",
+        "drew": "tejano-rider-ride-e",
+        "claude": true
+      },
+      {
+        "label": "a pack mule (Astra has not drawn one)",
+        "want": "mule-packed-grass-walk-e",
+        "drew": "mule-packed-grass-walk-e",
+        "claude": true
+      }
+    ]
+  },
+  "e-places": {
+    "v2026.09.28.1": [
+      {
+        "label": "a round-log house from behind",
+        "want": "house-round-back-full-walls",
+        "drew": "house-round-full-walls",
+        "claude": false
+      },
+      {
+        "label": "a jacal going up",
+        "want": "house-jacal-wattle",
+        "drew": "house-jacal-walls",
+        "claude": false
+      },
+      {
+        "label": "a man of Béxar (Astra has not drawn one)",
+        "want": "bexar-man-walk",
+        "drew": "ochre-walk",
+        "claude": false
+      },
+      {
+        "label": "Mission Concepción (Astra has not drawn it)",
+        "want": "mission-concepcion",
+        "drew": "church-generic",
+        "claude": false
+      }
+    ],
+    "v2026.09.29.1 (released)": [
+      {
+        "label": "a round-log house from behind",
+        "want": "house-round-back-full-walls",
+        "drew": "house-round-back-full-walls",
+        "claude": true
+      },
+      {
+        "label": "a jacal going up",
+        "want": "house-jacal-wattle",
+        "drew": "house-jacal-wattle",
+        "claude": true
+      },
+      {
+        "label": "a man of Béxar (Astra has not drawn one)",
+        "want": "bexar-man-walk",
+        "drew": "bexar-man-walk",
+        "claude": true
+      },
+      {
+        "label": "Mission Concepción (Astra has not drawn it)",
+        "want": "mission-concepcion",
+        "drew": "mission-concepcion",
+        "claude": true
+      }
+    ],
+    "main 3dd5209d (unreleased, before the fix)": [
+      {
+        "label": "a round-log house from behind",
+        "want": "house-round-back-full-walls",
+        "drew": "house-round-back-full-walls",
+        "claude": true
+      },
+      {
+        "label": "a jacal going up",
+        "want": "house-jacal-wattle",
+        "drew": "house-jacal-wattle",
+        "claude": true
+      },
+      {
+        "label": "a man of Béxar (Astra has not drawn one)",
+        "want": "bexar-man-walk",
+        "drew": "bexar-man-walk",
+        "claude": true
+      },
+      {
+        "label": "Mission Concepción (Astra has not drawn it)",
+        "want": "mission-concepcion",
+        "drew": "mission-concepcion",
+        "claude": true
+      }
+    ],
+    "this tree (fixed)": [
+      {
+        "label": "a round-log house from behind",
+        "want": "house-round-back-full-walls",
+        "drew": "house-round-full-walls",
+        "claude": false
+      },
+      {
+        "label": "a jacal going up",
+        "want": "house-jacal-wattle",
+        "drew": "house-jacal-walls",
+        "claude": false
+      },
+      {
+        "label": "a man of Béxar (Astra has not drawn one)",
+        "want": "bexar-man-walk",
+        "drew": "bexar-man-walk",
+        "claude": true
+      },
+      {
+        "label": "Mission Concepción (Astra has not drawn it)",
+        "want": "mission-concepcion",
+        "drew": "mission-concepcion",
+        "claude": true
+      }
+    ]
+  },
+  "f-land": {
+    "v2026.09.28.1": [
+      {
+        "label": "a loblolly in a norther",
+        "want": "pine-loblolly-large-wind",
+        "drew": "pine-loblolly-large-wind",
+        "claude": false
+      },
+      {
+        "label": "a mott of live oaks",
+        "want": "live-oak-mott",
+        "drew": "live-oak-large+live-oak-large",
+        "claude": false
+      },
+      {
+        "label": "a shortleaf pine",
+        "want": "pine-shortleaf-large",
+        "drew": "pine-loblolly-large",
+        "claude": false
+      },
+      {
+        "label": "a cedar elm",
+        "want": "cedar-elm-large",
+        "drew": "elm-large",
+        "claude": false
+      },
+      {
+        "label": "an oak stump",
+        "want": "stump-oak",
+        "drew": "stump-post-oak",
+        "claude": false
+      },
+      {
+        "label": "the campfire at night",
+        "want": "campfire-night",
+        "drew": "campfire",
+        "claude": false
+      },
+      {
+        "label": "an anacua (Astra has not drawn one)",
+        "want": "anacua-large",
+        "drew": "oak-spreading",
+        "claude": false
+      }
+    ],
+    "v2026.09.29.1 (released)": [
+      {
+        "label": "a loblolly in a norther",
+        "want": "pine-loblolly-large-wind",
+        "drew": "pine-loblolly-large-wind",
+        "claude": false
+      },
+      {
+        "label": "a mott of live oaks",
+        "want": "live-oak-mott",
+        "drew": "live-oak-mott",
+        "claude": true
+      },
+      {
+        "label": "a shortleaf pine",
+        "want": "pine-shortleaf-large",
+        "drew": "pine-shortleaf-large",
+        "claude": true
+      },
+      {
+        "label": "a cedar elm",
+        "want": "cedar-elm-large",
+        "drew": "cedar-elm-large",
+        "claude": true
+      },
+      {
+        "label": "an oak stump",
+        "want": "stump-oak",
+        "drew": "stump-oak",
+        "claude": true
+      },
+      {
+        "label": "the campfire at night",
+        "want": "campfire-night",
+        "drew": "campfire-night",
+        "claude": true
+      },
+      {
+        "label": "an anacua (Astra has not drawn one)",
+        "want": "anacua-large",
+        "drew": "anacua-large",
+        "claude": true
+      }
+    ],
+    "main 3dd5209d (unreleased, before the fix)": [
+      {
+        "label": "a loblolly in a norther",
+        "want": "pine-loblolly-large-wind",
+        "drew": "pine-loblolly-large-wind",
+        "claude": false
+      },
+      {
+        "label": "a mott of live oaks",
+        "want": "live-oak-mott",
+        "drew": "live-oak-mott",
+        "claude": true
+      },
+      {
+        "label": "a shortleaf pine",
+        "want": "pine-shortleaf-large",
+        "drew": "pine-shortleaf-large",
+        "claude": true
+      },
+      {
+        "label": "a cedar elm",
+        "want": "cedar-elm-large",
+        "drew": "cedar-elm-large",
+        "claude": true
+      },
+      {
+        "label": "an oak stump",
+        "want": "stump-oak",
+        "drew": "stump-oak",
+        "claude": true
+      },
+      {
+        "label": "the campfire at night",
+        "want": "campfire-night",
+        "drew": "campfire-night",
+        "claude": true
+      },
+      {
+        "label": "an anacua (Astra has not drawn one)",
+        "want": "anacua-large",
+        "drew": "anacua-large",
+        "claude": true
+      }
+    ],
+    "this tree (fixed)": [
+      {
+        "label": "a loblolly in a norther",
+        "want": "pine-loblolly-large-wind",
+        "drew": "pine-loblolly-large-wind",
+        "claude": false
+      },
+      {
+        "label": "a mott of live oaks",
+        "want": "live-oak-mott",
+        "drew": "live-oak-large+live-oak-large",
+        "claude": false
+      },
+      {
+        "label": "a shortleaf pine",
+        "want": "pine-shortleaf-large",
+        "drew": "pine-loblolly-large",
+        "claude": false
+      },
+      {
+        "label": "a cedar elm",
+        "want": "cedar-elm-large",
+        "drew": "elm-large",
+        "claude": false
+      },
+      {
+        "label": "an oak stump",
+        "want": "stump-oak",
+        "drew": "stump-post-oak",
+        "claude": false
+      },
+      {
+        "label": "the campfire at night",
+        "want": "campfire-night",
+        "drew": "campfire",
+        "claude": false
+      },
+      {
+        "label": "an anacua (Astra has not drawn one)",
+        "want": "anacua-large",
+        "drew": "anacua-large",
+        "claude": true
+      }
+    ]
+  }
+}

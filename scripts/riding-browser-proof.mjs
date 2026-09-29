@@ -147,20 +147,20 @@ try {
   await page.waitForTimeout(900);
   const wagon = await page.evaluate(() => ({ seated: window.__seatedDrawn['hh-1-mateo'], drawn: Object.keys(window.__drawnAt), clips: [...window.__animationClips],
     canvas: [document.querySelector('#world-map').getBoundingClientRect().width, document.querySelector('#world-map').getBoundingClientRect().height] }));
-  // Since 2026-09-29 the wagon and its ox are one drawing (Claude's `wagon-ox-*`, public/motion.js `WAGON_RIG`) once its sheet is
-  // here - asked for on the first frame and here well before the 900 ms above - laid under the driver so its seat is where his
-  // hip is. `rig` is the clip drawn, or null while the wagon and ox are still drawn apart.
-  const driver = wagon.seated.parts.find(part => part.part === 'rider'), rig = wagon.seated.parts.find(part => part.part === 'rig');
-  ok(`the wagon and its ox drawn as one (${wagon.seated.rig}), with the driver on it`, Boolean(driver && rig) && /^wagon-ox-(?:[a-z]+-)?[esn]$/.test(wagon.seated.rig || '')
-    && !wagon.seated.parts.some(part => part.part === 'wagon' || part.part === 'ox'));
+  // Astra's wagon and her ox (owner, 2026-09-29: Astra's art always wins, public/art-subjects.js): Claude's `wagon-ox-*`, the two as
+  // one drawing, is never drawn while her `wagon-*` and `ox-*` are in the library, so the family's wagon and ox are drawn apart as
+  // they were before Claude's art, her two pictures, and the driver sits on her wagon's box. `rig` is null.
+  const driver = wagon.seated.parts.find(part => part.part === 'rider');
+  ok(`Astra's wagon and her ox, drawn apart, with the driver on the wagon (rig ${wagon.seated.rig})`, Boolean(driver) && wagon.seated.rig === null
+    && ['wagon', 'ox'].every(part => wagon.seated.parts.some(one => one.part === part)) && !wagon.seated.parts.some(part => part.part === 'rig'));
+  ok('none of Claude\'s wagon-and-ox drawing is drawn', !wagon.clips.some(clip => /^wagon-ox-/.test(clip)));
   // `hh-1-mateo`, the founding four's son, has his looks from his parents (sim/appearance.mjs), so he too is his family's figure
   // on the seat rather than Astra's painted driver.
   ok(`drawn as his family's own figure on the seat, cut at the hip (${wagon.seated.art})`, wagon.seated.art === null && driver.shown > 0 && driver.shown < 1);
   ok(`drawn this tick, at ${driver.height}px on the canvas`, driver.height > 8 && wagon.canvas.some(size => size > 0));
-  // His feet line is the cut figure's: well above the ground the rig stands on, whichever way the road runs.
-  ok(`sitting up on the wagon's seat, not walking on the road (feet ${Math.round(rig.y - driver.y)}px above the rig's ground)`, driver.y < rig.y - driver.height * 0.1);
+  const box = wagon.seated.parts.find(part => part.part === 'wagon');
+  ok(`sitting up on the wagon's box, not walking on the road (feet ${Math.round(box.y - driver.y)}px above the wagon's ground)`, driver.y < box.y - driver.height * 0.1);
   ok('the ox and the wagon are not drawn again by themselves', !wagon.drawn.includes('hh-1-animal') && !wagon.drawn.includes('hh-1-wagon'));
-  ok(`with the ox walking and the wagon rolling in the one drawing: ${wagon.clips.filter(clip => /^wagon-ox-/.test(clip)).join(', ')}`, wagon.clips.some(clip => clip === wagon.seated.rig));
   await closeUp('hh-1-mateo', 'docs/evidence/riding-wagon.png');
 
   assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);

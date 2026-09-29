@@ -25,7 +25,7 @@ function inject(files, change, testFile) {
 const json = (text, edit) => { const value = JSON.parse(text); edit(value); return JSON.stringify(value, null, 2) + '\n'; };
 const STANDINS = 'tests/claude-standins.test.mjs', WORK = 'tests/work-art.test.mjs', AREA_A = 'tests/claude-work-poses.test.mjs';
 const BEXAR = 'tests/battle-bexar-view.test.mjs', GROUPS = 'tests/battle-view-groups.test.mjs', SANJAC = 'tests/battle-view-san-jacinto.test.mjs';
-const SOUTH = 'tests/battle-view-south.test.mjs', FAMOUS = 'tests/famous-people-view.test.mjs';
+const SOUTH = 'tests/battle-view-south.test.mjs', FAMOUS = 'tests/famous-people-view.test.mjs', WINS = 'tests/astra-art-wins.test.mjs';
 
 const cases = [
   { guards: 'every Claude frame and clip has its provenance', what: 'rust-chop-3 loses its written intent (the prompt) in the provenance record',
@@ -62,6 +62,21 @@ const cases = [
     run: () => inject(['public/work-art.js'], (file, text) => text.replace(", puff: true, sheet: 'fx-dust' }", ', puff: true }'), AREA_A) },
   { guards: 'the soldiers at rest have their clips', what: 'the Mexican camp has nobody sitting',
     run: () => inject(['sim/ambient.mjs'], (file, text) => text.replace("  { a: 'sit', f: 'regular', p: 'idle' }, ", '  '), AREA_A) },
+  // Astra's art wins by subject (owner, 2026-09-29; tests/astra-art-wins.test.mjs): each the regression it guards.
+  ...[
+    ['the library takes every Claude frame whose name Astra has not used (the released v2026.09.29.1 rule)', 'public/art.js',
+      text => text.replace('const why = standinWithheld(name, hers);', 'const why = null;')],
+    ['the children are nobody\'s subject: a Claude girl at play is drawn beside Astra\'s girl', 'public/art-subjects.js',
+      text => text.replace("[/^(girl|boy|smallchild|infant)-/, '$1', ['$1']],", "[/^(girl|boy|smallchild|infant)-/, '$1', ['$1-claude']],")],
+    ['the wagon and its ox are held to a name she has not used', 'public/art-subjects.js',
+      text => text.replace("[/^wagon-ox/, 'wagon', ['wagon-covered', 'ox-walk']],", "[/^wagon-ox/, 'wagon', ['wagon-ox']],")],
+    ['a page draws from Claude\'s library around the rule', 'public/app.js',
+      text => text.replace('import { drawSprite,', "const AROUND = '/assets/claude-standins/claude-chop.png';\nimport { drawSprite,")],
+  ].map(([what, file, change]) => ({ guards: 'Astra\'s art wins by subject', what, run: () => inject([file], (f, text) => {
+    const changed = change(text);
+    if (changed === text) throw new Error(`the injection "${what}" found nothing to change`);
+    return changed;
+  }, WINS) })),
   // Area C (2026-09-28): each renderer test with Claude's sheets loaded, and the fallback while they are not.
   ...[
     ['the street barricade is the palisade again', BEXAR, text => text.replace("sprite: barricade ? 'barricade-street' : 'sandbag-breastwork'", "sprite: barricade ? 'palisade' : 'sandbag-breastwork'")],
@@ -80,11 +95,11 @@ const cases = [
 
 const results = cases.map(c => ({ ...c, failed: c.run() }));
 for (const r of results) console.log(`${r.failed.length ? 'FAILED as it should' : 'DID NOT FAIL'}: ${r.what}\n    -> ${r.failed.join(' | ') || '(nothing)'}`);
-const clean = { standins: failing(STANDINS), work: failing(WORK), rig: failing('tests/claude-rig.test.mjs'), areaA: failing(AREA_A) };
-console.log(`clean runs: ${clean.standins.length + clean.work.length + clean.rig.length + clean.areaA.length} failing`);
+const clean = { standins: failing(STANDINS), work: failing(WORK), rig: failing('tests/claude-rig.test.mjs'), areaA: failing(AREA_A), wins: failing(WINS) };
+console.log(`clean runs: ${Object.values(clean).flat().length} failing`);
 mkdirSync(at('docs/evidence/claude-art'), { recursive: true });
 writeFileSync(at('docs/evidence/claude-art/injections.json'), JSON.stringify({
   record: 'The Claude stand-in tests proved by injection (scripts/claude-art/injections.mjs)', date: new Date().toISOString().slice(0, 10),
   results: results.map(({ guards, what, failed }) => ({ guards, injected: what, failed })), cleanRunFailures: clean,
 }, null, 2) + '\n');
-if (results.some(r => !r.failed.length) || clean.standins.length || clean.work.length || clean.rig.length || clean.areaA.length) process.exitCode = 1;
+if (results.some(r => !r.failed.length) || Object.values(clean).flat().length) process.exitCode = 1;
