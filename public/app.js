@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame, spriteReady } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, childFigure, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
 import { actingOf, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -119,6 +119,8 @@ const landRunCache = new Map();
 // `drawnClipName`), so the baby they hold is not drawn again beside them. Last frame's, because a carried baby is sorted in front
 // of its carrier and drawn first; a single frame after it is picked up it is still drawn beside them.
 let babiesHeldNow = new Set(), babiesHeldLast = new Set();
+// The children's figures, whose own cycle of a piece of work is theirs (`drawAtWork`).
+const CHILD_FIGURES = new Set(['girl', 'boy', 'smallchild']);
 function gaitTime(clip, gait) {
   const key = `${clip}|${gait.stride}`;
   if (!gaits.has(key)) { const found = clipGait(clipInfo(clip), gait.stride); if (!found) return undefined; gaits.set(key, found); }
@@ -353,9 +355,9 @@ function drawAtWork(ctx, binding, clip, x, y, size, entity) {
   let stroke = binding.work;
   // A cycle of the work itself where this figure has one (public/work-art.js `drawnStroke`): `rust-chop` for rust felling.
   if (stroke.drawn && stroke.art !== 'journey' && !entity.strolling) {
-    // A child's is their own figure's (`boy-shoo`), whatever grown figure the fallback pose is drawn in.
-    const young = childFigure(entity);
-    const own = young && young !== 'infant' ? `${young}-${stroke.drawn.pose}` : `${clip.slice(0, clip.length - stroke.pose.length - 1)}-${stroke.drawn.pose}`;
+    // A child's is their own figure's (`boy-shoo`, the one chooser `figureOf`), whatever grown figure the fallback is drawn in.
+    const figure = figureOf(entity, entity.observed);
+    const own = CHILD_FIGURES.has(figure) ? `${figure}-${stroke.drawn.pose}` : `${clip.slice(0, clip.length - stroke.pose.length - 1)}-${stroke.drawn.pose}`;
     if (clipReady(own)) { clip = own; stroke = drawnStroke(stroke); }
   }
   if (stroke.art === 'journey' || entity.strolling) {

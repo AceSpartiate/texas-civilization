@@ -149,6 +149,15 @@ try {
   const sitting = await drawnOver(page, kid.id, 2000);
   assert.ok(sitting.clips.some(clip => /play-sit-doll|rest/.test(clip)), `the child with a doll was not drawn sitting: ${sitting.clips}`);
   ok(`with a corn-husk doll the child is drawn sitting (${sitting.clips.join(', ')})`);
+  // The hens are work: the child is drawn in their own scattering (`smallchild-scatter`, Claude-drawn until Astra's lands),
+  // through the work table's drawn stroke in the child's own figure (public/app.js `drawAtWork`), not the grown sowing.
+  await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="child-hens"]').click();
+  await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.chore?.id === 'child-hens', kid.id, { timeout: 15000 });
+  await page.waitForFunction(id => /^(girl|boy|smallchild)-scatter$/.test(window.__workDrawn?.[id]?.clip || ''), kid.id, { timeout: 60000 })
+    .catch(async error => { console.log('DEBUG hens', JSON.stringify(await page.evaluate(id => ({ work: window.__workDrawn?.[id], clip: window.__clipsDrawn?.[id], chore: window.__snapshot.world.entities.find(one => one.id === id)?.chore }), kid.id))); throw error; });
+  observed.hens = await page.evaluate(id => window.__workDrawn[id].clip, kid.id);
+  await shot(page, 'hens-1366');
+  ok(`scattering corn for the hens the child is drawn in their own ${observed.hens}`);
 
   // 3. The child's own automation turns itself off, with a notice on the row.
   const autoSwitch = page.locator(`.panel-row[data-entity-id="${kid.id}"] .panel-auto`);
