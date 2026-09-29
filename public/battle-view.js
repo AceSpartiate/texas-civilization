@@ -863,7 +863,11 @@ export function createBattleView(art) {
       // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the south's fights" items 2 and 5 - the library's jacal and cabin for
       // San Patricio's houses and its live oaks and mesquite for the groves at Agua Dulce.
       if (item.kind === 'grove') {
+        // The live oaks as one mott over its shade (Claude's `live-oak-mott`, *Claude-drawn stand-ins* area F, her live oaks
+        // placed), with the grove's mesquite round it; without that sheet, each tree on its own as before.
+        const mott = art.drawSprite(ctx, 'live-oak-mott', p.x, p.y, figurePx * 3.2);
         for (let i = 0; i < (item.trees || 5); i++) {
+          if (mott && i % 3 !== 2) continue;
           const a = hash(`${item.id}:${i}:a`) * Math.PI * 2, r = Math.sqrt(hash(`${item.id}:${i}:r`)) * (item.spread || 0.08);
           const q = camera.toScreen({ x: item.x + Math.cos(a) * r, y: item.y + Math.sin(a) * r * 0.7 });
           if (!art.drawSprite(ctx, i % 3 === 2 ? 'mesquite-large' : 'live-oak-large', q.x, q.y, figurePx * 3.2)) { ctx.fillStyle = '#5d7148'; ctx.beginPath(); ctx.arc(q.x, q.y - figurePx, figurePx * 1.1, 0, Math.PI * 2); ctx.fill(); }

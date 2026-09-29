@@ -115,7 +115,12 @@ test('the groves hide the dragoons, and a herd is driven and scattered; Grant\'s
   const evidence = run(view, battle, { seconds: 6, art });
   assert.ok(evidence.herd >= 20, `the herd is ${evidence.herd} horses`);
   assert.ok(art.drawn.some(one => one.clip === 'mustang-gallop'), 'the herd is not galloping');
-  assert.ok(art.drawn.filter(one => one.sprite === 'live-oak-large' || one.sprite === 'mesquite-large').length >= 7, 'the grove is not drawn');
+  // The grove's live oaks as one mott (Claude's `live-oak-mott`) with its mesquite round it; each tree alone without the mott.
+  assert.ok(art.drawn.some(one => one.sprite === 'live-oak-mott') && art.drawn.some(one => one.sprite === 'mesquite-large') && !art.drawn.some(one => one.sprite === 'live-oak-large'), 'the grove is not drawn as a mott');
+  const alone = fakeArt(), plain = alone.drawSprite;
+  alone.drawSprite = (c, sprite, ...rest) => (sprite === 'live-oak-mott' ? 0 : plain(c, sprite, ...rest));
+  run(createBattleView(alone), battle, { seconds: 1, art: alone });
+  assert.ok(alone.drawn.filter(one => one.sprite === 'live-oak-large' || one.sprite === 'mesquite-large').length >= 7, 'without the mott the grove is not drawn');
   assert.equal(evidence.poses.rider, 20, 'Grant\'s men are not drawn riding');
   assert.ok(art.drawn.some(one => one.clip === 'mounted-courier-e'));
 });

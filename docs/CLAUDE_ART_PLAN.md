@@ -495,7 +495,7 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 6. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px
   - **Plugs into:** `panelMark`/`paintMark` in `public/app.js`, `drawMark` in `public/family-panel.js`
   - **Stands in now:** Claude's `claude-marks.png` (Claude-drawn)
-- [ ] **F3** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 15 — **Claude stand-in in place** (`fx-wood-chips`, `fx-earth-toss`, `fx-dust`, `fx-shavings`, `fx-ripple`); Astra's replaces it
+- [ ] **F3** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 15 — **Claude stand-in in place** (`fx-wood-chips`, `fx-earth-toss`, `fx-dust`, `fx-shavings`, `fx-ripple`, `tree-fall`); Astra's replaces it
   - **Deliver:** `fx-wood-chips`, `fx-earth-toss`, `fx-dust`, `fx-shavings`, `fx-ripple` (3 frames each, played from the strike) and `tree-fall` (4 frames: a hardwood leaning, going over, down, a bounce)
   - **Frames:** 3 each; 4. **Size:** Effect: 3 frames on the ground anchor of the work, one played from the strike
   - **Plugs into:** `EFFECTS` and `drawWorkLayer` in `public/work-art.js`
@@ -532,7 +532,7 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** a few tiles. **Size:** Ground piece: seen from above at the map's scale, transparent, tiles or scatters
   - **Plugs into:** `drawWorks` in `public/battle-view.js`
   - **Stands in now:** the library's cordgrass, reeds and water ripples scattered (Astra's library art reused)
-- [ ] **F10** (priority 3) — [Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek](ART_REQUESTS.md#request-2026-09-25--the-souths-fights-san-patricio-by-night-and-agua-dulce-creek), items 2 and 5 — **Claude stand-in in place** (`campfire-night`); Astra's replaces it
+- [ ] **F10** (priority 3) — [Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek](ART_REQUESTS.md#request-2026-09-25--the-souths-fights-san-patricio-by-night-and-agua-dulce-creek), items 2 and 5 — **Claude stand-in in place** (`campfire-night`, `live-oak-mott`); Astra's replaces it
   - **Deliver:** a campfire burning at night (`campfire-night`) and a live-oak mott as one sprite with shade under it (`live-oak-mott`)
   - **Frames:** 2-4; 1. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside
   - **Plugs into:** `drawScenery` in `public/battle-view.js`

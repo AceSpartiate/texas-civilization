@@ -269,6 +269,44 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
+    "claude-live-oak-mott": {
+      "image": "/assets/claude-standins/claude-live-oak-mott.png",
+      "width": 760,
+      "height": 360,
+      "bytes": 359289,
+      "sha256": "0ee6fc29265ad35c615cf7ed5be3b59d5fdad7b4a8933862fd10261ebaac6f70",
+      "madeBy": "claude",
+      "module": "land-scenery",
+      "request": "Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 760,
+          "h": 360
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-tree-fall": {
+      "image": "/assets/claude-standins/claude-tree-fall.png",
+      "width": 1280,
+      "height": 720,
+      "bytes": 432311,
+      "sha256": "7965ee4cba111c9d6330cc3f7bb0af0d93c25fa3412ad2a2e2f9854e1ccd5b64",
+      "madeBy": "claude",
+      "module": "land-scenery",
+      "request": "Request 2026-09-28 — people at work",
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "cell": {
+          "w": 640,
+          "h": 360
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
     "claude-trees-1836": {
       "image": "/assets/claude-standins/claude-trees-1836.png",
       "width": 2280,
@@ -2282,6 +2320,91 @@
       "label": "dawn grade",
       "kind": "claude-grades"
     },
+    "live-oak-mott": {
+      "sheet": "claude-live-oak-mott",
+      "x": 0,
+      "y": 0,
+      "w": 760,
+      "h": 360,
+      "anchorX": 0.5,
+      "anchorY": 0.9444,
+      "logicalHeight": 247,
+      "madeBy": "claude",
+      "module": "land-scenery",
+      "request": "Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek",
+      "replaceWith": "live-oak-mott: item 5: a live-oak mott as one sprite with the shade under it, anchored at its base, at the scale of the live oaks it stands beside",
+      "source": "svg/land-scenery/claude-live-oak-mott.svg",
+      "label": "live oak mott",
+      "kind": "claude-live-oak-mott"
+    },
+    "tree-fall-1": {
+      "sheet": "claude-tree-fall",
+      "x": 0,
+      "y": 0,
+      "w": 640,
+      "h": 360,
+      "anchorX": 0.2344,
+      "anchorY": 0.9333,
+      "logicalHeight": 294,
+      "madeBy": "claude",
+      "module": "land-scenery",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "tree-fall-1: item 15: tree-fall, 4 frames on the stump's ground anchor - a hardwood of -log size leaning, going over, down, a last bounce",
+      "source": "svg/land-scenery/claude-tree-fall-1.svg",
+      "label": "tree fall 1",
+      "kind": "claude-tree-fall"
+    },
+    "tree-fall-2": {
+      "sheet": "claude-tree-fall",
+      "x": 640,
+      "y": 0,
+      "w": 640,
+      "h": 360,
+      "anchorX": 0.2344,
+      "anchorY": 0.9333,
+      "logicalHeight": 294,
+      "madeBy": "claude",
+      "module": "land-scenery",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "tree-fall-2: item 15: tree-fall, 4 frames on the stump's ground anchor - a hardwood of -log size leaning, going over, down, a last bounce",
+      "source": "svg/land-scenery/claude-tree-fall-2.svg",
+      "label": "tree fall 2",
+      "kind": "claude-tree-fall"
+    },
+    "tree-fall-3": {
+      "sheet": "claude-tree-fall",
+      "x": 0,
+      "y": 360,
+      "w": 640,
+      "h": 360,
+      "anchorX": 0.2344,
+      "anchorY": 0.9333,
+      "logicalHeight": 294,
+      "madeBy": "claude",
+      "module": "land-scenery",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "tree-fall-3: item 15: tree-fall, 4 frames on the stump's ground anchor - a hardwood of -log size leaning, going over, down, a last bounce",
+      "source": "svg/land-scenery/claude-tree-fall-3.svg",
+      "label": "tree fall 3",
+      "kind": "claude-tree-fall"
+    },
+    "tree-fall-4": {
+      "sheet": "claude-tree-fall",
+      "x": 640,
+      "y": 360,
+      "w": 640,
+      "h": 360,
+      "anchorX": 0.2344,
+      "anchorY": 0.9333,
+      "logicalHeight": 294,
+      "madeBy": "claude",
+      "module": "land-scenery",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "tree-fall-4: item 15: tree-fall, 4 frames on the stump's ground anchor - a hardwood of -log size leaning, going over, down, a last bounce",
+      "source": "svg/land-scenery/claude-tree-fall-4.svg",
+      "label": "tree fall 4",
+      "kind": "claude-tree-fall"
+    },
     "anacua-pole": {
       "sheet": "claude-trees-1836",
       "x": 0,
@@ -3321,6 +3444,32 @@
       "authored": true,
       "madeBy": "claude",
       "module": "land-ground"
+    },
+    "tree-fall": {
+      "frames": [
+        {
+          "sprite": "tree-fall-1",
+          "duration": 260
+        },
+        {
+          "sprite": "tree-fall-2",
+          "duration": 200
+        },
+        {
+          "sprite": "tree-fall-3",
+          "duration": 220
+        },
+        {
+          "sprite": "tree-fall-4",
+          "duration": 360
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "land-scenery"
     }
   }
 }
