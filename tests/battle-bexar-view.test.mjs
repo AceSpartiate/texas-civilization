@@ -9,6 +9,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createBattleView } from '../public/battle-view.js';
+import { isClaude } from './support/claude-names.mjs';
 import { armBattle, projectBattle, schedule } from '../sim/battle-stage.mjs';
 import { BEXAR_STORMING } from '../sim/battles/bexar-storming.mjs';
 import { bexarClass, momentOf } from './support/bexar.mjs';
@@ -22,12 +23,16 @@ function fakeContext() {
     set(target, key, value) { target[key] = value; return true; },
   });
 }
-function fakeArt() {
+/**
+ * The page's art, recorded. By default it answers "not loaded" for Claude's temporary frames (tests/support/claude-names.mjs),
+ * so these tests hold the library stand-ins drawn while a Claude sheet is on its way; `{ claude: true }` draws them too.
+ */
+function fakeArt({ claude = false } = {}) {
   const drawn = [];
   return {
     drawn,
-    animated: (ctx, clip, x, y, size, seed, options) => { drawn.push({ clip, x, y, ...options }); return size; },
-    drawSprite: (ctx, sprite, x, y, size, options) => { drawn.push({ sprite, x, y, ...options }); return size; },
+    animated: (ctx, clip, x, y, size, seed, options) => { if (!claude && isClaude(clip)) return 0; drawn.push({ clip, x, y, ...options }); return size; },
+    drawSprite: (ctx, sprite, x, y, size, options) => { if (!claude && isClaude(sprite)) return 0; drawn.push({ sprite, x, y, ...options }); return size; },
     miniPerson: () => {},
   };
 }
@@ -157,4 +162,15 @@ test('a family\'s man stands in his unit and fires with it, and falls at the mom
   assert.ok(poses.some(one => one.minute < fallAt && one.pose === 'volunteer-fire-reload'), 'he never fired with his division');
   assert.ok(poses.filter(one => one.minute < fallAt - 3).every(one => one.pose !== 'volunteer-reclining'), 'he was drawn down before his moment');
   assert.ok(poses.filter(one => one.minute > fallAt + 5).every(one => one.pose === 'volunteer-reclining'), 'he was not drawn lying still after it');
+});
+
+test('with Claude\'s temporary sheets loaded: the barricade, the trench dug by a volunteer, the loophole\'s man and the crowbar are their own frames', () => {
+  const art = fakeArt({ claude: true }), view = createBattleView(art);
+  play(view, 'pinned-5', { seconds: 16, into: tick => 20 + tick * 120 });
+  assert.ok(art.drawn.some(one => one.sprite === 'barricade-street') && !art.drawn.some(one => one.sprite === 'palisade'), 'the street barricade is still the palisade');
+  assert.ok(art.drawn.some(one => one.clip === 'volunteer-dig') && !art.drawn.some(one => one.clip === 'rust-work' || one.clip === 'teal-work'), 'the trench is dug by settlers at the hoe');
+  assert.ok(art.drawn.some(one => /^(volunteer|regular)-loophole-fire/.test(one.clip || one.sprite || '')), 'nobody was drawn at a loophole');
+  const door = fakeArt({ claude: true });
+  play(createBattleView(door), 'karnes', { seconds: 30, into: tick => tick });
+  assert.ok(door.drawn.some(one => one.clip === 'volunteer-crowbar') && !door.drawn.some(one => one.clip === 'volunteer-gun-ram'), 'the door is forced with the rammer');
 });

@@ -1048,7 +1048,8 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
     // In their own cast figure where it is drawn (public/battle-view.js `poseOf` `cast`: Claude's `<cast>-fire-reload`, `-load`,
     // `-injured`, `-reclining`; stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "battles: the pieces the engine stands in
     // for", item 1); the recoloured idle laid down or the hoeing cycle while it loads.
-    const castClip = entity.appearance && (pose.cast || (entity.fallen && 'reclining')) ? `${avatarVariant(entity.appearance, entity.sex)}-${pose.cast || 'reclining'}` : null;
+    const cast = pose.cast || (entity.fallen && 'reclining');
+    const castClip = entity.appearance && cast ? `${avatarVariant(entity.appearance, entity.sex)}-${cast === 'fire-reload' ? cast : `battle-${cast}`}` : null;
     if (castClip && drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: (pose.timeMs || 0) / 165, working: true, flip: pose.flip, clip: castClip })) done = true;
     else if (entity.appearance && entity.fallen) { recliningAvatar(ctx, x, y, drawnSize, entity); done = true; }
     else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : performance.now() / 165, working: true, flip: pose.flip });

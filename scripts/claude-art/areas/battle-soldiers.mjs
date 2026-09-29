@@ -117,8 +117,6 @@ for (const side of ['volunteer', 'regular']) {
   }
   sheet(`claude-${side}-camp`, side === 'volunteer' ? R.ambient : R.ambient, `${R.ambient} item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the \`${side}-*\` logical height, east mirrored for west`, rows);
   for (const act of ['clean-rifle', 'camp-sit', 'camp-cook']) clips[`${side}-${act}`] = clip([[`${side}-${act}-1`, act === 'camp-sit' ? 2200 : 520], [`${side}-${act}-2`, act === 'camp-sit' ? 1600 : 520]], { prompt: `${WHO[side]}, at rest in camp: ${act.replace('-', ' ')}, two frames looping.` });
-  clips[`${side}-rest-sit`] = clip([[`${side}-rest-sit`, 2600]], { motion: 'breathe', prompt: `${WHO[side]}, sitting at rest with the piece across his knees, breathing.` });
-  clips[`${side}-sleep`] = clip([[`${side}-sleep`, 3200]], { motion: 'breathe', prompt: `${WHO[side]}, asleep, breathing: never a man killed.` });
 }
 
 // ---------------------------------------------------------------------------------------------------- C5: Béxar's streets
@@ -211,7 +209,7 @@ for (const side of ['volunteer', 'regular']) {
   const prone = (headUp, gun, what) => ({ view: 'e', pelvis: [-18 * g, F.B.limb * 0.55 + 1], lean: 80, tilt: headUp, feet: { near: [-62 * g, 2.5], far: [-58 * g, 4] }, knees: { near: -1, far: -1 },
     tool: gun, elbows: { near: -1, far: -1 }, what });
   const lie = prone(-58, null, 'lying still in the tall grass, the musket beside him, the head down');
-  lie.hands = { near: PO.at(F, 8, -F.neck / g + 8), far: PO.at(F, 6, -F.neck / g + 9) };
+  lie.hands = { near: PO.at(F, 8, -F.neck / g + 13), far: PO.at(F, 6, -F.neck / g + 14) };
   const base = [4 * g, F.B.limb * 0.55 + 11];
   const toG = p => [p[0] / g, (p[1] - (F.neck - 3)) / g];
   const aimGun = PO.gun(F, 'musket', toG(add(base, [0, 0])), toG(add(base, [70 * g, 2])), { near: 0.14, far: 0.34 });
@@ -223,7 +221,7 @@ for (const side of ['volunteer', 'regular']) {
       () => frame(name, CAZADOR, p, { before, cell: { w: 520, h: 400 }, originX: 250 }), [['regular-load', 1], ['regular-reclining', 1]]]);
   });
   sheet('claude-prone', R.coleto, 'item 1: `regular-prone-lie`, `regular-prone-aim`, `regular-prone-fire` (a cazador in the tall grass at night), east', rows, { w: 520, h: 400 }, 3);
-  clips['regular-prone-fire'] = clip([['regular-prone-aim', 700], ['regular-prone-fire', 120], ['regular-prone-lie', 1650]], { loop: false, prompt: 'A cazador lying in the grass: aiming, the shot, and down again to load, as the fire-reload clip is timed.' });
+  clips['regular-prone-fire-cycle'] = clip([['regular-prone-aim', 700], ['regular-prone-fire', 120], ['regular-prone-lie', 1650]], { loop: false, prompt: 'A cazador lying in the grass: aiming, the shot, and down again to load, as the fire-reload clip is timed.' });
 }
 
 // ---------------------------------------------------------------------------------------------------- C8: after a family on the road

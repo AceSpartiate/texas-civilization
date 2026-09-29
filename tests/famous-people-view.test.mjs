@@ -4,6 +4,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createBattleView } from '../public/battle-view.js';
+import { isClaude } from './support/claude-names.mjs';
 import { phaseOffset, projectBattle } from '../sim/battle-stage.mjs';
 import { ENGAGEMENTS } from '../sim/battle-stage.mjs';
 
@@ -15,7 +16,8 @@ function fakeContext() {
     set(target, key, value) { target[key] = value; return true; },
   });
 }
-const fakeArt = () => ({ animated: (ctx, clip, x, y, size) => size, drawSprite: (ctx, sprite, x, y, size) => size, miniPerson: () => {} });
+// Claude's temporary frames answer "not loaded" unless `claude` (tests/support/claude-names.mjs): the library stand-ins are held.
+const fakeArt = ({ claude = false } = {}) => ({ animated: (ctx, clip, x, y, size) => !claude && isClaude(clip) ? 0 : size, drawSprite: (ctx, sprite, x, y, size) => !claude && isClaude(sprite) ? 0 : size, miniPerson: () => {} });
 const SITES = { bexar: { x: 0, y: 0 }, lynchburg: { x: 0, y: 0 } };
 const world = (id, minute) => ({ minute, map: { sites: SITES }, battles: { [id]: { id, start: 0, participants: {}, alerted: {}, told: {}, heard: {} } } });
 /** A camera centred on a point of the engagement's ground, at `scale` pixels a mile. */
@@ -24,8 +26,8 @@ function cameraOn(id, point, scale) {
   return { toScreen: p => ({ x: 683 + (p.x - centre.x) * scale, y: 420 + (p.y - centre.y) * scale }), figure: 40, scale };
 }
 /** Frames at 60 a second for `seconds`, the clock at `from` and moving `perTick` minutes a second. */
-function run(id, phase, into, camera, { seconds = 6, perTick = 1 } = {}) {
-  const view = createBattleView(fakeArt());
+function run(id, phase, into, camera, { seconds = 6, perTick = 1, claude = false } = {}) {
+  const view = createBattleView(fakeArt({ claude }));
   let last = null; const texts = new Set();
   for (let t = 0; t < seconds * 1000; t += 1000 / 60) {
     const ctx = fakeContext();
@@ -85,4 +87,15 @@ test('at San Jacinto the Twin Sisters are named under the gun, Emily West\'s wor
   const napoleon = taken.bubbles.find(one => one.id === 'sj-napoleon');
   assert.ok(napoleon && napoleon.name === 'Santa Anna' && napoleon.named, 'the Napoleon of the West did not come out of Santa Anna');
   assert.equal(napoleon.kind, 'tradition');
+});
+
+test('with Claude\'s temporary sheets loaded, the Esparza family, the burial party and the roster\'s remaining people are drawn from their own frames, not the library\'s', () => {
+  const alarm = run('alamo', 'alarm', 0, cameraOn('alamo', 'sacristy', 5200), { seconds: 3, claude: true });
+  const drawn = id => alarm.last.people.find(one => one.id === id)?.drawnAs;
+  assert.equal(drawn('ana-esparza'), 'ana-esparza-seated'); assert.equal(drawn('enrique-esparza'), 'enrique-esparza-seated-huddled');
+  assert.equal(drawn('maria-de-jesus'), 'maria-de-jesus-seated-huddled');
+  const carried = run('alamo', 'burial', 0, cameraOn('alamo', 'church-front', 1600), { seconds: 2, claude: true });
+  assert.equal(carried.last.people.find(one => one.id === 'francisco-esparza')?.drawnAs, 'burial-party-walk-e', 'the burial party is not its own frames');
+  const barragan = run('alamo', 'end', 12, cameraOn('alamo', 'joe-door', 2600), { seconds: 1, claude: true });
+  assert.equal(barragan.last.people.find(one => one.id === 'barragan')?.drawnAs, 'barragan-command');
 });

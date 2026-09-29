@@ -687,7 +687,7 @@ export function createBattleView(art) {
           else if (loophole) {
             clip = `${kind}-loophole-fire`; timeMs = t - wait; flip = !right; alt = { clip: `${kind}-fire-reload` };
           }
-          else if (prone) { clip = 'regular-prone-fire'; timeMs = t - wait; flip = !right; alt = { clip: 'regular-fire-reload' }; }
+          else if (prone) { clip = 'regular-prone-fire-cycle'; timeMs = t - wait; flip = !right; alt = { clip: 'regular-fire-reload' }; }
           if (t >= wait) {
             if (!climbing && !loophole && !prone) { clip = `${kind}-fire-reload`; timeMs = t - wait; }
             const shotKey = `${seed}:${Math.floor((time + (slot.phase ?? 0) * 20000) / cycle)}`;
@@ -725,8 +725,8 @@ export function createBattleView(art) {
           // At rest in camp: standing about, or sitting. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "San Jacinto",
           // item 2 - a man sitting at rest is Claude's `*-rest-sit` (the piece across his knees); the library's seated soldier
           // (`*-injured-rest`) while it loads.
-          clip = slot.rest === 'sit' ? `${kind}-rest-sit` : `${kind}-idle-${right ? 'e' : 'w'}`; flip = slot.rest === 'sit' ? !right : false;
-          if (slot.rest === 'sit') alt = { clip: `${kind}-injured-rest` };
+          if (slot.rest === 'sit') { sprite = `${kind}-rest-sit`; still = true; alt = { clip: `${kind}-injured-rest` }; } else clip = `${kind}-idle-${right ? 'e' : 'w'}`;
+          flip = slot.rest === 'sit' ? !right : false;
         } else { sprite = `${kind}-${right ? 'e' : 'w'}`; still = true; flip = false; }
         figures.push({ y: point.y, kind, side: side.side, point: dy ? { x: point.x, y: point.y + dy } : point, size, clip, sprite, timeMs, flip, still, seed, alt });
         if (side.key === side.side || side.part) drawn[side.side].push(point);
@@ -1359,7 +1359,7 @@ export function createBattleView(art) {
     // The burial party's own frames where they are drawn (Claude's `burial-party-walk-e`): both men and the wrapped body in one.
     const party = personArt(person.art)?.bearers;
     if (party && art.animated(ctx, party, p.x, p.y, size, key, { timeMs: time, flip })) return party;
-    const walker = PERSON_ART[person.art]?.walk || 'volunteer-march';
+    const walker = personArt(person.art)?.walk || 'volunteer-march';
     const back = (person.right ? -1 : 1) * size * 1.2;
     const behind = art.animated(ctx, walker, p.x + back, p.y, size, `${key}:bearer`, { timeMs: time + 260, flip });
     const cx = p.x + back * 0.5, cy = p.y - size * 0.4, half = Math.abs(back) * 0.52, thick = size * 0.1;

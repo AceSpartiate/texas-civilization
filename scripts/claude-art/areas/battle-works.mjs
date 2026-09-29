@@ -82,7 +82,7 @@ const prop = (name, cell, originX, draw, { persons = 1, groundY } = {}) => ({ ..
     { name: 'barricade-street', compare: [['palisade', 2.2]], prompt: `A street barricade at Béxar, December 1835: a ditch in front, an earth bank thrown up from it, a palisade of upright posts on the bank, and an embrasure in the posts where a gun's muzzle shows - across a street's mouth, three-quarter from the front (Field; Dance; the 2007 archaeology under Main Plaza). ${STYLE}`,
       draw: () => prop('barricade-street', { w: 720, h: 400 }, 360, ink => {
         ink.shape(blob([[-118, -1], [-112, 22], [0, 26], [112, 22], [118, -1]], 0.5), EARTH, { off: 2, lift: true });
-        ink.shape(poly([[-122, -1.5], [122, -1.5], [118, -7], [-118, -7]]), EARTH_DARK, { shade: false, outline: 2.2 });
+        ink.shape(poly([[-122, -1.5], [122, -1.5], [118, -3.6], [-118, -3.6]]), EARTH_DARK, { shade: false, outline: 2.2 });
         for (let x = -104; x <= 104; x += 9) {
           if (Math.abs(x - 6) < 12) continue;
           ink.shape(poly([[x - 3.6, 18], [x + 3.6, 18], [x + 3.6, 64 + (x % 3)], [x, 70 + (x % 3)], [x - 3.6, 64 + (x % 3)]]), '#8a6a44', { off: 0.8 });
@@ -167,7 +167,7 @@ sheet('claude-ammunition-crate', R.famous, 'Castrillón and the rest: a scale-ma
       ink.shape(blob([[cx - 38, 38], [cx - 30, 50], [cx - 4, 53], [cx + 20, 49], [cx + 26, 38]], 0.6), '#7a6a5a', { off: 1.2, lift: true });
       ink.shape(ellipse([cx - 6, 18], 17, 17), '#6a4a2e', { off: 1 }); ink.shape(ellipse([cx - 6, 18], 4, 4), '#3a2616', { shade: false, outline: 1.8 });
       for (let a = 0; a < 6; a++) ink.line(seg([cx - 6, 18], [cx - 6 + Math.cos(a) * 15, 18 + Math.sin(a) * 15]), { width: 1.8 });
-      nested(ink, PADRE, { ...pose, hands: { near: PO.at(F, 3, -14), far: PO.at(F, 1, -13) }, elbows: { near: 1, far: 1 } }, [cx + 10, -8], 1);
+      nested(ink, PADRE, { ...pose, hands: { near: PO.at(F, 3, -14), far: PO.at(F, 1, -13) }, elbows: { near: 1, far: 1 } }, [cx + 10, -3], 1);
     }, { note: `padre with a cart ${i + 1}`, cell: { w: 800, h: 420 }, originX: 420, groundY: 392 }) }));
   sheet('claude-padre-carts', R.concepcion, 'item 8: a padre with carts for the dead and wounded after Concepción (told in the caption today); nothing of the dead shown', { w: 800, h: 420 }, frames, 2);
   clips['padre-carts'] = clip([1, 2, 3, 4].map(n => [`padre-carts-${n}`, 260]), { prompt: `A padre walking beside a covered cart after Concepción: four frames at a slow walk. ${NO_GORE}` });

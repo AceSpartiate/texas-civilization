@@ -7,6 +7,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createBattleView, layoutSide } from '../public/battle-view.js';
+import { isClaude } from './support/claude-names.mjs';
 import { ENGAGEMENTS } from '../sim/battle-stage.mjs';
 
 function fakeContext() {
@@ -17,12 +18,16 @@ function fakeContext() {
     set(target, key, value) { target[key] = value; return true; },
   });
 }
-function fakeArt() {
+/**
+ * The page's art, recorded. By default it answers "not loaded" for Claude's temporary frames (tests/support/claude-names.mjs),
+ * so these tests hold the library stand-ins drawn while a Claude sheet is on its way; `{ claude: true }` draws them too.
+ */
+function fakeArt({ claude = false } = {}) {
   const drawn = [];
   return {
     drawn,
-    animated: (ctx, clip, x, y, size, seed, options) => { drawn.push({ clip, x, y, size, seed, ...options }); return size; },
-    drawSprite: (ctx, sprite, x, y, size, options) => { drawn.push({ sprite, x, y, size, ...options }); return size; },
+    animated: (ctx, clip, x, y, size, seed, options) => { if (!claude && isClaude(clip)) return 0; drawn.push({ clip, x, y, size, seed, ...options }); return size; },
+    drawSprite: (ctx, sprite, x, y, size, options) => { if (!claude && isClaude(sprite)) return 0; drawn.push({ sprite, x, y, size, ...options }); return size; },
     miniPerson: () => {},
   };
 }
@@ -160,4 +165,15 @@ test('every body of men at Concepción and the Grass Fight is laid out whole: no
     }
   }
   assert.deepEqual(short, []);
+});
+
+test('with Claude\'s temporary sheets loaded, men under a bank climb the cut to fire and kneel under it to load, at the same place', () => {
+  const art = fakeArt({ claude: true }), view = createBattleView(art);
+  run(view, minute => battle(minute, { groups: [] }), 12);
+  const climbing = art.drawn.filter(one => one.clip === 'volunteer-bank-climb'), loading = art.drawn.filter(one => one.sprite === 'volunteer-bank-climb-5');
+  assert.ok(climbing.length && loading.length, 'nobody under the bank climbed to fire or knelt to load');
+  assert.ok(!art.drawn.some(one => one.sprite === 'volunteer-load' || one.clip === 'volunteer-fire-reload'), 'the bank still draws the loading figure lowered');
+  // The climb is one drawing on one anchor: no man is moved down to load.
+  const climbAt = new Map(climbing.map(one => [one.x.toFixed(2), one.y]));
+  assert.ok(loading.some(one => climbAt.has(one.x.toFixed(2)) && Math.abs(climbAt.get(one.x.toFixed(2)) - one.y) < 1), 'a man was drawn lower to load than to fire');
 });

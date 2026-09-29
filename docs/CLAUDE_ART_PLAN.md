@@ -8,13 +8,13 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
-| A — People at work and ambient poses | 18 | 5 | 2 | 0 |
+| A — People at work and ambient poses | 18 | 5 | 3 | 0 |
 | B — Children, babies and sickness | 11 | 5 | 0 | 2 |
-| C — Soldiers, battles and famous people | 19 | 1 | 0 | 1 |
+| C — Soldiers, battles and famous people | 19 | 1 | 19 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 0 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 15 | 1 | 1 | 3 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 1 | 2 | 17 |
-| **Total** | **88** | **15** | **5** | **27** |
+| **Total** | **88** | **15** | **25** | **27** |
 
 ## How a builder works
 
@@ -69,7 +69,7 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Frames:** 4 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.reap` in `public/work-art.js`
   - **Stands in now:** the hoeing cycle with chaff (drawn in code (canvas or CSS))
-- [ ] **A8** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 7
+- [ ] **A8** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 7 — **Claude stand-in in place** (`rust-fire-reload`, `teal-fire-reload`, `elder-fire-reload`, `blue-fire-reload`, `rust-woman-fire-reload`, `indigo-fire-reload`, `ochre-fire-reload`, `blue-girl-fire-reload`); Astra's replaces it
   - **Deliver:** `<cast>-aim` (1 frame, a long rifle level at the shoulder) and `<cast>-fire` (2 frames: recoil, lowering), in the figure's own clothes
   - **Frames:** 1 + 2 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.shoot`, `STROKES.shot` in `public/work-art.js`
@@ -194,104 +194,104 @@ Skipped:
 
 Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 19 to make, 1 skipped.
 
-- [ ] **C1** (priority 1) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 1
+- [ ] **C1** (priority 1) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 1 — **Claude stand-in in place** (`rust-fire-reload`, `teal-fire-reload`, `elder-fire-reload`, `blue-fire-reload`, `rust-woman-fire-reload`, `indigo-fire-reload`, `ochre-fire-reload`, `blue-girl-fire-reload`, `rust-injured`, `rust-reclining`, `teal-injured`, `teal-reclining`, `elder-injured`, `elder-reclining`, `blue-injured`, `blue-reclining`, `rust-woman-injured`, `rust-woman-reclining`, `indigo-injured`, `indigo-reclining`, `ochre-injured`, `ochre-reclining`, `blue-girl-injured`, `blue-girl-reclining`); Astra's replaces it
   - **Deliver:** every cast figure (`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl`) in `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling), `<cast>-ramrod`, clip `<cast>-fire-reload`; and each cast's `-injured` and `-reclining`
   - **Frames:** 4 frames each, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `memberPose` and `poseOf` in `public/battle-view.js`
   - **Stands in now:** the volunteer militia's firing cycle and fallen poses, not the person's own figure (Astra's library art reused)
-- [ ] **C2** (priority 2) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 3
+- [ ] **C2** (priority 2) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 3 — **Claude stand-in in place** (`bearers-carry`); Astra's replaces it
   - **Deliver:** `bearers-carry-1`..`-4` (two men carrying a third on a blanket, walking east); no blood
   - **Frames:** 4 frames, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `drawFallen` in `public/battle-view.js`
   - **Stands in now:** the seated wounded helped back by two walking figures; `*-reclining` with two beside (Astra's library art reused)
-- [ ] **C3** (priority 2) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 3
+- [ ] **C3** (priority 2) — [Request 2026-09-28 — ambient life](ART_REQUESTS.md#request-2026-09-28--ambient-life), item 3 — **Claude stand-in in place** (`volunteer-clean-rifle`, `volunteer-camp-sit`, `volunteer-camp-cook`, `regular-clean-rifle`, `regular-camp-sit`, `regular-camp-cook`); Astra's replaces it
   - **Deliver:** `volunteer-clean-rifle`, `volunteer-camp-sit`, `volunteer-camp-cook` and the same for `regular-` (2 frames each)
   - **Frames:** 2 frames each, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `CAMP_TEXIAN`, `CAMP_MEXICAN` in `sim/ambient.mjs`; `figureClip` in `public/ambient.js`
   - **Stands in now:** the ramrod's stroke; the cast's civilian men at the fire (Astra's library art reused)
-- [ ] **C4** (priority 2) — [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto), item 2
+- [ ] **C4** (priority 2) — [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto), item 2 — **Claude stand-in in place** (`volunteer-rest-sit`, `volunteer-sleep`, `regular-rest-sit`, `regular-sleep`, `musket-stack`, `breastwork-packs-1`, `breastwork-packs-2`, `breastwork-packs-3`, `breastwork-packs-4`); Astra's replaces it
   - **Deliver:** `regular-rest-sit`, `regular-sleep` (never to be mistaken for `regular-reclining`), `volunteer-rest-sit`, `musket-stack`; `breastwork-packs` in three or four segments about five feet high
   - **Frames:** 1-2 frames. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure; the breastwork as a prop
   - **Plugs into:** the `camp` branch of `draw` and `drawWorks` in `public/battle-view.js`
   - **Stands in now:** the standing idle and seated wounded; `crate`, `sacks`, `barrel`, `packed-belongings` in a line (Astra's library art reused)
   - **Research first:** HIST-TEX-522 (Houston: "packs and baggage, leaving an opening in the centre")
-- [ ] **C5** (priority 2) — [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar), items 1, 3, 4
+- [ ] **C5** (priority 2) — [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar), items 1, 3, 4 — **Claude stand-in in place** (`volunteer-loophole-fire`, `regular-loophole-fire`, `volunteer-crowbar`, `volunteer-dig`, `barricade-street`, `sandbag-breastwork`); Astra's replaces it
   - **Deliver:** `volunteer-loophole-fire` and `regular-loophole-fire` (the barrel at the wall, the man half hidden, 2-4 frames); `volunteer-crowbar` (4 frames, forcing a door); `volunteer-dig` (a spade in a trench at night); `barricade-street` (ditch, bank, post palisade, gun embrasure); `sandbag-breastwork`
   - **Frames:** 2-4 frames; props 1. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure; props at `palisade` scale
   - **Plugs into:** `draw` (`cover`), `drawBreaches` in `public/battle-view.js`
   - **Stands in now:** flashes at the town's houses; the ramming stroke; `rust-work`/`teal-work`; `palisade` and `sacks` (Astra's library art reused)
   - **Research first:** Béxar, December 1835 (docs/battle-research/staging.md §3.9, HIST-TEX-490-496)
-- [ ] **C6** (priority 2) — [Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night](ART_REQUESTS.md#request-2026-09-25--the-alamo-ladders-the-guns-served-the-walls-manned-night), item 3
+- [ ] **C6** (priority 2) — [Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night](ART_REQUESTS.md#request-2026-09-25--the-alamo-ladders-the-guns-served-the-walls-manned-night), item 3 — **Claude stand-in in place** (`volunteer-parapet-fire-e`, `volunteer-parapet-fire-s`, `volunteer-parapet-fire-n`); Astra's replaces it
   - **Deliver:** volunteers firing over a parapet, the body from the waist up over a wall top, east, west, north and south, with a loading frame below the parapet (`volunteer-parapet-fire-*`)
   - **Frames:** 2-4 frames a facing. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `layoutSide` and `draw` in `public/battle-view.js`
   - **Stands in now:** the volunteer firing cycle at the wall's line (Astra's library art reused)
-- [ ] **C7** (priority 2) — [Request 2026-09-25 — Coleto and Goliad](ART_REQUESTS.md#request-2026-09-25--coleto-and-goliad), item 1
+- [ ] **C7** (priority 2) — [Request 2026-09-25 — Coleto and Goliad](ART_REQUESTS.md#request-2026-09-25--coleto-and-goliad), item 1 — **Claude stand-in in place** (`regular-prone-fire-cycle`); Astra's replaces it
   - **Deliver:** `regular-prone-lie`, `regular-prone-aim`, `regular-prone-fire` (a cazador in the tall grass at night)
   - **Frames:** 3 frames, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** the `ringed` grass parts of `sim/battles/coleto.mjs`, `draw` in `public/battle-view.js`
   - **Stands in now:** the loose order's standing and kneeling poses (Astra's library art reused)
-- [ ] **C8** (priority 2) — [Request 2026-09-27 — Mexican troops after a family on the road](ART_REQUESTS.md#request-2026-09-27--mexican-troops-after-a-family-on-the-road), item 3
+- [ ] **C8** (priority 2) — [Request 2026-09-27 — Mexican troops after a family on the road](ART_REQUESTS.md#request-2026-09-27--mexican-troops-after-a-family-on-the-road), item 3 — **Claude stand-in in place** (`skirmisher-run-e`, `skirmisher-kneel-fire`); Astra's replaces it
   - **Deliver:** `skirmisher-run-e` (4) and `skirmisher-kneel-fire` (aim, fire, load; 4), the line's regular
   - **Frames:** 4 frames each, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `createChaseView` in `public/chase-view.js`
   - **Stands in now:** `regular-march`, `regular-fire-reload` (Astra's library art reused)
-- [ ] **C9** (priority 2) — [Request 2026-09-26 — the Mexican advance](ART_REQUESTS.md#request-2026-09-26--the-mexican-advance), item 3
+- [ ] **C9** (priority 2) — [Request 2026-09-26 — the Mexican advance](ART_REQUESTS.md#request-2026-09-26--the-mexican-advance), item 3 — **Claude stand-in in place** (`regular-march-column`); Astra's replaces it
   - **Deliver:** `regular-march-column` (six to eight infantry in files of three, a mounted officer at the head, a cart behind; 4 frames, east)
   - **Frames:** 4 frames, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `drawArmy` (`moving`) in `public/army-view.js`
   - **Stands in now:** `regular-march` men in files of three with a `dragoon-march` at the head (Astra's library art reused)
-- [ ] **C10** (priority 2) — [Request 2026-09-25 — Concepción and the Grass Fight](ART_REQUESTS.md#request-2026-09-25--concepción-and-the-grass-fight), item 2
+- [ ] **C10** (priority 2) — [Request 2026-09-25 — Concepción and the Grass Fight](ART_REQUESTS.md#request-2026-09-25--concepción-and-the-grass-fight), item 2 — **Claude stand-in in place** (`volunteer-bank-climb`); Astra's replaces it
   - **Deliver:** `volunteer-bank-climb-1`..`-6` (step up the cut, aim and fire over the lip, step down, load under the bank)
   - **Frames:** 6 frames, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** the `bank` branch of `draw` in `public/battle-view.js`
   - **Stands in now:** `volunteer-load` a third of a figure lower than the men firing (Astra's library art reused)
-- [ ] **C11** (priority 2) — [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto), item 4
+- [ ] **C11** (priority 2) — [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto), item 4 — **Claude stand-in in place** (`figure-wading-regular`, `figure-wading-volunteer`, `figure-wading`); Astra's replaces it
   - **Deliver:** `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close
   - **Frames:** 2-4 frames, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `drawWorks` in `public/battle-view.js`
   - **Stands in now:** nobody drawn wading (nothing)
-- [ ] **C12** (priority 2) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 4
+- [ ] **C12** (priority 2) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 4 — **Claude stand-in in place** (`settler-gun-ram`, `settler-gun-carry`, `settler-gun-fire`); Astra's replaces it
   - **Deliver:** three settlers serving the Gonzales cart-wheel gun: `settler-gun-ram`, `settler-gun-carry`, `settler-gun-fire`
   - **Frames:** 2-4 frames each, east. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure
   - **Plugs into:** `drawCannon` in `public/battle-view.js`
   - **Stands in now:** the carriage-gun crew cycles (`volunteer-gun-ram`, `-shot-carry`, `-fire`) (Astra's library art reused)
-- [ ] **C13** (priority 2) — [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses), items 1 and 3
+- [ ] **C13** (priority 2) — [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses), items 1 and 3 — **Claude stand-in in place** (`jw-smith-walk-e`, `jw-smith-walk-s`, `jw-smith-walk-n`, `jw-smith-mounted-walk-e`, `kimbell-walk-e`, `kimbell-walk-s`, `kimbell-walk-n`, `kimbell-mounted-walk-e`, `martin-walk-e`, `martin-walk-s`, `martin-walk-n`, `martin-mounted-walk-e`, `horton-walk-e`, `horton-walk-s`, `horton-walk-n`, `horton-mounted-walk-e`, `wp-smith-walk-e`, `wp-smith-walk-s`, `wp-smith-walk-n`, `smither-walk-e`, `smither-walk-s`, `smither-walk-n`, `smither-mounted-walk-e`, `condelle-walk-e`, `condelle-walk-s`, `condelle-walk-n`, `sanchez-navarro-walk-e`, `sanchez-navarro-walk-s`, `sanchez-navarro-walk-n`, `barragan-walk-e`, `barragan-walk-s`, `barragan-walk-n`, `jw-smith-idle`, `jw-smith-speak`, `jw-smith-command`, `jw-smith-point`, `jw-smith-aim`, `jw-smith-fire`, `jw-smith-mounted-idle-e`, `kimbell-idle`, `kimbell-speak`, `kimbell-command`, `kimbell-point`, `kimbell-aim`, `kimbell-fire`, `kimbell-fall`, `kimbell-still`, `kimbell-mounted-idle-e`, `martin-idle`, `martin-speak`, `martin-command`, `martin-point`, `martin-aim`, `martin-fire`, `martin-fall`, `martin-still`, `martin-mounted-idle-e`, `horton-idle`, `horton-speak`, `horton-command`, `horton-point`, `horton-aim`, `horton-fire`, `horton-mounted-idle-e`, `wp-smith-idle`, `wp-smith-speak`, `wp-smith-command`, `wp-smith-point`, `wp-smith-address`, `wp-smith-listen`, `smither-idle`, `smither-speak`, `smither-command`, `smither-point`, `smither-call`, `smither-mounted-idle-e`, `condelle-idle`, `condelle-speak`, `condelle-command`, `condelle-point`, `condelle-address`, `condelle-listen`, `sanchez-navarro-idle`, `sanchez-navarro-speak`, `sanchez-navarro-command`, `sanchez-navarro-point`, `sanchez-navarro-parley`, `sanchez-navarro-listen`, `barragan-idle`, `barragan-speak`, `barragan-command`, `barragan-point`, `barragan-protect`, `barragan-listen`); Astra's replaces it
   - **Deliver:** a 4×4 sheet each for Austin, J. W. Smith, Kimbell, Martin, Johnson, Neill, Hockley, McCulloch, Sherman, Rusk, Lamar, Horton, W. P. Smith, Smither, Deaf Smith, Grant (Texian officers) and Urrea, Condelle, Sánchez Navarro, Barragán (Mexican officers): walk, idle, command, fire, and a still (lying) pose; named `<person>-*` as `PERSON_ART` keys
   - **Frames:** 16 each (4 east, 2 south, 2 north walking, 8 poses). **Size:** The delivered famous sheets' contract (`scripts/art-deliveries/famous-people.mjs`): the `volunteer-*` logical height
   - **Plugs into:** `PERSON_ART` and `drawPerson` in `public/battle-view.js`, `drawFamous` in `public/famous-view.js`
   - **Stands in now:** the volunteer or regular, riding as the courier or the dragoon, named under the figure (Astra's library art reused)
   - **Research first:** each person's dress, age and rank in 1835-36 (docs/battle-research/famous-people.md); **original interpretations, never a likeness** - no face is claimed, and a Claude stand-in says so in its prompt
-- [ ] **C14** (priority 2) — [Request 2026-09-26 — the Esparza family](ART_REQUESTS.md#request-2026-09-26--the-esparza-family), items 1-6
+- [ ] **C14** (priority 2) — [Request 2026-09-26 — the Esparza family](ART_REQUESTS.md#request-2026-09-26--the-esparza-family), items 1-6 — **Claude stand-in in place** (`ana-esparza-walk-e`, `ana-esparza-walk-s`, `ana-esparza-walk-n`, `maria-de-jesus-walk-e`, `maria-de-jesus-walk-s`, `maria-de-jesus-walk-n`, `enrique-esparza-walk-e`, `enrique-esparza-walk-s`, `enrique-esparza-walk-n`, `francisco-esparza-walk-e`, `francisco-esparza-walk-s`, `francisco-esparza-walk-n`, `ana-esparza-carry-toddler`, `burial-party-walk-e`, `ana-esparza-idle`, `ana-esparza-seated`, `ana-esparza-shelter-with-children`, `ana-esparza-hold-blanket`, `maria-de-jesus-idle`, `maria-de-jesus-seated-huddled`, `enrique-esparza-idle`, `enrique-esparza-seated-huddled`, `enrique-esparza-look`, `francisco-esparza-idle`, `francisco-esparza-kneel-at-grave`, `esparza-seated`); Astra's replaces it
   - **Deliver:** `ana-esparza-*` (walk, idle, `shelter-with-children`, `carry-toddler`, `hold-blanket`), `maria-de-jesus-*` (walk, idle, seated huddled), `enrique-esparza-*` (walk, idle, seated huddled, `look`), `burial-party-walk-e` (4; two men carrying a body wholly wrapped on a litter, never a body shown), `francisco-esparza-*` (walk, idle, `kneel-at-grave`), `esparza-seated`
   - **Frames:** the famous-sheet contract. **Size:** Famous sheets: `volunteer-*` height for grown people, the children's for the children
   - **Plugs into:** `PERSON_ART` in `public/battle-view.js`; `drawBearers`; `drawFamous`
   - **Stands in now:** the second cast's woman, the library's girl, boy and small child; two `rust` figures with a canvas bundle (Astra's library art reused)
   - **Research first:** Tejano dress in Béxar, 1836 (HIST-TEX-605-609); original interpretations, no likeness claimed
-- [ ] **C15** (priority 3) — [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses), Castrillón and the rest
+- [ ] **C15** (priority 3) — [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses), Castrillón and the rest — **Claude stand-in in place** (`castrillon-walk-s`, `castrillon-walk-n`, `ammunition-crate`); Astra's replaces it
   - **Deliver:** Castrillón's north and south walks and a scale-matched ammunition crate under his command pose; Travis in the officer's firing cycle at the north battery (request 2026-09-25 the Alamo, item 8); the remaining Tejano cast
   - **Frames:** as the famous sheets. **Size:** Famous sheets
   - **Plugs into:** `PERSON_ART`
   - **Stands in now:** Castrillón's east walk mirrored; the crate prop at another scale (Astra's library art reused)
   - **Research first:** original interpretations
-- [ ] **C16** (priority 3) — [Request 2026-09-25 — Concepción and the Grass Fight](ART_REQUESTS.md#request-2026-09-25--concepción-and-the-grass-fight), items 6 and 8
+- [ ] **C16** (priority 3) — [Request 2026-09-25 — Concepción and the Grass Fight](ART_REQUESTS.md#request-2026-09-25--concepción-and-the-grass-fight), items 6 and 8 — **Claude stand-in in place** (`padre-carts`, `grass-bundle-cut`); Astra's replaces it
   - **Deliver:** `grass-bundle-cut` (a pack slit open, grass spilling); a padre with carts for the dead and wounded after Concepción (told in the caption today)
   - **Frames:** 1; 2-4. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside
   - **Plugs into:** `draw` in `public/battle-view.js`
   - **Stands in now:** nothing (words) (told in words, not drawn)
   - **Research first:** the padre and carts are in the record only in outline (Smithwick); keep them general
-- [ ] **C17** (priority 3) — [Request 2026-09-25 — Gonzales before the fight](ART_REQUESTS.md#request-2026-09-25--gonzales-before-the-fight), item 5
+- [ ] **C17** (priority 3) — [Request 2026-09-25 — Gonzales before the fight](ART_REQUESTS.md#request-2026-09-25--gonzales-before-the-fight), item 5 — **Claude stand-in in place** (`flag-come-and-take-it-no-star-wind`, `flag-come-and-take-it-no-star`, `gonzales-flag-work-half`, `gonzales-flag-work-no-star`); Astra's replaces it
   - **Deliver:** the Come and Take It flag without the star (the star is disputed), and flat on the table half-painted and finished, as more states of `gonzales-flag-work-*`
   - **Frames:** still and a four-frame wave for the flag; one each on the table. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside
   - **Plugs into:** `drawFlag`, `drawProp` in `public/town-scenes.js`
   - **Stands in now:** canvas for the unfinished cloth (drawn in code (canvas or CSS))
   - **Research first:** Smithwick's description; the star is disputed (FIC-GONZ-419)
-- [ ] **C18** (priority 3) — [Claude-drawn stand-ins (replace with Astra's)](ART_REQUESTS.md#claude-drawn-stand-ins-replace-with-astras), the armies on the map
+- [ ] **C18** (priority 3) — [Claude-drawn stand-ins (replace with Astra's)](ART_REQUESTS.md#claude-drawn-stand-ins-replace-with-astras), the armies on the map — **Claude stand-in in place** (`army-camp-mexican`, `army-camp-texian`); Astra's replaces it
   - **Deliver:** a camp: three or four wedge tents, a cook fire with a pot, stacked arms and a colour on a pole, `army-camp`, 192×192
   - **Frames:** 1. **Size:** 192×192, in the map art's own light
   - **Plugs into:** `drawArmy` in `public/army-view.js`
   - **Stands in now:** tents, the fire and the flag drawn in canvas by `public/army-view.js` (drawn in code (canvas or CSS))
-- [ ] **C19** (priority 3) — [Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night](ART_REQUESTS.md#request-2026-09-25--the-alamo-ladders-the-guns-served-the-walls-manned-night), item 2
+- [ ] **C19** (priority 3) — [Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night](ART_REQUESTS.md#request-2026-09-25--the-alamo-ladders-the-guns-served-the-walls-manned-night), item 2 — **Claude stand-in in place** (`cannon-alamo-north-e-recoil`, `cannon-alamo-north-w-recoil`, `cannon-alamo-church-e-recoil`, `cannon-alamo-church-w-recoil`); Astra's replaces it
   - **Deliver:** specific art for the Alamo's north-wall and church guns (the 18-pounder and the siege battery are delivered)
   - **Frames:** rest and recoil, both facings. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside (the field guns' scale)
   - **Plugs into:** `drawGun` in `public/battle-view.js`

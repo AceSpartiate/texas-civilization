@@ -7,8 +7,8 @@
       "image": "/assets/claude-standins/claude-battle-rust.png",
       "width": 1440,
       "height": 800,
-      "bytes": 254404,
-      "sha256": "f99f231f64bf2475550bf4193d86a7d06ea01f28cf9d2ba6ee0b0b2eedc41c60",
+      "bytes": 254675,
+      "sha256": "6640852ff20e0fb453883a8a8308f76938b7cf187cfd8ed7fca2c5ea7d2e5c1f",
       "madeBy": "claude",
       "module": "battle-cast",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
@@ -26,8 +26,8 @@
       "image": "/assets/claude-standins/claude-battle-teal.png",
       "width": 1440,
       "height": 800,
-      "bytes": 269187,
-      "sha256": "bc0073129a15de37fd79141305ea56e25b4cfd971f1000b6e3b63913130655e2",
+      "bytes": 269302,
+      "sha256": "da665523457d3388228f3240aef65f53b428ae434405174ac4ebd9d963278d90",
       "madeBy": "claude",
       "module": "battle-cast",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
@@ -45,8 +45,8 @@
       "image": "/assets/claude-standins/claude-battle-elder.png",
       "width": 1440,
       "height": 800,
-      "bytes": 252597,
-      "sha256": "a11fc5a7b3e1a6e934aa2c3843e76a560a588aa61183b28c5feb43659bd64d69",
+      "bytes": 252606,
+      "sha256": "00307b13ba4556d66df0586ac95dcb381a58e521a26774528f1d813e2e9e6b02",
       "madeBy": "claude",
       "module": "battle-cast",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
@@ -64,8 +64,8 @@
       "image": "/assets/claude-standins/claude-battle-blue.png",
       "width": 1440,
       "height": 800,
-      "bytes": 251863,
-      "sha256": "9384705ad0192324f9cc28c78b064ae7473782861e131d6370ff5b7770ca0ae0",
+      "bytes": 253554,
+      "sha256": "ee1e51744d2434af2b6951e210b7c163d0218d9e6e38dfac08ccf0f4c22fbbc0",
       "madeBy": "claude",
       "module": "battle-cast",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
@@ -83,8 +83,8 @@
       "image": "/assets/claude-standins/claude-battle-rust-woman.png",
       "width": 1440,
       "height": 800,
-      "bytes": 293729,
-      "sha256": "537911b37e45ffc9ef26098d7c9a2c00f8289bd13d9b2c0183f48577204c9590",
+      "bytes": 295265,
+      "sha256": "79eaf6de574e75375974b280bf152a55d61ffdb2f4fffd2082b8eab4d39a1024",
       "madeBy": "claude",
       "module": "battle-cast",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
@@ -102,8 +102,8 @@
       "image": "/assets/claude-standins/claude-battle-indigo.png",
       "width": 1440,
       "height": 800,
-      "bytes": 262166,
-      "sha256": "143f3c86599297a81eca2fdf6951a20ce2cfbec88b1a8a2b8ad70ebec4cee5b3",
+      "bytes": 262210,
+      "sha256": "36e21c11eac9d90d6e307aba6f7e060d0a8c2606776d1c53ce386744c82a2c89",
       "madeBy": "claude",
       "module": "battle-cast",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
@@ -121,8 +121,8 @@
       "image": "/assets/claude-standins/claude-battle-ochre.png",
       "width": 1440,
       "height": 800,
-      "bytes": 228080,
-      "sha256": "5915b3a88a78c6bd69cc81dc4f1f62323745e33683683f508d276580611dc607",
+      "bytes": 228185,
+      "sha256": "861bc5c675029cdf21559adf00d6f0b683ad867fa5be058ecd6ca69a13d30da4",
       "madeBy": "claude",
       "module": "battle-cast",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
@@ -140,8 +140,8 @@
       "image": "/assets/claude-standins/claude-battle-blue-girl.png",
       "width": 1440,
       "height": 800,
-      "bytes": 292833,
-      "sha256": "0fda41ebb97e123421a2cdee58ef47a24fc860128086c186f3c2a5d8ec080b6f",
+      "bytes": 293133,
+      "sha256": "300acf7fd746725d550858a88526ee481d60299006e303cdecf2e20754040b77",
       "madeBy": "claude",
       "module": "battle-cast",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
@@ -254,8 +254,8 @@
       "image": "/assets/claude-standins/claude-prone.png",
       "width": 1560,
       "height": 400,
-      "bytes": 87744,
-      "sha256": "50bde5e414b2e84c744b7967af4d9c27d88feeec4430af85670615fa2d06d202",
+      "bytes": 86658,
+      "sha256": "9bb6ff735dc3a98474feac408075f69f970828723fb25681f5e60c920416091e",
       "madeBy": "claude",
       "module": "battle-soldiers",
       "request": "Request 2026-09-25 — Coleto and Goliad",
@@ -368,8 +368,8 @@
       "image": "/assets/claude-standins/claude-bexar-works.png",
       "width": 1440,
       "height": 400,
-      "bytes": 297663,
-      "sha256": "accafacaaf0aac9b7470ce6db526f49972d5567c34dc7f94b8d6f9ea7fafad66",
+      "bytes": 288535,
+      "sha256": "cdb20645890c3aeadb951cde7a3f3769df73b15fd4e5ed9c6b86deaf755dc227",
       "madeBy": "claude",
       "module": "battle-works",
       "request": "Request 2026-09-25 — the storming of Béxar",
@@ -444,8 +444,8 @@
       "image": "/assets/claude-standins/claude-padre-carts.png",
       "width": 1600,
       "height": 840,
-      "bytes": 442320,
-      "sha256": "bc2e81e281b2748b0667bfff763c5f726aee042f415187cc10b6c9708f407417",
+      "bytes": 439485,
+      "sha256": "bb04eb5bd8c8910c98d33310a9ffa113457a23d9e7fb3ee2fdfee2a62337de30",
       "madeBy": "claude",
       "module": "battle-works",
       "request": "Request 2026-09-25 — Concepción and the Grass Fight",
@@ -1141,7 +1141,7 @@
       "y": 400,
       "w": 480,
       "h": 400,
-      "anchorX": 0.3958,
+      "anchorX": 0.5208,
       "anchorY": 0.93,
       "logicalHeight": 300,
       "madeBy": "claude",
@@ -1243,7 +1243,7 @@
       "y": 400,
       "w": 480,
       "h": 400,
-      "anchorX": 0.3958,
+      "anchorX": 0.5208,
       "anchorY": 0.93,
       "logicalHeight": 300,
       "madeBy": "claude",
@@ -1345,7 +1345,7 @@
       "y": 400,
       "w": 480,
       "h": 400,
-      "anchorX": 0.3958,
+      "anchorX": 0.5208,
       "anchorY": 0.93,
       "logicalHeight": 300,
       "madeBy": "claude",
@@ -1447,7 +1447,7 @@
       "y": 400,
       "w": 480,
       "h": 400,
-      "anchorX": 0.3958,
+      "anchorX": 0.5208,
       "anchorY": 0.93,
       "logicalHeight": 300,
       "madeBy": "claude",
@@ -1549,7 +1549,7 @@
       "y": 400,
       "w": 480,
       "h": 400,
-      "anchorX": 0.3958,
+      "anchorX": 0.5208,
       "anchorY": 0.93,
       "logicalHeight": 300,
       "madeBy": "claude",
@@ -1651,7 +1651,7 @@
       "y": 400,
       "w": 480,
       "h": 400,
-      "anchorX": 0.3958,
+      "anchorX": 0.5208,
       "anchorY": 0.93,
       "logicalHeight": 300,
       "madeBy": "claude",
@@ -1753,7 +1753,7 @@
       "y": 400,
       "w": 480,
       "h": 400,
-      "anchorX": 0.3958,
+      "anchorX": 0.5208,
       "anchorY": 0.93,
       "logicalHeight": 300,
       "madeBy": "claude",
@@ -1855,7 +1855,7 @@
       "y": 400,
       "w": 480,
       "h": 400,
-      "anchorX": 0.3958,
+      "anchorX": 0.5208,
       "anchorY": 0.93,
       "logicalHeight": 300,
       "madeBy": "claude",
@@ -7815,7 +7815,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "rust-load": {
+    "rust-battle-load": {
       "frames": [
         {
           "sprite": "rust-load",
@@ -7829,7 +7829,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "rust-injured": {
+    "rust-battle-injured": {
       "frames": [
         {
           "sprite": "rust-injured",
@@ -7843,7 +7843,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "rust-reclining": {
+    "rust-battle-reclining": {
       "frames": [
         {
           "sprite": "rust-reclining",
@@ -7883,7 +7883,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "teal-load": {
+    "teal-battle-load": {
       "frames": [
         {
           "sprite": "teal-load",
@@ -7897,7 +7897,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "teal-injured": {
+    "teal-battle-injured": {
       "frames": [
         {
           "sprite": "teal-injured",
@@ -7911,7 +7911,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "teal-reclining": {
+    "teal-battle-reclining": {
       "frames": [
         {
           "sprite": "teal-reclining",
@@ -7951,7 +7951,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "elder-load": {
+    "elder-battle-load": {
       "frames": [
         {
           "sprite": "elder-load",
@@ -7965,7 +7965,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "elder-injured": {
+    "elder-battle-injured": {
       "frames": [
         {
           "sprite": "elder-injured",
@@ -7979,7 +7979,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "elder-reclining": {
+    "elder-battle-reclining": {
       "frames": [
         {
           "sprite": "elder-reclining",
@@ -8019,7 +8019,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "blue-load": {
+    "blue-battle-load": {
       "frames": [
         {
           "sprite": "blue-load",
@@ -8033,7 +8033,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "blue-injured": {
+    "blue-battle-injured": {
       "frames": [
         {
           "sprite": "blue-injured",
@@ -8047,7 +8047,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "blue-reclining": {
+    "blue-battle-reclining": {
       "frames": [
         {
           "sprite": "blue-reclining",
@@ -8087,7 +8087,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "rust-woman-load": {
+    "rust-woman-battle-load": {
       "frames": [
         {
           "sprite": "rust-woman-load",
@@ -8101,7 +8101,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "rust-woman-injured": {
+    "rust-woman-battle-injured": {
       "frames": [
         {
           "sprite": "rust-woman-injured",
@@ -8115,7 +8115,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "rust-woman-reclining": {
+    "rust-woman-battle-reclining": {
       "frames": [
         {
           "sprite": "rust-woman-reclining",
@@ -8155,7 +8155,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "indigo-load": {
+    "indigo-battle-load": {
       "frames": [
         {
           "sprite": "indigo-load",
@@ -8169,7 +8169,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "indigo-injured": {
+    "indigo-battle-injured": {
       "frames": [
         {
           "sprite": "indigo-injured",
@@ -8183,7 +8183,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "indigo-reclining": {
+    "indigo-battle-reclining": {
       "frames": [
         {
           "sprite": "indigo-reclining",
@@ -8223,7 +8223,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "ochre-load": {
+    "ochre-battle-load": {
       "frames": [
         {
           "sprite": "ochre-load",
@@ -8237,7 +8237,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "ochre-injured": {
+    "ochre-battle-injured": {
       "frames": [
         {
           "sprite": "ochre-injured",
@@ -8251,7 +8251,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "ochre-reclining": {
+    "ochre-battle-reclining": {
       "frames": [
         {
           "sprite": "ochre-reclining",
@@ -8291,7 +8291,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "blue-girl-load": {
+    "blue-girl-battle-load": {
       "frames": [
         {
           "sprite": "blue-girl-load",
@@ -8305,7 +8305,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "blue-girl-injured": {
+    "blue-girl-battle-injured": {
       "frames": [
         {
           "sprite": "blue-girl-injured",
@@ -8319,7 +8319,7 @@
       "madeBy": "claude",
       "module": "battle-cast"
     },
-    "blue-girl-reclining": {
+    "blue-girl-battle-reclining": {
       "frames": [
         {
           "sprite": "blue-girl-reclining",
@@ -8413,34 +8413,6 @@
       "madeBy": "claude",
       "module": "battle-soldiers"
     },
-    "volunteer-rest-sit": {
-      "frames": [
-        {
-          "sprite": "volunteer-rest-sit",
-          "duration": 2600
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "east; west by mirroring",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "volunteer-sleep": {
-      "frames": [
-        {
-          "sprite": "volunteer-sleep",
-          "duration": 3200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "east; west by mirroring",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
     "regular-clean-rifle": {
       "frames": [
         {
@@ -8492,34 +8464,6 @@
       "motion": "none",
       "direction": "east; west by mirroring",
       "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "regular-rest-sit": {
-      "frames": [
-        {
-          "sprite": "regular-rest-sit",
-          "duration": 2600
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "east; west by mirroring",
-      "authored": false,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "regular-sleep": {
-      "frames": [
-        {
-          "sprite": "regular-sleep",
-          "duration": 3200
-        }
-      ],
-      "loop": true,
-      "motion": "breathe",
-      "direction": "east; west by mirroring",
-      "authored": false,
       "madeBy": "claude",
       "module": "battle-soldiers"
     },
@@ -8686,7 +8630,7 @@
       "madeBy": "claude",
       "module": "battle-soldiers"
     },
-    "regular-prone-fire": {
+    "regular-prone-fire-cycle": {
       "frames": [
         {
           "sprite": "regular-prone-aim",

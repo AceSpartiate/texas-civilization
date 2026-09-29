@@ -13,6 +13,7 @@ import { LINE, CAST as SPECS } from '../kit/style.mjs';
 import * as PO from '../battle-kit/poses.mjs';
 import { drawGun } from '../battle-kit/gear.mjs';
 import { clip, STYLE, NO_GORE } from '../battle-kit/sheet.mjs';
+import { group } from '../battle-kit/groups.mjs';
 
 export const AREA = 'battles';
 export const DATE = '2026-09-28';
@@ -38,13 +39,15 @@ function injured(F) {
 /** Lying still on the back under a grey blanket drawn up to the chin (Astra's `*-reclining`): a man killed, nothing shown. */
 function reclining(figure, F) {
   const x0 = F.hip * 0.55, y0 = F.B.limb * 1.25, neck = x0 - F.neck + 1.5, feet = x0 + 4, top = y0 + F.B.depth * 0.95 + 1.5;
-  return ink => {
+  // A bigger head (the youth's) lying on its side reaches further down: the whole lifted so it rests on the ground line.
+  const lift = Math.max(0, F.B.head - 11.5) * 1.6;
+  return outer => group(outer, [0, lift], 1, ink => {
     // Under the blanket a skirt is drawn as legs and the hat is off, so nothing spills past the blanket or under the ground.
     const spec = SPECS[figure];
-    drawPerson(ink, { ...spec, hat: spec.hat?.kind === 'bonnet' ? spec.hat : null, lower: { ...spec.lower, kind: 'trousers' } }, { view: 'e', lying: true });
+    drawPerson(ink, { ...spec, hat: spec.hat?.kind === 'bonnet' ? spec.hat : null, hairStyle: spec.hairStyle === 'braid' ? 'bun' : spec.hairStyle, lower: { ...spec.lower, kind: 'trousers' } }, { view: 'e', lying: true });
     ink.shape(blob([[neck, 0.5], [neck - 1.5, top - 2], [neck + 10, top + 1.5], [(neck + feet) / 2, top], [feet - 8, top - 3], [feet + 2.5, top - 5], [feet + 3.5, 1], [(neck + feet) / 2, -0.5]], 0.7), '#8a7f6e', { off: 1.2, lift: true });
     for (const t of [0.3, 0.55]) { const x = neck + (feet - neck) * t; ink.line(curve([[x, 0.5], [x + 1, top * 0.55], [x + 0.5, top + 0.5]]), { colour: '#9a3a2a', width: 2.6 }); }
-  };
+  });
 }
 
 const sheets = {}, clips = {};
@@ -56,16 +59,17 @@ for (const figure of CAST) {
     ['load', p => personFrame(p, ink => drawPerson(ink, figure, c.load), ORIGIN), 'kneeling on the right knee to load, the rifle upright before them, pouring the charge down the muzzle'],
     ['ramrod', p => personFrame(p, ink => drawPerson(ink, figure, c.ramrod), ORIGIN), 'standing, the rifle upright by the left foot, drawing the ramrod up at arm\'s length'],
     ['injured', p => personFrame(p, ink => drawPerson(ink, figure, injured(F)), ORIGIN), `hit: sitting up on the ground, propped on one hand, the other arm in a white sling; ${NO_GORE}`],
-    ['reclining', p => personFrame(p, reclining(figure, F), ORIGIN), `killed: lying still on the back under a grey blanket drawn up to the chin, as Astra's volunteer-reclining; ${NO_GORE}`],
+    ['reclining', p => personFrame(p, reclining(figure, F), { cell: CELL, originX: 250 }), `killed: lying still on the back under a grey blanket drawn up to the chin, as Astra's volunteer-reclining; ${NO_GORE}`],
   ];
   sheets[`claude-battle-${figure}`] = { cell: CELL, columns: 3, request: REQUEST, replaceWith: REPLACE,
     frames: frames.map(([pose, draw, what]) => ({ name: `${figure}-${pose}`, compare: [[`volunteer-${pose.startsWith('fire-reload') ? (pose.endsWith('1') ? 'aim' : 'fire') : pose}`, 1], [`${figure}-idle-e`, 1]],
       prompt: `${figure} in a fight of 1835-36, ${what}; ${own(figure)}, side on and facing east (mirrored for west). ${STYLE}`, draw: () => draw(`${figure}-${pose}`) })) };
   clips[`${figure}-fire-reload`] = clip([[`${figure}-fire-reload-1`, 700], [`${figure}-fire-reload-2`, 120], [`${figure}-load`, 750], [`${figure}-ramrod`, 900]], { loop: false,
     prompt: `${figure} firing and loading, as the volunteer's fire-reload clip: aim 700 ms, the shot 120, kneeling to load 750, the ramrod 900; the page times the flash to the second frame.` });
-  clips[`${figure}-load`] = clip([[`${figure}-load`, 2000]], { prompt: `${figure} kneeling to load between shots, held (the pause before the next aim).` });
-  clips[`${figure}-injured`] = clip([[`${figure}-injured`, 2700]], { motion: 'breathe', prompt: `${figure} hit and sitting up, breathing: ${NO_GORE}` });
-  clips[`${figure}-reclining`] = clip([[`${figure}-reclining`, 3000]], { prompt: `${figure} killed, lying still under a blanket: ${NO_GORE}` });
+  // Held poses as clips (a clip's name is never a frame's: provenance is keyed by name), for public/app.js's `drawAvatar`.
+  clips[`${figure}-battle-load`] = clip([[`${figure}-load`, 2000]], { prompt: `${figure} kneeling to load between shots, held (the pause before the next aim).` });
+  clips[`${figure}-battle-injured`] = clip([[`${figure}-injured`, 2700]], { motion: 'breathe', prompt: `${figure} hit and sitting up, breathing: ${NO_GORE}` });
+  clips[`${figure}-battle-reclining`] = clip([[`${figure}-reclining`, 3000]], { prompt: `${figure} killed, lying still under a blanket: ${NO_GORE}` });
 }
 export const SHEETS = sheets;
 export const CLIPS = clips;

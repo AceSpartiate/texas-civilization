@@ -32,16 +32,17 @@
       "status": "temporary: replace with Astra's rust-fire-reload-2"
     },
     "rust-load": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-rust",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "rust kneeling to load between shots, held (the pause before the next aim).",
-      "frames": [
-        "rust-load"
-      ],
+      "prompt": "rust in a fight of 1835-36, kneeling on the right knee to load, the rifle upright before them, pouring the charge down the muzzle; the same person, face, hair, clothes and colours as Astra's rust sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-rust-load.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's rust-load"
     },
     "rust-ramrod": {
@@ -59,29 +60,31 @@
       "status": "temporary: replace with Astra's rust-ramrod"
     },
     "rust-injured": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-rust",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "rust hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "rust-injured"
-      ],
+      "prompt": "rust in a fight of 1835-36, hit: sitting up on the ground, propped on one hand, the other arm in a white sling; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's rust sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-rust-injured.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's rust-injured"
     },
     "rust-reclining": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-rust",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "rust killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "rust-reclining"
-      ],
+      "prompt": "rust in a fight of 1835-36, killed: lying still on the back under a grey blanket drawn up to the chin, as Astra's volunteer-reclining; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's rust sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-rust-reclining.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's rust-reclining"
     },
     "teal-fire-reload-1": {
@@ -113,16 +116,17 @@
       "status": "temporary: replace with Astra's teal-fire-reload-2"
     },
     "teal-load": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-teal",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "teal kneeling to load between shots, held (the pause before the next aim).",
-      "frames": [
-        "teal-load"
-      ],
+      "prompt": "teal in a fight of 1835-36, kneeling on the right knee to load, the rifle upright before them, pouring the charge down the muzzle; the same person, face, hair, clothes and colours as Astra's teal sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-teal-load.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's teal-load"
     },
     "teal-ramrod": {
@@ -140,29 +144,31 @@
       "status": "temporary: replace with Astra's teal-ramrod"
     },
     "teal-injured": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-teal",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "teal hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "teal-injured"
-      ],
+      "prompt": "teal in a fight of 1835-36, hit: sitting up on the ground, propped on one hand, the other arm in a white sling; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's teal sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-teal-injured.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's teal-injured"
     },
     "teal-reclining": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-teal",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "teal killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "teal-reclining"
-      ],
+      "prompt": "teal in a fight of 1835-36, killed: lying still on the back under a grey blanket drawn up to the chin, as Astra's volunteer-reclining; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's teal sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-teal-reclining.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's teal-reclining"
     },
     "elder-fire-reload-1": {
@@ -194,16 +200,17 @@
       "status": "temporary: replace with Astra's elder-fire-reload-2"
     },
     "elder-load": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-elder",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "elder kneeling to load between shots, held (the pause before the next aim).",
-      "frames": [
-        "elder-load"
-      ],
+      "prompt": "elder in a fight of 1835-36, kneeling on the right knee to load, the rifle upright before them, pouring the charge down the muzzle; the same person, face, hair, clothes and colours as Astra's elder sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-elder-load.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's elder-load"
     },
     "elder-ramrod": {
@@ -221,29 +228,31 @@
       "status": "temporary: replace with Astra's elder-ramrod"
     },
     "elder-injured": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-elder",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "elder hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "elder-injured"
-      ],
+      "prompt": "elder in a fight of 1835-36, hit: sitting up on the ground, propped on one hand, the other arm in a white sling; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's elder sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-elder-injured.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's elder-injured"
     },
     "elder-reclining": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-elder",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "elder killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "elder-reclining"
-      ],
+      "prompt": "elder in a fight of 1835-36, killed: lying still on the back under a grey blanket drawn up to the chin, as Astra's volunteer-reclining; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's elder sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-elder-reclining.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's elder-reclining"
     },
     "blue-fire-reload-1": {
@@ -275,16 +284,17 @@
       "status": "temporary: replace with Astra's blue-fire-reload-2"
     },
     "blue-load": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-blue",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "blue kneeling to load between shots, held (the pause before the next aim).",
-      "frames": [
-        "blue-load"
-      ],
+      "prompt": "blue in a fight of 1835-36, kneeling on the right knee to load, the rifle upright before them, pouring the charge down the muzzle; the same person, face, hair, clothes and colours as Astra's blue sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-blue-load.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's blue-load"
     },
     "blue-ramrod": {
@@ -302,29 +312,31 @@
       "status": "temporary: replace with Astra's blue-ramrod"
     },
     "blue-injured": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-blue",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "blue hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "blue-injured"
-      ],
+      "prompt": "blue in a fight of 1835-36, hit: sitting up on the ground, propped on one hand, the other arm in a white sling; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's blue sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-blue-injured.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's blue-injured"
     },
     "blue-reclining": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-blue",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "blue killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "blue-reclining"
-      ],
+      "prompt": "blue in a fight of 1835-36, killed: lying still on the back under a grey blanket drawn up to the chin, as Astra's volunteer-reclining; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's blue sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-blue-reclining.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's blue-reclining"
     },
     "rust-woman-fire-reload-1": {
@@ -356,16 +368,17 @@
       "status": "temporary: replace with Astra's rust-woman-fire-reload-2"
     },
     "rust-woman-load": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-rust-woman",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "rust-woman kneeling to load between shots, held (the pause before the next aim).",
-      "frames": [
-        "rust-woman-load"
-      ],
+      "prompt": "rust-woman in a fight of 1835-36, kneeling on the right knee to load, the rifle upright before them, pouring the charge down the muzzle; the same person, face, hair, clothes and colours as Astra's rust-woman sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-rust-woman-load.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's rust-woman-load"
     },
     "rust-woman-ramrod": {
@@ -383,29 +396,31 @@
       "status": "temporary: replace with Astra's rust-woman-ramrod"
     },
     "rust-woman-injured": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-rust-woman",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "rust-woman hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "rust-woman-injured"
-      ],
+      "prompt": "rust-woman in a fight of 1835-36, hit: sitting up on the ground, propped on one hand, the other arm in a white sling; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's rust-woman sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-rust-woman-injured.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's rust-woman-injured"
     },
     "rust-woman-reclining": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-rust-woman",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "rust-woman killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "rust-woman-reclining"
-      ],
+      "prompt": "rust-woman in a fight of 1835-36, killed: lying still on the back under a grey blanket drawn up to the chin, as Astra's volunteer-reclining; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's rust-woman sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-rust-woman-reclining.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's rust-woman-reclining"
     },
     "indigo-fire-reload-1": {
@@ -437,16 +452,17 @@
       "status": "temporary: replace with Astra's indigo-fire-reload-2"
     },
     "indigo-load": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-indigo",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "indigo kneeling to load between shots, held (the pause before the next aim).",
-      "frames": [
-        "indigo-load"
-      ],
+      "prompt": "indigo in a fight of 1835-36, kneeling on the right knee to load, the rifle upright before them, pouring the charge down the muzzle; the same person, face, hair, clothes and colours as Astra's indigo sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-indigo-load.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's indigo-load"
     },
     "indigo-ramrod": {
@@ -464,29 +480,31 @@
       "status": "temporary: replace with Astra's indigo-ramrod"
     },
     "indigo-injured": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-indigo",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "indigo hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "indigo-injured"
-      ],
+      "prompt": "indigo in a fight of 1835-36, hit: sitting up on the ground, propped on one hand, the other arm in a white sling; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's indigo sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-indigo-injured.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's indigo-injured"
     },
     "indigo-reclining": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-indigo",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "indigo killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "indigo-reclining"
-      ],
+      "prompt": "indigo in a fight of 1835-36, killed: lying still on the back under a grey blanket drawn up to the chin, as Astra's volunteer-reclining; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's indigo sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-indigo-reclining.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's indigo-reclining"
     },
     "ochre-fire-reload-1": {
@@ -518,16 +536,17 @@
       "status": "temporary: replace with Astra's ochre-fire-reload-2"
     },
     "ochre-load": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-ochre",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "ochre kneeling to load between shots, held (the pause before the next aim).",
-      "frames": [
-        "ochre-load"
-      ],
+      "prompt": "ochre in a fight of 1835-36, kneeling on the right knee to load, the rifle upright before them, pouring the charge down the muzzle; the same person, face, hair, clothes and colours as Astra's ochre sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-ochre-load.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's ochre-load"
     },
     "ochre-ramrod": {
@@ -545,29 +564,31 @@
       "status": "temporary: replace with Astra's ochre-ramrod"
     },
     "ochre-injured": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-ochre",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "ochre hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "ochre-injured"
-      ],
+      "prompt": "ochre in a fight of 1835-36, hit: sitting up on the ground, propped on one hand, the other arm in a white sling; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's ochre sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-ochre-injured.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's ochre-injured"
     },
     "ochre-reclining": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-ochre",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "ochre killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "ochre-reclining"
-      ],
+      "prompt": "ochre in a fight of 1835-36, killed: lying still on the back under a grey blanket drawn up to the chin, as Astra's volunteer-reclining; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's ochre sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-ochre-reclining.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's ochre-reclining"
     },
     "blue-girl-fire-reload-1": {
@@ -599,16 +620,17 @@
       "status": "temporary: replace with Astra's blue-girl-fire-reload-2"
     },
     "blue-girl-load": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-blue-girl",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "blue-girl kneeling to load between shots, held (the pause before the next aim).",
-      "frames": [
-        "blue-girl-load"
-      ],
+      "prompt": "blue-girl in a fight of 1835-36, kneeling on the right knee to load, the rifle upright before them, pouring the charge down the muzzle; the same person, face, hair, clothes and colours as Astra's blue-girl sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-blue-girl-load.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's blue-girl-load"
     },
     "blue-girl-ramrod": {
@@ -626,29 +648,31 @@
       "status": "temporary: replace with Astra's blue-girl-ramrod"
     },
     "blue-girl-injured": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-blue-girl",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "blue-girl hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "blue-girl-injured"
-      ],
+      "prompt": "blue-girl in a fight of 1835-36, hit: sitting up on the ground, propped on one hand, the other arm in a white sling; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's blue-girl sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-blue-girl-injured.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's blue-girl-injured"
     },
     "blue-girl-reclining": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-cast",
       "area": "battles",
+      "sheet": "claude-battle-blue-girl",
       "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "blue-girl killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
-      "frames": [
-        "blue-girl-reclining"
-      ],
+      "prompt": "blue-girl in a fight of 1835-36, killed: lying still on the back under a grey blanket drawn up to the chin, as Astra's volunteer-reclining; Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).; the same person, face, hair, clothes and colours as Astra's blue-girl sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-blue-girl-reclining.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's blue-girl-reclining"
     },
     "rust-fire-reload": {
@@ -667,6 +691,45 @@
       ],
       "status": "temporary: replace with Astra's rust-fire-reload"
     },
+    "rust-battle-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "rust-load"
+      ],
+      "status": "temporary: replace with Astra's rust-battle-load"
+    },
+    "rust-battle-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "rust-injured"
+      ],
+      "status": "temporary: replace with Astra's rust-battle-injured"
+    },
+    "rust-battle-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "rust-reclining"
+      ],
+      "status": "temporary: replace with Astra's rust-battle-reclining"
+    },
     "teal-fire-reload": {
       "kind": "clip",
       "madeBy": "claude",
@@ -682,6 +745,45 @@
         "teal-ramrod"
       ],
       "status": "temporary: replace with Astra's teal-fire-reload"
+    },
+    "teal-battle-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "teal kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "teal-load"
+      ],
+      "status": "temporary: replace with Astra's teal-battle-load"
+    },
+    "teal-battle-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "teal hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "teal-injured"
+      ],
+      "status": "temporary: replace with Astra's teal-battle-injured"
+    },
+    "teal-battle-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "teal killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "teal-reclining"
+      ],
+      "status": "temporary: replace with Astra's teal-battle-reclining"
     },
     "elder-fire-reload": {
       "kind": "clip",
@@ -699,6 +801,45 @@
       ],
       "status": "temporary: replace with Astra's elder-fire-reload"
     },
+    "elder-battle-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "elder kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "elder-load"
+      ],
+      "status": "temporary: replace with Astra's elder-battle-load"
+    },
+    "elder-battle-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "elder hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "elder-injured"
+      ],
+      "status": "temporary: replace with Astra's elder-battle-injured"
+    },
+    "elder-battle-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "elder killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "elder-reclining"
+      ],
+      "status": "temporary: replace with Astra's elder-battle-reclining"
+    },
     "blue-fire-reload": {
       "kind": "clip",
       "madeBy": "claude",
@@ -714,6 +855,45 @@
         "blue-ramrod"
       ],
       "status": "temporary: replace with Astra's blue-fire-reload"
+    },
+    "blue-battle-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "blue-load"
+      ],
+      "status": "temporary: replace with Astra's blue-battle-load"
+    },
+    "blue-battle-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "blue-injured"
+      ],
+      "status": "temporary: replace with Astra's blue-battle-injured"
+    },
+    "blue-battle-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "blue-reclining"
+      ],
+      "status": "temporary: replace with Astra's blue-battle-reclining"
     },
     "rust-woman-fire-reload": {
       "kind": "clip",
@@ -731,6 +911,45 @@
       ],
       "status": "temporary: replace with Astra's rust-woman-fire-reload"
     },
+    "rust-woman-battle-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust-woman kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "rust-woman-load"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-battle-load"
+    },
+    "rust-woman-battle-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust-woman hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "rust-woman-injured"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-battle-injured"
+    },
+    "rust-woman-battle-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust-woman killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "rust-woman-reclining"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-battle-reclining"
+    },
     "indigo-fire-reload": {
       "kind": "clip",
       "madeBy": "claude",
@@ -746,6 +965,45 @@
         "indigo-ramrod"
       ],
       "status": "temporary: replace with Astra's indigo-fire-reload"
+    },
+    "indigo-battle-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "indigo kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "indigo-load"
+      ],
+      "status": "temporary: replace with Astra's indigo-battle-load"
+    },
+    "indigo-battle-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "indigo hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "indigo-injured"
+      ],
+      "status": "temporary: replace with Astra's indigo-battle-injured"
+    },
+    "indigo-battle-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "indigo killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "indigo-reclining"
+      ],
+      "status": "temporary: replace with Astra's indigo-battle-reclining"
     },
     "ochre-fire-reload": {
       "kind": "clip",
@@ -763,6 +1021,45 @@
       ],
       "status": "temporary: replace with Astra's ochre-fire-reload"
     },
+    "ochre-battle-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "ochre kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "ochre-load"
+      ],
+      "status": "temporary: replace with Astra's ochre-battle-load"
+    },
+    "ochre-battle-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "ochre hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "ochre-injured"
+      ],
+      "status": "temporary: replace with Astra's ochre-battle-injured"
+    },
+    "ochre-battle-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "ochre killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "ochre-reclining"
+      ],
+      "status": "temporary: replace with Astra's ochre-battle-reclining"
+    },
     "blue-girl-fire-reload": {
       "kind": "clip",
       "madeBy": "claude",
@@ -778,6 +1075,45 @@
         "blue-girl-ramrod"
       ],
       "status": "temporary: replace with Astra's blue-girl-fire-reload"
+    },
+    "blue-girl-battle-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue-girl kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "blue-girl-load"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-battle-load"
+    },
+    "blue-girl-battle-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue-girl hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "blue-girl-injured"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-battle-injured"
+    },
+    "blue-girl-battle-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue-girl killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "blue-girl-reclining"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-battle-reclining"
     },
     "bearers-carry-1": {
       "kind": "frame",
@@ -920,29 +1256,31 @@
       "status": "temporary: replace with Astra's volunteer-camp-cook-2"
     },
     "volunteer-rest-sit": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-soldiers",
       "area": "battles",
+      "sheet": "claude-volunteer-camp",
       "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, sitting at rest with the piece across his knees, breathing.",
-      "frames": [
-        "volunteer-rest-sit"
-      ],
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; sitting at rest on the ground, the piece across his knees, the hands on it: resting, not hurt. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-rest-sit.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's volunteer-rest-sit"
     },
     "volunteer-sleep": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-soldiers",
       "area": "battles",
+      "sheet": "claude-volunteer-camp",
       "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, asleep, breathing: never a man killed.",
-      "frames": [
-        "volunteer-sleep"
-      ],
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; asleep on his back on the ground, his head on his pack, his knees drawn up, his hat tipped over his face and a blanket over his legs, the piece beside him - plainly asleep, never to be mistaken for `volunteer-reclining` (a man killed, lying flat under a blanket to the chin). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-sleep.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's volunteer-sleep"
     },
     "regular-clean-rifle-1": {
@@ -1030,29 +1368,31 @@
       "status": "temporary: replace with Astra's regular-camp-cook-2"
     },
     "regular-rest-sit": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-soldiers",
       "area": "battles",
+      "sheet": "claude-regular-camp",
       "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, sitting at rest with the piece across his knees, breathing.",
-      "frames": [
-        "regular-rest-sit"
-      ],
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; sitting at rest on the ground, the piece across his knees, the hands on it: resting, not hurt. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-rest-sit.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's regular-rest-sit"
     },
     "regular-sleep": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-soldiers",
       "area": "battles",
+      "sheet": "claude-regular-camp",
       "request": "Request 2026-09-28 — ambient life",
-      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, asleep, breathing: never a man killed.",
-      "frames": [
-        "regular-sleep"
-      ],
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; asleep on his back on the ground, his head on his pack, his knees drawn up, his hat tipped over his face and a blanket over his legs, the piece beside him - plainly asleep, never to be mistaken for `regular-reclining` (a man killed, lying flat under a blanket to the chin). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-sleep.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's regular-sleep"
     },
     "volunteer-loophole-fire-1": {
@@ -1406,18 +1746,17 @@
       "status": "temporary: replace with Astra's regular-prone-aim"
     },
     "regular-prone-fire": {
-      "kind": "clip",
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "battle-soldiers",
       "area": "battles",
+      "sheet": "claude-prone",
       "request": "Request 2026-09-25 — Coleto and Goliad",
-      "prompt": "A cazador lying in the grass: aiming, the shot, and down again to load, as the fire-reload clip is timed.",
-      "frames": [
-        "regular-prone-aim",
-        "regular-prone-fire",
-        "regular-prone-lie"
-      ],
+      "prompt": "A Mexican cazador of a light company at Coleto, the night of March 19, 1836 - the line's blue coatee and white crossbelts, the shako with the green pompom of the light companies (strongly supported by secondary sources) - the shot from the ground, the muzzle kicking up, facing east. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-prone-fire.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's regular-prone-fire"
     },
     "skirmisher-run-e-1": {
@@ -2046,6 +2385,21 @@
         "volunteer-parapet-fire-n-3"
       ],
       "status": "temporary: replace with Astra's volunteer-parapet-fire-n"
+    },
+    "regular-prone-fire-cycle": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — Coleto and Goliad",
+      "prompt": "A cazador lying in the grass: aiming, the shot, and down again to load, as the fire-reload clip is timed.",
+      "frames": [
+        "regular-prone-aim",
+        "regular-prone-fire",
+        "regular-prone-lie"
+      ],
+      "status": "temporary: replace with Astra's regular-prone-fire-cycle"
     },
     "skirmisher-run-e": {
       "kind": "clip",

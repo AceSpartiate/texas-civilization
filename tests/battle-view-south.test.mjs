@@ -5,6 +5,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createBattleView } from '../public/battle-view.js';
+import { isClaude } from './support/claude-names.mjs';
 
 function fakeContext() {
   const calls = [];
@@ -14,12 +15,16 @@ function fakeContext() {
     set(target, key, value) { target[key] = value; if (key === 'fillStyle' || key === 'globalCompositeOperation') target.calls.push([`set:${key}`, value]); return true; },
   });
 }
-function fakeArt() {
+/**
+ * The page's art, recorded. By default it answers "not loaded" for Claude's temporary frames (tests/support/claude-names.mjs),
+ * so these tests hold the library stand-ins drawn while a Claude sheet is on its way; `{ claude: true }` draws them too.
+ */
+function fakeArt({ claude = false } = {}) {
   const drawn = [];
   return {
     drawn,
-    animated: (ctx, clip, x, y, size, seed, options) => { drawn.push({ clip, x, y, size, ...options }); return size; },
-    drawSprite: (ctx, sprite, x, y, size, options) => { drawn.push({ sprite, x, y, size, ...options }); return size; },
+    animated: (ctx, clip, x, y, size, seed, options) => { if (!claude && isClaude(clip)) return 0; drawn.push({ clip, x, y, size, ...options }); return size; },
+    drawSprite: (ctx, sprite, x, y, size, options) => { if (!claude && isClaude(sprite)) return 0; drawn.push({ sprite, x, y, size, ...options }); return size; },
     miniPerson: () => {},
   };
 }
@@ -124,4 +129,11 @@ test('a family\'s man is drawn in his part - asleep, in the house, giving up - a
   assert.ok(['volunteer-reclining', 'volunteer-injured'].includes(killed.sprite), `a man killed is drawn ${JSON.stringify(killed)}`);
   assert.equal(view.memberPose({ id: 'b' }, 4500).clip, 'volunteer-surrender');
   assert.deepEqual(view.evidence.memberFates, { a: 'killed', b: 'captured' });
+});
+
+test('with Claude\'s temporary sheets loaded, men asleep are drawn asleep with their heads on their packs, never as a man killed', () => {
+  const art = fakeArt({ claude: true }), view = createBattleView(art);
+  run(view, minute => night(minute, [part('square', 8, -0.02, { pose: 'asleep', style: 'camp' })]), { seconds: 3, art });
+  assert.ok(art.drawn.some(one => one.sprite === 'volunteer-sleep'), 'nobody was drawn asleep');
+  assert.ok(!art.drawn.some(one => one.sprite === 'volunteer-reclining'), 'a sleeping man was drawn as the reclining dead');
 });

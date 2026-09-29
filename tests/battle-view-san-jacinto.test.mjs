@@ -6,6 +6,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createBattleView, layoutSide, regularity } from '../public/battle-view.js';
+import { isClaude } from './support/claude-names.mjs';
 
 function fakeContext() {
   const ctx = new Proxy({ measureText: text => ({ width: String(text).length * 6 }), createRadialGradient: () => ({ addColorStop() {} }) }, {
@@ -14,12 +15,16 @@ function fakeContext() {
   });
   return ctx;
 }
-function fakeArt() {
+/**
+ * The page's art, recorded. By default it answers "not loaded" for Claude's temporary frames (tests/support/claude-names.mjs),
+ * so these tests hold the library stand-ins drawn while a Claude sheet is on its way; `{ claude: true }` draws them too.
+ */
+function fakeArt({ claude = false } = {}) {
   const drawn = [];
   return {
     drawn,
-    animated: (ctx, clip, x, y, size, seed, options) => { drawn.push({ clip, x, y, ...options }); return size; },
-    drawSprite: (ctx, sprite, x, y, size, options) => { drawn.push({ sprite, x, y, ...options }); return size; },
+    animated: (ctx, clip, x, y, size, seed, options) => { if (!claude && isClaude(clip)) return 0; drawn.push({ clip, x, y, ...options }); return size; },
+    drawSprite: (ctx, sprite, x, y, size, options) => { if (!claude && isClaude(sprite)) return 0; drawn.push({ sprite, x, y, ...options }); return size; },
     miniPerson: () => {},
   };
 }
@@ -166,4 +171,16 @@ test('a group of horse is drawn apart from its side, as riders, with its own fal
   // The opening in the middle of the breastwork where the gun stood (`HIST-TEX-522`).
   const pieces = art.drawn.filter(one => ['crate', 'sacks', 'barrel', 'packed-belongings'].includes(one.sprite)).map(one => one.y);
   assert.ok(!pieces.some(y => Math.abs(y - 384) < 0.015 * 1800), 'the breastwork has no opening for the gun');
+});
+
+test('with Claude\'s temporary sheets loaded, the camp sits at rest with its arms stacked and the breastwork is packs and baggage with the gun\'s gap', () => {
+  const art = fakeArt({ claude: true }), view = createBattleView(art);
+  const works = [{ id: 'breastwork', kind: 'breastwork', x: 0.2, y: 0, width: 0.3, across: { x: 0, y: 1 } }, { id: 'fires', kind: 'fires', x: 0.3, y: 0, width: 0.2, across: { x: 0, y: 1 } }];
+  run(view, minute => battle(minute, { works }), { seconds: 3 });
+  assert.ok(art.drawn.some(one => one.sprite === 'regular-rest-sit') && !art.drawn.some(one => one.clip === 'regular-injured-rest'), 'men at rest are drawn as the wounded');
+  assert.ok(art.drawn.some(one => one.sprite === 'musket-stack'), 'no arms stacked by the fires');
+  const segments = art.drawn.filter(one => /^breastwork-packs-[1-4]$/.test(one.sprite || '') && one.x > -1000);
+  assert.ok(segments.length >= 8, `only ${segments.length} segments of the breastwork`);
+  assert.ok(!art.drawn.some(one => ['crate', 'sacks', 'barrel'].includes(one.sprite)), 'the library\'s crates are drawn as well');
+  assert.ok(!segments.some(one => Math.abs(one.y - 384) < 0.015 * 1800), 'the breastwork has no opening for the gun');
 });
