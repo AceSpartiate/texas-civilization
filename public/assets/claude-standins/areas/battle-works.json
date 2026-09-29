@@ -1,0 +1,1489 @@
+{
+  "module": "battle-works",
+  "area": "battles",
+  "date": "2026-09-28",
+  "sheets": {
+    "claude-breastwork": {
+      "image": "/assets/claude-standins/claude-breastwork.png",
+      "width": 1440,
+      "height": 800,
+      "bytes": 536484,
+      "sha256": "4263557334fb67c3147402a70553586a7566d88f18fe9528511750b7731735e0",
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "layout": {
+        "rows": 2,
+        "columns": 3,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-bexar-works": {
+      "image": "/assets/claude-standins/claude-bexar-works.png",
+      "width": 1440,
+      "height": 400,
+      "bytes": 297663,
+      "sha256": "accafacaaf0aac9b7470ce6db526f49972d5567c34dc7f94b8d6f9ea7fafad66",
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "layout": {
+        "rows": 1,
+        "columns": 2,
+        "cell": {
+          "w": 720,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-march-column": {
+      "image": "/assets/claude-standins/claude-march-column.png",
+      "width": 3400,
+      "height": 1200,
+      "bytes": 1687205,
+      "sha256": "49b6000f13e8f8d29adf6972ef6d04141055bf58b97d66e8a53c110b880a5fe4",
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "cell": {
+          "w": 1700,
+          "h": 600
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-ammunition-crate": {
+      "image": "/assets/claude-standins/claude-ammunition-crate.png",
+      "width": 400,
+      "height": 400,
+      "bytes": 25841,
+      "sha256": "718380ce2b1b6575119d8b63860d2f1c9d99c622ab6cdafe91b4203decf698bf",
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-26 — the famous people: the roster's remaining figures and poses",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 400,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-grass-bundle": {
+      "image": "/assets/claude-standins/claude-grass-bundle.png",
+      "width": 400,
+      "height": 400,
+      "bytes": 34126,
+      "sha256": "5bb8abdea143e37dbd8d6e49580184613ccd00f0c5b97ffa38c6ef8f3fa6497f",
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 400,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-padre-carts": {
+      "image": "/assets/claude-standins/claude-padre-carts.png",
+      "width": 1600,
+      "height": 840,
+      "bytes": 442320,
+      "sha256": "bc2e81e281b2748b0667bfff763c5f726aee042f415187cc10b6c9708f407417",
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "cell": {
+          "w": 800,
+          "h": 420
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-flag-no-star": {
+      "image": "/assets/claude-standins/claude-flag-no-star.png",
+      "width": 1760,
+      "height": 570,
+      "bytes": 329056,
+      "sha256": "dace81826643e5267fa827cd44efb9f4739f9e1a4b673767090b51dae9dfbaab",
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — Gonzales before the fight",
+      "layout": {
+        "rows": 1,
+        "columns": 4,
+        "cell": {
+          "w": 440,
+          "h": 570
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-flag-work": {
+      "image": "/assets/claude-standins/claude-flag-work.png",
+      "width": 1735,
+      "height": 1160,
+      "bytes": 1850276,
+      "sha256": "bf60228a92b8bbbd57ff4dd74a36695cca7637636888bad446c6a4d1ebd1a445",
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — Gonzales before the fight",
+      "layout": {
+        "rows": 2,
+        "columns": 1,
+        "cell": {
+          "w": 1735,
+          "h": 580
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-army-camp": {
+      "image": "/assets/claude-standins/claude-army-camp.png",
+      "width": 1040,
+      "height": 520,
+      "bytes": 114712,
+      "sha256": "e2647d4436c1d2517ce3a216ea27cea674180192b6a9f9c9e7a47c980ad9b413",
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Claude-drawn stand-ins (replace with Astra's)",
+      "layout": {
+        "rows": 1,
+        "columns": 2,
+        "cell": {
+          "w": 520,
+          "h": 520
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-alamo-guns": {
+      "image": "/assets/claude-standins/claude-alamo-guns.png",
+      "width": 2240,
+      "height": 800,
+      "bytes": 328559,
+      "sha256": "525907e8c2a2602973fd39efcb1c7e97534cfbe58d6300fa438ebe5ec87c8639",
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "cell": {
+          "w": 560,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "musket-stack": {
+      "sheet": "claude-breastwork",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "musket-stack: item 2: `musket-stack` (three muskets stacked) and `breastwork-packs` in three or four segments about five feet high, laid end to end with a gap for a gun",
+      "source": "svg/battle-works/claude-musket-stack.svg",
+      "label": "musket stack",
+      "kind": "claude-breastwork"
+    },
+    "breastwork-packs-1": {
+      "sheet": "claude-breastwork",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "breastwork-packs-1: item 2: `musket-stack` (three muskets stacked) and `breastwork-packs` in three or four segments about five feet high, laid end to end with a gap for a gun",
+      "source": "svg/battle-works/claude-breastwork-packs-1.svg",
+      "label": "breastwork packs 1",
+      "kind": "claude-breastwork"
+    },
+    "breastwork-packs-2": {
+      "sheet": "claude-breastwork",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "breastwork-packs-2: item 2: `musket-stack` (three muskets stacked) and `breastwork-packs` in three or four segments about five feet high, laid end to end with a gap for a gun",
+      "source": "svg/battle-works/claude-breastwork-packs-2.svg",
+      "label": "breastwork packs 2",
+      "kind": "claude-breastwork"
+    },
+    "breastwork-packs-3": {
+      "sheet": "claude-breastwork",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "breastwork-packs-3: item 2: `musket-stack` (three muskets stacked) and `breastwork-packs` in three or four segments about five feet high, laid end to end with a gap for a gun",
+      "source": "svg/battle-works/claude-breastwork-packs-3.svg",
+      "label": "breastwork packs 3",
+      "kind": "claude-breastwork"
+    },
+    "breastwork-packs-4": {
+      "sheet": "claude-breastwork",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "breastwork-packs-4: item 2: `musket-stack` (three muskets stacked) and `breastwork-packs` in three or four segments about five feet high, laid end to end with a gap for a gun",
+      "source": "svg/battle-works/claude-breastwork-packs-4.svg",
+      "label": "breastwork packs 4",
+      "kind": "claude-breastwork"
+    },
+    "barricade-street": {
+      "sheet": "claude-bexar-works",
+      "x": 0,
+      "y": 0,
+      "w": 720,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "barricade-street: items 2 and 4: a street barricade (ditch, bank, post palisade, a gun embrasure) and a low breastwork of filled sacks, at `palisade` scale",
+      "source": "svg/battle-works/claude-barricade-street.svg",
+      "label": "barricade street",
+      "kind": "claude-bexar-works"
+    },
+    "sandbag-breastwork": {
+      "sheet": "claude-bexar-works",
+      "x": 720,
+      "y": 0,
+      "w": 720,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "sandbag-breastwork: items 2 and 4: a street barricade (ditch, bank, post palisade, a gun embrasure) and a low breastwork of filled sacks, at `palisade` scale",
+      "source": "svg/battle-works/claude-sandbag-breastwork.svg",
+      "label": "sandbag breastwork",
+      "kind": "claude-bexar-works"
+    },
+    "regular-march-column-1": {
+      "sheet": "claude-march-column",
+      "x": 0,
+      "y": 0,
+      "w": 1700,
+      "h": 600,
+      "anchorX": 0.6235,
+      "anchorY": 0.9333,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "regular-march-column-1: item 3: `regular-march-column` (six to eight infantry in files of three, a mounted officer at the head, a cart behind; 4 frames, east), the `regular-*`/`dragoon-*` height",
+      "source": "svg/battle-works/claude-regular-march-column-1.svg",
+      "label": "regular march column 1",
+      "kind": "claude-march-column"
+    },
+    "regular-march-column-2": {
+      "sheet": "claude-march-column",
+      "x": 1700,
+      "y": 0,
+      "w": 1700,
+      "h": 600,
+      "anchorX": 0.6235,
+      "anchorY": 0.9333,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "regular-march-column-2: item 3: `regular-march-column` (six to eight infantry in files of three, a mounted officer at the head, a cart behind; 4 frames, east), the `regular-*`/`dragoon-*` height",
+      "source": "svg/battle-works/claude-regular-march-column-2.svg",
+      "label": "regular march column 2",
+      "kind": "claude-march-column"
+    },
+    "regular-march-column-3": {
+      "sheet": "claude-march-column",
+      "x": 0,
+      "y": 600,
+      "w": 1700,
+      "h": 600,
+      "anchorX": 0.6235,
+      "anchorY": 0.9333,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "regular-march-column-3: item 3: `regular-march-column` (six to eight infantry in files of three, a mounted officer at the head, a cart behind; 4 frames, east), the `regular-*`/`dragoon-*` height",
+      "source": "svg/battle-works/claude-regular-march-column-3.svg",
+      "label": "regular march column 3",
+      "kind": "claude-march-column"
+    },
+    "regular-march-column-4": {
+      "sheet": "claude-march-column",
+      "x": 1700,
+      "y": 600,
+      "w": 1700,
+      "h": 600,
+      "anchorX": 0.6235,
+      "anchorY": 0.9333,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "regular-march-column-4: item 3: `regular-march-column` (six to eight infantry in files of three, a mounted officer at the head, a cart behind; 4 frames, east), the `regular-*`/`dragoon-*` height",
+      "source": "svg/battle-works/claude-regular-march-column-4.svg",
+      "label": "regular march column 4",
+      "kind": "claude-march-column"
+    },
+    "ammunition-crate": {
+      "sheet": "claude-ammunition-crate",
+      "x": 0,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-26 — the famous people: the roster's remaining figures and poses",
+      "replaceWith": "ammunition-crate: Castrillón and the rest: a scale-matched ammunition crate under his command pose",
+      "source": "svg/battle-works/claude-ammunition-crate.svg",
+      "label": "ammunition crate",
+      "kind": "claude-ammunition-crate"
+    },
+    "grass-bundle-cut": {
+      "sheet": "claude-grass-bundle",
+      "x": 0,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "replaceWith": "grass-bundle-cut: item 6: `grass-bundle-cut` (a pack slit open, grass spilling), at the scale of the mules that carried them",
+      "source": "svg/battle-works/claude-grass-bundle-cut.svg",
+      "label": "grass bundle cut",
+      "kind": "claude-grass-bundle"
+    },
+    "padre-carts-1": {
+      "sheet": "claude-padre-carts",
+      "x": 0,
+      "y": 0,
+      "w": 800,
+      "h": 420,
+      "anchorX": 0.525,
+      "anchorY": 0.9333,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "replaceWith": "padre-carts-1: item 8: a padre with carts for the dead and wounded after Concepción (told in the caption today); nothing of the dead shown",
+      "source": "svg/battle-works/claude-padre-carts-1.svg",
+      "label": "padre carts 1",
+      "kind": "claude-padre-carts"
+    },
+    "padre-carts-2": {
+      "sheet": "claude-padre-carts",
+      "x": 800,
+      "y": 0,
+      "w": 800,
+      "h": 420,
+      "anchorX": 0.525,
+      "anchorY": 0.9333,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "replaceWith": "padre-carts-2: item 8: a padre with carts for the dead and wounded after Concepción (told in the caption today); nothing of the dead shown",
+      "source": "svg/battle-works/claude-padre-carts-2.svg",
+      "label": "padre carts 2",
+      "kind": "claude-padre-carts"
+    },
+    "padre-carts-3": {
+      "sheet": "claude-padre-carts",
+      "x": 0,
+      "y": 420,
+      "w": 800,
+      "h": 420,
+      "anchorX": 0.525,
+      "anchorY": 0.9333,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "replaceWith": "padre-carts-3: item 8: a padre with carts for the dead and wounded after Concepción (told in the caption today); nothing of the dead shown",
+      "source": "svg/battle-works/claude-padre-carts-3.svg",
+      "label": "padre carts 3",
+      "kind": "claude-padre-carts"
+    },
+    "padre-carts-4": {
+      "sheet": "claude-padre-carts",
+      "x": 800,
+      "y": 420,
+      "w": 800,
+      "h": 420,
+      "anchorX": 0.525,
+      "anchorY": 0.9333,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "replaceWith": "padre-carts-4: item 8: a padre with carts for the dead and wounded after Concepción (told in the caption today); nothing of the dead shown",
+      "source": "svg/battle-works/claude-padre-carts-4.svg",
+      "label": "padre carts 4",
+      "kind": "claude-padre-carts"
+    },
+    "flag-come-and-take-it-no-star": {
+      "sheet": "claude-flag-no-star",
+      "x": 0,
+      "y": 0,
+      "w": 440,
+      "h": 570,
+      "anchorX": 0.06363636363636363,
+      "anchorY": 0.9719298245614035,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — Gonzales before the fight",
+      "replaceWith": "flag-come-and-take-it-no-star: item 5: the flag without the star (still and a wind loop), as `flag-come-and-take-it`'s size and anchor",
+      "source": "svg/battle-works/claude-flag-come-and-take-it-no-star.svg",
+      "label": "flag come and take it no star",
+      "kind": "claude-flag-no-star"
+    },
+    "flag-come-and-take-it-no-star-wind-1": {
+      "sheet": "claude-flag-no-star",
+      "x": 440,
+      "y": 0,
+      "w": 440,
+      "h": 570,
+      "anchorX": 0.06363636363636363,
+      "anchorY": 0.9719298245614035,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — Gonzales before the fight",
+      "replaceWith": "flag-come-and-take-it-no-star-wind-1: item 5: the flag without the star (still and a wind loop), as `flag-come-and-take-it`'s size and anchor",
+      "source": "svg/battle-works/claude-flag-come-and-take-it-no-star-wind-1.svg",
+      "label": "flag come and take it no star wind 1",
+      "kind": "claude-flag-no-star"
+    },
+    "flag-come-and-take-it-no-star-wind-2": {
+      "sheet": "claude-flag-no-star",
+      "x": 880,
+      "y": 0,
+      "w": 440,
+      "h": 570,
+      "anchorX": 0.06363636363636363,
+      "anchorY": 0.9719298245614035,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — Gonzales before the fight",
+      "replaceWith": "flag-come-and-take-it-no-star-wind-2: item 5: the flag without the star (still and a wind loop), as `flag-come-and-take-it`'s size and anchor",
+      "source": "svg/battle-works/claude-flag-come-and-take-it-no-star-wind-2.svg",
+      "label": "flag come and take it no star wind 2",
+      "kind": "claude-flag-no-star"
+    },
+    "flag-come-and-take-it-no-star-wind-3": {
+      "sheet": "claude-flag-no-star",
+      "x": 1320,
+      "y": 0,
+      "w": 440,
+      "h": 570,
+      "anchorX": 0.06363636363636363,
+      "anchorY": 0.9719298245614035,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — Gonzales before the fight",
+      "replaceWith": "flag-come-and-take-it-no-star-wind-3: item 5: the flag without the star (still and a wind loop), as `flag-come-and-take-it`'s size and anchor",
+      "source": "svg/battle-works/claude-flag-come-and-take-it-no-star-wind-3.svg",
+      "label": "flag come and take it no star wind 3",
+      "kind": "claude-flag-no-star"
+    },
+    "gonzales-flag-work-half": {
+      "sheet": "claude-flag-work",
+      "x": 0,
+      "y": 0,
+      "w": 1735,
+      "h": 580,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — Gonzales before the fight",
+      "replaceWith": "gonzales-flag-work-half: item 5: the flag flat on the table half-painted and finished (without the star), as more states of `gonzales-flag-work-*`",
+      "source": "svg/battle-works/claude-gonzales-flag-work-half.svg",
+      "label": "gonzales flag work half",
+      "kind": "claude-flag-work"
+    },
+    "gonzales-flag-work-no-star": {
+      "sheet": "claude-flag-work",
+      "x": 0,
+      "y": 580,
+      "w": 1735,
+      "h": 580,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — Gonzales before the fight",
+      "replaceWith": "gonzales-flag-work-no-star: item 5: the flag flat on the table half-painted and finished (without the star), as more states of `gonzales-flag-work-*`",
+      "source": "svg/battle-works/claude-gonzales-flag-work-no-star.svg",
+      "label": "gonzales flag work no star",
+      "kind": "claude-flag-work"
+    },
+    "army-camp-mexican": {
+      "sheet": "claude-army-camp",
+      "x": 0,
+      "y": 0,
+      "w": 520,
+      "h": 520,
+      "anchorX": 0.5,
+      "anchorY": 0.7692,
+      "logicalHeight": 96,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Claude-drawn stand-ins (replace with Astra's)",
+      "replaceWith": "army-camp-mexican: the armies on the map: a camp of three or four wedge tents, a cook fire with a pot, stacked arms and a colour on a pole, 192 by 192 in the map art's own light",
+      "source": "svg/battle-works/claude-army-camp-mexican.svg",
+      "label": "army camp mexican",
+      "kind": "claude-army-camp"
+    },
+    "army-camp-texian": {
+      "sheet": "claude-army-camp",
+      "x": 520,
+      "y": 0,
+      "w": 520,
+      "h": 520,
+      "anchorX": 0.5,
+      "anchorY": 0.7692,
+      "logicalHeight": 96,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Claude-drawn stand-ins (replace with Astra's)",
+      "replaceWith": "army-camp-texian: the armies on the map: a camp of three or four wedge tents, a cook fire with a pot, stacked arms and a colour on a pole, 192 by 192 in the map art's own light",
+      "source": "svg/battle-works/claude-army-camp-texian.svg",
+      "label": "army camp texian",
+      "kind": "claude-army-camp"
+    },
+    "cannon-alamo-north-e": {
+      "sheet": "claude-alamo-guns",
+      "x": 0,
+      "y": 0,
+      "w": 560,
+      "h": 400,
+      "anchorX": 0.5357,
+      "anchorY": 0.93,
+      "logicalHeight": 420,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "cannon-alamo-north-e: item 2: specific art for the Alamo's north-wall and church guns (rest and recoil, both facings), at the field guns' scale",
+      "source": "svg/battle-works/claude-cannon-alamo-north-e.svg",
+      "label": "cannon alamo north e",
+      "kind": "claude-alamo-guns"
+    },
+    "cannon-alamo-north-recoil-e": {
+      "sheet": "claude-alamo-guns",
+      "x": 560,
+      "y": 0,
+      "w": 560,
+      "h": 400,
+      "anchorX": 0.5357,
+      "anchorY": 0.93,
+      "logicalHeight": 420,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "cannon-alamo-north-recoil-e: item 2: specific art for the Alamo's north-wall and church guns (rest and recoil, both facings), at the field guns' scale",
+      "source": "svg/battle-works/claude-cannon-alamo-north-recoil-e.svg",
+      "label": "cannon alamo north recoil e",
+      "kind": "claude-alamo-guns"
+    },
+    "cannon-alamo-north-w": {
+      "sheet": "claude-alamo-guns",
+      "x": 1120,
+      "y": 0,
+      "w": 560,
+      "h": 400,
+      "anchorX": 0.5357,
+      "anchorY": 0.93,
+      "logicalHeight": 420,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "cannon-alamo-north-w: item 2: specific art for the Alamo's north-wall and church guns (rest and recoil, both facings), at the field guns' scale",
+      "source": "svg/battle-works/claude-cannon-alamo-north-w.svg",
+      "label": "cannon alamo north w",
+      "kind": "claude-alamo-guns"
+    },
+    "cannon-alamo-north-recoil-w": {
+      "sheet": "claude-alamo-guns",
+      "x": 1680,
+      "y": 0,
+      "w": 560,
+      "h": 400,
+      "anchorX": 0.5357,
+      "anchorY": 0.93,
+      "logicalHeight": 420,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "cannon-alamo-north-recoil-w: item 2: specific art for the Alamo's north-wall and church guns (rest and recoil, both facings), at the field guns' scale",
+      "source": "svg/battle-works/claude-cannon-alamo-north-recoil-w.svg",
+      "label": "cannon alamo north recoil w",
+      "kind": "claude-alamo-guns"
+    },
+    "cannon-alamo-church-e": {
+      "sheet": "claude-alamo-guns",
+      "x": 0,
+      "y": 400,
+      "w": 560,
+      "h": 400,
+      "anchorX": 0.5357,
+      "anchorY": 0.93,
+      "logicalHeight": 420,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "cannon-alamo-church-e: item 2: specific art for the Alamo's north-wall and church guns (rest and recoil, both facings), at the field guns' scale",
+      "source": "svg/battle-works/claude-cannon-alamo-church-e.svg",
+      "label": "cannon alamo church e",
+      "kind": "claude-alamo-guns"
+    },
+    "cannon-alamo-church-recoil-e": {
+      "sheet": "claude-alamo-guns",
+      "x": 560,
+      "y": 400,
+      "w": 560,
+      "h": 400,
+      "anchorX": 0.5357,
+      "anchorY": 0.93,
+      "logicalHeight": 420,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "cannon-alamo-church-recoil-e: item 2: specific art for the Alamo's north-wall and church guns (rest and recoil, both facings), at the field guns' scale",
+      "source": "svg/battle-works/claude-cannon-alamo-church-recoil-e.svg",
+      "label": "cannon alamo church recoil e",
+      "kind": "claude-alamo-guns"
+    },
+    "cannon-alamo-church-w": {
+      "sheet": "claude-alamo-guns",
+      "x": 1120,
+      "y": 400,
+      "w": 560,
+      "h": 400,
+      "anchorX": 0.5357,
+      "anchorY": 0.93,
+      "logicalHeight": 420,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "cannon-alamo-church-w: item 2: specific art for the Alamo's north-wall and church guns (rest and recoil, both facings), at the field guns' scale",
+      "source": "svg/battle-works/claude-cannon-alamo-church-w.svg",
+      "label": "cannon alamo church w",
+      "kind": "claude-alamo-guns"
+    },
+    "cannon-alamo-church-recoil-w": {
+      "sheet": "claude-alamo-guns",
+      "x": 1680,
+      "y": 400,
+      "w": 560,
+      "h": 400,
+      "anchorX": 0.5357,
+      "anchorY": 0.93,
+      "logicalHeight": 420,
+      "madeBy": "claude",
+      "module": "battle-works",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "cannon-alamo-church-recoil-w: item 2: specific art for the Alamo's north-wall and church guns (rest and recoil, both facings), at the field guns' scale",
+      "source": "svg/battle-works/claude-cannon-alamo-church-recoil-w.svg",
+      "label": "cannon alamo church recoil w",
+      "kind": "claude-alamo-guns"
+    }
+  },
+  "clips": {
+    "regular-march-column": {
+      "frames": [
+        {
+          "sprite": "regular-march-column-1",
+          "duration": 200
+        },
+        {
+          "sprite": "regular-march-column-2",
+          "duration": 200
+        },
+        {
+          "sprite": "regular-march-column-3",
+          "duration": 200
+        },
+        {
+          "sprite": "regular-march-column-4",
+          "duration": 200
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-works"
+    },
+    "padre-carts": {
+      "frames": [
+        {
+          "sprite": "padre-carts-1",
+          "duration": 260
+        },
+        {
+          "sprite": "padre-carts-2",
+          "duration": 260
+        },
+        {
+          "sprite": "padre-carts-3",
+          "duration": 260
+        },
+        {
+          "sprite": "padre-carts-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-works"
+    },
+    "flag-come-and-take-it-no-star-wind": {
+      "frames": [
+        {
+          "sprite": "flag-come-and-take-it-no-star-wind-1",
+          "duration": 380
+        },
+        {
+          "sprite": "flag-come-and-take-it-no-star-wind-2",
+          "duration": 380
+        },
+        {
+          "sprite": "flag-come-and-take-it-no-star-wind-3",
+          "duration": 380
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "as drawn",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-works"
+    },
+    "cannon-alamo-north-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-alamo-north-e",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-alamo-north-recoil-e",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-alamo-north-e",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-works"
+    },
+    "cannon-alamo-north-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-alamo-north-w",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-alamo-north-recoil-w",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-alamo-north-w",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "west",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-works"
+    },
+    "cannon-alamo-church-e-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-alamo-church-e",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-alamo-church-recoil-e",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-alamo-church-e",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-works"
+    },
+    "cannon-alamo-church-w-recoil": {
+      "frames": [
+        {
+          "sprite": "cannon-alamo-church-w",
+          "duration": 110
+        },
+        {
+          "sprite": "cannon-alamo-church-recoil-w",
+          "duration": 180
+        },
+        {
+          "sprite": "cannon-alamo-church-w",
+          "duration": 470
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "west",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-works"
+    }
+  },
+  "provenance": {
+    "musket-stack": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-breastwork",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "Three India Pattern muskets stacked in a pyramid by their locked bayonets, as a Mexican company left its arms in camp at San Jacinto on the afternoon of April 21, 1836; butts spread on the ground. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-musket-stack.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's musket-stack"
+    },
+    "breastwork-packs-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-breastwork",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "Segment 1 of 4 of the Mexican breastwork at San Jacinto, \"constructed of packs and baggage\" (Houston, HIST-TEX-522): packs, saddles, ammunition boxes and cut brush piled into a wall about five feet high, a little wider than two men, three-quarter from the front; laid end to end with a gap between two for the guns. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-breastwork-packs-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's breastwork-packs-1"
+    },
+    "breastwork-packs-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-breastwork",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "Segment 2 of 4 of the Mexican breastwork at San Jacinto, \"constructed of packs and baggage\" (Houston, HIST-TEX-522): packs, saddles, ammunition boxes and cut brush piled into a wall about five feet high, a little wider than two men, three-quarter from the front; laid end to end with a gap between two for the guns. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-breastwork-packs-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's breastwork-packs-2"
+    },
+    "breastwork-packs-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-breastwork",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "Segment 3 of 4 of the Mexican breastwork at San Jacinto, \"constructed of packs and baggage\" (Houston, HIST-TEX-522): packs, saddles, ammunition boxes and cut brush piled into a wall about five feet high, a little wider than two men, three-quarter from the front; laid end to end with a gap between two for the guns. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-breastwork-packs-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's breastwork-packs-3"
+    },
+    "breastwork-packs-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-breastwork",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "Segment 4 of 4 of the Mexican breastwork at San Jacinto, \"constructed of packs and baggage\" (Houston, HIST-TEX-522): packs, saddles, ammunition boxes and cut brush piled into a wall about five feet high, a little wider than two men, three-quarter from the front; laid end to end with a gap between two for the guns. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-breastwork-packs-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's breastwork-packs-4"
+    },
+    "barricade-street": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-bexar-works",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "A street barricade at Béxar, December 1835: a ditch in front, an earth bank thrown up from it, a palisade of upright posts on the bank, and an embrasure in the posts where a gun's muzzle shows - across a street's mouth, three-quarter from the front (Field; Dance; the 2007 archaeology under Main Plaza). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-barricade-street.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's barricade-street"
+    },
+    "sandbag-breastwork": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-bexar-works",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "A low breastwork of filled sandbags laid in three courses, about waist high and two men wide, as the defenders of Béxar threw up at night across a street, December 1835; three-quarter from the front. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-sandbag-breastwork.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's sandbag-breastwork"
+    },
+    "regular-march-column-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-march-column",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "prompt": "A Mexican column on the march through the Runaway Scrape, spring 1836 (frame 1 of 4, east): eight infantrymen in files of three - blue coatees, white trousers, shakos, knapsacks with blanket rolls, muskets at the trail - a mounted officer at the head in a shako with a gold pompom and a red sash, and a two-wheeled baggage cart behind drawn by a mule, loaded with sacks under a cloth. Seen from a little above and to the side; the files in step. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-regular-march-column-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's regular-march-column-1"
+    },
+    "regular-march-column-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-march-column",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "prompt": "A Mexican column on the march through the Runaway Scrape, spring 1836 (frame 2 of 4, east): eight infantrymen in files of three - blue coatees, white trousers, shakos, knapsacks with blanket rolls, muskets at the trail - a mounted officer at the head in a shako with a gold pompom and a red sash, and a two-wheeled baggage cart behind drawn by a mule, loaded with sacks under a cloth. Seen from a little above and to the side; the files in step. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-regular-march-column-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's regular-march-column-2"
+    },
+    "regular-march-column-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-march-column",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "prompt": "A Mexican column on the march through the Runaway Scrape, spring 1836 (frame 3 of 4, east): eight infantrymen in files of three - blue coatees, white trousers, shakos, knapsacks with blanket rolls, muskets at the trail - a mounted officer at the head in a shako with a gold pompom and a red sash, and a two-wheeled baggage cart behind drawn by a mule, loaded with sacks under a cloth. Seen from a little above and to the side; the files in step. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-regular-march-column-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's regular-march-column-3"
+    },
+    "regular-march-column-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-march-column",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "prompt": "A Mexican column on the march through the Runaway Scrape, spring 1836 (frame 4 of 4, east): eight infantrymen in files of three - blue coatees, white trousers, shakos, knapsacks with blanket rolls, muskets at the trail - a mounted officer at the head in a shako with a gold pompom and a red sash, and a two-wheeled baggage cart behind drawn by a mule, loaded with sacks under a cloth. Seen from a little above and to the side; the files in step. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-regular-march-column-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's regular-march-column-4"
+    },
+    "ammunition-crate": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-ammunition-crate",
+      "request": "Request 2026-09-26 — the famous people: the roster's remaining figures and poses",
+      "prompt": "A Mexican army ammunition crate of plain boards with rope handles and iron corners, about knee high to a man and a little wider, three-quarter from the front: the box General Castrillón got up on to rally his men at San Jacinto (the battle's caption; scaled to the famous sheets' people). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-ammunition-crate.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ammunition-crate"
+    },
+    "grass-bundle-cut": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-grass-bundle",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "prompt": "A mule's pack from the Grass Fight, November 26, 1835, slit open on the ground: a burlap bundle tied with rawhide, cut along its side, cut prairie grass (fodder, not the silver the Texians hoped for) spilling out of it. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-grass-bundle-cut.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's grass-bundle-cut"
+    },
+    "padre-carts-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-padre-carts",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "prompt": "After Concepción, October 28, 1835: a padre of Béxar in a black cassock and a broad flat hat walking east beside a two-wheeled cart drawn by a mule, come for the Mexican dead and wounded (Smithwick gives it only in outline; kept general). The cart's load is covered with a blanket: no one is shown in it, no wound, no blood (VISION.md §16). Frame 1 of 4. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-padre-carts-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's padre-carts-1"
+    },
+    "padre-carts-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-padre-carts",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "prompt": "After Concepción, October 28, 1835: a padre of Béxar in a black cassock and a broad flat hat walking east beside a two-wheeled cart drawn by a mule, come for the Mexican dead and wounded (Smithwick gives it only in outline; kept general). The cart's load is covered with a blanket: no one is shown in it, no wound, no blood (VISION.md §16). Frame 2 of 4. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-padre-carts-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's padre-carts-2"
+    },
+    "padre-carts-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-padre-carts",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "prompt": "After Concepción, October 28, 1835: a padre of Béxar in a black cassock and a broad flat hat walking east beside a two-wheeled cart drawn by a mule, come for the Mexican dead and wounded (Smithwick gives it only in outline; kept general). The cart's load is covered with a blanket: no one is shown in it, no wound, no blood (VISION.md §16). Frame 3 of 4. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-padre-carts-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's padre-carts-3"
+    },
+    "padre-carts-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-padre-carts",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "prompt": "After Concepción, October 28, 1835: a padre of Béxar in a black cassock and a broad flat hat walking east beside a two-wheeled cart drawn by a mule, come for the Mexican dead and wounded (Smithwick gives it only in outline; kept general). The cart's load is covered with a blanket: no one is shown in it, no wound, no blood (VISION.md §16). Frame 4 of 4. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-padre-carts-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's padre-carts-4"
+    },
+    "flag-come-and-take-it-no-star": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-flag-no-star",
+      "request": "Request 2026-09-25 — Gonzales before the fight",
+      "prompt": "The Come and Take It flag of Gonzales, October 1835, WITHOUT the lone star (the star rests on Smithwick's late memoir alone and is disputed, FIC-GONZ-419): \"a breadth of white cotton cloth about six feet long\" with a black cannon painted on it and COME AND TAKE IT beneath, tied to a rough pole hanging still; matched to Astra's flag-come-and-take-it frames in size and anchor. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text but the flag's own painted words. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-flag-come-and-take-it-no-star.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's flag-come-and-take-it-no-star"
+    },
+    "flag-come-and-take-it-no-star-wind-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-flag-no-star",
+      "request": "Request 2026-09-25 — Gonzales before the fight",
+      "prompt": "The Come and Take It flag of Gonzales, October 1835, WITHOUT the lone star (the star rests on Smithwick's late memoir alone and is disputed, FIC-GONZ-419): \"a breadth of white cotton cloth about six feet long\" with a black cannon painted on it and COME AND TAKE IT beneath, tied to a rough pole stirring in the wind, pose 1 of 3; matched to Astra's flag-come-and-take-it frames in size and anchor. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text but the flag's own painted words. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-flag-come-and-take-it-no-star-wind-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's flag-come-and-take-it-no-star-wind-1"
+    },
+    "flag-come-and-take-it-no-star-wind-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-flag-no-star",
+      "request": "Request 2026-09-25 — Gonzales before the fight",
+      "prompt": "The Come and Take It flag of Gonzales, October 1835, WITHOUT the lone star (the star rests on Smithwick's late memoir alone and is disputed, FIC-GONZ-419): \"a breadth of white cotton cloth about six feet long\" with a black cannon painted on it and COME AND TAKE IT beneath, tied to a rough pole stirring in the wind, pose 2 of 3; matched to Astra's flag-come-and-take-it frames in size and anchor. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text but the flag's own painted words. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-flag-come-and-take-it-no-star-wind-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's flag-come-and-take-it-no-star-wind-2"
+    },
+    "flag-come-and-take-it-no-star-wind-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-flag-no-star",
+      "request": "Request 2026-09-25 — Gonzales before the fight",
+      "prompt": "The Come and Take It flag of Gonzales, October 1835, WITHOUT the lone star (the star rests on Smithwick's late memoir alone and is disputed, FIC-GONZ-419): \"a breadth of white cotton cloth about six feet long\" with a black cannon painted on it and COME AND TAKE IT beneath, tied to a rough pole stirring in the wind, pose 3 of 3; matched to Astra's flag-come-and-take-it frames in size and anchor. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text but the flag's own painted words. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-flag-come-and-take-it-no-star-wind-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's flag-come-and-take-it-no-star-wind-3"
+    },
+    "gonzales-flag-work-half": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-flag-work",
+      "request": "Request 2026-09-25 — Gonzales before the fight",
+      "prompt": "The Come and Take It flag flat on the table at Gonzales, October 1, 1835, half painted: the cannon drawn in outline and half filled in black, the words not yet begun, a brush and a pot of black laid by; matched to Astra's gonzales-flag-work-* in size and anchor. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-gonzales-flag-work-half.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's gonzales-flag-work-half"
+    },
+    "gonzales-flag-work-no-star": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-flag-work",
+      "request": "Request 2026-09-25 — Gonzales before the fight",
+      "prompt": "The Come and Take It flag flat on the table at Gonzales, finished, WITHOUT the disputed star (FIC-GONZ-419): the black cannon and COME AND TAKE IT beneath it; matched to Astra's gonzales-flag-work-painted. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text but the flag's own painted words. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-gonzales-flag-work-no-star.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's gonzales-flag-work-no-star"
+    },
+    "army-camp-mexican": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-army-camp",
+      "request": "Claude-drawn stand-ins (replace with Astra's)",
+      "prompt": "The Mexican army's camp on the campaign map: three wedge tents, a kettle on a crane over the fire's place, stacked arms and a colour on a pole (the green, white and red tricolour of 1823), seen from a little above; the page draws the fire, its smoke and the men. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-army-camp-mexican.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's army-camp-mexican"
+    },
+    "army-camp-texian": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-army-camp",
+      "request": "Claude-drawn stand-ins (replace with Astra's)",
+      "prompt": "The Texian army's camp on the campaign map: four wedge tents, a kettle on a crane over the fire's place, stacked arms and a colour on a pole (a plain buff company colour - no single Texian flag flew in 1835-36, an interpretation), seen from a little above; the page draws the fire, its smoke and the men. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-army-camp-texian.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's army-camp-texian"
+    },
+    "cannon-alamo-north-e": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-alamo-guns",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "The Alamo, February-March 1836: the gun of the north wall's battery (two or three guns there, their calibres not known: a generic iron field gun), at rest, muzzle east; an interpretive silhouette, not a portrait of a surviving gun. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-cannon-alamo-north-e.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cannon-alamo-north-e"
+    },
+    "cannon-alamo-north-recoil-e": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-alamo-guns",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "The Alamo, February-March 1836: the gun of the north wall's battery (two or three guns there, their calibres not known: a generic iron field gun), in recoil: rolled back on its carriage, the muzzle kicked up, muzzle east; an interpretive silhouette, not a portrait of a surviving gun. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-cannon-alamo-north-recoil-e.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cannon-alamo-north-recoil-e"
+    },
+    "cannon-alamo-north-w": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-alamo-guns",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "The Alamo, February-March 1836: the gun of the north wall's battery (two or three guns there, their calibres not known: a generic iron field gun), at rest, muzzle west; an interpretive silhouette, not a portrait of a surviving gun. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-cannon-alamo-north-w.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cannon-alamo-north-w"
+    },
+    "cannon-alamo-north-recoil-w": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-alamo-guns",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "The Alamo, February-March 1836: the gun of the north wall's battery (two or three guns there, their calibres not known: a generic iron field gun), in recoil: rolled back on its carriage, the muzzle kicked up, muzzle west; an interpretive silhouette, not a portrait of a surviving gun. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-cannon-alamo-north-recoil-w.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cannon-alamo-north-recoil-w"
+    },
+    "cannon-alamo-church-e": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-alamo-guns",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "The Alamo, February-March 1836: the gun of the church's platform (three guns on an earth ramp in the apse, by the Sánchez Navarro plan; some say two were 12-pounders - disputed): a heavier iron gun on a four-truck garrison carriage on its timber platform, at rest, muzzle east; an interpretive silhouette, not a portrait of a surviving gun. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-cannon-alamo-church-e.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cannon-alamo-church-e"
+    },
+    "cannon-alamo-church-recoil-e": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-alamo-guns",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "The Alamo, February-March 1836: the gun of the church's platform (three guns on an earth ramp in the apse, by the Sánchez Navarro plan; some say two were 12-pounders - disputed): a heavier iron gun on a four-truck garrison carriage on its timber platform, in recoil: rolled back on its carriage, the muzzle kicked up, muzzle east; an interpretive silhouette, not a portrait of a surviving gun. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-cannon-alamo-church-recoil-e.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cannon-alamo-church-recoil-e"
+    },
+    "cannon-alamo-church-w": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-alamo-guns",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "The Alamo, February-March 1836: the gun of the church's platform (three guns on an earth ramp in the apse, by the Sánchez Navarro plan; some say two were 12-pounders - disputed): a heavier iron gun on a four-truck garrison carriage on its timber platform, at rest, muzzle west; an interpretive silhouette, not a portrait of a surviving gun. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-cannon-alamo-church-w.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cannon-alamo-church-w"
+    },
+    "cannon-alamo-church-recoil-w": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "sheet": "claude-alamo-guns",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "The Alamo, February-March 1836: the gun of the church's platform (three guns on an earth ramp in the apse, by the Sánchez Navarro plan; some say two were 12-pounders - disputed): a heavier iron gun on a four-truck garrison carriage on its timber platform, in recoil: rolled back on its carriage, the muzzle kicked up, muzzle west; an interpretive silhouette, not a portrait of a surviving gun. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-works/claude-cannon-alamo-church-recoil-w.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cannon-alamo-church-recoil-w"
+    },
+    "regular-march-column": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "prompt": "A Mexican column on the march, east: files in step, the officer riding at the head, the cart behind; four frames at the regulars' march pace.",
+      "frames": [
+        "regular-march-column-1",
+        "regular-march-column-2",
+        "regular-march-column-3",
+        "regular-march-column-4"
+      ],
+      "status": "temporary: replace with Astra's regular-march-column"
+    },
+    "padre-carts": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "prompt": "A padre walking beside a covered cart after Concepción: four frames at a slow walk. Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "padre-carts-1",
+        "padre-carts-2",
+        "padre-carts-3",
+        "padre-carts-4"
+      ],
+      "status": "temporary: replace with Astra's padre-carts"
+    },
+    "flag-come-and-take-it-no-star-wind": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "request": "Request 2026-09-25 — Gonzales before the fight",
+      "prompt": "The Come and Take It flag without the disputed star, stirring in the wind: three poses looping, as Astra's wind loop.",
+      "frames": [
+        "flag-come-and-take-it-no-star-wind-1",
+        "flag-come-and-take-it-no-star-wind-2",
+        "flag-come-and-take-it-no-star-wind-3"
+      ],
+      "status": "temporary: replace with Astra's flag-come-and-take-it-no-star-wind"
+    },
+    "cannon-alamo-north-e-recoil": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "The Alamo's north gun firing: at rest, the recoil, back at rest (as the painted Twin Sisters' recoil clip).",
+      "frames": [
+        "cannon-alamo-north-e",
+        "cannon-alamo-north-recoil-e",
+        "cannon-alamo-north-e"
+      ],
+      "status": "temporary: replace with Astra's cannon-alamo-north-e-recoil"
+    },
+    "cannon-alamo-north-w-recoil": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "The Alamo's north gun firing: at rest, the recoil, back at rest (as the painted Twin Sisters' recoil clip).",
+      "frames": [
+        "cannon-alamo-north-w",
+        "cannon-alamo-north-recoil-w",
+        "cannon-alamo-north-w"
+      ],
+      "status": "temporary: replace with Astra's cannon-alamo-north-w-recoil"
+    },
+    "cannon-alamo-church-e-recoil": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "The Alamo's church gun firing: at rest, the recoil, back at rest (as the painted Twin Sisters' recoil clip).",
+      "frames": [
+        "cannon-alamo-church-e",
+        "cannon-alamo-church-recoil-e",
+        "cannon-alamo-church-e"
+      ],
+      "status": "temporary: replace with Astra's cannon-alamo-church-e-recoil"
+    },
+    "cannon-alamo-church-w-recoil": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-works",
+      "area": "battles",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "The Alamo's church gun firing: at rest, the recoil, back at rest (as the painted Twin Sisters' recoil clip).",
+      "frames": [
+        "cannon-alamo-church-w",
+        "cannon-alamo-church-recoil-w",
+        "cannon-alamo-church-w"
+      ],
+      "status": "temporary: replace with Astra's cannon-alamo-church-w-recoil"
+    }
+  }
+}
