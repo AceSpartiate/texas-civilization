@@ -89,6 +89,8 @@ const files = new Map([
   ['/looks-art.js', ['../public/looks-art.js', 'text/javascript']],
   ['/avatar-art.js', ['../public/avatar-art.js', 'text/javascript']],
   ['/person-palette.js', ['../public/person-palette.js', 'text/javascript']],
+  // What each of Claude's temporary frames shows, so art.js draws none of a subject Astra has drawn (owner, 2026-09-29).
+  ['/art-subjects.js', ['../public/art-subjects.js', 'text/javascript']],
   ['/look-vocabulary.js', ['../sim/look-vocabulary.mjs', 'text/javascript']],
   ['/field-art.js', ['../public/field-art.js', 'text/javascript']],
   ['/field-surface.js', ['../public/field-surface.js', 'text/javascript']],

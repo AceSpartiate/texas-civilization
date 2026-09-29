@@ -1,5 +1,79 @@
 # Claude handoff — Astra foundation
 
+## Astra's art always wins, by subject: Claude's temporary art only where she has drawn nothing — owner, 2026-09-29 (not released)
+
+Branch `astra-art-wins` off origin/main (3dd5209d, origin/main af25547a merged in); not pushed. The owner played the released
+v2026.09.29.1 (installed files identical to the release): *"serious graphical issues. a lot of astra art has been replaced with
+worse versions."*
+
+**The cause.** `public/art.js` let Astra's frame win only over a Claude frame of the **same name**, and nothing of Claude's
+shares a name with hers (the stand-in test forbids it). But the areas A-F wired the page to ask first for names she had never
+used - `rust-chop`, `rust-whittle`, `girl-play-run`, `indigo-hold-baby`, `infant-crawl`, `girl-ride-e`, `indigo-wagon-driver-e`,
+`cart-travel-e`, `milk-cow-walk-e`, `herd-drove`, `lancer-march`, `volunteer-mounted`, `rust-fire-reload`, `castrillon-walk-s`,
+`esparza-seated`, `house-round-back-*`, `pine-loblolly-large-wind`, `wood-pile-3` - and to fall back to her figure only while
+Claude's sheet was loading. So every one of those, on screen, was a Claude drawing of a subject she had drawn: her family at
+work, at ease and holding the baby, her children, her baby, her horses, carts, carreta, milk cow and herd, her soldiers, her
+Castrillón and Gregorio Esparza, her houses from behind, her trees in the norther. Astra's own atlas did not change between
+v2026.09.28.1 and v2026.09.29.1; the unreleased main (3dd5209d) added more of the same (the wagon and its ox as one Claude
+drawing, `wagon-ox-*`, its open tail, the children's `-play-run-n`/`-s` and `-carry-water-*` headings).
+
+**The fix: one rule, in one place.** `public/art-subjects.js` says what every Claude frame shows - the subject, not the pose -
+and which of Astra's names prove she has drawn it (her `rust`, her `girl`, her `wagon-covered` and `ox-walk`, her `castrillon`,
+her `pine-loblolly`...). `mergeStandins` in `public/art.js` leaves out every Claude frame whose subject she has drawn (and so
+every clip made of them), and records why (`withheldStandins()`). The page's callers already asked `clipReady`/`spriteReady` and
+fell back to her figure, so the page draws what it drew in v2026.09.28.1: her rust at the hoe with the drawn axe, her girl
+walking, her wagon and ox apart, her dragoon for a lancer, her upright tree sheared by the wind. **What stays Claude's** is only
+what she has nothing of: named people she has not drawn (Kimbell, Martin, J. W. Smith, Horton, W. P. Smith, Smither, Condelle,
+Sánchez Navarro, Barragán, Sutherland; Ana, María de Jesús, Enrique and Francisco Esparza and the burial party), the people of
+Béxar and their fandango, a Tejano rider, the pack mule, the padre's carts, named places and buildings (San Fernando, the
+Governor's Palace, Concepción, Velasco, the far places), the portraits and marks (Claude's since v2026.09.28.1), icons of
+meanings she has not drawn, the riverbanks, fog, night grades, lit windows, work effects, a tree going over, four trees she has
+not drawn (anacua, ebony, tupelo, willow), the washtub, the musket stack, the army camps. When she draws one of those, **every**
+Claude frame of that subject steps aside at once, not only the one of the same name. A subject is a judgement written as one
+line (`ceiling:` in the file: a lancer is her dragoon; a Tejano rider is not her mounted courier; a shortleaf pine is her pine);
+changing a line is the whole way to overturn one. Of 1871 Claude frames, 445 are drawn and 1426 held back. The generated plan and
+Astra's list now say, item by item, *Claude stand-in held back: Astra has drawn the subject* (`scripts/claude-art/write-plan.mjs`);
+the rule is written into docs/ART_REQUESTS.md (*Claude-drawn stand-ins*), docs/ART_STYLE.md and docs/CLAUDE_ART_PLAN.md (step 5a).
+
+**Inventory** (subject → v2026.09.28.1 / v2026.09.29.1 → fixed), every one drawn by the builds' own `art.js` and manifests in
+docs/evidence/astra-vs-claude/ (one row a build: v2026.09.28.1, v2026.09.29.1, main 3dd5209d, this branch; a red label is a Claude
+frame, blue Astra's; `index.json` lists what each drew): 
+
+| Subject | v2026.09.28.1 | v2026.09.29.1 | Fixed | Evidence |
+| --- | --- | --- | --- | --- |
+| The family at work (chop, split, dig, notch, lift, reap, aim, fire, fish, gather, carpentry, butcher, drill, guard, stake, tend the fire) | her figure at the hoe/idle/rest with the canvas tool | Claude's figure | hers | a-work.png |
+| The family at ease (whittle, harness, sew, shell corn, rifle, pipe, cards, wash, sweep, carry water); firewood, hens, the wall-log pile | her repair/care/rest/work/carry; her firewood, chicken, `log-fallen` | Claude's | hers | a-ambient.png |
+| Children at play and chores, going north/south, carrying water, sick; the baby crawling, crying, asleep, sick; holding the baby | her child's walk/rest/injured-rest; the infant's idle; the carry | Claude's | hers | b-children.png |
+| The family in a fight (fire-reload, load, ramrod, injured, reclining) | her volunteer | Claude's cast in battle | hers | c-battles.png |
+| Soldiers at camp, asleep, prone, at loopholes, parapets, the bank, wading, the crowbar, the trench, bearers, the bell's sentry, the settlers' gun, the march column | her volunteer/regular poses | Claude's | hers | c-battles.png |
+| Castrillón walking N/S; Gregorio Esparza asleep sitting | her Castrillón's east walk; her volunteer's rest | Claude's | hers | c-battles.png |
+| Kimbell, Martin, the other Claude-sheet officers; the Esparza women and boys, the burial party | her volunteer / woman / children | Claude's | **Claude's** (she has not drawn them) | c-battles.png |
+| Riders: children on horses, the volunteer mounted, Seguín riding; wagon drivers (women, children); riders in the wagon | her figure over her horse; her courier; her Seguín mounted | Claude's | hers | d-transport.png |
+| The wagon and its ox (main only), its open tail; the cart; the carreta laden | her wagon and ox apart; her `cart-open`; her carreta | Claude's | hers | d-transport.png |
+| The milk cow; the horse herd; lancers, foragers, dragoons galloping, firing, led wounded; the limber's mules | her cow; her mustangs; her dragoon; her limber | Claude's | hers | d-transport.png |
+| A Tejano rider; the pack mule | her cast riding; her horse | Claude's | **Claude's** | d-transport.png |
+| Houses from behind, their ends, the roof over the passage, the jacal's stages, the double chimney, the shed frame, floor and loft, the loopholed house, the saddlebag's room | her fronts mirrored, her jacal, her chimney, her lean-to (or nothing) | Claude's | hers | e-places.png |
+| The people of Béxar, fandango, fiddler; San Fernando, the Palace, Concepción, the far places | her cast; generic chapel, `adobe-flat` | Claude's | **Claude's** | e-places.png |
+| Trees in the norther; the live-oak mott; shortleaf pine, cedar elm; the stumps; smoke rising; the campfire at night; the marsh's edge | her uprights sheared; her live oaks, loblolly, elm, stumps, smoke, campfire, cordgrass | Claude's | hers | f-land.png |
+| Anacua, ebony, tupelo, willow; riverbanks, fog, grades; a tree falling | her oak, elm, cottonwood; canvas | Claude's | **Claude's** | f-land.png |
+
+**Tests.** `tests/astra-art-wins.test.mjs` (6) loads the real manifests through `public/art.js` as the page does: every Claude
+frame has a subject; no Claude frame of anything she has an idle, walk, march, travel or ride of is drawable (found apart from the
+rules); the 35 frames and 6 clips the owner saw replaced are held back; the 14 she has nothing of are still drawn; a delivery of
+one `kimbell-idle` takes every Claude Kimbell out; nothing outside `art.js` reads Claude's library. Proved by injection in
+`npm run test:claude-art` (docs/evidence/claude-art/injections.json): the released same-name rule (`const why = null`), the
+children with no subject, the wagon held to its own name, and a page reading Claude's library around the rule each fail exactly
+the tests they guard; clean runs 0 failing. **Proofs changed on purpose:** `test:riding` now requires her wagon and ox drawn
+apart (`rig` null, no `wagon-ox-*` drawn) with the driver on her wagon's box; `test:children` requires her child walking at
+tag (N/S as her `-walk-n/-s`) and her carry for the baby held, never Claude's `play-*` or `hold-baby`. `node scripts/astra-vs-claude-shots.mjs`
+redraws the evidence from the two tags, main and this tree.
+
+**For the other builders.** A new Claude area module must add its subject to `public/art-subjects.js` (the test fails until it
+does), and anything it draws of her figures - the lone-parent wedding's grown cast, children's new headings - will be held back
+while hers exist. Draw what she has nothing of.
+
+PROOFS_PLACEHOLDER
+
 ## Small children until the day ends; follow and watch — owner, 2026-09-29 (not released)
 
 Branch `owner-children-watch`, off origin/main (1859f219, which has `audit-triage-2026-09-29` in it); not pushed. The owner's answers
