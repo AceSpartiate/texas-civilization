@@ -889,7 +889,7 @@ parent is no longer only "widowed" for the whole class.
   (`pathShown`). Not on the road in, not in the lobby, not to a family with two parents, not once the family has raised a house.
 - **The computer never takes it.** A family nobody plays, and a played family whose student has gone (`absent`, run by the
   director), is neither offered it nor allowed it (`pathRefusal`: "Only the family's own student can take this path."). A student
-  who comes back finds it still waiting. Auto never presses it. *Recommended and built: no; the owner may reverse it.*
+  who comes back finds it still waiting. Auto never presses it. **Owner-decided, 2026-09-29: never.**
 - **On the real land, the house site first.** While the family is still choosing where its house will stand, the ability is shown and
   says *"Choose where your house will stand first, so the neighbours know where to raise it."* - it cannot be pressed until then.
 - **Refused in words**, never hidden, when the parent is away from home, very sick, the class is paused, or the family is on the
@@ -929,10 +929,22 @@ run by no director and drawn on nobody's map.
 - **The children's step-parent** (`kin.stepchildren`): the family book says *"Married to Bernarda. Stepfather to Delia and Soledad.
   Born a Kittredge, of the farm down the creek."* `ceiling:` the children's own `kin.parents` do not change, so how they look (taken
   after their parents, sim/appearance.mjs) does not change on the wedding day, and a child calls the new parent by name.
-- **The family keeps its last name**, and the new parent takes it, a husband as much as a wife. *Open for the owner* (a wife took her
-  husband's name in 1835; the family's last name is set once, §*The family's last name*).
-- **The principal stays the lone parent**, so nothing about who the student directs or who the calls are put to changes on the
-  wedding day. *Open for the owner* (§2: "the principal is the father when there is one").
+- **The family takes the husband's name — owner-decided, 2026-09-29 ("His name").** When a lone mother marries, the family takes the
+  surname the new husband was born to, as a bride did in 1835: `household.surname` becomes his, every member is called by it, and
+  so the page's heading, the family book, the Host's rows and the ending read *the Whitlow family*. The name it had is kept
+  (`courtship.formerName`, `formerSurname`): the book's `formerly`, the mother's line (*"... Mother to Lavinia and Obed. Until the
+  wedding, the Hollister family."*) and one line in the family's story (*"The family took Amos's name, Whitlow. Until the wedding it
+  was the Hollister family."*). This is the one change to a last name §*The family's last name* allows after it is set. **Only names
+  change**: every person's id and the household's id stay as they were. When a lone father marries he keeps his name and his wife
+  takes it.
+- **The new husband leads — owner-decided, 2026-09-29 ("New husband leads").** A new husband becomes the family's **principal**
+  (`household.principalId`, `principal: true`), to whom the settlement's calls and the war's questions are put, and its **main
+  person** (the star; a main person the mother had chosen before the wedding is let go, so the main person is the principal), and
+  so the one who answers the family's own decisions while he is with it (sim/acting.mjs `actingFor`). A new wife does not lead: a lone
+  father stays the principal. (This is §2's "the principal is the father when there is one", kept.)
+- **Victoria: by bond — owner-decided, 2026-09-29.** A family of De León's colony marries by bond like every other, as built.
+- **The computer: never — owner-decided, 2026-09-29.** A family nobody plays, or whose student has gone, is never taken down the
+  path, as built.
 - The rolled family's size check allows the one person more (`marriedIn`); nothing else about the roll changes.
 
 ### The wedding: by bond (`HIST-TEX-740`)
@@ -944,7 +956,7 @@ of 1829 was made "before the commissioner for the precinct". **Every start a fam
 resident priest in the sources read, and the game models no family's faith, so every wedding here is by bond**, before an invented,
 unnamed commissioner of the precinct; the vows are written for the scene after the bond's form, never quoted, and the scene carries one
 documented line under it. `ceiling:` a Victoria family (De León's colony, whose empresario brought priests from La Bahía, Nacogdoches
-and Béxar, undated) may have waited for a priest instead; `RITES` is where a church wedding would go. NOT FOUND: a bond made in
+and Béxar, undated) may have waited for a priest instead - the owner chose **by bond** for Victoria too (2026-09-29); `RITES` is where a church wedding would go. NOT FOUND: a bond made in
 DeWitt's colony.
 
 ### The page
@@ -988,7 +1000,7 @@ With a lone mother Bernarda, two daughters, the Montañez family and the Kittred
    couple, and priests were few. Couples in the colonies often signed a bond like this before a local officer and witnesses,
    promising to be married by a priest when one came."
 4. *Afterwards.* Soledad: "Is this our house now?" Bernarda: "It is. Ours - all of us." Ignacio: "And a good one. The Montañez family
-   and my family built it to last." *"Ignacio is one of the family now. Bernarda's family has two parents again, a roof of its own,
+   and my family built it to last." *"Ignacio is one of the family now, and Bernarda and the children take his name. The Kittredge family has two parents again, a roof of its own,
    and two families of neighbours who will not forget this day."*
 
 ### Where this goes beyond the owner's plan (each the owner's to keep or cut)
@@ -1023,8 +1035,9 @@ With a lone mother Bernarda, two daughters, the Montañez family and the Kittred
 | A house | The plainest house raised (or the family's own finished), lived in, and seen as built by the house work and the tips. |
 | Honest | By bond, before an invented officer, the priest's marriage promised; one documented line; nothing uncertain as fact. |
 | Special | A glowing ability; scenes with fades to black (shorter, never cut, with less motion); a tune; Continue the only way on. |
+| His name, and he leads | A lone mother's family takes the husband's surname (ids unchanged, the old name in the book) and he is principal and main person; a lone father keeps both. |
 | Old classes open | Absent `courtship` is a family that has not taken it; no save version moved. |
 
-**Evidence.** `tests/courtship.test.mjs` (13 tests), each proved by `node scripts/lone-parent-injections.mjs`
+**Evidence.** `tests/courtship.test.mjs` (16 tests; the last three for the owner's answers of 2026-09-29, the husband's name and his leading), each proved by `node scripts/lone-parent-injections.mjs`
 ([record](evidence/lone-parent-injections.json)); `npm run test:lone-parent` ([record](evidence/lone-parent-browser.json)), with a
 screenshot of every scene and a fade (`docs/evidence/lone-parent-*.png`). Same computer only: no Chromebook, LAN or classroom claim.

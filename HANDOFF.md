@@ -54,9 +54,14 @@ person was away, and a tip over a long supplies line - both fixed. `test:family-
 passed alone), `test:classes` 16, `test:ending` 10, `test:creation-screen` 4. The house is raised from the code's own constants
 (`HOUSES`, `PIECES`, `planPieces`), so the concurrent halving of work amounts (`work-halved`) merges without a number to change.
 
-**Open for the owner:** (1) the new husband takes the family's last name - or should the family take his (1835 practice)?
-(2) the lone parent stays the principal - or does a new husband become it? (3) a Victoria family: by bond as now, or a church
-wedding by a visiting priest? (4) should the computer ever take the path for a family whose student has gone (built: never)?
+**The owner's answers (2026-09-29), built the same day:** (1) **"His name"** - a lone mother's family takes the new husband's
+surname at the wedding (`takeHisName`): every member renamed, so the heading, the book, the Host's rows and the ending read it; the
+old name kept in the book (`formerly`, the mother's line) and the story; every id unchanged. A lone father keeps his name. (2) **"New
+husband leads"** - he becomes principal and main person (`heLeads`; the mother's chosen main person let go), so calls, the war's
+questions and `actingFor` go to him; a new wife does not lead. (3) Victoria: **by bond**, as built. (4) The computer: **never**, as
+built. Three more tests (16 in all), **5 more injections, each caught by its own test alone** (37 of 37, 32 alone);
+`test:lone-parent` now walks a lone mother and gains a check - the page reads *"The Whitlow family"* and the new husband has the star
+(**10 checks**, `docs/evidence/lone-parent-10-his-name.png`); `test:family-panel` 18 and `test:ending` 10 re-run green.
 
 ## Small children until the day ends; follow and watch — owner, 2026-09-29 (not released)
 

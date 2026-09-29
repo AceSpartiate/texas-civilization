@@ -753,6 +753,8 @@ export function familyProjection(world, household) {
     ...(household.surname && { surname: household.surname }),
     // The number on the die, once there is one. Whether a family may still roll is the
     // server's to say, like every other control.
+    // The name the family had until a lone mother's wedding (sim/courtship.mjs), for the book.
+    ...(household.courtship?.formerName && { formerly: household.courtship.formerName }),
     roll: household.roll ?? null,
     canRoll: !household.roll && rollRefusal(world, household) === null,
     people: household.members.map(id => {
@@ -773,11 +775,14 @@ export function familyProjection(world, household) {
       const path = household.courtship;
       const from = path?.spouse?.id === id ? path.neighbours?.[1] : null;
       const born = from ? ` Born a ${from.surname}, of the farm ${from.where}.` : '';
+      // A lone mother who married took her husband's name, and the children with her (owner, 2026-09-29: "His name"): the name
+      // the family had until the wedding is kept on her line of the book.
+      const formerly = path?.formerName && path.parentId === id ? ` Until the wedding, ${path.formerName}.` : '';
       const of = !kin.role ? null
         : stepchildren.length
           ? `Married to ${nameOf(kin.spouse)}. Step${kin.role} to ${listWords(stepchildren)}.${born}`
         : children.length
-          ? `${kin.spouse ? `Married to ${nameOf(kin.spouse)}. ` : widowed}${Role} to ${listWords(children)}.`
+          ? `${kin.spouse ? `Married to ${nameOf(kin.spouse)}. ` : widowed}${Role} to ${listWords(children)}.${formerly}`
           : parents.length ? `${Role} of ${parents.join(' and ')}.`
           : kin.spouse ? `Married to ${nameOf(kin.spouse)}.${born}`
           : widowed ? 'Widowed, with no children.' : null;

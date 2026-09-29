@@ -13,7 +13,8 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
-import { canAnswerCalls, canFight, compositionFor, dealTraits, familyProjection, familyRoll, tableOf } from '../sim/family.mjs';
+import { canAnswerCalls, canFight, compositionFor, dealTraits, familyProjection, familyRoll, householdName, mainPersonId, tableOf } from '../sim/family.mjs';
+import { actingFor } from '../sim/acting.mjs';
 import { lookChosen } from '../sim/appearance.mjs';
 import { buildRefusal, houseBuilt, houseSettled, shelterOf } from '../sim/houses.mjs';
 import { choreAvailability } from '../sim/chores.mjs';
@@ -159,6 +160,57 @@ test('home again, the family has two parents: the new one rolled like a parent, 
   assert.match(book.people.find(one => one.id === parent.id).of, /^Married to /);
   for (const one of people(world, household)) assert.equal(one.visiting, undefined, 'somebody is still away visiting');
   validateWorld(world);
+});
+
+test('a lone mother\'s family takes the new husband\'s name, and keeps the name it had in the book; every id stays', () => {
+  const { world, household } = onTheLand({ sex: 'female' });
+  applyAction(world, 'hh-1', { action: 'rename', surname: 'Hollister' });
+  const ids = [...household.members];
+  applyAction(world, 'hh-1', { action: 'ask-neighbours' });
+  const his = household.courtship.neighbours[1].surname;
+  home(world, household);
+  assert.equal(household.surname, his, 'the family did not take the new husband\'s name');
+  assert.equal(householdName(world, household), `the ${his} family`);
+  for (const id of household.members) assert.ok(world.entities[id].name.endsWith(` ${his}`), `${world.entities[id].name} is not called by the family's new name`);
+  assert.deepEqual(household.members.filter(id => ids.includes(id)), ids, 'an id changed with the name');
+  assert.equal(household.id, 'hh-1');
+  const book = familyProjection(world, household);
+  assert.equal(book.name, `the ${his} family`); assert.equal(book.formerly, 'the Hollister family');
+  assert.match(book.people.find(one => one.id === household.courtship.parentId).of, /Until the wedding, the Hollister family\.$/);
+  assert.ok(world.events.some(event => event.householdId === 'hh-1' && event.text.includes(`name, ${his}. Until the wedding it was the Hollister family.`)));
+  // The Host's rows and the ending read the family's name as it is now.
+  assert.ok(JSON.stringify(view(world, null, 'host')).includes(`the ${his} family`), 'the Host still reads the old name');
+  validateWorld(world);
+});
+
+test('a new husband leads the family: its principal and main person, whom the calls and the family\'s decisions go to', () => {
+  const { world, household } = onTheLand({ sex: 'female' });
+  const mother = parentsOf(world, household)[0];
+  household.mainId = mother.id;
+  applyAction(world, 'hh-1', { action: 'ask-neighbours' });
+  home(world, household);
+  const husband = world.entities[household.courtship.spouse.id];
+  assert.equal(household.principalId, husband.id, 'the new husband is not the family\'s principal');
+  assert.equal(husband.principal, true); assert.equal(mother.principal, false);
+  assert.equal(mainPersonId(world, household), husband.id, 'the new husband is not the main person');
+  assert.equal(actingFor(world, household)?.id, husband.id, 'the family\'s decisions do not go to the new husband');
+  const page = view(world);
+  assert.equal(page.household.principalId, husband.id);
+  assert.equal(page.household.mainId, undefined, 'the page is told somebody other than the principal is the main person');
+  validateWorld(world);
+});
+
+test('a lone father who marries keeps his name and stays the principal', () => {
+  const { world, household } = onTheLand({ sex: 'male' });
+  applyAction(world, 'hh-1', { action: 'rename', surname: 'Hollister' });
+  const father = parentsOf(world, household)[0];
+  applyAction(world, 'hh-1', { action: 'ask-neighbours' });
+  home(world, household);
+  const wife = world.entities[household.courtship.spouse.id];
+  assert.equal(household.surname, 'Hollister');
+  assert.ok(wife.name.endsWith(' Hollister'), 'the new wife did not take his name');
+  assert.equal(household.principalId, father.id); assert.equal(wife.principal, false);
+  assert.equal(familyProjection(world, household).formerly, undefined);
 });
 
 test('a lone father meets a daughter his own age', () => {

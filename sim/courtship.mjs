@@ -314,6 +314,9 @@ export function comeHome(world, household) {
   const parent = world.entities[path.parentId];
   const raised = raiseTheHouse(world, household);
   const spouse = joinTheFamily(world, household, parent, path.spouse);
+  // A lone mother marries: the family takes his name and he leads it (owner, 2026-09-29: "His name", "New husband leads"). A lone
+  // father marries: his wife takes his name, and he stays the principal.
+  if (spouse.sex === 'male') { takeHisName(world, household, spouse, path); heLeads(household, parent, spouse); }
   for (const id of path.party) delete world.entities[id]?.visiting;
   path.stage = 'home';
   path.home = world.minute;
@@ -329,6 +332,43 @@ export function comeHome(world, household) {
     actorId: spouse.id, householdId: household.id, importance: 2, claimId: CLAIMS.rite, classification: 'DOCUMENTED',
     text: 'In Mexican Texas only a priest could marry a couple, and priests were few; couples in the colonies signed a bond before the local authority and witnesses, promising to be married by a priest when one came.',
   });
+}
+
+/**
+ * The family takes the new husband's name (owner, 2026-09-29, by multiple choice: "His name" - as a bride did in 1835): the family's
+ * last name becomes the one he was born to, every one of them is called by it, and the name it had is kept (`formerSurname`) for the
+ * family book and the story. Only names change: every id, the household's among them, stays what it was.
+ */
+function takeHisName(world, household, husband, path) {
+  const born = path.neighbours[1].surname;
+  const was = household.surname || null;
+  const wasCalled = householdName(world, household);
+  if (was === born) return;
+  path.formerSurname = was;
+  path.formerName = wasCalled;
+  household.surname = born;
+  delete household.name;
+  for (const id of household.members) {
+    const person = world.entities[id];
+    if (!person || person.kind !== 'person') continue;
+    person.given ??= person.name;
+    person.name = `${person.given} ${born}`;
+  }
+  record(world, 'memory', { householdId: household.id, actorId: husband.id, importance: 2, claimId: CLAIMS.path,
+    text: `The family took ${firstName(husband)}'s name, ${born}. Until the wedding it was ${wasCalled}.` });
+}
+
+/**
+ * A new husband leads the family (owner, 2026-09-29, by multiple choice: "New husband leads"): he is its principal, whom the
+ * settlement's calls and the war's questions are put to, and its main person, the student's star. The lone mother's own choice of a
+ * main person goes with it, as a choice among the people a family had before the wedding. A new wife does not lead; a lone father
+ * stays the principal.
+ */
+function heLeads(household, mother, husband) {
+  if (mother) { mother.principal = false; mother.depth = 'moderate'; }
+  husband.principal = true; husband.depth = 'detailed';
+  household.principalId = husband.id;
+  delete household.mainId;
 }
 
 /** The new parent put into the family: a stable new id, the second parent's role, the step-parent of the children. */
@@ -555,7 +595,10 @@ export function courtshipScript(world, household) {
       ...(youngest && (ageNow(world, youngest) ?? youngest.age ?? 0) >= 3 ? [say(youngest.id, 'Is this our house now?', 'speak'), say(parent?.id, 'It is. Ours - all of us.', 'laugh')] : [say(parent?.id, 'Our own roof. I can hardly believe it.', 'laugh')]),
       say(path.spouse.id, `And a good one. The ${one.plural} and my family built it to last.`),
     ],
-    closing: `${S} is one of the family now. ${household_.replace(/^the /, 'The ')} has two parents again, a roof of its own, and two families of neighbours who will not forget this day.`,
+    // A lone mother's family takes the new husband's name at the wedding (owner, 2026-09-29: "His name"); a lone father's keeps his.
+    closing: path.spouse.sex === 'male'
+      ? `${S} is one of the family now, and ${kids.length ? `${P} and the children take` : `${P} takes`} his name. The ${two.surname} family has two parents again, a roof of its own, and two families of neighbours who will not forget this day.`
+      : `${S} is one of the family now. ${household_.replace(/^the /, 'The ')} has two parents again, a roof of its own, and two families of neighbours who will not forget this day.`,
   };
   return { rite: path.rite, cast: castOf(world, household, path), scenes: [first, second, wedding, after], eldest: eldest?.id || null };
 }

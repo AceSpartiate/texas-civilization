@@ -244,9 +244,70 @@
       ],
       "expect": "a lone father meets a daughter his own age",
       "caught": true,
+      "alone": false,
+      "failed": [
+        "a lone father who marries keeps his name and stays the principal",
+        "a lone father meets a daughter his own age"
+      ]
+    },
+    {
+      "name": "a lone mother's family keeps its own name at the wedding",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "a lone mother's family takes the new husband's name, and keeps the name it had in the book; every id stays",
+      "caught": true,
       "alone": true,
       "failed": [
-        "a lone father meets a daughter his own age"
+        "a lone mother's family takes the new husband's name, and keeps the name it had in the book; every id stays"
+      ]
+    },
+    {
+      "name": "the name the family had is not kept in the book",
+      "files": [
+        "sim/family.mjs"
+      ],
+      "expect": "a lone mother's family takes the new husband's name, and keeps the name it had in the book; every id stays",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a lone mother's family takes the new husband's name, and keeps the name it had in the book; every id stays"
+      ]
+    },
+    {
+      "name": "a new husband does not lead the family",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "a new husband leads the family: its principal and main person, whom the calls and the family's decisions go to",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a new husband leads the family: its principal and main person, whom the calls and the family's decisions go to"
+      ]
+    },
+    {
+      "name": "the mother stays the main person when her husband is the principal",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "a new husband leads the family: its principal and main person, whom the calls and the family's decisions go to",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a new husband leads the family: its principal and main person, whom the calls and the family's decisions go to"
+      ]
+    },
+    {
+      "name": "a lone father's family takes his wife's name and she leads it",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "a lone father who marries keeps his name and stays the principal",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a lone father who marries keeps his name and stays the principal"
       ]
     },
     {

@@ -17,6 +17,9 @@ const T = {
   away: 'pressed, the family is away for the day: its people refused work and roads, and seen by nobody',
   home: 'home again, the family has two parents: the new one rolled like a parent, the lone parent\'s own age, with a stable id',
   father: 'a lone father meets a daughter his own age',
+  name: 'a lone mother\'s family takes the new husband\'s name, and keeps the name it had in the book; every id stays',
+  leads: 'a new husband leads the family: its principal and main person, whom the calls and the family\'s decisions go to',
+  father2: 'a lone father who marries keeps his name and stays the principal',
   house: 'a basic house is raised and lived in: built, the family under its roof, and the house work sees it as built',
   begun: 'a house the family had begun is finished for it, not thrown away for another',
   own: 'the family that raised its own house is not offered the path',
@@ -77,6 +80,17 @@ const INJECTIONS = [
     { file: 'sim/family.mjs', from: "        : stepchildren.length\n          ? `Married to ${nameOf(kin.spouse)}. Step${kin.role} to ${listWords(stepchildren)}.${born}`\n", to: '' }] },
   { name: 'a lone father meets a son', expect: T.father, edits: [
     { file: C, from: '  const spouseSex = other(parent.sex);', to: "  const spouseSex = 'male';" }] },
+  // ------------------------------------------------------------------------ the owner's answers of 2026-09-29: "His name", "New husband leads"
+  { name: 'a lone mother\'s family keeps its own name at the wedding', expect: T.name, edits: [
+    { file: C, from: "  if (spouse.sex === 'male') { takeHisName(world, household, spouse, path); heLeads(household, parent, spouse); }", to: "  if (spouse.sex === 'male') heLeads(household, parent, spouse);" }] },
+  { name: 'the name the family had is not kept in the book', expect: T.name, edits: [
+    { file: 'sim/family.mjs', from: "      const formerly = path?.formerName && path.parentId === id ? ` Until the wedding, ${path.formerName}.` : '';", to: "      const formerly = '';" }] },
+  { name: 'a new husband does not lead the family', expect: T.leads, edits: [
+    { file: C, from: "  if (spouse.sex === 'male') { takeHisName(world, household, spouse, path); heLeads(household, parent, spouse); }", to: "  if (spouse.sex === 'male') takeHisName(world, household, spouse, path);" }] },
+  { name: 'the mother stays the main person when her husband is the principal', expect: T.leads, edits: [
+    { file: C, from: '  household.principalId = husband.id;\n  delete household.mainId;\n', to: '  household.principalId = husband.id;\n' }] },
+  { name: 'a lone father\'s family takes his wife\'s name and she leads it', expect: T.father2, edits: [
+    { file: C, from: "  if (spouse.sex === 'male') { takeHisName(", to: "  if (true) { takeHisName(" }] },
   // ------------------------------------------------------------------------------------------------ the house
   { name: 'no house is raised', expect: T.house, edits: [
     { file: C, from: '  const raised = raiseTheHouse(world, household);', to: "  const raised = 'raised';" }] },

@@ -21,7 +21,7 @@ import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
-import { familyRoll } from '../sim/family.mjs';
+import { familyRoll, rolledPeople } from '../sim/family.mjs';
 import { houseBuilt } from '../sim/houses.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 
@@ -45,9 +45,12 @@ const command = (page, input) => page.evaluate(async body => {
 const boxOf = (page, selector) => page.evaluate(sel => { const r = document.querySelector(sel)?.getBoundingClientRect(); return r && r.width ? { left: r.left, top: r.top, right: r.right, bottom: r.bottom } : null; }, selector);
 const overlaps = (a, b) => Boolean(a && b && a.left < b.right - 1 && b.left < a.right - 1 && a.top < b.bottom - 1 && b.top < a.bottom - 1);
 
-/** A seed whose first family rolls a lone parent with children: two of them, so the scenes have somebody to play and to ask. */
+/**
+ * A seed whose first family rolls a lone mother with two children, so the scenes have somebody to play and to ask, and the wedding
+ * gives the family the husband's name and makes him its leader (owner, 2026-09-29: "His name", "New husband leads").
+ */
 function loneSeed(stem = 'lone-parent-proof') {
-  for (let n = 0; n < 100000; n++) if (familyRoll(`${stem}-${n}`, 'hh-1') === 3) return `${stem}-${n}`;
+  for (let n = 0; n < 100000; n++) if (familyRoll(`${stem}-${n}`, 'hh-1') === 3 && rolledPeople(`${stem}-${n}`, 'hh-1', 0, 3)[0].sex === 'female') return `${stem}-${n}`;
   throw new Error('no seed');
 }
 
@@ -241,6 +244,16 @@ try {
   await shot(student, '9-home-married');
   observed.home = { members: members.map(person => ({ id: person.id, role: person.kin.role, age: person.age })), house: household().house?.plan || household().house?.layout, rows: await student.locator('#family-rows > li').count() };
   ok(`home: ${observed.home.members.length} people, two parents on the panel, a ${observed.home.house} house standing, and the ability gone`);
+
+  // The family took the new husband's name, and he leads it: the name at the top of the page, the family book, and the star.
+  const his = home.courtship.neighbours[1].surname, husbandId = home.courtship.spouse.id;
+  await until(student, "the page does not call the family by the new husband's name", name => document.querySelector('#session').textContent.includes(name), his, { timeout: 30000 });
+  await until(student, "the new husband is not the family's main person on the panel", id => document.querySelector(`#family-rows > li[data-main=true]`) && window.__snapshot.world.household.principalId === id, husbandId, { timeout: 30000 });
+  observed.named = await student.evaluate(() => ({ heading: document.querySelector('#session').textContent, main: document.querySelector('#family-rows > li[data-main=true] input')?.value }));
+  assert.equal(home.principalId, husbandId);
+  assert.equal(home.surname, his);
+  await shot(student, '10-his-name');
+  ok(`the family took his name - the page reads "${observed.named.heading}" - and ${observed.named.main}, the new husband, is its main person and principal`);
 
   // ------------------------------------------------------------------ 6. less motion
   // How long each fade to black took, from the page's own record of its changes.
