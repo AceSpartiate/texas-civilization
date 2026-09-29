@@ -14,9 +14,9 @@ with its written intent and a compare list; Astra's frame or clip of the same na
   `dress` layers and `build`, a tool or hat that draws itself. Sources for every uniform detail, each labelled as sure as it is, are in
   `battle-kit/figures.mjs` (Potter's eyewitness, the 1821 regulations, the Handbook; the Mexican crossbelts' colour is disputed and
   drawn white, as hers are; J. W. Smith's "El Colorado" is documented, red hair is an interpretation).
-- **Modules and what they draw** (369 frames and 111 clips; C1-C19 all drawn):
+- **Modules and what they draw** (357 frames and 107 clips after the merge; C1-C19 drawn, C3 by area A):
   `battle-cast` (C1: each cast figure's `-fire-reload`, `-load`, `-ramrod`, `-injured`, `-reclining`); `battle-soldiers` (C2 bearers,
-  C3 camp at rest, C4 rest-sit and sleep, C5 loophole, crowbar, trench, C6 parapet e/s/n, C7 prone cazador, C8 skirmisher, C10 bank
+  C4 rest-sit and sleep, C5 loophole, crowbar, trench, C6 parapet e/s/n, C7 prone cazador, C8 skirmisher, C10 bank
   climb, C11 wading, C12 settler gun crew); `battle-works` (C4 stacked arms and the breastwork of packs, C5 barricade and sandbags,
   C9 the column on the march, C15 Castrillón's crate, C16 the Grass Fight's bundle and a padre's cart, C17 the flag without its
   disputed star and half-painted on the table, C18 the armies' camps, C19 the Alamo's north and church guns); `famous-officers` (C13:
@@ -34,17 +34,21 @@ with its written intent and a compare list; Astra's frame or clip of the same na
   people's sheets asked for with the snapshot); `public/chase-view.js`, `public/army-view.js`, `public/ambient.js` + `sim/ambient.mjs`
   (soldiers clean rifles, sit and cook in camp); `sim/people.mjs` (the famous people's own `art` keys); `sim/battles/coleto.mjs`
   (`cover: 'grass'`, added to `COVERS`).
-- **Evidence.** `npm test` 1,664 pass, 0 fail, 36 skipped (one run had `save-retry` time out under load; it passes alone, 3 of 3).
-  Five renderer tests draw with Claude's sheets loaded and hold the library stand-ins when they are not (`tests/support/claude-names.mjs`);
-  **17 of 17 injections caught** in `npm run test:claude-art` (seven of them area C's). `test:battle-gonzales` 12 checks, now asserting a
-  member with an appearance fired in their own cast figure (`rust-fire-reload`, `rust-battle-load`; injection caught);
-  `test:battle-alamo` 13; `test:famous-people` 22; `test:art` passes (one run failed its catalog walk-tile timing check; passed on rerun).
-  Play size: `docs/evidence/claude-art/compare-{battle-cast,battle-soldiers,battle-works,famous-officers,esparza-family}.png`; moving,
-  beside her clips: `docs/evidence/claude-art/motion-battles.png` (each clip's cycle sampled evenly and onion-skinned; no video: the
-  Playwright here has no ffmpeg).
-- **Open.** `test:battle-san-jacinto` times out at its join: the first student is seated in `hh-2`, not `hh-1` - household assignment,
-  nothing drawn; not traced here. In the famous-people proof the burial is seen for one frame only, before its sheet has loaded, so it
-  records the fallback (`rust-walk+shroud`); the unit test proves `burial-party-walk-e` once loaded.
+- **Merged with areas A, B, D, E and F** (`integration-2026-09-28` f95cc491, 2026-09-29): one clip-choosing path - the battle view's
+  figures carry E's `fallback`, drawn while `clipReady` says no (area C's `alt` folded into it, with an optional `dy` and `timeMs`), and
+  app.js's member poses go through `drawnClipOf`. Area A's `camp-rest` frames are the soldiers at rest (area C's duplicates removed);
+  D's chase dragoons kept and the skirmisher added the same way. The five famous riders, the column's officer (a black trooper's horse,
+  `drawMounted`) and the carts' mules (D's mule) are on D's four-legged rig; the map's camps are asked for as one-frame clips.
+- **Evidence after the merge.** `npm test` **1,677 pass, 0 fail**, 36 skipped. **22 of 22 injections caught** (`npm run test:claude-art`,
+  seven of them area C's: each renderer test with Claude's sheets loaded and its library fallback). `test:art` passes;
+  `test:battle-gonzales` 12 checks (a member with an appearance fired and loaded in their own figure: `rust-fire-reload`,
+  `rust-battle-load`; that check proved by injection); `test:battle-alamo` 13; `test:battle-san-jacinto` 15 (its join fixed on
+  `sj-proof-seat`: the staging's played mark is taken off before the class opens); `test:famous-people` 22. Play size:
+  `docs/evidence/claude-art/compare-{battle-cast,battle-soldiers,battle-works,famous-officers,esparza-family}.png`; moving, beside
+  her clips: `docs/evidence/claude-art/motion-battles.png` (no video: the Playwright here has no ffmpeg).
+- **Open.** In the famous-people proof the burial is seen for one frame only, before its sheet has arrived, so it records the
+  fallback (`rust-walk+shroud`); the unit test proves `burial-party-walk-e` once loaded. The flag without the disputed star is drawn
+  and registered, but nothing asks for it: which flag the game shows is the owner's call (FIC-GONZ-419).
 - **Honest limit.** At a figure of 40-77 px they read as the same kinds of men as hers - the volunteer's brown coat and hat, the
   regular's blue, white and shako, a general's bicorne and sash, a Tejana's rebozo - at her height and on her ground line, and the
   fire cycle, the march and the run read as those actions. At 150 px they are plainly a simpler hand: even limbs, stiff joints, tiny
