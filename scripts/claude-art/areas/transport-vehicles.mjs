@@ -39,9 +39,9 @@ for (const loaded of [false, true]) for (const h of DIRS) {
   const travel = [0, 1, 2, 3].map(i => ({ name: `cart-travel-${tag}-${i + 1}`, height: 1.24, compare: [[`cart-open-${h}`, 1.24], ['ox-walk-1', 1.45]],
     prompt: `${CART_WHO(loaded)}, rolling ${HEADINGS[h]}, frame ${i + 1} of 4: the wheels turn a quarter of a spoke's spacing a frame, so the loop turns without a jump. ${STYLE}`,
     draw: () => cartFrame(`cart-travel-${tag}-${i + 1}`, h, { frame: i, loaded, note: `the cart rolling ${h}${loaded ? ', loaded' : ''}, frame ${i + 1} of 4` }) }));
-  const idle = { name: `cart-idle-${tag}`, height: 1.24, compare: [[`cart-open-${h}`, 1.24]],
+  const idle = { name: `cart-idle-${tag}-1`, height: 1.24, compare: [[`cart-open-${h}`, 1.24]],
     prompt: `${CART_WHO(loaded)}, standing still, facing ${HEADINGS[h]}. ${STYLE}`,
-    draw: () => cartFrame(`cart-idle-${tag}`, h, { frame: 0, loaded, rolling: false, note: `the cart standing${loaded ? ', loaded' : ''}, ${h}` }) };
+    draw: () => cartFrame(`cart-idle-${tag}-1`, h, { frame: 0, loaded, rolling: false, note: `the cart standing${loaded ? ', loaded' : ''}, ${h}` }) };
   cartSets.push({ tag, h, loaded, travel, idle });
 }
 
@@ -104,7 +104,7 @@ export const SHEETS = {
 };
 export const CLIPS = Object.fromEntries([
   ...cartSets.map(set => [`cart-travel-${set.tag}`, loop(set.travel, 240, dirWord(set.h), `The cart rolling ${set.h}${set.loaded ? ', loaded' : ''}: a four-frame loop, the wheels turning.`)]),
-  ...cartSets.map(set => [`cart-idle-${set.tag}`, { frames: [{ sprite: set.idle.name, duration: 2000 }], loop: true, motion: 'none', direction: dirWord(set.h), prompt: `The cart standing${set.loaded ? ', loaded' : ''}, ${set.h}.` }]),
+  ...cartSets.map(set => [`cart-idle-${set.tag}`, { frames: [{ sprite: set.idle.name, duration: 2000 }], loop: true, motion: 'none', direction: dirWord(set.h), prompt: `The family's cart standing still without its ox${set.loaded ? ', loaded' : ', empty'}, facing ${set.h}: one held frame.` }]),
   ...DIRS.map((h, k) => [`carreta-loaded-travel-${h}`, loop(carretaLoaded[k], 245, dirWord(h), `The carreta laden and rolling ${h}: a four-frame loop at the delivered carreta's 245 ms.`)]),
   ...wagonSets.map(set => [`wagon-ox-${set.tag}`, loop(set.frames, 260, dirWord(set.h), `The wagon and its ox going ${set.h} (${set.cover === 'on' ? 'covered' : set.cover}): a four-frame loop, the ox's plod and the wheels turning together.`)]),
 ]);

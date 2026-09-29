@@ -104,8 +104,8 @@ export const SHEETS = {
 };
 export const CLIPS = {
   'milk-cow-walk-e': loop(cowWalkE, 260, 'east; west by mirroring', 'The milk cow walking east on her rope: a four-frame walk loop, a little slower than the horse.'),
-  'milk-cow-walk-n': loop(cowWalkV('n'), 320, 'north', 'The milk cow walking away: two frames.'),
-  'milk-cow-walk-s': loop(cowWalkV('s'), 320, 'south', 'The milk cow walking toward the camera: two frames.'),
+  'milk-cow-walk-n': loop(cowWalkV('n'), 320, 'north', 'The milk cow walking away from the camera on her rope: two frames.'),
+  'milk-cow-walk-s': loop(cowWalkV('s'), 320, 'south', 'The milk cow walking toward the camera on her rope: two frames.'),
   'milk-cow-graze': { frames: [{ sprite: 'milk-cow-graze-1', duration: 900 }, { sprite: 'milk-cow-graze-2', duration: 700 }], loop: true, motion: 'none', direction: 'east; west by mirroring', prompt: 'The milk cow grazing at the camp: reach and tear, slowly.' },
   'herd-drove': loop(herdDrove, 130, 'east; west by mirroring', 'The herd driven off at the gallop as one mass: a four-frame loop.'),
   'herd-scatter': loop(herdScatter, 130, 'east; west by mirroring', 'The herd scattering, some turned back: a four-frame loop.'),

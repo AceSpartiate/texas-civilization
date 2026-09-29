@@ -11,10 +11,10 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | A — People at work and ambient poses | 18 | 5 | 2 | 0 |
 | B — Children, babies and sickness | 11 | 5 | 0 | 2 |
 | C — Soldiers, battles and famous people | 19 | 1 | 0 | 1 |
-| D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 0 | 4 |
+| D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 15 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 15 | 1 | 1 | 3 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 1 | 2 | 17 |
-| **Total** | **88** | **15** | **5** | **27** |
+| **Total** | **88** | **15** | **20** | **27** |
 
 ## How a builder works
 
@@ -305,79 +305,79 @@ Skipped:
 
 Scope: everything on a horse, a mule or in a vehicle: mounted cast and children, drivers, riders in the bed, carts and wheels, the milk cow, cavalry, herds. 15 to make, 4 skipped.
 
-- [ ] **D1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 1
+- [ ] **D1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 1 — **Claude stand-in in place** (`milk-cow-walk-e`, `milk-cow-walk-n`, `milk-cow-walk-s`, `milk-cow-graze`); Astra's replaces it
   - **Deliver:** `milk-cow-walk-e` (4), `milk-cow-walk-n`, `milk-cow-walk-s`, `milk-cow-graze` (2): a gentle dairy cow of the 1830s with a rope trailing from her horns
   - **Frames:** 4 east, 2 each north and south, 2 grazing. **Size:** Cattle at the logical height of `cattle-longhorn-*`, ground anchor, east mirrored for west
   - **Plugs into:** the cow in `drawWorld`, `public/app.js` (`window.__cowDrawn`)
   - **Stands in now:** the range longhorn's `cattle-longhorn-red-idle` and `-graze` (Astra's library art reused)
-- [ ] **D2** (priority 1) — [Request 2026-09-27 — Mexican troops after a family on the road](ART_REQUESTS.md#request-2026-09-27--mexican-troops-after-a-family-on-the-road), items 1-2
+- [ ] **D2** (priority 1) — [Request 2026-09-27 — Mexican troops after a family on the road](ART_REQUESTS.md#request-2026-09-27--mexican-troops-after-a-family-on-the-road), items 1-2 — **Claude stand-in in place** (`dragoon-gallop-e`, `dragoon-gallop-n`, `dragoon-gallop-s`, `dragoon-carbine-fire`, `dragoon-fire`); Astra's replaces it
   - **Deliver:** `dragoon-gallop-e` (4), `-n`, `-s` (the escort dragoon riding hard, carbine slung) and `dragoon-carbine-fire` (raise, fire, lower; 3); also `dragoon-fire-1`/`-2` for the battles (request 2026-09-25 battles, item 2)
   - **Frames:** 4 + 2 + 2, and 3. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540 (the `dragoon-e` height)
   - **Plugs into:** `createChaseView` in `public/chase-view.js`; the dragoon branch of `draw` in `public/battle-view.js`
   - **Stands in now:** `dragoon-march` with a flash and a puff at his hands; `dragoon-idle-e` (Astra's library art reused)
-- [ ] **D3** (priority 2) — [Request 2026-09-14 — family members on horseback](ART_REQUESTS.md#request-2026-09-14--family-members-on-horseback), children
+- [ ] **D3** (priority 2) — [Request 2026-09-14 — family members on horseback](ART_REQUESTS.md#request-2026-09-14--family-members-on-horseback), children — **Claude stand-in in place** (`girl-ride-e`, `girl-ride-s`, `girl-ride-n`, `boy-ride-e`, `boy-ride-s`, `boy-ride-n`, `smallchild-ride-e`, `smallchild-ride-s`, `smallchild-ride-n`, `girl-ride-wagon-e`, `girl-ride-wagon-s`, `girl-ride-wagon-n`, `boy-ride-wagon-e`, `boy-ride-wagon-s`, `boy-ride-wagon-n`, `smallchild-ride-wagon-e`, `smallchild-ride-wagon-s`, `smallchild-ride-wagon-n`); Astra's replaces it
   - **Deliver:** `girl`, `boy`, `smallchild` and `infant` mounted on the family's chestnut: `<child>-ride-e`, `-s`, `-n` as the eight have
   - **Frames:** 4 frames a heading. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
   - **Plugs into:** `seatOf`, `seatedClip`, `seatLayout` in `public/motion.js`; `drawSeated` in `public/app.js`
   - **Stands in now:** the child's idle cut below the waist over the walking horse (Astra's library art reused)
-- [ ] **D4** (priority 2) — [Request 2026-09-16 — driving the ox wagon](ART_REQUESTS.md#request-2026-09-16--driving-the-ox-wagon), second cast and children
+- [ ] **D4** (priority 2) — [Request 2026-09-16 — driving the ox wagon](ART_REQUESTS.md#request-2026-09-16--driving-the-ox-wagon), second cast and children — **Claude stand-in in place** (`rust-woman-wagon-driver-s`, `rust-woman-wagon-driver-e`, `rust-woman-wagon-driver-w`, `rust-woman-wagon-driver-n`, `indigo-wagon-driver-s`, `indigo-wagon-driver-e`, `indigo-wagon-driver-w`, `indigo-wagon-driver-n`, `ochre-wagon-driver-s`, `ochre-wagon-driver-e`, `ochre-wagon-driver-w`, `ochre-wagon-driver-n`, `blue-girl-wagon-driver-s`, `blue-girl-wagon-driver-e`, `blue-girl-wagon-driver-w`, `blue-girl-wagon-driver-n`, `girl-wagon-driver-s`, `girl-wagon-driver-e`, `girl-wagon-driver-w`, `girl-wagon-driver-n`, `boy-wagon-driver-s`, `boy-wagon-driver-e`, `boy-wagon-driver-w`, `boy-wagon-driver-n`, `smallchild-wagon-driver-s`, `smallchild-wagon-driver-e`, `smallchild-wagon-driver-w`, `smallchild-wagon-driver-n`); Astra's replaces it
   - **Deliver:** seated driver layers `rust-woman-drive-<dir>`, `indigo-drive-<dir>`, `ochre-drive-<dir>`, `blue-girl-drive-<dir>` and the four children, on the four headings as the delivered sixteen
   - **Frames:** 4 headings each. **Size:** As `people-wagon-drivers`: anchored at the rig's seat point
   - **Plugs into:** `wagonDriverId`, `seatOf`, `seatedClip`, `seatLayout` in `public/motion.js`
   - **Stands in now:** the figure's idle cut below the waist at the front of the wagon (Astra's library art reused)
-- [ ] **D5** (priority 2) — [Request 2026-09-25 — riders, walkers and the cart](ART_REQUESTS.md#request-2026-09-25--riders-walkers-and-the-cart), items 1-2
+- [ ] **D5** (priority 2) — [Request 2026-09-25 — riders, walkers and the cart](ART_REQUESTS.md#request-2026-09-25--riders-walkers-and-the-cart), items 1-2 — **Claude stand-in in place** (`rust-ride-wagon-e`, `rust-ride-wagon-s`, `rust-ride-wagon-n`, `teal-ride-wagon-e`, `teal-ride-wagon-s`, `teal-ride-wagon-n`, `elder-ride-wagon-e`, `elder-ride-wagon-s`, `elder-ride-wagon-n`, `blue-ride-wagon-e`, `blue-ride-wagon-s`, `blue-ride-wagon-n`, `rust-woman-ride-wagon-e`, `rust-woman-ride-wagon-s`, `rust-woman-ride-wagon-n`, `indigo-ride-wagon-e`, `indigo-ride-wagon-s`, `indigo-ride-wagon-n`, `ochre-ride-wagon-e`, `ochre-ride-wagon-s`, `ochre-ride-wagon-n`, `blue-girl-ride-wagon-e`, `blue-girl-ride-wagon-s`, `blue-girl-ride-wagon-n`, `girl-ride-wagon-e`, `girl-ride-wagon-s`, `girl-ride-wagon-n`, `boy-ride-wagon-e`, `boy-ride-wagon-s`, `boy-ride-wagon-n`, `smallchild-ride-wagon-e`, `smallchild-ride-wagon-s`, `smallchild-ride-wagon-n`, `cart-travel-e`, `cart-travel-s`, `cart-travel-n`, `cart-travel-loaded-e`, `cart-travel-loaded-s`, `cart-travel-loaded-n`, `cart-idle-e`, `cart-idle-s`, `cart-idle-n`, `cart-idle-loaded-e`, `cart-idle-loaded-s`, `cart-idle-loaded-n`); Astra's replaces it
   - **Deliver:** `cart-travel-e`, `-n`, `-s` (4 frames, the wheels turning) and `cart-idle` loaded and empty; seated riders for the bed of an open wagon and a cart, both casts and the children, east/north/south, anchored at the hip (`<figure>-ride-wagon-<dir>`), and the wagon's tail with its cover drawn back
   - **Frames:** 4 frames a heading. **Size:** The scale of `wagon-covered` and `ox-walk`
   - **Plugs into:** `miniWagon` in `public/app.js`; `bedLayout` in `public/motion.js`
   - **Stands in now:** the delivered static `cart-open` views; riders as their idle cut at the waist on the cover (Astra's library art reused)
-- [ ] **D6** (priority 2) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 3
+- [ ] **D6** (priority 2) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 3 — **Claude stand-in in place** (`tejano-rider-ride-e`, `tejano-rider-ride-s`, `tejano-rider-ride-n`); Astra's replaces it
   - **Deliver:** `tejano-rider-ride-e`, `-n`, `-s` (4): a Tejano horseman in a short jacket and wide hat with a lance or escopeta
   - **Frames:** 4 frames a heading. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
   - **Plugs into:** `bx-tejano-*` in `sim/town-scenes.mjs`
   - **Stands in now:** the cast's riders (Astra's library art reused)
   - **Research first:** Tejano horsemen of Béxar, 1836 (Seguín's company); dress is an interpretation
-- [ ] **D7** (priority 2) — [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto), item 3
+- [ ] **D7** (priority 2) — [Request 2026-09-25 — San Jacinto](ART_REQUESTS.md#request-2026-09-25--san-jacinto), item 3 — **Claude stand-in in place** (`volunteer-mounted-walk-e`, `volunteer-mounted-walk-s`, `volunteer-mounted-walk-n`, `volunteer-mounted`, `volunteer-mounted-trot`, `volunteer-mounted-idle`, `volunteer-mounted-fire`, `volunteer-ride-e`, `volunteer-ride-s`, `volunteer-ride-n`); Astra's replaces it
   - **Deliver:** `volunteer-mounted` walk (east, north, south, 4) and trot and idle, a rifle, and `volunteer-mounted-fire` (2); the same rider serves `volunteer-ride-e`/`-s`/`-n` for the south's fights and the Gonzales men riding into the Alamo
   - **Frames:** 4 frames a heading, 2 firing. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
   - **Plugs into:** `figureOf`, the rider branch of `draw` and `memberPose` in `public/battle-view.js`
   - **Stands in now:** the mounted courier (`mounted-courier-e`, `-listen`) (Astra's library art reused)
-- [ ] **D8** (priority 2) — [Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night](ART_REQUESTS.md#request-2026-09-25--the-alamo-ladders-the-guns-served-the-walls-manned-night), item 7
+- [ ] **D8** (priority 2) — [Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night](ART_REQUESTS.md#request-2026-09-25--the-alamo-ladders-the-guns-served-the-walls-manned-night), item 7 — **Claude stand-in in place** (`lancer-march`, `lancer-idle`, `lancer-charge`); Astra's replaces it
   - **Deliver:** `lancer-march`, `lancer-idle` (lance up, both facings) and `lancer-charge` (at the gallop, lance level; never striking)
   - **Frames:** 4 marching, 1 idle, 4 charging. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
   - **Plugs into:** `draw` in `public/battle-view.js`
   - **Stands in now:** `dragoon-march-*` with no lance (Astra's library art reused)
-- [ ] **D9** (priority 2) — [Request 2026-09-26 — the Mexican advance](ART_REQUESTS.md#request-2026-09-26--the-mexican-advance), item 1
+- [ ] **D9** (priority 2) — [Request 2026-09-26 — the Mexican advance](ART_REQUESTS.md#request-2026-09-26--the-mexican-advance), item 1 — **Claude stand-in in place** (`forager-ride`, `forager-drive`); Astra's replaces it
   - **Deliver:** `forager-ride-1`..`-4` (two or three horsemen, one leading a pack mule of corn sacks) and `forager-drive-1`..`-4` (two horsemen driving three or four cattle)
   - **Frames:** 4 frames each, east. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
   - **Plugs into:** the parties in `drawWorld`, `public/app.js`
   - **Stands in now:** three `dragoon-march` riders (Astra's library art reused)
-- [ ] **D10** (priority 3) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 3
+- [ ] **D10** (priority 3) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 3 — **Claude stand-in in place** (`dragoon-wounded-led`); Astra's replaces it
   - **Deliver:** `dragoon-wounded-led-1`..`-2` (a man slumped in the saddle, another leading the horse)
   - **Frames:** 2 frames, east. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
   - **Plugs into:** `drawFallen` in `public/battle-view.js`
   - **Stands in now:** a dragoon hit in the saddle drawn dismounted (Astra's library art reused)
-- [ ] **D11** (priority 3) — [Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek](ART_REQUESTS.md#request-2026-09-25--the-souths-fights-san-patricio-by-night-and-agua-dulce-creek), item 4
+- [ ] **D11** (priority 3) — [Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek](ART_REQUESTS.md#request-2026-09-25--the-souths-fights-san-patricio-by-night-and-agua-dulce-creek), item 4 — **Claude stand-in in place** (`herd-drove`, `herd-scatter`); Astra's replaces it
   - **Deliver:** `herd-drove` (several hundred horses moving as one mass, 4) and `herd-scatter`
   - **Frames:** 4 and 2-4. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside (mustangs' scale)
   - **Plugs into:** `drawHerd` in `public/battle-view.js`
   - **Stands in now:** `mustang-gallop`, `mustang-graze` up to twenty-four times (Astra's library art reused)
-- [ ] **D12** (priority 3) — [Request 2026-09-25 — Concepción and the Grass Fight](ART_REQUESTS.md#request-2026-09-25--concepción-and-the-grass-fight), items 6 and 8
+- [ ] **D12** (priority 3) — [Request 2026-09-25 — Concepción and the Grass Fight](ART_REQUESTS.md#request-2026-09-25--concepción-and-the-grass-fight), items 6 and 8 — **Claude stand-in in place** (`mule-packed-grass-walk`, `mule-packed-grass-walk-e`, `mule-packed-grass-walk-s`, `mule-packed-grass-walk-n`, `limber-mules-walk`); Astra's replaces it
   - **Deliver:** `mule-packed-grass-walk` (east, north, south, 4) and `limber-mules-walk` (mules at a gun or caisson, men riding them off)
   - **Frames:** 4 frames a heading. **Size:** The scale of `horse-walk`
   - **Plugs into:** the `packhorse` figure in `draw`, `public/battle-view.js`
   - **Stands in now:** `horse-walk`/`horse-graze` with `packed-belongings` on its back (Astra's library art reused)
-- [ ] **D13** (priority 3) — [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses), mounted
+- [ ] **D13** (priority 3) — [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses), mounted — **Claude stand-in in place** (`seguin-ride-e`, `seguin-ride-s`, `seguin-ride-n`, `sutherland-ride-e`, `sutherland-ride-s`, `sutherland-ride-n`); Astra's replaces it
   - **Deliver:** full mounted movement for Seguín (`seguin-ride-*`); Dr. John Sutherland mounted (`sutherland-ride-*`, request 2026-09-26 the bell at Béxar, item 3)
   - **Frames:** 4 frames a heading. **Size:** Mounted: the courier's cell size and ground anchor, drawn at 1.8 of a person (`MOUNTED_HEIGHT`); Claude: `mountedFrame`, 480×560, logical height 540
   - **Plugs into:** `PERSON_ART`; `sutherland` in `sim/people.mjs`
   - **Stands in now:** Seguín's two mounted key poses; the roster's `rider` (Astra's library art reused)
   - **Research first:** original interpretations; no likeness
-- [ ] **D14** (priority 3) — [Request 2026-09-16 — driving the ox wagon](ART_REQUESTS.md#request-2026-09-16--driving-the-ox-wagon), item 1
+- [ ] **D14** (priority 3) — [Request 2026-09-16 — driving the ox wagon](ART_REQUESTS.md#request-2026-09-16--driving-the-ox-wagon), item 1 — **Claude stand-in in place** (`wagon-ox-e`, `wagon-ox-s`, `wagon-ox-n`, `wagon-ox-loaded-e`, `wagon-ox-loaded-s`, `wagon-ox-loaded-n`, `wagon-ox-empty-e`, `wagon-ox-empty-s`, `wagon-ox-empty-n`); Astra's replaces it
   - **Deliver:** the covered wagon with one ox yoked to its tongue as one rolling rig, `wagon-ox-e`/`-n`/`-s`, 4 frames each, loaded and empty covers
   - **Frames:** 4 frames a heading. **Size:** The scale of `wagon-covered` and `ox-walk`
   - **Plugs into:** `seatLayout('wagon', direction)` in `public/motion.js`
   - **Stands in now:** the ox and the side-view wagon drawn apart; north and south the wagon stays side-on (Astra's library art reused)
-- [ ] **D15** (priority 3) — [Request 2026-09-25 — the carreta](ART_REQUESTS.md#request-2026-09-25--the-carreta), loaded
+- [ ] **D15** (priority 3) — [Request 2026-09-25 — the carreta](ART_REQUESTS.md#request-2026-09-25--the-carreta), loaded — **Claude stand-in in place** (`carreta-loaded-travel-e`, `carreta-loaded-travel-s`, `carreta-loaded-travel-n`); Astra's replaces it
   - **Deliver:** a loaded carreta travel presentation (`carreta-loaded-travel-*`)
   - **Frames:** 4 frames a heading. **Size:** The delivered `carreta-*` scale
   - **Plugs into:** `miniWagon` in `public/app.js`

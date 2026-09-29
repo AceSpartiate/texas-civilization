@@ -1443,7 +1443,7 @@
       "module": "transport-animals",
       "area": "transport",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "The milk cow walking away: two frames.",
+      "prompt": "The milk cow walking away from the camera on her rope: two frames.",
       "frames": [
         "milk-cow-walk-n-1",
         "milk-cow-walk-n-2"
@@ -1457,7 +1457,7 @@
       "module": "transport-animals",
       "area": "transport",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "The milk cow walking toward the camera: two frames.",
+      "prompt": "The milk cow walking toward the camera on her rope: two frames.",
       "frames": [
         "milk-cow-walk-s-1",
         "milk-cow-walk-s-2"

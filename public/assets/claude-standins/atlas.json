@@ -235,8 +235,8 @@
       "image": "/assets/claude-standins/claude-foragers.png",
       "width": 1500,
       "height": 1440,
-      "bytes": 1464428,
-      "sha256": "87c6e9cb5634b7b6125f119249febbeb67607d292590f0df6158fac87d8dc6ca",
+      "bytes": 1481977,
+      "sha256": "51aecb4587174d6fc9a5e49608b14c53fba7d1c70928cff12d198692d3159bdc",
       "madeBy": "claude",
       "module": "transport-cavalry",
       "request": "Request 2026-09-26 — the Mexican advance",
@@ -407,7 +407,7 @@
       "width": 2840,
       "height": 930,
       "bytes": 837281,
-      "sha256": "28e41c86d893cb1cb3dccb1b08738a4f7d6173bd94f1fefc8ddce9cb40bcc7b2",
+      "sha256": "58e0fa94531369b55ce96c1b418ddfa50572af244db85632444afa8c7b85c403",
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
@@ -4671,7 +4671,7 @@
       "label": "cart travel e 4",
       "kind": "claude-cart"
     },
-    "cart-idle-e": {
+    "cart-idle-e-1": {
       "sheet": "claude-cart",
       "x": 1280,
       "y": 0,
@@ -4683,9 +4683,9 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-idle-e: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-idle-e.svg",
-      "label": "cart idle e",
+      "replaceWith": "cart-idle-e-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-idle-e-1.svg",
+      "label": "cart idle e 1",
       "kind": "claude-cart"
     },
     "cart-travel-s-1": {
@@ -4756,7 +4756,7 @@
       "label": "cart travel s 4",
       "kind": "claude-cart"
     },
-    "cart-idle-s": {
+    "cart-idle-s-1": {
       "sheet": "claude-cart",
       "x": 1280,
       "y": 280,
@@ -4768,9 +4768,9 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-idle-s: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-idle-s.svg",
-      "label": "cart idle s",
+      "replaceWith": "cart-idle-s-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-idle-s-1.svg",
+      "label": "cart idle s 1",
       "kind": "claude-cart"
     },
     "cart-travel-n-1": {
@@ -4841,7 +4841,7 @@
       "label": "cart travel n 4",
       "kind": "claude-cart"
     },
-    "cart-idle-n": {
+    "cart-idle-n-1": {
       "sheet": "claude-cart",
       "x": 1280,
       "y": 560,
@@ -4853,9 +4853,9 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-idle-n: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-idle-n.svg",
-      "label": "cart idle n",
+      "replaceWith": "cart-idle-n-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-idle-n-1.svg",
+      "label": "cart idle n 1",
       "kind": "claude-cart"
     },
     "cart-travel-loaded-e-1": {
@@ -4926,7 +4926,7 @@
       "label": "cart travel loaded e 4",
       "kind": "claude-cart"
     },
-    "cart-idle-loaded-e": {
+    "cart-idle-loaded-e-1": {
       "sheet": "claude-cart",
       "x": 1280,
       "y": 840,
@@ -4938,9 +4938,9 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-idle-loaded-e: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-idle-loaded-e.svg",
-      "label": "cart idle loaded e",
+      "replaceWith": "cart-idle-loaded-e-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-idle-loaded-e-1.svg",
+      "label": "cart idle loaded e 1",
       "kind": "claude-cart"
     },
     "cart-travel-loaded-s-1": {
@@ -5011,7 +5011,7 @@
       "label": "cart travel loaded s 4",
       "kind": "claude-cart"
     },
-    "cart-idle-loaded-s": {
+    "cart-idle-loaded-s-1": {
       "sheet": "claude-cart",
       "x": 1280,
       "y": 1120,
@@ -5023,9 +5023,9 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-idle-loaded-s: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-idle-loaded-s.svg",
-      "label": "cart idle loaded s",
+      "replaceWith": "cart-idle-loaded-s-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-idle-loaded-s-1.svg",
+      "label": "cart idle loaded s 1",
       "kind": "claude-cart"
     },
     "cart-travel-loaded-n-1": {
@@ -5096,7 +5096,7 @@
       "label": "cart travel loaded n 4",
       "kind": "claude-cart"
     },
-    "cart-idle-loaded-n": {
+    "cart-idle-loaded-n-1": {
       "sheet": "claude-cart",
       "x": 1280,
       "y": 1400,
@@ -5108,9 +5108,9 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "replaceWith": "cart-idle-loaded-n: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
-      "source": "svg/transport-vehicles/claude-cart-idle-loaded-n.svg",
-      "label": "cart idle loaded n",
+      "replaceWith": "cart-idle-loaded-n-1: item 1: the cart without its ox, travelling east, north and south with the wheels turning, and standing, loaded and empty, at the scale of cart-open",
+      "source": "svg/transport-vehicles/claude-cart-idle-loaded-n-1.svg",
+      "label": "cart idle loaded n 1",
       "kind": "claude-cart"
     },
     "carreta-loaded-travel-e-1": {
@@ -8250,7 +8250,7 @@
     "cart-idle-e": {
       "frames": [
         {
-          "sprite": "cart-idle-e",
+          "sprite": "cart-idle-e-1",
           "duration": 2000
         }
       ],
@@ -8264,7 +8264,7 @@
     "cart-idle-s": {
       "frames": [
         {
-          "sprite": "cart-idle-s",
+          "sprite": "cart-idle-s-1",
           "duration": 2000
         }
       ],
@@ -8278,7 +8278,7 @@
     "cart-idle-n": {
       "frames": [
         {
-          "sprite": "cart-idle-n",
+          "sprite": "cart-idle-n-1",
           "duration": 2000
         }
       ],
@@ -8292,7 +8292,7 @@
     "cart-idle-loaded-e": {
       "frames": [
         {
-          "sprite": "cart-idle-loaded-e",
+          "sprite": "cart-idle-loaded-e-1",
           "duration": 2000
         }
       ],
@@ -8306,7 +8306,7 @@
     "cart-idle-loaded-s": {
       "frames": [
         {
-          "sprite": "cart-idle-loaded-s",
+          "sprite": "cart-idle-loaded-s-1",
           "duration": 2000
         }
       ],
@@ -8320,7 +8320,7 @@
     "cart-idle-loaded-n": {
       "frames": [
         {
-          "sprite": "cart-idle-loaded-n",
+          "sprite": "cart-idle-loaded-n-1",
           "duration": 2000
         }
       ],

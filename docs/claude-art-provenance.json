@@ -896,7 +896,7 @@
       "module": "transport-animals",
       "area": "transport",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "The milk cow walking away: two frames.",
+      "prompt": "The milk cow walking away from the camera on her rope: two frames.",
       "frames": [
         "milk-cow-walk-n-1",
         "milk-cow-walk-n-2"
@@ -910,7 +910,7 @@
       "module": "transport-animals",
       "area": "transport",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "The milk cow walking toward the camera: two frames.",
+      "prompt": "The milk cow walking toward the camera on her rope: two frames.",
       "frames": [
         "milk-cow-walk-s-1",
         "milk-cow-walk-s-2"
@@ -5075,18 +5075,19 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's cart-travel-e-4"
     },
-    "cart-idle-e": {
-      "kind": "clip",
+    "cart-idle-e-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "transport-vehicles",
       "area": "transport",
+      "sheet": "claude-cart",
       "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "prompt": "The cart standing, e.",
-      "frames": [
-        "cart-idle-e"
-      ],
-      "status": "temporary: replace with Astra's cart-idle-e"
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, empty, standing still, facing east (west is the game's mirror). Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-idle-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-idle-e-1"
     },
     "cart-travel-s-1": {
       "kind": "frame",
@@ -5144,18 +5145,19 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's cart-travel-s-4"
     },
-    "cart-idle-s": {
-      "kind": "clip",
+    "cart-idle-s-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "transport-vehicles",
       "area": "transport",
+      "sheet": "claude-cart",
       "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "prompt": "The cart standing, s.",
-      "frames": [
-        "cart-idle-s"
-      ],
-      "status": "temporary: replace with Astra's cart-idle-s"
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, empty, standing still, facing toward the camera (south). Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-idle-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-idle-s-1"
     },
     "cart-travel-n-1": {
       "kind": "frame",
@@ -5213,18 +5215,19 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's cart-travel-n-4"
     },
-    "cart-idle-n": {
-      "kind": "clip",
+    "cart-idle-n-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "transport-vehicles",
       "area": "transport",
+      "sheet": "claude-cart",
       "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "prompt": "The cart standing, n.",
-      "frames": [
-        "cart-idle-n"
-      ],
-      "status": "temporary: replace with Astra's cart-idle-n"
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, empty, standing still, facing away from the camera (north). Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-idle-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-idle-n-1"
     },
     "cart-travel-loaded-e-1": {
       "kind": "frame",
@@ -5282,18 +5285,19 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's cart-travel-loaded-e-4"
     },
-    "cart-idle-loaded-e": {
-      "kind": "clip",
+    "cart-idle-loaded-e-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "transport-vehicles",
       "area": "transport",
+      "sheet": "claude-cart",
       "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "prompt": "The cart standing, loaded, e.",
-      "frames": [
-        "cart-idle-loaded-e"
-      ],
-      "status": "temporary: replace with Astra's cart-idle-loaded-e"
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, loaded with sacks, a barrel and a rolled blanket, standing still, facing east (west is the game's mirror). Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-idle-loaded-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-idle-loaded-e-1"
     },
     "cart-travel-loaded-s-1": {
       "kind": "frame",
@@ -5351,18 +5355,19 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's cart-travel-loaded-s-4"
     },
-    "cart-idle-loaded-s": {
-      "kind": "clip",
+    "cart-idle-loaded-s-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "transport-vehicles",
       "area": "transport",
+      "sheet": "claude-cart",
       "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "prompt": "The cart standing, loaded, s.",
-      "frames": [
-        "cart-idle-loaded-s"
-      ],
-      "status": "temporary: replace with Astra's cart-idle-loaded-s"
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, loaded with sacks, a barrel and a rolled blanket, standing still, facing toward the camera (south). Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-idle-loaded-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-idle-loaded-s-1"
     },
     "cart-travel-loaded-n-1": {
       "kind": "frame",
@@ -5420,18 +5425,19 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's cart-travel-loaded-n-4"
     },
-    "cart-idle-loaded-n": {
-      "kind": "clip",
+    "cart-idle-loaded-n-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "transport-vehicles",
       "area": "transport",
+      "sheet": "claude-cart",
       "request": "Request 2026-09-25 — riders, walkers and the cart",
-      "prompt": "The cart standing, loaded, n.",
-      "frames": [
-        "cart-idle-loaded-n"
-      ],
-      "status": "temporary: replace with Astra's cart-idle-loaded-n"
+      "prompt": "The family's two-wheeled ox cart of the 1830s without its ox (the team is drawn separately): a plank box with stakes, two iron-tyred spoked wheels on one axle, a tongue with a ring, loaded with sacks, a barrel and a rolled blanket, standing still, facing away from the camera (north). Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-cart-idle-loaded-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's cart-idle-loaded-n-1"
     },
     "carreta-loaded-travel-e-1": {
       "kind": "frame",
@@ -6200,6 +6206,84 @@
         "cart-travel-loaded-n-4"
       ],
       "status": "temporary: replace with Astra's cart-travel-loaded-n"
+    },
+    "cart-idle-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's cart standing still without its ox, empty, facing e: one held frame.",
+      "frames": [
+        "cart-idle-e-1"
+      ],
+      "status": "temporary: replace with Astra's cart-idle-e"
+    },
+    "cart-idle-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's cart standing still without its ox, empty, facing s: one held frame.",
+      "frames": [
+        "cart-idle-s-1"
+      ],
+      "status": "temporary: replace with Astra's cart-idle-s"
+    },
+    "cart-idle-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's cart standing still without its ox, empty, facing n: one held frame.",
+      "frames": [
+        "cart-idle-n-1"
+      ],
+      "status": "temporary: replace with Astra's cart-idle-n"
+    },
+    "cart-idle-loaded-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's cart standing still without its ox, loaded, facing e: one held frame.",
+      "frames": [
+        "cart-idle-loaded-e-1"
+      ],
+      "status": "temporary: replace with Astra's cart-idle-loaded-e"
+    },
+    "cart-idle-loaded-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's cart standing still without its ox, loaded, facing s: one held frame.",
+      "frames": [
+        "cart-idle-loaded-s-1"
+      ],
+      "status": "temporary: replace with Astra's cart-idle-loaded-s"
+    },
+    "cart-idle-loaded-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-25 — riders, walkers and the cart",
+      "prompt": "The family's cart standing still without its ox, loaded, facing n: one held frame.",
+      "frames": [
+        "cart-idle-loaded-n-1"
+      ],
+      "status": "temporary: replace with Astra's cart-idle-loaded-n"
     },
     "carreta-loaded-travel-e": {
       "kind": "clip",
