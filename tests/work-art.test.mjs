@@ -254,3 +254,38 @@ test('a stroke with a drawn cycle of the work names a clip one of the libraries 
     assert.equal(drawWorkLayer(ctx, drawn, 0, 0, 40, 1, clock, true, 'rust'), 0, `${key}: nothing drawn over the drawn cycle held still`);
   }
 });
+
+// A child carrying water is walked down to the water and up to the house by the page (`fetch`; owner, 2026-09-29: the north and
+// south water-carrying frames were drawn but never shown), and turned the way the drawing goes: `-carry-water-n` and `-s` over the
+// walk those ways, the side-on `-carry-water` east and mirrored west.
+test('a child carrying water walks to and fro, turned north and south in the pails’ own frames as the drawing goes', async () => {
+  const { fetchStep, fetchPose } = await import('../public/work-art.js');
+  const { DrawnHeading } = await import('../public/motion.js');
+  const standins = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/claude-standins/atlas.json', import.meta.url)), 'utf8')).clips;
+  const water = STROKES.water;
+  assert.ok(water.fetch, 'the water is carried standing still');
+  for (const seed of [0, 7, 700, 3493, 6972]) {
+    const seen = new DrawnHeading(1e-4), ways = new Map();
+    let far = 0;
+    for (let t = 0; t <= water.fetch.cycleMs * 2; t += 16) {
+      const step = fetchStep(water.fetch, t, seed), way = seen.update('child', step.dx, step.dy);
+      far = Math.max(far, Math.hypot(step.dx, step.dy));
+      if (way) ways.set(way, (ways.get(way) || 0) + 1);
+      // Every heading it is turned names a pose one of the children holds, and its fallback one the library holds.
+      if (!way) continue;
+      const pose = fetchPose(water, way);
+      for (const child of ['girl', 'boy', 'smallchild']) {
+        assert.ok(standins[`${child}-${pose.drawn}`], `${child}-${pose.drawn} is not drawn`);
+        assert.ok(clips[`${child}-${pose.pose}`] || pose.pose === water.pose, `${child}-${pose.pose} is not in the library`);
+      }
+      assert.equal(pose.upright, way === 'n' || way === 's');
+      assert.equal(pose.west, way === 'w');
+    }
+    assert.ok(far > 0.3 && far <= water.fetch.reach + 1e-9, `seed ${seed}: walked ${far} figure heights, not a few steps`);
+    // Down to the water and back up: both ways, north and south, most of the way.
+    assert.ok(ways.get('n') > 50 && ways.get('s') > 50, `seed ${seed}: not walked north and south (${JSON.stringify([...ways])})`);
+  }
+  // Going north or south it asks for the pails' own frames that way.
+  assert.deepEqual(fetchPose(water, 'n'), { drawn: 'carry-water-n', pose: 'walk-n', upright: true, west: false });
+  assert.deepEqual(fetchPose(water, 'w'), { drawn: 'carry-water', pose: 'carry', upright: false, west: true });
+});

@@ -663,8 +663,9 @@ function grownClip(entity, observed) {
  * the side-on rest (the hens are work since 2026-09-28: public/work-art.js `scatter`), hiding the back-turned idle; a crawling
  * baby is the infant's standing pose moved over the ground; a woman holding a baby is the harvest's carrying pose with the
  * infant beside her.
- * ceiling: play is drawn east or west (mirrored); the running play's `-play-run-s`/`-n` are drawn but not asked for, because
- * the page does not read a child's heading about the yard. Reading `ProjectionMotion.heading` for play would use them.
+ * Running at tag or off to hide, the child runs the way they are seen going about the yard (`yardHeading`, read by the page from
+ * where it drew them the frame before, `DrawnHeading`): `-play-run-n` and `-play-run-s` north and south over their own walk those
+ * ways, `-play-run` east and, mirrored, west. The other play is drawn east or west: only the run has a north and a south.
  */
 export function littleClip(entity, variant) {
   const baby = entity.baby?.state;
@@ -687,7 +688,10 @@ export function littleClip(entity, variant) {
   const doing = entity.chore?.doing || '';
   if (/galloping/.test(doing)) return drawnPose(variant, 'walk', 'play-gallop');
   if (/rolling a hoop/.test(doing)) return drawnPose(variant, 'walk', 'play-hoop');
-  if (/running at tag|running off to hide|coming out to be found/.test(doing)) return drawnPose(variant, 'walk', 'play-run');
+  if (/running at tag|running off to hide|coming out to be found/.test(doing)) {
+    const way = entity.yardHeading;
+    return way === 'n' || way === 's' ? drawnPose(variant, `walk-${way}`, `play-run-${way}`, { upright: true }, { upright: true }) : drawnPose(variant, 'walk', 'play-run');
+  }
   if (/hiding behind the house/.test(doing)) return drawnPose(variant, 'idle-n', 'play-hide', { upright: true });
   if (/playing house/.test(doing)) return drawnPose(variant, 'rest', 'play-sit-doll', { upright: true });
   if (/lying on their back/.test(doing)) return { id: `${variant}-rest`, upright: true };
@@ -754,6 +758,27 @@ export const sameJourney = (a, b) => Boolean(a && b && a.from === b.from && a.to
  * says they are now: an even walk, with no easing, so the figure never hurries at the start
  * of a tick and dawdles at the end.
  */
+/** The way a step of (dx, dy) goes on the map or the screen, y down the page: north or south where it is mostly up or down. */
+export const headingOf = (dx, dy) => Math.abs(dy) > Math.abs(dx) * 1.2 ? (dy > 0 ? 's' : 'n') : dx < 0 ? 'w' : 'e';
+/**
+ * Which way somebody is seen going, from where the page drew them the frame before: 'n', 's', 'e' or 'w', kept while they stand
+ * (a child stopped between two runs at tag is still turned the way they ran), null until they are first seen to move. Fed the
+ * point each is drawn at, in whatever units the caller draws in; a step shorter than `still` is not a step, and is added up until
+ * it is. Read off the drawing, as the town's walkers are turned (public/town-scenes.js `TownWalker`), rather than off the server
+ * (`ProjectionMotion.heading`, which reads a step the same way), so it turns a child the server steps about the yard a tick at a
+ * time (sim/children.mjs `playStep`) and a child the page itself walks to and fro (public/work-art.js `fetchStep`) alike.
+ * ceiling: one entry per person ever drawn in this page, never pruned, as `ProjectionMotion` keeps one; a class has a few dozen.
+ */
+export class DrawnHeading {
+  constructor(still = 1e-6) { this.still = still; this.seen = new Map(); }
+  update(id, x, y) {
+    const was = this.seen.get(id);
+    if (!was) { this.seen.set(id, { x, y, dir: null }); return null; }
+    const dx = x - was.x, dy = y - was.y;
+    if (Math.hypot(dx, dy) > this.still) { was.dir = headingOf(dx, dy); was.x = x; was.y = y; }
+    return was.dir;
+  }
+}
 export const drawnProgress = (start, end, f) => start + (end - start) * Math.min(1, Math.max(0, f));
 export class ProjectionMotion {
   constructor() { this.records = new Map(); this.session = null; this.tick = null; }
@@ -828,7 +853,7 @@ export class ProjectionMotion {
     if (!from || !to || from.siteId !== to.siteId) return null;
     const dx = to.x - from.x, dy = to.y - from.y, far = Math.hypot(dx, dy);
     if (!(far > 1e-6) || far >= .6) return null;
-    return Math.abs(dy) > Math.abs(dx) * 1.2 ? (dy > 0 ? 's' : 'n') : dx < 0 ? 'w' : 'e';
+    return headingOf(dx, dy);
   }
   /**
    * The journey somebody is drawn along now, or null: the one `position` walks them down. On the tick they arrive it is the
