@@ -64,3 +64,20 @@ test('the debrief begins with this class\'s own story, named, asking why (S24)',
   w.status = 'ended';
   assert.deepEqual(hostEnding(w).discussion.slice(0, 3), hooks, 'the Host\'s debrief does not begin with the class\'s own hooks');
 });
+
+test('a played family whose student is away at the end is still named in the class\'s own debrief; a family nobody played is not', () => {
+  // Owner, 2026-09-29: "Any played family" (triage 1.4). The director finishing a family does not take it out of the class's story.
+  const w = world();
+  w.neighbours = {};
+  const [a, b] = [w.households['hh-1'], w.households['hh-2']];
+  a.played = true; b.played = true; b.absent = true;
+  establishTruth(w, { id: 'alamo-fall', text: 'The Alamo has fallen.' });
+  w.minute = 1000; learn(w, 'hh-1', 'alamo-fall', { source: 'test' });
+  w.minute = 1000 + 6 * 1440; learn(w, 'hh-2', 'alamo-fall', { source: 'test' });
+  // hh-3, nobody's, heard it later still: the widest gap, were it named.
+  w.minute = 1000 + 12 * 1440; learn(w, 'hh-3', 'alamo-fall', { source: 'test' });
+  const hooks = classHooks(w);
+  const [, away, nobody] = [a, b, w.households['hh-3']].map(one => familyEnding(w, one.id).name);
+  assert.ok(hooks[0]?.includes(away), `the family the computer finished is not in the debrief: ${JSON.stringify(hooks)}`);
+  assert.ok(!hooks.some(hook => hook.includes(nobody)), 'a family nobody played was named on the projector');
+});

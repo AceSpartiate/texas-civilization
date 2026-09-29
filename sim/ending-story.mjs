@@ -15,7 +15,6 @@
 //   was right.
 import { householdName } from './family.mjs';
 import { dateOf } from './clock.mjs';
-import { automatic } from './neighbours.mjs';
 import { happenings } from './flashback.mjs';
 
 const DAY = 1440;
@@ -85,8 +84,11 @@ export function familyQuestions(world, household) {
   return questions;
 }
 
-/** A played family, by its name, for the class's own hooks: automatic neighbours are not named on the projector (`automatic`). */
-const namedFamilies = world => Object.values(world.households).filter(household => household.played && !automatic(world, household));
+/**
+ * A played family, by its name, for the class's own hooks: a family nobody played is not named on the projector. A played family
+ * whose student was away at the end is still theirs and still in the story (owner, 2026-09-29: "Any played family"; triage 1.4).
+ */
+const namedFamilies = world => Object.values(world.households).filter(household => household.played);
 
 /** Questions for the class from what happened in it, named, each asking why. At most three; none when nothing fits. */
 export function classHooks(world) {

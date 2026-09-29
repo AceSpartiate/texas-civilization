@@ -82,6 +82,10 @@ rider's patience in `sim/encounters.mjs`). The tick after its page opens again t
 recalled, and what the director began finishes as an order would. Both changes are written into the family's record, and
 the family's own page is told (`household.absent`). `absent` is true or absent, so no saved class changes.
 
+**At the end it is still the student's family** (owner, 2026-09-29, by multiple choice: *"Any played family"*): a family
+the director was running when the class ended can finish first, and the Host's table marks it *(finished by the computer)*,
+never *(nobody played them)*; it stays in the class's own debrief. See [MONEY_AND_GLORY.md](MONEY_AND_GLORY.md) §5, *Who can finish first*.
+
 ### 2.5 The guided start, stopped and resumed (2026-09-22)
 
 The owner: *"After closing the tutorial, show a small 'Resume tutorial' button for five real minutes from the original
@@ -251,6 +255,49 @@ Gonzales at first light, the ending and "How it ended". Found and moved:
 - **The small print** about the map sat under the Journal and map buttons at 1280 and 1024: it is at the bottom left.
 - **"How it ended"** sat on Gonzales, + and -: it stands on top of the map's buttons.
 
+### 2.11 A class left with nobody in it pauses itself (owner-decided 2026-09-29)
+
+Found by the classroom audit of 2026-09-28 (S1) and the design audit (S1), ranked first in the triage
+([audits/2026-09-29-triage.md](audits/2026-09-29-triage.md) 1.1): a teacher who left at the bell without Pause or *Stop for
+today* left a class that played itself - every family went to the director (§2.4) and people could die with no student
+watching, none of it undoable. Only Play Solo paused itself when its page closed. The owner, by multiple choice (C1):
+**"Pause after 3 min"**.
+
+- **When.** A **running** class in which no student's page has been open for **three real minutes** (`EMPTY_PAUSE_MS`,
+  `pauseIfEmpty` in `server/app.mjs`, checked every tick) is paused and written at once. A page that opened and closed again
+  between two ticks counts as a student there. The Host's own page does not count: it is a projector as often as a teacher.
+- **Not the lobby.** A class waiting to begin is not running and never pauses itself. A running class nobody has opened yet
+  pauses three minutes after it began to run, which is the class the teacher started and walked away from.
+- **What the Host sees.** The status line reads *paused*, and under it, until the teacher's Resume, in words (`#host-paused`,
+  `emptyPauseWords` in `public/live-page.js`): *"The class paused itself at 10:42 AM: no student had the game open for 3
+  minutes, so nothing went on without them. Press Resume when the class is back."* The Host's record has the line *"The class
+  paused itself: no student had the game open for 3 minutes."* (`visibility: 'host'`). No student is sent either.
+- **Resuming** is the teacher's ordinary **Resume**, and it gives the class the whole three minutes again, as does any Pause
+  and Resume of the teacher's own. The words go at Resume.
+- **Where.** Only the real classroom server watches (`server/main.mjs` passes `emptyPauseMs`; `EMPTY_PAUSE_MS` shortens it for
+  a proof), as only the real solo server watches its player: the classes the tests and browser proofs run in process are never
+  paused from under them. Play Solo keeps its own watch (`SOLO_WATCH`).
+- `ceiling:` presence is the page's stream alone (§4), so a room of Chromebooks left open with their students gone keeps a
+  class running. A student's own activity (an order in the last few minutes) is the way out if a class meets that.
+
+### 2.12 The lobby: each student's name, and who is ready (owner-decided 2026-09-29)
+
+Found by the classroom audit (S6; triage 1.7): on the first day the Host's rows showed only the family's name (*Thomas's
+family*), so the teacher could not see who was playing it or who was still making and packing their family, and Start ends
+the packing (a family still packing goes with the default load and stock). The owner, by multiple choice (C5): **"Show name
++ ready"** - Start unchanged.
+
+- **The student's name** on each played family's row, from the moment they join and for the whole class (`presence.students`,
+  which only the Host is sent; `.host-student`). The Host already sees students' names in Recover a student and Late students.
+- **Ready**, in the lobby only (`.host-ready`, titled *Rolled, named and packed*): the family is rolled, has its last name and
+  its parents' looks (`familyMaking` done), and the student pressed **Done packing** (`readyInLobby` in `sim/host.mjs`).
+  Done packing in a class used to put the load screen away and tell nobody; it now sends `done-packing`, which marks the
+  family packed (`household.packed`, true or absent, `donePacking` in `sim/wagon.mjs`). A change to the load or the stock after
+  it takes the mark away again: the family is packing again. After Start the mark goes and the name stays.
+- **Start is unchanged**: it waits for nobody, and a family still packing goes with what it has, as before.
+- No saved class carries `packed`, so a class saved before this opens with nobody marked packed, which is what its lobby
+  would show; no `saveVersion` moved.
+
 ## 3. Proof
 
 - `tests/absence.test.mjs` (4): the marker; the director's, questions answered at once, nothing held; back again; the
@@ -283,6 +330,14 @@ Gonzales at first light, the ending and "How it ended". Found and moved:
   test:reconnect` (a second "reader" refused in words; a fourth tab and **Play here**; a page's script paused, its family on the
   away list 30 s after and claimed with the code typed `aoblco`). Every test and both proofs' new steps were seen failing
   against an injection of the regression they guard (HANDOFF).
+- §2.11 and §2.12: `tests/empty-pause.test.mjs` (the span to the millisecond on a held clock, the lobby never, a page open
+  keeps it running, the Host's stream and record told and no student, Resume and the teacher's own Pause giving the whole
+  span again, in-process classes never watched, the real server given it), `tests/lobby-ready.test.mjs` (named from the join;
+  ready only once rolled, named, looks chosen and packed; a new load or stock takes it away; Start unchanged; the mark gone
+  after Start; Done packing refused after it; nothing to a student), `tests/host-page.test.mjs` (the rows and the words);
+  `npm run test:host-lobby` (`scripts/host-lobby-pause-browser-proof.mjs`, same computer: a student's page pressing Done
+  packing marks the Host's row ready, the last page closed and the Host's words, Resume). Each regression injected in
+  `scripts/owner-pause-win-lobby-injections.mjs` ([evidence](evidence/owner-pause-win-lobby-injections.json)).
 - §2.10: `npm run test:overlap` (the Host's page at five sizes in five states, nothing sharing pixels that is not meant to)
   and `npm run test:overlap-injections`.
 

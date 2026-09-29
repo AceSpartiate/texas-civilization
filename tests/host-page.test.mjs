@@ -3,7 +3,7 @@
 // remembers nothing, so it is tested as pure functions; the browser proof presses the page.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { PRESENCE_LABELS, familyRows, presenceWord, storyView, spotlightBanner } from '../public/live-page.js';
+import { PRESENCE_LABELS, emptyPauseWords, familyRows, presenceWord, storyView, spotlightBanner } from '../public/live-page.js';
 
 test('a family\'s presence word: nobody playing, here, away a moment, playing itself, gone', () => {
   const presence = { households: { 'hh-1': 'here', 'hh-2': 'away', 'hh-3': 'gone' } };
@@ -45,4 +45,24 @@ test('the spotlight banner carries the day, the words and the place, and is noth
   assert.equal(spotlightBanner(null), null);
   const shown = spotlightBanner({ key: 'alamo-fall', minute: 100, date: 'March 6', text: 'The Alamo falls.', x: 1, y: 2 });
   assert.deepEqual(shown, { key: 'alamo-fall:100', date: 'March 6', text: 'The Alamo falls.', x: 1, y: 2 });
+});
+
+test('each row names the student playing the family and, in the lobby, marks it ready (owner, 2026-09-29: "Show name + ready")', () => {
+  const live = { families: [
+    { id: 'hh-1', name: 'the Reyes family', played: true, ready: true, waiting: 0, people: [] },
+    { id: 'hh-2', name: 'the Cruz family', played: true, waiting: 0, people: [] },
+    { id: 'hh-3', name: 'the Hale family', waiting: 0, people: [] },
+  ] };
+  const rows = familyRows(live, { households: { 'hh-1': 'here', 'hh-2': 'here' }, students: { 'hh-1': 'Sam Reyes', 'hh-2': 'Ana Cruz' } });
+  assert.deepEqual(rows.map(r => [r.id, r.student, r.ready]), [['hh-1', 'Sam Reyes', true], ['hh-2', 'Ana Cruz', false], ['hh-3', '', false]]);
+  assert.deepEqual(familyRows(live, { households: {} }).map(r => r.student), ['', '', ''], 'a presence with no names names somebody');
+});
+
+test('a class that paused itself says so plainly, with when and why and what to press; nothing when it did not', () => {
+  const words = emptyPauseWords({ at: '2026-09-29T15:42:00.000Z', ms: 180000 }, () => '10:42 AM');
+  assert.equal(words, 'The class paused itself at 10:42 AM: no student had the game open for 3 minutes, so nothing went on without them. Press Resume when the class is back.');
+  assert.match(emptyPauseWords({ at: '2026-09-29T15:42:00.000Z', ms: 60000 }, () => 'then'), /for 1 minute,/);
+  assert.match(emptyPauseWords({ at: '2026-09-29T15:42:00.000Z', ms: 3000 }, () => 'then'), /for 3 seconds,/);
+  assert.equal(emptyPauseWords(undefined), '');
+  assert.equal(emptyPauseWords(null), '');
 });

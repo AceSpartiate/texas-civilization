@@ -74,6 +74,7 @@
     "test:solo-game": "node scripts/solo-game-browser-proof.mjs",
     "test:host-live": "node scripts/host-live-browser-proof.mjs",
     "test:host-bell": "node scripts/host-bell-browser-proof.mjs",
+    "test:host-lobby": "node scripts/host-lobby-pause-browser-proof.mjs",
     "test:classes": "node scripts/classes-browser-proof.mjs",
     "test:reconnect": "node scripts/reconnect-browser-proof.mjs",
     "test:classroom-doors-injections": "node scripts/classroom-doors-injections.mjs",

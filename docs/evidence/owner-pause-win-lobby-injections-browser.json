@@ -1,0 +1,48 @@
+{
+  "record": "owner-pause-win-lobby-injections",
+  "date": "2026-09-29",
+  "files": [
+    "tests/empty-pause.test.mjs",
+    "tests/lobby-ready.test.mjs",
+    "tests/host-page.test.mjs",
+    "tests/ending.test.mjs",
+    "tests/ending-story.test.mjs",
+    "tests/acting.test.mjs",
+    "tests/host-live.test.mjs",
+    "tests/absence.test.mjs",
+    "tests/wagon-load.test.mjs"
+  ],
+  "browser": "npm run test:host-lobby",
+  "injections": [
+    {
+      "name": "the Host's page never shows why the class paused",
+      "files": [
+        "public/app.js"
+      ],
+      "browser": true,
+      "failed": [
+        "test:host-lobby failed after 5 checks: locator.waitFor: Timeout 10000ms exceeded."
+      ]
+    },
+    {
+      "name": "Done packing in a class is never told to the server (as before)",
+      "files": [
+        "public/app.js"
+      ],
+      "browser": true,
+      "failed": [
+        "test:host-lobby failed after 1 checks: page.waitForFunction: Timeout 15000ms exceeded."
+      ]
+    },
+    {
+      "name": "the Host's page draws no ready mark",
+      "files": [
+        "public/app.js"
+      ],
+      "browser": true,
+      "failed": [
+        "test:host-lobby failed after 1 checks: page.waitForFunction: Timeout 15000ms exceeded."
+      ]
+    }
+  ]
+}

@@ -244,6 +244,18 @@ export function setLoad(world, household, itemId, amount) {
   if (household.arriving) for (const wagon of wagonsOf(world, household)) wagon.laden = load.length > 0;
   return load;
 }
+/**
+ * "Done packing", pressed in the lobby (owner, 2026-09-29, by multiple choice: **"Show name + ready"**; triage 1.7, classroom
+ * audit S6). Until this the button only put the load screen away, the server never knew, and the teacher pressing Start could
+ * not tell who was still packing. Now it marks the family packed (`household.packed`, true or absent), and the Host's row shows
+ * the family ready once it is rolled, named and packed (sim/host.mjs `familiesOverview`). Changing the load or the stock after
+ * takes the mark away again (sim/world.mjs), because the family is packing again. Start is unchanged: it waits for nobody.
+ * No saved class carries it, and a class saved before simply has nobody marked packed, which is what its lobby would show.
+ */
+export function donePacking(world, household) {
+  if (world.status !== 'lobby') throw new Error('The wagon has already left: there is nothing more to pack.');
+  household.packed = true;
+}
 /** Every wagon of the family's, the family wagon first (the same reading as sim/beasts.mjs `beastsOf`, by id, for this file). */
 export const wagonsOf = (world, household) => (household?.property || []).map(id => world.entities[id]).filter(entity => entity?.kind === 'wagon');
 

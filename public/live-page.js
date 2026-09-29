@@ -20,6 +20,10 @@ export function familyRows(live, presence) {
     name: family.name,
     settlement: family.settlement || '',
     presence: presenceWord(family, presence),
+    // The student playing the family, by their own name, and in the lobby whether the family is rolled, named and packed (owner,
+    // 2026-09-29: "Show name + ready"). The name is the server's presence, sent to the Host alone; ready is the world's.
+    student: presence?.students?.[family.id] || '',
+    ready: Boolean(family.ready),
     waiting: family.waiting || 0,
     // "stopped the guided start at step 4", "resumed the guided start: on step 4 of 10" (sim/lesson.mjs `lessonHostWords`):
     // said quietly under the family's name, and empty for every family whose student did neither.
@@ -58,4 +62,15 @@ export function storyView(story) {
 export function spotlightBanner(spotlight) {
   if (!spotlight) return null;
   return { key: `${spotlight.key}:${spotlight.minute}`, date: spotlight.date, text: spotlight.text, x: spotlight.x, y: spotlight.y };
+}
+
+/**
+ * Why the class is paused, when it paused itself with no student in it (owner, 2026-09-29: "Pause after 3 min"; server/app.mjs
+ * `pauseIfEmpty`): said plainly on the Host's page until the teacher's Resume. Empty when the class did not pause itself.
+ * `clock` says the moment in the teacher's own time; given here so the words can be tested without a browser.
+ */
+export function emptyPauseWords(emptyPaused, clock = at => new Date(at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })) {
+  if (!emptyPaused) return '';
+  const ms = emptyPaused.ms, span = ms >= 60000 ? `${Math.round(ms / 60000)} minute${Math.round(ms / 60000) === 1 ? '' : 's'}` : `${Math.round(ms / 1000)} seconds`;
+  return `The class paused itself at ${clock(emptyPaused.at)}: no student had the game open for ${span}, so nothing went on without them. Press Resume when the class is back.`;
 }

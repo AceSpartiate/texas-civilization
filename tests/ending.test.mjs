@@ -16,7 +16,8 @@ import { applyAction, stepWorld, projectWorld, validateWorld } from '../sim/worl
 import { learn } from '../sim/knowledge.mjs';
 import { makeOffer, respondToOffer } from '../sim/trade.mjs';
 import { COIN } from '../sim/chores.mjs';
-import { DISCUSSION, PRISONER_WEIGHT, familyEnding, finalNumber, hostEnding } from '../sim/ending.mjs';
+import { DISCUSSION, PRISONER_WEIGHT, familyEnding, finalNumber, hostEnding, interimHost } from '../sim/ending.mjs';
+import { familyLabel } from '../public/ending.js';
 import { CAPTURED_AT_HOME, burnByForagers, share } from '../sim/scrape.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
@@ -148,6 +149,58 @@ test('the highest final number finishes first, a tie names every family, and a n
   assert.equal(closing.families.find(family => family.householdId === 'hh-5').automatic, true);
   assert.deepEqual(closing.winners, ['hh-1', 'hh-2', 'hh-3']);
   assert.equal(closing.best, 6);
+});
+
+test('a family a student played can finish first with its student away at the end, marked as finished by the computer, and never "nobody played them"', () => {
+  // Owner, 2026-09-29, by multiple choice: "Any played family" (triage 1.4, playthrough #6, design S23). A Chromebook asleep in
+  // the last minutes, or a student off sick on the last day, hands the family to the director; it is still the student's.
+  const world = createGonzalesWorld('ending-away', 5);
+  world.neighbours = {};
+  const coin = { 'hh-1': 3, 'hh-2': 40, 'hh-3': 6, 'hh-4': 1, 'hh-5': 90 };
+  for (const [id, money] of Object.entries(coin)) world.households[id].resources.money = money;
+  for (const id of ['hh-1', 'hh-2', 'hh-3', 'hh-4']) world.households[id].played = true;
+  world.households['hh-2'].absent = true;
+  validateWorld(world);
+  const closing = hostEnding(world);
+  const away = closing.families.find(family => family.householdId === 'hh-2'), nobody = closing.families.find(family => family.householdId === 'hh-5');
+  assert.deepEqual(closing.winners, ['hh-2'], 'a played family whose student was away at the end could not finish first');
+  assert.equal(closing.best, 40);
+  assert.equal(away.finishedByDirector, true, 'a played family the computer finished is not marked so');
+  assert.equal(nobody.finishedByDirector, undefined, 'a family nobody played is marked as finished by the computer');
+  assert.equal(closing.families.filter(family => family.finishedByDirector).length, 1);
+  // The Host's table: finished by the computer, and "nobody played them" only for the family nobody played.
+  assert.equal(familyLabel(away), `${away.name} (finished by the computer)`);
+  assert.equal(familyLabel(nobody), `${nobody.name} (nobody played them)`);
+  assert.equal(familyLabel(closing.families.find(family => family.householdId === 'hh-1')), closing.families.find(family => family.householdId === 'hh-1').name);
+  // Between periods too: the mark rides on the coin-and-land standings.
+  assert.equal(interimHost(closing).families.find(family => family.householdId === 'hh-2').finishedByDirector, true);
+});
+
+test('a family with nobody left free - dead or a prisoner - is never named the winner, and its prisoners still count among its living', () => {
+  // Found while checking the triage of 2026-09-29: the ending meant *dead* by "nobody left", where the order to leave and the late
+  // seat mean dead or captured. A father spared at Goliad and marched to Matamoros is the army's prisoner, not weighed (the
+  // prisoners' rule is the Scrape's), so with the rest of his family dead his coin counted in full and could win.
+  const world = createGonzalesWorld('ending-prisoners-left', 5);
+  world.neighbours = {};
+  for (const household of Object.values(world.households)) { household.played = true; household.resources.money = 2; }
+  const household = world.households['hh-3'];
+  household.resources.money = 500;
+  for (const id of household.members) world.entities[id].health = { condition: 'dead' };
+  const father = world.entities[household.principalId];
+  father.health = { condition: 'captured' };
+  father.service = { kind: 'fannin', status: 'captured', siteId: 'goliad', fate: 'spared' };
+  const closing = hostEnding(world);
+  const family = closing.families.find(one => one.householdId === household.id);
+  assert.equal(family.final, 500, 'the scene proves nothing: the army\'s prisoner took the coin with him');
+  assert.equal(family.wiped, true, 'a family with nobody left free is not marked as having nobody left');
+  assert.ok(!closing.winners.includes(household.id), 'a family whose only living man is a prisoner was named the winner');
+  assert.equal(closing.best, 2);
+  // Still one of the family's living people for the prisoners' share: two taken in the Scrape of three living weigh as before.
+  const scraped = world.households['hh-4'];
+  const [one, two] = scraped.members.slice(0, 2).map(id => world.entities[id]);
+  for (const person of [one, two]) person.health = { condition: 'captured' };
+  const living = scraped.members.filter(id => world.entities[id].health?.condition !== 'dead').length;
+  assert.equal(familyEnding(world, scraped.id).kept, Math.max(0, 1 - (PRISONER_WEIGHT * 2) / living));
 });
 
 test('every coin that came into the house or went out of it is in the family\'s account', () => {
