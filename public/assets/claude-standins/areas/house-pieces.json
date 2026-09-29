@@ -79,12 +79,31 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
+    "claude-interior-saddlebag": {
+      "image": "/assets/claude-standins/claude-interior-saddlebag.png",
+      "width": 750,
+      "height": 331,
+      "bytes": 391032,
+      "sha256": "307cb49ce4d902003f6bbb5638270d9ddda115381eb4b12ee48cf7429ff87719",
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 750,
+          "h": 331
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
     "claude-house-ends": {
       "image": "/assets/claude-standins/claude-house-ends.png",
       "width": 808,
       "height": 760,
-      "bytes": 307039,
-      "sha256": "ab6ff2c777a88fa265122824674df5b72a0e346421fb1ad0da20e22a8695174a",
+      "bytes": 307040,
+      "sha256": "f7ac3defe05ad6abe4f8a728f717795d7a4556c40bb3f9823c0508fe0870144e",
       "madeBy": "claude",
       "module": "house-pieces",
       "request": "Request 2026-09-23 — the house from its other sides",
@@ -536,6 +555,22 @@
       "label": "house loft",
       "kind": "claude-house-plot"
     },
+    "interior-saddlebag": {
+      "sheet": "claude-interior-saddlebag",
+      "x": 0,
+      "y": 0,
+      "w": 750,
+      "h": 331,
+      "anchorX": 0.5,
+      "anchorY": 0.9275,
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen",
+      "replaceWith": "interior-saddlebag: a saddlebag interior in the home-interiors style, camera and scale exactly as interior-dog-run: two round-log pens wall to wall round one central stone chimney, a fireplace into each, no passage",
+      "source": "svg/house-pieces/claude-interior-saddlebag.svg",
+      "label": "interior saddlebag",
+      "kind": "claude-interior-saddlebag"
+    },
     "house-porch-end": {
       "sheet": "claude-house-ends",
       "x": 0,
@@ -842,6 +877,20 @@
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's house-loft"
+    },
+    "interior-saddlebag": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-interior-saddlebag",
+      "request": "Request 2026-09-12 (second) — settling in: houses, interiors, furnishings, and people whose looks can be chosen",
+      "prompt": "The rooms of a saddlebag house, cut away as Astra's interior-dog-run is and in exactly its camera and scale: two round-log pens wall to wall, a stone fireplace in the middle wall of each, their two stacks side by side over the middle as one double chimney, a window in each back wall, earth floors, no passage. Made from her own dog-run rooms cut at the passage and laid the other way round (each pen seen from its own middle, a cutaway convention that opens the middle wall so both hearths show). Saddlebag houses had one central chimney serving both pens (HIST-TEX-017). Transparent background.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-interior-saddlebag.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's interior-saddlebag"
     },
     "house-porch-end": {
       "kind": "frame",
