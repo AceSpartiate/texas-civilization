@@ -1,5 +1,49 @@
 # Claude handoff — Astra foundation
 
+## One rider, one visit: no pack of riders, no second telling, one conversation at a time — owner, 2026-09-29 (not released)
+
+**The ask.** Owner, 2026-09-29: *"At the start of the game, there's multiple riders that arrive at the same time. If they're all
+carrying similar news, why does the family receive multiples? Why don't we integrate and simplify things?"*, refined the same
+day: *"players shouldn't see riders merge ... it should be an off screen thing. at the end of a conversation, sometimes it's
+weird figuring out how to get rid of the conversation. ... the player should see the requests as they arrive unless it's
+duplicate. Players shouldn't miss anything, but also shouldn't be quickly overwhelmed."* Claim `FIC-GONZ-908`; the decision is
+docs/COLONIES.md §5.4b (VISION §10, GAME). Branch `one-rider` off origin/main.
+
+**Why multiples happened (measured in process and in the browser before the change).** Word leaves a place for every family
+at the same minute, one rider each (the director per Gonzales family, the express per family of a settlement, a fresh rider per
+family at every fork), so riders for neighbouring families ride up together: at the moment its own rider spoke, 21 of a class
+of 30 families on the real land saw 2-5 riders (up to 15 on the invented country). And what the word asks (the neighbour at the
+door, the rumor question, the settlement's call) was put **on the same tick** in every family: a Matagorda family of six met one
+rider with **7 "!"s** on its faces, the rider card and the call card at once, the call's five minutes already running
+([before](docs/evidence/one-rider-before-arrival.png)). A second rider with a firmer account waited at the gate and, when the
+first had gone, told it all again as a second meeting ten hours of 1835 later - the family not knowing the firmer account until
+then ([before](docs/evidence/one-rider-before-duplicate.png)). Rider meetings per family in period 1 were already one per word
+(2 per family in every class measured: the demand for the cannon and the fight's outcome); what the student saw was the pack
+and the pile.
+
+- **One visit** (`sim/encounters.mjs` `visitAbout`, `joinVisit`, `VISIT_MINUTES` = 360): a rider with a word the family is being
+  told, or was told by a rider under six hours of 1835 ago, joins that visit off the screen - his firmer account in the
+  family's knowledge **the minute he comes**, in his name; no rein-in, no second conversation; he turns for home. The visit's
+  `joined` and a household-less `encounter-joined` event keep the record. A different word still waits its turn at the gate.
+- **One rider per word drawn** (`ridersInSight`): the one talking or riding away, and one per word
+  still coming (the family's own if in sight). Riders with word it already has and riders riding home are not drawn to it. The
+  world keeps every rider; timing per family is unchanged. The Host sees all of them.
+- **The rest queued** (`questionWaits`; `sim/directors.mjs` `directorProjection`; `sim/decision-budget.mjs`): a question put while
+  a rider talks, or on his tick, is not shown and its call minutes do not run until he has gone. A calm count on the
+  conversation: *"One more thing is waiting for your family after this."*
+- **One way out** (`public/app.js` `renderEncounter`, `renderAsks`, `endConversation`, `moveOn`): **Done — let *name* ride on**,
+  last and primary; × and Escape do the same; a finished conversation has **Done**; closing moves straight on to what waited
+  (opened as its "!" opens it). Travis's runner is unchanged (× only puts him away). The conversation's buttons are rebuilt only
+  when they change: rebuilt every tick, a press could land on a replaced button and be lost (found by the proof at 100 ms ticks).
+- **No save version.** `joined` is optional (validated when present); a class saved with a second rider waiting at the gate
+  opens and folds him in on its first tick (tested). Nothing else is stored.
+- **Beyond the start:** only the cannon news and the fight's outcome are carried by riders who talk; everything later (the Alamo,
+  Goliad, the Scrape, San Jacinto) reaches the journal as a quiet mark, so nothing piles up as riders there (COLONIES §5.4b).
+- **Tests changed for the owner's rule, not weakened:** `calls`, `call-lapse` (now also asserts the call is held while the rider
+  talks and starts after) and `knowledge-decides` hear the rider out (`leave-rider`) before reading the question.
+
+**Evidence** (same computer only; no Chromebook or LAN claim): see the numbers below.
+
 ## An order to leave that runs out burns the house — owner, 2026-09-29 (not released)
 
 **The ask.** Owner, 2026-09-29, answering the `flightWaited` ceiling of the real-time limits: *"72 s at quick, but if the

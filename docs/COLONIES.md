@@ -270,6 +270,76 @@ coast, where staying to guard the coast is an honourable answer the letters them
 companies from Nacogdoches; and everywhere the same shortage, "more men than guns", so powder and a rifle are part of
 what a family sends. Liberty and Mina have no documented call in these letters and would get the general circular.
 
+### 5.4b One rider, one visit — owner-decided 2026-09-29 (`FIC-GONZ-908`)
+
+**The ask.** Owner, 2026-09-29, verbatim: *"At the start of the game, there's multiple riders that arrive at the same time. If
+they're all carrying similar news, why does the family receive multiples? Why don't we integrate and simplify things?"* And the
+same day, refining it: *"players shouldn't see riders merge, they should have a seamless experience. it should be an off screen
+thing. at the end of a conversation, sometimes it's weird figuring out how to get rid of the conversation. if there's a rider
+talking to a family member, and another wanted to ask if someone in the family could go somewhere, the player should see the
+requests as they arrive unless it's duplicate. Players shouldn't miss anything, but also shouldn't be quickly overwhelmed with
+a lot of stuff."*
+
+**Why there were multiples (measured, 2026-09-29).** A family was never *told* the same word twice by two meetings in the
+seeds measured, but it was shown several things at once:
+
+- **A pack of riders.** Word leaves a place for every family at the same minute, one rider each (`sim/directors.mjs` sends one
+  per Gonzales family; `sim/expresses.mjs` sends one per family of a settlement once the express is read; every hand-off at a
+  fork sends a fresh rider per family). Riders for neighbouring families ride the same road at the same pace, so a family met
+  its own rider with others in sight: on the real land 21 of a class of 30 families saw two to five riders at that moment (its
+  own, the neighbours', riders riding home), and on the invented country up to fifteen.
+- **The question on the same tick.** What the word asks - the neighbour at the door with food, the rumor question, the
+  settlement's call - was put on the very tick the rider spoke, in every family measured. The call marks every grown person of
+  the family, so a Matagorda family of six met one rider with **seven "!"s** on its faces, the "A rider has stopped" card and the
+  call's card at once (`docs/evidence/one-rider-before-arrival.png`), and the call's five real minutes were already running.
+- **The same word, firmer, told again.** A second rider with a firmer account of a word the family was being told waited at
+  the gate, and when the first had gone told it all over again as a second meeting; the family did not know the firmer account
+  until then (measured in the proof: ten hours of 1835 later).
+
+**What is built.**
+
+- **One visit.** A rider bringing a family a word it is being told right now, or was told by a rider less than **six hours of
+  1835** ago (`VISIT_MINUTES`), joins that visit off the screen (`sim/encounters.mjs` `joinVisit`): what he adds - a firmer
+  account - is in the family's knowledge **the minute he comes**, as firm as he had it and in his own name as its source; he
+  never reins in, never opens a second conversation, and turns for home if the family was his errand. Six hours is the time the
+  word is held at a settlement while the letter is read and copied (`RELAY_MINUTES`), so every rider of one wave of the same
+  letters falls inside it, and an account of the same thing the next day is a new round of word with its own visit, as a firmer
+  account always had. The visit keeps who joined it (`joined`) and the causal record says whose visit it joined
+  (`encounter-joined`, no household on it); the family's own record is the journal's line, which names him. The same word at
+  the same or a fainter status was already dropped before it reached anybody (`sim/knowledge.mjs` `wouldLearn`), unchanged.
+- **One rider for each word, drawn.** A family is drawn only the riders who have something for it (`ridersInSight`): the one it
+  is talking with or who is riding away from it, and of the riders still bringing it a word, one per word - its own if he is in
+  sight, else the nearest. A rider with word it already has, or riding home from somebody else, is not drawn to it out on the
+  road. The world keeps every rider: each family still hears when its own road
+  says, from whoever reached it. The Host still sees every rider where he truly is.
+- **One conversation at a time, the rest queued.** A question put while a rider is still talking with the family, or on the
+  tick he speaks, waits until he has gone (`questionWaits`): not shown, no "!" for it, and **its real minutes do not run**
+  (`sim/decision-budget.mjs`: the settlement's call's five minutes start when it is shown). It is put, and written in the
+  family's record, at the time it truly came. A question already in front of the family when a rider comes stays where it is. A
+  rider with a *different* word waits at the gate as before, and his ninety seconds start when he speaks. While anything waits,
+  the conversation says so calmly and as a count: *"One more thing is waiting for your family after this."*, *"Another rider is
+  waiting to speak with your family after this."*
+- **One clear way out.** Every rider's conversation ends with **Done — let *name* ride on**, last and primary, whether anything
+  is left to ask or not; **×** and **Escape** do the same (the rider is let go - asking is never required); a finished
+  conversation has its own **Done**. Closing it moves straight on to what waited behind it, opened as its "!" opens it. Travis's
+  runner, who needs an answer, is only put away by the ×, and his card still says he waits.
+
+**Where riders pile up, beyond the start.** The only news in this game carried by a person who stops to talk is the
+cannon-request and the fight's outcome (`CONVERSATIONS`), in the first period; both are covered above, at Gonzales and by
+express alike. Every later word - the siege and fall of the Alamo, Goliad, San Patricio and Agua Dulce, the declaration, the
+Scrape's orders, San Jacinto - reaches a family's journal as a quiet mark (`learn`, `sim/alamo.mjs` `word`,
+`sim/advance-word.mjs`), not as a rider, so nothing piles up there as riders; the same topic arriving twice (the Alamo's fall
+as a rumour and then confirmed) is one journal entry that firms up. The later questions (the order to leave, the road's
+questions, the army's, Travis's runner) are already one card at a time, decisions first (`public/military-attention.js`). A topic
+converted to a conversation in future gets all of the above for nothing: the rules are per word, not per topic.
+
+`ceiling:` when a family's own rider is not yet in sight, the nearest rider with the word stands for it and may change as riders
+come and go at the edge of sight; remembering the one drawn for a family would stop that if a class ever notices it.
+`ceiling:` a question already on the screen is not queued behind a rider who comes later, so the two can stand together.
+`ceiling:` only the call has real minutes to pause; the neighbour's request and the march upriver close on the calendar
+(the approach, first light), which cannot wait for one family - but a rider talking with a played family holds the calendar at
+its slowest while he stands there (sim/clock.mjs `deciding`), so a queued one loses at most his ninety seconds of it.
+
 ### 5.5 After October 2: the gathering and the march
 
 - **Milestones** on the timeline, each from a claim (`HIST-TEX-007`): volunteers gathering at Gonzales (October 3–11);

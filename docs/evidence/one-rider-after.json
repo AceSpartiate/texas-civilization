@@ -1,0 +1,96 @@
+{
+  "record": "one-rider-browser-after",
+  "date": "2026-09-29",
+  "verdict": "PASS",
+  "browser": "153.0.8010.53",
+  "environment": "Same computer: an in-process Play Solo classroom at 100 ms a tick, fifteen families on the real land (seed q2), headless Chrome at 1440x900. Not a Chromebook, not a LAN.",
+  "checks": [
+    "a solo game on the real land, fifteen families, the player's family at matagorda",
+    "the rider reins in alone (Silas Roe), with one \"!\" on the family and the call waiting behind him (\"One more thing is waiting for your family after this.\")",
+    "the conversation ends with one clear control (\"Done — let Silas Roe ride on\"), and says \"One more thing is waiting for your family after this. Ask what you like, then press Done. Nothing said is lost when he rides on.\"",
+    "the same word, firmer, from Abner Teel mid-conversation is known at once (confirmed, \"Abner Teel, who rode from Gonzales\") and never becomes a second meeting; the call's clock has not started",
+    "Done closed the conversation and the call came up next, 207 ms later: \"The committee at Matagorda asks the volunteers of the town and the cou...\"",
+    "the call's five minutes began when it was shown, not while it waited",
+    "the same news is never a second meeting",
+    "Escape ended the next conversation (Willa Hines, the fight's outcome) and put it away",
+    "no page errors"
+  ],
+  "measured": {
+    "mode": "after",
+    "settlement": "matagorda",
+    "firstRider": {
+      "name": "Silas Roe",
+      "status": "unconfirmed",
+      "openedMinute": 4860,
+      "callPutMinute": 4860
+    },
+    "secondRider": {
+      "id": "courier-19",
+      "name": "Abner Teel"
+    },
+    "arrival": {
+      "ridersDrawn": [
+        "Silas Roe"
+      ],
+      "needs": [
+        {
+          "name": "Andrés Proofwright",
+          "needs": [
+            "rider"
+          ]
+        }
+      ],
+      "request": null,
+      "waiting": {
+        "count": 1,
+        "words": "One more thing is waiting for your family after this."
+      },
+      "notice": "A rider has stopped to speak",
+      "callClockMs": 0
+    },
+    "conversation": {
+      "end": [
+        "Done — let Silas Roe ride on"
+      ],
+      "note": "One more thing is waiting for your family after this. Ask what you like, then press Done. Nothing said is lost when he rides on.",
+      "close": "Done: let Silas Roe ride on"
+    },
+    "duplicate": {
+      "knownStatus": "confirmed",
+      "knownSource": "Abner Teel, who rode from Gonzales",
+      "receivedMinute": 4900,
+      "firstStillOpen": true,
+      "visits": 1,
+      "secondStillCarrying": false,
+      "joined": [
+        {
+          "carrierId": "courier-19",
+          "name": "Abner Teel",
+          "status": "confirmed",
+          "minute": 4900,
+          "eventId": "ev-2279"
+        }
+      ],
+      "drawn": false
+    },
+    "next": {
+      "msAfterDone": 207,
+      "encounterHidden": true,
+      "text": "The committee at Matagorda asks the volunteers of the town and the country east of it to gather at James Kerr's on the Lavaca as speedily as they can. The town is badly armed and its men are few. Does somebody from your family go?"
+    },
+    "visitsAfterWindow": [
+      {
+        "carrier": "Silas Roe",
+        "topic": "cannon-request",
+        "status": "unconfirmed",
+        "opened": 4860
+      }
+    ]
+  },
+  "screenshots": [
+    "docs/evidence/one-rider-after-arrival.png",
+    "docs/evidence/one-rider-after-host-arrival.png",
+    "docs/evidence/one-rider-after-conversation.png",
+    "docs/evidence/one-rider-after-next.png"
+  ]
+}

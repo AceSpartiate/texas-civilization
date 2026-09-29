@@ -33,6 +33,7 @@ import { advanceAlamoBattle, alamoProjection } from './alamo-battle.mjs';
 import { findWay } from './ways.mjs';
 import { advanceSouth, grantRides, southProjection, tellSouthAccount } from './south.mjs';
 import { MODES } from './travel.mjs';
+import { questionWaits } from './encounters.mjs';
 
 /**
  * What the gathering, the organisation of the army and the march for Béxar rest on.
@@ -1574,7 +1575,10 @@ export function directorProjection(world, householdId, role, { seen = [] } = {})
   const rumor = householdId && world.rumors?.[householdId];
   // A family far from Gonzales is only ever asked its settlement's call (sim/calls.mjs).
   const call = householdId && world.calls?.[householdId];
-  const request = (march && march.status === 'open' ? march : null) || call || (householdId && world.requests[householdId]) || (rumor && rumor.status !== 'overtaken' ? rumor : null);
+  const asked = (march && march.status === 'open' ? march : null) || call || (householdId && world.requests[householdId]) || (rumor && rumor.status !== 'overtaken' ? rumor : null);
+  // Put while a rider is still talking with the family, it waits until he has gone (sim/encounters.mjs `questionWaits`, owner
+  // 2026-09-29, `FIC-GONZ-908`): the rider's meeting says one more thing is waiting, and this comes up when it ends.
+  const request = asked && questionWaits(world, householdId, asked) ? null : asked;
   const shown = request ? { id: request.id, text: request.text, status: request.status, kind: request === march ? 'march' : request === call ? 'call' : request === rumor ? 'rumor' : 'supplies' } : null;
   // A played family's settlement call lapses after its five real minutes (sim/decision-budget.mjs `CALL_BUDGET_MS`): said
   // before it happens, pressing once most of them are gone, and said after if it did.

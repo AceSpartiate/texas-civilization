@@ -26,7 +26,7 @@ import { decideDetachmentFor, decideQuestionFor } from './army.mjs';
 import { decideCampQuestionFor } from './camp.mjs';
 import { answeredFor } from './lapse.mjs';
 import { lapseCall } from './calls.mjs';
-import { sendOnFrom } from './encounters.mjs';
+import { questionWaits, sendOnFrom } from './encounters.mjs';
 import { actingId } from './acting.mjs';
 import { STUDY_TICK_MS } from './crops.mjs';
 
@@ -65,13 +65,15 @@ export function openDecisions(world, { heldFor } = {}) {
     }
   }
   // A settlement's call to turn out (sim/calls.mjs), put to a played family whose student is at the screen: `CALL_BUDGET_MS`
-  // from when the word reached them, not counted while that student is still in the guided start (`held`).
+  // from when the word reached them, not counted while that student is still in the guided start (`held`), nor while the call
+  // waits behind the rider who brought the word (sim/encounters.mjs `questionWaits`, owner 2026-09-29, `FIC-GONZ-908`): its
+  // five minutes start when it is shown, so a call that queued is never short of time for it.
   for (const [householdId, call] of Object.entries(world.calls || {})) {
     const household = world.households?.[householdId];
     if (call?.status !== 'open' || !household?.played || household.absent) continue;
     const personId = [household.mainId, household.principalId, ...(household.members || [])].find(id => world.entities[id]);
     if (!personId) continue;
-    open.push({ key: `call:${householdId}`, personId, call: true, held: Boolean(heldFor?.(household)), expire: () => { lapseCall(world, householdId); sendOnFrom(world, householdId); } });
+    open.push({ key: `call:${householdId}`, personId, call: true, held: Boolean(heldFor?.(household)) || questionWaits(world, householdId, call), expire: () => { lapseCall(world, householdId); sendOnFrom(world, householdId); } });
   }
   return open;
 }

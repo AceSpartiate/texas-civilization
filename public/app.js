@@ -6902,6 +6902,7 @@ function renderEncounter(world) {
   panel.hidden = !encounter || !encounterOpen || world.role === 'host';
   // Every way in - the panel's "!", Listen, the mark on the map - comes through here, so the bar is told here.
   renderScreenMoments();
+  moveOn(world);
   if (panel.hidden) return;
   panel.dataset.encounterId = encounter.id;
   panel.dataset.status = encounter.status;
@@ -6956,6 +6957,24 @@ function renderEncounter(world) {
   // that those converge, and that nothing is held back for ever.
   window.__conversation = { id: encounter.id, revealed: shown.length, total: lines.length };
   $('#encounter-asks').hidden = Boolean(speakingNow);
+  // Rebuilt only when what it offers changes: rebuilt every tick, a button was replaced between the press and the release and
+  // the press was lost - found on 2026-09-29 by the one-rider proof at a tenth of a second a tick, pressing Done.
+  const asksKey = JSON.stringify([encounter.id, live, runner, world.status === 'running', encounter.questions.map(question => question.id), runner ? (encounter.choices || []).map(choice => choice.answer) : []]);
+  if ($('#encounter-asks').dataset.key !== asksKey) renderAsks(world, encounter, { live, runner });
+  $('#encounter-asks').dataset.key = asksKey;
+  $('#encounter-close').setAttribute('aria-label', runner && live ? 'Close this for now: he is still waiting for an answer' : live ? `Done: let ${encounter.carrierName} ride on` : 'Done');
+  $('#encounter-note').textContent = runner
+    ? live ? `${encounter.pressing ? `${encounter.carrierName} cannot wait much longer.` : `${encounter.carrierName} is waiting for an answer to take back.`} ${encounter.ifUnanswered || ''}`.trim()
+      : encounter.reason === 'unanswered' ? `Nobody answered ${encounter.carrierName} in time, and the question lapsed: ${name} stays at their post, and he has gone back to Colonel Travis.` : `${name} gave ${encounter.carrierName} an answer, and he has gone back to Colonel Travis.`
+    : live
+      // What waits behind him, as a count and nothing more (sim/encounters.mjs `encounterProjection`).
+      ? `${encounter.waiting ? `${encounter.waiting.words} ` : ''}Ask what you like, then press Done. Nothing said is lost when he rides on.`
+      : encounter.reason === 'unanswered' ? `${encounter.carrierName} would wait no longer and rode on.`
+        : encounter.reason === 'parted' ? `${name} and ${encounter.carrierName} were separated.`
+          : `${name} let ${encounter.carrierName} ride on.`;
+}
+/** The conversation's buttons: the questions still to ask, the runner's two answers, and the one way out. */
+function renderAsks(world, encounter, { live, runner }) {
   $('#encounter-asks').replaceChildren(...encounter.questions.map(question => {
     const button = element('button', question.ask, 'ask-option');
     button.dataset.action = 'ask-rider';
@@ -6972,22 +6991,54 @@ function renderEncounter(world) {
     button.disabled = world.status !== 'running';
     $('#encounter-asks').append(button);
   }
+  // One way out of every rider's conversation, the same every time (owner, 2026-09-29: "at the end of a conversation, sometimes
+  // it's weird figuring out how to get rid of the conversation"): Done, last and primary, whether anything is left to ask or
+  // not. It sends him on and puts the conversation away, and whatever waited behind him comes up next (`moveOn`). The × and
+  // Escape do the same (`endConversation`). A finished one has its own Done, which only puts it away. Travis's runner needs an
+  // answer, and his card says so rather than offering a way round it.
   if (live && !runner) {
-    const leave = element('button', `Let ${encounter.carrierName} ride on`, 'ask-leave');
+    const leave = element('button', `Done — let ${encounter.carrierName} ride on`, 'ask-leave');
     leave.dataset.action = 'leave-rider';
     leave.dataset.entityId = encounter.listenerId;
     leave.disabled = world.status !== 'running';
     $('#encounter-asks').append(leave);
-  }
-  $('#encounter-note').textContent = runner
-    ? live ? `${encounter.pressing ? `${encounter.carrierName} cannot wait much longer.` : `${encounter.carrierName} is waiting for an answer to take back.`} ${encounter.ifUnanswered || ''}`.trim()
-      : encounter.reason === 'unanswered' ? `Nobody answered ${encounter.carrierName} in time, and the question lapsed: ${name} stays at their post, and he has gone back to Colonel Travis.` : `${name} gave ${encounter.carrierName} an answer, and he has gone back to Colonel Travis.`
-    : live
-      ? 'They will not wait for ever. Closing this does not unhear anything already said.'
-      : encounter.reason === 'unanswered' ? `${encounter.carrierName} would wait no longer and rode on.`
-        : encounter.reason === 'parted' ? `${name} and ${encounter.carrierName} were separated.`
-          : `${name} let ${encounter.carrierName} ride on.`;
+  } else if (!live) $('#encounter-asks').append(element('button', 'Done', 'ask-leave ask-done'));
 }
+/**
+ * The conversation put away by Done, the × or Escape (owner, 2026-09-29): a rider still standing there is let go - the one
+ * thing a student can mean by closing a conversation that asks nothing of them - and Travis's runner, who needs an answer, is
+ * only put away, as it always was, with his card still saying he waits. Then, once the server has him gone, whatever waited
+ * behind him comes up by itself (`moveOn`): the student asked to be done with this one, so the next is theirs to see.
+ */
+let moveOnFrom = null, moveOnUntil = 0;
+function endConversation(sendOn = true) {
+  const encounter = window.__snapshot?.world?.encounter;
+  const leave = $('#encounter .ask-leave:not(.ask-done)');
+  if (sendOn && leave && !leave.disabled && !$('#encounter').hidden) leave.click();
+  encounterOpen = false;
+  $('#encounter').hidden = true;
+  renderScreenMoments();
+  if (encounter && encounter.kind !== 'alamo-runner') { moveOnFrom = encounter.id; moveOnUntil = performance.now() + 8000; }
+}
+/** After a conversation was put away: the first thing waiting on the family, opened as its "!" opens it, once he has gone. */
+function moveOn(world) {
+  if (!moveOnFrom || world.role === 'host') return;
+  if (performance.now() > moveOnUntil) { moveOnFrom = null; return; }
+  if (world.encounter?.id === moveOnFrom && world.encounter.status === 'open') return;
+  moveOnFrom = null;
+  if (encounterOpen || callMenuFor) return;
+  const own = entitiesOf(world).filter(person => person.householdId === world.householdId).map(person => person.id);
+  const next = rankNeeds(world, own)[0];
+  if (next && ['rider', 'call', 'courier'].includes(next.kind)) openNeed(next.id);
+}
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape' || $('#encounter').hidden) return;
+  // A tip standing over it is put away first, by its own Escape.
+  if ($('#tip') && !$('#tip').hidden) return;
+  event.preventDefault();
+  if (window.__snapshot?.world?.encounter?.kind === 'alamo-runner') { encounterOpen = false; $('#encounter').hidden = true; renderScreenMoments(); return; }
+  endConversation();
+});
 document.addEventListener('click', event => {
   if (!event.target.closest('[data-open-encounter]')) return;
   encounterOpen = true;
@@ -7012,7 +7063,13 @@ bindLooks({
   refresh: () => { forgetFamily(); if (window.__snapshot) render(window.__snapshot); },
   family: () => familyCache,
 });
+$('#encounter')?.addEventListener('click', event => {
+  // Done: sent as every answer is (the action dispatcher), and the conversation goes with it.
+  if (event.target.closest('.ask-leave')) setTimeout(() => endConversation(false), 0);
+});
 $('#encounter-close')?.addEventListener('click', () => {
+  // A rider is let go (`endConversation`); a runner still waiting for an answer is only put away.
+  if (window.__snapshot?.world?.encounter?.kind !== 'alamo-runner') endConversation();
   encounterOpen = false;
   $('#encounter').hidden = true;
   renderScreenMoments();

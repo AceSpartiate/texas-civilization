@@ -28,6 +28,13 @@ function running(seed, players = 15) {
   world.status = 'running';
   return world;
 }
+/**
+ * Every rider still standing with a family let go, as a student does with Done. A question put while he stands there waits
+ * until he has gone (owner, 2026-09-29, sim/encounters.mjs `questionWaits`), so a test about the question hears him out first.
+ */
+const heardOut = (world, householdId) => {
+  for (const one of Object.values(world.encounters || {})) if (one.status === 'open' && !one.kind && (!householdId || one.householdId === householdId)) applyAction(world, one.householdId, { action: 'leave-rider', entityId: one.listenerId });
+};
 function untilEveryoneHeard(world) {
   for (let tick = 0; tick < 300 && Object.keys(world.households).some(id => !knows(world, id)); tick++) stepWorld(world);
 }
@@ -37,6 +44,7 @@ function withRumor(seed = 'rumor') {
   untilEveryoneHeard(world);
   const householdId = Object.keys(world.households).find(id => knows(world, id).status === 'rumor');
   assert.ok(householdId, 'the class really does contain a family at the end of a chain');
+  heardOut(world);
   return { world, householdId };
 }
 
