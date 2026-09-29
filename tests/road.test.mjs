@@ -28,6 +28,8 @@ import { REFUGES } from '../sim/scrape.mjs';
 import { findPath } from '../sim/geography.mjs';
 import { waitingOn, whereWords } from '../sim/host.mjs';
 import { needsOf } from '../public/family-panel.js';
+import { QUESTION_BUDGETS } from '../sim/decision-budget.mjs';
+import { STUDY_TICK_MS } from '../sim/crops.mjs';
 
 const SEED = 'road-1638';
 const DAY = 1440;
@@ -118,7 +120,8 @@ test('a road question nobody answers lapses with nothing chosen: the wagon stays
   const opened = world.tick, wagon = world.entities[`${household.id}-wagon`];
   until(world, () => !household.flight.ask, 40);
   assert.equal(household.flight.ask, undefined, 'the question never closed');
-  assert.ok(world.tick - opened >= 12, 'the question closed before its twelve ticks');
+  // Ninety real seconds for a student (owner, 2026-09-29), a tick stepped in process counting as one at the Study pace.
+  assert.ok(world.tick - opened >= Math.ceil(QUESTION_BUDGETS.road / STUDY_TICK_MS), 'the question closed before its ninety real seconds');
   assert.ok(household.flight.bog, 'the wagon was freed by nobody');
   assert.equal(household.flight.bog.freeing, undefined, 'the family was set to dig by nobody');
   assert.notEqual(wagon.condition, 'lost', 'the wagon was left behind by nobody');

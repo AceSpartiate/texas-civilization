@@ -4299,7 +4299,7 @@ function renderFlight(world, chosen, running) {
   if (stepped) wrap.append(element('p', stepped, 'work-note flight-stepped-up'));
   wrap.append(element('p', flight.burned ? 'The army has passed and burned the farm. The family can still go east with what it can carry.'
     : flight.decidedToStay ? 'The family is staying, and takes what comes. The road east is still open if it changes its mind.'
-    : 'The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs what it can and goes by itself.', 'ask-text'));
+    : 'The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer before the time on the “!” runs out, or the family packs what it can and goes by itself.', 'ask-text'));
   const carrier = flight.vehicle === 'cart' ? ' in the cart' : flight.vehicle === 'carreta' ? ' in the carreta' : flight.wagons ? ` in the ${flight.wagons} wagons` : ' in the wagon';
   wrap.append(element('p', `Room for ${flight.room}${flight.mode === 'wagon' ? carrier : ', carried on foot'}. Food takes ${flight.space.food} each, seed ${flight.space.seed}, cotton ${flight.space.cotton}, powder ${flight.space.powder}.`, 'work-note'));
   const form = element('div', '', 'flight-form');
@@ -4575,8 +4575,7 @@ function renderFamilyPanel(world) {
   for (const [id, row] of panelRows) if (!byId.has(id)) { row.item.remove(); panelRows.delete(id); }
   // Every "!" of the column in one order, the most urgent first, with the time each has left where it will lapse
   // (public/family-panel.js `rankNeeds`, docs/audits/2026-09-28-design.md S33). The rows keep the family's own order.
-  const tickMs = window.__snapshot?.tickMs;
-  const ranked = rankNeeds(world, order, { tickMs });
+  const ranked = rankNeeds(world, order);
   const rankOf = new Map(ranked.map(one => [one.id, one]));
   const seen = [];
   order.forEach((id, at) => {
@@ -4596,7 +4595,7 @@ function renderFamilyPanel(world) {
     // Somebody is waiting on this person - a rider, the army, a call, work that has stopped to ask, an offer - and the "!"
     // takes the student to them and to the thing waiting (docs/FAMILY_PANEL.md §11). Read from the projection every tick, so
     // it goes the tick the answer is given.
-    const needs = needsOf(world, id, { tickMs });
+    const needs = needsOf(world, id);
     const need = needs[0] || null;
     setData(row.item, 'waiting', String(Boolean(need)));
     if (row.attention.hidden !== !need) row.attention.hidden = !need;

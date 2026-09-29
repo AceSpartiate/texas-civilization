@@ -46,8 +46,9 @@ import { COLUMNS, ORDER_GRACE_MINUTES, ROAD_DETOUR, clockOf, columnLeg as advanc
 import { bundleRoom, cowPace, lookoutMiles, lookoutOf, loseCow } from './flight-work.mjs';
 // The soldiers who can see a family, the order to halt and the chase (sim/pursuit.mjs, owner 2026-09-27), and the family's own
 // route (sim/flight-route.mjs): a cycle through these, safe because each side uses the other only inside functions.
-import { ALTO_PATIENCE_TICKS, advancePursuit, altoOptions, altoText, answerAlto, chaseProjection, runRefusal, sightMiles, strippedBy } from './pursuit.mjs';
+import { advancePursuit, altoOptions, altoText, answerAlto, chaseProjection, runRefusal, sightMiles, strippedBy } from './pursuit.mjs';
 import { flightPlaces, routeProjection } from './flight-route.mjs';
+import { limitLeft, limitOut, roadLimitKey, roadOnLimit } from './decision-budget.mjs';
 import { campedApart } from './disease.mjs';
 
 const DAY = 1440;
@@ -77,7 +78,11 @@ export const DIG_HOURS = 8;
 export const DIG_MILES = 8;
 /** After a dig-out the ox is spent: the wagon goes at this share of its pace for `OX_SPENT_HOURS`, and a second dig-out takes twice the hours. */
 export const OX_SPENT_HOURS = 24, SPENT_PACE = 0.5;
-/** A road question waits this many ticks for the family before it lapses (`lapseRoad`; the calendar holds for a played family). */
+/**
+ * A road question waits this many ticks for a family nobody is reading before it is answered as auto answers. A played family
+ * at its screen has **ninety real seconds** instead (owner, 2026-09-29, "Real-time limits"; sim/decision-budget.mjs
+ * `QUESTION_BUDGETS.road`, `roadOnLimit`), the same at every pace, and then it lapses (`lapseRoad`); the calendar holds for it.
+ */
 export const ROAD_PATIENCE_TICKS = 12;
 /** A column within this many miles is a warning; within `OVERTAKEN_MILES` it has come up with a family that is not moving. */
 export const WARNING_MILES = 20, OVERTAKEN_MILES = 5;
@@ -229,7 +234,8 @@ export const ROAD_ASKS = {
     },
   },
   // Mexican troops close enough to call on the family to halt (sim/pursuit.mjs, owner 2026-09-27): halt and be taken, or run
-  // and be fired on. Silence halts, as the soldiers ordered (`ALTO_PATIENCE_TICKS`), and an automatic family halts at once.
+  // and be fired on. Silence halts, as the soldiers ordered (after thirty real seconds with the chase held, sim/decision-budget.mjs
+  // `QUESTION_BUDGETS.alto`), and an automatic family halts at once.
   alto: {
     text: altoText,
     fallback: ['halt'],
@@ -273,8 +279,8 @@ export function roadAskProjection(world, household) {
   const ask = household.flight?.ask;
   if (!ask) return null;
   const spec = ROAD_ASKS[ask.id];
-  const ticksLeft = askTicksLeft(world, ask);
-  return { id: ask.id, openedMinute: ask.openedMinute, ...(ticksLeft !== null && { ticksLeft }), text: spec.text(world, household), fallback: spec.fallback, options: spec.options(world, household).map(option => ({ ...option, ...roadAskAvailability(world, household, option.id) })) };
+  const leftMs = askLeftMs(world, household);
+  return { id: ask.id, openedMinute: ask.openedMinute, ...(leftMs !== null && { leftMs }), text: spec.text(world, household), fallback: spec.fallback, options: spec.options(world, household).map(option => ({ ...option, ...roadAskAvailability(world, household, option.id) })) };
 }
 
 /** What the family decides when nobody answers for it: the fallback in order, the first that is open (`FIC-GONZ-048`'s rule). */
@@ -535,8 +541,9 @@ export function advanceRoad(world, household) {
   // order gives it (`ORDER_GRACE_MINUTES`, `FIC-GONZ-465`: the record's Gonzales families left the night before Sesma came in).
   const chased = advancePursuit(world, household);
   // A question nobody answered in its time. For a family a student is answering for, **it lapses** (owner, 2026-09-27;
-  // sim/lapse.mjs): nothing new is done (`lapseRoad`). A family nobody is answering for is decided as auto decides.
-  if (flight.ask && world.tick - flight.ask.openedTick >= ROAD_PATIENCE_TICKS) {
+  // sim/lapse.mjs): nothing new is done (`lapseRoad`). A family nobody is answering for is decided as auto decides. Its time is
+  // ninety real seconds for a played family at its screen (owner, 2026-09-29, `roadOnLimit`), twelve ticks otherwise.
+  if (flight.ask && (roadOnLimit(world, household) ? limitOut(world, roadLimitKey(household, flight.ask)) : world.tick - flight.ask.openedTick >= ROAD_PATIENCE_TICKS)) {
     if (familyAnsweredFor(world, household) && !world.entities[actingId(world, household)]?.auto) lapseRoad(world, household);
     else {
       const option = roadAutoAnswer(world, household);
@@ -567,14 +574,14 @@ export function roadProjection(world, household) {
 }
 
 /**
- * How many ticks the road's open question has left before silence answers it (`ROAD_PATIENCE_TICKS`, or the soldiers'
- * `ALTO_PATIENCE_TICKS`), or null for a question with no opening tick. The page turns them into seconds at the class's pace
- * for the countdown on the "!" (docs/audits/2026-09-28-design.md S33); the tick is still what lapses it.
+ * The real milliseconds the road's open question has left before it lapses - ninety seconds, or the soldiers' ¡Alto! thirty
+ * (sim/decision-budget.mjs `QUESTION_BUDGETS`, owner 2026-09-29) - for the countdown on the "!" (docs/audits/2026-09-28-design.md
+ * S33), or null for a question that is not on the real clock (nobody is reading it). The server's clock is what lapses it.
  */
-export function askTicksLeft(world, ask) {
-  if (!ask || !Number.isFinite(ask.openedTick)) return null;
-  const patience = ask.id === 'alto' ? ALTO_PATIENCE_TICKS : ROAD_PATIENCE_TICKS;
-  return Math.max(0, patience - (world.tick - ask.openedTick));
+export function askLeftMs(world, household) {
+  const ask = household?.flight?.ask;
+  if (!ask || !Number.isFinite(ask.openedTick) || !roadOnLimit(world, household)) return null;
+  return limitLeft(world, roadLimitKey(household, ask), ask.id === 'alto' ? 'alto' : 'road');
 }
 
 /** A saved road that cannot be, or null. */

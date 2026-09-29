@@ -1,6 +1,6 @@
 {
   "record": "tips-browser",
-  "date": "2026-09-28",
+  "date": "2026-09-29",
   "environment": "Same computer: a local classroom server and headless Chrome, 1366x768 with a keyboard and 1024x768 with a touch screen.",
   "pass": [
     "no guided start and no walk-through: the first thing said is the arrival's tip (\"Your family is on its way to its own land. When they get there, choose a house and set your family to work.\")",
@@ -12,10 +12,10 @@
     "Escape put the tip away, and the server keeps it as seen",
     "after a reload, with the call still open, its tip is not shown again",
     "in the first hour, nothing says \"Not yet\": nursing the sick goes through, food goes through, enlisting only for its own reason (\"Paz Proofwright is already nursing the sick.\"), the well only for its own reason (\"Paz Proofwright is already nursing the sick.\")",
-    "the order to leave: its tip (\"Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in a day, and the family packs and goes.\"), put away with a tap, and the \"!\" on the main person with \"3 min\" left on it",
+    "the order to leave: its tip (\"Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and the family packs and goes.\"), put away with a tap, and the \"!\" on the main person with \"3 min\" left on it",
     "on the road: the route's tip (\"On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.\"), put away with a tap",
     "¡Alto!: its tip (\"Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, and running risks their shots. No answer means you halt.\"), the \"!\" with \"30s\" on it, put away with a tap",
-    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, order, flight, house, road, rest, route, star, alto)"
+    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, order, flight, house, field, rest, route, road, star, alto)"
   ],
   "observed": {
     "start": {
@@ -40,7 +40,6 @@
       "enlist",
       "order",
       "house",
-      "road",
       "rest",
       "star"
     ],
@@ -104,7 +103,7 @@
       "tip": {
         "id": "flight",
         "shown": true,
-        "text": "Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in a day, and the family packs and goes.",
+        "text": "Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and the family packs and goes.",
         "box": {
           "left": 324,
           "top": 356,
@@ -171,9 +170,10 @@
         "order",
         "flight",
         "house",
-        "road",
+        "field",
         "rest",
         "route",
+        "road",
         "star",
         "alto"
       ],

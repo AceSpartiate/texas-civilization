@@ -27,6 +27,7 @@ import { houstonCamp, joinEstimateWords } from './houston.mjs';
 import { southSite } from './south.mjs';
 import { record } from './events.mjs';
 import { answeredFor, recordLapse } from './lapse.mjs';
+import { limitLeft, limitOut, workLimitKey, workOnLimit } from './decision-budget.mjs';
 // Who is left at home when a man goes to the war (sim/acting.mjs, design audit S14, 2026-09-28): said on the control.
 import { WAR_CHORES, leavesLittleOnes } from './acting.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
@@ -77,12 +78,18 @@ export { TOOL_LIFE };
 export const SKILLS = ['farming', 'hunting', 'hands'];
 
 /**
- * How long somebody downwind will hold before the question lapses (`lapsedChoice`, owner 2026-09-27).
+ * How long somebody downwind will hold before the question is answered, for a family nobody is reading.
  *
  * Two fictional hours. A hunt that waited for ever on a student who had gone to look at
  * something else would be a chore that silently stopped being work, and a class where one
  * person simply never comes home. A rider's patience works the same way and for the same
  * reason (`PASSING_MINUTES` in sim/encounters.mjs).
+ *
+ * **A student's question waits ninety real seconds instead** (owner, 2026-09-29, "Real-time limits": sim/decision-budget.mjs
+ * `QUESTION_BUDGETS.work`, `workOnLimit`) and then lapses (`lapsedChoice`, owner 2026-09-27), the same at every pace and in
+ * every phase. Two hours of the calendar was one tick in the winter and the spring, where a tick is four or twelve hours - 9.5
+ * seconds at Study, one at Quick - so every hunt run by hand was lost (docs/audits/2026-09-29-triage.md 1.3). It holds only
+ * the one person: the class's calendar goes on while a hunter waits on a shot.
  */
 export const ASK_PATIENCE = 120;
 
@@ -236,7 +243,8 @@ export function askAvailability(world, household, entity, optionId) {
 export function askProjection(world, household, entity) {
   const ask = entity.chore?.ask;
   if (!ask) return null;
-  return { ...ask, options: ask.options.map(option => ({ ...option, ...askAvailability(world, household, entity, option.id) })) };
+  // With the real milliseconds it will wait yet, for the countdown on the "!" (owner, 2026-09-29, "Real-time limits").
+  return { ...ask, options: ask.options.map(option => ({ ...option, ...askAvailability(world, household, entity, option.id) })), ...(workOnLimit(world, entity) && { leftMs: limitLeft(world, workLimitKey(entity, ask), 'work') }) };
 }
 
 /**
@@ -2110,8 +2118,9 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
   // past - without this the question would be asked and answered by the next tick, which
   // is a question in name only.
   if (state.ask) {
-    // A family whose student has gone (sim/absence.mjs) is not waited for.
-    if (!household.absent && world.minute - state.ask.openedMinute < ASK_PATIENCE) return;
+    // A family whose student has gone (sim/absence.mjs) is not waited for. A student's question waits its real seconds
+    // (`workOnLimit`, owner 2026-09-29); a family nobody plays, its two hours of the calendar.
+    if (workOnLimit(world, entity) ? !limitOut(world, workLimitKey(entity, state.ask)) : !household.absent && world.minute - state.ask.openedMinute < ASK_PATIENCE) return;
     // Nobody answered in time. For a family a student is answering for, **the question lapses** (owner, 2026-09-27;
     // sim/lapse.mjs): nothing new is chosen (`lapsedChoice`: the shot is left, and ordered work goes on by the question's own
     // fallback). A family nobody is answering for - gone from its screen, or nobody plays it - is decided as auto decides

@@ -565,7 +565,7 @@ export function packFlight(shown) {
 
 /**
  * The family goes without a student's word: its main person is on auto, or nobody answered by hand within
- * `FLIGHT_PATIENCE` (sim/auto.mjs). Packed as a neighbour packs. False when it cannot go yet - nobody at home - which is
+ * its three real minutes (sim/auto.mjs, sim/decision-budget.mjs `QUESTION_BUDGETS.flight`). Packed as a neighbour packs. False when it cannot go yet - nobody at home - which is
  * tried again next tick.
  */
 export function autoFlee(world, household, { why = 'auto' } = {}) {
@@ -573,7 +573,7 @@ export function autoFlee(world, household, { why = 'auto' } = {}) {
   if (!shown?.refuges?.length) return false;
   const { take, refuge } = packFlight(shown);
   if (fleeRefusal(world, household, { take, refuge })) return false;
-  if (why === 'waited') tell(world, household, 'Nobody gave the word for a day, and the family could wait no longer: it loaded what it could and went.', { importance: 2 });
+  if (why === 'waited') tell(world, household, 'Nobody gave the word, and the family could wait no longer: it loaded what it could and went.', { importance: 2 });
   flee(world, household, { take, refuge });
   return true;
 }

@@ -1,6 +1,6 @@
 {
   "record": "scrape-pursuit-browser",
-  "date": "2026-09-28",
+  "date": "2026-09-29",
   "environment": "Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x768.",
   "pass": [
     "1366: the student chose two stops, one from the list and one by tapping the map, the first across country, and the family set out",
@@ -63,13 +63,7 @@
           "alto"
         ],
         "heard": [],
-        "spoken": [
-          {
-            "id": "alto",
-            "x": 408,
-            "y": 658
-          }
-        ]
+        "spoken": []
       },
       "ask": [
         "halt",
@@ -99,41 +93,41 @@
         ],
         "heard": [
           {
+            "x": 581,
+            "y": 534,
+            "size": 1
+          },
+          {
+            "x": 597,
+            "y": 561,
+            "size": 1
+          },
+          {
             "x": 613,
-            "y": 517,
+            "y": 588,
             "size": 1
           },
           {
-            "x": 596,
-            "y": 490,
+            "x": 497,
+            "y": 441,
             "size": 1
           },
           {
-            "x": 628,
-            "y": 545,
+            "x": 478,
+            "y": 416,
             "size": 1
           },
           {
-            "x": 511,
-            "y": 398,
-            "size": 1
-          },
-          {
-            "x": 492,
-            "y": 374,
-            "size": 1
-          },
-          {
-            "x": 562,
-            "y": 477,
+            "x": 550,
+            "y": 518,
             "size": 1
           }
         ],
         "spoken": [
           {
             "id": "fire",
-            "x": 607,
-            "y": 582
+            "x": 560,
+            "y": 571
           }
         ]
       },
@@ -153,8 +147,8 @@
       "towardName": "Harrisburg",
       "columnId": "santa-anna",
       "began": 288240,
-      "t": 988,
-      "chased": 3464.2666666666505,
+      "t": 903,
+      "chased": 3385.555555555519,
       "phase": "caught",
       "dir": {
         "x": -0.7887,
@@ -165,83 +159,55 @@
           "g": 15,
           "busy": 0,
           "shots": 1,
-          "run": 3464.2666666666505
+          "run": 3381.1555555555187
         },
         {
           "g": 15,
           "busy": 0,
           "shots": 1,
-          "run": 3464.2666666666505
+          "run": 3384.088888888852
         },
         {
-          "g": 14.626666666720697,
+          "g": 12.304444444501309,
           "busy": 0,
           "shots": 1,
-          "run": 3464.2666666666505
-        },
-        {
-          "g": 15,
-          "busy": 0,
-          "shots": 1,
-          "run": 3461.333333333317
+          "run": 3385.555555555519
         },
         {
           "g": 15,
           "busy": 0,
           "shots": 1,
-          "run": 3458.3999999999837
+          "run": 3376.7555555555186
         },
         {
           "g": 15,
           "busy": 0,
           "shots": 1,
-          "run": 3458.3999999999837
+          "run": 3373.8222222221852
         },
         {
           "g": 15,
           "busy": 0,
           "shots": 1,
-          "run": 3464.2666666666505
+          "run": 3375.288888888852
         },
         {
           "g": 15,
           "busy": 0,
           "shots": 1,
-          "run": 3464.2666666666505
+          "run": 3381.1555555555187
+        },
+        {
+          "g": 15,
+          "busy": 0,
+          "shots": 1,
+          "run": 3381.1555555555187
         }
       ],
       "shots": [
         {
           "n": 0,
-          "man": 1,
-          "yards": 49,
-          "shooter": "mounted",
-          "target": {
-            "kind": "beast",
-            "name": "ox",
-            "id": "hh-1-animal"
-          },
-          "p": 0.054,
-          "hit": false,
-          "minute": 288256.333
-        },
-        {
-          "n": 1,
           "man": 2,
-          "yards": 46,
-          "shooter": "mounted",
-          "target": {
-            "kind": "beast",
-            "name": "ox",
-            "id": "hh-1-animal"
-          },
-          "p": 0.064,
-          "hit": false,
-          "minute": 288256.333
-        },
-        {
-          "n": 2,
-          "man": 0,
           "yards": 48,
           "shooter": "mounted",
           "target": {
@@ -249,13 +215,27 @@
             "name": "ox",
             "id": "hh-1-animal"
           },
-          "p": 0.056,
+          "p": 0.057,
           "hit": false,
-          "minute": 288256.35
+          "minute": 288256.9
         },
         {
-          "n": 3,
-          "man": 6,
+          "n": 1,
+          "man": 1,
+          "yards": 48,
+          "shooter": "mounted",
+          "target": {
+            "kind": "beast",
+            "name": "ox",
+            "id": "hh-1-animal"
+          },
+          "p": 0.057,
+          "hit": false,
+          "minute": 288256.917
+        },
+        {
+          "n": 2,
+          "man": 0,
           "yards": 46,
           "shooter": "mounted",
           "target": {
@@ -265,53 +245,67 @@
           },
           "p": 0.063,
           "hit": false,
-          "minute": 288256.367
+          "minute": 288256.95
+        },
+        {
+          "n": 3,
+          "man": 6,
+          "yards": 48,
+          "shooter": "mounted",
+          "target": {
+            "kind": "beast",
+            "name": "ox",
+            "id": "hh-1-animal"
+          },
+          "p": 0.057,
+          "hit": false,
+          "minute": 288256.95
         },
         {
           "n": 4,
           "man": 7,
-          "yards": 46,
+          "yards": 48,
           "shooter": "mounted",
           "target": {
             "kind": "person",
             "name": "Gregorio",
             "id": "hh-1-parent-1"
           },
-          "p": 0.042,
+          "p": 0.036,
           "hit": false,
-          "minute": 288256.367
+          "minute": 288256.95
         },
         {
           "n": 5,
           "man": 3,
-          "yards": 47,
+          "yards": 46,
           "shooter": "mounted",
           "target": {
             "kind": "beast",
             "name": "ox",
             "id": "hh-1-animal"
           },
-          "p": 0.06,
+          "p": 0.063,
           "hit": false,
-          "minute": 288256.4
+          "minute": 288257
         },
         {
           "n": 6,
-          "man": 4,
-          "yards": 47,
+          "man": 5,
+          "yards": 48,
           "shooter": "mounted",
           "target": {
             "kind": "beast",
             "name": "ox",
             "id": "hh-1-animal"
           },
-          "p": 0.06,
+          "p": 0.056,
           "hit": false,
-          "minute": 288256.433
+          "minute": 288257.017
         },
         {
           "n": 7,
-          "man": 5,
+          "man": 4,
           "yards": 46,
           "shooter": "mounted",
           "target": {
@@ -319,9 +313,9 @@
             "name": "Gregorio",
             "id": "hh-1-parent-1"
           },
-          "p": 0.042,
+          "p": 0.041,
           "hit": false,
-          "minute": 288256.433
+          "minute": 288257.033
         }
       ],
       "shotCount": 8,
@@ -351,17 +345,17 @@
           "gloss": "At them!",
           "kind": "reconstructed",
           "side": "mexican",
-          "minute": 288256.333,
+          "minute": 288256.9,
           "claimId": "HIST-TEX-666"
         }
       ],
       "leg": {
         "from": "staffords",
         "to": "harrisburg",
-        "progress": 10.108736196775839
+        "progress": 10.04373619677584
       },
       "step": 2,
-      "lead": 15,
+      "lead": 12,
       "hailYards": 197,
       "hailed": 288254,
       "deferredAsk": {
@@ -371,8 +365,8 @@
       },
       "answer": "run",
       "warned": 288256,
-      "fireFrom": 970,
-      "firstShot": 288256.333,
+      "fireFrom": 850,
+      "firstShot": 288256.9,
       "ended": 288258,
       "linger": 0,
       "reason": "ran"
@@ -415,13 +409,7 @@
           "alto"
         ],
         "heard": [],
-        "spoken": [
-          {
-            "id": "alto",
-            "x": 237,
-            "y": 658
-          }
-        ]
+        "spoken": []
       },
       "ask": [
         "halt",

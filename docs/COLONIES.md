@@ -626,7 +626,10 @@ lesson. With them it reaches the fight at tick 168 and ends at 236, and the rest
   and `SIGHT_MILES` are numbers about a student noticing a prompt, reading five lines, and watching somebody come up the
   road. They were held in minutes of 1835, so a faster calendar quietly cut each to a third. They now stretch with it
   (`stretch` and `attention` in `sim/encounters.mjs`), and a rider still waits about sixty ticks and is still seen about
-  two ticks off in every phase.
+  two ticks off in every phase. **Amended 2026-09-29 (owner, "Real-time limits", `FIC-GONZ-906`):** attention is now
+  counted in real seconds rather than ticks - a rider stopped with a student's family waits ninety real seconds from the
+  last thing said, the same at every pace (`QUESTION_BUDGETS.rider`, `sim/decision-budget.mjs`); sixty ticks were 9.5 real
+  minutes at Study with the class's calendar held. `PATIENCE_MINUTES` and `PASSING_MINUTES` remain for a family nobody reads.
 
 **The calendar holds for a dated question.** History fixes both ends of the night of October 1 — the force crosses in
 the dark and marches at dawn — and everything between is a family deciding whether its man goes upriver. Eight hours is
@@ -1121,4 +1124,6 @@ Put to the owner by multiple choice after [goliad-scrape-san-jacinto.md](battle-
 **Amended 2026-09-16 (the auto switch, [FAMILY_PANEL.md](FAMILY_PANEL.md) §11.7):** a family whose main person is on auto
 packs as a neighbour packs and goes the tick after the order; a family by hand that answers nothing for a day is packed off
 by itself (`FLIGHT_PATIENCE` in `sim/auto.mjs`), so "will not leave" is now an answer of its own — *Stay, and take the
-risk* (`flight-stay`) — burned out anyway and at risk as above, the road east still open.
+risk* (`flight-stay`) — burned out anyway and at risk as above, the road east still open. **Amended 2026-09-29** (owner,
+"Real-time limits", `FIC-GONZ-906`): the family by hand is packed off after **three real minutes**, not a day of the calendar
+(`flightWaited` in `sim/auto.mjs`; at Quick the order's day of grace comes first).

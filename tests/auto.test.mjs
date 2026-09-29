@@ -14,11 +14,12 @@ import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from 
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { momentOf } from '../sim/directors.mjs';
 import { calendarMinutes } from '../sim/clock.mjs';
-import { ASK_PATIENCE } from '../sim/chores.mjs';
 import { closeDetachment, closeQuestion, openDetachment, openQuestion, withTheArmy } from '../sim/army.mjs';
 import { COURIER_OFFERED, share as alamoShare } from '../sim/alamo.mjs';
 import { packFlight } from '../sim/scrape.mjs';
-import { FLIGHT_PATIENCE, REPEATED } from '../sim/auto.mjs';
+import { REPEATED } from '../sim/auto.mjs';
+import { QUESTION_BUDGETS } from '../sim/decision-budget.mjs';
+import { STUDY_TICK_MS } from '../sim/crops.mjs';
 import { autoLabel, needsOf } from '../public/family-panel.js';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
@@ -115,6 +116,8 @@ test('on auto a hunt never stops to ask: the shot is decided at once, the hunt r
 test('by hand the question stands for the game\'s own window and then lapses: nobody takes the shot, and the hunter comes away', () => {
   const world = running('auto-hand');
   const elena = world.entities['hh-1-elena'];
+  // A student's family: the question waits on the real clock (sim/decision-budget.mjs `workOnLimit`).
+  world.households['hh-1'].played = true;
   world.households['hh-1'].resources.powder = 3;
   applyAction(world, 'hh-1', { action: 'chore', entityId: elena.id, chore: 'hunt-timber' });
   let opened = null, waited = 0;
@@ -123,7 +126,9 @@ test('by hand the question stands for the game\'s own window and then lapses: no
     stepWorld(world);
   }
   assert.ok(opened !== null, 'the hunt never asked');
-  assert.ok(waited * 20 >= ASK_PATIENCE - 20 && waited * 20 <= ASK_PATIENCE + 40, `the question stood ${waited} ticks`);
+  // Ninety real seconds (owner, 2026-09-29, "Real-time limits"), a tick stepped in process counting as one at the Study pace.
+  const limit = Math.ceil(QUESTION_BUDGETS.work / STUDY_TICK_MS);
+  assert.ok(waited >= limit - 1 && waited <= limit + 1, `the question stood ${waited} ticks, not the ${limit} of ninety real seconds`);
   const lapsed = world.events.find(event => event.actorId === elena.id && /Nobody answered/.test(event.text));
   assert.ok(lapsed?.lapsed && /the question lapsed\. Nothing new was chosen: .* did nothing more: leave it and come home/.test(lapsed.text), `the record does not say plainly that the question lapsed: ${lapsed?.text}`);
   assert.ok(!world.events.some(event => event.actorId === elena.id && event.decision), 'something was chosen for the hunter nobody answered for');
@@ -236,7 +241,7 @@ test('inside the Alamo, a person on auto offers or stays at once at auto\'s shar
   validateWorld(world);
 });
 
-test('told to leave, a family whose main person is on auto packs as a neighbour packs and goes at once; a family by hand is waited for a day, then goes; and a family that says it stays, stays', () => {
+test('told to leave, a family whose main person is on auto packs as a neighbour packs and goes at once; a family by hand is waited for three real minutes, then goes; and a family that says it stays, stays', () => {
   const world = createGonzalesWorld('auto-scrape', 12, { map: 'colonies' });
   for (const household of Object.values(world.households)) rollFamily(world, household);
   world.status = 'running';
@@ -254,7 +259,7 @@ test('told to leave, a family whose main person is on auto packs as a neighbour 
   const main = household => world.entities[household.mainId || household.principalId];
   main(auto).auto = true;
   until(world, () => auto.flight?.status === 'ordered' || auto.flight?.status === 'fled');
-  const ordered = world.minute;
+  const orderedTick = world.tick;
   assert.equal(stays.flight?.status, 'ordered', 'the third family was not told on the same morning');
   applyAction(world, stays.id, { action: 'flight-stay', entityId: main(stays).id });
   assert.equal(stays.flight.status, 'stayed');
@@ -266,15 +271,17 @@ test('told to leave, a family whose main person is on auto packs as a neighbour 
   assert.equal(auto.flight.status, 'fled', 'the family on auto did not go the tick after the order');
   assert.ok(world.events.some(e => e.householdId === auto.id && /set out east for/.test(e.text)));
   if (expected.refuge) assert.equal(auto.flight.refuge, expected.refuge, 'auto did not make for the nearest refuge');
-  // By hand: the "!" on the main person, the calendar held, and after a day auto packs and goes, saying so.
+  // By hand: the "!" on the main person, the calendar held, and after three real minutes (owner, 2026-09-29) auto packs and
+  // goes, saying so. A tick stepped in process counts as one at the Study pace.
   assert.equal(hand.flight.status, 'ordered');
   assert.ok(needsOf(view(world, hand.id), main(hand).id).some(need => need.kind === 'flight'));
   assert.equal(calendarMinutes(world), 20, 'the calendar did not hold for a family deciding');
-  untilMinute(world, ordered + FLIGHT_PATIENCE - 40);
-  assert.equal(hand.flight.status, 'ordered', 'auto went before the day was up');
-  untilMinute(world, ordered + FLIGHT_PATIENCE + 40);
-  assert.ok(['fled', 'refuged'].includes(hand.flight.status), `nobody answering for a day left the family ${hand.flight.status}`);
-  assert.ok(world.events.some(e => e.householdId === hand.id && /Nobody gave the word for a day/.test(e.text)));
+  const limit = Math.ceil(QUESTION_BUDGETS.flight / STUDY_TICK_MS);
+  until(world, () => world.tick >= orderedTick + limit - 1);
+  assert.equal(hand.flight.status, 'ordered', 'auto went before the three minutes were up');
+  until(world, () => world.tick >= orderedTick + limit + 1);
+  assert.ok(['fled', 'refuged'].includes(hand.flight.status), `nobody answering for three minutes left the family ${hand.flight.status}`);
+  assert.ok(world.events.some(e => e.householdId === hand.id && /Nobody gave the word, and the family could wait no longer/.test(e.text)));
   // Saying so: the family that decided to stay was not packed off by the day, and the road east is still open to it.
   assert.equal(stays.flight.status, 'stayed', 'a family that said it stays was packed off');
   assert.ok(!world.events.some(e => e.householdId === stays.id && /Nobody gave the word/.test(e.text)));

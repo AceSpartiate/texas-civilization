@@ -47,6 +47,7 @@ import { drawnVehicles } from './company.mjs';
 import { recordLapse } from './lapse.mjs';
 // Who is with the family and answers for it (sim/acting.mjs, 2026-09-28).
 import { actingId } from './acting.mjs';
+import { limitOut, roadLimitKey, roadOnLimit } from './decision-budget.mjs';
 
 const YARDS = 1760;
 const round = (value, places = 2) => Math.round(value * 10 ** places) / 10 ** places;
@@ -586,8 +587,9 @@ function hail(world, household, chase) {
   if (household.played) spotlight(world, { key: `chase:${chase.id}`, text: `${chase.kind === 'cavalry' ? 'Mexican horsemen' : 'Mexican soldiers'} of ${chase.name} call on ${householdName(world, household)} to halt on the road.`, ...familyPoint(world, household), claimId: 'FIC-GONZ-663', householdId: household.id, tell: false });
 }
 
-/** The unanswered order to halt is answered for the family after this many ticks: it halts, and it is written down (`FIC-GONZ-666`). */
-export const ALTO_PATIENCE_TICKS = 3;
+// The unanswered order to halt lapses after **thirty real seconds** (owner, 2026-09-29, "Real-time limits": sim/decision-budget.mjs
+// `QUESTION_BUDGETS.alto`), the same at every pace, **with the chase held while it waits** (`waiting` in `advancePursuit`): the
+// family halts, and it is written down (`FIC-GONZ-666`). It was three ticks: 28 seconds at Study, 3 at Quick.
 /** Seconds between the second order and the first shot at a family that runs (`FIC-GONZ-663`). */
 export const WARNED_SECONDS = 10;
 /** The calendar's step while a watched chase is close (`FIC-GONZ-666`): two minutes a tick, about ten seconds each at Study. */
@@ -687,8 +689,11 @@ export function advancePursuit(world, household) {
   }
   const vF = familyYps(world, household, seconds);
   // Seen at the end of this tick: the chase begins now, not a tick ago. A family nobody is answering for is not chased: when
-  // the soldiers call on it to halt, it halts (`FIC-GONZ-666`).
-  const ended = fresh ? null : runChase(world, household, chase, seconds, calendar, vF);
+  // the soldiers call on it to halt, it halts (`FIC-GONZ-666`). Called on to halt and its student still deciding, **the chase
+  // is held** (owner, 2026-09-29): the soldiers stand where they called from and the family where it was, until it answers or
+  // its thirty real seconds are out.
+  const waiting = () => Boolean(flight.ask?.id === 'alto' && chase.phase === 'hailed' && !chase.answer && attended(world, household));
+  const ended = fresh || waiting() ? null : runChase(world, household, chase, seconds, calendar, vF);
   const leader = withFamily(world, household).people.find(one => one.travel?.purpose === 'flee');
   if (leader) chase.leg = { from: leader.travel.from, to: leader.travel.to, progress: leader.travel.progress };
   if (ended === 'caught') { caught(world, household, chase, chase.answer === 'run' ? 'ran' : 'came-up'); return true; }
@@ -702,14 +707,16 @@ export function advancePursuit(world, household) {
   // Where the nearest timber is, for the family's answers (and never where the column is).
   if (flight.chase && !['caught', 'escaped'].includes(flight.chase.phase)) { const timber = nearestTimber(world, familyPoint(world, household)); if (timber) flight.chase.timber = timber; else delete flight.chase.timber; }
   // The order unanswered: the family halts, as it was ordered, and that is written down.
-  if (flight.ask?.id === 'alto' && world.tick - flight.ask.openedTick >= ALTO_PATIENCE_TICKS) answerAltoFor(world, household, 'silence');
+  // Its time is on the real clock while a student is reading it; with nobody left to (the one who answers gone), it lapses now.
+  if (flight.ask?.id === 'alto' && (!roadOnLimit(world, household) || limitOut(world, roadLimitKey(household, flight.ask)))) answerAltoFor(world, household, 'silence');
   chase = flight.chase;
   if (!chase || ['caught', 'escaped'].includes(chase.phase)) { if (chase) chase.step = CHASE_STEP; return Boolean(chase && chase.phase === 'caught'); }
   repace(world, household);
   const reason = givesUp(world, household, chase, vF);
   if (reason) { endChase(world, household, chase, 'escaped', reason); chase.step = CHASE_STEP; return false; }
   chase.step = stepFor(chase, vF);
-  return false;
+  // Held on the road while the order waits on its student, so the family does not draw away from soldiers standing still.
+  return waiting();
 }
 /**
  * The order answered for the family. A family nobody is answering for halts by its fallback, through the road's own answer so it

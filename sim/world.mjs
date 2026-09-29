@@ -42,7 +42,7 @@ import { FAMILY_DECISIONS, actingFor, actingInvalid, advanceStragglers, advanceT
 registerActingChores(registerChores);
 registerTakenInLedger({ owes: (world, debtorId, creditorId) => owes(standings(world), debtorId, creditorId), recorded: (world, takerId, familyId, ids) => recordTakenIn(world, takerId, familyId, ids, { quiet: true }) });
 import { advanceLesson, advanceLessons, inLesson, lessonHostWords, lessonInvalid, lessonProjection, lessonRefusal, lessonResumeOffer, resumeLesson, stopLesson } from './lesson.mjs';
-import { FLIGHT_PATIENCE, REPEATED, advanceAuto, autoShown, noteOrder, setAuto, waitForTask, waitingWork } from './auto.mjs';
+import { REPEATED, advanceAuto, flightLeftMs, autoShown, noteOrder, setAuto, waitForTask, waitingWork } from './auto.mjs';
 import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 // The children's own works (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21). Imported here as well
 // as for its gates, because importing it is what registers them into the chore table.
@@ -655,7 +655,7 @@ export function progressTravel(world, entity, units = 1) {
     record(world, 'arrival', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} arrived at ${world.map.sites[travel.to].name}.`, destination: travel.to, purpose: travel.purpose, causes: [travel.progressEventId || travel.causeId] });
   }
 }
-export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs } = {}) {
+export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs, questionBudgets } = {}) {
   if (world.status !== 'running') return;
   // One tick of everybody's own time; on the real land the calendar it carries can be
   // longer than the twenty minutes of work in it (sim/clock.mjs, docs/COLONIES.md §5.7).
@@ -667,8 +667,9 @@ export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs
   settleMeans(world);
   // The real seconds the server says passed since its last running tick are spent on every open military question, and a
   // question out of time is decided by its documented fallback before anything moves (sim/decision-budget.mjs). A tick
-  // stepped in process carries none.
-  spendDecisionBudget(world, realMs, { budgetMs: decisionBudgetMs, callBudgetMs, heldFor: household => inLesson(world, household), beginTravel });
+  // stepped in process carries none. The same seconds go on the real-time limits of a student's rider, order to leave, road
+  // question, ¡Alto! and work question (owner, 2026-09-29), where a tick stepped in process counts as one at the Study pace.
+  spendDecisionBudget(world, realMs, { budgetMs: decisionBudgetMs, callBudgetMs, heldFor: household => inLesson(world, household), beginTravel, questionBudgets });
   for (const entity of Object.values(world.entities)) progressTravel(world, entity);
   // The sick mend by what they did this tick - rested where the road held them, rode or walked where it did not - wherever they
   // are (sim/disease.mjs `mendSickness`, docs/DISEASE.md build step 0 and §3.7).
@@ -1376,9 +1377,10 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // family what its own people are near enough to see. Absent when there is none, which is also every class before.
     ...(() => { const fires = firesSeen(world, householdId, role); return fires.length ? { fires } : {}; })(),
     // The family's flight east, once it has been told to go (sim/scrape.mjs).
-    // With, while the order to leave stands unanswered, how many ticks are left before the family is packed off by silence
-    // (sim/auto.mjs `FLIGHT_PATIENCE`), for the countdown on the "!" (docs/audits/2026-09-28-design.md S33).
-    ...(household?.flight ? { flight: { ...flightProjection(world, household), ...(household.flight.status === 'ordered' && Number.isFinite(household.flight.orderedMinute) && { ticksLeft: Math.max(0, Math.ceil((household.flight.orderedMinute + FLIGHT_PATIENCE - world.minute) / Math.max(1, calendarMinutes(world)))) }) } } : {}),
+    // With, while the order to leave stands unanswered, the real milliseconds left before the family is packed off by silence
+    // (its three real minutes, owner 2026-09-29; sim/auto.mjs `flightLeftMs`), for the countdown on the "!"
+    // (docs/audits/2026-09-28-design.md S33).
+    ...(household?.flight ? { flight: { ...flightProjection(world, household), ...(() => { const left = flightLeftMs(world, household); return left === null ? {} : { leftMs: left }; })() } } : {}),
     // Every family's land as it truly stands, and where the army is, for the Host's map only (sim/overview.mjs).
     ...(overview && { overview: { lands: overview.lands, ...(overview.army && { army: overview.army }) } }),
     // The Host's live page (sim/host.mjs): the class in words, the Rumor Mill and the spotlight. Never a student's.
