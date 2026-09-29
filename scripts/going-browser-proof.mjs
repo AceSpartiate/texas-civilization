@@ -8,7 +8,8 @@
 // while the horse stays home; the hunt in the timber opens the chooser with the horse chosen, Send sends, and the hunter is
 // drawn riding it; buying furniture in town finds the horse shut in the hunter's name, the student picks the wagon, and it
 // goes after Escape has sent nobody the first time; the next person, with the horse and the wagon both out, has one way and is
-// sent on foot at once with no chooser drawn (owner, 2026-09-25: "When a journey has only one possible way, skip the chooser").
+// sent on foot at once with no chooser drawn (owner, 2026-09-25: "When a journey has only one possible way, skip the chooser"),
+// and walks to the timber once the student has answered which piece.
 // At 1366x768 and 1024x768 (phones unsupported, owner) the chooser fits, nothing is drawn over its own controls, it keeps off
 // the family's column, and the ability bar steps aside while it is open and is back after.
 //
@@ -190,8 +191,19 @@ try {
   const icon = page.locator(`.panel-row[data-entity-id="${fourth.id}"] .panel-icon[data-key="make-furniture"]`);
   await icon.waitFor({ state: 'visible' });
   await icon.click();
-  await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.travel?.mode === 'foot', fourth.id, { timeout: 15000 });
+  // Making furniture asks which piece before anybody leaves for the timber (sim/chores.mjs, `furniture-make`). Until the real-time
+  // limits (3e81dc71, owner 2026-09-29) a student's question lapsed after two hours of the calendar - a tick or so here - to the
+  // work's fallback piece, and the walk began unseen; it now waits ninety real seconds for the student, so the proof answers it
+  // as the student does, from the person's card (as scripts/furniture-browser-proof.mjs does), and only then watches the walk.
+  await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.chore?.ask?.id === 'furniture-make', fourth.id, { timeout: 15000 });
   const skipped = await page.evaluate(() => ({ skipped: window.__goingSkipped, asked: window.__goingAsked, shown: !document.querySelector('#going').hidden, bar: Boolean(document.querySelector('.panel-row[data-focused=true] .panel-icons')) }));
+  assert.equal(world().entities[fourth.id].travel ?? null, null, 'they left before being asked which piece');
+  await page.locator(`.panel-row[data-entity-id="${fourth.id}"] .panel-portrait`).click();
+  const piece = page.locator('#selection-work button[data-action=answer-chore]:not([disabled]):not([data-option="leave"])').first();
+  await piece.waitFor({ state: 'visible' });
+  observed.oneWayPiece = await piece.getAttribute('data-option');
+  await piece.click();
+  await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.travel?.mode === 'foot', fourth.id, { timeout: 15000 });
   observed.oneWay = skipped;
   assert.equal(skipped.asked, asked + 1, 'the order did not go through the question at all, so this proves nothing about skipping it');
   assert.equal(skipped.shown, false, 'the chooser was drawn for a journey with one way');
@@ -203,7 +215,7 @@ try {
   assert.deepEqual(skipped.skipped.ways.filter(one => one.can).map(one => one.id), ['foot']);
   assert.equal(world().entities[fourth.id].travel?.mode, 'foot');
   assert.ok(skipped.bar, 'the ability bar stepped aside for a chooser that was never drawn');
-  ok(`${fourth.name}, with the horse and the wagon both out ("${shutWagon.why}"), is sent to make furniture on foot straight away: no chooser drawn, the one way sent with the order`);
+  ok(`${fourth.name}, with the horse and the wagon both out ("${shutWagon.why}"), is sent to make furniture on foot straight away: no chooser drawn, the one way sent with the order, and once the ${observed.oneWayPiece} is chosen they walk to the timber`);
 
   assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);
   ok('no page errors anywhere in the run');

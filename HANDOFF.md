@@ -1,5 +1,35 @@
 # Claude handoff — Astra foundation
 
+## `test:going` green again: the proof answers which piece — 2026-09-29 (not released)
+
+Branch `going-proof` off origin/main f5745673; not pushed. `scripts/going-browser-proof.mjs` stopped at its last step (*"the next
+person: one way left … they walk straight away"*), as the section below records: the order went out on foot with no chooser, as
+it should, but no journey began within the proof's fifteen seconds.
+
+- **Offending commit: 3e81dc71** (*Real-time limits*, merged in cff47690 `owner-real-time-limits`), found by `git bisect run` over
+  v2026.09.29.1..origin/main (1d4b02de good, 3e81dc71 bad). Nothing was wrong in the game. *Make furniture* asks **which piece**
+  (`furniture-make`) before the wood is fetched; the proof never answered it. Until 3e81dc71 a student's work question lapsed after
+  two hours of the calendar (`ASK_PATIENCE`) - about one tick in this settled class - to the work's fallback piece (shelves), so the
+  walk to the timber began unseen and the proof passed on a lapse it did not know about. Since the owner's real-time limits the
+  question waits **ninety real seconds** for the student (`workOnLimit`), which is right, and the person stands at home with the
+  question open. Not the wood pile (the page asked because the pile could spare no log), halved work, the lone parent, the
+  children's day or the portrait/star change.
+- **Fix, the proof only**: after the icon is pressed it waits for the `furniture-make` question, holds that nobody has left yet,
+  answers it as a student does (the portrait, then the first piece the card offers - as `test:furniture` does), and then waits
+  for the walk on foot as before. Every earlier assertion is kept: the order went through the question (`__goingAsked`), no chooser
+  drawn, the one way `foot` sent with it, the wagon and horse shut in their holders' names, the bar never stepped aside. No game
+  change, so no node test. Injection: the page's one-way skip switched off (`public/going.js`, `only = null`) - the proof fails at
+  this step (the chooser holds the order, no question comes); restored.
+- **`test:errand` had the same fault, found on the way** (12 of 16, then *"Timeout 180000ms"* waiting for both hunters home).
+  Read from the server: both hunters stood downwind with the **shot** question open while the class ran on to the end of its
+  period (minute 6760, *"The Gonzales prototype stops here"*) inside the question's ninety seconds; before 3e81dc71 it lapsed to
+  "leave" in a tick. The proof now answers each hunter's shot from their card with that same answer, *Leave it and come home*,
+  so the class's clock is where it was for the stock pens and the wagon after. 16 of 16.
+
+Evidence (same computer, headless Chrome): `npm test` **1793 tests, 1757 pass, 0 fail, 36 skipped** (the suspended tutorial);
+`test:going` **7 of 7**, twice; `test:errand` **16 of 16**, twice; `test:furniture` 5, `test:work` 5, `test:family-panel` 19.
+No Chromebook, LAN or classroom claim.
+
 ## Merging the story cards with portrait = star; warn, then allow; a traveller out of sight greyed — owner, 2026-09-29 (not released)
 
 Branch `cards-merge-fix` off `integration-2026-09-28` (37838614: `house-card` merged with `bubbles-portrait-star`); not pushed.
@@ -49,7 +79,8 @@ exactly that), and the riders answered all the way to his arrival.
 
 Still failing, the same without this branch's changes (checked on bed10685): `scripts/going-browser-proof.mjs` at the last step, *"the
 next person: one way left … they walk straight away"* - the order goes out on foot (`__goingSkipped`), but the server starts
-*make-furniture* at step 0 with no journey, so the proof's wait for a foot journey times out. A server change from another branch.
+*make-furniture* at step 0 with no journey, so the proof's wait for a foot journey times out. A server change from another branch. (The proof's, not the game's: the
+real-time limits' ninety seconds for a work question; answered on `going-proof`, the section above.)
 
 ## Four red proofs green: `test:solo-game`, `test:family-commands`, `test:travel-sight` and the house plot — 2026-09-29 (not released)
 

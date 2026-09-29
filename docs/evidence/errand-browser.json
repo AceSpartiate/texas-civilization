@@ -18,7 +18,7 @@
     "a second rifle is bought at the gunsmith (\"Buy a rifle: 8 reales or 16 food\", the stock line \"The family has 27.5 food · 4 seed · 6 powder · 177 reales. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.\"), and Alvin and Keziah are both out hunting at once",
     "a second horse is bought at the stock pens (Buy a horse: 25 reales, Buy an ox: 15 reales, Buy a cow and calf: 10 reales, Buy a hog: 4 reales or 14 food): \"Rides the horse: 0 of 7 loads. Leads the new horse home on a halter.\"; Dandy the gelding is seen led home beside Alvin, who rides Bess, and stands drawn in the yard beside her",
     "two riders at once: Alvin and Keziah each ride to Gonzales on a horse of their own, both drawn in the saddle",
-    "the wheelwright's wagon (Buy a new wagon: 100 reales) is refused alone (\"A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.\"), sent with an ox from the pens: \"Goes on foot: 0 of 5 loads. Alvin and Keziah have both horses. Drives the new wagon home behind the new ox, at an ox's pace.\"; Soledad drives it home behind Buck the ox (drawn wagon) and it stands in the yard 556 px from the family wagon",
+    "the wheelwright's wagon (Buy a new wagon: 100 reales) is refused alone (\"A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.\"), sent with an ox from the pens: \"Goes on foot: 0 of 5 loads. Alvin and Keziah have both horses. Drives the new wagon home behind the new ox, at an ox's pace.\"; Soledad drives it home behind Buck the ox (drawn wagon) and it stands in the yard 558 px from the family wagon",
     "no page errors"
   ],
   "observed": {
@@ -162,7 +162,7 @@
       }
     ],
     "horseHow": "Rides the horse: 0 of 7 loads. Leads the new horse home on a halter.",
-    "animalsStock": "The family has 26.9 food · 4 seed · 6 powder · 166 reales. Tools: 2 rifles · a hoe · 2 felling axes. Animals: a horse · an ox.",
+    "animalsStock": "The family has 27 food · 4 seed · 6 powder · 166 reales. Tools: 2 rifles · a hoe · 2 felling axes. Animals: a horse · an ox.",
     "animalsAt1366": {
       "screen": {
         "w": 1366,
@@ -190,13 +190,13 @@
     "ledTrails": 58,
     "yard": {
       "bess": {
-        "x": 695.2192449291443,
-        "y": 293.2648800180866,
+        "x": 695.2192450504757,
+        "y": 293.26488022585977,
         "size": 74.25000000000001
       },
       "bought": {
-        "x": 626.6807833906828,
-        "y": 293.2648800180866,
+        "x": 626.6807835120142,
+        "y": 293.26488022585977,
         "size": 74.25000000000001
       }
     },
@@ -248,6 +248,7 @@
       "seat": "wagon",
       "direction": "n",
       "art": null,
+      "rig": null,
       "parts": [
         {
           "part": "ox",
@@ -272,13 +273,13 @@
     },
     "wagonsInYard": {
       "first": {
-        "x": 409.13260050130333,
-        "y": 182.79908240706723,
+        "x": 208.625194774802,
+        "y": -160.56984989957135,
         "size": 76.72500000000001
       },
       "second": {
-        "x": 831.0411596027106,
-        "y": 545.5932742811794,
+        "x": 631.4480676463224,
+        "y": 203.79010430585873,
         "size": 76.72500000000001
       }
     },

@@ -330,6 +330,18 @@ try {
   // Owner, 2026-09-24: "players should also be able to buy more horses and other animals. they should be relatively expensive
   // though" (docs/TOWNS.md §4d). Both hunters home first, so Bess is in the yard to ride to town.
   const idle = ids => page.waitForFunction(list => list.every(id => { const one = window.__snapshot?.world.entities.find(e => e.id === id); return one && !one.chore && !one.travel; }), ids, { timeout: 180000 });
+  // Each hunt stops downwind and asks about the shot. Until the real-time limits (3e81dc71, owner 2026-09-29) a student's question
+  // lapsed after two hours of the calendar - a tick or so - to "leave", and the hunters walked home unseen; it now waits ninety
+  // real seconds, longer than this class has left before its period ends. So the student answers it, from each hunter's card,
+  // with what the lapse chose: leave it and come home.
+  for (const hunter of [first, second]) {
+    await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.chore?.ask?.id === 'shot', hunter.id, { timeout: 60000 });
+    await page.locator(`.panel-row[data-entity-id="${hunter.id}"] .panel-portrait`).click();
+    const leave = page.locator('#selection-work button[data-action=answer-chore][data-option="leave"]');
+    await leave.waitFor({ state: 'visible' });
+    await leave.click();
+    await page.waitForFunction(id => window.__snapshot?.world.entities.find(e => e.id === id)?.chore?.ask?.id !== 'shot', hunter.id, { timeout: 15000 });
+  }
   await idle([first.id, second.id]);
   await asMain(page, first.id);
   await page.locator(`.panel-row[data-entity-id="${first.id}"] .panel-icon[data-key="visit-shop"]`).click();
