@@ -5,11 +5,11 @@
   "note": "Same computer only, headless Chrome at 1366x768 and 1024x768. Two real classes through the join flow: the invented country (seed children-proof-96) for the home, and the real land played in process into the spring (seed scrape-proof-1) for the Scrape. No LAN or district claim.",
   "checks": [
     "Cayetano, with nothing to do, walked to Paz and both are heard (\"Where does the wind come from?\" / \"Go and play, and keep where I can see you.\"); the row says \"Stopped to talk with Cayetano, who has nothing to do. Give Cayetano something to do and Paz goes back to the work about the place.\"",
-    "given tag, the parent went back to work at once; the icon glows and the child is drawn in 20 places in four seconds, as smallchild-walk-n",
+    "given tag, the parent went back to work at once; the icon glows and the child is drawn in 19 places in four seconds, as smallchild-walk-n",
     "with a corn-husk doll the child is drawn sitting (smallchild-rest, smallchild-play-sit-doll)",
     "scattering corn for the hens the child is drawn in their own smallchild-scatter",
     "the child's automation turned itself off, and the row says \"Auto went off: Cayetano has been good as long as a child can be.\"",
-    "the baby crawled (15 places in three seconds), cried and was picked up by Paz, 36, who said \"There, there. I have you.\" and was drawn indigo-hold-baby; the baby was put down to nap and she went back to where she stood, at \"work\"",
+    "the baby crawled (14 places in three seconds), cried and was picked up by Paz, 36, who said \"There, there. I have you.\" and was drawn indigo-hold-baby; the baby was put down to nap and she went back to where she stood, at \"work\"",
     "on foot with the baby on her hip Paz walks at three quarters of her pace (0.75 a tick): her row says \"On foot with Docia on her hip: walking a quarter slower for it.\", the baby's \"Carried by Paz.\"",
     "at 1024x768 the child's own bar is on the screen and nothing scrolls sideways",
     "told to leave, hiding what the wagon cannot carry is on the main person's bar and glows when pressed; the child's bar has a bundle to make up (child-play, child-doll, child-cart, child-tag, child-hide, child-hoop, child-marbles, child-kindling, child-eggs, child-water, child-mind, flee-bundle, flee-cow)",
@@ -54,8 +54,8 @@
         "kind": "reconstructed",
         "text": "Where does the wind come from?",
         "box": {
-          "x": 432.9579976556389,
-          "y": 906.4009464498072,
+          "x": 434.35394280496826,
+          "y": 900.554206078616,
           "w": 203.953125,
           "h": 27
         }
@@ -66,8 +66,8 @@
         "kind": "reconstructed",
         "text": "Go and play, and keep where I can see you.",
         "box": {
-          "x": 351.8637970434429,
-          "y": 887.6234962132905,
+          "x": 353.2082540961723,
+          "y": 881.2678810549319,
           "w": 229.90234375,
           "h": 42
         }
@@ -82,7 +82,7 @@
       "child-hens"
     ],
     "play": {
-      "places": 20,
+      "places": 19,
       "clips": [
         "smallchild-walk-n"
       ]
@@ -90,7 +90,7 @@
     "hens": "smallchild-scatter",
     "autoOff": "Auto went off: Cayetano has been good as long as a child can be.",
     "crawl": {
-      "places": 15,
+      "places": 14,
       "clips": [
         "infant-crawl"
       ]
@@ -133,17 +133,17 @@
       "row": "Driving the milk cow along behind the family.",
       "drawn": {
         "by": "hh-1-child-4",
-        "x": 603,
-        "y": 487,
+        "x": 487,
+        "y": 1409,
         "clip": "cattle-longhorn-red-idle",
         "child": {
-          "x": 683,
-          "y": 481
+          "x": 568,
+          "y": 1404
         }
       },
       "child": {
-        "x": 683,
-        "y": 441.38192307692304,
+        "x": 567.6733604860983,
+        "y": 1363.9950391881357,
         "size": 89.10000000000001
       },
       "herdLeft": {

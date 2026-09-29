@@ -112,7 +112,8 @@ export function drawArmy(ctx, army, at, { scale, figure, time = 0, draw = null, 
     const x = at.x + (column - 2.5) * size * 0.95 + (doing?.dx || 0) * size, y = at.y + size * (0.5 + row * 0.55);
     const flip = doing ? doing.flip : army.side === 'mexican';
     if (doing?.prop && prop) prop(index, doing, { x, y }, size);
-    const drawn = draw && draw(doing ? doing.id : `${role}-idle-${flip ? 'w' : 'e'}`, x, y, size, `${army.id}:${index}`, { flip });
+    const drawn = draw && (draw(doing ? doing.id : `${role}-idle-${flip ? 'w' : 'e'}`, x, y, size, `${army.id}:${index}`, { flip })
+      || (doing?.base && draw(doing.base, x, y, size, `${army.id}:${index}`, { flip: doing.baseFlip })));
     if (!drawn && mini) mini(ctx, x, y, size, { side: army.side, flip });
     onMan?.(index, x, y, size);
   }

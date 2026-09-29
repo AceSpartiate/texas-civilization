@@ -1,0 +1,188 @@
+{
+  "module": "yard-props",
+  "area": "work",
+  "date": "2026-09-28",
+  "sheets": {
+    "claude-yard-props": {
+      "image": "/assets/claude-standins/claude-yard-props.png",
+      "width": 1280,
+      "height": 200,
+      "bytes": 80412,
+      "sha256": "ca15a459520fd3021d3fdb8703790fe8bb02539133b1215d76b6cd0037dd3c32",
+      "madeBy": "claude",
+      "module": "yard-props",
+      "request": "Request 2026-09-28 — ambient life",
+      "layout": {
+        "rows": 1,
+        "columns": 4,
+        "cell": {
+          "w": 320,
+          "h": 200
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "washtub": {
+      "sheet": "claude-yard-props",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 200,
+      "anchorX": 0.5,
+      "anchorY": 0.9,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "yard-props",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "washtub: item 2: transparent, anchored at its base, at the scale of the people beside it",
+      "source": "svg/yard-props/claude-washtub.svg",
+      "label": "washtub",
+      "kind": "claude-yard-props"
+    },
+    "woodpile-frontier": {
+      "sheet": "claude-yard-props",
+      "x": 320,
+      "y": 0,
+      "w": 320,
+      "h": 200,
+      "anchorX": 0.5938,
+      "anchorY": 0.9,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "yard-props",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "woodpile-frontier: item 2: transparent, anchored at its base, at the scale of the people beside it",
+      "source": "svg/yard-props/claude-woodpile-frontier.svg",
+      "label": "woodpile frontier",
+      "kind": "claude-yard-props"
+    },
+    "hens-pecking-1": {
+      "sheet": "claude-yard-props",
+      "x": 640,
+      "y": 0,
+      "w": 320,
+      "h": 200,
+      "anchorX": 0.5,
+      "anchorY": 0.9,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "yard-props",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "hens-pecking-1: item 2: transparent, anchored at its base, at the scale of the people beside it",
+      "source": "svg/yard-props/claude-hens-pecking-1.svg",
+      "label": "hens pecking 1",
+      "kind": "claude-yard-props"
+    },
+    "hens-pecking-2": {
+      "sheet": "claude-yard-props",
+      "x": 960,
+      "y": 0,
+      "w": 320,
+      "h": 200,
+      "anchorX": 0.5,
+      "anchorY": 0.9,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "yard-props",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "hens-pecking-2: item 2: transparent, anchored at its base, at the scale of the people beside it",
+      "source": "svg/yard-props/claude-hens-pecking-2.svg",
+      "label": "hens pecking 2",
+      "kind": "claude-yard-props"
+    }
+  },
+  "clips": {
+    "hens-pecking": {
+      "frames": [
+        {
+          "sprite": "hens-pecking-1",
+          "duration": 420
+        },
+        {
+          "sprite": "hens-pecking-2",
+          "duration": 380
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "yard-props"
+    }
+  },
+  "provenance": {
+    "washtub": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "yard-props",
+      "area": "work",
+      "sheet": "claude-yard-props",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "A wooden washtub of staves bound with two iron hoops, grey water in it, a wooden ribbed washboard standing in it leaning to one side, a cloth over the rim; three-quarter north-up view, at the scale of the person kneeling at it; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/yard-props/claude-washtub.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's washtub"
+    },
+    "woodpile-frontier": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "yard-props",
+      "area": "work",
+      "sheet": "claude-yard-props",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "Split rails stacked by a cabin: four courses of rough split oak rails, their split ends toward the camera showing pale wedge-shaped heartwood and a strip of dark bark, about knee high; three-quarter north-up view; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/yard-props/claude-woodpile-frontier.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's woodpile-frontier"
+    },
+    "hens-pecking-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "yard-props",
+      "area": "work",
+      "sheet": "claude-yard-props",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "Two russet hens pecking at scattered corn, frame 1 of 2: the near hen pecking, the far one's head up; three-quarter north-up view, a hen about a quarter of a person tall; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/yard-props/claude-hens-pecking-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's hens-pecking-1"
+    },
+    "hens-pecking-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "yard-props",
+      "area": "work",
+      "sheet": "claude-yard-props",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "Two russet hens pecking at scattered corn, frame 2 of 2: the near hen's head up, the far one pecking; three-quarter north-up view, a hen about a quarter of a person tall; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/yard-props/claude-hens-pecking-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's hens-pecking-2"
+    },
+    "hens-pecking": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "yard-props",
+      "area": "work",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "Two russet hens pecking at scattered corn in turn, one head down while the other is up, looping at 420 and 380 ms.",
+      "frames": [
+        "hens-pecking-1",
+        "hens-pecking-2"
+      ],
+      "status": "temporary: replace with Astra's hens-pecking"
+    }
+  }
+}
