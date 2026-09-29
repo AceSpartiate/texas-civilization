@@ -11,6 +11,8 @@ import { houstonCamp } from '../sim/houston.mjs';
 import { turnHome } from '../sim/scrape.mjs';
 import { TIP_IDS } from '../sim/tips.mjs';
 import { watchOf } from '../sim/watching.mjs';
+import { armBattle } from '../sim/battle-stage.mjs';
+import { tellFannin } from '../sim/fannin.mjs';
 import { spring, until } from './support/scrape-spring.mjs';
 import { taught } from './support/settled.mjs';
 
@@ -99,6 +101,49 @@ test('the rule: a student whose little ones were taken in, with nobody else of t
   assert.equal(household.takenIn, undefined);
   assert.equal(watchOf(world, household), null);
   assert.equal(page(world, household.id).watching, undefined, 'the student still watches with the father home');
+  validateWorld(world);
+});
+
+test('the rule: a student watching the family that took their little ones in is still sent their own man\'s fight, its card through him, and the account of what became of him, with its line in the journal', async () => {
+  // test:battle-south and test:battle-coleto (2026-09-29): a lone father at the war, his little ones taken in; the page turned to the
+  // neighbours' the moment he fell or was taken, and lost the rest of his fight and the word of what became of him.
+  const { world, household } = played('hh-4');
+  const father = world.entities[household.principalId];
+  person(world, household, one => one.kin?.role === 'mother').health = { condition: 'dead' };
+  serve(world, father);
+  stepWorld(world);
+  assert.ok(household.takenIn, 'nobody took the little ones in, so this proves nothing');
+  // A prisoner of Coleto, formed with the others at Goliad on Palm Sunday: the card through him, Follow.
+  const goliad = world.map.sites.goliad;
+  Object.assign(father, { location: { x: goliad.x, y: goliad.y, siteId: 'goliad' }, service: { kind: 'fannin', status: 'prisoner', since: world.minute, prisonerSince: world.minute, siteId: 'goliad', coleto: 'unhurt' } });
+  const massacre = armBattle(world, 'goliad-massacre', world.minute - 1);
+  massacre.participants[father.id] = { householdId: household.id, joined: world.minute - 1 };
+  massacre.alerted[household.id] = { entityId: father.id, stage: 'muster', minute: world.minute, text: `At ${father.name}'s side: the prisoners are formed.` };
+  let view = page(world, household.id);
+  assert.equal(view.watching?.why, 'taken-in', 'the student is not watching, so this proves nothing');
+  assert.equal(view.battle?.id, 'goliad-massacre', 'the fight their own man is in was not sent to the watching page');
+  assert.equal(view.battleAlert?.title, 'The prisoners are formed', 'the card through their own man was not sent');
+  assert.equal(view.battleAlert.householdId, household.id);
+  // On the page: the card is put up, though he is not on the watched family's rows.
+  const { militaryNotices } = await import('../public/military-attention.js');
+  assert.ok(militaryNotices(view).some(notice => notice.kind === 'battle' && notice.entityId === father.id), 'the page does not put up the card through him');
+  // Nor is it held back by the watched family's own road, which is not this student's to answer.
+  assert.ok(militaryNotices({ ...view, flight: { status: 'ordered' } }).some(notice => notice.kind === 'battle'), 'the watched family\'s order to leave held back the card through their own man');
+  // Killed on Palm Sunday; the word comes; the family is told through whoever hears it - a little one, with the neighbours.
+  massacre.start = world.minute - 100000;
+  Object.assign(father.service, { fate: 'executed' });
+  father.health = { condition: 'dead' };
+  tellFannin(world);
+  assert.ok(massacre.told[household.id], 'nobody of the family was told, so this proves nothing');
+  view = page(world, household.id);
+  assert.equal(view.watching?.why, 'taken-in');
+  assert.match(view.battleAccount?.title || '', new RegExp(`What became of ${father.name}`), 'the account of what became of him was not sent to the watching page');
+  assert.ok(view.events.some(event => event.householdId === household.id && event.text === view.battleAccount.text), 'the journal does not keep it');
+  // Nothing of theirs is sent to the family they follow, and the rest of the page is still exactly that family's own.
+  const host = household.takenIn.by;
+  assert.ok(!JSON.stringify(own(world, host)).includes(view.battleAccount.text), 'the account reached the neighbours\' page');
+  const withoutWar = value => Object.fromEntries(Object.entries(without(value)).filter(([key]) => !['battle', 'battleAlert', 'battleAccount', 'events'].includes(key)));
+  assert.deepEqual(withoutWar(view), withoutWar(own(world, host)));
   validateWorld(world);
 });
 

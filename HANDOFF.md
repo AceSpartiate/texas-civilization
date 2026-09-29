@@ -1,5 +1,42 @@
 # Claude handoff — Astra foundation
 
+## A watching student keeps their own man's fight and the word of him: `test:battle-south` fixed, `test:battle-coleto` re-run — 2026-09-29 (not released)
+
+Branch `south-news-proofs` off origin/main 7b099ab5; not pushed. `npm run test:battle-south` failed on main (*"no account of San
+Patricio came"*, 13 checks then the failure), and `test:battle-coleto` was reported failing at the word, or on main at an earlier card.
+
+**The south: a game bug, from follow-and-watch (b4bcfcc8, merged af25547a).** Bisected across the first-parent merges since
+v2026.09.29.1: cff47690 passes 16 of 16, af25547a fails exactly as main does. The proof's seed rolls hh-1 as a **lone father of 29
+with sons of 5 and 3**; he goes south, his little ones are taken in by the neighbours, and he is **killed at San Patricio**. From that
+tick `watchOf` has "nobody else of the family left to play", so `projectPage` sent the student the neighbours' page instead of their
+own - and with it went the rest of his fight (the battle vanished from the page mid-fight; one run failed on *"no words drawn"*
+for that) and, at the word, the account of what became of him, which only his own family's projection carries. **Fix**:
+`ownWar` in sim/world.mjs lays the student's own family's war over the watching page - the fight their man is in, the card
+through him (marked with the family's id, since he is not on the watched family's rows; public/military-attention.js puts it up,
+and on a watching page nothing waits on the student, so the watched family's road no longer holds it back), and the account with
+its line added to the journal. Each is `directorProjection` for their own family only; with none the page is the watched family's
+exactly, as before (docs/FAMILY_PANEL.md §20a). **Test**: tests/watching.test.mjs, one new test (a lone father taken prisoner at
+Coleto, then killed on Palm Sunday, his little ones taken in) - seen failing alone on each of four injections: `ownWar` not called
+(*"the fight their own man is in was not sent"*), the journal line not added, the page's own-family mark removed, the watched
+family's road holding the card.
+
+**Coleto: not this bug, and not reproduced at the word.** Its families all have a mother and grown children, so nobody watches.
+Seven runs: clean origin/main 17 of 17 (beside `npm test`); this branch 17 of 17 four times of six. The two failures were both at
+the **start**, under load, never at the word: beside `npm test` the fighter's page did not see the class running within 30 s of
+Start, and beside `test:battle-san-jacinto` the **first** card never came (*"no Follow card came through the man when the column
+marched out"*). Traced
+from the server, the march card is up for **about six real seconds** at Quick (march-out and road are six ticks), from the first
+seconds after Start: a page slow to take its first running snapshot under load misses it. That is the proof's start, unchanged since
+before v2026.09.29.1, not a merge. At the word the calendar was held at twenty minutes a tick in every traced run (hh-1's and
+hh-4's orders to leave, 3 real minutes, open at 266760; the word at 268200, 72 ticks later), so the account stands 72 ticks; were
+no played family deciding it would stand six (1440 minutes at 240 a tick) - still inside the proof's 30 s. Left as is; if it fails
+again, trace the page's first snapshot time against the march-out.
+
+**Proofs** (this branch, same computer, headless Chrome): `test:battle-south` 16 of 16 (was 13 then the failure on 7b099ab5),
+`test:battle-coleto` 17, `test:battle-san-jacinto` 15, `test:battle-alamo` 13, `test:watching` 8, `test:relay` and
+`test:information` passed; the evidence files are from these runs. `npm test` 1784 / 1748 pass / 0 fail / 36 skipped (an earlier
+run, before the watching-road line, had the known save-retry flake, 1 of 1 alone).
+
 ## The house's card, and a family member's big moments as story cards — owner, 2026-09-29 (not released)
 
 Branch `house-card` off origin/main c92e715f (origin/main 7b099ab5 merged in); not pushed. The owner: *"The choosing of a house

@@ -50,7 +50,9 @@ export function militaryNotices(world) {
   // And never over the family's own road (docs/audits/2026-09-28-design.md S35): the order to leave, the road's question and
   // the soldiers' ¡Alto! are the family's to answer in time, and a Watch card sprung open over them took the student away.
   const roadAsking = Boolean(world.flight && (world.flight.status === 'ordered' || world.flight.ask));
-  const deciding = notices.some(notice => notice.kind !== 'siege') || world.request?.status === 'open' || meeting?.status === 'open' || roadAsking;
+  // A page watching another family (sim/watching.mjs) answers nothing, so nothing on it is waiting on this student: the watched
+  // family's road does not hold back the card through their own man.
+  const deciding = !world.watching && (notices.some(notice => notice.kind !== 'siege') || world.request?.status === 'open' || meeting?.status === 'open' || roadAsking);
   // The family's other big moments, in the same card (owner, 2026-09-29: "use that same style as the alert for when a family member
   // is going through a major event"): ¡Alto!, the road's question, the order to leave, the settlement's call to arms and somebody
   // very sick - each the "!" on a row already (public/family-panel.js `needsOf`, whose words and time left they carry), put up here
@@ -68,7 +70,9 @@ export function militaryNotices(world) {
     }
   }
   const alert = world.battleAlert;
-  if (alert && !deciding && own.some(person => person.id === alert.entityId)) {
+  // On a page watching another family (sim/watching.mjs) the card through their own man is marked as theirs by the server
+  // (sim/world.mjs `ownWar`): he is not on the watched family's rows.
+  if (alert && !deciding && (own.some(person => person.id === alert.entityId) || alert.householdId === world.householdId)) {
     // Watch for a fight; Follow for a march or a muster (Coleto's march out, the prisoners formed on Palm Sunday), which frames
     // the field the same way (docs/battle-research/staging.md §6.7, §7.7).
     notices.push({ id: alert.id, entityId: alert.entityId, kind: 'battle', title: alert.title, text: alert.text, action: alert.action || 'Watch', field: alert.field });

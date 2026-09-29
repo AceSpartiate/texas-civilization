@@ -1446,7 +1446,35 @@ export function projectPage(world, householdId, role, options = {}) {
   const household = role === 'student' && householdId ? world.households[householdId] : null;
   const watch = household && watchOf(world, household);
   if (!watch) return projectWorld(world, householdId, role, options);
-  return projectWatching(world, household, watch, { project: projectWorld, ending: endingProjection, options });
+  const view = projectWatching(world, household, watch, { project: projectWorld, ending: endingProjection, options });
+  return ownWar(world, household, view);
+}
+/**
+ * The student's own family's war stays theirs on a page watching another family, as their ending does (docs/FAMILY_PANEL.md
+ * §20a, docs/BATTLES.md §2.7-2.8): the fight their own man is in, the card through him (Palm Sunday's muster through a prisoner
+ * of Coleto), and the account of what became of him when the word comes, with its line in the journal. A lone father killed at
+ * San Patricio, his little ones taken in by the neighbours, is the case: the page turns to the neighbours' the moment he falls,
+ * and until this it lost the rest of the fight and the account the word brings - both are his family's, and nobody else's is
+ * sent (each is the family's own projection, sim/directors.mjs `directorProjection`). Found by `test:battle-south`,
+ * 2026-09-29. Nothing is sent when their own family has no fight and no word: the page is the watched family's, exactly, as
+ * before.
+ */
+function ownWar(world, household, view) {
+  const own = directorProjection(world, household.id, 'student', { seen: (view.others || []).map(other => other.id) });
+  if (own.battle) view.battle = own.battle;
+  // Marked as the family's own: the watched family's people are on the rows, not the man it comes through (public/military-attention.js).
+  if (own.battleAlert) view.battleAlert = { ...own.battleAlert, householdId: household.id };
+  if (own.battleAccount) {
+    view.battleAccount = own.battleAccount;
+    // The journal keeps it (§2.8): the family's own line of it, newest back, within the few days the card is shown.
+    for (let index = world.events.length - 1; index >= 0 && world.events[index].minute >= world.minute - 3 * 1440; index--) {
+      const e = world.events[index];
+      if (e.householdId !== household.id || e.text !== own.battleAccount.text) continue;
+      if (!view.events.some(one => one.id === e.id)) view.events = [...view.events, { id: e.id, type: e.type, minute: e.minute, text: e.text, actorId: e.actorId, householdId: e.householdId, causes: [] }];
+      break;
+    }
+  }
+  return view;
 }
 const townScenesView = (world, householdId, role) => { const townScenes = townScenesFor(world, householdId, role); return townScenes ? { townScenes } : {}; };
 /** The orders refused to somebody called aside by the family's little ones: their own work and their own journeys. */
