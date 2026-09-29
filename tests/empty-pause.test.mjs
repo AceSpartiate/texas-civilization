@@ -43,7 +43,8 @@ function watchStream(port, cookie) {
         while ((end = buffer.indexOf('\n\n')) !== -1) {
           const message = buffer.slice(0, end); buffer = buffer.slice(end + 2);
           const data = message.split('\n').filter(line => line.startsWith('data: ')).map(line => line.slice(6)).join('\n');
-          if (data) seen.last = JSON.parse(data);
+          // Snapshots only: a named event (`ping`, `replaced`: server/app.mjs `STREAMS`) is not one.
+          if (data && !/^event: /m.test(message)) seen.last = JSON.parse(data);
         }
       });
       resolve({ seen, close: () => new Promise(done => { request.on('close', () => done()); request.destroy(); }) });
