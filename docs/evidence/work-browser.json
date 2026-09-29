@@ -4,9 +4,9 @@
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768. A real class through the join flow on the invented country (seed work-proof-3). The well, the house, the felling, the mark and the water are the server's own chore state set in process; working about the place is the server's own. No LAN or district claim.",
   "checks": [
-    "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 3/0/2/1, dust on the strike, 20 different pictures in 2.4 s",
+    "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 3/0/1/2, dust on the strike, 20 different pictures in 2.4 s",
     "three sent to the house (\"felling and hauling logs\") are drawn round it (738,409 / 859,384 / 617,384, a figure 77 px), each facing it, swinging an axe with the chips flying (chop in rust-chop, chop in teal-work with a drawn axe, chop in rust-chop; stand-in: Request 2026-09-28 — people at work, item 1)",
-    "at the mark Serafina Proofwright is drawn with the rifle up and a puff of smoke once a cycle (teal-idle-e; marks 1/5/4); surveying, Barnabas Proofwright paces the ground to and fro (20 places, turning both ways)",
+    "at the mark Serafina Proofwright is drawn with the rifle up and a puff of smoke once a cycle (teal-idle-e; marks 4/1); surveying, Barnabas Proofwright paces the ground to and fro (24 places, turning both ways)",
     "thirty-five logs on the pile are drawn as wood-pile-4, one sprite (projected {\"wall\":28,\"sill\":4,\"poor\":3,\"lying\":0})",
     "no page errors"
   ],
@@ -100,11 +100,11 @@
       "frames": [
         3,
         0,
-        2,
-        1
+        1,
+        2
       ],
       "marks": [
-        3,
+        1,
         0
       ],
       "shifts": [
@@ -142,14 +142,14 @@
           "rust-work"
         ],
         "frames": [
-          2,
-          3,
           0,
-          1
+          1,
+          2,
+          3
         ],
         "marks": [
-          5,
-          0
+          0,
+          1
         ],
         "shifts": [
           0
@@ -183,14 +183,14 @@
           "teal-work"
         ],
         "frames": [
-          3,
           0,
           1,
-          2
+          2,
+          3
         ],
         "marks": [
-          7,
-          2
+          2,
+          3
         ],
         "shifts": [
           0
@@ -224,14 +224,14 @@
           "rust-work"
         ],
         "frames": [
-          3,
-          0,
           1,
-          2
+          2,
+          3,
+          0
         ],
         "marks": [
-          5,
-          0
+          0,
+          1
         ],
         "shifts": [
           0
@@ -265,14 +265,14 @@
           "rust-chop"
         ],
         "frames": [
-          2,
-          3,
           0,
-          1
+          1,
+          2,
+          3
         ],
         "marks": [
-          5,
-          0
+          0,
+          1
         ]
       },
       {
@@ -281,14 +281,14 @@
           "rust-chop"
         ],
         "frames": [
-          3,
-          0,
           1,
-          2
+          2,
+          3,
+          0
         ],
         "marks": [
-          5,
-          0
+          0,
+          1
         ]
       }
     ],
@@ -311,30 +311,34 @@
           0
         ],
         "shifts": [
-          -19.1,
-          -16.3,
-          -14.3,
-          -12,
-          -6,
-          -2.9,
+          -5.7,
+          -11.3,
+          -13.6,
+          -15.7,
+          -18.7,
+          -19.5,
+          -19.8,
+          -19.6,
+          -18.8,
+          -16.1,
+          -14.1,
+          -11.8,
+          -9.2,
+          -2.8,
+          0.3,
           3.3,
-          6.3,
-          11.7,
-          14.1,
-          16.1,
-          18.8,
+          9.6,
+          12.1,
+          14.3,
+          16.3,
+          18.9,
           19.6,
-          17.7,
-          6.2,
-          3.2,
-          0.2,
-          -6.5,
-          -9.8,
-          -12.4
+          19.8,
+          19.5
         ],
         "flips": [
-          false,
-          true
+          true,
+          false
         ],
         "tools": [
           null
@@ -365,9 +369,8 @@
           0
         ],
         "marks": [
-          1,
-          5,
-          4
+          4,
+          1
         ],
         "shifts": [
           0

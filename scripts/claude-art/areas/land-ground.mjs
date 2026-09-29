@@ -53,8 +53,8 @@ function riverbank(dir) {
   const W = 220, H = 240, gy = 226, R = rng(dir === 'e' ? 71 : 72), out = [];
   const m = x => dir === 'e' ? x : W - x;
   // Ground behind the bank (the crest's top, grass), the face, and the bottom it drops to.
-  const crest = [[m(40), 30], [m(110), 20], [m(120), 200], [m(50), 214]];
-  const face = [[m(110), 20], [m(170), 44], [m(182), 226], [m(120), 200]];
+  const crest = [[m(78), 30], [m(110), 20], [m(120), 200], [m(86), 212]];
+  const face = [[m(110), 20], [m(196), 48], [m(206), 226], [m(120), 200]];
   out.push(`<path d="${smoothPath(crest)}" fill="${GRASS}" stroke="${INK}" stroke-width="1.6"/>`);
   out.push(`<path d="${path(face)}" fill="${EARTH}" stroke="${INK}" stroke-width="1.8"/>`);
   // Strata and roots down the face; the lit upper edge.
@@ -66,8 +66,8 @@ function riverbank(dir) {
     out.push(`<path d="${path([[m(128), y], [m(166), y + 14], [m(166), y + 26], [m(128), y + 12]])}" fill="${EARTH_DARK}" stroke="${INK}" stroke-width="1.3"/>`);
     out.push(`<path d="${path([[m(128), y], [m(166), y + 14], [m(156), y + 8], [m(122), y - 4]])}" fill="${EARTH_LIGHT}" stroke="${INK}" stroke-width="1.3"/>`);
   }
-  out.push(blades(R, [m(44), 34], [m(112), 22], 16, 10), blades(R, [m(52), 212], [m(120), 200], 10, 8));
-  for (let i = 0; i < 18; i++) { const y = 40 + R() * 160, x = 55 + R() * 50; out.push(`<path d="M ${f1(m(x))} ${f1(y)} l ${f1((R() - 0.5) * 4)} -7" stroke="${GRASS_LIGHT}" stroke-width="1.6"/>`); }
+  out.push(blades(R, [m(80), 32], [m(112), 22], 10, 10), blades(R, [m(86), 210], [m(120), 200], 6, 8));
+  for (let i = 0; i < 10; i++) { const y = 40 + R() * 160, x = 86 + R() * 22; out.push(`<path d="M ${f1(m(x))} ${f1(y)} l ${f1((R() - 0.5) * 4)} -7" stroke="${GRASS_LIGHT}" stroke-width="1.6"/>`); }
   return doc(`riverbank-cut-${dir}`, W, H, `a length of cut riverbank, its raw face dropping to the ${dir === 'e' ? 'east' : 'west'} with two steps cut into it`, out.join(''), gy, null, 0.5);
 }
 

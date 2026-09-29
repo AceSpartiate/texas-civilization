@@ -1469,12 +1469,17 @@ export function createBattleView(art) {
     const radius = Math.max(80, Math.hypot(edge.x - c.x, edge.y - c.y));
     // Banks of fog lying on the field round the fight, drifting, dense while it is thick and in wisps as it lifts, at the
     // strength of the phase's fog; where they are drawn the veil over them is lighter. Placed by row and column, so stable.
-    const clip = battle.fog > 0.55 ? 'fog-bank-dense' : 'fog-bank-thin', size = Math.max(36, figurePx * 2.4);
+    // Scattered, not in rows: a bank a cell where a hash says so, moved about in it, at its own size (a grid of them read as
+    // rows of cartoon clouds in the first proof, test-results/battle-concepcion-ringed-1366.png, 2026-09-28).
+    const clip = battle.fog > 0.55 ? 'fog-bank-dense' : 'fog-bank-thin', cell = Math.max(60, figurePx * 5.5);
     let banks = 0;
-    for (let row = -2; row <= 2; row++) for (let col = -3; col <= 3; col++) {
-      const x = c.x + (col + (row & 1) * 0.5) * size * 2.3, y = c.y + row * size * 0.9 + size * 0.5;
-      if (Math.hypot(x - c.x, y - c.y) > radius * 0.9) continue;
-      if (art.animated(ctx, clip, x, y, size, `fog:${row}:${col}`, { timeMs: time, alpha: Math.min(0.85, battle.fog * 0.9) })) banks++;
+    for (let row = -3; row <= 3; row++) for (let col = -3; col <= 3; col++) {
+      const key = `fog:${row}:${col}`;
+      if (hash(`${key}:on`) < 0.45) continue;
+      const x = c.x + (col + hash(`${key}:x`) - 0.5) * cell, y = c.y + (row + hash(`${key}:y`) - 0.5) * cell * 0.45;
+      if (Math.hypot(x - c.x, (y - c.y) * 1.6) > radius * 0.85) continue;
+      const size = cell * (0.35 + 0.3 * hash(`${key}:s`));
+      if (art.animated(ctx, clip, x, y, size, key, { timeMs: time, flip: hash(`${key}:f`) < 0.5, alpha: Math.min(0.6, battle.fog * 0.65) })) banks++;
     }
     view.fogBanks = banks;
     const veil = banks ? 0.55 : 1;

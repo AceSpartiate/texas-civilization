@@ -1,5 +1,45 @@
 # Claude handoff — Astra foundation
 
+## Claude's temporary art, area F: terrain, trees, the norther, effects and the fights' ground — 2026-09-28 (worktree branch; not released)
+
+Owner, 2026-09-28: *"make all of the remaining art. yours will be temporary. label yours so astra can replace as it makes the
+final versions."* Area F of docs/CLAUDE_ART_PLAN.md, drawn in six modules (`scripts/claude-art/areas/land-*.mjs`, `AREA: 'land'`),
+every frame `madeBy: "claude"`, with its written intent in docs/claude-art-provenance.json and its row in *Claude-drawn
+stand-ins* (area F). Each is drawn only where the game already asks for it, and falls back to what stood in before.
+
+- **F5, the norther (53 frames, `land-gale`).** A gale pose `<upright>-wind` for every tree and ground mark the map scatters that
+  Astra's `weather-norther` did not paint: the ten sized kinds of `trees-colonies-1`/`-2` at three sizes, longleaf, sabal palm,
+  bald cypress, magnolia, beech, cottonwood, scrub, reeds, prickly pear, cordgrass, dune grass, thorn thickets, palmetto, yucca.
+  **Each is her own upright painting bent** (scripts/claude-art/land/bend.mjs: the trunk curved from a foot that stays put, the
+  crown streamed to leeward and pressed in to windward, the windward edge torn and turned pale side up) with Claude's loose
+  leaves - so in a norther the country keeps her trees and her hand. Wired through `CLAUDE_GALE` in `GALE_POSES`
+  (public/weather-art.js). The first proof showed the gale *less* windy than the shear before it; every kind now goes over by
+  `GUST` more. A prickly pear and a yucca do not bend (dry grass blows past them). ceiling-worthy: one frame each, as hers are;
+  nothing sways, because the scattered country is drawn into the kept ground (the `windLean` ceiling in weather-art.js).
+- **F6, the remaining species (18 trees, 5 stumps, `land-trees`).** Anacua, Texas ebony, tupelo, cedar elm, willow and shortleaf
+  pine at pole/log/large, grown from their limbs outward (scripts/claude-art/land/tree.mjs); hickory, walnut, ash, oak and live
+  oak stumps (stump.mjs). `own`/`ownStump` in `KINDS` (sim/woods.mjs), sent in the woods catalogue, drawn first by
+  `drawGroundDetail` with the borrowed picture as the fallback. The catalogue now also sends `pictures` (beech and magnolia's
+  large frames were never reaching the page). Species shapes from general botanical descriptions, not 1836 sources.
+- **F3, the work's effects (`land-effects`, `land-scenery`).** `fx-wood-chips`, `fx-earth-toss`, `fx-dust`, `fx-shavings`,
+  `fx-ripple` (3 frames each) drawn by `drawWorkLayer` through a sprite drawer `drawAtWork` now passes (the particles without
+  it); `tree-fall` (4 frames, her post oak turned about its foot) **drawn but not played**: nothing tells the page the moment a
+  tree falls.
+- **F4, smoke seen from afar.** `farm-smoke-rise` and `town-smoke-rise`, 8-frame loops, for the advance's `fires`
+  (`window.__firesDrawn[].art` says which was drawn).
+- **F7, the night grades.** `night-grade`, `moonlight-grade`, `dawn-grade`: layers multiplied over the view by `drawGrade`
+  (public/battle-view.js) at the strength the phase's light gives, from `drawNight` and the Alamo's numeric light; the washes
+  without them.
+- **F8, F9, F10, the fights' ground.** `riverbank-cut-e`/`-w` along Concepción's bank and `creek-bed-dry`/`creek-ford` at the
+  Grass Fight (scenery items now take a `fallback`, `earth-rampart`); drifting `fog-bank-dense`/`-thin` in `drawFog` under a
+  lighter veil; `marsh-edge-1`..`-3` under San Jacinto's reeds; `campfire-night` in a night fight (again over the dark);
+  `live-oak-mott` (four of her live oaks over their shade) for a battle's grove. `river-bend` is drawn, not placed.
+- **Not made, and why.** F1 and F2 (portraits, marks) were already Claude's; the road's, camp's, gathering and stock icons, the
+  Play Solo trash can, cleared ground and the game of 1836 are delivered by Astra (plan F11-F19); **the guided start's marks are
+  on hold** with the tutorial (owner, 2026-09-28).
+- **Proofs.** `node scripts/claude-art/land/proof.mjs gale trees` (docs/evidence/claude-art/land-gale-40.png, -77, land-trees-40,
+  -77); `npm run art:compare -- land-gale land-trees land-effects land-ground land-scenery`.
+
 ## Claude's temporary art: the foundation and the plan — owner, 2026-09-28 (worktree branch; not released)
 
 **The ask.** Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of the remaining art. yours will be
