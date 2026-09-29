@@ -38,6 +38,15 @@ const sources = {
 const SKIN = 1, HAIR = 2, CLOTHING = 3;
 const PART_NAMES = [null, 'skin', 'hair', 'clothing'];
 /**
+ * A shade of the same pigment: darker, but not by half (her ochre man's waistcoat is his skin's hue at a third of its
+ * light), and its channels in the same order (red over green over blue).
+ */
+const order = (r, g, b) => (r >= g ? 4 : 0) + (g >= b ? 2 : 0) + (r >= b ? 1 : 0);
+const shadeOf = (s, of) => {
+  const lum = light(s.r, s.g, s.b), ofLum = light(of.r, of.g, of.b);
+  return lum < ofLum && lum >= .5 * ofLum && order(s.r, s.g, s.b) === order(of.r, of.g, of.b);
+};
+/**
  * Each figure's own colours, measured as region averages of its south idle (2026-09-28), and what each is. `0` is a colour
  * that is kept as painted: a hat, a band, a scarf, braces, an apron, a skirt, trousers, boots. The Claude-drawn frames
  * (public/assets/claude-standins) are painted in the `sources` tokens, which are included by `refsOf`.
@@ -48,7 +57,9 @@ const REFS = {
   rust: [[60, 37, 24, HAIR], [163, 116, 68, K], [66, 48, 34, K], [138, 93, 53, K], [166, 93, 51, SKIN], [214, 140, 81, SKIN], [209, 135, 79, SKIN],
     [182, 133, 79, K], [190, 144, 83, K], [132, 60, 38, CLOTHING], [135, 61, 39, CLOTHING], [49, 44, 41, K], [125, 86, 47, K],
     [78, 48, 28, K], [174, 126, 75, K], [91, 50, 26, K], [188, 141, 80, K], [42, 38, 34, K], [160, 122, 76, K], [75, 49, 26, K]],
+  // His grey hair under the brim is in the brim's shade: (108, 91, 79).
   elder: [[159, 114, 68, K], [72, 50, 32, K], [124, 82, 46, K], [105, 62, 37, SKIN], [118, 70, 40, SKIN], [151, 131, 114, HAIR],
+    [108, 91, 79, HAIR],
     [81, 69, 37, CLOTHING], [83, 71, 38, CLOTHING], [221, 187, 149, K], [224, 192, 154, K], [89, 60, 38, K], [85, 55, 33, K],
     [169, 123, 74, K], [228, 194, 157, K], [87, 75, 39, CLOTHING], [95, 64, 40, K], [84, 55, 34, K]],
   ochre: [[69, 43, 26, HAIR], [248, 154, 84, SKIN], [241, 139, 69, SKIN], [239, 137, 68, SKIN], [222, 138, 51, CLOTHING],
@@ -230,7 +241,7 @@ export function framePartsOf(imageData, frameName, debug = null) {
     : !head.hatted && s.y < height * .33;
   // Clothing is below the face and no further down than the garment reaches; skin is never above the face, where a hat is.
   // (Below the face's chin, not its middle: the shading of a lip or a nostril is the rust shirt's colour.)
-  const belowFace = s => face ? s.y > face.maxY - .15 * faceH && s.y <= face.maxY + head.reach * faceH : s.y > height * .3 && s.y < height * .9;
+  const belowFace = s => face ? s.y > face.maxY + .1 * faceH && s.y <= face.maxY + head.reach * faceH : s.y > height * .3 && s.y < height * .9;
   // Skin is the face and the hands: never above the face (a hat), never bigger than the face (her elder's trousers are his
   // skin's brown, and far bigger than a hand), and never further down than a hand reaches (a stool).
   const skinPlace = s => !face || s === face || (s.y >= face.minY - .1 * faceH && s.count <= 1.2 * face.count
@@ -246,8 +257,11 @@ export function framePartsOf(imageData, frameName, debug = null) {
   const band = s => head.hatted && face && s.minY < face.minY && s.maxX - s.minX + 1 > 1.6 * faceW;
   const judge = s => {
     if (onHead(s) && hairLike(s) && !band(s)) return HAIR;
-    const hit = nearest(refs, s.r, s.g, s.b, allowedFor(s));
-    return hit.d <= (hit.part === CLOTHING ? GARMENT : FAR) ? hit.part : 0;
+    // Nearest the garment but where no garment can be (a sleeve up by a bowed head): kept as painted, never taken for the
+    // next-nearest part - her shirts' sunlit side is next nearest her skin.
+    const any = nearest(refs, s.r, s.g, s.b), allowed = allowedFor(s);
+    if (!allowed(any.part)) return 0;
+    return any.d <= (any.part === CLOTHING ? GARMENT : FAR) ? any.part : 0;
   };
   for (const s of big) s.part = s === face ? SKIN : judge(s);
   // ---- the specks take the part of the like-coloured region they touch, spreading a few steps in from the big regions
@@ -275,7 +289,9 @@ export function framePartsOf(imageData, frameName, debug = null) {
         const o = stats[other], d = distance(o.r, o.g, o.b, s.r, s.g, s.b);
         if (d < bestD) { bestD = d; best = o; }
       }
-      s.part = bestD <= 45 * 45 ? best.part : judge(s);
+      // Like-coloured, or a deeper shade of what it touches: where her skin meets its outline it darkens and warms (a cheek's
+      // orange rim), and left as painted that rim rings a dark face in orange.
+      s.part = bestD <= 45 * 45 || best.part && shadeOf(s, best) ? best.part : judge(s);
     }
   }
   // A speck that touches nothing judged is left to its own colour - unless it is on the figure's outer edge, where it is
@@ -291,7 +307,8 @@ export function framePartsOf(imageData, frameName, debug = null) {
     }
   }
   const curl = s => onHead(s) && hairLike(s) && nearest(hairRefs, s.r, s.g, s.b).d <= CURL ? HAIR : 0;
-  for (let id = 0; id < stats.length; id++) if (stats[id].part < 0) stats[id].part = edge[id] ? curl(stats[id]) : judge(stats[id]);
+  const edgeSpeck = s => { const part = judge(s); return part === HAIR ? curl(s) : part; };
+  for (let id = 0; id < stats.length; id++) if (stats[id].part < 0) stats[id].part = edge[id] ? edgeSpeck(stats[id]) : judge(stats[id]);
   for (let p = 0; p < n; p++) if (region[p] >= 0) parts[p] = stats[region[p]].part;
   if (debug) Object.assign(debug, { face, stats, faces });
   return parts;
