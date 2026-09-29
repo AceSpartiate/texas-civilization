@@ -15,12 +15,18 @@ export function nested(ink, spec, pose, at = [0, 0], s = 1, { flip = false, opac
   const map = p => p && add(at, [p[0] * s * (flip ? -1 : 1), p[1] * s]);
   return Object.fromEntries(Object.entries(j).map(([k, v]) => [k, Array.isArray(v) && typeof v[0] === 'number' ? map(v) : v]));
 }
-/** Draw anything into a nested, scaled, moved group. */
-export function group(ink, at, s, draw, { flip = false } = {}) {
+/** Draw anything into a nested, scaled, moved (and turned, degrees counter-clockwise) group, optionally clipped to a rect (units of the group). */
+export function group(ink, at, s, draw, { flip = false, rotate = 0, clip = null } = {}) {
   const sub = new Ink(`${ink.prefix}-g${serial++}`, ink.k * s, { yUp: true });
   sub.n = ink.n + 1000 + serial * 50;
   draw(sub);
   ink.defs.push(...sub.defs);
-  ink.raw(`<g transform="translate(${f2(at[0])} ${f2(at[1])}) scale(${flip ? -s : s} ${s})">${sub}</g>`);
+  let body = `${sub}`;
+  if (clip) {
+    const id = `${ink.prefix}-clip${serial++}`;
+    ink.defs.push(`<clipPath id="${id}"><rect x="${f2(clip[0])}" y="${f2(clip[1])}" width="${f2(clip[2])}" height="${f2(clip[3])}"/></clipPath>`);
+    body = `<g clip-path="url(#${id})">${body}</g>`;
+  }
+  ink.raw(`<g transform="translate(${f2(at[0])} ${f2(at[1])}) rotate(${f2(rotate)}) scale(${flip ? -s : s} ${s})">${body}</g>`);
 }
 export { frameOf };

@@ -1,0 +1,2301 @@
+{
+  "module": "battle-cast",
+  "area": "battles",
+  "date": "2026-09-28",
+  "sheets": {
+    "claude-battle-rust": {
+      "image": "/assets/claude-standins/claude-battle-rust.png",
+      "width": 1440,
+      "height": 800,
+      "bytes": 254404,
+      "sha256": "f99f231f64bf2475550bf4193d86a7d06ea01f28cf9d2ba6ee0b0b2eedc41c60",
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "layout": {
+        "rows": 2,
+        "columns": 3,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-battle-teal": {
+      "image": "/assets/claude-standins/claude-battle-teal.png",
+      "width": 1440,
+      "height": 800,
+      "bytes": 269187,
+      "sha256": "bc0073129a15de37fd79141305ea56e25b4cfd971f1000b6e3b63913130655e2",
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "layout": {
+        "rows": 2,
+        "columns": 3,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-battle-elder": {
+      "image": "/assets/claude-standins/claude-battle-elder.png",
+      "width": 1440,
+      "height": 800,
+      "bytes": 252597,
+      "sha256": "a11fc5a7b3e1a6e934aa2c3843e76a560a588aa61183b28c5feb43659bd64d69",
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "layout": {
+        "rows": 2,
+        "columns": 3,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-battle-blue": {
+      "image": "/assets/claude-standins/claude-battle-blue.png",
+      "width": 1440,
+      "height": 800,
+      "bytes": 251863,
+      "sha256": "9384705ad0192324f9cc28c78b064ae7473782861e131d6370ff5b7770ca0ae0",
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "layout": {
+        "rows": 2,
+        "columns": 3,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-battle-rust-woman": {
+      "image": "/assets/claude-standins/claude-battle-rust-woman.png",
+      "width": 1440,
+      "height": 800,
+      "bytes": 293729,
+      "sha256": "537911b37e45ffc9ef26098d7c9a2c00f8289bd13d9b2c0183f48577204c9590",
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "layout": {
+        "rows": 2,
+        "columns": 3,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-battle-indigo": {
+      "image": "/assets/claude-standins/claude-battle-indigo.png",
+      "width": 1440,
+      "height": 800,
+      "bytes": 262166,
+      "sha256": "143f3c86599297a81eca2fdf6951a20ce2cfbec88b1a8a2b8ad70ebec4cee5b3",
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "layout": {
+        "rows": 2,
+        "columns": 3,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-battle-ochre": {
+      "image": "/assets/claude-standins/claude-battle-ochre.png",
+      "width": 1440,
+      "height": 800,
+      "bytes": 228080,
+      "sha256": "5915b3a88a78c6bd69cc81dc4f1f62323745e33683683f508d276580611dc607",
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "layout": {
+        "rows": 2,
+        "columns": 3,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-battle-blue-girl": {
+      "image": "/assets/claude-standins/claude-battle-blue-girl.png",
+      "width": 1440,
+      "height": 800,
+      "bytes": 292833,
+      "sha256": "0fda41ebb97e123421a2cdee58ef47a24fc860128086c186f3c2a5d8ec080b6f",
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "layout": {
+        "rows": 2,
+        "columns": 3,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "rust-fire-reload-1": {
+      "sheet": "claude-battle-rust",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "rust-fire-reload-1: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-rust-fire-reload-1.svg",
+      "label": "rust fire reload 1",
+      "kind": "claude-battle-rust"
+    },
+    "rust-fire-reload-2": {
+      "sheet": "claude-battle-rust",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "rust-fire-reload-2: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-rust-fire-reload-2.svg",
+      "label": "rust fire reload 2",
+      "kind": "claude-battle-rust"
+    },
+    "rust-load": {
+      "sheet": "claude-battle-rust",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "rust-load: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-rust-load.svg",
+      "label": "rust load",
+      "kind": "claude-battle-rust"
+    },
+    "rust-ramrod": {
+      "sheet": "claude-battle-rust",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "rust-ramrod: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-rust-ramrod.svg",
+      "label": "rust ramrod",
+      "kind": "claude-battle-rust"
+    },
+    "rust-injured": {
+      "sheet": "claude-battle-rust",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "rust-injured: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-rust-injured.svg",
+      "label": "rust injured",
+      "kind": "claude-battle-rust"
+    },
+    "rust-reclining": {
+      "sheet": "claude-battle-rust",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "rust-reclining: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-rust-reclining.svg",
+      "label": "rust reclining",
+      "kind": "claude-battle-rust"
+    },
+    "teal-fire-reload-1": {
+      "sheet": "claude-battle-teal",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "teal-fire-reload-1: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-teal-fire-reload-1.svg",
+      "label": "teal fire reload 1",
+      "kind": "claude-battle-teal"
+    },
+    "teal-fire-reload-2": {
+      "sheet": "claude-battle-teal",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "teal-fire-reload-2: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-teal-fire-reload-2.svg",
+      "label": "teal fire reload 2",
+      "kind": "claude-battle-teal"
+    },
+    "teal-load": {
+      "sheet": "claude-battle-teal",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "teal-load: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-teal-load.svg",
+      "label": "teal load",
+      "kind": "claude-battle-teal"
+    },
+    "teal-ramrod": {
+      "sheet": "claude-battle-teal",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "teal-ramrod: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-teal-ramrod.svg",
+      "label": "teal ramrod",
+      "kind": "claude-battle-teal"
+    },
+    "teal-injured": {
+      "sheet": "claude-battle-teal",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "teal-injured: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-teal-injured.svg",
+      "label": "teal injured",
+      "kind": "claude-battle-teal"
+    },
+    "teal-reclining": {
+      "sheet": "claude-battle-teal",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "teal-reclining: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-teal-reclining.svg",
+      "label": "teal reclining",
+      "kind": "claude-battle-teal"
+    },
+    "elder-fire-reload-1": {
+      "sheet": "claude-battle-elder",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "elder-fire-reload-1: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-elder-fire-reload-1.svg",
+      "label": "elder fire reload 1",
+      "kind": "claude-battle-elder"
+    },
+    "elder-fire-reload-2": {
+      "sheet": "claude-battle-elder",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "elder-fire-reload-2: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-elder-fire-reload-2.svg",
+      "label": "elder fire reload 2",
+      "kind": "claude-battle-elder"
+    },
+    "elder-load": {
+      "sheet": "claude-battle-elder",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "elder-load: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-elder-load.svg",
+      "label": "elder load",
+      "kind": "claude-battle-elder"
+    },
+    "elder-ramrod": {
+      "sheet": "claude-battle-elder",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "elder-ramrod: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-elder-ramrod.svg",
+      "label": "elder ramrod",
+      "kind": "claude-battle-elder"
+    },
+    "elder-injured": {
+      "sheet": "claude-battle-elder",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "elder-injured: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-elder-injured.svg",
+      "label": "elder injured",
+      "kind": "claude-battle-elder"
+    },
+    "elder-reclining": {
+      "sheet": "claude-battle-elder",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "elder-reclining: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-elder-reclining.svg",
+      "label": "elder reclining",
+      "kind": "claude-battle-elder"
+    },
+    "blue-fire-reload-1": {
+      "sheet": "claude-battle-blue",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "blue-fire-reload-1: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-blue-fire-reload-1.svg",
+      "label": "blue fire reload 1",
+      "kind": "claude-battle-blue"
+    },
+    "blue-fire-reload-2": {
+      "sheet": "claude-battle-blue",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "blue-fire-reload-2: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-blue-fire-reload-2.svg",
+      "label": "blue fire reload 2",
+      "kind": "claude-battle-blue"
+    },
+    "blue-load": {
+      "sheet": "claude-battle-blue",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "blue-load: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-blue-load.svg",
+      "label": "blue load",
+      "kind": "claude-battle-blue"
+    },
+    "blue-ramrod": {
+      "sheet": "claude-battle-blue",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "blue-ramrod: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-blue-ramrod.svg",
+      "label": "blue ramrod",
+      "kind": "claude-battle-blue"
+    },
+    "blue-injured": {
+      "sheet": "claude-battle-blue",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "blue-injured: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-blue-injured.svg",
+      "label": "blue injured",
+      "kind": "claude-battle-blue"
+    },
+    "blue-reclining": {
+      "sheet": "claude-battle-blue",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "blue-reclining: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-blue-reclining.svg",
+      "label": "blue reclining",
+      "kind": "claude-battle-blue"
+    },
+    "rust-woman-fire-reload-1": {
+      "sheet": "claude-battle-rust-woman",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "rust-woman-fire-reload-1: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-rust-woman-fire-reload-1.svg",
+      "label": "rust woman fire reload 1",
+      "kind": "claude-battle-rust-woman"
+    },
+    "rust-woman-fire-reload-2": {
+      "sheet": "claude-battle-rust-woman",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "rust-woman-fire-reload-2: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-rust-woman-fire-reload-2.svg",
+      "label": "rust woman fire reload 2",
+      "kind": "claude-battle-rust-woman"
+    },
+    "rust-woman-load": {
+      "sheet": "claude-battle-rust-woman",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "rust-woman-load: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-rust-woman-load.svg",
+      "label": "rust woman load",
+      "kind": "claude-battle-rust-woman"
+    },
+    "rust-woman-ramrod": {
+      "sheet": "claude-battle-rust-woman",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "rust-woman-ramrod: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-rust-woman-ramrod.svg",
+      "label": "rust woman ramrod",
+      "kind": "claude-battle-rust-woman"
+    },
+    "rust-woman-injured": {
+      "sheet": "claude-battle-rust-woman",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "rust-woman-injured: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-rust-woman-injured.svg",
+      "label": "rust woman injured",
+      "kind": "claude-battle-rust-woman"
+    },
+    "rust-woman-reclining": {
+      "sheet": "claude-battle-rust-woman",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "rust-woman-reclining: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-rust-woman-reclining.svg",
+      "label": "rust woman reclining",
+      "kind": "claude-battle-rust-woman"
+    },
+    "indigo-fire-reload-1": {
+      "sheet": "claude-battle-indigo",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "indigo-fire-reload-1: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-indigo-fire-reload-1.svg",
+      "label": "indigo fire reload 1",
+      "kind": "claude-battle-indigo"
+    },
+    "indigo-fire-reload-2": {
+      "sheet": "claude-battle-indigo",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "indigo-fire-reload-2: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-indigo-fire-reload-2.svg",
+      "label": "indigo fire reload 2",
+      "kind": "claude-battle-indigo"
+    },
+    "indigo-load": {
+      "sheet": "claude-battle-indigo",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "indigo-load: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-indigo-load.svg",
+      "label": "indigo load",
+      "kind": "claude-battle-indigo"
+    },
+    "indigo-ramrod": {
+      "sheet": "claude-battle-indigo",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "indigo-ramrod: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-indigo-ramrod.svg",
+      "label": "indigo ramrod",
+      "kind": "claude-battle-indigo"
+    },
+    "indigo-injured": {
+      "sheet": "claude-battle-indigo",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "indigo-injured: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-indigo-injured.svg",
+      "label": "indigo injured",
+      "kind": "claude-battle-indigo"
+    },
+    "indigo-reclining": {
+      "sheet": "claude-battle-indigo",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "indigo-reclining: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-indigo-reclining.svg",
+      "label": "indigo reclining",
+      "kind": "claude-battle-indigo"
+    },
+    "ochre-fire-reload-1": {
+      "sheet": "claude-battle-ochre",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "ochre-fire-reload-1: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-ochre-fire-reload-1.svg",
+      "label": "ochre fire reload 1",
+      "kind": "claude-battle-ochre"
+    },
+    "ochre-fire-reload-2": {
+      "sheet": "claude-battle-ochre",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "ochre-fire-reload-2: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-ochre-fire-reload-2.svg",
+      "label": "ochre fire reload 2",
+      "kind": "claude-battle-ochre"
+    },
+    "ochre-load": {
+      "sheet": "claude-battle-ochre",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "ochre-load: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-ochre-load.svg",
+      "label": "ochre load",
+      "kind": "claude-battle-ochre"
+    },
+    "ochre-ramrod": {
+      "sheet": "claude-battle-ochre",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "ochre-ramrod: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-ochre-ramrod.svg",
+      "label": "ochre ramrod",
+      "kind": "claude-battle-ochre"
+    },
+    "ochre-injured": {
+      "sheet": "claude-battle-ochre",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "ochre-injured: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-ochre-injured.svg",
+      "label": "ochre injured",
+      "kind": "claude-battle-ochre"
+    },
+    "ochre-reclining": {
+      "sheet": "claude-battle-ochre",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "ochre-reclining: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-ochre-reclining.svg",
+      "label": "ochre reclining",
+      "kind": "claude-battle-ochre"
+    },
+    "blue-girl-fire-reload-1": {
+      "sheet": "claude-battle-blue-girl",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "blue-girl-fire-reload-1: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-blue-girl-fire-reload-1.svg",
+      "label": "blue girl fire reload 1",
+      "kind": "claude-battle-blue-girl"
+    },
+    "blue-girl-fire-reload-2": {
+      "sheet": "claude-battle-blue-girl",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "blue-girl-fire-reload-2: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-blue-girl-fire-reload-2.svg",
+      "label": "blue girl fire reload 2",
+      "kind": "claude-battle-blue-girl"
+    },
+    "blue-girl-load": {
+      "sheet": "claude-battle-blue-girl",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "blue-girl-load: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-blue-girl-load.svg",
+      "label": "blue girl load",
+      "kind": "claude-battle-blue-girl"
+    },
+    "blue-girl-ramrod": {
+      "sheet": "claude-battle-blue-girl",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "blue-girl-ramrod: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-blue-girl-ramrod.svg",
+      "label": "blue girl ramrod",
+      "kind": "claude-battle-blue-girl"
+    },
+    "blue-girl-injured": {
+      "sheet": "claude-battle-blue-girl",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "blue-girl-injured: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-blue-girl-injured.svg",
+      "label": "blue girl injured",
+      "kind": "claude-battle-blue-girl"
+    },
+    "blue-girl-reclining": {
+      "sheet": "claude-battle-blue-girl",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-cast",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "blue-girl-reclining: item 1: `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling, as `volunteer-load`), `<cast>-ramrod`, clip `<cast>-fire-reload`, and `-injured`, `-reclining`, in the cast figure's own clothes at the `volunteer-*` height",
+      "source": "svg/battle-cast/claude-blue-girl-reclining.svg",
+      "label": "blue girl reclining",
+      "kind": "claude-battle-blue-girl"
+    }
+  },
+  "clips": {
+    "rust-fire-reload": {
+      "frames": [
+        {
+          "sprite": "rust-fire-reload-1",
+          "duration": 700
+        },
+        {
+          "sprite": "rust-fire-reload-2",
+          "duration": 120
+        },
+        {
+          "sprite": "rust-load",
+          "duration": 750
+        },
+        {
+          "sprite": "rust-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "rust-load": {
+      "frames": [
+        {
+          "sprite": "rust-load",
+          "duration": 2000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "rust-injured": {
+      "frames": [
+        {
+          "sprite": "rust-injured",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "rust-reclining": {
+      "frames": [
+        {
+          "sprite": "rust-reclining",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "teal-fire-reload": {
+      "frames": [
+        {
+          "sprite": "teal-fire-reload-1",
+          "duration": 700
+        },
+        {
+          "sprite": "teal-fire-reload-2",
+          "duration": 120
+        },
+        {
+          "sprite": "teal-load",
+          "duration": 750
+        },
+        {
+          "sprite": "teal-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "teal-load": {
+      "frames": [
+        {
+          "sprite": "teal-load",
+          "duration": 2000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "teal-injured": {
+      "frames": [
+        {
+          "sprite": "teal-injured",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "teal-reclining": {
+      "frames": [
+        {
+          "sprite": "teal-reclining",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "elder-fire-reload": {
+      "frames": [
+        {
+          "sprite": "elder-fire-reload-1",
+          "duration": 700
+        },
+        {
+          "sprite": "elder-fire-reload-2",
+          "duration": 120
+        },
+        {
+          "sprite": "elder-load",
+          "duration": 750
+        },
+        {
+          "sprite": "elder-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "elder-load": {
+      "frames": [
+        {
+          "sprite": "elder-load",
+          "duration": 2000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "elder-injured": {
+      "frames": [
+        {
+          "sprite": "elder-injured",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "elder-reclining": {
+      "frames": [
+        {
+          "sprite": "elder-reclining",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "blue-fire-reload": {
+      "frames": [
+        {
+          "sprite": "blue-fire-reload-1",
+          "duration": 700
+        },
+        {
+          "sprite": "blue-fire-reload-2",
+          "duration": 120
+        },
+        {
+          "sprite": "blue-load",
+          "duration": 750
+        },
+        {
+          "sprite": "blue-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "blue-load": {
+      "frames": [
+        {
+          "sprite": "blue-load",
+          "duration": 2000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "blue-injured": {
+      "frames": [
+        {
+          "sprite": "blue-injured",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "blue-reclining": {
+      "frames": [
+        {
+          "sprite": "blue-reclining",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "rust-woman-fire-reload": {
+      "frames": [
+        {
+          "sprite": "rust-woman-fire-reload-1",
+          "duration": 700
+        },
+        {
+          "sprite": "rust-woman-fire-reload-2",
+          "duration": 120
+        },
+        {
+          "sprite": "rust-woman-load",
+          "duration": 750
+        },
+        {
+          "sprite": "rust-woman-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "rust-woman-load": {
+      "frames": [
+        {
+          "sprite": "rust-woman-load",
+          "duration": 2000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "rust-woman-injured": {
+      "frames": [
+        {
+          "sprite": "rust-woman-injured",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "rust-woman-reclining": {
+      "frames": [
+        {
+          "sprite": "rust-woman-reclining",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "indigo-fire-reload": {
+      "frames": [
+        {
+          "sprite": "indigo-fire-reload-1",
+          "duration": 700
+        },
+        {
+          "sprite": "indigo-fire-reload-2",
+          "duration": 120
+        },
+        {
+          "sprite": "indigo-load",
+          "duration": 750
+        },
+        {
+          "sprite": "indigo-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "indigo-load": {
+      "frames": [
+        {
+          "sprite": "indigo-load",
+          "duration": 2000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "indigo-injured": {
+      "frames": [
+        {
+          "sprite": "indigo-injured",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "indigo-reclining": {
+      "frames": [
+        {
+          "sprite": "indigo-reclining",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "ochre-fire-reload": {
+      "frames": [
+        {
+          "sprite": "ochre-fire-reload-1",
+          "duration": 700
+        },
+        {
+          "sprite": "ochre-fire-reload-2",
+          "duration": 120
+        },
+        {
+          "sprite": "ochre-load",
+          "duration": 750
+        },
+        {
+          "sprite": "ochre-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "ochre-load": {
+      "frames": [
+        {
+          "sprite": "ochre-load",
+          "duration": 2000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "ochre-injured": {
+      "frames": [
+        {
+          "sprite": "ochre-injured",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "ochre-reclining": {
+      "frames": [
+        {
+          "sprite": "ochre-reclining",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "blue-girl-fire-reload": {
+      "frames": [
+        {
+          "sprite": "blue-girl-fire-reload-1",
+          "duration": 700
+        },
+        {
+          "sprite": "blue-girl-fire-reload-2",
+          "duration": 120
+        },
+        {
+          "sprite": "blue-girl-load",
+          "duration": 750
+        },
+        {
+          "sprite": "blue-girl-ramrod",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "blue-girl-load": {
+      "frames": [
+        {
+          "sprite": "blue-girl-load",
+          "duration": 2000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "blue-girl-injured": {
+      "frames": [
+        {
+          "sprite": "blue-girl-injured",
+          "duration": 2700
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    },
+    "blue-girl-reclining": {
+      "frames": [
+        {
+          "sprite": "blue-girl-reclining",
+          "duration": 3000
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-cast"
+    }
+  },
+  "provenance": {
+    "rust-fire-reload-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-rust",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust in a fight of 1835-36, aiming a long rifle from a braced stance: the butt in the shoulder, the cheek down on the stock, the left foot forward; the same person, face, hair, clothes and colours as Astra's rust sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-rust-fire-reload-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-fire-reload-1"
+    },
+    "rust-fire-reload-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-rust",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust in a fight of 1835-36, the shot: the recoil rocks the shoulders back and lifts the muzzle; the same person, face, hair, clothes and colours as Astra's rust sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-rust-fire-reload-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-fire-reload-2"
+    },
+    "rust-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "rust-load"
+      ],
+      "status": "temporary: replace with Astra's rust-load"
+    },
+    "rust-ramrod": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-rust",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust in a fight of 1835-36, standing, the rifle upright by the left foot, drawing the ramrod up at arm's length; the same person, face, hair, clothes and colours as Astra's rust sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-rust-ramrod.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-ramrod"
+    },
+    "rust-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "rust-injured"
+      ],
+      "status": "temporary: replace with Astra's rust-injured"
+    },
+    "rust-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "rust-reclining"
+      ],
+      "status": "temporary: replace with Astra's rust-reclining"
+    },
+    "teal-fire-reload-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-teal",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "teal in a fight of 1835-36, aiming a long rifle from a braced stance: the butt in the shoulder, the cheek down on the stock, the left foot forward; the same person, face, hair, clothes and colours as Astra's teal sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-teal-fire-reload-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's teal-fire-reload-1"
+    },
+    "teal-fire-reload-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-teal",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "teal in a fight of 1835-36, the shot: the recoil rocks the shoulders back and lifts the muzzle; the same person, face, hair, clothes and colours as Astra's teal sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-teal-fire-reload-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's teal-fire-reload-2"
+    },
+    "teal-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "teal kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "teal-load"
+      ],
+      "status": "temporary: replace with Astra's teal-load"
+    },
+    "teal-ramrod": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-teal",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "teal in a fight of 1835-36, standing, the rifle upright by the left foot, drawing the ramrod up at arm's length; the same person, face, hair, clothes and colours as Astra's teal sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-teal-ramrod.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's teal-ramrod"
+    },
+    "teal-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "teal hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "teal-injured"
+      ],
+      "status": "temporary: replace with Astra's teal-injured"
+    },
+    "teal-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "teal killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "teal-reclining"
+      ],
+      "status": "temporary: replace with Astra's teal-reclining"
+    },
+    "elder-fire-reload-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-elder",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "elder in a fight of 1835-36, aiming a long rifle from a braced stance: the butt in the shoulder, the cheek down on the stock, the left foot forward; the same person, face, hair, clothes and colours as Astra's elder sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-elder-fire-reload-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's elder-fire-reload-1"
+    },
+    "elder-fire-reload-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-elder",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "elder in a fight of 1835-36, the shot: the recoil rocks the shoulders back and lifts the muzzle; the same person, face, hair, clothes and colours as Astra's elder sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-elder-fire-reload-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's elder-fire-reload-2"
+    },
+    "elder-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "elder kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "elder-load"
+      ],
+      "status": "temporary: replace with Astra's elder-load"
+    },
+    "elder-ramrod": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-elder",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "elder in a fight of 1835-36, standing, the rifle upright by the left foot, drawing the ramrod up at arm's length; the same person, face, hair, clothes and colours as Astra's elder sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-elder-ramrod.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's elder-ramrod"
+    },
+    "elder-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "elder hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "elder-injured"
+      ],
+      "status": "temporary: replace with Astra's elder-injured"
+    },
+    "elder-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "elder killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "elder-reclining"
+      ],
+      "status": "temporary: replace with Astra's elder-reclining"
+    },
+    "blue-fire-reload-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-blue",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue in a fight of 1835-36, aiming a long rifle from a braced stance: the butt in the shoulder, the cheek down on the stock, the left foot forward; the same person, face, hair, clothes and colours as Astra's blue sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-blue-fire-reload-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-fire-reload-1"
+    },
+    "blue-fire-reload-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-blue",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue in a fight of 1835-36, the shot: the recoil rocks the shoulders back and lifts the muzzle; the same person, face, hair, clothes and colours as Astra's blue sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-blue-fire-reload-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-fire-reload-2"
+    },
+    "blue-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "blue-load"
+      ],
+      "status": "temporary: replace with Astra's blue-load"
+    },
+    "blue-ramrod": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-blue",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue in a fight of 1835-36, standing, the rifle upright by the left foot, drawing the ramrod up at arm's length; the same person, face, hair, clothes and colours as Astra's blue sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-blue-ramrod.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-ramrod"
+    },
+    "blue-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "blue-injured"
+      ],
+      "status": "temporary: replace with Astra's blue-injured"
+    },
+    "blue-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "blue-reclining"
+      ],
+      "status": "temporary: replace with Astra's blue-reclining"
+    },
+    "rust-woman-fire-reload-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-rust-woman",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust-woman in a fight of 1835-36, aiming a long rifle from a braced stance: the butt in the shoulder, the cheek down on the stock, the left foot forward; the same person, face, hair, clothes and colours as Astra's rust-woman sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-rust-woman-fire-reload-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-fire-reload-1"
+    },
+    "rust-woman-fire-reload-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-rust-woman",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust-woman in a fight of 1835-36, the shot: the recoil rocks the shoulders back and lifts the muzzle; the same person, face, hair, clothes and colours as Astra's rust-woman sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-rust-woman-fire-reload-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-fire-reload-2"
+    },
+    "rust-woman-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust-woman kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "rust-woman-load"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-load"
+    },
+    "rust-woman-ramrod": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-rust-woman",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust-woman in a fight of 1835-36, standing, the rifle upright by the left foot, drawing the ramrod up at arm's length; the same person, face, hair, clothes and colours as Astra's rust-woman sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-rust-woman-ramrod.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's rust-woman-ramrod"
+    },
+    "rust-woman-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust-woman hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "rust-woman-injured"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-injured"
+    },
+    "rust-woman-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust-woman killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "rust-woman-reclining"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-reclining"
+    },
+    "indigo-fire-reload-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-indigo",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "indigo in a fight of 1835-36, aiming a long rifle from a braced stance: the butt in the shoulder, the cheek down on the stock, the left foot forward; the same person, face, hair, clothes and colours as Astra's indigo sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-indigo-fire-reload-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-fire-reload-1"
+    },
+    "indigo-fire-reload-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-indigo",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "indigo in a fight of 1835-36, the shot: the recoil rocks the shoulders back and lifts the muzzle; the same person, face, hair, clothes and colours as Astra's indigo sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-indigo-fire-reload-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-fire-reload-2"
+    },
+    "indigo-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "indigo kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "indigo-load"
+      ],
+      "status": "temporary: replace with Astra's indigo-load"
+    },
+    "indigo-ramrod": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-indigo",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "indigo in a fight of 1835-36, standing, the rifle upright by the left foot, drawing the ramrod up at arm's length; the same person, face, hair, clothes and colours as Astra's indigo sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-indigo-ramrod.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's indigo-ramrod"
+    },
+    "indigo-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "indigo hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "indigo-injured"
+      ],
+      "status": "temporary: replace with Astra's indigo-injured"
+    },
+    "indigo-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "indigo killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "indigo-reclining"
+      ],
+      "status": "temporary: replace with Astra's indigo-reclining"
+    },
+    "ochre-fire-reload-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-ochre",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "ochre in a fight of 1835-36, aiming a long rifle from a braced stance: the butt in the shoulder, the cheek down on the stock, the left foot forward; the same person, face, hair, clothes and colours as Astra's ochre sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-ochre-fire-reload-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-fire-reload-1"
+    },
+    "ochre-fire-reload-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-ochre",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "ochre in a fight of 1835-36, the shot: the recoil rocks the shoulders back and lifts the muzzle; the same person, face, hair, clothes and colours as Astra's ochre sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-ochre-fire-reload-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-fire-reload-2"
+    },
+    "ochre-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "ochre kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "ochre-load"
+      ],
+      "status": "temporary: replace with Astra's ochre-load"
+    },
+    "ochre-ramrod": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-ochre",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "ochre in a fight of 1835-36, standing, the rifle upright by the left foot, drawing the ramrod up at arm's length; the same person, face, hair, clothes and colours as Astra's ochre sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-ochre-ramrod.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ochre-ramrod"
+    },
+    "ochre-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "ochre hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "ochre-injured"
+      ],
+      "status": "temporary: replace with Astra's ochre-injured"
+    },
+    "ochre-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "ochre killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "ochre-reclining"
+      ],
+      "status": "temporary: replace with Astra's ochre-reclining"
+    },
+    "blue-girl-fire-reload-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-blue-girl",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue-girl in a fight of 1835-36, aiming a long rifle from a braced stance: the butt in the shoulder, the cheek down on the stock, the left foot forward; the same person, face, hair, clothes and colours as Astra's blue-girl sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-blue-girl-fire-reload-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-fire-reload-1"
+    },
+    "blue-girl-fire-reload-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-blue-girl",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue-girl in a fight of 1835-36, the shot: the recoil rocks the shoulders back and lifts the muzzle; the same person, face, hair, clothes and colours as Astra's blue-girl sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-blue-girl-fire-reload-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-fire-reload-2"
+    },
+    "blue-girl-load": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue-girl kneeling to load between shots, held (the pause before the next aim).",
+      "frames": [
+        "blue-girl-load"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-load"
+    },
+    "blue-girl-ramrod": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "sheet": "claude-battle-blue-girl",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue-girl in a fight of 1835-36, standing, the rifle upright by the left foot, drawing the ramrod up at arm's length; the same person, face, hair, clothes and colours as Astra's blue-girl sheets (a settler of 1835 in their own clothes), side on and facing east (mirrored for west). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-cast/claude-blue-girl-ramrod.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's blue-girl-ramrod"
+    },
+    "blue-girl-injured": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue-girl hit and sitting up, breathing: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "blue-girl-injured"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-injured"
+    },
+    "blue-girl-reclining": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue-girl killed, lying still under a blanket: Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "blue-girl-reclining"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-reclining"
+    },
+    "rust-fire-reload": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust firing and loading, as the volunteer's fire-reload clip: aim 700 ms, the shot 120, kneeling to load 750, the ramrod 900; the page times the flash to the second frame.",
+      "frames": [
+        "rust-fire-reload-1",
+        "rust-fire-reload-2",
+        "rust-load",
+        "rust-ramrod"
+      ],
+      "status": "temporary: replace with Astra's rust-fire-reload"
+    },
+    "teal-fire-reload": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "teal firing and loading, as the volunteer's fire-reload clip: aim 700 ms, the shot 120, kneeling to load 750, the ramrod 900; the page times the flash to the second frame.",
+      "frames": [
+        "teal-fire-reload-1",
+        "teal-fire-reload-2",
+        "teal-load",
+        "teal-ramrod"
+      ],
+      "status": "temporary: replace with Astra's teal-fire-reload"
+    },
+    "elder-fire-reload": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "elder firing and loading, as the volunteer's fire-reload clip: aim 700 ms, the shot 120, kneeling to load 750, the ramrod 900; the page times the flash to the second frame.",
+      "frames": [
+        "elder-fire-reload-1",
+        "elder-fire-reload-2",
+        "elder-load",
+        "elder-ramrod"
+      ],
+      "status": "temporary: replace with Astra's elder-fire-reload"
+    },
+    "blue-fire-reload": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue firing and loading, as the volunteer's fire-reload clip: aim 700 ms, the shot 120, kneeling to load 750, the ramrod 900; the page times the flash to the second frame.",
+      "frames": [
+        "blue-fire-reload-1",
+        "blue-fire-reload-2",
+        "blue-load",
+        "blue-ramrod"
+      ],
+      "status": "temporary: replace with Astra's blue-fire-reload"
+    },
+    "rust-woman-fire-reload": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "rust-woman firing and loading, as the volunteer's fire-reload clip: aim 700 ms, the shot 120, kneeling to load 750, the ramrod 900; the page times the flash to the second frame.",
+      "frames": [
+        "rust-woman-fire-reload-1",
+        "rust-woman-fire-reload-2",
+        "rust-woman-load",
+        "rust-woman-ramrod"
+      ],
+      "status": "temporary: replace with Astra's rust-woman-fire-reload"
+    },
+    "indigo-fire-reload": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "indigo firing and loading, as the volunteer's fire-reload clip: aim 700 ms, the shot 120, kneeling to load 750, the ramrod 900; the page times the flash to the second frame.",
+      "frames": [
+        "indigo-fire-reload-1",
+        "indigo-fire-reload-2",
+        "indigo-load",
+        "indigo-ramrod"
+      ],
+      "status": "temporary: replace with Astra's indigo-fire-reload"
+    },
+    "ochre-fire-reload": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "ochre firing and loading, as the volunteer's fire-reload clip: aim 700 ms, the shot 120, kneeling to load 750, the ramrod 900; the page times the flash to the second frame.",
+      "frames": [
+        "ochre-fire-reload-1",
+        "ochre-fire-reload-2",
+        "ochre-load",
+        "ochre-ramrod"
+      ],
+      "status": "temporary: replace with Astra's ochre-fire-reload"
+    },
+    "blue-girl-fire-reload": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-cast",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "blue-girl firing and loading, as the volunteer's fire-reload clip: aim 700 ms, the shot 120, kneeling to load 750, the ramrod 900; the page times the flash to the second frame.",
+      "frames": [
+        "blue-girl-fire-reload-1",
+        "blue-girl-fire-reload-2",
+        "blue-girl-load",
+        "blue-girl-ramrod"
+      ],
+      "status": "temporary: replace with Astra's blue-girl-fire-reload"
+    }
+  }
+}

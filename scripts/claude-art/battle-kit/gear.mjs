@@ -160,7 +160,7 @@ export function collarSide(ink, dc, { colour = COLOURS.red } = {}) {
 }
 /** A cuff at a wrist: a band round the forearm near the hand. */
 export function cuff(ink, chain, colour, r = 3.4) {
-  const E = chain.joint, W = chain.end, a = lerp(W, E, 0.24), b = lerp(W, E, 0.44);
+  const E = chain.joint, W = chain.end, a = lerp(W, E, 0.34), b = lerp(W, E, 0.5);
   ink.shape(capsule(a, b, r, r), colour, { shade: false, outline: LINE.inner });
 }
 /** A tall riding boot over a leg (either view): from the ankle to just under the knee. */

@@ -44,10 +44,11 @@ export const WOMAN_BUILD = Object.freeze({ ...SOLDIER_BUILD, head: 9.2, shoulder
 export function volunteerDress({ coat, length = 0.62, pouch = true, horn = true, belt = C.leather, strap = C.leather } = {}) {
   return {
     torso(ink, dc) {
-      G.coatSkirt(ink, dc, { colour: coat || dc.spec.coat, length });
-      if (belt) G.beltSide(ink, dc, { colour: belt });
-      if (pouch) { G.strapSide(ink, dc, { colour: strap }); G.pouchAndHorn(ink, dc, { horn }); }
-      if (dc.view !== 'e') {
+      if (dc.view === 'e') {
+        G.coatSkirt(ink, dc, { colour: coat || dc.spec.coat, length });
+        if (belt) G.beltSide(ink, dc, { colour: belt });
+        if (pouch) { G.strapSide(ink, dc, { colour: strap }); G.pouchAndHorn(ink, dc, { horn }); }
+      } else {
         G.skirtFront(ink, dc, { colour: coat || dc.spec.coat, length });
         if (belt) G.beltFront(ink, dc, { colour: belt });
         if (pouch) G.strapFront(ink, dc, { colour: strap, left: dc.view === 's' });

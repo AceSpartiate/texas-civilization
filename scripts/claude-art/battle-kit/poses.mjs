@@ -49,8 +49,9 @@ export function fireCycle(F, { kind = 'rifle', bayonet = false } = {}) {
   const upright = [10, -(F.neck - 3 - F.ankle) / g(F) + 0.5];
   const ramrod = { view: 'e', pelvis: P(F, -1, 0), lean: 3, tilt: -6, feet: { near: foot(F, -4), far: foot(F, 5) },
     tool: gun(F, kind, upright, [upright[0] + 2, upright[1] + len * 0.97], { near: 0.93, far: 0.66, down: 1, bayonet }),
-    hands: { near: at(F, 12, 23) }, elbows: { near: -1, far: -1 },
-    after: (ink, j) => drawRamrod(ink, add(at(F, 12, 21), [0, 0]), at(F, 11.6, -2 + len * 0.97 - (F.neck - 3 - F.ankle) / g(F) - 14)) };
+    hands: { near: at(F, 13, upright[1] + len * 0.97 + 12) }, elbows: { near: -1, far: -1 },
+    // The rod from the raised hand down into the muzzle.
+    after: (ink, j) => drawRamrod(ink, add(j.handNear, [0.6 * g(F), 10 * g(F)]), at(F, upright[0] + 2, upright[1] + len * 0.97 - 8)) };
   return { aim, fire, load, ramrod };
 }
 /** Kneeling on the near (right) knee, the far foot forward and flat: the shin of the near leg along the ground. */

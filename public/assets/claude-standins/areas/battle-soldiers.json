@@ -1,0 +1,3506 @@
+{
+  "module": "battle-soldiers",
+  "area": "battles",
+  "date": "2026-09-28",
+  "sheets": {
+    "claude-bearers-carry": {
+      "image": "/assets/claude-standins/claude-bearers-carry.png",
+      "width": 1360,
+      "height": 800,
+      "bytes": 365880,
+      "sha256": "47a06084fb8ebeced9e058a33e0fb0025448d02681e010c5dc16b20543f47975",
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "cell": {
+          "w": 680,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-volunteer-camp": {
+      "image": "/assets/claude-standins/claude-volunteer-camp.png",
+      "width": 1920,
+      "height": 800,
+      "bytes": 214342,
+      "sha256": "a1f66c32835bb672f3035c9b43b9f7c83d6352fc79fb6e15fcbcf259a935da9a",
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-regular-camp": {
+      "image": "/assets/claude-standins/claude-regular-camp.png",
+      "width": 1920,
+      "height": 800,
+      "bytes": 226128,
+      "sha256": "b62287e5d8a099d7c49700d58b1f078bf08f9881aa1104a8882a99675282b58d",
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-bexar-streets": {
+      "image": "/assets/claude-standins/claude-bexar-streets.png",
+      "width": 1920,
+      "height": 1600,
+      "bytes": 880519,
+      "sha256": "a859e245fb73f673f615ea3a355c245a721e7fa263d0ce97192c191885f9527f",
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-parapet": {
+      "image": "/assets/claude-standins/claude-parapet.png",
+      "width": 1440,
+      "height": 1200,
+      "bytes": 136576,
+      "sha256": "fffeb7a307edd4201798345b9a1b4304740216c0ed678494d106cc51f36fdbc3",
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "layout": {
+        "rows": 3,
+        "columns": 3,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-prone": {
+      "image": "/assets/claude-standins/claude-prone.png",
+      "width": 1560,
+      "height": 400,
+      "bytes": 87744,
+      "sha256": "50bde5e414b2e84c744b7967af4d9c27d88feeec4430af85670615fa2d06d202",
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — Coleto and Goliad",
+      "layout": {
+        "rows": 1,
+        "columns": 3,
+        "cell": {
+          "w": 520,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-skirmisher": {
+      "image": "/assets/claude-standins/claude-skirmisher.png",
+      "width": 1920,
+      "height": 800,
+      "bytes": 326847,
+      "sha256": "250e066665b89187161438361e495bb3134572d6077bc30d4abac4cb3dbef309",
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-bank-climb": {
+      "image": "/assets/claude-standins/claude-bank-climb.png",
+      "width": 1440,
+      "height": 800,
+      "bytes": 421210,
+      "sha256": "0bbb61d9489f2fc10997aa4d18eb2c2a0e3d8347075eb96ae471742afbf1d189",
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "layout": {
+        "rows": 2,
+        "columns": 3,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-wading": {
+      "image": "/assets/claude-standins/claude-wading.png",
+      "width": 1920,
+      "height": 800,
+      "bytes": 135095,
+      "sha256": "080cf9a1a8c2ed0036c85308d29e7789d54ab8e005b45899770825862b2fe804",
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-settler-gun": {
+      "image": "/assets/claude-standins/claude-settler-gun.png",
+      "width": 1920,
+      "height": 800,
+      "bytes": 321178,
+      "sha256": "1cb62f36d3559bebf4b5587cca18540540415fa0815be8c8cf037c78554c7091",
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "layout": {
+        "rows": 2,
+        "columns": 4,
+        "cell": {
+          "w": 480,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "bearers-carry-1": {
+      "sheet": "claude-bearers-carry",
+      "x": 0,
+      "y": 0,
+      "w": 680,
+      "h": 400,
+      "anchorX": 0.7353,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "bearers-carry-1: item 3: `bearers-carry-1`..`-4`, two men carrying a third on a blanket, walking east; no blood",
+      "source": "svg/battle-soldiers/claude-bearers-carry-1.svg",
+      "label": "bearers carry 1",
+      "kind": "claude-bearers-carry"
+    },
+    "bearers-carry-2": {
+      "sheet": "claude-bearers-carry",
+      "x": 680,
+      "y": 0,
+      "w": 680,
+      "h": 400,
+      "anchorX": 0.7353,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "bearers-carry-2: item 3: `bearers-carry-1`..`-4`, two men carrying a third on a blanket, walking east; no blood",
+      "source": "svg/battle-soldiers/claude-bearers-carry-2.svg",
+      "label": "bearers carry 2",
+      "kind": "claude-bearers-carry"
+    },
+    "bearers-carry-3": {
+      "sheet": "claude-bearers-carry",
+      "x": 0,
+      "y": 400,
+      "w": 680,
+      "h": 400,
+      "anchorX": 0.7353,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "bearers-carry-3: item 3: `bearers-carry-1`..`-4`, two men carrying a third on a blanket, walking east; no blood",
+      "source": "svg/battle-soldiers/claude-bearers-carry-3.svg",
+      "label": "bearers carry 3",
+      "kind": "claude-bearers-carry"
+    },
+    "bearers-carry-4": {
+      "sheet": "claude-bearers-carry",
+      "x": 680,
+      "y": 400,
+      "w": 680,
+      "h": 400,
+      "anchorX": 0.7353,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "bearers-carry-4: item 3: `bearers-carry-1`..`-4`, two men carrying a third on a blanket, walking east; no blood",
+      "source": "svg/battle-soldiers/claude-bearers-carry-4.svg",
+      "label": "bearers carry 4",
+      "kind": "claude-bearers-carry"
+    },
+    "volunteer-clean-rifle-1": {
+      "sheet": "claude-volunteer-camp",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "volunteer-clean-rifle-1: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-volunteer-clean-rifle-1.svg",
+      "label": "volunteer clean rifle 1",
+      "kind": "claude-volunteer-camp"
+    },
+    "volunteer-clean-rifle-2": {
+      "sheet": "claude-volunteer-camp",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "volunteer-clean-rifle-2: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-volunteer-clean-rifle-2.svg",
+      "label": "volunteer clean rifle 2",
+      "kind": "claude-volunteer-camp"
+    },
+    "volunteer-camp-sit-1": {
+      "sheet": "claude-volunteer-camp",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "volunteer-camp-sit-1: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-volunteer-camp-sit-1.svg",
+      "label": "volunteer camp sit 1",
+      "kind": "claude-volunteer-camp"
+    },
+    "volunteer-camp-sit-2": {
+      "sheet": "claude-volunteer-camp",
+      "x": 1440,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "volunteer-camp-sit-2: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-volunteer-camp-sit-2.svg",
+      "label": "volunteer camp sit 2",
+      "kind": "claude-volunteer-camp"
+    },
+    "volunteer-camp-cook-1": {
+      "sheet": "claude-volunteer-camp",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "volunteer-camp-cook-1: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-volunteer-camp-cook-1.svg",
+      "label": "volunteer camp cook 1",
+      "kind": "claude-volunteer-camp"
+    },
+    "volunteer-camp-cook-2": {
+      "sheet": "claude-volunteer-camp",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "volunteer-camp-cook-2: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-volunteer-camp-cook-2.svg",
+      "label": "volunteer camp cook 2",
+      "kind": "claude-volunteer-camp"
+    },
+    "volunteer-rest-sit": {
+      "sheet": "claude-volunteer-camp",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "volunteer-rest-sit: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-volunteer-rest-sit.svg",
+      "label": "volunteer rest sit",
+      "kind": "claude-volunteer-camp"
+    },
+    "volunteer-sleep": {
+      "sheet": "claude-volunteer-camp",
+      "x": 1440,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "volunteer-sleep: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `volunteer-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-volunteer-sleep.svg",
+      "label": "volunteer sleep",
+      "kind": "claude-volunteer-camp"
+    },
+    "regular-clean-rifle-1": {
+      "sheet": "claude-regular-camp",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "regular-clean-rifle-1: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-regular-clean-rifle-1.svg",
+      "label": "regular clean rifle 1",
+      "kind": "claude-regular-camp"
+    },
+    "regular-clean-rifle-2": {
+      "sheet": "claude-regular-camp",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "regular-clean-rifle-2: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-regular-clean-rifle-2.svg",
+      "label": "regular clean rifle 2",
+      "kind": "claude-regular-camp"
+    },
+    "regular-camp-sit-1": {
+      "sheet": "claude-regular-camp",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "regular-camp-sit-1: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-regular-camp-sit-1.svg",
+      "label": "regular camp sit 1",
+      "kind": "claude-regular-camp"
+    },
+    "regular-camp-sit-2": {
+      "sheet": "claude-regular-camp",
+      "x": 1440,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "regular-camp-sit-2: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-regular-camp-sit-2.svg",
+      "label": "regular camp sit 2",
+      "kind": "claude-regular-camp"
+    },
+    "regular-camp-cook-1": {
+      "sheet": "claude-regular-camp",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "regular-camp-cook-1: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-regular-camp-cook-1.svg",
+      "label": "regular camp cook 1",
+      "kind": "claude-regular-camp"
+    },
+    "regular-camp-cook-2": {
+      "sheet": "claude-regular-camp",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "regular-camp-cook-2: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-regular-camp-cook-2.svg",
+      "label": "regular camp cook 2",
+      "kind": "claude-regular-camp"
+    },
+    "regular-rest-sit": {
+      "sheet": "claude-regular-camp",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "regular-rest-sit: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-regular-rest-sit.svg",
+      "label": "regular rest sit",
+      "kind": "claude-regular-camp"
+    },
+    "regular-sleep": {
+      "sheet": "claude-regular-camp",
+      "x": 1440,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-28 — ambient life",
+      "replaceWith": "regular-sleep: Request 2026-09-28 — ambient life item 3 (clean-rifle, camp-sit, camp-cook, 2 frames each) and request 2026-09-25 San Jacinto item 2 (rest-sit, sleep): the `regular-*` logical height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-regular-sleep.svg",
+      "label": "regular sleep",
+      "kind": "claude-regular-camp"
+    },
+    "volunteer-loophole-fire-1": {
+      "sheet": "claude-bexar-streets",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "volunteer-loophole-fire-1: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "source": "svg/battle-soldiers/claude-volunteer-loophole-fire-1.svg",
+      "label": "volunteer loophole fire 1",
+      "kind": "claude-bexar-streets"
+    },
+    "volunteer-loophole-fire-2": {
+      "sheet": "claude-bexar-streets",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "volunteer-loophole-fire-2: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "source": "svg/battle-soldiers/claude-volunteer-loophole-fire-2.svg",
+      "label": "volunteer loophole fire 2",
+      "kind": "claude-bexar-streets"
+    },
+    "volunteer-loophole-fire-3": {
+      "sheet": "claude-bexar-streets",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "volunteer-loophole-fire-3: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "source": "svg/battle-soldiers/claude-volunteer-loophole-fire-3.svg",
+      "label": "volunteer loophole fire 3",
+      "kind": "claude-bexar-streets"
+    },
+    "regular-loophole-fire-1": {
+      "sheet": "claude-bexar-streets",
+      "x": 1440,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "regular-loophole-fire-1: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "source": "svg/battle-soldiers/claude-regular-loophole-fire-1.svg",
+      "label": "regular loophole fire 1",
+      "kind": "claude-bexar-streets"
+    },
+    "regular-loophole-fire-2": {
+      "sheet": "claude-bexar-streets",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "regular-loophole-fire-2: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "source": "svg/battle-soldiers/claude-regular-loophole-fire-2.svg",
+      "label": "regular loophole fire 2",
+      "kind": "claude-bexar-streets"
+    },
+    "regular-loophole-fire-3": {
+      "sheet": "claude-bexar-streets",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "regular-loophole-fire-3: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "source": "svg/battle-soldiers/claude-regular-loophole-fire-3.svg",
+      "label": "regular loophole fire 3",
+      "kind": "claude-bexar-streets"
+    },
+    "volunteer-crowbar-1": {
+      "sheet": "claude-bexar-streets",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "volunteer-crowbar-1: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "source": "svg/battle-soldiers/claude-volunteer-crowbar-1.svg",
+      "label": "volunteer crowbar 1",
+      "kind": "claude-bexar-streets"
+    },
+    "volunteer-crowbar-2": {
+      "sheet": "claude-bexar-streets",
+      "x": 1440,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "volunteer-crowbar-2: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "source": "svg/battle-soldiers/claude-volunteer-crowbar-2.svg",
+      "label": "volunteer crowbar 2",
+      "kind": "claude-bexar-streets"
+    },
+    "volunteer-crowbar-3": {
+      "sheet": "claude-bexar-streets",
+      "x": 0,
+      "y": 800,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "volunteer-crowbar-3: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "source": "svg/battle-soldiers/claude-volunteer-crowbar-3.svg",
+      "label": "volunteer crowbar 3",
+      "kind": "claude-bexar-streets"
+    },
+    "volunteer-crowbar-4": {
+      "sheet": "claude-bexar-streets",
+      "x": 480,
+      "y": 800,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "volunteer-crowbar-4: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "source": "svg/battle-soldiers/claude-volunteer-crowbar-4.svg",
+      "label": "volunteer crowbar 4",
+      "kind": "claude-bexar-streets"
+    },
+    "volunteer-dig-1": {
+      "sheet": "claude-bexar-streets",
+      "x": 960,
+      "y": 800,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "volunteer-dig-1: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "source": "svg/battle-soldiers/claude-volunteer-dig-1.svg",
+      "label": "volunteer dig 1",
+      "kind": "claude-bexar-streets"
+    },
+    "volunteer-dig-2": {
+      "sheet": "claude-bexar-streets",
+      "x": 1440,
+      "y": 800,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "volunteer-dig-2: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "source": "svg/battle-soldiers/claude-volunteer-dig-2.svg",
+      "label": "volunteer dig 2",
+      "kind": "claude-bexar-streets"
+    },
+    "volunteer-dig-3": {
+      "sheet": "claude-bexar-streets",
+      "x": 0,
+      "y": 1200,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "volunteer-dig-3: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "source": "svg/battle-soldiers/claude-volunteer-dig-3.svg",
+      "label": "volunteer dig 3",
+      "kind": "claude-bexar-streets"
+    },
+    "volunteer-dig-4": {
+      "sheet": "claude-bexar-streets",
+      "x": 480,
+      "y": 1200,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "replaceWith": "volunteer-dig-4: items 1, 3 and 4: a man firing through a loophole (volunteer and regular, 2-4 frames), a crowbar at a door (4 frames), digging a trench at night; the `volunteer-*`/`regular-*` height",
+      "source": "svg/battle-soldiers/claude-volunteer-dig-4.svg",
+      "label": "volunteer dig 4",
+      "kind": "claude-bexar-streets"
+    },
+    "volunteer-parapet-fire-e-1": {
+      "sheet": "claude-parapet",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "volunteer-parapet-fire-e-1: item 3: volunteers firing over a parapet, the body from the waist up over a wall top, east, west, north and south, with a loading frame below the parapet",
+      "source": "svg/battle-soldiers/claude-volunteer-parapet-fire-e-1.svg",
+      "label": "volunteer parapet fire e 1",
+      "kind": "claude-parapet"
+    },
+    "volunteer-parapet-fire-e-2": {
+      "sheet": "claude-parapet",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "volunteer-parapet-fire-e-2: item 3: volunteers firing over a parapet, the body from the waist up over a wall top, east, west, north and south, with a loading frame below the parapet",
+      "source": "svg/battle-soldiers/claude-volunteer-parapet-fire-e-2.svg",
+      "label": "volunteer parapet fire e 2",
+      "kind": "claude-parapet"
+    },
+    "volunteer-parapet-fire-e-3": {
+      "sheet": "claude-parapet",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "volunteer-parapet-fire-e-3: item 3: volunteers firing over a parapet, the body from the waist up over a wall top, east, west, north and south, with a loading frame below the parapet",
+      "source": "svg/battle-soldiers/claude-volunteer-parapet-fire-e-3.svg",
+      "label": "volunteer parapet fire e 3",
+      "kind": "claude-parapet"
+    },
+    "volunteer-parapet-fire-s-1": {
+      "sheet": "claude-parapet",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "volunteer-parapet-fire-s-1: item 3: volunteers firing over a parapet, the body from the waist up over a wall top, east, west, north and south, with a loading frame below the parapet",
+      "source": "svg/battle-soldiers/claude-volunteer-parapet-fire-s-1.svg",
+      "label": "volunteer parapet fire s 1",
+      "kind": "claude-parapet"
+    },
+    "volunteer-parapet-fire-s-2": {
+      "sheet": "claude-parapet",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "volunteer-parapet-fire-s-2: item 3: volunteers firing over a parapet, the body from the waist up over a wall top, east, west, north and south, with a loading frame below the parapet",
+      "source": "svg/battle-soldiers/claude-volunteer-parapet-fire-s-2.svg",
+      "label": "volunteer parapet fire s 2",
+      "kind": "claude-parapet"
+    },
+    "volunteer-parapet-fire-s-3": {
+      "sheet": "claude-parapet",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "volunteer-parapet-fire-s-3: item 3: volunteers firing over a parapet, the body from the waist up over a wall top, east, west, north and south, with a loading frame below the parapet",
+      "source": "svg/battle-soldiers/claude-volunteer-parapet-fire-s-3.svg",
+      "label": "volunteer parapet fire s 3",
+      "kind": "claude-parapet"
+    },
+    "volunteer-parapet-fire-n-1": {
+      "sheet": "claude-parapet",
+      "x": 0,
+      "y": 800,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "volunteer-parapet-fire-n-1: item 3: volunteers firing over a parapet, the body from the waist up over a wall top, east, west, north and south, with a loading frame below the parapet",
+      "source": "svg/battle-soldiers/claude-volunteer-parapet-fire-n-1.svg",
+      "label": "volunteer parapet fire n 1",
+      "kind": "claude-parapet"
+    },
+    "volunteer-parapet-fire-n-2": {
+      "sheet": "claude-parapet",
+      "x": 480,
+      "y": 800,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "volunteer-parapet-fire-n-2: item 3: volunteers firing over a parapet, the body from the waist up over a wall top, east, west, north and south, with a loading frame below the parapet",
+      "source": "svg/battle-soldiers/claude-volunteer-parapet-fire-n-2.svg",
+      "label": "volunteer parapet fire n 2",
+      "kind": "claude-parapet"
+    },
+    "volunteer-parapet-fire-n-3": {
+      "sheet": "claude-parapet",
+      "x": 960,
+      "y": 800,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "replaceWith": "volunteer-parapet-fire-n-3: item 3: volunteers firing over a parapet, the body from the waist up over a wall top, east, west, north and south, with a loading frame below the parapet",
+      "source": "svg/battle-soldiers/claude-volunteer-parapet-fire-n-3.svg",
+      "label": "volunteer parapet fire n 3",
+      "kind": "claude-parapet"
+    },
+    "regular-prone-lie": {
+      "sheet": "claude-prone",
+      "x": 0,
+      "y": 0,
+      "w": 520,
+      "h": 400,
+      "anchorX": 0.4808,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — Coleto and Goliad",
+      "replaceWith": "regular-prone-lie: item 1: `regular-prone-lie`, `regular-prone-aim`, `regular-prone-fire` (a cazador in the tall grass at night), east",
+      "source": "svg/battle-soldiers/claude-regular-prone-lie.svg",
+      "label": "regular prone lie",
+      "kind": "claude-prone"
+    },
+    "regular-prone-aim": {
+      "sheet": "claude-prone",
+      "x": 520,
+      "y": 0,
+      "w": 520,
+      "h": 400,
+      "anchorX": 0.4808,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — Coleto and Goliad",
+      "replaceWith": "regular-prone-aim: item 1: `regular-prone-lie`, `regular-prone-aim`, `regular-prone-fire` (a cazador in the tall grass at night), east",
+      "source": "svg/battle-soldiers/claude-regular-prone-aim.svg",
+      "label": "regular prone aim",
+      "kind": "claude-prone"
+    },
+    "regular-prone-fire": {
+      "sheet": "claude-prone",
+      "x": 1040,
+      "y": 0,
+      "w": 520,
+      "h": 400,
+      "anchorX": 0.4808,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — Coleto and Goliad",
+      "replaceWith": "regular-prone-fire: item 1: `regular-prone-lie`, `regular-prone-aim`, `regular-prone-fire` (a cazador in the tall grass at night), east",
+      "source": "svg/battle-soldiers/claude-regular-prone-fire.svg",
+      "label": "regular prone fire",
+      "kind": "claude-prone"
+    },
+    "skirmisher-run-e-1": {
+      "sheet": "claude-skirmisher",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "skirmisher-run-e-1: item 3: `skirmisher-run-e` (4 frames) and `skirmisher-kneel-fire` (aim, fire, load; 4 frames), the line's regular",
+      "source": "svg/battle-soldiers/claude-skirmisher-run-e-1.svg",
+      "label": "skirmisher run e 1",
+      "kind": "claude-skirmisher"
+    },
+    "skirmisher-run-e-2": {
+      "sheet": "claude-skirmisher",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "skirmisher-run-e-2: item 3: `skirmisher-run-e` (4 frames) and `skirmisher-kneel-fire` (aim, fire, load; 4 frames), the line's regular",
+      "source": "svg/battle-soldiers/claude-skirmisher-run-e-2.svg",
+      "label": "skirmisher run e 2",
+      "kind": "claude-skirmisher"
+    },
+    "skirmisher-run-e-3": {
+      "sheet": "claude-skirmisher",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "skirmisher-run-e-3: item 3: `skirmisher-run-e` (4 frames) and `skirmisher-kneel-fire` (aim, fire, load; 4 frames), the line's regular",
+      "source": "svg/battle-soldiers/claude-skirmisher-run-e-3.svg",
+      "label": "skirmisher run e 3",
+      "kind": "claude-skirmisher"
+    },
+    "skirmisher-run-e-4": {
+      "sheet": "claude-skirmisher",
+      "x": 1440,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "skirmisher-run-e-4: item 3: `skirmisher-run-e` (4 frames) and `skirmisher-kneel-fire` (aim, fire, load; 4 frames), the line's regular",
+      "source": "svg/battle-soldiers/claude-skirmisher-run-e-4.svg",
+      "label": "skirmisher run e 4",
+      "kind": "claude-skirmisher"
+    },
+    "skirmisher-kneel-fire-1": {
+      "sheet": "claude-skirmisher",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "skirmisher-kneel-fire-1: item 3: `skirmisher-run-e` (4 frames) and `skirmisher-kneel-fire` (aim, fire, load; 4 frames), the line's regular",
+      "source": "svg/battle-soldiers/claude-skirmisher-kneel-fire-1.svg",
+      "label": "skirmisher kneel fire 1",
+      "kind": "claude-skirmisher"
+    },
+    "skirmisher-kneel-fire-2": {
+      "sheet": "claude-skirmisher",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "skirmisher-kneel-fire-2: item 3: `skirmisher-run-e` (4 frames) and `skirmisher-kneel-fire` (aim, fire, load; 4 frames), the line's regular",
+      "source": "svg/battle-soldiers/claude-skirmisher-kneel-fire-2.svg",
+      "label": "skirmisher kneel fire 2",
+      "kind": "claude-skirmisher"
+    },
+    "skirmisher-kneel-fire-3": {
+      "sheet": "claude-skirmisher",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "skirmisher-kneel-fire-3: item 3: `skirmisher-run-e` (4 frames) and `skirmisher-kneel-fire` (aim, fire, load; 4 frames), the line's regular",
+      "source": "svg/battle-soldiers/claude-skirmisher-kneel-fire-3.svg",
+      "label": "skirmisher kneel fire 3",
+      "kind": "claude-skirmisher"
+    },
+    "skirmisher-kneel-fire-4": {
+      "sheet": "claude-skirmisher",
+      "x": 1440,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "replaceWith": "skirmisher-kneel-fire-4: item 3: `skirmisher-run-e` (4 frames) and `skirmisher-kneel-fire` (aim, fire, load; 4 frames), the line's regular",
+      "source": "svg/battle-soldiers/claude-skirmisher-kneel-fire-4.svg",
+      "label": "skirmisher kneel fire 4",
+      "kind": "claude-skirmisher"
+    },
+    "volunteer-bank-climb-1": {
+      "sheet": "claude-bank-climb",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "replaceWith": "volunteer-bank-climb-1: item 2: `volunteer-bank-climb-1`..`-6`: step up the cut, aim and fire over the lip, step down, load under the bank",
+      "source": "svg/battle-soldiers/claude-volunteer-bank-climb-1.svg",
+      "label": "volunteer bank climb 1",
+      "kind": "claude-bank-climb"
+    },
+    "volunteer-bank-climb-2": {
+      "sheet": "claude-bank-climb",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "replaceWith": "volunteer-bank-climb-2: item 2: `volunteer-bank-climb-1`..`-6`: step up the cut, aim and fire over the lip, step down, load under the bank",
+      "source": "svg/battle-soldiers/claude-volunteer-bank-climb-2.svg",
+      "label": "volunteer bank climb 2",
+      "kind": "claude-bank-climb"
+    },
+    "volunteer-bank-climb-3": {
+      "sheet": "claude-bank-climb",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "replaceWith": "volunteer-bank-climb-3: item 2: `volunteer-bank-climb-1`..`-6`: step up the cut, aim and fire over the lip, step down, load under the bank",
+      "source": "svg/battle-soldiers/claude-volunteer-bank-climb-3.svg",
+      "label": "volunteer bank climb 3",
+      "kind": "claude-bank-climb"
+    },
+    "volunteer-bank-climb-4": {
+      "sheet": "claude-bank-climb",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "replaceWith": "volunteer-bank-climb-4: item 2: `volunteer-bank-climb-1`..`-6`: step up the cut, aim and fire over the lip, step down, load under the bank",
+      "source": "svg/battle-soldiers/claude-volunteer-bank-climb-4.svg",
+      "label": "volunteer bank climb 4",
+      "kind": "claude-bank-climb"
+    },
+    "volunteer-bank-climb-5": {
+      "sheet": "claude-bank-climb",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "replaceWith": "volunteer-bank-climb-5: item 2: `volunteer-bank-climb-1`..`-6`: step up the cut, aim and fire over the lip, step down, load under the bank",
+      "source": "svg/battle-soldiers/claude-volunteer-bank-climb-5.svg",
+      "label": "volunteer bank climb 5",
+      "kind": "claude-bank-climb"
+    },
+    "volunteer-bank-climb-6": {
+      "sheet": "claude-bank-climb",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "replaceWith": "volunteer-bank-climb-6: item 2: `volunteer-bank-climb-1`..`-6`: step up the cut, aim and fire over the lip, step down, load under the bank",
+      "source": "svg/battle-soldiers/claude-volunteer-bank-climb-6.svg",
+      "label": "volunteer bank climb 6",
+      "kind": "claude-bank-climb"
+    },
+    "figure-wading-regular-1": {
+      "sheet": "claude-wading",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "figure-wading-regular-1: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
+      "source": "svg/battle-soldiers/claude-figure-wading-regular-1.svg",
+      "label": "figure wading regular 1",
+      "kind": "claude-wading"
+    },
+    "figure-wading-regular-2": {
+      "sheet": "claude-wading",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "figure-wading-regular-2: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
+      "source": "svg/battle-soldiers/claude-figure-wading-regular-2.svg",
+      "label": "figure wading regular 2",
+      "kind": "claude-wading"
+    },
+    "figure-wading-regular-3": {
+      "sheet": "claude-wading",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "figure-wading-regular-3: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
+      "source": "svg/battle-soldiers/claude-figure-wading-regular-3.svg",
+      "label": "figure wading regular 3",
+      "kind": "claude-wading"
+    },
+    "figure-wading-regular-4": {
+      "sheet": "claude-wading",
+      "x": 1440,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "figure-wading-regular-4: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
+      "source": "svg/battle-soldiers/claude-figure-wading-regular-4.svg",
+      "label": "figure wading regular 4",
+      "kind": "claude-wading"
+    },
+    "figure-wading-volunteer-1": {
+      "sheet": "claude-wading",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "figure-wading-volunteer-1: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
+      "source": "svg/battle-soldiers/claude-figure-wading-volunteer-1.svg",
+      "label": "figure wading volunteer 1",
+      "kind": "claude-wading"
+    },
+    "figure-wading-volunteer-2": {
+      "sheet": "claude-wading",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "figure-wading-volunteer-2: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
+      "source": "svg/battle-soldiers/claude-figure-wading-volunteer-2.svg",
+      "label": "figure wading volunteer 2",
+      "kind": "claude-wading"
+    },
+    "figure-wading-volunteer-3": {
+      "sheet": "claude-wading",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "figure-wading-volunteer-3: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
+      "source": "svg/battle-soldiers/claude-figure-wading-volunteer-3.svg",
+      "label": "figure wading volunteer 3",
+      "kind": "claude-wading"
+    },
+    "figure-wading-volunteer-4": {
+      "sheet": "claude-wading",
+      "x": 1440,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "replaceWith": "figure-wading-volunteer-4: item 4: `figure-wading` (a man up to the thighs in water, running, in either side's clothes); no blood, nobody shot close",
+      "source": "svg/battle-soldiers/claude-figure-wading-volunteer-4.svg",
+      "label": "figure wading volunteer 4",
+      "kind": "claude-wading"
+    },
+    "settler-gun-ram-1": {
+      "sheet": "claude-settler-gun",
+      "x": 0,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "settler-gun-ram-1: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-settler-gun-ram-1.svg",
+      "label": "settler gun ram 1",
+      "kind": "claude-settler-gun"
+    },
+    "settler-gun-ram-2": {
+      "sheet": "claude-settler-gun",
+      "x": 480,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "settler-gun-ram-2: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-settler-gun-ram-2.svg",
+      "label": "settler gun ram 2",
+      "kind": "claude-settler-gun"
+    },
+    "settler-gun-ram-3": {
+      "sheet": "claude-settler-gun",
+      "x": 960,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "settler-gun-ram-3: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-settler-gun-ram-3.svg",
+      "label": "settler gun ram 3",
+      "kind": "claude-settler-gun"
+    },
+    "settler-gun-ram-4": {
+      "sheet": "claude-settler-gun",
+      "x": 1440,
+      "y": 0,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "settler-gun-ram-4: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-settler-gun-ram-4.svg",
+      "label": "settler gun ram 4",
+      "kind": "claude-settler-gun"
+    },
+    "settler-gun-carry-1": {
+      "sheet": "claude-settler-gun",
+      "x": 0,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "settler-gun-carry-1: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-settler-gun-carry-1.svg",
+      "label": "settler gun carry 1",
+      "kind": "claude-settler-gun"
+    },
+    "settler-gun-carry-2": {
+      "sheet": "claude-settler-gun",
+      "x": 480,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "settler-gun-carry-2: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-settler-gun-carry-2.svg",
+      "label": "settler gun carry 2",
+      "kind": "claude-settler-gun"
+    },
+    "settler-gun-fire-1": {
+      "sheet": "claude-settler-gun",
+      "x": 960,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "settler-gun-fire-1: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-settler-gun-fire-1.svg",
+      "label": "settler gun fire 1",
+      "kind": "claude-settler-gun"
+    },
+    "settler-gun-fire-2": {
+      "sheet": "claude-settler-gun",
+      "x": 1440,
+      "y": 400,
+      "w": 480,
+      "h": 400,
+      "anchorX": 0.3958,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "battle-soldiers",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "replaceWith": "settler-gun-fire-2: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
+      "source": "svg/battle-soldiers/claude-settler-gun-fire-2.svg",
+      "label": "settler gun fire 2",
+      "kind": "claude-settler-gun"
+    }
+  },
+  "clips": {
+    "bearers-carry": {
+      "frames": [
+        {
+          "sprite": "bearers-carry-1",
+          "duration": 240
+        },
+        {
+          "sprite": "bearers-carry-2",
+          "duration": 240
+        },
+        {
+          "sprite": "bearers-carry-3",
+          "duration": 240
+        },
+        {
+          "sprite": "bearers-carry-4",
+          "duration": 240
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "volunteer-clean-rifle": {
+      "frames": [
+        {
+          "sprite": "volunteer-clean-rifle-1",
+          "duration": 520
+        },
+        {
+          "sprite": "volunteer-clean-rifle-2",
+          "duration": 520
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "volunteer-camp-sit": {
+      "frames": [
+        {
+          "sprite": "volunteer-camp-sit-1",
+          "duration": 2200
+        },
+        {
+          "sprite": "volunteer-camp-sit-2",
+          "duration": 1600
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "volunteer-camp-cook": {
+      "frames": [
+        {
+          "sprite": "volunteer-camp-cook-1",
+          "duration": 520
+        },
+        {
+          "sprite": "volunteer-camp-cook-2",
+          "duration": 520
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "volunteer-rest-sit": {
+      "frames": [
+        {
+          "sprite": "volunteer-rest-sit",
+          "duration": 2600
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "volunteer-sleep": {
+      "frames": [
+        {
+          "sprite": "volunteer-sleep",
+          "duration": 3200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "regular-clean-rifle": {
+      "frames": [
+        {
+          "sprite": "regular-clean-rifle-1",
+          "duration": 520
+        },
+        {
+          "sprite": "regular-clean-rifle-2",
+          "duration": 520
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "regular-camp-sit": {
+      "frames": [
+        {
+          "sprite": "regular-camp-sit-1",
+          "duration": 2200
+        },
+        {
+          "sprite": "regular-camp-sit-2",
+          "duration": 1600
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "regular-camp-cook": {
+      "frames": [
+        {
+          "sprite": "regular-camp-cook-1",
+          "duration": 520
+        },
+        {
+          "sprite": "regular-camp-cook-2",
+          "duration": 520
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "regular-rest-sit": {
+      "frames": [
+        {
+          "sprite": "regular-rest-sit",
+          "duration": 2600
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "regular-sleep": {
+      "frames": [
+        {
+          "sprite": "regular-sleep",
+          "duration": 3200
+        }
+      ],
+      "loop": true,
+      "motion": "breathe",
+      "direction": "east; west by mirroring",
+      "authored": false,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "volunteer-loophole-fire": {
+      "frames": [
+        {
+          "sprite": "volunteer-loophole-fire-1",
+          "duration": 700
+        },
+        {
+          "sprite": "volunteer-loophole-fire-2",
+          "duration": 120
+        },
+        {
+          "sprite": "volunteer-loophole-fire-3",
+          "duration": 1650
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "regular-loophole-fire": {
+      "frames": [
+        {
+          "sprite": "regular-loophole-fire-1",
+          "duration": 700
+        },
+        {
+          "sprite": "regular-loophole-fire-2",
+          "duration": 120
+        },
+        {
+          "sprite": "regular-loophole-fire-3",
+          "duration": 1650
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "volunteer-crowbar": {
+      "frames": [
+        {
+          "sprite": "volunteer-crowbar-1",
+          "duration": 420
+        },
+        {
+          "sprite": "volunteer-crowbar-2",
+          "duration": 380
+        },
+        {
+          "sprite": "volunteer-crowbar-3",
+          "duration": 520
+        },
+        {
+          "sprite": "volunteer-crowbar-4",
+          "duration": 600
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "volunteer-dig": {
+      "frames": [
+        {
+          "sprite": "volunteer-dig-1",
+          "duration": 300
+        },
+        {
+          "sprite": "volunteer-dig-2",
+          "duration": 260
+        },
+        {
+          "sprite": "volunteer-dig-3",
+          "duration": 320
+        },
+        {
+          "sprite": "volunteer-dig-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "beat": 0,
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "volunteer-parapet-fire-e": {
+      "frames": [
+        {
+          "sprite": "volunteer-parapet-fire-e-1",
+          "duration": 700
+        },
+        {
+          "sprite": "volunteer-parapet-fire-e-2",
+          "duration": 120
+        },
+        {
+          "sprite": "volunteer-parapet-fire-e-3",
+          "duration": 1650
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "volunteer-parapet-fire-s": {
+      "frames": [
+        {
+          "sprite": "volunteer-parapet-fire-s-1",
+          "duration": 700
+        },
+        {
+          "sprite": "volunteer-parapet-fire-s-2",
+          "duration": 120
+        },
+        {
+          "sprite": "volunteer-parapet-fire-s-3",
+          "duration": 1650
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "south",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "volunteer-parapet-fire-n": {
+      "frames": [
+        {
+          "sprite": "volunteer-parapet-fire-n-1",
+          "duration": 700
+        },
+        {
+          "sprite": "volunteer-parapet-fire-n-2",
+          "duration": 120
+        },
+        {
+          "sprite": "volunteer-parapet-fire-n-3",
+          "duration": 1650
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "north",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "regular-prone-fire": {
+      "frames": [
+        {
+          "sprite": "regular-prone-aim",
+          "duration": 900
+        },
+        {
+          "sprite": "regular-prone-fire",
+          "duration": 140
+        },
+        {
+          "sprite": "regular-prone-lie",
+          "duration": 1800
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "skirmisher-run-e": {
+      "frames": [
+        {
+          "sprite": "skirmisher-run-e-1",
+          "duration": 140
+        },
+        {
+          "sprite": "skirmisher-run-e-2",
+          "duration": 140
+        },
+        {
+          "sprite": "skirmisher-run-e-3",
+          "duration": 140
+        },
+        {
+          "sprite": "skirmisher-run-e-4",
+          "duration": 140
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "skirmisher-kneel-fire": {
+      "frames": [
+        {
+          "sprite": "skirmisher-kneel-fire-1",
+          "duration": 700
+        },
+        {
+          "sprite": "skirmisher-kneel-fire-2",
+          "duration": 120
+        },
+        {
+          "sprite": "skirmisher-kneel-fire-3",
+          "duration": 750
+        },
+        {
+          "sprite": "skirmisher-kneel-fire-4",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "volunteer-bank-climb": {
+      "frames": [
+        {
+          "sprite": "volunteer-bank-climb-1",
+          "duration": 500
+        },
+        {
+          "sprite": "volunteer-bank-climb-2",
+          "duration": 700
+        },
+        {
+          "sprite": "volunteer-bank-climb-3",
+          "duration": 140
+        },
+        {
+          "sprite": "volunteer-bank-climb-4",
+          "duration": 450
+        },
+        {
+          "sprite": "volunteer-bank-climb-5",
+          "duration": 900
+        },
+        {
+          "sprite": "volunteer-bank-climb-6",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "figure-wading-regular": {
+      "frames": [
+        {
+          "sprite": "figure-wading-regular-1",
+          "duration": 210
+        },
+        {
+          "sprite": "figure-wading-regular-2",
+          "duration": 210
+        },
+        {
+          "sprite": "figure-wading-regular-3",
+          "duration": 210
+        },
+        {
+          "sprite": "figure-wading-regular-4",
+          "duration": 210
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "figure-wading-volunteer": {
+      "frames": [
+        {
+          "sprite": "figure-wading-volunteer-1",
+          "duration": 210
+        },
+        {
+          "sprite": "figure-wading-volunteer-2",
+          "duration": 210
+        },
+        {
+          "sprite": "figure-wading-volunteer-3",
+          "duration": 210
+        },
+        {
+          "sprite": "figure-wading-volunteer-4",
+          "duration": 210
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "figure-wading": {
+      "frames": [
+        {
+          "sprite": "figure-wading-regular-1",
+          "duration": 210
+        },
+        {
+          "sprite": "figure-wading-regular-2",
+          "duration": 210
+        },
+        {
+          "sprite": "figure-wading-regular-3",
+          "duration": 210
+        },
+        {
+          "sprite": "figure-wading-regular-4",
+          "duration": 210
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "settler-gun-ram": {
+      "frames": [
+        {
+          "sprite": "settler-gun-ram-1",
+          "duration": 260
+        },
+        {
+          "sprite": "settler-gun-ram-2",
+          "duration": 240
+        },
+        {
+          "sprite": "settler-gun-ram-3",
+          "duration": 360
+        },
+        {
+          "sprite": "settler-gun-ram-4",
+          "duration": 300
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "settler-gun-carry": {
+      "frames": [
+        {
+          "sprite": "settler-gun-carry-1",
+          "duration": 420
+        },
+        {
+          "sprite": "settler-gun-carry-2",
+          "duration": 420
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    },
+    "settler-gun-fire": {
+      "frames": [
+        {
+          "sprite": "settler-gun-fire-1",
+          "duration": 360
+        },
+        {
+          "sprite": "settler-gun-fire-2",
+          "duration": 700
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "battle-soldiers"
+    }
+  },
+  "provenance": {
+    "bearers-carry-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bearers-carry",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "Two Texian volunteers walking east one behind the other, carrying between them a wounded comrade in a grey blanket slung by its corners, his head and one arm showing, alive and sitting half up; frame 1 of 4. a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle (all three). Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-bearers-carry-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bearers-carry-1"
+    },
+    "bearers-carry-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bearers-carry",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "Two Texian volunteers walking east one behind the other, carrying between them a wounded comrade in a grey blanket slung by its corners, his head and one arm showing, alive and sitting half up; frame 2 of 4. a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle (all three). Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-bearers-carry-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bearers-carry-2"
+    },
+    "bearers-carry-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bearers-carry",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "Two Texian volunteers walking east one behind the other, carrying between them a wounded comrade in a grey blanket slung by its corners, his head and one arm showing, alive and sitting half up; frame 3 of 4. a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle (all three). Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-bearers-carry-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bearers-carry-3"
+    },
+    "bearers-carry-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bearers-carry",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "Two Texian volunteers walking east one behind the other, carrying between them a wounded comrade in a grey blanket slung by its corners, his head and one arm showing, alive and sitting half up; frame 4 of 4. a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle (all three). Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-bearers-carry-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bearers-carry-4"
+    },
+    "volunteer-clean-rifle-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-volunteer-camp",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; sitting on the ground cleaning his piece: the barrel across his knees, a wiping rod worked into the muzzle (frame 1 of 2: the rod pushed in). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-clean-rifle-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-clean-rifle-1"
+    },
+    "volunteer-clean-rifle-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-volunteer-camp",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; sitting on the ground cleaning his piece: the barrel across his knees, a wiping rod worked into the muzzle (frame 2 of 2: the rod drawn out). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-clean-rifle-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-clean-rifle-2"
+    },
+    "volunteer-camp-sit-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-volunteer-camp",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; sitting on the ground in camp, the arms round the knees, the piece laid beside him, looking ahead (frame 1 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-camp-sit-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-camp-sit-1"
+    },
+    "volunteer-camp-sit-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-volunteer-camp",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; sitting on the ground in camp, the arms round the knees, the piece laid beside him, the head turned to talk (frame 2 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-camp-sit-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-camp-sit-2"
+    },
+    "volunteer-camp-cook-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-volunteer-camp",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; crouched on one knee at a small cook fire, stirring a kettle hung over it with a stick (frame 1 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-camp-cook-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-camp-cook-1"
+    },
+    "volunteer-camp-cook-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-volunteer-camp",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; crouched on one knee at a small cook fire, stirring a kettle hung over it with a stick (frame 2 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-camp-cook-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-camp-cook-2"
+    },
+    "volunteer-rest-sit": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, sitting at rest with the piece across his knees, breathing.",
+      "frames": [
+        "volunteer-rest-sit"
+      ],
+      "status": "temporary: replace with Astra's volunteer-rest-sit"
+    },
+    "volunteer-sleep": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, asleep, breathing: never a man killed.",
+      "frames": [
+        "volunteer-sleep"
+      ],
+      "status": "temporary: replace with Astra's volunteer-sleep"
+    },
+    "regular-clean-rifle-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-regular-camp",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; sitting on the ground cleaning his piece: the barrel across his knees, a wiping rod worked into the muzzle (frame 1 of 2: the rod pushed in). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-clean-rifle-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's regular-clean-rifle-1"
+    },
+    "regular-clean-rifle-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-regular-camp",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; sitting on the ground cleaning his piece: the barrel across his knees, a wiping rod worked into the muzzle (frame 2 of 2: the rod drawn out). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-clean-rifle-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's regular-clean-rifle-2"
+    },
+    "regular-camp-sit-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-regular-camp",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; sitting on the ground in camp, the arms round the knees, the piece laid beside him, looking ahead (frame 1 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-camp-sit-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's regular-camp-sit-1"
+    },
+    "regular-camp-sit-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-regular-camp",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; sitting on the ground in camp, the arms round the knees, the piece laid beside him, the head turned to talk (frame 2 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-camp-sit-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's regular-camp-sit-2"
+    },
+    "regular-camp-cook-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-regular-camp",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; crouched on one knee at a small cook fire, stirring a kettle hung over it with a stick (frame 1 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-camp-cook-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's regular-camp-cook-1"
+    },
+    "regular-camp-cook-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-regular-camp",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; crouched on one knee at a small cook fire, stirring a kettle hung over it with a stick (frame 2 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-camp-cook-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's regular-camp-cook-2"
+    },
+    "regular-rest-sit": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, sitting at rest with the piece across his knees, breathing.",
+      "frames": [
+        "regular-rest-sit"
+      ],
+      "status": "temporary: replace with Astra's regular-rest-sit"
+    },
+    "regular-sleep": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, asleep, breathing: never a man killed.",
+      "frames": [
+        "regular-sleep"
+      ],
+      "status": "temporary: replace with Astra's regular-sleep"
+    },
+    "volunteer-loophole-fire-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bexar-streets",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; aiming through a loophole in a stone house's wall, the barrel in the hole, the man pressed to the wall (frame 1 of 3). The wall's edge is in the frame, in front of him, so he is half hidden: Béxar, December 1835 (\"a pigeon nursery\", Lopez). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-loophole-fire-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-loophole-fire-1"
+    },
+    "volunteer-loophole-fire-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bexar-streets",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; the shot through the loophole, the recoil rocking him back (frame 2 of 3). The wall's edge is in the frame, in front of him, so he is half hidden: Béxar, December 1835 (\"a pigeon nursery\", Lopez). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-loophole-fire-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-loophole-fire-2"
+    },
+    "volunteer-loophole-fire-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bexar-streets",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; stepped back from the loophole to ram the next load (frame 3 of 3). The wall's edge is in the frame, in front of him, so he is half hidden: Béxar, December 1835 (\"a pigeon nursery\", Lopez). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-loophole-fire-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-loophole-fire-3"
+    },
+    "regular-loophole-fire-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bexar-streets",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; aiming through a loophole in a stone house's wall, the barrel in the hole, the man pressed to the wall (frame 1 of 3). The wall's edge is in the frame, in front of him, so he is half hidden: Béxar, December 1835 (\"a pigeon nursery\", Lopez). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-loophole-fire-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's regular-loophole-fire-1"
+    },
+    "regular-loophole-fire-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bexar-streets",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; the shot through the loophole, the recoil rocking him back (frame 2 of 3). The wall's edge is in the frame, in front of him, so he is half hidden: Béxar, December 1835 (\"a pigeon nursery\", Lopez). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-loophole-fire-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's regular-loophole-fire-2"
+    },
+    "regular-loophole-fire-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bexar-streets",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; stepped back from the loophole to ram the next load (frame 3 of 3). The wall's edge is in the frame, in front of him, so he is half hidden: Béxar, December 1835 (\"a pigeon nursery\", Lopez). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-loophole-fire-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's regular-loophole-fire-3"
+    },
+    "volunteer-crowbar-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bexar-streets",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, without his rifle; forcing a house's door with a crowbar at Béxar, December 1835 (Karnes, Johnson's report): setting the bar's end into the crack of the door (frame 1 of 4); the door post and the wall's edge in the frame. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-crowbar-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-crowbar-1"
+    },
+    "volunteer-crowbar-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bexar-streets",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, without his rifle; forcing a house's door with a crowbar at Béxar, December 1835 (Karnes, Johnson's report): heaving back on the bar, the weight on the back foot (frame 2 of 4); the door post and the wall's edge in the frame. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-crowbar-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-crowbar-2"
+    },
+    "volunteer-crowbar-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bexar-streets",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, without his rifle; forcing a house's door with a crowbar at Béxar, December 1835 (Karnes, Johnson's report): heaving harder, leaning right back (frame 3 of 4); the door post and the wall's edge in the frame. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-crowbar-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-crowbar-3"
+    },
+    "volunteer-crowbar-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bexar-streets",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, without his rifle; forcing a house's door with a crowbar at Béxar, December 1835 (Karnes, Johnson's report): the door gives: he stumbles back with the bar (frame 4 of 4); the door post and the wall's edge in the frame. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-crowbar-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-crowbar-4"
+    },
+    "volunteer-dig-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bexar-streets",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, his rifle laid by; digging a trench across a street of Béxar at night with a spade - driven in, levered, the earth thrown up onto the bank, back (frame 1 of 4) - standing in the trench behind the fresh earth of its near bank. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-dig-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-dig-1"
+    },
+    "volunteer-dig-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bexar-streets",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, his rifle laid by; digging a trench across a street of Béxar at night with a spade - driven in, levered, the earth thrown up onto the bank, back (frame 2 of 4) - standing in the trench behind the fresh earth of its near bank. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-dig-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-dig-2"
+    },
+    "volunteer-dig-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bexar-streets",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, his rifle laid by; digging a trench across a street of Béxar at night with a spade - driven in, levered, the earth thrown up onto the bank, back (frame 3 of 4) - standing in the trench behind the fresh earth of its near bank. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-dig-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-dig-3"
+    },
+    "volunteer-dig-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bexar-streets",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, his rifle laid by; digging a trench across a street of Béxar at night with a spade - driven in, levered, the earth thrown up onto the bank, back (frame 4 of 4) - standing in the trench behind the fresh earth of its near bank. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-dig-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-dig-4"
+    },
+    "volunteer-parapet-fire-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-parapet",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; on the Alamo's wall facing east: aiming over the parapet, the body from the waist up above the wall top (frame 1 of 3). Drawn only above the wall top (the page draws the wall); the feet anchor stays at his feet. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-parapet-fire-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-parapet-fire-e-1"
+    },
+    "volunteer-parapet-fire-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-parapet",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; on the Alamo's wall facing east: the shot over the parapet (frame 2 of 3). Drawn only above the wall top (the page draws the wall); the feet anchor stays at his feet. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-parapet-fire-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-parapet-fire-e-2"
+    },
+    "volunteer-parapet-fire-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-parapet",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; on the Alamo's wall facing east: dropped below the parapet to load: only the hat and the rifle's muzzle show over the wall top (frame 3 of 3). Drawn only above the wall top (the page draws the wall); the feet anchor stays at his feet. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-parapet-fire-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-parapet-fire-e-3"
+    },
+    "volunteer-parapet-fire-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-parapet",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; on the Alamo's wall facing south, toward the camera: aiming over the parapet toward the camera (the south wall) (frame 1 of 3). Drawn only above the wall top. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-parapet-fire-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-parapet-fire-s-1"
+    },
+    "volunteer-parapet-fire-s-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-parapet",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; on the Alamo's wall facing south, toward the camera: the shot over the parapet (frame 2 of 3). Drawn only above the wall top. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-parapet-fire-s-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-parapet-fire-s-2"
+    },
+    "volunteer-parapet-fire-s-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-parapet",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; on the Alamo's wall facing south, toward the camera: dropped below the parapet to load: the hat and the muzzle show (frame 3 of 3). Drawn only above the wall top. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-parapet-fire-s-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-parapet-fire-s-3"
+    },
+    "volunteer-parapet-fire-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-parapet",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; on the Alamo's wall facing north, away from the camera: aiming over the parapet away from the camera (the north wall) (frame 1 of 3). Drawn only above the wall top. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-parapet-fire-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-parapet-fire-n-1"
+    },
+    "volunteer-parapet-fire-n-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-parapet",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; on the Alamo's wall facing north, away from the camera: the shot over the parapet (frame 2 of 3). Drawn only above the wall top. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-parapet-fire-n-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-parapet-fire-n-2"
+    },
+    "volunteer-parapet-fire-n-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-parapet",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; on the Alamo's wall facing north, away from the camera: dropped below the parapet to load: the hat and the muzzle show (frame 3 of 3). Drawn only above the wall top. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-parapet-fire-n-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-parapet-fire-n-3"
+    },
+    "regular-prone-lie": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-prone",
+      "request": "Request 2026-09-25 — Coleto and Goliad",
+      "prompt": "A Mexican cazador of a light company at Coleto, the night of March 19, 1836 - the line's blue coatee and white crossbelts, the shako with the green pompom of the light companies (strongly supported by secondary sources) - lying still in the tall grass, the musket beside him, the head down, facing east. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-prone-lie.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's regular-prone-lie"
+    },
+    "regular-prone-aim": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-prone",
+      "request": "Request 2026-09-25 — Coleto and Goliad",
+      "prompt": "A Mexican cazador of a light company at Coleto, the night of March 19, 1836 - the line's blue coatee and white crossbelts, the shako with the green pompom of the light companies (strongly supported by secondary sources) - propped on his elbows in the grass, aiming the musket along the ground, facing east. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-prone-aim.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's regular-prone-aim"
+    },
+    "regular-prone-fire": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — Coleto and Goliad",
+      "prompt": "A cazador lying in the grass: aiming, the shot, and down again to load, as the fire-reload clip is timed.",
+      "frames": [
+        "regular-prone-aim",
+        "regular-prone-fire",
+        "regular-prone-lie"
+      ],
+      "status": "temporary: replace with Astra's regular-prone-fire"
+    },
+    "skirmisher-run-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-skirmisher",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; running east after a fleeing family, the musket carried across the body at the port, a long stride with both feet off the ground at the pass (frame 1 of 4). Nobody drawn hurt. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-skirmisher-run-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's skirmisher-run-e-1"
+    },
+    "skirmisher-run-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-skirmisher",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; running east after a fleeing family, the musket carried across the body at the port, a long stride with both feet off the ground at the pass (frame 2 of 4). Nobody drawn hurt. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-skirmisher-run-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's skirmisher-run-e-2"
+    },
+    "skirmisher-run-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-skirmisher",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; running east after a fleeing family, the musket carried across the body at the port, a long stride with both feet off the ground at the pass (frame 3 of 4). Nobody drawn hurt. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-skirmisher-run-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's skirmisher-run-e-3"
+    },
+    "skirmisher-run-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-skirmisher",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; running east after a fleeing family, the musket carried across the body at the port, a long stride with both feet off the ground at the pass (frame 4 of 4). Nobody drawn hurt. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-skirmisher-run-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's skirmisher-run-e-4"
+    },
+    "skirmisher-kneel-fire-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-skirmisher",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; kneeling on the right knee to fire: aiming (frame 1 of 4). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-skirmisher-kneel-fire-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's skirmisher-kneel-fire-1"
+    },
+    "skirmisher-kneel-fire-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-skirmisher",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; kneeling on the right knee to fire: the shot (frame 2 of 4). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-skirmisher-kneel-fire-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's skirmisher-kneel-fire-2"
+    },
+    "skirmisher-kneel-fire-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-skirmisher",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; kneeling on the right knee to fire: loading, the musket upright before him (frame 3 of 4). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-skirmisher-kneel-fire-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's skirmisher-kneel-fire-3"
+    },
+    "skirmisher-kneel-fire-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-skirmisher",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket; kneeling on the right knee to fire: ramming the load home (frame 4 of 4). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-skirmisher-kneel-fire-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's skirmisher-kneel-fire-4"
+    },
+    "volunteer-bank-climb-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bank-climb",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; at Concepción, October 28, 1835, under the cut riverbank: stepping up the cut in the bank, the rifle in his hands (frame 1 of 6). A slice of the bank - earth five or six feet high, a step cut in it, grass on the lip - is in the frame. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-bank-climb-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-bank-climb-1"
+    },
+    "volunteer-bank-climb-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bank-climb",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; at Concepción, October 28, 1835, under the cut riverbank: up on the step, aiming over the lip of the bank (frame 2 of 6). A slice of the bank - earth five or six feet high, a step cut in it, grass on the lip - is in the frame. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-bank-climb-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-bank-climb-2"
+    },
+    "volunteer-bank-climb-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bank-climb",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; at Concepción, October 28, 1835, under the cut riverbank: the shot over the lip (frame 3 of 6). A slice of the bank - earth five or six feet high, a step cut in it, grass on the lip - is in the frame. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-bank-climb-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-bank-climb-3"
+    },
+    "volunteer-bank-climb-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bank-climb",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; at Concepción, October 28, 1835, under the cut riverbank: stepping down off the cut (frame 4 of 6). A slice of the bank - earth five or six feet high, a step cut in it, grass on the lip - is in the frame. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-bank-climb-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-bank-climb-4"
+    },
+    "volunteer-bank-climb-5": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bank-climb",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; at Concepción, October 28, 1835, under the cut riverbank: kneeling under the bank to load, out of the enemy's sight (frame 5 of 6). A slice of the bank - earth five or six feet high, a step cut in it, grass on the lip - is in the frame. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-bank-climb-5.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-bank-climb-5"
+    },
+    "volunteer-bank-climb-6": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-bank-climb",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle; at Concepción, October 28, 1835, under the cut riverbank: standing under the bank ramming the next load home (frame 6 of 6). A slice of the bank - earth five or six feet high, a step cut in it, grass on the lip - is in the frame. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-volunteer-bank-climb-6.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's volunteer-bank-climb-6"
+    },
+    "figure-wading-regular-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-wading",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, his piece gone; wading hard through the marsh at San Jacinto, the water up to his thighs, the arms working (frame 1 of 4). No blood, nobody shot close (VISION.md §16; docs/BATTLES.md §2b.2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-figure-wading-regular-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's figure-wading-regular-1"
+    },
+    "figure-wading-regular-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-wading",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, his piece gone; wading hard through the marsh at San Jacinto, the water up to his thighs, the arms working (frame 2 of 4). No blood, nobody shot close (VISION.md §16; docs/BATTLES.md §2b.2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-figure-wading-regular-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's figure-wading-regular-2"
+    },
+    "figure-wading-regular-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-wading",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, his piece gone; wading hard through the marsh at San Jacinto, the water up to his thighs, the arms working (frame 3 of 4). No blood, nobody shot close (VISION.md §16; docs/BATTLES.md §2b.2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-figure-wading-regular-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's figure-wading-regular-3"
+    },
+    "figure-wading-regular-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-wading",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, his piece gone; wading hard through the marsh at San Jacinto, the water up to his thighs, the arms working (frame 4 of 4). No blood, nobody shot close (VISION.md §16; docs/BATTLES.md §2b.2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-figure-wading-regular-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's figure-wading-regular-4"
+    },
+    "figure-wading-volunteer-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-wading",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, his piece gone; wading hard through the marsh at San Jacinto, the water up to his thighs, the arms working (frame 1 of 4). No blood, nobody shot close (VISION.md §16; docs/BATTLES.md §2b.2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-figure-wading-volunteer-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's figure-wading-volunteer-1"
+    },
+    "figure-wading-volunteer-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-wading",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, his piece gone; wading hard through the marsh at San Jacinto, the water up to his thighs, the arms working (frame 2 of 4). No blood, nobody shot close (VISION.md §16; docs/BATTLES.md §2b.2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-figure-wading-volunteer-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's figure-wading-volunteer-2"
+    },
+    "figure-wading-volunteer-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-wading",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, his piece gone; wading hard through the marsh at San Jacinto, the water up to his thighs, the arms working (frame 3 of 4). No blood, nobody shot close (VISION.md §16; docs/BATTLES.md §2b.2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-figure-wading-volunteer-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's figure-wading-volunteer-3"
+    },
+    "figure-wading-volunteer-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-wading",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, his piece gone; wading hard through the marsh at San Jacinto, the water up to his thighs, the arms working (frame 4 of 4). No blood, nobody shot close (VISION.md §16; docs/BATTLES.md §2b.2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-figure-wading-volunteer-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's figure-wading-volunteer-4"
+    },
+    "settler-gun-ram-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-settler-gun",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "A Gonzales settler of October 1835 in his own clothes (a rust shirt, braces, a black neckcloth, a felt hat, a short beard) serving the little bronze cannon on its cart wheels: standing with the rammer staff upright (frame 1 of 4). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-ram-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's settler-gun-ram-1"
+    },
+    "settler-gun-ram-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-settler-gun",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "A Gonzales settler of October 1835 in his own clothes (a rust shirt, braces, a black neckcloth, a felt hat, a short beard) serving the little bronze cannon on its cart wheels: bringing the staff down level toward the muzzle (frame 2 of 4). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-ram-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's settler-gun-ram-2"
+    },
+    "settler-gun-ram-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-settler-gun",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "A Gonzales settler of October 1835 in his own clothes (a rust shirt, braces, a black neckcloth, a felt hat, a short beard) serving the little bronze cannon on its cart wheels: the thrust: driving the charge home down the barrel (frame 3 of 4). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-ram-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's settler-gun-ram-3"
+    },
+    "settler-gun-ram-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-settler-gun",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "A Gonzales settler of October 1835 in his own clothes (a rust shirt, braces, a black neckcloth, a felt hat, a short beard) serving the little bronze cannon on its cart wheels: drawing the staff back out (frame 4 of 4). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-ram-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's settler-gun-ram-4"
+    },
+    "settler-gun-carry-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-settler-gun",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "A second Gonzales settler (a blue shirt with braces, a wide straw hat, trousers rolled at the shin) serving the cart-wheel gun: stooping to lift a round shot from the ground (frame 1 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-carry-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's settler-gun-carry-1"
+    },
+    "settler-gun-carry-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-settler-gun",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "A second Gonzales settler (a blue shirt with braces, a wide straw hat, trousers rolled at the shin) serving the cart-wheel gun: carrying the round shot to the gun in both hands (frame 2 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-carry-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's settler-gun-carry-2"
+    },
+    "settler-gun-fire-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-settler-gun",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "A third Gonzales settler (an ochre shirt under a brown waistcoat, bare-headed, a moustache) serving the cart-wheel gun: reaching the lit match on its linstock to the touch-hole, leaning away from the gun (frame 1 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-fire-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's settler-gun-fire-1"
+    },
+    "settler-gun-fire-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "sheet": "claude-settler-gun",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "A third Gonzales settler (an ochre shirt under a brown waistcoat, bare-headed, a moustache) serving the cart-wheel gun: turned from the shot with his hands over his ears (frame 2 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-fire-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's settler-gun-fire-2"
+    },
+    "bearers-carry": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "Two volunteers carrying a wounded man back from the line in a blanket, walking east. Nothing of a wound is drawn: no blood, no injury shown (VISION.md §16).",
+      "frames": [
+        "bearers-carry-1",
+        "bearers-carry-2",
+        "bearers-carry-3",
+        "bearers-carry-4"
+      ],
+      "status": "temporary: replace with Astra's bearers-carry"
+    },
+    "volunteer-clean-rifle": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, at rest in camp: clean rifle, two frames looping.",
+      "frames": [
+        "volunteer-clean-rifle-1",
+        "volunteer-clean-rifle-2"
+      ],
+      "status": "temporary: replace with Astra's volunteer-clean-rifle"
+    },
+    "volunteer-camp-sit": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, at rest in camp: camp sit, two frames looping.",
+      "frames": [
+        "volunteer-camp-sit-1",
+        "volunteer-camp-sit-2"
+      ],
+      "status": "temporary: replace with Astra's volunteer-camp-sit"
+    },
+    "volunteer-camp-cook": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle, at rest in camp: camp cook, two frames looping.",
+      "frames": [
+        "volunteer-camp-cook-1",
+        "volunteer-camp-cook-2"
+      ],
+      "status": "temporary: replace with Astra's volunteer-camp-cook"
+    },
+    "regular-clean-rifle": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, at rest in camp: clean rifle, two frames looping.",
+      "frames": [
+        "regular-clean-rifle-1",
+        "regular-clean-rifle-2"
+      ],
+      "status": "temporary: replace with Astra's regular-clean-rifle"
+    },
+    "regular-camp-sit": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, at rest in camp: camp sit, two frames looping.",
+      "frames": [
+        "regular-camp-sit-1",
+        "regular-camp-sit-2"
+      ],
+      "status": "temporary: replace with Astra's regular-camp-sit"
+    },
+    "regular-camp-cook": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-28 — ambient life",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, at rest in camp: camp cook, two frames looping.",
+      "frames": [
+        "regular-camp-cook-1",
+        "regular-camp-cook-2"
+      ],
+      "status": "temporary: replace with Astra's regular-camp-cook"
+    },
+    "volunteer-loophole-fire": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle: firing through a loophole and stepping back to load, on the volunteer's fire-reload timing (the flash on the second frame).",
+      "frames": [
+        "volunteer-loophole-fire-1",
+        "volunteer-loophole-fire-2",
+        "volunteer-loophole-fire-3"
+      ],
+      "status": "temporary: replace with Astra's volunteer-loophole-fire"
+    },
+    "regular-loophole-fire": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket: firing through a loophole and stepping back to load, on the volunteer's fire-reload timing (the flash on the second frame).",
+      "frames": [
+        "regular-loophole-fire-1",
+        "regular-loophole-fire-2",
+        "regular-loophole-fire-3"
+      ],
+      "status": "temporary: replace with Astra's regular-loophole-fire"
+    },
+    "volunteer-crowbar": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle: forcing a door with a crowbar - set, heave, heave, it gives - looping while the bar is at the door.",
+      "frames": [
+        "volunteer-crowbar-1",
+        "volunteer-crowbar-2",
+        "volunteer-crowbar-3",
+        "volunteer-crowbar-4"
+      ],
+      "status": "temporary: replace with Astra's volunteer-crowbar"
+    },
+    "volunteer-dig": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — the storming of Béxar",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle: digging a trench at night, the spade cycle looping; the spade goes in on the first frame.",
+      "frames": [
+        "volunteer-dig-1",
+        "volunteer-dig-2",
+        "volunteer-dig-3",
+        "volunteer-dig-4"
+      ],
+      "status": "temporary: replace with Astra's volunteer-dig"
+    },
+    "volunteer-parapet-fire-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle: on the wall, aiming and firing over the parapet and dropping below it to load, on the fire-reload timing.",
+      "frames": [
+        "volunteer-parapet-fire-e-1",
+        "volunteer-parapet-fire-e-2",
+        "volunteer-parapet-fire-e-3"
+      ],
+      "status": "temporary: replace with Astra's volunteer-parapet-fire-e"
+    },
+    "volunteer-parapet-fire-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle: on the wall, aiming and firing over the parapet and dropping below it to load, on the fire-reload timing.",
+      "frames": [
+        "volunteer-parapet-fire-s-1",
+        "volunteer-parapet-fire-s-2",
+        "volunteer-parapet-fire-s-3"
+      ],
+      "status": "temporary: replace with Astra's volunteer-parapet-fire-s"
+    },
+    "volunteer-parapet-fire-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — the Alamo: ladders, the guns served, the walls manned, night",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle: on the wall, aiming and firing over the parapet and dropping below it to load, on the fire-reload timing.",
+      "frames": [
+        "volunteer-parapet-fire-n-1",
+        "volunteer-parapet-fire-n-2",
+        "volunteer-parapet-fire-n-3"
+      ],
+      "status": "temporary: replace with Astra's volunteer-parapet-fire-n"
+    },
+    "skirmisher-run-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, running east, four frames at a run (140 ms).",
+      "frames": [
+        "skirmisher-run-e-1",
+        "skirmisher-run-e-2",
+        "skirmisher-run-e-3",
+        "skirmisher-run-e-4"
+      ],
+      "status": "temporary: replace with Astra's skirmisher-run-e"
+    },
+    "skirmisher-kneel-fire": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-27 — Mexican troops after a family on the road",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket, kneeling to fire and load, on the fire-reload clip's timing.",
+      "frames": [
+        "skirmisher-kneel-fire-1",
+        "skirmisher-kneel-fire-2",
+        "skirmisher-kneel-fire-3",
+        "skirmisher-kneel-fire-4"
+      ],
+      "status": "temporary: replace with Astra's skirmisher-kneel-fire"
+    },
+    "volunteer-bank-climb": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle: the climb-fire-drop cycle under the bank, the shot on the third frame.",
+      "frames": [
+        "volunteer-bank-climb-1",
+        "volunteer-bank-climb-2",
+        "volunteer-bank-climb-3",
+        "volunteer-bank-climb-4",
+        "volunteer-bank-climb-5",
+        "volunteer-bank-climb-6"
+      ],
+      "status": "temporary: replace with Astra's volunteer-bank-climb"
+    },
+    "figure-wading-regular": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "a Mexican line infantryman of 1836 as Astra draws `regular-*`: a dark blue coatee with red collar and cuffs and short tails, white trousers, white crossbelts with a black cartridge box, a black shako with a brass plate and a red pompom, the India Pattern musket: wading through the marsh, four frames.",
+      "frames": [
+        "figure-wading-regular-1",
+        "figure-wading-regular-2",
+        "figure-wading-regular-3",
+        "figure-wading-regular-4"
+      ],
+      "status": "temporary: replace with Astra's figure-wading-regular"
+    },
+    "figure-wading-volunteer": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "a Texian volunteer of 1835-36 as Astra draws `volunteer-*`: a brown frock coat, tan trousers, a broad brown felt hat, a short beard, a shot pouch and powder horn on a strap, a long rifle: wading through the marsh, four frames.",
+      "frames": [
+        "figure-wading-volunteer-1",
+        "figure-wading-volunteer-2",
+        "figure-wading-volunteer-3",
+        "figure-wading-volunteer-4"
+      ],
+      "status": "temporary: replace with Astra's figure-wading-volunteer"
+    },
+    "figure-wading": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — San Jacinto",
+      "prompt": "The rout into the marsh at San Jacinto: a Mexican infantryman wading, four frames (the clip the page asks for; `figure-wading-volunteer` is a Texian).",
+      "frames": [
+        "figure-wading-regular-1",
+        "figure-wading-regular-2",
+        "figure-wading-regular-3",
+        "figure-wading-regular-4"
+      ],
+      "status": "temporary: replace with Astra's figure-wading"
+    },
+    "settler-gun-ram": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "A settler ramming the Gonzales gun: staff up, down, the thrust, back (the volunteer-gun-ram timing).",
+      "frames": [
+        "settler-gun-ram-1",
+        "settler-gun-ram-2",
+        "settler-gun-ram-3",
+        "settler-gun-ram-4"
+      ],
+      "status": "temporary: replace with Astra's settler-gun-ram"
+    },
+    "settler-gun-carry": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "A settler lifting and carrying round shot to the Gonzales gun.",
+      "frames": [
+        "settler-gun-carry-1",
+        "settler-gun-carry-2"
+      ],
+      "status": "temporary: replace with Astra's settler-gun-carry"
+    },
+    "settler-gun-fire": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "battle-soldiers",
+      "area": "battles",
+      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
+      "prompt": "A settler touching off the Gonzales gun with a linstock and turning away, hands over his ears.",
+      "frames": [
+        "settler-gun-fire-1",
+        "settler-gun-fire-2"
+      ],
+      "status": "temporary: replace with Astra's settler-gun-fire"
+    }
+  }
+}
