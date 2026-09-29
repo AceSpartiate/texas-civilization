@@ -1,5 +1,41 @@
 # Claude handoff — Astra foundation
 
+## Claude's temporary art: the foundation and the plan — owner, 2026-09-28 (worktree branch; not released)
+
+**The ask.** Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of the remaining art. yours will be
+temporary. label yours so astra can replace as it makes the final versions."*, then *"add to the art requests list which items
+need to be made so they can replace stand ins."* This is phase 1: the pipeline, the style kit, the rig, the plan and one
+worked example; parallel builders draw the rest area by area.
+
+- **Astra's brief**, verbatim and credited: docs/ART_STYLE.md, with how each line of it is met and where Claude's art falls short.
+- **Per-area build.** `scripts/build-claude-standins.mjs` discovers `scripts/claude-art/areas/*.mjs`; each renders its own sheets
+  and `public/assets/claude-standins/areas/<module>.json`, merged into `atlas.json` and `docs/claude-art-provenance.json`
+  (`--merge` needs no browser; `--only <module>`). The Claude manifest now carries **clips**, declared as Astra's are, and
+  `public/art.js` merges them behind hers (a Claude clip steps aside once any of its frames is hers). The marks, portraits
+  (`scripts/draw-claude-portraits.mjs` became `areas/portraits.mjs`) and home tools moved into modules unchanged.
+- **Style kit** (`scripts/claude-art/kit/`): `measure-style.mjs` measures her `civilians`, `people-walk`, `people-vertical` into
+  `measured.json` - logical height ~300, ground at 0.945 of it, outline ink `#22150c` 4-5 px, each figure's colours; `style.mjs`
+  tokens; `svg.mjs` outline and flat shade; `rig.mjs` the person rig (8 cast figures, 3 children and the baby, volunteer, regular,
+  cavalryman, townsman; IK-posed; views e/s/n); `poses.mjs` (idle, turn, walk 4 ways, chop, hoe, split, dig, kneel, sit, carry,
+  speak, aim, fire, fall); `horse.mjs` (walk, mounted frames); `props.mjs`. Proof sheets: `npm run art:rig`
+  (docs/evidence/claude-art/rig-<figure>.png). The baby is its own small drawing in the rig (lying, asleep, sitting, crying,
+  crawling: `INFANT_POSES`), not yet scaled against Astra's basket row.
+- **Play-size comparison**: `npm run art:compare` (docs/evidence/claude-art/compare-<module>.png): each Claude frame beside the
+  Astra frames it names, with the game's own sprite arithmetic, on the map's grass at a person 40, 77 and 150 px.
+- **The worked example**, in the game: the wood pile (`wood-pile-1`..`-4`, one sprite for about 10/20/30/40 logs, in place of
+  `log-fallen` in a row) and rust's felling (`rust-chop`, 4 frames, beat 2, drawn in place of the hoe with a drawn axe via
+  `STROKES.chop.drawn` / `drawnStroke`, per figure; the other seven keep the stand-in). `npm run test:work` passes 5 checks and
+  shows both (docs/evidence/work-house-close.png, work-wood-pile-close.png).
+- **The plan and Astra's list**: `scripts/claude-art/plan.mjs` (88 items to make in six areas, 27 skipped as delivered, withdrawn or
+  on hold) writes docs/CLAUDE_ART_PLAN.md and *What Astra still needs to make* at the top of docs/ART_REQUESTS.md
+  (`npm run art:plan`); an item whose Claude stand-in lands stays on her list, marked.
+- **Tests.** `tests/claude-standins.test.mjs` (12) now also fails on a Claude frame or clip without provenance, `madeBy`, its
+  ART_REQUESTS row or a plan item, on stale merged files or plan, and on a `stand-in:` comment in public/ or sim/ that names
+  nothing on Astra's list (103 found, all named). `tests/work-art.test.mjs` checks the drawn cycle. All proved by injection:
+  `npm run test:claude-art` (docs/evidence/claude-art/injections.json, 7 injections, each failing only its test).
+- **Honest limit.** At a person 40 px the rig reads as the same person as hers by silhouette, costume and colour, at the same
+  height on the same foot line; at 150 px it is plainly a simpler hand (even limbs, one flat shade, stiffer poses, small faces).
+
 ## Nothing on the screen stands on anything else — owner, 2026-09-28 (worktree branch; not released)
 
 **The ask.** Owner, 2026-09-28: *"Check for UI elements that block others. Move them somewhere else."* Students play on

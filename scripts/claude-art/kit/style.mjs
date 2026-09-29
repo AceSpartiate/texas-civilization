@@ -120,16 +120,18 @@ export const CAST = Object.freeze({
     lower: { kind: 'skirt', colour: '#c2583c', short: true }, feet: '#543118' },
   boy: { sex: 'm', age: 'child', skin: '#faa970', hair: '#d8b070', hairStyle: 'tousled', shirt: '#f2d4aa', braces: '#6a4123', oneBrace: true,
     lower: { kind: 'trousers', colour: '#754a2b', rolled: true }, feet: null },
+  // The baby (Astra's `infant`: swaddled in cream, a little dark hair) - lying, sitting up or crawling, never standing.
+  infant: { sex: 'x', age: 'infant', skin: '#e8b890', hair: '#452916', shirt: '#f3e3c4', lower: { kind: 'gown', colour: '#f3e3c4' }, feet: null },
   smallchild: { sex: 'x', age: 'small', skin: '#e47a36', hair: '#452916', hairStyle: 'tousled', shirt: '#f6d4aa', dress: true,
     lower: { kind: 'gown', colour: '#f6d4aa' }, feet: null },
   // Generic figures for the battles and the towns. Colours from the military atlas's volunteer and regular (the Texian in his
   // own frontier clothes; the Mexican line infantryman of 1836 in a dark blue coatee with red facings and a white crossbelt,
   // tall shako) - an interpretation at play size, not a uniform plate.
-  volunteer: { sex: 'm', age: 'adult', skin: '#d59a66', hair: '#4a3222', hat: { kind: 'slouch', colour: '#6a5236', band: '#3a2a1a' }, beard: '#4a3222',
-    shirt: '#c9b48a', coat: '#6d5a3c', lower: { kind: 'trousers', colour: '#7a6446' }, feet: '#4b2e1a', belt: '#5a3a22' },
-  regular: { sex: 'm', age: 'adult', skin: '#c98a58', hair: '#2e2018', hat: { kind: 'shako', colour: '#2a2a30', band: '#b8342a' }, moustache: '#2e2018',
+  volunteer: { sex: 'm', age: 'soldier', skin: '#d59a66', hair: '#4a3222', hat: { kind: 'slouch', colour: '#6a5236', band: '#3a2a1a' }, beard: '#4a3222',
+    shirt: '#d8c49a', coat: '#6b4a2e', lower: { kind: 'trousers', colour: '#b89a6a' }, feet: '#4b2e1a', belt: '#4a2e1a' },
+  regular: { sex: 'm', age: 'soldier', skin: '#c98a58', hair: '#2e2018', hat: { kind: 'shako', colour: '#2a2a30', band: '#b8342a' }, moustache: '#2e2018',
     shirt: '#2f3f6a', coat: '#2f3f6a', facings: '#b8342a', crossbelt: '#efe6d0', lower: { kind: 'trousers', colour: '#e6dcc4' }, feet: '#2a1c12' },
-  cavalryman: { sex: 'm', age: 'adult', skin: '#c98a58', hair: '#2e2018', hat: { kind: 'helmet', colour: '#6a6c6e', band: '#2a2018' }, moustache: '#2e2018',
+  cavalryman: { sex: 'm', age: 'soldier', skin: '#c98a58', hair: '#2e2018', hat: { kind: 'helmet', colour: '#6a6c6e', band: '#2a2018' }, moustache: '#2e2018',
     shirt: '#a8322a', coat: '#a8322a', facings: '#2f3f6a', crossbelt: '#efe6d0', lower: { kind: 'trousers', colour: '#3a4a6a' }, feet: '#2a1c12' },
   townsman: { sex: 'm', age: 'adult', skin: '#c88a5a', hair: '#3a2818', hat: { kind: 'wide', colour: '#3a2e22', band: '#1e1812' }, moustache: '#3a2818',
     shirt: '#efe2c6', coat: '#5b4a3a', sash: '#9a3a2a', lower: { kind: 'trousers', colour: '#4a3e34' }, feet: '#3a2616' },
@@ -140,8 +142,12 @@ export const BUILD = Object.freeze({
   adult: { head: 16, neck: 1.5, torso: 23, hipW: 22, shoulderW: 29, depth: 11, thigh: 17.5, shin: 15.5, foot: 9, upperArm: 12.5, forearm: 11.5, limb: 9.4, body: 1 },
   elder: { head: 16, neck: 1, torso: 23, hipW: 23, shoulderW: 29, depth: 10.5, thigh: 17.5, shin: 15.5, foot: 9, upperArm: 12.5, forearm: 11.5, limb: 9.8, body: 1.04 },
   youth: { head: 16.5, neck: 1.5, torso: 22, hipW: 19, shoulderW: 25, depth: 8.5, thigh: 18, shin: 16.5, foot: 8.5, upperArm: 12, forearm: 11.5, limb: 8.4, body: 1 },
+  // The military atlases (`military`, `military-motion`, `military-actions`) draw soldiers longer in the leg and smaller in
+  // the head than the family cast - nearer seven heads than four - so a soldier has his own build.
+  soldier: { head: 10.5, neck: 2, torso: 26, hipW: 16, shoulderW: 22, depth: 8.5, thigh: 22, shin: 21, foot: 8, upperArm: 15, forearm: 14, limb: 7.2, body: 1 },
   // Children are drawn to fill the cell as a grown figure does (the renderer shrinks them by age: request 2026-09-12, the
   // delivery contract), with a child's proportions: a bigger head and shorter limbs.
   child: { head: 20, neck: 1, torso: 21, hipW: 19, shoulderW: 23, depth: 9, thigh: 15.5, shin: 14.5, foot: 8, upperArm: 11, forearm: 10, limb: 9, body: 1 },
+  infant: { head: 17, neck: 0, torso: 16, hipW: 18, shoulderW: 18, depth: 10, thigh: 9, shin: 8, foot: 6, upperArm: 7, forearm: 7, limb: 9, body: 1 },
   small: { head: 23, neck: 0.5, torso: 20, hipW: 20, shoulderW: 22, depth: 9.5, thigh: 13.5, shin: 12.5, foot: 8, upperArm: 10, forearm: 9, limb: 9.5, body: 1 },
 });

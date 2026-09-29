@@ -52,6 +52,7 @@ export function drawPerson(ink, figure, pose = {}) {
     ink.raw(`<g transform="translate(${f2(F.hip * 0.55)} ${f2(B.limb * 1.25)}) rotate(90)">${flat}</g>`);
     return {};
   }
+  if (spec.age === 'infant') return drawInfant(ink, F, pose);
   if (view === 's' || view === 'n') return drawFrontal(ink, F, pose, view);
   return drawSide(ink, F, pose);
 }
@@ -249,6 +250,48 @@ function drawHatSide(ink, spec, h, R) {
     ink.shape(blob([R(-0.9, 1.25), R(-0.2, 1.62), R(0.6, 1.5), R(0.1, 1.3)], 0.8), hat.band, { shade: false, outline: LINE.inner });
     ink.shape(poly([R(0.85, 0.52), R(1.3, 0.45), R(0.9, 0.66)]), '#2a2a2a', { shade: false, outline: LINE.fine });
   }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// The baby: swaddled and lying, sitting up, or crawling (pose.infant: 'lie' | 'sit' | 'crawl'; `step` 0/1 for the crawl), drawn
+// at twice a child's scale so that, like Astra's `infant` row, it fills its cell and the renderer shrinks it (45% of a person).
+function drawInfant(ink, F, pose) {
+  const { spec } = F, k = 2.2, at = (x, y) => [x * k, y * k], h = 7 * k;
+  const wrap = spec.shirt, skin = spec.skin;
+  const head = (c, facing = 1, asleep = false) => {
+    ink.shape(ellipse(c, h, h * 0.96), skin, { off: 1.2, lift: true });
+    ink.shape(blob([add(c, [-h * 0.95, h * 0.1]), add(c, [-h * 0.6, h * 0.85]), add(c, [h * 0.3, h * 1.0]), add(c, [h * 0.8, h * 0.55]), add(c, [h * 0.2, h * 0.5]), add(c, [-h * 0.5, h * 0.2])], 0.8), spec.hair, { off: 0.6 });
+    if (asleep) ink.line(curve([add(c, [h * 0.3 * facing, 0]), add(c, [h * 0.5 * facing, -h * 0.08]), add(c, [h * 0.7 * facing, 0])]), { width: LINE.inner });
+    else ink.dot(ellipse(add(c, [h * 0.5 * facing, 0]), h * 0.12, h * 0.16), LINE.ink);
+    ink.dot(ellipse(add(c, [h * 0.35 * facing, -h * 0.35]), h * 0.16, h * 0.1), '#d9806a', 0.4);
+    if (pose.mouth === 'open') ink.dot(ellipse(add(c, [h * 0.72 * facing, -h * 0.45]), h * 0.14, h * 0.12), '#5a2a1a');
+  };
+  if (pose.infant === 'sit') {
+    ink.shape(ellipse(at(0, 7), 11 * k, 7 * k), wrap, { off: 1.6, lift: true });
+    ink.shape(blob([at(-7, 8), at(-6, 20), at(0, 24), at(6, 20), at(7, 8)], 0.8), wrap, { off: 1.4 });
+    for (const s of [-1, 1]) ink.shape(capsule(at(s * 6, 20), at(s * 9 + (pose.fists ? 0 : 2), pose.fists ? 25 : 13), 2.4 * k, 2.1 * k), wrap, { off: 0.6 });
+    for (const s of [-1, 1]) ink.shape(ellipse(at(s * 9 + (pose.fists ? 0 : 2), pose.fists ? 26 : 12), 2.2 * k, 2.1 * k), skin, { off: 0.4 });
+    head(at(0.5, 31.5));
+    return {};
+  }
+  if (pose.infant === 'crawl') {
+    const s = pose.step ? 1 : -1;
+    ink.shape(capsule(at(-9, 4), at(-13 + s, 1.5), 3 * k, 2.6 * k), tone(wrap, -0.12), { off: 0.6 });
+    ink.shape(capsule(at(6, 12), at(8 - s * 1.5, 1.5), 2.4 * k, 2.1 * k), tone(wrap, -0.12), { off: 0.6 });
+    ink.shape(blob([at(-12, 6), at(-10, 13), at(0, 15), at(8, 14), at(9, 9), at(0, 6)], 0.8), wrap, { off: 1.6, lift: true });
+    ink.shape(capsule(at(-7, 5), at(-11 - s, 1.5), 3 * k, 2.6 * k), wrap, { off: 0.6 });
+    ink.shape(capsule(at(5, 11), at(7 + s * 1.5, 1.5), 2.4 * k, 2.1 * k), wrap, { off: 0.6 });
+    ink.shape(ellipse(at(7.5 + s * 1.5, 1.8), 2.2 * k, 1.8 * k), skin, { off: 0.4 });
+    head(at(14, 16));
+    return {};
+  }
+  // Lying swaddled: the wrap from the feet to the chin, the face turned to us.
+  ink.shape(blob([at(-16, 4), at(-15, 11), at(0, 13), at(9, 12), at(10, 3), at(0, 1)], 0.8), wrap, { off: 1.6, lift: true });
+  ink.line(curve([at(-10, 3), at(-8, 8), at(-6, 12)]), { width: LINE.fine, opacity: 0.6 });
+  ink.line(curve([at(-3, 2), at(-1, 8), at(1, 12.5)]), { width: LINE.fine, opacity: 0.6 });
+  head(at(14, 8), 1, pose.asleep);
+  ink.shape(blob([at(8, 3), at(9, 13), at(12, 16), at(11, 5)], 0.6), wrap, { shade: false, outline: LINE.inner });
+  return {};
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

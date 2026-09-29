@@ -1,5 +1,7 @@
 # Art requests for Astra
 
+The style every piece is drawn to, Astra's own brief of 2026-09-28, is [ART_STYLE.md](ART_STYLE.md).
+
 ## Named historical people — delivery 2026-09-26
 
 Six first-priority people from `docs/BATTLES.md` §2c now have distinct 16-frame atlases: David Crockett, William Barret Travis, James Bowie, Emily D. West, Antonio López de Santa Anna, and Sam Houston. The sheets, frame IDs, clips and origin records are in `scripts/art-deliveries/famous-people.mjs` and the generated `ART_MANIFEST.md`. Each has four east walk frames, two south, two north, and eight action/story poses. East mirrors west. All are original visual interpretations; **no exact likeness is claimed**. Emily's more elegant yellow dress and uncovered braided updo are the owner's Yellow Rose-inspired visual direction, **not evidence of what she wore or of the legend's events**. Joe already has his separate `joe-poses` sheet. The San Jacinto capture parley selects wounded Houston and plain-clothes Santa Anna; the other new poses await the named-person itinerary and staging work. Do not infer a battle outcome from the availability of a sprite.

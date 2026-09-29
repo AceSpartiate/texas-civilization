@@ -135,7 +135,16 @@ export async function renderModule(page, m) {
     await page.setContent(html);
     await page.waitForTimeout(50);
     const file = `${sheet}.png`;
-    const png = await page.screenshot({ path: root + file, omitBackground: true, clip: { x: 0, y: 0, width, height }, type: 'png' });
+    let png = await page.screenshot({ omitBackground: true, clip: { x: 0, y: 0, width, height }, type: 'png' });
+    // Chrome's PNG bytes differ from one screenshot to the next even when every pixel is the same, which would make each
+    // rebuild a change (and two builders' merges a conflict) for nothing: keep the sheet on disk when its pixels are equal.
+    if (existsSync(root + file)) {
+      const old = readFileSync(root + file);
+      const { decodeRgba } = await import('./build-atlas-manifest.mjs');
+      const a = decodeRgba(old), b = decodeRgba(png);
+      if (a.width === b.width && a.height === b.height && a.data.equals(b.data)) png = old;
+    }
+    writeFileSync(root + file, png);
     sheets[sheet] = { image: WEB_ROOT + file, width, height, bytes: png.length, sha256: createHash('sha256').update(png).digest('hex'),
       madeBy: 'claude', module: m.module, request: spec.request, layout: { rows, columns, cell: spec.cell, method: 'Fixed cells; each frame is one whole cell of the SVG it was drawn in.' } };
     for (const { frame, source, x, y } of pieces) {

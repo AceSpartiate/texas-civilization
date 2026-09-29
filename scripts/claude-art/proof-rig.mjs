@@ -7,7 +7,7 @@ import { mkdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { CAST, PEOPLE } from './kit/style.mjs';
 import { drawPerson, frameOf, personFrame } from './kit/rig.mjs';
-import { POSES } from './kit/poses.mjs';
+import { POSES, INFANT_POSES } from './kit/poses.mjs';
 import { drawHorse, mountedFrame } from './kit/horse.mjs';
 import { withBrowser, shoot } from './kit/browser.mjs';
 
@@ -38,7 +38,7 @@ export function claudeFrameHtml(frame, x, y, height) {
 const ASTRA_REF = { rust: ['rust-idle-s', 'rust-walk-1', 'rust-work-3'], teal: ['teal-idle-s', 'teal-walk-1', 'teal-work-3'], elder: ['elder-idle-s', 'elder-walk-1', 'elder-work-3'],
   blue: ['blue-idle-s', 'blue-walk-1', 'blue-work-3'], 'rust-woman': ['rust-woman-idle-s', 'rust-woman-walk-1', 'rust-woman-work-3'], indigo: ['indigo-idle-s', 'indigo-walk-1', 'indigo-work-3'],
   ochre: ['ochre-idle-s', 'ochre-walk-1', 'ochre-work-3'], 'blue-girl': ['blue-girl-idle-s', 'blue-girl-walk-1', 'blue-girl-work-3'], girl: ['girl-idle-s', 'girl-walk-1'], boy: ['boy-idle-s', 'boy-walk-1'],
-  smallchild: ['smallchild-idle-s', 'smallchild-walk-1'], volunteer: ['volunteer-s', 'volunteer-march-1', 'volunteer-aim'], regular: ['regular-s', 'regular-march-1', 'regular-aim'],
+  smallchild: ['smallchild-idle-s', 'smallchild-walk-1'], infant: ['infant-idle-s', 'infant-idle-e'], volunteer: ['volunteer-s', 'volunteer-march-1', 'volunteer-aim'], regular: ['regular-s', 'regular-march-1', 'regular-aim'],
   cavalryman: ['dragoon-s', 'dragoon-march-1'], townsman: [] };
 
 export async function proofSheet(page, figure, path) {
@@ -48,7 +48,7 @@ export async function proofSheet(page, figure, path) {
   for (const ref of ASTRA_REF[figure] || []) { parts.push(astraFrameHtml(ref, x, y, H)); x += gap * 0.8; }
   parts.push(`<div style="position:absolute;left:${x - 30}px;top:40px;width:2px;height:${row * 3.5}px;background:#8a7a5a"></div>`);
   const cells = [];
-  for (const [pose, make] of Object.entries(POSES)) make(F).forEach((p, i) => cells.push({ label: `${pose} ${i + 1}`, pose: p }));
+  for (const [pose, make] of Object.entries(F.spec.age === 'infant' ? INFANT_POSES : POSES)) make(F).forEach((p, i) => cells.push({ label: `${pose} ${i + 1}`, pose: p }));
   const perRow = 9, start = x;
   cells.forEach((cell, i) => {
     if (i && i % perRow === 0) { x = start; y += row; }
@@ -57,7 +57,7 @@ export async function proofSheet(page, figure, path) {
     parts.push(`<div style="position:absolute;left:${x - 50}px;top:${y + 12}px;width:100px;text-align:center;font:11px Georgia;color:#3a2a1a">${cell.label}</div>`);
     x += gap;
   });
-  if (figure !== 'smallchild') {
+  if (!['smallchild', 'infant'].includes(figure)) {
     const horse = mountedFrame(`${figure}-proof-ride`, figure, 0);
     parts.push(claudeFrameHtml(horse, x + 40, y, H * 1.8));
     parts.push(`<div style="position:absolute;left:${x - 10}px;top:${y + 12}px;width:100px;text-align:center;font:11px Georgia;color:#3a2a1a">mounted 1</div>`);

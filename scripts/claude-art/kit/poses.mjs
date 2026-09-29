@@ -111,3 +111,12 @@ export function riderPose(F, seat, { reins = [16, 0], bob = 0 } = {}) {
     hands: { near: add(hip, reins), far: add(hip, add(reins, [-1, 1])) }, elbows: { near: 1, far: 1 } };
 }
 export const POSE_NAMES = Object.keys(POSES);
+
+/** The baby's own poses (it never stands): request 2026-09-26, children at play, babies, item 2. */
+export const INFANT_POSES = {
+  'lie': () => [{ infant: 'lie' }],
+  'sleep': () => [{ infant: 'lie', asleep: true }],
+  'sit': () => [{ infant: 'sit' }],
+  'cry': () => [{ infant: 'sit', fists: true, mouth: 'open' }, { infant: 'sit', fists: true }],
+  'crawl': () => [0, 1, 0, 1].map(step => ({ infant: 'crawl', step })),
+};
