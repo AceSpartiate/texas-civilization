@@ -126,7 +126,7 @@ export function drawSpeech(ctx, line, x, y, { alpha = 1, bounds = null, scale = 
  * ceiling: bubbles are placed first come, first served, never moved to make room for a later one; a real solver (every bubble
  * at once) would fit more in a crowd, and is the way out if a crowded screen ever has to hold more than the few it does.
  */
-const MARGIN = 4, MAX_RAISE = 110, MAX_ASIDE = 36, MAX_TAIL = 150, KEEP_MS = 1500;
+const MARGIN = 4, MAX_RAISE = 110, MAX_TAIL = 150, KEEP_MS = 1500;
 /** Where each line stood last, relative to where it would stand over its speaker (`dx`, `dy`), and when. */
 const lastSpot = new Map();
 /** Two boxes sharing more than their edges, with `margin` round the first. */
@@ -172,48 +172,44 @@ export function speechLayout({ width, height, room = null, avoid = [], now = (ty
     avoid(box) { if (box && box.w > 0 && box.h > 0) fixed.push(box); },
     /** A place for a bubble `w` x `h` that would stand at `left`, `top` over the head at (x, y), or null if there is none near. */
     place({ id = null, x, y, w, h, left, top }) {
-      // Clear of everything, and - moved at all - no further from the speaker than a tail still reads as theirs.
+      // Clear of everything, and no further from the speaker than a tail still reads as theirs (`MAX_TAIL`): a bubble slid
+      // across the screen to the only room clear of the panels was words over nobody (a tail of 718 px at 1024x600).
       const fits = (l, t) => {
         const box = { x: l, y: t, w, h }, tail = tailOf(l, t, w, h, x, y);
-        if ((l !== left || t !== top) && Math.hypot(tail[2] - tail[0], tail[3] - tail[1]) > MAX_TAIL) return null;
+        if (Math.hypot(tail[2] - tail[0], tail[3] - tail[1]) > MAX_TAIL) return null;
         return clear(box, tail) ? { box, tail } : null;
       };
       const keep = (l, t, found) => {
         placed.push({ ...found.box, tail: found.tail, id });
-        if (id != null) lastSpot.set(id, { dx: l - left, dy: t - top, at: now });
+        if (id != null) lastSpot.set(id, { dx: l - x, dy: t - top, at: now });
         return { left: l, top: t, tail: found.tail };
       };
-      // Where it stood on the last frame, if that is still clear: a bubble being read stays put.
+      // Where it stood on the last frame, if that is still clear: a bubble being read stays put (with its speaker).
       const before = id != null && lastSpot.get(id);
       if (before) {
-        const l = left + before.dx, t = top + before.dy, found = inRoom(l, t, w, h, x) && fits(l, t);
+        const l = x + before.dx, t = top + before.dy, found = inRoom(l, t, w, h, x) && fits(l, t);
         if (found) return keep(l, t, found);
       }
-      // Where it would stand, then lifted above whatever is in the way, then slid along beside it; nearest first.
+      // Where it would stand, then lifted above whatever is in the way, then slid along beside it or to the edge of the room
+      // clear of the panels; nearest the speaker first.
       const blockers = [...fixed, ...placed];
       const tops = new Set([top]);
       for (const other of blockers) {
         const t = other.y - h - MARGIN - 1;
         if (t < top && t >= top - MAX_RAISE && t >= 2) tops.add(t);
       }
-      const spans = (t) => {
-        const span = room?.(t, t + h, x, w);
-        return span ? [span.left, span.right] : [2, width - 2];
-      };
       const tries = [];
       for (const t of tops) {
-        const [a, b] = spans(t);
-        const lefts = new Set([left]);
+        const span = room?.(t, t + h, x, w);
+        const [a, b] = span ? [span.left, span.right] : [2, width - 2];
+        const lefts = new Set([left, x - w / 2, a, b - w]);
         for (const other of blockers) {
           if (other.y >= t + h + MARGIN || other.y + other.h <= t - MARGIN) continue;
           lefts.add(other.x + other.w + MARGIN + 1);
           lefts.add(other.x - w - MARGIN - 1);
         }
         for (const raw of lefts) {
-          const l = Math.max(a, Math.min(b - w, raw));
-          // Its middle no further from the speaker than half its width and a little: the tail still reads as theirs.
-          if (Math.abs(l + w / 2 - x) > w / 2 + MAX_ASIDE && Math.abs(l - left) > 0.5) continue;
-          tries.push({ l, t, cost: Math.abs(l - left) + 1.6 * (top - t) });
+          for (const l of new Set([raw, Math.max(a, Math.min(b - w, raw))])) tries.push({ l, t, cost: Math.abs(l + w / 2 - x) + 1.6 * (top - t) });
         }
       }
       tries.sort((p, q) => p.cost - q.cost);
@@ -221,8 +217,11 @@ export function speechLayout({ width, height, room = null, avoid = [], now = (ty
         const found = inRoom(l, t, w, h, x) && fits(l, t);
         if (found) return keep(l, t, found);
       }
-      // Where no place clear of the panels is clear of the other bubbles too, clear of the bubbles comes first: a bubble half
-      // under a panel is read round it, one on another is read by nobody (the overlap proof holds the panels to half).
+      // No room clear of the panels within reach of the speaker. A speaker the student can see keeps their words beside them,
+      // partly under the panel, rather than on another's or across the screen (the overlap proof holds a panel to half a
+      // bubble); a speaker under a panel says nothing until they come out from it, and the neighbours' line waits.
+      const seen = !room || (spot => spot && spot.left <= x && x <= spot.right)(room(y - 2, y, x, 0));
+      if (!seen) return null;
       for (const { l, t } of tries) {
         const found = fits(l, t);
         if (found) return keep(l, t, found);

@@ -32,8 +32,8 @@ const INJECTIONS = [
     { file: SPEECH, from: '      if (boxesMeet(box, other, MARGIN) || tailThrough(other.tail, box) || tailThrough(tail, other)) return false;', to: '      if (boxesMeet(box, other, MARGIN)) return false;' },
   ], expect: /crowd: no bubble over another's tail/ },
   { name: 'crowd: a bubble is put as far from its speaker as it may go', edits: [
-    { file: SPEECH, from: 'const MARGIN = 4, MAX_RAISE = 110, MAX_ASIDE = 36, MAX_TAIL = 150, KEEP_MS = 1500;', to: 'const MARGIN = 4, MAX_RAISE = 400, MAX_ASIDE = 400, MAX_TAIL = 1000, KEEP_MS = 1500;' },
-    { file: SPEECH, from: '          tries.push({ l, t, cost: Math.abs(l - left) + 1.6 * (top - t) });', to: '          tries.push({ l, t, cost: -(Math.abs(l - left) + 1.6 * (top - t)) });' },
+    { file: SPEECH, from: 'const MARGIN = 4, MAX_RAISE = 110, MAX_TAIL = 150, KEEP_MS = 1500;', to: 'const MARGIN = 4, MAX_RAISE = 400, MAX_TAIL = 1000, KEEP_MS = 1500;' },
+    { file: SPEECH, from: 'tries.push({ l, t, cost: Math.abs(l + w / 2 - x) + 1.6 * (top - t) });', to: 'tries.push({ l, t, cost: -(Math.abs(l + w / 2 - x) + 1.6 * (top - t)) });' },
     { file: SPEECH, from: '        const t = other.y - h - MARGIN - 1;', to: '        const t = Math.min(other.y - h - MARGIN - 1, top - 300);' },
   ], expect: /crowd: every bubble near its speaker/ },
   { name: 'a visitor stays at their own door', edits: [{ file: AMBIENT, from: '  let target = amb?.at || home;', to: '  let target = home;' }], expect: /walked to a neighbour/ },

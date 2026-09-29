@@ -6,7 +6,7 @@
     {
       "label": "crowd: measured where many talk at once",
       "pass": true,
-      "detail": "6 screens, 266 frames with two bubbles or more, most 5 at once"
+      "detail": "12 screens, 893 frames with two bubbles or more, most 6 at once"
     },
     {
       "label": "crowd: no bubble over another bubble",
@@ -26,7 +26,7 @@
     {
       "label": "crowd: every bubble near its speaker, with a tail",
       "pass": true,
-      "detail": "longest tail 136px against 170 (gonzales 1366x768: \"Where do we put the horses?\" box {\"x\":569.4658203125,\"y\":234.24,\"w\":177.5341796875,\"h\":27,\"tail\":[739,261,817,373]} tail [739,261,817,373])"
+      "detail": "longest tail 149px against 170 (gonzales 1366x768: \"Their fires are on the mound.\" box {\"x\":102.11863203124989,\"y\":629.24,\"w\":179.7431640625,\"h\":27,\"tail\":[274,656,423,664]} tail [274,656,423,664])"
     },
     {
       "label": "no page error",
@@ -35,29 +35,104 @@
     }
   ],
   "shots": [
+    "test-results/chatter-crowd-farm-1366x768.png",
+    "test-results/chatter-crowd-farm-1024x600.png",
+    "test-results/chatter-crowd-farm-1024x768.png",
     "test-results/chatter-crowd-gonzales-1366x768.png",
     "test-results/chatter-crowd-gonzales-1024x600.png",
     "test-results/chatter-crowd-gonzales-1024x768.png",
     "test-results/chatter-crowd-refuge-1366x768.png",
     "test-results/chatter-crowd-refuge-1024x600.png",
-    "test-results/chatter-crowd-refuge-1024x768.png"
+    "test-results/chatter-crowd-refuge-1024x768.png",
+    "test-results/chatter-crowd-camp-1366x768.png",
+    "test-results/chatter-crowd-camp-1024x600.png",
+    "test-results/chatter-crowd-camp-1024x768.png"
   ],
   "evidence": {
     "crowd": [
       {
-        "place": "gonzales",
+        "place": "farm",
         "at": "1366x768",
-        "frames": 99,
-        "crowded": 81,
-        "most": 3,
-        "lines": 14,
+        "frames": 149,
+        "crowded": 31,
+        "most": 2,
+        "lines": 6,
         "faults": {
           "bubbles": [],
           "labels": [],
           "tails": []
         },
-        "longestTail": 136,
-        "longestWhat": "\"Where do we put the horses?\" box {\"x\":569.4658203125,\"y\":234.24,\"w\":177.5341796875,\"h\":27,\"tail\":[739,261,817,373]} tail [739,261,817,373]",
+        "longestTail": 120,
+        "longestWhat": "\"Can I go down to the creek?\" box {\"x\":496.359375,\"y\":300.0789473684211,\"w\":170.640625,\"h\":27,\"tail\":[659,327,773,364]} tail [659,327,773,364]",
+        "tailMissing": 0,
+        "width": 1366,
+        "height": 768,
+        "counts": {
+          "bubbles": 0,
+          "labels": 0,
+          "tails": 0
+        }
+      },
+      {
+        "place": "farm",
+        "at": "1024x600",
+        "frames": 148,
+        "crowded": 148,
+        "most": 3,
+        "lines": 16,
+        "faults": {
+          "bubbles": [],
+          "labels": [],
+          "tails": []
+        },
+        "longestTail": 112,
+        "longestWhat": "\"The wind comes from the Gulf, I expect.\" box {\"x\":604.769816509046,\"y\":233.0789473684211,\"w\":197.28173828125,\"h\":42,\"tail\":[613,275,501,283]} tail [613,275,501,283]",
+        "tailMissing": 0,
+        "width": 1024,
+        "height": 600,
+        "counts": {
+          "bubbles": 0,
+          "labels": 0,
+          "tails": 0
+        }
+      },
+      {
+        "place": "farm",
+        "at": "1024x768",
+        "frames": 148,
+        "crowded": 60,
+        "most": 2,
+        "lines": 8,
+        "faults": {
+          "bubbles": [],
+          "labels": [],
+          "tails": []
+        },
+        "longestTail": 135,
+        "longestWhat": "\"(crying)\" box {\"x\":457.83536478623876,\"y\":278.433195789528,\"w\":57.4873046875,\"h\":27,\"tail\":[507,305,631,358]} tail [507,305,631,358]",
+        "tailMissing": 0,
+        "width": 1024,
+        "height": 768,
+        "counts": {
+          "bubbles": 0,
+          "labels": 0,
+          "tails": 0
+        }
+      },
+      {
+        "place": "gonzales",
+        "at": "1366x768",
+        "frames": 148,
+        "crowded": 119,
+        "most": 4,
+        "lines": 23,
+        "faults": {
+          "bubbles": [],
+          "labels": [],
+          "tails": []
+        },
+        "longestTail": 149,
+        "longestWhat": "\"Their fires are on the mound.\" box {\"x\":102.11863203124989,\"y\":629.24,\"w\":179.7431640625,\"h\":27,\"tail\":[274,656,423,664]} tail [274,656,423,664]",
         "tailMissing": 0,
         "width": 1366,
         "height": 768,
@@ -70,17 +145,17 @@
       {
         "place": "gonzales",
         "at": "1024x600",
-        "frames": 100,
-        "crowded": 23,
-        "most": 3,
-        "lines": 10,
+        "frames": 148,
+        "crowded": 11,
+        "most": 2,
+        "lines": 9,
         "faults": {
           "bubbles": [],
           "labels": [],
           "tails": []
         },
-        "longestTail": 118,
-        "longestWhat": "\"They made at the ford again. Only feints.\" box {\"x\":97.43012304687483,\"y\":446.83630780470037,\"w\":206.44775390625,\"h\":42,\"tail\":[201,489,201,607]} tail [201,489,201,607]",
+        "longestTail": 108,
+        "longestWhat": "\"I saw a soldier on a horse, across the water.\" box {\"x\":191.40966796875,\"y\":311.6803999999999,\"w\":220.59033203125,\"h\":42,\"tail\":[404,354,512,362]} tail [404,354,512,362]",
         "tailMissing": 0,
         "width": 1024,
         "height": 600,
@@ -93,17 +168,17 @@
       {
         "place": "gonzales",
         "at": "1024x768",
-        "frames": 100,
-        "crowded": 82,
-        "most": 5,
-        "lines": 19,
+        "frames": 148,
+        "crowded": 118,
+        "most": 6,
+        "lines": 33,
         "faults": {
           "bubbles": [],
           "labels": [],
           "tails": []
         },
-        "longestTail": 116,
-        "longestWhat": "\"Powder and lead - every man that rides in asks me for them.\" box {\"x\":415.59375,\"y\":147.872,\"w\":204.51171875,\"h\":42,\"tail\":[424,190,308,198]} tail [424,190,308,198]",
+        "longestTail": 129,
+        "longestWhat": "\"Yesterday there were eighteen here. Look at it now.\" box {\"x\":266.0833608774038,\"y\":322.59200000000004,\"w\":216.36279296875,\"h\":42,\"tail\":[474,365,603,373]} tail [474,365,603,373]",
         "tailMissing": 0,
         "width": 1024,
         "height": 768,
@@ -116,17 +191,17 @@
       {
         "place": "refuge",
         "at": "1366x768",
-        "frames": 99,
-        "crowded": 78,
+        "frames": 147,
+        "crowded": 77,
         "most": 2,
-        "lines": 5,
+        "lines": 7,
         "faults": {
           "bubbles": [],
           "labels": [],
           "tails": []
         },
-        "longestTail": 44,
-        "longestWhat": "\"We left near all we had.\" box {\"x\":780,\"y\":316,\"w\":146,\"h\":27} tail [788,343,745,351]",
+        "longestTail": 65,
+        "longestWhat": "\"For a little coffee, I will.\" box {\"x\":435,\"y\":316,\"w\":148,\"h\":27} tail [574,343,637,357]",
         "tailMissing": 0,
         "width": 1366,
         "height": 768,
@@ -139,8 +214,54 @@
       {
         "place": "refuge",
         "at": "1024x600",
-        "frames": 100,
-        "crowded": 2,
+        "frames": 149,
+        "crowded": 83,
+        "most": 2,
+        "lines": 6,
+        "faults": {
+          "bubbles": [],
+          "labels": [],
+          "tails": []
+        },
+        "longestTail": 67,
+        "longestWhat": "\"Mind the snakes by the creek.\" box {\"x\":618,\"y\":217,\"w\":182,\"h\":27} tail [626,244,559,252]",
+        "tailMissing": 0,
+        "width": 1024,
+        "height": 600,
+        "counts": {
+          "bubbles": 0,
+          "labels": 0,
+          "tails": 0
+        }
+      },
+      {
+        "place": "refuge",
+        "at": "1024x768",
+        "frames": 149,
+        "crowded": 135,
+        "most": 2,
+        "lines": 8,
+        "faults": {
+          "bubbles": [],
+          "labels": [],
+          "tails": []
+        },
+        "longestTail": 87,
+        "longestWhat": "\"Keep the little ones close.\" box {\"x\":322,\"y\":301,\"w\":157,\"h\":27} tail [471,328,558,336]",
+        "tailMissing": 0,
+        "width": 1024,
+        "height": 768,
+        "counts": {
+          "bubbles": 0,
+          "labels": 0,
+          "tails": 0
+        }
+      },
+      {
+        "place": "camp",
+        "at": "1366x768",
+        "frames": 145,
+        "crowded": 85,
         "most": 2,
         "lines": 4,
         "faults": {
@@ -148,11 +269,11 @@
           "labels": [],
           "tails": []
         },
-        "longestTail": 24,
-        "longestWhat": "\"Of course. Just say when.\" box {\"x\":433,\"y\":222,\"w\":157,\"h\":27} tail [518,249,518,273]",
+        "longestTail": 116,
+        "longestWhat": "\"Soldiers came for the Gonzales cannon.\" box {\"x\":278,\"y\":309,\"w\":188,\"h\":42} tail [458,351,574,359]",
         "tailMissing": 0,
-        "width": 1024,
-        "height": 600,
+        "width": 1366,
+        "height": 768,
         "counts": {
           "bubbles": 0,
           "labels": 0,
@@ -160,9 +281,9 @@
         }
       },
       {
-        "place": "refuge",
-        "at": "1024x768",
-        "frames": 99,
+        "place": "camp",
+        "at": "1024x600",
+        "frames": 147,
         "crowded": 0,
         "most": 1,
         "lines": 3,
@@ -171,8 +292,31 @@
           "labels": [],
           "tails": []
         },
-        "longestTail": 28,
-        "longestWhat": "\"The coffee is almost gone.\" box {\"x\":453,\"y\":281,\"w\":160,\"h\":27} tail [533,308,533,336]",
+        "longestTail": 84,
+        "longestWhat": "\"Sit down and rest it.\" box {\"x\":470,\"y\":164,\"w\":127,\"h\":27} tail [534,191,534,275]",
+        "tailMissing": 0,
+        "width": 1024,
+        "height": 600,
+        "counts": {
+          "bubbles": 0,
+          "labels": 0,
+          "tails": 0
+        }
+      },
+      {
+        "place": "camp",
+        "at": "1024x768",
+        "frames": 145,
+        "crowded": 26,
+        "most": 2,
+        "lines": 5,
+        "faults": {
+          "bubbles": [],
+          "labels": [],
+          "tails": []
+        },
+        "longestTail": 84,
+        "longestWhat": "\"I miss my wife's cooking.\" box {\"x\":456,\"y\":248,\"w\":155,\"h\":27} tail [534,275,534,359]",
         "tailMissing": 0,
         "width": 1024,
         "height": 768,
