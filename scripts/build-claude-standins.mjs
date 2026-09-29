@@ -72,7 +72,10 @@ export function frameSource(module, spec, frame) {
   const cell = cellOf(spec), path = root + sourceOf(module, frame.name);
   if (frame.draw) {
     const drawn = frame.draw();
-    return { svg: drawn.svg, anchorX: drawn.anchorX ?? frame.anchorX ?? 0.5, anchorY: drawn.anchorY ?? frame.anchorY ?? 1, logicalHeight: drawn.logicalHeight ?? frame.logicalHeight, generated: true, cell };
+    // `seat` and `ground` (optional): a building piece's measured points, as build-atlas-manifest.mjs `seatOf`/`groundOf`
+    // give Astra's house modules, so a Claude piece seats and stands exactly as hers do (public/house-plot.js).
+    return { svg: drawn.svg, anchorX: drawn.anchorX ?? frame.anchorX ?? 0.5, anchorY: drawn.anchorY ?? frame.anchorY ?? 1, logicalHeight: drawn.logicalHeight ?? frame.logicalHeight,
+      ...(drawn.seat && { seatX: drawn.seat[0], seatY: drawn.seat[1] }), ...(drawn.ground && { ground: drawn.ground }), ...(drawn.extra && { extra: drawn.extra }), generated: true, cell };
   }
   if (!existsSync(path)) return null;
   return { svg: readFileSync(path, 'utf8'), anchorX: frame.anchorX ?? 0.5, anchorY: frame.anchorY ?? 1, logicalHeight: frame.logicalHeight, generated: false, cell };
@@ -90,6 +93,29 @@ export function plannedSheets(m) {
 
 const shared = () => readFileSync(root + 'svg/_shared-defs.svg', 'utf8');
 
+/**
+ * An SVG may take its texture from a sheet already in the game - `<image href="/assets/frontier-v1/atlases/<sheet>.png">`,
+ * cut and clipped - so that a Claude piece that has to join one of Astra's (a house's back walls, the roof between two
+ * pens) is laid in her own logs and boards at her own scale rather than beside them in a flatter hand. The SVG on disk
+ * keeps the web path; the page it is rasterised in has no origin to load it from, so each such path is read from disk and
+ * inlined here - once a page, as an <image> in a hidden defs that each use of it points at, since a frame may cut the same
+ * sheet dozens of times. Her files are only read.
+ */
+const PUBLIC = fileURLToPath(new URL('../public/', import.meta.url));
+export function resolveLibraryImages(html) {
+  const ids = new Map();
+  const out = html.replace(/<image href="\/(assets\/[a-z0-9/_-]+\.png)" x="([-\d.]+)" y="([-\d.]+)"[^>]*\/>/g, (_, path, x, y) => {
+    if (!ids.has(path)) ids.set(path, `library-image-${ids.size}`);
+    return `<use href="#${ids.get(path)}" x="${x}" y="${y}"/>`;
+  });
+  if (!ids.size) return html;
+  const defs = [...ids].map(([path, id]) => {
+    const png = readFileSync(PUBLIC + path); // the IHDR's width and height, bytes 16-23
+    return `<image id="${id}" width="${png.readUInt32BE(16)}" height="${png.readUInt32BE(20)}" href="data:image/png;base64,${png.toString('base64')}"/>`;
+  }).join('');
+  return out.replace('<svg width="0" height="0" style="position:absolute">', `<svg width="0" height="0" style="position:absolute"><defs>${defs}</defs>`);
+}
+
 /** One sheet's page: every frame inlined at its cell, in rows of `columns` (default the square root), transparent ground. */
 export function sheetPage(sheet, spec) {
   const { w, h } = spec.cell, count = spec.frames.length;
@@ -106,7 +132,7 @@ export function sheetPage(sheet, spec) {
     const x = (index % columns) * w, y = Math.floor(index / columns) * h;
     return { frame, source, x, y, html: `<div style="position:absolute;left:${x}px;top:${y}px;width:${w}px;height:${h}px">${svg.replace(/<svg /, `<svg style="width:${w}px;height:${h}px;display:block" `)}</div>` };
   });
-  const html = `<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:transparent}</style><svg width="0" height="0" style="position:absolute">${shared()}</svg>${pieces.map(piece => piece.html).join('')}`;
+  const html = resolveLibraryImages(`<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:transparent}</style><svg width="0" height="0" style="position:absolute">${shared()}</svg>${pieces.map(piece => piece.html).join('')}`);
   return { html, width: columns * w, height: rows * h, columns, rows, pieces };
 }
 
@@ -150,6 +176,7 @@ export async function renderModule(page, m) {
     for (const { frame, source, x, y } of pieces) {
       frames[frame.name] = { sheet, x, y, w: spec.cell.w, h: spec.cell.h, anchorX: source.anchorX, anchorY: source.anchorY,
         ...(source.logicalHeight && { logicalHeight: source.logicalHeight }),
+        ...(source.seatX != null && { seatX: source.seatX, seatY: source.seatY }), ...(source.ground && { ground: source.ground }), ...(source.extra && source.extra),
         madeBy: 'claude', module: m.module, request: spec.request, replaceWith: `${frame.name}: ${spec.replaceWith}`, source: sourceOf(m.module, frame.name),
         label: frame.name.replaceAll('-', ' '), kind: sheet };
       provenance[frame.name] = { kind: 'frame', madeBy: 'claude', date: frame.date || m.DATE, module: m.module, area: m.AREA, sheet, request: spec.request,

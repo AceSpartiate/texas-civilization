@@ -1,0 +1,922 @@
+{
+  "module": "house-pieces",
+  "area": "places",
+  "date": "2026-09-28",
+  "sheets": {
+    "claude-house-back": {
+      "image": "/assets/claude-standins/claude-house-back.png",
+      "width": 960,
+      "height": 540,
+      "bytes": 714731,
+      "sha256": "7f5df0dc206da11200d55574f4abd3a7195de16116f0013338850f7ce842fb75",
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "layout": {
+        "rows": 2,
+        "columns": 3,
+        "cell": {
+          "w": 320,
+          "h": 270
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-house-roof-join": {
+      "image": "/assets/claude-standins/claude-house-roof-join.png",
+      "width": 808,
+      "height": 299,
+      "bytes": 215572,
+      "sha256": "484ffa01552cd14cd4cb47483d5dadef6046a0ab1cc146cd3d95c84be5bd54c2",
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-24 — one roof over a two-pen house",
+      "layout": {
+        "rows": 1,
+        "columns": 2,
+        "cell": {
+          "w": 404,
+          "h": 299
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-house-jacal": {
+      "image": "/assets/claude-standins/claude-house-jacal.png",
+      "width": 1146,
+      "height": 303,
+      "bytes": 277326,
+      "sha256": "c70badc521cb8a71178ebfbff590e7b4adc711804506f1f4cb789019d948b0be",
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "layout": {
+        "rows": 1,
+        "columns": 3,
+        "cell": {
+          "w": 382,
+          "h": 303
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-house-join-chimney": {
+      "image": "/assets/claude-standins/claude-house-join-chimney.png",
+      "width": 404,
+      "height": 299,
+      "bytes": 29880,
+      "sha256": "04bbe17eb9ca29ecc1012f737e39a7b2d421ab7779a7a3431f4ab76c5f8735ac",
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-24 — one roof over a two-pen house",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 404,
+          "h": 299
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-house-plot": {
+      "image": "/assets/claude-standins/claude-house-plot.png",
+      "width": 660,
+      "height": 690,
+      "bytes": 238727,
+      "sha256": "2c416b8f0f6ff4243984aae6e35b36c7e4e548d0572ce1f37192099028a78a56",
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "cell": {
+          "w": 330,
+          "h": 345
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-house-ends": {
+      "image": "/assets/claude-standins/claude-house-ends.png",
+      "width": 808,
+      "height": 760,
+      "bytes": 307038,
+      "sha256": "32544868024e527175338994e76c54e18d1631fbe5bdae6e9687e93e31ea04c5",
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "cell": {
+          "w": 404,
+          "h": 380
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "house-round-back-sill": {
+      "sheet": "claude-house-back",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 270,
+      "anchorX": 0.5844,
+      "anchorY": 0.9482,
+      "logicalHeight": 198,
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "replaceWith": "house-round-back-sill: the pen from behind: the gable toward the viewer without its door, in the house-modules style, scale and corner-on view, with its anchor, seat and ground corners",
+      "source": "svg/house-pieces/claude-house-round-back-sill.svg",
+      "label": "house round back sill",
+      "kind": "claude-house-back"
+    },
+    "house-round-back-low-walls": {
+      "sheet": "claude-house-back",
+      "x": 320,
+      "y": 0,
+      "w": 320,
+      "h": 270,
+      "anchorX": 0.6469,
+      "anchorY": 0.9444,
+      "logicalHeight": 214,
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "replaceWith": "house-round-back-low-walls: the pen from behind: the gable toward the viewer without its door, in the house-modules style, scale and corner-on view, with its anchor, seat and ground corners",
+      "source": "svg/house-pieces/claude-house-round-back-low-walls.svg",
+      "label": "house round back low walls",
+      "kind": "claude-house-back"
+    },
+    "house-round-back-full-walls": {
+      "sheet": "claude-house-back",
+      "x": 640,
+      "y": 0,
+      "w": 320,
+      "h": 270,
+      "anchorX": 0.5765,
+      "anchorY": 0.9334,
+      "logicalHeight": 253,
+      "seatX": 0.5,
+      "seatY": 0.3037,
+      "ground": {
+        "left": [
+          0.0422,
+          0.7852
+        ],
+        "front": [
+          0.5984,
+          0.9888
+        ],
+        "right": [
+          0.9578,
+          0.6815
+        ]
+      },
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "replaceWith": "house-round-back-full-walls: the pen from behind: the gable toward the viewer without its door, in the house-modules style, scale and corner-on view, with its anchor, seat and ground corners",
+      "source": "svg/house-pieces/claude-house-round-back-full-walls.svg",
+      "label": "house round back full walls",
+      "kind": "claude-house-back"
+    },
+    "house-hewn-back-sill": {
+      "sheet": "claude-house-back",
+      "x": 0,
+      "y": 270,
+      "w": 320,
+      "h": 270,
+      "anchorX": 0.5625,
+      "anchorY": 0.9444,
+      "logicalHeight": 207,
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "replaceWith": "house-hewn-back-sill: the pen from behind: the gable toward the viewer without its door, in the house-modules style, scale and corner-on view, with its anchor, seat and ground corners",
+      "source": "svg/house-pieces/claude-house-hewn-back-sill.svg",
+      "label": "house hewn back sill",
+      "kind": "claude-house-back"
+    },
+    "house-hewn-back-low-walls": {
+      "sheet": "claude-house-back",
+      "x": 320,
+      "y": 270,
+      "w": 320,
+      "h": 270,
+      "anchorX": 0.6641,
+      "anchorY": 0.9444,
+      "logicalHeight": 211,
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "replaceWith": "house-hewn-back-low-walls: the pen from behind: the gable toward the viewer without its door, in the house-modules style, scale and corner-on view, with its anchor, seat and ground corners",
+      "source": "svg/house-pieces/claude-house-hewn-back-low-walls.svg",
+      "label": "house hewn back low walls",
+      "kind": "claude-house-back"
+    },
+    "house-hewn-back-full-walls": {
+      "sheet": "claude-house-back",
+      "x": 640,
+      "y": 270,
+      "w": 320,
+      "h": 270,
+      "anchorX": 0.5563,
+      "anchorY": 0.9296,
+      "logicalHeight": 262,
+      "seatX": 0.4984,
+      "seatY": 0.2574,
+      "ground": {
+        "left": [
+          0.0422,
+          0.7704
+        ],
+        "front": [
+          0.5828,
+          0.9888
+        ],
+        "right": [
+          0.9547,
+          0.6704
+        ]
+      },
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "replaceWith": "house-hewn-back-full-walls: the pen from behind: the gable toward the viewer without its door, in the house-modules style, scale and corner-on view, with its anchor, seat and ground corners",
+      "source": "svg/house-pieces/claude-house-hewn-back-full-walls.svg",
+      "label": "house hewn back full walls",
+      "kind": "claude-house-back"
+    },
+    "house-roof-join": {
+      "sheet": "claude-house-roof-join",
+      "x": 0,
+      "y": 0,
+      "w": 404,
+      "h": 299,
+      "anchorX": 0.6535,
+      "anchorY": 0.8595,
+      "logicalHeight": 251,
+      "seatX": 0.4988,
+      "seatY": 0.5686,
+      "ridge": [
+        [
+          0.3094,
+          0.4264
+        ],
+        [
+          0.5948,
+          0.1051
+        ]
+      ],
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-24 — one roof over a two-pen house",
+      "replaceWith": "house-roof-join: the roof over the passage between two pens at exactly the pens' pitch, ridge and eaves, with no gable ends and no end poles; the ridge line marked",
+      "source": "svg/house-pieces/claude-house-roof-join.svg",
+      "label": "house roof join",
+      "kind": "claude-house-roof-join"
+    },
+    "house-roof-join-partial": {
+      "sheet": "claude-house-roof-join",
+      "x": 404,
+      "y": 0,
+      "w": 404,
+      "h": 299,
+      "anchorX": 0.6436,
+      "anchorY": 0.8629,
+      "logicalHeight": 241,
+      "seatX": 0.4988,
+      "seatY": 0.5752,
+      "ridge": [
+        [
+          0.3144,
+          0.4599
+        ],
+        [
+          0.5998,
+          0.1385
+        ]
+      ],
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-24 — one roof over a two-pen house",
+      "replaceWith": "house-roof-join-partial: the roof over the passage between two pens at exactly the pens' pitch, ridge and eaves, with no gable ends and no end poles; the ridge line marked",
+      "source": "svg/house-pieces/claude-house-roof-join-partial.svg",
+      "label": "house roof join partial",
+      "kind": "claude-house-roof-join"
+    },
+    "house-jacal-posts": {
+      "sheet": "claude-house-jacal",
+      "x": 0,
+      "y": 0,
+      "w": 382,
+      "h": 303,
+      "anchorX": 0.5641,
+      "anchorY": 0.9406,
+      "logicalHeight": 253,
+      "ground": {
+        "left": [
+          0.1165,
+          0.8086
+        ],
+        "front": [
+          0.5824,
+          0.9901
+        ],
+        "right": [
+          0.8835,
+          0.7162
+        ]
+      },
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "replaceWith": "house-jacal-posts: jacal modules - posts, wattle and daub walls, thatch - in the house-modules style, stage by stage, with anchors, seats and ground corners",
+      "source": "svg/house-pieces/claude-house-jacal-posts.svg",
+      "label": "house jacal posts",
+      "kind": "claude-house-jacal"
+    },
+    "house-jacal-wattle": {
+      "sheet": "claude-house-jacal",
+      "x": 382,
+      "y": 0,
+      "w": 382,
+      "h": 303,
+      "anchorX": 0.5641,
+      "anchorY": 0.9406,
+      "logicalHeight": 253,
+      "seatX": 0.5,
+      "seatY": 0.4406,
+      "ground": {
+        "left": [
+          0.1165,
+          0.8086
+        ],
+        "front": [
+          0.5824,
+          0.9901
+        ],
+        "right": [
+          0.8835,
+          0.7162
+        ]
+      },
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "replaceWith": "house-jacal-wattle: jacal modules - posts, wattle and daub walls, thatch - in the house-modules style, stage by stage, with anchors, seats and ground corners",
+      "source": "svg/house-pieces/claude-house-jacal-wattle.svg",
+      "label": "house jacal wattle",
+      "kind": "claude-house-jacal"
+    },
+    "house-jacal-thatch": {
+      "sheet": "claude-house-jacal",
+      "x": 764,
+      "y": 0,
+      "w": 382,
+      "h": 303,
+      "anchorX": 0.5641,
+      "anchorY": 0.9076,
+      "logicalHeight": 253,
+      "seatX": 0.5,
+      "seatY": 0.4076,
+      "ground": {
+        "left": [
+          0.1165,
+          0.7756
+        ],
+        "front": [
+          0.5825,
+          0.9571
+        ],
+        "right": [
+          0.8835,
+          0.6832
+        ]
+      },
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "replaceWith": "house-jacal-thatch: jacal modules - posts, wattle and daub walls, thatch - in the house-modules style, stage by stage, with anchors, seats and ground corners",
+      "source": "svg/house-pieces/claude-house-jacal-thatch.svg",
+      "label": "house jacal thatch",
+      "kind": "claude-house-jacal"
+    },
+    "house-roof-join-chimney": {
+      "sheet": "claude-house-join-chimney",
+      "x": 0,
+      "y": 0,
+      "w": 404,
+      "h": 299,
+      "anchorX": 0.6535,
+      "anchorY": 0.8595,
+      "logicalHeight": 251,
+      "seatX": 0.4988,
+      "seatY": 0.5686,
+      "ridge": [
+        [
+          0.3094,
+          0.4264
+        ],
+        [
+          0.5948,
+          0.1051
+        ]
+      ],
+      "chimneyAt": [
+        0.4988,
+        0.9566
+      ],
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-24 — one roof over a two-pen house",
+      "replaceWith": "house-roof-join-chimney: the roof section between a saddlebag's two pens with its double chimney rising through the ridge (or the section drawn so a chimney can stand through it)",
+      "source": "svg/house-pieces/claude-house-roof-join-chimney.svg",
+      "label": "house roof join chimney",
+      "kind": "claude-house-join-chimney"
+    },
+    "house-chimney-double": {
+      "sheet": "claude-house-plot",
+      "x": 0,
+      "y": 0,
+      "w": 330,
+      "h": 345,
+      "anchorX": 0.5004,
+      "anchorY": 0.8667,
+      "logicalHeight": 253,
+      "foot": [
+        [
+          0.0881,
+          0.8887
+        ],
+        [
+          0.5638,
+          0.9572
+        ],
+        [
+          0.9074,
+          0.8416
+        ],
+        [
+          0.4316,
+          0.773
+        ]
+      ],
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "replaceWith": "house-chimney-double: the remaining house-plot pieces in the house-modules style: the double chimney two-sided with its foot marked, the shed frame, separate floor and loft overlays",
+      "source": "svg/house-pieces/claude-house-chimney-double.svg",
+      "label": "house chimney double",
+      "kind": "claude-house-plot"
+    },
+    "house-shed-frame": {
+      "sheet": "claude-house-plot",
+      "x": 330,
+      "y": 0,
+      "w": 330,
+      "h": 345,
+      "anchorX": 0.4174,
+      "anchorY": 0.8712,
+      "logicalHeight": 164,
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "replaceWith": "house-shed-frame: the remaining house-plot pieces in the house-modules style: the double chimney two-sided with its foot marked, the shed frame, separate floor and loft overlays",
+      "source": "svg/house-pieces/claude-house-shed-frame.svg",
+      "label": "house shed frame",
+      "kind": "claude-house-plot"
+    },
+    "house-floor": {
+      "sheet": "claude-house-plot",
+      "x": 0,
+      "y": 345,
+      "w": 330,
+      "h": 345,
+      "anchorX": 0.5742,
+      "anchorY": 0.9479,
+      "logicalHeight": 253,
+      "ground": {
+        "left": [
+          0.0561,
+          0.8319
+        ],
+        "front": [
+          0.5955,
+          0.9913
+        ],
+        "right": [
+          0.9439,
+          0.7507
+        ]
+      },
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "replaceWith": "house-floor: the remaining house-plot pieces in the house-modules style: the double chimney two-sided with its foot marked, the shed frame, separate floor and loft overlays",
+      "source": "svg/house-pieces/claude-house-floor.svg",
+      "label": "house floor",
+      "kind": "claude-house-plot"
+    },
+    "house-loft": {
+      "sheet": "claude-house-plot",
+      "x": 330,
+      "y": 345,
+      "w": 330,
+      "h": 345,
+      "anchorX": 0.5742,
+      "anchorY": 0.9479,
+      "logicalHeight": 253,
+      "ground": {
+        "left": [
+          0.0561,
+          0.8319
+        ],
+        "front": [
+          0.5955,
+          0.9913
+        ],
+        "right": [
+          0.9439,
+          0.7507
+        ]
+      },
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "replaceWith": "house-loft: the remaining house-plot pieces in the house-modules style: the double chimney two-sided with its foot marked, the shed frame, separate floor and loft overlays",
+      "source": "svg/house-pieces/claude-house-loft.svg",
+      "label": "house loft",
+      "kind": "claude-house-plot"
+    },
+    "house-porch-end": {
+      "sheet": "claude-house-ends",
+      "x": 0,
+      "y": 0,
+      "w": 404,
+      "h": 380,
+      "anchorX": 0.3538,
+      "anchorY": 0.9173,
+      "logicalHeight": 163,
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "replaceWith": "house-porch-end: the passage, porch and shed room seen from their narrow ends, their long side running into the screen, in the house-modules style and scale",
+      "source": "svg/house-pieces/claude-house-porch-end.svg",
+      "label": "house porch end",
+      "kind": "claude-house-ends"
+    },
+    "house-shed-room-end": {
+      "sheet": "claude-house-ends",
+      "x": 404,
+      "y": 0,
+      "w": 404,
+      "h": 380,
+      "anchorX": 0.3535,
+      "anchorY": 0.9174,
+      "logicalHeight": 164,
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "replaceWith": "house-shed-room-end: the passage, porch and shed room seen from their narrow ends, their long side running into the screen, in the house-modules style and scale",
+      "source": "svg/house-pieces/claude-house-shed-room-end.svg",
+      "label": "house shed room end",
+      "kind": "claude-house-ends"
+    },
+    "house-passage-floor-end": {
+      "sheet": "claude-house-ends",
+      "x": 0,
+      "y": 380,
+      "w": 404,
+      "h": 380,
+      "anchorX": 0.3583,
+      "anchorY": 0.9243,
+      "logicalHeight": 186,
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "replaceWith": "house-passage-floor-end: the passage, porch and shed room seen from their narrow ends, their long side running into the screen, in the house-modules style and scale",
+      "source": "svg/house-pieces/claude-house-passage-floor-end.svg",
+      "label": "house passage floor end",
+      "kind": "claude-house-ends"
+    },
+    "house-passage-roof-end": {
+      "sheet": "claude-house-ends",
+      "x": 404,
+      "y": 380,
+      "w": 404,
+      "h": 380,
+      "anchorX": 0.5016,
+      "anchorY": 0.9409,
+      "logicalHeight": 154,
+      "seatX": 0.4988,
+      "seatY": 0.4501,
+      "ridge": [
+        [
+          0.3606,
+          0.2928
+        ],
+        [
+          0.5436,
+          0.1307
+        ]
+      ],
+      "madeBy": "claude",
+      "module": "house-pieces",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "replaceWith": "house-passage-roof-end: the passage, porch and shed room seen from their narrow ends, their long side running into the screen, in the house-modules style and scale",
+      "source": "svg/house-pieces/claude-house-passage-roof-end.svg",
+      "label": "house passage roof end",
+      "kind": "claude-house-ends"
+    }
+  },
+  "clips": {},
+  "provenance": {
+    "house-round-back-sill": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-back",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "prompt": "A round-log pen's sill seen from behind: the four sill logs of Astra's house-round-sill exactly as she drew them (a sill is the same from either side), registered as the back view so a pen drawn from behind goes through its stages in one set. Corner-on three-quarter view, north-up; her anchor and scale.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-round-back-sill.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-round-back-sill"
+    },
+    "house-round-back-low-walls": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-back",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "prompt": "A round-log pen's low walls seen from behind: Astra's house-round-low-walls with the doorway in the left-front gable filled in with her own round, bark-on logs, each course continued from the plain logs beside it (her pixels moved along the logs' own slope), so the gable toward the viewer is blank logs and the door is in the far gable behind the walls; the window in the long side stays. Same corner-on three-quarter view, scale, outline, anchor as hers, so her roof seats on it and a chimney stands against its blank gable. Historical note: a single-pen cabin's chimney stood against one gable and its door was commonly in a long side or the other gable (HIST-GONZ-025); a blank gable behind a chimney is the ordinary arrangement.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-round-back-low-walls.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-round-back-low-walls"
+    },
+    "house-round-back-full-walls": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-back",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "prompt": "A round-log pen's full walls seen from behind: Astra's house-round-full-walls with the doorway in the left-front gable filled in with her own round, bark-on logs, each course continued from the plain logs beside it (her pixels moved along the logs' own slope), so the gable toward the viewer is blank logs and the door is in the far gable behind the walls; the window in the long side stays. Same corner-on three-quarter view, scale, outline, anchor, wall-top seat and ground corners as hers, so her roof seats on it and a chimney stands against its blank gable. Historical note: a single-pen cabin's chimney stood against one gable and its door was commonly in a long side or the other gable (HIST-GONZ-025); a blank gable behind a chimney is the ordinary arrangement.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-round-back-full-walls.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-round-back-full-walls"
+    },
+    "house-hewn-back-sill": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-back",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "prompt": "A hewn-log pen's sill seen from behind: the four sill logs of Astra's house-hewn-sill exactly as she drew them (a sill is the same from either side), registered as the back view so a pen drawn from behind goes through its stages in one set. Corner-on three-quarter view, north-up; her anchor and scale.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-hewn-back-sill.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-hewn-back-sill"
+    },
+    "house-hewn-back-low-walls": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-back",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "prompt": "A hewn-log pen's low walls seen from behind: Astra's house-hewn-low-walls with the doorway in the left-front gable filled in with her own hewn, squared logs, each course continued from the plain logs beside it (her pixels moved along the logs' own slope), so the gable toward the viewer is blank logs and the door is in the far gable behind the walls; the window in the long side stays. Same corner-on three-quarter view, scale, outline, anchor as hers, so her roof seats on it and a chimney stands against its blank gable. Historical note: a single-pen cabin's chimney stood against one gable and its door was commonly in a long side or the other gable (HIST-GONZ-025); a blank gable behind a chimney is the ordinary arrangement.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-hewn-back-low-walls.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-hewn-back-low-walls"
+    },
+    "house-hewn-back-full-walls": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-back",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "prompt": "A hewn-log pen's full walls seen from behind: Astra's house-hewn-full-walls with the doorway in the left-front gable filled in with her own hewn, squared logs, each course continued from the plain logs beside it (her pixels moved along the logs' own slope), so the gable toward the viewer is blank logs and the door is in the far gable behind the walls; the window in the long side stays. Same corner-on three-quarter view, scale, outline, anchor, wall-top seat and ground corners as hers, so her roof seats on it and a chimney stands against its blank gable. Historical note: a single-pen cabin's chimney stood against one gable and its door was commonly in a long side or the other gable (HIST-GONZ-025); a blank gable behind a chimney is the ordinary arrangement.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-hewn-back-full-walls.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-hewn-back-full-walls"
+    },
+    "house-roof-join": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-roof-join",
+      "request": "Request 2026-09-24 — one roof over a two-pen house",
+      "prompt": "The clapboard roof over the open passage between two log pens, as one run of roof with them: Astra's house-hewn-roof-finished with both gable ends, the end poles, the ridge log's cut ends and the posts under the gable taken away, its middle - boards running from ridge to eave, the weight poles and the ridge log running through - repeated along the ridge (her pixels moved along the ridge, which maps a gable roof onto itself) over the same sixteen feet of ridge as her roof, so seated on a pen's walls as her roof is it covers the passage and runs into both pens' roofs without a seam. Exactly her pitch, ridge, eaves, scale and outline; the ridge line is given with the frame (`ridge`). Corner-on three-quarter view, transparent ground.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-roof-join.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-roof-join"
+    },
+    "house-roof-join-partial": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-roof-join",
+      "request": "Request 2026-09-24 — one roof over a two-pen house",
+      "prompt": "The clapboard roof over the open passage between two still-unchinked log pens, as one run of roof with them: Astra's house-round-roof-partial with both gable ends, the end poles, the ridge log's cut ends and the posts under the gable taken away, its middle - boards running from ridge to eave, the weight poles and the ridge log running through - repeated along the ridge (her pixels moved along the ridge, which maps a gable roof onto itself) over the same sixteen feet of ridge as her roof, so seated on a pen's walls as her roof is it covers the passage and runs into both pens' roofs without a seam. Exactly her pitch, ridge, eaves, scale and outline; the ridge line is given with the frame (`ridge`). Corner-on three-quarter view, transparent ground.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-roof-join-partial.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-roof-join-partial"
+    },
+    "house-jacal-posts": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-jacal",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "prompt": "A jacal pen at its first stage: round posts cut and set upright in the ground at the corners, every four feet along the walls and either side of the doorway, sixteen feet square, in the log pens' corner-on three-quarter view and footprint (Astra's house-modules projection), in Astra's own post wood from her jacal. Stands where her pen stands, on her full walls' anchor. Transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-jacal-posts.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-jacal-posts"
+    },
+    "house-jacal-wattle": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-jacal",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "prompt": "A jacal pen's walls, finished: sticks woven between the upright posts and daubed with mud (Astra's own daub from her jacal laid on each face), a doorway in the gable toward the viewer where her log pen has its door, a small window in the long side, a pole wall plate along the tops; about seven and a half feet high. The log pens' corner-on three-quarter view, footprint, anchor and wall-top seat, so the thatch seats on it as her roofs seat on her walls. Transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-jacal-wattle.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-jacal-wattle"
+    },
+    "house-jacal-thatch": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-jacal",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "prompt": "A jacal pen's roof: grass thatch, hipped at the ends as Astra's whole jacal's roof is, a rolled ridge along the pen's long axis, the eaves standing out over the walls; laid with her own thatch. Seats on house-jacal-wattle by its seat as her roofs seat on her walls; corner-on three-quarter view. Transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-jacal-thatch.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-jacal-thatch"
+    },
+    "house-roof-join-chimney": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-join-chimney",
+      "request": "Request 2026-09-24 — one roof over a two-pen house",
+      "prompt": "The roof section between a saddlebag house's two pens, drawn so its double chimney stands through the ridge: Astra's finished roof's middle repeated along its ridge (as house-roof-join), with an opening cut where the chimney's stack rises above the right slope, so the chimney drawn before it shows through and the boards in front of its foot stay. Carries where the chimney's foot is (`chimneyAt`) and its ridge (`ridge`). Corner-on three-quarter view, her pitch, eaves, scale and outline. Transparent ground.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-roof-join-chimney.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-roof-join-chimney"
+    },
+    "house-chimney-double": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-plot",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "prompt": "The saddlebag house's double chimney: one broad mass of laid stone filling the eight feet between two log pens' gable walls, a fire-box opening into each pen (inside, not seen from here), shoulders drawing in to one tall stack with two flues that rises three or four feet over the ridge; corner-on three-quarter view in the log pens' projection, laid in Astra's own stone from her stone chimney, outlined in her ink. Its anchor is the middle of its foot on the pens' centre line, its four foot corners are given (`foot`). Stone is an interpretation: saddlebag chimneys were stone or stick-and-clay (HIST-TEX-017). Transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-chimney-double.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-chimney-double"
+    },
+    "house-shed-frame": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-plot",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "prompt": "A shed room framed and not yet boarded, against the back of a log pen: round sills on the ground, corner and middle posts, plates along the tops, rafters of its lean-to roof running from the high back to the low front, sixteen feet long and eight deep, in Astra's shed room's orientation and size so her finished room replaces it in place; her post wood, outlined in her ink, corner-on three-quarter view. Transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-shed-frame.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-shed-frame"
+    },
+    "house-floor": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-plot",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "prompt": "A puncheon floor for a log pen - split logs hewn flat on one face and laid side by side - as an overlay registered to Astra's pen (her full walls' box, anchor and scale), laid with her own hewn-log faces; drawn before the walls it shows through the doorway and over the low courses. Transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-floor.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-floor"
+    },
+    "house-loft": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-plot",
+      "request": "Request 2026-09-15 — the house plot's pieces",
+      "prompt": "A pen's loft as an overlay registered to Astra's pen: joists across at the tops of the walls, a floor of boards over the back half (her planks), and a pole ladder up from the floor, for a cutaway; corner-on three-quarter view, her scale, outlined in her ink. Transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-loft.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-loft"
+    },
+    "house-porch-end": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-ends",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "prompt": "The porch seen from its narrow end, its long side running into the screen along the pen's other diagonal: a plank deck on sills, round posts, a shed roof of clapboards falling from the pen's side to the porch's edge - Astra's porch turned a quarter, built in her pen's projection with her own planks, posts and roof boards, outlined in her ink, sized to her porch. Transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-porch-end.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-porch-end"
+    },
+    "house-shed-room-end": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-ends",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "prompt": "The shed room seen from its narrow end, its long side running into the screen: upright boards, a plank door in the end, a lean-to roof of clapboards higher at the pen's side - Astra's shed room turned a quarter, built in her pen's projection with her own boards and roof, outlined in her ink, sized to her shed room. Transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-shed-room-end.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-shed-room-end"
+    },
+    "house-passage-floor-end": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-ends",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "prompt": "The dog-run's passage floor seen end-on, running away from the viewer between two pens: a plank deck on sills - Astra's passage floor turned a quarter, built with her own planks in her pen's projection, sized to hers. Transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-passage-floor-end.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-passage-floor-end"
+    },
+    "house-passage-roof-end": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "house-pieces",
+      "area": "places",
+      "sheet": "claude-house-ends",
+      "request": "Request 2026-09-23 — the house from its other sides",
+      "prompt": "The passage roof on its four posts seen end-on: its ridge running across the screen, the clapboard slope toward the viewer, the gable end on the right open under its boards - Astra's passage roof turned a quarter, in her pen's projection with her own roof boards and posts, sized to hers. Transparent ground, no shadow.",
+      "source": "public/assets/claude-standins/svg/house-pieces/claude-house-passage-roof-end.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's house-passage-roof-end"
+    }
+  }
+}
