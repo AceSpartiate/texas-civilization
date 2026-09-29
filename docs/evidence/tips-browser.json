@@ -41,7 +41,6 @@
       "order",
       "house",
       "rest",
-      "road",
       "star"
     ],
     "call": {
@@ -49,8 +48,8 @@
       "shown": true,
       "text": "Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.",
       "box": {
-        "left": 907,
-        "top": 416,
+        "left": 973,
+        "top": 396,
         "right": 1354,
         "bottom": 510
       },

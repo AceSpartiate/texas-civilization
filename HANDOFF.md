@@ -42,7 +42,43 @@ and the pile.
 - **Tests changed for the owner's rule, not weakened:** `calls`, `call-lapse` (now also asserts the call is held while the rider
   talks and starts after) and `knowledge-decides` hear the rider out (`leave-rider`) before reading the question.
 
-**Evidence** (same computer only; no Chromebook or LAN claim): see the numbers below.
+- **Tests and proofs that read a question now hear its rider out first**, the rule and not a weakening:
+  `tests/support/heard-out.mjs` (army, siege, storming, periods, Concepción and its battles via `tests/support/campaign.mjs`,
+  war-rifle, keeping, women, gonzales, family-commands, lesson-off, need-ranking) and `scripts/support/riders.mjs` (slice,
+  tips); the overlap proof accepts the call's menu in the card's place when a conversation closes.
+
+**Evidence** (same computer only; no Chromebook or LAN claim), after merging origin/main 7b099ab5:
+
+- **Before/after, per family in period 1** (in process, every family played): rider meetings stay **2 a family** (one per word;
+  nobody was ever told the same word twice by two meetings in the seeds measured). Riders drawn when a family's rider speaks:
+  real land, 30 families (seed `a`), **21 of 30 families saw 2-5 → 0 meetings with more than one** (the most drawn is 1);
+  invented country, 15 (seed `g1`), up to **15 → 1**. A question put with the rider: **every family → none** shown over him.
+  In the browser (Matagorda, seed `q2`): **7 "!"s, 3 riders, the call card and its clock running → 1 "!", 1 rider, "One more
+  thing is waiting", call clock 0**; the firmer duplicate **a second meeting 10 hours later → known at the minute he came, no
+  second meeting**.
+- `tests/one-rider.test.mjs` (6 tests). **`npm run test:one-rider-injections`: 14 of 14 caught by the test written for them, 7
+  by it alone** ([record](docs/evidence/one-rider-injections.json)).
+- `npm test`: **1789 tests, 1753 pass, 0 fail, 36 skipped** (the suspended tutorial).
+- Browser proofs: **`test:one-rider` 9 checks** ([after](docs/evidence/one-rider-after.json), [before](docs/evidence/one-rider-before.json)),
+  `test:relay`, `test:information`, `test:slice` 12, `test:tips` 13, `test:overlap`, `test:whole-game` 13 all green.
+  `test:family-commands` passes its rider and call steps and fails later at the panel's churn count; `test:travel-sight` fails
+  at its fast journey - **both fail the same way on origin/main 7b099ab5** (run from an export of it), so not this change.
+  `test:solo-game` (known flaky under load) failed three times at three different non-rider steps (the flee card, a panel icon
+  detached, a winter order); **origin/main 7b099ab5 fails it too, at the winter order** (`scripts/support/whole-game.mjs:168`),
+  and its rider and call steps passed on this branch every time.
+- Screenshots: [before: arrival](docs/evidence/one-rider-before-arrival.png), [before: conversation](docs/evidence/one-rider-before-conversation.png),
+  [before: the same news told again](docs/evidence/one-rider-before-duplicate.png); [after: arrival](docs/evidence/one-rider-after-arrival.png),
+  [after: the conversation, its Done and the waiting line](docs/evidence/one-rider-after-conversation.png),
+  [after: the call next](docs/evidence/one-rider-after-next.png); the Host at the same moment ([before](docs/evidence/one-rider-before-host-arrival.png),
+  [after](docs/evidence/one-rider-after-host-arrival.png)).
+
+**Open questions for the owner** (the conservative option is built):
+
+1. **Riders not bringing your family anything**: hidden from the family (built), or drawn as before (the word visibly going on
+   down the road), or drawn only while they ride past, never while they stand at a neighbour's gate?
+2. **A question already on the screen when a rider comes** stays up beside him (built); or it steps aside until he has gone too?
+3. **The same word, firmer, the next day** (after six hours) is its own conversation (built); or never a second conversation
+   about a word the family has, whatever the gap - only the journal line changes?
 ## Astra's art always wins, by subject: Claude's temporary art only where she has drawn nothing — owner, 2026-09-29 (not released)
 
 Branch `astra-art-wins` off origin/main (3dd5209d, origin/main af25547a merged in); not pushed. The owner played the released
