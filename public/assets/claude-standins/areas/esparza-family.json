@@ -1,0 +1,2266 @@
+{
+  "module": "esparza-family",
+  "area": "battles",
+  "date": "2026-09-28",
+  "sheets": {
+    "claude-ana-esparza": {
+      "image": "/assets/claude-standins/claude-ana-esparza.png",
+      "width": 1600,
+      "height": 1200,
+      "bytes": 325703,
+      "sha256": "4cf40be5264662767e19df3f594f84dbcdbaa36bcef1cc86d59fcc2c326189e6",
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "cell": {
+          "w": 400,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-maria-de-jesus": {
+      "image": "/assets/claude-standins/claude-maria-de-jesus.png",
+      "width": 1600,
+      "height": 1200,
+      "bytes": 286225,
+      "sha256": "2716a86c7ced11f7127f56ed154b99202ab7d9a25d6736e79060c5090a597154",
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "cell": {
+          "w": 400,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-enrique-esparza": {
+      "image": "/assets/claude-standins/claude-enrique-esparza.png",
+      "width": 1600,
+      "height": 1200,
+      "bytes": 292392,
+      "sha256": "def5a12ad2f6f141f81fdafb8b60a27c197ea02936f8f7a363ccbc59c12b889a",
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "cell": {
+          "w": 400,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-francisco-esparza": {
+      "image": "/assets/claude-standins/claude-francisco-esparza.png",
+      "width": 1600,
+      "height": 1200,
+      "bytes": 294138,
+      "sha256": "9199d0a02cfec44b606884e4de7aebb7c3ab1eda2700abd529eaf006e42ee7c5",
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "layout": {
+        "rows": 3,
+        "columns": 4,
+        "cell": {
+          "w": 400,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-ana-esparza-carry": {
+      "image": "/assets/claude-standins/claude-ana-esparza-carry.png",
+      "width": 1600,
+      "height": 400,
+      "bytes": 124989,
+      "sha256": "8053c7cb9f0e134263895dc9f938a8c5f27df3ceee9f56b994e08849ae9c3510",
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "layout": {
+        "rows": 1,
+        "columns": 4,
+        "cell": {
+          "w": 400,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-burial-party": {
+      "image": "/assets/claude-standins/claude-burial-party.png",
+      "width": 1440,
+      "height": 800,
+      "bytes": 345973,
+      "sha256": "3bc110a965dbd63cdcdd6bd3f365a9fe9bcb6a41a0cdebbe4236ac62db5aef3a",
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "cell": {
+          "w": 720,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-esparza-seated": {
+      "image": "/assets/claude-standins/claude-esparza-seated.png",
+      "width": 400,
+      "height": 400,
+      "bytes": 28448,
+      "sha256": "c8405cde4eb12d02da1e0d2244764dd9d5a30c7fd2b2af991bf8c34bbafa407d",
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 400,
+          "h": 400
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "ana-esparza-walk-e-1": {
+      "sheet": "claude-ana-esparza",
+      "x": 0,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-walk-e-1: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-ana-esparza-walk-e-1.svg",
+      "label": "ana esparza walk e 1",
+      "kind": "claude-ana-esparza"
+    },
+    "ana-esparza-walk-e-2": {
+      "sheet": "claude-ana-esparza",
+      "x": 400,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-walk-e-2: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-ana-esparza-walk-e-2.svg",
+      "label": "ana esparza walk e 2",
+      "kind": "claude-ana-esparza"
+    },
+    "ana-esparza-walk-e-3": {
+      "sheet": "claude-ana-esparza",
+      "x": 800,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-walk-e-3: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-ana-esparza-walk-e-3.svg",
+      "label": "ana esparza walk e 3",
+      "kind": "claude-ana-esparza"
+    },
+    "ana-esparza-walk-e-4": {
+      "sheet": "claude-ana-esparza",
+      "x": 1200,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-walk-e-4: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-ana-esparza-walk-e-4.svg",
+      "label": "ana esparza walk e 4",
+      "kind": "claude-ana-esparza"
+    },
+    "ana-esparza-walk-s-1": {
+      "sheet": "claude-ana-esparza",
+      "x": 0,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-walk-s-1: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-ana-esparza-walk-s-1.svg",
+      "label": "ana esparza walk s 1",
+      "kind": "claude-ana-esparza"
+    },
+    "ana-esparza-walk-s-2": {
+      "sheet": "claude-ana-esparza",
+      "x": 400,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-walk-s-2: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-ana-esparza-walk-s-2.svg",
+      "label": "ana esparza walk s 2",
+      "kind": "claude-ana-esparza"
+    },
+    "ana-esparza-walk-n-1": {
+      "sheet": "claude-ana-esparza",
+      "x": 800,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-walk-n-1: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-ana-esparza-walk-n-1.svg",
+      "label": "ana esparza walk n 1",
+      "kind": "claude-ana-esparza"
+    },
+    "ana-esparza-walk-n-2": {
+      "sheet": "claude-ana-esparza",
+      "x": 1200,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-walk-n-2: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-ana-esparza-walk-n-2.svg",
+      "label": "ana esparza walk n 2",
+      "kind": "claude-ana-esparza"
+    },
+    "ana-esparza-idle": {
+      "sheet": "claude-ana-esparza",
+      "x": 0,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-idle: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-ana-esparza-idle.svg",
+      "label": "ana esparza idle",
+      "kind": "claude-ana-esparza"
+    },
+    "ana-esparza-seated": {
+      "sheet": "claude-ana-esparza",
+      "x": 400,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-seated: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-ana-esparza-seated.svg",
+      "label": "ana esparza seated",
+      "kind": "claude-ana-esparza"
+    },
+    "ana-esparza-shelter-with-children": {
+      "sheet": "claude-ana-esparza",
+      "x": 800,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-shelter-with-children: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-ana-esparza-shelter-with-children.svg",
+      "label": "ana esparza shelter with children",
+      "kind": "claude-ana-esparza"
+    },
+    "ana-esparza-hold-blanket": {
+      "sheet": "claude-ana-esparza",
+      "x": 1200,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-hold-blanket: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-ana-esparza-hold-blanket.svg",
+      "label": "ana esparza hold blanket",
+      "kind": "claude-ana-esparza"
+    },
+    "maria-de-jesus-walk-e-1": {
+      "sheet": "claude-maria-de-jesus",
+      "x": 0,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "maria-de-jesus-walk-e-1: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-maria-de-jesus-walk-e-1.svg",
+      "label": "maria de jesus walk e 1",
+      "kind": "claude-maria-de-jesus"
+    },
+    "maria-de-jesus-walk-e-2": {
+      "sheet": "claude-maria-de-jesus",
+      "x": 400,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "maria-de-jesus-walk-e-2: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-maria-de-jesus-walk-e-2.svg",
+      "label": "maria de jesus walk e 2",
+      "kind": "claude-maria-de-jesus"
+    },
+    "maria-de-jesus-walk-e-3": {
+      "sheet": "claude-maria-de-jesus",
+      "x": 800,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "maria-de-jesus-walk-e-3: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-maria-de-jesus-walk-e-3.svg",
+      "label": "maria de jesus walk e 3",
+      "kind": "claude-maria-de-jesus"
+    },
+    "maria-de-jesus-walk-e-4": {
+      "sheet": "claude-maria-de-jesus",
+      "x": 1200,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "maria-de-jesus-walk-e-4: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-maria-de-jesus-walk-e-4.svg",
+      "label": "maria de jesus walk e 4",
+      "kind": "claude-maria-de-jesus"
+    },
+    "maria-de-jesus-walk-s-1": {
+      "sheet": "claude-maria-de-jesus",
+      "x": 0,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "maria-de-jesus-walk-s-1: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-maria-de-jesus-walk-s-1.svg",
+      "label": "maria de jesus walk s 1",
+      "kind": "claude-maria-de-jesus"
+    },
+    "maria-de-jesus-walk-s-2": {
+      "sheet": "claude-maria-de-jesus",
+      "x": 400,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "maria-de-jesus-walk-s-2: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-maria-de-jesus-walk-s-2.svg",
+      "label": "maria de jesus walk s 2",
+      "kind": "claude-maria-de-jesus"
+    },
+    "maria-de-jesus-walk-n-1": {
+      "sheet": "claude-maria-de-jesus",
+      "x": 800,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "maria-de-jesus-walk-n-1: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-maria-de-jesus-walk-n-1.svg",
+      "label": "maria de jesus walk n 1",
+      "kind": "claude-maria-de-jesus"
+    },
+    "maria-de-jesus-walk-n-2": {
+      "sheet": "claude-maria-de-jesus",
+      "x": 1200,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "maria-de-jesus-walk-n-2: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-maria-de-jesus-walk-n-2.svg",
+      "label": "maria de jesus walk n 2",
+      "kind": "claude-maria-de-jesus"
+    },
+    "maria-de-jesus-idle": {
+      "sheet": "claude-maria-de-jesus",
+      "x": 0,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "maria-de-jesus-idle: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-maria-de-jesus-idle.svg",
+      "label": "maria de jesus idle",
+      "kind": "claude-maria-de-jesus"
+    },
+    "maria-de-jesus-seated-huddled": {
+      "sheet": "claude-maria-de-jesus",
+      "x": 400,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "maria-de-jesus-seated-huddled: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-maria-de-jesus-seated-huddled.svg",
+      "label": "maria de jesus seated huddled",
+      "kind": "claude-maria-de-jesus"
+    },
+    "enrique-esparza-walk-e-1": {
+      "sheet": "claude-enrique-esparza",
+      "x": 0,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "enrique-esparza-walk-e-1: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-enrique-esparza-walk-e-1.svg",
+      "label": "enrique esparza walk e 1",
+      "kind": "claude-enrique-esparza"
+    },
+    "enrique-esparza-walk-e-2": {
+      "sheet": "claude-enrique-esparza",
+      "x": 400,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "enrique-esparza-walk-e-2: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-enrique-esparza-walk-e-2.svg",
+      "label": "enrique esparza walk e 2",
+      "kind": "claude-enrique-esparza"
+    },
+    "enrique-esparza-walk-e-3": {
+      "sheet": "claude-enrique-esparza",
+      "x": 800,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "enrique-esparza-walk-e-3: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-enrique-esparza-walk-e-3.svg",
+      "label": "enrique esparza walk e 3",
+      "kind": "claude-enrique-esparza"
+    },
+    "enrique-esparza-walk-e-4": {
+      "sheet": "claude-enrique-esparza",
+      "x": 1200,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "enrique-esparza-walk-e-4: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-enrique-esparza-walk-e-4.svg",
+      "label": "enrique esparza walk e 4",
+      "kind": "claude-enrique-esparza"
+    },
+    "enrique-esparza-walk-s-1": {
+      "sheet": "claude-enrique-esparza",
+      "x": 0,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "enrique-esparza-walk-s-1: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-enrique-esparza-walk-s-1.svg",
+      "label": "enrique esparza walk s 1",
+      "kind": "claude-enrique-esparza"
+    },
+    "enrique-esparza-walk-s-2": {
+      "sheet": "claude-enrique-esparza",
+      "x": 400,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "enrique-esparza-walk-s-2: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-enrique-esparza-walk-s-2.svg",
+      "label": "enrique esparza walk s 2",
+      "kind": "claude-enrique-esparza"
+    },
+    "enrique-esparza-walk-n-1": {
+      "sheet": "claude-enrique-esparza",
+      "x": 800,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "enrique-esparza-walk-n-1: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-enrique-esparza-walk-n-1.svg",
+      "label": "enrique esparza walk n 1",
+      "kind": "claude-enrique-esparza"
+    },
+    "enrique-esparza-walk-n-2": {
+      "sheet": "claude-enrique-esparza",
+      "x": 1200,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "enrique-esparza-walk-n-2: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-enrique-esparza-walk-n-2.svg",
+      "label": "enrique esparza walk n 2",
+      "kind": "claude-enrique-esparza"
+    },
+    "enrique-esparza-idle": {
+      "sheet": "claude-enrique-esparza",
+      "x": 0,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "enrique-esparza-idle: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-enrique-esparza-idle.svg",
+      "label": "enrique esparza idle",
+      "kind": "claude-enrique-esparza"
+    },
+    "enrique-esparza-seated-huddled": {
+      "sheet": "claude-enrique-esparza",
+      "x": 400,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "enrique-esparza-seated-huddled: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-enrique-esparza-seated-huddled.svg",
+      "label": "enrique esparza seated huddled",
+      "kind": "claude-enrique-esparza"
+    },
+    "enrique-esparza-look": {
+      "sheet": "claude-enrique-esparza",
+      "x": 800,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "enrique-esparza-look: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-enrique-esparza-look.svg",
+      "label": "enrique esparza look",
+      "kind": "claude-enrique-esparza"
+    },
+    "francisco-esparza-walk-e-1": {
+      "sheet": "claude-francisco-esparza",
+      "x": 0,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "francisco-esparza-walk-e-1: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-francisco-esparza-walk-e-1.svg",
+      "label": "francisco esparza walk e 1",
+      "kind": "claude-francisco-esparza"
+    },
+    "francisco-esparza-walk-e-2": {
+      "sheet": "claude-francisco-esparza",
+      "x": 400,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "francisco-esparza-walk-e-2: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-francisco-esparza-walk-e-2.svg",
+      "label": "francisco esparza walk e 2",
+      "kind": "claude-francisco-esparza"
+    },
+    "francisco-esparza-walk-e-3": {
+      "sheet": "claude-francisco-esparza",
+      "x": 800,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "francisco-esparza-walk-e-3: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-francisco-esparza-walk-e-3.svg",
+      "label": "francisco esparza walk e 3",
+      "kind": "claude-francisco-esparza"
+    },
+    "francisco-esparza-walk-e-4": {
+      "sheet": "claude-francisco-esparza",
+      "x": 1200,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "francisco-esparza-walk-e-4: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-francisco-esparza-walk-e-4.svg",
+      "label": "francisco esparza walk e 4",
+      "kind": "claude-francisco-esparza"
+    },
+    "francisco-esparza-walk-s-1": {
+      "sheet": "claude-francisco-esparza",
+      "x": 0,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "francisco-esparza-walk-s-1: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-francisco-esparza-walk-s-1.svg",
+      "label": "francisco esparza walk s 1",
+      "kind": "claude-francisco-esparza"
+    },
+    "francisco-esparza-walk-s-2": {
+      "sheet": "claude-francisco-esparza",
+      "x": 400,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "francisco-esparza-walk-s-2: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-francisco-esparza-walk-s-2.svg",
+      "label": "francisco esparza walk s 2",
+      "kind": "claude-francisco-esparza"
+    },
+    "francisco-esparza-walk-n-1": {
+      "sheet": "claude-francisco-esparza",
+      "x": 800,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "francisco-esparza-walk-n-1: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-francisco-esparza-walk-n-1.svg",
+      "label": "francisco esparza walk n 1",
+      "kind": "claude-francisco-esparza"
+    },
+    "francisco-esparza-walk-n-2": {
+      "sheet": "claude-francisco-esparza",
+      "x": 1200,
+      "y": 400,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "francisco-esparza-walk-n-2: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-francisco-esparza-walk-n-2.svg",
+      "label": "francisco esparza walk n 2",
+      "kind": "claude-francisco-esparza"
+    },
+    "francisco-esparza-idle": {
+      "sheet": "claude-francisco-esparza",
+      "x": 0,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "francisco-esparza-idle: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-francisco-esparza-idle.svg",
+      "label": "francisco esparza idle",
+      "kind": "claude-francisco-esparza"
+    },
+    "francisco-esparza-kneel-at-grave": {
+      "sheet": "claude-francisco-esparza",
+      "x": 400,
+      "y": 800,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "francisco-esparza-kneel-at-grave: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed",
+      "source": "svg/esparza-family/claude-francisco-esparza-kneel-at-grave.svg",
+      "label": "francisco esparza kneel at grave",
+      "kind": "claude-francisco-esparza"
+    },
+    "ana-esparza-carry-toddler-1": {
+      "sheet": "claude-ana-esparza-carry",
+      "x": 0,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-carry-toddler-1: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed; `ana-esparza-carry-toddler`, a child of two on her hip, walking east",
+      "source": "svg/esparza-family/claude-ana-esparza-carry-toddler-1.svg",
+      "label": "ana esparza carry toddler 1",
+      "kind": "claude-ana-esparza-carry"
+    },
+    "ana-esparza-carry-toddler-2": {
+      "sheet": "claude-ana-esparza-carry",
+      "x": 400,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-carry-toddler-2: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed; `ana-esparza-carry-toddler`, a child of two on her hip, walking east",
+      "source": "svg/esparza-family/claude-ana-esparza-carry-toddler-2.svg",
+      "label": "ana esparza carry toddler 2",
+      "kind": "claude-ana-esparza-carry"
+    },
+    "ana-esparza-carry-toddler-3": {
+      "sheet": "claude-ana-esparza-carry",
+      "x": 800,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-carry-toddler-3: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed; `ana-esparza-carry-toddler`, a child of two on her hip, walking east",
+      "source": "svg/esparza-family/claude-ana-esparza-carry-toddler-3.svg",
+      "label": "ana esparza carry toddler 3",
+      "kind": "claude-ana-esparza-carry"
+    },
+    "ana-esparza-carry-toddler-4": {
+      "sheet": "claude-ana-esparza-carry",
+      "x": 1200,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "ana-esparza-carry-toddler-4: a famous sheet as scripts/art-deliveries/famous-people.mjs delivers them (four east, two south, two north walking frames, then the poses); the `volunteer-*` logical height for grown people, the library's children's for the children; east mirrored for west; no gore; no likeness claimed; `ana-esparza-carry-toddler`, a child of two on her hip, walking east",
+      "source": "svg/esparza-family/claude-ana-esparza-carry-toddler-4.svg",
+      "label": "ana esparza carry toddler 4",
+      "kind": "claude-ana-esparza-carry"
+    },
+    "burial-party-walk-e-1": {
+      "sheet": "claude-burial-party",
+      "x": 0,
+      "y": 0,
+      "w": 720,
+      "h": 400,
+      "anchorX": 0.75,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "burial-party-walk-e-1: item 4: `burial-party-walk-e` (4 frames): two Tejano men carrying on a litter a body wholly wrapped, readable at 40 and 160 px",
+      "source": "svg/esparza-family/claude-burial-party-walk-e-1.svg",
+      "label": "burial party walk e 1",
+      "kind": "claude-burial-party"
+    },
+    "burial-party-walk-e-2": {
+      "sheet": "claude-burial-party",
+      "x": 720,
+      "y": 0,
+      "w": 720,
+      "h": 400,
+      "anchorX": 0.75,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "burial-party-walk-e-2: item 4: `burial-party-walk-e` (4 frames): two Tejano men carrying on a litter a body wholly wrapped, readable at 40 and 160 px",
+      "source": "svg/esparza-family/claude-burial-party-walk-e-2.svg",
+      "label": "burial party walk e 2",
+      "kind": "claude-burial-party"
+    },
+    "burial-party-walk-e-3": {
+      "sheet": "claude-burial-party",
+      "x": 0,
+      "y": 400,
+      "w": 720,
+      "h": 400,
+      "anchorX": 0.75,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "burial-party-walk-e-3: item 4: `burial-party-walk-e` (4 frames): two Tejano men carrying on a litter a body wholly wrapped, readable at 40 and 160 px",
+      "source": "svg/esparza-family/claude-burial-party-walk-e-3.svg",
+      "label": "burial party walk e 3",
+      "kind": "claude-burial-party"
+    },
+    "burial-party-walk-e-4": {
+      "sheet": "claude-burial-party",
+      "x": 720,
+      "y": 400,
+      "w": 720,
+      "h": 400,
+      "anchorX": 0.75,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "burial-party-walk-e-4: item 4: `burial-party-walk-e` (4 frames): two Tejano men carrying on a litter a body wholly wrapped, readable at 40 and 160 px",
+      "source": "svg/esparza-family/claude-burial-party-walk-e-4.svg",
+      "label": "burial party walk e 4",
+      "kind": "claude-burial-party"
+    },
+    "esparza-seated": {
+      "sheet": "claude-esparza-seated",
+      "x": 0,
+      "y": 0,
+      "w": 400,
+      "h": 400,
+      "anchorX": 0.5,
+      "anchorY": 0.93,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "esparza-family",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "replaceWith": "esparza-seated: item 6: `esparza-seated`, Gregorio sitting against a wall asleep, his musket beside him, in his famous-esparza dress",
+      "source": "svg/esparza-family/claude-esparza-seated.svg",
+      "label": "esparza seated",
+      "kind": "claude-esparza-seated"
+    }
+  },
+  "clips": {
+    "ana-esparza-walk-e": {
+      "frames": [
+        {
+          "sprite": "ana-esparza-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "ana-esparza-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "ana-esparza-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "ana-esparza-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "esparza-family"
+    },
+    "ana-esparza-walk-s": {
+      "frames": [
+        {
+          "sprite": "ana-esparza-walk-s-1",
+          "duration": 260
+        },
+        {
+          "sprite": "ana-esparza-walk-s-2",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "esparza-family"
+    },
+    "ana-esparza-walk-n": {
+      "frames": [
+        {
+          "sprite": "ana-esparza-walk-n-1",
+          "duration": 260
+        },
+        {
+          "sprite": "ana-esparza-walk-n-2",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "esparza-family"
+    },
+    "maria-de-jesus-walk-e": {
+      "frames": [
+        {
+          "sprite": "maria-de-jesus-walk-e-1",
+          "duration": 170
+        },
+        {
+          "sprite": "maria-de-jesus-walk-e-2",
+          "duration": 170
+        },
+        {
+          "sprite": "maria-de-jesus-walk-e-3",
+          "duration": 170
+        },
+        {
+          "sprite": "maria-de-jesus-walk-e-4",
+          "duration": 170
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "esparza-family"
+    },
+    "maria-de-jesus-walk-s": {
+      "frames": [
+        {
+          "sprite": "maria-de-jesus-walk-s-1",
+          "duration": 260
+        },
+        {
+          "sprite": "maria-de-jesus-walk-s-2",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "esparza-family"
+    },
+    "maria-de-jesus-walk-n": {
+      "frames": [
+        {
+          "sprite": "maria-de-jesus-walk-n-1",
+          "duration": 260
+        },
+        {
+          "sprite": "maria-de-jesus-walk-n-2",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "esparza-family"
+    },
+    "enrique-esparza-walk-e": {
+      "frames": [
+        {
+          "sprite": "enrique-esparza-walk-e-1",
+          "duration": 170
+        },
+        {
+          "sprite": "enrique-esparza-walk-e-2",
+          "duration": 170
+        },
+        {
+          "sprite": "enrique-esparza-walk-e-3",
+          "duration": 170
+        },
+        {
+          "sprite": "enrique-esparza-walk-e-4",
+          "duration": 170
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "esparza-family"
+    },
+    "enrique-esparza-walk-s": {
+      "frames": [
+        {
+          "sprite": "enrique-esparza-walk-s-1",
+          "duration": 260
+        },
+        {
+          "sprite": "enrique-esparza-walk-s-2",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "esparza-family"
+    },
+    "enrique-esparza-walk-n": {
+      "frames": [
+        {
+          "sprite": "enrique-esparza-walk-n-1",
+          "duration": 260
+        },
+        {
+          "sprite": "enrique-esparza-walk-n-2",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "esparza-family"
+    },
+    "francisco-esparza-walk-e": {
+      "frames": [
+        {
+          "sprite": "francisco-esparza-walk-e-1",
+          "duration": 190
+        },
+        {
+          "sprite": "francisco-esparza-walk-e-2",
+          "duration": 190
+        },
+        {
+          "sprite": "francisco-esparza-walk-e-3",
+          "duration": 190
+        },
+        {
+          "sprite": "francisco-esparza-walk-e-4",
+          "duration": 190
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "esparza-family"
+    },
+    "francisco-esparza-walk-s": {
+      "frames": [
+        {
+          "sprite": "francisco-esparza-walk-s-1",
+          "duration": 260
+        },
+        {
+          "sprite": "francisco-esparza-walk-s-2",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "esparza-family"
+    },
+    "francisco-esparza-walk-n": {
+      "frames": [
+        {
+          "sprite": "francisco-esparza-walk-n-1",
+          "duration": 260
+        },
+        {
+          "sprite": "francisco-esparza-walk-n-2",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "esparza-family"
+    },
+    "ana-esparza-carry-toddler": {
+      "frames": [
+        {
+          "sprite": "ana-esparza-carry-toddler-1",
+          "duration": 210
+        },
+        {
+          "sprite": "ana-esparza-carry-toddler-2",
+          "duration": 210
+        },
+        {
+          "sprite": "ana-esparza-carry-toddler-3",
+          "duration": 210
+        },
+        {
+          "sprite": "ana-esparza-carry-toddler-4",
+          "duration": 210
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "esparza-family"
+    },
+    "burial-party-walk-e": {
+      "frames": [
+        {
+          "sprite": "burial-party-walk-e-1",
+          "duration": 230
+        },
+        {
+          "sprite": "burial-party-walk-e-2",
+          "duration": 230
+        },
+        {
+          "sprite": "burial-party-walk-e-3",
+          "duration": 230
+        },
+        {
+          "sprite": "burial-party-walk-e-4",
+          "duration": 230
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "esparza-family"
+    }
+  },
+  "provenance": {
+    "ana-esparza-walk-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. walking east, frame 1 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-walk-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-walk-e-1"
+    },
+    "ana-esparza-walk-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. walking east, frame 2 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-walk-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-walk-e-2"
+    },
+    "ana-esparza-walk-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. walking east, frame 3 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-walk-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-walk-e-3"
+    },
+    "ana-esparza-walk-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. walking east, frame 4 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-walk-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-walk-e-4"
+    },
+    "ana-esparza-walk-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. walking toward the camera, frame 1 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-walk-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-walk-s-1"
+    },
+    "ana-esparza-walk-s-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. walking toward the camera, frame 2 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-walk-s-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-walk-s-2"
+    },
+    "ana-esparza-walk-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. walking away from the camera, frame 1 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-walk-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-walk-n-1"
+    },
+    "ana-esparza-walk-n-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. walking away from the camera, frame 2 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-walk-n-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-walk-n-2"
+    },
+    "ana-esparza-idle": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. standing, the rebozo drawn close. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-idle.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-idle"
+    },
+    "ana-esparza-seated": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. seated huddled on the floor of the church, the arms round her knees. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-seated.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-seated"
+    },
+    "ana-esparza-shelter-with-children": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. seated on the floor, an arm round a small child pressed to her side. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-shelter-with-children.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-shelter-with-children"
+    },
+    "ana-esparza-hold-blanket": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. standing, holding against her chest the folded blanket the officers gave each woman. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-hold-blanket.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-hold-blanket"
+    },
+    "maria-de-jesus-walk-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-maria-de-jesus",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "María de Jesús Castro Esparza (about ten), Ana's daughter, in the Alamo with her mother. a Tejana girl: a small rust rebozo round her shoulders, a white camisa, an ochre skirt, two dark braids. walking east, frame 1 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-maria-de-jesus-walk-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's maria-de-jesus-walk-e-1"
+    },
+    "maria-de-jesus-walk-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-maria-de-jesus",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "María de Jesús Castro Esparza (about ten), Ana's daughter, in the Alamo with her mother. a Tejana girl: a small rust rebozo round her shoulders, a white camisa, an ochre skirt, two dark braids. walking east, frame 2 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-maria-de-jesus-walk-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's maria-de-jesus-walk-e-2"
+    },
+    "maria-de-jesus-walk-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-maria-de-jesus",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "María de Jesús Castro Esparza (about ten), Ana's daughter, in the Alamo with her mother. a Tejana girl: a small rust rebozo round her shoulders, a white camisa, an ochre skirt, two dark braids. walking east, frame 3 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-maria-de-jesus-walk-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's maria-de-jesus-walk-e-3"
+    },
+    "maria-de-jesus-walk-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-maria-de-jesus",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "María de Jesús Castro Esparza (about ten), Ana's daughter, in the Alamo with her mother. a Tejana girl: a small rust rebozo round her shoulders, a white camisa, an ochre skirt, two dark braids. walking east, frame 4 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-maria-de-jesus-walk-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's maria-de-jesus-walk-e-4"
+    },
+    "maria-de-jesus-walk-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-maria-de-jesus",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "María de Jesús Castro Esparza (about ten), Ana's daughter, in the Alamo with her mother. a Tejana girl: a small rust rebozo round her shoulders, a white camisa, an ochre skirt, two dark braids. walking toward the camera, frame 1 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-maria-de-jesus-walk-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's maria-de-jesus-walk-s-1"
+    },
+    "maria-de-jesus-walk-s-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-maria-de-jesus",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "María de Jesús Castro Esparza (about ten), Ana's daughter, in the Alamo with her mother. a Tejana girl: a small rust rebozo round her shoulders, a white camisa, an ochre skirt, two dark braids. walking toward the camera, frame 2 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-maria-de-jesus-walk-s-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's maria-de-jesus-walk-s-2"
+    },
+    "maria-de-jesus-walk-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-maria-de-jesus",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "María de Jesús Castro Esparza (about ten), Ana's daughter, in the Alamo with her mother. a Tejana girl: a small rust rebozo round her shoulders, a white camisa, an ochre skirt, two dark braids. walking away from the camera, frame 1 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-maria-de-jesus-walk-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's maria-de-jesus-walk-n-1"
+    },
+    "maria-de-jesus-walk-n-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-maria-de-jesus",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "María de Jesús Castro Esparza (about ten), Ana's daughter, in the Alamo with her mother. a Tejana girl: a small rust rebozo round her shoulders, a white camisa, an ochre skirt, two dark braids. walking away from the camera, frame 2 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-maria-de-jesus-walk-n-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's maria-de-jesus-walk-n-2"
+    },
+    "maria-de-jesus-idle": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-maria-de-jesus",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "María de Jesús Castro Esparza (about ten), Ana's daughter, in the Alamo with her mother. a Tejana girl: a small rust rebozo round her shoulders, a white camisa, an ochre skirt, two dark braids. standing still. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-maria-de-jesus-idle.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's maria-de-jesus-idle"
+    },
+    "maria-de-jesus-seated-huddled": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-maria-de-jesus",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "María de Jesús Castro Esparza (about ten), Ana's daughter, in the Alamo with her mother. a Tejana girl: a small rust rebozo round her shoulders, a white camisa, an ochre skirt, two dark braids. seated huddled on the floor, the arms round the knees. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-maria-de-jesus-seated-huddled.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's maria-de-jesus-seated-huddled"
+    },
+    "enrique-esparza-walk-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-enrique-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Enrique Esparza (about eight), who remembered the siege and the fall in 1902 and 1907. a Tejano boy with dark hair: a white shirt, brown trousers, a red sash, bare-headed. walking east, frame 1 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-enrique-esparza-walk-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's enrique-esparza-walk-e-1"
+    },
+    "enrique-esparza-walk-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-enrique-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Enrique Esparza (about eight), who remembered the siege and the fall in 1902 and 1907. a Tejano boy with dark hair: a white shirt, brown trousers, a red sash, bare-headed. walking east, frame 2 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-enrique-esparza-walk-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's enrique-esparza-walk-e-2"
+    },
+    "enrique-esparza-walk-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-enrique-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Enrique Esparza (about eight), who remembered the siege and the fall in 1902 and 1907. a Tejano boy with dark hair: a white shirt, brown trousers, a red sash, bare-headed. walking east, frame 3 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-enrique-esparza-walk-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's enrique-esparza-walk-e-3"
+    },
+    "enrique-esparza-walk-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-enrique-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Enrique Esparza (about eight), who remembered the siege and the fall in 1902 and 1907. a Tejano boy with dark hair: a white shirt, brown trousers, a red sash, bare-headed. walking east, frame 4 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-enrique-esparza-walk-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's enrique-esparza-walk-e-4"
+    },
+    "enrique-esparza-walk-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-enrique-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Enrique Esparza (about eight), who remembered the siege and the fall in 1902 and 1907. a Tejano boy with dark hair: a white shirt, brown trousers, a red sash, bare-headed. walking toward the camera, frame 1 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-enrique-esparza-walk-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's enrique-esparza-walk-s-1"
+    },
+    "enrique-esparza-walk-s-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-enrique-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Enrique Esparza (about eight), who remembered the siege and the fall in 1902 and 1907. a Tejano boy with dark hair: a white shirt, brown trousers, a red sash, bare-headed. walking toward the camera, frame 2 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-enrique-esparza-walk-s-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's enrique-esparza-walk-s-2"
+    },
+    "enrique-esparza-walk-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-enrique-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Enrique Esparza (about eight), who remembered the siege and the fall in 1902 and 1907. a Tejano boy with dark hair: a white shirt, brown trousers, a red sash, bare-headed. walking away from the camera, frame 1 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-enrique-esparza-walk-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's enrique-esparza-walk-n-1"
+    },
+    "enrique-esparza-walk-n-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-enrique-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Enrique Esparza (about eight), who remembered the siege and the fall in 1902 and 1907. a Tejano boy with dark hair: a white shirt, brown trousers, a red sash, bare-headed. walking away from the camera, frame 2 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-enrique-esparza-walk-n-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's enrique-esparza-walk-n-2"
+    },
+    "enrique-esparza-idle": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-enrique-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Enrique Esparza (about eight), who remembered the siege and the fall in 1902 and 1907. a Tejano boy with dark hair: a white shirt, brown trousers, a red sash, bare-headed. standing still. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-enrique-esparza-idle.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's enrique-esparza-idle"
+    },
+    "enrique-esparza-seated-huddled": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-enrique-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Enrique Esparza (about eight), who remembered the siege and the fall in 1902 and 1907. a Tejano boy with dark hair: a white shirt, brown trousers, a red sash, bare-headed. seated huddled on the floor, the arms round the knees. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-enrique-esparza-seated-huddled.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's enrique-esparza-seated-huddled"
+    },
+    "enrique-esparza-look": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-enrique-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Enrique Esparza (about eight), who remembered the siege and the fall in 1902 and 1907. a Tejano boy with dark hair: a white shirt, brown trousers, a red sash, bare-headed. standing, looking up (the moment he remembered). An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-enrique-esparza-look.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's enrique-esparza-look"
+    },
+    "francisco-esparza-walk-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-francisco-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Francisco Esparza (about thirty), Gregorio's brother, who had served in the Béxar presidial company and on March 6, 1836 carried his brother's body to the Campo Santo. town clothes of Béxar: a short brown jacket, a white shirt, a red sash, dark blue calzoneras, a wide sombrero, a black moustache. walking east, frame 1 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-francisco-esparza-walk-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's francisco-esparza-walk-e-1"
+    },
+    "francisco-esparza-walk-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-francisco-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Francisco Esparza (about thirty), Gregorio's brother, who had served in the Béxar presidial company and on March 6, 1836 carried his brother's body to the Campo Santo. town clothes of Béxar: a short brown jacket, a white shirt, a red sash, dark blue calzoneras, a wide sombrero, a black moustache. walking east, frame 2 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-francisco-esparza-walk-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's francisco-esparza-walk-e-2"
+    },
+    "francisco-esparza-walk-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-francisco-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Francisco Esparza (about thirty), Gregorio's brother, who had served in the Béxar presidial company and on March 6, 1836 carried his brother's body to the Campo Santo. town clothes of Béxar: a short brown jacket, a white shirt, a red sash, dark blue calzoneras, a wide sombrero, a black moustache. walking east, frame 3 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-francisco-esparza-walk-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's francisco-esparza-walk-e-3"
+    },
+    "francisco-esparza-walk-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-francisco-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Francisco Esparza (about thirty), Gregorio's brother, who had served in the Béxar presidial company and on March 6, 1836 carried his brother's body to the Campo Santo. town clothes of Béxar: a short brown jacket, a white shirt, a red sash, dark blue calzoneras, a wide sombrero, a black moustache. walking east, frame 4 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-francisco-esparza-walk-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's francisco-esparza-walk-e-4"
+    },
+    "francisco-esparza-walk-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-francisco-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Francisco Esparza (about thirty), Gregorio's brother, who had served in the Béxar presidial company and on March 6, 1836 carried his brother's body to the Campo Santo. town clothes of Béxar: a short brown jacket, a white shirt, a red sash, dark blue calzoneras, a wide sombrero, a black moustache. walking toward the camera, frame 1 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-francisco-esparza-walk-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's francisco-esparza-walk-s-1"
+    },
+    "francisco-esparza-walk-s-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-francisco-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Francisco Esparza (about thirty), Gregorio's brother, who had served in the Béxar presidial company and on March 6, 1836 carried his brother's body to the Campo Santo. town clothes of Béxar: a short brown jacket, a white shirt, a red sash, dark blue calzoneras, a wide sombrero, a black moustache. walking toward the camera, frame 2 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-francisco-esparza-walk-s-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's francisco-esparza-walk-s-2"
+    },
+    "francisco-esparza-walk-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-francisco-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Francisco Esparza (about thirty), Gregorio's brother, who had served in the Béxar presidial company and on March 6, 1836 carried his brother's body to the Campo Santo. town clothes of Béxar: a short brown jacket, a white shirt, a red sash, dark blue calzoneras, a wide sombrero, a black moustache. walking away from the camera, frame 1 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-francisco-esparza-walk-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's francisco-esparza-walk-n-1"
+    },
+    "francisco-esparza-walk-n-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-francisco-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Francisco Esparza (about thirty), Gregorio's brother, who had served in the Béxar presidial company and on March 6, 1836 carried his brother's body to the Campo Santo. town clothes of Béxar: a short brown jacket, a white shirt, a red sash, dark blue calzoneras, a wide sombrero, a black moustache. walking away from the camera, frame 2 of 2. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-francisco-esparza-walk-n-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's francisco-esparza-walk-n-2"
+    },
+    "francisco-esparza-idle": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-francisco-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Francisco Esparza (about thirty), Gregorio's brother, who had served in the Béxar presidial company and on March 6, 1836 carried his brother's body to the Campo Santo. town clothes of Béxar: a short brown jacket, a white shirt, a red sash, dark blue calzoneras, a wide sombrero, a black moustache. standing still. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-francisco-esparza-idle.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's francisco-esparza-idle"
+    },
+    "francisco-esparza-kneel-at-grave": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-francisco-esparza",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Francisco Esparza (about thirty), Gregorio's brother, who had served in the Béxar presidial company and on March 6, 1836 carried his brother's body to the Campo Santo. town clothes of Béxar: a short brown jacket, a white shirt, a red sash, dark blue calzoneras, a wide sombrero, a black moustache. kneeling at the grave in the Campo Santo, his head bowed and his sombrero in his hands. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-francisco-esparza-kneel-at-grave.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's francisco-esparza-kneel-at-grave"
+    },
+    "ana-esparza-carry-toddler-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza-carry",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. walking east with a child of two on her hip, frame 1 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-carry-toddler-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-carry-toddler-1"
+    },
+    "ana-esparza-carry-toddler-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza-carry",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. walking east with a child of two on her hip, frame 2 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-carry-toddler-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-carry-toddler-2"
+    },
+    "ana-esparza-carry-toddler-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza-carry",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. walking east with a child of two on her hip, frame 3 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-carry-toddler-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-carry-toddler-3"
+    },
+    "ana-esparza-carry-toddler-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-ana-esparza-carry",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared. a Tejana woman of Béxar: a slate-blue rebozo over her head and shoulders, a white camisa with long sleeves, a dark red skirt to the ankle, dark hair. walking east with a child of two on her hip, frame 4 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-ana-esparza-carry-toddler-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's ana-esparza-carry-toddler-4"
+    },
+    "burial-party-walk-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-burial-party",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "The burial party of the afternoon of March 6, 1836: Francisco Esparza in front and one of his brothers behind, two Tejano men of Béxar in town clothes (short jackets, sashes, calzoneras, sombreros), walking east one behind the other, carrying between them on a litter of two poles Gregorio Esparza's body wrapped whole in a brown blanket and tied at three places - no face, no body shown, no wound, no blood (VISION.md §16); frame 1 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-burial-party-walk-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's burial-party-walk-e-1"
+    },
+    "burial-party-walk-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-burial-party",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "The burial party of the afternoon of March 6, 1836: Francisco Esparza in front and one of his brothers behind, two Tejano men of Béxar in town clothes (short jackets, sashes, calzoneras, sombreros), walking east one behind the other, carrying between them on a litter of two poles Gregorio Esparza's body wrapped whole in a brown blanket and tied at three places - no face, no body shown, no wound, no blood (VISION.md §16); frame 2 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-burial-party-walk-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's burial-party-walk-e-2"
+    },
+    "burial-party-walk-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-burial-party",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "The burial party of the afternoon of March 6, 1836: Francisco Esparza in front and one of his brothers behind, two Tejano men of Béxar in town clothes (short jackets, sashes, calzoneras, sombreros), walking east one behind the other, carrying between them on a litter of two poles Gregorio Esparza's body wrapped whole in a brown blanket and tied at three places - no face, no body shown, no wound, no blood (VISION.md §16); frame 3 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-burial-party-walk-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's burial-party-walk-e-3"
+    },
+    "burial-party-walk-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-burial-party",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "The burial party of the afternoon of March 6, 1836: Francisco Esparza in front and one of his brothers behind, two Tejano men of Béxar in town clothes (short jackets, sashes, calzoneras, sombreros), walking east one behind the other, carrying between them on a litter of two poles Gregorio Esparza's body wrapped whole in a brown blanket and tied at three places - no face, no body shown, no wound, no blood (VISION.md §16); frame 4 of 4. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-burial-party-walk-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's burial-party-walk-e-4"
+    },
+    "esparza-seated": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "sheet": "claude-esparza-seated",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Gregorio Esparza (born 1802), who served a gun in the Alamo's church and was killed there on March 6, 1836; seated asleep beside his family on the night of March 5, as Astra drew him in `famous-esparza`. Astra's Gregorio: dark curly hair, a moustache, an olive-brown frock coat, a white shirt, a red kerchief, tan trousers, brown boots, his musket beside him. sitting on the floor of the sacristy with his back to the wall on the night of March 5, 1836, asleep, the head fallen forward, the hands in his lap and his musket leaning beside him. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
+      "source": "public/assets/claude-standins/svg/esparza-family/claude-esparza-seated.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's esparza-seated"
+    },
+    "ana-esparza-walk-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared, walking east, four frames. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c).",
+      "frames": [
+        "ana-esparza-walk-e-1",
+        "ana-esparza-walk-e-2",
+        "ana-esparza-walk-e-3",
+        "ana-esparza-walk-e-4"
+      ],
+      "status": "temporary: replace with Astra's ana-esparza-walk-e"
+    },
+    "ana-esparza-walk-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared, walking toward the camera. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c).",
+      "frames": [
+        "ana-esparza-walk-s-1",
+        "ana-esparza-walk-s-2"
+      ],
+      "status": "temporary: replace with Astra's ana-esparza-walk-s"
+    },
+    "ana-esparza-walk-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared, walking away from the camera. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c).",
+      "frames": [
+        "ana-esparza-walk-n-1",
+        "ana-esparza-walk-n-2"
+      ],
+      "status": "temporary: replace with Astra's ana-esparza-walk-n"
+    },
+    "maria-de-jesus-walk-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "María de Jesús Castro Esparza (about ten), Ana's daughter, in the Alamo with her mother, walking east, four frames. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c).",
+      "frames": [
+        "maria-de-jesus-walk-e-1",
+        "maria-de-jesus-walk-e-2",
+        "maria-de-jesus-walk-e-3",
+        "maria-de-jesus-walk-e-4"
+      ],
+      "status": "temporary: replace with Astra's maria-de-jesus-walk-e"
+    },
+    "maria-de-jesus-walk-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "María de Jesús Castro Esparza (about ten), Ana's daughter, in the Alamo with her mother, walking toward the camera. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c).",
+      "frames": [
+        "maria-de-jesus-walk-s-1",
+        "maria-de-jesus-walk-s-2"
+      ],
+      "status": "temporary: replace with Astra's maria-de-jesus-walk-s"
+    },
+    "maria-de-jesus-walk-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "María de Jesús Castro Esparza (about ten), Ana's daughter, in the Alamo with her mother, walking away from the camera. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c).",
+      "frames": [
+        "maria-de-jesus-walk-n-1",
+        "maria-de-jesus-walk-n-2"
+      ],
+      "status": "temporary: replace with Astra's maria-de-jesus-walk-n"
+    },
+    "enrique-esparza-walk-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Enrique Esparza (about eight), who remembered the siege and the fall in 1902 and 1907, walking east, four frames. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c).",
+      "frames": [
+        "enrique-esparza-walk-e-1",
+        "enrique-esparza-walk-e-2",
+        "enrique-esparza-walk-e-3",
+        "enrique-esparza-walk-e-4"
+      ],
+      "status": "temporary: replace with Astra's enrique-esparza-walk-e"
+    },
+    "enrique-esparza-walk-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Enrique Esparza (about eight), who remembered the siege and the fall in 1902 and 1907, walking toward the camera. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c).",
+      "frames": [
+        "enrique-esparza-walk-s-1",
+        "enrique-esparza-walk-s-2"
+      ],
+      "status": "temporary: replace with Astra's enrique-esparza-walk-s"
+    },
+    "enrique-esparza-walk-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Enrique Esparza (about eight), who remembered the siege and the fall in 1902 and 1907, walking away from the camera. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c).",
+      "frames": [
+        "enrique-esparza-walk-n-1",
+        "enrique-esparza-walk-n-2"
+      ],
+      "status": "temporary: replace with Astra's enrique-esparza-walk-n"
+    },
+    "francisco-esparza-walk-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Francisco Esparza (about thirty), Gregorio's brother, who had served in the Béxar presidial company and on March 6, 1836 carried his brother's body to the Campo Santo, walking east, four frames. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c).",
+      "frames": [
+        "francisco-esparza-walk-e-1",
+        "francisco-esparza-walk-e-2",
+        "francisco-esparza-walk-e-3",
+        "francisco-esparza-walk-e-4"
+      ],
+      "status": "temporary: replace with Astra's francisco-esparza-walk-e"
+    },
+    "francisco-esparza-walk-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Francisco Esparza (about thirty), Gregorio's brother, who had served in the Béxar presidial company and on March 6, 1836 carried his brother's body to the Campo Santo, walking toward the camera. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c).",
+      "frames": [
+        "francisco-esparza-walk-s-1",
+        "francisco-esparza-walk-s-2"
+      ],
+      "status": "temporary: replace with Astra's francisco-esparza-walk-s"
+    },
+    "francisco-esparza-walk-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Francisco Esparza (about thirty), Gregorio's brother, who had served in the Béxar presidial company and on March 6, 1836 carried his brother's body to the Campo Santo, walking away from the camera. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c).",
+      "frames": [
+        "francisco-esparza-walk-n-1",
+        "francisco-esparza-walk-n-2"
+      ],
+      "status": "temporary: replace with Astra's francisco-esparza-walk-n"
+    },
+    "ana-esparza-carry-toddler": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "Ana Salazar de Esparza (about thirty), Gregorio Esparza's wife, who went into the Alamo with her four children on February 23, 1836 and was spared: walking east with her youngest on her hip, four frames. An original interpretation, not a portrait: no likeness is claimed (docs/BATTLES.md §2c).",
+      "frames": [
+        "ana-esparza-carry-toddler-1",
+        "ana-esparza-carry-toddler-2",
+        "ana-esparza-carry-toddler-3",
+        "ana-esparza-carry-toddler-4"
+      ],
+      "status": "temporary: replace with Astra's ana-esparza-carry-toddler"
+    },
+    "burial-party-walk-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "esparza-family",
+      "area": "battles",
+      "request": "Request 2026-09-26 — the Esparza family",
+      "prompt": "The burial party walking east with the wrapped body on its litter: four frames at a slow bearer's pace. No face, no wound, no blood (VISION.md §16).",
+      "frames": [
+        "burial-party-walk-e-1",
+        "burial-party-walk-e-2",
+        "burial-party-walk-e-3",
+        "burial-party-walk-e-4"
+      ],
+      "status": "temporary: replace with Astra's burial-party-walk-e"
+    }
+  }
+}

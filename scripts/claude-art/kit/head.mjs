@@ -94,6 +94,8 @@ function bonnetSide(ink, spec, h, R, layer) {
 
 function hatSide(ink, spec, h, R) {
   const hat = spec.hat, c = hat.colour;
+  // A hat that draws itself (the battle kit's bicornes, shakos with plumes, forage caps, top hats, sombreros).
+  if (hat.draw) return hat.draw(ink, { spec, h, R, view: 'e' });
   if (hat.kind === 'brim' || hat.kind === 'slouch' || hat.kind === 'wide') {
     // Her felt and straw hats: a low round crown with a dark band, a wide brim seen a little from above.
     const wide = hat.kind === 'wide' ? 2.35 : hat.kind === 'slouch' ? 1.75 : 2.1;
@@ -179,6 +181,7 @@ export function drawHeadFrontal(ink, spec, B, H, N, back, pose) {
 
 function hatFrontal(ink, spec, h, R, back) {
   const hat = spec.hat, c = hat.colour;
+  if (hat.draw) return hat.draw(ink, { spec, h, R, view: back ? 'n' : 's', back });
   if (hat.kind === 'brim' || hat.kind === 'slouch' || hat.kind === 'wide') {
     const wide = hat.kind === 'wide' ? 2.4 : hat.kind === 'slouch' ? 1.8 : 2.15;
     ink.shape(ellipse(R(0, 0.66), h * wide, h * 0.46, 0), tone(c, 0.04), { off: 0.8 });

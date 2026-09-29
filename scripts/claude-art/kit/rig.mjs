@@ -30,7 +30,8 @@ export function ik(root, target, l1, l2, bend = 1) {
 /** The standing skeleton's heights for an identity. */
 export function frameOf(figure) {
   const spec = typeof figure === 'string' ? CAST[figure] : figure;
-  const B = BUILD[spec.age] || BUILD.adult;
+  // A spec may carry its own build (the battle kit's officers and townspeople: scripts/claude-art/battle-kit/figures.mjs).
+  const B = spec.build || BUILD[spec.age] || BUILD.adult;
   const ankle = 3.2, hip = ankle + B.shin + B.thigh;
   return { spec, B, ankle, hip, neck: hip + B.torso, headC: hip + B.torso + B.neck + B.head * 0.95 };
 }
@@ -60,7 +61,7 @@ export function drawPerson(ink, figure, pose = {}) {
 
 function skinOf(spec) { return spec.skin; }
 const sleeveOf = spec => spec.coat || spec.shirt;
-const rolled = spec => !spec.coat; // every civilian in the cast has sleeves rolled or short to the elbow
+const rolled = spec => !spec.coat && !spec.longSleeves; // every civilian in the cast has sleeves rolled or short to the elbow
 
 function drawSide(ink, F, pose) {
   const { spec, B } = F;
@@ -89,29 +90,45 @@ function drawSide(ink, F, pose) {
   const legNear = ik(hipNear, feet.near, B.thigh, B.shin, pose.knees?.near ?? 1);
   const far = c => tone(c, -0.18);
   const joints = { P, N, H, S, handNear: armNear.end, handFar: armFar.end, feet };
+  // Dress hooks: a spec's `dress` may draw at fixed layers (behind the body, over each leg, over the torso, in front of all)
+  // - coat skirts, packs, belts, boots, epaulettes - without the rig knowing what they are (scripts/claude-art/battle-kit/).
+  const k6 = B.depth / 6.5, dress = spec.dress || {};
+  const dc = { view: 'e', P, N, H, S, t, fwd, lean, tilt, B, spec, pose, feet, legNear, legFar, armNear, armFar, hipNear, hipFar, shoulderFar, far, at: (u, v) => add(add(P, mul(fwd, u * k6)), mul(t, v)) };
 
   // Back to front: a tool held behind the body, the far arm, the far leg, the torso and skirt, the near leg, the head, the
   // near arm, a tool in front.
-  if (pose.tool && pose.tool.behind) drawTool(ink, pose.tool.kind, pose.tool.butt, pose.tool.tip, { side: pose.tool.side ?? 1 });
+  dress.behind?.(ink, dc);
+  if (pose.tool && pose.tool.behind) placeTool(ink, pose.tool);
   drawArm(ink, spec, B, shoulderFar, armFar, far, true);
+  dress.farArm?.(ink, dc);
   drawLeg(ink, spec, B, hipFar, legFar, feet.far, far, skirt);
+  dress.leg?.(ink, { ...dc, leg: legFar, hip: hipFar, foot: feet.far, shade: far, isFar: true });
   if (skirt) drawSkirtSide(ink, spec, B, P, t, fwd, feet, legNear, legFar, true, pose);
   drawLeg(ink, spec, B, hipNear, legNear, feet.near, c => c, skirt);
+  dress.leg?.(ink, { ...dc, leg: legNear, hip: hipNear, foot: feet.near, shade: c => c, isFar: false });
   drawTorsoSide(ink, spec, B, P, N, t, fwd, lean);
   if (skirt) drawSkirtSide(ink, spec, B, P, t, fwd, feet, legNear, legFar, false, pose);
+  dress.torso?.(ink, dc);
   // Arms raised in front of the face pass beside the head, as in her three-quarter work frames, not across it: then the
   // near arm and its tool are drawn before the head. Raised behind the head, they are drawn over its back as usual.
   const raised = armNear.end[1] > S[1] + B.head * 0.6 && armNear.end[0] > H[0] - B.head * 0.4;
   const nearArm = () => {
-    if (pose.tool && !pose.tool.behind && !pose.tool.front) drawTool(ink, pose.tool.kind, pose.tool.butt, pose.tool.tip, { side: pose.tool.side ?? 1 });
+    if (pose.tool && !pose.tool.behind && !pose.tool.front) placeTool(ink, pose.tool);
     drawArm(ink, spec, B, S, armNear, c => c, false);
   };
   if (raised) nearArm();
   drawHeadSide(ink, spec, B, H, N, lean + tilt, pose);
   if (!raised) nearArm();
-  if (pose.tool && pose.tool.front) drawTool(ink, pose.tool.kind, pose.tool.butt, pose.tool.tip, { side: pose.tool.side ?? 1 });
+  if (pose.tool && pose.tool.front) placeTool(ink, pose.tool);
+  dress.front?.(ink, dc);
   if (pose.after) pose.after(ink, joints);
   return joints;
+}
+
+/** A pose's tool: the kit's hafted tools by kind, or one that draws itself (`tool.draw`: the battle kit's muskets and rifles). */
+function placeTool(ink, tool) {
+  if (tool.draw) tool.draw(ink, tool);
+  else drawTool(ink, tool.kind, tool.butt, tool.tip, { side: tool.side ?? 1 });
 }
 
 function drawArm(ink, spec, B, S, chain, shade, isFar) {
@@ -266,10 +283,14 @@ function drawFrontal(ink, F, pose, view) {
     return { side, S, chain: ik(S, target, B.upperArm, B.forearm, side) };
   });
   const joints = { P, N, H };
-  for (const leg of legs) drawLegFrontal(ink, spec, B, leg, skirt);
+  const dress = spec.dress || {}, dc = { view, back, P, N, H, B, spec, pose, hw, sw, legs, arms, at: (x, v) => add(P, [x, v]) };
+  dress.behind?.(ink, dc);
+  for (const leg of legs) { drawLegFrontal(ink, spec, B, leg, skirt); dress.leg?.(ink, { ...dc, leg: leg.chain, hip: leg.hip, foot: leg.foot, side: leg.side, shade: c => c }); }
   drawTorsoFrontal(ink, spec, B, P, N, hw, sw, back);
   if (skirt) drawSkirtFrontal(ink, spec, B, P, hw, legs, back);
+  dress.torso?.(ink, dc);
   for (const a of arms) drawArmFrontal(ink, spec, B, a);
+  dress.front?.(ink, dc);
   drawHeadFrontal(ink, spec, B, H, N, back, pose);
   if (pose.after) pose.after(ink, joints);
   return joints;
