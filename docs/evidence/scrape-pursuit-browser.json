@@ -63,7 +63,13 @@
           "alto"
         ],
         "heard": [],
-        "spoken": []
+        "spoken": [
+          {
+            "id": "alto",
+            "x": 418,
+            "y": 650
+          }
+        ]
       },
       "ask": [
         "halt",
@@ -103,7 +109,7 @@
             "size": 1
           },
           {
-            "x": 613,
+            "x": 614,
             "y": 588,
             "size": 1
           },
@@ -126,7 +132,7 @@
         "spoken": [
           {
             "id": "fire",
-            "x": 560,
+            "x": 561,
             "y": 571
           }
         ]
@@ -267,11 +273,11 @@
           "yards": 48,
           "shooter": "mounted",
           "target": {
-            "kind": "person",
-            "name": "Gregorio",
-            "id": "hh-1-parent-1"
+            "kind": "beast",
+            "name": "ox",
+            "id": "hh-1-animal"
           },
-          "p": 0.036,
+          "p": 0.057,
           "hit": false,
           "minute": 288256.95
         },
@@ -309,11 +315,11 @@
           "yards": 46,
           "shooter": "mounted",
           "target": {
-            "kind": "person",
-            "name": "Gregorio",
-            "id": "hh-1-parent-1"
+            "kind": "beast",
+            "name": "ox",
+            "id": "hh-1-animal"
           },
-          "p": 0.041,
+          "p": 0.063,
           "hit": false,
           "minute": 288257.033
         }
@@ -409,7 +415,13 @@
           "alto"
         ],
         "heard": [],
-        "spoken": []
+        "spoken": [
+          {
+            "id": "alto",
+            "x": 247,
+            "y": 650
+          }
+        ]
       },
       "ask": [
         "halt",

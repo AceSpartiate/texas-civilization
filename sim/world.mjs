@@ -46,7 +46,7 @@ import { projectWatching, watchOf, watchRefusal } from './watching.mjs';
 registerActingChores(registerChores);
 registerTakenInLedger({ owes: (world, debtorId, creditorId) => owes(standings(world), debtorId, creditorId), recorded: (world, takerId, familyId, ids) => recordTakenIn(world, takerId, familyId, ids, { quiet: true }) });
 import { advanceLesson, advanceLessons, inLesson, lessonHostWords, lessonInvalid, lessonProjection, lessonRefusal, lessonResumeOffer, resumeLesson, stopLesson } from './lesson.mjs';
-import { REPEATED, advanceAuto, flightLeftMs, autoShown, noteOrder, setAuto, waitForTask, waitingWork } from './auto.mjs';
+import { FLIGHT_IF_UNANSWERED, REPEATED, advanceAuto, flightLeftMs, autoShown, noteOrder, setAuto, waitForTask, waitingWork } from './auto.mjs';
 import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 // The children's own works (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21). Imported here as well
 // as for its gates, because importing it is what registers them into the chore table.
@@ -1412,7 +1412,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // With, while the order to leave stands unanswered, the real milliseconds left before the family is packed off by silence
     // (its three real minutes, owner 2026-09-29; sim/auto.mjs `flightLeftMs`), for the countdown on the "!"
     // (docs/audits/2026-09-28-design.md S33).
-    ...(household?.flight ? { flight: { ...flightProjection(world, household), ...(() => { const left = flightLeftMs(world, household); return left === null ? {} : { leftMs: left }; })() } } : {}),
+    ...(household?.flight ? { flight: { ...flightProjection(world, household), ...(() => { const left = flightLeftMs(world, household); return left === null ? {} : { leftMs: left, ifUnanswered: FLIGHT_IF_UNANSWERED }; })() } } : {}),
     // Every family's land as it truly stands, and where the army is, for the Host's map only (sim/overview.mjs).
     ...(overview && { overview: { lands: overview.lands, ...(overview.army && { army: overview.army }) } }),
     // The Host's live page (sim/host.mjs): the class in words, the Rumor Mill and the spotlight. Never a student's.

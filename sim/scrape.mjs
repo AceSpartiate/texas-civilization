@@ -31,7 +31,8 @@ import { advanceRoad, roadInvalid, roadProjection } from './road.mjs';
 import { isStage } from './colonies-map.mjs';
 // The Mexican columns and the burn zone (sim/advance.mjs), and what the family learns of its farm (sim/advance-word.mjs).
 import { COLUMNS, advanceModelled, burnMinute, farmFate } from './advance.mjs';
-import { learnOwnBurning, recordFarmBurned } from './advance-word.mjs';
+import { farmTopic, learnOwnBurning, recordFarmBurned } from './advance-word.mjs';
+import { learn } from './knowledge.mjs';
 // What the family does on the road besides run (sim/flight-work.mjs, docs/CHILDREN.md §7): what it hid, the children's bundles, the
 // fire at the camp, and a sick child let over first at the ferry.
 import { bundleRoom, cowHome, cowPace, crossingHoursFor, digUpCache, fireKept, heldToCow, hideAtLeaving, milkCow, takeCow } from './flight-work.mjs';
@@ -577,6 +578,44 @@ export function autoFlee(world, household, { why = 'auto' } = {}) {
   if (fleeRefusal(world, household, { take, refuge })) return false;
   if (why === 'waited') tell(world, household, 'Nobody gave the word, and the family could wait no longer: it loaded what it could and went.', { importance: 2 });
   flee(world, household, { take, refuge });
+  // Its student at the screen let the order lapse (sim/auto.mjs `flightWaited`): the house is lost behind it (`burnForSilence`).
+  if (why === 'waited') burnForSilence(world, household);
+  return true;
+}
+
+/**
+ * The order to leave went unanswered by a student at the screen, and the family left in a rush: **its house burns behind it**
+ * (owner, 2026-09-29: "72 s at quick, but if the student doesn't respond, burn their house. They should have been paying
+ * attention."; `FIC-GONZ-907`). Only ever called for a family `advanceAuto` packs off by silence - a played family at its
+ * screen, its answerer by hand - so a family nobody plays, an absent one and one on auto keep the old answer, the farm left
+ * standing.
+ *
+ * **Who burns it: men of the Texas army**, as the family goes - the game's own rule for the invented country (`burnFarm`,
+ * `FIC-GONZ-046`) and the documented practice of the Texas army on its retreat, which burned Gonzales and San Felipe so the
+ * Mexican army would find nothing (`HIST-TEX-594`). The record read for this game says nothing of any particular farm burned
+ * because its family left late; that is the game's. Burned as every farm in this game burns - the house, the field and the
+ * fences, and whatever was left in the house - and counted as every burning is (`flight.burned`, `burnedBy` with the hand
+ * `texian`, the world's record of it), so the Host, the homecoming, the flashback and the ending all tell it. The family sees
+ * it from the road, so nothing is kept `unseen`. Nothing is taken from the herd: that is the foragers' doing, not this.
+ *
+ * On the invented country the farm has already burned as the family drove off (`flee` → `burnFarm`), and nothing more is done.
+ */
+export function burnForSilence(world, household) {
+  const flight = household.flight;
+  if (!flight || Number.isFinite(flight.burned)) return false;
+  const lost = flight.left ? Object.entries(flight.left).filter(([, amount]) => amount > 0).map(([good, amount]) => `${amount} ${good}`) : [];
+  const text = `Nobody answered the order to leave in time, and the family left in a rush. As it went, men of the Texas army set fire to the house, the field and the fences behind it, so the Mexican army would find nothing to use. The house is lost.${lost.length ? ` What was left in it burned too: ${lost.join(', ')}.` : ''}`;
+  if (!ruin(world, household, ['cabin', 'field', 'fence'], { text }).length) tell(world, household, text, { importance: 3, claimId: 'FIC-GONZ-907' });
+  household.furniture = {};
+  delete household.interior;
+  delete household.herdLookedDay;
+  delete flight.left;
+  flight.burned = world.minute;
+  flight.burnedBy = { hand: 'texian', name: 'the Texas army', lapsed: true, ...(lost.length && { lost }) };
+  flight.burnKnown = { minute: world.minute, how: 'there' };
+  recordFarmBurned(world, household);
+  learn(world, household.id, farmTopic(household), { status: 'confirmed', source: 'Their own eyes', text: 'The Texas army burned the family’s farm as it left.' });
+  if (household.played) spotlight(world, { key: `burned:${household.id}`, text: `Nobody answered for ${householdName(world, household)} in time: it left in a rush, and the Texas army burns its house behind it at ${world.map.sites[household.homeSiteId]?.name || 'its land'}.`, siteId: household.homeSiteId, claimId: 'FIC-GONZ-907', householdId: household.id, tell: false });
   return true;
 }
 

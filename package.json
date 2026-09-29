@@ -131,6 +131,7 @@
     "test:lone-parent": "node scripts/lone-parent-browser-proof.mjs",
     "test:tips-injections": "node scripts/tips-injections.mjs",
     "test:real-time-limits-injections": "node scripts/real-time-limits-injections.mjs",
+    "test:flight-lapse-burns-injections": "node scripts/flight-lapse-burns-injections.mjs",
     "test:watching": "node scripts/watching-browser-proof.mjs",
     "test:watching-injections": "node scripts/watching-injections.mjs"
   }
