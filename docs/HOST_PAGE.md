@@ -138,6 +138,31 @@ clear, and tell the teacher up front how many class days a game takes at each pa
   (public/reconnect.js); only a sign-out goes to the join screen, which has **I was already in this class** (the class
   code, then your own name) beside the family key.
 
+**Getting in and staying in (2026-09-29, the triage's Tier 1 items 1.5, 1.8 and 1.9; classroom audit M1-M4).**
+
+- **The pace is the class's own.** The pace pressed on the Host page (Study, Brisk, Quick) is kept with the class, beside its
+  name (`state.pace` in the save, by name), so a class set to Brisk yesterday opens at Brisk today, and each class in
+  **Classes** opens at its own. A new class goes on at the pace in use. A class that never chose one - every class saved before
+  this - opens at the server's own pace, Study at the launcher. No save version moved.
+- **The class code forgives look-alikes.** Codes are six hex symbols, so at the join, the away list and the claim an O is read
+  as 0 and an I or an L as 1, with the case and spaces forgiven. A code dealt before this reads exactly as it did.
+- **One name, one student.** Joining with a name already in the class - in any case or spacing - is refused: *"Sam is taken —
+  add your last initial. If you were already in this class, choose “I was already in this class” and tap your name."* The name
+  is how a student finds their family on the away list, so two Sams could take each other's. A student coming back is never
+  refused: their own browser is recognised by its cookie; without it they come back through the away list or the family key,
+  which never ask for a new name; and a latecomer given their own family back by the teacher (the student it takes over is
+  themselves) keeps the name.
+- **A fourth tab lets the oldest go.** A family (or the Host) may hold three pages at once. A fourth is never refused: the
+  oldest is told so and closed, and says *"Your family is open in another tab or window, so this one has stopped updating."*
+  with **Play here**, which takes a page back from the next oldest. It does not reconnect by itself, so the tabs never take
+  turns. Until then the fourth was refused (429) and said *Reconnecting…* for ever.
+- **A page asleep is let go within half a minute.** The server writes a `ping` every 10 seconds naming the page's stream; the
+  page answers it (`POST /api/here`). A page that has answered and then misses 30 seconds of answers - a Chromebook with its
+  lid shut, whose socket the server would otherwise hold for many minutes - is closed, so its family is *away*, on the away list
+  and claimable at another device at once, and its absence counts from its last answer. A page that has never answered (an
+  older page, a script) is never judged. Play Solo is never judged. `ceiling:` and the reasons are at `STREAMS` in
+  `server/app.mjs`; a physical Chromebook asleep has not been tried.
+
 
 ### 2.8 The bell: Stop for today, and End Game asked twice (2026-09-28)
 
@@ -251,6 +276,13 @@ Gonzales at first light, the ending and "How it ended". Found and moved:
   students free and chosen, the thirty-first refused, a new class and the first opened again, a signed-out page carrying on)
   and `npm run test:reconnect` (the real server killed for 5 s and for 30 s, both pages back by themselves, the away list on
   a page with no cookie). Each was seen failing against the code it guards (HANDOFF).
+- §2.7 *Getting in and staying in* (2026-09-29): `tests/pace.test.mjs` (the pace back the next day and a save without it at
+  Study; each kept class at its own pace), `tests/classroom-doors.test.mjs` (O/I/L in the code at all three doors; a second Sam
+  refused and every way back for the first; a fourth tab; a page that stops answering let go and its family claimed; the page's
+  wiring); `npm run test:host-bell` (Quick chosen, Stop for today, the next launch at Quick with its button lit) and `npm run
+  test:reconnect` (a second "reader" refused in words; a fourth tab and **Play here**; a page's script paused, its family on the
+  away list 30 s after and claimed with the code typed `aoblco`). Every test and both proofs' new steps were seen failing
+  against an injection of the regression they guard (HANDOFF).
 - §2.10: `npm run test:overlap` (the Host's page at five sizes in five states, nothing sharing pixels that is not meant to)
   and `npm run test:overlap-injections`.
 

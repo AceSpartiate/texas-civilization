@@ -1,5 +1,72 @@
 # Claude handoff — Astra foundation
 
+## Tier 1 classroom items: the pace kept, the class code's look-alikes, one name one student, a fourth tab and a Chromebook asleep — 2026-09-29 (not released)
+
+**The ask.** The triage of 2026-09-29 ([docs/audits/2026-09-29-triage.md](docs/audits/2026-09-29-triage.md)) ranked four classroom
+findings Tier 1 that need no owner decision: **1.5** the pace forgotten overnight (C-M1, D-M1), **1.8** the class code's O/0 and
+I/1 and two students with the same name (C-M2, C-M3), and **1.9** a fourth tab and a Chromebook asleep keeping a student out
+(C-M4). Branch `tier1-classroom` off `origin/main` 0ffa9663 with the triage (eb59cc61) merged; code at 59522723.
+
+- **The pace is the class's own** (`server/app.mjs`). The Host's `pace` command writes `state.pace` (the name) beside the class's
+  name; a class opens at it, **Open** in Classes restores each class's own, and **New Class** goes on at the pace in use. A save
+  without it - every save before this - opens at the server's `tickMs`, which the launcher sets to Study. **No `saveVersion`
+  move**: the missing field's value is right and nothing is reinterpreted. `paceNamed` also stops `pace: 'toString'` passing
+  the old `PACES[input.pace] ||` check.
+- **The class code forgives look-alikes** (`readCode`/`codeMatches`): case, spaces, O as 0, I and L as 1, at `/api/join`,
+  `/api/away` and `/api/claim` (the away and claim doors compared the raw string before, not even upper-cased). Codes are hex,
+  so every existing code reads as it did. The page is unchanged: the server does the forgiving.
+- **One name, one student** (`sameName`): `/api/join` refuses a name already in the class in any case or spacing - *"Sam is
+  taken — add your last initial. If you were already in this class, choose “I was already in this class” and tap your name."*
+  (409). Not refused: a student with their cookie (answered before the check, as always), one coming back by the away list or
+  the family key (those doors never pass through the join), and a latecomer whose seat takes over the same-named student's own
+  family (`seat.previous` is excluded, since the join signs that credential out). The Host's *show the join address large*,
+  also in 1.8, is not done.
+- **A fourth tab lets the oldest go, and a page asleep is let go** (`STREAMS` in `server/app.mjs`, `public/app.js` `connect`,
+  `#replaced` in `public/index.html`). **The choice, and why:** the triage offered closing the oldest or telling the newest
+  plainly to use another tab. Closing the oldest is what a student expects (the tab in front of them works), and it is safe
+  only because the page let go is told so by a named `replaced` event and **does not reconnect by itself**: otherwise four tabs
+  would take streams from each other for ever. It says *"Your family is open in another tab or window, so this one has stopped
+  updating."* with **Play here**, which takes a stream back from the next oldest. The Host's tabs work the same way (*Use this
+  one*). For the sleeping Chromebook, "drop a stream whose keepalive write fails" is not enough on its own: a write to a
+  half-open socket succeeds into the kernel's buffer for many minutes before TCP gives up. So the keepalive comment became a
+  named `ping` every 10 s carrying the stream's id (the first as it opens), the page answers each with `POST /api/here`, and a
+  stream that has answered and then misses 30 s of answers is closed; presence then counts its absence from its last answer.
+  The answer is driven by the ping's arrival, not a page timer, so a background tab's slowed timers do not matter. A stream
+  that has **never** answered is never judged (a page from the previous build during an update, a test's bare stream,
+  `scripts/perf-server-measure.mjs`), and **Play Solo is never judged** (its page is on the same computer; dropping it would
+  pause and then stop the solo server). Both are `ceiling:`s at `STREAMS`.
+- **Tests** (each seen failing, alone, against its injection, then the injection removed: `node
+  scripts/classroom-doors-injections.mjs`, **8 of 8 caught by exactly their own test**, `docs/evidence/classroom-doors-injections.json`):
+  `tests/pace.test.mjs` +2 (Brisk chosen, stopped, reopened at Brisk, the save's `pace: 'brisk'` and `saveVersion` 3, a save
+  without it at Study; each kept class at its own pace, a new class at the pace in use); `tests/classroom-doors.test.mjs` 5
+  new (a code `A0B1C0` typed `AOBICO`, ` aobLco `, `AOBLCO`, `aobico` at all three doors and `AOBIC8` refused; a second Sam
+  refused and the first back by cookie, by the away list and as a latecomer given their own family; a fourth tab never refused,
+  the oldest told `replaced`, the others untouched; a page answering kept for 500 ms and its claim refused, then asleep and let
+  go, on the away list and claimed, a never-answering stream kept; the page's wiring).
+- **Browser proofs** (same computer, headless Chrome): `npm run test:reconnect` **12 checks** (4 new: a second "reader" refused in
+  words; a fourth tab - the oldest says so and, left 9 s, neither reconnects nor takes a stream; **Play here** takes it back and
+  the next oldest is let go; a Chromebook asleep - its page's script paused by CDP `Debugger.pause`, socket open - on the away list
+  **30 s** after and claimed at another device with the code typed `aoblco`, then woken to the join screen). Chrome's own
+  "frozen" page lifecycle was tried first and still answered every ping, so it is not a sleep. The proof now gives the class the
+  code `A0B1C0` while the server is down, so the look-alikes are met every run. `npm run test:host-bell` **11 checks** (new: Quick
+  chosen on the Host, Stop for today, the next launch - at 200 ms a tick - opens at Quick with its button lit). Injected, the
+  proofs fail at the right step: the 429 back (the fourth-tab wait times out), the sleep drop off (*the sleeping Chromebook's
+  family never came onto the away list*), duplicate names let in (the refusal never appears), the pace not read back (*the next
+  launch opened at 200 ms a tick*). Also green: `test:classes` 16, `test:errand` 16, `test:host-live` 11.
+- **What the first full run found, and changed.** Two tests read every `data:` line of the stream as a snapshot and met the new
+  `ping` (`tests/save-cadence.test.mjs`; also `scripts/perf-server-measure.mjs`): they skip named events now. And
+  `tests/capacity.test.mjs` joined thirty students all called *"Shared classroom display name"* ("names are labels"), which is
+  exactly what 1.8 now refuses: each has a name of its own, and it asserts thirty names.
+- **`npm test`**: **1,720 tests, 1,684 pass, 0 fail, 36 skipped** (the suspended tutorial), 395 s. The first full run, before
+  the three changes above, was 1,681 pass and 3 fail: those two tests and `save-retry` (known flaky under load; green alone and
+  in the second run).
+- **Docs**: docs/HOST_PAGE.md §2.7 *Getting in and staying in* and §3; docs/RECOVERY.md (the *already playing* row, the away list,
+  a fourth tab, presence); docs/DEPLOYMENT.md (the pace kept; the streams); TECH.md (joins; streams); GAME.md (names; pace);
+  README (the pace; getting back in); the triage's rows 1.5, 1.8, 1.9.
+- **Not claimed.** No Chromebook, lid, Wi-Fi or LAN: the sleep is a paused script on loopback. The 30 s is a choice (three missed
+  pings); a class's Host will see a sleeping student's row go *away* about 30 s after the lid shuts, where before it stayed
+  *here* until TCP gave up.
+
 ## Released as v2026.09.29.1 — 2026-09-29
 
 Everything below marked *(released in v2026.09.29.1)* shipped in this release: simpler work (one wood pile, auto, more hands, an axe each), the tutorial suspended and tips at first meeting, people drawn at their work, ambient life and chatter, sound and music, crops in real minutes with a slow winter and open stores until the Scrape, neighbours who repay (and count toward glory), who acts for a family, the flashback video, Stop for today / Continue / Delete in Classes, the overlap fixes, the errand list that stands still, the looks recolouring that finds the face, and Claude's temporary art in six areas (docs/CLAUDE_ART_PLAN.md). Verified on a clean tree at 9bed9f43: `npm test` 1713 tests, 1677 pass, 0 fail, 36 skipped (the suspended tutorial); 26 of 28 browser proofs green first time, `test:solo-game` green on rerun, `test:famous-people` green on one of two reruns (its Host frame sample is 2-7 frames; a follow-up is open). Same computer only; no Chromebook or LAN claim.

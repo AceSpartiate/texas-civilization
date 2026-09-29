@@ -27,7 +27,7 @@ A new family arrives by wagon, chooses its house site and camps while it builds.
 
 Each person can be sent **on foot**, **on the horse**, or **with the ox and wagon**, and the three are genuinely different: speed, how much comes home, and how tired they arrive. There is one of each per family.
 
-The Host page carries a **pace** — Study, Brisk or Quick. The lesson is the same in all three; only how long it takes to watch changes. Study is the default, and the slowest: at Study a walking settler looks like somebody walking.
+The Host page carries a **pace** — Study, Brisk or Quick. The lesson is the same in all three; only how long it takes to watch changes. Study is the default, and the slowest: at Study a walking settler looks like somebody walking. The pace you choose is kept with the class, so it opens at the same pace next time.
 
 It appears in **Settings ▸ Apps** like anything else and can be removed there; removing it asks separately whether to keep your saved classes, and keeps them by default.
 
@@ -39,7 +39,7 @@ The launcher shows which release you have and checks GitHub for a newer one when
 
 Class data — the save, the private Host URL, logs and archived classes — lives beside the application when that folder is writable, and otherwise under `%LOCALAPPDATA%\TexasRevolution\data`. See [deployment](docs/DEPLOYMENT.md) and [recovery](docs/RECOVERY.md).
 
-A student who stays in the same browser is reconnected automatically, and a page that loses the server — Wi-Fi dropping, a Chromebook asleep, the server restarted — says *Reconnecting* and keeps trying until it is back, then carries on with the same family. One who does not have their browser — a cleared browser, a borrowed laptop, a cart Chromebook — chooses **I was already in this class**, types the class code and taps their own name, or types their **family key**, eight characters shown in their own family journal. If they have lost that too, the teacher can look it up from the Host page.
+A student who stays in the same browser is reconnected automatically, and a page that loses the server — Wi-Fi dropping, a Chromebook asleep, the server restarted — says *Reconnecting* and keeps trying until it is back, then carries on with the same family. One who does not have their browser — a cleared browser, a borrowed laptop, a cart Chromebook — chooses **I was already in this class**, types the class code and taps their own name, or types their **family key**, eight characters shown in their own family journal. If they have lost that too, the teacher can look it up from the Host page. The class code forgives an O typed for a 0 and an I or L for a 1. Each student joins under a name of their own — a second "Sam" is asked to add a last initial — so the list of names is never ambiguous. A family open in more than three tabs closes the oldest, which says so and offers **Play here**; a Chromebook that goes to sleep with the game open is let go by the server within about thirty seconds, so its student can pick the family up on another device.
 
 ## What a student does
 
