@@ -40,7 +40,8 @@ if (!isMainThread && workerData.role === 'clients') {
         while ((end = buffer.indexOf('\n\n')) >= 0) {
           const message = buffer.slice(0, end); buffer = buffer.slice(end + 2);
           const data = message.split('\n').find(line => line.startsWith('data: '));
-          if (!data) continue;
+          // Snapshots only: a named event (`ping`, `replaced`: server/app.mjs `STREAMS`) is not one.
+          if (!data || message.split('\n').some(line => line.startsWith('event: '))) continue;
           JSON.parse(data.slice(6));
           stats[role].messages++; stats[role].bytes += data.length - 6; stats[role].max = Math.max(stats[role].max, data.length - 6);
         }

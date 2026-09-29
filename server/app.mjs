@@ -182,6 +182,8 @@ async function body(req) {
  * measurement before today was taken at.
  */
 export const PACES = Object.freeze({ study: 9500, brisk: 4000, quick: 1000 });
+/** Whether `name` is one of the offered paces - its own key, never something every object has (`toString`). */
+const paceNamed = name => typeof name === 'string' && Object.hasOwn(PACES, name);
 /**
  * How long a student's page can be closed before their family goes on by itself (owner, 2026-09-16: "Absent families
  * automatically become npc, but may be played again by the player if they return later"; sim/absence.mjs). Two minutes:
@@ -194,6 +196,29 @@ export const ABSENT_MS = 120000;
  * seconds is under one tick at the study pace, and at a quicker pace the third unsaved tick is written sooner.
  */
 export const SAVE_WITHIN_MS = 5000;
+/**
+ * A page's event stream, and when it is let go (classroom audit M4, 2026-09-29).
+ *
+ * - `perFamily`: the streams one family (or the Host) may hold, one per tab or device. A page opened beyond it is never
+ *   refused: the **oldest** of that family's streams is told `replaced` and closed, and that page says it is open somewhere
+ *   else and stops asking, with a button to take it back. Until then the newest was refused (429), which the page read as a
+ *   lost connection, so a fourth tab said *Reconnecting…* for ever and never why.
+ * - `pingMs`: how often the server writes a `ping` naming the stream; the page answers each one (`POST /api/here`). The first
+ *   is written as the stream opens.
+ * - `staleMs`: a stream whose page has answered before and has not answered for this long is closed, in a class (never in
+ *   Play Solo, whose page is on the same computer). A Chromebook put to sleep with its lid shut leaves its socket open on the
+ *   server for many minutes - nothing fails until TCP gives up - so its family was missing from the away list and its claim
+ *   refused (*"Someone is already playing that family"*) while its student stood at another device. Three missed answers is
+ *   the gap: a page's answer is driven by the ping arriving, not by a timer the browser slows in a background tab.
+ *
+ * ceiling: a stream that has never answered is never judged, so a page from an older build, a test's bare stream or a
+ * measuring script keeps its stream as before; a page that goes to sleep before its first answer (well under a second) is
+ * let go when TCP gives up, as every page was until now.
+ * ceiling: a tab whose script the browser really stops (a tab discarded or frozen to save energy, if its network callbacks
+ * stop with it) is let go too, and its family shows away until it is looked at again, when it takes its stream back. A page
+ * that cannot run is not being played. (Chrome's "frozen" page lifecycle, set by CDP in headless Chrome, still answered.)
+ */
+export const STREAMS = Object.freeze({ perFamily: 3, pingMs: 10000, staleMs: 30000 });
 const SAVE_EVERY_TICKS = 3;
 /** The solo player's own controls, sent from their page as orders (`/api/command`). */
 const SOLO_CONTROLS = new Set(['solo-pause', 'solo-resume', 'solo-save']);
@@ -226,7 +251,9 @@ export const WOODS_BATCH_MAX = 64;
  * `LESSON_RESUME_MS`, five minutes when not given). Both are options only so a test or a browser proof can hold the clock,
  * jump it, or shorten the window; a real class passes neither.
  */
-export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, decisionBudgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, now = Date.now, lessonResumeMs, soloWatch = null, flashbackDir } = {}) {
+export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, decisionBudgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, now = Date.now, lessonResumeMs, soloWatch = null, flashbackDir, streamTimings = STREAMS } = {}) {
+  const { perFamily: streamsPerFamily, pingMs: streamPingMs, staleMs: streamStaleMs } = { ...STREAMS, ...streamTimings };
+  if (!Number.isInteger(streamsPerFamily) || streamsPerFamily < 1 || !(streamPingMs > 0) || !(streamStaleMs > streamPingMs)) throw new Error('Stream timings must be a positive count, a ping and a longer stale time');
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   if (!Number.isFinite(decisionBudgetMs) || decisionBudgetMs <= 0) throw new Error('A decision budget must be a positive number of milliseconds');
   if (!Number.isFinite(callBudgetMs) || callBudgetMs <= 0) throw new Error('A call budget must be a positive number of milliseconds');
@@ -260,6 +287,11 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     state = readSave(savePath) || { saveVersion: 3, revision: 0, hostKey: token(), sessionId: token().slice(0, 12), sessionCode: randomBytes(3).toString('hex').toUpperCase(), clients: {}, hostCommands: [], world: worldFactory(seed, playerCount) };
     validateWorld(state.world);
   } catch (error) { lease.release(); throw error; }
+  // The pace the teacher chose is the class's own and comes back with it (classroom audit M1 / design audit M1, 2026-09-29): a
+  // class set to Brisk yesterday is Brisk today. `state.pace` is the name ('study', 'brisk', 'quick'); a class that never chose
+  // one, and every save written before this, has none and opens at the server's own pace, which the launcher sets to Study
+  // (server/main.mjs). No `saveVersion` move: nothing is reinterpreted, and the missing field's value is the right one.
+  if (paceNamed(state.pace)) pace = PACES[state.pace];
   /**
    * Which map a page holds. The session's id, as it always was, and a count after it once the class size has been changed
    * in the lobby (`class-size`), which deals a new world with the same session - so a page drops the map it fetched.
@@ -286,6 +318,15 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   let lifecycle = null;
   let closing = false;
   const streams = new Set();
+  /**
+   * A page let go because the same family opened another beyond `STREAMS.perFamily`: told `replaced`, so it says it is open
+   * somewhere else and stops asking (public/app.js), rather than reconnecting and letting the next one go in its turn. Ending
+   * the response runs its 'close' (the presence and the heartbeat), as a page closing its tab does.
+   */
+  function replaceStream(old) {
+    streams.delete(old);
+    try { old.res.write('event: replaced\ndata: {}\n\n'); old.res.end(); } catch { old.res.destroy(); }
+  }
   // A family key is derived, never stored. The same class secret, session and household
   // always produce the same eight symbols, so recovering a family needs no extra saved
   // state, and a key from an archived class opens nothing in the next one, because New
@@ -366,6 +407,16 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   }
   const countRejoinTry = address => rejoinTries.set(address, { count: (rejoinTries.get(address)?.count || 0) + 1, at: Date.now() });
   const clearRejoinTries = address => rejoinTries.delete(address);
+  /**
+   * The class code as a student types it (classroom audit M2, 2026-09-29). Codes are six hex symbols (`sessionCode`), so a
+   * letter O can only be a zero and an I or an L only a one; they are read as those, with the case and any spaces forgiven,
+   * at every door that asks for the code (the join, the away list and the claim). A code dealt before this reads exactly as
+   * it did: hex has no O, I, L or space in it.
+   */
+  const readCode = value => String(value ?? '').replace(/\s+/g, '').toUpperCase().replace(/O/g, '0').replace(/[IL]/g, '1');
+  const codeMatches = value => readCode(value) === readCode(state.sessionCode);
+  /** Two display names that a class would take for the same student: the same letters, in any case, however spaced. */
+  const sameName = (a, b) => String(a ?? '').trim().replace(/\s+/g, ' ').toLocaleLowerCase() === String(b ?? '').trim().replace(/\s+/g, ' ').toLocaleLowerCase();
   /** One line on the class's own public record, which is what the Host page reads (`projectWorld`, role 'host'). */
   const tellClass = (world, text) => record(world, 'presence', { visibility: 'public', importance: 2, claimId: 'FIC-GONZ-186', text });
   /**
@@ -997,7 +1048,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const existing = identify(req);
         if (existing?.role === 'student') return json(res, 200, snapshot(existing));
         if (state.world.status === 'ended') return json(res, 409, { error: 'This class has ended. Ask your teacher which class to join.' });
-        if (String(input.code ?? '').trim().toUpperCase() !== state.sessionCode) return json(res, 403, { error: 'Check the class code on the Host screen.' });
+        if (!codeMatches(input.code)) return json(res, 403, { error: 'Check the class code on the Host screen.' });
         const name = typeof input.name === 'string' ? input.name.trim().slice(0, 40) : '';
         if (!name) return json(res, 400, { error: 'Choose a display name.' });
         // After Start a student still joins (2026-09-28, the classroom audit's B2): into the family the teacher chose, or the
@@ -1007,6 +1058,13 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         if (!seat) return json(res, 409, { error: late
           ? `Every family in this class already has a student. Ask your teacher to choose a family for you on the Host's page.`
           : `This class is full: all ${state.world.playerCount} families have a student. Ask your teacher to make the class bigger.` });
+        // One name, one student (classroom audit M3, 2026-09-29). The name is how a student finds their own family again on
+        // the away list (`/api/away`), so two called "Sam" meant either could take the other's. Refused here, at the join, in
+        // any letter case and spacing. A student coming back is never refused: one with their cookie was answered above, one
+        // without it comes back through the away list or the family key, which never pass this way; and the one student whose
+        // family this seat takes over - the teacher giving a returning latecomer their own family back - is signed out by it.
+        const taken = Object.entries(state.clients).find(([credentialHash, client]) => credentialHash !== seat.previous?.credentialHash && sameName(client.name, name));
+        if (taken) return json(res, 409, { error: `${taken[1].name} is taken — add your last initial. If you were already in this class, choose “I was already in this class” and tap your name.` });
         const credential = token();
         const identity = { name, householdId: seat.householdId, commands: [] };
         // A family a student joins is theirs for good: the neighbour director never runs it again (sim/neighbours.mjs).
@@ -1076,7 +1134,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const address = req.socket.remoteAddress || 'unknown';
         const cooling = rejoinCooldown(address);
         if (cooling) return json(res, 429, cooling);
-        if (asked.code !== state.sessionCode) { countRejoinTry(address); return json(res, 403, { error: 'Check the class code on the Host screen.' }); }
+        if (!codeMatches(asked.code)) { countRejoinTry(address); return json(res, 403, { error: 'Check the class code on the Host screen.' }); }
         clearRejoinTries(address);
         const here = streaming();
         const families = Object.values(state.clients)
@@ -1091,7 +1149,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const address = req.socket.remoteAddress || 'unknown';
         const cooling = rejoinCooldown(address);
         if (cooling) return json(res, 429, cooling);
-        if (asked.code !== state.sessionCode) { countRejoinTry(address); return json(res, 403, { error: 'Check the class code on the Host screen.' }); }
+        if (!codeMatches(asked.code)) { countRejoinTry(address); return json(res, 403, { error: 'Check the class code on the Host screen.' }); }
         const found = Object.entries(state.clients).find(([, client]) => client.householdId === asked.householdId);
         if (!found) { countRejoinTry(address); return json(res, 404, { error: 'No family in this class is waiting for that name.' }); }
         clearRejoinTries(address);
@@ -1227,21 +1285,43 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         return json(res, 200, { mapId: mapKey(), family: projectFamily(state.world, identity.householdId) });
       }
       if (req.method === 'GET' && url.pathname === '/api/events') {
-        if ([...streams].filter(s => s.identity.role === identity.role && s.identity.householdId === identity.householdId).length >= 3) return json(res, 429, { error: 'Too many open tabs for this household.' });
+        // A page opened beyond `perFamily` lets the oldest of the family's go, telling it why, rather than being refused (`STREAMS`).
+        const same = [...streams].filter(s => s.identity.role === identity.role && s.identity.householdId === identity.householdId);
+        for (const old of same.slice(0, Math.max(0, same.length - streamsPerFamily + 1))) replaceStream(old);
         res.writeHead(200, { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' });
-        const stream = { res, identity };
+        const stream = { res, identity, id: token().slice(0, 16), answeredAt: null, stale: false };
         streams.add(stream);
         if (identity.role === 'student') { lastSeen.set(identity.householdId, Date.now()); soloCame(); }
+        // The ping names the stream, and the page answers it (`POST /api/here`); the first goes out at once.
+        const ping = () => res.write(`event: ping\ndata: ${stream.id}\n\n`);
+        ping();
         // The page that opened is shown the class at once; the others hear the count change with the next broadcast.
         if (!closing) send(stream);
         broadcastSoon();
-        const heartbeat = setInterval(() => res.write(': keepalive\n\n'), 15000);
+        const heartbeat = setInterval(() => {
+          // A page that has answered and then stopped - a Chromebook asleep - is let go, so its family is away and can be
+          // claimed at another device (`STREAMS`). Closing the socket is what runs the 'close' below.
+          if (!solo && stream.answeredAt !== null && Date.now() - stream.answeredAt >= streamStaleMs) {
+            stream.stale = true; clearInterval(heartbeat); streams.delete(stream); res.destroy();
+            return;
+          }
+          ping();
+        }, streamPingMs);
         req.on('close', () => {
           clearInterval(heartbeat); streams.delete(stream);
-          if (identity.role === 'student') { lastSeen.set(identity.householdId, Date.now()); soloLeft(); }
+          // A page let go for not answering was last seen when it last answered, so its grace and its absence count from then.
+          if (identity.role === 'student') { lastSeen.set(identity.householdId, stream.stale ? stream.answeredAt : Date.now()); soloLeft(); }
           broadcastSoon();
         });
         return;
+      }
+      // A page answering its stream's ping (`STREAMS`): only its own stream, found by the id the ping carried and this cookie.
+      if (req.method === 'POST' && url.pathname === '/api/here') {
+        const asked = await body(req);
+        const stream = [...streams].find(s => s.id === asked.stream && s.identity.role === identity.role && s.identity.householdId === identity.householdId);
+        if (!stream) return json(res, 404, { error: 'That page is no longer connected.' });
+        stream.answeredAt = Date.now();
+        return json(res, 200, { ok: true });
       }
       if (req.method === 'POST' && url.pathname === '/api/command') {
         const input = await body(req);
@@ -1273,11 +1353,11 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
               }
               s.world.status = 'running';
             } else if (input.action === 'pace') {
-              // Not a world change: the pace is how fast the class watches, not what it
-              // watches, so it is deliberately outside `commit`'s world and outside the save.
-              // A class reopened tomorrow opens at the pace the build ships with.
-              wantedPace = PACES[input.pace] || null;
-              if (!wantedPace) throw new Error('Unknown pace');
+              // Not a world change: the pace is how fast the class watches, not what it watches, so it is outside the world.
+              // It is kept with the class, beside its name (`state.pace`), so a class reopened tomorrow opens at it.
+              if (!paceNamed(input.pace)) throw new Error('Unknown pace');
+              wantedPace = PACES[input.pace];
+              s.pace = input.pace;
             } else if (input.action === 'pause' && s.world.status === 'running') s.world.status = 'paused';
             else if (input.action === 'resume' && s.world.status === 'paused') s.world.status = runtimeFault?.resumeStatus || 'running';
             else if (input.action === 'end') s.world.status = 'ended';
@@ -1301,6 +1381,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
               s.clients = {}; s.hostCommands = [];
               s.className = className(input.name);
               delete s.deal; delete s.lateSeat;
+              // `s.pace` is left as it is: the new class goes on at the pace the teacher is using, and keeps it (`state.pace`).
               // The seed is new so the next class is its own world.
               s.world = worldFactory(token().slice(0, 16), size);
               rotatedSession = s.sessionId;
@@ -1331,6 +1412,9 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
               s.className = saved.className || null;
               if (saved.deal) s.deal = saved.deal; else delete s.deal;
               if (saved.lateSeat) s.lateSeat = saved.lateSeat; else delete s.lateSeat;
+              // At its own pace, or the server's if it never chose one (`state.pace`).
+              if (paceNamed(saved.pace)) s.pace = saved.pace; else delete s.pace;
+              wantedPace = paceNamed(s.pace) ? PACES[s.pace] : tickMs;
               // A class opened again waits for the teacher's Resume, whatever it was doing when it was put away.
               if (s.world.status === 'running') s.world.status = 'paused';
               rotatedSession = s.sessionId;

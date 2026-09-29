@@ -1,0 +1,71 @@
+{
+  "record": "classroom-doors-injections",
+  "date": "2026-09-29",
+  "verdict": "PASS",
+  "tests": [
+    "tests/classroom-doors.test.mjs",
+    "tests/pace.test.mjs",
+    "tests/rejoin.test.mjs",
+    "tests/late-join.test.mjs",
+    "tests/reconnect.test.mjs",
+    "tests/classes.test.mjs"
+  ],
+  "results": [
+    {
+      "name": "the pace is not read back when a class is opened",
+      "caught": true,
+      "failed": [
+        "the pace the teacher chose comes back with the class the next day, and a class that never chose opens at Study"
+      ]
+    },
+    {
+      "name": "Open in Classes ignores the class's own pace",
+      "caught": true,
+      "failed": [
+        "each class kept on the computer opens at its own pace, and a new class goes on at the pace in use"
+      ]
+    },
+    {
+      "name": "the class code compared letter for letter",
+      "caught": true,
+      "failed": [
+        "a class code typed with O for 0 and I or L for 1 is the class code, at the join, the away list and the claim"
+      ]
+    },
+    {
+      "name": "a second Sam let in",
+      "caught": true,
+      "failed": [
+        "a name already in the class is refused, in any case and spacing, and a student coming back is not"
+      ]
+    },
+    {
+      "name": "a fourth tab refused (429), as before",
+      "caught": true,
+      "failed": [
+        "a fourth tab of one family lets the oldest go and tells it why, and is never refused"
+      ]
+    },
+    {
+      "name": "the oldest tab let go without being told",
+      "caught": true,
+      "failed": [
+        "a fourth tab of one family lets the oldest go and tells it why, and is never refused"
+      ]
+    },
+    {
+      "name": "a page asleep never let go",
+      "caught": true,
+      "failed": [
+        "a page that stops answering its pings is let go, and its student claims the family at another device"
+      ]
+    },
+    {
+      "name": "the page let go reconnects and takes a stream back",
+      "caught": true,
+      "failed": [
+        "the page answers the ping and, let go for another tab, says so and stops asking"
+      ]
+    }
+  ]
+}

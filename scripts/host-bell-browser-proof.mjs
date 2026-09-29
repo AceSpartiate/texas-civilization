@@ -70,6 +70,13 @@ try {
   assert.equal(app.state.world.status, 'running');
   ok('left alone, End Game disarms itself and its words go; the class runs on');
 
+  // ------------------------------------------------------------------------------------------- the pace, kept with the class
+  // Classroom audit M1 (triaged 2026-09-29 as 1.5): the pace chosen today comes back next class. Quick rather than Brisk only
+  // so the rest of this proof, which waits on ticks, is not slowed further from its 200 ms.
+  await host.locator('#host-pace [data-pace="quick"]').click();
+  await host.waitForFunction(() => window.__snapshot?.tickMs === 1000 && document.querySelector('#host-pace [data-pace="quick"]').dataset.active === 'true', null, { timeout: 10000 });
+  ok('the teacher chose Quick on the Host page, and its button is lit');
+
   // ------------------------------------------------------------------------------------------- Stop for today
   const before = { minute: app.state.world.minute, session: app.state.sessionId };
   await button(host, 'stop-for-today').click();
@@ -106,6 +113,10 @@ try {
   assert.ok(!measured.reopened.controls.includes('new-class'), 'a paused class was offered New Class');
   await shot(host, 'next-class');
   ok(`the next launch opens the same class paused where it stopped ("${measured.reopened.date}"), offering ${measured.reopened.controls.join(', ')}`);
+  measured.reopened.pace = await host.evaluate(() => ({ tickMs: window.__snapshot.tickMs, lit: [...document.querySelectorAll('#host-pace [data-pace]')].filter(one => one.dataset.active === 'true').map(one => one.dataset.pace) }));
+  assert.equal(app.pace, 1000, `the next launch opened at ${app.pace} ms a tick, not the Quick chosen before the stop`);
+  assert.deepEqual(measured.reopened.pace, { tickMs: 1000, lit: ['quick'] }, `the Host page next class: ${JSON.stringify(measured.reopened.pace)}`);
+  ok('and at the pace chosen before the stop: Quick, lit on the Host page, though this server was launched at 200 ms a tick');
   await button(host, 'resume').click();
   await host.waitForFunction(() => window.__snapshot?.world.status === 'running', null, { timeout: 10000 });
   await host.waitForFunction(minute => window.__snapshot.world.minute > minute, stoppedAt, { timeout: 30000 });

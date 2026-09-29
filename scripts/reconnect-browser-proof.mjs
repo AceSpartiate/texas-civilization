@@ -71,7 +71,8 @@ try {
   await healthy();
   const hostUrl = readFileSync(join(dataDir, 'host-url.txt'), 'utf8').trim();
   const save = () => JSON.parse(readFileSync(join(dataDir, 'classroom.json'), 'utf8'));
-  const code = save().sessionCode, sessionId = save().sessionId;
+  let code = save().sessionCode;
+  const sessionId = save().sessionId;
 
   const student = await (await context()).newPage();
   student.on('pageerror', error => errors.push(`student: ${error.message}`));
@@ -95,6 +96,14 @@ try {
     // ----------------------------------------------------------------------------------------- the outage
     server.child.kill('SIGKILL');
     await server.exited;
+    // While the server is down the first time, the class is given a code with a 0 and a 1 in it, so the steps below that type
+    // it with O and l (classroom audit M2) meet the look-alikes every run; a dealt code has them only by chance. Nothing else
+    // reads the code: cookies are named for the session, which is unchanged.
+    if (seconds === 5) {
+      const saved = save();
+      saved.sessionCode = code = 'A0B1C0';
+      writeFileSync(join(dataDir, 'classroom.json'), JSON.stringify(saved));
+    }
     const down = Date.now();
     assert.ok(existsSync(join(dataDir, 'classroom.json.lock')), 'killed outright, the server left its lock');
     await student.waitForFunction(() => !document.querySelector('#reconnecting').hidden, null, { timeout: 10000 });
@@ -148,6 +157,91 @@ try {
   measured.awayList = names;
   ok(`a student on a new Chromebook with no cookie and no key typed the class code, saw ${names.length} names (not the student playing), tapped their own and got hh-5 back`);
 
+  // ------------------------------------------------------------------------------------------- a name already in the class
+  // Classroom audit M3 (triaged 2026-09-29 as 1.8): a second "Reader" is refused at the join, in words.
+  const twin = await (await context()).newPage();
+  twin.on('pageerror', error => errors.push(`twin: ${error.message}`));
+  await twin.goto(url);
+  await twin.locator('#join [name=name]').fill('reader');
+  await twin.locator('#join [name=code]').fill(code);
+  await twin.getByRole('button', { name: 'Join', exact: true }).click();
+  await twin.waitForFunction(() => /is taken/.test(document.body.innerText), null, { timeout: 10000 });
+  measured.duplicateName = await twin.evaluate(() => ({ said: [...document.querySelectorAll('[role=status], .message, #message')].map(one => one.textContent.trim()).find(text => /is taken/.test(text)) || document.body.innerText.match(/[^\n]*is taken[^\n]*/)?.[0], joined: Boolean(window.__snapshot?.world?.householdId) }));
+  assert.ok(!measured.duplicateName.joined, 'a second Reader was given a family');
+  assert.match(measured.duplicateName.said, /^Reader is taken — add your last initial\./);
+  await shot(twin, 'name-taken');
+  await twin.close();
+  ok(`a second student typing "reader" is refused at the join: "${measured.duplicateName.said}"`);
+
+  // ------------------------------------------------------------------------------------------- a fourth tab
+  // Classroom audit M4 (triaged 2026-09-29 as 1.9): three tabs of one family are allowed; a fourth used to be refused (429),
+  // and the page read that as a lost connection and said "Reconnecting…" for ever. Now the oldest is let go, says why and
+  // stops asking; "Play here" takes it back from the next oldest.
+  const readerContext = student.context();
+  const tabs = [];
+  for (let index = 0; index < 3; index++) {
+    const tab = await readerContext.newPage();
+    tab.on('pageerror', error => errors.push(`tab ${index + 2}: ${error.message}`));
+    await tab.goto(url);
+    await tab.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1' && !document.querySelector('#game').hidden, null, { timeout: 30000 });
+    tabs.push(tab);
+  }
+  await student.waitForFunction(() => !document.querySelector('#replaced').hidden, null, { timeout: 10000 });
+  const replacedAt = Date.now();
+  const tabState = page => page.evaluate(() => ({ replaced: document.querySelector('#replaced').hidden ? null : document.querySelector('#replaced').textContent.trim(), reconnecting: !document.querySelector('#reconnecting').hidden, game: !document.querySelector('#game').hidden, join: !document.querySelector('#join').hidden }));
+  // Left for eight seconds: it must not reconnect by itself and take a stream from another tab.
+  await student.waitForTimeout(8000);
+  const oldest = await tabState(student), newest = await Promise.all(tabs.map(tabState));
+  assert.ok(oldest.replaced && /open in another tab or window/.test(oldest.replaced) && !oldest.reconnecting && oldest.game && !oldest.join, `the oldest tab: ${JSON.stringify(oldest)}`);
+  assert.ok(newest.every(one => !one.replaced && !one.reconnecting && one.game), `the three newer tabs: ${JSON.stringify(newest)}`);
+  const tickNow = await tabs[2].evaluate(() => window.__snapshot.world.tick);
+  await tabs[2].waitForFunction(was => window.__snapshot.world.tick > was, tickNow, { timeout: 20000 });
+  await shot(student, 'fourth-tab');
+  measured.fourthTab = { oldest: oldest.replaced, stillAfterMs: Date.now() - replacedAt };
+  ok(`a fourth tab of one family is never refused: the oldest says "${oldest.replaced}" and, left ${Math.round(measured.fourthTab.stillAfterMs / 1000)} s, neither reconnects nor takes a stream back; the newest tab plays on`);
+  await student.getByRole('button', { name: 'Play here' }).click();
+  await student.waitForFunction(() => document.querySelector('#replaced').hidden && document.querySelector('#reconnecting').hidden, null, { timeout: 10000 });
+  await tabs[0].waitForFunction(() => !document.querySelector('#replaced').hidden, null, { timeout: 10000 });
+  const backTick = await student.evaluate(() => window.__snapshot.world.tick);
+  await student.waitForFunction(was => window.__snapshot.world.tick > was, backTick, { timeout: 20000 });
+  ok('"Play here" takes the family back on the oldest tab, which updates again, and the next oldest is the one let go');
+  for (const tab of tabs) await tab.close();
+
+  // ------------------------------------------------------------------------------------------- a Chromebook put to sleep
+  // Classroom audit M4: a page asleep leaves its socket open on the server, and until it died the family was missing from the
+  // away list and its claim refused. Put to sleep here by pausing the page's script in the debugger (nothing of the page runs,
+  // its socket stays open): it stops answering the server's ping and is let go within the server's 30 s, and the student
+  // takes the family up at another Chromebook with the class code typed O for 0 and l for 1. (Chrome's own "frozen" page
+  // lifecycle, tried first, still answered every ping in headless Chrome, so it is not a sleep.)
+  const cdp = await cart.context().newCDPSession(cart);
+  await cdp.send('Debugger.enable');
+  await cdp.send('Debugger.pause');
+  const frozenAt = Date.now();
+  const typed = code.toLowerCase().replaceAll('0', 'o').replaceAll('1', 'l');
+  const other = await (await context()).newPage();
+  other.on('pageerror', error => errors.push(`other Chromebook: ${error.message}`));
+  await other.goto(url);
+  await other.getByRole('button', { name: 'I was already in this class' }).click();
+  await other.locator('#away [name=away-code]').fill(typed);
+  let listed = [];
+  for (const until = Date.now() + 60000; Date.now() < until;) {
+    await other.getByRole('button', { name: 'Show the names' }).click();
+    await other.waitForTimeout(1500);
+    listed = await other.evaluate(() => [...document.querySelectorAll('#away-names [data-claim]')].map(button => button.textContent));
+    if (listed.some(name => name.startsWith('Cart Chromebook'))) break;
+  }
+  const listedAfter = Date.now() - frozenAt;
+  assert.ok(listed.some(name => name.startsWith('Cart Chromebook')), `the sleeping Chromebook's family never came onto the away list: ${listed.join(' | ')}`);
+  assert.ok(listedAfter < 50000, `it took ${listedAfter} ms`);
+  await other.locator('#away-names [data-claim]', { hasText: 'Cart Chromebook' }).click();
+  await other.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-5' && !document.querySelector('#game').hidden, null, { timeout: 30000 });
+  await shot(other, 'slept-claimed');
+  measured.slept = { codeTyped: typed, codeHadLookAlikes: /[01]/.test(code), listedAfterMs: listedAfter };
+  ok(`a Chromebook asleep (its page's script paused) is let go: its family was on the away list ${Math.round(listedAfter / 1000)} s after, and taken up at another device with the code typed "${typed}" (the code ${measured.slept.codeHadLookAlikes ? 'has' : 'has no'} 0 or 1)`);
+  await cdp.send('Debugger.resume');
+  await cart.waitForFunction(() => !document.querySelector('#join').hidden, null, { timeout: 30000 });
+  ok('woken, the old Chromebook finds itself signed out and at the join screen, as a family taken up elsewhere does');
+
   assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);
   ok('no page errors');
   writeFileSync('docs/evidence/reconnect-browser.json', `${JSON.stringify({
@@ -155,8 +249,8 @@ try {
     date: new Date().toISOString().slice(0, 10),
     verdict: 'PASS',
     browser: await browser.version(),
-    task: 'docs/audits/2026-09-28-classroom.md B3 and B5: a student\'s and the Host\'s pages through a server outage of 5 s and of 30 s, the real server killed outright and started again on the same class, and the away list on a page with no cookie.',
-    environment: 'Same computer: the real server/main.mjs as a child process on loopback, killed with TerminateProcess (SIGKILL), 1 s a tick, headless Chrome at 1366x768. Not a physical LAN, a Chromebook asleep, a Wi-Fi roam or the district network.',
+    task: 'docs/audits/2026-09-28-classroom.md B3 and B5: a student\'s and the Host\'s pages through a server outage of 5 s and of 30 s, the real server killed outright and started again on the same class, and the away list on a page with no cookie. Since 2026-09-29 (M3, M4, M2): a duplicate name refused at the join, a fourth tab letting the oldest go, and a page asleep let go and its family claimed with the code typed O/l.',
+    environment: 'Same computer: the real server/main.mjs as a child process on loopback, killed with TerminateProcess (SIGKILL), 1 s a tick, headless Chrome at 1366x768. The sleep is the page\'s script paused in the debugger (CDP Debugger.pause), which stops the page answering with its socket open; a real Chromebook\'s lid, Wi-Fi drop and TCP are not exercised. Not a physical LAN, a Wi-Fi roam or the district network.',
     checks: pass,
     measured,
     screenshots: shots,

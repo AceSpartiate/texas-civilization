@@ -36,9 +36,11 @@ async function classroom(options = {}) {
         pending += chunk;
         let end;
         while ((end = pending.indexOf('\n\n')) !== -1) {
-          const data = pending.slice(0, end).split('\n').find(line => line.startsWith('data: '));
+          const lines = pending.slice(0, end).split('\n');
+          const data = lines.find(line => line.startsWith('data: '));
           pending = pending.slice(end + 2);
-          if (data) stream.frames.push(JSON.parse(data.slice(6)));
+          // Snapshots only: a named event (`ping`, `replaced`: server/app.mjs `STREAMS`) is not one.
+          if (data && !lines.some(line => line.startsWith('event: '))) stream.frames.push(JSON.parse(data.slice(6)));
         }
       });
       response.on('error', () => {});

@@ -12,7 +12,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createClassroom, PACES } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
@@ -177,4 +177,62 @@ test('one tick of walking is spread across one tick of real time, however long t
     assert.ok(at(0.9) < 0.98, `${tickMs}ms: at nine tenths of the tick the walker is at ${at(0.9).toFixed(2)}, not yet arrived`);
     assert.ok(at(0.9) > at(0.5), `${tickMs}ms: still going forward late in the tick`);
   }
+});
+
+// The pace is the class's own (classroom audit M1 / design audit M1, triaged 2026-09-29 as 1.5): until then it lived only in
+// the running server, so a teacher who chose Brisk yesterday was back at Study today, the class running at half the speed
+// without a word. It is kept with the class (`state.pace`), and a save without it - every class before this - opens at the
+// server's own pace, Study at the launcher. No saveVersion move: the missing field's value is the right one.
+test('the pace the teacher chose comes back with the class the next day, and a class that never chose opens at Study', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'texas-pace-kept-'));
+  const savePath = join(dir, 'class.json');
+  const open = () => createClassroom({ seed: 'pace-kept', playerCount: 5, savePath, worldFactory: createGonzalesWorld, tickMs: PACES.study });
+  try {
+    const today = open();
+    const host = client(await today.listen(0, '127.0.0.1'));
+    await host.call('/api/host', { key: today.state.hostKey });
+    assert.equal(today.pace, PACES.study, 'a new class opens at Study');
+    assert.equal((await command(host, 'pace', { pace: 'brisk' })).status, 200);
+    assert.equal(today.pace, PACES.brisk);
+    await today.close();
+    const saved = JSON.parse(readFileSync(savePath, 'utf8'));
+    assert.equal(saved.pace, 'brisk', 'the save keeps the pace by its name');
+    assert.equal(saved.saveVersion, 3, 'and no save version moved');
+
+    const tomorrow = open();
+    try {
+      assert.equal(tomorrow.pace, PACES.brisk, 'the class reopened the next day came back at Study, not the Brisk the teacher chose');
+      const again = client(await tomorrow.listen(0, '127.0.0.1'));
+      await again.call('/api/host', { key: tomorrow.state.hostKey });
+      assert.equal((await again.call('/api/state')).body.tickMs, PACES.brisk, 'and every page is told so');
+    } finally { await tomorrow.close(); }
+
+    // A class saved before the pace was kept has no `pace`, and opens at the server's own.
+    delete saved.pace;
+    writeFileSync(savePath, JSON.stringify(saved));
+    const older = open();
+    try { assert.equal(older.pace, PACES.study, 'a save without a pace opens at Study'); } finally { await older.close(); }
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('each class kept on the computer opens at its own pace, and a new class goes on at the pace in use', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'texas-pace-classes-'));
+  const app = createClassroom({ seed: 'pace-classes', playerCount: 5, savePath: join(dir, 'class.json'), worldFactory: createGonzalesWorld, tickMs: PACES.study });
+  try {
+    const port = await app.listen(0, '127.0.0.1');
+    const host = client(port);
+    await host.call('/api/host', { key: app.state.hostKey });
+    assert.equal((await client(port).call('/api/join', { name: 'First period', code: app.state.sessionCode })).status, 200);
+    const first = app.state.sessionId;
+    assert.equal((await command(host, 'pace', { pace: 'brisk' })).status, 200);
+    assert.equal((await command(host, 'new-class', { name: 'Period 4' })).status, 200);
+    assert.equal(app.pace, PACES.brisk, 'the new class goes on at the pace the teacher was using');
+    assert.equal(app.state.pace, 'brisk', 'and keeps it');
+    assert.equal((await command(host, 'pace', { pace: 'quick' })).status, 200);
+    const second = app.state.sessionId;
+    assert.equal((await command(host, 'open-class', { classId: first })).status, 200);
+    assert.equal(app.pace, PACES.brisk, 'the first class opened again at Quick, the other class\'s pace, not its own Brisk');
+    assert.equal((await command(host, 'open-class', { classId: second })).status, 200);
+    assert.equal(app.pace, PACES.quick, 'and Period 4 at its own Quick');
+  } finally { await app.close(); rmSync(dir, { recursive: true, force: true }); }
 });
