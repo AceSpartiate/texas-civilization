@@ -1532,6 +1532,64 @@ cards, then each of the eleven moments put into a paused page and photographed (
 `story-cards-both.png`); `test:family-panel` checks the house card (`docs/evidence/house-card.png`); the page's regressions by
 `node scripts/story-cards-injections.mjs --browser` ([record](evidence/story-cards-injections-browser.json)). Same computer only.
 
+## 20c. Warn, then allow; and a traveller out of sight is greyed — owner 2026-09-29 (not released)
+
+Two owner decisions of the same day, both about pressing a face on the column now that a portrait is the star (amendment
+2026-09-29 below).
+
+### Warn, then allow (the design audit's B11)
+
+On the flight east a main person **on auto answers the order to leave and the soldiers' ¡Alto! themselves** (sim/auto.mjs
+`advanceAuto`, sim/pursuit.mjs). The owner chose, of the ways to handle a student making such a person main by their portrait or
+star: **warn, then allow**. They still become the main person, and the page's refusal line (`#error`, where the star's refusals are
+said, held clear of everything by `test:overlap`) says one plain sentence: *"Bernarda is on auto, so she will answer the soldiers
+herself."* - or *"… the order to leave …"* while the family has been told to go and has not. Only when the person is on auto and
+the family is on the flight (told to leave, fled, in a refuge, coming home, or with the road's question open); the words are the
+page's (`autoFlightWarning` in public/app.js), after the server has accepted `set-main`. No save, action or projection change.
+
+`test:scrape-pursuit` has its B11 step back, as this: a son put on auto in the chase and his portrait pressed - made main, the
+warning on the screen - then the student's own main person pressed back (after Follow, below), made main again with nothing said.
+
+### A traveller out of sight is greyed
+
+The owner, verbatim: *"if a character is travelling (they're not rendered because they're moving too fast) their character panel
+should be greyed out and the player shouldn't be able to select them until they're rendered again."*
+
+- **When** - exactly while the map draws nothing of them, by the page's own two rules: the server sends no place for somebody too
+  fast to follow (sim/world.mjs `seenTravel`, sim/sight.mjs), and the page draws nothing of a figure whose schedule has faded it
+  right out (public/motion.js `travelSight`; `sightOf`, alpha 0). `drawWorld` writes who that is each frame (`unseenOnRoad`), so
+  the row greys on the frame the figure goes and is live again on the frame it is drawn - including a traveller halted for the
+  night, who is drawn and live. The fade depends on the zoom, so a family running flat out can be drawn in the family frame and
+  out of sight close in; the row follows what is drawn.
+- **Greyed** - dimmed, not hidden: the portrait, name and tools at 45% and grey, with a line of its own: *"On the road to
+  Gonzales — back in view when they arrive"* (*"On the road home — …"*).
+- **Not selectable** - the portrait, the star and *Make … the main person* are held (`aria-disabled`), and a press on any of them
+  is refused in a quiet line: *"Amos cannot be chosen while out of sight. On the road to Gonzales — back in view when they
+  arrive."* So is the journal's roster.
+- **Still answerable** - the "!" keeps its colour and works, and so do the story cards' buttons: what waits on them opens (their
+  card at the question, the rider's conversation, the call's menu) without choosing their row or moving the camera to them.
+  While soldiers are after the family, it frames the chase instead - the horsemen and their order, close enough to read - which
+  is what the ¡Alto! is about (`watchChase`).
+- **The camera** does not follow them while they are out of sight: a watch on somebody who goes out of sight is let go (the family's
+  frame comes back, or the chase's when there is one), and it is not taken up again on its own when they are drawn again; a press
+  on their portrait then does it.
+- **Unchanged** on the Host's page and on a page watching another family.
+
+`ceiling:` the chase is framed on the server's point for the family, a tick at a time; a drawn chase point is the way out if the
+step is ever noticed.
+
+### Gates
+
+`npm run test:travel-sight` (the gathering, four hours a tick): out of sight the row is greyed and says where they went, the portrait
+and star are held and a press on either is refused, the camera is not on them; on arrival in Gonzales the row is live, the camera
+not back on them by itself, and their portrait goes to them. On the farming day a walker drawn on the road has a live row.
+`npm run test:scrape-pursuit`: the warning, and ¡Alto! still answered from the "!" with the family out of sight. Both proved by
+`node scripts/unseen-and-auto-injections.mjs` ([record](evidence/unseen-and-auto-injections.json)). Same computer only.
+
+This proof also needed two repairs of its own on the merged tree: the class is begun with one student (four joined with no page
+were played families whose riders each held the calendar for their ninety real seconds, so the gathering never ran at four hours a
+tick), and the settlement's call is answered *Nobody goes* from its "!".
+
 ## 20a. Follow and watch — owner 2026-09-29 ("Follow and watch"), built the same day
 
 The owner, by multiple choice on the triage's D3(a) (docs/audits/2026-09-29-triage.md): a student whose whole family is gone, or whose
@@ -1818,7 +1876,7 @@ the same words as the child's star, and still opens their card and bar), `npm ru
 portrait makes that person main). Injections in `scripts/design-blockers-injections.mjs`: the portrait back to choosing only is
 caught by the unit test alone and by `test:family-panel`; the "!" made to change the main person is caught by the unit test
 alone. `test:scrape-pursuit`'s B11 step (a son on auto, his portrait pressed, the main person unchanged) was removed with the
-rule it held.
+rule it held, and came back the same day as a check of the owner's *warn, then allow* (§20c).
 
 ## Amendment, 2026-09-29 — the card beside a person opens only for a matter (owner-decided)
 

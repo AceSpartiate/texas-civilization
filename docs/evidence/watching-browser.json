@@ -4,10 +4,10 @@
   "environment": "Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x768.",
   "pass": [
     "gone-1366: everybody died; the page says so and follows Anselmo's family, whose people are the column - no \"!\", no bar, no Auto, no star, no tip, nothing of the Host's",
-    "gone-1366: Anselmo's card opens from the portrait and offers nothing to do",
+    "gone-1366: a portrait of the watched family opens no card and offers nothing to do",
     "gone-1366: an order sent anyway is refused: \"Nobody of your family is left to give an order to.\"",
     "gone-1024: everybody died; the page says so and follows Anselmo's family, whose people are the column - no \"!\", no bar, no Auto, no star, no tip, nothing of the Host's",
-    "gone-1024: Anselmo's card opens from the portrait and offers nothing to do",
+    "gone-1024: a portrait of the watched family opens no card and offers nothing to do",
     "gone-1024: an order sent anyway is refused: \"Nobody of your family is left to give an order to.\"",
     "taken-in: the little ones were taken in by Anselmo's family; the page follows that family and they are on its map",
     "taken-in: Loreta Proofwright came for the little ones, and the page is the family's own again"

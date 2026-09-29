@@ -142,7 +142,10 @@ async function prove(fight) {
     /** Answer a question on the volunteer's own card by pressing it. */
     const press = async (page, personId, selector, open) => {
       await page.waitForFunction(open, personId, { timeout: 120000 });
-      await page.locator(`.panel-row[data-entity-id="${personId}"] .panel-portrait`).click();
+      // His portrait while he is drawn; his "!" while he is away with the army and out of sight, when the row is greyed and the
+      // portrait held (owner, 2026-09-29, docs/FAMILY_PANEL.md §20c) - the question waiting on him is answered from the "!".
+      const away = await page.locator(`.panel-row[data-entity-id="${personId}"]`).getAttribute('data-unseen') === 'true';
+      await page.locator(away ? `[data-attention="${personId}"]` : `.panel-row[data-entity-id="${personId}"] .panel-portrait`).click({ force: away }); // the "!" pulses, and is pressed where it stands
       const button = page.locator(selector);
       await button.waitFor({ state: 'visible' });
       const text = (await page.locator('#selection-army').innerText()).replace(/\s+/g, ' ').trim();

@@ -1,6 +1,6 @@
 {
   "record": "The siege and the Grass Fight, in a browser: docs/COLONIES.md build step 6",
-  "date": "2026-09-27",
+  "date": "2026-09-29",
   "verdict": "PASS",
   "note": "Same computer only. A real class on the colonies map, played in process to November 20 with hh-1's volunteer in the army, then served live; a student read the camp, answered the storm order, the pledge and the Grass Fight question on the volunteer's card, and watched the rumour and then the fuller word reach the family. No LAN or district claim.",
   "checks": [
@@ -25,7 +25,7 @@
       "source": "Men back from the army",
       "observedMinute": 92520,
       "receivedMinute": 92520,
-      "eventId": "ev-244",
+      "eventId": "ev-273",
       "ageMinutes": 0,
       "observationAgeMinutes": 0
     },
@@ -36,7 +36,7 @@
       "source": "Word from the army",
       "observedMinute": 92520,
       "receivedMinute": 95400,
-      "eventId": "ev-251",
+      "eventId": "ev-280",
       "ageMinutes": 0,
       "observationAgeMinutes": 2880
     },
@@ -47,7 +47,7 @@
       "source": "Word from the army",
       "observedMinute": 85200,
       "receivedMinute": 95400,
-      "eventId": "ev-257",
+      "eventId": "ev-286",
       "ageMinutes": 0,
       "observationAgeMinutes": 10200
     },

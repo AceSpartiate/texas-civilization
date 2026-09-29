@@ -83,8 +83,11 @@ async function play(name, { worldFactory, tickMs }) {
     await page.getByRole('button', { name: 'Join', exact: true }).click();
     await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
     await meetFamily(page);
-    for (let i = 2; i <= 5; i++) await post('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
-    await post('/api/command', { id: `start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
+    // One student, and the class begun anyway (the Host's second press of Start): the other four families are the director's.
+    // Four students joined with no page open were played families whose riders each waited their ninety real seconds for an
+    // answer nobody gave (sim/clock.mjs `deciding`, owner 2026-09-29 "Real-time limits"), so the gathering never ran at four
+    // hours a tick and the journey never went out of sight (found on the merged tree, 2026-09-29).
+    await post('/api/command', { id: `start-${crypto.randomUUID()}`, action: 'start', anyway: true }, hostCookie);
     await page.waitForFunction(() => window.__snapshot?.world.status === 'running');
     for (const id of ['#journal-close', '#wagon-done', '#tutorial-skip', '#house-close', '#plot-close']) {
       if (await page.locator(id).isVisible().catch(() => false)) await page.locator(id).click().catch(() => {});
@@ -112,6 +115,16 @@ async function play(name, { worldFactory, tickMs }) {
     // answered him (sim/clock.mjs `deciding`), which is right and is exactly why this proof kept finding a four-hour class
     // running at twenty minutes a tick. So any rider waiting is heard and let go before the road is read.
     const answerRiders = async () => {
+      // And the settlement's call, which holds the calendar the same way while it is open (sim/clock.mjs `deciding`): answered
+      // "Nobody goes" from its "!", as a student would. Without this the gathering ran at twenty minutes a tick and the journey
+      // never went out of sight (found on the merged tree, 2026-09-29).
+      if (await page.evaluate(() => window.__snapshot?.world?.request?.status === 'open')) {
+        await page.evaluate(() => document.querySelector('.panel-attention:not([hidden])[data-need="call"]')?.click());
+        await page.waitForTimeout(400);
+        if (await page.locator('#call-menu-stay').isVisible().catch(() => false)) await page.locator('#call-menu-stay').click().catch(() => {});
+        await page.waitForTimeout(400);
+        await page.locator('#call-menu-close').click({ timeout: 2000 }).catch(() => {});
+      }
       for (let i = 0; i < 4; i++) {
         const listener = await page.evaluate(() => (window.__snapshot?.world?.encounter?.status === 'open' ? window.__snapshot.world.encounter.listenerId : null));
         if (!listener) return;
@@ -125,21 +138,29 @@ async function play(name, { worldFactory, tickMs }) {
     };
     // On the road and past the tick they set out on, with the class's own calendar actually in force.
     const wanted = name === 'fast';
-    for (let deadline = Date.now() + 180000; ;) {
-      await answerRiders();
-      const state = await page.evaluate(id => {
-        const person = window.__snapshot.world.entities.find(entity => entity.id === id);
-        return person?.travel ? { away: Boolean(person.travel.away), progress: person.travel.progress ?? null, miles: person.travel.miles ?? null } : null;
-      }, main);
-      if (state && (wanted ? state.away && state.miles > 0 : !state.away && state.progress > 0)) break;
-      assert.ok(Date.now() < deadline, `${name}: the journey never reached the state this proof reads: ${JSON.stringify(state)}`);
-      await page.waitForTimeout(400);
-    }
-    // The person's card open, which is where a student is told what became of them.
-    await page.locator(`.panel-portrait[data-portrait="${main}"]`).click();
-    await page.waitForTimeout(900);
-
-    const seen = await page.evaluate(id => {
+    // Out of sight, the row greyed as well (owner, 2026-09-29): read on the frame the page has caught up with the server.
+    const reach = async () => {
+      for (let deadline = Date.now() + 180000; ;) {
+        await answerRiders();
+        const state = await page.evaluate(id => {
+          const person = window.__snapshot.world.entities.find(entity => entity.id === id);
+          const unseen = document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.unseen === 'true';
+          return person?.travel ? { away: Boolean(person.travel.away), progress: person.travel.progress ?? null, miles: person.travel.miles ?? null, unseen } : null;
+        }, main);
+        if (state && (wanted ? state.away && state.miles > 0 && state.unseen : !state.away && state.progress > 0)) return;
+        // While they are still drawn, the camera is kept on them, as a student watching them set out would: out of sight, it lets them go.
+        if (wanted && state && !state.away) await page.evaluate(id => document.querySelector(`.panel-portrait[data-portrait="${id}"]`)?.click(), main);
+        assert.ok(Date.now() < deadline, `${name}: the journey never reached the state this proof reads: ${JSON.stringify(state)}`);
+        await page.waitForTimeout(wanted ? 150 : 400);
+      }
+    };
+    const rowState = () => page.evaluate(id => {
+      const row = document.querySelector(`.panel-row[data-entity-id="${id}"]`), portrait = row.querySelector('.panel-portrait'), line = row.querySelector('.panel-away-line');
+      return { unseen: row.dataset.unseen, line: line?.hidden ? '' : line?.textContent || '', portrait: portrait.getAttribute('aria-disabled'), star: row.querySelector('.panel-focus').getAttribute('aria-disabled'),
+        opacity: Number(getComputedStyle(portrait).opacity), refusal: document.querySelector('#error').textContent, following: window.__camera?.watching ?? null,
+        drawn: Boolean(window.__drawnAt?.[id]), location: Boolean(window.__snapshot.world.entities.find(one => one.id === id)?.location), away: Boolean(window.__snapshot.world.entities.find(one => one.id === id)?.travel?.away) };
+    }, main);
+    const readSeen = () => page.evaluate(id => {
       const world = window.__snapshot.world, person = world.entities.find(entity => entity.id === id);
       const drawn = window.__drawnAt?.[id] || null;
       const panel = document.querySelector(`.panel-row[data-entity-id="${id}"]`);
@@ -156,6 +177,33 @@ async function play(name, { worldFactory, tickMs }) {
         spoken: document.querySelector('#world-description')?.textContent || '',
       };
     }, main);
+    // Owner, 2026-09-29: "if a character is travelling (they're not rendered because they're moving too fast) their character panel
+    // should be greyed out and the player shouldn't be able to select them until they're rendered again." The fast journey is read
+    // the moment it is out of sight - a traveller halted for the night is drawn again, and live - and read again if a halt came
+    // between: the row greyed and saying so, a press on the portrait (which before this opened their card) and on the star refused,
+    // the camera not following them.
+    let seen = null, greyed = null;
+    for (let tries = 0; ; tries++) {
+      await reach();
+      if (wanted) {
+        greyed = await rowState();
+        await page.evaluate(() => { document.querySelector('#error').textContent = ''; });
+        await page.locator(`.panel-portrait[data-portrait="${main}"]`).click({ force: true }); // a tap on a held button still lands, and is what is refused
+        greyed.refusal = await page.evaluate(() => document.querySelector('#error').textContent);
+        greyed.following = await page.evaluate(() => window.__camera?.watching ?? null);
+        // The star is drawn only on an open row; pressed as the page's own button wherever the column has it.
+        await page.evaluate(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-focus`).click(), main);
+        greyed.starRefusal = await page.evaluate(() => document.querySelector('#error').textContent);
+      } else {
+        // The person's portrait pressed, as a student would to see where they are.
+        await page.locator(`.panel-portrait[data-portrait="${main}"]`).click();
+        await page.waitForTimeout(900);
+      }
+      seen = await readSeen();
+      if (!wanted) seen.rowLive = await rowState();
+      if (!wanted || (seen.away && greyed.unseen === 'true' && greyed.away)) break;
+      assert.ok(tries < 4, `fast: the journey kept halting before it could be read: ${JSON.stringify({ seen: seen.away, greyed })}`);
+    }
     const teacher = await host.evaluate(id => {
       const world = window.__snapshot.world, seen = (world.others || []).find(entity => entity.id === id);
       const family = window.__hostLive?.families?.find(one => one.id === 'hh-1');
@@ -172,7 +220,23 @@ async function play(name, { worldFactory, tickMs }) {
       await host.screenshot({ path: teacherShot });
       shots.push(student, teacherShot);
     }
-    return { person: main, seen, teacher };
+    // Owner, 2026-09-29: "if a character is travelling (they're not rendered because they're moving too fast) their character panel
+    // should be greyed out and the player shouldn't be able to select them until they're rendered again." Out of sight, the row is
+    // greyed and says so, the portrait press above was refused, and so is the star; the camera is not following them. Then the
+    // journey is let run to Gonzales, and on arrival the row is live and the portrait goes to them again.
+    let back = null;
+    if (wanted) {
+      await page.waitForFunction(id => { const person = window.__snapshot.world.entities.find(one => one.id === id); return !person?.travel && person?.location; }, main, { timeout: 180000, polling: 200 });
+      await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.unseen === 'false', main, { timeout: 10000 }).catch(() => {});
+      await page.evaluate(() => { document.querySelector('#error').textContent = ''; });
+      back = await rowState();
+      // Read before anything is pressed: the watch let go while they were out of sight is not taken up again on its own.
+      await page.locator(`.panel-portrait[data-portrait="${main}"]`).click();
+      await page.waitForTimeout(600);
+      back.afterPress = await page.evaluate(() => ({ refusal: document.querySelector('#error').textContent, following: window.__camera?.watching ?? null }));
+      if (WRITE) { const arrived = `${SHOTS}/${name}-arrived.png`; await page.screenshot({ path: arrived }); shots.push(arrived); }
+    }
+    return { person: main, seen, teacher, greyed, back };
   } finally {
     await context.close();
     await hostContext.close();
@@ -188,6 +252,7 @@ try {
     slow.away === false && slow.location && slow.drawn && slow.travel.points > 1 && slow.travel.step <= WATCHABLE_MILES_A_TICK);
   ok(`and no card opens beside them to say it (owner, 2026-09-29): their row and the map are where they are`, slow.cardOpen === false);
   ok('the teacher sees the same walker on the same road', Boolean(record.slow.teacher.location) && record.slow.teacher.road > 1);
+  ok('and while they are drawn walking, their row is live: not greyed, nothing held', slow.rowLive.unseen === 'false' && slow.rowLive.portrait === null && slow.rowLive.line === '' && slow.rowLive.drawn);
 
   // ------------------------------------------------- 2. the gathering: three and a half miles a tick, and out of sight
   record.fast = await play('fast', { worldFactory: atTheGathering, tickMs: 2500 });
@@ -202,6 +267,15 @@ try {
     Boolean(record.fast.teacher.location) && record.fast.teacher.road > 1 && Number.isFinite(record.fast.teacher.progress));
   ok(`and the teacher's class panel says where they are: "${record.fast.teacher.where.find(where => /road/.test(where))}"`,
     record.fast.teacher.where.some(where => /on the road to Gonzales/.test(where)));
+  const { greyed, back } = record.fast;
+  ok(`out of sight, their row is greyed (portrait at ${greyed.opacity} opacity) and says "${greyed.line}"`,
+    greyed.unseen === 'true' && greyed.opacity < 0.6 && /^On the road to Gonzales — back in view when they arrive$/.test(greyed.line));
+  ok(`their portrait and star are held, and a press on either is refused: "${greyed.refusal}"`,
+    greyed.portrait === 'true' && greyed.star === 'true' && /cannot be chosen while out of sight\. On the road to Gonzales — back in view when they arrive\./.test(greyed.refusal)
+    && /cannot be chosen while out of sight/.test(greyed.starRefusal));
+  ok(`and the camera is not following them (watching ${greyed.following || 'nobody'})`, greyed.following !== record.fast.person);
+  ok(`on arrival their row is live again (${back.drawn ? 'drawn' : 'placed'} in Gonzales), the camera not back on them by itself, and their portrait goes to them with nothing refused`,
+    back.unseen === 'false' && back.line === '' && back.portrait === null && back.star === null && back.opacity > 0.9 && back.following !== record.fast.person && back.afterPress.refusal === '' && back.afterPress.following === record.fast.person);
   assert.deepEqual(errors, [], 'the pages raised errors');
   ok('the pages raised no errors');
 } finally {

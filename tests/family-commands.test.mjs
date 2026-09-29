@@ -263,9 +263,10 @@ test('choosing somebody shows their bar and leaves the main person as it was; on
   const source = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
   const portrait = source.slice(source.indexOf("const portrait = event.target.closest('[data-portrait]');"), source.indexOf("const attention = event.target.closest('[data-attention]');"));
   assert.ok(portrait.length > 0, 'the portrait handler was not found');
-  assert.match(portrait, /if \(portrait\) \{ pressStar\(portrait\.dataset\.portrait\); return; \}/, 'pressing a portrait does not do what the star does');
+  // Both behind the one guard for somebody out of sight on the road (owner 2026-09-29, docs/FAMILY_PANEL.md §20c), refused alike.
+  assert.match(portrait, /if \(portrait\) \{ if \(!refusedUnseen\(portrait\.dataset\.portrait\)\) pressStar\(portrait\.dataset\.portrait\); return; \}/, 'pressing a portrait does not do what the star does');
   const star = source.slice(source.indexOf("const star = event.target.closest('[data-focus]');"), source.indexOf("const indoors = event.target.closest('[data-house]');"));
-  assert.match(star, /if \(star\) \{ pressStar\(star\.dataset\.focus\); return; \}/, 'the star does not go through the one handler');
+  assert.match(star, /if \(star\) \{ if \(!refusedUnseen\(star\.dataset\.focus\)\) pressStar\(star\.dataset\.focus\); return; \}/, 'the star does not go through the one handler');
   const press = source.slice(source.indexOf('function pressStar(id) {'), source.indexOf('function goToPerson('));
   assert.match(press, /if \(id !== focusedId\) chooseFocus\(id\);\s*goToPerson\(id\);/, 'the star\'s handler no longer makes them main and goes to them');
   // The "!" and a notice's Go to still only choose.

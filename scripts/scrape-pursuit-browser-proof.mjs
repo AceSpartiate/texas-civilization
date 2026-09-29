@@ -205,9 +205,36 @@ async function run({ width, height, answer }) {
     const scene = sceneFor(world(), { kind: 'cavalry', how: 'wagon' });
     assert.ok(household().flight.chase, `the dragoons did not see the family: ${JSON.stringify({ at: dateOf(world(), world().minute).toISOString(), seen: sightMiles(world(), household()), watchers: watchersNow(world()).map(one => [one.id, Math.round(Math.hypot(one.x - familyPoint(world(), household()).x, one.y - familyPoint(world(), household()).y) * 100) / 100]) })}`);
     // Design audit 2026-09-28 B11 put a check here: somebody grown on auto, their portrait pressed in the chase, and the main person
-    // unchanged. The owner reversed it on 2026-09-29 (docs/FAMILY_PANEL.md, amendment 2026-09-29): a portrait does what the star
-    // does and makes the person pressed the main person, so that check is gone; `npm run test:family-panel` holds the portrait.
-    // What B11 also fixed, the chase reading one main person (audit M32), is held by tests/scrape-pursuit.test.mjs.
+    // unchanged. The owner reversed that on 2026-09-29 (a portrait does what the star does) and then chose "Warn, then allow"
+    // (docs/FAMILY_PANEL.md §20c): the person pressed becomes main, and the refusal line says in one plain sentence that on auto they
+    // will answer the soldiers themselves. Then the student's own main person is pressed back, and the order to halt below is still
+    // the student's to answer. What B11 also fixed, the chase reading one main person (audit M32), is held by tests/scrape-pursuit.test.mjs.
+    if (tag === '1366') {
+      const son = scene.household.members.map(id => world().entities[id]).find(one => one.id !== scene.main.id && one.kind === 'person' && !(one.age < 16) && one.travel && !['dead', 'captured'].includes(one.health?.condition));
+      assert.ok(son, 'the family has nobody grown on the road but its main person');
+      // Pressed as the page's own buttons, wherever the column has them (a folded column keeps them in the DOM).
+      await student.evaluate(id => document.querySelector(`.panel-row[data-entity-id="${id}"] [data-auto="${id}"]`).click(), son.id);
+      await student.waitForFunction(id => window.__snapshot?.world.entities.find(one => one.id === id)?.auto, son.id, { timeout: 15000 });
+      await student.evaluate(id => document.querySelector(`[data-portrait="${id}"]`).click(), son.id);
+      await student.waitForFunction(() => /is on auto, so (he|she|they) will answer the soldiers (himself|herself|themselves)\./.test(document.querySelector('#error')?.textContent || ''), null, { timeout: 10000 });
+      assert.equal(household().mainId, son.id, `pressing ${son.name}'s portrait did not make them the main person`);
+      const warned = await student.evaluate(() => { const line = document.querySelector('#error'), box = line.getBoundingClientRect(); return { words: line.textContent, shown: box.width > 0 && box.height > 0 && getComputedStyle(line).visibility !== 'hidden' }; });
+      assert.ok(warned.shown, 'the warning is not on the screen');
+      // The student's own main person pressed back: no warning for somebody who is not on auto, and the line cleared. The press on a
+      // portrait took the camera close in on the running family, and there the page draws nothing of them (public/motion.js
+      // `travelSight`), so their rows are greyed and cannot be chosen (owner, 2026-09-29): Follow first, as a student would, until
+      // his row is live again.
+      await student.locator('#map-nav [data-view=follow]').click();
+      await student.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.unseen === 'false', scene.main.id, { timeout: 15000 });
+      await student.evaluate(id => document.querySelector(`[data-portrait="${id}"]`).click(), scene.main.id);
+      for (const until = Date.now() + 10000; household().mainId !== scene.main.id && Date.now() < until;) await new Promise(resolve => setTimeout(resolve, 100));
+      await student.waitForTimeout(300);
+      const said = await student.evaluate(() => ({ line: document.querySelector('#error').textContent, unseen: [...(window.__unseenOnRoad || new Map()).keys()], sight: Object.fromEntries([...(window.__travelSight || new Map())].map(([id, one]) => [id, { alpha: one.alpha, journey: Boolean(one.journey) }])) }));
+      assert.equal(household().mainId, scene.main.id, `pressing ${scene.main.name}'s portrait back did not make them main again: ${JSON.stringify(said)}`);
+      assert.equal(await student.evaluate(() => document.querySelector('#error').textContent), '', 'a warning was said for somebody not on auto');
+      observed.warnedAuto = { son: son.id, main: son.id, words: warned.words, backTo: scene.main.id };
+      ok(`${tag}: ${son.name} on auto and their portrait pressed in the chase: made main, warned "${warned.words}", and ${scene.main.name} made main again by their portrait`);
+    }
     app.setPace(1500);
     await student.waitForFunction(() => window.__snapshot?.world.flight?.chase, null, { timeout: 20000 });
     await student.waitForFunction(() => window.__snapshot?.world.flight?.ask?.id === 'alto', null, { timeout: 60000 });

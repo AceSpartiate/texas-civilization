@@ -8,7 +8,7 @@
   "checks": [
     "the class panel lists all five families in words: the student's family here, the four joined with no page open gone; Asa on the road home",
     "the student's page has no class panel and is sent no live page",
-    "the student's page closed: after 2771 ms the row says the family is playing itself, and the world has it absent",
+    "the student's page closed: after 2586 ms the row says the family is playing itself, and the world has it absent",
     "the absent family goes on by itself: somebody of it is at work or on a road with nobody at the screen",
     "the page opened again: the row says here the next tick, the family is the student's again, and the record says so",
     "the fight at Gonzales lit the spotlight: the camera went to the field and the banner reads \"October 2: On Williams’s land above Gonzales, the Texians fire the cann…\"",
@@ -111,20 +111,21 @@
         ]
       }
     ],
-    "absentAfterMs": 2771,
+    "absentAfterMs": 2586,
     "spotlight": {
       "date": "October 2",
       "text": "On Williams’s land above Gonzales, the Texians fire the cannon and advance, and the Mexican dragoons wheel and ride away toward Béxar. The war has begun.",
       "camera": {
         "kind": "battle",
-        "scale": 1247.672774678905,
+        "scale": 1001.3279342165968,
         "named": true,
-        "cx": 0.806574142255494,
-        "cy": 1.7899695174198649,
+        "cx": 0.8023571306779216,
+        "cy": 1.9587771343444933,
         "following": true,
-        "figure": 23.705782718899194,
+        "watching": null,
+        "figure": 19.025230750115337,
         "house": {
-          "size": 78.22908297236734,
+          "size": 62.78326147538061,
           "one": false
         }
       }

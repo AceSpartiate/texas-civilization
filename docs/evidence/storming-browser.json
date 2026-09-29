@@ -1,6 +1,6 @@
 {
   "record": "The storming of Béxar, in a browser: docs/COLONIES.md build step 6",
-  "date": "2026-09-27",
+  "date": "2026-09-29",
   "verdict": "PASS",
   "note": "Same computer only. A real class on the colonies map, played in process to December 3 with hh-1's volunteer in the army, then served live; a student answered the winter-quarters question and Milam's call on the card and watched the wrong express and then the victory reach the family. The lasting mark was placed on the volunteer in process. No LAN or district claim.",
   "checks": [
@@ -9,7 +9,7 @@
     "the wrong express reaches the family's reports first: \"An express from the army says the volunteers went into Béxar about daylight on the 6th and have possessed themselves of the town, silencing the big guns, with two killed and a few wounded. Ugartechea is expected with six hundred men.\"",
     "the victory follows, the terms as signed and the Mexican losses as a range",
     "the family is told what happened to their person: \"Trinidad went into San Antonio and fought through the four days of the storming of Béxar, and came through unhurt.\"",
-    "a lasting mark shows on the person's card: \"On the road to Family 1 home · 31% · lost an eye\"",
+    "a lasting mark shows on the person's portrait: \"Trinidad · lost an eye · has had the measles\"",
     "no page errors"
   ],
   "observed": {
@@ -22,7 +22,7 @@
       "source": "An express from the army",
       "observedMinute": 103200,
       "receivedMinute": 103200,
-      "eventId": "ev-280",
+      "eventId": "ev-309",
       "ageMinutes": 0,
       "observationAgeMinutes": 0
     },
@@ -33,12 +33,12 @@
       "source": "Word from the army",
       "observedMinute": 103200,
       "receivedMinute": 112680,
-      "eventId": "ev-302",
+      "eventId": "ev-331",
       "ageMinutes": 0,
       "observationAgeMinutes": 9480
     },
     "own": "Trinidad went into San Antonio and fought through the four days of the storming of Béxar, and came through unhurt.",
-    "card": "On the road to Family 1 home · 31% · lost an eye"
+    "card": "Trinidad · lost an eye · has had the measles"
   },
   "screenshots": [
     "docs/evidence/storming-milam-question.png",

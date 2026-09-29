@@ -841,6 +841,11 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 /* The sickness (sim/disease.mjs, docs/DISEASE.md §3.10): the server's line on a line of its own, rose; very sick in bold red,
    because it is the one a student has a day to answer. The badge on the portrait is the road's nursing picture in a disc
    (stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "the sick badge"). */
+/* Out of sight on the road (owner, 2026-09-29; public/app.js `markUnseenRows`): the row greyed - dimmed, not hidden - with where they are going,
+   and its portrait, star and Make main held. The "!" keeps its full colour: a question for them is still answered from it. */
+.panel-away-line{grid-row:7;grid-column:1 / -1;font:italic 11px/1.3 Georgia,serif;color:#e4d6ae;padding:1px 1px 0}
+.panel-row[data-unseen=true] .panel-portrait,.panel-row[data-unseen=true] .panel-label,.panel-row[data-unseen=true] .panel-name,.panel-row[data-unseen=true] .panel-tools{opacity:.45;filter:grayscale(1)}
+.panel-row[data-unseen=true] .panel-portrait,.panel-row[data-unseen=true] .panel-focus,.panel-row[data-unseen=true] .panel-make-main{cursor:not-allowed}
 .panel-sick-line{grid-row:6;grid-column:1 / -1;font:600 11px/1.3 system-ui;color:#f3c1a8;padding:1px 1px 0}
 .panel-sick-line[data-grave=true]{color:#ff8f6b;font-weight:800}
 /* Top left of the face: the "!" stands over its top right and the star and the idle mark along its foot. */

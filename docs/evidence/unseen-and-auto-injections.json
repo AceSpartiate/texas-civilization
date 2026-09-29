@@ -1,0 +1,60 @@
+{
+  "record": "unseen-and-auto-injections",
+  "date": "2026-09-29",
+  "injections": [
+    {
+      "name": "made main on auto in the flight, and nothing is said",
+      "proof": "scripts/scrape-pursuit-browser-proof.mjs",
+      "caught": true,
+      "failed": [
+        "scripts/scrape-pursuit-browser-proof.mjs failed after 4 checks: page.waitForFunction: Timeout 10000ms exceeded."
+      ]
+    },
+    {
+      "name": "the warning is said for the order to leave in the chase too (the wrong words)",
+      "proof": "scripts/scrape-pursuit-browser-proof.mjs",
+      "caught": true,
+      "failed": [
+        "scripts/scrape-pursuit-browser-proof.mjs failed after 4 checks: page.waitForFunction: Timeout 10000ms exceeded."
+      ]
+    },
+    {
+      "name": "a traveller out of sight keeps a live row",
+      "proof": "scripts/travel-sight-proof.mjs",
+      "caught": true,
+      "failed": [
+        "scripts/travel-sight-proof.mjs failed after 4 checks: AssertionError [ERR_ASSERTION]: fast: the journey never reached the state this proof reads: null"
+      ]
+    },
+    {
+      "name": "the row greys but does not say where they are going",
+      "proof": "scripts/travel-sight-proof.mjs",
+      "caught": true,
+      "failed": [
+        "scripts/travel-sight-proof.mjs failed after 11 checks: AssertionError [ERR_ASSERTION]: out of sight, their row is greyed (portrait at 0.45 opacity) and says \"\""
+      ]
+    },
+    {
+      "name": "a press on an unseen traveller's portrait goes through",
+      "proof": "scripts/travel-sight-proof.mjs",
+      "caught": true,
+      "failed": [
+        "scripts/travel-sight-proof.mjs failed after 12 checks: AssertionError [ERR_ASSERTION]: their portrait and star are held, and a press on either is refused: \"\""
+      ]
+    },
+    {
+      "name": "the row is never live again once they are back in view",
+      "proof": "scripts/travel-sight-proof.mjs",
+      "caught": true,
+      "failed": [
+        "scripts/travel-sight-proof.mjs failed after 4 checks: locator.click: Timeout 30000ms exceeded."
+      ]
+    },
+    {
+      "name": "the camera keeps its watch on somebody out of sight",
+      "proof": "scripts/travel-sight-proof.mjs",
+      "caught": false,
+      "failed": []
+    }
+  ]
+}

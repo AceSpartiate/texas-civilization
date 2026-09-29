@@ -1,5 +1,46 @@
 # Claude handoff — Astra foundation
 
+## Merging the story cards with portrait = star; warn, then allow; a traveller out of sight greyed — owner, 2026-09-29 (not released)
+
+Branch `cards-merge-fix` off `integration-2026-09-28` (37838614: `house-card` merged with `bubbles-portrait-star`); not pushed.
+
+- **The two proofs that failed on the merged tree.** `test:story-cards` (*"flight.ask.options is not iterable"*): the person card now
+  opens for a matter, so it drew the flight's question from the proof's hand-written snapshots, which had no answers (and a road ask id,
+  `bogged`, that does not exist). The proof now sends the order to leave as the server projects it (`orderOut` + `projectWorld` on a
+  copy of the class's world) and the road's asks with their real ids and answers; the page was right. `test:family-panel` (*"the map
+  is the top thing at only 39%"* on the 400 px phone): the new call-to-arms story card, 318x212 at the top, not the person card, the
+  column's cards (4 of 288 points) or bubbles. The proof already put away the one thing that comes to the door before measuring the
+  panel (the person card, which since portrait = star no longer opens for it); it now folds the messages card with its own *Keep
+  playing* too, and holds that the card is still on the screen folded. The panel's rule (column plus one row, map on top > 40%) is
+  unchanged: 48%.
+- **Warn, then allow** (owner; the design audit's B11). Somebody on auto made main by portrait or star during the flight is made main,
+  and the refusal line says *"Bernarda is on auto, so she will answer the soldiers herself."* (*"… the order to leave …"* while told
+  to go). `test:scrape-pursuit`'s B11 step is back as that check.
+- **A traveller out of sight is greyed** (owner, verbatim in docs/FAMILY_PANEL.md §20c). Exactly while the map draws nothing of them -
+  no place from the server (`seenTravel`), or faded right out by the page's schedule (`travelSight`, alpha 0) - their row is dimmed
+  with *"On the road to Gonzales — back in view when they arrive"*, portrait, star and *Make main* held and refused in a line, the
+  journal's roster too. The "!" and the story cards still open what waits on them without choosing the row or moving the camera to
+  them; in a chase they frame the chase (`watchChase`), where the horsemen and their ¡Alto! are drawn. The camera lets go of somebody
+  who goes out of sight. Host and watching pages unchanged. The page's fade depends on the zoom, so a family running flat out can be
+  drawn from the family frame and out of sight close in; the rows follow what is drawn, and a student presses Follow to see them.
+
+Evidence (same computer, headless Chrome): `test:story-cards` 4, `test:family-panel`, `test:chatter` 21, `test:lone-parent` 10,
+`test:tips` 13, `test:travel-sight` (the new checks: greyed, refused, camera not on them, live on arrival; a drawn walker's row live),
+`test:scrape-pursuit` 15, `test:scrape` 7, `test:host-live` 11, `test:battle-bexar` 15, `test:family-commands` 23, `test:armies`,
+`test:riding`, `test:road`, `test:siege`, `test:storming`, `bexar-alarm`, `travel-drawn`, `test:watching` passed; node tests for the
+panel, commands, attention, tips, travel sight and pursuit 81 of 81 (`tests/family-commands.test.mjs`'s source check now requires
+the portrait and the star behind the same out-of-sight guard; `scripts/design-blockers-injections.mjs` updated to the new line and
+still caught). Injections: `node scripts/unseen-and-auto-injections.mjs` ([record](docs/evidence/unseen-and-auto-injections.json)).
+
+Proofs repaired because the merged tree had outgrown them: `travel-sight-proof` began its class with four students joined and no page
+open, whose riders each held the calendar for their ninety real seconds, so the gathering never reached four hours a tick - it now
+begins with one student (`anyway`) and answers the call *Nobody goes*; `battle-1835` (concepcion) pressed the portrait of a man away
+with the army to reach his question - now his "!" while he is out of sight.
+
+Still failing, the same without this branch's changes (checked on bed10685): `scripts/going-browser-proof.mjs` at the last step, *"the
+next person: one way left … they walk straight away"* - the order goes out on foot (`__goingSkipped`), but the server starts
+*make-furniture* at step 0 with no journey, so the proof's wait for a foot journey times out. A server change from another branch.
+
 ## The house's card, and a family member's big moments as story cards — owner, 2026-09-29 (not released)
 
 Branch `house-card` off origin/main c92e715f (origin/main 7b099ab5 merged in); not pushed. The owner: *"The choosing of a house

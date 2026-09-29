@@ -131,8 +131,8 @@ const INJECTIONS = [
   {
     name: 'owner 2026-09-29: pressing a portrait only chooses again, and does not do what the star does',
     file: 'public/app.js',
-    from: "  if (portrait) { pressStar(portrait.dataset.portrait); return; }",
-    to: "  if (portrait) { goToPerson(portrait.dataset.portrait); return; }",
+    from: "  if (portrait) { if (!refusedUnseen(portrait.dataset.portrait)) pressStar(portrait.dataset.portrait); return; }",
+    to: "  if (portrait) { if (!refusedUnseen(portrait.dataset.portrait)) goToPerson(portrait.dataset.portrait); return; }",
     expect: CHOOSING,
     browser: 'test:family-panel',
   },

@@ -7,7 +7,7 @@
     "1366: the path is drawn thin on the student's own map, and not on another family's nor the Host's",
     "1366: the family is going across country, and the card says how far off Mexican troops could see it",
     "1366: changed on the road, the family turned for New Washington from where it was",
-    "1366: Bernarda Proofwright on auto and their portrait pressed: chosen, and Gregorio Proofwright is still the main person",
+    "1366: Bernarda Proofwright on auto and their portrait pressed in the chase: made main, warned \"Bernarda is on auto, so she will answer the soldiers herself.\", and Gregorio Proofwright made main again by their portrait",
     "1366: the dragoons came on and called \"¡Alto!\", with the English under it, over the lead horseman and on the card",
     "1366: the Host's map drew the chase",
     "1366: the family ran; the horsemen fired - 8 shots, flashes and smoke drawn - and it was taken",
@@ -39,10 +39,11 @@
       "route": "Making for New Washington, by way of Lynchburg. Next, Lynchburg: 12.7 miles across country, at about 1.5 miles an hour.",
       "seen": "Mexican troops could see the family from about 200 yards: people on foot off the road, in the open, in the rain."
     },
-    "lookedAt": {
+    "warnedAuto": {
       "son": "hh-1-parent-2",
-      "onAuto": true,
-      "main": "hh-1-parent-1"
+      "main": "hh-1-parent-2",
+      "words": "Bernarda is on auto, so she will answer the soldiers herself.",
+      "backTo": "hh-1-parent-1"
     },
     "1366-alto": {
       "view": {
@@ -66,8 +67,8 @@
         "spoken": [
           {
             "id": "alto",
-            "x": 413,
-            "y": 654
+            "x": 403,
+            "y": 664
           }
         ]
       },
@@ -85,13 +86,13 @@
             "kind": "cavalry",
             "phase": "caught",
             "soldiers": 8,
-            "smoke": 6,
+            "smoke": 2,
             "shotsSent": 8
           }
         ],
-        "shotsSeen": 6,
-        "flashes": 6,
-        "dust": 6,
+        "shotsSeen": 2,
+        "flashes": 2,
+        "dust": 2,
         "lines": [
           "alto",
           "warn",
@@ -99,41 +100,21 @@
         ],
         "heard": [
           {
-            "x": 581,
-            "y": 534,
+            "x": 471,
+            "y": 545,
             "size": 1
           },
           {
-            "x": 597,
-            "y": 561,
-            "size": 1
-          },
-          {
-            "x": 613,
-            "y": 588,
-            "size": 1
-          },
-          {
-            "x": 497,
-            "y": 441,
-            "size": 1
-          },
-          {
-            "x": 478,
-            "y": 416,
-            "size": 1
-          },
-          {
-            "x": 550,
-            "y": 518,
+            "x": 487,
+            "y": 572,
             "size": 1
           }
         ],
         "spoken": [
           {
             "id": "fire",
-            "x": 560,
-            "y": 571
+            "x": 451,
+            "y": 581
           }
         ]
       },
@@ -415,13 +396,7 @@
           "alto"
         ],
         "heard": [],
-        "spoken": [
-          {
-            "id": "alto",
-            "x": 238,
-            "y": 657
-          }
-        ]
+        "spoken": []
       },
       "ask": [
         "halt",

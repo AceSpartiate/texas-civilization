@@ -131,6 +131,18 @@ function workEffect(ctx, name, x, y, height, flip) { return drawSprite(ctx, name
  */
 const travelSeen = new Map();
 window.__travelSight = travelSeen;
+/**
+ * The family's people the map is not drawing because they are going too fast to be drawn (owner, 2026-09-29: *"if a character is
+ * travelling (they're not rendered because they're moving too fast) their character panel should be greyed out and the player
+ * shouldn't be able to select them until they're rendered again"*): by id, the words their row says. Two ways a traveller is
+ * not drawn, both the page's own rules: the server sends no place for somebody too fast to follow (sim/world.mjs `seenTravel`),
+ * and the page draws nothing of a figure whose schedule has faded it right out (public/motion.js `travelSight`, `sightOf`,
+ * a figure alpha of 0). Written once a frame by `drawWorld`, so a row greys on the frame the figure goes and comes back on the
+ * frame it is drawn again; read by the rows (`markUnseenRows`), the portrait and the star, `goToPerson` and the camera.
+ * Never on the Host's page nor a page watching another family.
+ */
+let unseenOnRoad = new Map();
+window.__unseenOnRoad = unseenOnRoad;
 // The family's own land, read once a frame: the road inside it is never sped up and never faded (owner, 2026-09-22).
 let ownGrant = null;
 // Where each journey leaves that land and comes back onto it, worked out once a journey rather than once a frame.
@@ -1748,6 +1760,12 @@ const houseScale = scale => { const size = Math.min(150, scale * PERSON_MILES) *
 let manualView = null;
 // The view Watch set on a fight's card, while it is still the view: the camera then frames the fight as it moves (`cameraFor`).
 let fieldWatch = null;
+// The view a "!" or a story card set on the family's own chase while the one it is about is out of sight (`unseenOnRoad`, owner
+// 2026-09-29): the camera frames the soldiers and the family's place as they move, not a figure it does not draw (`cameraFor`).
+// A pan, a zoom or Follow ends it, as they end Watch.
+// ceiling: framed on the server's point for the family, a tick at a time, not a drawn figure walking; a drawn chase point is the
+// way out if the step between ticks is ever noticed.
+let chaseWatch = null;
 /**
  * One of your own people, kept in the middle of the view.
  *
@@ -1898,6 +1916,8 @@ function cameraFor(world, canvas, now = performance.now()) {
   // scripts/travel-sight-proof.mjs).
   // Never kept on somebody who has fallen (docs/BATTLES.md §2b.1: the camera stays on the wall, not on him).
   if (watchedId && entitiesOf(world).some(entity => entity.id === watchedId && (entity.service?.seenFall || entity.service?.offMap))) watchedId = null;
+  // Nor on somebody faded out on the road (`unseenOnRoad`, owner 2026-09-29): the camera does not follow a figure it does not draw.
+  if (watchedId && unseenOnRoad.has(watchedId)) watchedId = null;
   const watched = watchedId ? entitiesOf(world).find(entity => entity.id === watchedId && entity.location) : null;
   const at = watched?.location
     ? motionProjection.position(watched, now, reducedMotion.matches || world.status !== 'running')
@@ -1907,13 +1927,15 @@ function cameraFor(world, canvas, now = performance.now()) {
   // for as long as the student leaves the view where Watch put it. A pan or a zoom makes a new view, and that wins.
   const fieldView = !watched && fieldWatch && manualView === fieldWatch.view && world.battle?.sides
     ? autoView(world, canvas, { kind: 'battle', title: world.battle.name || 'The fight', points: fieldFrame(battlePoints(world)) }) : null;
+  const chase = !watched && !fieldView && chaseWatch && manualView === chaseWatch.view ? world.flight?.chase : null;
+  const chaseFrame = chase && Number.isFinite(chase.x) && Number.isFinite(chase.y) ? { cx: chase.x, cy: chase.y, scale: chaseWatch.view.scale } : null;
   const raw = at
     ? { cx: at.x, cy: at.y, scale: clampTo(Math.max(auto.scale, limits.max * .55), limits) }
-    : fieldView || (following ? auto : manualView);
+    : fieldView || chaseFrame || (following ? auto : manualView);
   const scale = clampTo(raw.scale, limits);
   const { cx, cy } = clampCentre(raw.cx, raw.cy, scale, world, canvas);
   return {
-    ...(fieldView || auto), cx, cy, scale, following, limits,
+    ...(fieldView || auto), cx, cy, scale, following, limits, watching: watched?.id || null,
     toScreen: p => ({ x: canvas.width / 2 + (p.x - cx) * scale, y: canvas.height / 2 + (p.y - cy) * scale }),
     toWorld: s => ({ x: cx + (s.x - canvas.width / 2) / scale, y: cy + (s.y - canvas.height / 2) / scale }),
     // Detail follows the camera instead of a mode switch, so one view serves both scales.
@@ -3213,7 +3235,7 @@ function drawWorldNow(world) {
   const camera = cameraFor(world, canvas, frameNow);
   drawnCamera = { cx: camera.cx, cy: camera.cy, scale: camera.scale, width: canvas.width, height: canvas.height };
   mapDrawWanted = false; lastMapDraw = performance.now(); gesturePicture = null;
-  window.__camera = { kind: camera.kind, scale: camera.scale, named: camera.named, cx: camera.cx, cy: camera.cy, following: camera.following, figure: camera.figure, house: camera.house };
+  window.__camera = { kind: camera.kind, scale: camera.scale, named: camera.named, cx: camera.cx, cy: camera.cy, following: camera.following, watching: camera.watching ?? null, figure: camera.figure, house: camera.house };
   // The ground is drawn again only when something it is drawn from changed (`groundInputs`, public/map-base.js): not for a
   // snapshot in which only people moved, nor for a click that renders one. The pick being made on the land is drawn into it.
   const pick = surveyLooking() && plotPick ? JSON.stringify([plotJob, plotPick.point, plotPick.facts?.can ?? null, plotPick.facts?.plotId ?? null]) : null;
@@ -3580,6 +3602,9 @@ function drawWorldNow(world) {
   const carryingBaby = new Set();
   for (const one of entities) if (one.carriedBy && one.band === 'infant') carryingBaby.add(one.carriedBy);
   window.__babiesInArms = {};
+  // Who of the family the map is not drawing this frame (`unseenOnRoad`): first those the server sends with no place at all.
+  const unseenNext = new Map();
+  for (const entity of entitiesOf(world)) if (entity.kind === 'person' && entity.travel && !entity.location) unseenNext.set(entity.id, awayWords(world, entity));
   for (const entity of [...entities].sort((a, b) => Boolean(a.carriedBy) - Boolean(b.carriedBy))) {
     const holder = entity.carriedBy || (entity.baby?.state === 'held' ? entity.baby.by : null);
     if (holder && babiesHeldLast.has(holder)) { window.__babiesInArms[entity.id] = holder; continue; }
@@ -3588,6 +3613,8 @@ function drawWorldNow(world) {
     // journey is being crossed out of sight (`sightOf`). Worked out before the point, because it is the point.
     const sight = carrier ? carrier.sight : sightOf(entity, drawnHeightOf(entity, camera.figure, seatOf(entity, entities)), travelMarks);
     if (sight && sight.alpha < 1 && !carrier) roads.push({ entity, seen: sight });
+    // Faded right out on the road: nothing of them is drawn this frame (`drawEntity` draws a figure only while its alpha is above 0).
+    if (sight && !(sight.alpha > 0) && entity.kind === 'person') unseenNext.set(entity.id, awayWords(world, entity));
     const inTown = carrier ? null : townGround(world, entity, camera, frameNow, frozen);
     const ground = carrier ? carrier.ground : sight?.at || inTown?.at || motionProjection.position(entity, frameNow, frozen), point = camera.toScreen(ground);
     carriedAt.set(entity.id, { ground, sight });
@@ -3661,6 +3688,8 @@ function drawWorldNow(world) {
       } });
     }
   }
+  // The Host's page and a page watching another family are as they were: nobody's row is greyed there.
+  noteUnseen(host || world.watching ? new Map() : unseenNext, world);
   const margin = camera.figure * 4, shownObserved = [];
   for (const entity of observed) {
     // Everyone on the map, not only the student's own family (owner, 2026-09-22, by multiple choice: "Everyone on the
@@ -4968,6 +4997,7 @@ function renderFamilyPanel(world) {
     const row = panelRows.get(id);
     return { id, role: row.item.dataset.role, name: byId.get(id).name, age: byId.get(id).age, active: [...row.icons.querySelectorAll('[data-active=true]')].map(icon => icon.dataset.key), ...seen[at] };
   });
+  markUnseenRows(world);
 }
 /**
  * The column's foot, measured (docs/FAMILY_PANEL.md §17, owner 2026-09-25: "Fix it"). The column is its own scroll region
@@ -5036,7 +5066,7 @@ function fitColumn() {
     document.body.style.removeProperty('--phone-column');
     if (document.body.style.getPropertyValue('--column-room') !== roomText) document.body.style.setProperty('--column-room', roomText);
   }
-  const lines = [...panel.querySelectorAll('.panel-auto-line, .panel-life-line')].filter(line => !line.hidden).map(line => line.textContent);
+  const lines = [...panel.querySelectorAll('.panel-auto-line, .panel-life-line, .panel-away-line')].filter(line => !line.hidden).map(line => line.textContent);
   // And whether the lone parent's ability stands at the head of the column, open or folded (public/courtship.js): it takes room.
   const ask = $('#ask-neighbours');
   const key = JSON.stringify([room, Math.round(stage.height), panelRows.size, lines, panel.dataset.collapsed || '', focusedId, ask ? `${ask.hidden}:${ask.dataset.folded || ''}` : '', $('#house-card') ? `${$('#house-card').hidden}:${$('#house-card').dataset.quiet || ''}` : '']);
@@ -5145,8 +5175,21 @@ async function setAutoFor(id, on) {
 }
 async function chooseFocus(id) {
   say('');
+  const warning = autoFlightWarning(window.__snapshot?.world, id);
   try { await api('/api/command', { id: crypto.randomUUID?.() || `cmd-${Date.now()}-${Math.random().toString(36).slice(2)}`, action: 'set-main', entityId: id }); }
-  catch (error) { say(error.message); }
+  catch (error) { say(error.message); return; }
+  if (warning) say(warning);
+}
+/**
+ * Warn, then allow (owner, 2026-09-29; the design audit's B11): on the flight east a main person on auto answers the order to leave
+ * and the soldiers for the family (sim/auto.mjs `advanceAuto`, sim/pursuit.mjs). Somebody on auto made main there - by the star or,
+ * since portrait = star, by their portrait - still becomes main, and the refusal line says in one plain sentence what that means.
+ */
+function autoFlightWarning(world, id) {
+  const person = world?.entities?.find(one => one.id === id), flight = world?.flight;
+  if (!person?.auto || !flight || !(flight.ask || ['ordered', 'fled', 'refuged', 'returning'].includes(flight.status))) return '';
+  const [they, themself] = person.sex === 'female' ? ['she', 'herself'] : person.sex === 'male' ? ['he', 'himself'] : ['they', 'themselves'];
+  return `${person.given || person.name} is on auto, so ${they} will answer ${flight.status === 'ordered' ? 'the order to leave' : 'the soldiers'} ${themself}.`;
 }
 /**
  * The star, and since 2026-09-29 the portrait (owner: *"it should be treated the same as clicking on the star"*): make this person
@@ -5163,8 +5206,54 @@ function pressStar(id) {
 function goToPerson(id) {
   const world = window.__snapshot?.world;
   selectedId = id; selectionDismissed = false;
+  // Out of sight on the road (`unseenOnRoad`): what is waiting on them opens - their card, for the "!" and the story cards - but the
+  // camera does not go looking for somebody it cannot draw, and their row is not chosen.
+  if (unseenOnRoad.has(id)) { if (world) { watchChase(world); renderSelection(world); renderTutorial(world); } return; }
   watchedId = id; manualView = null; fieldWatch = null; panelExpanded = id;
   if (world) { drawWorld(world); renderFamilyPanel(world); renderSelection(world); renderTutorial(world); }
+}
+/** What an unseen traveller's row says (owner, 2026-09-29): where they are going, and when they are back in view. */
+function awayWords(world, entity) {
+  const to = entity.travel?.to;
+  const where = !to ? 'On the road' : to === homeOf(world) ? 'On the road home' : `On the road to ${world.map?.sites?.[to]?.name || 'town'}`;
+  return `${where} — back in view when they arrive`;
+}
+/** The frame's unseen travellers (`drawWorld`): kept, and the rows told, only when who they are or what their rows say has changed. */
+function noteUnseen(next, world) {
+  const key = map => JSON.stringify([...map]);
+  if (key(next) === key(unseenOnRoad)) return;
+  unseenOnRoad = next;
+  window.__unseenOnRoad = next;
+  // Not followed while unseen: the camera gives the family's frame back and stays there (`cameraFor`); watching them again
+  // is a press on their portrait once they are drawn. Unless soldiers are after the family: then the chase is framed instead,
+  // close enough for its horsemen and their order to be drawn - the family's frame is too far out to read them, and a figure drawn
+  // again out there would only be followed in, faded out and dropped once more (the fade is the page's, and depends on the zoom).
+  if (watchedId && next.has(watchedId)) { watchedId = null; if (world?.flight?.chase) watchChase(world, { draw: false }); }
+  markUnseenRows(world);
+}
+/**
+ * Greyed, not hidden (owner, 2026-09-29): the row dimmed, its line saying where they are going and that they are back in view on
+ * arrival, and the portrait, the star and "Make main" held (`aria-disabled`), refused in a quiet line if pressed. The "!" is not
+ * held: a question for them is answered from it or from its story card, whatever the row says.
+ */
+function markUnseenRows(world) {
+  for (const [id, row] of panelRows) {
+    const words = unseenOnRoad.get(id) || '';
+    setData(row.item, 'unseen', String(Boolean(words)));
+    for (const button of [row.portrait, row.focus, row.makeMain]) {
+      if (words) button.setAttribute('aria-disabled', 'true'); else button.removeAttribute('aria-disabled');
+    }
+    if (row.away.textContent !== words) row.away.textContent = words;
+    if (row.away.hidden !== !words) { row.away.hidden = !words; queueColumnFit(); }
+  }
+}
+/** A press on an unseen traveller's portrait, star or "Make main": refused, in words, and nothing else happens. */
+function refusedUnseen(id) {
+  const words = unseenOnRoad.get(id);
+  if (!words) return false;
+  const person = entitiesOf(window.__snapshot?.world || {}).find(one => one.id === id);
+  say(`${person?.given || person?.name || 'They'} cannot be chosen while out of sight. ${words}.`);
+  return true;
 }
 /** Where on the card each need is answered. A rider has a panel of their own. */
 const NEED_SECTIONS = { alto: '#selection-flight', army: '#selection-army', camp: '#selection-work', courier: '#selection-work', flight: '#selection-flight', road: '#selection-flight', call: '#selection-call', asking: '#selection-work', child: '#selection-work', offer: '#selection-trade', sick: '#selection-nurse' };
@@ -5413,14 +5502,17 @@ function panelRow(id) {
   // would do - "Has the measles: walking. Resting would mend it sooner."
   const sick = element('span', '', 'panel-sick-line');
   sick.hidden = true;
-  body.append(label, input, tools, note, why, autoSays, life, sick);
+  // Out of sight on the road (owner, 2026-09-29, `markUnseenRows`): where they are going, and that they are back in view on arrival.
+  const away = element('span', '', 'panel-away-line');
+  away.hidden = true;
+  body.append(label, input, tools, note, why, away, autoSays, life, sick);
   item.append(portrait, attention, body, icons);
   // The one labelled way besides the star to change who the main person is (design audit 2026-09-28 B11): first in the bar of
   // somebody chosen who is not main. It sends `set-main` through the star's own handler (`data-focus`).
   const makeMain = element('button', '', 'panel-make-main');
   makeMain.type = 'button';
   makeMain.dataset.focus = id;
-  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, idle, house, focus, auto, autoSays, life, sick, sickMark, word, note, why, makeMain, face: null, iconsKey: null };
+  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, idle, house, focus, auto, autoSays, life, sick, sickMark, word, note, why, away, makeMain, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }
@@ -6910,6 +7002,21 @@ for (const selector of ['#tip', '#errand-tip']) {
   });
 }
 /** The camera on a fight's field: both sides and the gun in the frame if they are drawn, or the field's middle close in. */
+/**
+ * The family's own chase framed (`chaseWatch`): what a "!" or a story card does for somebody out of sight while soldiers are after
+ * the family - the soldiers and their order are drawn, and the answer is theirs to see given. Nothing when there is no chase.
+ */
+function watchChase(world, { draw = true } = {}) {
+  const chase = world.flight?.chase;
+  if (!chase || !Number.isFinite(chase.x) || !Number.isFinite(chase.y)) return;
+  const canvas = $('#world-map'), view = cameraFor(world, canvas);
+  stopWatching(); fieldWatch = null;
+  // As close as watching a person goes (`cameraFor`), so the horsemen are drawn large enough to be read.
+  manualView = { cx: chase.x, cy: chase.y, scale: clampTo(Math.max(view.scale, view.limits.max * .55), view.limits) };
+  chaseWatch = { view: manualView };
+  // Not from inside a frame (`noteUnseen` is called by `drawWorld`): the next frame takes the view up.
+  if (draw) drawWorld(world);
+}
 function watchField(world, field) {
   const canvas = $('#world-map'), view = cameraFor(world, canvas);
   const points = world.battle ? battlePoints(world) : [];
@@ -7628,6 +7735,7 @@ document.addEventListener('click', async event => {
   }
   const pick = event.target.closest('[data-select]');
   if (pick) {
+    if (refusedUnseen(pick.dataset.select)) return;
     selectedId = pick.dataset.select; selectionDismissed = false;
     // Chosen from the roster rather than off the map, so go and look at them. Somebody
     // picked off the map is already on screen and moving the camera would only be rude.
@@ -7646,7 +7754,7 @@ document.addEventListener('click', async event => {
   // design audit's B11 of 2026-09-28 (a portrait only chose): on auto the main person decides the family's leaving and its
   // answers on the road, and the owner has chosen that a press on a face hands that over, as the star does.
   const portrait = event.target.closest('[data-portrait]');
-  if (portrait) { pressStar(portrait.dataset.portrait); return; }
+  if (portrait) { if (!refusedUnseen(portrait.dataset.portrait)) pressStar(portrait.dataset.portrait); return; }
   // The "!" on a row: to the person, and open what is waiting on them (docs/FAMILY_PANEL.md §11).
   const attention = event.target.closest('[data-attention]');
   if (attention) { openNeed(attention.dataset.attention); return; }
@@ -7655,7 +7763,7 @@ document.addEventListener('click', async event => {
   if (sw) { setAutoFor(sw.dataset.auto, sw.getAttribute('aria-pressed') !== 'true'); return; }
   // The star: make this person the main one; on the main person already, go back to them.
   const star = event.target.closest('[data-focus]');
-  if (star) { pressStar(star.dataset.focus); return; }
+  if (star) { if (!refusedUnseen(star.dataset.focus)) pressStar(star.dataset.focus); return; }
   // The main person's House: the rooms inside, as tapping the house on the map opens them.
   const indoors = event.target.closest('[data-house]');
   if (indoors) {
