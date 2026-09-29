@@ -188,29 +188,40 @@ function palaceFrame() {
     note: 'the Governor\'s Palace (the comandancia) on Military Plaza as it stood in 1836: a long one-storey plastered stone block, flat roof behind a parapet, spouts, small barred windows, one great door under a keystone' }, o => governorsPalace(o));
 }
 /**
- * E14: the corner of the church that carries the tower, drawn by itself so the battle view can stand it under the red flag
- * at the battle's figure scale (public/battle-view.js `drawFlag`). The same drawing as the church's own tower. The flag's
- * pole stands on the lantern: at `TOWER_TOP` of the frame, which drawFlag reads (0.5 across of the anchor, as a share of the
- * drawn height up and across).
+ * E14: the corner of the church that carries the tower - the church's own south-east corner, drawn in the church's own
+ * coordinates at its scale, so it lies exactly over `bexar-san-fernando-1836`'s tower. The battle view (public/battle-view.js
+ * `drawFlag`) lays it on the church the map draws and stands the red flag's pole on its lantern; `TOWER_ON_CHURCH` gives the
+ * numbers it reads (printed by `node -e` on this module; see drawFlag's comment).
  */
-export const TOWER_FRAME = Object.freeze({ w: 240, h: 480, px: 7, origin: [100, 450] });
+export const TOWER_FRAME = Object.freeze({ w: 240, h: 480, px: 7, origin: [-54, 450] });
+const TOWER_ANCHOR = [21, -4.5];
 function towerFrame() {
   const { w, h, px, origin } = TOWER_FRAME;
   let top;
-  const frame = building('san-fernando-tower-1836', { w, h, origin, anchor: [-1, -4.5], px, logicalHeight: h,
+  const frame = building('san-fernando-tower-1836', { w, h, origin, anchor: TOWER_ANCHOR, px, logicalHeight: h,
     note: 'the south-east corner of San Fernando church in 1836 with its octagonal tower on the roof, the setting of the red flag of no quarter; the pole stands on the lantern' }, o => {
-    const X1 = 8, TOP = 32.5;
-    o.box({ x0: -10, x1: X1, z0: 0, z1: 12, y1: TOP }, STUCCO);
-    o.face([[-9.2, TOP, 0.8], [X1 - 0.8, TOP, 0.8], [X1 - 0.8, TOP, 11.2], [-9.2, TOP, 11.2]], STUCCO_ROOF, { outline: LINE.fine + 0.4 });
-    o.line([[-10, 30, 0], [X1, 30, 0]], { width: LINE.fine + 0.3, colour: tone(STUCCO, -0.4), opacity: 0.7 });
-    o.wear(-9, X1 - 1, 3, 28, 0, STUCCO, { seed: 5, count: 4 });
-    o.arch(-3, 19, 2.6, 23.5, 0, MATERIAL.opening, { frame: 0.5 });
-    buttress(o, -6.5, STUCCO);
+    const X0 = 12, X1 = 30, TOP = 32.5;
+    o.box({ x0: X0, x1: X1, z0: 0, z1: 10, y1: TOP }, STUCCO);
+    o.face([[X0 + 0.8, TOP, 0.8], [X1 - 0.8, TOP, 0.8], [X1 - 0.8, TOP, 9.2], [X0 + 0.8, TOP, 9.2]], STUCCO_ROOF, { outline: LINE.fine + 0.4 });
+    o.line([[X0, 30, 0], [X1, 30, 0]], { width: LINE.fine + 0.3, colour: tone(STUCCO, -0.4), opacity: 0.7 });
+    o.wear(X0 + 1, X1 - 1, 3, 28, 0, STUCCO, { seed: 5, count: 4 });
+    o.arch(17.5, 19, 2.6, 23.5, 0, MATERIAL.opening, { frame: 0.5 });
+    buttress(o, 25, STUCCO);
     top = sanFernandoTower(o, X1, 0, TOP, 3);
   });
   // Where the pole stands, as shares of the drawn height from the anchor: across (right +) and up.
   frame.flagFoot = [+(((top[0] - frame.anchorX * w) / h).toFixed(4)), +(((frame.anchorY * h - top[1]) / h).toFixed(4))];
   return frame;
+}
+/**
+ * Where the tower frame lies on the church frame: its anchor from the church's, in the church's source pixels (right, up),
+ * and both logical heights - so the page can lay one on the other at the town's scale.
+ */
+export function towerOnChurch() {
+  const church = sanFernandoFrame(), tower = towerFrame();
+  const at = (x, z) => [(x + z * 0.34) * PX, (z * 0.3) * PX];
+  const a = at(0, -9.5), b = at(TOWER_ANCHOR[0], TOWER_ANCHOR[1]);
+  return { offset: [+(b[0] - a[0]).toFixed(1), +(b[1] - a[1]).toFixed(1)], churchLogical: church.logicalHeight, towerLogical: tower.logicalHeight, flagFoot: tower.flagFoot };
 }
 function concepcionFrame() {
   const w = 600, h = 440, origin = [160, 410];
@@ -240,7 +251,7 @@ export const SHEETS = {
     replaceWith: 'item 5: San Fernando\'s tower as the red flag\'s setting, placed under the flag',
     frames: [
       { name: 'san-fernando-tower-1836', draw: towerFrame, height: 1.53, compare: [['volunteer-march-s-1', 0.33], ['flag-red-still', 0.43]],
-        prompt: `The south-east corner of San Fernando church at Béxar in February 1836 with its one tower, drawn alone as the setting of the red flag of no quarter that Santa Anna raised on the church tower (HIST-TEX-054, -504; battlefields.org, The Siege of the Alamo). The same tower as bexar-san-fernando-1836 (HABS TX-34): octagonal, standing on the roof at the corner on a square pedestal, round-arched openings with a bell in the front one, an octagonal pyramid roof and a small lantern, on which the flag's pole stands; below it a short stretch of the stuccoed south wall with one buttress and the parapet. UNCERTAIN: the tower's height and proportions (not recorded; drawn about 28 ft over the roof), the bell, and the state of the lantern in 1836. The church stood on the west side of the Plaza de las Islas; the battle draws this at the flag's point. Warm hand-drawn storybook style, grey weathered stucco, thin dark olive-brown outline, flat facets lit from the upper left, transparent ground, no shadow, no text.` },
+        prompt: `The south-east corner of San Fernando church at Béxar in February 1836 with its one tower, drawn as a piece of the church (registered to bexar-san-fernando-1836, laid over it by the battle view) as the setting of the red flag of no quarter that Santa Anna raised on the church tower (HIST-TEX-054, -504; battlefields.org, The Siege of the Alamo). The same tower as bexar-san-fernando-1836 (HABS TX-34): octagonal, standing on the roof at the corner on a square pedestal, round-arched openings with a bell in the front one, an octagonal pyramid roof and a small lantern, on which the flag's pole stands; below it a short stretch of the stuccoed south wall with one buttress and the parapet. UNCERTAIN: the tower's height and proportions (not recorded; drawn about 28 ft over the roof), the bell, and the state of the lantern in 1836. The church stood on the west side of the Plaza de las Islas, its front to it. Warm hand-drawn storybook style, grey weathered stucco, thin dark olive-brown outline, flat facets lit from the upper left, transparent ground, no shadow, no text.` },
     ] },
   'claude-mission-concepcion': { cell: { w: 600, h: 440 }, columns: 1, request: 'Request 2026-09-25 — Concepción and the Grass Fight',
     replaceWith: 'item 4: the church with its twin towers and dome, seen from about 500 yards',
