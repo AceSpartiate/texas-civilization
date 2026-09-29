@@ -7,8 +7,8 @@ import { basename, dirname, isAbsolute, join, relative, resolve, sep } from 'nod
 import { fileURLToPath } from 'node:url';
 import { etagFor, fileFacts, notModified, PIN_LENGTH, PINNED_CACHE, REVALIDATE_CACHE, sendBody } from './delivery.mjs';
 import { setAbsent } from '../sim/absence.mjs';
-import { CALL_BUDGET_MS, DECISION_BUDGET_MS, realTimeMeter } from '../sim/decision-budget.mjs';
-import { createWorld, stepWorld, projectWorld, projectMap, applyAction, validateWorld, projectFamily, rollFamily, errandFor, goingFor } from '../sim/world.mjs';
+import { CALL_BUDGET_MS, DECISION_BUDGET_MS, QUESTION_BUDGETS, realTimeMeter } from '../sim/decision-budget.mjs';
+import { createWorld, stepWorld, projectPage, projectMap, applyAction, validateWorld, projectFamily, rollFamily, errandFor, goingFor } from '../sim/world.mjs';
 import { familyMaking, householdName, rollRefusal } from '../sim/family.mjs';
 import { beginNextPeriod, continueEnded, endedEarly, periodOf } from '../sim/periods.mjs';
 import { dateOf } from '../sim/directors.mjs';
@@ -268,12 +268,17 @@ export const WOODS_BATCH_MAX = 64;
  * `LESSON_RESUME_MS`, five minutes when not given). Both are options only so a test or a browser proof can hold the clock,
  * jump it, or shorten the window; a real class passes neither.
  */
-export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, decisionBudgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, now = Date.now, lessonResumeMs, soloWatch = null, flashbackDir, streamTimings = STREAMS, emptyPauseMs = null } = {}) {
+export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, decisionBudgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, questionBudgets = null, now = Date.now, lessonResumeMs, soloWatch = null, flashbackDir, streamTimings = STREAMS, emptyPauseMs = null } = {}) {
   const { perFamily: streamsPerFamily, pingMs: streamPingMs, staleMs: streamStaleMs } = { ...STREAMS, ...streamTimings };
   if (!Number.isInteger(streamsPerFamily) || streamsPerFamily < 1 || !(streamPingMs > 0) || !(streamStaleMs > streamPingMs)) throw new Error('Stream timings must be a positive count, a ping and a longer stale time');
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   if (!Number.isFinite(decisionBudgetMs) || decisionBudgetMs <= 0) throw new Error('A decision budget must be a positive number of milliseconds');
   if (!Number.isFinite(callBudgetMs) || callBudgetMs <= 0) throw new Error('A call budget must be a positive number of milliseconds');
+  // The real-time limits of a student's rider, order to leave, road question, ¡Alto! and work question (owner, 2026-09-29;
+  // sim/decision-budget.mjs `QUESTION_BUDGETS`): any of them may be shortened, for a browser proof that cannot wait minutes.
+  for (const [kind, ms] of Object.entries(questionBudgets || {})) {
+    if (!(kind in QUESTION_BUDGETS) || !Number.isFinite(ms) || ms <= 0) throw new Error(`A question budget must be a positive number of milliseconds for one of ${Object.keys(QUESTION_BUDGETS).join(', ')}`);
+  }
   // The real seconds between running ticks, for the budget of an unanswered military question (sim/decision-budget.mjs).
   // Forgotten whenever a tick does not run, so a Host's pause is never counted against anybody's answer.
   const realTime = realTimeMeter({ now });
@@ -580,7 +585,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     // `tickMs` rides along because the renderer has to know how long a tick lasts to
     // spread one tick's movement across it. Without it the client guesses one second and a
     // slower class walks for a second and then stands still for the rest of the tick.
-    const payload = { sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectWorld(state.world, identity.householdId, identity.role, { includeMap: false, copy, now: now() }), mapId: mapKey(), ...(state.world.map.revision && { mapRevision: state.world.map.revision }), ...(state.world.woods?.revision && { woodsRevision: state.world.woods.revision }) };
+    const payload = { sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectPage(state.world, identity.householdId, identity.role, { includeMap: false, copy, now: now() }), mapId: mapKey(), ...(state.world.map.revision && { mapRevision: state.world.map.revision }), ...(state.world.woods?.revision && { woodsRevision: state.world.woods.revision }) };
     // A page has to know it is a solo game: there is no teacher on it, so its own "Done packing" is the Start
     // (owner, 2026-09-21). One boolean rather than a role of its own - a solo player is a student in every other way.
     if (solo) payload.solo = true;
@@ -1575,7 +1580,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     const realMs = realTime.lap(running, Math.max(3 * pace, 2000));
     if (!running) { emptySince = null; return; }
     try { if (pauseIfEmpty()) return; } catch (error) { console.error('The class could not pause itself:', error.cause?.message || error.message); }
-    try { commit(s => { markAbsences(s.world); stepWorld(s.world, { realMs, decisionBudgetMs, callBudgetMs }); }, { when: 'tick' }); }
+    try { commit(s => { markAbsences(s.world); stepWorld(s.world, { realMs, decisionBudgetMs, callBudgetMs, ...(questionBudgets && { questionBudgets }) }); }, { when: 'tick' }); }
     catch (error) { if (!runtimeFault) suspend('SIMULATION_FAILED'); console.error('Simulation paused:', error.cause?.message || error.message); }
   }
   let timer = setInterval(tick, pace);

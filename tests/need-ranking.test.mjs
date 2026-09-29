@@ -8,10 +8,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { projectWorld, stepWorld } from '../sim/world.mjs';
-import { calendarMinutes } from '../sim/clock.mjs';
-import { FLIGHT_PATIENCE } from '../sim/auto.mjs';
-import { ROAD_PATIENCE_TICKS, askTicksLeft } from '../sim/road.mjs';
-import { ALTO_PATIENCE_TICKS } from '../sim/pursuit.mjs';
+import { QUESTION_BUDGETS, flightLimitKey, roadLimitKey } from '../sim/decision-budget.mjs';
+import { askLeftMs as roadLeft } from '../sim/road.mjs';
 import { NEED_KINDS, leftWords, needsOf, rankNeeds } from '../public/family-panel.js';
 import { militaryNotices } from '../public/military-attention.js';
 
@@ -33,12 +31,12 @@ test('every "!" of the column is in one order, the most urgent first, numbered, 
     ],
     army: { ours: [{ id: 'a', questions: [{ key: 'storm', answer: 'open' }] }, { id: 'b', questions: [{ key: 'storm', answer: 'open' }] }] },
     request: { status: 'open', kind: 'call', leftMs: 200_000, answerers: { c: [{ id: 'turn-out', can: true }], m: [{ id: 'turn-out', can: true }] } },
-    flight: { status: 'fled', ask: { id: 'alto', text: '¡Alto!', ticksLeft: 2 } },
+    flight: { status: 'fled', ask: { id: 'alto', text: '¡Alto!', leftMs: 19_000 } },
   };
   // The rows in the family's own order: father, mother, then the others. The ranking is by what waits on each.
-  const ranked = rankNeeds(world, ['f', 'm', 'a', 'b', 'c'], { tickMs: 9500 });
+  const ranked = rankNeeds(world, ['f', 'm', 'a', 'b', 'c']);
   assert.deepEqual(ranked.map(one => [one.id, one.kind, one.rank]), [['f', 'alto', 1], ['m', 'sick', 2], ['c', 'call', 3], ['b', 'army', 4], ['a', 'army', 5]]);
-  assert.equal(ranked[0].leftMs, 2 * 9500, 'the soldiers\' ticks were not read as seconds at the class\'s pace');
+  assert.equal(ranked[0].leftMs, 19_000, 'the soldiers\' real seconds were not carried to the "!"');
   assert.equal(ranked.find(one => one.id === 'm').more, 1, 'the sick mother can also answer the call, and that was lost');
   // Nobody with nothing waiting is ranked; a row's own needs are most urgent first too.
   assert.deepEqual(rankNeeds({ ...world, flight: undefined, army: undefined, request: undefined, entities: people(['f']) }, ['f']), []);
@@ -48,12 +46,17 @@ test('every "!" of the column is in one order, the most urgent first, numbered, 
 test('the time left is read from what the server said, in real time, and written in the fewest characters', () => {
   const world = { role: 'student', household: { mainId: 'f' }, entities: people(['f', 'a']).map(one => (one.id === 'a' ? { ...one, service: { status: 'serving', leave: 'open' }, decisionLeftMs: 45_000 } : one)) };
   assert.equal(needsOf(world, 'a')[0].leftMs, 45_000);
-  // The road's question and the order to leave count ticks; without the class's pace there is no honest time, so none.
-  const road = { ...world, flight: { status: 'fled', ask: { id: 'bog', text: 'Stuck.', ticksLeft: 5 } } };
-  assert.equal(needsOf(road, 'f', { tickMs: 4000 })[0].leftMs, 20_000);
-  assert.equal(needsOf(road, 'f')[0].leftMs, undefined);
-  const order = { ...world, flight: { status: 'ordered', ticksLeft: 72 } };
-  assert.equal(needsOf(order, 'f', { tickMs: 9500 })[0].leftMs, 72 * 9500);
+  // The road's question, the order to leave, a rider and a question in the middle of work count real seconds too, since
+  // 2026-09-29 (owner, "Real-time limits"), whatever the class's pace; where the server sent none there is none.
+  const road = { ...world, flight: { status: 'fled', ask: { id: 'bog', text: 'Stuck.', leftMs: 20_000 } } };
+  assert.equal(needsOf(road, 'f')[0].leftMs, 20_000);
+  assert.equal(needsOf({ ...world, flight: { status: 'fled', ask: { id: 'bog', text: 'Stuck.' } } }, 'f')[0].leftMs, undefined);
+  const order = { ...world, flight: { status: 'ordered', leftMs: 150_000 } };
+  assert.equal(needsOf(order, 'f')[0].leftMs, 150_000);
+  const rider = { ...world, encounter: { status: 'open', listenerId: 'f', carrierName: 'Ben', leftMs: 70_000 } };
+  assert.equal(needsOf(rider, 'f')[0].leftMs, 70_000);
+  const asking = { ...world, entities: [{ id: 'f', name: 'F', kind: 'person', chore: { id: 'hunt-timber', ask: { id: 'shot', leftMs: 50_000 } } }] };
+  assert.equal(needsOf(asking, 'f')[0].leftMs, 50_000);
   assert.equal(leftWords(28_200), '29s');
   assert.equal(leftWords(400), '1s', 'a question with time left read as none');
   assert.equal(leftWords(4 * 60_000 + 1), '5 min');
@@ -74,16 +77,24 @@ test('the server sends the time left on the call, on the army\'s questions, on t
   assert.equal(seen.request.leftMs, 240_000, 'the call went without its time left');
   assert.equal(seen.entities.find(one => one.id === second).decisionLeftMs, 60_000, 'the army\'s question went without its time left');
   assert.equal(seen.entities.find(one => one.id === first).decisionLeftMs, undefined, 'the call\'s minutes were read as a question of the person\'s own');
-  // Told to leave: a day of the calendar, in this phase's ticks.
+  // Told to leave: three real minutes (owner, 2026-09-29), the whole of them before the first tick is counted, then what is left.
   household.flight = { status: 'ordered', orderedMinute: world.minute - 60 };
   seen = view(world, household.id);
-  assert.equal(seen.flight.ticksLeft, Math.ceil((FLIGHT_PATIENCE - 60) / calendarMinutes(world)));
-  // On the road with the wagon in the mud, asked two ticks ago; and the soldiers' ¡Alto!, with its own few ticks.
-  household.flight = { status: 'fled', bog: {}, ask: { id: 'bog', openedTick: world.tick - 2, openedMinute: world.minute } };
-  assert.equal(view(world, household.id).flight.ask.ticksLeft, ROAD_PATIENCE_TICKS - 2);
-  // The soldiers' own few ticks (a real chase is projected in tests/scrape-pursuit.test.mjs; here only the patience).
-  assert.equal(askTicksLeft(world, { id: 'alto', openedTick: world.tick - 1 }), ALTO_PATIENCE_TICKS - 1);
-  assert.equal(askTicksLeft(world, { id: 'alto', openedTick: world.tick - 10 }), 0, 'a lapsed question has time left');
+  assert.equal(seen.flight.leftMs, QUESTION_BUDGETS.flight);
+  world.decisionClock = { [flightLimitKey(household)]: { personId: first, spent: 60_000, of: QUESTION_BUDGETS.flight, limit: 'flight' } };
+  assert.equal(view(world, household.id).flight.leftMs, QUESTION_BUDGETS.flight - 60_000);
+  // On the road with the wagon in the mud, twenty real seconds spent of its ninety; and the soldiers' ¡Alto!, with its own thirty.
+  const bog = { id: 'bog', openedTick: world.tick - 2, openedMinute: world.minute };
+  household.flight = { status: 'fled', bog: {}, ask: bog };
+  world.decisionClock = { [roadLimitKey(household, bog)]: { personId: first, spent: 20_000, of: QUESTION_BUDGETS.road, limit: 'road' } };
+  assert.equal(view(world, household.id).flight.ask.leftMs, QUESTION_BUDGETS.road - 20_000);
+  // The soldiers' own thirty seconds, spent (a real chase is in tests/real-time-limits.test.mjs; here only the time).
+  const alto = { id: 'alto', openedTick: world.tick - 1, openedMinute: world.minute };
+  household.flight = { status: 'fled', ask: alto };
+  world.decisionClock = { [roadLimitKey(household, alto)]: { personId: first, spent: 40_000, of: QUESTION_BUDGETS.alto, limit: 'alto' } };
+  assert.equal(roadLeft(world, household), 0, 'a lapsed question has time left');
+  delete world.decisionClock;
+  assert.equal(roadLeft(world, household), QUESTION_BUDGETS.alto, 'the soldiers\' order was given the road\'s ninety seconds');
 });
 
 test('the Watch alert waits behind the family\'s own road: the order to leave, the road\'s question and ¡Alto!', () => {

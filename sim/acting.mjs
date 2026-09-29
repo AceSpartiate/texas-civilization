@@ -284,6 +284,7 @@ export function advanceTakenIn(world, { beginTravel } = {}) {
       if (!['fled', 'returning'].includes(household.flight?.status) && nobodyToAct(world, household)) {
         const host = nearestNeighbour(world, household);
         if (host) takeIn(world, household, host);
+        else nobodyNear(world, household);
       }
       continue;
     }
@@ -297,15 +298,43 @@ export function advanceTakenIn(world, { beginTravel } = {}) {
   }
 }
 
+/**
+ * The little ones with nobody to take them in (triage D3, 2026-09-29): nobody grown of the family free, no child of seven or more,
+ * and no neighbour family near with somebody grown - every one has gone east, or is itself taken in. Said in the family's record
+ * the day it is so, and again each day it stays so, so they are never left in the yard without a word; the page says it too.
+ *
+ * ceiling: **they wait at home.** Nobody comes back for them, and nobody takes them east: a family already on the road is not
+ * turned back for a neighbour's children, and a child of six is sent on no road of their own. Their family's own order to leave
+ * goes by itself after its day (sim/auto.mjs `FLIGHT_PATIENCE`) and takes them east with it, and at the refuge the families camped
+ * there take them in (`hostsFor`, refuged). A neighbour's wagon that turns in for them on its way east is the way out, if a class
+ * shows little ones left more than a day.
+ */
+function nobodyNear(world, household) {
+  const day = Math.floor(world.minute / 1440);
+  if (household.leftAlone === day) return;
+  household.leftAlone = day;
+  const little = peopleOf(world, household).filter(person => !awayWithTheArmy(world, person) && withTheFamily(world, household, person));
+  if (!little.length) return;
+  const names = little.map(person => firstName(person));
+  const list = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names[0];
+  tell(world, household, `Nobody grown is left at home with ${list}, and there is no neighbour family near to take them in: every one has gone. ${little.length > 1 ? 'They wait' : `${names[0]} waits`} at home.`, { importance: 3 });
+}
+
 // ------------------------------------------------------------------------------------------------ left behind
 
-/** Where somebody left behind goes to find the family: its refuge (or where it makes for), or where the little ones were taken in. */
-export function followTo(world, household) {
+/**
+ * Where somebody left behind goes to find the family: its refuge (or where it makes for), or where the little ones were taken in -
+ * or, once the family has turned for home (`returning`, and `home` after it), home, for somebody still standing at the refuge it
+ * left (triage D3, 2026-09-29: a straggler walking to the refuge when the word of San Jacinto came was left there).
+ */
+export function followTo(world, household, person = null) {
   if (household.takenIn) {
     const anchor = household.takenIn.ids.map(id => world.entities[id]).find(living);
     return anchor ? (anchor.travel ? anchor.travel.to : anchor.location?.siteId) ?? null : null;
   }
-  return ['fled', 'refuged'].includes(household.flight?.status) ? household.flight.refuge : null;
+  const flight = household.flight;
+  if (['returning', 'home'].includes(flight?.status) && flight.refuge && person?.location?.siteId === flight.refuge) return household.homeSiteId;
+  return ['fled', 'refuged'].includes(flight?.status) ? flight.refuge : null;
 }
 
 /**
@@ -317,20 +346,28 @@ export function followTo(world, household) {
  *
  * ceiling: anybody standing idle away from a family on the road east is sent after it, so somebody a student sends elsewhere on
  * purpose while the family is fled goes on to its refuge when they get there. Nothing in the game sends a family's person anywhere
- * but home or after the family then; a "stay where you are" order is the way out if one ever does.
+ * but home or after the family then; a "stay where you are" order is the way out if one ever does. The same holds once the family
+ * has turned for home (2026-09-29): anybody of it standing idle at the refuge it left is sent home, so somebody a student sent back
+ * there on purpose would be walked home again.
  */
 export function advanceStragglers(world, { beginTravel, modeWith } = {}) {
   if (world.status !== 'running' || !beginTravel) return;
   for (const household of Object.values(world.households)) {
-    const to = followTo(world, household);
-    if (!to || !world.map.sites[to]) continue;
+    const turned = ['returning', 'home'].includes(household.flight?.status) && !household.takenIn;
+    const family = followTo(world, household);
+    if (!turned && (!family || !world.map.sites[family])) continue;
     for (const person of peopleOf(world, household)) {
+      // Once the family has turned for home, only somebody standing at the refuge it left is sent after it (`followTo`).
+      const to = turned ? followTo(world, household, person) : family;
+      if (!to || !world.map.sites[to]) continue;
       if (person.travel || person.chore || person.aside || person.carriedBy || person.task === 'help' || awayWithTheArmy(world, person)) continue;
       if (tooYoung(person)) continue;
       if (!able(person) || !person.location?.siteId || person.location.siteId === to || withTheFamily(world, household, person)) continue;
       const where = world.map.sites[to].name;
       const text = household.takenIn
         ? `${firstName(person)} learned the little ones had been taken in at ${where}, and went to fetch them.`
+        : turned
+          ? `${firstName(person)} came to ${world.map.sites[person.location.siteId]?.name || 'the camp'} to find the family gone home. ${firstName(person)} follows it home.`
         : person.location.siteId === household.homeSiteId
           ? `${firstName(person)} came home to find the house empty: the family has gone east for ${where}. ${firstName(person)} follows.`
           : `Word reached ${firstName(person)} that the family has gone east for ${where}. ${firstName(person)} follows by the road.`;
@@ -386,6 +423,9 @@ export function actingInvalid(world) {
     const taken = household.takenIn;
     if (taken === undefined) continue;
     if (!taken || !world.households[taken.by] || taken.by === household.id || !Array.isArray(taken.ids) || !taken.ids.every(id => household.members.includes(id)) || !Number.isFinite(taken.since)) return 'Invalid taking in';
+  }
+  for (const household of Object.values(world.households)) {
+    if (household.leftAlone !== undefined && (!Number.isInteger(household.leftAlone) || household.leftAlone < 0)) return 'Invalid day left alone';
   }
   return null;
 }

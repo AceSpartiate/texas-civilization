@@ -548,7 +548,11 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #wagon-load p{margin:6px 0 0;font-size:14px;line-height:1.45}
 #wagon-room{font-weight:650;color:#4b3e28}
 #wagon-load>*{flex:none}
-#wagon-items{list-style:none;margin:8px 0 0;padding:0;overflow-y:auto;min-height:0;flex:1 1 auto}
+/* One scroller, between the title and the foot: the words, the stock choice and the load scroll together, and the refusal
+   line and "Done packing" stay on the card at every size. The whole card scrolling put Done 58px below its own fold at
+   1366x768 (npm run test:creation-screen, 2026-09-29); the list scrolling alone was squeezed to nothing at 1280x689. */
+#wagon-load>#wagon-body{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;border-bottom:1px solid #d3c299}
+#wagon-items{list-style:none;margin:8px 0 0;padding:0}
 #wagon-items li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:7px 0;border-top:1px solid #d3c299}
 #wagon-items li[data-loaded=true] .wagon-name{font-weight:650}
 .wagon-name{font-size:14px;color:#3b3427}
@@ -1261,10 +1265,8 @@ body[data-creating=true] #away>button{min-height:50px;background:#355243;border-
   body[data-lesson=true] #call-menu{max-height:min(62vh,520px,calc(100% - 18px - var(--lesson-room,116px) - var(--right-foot,74px)))}
   /* Packing the wagon stood over the whole family and the status lines above it - the food and the seed it is packed
      against. The lobby has nothing else down the right. */
-  #wagon-load{left:auto;right:12px;top:64px;max-height:calc(100% - 72px - var(--right-foot,74px));overflow-y:auto}
-  /* Short, the panel scrolls as a whole and keeps a few rows of the load in sight: its list was squeezed to nothing and
-     "Done packing" cut off below the fold at 1280x689 (overflow hidden, no scroll). */
-  #wagon-items{min-height:132px}
+  #wagon-load{left:auto;right:12px;top:64px;max-height:calc(100% - 72px - var(--right-foot,74px))}
+  /* Short, the card does not scroll as a whole: `#wagon-body` scrolls inside it and "Done packing" keeps its foot. */
   /* The walk-through stands above the bar, not across its right-hand icons (1024x600). */
   #tutorial{bottom:calc(var(--bar-room,132px) + 8px)}
   /* The small print about the map, from under the map's buttons (they reach the middle at 1024) to the bottom left, which
@@ -1292,6 +1294,18 @@ body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{max-
 @media (min-width:761px){body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{width:min(24rem,calc(100% - var(--place-left,12px) - 12px),calc(40% - var(--place-left,12px)))}}
 /* The lines the page says, in the status column (public/index.html): as wide as the column at most, in its flow. */
 #hud-left #error,#hud-left #save-fault,#hud-left #lifecycle,#hud-left #host-paused,#hud-left #host-notice{position:static;left:auto;top:auto;transform:none;max-width:min(19rem,calc(100vw - 24px));padding:7px 12px;font-size:13px;text-align:left;box-sizing:border-box}
+/* Watching another family (owner, 2026-09-29; sim/watching.mjs): the line, in the status column's flow like the lines above, and
+   every control that would give an order taken off the page - the server refuses them all, and a button that can only be
+   refused is not offered. The portraits still take the camera to a person, and the card still says what they are doing.
+   `!important`, as `[hidden]` is: this is a state of the whole page, and outranks every rule that places the bar or the card. */
+#watching{margin:0;padding:7px 12px;border-radius:8px;max-width:min(19rem,calc(100vw - 24px));font-size:13px;line-height:1.35;text-align:left;box-sizing:border-box;background:#efe6cf;color:#3b3427;border:2px solid #8f825b}
+body[data-watching=true] .panel-icons,body[data-watching=true] .panel-attention,body[data-watching=true] .panel-auto,body[data-watching=true] .panel-focus,
+body[data-watching=true] .panel-house,body[data-watching=true] .panel-make-main,body[data-watching=true] #selection-actions,body[data-watching=true] #selection-work,
+body[data-watching=true] #selection-trade,body[data-watching=true] #selection-call,body[data-watching=true] #selection-nurse,body[data-watching=true] #selection-army,
+body[data-watching=true] #selection-flight,body[data-watching=true] #selection-more,body[data-watching=true] #wagon-open,body[data-watching=true] #house-open,
+body[data-watching=true] #call-menu,body[data-watching=true] #encounter,body[data-watching=true] #site-choose,body[data-watching=true] #survey-choose,
+body[data-watching=true] #house-plan,body[data-watching=true] #house-plot,body[data-watching=true] #house-placement,body[data-watching=true] #errand,
+body[data-watching=true] #going,body[data-watching=true] #wagon-load{display:none!important}
 /* The journal opens under the guided start's strip rather than over its lower half, where "Show placement controls" was. */
 body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px + var(--lesson-room,108px)))}
 /* The sound's panel of sliders opens over the right-hand end of the map's buttons, where "How it ended" stands, rather than

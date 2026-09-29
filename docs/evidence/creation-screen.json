@@ -1,6 +1,6 @@
 {
   "record": "The family-creation wizard as a thing on a screen (2026-09-21)",
-  "date": "2026-09-27",
+  "date": "2026-09-29",
   "verdict": "PASS",
   "seed": "wizard-17",
   "finger": 44,
@@ -39,27 +39,27 @@
         "height": 768
       },
       "card": {
-        "x": 443,
-        "y": 361,
-        "w": 480,
-        "h": 315
+        "x": 868,
+        "y": 218,
+        "w": 430,
+        "h": 488
       },
       "controls": 1,
-      "scrolls": 0,
+      "scrolls": 1,
       "endOfStep": {
         "control": "#creation-begin-button",
-        "label": "Begin",
+        "label": "Make my family →",
         "box": {
-          "x": 464,
-          "y": 613,
-          "w": 438,
-          "h": 44
+          "x": 898,
+          "y": 625,
+          "w": 370,
+          "h": 52
         },
-        "below": -19,
+        "below": -29,
         "inView": true
       },
       "tightestGap": null,
-      "heading": "Your family",
+      "heading": "Who will your family be?",
       "focusOnArrival": "#creation-begin",
       "behindTheCurtain": 0
     },
@@ -368,19 +368,19 @@
         "height": 768
       },
       "card": {
-        "x": 12,
+        "x": 954,
         "y": 64,
         "w": 400,
-        "h": 618
+        "h": 622
       },
       "controls": 22,
-      "scrolls": 1031,
+      "scrolls": 1029,
       "endOfStep": {
         "control": "#wagon-done",
         "label": "Done packing",
         "box": {
-          "x": 27,
-          "y": 624,
+          "x": 969,
+          "y": 628,
           "w": 370,
           "h": 44
         },
@@ -399,13 +399,13 @@
         ],
         "boxes": [
           {
-            "x": 36,
+            "x": 978,
             "y": 312,
             "w": 352,
             "h": 61
           },
           {
-            "x": 36,
+            "x": 978,
             "y": 381,
             "w": 352,
             "h": 140
@@ -427,27 +427,27 @@
         "height": 768
       },
       "card": {
-        "x": 272,
-        "y": 361,
-        "w": 480,
-        "h": 315
+        "x": 602,
+        "y": 234,
+        "w": 390,
+        "h": 440
       },
       "controls": 1,
-      "scrolls": 0,
+      "scrolls": 1,
       "endOfStep": {
         "control": "#creation-begin-button",
-        "label": "Begin",
+        "label": "Make my family →",
         "box": {
-          "x": 293,
-          "y": 613,
-          "w": 438,
-          "h": 44
+          "x": 632,
+          "y": 594,
+          "w": 330,
+          "h": 52
         },
-        "below": -19,
+        "below": -29,
         "inView": true
       },
       "tightestGap": null,
-      "heading": "Your family",
+      "heading": "Who will your family be?",
       "focusOnArrival": "#creation-begin",
       "behindTheCurtain": 0
     },
@@ -756,19 +756,19 @@
         "height": 768
       },
       "card": {
-        "x": 12,
+        "x": 612,
         "y": 64,
         "w": 400,
-        "h": 618
+        "h": 503
       },
       "controls": 22,
-      "scrolls": 1031,
+      "scrolls": 1148,
       "endOfStep": {
         "control": "#wagon-done",
         "label": "Done packing",
         "box": {
-          "x": 27,
-          "y": 624,
+          "x": 627,
+          "y": 509,
           "w": 370,
           "h": 44
         },
@@ -787,16 +787,16 @@
         ],
         "boxes": [
           {
-            "x": 36,
+            "x": 636,
             "y": 312,
             "w": 352,
             "h": 61
           },
           {
-            "x": 36,
+            "x": 636,
             "y": 381,
             "w": 352,
-            "h": 140
+            "h": 97
           }
         ],
         "tags": [
@@ -815,27 +815,27 @@
         "height": 844
       },
       "card": {
-        "x": 10,
-        "y": 413,
-        "w": 370,
-        "h": 380
+        "x": 14,
+        "y": 394,
+        "w": 362,
+        "h": 426
       },
       "controls": 1,
-      "scrolls": 0,
+      "scrolls": 1,
       "endOfStep": {
         "control": "#creation-begin-button",
-        "label": "Begin",
+        "label": "Make my family →",
         "box": {
-          "x": 31,
-          "y": 730,
-          "w": 328,
-          "h": 44
+          "x": 36,
+          "y": 747,
+          "w": 318,
+          "h": 52
         },
-        "below": -19,
+        "below": -21,
         "inView": true
       },
       "tightestGap": null,
-      "heading": "Your family",
+      "heading": "Who will your family be?",
       "focusOnArrival": "#creation-begin",
       "behindTheCurtain": 0
     },
@@ -1150,7 +1150,7 @@
         "h": 694
       },
       "controls": 22,
-      "scrolls": 1025,
+      "scrolls": 1026,
       "endOfStep": {
         "control": "#wagon-done",
         "label": "Done packing",

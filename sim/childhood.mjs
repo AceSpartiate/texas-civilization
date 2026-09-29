@@ -8,8 +8,9 @@
 //
 //   1. **Play is drawn** - every child at play is moved about the yard by the kind of play it is (sim/children.mjs `playStep`).
 //   2. **Obedience at work** - a child at a job may wander off to play instead, every tick they are at it (sim/obedience.mjs).
-//   3. **A child's own automation**, which does not go on for ever (`CHILD_AUTO_TICKS`, scaled by obedience), and which the
-//      child may switch off themself (`tiresOfAuto`). Either way the family is told, in the record and on the child's row.
+//   3. **A child's own automation**, which does not go on for ever - it lasts until the day ends (owner, 2026-09-29;
+//      sim/child-day.mjs) - and which the child may switch off themself (`tiresOfAuto`). Either way the family is told, in the
+//      record and on the child's row, and an "!" stands on the child's row until they are given something to do.
 //   4. **The idle child** - a child of two to nine at home with nothing to do goes to the nearest parent and talks, and that
 //      parent's work stands still (sim/aside.mjs) until the child is given something to do (`advanceTalks`).
 //
@@ -18,13 +19,14 @@
 // for - no talk, no automation, not idle - so **no save version moved**.
 import { CHORES, beginChore, choresFor } from './chores.mjs';
 import { record } from './events.mjs';
-import { OBEDIENCE_DIE, SENT_FROM_AGE, listWords, obedienceOf, sexOf, tooYoung } from './family.mjs';
+import { SENT_FROM_AGE, listWords, sexOf, tooYoung } from './family.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
 import { BABY_UNDER } from './furniture.mjs';
 import { stirredShare } from './shares.mjs';
 import { PLAY_KINDS, childWorks, isPlay, playStep } from './children.mjs';
 import { inLesson } from './lesson.mjs';
 import { isJob, jobWords, tiresOfAuto, wandersOff } from './obedience.mjs';
+import { dayBegun, dayInvalid, dayOver } from './child-day.mjs';
 
 const GONE = Object.freeze(['dead', 'captured']);
 const r4 = value => Math.round(value * 10000) / 10000;
@@ -40,21 +42,32 @@ export const awake = world => { const hour = dateOf(world, world.minute).getUTCH
 
 // ------------------------------------------------------------------------------------------------ a child's own automation
 
-/**
- * How long a child's automation lasts before it goes off by itself, in ticks, at a roll of 1 and a roll of 20 (`FIC-GONZ-480`).
- * Ticks, not calendar minutes: it is a student's attention being spared, and a tick is the same few seconds of a lesson in every
- * phase (sim/clock.mjs). Eighteen ticks is about three minutes of a class at the Study pace and six hours of a farming day;
- * fifty-six is about nine minutes and most of a day. The owner: "no, it shouldn't go forever".
+/*
+ * How long a child's automation lasts before it goes off by itself (`FIC-GONZ-480`): **until the day ends** (owner, 2026-09-29, by
+ * multiple choice on the triage's D2, "Until the day ends"; sim/child-day.mjs `dayOver`, never sooner than `DAY_FLOOR_TICKS`). The
+ * owner's "no, it shouldn't go forever" stands: it ends with the day, and the child may still switch it off themself before
+ * (`tiresOfAuto`, their hidden roll). Until 2026-09-29 it lasted eighteen ticks at a roll of 1 to fifty-six at a 20 - three to
+ * nine minutes of a lesson - which with a family of children was an order every minute or so (playthrough audit #9).
  */
-export const CHILD_AUTO_TICKS = Object.freeze([18, 56]);
-export const childAutoTicks = roll => Math.round(CHILD_AUTO_TICKS[0] + (CHILD_AUTO_TICKS[1] - CHILD_AUTO_TICKS[0]) * (Math.min(OBEDIENCE_DIE, Math.max(1, roll)) - 1) / (OBEDIENCE_DIE - 1));
-/** How long the notice that a child's automation went off stays on their row, in ticks. The record keeps it for good. */
+/**
+ * How long the notice that a child's automation went off stays on their row, in ticks. The record keeps it for good, and the "!"
+ * stays on the row until the child is given something to do (`autoOffAsking`).
+ */
 export const NOTICE_TICKS = 6;
+/**
+ * Whether this child's automation has gone off and they have been given nothing since: the "!" on their row (owner, 2026-09-29:
+ * "an '!' appears on the family panel when a child's auto goes off"; public/family-panel.js `needsOf`, kind `child`). It goes the
+ * moment they are given something to do - a work, play, or their automation again (`released`, `setChildAuto`) - and never says
+ * how long it had lasted. A job or a spell of play the automation had begun is finished all the same; the "!" is up meanwhile,
+ * because nothing will follow it, and play the child takes up alone for want of anybody at home does not put it away.
+ */
+export const autoOffAsking = entity => Boolean(entity?.autoNotice) && isSmallChild(entity) && !entity.auto && !GONE.includes(entity.health?.condition);
 
 /**
  * A child put on their own automation, or taken off it (sim/world.mjs routes `set-auto` for somebody under ten here). What a child
  * on auto does is find themself things to do - the jobs they are old enough for when there are any, play between - and it lasts
- * `childAutoTicks` of their obedience. **How long is never shown**: it is their roll, and a number on the row would be the roll.
+ * until the day ends (owner, 2026-09-29). The child may tire of it sooner by their hidden roll (`tiresOfAuto`), which is never
+ * shown: a child's row says what they are doing, never how long they will keep at it.
  */
 export function setChildAuto(world, household, entity, on) {
   if (!isSmallChild(entity)) throw new Error(`${entity.name} is too small to decide anything for themself.`);
@@ -63,7 +76,7 @@ export function setChildAuto(world, household, entity, on) {
   delete entity.autoNotice;
   if (wanted) {
     entity.auto = true;
-    entity.childAuto = { until: world.tick + childAutoTicks(obedienceOf(world, entity)), picks: 0 };
+    entity.childAuto = { ...dayBegun(world), picks: 0 };
     // Given something to do, as the idle rule is written: a child who was talking goes off to it, and the grown-up back to theirs.
     released(world, entity);
   } else { delete entity.auto; delete entity.childAuto; }
@@ -102,14 +115,16 @@ function autoPick(world, household, entity) {
 function advanceChildAuto(world, household, entity, travel) {
   if (!entity.auto || !isSmallChild(entity)) return;
   if (GONE.includes(entity.health?.condition)) { delete entity.auto; delete entity.childAuto; return; }
-  // A child's automation from a save made before it had a length gets one now, from the tick it is first seen.
-  entity.childAuto ??= { until: world.tick + childAutoTicks(obedienceOf(world, entity)), picks: 0 };
-  if (world.tick >= entity.childAuto.until) return autoOff(world, household, entity, 'time');
+  // A child's automation from a save made before it had a length, or before it lasted the day (a tick count, `until`), is timed
+  // from the tick it is first seen: until that day ends.
+  if (!Number.isInteger(entity.childAuto?.day)) entity.childAuto = { ...dayBegun(world), picks: entity.childAuto?.picks ?? 0 };
+  if (dayOver(world, entity.childAuto)) return autoOff(world, household, entity, 'time');
   if (tiresOfAuto(world, entity)) return autoOff(world, household, entity, 'child');
   if (entity.chore || entity.travel || entity.location?.siteId !== household.homeSiteId || household.flight && household.flight.status !== 'home' && household.flight.status !== 'ordered' && household.flight.status !== 'stayed') return;
   const id = autoPick(world, household, entity);
   if (!id) return;
-  try { beginChore(world, household, entity, id, travel); } catch { /* refused this tick: asked again the next */ }
+  // Play between jobs is a spell of its old couple of hours (`spell`, sim/chores.mjs): the automation is what lasts the day.
+  try { beginChore(world, household, entity, id, travel, undefined, { spell: true }); } catch { /* refused this tick: asked again the next */ }
 }
 
 // ------------------------------------------------------------------------------------------------ wandering off from a job
@@ -130,7 +145,8 @@ function wanderFromJob(world, household, entity, travel) {
   const kind = plays[Math.floor(stirredShare(world, entity.id, `wander-to:${world.tick}`) * plays.length) % plays.length] || 'child-play';
   entity.chore = null;
   entity.task = 'rest';
-  try { beginChore(world, household, entity, kind, travel); } catch { /* nothing to go off to: they simply stop */ }
+  // A spell of play, not the rest of the day: the child ran off from a job, and is to be found at it and set to it again.
+  try { beginChore(world, household, entity, kind, travel, undefined, { spell: true }); } catch { /* nothing to go off to: they simply stop */ }
   tell(world, household, entity, `${entity.name} has wandered off ${PLAY_KINDS[kind]?.away || 'to play'} instead of ${was}.`, { claimId: 'FIC-GONZ-479' });
 }
 
@@ -196,6 +212,8 @@ export function endTalk(world, child, words = null) {
  * hens - can be begun and finished between two ticks, and a parent must not be left standing by a child who is already busy.
  */
 export function released(world, child) {
+  // Given something to do: the "!" of an automation gone off goes with it (owner, 2026-09-29; `autoOffAsking`).
+  if (child?.autoNotice) delete child.autoNotice;
   if (!child?.talk) return;
   const grown = world.entities[child.talk.withId];
   endTalk(world, child, firstToday(world, child, 'free') ? `${child.name} has something to do now, and ${grown?.name || 'the family'} goes back to ${grown ? workOf(grown) : 'work'}.` : null);
@@ -352,7 +370,8 @@ export function advanceChildhood(world, travel) {
     for (const id of household.members) {
       const entity = world.entities[id];
       if (!entity || entity.kind !== 'person') continue;
-      if (entity.autoNotice && world.tick - entity.autoNotice.tick >= NOTICE_TICKS) delete entity.autoNotice;
+      // The notice leaves the row after `NOTICE_TICKS`, and is kept while the child has been given nothing since: that is the "!".
+      if (entity.autoNotice && world.tick - entity.autoNotice.tick >= NOTICE_TICKS && !autoOffAsking(entity)) delete entity.autoNotice;
       if (!isSmallChild(entity) || GONE.includes(entity.health?.condition)) continue;
       if (entity.chore && isPlay(entity.chore.id)) playStep(world, household, entity);
       else if (entity.chore && household.played && !household.absent) wanderFromJob(world, household, entity, travel);
@@ -376,7 +395,7 @@ export function childLine(world, entity) {
   }
   if (entity.talk) return entity.talk.phase === 'going' ? `Nothing to do: going to find ${nameOf(entity.talk.withId)}.` : `Nothing to do: talking with ${nameOf(entity.talk.withId)}, who has stopped work for it.`;
   if (entity.chore?.dawdle) return 'Dawdling instead of starting.';
-  if (entity.autoNotice) return entity.autoNotice.why === 'time' ? `Auto went off: ${entity.given || entity.name} has been good as long as a child can be.` : `Auto went off: ${entity.given || entity.name} decided that was enough.`;
+  if (entity.autoNotice && world.tick - entity.autoNotice.tick < NOTICE_TICKS) return entity.autoNotice.why === 'time' ? `Auto went off: ${entity.given || entity.name} has been good as long as a child can be.` : `Auto went off: ${entity.given || entity.name} decided that was enough.`;
   return null;
 }
 
@@ -388,7 +407,9 @@ export function childhoodInvalid(world) {
   for (const entity of Object.values(world.entities)) {
     if (entity.kind !== 'person') continue;
     if (entity.talk !== undefined && (!entity.talk || !world.entities[entity.talk.withId] || !['going', 'talking'].includes(entity.talk.phase) || !Number.isInteger(entity.talk.since))) return 'Invalid talk';
-    if (entity.childAuto !== undefined && (!entity.auto || !Number.isInteger(entity.childAuto?.until) || !Number.isInteger(entity.childAuto?.picks))) return 'Invalid child automation';
+    // Timed by the day since 2026-09-29 (`day`, `since`); a save from before carries a tick (`until`), timed afresh when first seen.
+    if (entity.childAuto !== undefined && (!entity.auto || !Number.isInteger(entity.childAuto?.picks)
+      || (entity.childAuto.day === undefined ? !Number.isInteger(entity.childAuto.until) : dayInvalid(world, entity.childAuto)))) return 'Invalid child automation';
     if (entity.idleSince !== undefined && !Number.isInteger(entity.idleSince)) return 'Invalid idle time';
     if (entity.told !== undefined && (!entity.told || typeof entity.told !== 'object' || Object.values(entity.told).some(day => !Number.isInteger(day)))) return 'Invalid record of what was told';
     if (entity.autoNotice !== undefined && (!Number.isInteger(entity.autoNotice?.tick) || !['time', 'child'].includes(entity.autoNotice.why))) return 'Invalid automation notice';

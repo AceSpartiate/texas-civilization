@@ -41,17 +41,19 @@ registerDiseaseChores();
 // Who acts for a family, a child who steps up and goes for help, a family taken in, and anybody left behind (sim/acting.mjs,
 // owner 2026-09-28: "The oldest child steps up").
 import { FAMILY_DECISIONS, actingFor, actingInvalid, advanceStragglers, advanceTakenIn, registerActingChores, registerTakenInLedger, takenInRefusal, withTheFamily } from './acting.mjs';
+// A student with no family left to play follows another and watches it (owner, 2026-09-29; sim/watching.mjs).
+import { projectWatching, watchOf, watchRefusal } from './watching.mjs';
 registerActingChores(registerChores);
 registerTakenInLedger({ owes: (world, debtorId, creditorId) => owes(standings(world), debtorId, creditorId), recorded: (world, takerId, familyId, ids) => recordTakenIn(world, takerId, familyId, ids, { quiet: true }) });
 import { advanceLesson, advanceLessons, inLesson, lessonHostWords, lessonInvalid, lessonProjection, lessonRefusal, lessonResumeOffer, resumeLesson, stopLesson } from './lesson.mjs';
-import { FLIGHT_PATIENCE, REPEATED, advanceAuto, autoShown, noteOrder, setAuto, waitForTask, waitingWork } from './auto.mjs';
+import { REPEATED, advanceAuto, flightLeftMs, autoShown, noteOrder, setAuto, waitForTask, waitingWork } from './auto.mjs';
 import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 // The children's own works (sim/children.mjs, docs/FAMILY_CREATION.md §3's amendment of 2026-09-21). Imported here as well
 // as for its gates, because importing it is what registers them into the chore table.
 import { childAction, childrenInvalid } from './children.mjs';
 // A child's day when nobody is telling them what to do, and the family's babies (owner, 2026-09-26; docs/CHILDREN.md): the idle
 // child who goes to a parent, a child's own automation and obedience, and a baby that crawls, cries and is held.
-import { advanceChildhood, childAutoShown, childLine, childhoodInvalid, isSmallChild, released, setChildAuto, talkLines } from './childhood.mjs';
+import { advanceChildhood, autoOffAsking, childAutoShown, childLine, childhoodInvalid, isSmallChild, released, setChildAuto, talkLines } from './childhood.mjs';
 import { advanceBabies, babiesInvalid, babyLine, babyLines, babyWord, carryBabies, hipPace, isBaby, settleTheUnable, takeBabyAlong } from './babies.mjs';
 import { asideWhy } from './aside.mjs';
 import { hostLiveProjection } from './host.mjs';
@@ -657,7 +659,7 @@ export function progressTravel(world, entity, units = 1) {
     record(world, 'arrival', { actorId: entity.id, householdId: entity.householdId, text: `${entity.name} arrived at ${world.map.sites[travel.to].name}.`, destination: travel.to, purpose: travel.purpose, causes: [travel.progressEventId || travel.causeId] });
   }
 }
-export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs } = {}) {
+export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs, questionBudgets } = {}) {
   if (world.status !== 'running') return;
   // One tick of everybody's own time; on the real land the calendar it carries can be
   // longer than the twenty minutes of work in it (sim/clock.mjs, docs/COLONIES.md §5.7).
@@ -669,8 +671,9 @@ export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs
   settleMeans(world);
   // The real seconds the server says passed since its last running tick are spent on every open military question, and a
   // question out of time is decided by its documented fallback before anything moves (sim/decision-budget.mjs). A tick
-  // stepped in process carries none.
-  spendDecisionBudget(world, realMs, { budgetMs: decisionBudgetMs, callBudgetMs, heldFor: household => inLesson(world, household), beginTravel });
+  // stepped in process carries none. The same seconds go on the real-time limits of a student's rider, order to leave, road
+  // question, ¡Alto! and work question (owner, 2026-09-29), where a tick stepped in process counts as one at the Study pace.
+  spendDecisionBudget(world, realMs, { budgetMs: decisionBudgetMs, callBudgetMs, heldFor: household => inLesson(world, household), beginTravel, questionBudgets });
   for (const entity of Object.values(world.entities)) progressTravel(world, entity);
   // The sick mend by what they did this tick - rested where the road held them, rode or walked where it did not - wherever they
   // are (sim/disease.mjs `mendSickness`, docs/DISEASE.md build step 0 and §3.7).
@@ -897,6 +900,9 @@ export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 
  */
 export function applyAction(world, householdId, input, realTime = {}) {
   const household = world.households[householdId];
+  // Watching another family, with nobody of their own to order (owner, 2026-09-29; sim/watching.mjs): refused in words.
+  const watching = household && watchRefusal(world, household, input);
+  if (watching) throw new Error(watching);
   const notYet = lessonRefusal(world, household, input);
   if (notYet) throw new Error(notYet);
   applyOneAction(world, householdId, input, realTime);
@@ -1276,8 +1282,9 @@ function nursesFor(world, household, sick) {
  */
 function choreShown(world, household, e) {
   if (!e.chore) return e.chore;
-  const { with: held, shares, errand, ...shown } = e.chore;
-  return e.chore.ask ? { ...shown, ask: askProjection(world, household, e) } : (held || shares || errand ? shown : e.chore);
+  // A child's day of play (`allDay`, sim/child-day.mjs) is the server's clock: the row says what they are doing, not until when.
+  const { with: held, shares, errand, allDay, ...shown } = e.chore;
+  return e.chore.ask ? { ...shown, ask: askProjection(world, household, e) } : (held || shares || errand || allDay ? shown : e.chore);
 }
 export function projectWorld(world, householdId, role, { includeMap = true, copy = true, now = Date.now() } = {}) {
   const household = world.households[householdId];
@@ -1402,9 +1409,10 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // family what its own people are near enough to see. Absent when there is none, which is also every class before.
     ...(() => { const fires = firesSeen(world, householdId, role); return fires.length ? { fires } : {}; })(),
     // The family's flight east, once it has been told to go (sim/scrape.mjs).
-    // With, while the order to leave stands unanswered, how many ticks are left before the family is packed off by silence
-    // (sim/auto.mjs `FLIGHT_PATIENCE`), for the countdown on the "!" (docs/audits/2026-09-28-design.md S33).
-    ...(household?.flight ? { flight: { ...flightProjection(world, household), ...(household.flight.status === 'ordered' && Number.isFinite(household.flight.orderedMinute) && { ticksLeft: Math.max(0, Math.ceil((household.flight.orderedMinute + FLIGHT_PATIENCE - world.minute) / Math.max(1, calendarMinutes(world)))) }) } } : {}),
+    // With, while the order to leave stands unanswered, the real milliseconds left before the family is packed off by silence
+    // (its three real minutes, owner 2026-09-29; sim/auto.mjs `flightLeftMs`), for the countdown on the "!"
+    // (docs/audits/2026-09-28-design.md S33).
+    ...(household?.flight ? { flight: { ...flightProjection(world, household), ...(() => { const left = flightLeftMs(world, household); return left === null ? {} : { leftMs: left }; })() } } : {}),
     // Every family's land as it truly stands, and where the army is, for the Host's map only (sim/overview.mjs).
     ...(overview && { overview: { lands: overview.lands, ...(overview.army && { army: overview.army }) } }),
     // The Host's live page (sim/host.mjs): the class in words, the Rumor Mill and the spotlight. Never a student's.
@@ -1429,6 +1437,17 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   if (ambient) view.ambient = ambient;
   return copy ? structuredClone(view) : view;
 }
+/**
+ * The page a student is sent (server/app.mjs `view`): their family's own (`projectWorld`), or - with nobody of their family left to
+ * play, or their little ones taken in by a neighbour family - the family they follow, read-only, with a line saying why (owner,
+ * 2026-09-29; sim/watching.mjs). The families nobody plays think from `projectWorld` itself (sim/neighbours.mjs), never from this.
+ */
+export function projectPage(world, householdId, role, options = {}) {
+  const household = role === 'student' && householdId ? world.households[householdId] : null;
+  const watch = household && watchOf(world, household);
+  if (!watch) return projectWorld(world, householdId, role, options);
+  return projectWatching(world, household, watch, { project: projectWorld, ending: endingProjection, options });
+}
 const townScenesView = (world, householdId, role) => { const townScenes = townScenesFor(world, householdId, role); return townScenes ? { townScenes } : {}; };
 /** The orders refused to somebody called aside by the family's little ones: their own work and their own journeys. */
 const ASIDE_REFUSED = new Set(['chore', 'travel', 'work', 'survey-plot', 'fell-trees', 'hunt-land', 'clear-plot', 'fence-plot', 'town-help']);
@@ -1452,6 +1471,8 @@ function littleOnes(world, household, e) {
     ...(e.carriedBy && { carriedBy: e.carriedBy }),
     // A child on their own automation is shown what they are at, and never how long it has left (that is their roll).
     ...(e.auto && isSmallChild(e) && { autoTask: childAutoShown(e) }),
+    // Their automation went off and they have been given nothing since: the "!" on their row (owner, 2026-09-29).
+    ...(autoOffAsking(e) && { autoOff: true }),
   };
 }
 export function validateWorld(world) {

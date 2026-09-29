@@ -4458,7 +4458,7 @@ function renderFlight(world, chosen, running) {
   if (stepped) wrap.append(element('p', stepped, 'work-note flight-stepped-up'));
   wrap.append(element('p', flight.burned ? 'The army has passed and burned the farm. The family can still go east with what it can carry.'
     : flight.decidedToStay ? 'The family is staying, and takes what comes. The road east is still open if it changes its mind.'
-    : 'The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer within the day, or the family packs what it can and goes by itself.', 'ask-text'));
+    : 'The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer before the time on the “!” runs out, or the family packs what it can and goes by itself.', 'ask-text'));
   const carrier = flight.vehicle === 'cart' ? ' in the cart' : flight.vehicle === 'carreta' ? ' in the carreta' : flight.wagons ? ` in the ${flight.wagons} wagons` : ' in the wagon';
   wrap.append(element('p', `Room for ${flight.room}${flight.mode === 'wagon' ? carrier : ', carried on foot'}. Food takes ${flight.space.food} each, seed ${flight.space.seed}, cotton ${flight.space.cotton}, powder ${flight.space.powder}.`, 'work-note'));
   const form = element('div', '', 'flight-form');
@@ -4709,8 +4709,10 @@ function renderFamilyPanel(world) {
   queueColumnFit();
   const people = entitiesOf(world).filter(entity => entity.kind === 'person' && (household.members || []).includes(entity.id));
   const byId = new Map(people.map(entity => [entity.id, entity]));
-  const book = new Map((familyCache?.people || []).map(person => [person.id, person]));
-  const order = panelOrder(household.members.filter(id => byId.has(id)), familyCache.people);
+  // Watching another family (sim/watching.mjs): its people by role and age, from the server, in place of this family's own book.
+  const bookPeople = world.watching?.people || familyCache?.people || [];
+  const book = new Map(bookPeople.map(person => [person.id, person]));
+  const order = panelOrder(household.members.filter(id => byId.has(id)), bookPeople);
   const settable = world.status === 'running' || world.status === 'lobby';
   const homeId = homeOf(world);
   const homesteads = sitesOf(world).filter(site => site.kind === 'homestead' && site.id !== homeId).map(site => site.id);
@@ -4734,8 +4736,7 @@ function renderFamilyPanel(world) {
   for (const [id, row] of panelRows) if (!byId.has(id)) { row.item.remove(); panelRows.delete(id); }
   // Every "!" of the column in one order, the most urgent first, with the time each has left where it will lapse
   // (public/family-panel.js `rankNeeds`, docs/audits/2026-09-28-design.md S33). The rows keep the family's own order.
-  const tickMs = window.__snapshot?.tickMs;
-  const ranked = rankNeeds(world, order, { tickMs });
+  const ranked = rankNeeds(world, order);
   const rankOf = new Map(ranked.map(one => [one.id, one]));
   const seen = [];
   order.forEach((id, at) => {
@@ -4747,6 +4748,8 @@ function renderFamilyPanel(world) {
     const role = person?.role || (principal ? 'principal' : 'of this family');
     const focused = id === focusedId, bar = id === barId;
     setData(row.item, 'role', person?.role || '');
+    // Another family's names are theirs to give (sim/watching.mjs): read, never typed in.
+    if (row.input.readOnly !== Boolean(world.watching)) row.input.readOnly = Boolean(world.watching);
     setData(row.item, 'principal', String(principal));
     setData(row.item, 'expanded', String(id === panelExpanded));
     // `focused` is the bar's row, which every rule of the bar reads; `main` the main person's gold edge and star.
@@ -4755,7 +4758,7 @@ function renderFamilyPanel(world) {
     // Somebody is waiting on this person - a rider, the army, a call, work that has stopped to ask, an offer - and the "!"
     // takes the student to them and to the thing waiting (docs/FAMILY_PANEL.md §11). Read from the projection every tick, so
     // it goes the tick the answer is given.
-    const needs = needsOf(world, id, { tickMs });
+    const needs = needsOf(world, id);
     const need = needs[0] || null;
     setData(row.item, 'waiting', String(Boolean(need)));
     if (row.attention.hidden !== !need) row.attention.hidden = !need;
@@ -5111,7 +5114,7 @@ function goToPerson(id) {
   if (world) { drawWorld(world); renderFamilyPanel(world); renderSelection(world); renderTutorial(world); }
 }
 /** Where on the card each need is answered. A rider has a panel of their own. */
-const NEED_SECTIONS = { alto: '#selection-flight', army: '#selection-army', camp: '#selection-work', courier: '#selection-work', flight: '#selection-flight', road: '#selection-flight', call: '#selection-call', asking: '#selection-work', offer: '#selection-trade', sick: '#selection-nurse' };
+const NEED_SECTIONS = { alto: '#selection-flight', army: '#selection-army', camp: '#selection-work', courier: '#selection-work', flight: '#selection-flight', road: '#selection-flight', call: '#selection-call', asking: '#selection-work', child: '#selection-work', offer: '#selection-trade', sick: '#selection-nurse' };
 /**
  * The tag on a "!": its number among the family's "!"s when there is more than one, and the time left where the question
  * will lapse, counted down on this page's own clock from what the server last said (S33). The server's clock is the one that
@@ -6715,7 +6718,8 @@ function renderTip(world, { hidden = false } = {}) {
   if ((world?.householdId || null) !== tipFamily) { tipFamily = world?.householdId || null; tipShowing = null; tipPutAway = new Set(); }
   // Behind the curtain of making a family nothing is shown, and the tip standing is kept for when the curtain lifts: it is the
   // same showing, not a second one.
-  if (hidden || document.body.dataset.creating === 'true') { panel.hidden = true; if (inline) inline.hidden = true; return; }
+  // Nor on a page watching another family (sim/watching.mjs): there is nothing of theirs to do that a tip could be about.
+  if (hidden || document.body.dataset.creating === 'true' || world?.watching) { panel.hidden = true; if (inline) inline.hidden = true; return; }
   const seen = [...(world?.household?.tipsSeen || []), ...tipPutAway];
   const errandOpen = document.body.dataset.errand === 'true';
   const { show, retire } = tipToShow(world, { seen, showing: tipShowing, errandOpen });
@@ -7145,6 +7149,24 @@ function renderTownScene(world) {
     },
   });
 }
+/**
+ * A student with no family left to play, or whose little ones were taken in, watches another family (owner, 2026-09-29, "Follow
+ * and watch"; sim/watching.mjs): the server sends that family's own page with its controls taken off, and `watching` - what
+ * happened and whose family this is. The line goes in the status column; `data-watching` takes every control that would give an
+ * order off the page (public/style.css), and the names cannot be typed in. Nothing here decides anything: the server refuses
+ * every order all the same.
+ */
+function renderWatching(world) {
+  const watching = world?.role !== 'host' && world?.watching ? world.watching : null;
+  const line = $('#watching');
+  const words = watching?.line || '';
+  if (line.textContent !== words) line.textContent = words;
+  line.hidden = !watching;
+  const on = String(Boolean(watching));
+  if (document.body.dataset.watching !== on) document.body.dataset.watching = on;
+  const label = watching?.ofName ? `The people of ${watching.ofName}, whom you are watching` : "Your family's people";
+  if ($('#family-panel').getAttribute('aria-label') !== label) $('#family-panel').setAttribute('aria-label', label);
+}
 function render(snapshot) {
   // The live map sends four palette indexes instead of four repeated words for every
   // person in the class. Expand only after receipt; simulation and saves keep words.
@@ -7177,6 +7199,7 @@ function render(snapshot) {
   const pausedWords = emptyPauseWords(snapshot.emptyPaused);
   if ($('#host-paused').textContent !== pausedWords) $('#host-paused').textContent = pausedWords;
   $('#host-paused').hidden = !pausedWords;
+  renderWatching(snapshot.world);
   window.__snapshot = snapshot;
   // For a proof that changes the snapshot in the page's hand and needs it drawn without waiting for a tick - a lobby does
   // not tick at all (scripts/support/lesson-stub.mjs). Nothing in the page ever calls it.

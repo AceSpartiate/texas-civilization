@@ -57,7 +57,7 @@ const errors = [];
  * so must carry a line that says so out loud - Begin cannot be, and is not asked for one.
  */
 const STEPS = [
-  { stage: 'title-begin', card: '#creation-begin', endOf: '#creation-begin-button', controls: 1, heading: 'Your family' },
+  { stage: 'title-begin', card: '#creation-begin', endOf: '#creation-begin-button', controls: 1, heading: 'Who will your family be?' },
   { stage: 'die', card: '#family-roll', endOf: '#roll-family', controls: 1, refusal: true },
   { stage: 'die-rolled', card: '#family-roll', endOf: '#roll-family', controls: 1, refusal: true },
   { stage: 'surname', card: '#surname', endOf: '#surname-save', controls: 2, refusal: true },

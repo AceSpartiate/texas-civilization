@@ -341,6 +341,15 @@ animals, holding their fire where women and children are in the way, as Almonte 
   at Study); then **the family halts, and it is written down** (it **lapses**, as every unanswered question now does - sim/lapse.mjs, `FIC-GONZ-633`: nothing new is chosen, the family stands as it was ordered to, and the soldiers come up; "Nobody answered for the family in time, and the question lapsed..."). A family nobody plays, one whose student has gone, or whose main person is on auto **halts when it is ordered
   to**, at once, and holds nothing ("The family, deciding for itself, chose: halt, as they order."). This is "an unanswered question
   lapses" applied to the road's newest question.
+- **Real-time limits (owner, 2026-09-29, `FIC-GONZ-906`).** The order waits **about thirty real seconds** (`QUESTION_BUDGETS.alto`
+  in `sim/decision-budget.mjs`), the same at every pace - three ticks were 28 seconds at Study and 3 at Quick - and **the chase
+  is held while it waits**: the soldiers stand where they called from and the family where it was, nobody moving, until it is
+  answered or its seconds are out (`waiting` in `advancePursuit`). Out of time it lapses exactly as above. The order to leave
+  waits **three real minutes** (`QUESTION_BUDGETS.flight`), where it waited a day of the calendar (72 ticks, 11.4 real minutes
+  at Study, the class's calendar held all the while); at Quick the order's day of grace (`ORDER_GRACE_MINUTES`, 72 real
+  seconds there) comes first and the family goes then, so no farm is burned under a student still deciding (`flightWaited`,
+  its `ceiling:`). The road's questions (the bog, the army close behind) wait **ninety real seconds**. The "!" counts each down
+  in real seconds.
 - **Rarity** (`npm run study:scrape-pursuit`, [evidence](evidence/scrape-pursuit-study.json)): ten classes of fifteen families
   nobody plays, through the spring: of **123 families that fled, 17 (13.8%) were seen and followed, 15 (12.2%) were called on to
   halt, 9 (7.3%) met horsemen**; 106 never met Mexican troops at all. The rule before this, asked in the same classes and not
