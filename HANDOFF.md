@@ -1,5 +1,32 @@
 # Claude handoff — Astra foundation
 
+## "Done packing" back on its own card at 1366x768, and the creation-screen proof green again — 2026-09-29 (not released)
+
+Branch `wagon-done-fold` off origin/main (3dd5209d); not pushed. `npm run test:creation-screen` failed at 1366x768 - *"the
+button that ends the wagon at 1366x768 step is below the fold of its own card: #wagon-done "Done packing" is 58px past it"* -
+and on the released v2026.09.29.1 too.
+
+- **Cause.** The overlap work (d29a4ff3, 2026-09-28) moved packing the wagon to the right and, on screens wider than 760px,
+  made the *whole card* scroll (`overflow-y:auto`) with the list held open at `min-height:132px`. The words, the stock choice
+  (252px) and 132px of list stood above Done, so Done sat 58px under the card's fold at 1366x768 (177px at 1024x768), with the
+  list scrolling inside a card that scrolled. The proof did not say so on the day because it was already failing at its first
+  step: the title was redesigned the evening before (d08e28c1, `#creation-begin-title` *"Who will your family be?"*) and the
+  proof still expected *"Your family"*. The last green evidence was 00d76e7f (2026-09-27), before both.
+- **Fix** (`public/index.html`, `public/style.css`). Everything between the title and Done - the words, the stock choice and
+  the load - is in one scroller, `#wagon-body`; the heading, the refusal line (`#wagon-note`) and **Done packing** stay put in
+  the card's foot, which no longer scrolls as a whole. The list no longer scrolls by itself (one scroller, not two). The card's
+  place and size are unchanged, so nothing the overlap proof measures moved. The proof's title heading now expects *"Who will
+  your family be?"*.
+
+**Evidence** (same computer only; no Chromebook, LAN or classroom claim). `test:creation-screen` with only the heading
+corrected: **fails**, Done 58px past the fold at 1366x768; with the fix: **4 checks, 24 step-and-size measurements, pass**
+(Done 14px inside the card at 1366x768, 1024x768 and 390x844). Injected on the fixed tree - the card scrolling as a whole
+again (panel `overflow-y:auto`, `#wagon-body` not scrolling) - it fails with the same message (Done 1015px past the fold),
+then passes with the injection removed. `test:creation` 10 checks pass; `test:overlap` 167 screens / 31 states / 0 faults
+(the card's place and size unchanged; its evidence file not re-committed, to keep the merge small); the node tests that read the page or the wagon (`creation-words`, `creation`,
+`family-column`, `surname`, `wagon-load`, `classroom-doors`, `asset-http`, `lobby-ready`) 38 of 38; `npm test` **1737 tests,
+1701 pass, 0 fail, 36 skipped** (the suspended tutorial).
+
 ## The empty class pauses itself, any played family can win, the lobby shows who is ready — owner, 2026-09-29 (not released)
 
 Branch `owner-pause-win-lobby`, off origin/main (0ffa9663) with `audit-triage-2026-09-29` merged in; not pushed. The owner's

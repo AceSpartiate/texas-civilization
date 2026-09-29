@@ -404,6 +404,10 @@
            said all along ("more has to be bought in Gonzales"). What cannot be bought back is the things for the house.
            And the panel never said the choice closes the moment the teacher presses Start (`wagonProjection` sends
            nothing once the class runs). Both corrected 2026-09-21. -->
+      <!-- Everything between the title and Done packing scrolls here, and only here: the heading, the refusal line and the
+           button stay put, so "Done packing" is on the card as it opens at every size (2026-09-29; the whole card
+           scrolled and put it 58px below its own fold at 1366x768). -->
+      <div id="wagon-body">
       <p id="wagon-load-text">What you load is what the family arrives with. Tools, seed and powder can be bought in a
         town later, if there is coin; the things for the house cannot be bought anywhere.</p>
       <p id="wagon-when">You can change all of this until your teacher presses Start. After that the wagon is packed.</p>
@@ -418,6 +422,7 @@
         <p id="wagon-stock-why" role="alert"></p>
       </fieldset>
       <ul id="wagon-items"></ul>
+      </div>
       <p id="wagon-note" role="alert"></p>
       <button type="button" id="wagon-done">Done packing</button>
     </section>
