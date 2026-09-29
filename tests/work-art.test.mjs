@@ -179,6 +179,21 @@ test('the tool and its effect land on the pose’s own strike, and change from f
   // Under reduced motion nothing flies.
   clock.since = 60; clock.period = 800;
   assert.equal(drawWorkLayer(ctx, STROKES.chop, 0, 0, 40, 1, clock, true), 0);
+  // Given the page's sprite drawer, the effect's own drawn frames are used - a third of its life each, on the ground under the
+  // strike, mirrored for a figure facing west - and no particles; a drawer that draws nothing leaves the particles as they were.
+  const asked = [], sprite = (name, x, y, height, options) => { asked.push(`${name}@${Math.round(x)},${Math.round(y)},${height}${options?.flip ? ' flip' : ''}`); return 30; };
+  for (const [key, fx] of [['chop', 'fx-wood-chips'], ['dig', 'fx-earth-toss'], ['whittle', 'fx-shavings']]) {
+    const life = { chop: 460, dig: 560, whittle: 520 }[key];
+    for (const [since, n] of [[life * 0.1, 1], [life * 0.5, 2], [life * 0.9, 3]]) {
+      asked.length = 0; calls.length = 0; clock.since = since;
+      assert.ok(drawWorkLayer(ctx, STROKES[key], 100, 200, 40, -1, clock, false, null, sprite) >= 1, `${key}: the drawn effect is a mark`);
+      assert.deepEqual(asked, [`${fx}-${n}@80,200,40 flip`], `${key} at ${since} ms`);
+      assert.ok(!calls.some(call => call.startsWith('fillRect')), `${key}: no particles under the drawn effect`);
+    }
+  }
+  clock.since = 100; assert.ok(drawWorkLayer(ctx, STROKES.chop, 100, 200, 40, 1, clock, false, null, () => 0) >= 4, 'a missing frame falls back to the particles');
+  asked.length = 0; clock.period = STROKES.fish.cycleMs; clock.since = 100; drawWorkLayer(ctx, STROKES.fish, 0, 0, 40, 1, clock, false, null, sprite);
+  assert.ok(asked.some(name => name.startsWith('fx-ripple-1@')), 'the float\'s rings are the drawn ripple');
 });
 
 test('felling, the lane, the bee tree, the carreta, the house and splitting rails show an axe or a maul, not the hoe, moving with the swing', () => {

@@ -345,6 +345,12 @@ function atTheirWork(entity, homeSiteId, now, frozen) {
   if (drawsAtWork(shown)) shown.strolling = motionProjection.heading(entity, now, frozen);
   return shown;
 }
+/** The work layer's sprite drawer (public/work-art.js `drawWorkLayer`): a frame of the art library on this canvas, made once. */
+let workSpriteCtx = null, workSpriteFn = null;
+function workSprite(ctx) {
+  if (workSpriteCtx !== ctx) { workSpriteCtx = ctx; workSpriteFn = (name, sx, sy, height, options) => drawSprite(ctx, name, sx, sy, height, options); }
+  return workSpriteFn;
+}
 function drawAtWork(ctx, binding, clip, x, y, size, entity) {
   let stroke = binding.work;
   // A cycle of the work itself where this figure has one (public/work-art.js `drawnStroke`): `rust-chop` for rust felling.
@@ -370,7 +376,7 @@ function drawAtWork(ctx, binding, clip, x, y, size, entity) {
   });
   if (!width) return 0;
   // The cast figure the pose is drawn in (`rust-work` is rust's), whose hands a drawn axe is put in (public/work-art.js `HAFTS`).
-  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still, clip.slice(0, clip.length - stroke.pose.length - 1));
+  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still, clip.slice(0, clip.length - stroke.pose.length - 1), workSprite(ctx));
   // Presentation evidence for the proofs (npm run test:work), read by nothing in the application: what each of the family at work
   // was last drawn doing, which frame of it, and how many marks of its tool and effect. One record a person, kept and rewritten.
   if (id) {
@@ -3583,15 +3589,18 @@ export function drawWorld(world) {
   } else window.__ambientSaid = [];
   // Smoke over a burning town or farm, where the server says this page could see it (sim/advance.mjs `firesSeen`): a column
   // of smoke seen from afar, never what is burning (VISION.md §16). stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the
-  // Mexican advance", item 2 - the library's rising chimney smoke, drawn large, until a burning-farm plume exists.
+  // Mexican advance", item 2 - Claude's `farm-smoke-rise` and `town-smoke-rise` (a dark column leaning over a low glow,
+  // *Claude-drawn stand-ins*, area F) first; without that sheet, the library's rising chimney smoke drawn large.
   window.__firesDrawn = (world.fires || []).map(fire => {
     const p = camera.toScreen(fire), size = Math.max(26, Math.min(160, camera.figure * (fire.kind === 'town' ? 4.4 : 3)));
-    if (!animated(ctx, 'smoke-rise', p.x, p.y, size, `fire:${fire.id}`)) {
+    const plume = fire.kind === 'town' ? 'town-smoke-rise' : 'farm-smoke-rise';
+    const drawnAs = animated(ctx, plume, p.x, p.y, size, `fire:${fire.id}`) ? plume : animated(ctx, 'smoke-rise', p.x, p.y, size, `fire:${fire.id}`) ? 'smoke-rise' : null;
+    if (!drawnAs) {
       const g = ctx.createLinearGradient(p.x, p.y, p.x, p.y - size * 1.6);
       g.addColorStop(0, 'rgba(90,86,80,.55)'); g.addColorStop(1, 'rgba(160,156,150,0)');
       ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(p.x, p.y - size * .8, size * .28, size * .8, 0, 0, Math.PI * 2); ctx.fill();
     }
-    return { id: fire.id, kind: fire.kind, x: Math.round(p.x), y: Math.round(p.y) };
+    return { id: fire.id, kind: fire.kind, x: Math.round(p.x), y: Math.round(p.y), art: drawnAs };
   });
   // The famous people on the map between their battles, with their names, where the server says this page could see them
   // (sim/famous.mjs, public/famous-view.js; docs/BATTLES.md §2c).

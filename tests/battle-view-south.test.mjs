@@ -70,6 +70,13 @@ test('a night fight is dark but for the lit windows, the fire and the flashes', 
   const day = createBattleView(fakeArt()).draw(fakeContext(), { ...night(1, [part('square', 8, 0)]), light: undefined }, { camera, time: 0, now: 0, tickMs: 1000, bounds: { width: 1366, height: 768 } });
   assert.equal(day.night, false);
   assert.equal(evidence.scenery, 3, 'the houses and the fire are not drawn');
+  // The fire at night is the night campfire (Claude's `campfire-night`), drawn under the dark and again over it, never the
+  // day's; by day, the day's.
+  const fires = art.drawn.filter(one => /^campfire/.test(one.clip || one.sprite || ''));
+  assert.ok(fires.length && fires.every(one => one.clip === 'campfire-night'), `the night fire was drawn as ${[...new Set(fires.map(one => one.clip || one.sprite))]}`);
+  const dayArt = fakeArt();
+  createBattleView(dayArt).draw(fakeContext(), { ...night(1, [part('square', 8, 0)]), light: undefined }, { camera, time: 0, now: 0, tickMs: 1000, bounds: { width: 1366, height: 768 } });
+  assert.ok(dayArt.drawn.some(one => one.clip === 'campfire') && !dayArt.drawn.some(one => one.clip === 'campfire-night'), 'by day the fire is the day campfire');
 });
 
 test('a man who falls lies where he fell while the rest of his part is marched off', () => {

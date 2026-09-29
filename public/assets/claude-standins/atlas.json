@@ -41,6 +41,63 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
+    "claude-work-effects": {
+      "image": "/assets/claude-standins/claude-work-effects.png",
+      "width": 1920,
+      "height": 960,
+      "bytes": 75019,
+      "sha256": "317598ca6bcf16e0d96b566473cff8047834de50209cbb91862037d4910410d8",
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "layout": {
+        "rows": 3,
+        "columns": 6,
+        "cell": {
+          "w": 320,
+          "h": 320
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-smoke-rise": {
+      "image": "/assets/claude-standins/claude-smoke-rise.png",
+      "width": 3040,
+      "height": 920,
+      "bytes": 1101663,
+      "sha256": "bc275b6376daeceb46420dbfdf2633ff405093390c9b9e46a59c2a754d2391ff",
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "layout": {
+        "rows": 2,
+        "columns": 8,
+        "cell": {
+          "w": 380,
+          "h": 460
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-campfire-night": {
+      "image": "/assets/claude-standins/claude-campfire-night.png",
+      "width": 600,
+      "height": 170,
+      "bytes": 62245,
+      "sha256": "aeda3d004d4354b7579ae9748abe74c4fe5c3c5eb0dd440463b4f35dc55cf50d",
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek",
+      "layout": {
+        "rows": 1,
+        "columns": 3,
+        "cell": {
+          "w": 200,
+          "h": 170
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
     "claude-gale-pole": {
       "image": "/assets/claude-standins/claude-gale-pole.png",
       "width": 1855,
@@ -380,6 +437,584 @@
       "source": "svg/home-tools/claude-home-auger.svg",
       "label": "home auger",
       "kind": "claude-home-tools"
+    },
+    "fx-wood-chips-1": {
+      "sheet": "claude-work-effects",
+      "x": 0,
+      "y": 0,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.1875,
+      "anchorY": 0.9375,
+      "logicalHeight": 320,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-wood-chips-1: item 15: 3 frames on the ground anchor of the work, one played from the strike, east-facing and mirrored",
+      "source": "svg/land-effects/claude-fx-wood-chips-1.svg",
+      "label": "fx wood chips 1",
+      "kind": "claude-work-effects"
+    },
+    "fx-wood-chips-2": {
+      "sheet": "claude-work-effects",
+      "x": 320,
+      "y": 0,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.1875,
+      "anchorY": 0.9375,
+      "logicalHeight": 320,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-wood-chips-2: item 15: 3 frames on the ground anchor of the work, one played from the strike, east-facing and mirrored",
+      "source": "svg/land-effects/claude-fx-wood-chips-2.svg",
+      "label": "fx wood chips 2",
+      "kind": "claude-work-effects"
+    },
+    "fx-wood-chips-3": {
+      "sheet": "claude-work-effects",
+      "x": 640,
+      "y": 0,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.1875,
+      "anchorY": 0.9375,
+      "logicalHeight": 320,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-wood-chips-3: item 15: 3 frames on the ground anchor of the work, one played from the strike, east-facing and mirrored",
+      "source": "svg/land-effects/claude-fx-wood-chips-3.svg",
+      "label": "fx wood chips 3",
+      "kind": "claude-work-effects"
+    },
+    "fx-earth-toss-1": {
+      "sheet": "claude-work-effects",
+      "x": 960,
+      "y": 0,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.8125,
+      "anchorY": 0.9375,
+      "logicalHeight": 320,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-earth-toss-1: item 15: 3 frames on the ground anchor of the work, one played from the strike, east-facing and mirrored",
+      "source": "svg/land-effects/claude-fx-earth-toss-1.svg",
+      "label": "fx earth toss 1",
+      "kind": "claude-work-effects"
+    },
+    "fx-earth-toss-2": {
+      "sheet": "claude-work-effects",
+      "x": 1280,
+      "y": 0,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.8125,
+      "anchorY": 0.9375,
+      "logicalHeight": 320,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-earth-toss-2: item 15: 3 frames on the ground anchor of the work, one played from the strike, east-facing and mirrored",
+      "source": "svg/land-effects/claude-fx-earth-toss-2.svg",
+      "label": "fx earth toss 2",
+      "kind": "claude-work-effects"
+    },
+    "fx-earth-toss-3": {
+      "sheet": "claude-work-effects",
+      "x": 1600,
+      "y": 0,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.8125,
+      "anchorY": 0.9375,
+      "logicalHeight": 320,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-earth-toss-3: item 15: 3 frames on the ground anchor of the work, one played from the strike, east-facing and mirrored",
+      "source": "svg/land-effects/claude-fx-earth-toss-3.svg",
+      "label": "fx earth toss 3",
+      "kind": "claude-work-effects"
+    },
+    "fx-dust-1": {
+      "sheet": "claude-work-effects",
+      "x": 0,
+      "y": 320,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.3125,
+      "anchorY": 0.9375,
+      "logicalHeight": 320,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-dust-1: item 15: 3 frames on the ground anchor of the work, one played from the strike, east-facing and mirrored",
+      "source": "svg/land-effects/claude-fx-dust-1.svg",
+      "label": "fx dust 1",
+      "kind": "claude-work-effects"
+    },
+    "fx-dust-2": {
+      "sheet": "claude-work-effects",
+      "x": 320,
+      "y": 320,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.3125,
+      "anchorY": 0.9375,
+      "logicalHeight": 320,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-dust-2: item 15: 3 frames on the ground anchor of the work, one played from the strike, east-facing and mirrored",
+      "source": "svg/land-effects/claude-fx-dust-2.svg",
+      "label": "fx dust 2",
+      "kind": "claude-work-effects"
+    },
+    "fx-dust-3": {
+      "sheet": "claude-work-effects",
+      "x": 640,
+      "y": 320,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.3125,
+      "anchorY": 0.9375,
+      "logicalHeight": 320,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-dust-3: item 15: 3 frames on the ground anchor of the work, one played from the strike, east-facing and mirrored",
+      "source": "svg/land-effects/claude-fx-dust-3.svg",
+      "label": "fx dust 3",
+      "kind": "claude-work-effects"
+    },
+    "fx-shavings-1": {
+      "sheet": "claude-work-effects",
+      "x": 960,
+      "y": 320,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.3125,
+      "anchorY": 0.9375,
+      "logicalHeight": 320,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-shavings-1: item 15: 3 frames on the ground anchor of the work, one played from the strike, east-facing and mirrored",
+      "source": "svg/land-effects/claude-fx-shavings-1.svg",
+      "label": "fx shavings 1",
+      "kind": "claude-work-effects"
+    },
+    "fx-shavings-2": {
+      "sheet": "claude-work-effects",
+      "x": 1280,
+      "y": 320,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.3125,
+      "anchorY": 0.9375,
+      "logicalHeight": 320,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-shavings-2: item 15: 3 frames on the ground anchor of the work, one played from the strike, east-facing and mirrored",
+      "source": "svg/land-effects/claude-fx-shavings-2.svg",
+      "label": "fx shavings 2",
+      "kind": "claude-work-effects"
+    },
+    "fx-shavings-3": {
+      "sheet": "claude-work-effects",
+      "x": 1600,
+      "y": 320,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.3125,
+      "anchorY": 0.9375,
+      "logicalHeight": 320,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-shavings-3: item 15: 3 frames on the ground anchor of the work, one played from the strike, east-facing and mirrored",
+      "source": "svg/land-effects/claude-fx-shavings-3.svg",
+      "label": "fx shavings 3",
+      "kind": "claude-work-effects"
+    },
+    "fx-ripple-1": {
+      "sheet": "claude-work-effects",
+      "x": 0,
+      "y": 640,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.875,
+      "logicalHeight": 320,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-ripple-1: item 15: 3 frames on the ground anchor of the work, one played from the strike, east-facing and mirrored",
+      "source": "svg/land-effects/claude-fx-ripple-1.svg",
+      "label": "fx ripple 1",
+      "kind": "claude-work-effects"
+    },
+    "fx-ripple-2": {
+      "sheet": "claude-work-effects",
+      "x": 320,
+      "y": 640,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.875,
+      "logicalHeight": 320,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-ripple-2: item 15: 3 frames on the ground anchor of the work, one played from the strike, east-facing and mirrored",
+      "source": "svg/land-effects/claude-fx-ripple-2.svg",
+      "label": "fx ripple 2",
+      "kind": "claude-work-effects"
+    },
+    "fx-ripple-3": {
+      "sheet": "claude-work-effects",
+      "x": 640,
+      "y": 640,
+      "w": 320,
+      "h": 320,
+      "anchorX": 0.5,
+      "anchorY": 0.875,
+      "logicalHeight": 320,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-28 — people at work",
+      "replaceWith": "fx-ripple-3: item 15: 3 frames on the ground anchor of the work, one played from the strike, east-facing and mirrored",
+      "source": "svg/land-effects/claude-fx-ripple-3.svg",
+      "label": "fx ripple 3",
+      "kind": "claude-work-effects"
+    },
+    "farm-smoke-rise-1": {
+      "sheet": "claude-smoke-rise",
+      "x": 0,
+      "y": 0,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.3421,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "farm-smoke-rise-1: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-farm-smoke-rise-1.svg",
+      "label": "farm smoke rise 1",
+      "kind": "claude-smoke-rise"
+    },
+    "farm-smoke-rise-2": {
+      "sheet": "claude-smoke-rise",
+      "x": 380,
+      "y": 0,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.3421,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "farm-smoke-rise-2: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-farm-smoke-rise-2.svg",
+      "label": "farm smoke rise 2",
+      "kind": "claude-smoke-rise"
+    },
+    "farm-smoke-rise-3": {
+      "sheet": "claude-smoke-rise",
+      "x": 760,
+      "y": 0,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.3421,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "farm-smoke-rise-3: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-farm-smoke-rise-3.svg",
+      "label": "farm smoke rise 3",
+      "kind": "claude-smoke-rise"
+    },
+    "farm-smoke-rise-4": {
+      "sheet": "claude-smoke-rise",
+      "x": 1140,
+      "y": 0,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.3421,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "farm-smoke-rise-4: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-farm-smoke-rise-4.svg",
+      "label": "farm smoke rise 4",
+      "kind": "claude-smoke-rise"
+    },
+    "farm-smoke-rise-5": {
+      "sheet": "claude-smoke-rise",
+      "x": 1520,
+      "y": 0,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.3421,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "farm-smoke-rise-5: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-farm-smoke-rise-5.svg",
+      "label": "farm smoke rise 5",
+      "kind": "claude-smoke-rise"
+    },
+    "farm-smoke-rise-6": {
+      "sheet": "claude-smoke-rise",
+      "x": 1900,
+      "y": 0,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.3421,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "farm-smoke-rise-6: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-farm-smoke-rise-6.svg",
+      "label": "farm smoke rise 6",
+      "kind": "claude-smoke-rise"
+    },
+    "farm-smoke-rise-7": {
+      "sheet": "claude-smoke-rise",
+      "x": 2280,
+      "y": 0,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.3421,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "farm-smoke-rise-7: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-farm-smoke-rise-7.svg",
+      "label": "farm smoke rise 7",
+      "kind": "claude-smoke-rise"
+    },
+    "farm-smoke-rise-8": {
+      "sheet": "claude-smoke-rise",
+      "x": 2660,
+      "y": 0,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.3421,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "farm-smoke-rise-8: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-farm-smoke-rise-8.svg",
+      "label": "farm smoke rise 8",
+      "kind": "claude-smoke-rise"
+    },
+    "town-smoke-rise-1": {
+      "sheet": "claude-smoke-rise",
+      "x": 0,
+      "y": 460,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.2895,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "town-smoke-rise-1: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-town-smoke-rise-1.svg",
+      "label": "town smoke rise 1",
+      "kind": "claude-smoke-rise"
+    },
+    "town-smoke-rise-2": {
+      "sheet": "claude-smoke-rise",
+      "x": 380,
+      "y": 460,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.2895,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "town-smoke-rise-2: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-town-smoke-rise-2.svg",
+      "label": "town smoke rise 2",
+      "kind": "claude-smoke-rise"
+    },
+    "town-smoke-rise-3": {
+      "sheet": "claude-smoke-rise",
+      "x": 760,
+      "y": 460,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.2895,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "town-smoke-rise-3: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-town-smoke-rise-3.svg",
+      "label": "town smoke rise 3",
+      "kind": "claude-smoke-rise"
+    },
+    "town-smoke-rise-4": {
+      "sheet": "claude-smoke-rise",
+      "x": 1140,
+      "y": 460,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.2895,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "town-smoke-rise-4: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-town-smoke-rise-4.svg",
+      "label": "town smoke rise 4",
+      "kind": "claude-smoke-rise"
+    },
+    "town-smoke-rise-5": {
+      "sheet": "claude-smoke-rise",
+      "x": 1520,
+      "y": 460,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.2895,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "town-smoke-rise-5: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-town-smoke-rise-5.svg",
+      "label": "town smoke rise 5",
+      "kind": "claude-smoke-rise"
+    },
+    "town-smoke-rise-6": {
+      "sheet": "claude-smoke-rise",
+      "x": 1900,
+      "y": 460,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.2895,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "town-smoke-rise-6: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-town-smoke-rise-6.svg",
+      "label": "town smoke rise 6",
+      "kind": "claude-smoke-rise"
+    },
+    "town-smoke-rise-7": {
+      "sheet": "claude-smoke-rise",
+      "x": 2280,
+      "y": 460,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.2895,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "town-smoke-rise-7: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-town-smoke-rise-7.svg",
+      "label": "town smoke rise 7",
+      "kind": "claude-smoke-rise"
+    },
+    "town-smoke-rise-8": {
+      "sheet": "claude-smoke-rise",
+      "x": 2660,
+      "y": 460,
+      "w": 380,
+      "h": 460,
+      "anchorX": 0.2895,
+      "anchorY": 0.9739,
+      "logicalHeight": 460,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-26 — the Mexican advance",
+      "replaceWith": "town-smoke-rise-8: item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column",
+      "source": "svg/land-effects/claude-town-smoke-rise-8.svg",
+      "label": "town smoke rise 8",
+      "kind": "claude-smoke-rise"
+    },
+    "campfire-night-1": {
+      "sheet": "claude-campfire-night",
+      "x": 0,
+      "y": 0,
+      "w": 200,
+      "h": 170,
+      "anchorX": 0.5,
+      "anchorY": 0.8824,
+      "logicalHeight": 140,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek",
+      "replaceWith": "campfire-night-1: item 2: a campfire burning at night, 2-4 frames, the light round it reading through the dark",
+      "source": "svg/land-effects/claude-campfire-night-1.svg",
+      "label": "campfire night 1",
+      "kind": "claude-campfire-night"
+    },
+    "campfire-night-2": {
+      "sheet": "claude-campfire-night",
+      "x": 200,
+      "y": 0,
+      "w": 200,
+      "h": 170,
+      "anchorX": 0.5,
+      "anchorY": 0.8824,
+      "logicalHeight": 140,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek",
+      "replaceWith": "campfire-night-2: item 2: a campfire burning at night, 2-4 frames, the light round it reading through the dark",
+      "source": "svg/land-effects/claude-campfire-night-2.svg",
+      "label": "campfire night 2",
+      "kind": "claude-campfire-night"
+    },
+    "campfire-night-3": {
+      "sheet": "claude-campfire-night",
+      "x": 400,
+      "y": 0,
+      "w": 200,
+      "h": 170,
+      "anchorX": 0.5,
+      "anchorY": 0.8824,
+      "logicalHeight": 140,
+      "madeBy": "claude",
+      "module": "land-effects",
+      "request": "Request 2026-09-25 — the south's fights: San Patricio by night and Agua Dulce Creek",
+      "replaceWith": "campfire-night-3: item 2: a campfire burning at night, 2-4 frames, the light round it reading through the dark",
+      "source": "svg/land-effects/claude-campfire-night-3.svg",
+      "label": "campfire night 3",
+      "kind": "claude-campfire-night"
     },
     "pine-loblolly-pole-wind": {
       "sheet": "claude-gale-pole",
@@ -2057,6 +2692,226 @@
       "authored": true,
       "madeBy": "claude",
       "module": "chop"
+    },
+    "fx-wood-chips": {
+      "frames": [
+        {
+          "sprite": "fx-wood-chips-1",
+          "duration": 160
+        },
+        {
+          "sprite": "fx-wood-chips-2",
+          "duration": 160
+        },
+        {
+          "sprite": "fx-wood-chips-3",
+          "duration": 160
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "land-effects"
+    },
+    "fx-earth-toss": {
+      "frames": [
+        {
+          "sprite": "fx-earth-toss-1",
+          "duration": 160
+        },
+        {
+          "sprite": "fx-earth-toss-2",
+          "duration": 160
+        },
+        {
+          "sprite": "fx-earth-toss-3",
+          "duration": 160
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "land-effects"
+    },
+    "fx-dust": {
+      "frames": [
+        {
+          "sprite": "fx-dust-1",
+          "duration": 160
+        },
+        {
+          "sprite": "fx-dust-2",
+          "duration": 160
+        },
+        {
+          "sprite": "fx-dust-3",
+          "duration": 160
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "land-effects"
+    },
+    "fx-shavings": {
+      "frames": [
+        {
+          "sprite": "fx-shavings-1",
+          "duration": 160
+        },
+        {
+          "sprite": "fx-shavings-2",
+          "duration": 160
+        },
+        {
+          "sprite": "fx-shavings-3",
+          "duration": 160
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "land-effects"
+    },
+    "fx-ripple": {
+      "frames": [
+        {
+          "sprite": "fx-ripple-1",
+          "duration": 800
+        },
+        {
+          "sprite": "fx-ripple-2",
+          "duration": 800
+        },
+        {
+          "sprite": "fx-ripple-3",
+          "duration": 800
+        }
+      ],
+      "loop": false,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "land-effects"
+    },
+    "farm-smoke-rise": {
+      "frames": [
+        {
+          "sprite": "farm-smoke-rise-1",
+          "duration": 260
+        },
+        {
+          "sprite": "farm-smoke-rise-2",
+          "duration": 260
+        },
+        {
+          "sprite": "farm-smoke-rise-3",
+          "duration": 260
+        },
+        {
+          "sprite": "farm-smoke-rise-4",
+          "duration": 260
+        },
+        {
+          "sprite": "farm-smoke-rise-5",
+          "duration": 260
+        },
+        {
+          "sprite": "farm-smoke-rise-6",
+          "duration": 260
+        },
+        {
+          "sprite": "farm-smoke-rise-7",
+          "duration": 260
+        },
+        {
+          "sprite": "farm-smoke-rise-8",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "not applicable",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "land-effects"
+    },
+    "town-smoke-rise": {
+      "frames": [
+        {
+          "sprite": "town-smoke-rise-1",
+          "duration": 280
+        },
+        {
+          "sprite": "town-smoke-rise-2",
+          "duration": 280
+        },
+        {
+          "sprite": "town-smoke-rise-3",
+          "duration": 280
+        },
+        {
+          "sprite": "town-smoke-rise-4",
+          "duration": 280
+        },
+        {
+          "sprite": "town-smoke-rise-5",
+          "duration": 280
+        },
+        {
+          "sprite": "town-smoke-rise-6",
+          "duration": 280
+        },
+        {
+          "sprite": "town-smoke-rise-7",
+          "duration": 280
+        },
+        {
+          "sprite": "town-smoke-rise-8",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "not applicable",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "land-effects"
+    },
+    "campfire-night": {
+      "frames": [
+        {
+          "sprite": "campfire-night-1",
+          "duration": 150
+        },
+        {
+          "sprite": "campfire-night-2",
+          "duration": 150
+        },
+        {
+          "sprite": "campfire-night-3",
+          "duration": 150
+        },
+        {
+          "sprite": "campfire-night-2",
+          "duration": 150
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "not applicable",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "land-effects"
     }
   }
 }

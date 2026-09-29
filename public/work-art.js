@@ -342,12 +342,16 @@ export function strokeLean(stroke, clock) {
 // A cheap, repeatable scatter: the same particle of the same strike lands in the same place on every screen.
 const scatter = (a, b) => { const s = Math.sin(a * 12.9898 + b * 78.233) * 43758.5453; return s - Math.floor(s); };
 
-const EFFECTS = Object.freeze({
+// `fx`: the effect's three drawn frames (`<fx>-1`..`-3`, one person tall on the ground under the strike, east-facing), drawn
+// in place of the particles when the page passes a sprite drawer. stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins
+// (replace with Astra's)" - request 2026-09-28 — people at work, item 15: Claude drew them (area F); Astra's of the same
+// names replace them, and without the sheet the particles below are drawn as before.
+export const EFFECTS = Object.freeze({
   // colour, how many, how long they fly, how far out and up (in figure heights), and their size.
-  chips: { colour: '#d9b77a', n: 5, life: 460, out: 0.55, up: 0.42, size: 0.045, from: 0.2 },
-  shavings: { colour: '#ead6a4', n: 3, life: 520, out: 0.25, up: 0.2, size: 0.035, from: 0.42 },
-  earth: { colour: '#6b4a2b', n: 4, life: 560, out: -0.5, up: 0.55, size: 0.055, from: 0.08 },
-  dust: { colour: 'rgba(190,165,120,.55)', n: 3, life: 620, out: 0.3, up: 0.12, size: 0.1, from: 0.02, puff: true },
+  chips: { colour: '#d9b77a', n: 5, life: 460, out: 0.55, up: 0.42, size: 0.045, from: 0.2, fx: 'fx-wood-chips' },
+  shavings: { colour: '#ead6a4', n: 3, life: 520, out: 0.25, up: 0.2, size: 0.035, from: 0.42, fx: 'fx-shavings' },
+  earth: { colour: '#6b4a2b', n: 4, life: 560, out: -0.5, up: 0.55, size: 0.055, from: 0.08, fx: 'fx-earth-toss' },
+  dust: { colour: 'rgba(190,165,120,.55)', n: 3, life: 620, out: 0.3, up: 0.12, size: 0.1, from: 0.02, puff: true, fx: 'fx-dust' },
   chaff: { colour: 'rgba(214,190,120,.7)', n: 4, life: 700, out: 0.35, up: 0.25, size: 0.04, from: 0.18 },
 });
 
@@ -419,8 +423,12 @@ export function drawHaftTool(ctx, tool, figure, frame, x, y, size, dir) {
  * Draw the stand-in's tool and effect over (and, for the rod's line and ripples, in front of) the figure just drawn at
  * (x, y), `size` tall, facing `dir` (1 east, -1 west). Does nothing for a delivered stroke with no effect, or under reduced
  * motion except the still tool. Returns how many marks it drew, which the proofs read.
+ *
+ * `sprite(name, x, y, height, { flip })`, when the page passes one, draws a frame of the art library and returns its width
+ * (0 when the frame or its sheet is missing): the effect's drawn frames (`EFFECTS[].fx`, `fx-ripple`) are drawn with it, and
+ * the particles only where it draws nothing.
  */
-export function drawWorkLayer(ctx, stroke, x, y, size, dir, clock, still = false, figure = null) {
+export function drawWorkLayer(ctx, stroke, x, y, size, dir, clock, still = false, figure = null, sprite = null) {
   let drawn = 0;
   const since = clock.since;
   // Under reduced motion the pose is held at its first frame, and so is the tool in its hands.
@@ -457,8 +465,11 @@ export function drawWorkLayer(ctx, stroke, x, y, size, dir, clock, still = false
     drawn += 3;
     if (!still) {
       const u = since / clock.period;
-      ctx.strokeStyle = `rgba(230,240,245,${(0.6 * (1 - u)).toFixed(3)})`; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.ellipse(floatX, floatY + size * 0.01, size * (0.04 + 0.16 * u), size * (0.015 + 0.05 * u), 0, 0, Math.PI * 2); ctx.stroke();
+      // `fx-ripple` stands on the near edge of its widest ring, 0.09 of a figure in front of the float.
+      if (!(sprite && sprite(`fx-ripple-${Math.min(3, 1 + Math.floor(u * 3))}`, floatX, floatY + size * 0.1, size, {}))) {
+        ctx.strokeStyle = `rgba(230,240,245,${(0.6 * (1 - u)).toFixed(3)})`; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.ellipse(floatX, floatY + size * 0.01, size * (0.04 + 0.16 * u), size * (0.015 + 0.05 * u), 0, 0, Math.PI * 2); ctx.stroke();
+      }
       drawn++;
     }
     ctx.restore();
@@ -481,6 +492,8 @@ export function drawWorkLayer(ctx, stroke, x, y, size, dir, clock, still = false
   const effect = EFFECTS[stroke.effect];
   if (!effect || since > effect.life) return drawn;
   const u = since / effect.life, sx = x + dir * size * 0.5, sy = y - size * effect.from;
+  // The drawn effect, on the ground under the strike, a third of its life a frame.
+  if (effect.fx && sprite && sprite(`${effect.fx}-${Math.min(3, 1 + Math.floor(u * 3))}`, sx, y, size, { flip: dir < 0 })) return drawn + 1;
   ctx.save();
   ctx.fillStyle = effect.colour;
   for (let i = 0; i < effect.n; i++) {
