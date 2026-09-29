@@ -179,18 +179,28 @@ export function drawCarreta(ink, h, { frame = 0, loaded = false } = {}) {
 }
 
 /**
+ * The farm wagon's measures in rig units (u forward, v to its left, w up; 164 units from the ground to the cover's top): the bed
+ * from U0 to U1, HV either side, its floor W0 and its top W1; GATHER the bow the canvas is drawn back to for the 'open' cover.
+ * The page's layout of the one-drawing rig (public/motion.js `WAGON_RIG`) restates what it needs of these, and
+ * tests/riding.test.mjs holds the two to each other.
+ */
+export const WAGON = Object.freeze({ U0: -130, U1: 110, HV: 34, W0: 48, W1: 76, GATHER: -16, TOP: 164, DEPTH: 0.22 });
+/**
  * The family's covered farm wagon with its tongue: four iron-tyred wheels (the hind pair bigger), a plank bed, and - `cover`
  * 'on' - a cream canvas on five bows, puckered at the ends; 'loaded' the bows bare over a load; 'empty' the bows bare over an
- * empty bed. Returns where the tongue ends, for the team. Its full height, cover top to the ground, is 164 units (1.55 of a
- * person, as the game draws `wagon-covered`).
+ * empty bed; 'open' the canvas drawn back off the tail to the middle bow, so riders in the back of the bed can be seen. Returns
+ * where the tongue ends, for the team. Its full height, cover top to the ground, is 164 units (1.55 of a person, as the game
+ * draws `wagon-covered`).
  */
 export function drawWagon(ink, h, { frame = 0, cover = 'on', tongueTo = [190, 0, 36], near = h === 's' ? tongueTo[0] : -134 } = {}) {
-  const P = projector(h, { depth: 0.22, near }), U0 = -130, U1 = 110, HV = 34, W0 = 48, W1 = 76;
+  const { U0, U1, HV, W0, W1, GATHER, DEPTH } = WAGON;
+  const P = projector(h, { depth: DEPTH, near });
   const wheels = [[-88, 32], [74, 26]];
   const wheelAt = ([u, r], v) => wheel(ink, h, P, [u, v], r, { angle: h === 'e' ? -frame * 7.5 * (30 / r) : frame * 22.5, far: h === 'e' ? v > 0 : false });
   const bows = [-124, -66, -8, 50, 104];
   const arch = (u, s = 1) => [-1, -0.92, -0.7, -0.38, 0, 0.38, 0.7, 0.92, 1].map(t => [u, t * (HV + 9) * s, W1 + 66 * Math.sqrt(1 - t * t)]);
   const coverDraw = () => {
+    if (cover === 'open') return openCover();
     if (cover !== 'on') {
       // The bows bare: iron-strapped hickory hoops over the bed.
       for (const u of (h === 's' ? [...bows].reverse() : bows)) ink.line(curve(arch(u).map(P)), { width: 3.4, colour: WOOD_LIGHT });
@@ -217,6 +227,55 @@ export function drawWagon(ink, h, { frame = 0, cover = 'on', tongueTo = [190, 0,
     const hole = P([nearU, 0, 110]);
     ink.shape(ellipse(hole, 14, 18), '#4a3828', { shade: false, outline: LINE.inner });
     for (const t of [-0.5, 0, 0.5]) ink.line(curve([P([nearU, t * 30, 147]), add(hole, [t * 16, 16])]), { width: LINE.fine, opacity: 0.5 });
+  };
+  // 'open': the canvas drawn back off the tail (request 2026-09-25 "riders, walkers and the cart", item 2), gathered in folds on
+  // the middle bow and tied there, so the people riding in the back of the bed can be seen; the two rear bows bare over them.
+  // The front of the cover is as 'on' has it. WAGON_TAIL is the bed behind the gathered canvas, where the page seats them.
+  const openCover = () => {
+    const front = bows.filter(u => u > GATHER), rear = bows.filter(u => u < GATHER);
+    const bare = us => { for (const u of us) ink.line(curve(arch(u).map(P)), { width: 3.4, colour: WOOD_LIGHT }); };
+    const folds = (u, n = 4) => {
+      // The gathered canvas: a thick rolled edge and short pleats running forward from it.
+      ink.line(curve(arch(u, 1.03).map(P)), { width: 7, colour: tone(CANVAS, -0.12) });
+      ink.line(curve(arch(u, 1.03).map(P)), { width: LINE.fine, opacity: 0.7 });
+      for (let k = 0; k < n; k++) {
+        const t = -0.8 + 1.6 * k / (n - 1), top = W1 + 66 * Math.sqrt(1 - t * t);
+        ink.line(curve([P([u, t * (HV + 9), top]), P([u + 8, t * (HV + 9) * 0.98, top - 3])]), { width: LINE.fine, colour: tone(CANVAS, -0.4), opacity: 0.8 });
+      }
+      // The tie round the gathered folds, each side.
+      for (const s of [-1, 1]) ink.shape(ellipse(P([u, s * (HV + 7), W1 + 34]), 2.4, 3.2), RAWHIDE, { shade: false, outline: LINE.fine });
+    };
+    if (h === 'e') {
+      bare(rear);
+      const top = front.flatMap((u, i) => i ? [P([(u + front[i - 1]) / 2, 0, 152]), P([u, 0, 147])] : [P([u, 0, 147])]);
+      const pts = [P([GATHER, -HV - 3, W1]), P([GATHER - 3, -HV, 110]), P([GATHER - 2, 0, 147]), ...top, P([U1 + 10, 0, 144]), P([U1 + 12, -HV, 108]), P([U1 + 6, -HV - 3, W1])];
+      ink.shape(blob(pts, 0.6), CANVAS, { off: 3, lift: true });
+      for (const u of front.slice(1, -1)) ink.line(curve([P([u, -HV - 3, W1 + 2]), P([u, -HV * 0.6, 132]), P([u, -HV * 0.1, 149])]), { width: LINE.fine, colour: tone(CANVAS, -0.35), opacity: 0.8 });
+      ink.shape(ellipse(P([U1 + 9, 0, 124]), 4, 12), '#5a4430', { shade: false, outline: LINE.inner });
+      ink.line(curve([P([U1 + 8, -HV, 96]), P([U1 + 12, 0, 132]), P([U1 + 8, HV, 100])]), { width: LINE.fine, opacity: 0.7 });
+      // Side-on the gathering reads as pleats bunched at the back edge of the canvas, close together, loosening forward.
+      for (const [k, du] of [4, 9, 15, 23].entries()) ink.line(curve([P([GATHER + du, -HV - 3, W1 + 3]), P([GATHER + du + 2, -HV * 0.7, 112]), P([GATHER + du, -HV * 0.2, 145 - k])]), { width: LINE.fine, colour: tone(CANVAS, -0.4), opacity: 0.85 - k * 0.12 });
+      folds(GATHER);
+      return;
+    }
+    // End-on: the canvas a short tunnel from the gathered edge to the front bow. Going south the bare rear bows are beyond it (drawn
+    // first); going north they are nearer than it, over the tail where the riders sit (drawn last), and the canvas's open mouth -
+    // the dark inside of the cover - faces the camera.
+    const canvasNear = h === 's' ? U1 + 4 : GATHER, canvasFar = h === 's' ? GATHER : U1 + 4;
+    if (h === 's') bare([...rear].reverse());
+    const farArch = arch(canvasFar, 1).map(P), nearArch = arch(canvasNear, 1.04).map(P);
+    ink.shape(blob([nearArch[0], ...farArch.slice(1, -1), nearArch.at(-1), ...nearArch.slice(1, -1).reverse()], 0.7), tone(CANVAS, -0.08), { off: 2 });
+    ink.shape(blob(arch(canvasNear, 1.04).map(P), 0.8), CANVAS, { off: 2, lift: true });
+    if (h === 's') {
+      const hole = P([canvasNear, 0, 110]);
+      ink.shape(ellipse(hole, 14, 18), '#4a3828', { shade: false, outline: LINE.inner });
+      for (const t of [-0.5, 0, 0.5]) ink.line(curve([P([canvasNear, t * 30, 147]), add(hole, [t * 16, 16])]), { width: LINE.fine, opacity: 0.5 });
+      return;
+    }
+    // Going north: the mouth of the drawn-back canvas, wide open, the dark inside under its gathered rim.
+    ink.shape(blob(arch(canvasNear, 0.86).map(([u, v, w]) => [u, v, w - 6]).map(P), 0.8), '#4a3828', { shade: false, outline: LINE.inner });
+    folds(canvasNear, 5);
+    bare(rear);
   };
   const bed = () => {
     const cargo = cover === 'loaded' ? () => load(ink, P, h, { u0: U0 + 10, u1: U1 - 10, v0: HV - 8, w0: W0, big: 1.6 }) : null;

@@ -3,6 +3,7 @@
 //   D5   the cart (`cart-travel-*`, `cart-idle-*`), empty and loaded, east, south and north, the wheels turning
 //   D14  the covered wagon with its ox yoked to the tongue as one rolling rig (`wagon-ox-*`), covered, loaded (bows bare over the
 //        load) and empty, east, south and north
+//   D5   (2026-09-29) the same rig with the wagon's tail open, its cover drawn back (`wagon-ox-open-*`), for riders in the bed
 //   D15  the carreta laden, travelling (`carreta-loaded-travel-*`)
 // The vehicles are kit/vehicles.mjs (built in three dimensions and projected into the game's view); the ox is the four-legged
 // rig's (kit/quadruped.mjs) under a single neck yoke.
@@ -62,7 +63,13 @@ const carretaLoaded = DIRS.map(h => [0, 1, 2, 3].map(i => ({ name: `carreta-load
 // `ox-walk` at. Side-on the anchor is the ground under the middle of the wagon's bed; end-on it is the ground under the nearest
 // end (the ox's forefeet going south, the tail of the wagon going north).
 const RIG = { w: 1660, h: 620 }, RIG_V = { w: 480, h: 900 }, OX = 1.3, OX_AT = 226;
-const COVERS = { on: 'its canvas cover on its bows, puckered at both ends', loaded: 'its bows bare over a load of sacks, a barrel and a rolled blanket', empty: 'its bows bare over an empty bed' };
+/**
+ * Where the rig's anchor is, for the page's layout of it (public/motion.js `WAGON_RIG`, held to this by tests/riding.test.mjs):
+ * side-on at u = 0, the ground under the middle of the bed; end-on at the ground under the nearest end, `near` along u.
+ */
+export const RIG_ANCHOR = Object.freeze({ e: 0, s: OX_AT + 10, n: -134 });
+const COVERS = { on: 'its canvas cover on its bows, puckered at both ends', loaded: 'its bows bare over a load of sacks, a barrel and a rolled blanket', empty: 'its bows bare over an empty bed',
+  open: 'its canvas drawn back off the tail and gathered on the middle bow, the two rear bows bare over the back of the bed so the people riding in it can be seen (the tail of request 2026-09-25 "riders, walkers and the cart", item 2; temporary, Claude-drawn until Astra paints it)' };
 function wagonRig(name, h, i, cover) {
   const vertical = h !== 'e';
   const cell = vertical ? RIG_V : RIG;
@@ -78,16 +85,16 @@ function wagonRig(name, h, i, cover) {
     // End-on the wagon is long and short: the ox ahead of it is nearer the camera going south (drawn last, lower) and beyond it
     // going north (drawn first, higher).
     const tongueTo = [OX_AT - 20, 0, 40];
-    const P = projector(h, { depth: 0.22, near: h === 's' ? OX_AT + 10 : -134 });
+    const P = projector(h, { depth: 0.22, near: RIG_ANCHOR[h] });
     const oxAt = P([OX_AT, 0, 0]);
     const drawOx = () => placed(ink, oxAt[0], oxAt[1], sub => drawQuadFrontal(sub, 'ox', h, { frame: i, coat: COATS.ox, yoke: true }), { scale: OX });
     if (h === 'n') drawOx();
-    drawWagon(ink, h, { frame: i, cover, tongueTo, near: h === 's' ? OX_AT + 10 : -134 });
+    drawWagon(ink, h, { frame: i, cover, tongueTo, near: RIG_ANCHOR[h] });
     if (h === 's') drawOx();
   });
 }
 const wagonSets = [];
-for (const cover of ['on', 'loaded', 'empty']) for (const h of DIRS) {
+for (const cover of ['on', 'loaded', 'empty', 'open']) for (const h of DIRS) {
   const tag = `${cover === 'on' ? '' : cover + '-'}${h}`;
   wagonSets.push({ tag, h, cover, frames: [0, 1, 2, 3].map(i => ({ name: `wagon-ox-${tag}-${i + 1}`, height: 1.55, compare: [['wagon-covered', 1.55], [h === 'e' ? 'ox-walk-1' : `ox-walk-${h}-1`, 1.45]],
     prompt: `The family's farm wagon of the 1830s, ${COVERS[cover]}, with one brown ox yoked to its tongue as one rolling rig, going ${HEADINGS[h]}, frame ${i + 1} of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. ${STYLE}`,
@@ -101,14 +108,14 @@ export const SHEETS = {
     frames: cartSets.flatMap(set => [...set.travel, set.idle]) },
   'claude-carreta-loaded': { cell: half(CARRETA), columns: 4, request: 'Request 2026-09-25 — the carreta', replaceWith: 'a loaded carreta travelling east, south and north, 4 frames each, at the delivered carreta scale',
     frames: carretaLoaded.flat() },
-  'claude-wagon-ox': { cell: half(RIG), columns: 4, request: 'Request 2026-09-16 — driving the ox wagon', replaceWith: 'item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty',
+  'claude-wagon-ox': { cell: half(RIG), columns: 4, request: 'Request 2026-09-16 — driving the ox wagon', replaceWith: 'item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back',
     frames: wagonSets.filter(set => set.h === 'e').flatMap(set => set.frames) },
-  'claude-wagon-ox-ns': { cell: half(RIG_V), columns: 8, request: 'Request 2026-09-16 — driving the ox wagon', replaceWith: 'item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty',
+  'claude-wagon-ox-ns': { cell: half(RIG_V), columns: 8, request: 'Request 2026-09-16 — driving the ox wagon', replaceWith: 'item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back',
     frames: wagonSets.filter(set => set.h !== 'e').flatMap(set => set.frames) },
 };
 export const CLIPS = Object.fromEntries([
   ...cartSets.map(set => [`cart-travel-${set.tag}`, loop(set.travel, 240, dirWord(set.h), `The cart rolling ${set.h}${set.loaded ? ', loaded' : ''}: a four-frame loop, the wheels turning.`)]),
   ...cartSets.map(set => [`cart-idle-${set.tag}`, { frames: [{ sprite: set.idle.name, duration: 2000 }], loop: true, motion: 'none', direction: dirWord(set.h), prompt: `The family's cart standing still without its ox${set.loaded ? ', loaded' : ', empty'}, facing ${set.h}: one held frame.` }]),
   ...DIRS.map((h, k) => [`carreta-loaded-travel-${h}`, loop(carretaLoaded[k], 245, dirWord(h), `The carreta laden and rolling ${h}: a four-frame loop at the delivered carreta's 245 ms.`)]),
-  ...wagonSets.map(set => [`wagon-ox-${set.tag}`, loop(set.frames, 260, dirWord(set.h), `The wagon and its ox going ${set.h} (${set.cover === 'on' ? 'covered' : set.cover}): a four-frame loop, the ox's plod and the wheels turning together.`)]),
+  ...wagonSets.map(set => [`wagon-ox-${set.tag}`, loop(set.frames, 260, dirWord(set.h), `The wagon and its ox going ${set.h} (${set.cover === 'on' ? 'covered' : set.cover === 'open' ? 'the tail open, its cover drawn back' : set.cover}): a four-frame loop, the ox's plod and the wheels turning together.`)]),
 ]);
