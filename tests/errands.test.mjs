@@ -208,10 +208,9 @@ test('the way of going is the quickest that carries the load, said with the serv
   family.resources = { ...family.resources, food: 60, money: 10, cotton: 30, seed: 0 };
   assert.equal(quote(world, buyer, [{ id: 'store:seed', n: 1, pay: 'coin' }]).how, 'Rides the horse: 2 of 7 loads.');
   assert.equal(quote(world, buyer, [{ id: 'store:cotton', n: 14, pay: 'coin' }]).how, 'Takes the wagon: 14 of 20 loads, more than the horse carries (7).');
-  // Twenty bales for food bring home what the store pays as it fills (sim/market.mjs, 2026-09-28): five families' want is fifteen
-  // bales, eight at two food and seven at one, twenty-three food, and the five it will not take come home too - twenty-eight loads,
-  // more than the wagon carries - where a store that never filled paid forty.
-  assert.match(quote(world, buyer, [{ id: 'store:cotton', n: 20, pay: 'food' }]).why, /That is 28 loads, and the wagon carries 20\. Send less\./);
+  // Twenty bales for food bring home forty food: before the Runaway Scrape the store buys without limit at its full price (owner,
+  // 2026-09-28; sim/market.mjs `limited`) - more than the wagon carries.
+  assert.match(quote(world, buyer, [{ id: 'store:cotton', n: 20, pay: 'food' }]).why, /That is 40 loads, and the wagon carries 20\. Send less\./);
   assert.equal(quote(world, buyer, [{ id: 'wheelwright:wagon', n: 1, pay: 'coin' }]).how, 'Takes the wagon: 0 of 20 loads, and the wheelwright works on the wagon itself.');
   // The horse taken: a small load walks, and says who has the horse; one the legs cannot carry takes the wagon.
   beginTravel(world, other, 'gonzales', null, 'visit', 'horse');

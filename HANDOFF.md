@@ -1,5 +1,60 @@
 # Claude handoff — Astra foundation
 
+## Slower in the winter, and corn ten food a plot — owner, 2026-09-28 (branch `scrape-market`, `integration-2026-09-28` 4f529cbb merged; not released)
+
+The owner's answers to BALANCE.md §12.5: **"32 food"** after the Scrape (as built), **"10 food a plot"** for corn, and for the big
+winners **"increase the time until harvest during the winter. that way it feels more fluid."**
+
+- **Half pace in the winter** (`sim/crops.mjs` `WINTER_SLOWER` 2, `WINTER_MONTHS` 12, 1, 2 - a `ceiling:`): December to February of the
+  class's own calendar on the real land (December 1-15 of the first period, January 25 to February 29 of the second), not a class period.
+  A winter tick adds half its real time to the crop - corn eight real minutes, cotton twelve - and a crop across the change blends, each
+  tick at the pace of the month it falls in. The harvest's words and the question at the rows say the winter's minutes.
+- **Corn ten food a plot** (`sim/improvements.mjs` `CORN_YIELD_PER_PLOT`, `standingCrop` by crop); cotton five bales.
+- **Evidence**: `tests/crop-minutes.test.mjs` (the winter and its blend, corn's yield), `tests/store.test.mjs` (a field of corn fetches
+  about the food a field of cotton does, a bale two food); **29 of 29 injections caught**
+  ([docs/evidence/crops-market-injections.json](docs/evidence/crops-market-injections.json)). **`npm test` 1,646 pass, 0 fail, 36
+  skipped**; `test:ending` 10 checks, `test:errand` 16, `test:auto` 14.
+- **Balance** ([docs/BALANCE.md](docs/BALANCE.md) §13; the merged tree before and after, the same 210 classes): winners **51,073 / 79,595
+  / 122,598 → 40,781 / 68,094 / 113,800**; mean coin 178 → 160. Farming harder at fifteen and thirty families 1.14 against 0.86 (1.16 /
+  0.84). Cotton 1.32 against its own crop 0.66; families rolled to corn 0.04 with 15 reales (0.02, 5). The study: first families 23,668
+  to 46,656; the stay-home family 29 to 564, placed 12th to 15th; deaths 10.
+
+**Questions for the owner** (BALANCE.md §13.4): (1) the winter moved the winners by a fifth at most - A leave half pace, B a third of the
+pace (recommended), C the whole second period as winter; (2) corn is still far behind cotton - A leave, B a real for three food
+(recommended), C corn fifteen food a plot.
+
+## No limit until the Scrape, spare corn sold, corn four minutes and cotton six; the auto proof's clock — owner, 2026-09-28 (branch `scrape-market` off `integration-2026-09-28` db6d908a; not released)
+
+The owner's answers to BALANCE.md §11.6: **"no limit on selling until the runaway scrape. after that, limit it to 4 per family."**,
+**"Sell spare corn too"**, **"i want 4 minutes for corn and 6 minutes for cotton in real life"** ("time speeds up and slows down too at
+times. it'll have to adjust for that").
+
+- **Unlimited until the Runaway Scrape** (`sim/market.mjs` `limited`: the third class period, dawn March 14, 1836). Before it every store
+  and weaver buys all it is brought at full price and nothing is held; from it, 4 bales of cotton a family, **32 food** (a reading, put
+  to the owner: what four bales fetch at full price) and the weaver 2 bales, on the curve of §10.
+- **Spare corn sold**: the neighbours' director (and so a family whose student has gone) sends food beyond three weeks of its eating to
+  the store (`spareFood`, `SPARE_KEEP_DAYS` 21); the food errand never sells into those three weeks.
+- **Corn 4 real minutes, cotton 6** (`sim/crops.mjs`), measured from the real time each tick took. A speed change mid-crop is followed;
+  `stepWorld`'s `realMs` is now `null` when stepped in process (a Study-pace tick) and `0` when the server measured nothing, so the first
+  tick after a pause adds nothing. The plain-words account is in `sim/crops.mjs`, GAME.md and `FIC-GONZ-721`.
+- **`test:auto` fixed** (the proof, not the game): it waited three real minutes for a crop on the invented country, whose class ends
+  at the fight after about 365 ticks - under a minute at its 150 ms tick - so a crop of real minutes never came in. Its server clock
+  runs forty times fast (`now`, with the reason in a comment). 14 checks pass.
+- **Evidence**: `tests/market.test.mjs` (the open market before the Scrape, the director's spare corn), `tests/crop-minutes.test.mjs`
+  (4 and 6, a speed change and a measured zero mid-crop); **24 of 24 injections caught**
+  ([docs/evidence/crops-market-injections.json](docs/evidence/crops-market-injections.json)). Tests that sold food by the director's
+  errand now give the family food beyond its keep (money, crops, ending); errands and store read the open market. **`npm test` 1,642
+  pass, 0 fail, 36 skipped**; `test:ending` 10 checks; **`test:errand` passes all its checks** (fourteen bales at two reales before the
+  Scrape); `test:auto` 14 checks.
+- **Balance** ([docs/BALANCE.md](docs/BALANCE.md) §12, the same 210 classes): winners **51,073 / 79,595 / 122,598** (4,144 / 10,052 /
+  15,152 before); mean coin 178 (24). **Farming harder at fifteen and thirty families: 1.16 against 0.84** (1.00 / 1.00). **Cotton 1.34,
+  own crop 0.64; families rolled to corn 0.02 with 5 reales** - spare corn rarely exists. Means die: nothing (1.03 against 0.97). Burn zone:
+  staying 0.39 against going 1.08. Two classes of 210 won by a family that sent nobody (both five families). The study: first families
+  24,086 to 50,880 (3,584 to 9,922); the stay-home family 3 to 633, placed 6th to 15th.
+
+**Questions for the owner** (BALANCE.md §12.5): (1) "4 per family" for food read as 32 food - A keep (recommended), B 16 food, C no food
+limit; (2) corn does not pay - A leave, B ten food a plot (recommended), C spare beyond one week; (3) winners in the tens of thousands
+again - A leave (recommended), B cotton a real a bale, C limit from the winter.
 ## Nothing on the screen stands on anything else — owner, 2026-09-28 (worktree branch; not released)
 
 **The ask.** Owner, 2026-09-28: *"Check for UI elements that block others. Move them somewhere else."* Students play on
@@ -477,7 +532,7 @@ market"**. Built on the worktree branch, origin/main merged, **not pushed, not m
 
 - `tests/seasons.test.mjs` (8; the guided-start one skipped while the owner has it off) and `tests/market.test.mjs` (4); **16 of 16
   injections caught** with the guided start off (17 of 17 before the suspension was merged),
-  [docs/evidence/seasons-market-injections.json](docs/evidence/seasons-market-injections.json) (`node scripts/seasons-market-injections.mjs`).
+  `docs/evidence/seasons-market-injections.json` (renamed crops-market-injections.json) (`node scripts/seasons-market-injections.mjs`).
 - Tests changed with reasons: `tests/errands.test.mjs` (twenty bales for food fetch thirty food at a filling store, not forty),
   `tests/rumour-story.test.mjs` (resolved to origin/main's wider rule for the latest word).
 - **Balance** ([docs/BALANCE.md](docs/BALANCE.md) §10; [evidence/balance-measure.json](docs/evidence/balance-measure.json),

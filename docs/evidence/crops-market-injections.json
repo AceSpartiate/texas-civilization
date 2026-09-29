@@ -4,32 +4,53 @@
   "files": [
     "tests/crop-minutes.test.mjs",
     "tests/market.test.mjs",
-    "tests/ending.test.mjs"
+    "tests/ending.test.mjs",
+    "tests/money.test.mjs",
+    "tests/store.test.mjs"
   ],
   "injections": [
     {
       "name": "a crop ripens in ticks, whatever real time they took, as it did before",
       "file": "sim/crops.mjs",
       "failed": [
-        "corn ripens after three real minutes and cotton after five, counted from the real time each tick took",
-        "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace"
+        "corn ripens after four real minutes and cotton after six, counted from the real time each tick took",
+        "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace",
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
       ]
     },
     {
       "name": "every tick counts as a Study-pace tick, whatever the server measured: the class speed changes a crop's minutes",
       "file": "sim/crops.mjs",
       "failed": [
-        "corn ripens after three real minutes and cotton after five, counted from the real time each tick took",
-        "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace"
+        "corn ripens after four real minutes and cotton after six, counted from the real time each tick took",
+        "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace",
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
       ]
     },
     {
       "name": "cotton ripens as fast as corn",
       "file": "sim/crops.mjs",
       "failed": [
-        "corn ripens after three real minutes and cotton after five, counted from the real time each tick took",
+        "corn ripens after four real minutes and cotton after six, counted from the real time each tick took",
         "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace",
-        "either crop goes in in any month on the real land, and the harvest says how many minutes are left"
+        "either crop goes in in any month on the real land, and the harvest says how many minutes are left",
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+      ]
+    },
+    {
+      "name": "corn keeps the three minutes of the first answer, not the four the owner asked for",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "corn ripens after four real minutes and cotton after six, counted from the real time each tick took",
+        "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace",
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+      ]
+    },
+    {
+      "name": "a tick the server measured as nothing - the first after a pause - grows the crop a Study tick anyway",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "the class's speed changes the ticks a crop takes and never its minutes; a tick stepped in process counts at the Study pace"
       ]
     },
     {
@@ -64,6 +85,7 @@
       "name": "the store pays full price however much it holds, and never fills",
       "file": "sim/market.mjs",
       "failed": [
+        "before the Runaway Scrape the store buys all it is brought, at its full price, and nothing is held against it",
         "the price curve: full price to half the want, half price to the want, and then nothing",
         "what the store holds is written when it buys, and sold on over the calendar: a month clears what it wants",
         "the errand to town: a list is quoted at the store's price as it fills, and what it cannot use comes home",
@@ -121,6 +143,89 @@
       "file": "sim/errands.mjs",
       "failed": [
         "the errand to town: a list is quoted at the store's price as it fills, and what it cannot use comes home"
+      ]
+    },
+    {
+      "name": "the winter grows a crop as fast as the summer",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+      ]
+    },
+    {
+      "name": "the winter is read from the season a crop was sown in, not the month each tick falls in: no blend",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+      ]
+    },
+    {
+      "name": "the winter reaches into March",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+      ]
+    },
+    {
+      "name": "the harvest's words count the minutes left at the summer's pace in the winter",
+      "file": "sim/crops.mjs",
+      "failed": [
+        "in the winter a crop grows at half its pace, and one that stands across the change blends"
+      ]
+    },
+    {
+      "name": "corn yields five food a plot, as cotton does bales",
+      "file": "sim/improvements.mjs",
+      "failed": [
+        "a plot of corn yields ten food, twice a plot of cotton's five bales",
+        "a bale is worth twice what it weighs in corn, and only once it reaches town; a field of corn yields twice the plot of cotton"
+      ]
+    },
+    {
+      "name": "the stores are limited from the first day, not from the Runaway Scrape",
+      "file": "sim/market.mjs",
+      "failed": [
+        "before the Runaway Scrape the store buys all it is brought, at its full price, and nothing is held against it"
+      ]
+    },
+    {
+      "name": "the stores are never limited, even in the Scrape",
+      "file": "sim/market.mjs",
+      "failed": [
+        "before the Runaway Scrape the store buys all it is brought, at its full price, and nothing is held against it",
+        "the price curve: full price to half the want, half price to the want, and then nothing",
+        "what the store holds is written when it buys, and sold on over the calendar: a month clears what it wants",
+        "the errand to town: a list is quoted at the store's price as it fills, and what it cannot use comes home",
+        "one store for the whole town: a neighbour's sale lowers what the next family is paid, and the director's errand stops at a full store"
+      ]
+    },
+    {
+      "name": "a sale before the Scrape is held against the store, so it opens the spring already full",
+      "file": "sim/market.mjs",
+      "failed": [
+        "before the Runaway Scrape the store buys all it is brought, at its full price, and nothing is held against it"
+      ]
+    },
+    {
+      "name": "the store wants three bales a family in the Scrape, not the owner's four",
+      "file": "sim/market.mjs",
+      "failed": [
+        "before the Runaway Scrape the store buys all it is brought, at its full price, and nothing is held against it",
+        "the price curve: full price to half the want, half price to the want, and then nothing"
+      ]
+    },
+    {
+      "name": "the neighbours' director never sells spare corn",
+      "file": "sim/neighbours.mjs",
+      "failed": [
+        "the neighbours' director sells a family's spare corn - beyond three weeks of its eating - as it sells cotton, and never below it"
+      ]
+    },
+    {
+      "name": "the food errand sells all it can carry, into the family's three weeks of eating",
+      "file": "sim/chores.mjs",
+      "failed": [
+        "the neighbours' director sells a family's spare corn - beyond three weeks of its eating - as it sells cotton, and never below it"
       ]
     },
     {

@@ -31,8 +31,15 @@ import { fellStanding } from './felling.mjs';
 import { clearedPlots, clearingSpells, fieldPlots, keepPlots, sownPlots } from './fields.mjs';
 import { whereFromHouse } from './survey.mjs';
 
-/** What ten cleared acres yield when they are brought in. */
+/** What ten cleared acres of cotton yield when they are brought in: bales. */
 export const YIELD_PER_PLOT = 5;
+/**
+ * What ten cleared acres of corn yield: food, twice cotton's count since 2026-09-28 (owner, by multiple choice: "10 food a plot"), so a
+ * corn family grows more than it eats and has spare corn for the store (docs/BALANCE.md §12-§13). Five until then. `FIC-GONZ-008`.
+ */
+export const CORN_YIELD_PER_PLOT = 10;
+/** What a plot of this crop yields. */
+export const yieldPerPlot = crop => crop === 'corn' ? CORN_YIELD_PER_PLOT : YIELD_PER_PLOT;
 /** Seed ten cleared acres swallow at planting. */
 export const SEED_PER_PLOT = 2;
 /**
@@ -83,7 +90,7 @@ export function harvestShare(household) {
 /** The plots a harvest would bring in: those in crop, or the cleared ones before anything is planted. */
 const cropPlots = household => (household.field?.state ?? 'bare') === 'bare' ? clearedOf(household) : sownPlots(household).length;
 /** What bringing in this household's crop would yield, before anybody's skill touches it. */
-export const standingCrop = household => YIELD_PER_PLOT * cropPlots(household);
+export const standingCrop = household => yieldPerPlot(household.field?.crop || 'corn') * cropPlots(household);
 
 /** Whether this crop is more than the family can carry in without the wagon. */
 export const needsWagonToHarvest = household => cropPlots(household) >= WAGON_HARVEST_PLOTS;

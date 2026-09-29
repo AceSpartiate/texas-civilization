@@ -19,7 +19,6 @@ import { createSettledWorld, modestMeans } from './support/settled.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { COTTON_RATE, CHORES, choreAvailability } from '../sim/chores.mjs';
 import { MODES } from '../sim/travel.mjs';
-import { wantAt } from '../sim/market.mjs';
 import { GOODS } from '../sim/trade.mjs';
 import { traderAt } from '../sim/town.mjs';
 import { findPath } from '../sim/geography.mjs';
@@ -96,8 +95,10 @@ test('the store takes it, at a rate the control states before anybody sets out',
   assert.ok(world.events.some(event => /sold 4 cotton at the store and brought home 8 food/.test(event.text)));
 });
 
-test('a bale is worth about twice what it weighs in corn, and only once it reaches town', () => {
-  // The whole shape of a cash crop: more at the end, and nothing at all until then.
+test('a bale is worth twice what it weighs in corn, and only once it reaches town; a field of corn yields twice the plot of cotton', () => {
+  // The whole shape of a cash crop: more at the end, and nothing at all until then. Since 2026-09-28 (owner: "10 food a plot") corn
+  // yields ten food a plot to cotton's five bales, so a field of each fetches about the same food - the bale is worth two of corn, and
+  // cotton's advantage is the coin it fetches, not the food.
   assert.ok(COTTON_RATE > 1, 'cotton that trades one for one is corn with extra steps');
   const world = running('crops-9');
   const cotton = growing(world, 'cotton'), corn = growing(world, 'corn');
@@ -118,12 +119,13 @@ test('a bale is worth about twice what it weighs in corn, and only once it reach
   const bales = cotton.resources.cotton;
   assert.ok(bales > 0);
   assert.ok(cotton.resources.food - beforeHarvest <= 0, 'cutting cotton put food in the house');
-  // ...and worth about twice the corn once somebody has walked it into Gonzales.
+  // ...and worth about what the corn is, twice its weight, once somebody has walked it into Gonzales.
   const beforeTrip = cotton.resources.food;
   work(world, cotton.id, cotton.members[1], 'sell-cotton', 'wagon');
   const cottonFood = cotton.resources.food - beforeTrip;
-  assert.ok(cottonFood > cornFood * 1.5,
+  assert.ok(cottonFood > cornFood * 0.75 && cottonFood < cornFood * 1.25,
     `a cotton field fetched ${cottonFood.toFixed(1)} food against ${cornFood.toFixed(1)} from a corn field`);
+  assert.ok(cottonFood > bales * 1.5, `a bale fetched ${(cottonFood / bales).toFixed(2)} food, not about two`);
 });
 
 test('what one person can carry to market is what one person can carry', () => {
@@ -137,11 +139,9 @@ test('what one person can carry to market is what one person can carry', () => {
   };
   const afoot = trip('foot'), hauled = trip('wagon');
   assert.equal(afoot.sold, MODES.foot.carry, `a person carried ${afoot.sold} bales in their arms`);
-  // The wagon carries twenty; the store takes only what it can use (sim/market.mjs, 2026-09-28) - fifteen bales in a town of five
-  // families - and the rest comes home.
-  assert.equal(hauled.sold, Math.min(MODES.wagon.carry, wantAt(running('crops-want'), 'gonzales', 'store:cotton')), `the wagon took ${hauled.sold} bales`);
-  // Twice what an armful fetches and more, where it was three times before the store filled (half price past half its want).
-  assert.ok(hauled.got > afoot.got * 2, 'the wagon is the difference between a trip and a load');
+  // The wagon carries twenty, and before the Runaway Scrape the store takes all of it (owner, 2026-09-28; sim/market.mjs `limited`).
+  assert.equal(hauled.sold, MODES.wagon.carry, `the wagon took ${hauled.sold} bales`);
+  assert.ok(hauled.got > afoot.got * 3, 'the wagon is the difference between a trip and a load');
 });
 
 test('a family with no cotton is not offered the trip', () => {

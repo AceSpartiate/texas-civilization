@@ -37,7 +37,14 @@ const measured = {};
 const shots = [];
 const shot = async (page, name) => { const path = `docs/evidence/auto-${name}.png`; await page.screenshot({ path }); shots.push(path); };
 
-const app = createClassroom({ seed: 'auto-proof-1', playerCount: 5, tickMs: 150, worldFactory: seed => createGonzalesWorld(seed, 5) });
+// The server's clock runs forty times fast for this class (`now`, handed to createClassroom as the lesson proof does). A crop stands
+// its real minutes whatever the pace (sim/crops.mjs, owner 2026-09-28: corn four, cotton six) where it once stood eighteen ticks, and
+// the invented Gonzales country ends at the fight, some 365 ticks - under a minute at this proof's 150 ms tick. At forty times, a tick
+// counts as six real seconds and corn stands forty ticks, near the rhythm this proof was written for, and the season fits in the class.
+// What else reads the server's clock goes forty times fast too (a question's patience, a call's five minutes); every person here is
+// on auto and answers at once, and no assertion below reads one.
+const clockStarted = Date.now(), CLOCK_FAST = 40;
+const app = createClassroom({ seed: 'auto-proof-1', playerCount: 5, tickMs: 150, worldFactory: seed => createGonzalesWorld(seed, 5), now: () => clockStarted + (Date.now() - clockStarted) * CLOCK_FAST });
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];
@@ -238,9 +245,10 @@ try {
   ok(`${world().entities[reaperId].name} on auto and given the harvest before anything is ripe: it is her task, and she waits`);
   const said = { planter: new Set(), reaper: new Set() };
   let glowSeen = null;
+  const SEASON_MS = 180000;
   const seasonStarted = Date.now();
   const finishedCount = (id, name) => world().events.filter(event => event.actorId === id && event.text.endsWith(`finished: ${name}.`)).length;
-  while ((finishedCount(planterId, 'plant the field') < 2 || finishedCount(reaperId, 'bring in the crop') < 1 || household().field.state !== 'planted') && Date.now() - seasonStarted < 180000) {
+  while ((finishedCount(planterId, 'plant the field') < 2 || finishedCount(reaperId, 'bring in the crop') < 1 || household().field.state !== 'planted') && Date.now() - seasonStarted < SEASON_MS) {
     await page.waitForTimeout(120);
     const state = household().field?.state;
     if ((measured.seedTrace ??= []).at(-1) !== household().resources.seed) measured.seedTrace.push(household().resources.seed);
