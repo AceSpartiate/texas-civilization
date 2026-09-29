@@ -9,12 +9,12 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
 | A — People at work and ambient poses | 18 | 5 | 3 | 0 |
-| B — Children, babies and sickness | 11 | 5 | 0 | 2 |
+| B — Children, babies and sickness | 11 | 5 | 11 | 2 |
 | C — Soldiers, battles and famous people | 19 | 1 | 19 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 0 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 15 | 1 | 1 | 3 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 1 | 2 | 17 |
-| **Total** | **88** | **15** | **25** | **27** |
+| **Total** | **88** | **15** | **36** | **27** |
 
 ## How a builder works
 
@@ -34,7 +34,7 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 Scope: the eight grown cast figures' action poses at home and in town, ambient life, the Gonzales town scenes, layered people; the wood pile. 18 to make, 0 skipped.
 
-- [ ] **A1** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 1 — **Claude stand-in in place** (`rust-chop`); Astra's replaces it
+- [ ] **A1** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 1 — **Claude stand-in in place** (`rust-chop`, `teal-chop`, `elder-chop`, `blue-chop`, `rust-woman-chop`, `indigo-chop`, `ochre-chop`, `blue-girl-chop`); Astra's replaces it
   - **Deliver:** `<cast>-chop` (felling with an axe) for each of the eight: `<figure>-chop-1`..`-4`, clip `<figure>-chop`, the axe landing on frame 3
   - **Frames:** 4 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.chop` (`drawn`) in `public/work-art.js`, drawn by `drawAtWork` in `public/app.js`
@@ -130,57 +130,57 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
 
 Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 11 to make, 2 skipped.
 
-- [ ] **B1** (priority 1) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 1
+- [ ] **B1** (priority 1) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 1 — **Claude stand-in in place** (`girl-play-run`, `girl-play-run-s`, `girl-play-run-n`, `girl-play-gallop`, `girl-play-hide`, `girl-play-kneel`, `girl-play-sit-doll`, `girl-play-hoop`, `girl-scatter`, `boy-play-run`, `boy-play-run-s`, `boy-play-run-n`, `boy-play-gallop`, `boy-play-hide`, `boy-play-kneel`, `boy-play-sit-doll`, `boy-play-hoop`, `boy-scatter`, `smallchild-play-run`, `smallchild-play-run-s`, `smallchild-play-run-n`, `smallchild-play-gallop`, `smallchild-play-hide`, `smallchild-play-kneel`, `smallchild-play-sit-doll`, `smallchild-play-hoop`, `smallchild-scatter`); Astra's replaces it
   - **Deliver:** for `girl`, `boy`, `smallchild`: `-play-gallop` (stick horse, 4, east), `-play-run` (4, east, and `-n`/`-s`), `-play-hide` (1), `-play-kneel` (2), `-play-sit-doll` (1), `-play-hoop` (4, the hoop in the frame), `-scatter` (throwing corn, 2)
   - **Frames:** 1-4 frames each. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372; drawn to fill the cell as an adult does, a child's proportions (the renderer shrinks them by age)
   - **Plugs into:** `littleClip` and `CHILD_POSES` in `public/motion.js`; `STROKES.scatter`
   - **Stands in now:** the child's walk, sitting rest, side-on rest and back-turned idle; the grown sowing cycle at a child's size for the hens (Astra's library art reused)
-- [ ] **B2** (priority 1) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 2
+- [ ] **B2** (priority 1) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 2 — **Claude stand-in in place** (`infant-crawl`, `infant-crawl-w`, `infant-cry`, `infant-sleep`); Astra's replaces it
   - **Deliver:** `infant-crawl` (4, east, and `-w`), `infant-cry` (sitting up, mouth open, 2), `infant-sleep` (curled on a blanket, 1)
   - **Frames:** 1-4 frames. **Size:** The infant's logical height (`infant-idle-*`), ground anchor
   - **Plugs into:** `littleClip` in `public/motion.js`
   - **Stands in now:** the infant's standing pose moved over the ground; the front idle with a "(crying)" bubble; `infant-rest` (Astra's library art reused)
-- [ ] **B3** (priority 1) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 3
+- [ ] **B3** (priority 1) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 3 — **Claude stand-in in place** (`rust-woman-hold-baby`, `rust-woman-carry-baby-walk`, `rust-woman-carry-baby-walk-s`, `rust-woman-carry-baby-walk-n`, `teal-hold-baby`, `teal-carry-baby-walk`, `teal-carry-baby-walk-s`, `teal-carry-baby-walk-n`, `indigo-hold-baby`, `indigo-carry-baby-walk`, `indigo-carry-baby-walk-s`, `indigo-carry-baby-walk-n`, `blue-girl-hold-baby`, `blue-girl-carry-baby-walk`, `blue-girl-carry-baby-walk-s`, `blue-girl-carry-baby-walk-n`, `rust-hold-baby`, `rust-carry-baby-walk`, `rust-carry-baby-walk-s`, `rust-carry-baby-walk-n`, `elder-hold-baby`, `elder-carry-baby-walk`, `elder-carry-baby-walk-s`, `elder-carry-baby-walk-n`, `blue-hold-baby`, `blue-carry-baby-walk`, `blue-carry-baby-walk-s`, `blue-carry-baby-walk-n`, `ochre-hold-baby`, `ochre-carry-baby-walk`, `ochre-carry-baby-walk-s`, `ochre-carry-baby-walk-n`); Astra's replaces it
   - **Deliver:** for each cast woman (`rust-woman`, `teal`, `indigo`, `blue-girl`) and, less often, each man: `-hold-baby` (a baby to the shoulder, swaying, 2, south) and `-carry-baby-walk` (a baby on the hip, walking, 4, east, and `-n`/`-s`); also covers the riders request's walker carrying an infant (item 3)
   - **Frames:** 2 and 4 frames. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `littleClip` (`aside.kind === 'baby'`) in `public/motion.js`; `carriedAt` in `drawWorld`, `public/app.js`
   - **Stands in now:** the harvest carry with the infant drawn at her side; a carried baby drawn at the carrier's hip (Astra's library art reused)
-- [ ] **B4** (priority 1) — [Request 2026-09-27 — sickness: the sick badge, the sickness icons, and the sick lying down](ART_REQUESTS.md#request-2026-09-27--sickness-the-sick-badge-the-sickness-icons-and-the-sick-lying-down), item 1
+- [ ] **B4** (priority 1) — [Request 2026-09-27 — sickness: the sick badge, the sickness icons, and the sick lying down](ART_REQUESTS.md#request-2026-09-27--sickness-the-sick-badge-the-sickness-icons-and-the-sick-lying-down), item 1 — **Claude stand-in in place** (`mark-sick`); Astra's replaces it
   - **Deliver:** `mark-sick` (a folded blanket and a cup, or a cool cloth, in the panel's mark style)
   - **Frames:** 1. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px
   - **Plugs into:** `.panel-sick-mark` in `panelRow`, `public/app.js`
   - **Stands in now:** the road's nursing icon `icon-tend-sick` in a cream disc (Astra's library art reused)
-- [ ] **B5** (priority 1) — [Request 2026-09-27 — sickness: the sick badge, the sickness icons, and the sick lying down](ART_REQUESTS.md#request-2026-09-27--sickness-the-sick-badge-the-sickness-icons-and-the-sick-lying-down), item 2
+- [ ] **B5** (priority 1) — [Request 2026-09-27 — sickness: the sick badge, the sickness icons, and the sick lying down](ART_REQUESTS.md#request-2026-09-27--sickness-the-sick-badge-the-sickness-icons-and-the-sick-lying-down), item 2 — **Claude stand-in in place** (`icon-rest-road`, `icon-camp-apart`, `icon-nurse-home`); Astra's replaces it
   - **Deliver:** `icon-rest-road` (the wagon stopped, somebody lying under a blanket), `icon-camp-apart` (a camp up a bank away from a crowd of tents), `icon-nurse-home` (somebody by a bed in a cabin with a cup)
   - **Frames:** 1 each. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40% (the request says 64 px; deliver at 128 as the other icons)
   - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
   - **Stands in now:** `icon-rest`, `icon-tend-sick` and a stroked glyph (Astra's library art reused)
-- [ ] **B6** (priority 2) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 4
+- [ ] **B6** (priority 2) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 4 — **Claude stand-in in place** (`girl-speak`, `girl-tug`, `boy-speak`, `boy-tug`, `smallchild-speak`, `smallchild-tug`); Astra's replaces it
   - **Deliver:** `girl-speak`, `boy-speak`, `smallchild-speak` (2, east) and `-tug` (tugging at a grown person's sleeve, 2, east)
   - **Frames:** 2 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `littleClip` (`talk.phase === 'talking'`) in `public/motion.js`
   - **Stands in now:** the standing idle; the parent in the cast listening pose (Astra's library art reused)
-- [ ] **B7** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 13
+- [ ] **B7** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 13 — **Claude stand-in in place** (`girl-shoo`, `girl-gather`, `girl-carry-water`, `girl-carry-water-s`, `girl-carry-water-n`, `boy-shoo`, `boy-gather`, `boy-carry-water`, `boy-carry-water-s`, `boy-carry-water-n`, `smallchild-shoo`, `smallchild-gather`, `smallchild-carry-water`, `smallchild-carry-water-s`, `smallchild-carry-water-n`); Astra's replaces it
   - **Deliver:** for `girl`, `boy`, `smallchild`: `-shoo` (arms flung up waving a cloth, 2), `-gather` (2), `-carry-water` (a small pail in each hand, walking, 4, east, and `-n`/`-s`)
   - **Frames:** 2-4 frames. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `STROKES.shoo`, `STROKES.carry` with the child scaling of `entityClip`
   - **Stands in now:** the walk paced to and fro; the grown carry at the child's size (Astra's library art reused)
-- [ ] **B8** (priority 2) — [Request 2026-09-27 — sickness: the sick badge, the sickness icons, and the sick lying down](ART_REQUESTS.md#request-2026-09-27--sickness-the-sick-badge-the-sickness-icons-and-the-sick-lying-down), item 3
+- [ ] **B8** (priority 2) — [Request 2026-09-27 — sickness: the sick badge, the sickness icons, and the sick lying down](ART_REQUESTS.md#request-2026-09-27--sickness-the-sick-badge-the-sickness-icons-and-the-sick-lying-down), item 3 — **Claude stand-in in place** (`rust-sick-rest`, `rust-sick-rest-s`, `rust-sick-rest-e`, `teal-sick-rest`, `teal-sick-rest-s`, `teal-sick-rest-e`, `elder-sick-rest`, `elder-sick-rest-s`, `elder-sick-rest-e`, `blue-sick-rest`, `blue-sick-rest-s`, `blue-sick-rest-e`, `rust-woman-sick-rest`, `rust-woman-sick-rest-s`, `rust-woman-sick-rest-e`, `indigo-sick-rest`, `indigo-sick-rest-s`, `indigo-sick-rest-e`, `ochre-sick-rest`, `ochre-sick-rest-s`, `ochre-sick-rest-e`, `blue-girl-sick-rest`, `blue-girl-sick-rest-s`, `blue-girl-sick-rest-e`, `girl-sick-rest`, `girl-sick-rest-s`, `girl-sick-rest-e`, `boy-sick-rest`, `boy-sick-rest-s`, `boy-sick-rest-e`, `smallchild-sick-rest`, `smallchild-sick-rest-s`, `smallchild-sick-rest-e`, `infant-sick`); Astra's replaces it
   - **Deliver:** for each cast figure and the children: `-sick-rest` (lying under a blanket, head on a bundle, 1 frame, `-s` and `-e`), and `infant-sick` (wrapped and lying)
   - **Frames:** 1 frame, south and east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `restingSick` and `grownClip` in `public/motion.js`
   - **Stands in now:** the delivered `-injured-rest` pose, as the hurt are; a sick baby as it is (Astra's library art reused)
-- [ ] **B9** (priority 2) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 5
+- [ ] **B9** (priority 2) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 5 — **Claude stand-in in place** (`icon-child-stick-horse`, `icon-child-doll`, `icon-child-tag`, `icon-child-hide`, `icon-child-cart`, `icon-child-hoop`, `icon-child-marbles`, `icon-child-hens`, `icon-flee-hide`, `icon-flee-bundle`, `icon-road-lookout`, `icon-road-sing`, `icon-road-little-ones`, `icon-camp-fire`, `icon-ferry-help`, `icon-share-food`, `icon-ford-carry`); Astra's replaces it
   - **Deliver:** `icon-child-stick-horse`, `icon-child-doll`, `icon-child-tag`, `icon-child-hide`, `icon-child-cart`, `icon-child-hoop`, `icon-child-marbles`, `icon-child-hens`; the Scrape's `icon-flee-hide`, `icon-flee-bundle`, `icon-road-lookout`, `icon-road-sing`, `icon-road-little-ones`, `icon-camp-fire`, `icon-ferry-help`, `icon-share-food`, `icon-ford-carry` (a child reads as a child; nothing holds an edge or a gun)
   - **Frames:** 17 icons. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
   - **Plugs into:** `PANEL_ICONS` and `LITTLE_GLYPHS` in `public/family-panel.js`
   - **Stands in now:** stroked glyphs drawn in code (drawn in code (canvas or CSS))
-- [ ] **B10** (priority 2) — [Request 2026-09-28 — the oldest child going for help](ART_REQUESTS.md#request-2026-09-28--the-oldest-child-going-for-help), item 1
+- [ ] **B10** (priority 2) — [Request 2026-09-28 — the oldest child going for help](ART_REQUESTS.md#request-2026-09-28--the-oldest-child-going-for-help), item 1 — **Claude stand-in in place** (`icon-child-help`); Astra's replaces it
   - **Deliver:** `icon-child-help` (a child running along a track toward a neighbour's cabin, an arm out)
   - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40% (the request says 48 px; deliver at 128 as the others)
   - **Plugs into:** `PANEL_ICONS['child-help']` in `public/family-panel.js`
   - **Stands in now:** a stroked glyph: a running figure and a house (drawn in code (canvas or CSS))
-- [ ] **B11** (priority 2) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 1 (icon)
+- [ ] **B11** (priority 2) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 1 (icon) — **Claude stand-in in place** (`icon-flee-cow`); Astra's replaces it
   - **Deliver:** `icon-flee-cow` (a child leading the family's milk cow on a rope)
   - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
   - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
@@ -215,7 +215,7 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Plugs into:** the `camp` branch of `draw` and `drawWorks` in `public/battle-view.js`
   - **Stands in now:** the standing idle and seated wounded; `crate`, `sacks`, `barrel`, `packed-belongings` in a line (Astra's library art reused)
   - **Research first:** HIST-TEX-522 (Houston: "packs and baggage, leaving an opening in the centre")
-- [ ] **C5** (priority 2) — [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar), items 1, 3, 4 — **Claude stand-in in place** (`volunteer-loophole-fire`, `regular-loophole-fire`, `volunteer-crowbar`, `volunteer-dig`, `barricade-street`, `sandbag-breastwork`); Astra's replaces it
+- [ ] **C5** (priority 2) — [Request 2026-09-25 — the storming of Béxar](ART_REQUESTS.md#request-2026-09-25--the-storming-of-béxar), items 1, 3, 4 — **Claude stand-in in place** (`volunteer-loophole-fire`, `regular-loophole-fire`, `volunteer-crowbar`, `volunteer-dig`, `volunteer-dig-5`, `volunteer-dig-6`, `barricade-street`, `sandbag-breastwork`); Astra's replaces it
   - **Deliver:** `volunteer-loophole-fire` and `regular-loophole-fire` (the barrel at the wall, the man half hidden, 2-4 frames); `volunteer-crowbar` (4 frames, forcing a door); `volunteer-dig` (a spade in a trench at night); `barricade-street` (ditch, bank, post palisade, gun embrasure); `sandbag-breastwork`
   - **Frames:** 2-4 frames; props 1. **Size:** Battle people: the `volunteer-*`/`regular-*` logical height on the ground anchor, east mirrored for west; Claude: `personFrame` with the volunteer or regular figure; props at `palisade` scale
   - **Plugs into:** `draw` (`cover`), `drawBreaches` in `public/battle-view.js`

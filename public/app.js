@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame, spriteReady } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
 import { actingOf, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -115,6 +115,12 @@ window.__travelSight = travelSeen;
 let ownGrant = null;
 // Where each journey leaves that land and comes back onto it, worked out once a journey rather than once a frame.
 const landRunCache = new Map();
+// The grown-ups drawn this frame and last with a baby in their own arms or on their hip (a `holding` pose drawn: public/motion.js
+// `drawnClipName`), so the baby they hold is not drawn again beside them. Last frame's, because a carried baby is sorted in front
+// of its carrier and drawn first; a single frame after it is picked up it is still drawn beside them.
+let babiesHeldNow = new Set(), babiesHeldLast = new Set();
+// The children's figures, whose own cycle of a piece of work is theirs (`drawAtWork`).
+const CHILD_FIGURES = new Set(['girl', 'boy', 'smallchild']);
 function gaitTime(clip, gait) {
   const key = `${clip}|${gait.stride}`;
   if (!gaits.has(key)) { const found = clipGait(clipInfo(clip), gait.stride); if (!found) return undefined; gaits.set(key, found); }
@@ -349,7 +355,9 @@ function drawAtWork(ctx, binding, clip, x, y, size, entity) {
   let stroke = binding.work;
   // A cycle of the work itself where this figure has one (public/work-art.js `drawnStroke`): `rust-chop` for rust felling.
   if (stroke.drawn && stroke.art !== 'journey' && !entity.strolling) {
-    const own = `${clip.slice(0, clip.length - stroke.pose.length - 1)}-${stroke.drawn.pose}`;
+    // A child's is their own figure's (`boy-shoo`, the one chooser `figureOf`), whatever grown figure the fallback is drawn in.
+    const figure = figureOf(entity, entity.observed);
+    const own = CHILD_FIGURES.has(figure) ? `${figure}-${stroke.drawn.pose}` : `${clip.slice(0, clip.length - stroke.pose.length - 1)}-${stroke.drawn.pose}`;
     if (clipReady(own)) { clip = own; stroke = drawnStroke(stroke); }
   }
   if (stroke.art === 'journey' || entity.strolling) {
@@ -382,6 +390,21 @@ function drawAtWork(ctx, binding, clip, x, y, size, entity) {
   }
   return width;
 }
+/**
+ * The pose a binding asks for beyond the delivered library (public/motion.js `drawnPose`: a child at play, a baby crawling, a
+ * grown-up holding the baby, the sick lying down), as `{ clip, upright }`, once its clip can be drawn for this figure; else null
+ * and the binding's own clip is drawn, the older stand-in. A west-facing clip of its own (the baby's crawl) is taken for somebody
+ * facing west instead of mirroring. Somebody drawn holding a baby is noted, so the baby is not drawn again beside them.
+ * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - area B's poses are Claude-drawn today.
+ */
+function drawnClipOf(binding, clip, entity) {
+  if (!binding?.drawn) return null;
+  const west = Boolean(entity.flip) && Boolean(binding.drawn.west);
+  const name = drawnClipName(binding, clip, west);
+  if (!name || !clipReady(name)) return null;
+  if (binding.drawn.holding && entity.id) babiesHeldNow.add(entity.id);
+  return { clip: name, upright: west || Boolean(binding.drawn.upright) };
+}
 function miniPerson(ctx, x, y, size, entity) {
   // A child is drawn smaller than a grown person, in their own figure or a grown one (public/motion.js `entityClip`).
   if (!entity.side) size *= figureScale(entity);
@@ -391,19 +414,21 @@ function miniPerson(ctx, x, y, size, entity) {
     const clip = binding.id.replace(/^(rust-woman|blue-girl|indigo|ochre|elder|rust|teal|blue)-/, `${cast}-`);
     // The pose each of the family was last drawn in, by id: presentation evidence for the proofs (npm run test:children), read by
     // nothing in the application.
-    if (entity.id) (window.__clipsDrawn ??= {})[entity.id] = clip;
-    if (binding.work) { if (drawAtWork(ctx, binding, clip, x, y, size, entity)) return; }
-    else if (animated(ctx, clip, x, y, size, entity.id, {
-      paused: binding.frozen, flip: binding.upright ? false : entity.flip,
+    const own = drawnClipOf(binding, clip, entity);
+    if (entity.id) (window.__clipsDrawn ??= {})[entity.id] = own?.clip || clip;
+    if (binding.work) { if (drawAtWork(ctx, binding, own?.clip || clip, x, y, size, entity)) return; }
+    else if (animated(ctx, own?.clip || clip, x, y, size, entity.id, {
+      paused: own ? false : binding.frozen, flip: (own ? own.upright : binding.upright) ? false : entity.flip,
       gait: entity.gait, appearance: entity.appearance,
     })) return;
   }
   const binding = entity.side ? { id: `${entity.side === 'mexican' ? 'regular' : 'volunteer'}-idle-e` } : entityClip(entity, entity.observed);
-  if (entity.id && !entity.side) (window.__clipsDrawn ??= {})[entity.id] = binding.id;
-  if (binding.work && drawAtWork(ctx, binding, binding.id, x, y, size, entity)) return;
+  const own = entity.side ? null : drawnClipOf(binding, binding.id, entity);
+  if (entity.id && !entity.side) (window.__clipsDrawn ??= {})[entity.id] = own?.clip || binding.id;
+  if (binding.work && drawAtWork(ctx, binding, own?.clip || binding.id, x, y, size, entity)) return;
   // A north or south cycle is drawn facing that way already; mirroring it would turn a
   // person walking away into a person walking away backwards.
-  if (!binding.work && animated(ctx, binding.id, x, y, size, entity.id || entity.side, { paused: binding.frozen, flip: binding.upright ? false : entity.flip, gait: entity.gait })) return;
+  if (!binding.work && animated(ctx, own?.clip || binding.id, x, y, size, entity.id || entity.side, { paused: own ? false : binding.frozen, flip: (own ? own.upright : binding.upright) ? false : entity.flip, gait: entity.gait })) return;
   const tint = hashOf(entity.id || entity.name || 'person');
   const coat = entity.side === 'mexican' ? '#4a6079' : entity.side === 'texian' ? '#7d5f45'
     // The principal's rust coat marks the one person a student directs, and nobody who is
@@ -1047,10 +1072,12 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
     let done;
     // In their own cast figure where it is drawn (public/battle-view.js `poseOf` `cast`: Claude's `<cast>-fire-reload`, `-load`,
     // `-injured`, `-reclining`; stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "battles: the pieces the engine stands in
-    // for", item 1); the recoloured idle laid down or the hoeing cycle while it loads.
-    const cast = pose.cast || (entity.fallen && 'reclining');
-    const castClip = entity.appearance && cast ? `${avatarVariant(entity.appearance, entity.sex)}-${cast === 'fire-reload' ? cast : `battle-${cast}`}` : null;
-    if (castClip && drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: (pose.timeMs || 0) / 165, working: true, flip: pose.flip, clip: castClip })) done = true;
+    // for", item 1); the recoloured idle laid down or the hoeing cycle while it loads. Chosen as every drawn pose is, by a
+    // binding's `drawn` through `drawnClipOf` (public/motion.js): the hoeing cycle is its fallback, the battle pose the one drawn.
+    const cast = entity.appearance ? pose.cast || (entity.fallen && 'reclining') : null;
+    const variant = cast ? avatarVariant(entity.appearance, entity.sex) : null;
+    const own = cast ? drawnClipOf({ id: `${variant}-work`, drawn: { from: 'work', pose: cast === 'fire-reload' ? cast : `battle-${cast}` } }, `${variant}-work`, entity) : null;
+    if (own && drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: (pose.timeMs || 0) / 165, working: true, flip: pose.flip, clip: own.clip })) done = true;
     else if (entity.appearance && entity.fallen) { recliningAvatar(ctx, x, y, drawnSize, entity); done = true; }
     else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : performance.now() / 165, working: true, flip: pose.flip });
     else done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, drawnSize, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, drawnSize, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
@@ -3326,7 +3353,15 @@ export function drawWorld(world) {
   // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 - a woman with a baby on her hip; until then the infant figure beside her.
   const carriedAt = new Map();
   window.__cowDrawn = null;
+  // A carrier with the baby drawn on the hip in their own frame (`-carry-baby-walk`), and a grown-up holding one to the shoulder
+  // (`-hold-baby`): the baby is drawn in their arms, not again beside them (`babiesHeldLast`, set by `drawnClipOf`).
+  babiesHeldLast = babiesHeldNow; babiesHeldNow = new Set();
+  const carryingBaby = new Set();
+  for (const one of entities) if (one.carriedBy && one.band === 'infant') carryingBaby.add(one.carriedBy);
+  window.__babiesInArms = {};
   for (const entity of [...entities].sort((a, b) => Boolean(a.carriedBy) - Boolean(b.carriedBy))) {
+    const holder = entity.carriedBy || (entity.baby?.state === 'held' ? entity.baby.by : null);
+    if (holder && babiesHeldLast.has(holder)) { window.__babiesInArms[entity.id] = holder; continue; }
     const carrier = entity.carriedBy ? carriedAt.get(entity.carriedBy) : null;
     // Where along the road this traveller is *drawn*, which is not where the server has them while the middle of a long
     // journey is being crossed out of sight (`sightOf`). Worked out before the point, because it is the point.
@@ -3369,7 +3404,8 @@ export function drawWorld(world) {
     // The thing beside somebody at an ambient activity - the fire, the pot, the bucket, the hens, the woodpile (public/ambient.js).
     const beside = inTown?.amb && (!inTown.stepping || inTown.amb.pace) && propItem(ctx, inTown.amb, camera.toScreen(inTown.base || inTown.at), camera.figure, { time: animationTime, flip: inTown.amb.f === 'w' });
     if (beside) standing.push(beside);
-    const shown = inTown ? { ...entity, stepping: inTown.stepping, scenePose: inTown.pose, ...(inTown.amb && { amb: inTown.amb }) } : stepping ? { ...entity, stepping } : carrier ? entity : atTheirWork(entity, world.household?.homeSiteId, frameNow, frozen);
+    const placed = inTown ? { ...entity, stepping: inTown.stepping, scenePose: inTown.pose, ...(inTown.amb && { amb: inTown.amb }) } : stepping ? { ...entity, stepping } : carrier ? entity : atTheirWork(entity, world.household?.homeSiteId, frameNow, frozen);
+    const shown = carryingBaby.has(entity.id) ? { ...placed, carryingBaby: true } : placed;
     standing.push({ y: point.y, draw: () => drawEntity(ctx, shown, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark, entities, workmates: entities,
       labels, heading: destination ? destination.x - entity.location.x : 0, ground, scale: camera.scale,
@@ -4551,7 +4587,7 @@ function renderFamilyPanel(world) {
     setData(row.item, 'sick', String(Boolean(entity.sickness)));
     if (row.sickMark.hidden !== !entity.sickness) {
       row.sickMark.hidden = !entity.sickness;
-      if (entity.sickness) drawIcon(row.sickMark.querySelector('canvas'), 'tend-sick', { drawSprite, spriteFrame });
+      if (entity.sickness) paintSickMark(row.sickMark);
     }
     const badgeLabel = entity.sickness ? sickSays : '';
     if (row.sickMark.title !== badgeLabel) row.sickMark.title = badgeLabel;
@@ -5013,8 +5049,9 @@ function panelRow(id) {
   // mark-need, mark-need-rider, mark-main, mark-idle and mark-auto of the same names replace them when registered.
   const star = panelMark('span', '★', 'panel-star', 'mark-main'), idleMark = panelMark('span', 'idle', 'panel-idle-mark', 'mark-idle');
   // The sick badge (sim/disease.mjs, docs/DISEASE.md §3.10): shown while the server says the person is sick.
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "the sick badge" - the road's nursing picture (`icon-tend-sick`, or its
-  // drawn glyph) in a small disc; Astra's `mark-sick` replaces it when registered.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "the sick badge" - `mark-sick` is Claude-drawn today ("Claude-drawn
+  // stand-ins (replace with Astra's)"); without its sheet, the road's nursing picture (`icon-tend-sick`, or its drawn glyph) in a
+  // small disc. Astra's `mark-sick` replaces Claude's when registered (`paintSickMark`).
   const sickMark = element('span', '', 'panel-sick-mark');
   const sickCanvas = document.createElement('canvas');
   sickCanvas.width = sickCanvas.height = 48;
@@ -5107,6 +5144,13 @@ function panelMark(tag, text, className, mark) {
   node.append(canvas, element('span', text, 'panel-mark-text'));
   paintMark(node, mark);
   return node;
+}
+/** The sick badge: `mark-sick` where it can be drawn (then it is its own round token, `data-drawn`), else the nursing picture. */
+function paintSickMark(node) {
+  const canvas = node.querySelector('canvas');
+  const drawn = drawMark(canvas, 'mark-sick', { drawSprite, spriteFrame });
+  if (!drawn) drawIcon(canvas, 'tend-sick', { drawSprite, spriteFrame });
+  setData(node, 'drawn', String(drawn));
 }
 function paintMark(node, mark) {
   node.dataset.mark = mark;
@@ -5219,6 +5263,7 @@ function repaintFamilyPanel() {
   for (const row of panelRows.values()) {
     row.face = null;
     for (const node of row.item.querySelectorAll('[data-mark]')) paintMark(node, node.dataset.mark);
+    if (!row.sickMark.hidden) paintSickMark(row.sickMark);
     for (const icon of row.icons.querySelectorAll('.panel-icon')) drawIcon(icon.querySelector('canvas'), icon.dataset.key, { drawSprite, spriteFrame });
   }
   if (window.__snapshot) renderFamilyPanel(window.__snapshot.world);

@@ -79,6 +79,7 @@ test('the store buys a family\'s food for coin outside its purse, as it buys cot
   const person = planter(world, household);
   applyAction(world, household.id, { action: 'chore', entityId: person.id, chore: 'sell-food', mode: 'horse' });
   finish(world, person);
-  assert.equal(household.resources.money, 1, `an empty purse stopped the food sale: ${household.resources.money}`);
+  // Seven carried on the horse, six sold at three food a real (owner, 2026-09-28: "1 real for 3 food"): two reales.
+  assert.equal(household.resources.money, 2, `an empty purse stopped the food sale: ${household.resources.money}`);
   assert.equal(marta.purse, 0, 'the food was paid from the purse');
 });

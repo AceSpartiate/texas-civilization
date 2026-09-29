@@ -28,6 +28,17 @@ export function ik(root, target, l1, l2, bend = 1) {
 }
 
 /** The standing skeleton's heights for an identity. */
+/**
+ * A hafted tool held rigidly: `grip` is where the bottom hand holds it (`near`/`far` say which hand is at which place along
+ * the haft), `aim` the point the head is swung toward. The haft is always the tool's own length (TOOLS), so a swing never
+ * stretches or shrinks the handle: the butt sits just below the grip and the head is the length of the haft from it.
+ */
+export function rigidTool(tool) {
+  const L = TOOLS[tool.kind].length, dir = norm(sub(tool.aim, tool.grip)), low = Math.min(tool.near ?? 0.1, tool.far ?? 0.4);
+  const butt = sub(tool.grip, mul(dir, L * low));
+  return { butt, tip: add(butt, mul(dir, L)) };
+}
+
 export function frameOf(figure) {
   const spec = typeof figure === 'string' ? CAST[figure] : figure;
   // A spec may carry its own build (the battle kit's officers and townspeople: scripts/claude-art/battle-kit/figures.mjs).
@@ -70,26 +81,40 @@ function drawSide(ink, F, pose) {
   const t = up(lean), fwd = [Math.cos(deg(lean)), -Math.sin(deg(lean))];
   const N = add(P, mul(t, B.torso));
   const H = add(N, mul(up(lean + tilt), B.neck + B.head * 0.95));
-  const S = add(add(N, mul(t, -3)), mul(fwd, 0.5));
+  // A twist (-1..1, positive turning the chest away from the way the figure faces, as in a wind-up) takes the near shoulder
+  // back and brings the far one forward: in a side view that is the chest turning away and the back coming round.
+  const twist = pose.twist || 0;
+  const S = add(add(N, mul(t, -3)), mul(fwd, 0.5 - twist * B.depth * 0.45));
   const feet = pose.feet || { near: [3, F.ankle], far: [-3, F.ankle] };
   const skirt = spec.lower.kind !== 'trousers';
   const arm = B.upperArm + B.forearm;
   // Hands: on a tool if there is one, else where the pose says, else hanging.
   let hands = pose.hands || {};
+  if (pose.tool && pose.tool.grip) Object.assign(pose.tool, rigidTool(pose.tool));
   if (pose.tool) {
     const { butt, tip } = pose.tool;
     hands = { near: lerp(butt, tip, pose.tool.near ?? 0.12), far: lerp(butt, tip, pose.tool.far ?? 0.4), ...pose.hands };
   }
+  // The top hand slides along the handle toward the bottom one until the arm can reach it, as a hand does through a swing:
+  // it stays on the handle, never beyond the arm's length.
+  if (pose.tool && !pose.hands?.near) {
+    const { butt, tip } = pose.tool, reach = (B.upperArm + B.forearm) * 0.985;
+    let tn = pose.tool.near ?? 0.12;
+    const tf = pose.tool.far ?? 0.4;
+    for (let i = 0; i < 40 && len(sub(lerp(butt, tip, tn), S)) > reach && Math.abs(tn - tf) > 0.02; i++) tn += (tf - tn) * 0.1;
+    hands = { ...hands, near: lerp(butt, tip, tn) };
+  }
   const hang = (dx) => add(S, [dx, -arm * 0.92]);
   const handNear = hands.near || hang(1.5), handFar = hands.far || hang(-1);
-  const shoulderFar = add(S, mul(fwd, -1.2)), hipNear = add(P, mul(fwd, 0.8)), hipFar = add(P, mul(fwd, -0.8));
+  const shoulderFar = add(add(N, mul(t, -3)), mul(fwd, -0.7 + twist * B.depth * 0.45)), hipNear = add(P, mul(fwd, 0.8)), hipFar = add(P, mul(fwd, -0.8));
   const bend = pose.elbows || {};
   const armFar = ik(shoulderFar, handFar, B.upperArm, B.forearm, bend.far ?? -1);
   const armNear = ik(S, handNear, B.upperArm, B.forearm, bend.near ?? -1);
   const legFar = ik(hipFar, feet.far, B.thigh, B.shin, pose.knees?.far ?? 1);
   const legNear = ik(hipNear, feet.near, B.thigh, B.shin, pose.knees?.near ?? 1);
   const far = c => tone(c, -0.18);
-  const joints = { P, N, H, S, handNear: armNear.end, handFar: armFar.end, feet };
+  // What was asked of the hands, beside where the arms put them: a swing's check that both hands stay on the handle.
+  const joints = { P, N, H, S, handNear: armNear.end, handFar: armFar.end, feet, wantNear: handNear, wantFar: handFar, head: pose.tool ? pose.tool.tip : null, knees: [legNear.joint, legFar.joint] };
   // Dress hooks: a spec's `dress` may draw at fixed layers (behind the body, over each leg, over the torso, in front of all)
   // - coat skirts, packs, belts, boots, epaulettes - without the rig knowing what they are (scripts/claude-art/battle-kit/).
   const k6 = B.depth / 6.5, dress = spec.dress || {};
