@@ -1,5 +1,63 @@
 # Claude handoff — Astra foundation
 
+## The character creator's solid-colour tiles — owner, 2026-09-29 (not released)
+
+Branch `looks-solid-tiles`, off origin/main (3dd5209d); not pushed. The owner, on the released v2026.09.29.1: *"multiple choices
+in the character creator screens are just solid colors."* Also from the owner-side check: with Fair hair the father's
+"Moustache" and "Bareheaded" choices were the same young, clean-shaven blond face.
+
+**Reproducing.** Not reproduced with every sheet arriving: v2026.09.28.1, v2026.09.29.1 and the fix all drew every choice as a
+figure, walking title, die, surname, names, both parents' looks (every option of every part picked in turn, 2,590 pictures
+measured) and the family panel - headed Chrome 153 (GPU), headless, `--disable-gpu`, `--use-angle=warp|d3d9|gl|swiftshader`,
+`--disable-accelerated-2d-canvas`, `--force-gpu-rasterization`, `--force-color-profile=display-p3-d65|hdr10|scrgb-linear`,
+`--force-device-scale-factor=1.5`, 1366x768, 1280x800 and 1920x1080, a class and Play Solo. The recolouring
+(`public/person-palette.js`) and `appearanceFrame` never gave a flat tile: the least-drawn choice changed 54% of its card from
+the backdrop, with 1,814 colours (a plain backdrop has 218). **Reproduced exactly by losing one request** for the second cast
+sheet (`people-cast2-idle`, the bareheaded father, the bonnet, headscarf, braid, loose hair and straw hat): every choice drawn
+from it stays the card's plain tan backdrop for as long as the page is open - the whole mother's card but "Hair pinned up",
+and the father's Bareheaded and Moustache. v2026.09.28.1 behaves the same; the weakness is older than the release, and what
+lost the owner's request on the day is not known (a server restart the page lives through - which since v2026.09.29.1's
+`public/reconnect.js` the page survives without a reload - a Wi-Fi roam, or a school filter extension are all enough).
+
+**Cause.** `requestSheet` in `public/art.js` kept a sheet's failed request for the life of the page ("Concurrent calls share
+... including failed requests"): `loadImage` swallowed the error and returned null, `sheetPending` kept that promise, and every
+later ask got the same null. `drawSprite` then drew nothing, and `drawAvatarPortrait` left only its backdrop.
+
+**Fix.** A failed sheet is asked for again, 1, 2, 4, 8, 15 then every 30 seconds (`retrySheet`, `RETRY_SHEET_MS`); between tries
+the failure is still shared, so a map drawing the missing sheet every frame asks once. On arrival `onArtReady` already redraws
+the pop-up. `ceiling:` it retries for the life of the page. **This touches `public/art.js` outside `appearanceFrame`**
+(`requestSheet` and the lines above it, and the import line) - kept to those lines for the concurrent art.js work.
+
+**The moustache.** Not a recolouring fault: `avatarVariant` draws both "Bareheaded" and "Moustache" as her ochre man, the only
+bareheaded man she has painted, and he is clean-shaven (the rust man's near-black beard not taking Fair is the existing
+`ceiling:` in person-palette.js). A stand-in moustache is now painted in the hair colour above the mouth the palette finds, on
+the face's own skin only, in the frames that face the viewer (`paintMoustache`, `MOUSTACHED`, `FACING_US`; `stand-in:` A18,
+row added under *Stand-ins in use*); `appearanceFrame` keys its cache by `paletteKey`, which includes a moustache. "Bareheaded"
+is still the young man until A18's layers let a hat and a beard come off the same man.
+
+**Proof.** `npm run test:looks-face` 12/12 (was 10), three new checks: (1) at 1366x768 every choice of every part picked for
+both parents and after each every picture must be a figure (`figureless`: 25% of the card changed from the plain backdrop,
+300 colours, 1% ink); (2) the father's Moustache picture is not the Bareheaded one; (3) a page whose first request for the
+second cast sheet is lost must draw every choice within 20 seconds. `tests/art-retry.test.mjs` (new): a sheet whose first
+request fails is not asked again at once, then is fetched again, arrives and draws. `tests/person-palette.test.mjs` +1: the
+moustache is on the face's skin only, over the mouth, in the hair colour, and not in profile.
+
+**Injections** (each removed after): the release's `requestSheet` (no retry) - `test:looks-face` fails only check (3), "parent
+1: the first request for the second cast sheet was lost (1 asked) and 20 seconds later these pictures are still plain
+swatches", and `art-retry` fails ("never fetched again ... asked 1 time(s)"); a recolour that fills the figure with one colour
+only for red hair with navy clothes - only check (1) fails ("parent 1, hair "red" picked: these pictures are not a figure"),
+the existing every-swatch check passing it; `appearanceFrame`'s old cache key (no head) - only check (2) fails; no
+`paintMoustache` - only the new palette test fails.
+
+**Screenshots** (`docs/evidence/looks-solid/`, 1366x768): `v2026.09.28.1-lost-sheet-parent-{1,2}.png`,
+`v2026.09.29.1-lost-sheet-parent-{1,2}.png` (the solid tiles) and `fixed-lost-sheet-parent-{1,2}.png` (the same lost request,
+drawn); `proof-lost-sheet-parent-{1,2}.png` from the proof; `<v2026.09.28.1|v2026.09.29.1|fixed>-fair-hair-father-headwear.png`
+and `-preview.png` (the Moustache choice).
+
+**Evidence (same computer; no Chromebook, LAN or classroom claim).** `npm test` 1703 of 1739, 0 failed, 36 skipped.
+`test:looks-face` 12/12, `test:looks` 9/9, `test:creation` 10/10, `test:family-panel` pass. `test:creation-screen` fails on this
+branch and identically on clean origin/main (3dd5209d): it expects the title card to be announced as "Your family" and it
+reads "Who will your family be?" - not touched here.
 ## The empty class pauses itself, any played family can win, the lobby shows who is ready — owner, 2026-09-29 (not released)
 
 Branch `owner-pause-win-lobby`, off origin/main (0ffa9663) with `audit-triage-2026-09-29` merged in; not pushed. The owner's

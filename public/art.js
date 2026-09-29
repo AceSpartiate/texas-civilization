@@ -2,7 +2,7 @@
 // own the clock and the ground position. No function reads or changes simulation state.
 // A missing atlas always returns 0, preserving the caller's procedural fallback.
 const BASE = '/assets/frontier-v1/';
-import { recolourPersonFrame } from './person-palette.js';
+import { recolourPersonFrame, paletteKey } from './person-palette.js';
 // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)". A second, separate library of frames
 // Claude drew for requests Astra has not delivered (scripts/build-claude-standins.mjs). Its sheets carry absolute image
 // paths and every entry `madeBy: "claude"`; a frame of the same name in Astra's atlas always wins, so her delivery
@@ -121,6 +121,23 @@ export const sheetsFirstDrawn = () => drawnSheets.size;
 /** How many sheets are on their way now: the flashback's recorder waits for none before it draws a frame (public/flashback.js). */
 let sheetsLoading = 0;
 export const sheetsInFlight = () => sheetsLoading;
+/**
+ * A sheet that could not be fetched or decoded is asked for again, further apart each time (2026-09-29). Until then the first
+ * failure was kept for the life of the page, so one request lost to a Wi-Fi roam, a server restart the page lived through
+ * (public/reconnect.js) or a filter on a school Chromebook left every picture from that sheet out until a reload: in How We
+ * Look every choice drawn from the second cast sheet was a plain backdrop (the owner, v2026.09.29.1: "multiple choices in the
+ * character creator screens are just solid colors"). Between tries the failure is still shared, so a map drawing the missing
+ * sheet sixty times a second asks once. `ceiling:` it tries for as long as the page is open, one request per sheet every
+ * 30 seconds at most; a sheet the manifest names and the server never has would do better to be dropped after a few tries.
+ */
+const RETRY_SHEET_MS = [1000, 2000, 4000, 8000, 15000, 30000];
+const sheetFailures = new Map();
+function retrySheet(name) {
+  const tries = sheetFailures.get(name) || 0;
+  sheetFailures.set(name, tries + 1);
+  const timer = setTimeout(() => { sheetPending.delete(name); requestSheet(name); }, RETRY_SHEET_MS[Math.min(tries, RETRY_SHEET_MS.length - 1)]);
+  timer?.unref?.(); // in node (the tests) a retry never holds the process open
+}
 function requestSheet(name) {
   if (!art.sheets[name]) return Promise.resolve(null);
   if (!sheetPending.has(name)) {
@@ -132,7 +149,7 @@ function requestSheet(name) {
       const pin = typeof sha256 === 'string' && /^[0-9a-f]{64}$/.test(sha256) ? `?v=${sha256.slice(0, 16)}` : '';
       const image = await loadImage(`${source.startsWith('/') ? source : BASE + source}${pin}`);
       sheetsLoading--;
-      if (image) art.images[name] = image;
+      if (image) { art.images[name] = image; sheetFailures.delete(name); } else retrySheet(name);
       art.status = Object.keys(art.images).length ? 'ready' : 'unavailable';
       notifyReady(name);
       return image;
@@ -166,7 +183,7 @@ export async function loadArt({ all = false, sheets = [] } = {}) {
 const personPaletteCache = new Map();
 const PERSON_PALETTE_LIMIT = 320;
 function appearanceFrame(image, frame, name, appearance) {
-  const key = `${name}:${appearance.skin}|${appearance.hair}|${appearance.clothing}`;
+  const key = `${name}:${paletteKey(appearance)}`;
   if (personPaletteCache.has(key)) {
     const cached = personPaletteCache.get(key);
     personPaletteCache.delete(key); personPaletteCache.set(key, cached);
