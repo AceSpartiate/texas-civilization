@@ -1,6 +1,6 @@
 {
   "record": "bexar-alarm-browser",
-  "date": "2026-09-27",
+  "date": "2026-09-29",
   "browser": "153.0.8010.53",
   "environment": "Same computer: a local classroom server and headless Chrome at 1366x768 (hh-1) and 1024x768 (hh-2), 800 ms a tick. A real class on the colonies map with rolled families, played in process through the first period and into the winter; the father of hh-1 set in the garrison at Béxar in process; hh-2 kept at home. Not physical LAN or district acceptance.",
   "checks": [

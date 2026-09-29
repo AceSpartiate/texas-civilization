@@ -23,7 +23,7 @@ function inject(files, change, testFile) {
   } finally { for (const file of files) writeFileSync(at(file), saved[file]); }
 }
 const json = (text, edit) => { const value = JSON.parse(text); edit(value); return JSON.stringify(value, null, 2) + '\n'; };
-const STANDINS = 'tests/claude-standins.test.mjs', WORK = 'tests/work-art.test.mjs';
+const STANDINS = 'tests/claude-standins.test.mjs', WORK = 'tests/work-art.test.mjs', AREA_A = 'tests/claude-work-poses.test.mjs';
 
 const cases = [
   { guards: 'every Claude frame and clip has its provenance', what: 'rust-chop-3 loses its written intent (the prompt) in the provenance record',
@@ -48,16 +48,27 @@ const cases = [
   { guards: 'each swing holds its wind-up and its strike', what: 'the chop is timed evenly, every frame 200 ms',
     run: () => inject(['scripts/claude-art/kit/poses.mjs'], (file, text) => text.replace('chop: { durations: [380, 110, 90, 300, 150, 170], beat: 3 }', 'chop: { durations: [200, 200, 200, 200, 200, 200], beat: 3 }'), 'tests/claude-rig.test.mjs').filter(name => !/chop clips are/.test(name)) },
   { guards: 'a stroke with a drawn cycle ... the stand-in tool goes', what: 'drawnStroke keeps the stand-in axe over the drawn cycle',
-    run: () => inject(['public/work-art.js'], (file, text) => text.replace('const { tool, motion, drawn, ...rest } = stroke;', 'const { motion, drawn, ...rest } = stroke;'), WORK) },
+    run: () => inject(['public/work-art.js'], (file, text) => text.replace('const { tool, motion, drawn, cycleMs, reach, ...rest } = stroke;', 'const { motion, drawn, cycleMs, reach, ...rest } = stroke;'), WORK) },
+  // Area A (tests/claude-work-poses.test.mjs).
+  { guards: 'area A poses that do not walk keep both feet where they stood', what: 'the notch\'s front foot slides forward on the downswing',
+    run: () => inject(['scripts/claude-art/kit/work-poses.mjs'], (file, text) => text.replace("{ view: 'e', pelvis: P(F, -2, -5), lean: 14, twist: 0.15, feet: stance,", "{ view: 'e', pelvis: P(F, -2, -5), lean: 14, twist: 0.15, feet: { ...stance, near: foot(F, 9) },"), AREA_A) },
+  { guards: 'every hand an area A pose places is reached by its arm', what: 'the whittled stick is put out of the far hand\'s reach',
+    run: () => inject(['scripts/claude-art/kit/work-poses.mjs'], (file, text) => text.replace('const stick = [pt(F, 8, 31), pt(F, 19, 36)];', 'const stick = [pt(F, 38, 31), pt(F, 49, 36)];'), AREA_A) },
+  { guards: 'each ambient activity ... the page asks for it', what: 'the page stops asking for the washing\'s own clip',
+    run: () => inject(['public/motion.js'], (file, text) => text.replace("pipe: 'pipe', cards: 'cards'", "pipe: 'pipe', cards: 'cards', wash: undefined"), AREA_A) },
+  { guards: 'each work effect has its three-frame sheet, drawn in place of the canvas marks', what: 'the dust keeps its canvas puffs and never asks for fx-dust',
+    run: () => inject(['public/work-art.js'], (file, text) => text.replace(", puff: true, sheet: 'fx-dust' }", ', puff: true }'), AREA_A) },
+  { guards: 'the soldiers at rest have their clips', what: 'the Mexican camp has nobody sitting',
+    run: () => inject(['sim/ambient.mjs'], (file, text) => text.replace("  { a: 'sit', f: 'regular', p: 'idle' }, ", '  '), AREA_A) },
 ];
 
 const results = cases.map(c => ({ ...c, failed: c.run() }));
 for (const r of results) console.log(`${r.failed.length ? 'FAILED as it should' : 'DID NOT FAIL'}: ${r.what}\n    -> ${r.failed.join(' | ') || '(nothing)'}`);
-const clean = { standins: failing(STANDINS), work: failing(WORK), rig: failing('tests/claude-rig.test.mjs') };
-console.log(`clean runs: ${clean.standins.length + clean.work.length + clean.rig.length} failing`);
+const clean = { standins: failing(STANDINS), work: failing(WORK), rig: failing('tests/claude-rig.test.mjs'), areaA: failing(AREA_A) };
+console.log(`clean runs: ${clean.standins.length + clean.work.length + clean.rig.length + clean.areaA.length} failing`);
 mkdirSync(at('docs/evidence/claude-art'), { recursive: true });
 writeFileSync(at('docs/evidence/claude-art/injections.json'), JSON.stringify({
   record: 'The Claude stand-in tests proved by injection (scripts/claude-art/injections.mjs)', date: new Date().toISOString().slice(0, 10),
   results: results.map(({ guards, what, failed }) => ({ guards, injected: what, failed })), cleanRunFailures: clean,
 }, null, 2) + '\n');
-if (results.some(r => !r.failed.length) || clean.standins.length || clean.work.length || clean.rig.length) process.exitCode = 1;
+if (results.some(r => !r.failed.length) || clean.standins.length || clean.work.length || clean.rig.length || clean.areaA.length) process.exitCode = 1;

@@ -73,7 +73,7 @@ const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 // The one battle renderer (public/battle-view.js, docs/BATTLES.md §3): drawn with the page's own art, and asked by
 // `drawFigure` which pose a family's own person in the force is in. Declared up here, above the page's first `connect`, so a
 // page opened in the middle of a fight has it (the TDZ guard in tests/app-module.test.mjs).
-const battleView = createBattleView({ animated: (...args) => animated(...args), drawSprite: (...args) => drawSprite(...args), miniPerson: (...args) => miniPerson(...args) });
+const battleView = createBattleView({ animated: (...args) => animated(...args), drawSprite: (...args) => drawSprite(...args), miniPerson: (...args) => miniPerson(...args), clipReady: name => clipReady(name) });
 // Mexican troops after a family on the Scrape (public/chase-view.js, sim/pursuit.mjs), and the family's own route: the stops it
 // is choosing (`routeDraft`), whether a tap on the map adds one (`routePicking`), and the key its editor was last drawn for.
 // Up here with the battle's renderer, above the page's first `connect`, for the same TDZ guard.
@@ -98,6 +98,17 @@ const gaitClock = new GaitClock(), gaits = new Map();
 // People at their work (public/work-art.js): where each stands round a shared piece of work and where in its stroke they are,
 // written into these once a figure rather than made new, and each pose's frame lengths read once from the library.
 const workSlotOut = { x: 0, y: 0, face: null }, workClockOut = { period: 0, since: 0, count: 0, frame: 0 }, workFrames = new Map(), workSeeds = new Map();
+// The work's effect sheets (`fx-*`), drawn by public/work-art.js `drawWorkLayer` through `workEffect`; one options object each
+// way, so a frame makes nothing.
+const EFFECT_EAST = Object.freeze({ flip: false }), EFFECT_WEST = Object.freeze({ flip: true });
+// A tree felled while the page watches goes over once (`tree-fall`, request 2026-09-28 — people at work, item 15): when the
+// felling's own words move on from the felling (as public/audio-cues.js hears the fall), the tree just off the feller's axe
+// falls where they stood, the way they faced. By person: the words last drawn, and a fall under way (where, which way, when).
+// stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)", area A - `tree-fall` is Claude-drawn.
+// ceiling: every felled tree falls as the one hardwood drawing, pine or oak, beside the stump the server puts down; a fall per
+// kind, set on the new stump itself, is the way out if it jars.
+const fellingWords = new Map(), treesFalling = new Map(), TREE_FALL_MS = 1240;
+function workEffect(ctx, name, x, y, height, flip) { return drawSprite(ctx, name, x, y, height, flip ? EFFECT_WEST : EFFECT_EAST); }
 /**
  * What was drawn of each traveller this frame (public/motion.js `travelSight`): how much of them was drawn (1 in view, 0
  * away), where along the road they were drawn, how fast they were drawn going in their own heights a second and what the
@@ -351,14 +362,15 @@ function atTheirWork(entity, homeSiteId, now, frozen) {
   if (drawsAtWork(shown)) shown.strolling = motionProjection.heading(entity, now, frozen);
   return shown;
 }
-/** The work layer's sprite drawer (public/work-art.js `drawWorkLayer`): a frame of the art library on this canvas, made once. */
-let workSpriteCtx = null, workSpriteFn = null;
-function workSprite(ctx) {
-  if (workSpriteCtx !== ctx) { workSpriteCtx = ctx; workSpriteFn = (name, sx, sy, height, options) => drawSprite(ctx, name, sx, sy, height, options); }
-  return workSpriteFn;
-}
 function drawAtWork(ctx, binding, clip, x, y, size, entity) {
   let stroke = binding.work;
+  // The felling's words moving on from the felling: the tree goes over (`treesFalling`).
+  const felling = entity.chore && (entity.chore.id === 'fell-trees' || entity.chore.id === 'fetch-logs') ? entity.chore.doing : null;
+  if (entity.id && felling !== undefined) {
+    const was = fellingWords.get(entity.id);
+    if (was && felling !== was && /fell/i.test(was) && entity.location) treesFalling.set(entity.id, { at: animationTime, where: entity.location, flip: Boolean(entity.flip) });
+    if (felling) fellingWords.set(entity.id, felling); else fellingWords.delete(entity.id);
+  }
   // A cycle of the work itself where this figure has one (public/work-art.js `drawnStroke`): `rust-chop` for rust felling.
   if (stroke.drawn && stroke.art !== 'journey' && !entity.strolling) {
     // A child's is their own figure's (`boy-shoo`, the one chooser `figureOf`), whatever grown figure the fallback is drawn in.
@@ -384,7 +396,7 @@ function drawAtWork(ctx, binding, clip, x, y, size, entity) {
   });
   if (!width) return 0;
   // The cast figure the pose is drawn in (`rust-work` is rust's), whose hands a drawn axe is put in (public/work-art.js `HAFTS`).
-  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still, clip.slice(0, clip.length - stroke.pose.length - 1), workSprite(ctx));
+  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still, clip.slice(0, clip.length - stroke.pose.length - 1), workEffect);
   // Presentation evidence for the proofs (npm run test:work), read by nothing in the application: what each of the family at work
   // was last drawn doing, which frame of it, and how many marks of its tool and effect. One record a person, kept and rewritten.
   if (id) {
@@ -2577,6 +2589,13 @@ function drawGroundDetail(ctx, world, camera) {
       if (stump.left > 0) scattered.push({ tree: pine || soft ? 'log-fallen' : 'log-fallen-hardwood', height: figure * SIZE.stump * .8, point: { x: point.x + figure * .35, y: point.y + figure * .08 }, seed: 0, alpha: treesShown });
     }
     window.__stumpsDrawn = stumps.length;
+    for (const [id, fall] of treesFalling) {
+      const since = animationTime - fall.at;
+      if (since < 0 || since > TREE_FALL_MS) { treesFalling.delete(id); continue; }
+      const point = camera.toScreen(fall.where);
+      scattered.push({ fall: since, flip: fall.flip, height: figure, point: { x: point.x + (fall.flip ? -1 : 1) * figure * .55, y: point.y }, seed: 0, alpha: treesShown });
+      window.__treesFalling = (window.__treesFalling || 0) + 1;
+    }
   } else if (landWoods) window.__stumpsDrawn = 0;
   // Painted back to front, so a tuft in front of a rock overlaps it rather than being cut in half by it.
   scattered.sort((a, b) => a.point.y - b.point.y);
@@ -2615,8 +2634,10 @@ function drawGroundDetail(ctx, world, camera) {
       ctx.stroke();
     }
   };
-  for (const { share, seed, timber, point, tree, standIn = null, height, alpha, ground, lean = 0, gale = false } of scattered) {
-    if (tree) {
+  for (const { share, seed, timber, point, tree, standIn = null, height, alpha, ground, lean = 0, gale = false, fall, flip } of scattered) {
+    if (fall !== undefined) {
+      faded(alpha, () => drawClip(ctx, 'tree-fall', point.x, point.y, height, { timeMs: fall, flip }));
+    } else if (tree) {
       faded(alpha, () => {
         if (gale && GALE_POSES[tree] && drawSprite(ctx, GALE_POSES[tree], point.x, point.y, height)) { galeDrawn++; return; }
         if (drawSprite(ctx, tree, point.x, point.y, height, { lean })) return;

@@ -80,7 +80,7 @@ export function concepcionGround(world) {
  * What stands there that the map does not draw: the river behind the men, the cut bank in front of them, the pecans and
  * cottonwoods of the bottom, and the mission's towers. stand-in: docs/ART_REQUESTS.md, 2026-09-25 "a cut riverbank with steps
  * in it" (Claude's `riverbank-cut-e` laid along the bank, `earth-rampart` without it; *Claude-drawn stand-ins*, area F),
- * "Mission Concepción" (`church-generic`), and the river as a drawn ribbon.
+ * "Mission Concepción" (Claude's `mission-concepcion`, `church-generic` until it loads), and the river as a drawn ribbon.
  */
 function concepcionScenery(ground) {
   const { bend, mission } = ground;
@@ -91,7 +91,8 @@ function concepcionScenery(ground) {
   for (let i = 0; i <= 8; i++) items.push({ sprite: 'riverbank-cut-e', fallback: 'earth-rampart', ...p(0.022, -0.085 + i * 0.021), size: 1.3 });
   const trees = [[-0.05, -0.08], [-0.058, -0.03], [-0.06, 0.02], [-0.052, 0.075], [-0.035, 0.11], [-0.03, -0.12], [-0.065, 0.05]];
   trees.forEach(([dx, dy], i) => items.push({ clip: i % 3 === 1 ? 'mesquite-large-wind' : 'pecan-large-wind', ...p(dx, dy), size: 3.2 }));
-  items.push({ sprite: 'church-generic', x: mission.x, y: mission.y, size: 4.5 });
+  // Claude's `mission-concepcion` (docs/ART_REQUESTS.md, "Claude-drawn stand-ins"), `church-generic` while its sheet loads.
+  items.push({ sprite: 'mission-concepcion', fallback: 'church-generic', x: mission.x, y: mission.y, size: 5, fallbackSize: 4.5 });
   return items;
 }
 

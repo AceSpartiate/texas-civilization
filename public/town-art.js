@@ -2,7 +2,7 @@
 //
 // The same data the server puts the shopkeepers in, so a keeper always stands at a building that is drawn. Streets and
 // squares go on the ground first; buildings are returned as drawables so they sort with the people standing among them.
-import { drawClip, drawSprite } from '/art.js';
+import { drawClip, drawSprite, hasSprite } from '/art.js';
 import { drawRoad } from '/landscape-art.js';
 import { DRAWN_HEIGHT, FEET_PER_MILE, townPoint } from '/town-layouts.js';
 
@@ -58,7 +58,8 @@ function makeTownDrawables(ctx, layout, project, scale, labels) {
         const t = (j + .5) / count, n = pieces.length;
         const p = project(townPoint(layout, { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t }));
         const sprite = wall.breach && wall.breachEvery && n % wall.breachEvery === wall.breachEvery - 1 ? wall.breach : wall.sprite;
-        pieces.push({ y: p.y, draw: () => drawSprite(ctx, sprite, p.x, p.y, wall.height * DRAWN_HEIGHT * pixelsPerFoot) });
+        // The pieces that stood for a drawing of the whole work (Fort Velasco's ring) give way once that drawing is in.
+        pieces.push({ y: p.y, draw: () => (wall.standInFor && hasSprite(wall.standInFor)) || drawSprite(ctx, sprite, p.x, p.y, wall.height * DRAWN_HEIGHT * pixelsPerFoot) });
       }
     }
     return pieces;
@@ -68,6 +69,9 @@ function makeTownDrawables(ctx, layout, project, scale, labels) {
     const label = typeof shop === 'string' ? shop : shop?.label || building.label;
     const sprite = typeof shop === 'object' && shop?.sprite ? shop.sprite : building.sprite;
     return { y: p.y, draw: () => {
+      // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins" - a building's own drawing (`art`, sim/town-layouts.mjs) once
+      // its sheet is in, and the library pieces that stood for it (`standInFor`) then left out; a keeper's trade sprite wins.
+      if (building.standInFor && hasSprite(building.standInFor)) return;
       const height = building.height * DRAWN_HEIGHT * pixelsPerFoot;
       if (sprite === 'shop-stockman') {
         // Living stock are separate from the pen art. Draw them behind its front rail so neither animal is frozen into
@@ -76,7 +80,8 @@ function makeTownDrawables(ctx, layout, project, scale, labels) {
         drawClip(ctx, 'horse-graze', p.x - height * .34, p.y - height * .23, height * .27, { timeMs, seed: `${building.id}-horse` });
         drawClip(ctx, 'cow-graze', p.x + height * .21, p.y - height * .19, height * .23, { timeMs, seed: `${building.id}-cow` });
       }
-      drawSprite(ctx, sprite, p.x, p.y, height);
+      const own = sprite === building.sprite && building.art && drawSprite(ctx, building.art, p.x, p.y, (building.artHeight ?? building.height) * DRAWN_HEIGHT * pixelsPerFoot);
+      if (!own) drawSprite(ctx, sprite, p.x, p.y, height);
       // A keeper's trade shows as soon as the town does, as in Gonzales; a building's own documented name only close in,
       // where the names of a street of buildings no longer sit on top of each other.
       if (label && scale > (labels[building.id] ? 1000 : 2600)) {

@@ -75,7 +75,8 @@ function treeFall(i) {
     }
     return `${head(name, FALL.w, FALL.h, `a felled hardwood going over, frame ${i + 1} of 4`)}  <g>${parts.join('')}</g>\n</svg>\n`;
   });
-  return { svg, anchorX: +(FALL.px / FALL.w).toFixed(4), anchorY: +(FALL.gy / FALL.h).toFixed(4), logicalHeight: astraFrame('post-oak-log').h };
+  // Drawn at a person's height by public/app.js (`treesFalling`), where a -log tree is 1.95 x 0.7 of a person tall.
+  return { svg, anchorX: +(FALL.px / FALL.w).toFixed(4), anchorY: +(FALL.gy / FALL.h).toFixed(4), logicalHeight: Math.round(astraFrame('post-oak-log').h / (1.95 * 0.7)) };
 }
 
 export const SHEETS = {
@@ -83,10 +84,10 @@ export const SHEETS = {
     frames: [{ name: 'live-oak-mott', height: 3.2, compare: [['live-oak-large', 3.2], ['mesquite-large', 3.2]], draw: mott,
       prompt: 'A live-oak mott at Agua Dulce Creek and on the coastal sand plain: four live oaks growing close together in open grass - two at the back set a little up the screen and a shade darker, two in front - over a pool of shade on the grass under their low wide crowns. Astra\'s own live-oak-large and live-oak-log paintings, placed and shaded by Claude, at her scale; transparent ground beyond the shade, no text.' }] },
   'claude-tree-fall': { cell: { w: FALL.w, h: FALL.h }, columns: 2, request: WORK, replaceWith: 'item 15: tree-fall, 4 frames on the stump\'s ground anchor - a hardwood of -log size leaning, going over, down, a last bounce',
-    frames: FALL_POSES.map((pose, i) => ({ name: `tree-fall-${i + 1}`, height: 1.95 * 0.7, compare: [['post-oak-log', 1.95 * 0.7], ['stump-post-oak', 1]], draw: () => treeFall(i),
+    frames: FALL_POSES.map((pose, i) => ({ name: `tree-fall-${i + 1}`, height: 1, compare: [['post-oak-log', 1.95 * 0.7], ['stump-post-oak', 1]], draw: () => treeFall(i),
       prompt: `A felled hardwood going over, frame ${i + 1} of 4 (${['leaning as the hinge gives', 'going over', 'down on the ground, dust thrown up and leaves shaken loose', 'the last bounce as the crown settles'][i]}): Astra's own post-oak-log painting turned about the foot of its trunk and falling away to the right into the scene, the fallen crown foreshortened; the torn pale hinge of the cut at the foot; Claude's dust and leaves. Her scale, anchored at the stump; transparent ground.` })) },
 };
 export const CLIPS = {
-  'tree-fall': { frames: [260, 200, 220, 360].map((duration, i) => ({ sprite: `tree-fall-${i + 1}`, duration })), loop: false, motion: 'none', direction: 'east; west by mirroring',
-    prompt: 'A felled hardwood going over once where it was cut: leaning, going over, down in a cloud of dust, a last bounce.' },
+  'tree-fall': { frames: [520, 240, 160, 320].map((duration, i) => ({ sprite: `tree-fall-${i + 1}`, duration })), loop: false, motion: 'none', direction: 'east; west by mirroring',
+    prompt: 'A felled hardwood going over once where it was cut: leaning (held), going over, down in a cloud of dust, a last bounce; timed as area A timed it with the fall the audio hears.' },
 };
