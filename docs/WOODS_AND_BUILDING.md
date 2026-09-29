@@ -710,6 +710,53 @@ works alongside the first). The panel and auto side is [FAMILY_PANEL.md §21](FA
 second axe (docs/TOWNS.md §4b, amended; FAMILY_PANEL.md §21.6). The house's builders share one copy with the lane and clearing, as
 before, so a family with one axe takes turns, and one feller and one builder on auto still raise the house.
 
+### 6.8 Amended by the owner, 2026-09-29: every family work at half its length
+
+> "Tasks are taking far too long. Cutting down trees, fishing, building a house, all of those types of tasks are taking too long.
+> Reduce the variables need to complete these tasks by 50%"
+>
+> — the owner, 2026-09-29
+
+**Status: built the same day** (`sim/work-pace.mjs`, `tests/work-pace.test.mjs`; claim `FIC-GONZ-907`). **This amends every length of
+work in this document** - §5.1's wait downwind, §6.1's felling, §6.3's spells, §6.6's carreta and §6.7's drag - and the same lengths in
+docs/LAND_GRANTS.md (clearing, fencing), docs/BIOME_GAMEPLAY.md (fencing by the country, fetching logs), docs/BIOMES.md §17.3 (the
+four gathering works) and docs/STOCK.md; those documents keep their numbers as the tables' and this section says how fast they go.
+
+- **One factor, in one place.** `WORK_PACE = 0.5` multiplies the ticks of every step of a family's work after the person's own pace -
+  skill, hidden strength, the water carried, the baby minded - has made them what they are (sim/chores.mjs `advanceChore`, the only two
+  places a work's ticks are set: a `work` step and a tree felled). The fraction is not rounded back up to a whole tick: what is left over
+  is carried into the next work (`over`), as a crew's extra already was, so a job of many steps comes out at exactly half. A step still
+  costs at least the tick it is begun in, so a work of one tick alone is still a tick.
+- **The tables keep their numbers.** A house still wants its spells (a jacal 24, a round-log cabin 40; a pen's sills 2, each course 3 or
+  4), a clearing its 10, 20 or 30, a tree its `FELL_TICKS` and `CARRY_TICKS`, a fence its `FENCE_TICKS` and four a mile, a well six and
+  two a metre, the lane six, sixty or thirty a mile, the carreta twelve, a bedstead eight. **Each spell or tick of them now goes in half
+  the time**: a spell is half an hour of the calendar, not an hour. That is why nothing saved moves (§7).
+- **What a work makes is unchanged**: the logs a tree gives, the catch, the kill, the crop, the rails, the furniture. So is what it
+  takes (logs off the pile, seed, powder, a hide), the walk out and back, the roads, the helpers' diminishing returns (sim/hands.mjs:
+  1, 1.8, 2.4, 2.8, and a fifth refused) and the rain's hold on a roof or daubing.
+- **Which works**: felling and fetching logs; the house and the neighbours' raising; clearing, fencing, the lane, the well and
+  surveying; planting and the harvest (and carrying it in by hand); the hunt (reading the ground, working in, the wait downwind and the
+  wait for the close shot); practice at the mark; small game, fishing, oysters and the bee tree; killing a beef or a hog and riding the
+  range; furniture, the carreta and mending the hoe. **Not halved**, deliberately: the time at a counter in town (every errand), the
+  war's and the winter's choices (enlisting, the garrison, the relief, the vote), the camp's work in the army, the road's and the
+  flight's chores (the Scrape keeps its timings), nursing the sick, and a child's jobs and play (they make nothing, and a small child's
+  day is docs/CHILDREN.md §12's). The crops' real minutes are not work and are unchanged (corn four, cotton six, a third of the pace in
+  the winter).
+- **The words follow.** Everything the page says in hours is worked out from the same factor (`workHours`): the house chooser (a
+  round-log cabin *"About 20 hours of one person's work"*, was 40), the land line (*"12 of 20 hours of work done"*), the plot's next
+  stage (*"about 1 hour's work"*), the whole plan, a fence (*"Rails split from the timber at hand: about 1.5 hours."*, was 3), the four
+  gathering works (fishing *"1 hour"*, was 2; small game *"half an hour"*), a piece of furniture (*"About 1.5 hours of work."*, where it
+  said "8 spells"), the carreta (about 2 hours, was 4), a wagon load of logs, and a neighbour's hours at a raising. The chore
+  descriptions that say "a day's work", "half a day" or "an afternoon" were never counted hours and are left as the period's words; the
+  hunt's *"three more hours"* for the close shot was an hour before this and is half of one now, and is left as it was (flagged).
+- `ceiling:` one factor for every family work. If a class finds one work now too quick against the war's first news, that work's own
+  table is where to lengthen it again, not this number.
+
+**Before and after, one ordinary hand** (skill two, no hidden strength, water at hand), the work only, in ticks and in real minutes
+at the Study pace (9.5 s a tick; HANDOFF.md has the whole table): a tree 2-4 ticks → 1-2; fishing 6 (57 s) → 3 (28 s); a jacal on the
+invented country 72 ticks (11.4 min) → 36 (5.7 min); a round-log cabin 120 (19 min) → 60 (9.5 min), on the plot 102 (16 min) → 51 (8
+min) before its two-handed courses; ten acres of timber cleared 90 (14.3 min) → 45 (7.1 min).
+
 ## 7. Old saves
 
 A class saved before this has no `woods`, no log pile and its house as `{ layout, work }`. It keeps exactly that: its
@@ -736,6 +783,12 @@ stands where it was placed and is drawn half a cell longer, exactly as a dog-run
 ground may reach about 75 feet of the map past what it was placed for. **No save version moved**: no field is added or read
 another way. `ceiling:` a free-built plot with no half cell to spare either side of an old passage is left as it was and its
 class does not open; no plan is one, and the grid has not been offered since the plans became the whole choice.
+
+**Amended 2026-09-29: work at half its length (§6.8).** Nothing saved is counted in time: a house's `work` and a piece's `progress`
+are spells, a plot's `work` is spells, and those are the same spells they were, so every class opens with its house and clearings as
+far along as they were and the rest of each goes at the new pace. Somebody saved **in the middle of a step** keeps the ticks that step
+had left (`chore.wait`), at the old length, and every step after it is halved; at most one step of one work per person is the old
+length. **No save version moved**: no field is added or read another way.
 
 ---
 

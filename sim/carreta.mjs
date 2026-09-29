@@ -41,12 +41,16 @@ import { choosing } from './homesite.mjs';
 import { countsTrees, woodsRule } from './woods.mjs';
 import { CARRETA_CARRY, MODES, propertyId } from './travel.mjs';
 import { CARRETA_SPACE, CART_SPACE, WAGON_SPACE } from './wagon.mjs';
+import { hoursSaid, workHours } from './work-pace.mjs';
 
 /** Logs a carreta takes from the pile: two wheels from one, the axle and the frame from two more (`FIC-GONZ-398`). */
 export const CARRETA_LOGS = 3;
 /** Hides it takes, for the rawhide lashings (`FIC-GONZ-398`; Smithwick p. 47: "Rawhide entered into the construction of pretty much everything"). */
 export const CARRETA_HIDES = 1;
-/** Ticks of an ordinary hand's work to make one: four hours of 1835, a little more than a piece of furniture's (`FIC-GONZ-398`). */
+/**
+ * Ticks of an ordinary hand's work to make one, before the family's pace: four hours of 1835, a little more than a piece of
+ * furniture's (`FIC-GONZ-398`), and two since the owner halved every family work on 2026-09-29 (sim/work-pace.mjs).
+ */
 export const CARRETA_TICKS = 12;
 /** The logs it takes, poorest first: a wheel and an axle do not want wall timber. */
 const LOG_ORDER = Object.freeze(['poor', 'sill', 'wall']);
@@ -108,7 +112,7 @@ registerChores({
     name: 'Make a carreta', skill: 'hands', where: 'home', heavy: true, carreta: true, crew: 'join',
     offered: world => carretaOffered(world),
     refusal: (world, household, entity) => carretaRefusal(world, household, entity),
-    describe: `Make an ox cart at home: two solid wheels cut from a log, an axle and a frame from two more, lashed with rawhide. It wants the felling axe, ${CARRETA_LOGS} logs from the pile and a hide, and takes about ${Math.round(CARRETA_TICKS / 3)} hours. An ox draws it; it carries ${CARRETA_CARRY} loads to a wagon's ${MODES.wagon.carry}, holds ${CARRETA_SPACE} to a cart's ${CART_SPACE} and a wagon's ${WAGON_SPACE} when the family has to leave, and seats two beside its driver.`,
+    describe: `Make an ox cart at home: two solid wheels cut from a log, an axle and a frame from two more, lashed with rawhide. It wants the felling axe, ${CARRETA_LOGS} logs from the pile and a hide, and takes about ${hoursSaid(workHours(CARRETA_TICKS))}. An ox draws it; it carries ${CARRETA_CARRY} loads to a wagon's ${MODES.wagon.carry}, holds ${CARRETA_SPACE} to a cart's ${CART_SPACE} and a wagon's ${WAGON_SPACE} when the family has to leave, and seats two beside its driver.`,
     steps: [
       { walk: 'yard', doing: 'laying out the logs for a carreta' },
       { work: CARRETA_TICKS, doing: 'cutting wheels from a log and shaping the axle' },

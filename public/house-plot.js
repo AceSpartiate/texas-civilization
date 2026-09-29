@@ -30,7 +30,7 @@ export function nextLine(house, logs) {
   const asks = wants.logs.wall || wants.logs.sill || wants.logs.any;
   const sound = (logs?.wall || 0) + (logs?.sill || 0), poor = logs?.poor || 0, lying = logs?.lying || 0;
   const have = `${sound} sound${poor ? ` and ${poor} poor` : ''} at the house${lying ? `, ${lying} lying out` : ''}`;
-  return `Next: ${house.stage}. It wants ${asks ? `${logWords(wants.logs)} logs and ` : ''}about ${wants.hours} hours\u2019 work; ${have}.`;
+  return `Next: ${house.stage}. It wants ${asks ? `${logWords(wants.logs)} logs and ` : ''}about ${wants.hours <= 0.5 ? 'half an hour\u2019s' : `${wants.hours} ${wants.hours === 1 ? 'hour\u2019s' : 'hours\u2019'}`} work; ${have}.`;
 }
 
 /** Whether this family plans its house on the plot. */

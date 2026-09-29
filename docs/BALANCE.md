@@ -13,6 +13,9 @@ The rule it measures is `docs/MONEY_AND_GLORY.md` §5 and §8 (*winning without 
 > corn ever planted cotton**, so "selling for coin" meant selling food, and "cotton made no difference" measured nothing. The record
 > in [evidence/balance-measure.json](evidence/balance-measure.json) is now the re-measure; the first is in git (commit 363fb33).
 >
+> **Every family work at half its length (2026-09-29, not released): §15** - a quick look of 30 classes, not the 210; winners
+> up by about a quarter to a half, coin by about a sixth. The record is still §14's run.
+>
 > **A third of the pace in the winter, a real for three food (2026-09-28, not released): §14** (winners at about 40,000 / 63,000 /
 > 105,000). The record is now that run.
 >
@@ -1000,3 +1003,42 @@ four bales' eight reales at three food a real, and food and cotton are the same 
 corn stays what is beyond three weeks of eating. The 210 classes were not run again for this: nothing is limited before the third
 period, and a town's food want after it moves from 32 to 24 food a family; `tests/market.test.mjs` holds the curve (120 food in a
 town of five, 30 reales), proved by injection.
+
+## 15. Every family work at half its length (2026-09-29, not released)
+
+The owner, 2026-09-29: *"Tasks are taking far too long. Cutting down trees, fishing, building a house, all of those types of tasks
+are taking too long. Reduce the variables need to complete these tasks by 50%"*. Built on `work-halved` off origin/main (af25547a):
+`sim/work-pace.mjs` `WORK_PACE = 0.5`, applied to every tick of a family's own work (felling, the house, clearing, fencing, the
+lane, the well, surveying, planting, the harvest, the hunt, the gathering works, the stock, furniture, the carreta, the hoe), and not
+to a counter in town, the war's, the road's, the camp's, nursing or a child's work (docs/WOODS_AND_BUILDING.md §6.8,
+`FIC-GONZ-907`). The crops' real minutes, the market, the roads and the war's timings are unchanged.
+
+### 15.1 A quick look, not the 210
+
+The same 30 classes (10 each of five, fifteen and thirty families; `--sizes 5,15,30 --classes 10,10,10`), run on this tree with the
+old pace put back (`WORK_PACE = 1`) and with the new one. **Not re-recorded**: [evidence/balance-measure.json](evidence/balance-measure.json)
+is still §14's 210 classes; ten classes a size is a look at the direction, and the winners' medians of ten move a good deal by chance.
+
+| | old pace | **half the work** |
+| --- | --- | --- |
+| Class winner, median: five / fifteen / thirty | 19,456 / 54,216 / 107,548 | **30,912 / 75,607 / 132,618** |
+| Median final of every family: five / fifteen / thirty | 1,212 / 956 / 1,600 | **1,536 / 1,879 / 2,208** |
+| Mean coin at the end: five / fifteen / thirty | 141.8 / 151.6 / 148.5 | **163.3 / 182.3 / 176.6** |
+| Plots cleared, mean a family: five / fifteen / thirty | 1.50 / 1.95 / 2.07 | **1.70 / 2.11 / 2.26** |
+| Deaths (500 families) | 55 | 57 |
+| Share of the spread within a class explained by the family's choices | 0.377 | 0.397 |
+
+- **More gets done, and it is worth more at the end**: a family clears about a tenth more ground, sells more, and ends with about a
+  sixth more coin; the winners are up by about a quarter to a half. The war is the same war (deaths 55 and 57).
+- **Choices count a little more** (0.38 → 0.40 of the spread within a class), the family's die a little less (0.10 → 0.07): the
+  time a work takes was part of what the die decided.
+- `server/class-days.mjs`: **not moved by this.** A period ends on its calendar moments, and work never holds the calendar (a work's
+  question holds only its person, `sim/clock.mjs` `deciding`); a class's ticks are the war's. Its high end was already flagged as
+  pessimistic by the real-time limits (HANDOFF.md).
+
+### 15.2 Re-running it
+
+```
+node scripts/balance-measure.mjs --sizes 5,15,30 --classes 10,10,10 --workers 10 --out <file>   # this look, about 30 minutes
+```
+The old pace is `WORK_PACE = 1` in `sim/work-pace.mjs`, nothing else.

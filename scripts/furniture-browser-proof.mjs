@@ -85,7 +85,7 @@ try {
   observed.options = options;
   assert.deepEqual(options.map(o => o.option), ['bedstead', 'table', 'benches', 'shelves', 'cradle', 'leave']);
   // A piece the family can make says what it does and what it costs; one it cannot says why not.
-  for (const o of options.filter(o => o.option !== 'leave')) assert.match(o.note, o.disabled ? /wants|already/ : /spells of work/, `${o.option} says neither what it costs nor why not: "${o.note}"`);
+  for (const o of options.filter(o => o.option !== 'leave')) assert.match(o.note, o.disabled ? /wants|already/ : /About (half an hour|\d+ minutes|[\d.]+ hours?) of work/, `${o.option} says neither what it costs nor why not: "${o.note}"`);
   assert.ok(options.some(o => o.option !== 'leave' && !o.disabled), 'nothing could be made');
   ok(`the work asks which piece, and each says what it does: ${options.map(o => `${o.label} (${o.note})`).join('; ')}`);
 

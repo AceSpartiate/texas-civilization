@@ -1,5 +1,106 @@
 # Claude handoff — Astra foundation
 
+## Every family work at half its length — owner, 2026-09-29 (not released)
+
+Branch `work-halved`, off origin/main (af25547a); not pushed. The owner, verbatim: *"Tasks are taking far too long. Cutting down
+trees, fishing, building a house, all of those types of tasks are taking too long. Reduce the variables need to complete these tasks
+by 50%"*. Claim `FIC-GONZ-907` (**a concurrent branch may have taken 907 too; renumber at the merge if so**).
+
+- **One place: `sim/work-pace.mjs` `WORK_PACE = 0.5`.** sim/chores.mjs `advanceChore` sets a work's ticks in exactly two places (a
+  `work` step, and a tree in `fell`); both now multiply by `workPaceOf(chore)` after the person's own pace (skill, strength, water,
+  the baby). The fraction is not rounded back up: what is over is carried into the next work (`over`), so a job of many steps comes
+  out at exactly half; a step still costs at least the tick it begins in. **Chosen over editing each table** because the tables are
+  counts that saves hold (a house's spells, a plot's spells, a piece's progress): halving the counts would have made old saves
+  invalid (`Invalid house`, `Invalid clearing`) or finished houses without roofs. So every table keeps its number and each tick of it
+  goes in half the time; a spell is half an hour of the calendar.
+- **Which works** (`familyWork`): home or neighbour work that is not the war's, the winter's, the flight's, the road's, the camp's, a
+  child's or nursing, and no counter in town. Halved: fell-trees, fetch-logs, build-house, help-raise, clear-plot, fence-plot,
+  cut-lane, dig-well, survey-plot, plant-field, harvest-field (and by hand), hunt-land, hunt-timber, practise-shooting, the four
+  gathering works, butcher-beef, butcher-hog, look-to-stock, make-furniture, make-carreta, mend-hoe. **Deliberately left**: every
+  errand's time at the counter (visit-shop, buy-furniture, sell-cotton, fetch-seed/-powder, sell-food, replace-hoe), enlisting, the
+  garrison, the relief, Matamoros, Houston, the vote, the camp's drill/forage/guard/scout, the road's and the flight's chores
+  (hunt-road, fish-road, tend-sick, rest-road and the rest), nurse-home, and every child's job and play (they make nothing; a small
+  child's day is CHILDREN §12's, decided the same day). `tests/work-pace.test.mjs` pins both lists.
+- **Unchanged**: what each work makes and takes, the walks and roads, the helpers' curve and "a fifth is told there's no room"
+  (sim/hands.mjs), the rain's holds, crop growth (corn 4, cotton 6 real minutes, a third in the winter), the store's limits, travel
+  speeds and the war's timings.
+- **The words follow** (`workHours`, `hoursSaid`): the house chooser (round-log *"About 20 hours"*, was 40), the land line (the
+  server now sends `house.hours: [done, total]`; `public/app.js` reads it, one line), the plot's next stage and whole plan
+  (`public/house-plot.js` says *"about 1 hour's work"*, one line), fences, the gathering works' cost line and `forageFacts.hours`,
+  furniture (*"About 40 minutes of work."* where it said "4 spells"), the carreta (about 2 hours), a wagon load of logs, and a
+  neighbour's hours at a raising (sim/neighbourly.mjs). The dog-run's *"A family alone will be hard put to finish it before any
+  news comes"* is no longer true (a family of four has it up by about tick 58, the news is at 84) and now says *"three times a
+  round-log cabin's"*. **Left as prose**: "a day's work" (beef), "half a day" (hog), "an afternoon" (the mark, the bee tree) and the
+  hunt's *"three more hours"* for the close shot (it was an hour, is half of one; `tests/hunting.test.mjs` and its injections pin the
+  words) - flagged, not changed.
+- **Old saves: no `saveVersion` move.** Nothing saved is counted in time; spells are spells. Somebody saved in the middle of a step
+  keeps that step's stored `chore.wait` at the old length, and every step after it is halved (WOODS §7).
+- `ceiling:` one factor for every family work; a work that proves too quick against the news gets its own table lengthened, not this.
+  Found in passing: on a work of one step, a crew's pace past one tick of work a tick is lost at the step's end (`workFor`'s
+  `Math.max(0.0001, ...)`), so four hands at a two-tick fence gain less than the curve says - true before, and more visible with
+  shorter steps. Not changed.
+
+**Before and after, one ordinary hand** (skill two, no hidden strength, water at hand), the work only (walks, roads and the shot's
+tick unchanged). Ticks at the farming day's 20 minutes; real minutes at Study, 9.5 s a tick:
+
+| Task | before ticks | before min | after ticks | after min |
+| --- | --- | --- | --- | --- |
+| Fell a tree: pole / log tree / large (kind 1.0; felling and the drag) | 2 / 3 / 4 | 0.3 / 0.5 / 0.6 | 1 / 1.5 / 2 | 0.2 / 0.2 / 0.3 |
+| Fetch a wagon load of logs (felling and loading; the wagon's road unchanged) | 6 | 0.9 | 3 | 0.5 |
+| Raise a jacal / round-log / hewn-log / dog-run, invented country (24/40/64/120 spells) | 72 / 120 / 192 / 360 | 11.4 / 19.0 / 30.4 / 57.0 | 36 / 60 / 96 / 180 | 5.7 / 9.5 / 15.2 / 28.5 |
+| Raise a plan on the plot: jacal / round-log / hewn-log / saddlebag / dog-run (14/34/44/67/74 spells; two-handed courses a third with one hand, as before) | 42 / 102 / 132 / 201 / 222 | 6.7 / 16.1 / 20.9 / 31.8 / 35.1 | 21 / 51 / 66 / 100.5 / 111 | 3.3 / 8.1 / 10.4 / 15.9 / 17.6 |
+| Clear ten acres: prairie / brush / timber (10/20/30 spells) | 30 / 60 / 90 | 4.8 / 9.5 / 14.3 | 15 / 30 / 45 | 2.4 / 4.8 / 7.1 |
+| Fence ten acres (rails at hand, mesquite, pile; +4 a mile carried → +2) | 8 | 1.3 | 4 | 0.6 |
+| Dig a well (6, +2 a metre → 3, +1) | 6 + 2/m | 0.9 + | 3 + 1/m | 0.5 + |
+| Cut a mile of lane: open / brush / timber | 6 / 30 / 60 | 0.9 / 4.8 / 9.5 | 3 / 15 / 30 | 0.5 / 2.4 / 4.8 |
+| Survey ten acres (the staking) | 2 | 0.3 | 1 | 0.2 |
+| Plant the field (rows 4, seed 3) | 7 | 1.1 | 3.5 | 0.6 |
+| Bring in the crop (+6 by hand → +3) | 6 | 0.9 | 3 | 0.5 |
+| Hunt: edge, deep, still on the best ground (still to 5x on poor ground; +3 → +1.5 to wait for the close shot) | 3 | 0.5 | 1.5 | 0.2 |
+| Practise at the mark | 5 | 0.8 | 2.5 | 0.4 |
+| Take small game | 3 | 0.5 | 1.5 | 0.2 |
+| Fish the creek / gather oysters / cut a bee tree | 6 | 0.9 | 3 | 0.5 |
+| Kill a beef / kill a hog / ride the range | 6 / 4 / 6 | 0.9 / 0.6 / 0.9 | 3 / 2 / 3 | 0.5 / 0.3 / 0.5 |
+| Make a bedstead / table / benches / shelves / cradle (+2 → +1 for a small tree from the timber) | 8 / 6 / 3 / 3 / 4 | 1.3 / 0.9 / 0.5 / 0.5 / 0.6 | 4 / 3 / 1.5 / 1.5 / 2 | 0.6 / 0.5 / 0.2 / 0.2 / 0.3 |
+| Make a carreta | 12 | 1.9 | 6 | 0.9 |
+| Mend the hoe | 4 | 0.6 | 2 | 0.3 |
+
+Measured, not only worked out: one ordinary hand raised a jacal on the invented country in 37 ticks (36 of work and the walk;
+72 before); fishing spent 3 ticks at the water (6); eight trees took half their summed felling ticks, within a tick; a family of four
+had a dog-run up at tick 58 (past 60 before); a round-log's walls with a neighbour helping 14 ticks against 17 alone for this seed's
+skilled builder (the test now uses ordinary hands).
+
+**`server/class-days.mjs` - flagged, not re-measured, and not expected to move.** Its periods end on the calendar's moments and a
+work never holds the calendar (`sim/clock.mjs deciding` holds only a person for a work's question), so a class's ticks are the war's,
+not the work's. Its high end was already pessimistic after the real-time limits (below); re-measure both with the audit's mix.
+
+**Evidence** (same computer only; no Chromebook, LAN or classroom claim).
+
+- **New `tests/work-pace.test.mjs`, 4 tests**: fishing (3 ticks at the water, the same catch, *"1 hour"*), felling (eight trees, half
+  their ticks within one, every log on the pile), a jacal by one ordinary hand (36-38 ticks, 24 spells, chooser 12 hours), and the
+  halved and whole lists. **Injections, each removed after**: `WORK_PACE = 1` - the three timing tests fail, the list passes;
+  `familyWork` always true - the list fails alone; the pace left off `fell` - felling fails alone; left off a `work` step - fishing
+  and the jacal fail.
+- **Tests updated deliberately** (each now names the halving): `afoot` (by hand +3 ticks, not +6), `biome-game` (fence words may be
+  "1.5 hours"), `clearing` (timber alone at least 45 ticks, not 90), `improvements` (prairie at least 15, not 30), `homesite` (a
+  well at least its ticks x 0.7 x 0.5), `house-plot` (the sills *"about 1 hour's work"*), `houses` (the dog-run past tick 30 and
+  before the news at 84, where it was past 60), `raising` (ordinary hands; with help still under 0.8 of alone), and
+  `scripts/furniture-browser-proof.mjs` (the note says its minutes or hours of work).
+- `npm test` (first run, before the test updates): 1754 tests, 1710 pass, 8 fail (the eight above), 36 skipped. **Final run:
+  1754 tests, 1718 pass, 0 fail, 36 skipped** (the suspended tutorial).
+- Browser proofs green: `test:work`, `test:farm`, `test:hunt`, `test:family-panel`, `test:whole-game` (13 checks; the game ends on
+  the road home at minute 302400, 1997 ticks), `test:furniture` (5; *"About 40 minutes of work."*), `test:auto` (passes alone; its one
+  failure was run beside `test:whole-game`: a parent called aside by an idle child as the hunt was sent). **`test:solo-game` fails at
+  a different late step on each run, at the old pace (`WORK_PACE = 1`) as at the new** - its solo deal is a different family each
+  time; known flaky, not caused here. No house-plot browser proof exists (the house-plot node tests are green). Evidence files the
+  proofs rewrote are not committed.
+- Balance: a 30-class quick look, old pace against new (docs/BALANCE.md §15): winners' medians 19,456 / 54,216 / 107,548 →
+  30,912 / 75,607 / 132,618 at five / fifteen / thirty; coin about a sixth more; plots cleared about a tenth more; deaths 55 → 57.
+  The 210-class record was not re-run.
+
+**Docs**: WOODS_AND_BUILDING §6.8 (new) and §7, BALANCE §15, GAME.md (a paragraph, the gathering hours, a fence's words),
+SETTLING_IN's dog-run row, HISTORY `FIC-GONZ-907`.
+
 ## Small children until the day ends; follow and watch — owner, 2026-09-29 (not released)
 
 Branch `owner-children-watch`, off origin/main (1859f219, which has `audit-triage-2026-09-29` in it); not pushed. The owner's answers
