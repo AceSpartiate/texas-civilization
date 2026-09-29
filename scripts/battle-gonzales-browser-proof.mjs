@@ -180,12 +180,12 @@ try {
   ok(`the Come and Take It flag is on the screen at all ${firing.length} moments of the fighting, and the men shout its words`);
   const inForce = await fighter.evaluate(id => ({ members: window.__battleView?.members, clips: window.__battleView?.memberClips, drawn: window.__drawnAt?.[id], texian: window.__snapshot.world.battle?.sides.find(side => side.side === 'texian'),
     appearance: Boolean((window.__snapshot.world.entities || []).find(one => one.id === id)?.appearance), cast: [...(window.__memberCastDrawn?.[id] || [])] }), personId);
-  // A person with a chosen appearance fires and loads in their own cast figure (Claude's `<cast>-fire-reload`, docs/ART_REQUESTS.md
-  // area C), not in the volunteer's; without one, as a volunteer.
-  if (inForce.appearance) assert.ok(inForce.cast.some(clip => /-fire-reload$/.test(clip)), `the family's person with an appearance never fired in their own cast figure: ${JSON.stringify(inForce.cast)}`);
+  // A person fires and loads as Astra's volunteer, appearance or not: Claude's `<cast>-fire-reload` (docs/ART_REQUESTS.md area C)
+  // is a Claude drawing of her cast figure, held back while hers is in the library (owner, 2026-09-29: her art wins by subject).
+  assert.deepEqual(inForce.cast, [], `the family's person was drawn in Claude's cast figure, not Astra's volunteer: ${JSON.stringify(inForce.cast)}`);
   assert.ok(inForce.members?.includes(personId) && inForce.drawn, `the family's person was not drawn in the force: ${JSON.stringify(inForce)}`);
   assert.ok(inForce.clips.includes('volunteer-fire-reload'), `the family's person never fired: ${JSON.stringify(inForce.clips)}`);
-  ok(`the family's own person ${personId} is drawn in the Texian force in its poses: ${inForce.clips.join(', ')}${inForce.appearance ? `; in their own cast figure: ${inForce.cast.join(', ')}` : ' (no appearance chosen: the volunteer figure)'}`);
+  ok(`the family's own person ${personId} is drawn in the Texian force in its poses: ${inForce.clips.join(', ')}${inForce.appearance ? '; an appearance chosen, still Astra\'s volunteer' : ' (no appearance chosen)'}`);
   const frames = moments.map(one => one.view?.frameMs?.p95).filter(Number.isFinite);
   evidence.frameMs = { battleP95Max: Math.max(...frames), mapDrawMs: moments.map(one => one.frame).filter(Number.isFinite) };
   ok(`the battle draws in ${Math.max(...frames).toFixed(1)} ms at its slowest 95th percentile, of a map frame of ${Math.max(...evidence.frameMs.mapDrawMs).toFixed(1)} ms at most`);

@@ -3378,7 +3378,8 @@ function drawWorldNow(world) {
       // logs (`wood-pile-1`..`-4`), a pile for every ten or part of ten, up to four.
       // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - the wood pile is Claude-drawn (request
       // 2026-09-28 — people at work, item 16); Astra's `wood-pile-*` of the same names replace it. Until its sheet has arrived
-      // the pile is the older stand-in, `log-fallen` laid side by side.
+      // the pile is the older stand-in, `log-fallen` laid side by side - and while her `log-fallen` is in the library the Claude
+      // pile is held back and her logs are drawn (owner, 2026-09-29, public/art-subjects.js: her art wins by subject).
       const piled = theirs ? theirs.logs || 0 : ownLand && world.land?.logs ? world.land.logs.wall + world.land.logs.sill + world.land.logs.poor : 0;
       const pile = Math.min(4, Math.ceil(piled / 10));
       if (pile && spriteReady(`wood-pile-${pile}`)) {
@@ -3391,7 +3392,11 @@ function drawWorldNow(world) {
         } });
       } else for (let i = 0; i < pile; i++) {
         const x = q.x - yard * (.9 + i * .06), y = q.y + yard * (.28 + i * .07);
-        standing.push({ y, draw: () => drawSprite(ctx, 'log-fallen', x, y, camera.figure * SIZE.logPile) });
+        standing.push({ y, draw: () => {
+          const width = drawSprite(ctx, 'log-fallen', x, y, camera.figure * SIZE.logPile);
+          // Where the row was drawn, for the proofs (npm run test:work): the whole row, from its first log.
+          if (ownLand && i === 0) window.__woodPileAt = { x, y, width: width * 1.6, height: camera.figure * SIZE.logPile };
+        } });
       }
       if (ownLand) { window.__logPileDrawn = pile; window.__woodPileSprite = pile && spriteReady(`wood-pile-${pile}`) ? `wood-pile-${pile}` : null; }
       // Own land only: these grazing animals illustrate the projected stock choice; the herd is not an entity yet.

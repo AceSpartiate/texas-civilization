@@ -217,6 +217,9 @@ try {
     // a cycle of the work itself, `-chop` and `-notch` since 2026-09-28 (Claude-drawn, all eight) - that cycle, with its own axe
     // and the chips.
     const ownCycle = seen.workClips.length > 0 && seen.workClips.every(clip => /-(chop|notch)$/.test(clip));
+    // Claude's `-chop`/`-notch` are of Astra's cast figures, so they are held back (owner, 2026-09-29: her art wins by subject):
+    // her figure at the hoe with the drawn axe, until her own felling cycle lands under that name.
+    assert.ok(!seen.workClips.some(clip => /-(chop|notch)$/.test(clip)), `${one.name} on the house is drawn in Claude's ${seen.workClips}, not Astra's figure`);
     assert.ok(seen.clips.every(clip => /-work$/.test(clip)), `${one.name} on the house is drawn in ${seen.clips}`);
     if (ownCycle) assert.ok(seen.arts.every(art => art === 'drawn') && seen.marks.some(n => n > 0), `${one.name} felling in ${seen.workClips}: art ${seen.arts}, the chips ${seen.marks}`);
     else assert.ok(seen.tools.length === 1 && ['axe', 'maul'].includes(seen.tools[0]) && seen.marks.every(n => n >= 2), `${one.name} on the house has no drawn axe in hand (the owner, 2026-09-28): tools ${seen.tools}, marks ${seen.marks}`);
@@ -278,6 +281,8 @@ try {
   // `-stake` (Claude-drawn, 2026-09-28) stepping through its frames.
   // (The sheet arrives while it is watched, so the first samples may still be the stand-in.)
   const drawnShot = shooter.workClips.some(clip => /-fire$/.test(clip));
+  // Claude's `-fire` and `-stake` are of Astra's cast figures: held back while hers are drawn (owner, 2026-09-29).
+  assert.ok(!drawnShot && !pacer.workClips.some(clip => /-stake$/.test(clip)), `Claude's cycle drawn for Astra's figure: ${shooter.workClips} / ${pacer.workClips}`);
   if (drawnShot) assert.ok(shooter.arts.includes('drawn') && shooter.marks.some(n => n > 1) && shooter.marks.includes(0) && shooter.frames.length >= 2, `at the mark in ${shooter.workClips}: frames ${shooter.frames}, smoke ${shooter.marks}`);
   else assert.ok(shooter.clips.every(clip => /-idle-e$/.test(clip)) && shooter.marks.some(n => n > 1) && shooter.marks.includes(1), `at the mark: rifle ${shooter.clips}, smoke ${shooter.marks}`);
   const drawnStake = pacer.workClips.some(clip => /-stake$/.test(clip));
@@ -288,13 +293,14 @@ try {
   ok(`at the mark ${marksman.name} is drawn ${drawnShot ? `in ${shooter.workClips} (frames ${shooter.frames.join('/')})` : 'with the rifle up'} and a puff of smoke once a cycle (marks ${shooter.marks.join('/')}); surveying, ${surveyor.name} ${drawnStake ? `drives the stakes in ${pacer.workClips} (frames ${pacer.frames.join('/')})` : `paces the ground to and fro (${pacer.shifts.length} places, turning both ways)`}`);
   // 4. The wood pile by the house (request 2026-09-28, item 16; Claude-drawn `wood-pile-1`..`-4` since 2026-09-28). A class of
   // its own, made with thirty-five logs on the family's pile (the server hands a proof a copy of its state, so the pile is set
-  // when the class is made, as scripts/means-browser-proof.mjs sets its logs): drawn as the one sprite of a forty-log pile,
-  // not four fallen logs in a row.
+  // when the class is made, as scripts/means-browser-proof.mjs sets its logs): drawn as Astra's `log-fallen`, four in a row, a
+  // pile for every ten - never Claude's pile sprite while her logs are in the library (owner, 2026-09-29: her art wins by subject,
+  // public/art-subjects.js).
   const piled = await classroom({ seed: 'work-proof-pile', tickMs: 1000, viewport: { width: 1366, height: 768 },
     worldFactory: seed => { const made = createGonzalesWorld(seed, 5); made.households['hh-1'].logs = { wall: 28, sill: 4, poor: 3 }; return made; } });
   const pileFamily = await piled.page.evaluate(() => window.__snapshot.world.entities.filter(one => one.kind === 'person').map(one => one.id));
   await watch(piled.page, pileFamily[0]);
-  await piled.page.waitForFunction(() => window.__logPileDrawn === 4 && window.__woodPileSprite === 'wood-pile-4', null, { timeout: 30000 })
+  await piled.page.waitForFunction(() => window.__logPileDrawn === 4 && window.__woodPileSprite === null && window.__woodPileAt, null, { timeout: 30000 })
     .catch(async error => { console.log('DEBUG', JSON.stringify(await piled.page.evaluate(() => ({ pile: window.__logPileDrawn, sprite: window.__woodPileSprite, logs: window.__snapshot.world.land?.logs })))); throw error; });
   observed.woodPile = await piled.page.evaluate(() => ({ drawn: window.__logPileDrawn, sprite: window.__woodPileSprite, logs: window.__snapshot.world.land?.logs }));
   await zoomTo(piled.page, pileFamily[0], 60);
@@ -317,7 +323,7 @@ try {
   observed.woodPile.box = pileBox;
   await piled.page.screenshot({ path: 'docs/evidence/work-wood-pile-close.png', clip: pileBox });
   shots.push('docs/evidence/work-wood-pile-close.png');
-  ok(`thirty-five logs on the pile are drawn as ${observed.woodPile.sprite}, one sprite (projected ${JSON.stringify(observed.woodPile.logs)})`);
+  ok(`thirty-five logs on the pile are drawn as Astra's logs, ${observed.woodPile.drawn} in a row, not Claude's pile (${observed.woodPile.sprite}; projected ${JSON.stringify(observed.woodPile.logs)})`);
   await piled.app.close();
   assert.deepEqual(errors, [], `a page threw: ${errors.join(' | ')}`);
   ok('no page errors');
