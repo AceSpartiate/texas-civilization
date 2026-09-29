@@ -58,11 +58,14 @@ export async function proofSheet(page, figure, path) {
     x += gap;
   });
   if (!['smallchild', 'infant'].includes(figure)) {
+    // Mounted, drawn as the game draws a rider (1.8 of a person), beside Astra's own mounted frame where she has one.
+    y += row * 1.2;
     const horse = mountedFrame(`${figure}-proof-ride`, figure, 0);
-    parts.push(claudeFrameHtml(horse, x + 40, y, H * 1.8));
-    parts.push(`<div style="position:absolute;left:${x - 10}px;top:${y + 12}px;width:100px;text-align:center;font:11px Georgia;color:#3a2a1a">mounted 1</div>`);
+    if (atlas.frames[`${figure}-ride-e-1`]) { parts.push(astraFrameHtml(`${figure}-ride-e-1`, 70 + H * 0.9, y, H * 1.8)); parts.push(`<div style="position:absolute;left:40px;top:${y + 12}px;font:11px Georgia;color:#3a2a1a">Astra: ${figure}-ride-e-1</div>`); }
+    parts.push(claudeFrameHtml(horse, start + H * 1.6, y, H * 1.8));
+    parts.push(`<div style="position:absolute;left:${start + H}px;top:${y + 12}px;font:11px Georgia;color:#3a2a1a">Claude: mounted, walking 1</div>`);
   }
-  const width = start + perRow * gap + 120, height = y + 60;
+  const width = start + perRow * gap + 120, height = y + 70;
   const html = `<!doctype html><meta charset="utf-8"><body style="margin:0;background:#d9cda8"><svg width="0" height="0" style="position:absolute">${SHARED}</svg>${parts.join('')}</body>`;
   await shoot(page, html, width, height, path, { transparent: false });
 }

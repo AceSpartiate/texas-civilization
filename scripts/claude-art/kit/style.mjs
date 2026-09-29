@@ -100,19 +100,19 @@ export const PALETTE = Object.freeze({
  */
 const rgb = ([r, gg, b]) => '#' + [r, gg, b].map(v => v.toString(16).padStart(2, '0')).join('');
 export const CAST = Object.freeze({
-  rust: { sex: 'm', age: 'adult', skin: rgb([218, 157, 96]), hair: rgb([64, 45, 32]), hat: { kind: 'brim', colour: '#ae7e4b', band: '#5b321a' },
+  rust: { sex: 'm', age: 'adult', skin: rgb([218, 157, 96]), hair: rgb([64, 45, 32]), hairStyle: 'curly', beardStyle: 'full', hat: { kind: 'brim', colour: '#ae7e4b', band: '#5b321a' },
     beard: rgb([64, 45, 32]), shirt: rgb([151, 76, 48]), kerchief: '#2a2622', braces: '#bc8d50', lower: { kind: 'trousers', colour: '#a07a4c' }, feet: '#4b2e1a' },
   teal: { sex: 'f', age: 'adult', skin: rgb([185, 112, 61]), hair: rgb([64, 47, 37]), hairStyle: 'bun', shirt: rgb([78, 126, 123]), shirtShade: '#53675f',
     apron: '#e8c8a5', lower: { kind: 'skirt', colour: '#b57828' }, feet: '#4a301b' },
-  elder: { sex: 'm', age: 'elder', skin: rgb([113, 75, 50]), hair: rgb([181, 177, 160]), hat: { kind: 'brim', colour: '#a97b4a', band: '#5a321a' },
+  elder: { sex: 'm', age: 'elder', skin: rgb([113, 75, 50]), hair: rgb([181, 177, 160]), hairStyle: 'short', beardStyle: 'bushy', hat: { kind: 'brim', colour: '#a97b4a', band: '#5a321a' },
     beard: rgb([181, 177, 160]), shirt: '#e4c29d', waistcoat: '#574b27', lower: { kind: 'trousers', colour: '#5f4028' }, feet: '#543722' },
   blue: { sex: 'm', age: 'youth', skin: rgb([224, 155, 98]), hair: rgb([67, 45, 32]), hairStyle: 'tousled', shirt: rgb([73, 106, 135]), braces: '#a36b3d',
     lower: { kind: 'trousers', colour: '#a97f4f', rolled: true }, feet: '#573822' },
-  'rust-woman': { sex: 'f', age: 'adult', skin: rgb([211, 133, 77]), hair: rgb([61, 44, 35]), hat: { kind: 'bonnet', colour: '#ebd2a8' },
+  'rust-woman': { sex: 'f', age: 'adult', skin: rgb([211, 133, 77]), hair: rgb([61, 44, 35]), hairStyle: 'bun', hat: { kind: 'bonnet', colour: '#ebd2a8' },
     shirt: rgb([156, 75, 51]), bow: '#f3e0c0', apron: '#f4d2ac', lower: { kind: 'skirt', colour: '#c77930' }, feet: '#512a12' },
   indigo: { sex: 'f', age: 'adult', skin: rgb([210, 137, 81]), hair: rgb([65, 47, 39]), hairStyle: 'bun', shirt: rgb([71, 102, 132]), dress: true,
     kerchief: '#f0dcbc', lower: { kind: 'skirt', colour: rgb([71, 102, 132]) }, feet: '#5c361c' },
-  ochre: { sex: 'm', age: 'adult', skin: rgb([224, 151, 90]), hair: rgb([73, 51, 36]), hairStyle: 'short', shirt: '#d6852d', waistcoat: '#4c2e1a',
+  ochre: { sex: 'm', age: 'adult', skin: rgb([224, 151, 90]), hair: rgb([73, 51, 36]), hairStyle: 'swept', shirt: '#d6852d', waistcoat: '#4c2e1a',
     lower: { kind: 'trousers', colour: '#755843' }, feet: '#57321b' },
   'blue-girl': { sex: 'f', age: 'youth', skin: rgb([222, 151, 96]), hair: rgb([67, 46, 35]), hairStyle: 'braid', shirt: rgb([70, 103, 134]), dress: true,
     apron: '#f6d6b3', lower: { kind: 'skirt', colour: rgb([70, 103, 134]) }, feet: '#59341c' },
@@ -122,7 +122,7 @@ export const CAST = Object.freeze({
     lower: { kind: 'trousers', colour: '#754a2b', rolled: true }, feet: null },
   // The baby (Astra's `infant`: swaddled in cream, a little dark hair) - lying, sitting up or crawling, never standing.
   infant: { sex: 'x', age: 'infant', skin: '#e8b890', hair: '#452916', shirt: '#f3e3c4', lower: { kind: 'gown', colour: '#f3e3c4' }, feet: null },
-  smallchild: { sex: 'x', age: 'small', skin: '#e47a36', hair: '#452916', hairStyle: 'tousled', shirt: '#f6d4aa', dress: true,
+  smallchild: { sex: 'x', age: 'small', skin: '#e47a36', hair: '#452916', hairStyle: 'mop', shirt: '#f6d4aa', dress: true,
     lower: { kind: 'gown', colour: '#f6d4aa' }, feet: null },
   // Generic figures for the battles and the towns. Colours from the military atlas's volunteer and regular (the Texian in his
   // own frontier clothes; the Mexican line infantryman of 1836 in a dark blue coatee with red facings and a white crossbelt,
@@ -137,17 +137,23 @@ export const CAST = Object.freeze({
     shirt: '#efe2c6', coat: '#5b4a3a', sash: '#9a3a2a', lower: { kind: 'trousers', colour: '#4a3e34' }, feet: '#3a2616' },
 });
 
-/** Proportions by age, in rig units (a grown figure 100 from the ground to the top of the hat; the head big, as hers are). */
+/**
+ * Proportions by age, in rig units (a grown figure 100 from the ground to the top of the hat). Fitted on a grid to Astra's own
+ * frames (2026-09-28 quality pass): rust, teal and rust-woman idle, walk and work; elder, blue; girl, boy, smallchild. A grown
+ * figure's head is about 23 units crown to chin (21-22 walking and working, 24-28 standing idle), its chin at ~64, the shoulder
+ * line ~60, the waist ~41-47, the knee ~22 and the ankle ~7; a woman's skirt starts high, at ~51. Children's heads are a third
+ * of their height (girl and boy 33, the small child 39). `hand` is a fist's radius as a share of the limb's.
+ */
 export const BUILD = Object.freeze({
-  adult: { head: 16, neck: 1.5, torso: 23, hipW: 22, shoulderW: 29, depth: 11, thigh: 17.5, shin: 15.5, foot: 9, upperArm: 12.5, forearm: 11.5, limb: 9.4, body: 1 },
-  elder: { head: 16, neck: 1, torso: 23, hipW: 23, shoulderW: 29, depth: 10.5, thigh: 17.5, shin: 15.5, foot: 9, upperArm: 12.5, forearm: 11.5, limb: 9.8, body: 1.04 },
-  youth: { head: 16.5, neck: 1.5, torso: 22, hipW: 19, shoulderW: 25, depth: 8.5, thigh: 18, shin: 16.5, foot: 8.5, upperArm: 12, forearm: 11.5, limb: 8.4, body: 1 },
+  adult: { head: 11.5, neck: 2, torso: 23, hipW: 22, shoulderW: 32, depth: 11, thigh: 18.3, shin: 17.5, foot: 10, upperArm: 13.5, forearm: 12.5, limb: 9.2, hand: 0.72, body: 1 },
+  elder: { head: 11.5, neck: 1.5, torso: 23, hipW: 23, shoulderW: 32, depth: 12, thigh: 18.3, shin: 17.5, foot: 10, upperArm: 13.5, forearm: 12.5, limb: 9.6, hand: 0.72, body: 1.04 },
+  youth: { head: 15, neck: 1.5, torso: 22, hipW: 19, shoulderW: 27, depth: 9, thigh: 18, shin: 17.5, foot: 9, upperArm: 13, forearm: 12, limb: 8.4, hand: 0.74, body: 1 },
   // The military atlases (`military`, `military-motion`, `military-actions`) draw soldiers longer in the leg and smaller in
   // the head than the family cast - nearer seven heads than four - so a soldier has his own build.
-  soldier: { head: 10.5, neck: 2, torso: 26, hipW: 16, shoulderW: 22, depth: 8.5, thigh: 22, shin: 21, foot: 8, upperArm: 15, forearm: 14, limb: 7.2, body: 1 },
+  soldier: { head: 10.5, neck: 2, torso: 26, hipW: 16, shoulderW: 24, depth: 8.5, thigh: 22, shin: 21, foot: 8.5, upperArm: 15, forearm: 14, limb: 7.2, hand: 0.72, body: 1 },
   // Children are drawn to fill the cell as a grown figure does (the renderer shrinks them by age: request 2026-09-12, the
   // delivery contract), with a child's proportions: a bigger head and shorter limbs.
-  child: { head: 20, neck: 1, torso: 21, hipW: 19, shoulderW: 23, depth: 9, thigh: 15.5, shin: 14.5, foot: 8, upperArm: 11, forearm: 10, limb: 9, body: 1 },
+  child: { head: 16.5, neck: 1, torso: 22, hipW: 19, shoulderW: 24, depth: 9, thigh: 16, shin: 15, foot: 8, upperArm: 11.5, forearm: 10.5, limb: 8.6, hand: 0.76, body: 1 },
   infant: { head: 17, neck: 0, torso: 16, hipW: 18, shoulderW: 18, depth: 10, thigh: 9, shin: 8, foot: 6, upperArm: 7, forearm: 7, limb: 9, body: 1 },
-  small: { head: 23, neck: 0.5, torso: 20, hipW: 20, shoulderW: 22, depth: 9.5, thigh: 13.5, shin: 12.5, foot: 8, upperArm: 10, forearm: 9, limb: 9.5, body: 1 },
+  small: { head: 19.5, neck: 0.5, torso: 22, hipW: 21, shoulderW: 24, depth: 10, thigh: 15, shin: 14, foot: 8, upperArm: 11, forearm: 10, limb: 9.2, hand: 0.78, body: 1 },
 });

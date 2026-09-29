@@ -37,8 +37,11 @@ Each line of the brief, and what enforces it:
 | Register every frame and clip; record prompt and provenance | `npm run build:standins` writes the manifest and [claude-art-provenance.json](claude-art-provenance.json) (made by Claude, the date, the written intent, the source SVG, "temporary"); the test fails on anything missing. |
 | Check it beside existing art at play size | `node scripts/claude-art/compare.mjs` draws every Claude frame beside the Astra frames it stands for, with the game's own sprite arithmetic, on the map's grass at a person 40, 77 and 150 px (docs/evidence/claude-art/compare-*.png); `npm run test:work` shows it in a real class. |
 
-**Where it falls short, honestly.** At play size (a person about 40 px) the rig's figures read as the same people as hers -
-the principal's rust shirt and brim hat, the elder's grey beard and olive waistcoat, a woman's apron and skirt - and they stand
-the same height on the same ground. From a close zoom they are plainly another, simpler hand: rounder limbs of even width,
-one flat shade where she paints form and texture, stiffer poses with less weight in them, and smaller, simpler faces. That is
-why every Claude frame stays on Astra's list after it lands.
+**Where it falls short, honestly.** After the quality pass of 2026-09-28 (proportions measured on a grid against her
+rust, teal, rust-woman, elder, blue, girl, boy and small child frames and her mounted cast; swings following her hoe frames),
+at play size (a person about 40 px) the rig's figures read as the same people as hers - the principal's rust shirt, beard and
+brim hat, the elder's grey beard and olive waistcoat, a woman's bonnet, apron and high-waisted skirt - at the same height on
+the same ground, and the work reads as work. From a close zoom they are plainly another, simpler hand: limbs of even width with
+no folds, one flat shade where she paints form and texture, stiffer joints and less weight than her poses, small plain faces,
+arms that pass in front of the body where hers turn three-quarter, and a horse with straight tapered legs and a plank of a body
+beside her muscled one. That is why every Claude frame stays on Astra's list after it lands.

@@ -33,8 +33,19 @@ worked example; parallel builders draw the rest area by area.
   ART_REQUESTS row or a plan item, on stale merged files or plan, and on a `stand-in:` comment in public/ or sim/ that names
   nothing on Astra's list (103 found, all named). `tests/work-art.test.mjs` checks the drawn cycle. All proved by injection:
   `npm run test:claude-art` (docs/evidence/claude-art/injections.json, 7 injections, each failing only its test).
+- **Quality pass (coordinator, same day).** Proportions measured on a grid against her frames and fitted
+  (`BUILD` in `kit/style.mjs`): a grown head ~23 units crown to chin (was ~32), shoulders ~60, hips 39, longer legs, smaller
+  fists, wider shoulders; children's heads a third of their height; soldiers their own longer build. Heads, hair and beards per
+  figure moved into `kit/head.mjs` (rust's curly hair and full beard, the elder's bushy grey beard, curly locks and a bun, the
+  sunbonnet's wide round brim, braids, the small child's mop). Skirts start high and stand out in a bell; a riding skirt drapes to
+  the stirrup. Swings follow her hoe frames (raised behind the head, a bend at the waist and knees, the stroke landing low), and
+  raised arms no longer cross the face. The horse was refitted to her mounted frames (1.8 of a person: saddle ~95, head ~130,
+  rump -68 to chest +62) and the rider is drawn at her riders' 1.3 size. Before-and-after: `docs/evidence/claude-art/before/`
+  beside `compare-chop.png`, `rig-rust.png`, `rig-rust-woman.png`.
 - **Honest limit.** At a person 40 px the rig reads as the same person as hers by silhouette, costume and colour, at the same
-  height on the same foot line; at 150 px it is plainly a simpler hand (even limbs, one flat shade, stiffer poses, small faces).
+  height on the same foot line, and the work reads as work; at 150 px it is plainly a simpler hand (even limbs with no folds, one
+  flat shade, stiffer joints, small plain faces, arms in front of the body where hers turn three-quarter, a horse with straight
+  tapered legs).
 
 ## Slower in the winter, and corn ten food a plot — owner, 2026-09-28 (branch `scrape-market`, `integration-2026-09-28` 4f529cbb merged; not released)
 

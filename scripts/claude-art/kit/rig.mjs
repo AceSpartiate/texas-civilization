@@ -13,6 +13,7 @@
 import { BUILD, CAST, LINE, PALETTE, PEOPLE, UNIT, tone } from './style.mjs';
 import { Ink, add, sub, mul, norm, perp, lerp, len, capsule, blob, curve, poly, ellipse, up, down, deg, frameSvg, f2 } from './svg.mjs';
 import { drawTool, TOOLS } from './props.mjs';
+import { drawHeadSide, drawHeadFrontal } from './head.mjs';
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
@@ -92,16 +93,22 @@ function drawSide(ink, F, pose) {
   // Back to front: a tool held behind the body, the far arm, the far leg, the torso and skirt, the near leg, the head, the
   // near arm, a tool in front.
   if (pose.tool && pose.tool.behind) drawTool(ink, pose.tool.kind, pose.tool.butt, pose.tool.tip, { side: pose.tool.side ?? 1 });
-  if (spec.hairStyle === 'braid' || spec.hairStyle === 'braids') braidSide(ink, spec, H, B, lean);
   drawArm(ink, spec, B, shoulderFar, armFar, far, true);
   drawLeg(ink, spec, B, hipFar, legFar, feet.far, far, skirt);
-  if (skirt) drawSkirtSide(ink, spec, B, P, t, fwd, feet, legNear, legFar, true);
+  if (skirt) drawSkirtSide(ink, spec, B, P, t, fwd, feet, legNear, legFar, true, pose);
   drawLeg(ink, spec, B, hipNear, legNear, feet.near, c => c, skirt);
   drawTorsoSide(ink, spec, B, P, N, t, fwd, lean);
-  if (skirt) drawSkirtSide(ink, spec, B, P, t, fwd, feet, legNear, legFar, false);
+  if (skirt) drawSkirtSide(ink, spec, B, P, t, fwd, feet, legNear, legFar, false, pose);
+  // Arms raised in front of the face pass beside the head, as in her three-quarter work frames, not across it: then the
+  // near arm and its tool are drawn before the head. Raised behind the head, they are drawn over its back as usual.
+  const raised = armNear.end[1] > S[1] + B.head * 0.6 && armNear.end[0] > H[0] - B.head * 0.4;
+  const nearArm = () => {
+    if (pose.tool && !pose.tool.behind && !pose.tool.front) drawTool(ink, pose.tool.kind, pose.tool.butt, pose.tool.tip, { side: pose.tool.side ?? 1 });
+    drawArm(ink, spec, B, S, armNear, c => c, false);
+  };
+  if (raised) nearArm();
   drawHeadSide(ink, spec, B, H, N, lean + tilt, pose);
-  if (pose.tool && !pose.tool.behind && !pose.tool.front) drawTool(ink, pose.tool.kind, pose.tool.butt, pose.tool.tip, { side: pose.tool.side ?? 1 });
-  drawArm(ink, spec, B, S, armNear, c => c, false);
+  if (!raised) nearArm();
   if (pose.tool && pose.tool.front) drawTool(ink, pose.tool.kind, pose.tool.butt, pose.tool.tip, { side: pose.tool.side ?? 1 });
   if (pose.after) pose.after(ink, joints);
   return joints;
@@ -115,7 +122,7 @@ function drawArm(ink, spec, B, S, chain, shade, isFar) {
   ink.shape(capsule(E, W, r * 0.8, r * 0.7), forearm, { off: 0.6 });
   ink.shape(capsule(S, E, r * 1.05, r * 0.9), sleeve, { off: 0.7 });
   if (rolled(spec)) ink.shape(ellipse(E, r * 1.0, r * 0.75, Math.atan2(E[1] - S[1], E[0] - S[0]) * 180 / Math.PI), sleeve, { shade: false, outline: LINE.inner + 0.8 });
-  ink.shape(ellipse(W, r * 0.85, r * 0.8), shade(skinOf(spec)), { off: 0.4 });
+  ink.shape(ellipse(W, r * (B.hand ?? 0.85), r * (B.hand ?? 0.85) * 0.94), shade(skinOf(spec)), { off: 0.4 });
 }
 
 function drawLeg(ink, spec, B, hip, chain, foot, shade, skirt) {
@@ -154,103 +161,43 @@ function drawTorsoSide(ink, spec, B, P, N, t, fwd, lean) {
   if (spec.bow) ink.shape(ellipse(at(5.4, T * 0.9), 2, 1.4), spec.bow, { shade: false, outline: LINE.inner });
 }
 
-function drawSkirtSide(ink, spec, B, P, t, fwd, feet, legNear, legFar, back) {
+function drawSkirtSide(ink, spec, B, P, t, fwd, feet, legNear, legFar, back, pose = {}) {
   const k = B.depth / 6.5, at = (u, v) => add(add(P, mul(fwd, u * k)), mul(t, v));
+  // Her skirts start high - at about half the torso above the hip (teal's and rust-woman's apron strings at ~51 of 100) - and
+  // stand out in a wide bell to a hem just above the shoes; a small child's gown hangs from the chest.
+  const top = spec.lower.kind === 'gown' ? B.torso * 0.72 : B.torso * 0.5;
   const knees = [legNear.joint, legFar.joint];
-  // Seated (a rider, somebody on a stump): the skirt lies over the thighs to the knees and hangs from there.
-  const seated = Math.max(...knees.map(K => K[1])) > P[1] - B.thigh * 0.45;
-  const spread = spec.lower.short ? 14 : 19;
+  const seated = pose.riding || Math.max(...knees.map(K => K[1])) > P[1] - B.thigh * 0.45;
+  const spread = (spec.lower.short ? 15 : 21) * (B.hipW / 22);
   const xs = [feet.near[0], feet.far[0], ...knees.map(K => K[0])];
-  let hem = spec.lower.short ? 13 : spec.lower.kind === 'gown' ? 8 : 6.5;
-  let front = Math.max(Math.max(...xs) + 7, P[0] + spread), rear = Math.min(Math.min(...xs) - 7, P[0] - spread - 2);
+  let hem = spec.lower.short ? 12 : spec.lower.kind === 'gown' ? 7 : 5.5;
+  let front = Math.max(Math.max(...xs) + 8, P[0] + spread), rear = Math.min(Math.min(...xs) - 8, P[0] - spread - 2);
+  const K = knees[0][0] > knees[1][0] ? knees[0] : knees[1];
   if (seated) {
-    const K = knees[0][0] > knees[1][0] ? knees[0] : knees[1];
-    hem = Math.max(K[1] - B.shin * 0.7, 2);
-    front = K[0] + 6; rear = P[0] - B.depth * 1.1;
+    // Over the thighs to the knee and hanging from there: on a horse, down its side to about the stirrup.
+    const foot = Math.min(feet.near[1], feet.far[1]);
+    hem = pose.riding ? foot + 9 : Math.max(K[1] - B.shin * 0.7, 2);
+    front = K[0] + 7; rear = P[0] - B.depth * 1.15;
   }
   const mid = (rear + front) / 2;
   if (back) {
-    // The back of the skirt, seen past the legs: only its far edge.
-    ink.shape(blob([at(-6.4, 4), [rear - 1, hem + 2], [mid, hem - 0.5], at(0, 3.5)], 0.7), tone(spec.lower.colour, -0.25), { off: 1 });
+    ink.shape(blob([at(-6.2, top), [rear - 1, hem + 2], [mid, hem - 0.5], at(0, top - 1)], 0.7), tone(spec.lower.colour, -0.25), { off: 1 });
     return;
   }
   const pts = seated
-    ? [at(-6.4, 4.5), [rear, P[1] - 3], [rear + 2, hem], [front, hem], [front + 1, knees[0][1] + 2], at(6.6, 4.5)]
-    : [at(-6.4, 4.5), [rear + 3, (P[1] + hem) / 2], [rear, hem + 1], [mid, hem - 1.4], [front, hem + 0.5], [front - 3, (P[1] + hem) / 2], at(6.6, 4.5), at(0, 6)];
+    ? [at(-6.4, top), [rear, P[1] - 3], [rear + 3, hem + 2], [mid, hem - 1], [front, hem + 1], [front + 1, K[1] + 3], at(6.8, top)]
+    : [at(-6.6, top), [rear + 4, (P[1] + hem) / 2], [rear, hem + 1], [mid, hem - 1.6], [front, hem + 0.5], [front - 4, (P[1] + hem) / 2], at(6.8, top), at(0, top + 1)];
   ink.shape(blob(pts, 0.75), spec.lower.colour, { off: 1.8, lift: true });
-  ink.line(curve([[rear + 4, hem + 1], [mid - 3, (P[1] + hem) / 2], at(-1, 4)], 1), { width: LINE.fine, opacity: 0.55 });
-  ink.line(curve([[mid + 4, hem], [mid + 2, (P[1] + hem) / 2], at(3, 4)], 1), { width: LINE.fine, opacity: 0.45 });
+  ink.line(curve([[rear + 5, hem + 1], [mid - 4, (P[1] + hem) / 2], at(-1.5, top)], 1), { width: LINE.fine, opacity: 0.55 });
+  ink.line(curve([[mid + 5, hem], [mid + 2, (P[1] + hem) / 2], at(3, top)], 1), { width: LINE.fine, opacity: 0.45 });
   if (spec.apron) {
-    const ap = seated ? [at(1, 5.5), at(6.8, 5.5), [front - 1, hem + 2], [front - 7, hem + 1]]
-      : [at(1, 5.5), at(6.8, 5.5), [front - 1.5, hem + 5], [front - 4, hem + 2], [mid + 2, hem + 3.5]];
+    const ap = seated ? [at(1.5, top), at(7, top), [front - 1, hem + 3], [front - 8, hem + 2]]
+      : [at(1.5, top), at(7, top), [front - 2, hem + 6], [front - 5, hem + 3], [mid + 3, hem + 4.5]];
     ink.shape(blob(ap, 0.6), spec.apron, { off: 1 });
+    ink.line(curve([at(-6, top - 0.5), at(2, top - 1)]), { width: LINE.inner, colour: tone(spec.apron, -0.2) });
   }
 }
 
-function braidSide(ink, spec, H, B, a) {
-  const h = B.head;
-  const top = add(H, [-h * 0.75, -h * 0.25]);
-  ink.shape(capsule(top, add(top, [-2, -h * 1.5]), h * 0.2, h * 0.14), spec.hair, { off: 0.4 });
-}
-
-function drawHeadSide(ink, spec, B, H, N, a, pose) {
-  const h = B.head, R = (x, y) => add(H, rot([x * h, y * h], -a));
-  // Neck.
-  ink.shape(capsule(add(N, [-0.8, -1]), R(-0.1, -0.7), h * 0.3, h * 0.32), tone(spec.skin, -0.12), { off: 0.5 });
-  // Hair behind the head (and a bun), then the skull and face.
-  if (spec.hairStyle === 'bun') ink.shape(ellipse(R(-0.95, 0.35), h * 0.38, h * 0.36), spec.hair, { off: 0.8 });
-  if (!spec.hat || spec.hat.kind === 'bonnet') ink.shape(blob([R(-1.02, 0.05), R(-0.95, 0.7), R(-0.2, 1.05), R(0.55, 0.92), R(0.8, 0.5), R(0.2, 0.2), R(-0.55, -0.35)], 0.9), spec.hair, { off: 0.8 });
-  const face = [R(-0.85, 0.35), R(-0.2, 0.95), R(0.65, 0.78), R(0.98, 0.25), R(1.06, -0.12), R(0.92, -0.25), R(0.9, -0.55), R(0.55, -0.9), R(-0.1, -0.92), R(-0.75, -0.45)];
-  ink.shape(blob(face, 0.9), spec.skin, { off: 0.9, lift: true });
-  // Ear, eye, brow, mouth; cheek on the young.
-  ink.shape(ellipse(R(-0.18, -0.08), h * 0.17, h * 0.22), tone(spec.skin, -0.08), { shade: false, outline: LINE.inner });
-  ink.dot(ellipse(R(0.6, 0.1), h * 0.11, h * 0.17), LINE.ink);
-  ink.dot(ellipse(R(0.555, 0.15), h * 0.035, h * 0.035), '#fff8ea');
-  ink.line(curve([R(0.42, 0.33), R(0.62, 0.38), R(0.78, 0.32)]), { width: LINE.inner, colour: tone(spec.hair, -0.1) });
-  if (pose.mouth === 'open') ink.dot(ellipse(R(0.78, -0.42), h * 0.09, h * 0.08), '#5a2a1a');
-  else ink.line(curve([R(0.62, -0.42), R(0.76, -0.44), R(0.86, -0.4)]), { width: LINE.inner, colour: tone(spec.skin, -0.45) });
-  if (spec.age !== 'adult' && spec.age !== 'elder') ink.dot(ellipse(R(0.48, -0.2), h * 0.14, h * 0.08), '#d9806a', 0.35);
-  // Hair over the skull: fringe and top, per style.
-  if (!spec.hat) {
-    const style = spec.hairStyle || 'short';
-    const top = style === 'tousled'
-      ? [R(-1.05, 0.1), R(-1.05, 0.75), R(-0.55, 1.12), R(-0.2, 1.02), R(0.15, 1.18), R(0.45, 1.0), R(0.85, 0.92), R(0.72, 0.62), R(0.95, 0.5), R(0.5, 0.45), R(0.2, 0.6), R(-0.35, 0.3), R(-0.6, -0.2)]
-      : [R(-1.03, 0.05), R(-0.98, 0.72), R(-0.3, 1.07), R(0.45, 0.98), R(0.86, 0.6), R(0.55, 0.52), R(0.1, 0.62), R(-0.4, 0.35), R(-0.62, -0.25)];
-    ink.shape(blob(top, 0.8), spec.hair, { off: 0.7 });
-  } else if (spec.hat.kind !== 'bonnet') {
-    ink.shape(blob([R(-1.02, 0.25), R(-0.95, 0.55), R(-0.3, 0.6), R(-0.5, -0.3), R(-0.75, -0.35)], 0.8), spec.hair, { off: 0.5 });
-  }
-  if (spec.beard) ink.shape(blob([R(-0.3, -0.05), R(-0.05, -0.35), R(0.5, -0.56), R(0.92, -0.5), R(0.86, -0.8), R(0.45, -1.06), R(-0.12, -0.95), R(-0.42, -0.5)], 0.8), spec.beard, { off: 0.6 });
-  if (spec.moustache) ink.shape(blob([R(0.55, -0.28), R(0.98, -0.24), R(0.95, -0.4), R(0.62, -0.38)], 0.6), spec.moustache, { shade: false, outline: LINE.fine });
-  // Nose over the beard line.
-  ink.shape(blob([R(0.9, 0.08), R(1.13, -0.1), R(1.05, -0.24), R(0.88, -0.2)], 0.7), tone(spec.skin, -0.04), { shade: false, outline: LINE.inner });
-  if (spec.hat) drawHatSide(ink, spec, h, R);
-}
-
-function drawHatSide(ink, spec, h, R) {
-  const hat = spec.hat, c = hat.colour;
-  if (hat.kind === 'brim' || hat.kind === 'slouch' || hat.kind === 'wide') {
-    const wide = hat.kind === 'wide' ? 1.95 : hat.kind === 'slouch' ? 1.5 : 1.62;
-    const droop = hat.kind === 'slouch' ? -0.18 : 0;
-    ink.shape(blob([R(-0.72, 0.62), R(-0.66, 1.18), R(-0.1, 1.42), R(0.55, 1.3), R(0.78, 0.66)], 0.8), c, { off: 0.9, lift: true });
-    ink.shape(capsule(R(-0.75, 0.68), R(0.8, 0.7), h * 0.07, h * 0.07), hat.band, { shade: false, outline: LINE.inner });
-    ink.shape(blob([R(-wide + 0.1, 0.55 + droop), R(-0.1, 0.8), R(wide - 0.05, 0.6 + droop), R(wide - 0.2, 0.46 + droop), R(0, 0.54), R(-wide + 0.25, 0.42 + droop)], 0.7), tone(c, 0.05), { off: 0.6 });
-  } else if (hat.kind === 'bonnet') {
-    // A sunbonnet: a deep hood over the back and top of the head, its brim standing out past the face.
-    ink.shape(blob([R(-1.12, -0.55), R(-1.2, 0.5), R(-0.6, 1.2), R(0.4, 1.28), R(1.28, 0.9), R(1.36, 0.25), R(1.0, 0.42), R(0.6, 0.78), R(-0.2, 0.7), R(-0.55, 0.1), R(-0.6, -0.55)], 0.8), c, { off: 1, lift: true });
-    ink.line(curve([R(1.3, 0.3), R(0.95, 0.9), R(0.2, 1.18)]), { width: LINE.inner });
-    ink.shape(capsule(R(-0.2, -0.75), R(0.3, -1.05), h * 0.08, h * 0.06), c, { shade: false, outline: LINE.fine });
-  } else if (hat.kind === 'shako') {
-    ink.shape(poly([R(-0.72, 0.62), R(0.72, 0.6), R(0.86, 1.95), R(-0.82, 1.98)]), c, { off: 0.8 });
-    ink.shape(poly([R(-0.84, 1.8), R(0.86, 1.78), R(0.87, 1.98), R(-0.83, 2.0)]), hat.band, { shade: false, outline: LINE.inner });
-    ink.shape(poly([R(0.72, 0.6), R(1.28, 0.5), R(1.2, 0.72), R(0.74, 0.76)]), '#1a1a1e', { shade: false, outline: LINE.inner });
-    ink.shape(ellipse(R(0.8, 1.2), h * 0.12, h * 0.2), '#c8a040', { shade: false, outline: LINE.fine });
-  } else if (hat.kind === 'helmet') {
-    ink.shape(blob([R(-0.85, 0.5), R(-0.8, 1.2), R(0.1, 1.42), R(0.85, 1.1), R(0.9, 0.5)], 0.8), c, { off: 0.8, lift: true });
-    ink.shape(blob([R(-0.9, 1.25), R(-0.2, 1.62), R(0.6, 1.5), R(0.1, 1.3)], 0.8), hat.band, { shade: false, outline: LINE.inner });
-    ink.shape(poly([R(0.85, 0.52), R(1.3, 0.45), R(0.9, 0.66)]), '#2a2a2a', { shade: false, outline: LINE.fine });
-  }
-}
 
 // ---------------------------------------------------------------------------------------------------------------------
 // The baby: swaddled and lying, sitting up, or crawling (pose.infant: 'lie' | 'sit' | 'crawl'; `step` 0/1 for the crawl), drawn
@@ -319,11 +266,9 @@ function drawFrontal(ink, F, pose, view) {
     return { side, S, chain: ik(S, target, B.upperArm, B.forearm, side) };
   });
   const joints = { P, N, H };
-  if (!back && (spec.hairStyle === 'braid' || spec.hairStyle === 'braids')) {/* braids fall in front: drawn with the head */}
-  if (back) drawHeadFrontal(ink, spec, B, H, N, true, pose, 'behind');
   for (const leg of legs) drawLegFrontal(ink, spec, B, leg, skirt);
-  if (skirt) drawSkirtFrontal(ink, spec, B, P, hw, legs, back);
   drawTorsoFrontal(ink, spec, B, P, N, hw, sw, back);
+  if (skirt) drawSkirtFrontal(ink, spec, B, P, hw, legs, back);
   for (const a of arms) drawArmFrontal(ink, spec, B, a);
   drawHeadFrontal(ink, spec, B, H, N, back, pose);
   if (pose.after) pose.after(ink, joints);
@@ -341,18 +286,23 @@ function drawLegFrontal(ink, spec, B, leg, skirt) {
   ink.shape(ellipse(add(A, [leg.side * 0.4, -1.2]), B.foot * 0.42, 2.6), boot, { off: 0.5 });
 }
 function drawSkirtFrontal(ink, spec, B, P, hw, legs, back) {
-  const hem = spec.lower.short ? 13 : spec.lower.kind === 'gown' ? 8 : 6.5;
-  const wide = hw * 1.95 + 3;
-  const pts = [add(P, [-hw * 1.05, 4.5]), [P[0] - wide, hem + 2], [P[0] - wide + 1, hem - 0.5], [P[0], hem - 1.5], [P[0] + wide - 1, hem - 0.5], [P[0] + wide, hem + 2], add(P, [hw * 1.05, 4.5]), add(P, [0, 5.5])];
-  ink.shape(blob(pts, 0.7), spec.lower.colour, { off: 1.6 });
-  ink.line(curve([[P[0] - wide * 0.45, hem + 1], [P[0] - wide * 0.3, P[1] - 4]]), { width: LINE.fine, opacity: 0.6 });
-  ink.line(curve([[P[0] + wide * 0.45, hem + 1], [P[0] + wide * 0.3, P[1] - 4]]), { width: LINE.fine, opacity: 0.6 });
-  if (spec.apron && !back) ink.shape(blob([add(P, [-hw * 0.9, 5]), [P[0] - wide * 0.72, hem + 4], [P[0] + wide * 0.72, hem + 4], add(P, [hw * 0.9, 5])], 0.3), spec.apron, { off: 1.2 });
+  const top = spec.lower.kind === 'gown' ? B.torso * 0.72 : B.torso * 0.5;
+  const hem = spec.lower.short ? 12 : spec.lower.kind === 'gown' ? 7 : 5.5;
+  const wide = hw * 2.15 + 3;
+  const pts = [add(P, [-hw * 0.95, top]), [P[0] - wide * 0.8, (P[1] + hem) / 2], [P[0] - wide, hem + 2], [P[0] - wide + 1, hem - 0.5], [P[0], hem - 1.8], [P[0] + wide - 1, hem - 0.5], [P[0] + wide, hem + 2], [P[0] + wide * 0.8, (P[1] + hem) / 2], add(P, [hw * 0.95, top]), add(P, [0, top + 1])];
+  ink.shape(blob(pts, 0.7), spec.lower.colour, { off: 1.6, lift: true });
+  for (const s of [-1, 1]) ink.line(curve([[P[0] + s * wide * 0.5, hem + 1], [P[0] + s * wide * 0.3, P[1] + top * 0.4]]), { width: LINE.fine, opacity: 0.55 });
+  if (spec.apron && !back) {
+    ink.shape(blob([add(P, [-hw * 0.85, top]), [P[0] - wide * 0.66, hem + 5], [P[0] + wide * 0.66, hem + 5], add(P, [hw * 0.85, top])], 0.3), spec.apron, { off: 1.2 });
+    ink.shape(capsule(add(P, [-hw * 0.95, top]), add(P, [hw * 0.95, top]), 1.1, 1.1), spec.apron, { shade: false, outline: LINE.inner });
+  }
   if (spec.apron && back) {
-    ink.shape(ellipse(add(P, [-2.4, 6]), 2.4, 1.6, 20), spec.apron, { shade: false, outline: LINE.inner });
-    ink.shape(ellipse(add(P, [2.4, 6]), 2.4, 1.6, -20), spec.apron, { shade: false, outline: LINE.inner });
+    ink.shape(ellipse(add(P, [-2.6, top]), 2.6, 1.7, 20), spec.apron, { shade: false, outline: LINE.inner });
+    ink.shape(ellipse(add(P, [2.6, top]), 2.6, 1.7, -20), spec.apron, { shade: false, outline: LINE.inner });
+    for (const s of [-1, 1]) ink.shape(capsule(add(P, [s * 1.2, top - 1]), add(P, [s * 2.4, top - 9]), 0.9, 0.7), spec.apron, { shade: false, outline: LINE.fine });
   }
 }
+
 function drawTorsoFrontal(ink, spec, B, P, N, hw, sw, back) {
   const T = B.torso;
   const at = (x, v) => add(P, [x, v]);
@@ -378,77 +328,8 @@ function drawArmFrontal(ink, spec, B, a) {
   ink.shape(capsule(E, W, r * 0.82, r * 0.72), rolled(spec) ? spec.skin : sleeve, { off: 0.5 });
   ink.shape(capsule(a.S, E, r * 1.1, r * 0.92), sleeve, { off: 0.6 });
   if (rolled(spec)) ink.shape(ellipse(E, r * 1.05, r * 0.7), sleeve, { shade: false, outline: LINE.inner + 0.8 });
-  ink.shape(ellipse(W, r * 0.88, r * 0.85), spec.skin, { off: 0.4 });
+  ink.shape(ellipse(W, r * (B.hand ?? 0.85), r * (B.hand ?? 0.85) * 0.94), spec.skin, { off: 0.4 });
 }
-function drawHeadFrontal(ink, spec, B, H, N, back, pose, only) {
-  const h = B.head, R = (x, y) => add(H, [x * h, y * h]);
-  const style = spec.hairStyle || 'short';
-  if (only === 'behind') {
-    // Hair that falls down the back (a braid), drawn before the body so the body does not cover its top.
-    return;
-  }
-  ink.shape(capsule(add(N, [0, -1]), R(0, -0.8), h * 0.32, h * 0.32), tone(spec.skin, -0.14), { off: 0.4 });
-  if (!back && (style === 'bun' || style === 'braids' || style === 'braid') && !spec.hat) ink.shape(blob([R(-1.05, 0.1), R(-1.12, -0.6), R(1.12, -0.6), R(1.05, 0.1), R(0, 0.95)], 0.9), spec.hair, { off: 0.6 });
-  if (!back) {
-    ink.shape(ellipse(R(-0.98, -0.1), h * 0.17, h * 0.23), tone(spec.skin, -0.08), { shade: false, outline: LINE.inner });
-    ink.shape(ellipse(R(0.98, -0.1), h * 0.17, h * 0.23), tone(spec.skin, -0.08), { shade: false, outline: LINE.inner });
-    ink.shape(blob([R(-0.95, 0.25), R(-0.6, 0.95), R(0.6, 0.95), R(0.95, 0.25), R(0.85, -0.5), R(0.4, -0.92), R(-0.4, -0.92), R(-0.85, -0.5)], 0.9), spec.skin, { off: 0.9, lift: true });
-    for (const s of [-1, 1]) {
-      ink.dot(ellipse(R(s * 0.36, 0.02), h * 0.13, h * 0.18), LINE.ink);
-      ink.dot(ellipse(R(s * 0.36 - 0.03, 0.08), h * 0.04, h * 0.04), '#fff8ea');
-      ink.line(curve([R(s * 0.18, 0.3), R(s * 0.36, 0.36), R(s * 0.54, 0.3)]), { width: LINE.inner, colour: tone(spec.hair, -0.1) });
-    }
-    ink.line(curve([R(-0.04, -0.12), R(0.06, -0.26), R(-0.06, -0.3)]), { width: LINE.fine, colour: tone(spec.skin, -0.4) });
-    if (pose.mouth === 'open') ink.dot(ellipse(R(0, -0.52), h * 0.12, h * 0.09), '#5a2a1a');
-    else ink.line(curve([R(-0.2, -0.5), R(0, -0.58), R(0.2, -0.5)]), { width: LINE.inner, colour: tone(spec.skin, -0.45) });
-    if (spec.age !== 'adult' && spec.age !== 'elder') for (const s of [-1, 1]) ink.dot(ellipse(R(s * 0.55, -0.3), h * 0.14, h * 0.08), '#d9806a', 0.35);
-    if (spec.beard) ink.shape(blob([R(-0.92, -0.1), R(-0.72, -0.8), R(0, -1.12), R(0.72, -0.8), R(0.92, -0.1), R(0.62, -0.48), R(0, -0.7), R(-0.62, -0.48)], 0.8), spec.beard, { off: 0.6 });
-    if (spec.moustache || spec.beard) ink.shape(blob([R(-0.34, -0.36), R(0, -0.3), R(0.34, -0.36), R(0.2, -0.46), R(-0.2, -0.46)], 0.6), spec.moustache || spec.beard, { shade: false, outline: LINE.fine });
-  } else {
-    ink.shape(ellipse(R(0, 0), h * 0.98, h * 0.98), spec.hair, { off: 0.9 });
-  }
-  if (!spec.hat || spec.hat.kind === 'bonnet') {
-    const cap = back ? [R(-1.02, -0.2), R(-1.05, 0.55), R(0, 1.08), R(1.05, 0.55), R(1.02, -0.2), R(0.6, -0.55), R(-0.6, -0.55)]
-      : style === 'tousled' ? [R(-1.05, -0.05), R(-1.08, 0.6), R(-0.6, 1.08), R(-0.1, 1.15), R(0.5, 1.1), R(1.05, 0.62), R(1.02, -0.05), R(0.8, 0.35), R(0.45, 0.45), R(0.2, 0.3), R(-0.1, 0.48), R(-0.5, 0.42), R(-0.8, 0.3)]
-        : [R(-1.03, -0.05), R(-1.02, 0.6), R(0, 1.06), R(1.02, 0.6), R(1.03, -0.05), R(0.75, 0.42), R(0.2, 0.55), R(-0.2, 0.52), R(-0.75, 0.42)];
-    if (!spec.hat) ink.shape(blob(cap, 0.85), spec.hair, { off: 0.6 });
-    if (style === 'bun' && back) ink.shape(ellipse(R(0, 0.1), h * 0.4, h * 0.36), tone(spec.hair, 0.06), { off: 0.6 });
-    if (style === 'bun' && !back && !spec.hat) ink.shape(ellipse(R(0, 1.05), h * 0.3, h * 0.2), spec.hair, { off: 0.4 });
-  } else if (!back) {
-    ink.shape(blob([R(-1.02, -0.1), R(-0.95, 0.45), R(-0.6, 0.55), R(-0.72, -0.2)], 0.8), spec.hair, { shade: false, outline: LINE.inner });
-    ink.shape(blob([R(1.02, -0.1), R(0.95, 0.45), R(0.6, 0.55), R(0.72, -0.2)], 0.8), spec.hair, { shade: false, outline: LINE.inner });
-  }
-  if (style === 'braid') ink.shape(capsule(R(back ? 0 : 0.8, -0.3), R(back ? 0.1 : 1.0, -2.6), h * 0.2, h * 0.14), spec.hair, { off: 0.4 });
-  if (style === 'braids') for (const s of [-1, 1]) ink.shape(capsule(R(s * 0.85, -0.3), R(s * 1.0, -2.1), h * 0.18, h * 0.13), spec.hair, { off: 0.4 });
-  if (spec.hat) drawHatFrontal(ink, spec, h, R, back);
-}
-function drawHatFrontal(ink, spec, h, R, back) {
-  const hat = spec.hat, c = hat.colour;
-  if (hat.kind === 'brim' || hat.kind === 'slouch' || hat.kind === 'wide') {
-    const wide = hat.kind === 'wide' ? 2.0 : hat.kind === 'slouch' ? 1.55 : 1.7;
-    const droop = hat.kind === 'slouch' ? 0.12 : 0;
-    ink.shape(ellipse(R(0, 0.62), h * wide, h * 0.42, 0), tone(c, 0.05), { off: 0.8 });
-    if (droop) ink.shape(blob([R(-wide, 0.6), R(-wide + 0.2, 0.3), R(-0.6, 0.5)], 0.7), tone(c, -0.1), { shade: false, outline: LINE.inner });
-    ink.shape(blob([R(-0.78, 0.66), R(-0.74, 1.28), R(0, 1.48), R(0.74, 1.28), R(0.78, 0.66), R(0, 0.58)], 0.8), c, { off: 0.9, lift: true });
-    ink.shape(blob([R(-0.8, 0.66), R(0, 0.58), R(0.8, 0.66), R(0.79, 0.86), R(0, 0.8), R(-0.79, 0.86)], 0.6), hat.band, { shade: false, outline: LINE.inner });
-  } else if (hat.kind === 'bonnet') {
-    const ring = back ? [R(-1.12, -0.7), R(-1.2, 0.5), R(0, 1.25), R(1.2, 0.5), R(1.12, -0.7), R(0, -0.4)]
-      : [R(-1.35, -0.4), R(-1.4, 0.6), R(-0.7, 1.35), R(0.7, 1.35), R(1.4, 0.6), R(1.35, -0.4), R(0.98, -0.2), R(0.92, 0.6), R(0, 1.0), R(-0.92, 0.6), R(-0.98, -0.2)];
-    ink.shape(blob(ring, 0.8), c, { off: 1, lift: true });
-    if (!back) ink.line(curve([R(-0.95, 0.4), R(0, 0.92), R(0.95, 0.4)]), { width: LINE.inner, opacity: 0.8 });
-  } else if (hat.kind === 'shako') {
-    ink.shape(poly([R(-0.78, 0.55), R(0.78, 0.55), R(0.9, 1.95), R(-0.9, 1.95)]), c, { off: 0.8 });
-    ink.shape(poly([R(-0.9, 1.78), R(0.9, 1.78), R(0.92, 1.98), R(-0.92, 1.98)]), hat.band, { shade: false, outline: LINE.inner });
-    if (!back) {
-      ink.shape(ellipse(R(0, 0.55), h * 0.85, h * 0.14), '#1a1a1e', { shade: false, outline: LINE.inner });
-      ink.shape(ellipse(R(0, 1.2), h * 0.25, h * 0.3), '#c8a040', { shade: false, outline: LINE.fine });
-    }
-  } else if (hat.kind === 'helmet') {
-    ink.shape(blob([R(-0.92, 0.45), R(-0.85, 1.2), R(0, 1.45), R(0.85, 1.2), R(0.92, 0.45)], 0.8), c, { off: 0.8, lift: true });
-    ink.shape(capsule(R(0, 1.2), R(0, 1.72), h * 0.2, h * 0.14), hat.band, { shade: false, outline: LINE.inner });
-  }
-}
-
 // ---------------------------------------------------------------------------------------------------------------------
 function rot([x, y], a) { const c = Math.cos(deg(a)), s = Math.sin(deg(a)); return [x * c - y * s, x * s + y * c]; }
 function pp(p) { return `${f2(p[0])} ${f2(p[1])}`; }
