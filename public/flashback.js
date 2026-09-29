@@ -631,7 +631,7 @@ export function renderFlashback(snapshot) {
     // A class ended by mistake and taken up again (docs/HOST_PAGE.md §2.8): what this page made or failed to make, played and
     // read belongs to that ending, and its videos are gone from the server. When the class ends again it all starts afresh.
     if (!making.running && (making.done.length || making.failed.size || shownKey || transcriptOf)) {
-      making.done.length = 0; making.failed.clear(); shownKey = ''; autoplayed = false; transcriptOf = null; queue = [];
+      making.done.length = 0; making.failed.clear(); shownKey = ''; autoplayed = false; transcriptOf = null;
     }
     return;
   }
