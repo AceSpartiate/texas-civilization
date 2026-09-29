@@ -1231,6 +1231,37 @@ export function disbandArmy(world, { beginTravel }) {
   }
 }
 
+/**
+ * A wound mended away from home, outside any service (design audit S13, triage 1.12, 2026-09-29): the family is told, and the
+ * man starts home, as the army's break-up sent the rest (`disbandArmy`). A dangerous wound from the storming kept a man lying at
+ * Béxar for two months; it mended about February 8 without a word, he stood in the town, and on February 23 the siege put
+ * everybody standing at Béxar into the Alamo (sim/alamo.mjs `beginSiege`) without his family ever choosing it.
+ * Not for anybody serving or held (the garrison, the regulars, the army, a prisoner: they are where that has them), nor for a family on
+ * the road east, whose people are wherever the family is. `person.mendedAt` is set where the wound mended (sim/routines.mjs)
+ * and taken off here; a class saved before has none, which is right: nobody mended there.
+ */
+export function sendMendedHome(world, { beginTravel }) {
+  for (const person of Object.values(world.entities)) {
+    if (!person.mendedAt) continue;
+    const siteId = person.mendedAt;
+    delete person.mendedAt;
+    const household = world.households[person.householdId];
+    if (!household || person.travel || ['dead', 'captured'].includes(person.health?.condition)) continue;
+    if (person.location?.siteId !== siteId || siteId === household.homeSiteId) continue;
+    // Serving, or held a prisoner (Coleto's wounded among Fannin's men at Goliad): where the service or the enemy has them.
+    if (['serving', 'prisoner', 'captured'].includes(person.service?.status) || world.army?.members?.includes(person.id)) continue;
+    if (['ordered', 'fled', 'refuged', 'returning'].includes(household.flight?.status)) continue;
+    const place = world.map.sites[siteId]?.name || 'where the surgeon had them';
+    const causeId = record(world, 'consequence', {
+      actorId: person.id, householdId: person.householdId, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-041',
+      text: `${person.name}'s wound has mended, and ${person.name} has started home from ${place}.`,
+    });
+    person.chore = null; person.task = 'rest';
+    const home = household.homeSiteId, mode = modeWith(world, person);
+    try { beginTravel(world, person, home, causeId, 'home', mode); } catch (error) { if (mode === 'foot') throw error; beginTravel(world, person, home, causeId, 'home'); }
+  }
+}
+
 /** Word of the victory reaches a family: what happened to their own person in the storming. */
 export function tellStorming(world, causeId) {
   const storming = world.army?.storming;

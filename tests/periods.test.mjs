@@ -115,6 +115,8 @@ test('continuing skips the winter gently: everyone home, wounds healed by the ti
   assert.equal(walker.travel, null);
   assert.equal(lying.location.siteId, bexar, 'a wound still mending in February was carried home');
   assert.equal(lying.health.condition, 'wounded');
+  // The winter opens with the men home; his family is told he is not (design audit S13), and that he comes home when he mends.
+  assert.ok(world.events.some(event => event.householdId === b.id && event.actorId === lying.id && /is still lying wounded at .*, and will start home when the wound mends/.test(event.text)), 'the family of a man still lying wounded was not told so');
   assert.equal(mending.health.condition, 'well', 'a wound mended in January was still open');
   assert.equal(mending.location.siteId, b.homeSiteId);
   assert.equal(dead.health.condition, 'dead', 'the winter raised the dead');

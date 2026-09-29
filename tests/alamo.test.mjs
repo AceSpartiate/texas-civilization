@@ -72,6 +72,34 @@ test('the siege shuts whoever is at Béxar into the Alamo, closes the garrison t
   validateWorld(world);
 });
 
+test('a man dangerously wounded in the storming mends at Béxar, is told to his family and starts home, and is not shut in the Alamo unless the family sent him (design audit S13)', () => {
+  const world = winter();
+  const site = world.map.sites.bexar;
+  const [lying, sent] = men(world).filter(person => !person.service && !person.travel);
+  // Both lying wounded at Béxar since the storming, as sim/army.mjs leaves a dangerous wound: two months, mending about February
+  // 8. One the family sent to the garrison as well; the other is nobody's but his family's.
+  for (const person of [lying, sent]) {
+    person.travel = null; person.chore = null; person.task = 'rest';
+    person.location = { x: site.x, y: site.y, siteId: 'bexar' };
+    person.health = { condition: 'wounded', grade: 'dangerous', recoversAt: world.minute + 2 * 1440 };
+  }
+  serve(world, sent, 'garrison', 'bexar');
+  until(world, () => lying.health.condition !== 'wounded', 2000);
+  assert.equal(lying.health.condition, 'well', 'the wound never mended');
+  // Told, and on the road home, the tick it mended.
+  assert.ok(world.events.some(event => event.householdId === lying.householdId && event.actorId === lying.id && /wound has mended, and .* has started home from/.test(event.text)), 'the family was never told the wound had mended');
+  assert.equal(lying.travel?.purpose, 'home', `${lying.name} mended and stood at Béxar`);
+  assert.equal(lying.travel.to, world.households[lying.householdId].homeSiteId);
+  assert.equal(lying.mendedAt, undefined, 'the mark of where the wound mended was left on him');
+  untilMoment(world, 'alamo-siege');
+  assert.ok(!lying.service?.besieged, `${lying.name}, wounded in the storming and mended, was shut in the Alamo without his family choosing it`);
+  assert.notEqual(lying.location.siteId, 'bexar');
+  // The man the family sent to the garrison is where his service has him.
+  assert.equal(sent.service.besieged, true, 'a man in the garrison was sent home when his wound mended');
+  assert.ok(!world.events.some(event => event.actorId === sent.id && /started home/.test(event.text)), 'a man serving in the garrison was told to start home');
+  validateWorld(world);
+});
+
 test('on each day riders went out Travis\'s runner comes to every played man inside; about one volunteer in four is chosen and rides out to live', () => {
   const world = winter();
   const inside = men(world).slice(0, 8);
