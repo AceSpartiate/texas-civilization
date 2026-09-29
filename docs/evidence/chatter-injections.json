@@ -1,6 +1,6 @@
 {
   "record": "chatter-injections",
-  "date": "2026-09-28",
+  "date": "2026-09-29",
   "note": "Ambient life and chatter in the browser (docs/AMBIENT.md, 2026-09-28). Each injection runs the whole of scripts/chatter-browser-proof.mjs; \"alone\" means only checks of the kind written for it failed. Same computer only.",
   "injections": [
     {
@@ -52,6 +52,55 @@
         "farm: at most 3 bubbles at once, never over each other, on the screen",
         "town: at most 3 bubbles at once, never over each other, on the screen",
         "camp: at most 3 bubbles at once, never over each other, on the screen"
+      ]
+    },
+    {
+      "name": "crowd: a bubble is placed without looking at the bubbles already placed",
+      "files": [
+        "public/speech.js"
+      ],
+      "only": "crowd",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "crowd: no bubble over another bubble",
+        "crowd: no bubble over another's tail"
+      ]
+    },
+    {
+      "name": "crowd: the names on the map are not kept clear",
+      "files": [
+        "public/app.js"
+      ],
+      "only": "crowd",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "crowd: no bubble over a name on the map"
+      ]
+    },
+    {
+      "name": "crowd: a bubble may stand on another's tail",
+      "files": [
+        "public/speech.js"
+      ],
+      "only": "crowd",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "crowd: no bubble over another's tail"
+      ]
+    },
+    {
+      "name": "crowd: a bubble is put as far from its speaker as it may go",
+      "files": [
+        "public/speech.js"
+      ],
+      "only": "crowd",
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "crowd: every bubble near its speaker, with a tail"
       ]
     },
     {
