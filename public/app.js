@@ -44,7 +44,7 @@ import { decodeLand, decodeOutside, decodeProvince, emptyMiddle, landWeights, li
 import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
 const $ = selector => document.querySelector(selector);
 import { militaryNotices } from '/military-attention.js';
-import { createBattleView } from '/battle-view.js';
+import { createBattleView, personArt } from '/battle-view.js';
 import { createChaseView } from '/chase-view.js';
 import { activityOf, drawnStroke, drawsAtWork, drawWorkLayer, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error', '#away-error']) { const el = $(id); if (el) el.textContent = message; } };
@@ -1078,6 +1078,8 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
     const variant = cast ? avatarVariant(entity.appearance, entity.sex) : null;
     const own = cast ? drawnClipOf({ id: `${variant}-work`, drawn: { from: 'work', pose: cast === 'fire-reload' ? cast : `battle-${cast}` } }, `${variant}-work`, entity) : null;
     if (own && drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: (pose.timeMs || 0) / 165, working: true, flip: pose.flip, clip: own.clip })) done = true;
+    // Presentation evidence for the battle proofs, read by nothing in the application: the cast poses each member was drawn in.
+    if (done && entity.id) ((window.__memberCastDrawn ??= {})[entity.id] ??= new Set()).add(own.clip);
     else if (entity.appearance && entity.fallen) { recliningAvatar(ctx, x, y, drawnSize, entity); done = true; }
     else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : performance.now() / 165, working: true, flip: pose.flip });
     else done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, drawnSize, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, drawnSize, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
@@ -6918,6 +6920,12 @@ function render(snapshot) {
   // The famous people this page was sent: their sheets asked for now, so the map's first frame with them is not the one that
   // waits (public/famous-view.js `famousArt`). A sheet already here or on its way is not asked for twice (public/art.js).
   for (const one of snapshot.world?.famous || []) { const { sprites, clips } = famousArt(one); sprites.forEach(spriteReady); clips.forEach(clipReady); }
+  // And the people of a fight this page is drawing: every pose of their own sheet (Astra's, or Claude's temporary one behind it),
+  // so a scene reached by a jump of the clock - the burial party at noon - is drawn from the first frame it is on the field.
+  for (const one of snapshot.world?.battle?.people || []) for (const name of Object.values(personArt(one.art) || {}).flat()) {
+    if (typeof name !== 'string') continue;
+    if (name.startsWith('clip:')) clipReady(name.slice(5)); else { spriteReady(name); clipReady(name); }
+  }
   snapshot.world.map =mapCacheId === snapshot.mapId ? mapCache : (snapshot.world.map || EMPTY_MAP);
   $('#save-fault').hidden = !snapshot.fault;
   $('#save-fault').textContent = snapshot.fault?.message || '';
