@@ -1665,6 +1665,9 @@ export function validateWorld(world) {
         if (!hop.name || !world.map.sites[hop.atSiteId] || !Number.isFinite(hop.minute)) throw new Error('A hand-off must name somebody, somewhere, at a time');
       }
     }
+    // Riders whose same word was taken into this visit (sim/encounters.mjs `joinVisit`). Absent on every visit nobody joined,
+    // and on every class saved before 2026-09-29.
+    if (encounter.joined !== undefined && (!Array.isArray(encounter.joined) || encounter.joined.some(one => !world.entities[one?.carrierId] || !Number.isFinite(one.minute)))) throw new Error('Invalid joined riders');
   }
   const badExpress = expressesInvalid(world);
   if (badExpress) throw new Error(badExpress);

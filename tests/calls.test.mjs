@@ -22,6 +22,13 @@ const colonies = (seed, players = 15, options = {}) => {
 const until = (world, done, limit = 1500) => { for (let tick = 0; tick < limit && !done() && !world.director.complete; tick++) stepWorld(world); };
 const storyOf = (world, householdId) => world.events.filter(event => event.householdId === householdId);
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
+/**
+ * Every rider still standing with a family let go, as a student does with Done. A question put while he stands there waits
+ * until he has gone (owner, 2026-09-29, sim/encounters.mjs `questionWaits`), so a test about the question hears him out first.
+ */
+const heardOut = (world, householdId) => {
+  for (const one of Object.values(world.encounters || {})) if (one.status === 'open' && !one.kind && (!householdId || one.householdId === householdId)) applyAction(world, one.householdId, { action: 'leave-rider', entityId: one.listenerId });
+};
 const firstIn = (world, settlements) => Object.values(world.households).find(household => settlements.includes(household.settlementId));
 
 let played = null;
@@ -75,6 +82,7 @@ test('turning out: the one sent rides for the gathering with the family powder, 
   const world = colonies('calls-turn-out');
   const household = firstIn(world, ['san-felipe']);
   until(world, () => world.calls?.[household.id]);
+  heardOut(world, household.id);
   const request = view(world, household.id).request;
   assert.equal(request.kind, 'call');
   assert.equal(request.status, 'open');
@@ -103,6 +111,7 @@ test('staying is a whole answer, and on the coast it is keeping the coast', () =
   const world = colonies('calls-stay');
   const coast = firstIn(world, ['matagorda', 'columbia']), inland = firstIn(world, ['san-felipe', 'mina', 'liberty']);
   until(world, () => world.calls?.[coast.id] && world.calls?.[inland.id]);
+  heardOut(world);
   const optionsOf = household => Object.values(view(world, household.id).request.answerers)[0];
   assert.equal(optionsOf(coast).find(o => o.id === 'stay-put').label, 'Stay and keep the coast');
   assert.equal(optionsOf(coast).find(o => o.id === 'turn-out').label, 'Go: ride west to join them, toward Victoria');
@@ -121,6 +130,7 @@ test('only somebody old enough is asked, only a far family, and not once the cla
   const far = firstIn(world, ['san-felipe', 'mina', 'liberty', 'columbia', 'matagorda', 'victoria']);
   const home = firstIn(world, ['gonzales']);
   until(world, () => world.calls?.[far.id]);
+  heardOut(world, far.id);
   const answerers = Object.keys(view(world, far.id).request.answerers);
   for (const id of far.members.filter(id => world.entities[id].kind === 'person' && !answerers.includes(id))) {
     assert.throws(() => applyAction(world, far.id, { action: 'turn-out', entityId: id }), /too young/, `${world.entities[id].name} could be sent`);
@@ -185,6 +195,7 @@ test('a family may send more than one to the settlement’s call, each with the 
   const world = colonies('calls-several');
   const household = firstIn(world, ['san-felipe', 'mina', 'victoria']);
   until(world, () => world.calls?.[household.id]);
+  heardOut(world, household.id);
   const request = view(world, household.id).request;
   const able = Object.entries(request.answerers).filter(([, options]) => options.find(o => o.id === 'turn-out').can).map(([id]) => id);
   assert.ok(able.length >= 2, `only ${able.length} of ${household.id} may turn out; this seed was chosen for two`);
@@ -217,6 +228,7 @@ test('a family may send more than one to the settlement’s call, each with the 
   // A family that kept everybody home has answered: nobody goes after it.
   const other = Object.values(world.households).find(h => h.id !== household.id && ['san-felipe', 'mina', 'liberty', 'victoria'].includes(h.settlementId) && world.calls?.[h.id]?.status === 'open');
   assert.ok(other, 'no second family to refuse with');
+  heardOut(world, other.id);
   const [stayer, goer] = Object.keys(view(world, other.id).request.answerers);
   applyAction(world, other.id, { action: 'stay-put', entityId: stayer });
   assert.equal(world.calls[other.id].status, 'refused');

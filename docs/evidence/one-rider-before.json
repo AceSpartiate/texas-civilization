@@ -1,0 +1,119 @@
+{
+  "record": "one-rider-browser-before",
+  "date": "2026-09-29",
+  "verdict": "PASS",
+  "browser": "153.0.8010.53",
+  "environment": "Same computer: an in-process Play Solo classroom at 100 ms a tick, fifteen families on the real land (seed q2), headless Chrome at 1440x900. Not a Chromebook, not a LAN.",
+  "checks": [
+    "a solo game on the real land, fifteen families, the player's family at matagorda",
+    "no page errors"
+  ],
+  "measured": {
+    "mode": "before",
+    "settlement": "matagorda",
+    "firstRider": {
+      "name": "Silas Roe",
+      "status": "unconfirmed",
+      "openedMinute": 4860,
+      "callPutMinute": 4860
+    },
+    "secondRider": {
+      "id": "courier-19",
+      "name": "Abner Teel"
+    },
+    "arrival": {
+      "ridersDrawn": [
+        "Silas Roe",
+        "Abner Teel",
+        "Willa Hines"
+      ],
+      "needs": [
+        {
+          "name": "Alvin Proofwright",
+          "needs": [
+            "call"
+          ]
+        },
+        {
+          "name": "Antonia Proofwright",
+          "needs": [
+            "call"
+          ]
+        },
+        {
+          "name": "Andrés Proofwright",
+          "needs": [
+            "rider",
+            "call"
+          ]
+        },
+        {
+          "name": "Lavinia Proofwright",
+          "needs": [
+            "call"
+          ]
+        },
+        {
+          "name": "Enos Proofwright",
+          "needs": [
+            "call"
+          ]
+        },
+        {
+          "name": "Ruperto Proofwright",
+          "needs": [
+            "call"
+          ]
+        }
+      ],
+      "request": {
+        "kind": "call",
+        "status": "open"
+      },
+      "waiting": null,
+      "notice": "A rider has stopped to speak",
+      "callClockMs": 1237
+    },
+    "conversation": {
+      "end": [
+        "Let Silas Roe ride on"
+      ],
+      "note": "They will not wait for ever. Closing this does not unhear anything already said.",
+      "close": "Close this for now"
+    },
+    "duplicate": {
+      "knownStatus": "unconfirmed",
+      "knownSource": "Silas Roe, who had it from Ned Falk at Matagorda, and it had passed through other hands before that",
+      "receivedMinute": 4860,
+      "firstStillOpen": true,
+      "visits": 1,
+      "secondStillCarrying": true,
+      "drawn": true
+    },
+    "next": {
+      "encounterHidden": true,
+      "callMenuShown": false
+    },
+    "visitsAfterWindow": [
+      {
+        "carrier": "Silas Roe",
+        "topic": "cannon-request",
+        "status": "unconfirmed",
+        "opened": 4860
+      },
+      {
+        "carrier": "Abner Teel",
+        "topic": "cannon-request",
+        "status": "confirmed",
+        "opened": 5460
+      }
+    ]
+  },
+  "screenshots": [
+    "docs/evidence/one-rider-before-arrival.png",
+    "docs/evidence/one-rider-before-host-arrival.png",
+    "docs/evidence/one-rider-before-conversation.png",
+    "docs/evidence/one-rider-before-next.png",
+    "docs/evidence/one-rider-before-duplicate.png"
+  ]
+}

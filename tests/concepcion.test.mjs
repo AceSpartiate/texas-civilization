@@ -14,6 +14,7 @@ import { momentOf } from '../sim/directors.mjs';
 import { CIBOLO_MILES, CONCEPCION_DEATH_RISK, CONCEPCION_WOUND_RISK, closeDetachment, fightConcepcion, frailty, openDetachment, rollFates, withTheArmy } from '../sim/army.mjs';
 import { awardGlory } from '../sim/glory.mjs';
 import { familyEnding, finalNumber } from '../sim/ending.mjs';
+import { heardOut } from './support/heard-out.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const colonies = (seed, players = 15) => { const world = createGonzalesWorld(seed, players, { map: 'colonies' }); world.status = 'running'; return world; };
@@ -28,6 +29,7 @@ function withVolunteer(seed, { second = false } = {}) {
   const sent = [];
   for (const household of families) {
     until(world, () => world.calls?.[household.id]);
+    heardOut(world, household.id);
     const answerers = view(world, household.id).request?.answerers || {};
     const found = Object.entries(answerers).find(([, options]) => options.find(o => o.id === 'turn-out')?.can);
     if (!found) continue;

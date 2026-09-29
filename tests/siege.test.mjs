@@ -15,6 +15,7 @@ import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/worl
 import { momentOf } from '../sim/directors.mjs';
 import { familyEnding } from '../sim/ending.mjs';
 import { CLOTHING_RETURN_SHARE, CLOTHING_SHARE, GRASS_RUN_RISK, GRASS_WOUND_RISK, SIEGE_CAMPS, armyInvalid, fightGrass, goForClothing, openQuestion, returnFromClothing, withTheArmy } from '../sim/army.mjs';
+import { heardOut } from './support/heard-out.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const untilMinute = (world, minute) => { for (let t = 0; t < 4000 && world.minute < minute && world.status === 'running'; t++) stepWorld(world); };
@@ -32,6 +33,7 @@ const siege = () => shared ??= (() => {
   const sent = [];
   for (const household of families) {
     until(world, () => world.calls?.[household.id]);
+    heardOut(world, household.id);
     const answerers = view(world, household.id).request?.answerers || {};
     const found = Object.entries(answerers).find(([, options]) => options.find(o => o.id === 'turn-out')?.can);
     if (found) { applyAction(world, household.id, { action: 'turn-out', entityId: found[0], mode: 'horse' }); sent.push({ household, person: world.entities[found[0]] }); }

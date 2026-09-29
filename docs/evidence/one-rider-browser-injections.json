@@ -1,0 +1,37 @@
+{
+  "record": "one-rider-browser-injections",
+  "date": "2026-09-29",
+  "proof": "scripts/one-rider-browser-proof.mjs",
+  "caught": 4,
+  "of": 4,
+  "injections": [
+    {
+      "name": "another family's rider is not drawn at all (the family sees only its own)",
+      "file": "sim/encounters.mjs",
+      "expected": "another family's rider riding past was never drawn in view",
+      "caught": true,
+      "failedWith": "another family's rider riding past was never drawn in view (0 frames)\r"
+    },
+    {
+      "name": "a passing rider is drawn at six times his pace",
+      "file": "public/app.js",
+      "expected": "another family's rider was drawn faster than a ride",
+      "caught": true,
+      "failedWith": "another family's rider was drawn faster than a ride: 7.20 of his own heights a second, the ceiling 1.2\r"
+    },
+    {
+      "name": "a passing rider never fades out once he is by",
+      "file": "public/motion.js",
+      "expected": "another family's rider did not fade out once he had passed",
+      "caught": true,
+      "failedWith": "another family's rider did not fade out once he had passed\r"
+    },
+    {
+      "name": "a passing rider is drawn standing at the family's gate",
+      "file": "sim/town.mjs",
+      "expected": "a rider not talking with the family was drawn standing at its gate",
+      "caught": true,
+      "failedWith": "a rider not talking with the family was drawn standing at its gate (63 frames)\r"
+    }
+  ]
+}

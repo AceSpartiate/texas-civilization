@@ -12,6 +12,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { LESSON_ENABLED, inLesson, lessonRefusal } from '../sim/lesson.mjs';
 import { spendDecisionBudget } from '../sim/decision-budget.mjs';
+import { heardOut } from './support/heard-out.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false, now: 1_800_000_000_000 });
 
@@ -51,6 +52,7 @@ test('the settlement\'s call spends its minutes from the moment it arrives: noth
   world.status = 'running';
   for (let tick = 0; tick < 6000 && world.calls?.['hh-1']?.status !== 'open'; tick++) stepWorld(world);
   assert.equal(world.calls?.['hh-1']?.status, 'open', 'no call reached the family, so this proves nothing');
+  heardOut(world, 'hh-1');
   // A family that would have been on step 3 of the old guided start, whose call's clock the lesson used to hold.
   household.lesson = { step: 'house' };
   spendDecisionBudget(world, 1000, { heldFor: one => inLesson(world, one) });

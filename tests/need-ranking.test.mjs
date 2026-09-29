@@ -12,6 +12,7 @@ import { QUESTION_BUDGETS, flightLimitKey, roadLimitKey } from '../sim/decision-
 import { askLeftMs as roadLeft } from '../sim/road.mjs';
 import { NEED_KINDS, leftWords, needsOf, rankNeeds } from '../public/family-panel.js';
 import { militaryNotices } from '../public/military-attention.js';
+import { heardOut } from './support/heard-out.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const people = ids => ids.map(id => ({ id, name: id.toUpperCase(), kind: 'person' }));
@@ -71,6 +72,7 @@ test('the server sends the time left on the call, on the army\'s questions, on t
   world.status = 'running';
   for (let tick = 0; tick < 6000 && !world.calls?.[household.id]; tick++) stepWorld(world);
   assert.ok(world.calls?.[household.id], 'no call reached the family, so this proves nothing');
+  heardOut(world, household.id);
   const [first, second] = household.members;
   world.decisionClock = { [`call:${household.id}`]: { personId: first, spent: 60_000, of: 300_000 }, [`army:storm:${second}`]: { personId: second, spent: 30_000, of: 90_000 } };
   let seen = view(world, household.id);

@@ -12,6 +12,7 @@ import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/worl
 import { ARMY_MILES_PER_HOUR, OBJECTIVE, RENDEZVOUS, armyInvalid, withTheArmy } from '../sim/army.mjs';
 import { momentOf } from '../sim/directors.mjs';
 import { calendarMinutes } from '../sim/clock.mjs';
+import { heardOut } from './support/heard-out.mjs';
 
 const colonies = (seed, players = 15, options = {}) => {
   const world = createGonzalesWorld(seed, players, { map: 'colonies', ...options });
@@ -25,6 +26,7 @@ const storyOf = (world, householdId) => world.events.filter(event => event.house
 function sentSomebody(world, settlements = ['san-felipe', 'mina', 'victoria']) {
   const household = Object.values(world.households).find(h => settlements.includes(h.settlementId));
   until(world, () => world.calls?.[household.id]);
+  heardOut(world, household.id);
   const answerers = view(world, household.id).request.answerers;
   const [personId] = Object.entries(answerers).find(([, options]) => options.find(o => o.id === 'turn-out').can);
   applyAction(world, household.id, { action: 'turn-out', entityId: personId, mode: 'horse' });
