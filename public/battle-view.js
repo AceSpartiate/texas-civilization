@@ -217,7 +217,8 @@ export function regularity(points) {
 
 /**
  * The renderer. `art` is what app.js already draws with: `animated(ctx, clip, x, y, size, seed, options)` (returns 0 when a
- * clip is not loaded), `drawSprite`, `hasSprite` and `miniPerson` for the fallback figure.
+ * clip is not loaded), `drawSprite`, `miniPerson` for the fallback figure, and `clipReady` (public/art.js) - whether a
+ * Claude-drawn clip can be drawn now, the one test public/app.js `drawnClipOf` also makes - where a figure has a `fallback`.
  */
 export function createBattleView(art) {
   const view = {
@@ -630,7 +631,7 @@ export function createBattleView(art) {
         // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a flat-roofed stone house with loopholes" - Claude-drawn stand-in
         // `house-loopholed` (see *Claude-drawn stand-ins*): the house the group holds, stood once behind its men, its wall
         // where the flashes come; while it has not loaded, the town's houses as drawn, with the flashes and the smoke there.
-        if (side.cover === 'loophole' && slot.index === 1 && art.hasSprite?.('house-loopholed')) {
+        if (side.cover === 'loophole' && slot.index === 1) {
           const wall = camera.toScreen({ x: centre.x - facing.x * 0.004, y: centre.y - facing.y * 0.004 - 0.002 });
           figures.push({ y: wall.y - 1, kind: 'cover', side: side.side, point: wall, size: figurePx * 2.4, sprite: 'house-loopholed', clip: null, flip: !right });
         }
@@ -745,7 +746,10 @@ export function createBattleView(art) {
         continue;
       }
       let ok = 0;
-      if (f.clip) ok = art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: reducedMotion });
+      // A Claude-drawn figure with a `fallback` is drawn as that fallback until its clip can be drawn (`clipReady`).
+      const own = !(f.fallback && f.clip && art.clipReady && !art.clipReady(f.clip));
+      if (!own) ok = 0;
+      else if (f.clip) ok = art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: reducedMotion });
       else if (f.sprite) ok = art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip });
       // A Claude-drawn figure whose sheet has not loaded: the library's own figure it stood in for.
       if (!ok && f.fallback) ok = f.fallback.clip ? art.animated(ctx, f.fallback.clip, f.point.x, f.point.y, f.fallback.size || f.size, f.seed, { timeMs: f.timeMs, flip: f.fallback.flip, paused: reducedMotion })
@@ -945,7 +949,7 @@ export function createBattleView(art) {
       // The lamp in the house's window, laid over the house after the dark so it shines: an overlay registered to the house's
       // own picture. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the south's fights" item 2 - Claude-drawn stand-ins
       // `window-lit-*` (see *Claude-drawn stand-ins*); the glow alone while they have not loaded.
-      if (item.kind !== 'campfire' && item.sprite && art.hasSprite?.(item.sprite)) art.drawSprite(ctx, `window-lit-${item.sprite}`, p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip });
+      if (item.kind !== 'campfire' && item.sprite) art.drawSprite(ctx, `window-lit-${item.sprite}`, p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip });
       lit++;
     }
     return { lit };

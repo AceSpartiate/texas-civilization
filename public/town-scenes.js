@@ -245,13 +245,12 @@ function personItem(ctx, person, stepped, { toScreen, figure, scale, time, drawn
     const timeOf = id => (stepped.moving ? stepTime(id, stepped.walked, height / Math.max(1, scale), clip.mounted ? STRIDE.hoof : STRIDE.foot) : undefined) ?? time;
     // A rider standing still sits a horse standing still: the riding cycle held on its first frame. The second of a dancing
     // couple is in the first one's drawing, and draws nothing of their own while it can be drawn.
-    let width = clip.couple === 'partner' && clipReady(clip.id) ? -1
-      : drawClip(ctx, clip.id, at.x, at.y, height, { timeMs: timeOf(clip.id), seed: person.id, flip: clip.flip, paused: person.rides && !stepped.moving });
-    // Béxar's own figures while their sheet has not loaded: the colonists' cast figure that stood in before them.
-    if (!width && person.standIn) {
-      const old = sceneClip({ ...person, figure: person.standIn }, stepped);
-      width = drawClip(ctx, old.id, p.x, p.y, height, { timeMs: timeOf(old.id), seed: person.id, flip: old.flip });
-    }
+    // Béxar's own figures are drawn once their clip can be drawn (`clipReady`, the one test public/app.js `drawnClipOf` makes);
+    // until then the colonists' cast figure that stood in before them, each at their own place.
+    const own = !person.standIn || clipReady(clip.id), shown = own ? clip : sceneClip({ ...person, figure: person.standIn }, stepped);
+    const place = own ? at : p;
+    let width = own && clip.couple === 'partner' ? -1
+      : drawClip(ctx, shown.id, place.x, place.y, height, { timeMs: timeOf(shown.id), seed: person.id, flip: shown.flip, paused: person.rides && !stepped.moving });
     if (!width) fallbackPerson(ctx, p.x, p.y, height, person.figure === 'volunteer' ? '#7d5f45' : '#6d5a68');
     if (person.carries === 'flag') drawFlag(ctx, p.x + height * .18 * (clip.flip ? -1 : 1), p.y - height * .2, height * 1.5, { time });
     ctx.globalAlpha = was;
