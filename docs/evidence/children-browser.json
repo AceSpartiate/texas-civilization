@@ -6,17 +6,17 @@
   "checks": [
     "Cayetano, with nothing to do, walked to Paz and both are heard (\"Where does the wind come from?\" / \"Go and play, and keep where I can see you.\"); the row says \"Stopped to talk with Cayetano, who has nothing to do. Give Cayetano something to do and Paz goes back to the work about the place.\"",
     "given tag, the parent went back to work at once; the icon glows and the child is drawn in 20 places in four seconds, as smallchild-walk-n",
-    "at tag in the yard the child runs the way they are drawn going: w as smallchild-play-run mirrored, e as smallchild-play-run",
-    "with a corn-husk doll the child is drawn sitting (smallchild-play-sit-doll)",
-    "scattering corn for the hens the child is drawn in their own smallchild-scatter",
+    "at tag in the yard the child runs the way they are drawn going: w as smallchild-walk mirrored, e as smallchild-walk, s as smallchild-walk-s",
+    "with a corn-husk doll the child is drawn sitting (smallchild-rest)",
+    "scattering corn for the hens the child is drawn in Astra's rust-sow, not Claude's scatter",
     "the child's automation turned itself off, and the row says \"Auto went off: Cayetano has been good as long as a child can be.\", with an \"!\" on it",
-    "the baby crawled (15 places in three seconds), cried and was picked up by Paz, 36, who said \"There, there. I have you.\" and was drawn indigo-hold-baby; the baby was put down to nap and she went back to where she stood, at \"work\"",
+    "the baby crawled (13 places in three seconds), cried and was picked up by Paz, 36, who said \"There, there. I have you.\" and was drawn indigo-carry; the baby was put down to nap and she went back to where she stood, at \"work\"",
     "on foot with the baby on her hip Paz walks at three quarters of her pace (0.75 a tick): her row says \"On foot with Docia on her hip: walking a quarter slower for it.\", the baby's \"Carried by Paz.\"",
     "at 1024x768 the child's own bar is on the screen and nothing scrolls sideways",
     "told to leave, hiding what the wagon cannot carry is on the main person's bar and glows when pressed; the child's bar has a bundle to make up (child-play, child-doll, child-cart, child-tag, child-hide, child-hoop, child-marbles, child-kindling, child-eggs, child-water, child-mind, flee-bundle, flee-cow)",
     "Mateo has the milk cow on a rope before the family goes: \"Has the milk cow on a rope, ready to go.\"",
     "the family left, and what it hid is in the river bottom, not in the house for the fire: {\"powder\":3,\"seed\":4,\"cotton\":3}",
-    "on the road Mateo's row says \"Driving the milk cow along behind the family.\", the cow is drawn beside them (milk-cow-walk-n), and the herd left on the range is 5 cattle",
+    "on the road Mateo's row says \"Driving the milk cow along behind the family.\", the cow is drawn beside them (cattle-longhorn-red-idle), and the herd left on the range is 5 cattle",
     "on the road the child's bar has the road's own work (road-lookout, road-sing), and watching the road behind glows when pressed",
     "at 1024x768 the road's bar is shown and nothing scrolls sideways",
     "no page errors"
@@ -55,8 +55,8 @@
         "kind": "reconstructed",
         "text": "Where does the wind come from?",
         "box": {
-          "x": 432.68600339612215,
-          "y": 907.0711191737981,
+          "x": 433.05194142778464,
+          "y": 905.6323761255456,
           "w": 203.953125,
           "h": 27
         }
@@ -67,8 +67,8 @@
         "kind": "reconstructed",
         "text": "Go and play, and keep where I can see you.",
         "box": {
-          "x": 351.6648136132596,
-          "y": 888.5641451559727,
+          "x": 352.01509974307857,
+          "y": 886.9082470877502,
           "w": 229.90234375,
           "h": 42
         }
@@ -193,237 +193,237 @@
     "tagTurns": [
       [
         "w",
-        "smallchild-play-run",
+        "smallchild-walk",
         true
       ],
       [
         "w",
-        "smallchild-play-run",
+        "smallchild-walk",
         true
       ],
       [
         "w",
-        "smallchild-play-run",
+        "smallchild-walk",
         true
       ],
       [
         "w",
-        "smallchild-play-run",
+        "smallchild-walk",
         true
       ],
       [
         "w",
-        "smallchild-play-run",
+        "smallchild-walk",
         true
       ],
       [
         "w",
-        "smallchild-play-run",
+        "smallchild-walk",
         true
       ],
       [
         "w",
-        "smallchild-play-run",
-        true
-      ],
-      [
-        "w",
-        "smallchild-play-run",
+        "smallchild-walk",
         true
       ],
       [
         "e",
-        "smallchild-play-run",
+        "smallchild-walk",
         false
       ],
       [
         "e",
-        "smallchild-play-run",
+        "smallchild-walk",
         false
       ],
       [
         "e",
-        "smallchild-play-run",
+        "smallchild-walk",
         false
       ],
       [
         "e",
-        "smallchild-play-run",
+        "smallchild-walk",
         false
       ],
       [
         "e",
-        "smallchild-play-run",
+        "smallchild-walk",
         false
       ],
       [
         "e",
-        "smallchild-play-run",
+        "smallchild-walk",
         false
       ],
       [
         "e",
-        "smallchild-play-run",
-        false
-      ],
-      [
-        "e",
-        "smallchild-play-run",
-        false
-      ],
-      [
-        "e",
-        "smallchild-play-run",
+        "smallchild-walk",
         false
       ],
       [
         "w",
-        "smallchild-play-run",
+        "smallchild-walk",
         true
       ],
       [
         "w",
-        "smallchild-play-run",
+        "smallchild-walk",
         true
       ],
       [
         "w",
-        "smallchild-play-run",
+        "smallchild-walk",
         true
       ],
       [
         "w",
-        "smallchild-play-run",
+        "smallchild-walk",
+        true
+      ],
+      [
+        "w",
+        "smallchild-walk",
+        true
+      ],
+      [
+        "w",
+        "smallchild-walk",
         true
       ],
       [
         "e",
-        "smallchild-play-run",
+        "smallchild-walk",
         false
       ],
       [
         "e",
-        "smallchild-play-run",
+        "smallchild-walk",
         false
       ],
       [
         "e",
-        "smallchild-play-run",
+        "smallchild-walk",
         false
       ],
       [
         "e",
-        "smallchild-play-run",
-        false
-      ],
-      [
-        "e",
-        "smallchild-play-run",
+        "smallchild-walk",
         false
       ],
       [
         "w",
-        "smallchild-play-run",
+        "smallchild-walk",
         true
       ],
       [
         "w",
-        "smallchild-play-run",
+        "smallchild-walk",
         true
       ],
       [
         "w",
-        "smallchild-play-run",
+        "smallchild-walk",
         true
       ],
       [
         "w",
-        "smallchild-play-run",
+        "smallchild-walk",
         true
+      ],
+      [
+        "s",
+        "smallchild-walk-s",
+        false
+      ],
+      [
+        "s",
+        "smallchild-walk-s",
+        false
       ]
     ],
-    "hens": "smallchild-scatter",
+    "hens": "rust-sow",
     "autoOff": "Auto went off: Cayetano has been good as long as a child can be.",
-    "autoOffNeed": "Answer this first. Ada Swinney has stopped to speak with Cayetano Proofwright. And 1 more. Go to Cayetano Proofwright and answer.",
+    "autoOffNeed": "Answer this first. Ada Swinney has stopped to speak with Cayetano Proofwright. About 2 min left. And 1 more. Go to Cayetano Proofwright and answer.",
     "crawl": {
-      "places": 15,
+      "places": 13,
       "clips": [
-        "infant-crawl"
+        "infant-idle-e"
       ],
       "turns": [
         [
           null,
-          "infant-crawl",
+          "infant-idle-e",
           false
         ],
         [
           null,
-          "infant-crawl",
+          "infant-idle-e",
           false
         ],
         [
           null,
-          "infant-crawl",
+          "infant-idle-e",
           false
         ],
         [
           null,
-          "infant-crawl",
+          "infant-idle-e",
           false
         ],
         [
           null,
-          "infant-crawl",
+          "infant-idle-e",
           false
         ],
         [
           null,
-          "infant-crawl",
+          "infant-idle-e",
           false
         ],
         [
           null,
-          "infant-crawl",
+          "infant-idle-e",
           false
         ],
         [
           null,
-          "infant-crawl",
+          "infant-idle-e",
           false
         ],
         [
           null,
-          "infant-crawl",
+          "infant-idle-e",
           false
         ],
         [
           null,
-          "infant-crawl",
+          "infant-idle-e",
           false
         ],
         [
           null,
-          "infant-crawl",
+          "infant-idle-e",
           false
         ],
         [
           null,
-          "infant-crawl",
+          "infant-idle-e",
           false
         ],
         [
           null,
-          "infant-crawl",
+          "infant-idle-e",
           false
         ],
         [
           null,
-          "infant-crawl",
+          "infant-idle-e",
           false
         ],
         [
           null,
-          "infant-crawl",
+          "infant-idle-e",
           false
         ]
       ]
@@ -439,7 +439,7 @@
       "said": [
         "There, there. I have you."
       ],
-      "clip": "indigo-hold-baby",
+      "clip": "indigo-carry",
       "babyLife": "Held by Paz, who is singing to her.",
       "carerLife": "Seeing to Docia: holding and singing, then back to the work about the place."
     },
@@ -466,17 +466,17 @@
       "row": "Driving the milk cow along behind the family.",
       "drawn": {
         "by": "hh-1-child-4",
-        "x": 603,
-        "y": 487,
-        "clip": "milk-cow-walk-n",
+        "x": 527,
+        "y": 1096,
+        "clip": "cattle-longhorn-red-idle",
         "child": {
-          "x": 683,
-          "y": 481
+          "x": 607,
+          "y": 1090
         }
       },
       "child": {
-        "x": 683,
-        "y": 441.38192307692304,
+        "x": 606.9037407273561,
+        "y": 1050.1519972580743,
         "size": 89.10000000000001
       },
       "herdLeft": {

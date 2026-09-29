@@ -31,7 +31,7 @@ meanings she has not drawn, the riverbanks, fog, night grades, lit windows, work
 not drawn (anacua, ebony, tupelo, willow), the washtub, the musket stack, the army camps. When she draws one of those, **every**
 Claude frame of that subject steps aside at once, not only the one of the same name. A subject is a judgement written as one
 line (`ceiling:` in the file: a lancer is her dragoon; a Tejano rider is not her mounted courier; a shortleaf pine is her pine);
-changing a line is the whole way to overturn one. Of 1871 Claude frames, 445 are drawn and 1426 held back. The generated plan and
+changing a line is the whole way to overturn one. Of 1940 Claude frames (with the wedding's), 511 are drawn and 1429 held back. The generated plan and
 Astra's list now say, item by item, *Claude stand-in held back: Astra has drawn the subject* (`scripts/claude-art/write-plan.mjs`);
 the rule is written into docs/ART_REQUESTS.md (*Claude-drawn stand-ins*), docs/ART_STYLE.md and docs/CLAUDE_ART_PLAN.md (step 5a).
 
@@ -57,10 +57,11 @@ frame, blue Astra's; `index.json` lists what each drew):
 | Trees in the norther; the live-oak mott; shortleaf pine, cedar elm; the stumps; smoke rising; the campfire at night; the marsh's edge | her uprights sheared; her live oaks, loblolly, elm, stumps, smoke, campfire, cordgrass | Claude's | hers | f-land.png |
 | Anacua, ebony, tupelo, willow; riverbanks, fog, grades; a tree falling | her oak, elm, cottonwood; canvas | Claude's | **Claude's** | f-land.png |
 
-**Tests.** `tests/astra-art-wins.test.mjs` (6) loads the real manifests through `public/art.js` as the page does: every Claude
+**Tests.** `tests/astra-art-wins.test.mjs` (7) loads the real manifests through `public/art.js` as the page does: every Claude
 frame has a subject; no Claude frame of anything she has an idle, walk, march, travel or ride of is drawable (found apart from the
 rules); the 35 frames and 6 clips the owner saw replaced are held back; the 14 she has nothing of are still drawn; a delivery of
-one `kimbell-idle` takes every Claude Kimbell out; nothing outside `art.js` reads Claude's library. Proved by injection in
+one `kimbell-idle` takes every Claude Kimbell out; the wedding's farmsteads and table are hers and its yards Claude's; nothing
+outside `art.js` reads Claude's library. Proved by injection in
 `npm run test:claude-art` (docs/evidence/claude-art/injections.json): the released same-name rule (`const why = null`), the
 children with no subject, the wagon held to its own name, and a page reading Claude's library around the rule each fail exactly
 the tests they guard; clean runs 0 failing. **Proofs changed on purpose:** `test:riding` now requires her wagon and ox drawn
@@ -68,11 +69,39 @@ apart (`rig` null, no `wagon-ox-*` drawn) with the driver on her wagon's box; `t
 tag (N/S as her `-walk-n/-s`) and her carry for the baby held, never Claude's `play-*` or `hold-baby`. `node scripts/astra-vs-claude-shots.mjs`
 redraws the evidence from the two tags, main and this tree.
 
-**For the other builders.** A new Claude area module must add its subject to `public/art-subjects.js` (the test fails until it
-does), and anything it draws of her figures - the lone-parent wedding's grown cast, children's new headings - will be held back
-while hers exist. Draw what she has nothing of.
+**The lone parent's wedding (merged from origin/main dc863f4f) - one exception, not the owner's.** The coordinator decided the
+wedding's cast gestures (`<cast>-greet`, `-shy`, `-laugh`, `-vow`, `rust-/ochre-fiddle`, `elder-read-paper`) are a scene Astra has
+not drawn and stay Claude's. That is the only place a Claude drawing of her cast figures is shown, and it is the same reasoning
+that would have kept Claude's chop and play, so it is one marked line in `public/art-subjects.js` (`ceiling:`); delete it and the
+wedding falls back to her figures speaking and standing (`POSE_STANDIN` in public/courtship.js). **Owner to confirm.** Its places
+follow the rule: the two farmsteads are her `cabin-wide` and `jacal-ramada` with a porch and an olla added, so hers are drawn; the
+supper table is her `home-table`; the painted yards behind the scenes stay Claude's. Nobody at the wedding walks or idles in
+Claude's hand (the test holds it).
 
-PROOFS_PLACEHOLDER
+**A page that would not have loaded.** The server hands out public/ from a fixed list (`files` in server/app.mjs), so the new
+`public/art-subjects.js`, imported by art.js, was a 404 and the page never showed its join form - `npm test` could not see it,
+the first browser proofs could. It is served now, and `tests/served-imports.test.mjs` walks every relative import from the page,
+the art catalog and the Alamo workshop and fails on one the server does not serve (proved by removing the route: fails with
+`/art-subjects.js (401)`).
+
+**For the other builders.** A new Claude area module must add its subject to `public/art-subjects.js` (the test fails until it
+does), and anything it draws of her figures - children's new headings, a new pose of her cast - will be held back while hers
+exist. Draw what she has nothing of.
+
+**In-game before/after** (the proofs' own close-ups; before = main 3dd5209d's committed evidence, after = this branch's run):
+docs/evidence/astra-vs-claude/game-riding-wagon.png, game-work-house-close.png, game-work-shoot-close.png,
+game-work-pace-close.png, game-work-about-close.png, game-children-play-1366.png.
+
+**Evidence (same computer; headless Chrome; no Chromebook, LAN or classroom claim).** On the branch with origin/main c92e715f and
+`looks-solid-tiles` merged: `npm test` **1779 tests, 1743 pass, 0 fail, 36 skipped**. Browser proofs: `test:riding` 16,
+`test:children` 16, `test:work` 5, `test:lone-parent` 10, `test:battle-gonzales` 12, `test:looks-face` 12, `test:creation` 10,
+`test:creation-screen` 4, `test:overlap` pass, `test:art` pass; before the last merge also `test:looks` 9, `test:family-panel` 18,
+`test:battle-bexar` 15, `test:battle-alamo` 13, `test:battle-san-jacinto` 15, `test:battle-concepcion` 13. `test:famous-people` 22 (run alone; once, beside
+a clean-main Coleto run, it missed Neill hurt at the guns, a sampling miss under load).
+**Failing, and failing the same on clean origin/main c92e715f (not this branch):** `test:battle-south` ("no account of San
+Patricio came", 13 checks pass first, identical on a clean checkout of c92e715f) and `test:battle-coleto` (here "no account came
+through the family at the word" after 16 checks; on the clean checkout it fails earlier, "no Follow card came through the man when
+the column marched out") - both a news card not arriving, after every drawing check has passed.
 
 ## The character creator's solid-colour tiles — owner, 2026-09-29 (not released)
 
