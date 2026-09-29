@@ -39,6 +39,8 @@ registerDiseaseChores();
 // Who acts for a family, a child who steps up and goes for help, a family taken in, and anybody left behind (sim/acting.mjs,
 // owner 2026-09-28: "The oldest child steps up").
 import { FAMILY_DECISIONS, actingFor, actingInvalid, advanceStragglers, advanceTakenIn, registerActingChores, registerTakenInLedger, takenInRefusal, withTheFamily } from './acting.mjs';
+// A student with no family left to play follows another and watches it (owner, 2026-09-29; sim/watching.mjs).
+import { projectWatching, watchOf, watchRefusal } from './watching.mjs';
 registerActingChores(registerChores);
 registerTakenInLedger({ owes: (world, debtorId, creditorId) => owes(standings(world), debtorId, creditorId), recorded: (world, takerId, familyId, ids) => recordTakenIn(world, takerId, familyId, ids, { quiet: true }) });
 import { advanceLesson, advanceLessons, inLesson, lessonHostWords, lessonInvalid, lessonProjection, lessonRefusal, lessonResumeOffer, resumeLesson, stopLesson } from './lesson.mjs';
@@ -49,7 +51,7 @@ import { advanceCamp, answerCampQuestion, campInvalid } from './camp.mjs';
 import { childAction, childrenInvalid } from './children.mjs';
 // A child's day when nobody is telling them what to do, and the family's babies (owner, 2026-09-26; docs/CHILDREN.md): the idle
 // child who goes to a parent, a child's own automation and obedience, and a baby that crawls, cries and is held.
-import { advanceChildhood, childAutoShown, childLine, childhoodInvalid, isSmallChild, released, setChildAuto, talkLines } from './childhood.mjs';
+import { advanceChildhood, autoOffAsking, childAutoShown, childLine, childhoodInvalid, isSmallChild, released, setChildAuto, talkLines } from './childhood.mjs';
 import { advanceBabies, babiesInvalid, babyLine, babyLines, babyWord, carryBabies, hipPace, isBaby, settleTheUnable, takeBabyAlong } from './babies.mjs';
 import { asideWhy } from './aside.mjs';
 import { hostLiveProjection } from './host.mjs';
@@ -893,6 +895,9 @@ export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 
  */
 export function applyAction(world, householdId, input, realTime = {}) {
   const household = world.households[householdId];
+  // Watching another family, with nobody of their own to order (owner, 2026-09-29; sim/watching.mjs): refused in words.
+  const watching = household && watchRefusal(world, household, input);
+  if (watching) throw new Error(watching);
   const notYet = lessonRefusal(world, household, input);
   if (notYet) throw new Error(notYet);
   applyOneAction(world, householdId, input, realTime);
@@ -1261,8 +1266,9 @@ function nursesFor(world, household, sick) {
  */
 function choreShown(world, household, e) {
   if (!e.chore) return e.chore;
-  const { with: held, shares, errand, ...shown } = e.chore;
-  return e.chore.ask ? { ...shown, ask: askProjection(world, household, e) } : (held || shares || errand ? shown : e.chore);
+  // A child's day of play (`allDay`, sim/child-day.mjs) is the server's clock: the row says what they are doing, not until when.
+  const { with: held, shares, errand, allDay, ...shown } = e.chore;
+  return e.chore.ask ? { ...shown, ask: askProjection(world, household, e) } : (held || shares || errand || allDay ? shown : e.chore);
 }
 export function projectWorld(world, householdId, role, { includeMap = true, copy = true, now = Date.now() } = {}) {
   const household = world.households[householdId];
@@ -1408,6 +1414,17 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   if (ambient) view.ambient = ambient;
   return copy ? structuredClone(view) : view;
 }
+/**
+ * The page a student is sent (server/app.mjs `view`): their family's own (`projectWorld`), or - with nobody of their family left to
+ * play, or their little ones taken in by a neighbour family - the family they follow, read-only, with a line saying why (owner,
+ * 2026-09-29; sim/watching.mjs). The families nobody plays think from `projectWorld` itself (sim/neighbours.mjs), never from this.
+ */
+export function projectPage(world, householdId, role, options = {}) {
+  const household = role === 'student' && householdId ? world.households[householdId] : null;
+  const watch = household && watchOf(world, household);
+  if (!watch) return projectWorld(world, householdId, role, options);
+  return projectWatching(world, household, watch, { project: projectWorld, ending: endingProjection, options });
+}
 const townScenesView = (world, householdId, role) => { const townScenes = townScenesFor(world, householdId, role); return townScenes ? { townScenes } : {}; };
 /** The orders refused to somebody called aside by the family's little ones: their own work and their own journeys. */
 const ASIDE_REFUSED = new Set(['chore', 'travel', 'work', 'survey-plot', 'fell-trees', 'hunt-land', 'clear-plot', 'fence-plot', 'town-help']);
@@ -1426,6 +1443,8 @@ function littleOnes(world, household, e) {
     ...(e.carriedBy && { carriedBy: e.carriedBy }),
     // A child on their own automation is shown what they are at, and never how long it has left (that is their roll).
     ...(e.auto && isSmallChild(e) && { autoTask: childAutoShown(e) }),
+    // Their automation went off and they have been given nothing since: the "!" on their row (owner, 2026-09-29).
+    ...(autoOffAsking(e) && { autoOff: true }),
   };
 }
 export function validateWorld(world) {

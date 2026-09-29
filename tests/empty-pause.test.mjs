@@ -43,7 +43,8 @@ function watchStream(port, cookie) {
         while ((end = buffer.indexOf('\n\n')) !== -1) {
           const message = buffer.slice(0, end); buffer = buffer.slice(end + 2);
           const data = message.split('\n').filter(line => line.startsWith('data: ')).map(line => line.slice(6)).join('\n');
-          if (data) seen.last = JSON.parse(data);
+          // The ping names the stream (server/app.mjs, `event: ping`, sent first since 59522723) and is not a snapshot.
+          if (data && !/^event: ping$/m.test(message)) seen.last = JSON.parse(data);
         }
       });
       resolve({ seen, close: () => new Promise(done => { request.on('close', () => done()); request.destroy(); }) });

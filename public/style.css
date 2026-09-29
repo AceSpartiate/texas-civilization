@@ -1292,6 +1292,18 @@ body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{max-
 @media (min-width:761px){body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{width:min(24rem,calc(100% - var(--place-left,12px) - 12px),calc(40% - var(--place-left,12px)))}}
 /* The lines the page says, in the status column (public/index.html): as wide as the column at most, in its flow. */
 #hud-left #error,#hud-left #save-fault,#hud-left #lifecycle,#hud-left #host-paused,#hud-left #host-notice{position:static;left:auto;top:auto;transform:none;max-width:min(19rem,calc(100vw - 24px));padding:7px 12px;font-size:13px;text-align:left;box-sizing:border-box}
+/* Watching another family (owner, 2026-09-29; sim/watching.mjs): the line, in the status column's flow like the lines above, and
+   every control that would give an order taken off the page - the server refuses them all, and a button that can only be
+   refused is not offered. The portraits still take the camera to a person, and the card still says what they are doing.
+   `!important`, as `[hidden]` is: this is a state of the whole page, and outranks every rule that places the bar or the card. */
+#watching{margin:0;padding:7px 12px;border-radius:8px;max-width:min(19rem,calc(100vw - 24px));font-size:13px;line-height:1.35;text-align:left;box-sizing:border-box;background:#efe6cf;color:#3b3427;border:2px solid #8f825b}
+body[data-watching=true] .panel-icons,body[data-watching=true] .panel-attention,body[data-watching=true] .panel-auto,body[data-watching=true] .panel-focus,
+body[data-watching=true] .panel-house,body[data-watching=true] .panel-make-main,body[data-watching=true] #selection-actions,body[data-watching=true] #selection-work,
+body[data-watching=true] #selection-trade,body[data-watching=true] #selection-call,body[data-watching=true] #selection-nurse,body[data-watching=true] #selection-army,
+body[data-watching=true] #selection-flight,body[data-watching=true] #selection-more,body[data-watching=true] #wagon-open,body[data-watching=true] #house-open,
+body[data-watching=true] #call-menu,body[data-watching=true] #encounter,body[data-watching=true] #site-choose,body[data-watching=true] #survey-choose,
+body[data-watching=true] #house-plan,body[data-watching=true] #house-plot,body[data-watching=true] #house-placement,body[data-watching=true] #errand,
+body[data-watching=true] #going,body[data-watching=true] #wagon-load{display:none!important}
 /* The journal opens under the guided start's strip rather than over its lower half, where "Show placement controls" was. */
 body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px + var(--lesson-room,108px)))}
 /* The sound's panel of sliders opens over the right-hand end of the map's buttons, where "How it ended" stands, rather than

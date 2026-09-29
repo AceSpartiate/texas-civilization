@@ -1343,8 +1343,10 @@ untouched - there the column runs across the top and the property is removed.
   word's title. The word is the server's (`lifeWord`, sim/babies.mjs `babyWord`); the main person's row, and every row when the
   column is roomy, has the sentence and no word. Held at 1366x768, 1440x950 and 1024x768 for a family of twenty by
   `npm run test:family-twenty`; the roomy row by `npm run test:children`.
-- **An Auto switch on a child of two or more** (an infant has none). It lasts a time scaled by the child's hidden obedience and
-  goes off by itself, which the row says for six ticks; how long it has left is never shown.
+- **An Auto switch on a child of two or more** (an infant has none). It goes off by itself, which the row says for six ticks; how
+  long it has left is never shown. **Since 2026-09-29** (owner, "Until the day ends"; docs/CHILDREN.md §12) it lasts until the day
+  ends, as a child's play does, and when it goes off an **"!"** stands on the child's row - kind `child`, ranked after work that has
+  stopped to ask and before an offer - until the child is given a work, play or their Auto again.
 - **Icons**: seven kinds of play, the hens and the Scrape's nine works, stroked glyphs until their art lands
   (docs/ART_REQUESTS.md, request 2026-09-26).
 - The family's talk is drawn in bubbles over the child and the grown-up at once, for the tick it is said (`familyTalk`), dashed
@@ -1433,12 +1435,56 @@ selects" from "set main person", design audit B11; this rule sits beside it, for
 
 1. **What a student whose little ones were taken in may do for the family that took them in**: (A) watch only, as built; (B)
    their children of three or more may be given the road's children's works (singing, keeping the little ones walking, the fire)
-   for the family they are with; (C) the student may answer that family's road questions when nobody plays it.
+   for the family they are with; (C) the student may answer that family's road questions when nobody plays it. **Decided
+   2026-09-29: "Follow and watch"** - the student follows that family and watches it, and gives no orders; and the same for a
+   student whose whole family is gone (§20a).
 2. **The age a child steps up at**: (A) seven, as built (the pail and the baby's age on the children's ladder); (B) eight; (C) five,
    for the order to leave only.
 3. **A lone father sent to the war with only small children at home**: (A) warned on the control, as built; (B) refused, as a
    last woman of age with a baby once was proposed (interactions S3's direction); (C) allowed only once a neighbour has agreed to
    take them in.
+## 20a. Follow and watch — owner 2026-09-29 ("Follow and watch"), built the same day
+
+The owner, by multiple choice on the triage's D3(a) (docs/audits/2026-09-29-triage.md): a student whose whole family is gone, or whose
+little ones have all been taken in by a neighbour family, **follows the family that took them in, or else a neighbour family, and
+watches it**. Until this the game coped - a family with nobody living is never ordered out, holds nobody's clock and is never named
+winner - but nothing in `public/` said what had happened, possibly for a whole period (playthrough audit #7, triage 2.17), and a
+student whose little ones were taken in watched their own rows standing idle at the neighbours'. Built in sim/watching.mjs.
+
+- **Who watches** (`watchOf`). *Taken in* (§20), **with nobody else of the family left to play**: the family that took the little
+  ones in, which is where they are. A man of the family serving with the army is still the student's - the army's questions are his,
+  and his road home is what fetches the little ones back - so while one lives and is not a prisoner of war the student keeps their own
+  page, with the little ones' rows and the flight card saying where they are (§20); the owner's question was "the student with nobody
+  left". *Gone*: everybody of
+  the family dead or a prisoner - the one meaning of "wiped" the ending uses (sim/ending.mjs `nobodyLeft`, dead or captured) - the
+  **nearest neighbour family** with somebody left, by the distance between their lands, one itself taken in passed over while another
+  is left. Nothing is stored: it is worked out from the family as it stands, so a family whose little ones are fetched home is its own
+  again the same tick. **No save version moved.**
+- **What the page shows** (`projectPage`, sim/world.mjs, which server/app.mjs sends every student): **exactly the page that family's own
+  student is sent** - its people in the column (father, mother, children oldest first, from `watching.people`), its land, its journal,
+  the country as its people see it - and **nothing of the Host's** and nothing of any other family (tests/watching.test.mjs holds the
+  page equal to that family's own, byte for byte, less what is taken off). Taken off: its work, its ways of going, its offers, its
+  call, its rider's conversation, its neighbours' asks, its guided start. The page's own id stays the student's, so the family they made,
+  their tips and their key are theirs; at the class's end the ending is **their own family's**.
+- **The line** (`#watching`, in the status column's flow under the family's stores; the server's words, `watching.line`): *"Everybody of
+  the Proofwright family has died. You are following Anselmo's family, your nearest neighbours, and watching what becomes of them. You
+  cannot give orders."* - "has died or been taken prisoner" when any was taken; taken in: *"Nobody grown of the Proofwright family was
+  left to see to the little ones, and Anselmo's family took them in. You are watching Anselmo's family, who have them now. You cannot
+  give orders until somebody grown of your family comes for them."*
+- **No orders** (`watchRefusal`, from `applyAction`): every order is refused - *"Nobody of your family is left to give an order to."*,
+  or for the taken in the words §20 already had, *"The family is with … now, and goes where they go, until somebody grown of the family
+  comes for them."* - except putting a tip away and naming the family. On the page (`data-watching`, public/style.css): no "!", no bar,
+  no Auto, no star, no house or wagon buttons, no card sections that give work, no chooser of the watched family's own (its house site,
+  its survey), no tip; the names cannot be typed in. A portrait still takes the camera to the person and opens their card, which says
+  what they are doing and offers nothing.
+- **The Host's page is unchanged**: the Host sees every family as it always did (docs/HOST_PAGE.md); nothing is added to it.
+- `ceiling:` a gone family follows the **nearest** family by its land, not the one its people knew best or last helped; the neighbours'
+  ledger (sim/neighbourly.mjs) is the way in, as `hostsFor` already reads it for taking in.
+
+Proved by tests/watching.test.mjs (4 tests; `npm run test:watching-injections`, 13 of 13 caught) and `npm run test:watching` in the
+browser at 1366x768 and 1024x768 (docs/evidence/watching-browser.json). HANDOFF.md, "Small children until the day ends; follow and
+watch (not released)".
+
 ## 21. Nothing stands on anything else — owner 2026-09-28, built the same day
 
 > "Check for UI elements that block others. Move them somewhere else."

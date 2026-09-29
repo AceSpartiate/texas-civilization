@@ -1,5 +1,57 @@
 # Claude handoff — Astra foundation
 
+## Small children until the day ends; follow and watch — owner, 2026-09-29 (not released)
+
+Branch `owner-children-watch`, off origin/main (1859f219, which has `audit-triage-2026-09-29` in it); not pushed. The owner's answers
+to the triage's D1 to D4 ([audits/2026-09-29-triage.md](docs/audits/2026-09-29-triage.md)), by multiple choice; the triage marks
+D2, D3, 2.3's play line, 2.17 and its two found edges fixed, and records D1 and D4.
+
+- **D2, "Until the day ends"** ([CHILDREN §12](docs/CHILDREN.md)). A small child's play and a child's own auto last until the day
+  ends - the simulation's own day, `Math.floor(minute / 1440)`, which turns at dawn in a class whose families arrive by wagon -
+  instead of play's 6 ticks and auto's 18-56 by the roll (`sim/child-day.mjs` `dayOver`; `allDay` on the play's step in
+  `sim/chores.mjs`; `childAuto` is `{ day, since, picks }`, an old save's `{ until }` retimed when first seen). When a child's auto
+  goes off, an **"!"** (need kind `child`, after `asking`, before `offer`) stands on their row until they are given a work, play or
+  Auto again (`autoOffAsking`, sim/childhood.mjs; `autoOff: true` on the page). Obedience stays hidden (the page-bytes test still
+  holds); a spell of play between jobs on auto, or a wander, keeps its old two hours (`spell`). "Set out: play" is written at most
+  once a day per child (`firstPlayToday`; interactions M5's open half). `IDLE_TICKS` unchanged. `ceiling:` never sooner than 18 ticks
+  (`DAY_FLOOR_TICKS`): on the four- and twelve-hour calendars a day is 6 or 2 ticks, and the "!" would come every 20 seconds.
+- **D3(a), "Follow and watch"** ([FAMILY_PANEL §20a](docs/FAMILY_PANEL.md)). A student whose whole family is dead or prisoners
+  (the ending's `nobodyLeft`), or whose little ones were all taken in **with nobody else of the family left to play**, follows the
+  family that took them in, or else the nearest neighbour family by land, and watches it (`sim/watching.mjs`). `projectPage`
+  (sim/world.mjs, called by `server/app.mjs` `view`) sends that family's own student page, byte for byte less its controls (work,
+  ways of going, offers, call, rider, neighbours' asks, guided start), the student's own `householdId` and own ending, and
+  `watching` with a plain line: *"Everybody of the Proofwright family has died. You are following Anselmo's family, your nearest
+  neighbours, and watching what becomes of them. You cannot give orders."* Nothing of the Host's. `applyAction` refuses every order
+  (`watchRefusal`) but a tip put away and the family's name. Page: `#watching` in the status column, `body[data-watching]` takes off
+  the "!", the bar, Auto, the star, the card's sections, the watched family's own choosers; no tip; names read-only. **Judgement
+  call, flagged:** a father serving with the army keeps the family's own page (his questions are the student's, and his road home
+  fetches the little ones), since the owner's question was "the student with nobody left"; a prisoner of war does not count. Nothing
+  stored; no `saveVersion` move. The Host's page is unchanged.
+- **D3's two edges.** A straggler reaching the refuge after the family turned home follows it home (`followTo` for `returning` /
+  `home`). Little ones at home with no neighbour near are told of in the family's record once a day (`nobodyNear`,
+  `household.leftAlone`, validated); `ceiling:` they wait at home - the auto flight takes them east and the refuge's families take
+  them in.
+- **D1, "As now"**: foragers take anybody at home at 50%; no change. **D4**: *"neither. i have a plan for this that we'll implement
+  later."* - nothing built.
+- Also: `tests/empty-pause.test.mjs` parsed the stream's `event: ping` as a snapshot and failed on origin/main after the
+  `tier1-classroom` merge (the ping now goes first); it skips pings now. `scripts/acting-injections.mjs`'s "a dead family can win" was
+  stale against 1.4's `contenders` line; updated. `tests/family-commands.test.mjs`'s need order includes `child`.
+
+**Evidence** (same computer only; no Chromebook, LAN or classroom claim). New tests: 3 in `tests/childhood.test.mjs` (play until the
+day ends, spells and the floor; "set out" once a day; the auto test rewritten for the day and the "!"), 4 in `tests/watching.test.mjs`.
+`node scripts/childhood-injections.mjs` on the new and changed rules: **11 of 11** caught, 10 alone (a spell lasting the day also
+fails the once-a-day test, which then has too few plays to prove anything); `npm run test:watching-injections`: **15 of 15** caught, 13 alone (the order refusal and the whole watching page are shared by both watching tests)
+([evidence](docs/evidence/watching-injections.json)); `npm run test:acting-injections`: **25 of 25** caught, 17 alone ([evidence](docs/evidence/acting-injections.json); its "nobody takes the little ones in" now leaves the new `else` whole). New browser proof **`npm run
+test:watching`** (`scripts/watching-browser-proof.mjs`) **8 checks** at 1366x768 and 1024x768: everybody dies, the line and the
+followed family's column, no "!", bar, Auto, star, chooser or tip (a tip came back once a second on its first run - the page's own
+interval - fixed), the card offers nothing, an order sent anyway is refused in the server's words; the little ones taken in, the page
+follows that family and they are on its map, and when a grown daughter comes for them the page is the family's own again. It also
+found that a watching page must keep the student's own id (the title screen came back over the world). `npm test` **1743 tests, 1706 pass, 1 fail, 36 skipped**: the one is `save-retry`, run beside two browser proofs (known flaky under load), and passes alone; the first run's two failures (the empty-pause ping, the need order) are fixed above.
+Browser proofs re-run green: `test:children` **16** (it now calls play off from the bar instead of waiting it out, and checks the "!" when the child's auto goes off), `test:family-panel` 18, `test:tips` 13, `test:panels` 14, `test:acting` 7, `test:overlap` 167 screens / 31 states / **0 faults** (a first run beside `test:panels` had one: a town-talk bubble half under the first-meeting tip at 1024x600, not seen again alone). Only `test:watching`'s, `test:children`'s record and auto-off picture and the acting injections' evidence are committed.
+
+**Left:** the full `test:children-injections` evidence file was not re-run end to end (the new and changed injections were, above);
+`test:overlap` has no watching state; D3(b) and (c) were not asked again (seven, and a warning, as built).
+
 ## The empty class pauses itself, any played family can win, the lobby shows who is ready — owner, 2026-09-29 (not released)
 
 Branch `owner-pause-win-lobby`, off origin/main (0ffa9663) with `audit-triage-2026-09-29` merged in; not pushed. The owner's

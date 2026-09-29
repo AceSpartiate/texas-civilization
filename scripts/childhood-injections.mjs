@@ -14,6 +14,7 @@ import { spawnSync } from 'node:child_process';
 const CHILDHOOD = 'sim/childhood.mjs', BABIES = 'sim/babies.mjs', FLIGHT = 'sim/flight-work.mjs', OBEDIENCE = 'sim/obedience.mjs', FAMILY = 'sim/family.mjs';
 const SCRAPE = 'sim/scrape.mjs', ROAD = 'sim/road.mjs';
 const WORLD = 'sim/world.mjs', CHORES = 'sim/chores.mjs', CHILDREN = 'sim/children.mjs', LESSON = 'sim/lesson.mjs', PANEL = 'public/family-panel.js';
+const DAY = 'sim/child-day.mjs';
 const T = {
   childhood: 'tests/childhood.test.mjs', babies: 'tests/babies.test.mjs', flight: 'tests/flight-work.test.mjs', children: 'tests/children.test.mjs', panel: 'tests/family-panel.test.mjs',
 };
@@ -35,9 +36,18 @@ const INJECTIONS = [
   // Play drawn (FIC-GONZ-475).
   { name: 'a child at play is never moved about the yard', file: CHILDHOOD, from: '      if (entity.chore && isPlay(entity.chore.id)) playStep(world, household, entity);', to: '      if (false) playStep(world, household, entity);', test: T.childhood, expect: /a child at play is seen at it/ },
   // A child's automation (FIC-GONZ-480).
-  { name: 'a child’s automation goes on for ever', file: CHILDHOOD, from: "  if (world.tick >= entity.childAuto.until) return autoOff(world, household, entity, 'time');", to: '', test: T.childhood, expect: /own automation/ },
+  { name: 'a child’s automation goes on for ever', file: CHILDHOOD, from: "  if (dayOver(world, entity.childAuto)) return autoOff(world, household, entity, 'time');", to: '', test: T.childhood, expect: /own automation/ },
   { name: 'a child’s automation goes off without a notice on the row', file: CHILDHOOD, from: '  entity.autoNotice = { tick: world.tick, why };', to: '', test: T.childhood, expect: /own automation/ },
-  { name: 'every child is trusted with automation for as long', file: CHILDHOOD, from: 'export const childAutoTicks = roll => Math.round(', to: 'export const childAutoTicks = roll => 30 || Math.round(', test: T.childhood, expect: /own automation/ },
+  // Until the day ends (owner, 2026-09-29, "Until the day ends"; sim/child-day.mjs).
+  { name: 'a child’s automation goes off before the day is out', file: CHILDHOOD, from: "  if (dayOver(world, entity.childAuto)) return autoOff(world, household, entity, 'time');", to: "  if (world.tick - entity.childAuto.since >= 18) return autoOff(world, household, entity, 'time');", test: T.childhood, expect: /own automation/ },
+  { name: 'no "!" when a child’s auto goes off (page)', file: PANEL, from: "  if (entity.autoOff) needs.push(", to: "  if (false) needs.push(", test: T.childhood, expect: /own automation/ },
+  { name: 'no "!" when a child’s auto goes off (server)', file: WORLD, from: '    ...(autoOffAsking(e) && { autoOff: true }),', to: '', test: T.childhood, expect: /own automation/ },
+  { name: 'the "!" leaves with the notice, before the child is given anything', file: CHILDHOOD, from: ' >= NOTICE_TICKS && !autoOffAsking(entity)) delete entity.autoNotice;', to: ' >= NOTICE_TICKS) delete entity.autoNotice;', test: T.childhood, expect: /own automation/ },
+  { name: 'the "!" stays on a child given something to do', file: CHILDHOOD, from: '  if (child?.autoNotice) delete child.autoNotice;', to: '', test: T.childhood, expect: /own automation/ },
+  { name: 'a child’s play goes its old two hours, not the day', file: CHORES, from: '    if (step.allDay && !state.spell) {', to: '    if (false) {', test: T.childhood, expect: /play lasts until the day ends/ },
+  { name: 'a spell of play on auto lasts the whole day', file: CHORES, from: '...(extra.spell && chore.play && { spell: true }), ', to: '', test: T.childhood, expect: /play lasts until the day ends/ },
+  { name: 'on a four-hour tick a child’s day is over in six ticks', file: DAY, from: ' && world.tick - since >= DAY_FLOOR_TICKS;', to: ';', test: T.childhood, expect: /play lasts until the day ends/ },
+  { name: 'a child’s play writes "set out" every time', file: CHORES, from: "  } else if (!chore.play || firstPlayToday(world, entity)) record(world, 'assignment'", to: "  } else if (true) record(world, 'assignment'", test: T.childhood, expect: /at most once a day/ },
   // Obedience (FIC-GONZ-478, -479).
   { name: 'a better child wanders off more', file: OBEDIENCE, from: '  wander: Object.freeze([0.06, 0.002]),', to: '  wander: Object.freeze([0.002, 0.06]),', test: T.childhood, expect: /obedience decides how often/ },
   { name: 'a better child tires of automation more', file: OBEDIENCE, from: '  autoOff: Object.freeze([0.05, 0.002]),', to: '  autoOff: Object.freeze([0.002, 0.05]),', test: T.childhood, expect: /obedience decides how often/ },
@@ -153,7 +163,7 @@ if (!only) {
   writeFileSync('docs/evidence/childhood-injections.json', `${JSON.stringify({
     record: 'childhood-injections',
     date: new Date().toISOString().slice(0, 10),
-    note: 'Children at play, the idle child and the parent, a child’s automation and obedience, babies, and the Runaway Scrape’s own work (docs/CHILDREN.md, 2026-09-26). Each injection is run against the one test file that guards it; "alone" means the test named for the rule was the only one in that file to fail.',
+    note: 'Children at play, the idle child and the parent, a child’s automation and obedience, babies, and the Runaway Scrape’s own work (docs/CHILDREN.md, 2026-09-26); a child’s play and automation until the day ends, and the "!" when a child’s auto goes off (2026-09-29). Each injection is run against the one test file that guards it; "alone" means the test named for the rule was the only one in that file to fail.',
     injections: record,
   }, null, 2)}\n`);
 }
