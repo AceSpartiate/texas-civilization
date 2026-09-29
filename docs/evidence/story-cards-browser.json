@@ -1,0 +1,177 @@
+{
+  "proof": "npm run test:story-cards",
+  "when": "2026-09-29T16:07:21.723Z",
+  "pass": [
+    "the neighbours' card (rgb(217, 164, 65)) first and the house's (rgb(127, 154, 63)) under it, both glowing, under Hide names and over the rows",
+    "every moment in its own card: alto \"¡Alto! Soldiers on the road\", road \"The road is asking\", flight \"Told to leave for the east\", call \"A call to arms\", sick \"Vicente is very sick\", rider \"A rider has stopped to speak\", courier \"A call for riders at the Alamo\", orders \"Your family member is being asked\", battle \"The fight at Concepción\", account \"After Concepción\", siege \"Inside the Alamo\" - 9 accents, the account still, the others glowing",
+    "with the order to leave open, its card stands and the Watch card is not put up at all, as before",
+    "no page errors"
+  ],
+  "observed": {
+    "column": {
+      "askAccent": "gold",
+      "houseAccent": "house",
+      "askGlow": "card-glow",
+      "houseGlow": "card-glow",
+      "askEdge": "rgb(217, 164, 65)",
+      "houseEdge": "rgb(127, 154, 63)",
+      "order": true,
+      "clearOfFold": true,
+      "aboveRows": true
+    },
+    "cards": {
+      "alto": {
+        "hidden": false,
+        "accent": "alto",
+        "glow": "card-glow",
+        "edge": "rgb(179, 38, 30)",
+        "eyebrow": "¡Alto!",
+        "title": "¡Alto! Soldiers on the road",
+        "button": "Answer now",
+        "left": "About 30s left to answer.",
+        "icon": "icon-flee-hide:1",
+        "open": true
+      },
+      "road": {
+        "hidden": false,
+        "accent": "road",
+        "glow": "card-glow",
+        "edge": "rgb(194, 88, 44)",
+        "eyebrow": "On the road",
+        "title": "The road is asking",
+        "button": "Answer",
+        "left": "About 2 min left to answer.",
+        "icon": "icon-road-lookout:1",
+        "open": true
+      },
+      "flight": {
+        "hidden": false,
+        "accent": "flight",
+        "glow": "card-glow",
+        "edge": "rgb(194, 88, 44)",
+        "eyebrow": "The order to leave",
+        "title": "Told to leave for the east",
+        "button": "Choose what to do",
+        "left": "About 3 min left to answer.",
+        "icon": "icon-flee-bundle:1",
+        "open": true
+      },
+      "call": {
+        "hidden": false,
+        "accent": "call",
+        "glow": "card-glow",
+        "edge": "rgb(154, 58, 36)",
+        "eyebrow": "A call to arms",
+        "title": "A call to arms",
+        "button": "Choose who goes",
+        "left": "About 2 min left to answer.",
+        "icon": "icon-enlist-auxiliary:1",
+        "open": true
+      },
+      "sick": {
+        "hidden": false,
+        "accent": "sick",
+        "glow": "card-glow",
+        "edge": "rgb(94, 125, 107)",
+        "eyebrow": "Very sick",
+        "title": "Vicente is very sick",
+        "button": "Go to Vicente",
+        "left": null,
+        "icon": "icon-nurse-home:1",
+        "open": true
+      },
+      "rider": {
+        "hidden": false,
+        "accent": "rider",
+        "glow": "card-glow",
+        "edge": "rgb(147, 104, 60)",
+        "eyebrow": "A rider",
+        "title": "A rider has stopped to speak",
+        "button": "Listen to the rider",
+        "left": null,
+        "icon": "mark-need-rider:1",
+        "open": true
+      },
+      "courier": {
+        "hidden": false,
+        "accent": "courier",
+        "glow": "card-glow",
+        "edge": "rgb(111, 90, 134)",
+        "eyebrow": "Riders wanted",
+        "title": "A call for riders at the Alamo",
+        "button": "Answer with Vicente",
+        "left": null,
+        "icon": "icon-join-relief:1",
+        "open": true
+      },
+      "orders": {
+        "hidden": false,
+        "accent": "orders",
+        "glow": "card-glow",
+        "edge": "rgb(77, 100, 128)",
+        "eyebrow": "In camp",
+        "title": "Your family member is being asked",
+        "button": "Go to Vicente",
+        "left": null,
+        "icon": "icon-camp-drill:1",
+        "open": true
+      },
+      "battle": {
+        "hidden": false,
+        "accent": "battle",
+        "glow": "card-glow",
+        "edge": "rgb(77, 100, 128)",
+        "eyebrow": "The fighting",
+        "title": "The fight at Concepción",
+        "button": "Watch",
+        "left": null,
+        "icon": "icon-camp-guard:1",
+        "open": true
+      },
+      "account": {
+        "hidden": false,
+        "accent": "account",
+        "glow": "none",
+        "edge": "rgb(107, 97, 89)",
+        "eyebrow": "After the fight",
+        "title": "After Concepción",
+        "button": "Go to Vicente",
+        "left": null,
+        "icon": "icon-travel-home:1",
+        "open": true
+      },
+      "siege": {
+        "hidden": false,
+        "accent": "siege",
+        "glow": "card-glow",
+        "edge": "rgb(160, 114, 74)",
+        "eyebrow": "Inside the Alamo",
+        "title": "Inside the Alamo",
+        "button": "Go to Vicente",
+        "left": null,
+        "icon": "icon-join-garrison:1",
+        "open": true
+      }
+    },
+    "ranked": {
+      "accent": "flight",
+      "next": false
+    }
+  },
+  "shots": [
+    "docs/evidence/story-cards-both.png",
+    "docs/evidence/story-card-alto.png",
+    "docs/evidence/story-card-road.png",
+    "docs/evidence/story-card-flight.png",
+    "docs/evidence/story-card-call.png",
+    "docs/evidence/story-card-sick.png",
+    "docs/evidence/story-card-rider.png",
+    "docs/evidence/story-card-courier.png",
+    "docs/evidence/story-card-orders.png",
+    "docs/evidence/story-card-battle.png",
+    "docs/evidence/story-card-account.png",
+    "docs/evidence/story-card-siege.png"
+  ],
+  "errors": [],
+  "note": "Same computer only: headless Chrome at 1366x768. Each moment drawn from a projection put into the paused page (window.__render); who is sent which moment is tests/military-attention.test.mjs."
+}

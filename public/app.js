@@ -44,7 +44,7 @@ import { DEFAULT_GROUND, groundClass, groundClassAt, markFor } from '/ground-cla
 import { decodeLand, decodeOutside, decodeProvince, emptyMiddle, landWeights, lineBand, tileGrid, withoutClaims } from '/land-levels.js';
 import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
 const $ = selector => document.querySelector(selector);
-import { militaryNotices } from '/military-attention.js';
+import { EYEBROWS, ICONS, militaryNotices } from '/military-attention.js';
 import { createBattleView, personArt } from '/battle-view.js';
 import { createChaseView } from '/chase-view.js';
 import { activityOf, drawnStroke, drawsAtWork, drawWorkLayer, fetchPose, fetchStep, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
@@ -5001,12 +5001,17 @@ function fitColumn() {
   const lines = [...panel.querySelectorAll('.panel-auto-line, .panel-life-line')].filter(line => !line.hidden).map(line => line.textContent);
   // And whether the lone parent's ability stands at the head of the column, open or folded (public/courtship.js): it takes room.
   const ask = $('#ask-neighbours');
-  const key = JSON.stringify([room, Math.round(stage.height), panelRows.size, lines, panel.dataset.collapsed || '', focusedId, ask ? `${ask.hidden}:${ask.dataset.folded || ''}` : '']);
+  const key = JSON.stringify([room, Math.round(stage.height), panelRows.size, lines, panel.dataset.collapsed || '', focusedId, ask ? `${ask.hidden}:${ask.dataset.folded || ''}` : '', $('#house-card') ? `${$('#house-card').hidden}:${$('#house-card').dataset.quiet || ''}` : '']);
   if (key !== columnKey) {
     columnKey = key;
     const kept = panel.scrollTop;
     setData(panel, 'tight', 'false');
+    setData(panel, 'short', 'false');
     setData(panel, 'tight', String(panel.scrollHeight > panel.clientHeight + 1));
+    // Shorter still: the story cards at the head of the column (the neighbours', the house's) taking half of it or more, they
+    // fold to their icons and buttons (public/style.css `data-short`), so the rows keep room beneath them.
+    const cardsTall = [...panel.querySelectorAll('#family-cards > .story-card:not([hidden])')].reduce((sum, card) => sum + card.getBoundingClientRect().height, 0);
+    setData(panel, 'short', String(panel.dataset.tight === 'true' && cardsTall > panel.clientHeight / 2));
     panel.scrollTop = kept;
   }
   // The room, not the sentences: a row's auto line changing as its person waits must not scroll the list under a student.
@@ -5132,6 +5137,7 @@ function paintNeedBadge(row) {
 // snapshot). Declared above the page's start-up, for the TDZ guard in tests/page-startup.test.mjs.
 setInterval(() => {
   for (const row of panelRows.values()) if (row.needDeadline !== null) paintNeedBadge(row);
+  paintMilitaryLeft();
   if (window.__snapshot?.world) renderTip(window.__snapshot.world);
 }, 1000);
 /**
@@ -6224,15 +6230,50 @@ function partsIn100(share) {
   const parts = Math.round(share * 1000) / 10;
   return `${Number.isInteger(parts) ? parts : parts.toFixed(1)} ${parts === 1 ? 'part' : 'parts'}`;
 }
+/**
+ * The house's card (owner, 2026-09-29: "The choosing of a house button is hard to miss ... Let's do the same thing with the house
+ * button"): the story cards' frame in moss green, at the head of the family's column under the neighbours' card, where the plain
+ * "Choose a house" pill stood above it. Shown exactly when the pill was, and its button (`#house-open`, the pill's own id) does what
+ * the pill did. It asks, glowing, until a house is chosen; then it is quiet - the icon and "Your house" - and stays, as the pill
+ * did, to open the plan again. There is no "Not now": a family must have a roof, and the card stops asking the moment it has one
+ * chosen. While the house site is still to be chosen the card is not shown, as the pill was not: the land chooser is open then
+ * and its own words say the house comes after the place (`renderSite`). The first turn of this showed the card waiting, as a
+ * greyed icon in the folded column, and at 1024x600 with a refusal on the screen the column overflowed and scrolled the Hide
+ * names button out from under the land chooser (`npm run test:overlap`, guided-start-refused).
+ */
+function houseCard({ shown, quiet = false, title = 'Choose your house', note = '', label = 'Choose a house' }) {
+  const card = $('#house-card'), open = $('#house-open');
+  if (!card) return;
+  if (card.hidden !== !shown) { card.hidden = !shown; queueColumnFit(); }
+  // The button's own `hidden` follows the card, as the pill's did: what reads `#house-open` (the tips, the guided start) reads it.
+  if (open.hidden !== !shown) open.hidden = !shown;
+  if (!shown) return;
+  setData(card, 'quiet', String(quiet));
+  const text = (selector, words) => { const node = $(selector); if (node.textContent !== words) node.textContent = words; };
+  text('#house-card-title', title);
+  text('#house-card-note', note);
+  if (open.textContent !== label) open.textContent = label;
+  const icon = $('#house-card-icon');
+  const says = quiet ? label : title;
+  if (icon.title !== says) { icon.title = says; icon.setAttribute('aria-label', says); }
+  if (card.title !== (quiet ? '' : note)) card.title = quiet ? '' : note;
+  // The family panel's own icon for building a house (Astra's), drawn again until its sheet has come.
+  if (icon.dataset.drawn !== 'true') {
+    const canvas = $('#house-card-canvas'), ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    icon.dataset.drawn = String(Boolean(drawSprite(ctx, 'icon-build-house', canvas.width / 2, canvas.height * 0.92, canvas.height * 0.86)));
+  }
+}
 function renderHousePlan(world) {
-  const panel = $('#house-plan'), open = $('#house-open');
+  const panel = $('#house-plan');
   if (!panel) return;
   // A family that plans its house piece by piece has the house plot instead (public/house-plot.js), open while it builds.
   if (plotted(world, plotCatalogue)) {
     panel.hidden = true;
     const available = !familyCache?.canRoll && !['rolling', 'rolled'].includes(rollState) && !wagonOpen;
-    open.hidden = !available || housePlanOpen;
-    open.textContent = world.land.house ? 'Your house' : 'Choose a house';
+    const has = Boolean(world.land.house);
+    houseCard({ shown: available && !housePlanOpen, quiet: has, title: has ? 'Your house' : 'Choose your house', label: has ? 'Your house' : 'Choose a house',
+      note: 'Choose a plan and where on your land it stands, then set the family to building it. Until it stands, the family camps.' });
     renderHousePlot(world, plotCatalogue, { open: available && housePlanOpen, drawSprite, spriteFrame, place: beginHousePlacement, send: command => api('/api/command', { ...command, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }), rerender: () => window.__snapshot && render(window.__snapshot) });
     return;
   }
@@ -6240,10 +6281,11 @@ function renderHousePlan(world) {
   const choices = world.land?.choices;
   const available = Boolean(choices && houseCatalogue && world.role !== 'host' && !familyCache?.canRoll && !['rolling', 'rolled'].includes(rollState) && !wagonOpen);
   panel.hidden = !(available && housePlanOpen);
-  open.hidden = !available || housePlanOpen;
+  const chosen = available && world.land.house?.layout;
+  houseCard({ shown: available && !housePlanOpen, quiet: Boolean(chosen), title: chosen ? 'Your house' : 'Choose your house',
+    label: chosen ? `House: ${houseCatalogue.get(chosen)?.name || chosen}` : 'Choose a house',
+    note: 'Choose one of the houses, then set the family to “Work on the house”. Until it stands, the family camps.' });
   if (!available) return;
-  const chosen = world.land.house?.layout;
-  open.textContent = chosen ? `House: ${houseCatalogue.get(chosen)?.name || chosen}` : 'Choose a house';
   if (!housePlanOpen) return;
   const shape = JSON.stringify([choices, chosen]);
   if (shape === houseShown) return;
@@ -6349,10 +6391,11 @@ function renderSite(world) {
   const choosing = world.land?.choosingSite;
   panel.hidden = !choosing || world.role === 'host';
   if (panel.hidden) { sitePick = null; return; }
-  $('#house-open').hidden = true;
+  // The house waits for its site, and these words say so: its card comes when the place is chosen (`houseCard`).
+  houseCard({ shown: false });
   const facts = sitePick?.facts;
   $('#site-text').textContent = !choosing.can ? choosing.why
-    : !sitePick ? 'Tap a place on your land, inside the dashed line, to look it over.'
+    : !sitePick ? 'Tap a place on your land, inside the dashed line, to look it over. Once the place is chosen, you choose the house.'
     : !facts ? 'Looking the place over…'
     : facts.can ? facts.words : facts.why;
   $('#site-build').hidden = !facts?.can;
@@ -6368,6 +6411,8 @@ $('#site-build')?.addEventListener('click', async () => {
   finally { siteSetPending = false; if (window.__snapshot) render(window.__snapshot); }
 });
 $('#house-open')?.addEventListener('click', () => { housePlanOpen = true; houseShown = ''; if (window.__snapshot) render(window.__snapshot); $('#house-close')?.focus(); });
+// The card's icon is the same button, for a column folded to its faces, where the icon is all of the card there is.
+$('#house-card-icon')?.addEventListener('click', () => { if (!$('#house-open').disabled) $('#house-open').click(); });
 $('#plot-close')?.addEventListener('click', () => { housePlanOpen = false; if (window.__snapshot) render(window.__snapshot); $('#house-open')?.focus(); });
 $('#house-close')?.addEventListener('click', () => { housePlanOpen = false; if (window.__snapshot) render(window.__snapshot); $('#house-open')?.focus(); });
 /**
@@ -6634,7 +6679,16 @@ $('#tutorial-skip')?.addEventListener('click', () => {
 // LIVING_INFORMATION.md's attention gate forbids outright. So the world puts up an
 // invitation - a mark over the person, a line in the roster, a prompt on the map - and
 // the student decides when to go and listen.
-let militarySession = null, militarySeen = new Set(), militaryCollapsed = false, militarySelected = null;
+let militarySession = null, militarySeen = new Set(), militaryCollapsed = false, militarySelected = null, militaryDeadline = null;
+/** The card's time left, counted down on this page's clock between ticks as the "!"s are (`paintNeedBadge`). */
+function paintMilitaryLeft() {
+  const line = $('#military-left');
+  if (!line) return;
+  const left = militaryDeadline === null ? null : leftWords(Math.max(0, militaryDeadline - performance.now()));
+  const words = left ? `About ${left} left to answer.` : '';
+  if (line.textContent !== words) line.textContent = words;
+  if (line.hidden !== !words) line.hidden = !words;
+}
 function renderMilitaryNotice(world) {
   const panel = $('#military-notice');
   const notices = militaryNotices(world);
@@ -6660,6 +6714,18 @@ function renderMilitaryNotice(world) {
   write('#military-title', notice.title);
   write('#military-words', notice.text);
   write('#military-go', notice.action);
+  // In the story cards' frame (owner, 2026-09-29): the moment's own accent, eyebrow and icon, and the time left where it lapses.
+  setData(panel, 'accent', notice.kind);
+  write('#military-eyebrow', notice.kind === 'call' && world.request?.kind !== 'call' ? 'Asked of the family' : EYEBROWS[notice.kind] || '');
+  militaryDeadline = Number.isFinite(notice.leftMs) ? performance.now() + notice.leftMs : null;
+  paintMilitaryLeft();
+  const icon = $('#military-icon');
+  if (icon && icon.dataset.drawn !== `${ICONS[notice.kind]}:${spriteFrame(ICONS[notice.kind]) ? 1 : 0}`) {
+    const ctx = icon.getContext('2d');
+    ctx.clearRect(0, 0, icon.width, icon.height);
+    const drawn = ICONS[notice.kind] && drawSprite(ctx, ICONS[notice.kind], icon.width / 2, icon.height * 0.9, icon.height * 0.84);
+    icon.dataset.drawn = drawn ? `${ICONS[notice.kind]}:1` : '';
+  }
   $('#military-next').hidden = notices.length < 2;
   // Below the guided start and below an open land chooser, never over either one's words or buttons (panels proof, 390px).
   const above = ['#lesson', '#lesson-resume', '#site-choose', '#survey-choose'].map(selector => $(selector)).filter(one => one && !one.hidden);
@@ -6761,7 +6827,7 @@ const TIP_CLEAR_OF = ['#selection', '#call-menu', '#encounter', '#military-notic
   '#errand', '#going', '#site-choose', '#survey-choose', '#wagon-load', '#house-plan', '#house-plot', '#house-placement', '#town-scene',
   '#interior', '#ending', '#family-journal[data-open=true]', '#ask-neighbours',
   // And the status lines at the top left, which can run wider than the column (a long supplies line; the overlap proof, 2026-09-29).
-  '#session', '#world', '#food', '#supplies', '#wagon-open', '#house-open', ...TIP_HELD_BY];
+  '#session', '#world', '#food', '#supplies', '#wagon-open', '#house-card', ...TIP_HELD_BY];
 function placeTip(panel) {
   const bar = document.querySelector('.panel-row[data-focused=true] .panel-icons');
   const barBox = bar ? bar.getBoundingClientRect() : null;

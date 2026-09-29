@@ -115,7 +115,6 @@
            sim/watching.mjs): what happened and whose family this is, in the server's words. Nothing on the page can be ordered. -->
       <p id="watching" role="status" hidden></p>
       <button type="button" id="wagon-open" hidden>Repack the wagon</button>
-      <button type="button" id="house-open" hidden>Choose a house</button>
       <!-- The family panel (docs/FAMILY_PANEL.md, owner 2026-09-15): father, mother, then the children oldest first, each
            with a portrait that takes the camera to them, a name that saves itself, and an icon for every action the server
            offers them now. Built by renderFamilyPanel in public/app.js from the projection; nothing in it decides anything. -->
@@ -123,9 +122,12 @@
            This is the way out the ceiling in docs/FAMILY_PANEL.md §7 named. -->
       <section id="family-panel" aria-label="Your family's people" hidden>
         <button type="button" id="family-collapse" aria-expanded="true" aria-controls="family-rows">Hide names</button>
+        <!-- The story cards at the head of the column (docs/FAMILY_PANEL.md §20b): one above the other, or side by side in a column
+             too short for both (`data-short`). -->
+        <div id="family-cards">
         <!-- The lone parent's path (sim/courtship.mjs, public/courtship.js): a special ability, offered on the family's land to a
              family rolled with one parent, glowing until it is pressed or the family raises its own house. -->
-        <section id="ask-neighbours" hidden aria-labelledby="ask-neighbours-title">
+        <section id="ask-neighbours" class="story-card" data-accent="gold" hidden aria-labelledby="ask-neighbours-title">
           <button type="button" id="ask-neighbours-open" aria-label="Ask the neighbours for help" title="Ask the neighbours for help"><canvas id="ask-neighbours-icon" width="96" height="96" aria-hidden="true"></canvas></button>
           <div class="ask-neighbours-body">
             <span class="eyebrow">A PATH OPEN TO YOU</span>
@@ -139,6 +141,19 @@
             </div>
           </div>
         </section>
+        <!-- The house (owner, 2026-09-29: "The choosing of a house button is hard to miss ... Let's do the same thing with the house
+             button"): the same card, in moss green, under the neighbours' card when both show. `#house-open` is its button, as the
+             pill it replaces was, and does what the pill did. Quiet once a house is chosen; never folded away by "Not now". -->
+        <section id="house-card" class="story-card" data-accent="house" hidden aria-labelledby="house-card-title">
+          <button type="button" id="house-card-icon" aria-label="Choose a house" title="Choose a house"><canvas id="house-card-canvas" width="96" height="96" aria-hidden="true"></canvas></button>
+          <div class="story-card-body">
+            <span class="eyebrow" id="house-card-eyebrow">A ROOF FOR THE FAMILY</span>
+            <h3 id="house-card-title">Choose your house</h3>
+            <p id="house-card-note"></p>
+            <div class="story-card-buttons"><button type="button" id="house-open">Choose a house</button></div>
+          </div>
+        </section>
+        </div>
         <ol id="family-rows"></ol>
       </section>
       <!-- The Host's live page (docs/HOST_PAGE.md, owner 2026-09-16): the class family by family in words, and the Rumor
@@ -152,10 +167,14 @@
     <!-- Something happened that most of the class would miss: the Host's camera has gone there, and this says what. -->
     <div id="host-spotlight" role="status" hidden><span id="host-spotlight-date"></span><span id="host-spotlight-text"></span><button type="button" id="host-spotlight-back">Whole class</button></div>
     <p id="panel-tip" role="tooltip" hidden><span id="panel-tip-name"></span><span id="panel-tip-summary"></span><span id="panel-tip-note"></span></p>
-    <section id="military-notice" hidden aria-label="Messages and military service">
+    <!-- The family's big moments (owner, 2026-09-29: "use that same style as the alert for when a family member is going through
+         a major event like a battle"): one card, in the story cards' frame, its accent and icon the moment's own (`data-accent`). -->
+    <section id="military-notice" class="story-card" hidden aria-label="Messages and military service">
       <button type="button" id="military-toggle" aria-expanded="true" aria-controls="military-message">Messages</button>
       <div id="military-message">
-        <strong id="military-title"></strong>
+        <div id="military-head"><canvas id="military-icon" width="96" height="96" aria-hidden="true"></canvas><div><span class="eyebrow" id="military-eyebrow"></span>
+        <strong id="military-title"></strong></div></div>
+        <p id="military-left" hidden></p>
         <p id="military-words" role="status"></p>
         <button type="button" id="military-go"></button>
         <button type="button" id="military-next">Next message</button>

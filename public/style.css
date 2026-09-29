@@ -605,7 +605,6 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #site-note:empty{display:none}
 #site-build{margin-top:9px}
 @media (max-width:760px){#site-choose{left:8px;right:8px;width:auto;top:56px}}
-#house-open{position:absolute;left:12px;top:104px;z-index:8;min-height:34px;padding:5px 12px;font-size:13px;background:#4b3e28;border-color:#6b5836}
 @media (max-width:760px){#house-plan{left:8px;right:8px;width:auto;top:56px}}
 /* The house plot (public/house-plot.js). */
 #house-plot{position:absolute;left:12px;top:64px;z-index:8;width:min(34rem,calc(100% - 24px));max-height:calc(100% - 150px);overflow:auto;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:8px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:12px 14px 13px;color:#3b3427}
@@ -716,7 +715,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
    The work itself is no longer on the row: it is the ability bar across the bottom middle, below.
    The ceiling that stood here - "on a wide screen it covers the left of the map outright" - was paid on 2026-09-21, when a
    class played on Chromebooks and the interface covered a third of the screen. The way out it named is built: Hide names. */
-#hud-left #wagon-open,#hud-left #house-open{position:static}
+#hud-left #wagon-open{position:static}
 /* The left column stops above the ability bar (owner, 2026-09-21), which runs across the bottom middle. */
 #hud-left{bottom:150px}
 /* 2026-09-22: 150px was the bar of 48px pictures. The usability pass of 2026-09-21 (the end of this file) made each a
@@ -1122,12 +1121,16 @@ body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[dat
 @media(max-width:760px){.panel-row[data-focused=true] .panel-icons .panel-make-main{grid-column:auto/span 2;min-height:64px}}
 
 /* Nonblocking dispatch invitation: never changes the camera until the player accepts. */
-#military-notice{position:absolute;z-index:16;right:12px;width:min(330px,calc(100vw - 24px));padding:10px;background:#fff5dc;color:#3d3020;border:1px solid #987849;border-left:5px solid #a9532d;border-radius:7px;box-shadow:0 5px 18px #30291f44;font-size:13px;line-height:1.4}
+#military-notice{position:absolute;z-index:16;right:12px;width:min(330px,calc(100vw - 24px));padding:10px;border-radius:12px;font-size:13px;line-height:1.4}
+/* In the story cards' frame (owner, 2026-09-29): the moment's icon in its halo beside the eyebrow and title, the time left where it lapses. */
+#military-head{display:flex;gap:9px;align-items:center;margin-bottom:2px}
+#military-icon{flex:none;width:44px;height:44px;border-radius:50%;border:2px solid var(--card-edge);background:radial-gradient(circle,#fffbe8 0,var(--card-paper-b) 70%,var(--card-paper-c) 100%);box-shadow:0 0 8px 2px var(--card-glow)}
+#military-left{margin:2px 0 6px;font:700 12px/1.3 system-ui;color:var(--card-eyebrow)}
 #military-notice button{min-height:36px;font-size:12px}
 #military-toggle{display:block;margin:0 0 4px auto;background:transparent;color:#65482b;border:1px solid #bca77d}
-#military-title{display:block;font-family:Georgia,serif;font-size:18px}
+#military-title{display:block;font-family:Georgia,serif;font-size:18px;color:var(--card-ink)}
 #military-words{margin:6px 0 10px}
-#military-go{background:#704020;color:#fff9e9}
+#military-go{border:1px solid var(--card-btn-edge);color:#fff9e9;background:linear-gradient(var(--card-btn-a),var(--card-btn-b));box-shadow:0 2px 0 var(--card-btn-shadow);font-weight:700}
 /* A fight's account comes in paragraphs - what happened, what they did, why it ended so (docs/BATTLES.md §2.8). */
 #military-words{white-space:pre-line}
 #military-next{background:transparent;color:#604727;border:1px solid #bca77d}
@@ -1284,7 +1287,7 @@ body[data-creating=true] #away>button{min-height:50px;background:#355243;border-
    wagon is packed rather than standing on its Done button. */
 body:has(#wagon-load:not([hidden])) #military-notice{display:none}
 /* Folded, the messages are their button and no wider: the folded card kept its 330px and stood over the map for nothing. */
-#military-notice:has(#military-message[hidden]){width:auto}
+#military-notice:has(#military-message[hidden]){width:auto;animation:none;box-shadow:0 0 0 1px #fff3cf inset,0 3px 10px #29251b44}
 /* The card that asked a question stands aside while the question is answered (it held the same words, and the meeting and
    the call's menu stood on every one of its buttons), and is back the moment the answer closes. */
 body:has(#encounter:not([hidden])) #selection,body:has(#call-menu:not([hidden])) #selection{display:none}
@@ -1302,7 +1305,7 @@ body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{max-
 body[data-watching=true] .panel-icons,body[data-watching=true] .panel-attention,body[data-watching=true] .panel-auto,body[data-watching=true] .panel-focus,
 body[data-watching=true] .panel-house,body[data-watching=true] .panel-make-main,body[data-watching=true] #selection-actions,body[data-watching=true] #selection-work,
 body[data-watching=true] #selection-trade,body[data-watching=true] #selection-call,body[data-watching=true] #selection-nurse,body[data-watching=true] #selection-army,
-body[data-watching=true] #selection-flight,body[data-watching=true] #selection-more,body[data-watching=true] #wagon-open,body[data-watching=true] #house-open,
+body[data-watching=true] #selection-flight,body[data-watching=true] #selection-more,body[data-watching=true] #wagon-open,body[data-watching=true] #house-card,
 body[data-watching=true] #call-menu,body[data-watching=true] #encounter,body[data-watching=true] #site-choose,body[data-watching=true] #survey-choose,
 body[data-watching=true] #house-plan,body[data-watching=true] #house-plot,body[data-watching=true] #house-placement,body[data-watching=true] #errand,
 body[data-watching=true] #going,body[data-watching=true] #wagon-load{display:none!important}
@@ -1314,35 +1317,97 @@ body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px +
 #sound-panel{left:auto;right:0;bottom:calc(100% + 8px)}
 /* "How it ended" stands on the map's buttons, right-aligned, instead of across Gonzales, + and - (public/index.html). */
 #ending-open{position:absolute;right:0;bottom:calc(100% + 8px);z-index:1;white-space:nowrap}
-/* The lone parent's path (docs/FAMILY_CREATION.md, *The lone parent's path*; owner 2026-09-29: "this ability should be highlighted
-   and special looking"). A card at the head of the family's column, gold and rose on warm paper, breathing a slow glow, with its
-   own icon in a halo. It sits in the column's own flow, so it covers nothing; folded ("Not now", or the column folded to its
-   faces) it is the glowing icon alone, and still pressable. */
-#ask-neighbours{pointer-events:auto;flex:none;position:relative;isolation:isolate;display:flex;gap:10px;align-items:flex-start;box-sizing:border-box;width:min(18.5rem,calc(100vw - 32px));margin:4px 6px 6px 4px;padding:8px 10px 9px 8px;border-radius:12px;color:#40250f;
-  background:radial-gradient(circle at 18% 22%,#fff8dc 0,#fbe9c0 38%,#f3d49b 100%);border:2px solid #d9a441;
-  box-shadow:0 0 0 1px #fff3cf inset,0 0 0 3px #c2582c55,0 0 14px 3px #ffcf6a88;animation:ask-glow 2.6s ease-in-out infinite}
-#ask-neighbours .eyebrow{display:block;color:#a2471e;font:700 9.5px/1.2 system-ui;letter-spacing:.14em}
-#ask-neighbours h3{margin:1px 0 3px;font:700 15px/1.15 Georgia,serif;color:#3d220c}
-#ask-neighbours p{margin:0 0 5px;font:12.5px/1.3 Georgia,serif}
+/* Story cards: the family's big moments in one frame (owner, 2026-09-29). First the lone parent's path ("this ability should be
+   highlighted and special looking"), then the house ("The choosing of a house button is hard to miss ... Let's do the same thing
+   with the house button") and the alerts of a family member's major events ("use that same style as the alert for when a family
+   member is going through a major event like a battle"). Warm paper in a framed edge, an icon in a halo, a small-capitals eyebrow,
+   a title and one line, and a primary button; a slow glow that breathes. Each kind has its own accent (`data-accent`): the
+   neighbours' gold and rose, the house's moss green, and the war's steel, adobe and charcoal - more solemn, and still for the
+   account of a fight - with the road's ember and ¡Alto!'s red breathing faster, because they will not wait. */
+.story-card{--card-edge:#d9a441;--card-ring:#c2582c55;--card-ring-strong:#c2582c99;--card-glow:#ffcf6a88;--card-glow-strong:#ffcf6acc;
+  --card-paper-a:#fff8dc;--card-paper-b:#fbe9c0;--card-paper-c:#f3d49b;--card-ink:#40250f;--card-eyebrow:#a2471e;
+  --card-btn-a:#d06a3a;--card-btn-b:#a2471e;--card-btn-edge:#8a3b22;--card-btn-shadow:#6b2a12;--card-halo:#ffd35c;--card-beat:2.6s;
+  pointer-events:auto;position:relative;isolation:isolate;box-sizing:border-box;border-radius:12px;color:var(--card-ink);
+  background:radial-gradient(circle at 18% 22%,var(--card-paper-a) 0,var(--card-paper-b) 38%,var(--card-paper-c) 100%);border:2px solid var(--card-edge);
+  box-shadow:0 0 0 1px #fff3cf inset,0 0 0 3px var(--card-ring),0 0 10px 2px var(--card-glow);animation:card-glow var(--card-beat) ease-in-out infinite}
+.story-card .eyebrow{display:block;color:var(--card-eyebrow);font:700 9.5px/1.2 system-ui;letter-spacing:.14em;text-transform:uppercase}
+.story-card h3{margin:1px 0 3px;font:700 15px/1.15 Georgia,serif;color:var(--card-ink)}
+.story-card p{margin:0 0 5px;font:12.5px/1.3 Georgia,serif}
+.story-card-body{min-width:0}
+.story-card-buttons{display:flex;gap:8px;flex-wrap:wrap}
+@keyframes card-glow{0%,100%{box-shadow:0 0 0 1px #fff3cf inset,0 0 0 3px var(--card-ring),0 0 10px 2px var(--card-glow)}50%{box-shadow:0 0 0 1px #fff3cf inset,0 0 0 3px var(--card-ring-strong),0 0 18px 5px var(--card-glow-strong)}}
+@keyframes card-halo{0%,100%{box-shadow:0 0 8px 2px var(--card-glow)}50%{box-shadow:0 0 16px 6px var(--card-glow-strong)}}
+/* The accents. */
+.story-card[data-accent=house]{--card-edge:#7f9a3f;--card-ring:#4f6b2a55;--card-ring-strong:#4f6b2a99;--card-glow:#cfe08a88;--card-glow-strong:#cfe08add;
+  --card-paper-a:#fbf9e6;--card-paper-b:#eef2cf;--card-paper-c:#d9e3a8;--card-ink:#2f3a18;--card-eyebrow:#4f6b2a;
+  --card-btn-a:#7a9a40;--card-btn-b:#4f6b2a;--card-btn-edge:#3f5a22;--card-btn-shadow:#2c4016;--card-halo:#dbe99a}
+.story-card[data-accent=battle],.story-card[data-accent=orders]{--card-edge:#4d6480;--card-ring:#2e3f5555;--card-ring-strong:#2e3f5599;--card-glow:#9fb6d077;--card-glow-strong:#9fb6d0bb;
+  --card-paper-a:#f6f3ec;--card-paper-b:#e7e8e4;--card-paper-c:#d2d9de;--card-ink:#1f2a36;--card-eyebrow:#2e4a66;
+  --card-btn-a:#4d6480;--card-btn-b:#2e3f55;--card-btn-edge:#243244;--card-btn-shadow:#18222e;--card-beat:3.2s}
+.story-card[data-accent=account]{--card-edge:#6b6159;--card-ring:#3a332d44;--card-ring-strong:#3a332d44;--card-glow:#00000000;--card-glow-strong:#00000000;
+  --card-paper-a:#f5f1ea;--card-paper-b:#e9e3d9;--card-paper-c:#d9d1c4;--card-ink:#2d2621;--card-eyebrow:#4a423b;
+  --card-btn-a:#6b6159;--card-btn-b:#4a423b;--card-btn-edge:#3a332d;--card-btn-shadow:#26211c;animation:none}
+.story-card[data-accent=siege]{--card-edge:#a0724a;--card-ring:#6b452855;--card-ring-strong:#6b452888;--card-glow:#e2b98c66;--card-glow-strong:#e2b98caa;
+  --card-paper-a:#fbf3e6;--card-paper-b:#f1e0c6;--card-paper-c:#e2c9a4;--card-ink:#3b2716;--card-eyebrow:#7a4a26;
+  --card-btn-a:#a0724a;--card-btn-b:#7a4a26;--card-btn-edge:#5e3818;--card-btn-shadow:#40250f;--card-beat:4.2s}
+.story-card[data-accent=courier]{--card-edge:#6f5a86;--card-ring:#4f3c6655;--card-ring-strong:#4f3c6699;--card-glow:#c3b0dc77;--card-glow-strong:#c3b0dcbb;
+  --card-paper-a:#f8f4f9;--card-paper-b:#ebe3ef;--card-paper-c:#d8cbe0;--card-ink:#2c2236;--card-eyebrow:#4f3c66;
+  --card-btn-a:#6f5a86;--card-btn-b:#4f3c66;--card-btn-edge:#3b2c4c;--card-btn-shadow:#281d34;--card-beat:2.4s}
+.story-card[data-accent=rider]{--card-edge:#93683c;--card-ring:#6b442455;--card-ring-strong:#6b442499;--card-glow:#e8c48a88;--card-glow-strong:#e8c48acc;
+  --card-paper-a:#fdf7ea;--card-paper-b:#f4e6c9;--card-paper-c:#e8d0a4;--card-ink:#3a2512;--card-eyebrow:#6b4424;
+  --card-btn-a:#93683c;--card-btn-b:#6b4424;--card-btn-edge:#553418;--card-btn-shadow:#3a2310;--card-beat:2.2s}
+.story-card[data-accent=call]{--card-edge:#9a3a24;--card-ring:#7a241255;--card-ring-strong:#7a241299;--card-glow:#f09a7288;--card-glow-strong:#f09a72cc;
+  --card-paper-a:#fdf4ec;--card-paper-b:#f5e0d2;--card-paper-c:#e8c3ad;--card-ink:#3a1a10;--card-eyebrow:#7a2412;
+  --card-btn-a:#b04a30;--card-btn-b:#7a2412;--card-btn-edge:#5e1a0c;--card-btn-shadow:#40110a;--card-beat:2s}
+.story-card[data-accent=flight],.story-card[data-accent=road]{--card-edge:#c2582c;--card-ring:#8a3b2255;--card-ring-strong:#8a3b22aa;--card-glow:#ffb07099;--card-glow-strong:#ffb070dd;
+  --card-paper-a:#fff6ea;--card-paper-b:#fbe2c8;--card-paper-c:#f2c79e;--card-ink:#3d1d0c;--card-eyebrow:#8a3b22;
+  --card-btn-a:#d06a3a;--card-btn-b:#a2471e;--card-btn-edge:#8a3b22;--card-btn-shadow:#6b2a12;--card-beat:1.6s}
+.story-card[data-accent=alto]{--card-edge:#b3261e;--card-ring:#8a120c66;--card-ring-strong:#8a120cbb;--card-glow:#ff6a5a99;--card-glow-strong:#ff6a5aee;
+  --card-paper-a:#fff4f0;--card-paper-b:#fbded6;--card-paper-c:#f2bcb0;--card-ink:#3a0c08;--card-eyebrow:#8a120c;
+  --card-btn-a:#c8322a;--card-btn-b:#8a120c;--card-btn-edge:#6b0c08;--card-btn-shadow:#4a0805;--card-beat:.9s}
+.story-card[data-accent=sick]{--card-edge:#5e7d6b;--card-ring:#3f5a4b55;--card-ring-strong:#3f5a4b99;--card-glow:#b4d4c077;--card-glow-strong:#b4d4c0bb;
+  --card-paper-a:#f5f8f3;--card-paper-b:#e3ece2;--card-paper-c:#cbdbcd;--card-ink:#1f2e26;--card-eyebrow:#3f5a4b;
+  --card-btn-a:#5e7d6b;--card-btn-b:#3f5a4b;--card-btn-edge:#2f4638;--card-btn-shadow:#1f3026;--card-beat:3s}
+/* A house already chosen: the card stays, as the pill did, but it has done its asking - no glow, no eyebrow, no note. */
+.story-card[data-quiet=true]{animation:none;box-shadow:0 0 0 1px #fff3cf inset,0 2px 6px #29251b55}
+.story-card[data-quiet=true] .eyebrow,.story-card[data-quiet=true] p{display:none}
+@media(prefers-reduced-motion:reduce){.story-card,.story-card-halo,#ask-neighbours-open,#house-card-icon{animation:none}}
+/* The family's column: the fold stays above the cards and their glow, which never reaches up over it (owner's screenshot,
+   2026-09-29: "HIDE NAMES" partly covered). */
+#family-collapse{position:relative;z-index:2}
+#family-cards{flex:none;display:flex;flex-direction:column;align-items:flex-start;pointer-events:none}
+#family-panel[data-tight=true][data-short=true] #family-cards{flex-direction:row;flex-wrap:wrap;column-gap:2px}
+#family-panel[data-tight=true][data-short=true] #ask-neighbours-later{display:none}
+#family-cards>.story-card{flex:none;display:flex;gap:10px;align-items:flex-start;width:min(18.5rem,calc(100vw - 32px));margin:8px 6px 6px 4px;padding:8px 10px 9px 8px}
+/* The lone parent's path (docs/FAMILY_CREATION.md, *The lone parent's path*): folded ("Not now", or the column folded to its faces)
+   it is the glowing icon alone, and still pressable. */
 #ask-neighbours #ask-neighbours-note{color:#6b4a26;font-size:12px;font-style:italic}
 #ask-neighbours #ask-neighbours-why{color:#8a3b22;font:600 12px/1.35 system-ui}
-#ask-neighbours-open{flex:none;width:48px;height:48px;padding:0;border-radius:50%;border:2px solid #e8b04e;background:radial-gradient(circle,#fffbe8 0,#ffe7a6 60%,#f0c060 100%);box-shadow:0 0 10px 3px #ffd35ccc;cursor:pointer;animation:ask-halo 2.6s ease-in-out infinite}
-#ask-neighbours-open canvas{display:block;width:100%;height:100%;border-radius:50%}
+#ask-neighbours-open,#house-card-icon{flex:none;width:48px;height:48px;padding:0;border-radius:50%;border:2px solid var(--card-edge);background:radial-gradient(circle,#fffbe8 0,var(--card-halo) 70%,var(--card-paper-c) 100%);box-shadow:0 0 10px 3px var(--card-glow);cursor:pointer;animation:card-halo var(--card-beat) ease-in-out infinite}
+#ask-neighbours-open canvas,#house-card-canvas{display:block;width:100%;height:100%;border-radius:50%}
 .ask-neighbours-body{min-width:0}
 .ask-neighbours-buttons{display:flex;gap:8px;flex-wrap:wrap}
-#ask-neighbours-go{font:700 14px/1 Georgia,serif;padding:7px 14px;border-radius:18px;border:1px solid #8a3b22;color:#fff8e6;background:linear-gradient(#d06a3a,#a2471e);box-shadow:0 2px 0 #6b2a12,0 0 10px #ffb45c99;cursor:pointer}
-#ask-neighbours-go:disabled{opacity:.5;cursor:default;box-shadow:none}
+#ask-neighbours-go,#house-open{font:700 14px/1 Georgia,serif;padding:7px 14px;min-height:0;border-radius:18px;border:1px solid var(--card-btn-edge);color:#fff8e6;background:linear-gradient(var(--card-btn-a),var(--card-btn-b));box-shadow:0 2px 0 var(--card-btn-shadow),0 0 10px var(--card-glow);cursor:pointer}
+#ask-neighbours-go:disabled,#house-open:disabled{opacity:.5;cursor:default;box-shadow:none}
 #ask-neighbours-later{font:600 12px/1 system-ui;padding:7px 10px;border-radius:14px;border:1px solid #b08a52;background:#fff7e0;color:#6b4a26;cursor:pointer}
-#ask-neighbours[data-folded=true],#family-panel[data-collapsed=true] #ask-neighbours{width:auto;padding:3px;border-radius:50%;gap:0}
-#ask-neighbours[data-folded=true] .ask-neighbours-body,#family-panel[data-collapsed=true] #ask-neighbours .ask-neighbours-body{display:none}
-/* A column too short for the card and every row (a small window, a large family): the card keeps its title, its cost and its two
-   buttons, and says the rest on hover, so the family's rows stay in sight beneath it. */
-#family-panel[data-tight=true] #ask-neighbours .eyebrow,#family-panel[data-tight=true] #ask-neighbours-says{display:none}
-#family-panel[data-tight=true] #ask-neighbours{padding:6px 8px 7px 6px}
-#family-panel[data-tight=true] #ask-neighbours-open{width:40px;height:40px}
-@keyframes ask-glow{0%,100%{box-shadow:0 0 0 1px #fff3cf inset,0 0 0 3px #c2582c55,0 0 10px 2px #ffcf6a88}50%{box-shadow:0 0 0 1px #fff3cf inset,0 0 0 3px #c2582c99,0 0 18px 5px #ffcf6acc}}
-@keyframes ask-halo{0%,100%{box-shadow:0 0 8px 2px #ffd35caa}50%{box-shadow:0 0 16px 6px #ffd35cee}}
-@media(prefers-reduced-motion:reduce){#ask-neighbours,#ask-neighbours-open{animation:none}}
+#ask-neighbours[data-folded=true],#family-panel[data-collapsed=true] #ask-neighbours,#family-panel[data-collapsed=true] #house-card{width:auto;padding:3px;border-radius:50%;gap:0}
+#ask-neighbours[data-folded=true] .ask-neighbours-body,#family-panel[data-collapsed=true] #ask-neighbours .ask-neighbours-body,#family-panel[data-collapsed=true] #house-card .story-card-body{display:none}
+/* The house, chosen: the icon and its button on one line. */
+#house-card[data-quiet=true]{align-items:center;padding:5px 8px 5px 6px;gap:8px}
+#house-card[data-quiet=true] h3{display:none}
+#house-card[data-quiet=true] #house-card-icon{width:34px;height:34px;animation:none;box-shadow:none}
+/* A column too short for the cards and every row (a small window, a large family): each keeps its title and its buttons, and says
+   the rest on hover, so the family's rows stay in sight beneath them. */
+#family-panel[data-tight=true] .story-card .eyebrow,#family-panel[data-tight=true] #ask-neighbours-says,#family-panel[data-tight=true] #house-card-note{display:none}
+#family-panel[data-tight=true] #family-cards>.story-card{padding:6px 8px 7px 6px}
+#family-panel[data-tight=true] #ask-neighbours-open,#family-panel[data-tight=true] #house-card-icon{width:40px;height:40px}
+/* And a column shorter still (a 1024x600 window with both cards): each card is its icon and its buttons on one line, what it says
+   on hover (the card's title) and to a screen reader, so the rows under them keep their room (the overlap proof, 2026-09-29). */
+#family-panel[data-tight=true][data-short=true] #family-cards>.story-card{align-items:center;width:auto;margin:3px 2px 2px 4px;padding:3px 8px 3px 4px;gap:8px}
+#family-panel[data-tight=true][data-short=true] #house-card-icon{display:none}
+#family-panel[data-tight=true][data-short=true] #ask-neighbours-go,#family-panel[data-tight=true][data-short=true] #house-open{padding:5px 10px;font-size:12.5px}
+#family-panel[data-tight=true][data-short=true] #family-cards>.story-card h3,#family-panel[data-tight=true][data-short=true] #family-cards>.story-card p:not(#ask-neighbours-why){display:none}
+#family-panel[data-tight=true][data-short=true] #ask-neighbours-open,#family-panel[data-tight=true][data-short=true] #house-card-icon{width:30px;height:30px}
 /* The scenes themselves (public/courtship.js): the whole screen, a canvas under a strip of words along its foot, Continue the only
    way on. Above everything but the connection line. */
 #courtship{position:fixed;inset:0;z-index:50;background:#000;display:block}

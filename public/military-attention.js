@@ -2,6 +2,8 @@
 // reaching the distant homestead. See docs/MILITARY_EXPERIENCE.md, FIC-GONZ-322.
 // Travis's runner (sim/alamo-runner.mjs, 2026-09-22) is a person who walks to the family's person inside the Alamo: while he
 // crosses the plaza the card says he is coming, and once he stands with them it leads to what he says and the two answers.
+import { needsOf } from './family-panel.js';
+
 export function militaryNotices(world) {
   if (!world || world.role === 'host') return [];
   const own = (world.entities || []).filter(person => person.householdId === world.householdId);
@@ -49,6 +51,22 @@ export function militaryNotices(world) {
   // the soldiers' ¡Alto! are the family's to answer in time, and a Watch card sprung open over them took the student away.
   const roadAsking = Boolean(world.flight && (world.flight.status === 'ordered' || world.flight.ask));
   const deciding = notices.some(notice => notice.kind !== 'siege') || world.request?.status === 'open' || meeting?.status === 'open' || roadAsking;
+  // The family's other big moments, in the same card (owner, 2026-09-29: "use that same style as the alert for when a family member
+  // is going through a major event"): ¡Alto!, the road's question, the order to leave, the settlement's call to arms and somebody
+  // very sick - each the "!" on a row already (public/family-panel.js `needsOf`, whose words and time left they carry), put up here
+  // too so the moment cannot be missed. Added after `deciding` is read, so they change nothing about when the Watch card may go up:
+  // the road's own questions hold it back as they always did (`roadAsking`), the call as `request` always did, and a sickness,
+  // which never did, still does not.
+  const seenCall = new Set();
+  for (const person of own) {
+    for (const need of needsOf(world, person.id)) {
+      const moment = MOMENTS[need.kind];
+      if (!moment) continue;
+      if (need.kind === 'call') { if (seenCall.has(world.request?.id)) continue; seenCall.add(world.request?.id); }
+      notices.push({ id: `${need.kind}:${need.kind === 'call' ? world.request?.id : person.id}`, entityId: person.id, kind: need.kind,
+        title: moment.title(person, world), text: need.text, action: moment.action(person, world), ...(Number.isFinite(need.leftMs) && { leftMs: need.leftMs }) });
+    }
+  }
   const alert = world.battleAlert;
   if (alert && !deciding && own.some(person => person.id === alert.entityId)) {
     // Watch for a fight; Follow for a march or a muster (Coleto's march out, the prisoners formed on Palm Sunday), which frames
@@ -61,7 +79,24 @@ export function militaryNotices(world) {
     const person = own.find(one => one.id === account.entityId);
     notices.push({ id: account.id, entityId: account.entityId, kind: 'account', title: account.title, text: account.text, action: `Go to ${person?.given || person?.name || 'them'}` });
   }
-  // Decisions first, then the fight, then quiet reminders. Stable order keeps the queue calm.
-  const order = kind => (kind === 'siege' ? 3 : kind === 'account' ? 2 : kind === 'battle' ? 1 : 0);
-  return notices.sort((a, b) => order(a.kind) - order(b.kind));
+  // Decisions first, then the fight, then quiet reminders. Stable order keeps the queue calm. Among the decisions, the ones that will
+  // not wait: ¡Alto!, then the road and the order to leave, then the call to arms - as the "!"s are ranked (`byUrgency`); a very sick
+  // person after the fight, before its account.
+  return notices.sort((a, b) => ORDER[a.kind] - ORDER[b.kind]);
 }
+const ORDER = Object.freeze({ alto: -3, road: -2, flight: -2, call: -1, rider: 0, courier: 0, orders: 0, battle: 1, sick: 1.5, account: 2, siege: 3 });
+const first = person => person.given || String(person.name || '').split(' ')[0] || 'them';
+/** The family's moments put up as cards, by the kind of their "!": what the card is headed and what its button says. */
+export const MOMENTS = Object.freeze({
+  alto: { title: () => '¡Alto! Soldiers on the road', action: () => 'Answer now' },
+  road: { title: () => 'The road is asking', action: () => 'Answer' },
+  flight: { title: () => 'Told to leave for the east', action: () => 'Choose what to do' },
+  // The settlement's call to turn out is a call to arms; the food wanted in Gonzales, the march upriver and the rumour are asked too.
+  call: { title: (person, world) => (world?.request?.kind === 'call' ? 'A call to arms' : world?.request?.kind === 'march' ? 'The march upriver' : 'Your family is being asked'),
+    action: (person, world) => (world?.request?.kind === 'call' ? 'Choose who goes' : 'Choose who answers') },
+  sick: { title: person => `${first(person)} is very sick`, action: person => `Go to ${first(person)}` },
+});
+/** Each kind's eyebrow, over its title. */
+export const EYEBROWS = Object.freeze({ alto: '¡Alto!', road: 'On the road', flight: 'The order to leave', call: 'A call to arms', sick: 'Very sick', rider: 'A rider', courier: 'Riders wanted', orders: 'In camp', battle: 'The fighting', account: 'After the fight', siege: 'Inside the Alamo' });
+/** Each kind's icon, from the family panel's own icons (Astra's, and Claude's where hers is missing). */
+export const ICONS = Object.freeze({ alto: 'icon-flee-hide', road: 'icon-road-lookout', flight: 'icon-flee-bundle', call: 'icon-enlist-auxiliary', sick: 'icon-nurse-home', rider: 'mark-need-rider', courier: 'icon-join-relief', orders: 'icon-camp-drill', battle: 'icon-camp-guard', account: 'icon-travel-home', siege: 'icon-join-garrison' });
