@@ -40,6 +40,13 @@ it makes the final versions."* and *"make sure the chop swings look natural"*. A
   than by motion. `-lift` jumps from the ground to the shoulder in its two frames, as the contract asks. The staking is drawn for
   the whole of "pacing out and staking" (a `ceiling:`); every felled tree falls as the one hardwood drawing (a `ceiling:`).
   Not done in area A: A12 (the Gonzales scenes: `-paint-seated`, `-forge`, `-point`, `forge-anvil`) and A18 (layered people).
+- **Merged with area B** (`integration-2026-09-28` 600425eb): one drawn-pose mechanism, B's `binding.drawn { from, pose, west,
+  holding, upright }` through `drawnClipOf`; the children's `shoo`, `gather`, `scatter` keep their drawn poses (a child's is its own
+  figure's). **The release package** (`scripts/package.ps1`) now leaves out `public/assets/claude-standins/svg/` (about 32 MB
+  of SVG sources for areas A and B, read only by `npm run build:standins`, never at run time) and refuses to package if any are
+  left. After the merge: `npm test` 1,664 pass, 0 fail (a second run hit `tests/save-retry.test.mjs`'s timing once under the
+  load of the browser proofs beside it; alone it passes), `test:work` 5, `test:children` 15, `test:disease` 8,
+  `test:claude-art` every injection caught, `test:art` PASS.
 
 ## Claude's temporary art, area B: children, babies and sickness — owner, 2026-09-28 (worktree branch; not released)
 
