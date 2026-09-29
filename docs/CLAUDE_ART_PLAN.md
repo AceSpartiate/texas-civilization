@@ -13,8 +13,8 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | C — Soldiers, battles and famous people | 19 | 1 | 0 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 0 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 15 | 1 | 1 | 3 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 1 | 3 | 17 |
-| **Total** | **88** | **15** | **6** | **27** |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 10 | 1 | 4 | 17 |
+| **Total** | **88** | **15** | **7** | **27** |
 
 ## How a builder works
 
@@ -510,7 +510,7 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 1 each. **Size:** Exactly the scale and anchor of the upright sprite
   - **Plugs into:** `GALE_POSES` and `windLean` in `public/weather-art.js`
   - **Stands in now:** the upright sprite sheared about its foot (Astra's library art reused)
-- [ ] **F6** (priority 3) — [Request 2026-09-19 — the country of 1836: trees and ground cover](ART_REQUESTS.md#request-2026-09-19--the-country-of-1836-trees-and-ground-cover), remaining species
+- [ ] **F6** (priority 3) — [Request 2026-09-19 — the country of 1836: trees and ground cover](ART_REQUESTS.md#request-2026-09-19--the-country-of-1836-trees-and-ground-cover), remaining species — **Claude stand-in in place** (`anacua-pole`, `anacua-log`, `anacua-large`, `ebony-pole`, `ebony-log`, `ebony-large`, `tupelo-pole`, `tupelo-log`, `tupelo-large`, `cedar-elm-pole`, `cedar-elm-log`, `cedar-elm-large`, `willow-pole`, `willow-log`, `willow-large`, `pine-shortleaf-pole`, `pine-shortleaf-log`, `pine-shortleaf-large`, `stump-hickory`, `stump-walnut`, `stump-ash`, `stump-oak`, `stump-oak-live`); Astra's replaces it
   - **Deliver:** anacua, Texas ebony, tupelo, cedar elm, willow, shortleaf pine at `-pole`/`-log`/`-large`, and hardwood stumps (hickory, walnut, ash, the oaks)
   - **Frames:** 3 sizes each. **Size:** The style and scale of `pine-loblolly-*` and `live-oak-*`
   - **Plugs into:** `KINDS` in `sim/woods.mjs`, `drawGroundDetail` in `public/app.js`

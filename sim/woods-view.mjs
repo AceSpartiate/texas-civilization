@@ -23,7 +23,10 @@ const KIND_IDS = Object.keys(KINDS);
  */
 export const woodsCatalogue = () => ({
   tiles: WOODS_TILE_MILES, sizes: SIZES,
-  kinds: KIND_IDS.map(id => ({ id, name: KINDS[id].name, picture: KINDS[id].picture, sized: KINDS[id].sized, scale: KINDS[id].scale, stump: KINDS[id].stump })),
+  // `pictures` (a kind with art at some sizes only: beech, magnolia) and `own`/`ownStump` (its own art, drawn before `picture`
+  // and `stump`) where a kind has them.
+  kinds: KIND_IDS.map(id => ({ id, name: KINDS[id].name, picture: KINDS[id].picture, sized: KINDS[id].sized, scale: KINDS[id].scale, stump: KINDS[id].stump,
+    ...(KINDS[id].pictures && { pictures: KINDS[id].pictures }), ...(KINDS[id].own && { own: KINDS[id].own }), ...(KINDS[id].ownStump && { ownStump: KINDS[id].ownStump }) })),
 });
 
 /**

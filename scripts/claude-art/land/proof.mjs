@@ -97,10 +97,31 @@ scene('gale', async () => {
   return out;
 });
 
+// The new species and stumps in a stand with Astra's, as the woods draw them (pole, log, large at 1.07, 1.37, 1.66 people).
+scene('trees', () => {
+  const drawn = { pole: 1.07, log: 1.37, large: 1.66 };
+  return [40, 77].map(person => ({
+    title: `Claude's species (temporary) in a stand with Astra's, at a person ${person} px: hers - hackberry, elm, loblolly, live oak - then anacua, ebony, tupelo, cedar elm, willow, shortleaf; stumps: hers (post oak), then Claude's.`,
+    person, width: person > 50 ? 2600 : 1500,
+    rows: [
+      ...['pole', 'log', 'large'].map(size => ['hackberry', 'elm', 'pine-loblolly', 'live-oak', 'anacua', 'ebony', 'tupelo', 'cedar-elm', 'willow', 'pine-shortleaf'].map(kind => ({ name: `${kind}-${size}`, h: drawn[size], dx: 0.05, label: person > 50 && size === 'large' ? kind : '' }))),
+      ['stump-post-oak', 'stump-hollow-oak', 'stump-hickory', 'stump-walnut', 'stump-ash', 'stump-oak', 'stump-oak-live'].map(name => ({ name, h: 1, dx: 0.2, label: person > 50 ? name : '' })),
+    ],
+    file: `land-trees-${person}.png`,
+  }));
+});
+
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   mkdirSync(OUT, { recursive: true });
   for (const file of ['./proof-scenes.mjs']) { try { await import(file); } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e; } }
   const wanted = process.argv.slice(2);
+  // A quick look at any frames, either library's, at a given height: --look a,b,c [--person 280] [--file name.png]
+  if (wanted[0] === '--look') {
+    const opt = k => { const i = wanted.indexOf(k); return i >= 0 ? wanted[i + 1] : null; };
+    const names = wanted[1].split(','), person = +(opt('--person') || 280), file = opt('--file') || 'land-look.png';
+    scene('look', () => ({ title: `look: ${names.join(', ')}`, person, rows: [names.map(name => ({ name, h: 1, dx: 0.1, label: name }))], width: Math.min(4000, 60 + names.length * person * 1.3), file }));
+    wanted.length = 0; wanted.push('look');
+  }
   await withBrowser(async (first, browser) => {
     for (const [name, make] of Object.entries(SCENES)) {
       if (wanted.length && !wanted.includes(name)) continue;
