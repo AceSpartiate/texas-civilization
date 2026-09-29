@@ -1,5 +1,18 @@
 # Claude handoff — Astra foundation
 
+## A third of the pace in the winter, a real for three food — owner, 2026-09-28 (branch `winter-third` off `integration-2026-09-28` 0ee43284; not released)
+
+The owner's answers to BALANCE.md §13.4: **"A third in winter"** (`WINTER_SLOWER` 3: corn twelve real minutes, cotton eighteen, December to
+February, blended across the change; a `ceiling:`) and **"1 real for 3 food"** (the store's food lot three, six from half full after the
+Scrape). **Flagged**: the post-Scrape food limit of 32 food was four bales' eight reales at four food a real; at three it is 24 food - kept
+at the owner's "32 food" and asked again. Tests follow the price (money, shops, crops, market, afoot, carreta) and the third
+(crop-minutes); **32 of 32 injections caught** ([docs/evidence/crops-market-injections.json](docs/evidence/crops-market-injections.json)).
+**`npm test` 1,655 pass, 0 fail, 36 skipped**; `test:ending` 10, `test:errand` 16, `test:auto` 14 checks. **Balance** ([docs/BALANCE.md](docs/BALANCE.md)
+§14, the same tree before and after): winners 40,781 / 68,094 / 113,800 → **39,760 / 63,408 / 105,185**; mean coin 160 → 150; farming
+harder at fifteen and thirty 1.14 / 0.86 (unchanged); families rolled to corn 15 → 18 reales (cotton 189). Study: first families 20,601
+to 38,784; the stay-home family 35 to 534, 12th to 15th; deaths 11. **Questions** (§14.4): the food limit 24 or 32; spare corn beyond
+one week or three.
+
 ## Claude's temporary art: the foundation and the plan — owner, 2026-09-28 (worktree branch; not released)
 
 **The ask.** Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of the remaining art. yours will be
