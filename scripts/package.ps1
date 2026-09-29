@@ -66,6 +66,11 @@ foreach ($name in $ship) {
   if (-not (Test-Path -LiteralPath $source)) { throw "Missing $name" }
   Copy-Item -LiteralPath $source -Destination $app -Recurse -Force
 }
+# The SVG sources of Claude's temporary art (public/assets/claude-standins/svg/, tens of megabytes) are what
+# `npm run build:standins` rasterises into the PNG sheets the page loads; nothing at run time reads them, so they stay home.
+$claudeSources = Join-Path $app 'public\assets\claude-standins\svg'
+if (Test-Path -LiteralPath $claudeSources) { Remove-Item -LiteralPath $claudeSources -Recurse -Force }
+if (@(Get-ChildItem -LiteralPath (Join-Path $app 'public') -Recurse -Force -Filter '*.svg' | Where-Object { $_.FullName -like '*claude-standins*' }).Count -ne 0) { throw 'Claude art SVG sources must not ship' }
 # The launcher's own scripts, and only those: the browser proofs, the art pipeline and the
 # preflight tooling are development instruments. appinfo.mjs is not optional - stop.ps1 and
 # the launcher both ask it where this machine put the class data rather than guessing.
