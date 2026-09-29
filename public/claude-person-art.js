@@ -15,6 +15,11 @@ const famous = (id, { fires, falls, rides, mx, extra = {} } = {}) => ({
   ...extra,
 });
 
+// Gregorio Esparza's burial party (`burial-party-walk-e`, drawn by `drawBearers`) is the noon of March 6, reached by a jump of the
+// clock, and Francisco, who carries him, is on the field in no phase before it. So its sheet is named on Gregorio and his family too:
+// the page asks for every sheet of the people of a fight with each snapshot (public/app.js `render`), and asks for this one while
+// any of them is on the field, the siege and the assault, so it is here before the first frame of the burial.
+const BURIAL = Object.freeze({ burial: 'burial-party-walk-e' });
 export const CLAUDE_PERSON_ART = Object.freeze({
   kimbell: famous('kimbell', { fires: true, falls: true, rides: true }),
   martin: famous('martin', { fires: true, falls: true, rides: true }),
@@ -25,11 +30,11 @@ export const CLAUDE_PERSON_ART = Object.freeze({
   condelle: famous('condelle', { mx: true, extra: { address: 'condelle-address' } }),
   'sanchez-navarro': famous('sanchez-navarro', { mx: true, extra: { parley: 'sanchez-navarro-parley' } }),
   barragan: famous('barragan', { mx: true, extra: { protect: 'barragan-protect' } }),
-  'ana-esparza': { stand: 'ana-esparza-idle', seated: 'ana-esparza-seated', sick: 'ana-esparza-seated', shelter: 'ana-esparza-shelter-with-children', carry: 'clip:ana-esparza-carry-toddler', blanket: 'ana-esparza-hold-blanket', walk: 'ana-esparza-walk-e', fallback: 'woman' },
-  'maria-de-jesus': { stand: 'maria-de-jesus-idle', seated: 'maria-de-jesus-seated-huddled', sick: 'maria-de-jesus-seated-huddled', walk: 'maria-de-jesus-walk-e', fallback: 'girl' },
-  'enrique-esparza': { stand: 'enrique-esparza-idle', seated: 'enrique-esparza-seated-huddled', sick: 'enrique-esparza-seated-huddled', look: 'enrique-esparza-look', walk: 'enrique-esparza-walk-e', fallback: 'boy' },
+  'ana-esparza': { stand: 'ana-esparza-idle', seated: 'ana-esparza-seated', sick: 'ana-esparza-seated', shelter: 'ana-esparza-shelter-with-children', carry: 'clip:ana-esparza-carry-toddler', blanket: 'ana-esparza-hold-blanket', walk: 'ana-esparza-walk-e', fallback: 'woman', ...BURIAL },
+  'maria-de-jesus': { stand: 'maria-de-jesus-idle', seated: 'maria-de-jesus-seated-huddled', sick: 'maria-de-jesus-seated-huddled', walk: 'maria-de-jesus-walk-e', fallback: 'girl', ...BURIAL },
+  'enrique-esparza': { stand: 'enrique-esparza-idle', seated: 'enrique-esparza-seated-huddled', sick: 'enrique-esparza-seated-huddled', look: 'enrique-esparza-look', walk: 'enrique-esparza-walk-e', fallback: 'boy', ...BURIAL },
   // Poses Astra's delivered sheets lack: Gregorio asleep sitting (night of March 5), Castrillón walking north and south.
-  esparza: { seated: 'esparza-seated' },
+  esparza: { seated: 'esparza-seated', ...BURIAL },
   castrillon: { walkSouth: 'castrillon-walk-s', walkNorth: 'castrillon-walk-n' },
   'francisco-esparza': { stand: 'francisco-esparza-idle', kneel: 'francisco-esparza-kneel-at-grave', walk: 'francisco-esparza-walk-e', carry: 'clip:burial-party-walk-e', bearers: 'burial-party-walk-e', fallback: 'townsman' },
 });

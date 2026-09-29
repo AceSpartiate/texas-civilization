@@ -327,6 +327,51 @@ export function seatedClip(entity, direction = 'e', seat = 'horse') {
  */
 export const SEAT = Object.freeze({ horseBack: 0.57, horseBackUpright: 0.6, wagonSeat: 0.44, hip: 0.44, overlap: 0.07, driverHeight: 0.92, driverHip: 0.42 });
 /**
+ * The wagon and its ox as one drawing: Claude's `wagon-ox-*` (area D, 2026-09-28; scripts/claude-art/areas/transport-vehicles.mjs),
+ * built in rig units - u forward, v to the wagon's left, w up - 164 of them from the ground to the cover's top, which is the
+ * height the game draws a wagon (`SIZE.wagon`). Side-on the frame's anchor is the ground under the middle of the bed (u = 0);
+ * end-on the ground under the nearest end, `anchor` along u (the ox's forefeet going south, the tail going north), the far end
+ * rising up the screen by `depth` a unit. `seat` is where the driver's hip sits on the box; `tail` the rows of the open bed behind
+ * the canvas drawn back (`wagon-ox-open-*`), two abreast `across` either side; `oxTop` how far up the frame the ox reaches coming
+ * toward the camera (the yoke over its neck), as a share of the frame's logical height; `extent` how far the drawing reaches side-on,
+ * from the tail of the canvas to the ox's nose (measured off the sheet).
+ * ceiling: `seat`, the rows and `oxTop` are the kit's numbers (held to it by tests/riding.test.mjs) and one look at a moving preview
+ * (docs/evidence/claude-art/loops-transport-rig.png); when Astra paints the rig, a seat anchor in the manifest replaces them.
+ * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - request 2026-09-16 (driving the ox wagon),
+ * item 1, and request 2026-09-25 (riders, walkers and the cart), item 2, the tail with its cover drawn back.
+ */
+export const WAGON_RIG = Object.freeze({ units: 164, depth: 0.22, anchor: Object.freeze({ e: 0, s: 236, n: -134 }), seat: Object.freeze([92, 0, 72]),
+  tail: Object.freeze([-44, -96]), stagger: 10, across: 16, oxTop: 0.77, extent: Object.freeze([-148, 382]) });
+/**
+ * Where a point of the rig (u, v, w) is drawn from the rig's anchor, in the wagon's drawn heights: `dx` along the way it faces
+ * (the caller mirrors it for west), `dy` down the screen.
+ */
+export function rigPoint(direction, [u, v, w]) {
+  const { units, depth, anchor } = WAGON_RIG;
+  if (direction === 's') return { dx: v / units, dy: -(w - (u - anchor.s) * depth) / units };
+  if (direction === 'n') return { dx: -v / units, dy: -(w + (u - anchor.n) * depth) / units };
+  return { dx: u / units, dy: -(w + v * depth) / units };
+}
+/**
+ * Which of the rig's drawings a driven wagon is: with somebody riding in it, the tail open with its cover drawn back so they are
+ * seen (`wagon-ox-open-*`), whatever it carries under the canvas; else laden, the bows bare over the load (`wagon-ox-loaded-*`);
+ * else covered (`wagon-ox-*`). East is mirrored for west; end-on is its own drawing.
+ */
+export function wagonRigClip(wagon = {}, direction = 'e', riders = 0) {
+  const facing = direction === 'n' || direction === 's' ? direction : 'e';
+  const cover = riders > 0 ? 'open-' : wagon.laden ? 'loaded-' : '';
+  return { id: `wagon-ox-${cover}${facing}`, upright: facing !== 'e' };
+}
+/**
+ * How far the rig reaches side-on ahead of its driver's point and behind it, in persons (`sizes` as `seatLayout`'s): what a family's
+ * second and third wagon are drawn behind the first by, and the horse behind the last (public/app.js `drawEntity`), so no ox of one
+ * rig stands over the riders in the tail of the one ahead.
+ */
+export function rigReach(sizes = {}) {
+  const wagon = sizes.wagon ?? 1.55, [rig] = seatLayout('wagon', 'e', sizes, 1, 0, true);
+  return { ahead: rig.dx + WAGON_RIG.extent[1] / WAGON_RIG.units * wagon, behind: -(rig.dx + WAGON_RIG.extent[0] / WAGON_RIG.units * wagon) };
+}
+/**
  * Where each part of a rider and their mount is drawn, and in the order to draw them. `sizes` are the mounts' drawn heights
  * as a person is 1 (public/app.js `SIZE`).
  *
@@ -339,8 +384,13 @@ export const SEAT = Object.freeze({ horseBack: 0.57, horseBackUpright: 0.6, wago
  * driver get (`RIDING_FIGURES`, `DRIVING_FIGURES`). `seatedClip` is what decides which of the two a person is given.
  * stand-in: docs/ART_REQUESTS.md, request 2026-09-14 (on horseback) and 2026-09-16 (driving the ox wagon), both narrowed
  * on 2026-09-21 to exactly the figures Astra has not painted on a mount.
+ *
+ * `rig`: the wagon and ox are one drawing (`WAGON_RIG`), laid so that its seat is exactly where the driver's hip already sits -
+ * the driver's placement does not change with it - and drawn in the order the eye would see them: side-on the rig and then the
+ * driver on its box; coming toward the camera the rig, the driver, and the ox again in front of them (the rig drawn a second
+ * time only up to the yoke, `band`); going away the driver first, behind the canvas, and the rig over them.
  */
-export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wagon = 1.55 } = {}, rider = 1, delivered = 0) {
+export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wagon = 1.55 } = {}, rider = 1, delivered = 0, rig = false) {
   const vertical = direction === 'n' || direction === 's';
   // The rider's feet are put where their hip lands on the seat, and they are cut a little below the hip.
   const sitting = (seatHeight, dx = 0) => ({ part: 'rider', dx, dy: -seatHeight + SEAT.hip * rider, height: rider, shown: 1 - SEAT.hip + SEAT.overlap });
@@ -365,6 +415,14 @@ export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wago
     // a standing figure cut at the hip, so its base goes where its hip lands on the seat and none of it is clipped away.
     const seated = { part: 'rider', dx, dy: -wagon * SEAT.wagonSeat + SEAT.driverHip * SEAT.driverHeight * rider, height: SEAT.driverHeight * rider, seated: true };
     const driver = delivered > 0 ? seated : sitting(wagon * SEAT.wagonSeat, dx);
+    if (rig) {
+      // The rig laid under the driver: its seat point where their hip is (`-wagon * SEAT.wagonSeat` up from the ground they are
+      // drawn on), whichever way it is going.
+      const at = rigPoint(direction, WAGON_RIG.seat);
+      const whole = { part: 'rig', dx: dx - at.dx * wagon, dy: -wagon * SEAT.wagonSeat - at.dy * wagon, height: wagon };
+      if (direction === 's') return [whole, driver, { ...whole, band: WAGON_RIG.oxTop }];
+      return direction === 'n' ? [driver, whole] : [whole, driver];
+    }
     // Going away the ox is further off and drawn first; coming toward the camera it is nearer and drawn last.
     return direction === 's' ? [box, driver, team] : [team, box, driver];
   }
@@ -378,8 +436,9 @@ export function seatLayout(seat, direction = 'e', { horse = 1.5, ox = 1.45, wago
  * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 - riders in the wagon. Their own figure's idle pose cut off below the waist,
  * set on the front of the wagon's cover behind the driver: the covered wagon has no open bed to seat anybody in.
  */
-export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rider = 1) {
+export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rider = 1, rig = null) {
   const vertical = direction === 'n' || direction === 's';
+  if (rig) return tailLayout(direction, index, wagon, rider, rig);
   const box = vertical ? 0 : -0.55 * wagon;
   const row = Math.floor(index / 2), side = index % 2;
   // Going north the bed is nearer the camera than the driver's seat, so they sit lower on the screen and in front of the driver;
@@ -388,6 +447,23 @@ export function bedLayout(direction = 'e', index = 0, { wagon = 1.55 } = {}, rid
   const back = vertical ? (direction === 'n' ? 1 : -1) * 0.13 * wagon * (row + 1) : 0;
   const seat = wagon * SEAT.wagonSeat * (1.02 - 0.04 * side);
   return { part: 'passenger', dx, dy: -seat + SEAT.hip * rider + back, height: rider, shown: 1 - SEAT.hip + SEAT.overlap, ...(direction === 'n' && { front: true }) };
+}
+/**
+ * Where a rider sits in the back of the one-drawing rig (`rig`: its part from `seatLayout`), in the bed behind the canvas drawn back
+ * (`wagon-ox-open-*`): two rows (`WAGON_RIG.tail`), two abreast, the one on the far side a little further back so both are seen,
+ * the hip on the bed's top rail as the driver's is on the box. `behind` coming toward the camera, where the canvas is between them
+ * and the eye and they are drawn before the rig; otherwise after it (and before the driver, who is nearer or in front). Their
+ * `dy` is to the ground line of a figure cut at the hip, as `bedLayout`'s are, so either the whole seated rider or the cut one can
+ * be drawn there.
+ * stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - request 2026-09-25, item 2.
+ */
+function tailLayout(direction, index, wagon, rider, rig) {
+  const row = Math.floor(index / 2) % WAGON_RIG.tail.length, side = index % 2;
+  const u = WAGON_RIG.tail[row] - (side ? WAGON_RIG.stagger : 0), v = (side ? 1 : -1) * WAGON_RIG.across;
+  const at = rigPoint(direction, [u, v, WAGON_RIG.seat[2]]);
+  const hip = rig.dy + at.dy * wagon;
+  return { part: 'passenger', dx: rig.dx + at.dx * wagon, dy: hip + SEAT.hip * rider, height: rider, shown: 1 - SEAT.hip + SEAT.overlap, rig: true,
+    ...(direction === 's' ? { behind: true } : {}) };
 }
 /**
  * Somebody sitting in the bed of an open cart or carreta, whole (`<figure>-ride-wagon-<dir>`, Claude-drawn 2026-09-28: request
@@ -587,8 +663,9 @@ function grownClip(entity, observed) {
  * the side-on rest (the hens are work since 2026-09-28: public/work-art.js `scatter`), hiding the back-turned idle; a crawling
  * baby is the infant's standing pose moved over the ground; a woman holding a baby is the harvest's carrying pose with the
  * infant beside her.
- * ceiling: play is drawn east or west (mirrored); the running play's `-play-run-s`/`-n` are drawn but not asked for, because
- * the page does not read a child's heading about the yard. Reading `ProjectionMotion.heading` for play would use them.
+ * Running at tag or off to hide, the child runs the way they are seen going about the yard (`yardHeading`, read by the page from
+ * where it drew them the frame before, `DrawnHeading`): `-play-run-n` and `-play-run-s` north and south over their own walk those
+ * ways, `-play-run` east and, mirrored, west. The other play is drawn east or west: only the run has a north and a south.
  */
 export function littleClip(entity, variant) {
   const baby = entity.baby?.state;
@@ -611,7 +688,10 @@ export function littleClip(entity, variant) {
   const doing = entity.chore?.doing || '';
   if (/galloping/.test(doing)) return drawnPose(variant, 'walk', 'play-gallop');
   if (/rolling a hoop/.test(doing)) return drawnPose(variant, 'walk', 'play-hoop');
-  if (/running at tag|running off to hide|coming out to be found/.test(doing)) return drawnPose(variant, 'walk', 'play-run');
+  if (/running at tag|running off to hide|coming out to be found/.test(doing)) {
+    const way = entity.yardHeading;
+    return way === 'n' || way === 's' ? drawnPose(variant, `walk-${way}`, `play-run-${way}`, { upright: true }, { upright: true }) : drawnPose(variant, 'walk', 'play-run');
+  }
   if (/hiding behind the house/.test(doing)) return drawnPose(variant, 'idle-n', 'play-hide', { upright: true });
   if (/playing house/.test(doing)) return drawnPose(variant, 'rest', 'play-sit-doll', { upright: true });
   if (/lying on their back/.test(doing)) return { id: `${variant}-rest`, upright: true };
@@ -678,6 +758,27 @@ export const sameJourney = (a, b) => Boolean(a && b && a.from === b.from && a.to
  * says they are now: an even walk, with no easing, so the figure never hurries at the start
  * of a tick and dawdles at the end.
  */
+/** The way a step of (dx, dy) goes on the map or the screen, y down the page: north or south where it is mostly up or down. */
+export const headingOf = (dx, dy) => Math.abs(dy) > Math.abs(dx) * 1.2 ? (dy > 0 ? 's' : 'n') : dx < 0 ? 'w' : 'e';
+/**
+ * Which way somebody is seen going, from where the page drew them the frame before: 'n', 's', 'e' or 'w', kept while they stand
+ * (a child stopped between two runs at tag is still turned the way they ran), null until they are first seen to move. Fed the
+ * point each is drawn at, in whatever units the caller draws in; a step shorter than `still` is not a step, and is added up until
+ * it is. Read off the drawing, as the town's walkers are turned (public/town-scenes.js `TownWalker`), rather than off the server
+ * (`ProjectionMotion.heading`, which reads a step the same way), so it turns a child the server steps about the yard a tick at a
+ * time (sim/children.mjs `playStep`) and a child the page itself walks to and fro (public/work-art.js `fetchStep`) alike.
+ * ceiling: one entry per person ever drawn in this page, never pruned, as `ProjectionMotion` keeps one; a class has a few dozen.
+ */
+export class DrawnHeading {
+  constructor(still = 1e-6) { this.still = still; this.seen = new Map(); }
+  update(id, x, y) {
+    const was = this.seen.get(id);
+    if (!was) { this.seen.set(id, { x, y, dir: null }); return null; }
+    const dx = x - was.x, dy = y - was.y;
+    if (Math.hypot(dx, dy) > this.still) { was.dir = headingOf(dx, dy); was.x = x; was.y = y; }
+    return was.dir;
+  }
+}
 export const drawnProgress = (start, end, f) => start + (end - start) * Math.min(1, Math.max(0, f));
 export class ProjectionMotion {
   constructor() { this.records = new Map(); this.session = null; this.tick = null; }
@@ -752,7 +853,7 @@ export class ProjectionMotion {
     if (!from || !to || from.siteId !== to.siteId) return null;
     const dx = to.x - from.x, dy = to.y - from.y, far = Math.hypot(dx, dy);
     if (!(far > 1e-6) || far >= .6) return null;
-    return Math.abs(dy) > Math.abs(dx) * 1.2 ? (dy > 0 ? 's' : 'n') : dx < 0 ? 'w' : 'e';
+    return headingOf(dx, dy);
   }
   /**
    * The journey somebody is drawn along now, or null: the one `position` walks them down. On the tick they arrive it is the

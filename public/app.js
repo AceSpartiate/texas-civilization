@@ -2,7 +2,7 @@
 import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, sheetsFirstDrawn, spriteFrame, spriteReady, watchMissing } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
-import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
+import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
 import { actingOf, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
@@ -46,7 +46,7 @@ const $ = selector => document.querySelector(selector);
 import { militaryNotices } from '/military-attention.js';
 import { createBattleView, personArt } from '/battle-view.js';
 import { createChaseView } from '/chase-view.js';
-import { activityOf, drawnStroke, drawsAtWork, drawWorkLayer, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
+import { activityOf, drawnStroke, drawsAtWork, drawWorkLayer, fetchPose, fetchStep, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error', '#away-error']) { const el = $(id); if (el) el.textContent = message; } };
 const hostPage = location.pathname === '/host';
 let events;
@@ -374,39 +374,49 @@ function drawAtWork(ctx, binding, clip, x, y, size, entity) {
     if (was && felling !== was && /fell/i.test(was) && entity.location) treesFalling.set(entity.id, { at: animationTime, where: entity.location, flip: Boolean(entity.flip) });
     if (felling) fellingWords.set(entity.id, felling); else fellingWords.delete(entity.id);
   }
+  const id = entity.id || '';
+  let seed = workSeeds.get(id);
+  if (seed === undefined) { seed = (hashOf(id) % 997) * 7; workSeeds.set(id, seed); }
+  const still = reducedMotion.matches || Boolean(binding.frozen);
+  // Walked to and fro at the work (`fetch`: a child carrying water down to the water and up to the house), and turned the way the
+  // drawing goes (`fetchHeadings`): north and south in the pails' own frames, east and west the side-on ones (`fetchPose`).
+  const fetch = stroke.fetch && !still && !entity.strolling ? fetchStep(stroke.fetch, animationTime + seed, seed) : null;
+  const way = fetch ? fetchHeadings.update(id, fetch.dx, fetch.dy) : null;
+  const going = way ? fetchPose(stroke, way) : null;
+  // The cast figure the pose is drawn in (`rust-work` is rust's), whose hands a drawn axe is put in (public/work-art.js `HAFTS`).
+  let worn = clip.slice(0, clip.length - stroke.pose.length - 1);
   // A cycle of the work itself where this figure has one (public/work-art.js `drawnStroke`): `rust-chop` for rust felling.
   if (stroke.drawn && stroke.art !== 'journey' && !entity.strolling) {
     // A child's is their own figure's (`boy-shoo`, the one chooser `figureOf`), whatever grown figure the fallback is drawn in.
     const figure = figureOf(entity, entity.observed);
-    const own = CHILD_FIGURES.has(figure) ? `${figure}-${stroke.drawn.pose}` : `${clip.slice(0, clip.length - stroke.pose.length - 1)}-${stroke.drawn.pose}`;
-    if (clipReady(own)) { clip = own; stroke = drawnStroke(stroke); }
+    const prefix = CHILD_FIGURES.has(figure) ? figure : clip.slice(0, clip.length - stroke.pose.length - 1);
+    const own = `${prefix}-${going ? going.drawn : stroke.drawn.pose}`;
+    if (clipReady(own)) { clip = own; stroke = drawnStroke(stroke); worn = prefix; }
+    // Going north or south before those frames are here: their walk that way, not the side-on carry sliding up the page.
+    else if (going?.upright) { clip = `${prefix}-${going.pose}`; worn = prefix; }
   }
   if (stroke.art === 'journey' || entity.strolling) {
     return animated(ctx, clip, x, y, size, entity.id, { paused: binding.frozen, flip: binding.upright ? false : entity.flip, gait: entity.gait, appearance: entity.appearance });
   }
-  const id = entity.id || '';
-  let seed = workSeeds.get(id);
-  if (seed === undefined) { seed = (hashOf(id) % 997) * 7; workSeeds.set(id, seed); }
   let frames = workFrames.get(clip);
   if (frames === undefined) { const info = clipInfo(clip); frames = info?.frames ? info.frames.map(frame => frame.duration) : null; if (info) workFrames.set(clip, frames); }
-  const still = reducedMotion.matches || Boolean(binding.frozen);
   strokeClock(stroke, frames, animationTime + seed, workClockOut);
+  if (fetch) { x += fetch.dx * size; y += fetch.dy * size * .8; }
   const shift = still ? 0 : strokeShift(stroke, workClockOut) * size, face = still ? null : strokeFace(stroke, workClockOut);
-  const flip = face ? face === 'w' : binding.upright ? false : Boolean(entity.flip), dir = flip ? -1 : 1;
+  const flip = going ? !going.upright && going.west : face ? face === 'w' : binding.upright ? false : Boolean(entity.flip), dir = flip ? -1 : 1;
   const width = animated(ctx, clip, x + shift, y, size, 0, {
     paused: binding.frozen, flip, appearance: entity.appearance,
     timeMs: animationTime + seed, lean: still ? 0 : -strokeLean(stroke, workClockOut) * dir,
   });
   if (!width) return 0;
-  // The cast figure the pose is drawn in (`rust-work` is rust's), whose hands a drawn axe is put in (public/work-art.js `HAFTS`).
-  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still, clip.slice(0, clip.length - stroke.pose.length - 1), workEffect);
+  const marks = drawWorkLayer(ctx, stroke, x + shift, y, size, dir, workClockOut, still, worn, workEffect);
   // Presentation evidence for the proofs (npm run test:work), read by nothing in the application: what each of the family at work
   // was last drawn doing, which frame of it, and how many marks of its tool and effect. One record a person, kept and rewritten.
   if (id) {
     const seen = (window.__workDrawn ??= {})[id] ??= {};
     seen.activity = activityOf(entity); seen.stroke = binding.stroke; seen.art = stroke.art; seen.clip = clip;
     seen.frame = workClockOut.frame; seen.since = Math.round(workClockOut.since); seen.count = workClockOut.count; seen.marks = marks;
-    seen.shift = Math.round(shift * 10) / 10; seen.flip = flip; seen.request = stroke.request || null; seen.tool = stroke.tool || null;
+    seen.shift = Math.round(shift * 10) / 10; seen.flip = flip; seen.request = stroke.request || null; seen.tool = stroke.tool || null; seen.heading = way;
     if (!still) workBeat(id, seen.activity, binding.stroke, workClockOut, x + dir * size * .5, y);
   }
   return width;
@@ -436,7 +446,7 @@ function miniPerson(ctx, x, y, size, entity) {
     // The pose each of the family was last drawn in, by id: presentation evidence for the proofs (npm run test:children), read by
     // nothing in the application.
     const own = drawnClipOf(binding, clip, entity);
-    if (entity.id) (window.__clipsDrawn ??= {})[entity.id] = own?.clip || clip;
+    if (entity.id) { (window.__clipsDrawn ??= {})[entity.id] = own?.clip || clip; (window.__flipsDrawn ??= {})[entity.id] = (own ? own.upright : binding.upright) ? false : Boolean(entity.flip); }
     if (binding.work) { if (drawAtWork(ctx, binding, own?.clip || clip, x, y, size, entity)) return; }
     else if (animated(ctx, own?.clip || clip, x, y, size, entity.id, {
       paused: own ? false : binding.frozen, flip: (own ? own.upright : binding.upright) ? false : entity.flip,
@@ -445,7 +455,7 @@ function miniPerson(ctx, x, y, size, entity) {
   }
   const binding = entity.side ? { id: `${entity.side === 'mexican' ? 'regular' : 'volunteer'}-idle-e` } : entityClip(entity, entity.observed);
   const own = entity.side ? null : drawnClipOf(binding, binding.id, entity);
-  if (entity.id && !entity.side) (window.__clipsDrawn ??= {})[entity.id] = own?.clip || binding.id;
+  if (entity.id && !entity.side) { (window.__clipsDrawn ??= {})[entity.id] = own?.clip || binding.id; (window.__flipsDrawn ??= {})[entity.id] = (own ? own.upright : binding.upright) ? false : Boolean(entity.flip); }
   if (binding.work && drawAtWork(ctx, binding, own?.clip || binding.id, x, y, size, entity)) return;
   // A north or south cycle is drawn facing that way already; mirroring it would turn a
   // person walking away into a person walking away backwards.
@@ -773,20 +783,50 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   const delivered = seatedClip(entity, direction, seat);
   const ready = !entity.appearance && Boolean(delivered.whole || delivered.seated) && clipReady(delivered.id);
   const drawn = [];
+  const aboard = passengersOf(team, entities);
+  // The wagon and its ox as one drawing (Claude's `wagon-ox-*`, public/motion.js `WAGON_RIG`) once its sheet is here, with the tail
+  // open and the cover drawn back when anybody rides in it; the family's wagon and ox drawn apart, as before, until then - and
+  // always for a cart or carreta, whose ox is drawn by itself, or a wagon come to harm.
+  // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - request 2026-09-16, item 1.
+  const box = mount.wagon || {};
+  const rigClip = seat === 'wagon' && !box.cart && !box.carreta && (!box.condition || box.condition === 'sound') ? wagonRigClip(box, direction, aboard.length) : null;
+  const rig = Boolean(rigClip) && clipReady(rigClip.id);
   // Whoever rides in this wagon behind its driver (sim/company.mjs; owner, 2026-09-25), sat in it after the wagon and before the
   // driver, so the driver is drawn in front of them. They are not drawn again beside it (public/motion.js `carriedWithRider`).
-  const layout = seatLayout(seat, direction, SIZE, figureScale(entity), ready ? (seat === 'horse' ? MOUNTED_HEIGHT : 1) : 0);
-  const riders = passengersOf(team, entities).map((rider, i) => ({ ...bedLayout(direction, i, SIZE, figureScale(rider)), rider }));
-  // Going north they sit nearer the camera than the driver (`front`), so they are drawn after the driver instead.
-  const driverAt = layout.findIndex(part => part.part === 'rider');
-  if (riders.length) layout.splice(riders[0].front ? driverAt + 1 : driverAt, 0, ...riders.reverse());
+  const layout = seatLayout(seat, direction, SIZE, figureScale(entity), ready ? (seat === 'horse' ? MOUNTED_HEIGHT : 1) : 0, rig);
+  const rigPart = rig ? layout.find(part => part.part === 'rig') : null;
+  const riders = aboard.map((rider, i) => ({ ...bedLayout(direction, i, SIZE, figureScale(rider), rigPart), rider }));
+  if (riders.length && rigPart) {
+    // In the rig's open tail: the furthest up the screen first. Coming toward the camera the canvas is in front of them, so before
+    // the rig; otherwise straight after it, before a driver on the box side-on (a driver going away is behind the canvas, first).
+    riders.sort((a, b) => a.dy - b.dy);
+    layout.splice(riders[0].behind ? 0 : layout.indexOf(rigPart) + 1, 0, ...riders);
+  } else if (riders.length) {
+    // Going north they sit nearer the camera than the driver (`front`), so they are drawn after the driver instead.
+    const driverAt = layout.findIndex(part => part.part === 'rider');
+    layout.splice(riders[0].front ? driverAt + 1 : driverAt, 0, ...riders.reverse());
+  }
   for (const part of layout) {
     const px = x + part.dx * size * along, py = y + part.dy * size, height = part.height * size;
+    if (part.part === 'rig') {
+      // One drawing, mirrored for west as every east cycle is. Coming toward the camera it is drawn a second time up to the ox's
+      // yoke only (`band`), so the ox stands in front of the driver as it does of the wagon; the same key and clock, the same frame.
+      const opts = { flip: rigClip.upright ? false : flip, gait };
+      if (part.band) {
+        ctx.save(); ctx.beginPath(); ctx.rect(px - height * 4, py - height * part.band, height * 8, height * 2); ctx.clip();
+        animated(ctx, rigClip.id, px, py, height, box.id || `${entity.id}-wagon`, opts);
+        ctx.restore();
+        continue;
+      }
+      animated(ctx, rigClip.id, px, py, height, box.id || `${entity.id}-wagon`, opts);
+      drawn.push({ part: 'rig', clip: rigClip.id, x: Math.round(px), y: Math.round(py), height: Math.round(height) });
+      continue;
+    }
     if (part.part === 'passenger') {
-      // In an open cart or carreta, the whole seated rider where Claude's is loaded (`passengerClip`): the hip on the seat the
-      // layout gives, the rest of them sitting in the bed. stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace
-      // with Astra's)"; in the covered wagon, and wherever it is not loaded, the cut figure below.
-      const open = mount.wagon?.cart || mount.wagon?.carreta, sits = open && !part.rider.appearance && passengerClip(part.rider, direction);
+      // In an open cart or carreta, or the rig's open tail, the whole seated rider where Claude's is loaded (`passengerClip`): the
+      // hip on the seat the layout gives, the rest of them sitting in the bed. stand-in: docs/ART_REQUESTS.md, "Claude-drawn
+      // stand-ins (replace with Astra's)"; in the covered wagon drawn apart, and wherever it is not loaded, the cut figure below.
+      const open = mount.wagon?.cart || mount.wagon?.carreta || part.rig, sits = open && !part.rider.appearance && passengerClip(part.rider, direction);
       if (sits && clipReady(sits.id)) {
         const hip = py - height * SEAT.hip, whole = height * SEAT.driverHeight;
         animated(ctx, sits.id, px, hip + whole * SEAT.driverHip, whole, part.rider.id, { flip: sits.upright ? false : flip });
@@ -827,7 +867,7 @@ function drawSeated(ctx, x, y, size, entity, seat, entities, flip, gait) {
   }
   // `art` is the delivered clip if one was drawn, and null while the composite stand-in stands in for it: the one fact a
   // proof needs to tell "Astra's painted rider" from "a cropped figure over a horse" without reading pixels.
-  seatedDrawn.set(entity.id, { seat, direction, art: ready ? delivered.id : null, parts: drawn });
+  seatedDrawn.set(entity.id, { seat, direction, art: ready ? delivered.id : null, rig: rig ? rigClip.id : null, parts: drawn });
 }
 /**
  * How tall somebody is drawn, in pixels, from the camera's figure size: everything is drawn standing on its point, so this
@@ -903,10 +943,14 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   const saddled = entity.kind === 'person' && entity.travel?.saddle && !entity.travel.carried;
   const atWork = !saddled && !entity.travel && !marks.placed && !marks.observed && drawsAtWork(entity) && workSlot(entity, marks.workmates, workSlotOut);
   const rigs = saddled ? wagonTeams(entity.householdId, marks.entities || []).length : 0;
-  const offset = saddled ? { x: behind.x * (rigs ? 82 * rigs : 64), y: behind.y * (rigs ? 60 * rigs : 56) + 4 }
+  // Side-on, the wagon and its ox as one drawing (public/motion.js `WAGON_RIG`, once its sheet is here) reach further than the two
+  // drawn apart, so the wagons after the first, and the horse after the last, are drawn that much further back (`rigReach`).
+  const rigSpan = (train > 0 || rigs) && !vertical && clipReady(wagonRigClip({}, 'e').id) ? RIG_REACH : null;
+  const gap = rigSpan ? (rigSpan.ahead + rigSpan.behind + 0.25) * 26 : 82;
+  const offset = saddled ? { x: behind.x * (rigs ? (rigSpan ? gap * (rigs - 1) + (rigSpan.behind + 1.3) * 26 : 82 * rigs) : 64), y: behind.y * (rigs ? 60 * rigs : 56) + 4 }
     : entity.travel
     ? (entity.kind === 'wagon' ? { x: -2.4, y: .5 } : entity.kind === 'animal' && entity.travel.mode === 'foot' ? { x: behind.x * 26, y: behind.y * 36 + 2 } : entity.kind === 'animal' ? { x: -1.1, y: .2 }
-      : train > 0 ? { x: behind.x * 82 * train, y: behind.y * 60 * train + 3 * train }
+      : train > 0 ? { x: behind.x * gap * train, y: behind.y * 60 * train + 3 * train }
       : walker >= 0 ? (vertical ? { x: 30 + (walker % 2) * 12, y: behind.y * (8 + 20 * walker) } : { x: behind.x * (-10 + 17 * walker), y: 14 + (walker % 2) * 5 })
       : { x: 0, y: 0 })
     // Somebody standing in Gonzales has been walked to their spot, the separation included (`townGround`).
@@ -1142,9 +1186,11 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
   // Somebody walking across Gonzales faces the way they are walking, and somebody in one of its scenes the way the scene has
   // them turned (public/town-scenes.js).
   // Somebody at work faces it (`workSlot`), somebody the server is stepping over their own land to it faces the way they go, and
-  // somebody at an ambient activity is turned the way the server or their company has them (public/ambient.js).
+  // somebody at an ambient activity is turned the way the server or their company has them (public/ambient.js), and a little one
+  // about the yard the way they were last seen going (`yardHeading`).
   const flip = entity.facing ? entity.facing === 'w' : entity.stepping ? entity.stepping === 'w' : entity.scenePose ? entity.scenePose.face === 'w'
-    : entity.strolling ? entity.strolling === 'w' : entity.amb ? entity.amb.f === 'w' : marks.workFace ? marks.workFace === 'w' : travelDirection(entity) === 'w';
+    : entity.strolling ? entity.strolling === 'w' : entity.amb ? entity.amb.f === 'w' : marks.workFace ? marks.workFace === 'w'
+    : entity.yardHeading ? entity.yardHeading === 'w' : travelDirection(entity) === 'w';
   // Somebody on the road steps at the rate the ground drawn under them goes past (public/motion.js `gaitStep`),
   // measured in their own drawn height: a child's shorter stride, a horse's longer one.
   const onFoot = entity.kind === 'person' && !mounted(entity);
@@ -1579,6 +1625,13 @@ const SIZE = {
   steamboat: 4.2,
   // The quarry's own sizes are `QUARRY_SIZE`, which is by species: a turkey is not a deer's height.
 };
+// How far the wagon and its ox as one drawing reach ahead of and behind their driver, in persons (public/motion.js `rigReach`).
+const RIG_REACH = rigReach(SIZE);
+// Which way each of the family's little ones is seen going about the yard, from where they were drawn the frame before (in miles
+// of the map): what turns a child running at tag north, south, east or west (public/motion.js `DrawnHeading`, `littleClip`).
+const yardHeadings = new DrawnHeading(1e-7);
+// And which way somebody the page walks to and fro at their work is going (public/work-art.js `fetchStep`), in figure heights.
+const fetchHeadings = new DrawnHeading(1e-4);
 /**
  * How big a house is drawn on the map, in the same yardstick as the people beside it (TECH.md: "the same yardstick every
  * tree, cabin and ox is drawn in"). One number for a house at its site, a house placed on the land and the translucent
@@ -3488,7 +3541,14 @@ function drawWorldNow(world) {
     const beside = inTown?.amb && (!inTown.stepping || inTown.amb.pace) && propItem(ctx, inTown.amb, camera.toScreen(inTown.base || inTown.at), camera.figure, { time: animationTime, flip: inTown.amb.f === 'w' });
     if (beside) standing.push(beside);
     const placed = inTown ? { ...entity, stepping: inTown.stepping, scenePose: inTown.pose, ...(inTown.amb && { amb: inTown.amb }) } : stepping ? { ...entity, stepping } : carrier ? entity : atTheirWork(entity, world.household?.homeSiteId, frameNow, frozen);
-    const shown = carryingBaby.has(entity.id) ? { ...placed, carryingBaby: true } : placed;
+    const held = carryingBaby.has(entity.id) ? { ...placed, carryingBaby: true } : placed;
+    // One of the little ones about the yard, turned the way they are seen going (`yardHeadings`): a child at tag runs north, south,
+    // east or west (public/motion.js `littleClip`). Presentation evidence for the proofs in `window.__yardHeading`, read by nothing
+    // in the application.
+    const little = !carrier && !inTown && !stepping && !entity.travel && entity.kind === 'person' && (entity.band === 'child' || entity.band === 'small');
+    const yard = little ? yardHeadings.update(entity.id, ground.x, ground.y) : null;
+    if (little) (window.__yardHeading ??= {})[entity.id] = yard; else if (window.__yardHeading) delete window.__yardHeading[entity.id];
+    const shown = yard ? { ...held, yardHeading: yard } : held;
     standing.push({ y: point.y, draw: () => drawEntity(ctx, shown, point, roomForNames, camera.figure, {
       selected: entity.id === chosen?.id, mark, entities, workmates: entities,
       labels, heading: destination ? destination.x - entity.location.x : 0, ground, scale: camera.scale,

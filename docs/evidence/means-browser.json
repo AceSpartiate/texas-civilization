@@ -1,6 +1,6 @@
 {
   "record": "means-browser",
-  "date": "2026-09-28",
+  "date": "2026-09-29",
   "browser": "153.0.8010.53",
   "ownerDirection": "\"introduce rolling for starting wealth. tie it into the extra wagons. part of wealth will be number of wagons. if a family doesn't have enough wagons, older family members walk. have this potentially affect travelling speed.\" (2026-09-25)",
   "checks": [
@@ -136,10 +136,12 @@
       {
         "id": "hh-1-parent-1",
         "art": null,
+        "rig": "wagon-ox-open-e",
         "passengers": 4,
         "wagon": {
-          "part": "wagon",
-          "x": 725,
+          "part": "rig",
+          "clip": "wagon-ox-open-e",
+          "x": 736,
           "y": 384,
           "height": 77
         }
@@ -147,21 +149,25 @@
       {
         "id": "hh-1-parent-2",
         "art": null,
+        "rig": "wagon-ox-open-e",
         "passengers": 1,
         "wagon": {
-          "part": "wagon",
-          "x": 881,
-          "y": 389,
+          "part": "rig",
+          "clip": "wagon-ox-open-e",
+          "x": 996,
+          "y": 388,
           "height": 77
         }
       },
       {
         "id": "hh-1-child-1",
         "art": null,
+        "rig": "wagon-ox-loaded-e",
         "passengers": 0,
         "wagon": {
-          "part": "wagon",
-          "x": 1037,
+          "part": "rig",
+          "clip": "wagon-ox-loaded-e",
+          "x": 1257,
           "y": 393,
           "height": 77
         }

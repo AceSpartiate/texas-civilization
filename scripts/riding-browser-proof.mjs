@@ -147,16 +147,20 @@ try {
   await page.waitForTimeout(900);
   const wagon = await page.evaluate(() => ({ seated: window.__seatedDrawn['hh-1-mateo'], drawn: Object.keys(window.__drawnAt), clips: [...window.__animationClips],
     canvas: [document.querySelector('#world-map').getBoundingClientRect().width, document.querySelector('#world-map').getBoundingClientRect().height] }));
-  const driver = wagon.seated.parts.find(part => part.part === 'rider'), box = wagon.seated.parts.find(part => part.part === 'wagon'), ox = wagon.seated.parts.find(part => part.part === 'ox');
-  ok('the person driving the ox and wagon is drawn on the wagon, with the ox in front', Boolean(driver && box && ox));
+  // Since 2026-09-29 the wagon and its ox are one drawing (Claude's `wagon-ox-*`, public/motion.js `WAGON_RIG`) once its sheet is
+  // here - asked for on the first frame and here well before the 900 ms above - laid under the driver so its seat is where his
+  // hip is. `rig` is the clip drawn, or null while the wagon and ox are still drawn apart.
+  const driver = wagon.seated.parts.find(part => part.part === 'rider'), rig = wagon.seated.parts.find(part => part.part === 'rig');
+  ok(`the wagon and its ox drawn as one (${wagon.seated.rig}), with the driver on it`, Boolean(driver && rig) && /^wagon-ox-(?:[a-z]+-)?[esn]$/.test(wagon.seated.rig || '')
+    && !wagon.seated.parts.some(part => part.part === 'wagon' || part.part === 'ox'));
   // `hh-1-mateo`, the founding four's son, has his looks from his parents (sim/appearance.mjs), so he too is his family's figure
   // on the seat rather than Astra's painted driver.
   ok(`drawn as his family's own figure on the seat, cut at the hip (${wagon.seated.art})`, wagon.seated.art === null && driver.shown > 0 && driver.shown < 1);
   ok(`drawn this tick, at ${driver.height}px on the canvas`, driver.height > 8 && wagon.canvas.some(size => size > 0));
-  ok(`sitting up on the wagon's seat, not walking on the road (feet ${box.y - driver.y}px above the wagon's wheels)`, driver.y < box.y - driver.height * 0.15);
+  // His feet line is the cut figure's: well above the ground the rig stands on, whichever way the road runs.
+  ok(`sitting up on the wagon's seat, not walking on the road (feet ${Math.round(rig.y - driver.y)}px above the rig's ground)`, driver.y < rig.y - driver.height * 0.1);
   ok('the ox and the wagon are not drawn again by themselves', !wagon.drawn.includes('hh-1-animal') && !wagon.drawn.includes('hh-1-wagon'));
-  ok(`with the ox walking and the wagon rolling: ${wagon.clips.filter(clip => /^ox-walk|^wagon-/.test(clip)).join(', ')}`,
-    wagon.clips.some(clip => /^ox-walk/.test(clip)) && wagon.clips.some(clip => /^wagon-.*travel$/.test(clip)));
+  ok(`with the ox walking and the wagon rolling in the one drawing: ${wagon.clips.filter(clip => /^wagon-ox-/.test(clip)).join(', ')}`, wagon.clips.some(clip => clip === wagon.seated.rig));
   await closeUp('hh-1-mateo', 'docs/evidence/riding-wagon.png');
 
   assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);
@@ -170,7 +174,7 @@ try {
     checks: pass,
     measured: { horse: horse.seated, wagon: wagon.seated },
     screenshots: ['docs/evidence/riding-horse.png', 'docs/evidence/riding-wagon.png'],
-    delivered: { ridden: horse.seated.art, driven: wagon.seated.art },
+    delivered: { ridden: horse.seated.art, driven: wagon.seated.art, rig: wagon.seated.rig },
     notProved: [
       'Same computer only: one browser and the server on one machine. Nothing here is LAN or district evidence.',
       'That the delivered art reads well at every zoom and in every direction; the screenshots are one zoom, the direction the road happened to run, and one of the three painted headings.',

@@ -77,11 +77,12 @@ async function drawnOver(page, id, ms = 4000, every = 200, from = null) {
   for (let t = 0; t < ms; t += every) {
     seen.push(await page.evaluate(([id, from]) => {
       const at = window.__drawnAt?.[id], still = from ? window.__drawnAt?.[from] : { x: 0, y: 0 };
-      return { at: at && still ? { x: Math.round(at.x - still.x), y: Math.round(at.y - still.y) } : null, clip: window.__clipsDrawn?.[id] || null };
+      return { at: at && still ? { x: Math.round(at.x - still.x), y: Math.round(at.y - still.y) } : null, clip: window.__clipsDrawn?.[id] || null, heading: window.__yardHeading?.[id] ?? null, flip: window.__flipsDrawn?.[id] ?? null };
     }, [id, from]));
     await page.waitForTimeout(every);
   }
-  return { places: new Set(seen.filter(one => one.at).map(one => `${one.at.x},${one.at.y}`)).size, clips: [...new Set(seen.map(one => one.clip).filter(Boolean))] };
+  return { places: new Set(seen.filter(one => one.at).map(one => `${one.at.x},${one.at.y}`)).size, clips: [...new Set(seen.map(one => one.clip).filter(Boolean))],
+    turns: seen.filter(one => one.clip).map(one => [one.heading, one.clip, one.flip]) };
 }
 
 try {
@@ -144,6 +145,23 @@ try {
   // a child the server sent to play before the drawing got home walks the rest of the way to the yard at a child's pace
   // (`walkOn`). Sitting down with a doll is looked for once they are there, not while they are still walking up.
   await page.waitForFunction(id => { const seen = window.__travelSight?.get(id); return !seen?.walk && !seen?.trail; }, kid.id, { timeout: 60000 });
+  // Tag again, now they are in the yard: running the way they are seen going (owner, 2026-09-29), north and south in their own
+  // running frames (`-play-run-n`, `-s`, or their walk that way while that sheet is on its way), east and west the side-on run -
+  // the way read off the drawing (`window.__yardHeading`), never the side-on run carried up or down the page. (The first tag above
+  // is mostly the walk up to the yard, which the town's walker turns.)
+  await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="child-tag"]').click();
+  await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.chore?.id === 'child-tag', kid.id, { timeout: 15000 });
+  const tagged = await drawnOver(page, kid.id, 3000, 100, parentId);
+  const running = tagged.turns.filter(([heading, clip]) => heading && /play-run|walk/.test(clip));
+  assert.ok(running.length >= 5, `the child at tag in the yard was turned in only ${running.length} samples: ${JSON.stringify(tagged.turns)}`);
+  for (const [heading, clip, flip] of running) {
+    const way = /-(?:play-run|walk)-([ns])$/.exec(clip)?.[1] || null;
+    assert.equal(way, heading === 'n' || heading === 's' ? heading : null, `going ${heading}, the child at tag was drawn as ${clip}`);
+    assert.equal(flip, heading === 'w', `going ${heading}, the child at tag was drawn ${flip ? 'mirrored' : 'unmirrored'} as ${clip}`);
+  }
+  observed.tagTurns = tagged.turns;
+  ok(`at tag in the yard the child runs the way they are drawn going: ${[...new Set(running.map(([heading, clip, flip]) => `${heading} as ${clip}${flip ? ' mirrored' : ''}`))].join(', ')}`);
+  await page.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, kid.id, { timeout: 30000 });
   await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="child-doll"]').click();
   await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.chore?.id === 'child-doll', kid.id, { timeout: 15000 });
   const sitting = await drawnOver(page, kid.id, 2000);

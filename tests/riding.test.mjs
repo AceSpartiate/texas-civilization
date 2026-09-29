@@ -5,7 +5,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { carriedWithRider, seatLayout, seatOf, seatedClip, wagonDriverId } from '../public/motion.js';
+import { carriedWithRider, seatLayout, seatOf, seatedClip, wagonDriverId, bedLayout, rigPoint, wagonRigClip, WAGON_RIG, SEAT } from '../public/motion.js';
+import { WAGON } from '../scripts/claude-art/kit/vehicles.mjs';
+import { RIG_ANCHOR } from '../scripts/claude-art/areas/transport-vehicles.mjs';
 
 const clips = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/frontier-v1/animation.json', import.meta.url)), 'utf8')).clips;
 // Claude's temporary stand-ins (public/assets/claude-standins/, area D 2026-09-28): the children riding and the second cast and
@@ -149,8 +151,10 @@ test('the page asks the seat for its own art, and gives the delivered rig its ow
   assert.match(app, /const delivered = seatedClip\(entity, direction, seat\);/, 'the page no longer asks the seat which art it has');
   assert.match(app, /const ready = !entity\.appearance && Boolean\(delivered\.whole \|\| delivered\.seated\) && clipReady\(delivered\.id\);/,
     'the page no longer checks whether the delivered rig is usable or composes an appearance-driven rider');
-  assert.match(app, /seatLayout\(seat, direction, SIZE, figureScale\(entity\), ready \? \(seat === 'horse' \? MOUNTED_HEIGHT : 1\) : 0\)/,
+  assert.match(app, /seatLayout\(seat, direction, SIZE, figureScale\(entity\), ready \? \(seat === 'horse' \? MOUNTED_HEIGHT : 1\) : 0, rig\)/,
     'the delivered rig is no longer given a mount’s height, or the composite is no longer the fallback');
+  // The wagon and ox as one drawing only once its sheet can be drawn; the two apart until then.
+  assert.match(app, /const rig = Boolean\(rigClip\) && clipReady\(rigClip\.id\);/, 'the one-drawing rig is drawn without asking whether its sheet is here');
   assert.match(app, /if \(part\.part === 'rider' && \(part\.whole \|\| part\.seated\)\)/, 'the whole rig is no longer drawn whole');
   assert.match(app, /const clip = seatedClip\(entity, direction, null\);/, 'the composite no longer asks for the person alone');
 });
@@ -205,4 +209,63 @@ test('the rider sits on the mount: up on its back or the wagon seat, cut below t
     assert.ok(onWagon.indexOf(driver) > onWagon.indexOf(box), 'the driver is drawn behind the wagon box and cannot be seen');
   }
   assert.deepEqual(seatLayout(null), []);
+});
+
+/**
+ * The wagon and its ox as one drawing (Claude's `wagon-ox-*`, area D; owner 2026-09-29: "wire the wagon-and-ox rig"). Changed on
+ * purpose: with the rig there is no separate `wagon` or `ox` part, only `rig` - which is why the depth-order test above is asked
+ * of the layout without it. What must not change is the driver: laid over the rig they sit exactly where they sat on the wagon
+ * drawn apart, and the rig is put under them so its own seat is under their hip.
+ */
+test('the wagon and its ox as one drawing: the driver where they were, on the rig’s own seat; riders in its open tail', () => {
+  const SIZES = { horse: 1.5, ox: 1.45, wagon: 1.55 };
+  // The page's measures of the rig are the kit's (scripts/claude-art/kit/vehicles.mjs, areas/transport-vehicles.mjs).
+  assert.equal(WAGON_RIG.units, WAGON.TOP);
+  assert.equal(WAGON_RIG.depth, WAGON.DEPTH);
+  assert.deepEqual({ ...WAGON_RIG.anchor }, { ...RIG_ANCHOR }, 'the page anchors the rig where the kit did not draw its anchor');
+  const [su, sv, sw] = WAGON_RIG.seat;
+  assert.ok(su > WAGON.GATHER && su < WAGON.U1 && sv === 0 && sw >= WAGON.W0 && sw <= WAGON.W1 + 4, 'the seat is not on the front of the bed');
+  assert.ok(Math.abs(sw / WAGON.TOP - SEAT.wagonSeat) < 0.01, 'the rig’s seat is not at the height the wagon’s seat has always had');
+  for (const u of WAGON_RIG.tail) assert.ok(u - WAGON_RIG.stagger > WAGON.U0 && u < WAGON.GATHER && WAGON_RIG.across < WAGON.HV, `a row at ${u} is not in the open tail`);
+  for (const direction of ['e', 'w', 'n', 's']) for (const delivered of [0, 1]) {
+    const apart = seatLayout('wagon', direction, SIZES, 1, delivered), one = seatLayout('wagon', direction, SIZES, 1, delivered, true);
+    const driver = one.find(part => part.part === 'rider'), rig = one.find(part => part.part === 'rig');
+    assert.deepEqual(driver, apart.find(part => part.part === 'rider'), `${direction}: the rig moved the driver`);
+    assert.ok(!one.some(part => part.part === 'wagon' || part.part === 'ox'), `${direction}: the wagon or the ox is drawn a second time apart`);
+    assert.equal(rig.height, SIZES.wagon, 'the rig is not drawn at the wagon’s height');
+    // Its seat under the driver's hip.
+    const seatAt = rigPoint(direction, WAGON_RIG.seat);
+    assert.ok(Math.abs(rig.dx + seatAt.dx * SIZES.wagon - driver.dx) < 1e-9, `${direction}: the rig's seat is not under the driver`);
+    assert.ok(Math.abs(rig.dy + seatAt.dy * SIZES.wagon - -SIZES.wagon * SEAT.wagonSeat) < 1e-9, `${direction}: the rig's seat is not at the driver's hip`);
+    // The ox ahead of the driver the way they go: side-on further along, coming toward the camera lower down, going away higher.
+    // (Where each stands on the ground: the ox's forefeet and the ground under the seat.)
+    const oxAt = rigPoint(direction, [226, 0, 0]), under = rigPoint(direction, [su, 0, 0]);
+    if (direction === 'e' || direction === 'w') assert.ok(oxAt.dx > under.dx && rig.dx + oxAt.dx * SIZES.wagon > driver.dx, `${direction}: the ox is behind the driver`);
+    else assert.equal(Math.sign(oxAt.dy - under.dy), direction === 's' ? 1 : -1, `${direction}: the ox is not ahead`);
+    // In the order the eye sees them.
+    assert.deepEqual(one.map(part => part.band ? 'ox-again' : part.part), direction === 's' ? ['rig', 'rider', 'ox-again'] : direction === 'n' ? ['rider', 'rig'] : ['rig', 'rider'], `${direction}: drawn in the wrong order`);
+    if (direction === 's') assert.ok(one.at(-1).band > 0.5 && one.at(-1).band < 0.9 && one.at(-1).dy === rig.dy, 'the ox is not drawn again in front of the driver');
+    // Four riders in the open tail, behind the driver, clear of one another.
+    const seats = [0, 1, 2, 3].map(i => bedLayout(direction, i, SIZES, 1, rig));
+    assert.equal(new Set(seats.map(one => `${one.dx.toFixed(4)},${one.dy.toFixed(4)}`)).size, 4, `${direction}: two riders on one seat`);
+    for (const one of seats) {
+      assert.equal(one.rig, true);
+      if (direction === 'e' || direction === 'w') assert.ok(one.dx < driver.dx - 0.5 && one.dx > rig.dx + (WAGON.U0 / WAGON.TOP) * SIZES.wagon, `${direction}: a rider is not in the tail (${one.dx})`);
+      if (direction === 'n') assert.ok(one.dy > driver.dy && !one.behind, 'going away, a rider in the tail is not nearer the camera than the driver');
+      if (direction === 's') assert.ok(one.dy < driver.dy && one.behind, 'coming toward the camera, a rider in the tail is drawn in front of the canvas');
+    }
+  }
+  // Which drawing: laden, the bows bare over the load; somebody aboard, the tail open; else covered - each one Claude has drawn.
+  for (const direction of ['e', 'w', 'n', 's']) {
+    const facing = direction === 'w' ? 'e' : direction;
+    assert.equal(wagonRigClip({}, direction, 0).id, `wagon-ox-${facing}`);
+    assert.equal(wagonRigClip({}, direction, 2).id, `wagon-ox-open-${facing}`);
+    assert.equal(wagonRigClip({ laden: true }, direction, 2).id, `wagon-ox-open-${facing}`, 'a laden wagon with riders hides them under bare bows');
+    assert.equal(wagonRigClip({ laden: true }, direction, 0).id, `wagon-ox-loaded-${facing}`);
+    for (const [cargo, riders] of [[{}, 0], [{}, 1], [{ laden: true }, 0]]) {
+      const clip = wagonRigClip(cargo, direction, riders);
+      assert.ok(claudeClips[clip.id]?.madeBy === 'claude', `${clip.id} is not drawn`);
+      assert.equal(clip.upright, direction === 'n' || direction === 's');
+    }
+  }
 });

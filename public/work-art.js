@@ -44,8 +44,9 @@ export const STROKES = Object.freeze({
   search: { pose: 'search', art: 'delivered' },
   trade: { pose: 'trade', art: 'delivered' },
   carry: { pose: 'carry', art: 'delivered' },
-  // Carrying water in pails (a child between the water and the house): the carry, or the pails where the figure has them.
-  water: { pose: 'carry', art: 'delivered', drawn: { pose: 'carry-water' } },
+  // Carrying water in pails (a child between the water and the house): the carry, or the pails where the figure has them - walked
+  // down to the water and back up to the house by the page (`fetch`, `fetchStep`), north and south in the pails' own frames.
+  water: { pose: 'carry', art: 'delivered', drawn: { pose: 'carry-water' }, fetch: { reach: 0.6, cycleMs: 6400 } },
   walk: { pose: 'walk', art: 'journey' },
   play: { art: 'play', request: PLAY_REQUEST },
   hold: { pose: 'idle-s', art: 'still', frozen: true, upright: true, why: 'a hunter waiting downwind holds still, or he is seen' },
@@ -340,6 +341,30 @@ export function strokeClock(stroke, durations, timeMs, out) {
 }
 
 /** The sideways shift and the facing of a pose that moves over the ground on the spot: pacing out a plot, shooing birds. */
+/**
+ * Where somebody walked to and fro at their work is drawn (`fetch`: a child carrying water down to the water and up to the house,
+ * "a pail at a time"), as an offset in figure heights from where the server has them, y down the page: out along a line within 30
+ * degrees of straight down the page - which line is the person's own (`seed`, `workSeeds`) - for most of a half cycle, a breath at
+ * the far end, back, and a breath at the near end. The page reads the way they go off the drawing (public/motion.js
+ * `DrawnHeading`), which turns them north and south most of the way; the server's place for them is where each trip begins.
+ * ceiling: the water and the house are not places the page knows; the line is the child's own and the length a few steps (`reach`),
+ * as the ambient carrying's steps are the page's (public/ambient.js). A well or a spring the server places would give it a real end.
+ */
+export function fetchStep(fetch, timeMs, seed = 0) {
+  const lean = (((seed * 0.6180339887) % 1) - 0.5) * (Math.PI / 3);
+  const phase = (((timeMs % fetch.cycleMs) + fetch.cycleMs) % fetch.cycleMs) / fetch.cycleMs;
+  const out = phase < 0.44 ? phase / 0.44 : phase < 0.5 ? 1 : phase < 0.94 ? 1 - (phase - 0.5) / 0.44 : 0;
+  return { dx: Math.sin(lean) * out * fetch.reach, dy: Math.cos(lean) * out * fetch.reach };
+}
+/**
+ * The pose of a stroke walked to and fro (`fetch`) going `way`: north or south, the drawn cycle's own frames that way
+ * (`-carry-water-n`, `-s`) over the figure's walk that way while they are not here (`pose`), never mirrored (`upright`); east or
+ * west, the drawn cycle over the stroke's own pose, mirrored for west.
+ */
+export function fetchPose(stroke, way) {
+  const ns = way === 'n' || way === 's';
+  return { drawn: ns ? `${stroke.drawn.pose}-${way}` : stroke.drawn.pose, pose: ns ? `walk-${way}` : stroke.pose, upright: ns, west: way === 'w' };
+}
 export function strokeShift(stroke, clock) {
   if (stroke.motion !== 'pace') return 0;
   const u = clock.since / clock.period;

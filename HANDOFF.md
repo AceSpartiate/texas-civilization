@@ -1,5 +1,63 @@
 # Claude handoff — Astra foundation
 
+## Small loose ends of Claude's temporary art: the wagon and its ox as one drawing, the wagon's open tail, children turned as they go, the burial's sheet ahead — owner, 2026-09-29 (not released)
+
+**The ask.** Owner, 2026-09-29: *"clean up the small loose ends."* Four, from areas B, C and D of docs/CLAUDE_ART_PLAN.md.
+
+- **The wagon and its ox as one drawing.** Area D drew `wagon-ox-*` and nothing drew it. `seatLayout('wagon', ..., rig)`
+  (public/motion.js) now lays the rig under the driver so its own seat (`WAGON_RIG.seat`, the kit's measures, held to
+  `scripts/claude-art/kit/vehicles.mjs` `WAGON` and `areas/transport-vehicles.mjs` `RIG_ANCHOR` by tests/riding.test.mjs) is
+  exactly under the driver's hip: **the driver's placement does not change**. Order as the eye sees it: side-on the rig then the
+  driver; coming toward the camera the rig, the driver, and the rig again only up to the ox's yoke (`band`), so the ox stands in
+  front of him and his head and shoulders show over its back; going away the driver first, hidden by the canvas as a real driver
+  is. `drawSeated` (public/app.js) asks `clipReady` for `wagonRigClip` and draws the wagon and ox apart, exactly as before, until
+  the sheet is here - and always for a cart, a carreta or a wagon come to harm. A family's second and third wagons and the horse
+  behind them are drawn the rig's own length back (`rigReach`). **Test changed on purpose:** the driver-and-seat test is asked of
+  the layout without the rig, because with it there is no `wagon` or `ox` part; a new test holds the rig's layout (driver unmoved,
+  seat under the hip, ox ahead, the order, riders in the tail) and the page's regex follows the new `seatLayout` argument.
+- **The wagon's tail with its cover drawn back** (D5's last part, request 2026-09-25 "riders, walkers and the cart", item 2):
+  `wagon-ox-open-e`/`-s`/`-n`, 4 frames each, Claude-drawn and temporary (`madeBy: "claude"`, "temporary" in its prompt and
+  provenance): the canvas gathered on the middle bow and tied, the two rear bows bare over the back of the bed. Plugged in where
+  the request says: `bedLayout(..., rig)` seats riders in that tail (two rows, two abreast) and `drawSeated` draws them whole
+  (`passengerClip`, `-ride-wagon-*`). Anybody aboard takes the open tail; a laden wagon with nobody aboard the bare bows over the
+  load (`wagon-ox-loaded-*`); otherwise covered. Coming toward the camera the riders are behind the canvas (drawn first).
+- **Children turned the way they are drawn going.** The `ceiling:` in `littleClip` is gone. `DrawnHeading` (public/motion.js)
+  reads which way somebody is seen going from where the page drew them the frame before, and keeps it while they stand; the page
+  feeds it each of the family's little ones about the yard (`yardHeading`). At tag or running to hide: `-play-run-n`/`-s` over
+  their own walk those ways, `-play-run` east and mirrored west. Carrying water: the page walks the child down to the water and
+  back up (`fetchStep`, public/work-art.js; a line within 30 degrees of straight down the page, a `ceiling:` since the page knows
+  no well), `-carry-water-n`/`-s`, the side-on one east and west (`fetchPose`). `ProjectionMotion.heading` shares the reading of a
+  step (`headingOf`).
+- **The burial's sheet asked for ahead.** Francisco Esparza is on the field in no phase before the burial at noon, so its sheet
+  was asked for on the burial's first snapshot and the first frame drew the stand-in. `burial-party-walk-e` is now named on
+  Gregorio and his family in public/claude-person-art.js (`BURIAL`), so the snapshot loop that asks for every sheet of a fight's
+  people (public/app.js `render`) asks for it through the siege and the assault. No change to public/art.js.
+
+**Evidence.** Moving previews laid out by the page's own functions (scripts/claude-art/preview-seated.mjs, new):
+docs/evidence/claude-art/preview-rig.apng (east, west, south, north; a driver, then four riding), preview-rig-strip.png (56 px)
+and preview-rig-strip-40.png (play size); preview-yard.apng and preview-yard-strip.png (a girl at tag turning round a square, a
+boy carrying water down and up). Compare sheet at play size: docs/evidence/claude-art/compare-transport-vehicles.png. The rig in
+play: docs/evidence/riding-wagon.png.
+
+**Tests.** `npm test` 1,680 pass, 0 fail, 36 skipped (1,716). `test:claude-art` 22 of 22 injections caught, clean runs 0 failing.
+`test:art` PASS. `test:children` (a new step: tag again once the child is in the yard; every sample's clip and mirroring held to the
+heading read off the drawing: n as `-play-run-n`, s as `-play-run-s`, w as `-play-run` mirrored). `test:riding` (the rig drawn as one,
+`wagon-ox-e`, driver on it, 14 px above the rig's ground). `test:scrape`, `test:errand` and `test:means` (the well-to-do train:
+`wagon-ox-open-e` with 4 and 1 riding, `wagon-ox-loaded-e` with none) pass. `test:famous-people` passes with the burial drawn as
+`burial-party-walk-e` from its first frame on both pages - **but only with the campaign map's frame-time gate skipped for the run**:
+that gate (p95 < 50 ms over four to six frames on the map before the siege) failed five times today, twice with this branch's page
+code taken out (52.6 and 67.6 ms), on one spike frame each time; `docs/evidence/famous-people-browser.json` records the run's real
+146 ms. Every new or changed check failed first under its injected regression: ten in tests/riding.test.mjs, three in
+tests/motion-binding.test.mjs and three in tests/work-art.test.mjs (unit), and four in the browser - the rig never wired
+(test:riding), tag ignoring the heading and a child going west unmirrored (test:children), the burial's sheet not asked for ahead
+(test:famous-people: "the student's page first drew the burial as rust-walk+shroud"; a sampled check alone had not caught it, so the
+page now records each famous person's first frame, `peopleFirst`). Same computer only.
+
+**Honest limits.** Going north the driver is hidden behind the canvas, as he would be; the students see the back of the wagon and
+whoever rides in the open tail. Side-on, a whole seated rider's legs are drawn over the near side board, as in the cart. The rig's
+seat, rows and yoke height are the kit's numbers and one look at the preview, not a seat anchor in the manifest. The water
+carrier's line is the page's own few steps, not a path to a well. Every frame named here stays on Astra's list.
+
 ## The famous people's map frames: steady frames and the first-draw hitch — owner, 2026-09-29 (not released)
 
 **The ask.** `test:famous-people` failed now and then: "the Host's map with the famous people draws too slowly: 75 ms at the

@@ -44,14 +44,14 @@
     "claude-wagon-ox": {
       "image": "/assets/claude-standins/claude-wagon-ox.png",
       "width": 3320,
-      "height": 930,
-      "bytes": 957641,
-      "sha256": "62b5fe2bcf35b11a5e02933b77bbd1014695ac3f2e75b83c5945364bfca5ada3",
+      "height": 1240,
+      "bytes": 1291746,
+      "sha256": "5b30ee5f99777f8c662616621967e54cb3166e40eebdb1f1887c630b905639a8",
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
       "layout": {
-        "rows": 3,
+        "rows": 4,
         "columns": 4,
         "cell": {
           "w": 830,
@@ -63,14 +63,14 @@
     "claude-wagon-ox-ns": {
       "image": "/assets/claude-standins/claude-wagon-ox-ns.png",
       "width": 1920,
-      "height": 1350,
-      "bytes": 882674,
-      "sha256": "c5d5d7b25291bfe68041b1bbb33828b02991c0ff969285a803688c7ae8ce491c",
+      "height": 1800,
+      "bytes": 1133840,
+      "sha256": "c27606f3223a2bdff677a13b45c49b87a3eff77d8afdad0b9728f69632db9e7e",
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
       "layout": {
-        "rows": 3,
+        "rows": 4,
         "columns": 8,
         "cell": {
           "w": 240,
@@ -807,7 +807,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-e-1: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "replaceWith": "wagon-ox-e-1: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-e-1.svg",
       "label": "wagon ox e 1",
       "kind": "claude-wagon-ox"
@@ -824,7 +824,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-e-2: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "replaceWith": "wagon-ox-e-2: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-e-2.svg",
       "label": "wagon ox e 2",
       "kind": "claude-wagon-ox"
@@ -841,7 +841,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-e-3: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "replaceWith": "wagon-ox-e-3: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-e-3.svg",
       "label": "wagon ox e 3",
       "kind": "claude-wagon-ox"
@@ -858,7 +858,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-e-4: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "replaceWith": "wagon-ox-e-4: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-e-4.svg",
       "label": "wagon ox e 4",
       "kind": "claude-wagon-ox"
@@ -875,7 +875,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-loaded-e-1: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "replaceWith": "wagon-ox-loaded-e-1: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-loaded-e-1.svg",
       "label": "wagon ox loaded e 1",
       "kind": "claude-wagon-ox"
@@ -892,7 +892,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-loaded-e-2: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "replaceWith": "wagon-ox-loaded-e-2: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-loaded-e-2.svg",
       "label": "wagon ox loaded e 2",
       "kind": "claude-wagon-ox"
@@ -909,7 +909,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-loaded-e-3: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "replaceWith": "wagon-ox-loaded-e-3: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-loaded-e-3.svg",
       "label": "wagon ox loaded e 3",
       "kind": "claude-wagon-ox"
@@ -926,7 +926,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-loaded-e-4: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "replaceWith": "wagon-ox-loaded-e-4: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-loaded-e-4.svg",
       "label": "wagon ox loaded e 4",
       "kind": "claude-wagon-ox"
@@ -943,7 +943,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-empty-e-1: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "replaceWith": "wagon-ox-empty-e-1: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-empty-e-1.svg",
       "label": "wagon ox empty e 1",
       "kind": "claude-wagon-ox"
@@ -960,7 +960,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-empty-e-2: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "replaceWith": "wagon-ox-empty-e-2: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-empty-e-2.svg",
       "label": "wagon ox empty e 2",
       "kind": "claude-wagon-ox"
@@ -977,7 +977,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-empty-e-3: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "replaceWith": "wagon-ox-empty-e-3: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-empty-e-3.svg",
       "label": "wagon ox empty e 3",
       "kind": "claude-wagon-ox"
@@ -994,9 +994,77 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-empty-e-4: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty",
+      "replaceWith": "wagon-ox-empty-e-4: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-empty-e-4.svg",
       "label": "wagon ox empty e 4",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-open-e-1": {
+      "sheet": "claude-wagon-ox",
+      "x": 0,
+      "y": 930,
+      "w": 830,
+      "h": 310,
+      "anchorX": 0.3133,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-open-e-1: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
+      "source": "svg/transport-vehicles/claude-wagon-ox-open-e-1.svg",
+      "label": "wagon ox open e 1",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-open-e-2": {
+      "sheet": "claude-wagon-ox",
+      "x": 830,
+      "y": 930,
+      "w": 830,
+      "h": 310,
+      "anchorX": 0.3133,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-open-e-2: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
+      "source": "svg/transport-vehicles/claude-wagon-ox-open-e-2.svg",
+      "label": "wagon ox open e 2",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-open-e-3": {
+      "sheet": "claude-wagon-ox",
+      "x": 1660,
+      "y": 930,
+      "w": 830,
+      "h": 310,
+      "anchorX": 0.3133,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-open-e-3: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
+      "source": "svg/transport-vehicles/claude-wagon-ox-open-e-3.svg",
+      "label": "wagon ox open e 3",
+      "kind": "claude-wagon-ox"
+    },
+    "wagon-ox-open-e-4": {
+      "sheet": "claude-wagon-ox",
+      "x": 2490,
+      "y": 930,
+      "w": 830,
+      "h": 310,
+      "anchorX": 0.3133,
+      "anchorY": 0.9516,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-open-e-4: item 1: the covered wagon with one ox yoked to its tongue as one rolling rig, east, 4 frames, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
+      "source": "svg/transport-vehicles/claude-wagon-ox-open-e-4.svg",
+      "label": "wagon ox open e 4",
       "kind": "claude-wagon-ox"
     },
     "wagon-ox-s-1": {
@@ -1011,7 +1079,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-s-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-s-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-s-1.svg",
       "label": "wagon ox s 1",
       "kind": "claude-wagon-ox-ns"
@@ -1028,7 +1096,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-s-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-s-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-s-2.svg",
       "label": "wagon ox s 2",
       "kind": "claude-wagon-ox-ns"
@@ -1045,7 +1113,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-s-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-s-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-s-3.svg",
       "label": "wagon ox s 3",
       "kind": "claude-wagon-ox-ns"
@@ -1062,7 +1130,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-s-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-s-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-s-4.svg",
       "label": "wagon ox s 4",
       "kind": "claude-wagon-ox-ns"
@@ -1079,7 +1147,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-n-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-n-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-n-1.svg",
       "label": "wagon ox n 1",
       "kind": "claude-wagon-ox-ns"
@@ -1096,7 +1164,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-n-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-n-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-n-2.svg",
       "label": "wagon ox n 2",
       "kind": "claude-wagon-ox-ns"
@@ -1113,7 +1181,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-n-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-n-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-n-3.svg",
       "label": "wagon ox n 3",
       "kind": "claude-wagon-ox-ns"
@@ -1130,7 +1198,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-n-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-n-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-n-4.svg",
       "label": "wagon ox n 4",
       "kind": "claude-wagon-ox-ns"
@@ -1147,7 +1215,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-loaded-s-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-loaded-s-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-loaded-s-1.svg",
       "label": "wagon ox loaded s 1",
       "kind": "claude-wagon-ox-ns"
@@ -1164,7 +1232,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-loaded-s-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-loaded-s-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-loaded-s-2.svg",
       "label": "wagon ox loaded s 2",
       "kind": "claude-wagon-ox-ns"
@@ -1181,7 +1249,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-loaded-s-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-loaded-s-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-loaded-s-3.svg",
       "label": "wagon ox loaded s 3",
       "kind": "claude-wagon-ox-ns"
@@ -1198,7 +1266,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-loaded-s-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-loaded-s-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-loaded-s-4.svg",
       "label": "wagon ox loaded s 4",
       "kind": "claude-wagon-ox-ns"
@@ -1215,7 +1283,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-loaded-n-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-loaded-n-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-loaded-n-1.svg",
       "label": "wagon ox loaded n 1",
       "kind": "claude-wagon-ox-ns"
@@ -1232,7 +1300,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-loaded-n-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-loaded-n-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-loaded-n-2.svg",
       "label": "wagon ox loaded n 2",
       "kind": "claude-wagon-ox-ns"
@@ -1249,7 +1317,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-loaded-n-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-loaded-n-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-loaded-n-3.svg",
       "label": "wagon ox loaded n 3",
       "kind": "claude-wagon-ox-ns"
@@ -1266,7 +1334,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-loaded-n-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-loaded-n-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-loaded-n-4.svg",
       "label": "wagon ox loaded n 4",
       "kind": "claude-wagon-ox-ns"
@@ -1283,7 +1351,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-empty-s-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-empty-s-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-empty-s-1.svg",
       "label": "wagon ox empty s 1",
       "kind": "claude-wagon-ox-ns"
@@ -1300,7 +1368,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-empty-s-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-empty-s-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-empty-s-2.svg",
       "label": "wagon ox empty s 2",
       "kind": "claude-wagon-ox-ns"
@@ -1317,7 +1385,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-empty-s-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-empty-s-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-empty-s-3.svg",
       "label": "wagon ox empty s 3",
       "kind": "claude-wagon-ox-ns"
@@ -1334,7 +1402,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-empty-s-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-empty-s-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-empty-s-4.svg",
       "label": "wagon ox empty s 4",
       "kind": "claude-wagon-ox-ns"
@@ -1351,7 +1419,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-empty-n-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-empty-n-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-empty-n-1.svg",
       "label": "wagon ox empty n 1",
       "kind": "claude-wagon-ox-ns"
@@ -1368,7 +1436,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-empty-n-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-empty-n-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-empty-n-2.svg",
       "label": "wagon ox empty n 2",
       "kind": "claude-wagon-ox-ns"
@@ -1385,7 +1453,7 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-empty-n-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-empty-n-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-empty-n-3.svg",
       "label": "wagon ox empty n 3",
       "kind": "claude-wagon-ox-ns"
@@ -1402,9 +1470,145 @@
       "madeBy": "claude",
       "module": "transport-vehicles",
       "request": "Request 2026-09-16 — driving the ox wagon",
-      "replaceWith": "wagon-ox-empty-n-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty",
+      "replaceWith": "wagon-ox-empty-n-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
       "source": "svg/transport-vehicles/claude-wagon-ox-empty-n-4.svg",
       "label": "wagon ox empty n 4",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-open-s-1": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 0,
+      "y": 1350,
+      "w": 240,
+      "h": 450,
+      "anchorX": 0.5,
+      "anchorY": 0.9667,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-open-s-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
+      "source": "svg/transport-vehicles/claude-wagon-ox-open-s-1.svg",
+      "label": "wagon ox open s 1",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-open-s-2": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 240,
+      "y": 1350,
+      "w": 240,
+      "h": 450,
+      "anchorX": 0.5,
+      "anchorY": 0.9667,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-open-s-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
+      "source": "svg/transport-vehicles/claude-wagon-ox-open-s-2.svg",
+      "label": "wagon ox open s 2",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-open-s-3": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 480,
+      "y": 1350,
+      "w": 240,
+      "h": 450,
+      "anchorX": 0.5,
+      "anchorY": 0.9667,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-open-s-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
+      "source": "svg/transport-vehicles/claude-wagon-ox-open-s-3.svg",
+      "label": "wagon ox open s 3",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-open-s-4": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 720,
+      "y": 1350,
+      "w": 240,
+      "h": 450,
+      "anchorX": 0.5,
+      "anchorY": 0.9667,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-open-s-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
+      "source": "svg/transport-vehicles/claude-wagon-ox-open-s-4.svg",
+      "label": "wagon ox open s 4",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-open-n-1": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 960,
+      "y": 1350,
+      "w": 240,
+      "h": 450,
+      "anchorX": 0.5,
+      "anchorY": 0.9667,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-open-n-1: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
+      "source": "svg/transport-vehicles/claude-wagon-ox-open-n-1.svg",
+      "label": "wagon ox open n 1",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-open-n-2": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 1200,
+      "y": 1350,
+      "w": 240,
+      "h": 450,
+      "anchorX": 0.5,
+      "anchorY": 0.9667,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-open-n-2: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
+      "source": "svg/transport-vehicles/claude-wagon-ox-open-n-2.svg",
+      "label": "wagon ox open n 2",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-open-n-3": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 1440,
+      "y": 1350,
+      "w": 240,
+      "h": 450,
+      "anchorX": 0.5,
+      "anchorY": 0.9667,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-open-n-3: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
+      "source": "svg/transport-vehicles/claude-wagon-ox-open-n-3.svg",
+      "label": "wagon ox open n 3",
+      "kind": "claude-wagon-ox-ns"
+    },
+    "wagon-ox-open-n-4": {
+      "sheet": "claude-wagon-ox-ns",
+      "x": 1680,
+      "y": 1350,
+      "w": 240,
+      "h": 450,
+      "anchorX": 0.5,
+      "anchorY": 0.9667,
+      "logicalHeight": 232,
+      "madeBy": "claude",
+      "module": "transport-vehicles",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "replaceWith": "wagon-ox-open-n-4: item 1: the wagon and its ox coming toward the camera and going away, 4 frames each, covered, loaded and empty; and (request 2026-09-25, item 2) the tail with its cover drawn back",
+      "source": "svg/transport-vehicles/claude-wagon-ox-open-n-4.svg",
+      "label": "wagon ox open n 4",
       "kind": "claude-wagon-ox-ns"
     }
   },
@@ -1951,6 +2155,84 @@
         },
         {
           "sprite": "wagon-ox-empty-n-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "north",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "wagon-ox-open-e": {
+      "frames": [
+        {
+          "sprite": "wagon-ox-open-e-1",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-open-e-2",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-open-e-3",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-open-e-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "east; west by mirroring",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "wagon-ox-open-s": {
+      "frames": [
+        {
+          "sprite": "wagon-ox-open-s-1",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-open-s-2",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-open-s-3",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-open-s-4",
+          "duration": 260
+        }
+      ],
+      "loop": true,
+      "motion": "none",
+      "direction": "south",
+      "authored": true,
+      "madeBy": "claude",
+      "module": "transport-vehicles"
+    },
+    "wagon-ox-open-n": {
+      "frames": [
+        {
+          "sprite": "wagon-ox-open-n-1",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-open-n-2",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-open-n-3",
+          "duration": 260
+        },
+        {
+          "sprite": "wagon-ox-open-n-4",
           "duration": 260
         }
       ],
@@ -2719,6 +3001,62 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's wagon-ox-empty-e-4"
     },
+    "wagon-ox-open-e-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas drawn back off the tail and gathered on the middle bow, the two rear bows bare over the back of the bed so the people riding in it can be seen (the tail of request 2026-09-25 \"riders, walkers and the cart\", item 2; temporary, Claude-drawn until Astra paints it), with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 1 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-open-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-open-e-1"
+    },
+    "wagon-ox-open-e-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas drawn back off the tail and gathered on the middle bow, the two rear bows bare over the back of the bed so the people riding in it can be seen (the tail of request 2026-09-25 \"riders, walkers and the cart\", item 2; temporary, Claude-drawn until Astra paints it), with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 2 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-open-e-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-open-e-2"
+    },
+    "wagon-ox-open-e-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas drawn back off the tail and gathered on the middle bow, the two rear bows bare over the back of the bed so the people riding in it can be seen (the tail of request 2026-09-25 \"riders, walkers and the cart\", item 2; temporary, Claude-drawn until Astra paints it), with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 3 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-open-e-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-open-e-3"
+    },
+    "wagon-ox-open-e-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas drawn back off the tail and gathered on the middle bow, the two rear bows bare over the back of the bed so the people riding in it can be seen (the tail of request 2026-09-25 \"riders, walkers and the cart\", item 2; temporary, Claude-drawn until Astra paints it), with one brown ox yoked to its tongue as one rolling rig, going east (west is the game's mirror), frame 4 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-open-e-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-open-e-4"
+    },
     "wagon-ox-s-1": {
       "kind": "frame",
       "madeBy": "claude",
@@ -3054,6 +3392,118 @@
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's wagon-ox-empty-n-4"
+    },
+    "wagon-ox-open-s-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas drawn back off the tail and gathered on the middle bow, the two rear bows bare over the back of the bed so the people riding in it can be seen (the tail of request 2026-09-25 \"riders, walkers and the cart\", item 2; temporary, Claude-drawn until Astra paints it), with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 1 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-open-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-open-s-1"
+    },
+    "wagon-ox-open-s-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas drawn back off the tail and gathered on the middle bow, the two rear bows bare over the back of the bed so the people riding in it can be seen (the tail of request 2026-09-25 \"riders, walkers and the cart\", item 2; temporary, Claude-drawn until Astra paints it), with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 2 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-open-s-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-open-s-2"
+    },
+    "wagon-ox-open-s-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas drawn back off the tail and gathered on the middle bow, the two rear bows bare over the back of the bed so the people riding in it can be seen (the tail of request 2026-09-25 \"riders, walkers and the cart\", item 2; temporary, Claude-drawn until Astra paints it), with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 3 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-open-s-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-open-s-3"
+    },
+    "wagon-ox-open-s-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas drawn back off the tail and gathered on the middle bow, the two rear bows bare over the back of the bed so the people riding in it can be seen (the tail of request 2026-09-25 \"riders, walkers and the cart\", item 2; temporary, Claude-drawn until Astra paints it), with one brown ox yoked to its tongue as one rolling rig, going toward the camera (south), frame 4 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-open-s-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-open-s-4"
+    },
+    "wagon-ox-open-n-1": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas drawn back off the tail and gathered on the middle bow, the two rear bows bare over the back of the bed so the people riding in it can be seen (the tail of request 2026-09-25 \"riders, walkers and the cart\", item 2; temporary, Claude-drawn until Astra paints it), with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 1 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-open-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-open-n-1"
+    },
+    "wagon-ox-open-n-2": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas drawn back off the tail and gathered on the middle bow, the two rear bows bare over the back of the bed so the people riding in it can be seen (the tail of request 2026-09-25 \"riders, walkers and the cart\", item 2; temporary, Claude-drawn until Astra paints it), with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 2 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-open-n-2.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-open-n-2"
+    },
+    "wagon-ox-open-n-3": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas drawn back off the tail and gathered on the middle bow, the two rear bows bare over the back of the bed so the people riding in it can be seen (the tail of request 2026-09-25 \"riders, walkers and the cart\", item 2; temporary, Claude-drawn until Astra paints it), with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 3 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-open-n-3.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-open-n-3"
+    },
+    "wagon-ox-open-n-4": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "sheet": "claude-wagon-ox-ns",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The family's farm wagon of the 1830s, its canvas drawn back off the tail and gathered on the middle bow, the two rear bows bare over the back of the bed so the people riding in it can be seen (the tail of request 2026-09-25 \"riders, walkers and the cart\", item 2; temporary, Claude-drawn until Astra paints it), with one brown ox yoked to its tongue as one rolling rig, going away from the camera (north), frame 4 of 4: the ox's plodding four-beat walk, the wagon's four iron-tyred spoked wheels (the hind pair bigger) turning with it. One ox in a single neck yoke with the tongue to the ring under its neck is the game's hitch (one ox a wagon), an interpretation: oxen were usually worked in pairs. Warm hand-drawn storybook style, weathered brown wood, thin dark olive-brown outline, flat shade to the lower right, slightly elevated north-up three-quarter view; transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/transport-vehicles/claude-wagon-ox-open-n-4.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's wagon-ox-open-n-4"
     },
     "cart-travel-e": {
       "kind": "clip",
@@ -3420,6 +3870,54 @@
         "wagon-ox-empty-n-4"
       ],
       "status": "temporary: replace with Astra's wagon-ox-empty-n"
+    },
+    "wagon-ox-open-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The wagon and its ox going e (the tail open, its cover drawn back): a four-frame loop, the ox's plod and the wheels turning together.",
+      "frames": [
+        "wagon-ox-open-e-1",
+        "wagon-ox-open-e-2",
+        "wagon-ox-open-e-3",
+        "wagon-ox-open-e-4"
+      ],
+      "status": "temporary: replace with Astra's wagon-ox-open-e"
+    },
+    "wagon-ox-open-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The wagon and its ox going s (the tail open, its cover drawn back): a four-frame loop, the ox's plod and the wheels turning together.",
+      "frames": [
+        "wagon-ox-open-s-1",
+        "wagon-ox-open-s-2",
+        "wagon-ox-open-s-3",
+        "wagon-ox-open-s-4"
+      ],
+      "status": "temporary: replace with Astra's wagon-ox-open-s"
+    },
+    "wagon-ox-open-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "transport-vehicles",
+      "area": "transport",
+      "request": "Request 2026-09-16 — driving the ox wagon",
+      "prompt": "The wagon and its ox going n (the tail open, its cover drawn back): a four-frame loop, the ox's plod and the wheels turning together.",
+      "frames": [
+        "wagon-ox-open-n-1",
+        "wagon-ox-open-n-2",
+        "wagon-ox-open-n-3",
+        "wagon-ox-open-n-4"
+      ],
+      "status": "temporary: replace with Astra's wagon-ox-open-n"
     }
   }
 }

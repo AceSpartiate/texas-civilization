@@ -323,3 +323,34 @@ test("area B's own poses are asked for by name, each in the right figure, with a
   assert.equal(entityClip(baby('held')).drawn, undefined);
   assert.equal(entityClip(person({ travel: road([{ x: 0, y: 0 }, { x: 9, y: 0 }]) })).drawn, undefined);
 });
+
+// A child at tag runs the way they are seen going about the yard (owner, 2026-09-29: the north and south running frames were drawn
+// but never shown): `yardHeading` is read by the page off the drawing (`DrawnHeading`), and picks `-play-run-n`/`-s` over the
+// child's own walk those ways, `-play-run` east and, mirrored by the page, west.
+test('a child running at tag is drawn running the way the drawing goes: north, south, or east and west mirrored', async () => {
+  const { drawnClipName, DrawnHeading, headingOf } = await import('../public/motion.js');
+  const standins = JSON.parse(readFileSync(fileURLToPath(new URL('../public/assets/claude-standins/atlas.json', import.meta.url)), 'utf8')).clips;
+  const tag = { chore: { id: 'child-tag', doing: 'running at tag about the yard' } };
+  for (const [band, sex, figure] of [['child', 'female', 'girl'], ['child', 'male', 'boy'], ['small', undefined, 'smallchild']]) {
+    for (const [way, fallback, drawn, upright] of [['n', 'walk-n', 'play-run-n', true], ['s', 'walk-s', 'play-run-s', true], ['e', 'walk', 'play-run', false], ['w', 'walk', 'play-run', false], [null, 'walk', 'play-run', false]]) {
+      const clip = entityClip(person({ id: 'hh-1-child-3', band, sex, task: 'play', ...tag, ...(way && { yardHeading: way }) }));
+      assert.equal(clip.id, `${figure}-${fallback}`, `${figure} going ${way}: the fallback`);
+      assert.ok(clips[clip.id], `${clip.id} is not a delivered clip`);
+      const name = drawnClipName(clip, clip.id);
+      assert.equal(name, `${figure}-${drawn}`, `${figure} going ${way} asks for ${name}`);
+      assert.ok(standins[name] || clips[name], `${name} is in neither library`);
+      assert.equal(Boolean(clip.upright) && Boolean(clip.drawn.upright), upright, `${name}: ${upright ? 'mirrored' : 'never mirrored'}`);
+    }
+  }
+  // The heading is the drawing's: a step mostly down the page is south, up it north, else east or west; kept while they stand.
+  assert.equal(headingOf(0.1, 1), 's'); assert.equal(headingOf(0.1, -1), 'n'); assert.equal(headingOf(-1, 0.5), 'w'); assert.equal(headingOf(1, -0.5), 'e');
+  const seen = new DrawnHeading(0.01);
+  assert.equal(seen.update('a', 0, 0), null, 'turned before they are seen to move');
+  assert.equal(seen.update('a', 0, 0.5), 's');
+  assert.equal(seen.update('a', 0, 0.5), 's', 'turned back the other way standing still');
+  assert.equal(seen.update('a', 0.004, 0.5), 's', 'a jitter under a step turned them');
+  assert.equal(seen.update('a', 0.008, 0.5), 's');
+  assert.equal(seen.update('a', 0.012, 0.5), 'e', 'small steps the same way do not add up');
+  assert.equal(seen.update('a', 0.012, 0.2), 'n');
+  assert.equal(seen.update('b', 5, 5), null, 'one person’s heading is another’s');
+});
