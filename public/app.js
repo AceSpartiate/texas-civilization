@@ -7147,7 +7147,7 @@ $('#panel-backdrop')?.addEventListener('click', () => {
 });
 function showJoin(message) {
   // Called on a sign-out, while the reconnector goes on listening for this page's class to come back (public/reconnect.js).
-  showReconnecting('');
+  showReconnecting(''); showReplaced(false);
   events?.close(); events = null;
   $('#game').hidden = true; $('#rejoin').hidden = true; $('#away').hidden = true; $('#join').hidden = hostPage;
   // The title screen is the join form's own backdrop (public/creation.js): the game's name is the first thing a student sees.
@@ -7163,6 +7163,22 @@ function showReconnecting(text) {
   banner.hidden = !text;
   document.body.dataset.reconnecting = String(Boolean(text));
 }
+/**
+ * The notice on a page the server let go because this family (or the Host) is open in more tabs than it may hold (server/app.mjs
+ * `STREAMS`, the classroom audit's M4). The game stays behind it; **Play here** takes a stream back, which lets the oldest
+ * other tab go in its turn.
+ */
+function showReplaced(shown) {
+  const notice = $('#replaced');
+  if (!notice) return;
+  if (shown) $('#replaced-words').textContent = hostPage
+    ? 'The Host page is open in another tab or window, so this one has stopped updating.'
+    : 'Your family is open in another tab or window, so this one has stopped updating.';
+  if (shown) $('#replaced-here').textContent = hostPage ? 'Use this one' : 'Play here';
+  notice.hidden = !shown;
+  document.body.dataset.replaced = String(Boolean(shown));
+}
+$('#replaced-here')?.addEventListener('click', () => { showReplaced(false); connect(null); });
 /**
  * The page's way back to its class after the stream breaks (2026-09-28, public/reconnect.js, the classroom audit's B3): it
  * keeps asking, a few seconds apart, with the game left on the screen behind a "Reconnecting" banner, and carries on with the
@@ -7190,8 +7206,23 @@ const renderClassPanel = mountClassPanel({ $, api, element, command: (action, ex
 function connect(snapshot) {
   reconnect.stop();
   if (snapshot) render(snapshot);
+  showReplaced(false);
   events?.close(); events = new EventSource('/api/events');
   events.onmessage = event => { showReconnecting(''); render(JSON.parse(event.data)); };
+  // The server's ping, answered, is how it knows this page is awake (server/app.mjs `STREAMS`): a Chromebook put to sleep stops
+  // answering and its family is let go within half a minute, so its student can take it up at another device. Answered from
+  // the ping itself, not from a timer the browser would slow in a background tab.
+  events.addEventListener('ping', event => {
+    fetch('/api/here', { method: 'POST', headers: { 'Content-Type': 'application/json' }, cache: 'no-store', body: JSON.stringify({ stream: event.data }) }).catch(() => {});
+  });
+  // The same family (or the Host) opened in more tabs than a family may hold: the server let this one, the oldest, go. It says
+  // so and stops asking, or it would take a stream back from the newest and the tabs would take turns for ever.
+  events.addEventListener('replaced', () => {
+    events?.close(); events = null;
+    reconnect.stop();
+    showReconnecting('');
+    showReplaced(true);
+  });
   // The stream is closed here and the page asks for itself (`reconnect`), rather than leaving the browser's own retry to run
   // alongside: one way back, and a 401 always read as one.
   events.onerror = () => {
@@ -7269,8 +7300,8 @@ document.addEventListener('click', async event => {
     } catch (error) { say(error.message); }
     return;
   }
-  // How fast the class watches. Sent like any other Host command, and deliberately not a
-  // world change: a class reopened tomorrow opens at the pace the build ships with.
+  // How fast the class watches. Sent like any other Host command, and not a world change; the server keeps it with the
+  // class, so a class reopened tomorrow opens at the pace chosen today (server/app.mjs `state.pace`).
   const paceButton = event.target.closest('[data-pace]');
   if (paceButton) {
     say('');

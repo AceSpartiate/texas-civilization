@@ -37,7 +37,8 @@ function openSse(origin, cookie) {
         while ((boundary = pending.indexOf('\n\n')) !== -1) {
           const frame = pending.slice(0, boundary); pending = pending.slice(boundary + 2);
           const data = frame.split('\n').find(line => line.startsWith('data: '));
-          if (!data) continue; // Heartbeat comments carry no state.
+          // Heartbeat comments carry no state, and nor do named events (`ping`, `replaced`: server/app.mjs `STREAMS`).
+          if (!data || frame.split('\n').some(line => line.startsWith('event: '))) continue;
           try {
             const encoded = data.slice(6);
             const snapshot = JSON.parse(encoded);
@@ -81,10 +82,11 @@ test('capacity: 30 HTTP households retain isolated identity and receive ordered 
     const host = await call('/api/host', { key: app.state.hostKey });
     assert.equal(host.status, 200);
 
-    // Dispatch every join before awaiting any. Names are labels, never credentials.
+    // Dispatch every join before awaiting any. Names are labels, never credentials - but one name is one student since
+    // 2026-09-29 (a second "Sam" is refused at the join, docs/HOST_PAGE.md §2.7), so each has its own.
     const joinStartedAt = performance.now();
-    const clients = await Promise.all(Array.from({ length: playerCount }, () => call('/api/join', {
-      name: 'Shared classroom display name', code: app.state.sessionCode,
+    const clients = await Promise.all(Array.from({ length: playerCount }, (_, index) => call('/api/join', {
+      name: `Classroom display name ${index + 1}`, code: app.state.sessionCode,
     })));
     const joinElapsedMs = performance.now() - joinStartedAt;
     assert.ok(clients.every(client => client.status === 200));
@@ -93,7 +95,7 @@ test('capacity: 30 HTTP households retain isolated identity and receive ordered 
     assert.equal(new Set(clients.map(client => client.body.world.householdId)).size, playerCount);
     assert.equal(new Set(clients.map(client => client.body.sessionId)).size, 1);
     assert.equal(Object.keys(app.state.clients).length, playerCount);
-    assert.equal(new Set(Object.values(app.state.clients).map(client => client.name)).size, 1);
+    assert.equal(new Set(Object.values(app.state.clients).map(client => client.name)).size, playerCount);
 
     const fullState = app.state;
     const overflow = await call('/api/join', { name: 'One extra household', code: fullState.sessionCode });

@@ -90,6 +90,9 @@
 <!-- The server is out of reach and the page is trying again by itself (public/reconnect.js): over everything, the game left
      on the screen behind it. -->
 <p id="reconnecting" role="status" hidden></p>
+<!-- This family (or the Host) is open in more tabs than it may hold, and the server let this, the oldest, go (server/app.mjs
+     `STREAMS`): it says so and stops asking, with the way to take it back. -->
+<p id="replaced" role="status" hidden><span id="replaced-words"></span> <button type="button" id="replaced-here">Play here</button></p>
 
 <div id="game" hidden>
   <div class="map-stage">

@@ -18,7 +18,7 @@
     "a second rifle is bought at the gunsmith (\"Buy a rifle: 8 reales or 16 food\", the stock line \"The family has 27.5 food · 4 seed · 6 powder · 177 reales. Tools: a rifle · a hoe · a felling axe. Animals: a horse · an ox.\"), and Alvin and Keziah are both out hunting at once",
     "a second horse is bought at the stock pens (Buy a horse: 25 reales, Buy an ox: 15 reales, Buy a cow and calf: 10 reales, Buy a hog: 4 reales or 14 food): \"Rides the horse: 0 of 7 loads. Leads the new horse home on a halter.\"; Dandy the gelding is seen led home beside Alvin, who rides Bess, and stands drawn in the yard beside her",
     "two riders at once: Alvin and Keziah each ride to Gonzales on a horse of their own, both drawn in the saddle",
-    "the wheelwright's wagon (Buy a new wagon: 100 reales) is refused alone (\"A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.\"), sent with an ox from the pens: \"Goes on foot: 0 of 5 loads. Alvin and Keziah have both horses. Drives the new wagon home behind the new ox, at an ox's pace.\"; Soledad drives it home behind Buck the ox (drawn wagon) and it stands in the yard 558 px from the family wagon",
+    "the wheelwright's wagon (Buy a new wagon: 100 reales) is refused alone (\"A new wagon has to be drawn home, and an ox draws it. Put an ox from the stock pens on the list too.\"), sent with an ox from the pens: \"Goes on foot: 0 of 5 loads. Alvin and Keziah have both horses. Drives the new wagon home behind the new ox, at an ox's pace.\"; Soledad drives it home behind Buck the ox (drawn wagon) and it stands in the yard 556 px from the family wagon",
     "no page errors"
   ],
   "observed": {
@@ -272,13 +272,13 @@
     },
     "wagonsInYard": {
       "first": {
-        "x": 208.42347713501644,
-        "y": -160.91529135770105,
+        "x": 409.13260050130333,
+        "y": 182.79908240706723,
         "size": 76.72500000000001
       },
       "second": {
-        "x": 631.2472698389718,
-        "y": 203.4462380607804,
+        "x": 831.0411596027106,
+        "y": 545.5932742811794,
         "size": 76.72500000000001
       }
     },

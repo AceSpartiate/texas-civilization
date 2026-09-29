@@ -76,6 +76,7 @@
     "test:host-bell": "node scripts/host-bell-browser-proof.mjs",
     "test:classes": "node scripts/classes-browser-proof.mjs",
     "test:reconnect": "node scripts/reconnect-browser-proof.mjs",
+    "test:classroom-doors-injections": "node scripts/classroom-doors-injections.mjs",
     "test:road": "node scripts/road-browser-proof.mjs",
     "test:armies": "node scripts/armies-browser-proof.mjs",
     "test:map-accuracy": "node scripts/map-accuracy-browser-proof.mjs",
