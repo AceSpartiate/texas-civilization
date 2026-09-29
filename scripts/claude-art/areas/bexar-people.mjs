@@ -247,7 +247,8 @@ for (const figure of Object.keys(FIGURES)) {
   const spec = FIGURES[figure], frames = [];
   for (const [pose, list, mirror] of townPoses(figure)) {
     const single = list.length === 1;
-    const names = list.map((_, i) => single ? `${figure}-${pose}` : `${figure}-${pose}-${i + 1}`);
+    // `<figure>-<pose>-<n>`, a single pose too: a frame never shares its name with its clip (the provenance is keyed by name).
+    const names = list.map((_, i) => `${figure}-${pose}-${i + 1}`);
     list.forEach((p, i) => {
       const name = names[i], what = WHAT[pose](i + 1);
       const paint = mirror ? mirrored(draw(spec, p)) : draw(spec, p);

@@ -185,8 +185,13 @@ const bodiesOf = battle => [
     : [{ ...side, key: side.side }]),
   ...(battle.groups || []).map(group => ({ ...group, key: `g:${group.id}` })),
 ];
-/** Who the townspeople are drawn as, in turn: the library's own women, children and old men (never soldiers). */
-const TOWNSFOLK = ['rust-woman', 'smallchild', 'elder', 'indigo'];
+/**
+ * Who the townspeople are drawn as, in turn: Béxar's own women, children and men (never soldiers), each [figure, size, the
+ * library figure drawn while that sheet has not loaded, its size].
+ * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the storming of Béxar", item 6, and request 2026-09-27 (Béxar before
+ * the bell), item 2 - Claude-drawn stand-ins `bexar-woman`, `bexar-boy`, `bexar-man`, `bexar-girl`; the settlers' sheets behind them.
+ */
+const TOWNSFOLK = [['bexar-woman', 0.95, 'rust-woman', 0.95], ['bexar-boy', 0.68, 'smallchild', 0.62], ['bexar-man', 0.95, 'elder', 0.95], ['bexar-girl', 0.68, 'indigo', 0.95]];
 /** A figure's place on the ground from its slot: the side's centre, turned to face the way the side faces. */
 const onGround = (centre, facing, slot) => ({
   x: centre.x + facing.x * slot.along - facing.y * slot.across,
@@ -596,9 +601,25 @@ export function createBattleView(art) {
           drawnBy[side.key].push(point); civilians++;
           continue;
         }
+        // The sentry on San Fernando's roof ringing the bell (`HIST-TEX-613`): the church's wall, its bell arch and the man on
+        // it are one drawing, set on the ground; his words come from up on the roof. stand-in: docs/ART_REQUESTS.md, request
+        // 2026-09-26 "the bell at Béxar", item 1 - Claude-drawn stand-ins `sentry-bell-ring`; a standing volunteer while not loaded.
+        if (side.figure === 'sentry-bell') {
+          const roof = { x: point.x, y: point.y - figurePx * 1.2 };
+          figures.push({ y: point.y, kind: 'sentry', side: side.side, point, size: figurePx, clip: 'sentry-bell-ring', timeMs: time, flip: !right, seed,
+            fallback: { sprite: `volunteer-${right ? 'e' : 'w'}`, flip: false } });
+          drawnBy[side.key].push(roof); if (side.key === side.side || side.part) drawn[side.side].push(roof);
+          continue;
+        }
         if (side.civilians) {
-          const who = TOWNSFOLK[slot.index % TOWNSFOLK.length];
-          figures.push({ y: point.y, kind: 'townsfolk', side: side.side, point, size: figurePx * (who === 'smallchild' ? 0.62 : 0.95), clip: moving ? `${who}-walk` : `${who}-idle-s`, timeMs: time, flip: !right, seed });
+          const [who, whoSize, old, oldSize] = TOWNSFOLK[slot.index % TOWNSFOLK.length];
+          // The first of a leaving family (`figure: 'townsfolk-leave'`): the man at the ox's head, the laden carreta, the woman
+          // and a child after it, as one drawing. stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the bell at Béxar",
+          // item 2 - Claude-drawn stand-ins `townsfolk-leave`; the townspeople one by one while it has not loaded.
+          const cart = side.figure === 'townsfolk-leave' && slot.index === 0;
+          figures.push({ y: point.y, kind: 'townsfolk', side: side.side, point, size: figurePx * (cart ? 0.95 : whoSize),
+            clip: cart ? (moving ? 'townsfolk-leave' : null) : moving ? `${who}-walk` : `${who}-idle-s`, sprite: cart && !moving ? 'townsfolk-leave-1' : null, timeMs: time, flip: !right, seed,
+            fallback: { clip: moving ? `${old}-walk` : `${old}-idle-s`, size: figurePx * oldSize, flip: !right } });
           drawnBy[side.key].push(point); civilians++;
           continue;
         }
@@ -719,6 +740,9 @@ export function createBattleView(art) {
       let ok = 0;
       if (f.clip) ok = art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: f.timeMs, flip: f.flip, paused: reducedMotion });
       else if (f.sprite) ok = art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip });
+      // A Claude-drawn figure whose sheet has not loaded: the library's own figure it stood in for.
+      if (!ok && f.fallback) ok = f.fallback.clip ? art.animated(ctx, f.fallback.clip, f.point.x, f.point.y, f.fallback.size || f.size, f.seed, { timeMs: f.timeMs, flip: f.fallback.flip, paused: reducedMotion })
+        : art.drawSprite(ctx, f.fallback.sprite, f.point.x, f.point.y, f.fallback.size || f.size, { flip: f.fallback.flip });
       if (!ok) art.miniPerson(ctx, f.point.x, f.point.y, f.size, { side: f.side, flip: f.flip });
     }
     // The cannon and the men serving it.

@@ -122,7 +122,7 @@
       "width": 220,
       "height": 470,
       "bytes": 73913,
-      "sha256": "cb0471873a052bbecaf1f370c545f3588c27c87012a3e9ead453d40cd1ae2d0b",
+      "sha256": "c36257f733e399604b4865fa27adfe31878b46b8023333706d847fdf111fead3",
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
@@ -312,7 +312,7 @@
       "label": "bexar man walk n 2",
       "kind": "claude-bexar-man"
     },
-    "bexar-man-idle-s": {
+    "bexar-man-idle-s-1": {
       "sheet": "claude-bexar-man",
       "x": 800,
       "y": 400,
@@ -324,12 +324,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-man-idle-s: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-man-idle-s.svg",
-      "label": "bexar man idle s",
+      "replaceWith": "bexar-man-idle-s-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-man-idle-s-1.svg",
+      "label": "bexar man idle s 1",
       "kind": "claude-bexar-man"
     },
-    "bexar-man-idle-e": {
+    "bexar-man-idle-e-1": {
       "sheet": "claude-bexar-man",
       "x": 1200,
       "y": 400,
@@ -341,12 +341,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-man-idle-e: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-man-idle-e.svg",
-      "label": "bexar man idle e",
+      "replaceWith": "bexar-man-idle-e-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-man-idle-e-1.svg",
+      "label": "bexar man idle e 1",
       "kind": "claude-bexar-man"
     },
-    "bexar-man-idle-w": {
+    "bexar-man-idle-w-1": {
       "sheet": "claude-bexar-man",
       "x": 1600,
       "y": 400,
@@ -358,12 +358,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-man-idle-w: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-man-idle-w.svg",
-      "label": "bexar man idle w",
+      "replaceWith": "bexar-man-idle-w-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-man-idle-w-1.svg",
+      "label": "bexar man idle w 1",
       "kind": "claude-bexar-man"
     },
-    "bexar-man-idle-n": {
+    "bexar-man-idle-n-1": {
       "sheet": "claude-bexar-man",
       "x": 2000,
       "y": 400,
@@ -375,12 +375,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-man-idle-n: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-man-idle-n.svg",
-      "label": "bexar man idle n",
+      "replaceWith": "bexar-man-idle-n-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-man-idle-n-1.svg",
+      "label": "bexar man idle n 1",
       "kind": "claude-bexar-man"
     },
-    "bexar-man-listen-s": {
+    "bexar-man-listen-s-1": {
       "sheet": "claude-bexar-man",
       "x": 0,
       "y": 800,
@@ -392,12 +392,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-man-listen-s: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-man-listen-s.svg",
-      "label": "bexar man listen s",
+      "replaceWith": "bexar-man-listen-s-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-man-listen-s-1.svg",
+      "label": "bexar man listen s 1",
       "kind": "claude-bexar-man"
     },
-    "bexar-man-listen-n": {
+    "bexar-man-listen-n-1": {
       "sheet": "claude-bexar-man",
       "x": 400,
       "y": 800,
@@ -409,9 +409,9 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-man-listen-n: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-man-listen-n.svg",
-      "label": "bexar man listen n",
+      "replaceWith": "bexar-man-listen-n-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-man-listen-n-1.svg",
+      "label": "bexar man listen n 1",
       "kind": "claude-bexar-man"
     },
     "bexar-man-speak-1": {
@@ -652,7 +652,7 @@
       "label": "bexar woman walk n 2",
       "kind": "claude-bexar-woman"
     },
-    "bexar-woman-idle-s": {
+    "bexar-woman-idle-s-1": {
       "sheet": "claude-bexar-woman",
       "x": 800,
       "y": 400,
@@ -664,12 +664,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-woman-idle-s: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-woman-idle-s.svg",
-      "label": "bexar woman idle s",
+      "replaceWith": "bexar-woman-idle-s-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-woman-idle-s-1.svg",
+      "label": "bexar woman idle s 1",
       "kind": "claude-bexar-woman"
     },
-    "bexar-woman-idle-e": {
+    "bexar-woman-idle-e-1": {
       "sheet": "claude-bexar-woman",
       "x": 1200,
       "y": 400,
@@ -681,12 +681,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-woman-idle-e: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-woman-idle-e.svg",
-      "label": "bexar woman idle e",
+      "replaceWith": "bexar-woman-idle-e-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-woman-idle-e-1.svg",
+      "label": "bexar woman idle e 1",
       "kind": "claude-bexar-woman"
     },
-    "bexar-woman-idle-w": {
+    "bexar-woman-idle-w-1": {
       "sheet": "claude-bexar-woman",
       "x": 1600,
       "y": 400,
@@ -698,12 +698,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-woman-idle-w: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-woman-idle-w.svg",
-      "label": "bexar woman idle w",
+      "replaceWith": "bexar-woman-idle-w-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-woman-idle-w-1.svg",
+      "label": "bexar woman idle w 1",
       "kind": "claude-bexar-woman"
     },
-    "bexar-woman-idle-n": {
+    "bexar-woman-idle-n-1": {
       "sheet": "claude-bexar-woman",
       "x": 2000,
       "y": 400,
@@ -715,12 +715,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-woman-idle-n: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-woman-idle-n.svg",
-      "label": "bexar woman idle n",
+      "replaceWith": "bexar-woman-idle-n-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-woman-idle-n-1.svg",
+      "label": "bexar woman idle n 1",
       "kind": "claude-bexar-woman"
     },
-    "bexar-woman-listen-s": {
+    "bexar-woman-listen-s-1": {
       "sheet": "claude-bexar-woman",
       "x": 0,
       "y": 800,
@@ -732,12 +732,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-woman-listen-s: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-woman-listen-s.svg",
-      "label": "bexar woman listen s",
+      "replaceWith": "bexar-woman-listen-s-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-woman-listen-s-1.svg",
+      "label": "bexar woman listen s 1",
       "kind": "claude-bexar-woman"
     },
-    "bexar-woman-listen-n": {
+    "bexar-woman-listen-n-1": {
       "sheet": "claude-bexar-woman",
       "x": 400,
       "y": 800,
@@ -749,9 +749,9 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-woman-listen-n: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-woman-listen-n.svg",
-      "label": "bexar woman listen n",
+      "replaceWith": "bexar-woman-listen-n-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-woman-listen-n-1.svg",
+      "label": "bexar woman listen n 1",
       "kind": "claude-bexar-woman"
     },
     "bexar-woman-speak-1": {
@@ -992,7 +992,7 @@
       "label": "bexar girl walk n 2",
       "kind": "claude-bexar-girl"
     },
-    "bexar-girl-idle-s": {
+    "bexar-girl-idle-s-1": {
       "sheet": "claude-bexar-girl",
       "x": 800,
       "y": 400,
@@ -1004,12 +1004,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-girl-idle-s: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-girl-idle-s.svg",
-      "label": "bexar girl idle s",
+      "replaceWith": "bexar-girl-idle-s-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-girl-idle-s-1.svg",
+      "label": "bexar girl idle s 1",
       "kind": "claude-bexar-girl"
     },
-    "bexar-girl-idle-e": {
+    "bexar-girl-idle-e-1": {
       "sheet": "claude-bexar-girl",
       "x": 1200,
       "y": 400,
@@ -1021,12 +1021,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-girl-idle-e: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-girl-idle-e.svg",
-      "label": "bexar girl idle e",
+      "replaceWith": "bexar-girl-idle-e-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-girl-idle-e-1.svg",
+      "label": "bexar girl idle e 1",
       "kind": "claude-bexar-girl"
     },
-    "bexar-girl-idle-w": {
+    "bexar-girl-idle-w-1": {
       "sheet": "claude-bexar-girl",
       "x": 1600,
       "y": 400,
@@ -1038,12 +1038,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-girl-idle-w: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-girl-idle-w.svg",
-      "label": "bexar girl idle w",
+      "replaceWith": "bexar-girl-idle-w-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-girl-idle-w-1.svg",
+      "label": "bexar girl idle w 1",
       "kind": "claude-bexar-girl"
     },
-    "bexar-girl-idle-n": {
+    "bexar-girl-idle-n-1": {
       "sheet": "claude-bexar-girl",
       "x": 2000,
       "y": 400,
@@ -1055,12 +1055,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-girl-idle-n: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-girl-idle-n.svg",
-      "label": "bexar girl idle n",
+      "replaceWith": "bexar-girl-idle-n-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-girl-idle-n-1.svg",
+      "label": "bexar girl idle n 1",
       "kind": "claude-bexar-girl"
     },
-    "bexar-girl-listen-s": {
+    "bexar-girl-listen-s-1": {
       "sheet": "claude-bexar-girl",
       "x": 0,
       "y": 800,
@@ -1072,12 +1072,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-girl-listen-s: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-girl-listen-s.svg",
-      "label": "bexar girl listen s",
+      "replaceWith": "bexar-girl-listen-s-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-girl-listen-s-1.svg",
+      "label": "bexar girl listen s 1",
       "kind": "claude-bexar-girl"
     },
-    "bexar-girl-listen-n": {
+    "bexar-girl-listen-n-1": {
       "sheet": "claude-bexar-girl",
       "x": 400,
       "y": 800,
@@ -1089,9 +1089,9 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-girl-listen-n: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-girl-listen-n.svg",
-      "label": "bexar girl listen n",
+      "replaceWith": "bexar-girl-listen-n-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-girl-listen-n-1.svg",
+      "label": "bexar girl listen n 1",
       "kind": "claude-bexar-girl"
     },
     "bexar-girl-speak-1": {
@@ -1332,7 +1332,7 @@
       "label": "bexar boy walk n 2",
       "kind": "claude-bexar-boy"
     },
-    "bexar-boy-idle-s": {
+    "bexar-boy-idle-s-1": {
       "sheet": "claude-bexar-boy",
       "x": 800,
       "y": 400,
@@ -1344,12 +1344,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-boy-idle-s: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-boy-idle-s.svg",
-      "label": "bexar boy idle s",
+      "replaceWith": "bexar-boy-idle-s-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-boy-idle-s-1.svg",
+      "label": "bexar boy idle s 1",
       "kind": "claude-bexar-boy"
     },
-    "bexar-boy-idle-e": {
+    "bexar-boy-idle-e-1": {
       "sheet": "claude-bexar-boy",
       "x": 1200,
       "y": 400,
@@ -1361,12 +1361,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-boy-idle-e: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-boy-idle-e.svg",
-      "label": "bexar boy idle e",
+      "replaceWith": "bexar-boy-idle-e-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-boy-idle-e-1.svg",
+      "label": "bexar boy idle e 1",
       "kind": "claude-bexar-boy"
     },
-    "bexar-boy-idle-w": {
+    "bexar-boy-idle-w-1": {
       "sheet": "claude-bexar-boy",
       "x": 1600,
       "y": 400,
@@ -1378,12 +1378,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-boy-idle-w: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-boy-idle-w.svg",
-      "label": "bexar boy idle w",
+      "replaceWith": "bexar-boy-idle-w-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-boy-idle-w-1.svg",
+      "label": "bexar boy idle w 1",
       "kind": "claude-bexar-boy"
     },
-    "bexar-boy-idle-n": {
+    "bexar-boy-idle-n-1": {
       "sheet": "claude-bexar-boy",
       "x": 2000,
       "y": 400,
@@ -1395,12 +1395,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-boy-idle-n: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-boy-idle-n.svg",
-      "label": "bexar boy idle n",
+      "replaceWith": "bexar-boy-idle-n-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-boy-idle-n-1.svg",
+      "label": "bexar boy idle n 1",
       "kind": "claude-bexar-boy"
     },
-    "bexar-boy-listen-s": {
+    "bexar-boy-listen-s-1": {
       "sheet": "claude-bexar-boy",
       "x": 0,
       "y": 800,
@@ -1412,12 +1412,12 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-boy-listen-s: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-boy-listen-s.svg",
-      "label": "bexar boy listen s",
+      "replaceWith": "bexar-boy-listen-s-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-boy-listen-s-1.svg",
+      "label": "bexar boy listen s 1",
       "kind": "claude-bexar-boy"
     },
-    "bexar-boy-listen-n": {
+    "bexar-boy-listen-n-1": {
       "sheet": "claude-bexar-boy",
       "x": 400,
       "y": 800,
@@ -1429,9 +1429,9 @@
       "madeBy": "claude",
       "module": "bexar-people",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "replaceWith": "bexar-boy-listen-n: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
-      "source": "svg/bexar-people/claude-bexar-boy-listen-n.svg",
-      "label": "bexar boy listen n",
+      "replaceWith": "bexar-boy-listen-n-1: item 2: the Tejano townspeople of Béxar, each walk, idle-s, carry (loading a cart), speak and listen in 1830s Béxar dress, at the cast's logical height and foot baseline, east-facing and mirrored for west (also request 2026-09-25, the storming of Béxar, item 6)",
+      "source": "svg/bexar-people/claude-bexar-boy-listen-n-1.svg",
+      "label": "bexar boy listen n 1",
       "kind": "claude-bexar-boy"
     },
     "bexar-boy-speak-1": {
@@ -1858,7 +1858,7 @@
     "bexar-man-idle-s": {
       "frames": [
         {
-          "sprite": "bexar-man-idle-s",
+          "sprite": "bexar-man-idle-s-1",
           "duration": 2200
         }
       ],
@@ -1872,7 +1872,7 @@
     "bexar-man-idle-e": {
       "frames": [
         {
-          "sprite": "bexar-man-idle-e",
+          "sprite": "bexar-man-idle-e-1",
           "duration": 2200
         }
       ],
@@ -1886,7 +1886,7 @@
     "bexar-man-idle-w": {
       "frames": [
         {
-          "sprite": "bexar-man-idle-w",
+          "sprite": "bexar-man-idle-w-1",
           "duration": 2200
         }
       ],
@@ -1900,7 +1900,7 @@
     "bexar-man-idle-n": {
       "frames": [
         {
-          "sprite": "bexar-man-idle-n",
+          "sprite": "bexar-man-idle-n-1",
           "duration": 2200
         }
       ],
@@ -1914,7 +1914,7 @@
     "bexar-man-listen-s": {
       "frames": [
         {
-          "sprite": "bexar-man-listen-s",
+          "sprite": "bexar-man-listen-s-1",
           "duration": 2200
         }
       ],
@@ -1928,7 +1928,7 @@
     "bexar-man-listen-n": {
       "frames": [
         {
-          "sprite": "bexar-man-listen-n",
+          "sprite": "bexar-man-listen-n-1",
           "duration": 2200
         }
       ],
@@ -2048,7 +2048,7 @@
     "bexar-woman-idle-s": {
       "frames": [
         {
-          "sprite": "bexar-woman-idle-s",
+          "sprite": "bexar-woman-idle-s-1",
           "duration": 2200
         }
       ],
@@ -2062,7 +2062,7 @@
     "bexar-woman-idle-e": {
       "frames": [
         {
-          "sprite": "bexar-woman-idle-e",
+          "sprite": "bexar-woman-idle-e-1",
           "duration": 2200
         }
       ],
@@ -2076,7 +2076,7 @@
     "bexar-woman-idle-w": {
       "frames": [
         {
-          "sprite": "bexar-woman-idle-w",
+          "sprite": "bexar-woman-idle-w-1",
           "duration": 2200
         }
       ],
@@ -2090,7 +2090,7 @@
     "bexar-woman-idle-n": {
       "frames": [
         {
-          "sprite": "bexar-woman-idle-n",
+          "sprite": "bexar-woman-idle-n-1",
           "duration": 2200
         }
       ],
@@ -2104,7 +2104,7 @@
     "bexar-woman-listen-s": {
       "frames": [
         {
-          "sprite": "bexar-woman-listen-s",
+          "sprite": "bexar-woman-listen-s-1",
           "duration": 2200
         }
       ],
@@ -2118,7 +2118,7 @@
     "bexar-woman-listen-n": {
       "frames": [
         {
-          "sprite": "bexar-woman-listen-n",
+          "sprite": "bexar-woman-listen-n-1",
           "duration": 2200
         }
       ],
@@ -2238,7 +2238,7 @@
     "bexar-girl-idle-s": {
       "frames": [
         {
-          "sprite": "bexar-girl-idle-s",
+          "sprite": "bexar-girl-idle-s-1",
           "duration": 2200
         }
       ],
@@ -2252,7 +2252,7 @@
     "bexar-girl-idle-e": {
       "frames": [
         {
-          "sprite": "bexar-girl-idle-e",
+          "sprite": "bexar-girl-idle-e-1",
           "duration": 2200
         }
       ],
@@ -2266,7 +2266,7 @@
     "bexar-girl-idle-w": {
       "frames": [
         {
-          "sprite": "bexar-girl-idle-w",
+          "sprite": "bexar-girl-idle-w-1",
           "duration": 2200
         }
       ],
@@ -2280,7 +2280,7 @@
     "bexar-girl-idle-n": {
       "frames": [
         {
-          "sprite": "bexar-girl-idle-n",
+          "sprite": "bexar-girl-idle-n-1",
           "duration": 2200
         }
       ],
@@ -2294,7 +2294,7 @@
     "bexar-girl-listen-s": {
       "frames": [
         {
-          "sprite": "bexar-girl-listen-s",
+          "sprite": "bexar-girl-listen-s-1",
           "duration": 2200
         }
       ],
@@ -2308,7 +2308,7 @@
     "bexar-girl-listen-n": {
       "frames": [
         {
-          "sprite": "bexar-girl-listen-n",
+          "sprite": "bexar-girl-listen-n-1",
           "duration": 2200
         }
       ],
@@ -2428,7 +2428,7 @@
     "bexar-boy-idle-s": {
       "frames": [
         {
-          "sprite": "bexar-boy-idle-s",
+          "sprite": "bexar-boy-idle-s-1",
           "duration": 2200
         }
       ],
@@ -2442,7 +2442,7 @@
     "bexar-boy-idle-e": {
       "frames": [
         {
-          "sprite": "bexar-boy-idle-e",
+          "sprite": "bexar-boy-idle-e-1",
           "duration": 2200
         }
       ],
@@ -2456,7 +2456,7 @@
     "bexar-boy-idle-w": {
       "frames": [
         {
-          "sprite": "bexar-boy-idle-w",
+          "sprite": "bexar-boy-idle-w-1",
           "duration": 2200
         }
       ],
@@ -2470,7 +2470,7 @@
     "bexar-boy-idle-n": {
       "frames": [
         {
-          "sprite": "bexar-boy-idle-n",
+          "sprite": "bexar-boy-idle-n-1",
           "duration": 2200
         }
       ],
@@ -2484,7 +2484,7 @@
     "bexar-boy-listen-s": {
       "frames": [
         {
-          "sprite": "bexar-boy-listen-s",
+          "sprite": "bexar-boy-listen-s-1",
           "duration": 2200
         }
       ],
@@ -2498,7 +2498,7 @@
     "bexar-boy-listen-n": {
       "frames": [
         {
-          "sprite": "bexar-boy-listen-n",
+          "sprite": "bexar-boy-listen-n-1",
           "duration": 2200
         }
       ],
@@ -2779,83 +2779,89 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's bexar-man-walk-n-2"
     },
-    "bexar-man-idle-s": {
-      "kind": "clip",
+    "bexar-man-idle-s-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-man",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-man standing, facing the camera: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-s clip.",
-      "frames": [
-        "bexar-man-idle-s"
-      ],
-      "status": "temporary: replace with Astra's bexar-man-idle-s"
+      "prompt": "a Tejano man of Béxar in 1836: a wide low-crowned straw sombrero, a moustache, a short dark jacket open over a cream shirt, a red sash at the waist, buckskin-coloured trousers, dark shoes; standing, facing the camera. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-man sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-man-idle-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-man-idle-s-1"
     },
-    "bexar-man-idle-e": {
-      "kind": "clip",
+    "bexar-man-idle-e-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-man",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-man standing, side on, facing east: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-e clip.",
-      "frames": [
-        "bexar-man-idle-e"
-      ],
-      "status": "temporary: replace with Astra's bexar-man-idle-e"
+      "prompt": "a Tejano man of Béxar in 1836: a wide low-crowned straw sombrero, a moustache, a short dark jacket open over a cream shirt, a red sash at the waist, buckskin-coloured trousers, dark shoes; standing, side on, facing east. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-man sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-man-idle-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-man-idle-e-1"
     },
-    "bexar-man-idle-w": {
-      "kind": "clip",
+    "bexar-man-idle-w-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-man",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-man standing, side on, facing west: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-w clip.",
-      "frames": [
-        "bexar-man-idle-w"
-      ],
-      "status": "temporary: replace with Astra's bexar-man-idle-w"
+      "prompt": "a Tejano man of Béxar in 1836: a wide low-crowned straw sombrero, a moustache, a short dark jacket open over a cream shirt, a red sash at the waist, buckskin-coloured trousers, dark shoes; standing, side on, facing west. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-man sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-man-idle-w-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-man-idle-w-1"
     },
-    "bexar-man-idle-n": {
-      "kind": "clip",
+    "bexar-man-idle-n-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-man",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-man standing, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-n clip.",
-      "frames": [
-        "bexar-man-idle-n"
-      ],
-      "status": "temporary: replace with Astra's bexar-man-idle-n"
+      "prompt": "a Tejano man of Béxar in 1836: a wide low-crowned straw sombrero, a moustache, a short dark jacket open over a cream shirt, a red sash at the waist, buckskin-coloured trousers, dark shoes; standing, seen from behind. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-man sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-man-idle-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-man-idle-n-1"
     },
-    "bexar-man-listen-s": {
-      "kind": "clip",
+    "bexar-man-listen-s-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-man",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-man listening, toward the camera, the hands folded at the waist: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-s clip.",
-      "frames": [
-        "bexar-man-listen-s"
-      ],
-      "status": "temporary: replace with Astra's bexar-man-listen-s"
+      "prompt": "a Tejano man of Béxar in 1836: a wide low-crowned straw sombrero, a moustache, a short dark jacket open over a cream shirt, a red sash at the waist, buckskin-coloured trousers, dark shoes; listening, toward the camera, the hands folded at the waist. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-man sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-man-listen-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-man-listen-s-1"
     },
-    "bexar-man-listen-n": {
-      "kind": "clip",
+    "bexar-man-listen-n-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-man",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-man listening, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-n clip.",
-      "frames": [
-        "bexar-man-listen-n"
-      ],
-      "status": "temporary: replace with Astra's bexar-man-listen-n"
+      "prompt": "a Tejano man of Béxar in 1836: a wide low-crowned straw sombrero, a moustache, a short dark jacket open over a cream shirt, a red sash at the waist, buckskin-coloured trousers, dark shoes; listening, seen from behind. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-man sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-man-listen-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-man-listen-n-1"
     },
     "bexar-man-speak-1": {
       "kind": "frame",
@@ -3053,83 +3059,89 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's bexar-woman-walk-n-2"
     },
-    "bexar-woman-idle-s": {
-      "kind": "clip",
+    "bexar-woman-idle-s-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-woman",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-woman standing, facing the camera: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-s clip.",
-      "frames": [
-        "bexar-woman-idle-s"
-      ],
-      "status": "temporary: replace with Astra's bexar-woman-idle-s"
+      "prompt": "a Tejana woman of Béxar in 1836: a slate-blue rebozo with a pale striped border over her head and shoulders, fringed at its ends, a cream blouse, a full madder-red skirt, dark hair tied back under it; standing, facing the camera. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-woman sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-woman-idle-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-woman-idle-s-1"
     },
-    "bexar-woman-idle-e": {
-      "kind": "clip",
+    "bexar-woman-idle-e-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-woman",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-woman standing, side on, facing east: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-e clip.",
-      "frames": [
-        "bexar-woman-idle-e"
-      ],
-      "status": "temporary: replace with Astra's bexar-woman-idle-e"
+      "prompt": "a Tejana woman of Béxar in 1836: a slate-blue rebozo with a pale striped border over her head and shoulders, fringed at its ends, a cream blouse, a full madder-red skirt, dark hair tied back under it; standing, side on, facing east. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-woman sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-woman-idle-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-woman-idle-e-1"
     },
-    "bexar-woman-idle-w": {
-      "kind": "clip",
+    "bexar-woman-idle-w-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-woman",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-woman standing, side on, facing west: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-w clip.",
-      "frames": [
-        "bexar-woman-idle-w"
-      ],
-      "status": "temporary: replace with Astra's bexar-woman-idle-w"
+      "prompt": "a Tejana woman of Béxar in 1836: a slate-blue rebozo with a pale striped border over her head and shoulders, fringed at its ends, a cream blouse, a full madder-red skirt, dark hair tied back under it; standing, side on, facing west. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-woman sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-woman-idle-w-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-woman-idle-w-1"
     },
-    "bexar-woman-idle-n": {
-      "kind": "clip",
+    "bexar-woman-idle-n-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-woman",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-woman standing, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-n clip.",
-      "frames": [
-        "bexar-woman-idle-n"
-      ],
-      "status": "temporary: replace with Astra's bexar-woman-idle-n"
+      "prompt": "a Tejana woman of Béxar in 1836: a slate-blue rebozo with a pale striped border over her head and shoulders, fringed at its ends, a cream blouse, a full madder-red skirt, dark hair tied back under it; standing, seen from behind. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-woman sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-woman-idle-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-woman-idle-n-1"
     },
-    "bexar-woman-listen-s": {
-      "kind": "clip",
+    "bexar-woman-listen-s-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-woman",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-woman listening, toward the camera, the hands folded at the waist: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-s clip.",
-      "frames": [
-        "bexar-woman-listen-s"
-      ],
-      "status": "temporary: replace with Astra's bexar-woman-listen-s"
+      "prompt": "a Tejana woman of Béxar in 1836: a slate-blue rebozo with a pale striped border over her head and shoulders, fringed at its ends, a cream blouse, a full madder-red skirt, dark hair tied back under it; listening, toward the camera, the hands folded at the waist. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-woman sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-woman-listen-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-woman-listen-s-1"
     },
-    "bexar-woman-listen-n": {
-      "kind": "clip",
+    "bexar-woman-listen-n-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-woman",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-woman listening, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-n clip.",
-      "frames": [
-        "bexar-woman-listen-n"
-      ],
-      "status": "temporary: replace with Astra's bexar-woman-listen-n"
+      "prompt": "a Tejana woman of Béxar in 1836: a slate-blue rebozo with a pale striped border over her head and shoulders, fringed at its ends, a cream blouse, a full madder-red skirt, dark hair tied back under it; listening, seen from behind. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-woman sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-woman-listen-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-woman-listen-n-1"
     },
     "bexar-woman-speak-1": {
       "kind": "frame",
@@ -3327,83 +3339,89 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's bexar-girl-walk-n-2"
     },
-    "bexar-girl-idle-s": {
-      "kind": "clip",
+    "bexar-girl-idle-s-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-girl",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-girl standing, facing the camera: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-s clip.",
-      "frames": [
-        "bexar-girl-idle-s"
-      ],
-      "status": "temporary: replace with Astra's bexar-girl-idle-s"
+      "prompt": "a Tejana girl of Béxar in 1836 in plain cotton: a cream blouse, an indigo skirt to the shin, a small rose rebozo on her shoulders, dark hair tied back, barefoot; standing, facing the camera. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-girl sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-girl-idle-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-girl-idle-s-1"
     },
-    "bexar-girl-idle-e": {
-      "kind": "clip",
+    "bexar-girl-idle-e-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-girl",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-girl standing, side on, facing east: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-e clip.",
-      "frames": [
-        "bexar-girl-idle-e"
-      ],
-      "status": "temporary: replace with Astra's bexar-girl-idle-e"
+      "prompt": "a Tejana girl of Béxar in 1836 in plain cotton: a cream blouse, an indigo skirt to the shin, a small rose rebozo on her shoulders, dark hair tied back, barefoot; standing, side on, facing east. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-girl sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-girl-idle-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-girl-idle-e-1"
     },
-    "bexar-girl-idle-w": {
-      "kind": "clip",
+    "bexar-girl-idle-w-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-girl",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-girl standing, side on, facing west: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-w clip.",
-      "frames": [
-        "bexar-girl-idle-w"
-      ],
-      "status": "temporary: replace with Astra's bexar-girl-idle-w"
+      "prompt": "a Tejana girl of Béxar in 1836 in plain cotton: a cream blouse, an indigo skirt to the shin, a small rose rebozo on her shoulders, dark hair tied back, barefoot; standing, side on, facing west. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-girl sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-girl-idle-w-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-girl-idle-w-1"
     },
-    "bexar-girl-idle-n": {
-      "kind": "clip",
+    "bexar-girl-idle-n-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-girl",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-girl standing, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-n clip.",
-      "frames": [
-        "bexar-girl-idle-n"
-      ],
-      "status": "temporary: replace with Astra's bexar-girl-idle-n"
+      "prompt": "a Tejana girl of Béxar in 1836 in plain cotton: a cream blouse, an indigo skirt to the shin, a small rose rebozo on her shoulders, dark hair tied back, barefoot; standing, seen from behind. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-girl sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-girl-idle-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-girl-idle-n-1"
     },
-    "bexar-girl-listen-s": {
-      "kind": "clip",
+    "bexar-girl-listen-s-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-girl",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-girl listening, toward the camera, the hands folded at the waist: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-s clip.",
-      "frames": [
-        "bexar-girl-listen-s"
-      ],
-      "status": "temporary: replace with Astra's bexar-girl-listen-s"
+      "prompt": "a Tejana girl of Béxar in 1836 in plain cotton: a cream blouse, an indigo skirt to the shin, a small rose rebozo on her shoulders, dark hair tied back, barefoot; listening, toward the camera, the hands folded at the waist. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-girl sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-girl-listen-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-girl-listen-s-1"
     },
-    "bexar-girl-listen-n": {
-      "kind": "clip",
+    "bexar-girl-listen-n-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-girl",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-girl listening, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-n clip.",
-      "frames": [
-        "bexar-girl-listen-n"
-      ],
-      "status": "temporary: replace with Astra's bexar-girl-listen-n"
+      "prompt": "a Tejana girl of Béxar in 1836 in plain cotton: a cream blouse, an indigo skirt to the shin, a small rose rebozo on her shoulders, dark hair tied back, barefoot; listening, seen from behind. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-girl sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-girl-listen-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-girl-listen-n-1"
     },
     "bexar-girl-speak-1": {
       "kind": "frame",
@@ -3601,83 +3619,89 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's bexar-boy-walk-n-2"
     },
-    "bexar-boy-idle-s": {
-      "kind": "clip",
+    "bexar-boy-idle-s-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-boy",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-boy standing, facing the camera: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-s clip.",
-      "frames": [
-        "bexar-boy-idle-s"
-      ],
-      "status": "temporary: replace with Astra's bexar-boy-idle-s"
+      "prompt": "a Tejano boy of Béxar in 1836 in plain cotton: an unbleached shirt, faded indigo trousers rolled at the shin, a small straw hat over short dark hair, barefoot; standing, facing the camera. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-boy sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-boy-idle-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-boy-idle-s-1"
     },
-    "bexar-boy-idle-e": {
-      "kind": "clip",
+    "bexar-boy-idle-e-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-boy",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-boy standing, side on, facing east: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-e clip.",
-      "frames": [
-        "bexar-boy-idle-e"
-      ],
-      "status": "temporary: replace with Astra's bexar-boy-idle-e"
+      "prompt": "a Tejano boy of Béxar in 1836 in plain cotton: an unbleached shirt, faded indigo trousers rolled at the shin, a small straw hat over short dark hair, barefoot; standing, side on, facing east. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-boy sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-boy-idle-e-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-boy-idle-e-1"
     },
-    "bexar-boy-idle-w": {
-      "kind": "clip",
+    "bexar-boy-idle-w-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-boy",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-boy standing, side on, facing west: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-w clip.",
-      "frames": [
-        "bexar-boy-idle-w"
-      ],
-      "status": "temporary: replace with Astra's bexar-boy-idle-w"
+      "prompt": "a Tejano boy of Béxar in 1836 in plain cotton: an unbleached shirt, faded indigo trousers rolled at the shin, a small straw hat over short dark hair, barefoot; standing, side on, facing west. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-boy sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-boy-idle-w-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-boy-idle-w-1"
     },
-    "bexar-boy-idle-n": {
-      "kind": "clip",
+    "bexar-boy-idle-n-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-boy",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-boy standing, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-n clip.",
-      "frames": [
-        "bexar-boy-idle-n"
-      ],
-      "status": "temporary: replace with Astra's bexar-boy-idle-n"
+      "prompt": "a Tejano boy of Béxar in 1836 in plain cotton: an unbleached shirt, faded indigo trousers rolled at the shin, a small straw hat over short dark hair, barefoot; standing, seen from behind. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-boy sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-boy-idle-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-boy-idle-n-1"
     },
-    "bexar-boy-listen-s": {
-      "kind": "clip",
+    "bexar-boy-listen-s-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-boy",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-boy listening, toward the camera, the hands folded at the waist: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-s clip.",
-      "frames": [
-        "bexar-boy-listen-s"
-      ],
-      "status": "temporary: replace with Astra's bexar-boy-listen-s"
+      "prompt": "a Tejano boy of Béxar in 1836 in plain cotton: an unbleached shirt, faded indigo trousers rolled at the shin, a small straw hat over short dark hair, barefoot; listening, toward the camera, the hands folded at the waist. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-boy sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-boy-listen-s-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-boy-listen-s-1"
     },
-    "bexar-boy-listen-n": {
-      "kind": "clip",
+    "bexar-boy-listen-n-1": {
+      "kind": "frame",
       "madeBy": "claude",
       "date": "2026-09-28",
       "module": "bexar-people",
       "area": "places",
+      "sheet": "claude-bexar-boy",
       "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
-      "prompt": "bexar-boy listening, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-n clip.",
-      "frames": [
-        "bexar-boy-listen-n"
-      ],
-      "status": "temporary: replace with Astra's bexar-boy-listen-n"
+      "prompt": "a Tejano boy of Béxar in 1836 in plain cotton: an unbleached shirt, faded indigo trousers rolled at the shin, a small straw hat over short dark hair, barefoot; listening, seen from behind. The same person, face, hat or shawl, clothes and colours in every pose of the bexar-boy sheet, at the cast's size and foot line (people contract of request 2026-09-12). Original interpretation of Tejano dress of 1835-36, not a documented costume (sources: docs/ART_REQUESTS.md, the request; docs/CLAUDE_ART_PLAN.md E1 \"rebozo, short jacket, sombrero\"; Astra's famous-seguin and famous-alavez in this library as the style and dress reference). Warm hand-drawn storybook style as Astra's civilians and people-walk: thin dark olive-brown outline, flat shade to the lower right, transparent ground, no shadow, no text.",
+      "source": "public/assets/claude-standins/svg/bexar-people/claude-bexar-boy-listen-n-1.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's bexar-boy-listen-n-1"
     },
     "bexar-boy-speak-1": {
       "kind": "frame",
@@ -4017,6 +4041,84 @@
       ],
       "status": "temporary: replace with Astra's bexar-man-walk-n"
     },
+    "bexar-man-idle-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-man standing, facing the camera: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-s clip.",
+      "frames": [
+        "bexar-man-idle-s-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-man-idle-s"
+    },
+    "bexar-man-idle-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-man standing, side on, facing east: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-e clip.",
+      "frames": [
+        "bexar-man-idle-e-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-man-idle-e"
+    },
+    "bexar-man-idle-w": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-man standing, side on, facing west: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-w clip.",
+      "frames": [
+        "bexar-man-idle-w-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-man-idle-w"
+    },
+    "bexar-man-idle-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-man standing, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-n clip.",
+      "frames": [
+        "bexar-man-idle-n-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-man-idle-n"
+    },
+    "bexar-man-listen-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-man listening, toward the camera, the hands folded at the waist: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-s clip.",
+      "frames": [
+        "bexar-man-listen-s-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-man-listen-s"
+    },
+    "bexar-man-listen-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-man listening, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-n clip.",
+      "frames": [
+        "bexar-man-listen-n-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-man-listen-n"
+    },
     "bexar-man-speak": {
       "kind": "clip",
       "madeBy": "claude",
@@ -4090,6 +4192,84 @@
         "bexar-woman-walk-n-2"
       ],
       "status": "temporary: replace with Astra's bexar-woman-walk-n"
+    },
+    "bexar-woman-idle-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-woman standing, facing the camera: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-s clip.",
+      "frames": [
+        "bexar-woman-idle-s-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-woman-idle-s"
+    },
+    "bexar-woman-idle-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-woman standing, side on, facing east: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-e clip.",
+      "frames": [
+        "bexar-woman-idle-e-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-woman-idle-e"
+    },
+    "bexar-woman-idle-w": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-woman standing, side on, facing west: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-w clip.",
+      "frames": [
+        "bexar-woman-idle-w-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-woman-idle-w"
+    },
+    "bexar-woman-idle-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-woman standing, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-n clip.",
+      "frames": [
+        "bexar-woman-idle-n-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-woman-idle-n"
+    },
+    "bexar-woman-listen-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-woman listening, toward the camera, the hands folded at the waist: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-s clip.",
+      "frames": [
+        "bexar-woman-listen-s-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-woman-listen-s"
+    },
+    "bexar-woman-listen-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-woman listening, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-n clip.",
+      "frames": [
+        "bexar-woman-listen-n-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-woman-listen-n"
     },
     "bexar-woman-speak": {
       "kind": "clip",
@@ -4165,6 +4345,84 @@
       ],
       "status": "temporary: replace with Astra's bexar-girl-walk-n"
     },
+    "bexar-girl-idle-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-girl standing, facing the camera: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-s clip.",
+      "frames": [
+        "bexar-girl-idle-s-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-girl-idle-s"
+    },
+    "bexar-girl-idle-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-girl standing, side on, facing east: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-e clip.",
+      "frames": [
+        "bexar-girl-idle-e-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-girl-idle-e"
+    },
+    "bexar-girl-idle-w": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-girl standing, side on, facing west: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-w clip.",
+      "frames": [
+        "bexar-girl-idle-w-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-girl-idle-w"
+    },
+    "bexar-girl-idle-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-girl standing, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-n clip.",
+      "frames": [
+        "bexar-girl-idle-n-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-girl-idle-n"
+    },
+    "bexar-girl-listen-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-girl listening, toward the camera, the hands folded at the waist: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-s clip.",
+      "frames": [
+        "bexar-girl-listen-s-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-girl-listen-s"
+    },
+    "bexar-girl-listen-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-girl listening, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-n clip.",
+      "frames": [
+        "bexar-girl-listen-n-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-girl-listen-n"
+    },
     "bexar-girl-speak": {
       "kind": "clip",
       "madeBy": "claude",
@@ -4238,6 +4496,84 @@
         "bexar-boy-walk-n-2"
       ],
       "status": "temporary: replace with Astra's bexar-boy-walk-n"
+    },
+    "bexar-boy-idle-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-boy standing, facing the camera: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-s clip.",
+      "frames": [
+        "bexar-boy-idle-s-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-boy-idle-s"
+    },
+    "bexar-boy-idle-e": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-boy standing, side on, facing east: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-e clip.",
+      "frames": [
+        "bexar-boy-idle-e-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-boy-idle-e"
+    },
+    "bexar-boy-idle-w": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-boy standing, side on, facing west: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-w clip.",
+      "frames": [
+        "bexar-boy-idle-w-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-boy-idle-w"
+    },
+    "bexar-boy-idle-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-boy standing, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own idle-n clip.",
+      "frames": [
+        "bexar-boy-idle-n-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-boy-idle-n"
+    },
+    "bexar-boy-listen-s": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-boy listening, toward the camera, the hands folded at the waist: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-s clip.",
+      "frames": [
+        "bexar-boy-listen-s-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-boy-listen-s"
+    },
+    "bexar-boy-listen-n": {
+      "kind": "clip",
+      "madeBy": "claude",
+      "date": "2026-09-28",
+      "module": "bexar-people",
+      "area": "places",
+      "request": "Request 2026-09-27 — the milk cow on the run, and Béxar before the bell",
+      "prompt": "bexar-boy listening, seen from behind: the clip the town scenes ask a townsperson of Béxar for (public/town-scenes.js sceneClip), timed as the cast's own listen-n clip.",
+      "frames": [
+        "bexar-boy-listen-n-1"
+      ],
+      "status": "temporary: replace with Astra's bexar-boy-listen-n"
     },
     "bexar-boy-speak": {
       "kind": "clip",
