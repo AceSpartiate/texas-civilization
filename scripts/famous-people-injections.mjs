@@ -99,6 +99,15 @@ const BROWSER = [
   { name: 'Gregorio Esparza\'s body carried as a man walking alone, no bundle', file: 'public/battle-view.js',
     from: '    if (person.bears) return drawBearers(ctx, person, p, size, time, flip, key);\n', to: '',
     expect: 'the body was not drawn as a wrapped bundle' },
+  // The map's frame time (2026-09-29): one steady frame stalled, and a stall at the first draw of a famous person's sheet.
+  { name: 'one steady frame of the map with the famous people stalled 100 ms', file: 'public/app.js',
+    from: '  drawWorldNow(world);\n  log.push({',
+    to: '  drawWorldNow(world);\n  if (!window.__stalled && window.__famousDrawn?.length && sheetsFirstDrawn() === sheets && (window.__groundDrawn || 0) === grounds) { window.__stalled = true; const until = performance.now() + 100; while (performance.now() < until); }\n  log.push({',
+    expect: 'map with the famous people stalled before the siege' },
+  { name: 'a famous person\'s sheet stalls 800 ms at its first draw', file: 'public/art.js',
+    from: '  drawnSheets.add(frame.sheet);\n',
+    to: '  if (!drawnSheets.has(frame.sheet) && /^famous-/.test(frame.sheet)) { const until = performance.now() + 800; while (performance.now() < until); }\n  drawnSheets.add(frame.sheet);\n',
+    expect: 'map stalled at a first draw before the siege' },
 ];
 
 const CR = '\r', LF = '\n';

@@ -1,6 +1,6 @@
 {
   "record": "famous-people-injections",
-  "date": "2026-09-27",
+  "date": "2026-09-29",
   "gates": {
     "unit": "node --test tests/famous-people.test.mjs and tests/famous-people-view.test.mjs, the named test and no other in its file",
     "browser": "scripts/famous-people-browser-proof.mjs"
@@ -265,10 +265,26 @@
       "file": "public/battle-view.js",
       "expect": "the body was not drawn as a wrapped bundle",
       "caught": true,
-      "failure": "the body was not drawn as a wrapped bundle: rust-walk",
-      "checksPassedFirst": 10
+      "failure": "the body was not drawn as a wrapped bundle: volunteer-march",
+      "checksPassedFirst": 11
+    },
+    {
+      "name": "one steady frame of the map with the famous people stalled 100 ms",
+      "file": "public/app.js",
+      "expect": "map with the famous people stalled before the siege",
+      "caught": true,
+      "failure": "a steady frame of the student's map with the famous people stalled before the siege: 101.3 ms",
+      "checksPassedFirst": 2
+    },
+    {
+      "name": "a famous person's sheet stalls 800 ms at its first draw",
+      "file": "public/art.js",
+      "expect": "map stalled at a first draw before the siege",
+      "caught": true,
+      "failure": "the Host's map stalled at a first draw before the siege: {\"ms\":3369.7,\"ground\":true,\"firstSheets\":19,\"famous\":4,\"camera\":\"region\",\"animation\":false}",
+      "checksPassedFirst": 2
     }
   ],
-  "cleanBrowserChecks": 21,
+  "cleanBrowserChecks": 22,
   "environment": "Same computer: node --test, and local classroom servers with headless Chrome at 1366x768 and 1024x768."
 }

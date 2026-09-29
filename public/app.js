@@ -1,5 +1,5 @@
 // Renderers consume the server's permitted projection. They never advance simulation state.
-import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, spriteFrame, spriteReady } from '/art.js';
+import { drawSprite, drawClip, clipInfo, clipReady, hasSprite, loadArt, onArtReady, pickSprite, sheetsFirstDrawn, spriteFrame, spriteReady, watchMissing } from '/art.js';
 import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
@@ -88,7 +88,7 @@ import('/audio.js').then(({ createSoundscape }) => {
   soundscape.mount($('#map-tools'));
   if (window.__snapshot) soundscape.observe(window.__snapshot);
 }).catch(error => console.warn('The page has no sound:', error));
-let animationTime = 0, previousFrame = 0, paintedFrame = 0, animationDrawMs = 0;
+let animationTime = 0, previousFrame = 0, paintedFrame = 0, animationDrawMs = 0, drawingAnimation = false;
 // The end-of-game flashback's recorder (public/flashback.js): the video's own clock while it draws a frame, which the figures'
 // cycles are timed by instead of the page's, and how many pictures of the land are still being made. Up here, above the page's
 // first `connect`, for the TDZ guard.
@@ -244,13 +244,16 @@ let plotCatalogue = null;
 // the next frame it came to four redraws a second while a view's tiles loaded on a throttled laptop (docs/PERFORMANCE_RENDER.md).
 const ARRIVAL_REDRAW_MS = 200;
 let arrivalRedraw = null;
-const redrawForArrival = () => {
-  invalidateMapBase();
+// A sheet of art throws the kept ground away only if the ground was drawn without it (`mapBase.missing`, public/art.js
+// `watchMissing`): a famous person's or a soldier's sheet landing is drawn by the arrival's redraw over the ground as it was.
+// A woods tile or a picture of the land names no sheet, and always does.
+const redrawForArrival = sheet => {
+  if (!sheet || !mapBase.missing || mapBase.missing.has(sheet)) invalidateMapBase();
   if (arrivalRedraw) return;
   // Not while a hand is on the map, whose pans are what fetch the tiles: then the map is drawn with them when the hand stops.
   arrivalRedraw = setTimeout(() => { arrivalRedraw = null; if (!window.__snapshot) return; if (performance.now() < handOnMapUntil) requestMapDraw(); else drawWorld(window.__snapshot.world); }, ARRIVAL_REDRAW_MS);
 };
-const redrawForWoods = redrawForArrival;
+const redrawForWoods = () => redrawForArrival();
 function ensureChores(snapshot) {
   if (!snapshot.mapId || (choreCache && choreCacheId === snapshot.mapId) || chorePending === snapshot.mapId) return;
   chorePending = snapshot.mapId;
@@ -2961,7 +2964,8 @@ function drawHolding(ctx, world, camera) {
  * camera, the canvas's size - or when something it drew from lands without a snapshot (`invalidateMapBase`: art, a woods
  * tile, the map fetched). Twelve frames a second of people walking no longer repaint the country under them.
  */
-const mapBase = { canvas: null, key: null, state: null, time: 0, audited: null };
+// `missing`: the sheets the kept ground was last drawn without (public/art.js `watchMissing`); null when that is not known.
+const mapBase = { canvas: null, key: null, state: null, time: 0, audited: null, missing: null };
 const GROUND_KEY_PARTS = ['art or tiles', 'land', 'pick', 'weather', 'map', 'width', 'height', 'camera', 'camera', 'zoom'];
 /** The ground audit's comparison: how much of the ground drawn afresh differs from the kept one (`window.__groundAudit`). */
 function auditGround(fresh, kept, world) {
@@ -3051,7 +3055,25 @@ function flashbackGround(ctx, world, camera) {
   drawTerrain(ctx, world, camera);
   try { drawPlots(ctx, world, camera); } catch { /* the ground without the fields */ }
 }
+/**
+ * The whole map drawn once. With `window.__mapDraws` set to an array - by a proof, and by nothing in the application - each draw
+ * is recorded there: how long it took, whether the kept ground was drawn again in it, how many sheets it drew for the first
+ * time, and the famous people drawn. That tells a proof's steady frames from the first draws after new art or a new view
+ * (scripts/famous-people-browser-proof.mjs `mapFrames`), and the snapshot's and the arrival's draws are in it as well as the
+ * animation's own.
+ */
 export function drawWorld(world) {
+  const log = window.__mapDraws;
+  if (!Array.isArray(log)) { drawWorldNow(world); return; }
+  const sheets = sheetsFirstDrawn(), grounds = window.__groundDrawn || 0, began = performance.now();
+  drawWorldNow(world);
+  log.push({
+    at: began, ms: performance.now() - began, animation: drawingAnimation, ground: (window.__groundDrawn || 0) !== grounds,
+    firstSheets: sheetsFirstDrawn() - sheets, camera: window.__camera?.kind, famous: (window.__famousDrawn || []).map(one => [one.id, one.how]),
+  });
+  if (log.length > 4000) log.splice(0, log.length - 4000);
+}
+function drawWorldNow(world) {
   noteTick(world);
   window.__animationClips = new Set();
   const canvas = $('#world-map'), main = canvas.getContext('2d');
@@ -3110,6 +3132,11 @@ export function drawWorld(world) {
     mapBase.woodsRevision = woodsRevision;
     ensureWoods(world, camera, canvas, window.__snapshot?.mapId, woodsCatalogue, redrawForWoods, woodsRevision);
   }
+  // The sheets the kept ground is drawn without, from here to where it goes down on the page (`redrawForArrival`). What this
+  // span draws straight onto the page's canvas is noted too, and the arrival of one of those draws the ground again as well.
+  // ceiling: a few needless ground redraws while the shops', cows' and wood piles' sheets arrive; noting only the ground's own
+  // draws would take a second drawing context through every drawing function here.
+  const groundMissing = ground && !audit ? watchMissing() : null;
   if (ground) {
     const frameTime = animationTime;
     if (audit) animationTime = mapBase.time;
@@ -3545,6 +3572,7 @@ export function drawWorld(world) {
   } else if (ground && !audit) { fogBase.shapes = 0; window.__weatherGround = null; }
   // The ground goes down whole, and the drawing state it ended in is carried over, as when it was drawn on this canvas.
   if (ground && !audit) mapBase.state = readDrawState(ground);
+  if (groundMissing) mapBase.missing = groundMissing();
   if (audit) auditGround(audit, mapBase.canvas, world);
   main.setTransform(1, 0, 0, 1, 0, 0); main.globalAlpha = 1; main.globalCompositeOperation = 'source-over';
   main.drawImage(mapBase.canvas, 0, 0);
@@ -7517,8 +7545,9 @@ function animateMap(now) {
   // raises it again by itself.
   if (active && now - lastMapDraw >= Math.max(1000 / 12, animationDrawMs * 2) && now >= handOnMapUntil) {
     paintedFrame = now;
+    drawingAnimation = true;
     const began = performance.now(); drawWorld(world); positionSelection(world);
-    animationDrawMs = performance.now() - began;
+    animationDrawMs = performance.now() - began; drawingAnimation = false;
     window.__animation = { timeMs: animationTime, clips: [...window.__animationClips], drawMs: animationDrawMs };
   }
   requestAnimationFrame(animateMap);
@@ -7533,7 +7562,7 @@ reducedMotion.addEventListener('change', () => { if (window.__snapshot) drawWorl
 // of this file has run, and a `let` it reaches first is a ReferenceError. That froze the Host page and sent a reloading
 // student back to the join form (2026-09-22; tests/page-startup.test.mjs).
 let housePlacement = null;
-onArtReady(() => { redrawForArrival(); repaintFamilyPanel(); });
+onArtReady((status, sheet) => { redrawForArrival(sheet); repaintFamilyPanel(); });
 loadArt();
 try {
   if (hostPage && location.hash) { await api('/api/host', { key: location.hash.slice(1) }); history.replaceState(null, '', '/host'); }

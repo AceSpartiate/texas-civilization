@@ -1,5 +1,44 @@
 # Claude handoff — Astra foundation
 
+## The famous people's map frames: steady frames and the first-draw hitch — owner, 2026-09-29 (not released)
+
+**The ask.** `test:famous-people` failed now and then: "the Host's map with the famous people draws too slowly: 75 ms at the
+95th percentile" (75 and 84 ms seen; other runs 3.2 ms). The Host's sample held 2-7 frames, so its p95 was its slowest frame.
+
+- **What the slow frame was** (Chrome tracing and CPU profiles of the Alamo class; `window.__mapDraws`): never a slow steady
+  map. It is a first draw after new art lands, two costs together. (1) The accelerated canvas prepares each sheet on the main
+  thread the first time any canvas draws it (`GpuImageDecodeCache::DecodeImage`, about 5-10 ms a large sheet, even though the
+  bitmap was decoded off the thread): the Host's first frames with the famous people draw 12-19 new sheets at once (theirs,
+  the Béxar townsfolk's, the ground's). (2) Every arriving sheet threw away the kept ground, so those frames also drew the
+  whole ground again (30-55 ms). The biggest is the Host's draw at Start: the ground and 19 new sheets, 133-161 ms (once 325).
+- **Changed: (2).** A sheet's arrival redraws the kept ground only if the ground was drawn without it (`public/art.js`
+  `watchMissing`, `public/app.js` `redrawForArrival`); woods tiles and land pictures always do. A diagnostic of the Alamo
+  class, two to four runs each way: the Host's first animation frame with the famous people 45-52 → 32-37 ms, a student's
+  first draws 500-570 → about 400 ms in all. It does not touch the Start draw (133-143 ms before, 150-161 after, in the proof:
+  that draw needs the ground anyway). `tests/art-arrival.test.mjs`, three injections caught; `test:farm`'s ground audit: 44
+  snapshots against a fresh drawing, none stale, the ground drawn once for art.
+- **Not kept: decoding ahead.** Preparing each requested sheet as it lands (a pixel of it drawn and flushed through a scratch
+  canvas) took about a third off those first frames but doubled the steady frames' p95 in the battle view (10 → 20-30 ms), six
+  runs of six; most likely the browser's decode budget throwing out pictures in use. `img.decode()` was worse in a bare page:
+  an `<img>` on the canvas paid again at its second draw. Both are recorded above `loadImage` in `public/art.js`.
+- **The proof measures steady drawing** (`scripts/famous-people-browser-proof.mjs` `mapFrames`): every whole-map draw on both
+  pages from before Start to 5 s after the famous are sent, split into steady draws and first draws (the ground drawn again,
+  or a sheet drawn for the first time). Gates: at least 12 steady frames with the famous on each page, p95 under 50 ms, none
+  over 100 ms; the slowest first draw reported apart and gated only against a stall, at 600 ms. The same after the fall. The
+  Alamo class starts six days before the siege (`stopBefore: 9000`), so the three are on the map for about five seconds of
+  the quick winter clock. The burial check also takes the burial party's own frames, which now often arrive in time.
+  `npm run test:famous-people-injections -- browser stall`: a 100 ms stall in one steady frame and an 800 ms stall at a famous
+  sheet's first draw, each caught by the check written for it (29 of 29 recorded).
+- **Numbers, three runs green** (same computer, headless Chrome): before the siege, steady with the famous, student p95
+  3.0-4.7 ms over 49-51 frames (slowest 4.5-9.4), Host p95 4.0-7.5 ms over 53-55 frames (slowest 18-26); after the fall, Host
+  p95 4.0-5.3 ms over 53-55 frames. First draws apart: Host 150-161 ms (Start), student 33-63 ms. `npm test` 1714 tests, 1678 pass,
+  0 fail, 36 skipped; `test:art`, `test:work` and `test:farm` pass. Seven more green runs of the proof as injection gates and
+  before-numbers; once, under the unrelated burial injection, "Bowie did not lie still on his cot" failed instead (the
+  assault's sampled checks, not the map's), and the rerun was caught as written.
+- **Open.** The Start draw on the Host is 130-160 ms here and will be several times that on a Chromebook; what would shrink it
+  is fewer or smaller sheets at Start, or `ImageBitmap.close()` of long-unused sheets (the `ceiling:` on `loadImage`) leaving
+  the budget room to prepare ahead. Not measured on a Chromebook.
+
 ## Released as v2026.09.29.1 — 2026-09-29
 
 Everything below marked *(released in v2026.09.29.1)* shipped in this release: simpler work (one wood pile, auto, more hands, an axe each), the tutorial suspended and tips at first meeting, people drawn at their work, ambient life and chatter, sound and music, crops in real minutes with a slow winter and open stores until the Scrape, neighbours who repay (and count toward glory), who acts for a family, the flashback video, Stop for today / Continue / Delete in Classes, the overlap fixes, the errand list that stands still, the looks recolouring that finds the face, and Claude's temporary art in six areas (docs/CLAUDE_ART_PLAN.md). Verified on a clean tree at 9bed9f43: `npm test` 1713 tests, 1677 pass, 0 fail, 36 skipped (the suspended tutorial); 26 of 28 browser proofs green first time, `test:solo-game` green on rerun, `test:famous-people` green on one of two reruns (its Host frame sample is 2-7 frames; a follow-up is open). Same computer only; no Chromebook or LAN claim.
