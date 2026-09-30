@@ -123,7 +123,13 @@
       "name": "the QR code without the class code",
       "caught": true,
       "proof": "test:join-card",
-      "failed": "AssertionError [ERR_ASSERTION]: the QR code on the page is the address with the class code, made by public/qr.js |   code: 'ERR_ASSERTION',"
+      "failed": "AssertionError [ERR_ASSERTION]: the QR code on the page is the same address with the class code in it, made by public/qr.js |   code: 'ERR_ASSERTION',"
+    },
+    {
+      "name": "the join address without the class code",
+      "caught": true,
+      "proof": "test:join-card",
+      "failed": "AssertionError [ERR_ASSERTION]: the first address, with the class code in it, as typed |   code: 'ERR_ASSERTION',"
     },
     {
       "name": "no suggested places on the page",

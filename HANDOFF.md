@@ -1,5 +1,46 @@
 # Claude handoff — Astra foundation
 
+## The class code inside the join address — owner-decided 2026-09-30 (not released)
+
+**The ask.** *"why do players need to enter a join code? if multiple hosts are on the same network, why dont we have different
+addresses for that?"* Told each Host laptop already has its own address and the code keeps out anybody not in the room and separates
+periods (it changes with New Class), the owner chose **"Code inside the address"**. Branch `late-join-roll` (after the late-join
+fix below); not pushed. docs/HOST_PAGE.md §2.14, TEACHER.md.
+
+- **One address:** `http://<laptop>:3000/<code>`. The Host's card shows it (broken only before the code when the column is narrow),
+  the QR code is that address (no `?code=`), the folded line and the other addresses carry it, and *If a Chromebook asks for a class
+  code:* shows the code under it. The launcher's join address and copy button (`PrimaryJoinUrl`) and the server's console line are
+  the same address.
+- **Opening it asks only for a name** (`CODE_PATH` in server/app.mjs serves the page for one segment of a code's shape; the page's
+  `addressCode` fills and hides the code boxes). Anything of another shape, a second segment or a POST is answered as any unknown path
+  always was - no new file is reachable.
+- **Checked as before** at the join, the away list and the claim (`codeMatches`, the leniency, the wrong tries per device). Sent with
+  `via: 'address'`, a wrong code is answered *"This is an old class address. Look at the Host screen for today's address, or type
+  the class code shown there."* with `codeRefused`, and the page gives back the code box, empty.
+- **Kept:** the bare address asks for the code; `?code=` fills the box; `/host` stays; on the coded address *I was already in this
+  class* shows the names at once.
+
+**Evidence** (same computer only; no Chromebook, camera, LAN or classroom claim):
+
+- `tests/code-address.test.mjs`, four tests: the page at `/<code>` (any case, look-alikes), 308 from `/<code>/`, and every other
+  shape (`/ZZZZZZ`, seven or five symbols, `/<code>/app.js`, encoded `..`, `/<code>.js`) answered as an unknown path (401 to a
+  stranger, 404 in the class) and never a page or file; a join from the address with a name, an old code after New Class answered as
+  an old address at the join, the away list and the claim, a typed wrong code in the old words; five wrong codes from the address
+  make the device wait; the Host's and launcher's address carry the code. **Each failed on its own injection** (the route too wide;
+  never matching; the old-address words dropped; address codes not counted; the launcher's bare address).
+- **`npm run test:code-address`** (new, [record](docs/evidence/code-address-browser.json)): **7 of 7** - the Host's card and QR; the
+  coded address joins with a name only; the bare address asks for and takes the code; `?code=` fills the box; the away list with
+  nothing typed and a tap back into the family; yesterday's address after New Class says so, gives the box back, and today's code
+  typed there joins. Injections: the address ignored (step 2 fails), the box not given back (step 6), the names not asked for at once
+  (step 5).
+- `test:join-card` updated to the one address (the code unbroken, at most two lines at 22 px); `node scripts/tier2-classroom-injections.mjs`
+  **19 of 19** (its QR injection rewritten for the coded address, one new: the address without the code). `test:creation` and
+  `test:late-join` now join at the coded address.
+- With both pieces: `npm test` **1958 tests, 1922 pass, 0 fail, 36 skipped** (a run beside seven browser proofs at once had one
+  failure, not identified from its cut-off output; the run alone was clean). `test:creation` 15, `test:late-join` 9,
+  `test:code-address` 7, `test:join-card` 8, `test:reconnect` 12, `test:classes` 16, `test:lone-parent` 10. The launcher builds
+  (`dotnet build`); no launcher verify was run.
+
 ## A late student stuck on the die: thrown at the join, and never a silent hang — classroom report 2026-09-30 (not released)
 
 **The report.** From the owner's real classroom on the live release v2026.09.29.3: *"student tried to join late and it was stuck on

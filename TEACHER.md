@@ -55,22 +55,29 @@ Each class keeps its own students, families and family keys, so several sections
 
 ## How students join
 
-Before you press Start, the Host page shows **How students join** down the right: the address to type in large letters, the
-class code, and a QR code a Chromebook's camera can read. Put it on the projector. A student who scans the code has the class
-code filled in and types only their name. If the first address does not open on the students' Chromebooks, try the others listed
-under it. Once the class is running the card folds to one line; press it to show it large again for a latecomer.
+Before you press Start, the Host page shows **How students join** down the right: one address to type in large letters, with the
+class code at the end of it (like `http://192.168.1.20:3000/6744EF`), and a QR code of that same address a Chromebook's camera
+can read. Put it on the projector. A student who types the address or scans the code types only their name. A student who typed
+only the first part (without the code) is asked for the class code, which is shown under the address. If the first address does
+not open on the students' Chromebooks, try the others listed under it. Once the class is running the card folds to one line; press
+it to show it large again for a latecomer.
+
+The code changes with every **New class**, so yesterday's address stops working: a student who opens it is told *This is an old
+class address* and can type today's code on the spot, or open the address on the screen.
 
 ## How students get back in
 
 - **The same browser:** they are back in by themselves. A page that loses the server (Wi-Fi, a Chromebook asleep, the server
   restarted) says *Reconnecting* and keeps trying.
-- **A different browser or Chromebook:** they choose **I was already in this class**, type the class code and tap their own name;
+- **A different browser or Chromebook:** they open the join address, choose **I was already in this class** and tap their own
+  name (on the bare address they type the class code first);
   or **I already have a family key** and type the eight characters shown in their own family journal.
 - **Five wrong codes** make only that student's browser wait half a minute; the rest of the room can still get in.
 - **Nothing works:** on the Host page, **Recover a student**, choose the family, and **Show this family's key**. It shows one
   family at a time, because the Host page may be on the projector.
-- **Late, or absent on the first day:** they join with the class code, and are given the first family nobody is playing, or the
-  family you choose for them under **Late students**.
+- **Late, or absent on the first day:** they join at the join address, and are given the first family nobody is playing, or the
+  family you choose for them under **Late students**. If nothing has happened to that family yet they still roll the die for it;
+  if the computer has been playing it for a while, they take it as it is.
 - **Gone for a while:** after two minutes with their page closed, a family goes on by itself, run by the computer, until the
   student comes back and plays it again.
 

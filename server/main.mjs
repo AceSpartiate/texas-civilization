@@ -88,5 +88,6 @@ const hostUrl = `http://localhost:${port}/host#${app.state.hostKey}`;
 writeFileSync(join(dataDir, 'host-url.txt'), hostUrl);
 console.log(solo
   ? `Texas Revolution PLAY SOLO (this computer only). Host: ${hostUrl}\nNew solo game: npm run solo\nClosing the player's page saves and pauses the game, and stops this server if it does not come back.\nData: ${dataDir}\nSave: ${savePath}`
-  : `Texas Revolution PROTOTYPE. Host: ${hostUrl}\nJoin: ${joinUrls[0]?.url || `http://localhost:${port}/`}\nData (${origin}): ${dataDir}\nSave: ${savePath}`);
+  // The join address with the class code in it (owner, 2026-09-30); a New Class deals another code, and the Host page shows it.
+  : `Texas Revolution PROTOTYPE. Host: ${hostUrl}\nJoin: ${(joinUrls[0]?.url || `http://localhost:${port}/`).replace(/\/$/, '')}/${app.state.sessionCode}\nData (${origin}): ${dataDir}\nSave: ${savePath}`);
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => shutdown(signal));

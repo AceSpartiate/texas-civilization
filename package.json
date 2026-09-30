@@ -146,6 +146,7 @@
     "test:tips": "node scripts/tips-browser-proof.mjs",
     "test:lone-parent": "node scripts/lone-parent-browser-proof.mjs",
     "test:late-join": "node scripts/late-join-browser-proof.mjs",
+    "test:code-address": "node scripts/code-address-browser-proof.mjs",
     "test:starts-injections": "node scripts/starts-injections.mjs",
     "test:story-cards": "node scripts/story-cards-browser-proof.mjs",
     "test:tips-injections": "node scripts/tips-injections.mjs",

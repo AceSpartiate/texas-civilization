@@ -69,9 +69,10 @@ try {
   const context = await browser.newContext({ viewport: CHROMEBOOK });
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(error.message));
-  await page.goto(url);
+  // The address the Host shows, with the class code in it (owner, 2026-09-30): a name is all a student types.
+  await page.goto(`${url}/${app.state.sessionCode}`);
   await page.locator('[name=name]').fill('Creation reader');
-  await page.locator('[name=code]').fill(app.state.sessionCode);
+  assert.equal(await page.locator('#join [name=code]').isVisible(), false, 'the join address with the code in it still asks for the code');
   await page.getByRole('button', { name: 'Join', exact: true }).click();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
 
@@ -292,9 +293,8 @@ try {
       const context = await browser.newContext({ viewport: CHROMEBOOK });
       const page = await context.newPage();
       page.on('pageerror', error => errors.push(error.message));
-      await page.goto(startsUrl);
+      await page.goto(`${startsUrl}/${startsApp.state.sessionCode}`);
       await page.locator('[name=name]').fill(`Start reader ${n}`);
-      await page.locator('[name=code]').fill(startsApp.state.sessionCode);
       await page.getByRole('button', { name: 'Join', exact: true }).click();
       await page.waitForFunction(() => window.__snapshot?.world.householdId);
       const householdId = await page.evaluate(() => window.__snapshot.world.householdId);

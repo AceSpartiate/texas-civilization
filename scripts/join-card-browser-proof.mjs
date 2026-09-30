@@ -1,6 +1,7 @@
 // The join address shown large on the Host, with a QR code made on this computer (triage 1.8, 2026-09-29), in a real browser.
 //
-// In the lobby the Host's page shows the address to type, large, the class code, and a QR code of the address carrying the code;
+// In the lobby the Host's page shows the address to type, large, with the class code inside it (`/<code>`, owner 2026-09-30), and a
+// QR code of that same address;
 // the QR code on the page is the one public/qr.js makes for that text (tests/qr.test.mjs holds the encoder to an independent
 // one). Once the class runs the card folds to one line that still says the address and the code, and opens again. A student
 // who scans it lands on the join form with the class code already in, and the code is taken out of the address bar. No request
@@ -43,20 +44,25 @@ try {
       qr: document.querySelector('#join-qr path').getAttribute('d'), qrLabel: document.querySelector('#join-qr svg').getAttribute('aria-label'), qrBox: document.querySelector('#join-qr svg').getBoundingClientRect().toJSON(),
       others: document.querySelector('#join-others').textContent, expanded: document.querySelector('#join-card-toggle').getAttribute('aria-expanded'),
       lines: Math.round(document.querySelector('#join-address').getBoundingClientRect().height / parseFloat(getComputedStyle(document.querySelector('#join-address')).lineHeight)),
+      codeRects: document.querySelector('#join-address .join-address-code')?.getClientRects().length ?? 0,
       inView: (() => { const box = document.querySelector('#join-card').getBoundingClientRect(); return box.top >= 0 && box.left >= 0 && box.right <= innerWidth; })(),
     }));
-    assert.equal(card.address, url, 'the first address, as typed');
+    // The class code inside the address (owner, 2026-09-30): one thing to type.
+    assert.equal(card.address, `${url}/${code}`, 'the first address, with the class code in it, as typed');
     assert.equal(card.code, code);
     assert.ok(card.size >= 22 && card.codeSize >= 22, `large: ${card.size}px and ${card.codeSize}px`);
-    assert.equal(card.lines, 1, 'the address on one line');
+    // With the code in it the address can be too long for the teacher's column at 22 px: it breaks only before the code, so the
+    // code is always one unbroken word, and the address at most two lines.
+    assert.ok(card.lines <= 2, `the address on ${card.lines} lines`);
+    assert.equal(card.codeRects, 1, 'the class code in the address is broken across lines');
     assert.equal(card.expanded, 'true', 'open in the lobby');
     assert.ok(card.inView, 'the card on the screen');
     assert.ok(card.qrBox.width >= 170 && card.qrBox.height >= 170, `the QR code big enough to scan: ${card.qrBox.width}px`);
-    const expected = qrSvg(`${url}/?code=${code}`, { label: `QR code for ${url}, class code ${code}` });
-    assert.equal(card.qr, expected.match(/<path d="([^"]+)"/)[1], 'the QR code on the page is the address with the class code, made by public/qr.js');
-    assert.equal(card.qrLabel, `QR code for ${url}, class code ${code}`, 'and it says so to a screen reader');
-    assert.match(card.others, /try http:\/\/10\.5\.0\.2:\d+ \(NordLynx\)/, 'the other address under it');
-    ok(`${width}x${height}: the lobby shows ${card.address} at ${card.size}px on one line, code ${card.code} at ${card.codeSize}px, and a ${Math.round(card.qrBox.width)}px QR code of the address with the code`);
+    const expected = qrSvg(`${url}/${code}`, { label: `QR code for ${url}/${code}` });
+    assert.equal(card.qr, expected.match(/<path d="([^"]+)"/)[1], 'the QR code on the page is the same address with the class code in it, made by public/qr.js');
+    assert.equal(card.qrLabel, `QR code for ${url}/${code}`, 'and it says so to a screen reader');
+    assert.match(card.others, new RegExp(`try http://10\\.5\\.0\\.2:\\d+/${code} \\(NordLynx\\)`), 'the other address under it, with the code in it too');
+    ok(`${width}x${height}: the lobby shows ${card.address} at ${card.size}px on ${card.lines} line${card.lines === 1 ? '' : 's'} with the code unbroken, code ${card.code} at ${card.codeSize}px, and a ${Math.round(card.qrBox.width)}px QR code of the address with the code`);
     await context.close();
   }
 
@@ -71,7 +77,7 @@ try {
   await page.waitForFunction(() => window.__snapshot?.world.status === 'running', null, { timeout: 15000 });
   await page.locator('#join-card').waitFor({ state: 'hidden', timeout: 5000 });
   const short = (await page.locator('#join-card-toggle').textContent()).trim();
-  assert.match(short, new RegExp(`^Join 127\\.0\\.0\\.1:${port} · code ${code}$`));
+  assert.match(short, new RegExp(`^Join 127\\.0\\.0\\.1:${port}/${code}$`));
   const width = await page.locator('#join-links').evaluate(one => one.getBoundingClientRect().width);
   assert.ok(width < 300, `folded, as wide as its words (${Math.round(width)}px), so the fight's caption keeps its room at the top`);
   assert.equal(await page.locator('#join-card-toggle').getAttribute('aria-expanded'), 'false');
@@ -85,7 +91,7 @@ try {
   ok('the teacher opens it again with the keyboard for a latecomer, and it stays open across ticks');
   await context.close();
 
-  // Scanned: the join form with the code in, and the code gone from the address bar.
+  // An older QR code's `?code=` (before 2026-09-30) still works: the join form with the code in, and the code gone from the address bar.
   const student = await browser.newContext({ viewport: { width: 1366, height: 768 } });
   const phone = await student.newPage();
   phone.on('pageerror', error => errors.push(error.message));

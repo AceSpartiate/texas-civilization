@@ -54,9 +54,9 @@ async function joinPage({ app, url }, name) {
   const context = await browser.newContext({ viewport: CHROMEBOOK });
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(`${name}: ${error.message}`));
-  await page.goto(url);
+  // The address the Host shows, with the class code in it (owner, 2026-09-30).
+  await page.goto(`${url}/${app.state.sessionCode}`);
   await page.locator('[name=name]').fill(name);
-  await page.locator('[name=code]').fill(app.state.sessionCode);
   await page.getByRole('button', { name: 'Join', exact: true }).click();
   return page;
 }

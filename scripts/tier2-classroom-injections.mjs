@@ -36,7 +36,9 @@ const injections = [
 ];
 const browser = [
   { name: 'the join card shut in the lobby', file: 'public/app.js', from: "  const open = joinCardOpen ?? snapshot.world.status === 'lobby';", to: '  const open = joinCardOpen ?? false;', script: 'test:join-card' },
-  { name: 'the QR code without the class code', file: 'public/app.js', from: "  const scan = `${address}${address.includes('?') ? '&' : '?'}code=${encodeURIComponent(code)}`;", to: '  const scan = address;', script: 'test:join-card' },
+  // Since 2026-09-30 the class code is inside the address (`/<code>`), and the QR code is that same address.
+  { name: 'the QR code without the class code', file: 'public/app.js', from: '  try { $(\'#join-qr\').innerHTML = qrSvg(plain, { label: `QR code for ${plain}` }); }', to: '  try { $(\'#join-qr\').innerHTML = qrSvg(address, { label: `QR code for ${plain}` }); }', script: 'test:join-card' },
+  { name: 'the join address without the class code', file: 'public/app.js', from: "  const coded = url => `${url.replace(/\\/$/, '')}${code ? `/${code}` : ''}`;", to: "  const coded = url => url.replace(/\\/$/, '');", script: 'test:join-card' },
   { name: 'no suggested places on the page', file: 'public/app.js', from: "  if (!SUGGESTED_JOBS.has(job)) { root.hidden = true; suggestedFocus = false; return; }", to: '  { root.hidden = true; suggestedFocus = false; return; }', script: 'test:keyboard-farm' },
   { name: 'Enter on the map does nothing', file: 'public/app.js', from: "    if ((event.key === 'Enter' || event.key === ' ') && (siteLooking() || surveyLooking() || housePlacement)) {", to: '    if (false) {', script: 'test:keyboard-farm' },
 ];
