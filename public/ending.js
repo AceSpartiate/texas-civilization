@@ -53,7 +53,9 @@ function familyView(family) {
     numbers.append(pair);
   }
   if (family.interim) return [...parts, make('p', 'This is where your family stands so far. The war is not over: the next class goes on from here.', 'ending-sum'), numbers];
+  // The sum, then the same sum said a step at a time in whole numbers (triage 2026-09-29 2.10): the server's words.
   parts.push(numbers, make('p', family.sum, 'ending-sum'));
+  if (family.sumSaid) parts.push(make('p', family.sumSaid, 'ending-said'));
   const story = make('section');
   story.append(make('h3', 'Our story'));
   for (const line of family.story) story.append(make('p', line));
@@ -83,11 +85,18 @@ function familyView(family) {
   }
   const glory = make('section');
   glory.append(make('h3', 'What earned glory'));
+  // Each award with its own sum, the part's weight times the miles' multiplier, and not a bare number (triage 2026-09-29 2.10);
+  // and, with none, a line true of any period's ending, not only October's (3.6).
   if (family.awards.length) {
-    const list = make('ul');
-    for (const award of family.awards) list.append(make('li', `${award.date}: ${award.text} (${award.points})`));
+    if (family.gloryRule) glory.append(make('p', family.gloryRule, 'ending-said'));
+    const list = make('ul', null, 'ending-awards');
+    for (const award of family.awards) {
+      const item = make('li', `${award.date}: ${award.text}`);
+      if (award.worth) item.append(make('span', award.worth, 'ending-worth'));
+      list.append(item);
+    }
     glory.append(list);
-  } else glory.append(make('p', 'Nobody in the family took part in the events of that October.'));
+  } else glory.append(make('p', 'No award was earned.'));
   parts.push(glory);
   // What the family did for its neighbours and they for it (sim/neighbourly.mjs, owner 2026-09-28): the server's words.
   if (family.neighbours?.length) {
@@ -136,7 +145,9 @@ function hostView(closing) {
   const wrap = make('div', null, 'ending-table-wrap');
   const table = make('table', null, 'ending-table');
   const head = make('tr');
-  const labels = ['Family', 'Road miles from Gonzales', 'Heard of the cannon', 'Who went', 'Taken prisoner', 'Coin', 'Glory', 'Land', 'Final'];
+  // The whole war, not only October (triage 2026-09-29 2.8): the Alamo's news, the spring's choice and the farm beside the
+  // cannon's news. The road miles from Gonzales are in each family's own story.
+  const labels = ['Family', 'Who went', 'Heard of the cannon', 'Heard the Alamo fell', 'In the spring', 'Farm', 'Taken prisoner', 'Coin', 'Glory', 'Land', 'Final'];
   for (const label of labels) head.append(make('th', label));
   const thead = make('thead');
   thead.append(head);
@@ -147,9 +158,11 @@ function hostView(closing) {
     if (closing.winners.includes(family.householdId)) row.dataset.first = 'true';
     row.append(
       make('td', familyLabel(family)),
-      make('td', family.miles ?? '—'),
-      make('td', family.heard || 'never'),
       make('td', family.went.length ? family.went.join(', ') : 'nobody'),
+      make('td', family.heard || 'never'),
+      make('td', family.heardAlamo || '—'),
+      make('td', family.spring || '—'),
+      make('td', family.farm || '—'),
       make('td', family.prisoners ? String(family.prisoners) : '—'),
       make('td', reales(family.money)),
       make('td', String(family.glory)),
@@ -160,8 +173,10 @@ function hostView(closing) {
   }
   table.append(body);
   wrap.append(table);
-  parts.push(wrap, make('p', 'Final number = coin × (1 + glory) + land. A family with no coin is counted as having 1 real. Land promised for enlisting counts a real for every 20 acres, if the person is alive and served it out or is serving still; being sent for home forfeits it.', 'ending-sum'));
-  if (closing.prisonerRule) parts.push(make('p', closing.prisonerRule, 'ending-sum'));
+  // The formula as the server counts it, prisoners' share and all, written one way (triage 2026-09-29 3.7; sim/ending.mjs
+  // `FORMULA_WORDS`): the page has no copy of its own to drift from it.
+  parts.push(wrap);
+  if (closing.formulaWords) parts.push(make('p', closing.formulaWords, 'ending-sum'));
   // Who helped whom across the class (sim/neighbourly.mjs `helpedLines`), one line a pair, the server's words.
   if (closing.helped?.length) {
     const helped = make('section', null, 'ending-helped');

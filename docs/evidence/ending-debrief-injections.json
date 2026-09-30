@@ -1,0 +1,233 @@
+{
+  "record": "ending-debrief-injections",
+  "date": "2026-09-30",
+  "files": [
+    "tests/ending-debrief.test.mjs"
+  ],
+  "caught": 22,
+  "only": 21,
+  "of": 22,
+  "injections": [
+    {
+      "name": "2.9 every family not home is \"on the road home\" again",
+      "file": "sim/ending-story.mjs",
+      "expected": "a family still going east",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a family still going east is on the road east at the end, one camped at its refuge is camped there, and only one turned for home is on the road home"
+      ]
+    },
+    {
+      "name": "2.9 a family camped at its refuge is said to be on the road home",
+      "file": "sim/ending-story.mjs",
+      "expected": "a family still going east",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a family still going east is on the road east at the end, one camped at its refuge is camped there, and only one turned for home is on the road home"
+      ]
+    },
+    {
+      "name": "2.8 the question about the scoring is back",
+      "file": "sim/ending.mjs",
+      "expected": "the Host's debrief carries the spring",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Host's debrief carries the spring beside October, the class's own hooks first, and no question about the scoring"
+      ]
+    },
+    {
+      "name": "2.8 the Host is sent no spring",
+      "file": "sim/ending.mjs",
+      "expected": "the Host's debrief carries the spring",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Host's debrief carries the spring beside October, the class's own hooks first, and no question about the scoring"
+      ]
+    },
+    {
+      "name": "2.8 every farm is standing",
+      "file": "sim/ending-story.mjs",
+      "expected": "the Host's debrief carries the spring",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Host's debrief carries the spring beside October, the class's own hooks first, and no question about the scoring"
+      ]
+    },
+    {
+      "name": "2.8 the Alamo's news never heard",
+      "file": "sim/ending.mjs",
+      "expected": "the Host's debrief carries the spring",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Host's debrief carries the spring beside October, the class's own hooks first, and no question about the scoring"
+      ]
+    },
+    {
+      "name": "2.8 the standing questions before the class's own",
+      "file": "sim/ending.mjs",
+      "expected": "the Host's debrief carries the spring",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Host's debrief carries the spring beside October, the class's own hooks first, and no question about the scoring"
+      ]
+    },
+    {
+      "name": "2.8 a hook begins \"the Springwright family\" on the projector",
+      "file": "sim/ending-story.mjs",
+      "expected": "the Host's debrief carries the spring",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Host's debrief carries the spring beside October, the class's own hooks first, and no question about the scoring"
+      ]
+    },
+    {
+      "name": "2.10 the product rounded, not the coin counted",
+      "file": "sim/ending.mjs",
+      "expected": "each award is a sum a student can follow",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "each award is a sum a student can follow, and the coin is counted in whole reales",
+        "the final number is written one way: the code, VISION.md, docs/MONEY_AND_GLORY.md and the Host's footer"
+      ]
+    },
+    {
+      "name": "2.10 the coin counted shown to a hundredth again",
+      "file": "sim/ending.mjs",
+      "expected": "each award is a sum a student can follow",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "each award is a sum a student can follow, and the coin is counted in whole reales"
+      ]
+    },
+    {
+      "name": "2.10 an award as a bare number",
+      "file": "sim/ending.mjs",
+      "expected": "each award is a sum a student can follow",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "each award is a sum a student can follow, and the coin is counted in whole reales"
+      ]
+    },
+    {
+      "name": "2.10 the multiplier read back from the rounded miles",
+      "file": "sim/ending.mjs",
+      "expected": "each award is a sum a student can follow",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "each award is a sum a student can follow, and the coin is counted in whole reales"
+      ]
+    },
+    {
+      "name": "2.10 an award saved before `times` counted once",
+      "file": "sim/ending.mjs",
+      "expected": "each award is a sum a student can follow",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "each award is a sum a student can follow, and the coin is counted in whole reales"
+      ]
+    },
+    {
+      "name": "2.10 the prisoners' step left out of the sentences",
+      "file": "sim/ending.mjs",
+      "expected": "each award is a sum a student can follow",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "each award is a sum a student can follow, and the coin is counted in whole reales"
+      ]
+    },
+    {
+      "name": "2.11 everybody with a part named",
+      "file": "sim/ending.mjs",
+      "expected": "nobody under 18 who died of a sickness",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "nobody under 18 who died of a sickness is named under \"Who went\" on the projector, and is counted instead"
+      ]
+    },
+    {
+      "name": "2.11 only under sixteen left out, as the class panel",
+      "file": "sim/ending.mjs",
+      "expected": "nobody under 18 who died of a sickness",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "nobody under 18 who died of a sickness is named under \"Who went\" on the projector, and is counted instead"
+      ]
+    },
+    {
+      "name": "2.11 the child left out and not counted",
+      "file": "sim/ending.mjs",
+      "expected": "nobody under 18 who died of a sickness",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "nobody under 18 who died of a sickness is named under \"Who went\" on the projector, and is counted instead"
+      ]
+    },
+    {
+      "name": "2.11 a death of wounds left out too",
+      "file": "sim/ending.mjs",
+      "expected": "nobody under 18 who died of a sickness",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "nobody under 18 who died of a sickness is named under \"Who went\" on the projector, and is counted instead"
+      ]
+    },
+    {
+      "name": "3.7 the Host's footer leaves out the prisoners' share again",
+      "file": "sim/ending.mjs",
+      "expected": "the final number is written one way",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the final number is written one way: the code, VISION.md, docs/MONEY_AND_GLORY.md and the Host's footer"
+      ]
+    },
+    {
+      "name": "3.7 the formula written without the floor on glory",
+      "file": "sim/ending.mjs",
+      "expected": "the final number is written one way",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the final number is written one way: the code, VISION.md, docs/MONEY_AND_GLORY.md and the Host's footer"
+      ]
+    },
+    {
+      "name": "3.7 VISION.md back to the formula of 2026-09-16",
+      "file": "VISION.md",
+      "expected": "the final number is written one way",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the final number is written one way: the code, VISION.md, docs/MONEY_AND_GLORY.md and the Host's footer"
+      ]
+    },
+    {
+      "name": "3.7 MONEY_AND_GLORY.md without the prisoners' weight",
+      "file": "docs/MONEY_AND_GLORY.md",
+      "expected": "the final number is written one way",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the final number is written one way: the code, VISION.md, docs/MONEY_AND_GLORY.md and the Host's footer"
+      ]
+    }
+  ]
+}

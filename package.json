@@ -34,6 +34,8 @@
     "test:family-twenty-injections": "node scripts/family-twenty-phone-injections.mjs",
     "test:army": "node scripts/army-browser-proof.mjs",
     "test:ending": "node scripts/ending-browser-proof.mjs",
+    "test:ending-spring": "node scripts/ending-spring-browser-proof.mjs",
+    "test:ending-debrief-injections": "node scripts/ending-debrief-injections.mjs",
     "test:flashback": "node scripts/flashback-browser-proof.mjs",
     "test:looks": "node scripts/looks-browser-proof.mjs",
     "test:looks-face": "node scripts/looks-face-proof.mjs",

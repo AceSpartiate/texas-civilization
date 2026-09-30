@@ -565,7 +565,7 @@ No "best patriot."
 
 This replaces the earlier rule **"No rankings."** The game now has a winner:
 
-- Each household's final outcome is **money × (1 + glory)**, with a household holding no coin counted as holding one real (owner, 2026-09-16), so glory always has something to multiply.
+- Each household's final outcome is **money × (1 + glory)**, with a household holding no coin counted as holding one real (owner, 2026-09-16), so glory always has something to multiply. In full, as the ending counts it (the owner's amendments of 2026-09-16, 2026-09-27 and 2026-09-28; `docs/MONEY_AND_GLORY.md` §5; `sim/ending.mjs` `FORMULA`): `final = round(max(coin, 1) × max(0, 1 − 1.5 × prisoners ÷ living people)) × (1 + max(glory, 0)) + land` - land promised for enlisting added after glory multiplies, and each person taken prisoner in the Runaway Scrape taking one and a half parts of the coin with them.
 - **Money** is visible throughout and must be used — traded or spent.
 - **Glory** is hidden from every student and from the Host until the ending. It is earned by taking part in major historical events of **every kind**, with fighting weighted above supporting. A casualty never earns extra.
 - At the ending each family sees its own money, its own glory and what earned each. The Host shows every family's numbers and **names the winner**, alongside the discussion hooks above.

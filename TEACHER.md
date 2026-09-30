@@ -73,16 +73,18 @@ with **How it ended**.
 
 - **Each student** sees their own family: its coin, its glory and its final number, **Our story** with questions about what their
   family did, where the coin came from and went, what earned glory, and what they did for their neighbours. Glory is hidden from
-  everybody, you included, until this moment.
-- **The Host** sees every family in one table (road miles from Gonzales, when it heard of the cannon, who went to the war,
-  prisoners, coin, glory, land, the final number), who finished first, and who helped whom. Put it on the projector.
+  everybody, you included, until this moment. Each award says how it was worked out (*Fighting counts 3 × 2 (23 road miles from
+  home) = 6 glory.*), and the final number is said step by step in whole numbers, so a student can check it.
+- **The Host** sees every family in one table (who went to the war, when it heard of the cannon and of the Alamo's fall, whether
+  it fled or stayed in the spring and where it was at the end, whether its farm burned, prisoners, coin, glory, land, the final
+  number), who finished first, how the final number is worked out, and who helped whom. Put it on the projector: a young person
+  who died of a sickness is never named on it.
 - **For the class** is the list of questions to talk through. The first ones come from this class's own game, and name real
   families: two families that heard the same news days apart, two neighbours who chose differently when told to leave, a family
-  that sent somebody to the war beside one that sent nobody. Then four that fit any class:
+  that sent somebody to the war beside one that sent nobody. Then three that fit any class:
   1. Which families heard the news first, and did hearing first change what they did?
-  2. How did living far from Gonzales change what a family could do?
+  2. Why did some families flee east in the spring and others stay, and what did each choice cost them?
   3. What did a family give up at home when somebody went, and what did staying home cost?
-  4. Why do the families with the most coin and the families with the most glory not always match?
 - **What nobody in Texas knew** closes it, once the class has lived February 23: why Béxar was caught unprepared.
 
 Ask *why* a family chose as it did, never who was right. Every family was invented, and [HISTORY.md](HISTORY.md) says, claim by

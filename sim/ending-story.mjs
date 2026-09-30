@@ -4,12 +4,14 @@
 //
 // - **S25, the flight said as it was.** Until now any family whose flight had ended at home read "They fled east in the spring,
 //   and came home to a burned farm" - whether the farm burned or not - and every other read "They were told to leave". Now:
-//   stayed or went, burned or standing, by whose hand, and home or still on the road when the class ended.
+//   stayed or went, burned or standing, by whose hand, and where the family was when the class ended: home, on the road home,
+//   camped at its refuge or still on the road east (triage 2026-09-29 2.9).
 // - **S27, the war's prisoners named.** Somebody taken at San Patricio, Agua Dulce or Goliad was never named at the ending (the
 //   Scrape's prisoners were). They are named now, with what the record says became of the men taken with them (`HIST-TEX-059`:
 //   the San Patricio and Agua Dulce prisoners went to Matamoros). They are not weighed: a casualty of the war never changes the
 //   number (sim/ending.mjs `PRISONER_WEIGHT`).
-// - **S24, a debrief from this class's own story.** The four fixed questions were all about October 1835. The class's own hooks
+// - **S24, a debrief from this class's own story.** The fixed questions were all about October 1835 (three of them are now the
+//   whole war's, and the one about the scoring is gone: triage 2026-09-29 2.8, sim/ending.mjs `DISCUSSION`). The class's own hooks
 //   come first now: the widest gap between two families in hearing the same news, two neighbours who chose differently when
 //   told to leave, and a family that sent somebody to the war beside one that sent nobody - named, and asked *why*, never who
 //   was right.
@@ -34,17 +36,41 @@ export function flightLine(world, household) {
       ? `They were told to leave in the spring and stayed on the farm. On ${day(world, flight.burned)} ${burnedBy} burned it.`
       : 'They were told to leave in the spring and stayed on the farm. The Mexican army never came that way, and the house stands.';
   }
-  const went = `They fled east in the spring${refuge ? `, to ${refuge}` : ''}.`;
+  // A family still on the road had not reached its refuge: it was making for it.
+  const went = `They fled east in the spring${refuge ? `, ${flight.status === 'fled' ? 'making for' : 'to'} ${refuge}` : ''}.`;
   // Nobody answered the order in time, and the house burned as they went (sim/scrape.mjs `burnForSilence`, `FIC-GONZ-907`).
   const farm = burned && flight.burnedBy?.lapsed
     ? ` Nobody answered the order in time, and they left in a rush: ${burnedBy} burned the farm behind them, on ${day(world, flight.burned)}.`
     : burned
     ? ` While they were gone, ${burnedBy} burned the farm, on ${day(world, flight.burned)}.`
     : ' The farm they left was never burned.';
+  // Where the family was when the class ended, by its own status (triage 2026-09-29 2.9): until this every family not yet home
+  // read "on the road home", a family still going east and one camped at a refuge as much as one turned for home.
   const end = flight.status === 'home'
     ? burned ? ' They came home to the ashes.' : ' They came home to the house standing.'
-    : ' When the class ended they were on the road home.';
+    : flight.status === 'returning' ? ' When the class ended they were on the road home.'
+    : flight.status === 'refuged' ? ` When the class ended they were camped at ${refuge || 'a refuge to the east'}.`
+    : ' When the class ended they were still on the road east.';
   return `${went}${farm}${end}`;
+}
+
+/**
+ * The spring in the Host's table, a few words a column (triage 2026-09-29 2.8): fled or stayed and where the family was at the
+ * end, and whether the farm burned. `null` for a class that never reached the order to leave, so the page shows a dash.
+ */
+export function springWords(world, household) {
+  const flight = household.flight;
+  if (!flight) return Object.values(world.households).some(one => one.flight) ? { spring: 'Not told to leave', farm: 'Standing' } : null;
+  const refuge = flight.refuge ? world.map.sites[flight.refuge]?.name : null;
+  const spring = {
+    ordered: 'Told to leave; had not decided',
+    stayed: 'Stayed',
+    fled: 'Fled; still on the road east',
+    refuged: `Fled; camped at ${refuge || 'a refuge'}`,
+    returning: 'Fled; on the road home',
+    home: 'Fled; home again',
+  }[flight.status] || flight.status;
+  return { spring, farm: Number.isFinite(flight.burned) ? `Burned ${day(world, flight.burned)}` : 'Standing' };
 }
 
 /** The line for a family that sent nobody: it stayed with the land, or - in the spring - did not. */
@@ -115,5 +141,7 @@ export function classHooks(world) {
   const sent = families.filter(household => Object.keys(world.glory?.[household.id]?.awards || {}).some(key => /^(gonzales|gathering|concepcion|grass-fight|bexar-storming|enlistment|alamo|san-patricio|agua-dulce|coleto|goliad|san-jacinto|houston-camp):/.test(key)));
   const none = families.filter(household => !sent.includes(household));
   if (sent.length && none.length) hooks.push(`${householdName(world, sent[0])} sent somebody to the war; ${householdName(world, none[0])} sent nobody. How did that choice change what happened at home?`);
-  return hooks;
+  // A family's name can begin "the Springwright family": a question on the projector begins with a capital (found by
+  // npm run test:ending-spring, 2026-09-29).
+  return hooks.map(hook => hook.charAt(0).toUpperCase() + hook.slice(1));
 }

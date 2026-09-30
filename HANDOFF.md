@@ -1,5 +1,53 @@
 # Claude handoff — Astra foundation
 
+## The ending as the whole war, in sums a student can follow — triage 2.8–2.11, 3.6, 3.7 (not released)
+
+Branch `tier2-ending` off origin/main 80842f72; not pushed. The items of docs/audits/2026-09-29-triage.md that needed no owner
+decision, all in the ending (sim/ending.mjs, sim/ending-story.mjs, public/ending.js; docs/MONEY_AND_GLORY.md §7.1 has the whole).
+
+- **2.8 The debrief is the whole war's.** The Host's table: *Family, Who went, Heard of the cannon, Heard the Alamo fell, In the
+  spring, Farm, Taken prisoner, Coin, Glory, Land, Final* - "Road miles from Gonzales" out (still in each family's story), the
+  spring's choice and where the family was at the end (`springWords`), the farm burned or standing. The scoring question is
+  gone; the second standing question is now why some fled and others stayed. The class's own hooks still come first, and now
+  begin with a capital ("the Springwright family heard ..." was on the projector; found by the new proof).
+- **2.9** `flightLine`: `fled` "still on the road east" (fled *making for* its refuge), `refuged` "camped at X", only `returning`
+  "on the road home".
+- **2.10** Each award is its own sum (`worthLine`: *Fighting counts 3 × 2 (23 road miles from home) = 6 glory.*; an award taken
+  away says so), under one sentence built from `GLORY_WEIGHT`; the award keeps the multiplier it was given (`times`, sim/glory.mjs;
+  an older save's is read from its miles, no save version). The sum is said in sentences (`sumSaid`). **The coin counted is a
+  whole real, rounded before glory multiplies it** (`coinCounted`), so the sum shown is the number: this moves only a family with
+  somebody taken prisoner, by less than half of one plus its glory (it was "counted as 8.33 reales" and a product rounded after).
+- **2.11** "Who went" leaves out anybody under 18 dead of a sickness (`UNNAMED_UNDER`, wider than the class panel's sixteen) and
+  counts them: *a child of the family*. A death of wounds is named.
+- **3.6** A family with no award reads "No award was earned."
+- **3.7** One formula, `FORMULA` in sim/ending.mjs: `final = round(max(coin, 1) × max(0, 1 − 1.5 × prisoners ÷ living people)) ×
+  (1 + max(glory, 0)) + land`, the same line in VISION.md §20 and MONEY_AND_GLORY.md §5 and §7.1, and the Host's footer sent by the
+  server in words (`FORMULA_WORDS`, prisoners' share and all).
+
+**Evidence** (same computer only; no Chromebook or LAN claim):
+
+- `tests/ending-debrief.test.mjs`, 5 tests; **`npm run test:ending-debrief-injections`: 22 of 22 caught by the test written for them**
+  (21 by it alone; rounding the product again is also, rightly, caught by the formula test)
+  ([record](docs/evidence/ending-debrief-injections.json)). The test reads the written formula as arithmetic and checks it
+  against `finalNumber`.
+- **`npm run test:ending-spring`** (new): a class of five played headless to April, in headless Chrome - the Host's columns and
+  cells are the server's, the questions, the footer, nobody under 18 dead of sickness under "Who went", each award's line, the
+  sum in sentences, the spring as it was, "No award was earned." 9 checks. **The page's own regressions, injected one at a time
+  into public/ending.js, 5 of 5 caught** (the October line, the old columns, the old footer, a bare number, no sentences)
+  (`node scripts/ending-spring-page-injections.mjs`, [record](docs/evidence/ending-spring-page-injections.json)). In its class hh-2 ended still on the road east, the other four on
+  the road home; nobody under 18 died of sickness, so 2.11 is proved in process only.
+  Pictures: `docs/evidence/ending-spring-host.png` (the table), `ending-spring-host-questions.png` (footer and questions),
+  `ending-spring-family.png` (numbers, sum, story), `ending-spring-family-awards.png`, `ending-spring-no-awards.png`.
+- `npm test`: **1803 tests, 1767 pass, 0 fail, 36 skipped** (the suspended tutorial). A first run failed two: `class-days`, since
+  TEACHER.md carries the debrief questions word for word (TEACHER.md's debrief now says the new table, questions and sums), and
+  the known-flaky `save-retry`, which passed on its own and in the second full run.
+- Browser proofs, two at a time: `test:ending` 10 checks, `test:flashback` 11, `test:host-live` 11, `test:ending-spring` 9,
+  `test:overlap` 177 screens in 33 states, 0 faults (its first run, beside `npm test`, had one fault on the lone parent's scenes -
+  the family's row 2 and the ability bar, 21x26 px at 1024x600 - nothing of the ending; it did not recur).
+- One existing test changed for the rounding: `tests/ending.test.mjs`'s prisoners case now rounds the coin counted before glory.
+- Left as they were: the family's story still opens with its road miles from Gonzales and the cannon's news; the Host's eleven
+  columns wrap the spring's words in the ending's panel; the final table at phone width was not measured.
+
 ## Released as v2026.09.29.3 — 2026-09-29
 
 The rider who leaves in time for the question behind him (owner, "Rider leaves at dawn"), marked *(released in v2026.09.29.3)* below, and `test:family-commands` putting the rider’s card away only if it can. Verified on a clean tree at 9152f743: `npm test` 1798 tests, 1762 pass, 0 fail, 36 skipped; `test:one-rider`, `test:battle-gonzales`, `test:relay`, `test:slice`, `test:tips`, `test:solo-game`, `test:ending`, `test:whole-game` green; `test:information` green on one of two solo reruns (its known one-tick race with the courier at the gate); `test:family-commands` green twice after the fix at d9a8ac1f. Tagged at d9a8ac1f. Same computer only; no Chromebook or LAN claim.

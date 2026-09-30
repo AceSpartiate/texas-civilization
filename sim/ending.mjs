@@ -18,6 +18,7 @@
  * forbids by name (§5, gate *No virtue labels*). The same test searches every string here for them.
  */
 import { findPath } from './geography.mjs';
+import { GLORY_MILES_STEP, GLORY_WEIGHT, distanceMultiplier } from './glory.mjs';
 import { automatic } from './neighbours.mjs';
 import { householdName } from './family.mjs';
 import { dateOf } from './directors.mjs';
@@ -25,7 +26,7 @@ import { canContinue, interimStandings, nextPeriodLabel } from './periods.mjs';
 import { landPromised } from './winter.mjs';
 import { surpriseReveal } from './surprise.mjs';
 // The spring said as it was, the war's prisoners named, and a debrief from the class's own story (sim/ending-story.mjs).
-import { classHooks, familyQuestions, flightLine, nobodyWentLine, warPrisoners } from './ending-story.mjs';
+import { classHooks, familyQuestions, flightLine, nobodyWentLine, springWords, warPrisoners } from './ending-story.mjs';
 // What families did for each other (sim/neighbourly.mjs, owner 2026-09-28: "helping is recorded in the ending").
 import { helpWhat, helpedLines, neighbourLines } from './neighbourly.mjs';
 
@@ -45,8 +46,13 @@ export const countedCoin = money => Math.max(COIN_FLOOR, money);
 // Land promised for enlisting is added after glory multiplies the coin, never multiplied by it (owner, 2026-09-16,
 // docs/COLONIES.md §7e): a family that never fought can still, rarely, finish first by what it sold.
 // People taken prisoner in the Runaway Scrape take their part of the coin with them (owner, 2026-09-27, below): `kept` is the
-// share of the coin still counted, 1 when nobody was taken, and the number is then a whole one.
-export const finalNumber = (money, glory, land = 0, kept = 1) => Math.round(countedCoin(money) * kept * (1 + Math.max(0, glory))) + land;
+// share of the coin still counted, 1 when nobody was taken.
+// The coin counted is rounded to a whole real **before** glory multiplies it (triage 2026-09-29 2.10, design audit S26): a family
+// shown "counted as 8.33 reales" could not follow its own sum, and a sum shown in whole reales has to be the sum worked, so the
+// final number is that sum. Until then the product was rounded, which moved a family with prisoners by less than half its glory.
+// Nothing changes for a family nobody took: its coin is already whole.
+export const coinCounted = (money, kept = 1) => Math.max(0, Math.round(countedCoin(money) * kept));
+export const finalNumber = (money, glory, land = 0, kept = 1) => coinCounted(money, kept) * (1 + Math.max(0, glory)) + land;
 
 /**
  * People taken prisoner in the Runaway Scrape, weighed against the family (owner, 2026-09-27, by multiple choice over
@@ -69,6 +75,19 @@ export const finalNumber = (money, glory, land = 0, kept = 1) => Math.round(coun
 export const PRISONER_WEIGHT = 1.5;
 /** The rule in the words both screens show it in. */
 export const PRISONER_RULE = `Each person taken prisoner at home or on the road east in the spring takes ${PRISONER_WEIGHT === 1 ? 'their part' : `${PRISONER_WEIGHT} times their part`} of the family's coin out of the count, a part being one share among the family's living people.`;
+/**
+ * The formula, written one way (triage 2026-09-29 3.7, design audit M21): VISION.md §20, docs/MONEY_AND_GLORY.md §5 and §7.1
+ * and the Host's footer all carry this line, and tests/ending.test.mjs holds the two documents to it - so a change to
+ * `PRISONER_WEIGHT` or to `finalNumber` that is not written into them fails there.
+ */
+export const FORMULA = `final = round(max(coin, 1) × max(0, 1 − ${PRISONER_WEIGHT} × prisoners ÷ living people)) × (1 + max(glory, 0)) + land`;
+/** The same formula in the Host's words, under the table. */
+export const FORMULA_WORDS = [
+  `Final number = coin counted × (1 + glory) + land.`,
+  `Coin counted: the coin in the house, a family with none counted as having 1 real, less ${PRISONER_WEIGHT} parts for each person taken prisoner in the spring out of one part for each of the family's living people, rounded to a whole real.`,
+  'Glory below nothing counts as nothing.',
+  'Land promised for enlisting counts a real for every 20 acres, if the person is alive and served it out or is serving still; being sent for home forfeits it.',
+].join(' ');
 const GONE_FOR_GOOD = 'dead';
 /** The family's people taken prisoner in the Scrape: at home (where they were taken) or on the road east (moved to the column). */
 export function scrapePrisoners(world, household) {
@@ -133,6 +152,48 @@ const PART_WORDS = Object.freeze({
   helped: 'helped',
   sheltered: 'took in the children of',
 });
+/**
+ * Each part as the worth line names it (triage 2026-09-29 2.10): "Fighting counts 3 × 2 (23 road miles from home) = 6 glory."
+ * Unknown parts are "Taking part".
+ */
+const PART_NAMES = Object.freeze({
+  supplied: 'Carrying supplies',
+  present: 'Being there',
+  fought: 'Fighting',
+  willing: 'Saying they would go in',
+  enlisted: 'Enlisting',
+  voted: 'Voting',
+  served: 'The camp\'s work',
+  forward: 'Calling for the enemy\'s road',
+  helped: 'Helping another family',
+  sheltered: 'Taking in children',
+});
+/**
+ * One award as a sum a student can follow: the part's weight times the miles' multiplier, and what it came to. An award taken
+ * away (a woman sent to fight who did not come through, a man who ran, a family overtaken on the road, a deserter) says so, and
+ * its note says why. `times` is the multiplier the award was given with (sim/glory.mjs); an award saved before it is read from
+ * the miles.
+ */
+export function worthLine(award) {
+  const weight = GLORY_WEIGHT[award.role];
+  if (!weight) return `Counted as ${award.points} glory.`;
+  const times = award.times ?? distanceMultiplier(award.miles);
+  const earned = weight * times;
+  const where = award.miles >= 1 ? `${Math.round(award.miles)} road miles from home` : 'close to home';
+  const sum = `${PART_NAMES[award.role] || 'Taking part'} counts ${weight} × ${times} (${where}) = ${earned}`;
+  if (award.points === earned) return `${sum} glory.`;
+  if (award.points === -2 * earned) return `${sum}, taken away twice over: ${award.points} glory.`;
+  if (award.points === -earned) return `${sum}, taken away: ${award.points} glory.`;
+  return `${sum}, counted as ${award.points} glory.`;
+}
+/** How a part is weighed, in one sentence built from the weights themselves, said once above the awards. */
+export function gloryRule() {
+  const by = new Map();
+  for (const [role, weight] of Object.entries(GLORY_WEIGHT)) by.set(weight, [...(by.get(weight) || []), PART_NAMES[role].toLowerCase()]);
+  const list = words => words.length > 1 ? `${words.slice(0, -1).join(', ')} or ${words.at(-1)}` : words[0];
+  const parts = [...by.entries()].sort((a, b) => b[0] - a[0]).map(([weight, words]) => `${list(words)} ${weight}`).join('; ');
+  return `Each part a person took counts: ${parts}. Every ${GLORY_MILES_STEP} road miles the family lived from where it happened counts it once more.`;
+}
 /** The parts that are help to another family (sim/deeds.mjs `HELP_ROLE`), kept out of who went to the war. */
 const HELP_PARTS = Object.freeze(['helped', 'sheltered']);
 
@@ -172,6 +233,21 @@ function partsTaken(world, household) {
 }
 
 /**
+ * The final number said a step at a time, in whole numbers a student can check (triage 2026-09-29 2.10): the coin, what the
+ * prisoners took from it, glory multiplying it, and the land added.
+ */
+function sumSentences({ money, glory, final, counted, living, taken, lostParts, land }) {
+  const said = [money < COIN_FLOOR ? `The family had no coin, so it is counted as having ${reales(COIN_FLOOR)}.` : `The family had ${reales(money)}.`];
+  if (taken) said.push(`${taken === 1 ? 'The one person' : `The ${taken} people`} taken prisoner take${taken === 1 ? 's' : ''} ${lostParts} of the family's ${living} parts, so ${reales(counted)} ${counted === 1 ? 'is' : 'are'} counted.`);
+  const product = counted * (1 + Math.max(0, glory));
+  said.push(glory > 0
+    ? `${glory} glory multiplies it by ${1 + glory} (1 + ${glory}): ${counted} × ${1 + glory} = ${product}.`
+    : `${glory < 0 ? 'Glory below nothing counts as nothing' : 'With no glory'}, the coin counts once: ${product}.`);
+  if (land.reales) said.push(`The land promised, ${land.acres} acres, adds ${reales(land.reales)}: ${product} + ${land.reales} = ${final}.`);
+  return said.join(' ');
+}
+
+/**
  * One family's reckoning: the numbers, and the story of each.
  *
  * Coin is what is in the house at the end (§3, *What counts as money*): goods, crops and land are
@@ -197,7 +273,7 @@ export function familyEnding(world, householdId) {
       const name = world.entities[award.personId]?.name || 'Somebody';
       const what = helpWhat(world, award.event) || EVENT_NAMES[award.event] || award.event;
       const far = award.miles >= 1 ? `, ${Math.round(award.miles)} road miles from home` : '';
-      return { date: day(world, award.minute), points: award.points, role: award.role, text: `${name} ${PART_WORDS[award.role] || 'took part in'} ${what}${far}.${award.note ? ` ${award.note}` : ''}` };
+      return { date: day(world, award.minute), points: award.points, role: award.role, text: `${name} ${PART_WORDS[award.role] || 'took part in'} ${what}${far}.${award.note ? ` ${award.note}` : ''}`, worth: worthLine(award) };
     });
   const miles = milesFromGonzales(world, household);
   const heard = firstWord(world, household);
@@ -218,7 +294,8 @@ export function familyEnding(world, householdId) {
   // The coin as it is counted: the floor of one real, then the prisoners' parts taken out of it, each step said.
   const floored = money < COIN_FLOOR ? `${reales(money)}, counted as ${reales(COIN_FLOOR)}` : reales(money);
   const living = livingOf(world, household);
-  const counted = Math.round(countedCoin(money) * kept * 100) / 100;
+  // A whole real (triage 2026-09-29 2.10): the coin counted is the coin the sum multiplies (`coinCounted`).
+  const counted = coinCounted(money, kept);
   const lostParts = Math.round(PRISONER_WEIGHT * taken.length * 100) / 100;
   const coinWords = taken.length
     ? `${floored}, less ${lostParts} of ${living} parts for the ${taken.length === 1 ? 'one' : taken.length} taken prisoner, counted as ${reales(counted)}`
@@ -229,6 +306,9 @@ export function familyEnding(world, householdId) {
     money, glory, final, land: land.reales, acres: land.acres,
     counted, kept, prisoners, ...(prisoners.length && { prisonerRule: PRISONER_RULE }),
     sum: `${coinWords} × (1 + ${glory < 0 ? `${glory} glory, counted as 0` : `${glory} glory`})${land.reales ? ` + ${reales(land.reales)} of land (${land.acres} acres promised)` : ''} = ${final}`,
+    // The sum said in sentences, one step each, for a student to follow (triage 2026-09-29 2.10).
+    sumSaid: sumSentences({ money, glory, final, counted, living, taken: taken.length, lostParts, land }),
+    gloryRule: gloryRule(),
     story, coin, awards,
     // Questions for the family about its own story (S24), shown under it.
     questions: familyQuestions(world, household),
@@ -244,13 +324,23 @@ export function familyEnding(world, householdId) {
 /**
  * Questions for the class, beside the numbers (§5, *What the Host shows*). The numbers are the way
  * into the conversation, not the end of it, so these ask *why* and never *who was right*.
+ *
+ * The whole war's, not October's (triage 2026-09-29 2.8, design audit S24): the question about living far from Gonzales is now
+ * the spring's choice to flee or stay, and the one about why coin and glory do not match - a question about the scoring, not
+ * the history - is gone. They follow the class's own named hooks (sim/ending-story.mjs `classHooks`).
  */
 export const DISCUSSION = Object.freeze([
   'Which families heard the news first, and did hearing first change what they did?',
-  'How did living far from Gonzales change what a family could do?',
+  'Why did some families flee east in the spring and others stay, and what did each choice cost them?',
   'What did a family give up at home when somebody went, and what did staying home cost?',
-  'Why do the families with the most coin and the families with the most glory not always match?',
 ]);
+
+/** Sickness, never named as a young person's death on the projector: the age below which it is left out of "Who went". */
+// The disease rule (docs/DISEASE.md §4 and §9.1 step 7, owner 2026-09-27) names a child; the triage (2026-09-29 2.11) asked for
+// anybody under 18 here, wider than the class panel's sixteen (sim/disease.mjs `diedAChild`): the design audit (M23) found it for
+// the ten- to seventeen-year-olds a family can send (`SENT_FROM_AGE`, sim/family.mjs), and "Who went" is the war's list.
+export const UNNAMED_UNDER = 18;
+const unnamedOnProjector = person => person?.health?.condition === 'dead' && Boolean(person.health.disease) && (Number.isFinite(person.age) ? person.age : 30) < UNNAMED_UNDER;
 
 /**
  * The Host's closing view: every family, in household order, with its three numbers and the facts
@@ -285,7 +375,12 @@ export function hostEnding(world) {
       ...(nobodyLeft(world, household) && { wiped: true }),
       miles: milesFromGonzales(world, household),
       heard: firstWord(world, household)?.date || null,
-      went: [...new Set(parts.map(part => part.name))],
+      // The spring beside October (triage 2026-09-29 2.8): when the family heard the Alamo had fallen, fled or stayed and where
+      // it was at the end, and whether the farm burned. `null` where the class never got that far.
+      heardAlamo: heardAlamo(world, household),
+      spring: springWords(world, household)?.spring ?? null,
+      farm: springWords(world, household)?.farm ?? null,
+      went: whoWent(world, parts),
     };
   });
   // A family with nobody living cannot finish first (2026-09-28): a lone father killed at the Alamo was named the class's winner
@@ -298,7 +393,26 @@ export function hostEnding(world) {
   // Who helped whom across the class, one line a pair, in plain words (sim/neighbourly.mjs `helpedLines`).
   const helped = helpedLines(world).map(line => line.text);
   // The class's own hooks first (S24, sim/ending-story.mjs), then the standing questions.
-  return { families, winners, best, discussion: [...classHooks(world), ...DISCUSSION], prisonerRule: PRISONER_RULE, helped, ...(reveal && { reveal }) };
+  return { families, winners, best, discussion: [...classHooks(world), ...DISCUSSION], prisonerRule: PRISONER_RULE, formula: FORMULA, formulaWords: FORMULA_WORDS, helped, ...(reveal && { reveal }) };
+}
+
+/**
+ * The names under "Who went" on the projector: everybody with a part, but never somebody under `UNNAMED_UNDER` who died of a
+ * sickness (triage 2026-09-29 2.11, docs/DISEASE.md §4) - counted instead, as the class panel counts them ("a child of the family").
+ */
+function whoWent(world, parts) {
+  const ids = [...new Set(parts.map(part => part.personId))];
+  const named = ids.filter(id => !unnamedOnProjector(world.entities[id]));
+  const unnamed = ids.length - named.length;
+  const names = [...new Set(named.map(id => parts.find(part => part.personId === id).name))];
+  return unnamed ? [...names, unnamed === 1 ? 'a child of the family' : `${unnamed} children of the family`] : names;
+}
+
+/** The day the family heard the Alamo had fallen; 'never' once it had fallen and word never came; null before it fell. */
+function heardAlamo(world, household) {
+  const report = world.knowledge?.households?.[household.id]?.['alamo-fall'];
+  if (report) return day(world, report.receivedMinute);
+  return world.truth?.['alamo-fall'] ? 'never' : null;
 }
 
 /**

@@ -295,6 +295,18 @@ the army finished the first period at 15-173 with no coin; families that stayed 
 final = max(money, 1) × (1 − prisoners ÷ living people) × (1 + glory) + land
 ```
 
+**The formula as the ending counts it today** - the one line `VISION.md` §20, §7.1 below, the Host's footer and
+`sim/ending.mjs` (`FORMULA`, `finalNumber`) all carry, held together by `tests/ending-debrief.test.mjs` (triage 2026-09-29 3.7):
+
+```
+final = round(max(coin, 1) × max(0, 1 − 1.5 × prisoners ÷ living people)) × (1 + max(glory, 0)) + land
+```
+
+The weight of one and a half is the owner's of 2026-09-28 (below); glory below nothing counts as nothing (§2); and the coin
+counted is rounded to a whole real **before** glory multiplies it (2026-09-29, triage 2.10), so the sum each family is shown in
+whole reales is the sum that makes its number. Until then the product was rounded, and a family was shown "counted as 8.33
+reales"; the change moves only a family with somebody taken prisoner, and by less than half of one plus its glory.
+
 Everybody of the family taken prisoner in the Runaway Scrape - at home when the Mexican army came, or on the road east when a
 column overtook the family - is named in its reckoning and takes their part of the coin out of the count, a part being one share
 among the family's living people (`PRISONER_WEIGHT`, `sim/ending.mjs`, `FIC-GONZ-710`). The weight was chosen by measurement:
@@ -404,7 +416,7 @@ Bounded steps, each shippable and provable alone, in order. This mirrors
 
 **A family sees** its coin, its glory and its final number; the multiplication written out (`5 reales × (1 + 16 glory) = 85`, or with no coin `0 reales, counted as 1 real × (1 + 16 glory) = 17`); a short story — how many road miles it lived from Gonzales, the day word of the cannon reached it, and, if nobody went, that they stayed with the land; every sale, payment and trade that moved coin, dated, with the amount; and every award, dated, as a sentence (*Cipriano was there for the army made at Gonzales, 115 road miles from home.*). It sees nobody else's numbers. It can close the ending to look at the map and open it again.
 
-**The Host sees** every family in household order — never sorted — with road miles from Gonzales, the day it heard, who went, coin, glory and final number; the family that finished first named in a sentence, and highlighted; *Final number = coin × (1 + glory). A family with no coin is counted as having 1 real.*; and four questions for the class. A tie names every family level on the highest number. A family nobody played is shown with its numbers and marked, and is never named first (owner, 2026-09-14).
+**The Host sees** every family in household order — never sorted — with road miles from Gonzales, the day it heard, who went, coin, glory and final number; the family that finished first named in a sentence, and highlighted; *Final number = coin × (1 + glory). A family with no coin is counted as having 1 real.*; and four questions for the class. *(As first built. Since 2026-09-29 the columns are the whole war's and the footer is the whole formula, `final = round(max(coin, 1) × max(0, 1 − 1.5 × prisoners ÷ living people)) × (1 + max(glory, 0)) + land`, in words: see "The ending as the whole war, in sums a student can follow" below.)* A tie names every family level on the highest number. A family nobody played is shown with its numbers and marked, and is never named first (owner, 2026-09-14).
 
 **Where coin went.** Every event that moves coin now carries `coin` (a signed whole number): a sale at the store, a payment in town (a new event, *X paid 2 reales in town.*, since paying had no line of its own), and each side of a trade. Nothing projected changes shape; the field is read only by the ending. A class saved before this has untagged events and shows fewer lines, never a wrong number: the number is the coin in the house.
 
@@ -423,6 +435,39 @@ family `interimFamily` - the coin it holds and the land it has been promised, no
 every family's coin and land in household order, a family nobody played marked, nobody named or marked first. No `glory`,
 `final`, `sum`, `awards`, `winners` or `best` is on the wire, nor the ending's story, and the word itself is on neither page (`tests/periods.test.mjs` for both interims, `npm run test:ending` on both
 pages; injections in `scripts/design-blockers-injections.mjs`). Only the end of the last period reveals glory.
+
+**The ending as the whole war, in sums a student can follow (2026-09-29, not released; triage of 2026-09-29 2.8-2.11, 3.6,
+3.7).** No owner decision was needed; nothing about who wins changed except the rounding below.
+
+- **The Host's table is the whole war's** (2.8): *Family, Who went, Heard of the cannon, Heard the Alamo fell, In the spring,
+  Farm, Taken prisoner, Coin, Glory, Land, Final*. "Road miles from Gonzales" is gone from it (it is still the first line of
+  each family's own story). *In the spring* is fled or stayed and where the family was at the end - *Stayed*, *Fled; still on
+  the road east*, *Fled; camped at Harrisburg*, *Fled; on the road home*, *Fled; home again*, *Not told to leave* - and *Farm*
+  is *Burned April 7* or *Standing* (`springWords`, sim/ending-story.mjs); a class that never reached the spring shows dashes.
+  The standing questions are three: who heard first, **why some families fled and others stayed and what each choice cost**
+  (in place of living far from Gonzales), and what going cost at home. The fourth, why the most coin and the most glory do not
+  match, was about the scoring and is gone. The class's own named hooks still come first, and now begin with a capital.
+- **A family's own spring is said as it was at the end** (2.9): still on the road east (*making for* its refuge), camped at its
+  refuge, on the road home, or home.
+- **Each award is its own sum** (2.10): *Fighting counts 3 × 2 (23 road miles from home) = 6 glory.* (an award taken away says
+  *taken away twice over: -6 glory*), under one sentence built from `GLORY_WEIGHT` saying what each part counts and that every
+  15 road miles counts it once more. The award keeps the multiplier it was given with (`times`, sim/glory.mjs); one saved before
+  is read from its miles. Under the sum, the same sum in sentences (`sumSaid`): *The family had 21 reales. The one person taken
+  prisoner takes 1.5 of the family's 5 parts, so 15 reales are counted. 5 glory multiplies it by 6 (1 + 5): 15 × 6 = 90.* **The
+  coin counted is a whole real, rounded before glory multiplies it** (§5), so the sum shown is the sum that makes the number.
+- **"Who went" names nobody under 18 who died of a sickness** (2.11, docs/DISEASE.md §4): counted instead, *a child of the
+  family*. A death of wounds is named, as every other death is.
+- **A family with no award reads "No award was earned."** (3.6), not "the events of that October".
+- **The formula is written one way** (3.7): `sim/ending.mjs` `FORMULA`, VISION.md §20, §5 above and the Host's footer
+  (`FORMULA_WORDS`, sent by the server, prisoners' share and all), held together by `tests/ending-debrief.test.mjs`, which also
+  reads the written formula as arithmetic and checks it against `finalNumber`.
+
+Evidence: `tests/ending-debrief.test.mjs` (5 tests; `npm run test:ending-debrief-injections`, 22 of 22 regressions caught) and
+`npm run test:ending-spring` (a class played to April in headless Chrome: the Host's columns and footer, the family's award
+lines and sentences, "No award was earned."; the page's own regressions injected by hand, recorded in
+`docs/evidence/ending-spring-page-injections.json`). Pictures: `docs/evidence/ending-spring-host.png`,
+`ending-spring-host-questions.png`, `ending-spring-family.png`, `ending-spring-family-awards.png`, `ending-spring-no-awards.png`.
+Same computer only.
 
 ---
 

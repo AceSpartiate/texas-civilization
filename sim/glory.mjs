@@ -67,14 +67,17 @@ export function awardGlory(world, { event, claimId, personId, householdId, role,
   const miles = findPath(world.map, fromSiteId, household.homeSiteId)?.distance ?? 0;
   // `adjust` is the one rule that changes what a part is worth after the fact: a woman sent to fight who does not come
   // through (docs/MONEY_AND_GLORY.md §4, owner 2026-09-14), whose award is taken away twice over. It never adds.
-  const earned = weight * distanceMultiplier(miles);
+  const times = distanceMultiplier(miles);
+  const earned = weight * times;
   const points = adjust ? Math.min(earned, Math.round(adjust(earned))) : earned;
   const eventId = record(world, 'glory', {
     householdId, actorId: personId, visibility: 'sealed', importance: 1,
     classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-023', causes,
     text: `${world.entities[personId].name}: ${role} at ${event} (${claimId}), ${Math.round(miles)} road miles from home - ${points}.`,
   });
-  ledger.awards[key] = { event, claimId, personId, role, miles: Math.round(miles * 10) / 10, points, minute: world.minute, eventId, ...(note && { note }) };
+  // `times` is kept so the ending can say the sum as it was worked (triage 2026-09-29 2.10): `miles` is rounded to a tenth, and a
+  // multiplier read back from it could be one off at a fifteen-mile line. An award saved before has none and is read from `miles`.
+  ledger.awards[key] = { event, claimId, personId, role, miles: Math.round(miles * 10) / 10, times, points, minute: world.minute, eventId, ...(note && { note }) };
   ledger.total += points;
   return points;
 }

@@ -644,6 +644,8 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .ending-numbers dt{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#84714c}
 .ending-numbers dd{margin:0;font-size:26px;font-weight:600}
 .ending-sum{font-family:ui-monospace,Consolas,monospace;font-size:13px;color:#5a4a2e}
+.ending-said{font-size:14px;color:#4b3e28}
+.ending-awards .ending-worth{display:block;font-size:13px;color:#5a4a2e;margin:2px 0 4px}
 .ending-winner{font-size:17px;font-weight:600;margin:6px 0 10px}
 .ending-reveal{border-top:1px solid #c5b286;margin-top:14px;padding-top:4px}
 .ending-ask{font-style:italic;color:#5a4a2e}

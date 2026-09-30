@@ -1,0 +1,116 @@
+{
+ "at": "2026-09-30T03:07:27.350Z",
+ "flights": {
+  "hh-1": "returning",
+  "hh-2": "fled",
+  "hh-3": "returning",
+  "hh-4": "returning",
+  "hh-5": "returning"
+ },
+ "pass": [
+  "a class of five families was played headless to April in 11 s: {\"hh-1\":\"returning\",\"hh-2\":\"fled\",\"hh-3\":\"returning\",\"hh-4\":\"returning\",\"hh-5\":\"returning\"}",
+  "the Host's table has the spring beside October: the Springwright family: Fled; on the road home, farm Burned April 7, heard the Alamo March 14; Bartolo's family: Fled; still on the road east, farm Standing, heard the Alamo March 14; Anselmo's family: Fled; on the road home, farm Burned April 13, heard the Alamo March 14; Amos's family: Fled; on the road home, farm Standing, heard the Alamo March 14; Trinidad's family: Fled; on the road home, farm Burned March 15, heard the Alamo March 13",
+  "the questions for the class: 1 of the class's own first, then 3 standing ones, none about the scoring",
+  "the footer is the whole formula as the server counts it, prisoners' share and all; no \"Road miles from Gonzales\" and no virtue word",
+  "\"Who went\" names nobody under 18 who died of a sickness (0 such in this class): Hiram Springwright, Ignacio Springwright | Bartolo | Anselmo, Charity | Amos | Trinidad",
+  "the family sees 4 awards each with its own sum (\"Being there counts 2 × 7 (98 road miles from home) = 14 glory.\"), and its number said: \"The family had no coin, so it is counted as having 1 real. 78 glory multiplies it by 79 (1 + 78): 1 × 79 = 79.\"",
+  "its spring as it was: \"They fled east in the spring, to Liberty. While they were gone, foragers of Santa Anna’s column burned the farm, on April 7. When the class ended they were on the road home.\"",
+  "a family with no award reads \"No award was earned.\", not \"the events of that October\"",
+  "no page error on either page"
+ ],
+ "errors": [],
+ "shots": [
+  "docs/evidence/ending-spring-host.png",
+  "docs/evidence/ending-spring-host-questions.png",
+  "docs/evidence/ending-spring-family.png",
+  "docs/evidence/ending-spring-family-awards.png",
+  "docs/evidence/ending-spring-no-awards.png"
+ ],
+ "host": {
+  "discussion": [
+   "The Springwright family heard that soldiers had come for the cannon at Gonzales on October 3; Bartolo's family not until October 8. Why did the same news reach them so far apart, and what did each do in between?",
+   "Which families heard the news first, and did hearing first change what they did?",
+   "Why did some families flee east in the spring and others stay, and what did each choice cost them?",
+   "What did a family give up at home when somebody went, and what did staying home cost?"
+  ],
+  "families": [
+   {
+    "name": "the Springwright family",
+    "went": [
+     "Hiram Springwright",
+     "Ignacio Springwright"
+    ],
+    "heard": "October 3",
+    "heardAlamo": "March 14",
+    "spring": "Fled; on the road home",
+    "farm": "Burned April 7",
+    "prisoners": 0,
+    "money": 0,
+    "glory": 78,
+    "land": 0,
+    "final": 79
+   },
+   {
+    "name": "Bartolo's family",
+    "went": [
+     "Bartolo"
+    ],
+    "heard": "October 8",
+    "heardAlamo": "March 14",
+    "spring": "Fled; still on the road east",
+    "farm": "Standing",
+    "prisoners": 0,
+    "money": 43,
+    "glory": 234,
+    "land": 40,
+    "final": 10145
+   },
+   {
+    "name": "Anselmo's family",
+    "went": [
+     "Anselmo",
+     "Charity"
+    ],
+    "heard": "October 1",
+    "heardAlamo": "March 14",
+    "spring": "Fled; on the road home",
+    "farm": "Burned April 13",
+    "prisoners": 0,
+    "money": 240,
+    "glory": 27,
+    "land": 0,
+    "final": 6720
+   },
+   {
+    "name": "Amos's family",
+    "went": [
+     "Amos"
+    ],
+    "heard": "October 2",
+    "heardAlamo": "March 14",
+    "spring": "Fled; on the road home",
+    "farm": "Standing",
+    "prisoners": 0,
+    "money": 40,
+    "glory": 45,
+    "land": 0,
+    "final": 1840
+   },
+   {
+    "name": "Trinidad's family",
+    "went": [
+     "Trinidad"
+    ],
+    "heard": "September 29",
+    "heardAlamo": "March 13",
+    "spring": "Fled; on the road home",
+    "farm": "Burned March 15",
+    "prisoners": 0,
+    "money": 15,
+    "glory": 47,
+    "land": 0,
+    "final": 720
+   }
+  ]
+ }
+}
