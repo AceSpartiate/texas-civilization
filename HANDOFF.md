@@ -1,5 +1,50 @@
 # Claude handoff — Astra foundation
 
+## The Runaway Scrape's own choices: household goods in the load, leaving early on real news, foragers who take a stayer's goods — triage D9, owner 2026-09-29 (not released)
+
+Branch `owner-scrape` off local `integration-2026-09-28` 4131feb8; not pushed. The owner chose the recommended option of each of
+D9's three questions (docs/audits/2026-09-29-triage.md D9; the design audit's S16, S17, S18). Written up as owner-decided in
+docs/SCRAPE.md §18-§20; claims `FIC-GONZ-990` to `-992` (HISTORY.md, with `HIST-TEX-640` checked again). **Same computer only:
+no Chromebook, LAN or classroom claim.**
+
+- **(a) "Add household goods"** (sim/flight-goods.mjs, §18). The load east holds the tools a family owns (hoe 0.5, felling axe 1,
+  broadaxe 0.5, froe 0.25, auger 0.25) and the chest (4) and spinning wheel (3) it brought, beside the stores (food 0.25; a wagon
+  holds 20, a person on foot 1.25). Only what the family has is on the card, each with its room; food is still packed first, then
+  the tools, then the chest and the wheel. Carried goods come home (a journal line, the flashback); left ones lie in the house
+  (`flight.left`), found at a standing house, burned with a burned one (journal, flashback, ending). The mud keeps what the backs
+  cannot carry and a column takes all of it; the hiding takes the tools, the chest and the wheel after the powder and seed. The
+  rifle is not in the load. Not scored (the owner chose A, not C).
+- **(b) "Yes, on real news"** (sim/early-word.mjs, §19). A family with no order that has itself heard - `unconfirmed` or better,
+  never a rumour, from its own knowledge only - of the Alamo's fall, Fannin's defeat, Santa Anna over the Brazos, a column come to a
+  place or a town burned is told once in its journal and gets the order's card early (`early` beside the flight it has not got),
+  with *"Leave now, before the order"* asked twice (*"Confirm: leave now, and lose the crop"*). Hiding, bundles and the milk cow are
+  offered on the same news (their marks on `household.readying` until the flight). **Leaving early costs the crop in the field**
+  (lost, the field bare), the house is left empty, and there is no day of grace before the foragers. Before the news: *"Nobody has
+  told the family to leave, and it has heard nothing yet to make it go: no word of the Alamo's fall, or of the Mexican army coming
+  on. It waits for the order, or for the news."* Only a student's choice; families nobody plays wait for the order (`ceiling:`).
+  Research: families did leave on the news (TSHA, Harris), but the Roses' corn survived their flight; the crop's loss is the game's.
+- **(c) "Foragers take goods"** (sim/scrape.mjs `burnByForagers`, §20). Foragers who reach a farm where the family stayed take
+  every store and household good before they burn it - not the coin, not the herd; who is taken at home is unchanged (D1). Told in
+  the journal when the family learns of the burning and in the ending; until then its page shows the goods as they were.
+- **Also changed.** The flight card no longer rebuilds when the food in the house ticks down (it threw away the student's load and
+  a Leave pressed once, found by the proof); counts and each box's most update in place. A route of its own may be set by a family
+  leaving with no order (sim/flight-route.mjs). The foragers reach an early leaver's empty house at their own minute
+  (sim/advance.mjs `burnMinute`).
+- **No save version moved.** `readying`, `flight.early`, `burnedBy.taken`, `unseen.taken` and goods in `flight.left` are absent on
+  every class saved before, which is a family that did none of it. A family that left before this keeps its tools as carried.
+- **Tests.** New `tests/owner-scrape.test.mjs` (8); `tests/scrape.test.mjs` and `tests/flight-work.test.mjs` updated for the new
+  rules. **Every new test failed under an injection first: 25 of 25** (`npm run test:owner-scrape-injections`,
+  [record](docs/evidence/owner-scrape-injections.json)). `npm test`: **1,883 tests, 1,846 pass, 1 fail, 36 skipped** - the one failure is `tests/battle-bexar.test.mjs` *killed: he falls at his staged moment* (*"the word of the victory never reached his family"*), which fails the same way on 4131feb8 before this branch.
+- **Proofs** (headless Chrome, one or two at a time). New `npm run test:owner-scrape` (6 checks; [record](docs/evidence/owner-scrape-browser.json);
+  screenshots `docs/evidence/owner-scrape-early-card.png`, `-early-load.png`, `-early-road.png`): a San Felipe family with no news
+  has no card and no hiding; the express brings the Alamo's fall and the card opens early; the hiding is done before any order; the
+  family leaves with the chest and the hoe, the corn lost, the axe and wheel hidden. Run two at a time on this tree: `test:scrape` 7, `test:scrape-pursuit` 15, `test:road` 7, `test:wagons` 4, `test:errand` 16, `test:ending` 10, `test:flashback` 11, `test:whole-game` 14, `test:solo-game` 16, `test:overlap` green - all pass. **`test:end-sequence` red** at its last step (*"Play Solo began anywhere but the player's own video"*: `reveal`, not `family`) after 19 checks, **the same on 4131feb8**; its evidence was left as it was.
+- **Open questions for the owner** (recommended first): (1) should foragers also drive off a stayer's herd, as the record's "cattle
+  and hogs taken" and as they do a fleeing family's (A: yes, as a fleeing family's, B: half, C: no); (2) should a family nobody plays
+  ever leave early (A: no, B: on the fall of the Alamo when its farm is in the burn zone); (3) the rest of the wagon's goods - bedding,
+  the pot, books, chairs - into the load too (A: no, B: bedding and the pot only, C: all); (4) goods saved worth anything at the
+  ending (A: no, as chosen, B: a line of glory for the chest and the wheel brought home).
+
 ## The end sequence without a wait: every family's video at once, a Play button, and Controls — owner, 2026-09-30 (not released)
 
 **The ask.** The owner's answers to the four questions of the end sequence (below). Branch `end-sequence-2` off

@@ -1,6 +1,6 @@
 {
   "record": "scrape-pursuit-browser",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "environment": "Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x768.",
   "pass": [
     "1366: the student chose two stops, one from the list and one by tapping the map, the first across country, and the family set out",
@@ -67,8 +67,8 @@
         "spoken": [
           {
             "id": "alto",
-            "x": 403,
-            "y": 664
+            "x": 394,
+            "y": 671
           }
         ]
       },
@@ -86,13 +86,13 @@
             "kind": "cavalry",
             "phase": "caught",
             "soldiers": 8,
-            "smoke": 2,
+            "smoke": 7,
             "shotsSent": 8
           }
         ],
-        "shotsSeen": 2,
-        "flashes": 2,
-        "dust": 2,
+        "shotsSeen": 7,
+        "flashes": 7,
+        "dust": 7,
         "lines": [
           "alto",
           "warn",
@@ -100,21 +100,46 @@
         ],
         "heard": [
           {
-            "x": 473,
-            "y": 543,
+            "x": 490,
+            "y": 534,
             "size": 1
           },
           {
-            "x": 489,
-            "y": 571,
+            "x": 505,
+            "y": 561,
+            "size": 1
+          },
+          {
+            "x": 522,
+            "y": 588,
+            "size": 1
+          },
+          {
+            "x": 405,
+            "y": 441,
+            "size": 1
+          },
+          {
+            "x": 386,
+            "y": 416,
+            "size": 1
+          },
+          {
+            "x": 459,
+            "y": 518,
+            "size": 1
+          },
+          {
+            "x": 417,
+            "y": 471,
             "size": 1
           }
         ],
         "spoken": [
           {
             "id": "fire",
-            "x": 453,
-            "y": 580
+            "x": 469,
+            "y": 570
           }
         ]
       },
@@ -254,11 +279,11 @@
           "yards": 48,
           "shooter": "mounted",
           "target": {
-            "kind": "beast",
-            "name": "ox",
-            "id": "hh-1-animal"
+            "kind": "person",
+            "name": "Mateo",
+            "id": "hh-1-child-1"
           },
-          "p": 0.057,
+          "p": 0.036,
           "hit": false,
           "minute": 288256.95
         },
@@ -296,11 +321,11 @@
           "yards": 46,
           "shooter": "mounted",
           "target": {
-            "kind": "beast",
-            "name": "ox",
-            "id": "hh-1-animal"
+            "kind": "person",
+            "name": "Mateo",
+            "id": "hh-1-child-1"
           },
-          "p": 0.063,
+          "p": 0.041,
           "hit": false,
           "minute": 288257.033
         }
@@ -396,13 +421,7 @@
           "alto"
         ],
         "heard": [],
-        "spoken": [
-          {
-            "id": "alto",
-            "x": 239,
-            "y": 657
-          }
-        ]
+        "spoken": []
       },
       "ask": [
         "halt",

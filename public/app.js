@@ -196,7 +196,7 @@ function element(tag, content, className) { const el = document.createElement(ta
 // their place in the ranks and whatever the army does next happens without them.
 // End Game is asked twice too, and says what it does (design audit 2026-09-28 B2): it was one press, final, at the moment a
 // teacher reaches for a button at the bell. *Stop for today* is the button for the bell (docs/HOST_PAGE.md §2.8).
-const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', end: 'Confirm: end the whole game', 'stop-for-today': 'Confirm: save and stop for today', 'send-for': 'Confirm: bring them home', 'winter-recall': 'Confirm: send for them', flee: 'Confirm: leave, and let it burn', 'flee-light': 'Confirm: leave most of it behind', 'flee-empty': 'Confirm: leave with nothing', 'flight-stay': 'Confirm: stay, and take the risk', 'road-abandon': 'Confirm: leave the wagon behind' };
+const confirmLabel = { 'new-class': 'Confirm new class', 'stop-server': 'Confirm stop', end: 'Confirm: end the whole game', 'stop-for-today': 'Confirm: save and stop for today', 'send-for': 'Confirm: bring them home', 'winter-recall': 'Confirm: send for them', flee: 'Confirm: leave, and let it burn', 'flee-early': 'Confirm: leave now, and lose the crop', 'flee-light': 'Confirm: leave most of it behind', 'flee-empty': 'Confirm: leave with nothing', 'flight-stay': 'Confirm: stay, and take the risk', 'road-abandon': 'Confirm: leave the wagon behind' };
 /** What an armed Host button does, said on the Host's notice line while it waits for the second press. */
 const confirmWords = {
   end: 'This ends the whole game for everyone and shows everybody the ending. If it was a mistake, Classes can take the class up again where it was, but the ending will have been seen. To stop at the bell and carry on next class, use Stop for today instead.',
@@ -215,9 +215,10 @@ const SLOW_CONFIRM_MS = 1000;
 const confirmKeyOf = button => {
   if (button.dataset.action === 'road-answer') return button.dataset.option === 'abandon' ? 'road-abandon' : null;
   if (button.dataset.action === 'flee') {
-    const flight = window.__snapshot?.world?.flight;
+    const flight = window.__snapshot?.world?.flight || window.__snapshot?.world?.early;
     const light = flight ? lightLoad(flight, Object.fromEntries([...document.querySelectorAll('#selection-flight .flight-amount')].map(one => [one.dataset.take, Number(one.value) || 0]))) : null;
-    return light ? `flee-${light}` : 'flee';
+    // Going before the order is asked in its own words (owner, 2026-09-29, D9 (b)): the crop is lost.
+    return light ? `flee-${light}` : flight?.status === 'early' ? 'flee-early' : 'flee';
   }
   return button.dataset.action;
 };
@@ -3774,7 +3775,7 @@ function drawWorldNow(world) {
     // The milk cow a child drives along behind the family on the Scrape (sim/flight-work.mjs, owner 2026-09-27), a step behind
     // them on the road and grazing beside them at the camp. stand-in: docs/ART_REQUESTS.md, request 2026-09-27 - the milk cow on the run, and Béxar before the bell:
     // a range longhorn's standing and grazing frames moved over the ground with the child, until a milk cow on a rope is drawn.
-    if (world.flight?.cow?.by === entity.id && !carrier) {
+    if ((world.flight || world.early)?.cow?.by === entity.id && !carrier) {
       const west = destination ? destination.x < entity.location.x : false;
       // Claude's milk cow on her rope (`milk-cow-walk-*`, `milk-cow-graze`) where it is loaded - "Claude-drawn stand-ins
       // (replace with Astra's)" - walking the way the child goes; the range longhorn otherwise.
@@ -4536,7 +4537,9 @@ document.addEventListener('change', event => {
 });
 function renderFlight(world, chosen, running) {
   const wrap = $('#selection-flight');
-  const flight = world.flight;
+  // Before any order, a family that has heard of the Alamo's fall or the Mexican army's advance may go now, at a cost (owner,
+  // 2026-09-29, D9 (b)): the server sends that card as `early`, beside the flight the family has not got (sim/scrape.mjs).
+  const flight = world.flight || world.early;
   // On whoever is with the family and answers for it (sim/acting.mjs, `actingOf`): not a father away with the army (interactions B1).
   const main = actingOf(world);
   const taken = world.household?.takenIn;
@@ -4552,7 +4555,7 @@ function renderFlight(world, chosen, running) {
   }
   // The oldest child answering for the family, with nobody grown with it (owner, 2026-09-28: "The oldest child steps up").
   const stepped = world.household?.steppedUp ? `${chosen.name} is the oldest with the family, with nobody grown here, and answers for it.` : '';
-  if (!['ordered', 'stayed'].includes(flight.status)) {
+  if (!['ordered', 'stayed', 'early'].includes(flight.status)) {
     // On the road (sim/road.mjs, docs/ROAD_EAST.md): where the family is, the weather, the mud, the camp, the danger - and
     // the road's question with its answers and their prices, in the shape every question here takes.
     const where = { fled: `The family is on the road east for ${flight.refugeName}${flight.mode === 'foot' ? ', on foot' : ''}${flight.waitingAt ? `, waiting to get over at ${flight.waitingAt}` : ''}.`, refuged: `The family is camped at ${flight.refugeName} with the other families from the west.`, returning: 'The family is on the road home.', home: 'The family is home, to what is left.' }[flight.status] || '';
@@ -4619,23 +4622,43 @@ function renderFlight(world, chosen, running) {
     return;
   }
   renderRouteEditor(world, null, running);
-  const key = JSON.stringify([flight.room, flight.mode, flight.have, flight.refuges, flight.burned, flight.decidedToStay, flight.ifUnanswered, running, stepped]);
-  if (flightFormKey === key) return;
+  // Not rebuilt for what is in the house going down as the family eats (2026-09-30): before its order the calendar is not held, and
+  // a rebuilt card threw away the student's load and the Leave pressed once. The counts and each box's most are kept current in
+  // place instead (`haveWords`).
+  const key = JSON.stringify([flight.status, flight.room, flight.mode, Object.keys(flight.have || {}), flight.refuges, flight.burned, flight.decidedToStay, flight.ifUnanswered, flight.heard, flight.crop, running, stepped]);
+  const haveWords = good => flight.names?.[good] ? `${flight.names[good]} (${flight.have[good]} in the house, ${flight.space[good]} each)` : `${good} (${flight.have[good]} in the house)`;
+  if (flightFormKey === key) {
+    for (const input of wrap.querySelectorAll('.flight-amount')) {
+      const good = input.dataset.take;
+      if (flight.have?.[good] === undefined) continue;
+      if (input.max !== String(flight.have[good])) input.max = String(flight.have[good]);
+      setText(input.previousElementSibling, haveWords(good));
+    }
+    return;
+  }
   flightFormKey = key;
   wrap.replaceChildren();
   wrap.dataset.said = '';
   if (stepped) wrap.append(element('p', stepped, 'work-note flight-stepped-up'));
-  wrap.append(element('p', flight.burned ? 'The army has passed and burned the farm. The family can still go east with what it can carry.'
+  const early = flight.status === 'early';
+  wrap.append(element('p', early ? `Nobody has told the family to leave yet, but it has heard: ${flight.heard} It may make ready and go now, before any order comes.`
+    : flight.burned ? 'The army has passed and burned the farm. The family can still go east with what it can carry.'
     : flight.decidedToStay ? 'The family is staying, and takes what comes. The road east is still open if it changes its mind.'
     : 'The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer before the time on the “!” runs out, or the family packs what it can and goes by itself.', 'ask-text'));
+  // What going before the order costs, said before the button (sim/early-word.mjs `EARLY_COST`): the crop, and the house left empty.
+  if (early) wrap.append(element('p', `Going now: ${flight.cost} ${flight.crop ? `There is ${flight.crop} in the field now.` : 'Nothing is growing in the field now.'}`, 'work-note flight-early-cost'));
   // A student at the screen who lets it run out loses the house (owner, 2026-09-29; sim/scrape.mjs `burnForSilence`): said first.
   if (flight.ifUnanswered && !flight.burned && !flight.decidedToStay) wrap.append(element('p', flight.ifUnanswered, 'work-note flight-if-unanswered'));
   const carrier = flight.vehicle === 'cart' ? ' in the cart' : flight.vehicle === 'carreta' ? ' in the carreta' : flight.wagons ? ` in the ${flight.wagons} wagons` : ' in the wagon';
-  wrap.append(element('p', `Room for ${flight.room}${flight.mode === 'wagon' ? carrier : ', carried on foot'}. Food takes ${flight.space.food} each, seed ${flight.space.seed}, cotton ${flight.space.cotton}, powder ${flight.space.powder}.`, 'work-note'));
+  // The room each thing takes, the household goods too (owner, 2026-09-29, D9 (a); sim/flight-goods.mjs): the tools, the chest and
+  // the spinning wheel the family has, by the names the server gives them.
+  const named = good => flight.names?.[good] || good;
+  const goods = Object.keys(flight.space).filter(good => !['food', 'seed', 'cotton', 'powder'].includes(good));
+  wrap.append(element('p', `Room for ${flight.room}${flight.mode === 'wagon' ? carrier : ', carried on foot'}. Food takes ${flight.space.food} each, seed ${flight.space.seed}, cotton ${flight.space.cotton}, powder ${flight.space.powder}.${goods.length ? ` ${goods.map(good => `the ${named(good)} ${flight.space[good]}`).join(', ').replace(/^t/, 'T')}. What is not loaded is left in the house.` : ''}`, 'work-note flight-space'));
   const form = element('div', '', 'flight-form');
   for (const good of Object.keys(flight.space)) {
     const label = element('label', '', 'flight-take');
-    label.append(element('span', `${good} (${flight.have[good]} in the house)`));
+    label.append(element('span', haveWords(good)));
     const input = document.createElement('input');
     // Opened on the server's own packing (sim/scrape.mjs `packFlight`, design audit 2026-09-28 B7): food first, then seed, cotton
     // and powder, as much as fits. Until then every box opened at 0, and the obvious two presses left all the food behind.
@@ -4655,13 +4678,13 @@ function renderFlight(world, chosen, running) {
   if (flight.packed?.refuge) refuge.value = flight.packed.refuge;
   const way = document.createElement('select'); way.id = 'flight-way';
   for (const [value, label] of [['road', 'By the road (quicker, seen from further off)'], ['country', 'Across country (slower, seen from half as far)']]) { const option = element('option', label); option.value = value; way.append(option); }
-  const go = element('button', 'Leave for the east', 'work-stop');
+  const go = element('button', early ? 'Leave now, before the order' : 'Leave for the east', 'work-stop');
   go.dataset.action = 'flee'; go.dataset.entityId = chosen.id; go.disabled = !running;
   const tally = () => {
     const take = Object.fromEntries([...form.querySelectorAll('.flight-amount')].map(input => [input.dataset.take, Number(input.value) || 0]));
     const used = loadSpace(flight.space, take), light = lightLoad(flight, take);
     // A load far under what the family could take is said so, beside the room (design audit 2026-09-28 B7).
-    room.textContent = `Loaded ${Math.round(used * 100) / 100} of ${flight.room}.${light === 'empty' ? ' Nothing is loaded: everything would be left behind.' : light === 'light' ? ' Most of what the family could carry would be left behind.' : ''}`;
+    setText(room, `Loaded ${Math.round(used * 100) / 100} of ${flight.room}.${light === 'empty' ? ' Nothing is loaded: everything would be left behind.' : light === 'light' ? ' Most of what the family could carry would be left behind.' : ''}`);
     room.dataset.over = String(used > flight.room + 1e-9);
     room.dataset.light = light || '';
   };

@@ -54,6 +54,10 @@ import { WAGON_SPEED, WALK_SPEED } from './travel.mjs';
 import { WATER_SHUT, waterAt } from './weather.mjs';
 // The ledger of what families did for each other (sim/neighbourly.mjs): food shared on the road is one of its deeds.
 import { noteDeed } from './deeds.mjs';
+// Making ready on news heard before the order (owner, 2026-09-29, D9 (b); sim/early-word.mjs): the works are offered on it, and their
+// marks wait on `household.readying` until the family has a flight. The household goods hidden and dug up (sim/flight-goods.mjs).
+import { NO_WORD_YET, mayMakeReady, readyingFor, readyingOf } from './early-word.mjs';
+import { goodsWords, isHouseholdGood, restoreGood } from './flight-goods.mjs';
 
 const GONE = Object.freeze(['dead', 'captured']);
 const DAY = 1440;
@@ -61,8 +65,12 @@ const round = value => Math.round(value * 100) / 100;
 
 /** The room's worth of goods left behind that can be hidden, in the wagon's units (sim/scrape.mjs `FLIGHT_SPACE`): a morning's digging. */
 export const HIDE_ROOM = 6;
-/** What is hidden, in the order it is chosen: the powder and the seed a family cannot begin again without, then the cotton. */
-export const HIDDEN_GOODS = Object.freeze(['powder', 'seed', 'cotton']);
+/**
+ * What is hidden, in the order it is chosen: the powder and the seed a family cannot begin again without, then (since 2026-09-29,
+ * `FIC-GONZ-990`) the tools it would begin again with, the chest - the Roses hid "a big chest" of bedding and clothes in the river
+ * bottom (`HIST-TEX-640`) - and the spinning wheel, and the cotton last.
+ */
+export const HIDDEN_GOODS = Object.freeze(['powder', 'seed', 'hoe', 'axe', 'broadaxe', 'froe', 'auger', 'chest', 'spinning-wheel', 'cotton']);
 /** What a child's bundle carries, in the wagon's units: a shawl's worth, two fifths of a grown person's pack (`CARRIED_ROOM`). */
 export const BUNDLE_ROOM = 0.5;
 /** How far off a lookout sees riders on the road behind, in miles, against the road's twenty (sim/road.mjs `WARNING_MILES`). */
@@ -106,7 +114,6 @@ const withTheFamily = (household, entity) => {
   const flight = household.flight;
   return Boolean(flight) && entity.service?.status !== 'serving' && (flight.status === 'fled' ? entity.travel?.purpose === 'flee' : flight.status === 'refuged' && !entity.travel && entity.location?.siteId === flight.refuge);
 };
-const toldToGo = household => ['ordered', 'stayed'].includes(household.flight?.status);
 const campedHere = household => Boolean(household.flight?.crossing) || household.flight?.status === 'refuged';
 const placeOfCamp = household => household.flight?.crossing?.siteId || (household.flight?.status === 'refuged' ? household.flight.refuge : null);
 const dayOf = world => Math.floor(world.minute / DAY);
@@ -139,12 +146,12 @@ export function digUpCache(world, household) {
   const cache = household.flight?.cache;
   if (!cache) return;
   const found = Object.entries(cache).filter(([, amount]) => amount > 0);
-  for (const [good, amount] of found) household.resources[good] = (household.resources[good] ?? 0) + amount;
+  for (const [good, amount] of found) { if (isHouseholdGood(good)) restoreGood(household, good, amount); else household.resources[good] = (household.resources[good] ?? 0) + amount; }
   delete household.flight.cache;
-  if (found.length) tell(world, household, null, `The family went down to the river bottom and brought home what it had hidden there: ${found.map(([good, amount]) => `${amount} ${good}`).join(', ')}.`, 'HIST-TEX-640');
+  if (found.length) tell(world, household, null, `The family went down to the river bottom and brought home what it had hidden there: ${goodsWords(Object.fromEntries(found))}.`, 'HIST-TEX-640');
 }
 /** More room on foot for the bundles the family's children made up, for these people going (or with it on the road). */
-export const bundleRoom = (household, goers) => round(goers.filter(person => (household.flight?.bundles || []).includes(person.id)).length * BUNDLE_ROOM);
+export const bundleRoom = (household, goers) => round(goers.filter(person => (readyingOf(household)?.bundles || []).includes(person.id)).length * BUNDLE_ROOM);
 /** How far off word of a column reaches this family: further with somebody watching the road behind. */
 export const lookoutMiles = (world, household, standard) => (lookoutOf(world, household) ? LOOKOUT_MILES : standard);
 export const lookoutOf = (world, household) => people(world, household).find(person => person.chore?.id === 'road-lookout' && withTheFamily(household, person)) || null;
@@ -258,9 +265,9 @@ export const heldToCow = (world, household) => Boolean(household?.flight?.cow) &
 
 /** What the row of whoever has the cow says, in the server's words, or null. */
 export function cowLine(world, household, entity) {
-  const flight = household?.flight, cow = flight?.cow;
+  const flight = household?.flight, cow = readyingOf(household)?.cow;
   if (!cow || cow.by !== entity.id || GONE.includes(entity.health?.condition)) return null;
-  if (toldToGo(household)) return 'Has the milk cow on a rope, ready to go.';
+  if (!flight || ['ordered', 'stayed'].includes(flight.status)) return 'Has the milk cow on a rope, ready to go.';
   if (cow.strayDay === dayOf(world)) return 'Went after the milk cow, who got away into the brush.';
   if (flight.status === 'refuged') return 'Minding the milk cow at the camp.';
   // On foot the family goes at her pace (`cowPace`), and the row says why it is slower.
@@ -318,7 +325,7 @@ function refusalFor(world, household, entity, chore) {
   if (chore.toAge !== undefined && age > chore.toAge) return chore.tooOld ? chore.tooOld(entity) : `${entity.name} is grown, and carries a full pack already.`;
   if (chore.grown && !canAnswerCalls(entity)) return `${entity.name} is too young to lead the family over.`;
   if (chore.before) {
-    if (!toldToGo(household)) return flight ? 'The family has already gone.' : 'Nobody has told the family to leave.';
+    if (!mayMakeReady(world, household)) return flight ? 'The family has already gone.' : world.period === 3 ? NO_WORD_YET : 'Nobody has told the family to leave.';
     if (entity.location?.siteId !== household.homeSiteId || entity.travel) return `${entity.name} is not at home.`;
     return chore.before(world, household, entity);
   }
@@ -329,26 +336,27 @@ function refusalFor(world, household, entity, chore) {
 const offeredFor = chore => (world, household, entity) => {
   const age = ageOf(entity);
   if (age < chore.fromAge || (chore.toAge !== undefined && age > chore.toAge)) return false;
-  if (chore.before) return toldToGo(household) && entity.location?.siteId === household.homeSiteId && !entity.travel && (chore.shown ? chore.shown(world, household, entity) : true);
+  if (chore.before) return mayMakeReady(world, household) && entity.location?.siteId === household.homeSiteId && !entity.travel && (chore.shown ? chore.shown(world, household, entity) : true);
   return withTheFamily(household, entity) && (chore.shown ? chore.shown(world, household, entity) : true);
 };
 
 const FLIGHT_WORK = {
   'flee-hide': {
     name: 'Hide what the wagon cannot carry', skill: 'hands', where: 'home', fromAge: 10,
-    describe: `The morning before the family goes, down to the river bottom with what the wagon will not hold. Whatever powder, seed and cotton is left behind, up to ${HIDE_ROOM} of the wagon's room, is hidden there: no fire and no forager finds it, and it is there when the family comes home. Food is not hidden; it would not keep.`,
-    before: (world, household) => (household.flight?.hid ? 'The family has hidden what it can already.' : null),
+    describe: `The morning before the family goes, down to the river bottom with what the wagon will not hold. Whatever is left behind of the powder, the seed, the tools, the chest, the spinning wheel and the cotton, in that order and up to ${HIDE_ROOM} of the wagon's room, is hidden there: no fire and no forager finds it, and it is there when the family comes home. Food is not hidden; it would not keep.`,
+    before: (world, household) => (readyingOf(household)?.hid ? 'The family has hidden what it can already.' : null),
     steps: [{ work: 3, doing: 'carrying things down to the river bottom to hide them' }, { run: (world, household, entity) => {
-      household.flight.hid = true;
-      tell(world, household, entity, `${entity.name} hid what the wagon will not hold in the river bottom: the powder, seed and cotton the family leaves behind will be there when it comes home.`, 'HIST-TEX-640');
+      readyingFor(household).hid = true;
+      tell(world, household, entity, `${entity.name} hid what the wagon will not hold in the river bottom: the powder, seed, tools, chest and cotton the family leaves behind will be there when it comes home.`, 'HIST-TEX-640');
     } }],
   },
   'flee-bundle': {
     name: 'Make up a bundle to carry', skill: 'hands', where: 'home', child: true, fromAge: 5, toAge: 15, job: true,
     describe: `A shawl tied up with what a child can carry. If the family goes on foot, or has to leave the wagon on the road, each child with a bundle carries ${BUNDLE_ROOM} of the wagon's room more of what the family has.`,
-    before: (world, household, entity) => (canAnswerCalls(entity) ? `${entity.name} carries a full pack already.` : (household.flight?.bundles || []).includes(entity.id) ? `${entity.name} has a bundle made up already.` : null),
+    before: (world, household, entity) => (canAnswerCalls(entity) ? `${entity.name} carries a full pack already.` : (readyingOf(household)?.bundles || []).includes(entity.id) ? `${entity.name} has a bundle made up already.` : null),
     steps: [{ work: 1, doing: 'tying up a bundle in a shawl' }, { run: (world, household, entity) => {
-      household.flight.bundles = [...new Set([...(household.flight.bundles || []), entity.id])];
+      const ready = readyingFor(household);
+      ready.bundles = [...new Set([...(ready.bundles || []), entity.id])];
       tell(world, household, entity, `${entity.name} has a bundle tied up to carry, and will carry it all the way.`, 'FIC-GONZ-487', 1);
     } }],
   },
@@ -357,11 +365,11 @@ const FLIGHT_WORK = {
     describe: `One milk cow out of the herd, on a rope, driven behind the family by a child. She gives a little milk every day, ${MILK_A_DAY} food, and is taken with everything else if the Mexican army comes up with the family. The rest of the stock stays on the range.`,
     tooOld: entity => `${entity.name} is grown; the cow is a child's to drive.`,
     // Only a family that had cattle (owner, 2026-09-27): a family with none is not offered it at all.
-    shown: (world, household) => hasCow(household) || Boolean(household.flight?.cow),
-    before: (world, household) => (household.flight?.cow ? `${world.entities[household.flight.cow.by]?.name || 'Somebody'} has the milk cow on a rope already.` : !hasCow(household) ? 'The family has no cattle to take a cow from.' : null),
+    shown: (world, household) => hasCow(household) || Boolean(readyingOf(household)?.cow),
+    before: (world, household) => (readyingOf(household)?.cow ? `${world.entities[readyingOf(household).cow.by]?.name || 'Somebody'} has the milk cow on a rope already.` : !hasCow(household) ? 'The family has no cattle to take a cow from.' : null),
     steps: [{ work: 1, doing: 'catching up the milk cow and putting a rope on her' }, { run: (world, household, entity) => {
-      if (!hasCow(household) || household.flight?.cow) return;
-      household.flight.cow = { by: entity.id };
+      if (!hasCow(household) || readyingOf(household)?.cow) return;
+      readyingFor(household).cow = { by: entity.id };
       tell(world, household, entity, `${entity.name} has caught up the milk cow and put a rope on her, to drive her along behind the family.`, 'FIC-GONZ-631', 1);
     } }],
   },
@@ -478,7 +486,8 @@ export const FLIGHT_WORKS = Object.freeze(Object.keys(FLIGHT_WORK));
 /** A saved flight's own works' marks that cannot be, or null. */
 export function flightWorkInvalid(world) {
   for (const household of Object.values(world.households)) {
-    const flight = household.flight;
+    // The marks made on news before the order (sim/early-word.mjs `readying`) are the same marks, and must be as sound.
+    for (const flight of [household.flight, household.readying]) {
     if (!flight) continue;
     if (flight.hid !== undefined && flight.hid !== true) return 'Invalid hiding';
     if (flight.cache !== undefined && (!flight.cache || Object.entries(flight.cache).some(([good, amount]) => !HIDDEN_GOODS.includes(good) || !Number.isInteger(amount) || amount < 0))) return 'Invalid hidden goods';
@@ -489,6 +498,7 @@ export function flightWorkInvalid(world) {
     const cow = flight.cow;
     if (cow !== undefined && (!cow || !world.entities[cow.by] || ['since', 'milkDay', 'strayDay'].some(key => cow[key] !== undefined && !Number.isFinite(cow[key])) || (cow.told !== undefined && cow.told !== true))) return 'Invalid milk cow';
     if (flight.cowTaken !== undefined && flight.cowTaken !== true) return 'Invalid milk cow taken';
+    }
   }
   // A journey held to the cow's pace (`cowPace`): absent on every journey before it, which is a family not held to her.
   for (const entity of Object.values(world.entities)) if (entity.travel?.cow !== undefined && entity.travel.cow !== true) return 'Invalid milk cow pace';

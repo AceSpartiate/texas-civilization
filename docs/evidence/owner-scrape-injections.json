@@ -1,0 +1,314 @@
+{
+  "record": "owner-scrape-injections",
+  "date": "2026-09-30",
+  "caught": 25,
+  "only": 21,
+  "of": 25,
+  "injections": [
+    {
+      "name": "(a) the card offers only the four stores",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "D9 (a): the card offers",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (a): the card offers the tools, the chest and the spinning wheel with the room each takes, food still packed first"
+      ]
+    },
+    {
+      "name": "(a) the packing never takes a tool, the chest or the wheel",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "D9 (a): the card offers",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (a): the card offers the tools, the chest and the spinning wheel with the room each takes, food still packed first"
+      ]
+    },
+    {
+      "name": "(a) what is not loaded stays in the family's hands",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "D9 (a): what is carried stays",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "D9 (a): what is carried stays the family's, what is left is out of its hands in the house, found at home if it stands, lost if it burns",
+        "D9 (a): left with the wagon in the mud what the backs cannot carry, taken with it by a column; the chest hidden and dug up"
+      ]
+    },
+    {
+      "name": "(a) home to a standing house, the goods left in it are not found",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "D9 (a): what is carried stays",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (a): what is carried stays the family's, what is left is out of its hands in the house, found at home if it stands, lost if it burns"
+      ]
+    },
+    {
+      "name": "(a) the homecoming never says what was carried home",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "D9 (a): what is carried stays",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (a): what is carried stays the family's, what is left is out of its hands in the house, found at home if it stands, lost if it burns"
+      ]
+    },
+    {
+      "name": "(a) the stayer's rule stripping a family that had gone",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "D9 (a): what is carried stays",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (a): what is carried stays the family's, what is left is out of its hands in the house, found at home if it stands, lost if it burns"
+      ]
+    },
+    {
+      "name": "(a) the wagon left in the mud with every household good still carried",
+      "files": [
+        "sim/road.mjs"
+      ],
+      "expected": "D9 (a): left with the wagon in the mud",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (a): left with the wagon in the mud what the backs cannot carry, taken with it by a column; the chest hidden and dug up"
+      ]
+    },
+    {
+      "name": "(a) a column that comes up with the family leaves it its goods",
+      "files": [
+        "sim/road.mjs"
+      ],
+      "expected": "D9 (a): left with the wagon in the mud",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (a): left with the wagon in the mud what the backs cannot carry, taken with it by a column; the chest hidden and dug up"
+      ]
+    },
+    {
+      "name": "(a) only powder, seed and cotton are hidden",
+      "files": [
+        "sim/flight-work.mjs",
+        "sim/flight-work.mjs"
+      ],
+      "expected": "D9 (a): left with the wagon in the mud",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (a): left with the wagon in the mud what the backs cannot carry, taken with it by a column; the chest hidden and dug up"
+      ]
+    },
+    {
+      "name": "(a) what was hidden is dug up as stores",
+      "files": [
+        "sim/flight-work.mjs"
+      ],
+      "expected": "D9 (a): left with the wagon in the mud",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (a): left with the wagon in the mud what the backs cannot carry, taken with it by a column; the chest hidden and dug up"
+      ]
+    },
+    {
+      "name": "(b) the early word read from the world's truth, not the family's hearing",
+      "files": [
+        "sim/early-word.mjs"
+      ],
+      "expected": "D9 (b): before its order",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "D9 (b): before its order, a family that has heard nothing is refused in plain words, whatever the world knows or another family has heard",
+        "D9 (b): the news of the Mexican army's advance counts - a column come to a place, a town burned - and Houston's own movements do not"
+      ]
+    },
+    {
+      "name": "(b) a rumour is enough",
+      "files": [
+        "sim/early-word.mjs"
+      ],
+      "expected": "D9 (b): before its order",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (b): before its order, a family that has heard nothing is refused in plain words, whatever the world knows or another family has heard"
+      ]
+    },
+    {
+      "name": "(b) nobody may leave before the order, as before",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "D9 (b): on real news",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "D9 (b): before its order, a family that has heard nothing is refused in plain words, whatever the world knows or another family has heard",
+        "D9 (b): on real news the family is told once, may make ready, and may leave early - losing the crop in the field, the house left empty"
+      ]
+    },
+    {
+      "name": "(b) a route of its own refused to a family with no order",
+      "files": [
+        "sim/flight-route.mjs"
+      ],
+      "expected": "D9 (b): on real news",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (b): on real news the family is told once, may make ready, and may leave early - losing the crop in the field, the house left empty"
+      ]
+    },
+    {
+      "name": "(b) the preparation works still wait for the order",
+      "files": [
+        "sim/early-word.mjs"
+      ],
+      "expected": "D9 (b): on real news",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (b): on real news the family is told once, may make ready, and may leave early - losing the crop in the field, the house left empty"
+      ]
+    },
+    {
+      "name": "(b) leaving early costs no crop",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "D9 (b): on real news",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (b): on real news the family is told once, may make ready, and may leave early - losing the crop in the field, the house left empty"
+      ]
+    },
+    {
+      "name": "(b) what was made ready is dropped at the order",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "D9 (b): on real news",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (b): on real news the family is told once, may make ready, and may leave early - losing the crop in the field, the house left empty"
+      ]
+    },
+    {
+      "name": "(b) the family told it may go every tick",
+      "files": [
+        "sim/early-word.mjs"
+      ],
+      "expected": "D9 (b): on real news",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (b): on real news the family is told once, may make ready, and may leave early - losing the crop in the field, the house left empty"
+      ]
+    },
+    {
+      "name": "(b) the empty house of a family gone early is never reached",
+      "files": [
+        "sim/advance.mjs"
+      ],
+      "expected": "D9 (b): on real news",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (b): on real news the family is told once, may make ready, and may leave early - losing the crop in the field, the house left empty"
+      ]
+    },
+    {
+      "name": "(b) the Texas army's own movements counted as the advance",
+      "files": [
+        "sim/early-word.mjs"
+      ],
+      "expected": "D9 (b): the news of the Mexican army",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (b): the news of the Mexican army's advance counts - a column come to a place, a town burned - and Houston's own movements do not"
+      ]
+    },
+    {
+      "name": "(b) word of a column not counted",
+      "files": [
+        "sim/early-word.mjs"
+      ],
+      "expected": "D9 (b): the news of the Mexican army",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (b): the news of the Mexican army's advance counts - a column come to a place, a town burned - and Houston's own movements do not"
+      ]
+    },
+    {
+      "name": "(c) foragers leave a stayer's goods alone, as before",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "D9 (c): foragers who reach a farm",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "D9 (c): foragers who reach a farm where the family stayed take its stores and household goods, not its coin, and it is told plainly",
+        "D9 (c): a stayer with nobody at home sees its goods where they were until the word comes; the world has them gone"
+      ]
+    },
+    {
+      "name": "(c) the foragers take the coin too",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "D9 (c): foragers who reach a farm",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (c): foragers who reach a farm where the family stayed take its stores and household goods, not its coin, and it is told plainly"
+      ]
+    },
+    {
+      "name": "(c) the family is not told what was taken",
+      "files": [
+        "sim/advance-word.mjs"
+      ],
+      "expected": "D9 (c): foragers who reach a farm",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (c): foragers who reach a farm where the family stayed take its stores and household goods, not its coin, and it is told plainly"
+      ]
+    },
+    {
+      "name": "(c) the page shows the goods gone before the family knows",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "D9 (c): a stayer with nobody at home",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D9 (c): a stayer with nobody at home sees its goods where they were until the word comes; the world has them gone"
+      ]
+    }
+  ]
+}

@@ -106,8 +106,9 @@ test('the family\'s card opens on the packing a family deciding alone takes - fo
   assert.equal(lightLoad(shown, shown.packed.take), null, 'the full load was called light');
   assert.equal(lightLoad(shown, { food: 0, seed: 0, cotton: 0, powder: 0 }), 'empty');
   assert.equal(lightLoad(shown, { food: Math.floor(shown.packed.take.food / 4) }), 'light');
-  // Nothing in the house to take: nothing is light.
+  // Nothing in the house to take: nothing is light. Nor any tool, chest or wheel, which are in the load since 2026-09-29.
   household.resources = { ...household.resources, food: 0, seed: 0, cotton: 0, powder: 0 };
+  household.tools = {}; delete household.spares; household.belongings = [];
   const bare = view(world, household.id).flight;
   assert.equal(lightLoad(bare, {}), null, 'a family with nothing to take was told it was leaving things behind');
 });
@@ -129,7 +130,9 @@ test('the family loads what fits and sets out together for the east, leaving the
   // More than the room of every wagon at home (a wagon's room each since 2026-09-25, tests/wagons.test.mjs): a quarter of room a food.
   assert.throws(() => send({ take: { food: view(world, household.id).flight.room * 4 + 4 }, refuge }), /not fit/);
   assert.throws(() => send({ take: { food: 20, seed: 9 }, refuge }), /not that much seed/);
-  assert.throws(() => send({ take: { hoe: 1 }, refuge }), /whole amounts/);
+  // The rifle is not in the load (it goes in a man's hand, sim/flight-goods.mjs); the hoe is, since 2026-09-29, and is not refused here.
+  assert.throws(() => send({ take: { rifle: 1 }, refuge }), /whole amounts/);
+  assert.throws(() => send({ take: { chest: 1 }, refuge }), /has not got the chest/);
   const goers = household.members.map(id => world.entities[id]).filter(one => one.location.siteId === household.homeSiteId && one.health.condition !== 'dead');
   send({ take: { food: 40, seed: 6, cotton: 8 }, refuge });
   validateWorld(world);

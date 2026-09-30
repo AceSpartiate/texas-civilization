@@ -12,6 +12,8 @@ import { ARRIVAL_WORD, SPRING_WORD, arrivalWord, hearTheBell, tellHerrera } from
 import { SETTLEMENT_DAYS, advanceArmiesPassing, orderOut, turnHome } from './scrape.mjs';
 import { advanceModelled } from './advance.mjs';
 import { advanceAdvanceWord } from './advance-word.mjs';
+// Leaving before the order on news the family has heard (owner, 2026-09-29, D9 (b)): told once that it may.
+import { advanceEarlyWord } from './early-word.mjs';
 import { HOUSTON_WORD, catchUpCamp, fightColeto, followCamp, goliadMassacre, houstonCamp, takeInEnlisted, tellGoliad, tellSanJacinto } from './houston.mjs';
 import { closeCampQuestion, openCampQuestion } from './camp.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
@@ -1486,6 +1488,8 @@ function advanceScrape(world, { beginTravel } = {}) {
   advanceArmiesPassing(world);
   // The word of the Mexican advance: each family's own farm, the towns burned and where the columns are (sim/advance-word.mjs).
   if (advanceModelled(world)) advanceAdvanceWord(world);
+  // A family with no order yet that has just heard of the Alamo's fall or the Mexican army's advance may go now (sim/early-word.mjs).
+  advanceEarlyWord(world);
   if (!world.director.milestones['san-jacinto']) catchUpCamp(world, go);
   // San Jacinto on the engine: who is in the camp and the line, the alert, the guns heard, the Host's camera (sim/san-jacinto.mjs).
   advanceSanJacinto(world);

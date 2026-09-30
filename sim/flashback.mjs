@@ -277,7 +277,7 @@ function candidates(world, household, trip) {
   const settlement = world.map.sites[household.settlementId || 'gonzales']?.name || null;
   // Somebody of the family with an army in the spring does not go east with it: what the war record says of them.
   const springArmy = new Set(Object.entries(world.glory?.[household.id]?.awards || {}).filter(([, award]) => ['houston-camp', 'san-jacinto', 'which-road', 'coleto', 'goliad', 'alamo'].includes(award.event)).map(([, award]) => award.personId));
-  const away = (person, minute) => springArmy.has(person.id) && minute >= (world.director?.scrapeOpened ?? 240000) && household.flight && minute >= (household.flight.orderedMinute ?? Infinity);
+  const away = (person, minute) => springArmy.has(person.id) && minute >= (world.director?.scrapeOpened ?? 240000) && household.flight && minute >= (household.flight.orderedMinute ?? household.flight.early?.minute ?? Infinity);
   const at = minute => withFamilyAt(world, household, minute, fates, away);
 
   // ---------------------------------------------------------------------------------------------- the arrival and the roll
@@ -309,7 +309,7 @@ function candidates(world, household, trip) {
       scene: { type: 'home', house: { shelter: 'house', layout: houseLayout }, people: at(wed.minute) } });
   }
   // ------------------------------------------------------------------------------------------------------- the fields
-  const orderMinute = household.flight?.orderedMinute ?? Infinity;
+  const orderMinute = household.flight?.orderedMinute ?? household.flight?.early?.minute ?? Infinity;
   const fieldEvents = events.filter(event => /The field is (\d+) acres now/.test(event.text) && event.minute < orderMinute);
   const crops = new Set(events.filter(event => /\b(chose|will|decided alone): plant (corn|cotton)\b|will plant (corn|cotton)/.test(event.text)).map(event => event.text.match(/plant (corn|cotton)/)[1]));
   if (fieldEvents.length) {
@@ -395,7 +395,11 @@ function candidates(world, household, trip) {
   // ------------------------------------------------------------------------------------------------ the spring: the flight
   const flight = household.flight;
   if (flight) {
-    add({ kind: 'order', weight: 76, minute: flight.orderedMinute ?? 0, place: home, caption: `Word came${settlement ? ` from ${settlement}` : ''}: the Mexican army was coming, and every family had to leave for the east.`,
+    // A family that went before any order, on the word it had heard (owner, 2026-09-29, D9 (b); sim/early-word.mjs), is not shown told.
+    if (flight.early && !Number.isFinite(flight.orderedMinute)) {
+      add({ kind: 'order', weight: 76, minute: flight.early.minute, place: home, caption: `The family did not wait for an order to leave: on the word it had heard, it made ready and went${flight.early.crop ? `, and left the ${flight.early.crop} standing in the field` : ''}.`,
+        scene: { type: 'home', house: { shelter: 'house', layout: houseLayout }, people: at(flight.early.minute), rider: true } });
+    } else add({ kind: 'order', weight: 76, minute: flight.orderedMinute ?? 0, place: home, caption: `Word came${settlement ? ` from ${settlement}` : ''}: the Mexican army was coming, and every family had to leave for the east.`,
       scene: { type: 'home', house: { shelter: 'house', layout: houseLayout }, people: at(flight.orderedMinute ?? 0), rider: true } });
     // The day it left home: the first leaving, not a later leg from a stop on its route (which moves `leftMinute` on).
     const left = events.find(event => /^The family loaded .* set out/.test(event.text));
@@ -493,15 +497,17 @@ function candidates(world, household, trip) {
       const house = trip.house === 'burned'
         ? `The house was ashes${trip.burnedBy === 'mexican' ? ', burned by Mexican foragers' : ''}.`
         : trip.house === 'standing' ? 'The house was still standing.' : 'There was no house to come back to.';
-      const foundLines = (trip.texts || []).map(line => line.text).filter(text => /brought home what it had hidden|milk cow came home|were found again|Nothing was found of the stock/.test(text));
+      const foundLines = (trip.texts || []).map(line => line.text).filter(text => /brought home what it had hidden|brought home what they had carried|milk cow came home|were found again|Nothing was found of the stock/.test(text));
       const stock = foundLines.find(text => /found again|Nothing was found/.test(text));
       const cache = foundLines.find(text => /hidden there/.test(text));
       const stockWords = stock ? (/Nothing was found/.test(stock) ? ' None of the stock left on the range was found.' : ` They found ${stock.match(/Of the stock left on the range, (.*?) were found again/)?.[1] || 'some of the stock'} again.`) : '';
       const cacheWords = cache ? ' They dug up what they had hidden by the river.' : '';
+      // What they carried all the way home of their household goods (owner, 2026-09-29, D9 (a); sim/scrape.mjs `advanceFlight`).
+      const carriedWords = (foundLines.find(text => /brought home what they had carried/.test(text)) || '').replace(/^They brought home what they had carried all the way: (.*)\.$/, ' They had carried $1 all the way home.');
       const apart = trip.apart.filter(one => one.arrivedMinute).map(one => { const who = firstName(world.entities[one.personId]), when = shortDay(world, one.arrivedMinute); return one.arrivedMinute > whenHome + DAY / 2 ? `${who} came home later, on ${when}.` : one.arrivedMinute < whenHome - DAY / 2 ? `${who} was already there, home since ${when}.` : `${who} came home with them.`; }).join(" ");
       // Not one of the story's beats: the first scene of the homecoming after its minute (`epilogue`), drawn as a scene in the yard.
       homeBeat = { kind: 'home', minute: whenHome, place: home, homecoming: true,
-        caption: `${trip.status === 'stayed' ? 'The family had stayed home.' : 'The family came home.'} ${house}${cacheWords}${stockWords}${apart ? ` ${apart}` : ''}`,
+        caption: `${trip.status === 'stayed' ? 'The family had stayed home.' : 'The family came home.'} ${house}${carriedWords}${cacheWords}${stockWords}${apart ? ` ${apart}` : ''}`,
         scene: { type: 'yard', part: 'home', light: 'morning', house: { shelter: trip.house === 'burned' ? 'ruined' : trip.house === 'standing' ? 'house' : 'camp', layout: houseLayout }, people: withFamilyAt(world, household, world.minute, fates) } };
     }
   }
@@ -575,7 +581,9 @@ function epilogue(world, household, trip, fates, homeBeat, close) {
   const grown = homeIds.filter(id => !['infant', 'small', 'child'].includes(bandOf(world.entities[id])));
   if (burned) {
     beats.push({ kind: 'rebuild', minute: at, date: later, homecoming: true, place: homeBeat.place, durationMs: EPILOGUE_MS.rebuild,
-      caption: 'In the days after, they raked out the ashes and began again: the first logs of a new house went up where the old one had stood.',
+      caption: trip?.axe === false
+        ? 'In the days after, they raked out the ashes and began again. They had no felling axe left to them, and the first logs of a new house went up with one lent by a neighbour.'
+        : 'In the days after, they raked out the ashes and began again: the first logs of a new house went up where the old one had stood.',
       scene: { type: 'yard', part: 'rebuild', light: 'noon', house, people: homeIds, working: grown } });
   }
   const lost = people(world, household).filter(person => fates[person.id]?.kind === 'dead');

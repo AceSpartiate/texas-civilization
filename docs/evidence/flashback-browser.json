@@ -1,11 +1,11 @@
 {
- "at": "2026-09-30T11:39:23.089Z",
+ "at": "2026-09-30T13:06:38.978Z",
  "pass": [
-  "a class of five families was played headless to its end in 38.8 s (1252 ticks)",
+  "a class of five families was played headless to its end in 80.1 s (1252 ticks)",
   "a student cannot read another family's flashback, nor send one in a class",
-  "the Host's page made the class's video and all five families' in 58 s (webcodecs): class.webm 102 s 7427 KB, hh-1.webm 80 s 5564 KB, hh-2.webm 79 s 5528 KB, hh-3.webm 60 s 4459 KB, hh-4.webm 87 s 5938 KB, hh-5.webm 79 s 5582 KB",
-  "the videos are on the Host's disk in the class's own folder: C:\\Users\\zachw\\AppData\\Local\\Temp\\flashback-proof-D6Lv5G\\flashbacks\\2a8bc9b9d42f",
-  "the student's page has its own family's video ready at the reveal, and plays it with Replay: 80 s, 854×480, 2.5 s played in 2.5 s",
+  "the Host's page made the class's video and all five families' in 143 s (webcodecs): class.webm 102 s 7436 KB, hh-1.webm 80 s 5598 KB, hh-2.webm 79 s 5552 KB, hh-3.webm 60 s 4459 KB, hh-4.webm 87 s 5942 KB, hh-5.webm 79 s 5568 KB",
+  "the videos are on the Host's disk in the class's own folder: C:\\Users\\zachw\\AppData\\Local\\Temp\\flashback-proof-pal0ZE\\flashbacks\\627bd3511b8f",
+  "the student's page played its own family's video by itself: 80 s, 854×480, 2.5 s played in 2.5 s",
   "the captions are below the video as words, 18 lines: \"September 28, 1835. Ramón and Manuela came to new land near San Felipe de Austin with thei…\"",
   "Replay plays it again from the start",
   "frames of the student's video photographed: docs/evidence/flashback-frame-02s.png, docs/evidence/flashback-frame-09s.png, docs/evidence/flashback-frame-21s.png, docs/evidence/flashback-frame-33s.png, docs/evidence/flashback-frame-45s.png, docs/evidence/flashback-frame-57s.png",
@@ -17,85 +17,85 @@
  "runs": [
   {
    "families": 5,
-   "seconds": 58.233,
+   "seconds": 142.703,
    "made": {
     "done": [
      {
       "householdId": "class",
-      "madeMs": 15910,
-      "bytes": 7605477,
+      "madeMs": 42732,
+      "bytes": 7614407,
       "durationMs": 102000,
       "frames": 2040,
       "how": "webcodecs",
       "warm": {
        "rounds": 2,
-       "waitedMs": 2891.1999999284744,
+       "waitedMs": 4837,
        "unsettled": 0,
-       "ms": 3749
+       "ms": 6083
       },
       "paintMs": {
-       "title": 51,
-       "encodeWait": 8656,
-       "homes": 295,
-       "battle": 1100,
-       "routes": 85,
-       "home": 61,
-       "closing": 79,
-       "flush": 41
+       "title": 66,
+       "encodeWait": 32407,
+       "homes": 366,
+       "battle": 1298,
+       "routes": 105,
+       "home": 89,
+       "closing": 94,
+       "flush": 84
       }
      },
      {
       "householdId": "hh-1",
-      "madeMs": 10045,
-      "bytes": 5697405,
+      "madeMs": 10823,
+      "bytes": 5732016,
       "durationMs": 80000,
       "frames": 1600,
       "how": "webcodecs",
       "warm": {
        "rounds": 2,
-       "waitedMs": 127.5,
+       "waitedMs": 130.60000002384186,
        "unsettled": 0,
-       "ms": 924
+       "ms": 1234
       },
       "paintMs": {
-       "title": 39,
-       "encodeWait": 7175,
-       "home": 256,
-       "map": 73,
-       "road": 419,
-       "yard": 263,
+       "title": 44,
+       "encodeWait": 7409,
+       "home": 253,
+       "map": 88,
+       "road": 452,
+       "yard": 314,
        "closing": 63,
-       "flush": 60
+       "flush": 47
       }
      },
      {
       "householdId": "hh-2",
-      "madeMs": 11375,
-      "bytes": 5660937,
+      "madeMs": 25217,
+      "bytes": 5684953,
       "durationMs": 79000,
       "frames": 1580,
       "how": "webcodecs",
       "warm": {
        "rounds": 2,
-       "waitedMs": 60.700000047683716,
+       "waitedMs": 130,
        "unsettled": 0,
-       "ms": 810
+       "ms": 1195
       },
       "paintMs": {
-       "title": 34,
-       "encodeWait": 8268,
-       "home": 274,
-       "battle": 568,
-       "road": 302,
-       "map": 40,
-       "yard": 177,
-       "closing": 48,
-       "flush": 27
+       "title": 45,
+       "encodeWait": 21402,
+       "home": 255,
+       "battle": 513,
+       "road": 326,
+       "map": 48,
+       "yard": 242,
+       "closing": 62,
+       "flush": 178
       }
      },
      {
       "householdId": "hh-3",
-      "madeMs": 5322,
+      "madeMs": 12306,
       "bytes": 4566116,
       "durationMs": 60000,
       "frames": 1200,
@@ -104,65 +104,65 @@
        "rounds": 2,
        "waitedMs": 0,
        "unsettled": 0,
-       "ms": 379
+       "ms": 450
       },
       "paintMs": {
-       "title": 28,
-       "encodeWait": 3794,
-       "home": 334,
-       "map": 22,
-       "road": 194,
-       "closing": 54,
-       "flush": 51
+       "title": 33,
+       "encodeWait": 10372,
+       "home": 408,
+       "map": 33,
+       "road": 218,
+       "closing": 58,
+       "flush": 73
       }
      },
      {
       "householdId": "hh-4",
-      "madeMs": 6309,
-      "bytes": 6080556,
+      "madeMs": 22046,
+      "bytes": 6084340,
       "durationMs": 87000,
       "frames": 1740,
       "how": "webcodecs",
       "warm": {
        "rounds": 2,
-       "waitedMs": 70.19999992847443,
+       "waitedMs": 374.8000000715256,
        "unsettled": 0,
-       "ms": 548
+       "ms": 855
       },
       "paintMs": {
-       "title": 31,
-       "encodeWait": 4181,
-       "home": 216,
-       "map": 101,
-       "road": 263,
-       "yard": 218,
-       "closing": 45,
-       "flush": 26
+       "title": 37,
+       "encodeWait": 18849,
+       "home": 257,
+       "map": 142,
+       "road": 342,
+       "yard": 334,
+       "closing": 61,
+       "flush": 129
       }
      },
      {
       "householdId": "hh-5",
-      "madeMs": 6357,
-      "bytes": 5715948,
+      "madeMs": 25082,
+      "bytes": 5701580,
       "durationMs": 79000,
       "frames": 1580,
       "how": "webcodecs",
       "warm": {
        "rounds": 2,
-       "waitedMs": 62.699999928474426,
+       "waitedMs": 319.10000002384186,
        "unsettled": 0,
-       "ms": 563
+       "ms": 1048
       },
       "paintMs": {
-       "title": 27,
-       "encodeWait": 3978,
-       "home": 171,
-       "battle": 529,
-       "road": 232,
-       "map": 28,
-       "yard": 154,
-       "closing": 43,
-       "flush": 27
+       "title": 35,
+       "encodeWait": 21338,
+       "home": 291,
+       "battle": 698,
+       "road": 302,
+       "map": 44,
+       "yard": 261,
+       "closing": 60,
+       "flush": 70
       }
      }
     ],
@@ -173,7 +173,7 @@
    "disk": [
     {
      "file": "class.webm",
-     "bytes": 7605477,
+     "bytes": 7614407,
      "durationMs": 102000,
      "codec": "V_VP8",
      "width": 854,
@@ -184,7 +184,7 @@
     },
     {
      "file": "hh-1.webm",
-     "bytes": 5697405,
+     "bytes": 5732016,
      "durationMs": 80000,
      "codec": "V_VP8",
      "width": 854,
@@ -195,7 +195,7 @@
     },
     {
      "file": "hh-2.webm",
-     "bytes": 5660937,
+     "bytes": 5684953,
      "durationMs": 79000,
      "codec": "V_VP8",
      "width": 854,
@@ -217,7 +217,7 @@
     },
     {
      "file": "hh-4.webm",
-     "bytes": 6080556,
+     "bytes": 6084340,
      "durationMs": 87000,
      "codec": "V_VP8",
      "width": 854,
@@ -228,7 +228,7 @@
     },
     {
      "file": "hh-5.webm",
-     "bytes": 5715948,
+     "bytes": 5701580,
      "durationMs": 79000,
      "codec": "V_VP8",
      "width": 854,
@@ -242,9 +242,9 @@
  ],
  "class": {
   "families": 5,
-  "seconds": 38.8,
+  "seconds": 80.1,
   "ticks": 1252,
-  "events": 9282,
+  "events": 9286,
   "flights": {
    "hh-1": "returning",
    "hh-2": "returning",

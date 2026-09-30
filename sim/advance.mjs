@@ -482,7 +482,10 @@ export function farmFate(world, household) {
  */
 export function burnMinute(world, household) {
   const fate = farmFate(world, household);
-  if (!fate || !household.flight || !Number.isFinite(household.flight.orderedMinute)) return null;
+  if (!fate || !household.flight) return null;
+  // A family that left before any order, on news it had heard (sim/early-word.mjs, owner 2026-09-29): its house stands empty from the
+  // minute it went, and the foragers come when they come; there is no order to give it a day's grace.
+  if (!Number.isFinite(household.flight.orderedMinute)) return Number.isFinite(household.flight.early?.minute) ? Math.max(fate.minute + clockOf(world), household.flight.early.minute) : null;
   return Math.max(fate.minute + clockOf(world), household.flight.orderedMinute + ORDER_GRACE_MINUTES);
 }
 /** Whether this world is one the advance is modelled on: the real land of the colonies, with the columns' places on it. */

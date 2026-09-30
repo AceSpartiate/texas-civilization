@@ -24,7 +24,7 @@ import { decisionClockInvalid, decisionLeft, decisionPressing, spendDecisionBudg
 import { markTipSeen, tipsInvalid } from './tips.mjs';
 // The lone parent's path (owner, 2026-09-29; docs/FAMILY_CREATION.md, *The lone parent's path*).
 import { advanceCourtship, askNeighbours, courtshipInvalid, courtshipView, markWatched, marriedIn, visitingWhy } from './courtship.mjs';
-import { advanceFlight, flee, flightProjection, householdAsKnown, scrapeInvalid, share, stayHome } from './scrape.mjs';
+import { advanceFlight, earlyProjection, flee, flightProjection, householdAsKnown, scrapeInvalid, share, stayHome } from './scrape.mjs';
 import { advanceDisease, diseaseInvalid, mendSickness, registerDiseaseChores, sickRefusal, sicknessShown } from './disease.mjs';
 import { answerRoad, registerRoadChores } from './road.mjs';
 // The family's own route on the Scrape, and the chases the Host watches (owner, 2026-09-27).
@@ -1395,7 +1395,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   const wagon = household ? wagonProjection(world, household) : null;
 
   const travelModes = household ? Object.fromEntries(household.members.map(id => [id, travelModesFor(world, world.entities[id])])) : {};
-  const toolCondition = household ? Object.fromEntries(Object.entries(household.tools || {}).map(([tool, wear]) => [tool, { wear, state: toolState(wear) }])) : {};
+  const toolCondition = household ? Object.fromEntries(Object.entries(known.tools || {}).map(([tool, wear]) => [tool, { wear, state: toolState(wear) }])) : {};
   const offers = offersFor(world, householdId);
   const encounter = encounterProjection(world, householdId, role);
   const armies = armiesSeen(world, householdId, role);
@@ -1442,6 +1442,9 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // (its three real minutes, owner 2026-09-29; sim/auto.mjs `flightLeftMs`), for the countdown on the "!"
     // (docs/audits/2026-09-28-design.md S33).
     ...(household?.flight ? { flight: { ...flightProjection(world, household), ...(() => { const left = flightLeftMs(world, household); return left === null ? {} : { leftMs: left, ifUnanswered: FLIGHT_IF_UNANSWERED }; })() } } : {}),
+    // Before its order, a family that has heard of the Alamo's fall or the Mexican army's advance may go now, at a cost (owner,
+    // 2026-09-29, D9 (b); sim/early-word.mjs): its card, beside the flight it has not got. From its own knowledge only.
+    ...(household && !household.flight && role !== 'host' ? (() => { const early = earlyProjection(world, household); return early ? { early } : {}; })() : {}),
     // Every family's land as it truly stands, and where the army is, for the Host's map only (sim/overview.mjs).
     ...(overview && { overview: { lands: overview.lands, ...(overview.army && { army: overview.army }) } }),
     // The Host's live page (sim/host.mjs): the class in words, the Rumor Mill and the spotlight. Never a student's.
