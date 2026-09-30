@@ -1,5 +1,39 @@
 # Claude handoff — Astra foundation
 
+## The owner's answers on the family's start: the priest from La Bahía, a rancho near Béxar, Seguín's men in the Alamo, the carreta — 2026-09-30 (not released)
+
+**The ask.** The owner answered the six questions of the family's start (docs/FAMILY_CREATION.md, the amendment of 2026-09-29/30):
+1 "Priest from La Bahía", 2 "Béxar at 20+", 3 "No control", 4 "Open", 5 "Join, then leave", 6 the carreta, "if not then yes".
+Branch `starts-2` off local `integration-2026-09-28` 4131feb8; not pushed. Claims `HIST-TEX-790`, `-791`; `FIC-GONZ-987` to `-990`;
+`HIST-TEX-781`, `-782` amended.
+
+- **1. A Tejano family's wedding** on the lone parent's path is performed by an unnamed priest come up from La Bahía, before the
+  neighbours, with no bond (sim/courtship.mjs `riteFor`, `rite: 'priest'`); the line under it says only what is documented. Anglo and
+  free Black families keep the bond. The flashback remembers either.
+- **2. A Tejano family on a rancho near Béxar**, in a class of 20 or more (sim/starts.mjs `startCounts`, `BEXAR_AT`; one line and the
+  zone's room in sim/colonies-region.mjs): 2-12 miles from the town by the river (measured 3-4), clear of the missions' camps, always
+  inside the burn zone, early to join; a store and carpenter at Béxar (sim/town.mjs). Seguín's call from its own land when the army
+  leaves the Cibolo, the man riding from home to the army (sim/calls.mjs, sim/army.mjs `followTheArmy`); what it hears at its door
+  (sim/start-story.mjs `BEXAR_WORD`: Concepción's guns, the grass burned, the storming, the capitulation, Herrera and the bell via
+  sim/surprise.mjs, Mexican foragers, the Alamo's fall known that day); the word to leave from Seguín's men on March 14 and a rancho
+  left in a rush burned by Santa Anna's foragers (two small edits in sim/scrape.mjs, for the Scrape's own builder to see); its ending.
+  It amends the owner's 2026-09-14 rule that only colonies are starts (docs/COLONIES.md §5.1).
+- **5. Seguín's men in the winter garrison**: a Tejano man there is one of Seguín's men (told so); shut in on February 23, he rides
+  out with Seguín on the night of the 25th (the director's `courier-2`, before Travis's riders are chosen) for Gonzales, and the fall's
+  word says so (sim/tejano.mjs `seguinRidesOut`; sim/alamo.mjs `rideOut` exported, `tellFall`). A woman is never one of his men.
+- **6. The carreta**: a Tejano family of the poorest means comes with the family carreta, named so and drawn with Astra's `carreta-*`
+  frames (already delivered; public/art-subjects.js lets hers win), carrying and seating as the cart does (sim/means.mjs `style`,
+  sim/wagon.mjs `vehicleWord`, the pack screen). Nothing to retire: no stand-in or request for it was open. `ceiling:` the flight
+  card still says "in the cart" (sim/scrape.mjs `flightProjection`, left to the Scrape's builder).
+
+**Evidence** (same computer only; no Chromebook or LAN claim): EVIDENCE2
+
+**Open, for the owner** (built the conservative way; recommended first):
+1. The Béxar family's wedding: (a) the priest from La Bahía, as for every Tejano family (as built); (b) Béxar's own parish priest.
+2. What the Mexican foragers take from the Béxar family: (a) said, not taken (as built); (b) some corn and cattle taken and said.
+3. A Béxar family that stays when the foragers come: (a) taken prisoner as any family is (as built); (b) not taken, only burned.
+4. Where the Béxar rancho lies: (a) near Béxar where the land allows (as built); (b) only down the river toward Goliad.
+
 ## The art as WebP, a Tips button, and tap-then-send on touch — triage D14, D16, D17, owner 2026-09-29 (not released)
 
 Branch `webp-tips-touch` off origin/main 67d674bb, merged with origin/main ca6ac201 and again 8687a96b; not pushed. The owner
