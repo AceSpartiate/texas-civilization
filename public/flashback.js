@@ -1044,6 +1044,9 @@ export function renderFinale(snapshot) {
     video.hidden = true;
     document.querySelector('#finale-families').hidden = true;
     finaleSeen.playing = null;
+    // The family's own video loaded while the class video plays, so it can start the moment the class's ends (owner, 2026-09-30).
+    const own = document.querySelector('#flashback-video'), made = snapshot.flashback?.made;
+    if (own && made) { const source = videoUrl(snapshot.flashback.householdId, made); if (own.dataset.src !== source) { own.dataset.src = source; own.dataset.household = snapshot.flashback.householdId; own.src = source; } }
   } else {
     title.textContent = 'Our story, looking back';
     const now = performance.now();

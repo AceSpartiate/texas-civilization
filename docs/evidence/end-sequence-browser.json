@@ -1,21 +1,23 @@
 {
- "at": "2026-09-30T12:55:20.515Z",
+ "at": "2026-09-30T16:37:06.505Z",
  "pass": [
-  "a class of five families (three played, two with students) was played headless to its end in 155 s; the students' farms: {\"hh-1\":\"sold for 181\",\"hh-2\":\"burned\"}",
+  "a class of five families (three played, two with students) was played headless to its end in 39 s; the students' farms: {\"hh-1\":\"sold for 181\",\"hh-2\":\"burned\"}",
   "the class ended: every screen is at the class video; the students' say to look at the class screen and play nothing; no page has a number of the ending",
-  "the Host's page made the class's own video first (132 s, made in 44 s) and played it by itself, large, on the class screen",
+  "two families' videos made at once while the class video played (hh-4, hh-5): 7.9 s of it played in 7.9 s of two at once, 0 of 157 frames dropped, 0 tenths of a second at under half speed",
+  "the Host's page made the class's own video first (132 s, made in 19 s) and played it by itself, large, on the class screen",
   "frames of the class video photographed: 11",
   "when the class video had played to its end, every screen went on to the families' own videos",
-  "the Controls button opens the teacher's own controls over the ending, which goes on (Study, Brisk, Quick, Recover a student, Join 127.0.0.1:49430 · code ENDSEQ, Classes), and closes them",
-  "both students' own videos started by themselves 167 ms apart, over the whole screen, without a word from either page (88 and 87 s)",
+  "the Controls button opens the teacher's own controls over the ending, which goes on (Study, Brisk, Quick, Recover a student, Join 127.0.0.1:49732 · code ENDSEQ, Classes), and closes them",
+  "the families' videos started 3.5 s after the class video finished (their last made 52.6 s before it finished)",
+  "both students' own videos started by themselves 11 ms apart, over the whole screen, without a word from either page (88 and 87 s)",
   "the Host's screen counts down to the final numbers and says where each family is: the Flashwright family: watching; the Harrowgate family: watching",
-  "a student's page reloaded in the middle joined its video where the class is (5.6 s in)",
-  "autoplay refused (the page's play() rejected, as a browser's policy would): a large Play button, pressed, played the video from 13 s, where the class is",
+  "a student's page reloaded in the middle joined its video where the class is (10.6 s in)",
+  "autoplay refused (the page's play() rejected, as a browser's policy would): a large Play button, pressed, played the video from 25 s, where the class is",
   "the story in words below the video, 19 lines, ends with the counting at the table",
   "the homecoming's scenes (home, burial, count, sale, rebuild) photographed: 8 frames; the farm sold where it stands and nothing to sell where it burned",
-  "the reveal came on the server's clock, 1 s after the stage's stated end (the server looks each second): no page's word was waited for",
-  "at the reveal the class screen showed the final table (5 families) and the winner: \"the Flashwright family finished first, with a final number of 51754.\"",
-  "hh-1's screen shows its full breakdown: \"The family had 277 reales, and sold the farm for 181 reales: 277 + 181 = 458 reales. 112 glory multiplies it by 113 (1 + 112): 458 × 113 = 5…\"",
+  "the reveal came on the server's clock, 2.8 s after the stage's stated end (the server looks each second): no page's word was waited for",
+  "at the reveal the class screen showed the final table (5 families) and the winner: \"Anselmo's family finished first, with a final number of 45267.\"",
+  "hh-1's screen shows its full breakdown: \"The family had 277 reales, and sold the farm for 181 reales: 277 + 181 = 458 reales. 97 glory multiplies it by 98 (1 + 97): 458 × 98 = 44884…\"",
   "hh-2's screen shows its full breakdown: \"The family had no coin, so it is counted as having 1 real. The farm was burned, so there was nothing to sell; it counts 40 glory, which is i…\"",
   "a student replays their own video after the reveal",
   "the teacher played the ending again from the start: the class video on the class screen, the numbers gone from every screen",
@@ -60,11 +62,33 @@
  ],
  "class": {
   "families": 5,
-  "seconds": 155,
+  "seconds": 39,
   "farms": {
    "hh-1": "sold for 181",
    "hh-2": "burned"
   }
+ },
+ "twoAtOnce": {
+  "wall": 7.8885,
+  "advanced": 7.888391999999996,
+  "peak": 2,
+  "dropped": 0,
+  "frames": 157,
+  "stalls": 0,
+  "seen": [
+   "hh-4",
+   "hh-5"
+  ],
+  "done": [
+   "class",
+   "hh-2",
+   "hh-1",
+   "hh-3",
+   "hh-4"
+  ],
+  "failed": [],
+  "stacks": null,
+  "running": true
  },
  "classVideo": {
   "durationMs": 132000,
@@ -86,16 +110,20 @@
    "closing: Five of the class's people went to the war. Every family has its own story, and each of you will now see yours, on your own screen."
   ]
  },
+ "start": {
+  "afterClassMs": 3521,
+  "lastMadeBeforeClassEndMs": 52558
+ },
  "homecoming": {
   "hh-1": [
-   "home: The family came home. The house was still standing. They found 3 cattle and 5 hogs again.",
+   "home: The family came home. The house was still standing. They had carried a hoe and a felling axe all the way home. They found 3 cattle and 5 hogs again.",
    "burial: The family gathered under the trees by the house to remember Feliciano and Cayetano, and set up two wooden markers in their memory.",
    "count: Manuela sat down at the table to count what the family had left: 277 reales in coin, and three head of cattle and five hogs on the range.",
    "sale: A land agent from Columbia came out and bought the farm, the land, the round-log cabin and 30 acres of cleared field, fenced, for 181 reales. With the coin in the house, the family had 458 reales."
   ],
   "hh-2": [
    "home: The family came home. The house was ashes, burned by Mexican foragers. Jethro was already there, home since May 2.",
-   "rebuild: In the days after, they raked out the ashes and began again: the first logs of a new house went up where the old one had stood.",
+   "rebuild: In the days after, they raked out the ashes and began again. They had no felling axe left to them, and the first logs of a new house went up with one lent by a neighbour.",
    "burial: The family gathered under the trees by the house to remember Jasper, and set up a wooden marker in their memory.",
    "count: Jethro sat down at the table to count what the family had left: 0 reales in coin. The farm was ashes: there was nothing left of it to sell."
   ]
