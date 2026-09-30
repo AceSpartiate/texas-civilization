@@ -1,10 +1,10 @@
 ﻿{
-    "recordedAt":  "2026-09-26T11:21:05.2853953Z",
+    "recordedAt":  "2026-09-30T18:15:26.0019899Z",
     "machine":  "development computer",
     "script":  "scripts/launcher-delta-injections.ps1",
     "tests":  "tests/launcher (dotnet run)",
     "baselinePassed":  20,
-    "caught":  20,
+    "caught":  21,
     "injections":  [
                        {
                            "injection":  "damaged installed file treated as unchanged",
@@ -163,6 +163,15 @@
                        {
                            "injection":  "a set of changes named .zip, which old launchers take for the game",
                            "file":  "launcher\\DeltaUpdate.cs",
+                           "expected":  "assets",
+                           "failed":  [
+                                          "assets"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "the small setup taken for the whole one (any name ending Setup.exe)",
+                           "file":  "launcher\\Updates.cs",
                            "expected":  "assets",
                            "failed":  [
                                           "assets"

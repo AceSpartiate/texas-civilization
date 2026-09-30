@@ -279,9 +279,12 @@ Test("interrupted-swap: a launch after a swap cut off mid-way restores a retired
 Test("assets: the list and sets are found, and no launcher from before takes a set for the game", () =>
 {
     // The sets are listed first, as GitHub may order them: a launcher from before 2026-09-16
-    // takes the first .zip without NeedsNode as the whole game.
+    // takes the first .zip without NeedsNode as the whole game. The small setup a teacher emails
+    // (TexasRevolutionWebSetup.exe, from 2026-09-30) is listed before the whole one: it is not a
+    // launcher, and a launcher that took it for its update would unpack nothing.
     var json = $$"""
         {"tag_name":"v2","html_url":"page","name":"v2","assets":[
+          {"name":"TexasRevolutionWebSetup.exe","browser_download_url":"u/websetup","size":173568},
           {"name":"{{DeltaUpdate.PatchAssetName("v1")}}","browser_download_url":"u/patch","size":412},
           {"name":"{{ReleaseManifest.AssetName}}","browser_download_url":"u/manifest","size":40},
           {"name":"TexasRevolution-Gonzales-2.zip","browser_download_url":"u/zip","size":170000000},
@@ -290,7 +293,7 @@ Test("assets: the list and sets are found, and no launcher from before takes a s
         """;
     var release = Updates.Parse(json);
     Assert(release.DownloadUrl == "u/zip", "the update archive old launchers take is now " + release.DownloadUrl);
-    Assert(release.SetupUrl == "u/setup", "the setup program was not found");
+    Assert(release.SetupUrl == "u/setup" && release.SetupSize == 250000000, "the setup program is now " + release.SetupUrl);
     Assert(release.ManifestUrl == "u/manifest", "the list was not found");
     Assert(release.Patches is not null && release.Patches.TryGetValue("v1", out var patch) && patch.Url == "u/patch" && patch.Size == 412, "the set of changes from v1 was not found");
 });

@@ -1,0 +1,175 @@
+{
+  "recordedAt": "2026-09-30T19:37:41.619Z",
+  "machine": "development computer",
+  "script": "scripts/web-setup-injections.mjs",
+  "checks": "scripts/verify-web-setup.mjs",
+  "baselinePassed": 14,
+  "caught": 15,
+  "injections": [
+    {
+      "injection": "the small setup carries a picture it has no need of, and is no longer small",
+      "file": "scripts/build-web-setup.ps1",
+      "expected": [
+        "size"
+      ],
+      "failed": [
+        "size"
+      ],
+      "caught": true
+    },
+    {
+      "injection": "any file whose name ends Setup.exe is taken for the whole setup - including the small one",
+      "file": "websetup/Download.cs",
+      "expected": [
+        "api-asset"
+      ],
+      "failed": [
+        "api-asset"
+      ],
+      "caught": true
+    },
+    {
+      "injection": "the setup is started in whatever folder the small one was started from, not its own",
+      "file": "websetup/Download.cs",
+      "expected": [
+        "launch"
+      ],
+      "failed": [
+        "launch"
+      ],
+      "caught": true
+    },
+    {
+      "injection": "the download is left behind after the setup has closed",
+      "file": "websetup/SetupWindow.cs",
+      "expected": [
+        "cleanup"
+      ],
+      "failed": [
+        "cleanup"
+      ],
+      "caught": true
+    },
+    {
+      "injection": "the small setup does not wait for the setup to close before tidying up and ending",
+      "file": "websetup/SetupWindow.cs",
+      "expected": [
+        "cleanup"
+      ],
+      "failed": [
+        "cleanup"
+      ],
+      "caught": true
+    },
+    {
+      "injection": "a release list that cannot be had is the end, with no stable address to fall back on",
+      "file": "websetup/Download.cs",
+      "expected": [
+        "fallback"
+      ],
+      "failed": [
+        "fallback"
+      ],
+      "caught": true
+    },
+    {
+      "injection": "a connection cut off part way begins again from nothing",
+      "file": "websetup/Download.cs",
+      "expected": [
+        "resume"
+      ],
+      "failed": [
+        "resume"
+      ],
+      "caught": true
+    },
+    {
+      "injection": "a download of another size than the release gives is taken",
+      "file": "websetup/Download.cs",
+      "expected": [
+        "size-mismatch"
+      ],
+      "failed": [
+        "size-mismatch"
+      ],
+      "caught": true
+    },
+    {
+      "injection": "GitHub's SHA-256 of the setup is not compared",
+      "file": "websetup/Download.cs",
+      "expected": [
+        "digest-mismatch"
+      ],
+      "failed": [
+        "digest-mismatch"
+      ],
+      "caught": true
+    },
+    {
+      "injection": "a network filter's page is taken for the download, and called damaged rather than the network",
+      "file": "websetup/Download.cs",
+      "expected": [
+        "filter-page"
+      ],
+      "failed": [
+        "filter-page"
+      ],
+      "caught": true
+    },
+    {
+      "injection": "free space is not looked at before the download",
+      "file": "websetup/Download.cs",
+      "expected": [
+        "disk-full"
+      ],
+      "failed": [
+        "disk-full"
+      ],
+      "caught": true
+    },
+    {
+      "injection": "Windows refusing to start the setup is reported as a general failure",
+      "file": "websetup/Download.cs",
+      "expected": [
+        "blocked"
+      ],
+      "failed": [
+        "blocked"
+      ],
+      "caught": true
+    },
+    {
+      "injection": "every network failure is called no internet",
+      "file": "websetup/Download.cs",
+      "expected": [
+        "unreachable"
+      ],
+      "failed": [
+        "unreachable"
+      ],
+      "caught": true
+    },
+    {
+      "injection": "no internet is never said, only that the download could not be reached",
+      "file": "websetup/Download.cs",
+      "expected": [
+        "offline"
+      ],
+      "failed": [
+        "offline"
+      ],
+      "caught": true
+    },
+    {
+      "injection": "a test address may be anywhere, so a shortcut could point a copy at another download",
+      "file": "websetup/Program.cs",
+      "expected": [
+        "test-only"
+      ],
+      "failed": [
+        "test-only"
+      ],
+      "caught": true
+    }
+  ]
+}
