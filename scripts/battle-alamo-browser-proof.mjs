@@ -15,8 +15,9 @@
 //   - the Host sees it live, its camera on the compound, its spotlight lit;
 //   - the family with nobody there is sent nothing of it - not the battle, not a card, not the man's name - before and after
 //     a reload;
-//   - the student who watched is given what they saw, on the card, and the journal keeps nothing until the word comes on
-//     March 13, when it keeps the account.
+//   - the student who watched is given what they saw, on the card, and the journal keeps nothing until the word comes - by
+//     express from Gonzales on March 13, reaching this family (at Matagorda) after the winter's period stops, so the Host carries
+//     the class on into the spring for it - when it keeps the account.
 // At 1366x768 and 1024x768, headless Chrome, same computer. Run: npm run test:battle-alamo
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
@@ -267,10 +268,35 @@ try {
   await inside.waitForFunction(() => !document.querySelector('#military-notice').hidden && /What you saw/.test(document.querySelector('#military-title').textContent), null, { timeout: 30000 }).catch(() => {});
   await shot(inside, 'debrief');
   ok(`afterwards the card "${debrief.card.title}" says what the student saw and that nobody at home knows; the journal says nothing of it`);
-  await waitFor(inside, id => window.__snapshot.world.events.some(event => event.actorId === id && /killed when the Alamo was stormed/.test(event.text)), manId, 300000);
-  const word = await inside.evaluate(id => ({ date: window.__snapshot.world.historicalDate, text: window.__snapshot.world.events.find(event => event.actorId === id && /killed when the Alamo was stormed/.test(event.text)).text, card: window.__snapshot.world.battleAccount?.title }), manId);
+  // The word of the fall leaves Gonzales by express on the 13th and reaches each family as a rider from its nearest stop could
+  // (sim/expresses.mjs, docs/COLONIES.md §5.4c, since 2026-09-29): this family lives at Matagorda, by Victoria, which it reaches
+  // some hours after the winter's period stops on the night of the 13th. The period's end does not wait for it (only the autumn's
+  // and the spring's ends are held for word, `holdForWord`), so the family hears it in the spring, when the teacher carries the
+  // class on - and not one line of the journal says he was killed before it hears.
+  await waitFor(inside, id => window.__snapshot.world.events.some(event => event.actorId === id && /killed when the Alamo was stormed/.test(event.text)) || window.__snapshot.world.status === 'ended', manId, 300000);
+  let carriedOn = false;
+  if (!(await inside.evaluate(id => window.__snapshot.world.events.some(event => event.actorId === id && /killed when the Alamo was stormed/.test(event.text)), manId))) {
+    const stopped = await inside.evaluate(() => ({ date: window.__snapshot.world.historicalDate, fall: (window.__snapshot.world.events || []).filter(event => /Alamo has fallen/.test(event.text || '')).length }));
+    // The winter's own stop (the night of March 13, sim/directors.mjs `alamo-end`), which the Host is offered to carry on from.
+    const hostSays = await host.waitForFunction(() => window.__snapshot.world.status === 'ended' && window.__snapshot.world.ending?.host?.canContinue && window.__snapshot.world.ending.host.nextLabel).then(handle => handle.jsonValue());
+    assert.equal(stopped.date, '1836-03-13', `the class stopped on ${stopped.date}, not at the winter's end, before the word came`);
+    assert.equal(stopped.fall, 0, 'the family was told the Alamo had fallen and not what became of its own');
+    assert.equal(await hostCommand('next-period'), 200, `the Host could not carry the class on ("${hostSays}")`);
+    await host.waitForFunction(() => window.__snapshot.world.status === 'paused' && window.__snapshot.world.historicalDate >= '1836-03-14');
+    await resume();
+    carriedOn = stopped.date;
+    await waitFor(inside, id => window.__snapshot.world.events.some(event => event.actorId === id && /killed when the Alamo was stormed/.test(event.text)), manId, 300000);
+  }
+  // The card of the word, as the page was sent it (recorded, as every card here is): up a day from the tick the word came.
+  await waitFor(inside, () => Object.keys(window.__seen.accounts).some(id => id.startsWith('account:alamo:')), undefined, 30000);
+  const word = await inside.evaluate(id => ({ date: window.__snapshot.world.historicalDate, text: window.__snapshot.world.events.find(event => event.actorId === id && /killed when the Alamo was stormed/.test(event.text)).text, card: Object.values(window.__seen.accounts).find(one => one.id.startsWith('account:alamo:')) }), manId);
   assert.match(word.text, /What happened/);
-  ok(`the word came on ${word.date}: the journal keeps the account ("${word.text.slice(0, 100)}…"), and the card "${word.card}"`);
+  assert.equal(word.card.title, 'The word from the Alamo');
+  assert.equal(word.card.entityId, manId, 'the card of the word is not about the family\'s own man');
+  assert.match(word.card.text, /killed when the Alamo was stormed/);
+  word.card = word.card.title;
+  evidence.word = { ...word, carriedOn };
+  ok(`the word came on ${word.date}${carriedOn ? ` (the winter stopped on ${carriedOn} before it could; the class carried on into the spring)` : ''}: the journal keeps the account ("${word.text.slice(0, 100)}…"), and the card "${word.card}"`);
   await shot(inside, 'word');
 
   assert.deepEqual(errors, [], `a page threw: ${errors.join(' | ')}`);

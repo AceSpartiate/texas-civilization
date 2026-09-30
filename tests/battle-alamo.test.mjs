@@ -6,7 +6,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
-import { beginSecondPeriod } from '../sim/periods.mjs';
+import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
+import { expressMinutes } from '../sim/expresses.mjs';
 import { ARRIVAL_MINUTES, TIMELINE, momentOf } from '../sim/directors.mjs';
 import { ENGAGEMENTS, battleState, checkEngagement, phaseOffset, projectBattle, schedule } from '../sim/battle-stage.mjs';
 import { ALAMO, ALAMO_PLAN_ORIGIN } from '../sim/battles/alamo.mjs';
@@ -332,6 +333,28 @@ test('the student may watch their own man fall; the family\'s journal and its pe
   const told = world.events.find(event => event.actorId === man.id && /killed when the Alamo was stormed/.test(event.text));
   assert.ok(told && /the north wall/.test(told.text) && /What happened/.test(told.text), 'the word did not bring the account in plain words');
   assert.match(view(world, man.householdId).battleAccount?.title || '', /word from the Alamo/, 'the account was not on the card');
+});
+
+test('a family far down the road hears of the fall in the spring: dead only then, with the account on its card as in its journal', () => {
+  // The word leaves Gonzales by express on March 13 (sim/directors.mjs `fall-confirmed`) and the winter stops that night
+  // (`alamo-end`), so the family farthest by express hears it in the spring - and its card was the second period's alone.
+  const world = winter();
+  const [man] = menOfFamilies(world, 8).sort((a, b) => expressMinutes(world, 'gonzales', world.households[b.householdId].settlementId) - expressMinutes(world, 'gonzales', world.households[a.householdId].settlementId));
+  garrison(world, man, { post: { id: 'north', spot: 5 } });
+  untilMoment(world, 'alamo-siege');
+  untilStaying(world, () => world.director.milestones['alamo-end']);
+  const toldOf = () => world.events.find(event => event.actorId === man.id && /killed when the Alamo was stormed/.test(event.text));
+  assert.equal(man.service.fate, 'fell');
+  assert.ok(!toldOf(), `${world.households[man.householdId].settlementId} heard of the fall before the winter stopped, so nothing here is carried into the spring`);
+  assert.notEqual(man.health.condition, 'dead', 'the family\'s record made the death true before the word');
+  beginThirdPeriod(world); world.status = 'running';
+  until(world, () => toldOf(), 400);
+  assert.ok(toldOf(), 'the word of the fall never reached the family in the spring');
+  assert.equal(man.health.condition, 'dead');
+  const card = view(world, man.householdId).battleAccount;
+  assert.match(card?.title || '', /word from the Alamo/, 'the account was not on the card in the spring');
+  assert.match(card.text, /What happened/);
+  validateWorld(world);
 });
 
 test('only the Host and a family with somebody there are sent the Alamo: nobody else, not a count, not a card, and nothing from the future', () => {

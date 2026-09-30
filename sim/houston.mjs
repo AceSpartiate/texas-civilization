@@ -287,13 +287,20 @@ export function goliadMassacre(world) {
   }
 }
 
+/**
+ * Whether a Fannin man's family has been told what became of him at Goliad: `told`, except where a class saved before 2026-09-30
+ * kept a southern escape's telling there (sim/alamo.mjs `tellSouth`, now `escapeTold`) - a man still serving or a prisoner, got
+ * away from the south, has been told of nothing but his escape.
+ */
+export const goliadTold = service => Boolean(service?.told) && !(service.escapedFrom && !service.escapeTold && ['serving', 'prisoner'].includes(service.status));
+
 /** Word of the massacre: the family learns what became of its own. */
 export function tellGoliad(world, { beginTravel }, only = null) {
   for (const person of Object.values(world.entities)) {
     const service = person.service;
     // Given `only`, the families the word of the massacre has reached (sim/expresses.mjs `hearExpresses`).
     if (only && !only.has(person.householdId)) continue;
-    if (!person.householdId || service?.kind !== 'fannin' || !service.fate || service.told) continue;
+    if (!person.householdId || service?.kind !== 'fannin' || !service.fate || goliadTold(service)) continue;
     service.told = true;
     const home = world.households[person.householdId]?.homeSiteId;
     if (service.fate === 'killed') { service.status = 'fell'; person.health = { condition: 'dead' }; person.task = 'rest'; tell(world, person, `${person.name} was killed in the fight on the prairie at Coleto, before Fannin surrendered.`, { claimId: 'HIST-TEX-063' }); }

@@ -1,0 +1,12 @@
+{
+  "record": "red-proofs-2: each new or changed node test seen failing to the regression it guards, and only that test",
+  "date": "2026-09-30",
+  "note": "Run by a scratch script outside the repository: each injection written into the file, `node --test` run on the test file named, the file restored byte for byte. Same computer only.",
+  "injections": [
+    { "injection": "original-bug", "what": "the code before the fix: the escape told under `told` (sim/alamo.mjs tellSouth) and Goliad reading `told` alone (sim/houston.mjs goliadTold)", "test": "tests/escaped-to-fannin.test.mjs", "failed": ["a man who got away from the south to Fannin and was shot at Goliad: his escape told once, then his death, and his row dead", "a class saved before the fix, his escape already told under `told`: told of Goliad all the same, and not of his escape again"] },
+    { "injection": "escape-told-twice", "what": "tellSouth without its once-guard", "test": "tests/escaped-to-fannin.test.mjs", "failed": ["a man who got away from the south to Fannin and was shot at Goliad: his escape told once, then his death, and his row dead", "a class saved before the fix, his escape already told under `told`: told of Goliad all the same, and not of his escape again"] },
+    { "injection": "old-save-escape-shuts-goliad", "what": "goliadTold reading `told` alone (an old save's escape shuts out Goliad)", "test": "tests/escaped-to-fannin.test.mjs", "failed": ["a class saved before the fix, his escape already told under `told`: told of Goliad all the same, and not of his escape again"] },
+    { "injection": "storming-told-before-heard", "what": "tellStorming ignoring which families have heard (sim/army.mjs)", "test": "tests/battle-bexar.test.mjs", "failed": ["killed: he falls at his staged moment where he stands, his family watching sees it then and not before, and is told only when the word comes"] },
+    { "injection": "alamo-card-winter-only", "what": "the Alamo's projection the second period's alone (sim/alamo-battle.mjs alamoProjection)", "test": "tests/battle-alamo.test.mjs", "failed": ["a family far down the road hears of the fall in the spring: dead only then, with the account on its card as in its journal"] }
+  ]
+}

@@ -19,6 +19,7 @@ import { BEXAR_OFFSETS, BEXAR_STORMING, MILL_OFFSET } from '../sim/battles/bexar
 import { FATE_DAYS, fateMoment } from '../sim/bexar-fight.mjs';
 import { SIEGE_CAMPS, stormingFate } from '../sim/army.mjs';
 import { calendarMinutes } from '../sim/clock.mjs';
+import { beginSecondPeriod } from '../sim/periods.mjs';
 import { PACES } from '../server/app.mjs';
 import { BEXAR_LAYOUT, bexarToSite } from '../public/bexar-layout.js';
 import { answerAsPlayed, bexarClass, momentOf, TIMELINE } from './support/bexar.mjs';
@@ -298,10 +299,21 @@ test('killed: he falls at his staged moment where he stands, his family watching
   // The word of the victory reaches each family by express since 2026-09-29 (docs/COLONIES.md §5.4d): a family nearer Béxar hears
   // it before San Felipe's date, one farther off after; he is told of when his family hears it, never before.
   const heardOf = () => world.events.find(event => event.householdId === man.household.id && event.type === 'information' && event.topicId === 'bexar-storming' && event.status === 'confirmed');
+  const toldOf = () => world.events.filter(event => event.householdId === man.household.id && event.type === 'consequence' && /killed/.test(event.text));
   for (let i = 0; i < 400 && !heardOf() && world.status === 'running'; i++) stepWorld(world);
   stepWorld(world);
+  // Since the burn zone's sides are shuffled by the seed (owner, 2026-09-29, D12), this family's land may be dealt far down the
+  // road from San Felipe - at Liberty, under this seed - which the victory reaches after the autumn's end has waited its one day
+  // for it (sim/directors.mjs `holdForWord`, `WORD_HOLD_MINUTES`). Then the word comes in over the winter (sim/expresses.mjs
+  // `settleExpresses`), and he is told of on the winter's first tick, never before: nothing in the autumn says he was killed.
+  if (!heardOf()) {
+    assert.notEqual(world.status, 'running', 'the autumn went on and the word of the victory never reached his family');
+    assert.deepEqual(toldOf(), [], 'the family was told he was killed in an autumn that ended before the word came');
+    beginSecondPeriod(world); world.status = 'running';
+    for (let i = 0; i < 3 && !toldOf().length; i++) stepWorld(world);
+  }
   const heard = heardOf();
-  const told = world.events.filter(event => event.householdId === man.household.id && event.type === 'consequence' && /killed/.test(event.text));
+  const told = toldOf();
   assert.ok(heard, 'the word of the victory never reached his family');
   assert.ok(told.length && told.every(event => event.minute >= heard.minute), 'the family was told he was killed before the word came');
   assert.match(told[0].text, /on December \d+/, 'the word does not say which day');
