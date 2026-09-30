@@ -21,3 +21,7 @@ scripts/solo-dialog-shot/obj/
 launcher/payload.zip
 tests/launcher/bin/
 tests/launcher/obj/
+
+# The WebP copies of the art, made from the PNG masters by `npm run build:webp` (scripts/build-webp.mjs, triage D14) and
+# shipped by scripts/package.ps1. Made, not kept: the PNGs are the art.
+public/assets/webp/

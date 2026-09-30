@@ -120,7 +120,10 @@ test('the page asks for each sheet by the hash its manifest records, and decodes
     const { loadArt } = await import(`../public/art.js?delivery-test=${Date.now()}`);
     const loaded = await loadArt({ sheets: [] });
     const nature = atlas.sheets.nature;
-    assert.ok(asked.includes(`/assets/frontier-v1/${nature.image}?v=${nature.sha256.slice(0, 16)}`), `the nature sheet was not asked for by its hash: ${asked.join(', ')}`);
+    // As its WebP (triage D14, scripts/build-webp.mjs), pinned by the PNG master's hash, which is what the manifest records.
+    assert.ok(asked.includes(`/assets/webp/frontier-v1/${nature.image.replace(/\.png$/, '.webp')}?v=${nature.sha256.slice(0, 16)}`), `the nature sheet was not asked for as its WebP by its hash: ${asked.join(', ')}`);
+    const standins = asked.filter(url => url.includes('claude-standins/claude-'));
+    assert.ok(standins.every(url => url.startsWith('/assets/webp/claude-standins/') && /\.webp\?v=[0-9a-f]{16}$/.test(url)), `a Claude sheet was not asked for as its WebP: ${standins.join(', ')}`);
     assert.ok(bitmaps.length > 0 && loaded.images.nature === bitmaps.find(bitmap => bitmap.from.includes('nature')), 'a sheet was not made an ImageBitmap');
   } finally { Object.assign(globalThis, saved); }
 });

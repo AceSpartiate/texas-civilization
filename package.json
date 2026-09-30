@@ -12,6 +12,7 @@
     "test": "node --test",
     "build:art": "node scripts/build-atlas-manifest.mjs",
     "build:standins": "node scripts/build-claude-standins.mjs",
+    "build:webp": "node scripts/build-webp.mjs",
     "art:plan": "node scripts/claude-art/write-plan.mjs",
     "art:compare": "node scripts/claude-art/compare.mjs",
     "art:rig": "node scripts/claude-art/proof-rig.mjs",

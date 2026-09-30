@@ -5,7 +5,7 @@ import { randomBytes, createHash, createHmac, timingSafeEqual } from 'node:crypt
 import { existsSync, mkdirSync, readFileSync, readdirSync, realpathSync, renameSync, statSync } from 'node:fs';
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { etagFor, fileFacts, notModified, PIN_LENGTH, PINNED_CACHE, REVALIDATE_CACHE, sendBody } from './delivery.mjs';
+import { etagFor, fileFacts, notModified, pictureFor, PIN_LENGTH, PINNED_CACHE, REVALIDATE_CACHE, sendBody } from './delivery.mjs';
 import { setAbsent } from '../sim/absence.mjs';
 import { CALL_BUDGET_MS, DECISION_BUDGET_MS, QUESTION_BUDGETS, realTimeMeter } from '../sim/decision-budget.mjs';
 import { createWorld, stepWorld, projectPage, projectMap, applyAction, validateWorld, projectFamily, rollFamily, errandFor, goingFor } from '../sim/world.mjs';
@@ -144,19 +144,31 @@ function serveAsset(req, res, rawPath) {
   if (!/^\/assets\/(?:[A-Za-z0-9][A-Za-z0-9_-]*\/)*[A-Za-z0-9][A-Za-z0-9_.-]*\.(png|webp|json)$/.test(rawPath)) return json(res, 404, { error: 'Not found' });
   try {
     const root = realpathSync(assetsRoot);
-    const path = realpathSync(resolve(root, ...rawPath.slice('/assets/'.length).split('/')));
     // Resolve links as well as the lexical path so a link cannot expose a save.
-    if (!inside(root, path) || relative(root, path).split(sep).some(part => part.startsWith('.'))) return json(res, 404, { error: 'Not found' });
+    const find = name => {
+      try {
+        const path = realpathSync(resolve(root, ...name.split('/')));
+        return inside(root, path) && !relative(root, path).split(sep).some(part => part.startsWith('.')) && statSync(path).isFile() ? path : null;
+      } catch (error) { if (['ENOENT', 'ENOTDIR', 'EACCES', 'EPERM', 'ELOOP'].includes(error.code)) return null; throw error; }
+    };
+    const rel = rawPath.slice('/assets/'.length);
+    // A picture may be answered by its WebP or its PNG (triage D14, server/delivery.mjs `pictureFor`); a manifest is itself.
+    const manifest = rel.endsWith('.json') ? find(rel) : null;
+    const picked = rel.endsWith('.json') ? manifest && { path: manifest, extension: 'json', pins: [] } : pictureFor(rel, find);
+    if (!picked) return json(res, 404, { error: 'Not found' });
+    const { path, extension, pins } = picked;
     const info = statSync(path);
     if (!info.isFile() || info.size > 64 * 1024 * 1024) return json(res, 404, { error: 'Not found' });
     // The file's hash is remembered by size and time, so a 304 reads nothing off disk. Manifests are kept and gzipped once;
     // pictures are already compressed and are read per 200. A URL whose `v` is the start of the file's own SHA-256 (what
-    // public/art.js asks for) names bytes that can never change, and the browser keeps it for a year without asking.
-    const extension = rawPath.slice(rawPath.lastIndexOf('.') + 1), compressible = extension === 'json';
+    // public/art.js asks for) names bytes that can never change, and the browser keeps it for a year without asking - and so
+    // does one whose `v` is the start of the PNG a current WebP was made from.
+    const compressible = extension === 'json';
     const facts = fileFacts(path, { keep: compressible, info });
     const version = new URL(req.url, 'http://asset').searchParams.get('v') || '';
     const etag = etagFor(req, facts, compressible);
-    res.setHeader('Cache-Control', version.length >= PIN_LENGTH && facts.sha256.startsWith(version) ? PINNED_CACHE : REVALIDATE_CACHE);
+    const pinned = version.length >= PIN_LENGTH && pins !== null && [facts.sha256, ...pins].some(sha => typeof sha === 'string' && sha.startsWith(version));
+    res.setHeader('Cache-Control', pinned ? PINNED_CACHE : REVALIDATE_CACHE);
     res.setHeader('ETag', etag);
     if (notModified(req, etag)) { res.writeHead(304); return res.end(); }
     return sendBody(req, res, 200, { 'Content-Type': assetTypes[extension] }, facts.content || readFileSync(path), { compressible, zipped: facts.zipped });
