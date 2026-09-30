@@ -131,7 +131,7 @@ export function applyMeans(world, household) {
   if (band.cart && wagon) { wagon.cart = true; wagon.name = 'Family cart'; }
   // A Tejano family's cart is the carreta (owner, 2026-09-30, of the Tejano poor band: "if not then yes"; sim/starts.mjs): named so,
   // and drawn with Astra's carreta (`style`, projected as `carreta`). It carries and seats as the cart does: the start changes what
-  // it is called and how it looks, never what it can do (`FIC-GONZ-990`).
+  // it is called and how it looks, never what it can do (`FIC-GONZ-994`).
   if (band.cart && wagon && household.heritage === 'tejano') { wagon.name = 'Family carreta'; wagon.style = 'carreta'; }
   if (band.afoot) for (const one of wagonsOf(world, household)) {
     delete world.entities[one.id];

@@ -4,7 +4,7 @@
 
 **The ask.** The owner answered the six questions of the family's start (docs/FAMILY_CREATION.md, the amendment of 2026-09-29/30):
 1 "Priest from La Bahía", 2 "Béxar at 20+", 3 "No control", 4 "Open", 5 "Join, then leave", 6 the carreta, "if not then yes".
-Branch `starts-2` off local `integration-2026-09-28` 4131feb8; not pushed. Claims `HIST-TEX-790`, `-791`; `FIC-GONZ-987` to `-990`;
+Branch `starts-2` off local `integration-2026-09-28` 4131feb8; not pushed. Claims `HIST-TEX-790`, `-791`; `FIC-GONZ-987` to `-989` and `-994` (the carreta; renumbered from 990 at merge, which the Scrape's goods took);
 `HIST-TEX-781`, `-782` amended.
 
 - **1. A Tejano family's wedding** on the lone parent's path is performed by an unnamed priest come up from La Bahía, before the

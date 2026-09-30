@@ -1276,7 +1276,7 @@ branch `starts-2` (not released). Claims `HIST-TEX-790`, `-791`, `FIC-GONZ-987` 
 | 3. The teacher and the deal | **"No control"** | As built. |
 | 4. Hair | **"Open"** | As built. |
 | 5. Seguín's men in the winter garrison | **"Join, then leave"** | Below. `FIC-GONZ-989`. |
-| 6. The Tejano poor band's cart | **"i could have sworn i saw astra make that already. if not then yes."** | Astra has drawn the carreta (`carreta-travel-e/-n/-s`, `carreta-idle-*`, `carreta-loaded-e`, delivered 2026-09-26; public/art-subjects.js lets hers win). A Tejano family of the poorest means comes with the **family carreta**: named so, said so on the pack screen and in the arrival, drawn with her frames. It holds, carries and seats as the cart does - the start never changes what a family can do. No stand-in or request to retire: her carreta was already drawn for the carreta made at home. `FIC-GONZ-990`. |
+| 6. The Tejano poor band's cart | **"i could have sworn i saw astra make that already. if not then yes."** | Astra has drawn the carreta (`carreta-travel-e/-n/-s`, `carreta-idle-*`, `carreta-loaded-e`, delivered 2026-09-26; public/art-subjects.js lets hers win). A Tejano family of the poorest means comes with the **family carreta**: named so, said so on the pack screen and in the arrival, drawn with her frames. It holds, carries and seats as the cart does - the start never changes what a family can do. No stand-in or request to retire: her carreta was already drawn for the carreta made at home. `FIC-GONZ-994`. |
 
 ### The family on a rancho near Béxar (`FIC-GONZ-988`; `HIST-TEX-790`, `-791`)
 
