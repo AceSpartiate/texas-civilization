@@ -51,7 +51,7 @@ export const PRESSING_SHARE = 2 / 3;
 const attended = (world, person) => Boolean(world.households?.[person.householdId]?.played) && answeredFor(world, person);
 
 /** Every military question open to somebody a student is answering for, each with what happens if nobody answers. */
-export function openDecisions(world, { heldFor } = {}) {
+export function openDecisions(world, { heldFor, fightUp } = {}) {
   const open = [];
   const army = world.army;
   for (const person of Object.values(world.entities || {})) {
@@ -84,7 +84,10 @@ export function openDecisions(world, { heldFor } = {}) {
     if (!ask || !household?.played || household.absent) continue;
     const personId = [household.mainId, household.principalId, ...(household.members || [])].find(id => world.entities[id]);
     if (!personId) continue;
-    open.push({ key: `call:supply:${householdId}:${ask.askId}`, personId, call: true, held: Boolean(heldFor?.(household)) || questionWaits(world, householdId, ask), expire: () => { lapseSupply(world, householdId); sendOnFrom(world, householdId); } });
+    // Nor while the family's own man's fight is on its page (owner, 2026-09-30, "Watch goes over it"): the fight's card goes up
+    // over the request (public/military-attention.js), and a student watching it is not spending the request's minutes, so they
+    // stand where they were until the card is down and the request is in front of them again.
+    open.push({ key: `call:supply:${householdId}:${ask.askId}`, personId, call: true, held: Boolean(heldFor?.(household)) || questionWaits(world, householdId, ask) || Boolean(fightUp?.(household)), expire: () => { lapseSupply(world, householdId); sendOnFrom(world, householdId); } });
   }
   return open;
 }
@@ -93,8 +96,8 @@ export function openDecisions(world, { heldFor } = {}) {
  * Spend this tick's real milliseconds on every open question, and decide the ones whose budget is gone. Returns the keys
  * decided. A question answered or closed since the last tick is forgotten, so a new one opened later starts at nothing.
  */
-export function spendDecisionBudget(world, realMs, { budgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, heldFor, beginTravel, questionBudgets } = {}) {
-  const open = openDecisions(world, { heldFor });
+export function spendDecisionBudget(world, realMs, { budgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, heldFor, fightUp, beginTravel, questionBudgets } = {}) {
+  const open = openDecisions(world, { heldFor, fightUp });
   const limited = openLimits(world);
   const keys = new Set([...open, ...limited].map(decision => decision.key));
   for (const key of Object.keys(world.decisionClock || {})) if (!keys.has(key)) delete world.decisionClock[key];

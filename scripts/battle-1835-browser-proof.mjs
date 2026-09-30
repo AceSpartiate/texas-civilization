@@ -146,38 +146,6 @@ async function prove(fight) {
     }
     ok(`${Object.keys(who).length} students joined on the page and the Host started the class`);
 
-    /**
-     * What the family is asked at home, seen to on the page as a student does: a rider's conversation ended with Done, and the
-     * army's request answered from its card's menu. Returns what was pressed, in order.
-     */
-    const seeToHome = async page => {
-      const pressed = [];
-      for (let i = 0; i < 8; i++) {
-        const state = await page.evaluate(() => ({ talking: !document.querySelector('#encounter').hidden, card: document.querySelector('#military-notice').hidden ? null : document.querySelector('#military-go')?.textContent }));
-        if (state.talking) {
-          await page.locator('#encounter-asks .ask-leave').click();
-          await page.waitForFunction(() => document.querySelector('#encounter').hidden, null, { timeout: 15000 });
-          pressed.push('Done');
-        } else if (state.card === 'Listen to the rider') {
-          await page.locator('#military-go').click();
-          await page.locator('#encounter').waitFor({ state: 'visible' });
-          pressed.push('Listen to the rider');
-        } else if (state.card === 'Choose what to send') {
-          // Answered on the card beside the person who answers (public/app.js: what to send, not who goes).
-          await page.locator('#military-go').click();
-          const keep = page.locator('#selection-call button[data-action="supply-none"]');
-          await keep.waitFor({ state: 'visible' });
-          const label = (await keep.innerText()).trim().split(/\s*\n/)[0];
-          await keep.click();
-          await page.waitForFunction(() => !(window.__snapshot?.world.request?.kind === 'supply' && window.__snapshot.world.request.status === 'open'), null, { timeout: 15000 });
-          pressed.push(`Choose what to send, then "${label}"`);
-        } else {
-          // A rider may be on the way with it yet: look again once before calling the home seen to.
-          if (i > 0 || !(await page.waitForFunction(() => { const card = document.querySelector('#military-notice'); return !document.querySelector('#encounter').hidden || (!card.hidden && ['Listen to the rider', 'Choose what to send'].includes(document.querySelector('#military-go')?.textContent)); }, null, { timeout: 5000 }).then(() => true, () => false))) break;
-        }
-      }
-      return pressed;
-    };
     /** Answer a question on the volunteer's own card by pressing it. */
     const press = async (page, personId, selector, open) => {
       await page.waitForFunction(open, personId, { timeout: 120000 });
@@ -209,11 +177,8 @@ async function prove(fight) {
       await press(students['hh-3'], proof.c, question(proof.c, 'no'), open);
       ok(`at the alarm hh-1's rider and hh-2's man on foot pressed "go" and hh-3's pressed "stay in camp" ("${asked.slice(0, 90)}…")`);
       // The army's call for flour reaches every family at home at nine that morning, an hour before the alarm (owner, 2026-09-29,
-      // D5: sim/supplies.mjs `supply-flour`), and the fight's Watch card is never put up over a decision the family has open
-      // (public/military-attention.js `deciding`). Each student sees to it on the card, as a student would: the rider heard out
-      // with Done, and the request answered in its menu (the family keeps what it has: its store is empty).
-      for (const id of ['hh-1', 'hh-2', 'hh-3']) evidence[`${id} before the fight`] = await seeToHome(students[id]);
-      ok(`the army's call for flour, open at each family's home that morning, answered on each page: ${['hh-1', 'hh-2', 'hh-3'].map(id => `${id} ${evidence[`${id} before the fight`].join(', ') || 'nothing open'}`).join('; ')}`);
+      // D5: sim/supplies.mjs `supply-flour`), and nobody answers it here: the Watch card goes up over it (owner, 2026-09-30, "Watch
+      // goes over it"), checked below.
       fated = proof.b;
     }
     // The fighting is watched a second a tick (the Host's own Quick), so a page can be sampled through it.
@@ -234,6 +199,15 @@ async function prove(fight) {
     assert.ok(watched.drawn && watched.drawn.x > 0 && watched.drawn.x < watched.w && watched.drawn.y > 0 && watched.drawn.y < watched.h, `Watch framed the fight without the family's own person in it: ${JSON.stringify(watched)}`);
     evidence.alert = alert;
     ok(`the alert "${alert.title}" came through the person before contact ("${alert.words.slice(0, 80)}…"), and Watch framed the fight with the family's person on screen`);
+    if (fight === 'grass') {
+      // Over the army's request for flour, which nobody has answered (owner, 2026-09-30, "Watch goes over it"): the request is still
+      // open on the page, still among the messages behind the card, and its minutes stand while the fight's card is up.
+      const under = await fighter.evaluate(() => ({ request: window.__snapshot.world.request && { kind: window.__snapshot.world.request.kind, status: window.__snapshot.world.request.status, leftMs: window.__snapshot.world.request.leftMs }, toggle: document.querySelector('#military-toggle')?.textContent }));
+      assert.equal(under.request?.kind, 'supply', `the army's request for flour was not open at the family's home under the Watch card: ${JSON.stringify(under)}`);
+      assert.equal(under.request.status, 'open');
+      assert.ok(Number(under.toggle?.match(/(\d+)\s*$/)?.[1]) >= 2, `the request is not among the messages behind the Watch card: ${under.toggle}`);
+      evidence.underWatch = under;
+    }
     await shot(fighter, 'alert');
 
     // ---------------------------------------------------------------- the fighting, sampled at several moments at two sizes
@@ -321,6 +295,15 @@ async function prove(fight) {
     assert.ok(hostView.seen?.some(key => key.startsWith(battleId === 'grass-fight' ? 'grass-fight' : 'concepcion')), `the Host's spotlight never lit the field: ${JSON.stringify(hostView.seen)}`);
     evidence.host = hostView;
     ok(`the Host sees it live (${hostView.phase}), its camera framed on the field (${hostView.camera}), smoke in view ${hostView.smoke}, its spotlight lit there`);
+    if (fight === 'grass') {
+      // Through the fighting the request waited: still open, with the real time it had when the Watch card went up.
+      const after = await fighter.evaluate(() => ({ kind: window.__snapshot.world.request?.kind, status: window.__snapshot.world.request?.status, leftMs: window.__snapshot.world.request?.leftMs, alert: Boolean(window.__snapshot.world.battleAlert) }));
+      assert.equal(after.kind, 'supply', `the army's request for flour was gone after the fighting: ${JSON.stringify(after)}`);
+      assert.equal(after.status, 'open');
+      if (Number.isFinite(evidence.underWatch.request.leftMs)) assert.ok(after.leftMs >= evidence.underWatch.request.leftMs - 1000, `the request's minutes ran while its student watched the fight: ${evidence.underWatch.request.leftMs} -> ${after.leftMs} ms`);
+      evidence.requestAfterFight = after;
+      ok(`the Watch card went up over the army's request for flour, nobody having answered it (messages: "${evidence.underWatch.toggle}"); through the fighting the request stayed open with its time (${Math.round((evidence.underWatch.request.leftMs ?? NaN) / 1000)} s left at the card, ${Math.round((after.leftMs ?? NaN) / 1000)} s ${after.alert ? 'with the card still up' : 'after it'})`);
+    }
 
     // ---------------------------------------------------------------- somebody in the army but not the force, and nobody at all
     const nearby = students[fight === 'concepcion' ? 'hh-2' : 'hh-3'];

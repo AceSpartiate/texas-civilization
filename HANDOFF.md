@@ -1,5 +1,42 @@
 # Claude handoff — Astra foundation
 
+## The Watch card goes over the army's supply request — owner-decided 2026-09-30 (not released)
+
+Branch `watch-over-supply` off local `integration-2026-09-28` (bd0b4efb); not pushed. The owner answered the proofs-world
+question 1 by multiple choice: **"Watch goes over it"**. The army's call for flour (sim/supplies.mjs `supply-flour`, 9:00 on
+November 26) opens an hour before the Grass Fight's alarm, and the page never put the fight's Watch card over an open decision,
+so at the Quick pace the fight had passed before the student saw Watch (found by `test:battle-grass`). Recorded in
+docs/FAMILY_PANEL.md (amendment under the story cards' "Nothing about timing or ranking moved").
+
+- **The card** (public/military-attention.js): an open request of kind `supply` (the flour, and the autumn's ask of a family with
+  nobody in the army) no longer counts as deciding (`asking`). The call to arms, a rider, the order to leave, the road's question
+  and ¡Alto! still hold the Watch card back.
+- **The request is not lost**: it stays among the messages, ranked after the fight's card and before somebody very sick
+  (`SUPPLY_ORDER`), with its time left, and is answered from the person's card as before.
+- **Its real-time budget**: the request's five real minutes (sim/decision-budget.mjs, `CALL_BUDGET_MS`) are held while the
+  family's own fight card is up (`fightUp` in sim/world.mjs: the family's own `battleAlert` from `directorProjection`, worked out
+  only for a played family with an open supply request and somebody away from home) and run again from where they stood when it
+  comes down. Nothing stored; no save version.
+
+**Evidence** (same computer only, headless Chrome; no LAN or classroom claim):
+
+- `tests/watch-over-supply.test.mjs`, three tests: Watch over the supply request, first, with the request still behind it and its
+  time; the call, a rider, the order to leave, ¡Alto! (and a rider with the supply request) still hold it back; on the real Grass
+  Fight in process, a played family's flour request keeps every real second while the card is up (ten seconds a tick for the length
+  of the card), is still open after the fight, its clock runs again, and it is answered. `node scripts/watch-over-supply-injections.mjs`
+  **6 of 6 caught**: the old hold (tests 1 and 3, whose page check reads the real projection), the old ranking (1 and 3), the request
+  dropped under Watch (1 and 3), the clock not held (3 only), the fight never told to the clock (3 only), the call to arms let
+  through too (2 only).
+- `test:battle-grass`: the workaround of proofs-world (each student answering the flour request before the fight) is removed; the
+  proof now expects Watch before contact **with the flour request open and unanswered** ("Open messages · 2"), and the request
+  still open through the fighting with the same time left (299 s and 297 s at the card and after). **Green twice, 14 checks.** With
+  the old hold injected it fails exactly as on the candidate ("no alert with Watch came through the person before the fighting").
+- `test:story-cards` 4, `test:watching` 8, `node scripts/story-cards-injections.mjs` 5 of 5 (its "very sick" injection, and
+  `scripts/battle-alamo-injections.mjs`'s "reminder" injection, re-aimed at the new `deciding` line).
+- `npm test`: **1972 tests, 1936 pass, 0 fail, 36 skipped**. It took 671 s against 368 s this morning; every test slowed alike
+  (one that steps no world went 288 to 468 s), and `tests/storming.test.mjs` with `tests/starts-bexar.test.mjs` take 37.7 s with
+  `fightUp` and 37.8 s without, so the machine was loaded, not the tick.
+
 ## Red proofs on the release candidate: nine proofs, four page bugs fixed — 2026-09-30 (not released)
 
 Branch `proofs-page` off local `integration-2026-09-28` (e67e0f15); not pushed, nothing published. Nine browser proofs failed on
