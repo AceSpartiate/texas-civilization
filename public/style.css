@@ -698,6 +698,12 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #finale-slot #flashback-title{display:none}
 #finale-slot #flashback-words{text-align:left;max-width:860px;margin:6px auto;color:#eadfc4}
 .finale-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+#finale-controls{position:fixed;top:12px;left:12px;z-index:62;min-height:34px;padding:4px 12px;font-size:14px;background:rgba(255,252,242,.92);color:var(--ink)}
+#finale-controls[hidden]{display:none}
+/* The Host's own controls raised over the ending while Controls is open: the same buttons, where they always are. */
+body[data-finale-controls="open"] #hud-right{z-index:61;pointer-events:auto;background:#f7eed5f2;border-radius:6px;padding:8px;box-shadow:0 8px 30px #0006;max-height:calc(100% - 24px);overflow-y:auto}
+#finale-play{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:63;font:600 clamp(24px,4vw,40px)/1 Georgia,serif;padding:22px 44px;border-radius:14px;background:#8a3b22;color:#fff8e8;border:3px solid #f2d9a8;box-shadow:0 10px 40px #000a}
+#finale-play[hidden]{display:none}
 .finale-controls button[hidden]{display:none}
 #flashback{border-bottom:1px solid #c5b286;padding-bottom:10px;margin-bottom:6px}
 #ending-body + #flashback{border-bottom:none;border-top:1px solid #c5b286;padding-top:8px;margin-top:12px}

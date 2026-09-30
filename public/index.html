@@ -602,6 +602,11 @@
          family is with its own; on a student's, a card to look at the class screen, then their family's own video (the flashback
          section below, moved up here). The final numbers are the ending panel's, after. -->
     <section id="finale" hidden role="dialog" aria-labelledby="finale-title">
+      <!-- The teacher's own controls during the ending (owner, 2026-09-30: "Controls button"): New Class, Stop Server and the rest,
+           opened over the ending without leaving it. -->
+      <button type="button" id="finale-controls" hidden aria-expanded="false">Controls</button>
+      <!-- A video the browser would not start by itself: one large button, which starts it where the class is. -->
+      <button type="button" id="finale-play" hidden aria-label="Play the video">&#9654; Play</button>
       <div id="finale-card">
         <span class="eyebrow" id="finale-eyebrow">THE END OF THE STORY</span>
         <h2 id="finale-title"></h2>

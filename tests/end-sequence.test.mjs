@@ -11,7 +11,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { projectWorld, validateWorld } from '../sim/world.mjs';
-import { CLASS_GRACE_MS, CLASS_WAIT_MS, FAMILY_GRACE_MS, FAMILY_STAGE_MS, advanceEndSequence, beginEndSequence, dueStage, endSequenceStep, familyStates } from '../sim/end-sequence.mjs';
+import { CLASS_GRACE_MS, CLASS_WAIT_MS, END_MS, MAKE_WAIT_MS, START_MS, advanceEndSequence, beginEndSequence, dueStage, endSequenceStep, endSequenceView, familyStates } from '../sim/end-sequence.mjs';
 import { continueEnded } from '../sim/periods.mjs';
 import { muxWebM } from '../public/webm-writer.js';
 import { createClassroom } from '../server/app.mjs';
@@ -37,22 +37,39 @@ test('the class video, then the families\' own, then the reveal: what moves each
   // The Host's page says it played to its end.
   endSequenceStep(world, { role: 'host' }, 'class-watched', 200000);
   assert.equal(world.endSequence.stage, 'family');
-  // The families' stage: every family a student plays watched, away, or past its video's length and the grace.
+  // The families' stage (owner, 2026-09-30: "there shouldn't be a wait. the videos are supposed to autoplay"): every family's
+  // video starts at one moment, once every family whose page is open has its video made, and the stage lasts as long as the longest.
   const facts = { classVideo: video, families: { 'hh-1': { here: true, made: { madeAt: 150000, durationMs: 80000 } }, 'hh-2': { here: true, made: null }, 'hh-3': { here: false, made: null } } };
-  assert.deepEqual(familyStates(world.endSequence, facts, 210000), { 'hh-1': 'watching', 'hh-2': 'waiting', 'hh-3': 'away' });
-  assert.equal(dueStage(world, facts, 210000), null);
-  endSequenceStep(world, { role: 'student', householdId: 'hh-1' }, 'watched', 290000);
-  assert.equal(dueStage(world, facts, 290000), null, 'a family whose video is not made yet was not waited for');
-  facts.families['hh-2'].made = { madeAt: 300000, durationMs: 80000 };
-  assert.equal(dueStage(world, facts, 300000 + 80000 + FAMILY_GRACE_MS - 1), null);
-  assert.equal(advanceEndSequence(world, facts, 300000 + 80000 + FAMILY_GRACE_MS), 'reveal', 'a family whose page never said it had watched held the class for ever');
-  // And the whole families' stage has a cap, whatever is still being made.
+  assert.deepEqual(familyStates(world.endSequence, facts, 210000), { 'hh-1': 'ready', 'hh-2': 'making', 'hh-3': 'away' });
+  assert.equal(advanceEndSequence(world, facts, 210000), null, 'the videos started before an open page\'s video was made');
+  assert.equal(world.endSequence.playAt, undefined);
+  // The last open page's video made: all start together, START_MS on; a closed page (hh-3) holds nothing.
+  facts.families['hh-2'].made = { madeAt: 300000, durationMs: 88000 };
+  const change = advanceEndSequence(world, facts, 300000);
+  assert.deepEqual(change, { playAt: 300000 + START_MS, endsAt: 300000 + START_MS + 88000 + END_MS }, 'the start is not one moment, or the stage not the longest video');
+  assert.equal(world.endSequence.stage, 'family');
+  // Every page told the same moment, as time from now, whatever it has said or not said.
+  const view = endSequenceView(world, { role: 'student' }, null, 301000);
+  assert.equal(view.playIn, START_MS - 1000);
+  assert.equal(view.endsIn, START_MS - 1000 + 88000 + END_MS);
+  assert.deepEqual(familyStates(world.endSequence, facts, 300000 + START_MS + 85000), { 'hh-1': 'played', 'hh-2': 'playing', 'hh-3': 'away' });
+  // Nothing a page says moves it: the stage ends on the server's clock, as long as the longest video and END_MS.
+  assert.throws(() => endSequenceStep(world, { role: 'student' }, 'watched', 310000), /Unknown step/);
+  assert.equal(dueStage(world, facts, 300000 + START_MS + 88000 + END_MS - 1), null);
+  assert.equal(advanceEndSequence(world, facts, 300000 + START_MS + 88000 + END_MS)?.stage, 'reveal');
+  // A video never made (the Host's page closed): the stage starts with those made once MAKE_WAIT_MS has gone by.
   const capped = ended('end-seq-cap');
   beginEndSequence(capped, { now: 0, solo: true });
   assert.equal(capped.endSequence.stage, 'family', 'Play Solo has no class video');
-  const waiting = { classVideo: null, families: { 'hh-1': { here: true, made: null } } };
-  assert.equal(dueStage(capped, waiting, FAMILY_STAGE_MS - 1), null);
-  assert.equal(dueStage(capped, waiting, FAMILY_STAGE_MS), 'reveal');
+  const waiting = { classVideo: null, families: { 'hh-1': { here: true, made: { madeAt: 0, durationMs: 80000 } }, 'hh-2': { here: true, made: null } } };
+  assert.equal(advanceEndSequence(capped, waiting, MAKE_WAIT_MS - 1), null);
+  assert.deepEqual(advanceEndSequence(capped, waiting, MAKE_WAIT_MS), { playAt: MAKE_WAIT_MS + START_MS, endsAt: MAKE_WAIT_MS + START_MS + 80000 + END_MS });
+  // Nobody's page open at all (a Play Solo player's page not yet come): no reveal at once; it waits for a page, MAKE_WAIT_MS at most.
+  const empty = ended('end-seq-empty');
+  beginEndSequence(empty, { now: 0, solo: true });
+  const nobody = { classVideo: null, families: { 'hh-1': { here: false, made: null } } };
+  assert.equal(advanceEndSequence(empty, nobody, 1), null, 'the stage ended before any page had opened');
+  assert.equal(advanceEndSequence(empty, nobody, MAKE_WAIT_MS)?.stage, 'reveal');
   validateWorld(world); validateWorld(capped);
 });
 
@@ -77,16 +94,15 @@ test('no page is sent a number of the ending before the reveal, and every page i
   assert.ok(host(world).ending.host, 'a class ended before the sequence lost its ending');
 });
 
-test('what a page may ask of the sequence: the teacher moves it on, a family says only its own video has played', () => {
+test('what a page may ask of the sequence: the teacher moves it on, and a family\'s page asks nothing', () => {
   const world = ended('end-seq-steps');
   beginEndSequence(world, { now: 0 });
   assert.throws(() => endSequenceStep(world, { role: 'student', householdId: 'hh-1' }, 'skip', 1), /Only the teacher/);
   assert.throws(() => endSequenceStep(world, { role: 'student', householdId: 'hh-1' }, 'restart', 1), /Only the teacher/);
   assert.throws(() => endSequenceStep(world, { role: 'student', householdId: 'hh-1' }, 'class-watched', 1), /teacher's screen/);
   assert.throws(() => endSequenceStep(world, { role: 'student', householdId: 'hh-1' }, 'glory', 1), /Unknown step/);
-  // A family saying it has watched before the families' stage changes nothing.
-  endSequenceStep(world, { role: 'student', householdId: 'hh-1' }, 'watched', 1);
-  assert.deepEqual(world.endSequence.watched, {});
+  // A family says nothing: its video runs on the class's clock (owner, 2026-09-30).
+  assert.throws(() => endSequenceStep(world, { role: 'student', householdId: 'hh-1' }, 'watched', 1), /Unknown step/);
   assert.equal(endSequenceStep(world, { role: 'host' }, 'skip', 2), 'family');
   assert.equal(endSequenceStep(world, { role: 'host' }, 'skip', 3), 'reveal');
   assert.equal(endSequenceStep(world, { role: 'host' }, 'skip', 4), 'reveal');
@@ -95,7 +111,6 @@ test('what a page may ask of the sequence: the teacher moves it on, a family say
   // In Play Solo the player is the class's Host too, and begins again at the family's own video.
   const solo = ended('end-seq-solo');
   beginEndSequence(solo, { now: 0, solo: true });
-  endSequenceStep(solo, { role: 'student', householdId: 'hh-1', solo: true }, 'watched', 1);
   assert.equal(endSequenceStep(solo, { role: 'student', householdId: 'hh-1', solo: true }, 'skip', 2), 'reveal');
   assert.equal(endSequenceStep(solo, { role: 'student', householdId: 'hh-1', solo: true }, 'restart', 3), 'family');
   // Not before the end, and not between periods; and a class taken up again drops its sequence.
@@ -117,7 +132,9 @@ test('what a page may ask of the sequence: the teacher moves it on, a family say
 /** A class on the invented country, a student in hh-1, started and then ended by the Host, served with a save folder. */
 async function room(t, { savePath = true } = {}) {
   const folder = mkdtempSync(join(tmpdir(), 'end-sequence-'));
-  const app = createClassroom({ seed: 'end-sequence', playerCount: 5, tickMs: 10000, ...(savePath && { savePath: join(folder, 'class.json') }) });
+  // The server's wall clock, moved on by the test (`clock.at`): the end sequence runs on it.
+  const clock = { at: Date.now() };
+  const app = createClassroom({ seed: 'end-sequence', playerCount: 5, tickMs: 10000, now: () => clock.at, ...(savePath && { savePath: join(folder, 'class.json') }) });
   t.after(async () => { await app.close(); rmSync(folder, { recursive: true, force: true }); });
   const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
   const hostLogin = await fetch(`${url}/api/host`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: app.state.hostKey }) });
@@ -134,7 +151,7 @@ async function room(t, { savePath = true } = {}) {
   events.body.getReader().read().catch(() => {});
   await command('start');
   await command('end');
-  return { app, url, host: hostCookie, student, command, step, state, stream };
+  return { app, url, host: hostCookie, student, command, step, state, stream, clock };
 }
 
 test('on the server: the Host ends the class, the class video first, the student\'s own next, and the reveal when it has played', async t => {
@@ -162,12 +179,26 @@ test('on the server: the Host ends the class, the class video first, the student
   mine = await r.state(r.student);
   assert.equal(mine.endSequence.stage, 'family');
   host = await r.state(r.host);
-  assert.deepEqual(host.endSequence.families, [{ householdId: 'hh-1', state: 'waiting' }], 'the Host is not told where the family stands');
-  // A family whose page closes is not waited for once its grace has passed; while it is open, it is.
-  // The student's own video played to its end: the only family a student plays, so the class is at the reveal.
-  assert.equal((await r.step(r.student, 'watched')).status, 200);
+  assert.deepEqual(host.endSequence.families, [{ householdId: 'hh-1', state: 'making' }], 'the Host is not told where the family stands');
+  assert.equal(mine.endSequence.playIn, undefined, 'the family\'s video was given a start before it was made');
+  // Its video made: within the server's second, the start is set, START_MS ahead, for every page at once.
+  const sendOwn = await fetch(`${r.url}/api/flashback/video?household=hh-1`, { method: 'POST', headers: { Cookie: r.host, 'Content-Type': 'video/webm' }, body: video(85) });
+  assert.equal(sendOwn.status, 200);
+  const started = Date.now();
+  while (Date.now() - started < 5000 && !Number.isFinite((await r.state(r.student)).endSequence.playIn)) await new Promise(resolve => setTimeout(resolve, 200));
+  mine = await r.state(r.student);
+  assert.equal(mine.endSequence.playIn, START_MS, 'the videos do not start START_MS after the last is made');
+  assert.equal(mine.endSequence.endsIn, START_MS + 85000 + END_MS);
+  // Nothing the student's page says is needed, or accepted: the stage ends when the longest video has played, and the buffer.
+  assert.equal((await r.step(r.student, 'watched')).status, 400);
+  r.clock.at += START_MS + 85000 + END_MS - 1000;
+  await new Promise(resolve => setTimeout(resolve, 1600));
+  assert.equal((await r.state(r.host)).endSequence.stage, 'family', 'the stage ended before the longest video had played');
+  r.clock.at += 1000;
+  const ending = Date.now();
+  while (Date.now() - ending < 5000 && (await r.state(r.host)).endSequence.stage !== 'reveal') await new Promise(resolve => setTimeout(resolve, 200));
   host = await r.state(r.host); mine = await r.state(r.student);
-  assert.equal(host.endSequence.stage, 'reveal');
+  assert.equal(host.endSequence.stage, 'reveal', 'the stage did not end on the server\'s clock');
   assert.ok(host.world.ending.host.families.length === 5, 'the Host has no final table at the reveal');
   assert.equal(mine.world.ending.family.householdId, 'hh-1', 'the student has no breakdown at the reveal');
   // Played again: the numbers go away again until its reveal.

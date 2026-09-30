@@ -86,9 +86,20 @@ test('a death in battle is one plain sentence, and nothing about it is a reward'
 test('a death in battle is told once, in its fight\'s own beat, never again as the day the family heard', () => {
   // Found by the end sequence's proof (2026-09-29): a man killed at the Alamo was told in the fight's beat, and again ten days later -
   // the day his family heard - as "killed at Travis drew a line in the sand", a phrase of the history after the record's first sentence.
+  // Planted as it happened then: the family's word of the death comes fifteen days after the fight, a record of its own whose
+  // history after the first sentence names a place-like phrase (the news by rider can bring the word late).
+  const world = fresh();
+  const fighter = Object.values(world.households).flatMap(household => household.members.map(pid => world.entities[pid]))
+    .find(person => person.health?.condition === 'dead' && !person.health.disease && SCRIPTS[person.householdId]?.beats.some(beat => beat.kind === 'fight' && beat.people?.includes(person.id)));
+  assert.ok(fighter, 'nobody in this class fell in a fight: the test tries nothing');
+  const fight = SCRIPTS[fighter.householdId].beats.find(beat => beat.kind === 'fight' && beat.people?.includes(fighter.id));
+  record(world, 'consequence', { householdId: fighter.householdId, actorId: fighter.id, importance: 3, minute: fight.minute + 15 * 1440,
+    text: `${fighter.name} was killed with the garrison.\n\nWhat happened: before the end, Travis drew a line in the sand, the story goes.` });
+  world.events.at(-1).minute = fight.minute + 15 * 1440;
+  const planted = flashbackScripts(world);
   let fallen = 0;
-  for (const [id, script] of Object.entries(SCRIPTS)) {
-    for (const person of ENDED.households[id].members.map(pid => ENDED.entities[pid]).filter(one => one.health?.condition === 'dead' && !one.health.disease)) {
+  for (const [id, script] of Object.entries(planted)) {
+    for (const person of world.households[id].members.map(pid => world.entities[pid]).filter(one => one.health?.condition === 'dead' && !one.health.disease)) {
       const first = person.name.split(' ')[0];
       const told = script.beats.filter(beat => !beat.epilogue && beat.kind !== 'closing' && new RegExp(`\\b${first} was killed\\b`).test(beat.caption));
       if (!told.length) continue;
