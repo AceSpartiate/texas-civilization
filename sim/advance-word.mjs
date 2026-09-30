@@ -49,13 +49,15 @@ export function learnOwnBurning(world, household, how) {
   const by = flight.burnedBy || {};
   const name = by.name || 'the Mexican army';
   const lost = by.lost?.length ? ` What was left in the house went with it: ${by.lost.join(', ')}.` : '';
+  // A family that stayed: the foragers took its goods from the house before they burned it (owner, 2026-09-29, D9 (c), `FIC-GONZ-992`).
+  const took = by.taken?.length ? ` Before they burned it they took everything in the house: ${by.taken.join(', ')}.` : '';
   const stock = household.herdLeft?.driven ? ' The stock on the range was driven off with the column.' : '';
   const when = dayWords(world, flight.burned);
   const text = {
-    there: `Foragers of ${name} came to the farm on ${when} and burned the house, the field and the fences while the family's own people looked on.${lost}`,
-    sight: `There is smoke over the family's own land. Foragers of ${name} have burned the farm: the house, the field and the fences.${lost}`,
-    word: `Word came along the road from people fleeing east: on ${when} foragers of ${name} reached the family's farm and burned the house, the field and the fences.${lost}${stock}`,
-    home: `Coming home, the family found what nobody had told them: foragers of ${name} burned the farm on ${when}.${lost}`,
+    there: `Foragers of ${name} came to the farm on ${when} and burned the house, the field and the fences while the family's own people looked on.${took}${lost}`,
+    sight: `There is smoke over the family's own land. Foragers of ${name} have burned the farm: the house, the field and the fences.${took}${lost}`,
+    word: `Word came along the road from people fleeing east: on ${when} foragers of ${name} reached the family's farm and burned the house, the field and the fences.${took}${lost}${stock}`,
+    home: `Coming home, the family found what nobody had told them: foragers of ${name} burned the farm on ${when}.${took}${lost}`,
   }[how];
   if (!world.truth[farmTopic(household)]) recordFarmBurned(world, household);
   // The report is the short fact; the account in the family's record is the whole of it.

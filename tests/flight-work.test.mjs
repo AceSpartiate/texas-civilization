@@ -18,6 +18,7 @@ import { turnHome } from '../sim/scrape.mjs';
 import { LEAD_PACE } from '../sim/beasts.mjs';
 import { WAGON_SPEED } from '../sim/travel.mjs';
 import { canAnswerCalls } from '../sim/family.mjs';
+import { isEarlyTopic } from '../sim/early-word.mjs';
 
 const SEED = 'road-1638';
 const DAY = 1440;
@@ -57,11 +58,14 @@ const onFoot = (world, household) => { for (const id of household.property) { co
 const flee = (world, household, take = {}) => { household.resources.food = Math.max(household.resources.food ?? 0, (take.food ?? 0) + 5); applyAction(world, household.id, { action: 'flee', entityId: main(world, household).id, take, refuge: 'san-felipe' }); assert.equal(household.flight.status, 'fled'); };
 const runChore = (world, person, limit = 40) => until(world, () => !person.chore, limit);
 
-test('the rule: the flight’s work is offered only while the family is told to leave, on the road or camped - never on the farm before', () => {
+test('the rule: the flight’s work is offered only while the family is told to leave (or has heard real news, D9), on the road or camped - never on the farm before', () => {
   const world = spring();
   const household = world.households['hh-1'];
   household.played = true;
   const father = main(world, household);
+  // A family that has heard of the Alamo's fall may make ready before its order (owner, 2026-09-29, sim/early-word.mjs), so this
+  // family is made one that has heard nothing yet; tests/early-leaving.test.mjs has the news.
+  for (const id of Object.keys(world.knowledge.households[household.id])) if (isEarlyTopic(id)) delete world.knowledge.households[household.id][id];
   for (const id of FLIGHT_WORKS) assert.equal(offered(world, household, father, id), undefined, `${id} was offered before anybody was told to leave`);
   ordered(world);
   const [kid] = children(world, household, 8);

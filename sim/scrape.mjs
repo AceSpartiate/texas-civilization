@@ -44,6 +44,12 @@ import { pursuitInvalid } from './pursuit.mjs';
 import { roadSickness } from './disease.mjs';
 // Room kept in a neighbour's wagon, or lent to one (sim/neighbourly.mjs, owner 2026-09-28): added to or taken from the room here.
 import { lentRoom } from './deeds.mjs';
+// The tools, the chest and the spinning wheel in the load (owner, 2026-09-29, D9 (a); sim/flight-goods.mjs), leaving before the
+// order on news the family has heard (D9 (b); sim/early-word.mjs), and the crop that leaving early costs.
+import { HOUSEHOLD_GOODS, HOUSEHOLD_SPACE, goodCount, goodWords, goodsWords, householdGoods, isHouseholdGood, removeGood, restoreGood } from './flight-goods.mjs';
+import { EARLY_COST, NO_WORD_YET, earlyWord, readyingInvalid, takeReadying } from './early-word.mjs';
+import { keepPlots } from './fields.mjs';
+import { wagonItem } from './wagon.mjs';
 
 const GONE = ['dead', 'captured'];
 const DAY = 1440;
@@ -81,6 +87,13 @@ export const SETTLEMENT_DAYS = Object.freeze({
 export const REFUGES = Object.freeze(['san-felipe', 'washington', 'lynchburg', 'liberty', 'nacogdoches']);
 /** The room in the wagon for the flight, in the family's own units, and what each thing takes of it. */
 export const FLIGHT_ROOM = 20, FLIGHT_SPACE = Object.freeze({ food: 0.25, seed: 1, cotton: 0.5, powder: 0.1 });
+/**
+ * Everything the load can hold: the stores (`FLIGHT_SPACE`, which is `household.resources`) and, since 2026-09-29, the family's
+ * tools, chest and spinning wheel (sim/flight-goods.mjs `HOUSEHOLD_SPACE`, `FIC-GONZ-990`), each with the room it takes.
+ */
+export const LOAD_SPACE = Object.freeze({ ...FLIGHT_SPACE, ...HOUSEHOLD_SPACE });
+/** How many of a thing in the load the family has to take: whole stores in the house, or its household goods in hand. */
+const haveOf = (household, good) => isHouseholdGood(good) ? goodCount(household, good) : Math.floor(household.resources?.[good] ?? 0);
 /** On foot, each grown person carries this much room's worth. */
 export const CARRIED_ROOM = 1.25;
 /** A flooded river: the wait for a turn at the crossing, in hours of 1836. */
@@ -163,13 +176,16 @@ function ownRoom(world, household) {
   return { room: Math.round((atHome(world, household).filter(canAnswerCalls).length * CARRIED_ROOM + bundleRoom(household, atHome(world, household))) * 100) / 100, mode: 'foot' };
 }
 
-const spaceOf = take => Object.entries(take).reduce((sum, [good, amount]) => sum + (FLIGHT_SPACE[good] ?? 0) * amount, 0);
+const spaceOf = take => Object.entries(take).reduce((sum, [good, amount]) => sum + (LOAD_SPACE[good] ?? 0) * amount, 0);
 
 /** Why this family cannot leave as asked, or null. */
 export function fleeRefusal(world, household, { take = {}, refuge, route } = {}) {
   const flight = household.flight;
   if (!scrapeOn(world)) return 'Nobody has told the family to leave.';
-  if (!flight || !['ordered', 'stayed'].includes(flight.status)) return flight ? 'The family has already left.' : 'Nobody has told the family to leave.';
+  // Before its order, only on news the family has itself heard (owner, 2026-09-29, D9 (b); sim/early-word.mjs): its own knowledge,
+  // never the world's truth. Without it the refusal says why in plain words.
+  if (!flight && !earlyWord(world, household)) return NO_WORD_YET;
+  if (flight && !['ordered', 'stayed'].includes(flight.status)) return 'The family has already left.';
   // A route of its own (sim/flight-route.mjs, owner 2026-09-27): any place a family could make for, by the road or across
   // country, with stops. Without one, a refuge east of here by the road, as it always was.
   if (route !== undefined) {
@@ -181,8 +197,8 @@ export function fleeRefusal(world, household, { take = {}, refuge, route } = {})
     if (world.map.sites[refuge].x <= world.map.sites[household.homeSiteId].x + 2) return `${world.map.sites[refuge].name} is not east of here.`;
   }
   for (const [good, amount] of Object.entries(take)) {
-    if (!(good in FLIGHT_SPACE) || !Number.isInteger(amount) || amount < 0) return 'Say how much of each thing, in whole amounts.';
-    if (amount > Math.floor(household.resources?.[good] ?? 0)) return `There is not that much ${good} in the house.`;
+    if (!(good in LOAD_SPACE) || !Number.isInteger(amount) || amount < 0) return 'Say how much of each thing, in whole amounts.';
+    if (amount > haveOf(household, good)) return isHouseholdGood(good) ? `The family has not got ${goodWords(good, amount)} to take.` : `There is not that much ${good} in the house.`;
   }
   const { room } = flightRoom(world, household);
   if (spaceOf(take) > room + 1e-9) return `That will not fit. There is room for ${room} and this takes ${Math.round(spaceOf(take) * 100) / 100}.`;
@@ -195,7 +211,8 @@ export function orderOut(world, household, causeId) {
   if (household.flight) return;
   // A family with nobody living is not told anything, and holds nobody's clock (playthrough audit 7, 2026-09-28).
   if (!people(world, household).some(person => !GONE.includes(person.health?.condition))) return;
-  household.flight = { status: 'ordered', orderedMinute: world.minute };
+  // What the family made ready on the news before its order (sim/early-word.mjs `readying`) goes onto the flight.
+  household.flight = { status: 'ordered', orderedMinute: world.minute, ...takeReadying(household) };
   tell(world, household, `Word has come from ${world.map.sites[settlementOf(household)].name}: the Mexican army is coming, and every family is to leave for the east. Load what the wagon will carry and go. ${advanceModelled(world) ? 'What is left behind stays in the house, and if the Mexican army comes this way it will be burned.' : 'What is left behind will be burned so the enemy cannot use it.'}`, { type: 'pressure', causes: causeId ? [causeId] : [] });
 }
 
@@ -233,22 +250,28 @@ export function burnFarm(world, household, { watching }) {
  * shown it at once.
  */
 export function burnByForagers(world, household, fate, column) {
-  if (!household.flight) household.flight = { status: 'stayed', orderedMinute: world.minute };
+  if (!household.flight) household.flight = { status: 'stayed', orderedMinute: world.minute, ...takeReadying(household) };
   const flight = household.flight;
-  // What the family's page keeps showing until the family knows: the land as they left it.
-  flight.unseen = structuredClone({ improvements: household.improvements ?? null, field: household.field ?? null, plots: household.plots ?? null, furniture: household.furniture ?? null, interior: household.interior ?? null });
+  // A family that stayed has its goods in the house, and the foragers take them before they burn it (owner, 2026-09-29, D9 (c):
+  // "Foragers take goods"; `FIC-GONZ-992`): every store, and the tools, the chest and the spinning wheel. Not the coin, as a column
+  // that comes up with a family on the road takes none (sim/road.mjs `overtake`); not who is taken, which is as it was (D1).
+  const stayed = !['fled', 'refuged', 'returning', 'home'].includes(flight.status);
+  const taken = stayed ? takeStayersGoods(household) : {};
+  // What the family's page keeps showing until the family knows: the land as they left it, and the goods the foragers took.
+  flight.unseen = structuredClone({ improvements: household.improvements ?? null, field: household.field ?? null, plots: household.plots ?? null, furniture: household.furniture ?? null, interior: household.interior ?? null, ...(Object.keys(taken).length && { taken }) });
   const name = column?.name || 'The Mexican army';
-  ruin(world, household, ['cabin', 'field', 'fence'], { visibility: 'sealed', text: `Foragers of ${name} came to the farm and burned the house, the field and the fences.` });
+  ruin(world, household, ['cabin', 'field', 'fence'], { visibility: 'sealed', text: `Foragers of ${name} came to the farm${Object.keys(taken).length ? `, took what the family had in the house - ${goodsWords(taken)} -` : ''} and burned the house, the field and the fences.` });
   household.furniture = {};
   delete household.interior;
   delete household.herdLookedDay;
   // What was left in the house for the fire is gone with it (`flee` keeps it on `flight.left` until now).
-  const lost = flight.left ? Object.entries(flight.left).filter(([, amount]) => amount > 0).map(([good, amount]) => `${amount} ${good}`) : [];
+  const lost = flight.left ? Object.entries(flight.left).filter(([, amount]) => amount > 0).map(([good, amount]) => goodWords(good, amount)) : [];
   delete flight.left;
   // The stock left on the range: foragers drive off what they find (sim/stock.mjs `findStockAgain` reads the mark).
   if (household.herdLeft) household.herdLeft.driven = true;
   flight.burned = world.minute;
-  flight.burnedBy = { hand: 'mexican', columnId: fate.columnId, name, ...(lost.length && { lost }) };
+  const took = Object.entries(taken).map(([good, amount]) => goodWords(good, amount));
+  flight.burnedBy = { hand: 'mexican', columnId: fate.columnId, name, ...(lost.length && { lost }), ...(took.length && { taken: took }) };
   if (flight.status === 'ordered') flight.status = 'stayed';
   recordFarmBurned(world, household);
   const place = world.map.sites[household.homeSiteId]?.settlementId ? `near ${world.map.sites[world.map.sites[household.homeSiteId].settlementId]?.name}` : 'on its land';
@@ -269,20 +292,39 @@ export function burnByForagers(world, household, fate, column) {
 }
 
 /**
- * The family leaves: what it takes is all it keeps, everybody at home sets out together for the refuge - by the wagon when
- * the ox and wagon stand at home, on foot otherwise - and the farm burns behind them.
+ * A family that stayed loses to the foragers every store and household good in the house (`burnByForagers`, `FIC-GONZ-992`):
+ * taken out of its hands, and returned as what was taken, in whole amounts - the fraction of a food left over from the day's
+ * eating goes with the rest and is not named.
  */
+function takeStayersGoods(household) {
+  const taken = {};
+  for (const good of Object.keys(FLIGHT_SPACE)) {
+    const amount = Math.floor(household.resources?.[good] ?? 0);
+    if (household.resources && (household.resources[good] ?? 0) > 0) household.resources[good] = 0;
+    if (amount > 0) taken[good] = amount;
+  }
+  for (const [good, amount] of Object.entries(householdGoods(household))) { removeGood(household, good, amount); taken[good] = amount; }
+  return taken;
+}
+
 /**
  * The household as its own family knows it: a farm burned while nobody of the family could see it (`flight.unseen`) is
- * shown as they left it - its improvements, field, plots, furniture and room - and the burning is not on its flight. The
- * world is unchanged; this is what its page is sent (sim/world.mjs `projectWorld`).
+ * shown as they left it - its improvements, field, plots, furniture and room, and the goods the foragers took from a family that
+ * stayed (`unseen.taken`) still in the house - and the burning is not on its flight. The world is unchanged; this is what its page
+ * is sent (sim/world.mjs `projectWorld`).
  */
 export function householdAsKnown(household) {
   const flight = household?.flight;
   if (!flight?.unseen) return household;
   const { unseen, burned, burnedBy, ...knownFlight } = flight;
   const shown = { ...household, flight: knownFlight };
-  for (const [key, value] of Object.entries(unseen)) { if (value === null) delete shown[key]; else shown[key] = value; }
+  const { taken, ...land } = unseen;
+  for (const [key, value] of Object.entries(land)) { if (value === null) delete shown[key]; else shown[key] = value; }
+  if (taken) {
+    shown.resources = { ...shown.resources };
+    shown.tools = { ...shown.tools }; if (shown.spares) shown.spares = structuredClone(shown.spares); if (shown.belongings) shown.belongings = [...shown.belongings];
+    for (const [good, amount] of Object.entries(taken)) { if (isHouseholdGood(good)) restoreGood(shown, good, amount); else shown.resources[good] = (shown.resources[good] ?? 0) + amount; }
+  }
   if (shown.herdLeft?.driven) { const { driven, ...herd } = shown.herdLeft; shown.herdLeft = herd; }
   return shown;
 }
@@ -304,7 +346,7 @@ export function stayHome(world, household) {
   household.flight.status = 'stayed';
   household.flight.stayedMinute = world.minute;
   tell(world, household, advanceModelled(world)
-    ? 'The family will stay, and take what comes. If the Mexican army\'s foragers come this way they will burn what they find standing, and whoever is at home may be taken. The road east is still open.'
+    ? 'The family will stay, and take what comes. If the Mexican army\'s foragers come this way they will take everything in the house - the stores, the tools, the chest and the wheel - and burn what they find standing, and whoever is at home may be taken. The road east is still open.'
     : 'The family will stay, and take what comes. The Texas army will burn what it finds standing, and whoever is at home when the Mexican army comes may be taken. The road east is still open.', { importance: 2 });
 }
 
@@ -316,19 +358,35 @@ export function flee(world, household, { take = {}, refuge, route }) {
   const planned = route !== undefined ? planRoute(world, household, route, { mode, from: { siteId: household.homeSiteId } }) : null;
   if (planned?.why) throw new Error(planned.why);
   if (route !== undefined) refuge = route.stops[0];
+  // The flight waits at the flooded crossings by its own rule (`crossingsAlong`), not the ferries' ordinary hour. Found before
+  // anything is changed, so a family refused for want of a road has lost nothing.
+  const path = planned ? planned.legs[0] : findWay(world, household.homeSiteId, refuge, mode, { ferries: false });
+  if (!path) throw new Error('No road east from here.');
+  // Leaving before any order, on news the family has heard (owner, 2026-09-29, D9 (b); sim/early-word.mjs): its flight begins
+  // here, with what it made ready, and it pays for going early - the crop in the field is lost (`loseCrop`).
+  const early = household.flight ? null : earlyWord(world, household);
+  if (early) {
+    const crop = loseCrop(world, household);
+    household.flight = { ...takeReadying(household), early: { topicId: early.topicId, minute: world.minute, ...(crop && { crop }) } };
+    tell(world, household, `The family is going before any order comes, on the word it has heard. ${crop ? `The ${crop} in the field is left standing with nobody to tend it or bring it in, and is lost.` : 'There is no crop in the field to lose.'} The house is left empty, with whatever is not loaded in it, for whoever comes.`, { claimId: 'FIC-GONZ-991', importance: 3 });
+  }
   const kept = { ...household.resources };
   // What is taken rides; the rest is left in the house for the fire.
   for (const good of Object.keys(FLIGHT_SPACE)) household.resources[good] = 0;
+  // The tools, the chest and the spinning wheel not loaded are left in the house too (owner, 2026-09-29, D9 (a); sim/flight-goods.mjs):
+  // out of the family's hands until it comes home to them, or they burn.
+  const goodsLeft = {};
+  for (const good of HOUSEHOLD_GOODS) {
+    const left = goodCount(household, good) - (take[good] ?? 0);
+    if (left > 0) { removeGood(household, good, left); goodsLeft[good] = left; }
+  }
   // Everybody at home goes, the wounded too (design audit S19, 2026-09-28): carried in the wagon with the sick when there is one
   // (sim/company.mjs seats them first), and on foot at a wounded man's pace when there is not (`walkingPace`).
   const goers = atHome(world, household);
-  // The flight waits at the flooded crossings by its own rule (`crossingsAlong`), not the ferries' ordinary hour.
-  const path = planned ? planned.legs[0] : findWay(world, household.homeSiteId, refuge, mode, { ferries: false });
-  if (!path) throw new Error('No road east from here.');
   const { cart, carreta } = flightRoom(world, household);
   const destination = route !== undefined ? route.stops.at(-1) : refuge;
   const byWay = route !== undefined ? `${route.stops.length > 1 ? `, by way of ${route.stops.slice(0, -1).map(id => world.map.sites[id].name).join(' and ')}` : ''}${route.ways[0] === 'country' ? ', across country' : ''}` : '';
-  const departure = tell(world, household, `The family loaded ${Object.entries(take).filter(([, amount]) => amount > 0).map(([good, amount]) => `${amount} ${good}`).join(', ') || 'what it could carry'} and set out ${route !== undefined ? '' : 'east '}for ${world.map.sites[destination].name}${byWay}${mode === 'wagon' ? (wagons ? ` with the ${wagons} wagons and their oxen` : cart ? ' with the ox and cart' : carreta ? ' with the ox and carreta' : ' with the ox and wagon') : ' on foot'}.`);
+  const departure = tell(world, household, `The family loaded ${Object.entries(take).filter(([, amount]) => amount > 0).map(([good, amount]) => goodWords(good, amount)).join(', ') || 'what it could carry'} and set out ${route !== undefined ? '' : 'east '}for ${world.map.sites[destination].name}${byWay}${mode === 'wagon' ? (wagons ? ` with the ${wagons} wagons and their oxen` : cart ? ' with the ox and cart' : carreta ? ' with the ox and carreta' : ' with the ox and wagon') : ' on foot'}.`);
   const speed = mode === 'wagon' ? WAGON_SPEED : WALK_SPEED;
   const travellers = [...goers, ...beasts(world, household).filter(beast => !beast.travel && beast.location.siteId === household.homeSiteId)];
   const journey = () => ({ from: household.homeSiteId, to: refuge, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed, mode, purpose: 'flee', silent: true, causeId: departure, ...(path.pace?.length && { pace: path.pace }), ...(path.offRoad?.length && { offRoad: path.offRoad.map(run => [...run]) }) });
@@ -352,7 +410,7 @@ export function flee(world, household, { take = {}, refuge, route }) {
   // 2026-09-26). On the invented Gonzales country, which has no columns, the Texas army burns it as they go (owner, 2026-09-16).
   // What the family hid in the river bottom before it went (sim/flight-work.mjs `flee-hide`) comes out of what is left in the house
   // first, on either country: no fire and no forager finds it, and it is dug up when the family is home.
-  const left = hideAtLeaving(household, Object.fromEntries(Object.keys(FLIGHT_SPACE).map(good => [good, Math.max(0, Math.floor((kept[good] ?? 0) - (take[good] ?? 0)))]).filter(([, amount]) => amount > 0)), FLIGHT_SPACE);
+  const left = hideAtLeaving(household, { ...Object.fromEntries(Object.keys(FLIGHT_SPACE).map(good => [good, Math.max(0, Math.floor((kept[good] ?? 0) - (take[good] ?? 0)))]).filter(([, amount]) => amount > 0)), ...goodsLeft }, LOAD_SPACE);
   if (advanceModelled(world)) {
     if (!household.flight.burned) {
       if (Object.keys(left).length) household.flight.left = { ...(household.flight.left || {}), ...left };
@@ -365,8 +423,23 @@ export function flee(world, household, { take = {}, refuge, route }) {
   // With her along and no wagon, the family goes at her pace (owner, 2026-09-27: "Slow a family on foot").
   cowPace(world, household);
   leaveStock(world, household);
-  household.resources = { ...household.resources, ...Object.fromEntries(Object.entries(take).map(([good, amount]) => [good, amount])), money: kept.money ?? 0 };
+  household.resources = { ...household.resources, ...Object.fromEntries(Object.entries(take).filter(([good]) => good in FLIGHT_SPACE)), money: kept.money ?? 0 };
   return departure;
+}
+
+/**
+ * What leaving before the order costs (owner, 2026-09-29, D9 (b); `FIC-GONZ-991`): a crop in the ground, growing or ripe, is left with
+ * nobody to tend it or bring it in, and is lost - the field goes back to bare, its plots unsown; the ground stays cleared and fenced.
+ * Returns the crop lost ('corn' or 'cotton'), or null when nothing stood in the field. The game's rule, not the record's: Dilue Rose
+ * Harris's father planted corn on March 1, left, and found it standing when the family came home (docs/SCRAPE.md §19).
+ */
+export function loseCrop(world, household) {
+  const field = household.field;
+  if (!['planted', 'ripe'].includes(field?.state)) return null;
+  const { grownMs: _grown, ...rest } = field;
+  household.field = { ...rest, state: 'bare', changedTick: world.tick };
+  for (const plot of keepPlots(world, household)) delete plot.sown;
+  return field.crop === 'cotton' ? 'cotton' : 'corn';
 }
 
 /** The crossings on this family's road: the ferries and fords over the big rivers, in the order the road meets them. */
@@ -452,6 +525,9 @@ export function advanceFlight(world, minutes) {
     }
     if (flight.status === 'returning' && !travellers.length) {
       flight.status = 'home'; flight.homeMinute = world.minute;
+      // What the family carried of its household goods, all the way home (owner, 2026-09-29, D9 (a); sim/flight-goods.mjs).
+      const broughtHome = Object.fromEntries(HOUSEHOLD_GOODS.filter(good => (flight.took?.[good] ?? 0) > 0).map(good => [good, Math.min(flight.took[good], goodCount(household, good))]).filter(([, amount]) => amount > 0));
+      if (Object.keys(broughtHome).length) tell(world, household, `They brought home what they had carried all the way: ${goodsWords(broughtHome)}.`, { claimId: 'FIC-GONZ-990', importance: 2 });
       if (flight.burned || !advanceModelled(world)) {
         // Home to what is left (`HIST-GONZ-019`): whatever word they had of it, now they see it.
         if (flight.unseen) learnOwnBurning(world, household, 'home');
@@ -461,9 +537,10 @@ export function advanceFlight(world, minutes) {
       } else {
         // The Mexican army never came this way: the house stands, and what was left in it is where they left it (`FIC-GONZ-465`).
         const found = Object.entries(flight.left || {}).filter(([, amount]) => amount > 0);
-        for (const [good, amount] of found) household.resources[good] = (household.resources[good] ?? 0) + amount;
+        // The tools, the chest and the wheel left in the house are the family's again (sim/flight-goods.mjs), the stores in the house.
+        for (const [good, amount] of found) { if (isHouseholdGood(good)) restoreGood(household, good, amount); else household.resources[good] = (household.resources[good] ?? 0) + amount; }
         delete flight.left;
-        tell(world, household, `The family is home. The Mexican army never came this way: the house stands and the field is as they left it${found.length ? `, and what they left in the house is still there: ${found.map(([good, amount]) => `${amount} ${good}`).join(', ')}` : ''}.`, { claimId: 'FIC-GONZ-465' });
+        tell(world, household, `The family is home. The Mexican army never came this way: the house stands and the field is as they left it${found.length ? `, and what they left in the house is still there: ${found.map(([good, amount]) => goodWords(good, amount)).join(', ')}` : ''}.`, { claimId: 'FIC-GONZ-465' });
       }
       // What they hid in the river bottom before they went is dug up and carried in (sim/flight-work.mjs `flee-hide`).
       digUpCache(world, household);
@@ -567,7 +644,10 @@ export function turnHome(world, causeId, only = null) {
  */
 export function packFlight(shown) {
   const take = {}; let room = shown.room;
-  for (const good of ['food', 'seed', 'cotton', 'powder']) { const amount = Math.min(shown.have[good] || 0, Math.floor(room / shown.space[good])); take[good] = amount; room -= amount * shown.space[good]; }
+  // Food first, as it always was; then, with room to spare, the family's tools and the chest and the wheel (sim/flight-goods.mjs), in
+  // that order, for a family that has them. Room is counted in hundredths so a quarter's space is never lost to the floating point.
+  const goods = ['food', 'seed', 'cotton', 'powder', ...HOUSEHOLD_GOODS.filter(good => good in (shown.space || {}))];
+  for (const good of goods) { const amount = Math.min(shown.have[good] || 0, Math.floor(room / shown.space[good] + 1e-9)); take[good] = amount; room = Math.round((room - amount * shown.space[good]) * 100) / 100; }
   const refuge = [...shown.refuges].sort((a, b) => a.miles - b.miles)[0].id;
   return { take, refuge };
 }
@@ -609,7 +689,7 @@ export function autoFlee(world, household, { why = 'auto' } = {}) {
 export function burnForSilence(world, household) {
   const flight = household.flight;
   if (!flight || Number.isFinite(flight.burned)) return false;
-  const lost = flight.left ? Object.entries(flight.left).filter(([, amount]) => amount > 0).map(([good, amount]) => `${amount} ${good}`) : [];
+  const lost = flight.left ? Object.entries(flight.left).filter(([, amount]) => amount > 0).map(([good, amount]) => goodWords(good, amount)) : [];
   const text = `Nobody answered the order to leave in time, and the family left in a rush. As it went, men of the Texas army set fire to the house, the field and the fences behind it, so the Mexican army would find nothing to use. The house is lost.${lost.length ? ` What was left in it burned too: ${lost.join(', ')}.` : ''}`;
   if (!ruin(world, household, ['cabin', 'field', 'fence'], { text }).length) tell(world, household, text, { importance: 3, claimId: 'FIC-GONZ-907' });
   household.furniture = {};
@@ -628,7 +708,6 @@ export function burnForSilence(world, household) {
 export function flightProjection(world, household) {
   const flight = household?.flight;
   if (!flight) return null;
-  const home = world.map.sites[household.homeSiteId];
   const shown = { status: flight.status, ...(flight.refuge && { refuge: flight.refuge, refugeName: world.map.sites[flight.refuge]?.name }), ...(flight.crossing && { waitingAt: world.map.sites[flight.crossing.siteId]?.name }), ...(flight.mode && { mode: flight.mode }),
     // Who has the milk cow (sim/flight-work.mjs): the page draws her beside them.
     ...(flight.cow && { cow: { by: flight.cow.by } }),
@@ -636,15 +715,7 @@ export function flightProjection(world, household) {
     ...(heldToCow(world, household) && { cowPace: true }) };
   // On the road: the weather, the bog, the camp, the danger and the open question (sim/road.mjs).
   if (!['ordered', 'stayed'].includes(flight.status)) return { ...shown, ...roadProjection(world, household) };
-  const { room, mode, wagons, cart, carreta } = flightRoom(world, household);
-  const deciding = {
-    // What carries it, for the card's words: the cart of a family of the poorest means, or how many wagons (sim/means.mjs).
-    ...shown, room, mode, ...(wagons && { wagons }), ...(cart && { vehicle: 'cart' }), ...(carreta && { vehicle: 'carreta' }), space: FLIGHT_SPACE, ...(flight.stayedMinute !== undefined && { decidedToStay: true }),
-    have: Object.fromEntries(Object.keys(FLIGHT_SPACE).map(good => [good, Math.floor(household.resources?.[good] ?? 0)])),
-    refuges: REFUGES.filter(id => world.map.sites[id] && world.map.sites[id].x > home.x + 2).map(id => ({ id, name: world.map.sites[id].name, miles: Math.round(Math.hypot(world.map.sites[id].x - home.x, world.map.sites[id].y - home.y)) })),
-    // Every place the family may make for instead, with stops on the way (sim/flight-route.mjs): ids, whose names and points
-    // are on the page's own map.
-    places: flightPlaces(world.map).filter(id => id !== household.homeSiteId),
+  const deciding = { ...shown, ...loadCard(world, household), ...(flight.stayedMinute !== undefined && { decidedToStay: true }),
     // Burned as far as the family knows: a farm burned while nobody of it could see is not burned on its page yet (`unseen`).
     burned: Boolean(flight.burned && !flight.unseen),
   };
@@ -652,6 +723,45 @@ export function flightProjection(world, household) {
   // the obvious two presses leave with the food rather than with nothing. The student may change every number before going.
   if (deciding.refuges.length) deciding.packed = packFlight(deciding);
   return deciding;
+}
+
+/**
+ * The load's card, the same before the order and after it: the room and what carries it, the room each thing takes and how many
+ * the family has - the stores, and its tools, chest and spinning wheel only where it has them (sim/flight-goods.mjs), with the
+ * words to call them by - and where it may make for.
+ */
+function loadCard(world, household) {
+  const home = world.map.sites[household.homeSiteId];
+  const { room, mode, wagons, cart, carreta } = flightRoom(world, household);
+  const goods = householdGoods(household);
+  return {
+    // What carries it, for the card's words: the cart of a family of the poorest means, or how many wagons (sim/means.mjs).
+    room, mode, ...(wagons && { wagons }), ...(cart && { vehicle: 'cart' }), ...(carreta && { vehicle: 'carreta' }),
+    space: { ...FLIGHT_SPACE, ...Object.fromEntries(Object.keys(goods).map(good => [good, HOUSEHOLD_SPACE[good]])) },
+    have: { ...Object.fromEntries(Object.keys(FLIGHT_SPACE).map(good => [good, Math.floor(household.resources?.[good] ?? 0)])), ...goods },
+    ...(Object.keys(goods).length && { names: Object.fromEntries(Object.keys(goods).map(good => [good, good === 'axe' ? 'felling axe' : wagonItem(good)?.name.toLowerCase() || good])) }),
+    refuges: REFUGES.filter(id => world.map.sites[id] && world.map.sites[id].x > home.x + 2).map(id => ({ id, name: world.map.sites[id].name, miles: Math.round(Math.hypot(world.map.sites[id].x - home.x, world.map.sites[id].y - home.y)) })),
+    // Every place the family may make for instead, with stops on the way (sim/flight-route.mjs): ids, whose names and points
+    // are on the page's own map.
+    places: flightPlaces(world.map).filter(id => id !== household.homeSiteId),
+  };
+}
+
+/**
+ * The card of a family that may leave before its order (owner, 2026-09-29, D9 (b); sim/early-word.mjs), or null: sent beside the
+ * flight rather than as it (`early` in the projection), because a family with no order has no flight, and every reader of a flight
+ * takes it for an order. What it heard, what going now costs, and the load as the order's card has it. From the family's own
+ * knowledge only (`earlyWord`).
+ */
+export function earlyProjection(world, household) {
+  const word = earlyWord(world, household);
+  if (!word) return null;
+  const card = { status: 'early', heard: word.text, cost: EARLY_COST, ...loadCard(world, household),
+    ...(household.field && ['planted', 'ripe'].includes(household.field.state) && { crop: household.field.crop === 'cotton' ? 'cotton' : 'corn' }),
+    // The milk cow already on a rope, drawn beside her child (sim/flight-work.mjs).
+    ...(household.readying?.cow && { cow: { by: household.readying.cow.by } }) };
+  if (card.refuges.length) card.packed = packFlight(card);
+  return card;
 }
 
 export const FLIGHT_STATUSES = Object.freeze(['ordered', 'fled', 'stayed', 'refuged', 'returning', 'home']);
@@ -662,10 +772,15 @@ export function scrapeInvalid(world) {
     if (!flight || !FLIGHT_STATUSES.includes(flight.status)) return 'Invalid flight';
     if (flight.refuge !== undefined && !world.map.sites[flight.refuge]) return 'Invalid refuge';
     // What the advance writes (sim/scrape.mjs `burnByForagers`, `flee`): absent on every class saved before it.
-    if (flight.left !== undefined && (!flight.left || typeof flight.left !== 'object' || Object.entries(flight.left).some(([good, amount]) => !(good in FLIGHT_SPACE) || !Number.isInteger(amount) || amount < 0))) return 'Invalid goods left at home';
+    if (flight.left !== undefined && (!flight.left || typeof flight.left !== 'object' || Object.entries(flight.left).some(([good, amount]) => !(good in LOAD_SPACE) || !Number.isInteger(amount) || amount < 0))) return 'Invalid goods left at home';
+    // What foragers took from a family that stayed (`burnByForagers`, 2026-09-29): absent on every class saved before, which is none.
+    if (flight.burnedBy?.taken !== undefined && (!Array.isArray(flight.burnedBy.taken) || flight.burnedBy.taken.some(words => typeof words !== 'string'))) return 'Invalid goods taken';
+    if (flight.unseen?.taken !== undefined && (!flight.unseen.taken || Object.entries(flight.unseen.taken).some(([good, amount]) => !(good in LOAD_SPACE) || !Number.isInteger(amount) || amount < 1))) return 'Invalid goods taken';
     if (flight.unseen !== undefined && (!Number.isFinite(flight.burned) || !flight.unseen || typeof flight.unseen !== 'object')) return 'Invalid unseen farm';
     if (flight.burnedBy !== undefined && (!Number.isFinite(flight.burned) || !['mexican', 'texian'].includes(flight.burnedBy?.hand))) return 'Invalid burning';
   }
+  const badReadying = readyingInvalid(world);
+  if (badReadying) return badReadying;
   const badRoad = roadInvalid(world);
   if (badRoad) return badRoad;
   for (const household of Object.values(world.households)) { const bad = routeInvalid(world, household); if (bad) return bad; }

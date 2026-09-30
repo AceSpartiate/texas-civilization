@@ -40,6 +40,8 @@ import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
 import { beastsOf } from './beasts.mjs';
 import { findWay } from './ways.mjs';
 import { CARRIED_ROOM, FLIGHT_SPACE, REFUGES, share } from './scrape.mjs';
+// The tools, the chest and the spinning wheel in the load (owner, 2026-09-29, D9 (a)): carried on, left with the wagon, or taken.
+import { HOUSEHOLD_SPACE, goodWords, householdGoods, removeGood } from './flight-goods.mjs';
 import { spotlight } from './host.mjs';
 import { awardGlory } from './glory.mjs';
 import { COLUMNS, ORDER_GRACE_MINUTES, ROAD_DETOUR, clockOf, columnLeg as advanceLeg, headAt } from './advance.mjs';
@@ -414,6 +416,13 @@ export function abandonWagon(world, household) {
   }
   const lost = Object.entries(kept).filter(([good, amount]) => (household.resources?.[good] ?? 0) > amount).map(([good, amount]) => `${round((household.resources[good] ?? 0) - amount)} ${good}`);
   for (const [good, amount] of Object.entries(kept)) household.resources[good] = amount;
+  // Then the household goods in the wagon, the tools before the chest and the wheel, as far as the backs left have room
+  // (sim/flight-goods.mjs); the rest stays with the wagon.
+  for (const [good, have] of Object.entries(householdGoods(household))) {
+    const fits = Math.min(have, Math.floor(left / HOUSEHOLD_SPACE[good] + 1e-9));
+    if (fits > 0) { kept[good] = fits; left = round(left - fits * HOUSEHOLD_SPACE[good]); }
+    if (have > fits) { removeGood(household, good, have - fits); lost.push(goodWords(good, have - fits)); }
+  }
   for (const beast of with_) {
     if (beast.kind === 'horse' || beast.species === 'horse') continue;
     beast.condition = 'lost'; beast.laden = false; beast.borrowedBy = null;
@@ -426,7 +435,7 @@ export function abandonWagon(world, household) {
   cowPace(world, household);
   delete flight.bog; delete flight.oxSpentUntil;
   if (flight.crossing) { flight.crossed = [...(flight.crossed || []), flight.crossing.siteId]; delete flight.crossing; }
-  tell(world, household, `The family left the wagon and the ox where they stood and went on on foot, carrying ${Object.entries(kept).filter(([, amount]) => amount > 0).map(([good, amount]) => `${amount} ${good}`).join(', ') || 'nothing'}${lost.length ? `; ${lost.join(', ')} had to be left with the wagon` : ''}.`, { importance: 3, claimId: 'HIST-TEX-069' });
+  tell(world, household, `The family left the wagon and the ox where they stood and went on on foot, carrying ${Object.entries(kept).filter(([, amount]) => amount > 0).map(([good, amount]) => goodWords(good, amount)).join(', ') || 'nothing'}${lost.length ? `; ${lost.join(', ')} had to be left with the wagon` : ''}.`, { importance: 3, claimId: 'HIST-TEX-069' });
 }
 
 // ---------------------------------------------------------------------------------------------------- overtaken
@@ -451,6 +460,8 @@ export function overtake(world, household, near) {
   delete flight.ask; delete flight.bog; delete flight.danger; delete flight.oxSpentUntil;
   const taken = Object.entries(household.resources || {}).filter(([good, amount]) => good in FLIGHT_SPACE && amount > 0).map(([good, amount]) => `${round(amount)} ${good}`);
   for (const good of Object.keys(FLIGHT_SPACE)) if (household.resources) household.resources[good] = 0;
+  // And the household goods it carried (owner, 2026-09-29, D9 (a); sim/flight-goods.mjs): taken with the wagon, as everything was.
+  for (const [good, amount] of Object.entries(householdGoods(household))) { removeGood(household, good, amount); taken.push(goodWords(good, amount)); }
   // "the wagon, the ox, the horse", as it always read; a family that bought more is told how many: "two horses".
   const counted = new Map();
   for (const beast of had) { const word = beast.kind === 'wagon' ? 'wagon' : beast.species || beast.kind; counted.set(word, (counted.get(word) || 0) + 1); }

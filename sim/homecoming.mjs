@@ -27,6 +27,7 @@ import { cowPace } from './flight-work.mjs';
 import { thinLine } from './flight-route.mjs';
 import { beastsOf } from './beasts.mjs';
 import { record } from './events.mjs';
+import { toolCount } from './tools.mjs';
 
 /** The copy steps four hours at a time: long enough that a traveller keeps the seven hours of going in a day (sim/travel.mjs `roadTicks`). */
 export const HOME_STEP_MINUTES = 240;
@@ -175,6 +176,9 @@ export function homecomings(world) {
     trip.burnedBy = flight?.burned ? flight.burnedBy?.hand || 'texian' : null;
     trip.burnedMinute = flight?.burned ?? null;
     trip.herd = household.herd ? { cattle: household.herd.cattle ?? 0, hogs: household.herd.hogs ?? 0 } : null;
+    // Whether the family came home with a felling axe to begin again with (owner, 2026-09-29, D9 (a): the tools are in the load, and
+    // what was left in a house that burned is gone): the flashback's first logs over the ashes say so.
+    trip.axe = toolCount(household, 'axe') > 0;
   }
   return { endMinute, trips };
 }

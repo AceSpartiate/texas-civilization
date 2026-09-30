@@ -18,6 +18,8 @@
 import { householdName } from './family.mjs';
 import { dateOf } from './clock.mjs';
 import { happenings } from './flashback.mjs';
+// The household goods carried or lost (owner, 2026-09-29, D9 (a)), in words (sim/flight-goods.mjs).
+import { householdWords } from './flight-goods.mjs';
 
 const DAY = 1440;
 const day = (world, minute) => dateOf(world, minute).toLocaleDateString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' });
@@ -32,12 +34,20 @@ export function flightLine(world, household) {
   const refuge = flight.refuge ? world.map.sites[flight.refuge]?.name : null;
   if (flight.status === 'ordered') return 'They were told to leave in the spring, and the class ended before they had decided.';
   if (flight.status === 'stayed') {
+    // The foragers took a stayer's goods before they burned the farm (owner, 2026-09-29, D9 (c); sim/scrape.mjs `burnByForagers`).
+    const taken = flight.burnedBy?.taken?.length ? ` They took everything in the house first: ${flight.burnedBy.taken.join(', ')}.` : '';
     return burned
-      ? `They were told to leave in the spring and stayed on the farm. On ${day(world, flight.burned)} ${burnedBy} burned it.`
+      ? `They were told to leave in the spring and stayed on the farm. On ${day(world, flight.burned)} ${burnedBy} burned it.${taken}`
       : 'They were told to leave in the spring and stayed on the farm. The Mexican army never came that way, and the house stands.';
   }
-  // A family still on the road had not reached its refuge: it was making for it.
-  const went = `They fled east in the spring${refuge ? `, ${flight.status === 'fled' ? 'making for' : 'to'} ${refuge}` : ''}.`;
+  // A family still on the road had not reached its refuge: it was making for it. One that went before any order, on the word it
+  // had heard, is said so, with the crop it lost (owner, 2026-09-29, D9 (b); sim/early-word.mjs).
+  const early = flight.early ? ` They went before any order came, on the word they had heard${flight.early.crop ? `, and lost the ${flight.early.crop} in the field` : ''}.` : '';
+  // What they carried of their household goods, and what they left in the house to burn (D9 (a); sim/flight-goods.mjs).
+  const carried = householdWords(flight.took);
+  const leftToBurn = burned ? (flight.burnedBy?.lost || []).filter(words => !/^[\d.]+ (food|seed|cotton|powder)$/.test(words)) : [];
+  const goods = `${carried ? ` They took ${carried} with them.` : ''}${leftToBurn.length ? ` ${leftToBurn.join(', ').replace(/^./, c => c.toUpperCase())} ${leftToBurn.length > 1 || /^\d/.test(leftToBurn[0]) ? 'were' : 'was'} left in the house, and burned with it.` : ''}`;
+  const went = `They fled east in the spring${refuge ? `, ${flight.status === 'fled' ? 'making for' : 'to'} ${refuge}` : ''}.${early}${goods}`;
   // Nobody answered the order in time, and the house burned as they went (sim/scrape.mjs `burnForSilence`, `FIC-GONZ-907`).
   const farm = burned && flight.burnedBy?.lapsed
     ? ` Nobody answered the order in time, and they left in a rush: ${burnedBy} burned the farm behind them, on ${day(world, flight.burned)}.`

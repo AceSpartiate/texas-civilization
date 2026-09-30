@@ -27,6 +27,8 @@ import { drawnVehicles, riddenHorses, setOut } from './company.mjs';
 import { record } from './events.mjs';
 import { cowPace } from './flight-work.mjs';
 import { withFamily } from './road.mjs';
+// A family leaving before its order, on news it has heard (owner, 2026-09-29, D9 (b)): its route is set as it leaves, with no flight yet.
+import { earlyWord } from './early-word.mjs';
 
 /** The kinds of place a family may make for, and the ids of the map's lesser crossings and timber that are not (`flightPlaces`). */
 export const FLIGHT_PLACE_KINDS = Object.freeze(['town', 'village', 'landing', 'farmstead', 'ferry', 'bridge']);
@@ -210,15 +212,15 @@ export function planLeg(world, from, toSiteId, way, mode, travel = null) {
 /** Why this route cannot be set, or null. `stops` are place ids, the last the destination; `ways` one for each. */
 export function routeRefusal(world, household, { stops, ways } = {}) {
   const flight = household.flight;
-  if (!flight || !['fled', 'refuged', 'ordered', 'stayed'].includes(flight.status)) return 'The family is not on the road east.';
+  if (!flight ? !earlyWord(world, household) : !['fled', 'refuged', 'ordered', 'stayed'].includes(flight.status)) return 'The family is not on the road east.';
   if (!Array.isArray(stops) || !stops.length) return 'Choose where the family will make for.';
   if (stops.length > MAX_STOPS) return `At most ${MAX_STOPS} stops.`;
   if (!Array.isArray(ways) || ways.length !== stops.length || ways.some(way => !WAYS.includes(way))) return 'Say for each stretch whether the family keeps to the road or goes across country.';
   const places = new Set(flightPlaces(world.map));
   for (const id of stops) if (!places.has(id)) return 'That is not a place the family can make for.';
   if (stops.some((id, i) => i > 0 && id === stops[i - 1])) return 'The same place twice in a row.';
-  if (flight.bog) return 'The wagon is fast in the mud; free it first.';
-  if (flight.chase?.phase === 'caught' || flight.chase?.halted) return 'The soldiers have the family.';
+  if (flight?.bog) return 'The wagon is fast in the mud; free it first.';
+  if (flight?.chase?.phase === 'caught' || flight?.chase?.halted) return 'The soldiers have the family.';
   return null;
 }
 
@@ -229,7 +231,7 @@ export function routeRefusal(world, household, { stops, ways } = {}) {
 export function planRoute(world, household, { stops, ways }, { mode = trainMode(world, household), from = null } = {}) {
   const flight = household.flight;
   const leader = withFamily(world, household).people.find(one => one.travel) || null;
-  const start = from || (flight.status === 'refuged' ? { siteId: flight.refuge } : leader?.travel ? { x: leader.location.x, y: leader.location.y } : { siteId: household.homeSiteId });
+  const start = from || (flight?.status === 'refuged' ? { siteId: flight.refuge } : leader?.travel ? { x: leader.location.x, y: leader.location.y } : { siteId: household.homeSiteId });
   const legs = [];
   let at = start;
   for (let i = 0; i < stops.length; i++) {

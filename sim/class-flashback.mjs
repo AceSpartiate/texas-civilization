@@ -156,7 +156,7 @@ export function classFlashbackScript(world, scripts) {
       const beat = own(household.id).find(one => one.kind === 'flight');
       return beat?.scene?.route?.length > 1 ? { householdId: household.id, label: cap(familyOf(world, household)), points: beat.scene.route, wagon: Boolean(beat.scene.wagon) } : null;
     }).filter(Boolean);
-    add({ kind: 'flight', weight: 88, minute: Math.min(...told.map(household => household.flight.orderedMinute ?? Infinity)),
+    add({ kind: 'flight', weight: 88, minute: Math.min(...told.map(household => household.flight.orderedMinute ?? household.flight.early?.minute ?? Infinity)),
       caption: `In March word came that the Mexican army was coming, and every family was told to leave for the east. ${fled.length ? `${cap(families(fled.length))} loaded ${fled.length === 1 ? 'its wagon' : 'their wagons'} and set out` : 'No family left'}${stayed.length ? `; ${families(stayed.length)} stayed on ${stayed.length === 1 ? 'its farm' : 'their farms'}` : ''}.`,
       scene: routes.length ? { type: 'routes', routes } : { type: 'homes', homes: told.map(household => homeOf(world, household)).filter(Boolean) } });
   }

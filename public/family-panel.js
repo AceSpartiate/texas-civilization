@@ -86,7 +86,7 @@ export const PANEL_SUMMARIES = Object.freeze({
   'child-marbles': 'Let them kneel in the dirt at marbles and knucklebones.',
   'child-hens': 'Send them out to scatter a handful of corn for the hens.',
   // The flight's own work (sim/flight-work.mjs, owner 2026-09-26: new tasks for a family on the Runaway Scrape).
-  'flee-hide': 'Hide the powder, seed and cotton the wagon cannot take in the river bottom, to find again when the family is home.',
+  'flee-hide': 'Hide what the wagon cannot take - the powder, the seed, the tools, the chest and the cotton - in the river bottom, to find again when the family is home.',
   'flee-bundle': 'Tie up a bundle for them to carry, so the family can take more with it on foot.',
   'flee-cow': 'Put a rope on one milk cow for them to drive behind the family: a little milk every day on the road.',
   'road-lookout': 'Set them to watch the road behind, so word of riders reaches the family sooner.',

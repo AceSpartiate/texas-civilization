@@ -1,6 +1,6 @@
 {
   "record": "The road east, in a browser: docs/ROAD_EAST.md",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "verdict": "PASS",
   "note": "Same computer only. A real class on the colonies map with rolled families, played in process through two periods and continued into the spring, the seed chosen for rain on the first family's first days on the road; served live at a tick every second and a half. The pursuit was reached by running the paused class on in process to the days Santa Anna's column nears San Felipe. No LAN or district claim.",
   "checks": [
@@ -19,11 +19,11 @@
       "fledAt": 861
     },
     "bogAfter": {
-      "seconds": 158,
+      "seconds": 165,
       "tick": 965
     },
     "bogNeed": "road",
-    "bogCard": "The family is on the road east for San Felipe de Austin. It is raining. The wagon is fast in the mud. Making for San Felipe de Austin. Next, San Felipe de Austin: 29.5 miles by the road, at about 2 miles an hour. Mexican troops could see the family from about 50 yards: the wagon on the road, in the open, in the rain, at night. Change where we go The wagon is fast in the mud, and it is still raining. The ox cannot pull it out alone. Unload and dig it out 8 hours. Everybody grown is worn by it, and the ox is spent and goes at half pace for a day after. Wait for the ground to dry Nothing spent. The family sits where it is until a dry day, and the Mexican army does not wait. Leave the wagon and go on on foot The wagon and the ox stay in the mud. The family carries 2.5 room’s worth (food first) and the rest is lost; on foot it goes faster.",
+    "bogCard": "The family is on the road east for San Felipe de Austin. It is raining. The wagon is fast in the mud. Making for San Felipe de Austin. Next, San Felipe de Austin: 29.5 miles by the road, at about 2 miles an hour. Mexican troops could see the family from about 50 yards: the wagon on the road, in the open, in the rain, at night. Change where we go The wagon is fast in the mud, and it is still raining. The ox cannot pull it out alone. Unload and dig it out 8 hours. Everybody grown is worn by it, and the ox is spent and goes at half pace for a day after. Wait for the ground to dry Nothing spent. The family sits where it is until a dry day, and the Mexican army does not wait. Leave the wagon and go on on foot The wagon and the ox stay in the mud. The family carries 3.75 room’s worth (food first) and the rest is lost; on foot it goes faster.",
     "bogAnswers": [
       {
         "option": "dig",
@@ -38,7 +38,7 @@
       {
         "option": "abandon",
         "disabled": false,
-        "text": "Leave the wagon and go on on foot The wagon and the ox stay in the mud. The family carries 2.5 room’s worth (food first) and the rest is lost; on foot it goes faster."
+        "text": "Leave the wagon and go on on foot The wagon and the ox stay in the mud. The family carries 3.75 room’s worth (food first) and the rest is lost; on foot it goes faster."
       }
     ],
     "hostBogged": [
@@ -63,7 +63,7 @@
     ],
     "roadWarnings": [],
     "pursuitReached": {
-      "tick": 1486,
+      "tick": 1453,
       "danger": {
         "id": "santa-anna",
         "name": "Santa Anna’s column",
@@ -73,7 +73,7 @@
         "asked": true
       }
     },
-    "dangerCard": "The family is camped at San Felipe de Austin with the other families from the west. It is raining. Mexican troops could see the family from about 200 yards: the wagon on the road, in the open, in the rain. Change where we go Santa Anna’s column is about 20 miles off, making for San Felipe de Austin. Soldiers come after a family only when they can see it, and as it is now they could see the wagon from about 200 yards (on the road, in the open, in the rain). Go on east to Lynchburg About 62 miles. The family sets out the moment it is pressed, with the wagon. Stay as we are, and take the risk The family keeps its camp. If soldiers come near enough to see it, they call on it to halt; a family they take loses the wagon, the animals and the goods, and may lose the men. Leave the wagon and go on on foot The wagon and the ox stay where they are. The family carries 2.5 room’s worth (food first) and the rest is lost; on foot it goes faster, and people on foot are seen from a third as far off as a wagon in the open.",
+    "dangerCard": "The family is camped at San Felipe de Austin with the other families from the west. It is raining. Mexican troops could see the family from about 200 yards: the wagon on the road, in the open, in the rain. Change where we go Santa Anna’s column is about 20 miles off, making for San Felipe de Austin. Soldiers come after a family only when they can see it, and as it is now they could see the wagon from about 200 yards (on the road, in the open, in the rain). Go on east to Lynchburg About 62 miles. The family sets out the moment it is pressed, with the wagon. Stay as we are, and take the risk The family keeps its camp. If soldiers come near enough to see it, they call on it to halt; a family they take loses the wagon, the animals and the goods, and may lose the men. Leave the wagon and go on on foot The wagon and the ox stay where they are. The family carries 3.75 room’s worth (food first) and the rest is lost; on foot it goes faster, and people on foot are seen from a third as far off as a wagon in the open.",
     "hostWaiting": 1
   },
   "screenshots": [
