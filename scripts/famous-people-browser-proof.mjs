@@ -31,6 +31,7 @@ import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { momentOf } from '../sim/directors.mjs';
 import { grownMen, serve } from '../tests/support/san-jacinto.mjs';
+import { feed } from '../tests/support/fed.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -167,7 +168,11 @@ try {
   if (process.env.FAMOUS_PART !== 'san-jacinto') {
   // Six days before the siege, so the three are on the map at Béxar for about five seconds of the class's quick winter clock
   // (720 minutes a tick) and the steady frames with them can be counted: from 1500 minutes before, they were there one tick.
-  const alamo = await classroom('famous-alamo', (seed, count) => alamoClass(seed, count, { stopBefore: 9000 }), 500);
+  // The two families the students play are fed (planted, and said so; tests/support/fed.mjs): the class is run by the director up
+  // to here, which never starves a family nobody plays and leaves every store empty, and the students give no orders for food.
+  // Unfed, a played family starves by the fall (owner, 2026-09-30, sim/hunger.mjs: "Keep it") and its student is given its
+  // nearest neighbours' page to watch (sim/watching.mjs), which is not a family far off.
+  const alamo = await classroom('famous-alamo', (seed, count) => { const world = alamoClass(seed, count, { stopBefore: 9000 }); return feed(world, ['hh-1', 'hh-2'].map(id => world.households[id])); }, 500);
   const man = fatherOf(alamo.app.state.world, 'hh-1');
   const inside = await joinClass(alamo.url, alamo.app, 'hh-1', { width: 1366, height: 768 }, 'Garrison');
   const faraway = await joinClass(alamo.url, alamo.app, 'hh-2', { width: 1024, height: 768 }, 'Faraway');
@@ -317,7 +322,10 @@ try {
   assert.ok(Math.max(...alamoFrames) < 50, `the assault draws too slowly: ${Math.max(...alamoFrames)} ms`);
   ok(`the assault with its famous people draws in ${Math.max(...alamoFrames).toFixed(1)} ms at its slowest 95th percentile (1366x768 and 1024x768)`);
   const farAfter = await faraway.evaluate(async () => JSON.parse(await (await fetch('/api/state')).text()).world);
-  assert.equal(farAfter.battle, null); assert.equal(farAfter.famous, undefined, 'the family far off was sent the famous');
+  // Its own page still, not a neighbour's it was given to watch (sim/watching.mjs): otherwise this reads another family's.
+  assert.ok(!farAfter.watching && farAfter.householdId === 'hh-2', `the family far off is no longer its own page: ${farAfter.watching?.line}`);
+  const farEyes = () => { const w = alamo.app.state.world; return w.households['hh-2'].members.map(id => w.entities[id]).filter(one => one.location).map(one => `${one.id} ${one.health?.condition} at ${one.location.siteId || ''} (${one.location.x.toFixed(1)}, ${one.location.y.toFixed(1)})${one.service ? ` ${one.service.kind}` : ''}${one.travel ? ` going to ${one.travel.to}` : ''}`).join('; '); };
+  assert.equal(farAfter.battle, null); assert.equal(farAfter.famous, undefined, `the family far off was sent the famous (its people: ${farEyes()})`);
   ok('the family far off was sent no battle and no famous person');
   }
 

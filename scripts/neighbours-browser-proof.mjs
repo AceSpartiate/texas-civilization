@@ -2,7 +2,7 @@
 // "Yes: they remember and repay" (sim/neighbourly.mjs, public/neighbours.js).
 //
 // tests/neighbourly.test.mjs proves the rules. This proves what two students do and see: in the autumn of 1835 one family's
-// student opens Neighbours, sees the family six miles off raising its walls, presses *Offer a trade* (triage 2026-09-29, 2.6),
+// student opens Neighbours, sees a San Felipe family a few miles off (the nearest two the seed deals) raising its walls, presses *Offer a trade* (triage 2026-09-29, 2.6),
 // which sends its main person there and opens the trade with somebody of that family when they arrive, makes an offer the other
 // student's page is shown, and puts them to the raising; in the spring, told to leave, the family that was helped is asked whether to offer room in its wagon and says yes;
 // the helper's student is offered it by name, remembering the walls, and accepts, and its wagon holds more; and when the class
@@ -27,7 +27,7 @@ import { applyAction, rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { PIECES } from '../sim/houseplot.mjs';
 import { flightRoom } from '../sim/scrape.mjs';
-import { canHelp, deedsOf, goodsSpace, homeMiles } from '../sim/neighbourly.mjs';
+import { NEAR_MILES, canHelp, deedsOf, goodsSpace, homeMiles } from '../sim/neighbourly.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
@@ -36,8 +36,29 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const pass = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 const observed = {};
-// The seed whose first family (hh-1) and fourth (hh-4) are San Felipe neighbours about six miles apart.
-const SEED = 'neighbours-proof-1', HELPED = 'hh-1', HELPER = 'hh-4';
+const PLAYERS = 8;
+/**
+ * The class and its two families, chosen by what the proof needs and not by number: the first seed `neighbours-proof-<n>` that
+ * deals two San Felipe families homes within `NEAR_MILES` of each other, and the nearest two such (the same seed and count deal the
+ * same land, so the class's own deal is read here). The earlier of the two in the join order is the one helped. Until 2026-09-29
+ * `neighbours-proof-1` put hh-1 and hh-4 six miles apart; the burn zone's sides shuffled by the seed (owner, D12, `burnSides` in
+ * sim/colonies-region.mjs) moved whose land is where, and hh-4 went to eleven miles off with no other San Felipe family near.
+ */
+function neighbourPair(playerCount) {
+  for (let n = 1; n <= 60; n++) {
+    const seed = `neighbours-proof-${n}`;
+    const world = createGonzalesWorld(seed, playerCount, { map: 'colonies' });
+    for (const household of Object.values(world.households)) rollFamily(world, household);
+    const felipe = Object.values(world.households).filter(household => household.settlementId === 'san-felipe');
+    const pairs = felipe.flatMap((one, i) => felipe.slice(i + 1).map(other => ({ ids: [one.id, other.id], miles: homeMiles(world, one, other) })))
+      .filter(pair => pair.miles <= NEAR_MILES).sort((a, b) => a.miles - b.miles);
+    if (pairs.length) return [seed, ...pairs[0].ids.sort((a, b) => seat(a) - seat(b))];
+  }
+  throw new assert.AssertionError({ message: `no seed deals two San Felipe families within ${NEAR_MILES} miles` });
+}
+/** A family's place in the join order: students join families in order (server/app.mjs `/api/join`), hh-1 first. */
+function seat(id) { return Number(id.split('-')[1]); }
+const [SEED, HELPED, HELPER] = neighbourPair(PLAYERS);
 
 function autumn(seed, playerCount) {
   const world = createGonzalesWorld(seed, playerCount, { map: 'colonies' });
@@ -79,9 +100,10 @@ function toTheSpring(world) {
 // same address, as a teacher's class is opened the next day (the server's state is its own; `app.state` is a copy).
 const directory = mkdtempSync(joinPath(tmpdir(), 'neighbours-proof-'));
 const savePath = joinPath(directory, 'class.json');
-let app = createClassroom({ seed: SEED, playerCount: 8, tickMs: 700, savePath, worldFactory: autumn });
+let app = createClassroom({ seed: SEED, playerCount: PLAYERS, tickMs: 700, savePath, worldFactory: autumn });
 const world = () => app.state.world;
-assert.ok(homeMiles(world(), world().households[HELPED], world().households[HELPER]) < 8, 'the two families are not neighbours');
+assert.ok(homeMiles(world(), world().households[HELPED], world().households[HELPER]) <= NEAR_MILES, 'the two families are not neighbours');
+observed.families = { seed: SEED, helped: HELPED, helper: HELPER, miles: Number(homeMiles(world(), world().households[HELPED], world().households[HELPER]).toFixed(2)) };
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];
@@ -110,10 +132,13 @@ async function openNeighbours(student) {
 const text = async (student, selector) => (await student.locator(selector).innerText()).replace(/\s+/g, ' ').trim();
 
 try {
-  const helped = await page('Helped reader', HELPED, 'Walker');
-  await join('Reader 2'); await join('Reader 3');
-  const helper = await page('Helper reader', HELPER, 'Hale');
-  for (let i = 5; i <= 8; i++) await join(`Reader ${i}`);
+  // Everybody joins in seat order, the two students at their seats and readers at the others, so each lands on their family.
+  let helped = null, helper = null;
+  for (let i = 1; i <= PLAYERS; i++) {
+    if (i === seat(HELPED)) helped = await page('Helped reader', HELPED, 'Walker');
+    else if (i === seat(HELPER)) helper = await page('Helper reader', HELPER, 'Hale');
+    else await join(`Reader ${i}`);
+  }
   const host = await (await browser.newContext({ viewport: { width: 1440, height: 950 } })).newPage();
   host.on('pageerror', error => errors.push(`host: ${error.message}`));
   await host.goto(`${url}/host#${app.state.hostKey}`);
@@ -196,7 +221,7 @@ try {
   const saved = readSave(savePath);
   toTheSpring(saved.world);
   writeSave(savePath, saved);
-  app = createClassroom({ seed: SEED, playerCount: 8, tickMs: 700, savePath, worldFactory: autumn });
+  app = createClassroom({ seed: SEED, playerCount: PLAYERS, tickMs: 700, savePath, worldFactory: autumn });
   assert.equal(await app.listen(port, '127.0.0.1'), port);
   for (const [one, id] of [[helped, HELPED], [helper, HELPER]]) { await one.reload(); await one.waitForFunction(own => window.__snapshot?.world.householdId === own, id, { timeout: 30000 }); }
   await host.reload();
@@ -255,6 +280,16 @@ try {
   await host.waitForTimeout(500);
   if (world().status !== 'ended' && await end.isVisible()) await end.click();
   await helper.waitForFunction(() => window.__snapshot?.world.status === 'ended', null, { timeout: 30000 });
+  // The end of the class is a sequence (owner, 2026-09-29, D10; sim/end-sequence.mjs): the class's video on the Host's screen,
+  // each family's own, and then the reveal with every family's breakdown. The teacher skips ahead to the reveal on the Host's
+  // page, as a teacher may (the videos themselves are test:end-sequence's).
+  for (let i = 0; i < 4 && await host.evaluate(() => window.__snapshot?.endSequence?.stage) !== 'reveal'; i++) {
+    const skip = host.locator('#finale-skip');
+    await skip.waitFor({ state: 'visible', timeout: 30000 });
+    await skip.click();
+    await host.waitForTimeout(1000);
+  }
+  await helper.waitForFunction(() => window.__snapshot?.endSequence?.stage === 'reveal', null, { timeout: 30000 });
   await helper.locator('.ending-neighbours').waitFor({ state: 'visible', timeout: 30000 });
   observed.helperEnding = await text(helper, '.ending-neighbours');
   observed.helpedEnding = await text(helped, '.ending-neighbours');
@@ -265,11 +300,13 @@ try {
   assert.match(observed.helpedEnding, new RegExp(`${observed.raised.person} of .* helped raise the family's walls`));
   assert.match(observed.hostEnding, /helped raise their walls/);
   assert.match(observed.hostEnding, /kept room for \d+ in their wagon/);
-  // Help earns glory (owner, 2026-09-28, "Any help"): said under What earned glory on each family's page, with its points.
-  observed.helperGlory = (await helper.locator('#ending-body').innerText()).match(new RegExp(`[^\\n]*${observed.raised.person} helped [^\\n]*raise their walls[^\\n]*`))?.[0];
-  observed.helpedGlory = (await helped.locator('#ending-body').innerText()).match(/[^\n]* helped [^\n]*with room in the wagon on the road east[^\n]*/)?.[0];
-  assert.match(observed.helperGlory || '', /\(\d+\)$/, 'the helper\'s raising is not among what earned glory');
-  assert.match(observed.helpedGlory || '', /\(\d+\)$/, 'the wagon room is not among what earned glory');
+  // Help earns glory (owner, 2026-09-28, "Any help"): said under What earned glory on each family's page, with its sum (triage
+  // 2026-09-29 2.10, sim/ending.mjs `worthLine`: "Helping another family counts 1 × 2 (...) = 2 glory.") where it had "(2)".
+  const awardLines = async page => (await page.locator('#ending .ending-awards li').allInnerTexts()).map(line => line.replace(/\s+/g, ' ').trim());
+  observed.helperGlory = (await awardLines(helper)).find(line => line.includes(`${observed.raised.person} helped`) && /raise their walls/.test(line));
+  observed.helpedGlory = (await awardLines(helped)).find(line => / helped .*with room in the wagon on the road east/.test(line));
+  assert.match(observed.helperGlory || '', /Helping another family counts .*= \d+(\.\d+)? glory\.$/, 'the helper\'s raising is not among what earned glory');
+  assert.match(observed.helpedGlory || '', /Helping another family counts .*= \d+(\.\d+)? glory\.$/, 'the wagon room is not among what earned glory');
   await helper.screenshot({ path: 'docs/evidence/neighbours-ending.png' });
   await host.screenshot({ path: 'docs/evidence/neighbours-ending-host.png' });
   ok(`the ending names it: family "${observed.helperEnding.slice(0, 200)}"; Host "${observed.hostEnding.slice(0, 200)}"`);
