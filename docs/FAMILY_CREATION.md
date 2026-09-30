@@ -350,6 +350,7 @@ intro screen. Name it 'Family: Texas 1835/36'. the intro screen should be a prof
 | The last name | **Family Last Name**; everybody in the family carries it | `#surname` |
 | Their names | Everybody on one card, filled in with the names the game dealt, kept or changed, and one **Continue** | `#names` |
 | How they look | Each parent in turn, a picture on every choice; children take after their parents and are not asked | `#looks` |
+| The family's key (added 2026-09-29, triage 2.4) | Shown **once, large**, with what it is for: *"This key brings you back to your family on any Chromebook…"*, and *I have written it down*. Only in a class (Play Solo has no way back in by a key), only on the page that made the family, and never again once put away; it stays in the journal | `#key-card` |
 
 **The map is not drawn at all while the curtain is up** (`public/app.js` skips `drawWorld`), which is also what a slow
 computer wants. Play Solo no longer rolls the family for the player: it deals the game running and leaves the die

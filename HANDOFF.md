@@ -1,5 +1,59 @@
 # Claude handoff — Astra foundation
 
+## Tier 2 page items: the army's question over the town and the rooms, the family key, Offer a trade, 12 px type — 2026-09-29 (not released)
+
+Branch `tier2-page` off origin/main 80842f72; not pushed. Triage 2026-09-29 items 2.2, 2.4, 2.6 and 2.12
+(docs/audits/2026-09-29-triage.md, each row marked fixed).
+
+- **2.2 The army's question is never under the town's scene or the rooms.** `URGENT` (public/military-attention.js): ¡Alto!, the
+  road, the order to leave, a call or ask, a rider, Travis's riders, the army's orders, somebody very sick. While one is among the
+  messages, `#military-notice[data-urgent]` stands at z-index 32 over an open `#town-scene` or `#interior`, and both step aside
+  (`clearOfNotice` / `standClear`, public/app.js): the scene's card goes under the messages (beside them if a long message leaves
+  under 200 px), the rooms to their left (below them on a phone), and back when the messages go. A fight, its account and the siege
+  reminder still sit behind the rooms. Styles are compared with what was last written, not read back (a `calc()` read back in the
+  browser's words looped the rooms' redraw - found by the proof).
+- **2.4 The family key, once, large.** A last card of making the family (`#key-card`, public/creation.js step `key`): the key at
+  46 px, *"This key brings you back to your family on any Chromebook. If this one forgets you, or you sit at another, choose “I
+  already have a family key” and type it in."*, *It is kept in your Journal too*, *I have written it down*. Only in a class (Play
+  Solo has no key way back), only on the page that made the family (`making`), never again once put away (`keyed`, the tab's
+  sessionStorage like the other steps); the journal keeps it. `scripts/support/meet-family.mjs` presses it (`passKey`), as do the
+  creation, looks and creation-screen proofs.
+- **2.6 Offer a trade on the Neighbours sheet** (the triage's recommended option). Beside *Send … there*: with somebody of theirs
+  standing with one of the family it opens the trade at once; otherwise it sends the same person and opens the trade (the card's
+  offer, sim/trade.mjs unchanged) when they stand with somebody of that family on its land, or says nobody is at home
+  (public/neighbours.js `tradeArrival`, `tradePartnerAt`; another family's people are the page's `others`, not its `entities`).
+  `ceiling:` the trade waited for is the page's own; a reload on the way forgets it.
+- **2.12 No type under 12 px on the student's page.** 58 rules raised to 12 px (the Host's own lines left). Put back what it
+  moved: the row's role label in words (*Father*) not letter-spaced capitals; the bar's columns 80 px so names break between
+  words (at 62 px the bar stood 35 px taller and the lone parent's column went tight at 1366x768), narrowing back to 62 px columns
+  only while the sound's sliders are open, the first-meeting tip waiting meanwhile; and the rolled die's card tightened for windows
+  680 px high or less (its *Meet your family* was already 92 px below the fold at 1024x600 on main).
+
+**Evidence** (same computer only; no Chromebook, LAN or touch claim):
+
+- New tests: `tests/creation.test.mjs` (the key's step), `tests/neighbours-page.test.mjs` (3: the partner, the arrival, and the
+  real projection), `tests/military-attention.test.mjs` (what will not wait). **`node scripts/tier2-page-injections.mjs`: 7 of 7
+  caught by their own test** ([record](docs/evidence/tier2-page-injections.json)).
+- `test:overlap`: two new states - a Gonzales scene opened while the family is asked, and the rooms opened while the army's rider
+  waits, each at six Chromebook sizes and a phone; a pixel shared or a button covered between them and the messages fails even
+  under the dialog's allowance. And every word drawn on a student's screen in every state and size is read for type under 12 px
+  (`readSmallText`, scripts/support/screen-furniture.mjs). **191 screens, 0 faults.** `OVERLAP_ONLY` runs single classes;
+  `OVERLAP_INJECT` single injections. **Injections: 2 of 2 caught by their own check** (the scene and rooms no longer stepping
+  aside; the row labels back at 9.5 px) ([record](docs/evidence/overlap-injections-tier2-page.json)).
+- `test:creation` 11 checks (the key card, its size and words, the journal, shown once); `test:creation-screen` at 1366x768,
+  1024x768, 1024x600 and 390x844, 5 checks over 36 measurements (the key card held to every rule; no type under 12 px on any card).
+- `test:neighbours` 10 checks: *Offer a trade* sends Amos Hale six miles, the trade opens with Feliciano Walker on arrival, the
+  sheet is put away, and the offer reaches the server and the other student's page. Its first run failed on the defect the node
+  test now injects (the partner looked for in `entities`).
+- `test:family-panel` green at its 1440x950 and phone, and at 1366x768 and 1024x600 (`FAMILY_PANEL_VIEWPORT`). Its phone section
+  timed out pressing the rider's card's close under the open messages - **on pristine origin/main 80842f72 too**; the proof now folds
+  the messages first. `test:panels` green at its gate sizes; at 1024x600 (`PANELS_SIZES`) its guided-start column check sees 2 rows
+  where it wants more, **the same on origin/main**, and at 390 its site chooser carries no control, **also on origin/main** - neither a
+  size that proof holds. `test:tips` 13, `test:story-cards` 4.
+- `npm test`: **1803 tests, 1767 pass, 0 fail, 36 skipped** (the suspended tutorial).
+- Screenshots: docs/evidence/creation-key.png, docs/evidence/neighbours-trade.png, docs/evidence/tier2-page-*.png (the scene and
+  the rooms with the question at 1366x768, 1024x600 and 400x780; at home and the lone parent's column at 12 px).
+
 ## The spring's big news by express, settlement by settlement — triage 2.7, 2026-09-29 (not released)
 
 **The ask.** Triage 2.7: *"Every family hears the spring's big news at the same moment"* (VISION §19: information moved slowly and

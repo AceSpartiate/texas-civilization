@@ -15,6 +15,7 @@ import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
+import { passKey } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -131,6 +132,8 @@ try {
     observed[`chose-${parent.role}`] = `${hair} hair, ${head}`;
   }
   await page.locator('#looks').waitFor({ state: 'hidden', timeout: 10000 });
+  // The family's key, the last card of making the family (triage 2026-09-29, 2.4; proved by scripts/creation-browser-proof.mjs).
+  await passKey(page);
   ok(`each parent's looks came up in turn with a picture on every choice, the defaults pressed, the preview following, and Done kept ${Object.entries(observed).filter(([k]) => k.startsWith('chose-')).map(([k, v]) => `${k.slice(6)}: ${v}`).join('; ')}`);
 
   // Reloaded: nothing asked again; the journal shows who is whose and edits nothing.

@@ -13,7 +13,7 @@ button:disabled{opacity:.4;cursor:default}
 
 /* Joining */
 #join,#rejoin{max-width:420px;margin:12vh auto;padding:26px 28px;background:var(--paper);border-radius:10px}
-#join .eyebrow,#rejoin .eyebrow{letter-spacing:.14em;font-size:11px;color:#62736b}
+#join .eyebrow,#rejoin .eyebrow{letter-spacing:.14em;font-size:12px;color:#62736b}
 #join label,#rejoin label{display:block;margin:14px 0}
 #join input,#rejoin input{display:block;width:100%;font:inherit;padding:10px 12px;border:1px solid #85988a;border-radius:6px;background:#fff;color:#273833;margin-top:4px}
 #join button,#rejoin button{width:100%;margin-top:8px}
@@ -93,7 +93,7 @@ button:disabled{opacity:.4;cursor:default}
 #error:empty{display:none}
 #save-fault,#lifecycle,#host-paused{background:#fff0d4;color:#66311f;border:2px solid #91452c}
 #host-notice{background:#e8efe4;color:#2c4238;border:1px solid #85988a}
-#map-framing{position:absolute;left:50%;transform:translateX(-50%);bottom:6px;font-size:11px;color:rgba(240,238,224,.65);pointer-events:none}
+#map-framing{position:absolute;left:50%;transform:translateX(-50%);bottom:6px;font-size:12px;color:rgba(240,238,224,.65);pointer-events:none}
 
 #selection[data-docked]{left:12px;right:12px;bottom:74px;top:auto;max-width:none;min-width:0}
 /* The map is the interface, so the card that describes one person must never eat it.
@@ -163,9 +163,9 @@ button:disabled{opacity:.4;cursor:default}
 .going-way[aria-pressed=true]{background:#244c42;border-color:#1b3a33;color:#fff;box-shadow:inset 0 0 0 2px #e0b25b}
 .going-way:disabled{opacity:1;cursor:not-allowed;background:#ebe6d7;border-style:dashed;color:#7b806f}
 .going-way-name{font-weight:650;font-size:13px}
-.going-way-facts,.going-way-tiring{font-size:11.5px;opacity:.9}
-.going-way-brings{font-size:11.5px;font-weight:600}
-.going-way-why{font-size:11.5px;color:#8a3b22;font-weight:600}
+.going-way-facts,.going-way-tiring{font-size:12px;opacity:.9}
+.going-way-brings{font-size:12px;font-weight:600}
+.going-way-why{font-size:12px;color:#8a3b22;font-weight:600}
 #errand .going-way{padding:4px 7px}
 #errand .going-way-tiring{display:none}
 #errand-why{margin:4px 0 0;font-size:13px;color:#8a3b22}
@@ -228,7 +228,7 @@ body:has(#errand:not([hidden])) #military-notice{display:none}
 .work-option{display:block;width:100%;text-align:left;padding:7px 10px;min-height:0;background:#f3f0e2;color:#28392f;border-color:#bcc3ac}
 .work-option:hover:enabled{background:#e7e3d0}
 .work-name{display:block;font-size:13.5px;font-weight:620}
-.work-note{display:block;font-size:11.5px;color:#5f6f66;margin-top:1px;line-height:1.3}
+.work-note{display:block;font-size:12px;color:#5f6f66;margin-top:1px;line-height:1.3}
 .work-option:disabled{opacity:.55}
 .work-stop{width:100%;background:#7c6a4e;border-color:#6a5940}
 .work-stop:hover:enabled{background:#6a5940}
@@ -257,7 +257,7 @@ button:hover:enabled{background:#60673e}
 /* The Host's list of every family's land and every town. */
 #host-goto{max-width:12rem;min-width:0;background:#f6ecd6;color:#4b5133;border:1px solid #8fa392;border-radius:6px;padding:5px 6px;font-size:13px}
 #journal-toggle{display:flex;align-items:center;gap:7px;background:#51462f;color:#fff2d2;border-color:#b7a279}
-.icon{width:20px;height:20px;flex:none}.eyebrow{font-size:10px;letter-spacing:.14em;color:#84714c}
+.icon{width:20px;height:20px;flex:none}.eyebrow{font-size:12px;letter-spacing:.14em;color:#84714c}
 #family-journal[data-open=false]{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 #family-journal[data-open=true]{position:absolute;right:18px;top:100px;bottom:82px;width:min(430px,calc(100% - 36px));z-index:21;overflow:auto;background:var(--paper);border:double 4px #b79c6b;box-shadow:0 16px 60px #241e1a66;border-radius:6px;white-space:normal}
 .journal-heading{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid #c5ae81}
@@ -303,13 +303,13 @@ button:hover:enabled{background:#60673e}
 #encounter-said li{font-size:14.5px;line-height:1.45;padding:7px 0 8px;border-bottom:1px solid #ddcda3;color:#3e3524}
 #encounter-said li:last-child{border-bottom:none}
 #encounter-said li[data-speaker=listener]{color:#5b513a;padding-left:18px;font-style:italic}
-.said-who{display:block;font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#8a7549;margin-bottom:2px}
+.said-who{display:block;font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:#8a7549;margin-bottom:2px}
 #encounter-asks{display:flex;flex-direction:column;gap:5px;margin-top:11px}
 .ask-option{text-align:left;background:#f7eed7;color:#493e2b;border-color:#c1ad83;font-size:13.5px;padding:8px 11px;min-height:0}
 .ask-option:hover:enabled{background:#eee2c4}
 .ask-leave{margin-top:5px;background:#6d6248;border-color:#8d8062;color:#fff6e2;font-size:13px;min-height:0;padding:8px 11px}
 .ask-leave:hover:enabled{background:#5a5039}
-#encounter-note{margin:9px 0 0;font-size:11.5px;color:#706348}
+#encounter-note{margin:9px 0 0;font-size:12px;color:#706348}
 #family [data-task=meeting] button{border-left:4px solid #41556b}
 /* Gonzales before the fight: a scene's card (public/town-scenes.js). On the right, clear of the family's column on the left
    and the bar along the bottom; it never dims the map. */
@@ -322,16 +322,16 @@ button:hover:enabled{background:#60673e}
 .town-scene-said{margin:0 0 8px;font-size:14px;line-height:1.45}
 .town-scene-known{list-style:none;margin:6px 0 0;padding:6px 0 0;border-top:1px solid #ddcda3;font-size:12.5px;line-height:1.4}
 .town-scene-known li{margin:0 0 6px}
-.town-scene-label{display:inline-block;font-size:9.5px;letter-spacing:.1em;padding:1px 5px;border-radius:3px;background:#e5d6b0;color:#5a4a2a;vertical-align:1px}
+.town-scene-label{display:inline-block;font-size:12px;letter-spacing:.1em;padding:1px 5px;border-radius:3px;background:#e5d6b0;color:#5a4a2a;vertical-align:1px}
 .town-scene-label[data-kind=DOCUMENTED]{background:#dbe3cf;color:#3d5230}
 .town-scene-label[data-kind=DISPUTED],.town-scene-label[data-kind=TRADITION]{background:#efd8c4;color:#7a3e20}
-.town-scene-claim{color:#8f7b52;font-size:10.5px}
-.town-scene-note{margin:6px 0 0;font-size:11.5px;color:#706348}
+.town-scene-claim{color:#8f7b52;font-size:12px}
+.town-scene-note{margin:6px 0 0;font-size:12px;color:#706348}
 .town-scene-help{display:flex;flex-direction:column;gap:5px;margin-top:10px;padding-top:8px;border-top:1px solid #ddcda3}
 .town-scene-help p{margin:0;font-size:13px}
 .town-scene-help button{text-align:left;background:#f7eed7;color:#493e2b;border-color:#c1ad83;font-size:13.5px;padding:7px 10px;min-height:0}
 .town-scene-help button:hover:enabled{background:#eee2c4}
-.town-scene-help small{font-size:11.5px;color:#706348}
+.town-scene-help small{font-size:12px;color:#706348}
 @media(max-width:760px){#town-scene{top:auto;bottom:64px;right:8px;width:calc(100% - 16px);max-height:52vh}}
 
 @media(max-width:760px){
@@ -456,9 +456,9 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #reports li{padding:10px 0;border-bottom:1px solid #d3c299;font-size:13px;line-height:1.45}
 #reports li:last-child{border-bottom:none}
 #reports li[data-status=rumor]{color:#6b5f4c}
-.report-detail{display:block;margin-top:4px;font-size:11px;color:#6d5f43}
-.report-transcript{display:inline-block;margin-top:6px;font:inherit;font-size:11px;padding:4px 9px;border-radius:5px;border:1px solid #b09a6d;background:#f3ead2;color:#3f3524;cursor:pointer}
-.journal-note{margin:0 0 8px;font-size:11px;color:#6d5f43}
+.report-detail{display:block;margin-top:4px;font-size:12px;color:#6d5f43}
+.report-transcript{display:inline-block;margin-top:6px;font:inherit;font-size:12px;padding:4px 9px;border-radius:5px;border:1px solid #b09a6d;background:#f3ead2;color:#3f3524;cursor:pointer}
+.journal-note{margin:0 0 8px;font-size:12px;color:#6d5f43}
 /* A mark on the book, not a card over the map: something new is written in here. */
 #journal-toggle{position:relative}
 /* The neighbours (public/neighbours.js): the journal's look, a sheet of its own. */
@@ -496,17 +496,17 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #family-kin{list-style:none;margin:0;padding:0}
 .kin-row{padding:8px 0;border-bottom:1px solid #d3c299}
 .kin-row:last-child{border-bottom:none}
-.kin-of{display:block;margin-top:3px;font-size:11.5px;color:#6d5f43}
+.kin-of{display:block;margin-top:3px;font-size:12px;color:#6d5f43}
 .name-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-.name-row label{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:#84714c;min-width:64px}
+.name-row label{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#84714c;min-width:64px}
 .name-row input{flex:1 1 8rem;min-width:0;font:inherit;font-size:13px;padding:5px 8px;border-radius:5px;border:1px solid #b09a6d;background:#fdf8ea;color:#3f3524}
-.name-row button{font:inherit;font-size:11px;padding:5px 9px;min-height:0;background:#e7e0c7;color:#463d29;border:1px solid #c0ae84;border-radius:5px}
+.name-row button{font:inherit;font-size:12px;padding:5px 9px;min-height:0;background:#e7e0c7;color:#463d29;border:1px solid #c0ae84;border-radius:5px}
 .name-row button:hover:enabled{background:#ddd4b6}
 #family-name-form{margin-bottom:10px}
 
 #family-roll{position:absolute;left:50%;top:53%;transform:translate(-50%,-50%);z-index:9;width:min(740px,calc(100% - 40px));max-height:calc(100dvh - 150px);overflow-y:auto;box-sizing:border-box;color:#302a21;background:linear-gradient(135deg,#fff9ea 0%,#efe1c3 100%);border:2px solid #cfb783;border-radius:16px;outline:1px solid #544429;outline-offset:-8px;box-shadow:0 10px 0 #261f1580,0 25px 70px #1e1b13a8;padding:26px 32px 24px;text-align:left}
 .roll-heading{text-align:center;max-width:35rem;margin:0 auto 17px}
-.roll-heading .eyebrow{display:block;color:#8b6635;font:700 11px/1.2 system-ui,sans-serif;letter-spacing:.23em}
+.roll-heading .eyebrow{display:block;color:#8b6635;font:700 12px/1.2 system-ui,sans-serif;letter-spacing:.23em}
 #family-roll h2{font-size:clamp(27px,3.6vw,36px);line-height:1.12;margin:7px 0 10px;color:#3c3425}
 #family-roll p{margin:0;font-size:14px;line-height:1.5}
 #family-roll-text{color:#5a4b37}
@@ -515,7 +515,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .roll-die-card{min-width:0;min-height:184px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:7px;padding:14px 13px 12px;box-sizing:border-box;border:1px solid #bc9f70;border-radius:10px;background:#f8eed8de;box-shadow:inset 0 2px 4px #fff9e7,0 3px 0 #80643c24;text-align:center}
 .roll-die-card[hidden],.family-dice .family-die[hidden]{display:none}
 #family-roll[data-means=false] .family-dice{grid-template-columns:minmax(0,310px);justify-content:center}
-.roll-die-label{color:#705333;font:700 11px/1.2 system-ui,sans-serif;letter-spacing:.15em}
+.roll-die-label{color:#705333;font:700 12px/1.2 system-ui,sans-serif;letter-spacing:.15em}
 .roll-die-caption{color:#655744;font:12px/1.35 system-ui,sans-serif}
 .family-die{width:78px;height:86px;flex:none;display:grid;place-items:center;font:700 31px/1 Georgia,'Times New Roman',serif;color:#fff9e9;text-shadow:0 1px 2px #2e2116;background:radial-gradient(circle at 48% 40%,#a67c43 0 26%,#79542c 55%,#4c351f 100%);clip-path:polygon(50% 0,91% 15%,100% 50%,80% 87%,50% 100%,20% 87%,0 50%,9% 15%);filter:drop-shadow(0 7px 5px #3e312954)}
 .means-die{background:radial-gradient(circle at 48% 40%,#849368 0 26%,#586b43 55%,#34452f 100%)}
@@ -533,7 +533,19 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #roll-family:hover:enabled{background:#52734a;transform:translateY(-1px)}
 #roll-family:active:enabled{transform:translateY(2px);box-shadow:0 1px 0 #263d29}
 #roll-family:focus-visible{outline:3px solid #e2a84f;outline-offset:3px}
-@media(max-width:700px){#family-roll{top:53%;width:calc(100% - 22px);max-height:calc(100dvh - 104px);padding:18px 17px 16px}#family-roll h2{font-size:27px}.roll-heading{margin-bottom:12px}#family-roll p{font-size:12.5px}.family-dice{gap:9px}.roll-die-card{min-height:180px;padding:11px 7px}.roll-die-label{font-size:9px;letter-spacing:.1em}.family-die{width:65px;height:72px;font-size:26px}#family-roll #means-roll-text{font-size:10.5px;line-height:1.25}.roll-footer{gap:8px;margin-top:11px;padding-top:11px}.roll-footer-note{font-size:11px}#roll-family{min-width:150px;font-size:13px}}
+/* A short window (1024x600, a supported size, triage 2026-09-29 2.12's re-check): the rolled die's card was taller than the room
+   left it, and *Meet your family* stood 92px below its own fold (on main before the 12 px type, 95px after). Tighter, and given
+   the height under the game's name, so the way on is on the card as it opens (`npm run test:creation-screen` at 1024x600). */
+@media(min-width:701px) and (max-height:680px){
+  #family-roll{top:calc(50% + 24px);max-height:calc(100dvh - 72px);padding:16px 26px 14px}
+  #family-roll h2{font-size:26px;margin:4px 0 6px}
+  .roll-heading{margin-bottom:10px}
+  .roll-die-card{min-height:0;padding:10px 11px 9px;gap:5px}
+  .family-die{width:62px;height:68px;font-size:25px}
+  .roll-outcome{margin-top:8px}
+  .roll-footer{margin-top:10px;padding-top:10px}
+}
+@media(max-width:700px){#family-roll{top:53%;width:calc(100% - 22px);max-height:calc(100dvh - 104px);padding:18px 17px 16px}#family-roll h2{font-size:27px}.roll-heading{margin-bottom:12px}#family-roll p{font-size:12.5px}.family-dice{gap:9px}.roll-die-card{min-height:180px;padding:11px 7px}.roll-die-label{font-size:12px;letter-spacing:.1em}.family-die{width:65px;height:72px;font-size:26px}#family-roll #means-roll-text{font-size:12px;line-height:1.25}.roll-footer{gap:8px;margin-top:11px;padding-top:11px}.roll-footer-note{font-size:12px}#roll-family{min-width:150px;font-size:13px}}
 
 /* Packing the wagon: the same paper as the roll and the walk-through, on the left above the
    walk-through's corner, and scrolling inside itself so it never pushes the map away. */
@@ -615,7 +627,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #plot-plans .house-choice{display:flex;flex-direction:column;align-items:center;padding:6px;min-width:0}
 .house-choice canvas{width:100%;height:auto;background:#e5dfc4;border-radius:4px}
 .house-choice strong{margin-top:4px}
-.house-choice span{font-size:11px;margin-top:3px}
+.house-choice span{font-size:12px;margin-top:3px}
 #plot-summary .house-line{font-size:12px;margin:4px 0}
 #plot-grid[hidden],#plot-palette[hidden]{display:none}
 .plot-plans{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
@@ -624,10 +636,10 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .plot-grid{display:grid;grid-template-columns:repeat(var(--columns,8),1fr);grid-template-rows:repeat(var(--rows,6),minmax(34px,1fr));gap:2px;margin-top:8px;background:#d9c9a2;border:1px solid #b09a6d;border-radius:4px;padding:2px}
 .plot-cell{min-height:34px;padding:0;background:#efe3c3;border:1px dashed #c9b68a;border-radius:2px}
 .plot-cell:not(:disabled):hover{background:#e4d0a3}
-.plot-piece{position:relative;display:flex;flex-direction:column;gap:2px;padding:3px 4px;overflow:hidden;background:#b28b5ecc;border:1px solid #6b4a2c;border-radius:3px;font-size:11px;line-height:1.2;color:#2e2415;pointer-events:none}
+.plot-piece{position:relative;display:flex;flex-direction:column;gap:2px;padding:3px 4px;overflow:hidden;background:#b28b5ecc;border:1px solid #6b4a2c;border-radius:3px;font-size:12px;line-height:1.2;color:#2e2415;pointer-events:none}
 .plot-piece.plot-pen{background:#9c7447dd;color:#fbf1dc}
 .plot-piece-name{font-weight:650}
-.plot-remove{pointer-events:auto;margin-top:auto;min-height:24px;padding:1px 4px;font-size:10.5px;background:#f3ead2;color:#3f3524;border-color:#b09a6d}
+.plot-remove{pointer-events:auto;margin-top:auto;min-height:24px;padding:1px 4px;font-size:12px;background:#f3ead2;color:#3f3524;border-color:#b09a6d}
 .plot-palette{list-style:none;margin:8px 0 0;padding:0}
 .plot-palette li{padding:7px 0;border-top:1px solid #d3c299}
 #plot-note{color:#7a3b22;font-size:13px;margin:6px 0 0}
@@ -641,7 +653,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #ending h3{font-size:15px;margin:14px 0 4px;color:#5a4a2e}
 #ending p,#ending li{line-height:1.45;margin:3px 0}
 .ending-numbers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0}
-.ending-numbers dt{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#84714c}
+.ending-numbers dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#84714c}
 .ending-numbers dd{margin:0;font-size:26px;font-weight:600}
 .ending-sum{font-family:ui-monospace,Consolas,monospace;font-size:13px;color:#5a4a2e}
 .ending-said{font-size:14px;color:#4b3e28}
@@ -652,7 +664,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .ending-table-wrap{overflow-x:auto}
 .ending-table{border-collapse:collapse;width:100%;font-size:13px}
 .ending-table th,.ending-table td{border-bottom:1px solid #d6c59d;padding:5px 6px;text-align:left;vertical-align:top}
-.ending-table th{font-size:11px;letter-spacing:.05em;color:#84714c}
+.ending-table th{font-size:12px;letter-spacing:.05em;color:#84714c}
 .ending-table tr[data-first="true"] td{background:#ecd9a8;font-weight:600}
 #flashback{border-bottom:1px solid #c5b286;padding-bottom:10px;margin-bottom:6px}
 #flashback video{display:block;width:100%;aspect-ratio:854/480;background:#1c1610;border-radius:6px;margin:6px 0}
@@ -702,7 +714,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .looks-row{padding:6px 0;border-bottom:1px solid #d6c59d}
 .looks-words{display:block;margin-bottom:4px}
 .looks-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px}
-.looks-field{display:flex;flex-direction:column;font-size:11px;color:#84714c;gap:2px}
+.looks-field{display:flex;flex-direction:column;font-size:12px;color:#84714c;gap:2px}
 .looks-field select{font-size:13px;min-height:32px}
 .looks-child{color:#5a4a2e}
 
@@ -735,7 +747,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 /* `flex:none` on the Hide names button above: with `min-height:0` it was a flex item free to shrink, and in a column too
    short for its rows it shrank to a sliver under the father's row - found in the screenshots of a family of twenty, 2026-09-25. */
 #family-panel{pointer-events:none;min-height:0;max-width:min(19rem,calc(100vw - 24px));overflow-y:auto;overscroll-behavior:contain;padding:2px 4px 4px 0;flex:0 1 auto;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
-#family-collapse{pointer-events:auto;flex:none;min-height:0;height:20px;padding:0 8px;border-radius:10px;border:1px solid #8f825b;background:var(--shade);color:#d8c9a2;font:600 9.5px/1 system-ui;letter-spacing:.09em;text-transform:uppercase;box-shadow:none}
+#family-collapse{pointer-events:auto;flex:none;min-height:0;height:20px;padding:0 8px;border-radius:10px;border:1px solid #8f825b;background:var(--shade);color:#d8c9a2;font:600 12px/1 system-ui;letter-spacing:.09em;text-transform:uppercase;box-shadow:none}
 #family-collapse:hover:enabled{background:#4b4331;color:#f7eed5}
 #family-panel[data-collapsed=true] .panel-body{display:none}
 #family-panel[data-collapsed=true] .panel-attention{left:32px}
@@ -802,13 +814,13 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .panel-row[data-main=true] .panel-body{border-color:#f0b43a}
 /* Idle: nothing to do and something could be given them. A dimmed portrait with a word on it, so a glance down the column
    finds whoever is standing about - on a phone too, where only the portraits show. */
-.panel-idle-mark{position:absolute;right:0;bottom:0;padding:0 3px;border-radius:4px 0 0 0;background:#3b3427d9;color:#f7eed5;font:600 9px/13px system-ui;letter-spacing:.04em;display:none;pointer-events:none}
+.panel-idle-mark{position:absolute;right:0;bottom:0;padding:0 3px;border-radius:4px 0 0 0;background:#3b3427d9;color:#f7eed5;font:600 12px/13px system-ui;letter-spacing:.04em;display:none;pointer-events:none}
 .panel-idle-mark[data-drawn=true]{padding:0;background:transparent;width:24px;height:24px;right:-2px;bottom:-1px;filter:drop-shadow(0 0 2px #29251b)}
 .panel-row[data-idle=true] .panel-idle-mark{display:block}
 .panel-row[data-idle=true] .panel-portrait canvas{filter:saturate(.45) brightness(.92)}
 .panel-tools{grid-row:1;grid-column:3;display:flex;align-items:center;gap:4px;justify-self:end}
-.panel-idle{font:600 10px/1 system-ui;letter-spacing:.06em;text-transform:uppercase;color:#3b3427;background:#e8c46a;border-radius:9px;padding:3px 6px}
-.panel-house,.panel-focus{min-height:0;height:24px;padding:0 7px;border-radius:5px;border:1px solid #b09a6d;background:#f3ead2;color:#3b3427;font:600 11.5px/1 system-ui;box-shadow:none}
+.panel-idle{font:600 12px/1 system-ui;letter-spacing:.06em;text-transform:uppercase;color:#3b3427;background:#e8c46a;border-radius:9px;padding:3px 6px}
+.panel-house,.panel-focus{min-height:0;height:24px;padding:0 7px;border-radius:5px;border:1px solid #b09a6d;background:#f3ead2;color:#3b3427;font:600 12px/1 system-ui;box-shadow:none}
 .panel-focus{width:26px;padding:0;font-size:15px;color:#8f825b}
 .panel-focus[aria-pressed=true]{color:#c98a12;background:#fff3c4;border-color:#f0b43a}
 .panel-focus[data-drawn=true]{padding:2px}
@@ -818,7 +830,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
    dark letters that is plainly a button, "Auto"; on, solid green with "Auto ✓" and a green glow that breathes. Green, so it
    is never taken for the gold glow of the work a person is doing now; pressed state from the server's `auto` alone
    (aria-pressed); the focus ring is every button's (`button:focus-visible`), drawn outside the glow. */
-.panel-auto{display:inline-flex;align-items:center;gap:2px;min-height:0;height:26px;padding:0 6px 0 2px;border-radius:13px;border:1.5px solid #8f825b;background:#f3ead2;color:#3b3427;font:800 10px/1 system-ui;letter-spacing:.03em;text-transform:uppercase;box-shadow:0 1px 3px #29251b66;white-space:nowrap}
+.panel-auto{display:inline-flex;align-items:center;gap:2px;min-height:0;height:26px;padding:0 6px 0 2px;border-radius:13px;border:1.5px solid #8f825b;background:#f3ead2;color:#3b3427;font:800 12px/1 system-ui;letter-spacing:.03em;text-transform:uppercase;box-shadow:0 1px 3px #29251b66;white-space:nowrap}
 .panel-auto:hover:enabled{background:#fff6dc;border-color:#4f7a3a}
 .panel-auto[data-mark] canvas{width:18px;height:18px;flex:none;border-radius:50%}
 .panel-auto-word{pointer-events:none}
@@ -831,12 +843,12 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .panel-row[data-on-auto=true] .panel-portrait{border-color:#6fbf4a;box-shadow:0 0 0 2px #6fbf4acc,0 0 9px 2px #7ed95799,0 2px 6px #29251b55}
 .panel-row[data-on-auto=true][data-main=true] .panel-portrait{border-color:#f0b43a;box-shadow:0 0 0 2px #f0b43acc,0 0 0 4px #6fbf4a,0 0 10px 4px #7ed95799}
 /* What auto is doing, and why it waits: the server's sentence (`autoTask.says`), green while at it, straw while waiting. */
-.panel-auto-line{grid-row:4;grid-column:1 / -1;font:600 11px/1.3 system-ui;color:#c9f0b0;padding:1px 1px 0}
+.panel-auto-line{grid-row:4;grid-column:1 / -1;font:600 12px/1.3 system-ui;color:#c9f0b0;padding:1px 1px 0}
 .panel-auto-line[data-waiting=true]{color:#f0dfa6}
 /* The family's little ones (docs/CHILDREN.md, owner 2026-09-26): the server's sentence. A grown-up stopped by a child is amber,
    because it is the one a student has to act on; a child's own and a baby's are quiet. A tight column keeps the stopped line on
    every row and folds the babies' away first. */
-.panel-life-line{grid-row:5;grid-column:1 / -1;font:600 11px/1.3 system-ui;color:#d9e6f2;padding:1px 1px 0}
+.panel-life-line{grid-row:5;grid-column:1 / -1;font:600 12px/1.3 system-ui;color:#d9e6f2;padding:1px 1px 0}
 .panel-life-line[data-kind=stopped]{color:#ffd27a}
 .panel-life-line[data-kind=baby]{font-weight:500;color:#cfd9e3}
 #family-panel[data-tight=true] .panel-row:not([data-focused=true]) .panel-life-line[data-kind=baby]{display:none}
@@ -845,10 +857,10 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
    (stand-in: docs/ART_REQUESTS.md, request 2026-09-27 "the sick badge"). */
 /* Out of sight on the road (owner, 2026-09-29; public/app.js `markUnseenRows`): the row greyed - dimmed, not hidden - with where they are going,
    and its portrait, star and Make main held. The "!" keeps its full colour: a question for them is still answered from it. */
-.panel-away-line{grid-row:7;grid-column:1 / -1;font:italic 11px/1.3 Georgia,serif;color:#e4d6ae;padding:1px 1px 0}
+.panel-away-line{grid-row:7;grid-column:1 / -1;font:italic 12px/1.3 Georgia,serif;color:#e4d6ae;padding:1px 1px 0}
 .panel-row[data-unseen=true] .panel-portrait,.panel-row[data-unseen=true] .panel-label,.panel-row[data-unseen=true] .panel-name,.panel-row[data-unseen=true] .panel-tools{opacity:.45;filter:grayscale(1)}
 .panel-row[data-unseen=true] .panel-portrait,.panel-row[data-unseen=true] .panel-focus,.panel-row[data-unseen=true] .panel-make-main{cursor:not-allowed}
-.panel-sick-line{grid-row:6;grid-column:1 / -1;font:600 11px/1.3 system-ui;color:#f3c1a8;padding:1px 1px 0}
+.panel-sick-line{grid-row:6;grid-column:1 / -1;font:600 12px/1.3 system-ui;color:#f3c1a8;padding:1px 1px 0}
 .panel-sick-line[data-grave=true]{color:#ff8f6b;font-weight:800}
 /* Top left of the face: the "!" stands over its top right and the star and the idle mark along its foot. */
 .panel-sick-mark{position:absolute;left:1px;top:1px;width:20px;height:20px;border-radius:50%;background:#f7eed5;border:1.5px solid #b5553a;box-shadow:0 0 0 1px #29251b88;pointer-events:none}
@@ -858,18 +870,18 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .panel-row[data-sick=true] .panel-portrait canvas{filter:saturate(.7)}
 /* ...and says one short word in its place, beside the baby's name, so the row is no taller for it (owner, 2026-09-27, by
    multiple choice: "Show a short word"; docs/CHILDREN.md §9): "napping", "crawling", "crying", "held". The sentence is its title. */
-.panel-life-word{display:none;font:600 10px/1 system-ui;letter-spacing:.04em;color:#cfd9e3;background:#33404dcc;border:1px solid #6b7c8c;border-radius:9px;padding:2px 6px;white-space:nowrap}
+.panel-life-word{display:none;font:600 12px/1 system-ui;letter-spacing:.04em;color:#cfd9e3;background:#33404dcc;border:1px solid #6b7c8c;border-radius:9px;padding:2px 6px;white-space:nowrap}
 #family-panel[data-tight=true] .panel-row:not([data-focused=true]) .panel-life-word:not([hidden]){display:inline-block}
 .panel-body{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;column-gap:5px;min-width:0;margin-left:-3px;padding:2px 6px 3px 8px;background:var(--shade);border:1px solid #8f825b;border-left:none;border-radius:0 6px 6px 0}
-.panel-label{grid-row:1;grid-column:1;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:#d8c9a2;white-space:nowrap}
-.panel-standing{grid-row:2;grid-column:1 / -1;font:italic 10.5px/1.2 Georgia,serif;color:#cdbb92;padding:0 1px}
+.panel-label{grid-row:1;grid-column:1;font-size:12px;letter-spacing:.02em;text-transform:capitalize;color:#d8c9a2;white-space:nowrap}
+.panel-standing{grid-row:2;grid-column:1 / -1;font:italic 12px/1.2 Georgia,serif;color:#cdbb92;padding:0 1px}
 /* Why this person can do nothing at all (docs/FAMILY_PANEL.md §14, owner 2026-09-21): the server's own sentence, once,
    on a line of its own under the name. Not italic and not dimmed the way `.panel-standing` is - it is the answer to a
    question a student is asking right then, not a flourish. No `display` here, so `hidden` still hides it.
    The main person's row does not show it - their icon group *is* the bar at the bottom of the screen and the same
    sentence goes there, in `.panel-reason` - and that is decided in one place, public/app.js, rather than hidden a
    second time here where the two could drift apart. */
-.panel-why{grid-row:3;grid-column:1 / -1;font:11px/1.3 Georgia,serif;color:#e4d6ae;padding:1px 1px 0}
+.panel-why{grid-row:3;grid-column:1 / -1;font:12px/1.3 Georgia,serif;color:#e4d6ae;padding:1px 1px 0}
 .panel-name{grid-row:1;grid-column:2;width:100%;max-width:8.5rem;min-width:0;font:600 13px/1.2 Georgia,serif;padding:2px 5px;border:1px solid transparent;border-radius:4px;background:transparent;color:#f7eed5}
 .panel-name:hover{border-color:#8f825b}
 .panel-name:focus{background:#fdf8ea;color:#3f3524;border-color:#b09a6d}
@@ -921,14 +933,14 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .panel-icon[data-pointed=true]::after{content:'';position:absolute;left:50%;top:-14px;margin-left:-7px;border:7px solid transparent;border-top:9px solid #c2582c;animation:panel-caret 1.3s ease-in-out infinite}
 @keyframes panel-point{50%{box-shadow:0 0 0 4px #c2582c,0 0 22px 7px #f0b43acc}}
 @keyframes panel-caret{50%{transform:translateY(-4px)}}
-.panel-reason{font-size:11.5px;color:#f7eed5;background:var(--shade);border:1px solid #8f825b;border-radius:8px;padding:5px 9px;white-space:normal;max-width:24rem}
+.panel-reason{font-size:12px;color:#f7eed5;background:var(--shade);border:1px solid #8f825b;border-radius:8px;padding:5px 9px;white-space:normal;max-width:24rem}
 /* Travelling (owner, 2026-09-22): the same line as a reason, beside the icons rather than in place of them, so the bar
    reads "axe, call it off, Travelling" for somebody walking out to the timber. Quieter than a refusal, and never a button. */
 .panel-travelling{align-self:center;font-style:italic;opacity:.92;white-space:nowrap}
 #panel-tip{position:absolute;z-index:30;margin:0;max-width:17rem;padding:7px 10px;border-radius:6px;background:#fff7e3;border:1px solid #9c8259;box-shadow:0 6px 18px #32291955;color:#3b3427;font-size:12.5px;line-height:1.4;pointer-events:none}
 #panel-tip span{display:block}
 #panel-tip-name{font-weight:650;color:#4b3e28}
-#panel-tip-note{margin-top:3px;font-size:11.5px;color:#6c6046}
+#panel-tip-note{margin-top:3px;font-size:12px;color:#6c6046}
 #panel-tip-note:empty{display:none}
 #panel-tip[data-refused=true] #panel-tip-note{color:#8a3b22}
 @media(prefers-reduced-motion:reduce){.panel-icon[data-active=true],.panel-icon[data-pointed=true],.panel-attention,.panel-auto[aria-pressed=true]{animation:none}}
@@ -969,7 +981,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #surname-input{font-size:18px;padding:6px 8px;min-height:44px}
 /* What the choice does, beside the choice (2026-09-21): the last name is set once, and the list under the box is labelled. */
 #surname-hint{margin:0;font-size:13px;color:#6c6046;line-height:1.4}
-#surname-people-label{margin:0;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:#7a6d52}
+#surname-people-label{margin:0;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:#7a6d52}
 #surname-people{margin:0;font-size:13px;color:#6c6046;min-height:1em}
 #surname-error{margin:0;font-size:13px;color:#8a2c1c;min-height:0}
 #surname-error:empty{display:none}
@@ -988,7 +1000,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .looks-part{border:none;margin:8px 0 0;padding:0}
 .looks-part legend{font-weight:600;color:#5a4a2e;font-size:13px;padding:0;margin-bottom:4px}
 .looks-options{display:flex;flex-wrap:wrap;gap:8px}
-.looks-option{display:flex;flex-direction:column;align-items:center;gap:2px;padding:3px;min-height:0;background:#fbf4e2;border:2px solid #d8c69c;border-radius:6px;color:#3b3221;font-size:11px;width:66px}
+.looks-option{display:flex;flex-direction:column;align-items:center;gap:2px;padding:3px;min-height:0;background:#fbf4e2;border:2px solid #d8c69c;border-radius:6px;color:#3b3221;font-size:12px;width:66px}
 .looks-option canvas{width:52px;height:52px;border-radius:4px}
 .looks-option:hover,.looks-option:focus{background:#f3ead2;color:#3b3221}
 #looks .looks-option[aria-pressed=true]{border-color:#4a6850;background:#e6efd9;color:#3b3221}
@@ -1014,7 +1026,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .looks-part{margin:6px 0 2px;border-top:1px solid #d5c39e;padding-top:7px}
 .looks-part legend{font-family:Georgia,serif;font-size:16px;color:#4b3925;padding-right:7px}
 .looks-options{gap:9px}
-.looks-option{width:72px;padding:3px 3px 5px;min-height:82px;background:#fff9e9;border:2px solid #c4ae84;box-shadow:0 2px 0 #c4ae84;font-size:11px;cursor:pointer}
+.looks-option{width:72px;padding:3px 3px 5px;min-height:82px;background:#fff9e9;border:2px solid #c4ae84;box-shadow:0 2px 0 #c4ae84;font-size:12px;cursor:pointer}
 .looks-option canvas{width:54px;height:54px}
 #looks .looks-option[aria-pressed=true]{background:#e6efd9;border-color:#4b704b;box-shadow:0 0 0 2px #80a372}
 #looks-done{background:#4d6046;color:#fff7df;border-color:#36503a;font-weight:700;font-size:16px}
@@ -1024,7 +1036,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
   #looks-figure{display:none}
   .looks-intro{gap:2px}
   .looks-intro strong{font-size:14px}
-  #looks-note{font-size:11.5px}
+  #looks-note{font-size:12px}
   #looks-parts{grid-template-columns:1fr;gap:2px}
   .looks-option{width:67px}
 }
@@ -1041,7 +1053,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #creation-name{font-size:clamp(46px,5.6vw,82px);line-height:.98;margin:0;letter-spacing:-.025em;font-weight:700}
 #creation-name span{display:block;color:#f4d395;font-size:.72em;letter-spacing:.035em;margin-top:5px}
 #creation-tagline{max-width:640px;margin:19px 0 0;font-size:clamp(17px,1.65vw,22px);line-height:1.35;color:#f4ead3}
-#creation-landscape-caption{position:absolute;z-index:1;bottom:20px;left:clamp(28px,5.5vw,96px);margin:0;color:#e9d7ac;font:700 11px/1.2 system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;text-shadow:0 2px 10px #142018}
+#creation-landscape-caption{position:absolute;z-index:1;bottom:20px;left:clamp(28px,5.5vw,96px);margin:0;color:#e9d7ac;font:700 12px/1.2 system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;text-shadow:0 2px 10px #142018}
 #creation[data-roll-visible=true] #creation-banner{z-index:1;top:17px;left:28px;right:auto;text-align:left}
 #creation[data-roll-visible=true] #creation-name{font-size:clamp(23px,2.5vw,32px);letter-spacing:.025em}
 #creation[data-roll-visible=true] #creation-name span{display:inline;color:inherit;font-size:inherit;margin:0}
@@ -1051,7 +1063,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #creation:not([data-step=join]):not([data-step=begin]):not([data-roll-visible=true]) #creation-name span{display:inline;color:inherit;font-size:inherit;margin:0}
 #creation:not([data-step=join]):not([data-step=begin]):not([data-roll-visible=true]) #creation-kicker,#creation:not([data-step=join]):not([data-step=begin]):not([data-roll-visible=true]) #creation-tagline,#creation:not([data-step=join]):not([data-step=begin]):not([data-roll-visible=true]) #creation-landscape-caption{display:none}
 #creation-begin{position:fixed;right:clamp(24px,5vw,88px);left:auto;top:50%;bottom:auto;transform:translateY(-34%);z-index:41;width:min(430px,calc(100% - 40px));max-height:calc(100dvh - 36px);overflow:auto;box-sizing:border-box;background:linear-gradient(145deg,#fff9e9,#ecdcba);border:2px solid #c9a974;border-radius:15px;box-shadow:0 0 0 5px #241a0d75,0 24px 65px #11180ee0;padding:25px 28px 27px;color:#382f20}
-.creation-card-kicker{display:block;color:#795b2c;font:800 11px/1.3 system-ui,sans-serif;letter-spacing:.19em;margin-bottom:8px}
+.creation-card-kicker{display:block;color:#795b2c;font:800 12px/1.3 system-ui,sans-serif;letter-spacing:.19em;margin-bottom:8px}
 #creation-begin h2{font-size:clamp(27px,2.6vw,36px);line-height:1.08;margin:0 0 12px;color:#3d3323}
 #creation-begin p{margin:0;font-size:14px;line-height:1.45}
 #creation-begin .creation-begin-lead{font-size:15px;color:#4d402e}
@@ -1095,6 +1107,14 @@ body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[dat
    name box, which is the fault it was meant to cure; a footer outside the scroll box cannot cover anything.
    The error line sits with the button, so a refusal is read whatever the list is scrolled to. */
 #names-done{flex:none;margin-top:12px;width:100%;min-height:44px;background:#4b3e28;border-color:#6b5836;color:#fdf0dd}
+/* The family's key, once, large, as the last card of making the family (triage 2026-09-29, 2.4; public/creation.js). */
+#key-card{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:41;width:min(30rem,calc(100% - 32px));max-height:calc(100dvh - 24px);overflow-y:auto;box-sizing:border-box;background:linear-gradient(118deg,#fff7e3,#f0e4c6);border:1px solid #9c8259;border-radius:10px;box-shadow:0 5px 0 #6b583638,0 18px 45px #32291950;padding:16px 20px 18px;color:#3b3221;text-align:center}
+#key-card[hidden]{display:none}
+#key-card h2{font-size:22px;margin:2px 0 8px;color:#4b3e28}
+#key-card-key{font-size:clamp(34px,9vw,46px);letter-spacing:.14em;margin:6px 0 12px;padding:10px 6px;border:2px dashed #9c8259;border-radius:8px;background:#fffaf0;color:#2f281c;white-space:nowrap}
+#key-card-for{margin:0 0 8px;font-size:15px;line-height:1.45;text-align:left}
+#key-card-journal{margin:0;font-size:13px;color:#5d5238;text-align:left}
+#key-card-done{margin-top:14px;width:100%;min-height:44px;background:#4b3e28;border-color:#6b5836;color:#fdf0dd;font-size:15px}
 @media (max-width:760px){
   #creation-banner{left:24px;top:7vh;width:calc(100% - 48px)}
   #creation-name{font-size:clamp(38px,7vw,56px)}
@@ -1106,10 +1126,17 @@ body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[dat
 
 
 /* Only available orders are rendered. A compact two-row grid keeps every action in sight. */
-.panel-row[data-focused=true] .panel-icons{display:grid;grid-template-columns:repeat(var(--action-columns,1),minmax(0,1fr));justify-content:center;align-items:stretch;gap:4px;width:min(calc(var(--action-columns,1) * 62px),calc(100vw - 220px));max-width:calc(100vw - 24px);overflow:visible;pointer-events:auto;padding:12px 4px 4px;bottom:64px;margin-bottom:0}
+.panel-row[data-focused=true] .panel-icons{display:grid;grid-template-columns:repeat(var(--action-columns,1),minmax(0,1fr));justify-content:center;align-items:stretch;gap:4px;width:min(calc(var(--action-columns,1) * 80px),calc(100vw - 220px));max-width:calc(100vw - 24px);overflow:visible;pointer-events:auto;padding:12px 4px 4px;bottom:64px;margin-bottom:0}
+/* The action names at 12 px (triage 2026-09-29, 2.12) in 62px columns broke "neighbour's homestead" over five lines, mid-word, and
+   the bar stood 35px taller over the family's column (the lone parent's column went tight at 1366x768). 80px columns and breaks
+   between words keep the names to the lines they had at 10 px, and the bar a little lower than it stood. */
+.panel-row[data-focused=true] .panel-icons .panel-action-name{overflow-wrap:break-word;line-height:1.05}
+/* While the sound's sliders are open at the bottom right, the bar keeps clear of them (100vw - 528px: 496px at 1024, the width its
+   62px columns had), never narrower than those columns; it widens again when they close (the overlap proof, 1024x600). */
+@media(min-width:761px){body:has(#sound-panel:not([hidden])) .panel-row[data-focused=true] .panel-icons{width:min(calc(var(--action-columns,1) * 80px),max(calc(100vw - 528px),min(calc(var(--action-columns,1) * 62px),calc(100vw - 220px))))}}
 .panel-icons .panel-icon{width:100%;min-width:0;aspect-ratio:auto;display:flex;flex-direction:column;align-items:center;gap:1px;padding:2px;min-height:70px;box-sizing:border-box}
 .panel-icons .panel-icon canvas{width:32px;height:32px;flex:none}
-.panel-action-name{display:block;font-size:10px;line-height:1.1;text-align:center;color:#362d20;overflow-wrap:anywhere;pointer-events:none}
+.panel-action-name{display:block;font-size:12px;line-height:1.1;text-align:center;color:#362d20;overflow-wrap:anywhere;pointer-events:none}
 .panel-icon[aria-disabled=true]{opacity:.65}
 .panel-icon[data-shut=true]{opacity:.45}
 @media(max-width:760px){.panel-row[data-focused=true] .panel-icons{bottom:43px;width:min(calc(var(--action-columns,1) * 62px),calc(100vw - 16px));padding-bottom:8px;margin-bottom:0}}
@@ -1141,6 +1168,10 @@ body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[dat
    being listened to needs no invitation. The land choosers are not hidden behind: the card stands below them instead
    (renderMilitaryNotice), since a family can leave a chooser open for days and must still be told. */
 body:has(#encounter:not([hidden])) #military-notice,body:has(#call-menu:not([hidden])) #military-notice{display:none}
+/* A question that will not wait stands above the town's scene and the rooms of the house (triage 2026-09-29, 2.2), which step
+   aside for it (clearOfNotice in public/app.js): a student in Gonzales or indoors still sees the army's question. Only while
+   one of them is open, so the journal and the neighbours' sheet the student opened still stand over the messages. */
+body:has(#town-scene:not([hidden])) #military-notice[data-urgent=true],body:has(#interior:not([hidden])) #military-notice[data-urgent=true]{z-index:32}
 
 /* Two moments that take the screen from the family's own furniture (owner, 2026-09-22; renderScreenMoments in app.js).
    While a rider talks the ability bar is not drawn: the meeting and the bar wanted the same bottom middle, 520x48px of it
@@ -1179,13 +1210,16 @@ body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{left
 .tip-close:hover,.tip-close:focus-visible{background:#5f7d4c}
 /* While a rider talks the bottom middle is the meeting's (the bar steps aside the same way). */
 body[data-meeting=true] #tip{display:none}
+/* And while the sound's sliders are open over the bottom right it waits, as a tip does with no room clear of a popup: the bar's
+   12 px names (triage 2026-09-29, 2.12) left the tip 12px lower, onto the sliders' top (the overlap proof). */
+body:has(#sound-panel:not([hidden])) #tip{display:none}
 /* The store's tip stands at the top of the errand's own list, where the errand cannot cover it. */
 .tip-inline{display:flex;align-items:center;gap:8px;margin:6px 0 4px;padding:6px 6px 6px 9px;background:#fff7e3;color:#3b3427;border:1px solid #9c8259;border-left:5px solid #4f6b3f;border-radius:6px;font-size:13.5px;line-height:1.35}
 @media(max-width:760px){#tip{left:8px;right:8px;max-width:none;width:auto;font-size:13.5px}}
 
 /* The "!"s ranked (docs/audits/2026-09-28-design.md S33): the tag is its number among the family's "!"s and the time left
    where the question will lapse; the first to answer is ringed and keeps moving, the rest are still. */
-.panel-attention-badge{position:absolute;left:18px;top:19px;padding:0 4px;border-radius:7px;background:#fff8e6;color:#7a2e12;border:1px solid #c2582c;font:700 11px/1.35 system-ui;white-space:nowrap;pointer-events:none}
+.panel-attention-badge{position:absolute;left:18px;top:19px;padding:0 4px;border-radius:7px;background:#fff8e6;color:#7a2e12;border:1px solid #c2582c;font:700 12px/1.35 system-ui;white-space:nowrap;pointer-events:none}
 .panel-attention-badge[hidden]{display:none}
 .panel-attention[data-urgent=true]{outline:3px solid #f2c14e;outline-offset:1px}
 .panel-attention[data-rank]:not([data-rank=""]):not([data-rank="1"]){animation:none}
@@ -1203,12 +1237,12 @@ body[data-meeting=true] #tip{display:none}
 #sound-panel[hidden]{display:none}
 .sound-mute{font-weight:600}
 .sound-row{display:grid;grid-template-columns:64px 1fr;align-items:center;gap:8px}
-.sound-note{margin:2px 0 0;font-size:11.5px;line-height:1.3;color:#5b4f38;max-width:220px}
+.sound-note{margin:2px 0 0;font-size:12px;line-height:1.3;color:#5b4f38;max-width:220px}
 .sound-note:empty{display:none}
 @media (max-width:700px){#sound-toggle{padding:7px}}
 /* Coming back by name (2026-09-28, public/app.js `#away`): the same card as the family key's door. */
 #away{max-width:420px;margin:12vh auto;padding:26px 28px;background:var(--paper);border-radius:10px}
-#away .eyebrow{letter-spacing:.14em;font-size:11px;color:#62736b}
+#away .eyebrow{letter-spacing:.14em;font-size:12px;color:#62736b}
 #away label{display:block;margin:14px 0}
 #away input{display:block;width:100%;font:inherit;padding:10px 12px;border:1px solid #85988a;border-radius:6px;background:#fff;color:#273833;margin-top:4px;box-sizing:border-box}
 #away>button{width:100%;margin-top:8px}
@@ -1332,7 +1366,7 @@ body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px +
   pointer-events:auto;position:relative;isolation:isolate;box-sizing:border-box;border-radius:12px;color:var(--card-ink);
   background:radial-gradient(circle at 18% 22%,var(--card-paper-a) 0,var(--card-paper-b) 38%,var(--card-paper-c) 100%);border:2px solid var(--card-edge);
   box-shadow:0 0 0 1px #fff3cf inset,0 0 0 3px var(--card-ring),0 0 10px 2px var(--card-glow);animation:card-glow var(--card-beat) ease-in-out infinite}
-.story-card .eyebrow{display:block;color:var(--card-eyebrow);font:700 9.5px/1.2 system-ui;letter-spacing:.14em;text-transform:uppercase}
+.story-card .eyebrow{display:block;color:var(--card-eyebrow);font:700 12px/1.2 system-ui;letter-spacing:.14em;text-transform:uppercase}
 .story-card h3{margin:1px 0 3px;font:700 15px/1.15 Georgia,serif;color:var(--card-ink)}
 .story-card p{margin:0 0 5px;font:12.5px/1.3 Georgia,serif}
 .story-card-body{min-width:0}
@@ -1418,14 +1452,14 @@ body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px +
 #courtship-strip{position:absolute;left:50%;bottom:clamp(10px,3vh,28px);transform:translateX(-50%);box-sizing:border-box;width:min(760px,calc(100% - 32px));padding:12px 18px 14px;border-radius:12px;
   background:linear-gradient(180deg,#fff9e8f2,#f3e2bcf2);border:1px solid #b48a4a;box-shadow:0 0 0 1px #fff4d6 inset,0 8px 28px #1a0f0580;color:#3a2410;display:grid;grid-template-columns:1fr auto;align-items:end;gap:2px 16px;transition:opacity .6s ease}
 #courtship-strip[data-mode=between],#courtship-strip[data-mode=fade-out],#courtship-strip[data-mode=fade-in]{opacity:0}
-#courtship-where{grid-column:1/-1;margin:0;color:#8a4a1e;font:700 10.5px/1.3 system-ui;letter-spacing:.13em;text-transform:uppercase}
+#courtship-where{grid-column:1/-1;margin:0;color:#8a4a1e;font:700 12px/1.3 system-ui;letter-spacing:.13em;text-transform:uppercase}
 #courtship-who{grid-column:1;margin:4px 0 0;font:700 15px/1.2 Georgia,serif;color:#5a2f10}
 #courtship-said{grid-column:1;margin:2px 0 0;font:19px/1.4 Georgia,serif;min-height:1.4em}
 #courtship-strip[data-kind=caption] #courtship-said,#courtship-strip[data-kind=closing] #courtship-said{font-style:italic}
 #courtship-strip[data-kind=history]{border:2px solid #4c422e}
 /* As a speech bubble's edge (public/speech.js): words invented for the scene have a dashed edge, the record's a solid one. */
 #courtship-strip[data-source=reconstructed]{border:1.5px dashed #9a7440}
-#courtship-strip[data-kind=history] #courtship-who{font:700 10.5px/1.3 system-ui;letter-spacing:.12em;text-transform:uppercase;color:#4c422e}
+#courtship-strip[data-kind=history] #courtship-who{font:700 12px/1.3 system-ui;letter-spacing:.12em;text-transform:uppercase;color:#4c422e}
 #courtship-next{grid-column:2;grid-row:2/4;align-self:end;font:700 16px/1 Georgia,serif;padding:11px 20px;border-radius:22px;border:1px solid #8a3b22;color:#fff8e6;background:linear-gradient(#d06a3a,#a2471e);box-shadow:0 2px 0 #6b2a12;cursor:pointer;min-width:7.5rem}
 #courtship-next:disabled{opacity:.55;cursor:default}
 @media (max-width:560px){#courtship-strip{grid-template-columns:1fr}#courtship-next{grid-column:1;grid-row:auto;justify-self:end}#courtship-said{font-size:16px}}

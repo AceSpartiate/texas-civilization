@@ -44,7 +44,7 @@ import { DEFAULT_GROUND, groundClass, groundClassAt, markFor } from '/ground-cla
 import { decodeLand, decodeOutside, decodeProvince, emptyMiddle, landWeights, lineBand, tileGrid, withoutClaims } from '/land-levels.js';
 import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
 const $ = selector => document.querySelector(selector);
-import { EYEBROWS, ICONS, militaryNotices } from '/military-attention.js';
+import { EYEBROWS, ICONS, URGENT, militaryNotices } from '/military-attention.js';
 import { createBattleView, personArt } from '/battle-view.js';
 import { createChaseView } from '/chase-view.js';
 import { activityOf, drawnStroke, drawsAtWork, drawWorkLayer, fetchPose, fetchStep, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
@@ -1603,6 +1603,8 @@ function renderInteriorPanel(world) {
   const land = host ? Object.values(world.overview?.lands || {}).find(entry => entry.homeSiteId === interiorSiteId) : world.land;
   if (!land) { interiorSiteId = null; panel.hidden = true; return; }
   panel.hidden = false;
+  // Clear of a question that will not wait before the rooms are drawn at the width that leaves them (triage 2026-09-29, 2.2).
+  clearOfNotice();
   const shown = JSON.stringify([interiorSiteId, land.interior, panel.clientWidth]);
   if (panel.dataset.shown === shown && !panel.dataset.dirty) return;
   panel.dataset.shown = shown; delete panel.dataset.dirty;
@@ -6852,7 +6854,10 @@ function renderMilitaryNotice(world) {
   const panel = $('#military-notice');
   const notices = militaryNotices(world);
   panel.hidden = !notices.length;
-  if (!notices.length) return;
+  // A question that will not wait among them (triage 2026-09-29, 2.2): the messages stand above the town's scene and the rooms of
+  // the house, which make room for them (`clearOfNotice`).
+  if (notices.some(one => URGENT.has(one.kind))) setData(panel, 'urgent', 'true'); else if (panel.dataset.urgent) delete panel.dataset.urgent;
+  if (!notices.length) { clearOfNotice(); return; }
   const session = `${window.__snapshot?.sessionId}:${world.householdId}:military-notices`;
   if (session !== militarySession) {
     militarySession = session;
@@ -6916,6 +6921,67 @@ function placeMilitaryNotice() {
   const left = faces.length ? `${Math.round(Math.max(...faces))}px` : '';
   if (panel.style.left !== left) panel.style.left = left;
   if (panel.style.top !== `${top}px`) panel.style.top = `${top}px`;
+  clearOfNotice();
+}
+/**
+ * The town's scene and the inside of the house stand clear of the messages (triage 2026-09-29, 2.2: a student in Gonzales never
+ * saw the army's ninety-second question, because the scene's card and the rooms were drawn over the card that asks it). The
+ * messages keep their place at the head of the right-hand side, and above both (public/style.css); the scene's card stands
+ * under them - or beside them, where a long message leaves no room under - and the rooms step to the left of them, or below
+ * them on a phone. The rooms make way only for a question that will not wait (`URGENT`, public/military-attention.js): a
+ * reminder - somebody inside the Alamo, a fight's account - stays behind the dialog the student opened, as it always has.
+ * Worked out after the messages are placed and whenever the scene or the rooms open; written only when it changes, and taken
+ * off when the messages go.
+ */
+function clearOfNotice() {
+  const notice = $('#military-notice');
+  const box = notice && !notice.hidden ? notice.getBoundingClientRect() : null;
+  const standing = box && box.height > 1 && box.width > 1 ? box : null;
+  standClear($('#town-scene'), standing, 'scene');
+  // The rooms are drawn at the width they are given (public/interior.js): given another, they are drawn again at it.
+  if (standClear($('#interior'), standing && notice.dataset.urgent === 'true' ? standing : null, 'rooms') && !$('#interior').hidden && window.__snapshot) renderInteriorPanel(window.__snapshot.world);
+}
+const CLEAR_STYLES = ['left', 'right', 'top', 'width', 'maxHeight', 'transform'], clearWritten = new WeakMap();
+function standClear(panel, notice, kind) {
+  if (!panel) return;
+  const want = {};
+  if (notice && !panel.hidden) {
+    const foot = parseFloat(document.body.style.getPropertyValue('--right-foot')) || 74;
+    const below = Math.round(notice.bottom + 8);
+    if (kind === 'scene') {
+      // Under the messages while there is a readable card's room there; else to their left, clear of the family's column.
+      const column = innerWidth > 760 ? $('#family-panel')?.getBoundingClientRect() : null;
+      const across = Math.round(notice.left - 8 - Math.max(12, column?.width ? column.right + 8 : 12));
+      if (innerHeight - below - foot >= 200 || across < 260) {
+        want.top = `${below}px`;
+        want.maxHeight = `max(120px, min(66vh, 560px, calc(100% - ${below}px - var(--right-foot, 74px))))`;
+      } else {
+        want.right = `${Math.round(innerWidth - notice.left + 8)}px`;
+        want.width = `${Math.min(400, across)}px`;
+      }
+    } else {
+      // The rooms where they stand by themselves: in the middle, as wide as they can be up to 680.
+      const width = Math.min(680, innerWidth - 32), left = (innerWidth - width) / 2;
+      if (left + width > notice.left - 8) {
+        const across = Math.round(notice.left - 12 - 16);
+        if (innerWidth > 760 && across >= 420) {
+          const wide = Math.min(680, across);
+          want.left = `${Math.round(16 + (across - wide) / 2)}px`; want.width = `${wide}px`; want.transform = 'translateY(-50%)';
+        } else {
+          want.top = `${below}px`; want.transform = 'translateX(-50%)'; want.maxHeight = `calc(100% - ${below}px - 12px)`;
+        }
+      }
+    }
+  }
+  // Compared with what was last written here, not with the style read back: the browser writes a `calc()` back in its own
+  // words, and a comparison with those moved the rooms on every render, each render drawing them again (a loop, found by the
+  // overlap proof, 2026-09-29).
+  const key = JSON.stringify(want);
+  if ((clearWritten.get(panel) || '{}') === key) return false;
+  clearWritten.set(panel, key);
+  for (const one of CLEAR_STYLES) panel.style[one] = want[one] || '';
+  if (key !== '{}') setData(panel, 'clearOf', 'messages'); else delete panel.dataset.clearOf;
+  return true;
 }
 $('#military-toggle')?.addEventListener('click', () => {
   // Folded to make room for a card: opening them is the student's choice, and it stands for as long as that card does.
@@ -7308,7 +7374,16 @@ bindFlashback({
   withClock: (ms, draw) => { const was = flashbackClock; flashbackClock = ms; try { return draw(); } finally { flashbackClock = was; } },
   landSettled: () => landMaking === 0 && !landLevels.pending,
 });
-bindNeighbours({ command: order => api('/api/command', { ...order, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }) });
+bindNeighbours({
+  command: order => api('/api/command', { ...order, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }),
+  // *Offer a trade* on the Neighbours sheet (triage 2026-09-29, 2.6): the trade with their person, as a press on them in the roster
+  // of who is here opens it - the card beside them with the offer (`populateTrade`), sent through the same trade flow.
+  trade: id => {
+    selectedId = id; selectionDismissed = false;
+    const world = window.__snapshot?.world;
+    if (world) { drawWorld(world); renderSelection(world); }
+  },
+});
 bindCreation({
   command: order => api('/api/command', { ...order, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }),
   refresh: () => { forgetFamily(); if (window.__snapshot) render(window.__snapshot); },
@@ -7463,6 +7538,8 @@ function renderTownScene(world) {
       catch (error) { say(error.message); }
     },
   });
+  // Under the messages, or beside them, never over them (triage 2026-09-29, 2.2).
+  clearOfNotice();
 }
 /**
  * A student with no family left to play, or whose little ones were taken in, watches another family (owner, 2026-09-29, "Follow
@@ -7583,7 +7660,8 @@ function render(snapshot) {
   renderFlashback(snapshot);
   renderNeighbours(world);
   // Making the family comes before the world is seen (public/creation.js): the curtain, and no map drawn behind it.
-  const creating = renderCreation(world, familyCache);
+  // The family's key comes last, once (triage 2026-09-29, 2.4); Play Solo has no way back in by a key, so none is shown there.
+  const creating = renderCreation(world, familyCache, { familyKey: snapshot.solo ? null : snapshot.familyKey });
   renderLooks(familyCache, { blocked: creating !== 'looks' });
   // A snapshot that lands while a hand is on the map is drawn when the hand stops (`handOnMap`), not in the middle of the
   // gesture: a whole draw there is the stall a student feels as the map sticking under their finger.

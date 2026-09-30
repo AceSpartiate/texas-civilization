@@ -59,3 +59,32 @@ test('the title screen names the game, the curtain covers the map, and the map i
   const server = readFileSync(new URL('../server/app.mjs', import.meta.url), 'utf8');
   assert.ok(server.includes(`['/creation.js', ['../public/creation.js', 'text/javascript']]`));
 });
+
+test("the family's key comes last, once, on the page that made the family, and never where there is no key (triage 2026-09-29, 2.4)", () => {
+  // A page's own storage, as a browser keeps it: what the steps remember is read back for the same family.
+  const kept = new Map();
+  globalThis.sessionStorage = { getItem: key => kept.get(key) ?? null, setItem: (key, value) => kept.set(key, value) };
+  const at = (id, family, key = 'ABCD2345') => creationStep({ role: 'student', householdId: id }, family, { familyKey: key });
+  kept.set('creation:hh-9:begun', '1');
+  assert.equal(at('hh-9', book({ canRoll: true, roll: null, named: false, surname: undefined })), 'roll');
+  assert.equal(at('hh-9', book({ named: false, surname: undefined })), 'surname');
+  // Made: the key, before the world, and it stays until it is put away.
+  assert.equal(at('hh-9', book()), 'key', 'the family was made on this page and its key was never shown');
+  assert.equal(at('hh-9', book()), 'key', 'the key went by itself before the student put it away');
+  // A family made on another page, or another day: the title screen, then the world, and the key is in the journal.
+  kept.set('creation:hh-10:begun', '1');
+  assert.equal(at('hh-10', book()), null, 'a family made elsewhere was shown its key');
+  // Put away ("I have written it down", which remembers `keyed`): never again on this page.
+  kept.set('creation:hh-9:keyed', '1');
+  assert.equal(at('hh-12', book({ named: false, surname: undefined })), 'begin', 'the title screen was skipped');
+  assert.equal(at('hh-9', book()), null, 'the key was shown a second time');
+  // Play Solo, or a page with no key, is never shown one.
+  kept.set('creation:hh-11:begun', '1');
+  assert.equal(at('hh-11', book({ named: false, surname: undefined }), null), 'surname');
+  assert.equal(at('hh-11', book(), null), null, 'a key card was shown with no key to show');
+  // Read back as a reload reads it (a family's storage is recalled once, when its page first sees it).
+  globalThis.sessionStorage = { getItem: key => (/hh-13:(begun|making|keyed)/.test(key) ? '1' : null), setItem: () => {} };
+  assert.equal(at('hh-13', book()), null, 'the key was shown again after it was put away and the page reloaded');
+  globalThis.sessionStorage = { getItem: key => (/hh-14:(begun|making)/.test(key) ? '1' : null), setItem: () => {} };
+  assert.equal(at('hh-14', book()), 'key', 'a reload on the key card lost it before it was written down');
+});

@@ -72,7 +72,31 @@ const INJECTIONS = [
     to: '    const room = null;\n',
     expect: /bubble .* under/,
   },
+  {
+    name: "the town's scene and the rooms of the house no longer step aside for the army's question (triage 2026-09-29, 2.2)",
+    file: 'public/app.js',
+    from: 'function clearOfNotice() {\n',
+    to: 'function clearOfNotice() { return;\n',
+    only: '^(rooms|town)$',
+    expect: /over the question: (town scene and messages|inside the house and messages|messages and (town scene|inside the house))/,
+  },
+  {
+    name: "the family's row labels back at 9.5 px (triage 2026-09-29, 2.12)",
+    file: 'public/style.css',
+    from: '.panel-label{grid-row:1;grid-column:1;font-size:12px;',
+    to: '.panel-label{grid-row:1;grid-column:1;font-size:9.5px;',
+    only: '^rooms$',
+    expect: /small type: label\.panel-label/,
+  },
 ];
+/**
+ * `OVERLAP_INJECT` (a pattern) runs only the injections whose names match, and the clean runs before and after only the classes
+ * those injections need (`only`, the proof's `OVERLAP_ONLY`); the record goes to its own file, so the whole harness's is kept.
+ */
+const PICK = process.env.OVERLAP_INJECT ? new RegExp(process.env.OVERLAP_INJECT) : null;
+const CHOSEN = PICK ? INJECTIONS.filter(one => PICK.test(one.name)) : INJECTIONS;
+const CLEAN_ONLY = PICK && CHOSEN.every(one => one.only) ? CHOSEN.map(one => `(${one.only})`).join('|') : null;
+const EVIDENCE = PICK ? `docs/evidence/overlap-injections-${process.env.OVERLAP_INJECT_TAG || 'some'}.json` : 'docs/evidence/overlap-injections.json';
 
 const faultsOf = output => [...output.matchAll(/^FAULT (.+)$/gm)].map(match => match[1]);
 const died = output => {
@@ -80,17 +104,17 @@ const died = output => {
   const error = output.match(/^(?:Error|TypeError|TimeoutError|ReferenceError): ([^\n\r]+)/m);
   return assertion ? assertion[1].trim() : error ? `${error[1].trim()} (the proof died rather than caught it)` : null;
 };
-const run = () => {
-  const result = spawnSync(process.execPath, [PROOF], { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024, env: { ...process.env, OVERLAP_OUT: OUT, OVERLAP_SHOTS: 'test-results/overlap-injection' } });
+const run = (only = null) => {
+  const result = spawnSync(process.execPath, [PROOF], { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024, env: { ...process.env, OVERLAP_OUT: OUT, OVERLAP_SHOTS: 'test-results/overlap-injection', ...(only && { OVERLAP_ONLY: only }) } });
   const output = `${result.stdout}${result.stderr}`;
   return { status: result.status, failed: died(output), faults: faultsOf(output), passed: /^PASS nothing on the screen/m.test(output) };
 };
 
-const clean = run();
+const clean = run(CLEAN_ONLY);
 if (!clean.passed) throw new Error(`The proof fails before any injection: ${clean.failed}\n${clean.faults.join('\n')}`);
 console.log('clean: the proof passes');
 const record = [];
-for (const injection of INJECTIONS) {
+for (const injection of CHOSEN) {
   const original = readFileSync(injection.file, 'utf8');
   const CR = String.fromCharCode(13), LF = String.fromCharCode(10);
   const ends = text => (original.includes(CR + LF) ? text.split(LF).join(CR + LF) : text);
@@ -99,15 +123,15 @@ for (const injection of INJECTIONS) {
   if (count !== 1) throw new Error(`${injection.name}: the text to replace is in ${injection.file} ${count} times, not once`);
   writeFileSync(injection.file, original.replace(from, to));
   let result;
-  try { result = run(); } finally { writeFileSync(injection.file, original); }
+  try { result = run(injection.only || null); } finally { writeFileSync(injection.file, original); }
   const own = result.faults.filter(fault => injection.expect.test(fault));
   record.push({ name: injection.name, file: injection.file, caught: !result.passed, byItsOwnCheck: own.length > 0, ownFaults: own, otherFaults: result.faults.filter(fault => !injection.expect.test(fault)), failed: result.failed });
   console.log(`${!result.passed ? (own.length ? 'caught' : 'caught, but not by its own check') : 'MISSED'}: ${injection.name}\n   -> ${own.join(' | ') || result.failed || 'nothing failed'}`);
 }
-const after = run();
+const after = run(CLEAN_ONLY);
 if (!after.passed) throw new Error(`The proof fails after every file was put back: ${after.failed}`);
 mkdirSync('docs/evidence', { recursive: true });
-writeFileSync('docs/evidence/overlap-injections.json', `${JSON.stringify({
+writeFileSync(EVIDENCE, `${JSON.stringify({
   record: 'overlap-injections',
   date: new Date().toISOString().slice(0, 10),
   proof: PROOF,
@@ -116,4 +140,4 @@ writeFileSync('docs/evidence/overlap-injections.json', `${JSON.stringify({
   injections: record,
   after: 'passes',
 }, null, 2)}\n`);
-console.log(`\n${record.filter(one => one.caught && one.byItsOwnCheck).length} of ${record.length} caught by their own check; wrote docs/evidence/overlap-injections.json`);
+console.log(`\n${record.filter(one => one.caught && one.byItsOwnCheck).length} of ${record.length} caught by their own check; wrote ${EVIDENCE}`);

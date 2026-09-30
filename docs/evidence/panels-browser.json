@@ -1,6 +1,6 @@
 {
   "record": "panels-browser",
-  "date": "2026-09-28",
+  "date": "2026-09-30",
   "browser": "153.0.8010.53",
   "screens": [
     {
@@ -24,15 +24,15 @@
     "1366x768: none of the four is drawn over the guided start, and nothing covers a word or a control of it",
     "1366x768: no ability bar under the meeting, and the bar is back the moment the meeting shuts",
     "1366x768: both placement panels stand clear of the folded faces, and the names open again when the stake is put away",
-    "1024x768: all four panels really drawn, with the server's own words in them (#encounter 464x538, #call-menu 440x347, #site-choose 300x261, #survey-choose 300x179)",
+    "1024x768: all four panels really drawn, with the server's own words in them (#encounter 464x538, #call-menu 440x347, #site-choose 281x281, #survey-choose 281x179)",
     "1024x768: all four fit the screen and none has anything drawn over its own controls",
     "1024x768: none of the four is drawn over the guided start, and nothing covers a word or a control of it",
     "1024x768: no ability bar under the meeting, and the bar is back the moment the meeting shuts",
     "1024x768: both placement panels stand clear of the folded faces, and the names open again when the stake is put away",
-    "1366x768, the guided start: a family of twenty, two on auto - the column ends at 510px above the bar's top at 518px (2 rows), 4 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 448px)",
-    "1024x768, the guided start: a family of twenty, two on auto - the column ends at 510px above the bar's top at 518px (2 rows), 4 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 448px)",
-    "1366x768, the full bar: a family of twenty, two on auto - the column ends at 510px above the bar's top at 518px (2 rows), 4 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 448px)",
-    "1024x768, the full bar: a family of twenty, two on auto - the column ends at 510px above the bar's top at 518px (2 rows), 4 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 448px)"
+    "1366x768, the guided start: a family of twenty, two on auto - the column ends at 522px above the bar's top at 530px (2 rows), 4 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 494px)",
+    "1024x768, the guided start: a family of twenty, two on auto - the column ends at 497px above the bar's top at 505px (3 rows), 3 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 494px)",
+    "1366x768, the full bar: a family of twenty, two on auto - the column ends at 522px above the bar's top at 530px (2 rows), 4 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 494px)",
+    "1024x768, the full bar: a family of twenty, two on auto - the column ends at 497px above the bar's top at 505px (3 rows), 3 rows in view and none covered, the auto sentences off the other rows and in the tooltips; the youngest reached by scrolling; the main person scrolled into view (to 494px)"
   ],
   "measured": {
     "1366x768": [
@@ -62,43 +62,7 @@
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 193,
-                "w": 48,
-                "h": 48
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 2,
-              "centreBlockedBy": null,
-              "by": [
-                "#family-rows"
-              ]
-            },
-            {
-              "control": "#family-rows",
-              "label": "!2 · 5 min",
-              "box": {
-                "x": 44,
-                "y": 185,
-                "w": 32,
-                "h": 32
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 4,
-              "centreBlockedBy": null,
-              "by": [
-                "#family-collapse",
-                "#family-rows",
-                "#world-map"
-              ]
-            },
-            {
-              "control": "#family-rows",
-              "label": "★idle",
-              "box": {
-                "x": 12,
-                "y": 246,
+                "y": 197,
                 "w": 48,
                 "h": 48
               },
@@ -112,10 +76,27 @@
             },
             {
               "control": "#family-rows",
-              "label": "!1",
+              "label": "★idle",
+              "box": {
+                "x": 12,
+                "y": 250,
+                "w": 48,
+                "h": 48
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 1,
+              "centreBlockedBy": null,
+              "by": [
+                "#family-rows"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "!2 min",
               "box": {
                 "x": 44,
-                "y": 236,
+                "y": 241,
                 "w": 32,
                 "h": 32
               },
@@ -136,27 +117,27 @@
               "label": "Read what Silas Roe said",
               "box": {
                 "x": 1836,
-                "y": 963,
-                "w": 139,
+                "y": 965,
+                "w": 150,
                 "h": 44
               }
             },
             {
               "control": "#family",
-              "label": "Jethro: work, Family 1 home, well. Someo",
+              "label": "Jethro: work, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1356,
+                "y": 1362,
                 "w": 29,
                 "h": 44
               }
             },
             {
               "control": "#family",
-              "label": "Temperance: work, Family 1 home, well. S",
+              "label": "Temperance: work, Family 1 home, well. A",
               "box": {
                 "x": 20,
-                "y": 1419,
+                "y": 1425,
                 "w": 29,
                 "h": 44
               }
@@ -166,7 +147,7 @@
               "label": "Rosa: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1482,
+                "y": 1488,
                 "w": 26,
                 "h": 44
               }
@@ -176,7 +157,7 @@
               "label": "Jasper: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1545,
+                "y": 1551,
                 "w": 26,
                 "h": 44
               }
@@ -186,7 +167,7 @@
               "label": "Silas Roe, passing through: rest at Fami",
               "box": {
                 "x": 20,
-                "y": 1673,
+                "y": 1679,
                 "w": 26,
                 "h": 44
               }
@@ -199,16 +180,16 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 498
+                "h": 510
               },
               "overlapWidth": -574,
-              "overlapHeight": 344,
+              "overlapHeight": 356,
               "shares": false
             },
             "faces": {
               "box": {
                 "x": 12,
-                "y": 193,
+                "y": 197,
                 "w": 48,
                 "h": 207
               },
@@ -220,10 +201,10 @@
               "box": {
                 "x": 12,
                 "y": 169,
-                "w": 90,
+                "w": 109,
                 "h": 20
               },
-              "overlapWidth": -732,
+              "overlapWidth": -713,
               "overlapHeight": 20,
               "shares": false
             },
@@ -247,7 +228,7 @@
           "real": true,
           "panelBox": {
             "x": 914,
-            "y": 59,
+            "y": 60,
             "w": 440,
             "h": 347
           },
@@ -259,11 +240,28 @@
           "covered": [],
           "partly": [
             {
+              "control": "#family-collapse",
+              "label": "Show names",
+              "box": {
+                "x": 12,
+                "y": 228,
+                "w": 109,
+                "h": 20
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 1,
+              "centreBlockedBy": null,
+              "by": [
+                "#world-map"
+              ]
+            },
+            {
               "control": "#family-rows",
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 192,
+                "y": 256,
                 "w": 48,
                 "h": 48
               },
@@ -280,7 +278,7 @@
               "label": "!1 · 5 min",
               "box": {
                 "x": 44,
-                "y": 181,
+                "y": 245,
                 "w": 32,
                 "h": 32
               },
@@ -289,9 +287,8 @@
               "blocked": 4,
               "centreBlockedBy": null,
               "by": [
-                "#family-collapse",
-                "#family-rows",
-                "#world-map"
+                "#world-map",
+                "#family-rows"
               ]
             },
             {
@@ -299,7 +296,7 @@
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 245,
+                "y": 309,
                 "w": 48,
                 "h": 48
               },
@@ -316,7 +313,7 @@
               "label": "!2 · 5 min",
               "box": {
                 "x": 44,
-                "y": 237,
+                "y": 301,
                 "w": 32,
                 "h": 32
               },
@@ -336,9 +333,9 @@
               "control": "#reports",
               "label": "Read what Silas Roe said",
               "box": {
-                "x": 1843,
-                "y": 962,
-                "w": 139,
+                "x": 1836,
+                "y": 965,
+                "w": 150,
                 "h": 44
               }
             },
@@ -347,7 +344,7 @@
               "label": "Jethro: work, Family 1 home, well. Someo",
               "box": {
                 "x": 20,
-                "y": 1355,
+                "y": 1362,
                 "w": 29,
                 "h": 44
               }
@@ -357,7 +354,7 @@
               "label": "Temperance: work, Family 1 home, well. S",
               "box": {
                 "x": 20,
-                "y": 1418,
+                "y": 1425,
                 "w": 26,
                 "h": 44
               }
@@ -367,7 +364,7 @@
               "label": "Rosa: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1481,
+                "y": 1488,
                 "w": 26,
                 "h": 44
               }
@@ -377,7 +374,7 @@
               "label": "Jasper: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1544,
+                "y": 1551,
                 "w": 26,
                 "h": 44
               }
@@ -388,46 +385,46 @@
             "column": {
               "box": {
                 "x": 12,
-                "y": 11,
-                "w": 248,
-                "h": 499
+                "y": 12,
+                "w": 304,
+                "h": 510
               },
-              "overlapWidth": -654,
+              "overlapWidth": -598,
               "overlapHeight": 347,
               "shares": false
             },
             "faces": {
               "box": {
                 "x": 12,
-                "y": 192,
+                "y": 256,
                 "w": 48,
                 "h": 207
               },
               "overlapWidth": -854,
-              "overlapHeight": 207,
+              "overlapHeight": 151,
               "shares": false
             },
             "fold": {
               "box": {
                 "x": 12,
-                "y": 168,
-                "w": 90,
+                "y": 228,
+                "w": 109,
                 "h": 20
               },
-              "overlapWidth": -812,
+              "overlapWidth": -793,
               "overlapHeight": 20,
               "shares": false
             },
             "strip": null,
             "bar": {
               "box": {
-                "x": 497,
-                "y": 518,
-                "w": 372,
-                "h": 186
+                "x": 443,
+                "y": 530,
+                "w": 480,
+                "h": 174
               },
-              "overlapWidth": -45,
-              "overlapHeight": -112,
+              "overlapWidth": 9,
+              "overlapHeight": -124,
               "shares": false
             },
             "card": null
@@ -443,8 +440,8 @@
           "panel": "#site-choose",
           "real": true,
           "panelBox": {
-            "x": 110,
-            "y": 168,
+            "x": 129,
+            "y": 228,
             "w": 384,
             "h": 240
           },
@@ -456,11 +453,28 @@
           "covered": [],
           "partly": [
             {
+              "control": "#family-collapse",
+              "label": "Show names",
+              "box": {
+                "x": 12,
+                "y": 228,
+                "w": 109,
+                "h": 20
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 1,
+              "centreBlockedBy": null,
+              "by": [
+                "#world-map"
+              ]
+            },
+            {
               "control": "#family-rows",
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 192,
+                "y": 256,
                 "w": 48,
                 "h": 48
               },
@@ -477,7 +491,7 @@
               "label": "!1 · 5 min",
               "box": {
                 "x": 44,
-                "y": 181,
+                "y": 248,
                 "w": 32,
                 "h": 32
               },
@@ -486,9 +500,8 @@
               "blocked": 4,
               "centreBlockedBy": null,
               "by": [
-                "#family-collapse",
-                "#family-rows",
-                "#world-map"
+                "#world-map",
+                "#family-rows"
               ]
             },
             {
@@ -496,7 +509,7 @@
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 245,
+                "y": 309,
                 "w": 48,
                 "h": 48
               },
@@ -513,7 +526,7 @@
               "label": "!2 · 5 min",
               "box": {
                 "x": 44,
-                "y": 237,
+                "y": 301,
                 "w": 32,
                 "h": 32
               },
@@ -534,8 +547,8 @@
               "label": "Read what Silas Roe said",
               "box": {
                 "x": 1843,
-                "y": 962,
-                "w": 139,
+                "y": 965,
+                "w": 150,
                 "h": 44
               }
             },
@@ -544,7 +557,7 @@
               "label": "Jethro: work, Family 1 home, well. Someo",
               "box": {
                 "x": 20,
-                "y": 1355,
+                "y": 1362,
                 "w": 29,
                 "h": 44
               }
@@ -554,7 +567,7 @@
               "label": "Temperance: work, Family 1 home, well. S",
               "box": {
                 "x": 20,
-                "y": 1418,
+                "y": 1425,
                 "w": 26,
                 "h": 44
               }
@@ -564,7 +577,7 @@
               "label": "Rosa: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1481,
+                "y": 1488,
                 "w": 26,
                 "h": 44
               }
@@ -574,7 +587,7 @@
               "label": "Jasper: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1544,
+                "y": 1551,
                 "w": 26,
                 "h": 44
               }
@@ -585,30 +598,30 @@
             "column": {
               "box": {
                 "x": 12,
-                "y": 11,
-                "w": 248,
-                "h": 499
+                "y": 12,
+                "w": 304,
+                "h": 510
               },
-              "overlapWidth": 150,
+              "overlapWidth": 187,
               "overlapHeight": 240,
               "shares": true
             },
             "faces": {
               "box": {
                 "x": 12,
-                "y": 192,
+                "y": 256,
                 "w": 48,
                 "h": 207
               },
-              "overlapWidth": -50,
+              "overlapWidth": -69,
               "overlapHeight": 207,
               "shares": false
             },
             "fold": {
               "box": {
                 "x": 12,
-                "y": 168,
-                "w": 90,
+                "y": 228,
+                "w": 109,
                 "h": 20
               },
               "overlapWidth": -8,
@@ -618,13 +631,13 @@
             "strip": null,
             "bar": {
               "box": {
-                "x": 497,
-                "y": 518,
-                "w": 372,
-                "h": 186
+                "x": 443,
+                "y": 530,
+                "w": 480,
+                "h": 174
               },
-              "overlapWidth": -3,
-              "overlapHeight": -110,
+              "overlapWidth": 70,
+              "overlapHeight": -62,
               "shares": false
             },
             "card": null
@@ -641,8 +654,8 @@
           "panel": "#survey-choose",
           "real": true,
           "panelBox": {
-            "x": 110,
-            "y": 209,
+            "x": 129,
+            "y": 169,
             "w": 384,
             "h": 159
           },
@@ -654,11 +667,11 @@
           "covered": [],
           "partly": [
             {
-              "control": "#family-rows",
-              "label": "★idle",
+              "control": "#house-card-icon",
+              "label": "Choose your house",
               "box": {
-                "x": 12,
-                "y": 233,
+                "x": 21,
+                "y": 206,
                 "w": 48,
                 "h": 48
               },
@@ -667,25 +680,6 @@
               "blocked": 2,
               "centreBlockedBy": null,
               "by": [
-                "#family-rows"
-              ]
-            },
-            {
-              "control": "#family-rows",
-              "label": "!2 · 5 min",
-              "box": {
-                "x": 44,
-                "y": 225,
-                "w": 32,
-                "h": 32
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 4,
-              "centreBlockedBy": null,
-              "by": [
-                "#family-collapse",
-                "#family-rows",
                 "#world-map"
               ]
             },
@@ -694,7 +688,7 @@
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 286,
+                "y": 269,
                 "w": 48,
                 "h": 48
               },
@@ -708,10 +702,27 @@
             },
             {
               "control": "#family-rows",
-              "label": "!1",
+              "label": "★idle",
+              "box": {
+                "x": 12,
+                "y": 322,
+                "w": 48,
+                "h": 48
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 1,
+              "centreBlockedBy": null,
+              "by": [
+                "#family-rows"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "!2 min",
               "box": {
                 "x": 44,
-                "y": 278,
+                "y": 314,
                 "w": 32,
                 "h": 32
               },
@@ -732,27 +743,27 @@
               "label": "Read what Silas Roe said",
               "box": {
                 "x": 1836,
-                "y": 963,
-                "w": 139,
+                "y": 965,
+                "w": 150,
                 "h": 44
               }
             },
             {
               "control": "#family",
-              "label": "Nicolás: work, Family 1 home, well. Some",
+              "label": "Nicolás: work, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1356,
+                "y": 1362,
                 "w": 29,
                 "h": 44
               }
             },
             {
               "control": "#family",
-              "label": "Elena: work, Family 1 home, well. Someon",
+              "label": "Elena: work, Family 1 home, well. A ride",
               "box": {
                 "x": 20,
-                "y": 1419,
+                "y": 1425,
                 "w": 29,
                 "h": 44
               }
@@ -762,7 +773,7 @@
               "label": "Loreta: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1482,
+                "y": 1488,
                 "w": 26,
                 "h": 44
               }
@@ -772,7 +783,7 @@
               "label": "Ruperto: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1545,
+                "y": 1551,
                 "w": 26,
                 "h": 44
               }
@@ -782,7 +793,7 @@
               "label": "Silas Roe, passing through: rest at Fami",
               "box": {
                 "x": 20,
-                "y": 1673,
+                "y": 1679,
                 "w": 26,
                 "h": 44
               }
@@ -795,28 +806,28 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 498
+                "h": 510
               },
-              "overlapWidth": 150,
+              "overlapWidth": 131,
               "overlapHeight": 159,
               "shares": true
             },
             "faces": {
               "box": {
                 "x": 12,
-                "y": 233,
+                "y": 269,
                 "w": 48,
                 "h": 207
               },
-              "overlapWidth": -50,
-              "overlapHeight": 135,
+              "overlapWidth": -69,
+              "overlapHeight": 59,
               "shares": false
             },
             "fold": {
               "box": {
                 "x": 12,
-                "y": 209,
-                "w": 90,
+                "y": 169,
+                "w": 109,
                 "h": 20
               },
               "overlapWidth": -8,
@@ -826,13 +837,13 @@
             "strip": null,
             "bar": {
               "box": {
-                "x": 404,
-                "y": 518,
-                "w": 558,
-                "h": 186
+                "x": 323,
+                "y": 530,
+                "w": 720,
+                "h": 174
               },
-              "overlapWidth": 90,
-              "overlapHeight": -150,
+              "overlapWidth": 190,
+              "overlapHeight": -202,
               "shares": false
             },
             "card": null
@@ -878,43 +889,7 @@
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 193,
-                "w": 48,
-                "h": 48
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 2,
-              "centreBlockedBy": null,
-              "by": [
-                "#family-rows"
-              ]
-            },
-            {
-              "control": "#family-rows",
-              "label": "!2 · 5 min",
-              "box": {
-                "x": 44,
-                "y": 185,
-                "w": 32,
-                "h": 32
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 4,
-              "centreBlockedBy": null,
-              "by": [
-                "#family-collapse",
-                "#family-rows",
-                "#world-map"
-              ]
-            },
-            {
-              "control": "#family-rows",
-              "label": "★idle",
-              "box": {
-                "x": 12,
-                "y": 246,
+                "y": 197,
                 "w": 48,
                 "h": 48
               },
@@ -928,10 +903,27 @@
             },
             {
               "control": "#family-rows",
-              "label": "!1",
+              "label": "★idle",
+              "box": {
+                "x": 12,
+                "y": 250,
+                "w": 48,
+                "h": 48
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 1,
+              "centreBlockedBy": null,
+              "by": [
+                "#family-rows"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "!2 min",
               "box": {
                 "x": 44,
-                "y": 236,
+                "y": 241,
                 "w": 32,
                 "h": 32
               },
@@ -952,27 +944,27 @@
               "label": "Read what Silas Roe said",
               "box": {
                 "x": 1836,
-                "y": 963,
-                "w": 139,
+                "y": 965,
+                "w": 150,
                 "h": 44
               }
             },
             {
               "control": "#family",
-              "label": "Jethro: work, Family 1 home, well. Someo",
+              "label": "Jethro: work, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1356,
+                "y": 1362,
                 "w": 29,
                 "h": 44
               }
             },
             {
               "control": "#family",
-              "label": "Temperance: work, Family 1 home, well. S",
+              "label": "Temperance: work, Family 1 home, well. A",
               "box": {
                 "x": 20,
-                "y": 1419,
+                "y": 1425,
                 "w": 29,
                 "h": 44
               }
@@ -982,7 +974,7 @@
               "label": "Rosa: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1482,
+                "y": 1488,
                 "w": 26,
                 "h": 44
               }
@@ -992,7 +984,7 @@
               "label": "Jasper: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1545,
+                "y": 1551,
                 "w": 26,
                 "h": 44
               }
@@ -1002,7 +994,7 @@
               "label": "Silas Roe, passing through: rest at Fami",
               "box": {
                 "x": 20,
-                "y": 1673,
+                "y": 1679,
                 "w": 26,
                 "h": 44
               }
@@ -1015,16 +1007,16 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 498
+                "h": 510
               },
               "overlapWidth": -288,
-              "overlapHeight": 344,
+              "overlapHeight": 356,
               "shares": false
             },
             "faces": {
               "box": {
                 "x": 12,
-                "y": 193,
+                "y": 197,
                 "w": 48,
                 "h": 207
               },
@@ -1036,10 +1028,10 @@
               "box": {
                 "x": 12,
                 "y": 169,
-                "w": 90,
+                "w": 109,
                 "h": 20
               },
-              "overlapWidth": -446,
+              "overlapWidth": -427,
               "overlapHeight": 20,
               "shares": false
             },
@@ -1075,11 +1067,28 @@
           "covered": [],
           "partly": [
             {
+              "control": "#family-collapse",
+              "label": "Show names",
+              "box": {
+                "x": 12,
+                "y": 228,
+                "w": 109,
+                "h": 20
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 1,
+              "centreBlockedBy": null,
+              "by": [
+                "#world-map"
+              ]
+            },
+            {
               "control": "#family-rows",
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 193,
+                "y": 256,
                 "w": 48,
                 "h": 48
               },
@@ -1096,7 +1105,7 @@
               "label": "!1 · 5 min",
               "box": {
                 "x": 44,
-                "y": 182,
+                "y": 245,
                 "w": 32,
                 "h": 32
               },
@@ -1105,9 +1114,8 @@
               "blocked": 4,
               "centreBlockedBy": null,
               "by": [
-                "#family-collapse",
-                "#family-rows",
-                "#world-map"
+                "#world-map",
+                "#family-rows"
               ]
             },
             {
@@ -1115,7 +1123,7 @@
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 246,
+                "y": 309,
                 "w": 48,
                 "h": 48
               },
@@ -1132,7 +1140,7 @@
               "label": "!2 · 5 min",
               "box": {
                 "x": 44,
-                "y": 238,
+                "y": 301,
                 "w": 32,
                 "h": 32
               },
@@ -1153,8 +1161,8 @@
               "label": "Read what Silas Roe said",
               "box": {
                 "x": 1843,
-                "y": 963,
-                "w": 139,
+                "y": 965,
+                "w": 150,
                 "h": 44
               }
             },
@@ -1163,7 +1171,7 @@
               "label": "Jethro: work, Family 1 home, well. Someo",
               "box": {
                 "x": 20,
-                "y": 1356,
+                "y": 1362,
                 "w": 29,
                 "h": 44
               }
@@ -1173,7 +1181,7 @@
               "label": "Temperance: work, Family 1 home, well. S",
               "box": {
                 "x": 20,
-                "y": 1419,
+                "y": 1425,
                 "w": 26,
                 "h": 44
               }
@@ -1183,7 +1191,7 @@
               "label": "Rosa: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1482,
+                "y": 1488,
                 "w": 26,
                 "h": 44
               }
@@ -1193,7 +1201,7 @@
               "label": "Jasper: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1545,
+                "y": 1551,
                 "w": 26,
                 "h": 44
               }
@@ -1205,45 +1213,45 @@
               "box": {
                 "x": 12,
                 "y": 12,
-                "w": 248,
-                "h": 498
+                "w": 304,
+                "h": 510
               },
-              "overlapWidth": -312,
+              "overlapWidth": -256,
               "overlapHeight": 347,
               "shares": false
             },
             "faces": {
               "box": {
                 "x": 12,
-                "y": 193,
+                "y": 256,
                 "w": 48,
                 "h": 207
               },
               "overlapWidth": -512,
-              "overlapHeight": 207,
+              "overlapHeight": 151,
               "shares": false
             },
             "fold": {
               "box": {
                 "x": 12,
-                "y": 169,
-                "w": 90,
+                "y": 228,
+                "w": 109,
                 "h": 20
               },
-              "overlapWidth": -470,
+              "overlapWidth": -451,
               "overlapHeight": 20,
               "shares": false
             },
             "strip": null,
             "bar": {
               "box": {
-                "x": 326,
-                "y": 518,
-                "w": 372,
-                "h": 186
+                "x": 272,
+                "y": 530,
+                "w": 480,
+                "h": 174
               },
-              "overlapWidth": 126,
-              "overlapHeight": -111,
+              "overlapWidth": 180,
+              "overlapHeight": -124,
               "shares": false
             },
             "card": null
@@ -1259,10 +1267,10 @@
           "panel": "#site-choose",
           "real": true,
           "panelBox": {
-            "x": 110,
-            "y": 169,
-            "w": 300,
-            "h": 261
+            "x": 129,
+            "y": 228,
+            "w": 281,
+            "h": 281
           },
           "panelFits": true,
           "ownControls": 1,
@@ -1272,11 +1280,28 @@
           "covered": [],
           "partly": [
             {
+              "control": "#family-collapse",
+              "label": "Show names",
+              "box": {
+                "x": 12,
+                "y": 228,
+                "w": 109,
+                "h": 20
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 1,
+              "centreBlockedBy": null,
+              "by": [
+                "#world-map"
+              ]
+            },
+            {
               "control": "#family-rows",
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 193,
+                "y": 256,
                 "w": 48,
                 "h": 48
               },
@@ -1293,7 +1318,7 @@
               "label": "!1 · 5 min",
               "box": {
                 "x": 44,
-                "y": 182,
+                "y": 248,
                 "w": 32,
                 "h": 32
               },
@@ -1302,9 +1327,8 @@
               "blocked": 4,
               "centreBlockedBy": null,
               "by": [
-                "#family-collapse",
-                "#family-rows",
-                "#world-map"
+                "#world-map",
+                "#family-rows"
               ]
             },
             {
@@ -1312,7 +1336,7 @@
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 246,
+                "y": 309,
                 "w": 48,
                 "h": 48
               },
@@ -1329,7 +1353,7 @@
               "label": "!2 · 5 min",
               "box": {
                 "x": 44,
-                "y": 238,
+                "y": 301,
                 "w": 32,
                 "h": 32
               },
@@ -1350,8 +1374,8 @@
               "label": "Read what Silas Roe said",
               "box": {
                 "x": 1843,
-                "y": 963,
-                "w": 139,
+                "y": 965,
+                "w": 150,
                 "h": 44
               }
             },
@@ -1360,7 +1384,7 @@
               "label": "Jethro: work, Family 1 home, well. Someo",
               "box": {
                 "x": 20,
-                "y": 1356,
+                "y": 1362,
                 "w": 29,
                 "h": 44
               }
@@ -1370,7 +1394,7 @@
               "label": "Temperance: work, Family 1 home, well. S",
               "box": {
                 "x": 20,
-                "y": 1419,
+                "y": 1425,
                 "w": 26,
                 "h": 44
               }
@@ -1380,7 +1404,7 @@
               "label": "Rosa: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1482,
+                "y": 1488,
                 "w": 26,
                 "h": 44
               }
@@ -1390,7 +1414,7 @@
               "label": "Jasper: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1545,
+                "y": 1551,
                 "w": 26,
                 "h": 44
               }
@@ -1402,29 +1426,29 @@
               "box": {
                 "x": 12,
                 "y": 12,
-                "w": 248,
-                "h": 498
+                "w": 304,
+                "h": 510
               },
-              "overlapWidth": 150,
-              "overlapHeight": 261,
+              "overlapWidth": 187,
+              "overlapHeight": 281,
               "shares": true
             },
             "faces": {
               "box": {
                 "x": 12,
-                "y": 193,
+                "y": 256,
                 "w": 48,
                 "h": 207
               },
-              "overlapWidth": -50,
+              "overlapWidth": -69,
               "overlapHeight": 207,
               "shares": false
             },
             "fold": {
               "box": {
                 "x": 12,
-                "y": 169,
-                "w": 90,
+                "y": 228,
+                "w": 109,
                 "h": 20
               },
               "overlapWidth": -8,
@@ -1434,13 +1458,13 @@
             "strip": null,
             "bar": {
               "box": {
-                "x": 326,
-                "y": 518,
-                "w": 372,
-                "h": 186
+                "x": 272,
+                "y": 530,
+                "w": 480,
+                "h": 174
               },
-              "overlapWidth": 84,
-              "overlapHeight": -88,
+              "overlapWidth": 138,
+              "overlapHeight": -22,
               "shares": false
             },
             "card": null
@@ -1457,9 +1481,9 @@
           "panel": "#survey-choose",
           "real": true,
           "panelBox": {
-            "x": 110,
-            "y": 209,
-            "w": 300,
+            "x": 129,
+            "y": 169,
+            "w": 281,
             "h": 179
           },
           "panelFits": true,
@@ -1470,11 +1494,11 @@
           "covered": [],
           "partly": [
             {
-              "control": "#family-rows",
-              "label": "★idle",
+              "control": "#house-card-icon",
+              "label": "Choose your house",
               "box": {
-                "x": 12,
-                "y": 233,
+                "x": 21,
+                "y": 206,
                 "w": 48,
                 "h": 48
               },
@@ -1483,25 +1507,6 @@
               "blocked": 2,
               "centreBlockedBy": null,
               "by": [
-                "#family-rows"
-              ]
-            },
-            {
-              "control": "#family-rows",
-              "label": "!2 · 5 min",
-              "box": {
-                "x": 44,
-                "y": 225,
-                "w": 32,
-                "h": 32
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 4,
-              "centreBlockedBy": null,
-              "by": [
-                "#family-collapse",
-                "#family-rows",
                 "#world-map"
               ]
             },
@@ -1510,7 +1515,7 @@
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 286,
+                "y": 269,
                 "w": 48,
                 "h": 48
               },
@@ -1524,10 +1529,27 @@
             },
             {
               "control": "#family-rows",
-              "label": "!1",
+              "label": "★idle",
+              "box": {
+                "x": 12,
+                "y": 322,
+                "w": 48,
+                "h": 48
+              },
+              "onScreen": true,
+              "points": 5,
+              "blocked": 1,
+              "centreBlockedBy": null,
+              "by": [
+                "#family-rows"
+              ]
+            },
+            {
+              "control": "#family-rows",
+              "label": "!2 min",
               "box": {
                 "x": 44,
-                "y": 275,
+                "y": 311,
                 "w": 32,
                 "h": 32
               },
@@ -1548,27 +1570,27 @@
               "label": "Read what Silas Roe said",
               "box": {
                 "x": 1836,
-                "y": 963,
-                "w": 139,
+                "y": 965,
+                "w": 150,
                 "h": 44
               }
             },
             {
               "control": "#family",
-              "label": "Nicolás: work, Family 1 home, well. Some",
+              "label": "Nicolás: work, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1356,
+                "y": 1362,
                 "w": 29,
                 "h": 44
               }
             },
             {
               "control": "#family",
-              "label": "Elena: work, Family 1 home, well. Someon",
+              "label": "Elena: work, Family 1 home, well. A ride",
               "box": {
                 "x": 20,
-                "y": 1419,
+                "y": 1425,
                 "w": 29,
                 "h": 44
               }
@@ -1578,7 +1600,7 @@
               "label": "Loreta: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1482,
+                "y": 1488,
                 "w": 26,
                 "h": 44
               }
@@ -1588,7 +1610,7 @@
               "label": "Ruperto: rest, Family 1 home, well",
               "box": {
                 "x": 20,
-                "y": 1545,
+                "y": 1551,
                 "w": 26,
                 "h": 44
               }
@@ -1598,7 +1620,7 @@
               "label": "Silas Roe, passing through: rest at Fami",
               "box": {
                 "x": 20,
-                "y": 1673,
+                "y": 1679,
                 "w": 26,
                 "h": 44
               }
@@ -1611,28 +1633,28 @@
                 "x": 12,
                 "y": 12,
                 "w": 248,
-                "h": 498
+                "h": 485
               },
-              "overlapWidth": 150,
+              "overlapWidth": 131,
               "overlapHeight": 179,
               "shares": true
             },
             "faces": {
               "box": {
                 "x": 12,
-                "y": 233,
+                "y": 269,
                 "w": 48,
                 "h": 207
               },
-              "overlapWidth": -50,
-              "overlapHeight": 156,
+              "overlapWidth": -69,
+              "overlapHeight": 80,
               "shares": false
             },
             "fold": {
               "box": {
                 "x": 12,
-                "y": 209,
-                "w": 90,
+                "y": 169,
+                "w": 109,
                 "h": 20
               },
               "overlapWidth": -8,
@@ -1643,12 +1665,12 @@
             "bar": {
               "box": {
                 "x": 233,
-                "y": 518,
+                "y": 505,
                 "w": 558,
-                "h": 186
+                "h": 199
               },
               "overlapWidth": 177,
-              "overlapHeight": -130,
+              "overlapHeight": -157,
               "shares": false
             },
             "card": null
@@ -1677,20 +1699,20 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 498
+          "h": 510
         },
         "overlapWidth": -574,
-        "overlapHeight": 344,
+        "overlapHeight": 356,
         "shares": false
       },
       "siteOverTheColumn": {
         "box": {
           "x": 12,
-          "y": 11,
-          "w": 248,
-          "h": 499
+          "y": 12,
+          "w": 304,
+          "h": 510
         },
-        "overlapWidth": 150,
+        "overlapWidth": 187,
         "overlapHeight": 240,
         "shares": true
       },
@@ -1699,9 +1721,9 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 498
+          "h": 510
         },
-        "overlapWidth": 150,
+        "overlapWidth": 131,
         "overlapHeight": 159,
         "shares": true
       },
@@ -1716,21 +1738,21 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 498
+          "h": 510
         },
         "overlapWidth": -288,
-        "overlapHeight": 344,
+        "overlapHeight": 356,
         "shares": false
       },
       "siteOverTheColumn": {
         "box": {
           "x": 12,
           "y": 12,
-          "w": 248,
-          "h": 498
+          "w": 304,
+          "h": 510
         },
-        "overlapWidth": 150,
-        "overlapHeight": 261,
+        "overlapWidth": 187,
+        "overlapHeight": 281,
         "shares": true
       },
       "surveyOverTheColumn": {
@@ -1738,9 +1760,9 @@
           "x": 12,
           "y": 12,
           "w": 248,
-          "h": 498
+          "h": 485
         },
-        "overlapWidth": 150,
+        "overlapWidth": 131,
         "overlapHeight": 179,
         "shares": true
       },
@@ -1774,13 +1796,13 @@
           "column": {
             "left": 12,
             "right": 316,
-            "top": 207,
-            "bottom": 510
+            "top": 167,
+            "bottom": 522
           },
           "bar": {
-            "left": 435,
-            "right": 931,
-            "top": 518,
+            "left": 363,
+            "right": 1003,
+            "top": 530,
             "bottom": 704,
             "rows": 2
           },
@@ -1791,18 +1813,18 @@
             "bottom": 754
           },
           "toolsAcross": false,
-          "room": "258px",
+          "room": "246px",
           "scrolls": true,
           "scrollTop": 0,
-          "scrollHeight": 1318,
-          "clientHeight": 303,
+          "scrollHeight": 1439,
+          "clientHeight": 355,
           "tight": true,
           "lesson": false,
           "faces": [
-            "hh-1-parent-1 233-281",
-            "hh-1-parent-2 286-404",
-            "hh-1-child-1 409-457",
-            "hh-1-child-2 462-510"
+            "hh-1-parent-1 279-327",
+            "hh-1-parent-2 332-458",
+            "hh-1-child-1 463-511",
+            "hh-1-child-2 516-564"
           ],
           "switches": [
             {
@@ -1831,24 +1853,24 @@
           "inside": true,
           "onTop": true,
           "aboveBar": true,
-          "scrollTop": 1015,
+          "scrollTop": 1084,
           "by": null
         },
         "laterMain": {
           "id": "hh-1-child-10",
-          "scrollTop": 448,
+          "scrollTop": 494,
           "bar": {
-            "left": 497,
-            "right": 869,
-            "top": 495,
+            "left": 443,
+            "right": 923,
+            "top": 503,
             "bottom": 704,
             "rows": 3
           },
           "column": {
             "left": 12,
             "right": 316,
-            "top": 207,
-            "bottom": 487
+            "top": 167,
+            "bottom": 495
           },
           "tight": true
         }
@@ -1862,15 +1884,15 @@
           "column": {
             "left": 12,
             "right": 316,
-            "top": 207,
-            "bottom": 510
+            "top": 167,
+            "bottom": 497
           },
           "bar": {
             "left": 264,
             "right": 760,
-            "top": 518,
+            "top": 505,
             "bottom": 704,
-            "rows": 2
+            "rows": 3
           },
           "tools": {
             "left": 414,
@@ -1879,18 +1901,17 @@
             "bottom": 754
           },
           "toolsAcross": false,
-          "room": "258px",
+          "room": "271px",
           "scrolls": true,
           "scrollTop": 0,
-          "scrollHeight": 1318,
-          "clientHeight": 303,
+          "scrollHeight": 1439,
+          "clientHeight": 330,
           "tight": true,
           "lesson": false,
           "faces": [
-            "hh-1-parent-1 233-281",
-            "hh-1-parent-2 286-404",
-            "hh-1-child-1 409-457",
-            "hh-1-child-2 462-510"
+            "hh-1-parent-1 279-327",
+            "hh-1-parent-2 332-458",
+            "hh-1-child-1 463-511"
           ],
           "switches": [
             {
@@ -1919,24 +1940,24 @@
           "inside": true,
           "onTop": true,
           "aboveBar": true,
-          "scrollTop": 1015,
+          "scrollTop": 1109,
           "by": null
         },
         "laterMain": {
           "id": "hh-1-child-10",
-          "scrollTop": 448,
+          "scrollTop": 494,
           "bar": {
-            "left": 326,
-            "right": 698,
-            "top": 495,
+            "left": 272,
+            "right": 752,
+            "top": 503,
             "bottom": 704,
             "rows": 3
           },
           "column": {
             "left": 12,
             "right": 316,
-            "top": 207,
-            "bottom": 487
+            "top": 167,
+            "bottom": 495
           },
           "tight": true
         }
@@ -1950,13 +1971,13 @@
           "column": {
             "left": 12,
             "right": 316,
-            "top": 207,
-            "bottom": 510
+            "top": 167,
+            "bottom": 522
           },
           "bar": {
-            "left": 435,
-            "right": 931,
-            "top": 518,
+            "left": 363,
+            "right": 1003,
+            "top": 530,
             "bottom": 704,
             "rows": 2
           },
@@ -1967,18 +1988,18 @@
             "bottom": 754
           },
           "toolsAcross": false,
-          "room": "258px",
+          "room": "246px",
           "scrolls": true,
           "scrollTop": 0,
-          "scrollHeight": 1318,
-          "clientHeight": 303,
+          "scrollHeight": 1439,
+          "clientHeight": 355,
           "tight": true,
           "lesson": false,
           "faces": [
-            "hh-1-parent-1 233-281",
-            "hh-1-parent-2 286-404",
-            "hh-1-child-1 409-457",
-            "hh-1-child-2 462-510"
+            "hh-1-parent-1 279-327",
+            "hh-1-parent-2 332-458",
+            "hh-1-child-1 463-511",
+            "hh-1-child-2 516-564"
           ],
           "switches": [
             {
@@ -2007,24 +2028,24 @@
           "inside": true,
           "onTop": true,
           "aboveBar": true,
-          "scrollTop": 1015,
+          "scrollTop": 1084,
           "by": null
         },
         "laterMain": {
           "id": "hh-1-child-10",
-          "scrollTop": 448,
+          "scrollTop": 494,
           "bar": {
-            "left": 497,
-            "right": 869,
-            "top": 495,
+            "left": 443,
+            "right": 923,
+            "top": 503,
             "bottom": 704,
             "rows": 3
           },
           "column": {
             "left": 12,
             "right": 316,
-            "top": 207,
-            "bottom": 487
+            "top": 167,
+            "bottom": 495
           },
           "tight": true
         }
@@ -2038,15 +2059,15 @@
           "column": {
             "left": 12,
             "right": 316,
-            "top": 207,
-            "bottom": 510
+            "top": 167,
+            "bottom": 497
           },
           "bar": {
             "left": 264,
             "right": 760,
-            "top": 518,
+            "top": 505,
             "bottom": 704,
-            "rows": 2
+            "rows": 3
           },
           "tools": {
             "left": 414,
@@ -2055,18 +2076,17 @@
             "bottom": 754
           },
           "toolsAcross": false,
-          "room": "258px",
+          "room": "271px",
           "scrolls": true,
           "scrollTop": 0,
-          "scrollHeight": 1318,
-          "clientHeight": 303,
+          "scrollHeight": 1439,
+          "clientHeight": 330,
           "tight": true,
           "lesson": false,
           "faces": [
-            "hh-1-parent-1 233-281",
-            "hh-1-parent-2 286-404",
-            "hh-1-child-1 409-457",
-            "hh-1-child-2 462-510"
+            "hh-1-parent-1 279-327",
+            "hh-1-parent-2 332-458",
+            "hh-1-child-1 463-511"
           ],
           "switches": [
             {
@@ -2095,24 +2115,24 @@
           "inside": true,
           "onTop": true,
           "aboveBar": true,
-          "scrollTop": 1015,
+          "scrollTop": 1109,
           "by": null
         },
         "laterMain": {
           "id": "hh-1-child-10",
-          "scrollTop": 448,
+          "scrollTop": 494,
           "bar": {
-            "left": 326,
-            "right": 698,
-            "top": 495,
+            "left": 272,
+            "right": 752,
+            "top": 503,
             "bottom": 704,
             "rows": 3
           },
           "column": {
             "left": 12,
             "right": 316,
-            "top": 207,
-            "bottom": 487
+            "top": 167,
+            "bottom": 495
           },
           "tight": true
         }
