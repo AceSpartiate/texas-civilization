@@ -31,6 +31,16 @@ free to sell.
 
 Nothing was downloaded for this work.
 
+## Read-aloud speech (researched 2026-09-30, not built)
+
+No speech ships. Voices, and the licences of the models behind them, are compared in [READ_ALOUD.md](READ_ALOUD.md).
+
+- Generated speech would be listed here like any other audio.
+- The licence question that needs deciding is the **model's**: Apache-2.0 for Kokoro, public domain for Bryce Beattie's
+  Piper voices, and OpenRAIL-M for Supertonic 3, which is not on the allowed list above.
+- It is also the **runtime's**: espeak-ng is GPL-3.0 and matters only if speech is generated on the teacher's laptop.
+- The owner decides both when choosing a voice.
+
 ## Adding a recorded sound later (owner question AU3)
 
 1. Take it only from a source whose licence is stated on the item and is CC0 (Kenney.nl's audio packs are published as
