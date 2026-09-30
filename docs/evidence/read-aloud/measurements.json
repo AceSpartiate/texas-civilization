@@ -1,0 +1,1870 @@
+{
+ "date": "2026-09-30",
+ "machine": "Intel Core i9-12900KF (16 cores / 24 threads), 64 GB, Windows 11 Pro, no GPU used; shared with other builders running test suites (CPU load 30-100% during runs, recorded per engine)",
+ "runtime": "sherpa-onnx 1.13.8 (Python wheel), onnxruntime 1.30.0, CPU provider",
+ "lines": {
+  "news": "A rider has come in from Gonzales. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+  "army": "The volunteers are gathering on the Guadalupe. Will you send someone to join them, or keep everyone home to bring in the corn?",
+  "names": "Juan Seguín's company rode out from Béxar.",
+  "es": "La compañía de Juan Seguín salió de Béxar al amanecer."
+ },
+ "generation_two_threads": [
+  {
+   "engine": "kokoro-fp32",
+   "voice": "af_heart",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 2.889,
+   "audio_s": 6.3,
+   "rtf": 0.458,
+   "sr": 24000,
+   "opus_bytes": 25376,
+   "load_s": 1.43
+  },
+  {
+   "engine": "kokoro-fp32",
+   "voice": "af_heart",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 4.684,
+   "audio_s": 6.44,
+   "rtf": 0.727,
+   "sr": 24000,
+   "opus_bytes": 25769,
+   "load_s": 1.43
+  },
+  {
+   "engine": "kokoro-fp32",
+   "voice": "af_heart",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 1.255,
+   "audio_s": 2.57,
+   "rtf": 0.489,
+   "sr": 24000,
+   "opus_bytes": 10770,
+   "load_s": 1.43
+  },
+  {
+   "engine": "kokoro-fp32",
+   "voice": "am_michael",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 4.118,
+   "audio_s": 7.08,
+   "rtf": 0.581,
+   "sr": 24000,
+   "opus_bytes": 28481,
+   "load_s": 1.43
+  },
+  {
+   "engine": "kokoro-fp32",
+   "voice": "am_michael",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 3.834,
+   "audio_s": 7.27,
+   "rtf": 0.527,
+   "sr": 24000,
+   "opus_bytes": 29201,
+   "load_s": 1.43
+  },
+  {
+   "engine": "kokoro-fp32",
+   "voice": "am_michael",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 1.521,
+   "audio_s": 2.95,
+   "rtf": 0.516,
+   "sr": 24000,
+   "opus_bytes": 12274,
+   "load_s": 1.43
+  },
+  {
+   "engine": "kokoro-fp32",
+   "voice": "bf_emma",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 3.166,
+   "audio_s": 6.42,
+   "rtf": 0.493,
+   "sr": 24000,
+   "opus_bytes": 25822,
+   "load_s": 1.43
+  },
+  {
+   "engine": "kokoro-fp32",
+   "voice": "bf_emma",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 3.492,
+   "audio_s": 6.27,
+   "rtf": 0.557,
+   "sr": 24000,
+   "opus_bytes": 25208,
+   "load_s": 1.43
+  },
+  {
+   "engine": "kokoro-fp32",
+   "voice": "bf_emma",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 1.47,
+   "audio_s": 2.6,
+   "rtf": 0.564,
+   "sr": 24000,
+   "opus_bytes": 10958,
+   "load_s": 1.43
+  },
+  {
+   "engine": "kokoro-fp32",
+   "voice": "am_fenrir",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 3.139,
+   "audio_s": 6.56,
+   "rtf": 0.478,
+   "sr": 24000,
+   "opus_bytes": 26466,
+   "load_s": 1.43
+  },
+  {
+   "engine": "kokoro-fp32",
+   "voice": "am_fenrir",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 2.932,
+   "audio_s": 6.83,
+   "rtf": 0.429,
+   "sr": 24000,
+   "opus_bytes": 27592,
+   "load_s": 1.43
+  },
+  {
+   "engine": "kokoro-fp32",
+   "voice": "am_fenrir",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 1.191,
+   "audio_s": 2.6,
+   "rtf": 0.457,
+   "sr": 24000,
+   "opus_bytes": 11028,
+   "load_s": 1.43
+  },
+  {
+   "engine": "kokoro-fp32",
+   "voice": "ef_dora",
+   "line": "es",
+   "threads": 2,
+   "gen_s": 1.347,
+   "audio_s": 3.53,
+   "rtf": 0.381,
+   "sr": 24000,
+   "opus_bytes": 14529,
+   "load_s": 1.43
+  },
+  {
+   "engine": "kokoro-fp32",
+   "voice": "em_alex",
+   "line": "es",
+   "threads": 2,
+   "gen_s": 1.32,
+   "audio_s": 3.56,
+   "rtf": 0.371,
+   "sr": 24000,
+   "opus_bytes": 14696,
+   "load_s": 1.43
+  },
+  {
+   "engine": "kokoro-int8",
+   "voice": "af_heart",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 6.117,
+   "audio_s": 6.3,
+   "rtf": 0.97,
+   "sr": 24000,
+   "opus_bytes": 25551,
+   "load_s": 1.78
+  },
+  {
+   "engine": "kokoro-int8",
+   "voice": "af_heart",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 6.167,
+   "audio_s": 6.41,
+   "rtf": 0.962,
+   "sr": 24000,
+   "opus_bytes": 25862,
+   "load_s": 1.78
+  },
+  {
+   "engine": "kokoro-int8",
+   "voice": "af_heart",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 2.501,
+   "audio_s": 2.57,
+   "rtf": 0.972,
+   "sr": 24000,
+   "opus_bytes": 10885,
+   "load_s": 1.78
+  },
+  {
+   "engine": "kokoro-int8",
+   "voice": "am_michael",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 6.924,
+   "audio_s": 7.07,
+   "rtf": 0.979,
+   "sr": 24000,
+   "opus_bytes": 28250,
+   "load_s": 1.78
+  },
+  {
+   "engine": "kokoro-int8",
+   "voice": "am_michael",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 8.172,
+   "audio_s": 7.24,
+   "rtf": 1.128,
+   "sr": 24000,
+   "opus_bytes": 28914,
+   "load_s": 1.78
+  },
+  {
+   "engine": "kokoro-int8",
+   "voice": "am_michael",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 3.157,
+   "audio_s": 2.92,
+   "rtf": 1.082,
+   "sr": 24000,
+   "opus_bytes": 12049,
+   "load_s": 1.78
+  },
+  {
+   "engine": "kokoro-int8",
+   "voice": "bf_emma",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 7.108,
+   "audio_s": 6.37,
+   "rtf": 1.117,
+   "sr": 24000,
+   "opus_bytes": 25620,
+   "load_s": 1.78
+  },
+  {
+   "engine": "kokoro-int8",
+   "voice": "bf_emma",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 6.426,
+   "audio_s": 6.18,
+   "rtf": 1.04,
+   "sr": 24000,
+   "opus_bytes": 24924,
+   "load_s": 1.78
+  },
+  {
+   "engine": "kokoro-int8",
+   "voice": "bf_emma",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 2.8,
+   "audio_s": 2.6,
+   "rtf": 1.079,
+   "sr": 24000,
+   "opus_bytes": 10951,
+   "load_s": 1.78
+  },
+  {
+   "engine": "kokoro-int8",
+   "voice": "am_fenrir",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 11.228,
+   "audio_s": 6.54,
+   "rtf": 1.717,
+   "sr": 24000,
+   "opus_bytes": 26774,
+   "load_s": 1.78
+  },
+  {
+   "engine": "kokoro-int8",
+   "voice": "am_fenrir",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 12.341,
+   "audio_s": 6.75,
+   "rtf": 1.828,
+   "sr": 24000,
+   "opus_bytes": 27732,
+   "load_s": 1.78
+  },
+  {
+   "engine": "kokoro-int8",
+   "voice": "am_fenrir",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 5.97,
+   "audio_s": 2.66,
+   "rtf": 2.243,
+   "sr": 24000,
+   "opus_bytes": 11352,
+   "load_s": 1.78
+  },
+  {
+   "engine": "kokoro-int8",
+   "voice": "ef_dora",
+   "line": "es",
+   "threads": 2,
+   "gen_s": 6.677,
+   "audio_s": 3.58,
+   "rtf": 1.863,
+   "sr": 24000,
+   "opus_bytes": 15277,
+   "load_s": 1.78
+  },
+  {
+   "engine": "kokoro-int8",
+   "voice": "em_alex",
+   "line": "es",
+   "threads": 2,
+   "gen_s": 6.79,
+   "audio_s": 3.63,
+   "rtf": 1.869,
+   "sr": 24000,
+   "opus_bytes": 15418,
+   "load_s": 1.78
+  },
+  {
+   "engine": "piper-ljspeech-high",
+   "voice": "ljspeech",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 5.422,
+   "audio_s": 7.52,
+   "rtf": 0.721,
+   "sr": 22050,
+   "opus_bytes": 30644,
+   "load_s": 6.78
+  },
+  {
+   "engine": "piper-ljspeech-high",
+   "voice": "ljspeech",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 4.91,
+   "audio_s": 6.81,
+   "rtf": 0.721,
+   "sr": 22050,
+   "opus_bytes": 27786,
+   "load_s": 6.78
+  },
+  {
+   "engine": "piper-ljspeech-high",
+   "voice": "ljspeech",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 1.976,
+   "audio_s": 2.83,
+   "rtf": 0.698,
+   "sr": 22050,
+   "opus_bytes": 12185,
+   "load_s": 6.78
+  },
+  {
+   "engine": "piper-kristin",
+   "voice": "kristin",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 1.85,
+   "audio_s": 6.97,
+   "rtf": 0.265,
+   "sr": 22050,
+   "opus_bytes": 28224,
+   "load_s": 8.14
+  },
+  {
+   "engine": "piper-kristin",
+   "voice": "kristin",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 1.053,
+   "audio_s": 6.8,
+   "rtf": 0.155,
+   "sr": 22050,
+   "opus_bytes": 27624,
+   "load_s": 8.14
+  },
+  {
+   "engine": "piper-kristin",
+   "voice": "kristin",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 0.601,
+   "audio_s": 2.95,
+   "rtf": 0.204,
+   "sr": 22050,
+   "opus_bytes": 12517,
+   "load_s": 8.14
+  },
+  {
+   "engine": "piper-norman",
+   "voice": "norman",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 0.649,
+   "audio_s": 6.06,
+   "rtf": 0.107,
+   "sr": 22050,
+   "opus_bytes": 24805,
+   "load_s": 5.86
+  },
+  {
+   "engine": "piper-norman",
+   "voice": "norman",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 1.051,
+   "audio_s": 5.92,
+   "rtf": 0.178,
+   "sr": 22050,
+   "opus_bytes": 24498,
+   "load_s": 5.86
+  },
+  {
+   "engine": "piper-norman",
+   "voice": "norman",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 0.298,
+   "audio_s": 2.4,
+   "rtf": 0.124,
+   "sr": 22050,
+   "opus_bytes": 10445,
+   "load_s": 5.86
+  },
+  {
+   "engine": "piper-john",
+   "voice": "john",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 1.362,
+   "audio_s": 7.27,
+   "rtf": 0.187,
+   "sr": 22050,
+   "opus_bytes": 29514,
+   "load_s": 3.99
+  },
+  {
+   "engine": "piper-john",
+   "voice": "john",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 1.247,
+   "audio_s": 7.02,
+   "rtf": 0.178,
+   "sr": 22050,
+   "opus_bytes": 28654,
+   "load_s": 3.99
+  },
+  {
+   "engine": "piper-john",
+   "voice": "john",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 0.624,
+   "audio_s": 2.76,
+   "rtf": 0.226,
+   "sr": 22050,
+   "opus_bytes": 11854,
+   "load_s": 3.99
+  },
+  {
+   "engine": "kitten-mini",
+   "voice": "bella",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 12.243,
+   "audio_s": 9.87,
+   "rtf": 1.24,
+   "sr": 24000,
+   "opus_bytes": 39143,
+   "load_s": 3.16
+  },
+  {
+   "engine": "kitten-mini",
+   "voice": "bella",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 11.302,
+   "audio_s": 9.67,
+   "rtf": 1.169,
+   "sr": 24000,
+   "opus_bytes": 38383,
+   "load_s": 3.16
+  },
+  {
+   "engine": "kitten-mini",
+   "voice": "bella",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 4.439,
+   "audio_s": 3.85,
+   "rtf": 1.152,
+   "sr": 24000,
+   "opus_bytes": 15836,
+   "load_s": 3.16
+  },
+  {
+   "engine": "kitten-mini",
+   "voice": "jasper",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 8.117,
+   "audio_s": 7.21,
+   "rtf": 1.125,
+   "sr": 24000,
+   "opus_bytes": 28832,
+   "load_s": 3.16
+  },
+  {
+   "engine": "kitten-mini",
+   "voice": "jasper",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 7.942,
+   "audio_s": 6.73,
+   "rtf": 1.18,
+   "sr": 24000,
+   "opus_bytes": 27658,
+   "load_s": 3.16
+  },
+  {
+   "engine": "kitten-mini",
+   "voice": "jasper",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 3.484,
+   "audio_s": 2.73,
+   "rtf": 1.276,
+   "sr": 24000,
+   "opus_bytes": 11468,
+   "load_s": 3.16
+  },
+  {
+   "engine": "kitten-mini",
+   "voice": "bruno",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 8.502,
+   "audio_s": 7.02,
+   "rtf": 1.212,
+   "sr": 24000,
+   "opus_bytes": 28429,
+   "load_s": 3.16
+  },
+  {
+   "engine": "kitten-mini",
+   "voice": "bruno",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 8.886,
+   "audio_s": 7.18,
+   "rtf": 1.238,
+   "sr": 24000,
+   "opus_bytes": 29154,
+   "load_s": 3.16
+  },
+  {
+   "engine": "kitten-mini",
+   "voice": "bruno",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 4.155,
+   "audio_s": 2.97,
+   "rtf": 1.399,
+   "sr": 24000,
+   "opus_bytes": 12480,
+   "load_s": 3.16
+  },
+  {
+   "engine": "kitten-mini",
+   "voice": "rosie",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 9.518,
+   "audio_s": 7.77,
+   "rtf": 1.225,
+   "sr": 24000,
+   "opus_bytes": 31067,
+   "load_s": 3.16
+  },
+  {
+   "engine": "kitten-mini",
+   "voice": "rosie",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 7.777,
+   "audio_s": 6.99,
+   "rtf": 1.112,
+   "sr": 24000,
+   "opus_bytes": 28383,
+   "load_s": 3.16
+  },
+  {
+   "engine": "kitten-mini",
+   "voice": "rosie",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 2.712,
+   "audio_s": 2.97,
+   "rtf": 0.912,
+   "sr": 24000,
+   "opus_bytes": 12358,
+   "load_s": 3.16
+  },
+  {
+   "engine": "melo-en",
+   "voice": "en-us",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 3.65,
+   "audio_s": 7.43,
+   "rtf": 0.491,
+   "sr": 44100,
+   "opus_bytes": 30039,
+   "load_s": 3.06
+  },
+  {
+   "engine": "melo-en",
+   "voice": "en-us",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 3.397,
+   "audio_s": 7.41,
+   "rtf": 0.459,
+   "sr": 44100,
+   "opus_bytes": 29941,
+   "load_s": 3.06
+  },
+  {
+   "engine": "melo-en",
+   "voice": "en-us",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 1.492,
+   "audio_s": 3.23,
+   "rtf": 0.462,
+   "sr": 44100,
+   "opus_bytes": 13657,
+   "load_s": 3.06
+  },
+  {
+   "engine": "melo-en",
+   "voice": "en-br",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 3.13,
+   "audio_s": 6.55,
+   "rtf": 0.478,
+   "sr": 44100,
+   "opus_bytes": 26675,
+   "load_s": 3.06
+  },
+  {
+   "engine": "melo-en",
+   "voice": "en-br",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 3.071,
+   "audio_s": 6.09,
+   "rtf": 0.504,
+   "sr": 44100,
+   "opus_bytes": 24849,
+   "load_s": 3.06
+  },
+  {
+   "engine": "melo-en",
+   "voice": "en-br",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 1.396,
+   "audio_s": 2.85,
+   "rtf": 0.49,
+   "sr": 44100,
+   "opus_bytes": 12214,
+   "load_s": 3.06
+  },
+  {
+   "engine": "melo-en",
+   "voice": "en-au",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 4.022,
+   "audio_s": 6.96,
+   "rtf": 0.578,
+   "sr": 44100,
+   "opus_bytes": 28201,
+   "load_s": 3.06
+  },
+  {
+   "engine": "melo-en",
+   "voice": "en-au",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 3.526,
+   "audio_s": 6.58,
+   "rtf": 0.536,
+   "sr": 44100,
+   "opus_bytes": 26805,
+   "load_s": 3.06
+  },
+  {
+   "engine": "melo-en",
+   "voice": "en-au",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 1.508,
+   "audio_s": 3.0,
+   "rtf": 0.503,
+   "sr": 44100,
+   "opus_bytes": 12686,
+   "load_s": 3.06
+  },
+  {
+   "engine": "pocket-int8",
+   "voice": "alba-casual",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 2.959,
+   "audio_s": 4.72,
+   "rtf": 0.627,
+   "sr": 24000,
+   "opus_bytes": 19784,
+   "load_s": 0.86
+  },
+  {
+   "engine": "pocket-int8",
+   "voice": "alba-casual",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 3.329,
+   "audio_s": 4.56,
+   "rtf": 0.73,
+   "sr": 24000,
+   "opus_bytes": 19180,
+   "load_s": 0.86
+  },
+  {
+   "engine": "pocket-int8",
+   "voice": "alba-casual",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 1.879,
+   "audio_s": 2.16,
+   "rtf": 0.87,
+   "sr": 24000,
+   "opus_bytes": 9583,
+   "load_s": 0.86
+  },
+  {
+   "engine": "pocket-int8",
+   "voice": "alba-announcer",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 5.299,
+   "audio_s": 7.05,
+   "rtf": 0.751,
+   "sr": 24000,
+   "opus_bytes": 28818,
+   "load_s": 0.86
+  },
+  {
+   "engine": "pocket-int8",
+   "voice": "alba-announcer",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 4.979,
+   "audio_s": 6.29,
+   "rtf": 0.791,
+   "sr": 24000,
+   "opus_bytes": 25819,
+   "load_s": 0.86
+  },
+  {
+   "engine": "pocket-int8",
+   "voice": "alba-announcer",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 2.44,
+   "audio_s": 2.8,
+   "rtf": 0.871,
+   "sr": 24000,
+   "opus_bytes": 12044,
+   "load_s": 0.86
+  },
+  {
+   "engine": "pocket-int8",
+   "voice": "donation-0a67",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 4.04,
+   "audio_s": 6.0,
+   "rtf": 0.673,
+   "sr": 24000,
+   "opus_bytes": 24434,
+   "load_s": 0.86
+  },
+  {
+   "engine": "pocket-int8",
+   "voice": "donation-0a67",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 3.863,
+   "audio_s": 6.38,
+   "rtf": 0.606,
+   "sr": 24000,
+   "opus_bytes": 25713,
+   "load_s": 0.86
+  },
+  {
+   "engine": "pocket-int8",
+   "voice": "donation-0a67",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 1.497,
+   "audio_s": 2.71,
+   "rtf": 0.552,
+   "sr": 24000,
+   "opus_bytes": 11119,
+   "load_s": 0.86
+  },
+  {
+   "engine": "pocket-int8",
+   "voice": "donation-2181",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 2.884,
+   "audio_s": 5.32,
+   "rtf": 0.542,
+   "sr": 24000,
+   "opus_bytes": 22042,
+   "load_s": 0.86
+  },
+  {
+   "engine": "pocket-int8",
+   "voice": "donation-2181",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 2.741,
+   "audio_s": 5.5,
+   "rtf": 0.498,
+   "sr": 24000,
+   "opus_bytes": 22776,
+   "load_s": 0.86
+  },
+  {
+   "engine": "pocket-int8",
+   "voice": "donation-2181",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 0.869,
+   "audio_s": 2.0,
+   "rtf": 0.434,
+   "sr": 24000,
+   "opus_bytes": 9108,
+   "load_s": 0.86
+  },
+  {
+   "engine": "supertonic3-int8",
+   "voice": "sid0",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 1.822,
+   "audio_s": 8.63,
+   "rtf": 0.211,
+   "sr": 44100,
+   "opus_bytes": 32536,
+   "load_s": 0.71
+  },
+  {
+   "engine": "supertonic3-int8",
+   "voice": "sid0",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 1.81,
+   "audio_s": 8.19,
+   "rtf": 0.221,
+   "sr": 44100,
+   "opus_bytes": 30636,
+   "load_s": 0.71
+  },
+  {
+   "engine": "supertonic3-int8",
+   "voice": "sid0",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 0.893,
+   "audio_s": 3.1,
+   "rtf": 0.288,
+   "sr": 44100,
+   "opus_bytes": 11558,
+   "load_s": 0.71
+  },
+  {
+   "engine": "supertonic3-int8",
+   "voice": "sid3",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 1.65,
+   "audio_s": 7.38,
+   "rtf": 0.224,
+   "sr": 44100,
+   "opus_bytes": 27922,
+   "load_s": 0.71
+  },
+  {
+   "engine": "supertonic3-int8",
+   "voice": "sid3",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 1.603,
+   "audio_s": 6.99,
+   "rtf": 0.229,
+   "sr": 44100,
+   "opus_bytes": 26697,
+   "load_s": 0.71
+  },
+  {
+   "engine": "supertonic3-int8",
+   "voice": "sid3",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 0.835,
+   "audio_s": 2.71,
+   "rtf": 0.308,
+   "sr": 44100,
+   "opus_bytes": 10539,
+   "load_s": 0.71
+  },
+  {
+   "engine": "supertonic3-int8",
+   "voice": "sid5",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 2.127,
+   "audio_s": 8.63,
+   "rtf": 0.246,
+   "sr": 44100,
+   "opus_bytes": 32631,
+   "load_s": 0.71
+  },
+  {
+   "engine": "supertonic3-int8",
+   "voice": "sid5",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 2.04,
+   "audio_s": 8.2,
+   "rtf": 0.249,
+   "sr": 44100,
+   "opus_bytes": 31235,
+   "load_s": 0.71
+  },
+  {
+   "engine": "supertonic3-int8",
+   "voice": "sid5",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 0.84,
+   "audio_s": 3.09,
+   "rtf": 0.272,
+   "sr": 44100,
+   "opus_bytes": 11632,
+   "load_s": 0.71
+  },
+  {
+   "engine": "supertonic3-int8",
+   "voice": "sid8",
+   "line": "news",
+   "threads": 2,
+   "gen_s": 2.228,
+   "audio_s": 8.07,
+   "rtf": 0.276,
+   "sr": 44100,
+   "opus_bytes": 30688,
+   "load_s": 0.71
+  },
+  {
+   "engine": "supertonic3-int8",
+   "voice": "sid8",
+   "line": "army",
+   "threads": 2,
+   "gen_s": 1.704,
+   "audio_s": 7.65,
+   "rtf": 0.223,
+   "sr": 44100,
+   "opus_bytes": 29465,
+   "load_s": 0.71
+  },
+  {
+   "engine": "supertonic3-int8",
+   "voice": "sid8",
+   "line": "names",
+   "threads": 2,
+   "gen_s": 0.786,
+   "audio_s": 2.88,
+   "rtf": 0.273,
+   "sr": 44100,
+   "opus_bytes": 11498,
+   "load_s": 0.71
+  },
+  {
+   "engine": "supertonic3-int8",
+   "voice": "sid0",
+   "line": "es",
+   "threads": 2,
+   "gen_s": 1.107,
+   "audio_s": 4.73,
+   "rtf": 0.234,
+   "sr": 44100,
+   "opus_bytes": 17413,
+   "load_s": 0.71
+  },
+  {
+   "engine": "supertonic3-int8",
+   "voice": "sid5",
+   "line": "es",
+   "threads": 2,
+   "gen_s": 1.088,
+   "audio_s": 4.73,
+   "rtf": 0.23,
+   "sr": 44100,
+   "opus_bytes": 17781,
+   "load_s": 0.71
+  }
+ ],
+ "rtf_one_thread_best_of_three_news_line": [
+  {
+   "engine": "kokoro-fp32",
+   "voice": "af_heart",
+   "threads": 1,
+   "rtf_best_of_3": 0.701,
+   "load_s": 1.31,
+   "audio_s": 6.3,
+   "cpu_load_before_after": "0/36"
+  },
+  {
+   "engine": "kokoro-int8",
+   "voice": "af_heart",
+   "threads": 1,
+   "rtf_best_of_3": 1.081,
+   "load_s": 1.33,
+   "audio_s": 6.3,
+   "cpu_load_before_after": "33/26"
+  },
+  {
+   "engine": "piper-kristin",
+   "voice": "kristin",
+   "threads": 1,
+   "rtf_best_of_3": 0.076,
+   "load_s": 1.13,
+   "audio_s": 7.14,
+   "cpu_load_before_after": "29/47"
+  },
+  {
+   "engine": "piper-ljspeech-high",
+   "voice": "ljspeech",
+   "threads": 1,
+   "rtf_best_of_3": 0.53,
+   "load_s": 1.41,
+   "audio_s": 7.35,
+   "cpu_load_before_after": "43/46"
+  },
+  {
+   "engine": "kitten-mini",
+   "voice": "jasper",
+   "threads": 1,
+   "rtf_best_of_3": 0.681,
+   "load_s": 0.73,
+   "audio_s": 7.21,
+   "cpu_load_before_after": "37/48"
+  },
+  {
+   "engine": "melo-en",
+   "voice": "en-au",
+   "threads": 1,
+   "rtf_best_of_3": 0.724,
+   "load_s": 1.33,
+   "audio_s": 6.94,
+   "cpu_load_before_after": "54/39"
+  },
+  {
+   "engine": "pocket-int8",
+   "voice": "alba-announcer",
+   "threads": 1,
+   "rtf_best_of_3": 0.424,
+   "load_s": 0.62,
+   "audio_s": 6.8,
+   "cpu_load_before_after": "35/37"
+  },
+  {
+   "engine": "supertonic3-int8",
+   "voice": "sid0",
+   "threads": 1,
+   "rtf_best_of_3": 0.355,
+   "load_s": 0.61,
+   "audio_s": 8.63,
+   "cpu_load_before_after": "42/47"
+  }
+ ],
+ "scores": {
+  "method": "wer: NVIDIA Parakeet TDT 0.6B v2 (int8, sherpa-onnx) transcribing each English clip, word error rate against the text with accents stripped; utmos: UTMOS22 strong (tarepan/SpeechMOS v1.2.0) predicted MOS 1-5. Proxies only: nobody listened.",
+  "human_baseline_utmos": [
+   {
+    "engine": "human",
+    "voice": "alba-mackenna__announcer",
+    "line": "ref",
+    "utmos": 3.908
+   },
+   {
+    "engine": "human",
+    "voice": "alba-mackenna__casual",
+    "line": "ref",
+    "utmos": 3.952
+   },
+   {
+    "engine": "human",
+    "voice": "voice-donations__0a67_enhanced",
+    "line": "ref",
+    "utmos": 2.587
+   },
+   {
+    "engine": "human",
+    "voice": "voice-donations__1410_enhanced",
+    "line": "ref",
+    "utmos": 2.353
+   },
+   {
+    "engine": "human",
+    "voice": "voice-donations__2181_enhanced",
+    "line": "ref",
+    "utmos": 2.79
+   },
+   {
+    "engine": "human",
+    "voice": "voice-donations__29da_enhanced",
+    "line": "ref",
+    "utmos": 3.494
+   }
+  ],
+  "rows": [
+   {
+    "engine": "kitten-mini",
+    "voice": "bella",
+    "line": "army",
+    "hyp": "the volunteers are gathering on the Guadeloupe. Will you send some one to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.13,
+    "utmos": 4.192
+   },
+   {
+    "engine": "kitten-mini",
+    "voice": "bella",
+    "line": "names",
+    "hyp": "Juan Segwin's company rode out from Bakesar.",
+    "wer": 0.25,
+    "utmos": 4.349
+   },
+   {
+    "engine": "kitten-mini",
+    "voice": "bella",
+    "line": "news",
+    "hyp": "A rider has come in from Gonzalez. The Mexican soldiers came for the cannon and the settlers told them to come and take it.",
+    "wer": 0.042,
+    "utmos": 4.15
+   },
+   {
+    "engine": "kitten-mini",
+    "voice": "bruno",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadalupe. Will you send someone to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.0,
+    "utmos": 4.318
+   },
+   {
+    "engine": "kitten-mini",
+    "voice": "bruno",
+    "line": "names",
+    "hyp": "Juan Seguin's company rode out from Bakesar.",
+    "wer": 0.125,
+    "utmos": 4.442
+   },
+   {
+    "engine": "kitten-mini",
+    "voice": "bruno",
+    "line": "news",
+    "hyp": "A rider has come in from Gonzales. The Mexican soldiers came for the cannon and the settlers told them to come and take it.",
+    "wer": 0.0,
+    "utmos": 4.351
+   },
+   {
+    "engine": "kitten-mini",
+    "voice": "jasper",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them or keep everyone home to bring in the corn?",
+    "wer": 0.043,
+    "utmos": 4.362
+   },
+   {
+    "engine": "kitten-mini",
+    "voice": "jasper",
+    "line": "names",
+    "hyp": "Juan Segwin's company rode out from Bakesar.",
+    "wer": 0.25,
+    "utmos": 4.44
+   },
+   {
+    "engine": "kitten-mini",
+    "voice": "jasper",
+    "line": "news",
+    "hyp": "A writer has come in from Gonzales. The Mexican soldiers came for the cannon and the settlers told them to come and take it.",
+    "wer": 0.042,
+    "utmos": 4.428
+   },
+   {
+    "engine": "kitten-mini",
+    "voice": "rosie",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.043,
+    "utmos": 4.281
+   },
+   {
+    "engine": "kitten-mini",
+    "voice": "rosie",
+    "line": "names",
+    "hyp": "Juan Segwin's company rode out from Bakesar.",
+    "wer": 0.25,
+    "utmos": 4.181
+   },
+   {
+    "engine": "kitten-mini",
+    "voice": "rosie",
+    "line": "news",
+    "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.083,
+    "utmos": 4.121
+   },
+   {
+    "engine": "kokoro-fp32",
+    "voice": "af_heart",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadalupe. Will you send someone to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.0,
+    "utmos": 4.473
+   },
+   {
+    "engine": "kokoro-fp32",
+    "voice": "af_heart",
+    "line": "names",
+    "hyp": "Juan Segwin's company rode out from Bakesar.",
+    "wer": 0.25,
+    "utmos": 4.432
+   },
+   {
+    "engine": "kokoro-fp32",
+    "voice": "af_heart",
+    "line": "news",
+    "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.083,
+    "utmos": 4.446
+   },
+   {
+    "engine": "kokoro-fp32",
+    "voice": "am_fenrir",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadalupe. Will you send someone to join them or keep everyone home to bring in the corn?",
+    "wer": 0.0,
+    "utmos": 4.365
+   },
+   {
+    "engine": "kokoro-fp32",
+    "voice": "am_fenrir",
+    "line": "names",
+    "hyp": "Juan Segwin's company rode out from Bakesar.",
+    "wer": 0.25,
+    "utmos": 4.423
+   },
+   {
+    "engine": "kokoro-fp32",
+    "voice": "am_fenrir",
+    "line": "news",
+    "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon and the settlers told them to come and take it.",
+    "wer": 0.083,
+    "utmos": 4.385
+   },
+   {
+    "engine": "kokoro-fp32",
+    "voice": "am_michael",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.043,
+    "utmos": 3.955
+   },
+   {
+    "engine": "kokoro-fp32",
+    "voice": "am_michael",
+    "line": "names",
+    "hyp": "Juan Segwin's company rode out from Bakesar.",
+    "wer": 0.25,
+    "utmos": 4.035
+   },
+   {
+    "engine": "kokoro-fp32",
+    "voice": "am_michael",
+    "line": "news",
+    "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.083,
+    "utmos": 4.095
+   },
+   {
+    "engine": "kokoro-fp32",
+    "voice": "bf_emma",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.043,
+    "utmos": 4.31
+   },
+   {
+    "engine": "kokoro-fp32",
+    "voice": "bf_emma",
+    "line": "names",
+    "hyp": "Juan Seguin's company rode out from Baixa.",
+    "wer": 0.125,
+    "utmos": 4.361
+   },
+   {
+    "engine": "kokoro-fp32",
+    "voice": "bf_emma",
+    "line": "news",
+    "hyp": "A rider has come in from Gonzales. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.0,
+    "utmos": 4.318
+   },
+   {
+    "engine": "kokoro-fp32",
+    "voice": "ef_dora",
+    "line": "es",
+    "utmos": 3.66
+   },
+   {
+    "engine": "kokoro-fp32",
+    "voice": "em_alex",
+    "line": "es",
+    "utmos": 3.44
+   },
+   {
+    "engine": "kokoro-int8",
+    "voice": "af_heart",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadalupe. Will you send someone to join them or keep everyone home to bring in the corn?",
+    "wer": 0.0,
+    "utmos": 3.841
+   },
+   {
+    "engine": "kokoro-int8",
+    "voice": "af_heart",
+    "line": "names",
+    "hyp": "Juan Segwin's company rode out from Bakesar.",
+    "wer": 0.25,
+    "utmos": 4.096
+   },
+   {
+    "engine": "kokoro-int8",
+    "voice": "af_heart",
+    "line": "news",
+    "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.083,
+    "utmos": 3.881
+   },
+   {
+    "engine": "kokoro-int8",
+    "voice": "am_fenrir",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadalupe. Will you send someone to join them or keep everyone home to bring in the corn?",
+    "wer": 0.0,
+    "utmos": 3.588
+   },
+   {
+    "engine": "kokoro-int8",
+    "voice": "am_fenrir",
+    "line": "names",
+    "hyp": "Juan Segwin's company rode out from Bakesar.",
+    "wer": 0.25,
+    "utmos": 4.144
+   },
+   {
+    "engine": "kokoro-int8",
+    "voice": "am_fenrir",
+    "line": "news",
+    "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.083,
+    "utmos": 3.995
+   },
+   {
+    "engine": "kokoro-int8",
+    "voice": "am_michael",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.043,
+    "utmos": 3.148
+   },
+   {
+    "engine": "kokoro-int8",
+    "voice": "am_michael",
+    "line": "names",
+    "hyp": "Juan Segwin's company rode out from Bakesar.",
+    "wer": 0.25,
+    "utmos": 3.404
+   },
+   {
+    "engine": "kokoro-int8",
+    "voice": "am_michael",
+    "line": "news",
+    "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.083,
+    "utmos": 3.216
+   },
+   {
+    "engine": "kokoro-int8",
+    "voice": "bf_emma",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them or keep everyone home to bring in the corn?",
+    "wer": 0.043,
+    "utmos": 3.585
+   },
+   {
+    "engine": "kokoro-int8",
+    "voice": "bf_emma",
+    "line": "names",
+    "hyp": "Juan Segwin's company rode out from Baixauer.",
+    "wer": 0.25,
+    "utmos": 3.975
+   },
+   {
+    "engine": "kokoro-int8",
+    "voice": "bf_emma",
+    "line": "news",
+    "hyp": "A rider has come in from Gonzalez. The Mexican soldiers came for the cannon and the settlers told them to come and take it.",
+    "wer": 0.042,
+    "utmos": 3.702
+   },
+   {
+    "engine": "kokoro-int8",
+    "voice": "ef_dora",
+    "line": "es",
+    "utmos": 3.072
+   },
+   {
+    "engine": "kokoro-int8",
+    "voice": "em_alex",
+    "line": "es",
+    "utmos": 2.615
+   },
+   {
+    "engine": "melo-en",
+    "voice": "en-au",
+    "line": "army",
+    "hyp": "The toluntiers are gathering on the Guadalupe. Will you send someone to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.043,
+    "utmos": 4.442
+   },
+   {
+    "engine": "melo-en",
+    "voice": "en-au",
+    "line": "names",
+    "hyp": "Honor CGUNS company rode out from BXIA.",
+    "wer": 0.5,
+    "utmos": 4.487
+   },
+   {
+    "engine": "melo-en",
+    "voice": "en-au",
+    "line": "news",
+    "hyp": "Rider has come in from Gonzales. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.042,
+    "utmos": 4.458
+   },
+   {
+    "engine": "melo-en",
+    "voice": "en-br",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.043,
+    "utmos": 3.484
+   },
+   {
+    "engine": "melo-en",
+    "voice": "en-br",
+    "line": "names",
+    "hyp": "One SEGUNS company rode out from BXUR.",
+    "wer": 0.5,
+    "utmos": 4.02
+   },
+   {
+    "engine": "melo-en",
+    "voice": "en-br",
+    "line": "news",
+    "hyp": "A rider has come and from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.083,
+    "utmos": 4.004
+   },
+   {
+    "engine": "melo-en",
+    "voice": "en-us",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadalupe. Will you send some one to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.087,
+    "utmos": 3.223
+   },
+   {
+    "engine": "melo-en",
+    "voice": "en-us",
+    "line": "names",
+    "hyp": "One SC TUNS company rolled out from BXUR.",
+    "wer": 0.625,
+    "utmos": 4.141
+   },
+   {
+    "engine": "melo-en",
+    "voice": "en-us",
+    "line": "news",
+    "hyp": "A rider has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.042,
+    "utmos": 3.58
+   },
+   {
+    "engine": "piper-john",
+    "voice": "john",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadeloup. Will you send some one to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.13,
+    "utmos": 3.936
+   },
+   {
+    "engine": "piper-john",
+    "voice": "john",
+    "line": "names",
+    "hyp": "Once Edwin's company rode out from Baixar.",
+    "wer": 0.375,
+    "utmos": 4.304
+   },
+   {
+    "engine": "piper-john",
+    "voice": "john",
+    "line": "news",
+    "hyp": "A rider has come in from Gonzales. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.0,
+    "utmos": 4.32
+   },
+   {
+    "engine": "piper-kristin",
+    "voice": "kristin",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadeloupe. Will you send some one to join them, or keep every one home to bring in the corn?",
+    "wer": 0.217,
+    "utmos": 4.417
+   },
+   {
+    "engine": "piper-kristin",
+    "voice": "kristin",
+    "line": "names",
+    "hyp": "Juan Segwin's company rode out from Bakesar.",
+    "wer": 0.25,
+    "utmos": 4.166
+   },
+   {
+    "engine": "piper-kristin",
+    "voice": "kristin",
+    "line": "news",
+    "hyp": "A rider has come in from Gonzales. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.0,
+    "utmos": 4.432
+   },
+   {
+    "engine": "piper-ljspeech-high",
+    "voice": "ljspeech",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadalupe. Will you send someone to join them or keep everyone home to bring in the corn?",
+    "wer": 0.0,
+    "utmos": 4.0
+   },
+   {
+    "engine": "piper-ljspeech-high",
+    "voice": "ljspeech",
+    "line": "names",
+    "hyp": "Owarren Sedwin's company rode out from Bakesar.",
+    "wer": 0.375,
+    "utmos": 4.218
+   },
+   {
+    "engine": "piper-ljspeech-high",
+    "voice": "ljspeech",
+    "line": "news",
+    "hyp": "a rider has come in from Gonzarles. The Mexican soldiers came for the cannon and the settlers told them to come and take it.",
+    "wer": 0.042,
+    "utmos": 4.213
+   },
+   {
+    "engine": "piper-norman",
+    "voice": "norman",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Wardle. Will you send someone to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.043,
+    "utmos": 3.852
+   },
+   {
+    "engine": "piper-norman",
+    "voice": "norman",
+    "line": "names",
+    "hyp": "Orange Sedwin's company rode out from Bixar.",
+    "wer": 0.375,
+    "utmos": 4.263
+   },
+   {
+    "engine": "piper-norman",
+    "voice": "norman",
+    "line": "news",
+    "hyp": "A rider is coming from Gonzales. The Mexican soldiers came for the cannon and the settlers told them to come and take it",
+    "wer": 0.125,
+    "utmos": 3.996
+   },
+   {
+    "engine": "pocket-int8",
+    "voice": "alba-announcer",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadalupe. Will you send someone to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.0,
+    "utmos": 4.069
+   },
+   {
+    "engine": "pocket-int8",
+    "voice": "alba-announcer",
+    "line": "names",
+    "hyp": "Joan Seguyan's company rode out from Begzar.",
+    "wer": 0.375,
+    "utmos": 4.394
+   },
+   {
+    "engine": "pocket-int8",
+    "voice": "alba-announcer",
+    "line": "news",
+    "hyp": "A rider has come in from Gonzales. The Mexican soldiers came for the cannon and the settlers told them to come and take it.",
+    "wer": 0.0,
+    "utmos": 4.105
+   },
+   {
+    "engine": "pocket-int8",
+    "voice": "alba-casual",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadalupe. Please send someone to join them or keep everyone home to bring in the corn.",
+    "wer": 0.087,
+    "utmos": 3.595
+   },
+   {
+    "engine": "pocket-int8",
+    "voice": "alba-casual",
+    "line": "names",
+    "hyp": "",
+    "wer": 1.0,
+    "utmos": 3.925
+   },
+   {
+    "engine": "pocket-int8",
+    "voice": "alba-casual",
+    "line": "news",
+    "hyp": "rider has come in from Gonzals. The Mexican soldiers came for the cannon and the settlers told them to come and take it.",
+    "wer": 0.083,
+    "utmos": 3.703
+   },
+   {
+    "engine": "pocket-int8",
+    "voice": "donation-0a67",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadalupe. Will you send someone to join them or keep everyone home to bring in the corn?",
+    "wer": 0.0,
+    "utmos": 3.984
+   },
+   {
+    "engine": "pocket-int8",
+    "voice": "donation-0a67",
+    "line": "names",
+    "hyp": "Swan Sigwins Company wrote out Vixar.",
+    "wer": 0.75,
+    "utmos": 2.616
+   },
+   {
+    "engine": "pocket-int8",
+    "voice": "donation-0a67",
+    "line": "news",
+    "hyp": "A rider has come in from Gonzales. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.0,
+    "utmos": 4.06
+   },
+   {
+    "engine": "pocket-int8",
+    "voice": "donation-2181",
+    "line": "army",
+    "hyp": "Volunteers are gathering on the Guadalupe, or you send someone to join them or keep everyone home to bring in the corn.",
+    "wer": 0.087,
+    "utmos": 3.253
+   },
+   {
+    "engine": "pocket-int8",
+    "voice": "donation-2181",
+    "line": "names",
+    "hyp": "Consequence company rode out from Baxar.",
+    "wer": 0.5,
+    "utmos": 3.004
+   },
+   {
+    "engine": "pocket-int8",
+    "voice": "donation-2181",
+    "line": "news",
+    "hyp": "The writer has come in from Gonzales. Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.125,
+    "utmos": 3.444
+   },
+   {
+    "engine": "supertonic3-int8",
+    "voice": "sid0",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadalupe, will you send someone to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.0,
+    "utmos": 4.496
+   },
+   {
+    "engine": "supertonic3-int8",
+    "voice": "sid0",
+    "line": "es",
+    "utmos": 4.284
+   },
+   {
+    "engine": "supertonic3-int8",
+    "voice": "sid0",
+    "line": "names",
+    "hyp": "Juan Seguin's company rode out from Baxar.",
+    "wer": 0.125,
+    "utmos": 4.468
+   },
+   {
+    "engine": "supertonic3-int8",
+    "voice": "sid0",
+    "line": "news",
+    "hyp": "A writer has come in from Gonzales the Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.042,
+    "utmos": 4.486
+   },
+   {
+    "engine": "supertonic3-int8",
+    "voice": "sid3",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadalupe. Will you send someone to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.0,
+    "utmos": 4.43
+   },
+   {
+    "engine": "supertonic3-int8",
+    "voice": "sid3",
+    "line": "names",
+    "hyp": "Juan Segin's company rode out from Bexar.",
+    "wer": 0.125,
+    "utmos": 4.41
+   },
+   {
+    "engine": "supertonic3-int8",
+    "voice": "sid3",
+    "line": "news",
+    "hyp": "A writer has come in from Gonzales. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.042,
+    "utmos": 4.399
+   },
+   {
+    "engine": "supertonic3-int8",
+    "voice": "sid5",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadalupe, will you send someone to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.0,
+    "utmos": 4.501
+   },
+   {
+    "engine": "supertonic3-int8",
+    "voice": "sid5",
+    "line": "es",
+    "utmos": 3.788
+   },
+   {
+    "engine": "supertonic3-int8",
+    "voice": "sid5",
+    "line": "names",
+    "hyp": "Juan Segin's company rode out from Bexar.",
+    "wer": 0.125,
+    "utmos": 4.2
+   },
+   {
+    "engine": "supertonic3-int8",
+    "voice": "sid5",
+    "line": "news",
+    "hyp": "A rider has come in from Gonzales. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.0,
+    "utmos": 4.457
+   },
+   {
+    "engine": "supertonic3-int8",
+    "voice": "sid8",
+    "line": "army",
+    "hyp": "The volunteers are gathering on the Guadalupe. Will you send some one to join them, or keep everyone home to bring in the corn?",
+    "wer": 0.087,
+    "utmos": 4.478
+   },
+   {
+    "engine": "supertonic3-int8",
+    "voice": "sid8",
+    "line": "names",
+    "hyp": "Juan Segin's company rode out from Bexar,",
+    "wer": 0.125,
+    "utmos": 4.48
+   },
+   {
+    "engine": "supertonic3-int8",
+    "voice": "sid8",
+    "line": "news",
+    "hyp": "A rider has come in from Gonzales. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+    "wer": 0.0,
+    "utmos": 4.478
+   }
+  ]
+ },
+ "espeak_phonemes_kokoro_en_us": {
+  "Juan": "hwˈɑːn",
+  "Seguín": "sˈɛɡwɪn",
+  "Béxar": "bˈeɪksɑːɹ",
+  "Bexar": "bᵻksˈɑːɹ",
+  "Seh-gheen": "sˈeɪɡˈiːn",
+  "Bayhar": "bˈeɪhɑːɹ",
+  "Refugio": "ɹɛfjˈuːdʒɪˌoʊ",
+  "Músquiz": "mˈʌskwɪz",
+  "Goliad": "ɡˈoʊlɪˌæd",
+  "Zavala": "zɐvˈɑːlə"
+ }
+}
