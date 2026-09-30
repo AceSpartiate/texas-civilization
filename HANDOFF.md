@@ -134,6 +134,19 @@ docs/MONEY_AND_GLORY.md §5a. Branch `end-sequence` off origin/main c03faa58, or
 4. *The Host's controls are under the end's overlay until the reveal* (New Class, Stop Server). (a) Keep - Skip ahead reaches them;
    (b) a small "Controls" button on the overlay.
 
+## Supply glory flat — owner, 2026-09-30 (not released)
+
+Branch `owner-rules-2` off `integration-2026-09-28` (4131feb8); not pushed. The owner answered the owner-rules builder's three
+questions (below): hunger **"Leave it"** (no change), the odd burn-zone family not answered (kept as built), and **supply glory
+"Flat"**: sending the army before Béxar food, powder or the horse earns `supplied` **once - 1 glory an ask - not times the miles
+from Béxar**, because nobody of the family went with it (`sim/supplies.mjs` passes `flat`; `sim/glory.mjs` `awardGlory` counts a flat
+award at one and marks it; `sim/ending.mjs` says it as *"Carrying supplies counts 1, once: nobody of the family went with it = 1
+glory."* and the story line as *"… sent supplies to the army before Béxar, when it asked the settlements in October."* - the two asks
+now have names at the ending). `FIC-GONZ-962`, docs/MONEY_AND_GLORY.md §4, docs/COLONIES.md §6k-a, docs/BALANCE.md §16.3 amended. No
+save version: an award saved before keeps what it was given. Evidence: `tests/owner-rules.test.mjs` (the sending test now holds
+flat against a family whose miles would multiply it, and the ending's words); **`npm run test:owner-rules-injections`: 31 of 31 caught** (the three new: the miles put back, a flat award multiplied anyway, the ending saying it as miles);
+`npm test` **1875 tests, 1838 pass, 1 fail, 36 skipped** - the one, `battle-bexar` "killed: he falls … told only when the word comes" ("the word of the victory never reached his family"), fails the same on `integration-2026-09-28` without this change; `test:story-cards` 4, `test:ending` 10, `test:end-sequence` 22 - green. `test:end-sequence` failed twice at its Play Solo step ("began anywhere but the player's own video": `reveal`) and passed twice with this change, and failed once with the base's own `sim/` files: a race between the solo room's first tick and the page arriving (a family with no page open counts as done, `familyStates` `away`), not this branch's.
+
 ## The owner's six answers of 2026-09-29: a minute to nurse, the army's request, no glory for the fork, 0.3 food, birthdays, the burn zone by seed (not released)
 
 **The ask.** The owner answered six of the triage's decisions on 2026-09-29, choosing the recommended option each time
@@ -206,17 +219,12 @@ same classes: of 746 asks answered at the director's share, 156 sent food, 80 po
 - Browser proofs (headless Chrome, at most two at once): `test:story-cards` 4, `test:camp` 9, `test:army` 6, `test:scrape` 7, `test:whole-game` 14, `test:solo-game` 16, `test:children` 16, `test:family-panel` 19, `test:ending` 10 - all green after the merge. **`test:disease` fails at its second step** (it waits for the patient's sick line, 20 s) after its first, the very sick "!", passes and now reads "About 1 min left"; it fails the same way with origin/main's `sim/` and with its `public/app.js`, so it is not this branch's (not chased: the other builders own the page). `test:story-cards` now also draws the very sick card with its
   minute ("… left to nurse them") and the army's request card.
 
-**Open, for the owner** (built the conservative way; recommended first):
+**The three questions, answered by the owner 2026-09-30:**
 
-1. *A family whose student gives no orders runs out of food by mid-October* (D7). (a) Leave it: the field, the hunt and the herd
-   are the answer, and the tips already point at farming; (b) a tip when a family's food falls under a week's eating, naming the
-   field, the hunt and fishing; (c) working about the place at 0.3 but a starting store of a month's eating.
-2. *Glory for the supply request is times the miles from Béxar* (5 to 17 a gift) (D5), as carrying food to Gonzales is times the
-   miles from Gonzales. (a) Keep it; (b) times one only, since nobody of the family travelled; (c) raise the support weight later
-   with the owner's D4 plan.
-3. *An odd number of played families in a larger class* is within half a family of half inside the zone (D12). (a) Keep it;
-   (b) family 1 always inside and the rest in shuffled pairs, so every number joined is at least half - but the first to join
-   always burns, which a class that plays twice learns.
+1. *A family whose student gives no orders runs out of food by mid-October* (D7): **"Leave it"** - no change; the field, the hunt
+   and the herd are the answer.
+2. *Glory for the supply request* (D5): **"Flat"** - built on `owner-rules-2` (the section above this one).
+3. *An odd number of played families in a larger class* (D12): not answered; option (a), as built, kept.
 
 **Also:** the owner-rules builder's scratch copy was mistakenly written into another builder's `scratchpad/before/` folder
 (sim/, public/terrain/, scripts/balance-measure.mjs, package.json overwritten with this branch's files); a note

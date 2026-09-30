@@ -146,6 +146,9 @@ const EVENT_NAMES = Object.freeze({
   'san-jacinto': 'the battle of San Jacinto',
   'houston-camp': 'the camp of Houston\'s army',
   'which-road': 'the fork of the road at Roberts\'',
+  // What the army before Béxar asked of the families at home (sim/supplies.mjs, owner 2026-09-29, D5).
+  'supply-autumn': 'the army before Béxar, when it asked the settlements in October',
+  'supply-flour': 'the army before Béxar, when its flour ran out in November',
 });
 const PART_WORDS = Object.freeze({
   supplied: 'carried supplies for',
@@ -185,6 +188,8 @@ const PART_NAMES = Object.freeze({
 export function worthLine(award) {
   const weight = GLORY_WEIGHT[award.role];
   if (!weight) return `Counted as ${award.points} glory.`;
+  // What a family sent and nobody of it went with counts once, not times the miles (owner, 2026-09-30, "Flat"; sim/glory.mjs `flat`).
+  if (award.flat) return `${PART_NAMES[award.role] || 'Taking part'} counts ${weight}, once: nobody of the family went with it = ${weight} glory.`;
   const times = award.times ?? distanceMultiplier(award.miles);
   const earned = weight * times;
   const where = award.miles >= 1 ? `${Math.round(award.miles)} road miles from home` : 'close to home';
@@ -291,7 +296,7 @@ export function familyEnding(world, householdId) {
       const name = world.entities[award.personId]?.name || 'Somebody';
       const what = helpWhat(world, award.event) || EVENT_NAMES[award.event] || award.event;
       const far = award.miles >= 1 ? `, ${Math.round(award.miles)} road miles from home` : '';
-      return { date: day(world, award.minute), points: award.points, role: award.role, text: `${name} ${PART_WORDS[award.role] || 'took part in'} ${what}${far}.${award.note ? ` ${award.note}` : ''}`, worth: worthLine(award) };
+      return { date: day(world, award.minute), points: award.points, role: award.role, text: `${name} ${award.flat && award.role === 'supplied' ? 'sent supplies to' : PART_WORDS[award.role] || 'took part in'} ${what}${far}.${award.note ? ` ${award.note}` : ''}`, worth: worthLine(award) };
     });
   // A burned farm's glory is the last line of what earned glory, in its own words (owner, 2026-09-29, D8).
   if (farm.kind === 'burned') awards.push({ date: Number.isFinite(farm.minute) ? day(world, farm.minute) : day(world, world.minute), points: farmGlory, role: 'farm-burned',

@@ -17,6 +17,7 @@ import { questionWaits } from '../sim/encounters.mjs';
 import { directorProjection } from '../sim/directors.mjs';
 import { SUPPLY_FOOD, SUPPLY_POWDER, spareHorse, supplyAskFor } from '../sim/supplies.mjs';
 import { GLORY_WEIGHT, distanceMultiplier } from '../sim/glory.mjs';
+import { familyEnding, worthLine } from '../sim/ending.mjs';
 import { findPath } from '../sim/geography.mjs';
 import { callMenu, needsOf } from '../public/family-panel.js';
 import { MOMENTS, militaryNotices } from '../public/military-attention.js';
@@ -265,8 +266,16 @@ test('D5: sending is a real cost and earns `supplied` from Béxar; keeping earns
   const award = world.glory[first].awards[`supply-autumn:${askOf(world, first, 'supply-autumn').actorId}`];
   assert.ok(award, 'sending earned nothing');
   assert.equal(award.role, 'supplied');
+  // Flat (owner, 2026-09-30, "Flat"): counted once, not times the miles from Béxar, since nobody of the family went with it - and
+  // this family lives far enough from Béxar that the miles would have multiplied it.
   const miles = findPath(world.map, 'bexar', world.households[first].homeSiteId).distance;
-  assert.equal(award.points, GLORY_WEIGHT.supplied * distanceMultiplier(miles));
+  assert.ok(distanceMultiplier(miles) > 1, 'this family lives within fifteen miles of Béxar: flat and multiplied cannot be told apart');
+  assert.equal(award.points, GLORY_WEIGHT.supplied, `sending earned ${award.points} glory, not the flat ${GLORY_WEIGHT.supplied}`);
+  assert.equal(award.flat, true);
+  // Said so at the ending: the sum and the story line.
+  assert.equal(worthLine(award), 'Carrying supplies counts 1, once: nobody of the family went with it = 1 glory.');
+  const told = familyEnding(world, first)?.awards?.find(one => one.role === 'supplied');
+  assert.match(told?.text || '', /sent supplies to the army before Béxar, when it asked the settlements in October\.$/, `the ending says "${told?.text}"`);
   assert.equal(supplyAskFor(world, first), null, 'the ask stayed open after it was answered');
   // One answer for the family: asked again, it is refused.
   assert.throws(() => applyAction(world, first, { action: 'supply-food', entityId: firstAnswerer }), /Nobody is asking/);

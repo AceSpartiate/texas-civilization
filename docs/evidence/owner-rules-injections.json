@@ -1,9 +1,9 @@
 {
   "record": "owner-rules-injections",
   "date": "2026-09-30",
-  "caught": 28,
-  "only": 22,
-  "of": 28,
+  "caught": 31,
+  "only": 25,
+  "of": 31,
   "injections": [
     {
       "name": "D7 working about the place yields a food a day again",
@@ -271,6 +271,51 @@
       "name": "D5 sending earns nothing",
       "files": [
         "sim/supplies.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D5: sending is a real cost",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D5: sending is a real cost and earns `supplied` from Béxar; keeping earns nothing; what the family has not got is refused with the reason on the control"
+      ]
+    },
+    {
+      "name": "D5 (2026-09-30) supply glory times the miles from Béxar again, not flat",
+      "files": [
+        "sim/supplies.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D5: sending is a real cost",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D5: sending is a real cost and earns `supplied` from Béxar; keeping earns nothing; what the family has not got is refused with the reason on the control"
+      ]
+    },
+    {
+      "name": "D5 (2026-09-30) a flat award still multiplied by the miles",
+      "files": [
+        "sim/glory.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D5: sending is a real cost",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D5: sending is a real cost and earns `supplied` from Béxar; keeping earns nothing; what the family has not got is refused with the reason on the control"
+      ]
+    },
+    {
+      "name": "D5 (2026-09-30) the ending says a flat award as a sum of miles",
+      "files": [
+        "sim/ending.mjs"
       ],
       "tests": [
         "tests/owner-rules.test.mjs"
