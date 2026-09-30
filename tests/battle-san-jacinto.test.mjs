@@ -16,6 +16,7 @@ import { armiesNow } from '../sim/armies.mjs';
 import { resolveTimeJump } from '../sim/time.mjs';
 import { calendarMinutes } from '../sim/clock.mjs';
 import { grownMen, momentOf, seedFor, serve, spring, until, untilMoment, view } from './support/san-jacinto.mjs';
+import { untilHeard } from './support/spring-word.mjs';
 
 const STUDY_SECONDS = 9.5;
 const ID = 'san-jacinto';
@@ -333,7 +334,8 @@ test('a man killed goes down at his own minute in the charge: his family\'s page
   const where = { ...man.location };
   until(world, () => world.minute >= at(world, 'killing'));
   assert.deepEqual({ x: man.location.x, y: man.location.y }, { x: where.x, y: where.y }, 'the fallen man was moved on with the line');
-  untilMoment(world, 'victory-word'); stepWorld(world);
+  // The word of the victory, when it reaches his family (docs/COLONIES.md §5.4c).
+  untilHeard(world, [man.householdId], 'san-jacinto', { also: () => world.director.milestones['victory-word'] }); stepWorld(world);
   assert.equal(man.health.condition, 'dead');
   const card = view(world, man.householdId).battleAccount;
   assert.ok(card && card.entityId !== man.id, 'the account came through the dead man');

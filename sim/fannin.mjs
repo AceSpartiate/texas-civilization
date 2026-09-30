@@ -469,14 +469,16 @@ export function wordAccount(world, people) {
  * The word of the massacre reaches the families (sim/directors.mjs `massacre-word`, April 1): each family that had a man with
  * Fannin is given the account through whoever hears it at home - unless he told his own, having got away.
  */
-export function tellFannin(world) {
+export function tellFannin(world, only = null) {
   // Armed every tick of the spring by `advanceMassacre`; a class that never reached it has nobody to tell.
   const battle = world.battles?.['goliad-massacre'];
   if (!battle) return;
-  // Each family's men with Fannin who have not come home to tell it themselves: all of them, in one account.
+  // Each family's men with Fannin who have not come home to tell it themselves: all of them, in one account. Given `only`, the
+  // families the word of the massacre has reached (sim/expresses.mjs `hearExpresses`).
   const byFamily = new Map();
   for (const person of Object.values(world.entities)) {
     const service = person.service;
+    if (only && !only.has(person.householdId)) continue;
     if (!person.householdId || service?.kind !== 'fannin' || service.coleto === 'horton' || service.status === 'released' || battle.told[person.householdId]) continue;
     if (!service.fate && !service.coleto) continue;
     byFamily.set(person.householdId, [...(byFamily.get(person.householdId) || []), person]);

@@ -1,0 +1,113 @@
+{
+  "record": "spring-news-injections",
+  "date": "2026-09-30",
+  "files": [
+    "tests/spring-news.test.mjs"
+  ],
+  "caught": 10,
+  "only": 9,
+  "of": 10,
+  "injections": [
+    {
+      "name": "the rest of the country hears the fall on one evening, as before (the defect)",
+      "file": "sim/directors.mjs",
+      "expected": "the Alamo's fall reaches each family",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Alamo's fall reaches each family as the express from Gonzales could bring it: days apart, in the order of the roads, never before it happened, and a family's dead are dead on its screen only then"
+      ]
+    },
+    {
+      "name": "every family is told by a rider straight out from where the word came in",
+      "file": "sim/expresses.mjs",
+      "expected": "the Alamo's fall reaches each family",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the Alamo's fall reaches each family as the express from Gonzales could bring it: days apart, in the order of the roads, never before it happened, and a family's dead are dead on its screen only then",
+        "in the spring a family hears where its people are: the victory reaches a far refuge later, and a family there turns for home only when it has"
+      ]
+    },
+    {
+      "name": "the fall is sent on from Gonzales with the rumour, before Mrs. Dickinson confirmed it",
+      "file": "sim/directors.mjs",
+      "expected": "the Alamo's fall reaches each family",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Alamo's fall reaches each family as the express from Gonzales could bring it: days apart, in the order of the roads, never before it happened, and a family's dead are dead on its screen only then"
+      ]
+    },
+    {
+      "name": "a family hears the moment its stop does, before the express is read and ridden out",
+      "file": "sim/expresses.mjs",
+      "expected": "the Alamo's fall reaches each family",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Alamo's fall reaches each family as the express from Gonzales could bring it: days apart, in the order of the roads, never before it happened, and a family's dead are dead on its screen only then"
+      ]
+    },
+    {
+      "name": "a death is on every family's screen when the first family hears",
+      "file": "sim/directors.mjs",
+      "expected": "the Alamo's fall reaches each family",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Alamo's fall reaches each family as the express from Gonzales could bring it: days apart, in the order of the roads, never before it happened, and a family's dead are dead on its screen only then"
+      ]
+    },
+    {
+      "name": "the spring's word is brought to the door by a rider of the settlement, as the autumn's is",
+      "file": "sim/expresses.mjs",
+      "expected": "the Alamo's fall reaches each family",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Alamo's fall reaches each family as the express from Gonzales could bring it: days apart, in the order of the roads, never before it happened, and a family's dead are dead on its screen only then"
+      ]
+    },
+    {
+      "name": "every family at its refuge turns home at the victory, heard or not",
+      "file": "sim/directors.mjs",
+      "expected": "in the spring a family hears where its people are",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "in the spring a family hears where its people are: the victory reaches a far refuge later, and a family there turns for home only when it has"
+      ]
+    },
+    {
+      "name": "the victory is told to every family on the day the army goes home",
+      "file": "sim/directors.mjs",
+      "expected": "in the spring a family hears where its people are",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "in the spring a family hears where its people are: the victory reaches a far refuge later, and a family there turns for home only when it has"
+      ]
+    },
+    {
+      "name": "the gap is counted from the last, firmer account",
+      "file": "sim/ending-story.mjs",
+      "expected": "the debrief's widest gap",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the debrief's widest gap counts from when a family first heard the word, a rumour included, not from its last firmer account"
+      ]
+    },
+    {
+      "name": "an express from a place not on the map is kept",
+      "file": "sim/expresses.mjs",
+      "expected": "an express's word is checked",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "an express's word is checked like any saved state, and a class saved before it opens and hears as the autumn did"
+      ]
+    }
+  ]
+}

@@ -16,6 +16,7 @@ import { COLETO, MASSACRE, SAN_JACINTO, houstonCamp } from '../sim/houston.mjs';
 import { landPromised } from '../sim/winter.mjs';
 import { share } from '../sim/scrape.mjs';
 import { battleState } from '../sim/battle-stage.mjs';
+import { untilHeard } from './support/spring-word.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -80,7 +81,7 @@ test('somebody who serves out the war goes home after San Jacinto with the promi
   serve(world, regular, 'regular', 'san-felipe', { acres: 800 });
   serve(world, auxiliary, 'auxiliary-year', 'san-felipe', { acres: 320 });
   untilMoment(world, 'houston-san-felipe');
-  untilMoment(world, 'victory-word');
+  untilHeard(world, [regular, auxiliary].map(one => one.householdId), 'san-jacinto', { also: () => world.director.milestones['victory-word'] });
   for (const one of [regular, auxiliary]) {
     const promised = one.service.kind === 'houston' && one.service.enlisted === 'regular' ? 800 : 320;
     if (one.health.condition === 'dead') { assert.equal(landPromised(world, world.households[one.householdId]).acres, 0, 'the dead were counted for land'); continue; }
@@ -135,7 +136,8 @@ test('with Fannin: sent for until March 19, then Coleto, prison, and Palm Sunday
     assert.ok(one.health.condition !== 'dead', 'a death was on the screen before the word');
   }
   assert.doesNotMatch(JSON.stringify(view(world, rest[0].householdId)), /"fate"/, 'a fate rode the wire');
-  untilMoment(world, 'massacre-word');
+  // Each family is told as the word of the massacre reaches it by express (docs/COLONIES.md §5.4c), not all on one tick.
+  untilHeard(world, rest.map(one => one.householdId), 'goliad-massacre', { also: () => world.director.milestones['massacre-word'] });
   for (const one of rest) {
     const fate = one.service.fate;
     if (['killed', 'executed'].includes(fate)) assert.equal(one.health.condition, 'dead', `${one.name} was ${fate} and is not dead once the word came`);
@@ -159,7 +161,8 @@ test('San Jacinto: 1 in 100 killed and 3 wounded, told with the victory; the arm
     assert.equal(one.health.condition, 'well', 'a fate was on the screen before the word');
     assert.equal(world.glory[one.householdId].awards[`san-jacinto:${one.id}`]?.role, 'fought');
   }
-  untilMoment(world, 'victory-word');
+  // Told as the word of the victory reaches each family (docs/COLONIES.md §5.4c), from the day the army goes home.
+  untilHeard(world, men.map(one => one.householdId), 'san-jacinto', { also: () => world.director.milestones['victory-word'] });
   for (const one of men) {
     if (fates[one.id] === 'killed') { assert.equal(one.health.condition, 'dead'); continue; }
     assert.equal(one.service.status, 'released', `${one.name} did not go home after the victory`);

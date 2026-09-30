@@ -24,6 +24,7 @@ import { findPath } from '../sim/geography.mjs';
 import { coloniesMap } from '../sim/colonies-map.mjs';
 import { isIdle, needsOf, panelActions } from '../public/family-panel.js';
 import { THINK_EVERY } from '../sim/neighbours.mjs';
+import { untilHeard } from './support/spring-word.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -159,7 +160,8 @@ test('drilling counts at San Jacinto: a drilled man\'s weight in the battle\'s r
   assert.notEqual(asDrilled, asHeIs, 'the man this test turns on is dealt the same fate drilled or not');
   assert.equal(other.service.fate, fateOf(other), 'an undrilled man\'s roll moved');
   assert.equal(world.glory[father.householdId].awards[`san-jacinto:${father.id}`].role, 'fought');
-  untilMoment(world, 'victory-word');
+  // Told when the word of the victory reaches his family (docs/COLONIES.md §5.4c), from the day the army goes home.
+  untilHeard(world, [father.householdId], 'san-jacinto', { also: () => world.director.milestones['victory-word'] });
   // The family is told he was drilled whichever way the battle went for him (sim/houston.mjs `tellSanJacinto`).
   const said = asDrilled === 'unhurt' ? /steady in the line from the drill at the camp, came through the fight at San Jacinto unhurt/
     : /steady in the line from the drill at the camp, was slightly hurt at San Jacinto/;

@@ -524,11 +524,17 @@ export function advanceArmiesPassing(world) {
   }
 }
 
-/** Word of the victory: every family at its refuge turns for home. */
-export function turnHome(world, causeId) {
+/**
+ * Word of the victory: every family at its refuge turns for home - or, given `only`, each of these families, as the word reaches
+ * it (sim/expresses.mjs `hearExpresses`, docs/COLONIES.md §5.4c), and a family that heard it on the road turns when it comes to its
+ * refuge. The cause is the family's own hearing of it where none is given.
+ */
+export function turnHome(world, causeId, only = null) {
   for (const household of Object.values(world.households)) {
     const flight = household.flight;
+    if (only && !only.has(household.id)) continue;
     if (!flight || flight.status !== 'refuged' || household.takenIn) continue;
+    const cause = causeId || world.knowledge?.households?.[household.id]?.['san-jacinto']?.eventId || null;
     const at = flight.refuge;
     // The wounded go home with the rest (interactions M4, 2026-09-28), in the wagon or at a wounded man's pace.
     const goers = people(world, household).filter(person => !GONE.includes(person.health?.condition) && person.service?.status !== 'serving' && person.location?.siteId === at && !person.travel);
@@ -538,7 +544,7 @@ export function turnHome(world, causeId) {
     const mode = flight.mode === 'wagon' && there.length === all.length && there.some(beast => roleOf(beast) === 'wagon') && there.some(beast => roleOf(beast) === 'ox') ? 'wagon' : 'foot';
     const path = findWay(world, at, household.homeSiteId, mode, { ferries: false });
     if (!goers.length || !path) continue;
-    const departure = tell(world, household, `With the news from San Jacinto the family turned for home from ${world.map.sites[at].name}.`, { causes: causeId ? [causeId] : [] });
+    const departure = tell(world, household, `With the news from San Jacinto the family turned for home from ${world.map.sites[at].name}.`, { causes: cause ? [cause] : [] });
     const home = [...goers, ...beasts(world, household).filter(beast => beast.location.siteId === at && !beast.travel)];
     const journey = () => ({ from: at, to: household.homeSiteId, points: path.points.map(point => ({ ...point })), progress: 0, distance: path.distance, speed: mode === 'wagon' ? WAGON_SPEED : WALK_SPEED, mode, purpose: 'return', silent: true, causeId: departure, ...(path.pace?.length && { pace: path.pace }) });
     // Home as they went (sim/company.mjs), in a class made since the means were rolled.

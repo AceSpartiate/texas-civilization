@@ -13,10 +13,20 @@
 // A family near Gonzales is told as it always was, by riders straight out of the town.
 //
 // Every number here is invented (`FIC-GONZ-027`) and calibrated against the dated letters by tests/news.test.mjs.
+//
+// **The spring's word** (docs/COLONIES.md §5.4c, `FIC-GONZ-955`; triage 2.7): the fall of the Alamo, Houston's retreat, Goliad,
+// the massacre, Santa Anna over the Brazos and San Jacinto used to be written into every family's journal on the same tick,
+// however far off it was. Each now leaves by express from where the record has the word come in (`sendExpress`) - Gonzales,
+// Houston's camp, Fort Bend - on the same roads, stops, six-hour waits and riders as the autumn's letters, and each family
+// hears it when a rider from the nearest stop that has read it could have reached wherever its people are (`hearExpresses`),
+// at home or on the road east. It is a quiet line in the journal, as all the spring's news has been since the one-rider rule
+// (§5.4b), never a rider who reins in to talk: the riders are seen passing on the roads, and nothing piles up at a gate.
 import { record } from './events.mjs';
 import { findPath } from './geography.mjs';
 import { riderName } from './encounters.mjs';
 import { isStage } from './colonies-map.mjs';
+import { learn, wouldLearn } from './knowledge.mjs';
+import { FARMING_TICK_MINUTES, RIDER_SPEED } from './travel.mjs';
 
 /**
  * How long the word waits at a settlement or crossing before it goes on: read, copied, a fresh horse and rider found.
@@ -46,13 +56,12 @@ export const distantHouseholds = world => Object.values(world.households).filter
  * The way the word spreads: every stop on the roads from Gonzales to the settlements families live near, and the stop it
  * hears from. Laid once, when the first word leaves, and kept, so a word already on the road is not rerouted.
  */
-export function expressRoutes(world) {
+export function expressRoutes(world, source = SOURCE, targets = distantHouseholds(world).map(household => household.settlementId)) {
   const from = {};
-  const targets = [...new Set(distantHouseholds(world).map(household => household.settlementId))].sort();
-  for (const target of targets) {
-    const path = byTheLetters(world, target);
+  for (const target of [...new Set(targets)].filter(target => target !== source).sort()) {
+    const path = source === SOURCE ? byTheLetters(world, target) : findPath(world.map, source, target);
     if (!path) continue;
-    let previous = SOURCE;
+    let previous = source;
     for (const node of path.nodes.slice(1)) {
       if (!isStop(world.map.sites[node.id])) continue;
       // The first road found to a stop is the one the word takes; a later settlement further on hears from it.
@@ -93,7 +102,8 @@ function sendOnward(world, topicId, siteId, provenance, causeId, beginTravel) {
     const site = world.map.sites[siteId];
     const entity = { id: `courier-${number}`, name: riderName(named), kind: 'person', householdId: null, depth: 'moderate', principal: false, courier: true, base: siteId, location: { x: site.x, y: site.y, siteId }, task: 'rest', health: { condition: 'well' }, travel: null, express: { topicId, from: siteId, to: stop, provenance } };
     world.entities[entity.id] = entity;
-    beginTravel(world, entity, stop, causeId, 'express');
+    // A stop no way reaches is never ridden to; the families near it hear from the next nearest stop that has the word.
+    try { beginTravel(world, entity, stop, causeId, 'express'); } catch { delete world.entities[entity.id]; }
   }
 }
 
@@ -123,21 +133,23 @@ export function advanceExpresses(world, { beginTravel, relayReport }) {
     if (!express || carrier.travel || carrier.location.siteId !== express.to) continue;
     const state = world.expresses[express.topicId];
     if (!state) { delete carrier.express; continue; }
+    const origin = world.map.sites[state.from || SOURCE]?.name || 'Gonzales';
     if (state.heard[express.to] === undefined) {
       state.heard[express.to] = world.minute;
       express.relayEventId = record(world, 'relay', {
-        actorId: carrier.id, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-027', topicId: express.topicId, siteId: express.to,
-        text: `${carrier.name} brought the express from Gonzales to ${world.map.sites[express.to].name}.`,
+        actorId: carrier.id, classification: 'FICTIONAL FOR GAMEPLAY', claimId: state.word ? SPRING_CLAIM : 'FIC-GONZ-027', topicId: express.topicId, siteId: express.to,
+        text: `${carrier.name} brought the express from ${origin} to ${world.map.sites[express.to].name}.`,
       });
     }
     if (world.minute < state.heard[express.to] + RELAY_MINUTES) continue;
     const provenance = [...express.provenance, { id: carrier.id, name: carrier.name, atSiteId: express.to, minute: state.heard[express.to] }];
-    const causeId = express.relayEventId || record(world, 'relay', { actorId: carrier.id, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-027', topicId: express.topicId, siteId: express.to, text: `The express from Gonzales was read at ${world.map.sites[express.to].name}.` });
+    const causeId = express.relayEventId || record(world, 'relay', { actorId: carrier.id, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-027', topicId: express.topicId, siteId: express.to, text: `The express from ${origin} was read at ${world.map.sites[express.to].name}.` });
     // A stop reached twice (two roads meeting) sends the word on once.
     if (!state.sent.includes(express.to)) {
       state.sent.push(express.to);
       sendOnward(world, express.topicId, express.to, provenance, causeId, beginTravel);
-      for (const household of Object.values(world.households)) {
+      // The spring's word goes out to the families from here as a line in the journal (`hearExpresses`), not by a rider who talks.
+      for (const household of state.word ? [] : Object.values(world.households)) {
         if (household.settlementId !== express.to) continue;
         relayReport(world, { topicId: express.topicId, householdId: household.id, fromSiteId: express.to, originSiteId: SOURCE, status: 'unconfirmed', provenance, causeId });
       }
@@ -146,12 +158,125 @@ export function advanceExpresses(world, { beginTravel, relayReport }) {
     // `advanceDepartures`), like any courier after theirs.
     delete carrier.express;
   }
+  hearExpresses(world);
+}
+
+// ------------------------------------------------------------------------------------------------ the spring's word
+
+const SPRING_CLAIM = 'FIC-GONZ-955';
+/** A fate the family does not know yet and that leaves nobody there to hear anything: killed, shot, or marched off a prisoner. */
+const LOST = ['fell', 'killed', 'executed'];
+const lostUntold = service => Boolean(service && !service.told && (LOST.includes(service.fate) || (service.kind === 'fannin' && service.fate === 'spared')));
+/**
+ * Where a family can hear the word: wherever each of its own people is standing or riding - at home, on the road east, at the
+ * refuge, with the army - but not a prisoner of the war (Coleto, the south, Goliad's spared), and not somebody already dead whose
+ * family has not yet been told so. Somebody the Mexican army took at home in the Scrape is still at home, and hears there.
+ * ceiling: household knowledge, not person by person (docs/LIVING_INFORMATION.md): what one of the family hears, the family knows,
+ * as sim/advance-word.mjs `eyesOf` has it for the Mexican advance.
+ */
+function listeners(world, household) {
+  return household.members.map(id => world.entities[id]).filter(person => person?.kind === 'person' && person.location
+    && person.health?.condition !== 'dead' && !['prisoner', 'captured'].includes(person.service?.status) && !lostUntold(person.service))
+    .map(person => person.location);
+}
+const crow = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+/** Road miles between two places, kept for the map: a settlement's rider takes the road out to a family's gate or a town. */
+const ROAD_MILES = new WeakMap();
+function roadMiles(world, from, to) {
+  let known = ROAD_MILES.get(world.map);
+  if (!known) ROAD_MILES.set(world.map, known = new Map());
+  const key = `${from}>${to}`;
+  if (!known.has(key)) {
+    const path = findPath(world.map, from, to);
+    known.set(key, path ? path.distance : crow(world.map.sites[from], world.map.sites[to]));
+  }
+  return known.get(key);
+}
+/** Minutes a rider takes over so many miles, at the express's own pace (`RIDER_SPEED`, riding all hours). */
+const rideMinutes = miles => miles / RIDER_SPEED * FARMING_TICK_MINUTES;
+/**
+ * The stops the spring's word is carried to: each family's own settlement, the refuge it is making for, and the stop nearest
+ * each of its people as the word leaves. The first road found to each is the one the word takes (`expressRoutes`).
+ * ceiling: laid once, when the word leaves; a family that moves on afterwards hears from whichever stop on those roads has it
+ * nearest, and a place off them hears later than it might.
+ */
+function springTargets(world) {
+  const stops = Object.values(world.map.sites).filter(isStop);
+  const nearestStop = place => stops.reduce((best, site) => !best || crow(site, place) < crow(best, place) ? site : best, null)?.id;
+  const targets = new Set();
+  for (const household of Object.values(world.households)) {
+    if (world.map.sites[household.settlementId]) targets.add(household.settlementId);
+    if (world.map.sites[household.flight?.refuge]) targets.add(household.flight.refuge);
+    for (const place of listeners(world, household)) { const stop = nearestStop(place); if (stop) targets.add(stop); }
+  }
+  return [...targets];
+}
+
+/**
+ * The spring's word leaves `from` by express (docs/COLONIES.md §5.4c): a fresh rider on each road to the stops the families are
+ * near, a six-hour wait at each while it is read and copied, and on - the autumn's letters' way exactly. `word` is what each
+ * family's journal will say (`status`, `text`, `source`). Only on the real land and with riders who can ride (`beginTravel`);
+ * where it cannot go, nothing is sent and the caller tells the families as it always did. Once for each word.
+ */
+export function sendExpress(world, topicId, { from, status = 'confirmed', text, source, beginTravel }) {
+  if (!world.map?.source || typeof beginTravel !== 'function' || world.expresses?.[topicId] || !world.truth[topicId] || !world.map.sites[from]) return false;
+  world.expresses = { ...(world.expresses || {}) };
+  const routes = expressRoutes(world, from, springTargets(world));
+  const causeId = record(world, 'relay', {
+    // In the causal record only: no family has heard anything yet.
+    classification: 'FICTIONAL FOR GAMEPLAY', claimId: SPRING_CLAIM, topicId, siteId: from, causes: [world.truth[topicId].eventId],
+    text: `Word left ${world.map.sites[from].name} by express for the settlements.`,
+  });
+  world.expresses[topicId] = { leftMinute: world.minute, from, routes, heard: { [from]: world.minute }, sent: [from], word: { status, text: text || world.truth[topicId].text, source, causeId } };
+  sendOnward(world, topicId, from, [], causeId, beginTravel);
+  return true;
+}
+
+/**
+ * When the spring's word could first have reached one of the family's people, and from which stop. Each of them hears it from
+ * the stop nearest where they are of those the express goes to - its settlement's riders, as in the autumn, and never a rider
+ * straight out from where the word came in, which would bring a family a hundred miles off the news in half a day (see the top
+ * of this file): at the stop itself the moment the express comes in; elsewhere once it has been read there (`RELAY_MINUTES`; at
+ * once where the word came in) and a rider has ridden out, by the road to a family's gate or a town, as the crow flies to
+ * somebody out on the road. `null` if not yet.
+ */
+function heardBy(world, state, places) {
+  const stops = [state.from, ...Object.keys(state.routes)].map(id => world.map.sites[id]).filter(Boolean);
+  let best = null;
+  for (const place of places) {
+    const site = place.siteId && stops.find(stop => stop.id === place.siteId)
+      || stops.reduce((near, stop) => !near || crow(stop, place) < crow(near, place) ? stop : near, null);
+    const minute = site && state.heard[site.id];
+    if (!Number.isFinite(minute)) continue;
+    const at = place.siteId === site.id ? minute
+      : minute + (site.id === state.from ? 0 : RELAY_MINUTES) + rideMinutes(place.siteId && world.map.sites[place.siteId] ? roadMiles(world, site.id, place.siteId) : crow(site, place));
+    if (at <= world.minute && (!best || at < best.minute)) best = { minute: at, stop: site.id };
+  }
+  return best;
+}
+
+/** Each family that the spring's word has now reached writes it in its journal, saying where it was carried on from. */
+export function hearExpresses(world) {
+  for (const [topicId, state] of Object.entries(world.expresses || {})) {
+    if (!state.word || !world.truth[topicId]) continue;
+    const { status, text, source, causeId } = state.word;
+    for (const household of Object.values(world.households)) {
+      if (!wouldLearn(world, household.id, topicId, status)) continue;
+      const heard = heardBy(world, state, listeners(world, household));
+      if (!heard) continue;
+      const via = heard.stop === state.from ? '' : `, carried on from ${world.map.sites[heard.stop].name.replace(/^The /, 'the ')}`;
+      learn(world, household.id, topicId, { status, text, source: `${source || 'Word by express'}${via}`, causes: causeId ? [causeId] : [] });
+    }
+  }
 }
 
 /** A stored express is a word the world knows, on a road that is there, with a real place for every hand. */
 export function expressesInvalid(world) {
   for (const [topicId, state] of Object.entries(world.expresses || {})) {
     if (!world.truth[topicId] || !Number.isFinite(state.leftMinute) || !state.routes || !state.heard || !Array.isArray(state.sent)) return 'Invalid express';
+    // The spring's word: where it came in, and what the journal says (a word of the autumn has neither).
+    if (state.from !== undefined && !world.map.sites[state.from]) return 'An express from nowhere';
+    if (state.word !== undefined && (typeof state.word?.text !== 'string' || !['rumor', 'unconfirmed', 'confirmed', 'contradicted'].includes(state.word.status))) return 'Invalid express word';
     for (const [stop, from] of Object.entries(state.routes)) if (!world.map.sites[stop] || !world.map.sites[from]) return 'An express route to nowhere';
     for (const [site, minute] of Object.entries(state.heard)) if (!world.map.sites[site] || !Number.isFinite(minute) || minute > world.minute) return 'Invalid express arrival';
   }

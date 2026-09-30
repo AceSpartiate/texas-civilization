@@ -66,7 +66,7 @@ const UNIT = [
   { name: 'the family at Lynchburg sees the men out on the field', file: 'sim/town.mjs',
     from: ' && places.has(entity.location?.siteId) && !inTheField(entity))', to: ' && places.has(entity.location?.siteId))', test: T, expect: TESTS.after },
   { name: 'no account', file: 'sim/directors.mjs',
-    from: ' tellSanJacintoAccounts(world, cause);', to: '', test: T, expect: [TESTS.baggage, TESTS.fate, TESTS.after] },
+    from: ' tellSanJacintoAccounts(world, null, victory);', to: '', test: T, expect: [TESTS.baggage, TESTS.fate, TESTS.after] },
   { name: 'an old save opened in the charge runs on half a day', file: 'sim/san-jacinto.mjs',
     from: "startsAt(ID, world => world.period === 3 && world.director && sanJacintoGround(world) ? momentOf(world, DEF.startKey) : null);", to: '', test: T, expect: TESTS.saves },
   { name: 'a Host\'s jump runs over the parade', file: 'sim/time.mjs',
@@ -108,7 +108,7 @@ const BROWSER = [
   { name: 'the family with nobody there is sent the fight', file: 'sim/san-jacinto.mjs',
     from: "  } else if (role === 'student' && householdId && ownThere(world, householdId).length) {", to: "  } else if (role === 'student' && householdId) {", expect: 'with nobody in the army was sent the battle' },
   { name: 'no account afterwards', file: 'sim/directors.mjs',
-    from: ' tellSanJacintoAccounts(world, cause);', to: '', expect: 'the account never appeared' },
+    from: ' tellSanJacintoAccounts(world, null, victory);', to: '', expect: 'the account never appeared' },
 ];
 
 const CR = String.fromCharCode(13), LF = String.fromCharCode(10);

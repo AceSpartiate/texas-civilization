@@ -234,11 +234,13 @@ function accountFor(world, householdId) {
  * - or, if he fell, through the family's main person - what happened, what he did, and why it ended as it did (docs/BATTLES.md
  * §2.8; staging.md §8.8's account). Called before sim/houston.mjs `tellSanJacinto`, which releases the men and sends them home.
  */
-export function tellSanJacintoAccounts(world, causeId) {
+export function tellSanJacintoAccounts(world, causeId, only = null) {
   const battle = world.battles?.[ID];
   const byFamily = new Map();
   for (const person of Object.values(world.entities)) {
     const service = person.service;
+    // Given `only`, the families the word of the victory has reached (sim/expresses.mjs `hearExpresses`).
+    if (only && !only.has(person.householdId)) continue;
     if (!person.householdId || service?.kind !== 'houston' || !(service.fate || service.absent) || service.told) continue;
     if (!byFamily.has(person.householdId)) byFamily.set(person.householdId, []);
     byFamily.get(person.householdId).push(person);
@@ -252,7 +254,8 @@ export function tellSanJacintoAccounts(world, causeId) {
     const hearer = [world.entities[mainPersonId(world, household)], ...household.members.map(id => world.entities[id])].find(one => one?.kind === 'person' && !GONE.includes(one.health?.condition) && !fell(one));
     const through = alive || hearer || men[0];
     const title = alive ? `What ${alive.name} saw at San Jacinto` : `What became of ${men[0].name} at San Jacinto`;
-    const eventId = record(world, 'consequence', { householdId, actorId: through.id, importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-522', causes: causeId ? [causeId] : [], text });
+    const cause = causeId || world.knowledge?.households?.[householdId]?.['san-jacinto']?.eventId;
+    const eventId = record(world, 'consequence', { householdId, actorId: through.id, importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-522', causes: cause ? [cause] : [], text });
     if (battle) {
       battle.told[householdId] = { eventId, minute: world.minute, entityId: through.id, title, text };
       for (const one of men) if (battle.participants[one.id]) battle.participants[one.id].released = world.minute;
