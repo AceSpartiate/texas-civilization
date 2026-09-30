@@ -1,0 +1,238 @@
+{
+  "record": "read-aloud-injections",
+  "date": "2026-09-30",
+  "files": [
+    "tests/read-aloud-text.test.mjs",
+    "tests/read-aloud-service.test.mjs",
+    "tests/read-aloud-server.test.mjs",
+    "tests/audio-licenses.test.mjs"
+  ],
+  "caught": 22,
+  "of": 22,
+  "injections": [
+    {
+      "name": "a Tejano pool name nobody checked (Cayetano's row gone)",
+      "file": "server/voice/pronunciation.mjs",
+      "expected": "every famous person, every name the Tejano",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "every famous person, every name the Tejano and the old mixed pools deal, is respelled or checked as read right"
+      ]
+    },
+    {
+      "name": "a name read as written, taken off the checked list (Pedro)",
+      "file": "server/voice/pronunciation.mjs",
+      "expected": "every famous person, every name the Tejano",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "every famous person, every name the Tejano and the old mixed pools deal, is respelled or checked as read right"
+      ]
+    },
+    {
+      "name": "an accented town keeper not respelled (Treviño)",
+      "file": "server/voice/pronunciation.mjs",
+      "expected": "no accented name the game can say",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "no accented name the game can say reaches the voice without a respelling"
+      ]
+    },
+    {
+      "name": "respelling inside other words",
+      "file": "server/voice/pronunciation.mjs",
+      "expected": "the respellings are the ones checked",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the respellings are the ones checked, applied as whole words, longest first"
+      ]
+    },
+    {
+      "name": "the accent kept in what the voice is given",
+      "file": "server/voice/text.mjs",
+      "expected": "what the voice is given is plain ASCII",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "what the voice is given is plain ASCII: its program reads the command line in the Windows code page"
+      ]
+    },
+    {
+      "name": "\"Col.\" read as the end of a sentence",
+      "file": "server/voice/text.mjs",
+      "expected": "a line is split where sentences end",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a line is split where sentences end, never at an abbreviation or an initial"
+      ]
+    },
+    {
+      "name": "a template's hole not taken for the start of a sentence",
+      "file": "server/voice/text.mjs",
+      "expected": "a template's fixed sentences",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a template's fixed sentences are split exactly as the line it makes, so the package holds them"
+      ]
+    },
+    {
+      "name": "the voice left out of the key",
+      "file": "server/voice/text.mjs",
+      "expected": "a sentence in a voice has one key",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a sentence in a voice has one key, the package's and the Host's, and a different voice or saying is a different key"
+      ]
+    },
+    {
+      "name": "a mother read in a man's voice",
+      "file": "public/read-aloud.js",
+      "expected": "the page and the server have the same voices",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "what a rider and the family's own person say is begun as the server writes it, each in the speaker's voice",
+        "the page and the server have the same voices and give a person the same one"
+      ]
+    },
+    {
+      "name": "the voice heard with Sound off",
+      "file": "public/read-aloud.js",
+      "expected": "the voice is as loud as the Sound setting",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the voice is as loud as the Sound setting, and silent when sound is off"
+      ]
+    },
+    {
+      "name": "the server's own lines spoken before a pressed one",
+      "file": "server/voice/service.mjs",
+      "expected": "a line a student pressed is spoken before",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a line a student pressed is spoken before every line the server began on its own",
+        "a line waiting in the server's own queue moves up when a student presses it"
+      ]
+    },
+    {
+      "name": "a pressed line left waiting in the server's queue",
+      "file": "server/voice/service.mjs",
+      "expected": "a line waiting in the server's own queue moves up",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a line waiting in the server's own queue moves up when a student presses it"
+      ]
+    },
+    {
+      "name": "any words spoken, not only the game's",
+      "file": "server/voice/service.mjs",
+      "expected": "only the game's words are spoken",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a page's line is made and then served by its key as Ogg Opus; a word the game never writes is not",
+        "only the game's words are spoken: a word the game never writes is refused, a name in the class is not"
+      ]
+    },
+    {
+      "name": "a class's own names not counted as its words",
+      "file": "server/voice/service.mjs",
+      "expected": "only the game's words are spoken",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a page's line is made and then served by its key as Ogg Opus; a word the game never writes is not",
+        "only the game's words are spoken: a word the game never writes is refused, a name in the class is not"
+      ]
+    },
+    {
+      "name": "the package's sentences never read",
+      "file": "server/voice/service.mjs",
+      "expected": "the package's sentences are ready at once",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the package's sentences are ready at once and never spoken on the Host"
+      ]
+    },
+    {
+      "name": "the kept sounds never pruned",
+      "file": "server/voice/service.mjs",
+      "expected": "the server's own queue keeps only its newest lines",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the server's own queue keeps only its newest lines, and the kept sounds are pruned oldest first"
+      ]
+    },
+    {
+      "name": "a class with no voice says it can read aloud",
+      "file": "server/app.mjs",
+      "expected": "only a joined page may ask",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "only a joined page may ask, and a class tells its pages whether it can read aloud"
+      ]
+    },
+    {
+      "name": "the classroom never begins the lines it writes",
+      "file": "server/app.mjs",
+      "expected": "what a rider and the family's own person say is begun",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "what a rider and the family's own person say is begun as the server writes it, each in the speaker's voice"
+      ]
+    },
+    {
+      "name": "the rider's words begun in the narrator's voice",
+      "file": "server/app.mjs",
+      "expected": "what a rider and the family's own person say is begun",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "what a rider and the family's own person say is begun as the server writes it, each in the speaker's voice"
+      ]
+    },
+    {
+      "name": "a woman spoken in another voice than the manifest records",
+      "file": "server/voice/text.mjs",
+      "expected": "read-aloud speaks only in voices the manifest records",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "read-aloud speaks only in voices the manifest records, from a model whose licence lets the game be sold"
+      ]
+    },
+    {
+      "name": "espeak-ng recorded as running inside the game",
+      "file": "public/assets/audio/licenses.json",
+      "expected": "the voice's programs are recorded",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the voice's programs are recorded, and the GPL one runs apart from the game with its source beside it"
+      ]
+    },
+    {
+      "name": "the voice loaded into node.exe",
+      "file": "server/voice/service.mjs",
+      "expected": "the voice's programs are recorded",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the voice's programs are recorded, and the GPL one runs apart from the game with its source beside it"
+      ]
+    }
+  ]
+}
