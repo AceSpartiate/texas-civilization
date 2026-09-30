@@ -83,11 +83,23 @@ export const winterOpen = world => ((world.period === 2 && Boolean(world.directo
 /** Whether the polls are open, February 1. */
 export const pollsOpen = world => world.period === 2 && Boolean(world.director?.milestones?.['election-opens']) && !world.director?.milestones?.['election-close'];
 
+/**
+ * The winter's word each choice follows (docs/COLONIES.md §5.4d, `FIC-GONZ-956`): enlisting follows General Houston's call, and
+ * the garrison and the south follow the word of Béxar and the Matamoros men. Since 2026-09-29 that word goes by express, so a
+ * family is offered the choice once it has heard it; a word told to every family at once (the invented country, an old class)
+ * asks nothing.
+ */
+const WINTER_WORD = Object.freeze({ regular: 'winter-terms', auxiliary: 'winter-terms', garrison: 'winter-bexar', matamoros: 'winter-bexar' });
+export function winterWordHeard(world, household, kind) {
+  const topicId = world.period === 2 ? WINTER_WORD[kind] : null;
+  return !topicId || !world.expresses?.[topicId] || Boolean(world.knowledge?.households?.[household.id]?.[topicId]);
+}
+
 /** Whether this chore is put in front of this person at all, so nothing of the winter rides the channel in 1835. */
 export function winterOffered(world, household, entity, choreId) {
   if (!winterOpen(world)) return false;
   if (WINTER_CHORES[choreId] === 'vote') return pollsOpen(world) && mayVote(entity) && !entity.voted;
-  return stillOpen(world, household, WINTER_CHORES[choreId]);
+  return winterWordHeard(world, household, WINTER_CHORES[choreId]) && stillOpen(world, household, WINTER_CHORES[choreId]);
 }
 
 /** Why this person cannot be sent on this winter chore now, or null. */
@@ -102,6 +114,7 @@ export function winterRefusal(world, household, entity, choreId) {
     if (entity.voted) return `${entity.name} has voted.`;
     return null;
   }
+  if (!winterWordHeard(world, household, kind)) return WINTER_WORD[kind] === 'winter-terms' ? 'Word of General Houston\'s call for volunteers has not reached the family yet.' : 'Word of how things stand at Béxar has not reached the family yet.';
   if (!stillOpen(world, household, kind)) return { garrison: 'Béxar is under siege. Only the men going in from Gonzales can reach the garrison now.', matamoros: 'Nobody is going south to Matamoros now.', relief: 'The men from Gonzales have ridden for the Alamo.', houston: 'The battle is fought. The army is going home.' }[kind] || 'That is not a choice now.';
   // Who may go is who may be sent to the fighting: a father, or a son of sixteen or more (docs/FAMILY_CREATION.md step 4;
   // owner, 2026-09-16: women did not go to battle, and it is not offered them).

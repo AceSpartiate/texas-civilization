@@ -380,16 +380,19 @@ export function advanceGrassFight(world, movement, { momentOf }) {
  * When the fuller word rides home (`grass-news`, December 3; `HIST-TEX-034`): each family who had somebody at the Grass Fight or
  * in the camp is given the account in plain words through that person (docs/battle-research/staging.md §2.8).
  */
-export function grassAccounts(world, causeId) {
+export function grassAccounts(world, causeId, only = null) {
   const battle = world.battles?.['grass-fight'];
-  if (!battle || battle.done?.accounts) return;
+  if (!battle || (!only && battle.done?.accounts)) return;
   battle.done ||= {};
-  battle.done.accounts = world.minute;
-  battle.wordId = causeId || null;
+  // Given `only`, the families the fuller word has reached (sim/expresses.mjs `hearExpresses`, docs/COLONIES.md §5.4d): each
+  // is told once (`told`), as the word reaches it; without it, every family at once, as it always was.
+  battle.done.accounts ??= world.minute;
+  battle.wordId ??= causeId || null;
   const told = new Set();
   for (const { id, fate } of battle.outcomes || []) {
     const person = world.entities[id];
     if (!person?.householdId || told.has(person.householdId)) continue;
+    if (only && (!only.has(person.householdId) || battle.told?.[person.householdId])) continue;
     // A family's own person out with the men is told before one who stayed in the camp.
     const out = Object.entries(battle.participants).find(([personId, entry]) => entry.householdId === person.householdId && world.entities[personId]);
     const who = out ? world.entities[out[0]] : person;

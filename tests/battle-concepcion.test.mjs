@@ -198,7 +198,6 @@ test('afterwards the division rejoins the army at Concepción, each family is to
   untilMinute(world, from(world, 'burial'));
   assert.equal(world.army.camp, 'Mission Concepción');
   assert.ok(world.events.some(event => event.visibility === 'public' && /fight at Mission Concepción/.test(event.text)), 'the country never heard');
-  for (const household of Object.values(world.households)) assert.match(world.knowledge.households[household.id]['concepcion-fight']?.text || '', /Richard Andrews/);
   const told = view(world, a.householdId).battleAccount;
   assert.ok(told, 'the division family was given no account');
   assert.equal(told.entityId, a.personId);
@@ -212,6 +211,9 @@ test('afterwards the division rejoins the army at Concepción, each family is to
   assert.equal(world.participation.concepcion[b.personId].role, 'present');
   until(world, () => !view(world, a.householdId).battleAccount, 400);
   assert.equal(view(world, a.householdId).battleAccount, undefined, 'the card never went');
+  // The country hears of it by express from the army since 2026-09-29 (docs/COLONIES.md §5.4d): every family, in a few days.
+  until(world, () => Object.keys(world.households).every(id => world.knowledge.households[id]['concepcion-fight']), 400);
+  for (const household of Object.values(world.households)) assert.match(world.knowledge.households[household.id]['concepcion-fight']?.text || '', /Richard Andrews/);
   validateWorld(world);
 });
 

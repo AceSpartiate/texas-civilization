@@ -166,10 +166,12 @@ test('on February 23 a family with somebody in or near Béxar hears the bell thr
   assert.equal(day(world, first.receivedMinute), '1836-02-24');
   assert.match(first.text, /enemy in large force is in sight/);
   assert.equal(world.knowledge.households[far.id]['bexar-arrival'], undefined, 'the far family heard with Gonzales');
-  runTo(world, [gonzales, far], 'travis-colonies');
+  // By express on from Gonzales since 2026-09-29 (docs/COLONIES.md §5.4d): the far family hears when a rider from its own
+  // settlement could have brought it, after Gonzales and never with it.
+  until(world, () => { for (const household of [gonzales, far]) keepHome(world, household); return world.knowledge.households[far.id]['bexar-arrival']; });
   const later = world.knowledge.households[far.id]['bexar-arrival'];
   assert.ok(later, 'the far family never heard');
-  assert.equal(later.receivedMinute, momentOf(world, 'travis-colonies'));
+  assert.match(later.source, /^Riders from Gonzales, carried on from /);
   assert.ok(later.receivedMinute > first.receivedMinute);
 });
 

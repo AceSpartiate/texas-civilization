@@ -25,6 +25,11 @@ import { PACES } from '../server/app.mjs';
 import { momentOf, sendSouth, until, untilMoment, winterClass } from './support/south.mjs';
 
 const copy = value => JSON.parse(JSON.stringify(value));
+/** Whether every family of these men has heard the rumour of its own man's fight (by express since 2026-09-29, §5.4d). */
+const heardSouth = (world, ids) => ids.every(id => {
+  const person = world.entities[id], fight = person.service?.fight || person.service?.escapedFrom;
+  return !fight || !world.battles[fight]?.fates?.[id] || Boolean(world.knowledge.households[person.householdId]?.[fight]);
+});
 const hour = (world, minute) => { const d = dateOf(world, minute); return `${d.getUTCMonth() + 1}/${d.getUTCDate()} ${d.getUTCHours()}:${String(d.getUTCMinutes()).padStart(2, '0')}`; };
 const student = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const host = world => projectWorld(world, undefined, 'host', { includeMap: false });
@@ -191,7 +196,7 @@ test('each man\'s fate is the roll it always was, lands at its own moment inside
   assert.ok(Object.keys(seen).length >= 10, `only ${Object.keys(seen).length} of fourteen men were resolved in the fights`);
   assert.ok(fates.killed && fates.captured && fates.escaped, `the class did not see every fate: ${JSON.stringify(fates)}`);
   // After the word, the dead are dead and the prisoners prisoners; the escaped are Fannin's at Goliad.
-  until(again, () => again.director.milestones['agua-dulce-news']);
+  until(again, () => again.director.milestones['agua-dulce-news'] && heardSouth(again, ids));
   for (const id of ids) {
     const person = again.entities[id];
     const fight = person.service.fight || person.service.escapedFrom;
@@ -254,7 +259,8 @@ test('the Host sees each fight live and is framed on it; a family with a man the
 
 test('afterwards the escaped ride for Goliad and the prisoners are marched south; at the word each family is told in plain words, and nobody else', () => {
   const { world, men } = southClass();
-  until(world, () => world.director.milestones['agua-dulce-news']);
+  // Each family as the rumour of its own man's fight reaches it by express from Goliad (docs/COLONIES.md §5.4d).
+  until(world, () => world.director.milestones['agua-dulce-news'] && heardSouth(world, men));
   const households = new Set(men.map(id => world.entities[id].householdId));
   for (const id of men) {
     const person = world.entities[id];

@@ -449,10 +449,111 @@ it, and a place off them hears later than it might. `ceiling:` the massacre leav
 express riders ride into places the Mexican army holds as freely as anywhere else. `ceiling:` household knowledge, not person by
 person: what one of the family hears, the family knows, as with the Mexican advance (`FIC-GONZ-463`). `ceiling:` the Alamo's word
 can still be on the road when the second period ends; the seven hours the class skips to the dawn of March 14 are not ridden,
-so a far family hears up to seven hours later than it would have. `ceiling:` the autumn's and the winter's other news (Goliad
-taken, Concepción, the Grass Fight, Béxar, the winter's word, Travis's letter, the south, the declaration) is still told to the
-country on one day (`sendWord`, `word`); the same `carryWord` is the way out for each. The invented Gonzales country, which has
+so a far family hears up to seven hours later than it would have. ~~`ceiling:` the autumn's and the winter's other news is still
+told to the country on one day~~ - carried the same way since the owner's "All of it" (§5.4d), which also replaced the riders'
+own arrival with a schedule and so changed the spring's numbers above (§5.4d has them). The invented Gonzales country, which has
 no other settlements, is told as before.
+
+### 5.4d All the rest of the news by express, and the end held for it — owner-decided 2026-09-29 (`FIC-GONZ-956` to `-958`; not released)
+
+**The owner's answers** to the three questions of §5.4c, 2026-09-29: (1) *"Hold the end"* - the class's end at dawn on April 25
+waits up to one game day until every played family has heard of San Jacinto, as the autumn waited for its furthest family;
+(2) *"Keep it"* - the spring's word keeps the autumn's pace; (3) *"All of it"* - every other word still told to the whole country
+at once goes the same way, each family hearing when a rider could really have reached it, as a journal line and not a rider's
+conversation, with whatever follows a word waiting for each family's own hearing.
+
+**What was still told to everybody at once**, and where each now leaves from (sim/directors.mjs `sendWord` with `from`, `carryWord`,
+`sendExpress`; each keeps its text, source, date and claim ID):
+
+| Word | Claim | Leaves | From |
+| --- | --- | --- | --- |
+| Goliad taken | `HIST-TEX-018` | the night it was taken (`goliad`) | Goliad |
+| Concepción | `HIST-TEX-020` | when the Mexicans have gone (the engine), or the fight's moment | the army before Béxar |
+| The silver train (a rumour) | `HIST-TEX-031` | the alarm (`grass-alarm`) | Béxar |
+| The Grass Fight, rumour and fuller word; the silver contradicted | `HIST-TEX-034`, `-031` | **in time to be at San Felipe** on the record's dates (December 1, and after) | Béxar |
+| The storming: the wrong express, then the victory | `HIST-TEX-044` | **in time to be at San Felipe** late on the 8th and on the 15th, never before the assault or the capitulation | Béxar |
+| Houston's call; the council's quarrel | `HIST-TEX-048`, `-050` | `winter-news` | San Felipe |
+| Neill and the Matamoros men; Travis; Crockett; what Béxar believed | `HIST-TEX-049`, `-051`, `-611` | their moments | Béxar |
+| The Mexican army at Béxar (Sutherland and Smither) | `HIST-TEX-613`, `-616` | `arrival-gonzales` (Gonzales's families told there, as before) | Gonzales |
+| Travis's letter | `HIST-TEX-055` | `travis-gonzales` (Gonzales's families told there, as before) | Gonzales |
+| Fannin turned back; San Patricio; Agua Dulce (rumours) | `HIST-TEX-056`, `-059` | their moments | Goliad, where the men who got away came in |
+| The declaration and Houston named | `HIST-TEX-061` | `declaration-news` (the game's March 4, which the text needs: Houston was named that day) | Washington |
+
+Coleto and the massacre were already carried (§5.4c). **Refugio** (`HIST-TEX-062`) is not built, so it has no word to carry.
+
+- **A word the record dates where it was heard** leaves where it came from in time to be heard there then (`leaveInTime`,
+  sim/expresses.mjs `expressMinutes`): San Felipe's dates for the Grass Fight and the storming are kept at San Felipe, and a
+  family nearer Béxar now hears first, one beyond San Felipe after. The Host's report stays on the record's date. The word's
+  own date stands as each was: every other word leaves at the moment the timeline already had.
+- **A schedule, not the riders' own arrival** (sim/expresses.mjs `schedule`, `keepSchedules`). The autumn's and winter's calendar
+  runs at twelve hours a tick, and a courier's first stretched tick is held to half his leg (sim/world.mjs `progressTravel`), so
+  a word riding on its riders took a day a stop and reached the last family a week late. Each stop's time is now worked out when
+  the word leaves - the road to it at the courier's pace, six hours at every stop before - and kept to; fresh riders go out on
+  each road at the scheduled minute and ride it to be seen. The same schedule now carries the spring's word, which ran on four-hour
+  ticks and was hours late at each stop; its spreads are narrower for it (below). The autumn's letters of 1835 (§6e) still ride
+  on their riders, as calibrated and tested.
+- **What follows waits for the family's own hearing** (`tellWhenHeard`, every tick): the Grass Fight's and the storming's own
+  people (`tellGrassFight`, `grassAccounts`, `tellStorming`, now each once for each family, `toldTo`), and San Patricio's and Agua
+  Dulce's (`tellSouth`, `tellSouthAccount`, in the second period); the winter's choices - **a family is offered enlisting once it
+  has heard Houston's call, and the garrison or the south once it has heard of Béxar** (sim/winter.mjs `winterWordHeard`, with a
+  refusal in words); the relief once it has heard Travis's letter, as before. Somebody taken prisoner at a fight and not yet known
+  to be is nobody's ears, as the dead are not.
+- **Hold the end** (`holdForWord`, `WORD_HOLD_MINUTES` = a day): the spring's end waits for every played family that anybody of
+  can hear (sim/expresses.mjs `canHear`) to hear of San Jacinto, and never more than a day; the last line says the day it ends,
+  April 25 or 26. **Kept the same way for the autumn's end** (the builder's choice, listed for the owner in HANDOFF): the victory
+  at Béxar reaches San Felipe on the 15th, the evening before the first period ends, so the end waits the same day at most for
+  played families.
+- **Over the winter** (sim/periods.mjs `beginSecondPeriod`, sim/expresses.mjs `settleExpresses`): a word still on the road when
+  the first period ends has come in by January, to every family that had not heard it, as *"Word that came over the winter"*;
+  its riders are let go home. The families nobody plays that the end did not wait for hear the victory at Béxar this way.
+- **The invented Gonzales country is unchanged, on purpose.** A class there cannot be continued past its first period
+  (sim/periods.mjs `canContinue` needs the real land), and its first period ends at the fight's outcome, which already goes by
+  riders from Gonzales. So none of the words above is ever reached there in play; only a test that sets a later period on it
+  meets them, and they are told at once as before. Were they carried, every family there lives within a few miles of
+  Gonzales, where every word comes in: they would all hear in the same tick, one tick late, and nothing a student could see would
+  change.
+
+**Measured** (in process, the scratch script, families nobody plays, 2026-09-29): hours between the first family and the last to
+hear each word, first hearing (a rumour counts). Before is origin/main at c03faa58, which carried the spring's word already.
+
+| Word | Before (15 and 30) | After: 15 staying | 30 staying | 30 fleeing |
+| --- | --- | --- | --- | --- |
+| Goliad taken | 0 | 40 | 52 | 52 |
+| Concepción | 0 | 48 | 48 | 48 |
+| The silver train | 0 | 60 | 60 | 60 |
+| The Grass Fight | 0 | 48 | 48 | 48 |
+| The storming (the wrong express first) | 0 | 51 | 63 | 63 |
+| Houston's call | 0 | 24 | 24 | 24 |
+| Neill and the Matamoros men | 0 | 48 | 48 | 48 |
+| The council | 0 | 24 | 24 | 24 |
+| Travis at Béxar | 0 | 48 | 48 | 48 |
+| Crockett at Béxar | 0 | 48 | 48 | 48 |
+| What Béxar believed | 0 | 48 | 48 | 48 |
+| The Mexican army at Béxar | 48 (Gonzales the 24th, the rest the 26th) | 58 | 58 | 58 |
+| Travis's letter | 30 (Gonzales the 25th, the rest the 26th) | 66 (Liberty the 28th) | 66 | 66 |
+| Fannin turned back | 0 | 48 | 60 | 60 |
+| San Patricio | 0 | 42 | 49 | 49 |
+| The declaration | 0 | 36 | 36 | 36 |
+| Agua Dulce | 0 | 48 | 60 | 60 |
+| The Alamo's fall | 140 | 108 | 108 | 108 |
+| Houston over the Colorado | 45 | 32 | 32 | 40 |
+| Fannin's defeat | 48 | 32 | 32 | 40 |
+| The army at the Brazos | 48 | 32 | 32 | 32 |
+| The massacre | 52 | 32 | 28 | 32 |
+| Santa Anna over the Brazos | 36 | 24 | 24 | 28 |
+| San Jacinto | 48 | 36 | 36 | 40 |
+
+Nobody heard anything before it happened (tests/news-all-riders.test.mjs). The word of the victory at Béxar reached 10 of 15
+families nobody plays by the end of the first period; the other five heard it over the winter.
+
+**These delays are modelled, not documented** (`FIC-GONZ-956`): the record dates when a word came to one place, and the rest is
+the autumn's calibration (`FIC-GONZ-027`) applied again.
+
+`ceiling:` a word the record dates at San Felipe is fitted to San Felipe alone; another settlement's own date, where one is found,
+is not used. `ceiling:` the schedule is worked out when the word leaves; a road that could not be ridden later is ridden anyway.
+`ceiling:` San Patricio's and Agua Dulce's tellings are the second period's; a family that first hears of them in the spring is
+told only the word. `ceiling:` the hold waits only for played families, a day at most; a family nobody plays hears at the next
+period, or not at all if it is the last.
 
 ### 5.5 After October 2: the gathering and the march
 

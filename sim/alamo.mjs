@@ -387,11 +387,12 @@ export function fightSouth(world, fight, { beginTravel }) {
 }
 
 /** Word of a southern fight reaches the families: the dead and the captured become true, and each family hears of its own. */
-export function tellSouth(world, fight) {
+export function tellSouth(world, fight, only = null) {
   const place = fight === 'san-patricio' ? 'San Patricio' : 'Agua Dulce Creek';
   for (const person of Object.values(world.entities)) {
     const service = person.service;
-    if (!person.householdId) continue;
+    // Given `only`, the families the rumour has reached (sim/expresses.mjs `hearExpresses`, docs/COLONIES.md §5.4d).
+    if (!person.householdId || (only && !only.has(person.householdId))) continue;
     if (service?.kind === 'fannin' && service.escapedFrom === fight && !service.told) {
       service.told = true;
       tell(world, person, `${person.name} got away when the Mexican cavalry struck at ${place}, and has gone to Fannin at Goliad.`, { claimId: 'HIST-TEX-059' });

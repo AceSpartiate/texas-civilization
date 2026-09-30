@@ -1,0 +1,128 @@
+{
+  "record": "news-all-riders-injections",
+  "date": "2026-09-30",
+  "files": [
+    "tests/news-all-riders.test.mjs",
+    "tests/winter.test.mjs",
+    "tests/battle-bexar.test.mjs"
+  ],
+  "caught": 9,
+  "only": 6,
+  "of": 10,
+  "injections": [
+    {
+      "name": "the autumn's and winter's news told to every family at once, as before (the defect)",
+      "file": "sim/directors.mjs",
+      "expected": "the autumn's news goes by express",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the autumn's news goes by express from Goliad and the army before Béxar, reaching families days apart and nobody before it happened; San Felipe hears the storming on the record's dates",
+        "word still on the road when the autumn ends has come in by the winter, and nobody is told what became of their own before they hear it",
+        "the winter's news and the spring's first word go by express from San Felipe, Béxar, Gonzales, Goliad and Washington, days apart and never early",
+        "nothing of the winter is offered in 1835; the winter offers its choices once its news has come"
+      ]
+    },
+    {
+      "name": "a word the record dates at San Felipe leaves the army on that date instead of in time to be there",
+      "file": "sim/directors.mjs",
+      "expected": "the autumn's news goes by express",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "killed: he falls at his staged moment where he stands, his family watching sees it then and not before, and is told only when the word comes",
+        "afterwards each family with somebody there is told through that person what happened, what they did and why; the men go home, the wounded stay",
+        "the autumn's news goes by express from Goliad and the army before Béxar, reaching families days apart and nobody before it happened; San Felipe hears the storming on the record's dates"
+      ]
+    },
+    {
+      "name": "the schedule is not kept: the word waits on riders ridden on the long ticks",
+      "file": "sim/expresses.mjs",
+      "expected": "the autumn's news goes by express",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "killed: he falls at his staged moment where he stands, his family watching sees it then and not before, and is told only when the word comes",
+        "afterwards each family with somebody there is told through that person what happened, what they did and why; the men go home, the wounded stay",
+        "the autumn's news goes by express from Goliad and the army before Béxar, reaching families days apart and nobody before it happened; San Felipe hears the storming on the record's dates",
+        "the winter's news and the spring's first word go by express from San Felipe, Béxar, Gonzales, Goliad and Washington, days apart and never early",
+        "a family is told what became of its own men in the south only when the rumour of their fight reaches it",
+        "the class's end waits, a day at most, until every played family has heard of San Jacinto",
+        "nothing of the winter is offered in 1835; the winter offers its choices once its news has come",
+        "a regular enlists at San Felipe for 800 acres and glory, is in one place, and deserts if sent for",
+        "an auxiliary chooses the war or a year, and when sent for comes home without the land and without deserting",
+        "the garrison is joined at Béxar and the expedition at Refugio, and either can be sent for",
+        "a man of twenty-one or more votes in his own town on February 1; nobody else, and not before or after",
+        "land counts at the end at a real for twenty acres, added after glory, only for the living still serving or released with the promise kept"
+      ]
+    },
+    {
+      "name": "word still on the road at the autumn's end never comes in",
+      "file": "sim/periods.mjs",
+      "expected": "word still on the road when the autumn ends",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "word still on the road when the autumn ends has come in by the winter, and nobody is told what became of their own before they hear it"
+      ]
+    },
+    {
+      "name": "every family is told of its own at the storming when the first one hears",
+      "file": "sim/directors.mjs",
+      "expected": "killed: he falls at his staged moment",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "killed: he falls at his staged moment where he stands, his family watching sees it then and not before, and is told only when the word comes"
+      ]
+    },
+    {
+      "name": "every family is told of its own in the south when the first one hears",
+      "file": "sim/directors.mjs",
+      "expected": "what became of its own men in the south",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a family is told what became of its own men in the south only when the rumour of their fight reaches it"
+      ]
+    },
+    {
+      "name": "Travis's letter reaches the other settlements all on one day",
+      "file": "sim/directors.mjs",
+      "expected": "the winter's news and the spring's first word",
+      "caught": false,
+      "only": false,
+      "failed": []
+    },
+    {
+      "name": "the winter's choices are offered before its news has reached the family",
+      "file": "sim/winter.mjs",
+      "expected": "nothing of the winter is offered in 1835",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "nothing of the winter is offered in 1835; the winter offers its choices once its news has come"
+      ]
+    },
+    {
+      "name": "the end does not wait for San Jacinto",
+      "file": "sim/directors.mjs",
+      "expected": "the class's end waits, a day at most",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the class's end waits, a day at most, until every played family has heard of San Jacinto"
+      ]
+    },
+    {
+      "name": "the end waits as long as it takes",
+      "file": "sim/directors.mjs",
+      "expected": "the class's end waits, a day at most",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the class's end waits, a day at most, until every played family has heard of San Jacinto"
+      ]
+    }
+  ]
+}

@@ -20,6 +20,7 @@ import { expireCalls } from './calls.mjs';
 import { momentOf } from './directors.mjs';
 import { eatenADay } from './family.mjs';
 import { closeLessons } from './lesson.mjs';
+import { settleExpresses } from './expresses.mjs';
 
 /** The period a class is in: absent on every class saved before there were two, which were all the first. */
 export const periodOf = world => world.period || 1;
@@ -109,6 +110,8 @@ export function beginSecondPeriod(world) {
     // An express still carrying word between settlements keeps it, and brings it in as before.
     if (!carrier.express) { delete carrier.leaving; carrier.gone = true; }
   }
+  // Word the families were hearing by express (sim/expresses.mjs, docs/COLONIES.md §5.4d) has reached the last of them too.
+  settleExpresses(world, 'Word that came over the winter');
   // An offer is a thing said face to face (sim/trade.mjs), and nobody stood together over the winter.
   world.offers = {};
   // The guided start is the first period's (owner, 2026-09-28: "end the tutorial for a family when the first period ends"):

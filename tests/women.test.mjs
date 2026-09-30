@@ -73,7 +73,8 @@ test('the winter: enlisting, the garrison, the expedition, the relief and Housto
   world.status = 'running';
   until(world, () => world.director.complete);
   beginSecondPeriod(world); world.status = 'running';
-  until(world, () => world.director.milestones['winter-news']);
+  // The winter's news goes by express since 2026-09-29 (docs/COLONIES.md §5.4d): its choices once it has reached the families.
+  until(world, () => world.director.milestones['winter-news'] && Object.keys(world.households).every(id => ['winter-terms', 'winter-bexar'].every(topic => world.knowledge.households[id]?.[topic])));
   const household = Object.values(world.households).find(h => mother(h)(world) && father(h)(world) && mother(h)(world).health.condition === 'well');
   assert.ok(household, 'no family with both parents well');
   const her = mother(household)(world), him = father(household)(world);

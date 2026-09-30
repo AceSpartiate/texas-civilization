@@ -295,8 +295,15 @@ test('killed: he falls at his staged moment where he stands, his family watching
   }
   assert.equal(landed.views.fighter.battle.memberFates[man.person.id].fate, 'killed', 'his family, watching, was not shown him fall');
   // Nothing in the journal says so until the word of the victory; no account comes through him.
+  // The word of the victory reaches each family by express since 2026-09-29 (docs/COLONIES.md §5.4d): a family nearer Béxar hears
+  // it before San Felipe's date, one farther off after; he is told of when his family hears it, never before.
+  const heardOf = () => world.events.find(event => event.householdId === man.household.id && event.type === 'information' && event.topicId === 'bexar-storming' && event.status === 'confirmed');
+  for (let i = 0; i < 400 && !heardOf() && world.status === 'running'; i++) stepWorld(world);
+  stepWorld(world);
+  const heard = heardOf();
   const told = world.events.filter(event => event.householdId === man.household.id && event.type === 'consequence' && /killed/.test(event.text));
-  assert.ok(told.length && told.every(event => event.minute >= TIMELINE['bexar-victory']), 'the family was told he was killed before the word came');
+  assert.ok(heard, 'the word of the victory never reached his family');
+  assert.ok(told.length && told.every(event => event.minute >= heard.minute), 'the family was told he was killed before the word came');
   assert.match(told[0].text, /on December \d+/, 'the word does not say which day');
   assert.ok(!samples.some(sample => sample.views.fighter?.account?.entityId === man.person.id), 'an account came through a man who was killed');
 });

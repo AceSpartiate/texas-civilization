@@ -9,7 +9,11 @@ export const until = (world, done, limit = 20000) => { for (let t = 0; t < limit
 export const untilMoment = (world, key) => until(world, () => world.minute >= momentOf(world, key));
 
 let shared = null;
-/** A class of eight rolled families, through the first period and into the winter to the morning of its news. */
+/**
+ * A class of eight rolled families, through the first period and into the winter until its news has reached every family: it
+ * goes by express since 2026-09-29 (docs/COLONIES.md §5.4d), and a family may send a man south once the word of Béxar and the
+ * Matamoros men has reached it.
+ */
 export const winterClass = () => structuredClone(shared ??= (() => {
   const world = createGonzalesWorld('alamo-class', 8, { map: 'colonies' });
   for (const household of Object.values(world.households)) rollFamily(world, household);
@@ -17,7 +21,7 @@ export const winterClass = () => structuredClone(shared ??= (() => {
   until(world, () => world.director.complete);
   beginSecondPeriod(world);
   world.status = 'running';
-  until(world, () => world.director.milestones['winter-news']);
+  until(world, () => world.director.milestones['winter-news'] && Object.keys(world.households).every(id => ['winter-terms', 'winter-bexar'].every(topic => world.knowledge.households[id]?.[topic])));
   return world;
 })());
 

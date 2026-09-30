@@ -1,5 +1,81 @@
 # Claude handoff — Astra foundation
 
+## All the rest of the news by express, and the end held for it — owner, 2026-09-29 (not released)
+
+**The ask.** The owner answered the spring-news builder's three questions (2026-09-29): *"Hold the end"*, *"Keep it"*, *"All of
+it"*. Branch `news-all-riders` off origin/main c03faa58; not pushed. `FIC-GONZ-956` to `-958`; the decision is docs/COLONIES.md
+§5.4d.
+
+- **Every word that still reached the whole country at once now goes by express** (sim/directors.mjs `sendWord` with `from`,
+  `carryWord`): Goliad taken (from Goliad), Concepción, the silver train, the Grass Fight and the storming (from the army before
+  Béxar), Houston's call and the council (San Felipe), Neill and the Matamoros men, Travis, Crockett and what Béxar believed
+  (Béxar), the Mexican army at Béxar and Travis's letter (on from Gonzales, whose own families are told there as before), Fannin
+  turned back, San Patricio and Agua Dulce (Goliad), the declaration (Washington). Each keeps its text, source, date and claim
+  ID; each is a journal line, never a rider's conversation (the one-rider rules untouched). Refugio is not built; Coleto and the
+  massacre were already carried.
+- **San Felipe's dates kept at San Felipe** (`leaveInTime`, sim/expresses.mjs `expressMinutes`): the Grass Fight's rumour and
+  fuller word and the storming's wrong express and victory leave the army early enough by the model to be at San Felipe on the
+  record's date, and never before the thing itself; the Host's report stays on that date.
+- **A schedule, not the riders' own arrival** (sim/expresses.mjs `schedule`, `keepSchedules`). Measured first: at the autumn's
+  twelve-hour ticks, and with a courier's first stretched tick held to half his leg, the word took a day a stop and reached the
+  last family 7.5 days late (Concepción 180 h). Each stop's time is now worked out when the word leaves and kept to; riders go out
+  at the scheduled minute to be seen. This also carries the spring's word, so its spreads narrowed (the Alamo's fall 140 → 108 h,
+  San Jacinto 48 → 36 h). The autumn's letters of 1835 keep riding on their riders, as calibrated.
+- **What follows waits for each family's own hearing** (`tellWhenHeard`): the Grass Fight's and the storming's own people
+  (`tellGrassFight`, `grassAccounts`, `tellStorming`, once per family now), San Patricio's and Agua Dulce's (second period only:
+  a man who got away is Goliad's by the spring); **the winter's choices** - enlisting once the family has heard Houston's call,
+  the garrison or the south once it has heard of Béxar, refused in words before (sim/winter.mjs `winterWordHeard`); the relief
+  after Travis's letter, as before. A prisoner of a fight not yet known to be one is nobody's ears.
+- **Hold the end** (`holdForWord`, `WORD_HOLD_MINUTES` = one game day): the spring's end waits for every played family that can
+  hear to have heard of San Jacinto; the last line names its day (April 25 or 26). **Kept the same way for the autumn's end**
+  (the victory at Béxar reaches San Felipe the evening before the first period ends) - my extension, listed below.
+- **Over the winter** (`settleExpresses` from sim/periods.mjs `beginSecondPeriod`): a word still on the road when the first
+  period ends reaches every family that had not heard it as *"Word that came over the winter"*.
+- **The invented Gonzales country: left as it is, on purpose.** It cannot be continued past its first period (`canContinue`
+  needs the real land) and its first period ends at the fight's outcome, which already goes by riders; none of these words is
+  reached there in play. Carried, they would reach every family there in the same tick, one tick late.
+- **Found in passing, not fixed** (older than this branch): a man who got away from San Patricio or Agua Dulce to Fannin is
+  marked `told` when his family hears of his escape, so if he is then shot at Goliad `tellGoliad` skips him - the account
+  (`tellFannin`) still names him, but his row is not marked dead. Here the south's telling runs in the second period only, so it
+  cannot add to it.
+- **Old saves:** no save version. `due`, `topicId`, `settled` on an express and `toldTo` on the grass and storming are optional;
+  an express saved without `due` rides on its riders as before; a word already told at once stays told.
+
+**Before → after** (in process, families nobody plays; hours between the first and the last family to hear, first hearing;
+the whole table in docs/COLONIES.md §5.4d): Goliad taken 0 → 40-52; Concepción 0 → 48; the silver train 0 → 60; the Grass Fight
+0 → 48; the storming 0 → 51-63; Houston's call 0 → 24; Neill and the Matamoros men 0 → 48; the council 0 → 24; Travis at Béxar
+0 → 48; Crockett 0 → 48; what Béxar believed 0 → 48; the Mexican army at Béxar 48 → 58; Travis's letter 30 → 66; Fannin turned
+back 0 → 48-60; San Patricio 0 → 42-49; the declaration 0 → 36; Agua Dulce 0 → 48-60; the Alamo's fall 140 → 108; Houston over the
+Colorado 45 → 32-40; Fannin's defeat 48 → 32-40; the army at the Brazos 48 → 32; the massacre 52 → 28-32; Santa Anna over the
+Brazos 36 → 24-28; San Jacinto 48 → 36-40. Nobody hears anything before it happened. Classes of 15 (staying) and 30 (staying,
+and fleeing to the nearest refuge).
+
+**Evidence** (same computer only; no Chromebook or LAN claim):
+
+- `tests/news-all-riders.test.mjs` (5 tests): the autumn's words by express from Goliad and Béxar, days apart, none early, San
+  Felipe's dates within a tick, the order of the roads, the wrong express before the victory; word still on the road at the
+  autumn's end comes in by the winter, and a family with somebody at the storming is told only after it hears; the winter's and
+  the second period's words from their five places, Travis's letter to the farthest after the old evening; a family told of its
+  own men in the south only when the rumour reaches it, checked every tick; the end held for a played family (heard after dawn
+  on the 25th, ended after it heard and within a day), and not past a day for a word that cannot come.
+- **`npm run test:news-all-riders-injections`: INJECTIONS_PLACEHOLDER** ([record](docs/evidence/news-all-riders-injections.json)).
+- Tests changed for the rule, not weakened (they waited for the moment everybody used to hear): `winter` (now also proves the
+  choices are not offered before the word, in words), `tests/support/south.mjs` (waits for the winter's word), `alamo`
+  (Matamoros), `battle-south` (3), `battle-bexar` (killed: told after his family hears), `siege` (the rumour and the account by the
+  family's own hearing), `storming` (played families hear before the end; the rest over the winter), `surprise` (the far family by
+  express).
+- `npm test`: NPMTEST_PLACEHOLDER
+- Browser proofs: PROOFS_PLACEHOLDER
+
+**Open, for the owner** (built the first option):
+
+1. *The autumn's end held too.* The victory at Béxar reaches San Felipe on December 15, the evening before the first period
+   ends, so farther families would not hear before it ends. (a) Hold that end a day for played families as well (built);
+   (b) let them hear it over the winter only.
+2. *San Felipe's dates.* The Grass Fight's and the storming's words are timed to reach San Felipe on the record's dates, so a
+   family nearer Béxar hears first. (a) Keep (built); (b) time them from the fight itself at the courier's pace, letting San
+   Felipe's date fall where the model puts it.
+
 ## The spring's big news by express, settlement by settlement — triage 2.7, 2026-09-29 (not released)
 
 **The ask.** Triage 2.7: *"Every family hears the spring's big news at the same moment"* (VISION §19: information moved slowly and

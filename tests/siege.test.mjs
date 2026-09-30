@@ -74,7 +74,9 @@ const siege = () => shared ??= (() => {
   applyAction(world, a.household.id, { action: 'army-answer', entityId: a.person.id, question: 'grass', answer: 'yes' });
   until(world, () => world.director.milestones['grass-fight']);
   seen.fight = { minute: world.minute, alarmFirst: seen.alarm.minute < world.minute, told: world.events.some(e => e.householdId === a.household.id && /November 26/.test(e.text)), public: world.events.filter(e => e.visibility === 'public' && e.minute >= seen.alarm.minute).map(e => e.text) };
-  until(world, () => world.director.milestones['grass-rumour']);
+  // San Felipe's date for the rumour, and the family's own hearing of it: the word goes by express since 2026-09-29
+  // (docs/COLONIES.md §5.4d), and a family farther off than San Felipe hears it after.
+  until(world, () => world.director.milestones['grass-rumour'] && world.knowledge.households[b.household.id]['grass-fight']);
   seen.rumour = { minute: world.minute, told: world.events.some(e => e.householdId === a.household.id && /November 26/.test(e.text)), report: structuredClone(world.knowledge.households[b.household.id]['grass-fight']) };
   seen.silverBefore = structuredClone(world.knowledge.households[b.household.id]['silver-train']);
   until(world, () => world.director.complete);
@@ -197,7 +199,9 @@ test('the rumour of silver comes before the Grass Fight, and its word rides home
   assert.ok(projectWorld(world, a.household.id, 'student', { includeMap: false }).reports.some(r => r.topicId === 'grass-fight' && /three, fifteen, about fifty, or sixty/.test(r.text)), 'the student payload does not carry the word');
   const part = world.participation['grass-fight'][a.person.id];
   assert.ok(['fought', 'ran'].includes(part.role));
-  assert.ok(world.events.some(e => e.householdId === a.household.id && e.minute >= fuller.minute && /November 26/.test(e.text)), 'the family was never told what happened to their person');
+  // Told when the fuller word reaches the family, which may be before San Felipe's date for a family nearer Béxar (§5.4d).
+  const heardFuller = world.events.find(e => e.householdId === a.household.id && e.type === 'information' && e.topicId === 'grass-fight' && e.status === 'confirmed');
+  assert.ok(heardFuller && world.events.some(e => e.householdId === a.household.id && e.minute >= heardFuller.minute && /November 26/.test(e.text)), 'the family was never told what happened to their person');
 });
 
 test('the siege runs to Milam\'s call on December 4, at the mill, with the siege\'s parts in the ending', () => {

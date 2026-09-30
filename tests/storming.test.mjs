@@ -16,6 +16,7 @@ import { applyAction, beginTravel, projectWorld, stepWorld, validateWorld } from
 import { momentOf } from '../sim/directors.mjs';
 import { STORMING_DEATH_RISK, STORMING_WOUND_RISK, WOUND_GRADES, dieOfWounds, fightStorming, openQuestion, stormedIn, withTheArmy } from '../sim/army.mjs';
 import { heardOut } from './support/heard-out.mjs';
+import { beginSecondPeriod } from '../sim/periods.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const until = (world, done) => { for (let t = 0; t < 6000 && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -101,9 +102,16 @@ test('word of the storming comes by rider: the wrong express first, then the vic
   assert.equal(seen.flag.told, false, 'a family was told its person\'s part on the day of the white flag');
   assert.equal(seen.flag.report?.status, 'rumor', 'the first word was not the wrong express');
   assert.match(seen.flag.report.text, /daylight on the 6th/);
-  for (const household of Object.values(world.households)) {
-    const report = world.knowledge.households[household.id]['bexar-storming'];
-    assert.equal(report?.status, 'confirmed', `${household.id} never heard the victory`);
+  // By express since 2026-09-29 (docs/COLONIES.md §5.4d): the class's end waits a day at most for every played family to hear it
+  // ("Hold the end"), and a family nobody plays that it has not reached by then hears it over the winter.
+  for (const household of Object.values(world.households).filter(one => one.played)) {
+    assert.equal(world.knowledge.households[household.id]['bexar-storming']?.status, 'confirmed', `${household.id}, played, never heard the victory`);
+  }
+  const winter = structuredClone(world);
+  beginSecondPeriod(winter);
+  for (const household of Object.values(winter.households)) {
+    const report = winter.knowledge.households[household.id]['bexar-storming'];
+    assert.equal(report?.status, 'confirmed', `${household.id} never heard the victory, not even over the winter`);
   }
   const victory = world.knowledge.households[b.household.id]['bexar-storming'].text;
   assert.match(victory, /Milam was killed/);

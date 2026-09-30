@@ -165,7 +165,8 @@ test('leaving to join the garrison takes the rifle', () => {
   until(world, () => world.director.complete, 20000);
   beginSecondPeriod(world);
   world.status = 'running';
-  until(world, () => world.director.milestones['winter-news'], 20000);
+  // The winter's news goes by express since 2026-09-29 (docs/COLONIES.md §5.4d): its choices once it has reached the families.
+  until(world, () => world.director.milestones['winter-news'] && Object.keys(world.households).every(id => ['winter-terms', 'winter-bexar'].every(topic => world.knowledge.households[id]?.[topic])), 20000);
   let found = null;
   for (const household of Object.values(world.households)) {
     for (const id of household.members) {

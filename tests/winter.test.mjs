@@ -29,12 +29,23 @@ const firstPeriod = () => structuredClone(firstShared ??= (() => {
   until(world, () => world.director.complete);
   return world;
 })());
-/** The same class continued into the winter, run to the morning the winter's news comes. */
-const winter = () => structuredClone(winterShared ??= (() => {
+let newsShared = null;
+/** The same class continued into the winter, run to the morning the winter's news leaves San Felipe and Béxar. */
+const winterNews = () => structuredClone(newsShared ??= (() => {
   const world = firstPeriod();
   beginSecondPeriod(world);
   world.status = 'running';
   until(world, () => world.director.milestones['winter-news']);
+  return world;
+})());
+/**
+ * The same, run on until the winter's news has reached every family: since 2026-09-29 it goes by express (docs/COLONIES.md
+ * §5.4d), and a family is offered what it asks once it has heard it.
+ */
+const heardAll = world => Object.keys(world.households).every(id => ['winter-terms', 'winter-bexar', 'winter-council'].every(topic => world.knowledge.households[id]?.[topic]));
+const winter = () => structuredClone(winterShared ??= (() => {
+  const world = winterNews();
+  until(world, () => heardAll(world));
   return world;
 })());
 /** A grown person of the family at home, by a test of their own. */
@@ -55,6 +66,15 @@ test('nothing of the winter is offered in 1835; the winter offers its choices on
   for (let t = 0; t < 40; t++) stepWorld(autumn);
   const early = somebody(autumn) || { household: Object.values(autumn.households)[0], person: autumn.entities[Object.values(autumn.households)[0].members[0]] };
   assert.deepEqual(offered(autumn, early.household, early.person).filter(id => WINTER.includes(id)), [], 'a winter choice was offered in 1835');
+
+  // The morning the news leaves San Felipe and Béxar by express, a family it has not reached is offered none of what it asks,
+  // and is told why in words (docs/COLONIES.md §5.4d).
+  const news = winterNews();
+  const far = somebody(news, one => !news.knowledge.households[one.householdId]?.['winter-terms'] && !news.knowledge.households[one.householdId]?.['winter-bexar']);
+  assert.ok(far, 'every family had heard the winter\'s news the morning it left');
+  assert.deepEqual(offered(news, far.household, far.person).filter(id => WINTER.includes(id)), [], 'a winter choice was offered before its news reached the family');
+  assert.match(winterRefusal(news, far.household, far.person, 'enlist-regular'), /General Houston's call .* has not reached the family/);
+  assert.match(winterRefusal(news, far.household, far.person, 'join-garrison'), /Béxar has not reached the family/);
 
   const world = winter();
   const { household, person } = somebody(world);

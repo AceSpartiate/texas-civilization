@@ -433,13 +433,14 @@ function southAccountCard(world, id, householdId) {
  * became of him (docs/BATTLES.md §2.8; the account staging.md §4.8 gives). Through the family's own person at home: the one
  * who went is dead, a prisoner or away.
  */
-export function tellSouthAccount(world, id) {
+export function tellSouthAccount(world, id, only = null) {
   const battle = world.battles?.[id];
   if (!battle) return;
   const byHousehold = {};
   for (const [pid, entry] of Object.entries(battle.participants || {})) (byHousehold[entry.householdId] ||= []).push(pid);
   for (const [householdId, ids] of Object.entries(byHousehold)) {
-    if (battle.told[householdId]) continue;
+    // Given `only`, the families the rumour has reached (sim/expresses.mjs `hearExpresses`, docs/COLONIES.md §5.4d).
+    if (battle.told[householdId] || (only && !only.has(householdId))) continue;
     const household = world.households[householdId];
     const people = ids.map(pid => world.entities[pid]).filter(Boolean);
     if (!household || !people.length) continue;

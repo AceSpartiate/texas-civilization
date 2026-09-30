@@ -5,7 +5,7 @@ import { establishTruth, learn } from './knowledge.mjs';
 import { TIRING_MILES } from './routines.mjs';
 import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, canFight, cannotAnswerWhy, cannotFightWhy, tooYoung, tooYoungWhy } from './family.mjs';
-import { distantHouseholds, expressLeaves, sendExpress, startExpress } from './expresses.mjs';
+import { canHear, distantHouseholds, expressLeaves, expressMinutes, sendExpress, startExpress } from './expresses.mjs';
 import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
 import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, fightSouth, gonzalesFamilies, otherFamilies, reliefEnters, reliefRides, sendCouriers, splitSouth, stormAlamo, survivorsLeave, tellFall, tellSouth, word } from './alamo.mjs';
 import { ARRIVAL_WORD, SPRING_WORD, arrivalWord, hearTheBell, tellHerrera } from './surprise.mjs';
@@ -1008,14 +1008,43 @@ export function gonzalesAccount(world, person, entry, march) {
  * A milestone recorded `public` reaches only the Host's page (`projectWorld`); a family learns a thing only through its own
  * reports (sim/knowledge.mjs). Until 2026-09-16 the news of Goliad and Concepción was written as milestones alone, so no
  * student ever read it. `truth` is what happened; `text` is what this telling says, which for a rumour is not the same.
- * ceiling: every family hears it on one day, however far it lives - the autumn's and the winter's news from the army and Béxar.
- * The spring's big news goes by express, settlement by settlement, since 2026-09-29 (`carryWord`, sim/expresses.mjs
- * `sendExpress`, docs/COLONIES.md §5.4c); carrying these the same way is what this still wants.
+ *
+ * Since 2026-09-29 (owner: "All of it"; docs/COLONIES.md §5.4d, `FIC-GONZ-956`) the families hear it by express from `from`,
+ * where the record has it come in, each when a rider could have reached it (sim/expresses.mjs `sendExpress`); only where no
+ * express can carry it (the invented Gonzales country, a tick stepped with nobody to ride, no `from`) is every family told at
+ * once, as before. The public report - the Host's - is on the day as it always was, unless `publicToo` is false because the
+ * word leaves early to be heard somewhere on the record's date (`leaveInTime`). `key` names a second wave of the same word.
  */
-function sendWord(world, topicId, { truth, text = truth, status = 'confirmed', claimId, source = 'Word from the army' }) {
+function sendWord(world, topicId, { truth, text = truth, status = 'confirmed', claimId, source = 'Word from the army' }, { from = null, beginTravel = null, key = topicId, publicToo = true } = {}) {
   if (!world.truth[topicId]) establishTruth(world, { id: topicId, text: truth, siteId: 'bexar', classification: 'DOCUMENTED', claimId });
-  for (const household of Object.values(world.households)) learn(world, household.id, topicId, { status, source, text });
-  learn(world, 'public', topicId, { status, source, text });
+  const carried = Boolean(from) && sendExpress(world, topicId, { from, status, text, source, beginTravel, key });
+  if (!carried) for (const household of Object.values(world.households)) learn(world, household.id, topicId, { status, source, text });
+  if (publicToo) learn(world, 'public', topicId, { status, source, text });
+  return carried;
+}
+/** How long a word may keep a class's end waiting for the played families to hear it (owner, 2026-09-29: "Hold the end"). */
+export const WORD_HOLD_MINUTES = 1440;
+/**
+ * Whether a period's end still waits on this word (owner, 2026-09-29, "Hold the end"; docs/COLONIES.md §5.4d): while a played
+ * family that can hear anything (sim/expresses.mjs `canHear`) has not heard it - `firm`, more than a rumour - and for no more
+ * than a day of the class after the end's own moment. Only a word carried by express (`key`); one told at once holds nothing.
+ */
+function holdForWord(world, topicId, endKey, { key = topicId, firm = true } = {}) {
+  if (!world.expresses?.[key] || world.minute >= momentOf(world, endKey) + WORD_HOLD_MINUTES) return false;
+  const heard = heardOf(world, topicId, firm);
+  return Object.values(world.households).some(household => household.played && !heard.has(household.id) && canHear(world, household));
+}
+/**
+ * A word the record dates where it was heard rather than where it came from - San Felipe's dates for the news from the army
+ * before Béxar - leaves `from` in time to reach `to` on that date (sim/expresses.mjs `expressMinutes`), and never before `floor`
+ * (the thing itself). `send` goes once; the Host's report stays on the record's date (the anchor's own `once`).
+ */
+function leaveInTime(world, id, { anchor, from, to, floor = -Infinity }, send) {
+  const done = world.director.milestones;
+  if (done[`leaves:${id}`]) return;
+  if (world.minute < Math.max(floor, momentOf(world, anchor) - expressMinutes(world, from, to))) return;
+  done[`leaves:${id}`] = true;
+  send();
 }
 
 /**
@@ -1044,6 +1073,19 @@ const heardOf = (world, topicId, firm = false) => new Set(Object.values(world.ho
  * it comes to its refuge. Every tick; each telling is once for each person (`told`), so a family is told as soon as it can be.
  */
 function tellWhenHeard(world, go = null) {
+  // The autumn's and winter's (docs/COLONIES.md §5.4d): only where the word went by express (`key`); a word told at once told
+  // all of these at once, as it always did.
+  const byExpress = (topicId, key, firm) => world.expresses?.[key] ? heardOf(world, topicId, firm) : new Set();
+  const grass = byExpress('grass-fight', 'grass-fight#news', true);
+  if (grass.size) { tellGrassFight(world, null, grass); grassAccounts(world, null, grass); }
+  const storming = byExpress('bexar-storming', 'bexar-storming#victory', true);
+  if (storming.size) tellStorming(world, null, storming);
+  // The south's in the second period only, where its word is: by the spring a man who got away is Fannin's, and his telling is
+  // Goliad's (`tellGoliad`), which a second "got away" would shut out.
+  for (const fight of world.period === 2 ? ['san-patricio', 'agua-dulce'] : []) {
+    const heard = byExpress(fight, fight, false);
+    if (heard.size) { tellSouth(world, fight, heard); tellSouthAccount(world, fight, heard); }
+  }
   const fall = heardOf(world, 'alamo-fall', true);
   if (fall.size) tellFall(world, Object.values(world.households).filter(household => fall.has(household.id)));
   if (!go || world.period !== 3) return;
@@ -1075,13 +1117,12 @@ function advanceGathering(world, movement) {
       text: 'Volunteers are coming into Gonzales from every settlement, and there is talk of marching on Béxar.',
     });
   });
-  // ceiling: told to the whole country on the day, because no express rides to Goliad on this map.
-  // Carrying it by rider the way the Gonzales word is carried belongs with build step 6. What the
-  // taking cost is left out on purpose: the two sources that give numbers disagree (`HIST-TEX-018`).
+  // By express out of Goliad the night it was taken (docs/COLONIES.md §5.4d), each family hearing as a rider could reach it. What
+  // the taking cost is left out on purpose: the two sources that give numbers disagree (`HIST-TEX-018`).
   once(world, 'goliad', () => {
     const text = `Word has come that the volunteers took the presidio at ${world.map.sites.goliad?.name || 'Goliad'} in the night, and its stores and arms with it.`;
     record(world, 'milestone', { visibility: 'public', importance: 2, classification: 'DOCUMENTED', claimId: HIST_GATHERING, text });
-    sendWord(world, 'goliad-taken', { truth: text, claimId: HIST_GATHERING });
+    sendWord(world, 'goliad-taken', { truth: text, claimId: HIST_GATHERING }, { from: 'goliad', beginTravel: movement?.beginTravel });
   });
   once(world, 'organised', () => {
     const eventId = record(world, 'milestone', {
@@ -1124,7 +1165,10 @@ function advanceGathering(world, movement) {
   concepcionArmyProgress(world, momentOf);
   advanceArmy(world, { hold, beginTravel: movement?.beginTravel });
   // Concepción on the engine: the division's march, the morning in the bend, the fates, the alerts and the account.
-  advanceConcepcion(world, movement, { momentOf, sendWord });
+  // Its word leaves the army before Béxar by express when the Mexicans have gone (docs/COLONIES.md §5.4d; the record has it at San
+  // Felipe in three days, `HIST-TEX-024`).
+  const fromTheArmy = (w, topicId, said) => sendWord(w, topicId, said, { from: 'bexar', beginTravel: movement?.beginTravel });
+  advanceConcepcion(world, movement, { momentOf, sendWord: fromTheArmy });
   once(world, 'concepcion', () => {
     // On the engine the word is sent when the Mexicans have gone, and each fate falls in the fighting; the Host's camera
     // goes to the field as the fog lifts (docs/BATTLES.md §2.1).
@@ -1132,13 +1176,13 @@ function advanceGathering(world, movement) {
       spotlight(world, { key: 'concepcion', text: 'Mission Concepción, as the fog lifts on October 28: Bowie and Fannin’s men under the riverbank, and Mexican infantry, cavalry and a cannon on the plain.', ...battleField(world, 'concepcion'), claimId: 'HIST-TEX-480' });
       return;
     }
-    // Told to the whole country on the day, like Goliad. ceiling: word of it rode to San Felipe in three days and arrived
-    // wrong about who was hurt (`HIST-TEX-024`); carrying battle news by rider is the next thing this wants.
+    // By express from the army, as on the engine. ceiling: word of it rode to San Felipe in three days and arrived wrong about
+    // who was hurt (`HIST-TEX-024`); the wrong first account is not carried.
     const eventId = record(world, 'milestone', {
       visibility: 'public', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-020',
       text: 'Word has come of a fight at Mission Concepción on the morning of the 28th. About ninety men under Bowie and Fannin, surrounded in the fog, beat back the Mexican cavalry and infantry and took a cannon. Richard Andrews of Mina was killed. How many of the Mexican soldiers fell, the reports do not agree: sixteen dead were counted on the field, and others say fifty, sixty-seven, or more.',
     });
-    sendWord(world, 'concepcion-fight', { truth: world.events.find(e => e.id === eventId).text, claimId: 'HIST-TEX-020' });
+    fromTheArmy(world, 'concepcion-fight', { truth: world.events.find(e => e.id === eventId).text, claimId: 'HIST-TEX-020' });
     fightConcepcion(world, eventId);
     spotlight(world, { key: 'concepcion', text: 'The fight at Mission Concepción. Ninety men under Bowie and Fannin, surrounded in the fog, beat back the Mexican attack and take a cannon.', siteId: 'bexar', claimId: 'HIST-TEX-020' });
   });
@@ -1193,7 +1237,7 @@ function advanceSiege(world, movement) {
   // The rumour first (owner, §7b): the camp took the pack train for the garrison's silver.
   once(world, 'grass-alarm', () => {
     const text = 'In the camp before Béxar the word is that a Mexican pack train is coming in from the west, carrying silver to pay the garrison.';
-    sendWord(world, 'silver-train', { truth: 'A Mexican pack train was coming in to Béxar from the west, carrying grass cut for the garrison\'s horses.', text, status: 'rumor', claimId: 'HIST-TEX-031', source: 'Talk from the camp' });
+    sendWord(world, 'silver-train', { truth: 'A Mexican pack train was coming in to Béxar from the west, carrying grass cut for the garrison\'s horses.', text, status: 'rumor', claimId: 'HIST-TEX-031', source: 'Talk from the camp' }, { from: 'bexar', beginTravel });
     openQuestion(world, 'grass', said('HIST-TEX-031', text), { beginTravel });
   });
   // The Grass Fight on the engine (sim/concepcion-grass.mjs): a yes rides or marches out at the alarm, the question shuts when
@@ -1207,22 +1251,39 @@ function advanceSiege(world, movement) {
     once(world, 'grass-fight', () => { fightGrass(world, null, { beginTravel }); spotlight(world, { key: 'grass-fight', text: 'The Grass Fight. Riders go out after a Mexican pack train and find it carries grass for the horses, not silver.', siteId: 'bexar', claimId: 'HIST-TEX-032' }); });
   }
   const GRASS_FIGHT = 'Fuller word of the fight near Béxar on November 26: Bowie\'s horsemen and Jack\'s infantry caught a Mexican pack train west of the town, near the Alazán, and drove back into Béxar the troops sent out to meet them. The packs held grass cut for the horses, not silver. No man of ours was killed, and a few were slightly hurt. How many Mexican soldiers fell, the reports do not agree: three, fifteen, about fifty, or sixty.';
-  once(world, 'grass-rumour', () => {
-    const text = 'Men just back from the army say there has been a fight near Béxar: three hundred of ours against as many of theirs, ten of the enemy dead on the ground, and no loss on our side.';
-    said('HIST-TEX-034', text);
-    sendWord(world, 'grass-fight', { truth: GRASS_FIGHT, text, status: 'rumor', claimId: 'HIST-TEX-034', source: 'Men back from the army' });
+  // The record dates both at San Felipe - the rumour on December 1, the fuller word after (`HIST-TEX-034`) - so each leaves the
+  // army before Béxar by express in time to be there then (`leaveInTime`, docs/COLONIES.md §5.4d): a family nearer Béxar hears
+  // before San Felipe, one farther off after. The Host's report is on San Felipe's day. Where no express can go, every family is
+  // told on that day, as before.
+  const RUMOUR = 'Men just back from the army say there has been a fight near Béxar: three hundred of ours against as many of theirs, ten of the enemy dead on the ground, and no loss on our side.';
+  const CONTRADICTED = 'The pack train carried grass for the horses in Béxar, not silver.';
+  const fight = momentOf(world, 'grass-fight');
+  leaveInTime(world, 'grass-rumour', { anchor: 'grass-rumour', from: 'bexar', to: 'san-felipe', floor: fight }, () => {
+    sendWord(world, 'grass-fight', { truth: GRASS_FIGHT, text: RUMOUR, status: 'rumor', claimId: 'HIST-TEX-034', source: 'Men back from the army' }, { from: 'bexar', beginTravel, publicToo: false });
   });
-  // ceiling: word rides into the whole country on one day, five days after the fight, as it reached San Felipe; a
-  // settlement nearer or farther hears it on the same day.
+  leaveInTime(world, 'grass-news', { anchor: 'grass-news', from: 'bexar', to: 'san-felipe', floor: fight }, () => {
+    sendWord(world, 'grass-fight', { truth: GRASS_FIGHT, claimId: 'HIST-TEX-031' }, { from: 'bexar', beginTravel, key: 'grass-fight#news', publicToo: false });
+    // The silver was a rumour, and now the country knows it.
+    sendWord(world, 'silver-train', { truth: GRASS_FIGHT, text: CONTRADICTED, status: 'contradicted', claimId: 'HIST-TEX-031' }, { from: 'bexar', beginTravel, key: 'silver-train#contradicted', publicToo: false });
+  });
+  once(world, 'grass-rumour', () => {
+    said('HIST-TEX-034', RUMOUR);
+    learn(world, 'public', 'grass-fight', { status: 'rumor', source: 'Men back from the army', text: RUMOUR });
+    if (!world.expresses?.['grass-fight']) sendWord(world, 'grass-fight', { truth: GRASS_FIGHT, text: RUMOUR, status: 'rumor', claimId: 'HIST-TEX-034', source: 'Men back from the army' }, { publicToo: false });
+  });
   once(world, 'grass-news', () => {
     const eventId = said('HIST-TEX-031', GRASS_FIGHT);
-    sendWord(world, 'grass-fight', { truth: GRASS_FIGHT, claimId: 'HIST-TEX-031' });
-    // The silver was a rumour, and now the country knows it.
-    sendWord(world, 'silver-train', { truth: GRASS_FIGHT, text: 'The pack train carried grass for the horses in Béxar, not silver.', status: 'contradicted', claimId: 'HIST-TEX-031' });
+    learn(world, 'public', 'grass-fight', { status: 'confirmed', source: 'Word from the army', text: GRASS_FIGHT });
+    learn(world, 'public', 'silver-train', { status: 'contradicted', source: 'Word from the army', text: CONTRADICTED });
+    if (world.expresses?.['grass-fight#news']) return;
+    sendWord(world, 'grass-fight', { truth: GRASS_FIGHT, claimId: 'HIST-TEX-031' }, { publicToo: false });
+    sendWord(world, 'silver-train', { truth: GRASS_FIGHT, text: CONTRADICTED, status: 'contradicted', claimId: 'HIST-TEX-031' }, { publicToo: false });
     tellGrassFight(world, eventId);
-    // And to each family who had somebody there, the account in plain words through that person (staging.md §2.8).
+    // And to each family who had somebody there, the account in plain words through that person (staging.md §2.8); by express,
+    // each family as the word reaches it (`tellWhenHeard`).
     grassAccounts(world, eventId);
   });
+  tellWhenHeard(world);
   advanceStorming(world, movement, { due, said });
   if (!world.director.complete) world.director.phase = questionOpen(world) ? 'news' : 'campaign';
 }
@@ -1256,8 +1317,15 @@ function advanceStorming(world, movement, { due, said }) {
   if (due('ugartechea', world.army?.questions?.reinforce?.openedMinute)) {
     once(world, 'ugartechea', () => { closeQuestion(world, 'reinforce'); said('HIST-TEX-040', 'Ugartechea has reached Cos in Béxar with about six hundred men, most of them raw conscripts.'); });
   }
-  // The express of December 6 reached San Felipe late on the 8th, and it was wrong: the attack "on the 6th", the town taken.
-  once(world, 'bexar-express', () => sendWord(world, 'bexar-storming', { truth: BEXAR_VICTORY, text: 'An express from the army says the volunteers went into Béxar about daylight on the 6th and have possessed themselves of the town, silencing the big guns, with two killed and a few wounded. Ugartechea is expected with six hundred men.', status: 'rumor', claimId: 'HIST-TEX-044', source: 'An express from the army' }));
+  // The express of December 6 reached San Felipe late on the 8th, and it was wrong: the attack "on the 6th", the town taken. It
+  // leaves the army by express in time to be at San Felipe then (`leaveInTime`, docs/COLONIES.md §5.4d), and never before the
+  // assault; the Host's report on San Felipe's day.
+  const EXPRESS_WORD = { truth: BEXAR_VICTORY, text: 'An express from the army says the volunteers went into Béxar about daylight on the 6th and have possessed themselves of the town, silencing the big guns, with two killed and a few wounded. Ugartechea is expected with six hundred men.', status: 'rumor', claimId: 'HIST-TEX-044', source: 'An express from the army' };
+  leaveInTime(world, 'bexar-express', { anchor: 'bexar-express', from: 'bexar', to: 'san-felipe', floor: momentOf(world, 'assault') }, () => sendWord(world, 'bexar-storming', EXPRESS_WORD, { from: 'bexar', beginTravel, publicToo: false }));
+  once(world, 'bexar-express', () => {
+    learn(world, 'public', 'bexar-storming', { status: 'rumor', source: EXPRESS_WORD.source, text: EXPRESS_WORD.text });
+    if (!world.expresses?.['bexar-storming']) sendWord(world, 'bexar-storming', EXPRESS_WORD, { publicToo: false });
+  });
   // The flag comes whether or not the camp's companies were ever asked for (staging.md §3.6 fix 4): it used to wait on the
   // `ugartechea` moment, whose own close waited on the reinforce question having opened.
   once(world, 'white-flag', () => fightStorming(world, said('HIST-TEX-040', 'At dawn a white flag came out to the Main Plaza. Cos has drawn his men into the Alamo, and some of his cavalry have ridden away.')));
@@ -1271,11 +1339,21 @@ function advanceStorming(world, movement, { due, said }) {
     said('HIST-TEX-045', 'Cos has marched out of Béxar for Mission San José and the Rio Grande. Burleson has written that the rest of the army will retire to their homes; the wounded stay in the town under the surgeons.');
     if (beginTravel) disbandArmy(world, { beginTravel });
   });
+  // The government heard of the victory on the 15th at San Felipe: by express from the army, leaving in time to be there then and
+  // never before the capitulation; each family is told what became of its own as the word reaches it (`tellWhenHeard`).
+  leaveInTime(world, 'bexar-victory', { anchor: 'bexar-victory', from: 'bexar', to: 'san-felipe', floor: momentOf(world, 'capitulation') }, () => {
+    sendWord(world, 'bexar-storming', { truth: BEXAR_VICTORY, claimId: 'HIST-TEX-044' }, { from: 'bexar', beginTravel, key: 'bexar-storming#victory', publicToo: false });
+  });
   once(world, 'bexar-victory', () => {
     const eventId = said('HIST-TEX-044', BEXAR_VICTORY);
-    sendWord(world, 'bexar-storming', { truth: BEXAR_VICTORY, claimId: 'HIST-TEX-044' });
+    learn(world, 'public', 'bexar-storming', { status: 'confirmed', source: 'Word from the army', text: BEXAR_VICTORY });
+    if (world.expresses?.['bexar-storming#victory']) return;
+    sendWord(world, 'bexar-storming', { truth: BEXAR_VICTORY, claimId: 'HIST-TEX-044' }, { publicToo: false });
     tellStorming(world, eventId);
   });
+  // The class's end waits, a day at most, for every played family to hear of the victory (owner, 2026-09-29, "Hold the end",
+  // given for San Jacinto and kept for Béxar; docs/COLONIES.md §5.4d). Anybody still unheard hears over the winter.
+  if (holdForWord(world, 'bexar-storming', 'bexar-end', { key: 'bexar-storming#victory' })) return;
   once(world, 'bexar-end', () => {
     expireCalls(world);
     world.director.complete = true; world.director.phase = 'preserved'; world.status = 'ended';
@@ -1295,9 +1373,12 @@ function advanceWinter(world, movement = {}) {
   once(world, 'winter-news', () => {
     world.director.phase = 'campaign';
     said('HIST-TEX-047', 'Most of the men who took Béxar are home. Burleson has gone home too, and the volunteers left in Béxar are mostly newcomers from the United States.');
-    sendWord(world, 'winter-terms', { truth: WINTER_TERMS, claimId: 'HIST-TEX-048', source: 'A printed call from General Houston' });
-    sendWord(world, 'winter-bexar', { truth: WINTER_BEXAR, claimId: 'HIST-TEX-049', source: 'Word from the west' });
-    sendWord(world, 'winter-council', { truth: WINTER_COUNCIL, claimId: 'HIST-TEX-050', source: 'Word from San Felipe' });
+    // By express, each from where it came (docs/COLONIES.md §5.4d): Houston's call and the council's quarrel out of San Felipe,
+    // where men enlisted and the government sat; the word of Béxar and the south out of Béxar. A family may enlist once it has
+    // heard the call, and join the garrison or go south once it has heard of Béxar (sim/winter.mjs `winterWordHeard`).
+    sendWord(world, 'winter-terms', { truth: WINTER_TERMS, claimId: 'HIST-TEX-048', source: 'A printed call from General Houston' }, { from: 'san-felipe', beginTravel: movement.beginTravel });
+    sendWord(world, 'winter-bexar', { truth: WINTER_BEXAR, claimId: 'HIST-TEX-049', source: 'Word from the west' }, { from: 'bexar', beginTravel: movement.beginTravel });
+    sendWord(world, 'winter-council', { truth: WINTER_COUNCIL, claimId: 'HIST-TEX-050', source: 'Word from San Felipe' }, { from: 'san-felipe', beginTravel: movement.beginTravel });
   });
   once(world, 'election-opens', () => {
     world.director.phase = 'news';
@@ -1307,10 +1388,12 @@ function advanceWinter(world, movement = {}) {
     world.director.phase = 'campaign';
     said('HIST-TEX-052', 'The polls have closed. The delegates are chosen, and the convention meets at Washington on March 1. Gonzales has sent Mathew Caldwell and John Fisher.');
   });
-  once(world, 'travis-news', () => sendWord(world, 'winter-travis', { truth: 'William Barret Travis has come to Béxar with about thirty horsemen, and Bowie means to hold the place.', claimId: 'HIST-TEX-051', source: 'Word from Béxar' }));
-  once(world, 'crockett-news', () => sendWord(world, 'winter-crockett', { truth: 'David Crockett of Tennessee has reached Béxar with a few volunteers. Colonel Neill has gone home to his sick family, and Travis and Bowie command together.', claimId: 'HIST-TEX-051', source: 'Word from Béxar' }));
+  // Word from Béxar leaves Béxar by express on the day the timeline has it (docs/COLONIES.md §5.4d).
+  const fromBexar = { from: 'bexar', beginTravel: movement.beginTravel };
+  once(world, 'travis-news', () => sendWord(world, 'winter-travis', { truth: 'William Barret Travis has come to Béxar with about thirty horsemen, and Bowie means to hold the place.', claimId: 'HIST-TEX-051', source: 'Word from Béxar' }, fromBexar));
+  once(world, 'crockett-news', () => sendWord(world, 'winter-crockett', { truth: 'David Crockett of Tennessee has reached Béxar with a few volunteers. Colonel Neill has gone home to his sick family, and Travis and Bowie command together.', claimId: 'HIST-TEX-051', source: 'Word from Béxar' }, fromBexar));
   // What Béxar believed, to everybody (sim/surprise.mjs): not that Santa Anna is marching (owner, 2026-09-26).
-  once(world, 'spring-grass', () => sendWord(world, 'winter-grass', { truth: SPRING_WORD, claimId: 'HIST-TEX-611', source: 'Word from Béxar' }));
+  once(world, 'spring-grass', () => sendWord(world, 'winter-grass', { truth: SPRING_WORD, claimId: 'HIST-TEX-611', source: 'Word from Béxar' }, fromBexar));
   // Blas Herrera's warning, disbelieved, to a family with somebody in or near Béxar, and nobody else; with it the way out for a
   // family with somebody in the garrison (`FIC-GONZ-383`).
   once(world, 'herrera', () => tellHerrera(world));
@@ -1325,15 +1408,25 @@ function advanceAlamo(world, said, { beginTravel } = {}) {
   // The bell (sim/surprise.mjs `hearTheBell`): heard on the day only by a family with somebody in or near Béxar - who is then
   // shut in the Alamo with the garrison - and by everybody else when the riders bring it.
   once(world, 'alamo-siege', () => { hearTheBell(world); beginSiege(world, said('HIST-TEX-054', 'The Mexican army has come into Béxar. The garrison has gone into the Alamo, and a red flag flies from the church of San Fernando.')); });
-  once(world, 'arrival-gonzales', () => arrivalWord(world, gonzalesFamilies(world), { source: 'Travis\'s note to Judge Ponton, brought in from Béxar', text: ARRIVAL_WORD.gonzales }));
+  // Gonzales hears when Sutherland and Smither ride in, and the other settlements by express from Gonzales (docs/COLONIES.md
+  // §5.4d); only where no express can go are they told all at once with Travis's letter (`travis-colonies`), as before.
+  once(world, 'arrival-gonzales', () => {
+    arrivalWord(world, gonzalesFamilies(world), { source: 'Travis\'s note to Judge Ponton, brought in from Béxar', text: ARRIVAL_WORD.gonzales });
+    sendExpress(world, 'bexar-arrival', { from: 'gonzales', status: 'confirmed', text: ARRIVAL_WORD.colonies, source: 'Riders from Gonzales', beginTravel });
+  });
   COURIER_DAYS.forEach(day => {
     once(world, `${day}-opens`, () => { if (askCouriers(world, day)) world.director.phase = 'news'; });
     once(world, day, () => { sendCouriers(world, day, alamo); world.director.phase = 'campaign'; });
   });
-  once(world, 'travis-gonzales', () => word(world, 'alamo-siege', gonzalesFamilies(world), { truth: ALAMO_WORD.siege, claimId: 'HIST-TEX-055', source: 'Travis\'s letter, brought to Gonzales by Albert Martin' }));
+  // Travis's letter: at Gonzales when Martin brings it, and on from there by express (docs/COLONIES.md §5.4d); a family may send
+  // somebody with the relief once it has heard it (sim/winter.mjs), so a family far off hears too late to, as one did.
+  once(world, 'travis-gonzales', () => {
+    word(world, 'alamo-siege', gonzalesFamilies(world), { truth: ALAMO_WORD.siege, claimId: 'HIST-TEX-055', source: 'Travis\'s letter, brought to Gonzales by Albert Martin' });
+    sendExpress(world, 'alamo-siege', { from: 'gonzales', status: 'confirmed', text: ALAMO_WORD.siege, source: 'Travis\'s letter, carried on from Gonzales', beginTravel });
+  });
   once(world, 'travis-colonies', () => {
-    arrivalWord(world, otherFamilies(world), { source: 'Riders from Gonzales', text: ARRIVAL_WORD.colonies, public: true });
-    word(world, 'alamo-siege', otherFamilies(world), { truth: ALAMO_WORD.siege, claimId: 'HIST-TEX-055', source: 'Travis\'s letter, carried on from Gonzales' });
+    arrivalWord(world, world.expresses?.['bexar-arrival'] ? [] : otherFamilies(world), { source: 'Riders from Gonzales', text: ARRIVAL_WORD.colonies, public: true });
+    if (!world.expresses?.['alamo-siege']) word(world, 'alamo-siege', otherFamilies(world), { truth: ALAMO_WORD.siege, claimId: 'HIST-TEX-055', source: 'Travis\'s letter, carried on from Gonzales' });
   });
   // The south (sim/south.mjs): the men walk on to San Patricio, Grant rides for horses, and each fight is fought on the engine
   // by whoever of the families is there. `fightSouth` still settles anybody the engine did not (a class whose map has no south).
@@ -1341,15 +1434,18 @@ function advanceAlamo(world, said, { beginTravel } = {}) {
   once(world, 'grant-rides', () => grantRides(world, alamo));
   once(world, 'san-patricio', () => { splitSouth(world); fightSouth(world, 'san-patricio', alamo); });
   once(world, 'relief-leaves', () => reliefRides(world, alamo));
-  once(world, 'fannin-back', () => word(world, 'fannin-back', Object.values(world.households), { truth: ALAMO_WORD.fannin, claimId: 'HIST-TEX-056', source: 'Word from Goliad' }));
+  // The south's word, Fannin's and the convention's by express from where each came in (docs/COLONIES.md §5.4d): Goliad, where
+  // Fannin was and where the men who got away from the south came to; Washington, where the convention sat.
+  once(world, 'fannin-back', () => carryWord(world, 'fannin-back', 'goliad', Object.values(world.households), { truth: ALAMO_WORD.fannin, claimId: 'HIST-TEX-056', source: 'Word from Goliad' }, beginTravel));
   once(world, 'relief-enters', () => reliefEnters(world));
   once(world, 'agua-dulce', () => fightSouth(world, 'agua-dulce', alamo));
-  once(world, 'san-patricio-news', () => { word(world, 'san-patricio', Object.values(world.households), { truth: ALAMO_WORD.sanPatricio, status: 'rumor', claimId: 'HIST-TEX-059', source: 'A rumour from the south' }); tellSouth(world, 'san-patricio'); tellSouthAccount(world, 'san-patricio'); });
-  once(world, 'declaration-news', () => word(world, 'declaration', Object.values(world.households), { truth: ALAMO_WORD.declaration, claimId: 'HIST-TEX-061', source: 'Word from Washington' }));
+  // Each family is told what became of its own men in the south as the rumour reaches it (`tellWhenHeard`).
+  once(world, 'san-patricio-news', () => { if (!carryWord(world, 'san-patricio', 'goliad', Object.values(world.households), { truth: ALAMO_WORD.sanPatricio, status: 'rumor', claimId: 'HIST-TEX-059', source: 'A rumour from the south' }, beginTravel)) { tellSouth(world, 'san-patricio'); tellSouthAccount(world, 'san-patricio'); } });
+  once(world, 'declaration-news', () => carryWord(world, 'declaration', 'washington', Object.values(world.households), { truth: ALAMO_WORD.declaration, claimId: 'HIST-TEX-061', source: 'Word from Washington' }, beginTravel));
   // The storming is fought on the engine now (sim/alamo-battle.mjs, docs/BATTLES.md §9): each fate at its own moment inside
   // it, and the Host's camera on the compound at the alarm. Only the record of the morning is kept here.
   once(world, 'alamo-assault', () => record(world, 'milestone', { visibility: 'sealed', importance: 3, classification: 'DOCUMENTED', claimId: 'HIST-TEX-058', text: 'The Alamo was stormed at dawn.' }));
-  once(world, 'agua-dulce-news', () => { word(world, 'agua-dulce', Object.values(world.households), { truth: ALAMO_WORD.aguaDulce, status: 'rumor', claimId: 'HIST-TEX-059', source: 'A rumour from the south' }); tellSouth(world, 'agua-dulce'); tellSouthAccount(world, 'agua-dulce'); });
+  once(world, 'agua-dulce-news', () => { if (!carryWord(world, 'agua-dulce', 'goliad', Object.values(world.households), { truth: ALAMO_WORD.aguaDulce, status: 'rumor', claimId: 'HIST-TEX-059', source: 'A rumour from the south' }, beginTravel)) { tellSouth(world, 'agua-dulce'); tellSouthAccount(world, 'agua-dulce'); } });
   once(world, 'survivors-leave', () => survivorsLeave(world, alamo));
   once(world, 'fall-rumour', () => word(world, 'alamo-fall', gonzalesFamilies(world), { truth: ALAMO_WORD.fall, text: ALAMO_WORD.fallRumour, status: 'rumor', claimId: 'HIST-TEX-060', source: 'Two riders from Béxar, at Gonzales' }));
   // Confirmed at Gonzales, and from there by express to the other settlements (docs/COLONIES.md §5.4c): each family hears as a
@@ -1439,13 +1535,17 @@ function advanceScrape(world, { beginTravel } = {}) {
   once(world, 'victory-word', () => { said('HIST-TEX-067', HOUSTON_WORD.victory); if (!world.expresses?.['san-jacinto']) word(world, 'san-jacinto', everyone, { truth: HOUSTON_WORD.victory, claimId: 'HIST-TEX-067', source: 'A rider from the army' }); });
   tellWhenHeard(world, go);
   if (world.minute >= momentOf(world, 'san-jacinto') && !world.director.milestones['san-jacinto']) return;
+  // The class's end at dawn on April 25 waits, a day at most, until every played family has heard of San Jacinto (owner,
+  // 2026-09-29: "Hold the end"; docs/COLONIES.md §5.4d, `FIC-GONZ-957`), as the autumn waited for its furthest family.
+  if (holdForWord(world, 'san-jacinto', 'scrape-end')) return;
   once(world, 'scrape-end', () => {
     world.director.complete = true; world.director.phase = 'preserved'; world.status = 'ended';
     record(world, 'slice-preserved', {
       visibility: 'public', classification: 'DOCUMENTED', claimId: 'HIST-TEX-067',
       // How the class's war ended, said once more as it closes (docs/BATTLES.md §8.5): the battle, the capture and the order to
       // fall back (`HIST-TEX-067`, `-526`). The ending's own reckoning follows it, unchanged (sim/ending.mjs).
-      text: 'April 25, 1836. The war is won: at San Jacinto on April 21 Houston\'s army destroyed Santa Anna\'s in eighteen minutes, Santa Anna was taken the next day, and as a prisoner he ordered his troops to fall back. The families are on the road home to what is left. Here the story ends.',
+      // The day it ends: April 25, or the day after if the end waited for a family to hear (`holdForWord`).
+      text: dateOf(world, world.minute).toLocaleDateString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' }) + ', 1836. The war is won: at San Jacinto on April 21 Houston\'s army destroyed Santa Anna\'s in eighteen minutes, Santa Anna was taken the next day, and as a prisoner he ordered his troops to fall back. The families are on the road home to what is left. Here the story ends.',
     });
   });
 }

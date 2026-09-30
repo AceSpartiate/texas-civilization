@@ -231,7 +231,9 @@ test('the Matamoros men are split between San Patricio and Agua Dulce and rolled
       assert.equal(person.health.condition, 'well', 'a fate was true before the word came');
     }
   }
-  untilMoment(world, 'agua-dulce-news');
+  // Each family as the rumour of its own man's fight reaches it by express from Goliad (docs/COLONIES.md §5.4d).
+  const told = south.filter(person => person.service.kind !== 'fannin');
+  for (const fight of ['san-patricio', 'agua-dulce']) untilHeard(world, told.filter(person => person.service.party === fight).map(person => person.householdId), fight, { firm: false, also: () => world.director.milestones['agua-dulce-news'] });
   for (const person of south) {
     if (person.service.kind === 'fannin') continue;
     assert.equal(person.health.condition, person.service.fate === 'killed' ? 'dead' : 'captured', `${person.name} was not ${person.service.fate} once the word came`);

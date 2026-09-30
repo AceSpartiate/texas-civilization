@@ -9,11 +9,11 @@
     "the rider reins in (Silas Roe; 1 riders drawn in sight, never the one whose word will be taken into the visit), with one \"!\" on the family and the call waiting behind him (\"One more thing is waiting for your family after this.\")",
     "the conversation ends with one clear control (\"Done — let Silas Roe ride on\"), and says \"One more thing is waiting for your family after this. Ask what you like, then press Done. Nothing said is lost when he rides on.\"",
     "the same word, firmer, from Concepción Mora mid-conversation is known at once (confirmed, \"Concepción Mora, who rode from Gonzales\") and never becomes a second meeting; the call's clock has not started",
-    "Done closed the conversation and the call came up next, 439 ms later: \"The committee at Matagorda asks the volunteers of the town and the cou...\"",
+    "Done closed the conversation and the call came up next, 474 ms later: \"The committee at Matagorda asks the volunteers of the town and the cou...\"",
     "the call's five minutes began when it was shown, not while it waited",
     "the same news is never a second meeting",
     "Escape ended the next conversation (Tobias Crow, the fight's outcome) and put it away",
-    "another family's rider rode past in view for 201 frames at no more than 1.20 of his heights a second (the server carried him at 1177.66), faded out once by, and was never drawn at the family's gate",
+    "another family's rider rode past in view for 193 frames at no more than 1.20 of his heights a second (the server carried him at 1177.66), faded out once by, and was never drawn at the family's gate",
     "no page errors"
   ],
   "measured": {
@@ -78,7 +78,7 @@
       "drawn": false
     },
     "next": {
-      "msAfterDone": 439,
+      "msAfterDone": 474,
       "encounterHidden": true,
       "text": "The committee at Matagorda asks the volunteers of the town and the country east of it to gather at James Kerr's on the Lavaca as speedily as they can. The town is badly armed and its men are few. Does somebody from your family go?"
     },
@@ -93,13 +93,13 @@
         "carrier": "Tobias Crow",
         "topic": "gonzales-outcome",
         "status": "unconfirmed",
-        "opened": 8560
+        "opened": 8980
       }
     ],
     "passer": {
       "id": "courier-19",
-      "samples": 62,
-      "drawnInView": 201,
+      "samples": 64,
+      "drawnInView": 193,
       "fastestDrawnHeightsPerSecond": 1.2,
       "serverHeightsPerSecond": 1177.66,
       "gaitCeiling": 1.2,

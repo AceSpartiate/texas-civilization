@@ -1014,10 +1014,14 @@ export function grassPresent(world, id, { causeId = null, outcomes = null } = {}
 }
 
 /** Word of the Grass Fight reaches a family: what happened to their own person, days after it happened (owner, §7b). */
-export function tellGrassFight(world, causeId) {
+export function tellGrassFight(world, causeId, only = null) {
   const grass = world.army?.grass;
   if (!grass || grass.told) return;
-  grass.told = true;
+  // Given `only`, the families the fuller word has reached (sim/expresses.mjs `hearExpresses`, docs/COLONIES.md §5.4d), each
+  // told once (`toldTo`); without it, everybody at once, as it always was.
+  if (!only) grass.told = true;
+  const toldTo = grass.toldTo || {};
+  const newly = new Set();
   const words = {
     ran: name => `${name} ran from the field in the fight west of Béxar on November 26, and made for home.`,
     wounded: name => `${name} was slightly hurt in the fight west of Béxar on November 26, and was days mending.`,
@@ -1026,12 +1030,15 @@ export function tellGrassFight(world, causeId) {
   };
   for (const { id, fate } of grass.outcomes) {
     const person = world.entities[id];
-    if (!person?.householdId) continue;
+    if (!person?.householdId || (only && (!only.has(person.householdId) || toldTo[person.householdId]))) continue;
+    newly.add(person.householdId);
+    const cause = causeId || world.knowledge?.households?.[person.householdId]?.['grass-fight']?.eventId;
     record(world, fate === 'present' ? 'army' : 'consequence', {
       actorId: id, householdId: person.householdId, importance: fate === 'present' ? 2 : 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-040',
-      causes: causeId ? [causeId] : [], text: words[fate](person.name),
+      causes: cause ? [cause] : [], text: words[fate](person.name),
     });
   }
+  if (only && newly.size) grass.toldTo = { ...toldTo, ...Object.fromEntries([...newly].map(id => [id, true])) };
 }
 
 // ------------------------------------------------------------------------------------ build step 6: the storming of Béxar
@@ -1263,17 +1270,23 @@ export function sendMendedHome(world, { beginTravel }) {
 }
 
 /** Word of the victory reaches a family: what happened to their own person in the storming. */
-export function tellStorming(world, causeId) {
+export function tellStorming(world, causeId, only = null) {
   const storming = world.army?.storming;
   if (!storming || storming.told) return;
-  storming.told = true;
+  // Given `only`, the families the word of the victory has reached (sim/expresses.mjs `hearExpresses`, docs/COLONIES.md §5.4d),
+  // each told once (`toldTo`); without it, everybody at once, as it always was.
+  if (!only) storming.told = true;
+  const toldTo = storming.toldTo || {};
+  const newly = new Set();
   const marksOf = person => person.marks?.length ? ` They have ${person.marks.join(' and ')}.` : '';
   // The day and the place it happened, where the storming staged it (sim/bexar-fight.mjs): "on December 7, in a yard".
   // A class saved before this kept a minute in `day` for a later death, which says nothing to a family: only words are told.
   const when = outcome => [typeof outcome.day === 'string' ? ` on ${outcome.day}` : '', outcome.where ? `, ${outcome.where}` : ''].join('');
   for (const outcome of storming.outcomes) {
     const person = world.entities[outcome.id];
-    if (!person?.householdId) continue;
+    if (!person?.householdId || (only && (!only.has(person.householdId) || toldTo[person.householdId]))) continue;
+    newly.add(person.householdId);
+    const cause = causeId || world.knowledge?.households?.[person.householdId]?.['bexar-storming']?.eventId;
     const text = {
       killed: () => `${person.name} was killed in the storming of Béxar${when(outcome)}, and was buried there.`,
       'died-of-wounds': () => `${person.name} was badly wounded in the storming of Béxar${when(outcome)}, and died of the wound there some days after.`,
@@ -1285,7 +1298,8 @@ export function tellStorming(world, causeId) {
     }[outcome.fate]();
     record(world, outcome.fate === 'present' ? 'army' : 'consequence', {
       actorId: person.id, householdId: person.householdId, importance: outcome.fate === 'present' ? 2 : 3,
-      classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-041', causes: causeId ? [causeId] : [], text,
+      classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-041', causes: cause ? [cause] : [], text,
     });
   }
+  if (only && newly.size) storming.toldTo = { ...toldTo, ...Object.fromEntries([...newly].map(id => [id, true])) };
 }
