@@ -287,7 +287,7 @@ last video: *"make two at once, and student videos don't start playing until aft
 
 - **Two at once.** The Host's computer makes the class's own video first and alone (it plays first), then the families' **two at a
   time**, the families students played first, a new one begun as each finishes (`public/making-plan.js` `toStart`, `MAKE_AT_ONCE`).
-  The proof measures the class video playing while two are made: @@BESIDE@@. `ceiling:` two, not the computer's cores.
+  The proof samples the Host's page every tenth of a second: in five runs, while two were made and the class video played at real speed, it kept pace (2.3-37.1 s played in the same wall time, never a tenth of a second at under half speed but one) and dropped 0.3-9% of its frames. `ceiling:` two, not the computer's cores.
 - **Never before the class video has finished.** The families' stage begins only when the class video has ended (the Host's page
   says so), run out its time, or been skipped by the teacher; the families' start is **the later of that moment and 8 s after the last
   of their videos was made** (`playAt = max(now, lastMade + START_MS)`): videos made while the class video played start as it ends,

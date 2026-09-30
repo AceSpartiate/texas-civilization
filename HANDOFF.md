@@ -1,5 +1,38 @@
 # Claude handoff — Astra foundation
 
+## Two videos made at once, and the families' after the class video — owner-decided 2026-09-30 (not released)
+
+**The ask.** The owner, answering the end sequence's open question (a class of thirty waiting for the last video to be made):
+*"make two at once, and student videos don't start playing until after the class video finishes playing"*. Branch `end-sequence-3`
+off local `integration-2026-09-28` 3ff1bec5; not pushed. docs/FLASHBACK.md §11a, TEACHER.md.
+
+- **Two at once** (`public/making-plan.js` `toStart`, `MAKE_AT_ONCE` 2; `public/flashback.js` `makeMissing`): the Host's computer makes
+  the class's own video first and alone (it plays first), then the families' two at a time, the families students played first, a new
+  one begun as each finishes. The Host's status names both. `ceiling:` two, not the computer's cores.
+- **It does not stall the class video on this computer.** The proof samples the Host's page every tenth of a second from the moment
+  it opens: in five runs (two proofs at once on this computer), while two families' videos were being made and the class video played
+  at real speed, it played 2.3-37.1 s of video in the same wall time (16-37 s in four runs), never a tenth of a second at under half
+  speed but one, dropping 0.3-9% of its frames (1 of 324 to 24 of 745; 4 of 45 in the short run). Not dropped to one.
+- **The families' start** (`sim/end-sequence.mjs` `familyClock`): the families' stage begins only when the class video has ended (the
+  Host's page says so), run out its time, or been skipped by the teacher; the start is `max(now, last made + 8 s)`: videos made while
+  the class video played start as it ends, one made within 8 s of its end or after it, 8 s after it was made. A student's page now
+  loads its own video while the class video plays. Unchanged: the "in N seconds" timing, the 10 s after the longest video, closed pages
+  holding nothing, Play Solo waiting for its page, the 10-minute cap. Measured in the five runs: the students' videos started 0.3-1.6 s
+  after the class video ended where their videos were made 16-35 s before it, and 12.8 and 27.0 s after where the last was made 5.0
+  and 19.5 s after it (8 s after it was made, as the rule says).
+
+**Evidence** (same computer only; no Chromebook or LAN claim):
+
+- `tests/end-sequence.test.mjs`, two new tests: the families' videos never start while the class video plays, start as it ends when
+  ready, and 8 s after the last when not; the class's video alone and first, then families two at a time (`toStart`). The server test's
+  clock is now real time moved on (`ahead`), since a video's `madeAt` is real time. **`node scripts/end-sequence-injections.mjs`: 41 of
+  41 caught by their own test**, seven of them new ([record](docs/evidence/end-sequence-injections.json)).
+- **`test:end-sequence`: 5 of 5 green** (two at a time, 25 checks each), a class of eight families now so that making runs long enough
+  to be measured beside the class video; two new checks (two at once beside the class video, the start after it). The first runs of
+  this branch showed the measurement, not the game, at fault: made quickly, every family's video was done before a later look began;
+  the sampler now runs from the Host page's opening.
+- `npm test`: **1888 tests, 1850 pass, 1 fail, 36 skipped** (the suspended tutorial): `capacity`, the known flake under load (with `save-retry` slow beside it), passes alone (2 of 2).
+
 ## The Runaway Scrape's own choices: household goods in the load, leaving early on real news, foragers who take a stayer's goods — triage D9, owner 2026-09-29 (not released)
 
 Branch `owner-scrape` off local `integration-2026-09-28` 4131feb8; not pushed. The owner chose the recommended option of each of

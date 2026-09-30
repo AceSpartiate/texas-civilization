@@ -202,7 +202,7 @@ try {
   assert.ok(afterClass >= -300, `a family's video started ${-afterClass} ms before the class video had finished`);
   const lastMadeWall = await host.evaluate(() => Math.max(...window.__flashback.done.filter(one => ['hh-1', 'hh-2'].includes(one.householdId)).map(one => one.at || 0)));
   evidence.start = { afterClassMs: afterClass, lastMadeBeforeClassEndMs: classEnded - lastMadeWall };
-  ok(`the families' videos started ${(afterClass / 1000).toFixed(1)} s after the class video finished (their last made ${((classEnded - lastMadeWall) / 1000).toFixed(1)} s before it finished)`);
+  ok(`the families' videos started ${(afterClass / 1000).toFixed(1)} s after the class video finished (their last made ${Math.abs((classEnded - lastMadeWall) / 1000).toFixed(1)} s ${classEnded >= lastMadeWall ? 'before' : 'after'} it finished)`);
   for (const [page, id] of [[one, 'hh-1'], [two, 'hh-2']]) {
     const own = await playing(page, '#finale-slot #flashback-video');
     assert.ok(own.advanced > 1 && own.visible, `${id}'s own video did not play by itself: ${JSON.stringify(own)}`);
