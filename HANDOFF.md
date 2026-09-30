@@ -87,6 +87,60 @@ and fleeing to the nearest refuge).
    family nearer Béxar hears first. (a) Keep (built); (b) time them from the fight itself at the courier's pace, letting San
    Felipe's date fall where the model puts it.
 
+## The family's start: Anglo-American, Tejano and free Black; skin tones locked; the road east — 2026-09-29 (not released)
+
+**The ask.** The owner, 2026-09-29: *"build all of these as possible starts except for the native american options. those are too
+different and will require too much work for now. ensure that skin tone options based on the race of the characters is locked to
+what is realistic."*, and of the Black family's start, *"Free Black family"* (triage D13, design audit S30). Branch `new-starts`
+off origin/main c03faa58; not pushed. The design, research and open questions are docs/FAMILY_CREATION.md, *The family's start*;
+claims `HIST-TEX-780` to `-789`, `FIC-GONZ-980` to `-986`.
+
+- **Dealt with the land** (`sim/starts.mjs`, one line in `sim/colonies-region.mjs`, an optional `seated` on `dealCounts`). A class
+  made since (`createWorld(..., { starts: true })`, on in server/main.mjs; `STARTS=0` turns it off) seats **Victoria** with Gonzales
+  and Liberty; every Victoria family is **Tejano** (one in 5-20 families, two in 25-30); from ten families one of Liberty's is a
+  **free Black** family; the first of each is moved among the **first six to join**, exchanging land only with a family on the
+  same side of the burn zone (composes with the D12 shuffle). `household.heritage`, validated; on the family book (`start`), never
+  on the tick or another family's page. A class made before has no `world.starts` and is untouched; no save version moved.
+- **Skin tones locked** (`SKIN_RANGES`): Anglo fair-tan, Tejano light-brown, free Black olive-deep brown, overlapping. The looks
+  screen offers only the range, the default is dealt in it, anything else is refused and does not open; children are between their
+  parents; a lone parent's new spouse is dealt in it, from the start's names and a neighbour family of the same start. **Her
+  children's figures are dyed now** (`public/person-palette.js` `girl`, `boy`, `smallchild`, measured 2026-09-29): until today
+  children were drawn as painted whatever their parents' tone.
+- **Names** by start (`POOLS`), a Tejano family plants corn, the card before the dice says who the family is (public/creation.js
+  `renderStart`).
+- **Seguín's company** (`sim/tejano.mjs`): a Tejano man's call is to ride "to join the Tejano volunteers (Seguín's company)"; he is
+  told of the Salado, of the leave after Béxar; in the spring `join-seguin` (Houston's army as Seguín's); the San Jacinto account
+  says he was with the one Tejano company and its white pasteboard. The army is still one body (`ceiling:`).
+- **A free Black family** is refused nothing; its journal is told the council's ordinance (January 10, 1836) and the constitution
+  (March 22), and its ending the Ashworth Act (`sim/start-story.mjs`).
+- **The road east**: half a day into its flight a family passes a planter's halted wagons and the people he held in slavery,
+  drawn (five figures, the cast recoloured) on its own page while near and on the Host's; at its first crossing a group waits
+  there too and it hears of escapes toward the Mexican army. Journal lines once each; no words in their mouths; no household,
+  entity, trade or reward.
+- **Art**: request 2026-09-29 "the family's start" (A21-A23, C20) with four stand-ins in use.
+
+**Evidence** (same computer only; no Chromebook or LAN claim; merged with origin/main ca6ac201):
+
+- `tests/starts.test.mjs`, 14 tests (the last three play a class of ten to the spring). **`npm run test:starts-injections`: 31 of 31
+  caught by the test written for each, 26 by it alone** ([record](docs/evidence/starts-injections.json)); three were missed on the
+  first run and their tests strengthened (forty layouts for the burn-zone exchange; an Anglo man who *is* offered Houston's army;
+  a Tejano man who stayed home in the autumn).
+- Browser, headless Chrome: `test:creation` 14 (new: the Tejano, free Black and Anglo cards, `docs/evidence/creation-start-*.png`),
+  `test:looks` 12 (new: each start's tones offered with pictures, the children inside them, `docs/evidence/looks-start-*.png`),
+  `test:looks-face` 15 (new: her girl, boy and small child take the tone on the face and the hair only on the hair; the check
+  **fails, 100% undyed, with the children's palette rows removed**), `test:creation-screen` 4, `test:family`, `test:family-panel`,
+  `test:means`, `test:lone-parent` 10, `test:battle-bexar` 15, `test:scrape` 7, `test:whole-game` 14 - all green.
+- `npm test`: **1840 tests, 1803 pass, 1 fail, 36 skipped** (the suspended tutorial); the one fail is `save-retry`, the known flake under load, which passed on its rerun alone.
+
+**Open, for the owner** (built the conservative way; recommended first; the whole of each in FAMILY_CREATION.md):
+1. A Tejano family's wedding: (a) a priest's wedding by the priest from La Bahía; (b) the bond, as built, with a truthful line;
+   (c) a betrothal now and the wedding when the priest comes.
+2. A Béxar start: (a) Victoria only, as built; (b) ranchos below Béxar as a start; (c) Béxar only in a class of 20 or more.
+3. The teacher and the deal: (a) no control, as built; (b) a lobby switch for Anglo-American families only; (c) the Host chooses counts.
+4. Hair: (a) open, as built; (b) defaults only; (c) locked by start as skin is.
+5. Seguín's men in the winter's garrison: (a) left out, as built; (b) in with Seguín, leaving after February 25.
+6. The Tejano poor band's cart: (a) "cart", as built; (b) named and drawn as the carreta.
+
 ## `test:keyboard-farm` on the merged tree: the idle child dealt with by the keyboard — 2026-09-29 (not released)
 
 Branch `keyboard-farm-fix` off `integration-2026-09-28` f468d719; not pushed. On the merged tree the proof failed every time at

@@ -72,6 +72,10 @@ import { STATES as IMPROVEMENT_STATES, improvementProjection } from './improveme
 import { OLD_PATCHES, plotAt } from './fields.mjs';
 import { advanceArrivals, putOnTheRoad, sayTheArrival, shelterProjection } from './settling.mjs';
 import { MEANS_TABLE, applyMeans, meansInvalid, meansProjection, settleMeans } from './means.mjs';
+// Who a family is as well as where it starts (owner, 2026-09-29; sim/starts.mjs, docs/FAMILY_CREATION.md *The family's start*).
+import { STARTS_RULE, startProjection, startsInvalid } from './starts.mjs';
+import { advanceStarts, startStoryInvalid } from './start-story.mjs';
+import { tejanoInvalid } from './tejano.mjs';
 // The carreta a family makes at home (owner, 2026-09-25): its chore registers itself into the one table (sim/chores.mjs).
 import './carreta.mjs';
 import { seatOfTravel } from './company.mjs';
@@ -105,7 +109,7 @@ export function seededRandom(seed) {
   for (const char of String(seed)) value = Math.imul(value ^ char.charCodeAt(0), 16777619);
   return () => { value ^= value << 13; value ^= value >>> 17; value ^= value << 5; return (value >>> 0) / 4294967296; };
 }
-export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzales', neighbours = false, zoneDeal = true } = {}) {
+export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzales', neighbours = false, zoneDeal = true, starts = false } = {}) {
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
   const random = seededRandom(seed);
   const world = { schemaVersion: 3, seed: String(seed), playerCount, tick: 0, minute: 0, status: 'lobby', entities: {}, households: {}, map: { sites: {}, routes: {}, terrain: [] }, events: [], nextEventId: 1, nextCourierId: 1, truth: {}, knowledge: { households: {}, public: {} }, barriers: [], offers: {}, nextOfferId: 1, encounters: {}, nextEncounterId: 1 };
@@ -113,7 +117,10 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
   // A class on the real land of the colonies (docs/COLONIES.md) or on the invented Gonzales country every class had before.
   if (!['gonzales', 'colonies'].includes(map)) throw new Error('Unknown map');
   // `zoneDeal: false` is a class dealt as before 2026-09-26, half inside the burn zone or not (sim/colonies-region.mjs): an old save, for tests.
-  const region = map === 'colonies' ? buildColoniesRegion(random, playerCount, { zone: zoneDeal }) : buildGonzalesRegion(random, playerCount);
+  // `starts`: who each family is as well as where - Anglo-American, Tejano at Victoria, free Black near Liberty (sim/starts.mjs,
+  // owner 2026-09-29). Only on the real land, and only in a class made with it (server/main.mjs), marked `world.starts`.
+  const region = map === 'colonies' ? buildColoniesRegion(random, playerCount, { zone: zoneDeal, starts }) : buildGonzalesRegion(random, playerCount);
+  if (region.heritages) world.starts = STARTS_RULE;
   world.map.sites = region.sites; world.map.routes = region.routes; world.map.terrain = region.terrain; world.map.relief = region.relief; world.map.bounds = region.bounds; world.map.homeBounds = region.homeBounds;
   // A class on the real land carries no province of its own: the page is sent the current one (sim/province.mjs).
   if (region.province) world.map.province = region.province;
@@ -138,7 +145,10 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
     const site = world.map.sites[`home-${i}`];
     // Corn or cotton, fixed at founding: `HIST-GONZ-013` documents both for this
     // locality and nothing else, so a household grows one of the two and never changes.
-    const crop = random() < .5 ? 'corn' : 'cotton';
+    const drawn = random() < .5 ? 'corn' : 'cotton';
+    // A Tejano family of De León's colony plants corn (sim/starts.mjs, `FIC-GONZ-983`): its settlers "farmed and raised horses and
+    // cattle" (`HIST-TEX-780`), and no cotton was found grown there. The draw is still taken, so the class's stream is unchanged.
+    const crop = region.heritages?.[i - 1] === 'tejano' ? 'corn' : drawn;
     // The wagon, packed with the sensible default, and the stores, tools and belongings that
     // follow from it (docs/SETTLING_IN.md step 3, sim/wagon.mjs). A student may repack it in the
     // lobby; one who never does has this. Its one draw is the one the founding food used to take.
@@ -149,7 +159,7 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
     // because a stored name is a name somebody chose. See sim/family.mjs.
     // On the real map a family belongs to the settlement it was dealt to (docs/COLONIES.md §5.1): its town for trade and its
     // neighbours. Absent on the invented map, where every family's town is Gonzales.
-    const household = { id: householdId, homeSiteId: site.id, ...(site.settlementId && { settlementId: site.settlementId }), members: [], principalId: `${householdId}-thomas`, property: [], ...householdFromLoad(load), field: { crop, state: 'bare', changedTick: 0 }, relationships: { neighbor: 0 }, commitments: [], memories: [] };
+    const household = { id: householdId, homeSiteId: site.id, ...(site.settlementId && { settlementId: site.settlementId }), ...(region.heritages && { heritage: region.heritages[i - 1] }), members: [], principalId: `${householdId}-thomas`, property: [], ...householdFromLoad(load), field: { crop, state: 'bare', changedTick: 0 }, relationships: { neighbor: 0 }, commitments: [], memories: [] };
     world.households[householdId] = household;
     world.knowledge.households[householdId] = {};
     // Names are dealt across the class so fifteen families are not fifteen copies of one;
@@ -157,7 +167,7 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
     // play this asked and the game could not answer. **Ids keep the founding names** and
     // never change, because skills and faces are derived from them and a rename must not
     // move either - so `hh-3-thomas` may be a student's Bartolo. See sim/family.mjs.
-    const names = defaultNames(world.seed, i - 1);
+    const names = defaultNames(world.seed, i - 1, household.heritage);
     const kin = kinFor(householdId);
     for (const [j, person] of HOUSEHOLD_SHAPE.entries()) {
       const id = `${householdId}-${person.key}`;
@@ -223,7 +233,8 @@ export function rollFamily(world, household) {
   for (const id of household.members) delete world.entities[id];
   household.members = [];
   // Born counting back from the day the die is rolled, so everybody's age is their age that day (FIC-GONZ-361).
-  rolledPeople(world.seed, household.id, index, roll, FAMILY_TABLE, dateOf(world, world.minute)).forEach((person, j) => {
+  // Named from the pools of the family's start, where the class deals starts (sim/starts.mjs).
+  rolledPeople(world.seed, household.id, index, roll, FAMILY_TABLE, dateOf(world, world.minute), household.heritage).forEach((person, j) => {
     addPerson(world, household, site, j, { ...person, adult: person.age >= 16 });
   });
   household.principalId = household.members[0];
@@ -735,6 +746,9 @@ export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs
   // word of the crowded places (sim/disease.mjs, docs/DISEASE.md).
   advanceDisease(world);
   advanceDirectors(world, { beginTravel, dispatchReport });
+  // What a family's start adds to its story (sim/start-story.mjs, owner 2026-09-29): the law for a free Black family, Seguín's
+  // company for a Tejano family's men, and the people nobody plays on the road east. Journal lines only; nothing is decided here.
+  advanceStarts(world);
   // Whatever somebody rode to the army marches with them (sim/keeping.mjs), once the army has moved.
   keepWithRiders(world);
   // Whoever went to the war with the rifle and is home again, or is dead or taken, has let it go (sim/keeping.mjs).
@@ -1237,8 +1251,10 @@ export const projectFamily = (world, householdId) => {
   const household = world.households[householdId];
   // The family's means beside its roll (sim/means.mjs): what the second die gave, in the server's words.
   const means = household && meansProjection(world, household);
+  // Where the family has come from and who it is (sim/starts.mjs): said on the card before the dice, in a class that deals starts.
+  const start = household && startProjection(world, household);
   // `meansDie`: this class throws the second die with the first, so the page draws two before the roll as well as after.
-  return household ? structuredClone({ ...familyProjection(world, household), ...(world.meansRoll && { meansDie: true }), ...(means && { means }) }) : null;
+  return household ? structuredClone({ ...familyProjection(world, household), ...(world.meansRoll && { meansDie: true }), ...(means && { means }), ...(start && { start }) }) : null;
 };
 /**
  * The household as its family sees it, with its main person resolved (sim/family.mjs `mainPersonId`). `mainId` is sent
@@ -1260,6 +1276,8 @@ function projectHousehold(world, household) {
   // The lone parent's path is sent as the page draws it (sim/courtship.mjs `courtshipView`), never as stored: the stored record
   // carries the new parent's hidden stats, rolled at the press.
   delete shown.courtship;
+  // The family's start is on the family book (`projectFamily`, fetched), not the tick: it never changes.
+  delete shown.heritage;
   return { ...shown, ...(main !== household.principalId && { mainId: main }),
     ...(acting && acting.id !== main && { actingId: acting.id }), ...(acting?.how === 'child' && { steppedUp: true }),
     ...(taken && { takenIn: { householdId: taken.id, name: householdName(world, taken), ids: [...household.takenIn.ids] } }) };
@@ -1511,6 +1529,7 @@ export function validateWorld(world) {
   if (world.wagonsBySize !== undefined && world.wagonsBySize !== true) throw new Error('Invalid wagon rule');
   // Absent on every class made before the means were rolled (2026-09-25), whose families have none (sim/means.mjs).
   { const badMeans = meansInvalid(world); if (badMeans) throw new Error(badMeans); }
+  { const badStart = startsInvalid(world) || startStoryInvalid(world) || tejanoInvalid(world); if (badStart) throw new Error(badStart); }
   const ids = new Set();
   for (const [id, entity] of Object.entries(world.entities)) {
     if (id !== entity.id || ids.has(id)) throw new Error('Duplicate or mismatched entity ID');

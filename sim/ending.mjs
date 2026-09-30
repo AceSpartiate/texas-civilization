@@ -29,6 +29,8 @@ import { surpriseReveal } from './surprise.mjs';
 import { classHooks, familyQuestions, flightLine, nobodyWentLine, springWords, warPrisoners } from './ending-story.mjs';
 // What families did for each other (sim/neighbourly.mjs, owner 2026-09-28: "helping is recorded in the ending").
 import { helpWhat, helpedLines, neighbourLines } from './neighbourly.mjs';
+// What came after for a Tejano or a free Black family's people (sim/start-story.mjs, owner 2026-09-29): the story's last line.
+import { afterWords } from './start-story.mjs';
 
 /**
  * The coin the final number multiplies: what is in the house, and never less than one real.
@@ -290,6 +292,7 @@ export function familyEnding(world, householdId) {
     flightLine(world, household),
     ...prisoners.map(one => one.text),
     ...warPrisoners(world, household).map(one => one.text),
+    afterWords(world, household),
   ].filter(Boolean);
   // The coin as it is counted: the floor of one real, then the prisoners' parts taken out of it, each step said.
   const floored = money < COIN_FLOOR ? `${reales(money)}, counted as ${reales(COIN_FLOOR)}` : reales(money);

@@ -28,6 +28,7 @@ import { drilledSteady, fightSanJacinto, inTheLine } from './houston.mjs';
 import { mainPersonId } from './family.mjs';
 import { share } from './alamo.mjs';
 import { momentOf } from './directors.mjs';
+import { seguinAtSanJacinto } from './tejano.mjs';
 
 const ID = DEF.id;
 const GONE = ['dead', 'captured'];
@@ -274,7 +275,8 @@ export function sanJacintoAccount(world, men) {
     if (service.fate === 'killed') return `${name}${drilled} was in the line, and was killed in the charge at the breastwork.`;
     if (service.fate === 'wounded') return `${name}${drilled} was in the line, went over the breastwork with the rest, and was slightly hurt. ${name} is on their feet.`;
     return `${name}${drilled} was in the line, went over the breastwork with the rest, and came through unhurt.`;
-  });
+  // A man of Seguín's company in the line (sim/tejano.mjs, `HIST-TEX-782`): the one Tejano company, and how its men were marked.
+  }).map((line, i) => (men[i].service.absent ? line : `${line}${seguinAtSanJacinto(men[i])}`));
   const going = men.filter(person => person.service.fate !== 'killed').map(person => person.name);
   const home = going.length ? ` Many men stayed on with the army through the summer; ${going.join(' and ')} ${going.length > 1 ? 'are' : 'is'} let go, and starting home.` : '';
   const did = `What your family's own did: ${said.join(' ')}${home}`;

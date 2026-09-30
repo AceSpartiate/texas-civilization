@@ -2,6 +2,8 @@
 // world and battle all draw the same registered atlas frames and animation clips.
 import { drawClip, drawSprite } from './art.js';
 
+// stand-in: docs/ART_REQUESTS.md, request 2026-09-29 "the family's start", item 2 - a Tejano ranchero family's dress; until it
+// is drawn a Tejano family is the cast in its chosen colours, the straw hat and the headscarf the nearest to a sombrero and a rebozo.
 export function avatarVariant(appearance, sex = 'male') {
   const head = appearance?.head;
   if (sex === 'female') return head === 'bonnet' || head === 'headscarf' ? 'rust-woman'

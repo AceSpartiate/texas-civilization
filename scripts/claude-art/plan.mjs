@@ -91,6 +91,7 @@ const R = {
   seguin: 'Request 2026-09-27 — Seguín, the ashes, and the later church claim',
   garden: 'Request 2026-09-28 — the garden — WITHDRAWN 2026-09-28',
   wedding: 'Request 2026-09-29 — the lone parent\'s wedding',
+  starts: 'Request 2026-09-29 — the family\'s start: Tejano and free Black families, and the people of the road east',
   armies: 'Claude-drawn stand-ins (replace with Astra\'s)',
 };
 
@@ -140,6 +141,12 @@ export const ITEMS = [
     frames: '2, 2, 2, 1 each; 2, east', size: PEOPLE, standIn: 'the nearest cast poses in `scenePose` (idle, speak, trade), a wave or a bow drawn by the page; Claude\'s `<cast>-greet`, `-shy`, `-laugh`, `-vow` and `elder-read-paper`', kind: 'claude', plugs: '`scenePose` in `public/courtship.js` (drawn through `drawAvatar`)', status: 'open', phrases: ['the lone parent\'s wedding'] },
   { id: 'A20', area: 'A', priority: 3, request: R.wedding, item: 'item 7', deliver: '`rust-fiddle` and `ochre-fiddle` (a farmer standing and playing a fiddle at the wedding supper)', names: ['rust-fiddle', 'rust-fiddle-*', 'ochre-fiddle', 'ochre-fiddle-*'],
     frames: '2 frames each, east', size: PEOPLE, standIn: 'the Béxar fandango fiddler, `fiddler-play`', kind: 'library', plugs: 'the wedding scene in `public/courtship.js`', status: 'open' },
+  { id: 'A21', area: 'A', priority: 1, request: R.starts, item: 'item 1', deliver: 'the people of the road east: `road-man`, `road-woman`, `road-elder`, `road-child` - enslaved men, women and children in homespun and osnaburg, bundles on their backs, walking (4, east), resting by the road (2), standing waiting at a ferry (1, south); no chains, no whips, no one cowering; and `planter-wagon-halted`, a planter’s loaded wagon standing with its oxen out', names: ['road-man*', 'road-woman*', 'road-elder*', 'road-child*', 'planter-wagon-halted*'],
+    frames: '1-4 frames each', size: PEOPLE, standIn: 'the cast (`ochre`, `rust-woman`, `elder`, `teal`, `boy`) recoloured by the palette in dark tones and homespun colours, resting or standing; no wagon', kind: 'library', plugs: '`GROUP` in `sim/start-story.mjs`; `crowdDrawables` in `public/ambient.js`', status: 'open', phrases: ['the people of the road east'] },
+  { id: 'A22', area: 'A', priority: 2, request: R.starts, item: 'item 2', deliver: 'a Tejano ranchero family’s dress for the parents’ figures: a man in a low-crowned wide sombrero, a short jacket and calzoneras (`tejano-man`), a woman in a rebozo, a full skirt and a loose chemise (`tejano-woman`), each in every pose the cast has (idle four ways, walk, work, rest, speak, care, ride, drive), in the layered form of A18 so the palette dyes them', names: ['tejano-man*', 'tejano-woman*'],
+    frames: 'the cast’s full set', size: PEOPLE, standIn: 'the cast recoloured by the palette; the straw hat and the headscarf as the nearest head choices', kind: 'library', plugs: '`avatarVariant` in `public/avatar-art.js`; `sources`, `REFS` and `HEADS` in `public/person-palette.js`', status: 'open', research: 'HIST-TEX-789 (Gregg, of New Mexico in the 1830s: interpretive for Texas)' },
+  { id: 'A23', area: 'A', priority: 2, request: R.starts, item: 'item 3', deliver: 'faces and hair painted for the darker skin tones: a man and a woman of the free Black family, and a girl and a boy, drawn with darker skin as painted (not dyed) and hair in close curls, short or braided and wrapped, in the colonists’ same dress and every pose the cast has', names: ['dark-man*', 'dark-woman*', 'dark-girl*', 'dark-boy*'],
+    frames: 'the cast’s full set', size: PEOPLE, standIn: 'the cast and her children recoloured by the palette to the chosen tone (the painted light and shade kept, the hair’s shape the painted one)', kind: 'library', plugs: '`avatarVariant` in `public/avatar-art.js`; `public/person-palette.js`', status: 'open' },
 
   // ---------------------------------------------------------------- B: children, babies and sickness
   { id: 'B1', area: 'B', priority: 1, request: R.play, item: 'item 1', deliver: 'for `girl`, `boy`, `smallchild`: `-play-gallop` (stick horse, 4, east), `-play-run` (4, east, and `-n`/`-s`), `-play-hide` (1), `-play-kneel` (2), `-play-sit-doll` (1), `-play-hoop` (4, the hoop in the frame), `-scatter` (throwing corn, 2)',
@@ -210,6 +217,8 @@ export const ITEMS = [
     frames: '1', size: '192×192, in the map art\'s own light', standIn: 'tents, the fire and the flag drawn in canvas by `public/army-view.js`', kind: 'code', plugs: '`drawArmy` in `public/army-view.js`', status: 'open', phrases: ['the camp: the tents'] },
   { id: 'C19', area: 'C', priority: 3, request: R.alamo, item: 'item 2', deliver: 'specific art for the Alamo\'s north-wall and church guns (the 18-pounder and the siege battery are delivered)', names: ['cannon-alamo-north*', 'cannon-alamo-church*'],
     frames: 'rest and recoil, both facings', size: PROP + ' (the field guns\' scale)', standIn: 'the reusable field-gun art and existing crews', kind: 'library', plugs: '`drawGun` in `public/battle-view.js`', status: 'open', research: 'which guns stood where (docs/ALAMO_LAYOUT.md); interpretive silhouettes' },
+  { id: 'C20', area: 'C', priority: 2, request: R.starts, item: 'item 4', deliver: '`icon-join-seguin` (a Tejano horseman in a wide sombrero with a lance or a rifle, riding to join a line)', names: ['icon-join-seguin'],
+    frames: '1', size: ICON, standIn: '`icon-join-houston`, the joining of Houston’s army, which it is', kind: 'library', plugs: '`PANEL_ICONS` in `public/family-panel.js`', status: 'open' },
 
   // ---------------------------------------------------------------- D: riders, horses, wagons, carreta, ferry, steamboat
   { id: 'D1', area: 'D', priority: 1, request: R.cow, item: 'item 1', deliver: '`milk-cow-walk-e` (4), `milk-cow-walk-n`, `milk-cow-walk-s`, `milk-cow-graze` (2): a gentle dairy cow of the 1830s with a rope trailing from her horns', names: ['milk-cow-*'],

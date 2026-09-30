@@ -158,9 +158,26 @@ export function renderCreation(world, family, { familyKey = null } = {}) {
   if (!step) { state.focused = null; return null; }
   // The title screen is the whole of the first two steps; after that the scene is a quiet band behind the cards.
   veil.dataset.step = step;
+  if (step === 'begin') renderStart(family);
   if (step === 'names') renderNames(family);
   announceStep(step, $({ join: '#join', begin: '#creation-begin', roll: '#family-roll', surname: '#surname', names: '#names', looks: '#looks', key: '#key-card' }[step]));
   return step;
+}
+
+/**
+ * Who the family is and where it has come from (sim/starts.mjs `startProjection`, owner 2026-09-29), on the card before the dice:
+ * the server's words in place of the general line, and its kicker. A class that deals no starts keeps the card as it was.
+ */
+function renderStart(family) {
+  const start = family?.start;
+  const general = document.querySelector('#creation-begin .creation-begin-lead:not(#creation-begin-start)');
+  const own = $('#creation-begin-start');
+  if (!own || !general) return;
+  own.hidden = !start;
+  general.hidden = Boolean(start);
+  own.textContent = start?.lead || '';
+  $('#creation-begin-kicker').textContent = start?.kicker || 'YOUR STORY BEGINS HERE';
+  $('#creation-begin').dataset.heritage = start?.heritage || '';
 }
 
 /** Everybody's first name, filled in with the names the game dealt, and one Continue. */

@@ -8,13 +8,13 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
-| A — People at work and ambient poses | 20 | 6 | 18 | 0 |
+| A — People at work and ambient poses | 23 | 7 | 18 | 0 |
 | B — Children, babies and sickness | 11 | 5 | 11 | 2 |
-| C — Soldiers, battles and famous people | 19 | 1 | 19 | 1 |
+| C — Soldiers, battles and famous people | 20 | 1 | 19 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 15 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 18 | 2 | 18 | 3 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 11 | 2 | 11 | 17 |
-| **Total** | **94** | **18** | **92** | **27** |
+| **Total** | **98** | **19** | **92** | **27** |
 
 ## How a builder works
 
@@ -33,7 +33,7 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 ## A — People at work and ambient poses
 
-Scope: the eight grown cast figures' action poses at home and in town, ambient life, the Gonzales town scenes, layered people; the wood pile. 20 to make, 0 skipped.
+Scope: the eight grown cast figures' action poses at home and in town, ambient life, the Gonzales town scenes, layered people; the wood pile. 23 to make, 0 skipped.
 
 - [ ] **A1** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-chop`, `teal-chop`, `elder-chop`, `blue-chop`, `rust-woman-chop`, `indigo-chop`, `ochre-chop`, `blue-girl-chop`)
   - **Deliver:** `<cast>-chop` (felling with an axe) for each of the eight: `<figure>-chop-1`..`-4`, clip `<figure>-chop`, the axe landing on frame 3
@@ -65,6 +65,11 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Frames:** 2, 2, 2, 1 each; 2, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `scenePose` in `public/courtship.js` (drawn through `drawAvatar`)
   - **Stands in now:** the nearest cast poses in `scenePose` (idle, speak, trade), a wave or a bow drawn by the page; Claude's `<cast>-greet`, `-shy`, `-laugh`, `-vow` and `elder-read-paper` (Claude-drawn)
+- [ ] **A21** (priority 1) — [Request 2026-09-29 — the family's start: Tejano and free Black families, and the people of the road east](ART_REQUESTS.md#request-2026-09-29--the-familys-start-tejano-and-free-black-families-and-the-people-of-the-road-east), item 1
+  - **Deliver:** the people of the road east: `road-man`, `road-woman`, `road-elder`, `road-child` - enslaved men, women and children in homespun and osnaburg, bundles on their backs, walking (4, east), resting by the road (2), standing waiting at a ferry (1, south); no chains, no whips, no one cowering; and `planter-wagon-halted`, a planter’s loaded wagon standing with its oxen out
+  - **Frames:** 1-4 frames each. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `GROUP` in `sim/start-story.mjs`; `crowdDrawables` in `public/ambient.js`
+  - **Stands in now:** the cast (`ochre`, `rust-woman`, `elder`, `teal`, `boy`) recoloured by the palette in dark tones and homespun colours, resting or standing; no wagon (Astra's library art reused)
 - [ ] **A6** (priority 2) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 2 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-split`, `teal-split`, `elder-split`, `blue-split`, `rust-woman-split`, `indigo-split`, `ochre-split`, `blue-girl-split`)
   - **Deliver:** `<cast>-split` (maul raised, coming down, on the wedge in a log on the ground, back)
   - **Frames:** 4 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
@@ -101,6 +106,17 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Plugs into:** `STAND_INS` in `sim/town-scenes.mjs`; `drawProp` in `public/town-scenes.js`
   - **Stands in now:** the delivered `repair`, `work`, `search` and `speak` poses (Astra's library art reused)
   - **Research first:** the Gonzales scenes of September 29 - October 2, 1835 (docs/battle-research/gonzales-town.md, HIST-TEX-460-469)
+- [ ] **A22** (priority 2) — [Request 2026-09-29 — the family's start: Tejano and free Black families, and the people of the road east](ART_REQUESTS.md#request-2026-09-29--the-familys-start-tejano-and-free-black-families-and-the-people-of-the-road-east), item 2
+  - **Deliver:** a Tejano ranchero family’s dress for the parents’ figures: a man in a low-crowned wide sombrero, a short jacket and calzoneras (`tejano-man`), a woman in a rebozo, a full skirt and a loose chemise (`tejano-woman`), each in every pose the cast has (idle four ways, walk, work, rest, speak, care, ride, drive), in the layered form of A18 so the palette dyes them
+  - **Frames:** the cast’s full set. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `avatarVariant` in `public/avatar-art.js`; `sources`, `REFS` and `HEADS` in `public/person-palette.js`
+  - **Stands in now:** the cast recoloured by the palette; the straw hat and the headscarf as the nearest head choices (Astra's library art reused)
+  - **Research first:** HIST-TEX-789 (Gregg, of New Mexico in the 1830s: interpretive for Texas)
+- [ ] **A23** (priority 2) — [Request 2026-09-29 — the family's start: Tejano and free Black families, and the people of the road east](ART_REQUESTS.md#request-2026-09-29--the-familys-start-tejano-and-free-black-families-and-the-people-of-the-road-east), item 3
+  - **Deliver:** faces and hair painted for the darker skin tones: a man and a woman of the free Black family, and a girl and a boy, drawn with darker skin as painted (not dyed) and hair in close curls, short or braided and wrapped, in the colonists’ same dress and every pose the cast has
+  - **Frames:** the cast’s full set. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `avatarVariant` in `public/avatar-art.js`; `public/person-palette.js`
+  - **Stands in now:** the cast and her children recoloured by the palette to the chosen tone (the painted light and shade kept, the hair’s shape the painted one) (Astra's library art reused)
 - [ ] **A13** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 6 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-carpentry`, `teal-carpentry`, `elder-carpentry`, `blue-carpentry`, `rust-woman-carpentry`, `indigo-carpentry`, `ochre-carpentry`, `blue-girl-carpentry`)
   - **Deliver:** `<cast>-carpentry` (at a shaving horse drawing a drawknife, 2 frames, then boring with an auger, 2)
   - **Frames:** 4 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
@@ -203,7 +219,7 @@ Skipped:
 
 ## C — Soldiers, battles and famous people
 
-Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 19 to make, 1 skipped.
+Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 20 to make, 1 skipped.
 
 - [ ] **C1** (priority 1) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-fire-reload`, `teal-fire-reload`, `elder-fire-reload`, `blue-fire-reload`, `rust-woman-fire-reload`, `indigo-fire-reload`, `ochre-fire-reload`, `blue-girl-fire-reload`, `rust-injured`, `rust-reclining`, `teal-injured`, `teal-reclining`, `elder-injured`, `elder-reclining`, `blue-injured`, `blue-reclining`, `rust-woman-injured`, `rust-woman-reclining`, `indigo-injured`, `indigo-reclining`, `ochre-injured`, `ochre-reclining`, `blue-girl-injured`, `blue-girl-reclining`)
   - **Deliver:** every cast figure (`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl`) in `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling), `<cast>-ramrod`, clip `<cast>-fire-reload`; and each cast's `-injured` and `-reclining`
@@ -279,6 +295,11 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Plugs into:** `PERSON_ART` in `public/battle-view.js`; `drawBearers`; `drawFamous`
   - **Stands in now:** the second cast's woman, the library's girl, boy and small child; two `rust` figures with a canvas bundle (Astra's library art reused)
   - **Research first:** Tejano dress in Béxar, 1836 (HIST-TEX-605-609); original interpretations, no likeness claimed
+- [ ] **C20** (priority 2) — [Request 2026-09-29 — the family's start: Tejano and free Black families, and the people of the road east](ART_REQUESTS.md#request-2026-09-29--the-familys-start-tejano-and-free-black-families-and-the-people-of-the-road-east), item 4
+  - **Deliver:** `icon-join-seguin` (a Tejano horseman in a wide sombrero with a lance or a rifle, riding to join a line)
+  - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
+  - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
+  - **Stands in now:** `icon-join-houston`, the joining of Houston’s army, which it is (Astra's library art reused)
 - [ ] **C15** (priority 3) — [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses), Castrillón and the rest — **Claude stand-in held back: Astra has drawn the subject** (castrillon, crate), so the page draws hers (`castrillon-walk-s`, `castrillon-walk-n`, `ammunition-crate`)
   - **Deliver:** Castrillón's north and south walks and a scale-matched ammunition crate under his command pose; Travis in the officer's firing cycle at the north battery (request 2026-09-25 the Alamo, item 8); the remaining Tejano cast
   - **Frames:** as the famous sheets. **Size:** Famous sheets

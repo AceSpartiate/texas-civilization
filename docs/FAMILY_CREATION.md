@@ -6,6 +6,8 @@ decides who can be sent to fight.
 
 **Since 2026-09-25 the die is thrown with a second one, for the family's means** (the amendment at the foot of this file, `sim/means.mjs`).
 
+**Since 2026-09-29 a family has a start as well** - Anglo-American, Tejano at Victoria, or free Black near Liberty - dealt with its land, and its parents' skin tones are locked to the start's range (the last amendment, *The family's start*; `sim/starts.mjs`).
+
 **The words on the wizard's screens were reviewed 2026-09-21** — the amendment at the foot of this file is the record of
 what each screen must say, and `tests/creation-words.test.mjs` holds it. Read it before changing a sentence on
 `#family-roll`, `#surname`, `#names`, `#looks` or `#wagon-load`.
@@ -1042,3 +1044,186 @@ With a lone mother Bernarda, two daughters, the Montañez family and the Kittred
 **Evidence.** `tests/courtship.test.mjs` (16 tests; the last three for the owner's answers of 2026-09-29, the husband's name and his leading), each proved by `node scripts/lone-parent-injections.mjs`
 ([record](evidence/lone-parent-injections.json)); `npm run test:lone-parent` ([record](evidence/lone-parent-browser.json)), with a
 screenshot of every scene and a fade (`docs/evidence/lone-parent-*.png`). Same computer only: no Chromebook, LAN or classroom claim.
+
+## Amendment, 2026-09-29 — the family's start: Anglo-American, Tejano and free Black
+
+**Owner, 2026-09-29, verbatim:** *"build all of these as possible starts except for the native american options. those are too
+different and will require too much work for now. ensure that skin tone options based on the race of the characters is locked to
+what is realistic."* And, of the Black family's start: *"Free Black family"* - a free Black family, as some lived in Texas (the
+Ashworths); enslaved and escaping people appear on the road east as people nobody plays. The options were the triage's D13
+(docs/audits/2026-09-29-triage.md; design audit S30).
+
+**Status: designed, researched and built the same day (not released).** `sim/starts.mjs`, `sim/tejano.mjs`, `sim/start-story.mjs`;
+claims `HIST-TEX-780` to `-789` (the record) and `FIC-GONZ-980` to `-986` (the game's own). It amends §5a and SETTLING_IN.md §7
+(every skin tone offered to every family), COLONIES.md §5.1 (Victoria left to the numbers), the carreta paragraph above (the game
+did not tell a Tejano family from an Anglo one) and the lone parent's path (its neighbours and new spouse). No save version moved:
+a class made before carries no `world.starts` and plays exactly as it did.
+
+### The research (each line's claim is in HISTORY.md)
+
+- **De León's colony** (`HIST-TEX-780`): founded on "forty-one Mexican families", with sixteen non-Mexican families later; "the only
+  predominantly Mexican colony in Texas"; about 300 people by 1834; each settler a town lot, a league of grazing land and a labor
+  of farmland; "Settlers farmed and raised horses and cattle". Victoria sent volunteers, supplies and arms in 1835, was occupied
+  by Urrea after Coleto, and after the war the De León family was "forced to flee to Louisiana and Mexico, their lands and
+  livestock taken". **Not found:** cotton in the colony.
+- **A Tejano family's wedding** (`HIST-TEX-781`): only a priest could marry a couple; the bond is recorded as the practice of
+  "Anglo-Texans unwilling or unable to seek a priest"; in 1836 all Texas had two priests; Victoria's church had no resident priest,
+  and a priest came from La Bahía (Father Valdez, taken prisoner by Fannin in February 1836). **Not found:** any Tejano couple's bond.
+- **Seguín's company** (`HIST-TEX-782`): thirty-seven men raised under Austin's commission, joined on the Salado; scouted and
+  supplied the siege and fought in the storming; given leave to guard their families; formed again at Gonzales in March; Houston's
+  rear guard; the one Tejano company at San Jacinto, twenty-two men; white pasteboard on hats and chests (one officer's memory).
+  Victoria's own rancheros rode under Plácido Benavides in the autumn, and Benavides would not support independence.
+- **The Ashworths** (`HIST-TEX-783`): free people of colour from Calcasieu Parish, Louisiana, to Zavala's colony in 1831 and 1833;
+  land ordered surveyed but not located before the offices closed; a Beaumont committee's warning against free Black immigrants in
+  1835; William sent a substitute to the army in 1836; white neighbours petitioned for them; the Ashworth Act of 1840.
+- **Free Black Texans and the law** (`HIST-TEX-784`): full citizens under Mexico, able to hold land; the General Council's
+  ordinance of January 5, 1836 barred new arrivals and let those here stay; the 1836 constitution barred free people of African
+  descent from living in the Republic without Congress's consent and made none a citizen; an 1837 act let those here at the
+  Declaration stay; the 1840 expulsion act was postponed; about 400 by the mid-1830s.
+- **Free Black men in the Revolution** (`HIST-TEX-785`): Samuel McCulloch Jr. (wounded at Goliad, October 1835), Greenbury Logan
+  (Concepción; wounded at Béxar), Hendrick Arnold (guide at Béxar; San Jacinto), Peter Allen (executed at Goliad). The McCullochs
+  fled in April 1836 like their neighbours.
+- **Enslaved people on the road east** (`HIST-TEX-787`, `-788`): about 5,000 in 1836; Dilue Harris saw "The planters from Brazoria
+  and Columbia with their slaves were crossing" at Lynchburg; enslaved people escaped during the Scrape, some toward the Mexican
+  army (a scholar's reading of the primary sources); Santa Anna wrote that under Mexico's laws they "should be free"; the Treaty of
+  Velasco required the return of those who had taken refuge with the army. The October 1835 "rising" on the Brazos rests on a
+  third-hand letter of the enslavers' rumour and the punishments; it is not in the game.
+- **Names and dress** (`HIST-TEX-786`, `-789`): Tejano given names of real people of 1835-36; ranchero dress from Gregg's
+  description of New Mexico, read for the art as an interpretation only.
+
+### How families are dealt (`FIC-GONZ-980`) - built, and the owner's to change
+
+- **Dealt with the land, when the class is made** - not a third die. A start is where a family is as well as who it is (a Tejano
+  family in De León's colony, a free Black family near Liberty), and the land is dealt before anybody joins. The student reads it
+  on the card before the dice (*A TEJANO FAMILY · "Autumn 1835. Your family is Tejano: Mexican Texans ..."*); the dice still decide
+  the family's size and means.
+- **Victoria is seated** with Gonzales and Liberty, and every family dealt there is Tejano: one in a class of 5 to 20, two in 25 or
+  30. In a class of **ten or more** (two or more families at Liberty, so the owner's own Liberty family can stay Anglo in a small
+  class) **one of Liberty's is a free Black family**. All the rest are Anglo-American families.
+- **Played, not left over:** students join families in order, and a class is dealt thirty by default. So the first Tejano family
+  and the free Black family are moved to a place among the **first six** to join, by exchanging land with a family **on the same
+  side of the burn zone** - every family's land and every side the zone deals stand, whoever decides the zone (the burn-zone
+  shuffle by seed, D12, is a concurrent change and composes with this).
+- **Against 1835:** in the game's country (the colonies, with Béxar and Goliad, which are not starts) Tejanos were about a quarter
+  of the people and free Black Texans a few hundred in all; enslaved people perhaps one in eight, who are never a start. So the deal
+  **guarantees variety** rather than matching proportions: a class of 15 has one Tejano family (7%) and one free Black family (7%);
+  a class of 30 two (7%) and one (3%). Matching the record would give a class of 30 about seven Tejano families and none free Black.
+- **The teacher cannot set it** - built the conservative way (below, question 3).
+- **Only the start's own modules read it** (tested): the names, the tones, the card, the story's lines, a Tejano family's corn and
+  Seguín's company, and the lone parent's neighbours. No price, trade, work, fate, director or hidden stat reads a family's start.
+
+### Skin tones, locked (`FIC-GONZ-981`)
+
+Of the game's nine tones (fair, light, warm light, olive, tan, copper, brown, dark brown, deep brown):
+
+| Start | The tones a parent may be given | Why |
+| --- | --- | --- |
+| Anglo-American | fair to tan (5) | colonists from the United States and Europe, sun-browned |
+| Tejano | light to brown (6) | Spanish, Mexican and Indigenous descent: some as light as their Anglo neighbours |
+| free Black | olive to deep brown (6) | African descent, many free people of colour of African and European descent both |
+
+- **Overlap where history had it**: olive and tan are in all three; light to tan in Anglo and Tejano; olive to brown in Tejano and
+  free Black. The ranges are the game's judgement, not a measurement.
+- **The looks screen** offers only the range (the server's `choices`); the default is dealt within it; a tone outside it is refused
+  in words, and a saved one does not open. **Hair, clothes and head are offered to every family** as before (question 4).
+- **Children** take a tone between their parents, so inside the range. **Her children's figures are dyed now**: until today the
+  `girl`, `boy` and `smallchild` figures were drawn as painted whatever their parents looked like, which would have drawn a free
+  Black family's children light-skinned; `public/person-palette.js` measures their colours as it does the grown cast's.
+- **A lone parent's new husband or wife** is dealt within the family's range, from the start's own names, born to a family of the
+  same start (below). Hidden stats are untouched and sent nowhere.
+
+### What each start plays like
+
+**An Anglo-American family** (most of the class): as before, but its names come from Anglo-American pools and its parents' tones
+from fair to tan. The card: *"Autumn 1835. Your family has come from the United States to land of its own near San Felipe de Austin,
+in Austin's colony. Texas is part of Mexico, and most of its new settlers, like you, came from the United States."*
+
+**A Tejano family of De León's colony, at Victoria:**
+- Tejano names (José, Refugia, Teodoro, Soledad ...), tones light to brown, and it plants **corn**.
+- The whole core loop, the same as any family. Victoria's own town, shops and road are as built.
+- **Seguín's company.** When the word of Gonzales reaches Victoria, its man's choice is *"Go: ride for Gonzales, to join the Tejano
+  volunteers (Seguín's company)"* or stay home. He goes with the army as any volunteer; when the army is on the Salado his family is
+  told *"On the Salado, Juan Seguín's company of Tejano volunteers, thirty-seven men from the ranchos of the San Antonio River,
+  joined the army. Rafael rides with them now: they scout round Béxar and bring in beef and corn for the army."*; after Béxar,
+  that Seguín's men were given leave to guard their families. **In the spring** a Tejano man may *"Go and join Seguín's company in
+  Houston's army"* (beside joining Houston's army), and is told it marches as the army's rear guard; at San Jacinto his family's
+  account adds that he was with the one Tejano company and that its men wore white pasteboard on their hats and chests so no Texian
+  would take them for Santa Anna's soldiers.
+- In the spring Victoria is Urrea's road, and the family flees or stays as any family does. The ending's last line: *"After the war
+  many Tejano families of De León's colony, the De Leóns among them, were forced from their land and their cattle taken. Some came
+  back years later to find their land in others' hands."*
+- **The wedding** on the lone parent's path is still by bond (the owner's decision for Victoria of 2026-09-29), with Tejano
+  neighbours; the line under it now says what is and is not known (question 1).
+
+**A free Black family near Liberty:**
+- Names from the Anglo-American pools on a deck of its own (the free Black Texans of the record were Aaron, Abner, Moses, William,
+  Greenbury, Hendrick), tones olive to deep brown.
+- The card: *"Autumn 1835. Your family is free and Black. You have come west from Louisiana to land of your own near Liberty, in
+  the Galveston Bay and Texas Land Company grant, as the Ashworths did a few years before you. Under Mexico's laws a free Black
+  family may own land like any other. Not every neighbour is glad you came."*
+- **Everything any family can do**, because in 1835-36 it could: farm, trade, travel, and its men may turn out and serve (as
+  McCulloch, Logan and Arnold did). The game refuses it nothing.
+- **Its journal is told the law as it changed**: on January 10, 1836 the council's ordinance (no more free Black people may come in;
+  those here may stay), and on March 22 the constitution (no free person of African descent may live in the Republic without the
+  consent of its Congress, and no Black person is made a citizen; *"Under Mexico, your family were citizens."*).
+- The ending's last line: the Republic let free Black families here before independence stay but not vote; when the 1840 law
+  ordered free Black people out, the Ashworths' white neighbours petitioned and the Ashworth Act let them and every free Black
+  family here before independence remain.
+- On the lone parent's path its first neighbours are Anglo-American neighbours who help raise the house, and its new spouse comes
+  from a free Black family (the Tanners or the Bledsoes, invented).
+
+### The people of the road east (`FIC-GONZ-985`)
+
+- **Half a day into its flight** a family passes a planter's wagons halted by the road, and the people he held in slavery resting
+  beside them - five figures, drawn where the family was, seen on the family's own page while it is within two miles and by the
+  Host, for eight hours. Its journal: *"On the road the family passed a planter's wagons halted to rest, and beside them the people
+  he held in slavery: men, women and children, taken east with everything else he owned. They had no say in where they went."*
+- **At the first river it waits at**, a group of them waits among the families at the crossing, and the family hears *"that some
+  enslaved people had slipped away in the confusion and gone toward the Mexican army, hoping to be free."*
+- **Never a mechanic.** They are in no household, have no words put in their mouths, cannot be spoken to, traded with, ordered,
+  helped for a reward or used, and appear in no count. Every family meets them, whatever its start.
+
+### Art (docs/ART_REQUESTS.md, request 2026-09-29)
+
+Astra's art wins (public/art-subjects.js). The cast is used, recoloured by the palette; four requests: the people of the road east
+and a planter's halted wagon; a Tejano ranchero family's dress; faces and hair painted for the darker tones; `icon-join-seguin`.
+Each has a stand-in marked `stand-in:` and a row under *Stand-ins in use*.
+
+### Open, for the owner (built the conservative way; recommended first)
+
+1. **A Tejano family's wedding.** The record has the bond as the Anglo colonists' way; a Catholic family of De León's colony would
+   more likely have waited for the priest from La Bahía. (a) *A priest's wedding* for a Tejano family - the priest who came from La
+   Bahía marries them at the family's land, the rest of the day as built; (b) keep the bond, with the line saying what is known (as
+   built); (c) a betrothal on the day and the wedding when the priest comes.
+2. **A Béxar start.** Tejano ranch families on the San Antonio River below Béxar were the heart of Seguín's company, and Béxar was
+   the largest Tejano town. (a) Keep Victoria the one Tejano start (as built): every family's premise (new land, title pending) holds
+   there; (b) add ranchos below Béxar as a start, amending the owner's "only the empresario colonies are starts" of 2026-09-14;
+   (c) a Béxar family only in a class of 20 or more.
+3. **The teacher and the deal.** (a) No control (as built); (b) a lobby switch on the Host's page to deal only Anglo-American
+   families; (c) the Host chooses how many of each.
+4. **Hair locked too?** Only skin was asked. (a) Leave hair open (as built); (b) limit the defaults, not the choices; (c) lock hair
+   by start as skin is.
+5. **Seguín's company in the winter's garrison.** About fifteen of his men went into the Alamo and most left after he rode out on
+   February 25 (when, disputed). (a) Leave it out (as built): a Tejano man at home in the winter, as the record's leave had him;
+   (b) let a Tejano man join the garrison with Seguín and leave the Alamo with Seguín's men after the 25th.
+6. **The Tejano poor band's cart as a carreta.** (a) Keep "cart" (as built: the record's word for the Mexican ox cart too);
+   (b) name and draw it as the carreta for a Tejano family.
+
+### Not built, on purpose
+
+- No Indigenous start (the owner: "too different and will require too much work for now"); no enslaved family a student plays;
+  no slaveholding family (VISION.md §15).
+- No kidnapping, whipping or violence against enslaved or free Black people is shown; the record of the 1835 Brazos punishments and
+  the 1856 violence against the Ashworths' community is not in the game.
+
+### Gates
+
+| Gate | What it means |
+| --- | --- |
+| Dealt, and played | Victoria seated and Tejano; one free Black family at Liberty from ten families; the first of each among the first six; the zone's sides kept. |
+| Old classes open | A class made before deals no starts, offers every tone, deals the mixed names; no save version moved. |
+| Tones locked | Each start's range offered, dealt, refused outside, not opened outside; children between the parents; the spouse within. |
+| Nothing else reads it | Only the start's own modules read a family's start. |
+| Told once, at its moment | The law's two lines to a free Black family only; the Salado, the leave, the spring's company; the road's two lines; the ending's line. |
+| Never a mechanic | The people of the road east are no household or entity, speak no words, and are seen only where the family is. |
+| Knowledge | The start is on the family's own book, not the tick, and never on another family's page. |

@@ -24,6 +24,7 @@ import { record } from './events.mjs';
 import { appearanceOf, choicesFor, isParent, lookChosen, looksWords } from './appearance.mjs';
 import { share } from './shares.mjs';
 import { dateOf } from './clock.mjs';
+import { deckFor, poolsFor } from './starts.mjs';
 
 /**
  * The household, as authored.
@@ -97,10 +98,14 @@ function hashOf(text) {
  * households get fifteen different fathers. Thirty get each name twice, which is not a
  * flaw: two families in one settlement sharing a given name is what places are like.
  */
-export function nameDealer(seed) {
-  const decks = Object.fromEntries(Object.entries(NAME_POOLS).map(([role, pool]) => [
+export function nameDealer(seed, heritage = null) {
+  // A family of a start (sim/starts.mjs, owner 2026-09-29) is dealt from its own pools, on a deck of its own; a family with none -
+  // every class made before - from the mixed pools, shuffled exactly as it always was.
+  const pools = poolsFor(heritage) || NAME_POOLS;
+  const deck = poolsFor(heritage) ? `${deckFor(heritage)}:` : '';
+  const decks = Object.fromEntries(Object.entries(pools).map(([role, pool]) => [
     role,
-    [...pool].sort((a, b) => hashOf(`${seed}:${role}:${a}`) - hashOf(`${seed}:${role}:${b}`)),
+    [...pool].sort((a, b) => hashOf(`${seed}:${deck}${role}:${a}`) - hashOf(`${seed}:${deck}${role}:${b}`)),
   ]));
   return (index, role) => decks[role][index % decks[role].length];
 }
@@ -114,8 +119,8 @@ export function nameDealer(seed) {
  * them to name the *household* so that "Thomas traded with Thomas" was not the whole
  * sentence.
  */
-export function defaultNames(seed, index) {
-  const deal = nameDealer(seed);
+export function defaultNames(seed, index, heritage = null) {
+  const deal = nameDealer(seed, heritage);
   return HOUSEHOLD_SHAPE.map(person => deal(index, person.role));
 }
 
@@ -384,11 +389,12 @@ function birthsFor(seed, householdId, parents, loneSex, children, on) {
  * otherwise, because the historical calls are put to the principal and a lone mother is the
  * person the neighbour would ask. A lone parent is a man or a woman with equal chance.
  */
-export function rolledPeople(seed, householdId, index, roll, table = FAMILY_TABLE, on = ROLL_DAY) {
+export function rolledPeople(seed, householdId, index, roll, table = FAMILY_TABLE, on = ROLL_DAY, heritage = null) {
   const { parents, children } = compositionFor(roll, table);
   const loneSex = parents === 1 ? (hashOf(`${seed}:${householdId}:lone-parent`) % 2 ? 'female' : 'male') : null;
   const ages = birthsFor(seed, householdId, parents, loneSex, children, on);
-  const deal = nameDealer(seed);
+  // Names from the pools of the family's start, where the class deals starts (sim/starts.mjs); the mixed pools otherwise.
+  const deal = nameDealer(seed, heritage);
   const people = [];
   const parentSexes = parents === 2 ? ['male', 'female'] : [loneSex];
   parentSexes.forEach((sex, n) => {
@@ -790,7 +796,7 @@ export function familyProjection(world, household) {
       // How they look, in words and as the choices behind them (sim/appearance.mjs). Only a parent's can be chosen.
       const looks = appearanceOf(world, entity);
       return { id, name: entity?.name || id, ...(entity?.given && { given: entity.given }), role: kin.role || null, of, ...(Number.isFinite(entity?.age) && { age: entity.age }),
-        ...(looks && { appearance: looks, looks: looksWords(looks), ...(isParent(entity) && { choices: choicesFor(entity), chosen: lookChosen(entity), sex: sexOf(entity) }) }) };
+        ...(looks && { appearance: looks, looks: looksWords(looks), ...(isParent(entity) && { choices: choicesFor(entity, world), chosen: lookChosen(entity), sex: sexOf(entity) }) }) };
     }),
   };
 }

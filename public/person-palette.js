@@ -33,6 +33,15 @@ const sources = {
   blue: { skin: [224, 155, 98], hair: [67, 45, 32], clothing: [73, 106, 135] },
   'rust-woman': { skin: [211, 133, 77], hair: [61, 44, 35], clothing: [156, 75, 51] },
   indigo: { skin: [210, 137, 81], hair: [65, 47, 39], clothing: [71, 102, 132] },
+  // Her children (2026-09-29, the family's start: a child takes the skin tone between the parents, and until now her children's
+  // figures were drawn as painted whatever their parents looked like - a free Black or Tejano family's children light-skinned
+  // beside their parents). The girl's red dress, the boy's cream shirt and the small child's cream smock are what the clothes
+  // choice dyes; the girl's apron and the boy's trousers and braces stay as painted.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-29 "the family's start", item 3 - faces and hair painted for the darker
+  // tones; until then every figure, grown or child, is dyed to the tone with its painted light and shade kept.
+  girl: { skin: [223, 124, 54], hair: [70, 43, 27], clothing: [180, 81, 55] },
+  boy: { skin: [247, 164, 101], hair: [198, 134, 66], clothing: [241, 206, 163] },
+  smallchild: { skin: [225, 127, 57], hair: [77, 44, 24], clothing: [244, 210, 168] },
   // Her ochre figure is named for his shirt, and the shirt is what the clothes choice dyes; the brown waistcoat stays.
   ochre: { skin: [224, 151, 90], hair: [73, 51, 36], clothing: [216, 138, 54] },
   'blue-girl': { skin: [222, 151, 96], hair: [67, 46, 35], clothing: [70, 103, 134] },
@@ -82,6 +91,20 @@ const REFS = {
     [169, 127, 79, K], [87, 57, 34, K]],
   'blue-girl': [[72, 42, 24, HAIR], [248, 162, 93, SKIN], [238, 141, 69, SKIN], [245, 150, 80, SKIN], [74, 99, 124, CLOTHING],
     [86, 106, 123, CLOTHING], [244, 211, 174, K], [87, 50, 26, K], [246, 214, 179, K], [89, 52, 28, K]],
+  // Her children (2026-09-29), and the colours Claude's children are painted in (scripts/claude-art/kit/style.mjs `CAST`).
+  girl: [[70, 43, 27, HAIR], [63, 36, 21, HAIR], [223, 124, 54, SKIN], [182, 91, 29, SKIN], [203, 107, 45, SKIN], [213, 118, 48, SKIN],
+    [218, 122, 51, SKIN], [164, 80, 29, SKIN], [180, 84, 56, CLOTHING], [165, 75, 50, CLOTHING], [181, 81, 55, CLOTHING],
+    [168, 73, 49, CLOTHING], [183, 86, 58, CLOTHING], [142, 60, 41, CLOTHING], [115, 45, 28, CLOTHING], [241, 208, 167, K],
+    [245, 212, 172, K], [235, 200, 158, K], [189, 151, 111, K], [199, 158, 114, K], [88, 51, 27, K], [93, 54, 28, K],
+    [227, 160, 117, SKIN], [74, 47, 31, HAIR], [194, 88, 60, CLOTHING], [248, 215, 174, K]],
+  boy: [[198, 134, 66, HAIR], [90, 53, 25, K], [247, 164, 101, SKIN], [235, 145, 86, SKIN], [238, 154, 94, SKIN], [243, 158, 95, SKIN],
+    [247, 160, 98, SKIN], [200, 110, 57, SKIN], [241, 207, 163, CLOTHING], [237, 204, 163, CLOTHING], [238, 202, 155, CLOTHING],
+    [244, 212, 173, CLOTHING], [108, 66, 36, K], [110, 69, 39, K], [113, 72, 42, K],
+    [250, 169, 112, SKIN], [216, 176, 112, HAIR], [242, 212, 170, CLOTHING], [106, 65, 35, K]],
+  smallchild: [[77, 44, 24, HAIR], [225, 127, 57, SKIN], [197, 105, 41, SKIN], [207, 110, 43, SKIN], [213, 118, 48, SKIN],
+    [218, 123, 54, SKIN], [216, 119, 50, SKIN], [221, 120, 51, SKIN], [243, 214, 175, CLOTHING], [240, 204, 161, CLOTHING],
+    [244, 210, 168, CLOTHING], [194, 156, 111, CLOTHING], [184, 145, 100, CLOTHING],
+    [228, 122, 54, SKIN], [69, 41, 22, HAIR], [246, 212, 170, CLOTHING]],
 };
 /**
  * How the figure is dressed, measured in faces on the south idle: `hatted` - the hair shows only below a hat or bonnet, never
@@ -98,6 +121,10 @@ const HEADS = {
   teal: { hatted: false, beard: .55, reach: 2.2, hands: 2.2 }, indigo: { hatted: false, beard: .6, reach: 6.5, hands: 2.2 },
   // Her girl's braid hangs over her shoulder to the waist, and no further: her boots below are the braid's brown.
   blue: { hatted: false, beard: .1, reach: 3, hands: 2.2 }, 'blue-girl': { hatted: false, beard: 1.8, reach: 6, hands: 2 },
+  // Her children, measured on their south idles (2026-09-29): the girl's braid to the waist, her dress to the hem and her legs below it as she walks; the boy's
+  // shirt to the waistband, his hands and his bare feet; the small child's smock to the hem and bare feet.
+  girl: { hatted: false, beard: .8, reach: 2.5, hands: 2.7 }, boy: { hatted: false, beard: .1, reach: 1.4, hands: 3.2 },
+  smallchild: { hatted: false, beard: .3, reach: 2.2, hands: 2.6 },
 };
 /**
  * A figure's measured colours, and its `sources` tokens, which are what the Claude-drawn frames are painted in
