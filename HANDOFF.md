@@ -1,5 +1,118 @@
 # Claude handoff — Astra foundation
 
+## The class code inside the join address — owner-decided 2026-09-30 (not released)
+
+**The ask.** *"why do players need to enter a join code? if multiple hosts are on the same network, why dont we have different
+addresses for that?"* Told each Host laptop already has its own address and the code keeps out anybody not in the room and separates
+periods (it changes with New Class), the owner chose **"Code inside the address"**. Branch `late-join-roll` (after the late-join
+fix below); not pushed. docs/HOST_PAGE.md §2.14, TEACHER.md.
+
+- **One address:** `http://<laptop>:3000/<code>`. The Host's card shows it (broken only before the code when the column is narrow),
+  the QR code is that address (no `?code=`), the folded line and the other addresses carry it, and *If a Chromebook asks for a class
+  code:* shows the code under it. The launcher's join address and copy button (`PrimaryJoinUrl`) and the server's console line are
+  the same address.
+- **Opening it asks only for a name** (`CODE_PATH` in server/app.mjs serves the page for one segment of a code's shape; the page's
+  `addressCode` fills and hides the code boxes). Anything of another shape, a second segment or a POST is answered as any unknown path
+  always was - no new file is reachable.
+- **Checked as before** at the join, the away list and the claim (`codeMatches`, the leniency, the wrong tries per device). Sent with
+  `via: 'address'`, a wrong code is answered *"This is an old class address. Look at the Host screen for today's address, or type
+  the class code shown there."* with `codeRefused`, and the page gives back the code box, empty.
+- **Kept:** the bare address asks for the code; `?code=` fills the box; `/host` stays; on the coded address *I was already in this
+  class* shows the names at once.
+
+**Evidence** (same computer only; no Chromebook, camera, LAN or classroom claim):
+
+- `tests/code-address.test.mjs`, four tests: the page at `/<code>` (any case, look-alikes), 308 from `/<code>/`, and every other
+  shape (`/ZZZZZZ`, seven or five symbols, `/<code>/app.js`, encoded `..`, `/<code>.js`) answered as an unknown path (401 to a
+  stranger, 404 in the class) and never a page or file; a join from the address with a name, an old code after New Class answered as
+  an old address at the join, the away list and the claim, a typed wrong code in the old words; five wrong codes from the address
+  make the device wait; the Host's and launcher's address carry the code. **Each failed on its own injection** (the route too wide;
+  never matching; the old-address words dropped; address codes not counted; the launcher's bare address).
+- **`npm run test:code-address`** (new, [record](docs/evidence/code-address-browser.json)): **7 of 7** - the Host's card and QR; the
+  coded address joins with a name only; the bare address asks for and takes the code; `?code=` fills the box; the away list with
+  nothing typed and a tap back into the family; yesterday's address after New Class says so, gives the box back, and today's code
+  typed there joins. Injections: the address ignored (step 2 fails), the box not given back (step 6), the names not asked for at once
+  (step 5).
+- `test:join-card` updated to the one address (the code unbroken, at most two lines at 22 px); `node scripts/tier2-classroom-injections.mjs`
+  **19 of 19** (its QR injection rewritten for the coded address, one new: the address without the code). `test:creation` and
+  `test:late-join` now join at the coded address.
+- With both pieces: `npm test` **1958 tests, 1922 pass, 0 fail, 36 skipped** (a run beside seven browser proofs at once had one
+  failure, not identified from its cut-off output; the run alone was clean). `test:creation` 15, `test:late-join` 9,
+  `test:code-address` 7, `test:join-card` 8, `test:reconnect` 12, `test:classes` 16, `test:lone-parent` 10. The launcher builds
+  (`dotnet build`); no launcher verify was run.
+
+## A late student stuck on the die: thrown at the join, and never a silent hang — classroom report 2026-09-30 (not released)
+
+**The report.** From the owner's real classroom on the live release v2026.09.29.3: *"student tried to join late and it was stuck on
+the rolling for the family part. wouldn't let him past."* The class had been started and was running. Branch `late-join-roll` off
+local `integration-2026-09-28` (cb5c1fb4); not pushed.
+
+**The cause, reproduced in headless Chrome on both v2026.09.29.3 (a `git archive` of the tag) and integration-2026-09-28.**
+
+1. A student who joins after Start is given the first family nobody plays (`seatFor`). In the first minutes of a class that family
+   is still on its road in and nothing has happened to it, so `rollRefusal` (sim/family.mjs) lets it roll - `played` is set by the
+   join - and the family book says `canRoll: true`. The page shows the die.
+2. The world goes on. **The family's own arrival on its land** - measured: tick 1 to 18 after Start on the colonies map, 9.5 s a
+   tick at the Study pace, so up to about three minutes - writes an `arrival` event into the family's record, and a record holding
+   anything but its founding closes the die: *"A family is rolled before anybody in it is named or set to work."* A Chromebook
+   taking its time to open the page (13-58 s here on a fast computer) and a student reading the title card are enough.
+3. The press is refused, and the refusal goes to `say()`, whose lines are **behind the creation curtain** - nothing on the card
+   changed. The page fetches the family once (`ensureFamily`, refetched only on a new map or a change of members), so it kept
+   `canRoll: true` and kept offering the die. Every press was refused, silently. Reproduced exactly: family untouched at the join,
+   the die up, the arrival 40 s later, four presses each answered 400 with that sentence, the card unchanged (screenshot matched the
+   classroom's: *Roll for your family*, button live, nothing said).
+
+Not the cause, checked: the dice animation (it stops on its own), a paused class (refused plainly by `makeOrder`, but also behind
+the curtain), the lesson gate (`roll-family` is in `ALWAYS`), a full class (refused on the join form, in words), a family the director
+had already worked (the page goes straight into the world with the family it has; no die).
+
+**The fix.**
+
+- **The die is thrown in the join** (server/app.mjs `/api/join`): a late student's family that can still roll is rolled in the join's
+  own commit, before anything can happen to it - the courtesy Start already does for a lobby student who never rolled - and marked
+  `rolledAtJoin`. The number is the seed's either way (`familyRoll`). The family book says `rolledAtJoin` (sim/family.mjs
+  `familyProjection`); `validateWorld` holds it to true, on a rolled, played family. No save version moved: absent is every family
+  before.
+- **The student still throws it.** `creationStep` (public/creation.js) keeps the page on the die for a `rolledAtJoin` family until it
+  has been met (`metFamily`, remembered per family like `begun`) or named; pressing Roll tumbles both dice and lands them on the
+  server's numbers with nothing asked of the class - so it works while the teacher has the class paused too.
+- **Never a silent hang** (public/app.js): a refused throw is said **on the die's own card** (`rollProblem` in `#family-roll-result`)
+  and the family is asked for again at once (`refreshFamily`), so a die the family can no longer throw is not offered and the page goes
+  on; a throw not answered in 12 s (`ROLL_WAIT_MS`) is given up, said on the card (*"The die did not come back from the class. Press
+  Roll the die again."*) and the family asked for again; after a throw the family is fetched at once rather than on the next tick.
+- A late student whose family had already begun still gets no die and plays the family it has (no surname or looks step: the curtain
+  asks those only of a rolled family) - unchanged, and an owner question below.
+
+**Evidence** (same computer only, headless Chrome at 1366x768; no Chromebook, LAN or classroom claim):
+
+- `tests/late-join.test.mjs`, two new tests: a latecomer joining before the family's arrival is rolled at the join, the arrival
+  comes and the family is still the rolled one with `rolledAtJoin`, and naming it works; a latecomer whose family had begun (joined
+  while paused) is not rolled and is never offered a die. `tests/creation.test.mjs`, one new test: the die step for a `rolledAtJoin`
+  family until met, then the last name; none for a family that cannot roll. **Each failed on its own injection** (join roll removed;
+  `rolledAtJoin` dropped from the book; a begun family rolled at the join - the join then fails; the creation step removed), and only
+  that test.
+- **`npm run test:late-join`** (new, `scripts/late-join-browser-proof.mjs`, [record](docs/evidence/late-join-browser.json)): **9 of 9**.
+  A, the classroom's case on the classroom's world (30 families, colonies, starts, Study pace): joined before the family arrived,
+  waited 65 s on the die while it did, threw it, reached and took the last name. B, paused before the first tick: the die lands.
+  C, a family already begun: straight into the world, no die. D, no family left: the join form says so and to ask the teacher.
+  E, an unanswered throw given up after 12 s and said on the card; a refused one said on the card; the real throw after both.
+  Injections: without the join roll, A fails (*the die never landed*); without the 12 s watch, E fails (*left the die spinning*);
+  with the refusal kept off the card, E fails.
+- `npm test`: **1954 tests, 1918 pass, 0 fail, 36 skipped** (the suspended tutorial). `test:creation` 15, `test:lone-parent` 10,
+  `test:means` green, `test:classes` 16, `test:reconnect` 12.
+- **`test:family-commands` is red, and was red before this branch**: at cb5c1fb4 with none of this change it stops at the same place
+  - *hh-1-child-4 could not be made the main person* with the survey chooser (`#survey-choose`) open and the panel folded -
+  exactly as it does here. Not investigated further; a job of its own.
+
+**Owner questions.**
+
+1. A late student whose family the computer has already been playing (joined after its arrival - most latecomers after the first
+   few minutes) plays that family as dealt: no die, no last name, no looks. Should they get the rest of the making? **(a) Yes: the
+   last name and the parents' looks, but not the die - its people already have a history (recommended)**; (b) keep it as it is;
+   (c) roll anyway and replace its people (breaks stable person IDs; not recommended).
+2. A lobby student whom Start rolled for (never pressed Roll) goes straight to the last name. **(a) Show them the die too, thrown on
+   the number Start gave them, as a latecomer now gets (recommended)**; (b) leave it.
+
 ## Read aloud: the owner's four answers, and the end-of-game breakdown read aloud — owner-decided 2026-09-30 (not released)
 
 Branch `read-aloud-2` off `integration-2026-09-28` (e6d9fe8b, then cb5c1fb4 merged in for its Béxar test fix); not pushed.

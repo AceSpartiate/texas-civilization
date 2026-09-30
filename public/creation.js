@@ -20,7 +20,7 @@ let actions = null;
  * Where this page has got to: the title screen is behind it once `begun`, the names once `named`; `making` once this page has
  * rolled, named or dressed the family, and `keyed` once its key has been shown and put away. Kept per family.
  */
-const state = { begun: false, named: false, making: false, keyed: false, householdId: null, focused: null };
+const state = { begun: false, named: false, making: false, keyed: false, met: false, householdId: null, focused: null };
 
 /**
  * The cards of the wizard that live inside the map's own stage rather than beside it. They are drawn *above* the curtain
@@ -83,7 +83,7 @@ function remember(key, value) {
 function recall(householdId) {
   if (state.householdId === householdId) return;
   state.householdId = householdId;
-  for (const key of ['begun', 'named', 'making', 'keyed']) {
+  for (const key of ['begun', 'named', 'making', 'keyed', 'met']) {
     try { state[key] = sessionStorage.getItem(`creation:${householdId}:${key}`) === '1'; } catch { state[key] = false; }
   }
 }
@@ -111,6 +111,9 @@ function stepOf(world, family) {
   // waits in the world, as it always did, and is asked its name as soon as it has been rolled.
   if (family.canRoll) return 'roll';
   if (!family.roll) return null;
+  // A family the server rolled as its student joined late (server/app.mjs `/api/join`, classroom 2026-09-30): the die is still
+  // the student's to throw on this page, on the server's number, until the family has been met or named.
+  if (family.rolledAtJoin && !family.named && !state.met) return 'roll';
   if (!family.named) return 'surname';
   // The names and the looks are asked for while the family is being made. A page opened later - another tab, another day -
   // sees the title screen and then the world: a family whose parents have been chosen for is already made.
@@ -119,6 +122,9 @@ function stepOf(world, family) {
   if (waiting.length) return 'looks';
   return null;
 }
+
+/** The die has been thrown and the family met on this page ("Meet your family"): the die is not offered again. */
+export function metFamily() { if (state.householdId) remember('met', true); }
 
 /**
  * The title screen behind the join form, so the game's name is the first thing anybody sees. Called by public/app.js when it

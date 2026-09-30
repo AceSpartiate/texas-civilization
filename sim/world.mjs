@@ -1683,6 +1683,8 @@ export function validateWorld(world) {
     // Present only while a new class's family is still on the road in (sim/settling.mjs).
     if (household.arriving !== undefined && household.arriving !== true) throw new Error('Invalid arrival marker');
     if (household.played !== undefined && household.played !== true) throw new Error('Invalid played marker');
+    // Thrown as its late student joined (server/app.mjs `/api/join`, 2026-09-30): true or absent, and only on a rolled, played family.
+    if (household.rolledAtJoin !== undefined && (household.rolledAtJoin !== true || !household.roll || !household.played)) throw new Error('Invalid join roll marker');
     // Absent is true or absent, never false (sim/absence.mjs), and only a played family can be absent.
     if (household.absent !== undefined && (household.absent !== true || !household.played)) throw new Error('Invalid absent marker');
     // Done packing (sim/wagon.mjs `donePacking`): true or absent.

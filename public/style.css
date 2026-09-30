@@ -73,6 +73,7 @@ button:disabled{opacity:.4;cursor:default}
 #join-card{text-align:left}
 #join-address{font-family:Georgia,serif;font-size:22px;font-weight:700;overflow-wrap:anywhere;color:#ffe6b0;line-height:1.2}
 #join-code{font-family:Georgia,serif;font-size:26px;letter-spacing:.12em;color:#ffe6b0}
+.join-address-code{white-space:nowrap;letter-spacing:.06em}
 #join-qr svg{display:block;width:180px;height:180px;margin:6px 0;border-radius:4px}
 #join-others{font-size:12px;overflow-wrap:anywhere}
 /* Suggested places in the site and survey panels (triage 2.13): one button a place, its short label in the server's words. */

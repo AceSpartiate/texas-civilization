@@ -141,3 +141,65 @@ test('the teacher chooses which family a late student takes: one nobody plays, o
     assert.equal((await joinAs('Next')).answer.body.world.householdId, 'hh-6');
   } finally { for (const stream of streams) await stream.close(); await dispose(); }
 });
+
+// The classroom, 2026-09-30: "student tried to join late and it was stuck on the rolling for the family part. wouldn't let him
+// past." A class a minute or two in still has families on their road in that nothing has happened to, and the first of them is
+// the one a latecomer is given. Until then its die was offered (`canRoll`), and the family's own arrival on its land, a tick or a
+// few later, closed it (sim/family.mjs `rollRefusal`): every Roll after that was refused with "A family is rolled before anybody
+// in it is named or set to work.", on a page that fetched the family once and so went on offering it. The die is now thrown in
+// the join itself, before anything can happen to the family, and the page throws it on that number (public/creation.js).
+test('a student who joins after Start while their family is still on the road is rolled at the join, so its arrival cannot close the die', async () => {
+  const { createGonzalesWorld } = await import('../sim/gonzales.mjs');
+  // A slow first tick, so the join lands before the family has arrived - as it did in the classroom at the Study pace.
+  const { app, host, join: joinAs, dispose } = await classroom({ playerCount: 8, tickMs: 10000, worldFactory: createGonzalesWorld });
+  try {
+    for (let i = 0; i < 5; i++) await joinAs(`Student ${i}`);
+    await command(host, 'start');
+    const late = await joinAs('Latecomer');
+    assert.equal(late.answer.status, 200, late.answer.body.error);
+    const householdId = late.answer.body.world.householdId;
+    assert.equal(householdId, 'hh-6');
+    const at = app.state.world;
+    assert.equal(at.events.filter(event => event.householdId === householdId && !['household-founded', 'family-rolled'].includes(event.type)).length, 0,
+      'the join came before anything happened to the family, which is the case the classroom met');
+    const household = at.households[householdId];
+    assert.ok(Number.isInteger(household.roll) && household.roll >= 1 && household.roll <= 20, 'the family was not rolled as the student joined');
+    assert.equal(household.rolledAtJoin, true);
+    assert.equal(household.members.length, household.roll, 'the family is the size the die says');
+    // The family's arrival comes on, and the family is still the rolled one, ready to be named: nothing is left for the arrival to shut.
+    app.setPace(40);
+    for (let i = 0; i < 200 && !app.state.world.events.some(event => event.householdId === householdId && event.type === 'arrival'); i++) await delay(40);
+    assert.ok(app.state.world.events.some(event => event.householdId === householdId && event.type === 'arrival'), 'the family never arrived');
+    const book = (await late.student.call('/api/family')).body.family;
+    assert.equal(book.roll, household.roll, 'the page is given the number to throw the die on');
+    assert.equal(book.canRoll, false);
+    assert.equal(book.rolledAtJoin, true, 'the page is not told the die is still to be thrown on this page');
+    assert.equal(book.named, false);
+    // What the page does next - the last name - is allowed after the arrival.
+    const named = await command(late.student, 'rename', { name: 'Latecomer family' });
+    assert.equal(named.status, 200, named.body.error);
+    assert.equal(app.state.world.households[householdId].rolledAtJoin, true, 'the marker is kept, and the save is valid with it');
+  } finally { await dispose(); }
+});
+
+test('a latecomer whose family has already begun keeps it, is never offered a die it cannot throw, and joins while paused too', async () => {
+  const { createGonzalesWorld } = await import('../sim/gonzales.mjs');
+  const { app, host, join: joinAs, dispose } = await classroom({ playerCount: 8, tickMs: 40, worldFactory: createGonzalesWorld });
+  try {
+    for (let i = 0; i < 5; i++) await joinAs(`Student ${i}`);
+    await command(host, 'start');
+    // Every family nobody plays arrives and is worked by the director.
+    for (let i = 0; i < 300 && !['hh-6', 'hh-7'].every(id => app.state.world.events.some(event => event.householdId === id && event.type === 'arrival')); i++) await delay(40);
+    await command(host, 'pause');
+    const late = await joinAs('Late on day two');
+    assert.equal(late.answer.status, 200, late.answer.body.error);
+    const householdId = late.answer.body.world.householdId;
+    const household = app.state.world.households[householdId];
+    assert.equal(household.roll, undefined, 'a family that had begun was rolled, replacing people the world already knew');
+    assert.equal(household.rolledAtJoin, undefined);
+    const book = (await late.student.call('/api/family')).body.family;
+    assert.equal(book.canRoll, false, 'the page offers a die the server will refuse');
+    assert.equal(book.roll, null);
+    assert.equal(book.rolledAtJoin, undefined);
+  } finally { await dispose(); }
+});

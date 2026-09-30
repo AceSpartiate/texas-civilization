@@ -38,7 +38,7 @@ import { bindNeighbours, openNeighbours, renderNeighbours } from '/neighbours.js
 import { bindLooks, renderLooks } from '/appearance.js';
 import { avatarVariant, drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
 import { decodeAppearance } from '/look-vocabulary.js';
-import { bindCreation, creationStep, renderCreation, showTitle } from '/creation.js';
+import { bindCreation, creationStep, metFamily, renderCreation, showTitle } from '/creation.js';
 import { aroundHole, groundInputs, applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, away, wadesOf } from '/map-base.js';
 import { canSmoothOffThread, smoothOffThread, toBitmap } from '/smooth-worker.js';
 import { DEFAULT_GROUND, groundClass, groundClassAt, markFor } from '/ground-classes.js';
@@ -179,7 +179,8 @@ function animated(ctx, clip, x, y, size, seed = 0, { gait, ...options } = {}) {
 async function api(path, input) {
   const response = await fetch(path, input ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(input) } : {});
   const result = await response.json();
-  if (!response.ok) throw new Error(result.error);
+  // With what else the server said beside its words (`codeRefused`, at the three doors that ask for the class code).
+  if (!response.ok) throw Object.assign(new Error(result.error), { status: response.status, codeRefused: Boolean(result.codeRefused) });
   return result;
 }
 const sitesOf = world => Object.values(world.map?.sites || {});
@@ -6413,6 +6414,22 @@ let tutorialStep = null;
 // A twenty-sided die (owner, 2026-09-14): drawn as its outline with the face's number, since no font has twenty faces.
 const DIE_SIDES = 20;
 let rollState = 'idle', tumble = null, rollStarted = 0;
+/**
+ * The die never hangs (classroom, 2026-09-30: "student tried to join late and it was stuck on the rolling for the family part.
+ * wouldn't let him past."). A throw the class has not answered in this long is given up, said on the card, and the family asked
+ * for again; and a refusal is said on the card itself - `say` writes to the world's own line, which is behind the curtain - and
+ * the family fetched again at once, so a die the family can no longer throw is not offered and the page goes on.
+ */
+const ROLL_WAIT_MS = 12000;
+let rollWatch = null, rollProblem = '';
+async function refreshFamily() {
+  forgetFamily();
+  try {
+    const result = await api('/api/family');
+    if (result?.family) { familyCache = result.family; familyCacheId = result.mapId; }
+  } catch { /* the next tick asks again (`ensureFamily`) */ }
+  if (window.__snapshot) render(window.__snapshot);
+}
 function stopTumble() { clearInterval(tumble); tumble = null; $('#family-die')?.classList.remove('rolling'); $('#means-die')?.classList.remove('rolling'); }
 /**
  * The second die (owner, 2026-09-25: "introduce rolling for starting wealth"; sim/means.mjs): thrown by the same press in a class
@@ -6443,7 +6460,9 @@ function renderFamilyRoll(world) {
     stopTumble();
     rollState = 'rolled';
   }
-  if ((rollState === 'idle' && !family.canRoll) || rollState === 'done') { panel.hidden = true; setRollScene(false); return; }
+  // A family the server rolled as a late student joined (`rolledAtJoin`) is still thrown here; whether it is still to be thrown
+  // is creationStep's, below.
+  if ((rollState === 'idle' && !family.canRoll && !family.rolledAtJoin) || rollState === 'done') { panel.hidden = true; setRollScene(false); return; }
   // Not before the title screen has been answered (public/creation.js); once the die is in the air it stays until the family
   // has been met, which is what carries the page from the roll to the last name.
   if (rollState === 'idle' && creationStep(world, family) !== 'roll') { panel.hidden = true; setRollScene(false); return; }
@@ -6460,7 +6479,7 @@ function renderFamilyRoll(world) {
     button.textContent = 'Meet your family';
     button.disabled = false;
   } else {
-    $('#family-roll-result').textContent = rollState === 'rolling' ? 'Rolling\u2026' : '';
+    $('#family-roll-result').textContent = rollState === 'rolling' ? 'Rolling\u2026' : rollProblem;
     button.textContent = 'Roll the die';
     button.disabled = rollState === 'rolling';
   }
@@ -6468,6 +6487,7 @@ function renderFamilyRoll(world) {
 $('#roll-family')?.addEventListener('click', async () => {
   if (rollState === 'rolled') {
     rollState = 'done';
+    metFamily();
     $('#family-roll').hidden = true;
     // The family is met in the pop-ups that follow (the last name, then how the parents look), not in the journal.
     if (window.__snapshot) render(window.__snapshot);
@@ -6481,17 +6501,35 @@ $('#roll-family')?.addEventListener('click', async () => {
     for (const one of both) one.classList.add('rolling');
     tumble = setInterval(() => { for (const one of both) one.textContent = String(1 + Math.floor(Math.random() * DIE_SIDES)); }, 90);
   } else for (const one of both) one.textContent = '?';
+  rollProblem = '';
   if (window.__snapshot) renderFamilyRoll(window.__snapshot.world);
+  // Thrown already, by the server, as this student joined late (server/app.mjs `/api/join`): the die lands on its number and
+  // there is nothing to ask the class - which also holds while the teacher has it paused.
+  if (!familyCache?.canRoll && familyCache?.roll) {
+    setTimeout(() => { if (window.__snapshot) render(window.__snapshot); }, 950);
+    return;
+  }
+  clearTimeout(rollWatch);
+  rollWatch = setTimeout(() => {
+    if (rollState !== 'rolling' || familyCache?.roll) return;
+    stopTumble(); rollState = 'idle';
+    rollProblem = 'The die did not come back from the class. Press Roll the die again.';
+    refreshFamily();
+  }, ROLL_WAIT_MS);
   try {
     await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'roll-family' });
-    forgetFamily();
+    // Asked for at once rather than on the next tick, which a paused class does not send.
+    refreshFamily();
     // Let the dice tumble for a moment even when the server answers at once.
     setTimeout(() => { if (window.__snapshot) render(window.__snapshot); }, 950);
-    if (window.__snapshot) render(window.__snapshot);
   } catch (error) {
+    clearTimeout(rollWatch);
     stopTumble(); rollState = 'idle';
+    rollProblem = error.message;
     say(error.message);
-    if (window.__snapshot) renderFamilyRoll(window.__snapshot.world);
+    // The family may have changed under the page while the die was offered - it had begun, or was rolled: asked for again, so a
+    // die it can no longer throw is not offered and the page goes on to what comes next.
+    refreshFamily();
   }
 });
 /**
@@ -7987,8 +8025,9 @@ $('#recover-show')?.addEventListener('click', async () => {
 /**
  * How students join, on the Host's page (triage 1.8, classroom audit M2, 2026-09-29): the address to type, large enough to read
  * across a room from a projector, the class code, and a QR code of the address that a Chromebook's camera can read, made on this
- * computer by public/qr.js with no network service. The QR code carries the class code too (`?code=`), so a student who scans
- * it types only their name. Open in the lobby; once the class runs it folds to one line, and the teacher opens it again for a
+ * computer by public/qr.js with no network service. Since 2026-09-30 (owner, "Code inside the address") the address carries the
+ * class code as its path, `http://<laptop>:3000/<code>`, and the QR code is that same address, so a student who types it or scans
+ * it types only their name (`addressCode`); the code is still shown under it for a student who typed the bare address. Open in the lobby; once the class runs it folds to one line, and the teacher opens it again for a
  * latecomer or a student coming back. The addresses are the server's own (`joinUrls`, server/deployment.mjs): which network the
  * students can reach is the teacher's to know, so the others are listed under the first. A server that found none (a test's) is
  * reached at this page's own address.
@@ -8004,20 +8043,24 @@ function renderJoinLinks(snapshot) {
   const shown = JSON.stringify([urls, code, open]);
   if (shown === joinCardShown) return;
   joinCardShown = shown;
-  const plain = address.replace(/\/$/, '');
+  // The class code inside the address (owner, 2026-09-30): one thing to type, and the same address in the QR code.
+  const coded = url => `${url.replace(/\/$/, '')}${code ? `/${code}` : ''}`;
+  const plain = coded(address);
   $('#join-card-toggle').setAttribute('aria-expanded', String(open));
   // Folded, one short line as wide as its words: at 1024 px a wider one narrowed the room the fight's caption has between the
   // class and the teacher's controls until the caption fell back to the middle, over the class (test:overlap).
   $('#join-card-label').textContent = open ? 'How students join' : 'Join';
-  $('#join-card-short').textContent = open ? '' : ` ${plain.replace(/^https?:\/\//, '')} · code ${code}`;
+  $('#join-card-short').textContent = open ? '' : ` ${plain.replace(/^https?:\/\//, '')}`;
   $('#join-card').hidden = !open;
-  $('#join-address').textContent = plain;
+  // Broken, when the column is too narrow for it, only before the code - never inside it: the code is its own unbroken word.
+  const where = plain.slice(0, plain.length - code.length), codeWord = element('span', code, 'join-address-code');
+  if (code) $('#join-address').replaceChildren(document.createTextNode(where), document.createElement('wbr'), codeWord);
+  else $('#join-address').textContent = plain;
   $('#join-code').textContent = code;
-  const scan = `${address}${address.includes('?') ? '&' : '?'}code=${encodeURIComponent(code)}`;
-  try { $('#join-qr').innerHTML = qrSvg(scan, { label: `QR code for ${plain}, class code ${code}` }); }
+  try { $('#join-qr').innerHTML = qrSvg(plain, { label: `QR code for ${plain}` }); }
   catch { $('#join-qr').replaceChildren(); }
   // The next two the server ranked (a laptop has a VPN's and a virtual machine's addresses too, which students rarely reach).
-  const others = urls.slice(1, 3).map(entry => `${entry.url.replace(/\/$/, '')}${entry.label ? ` (${entry.label})` : ''}`);
+  const others = urls.slice(1, 3).map(entry => `${coded(entry.url)}${entry.label ? ` (${entry.label})` : ''}`);
   $('#join-others').textContent = others.length ? `If that does not open, try ${others.join(' or ')}${urls.length > 3 ? ', or another the launcher lists' : ''}.` : '';
 }
 $('#join-card-toggle')?.addEventListener('click', () => {
@@ -8399,9 +8442,37 @@ function showDoor(which) {
   $('#away').hidden = which !== 'away';
   $(which === 'join' ? '#join input[name="name"]' : which === 'away' ? '#away input[name="away-code"]' : '#rejoin input[name="key"]')?.focus();
 }
+/**
+ * **The class code inside the address** (owner, 2026-09-30, by multiple choice: "Code inside the address"). The Host shows one
+ * address to type, `http://<laptop>:3000/<code>`, and the server answers it with this page (server/app.mjs `CODE_PATH`). Opened
+ * so, the code is taken from the address: the join asks only for a name, and the away list needs nothing typed. The server
+ * checks it as it checks a typed one, at the join, the away list and the claim; told it came from the address (`via`), it
+ * answers a wrong one as an old class's address, and the code boxes come back, empty, for the code on the Host screen. The bare
+ * address asks for the code as it always did, and an older QR code's `?code=` fills the boxes as it always did.
+ */
+const CODE_IN_ADDRESS = /^\/([0-9A-Fa-fOoIiLl]{6})$/;
+let addressCode = hostPage ? '' : CODE_IN_ADDRESS.exec(location.pathname)?.[1].toUpperCase() || '';
+const codeInputs = () => document.querySelectorAll('#join [name=code], #away [name=away-code]');
+function showCodeBoxes(shown) {
+  for (const input of codeInputs()) input.closest('label').hidden = !shown;
+  const intro = $('#join .join-intro');
+  if (intro) intro.textContent = shown ? 'Your family begins here. Enter the class code your teacher gave you.' : 'Your family begins here. Type your name to join.';
+}
+/** The code in the address was refused - an old class's, or the address mistyped: the boxes, empty, for today's code. */
+function addressRefused() {
+  addressCode = '';
+  for (const input of codeInputs()) input.value = '';
+  showCodeBoxes(true);
+  $('#join').hidden ? $('#away [name=away-code]')?.focus() : $('#join [name=code]')?.focus();
+}
+const viaAddress = () => (addressCode ? { via: 'address' } : {});
 $('#rejoin-toggle').addEventListener('click', () => showDoor('rejoin'));
 $('#join-toggle').addEventListener('click', () => showDoor('join'));
-$('#away-toggle')?.addEventListener('click', () => showDoor('away'));
+$('#away-toggle')?.addEventListener('click', () => {
+  showDoor('away');
+  // Nothing to type: the names are asked for at once with the address's code.
+  if (addressCode) $('#away').requestSubmit();
+});
 $('#away-join-toggle')?.addEventListener('click', () => showDoor('join'));
 $('#away-key-toggle')?.addEventListener('click', () => showDoor('rejoin'));
 // A third door (2026-09-28, the classroom audit's B3 and S5): the class code, then your own name off the list of students
@@ -8412,25 +8483,27 @@ $('#away').addEventListener('submit', async event => {
   joinPending = true; const code = new FormData(event.target).get('away-code').trim().toUpperCase(), button = $('#away-find');
   button.disabled = true; say('');
   try {
-    const { families } = await api('/api/away', { code });
+    const via = viaAddress();
+    const { families } = await api('/api/away', { code, ...via });
     $('#away-names').replaceChildren(...families.map(family => {
       const item = element('li', '');
       const pick = element('button', family.name);
       pick.type = 'button'; pick.dataset.claim = family.householdId; pick.dataset.code = code;
+      if (via.via) pick.dataset.via = via.via;
       pick.append(element('span', family.family, 'away-family'));
       item.append(pick);
       return item;
     }));
     if (!families.length) say('Nobody in this class is waiting to come back. If you are new to it, choose “I am joining for the first time”.');
-  } catch (error) { say(error.message); }
+  } catch (error) { if (error.codeRefused && addressCode) addressRefused(); say(error.message); }
   finally { joinPending = false; button.disabled = false; }
 });
 $('#away-names').addEventListener('click', async event => {
   const pick = event.target.closest('[data-claim]');
   if (!pick || joinPending) return;
   joinPending = true; say('');
-  try { connect(await api('/api/claim', { code: pick.dataset.code, householdId: pick.dataset.claim })); $('#away-names').replaceChildren(); }
-  catch (error) { say(error.message); }
+  try { connect(await api('/api/claim', { code: pick.dataset.code, householdId: pick.dataset.claim, ...(pick.dataset.via && { via: pick.dataset.via }) })); $('#away-names').replaceChildren(); }
+  catch (error) { if (error.codeRefused && addressCode) { $('#away-names').replaceChildren(); addressRefused(); } say(error.message); }
   finally { joinPending = false; }
 });
 $('#rejoin').addEventListener('submit', async event => {
@@ -8444,7 +8517,8 @@ $('#join').addEventListener('submit', async event => {
   event.preventDefault(); if (joinPending) return;
   joinPending = true; const form = new FormData(event.target), button = event.target.querySelector('button');
   button.disabled = true; say('');
-  try { connect(await api('/api/join', { name: form.get('name'), code: form.get('code').trim().toUpperCase() })); } catch (error) { say(error.message); }
+  try { connect(await api('/api/join', { name: form.get('name'), code: form.get('code').trim().toUpperCase(), ...viaAddress() })); }
+  catch (error) { if (error.codeRefused && addressCode) addressRefused(); say(error.message); }
   finally { joinPending = false; button.disabled = false; }
 });
 document.addEventListener('click', async event => {
@@ -8738,6 +8812,12 @@ onArtReady((status, sheet) => { redrawForArrival(sheet); repaintFamilyPanel(); }
 loadArt();
 // The class code a scanned QR code carries (`renderJoinLinks`): put in the join and the away forms, and taken out of the address
 // bar, so the student types only their name and the code is not left on the screen.
+// The code in the address itself (`addressCode`, above): put in both boxes, and the boxes put away. The address is left as it is,
+// so a page reloaded before joining still has it.
+if (addressCode) {
+  for (const input of codeInputs()) input.value = addressCode;
+  showCodeBoxes(false);
+}
 if (!hostPage && /[?&]code=/.test(location.search)) {
   const scanned = new URLSearchParams(location.search).get('code')?.trim().slice(0, 6) || '';
   for (const input of document.querySelectorAll('#join [name=code], #away [name=away-code]')) if (!input.value) input.value = scanned;

@@ -22,7 +22,10 @@ public sealed record ServerStatus(
     string? ClassCode = null, int Joined = 0)
 {
     public static readonly ServerStatus Stopped = new(false, 0, null, Array.Empty<string>(), false);
-    public string? PrimaryJoinUrl => JoinUrls.Count > 0 ? JoinUrls[0] : null;
+    // The join address with the class code inside it (owner, 2026-09-30, "Code inside the address"): http://<laptop>:3000/<code>,
+    // one thing to type. Until the class code has been read, the bare address, which asks for the code.
+    public string? PrimaryJoinUrl => JoinUrls.Count == 0 ? null
+        : string.IsNullOrEmpty(ClassCode) ? JoinUrls[0] : $"{JoinUrls[0].TrimEnd('/')}/{ClassCode}";
 }
 
 /// <summary>

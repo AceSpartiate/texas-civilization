@@ -1,0 +1,76 @@
+{
+  "record": "A student who joins a running class, through the die, in a real browser (classroom report 2026-09-30)",
+  "date": "2026-09-30",
+  "verdict": "PASS",
+  "viewport": {
+    "width": 1366,
+    "height": 768
+  },
+  "note": "Same computer, headless Chrome. No Chromebook, LAN or classroom claim. A is the classroom's own world and pace.",
+  "checks": [
+    "A: a latecomer at the Study pace waited 63 s on the die while the family arrived, threw it (You rolled a 14 for your family and a 10 for what it has.) and reached the last name",
+    "A: the last name is taken, and the die is not offered again",
+    "B: with the class paused the die still lands (You rolled a 12 for your family and a 2 for what it has.) and the last name follows",
+    "D: a class with no family left says so on the join form, with what to do: \"Every family in this class already has a student. Ask your teacher to choose a family for you on the Host's page.\"",
+    "C: a latecomer whose family had begun (hh-6) goes straight into the world with the family it has - no die, no hang",
+    "E: an unanswered throw is given up after 12.1 s and said on the card: \"The die did not come back from the class. Press Roll the die again.\"",
+    "E: a refused throw is said on the die's own card, not on a line behind the curtain",
+    "E: after both, the real throw lands (You rolled a 2 for your family and a 12 for what it has.)",
+    "no page errors"
+  ],
+  "observed": {
+    "a": {
+      "householdId": "hh-4",
+      "waitedOnDieMs": 62621,
+      "card": {
+        "step": "roll",
+        "curtain": true,
+        "die": true,
+        "button": "Roll the die",
+        "result": ""
+      },
+      "roll": 14,
+      "result": "You rolled a 14 for your family and a 10 for what it has."
+    },
+    "b": {
+      "roll": 12,
+      "result": "You rolled a 12 for your family and a 2 for what it has."
+    },
+    "d": "Every family in this class already has a student. Ask your teacher to choose a family for you on the Host's page.",
+    "c": {
+      "householdId": "hh-6",
+      "roll": null,
+      "card": {
+        "step": "begin",
+        "curtain": false,
+        "die": false,
+        "button": "Roll the die",
+        "result": ""
+      }
+    },
+    "e": {
+      "unansweredGivenUpAfterMs": 12146,
+      "card": {
+        "step": "roll",
+        "curtain": true,
+        "die": true,
+        "button": "Roll the die",
+        "result": "The die did not come back from the class. Press Roll the die again."
+      },
+      "refused": {
+        "step": "roll",
+        "curtain": true,
+        "die": true,
+        "button": "Roll the die",
+        "result": "Wait until the class is running."
+      },
+      "after": {
+        "roll": 2,
+        "result": "You rolled a 2 for your family and a 12 for what it has."
+      }
+    }
+  },
+  "screenshots": [
+    "docs/evidence/late-join-surname.png"
+  ]
+}

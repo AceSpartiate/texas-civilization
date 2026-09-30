@@ -304,7 +304,7 @@ The triage's items 1.8 (what was left of it) and 2.15, from the classroom audit'
 
 - **The join address, large, with a QR code.** Down the teacher's column, *How students join*: the address to type (the first
   the server found, `joinUrls`, server/deployment.mjs) in 22 px on one line, the class code in 26 px, and a QR code of the
-  address - 180 px, carrying the class code as `?code=` - made in the page by `public/qr.js` with no library and no network
+  address - 180 px, carrying the class code as `?code=` (since 2026-09-30 inside the address itself, §2.14) - made in the page by `public/qr.js` with no library and no network
   service. The next two addresses the server ranked are named under it (*If that does not open, try …*). It is open in the
   lobby; once the class runs it folds to one line that still says the address and the code (*How students join
   192.168.4.38:3000 · code 6744EF*), and the teacher opens it again for a latecomer. A student who scans it lands on the join
@@ -319,6 +319,35 @@ The triage's items 1.8 (what was left of it) and 2.15, from the classroom audit'
   mistyping never comes near it; a guesser gets about three tries a second - weeks for the class code, far longer for a key -
   and knowing the class code no longer resets a guesser's count for a key. `ceiling:` one student throwing 100 wrong tries in
   half a minute from behind the shared address still shuts the doors for the room for what is left of it.
+
+### 2.14 The class code inside the address (owner-decided 2026-09-30)
+
+The owner asked: *"why do players need to enter a join code? if multiple hosts are on the same network, why dont we have different
+addresses for that?"* Told that each Host laptop already has its own address, and that the code keeps out anybody not in the room and
+separates class periods (it changes with **New Class**), the owner chose, by multiple choice, **"Code inside the address"**.
+
+- **One thing to type.** The join address is `http://<laptop>:3000/<code>`, e.g. `http://192.168.1.20:3000/6744EF`. The Host's
+  *How students join* card shows it large (broken, when the column is too narrow, only before the code, never inside it), its QR
+  code is that same address, the folded line reads *Join 192.168.1.20:3000/6744EF*, and the other addresses listed under it carry
+  the code too. Under the address: *If a Chromebook asks for a class code: 6744EF*. The launcher's join address (and its copy
+  button) is the same address once it has read the code (launcher/ServerControl.cs `PrimaryJoinUrl`); the server's console line at
+  start says it. `renderJoinLinks` in public/app.js.
+- **Opening it joins with a name.** The server answers a single path segment of a class code's shape - six of hex and the O, I and L
+  `readCode` takes for 0 and 1, in any case - with the join page (server/app.mjs `CODE_PATH`); a trailing slash is redirected to the
+  address without it. The page takes the code from the address (`addressCode`) and puts away the code box, so the join asks only
+  for a name. Nothing else is served by it: a path of any other shape, a second segment or a POST is answered as any unknown path
+  always was (`tests/code-address.test.mjs`), and the files served are still only the listed ones.
+- **Checked as before.** The code is checked at the join, the away list and the claim exactly as a typed one is - `codeMatches`,
+  the same leniency, the same wrong tries per device (§2.13). Told it came from the address (`via: 'address'`), the server answers
+  a wrong one *"This is an old class address. Look at the Host screen for today's address, or type the class code shown there."*
+  (`wrongCode`), and the page brings back the code box, empty, where the student can type today's code. A code that no longer
+  matches is most often yesterday's address, from before a New Class.
+- **The old ways still work.** The bare address asks for the code as it always did; an older QR code's `?code=` fills the box as
+  it always did; the Host's page stays on `/host`. On the coded address **I was already in this class** shows the names at once,
+  with nothing typed, and the claim uses the same code.
+- `ceiling:` the code is still a class code, not a secret: anybody who can read the projector can join, as before. What keeps out
+  a stranger on the network is the code in the address as it was the code on the screen; a class that needs more is a class
+  password, which nobody has asked for.
 
 ## 3. Proof
 

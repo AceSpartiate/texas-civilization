@@ -48,6 +48,9 @@ const readKey = value => String(value ?? '').toUpperCase().replace(/[^0-9A-Z]/g,
 const cookie = (req, key) => (req.headers.cookie || '').split(';').map(v => v.trim()).find(v => v.startsWith(`${key}=`))?.slice(key.length + 1);
 // Gzipped when large and accepted (server/delivery.mjs): the map alone is a third of a megabyte of JSON.
 const json = (res, status, value) => sendBody(res.req, res, status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }, Buffer.from(JSON.stringify(value)), { compressible: true });
+// A class code as the join address carries it (`/<code>`, owner 2026-09-30): six of the symbols a class code is read in - hex, and
+// the O, I and L `readCode` takes for 0 and 1 - in any case, and optionally a trailing slash (answered with a redirect).
+const CODE_PATH = /^\/([0-9A-Fa-fOoIiLl]{6})(\/)?$/;
 const files = new Map([
   ['/', ['../public/index.html', 'text/html']], ['/host', ['../public/index.html', 'text/html']],
   ['/app.js', ['../public/app.js', 'text/javascript']], ['/style.css', ['../public/style.css', 'text/css']],
@@ -553,6 +556,13 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
    */
   const readCode = value => String(value ?? '').replace(/\s+/g, '').toUpperCase().replace(/O/g, '0').replace(/[IL]/g, '1');
   const codeMatches = value => readCode(value) === readCode(state.sessionCode);
+  /**
+   * A code that does not match, in words for how it came (owner, 2026-09-30, "Code inside the address"): one typed is to be
+   * checked on the Host screen; one that came in the address the student opened is an old class's (a New Class since) or a
+   * mistyped address, and the Host screen has today's. `codeRefused` tells the page to show the code box, so the student can type
+   * the right one where they are.
+   */
+  const wrongCode = asked => ({ error: asked?.via === 'address' ? 'This is an old class address. Look at the Host screen for today’s address, or type the class code shown there.' : 'Check the class code on the Host screen.', codeRefused: true });
   /** Two display names that a class would take for the same student: the same letters, in any case, however spaced. */
   const sameName = (a, b) => String(a ?? '').trim().replace(/\s+/g, ' ').toLocaleLowerCase() === String(b ?? '').trim().replace(/\s+/g, ' ').toLocaleLowerCase();
   /** One line on the class's own public record, which is what the Host page reads (`projectWorld`, role 'host'). */
@@ -1189,8 +1199,17 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-cache', ETag: etag, ...(zipped && { 'Content-Encoding': 'gzip' }) });
         return res.end(zipped ? facts.content : gunzipSync(facts.content));
       }
-      if (req.method === 'GET' && files.has(url.pathname)) {
-        const [path, mime] = files.get(url.pathname);
+      // **The class code inside the address** (owner, 2026-09-30, by multiple choice: "Code inside the address"): the join address
+      // the Host shows is `http://<laptop>:3000/<code>`, one thing to type. A single path segment of a class code's shape - six of
+      // the symbols `readCode` reads, hex and its look-alikes, in any case - is the join page; the code is checked where it always
+      // was, at the join (and the away list and the claim), so an old code is answered there in words. Anything else falls
+      // through to the list below and is a 404 as before: this opens no file, only the page, and never a second segment. A
+      // trailing slash is sent to the address without it, so the page's relative addresses resolve as they do at `/`.
+      const coded = req.method === 'GET' ? CODE_PATH.exec(rawPath) : null;
+      if (coded?.[2]) { res.writeHead(308, { Location: `/${coded[1]}`, 'Cache-Control': 'no-store' }); return res.end(); }
+      const served = coded ? '/' : url.pathname;
+      if (req.method === 'GET' && files.has(served)) {
+        const [path, mime] = files.get(served);
         let facts;
         try { facts = fileFacts(fileURLToPath(new URL(path, import.meta.url)), { keep: true }); }
         catch (error) { if (error.code === 'ENOENT') return json(res, 404, { error: 'Not found' }); throw error; }
@@ -1275,7 +1294,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const existing = identify(req);
         if (existing?.role === 'student') return json(res, 200, snapshot(existing));
         if (state.world.status === 'ended') return json(res, 409, { error: 'This class has ended. Ask your teacher which class to join.' });
-        if (!codeMatches(input.code)) return json(res, 403, { error: 'Check the class code on the Host screen.' });
+        if (!codeMatches(input.code)) return json(res, 403, wrongCode(input));
         const name = typeof input.name === 'string' ? input.name.trim().slice(0, 40) : '';
         if (!name) return json(res, 400, { error: 'Choose a display name.' });
         // After Start a student still joins (2026-09-28, the classroom audit's B2): into the family the teacher chose, or the
@@ -1304,6 +1323,20 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
           if (late) {
             const household = s.world.households[identity.householdId];
             setAbsent(s.world, household, false);
+            // **The die thrown as the student sits down** (classroom, 2026-09-30: "student tried to join late and it was stuck on
+            // the rolling for the family part. wouldn't let him past."). A family nobody has played yet may still be on its road
+            // in, untouched, and could roll - so the page offered the die. But the world goes on while a Chromebook opens the
+            // page and a student reads the title card, and the family's own arrival on its land, a tick or a few later, closed
+            // the die (sim/family.mjs `rollRefusal`): every press after that was refused, and the page, which fetches the
+            // family once, went on offering it. So the die is thrown here, in the join's own commit, while nothing can yet have
+            // happened to the family - the same courtesy Start does for a student who joined and never rolled. Its number is
+            // the seed's either way (`familyRoll`); the page throws the die on it when the student presses Roll
+            // (`rolledAtJoin`, public/creation.js). A family that has already begun - the director has worked it, or a
+            // student has - keeps the people it has, and its student goes straight in.
+            if (!solo && !household.roll && rollRefusal(s.world, household) === null) {
+              rollFamily(s.world, household);
+              household.rolledAtJoin = true;
+            }
             tellClass(s.world, seat.previous
               ? `${name} joined the class and is playing ${householdName(s.world, household)}, which was ${seat.previous.name}'s.`
               : `${name} joined the class late and is playing ${householdName(s.world, household)}.`);
@@ -1361,7 +1394,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const door = doorOf(req);
         const cooling = rejoinCooldown(door);
         if (cooling) return json(res, 429, cooling);
-        if (!codeMatches(asked.code)) { countRejoinTry(door, res); return json(res, 403, { error: 'Check the class code on the Host screen.' }); }
+        if (!codeMatches(asked.code)) { countRejoinTry(door, res); return json(res, 403, wrongCode(asked)); }
         clearRejoinTries(door);
         const here = streaming();
         const families = Object.values(state.clients)
@@ -1376,7 +1409,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const door = doorOf(req);
         const cooling = rejoinCooldown(door);
         if (cooling) return json(res, 429, cooling);
-        if (!codeMatches(asked.code)) { countRejoinTry(door, res); return json(res, 403, { error: 'Check the class code on the Host screen.' }); }
+        if (!codeMatches(asked.code)) { countRejoinTry(door, res); return json(res, 403, wrongCode(asked)); }
         const found = Object.entries(state.clients).find(([, client]) => client.householdId === asked.householdId);
         if (!found) { countRejoinTry(door, res); return json(res, 404, { error: 'No family in this class is waiting for that name.' }); }
         clearRejoinTries(door);
