@@ -1,12 +1,12 @@
 {
   "record": "People at work, drawn at the work, in a browser (docs/ART_REQUESTS.md, request 2026-09-28 — people at work)",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768. A real class through the join flow on the invented country (seed work-proof-3). The well, the house, the felling, the mark and the water are the server's own chore state set in process; working about the place is the server's own. No LAN or district claim.",
   "checks": [
-    "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 2/0/1/3, dust on the strike, 20 different pictures in 2.4 s",
+    "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 3/0/1/2, dust on the strike, 20 different pictures in 2.4 s",
     "three sent to the house (\"raising the walls\") are drawn round it (738,409 / 859,384 / 617,384, a figure 77 px), each facing it, swinging an axe with the chips flying (chopnotch in rust-work with a drawn axe, chopnotch in teal-work with a drawn axe, chopnotch in rust-work with a drawn axe; stand-in: Request 2026-09-28 — people at work, item 1)",
-    "at the mark Serafina Proofwright is drawn with the rifle up and a puff of smoke once a cycle (marks 1/5/4); surveying, Barnabas Proofwright paces the ground to and fro (21 places, turning both ways)",
+    "at the mark Serafina Proofwright is drawn with the rifle up and a puff of smoke once a cycle (marks 4/1/5); surveying, Barnabas Proofwright paces the ground to and fro (24 places, turning both ways)",
     "thirty-five logs on the pile are drawn as Astra's logs, 4 in a row, not Claude's pile (null; projected {\"wall\":28,\"sill\":4,\"poor\":3,\"lying\":0})",
     "no page errors"
   ],
@@ -98,10 +98,10 @@
         "rust-work"
       ],
       "frames": [
-        2,
+        3,
         0,
         1,
-        3
+        2
       ],
       "marks": [
         1,
@@ -144,9 +144,9 @@
         ],
         "frames": [
           0,
-          1,
           2,
-          3
+          3,
+          1
         ],
         "marks": [
           2,
@@ -186,9 +186,9 @@
         ],
         "frames": [
           0,
-          1,
           2,
-          3
+          3,
+          1
         ],
         "marks": [
           2,
@@ -271,8 +271,7 @@
           "pace"
         ],
         "clips": [
-          "rust-walk",
-          "rust-rest"
+          "rust-walk"
         ],
         "frames": [
           0
@@ -281,31 +280,34 @@
           0
         ],
         "shifts": [
-          -5.7,
-          1.1,
-          4.5,
-          7.8,
-          10.8,
-          17.7,
-          19,
-          19.7,
-          19.8,
-          18.2,
-          16.6,
-          14.4,
+          -4.1,
+          -7,
+          -12.3,
+          -14.5,
+          -16.4,
+          -19,
+          -19.6,
+          -19.8,
+          -18.7,
+          -17.4,
+          -15.8,
+          -13.7,
+          -8.8,
+          -5.9,
+          -3,
+          0.1,
+          6.1,
           8.9,
-          5.7,
-          2.4,
-          -4.5,
-          -7.8,
-          -10.8,
-          -13.5,
-          -17.7,
-          -19
+          11.5,
+          15.9,
+          17.5,
+          18.7,
+          19.8,
+          19.6
         ],
         "flips": [
-          false,
-          true
+          true,
+          false
         ],
         "tools": [
           null
@@ -336,9 +338,9 @@
           0
         ],
         "marks": [
+          4,
           1,
-          5,
-          4
+          5
         ],
         "shifts": [
           0

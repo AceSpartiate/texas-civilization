@@ -55,22 +55,22 @@
         "kind": "reconstructed",
         "text": "Watch me, Mama! Watch this!",
         "box": {
-          "x": 490.78578372464733,
-          "y": 730.2282689136297,
+          "x": 435.48486328125,
+          "y": 731.5046242115451,
           "w": 186.85888671875,
           "h": 27,
           "tail": [
             584,
-            757,
+            759,
             584,
-            765
+            767
           ]
         },
         "tail": [
           584,
-          757,
+          759,
           584,
-          765
+          767
         ]
       },
       {
@@ -79,22 +79,22 @@
         "kind": "reconstructed",
         "text": "The wind comes from the Gulf, I expect.",
         "box": {
-          "x": 386.71826171875,
-          "y": 676.5793536568873,
+          "x": 359.71826171875,
+          "y": 677.557054578157,
           "w": 197.28173828125,
           "h": 42,
           "tail": [
             511,
-            719,
+            720,
             511,
-            727
+            728
           ]
         },
         "tail": [
           511,
-          719,
+          720,
           511,
-          727
+          728
         ]
       }
     ],
@@ -326,9 +326,9 @@
         true
       ],
       [
-        "e",
+        "w",
         "smallchild-walk",
-        false
+        true
       ],
       [
         "e",
@@ -368,7 +368,7 @@
     ],
     "hens": "rust-sow",
     "autoOff": "Auto went off: Cayetano has been good as long as a child can be.",
-    "autoOffNeed": "Ada Swinney has stopped to speak with Cayetano Proofwright. About 2 min left. And 1 more. Go to Cayetano Proofwright and answer.",
+    "autoOffNeed": "Number 3 to answer. Cayetano Proofwright’s auto went off. Give Cayetano Proofwright something to do, or put Auto on again. Go to Cayetano Proofwright and answer.",
     "crawl": {
       "places": 15,
       "clips": [
@@ -454,9 +454,7 @@
     },
     "cry": {
       "babyLife": "Crying for somebody.",
-      "said": [
-        "(crying)"
-      ]
+      "said": []
     },
     "held": {
       "carer": "Paz Proofwright",

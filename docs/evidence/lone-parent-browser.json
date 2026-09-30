@@ -1,6 +1,6 @@
 {
   "proof": "npm run test:lone-parent",
-  "when": "2026-09-29T22:13:45.739Z",
+  "when": "2026-09-30T06:40:29.916Z",
   "pass": [
     "on the land, before the house site is chosen: the ability is there, says to choose the site first, and cannot be pressed",
     "on the land the ability waits, glowing (card-glow), with the land marked on the map, standing on nothing: \"Take the children to the farms nearby and ask the neighbours to help Serafina raise a house.\"",
@@ -10,7 +10,7 @@
     "the four scenes in order, 26 presses of Continue, 6 fades to and from black, every figure and building drawn",
     "home: 4 people, two parents on the panel, a round-log house standing, and the ability gone",
     "the family took his name - the page reads \"The Whitlow family\" - and Amos, the new husband, is its main person and principal",
-    "fades to black take 1102, 1124 ms; with less motion asked for, 280 ms - shorter, never a cut",
+    "fades to black take 1108, 1109 ms; with less motion asked for, 298 ms - shorter, never a cut",
     "no page errors on the student's, the other student's or the Host's page"
   ],
   "observed": {
@@ -38,8 +38,8 @@
       "glow": "card-glow",
       "shadow": "rgb(255, 243, 207) 0px 0px 0px 1px inset, rgba(194, 88, 44, ",
       "marker": {
-        "x": 690,
-        "y": 335,
+        "x": 691,
+        "y": 336,
         "r": 12
       },
       "icon": "drawn"
@@ -56,8 +56,8 @@
       "between": "Serafina and the children walk to the nearest farm."
     },
     "fades": [
-      0.46,
-      0.58
+      0.43,
+      0.59
     ],
     "reload": {
       "scene": "second",
@@ -66,7 +66,7 @@
     "scenes": [
       {
         "id": "first",
-        "where": "The Salcedo farm, past the ford · Night",
+        "where": "The Salcedo farm, past the ford · Evening",
         "lines": [
           {
             "step": 0,
@@ -152,7 +152,7 @@
       },
       {
         "id": "second",
-        "where": "The Whitlow place, by the big pecan · Night",
+        "where": "The Whitlow place, by the big pecan · Evening",
         "lines": [
           {
             "step": 0,
@@ -161,7 +161,7 @@
           },
           {
             "step": 1,
-            "who": "Serafina Hollister",
+            "who": "Serafina Whitlow",
             "said": "Then you know why we've come. I'm asking for a day's help with a house."
           },
           {
@@ -176,7 +176,7 @@
           },
           {
             "step": 4,
-            "who": "Serafina Hollister",
+            "who": "Serafina Whitlow",
             "said": "Then I hope she's right about you."
           },
           {
@@ -253,12 +253,12 @@
       },
       {
         "id": "wedding",
-        "where": "Your own land · Morning",
+        "where": "Your own land · Night",
         "lines": [
           {
             "step": 0,
             "who": "",
-            "said": "By mid-morning a cabin stands where you camped."
+            "said": "By nightfall a cabin stands where you camped."
           },
           {
             "step": 1,
@@ -272,7 +272,7 @@
           },
           {
             "step": 3,
-            "who": "Serafina Hollister",
+            "who": "Serafina Whitlow",
             "said": "I will."
           },
           {
@@ -287,7 +287,7 @@
           },
           {
             "step": 6,
-            "who": "Serafina Hollister",
+            "who": "Serafina Whitlow",
             "said": "I take you, Amos, to be my husband, and I will keep faith with you alone."
           },
           {
@@ -388,7 +388,7 @@
             "drawn": true
           }
         ],
-        "backdrop": "courtship-yard-morning",
+        "backdrop": "courtship-yard-evening",
         "buildings": [
           "house-round-log",
           "home-table"
@@ -459,7 +459,7 @@
             "drawn": true
           }
         ],
-        "backdrop": "courtship-yard-morning",
+        "backdrop": "courtship-yard-evening",
         "buildings": [
           "house-round-log"
         ],
@@ -500,11 +500,11 @@
     },
     "fadeMs": {
       "full": [
-        1102,
-        1124
+        1108,
+        1109
       ],
       "reduced": [
-        280
+        298
       ]
     }
   },

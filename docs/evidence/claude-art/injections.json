@@ -1,12 +1,13 @@
 {
   "record": "The Claude stand-in tests proved by injection (scripts/claude-art/injections.mjs)",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "results": [
     {
       "guards": "every Claude frame and clip has its provenance",
       "injected": "rust-chop-3 loses its written intent (the prompt) in the provenance record",
       "failed": [
-        "every Claude frame and clip has its provenance: made by Claude, the date, the written intent, the source, temporary"
+        "every Claude frame and clip has its provenance: made by Claude, the date, the written intent, the source, temporary",
+        "docs/CLAUDE_ART_PLAN.md and the \"What Astra still needs to make\" section are what the plan writes now"
       ]
     },
     {
