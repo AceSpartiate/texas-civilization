@@ -10,6 +10,9 @@
 import { record } from './events.mjs';
 import { dateOf } from './clock.mjs';
 import { advanceSeguin } from './tejano.mjs';
+import { establishTruth, learn } from './knowledge.mjs';
+import { ALAMO_WORD } from './alamo.mjs';
+import { momentOf } from './directors.mjs';
 
 export const CLAIMS = Object.freeze({
   law: 'HIST-TEX-784', ashworths: 'HIST-TEX-783', tejanoAfter: 'HIST-TEX-780',
@@ -154,8 +157,57 @@ export function roadGroups(world, householdId, host = false) {
 export function afterWords(world, household) {
   if (!world?.starts) return null;
   if (household?.heritage === 'free-black') return 'After the war the Republic let free Black families who had lived in Texas before independence stay, but not vote. When a law of 1840 ordered free Black people out of Texas, the Ashworths’ white neighbours asked Congress to let them stay, and the Ashworth Act let them and every free Black family here before independence remain.';
+  if (household?.heritage === 'tejano' && household.settlementId === 'bexar') return BEXAR_AFTER;
   if (household?.heritage === 'tejano') return 'After the war many Tejano families of De León’s colony, the De Leóns among them, were forced from their land and their cattle taken. Some came back years later to find their land in others’ hands.';
   return null;
+}
+
+// ------------------------------------------------------------------------------------------------ a rancho near Béxar
+
+/**
+ * What a family on a rancho near Béxar lives through (owner, 2026-09-29: "Béxar at 20+"; sim/starts.mjs `BEXAR_AT`): the war
+ * comes to its door, and it is told what it hears and sees, each once, at the director's moment (`at`, a milestone) or on a day of
+ * the calendar (`on`), `after` minutes later. The events are the record's (`HIST-TEX-790`, `-791`); that the family hears the guns
+ * or sees the smoke from its land a few miles off, and the hour it hears, are the game's (`FIC-GONZ-988`). Nothing here costs the
+ * family anything: the foragers of both armies are said, not taken from the family's own stores (`ceiling:`, a loss would want a
+ * record of what was taken from whom).
+ */
+export const BEXAR_WORD = Object.freeze([
+  Object.freeze({ key: 'bexar-concepcion', at: 'concepcion', after: 0, claimId: 'HIST-TEX-790',
+    text: 'Early this morning the family heard guns up the river toward Mission Concepción, a long while firing, and then quiet. By evening a neighbour had the word: soldiers from the town had attacked the colonists\' camp at the mission and been driven back.' }),
+  Object.freeze({ key: 'bexar-grass', on: '1835-11-14', after: 12 * 60, claimId: 'HIST-TEX-791',
+    text: 'Salvador Flores and his riders came by, burning the grass across the country toward the Medina so the Mexican cavalry\'s horses will have nothing to eat. The family watched the smoke all day.' }),
+  Object.freeze({ key: 'bexar-storming', at: 'assault', after: 3 * 60, claimId: 'HIST-TEX-790',
+    text: 'Before dawn cannon began to fire in Béxar, and it went on all day and into the night: the colonists have gone into the town, fighting from house to house.' }),
+  Object.freeze({ key: 'bexar-capitulation', at: 'capitulation', after: 6 * 60, claimId: 'HIST-TEX-791',
+    text: 'Word from Béxar: General Cos has surrendered the town. The terms say the people of Béxar shall be protected in their persons and their property, and nobody troubled for the side he took.' }),
+  Object.freeze({ key: 'bexar-foragers', at: 'alamo-siege', after: 3 * 1440, claimId: 'HIST-TEX-791',
+    text: 'Mexican soldiers are riding out to the ranchos along the river for corn and cattle for Santa Anna\'s army. The families who stood with the Texians keep out of their way.' }),
+  Object.freeze({ key: 'bexar-assault', at: 'alamo-assault', after: 8 * 60, claimId: 'HIST-TEX-060', fall: true,
+    text: 'Before dawn the family heard heavy firing from the Alamo, and then it stopped. By afternoon word came down the river: the Mexican army has stormed the Alamo, and the men who fought in it were killed.' }),
+]);
+/** What came after for a family of the ranchos near Béxar, the last line of its ending (`HIST-TEX-791`). */
+export const BEXAR_AFTER = 'After San Jacinto, Juan Seguín took back Béxar for Texas on June 4, 1836. The families of the ranchos who came home found them wasted by both armies, and in the years after many Tejano families of Béxar lost their land to newcomers.';
+
+function tellBexar(world) {
+  const milestones = world.director?.milestones || {};
+  for (const household of Object.values(world.households)) {
+    if (household.settlementId !== 'bexar' || household.flight) continue;
+    for (const word of BEXAR_WORD) {
+      if (told(world, household.id, word.key)) continue;
+      const from = word.at ? (milestones[word.at] ? momentOf(world, word.at) : null) : minuteOn(world, word.on);
+      if (from === null || world.minute < from + word.after) continue;
+      mark(world, household.id, word.key);
+      // The fall of the Alamo, known here the day it happened: the family's knowledge, so the word of its own is told when it
+      // should be (sim/directors.mjs `tellWhenHeard`), and not days later by an express from Gonzales.
+      if (word.fall) {
+        if (!world.truth['alamo-fall']) establishTruth(world, { id: 'alamo-fall', text: ALAMO_WORD.fall, siteId: 'bexar', classification: 'DOCUMENTED', claimId: 'HIST-TEX-060' });
+        learn(world, household.id, 'alamo-fall', { status: 'unconfirmed', source: 'Neighbours down the river', text: word.text });
+        continue;
+      }
+      record(world, 'news', { householdId: household.id, importance: 3, classification: 'DOCUMENTED', claimId: word.claimId, text: word.text });
+    }
+  }
 }
 
 /** Every tick, in a class that deals starts: the lines above, and Seguín's company's (sim/tejano.mjs). */
@@ -163,6 +215,7 @@ export function advanceStarts(world) {
   if (!world.starts || world.status !== 'running') return;
   tellTheLaw(world);
   tellTheRoad(world);
+  tellBexar(world);
   advanceSeguin(world);
 }
 

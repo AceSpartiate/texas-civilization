@@ -20,7 +20,7 @@ import { sampleReliefGrid } from './terrain.mjs';
 import { WOODS_SOURCE } from './woods.mjs';
 import { coloniesProvince } from './province.mjs';
 import { burnSamples, inBurnZone } from './advance.mjs';
-import { STARTS_SEATED, dealStarts } from './starts.mjs';
+import { BEXAR_AT, clearOfMissions, dealStarts, startCounts } from './starts.mjs';
 
 const round = value => { const fixed = +value.toFixed(2); return fixed === 0 ? 0 : fixed; };
 const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -208,7 +208,8 @@ export function buildColoniesRegion(random, playerCount, { zone = true, starts =
 
   // Who goes where: the counts, then which family, shuffled by the seed. `starts` (a class made since 2026-09-29, sim/starts.mjs)
   // seats Victoria as well, for its Tejano family.
-  const counts = dealCounts(playerCount, starts ? STARTS_SEATED : undefined);
+  // From twenty families, one of them on the ranchos below Béxar (owner, 2026-09-29: "Béxar at 20+").
+  const counts = starts ? startCounts(playerCount, dealCounts) : dealCounts(playerCount);
   const seats = Object.entries(counts).flatMap(([id, count]) => Array(count).fill(id));
   for (let i = seats.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [seats[i], seats[j]] = [seats[j], seats[i]]; }
   let settled = [...new Set(seats)];
@@ -265,7 +266,7 @@ export function buildColoniesRegion(random, playerCount, { zone = true, starts =
       && Number.isFinite(land.heightAt(at.x, at.y)) && land.heightAt(at.x, at.y) >= 1
       && barriers.distanceTo(at, 1) > 0.3
       && water.distanceTo(at, 1) <= WATER_WITHIN
-      && level(at)
+      && level(at) && clearOfMissions(at, settlement)
       // On its own settlement's side of the big rivers, in effect: a way to its town by road that is not a journey round the colony.
       && roadMilesToTown(at, settlement) <= ROAD_TO_TOWN;
   };
@@ -315,9 +316,10 @@ export function buildColoniesRegion(random, playerCount, { zone = true, starts =
       const fromTown = distance(at, settlement);
       return fromTown >= LAND_FROM_TOWN.nearest && fromTown <= LAND_FROM_TOWN.farthest && towns.every(town => distance(town, at) > 1.2)
         && Number.isFinite(land.heightAt(at.x, at.y)) && land.heightAt(at.x, at.y) >= 1 && barriers.distanceTo(at, 1) > 0.3
-        && water.distanceTo(at, 1) <= WATER_WITHIN && level(at);
+        && water.distanceTo(at, 1) <= WATER_WITHIN && level(at) && clearOfMissions(at, settlement);
     };
-    for (const id of Object.keys(START_WEIGHTS)) {
+    // The colonies, and Béxar when a family is dealt there (sim/starts.mjs).
+    for (const id of new Set([...Object.keys(START_WEIGHTS), ...seats])) {
       const s = sites[id], found = { in: [], out: [] };
       for (let x = s.x - LAND_FROM_TOWN.farthest; x <= s.x + LAND_FROM_TOWN.farthest; x += 0.5) {
         for (let y = s.y - LAND_FROM_TOWN.farthest; y <= s.y + LAND_FROM_TOWN.farthest; y += 0.5) {
@@ -328,6 +330,8 @@ export function buildColoniesRegion(random, playerCount, { zone = true, starts =
       ground[id] = found;
     }
     const room = Object.fromEntries(Object.entries(ground).map(([id, found]) => [id, { in: Math.floor(found.in.length / POINTS_A_FAMILY), out: Math.floor(found.out.length / POINTS_A_FAMILY) }]));
+    // The one family below Béxar is inside the zone: Santa Anna's army came to Béxar (sim/starts.mjs `BEXAR_AT`).
+    if (room[BEXAR_AT]) room[BEXAR_AT] = { in: ground[BEXAR_AT].in.length ? 1 : 0, out: 0 };
     const used = Object.fromEntries(Object.keys(ground).map(id => [id, { in: 0, out: 0 }]));
     const free = (id, side) => (room[id]?.[side] ?? 0) - (used[id]?.[side] ?? 0);
     // Whether the families still to seat can fill the sides still open: each settlement's families split between the sides it

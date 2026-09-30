@@ -62,6 +62,16 @@ export const SETTLEMENT_CALLS = Object.freeze({
     text: 'Word has come to Victoria that the Mexican troops are at Gonzales and the colonists are gathering there. Does somebody from your family ride to join them?',
     there: name => `${name} reached Gonzales, where volunteers from the settlements are gathering and waiting to be made into an army.`,
   },
+  // The ranchos near Béxar (sim/starts.mjs, owner 2026-09-29: "Béxar at 20+"; `HIST-TEX-782`, `-791`): not a colony's call but
+  // Juan Seguín's, raising Tejanos from the ranchos on the San Antonio River when the colonists' army came to the Salado. Asked
+  // when the army leaves the Cibolo for the Salado (`afterArmy`), and answered from the family's own land (`home`): a man who goes
+  // rides from home to wherever the army is (sim/army.mjs `followTheArmy`).
+  bexar: {
+    home: true,
+    afterArmy: 'leave-cibolo',
+    text: 'Juan Seguín of Béxar is going from rancho to rancho along the San Antonio River, raising a company of Tejano volunteers to join the colonists\' army, which is coming to the Salado, a few miles from the town. Does somebody from your family ride with him?',
+    there: name => `${name} is ready to ride with Seguín's company, and sets out to find the army.`,
+  },
   // Gonzales's own, and the one call that is not asked on the strength of an express: the town is
   // where the volunteers are coming to, and its families are asked once the gathering has begun
   // (docs/COLONIES.md §5.5, build step 5). A family that carried food to town or went upriver in
@@ -95,11 +105,13 @@ export function offerCalls(world) {
     if (!call || world.calls?.[household.id]) continue;
     // The town's own call is asked on the gathering itself, which its families can see happening
     // around them; every other call waits on a rider (`FIC-GONZ-031`).
-    const report = call.gathering ? { eventId: world.truth['gonzales-outcome']?.eventId } : world.knowledge.households[household.id]?.['cannon-request'];
+    // Seguín's call near Béxar is asked when the army comes near (`afterArmy`), not on a letter from the colonies.
+    const report = call.afterArmy ? (world.director?.milestones?.[call.afterArmy] ? { eventId: null } : null)
+      : call.gathering ? { eventId: world.truth['gonzales-outcome']?.eventId } : world.knowledge.households[household.id]?.['cannon-request'];
     if (!report) continue;
     if (!world.calls) world.calls = {};
     const id = record(world, 'pressure', { householdId: household.id, text: call.text, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-031', causes: report.eventId ? [report.eventId] : [], importance: 2 });
-    world.calls[household.id] = { id, text: call.text, status: 'open', settlementId: household.settlementId, gather: call.gather, offeredMinute: world.minute };
+    world.calls[household.id] = { id, text: call.text, status: 'open', settlementId: household.settlementId, gather: call.home ? household.homeSiteId : call.gather, offeredMinute: world.minute };
   }
 }
 
@@ -124,7 +136,7 @@ export function callOptions(world, householdId, call, entity) {
   // A Tejano family's man rides to join the Tejano volunteers under Seguín (sim/tejano.mjs, owner 2026-09-29).
   const seguin = seguinFamily(world, world.households[householdId]);
   return [
-    offer('turn-out', seguin ? SEGUIN_CALL.label(place) : COAST.includes(call.settlementId) ? `Go: ride west to join them, toward ${place}` : `Go: ride for ${place}`, `${seguin ? `${SEGUIN_CALL.note(entity.name)} ` : ''}${entity.name} takes the family's rifle and up to ${VOLUNTEER_POWDER} powder, and is away from the farm until called home.${tired}${leaves ? ` ${leaves}` : ''}`),
+    offer('turn-out', call.gather === world.households[householdId]?.homeSiteId ? SEGUIN_CALL.fromHome : seguin ? SEGUIN_CALL.label(place) : COAST.includes(call.settlementId) ? `Go: ride west to join them, toward ${place}` : `Go: ride for ${place}`, `${seguin ? `${SEGUIN_CALL.note(entity.name)} ` : ''}${entity.name} takes the family's rifle and up to ${VOLUNTEER_POWDER} powder, and is away from the farm until called home.${tired}${leaves ? ` ${leaves}` : ''}`),
     COAST.includes(call.settlementId)
       ? offer('stay-put', 'Stay and keep the coast', `The coast has few men left on it. ${entity.name} stays, and the farm keeps its hands.`)
       : offer('stay-put', 'Stay home', `${entity.name} stays, and the farm keeps its hands.`),
@@ -172,7 +184,7 @@ export function handleCall(world, householdId, entity, action, { beginTravel, tr
   const seguin = going && seguinFamily(world, household);
   const choiceId = record(world, 'choice', {
     actorId: entity.id, householdId, decision: action, causes: [call.id], importance: 2, claimId: seguin ? 'FIC-GONZ-983' : 'FIC-GONZ-031',
-    text: seguin ? SEGUIN_CALL.choice(entity.name, place.name) : going ? `${entity.name} will ride for ${place.name} with the volunteers.` : `${entity.name} will stay home.`,
+    text: seguin && call.gather === household.homeSiteId ? SEGUIN_CALL.choiceFromHome(entity.name) : seguin ? SEGUIN_CALL.choice(entity.name, place.name) : going ? `${entity.name} will ride for ${place.name} with the volunteers.` : `${entity.name} will stay home.`,
   });
   // Seguín's from the moment he chooses to ride with the Tejano volunteers (sim/tejano.mjs).
   if (seguin) joinSeguin(entity);

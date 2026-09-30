@@ -1263,3 +1263,80 @@ Tested in `tests/owner-rules.test.mjs` (a boy of fifteen can fight after his six
 shows sixteen over the book's fifteen; a baby of one and a child of nine turn two and ten by the class's own ticks; an old save's
 derived date is stable and written down, and opening it again moves nothing), each seen failing by injection
 (`npm run test:owner-rules-injections`).
+
+## Amendment, 2026-09-29/30 — the owner's answers on the family's start
+
+**The owner answered all six questions of *The family's start*** (2026-09-29, the first four; 2026-09-30, the last two). Built on
+branch `starts-2` (not released). Claims `HIST-TEX-790`, `-791`, `FIC-GONZ-987` to `-990`; `HIST-TEX-781` and `-782` amended.
+
+| Question | Owner's answer | What is built |
+| --- | --- | --- |
+| 1. A Tejano family's wedding | **"Priest from La Bahía"** | On the lone parent's path a Tejano family is married by an unnamed priest come up from La Bahía to say Mass in the colony, before its neighbours, with no bond (sim/courtship.mjs `riteFor`, `rite: 'priest'`). The line under it says only what is documented: De León's colony had a log church and no priest of its own; a priest came from La Bahía when he could; Anglo colonists signed a bond instead. Anglo-American and free Black families keep the bond. `FIC-GONZ-987`. |
+| 2. A Béxar start | **"Béxar at 20+"** | Below. It amends the owner's rule of 2026-09-14 that only empresario colonies are starts (COLONIES.md §5.1). |
+| 3. The teacher and the deal | **"No control"** | As built. |
+| 4. Hair | **"Open"** | As built. |
+| 5. Seguín's men in the winter garrison | **"Join, then leave"** | Below. `FIC-GONZ-989`. |
+| 6. The Tejano poor band's cart | **"i could have sworn i saw astra make that already. if not then yes."** | Astra has drawn the carreta (`carreta-travel-e/-n/-s`, `carreta-idle-*`, `carreta-loaded-e`, delivered 2026-09-26; public/art-subjects.js lets hers win). A Tejano family of the poorest means comes with the **family carreta**: named so, said so on the pack screen and in the arrival, drawn with her frames. It holds, carries and seats as the cart does - the start never changes what a family can do. No stand-in or request to retire: her carreta was already drawn for the carreta made at home. `FIC-GONZ-990`. |
+
+### The family on a rancho near Béxar (`FIC-GONZ-988`; `HIST-TEX-790`, `-791`)
+
+**The research**, in brief (HISTORY.md has the quotations): a belt of Tejano ranchos ran down the San Antonio River from Béxar to
+Goliad, and families held the old mission lands. Juan Seguín raised his company at the ranchos, starting with a meeting at Salvador
+Flores's. Cos's garrison held the town and was hard on suspected rebels; families split between the sides. The Texian army came to
+the missions (Concepción, October 28), Flores's riders burned the grass (November 14), the storming took the town (December 5-9) and
+the capitulation protected the people's persons and property. In mid-February 1836 Tejano riders warned of Santa Anna, and the
+Seguín and Flores families went east with oxcarts and sheep before he took the town on February 23. Mexican detachments collected corn
+and cattle from the ranchos. In March Houston sent Flores to guard the lower ranchos, and Flores protected fleeing families in the
+Scrape. Seguín took back Béxar on June 4, and families came home to ranchos wasted by both armies and, in the years after, lost land
+to newcomers.
+
+**How it is dealt.** In a class of **twenty or more**, one family - taken from the colonies' deal (`startCounts`) - is a Tejano family on
+a rancho 2 to 12 miles from Béxar by the San Antonio River, at least a mile and a half from the army's camps at Concepción and Espada
+(so its farm is never on a battle's ground), **always inside the burn zone** (Santa Anna came to Béxar), and moved among the first six
+families to join on its side of the zone. There is room near Béxar for exactly one family inside the zone, which is why it is one.
+Measured: the land comes out 3 to 4 miles from the town, north or south of it on the river; the card says "near Béxar", not "below".
+
+**What it plays like, and when** (every day and hour is the game's; the events are the record's):
+
+| When | What the family has |
+| --- | --- |
+| September 28 | The card: *"Your family is Tejano: Mexican Texans. You are taking up a rancho on the San Antonio River near Béxar, the oldest town in Texas ... A Mexican garrison holds the town, and your neighbours do not all take the same side."* A store and a carpenter at Béxar (invented) serve it. |
+| Early October | The fight at Gonzales by rider, as every family. |
+| October 19-20 (the army leaves the Cibolo) | **Seguín's call, from home**: *"Juan Seguín of Béxar is going from rancho to rancho ... raising a company of Tejano volunteers ... Does somebody from your family ride with him?"* - *Go: ride with Seguín's company to the army* - and he rides from the family's land to wherever the army is, and is Seguín's (the Salado, the leave after Béxar, the spring's company, San Jacinto's pasteboard, as for Victoria's Tejano). |
+| October 28 | *"Early this morning the family heard guns up the river toward Mission Concepción ..."* |
+| November 14 | Flores's riders burning the grass toward the Medina. |
+| December 5 | The storming's cannon, day after day. |
+| December 11 | The capitulation's terms: the people of Béxar protected in their persons and property, nobody troubled for the side he took. |
+| Mid-February | Herrera's warning, heard at the rancho (sim/surprise.mjs). |
+| February 23 | The bell of San Fernando and the town emptying, seen from the rancho. |
+| February 26 | Mexican soldiers riding to the ranchos for corn and cattle; *"the families who stood with the Texians keep out of their way."* Nothing is taken from the family's own stores (`ceiling:`). |
+| March 6 | Heavy firing from the Alamo before dawn, then quiet; by afternoon the word down the river that it has been stormed - **what the family knows**, the day it happened, so the fate of its own man there (if any) is told from it. |
+| March 14 | **The word to leave, from Seguín's men**: *"the families of the ranchos who stood with the Texians are going east, and Salvador Flores's riders will see them along the road."* The Scrape as any family's, from the far west of it, with two days before Santa Anna's foragers reach the farm (Sesma's column went out from Béxar on March 11). A family that does not answer in time loses the house to **Santa Anna's foragers**, not the Texas army, which was a hundred miles off. |
+| The ending | *"After San Jacinto, Juan Seguín took back Béxar for Texas on June 4, 1836. The families of the ranchos who came home found them wasted by both armies, and in the years after many Tejano families of Béxar lost their land to newcomers."* |
+
+**Survivable for a class.** The family is never inside a battle: its land is off the missions and 3 miles or more from the town, and
+the fights it hears are journal lines. A member at Béxar on February 23 is shut in the Alamo, as anybody of any family is; a man of
+the family in the garrison is one of Seguín's and rides out on the 25th (below). The order to leave comes with two days' warning.
+
+### Seguín's men in the winter garrison (`FIC-GONZ-989`)
+
+A Tejano family's man of sixteen or more who joins the garrison at Béxar (the winter's *Join the garrison at Béxar*, any Tejano
+family) is told *"Juan Seguín and some of his Tejanos are in Béxar this winter with the garrison, and Rafael is with them."* If the
+Mexican army shuts the garrison in on February 23 he is inside; on **the night of February 25** - when Travis sent Seguín and Antonio
+Cruz out as couriers (`HIST-TEX-431`) - he **rides out with them** for Gonzales, released as a courier is, before Travis's own riders
+are chosen that night, and the family is told: *"... Rafael, one of Seguín's men, rode out with them and is riding for Gonzales. Most
+of Seguín's men left the Alamo in those days; exactly when is not known."* When the Alamo's fall reaches the family, it is told he
+had ridden out with Seguín and was not inside when it fell. A woman of the family shut in the Alamo is not one of Seguín's men.
+
+### Forks the owner may want to decide (built the conservative way; recommended first)
+
+1. **The Béxar family's wedding.** Béxar had its own parish priest at San Fernando (Refugio de la Garza), a Mexican loyalist inside the
+   town through the siege. (a) The priest from La Bahía, as for every Tejano family (as built - the owner's words); (b) the parish
+   priest of Béxar for the Béxar family.
+2. **What the Mexican foragers take.** (a) Said, not taken (as built); (b) a share of the family's corn and a few head of its cattle
+   taken on February 26, and said.
+3. **Taken prisoner at home.** A Béxar family that stays when the foragers reach the rancho is taken as any family is (sim/scrape.mjs's
+   rule, unchanged). The record read does not say Tejano rancho families were taken. (a) Keep the one rule for every family (as built);
+   (b) a Béxar family that stays is not taken, only its farm burned.
+4. **The Béxar family's rancho on the map.** (a) Near Béxar, where the land allows (as built, 3-4 miles, north or south); (b) only down
+   the river toward Goliad, where the ranchos of the record lay, which may need the land rule loosened.

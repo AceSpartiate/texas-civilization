@@ -301,11 +301,11 @@ function candidates(world, household, trip) {
   // ------------------------------------------------------------------------------ the lone parent's wedding (sim/courtship.mjs)
   // The day the family went to its neighbours and came home with two parents and a house raised: one of the moments a family
   // that began with one parent will remember first.
-  const wed = household.courtship?.stage === 'home' ? events.find(event => event.type === 'courtship' && /married by bond/.test(event.text)) : null;
+  const wed = household.courtship?.stage === 'home' ? events.find(event => event.type === 'courtship' && /married by (bond|the priest)/.test(event.text)) : null;
   if (wed) {
     const lone = members.find(person => person.id === household.courtship.parentId), spouse = members.find(person => person.id === household.courtship.spouse.id);
     add({ kind: 'wedding', weight: 90, minute: wed.minute, place: home,
-      caption: `${lone ? firstName(lone) : 'The family'} and ${spouse ? firstName(spouse) : 'a neighbour'} were married by bond, the neighbours their witnesses, beside the house the neighbours raised.`,
+      caption: `${lone ? firstName(lone) : 'The family'} and ${spouse ? firstName(spouse) : 'a neighbour'} were married ${household.courtship.rite === 'priest' ? 'by the priest from La Bahía' : 'by bond'}, the neighbours their witnesses, beside the house the neighbours raised.`,
       scene: { type: 'home', house: { shelter: 'house', layout: houseLayout }, people: at(wed.minute) } });
   }
   // ------------------------------------------------------------------------------------------------------- the fields

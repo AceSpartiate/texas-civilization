@@ -6362,7 +6362,8 @@ function renderWagonLoad(world) {
   const space = wagon.space ?? catalogue.space;
   // A family of the poorest means packs a cart (sim/means.mjs), and the server says so (`wagon.vehicle`); one that is hard up
   // packs its ox, and carries its food itself (`'packs'`, owner 2026-09-25: "it should be possible to start with no wagon").
-  const vehicle = wagon.vehicle === 'cart' ? 'cart' : wagon.vehicle === 'packs' ? 'packs' : wagon.wagons ? 'wagons' : 'wagon';
+  // A Tejano family's cart is its carreta (sim/wagon.mjs `vehicleWord`), and is packed as the cart is.
+  const vehicle = wagon.vehicle === 'cart' || wagon.vehicle === 'carreta' ? wagon.vehicle : wagon.vehicle === 'packs' ? 'packs' : wagon.wagons ? 'wagons' : 'wagon';
   reopen.textContent = `Repack the ${vehicle === 'packs' ? "ox's packs" : vehicle} (${wagon.used} of ${space})`;
   if (!wagonPacking) return;
   const choice = world.land?.stockChoice;
@@ -6370,8 +6371,8 @@ function renderWagonLoad(world) {
   if (shape === wagonShown) return;
   wagonShown = shape;
   // A family fitted out with more than one wagon packs them together, and the server says how many (sim/wagon.mjs).
-  $('#wagon-room').textContent = `${wagon.wagons ? `${wagon.wagons} wagons: ` : vehicle === 'cart' ? 'The cart: ' : vehicle === 'packs' ? "No wagon or cart. The ox's packs: " : ''}${wagon.used} of ${space} space filled, ${space - wagon.used} left.`;
-  $('#wagon-load-title').textContent = vehicle === 'cart' ? 'Pack the cart' : vehicle === 'packs' ? "Pack the ox's packs" : 'Pack the wagon';
+  $('#wagon-room').textContent = `${wagon.wagons ? `${wagon.wagons} wagons: ` : vehicle === 'cart' ? 'The cart: ' : vehicle === 'carreta' ? 'The carreta: ' : vehicle === 'packs' ? "No wagon or cart. The ox's packs: " : ''}${wagon.used} of ${space} space filled, ${space - wagon.used} left.`;
+  $('#wagon-load-title').textContent = vehicle === 'cart' ? 'Pack the cart' : vehicle === 'carreta' ? 'Pack the carreta' : vehicle === 'packs' ? "Pack the ox's packs" : 'Pack the wagon';
   // What is packed, in the words the panel's other lines use: the wagon, the wagons, the cart, or the ox's packs.
   const packed = vehicle === 'packs' ? "the ox's packs" : `the ${vehicle}`;
   if ($('#wagon-when')) $('#wagon-when').textContent = `You can change all of this until your teacher presses Start. After that ${packed} ${['packs', 'wagons'].includes(vehicle) ? 'are' : 'is'} packed.`;

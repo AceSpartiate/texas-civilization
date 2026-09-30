@@ -1,5 +1,52 @@
 # Claude handoff — Astra foundation
 
+## The owner's answers on the family's start: the priest from La Bahía, a rancho near Béxar, Seguín's men in the Alamo, the carreta — 2026-09-30 (not released)
+
+**The ask.** The owner answered the six questions of the family's start (docs/FAMILY_CREATION.md, the amendment of 2026-09-29/30):
+1 "Priest from La Bahía", 2 "Béxar at 20+", 3 "No control", 4 "Open", 5 "Join, then leave", 6 the carreta, "if not then yes".
+Branch `starts-2` off local `integration-2026-09-28` 4131feb8; not pushed. Claims `HIST-TEX-790`, `-791`; `FIC-GONZ-987` to `-990`;
+`HIST-TEX-781`, `-782` amended.
+
+- **1. A Tejano family's wedding** on the lone parent's path is performed by an unnamed priest come up from La Bahía, before the
+  neighbours, with no bond (sim/courtship.mjs `riteFor`, `rite: 'priest'`); the line under it says only what is documented. Anglo and
+  free Black families keep the bond. The flashback remembers either.
+- **2. A Tejano family on a rancho near Béxar**, in a class of 20 or more (sim/starts.mjs `startCounts`, `BEXAR_AT`; one line and the
+  zone's room in sim/colonies-region.mjs): 2-12 miles from the town by the river (measured 3-4), clear of the missions' camps, always
+  inside the burn zone, early to join; a store and carpenter at Béxar (sim/town.mjs). Seguín's call from its own land when the army
+  leaves the Cibolo, the man riding from home to the army (sim/calls.mjs, sim/army.mjs `followTheArmy`); what it hears at its door
+  (sim/start-story.mjs `BEXAR_WORD`: Concepción's guns, the grass burned, the storming, the capitulation, Herrera and the bell via
+  sim/surprise.mjs, Mexican foragers, the Alamo's fall known that day); the word to leave from Seguín's men on March 14 and a rancho
+  left in a rush burned by Santa Anna's foragers (two small edits in sim/scrape.mjs, for the Scrape's own builder to see); its ending.
+  It amends the owner's 2026-09-14 rule that only colonies are starts (docs/COLONIES.md §5.1).
+- **5. Seguín's men in the winter garrison**: a Tejano man there is one of Seguín's men (told so); shut in on February 23, he rides
+  out with Seguín on the night of the 25th (the director's `courier-2`, before Travis's riders are chosen) for Gonzales, and the fall's
+  word says so (sim/tejano.mjs `seguinRidesOut`; sim/alamo.mjs `rideOut` exported, `tellFall`). A woman is never one of his men.
+- **6. The carreta**: a Tejano family of the poorest means comes with the family carreta, named so and drawn with Astra's `carreta-*`
+  frames (already delivered; public/art-subjects.js lets hers win), carrying and seating as the cart does (sim/means.mjs `style`,
+  sim/wagon.mjs `vehicleWord`, the pack screen). Nothing to retire: no stand-in or request for it was open. `ceiling:` the flight
+  card still says "in the cart" (sim/scrape.mjs `flightProjection`, left to the Scrape's builder).
+
+**Evidence** (same computer only; no Chromebook or LAN claim; integration-2026-09-28 f7af9b91 merged in):
+
+- `tests/starts-bexar.test.mjs`, 7 tests (the Béxar deal, its story, Seguín's call from home, the word to leave and the foragers'
+  burning, Seguín's men riding out of the Alamo, a woman never one of them, the carreta); `tests/starts.test.mjs` 15 (the priest's
+  wedding new). **`node scripts/starts-injections.mjs --answers`: 27 of 27 caught by the test written for each**
+  ([record](docs/evidence/starts-injections-answers.json)); one ("an Anglo family's cart may be drawn as a carreta") was missed on
+  the harness run because its test's seed had no poor Anglo family, and was caught once the test chose a class with one (re-run by
+  hand). The first build's 31 are docs/evidence/starts-injections.json.
+- Browser, headless Chrome: `test:creation` 15 (new: the Béxar family's card), `test:lone-parent` 10, `test:battle-bexar` 15,
+  `test:alamo-siege` 9, `test:scrape` 7, `test:whole-game` 14, `test:riding` 16 - all green. **`test:battle-alamo` fails on the base
+  branch as it does here** (integration f7af9b91 in a clean worktree: a timeout on the courier's *stays* button before any check;
+  here, twice, once the same timeout and once "the card of the assault was gone before the Host could pause"): not this change.
+- `npm test`: **1883 tests, 1845 pass, 2 fail, 36 skipped**. `classroom-doors` (the known ping flake under load) passed alone on its rerun. `tests/battle-bexar.test.mjs` *"killed: ... told only when the word comes"* fails on the base branch too
+  (checked in the clean worktree); it is news-by-rider's.
+
+**Open, for the owner** (built the conservative way; recommended first):
+1. The Béxar family's wedding: (a) the priest from La Bahía, as for every Tejano family (as built); (b) Béxar's own parish priest.
+2. What the Mexican foragers take from the Béxar family: (a) said, not taken (as built); (b) some corn and cattle taken and said.
+3. A Béxar family that stays when the foragers come: (a) taken prisoner as any family is (as built); (b) not taken, only burned.
+4. Where the Béxar rancho lies: (a) near Béxar where the land allows (as built); (b) only down the river toward Goliad.
+
 ## The Runaway Scrape's own choices: household goods in the load, leaving early on real news, foragers who take a stayer's goods — triage D9, owner 2026-09-29 (not released)
 
 Branch `owner-scrape` off local `integration-2026-09-28` 4131feb8; not pushed. The owner chose the recommended option of each of

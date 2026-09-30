@@ -11,7 +11,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectFamily, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { dealCounts } from '../sim/colonies-map.mjs';
-import { EARLY, FREE_BLACK_FROM, POOLS, SKIN_RANGES, STARTS_SEATED, dealStarts, skinChoices } from '../sim/starts.mjs';
+import { EARLY, FREE_BLACK_FROM, POOLS, SKIN_RANGES, STARTS_SEATED, TEJANO_PLACES, dealStarts, skinChoices, startCounts } from '../sim/starts.mjs';
 import { SKIN } from '../sim/look-vocabulary.mjs';
 import { NAME_POOLS, familyRoll } from '../sim/family.mjs';
 import { appearanceOf, setAppearance } from '../sim/appearance.mjs';
@@ -36,10 +36,11 @@ test('a class that deals starts seats Victoria, whose families are Tejano; one o
     assert.equal(world.starts, 1);
     const counts = {};
     for (const household of Object.values(world.households)) counts[household.settlementId] = (counts[household.settlementId] || 0) + 1;
-    assert.deepEqual(counts, Object.fromEntries(Object.entries(dealCounts(n, STARTS_SEATED)).filter(([, k]) => k)), `${n}: the counts, Victoria seated`);
+    // From twenty, one of them near Béxar (owner, 2026-09-29: "Béxar at 20+"; tests/starts-bexar.test.mjs).
+    assert.deepEqual(counts, Object.fromEntries(Object.entries(startCounts(n, dealCounts)).filter(([, k]) => k)), `${n}: the counts, Victoria seated`);
     assert.ok(counts.victoria >= 1, `${n}: Victoria has a family`);
     for (const household of Object.values(world.households)) {
-      assert.equal(household.heritage === 'tejano', household.settlementId === 'victoria', `${n}: ${household.id} at ${household.settlementId} is ${household.heritage}`);
+      assert.equal(household.heritage === 'tejano', TEJANO_PLACES.includes(household.settlementId), `${n}: ${household.id} at ${household.settlementId} is ${household.heritage}`);
       if (household.heritage === 'free-black') assert.equal(household.settlementId, 'liberty');
     }
     const free = of(world, 'free-black');
@@ -188,7 +189,9 @@ test('the start\'s story is told once, at its moment: the law to a free Black fa
 test('only the start\'s own modules read a family\'s start: no price, trade, work, fate or director does', () => {
   // VISION.md §15: nothing about a person is inferred from where their family came from. What a start may change is the names, the
   // tones, the card, the story's lines, a Tejano family's corn and Seguín's company, and the neighbours on the lone parent's path.
-  const allowed = new Set(['sim/appearance.mjs', 'sim/colonies-region.mjs', 'sim/courtship.mjs', 'sim/family.mjs', 'sim/start-story.mjs', 'sim/starts.mjs', 'sim/tejano.mjs', 'sim/world.mjs', 'public/creation.js']);
+  const allowed = new Set(['sim/appearance.mjs', 'sim/colonies-region.mjs', 'sim/courtship.mjs', 'sim/family.mjs', 'sim/start-story.mjs', 'sim/starts.mjs', 'sim/tejano.mjs', 'sim/world.mjs', 'public/creation.js',
+    // What a Tejano family's cart is called and how it is drawn (the owner, 2026-09-30), never what it carries.
+    'sim/means.mjs', 'sim/wagon.mjs']);
   const readers = [];
   for (const dir of ['sim', 'sim/battles', 'public', 'server']) {
     for (const name of readdirSync(new URL(`../${dir}/`, import.meta.url))) {
@@ -201,6 +204,51 @@ test('only the start\'s own modules read a family\'s start: no price, trade, wor
   assert.deepEqual(readers.filter(file => !allowed.has(file) && file !== 'sim/calls.mjs'), [], 'a module outside the start reads it');
   // The call reads it only to say the Tejano volunteers' words and mark the company, never whether a man may go.
   assert.ok(!/seguinFamily[^\n]*can:|can:[^\n]*seguinFamily/.test(tejano));
+});
+
+/** A class of ten with starts in which the family of `heritage` is a lone parent's, played, on its land, running. */
+function loneOf(heritage) {
+  for (let n = 0; n < 400; n++) {
+    const world = colonies(`lone-${heritage}-${n}`, 10);
+    const household = of(world, heritage)[0];
+    if (familyRoll(world.seed, household.id) > 3) continue;
+    rollFamily(world, household); household.played = true;
+    world.status = 'running';
+    until(world, () => !household.arriving, 400);
+    if (household.choosingSite) {
+      const home = world.map.sites[household.homeSiteId];
+      applyAction(world, household.id, { action: 'choose-site', x: home.x, y: home.y });
+      until(world, () => !household.arriving && !household.choosingSite, 60);
+    }
+    return { world, household };
+  }
+  throw new Error(`no lone ${heritage} family`);
+}
+
+test('a Tejano family is married by the priest from La Bahía; an Anglo-American or a free Black family by bond', () => {
+  // Owner, 2026-09-29: "Priest from La Bahía" (docs/FAMILY_CREATION.md, *The family's start*).
+  for (const heritage of ['tejano', 'free-black', 'anglo']) {
+    const { world, household } = loneOf(heritage);
+    applyAction(world, household.id, { action: 'ask-neighbours' });
+    const { script } = projectWorld(world, household.id, 'student', { includeMap: false }).courtship;
+    const wedding = script.scenes.find(scene => scene.id === 'wedding');
+    const words = wedding.lines.map(line => line.text).join(' ');
+    until(world, () => household.courtship?.stage === 'home', 200);
+    const told = world.events.filter(event => event.householdId === household.id && event.type === 'courtship').map(event => event.text).join(' ');
+    if (heritage === 'tejano') {
+      assert.equal(script.rite, 'priest');
+      assert.equal(script.cast.commissioner.name, 'The priest');
+      assert.match(words, /La Bahía/); assert.doesNotMatch(words, /bond|sign/i, 'a bond at a Tejano wedding');
+      assert.equal(wedding.history.claimId, 'HIST-TEX-781');
+      assert.match(wedding.history.text, /no priest of its own; a priest came from La Bahía/);
+      assert.match(told, /married by the priest from La Bahía/); assert.doesNotMatch(told, /married by bond/);
+    } else {
+      assert.equal(script.rite, 'bond');
+      assert.match(words, /bond/); assert.equal(wedding.history.claimId, 'HIST-TEX-740');
+      assert.match(told, /married by bond/);
+    }
+    validateWorld(world);
+  }
 });
 
 test('a company or a told line that could not have been does not open', () => {

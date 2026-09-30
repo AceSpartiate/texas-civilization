@@ -7,7 +7,8 @@ import { awardGlory } from './glory.mjs';
 import { canAnswerCalls, canFight, cannotAnswerWhy, cannotFightWhy, tooYoung, tooYoungWhy } from './family.mjs';
 import { canHear, distantHouseholds, expressLeaves, expressMinutes, sendExpress, startExpress } from './expresses.mjs';
 import { callOptions, expireCalls, offerCalls, settleCalls } from './calls.mjs';
-import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, fightSouth, gonzalesFamilies, otherFamilies, reliefEnters, reliefRides, sendCouriers, splitSouth, stormAlamo, survivorsLeave, tellFall, tellSouth, word } from './alamo.mjs';
+import { ALAMO_WORD, COURIER_DAYS, askCouriers, beginSiege, fightSouth, gonzalesFamilies, otherFamilies, reliefEnters, reliefRides, rideOut, sendCouriers, splitSouth, stormAlamo, survivorsLeave, tellFall, tellSouth, word } from './alamo.mjs';
+import { seguinRidesOut } from './tejano.mjs';
 import { ARRIVAL_WORD, SPRING_WORD, arrivalWord, hearTheBell, tellHerrera } from './surprise.mjs';
 import { SETTLEMENT_DAYS, advanceArmiesPassing, orderOut, turnHome } from './scrape.mjs';
 import { advanceModelled } from './advance.mjs';
@@ -1419,7 +1420,8 @@ function advanceAlamo(world, said, { beginTravel } = {}) {
   });
   COURIER_DAYS.forEach(day => {
     once(world, `${day}-opens`, () => { if (askCouriers(world, day)) world.director.phase = 'news'; });
-    once(world, day, () => { sendCouriers(world, day, alamo); world.director.phase = 'campaign'; });
+    // The night Seguín rode out (February 25): his men of a family's ride with him, before Travis's own riders are chosen (sim/tejano.mjs).
+    once(world, day, () => { if (day === 'courier-2') seguinRidesOut(world, { ...alamo, rideOut, awardGlory }); sendCouriers(world, day, alamo); world.director.phase = 'campaign'; });
   });
   // Travis's letter: at Gonzales when Martin brings it, and on from there by express (docs/COLONIES.md §5.4d); a family may send
   // somebody with the relief once it has heard it (sim/winter.mjs), so a family far off hears too late to, as one did.

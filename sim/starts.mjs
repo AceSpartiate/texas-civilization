@@ -38,6 +38,30 @@ export const HERITAGES = Object.freeze(['anglo', 'tejano', 'free-black']);
 export const STARTS_SEATED = Object.freeze(['gonzales', 'liberty', 'victoria']);
 /** The settlement whose families are Tejano: De León's colony (`HIST-TEX-780`). */
 export const TEJANO_AT = 'victoria';
+/**
+ * The ranchos on the San Antonio River below Béxar (owner, 2026-09-29: "Béxar at 20+"; `HIST-TEX-790`): in a class of
+ * `BEXAR_FROM` families or more, one family starts there, a Tejano family, the one start that is not an empresario colony. It amends
+ * the owner's rule of 2026-09-14 that only the colonies are starts (docs/COLONIES.md §5.1). Its land is dealt inside the burn zone:
+ * Santa Anna's army came to Béxar on February 23 and its columns went out from there (sim/advance.mjs).
+ */
+export const BEXAR_AT = 'bexar';
+export const BEXAR_FROM = 20;
+/**
+ * Where the Béxar family's land may not lie: within `MISSION_CLEAR` miles of the army's camps at the missions of Concepción and
+ * Espada (sim/army.mjs `MISSIONS`, the same miles from the plaza), so the family's farm is never on a battle's ground and never
+ * holds a fight's pace (sim/battle-stage.mjs `familyThere`). The ranchos lay further down the river (`HIST-TEX-790`).
+ */
+export const MISSION_CLEAR = 1.5;
+export const MISSION_OFFSETS = Object.freeze([{ dx: 1.24, dy: 7.35 }, { dx: 0.06, dy: 2.32 }]);
+export const clearOfMissions = (at, settlement) => settlement?.id !== BEXAR_AT
+  || MISSION_OFFSETS.every(m => Math.hypot(at.x - (settlement.x + m.dx), at.y - (settlement.y + m.dy)) >= MISSION_CLEAR);
+/** The places whose families are Tejano. */
+export const TEJANO_PLACES = Object.freeze([TEJANO_AT, BEXAR_AT]);
+/** How many of a class's families start near each place, with its starts: the colonies' deal, and one at Béxar from `BEXAR_FROM`. */
+export function startCounts(families, dealCounts) {
+  if (families < BEXAR_FROM) return dealCounts(families, STARTS_SEATED);
+  return { ...dealCounts(families - 1, STARTS_SEATED), [BEXAR_AT]: 1 };
+}
 /** The settlement one of whose families may be free Black: Liberty, the country of the Ashworths (`HIST-TEX-783`). */
 export const FREE_BLACK_AT = 'liberty';
 /** The smallest class with a free Black family: one with two families or more at Liberty, so the owner's own Liberty seat stays. */
@@ -113,12 +137,15 @@ function streamOf(text) {
  */
 export function dealStarts(places, { sideOf = null } = {}) {
   const own = streamOf(`starts:${JSON.stringify(places)}`);
-  const starts = places.map(place => (place.settlementId === TEJANO_AT ? 'tejano' : 'anglo'));
+  const starts = places.map(place => (TEJANO_PLACES.includes(place.settlementId) ? 'tejano' : 'anglo'));
   const liberty = places.map((place, i) => (place.settlementId === FREE_BLACK_AT ? i : -1)).filter(i => i >= 0);
   if (places.length >= FREE_BLACK_FROM && liberty.length >= 2) starts[liberty[Math.floor(own() * liberty.length)]] = 'free-black';
   const side = i => (sideOf ? sideOf(places[i]) : true);
-  for (const kind of ['tejano', 'free-black']) {
-    const at = starts.indexOf(kind);
+  // The first Victoria family, the free Black family and the Béxar family, each moved among the first to join.
+  const firstOf = kind => (kind === 'bexar' ? places.findIndex(place => place.settlementId === BEXAR_AT)
+    : kind === 'tejano' ? places.findIndex((place, i) => starts[i] === 'tejano' && place.settlementId === TEJANO_AT) : starts.indexOf(kind));
+  for (const kind of ['tejano', 'free-black', 'bexar']) {
+    const at = firstOf(kind);
     if (at < 0 || at < EARLY) continue;
     const early = [];
     for (let i = 0; i < Math.min(EARLY, places.length); i++) if (starts[i] === 'anglo' && side(i) === side(at)) early.push(i);
@@ -135,6 +162,8 @@ const COLONY = Object.freeze({
   'san-felipe': "Austin's colony", columbia: "Austin's colony", matagorda: "Austin's colony", mina: "Austin's colony",
   gonzales: "DeWitt's colony", liberty: 'the Galveston Bay and Texas Land Company grant', victoria: "De León's colony",
 });
+/** The card of the family on the ranchos below Béxar (`HIST-TEX-790`, `-791`). */
+export const BEXAR_LEAD = 'Autumn 1835. Your family is Tejano: Mexican Texans. You are taking up a rancho on the San Antonio River near Béxar, the oldest town in Texas, where families raise cattle, horses and corn. A Mexican garrison holds the town, and your neighbours do not all take the same side.';
 
 /**
  * Who the family is and where it has come from, in the words of the card before the dice (public/creation.js), or null in a class
@@ -145,6 +174,9 @@ export function startProjection(world, household) {
   const town = world.map.sites[household.settlementId]?.name || 'the settlement';
   const colony = COLONY[household.settlementId];
   const where = colony ? `near ${town}, in ${colony}` : `near ${town}`;
+  if (household.heritage === 'tejano' && household.settlementId === BEXAR_AT) {
+    return { heritage: 'tejano', kicker: 'A TEJANO FAMILY OF BÉXAR', title: 'A Tejano family of Béxar', lead: BEXAR_LEAD, claimId: 'HIST-TEX-790', place: 'bexar' };
+  }
   if (household.heritage === 'tejano') {
     return {
       heritage: 'tejano', kicker: 'A TEJANO FAMILY', title: 'A Tejano family',
@@ -172,7 +204,8 @@ export function startsInvalid(world) {
   for (const household of Object.values(world.households || {})) {
     if (household.heritage === undefined) continue;
     if (!world.starts || !HERITAGES.includes(household.heritage)) return 'Invalid family start';
-    if (household.heritage === 'tejano' && household.settlementId !== TEJANO_AT) return 'A Tejano family starts in De León\'s colony';
+    if (household.heritage === 'tejano' && !TEJANO_PLACES.includes(household.settlementId)) return 'A Tejano family starts in De León\'s colony or below Béxar';
+    if (household.settlementId === BEXAR_AT && household.heritage !== 'tejano') return 'A family below Béxar is Tejano';
     if (household.heritage === 'free-black' && household.settlementId !== FREE_BLACK_AT) return 'A free Black family starts near Liberty';
   }
   return null;

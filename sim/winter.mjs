@@ -260,6 +260,8 @@ export function winterInvalid(world) {
     // 'coming': Travis's runner is walking to them (sim/alamo-runner.mjs). `courierDay` and `courierOffer` are absent on a class
     // saved before volunteers were asked again on later days, which correctly reads as never asked and never offered.
     if (service.courier !== undefined && !['coming', 'open', 'volunteered', 'stays', 'passed', 'sent'].includes(service.courier)) return 'Invalid courier answer';
+    // Rode out with Seguín (sim/tejano.mjs `seguinRidesOut`): a courier sent, of Seguín's company.
+    if (service.withSeguin !== undefined && (service.withSeguin !== true || service.courier !== 'sent' || entity.company !== 'seguin')) return 'Invalid ride with Seguín';
     if (service.courierDay !== undefined && !/^courier-[1-4]$/.test(service.courierDay)) return 'Invalid courier day';
     if (service.courierOffer !== undefined && typeof service.courierOffer !== 'boolean') return 'Invalid courier offer';
     if (service.fate !== undefined && !['fell', 'spared', 'killed', 'captured', 'escaped', 'executed', 'wounded', 'unhurt'].includes(service.fate)) return 'Invalid fate';

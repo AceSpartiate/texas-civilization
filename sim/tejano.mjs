@@ -17,8 +17,12 @@
 //     `ceiling:` the army is one body (sim/army.mjs); the company is a name on the man and a line in his family's story, not a unit
 //     that moves apart. In the storming he goes in with whichever division the engine deals (sim/bexar-fight.mjs `goIn`).
 //   - **After Béxar** he is sent home with the rest; his family is told that Seguín's men were given leave to guard their families.
-//     `ceiling:` the winter's garrison at Béxar is not offered as Seguín's: about fifteen of his men entered the Alamo on February 23
-//     and most left after he rode out on the 25th, when is disputed, and the game would have to take a man out of the siege.
+//   - **In the winter** (owner, 2026-09-30: "Join, then leave"): a Tejano man who joins the garrison at Béxar is with Seguín's
+//     men there, and is told so. If the Mexican army shuts the garrison in on February 23 he is inside, and on the night of the 25th,
+//     when Travis sent Seguín out through the lines as a courier with Antonio Cruz (`HIST-TEX-431`), he rides out with them for
+//     Gonzales (`seguinRidesOut`) and lives, as a courier does. The record: about fifteen of Seguín's men went into the Alamo on
+//     February 23, "most of whom left sometime after Seguín himself was sent out as a courier on February 25" (`HIST-TEX-782`);
+//     that he goes the same night, with Seguín, is the game's (`FIC-GONZ-989`), and the family's line says the rest is not known.
 //   - **In the spring** a Tejano man may **join Seguín's company** in Houston's army (`join-seguin`, beside `join-houston`): the same
 //     road to the army's camp, the same service (`kind: 'houston'`), marked as Seguín's. At San Jacinto his family's account says
 //     he fought with the one Tejano company and how its men were marked.
@@ -26,6 +30,7 @@
 import { record } from './events.mjs';
 import { registerChores } from './chores.mjs';
 import { joinEstimateWords } from './houston.mjs';
+import { canFight } from './family.mjs';
 
 /** The company, as `entity.company` stores it. */
 export const SEGUIN = 'seguin';
@@ -40,6 +45,9 @@ export const SEGUIN_CALL = Object.freeze({
   label: place => `Go: ride for ${place}, to join the Tejano volunteers (Seguín's company)`,
   note: name => `${name} rides with the Tejano volunteers Juan Seguín is raising for the army.`,
   choice: (name, place) => `${name} will ride for ${place}, to join the Tejano volunteers under Juan Seguín.`,
+  // Near Béxar, where Seguín raised his company from the ranchos themselves (sim/calls.mjs `SETTLEMENT_CALLS.bexar`).
+  fromHome: 'Go: ride with Seguín\'s company to the army',
+  choiceFromHome: name => `${name} will ride with Juan Seguín's company of Tejanos to the colonists' army.`,
 });
 
 /** The lines a Seguín's man's family is told, each once (`world.startsTold`). */
@@ -47,7 +55,11 @@ const LINES = Object.freeze({
   salado: name => `On the Salado, Juan Seguín's company of Tejano volunteers, thirty-seven men from the ranchos of the San Antonio River, joined the army. ${name} rides with them now: they scout round Béxar and bring in beef and corn for the army.`,
   leave: name => `After Béxar most of Seguín's men were given leave to go home and guard their families, and ${name} is among them.`,
   spring: name => `${name} joined Juan Seguín's company, the Tejano company of Houston's army, formed again at Gonzales in March. It marches as the army's rear guard.`,
+  garrison: name => `Juan Seguín and some of his Tejanos are in Béxar this winter with the garrison, and ${name} is with them.`,
+  out: name => `On the night of February 25 Colonel Travis sent Juan Seguín out through the Mexican lines as a courier, with Antonio Cruz, to ask for help. ${name}, one of Seguín's men, rode out with them and is riding for Gonzales. Most of Seguín's men left the Alamo in those days; exactly when is not known.`,
 });
+/** The Alamo's last word for a Seguín's man who rode out (sim/alamo.mjs `tellFall`). */
+export const seguinOutWords = name => `${name} had ridden out of the Alamo with Juan Seguín on the night of February 25, and was not inside when it fell.`;
 /** Said under a Seguín's man's part in the San Jacinto account (sim/san-jacinto.mjs `sanJacintoAccount`). */
 export const seguinAtSanJacinto = person => (person?.company === SEGUIN
   ? ` ${person.name} was with Seguín's company, the one Tejano company in the battle. Its men wore white pasteboard on their hats and chests, so that no Texian would take them for Santa Anna's soldiers.`
@@ -80,6 +92,33 @@ export function advanceSeguin(world) {
       if (milestones.detachment && !milestones['bexar-end'] && world.army?.members?.includes(id)) tell(world, household, person, 'salado', LINES.salado(person.name));
       if (milestones['bexar-end'] && toldOf(world, household.id).includes(`salado:${id}`) && person.service?.kind !== 'houston') tell(world, household, person, 'leave', LINES.leave(person.name));
       if (person.service?.kind === 'houston' && person.service.status === 'serving') tell(world, household, person, 'spring', LINES.spring(person.name));
+    }
+    // The winter's garrison: a Tejano man who joins it is with Seguín's men there.
+    for (const id of household.members) {
+      const person = world.entities[id];
+      if (!person || GONE.includes(person.health?.condition) || person.service?.kind !== 'garrison' || person.service.status !== 'serving' || person.service.relief || !canFight(person)) continue;
+      if (person.company !== SEGUIN) joinSeguin(person);
+      tell(world, household, person, 'garrison', LINES.garrison(person.name));
+    }
+  }
+}
+
+/**
+ * The night of February 25 (the director's `courier-2`, the night Travis sent riders out): every Seguín's man shut in the Alamo rides
+ * out with Seguín, as a courier who was sent does - released, on the road to Gonzales, not inside when it falls - and his family is
+ * told. `rideOut` and `awardGlory` are the Alamo's own (sim/alamo.mjs), passed in so this module does not import it.
+ */
+export function seguinRidesOut(world, { beginTravel, rideOut, awardGlory }) {
+  if (!world.starts) return;
+  for (const household of Object.values(world.households)) {
+    if (!seguinFamily(world, household)) continue;
+    for (const id of household.members) {
+      const person = world.entities[id], service = person?.service;
+      if (person?.company !== SEGUIN || GONE.includes(person.health?.condition) || service?.kind !== 'garrison' || !service.besieged || service.courier === 'sent') continue;
+      Object.assign(service, { courier: 'sent', withSeguin: true, status: 'released', until: world.minute, besieged: false });
+      const eventId = record(world, 'consequence', { actorId: person.id, householdId: household.id, importance: 3, classification: 'STRONGLY SUPPORTED', claimId: CLAIMS.record, text: LINES.out(person.name) });
+      awardGlory(world, { event: 'alamo', claimId: 'HIST-TEX-431', personId: person.id, householdId: household.id, role: 'present', fromSiteId: 'bexar', causes: [eventId] });
+      rideOut(world, person, eventId, beginTravel);
     }
   }
 }

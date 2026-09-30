@@ -53,7 +53,8 @@ const clamp = (value, lo, hi) => Math.max(lo, Math.min(hi, value));
 
 /** The figure a person of the scenes is drawn as: a child's own, a grown person's cast chosen by their looks, the elder for the officer. */
 export function figureOf(person) {
-  if (person?.official) return { figure: 'elder', grown: true, appearance: null };
+  // The priest who marries a Tejano family (sim/courtship.mjs `rite: 'priest'`) is the elder in the dark clothes the server gives him.
+  if (person?.official) return { figure: 'elder', grown: true, appearance: person.priest ? person.appearance || null : null };
   const band = person?.band || 'adult';
   if (band === 'infant') return { figure: 'infant', grown: false, appearance: person.appearance || null };
   if (band === 'small') return { figure: 'smallchild', grown: false, appearance: person.appearance || null };

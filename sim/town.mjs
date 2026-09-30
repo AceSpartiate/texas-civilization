@@ -83,6 +83,10 @@ export const STOREKEEPERS = Object.freeze({
   mina: { name: 'Tomasa Villegas', pronoun: 'she', round: [{ x: .10, y: .10 }, { x: -.02, y: .04 }, { x: .14, y: -.02 }] },
   liberty: { name: 'Amos Whitcomb', pronoun: 'he', round: [{ x: -.12, y: -.12 }, { x: 0, y: -.02 }, { x: -.16, y: .04 }] },
   victoria: { name: 'Inés Cárdenas', pronoun: 'she', round: [{ x: .14, y: -.06 }, { x: .04, y: .04 }, { x: .18, y: .08 }] },
+  // Béxar, for the family on a rancho near it (sim/starts.mjs, owner 2026-09-29: "Béxar at 20+"); made only when a family is dealt
+  // there. Invented, FIC-GONZ-009. ceiling: the store stays open through the Mexican garrison's autumn and the siege of Béxar, as
+  // every town's does; the record read says the town was short of food in the siege, not what its merchants sold.
+  bexar: { name: 'Josefa Quintanilla', pronoun: 'she', round: [{ x: .12, y: .10 }, { x: .02, y: .04 }, { x: .16, y: .02 }] },
 });
 
 /** A carpenter at every other settlement a family lives near, on the real map. Invented people, FIC-GONZ-009. */
@@ -93,6 +97,7 @@ export const CARPENTERS = Object.freeze({
   mina: { name: 'Gideon Ashby', sex: 'male', round: [{ x: -.12, y: -.08 }, { x: -.06, y: -.14 }] },
   liberty: { name: 'Juan Manuel Rosales', sex: 'male', round: [{ x: .12, y: .08 }, { x: .18, y: .02 }] },
   victoria: { name: 'Absalom Grier', sex: 'male', round: [{ x: -.14, y: .08 }, { x: -.08, y: .14 }] },
+  bexar: { name: 'Anastacio Leyva', sex: 'male', round: [{ x: -.12, y: .12 }, { x: -.06, y: .16 }] },
 });
 
 const pronounSex = pronoun => pronoun === 'she' ? 'female' : 'male';

@@ -81,6 +81,11 @@ export const SETTLEMENT_DAYS = Object.freeze({
   liberty: { order: april(13), burn: april(15), enemy: null },
   anahuac: { order: april(13), burn: april(15), enemy: null },
   harrisburg: { order: april(14), burn: april(15, 12), enemy: april(15, 12) },
+  // The rancho near Béxar (sim/starts.mjs, owner 2026-09-29: "Béxar at 20+"): the Mexican army has been in Béxar since February 23,
+  // so the word is not that it is coming but that the ranchos' families are going east, guarded by Seguín's men (`HIST-TEX-791`:
+  // Salvador Flores "protected the fleeing families"). The day is the game's (`FIC-GONZ-988`), with the colonies' first; `enemy`
+  // null, as the army is already there.
+  bexar: { order: march(14), burn: march(16), enemy: null, word: 'Word has come up the river from Seguín\'s men: the families of the ranchos who stood with the Texians are going east, and Salvador Flores\'s riders will see them along the road. Load what the carreta or the wagon will carry and go.' },
 });
 
 /** Where a family may make for: the crossings and towns east that the refugees made for, each with the river it is over. */
@@ -213,7 +218,7 @@ export function orderOut(world, household, causeId) {
   if (!people(world, household).some(person => !GONE.includes(person.health?.condition))) return;
   // What the family made ready on the news before its order (sim/early-word.mjs `readying`) goes onto the flight.
   household.flight = { status: 'ordered', orderedMinute: world.minute, ...takeReadying(household) };
-  tell(world, household, `Word has come from ${world.map.sites[settlementOf(household)].name}: the Mexican army is coming, and every family is to leave for the east. Load what the wagon will carry and go. ${advanceModelled(world) ? 'What is left behind stays in the house, and if the Mexican army comes this way it will be burned.' : 'What is left behind will be burned so the enemy cannot use it.'}`, { type: 'pressure', causes: causeId ? [causeId] : [] });
+  tell(world, household, `${SETTLEMENT_DAYS[settlementOf(household)]?.word || `Word has come from ${world.map.sites[settlementOf(household)].name}: the Mexican army is coming, and every family is to leave for the east. Load what the wagon will carry and go.`} ${advanceModelled(world) ? 'What is left behind stays in the house, and if the Mexican army comes this way it will be burned.' : 'What is left behind will be burned so the enemy cannot use it.'}`, { type: 'pressure', causes: causeId ? [causeId] : [] });
 }
 
 /**
@@ -690,18 +695,20 @@ export function burnForSilence(world, household) {
   const flight = household.flight;
   if (!flight || Number.isFinite(flight.burned)) return false;
   const lost = flight.left ? Object.entries(flight.left).filter(([, amount]) => amount > 0).map(([good, amount]) => goodWords(good, amount)) : [];
-  const text = `Nobody answered the order to leave in time, and the family left in a rush. As it went, men of the Texas army set fire to the house, the field and the fences behind it, so the Mexican army would find nothing to use. The house is lost.${lost.length ? ` What was left in it burned too: ${lost.join(', ')}.` : ''}`;
+  // Near Béxar the Texas army was a hundred miles away in March; Santa Anna's foragers were at the door (sim/starts.mjs, `FIC-GONZ-988`).
+  const mexican = settlementOf(household) === 'bexar';
+  const text = `Nobody answered the order to leave in time, and the family left in a rush. As it went, ${mexican ? 'soldiers foraging for Santa Anna’s army came to the rancho and set fire to the house, the field and the fences' : 'men of the Texas army set fire to the house, the field and the fences behind it, so the Mexican army would find nothing to use'}. The house is lost.${lost.length ? ` What was left in it burned too: ${lost.join(', ')}.` : ''}`;
   if (!ruin(world, household, ['cabin', 'field', 'fence'], { text }).length) tell(world, household, text, { importance: 3, claimId: 'FIC-GONZ-907' });
   household.furniture = {};
   delete household.interior;
   delete household.herdLookedDay;
   delete flight.left;
   flight.burned = world.minute;
-  flight.burnedBy = { hand: 'texian', name: 'the Texas army', lapsed: true, ...(lost.length && { lost }) };
+  flight.burnedBy = { hand: mexican ? 'mexican' : 'texian', name: mexican ? 'Santa Anna’s foragers' : 'the Texas army', lapsed: true, ...(lost.length && { lost }) };
   flight.burnKnown = { minute: world.minute, how: 'there' };
   recordFarmBurned(world, household);
-  learn(world, household.id, farmTopic(household), { status: 'confirmed', source: 'Their own eyes', text: 'The Texas army burned the family’s farm as it left.' });
-  if (household.played) spotlight(world, { key: `burned:${household.id}`, text: `Nobody answered for ${householdName(world, household)} in time: it left in a rush, and the Texas army burns its house behind it at ${world.map.sites[household.homeSiteId]?.name || 'its land'}.`, siteId: household.homeSiteId, claimId: 'FIC-GONZ-907', householdId: household.id, tell: false });
+  learn(world, household.id, farmTopic(household), { status: 'confirmed', source: 'Their own eyes', text: mexican ? 'Santa Anna’s foragers burned the family’s rancho as it left.' : 'The Texas army burned the family’s farm as it left.' });
+  if (household.played) spotlight(world, { key: `burned:${household.id}`, text: `Nobody answered for ${householdName(world, household)} in time: it left in a rush, and ${mexican ? 'Santa Anna’s foragers burn' : 'the Texas army burns'} its house behind it at ${world.map.sites[household.homeSiteId]?.name || 'its land'}.`, siteId: household.homeSiteId, claimId: 'FIC-GONZ-907', householdId: household.id, tell: false });
   return true;
 }
 

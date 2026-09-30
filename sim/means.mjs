@@ -107,9 +107,9 @@ const realesWords = coin => `${coin} ${coin === 1 ? 'real' : 'reales'}`;
  * What the band comes with, in a sentence: "A cart and one ox to draw it, the family's horse, and 4 reales." On the first table,
  * which gave no coin, "A cart and one ox to draw it, and the family's horse." as it always said.
  */
-export function meansWords(band, coin = null) {
+export function meansWords(band, coin = null, heritage = null) {
   const haul = band.afoot ? 'No wagon or cart: an ox to carry the packs'
-    : band.cart ? 'A cart and one ox to draw it' : band.wagons === 1 ? 'A wagon and an ox to draw it' : `${NUMBER_WORDS[band.wagons][0].toUpperCase()}${NUMBER_WORDS[band.wagons].slice(1)} wagons, an ox to each`;
+    : band.cart ? `A ${heritage === 'tejano' ? 'carreta' : 'cart'} and one ox to draw it` : band.wagons === 1 ? 'A wagon and an ox to draw it' : `${NUMBER_WORDS[band.wagons][0].toUpperCase()}${NUMBER_WORDS[band.wagons].slice(1)} wagons, an ox to each`;
   return coin ? `${haul}, the family's horse, and ${realesWords(coin)}.` : `${haul}, and the family's horse.`;
 }
 
@@ -129,6 +129,10 @@ export function applyMeans(world, household) {
   // or it has more wagons beside it, and an ox to draw each. A family on foot keeps its one ox, the family's own, to carry the packs.
   const wagon = wagonsOf(world, household)[0];
   if (band.cart && wagon) { wagon.cart = true; wagon.name = 'Family cart'; }
+  // A Tejano family's cart is the carreta (owner, 2026-09-30, of the Tejano poor band: "if not then yes"; sim/starts.mjs): named so,
+  // and drawn with Astra's carreta (`style`, projected as `carreta`). It carries and seats as the cart does: the start changes what
+  // it is called and how it looks, never what it can do (`FIC-GONZ-990`).
+  if (band.cart && wagon && household.heritage === 'tejano') { wagon.name = 'Family carreta'; wagon.style = 'carreta'; }
   if (band.afoot) for (const one of wagonsOf(world, household)) {
     delete world.entities[one.id];
     household.property = household.property.filter(id => id !== one.id);
@@ -213,7 +217,7 @@ export function meansProjection(world, household) {
   const vehicles = drawnVehicles([...wagonsOf(world, household), ...beastsOf(world, household, 'ox')]);
   const horses = riddenHorses(world, beastsOf(world, household, 'horse'));
   const coin = household.means.coin;
-  return { roll: household.means.roll, band: band.id, name: band.name, words: meansWords(band, coin), ...(coin && { coin }), seats: seatWords(people, vehicles, horses) };
+  return { roll: household.means.roll, band: band.id, name: band.name, words: meansWords(band, coin, household.heritage), ...(coin && { coin }), seats: seatWords(people, vehicles, horses) };
 }
 
 /** Means that could not have been rolled (sim/world.mjs `validateWorld`). */
@@ -234,6 +238,8 @@ export function meansInvalid(world) {
     if (packs !== undefined && (!household.means || !packs || Object.keys(packs).join() !== 'food' || !Number.isInteger(packs.food) || packs.food < 1)) return 'Invalid packs';
   }
   for (const entity of Object.values(world.entities || {})) if (entity.cart !== undefined && (entity.cart !== true || entity.kind !== 'wagon' || !world.households[entity.householdId]?.means?.cart)) return 'Invalid cart';
+  // A Tejano family's cart drawn and named as the carreta (above).
+  for (const entity of Object.values(world.entities || {})) if (entity.style !== undefined && (entity.style !== 'carreta' || entity.cart !== true || world.households[entity.householdId]?.heritage !== 'tejano')) return 'Invalid cart';
   // A carreta (sim/carreta.mjs) is made at home, in a class on the second table, and is a vehicle like a wagon.
   for (const entity of Object.values(world.entities || {})) if (entity.carreta !== undefined && (entity.carreta !== true || entity.kind !== 'wagon' || entity.cart || !secondTable(world) || !world.households[entity.householdId])) return 'Invalid carreta';
   return null;

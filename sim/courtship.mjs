@@ -1,4 +1,5 @@
-// The lone parent's path: two neighbours' farms, a wedding by bond, and a house the neighbours raise.
+// The lone parent's path: two neighbours' farms, a wedding - by bond, or for a Tejano family by the priest from La Bahía - and a
+// house the neighbours raise.
 //
 // The owner's decision, 2026-09-29, verbatim: "at the start of the game. if a player is unlucky enough to have a lone parent,
 // the following path is made available. a special ability appears when they reach their land. this ability should be
@@ -27,7 +28,7 @@
 //                  class family, never run by a director and never seen on anybody's map. They live here, for the scenes and for
 //                  the family's own book (the spouse was "born a Salcedo, of the farm past the ford").
 //   spouse         the new parent as rolled at the press, and the id they are given: `<household>-spouse`, a stable new id.
-//   rite           'bond' (below).
+//   rite           'bond', or 'priest' for a Tejano family (below).
 //   seen           [steps recorded in the family's story so far]; `watched` once the student has walked the scenes.
 //
 // **The rite: marriage by bond** (`HIST-TEX-740`). In Mexican Texas only a priest could marry a couple and there was no civil
@@ -39,6 +40,13 @@
 // here is by bond, before an invented commissioner, and the words promise the priest's marriage to come. `ceiling:` a De León's
 // colony family (Victoria) may have been married by a visiting priest instead - the empresario brought priests from La Bahía,
 // Nacogdoches and Béxar (TSHA, *De León's Colony*) - but when is not dated; `RITES` is the place a church wedding would go.
+//
+// **Amended by the owner, 2026-09-29 ("Priest from La Bahía"; docs/FAMILY_CREATION.md, *The family's start*):** a Tejano family
+// (sim/starts.mjs) is married by **the priest from La Bahía**, unnamed and invented, before its neighbours as witnesses, and no bond
+// is signed (`rite: 'priest'`, `HIST-TEX-781`: De León's colony had a church and no priest of its own, and Mass was said when a
+// priest from La Bahía could come). An Anglo-American or free Black family keeps the bond. `ceiling:` that the priest is in the
+// country on the day the family needs him is the game's convenience, and the church's own inquiry before a wedding (witnesses that
+// the two were free to marry) is not shown.
 //
 // ceiling: the courtship is compressed into one day, as a house is into hours (sim/houses.mjs): a class lasts under two days of
 // 1835. The scenes never say how long they have known each other.
@@ -67,18 +75,18 @@ export const AWAY_MINUTES = 240;
 export const SECOND_FARM_AT = 90;
 /** The plainest house there is, raised by the neighbours: one round-log pen and a stick-and-mud chimney (sim/houseplot.mjs `PLANS`). */
 export const RAISED_PLAN = 'round-log';
-/** The kinds of wedding the game can show. Only the bond is used today (see the head of this file). */
-export const RITES = Object.freeze(['bond']);
-/** The claims: the bond is documented, everything else about the path is invented. */
-export const CLAIMS = Object.freeze({ rite: 'HIST-TEX-740', path: 'FIC-GONZ-950', tejanoRite: 'HIST-TEX-781' });
+/** The kinds of wedding the game can show: by bond, and by the priest from La Bahía for a Tejano family (see the head of this file). */
+export const RITES = Object.freeze(['bond', 'priest']);
+/** The wedding a family has: a Tejano family's is the priest's (owner, 2026-09-29, "Priest from La Bahía"), everybody else's by bond. */
+export const riteFor = household => (household?.heritage === 'tejano' ? 'priest' : 'bond');
+/** The claims: the bond and the priest's coming are documented, everything else about the path is invented. */
+export const CLAIMS = Object.freeze({ rite: 'HIST-TEX-740', path: 'FIC-GONZ-950', tejanoRite: 'HIST-TEX-781', priest: 'FIC-GONZ-987' });
 /**
- * What the record says under a Tejano family's wedding (sim/starts.mjs; `HIST-TEX-781`). The bond is the Handbook's practice of
- * "Anglo-Texans unwilling or unable to seek a priest"; no source read says Tejano couples used it, and a Catholic family of De León's
- * colony would more likely have waited for the priest who came from La Bahía. **The owner chose the bond for Victoria (2026-09-29),
- * before families had starts**, so the scene is the bond as built and the line under it says what is and is not known; whether a
- * Tejano family should have a priest's wedding instead is the owner's question (docs/FAMILY_CREATION.md, *The family's start*).
+ * What the record says under a Tejano family's wedding (sim/starts.mjs; `HIST-TEX-781`): only a priest could marry a couple, De León's
+ * colony had a church and no priest of its own, and a priest came from La Bahía to say Mass when he could. The Anglo colonists' bond
+ * is said as theirs. Nothing here says when the priest came, how often, or who he was: the record does not.
  */
-export const TEJANO_RITE_WORDS = 'In Mexican Texas only a Catholic priest could marry a couple, and priests were few: De León’s colony had none of its own, and one came from La Bahía when he could. Anglo colonists signed a bond like this while they waited. Whether Tejano couples did is not known.';
+export const TEJANO_RITE_WORDS = 'In Mexican Texas only a Catholic priest could marry a couple, and priests were few. De León’s colony had a log church but no priest of its own; a priest came from La Bahía to say Mass when he could. Anglo colonists who could not reach a priest signed a bond instead.';
 
 /**
  * The invented neighbour families (`FIC-GONZ-950`), on the terms `FIC-GONZ-001` and `-017` set for every invented name: not the
@@ -302,7 +310,7 @@ export function askNeighbours(world, household, { abandon } = {}) {
     person.visiting = true;
   }
   household.courtship = {
-    stage: 'away', began: world.minute, until: world.minute + AWAY_MINUTES, rite: RITES[0], parentId: parent.id,
+    stage: 'away', began: world.minute, until: world.minute + AWAY_MINUTES, rite: riteFor(household), parentId: parent.id,
     party, neighbours: [one, two], spouse, seen: ['set-out'],
   };
   const kids = party.filter(id => id !== parent.id).map(id => firstName(world.entities[id]));
@@ -362,7 +370,8 @@ export function advanceCourtship(world) {
 }
 
 /**
- * The day ends at the family's own land: the neighbours have raised the house, the couple are married by bond, and the new parent
+ * The day ends at the family's own land: the neighbours have raised the house, the couple are married (by bond, or by the priest from
+ * La Bahía for a Tejano family), and the new parent
  * is one of the family. Everything the family will live with from now on is decided here.
  */
 export function comeHome(world, household) {
@@ -382,13 +391,15 @@ export function comeHome(world, household) {
   const houseWords = raised === 'finished' ? 'finished the house the family had begun' : `raised a ${HOUSES[RAISED_PLAN].name.toLowerCase()}`;
   record(world, 'courtship', {
     actorId: parent?.id, householdId: household.id, importance: 3, claimId: CLAIMS.path,
-    text: `The ${one.plural} and the ${two.plural} came to the land and ${houseWords}. ${partOfDay(dateOf(world, world.minute)).that} ${parent?.name} and ${spouse.name} were married by bond before the commissioner of the precinct and their neighbours, promising to be married by a priest when one comes.`,
+    text: path.rite === 'priest'
+      ? `The ${one.plural} and the ${two.plural} came to the land and ${houseWords}. ${partOfDay(dateOf(world, world.minute)).that} ${parent?.name} and ${spouse.name} were married by the priest from La Bahía, their neighbours the witnesses.`
+      : `The ${one.plural} and the ${two.plural} came to the land and ${houseWords}. ${partOfDay(dateOf(world, world.minute)).that} ${parent?.name} and ${spouse.name} were married by bond before the commissioner of the precinct and their neighbours, promising to be married by a priest when one comes.`,
   });
   record(world, 'courtship', {
     actorId: spouse.id, householdId: household.id, importance: 2, claimId: CLAIMS.rite, classification: 'DOCUMENTED',
-    text: household.heritage === 'tejano' ? TEJANO_RITE_WORDS
+    text: path.rite === 'priest' ? TEJANO_RITE_WORDS
       : 'In Mexican Texas only a priest could marry a couple, and priests were few; couples in the colonies signed a bond before the local authority and witnesses, promising to be married by a priest when one came.',
-    ...(household.heritage === 'tejano' && { claimId: CLAIMS.tejanoRite }),
+    ...(path.rite === 'priest' && { claimId: CLAIMS.tejanoRite }),
   });
 }
 
@@ -556,8 +567,12 @@ const castOf = (world, household, path) => {
   for (const family of path.neighbours) for (const one of family.people) {
     cast[one.id] = { id: one.id, name: `${one.given} ${family.surname}`, given: one.given, sex: one.sex, age: one.age, band: ageBand(one.age) || 'adult', appearance: one.appearance, family: false, of: family.id };
   }
-  // The commissioner of the precinct: invented, unnamed, and drawn as the elder figure reading the bond.
-  cast.commissioner = { id: 'commissioner', name: 'The commissioner', given: 'The commissioner', sex: 'male', age: 50, band: 'adult', appearance: { skin: 'tan', hair: 'grey', clothing: 'navy', head: 'hat' }, family: false, official: true };
+  // Who marries them, at the place the page keeps for him (`commissioner`): the commissioner of the precinct, invented, unnamed, and
+  // drawn as the elder figure reading the bond; or for a Tejano family the priest from La Bahía, invented and unnamed, in dark clothes
+  // (`priest`: the page recolours the elder for him; stand-in: the priest at a Tejano wedding, docs/ART_REQUESTS.md, item 5).
+  cast.commissioner = path.rite === 'priest'
+    ? { id: 'commissioner', name: 'The priest', given: 'The priest', sex: 'male', age: 55, band: 'adult', appearance: { skin: 'olive', hair: 'grey', clothing: 'navy', head: 'bareheaded' }, family: false, official: true, priest: true }
+    : { id: 'commissioner', name: 'The commissioner', given: 'The commissioner', sex: 'male', age: 50, band: 'adult', appearance: { skin: 'tan', hair: 'grey', clothing: 'navy', head: 'hat' }, family: false, official: true };
   return cast;
 };
 
@@ -633,17 +648,21 @@ export function courtshipScript(world, household) {
       say(a1.id, 'There - walls up and the roof on. You\'ll sleep dry tonight.'),
       say(path.spouse.id, `I've worked beside you today, ${P}, and I'd gladly work beside you every day after, if you'll have me.`, 'shy'),
       say(parent?.id, 'I will.', 'laugh'),
-      say('commissioner', 'There is no priest in the colony to marry you. So make your promises before these witnesses, and sign the bond to be married by a priest as soon as one comes.', 'read-paper'),
+      ...(path.rite === 'priest'
+        ? [say('commissioner', 'I came up from La Bahía to say Mass in the colony, and I am glad to stay for a wedding. Make your promises before God and these witnesses.', 'read-paper')]
+        : [say('commissioner', 'There is no priest in the colony to marry you. So make your promises before these witnesses, and sign the bond to be married by a priest as soon as one comes.', 'read-paper')]),
       say(path.spouse.id, `I take you, ${P}, to be my ${parentIs.spouse}, and I will keep faith with you alone.`, 'vow'),
       say(parent?.id, `I take you, ${S}, to be my ${spouseIs.spouse}, and I will keep faith with you alone.`, 'vow'),
       ...(youngest && (ageNow(world, youngest) ?? youngest.age ?? 0) >= 3 ? [
-        say(youngest.id, 'Can I sign too?', 'speak'),
+        say(youngest.id, path.rite === 'priest' ? 'Can I say it too?' : 'Can I sign too?', 'speak'),
         say('commissioner', 'You can watch, and remember it. That is what witnesses are for.', 'read-paper'),
       ] : []),
-      say('commissioner', 'Then sign here, and your neighbours will sign as witnesses. You are married by bond.', 'read-paper'),
+      path.rite === 'priest'
+        ? say('commissioner', 'Then you are husband and wife, before the Church and your neighbours. God bless this house, and all of you in it.', 'read-paper')
+        : say('commissioner', 'Then sign here, and your neighbours will sign as witnesses. You are married by bond.', 'read-paper'),
       say(b1.id, `The ${one.plural} brought cornbread and a ham, and we brought tamales. Let's eat - and somebody find the fiddle!`, 'laugh'),
     ],
-    history: household.heritage === 'tejano'
+    history: path.rite === 'priest'
       ? { text: TEJANO_RITE_WORDS, kind: 'documented', claimId: CLAIMS.tejanoRite }
       : { text: 'In Mexican Texas only a Catholic priest could marry a couple, and priests were few. Couples in the colonies often signed a bond like this before a local officer and witnesses, promising to be married by a priest when one came.', kind: 'documented', claimId: CLAIMS.rite },
   };

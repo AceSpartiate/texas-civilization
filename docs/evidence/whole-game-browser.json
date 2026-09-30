@@ -12,30 +12,30 @@
     "5 of the family set to auto from the panel: Amos Proofwright, Mahala Proofwright, Nieves Proofwright, Jonas Proofwright, Teodoro Proofwright",
     "4 orders given from the panel and taken",
     "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Amos Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 115500: interim standings on both pages, no winner named (1500 ticks, 284.3 s)",
+    "the first period ended on its own at minute 115500: interim standings on both pages, no winner named (1863 ticks, 254.4 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
     "Amos Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241920 (300 ticks, 66.4 s)",
+    "the second period ended on its own at minute 241920 (300 ticks, 62.9 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (1832 ticks, 372.1 s)",
+    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (1382 ticks, 670.9 s)",
     "no page errors on either page across the whole game"
   ],
   "measured": {
     "periods": {
       "first": {
-        "ticks": 1500,
-        "seconds": 284.3,
+        "ticks": 1863,
+        "seconds": 254.4,
         "endedAtMinute": 115500
       },
       "second": {
         "ticks": 300,
-        "seconds": 66.4,
+        "seconds": 62.9,
         "endedAtMinute": 241920
       },
       "third": {
-        "ticks": 1832,
-        "seconds": 372.1,
+        "ticks": 1382,
+        "seconds": 670.9,
         "endedAtMinute": 302580
       }
     },
@@ -92,7 +92,7 @@
       "service": {
         "kind": "auxiliary-year",
         "status": "serving",
-        "since": 180720,
+        "since": 181440,
         "siteId": "san-felipe",
         "acres": 320
       }
@@ -108,7 +108,7 @@
       "flight": "returning",
       "minute": 302580
     },
-    "totalSeconds": 722.8000000000001
+    "totalSeconds": 988.2
   },
   "screenshots": [
     "docs/evidence/whole-game-at-work.png",
