@@ -1,12 +1,12 @@
 {
   "record": "family-panel-browser",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "browser": "153.0.8010.53",
   "task": "docs/FAMILY_PANEL.md: the owner’s family panel (2026-09-15) - rows father, mother, children oldest first; portraits; icons with a one-sentence popup that glow while the server says the person is doing that; portrait to camera; names that save themselves.",
   "environment": "Same computer: a local classroom server and headless Chrome. Not a physical LAN, a classroom or a real phone.",
   "checks": [
     "the rows are father, mother, then the children oldest first: father 39, mother 38, daughter 20, daughter 18, son 17, daughter 15, daughter 13, daughter 11, daughter 9, son 7, son 5, son 2, daughter 1, daughter 0",
-    "down the left of the map (x 12, 304 by 550)",
+    "down the left of the map (x 12, 304 by 551)",
     "every icon (1) and mark (70) is drawn from a frame, none a glyph or type (drawn by: astra)",
     "in the lobby the bar shows travel status and only 1 available order",
     "every available action has a readable name without hovering",
@@ -21,7 +21,7 @@
     "all 14 names changed in place and saved themselves - left by Tab, and the last by a pause in typing: Asa, Keziah, Hiram, Delia, Obed, Minerva, Levi, Soledad, Jonas, Effie, Silas, Orpha, Enos, Tomasa",
     "a name with no letters is refused in the server’s words, and the box goes back to the name the world holds",
     "after a reload every new name is in its box on the panel and in the family book",
-    "on a 400 px phone the panel is a column of portraits with one row open, taking 14% of the screen and no row outside the column and that row, with the map on top at 51% of the 288 points the guided start leaves",
+    "on a 400 px phone the panel is a column of portraits with one row open, taking 15% of the screen and no row outside the column and that row, with the map on top at 51% of the 288 points the guided start leaves",
     "on a phone, pressing another portrait opens that person’s row",
     "no page errors anywhere in the run"
   ],
@@ -95,13 +95,13 @@
         "x": 12,
         "y": 87.484375,
         "width": 376,
-        "height": 569
+        "height": 564
       },
       "openRows": 1,
       "columnRight": 56,
       "openRow": {
         "y": 248,
-        "height": 89
+        "height": 95
       },
       "stripBottom": 0,
       "sampled": 288,
@@ -117,7 +117,7 @@
         "DIV.story-card-buttons",
         "BUTTON#house-open"
       ],
-      "covered": 0.1416333984375,
+      "covered": 0.1458513671875,
       "pageScrolls": false
     }
   },

@@ -76,6 +76,127 @@ and fleeing to the nearest refuge).
    family nearer Béxar hears first. (a) Keep (built); (b) time them from the fight itself at the courier's pace, letting San
    Felipe's date fall where the model puts it.
 
+## `test:keyboard-farm` on the merged tree: the idle child dealt with by the keyboard — 2026-09-29 (not released)
+
+Branch `keyboard-farm-fix` off `integration-2026-09-28` f468d719; not pushed. On the merged tree the proof failed every time at
+*Survey it*: the server refused it with *"Asa has stopped to talk with Basilio, who has nothing to do…"*.
+
+- **Cause: the proof, not the page.** It put the family's other members on auto with one `fetch` after Start, to keep the
+  idle-child rule (sim/childhood.mjs) out of its way. But a small child's own auto goes off by their hidden roll - Basilio's at
+  tick 4, Silvano's at tick 16 in the failing run - and the children then came to talk to their lone father. On `tier2-classroom`
+  the proof passed only by timing; with the ending, page and news merged the timing moved. Nothing in `tier2-page`'s action bar
+  or family-key card was involved.
+- **Fix, the proof only, made stronger.** The `fetch` is gone: every step is now a key. Before sending the survey, the proof waits
+  for one of the children to stop the surveyor, so the interruption is met every run; the order is refused in the server's words
+  and the proof does what a keyboard student must - **Show names** (the column is folded to faces while a place is chosen, which
+  hides the Auto buttons), Tab to the named child's **Auto**, Enter, and send again (`sendByKeyboard`, up to four tries, the clear
+  step the same). The page already allowed all of it; no page change.
+- Evidence (same computer, headless Chrome): `test:keyboard-farm` **10 checks, green 3 of 3** ("the surveyor is sent (after
+  putting Basilio and Silvano on Auto from the panel by the keyboard…)"); `test:overlap` green; `test:join-card` 8; `test:family-panel`
+  19. The two keyboard-farm injections of `test:tier2-classroom-injections` (no suggested places; Enter on the map does nothing)
+  still fail it.
+
+## Thirty orders at once, the join address large, suggested places, and wrong tries per device — 2026-09-29 (not released)
+
+Branch `tier2-classroom` off origin/main 80842f72; not pushed. The triage's items 1.6, what was left of 1.8, 2.13 and 2.15
+(docs/audits/2026-09-29-triage.md, each marked). **Same computer only: no Chromebook, school laptop, LAN or classroom claim.**
+
+- **1.6 Thirty orders at once, late in a class of 30** (server/app.mjs; docs/PERFORMANCE_SERVER.md, *Thirty orders at once*).
+  Measured before and after alternately, twice each, 30 rolled families: the slowest of 30 orders pressed together was
+  **7.3 s / 7.4 s in the winter and 12.8 s / 12.3 s in the spring; now 0.11 s / 0.08 s and 0.62 s / 0.71 s**. Not the order's own
+  cost (check 10-12 ms, serialise 33-35 ms) but its broadcast: all 31 pages projected (0.3 s) inside every order, one after
+  another, because the gap was counted from the broadcast's start. Now an order is shown by a timer, never inside itself, the
+  gap counted from the end and never shorter than the last broadcast took (`broadcastWait`); and orders arriving together are
+  made in one commit (`queueOrder`/`makeOrders`, 30 orders in 2 commits). A refused order puts its batch back and the batch is
+  made again round it, the refused one alone in its own commit, so every answer and the world are what one at a time gives.
+  The triage's "validate only what was touched / serialise on the timer" were weighed and not needed (the section says why).
+  `scripts/perf-server-measure.mjs` now splits the order commit, counts the broadcasts, records memory, and takes `PERF_SERVER`.
+  Memory of the measuring process at the spring: 1.2-1.7 GB resident (an upper bound: it holds four worlds). Still open: a spring
+  tick is 0.46-0.56 s here (projection 0.31-0.38 s), half the thread at Quick; `/api/site` ×30 and a school laptop unmeasured.
+- **1.8 The join address shown large on the Host** (`renderJoinLinks`, public/index.html `#join-links`, docs/HOST_PAGE.md §2.13,
+  TEACHER.md *How students join*). The address in 22 px on one line, the class code in 26 px, and a 180 px QR code of the address
+  with `?code=`, made in the page by **`public/qr.js`**, written here from the QR standard with no library and no network
+  service (docs/REFERENCE_ARCHITECTURES.md §9: qrcode-generator (MIT) and jsQR (Apache-2.0) were read, used for evidence only, and
+  are not in the tree). Open in the lobby; one short line once the class runs (*Join 192.168.4.38:3000 · code 6744EF*), opened
+  again by the teacher. A student who scans it has the code filled in; the query is taken off the address bar.
+- **2.13 A keyboard-only student can farm** (`sim/suggest.mjs`, `GET /api/suggest`, docs/LAND_GRANTS.md §9). Up to three
+  suggested places, as labelled buttons, for the house site, ten acres to survey and the plot to clear or fence - each one the
+  server accepts when looked at and sent - which take the keyboard when the choice is opened; pressing one does what a tap there
+  does. Enter (or space) on the map picks the spot in its middle while a place is chosen, with a ring marking it. No saved field.
+- **2.15 Wrong tries per device** (`doorOf`/`rejoinCooldown`, docs/HOST_PAGE.md §2.13). Counted per browser by a `tr_door`
+  cookie given with the first wrong try (5 tries, 30 s), behind it a count per address a right answer never clears (100 in 30 s),
+  so one student's wrong codes no longer lock the room out behind a shared address and brute force stays about 3 tries a second.
+
+**Evidence** (same computer, headless Chrome, at most two runs at once):
+
+- New tests, each seen failing under its injected regression: `tests/order-batch.test.mjs` (3), `tests/shared-address.test.mjs`
+  (3), `tests/suggest.test.mjs` (5), `tests/qr.test.mjs` (3, against `tests/fixtures/qr-reference.json`). `tests/rejoin.test.mjs`'s
+  two throttling tests now keep the door's cookie, as a browser does. **`npm run test:tier2-classroom-injections`: 18 of 18
+  caught** by the tests and proofs that guard them (14 node, 4 browser) ([record](docs/evidence/tier2-classroom-injections.json)).
+- New proofs: `npm run test:join-card` (8 checks: 1920x1080, 1366x768, 1024x768; the QR on the page is `public/qr.js`'s; folded
+  and reopened by the keyboard; a scanned address; no request off the class server) and `npm run test:keyboard-farm` (10 checks:
+  Tab, Enter and the arrows alone from the wagon to a suggested house site, the map's Enter, ten acres surveyed, the staked plot
+  cleared); since `keyboard-farm-fix` (below) it also meets and deals with an idle child by the keyboard.
+- `npm test`: **1812 tests, 1776 pass, 0 fail, 36 skipped** (the suspended tutorial), twice. Browser proofs green: `test:host-live` 11, `test:host-bell` 11, `test:host-lobby` 9, `test:reconnect` 12,
+  `test:classes` 16, `test:farm`, `test:panels` 14, `house-plot-browser-proof`, and `test:overlap` - which first failed on this
+  branch (*host fight 1024x768: the caption 24% under the class*: the folded join line was 340 px wide and narrowed the caption's
+  room) and passes since the folded line is as wide as its words (the join-card proof holds it under 300 px).
+- Not claimed: a Chromebook camera reading the code, a screen reader on the suggestions, a school laptop, a shared district address.
+
+## Tier 2 page items: the army's question over the town and the rooms, the family key, Offer a trade, 12 px type — 2026-09-29 (not released)
+
+Branch `tier2-page` off origin/main 80842f72; not pushed. Triage 2026-09-29 items 2.2, 2.4, 2.6 and 2.12
+(docs/audits/2026-09-29-triage.md, each row marked fixed).
+
+- **2.2 The army's question is never under the town's scene or the rooms.** `URGENT` (public/military-attention.js): ¡Alto!, the
+  road, the order to leave, a call or ask, a rider, Travis's riders, the army's orders, somebody very sick. While one is among the
+  messages, `#military-notice[data-urgent]` stands at z-index 32 over an open `#town-scene` or `#interior`, and both step aside
+  (`clearOfNotice` / `standClear`, public/app.js): the scene's card goes under the messages (beside them if a long message leaves
+  under 200 px), the rooms to their left (below them on a phone), and back when the messages go. A fight, its account and the siege
+  reminder still sit behind the rooms. Styles are compared with what was last written, not read back (a `calc()` read back in the
+  browser's words looped the rooms' redraw - found by the proof).
+- **2.4 The family key, once, large.** A last card of making the family (`#key-card`, public/creation.js step `key`): the key at
+  46 px, *"This key brings you back to your family on any Chromebook. If this one forgets you, or you sit at another, choose “I
+  already have a family key” and type it in."*, *It is kept in your Journal too*, *I have written it down*. Only in a class (Play
+  Solo has no key way back), only on the page that made the family (`making`), never again once put away (`keyed`, the tab's
+  sessionStorage like the other steps); the journal keeps it. `scripts/support/meet-family.mjs` presses it (`passKey`), as do the
+  creation, looks and creation-screen proofs.
+- **2.6 Offer a trade on the Neighbours sheet** (the triage's recommended option). Beside *Send … there*: with somebody of theirs
+  standing with one of the family it opens the trade at once; otherwise it sends the same person and opens the trade (the card's
+  offer, sim/trade.mjs unchanged) when they stand with somebody of that family on its land, or says nobody is at home
+  (public/neighbours.js `tradeArrival`, `tradePartnerAt`; another family's people are the page's `others`, not its `entities`).
+  `ceiling:` the trade waited for is the page's own; a reload on the way forgets it.
+- **2.12 No type under 12 px on the student's page.** 58 rules raised to 12 px (the Host's own lines left). Put back what it
+  moved: the row's role label in words (*Father*) not letter-spaced capitals; the bar's columns 80 px so names break between
+  words (at 62 px the bar stood 35 px taller and the lone parent's column went tight at 1366x768), narrowing back to 62 px columns
+  only while the sound's sliders are open, the first-meeting tip waiting meanwhile; and the rolled die's card tightened for windows
+  680 px high or less (its *Meet your family* was already 92 px below the fold at 1024x600 on main).
+
+**Evidence** (same computer only; no Chromebook, LAN or touch claim):
+
+- New tests: `tests/creation.test.mjs` (the key's step), `tests/neighbours-page.test.mjs` (3: the partner, the arrival, and the
+  real projection), `tests/military-attention.test.mjs` (what will not wait). **`node scripts/tier2-page-injections.mjs`: 7 of 7
+  caught by their own test** ([record](docs/evidence/tier2-page-injections.json)).
+- `test:overlap`: two new states - a Gonzales scene opened while the family is asked, and the rooms opened while the army's rider
+  waits, each at six Chromebook sizes and a phone; a pixel shared or a button covered between them and the messages fails even
+  under the dialog's allowance. And every word drawn on a student's screen in every state and size is read for type under 12 px
+  (`readSmallText`, scripts/support/screen-furniture.mjs). **191 screens, 0 faults.** `OVERLAP_ONLY` runs single classes;
+  `OVERLAP_INJECT` single injections. **Injections: 2 of 2 caught by their own check** (the scene and rooms no longer stepping
+  aside; the row labels back at 9.5 px) ([record](docs/evidence/overlap-injections-tier2-page.json)).
+- `test:creation` 11 checks (the key card, its size and words, the journal, shown once); `test:creation-screen` at 1366x768,
+  1024x768, 1024x600 and 390x844, 5 checks over 36 measurements (the key card held to every rule; no type under 12 px on any card).
+- `test:neighbours` 10 checks: *Offer a trade* sends Amos Hale six miles, the trade opens with Feliciano Walker on arrival, the
+  sheet is put away, and the offer reaches the server and the other student's page. Its first run failed on the defect the node
+  test now injects (the partner looked for in `entities`).
+- `test:family-panel` green at its 1440x950 and phone, and at 1366x768 and 1024x600 (`FAMILY_PANEL_VIEWPORT`). Its phone section
+  timed out pressing the rider's card's close under the open messages - **on pristine origin/main 80842f72 too**; the proof now folds
+  the messages first. `test:panels` green at its gate sizes; at 1024x600 (`PANELS_SIZES`) its guided-start column check sees 2 rows
+  where it wants more, **the same on origin/main**, and at 390 its site chooser carries no control, **also on origin/main** - neither a
+  size that proof holds. `test:tips` 13, `test:story-cards` 4.
+- `npm test`: **1803 tests, 1767 pass, 0 fail, 36 skipped** (the suspended tutorial).
+- Screenshots: docs/evidence/creation-key.png, docs/evidence/neighbours-trade.png, docs/evidence/tier2-page-*.png (the scene and
+  the rooms with the question at 1366x768, 1024x600 and 400x780; at home and the lone parent's column at 12 px).
+
 ## The spring's big news by express, settlement by settlement — triage 2.7, 2026-09-29 (not released)
 
 **The ask.** Triage 2.7: *"Every family hears the spring's big news at the same moment"* (VISION §19: information moved slowly and

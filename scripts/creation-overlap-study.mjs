@@ -134,6 +134,13 @@ try {
     await page.waitForFunction(id => document.querySelector('#looks').hidden || document.querySelector('#looks').dataset.entityId !== id, who, { timeout: 20000 });
   }
 
+  // The family's key, the last card of the curtain (triage 2026-09-29, 2.4).
+  await page.locator('#key-card').waitFor({ state: 'visible', timeout: 20000 }).catch(() => {});
+  if (await page.locator('#key-card').isVisible()) {
+    await study(page, 'key', '#key-card', 'the family\'s key, once, large', '#key-card-done');
+    await page.locator('#key-card-done').click();
+  }
+
   // 7. The wagon, which follows the wizard.
   await page.locator('#creation').waitFor({ state: 'hidden', timeout: 30000 });
   await page.locator('#wagon-load').waitFor({ state: 'visible', timeout: 30000 }).catch(() => {});

@@ -1,6 +1,6 @@
 {
   "record": "tips-browser",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "environment": "Same computer: a local classroom server and headless Chrome, 1366x768 with a keyboard and 1024x768 with a touch screen.",
   "pass": [
     "no guided start and no walk-through: the first thing said is the arrival's tip (\"Your family is on its way to its own land. When they get there, choose a house and set your family to work.\")",
@@ -50,9 +50,9 @@
       "text": "Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.",
       "box": {
         "left": 973,
-        "top": 396,
+        "top": 408,
         "right": 1354,
-        "bottom": 510
+        "bottom": 522
       },
       "fontPx": 14,
       "onScreen": true,
@@ -87,9 +87,9 @@
       "text": "Someone is sick, and resting helps them mend. Have another grown-up choose “Nurse the sick”: nobody dies while being nursed. A very sick person can die within a day.",
       "box": {
         "left": 973,
-        "top": 396,
+        "top": 408,
         "right": 1354,
-        "bottom": 510
+        "bottom": 522
       },
       "fontPx": 14,
       "onScreen": true,
@@ -107,9 +107,9 @@
         "text": "Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and it leaves in a rush and the house is lost.",
         "box": {
           "left": 380,
-          "top": 435,
+          "top": 397,
           "right": 956,
-          "bottom": 510
+          "bottom": 472
         },
         "fontPx": 14,
         "onScreen": true,
@@ -129,9 +129,9 @@
       "text": "On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.",
       "box": {
         "left": 592,
-        "top": 383,
+        "top": 389,
         "right": 1012,
-        "bottom": 477
+        "bottom": 483
       },
       "fontPx": 14,
       "onScreen": true,
@@ -149,9 +149,9 @@
         "text": "Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, and running risks their shots. No answer means you halt.",
         "box": {
           "left": 324,
-          "top": 305,
+          "top": 303,
           "right": 535,
-          "bottom": 499
+          "bottom": 497
         },
         "fontPx": 14,
         "onScreen": true,
