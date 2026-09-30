@@ -25,7 +25,7 @@ const atlas = JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/atla
 globalThis.fetch = async url => {
   const path = String(url);
   if (path === '/assets/frontier-v1/atlas.json') return { ok: true, json: async () => atlas };
-  if (/\.png(\?|$)/.test(path)) return { ok: true, blob: async () => ({}) };
+  if (/\.(png|webp)(\?|$)/.test(path)) return { ok: true, blob: async () => ({}) };
   return { ok: false };
 };
 globalThis.createImageBitmap = async () => ({ stub: 'sheet' });
