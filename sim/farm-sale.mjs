@@ -110,11 +110,11 @@ export function farmReckoning(world, household, { left = true } = {}) {
 const someoneLeft = (world, household) => household.members.some(id => { const person = world.entities[id]; return person && !['dead', 'captured'].includes(person.health?.condition); });
 /**
  * The farm as the ending and the family's video both reckon it: at the ending proper of a class on the real land of the colonies,
- * and nowhere else. ceiling: the invented Gonzales country ends at the fight of October 2 with every farm as it was, and is
+ * and nowhere else - not while a class runs. ceiling: the invented Gonzales country ends at the fight of October 2 with every farm as it was, and is
  * reckoned as it always was (coin, glory, land); a class there that wants the farm counted is the way out. The interim standings
  * of the first two periods count coin and land alone (owner, 2026-09-28).
  */
 export function farmAtEnd(world, household) {
-  if (!household || !world.map?.source || interimStandings(world)) return { kind: 'none' };
+  if (!household || world.status !== 'ended' || !world.map?.source || interimStandings(world)) return { kind: 'none' };
   return farmReckoning(world, household, { left: someoneLeft(world, household) });
 }

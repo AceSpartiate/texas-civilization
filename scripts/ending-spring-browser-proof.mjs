@@ -116,7 +116,8 @@ try {
   assert.deepEqual(own, JSON.parse(JSON.stringify({ ...familyEnding(world, 'hh-1'), interim: false })), 'the family\'s ending on the wire is not the server\'s');
   const worths = await student.locator('#ending .ending-awards .ending-worth').allInnerTexts();
   assert.equal(worths.length, own.awards.length, 'an award has no line of its own');
-  for (const line of worths) assert.match(line, /^.+ counts \d+ × \d+ \((\d+ road miles from home|close to home)\) = \d+(, (taken away( twice over)?|counted as -?\d+))?(: -?\d+)? glory\.$/, line);
+  // A part's sum, or - since 2026-09-29 (owner, D8; sim/farm-sale.mjs) - the burned farm's own line.
+  for (const line of worths) assert.match(line, /^(.+ counts \d+ × \d+ \((\d+ road miles from home|close to home)\) = \d+(, (taken away( twice over)?|counted as -?\d+))?(: -?\d+)?|A burned farm counts \d+) glory\.$/, line);
   const familyText = await student.locator('#ending').innerText();
   assert.doesNotMatch(familyText, /\(\d+\)\s*$/m, 'an award still ends in a bare number');
   assert.doesNotMatch(familyText, /\d\.\d+ reales?/, 'the coin is not in whole reales');

@@ -1,16 +1,28 @@
 {
- "at": "2026-09-30T04:44:02.989Z",
+ "at": "2026-09-30T06:21:49.648Z",
  "pass": [
-  "a class of five families (three played, two with students) was played headless to its end in 38 s; the students' farms: {\"hh-1\":\"burned\",\"hh-2\":\"sold for 75\"}",
+  "a class of five families (three played, two with students) was played headless to its end in 14 s; the students' farms: {\"hh-1\":\"burned\",\"hh-2\":\"sold for 75\"}",
   "the class ended: every screen is at the class video; the students' say to look at the class screen and play nothing; no page has a number of the ending",
-  "the Host's page made the class's own video first (112 s, made in 14 s) and played it by itself, large, on the class screen",
+  "the Host's page made the class's own video first (112 s, made in 7 s) and played it by itself, large, on the class screen",
   "frames of the class video photographed: 9",
   "when the class video had played to its end, every screen went on to the families' own videos",
   "hh-1's page played its own family's video by itself, over the whole screen: 87 s (the story's minute and the homecoming)",
   "hh-2's page played its own family's video by itself, over the whole screen: 88 s (the story's minute and the homecoming)",
+  "a student's page reloaded in the middle of the families' videos came back to its own video",
   "the Host's screen says where each family is: the Flashwright family: is watching; the Harrowgate family: is watching",
   "the homecoming's scenes (home, rebuild, burial, count, sale) photographed: 8 frames; the farm sold where it stands and nothing to sell where it burned",
-  "the story in words below the video, 19 lines, ends with the counting at the table"
+  "the story in words below the video, 19 lines, ends with the counting at the table",
+  "one family finished: the class waited for the other, and the Host's screen says who has seen theirs",
+  "once both families had seen theirs, the class screen revealed the final table (5 families) and the winner: \"the Flashwright family finished first, with a final number of 34250.\"",
+  "hh-1's screen shows its full breakdown: \"The family had 250 reales. The farm was burned, so there was nothing to sell; it counts 40 glory, which is in the glory below. 136 glory mul…\"",
+  "hh-2's screen shows its full breakdown: \"The family had 0 reales, and sold the farm for 75 reales: 0 + 75 = 75 reales. 91 glory multiplies it by 92 (1 + 91): 75 × 92 = 6900. The lan…\"",
+  "a student replays their own video after the reveal",
+  "the teacher played the ending again from the start: the class video on the class screen, the numbers gone from every screen",
+  "the teacher skipped ahead, stage by stage, to the final numbers",
+  "a student's page cannot move the class on",
+  "Play Solo: no class video; the player's page made its own family's video and played it by itself",
+  "Play Solo: when its video had played, the player's screen showed the full breakdown",
+  "no page error on any page"
  ],
  "errors": [],
  "shots": [
@@ -34,11 +46,16 @@
   "docs/evidence/end-sequence-scene-hh-2-14-home.png",
   "docs/evidence/end-sequence-scene-hh-2-15-burial.png",
   "docs/evidence/end-sequence-scene-hh-2-16-count.png",
-  "docs/evidence/end-sequence-scene-hh-2-17-sale.png"
+  "docs/evidence/end-sequence-scene-hh-2-17-sale.png",
+  "docs/evidence/end-sequence-3-host-final-rankings.png",
+  "docs/evidence/end-sequence-3-student-breakdown-hh-1.png",
+  "docs/evidence/end-sequence-3-student-breakdown-hh-2.png",
+  "docs/evidence/end-sequence-4-solo-own-video.png",
+  "docs/evidence/end-sequence-4-solo-breakdown.png"
  ],
  "class": {
   "families": 5,
-  "seconds": 38,
+  "seconds": 14,
   "farms": {
    "hh-1": "burned",
    "hh-2": "sold for 75"

@@ -107,7 +107,7 @@ try {
   const run = await makeAll(host, room, 6);
   evidence.runs.push({ families: 5, ...run, folder: undefined });
   assert.equal(run.disk.length, 6, `expected five families' videos and the class's on disk, found ${run.disk.length}`);
-  assert.equal(run.made.done[0].householdId, 'class', 'the class's own video was not made first');
+  assert.equal(run.made.done[0].householdId, 'class', 'the class\'s own video was not made first');
   for (const file of run.disk) {
     // A family's: the story's minute and the homecoming after it (§12); the class's, at most two and a half minutes.
     if (file.file === 'class.webm') assert.ok(file.durationMs >= 30000 && file.durationMs <= 151000, `${file.file} is ${file.durationMs} ms long`);

@@ -246,6 +246,8 @@ family's video by itself; the teacher can still look one family up and Watch it.
   from the start.
 - **A server that keeps no videos** (no save folder) goes straight to `reveal`.
 - **The order the videos are made in**: the class's own first (it plays first), then the families students played, then the rest.
+- **At the reveal the numbers come first**: the ending panel shows the breakdown (or the Host's table) and the videos below it, to be
+  watched again.
 
 **The class's own video** (`sim/class-flashback.mjs`): chosen from the families' own scripts and the world, from the families a student
 played (every family, in a class nobody played), each moment told from the families it happened to, by name - the arrival (the class's
@@ -254,7 +256,7 @@ in (the battle engine's own projection, with everybody of the class who was ther
 families in hearing the Alamo had fallen and San Jacinto (each home marked with the day), the flight east (the families' roads drawn
 together) and the families that stayed, the burnings and by whom, the spring's prisoners counted by family, a wedding, sickness counted
 and never named, and the homecoming (houses standing, and ashes). **Two and a half minutes at most** (`CLASS_MS`): a beat is 8.5 s, a
-fight 10 s, at most sixteen beats; a class with less to tell has a shorter video (104 s for the six-family test class). Kept as
+fight 10 s, at most sixteen beats; a class with less to tell has a shorter video (104 s for the six-family test class, 112 s in the browser proof's class of five). Kept as
 `class.webm` beside the families' (`server/flashback.mjs`, up to 240 s); served to the Host only. Same words' rules as a family's.
 
 ## 12. The homecoming's scenes (built 2026-09-29, not released)
@@ -285,4 +287,4 @@ for the two things she has not drawn; her nearest poses standing in for counting
 
 **Evidence** (same computer only; no Chromebook or LAN claim): `tests/end-sequence.test.mjs` (5), `tests/end-scenes.test.mjs` (4),
 `tests/farm-sale.test.mjs` (3); `npm run test:end-sequence`, the Host and two students and a Play Solo game through the whole sequence
-in headless Chrome, pictures in `docs/evidence/end-sequence-*.png`; injected regressions in `docs/evidence/end-sequence-injections.json`.
+in headless Chrome, pictures in `docs/evidence/end-sequence-*.png`; injected regressions, 26 of 26 caught, in `docs/evidence/end-sequence-injections.json`.

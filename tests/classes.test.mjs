@@ -167,7 +167,12 @@ test('a class ended part-way through a period is continued from Classes where it
     assert.equal((await command(host, 'end')).status, 200);
     assert.equal(app.state.world.status, 'ended');
     assert.notEqual(app.state.world.director?.complete, true, 'the class came to its own end, not End Game\'s');
-    const ended = (await host.call('/api/state')).body;
+    // End Game begins the end sequence (owner, 2026-09-29, D10; sim/end-sequence.mjs): the class video first, the ending at its reveal.
+    let ended = (await host.call('/api/state')).body;
+    assert.equal(ended.endSequence?.stage, 'class', 'End Game did not begin the end sequence');
+    assert.equal(ended.world.ending, undefined, 'the ending was shown before the videos');
+    for (let i = 0; i < 2; i++) assert.equal((await host.call('/api/end-sequence', { step: 'skip' })).status, 200);
+    ended = (await host.call('/api/state')).body;
     assert.ok(ended.world.ending?.host, 'End Game showed no ending');
     assert.equal(ended.flashback?.ready, true, 'End Game did not make the flashbacks ready');
     const listed = (await host.call('/api/classes')).body.classes.find(one => one.open);
@@ -201,6 +206,9 @@ test('a class ended part-way through a period is continued from Classes where it
     await delay(200);
     assert.ok(app.state.world.minute > minute, 'the class did not go on');
     await command(host, 'end');
+    // A new end sequence, from the class video again, skipped to its reveal.
+    assert.equal((await host.call('/api/state')).body.endSequence?.stage, 'class', 'ended again, it did not begin the end afresh');
+    for (let i = 0; i < 2; i++) await host.call('/api/end-sequence', { step: 'skip' });
     const endedAgain = (await host.call('/api/state')).body;
     assert.ok(endedAgain.world.ending?.host, 'ended again, it showed no ending');
     assert.ok(endedAgain.flashback.families.every(family => !family.made), 'the first ending\'s video came back');

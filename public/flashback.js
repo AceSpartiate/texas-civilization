@@ -453,11 +453,14 @@ function drawYard(ctx, script, beat, local, t) {
     // Under the trees by the house at evening: a wooden marker for each they lost, the family before them, the head kneeling.
     drawSprite(ctx, 'live-oak-large', W * 0.84, ground - h * 0.2, h * 3) || drawSprite(ctx, 'oak-spreading', W * 0.84, ground - h * 0.2, h * 3);
     const n = Math.max(1, scene.markers || 1);
-    for (let i = 0; i < n; i++) marker(ctx, W * 0.58 + (i - (n - 1) / 2) * h * 0.55, ground - h * 0.12, h);
-    if (head) yardPerson(ctx, head, W * 0.58 - (n - 1) * h * 0.3 - h * 0.55, ground + h * 0.02, h, 'care', 'e', t);
-    const step = Math.min(h * 0.42, (W * 0.7) / Math.max(1, others.length));
-    others.forEach((person, i) => yardPerson(ctx, person, W * 0.48 + (i - (others.length - 1) / 2) * step, ground + h * 0.3, h, 'back', 'n', t));
-    glow = { x: W * 0.58, y: ground - h * 0.3 };
+    // The markers to the right under the oak, the head kneeling before them, the rest a step back to the left, in the open.
+    const markersAt = W * 0.66;
+    for (let i = 0; i < n; i++) marker(ctx, markersAt + (i - (n - 1) / 2) * h * 0.55, ground - h * 0.12, h);
+    if (head) yardPerson(ctx, head, markersAt - (n - 1) * h * 0.28 - h * 0.5, ground + h * 0.02, h, 'care', 'e', t);
+    const room = markersAt - (n - 1) * h * 0.28 - h * 0.85;
+    const step = Math.min(h * 0.42, (room - W * 0.04) / Math.max(1, others.length));
+    others.forEach((person, i) => yardPerson(ctx, person, room - (others.length - 1 - i) * step - step / 2, ground + h * 0.3, h, 'back', 'n', t));
+    glow = { x: markersAt, y: ground - h * 0.3 };
   } else if (scene.part === 'count' || scene.part === 'sale') {
     houseAt(W * 0.24, h * 2);
     if (scene.part === 'count') {
@@ -889,6 +892,12 @@ function playClass(snapshot, { autoplay }) {
   if (!made) { video.hidden = true; return false; }
   const source = videoUrl('class', made);
   if (video.dataset.src !== source) { video.dataset.src = source; video.src = source; if (autoplay) video.play().catch(() => {}); }
+  // The class stage begun again (Play the ending again): the same video, from the start.
+  const since = String(snapshot.endSequence?.since ?? '');
+  if (autoplay && video.dataset.since !== since) {
+    video.dataset.since = since;
+    if (video.currentTime > 0 || video.ended) { video.currentTime = 0; video.play().catch(() => {}); }
+  }
   video.hidden = false;
   return true;
 }
@@ -904,7 +913,9 @@ export function renderFinale(snapshot) {
   // The flashback section lives in the ending panel; for a family's own video it is moved up over the whole screen, and back.
   const ownVideo = !host && stage === 'family';
   if (ownVideo && section.parentElement !== slot) slot.append(section);
-  if (!ownVideo && section.parentElement === slot) document.querySelector('#ending').insertBefore(section, document.querySelector('#ending-body'));
+  // At the reveal the numbers come first (the breakdown, the Host's table), and the videos after them to be watched again.
+  const ending = document.querySelector('#ending');
+  if (!ownVideo && (section.parentElement === slot || (stage === 'reveal' && ending.lastElementChild !== section))) ending.append(section);
   if (!stage || stage === 'reveal') {
     root.hidden = true;
     document.body.dataset.finale = '';

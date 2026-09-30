@@ -1,9 +1,210 @@
 {
- "at": "2026-09-30T05:01:54.301Z",
- "caught": 3,
- "of": 3,
+ "at": "2026-09-30T05:54:09.758Z",
+ "caught": 26,
+ "of": 26,
  "results": [
   {
+   "file": "sim/ending.mjs",
+   "test": "tests/end-sequence.test.mjs",
+   "expected": "no page is sent a number of the ending before the reveal",
+   "failed": [
+    "no page is sent a number of the ending before the reveal, and every page is at the reveal",
+    "on the server: the Host ends the class, the class video first, the student's own next, and the reveal when it has played"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/end-sequence.mjs",
+   "test": "tests/end-sequence.test.mjs",
+   "expected": "the class video, then the families",
+   "failed": [
+    "the class video, then the families' own, then the reveal: what moves each stage on, and when"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/end-sequence.mjs",
+   "test": "tests/end-sequence.test.mjs",
+   "expected": "the class video, then the families",
+   "failed": [
+    "the class video, then the families' own, then the reveal: what moves each stage on, and when"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/end-sequence.mjs",
+   "test": "tests/end-sequence.test.mjs",
+   "expected": "the class video, then the families",
+   "failed": [
+    "the class video, then the families' own, then the reveal: what moves each stage on, and when",
+    "what a page may ask of the sequence: the teacher moves it on, a family says only its own video has played"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/end-sequence.mjs",
+   "test": "tests/end-sequence.test.mjs",
+   "expected": "what a page may ask of the sequence",
+   "failed": [
+    "what a page may ask of the sequence: the teacher moves it on, a family says only its own video has played",
+    "on the server: the Host ends the class, the class video first, the student's own next, and the reveal when it has played"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/periods.mjs",
+   "test": "tests/end-sequence.test.mjs",
+   "expected": "what a page may ask of the sequence",
+   "failed": [
+    "what a page may ask of the sequence: the teacher moves it on, a family says only its own video has played"
+   ],
+   "ok": true
+  },
+  {
+   "file": "server/app.mjs",
+   "test": "tests/end-sequence.test.mjs",
+   "expected": "on the server: the Host ends the class",
+   "failed": [
+    "on the server: the Host ends the class, the class video first, the student's own next, and the reveal when it has played"
+   ],
+   "ok": true
+  },
+  {
+   "file": "server/flashback.mjs",
+   "test": "tests/end-sequence.test.mjs",
+   "expected": "on the server: the Host ends the class",
+   "failed": [
+    "on the server: the Host ends the class, the class video first, the student's own next, and the reveal when it has played"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/farm-sale.mjs",
+   "test": "tests/farm-sale.test.mjs",
+   "expected": "an intact farm sells for its land",
+   "failed": [
+    "an intact farm sells for its land, its house, its cleared and fenced acres and its well, and the price is coin glory multiplies"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/farm-sale.mjs",
+   "test": "tests/farm-sale.test.mjs",
+   "expected": "an intact farm sells for its land",
+   "failed": [
+    "an intact farm sells for its land, its house, its cleared and fenced acres and its well, and the price is coin glory multiplies"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/ending.mjs",
+   "test": "tests/farm-sale.test.mjs",
+   "expected": "an intact farm sells for its land",
+   "failed": [
+    "an intact farm sells for its land, its house, its cleared and fenced acres and its well, and the price is coin glory multiplies"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/farm-sale.mjs",
+   "test": "tests/farm-sale.test.mjs",
+   "expected": "a burned farm has nothing to sell and counts glory instead",
+   "failed": [
+    "a burned farm has nothing to sell and counts glory instead, by whichever army burned it"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/ending.mjs",
+   "test": "tests/farm-sale.test.mjs",
+   "expected": "a burned farm has nothing to sell and counts glory instead",
+   "failed": [
+    "a burned farm has nothing to sell and counts glory instead, by whichever army burned it"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/farm-sale.mjs",
+   "test": "tests/farm-sale.test.mjs",
+   "expected": "nothing is counted while the class runs",
+   "failed": [
+    "nothing is counted while the class runs, between periods, on the invented Gonzales country, or for a family nobody is left of; and no goods are priced"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/farm-sale.mjs",
+   "test": "tests/farm-sale.test.mjs",
+   "expected": "nothing is counted while the class runs",
+   "failed": [
+    "nothing is counted while the class runs, between periods, on the invented Gonzales country, or for a family nobody is left of; and no goods are priced"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/farm-sale.mjs",
+   "test": "tests/farm-sale.test.mjs",
+   "expected": "nothing is counted while the class runs",
+   "failed": [
+    "nothing is counted while the class runs, between periods, on the invented Gonzales country, or for a family nobody is left of; and no goods are priced"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/ending.mjs",
+   "test": "tests/ending-debrief.test.mjs",
+   "expected": "the final number is written one way",
+   "failed": [
+    "the final number is written one way: the code, VISION.md, docs/MONEY_AND_GLORY.md and the Host's footer (3.7)"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/flashback.mjs",
+   "test": "tests/end-scenes.test.mjs",
+   "expected": "each family that came home sees what is left",
+   "failed": [
+    "each family that came home sees what is left, rebuilds where it burned, remembers its dead and counts what it has, in that order"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/flashback.mjs",
+   "test": "tests/end-scenes.test.mjs",
+   "expected": "each family that came home sees what is left",
+   "failed": [
+    "each family that came home sees what is left, rebuilds where it burned, remembers its dead and counts what it has, in that order"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/flashback.mjs",
+   "test": "tests/end-scenes.test.mjs",
+   "expected": "each family that came home sees what is left",
+   "failed": [
+    "each family that came home sees what is left, rebuilds where it burned, remembers its dead and counts what it has, in that order"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/flashback.mjs",
+   "test": "tests/end-scenes.test.mjs",
+   "expected": "a death of sickness is remembered at the burial without a name",
+   "failed": [
+    "a death of sickness is remembered at the burial without a name"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/class-flashback.mjs",
+   "test": "tests/end-scenes.test.mjs",
+   "expected": "the class's own video: two and a half minutes at most",
+   "failed": [
+    "the class's own video: two and a half minutes at most, in order, from several families, and none of the ending's numbers"
+   ],
+   "ok": true
+  },
+  {
    "file": "sim/class-flashback.mjs",
    "test": "tests/end-scenes.test.mjs",
    "expected": "the class's own video: two and a half minutes at most",
@@ -24,9 +225,18 @@
   {
    "file": "sim/class-flashback.mjs",
    "test": "tests/end-scenes.test.mjs",
-   "expected": "the class's own video: two and a half minutes at most",
+   "expected": "the class's video exists only once the class has ended for good",
    "failed": [
-    "the class's own video: two and a half minutes at most, in order, from several families, and none of the ending's numbers"
+    "the class's video exists only once the class has ended for good"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/flashback.mjs",
+   "test": "tests/flashback.test.mjs",
+   "expected": "a death in battle is told once",
+   "failed": [
+    "a death in battle is told once, in its fight's own beat, never again as the day the family heard"
    ],
    "ok": true
   }

@@ -40,7 +40,7 @@ const ok = label => { pass.push(label); console.log('PASS', label); };
 const evidence = { shots: [] };
 const keep = process.argv.includes('--keep');
 mkdirSync('docs/evidence', { recursive: true });
-const shot = async (page, name, locator = null) => { const path = `docs/evidence/end-sequence-${name}.png`; await (locator ? page.locator(locator).screenshot({ path }) : page.screenshot({ path })); evidence.shots.push(path); return path; };
+const shot = async (page, name, locator = null) => { await page.evaluate(() => { const finale = document.querySelector('#finale'); if (finale) finale.scrollTop = 0; }); const path = `docs/evidence/end-sequence-${name}.png`; await (locator ? page.locator(locator).screenshot({ path }) : page.screenshot({ path })); evidence.shots.push(path); return path; };
 
 /** A classroom on an ended class whose end sequence has just begun, with a student in each of `students`. */
 async function classroomOn(world, label, students, { solo = false } = {}) {
@@ -94,8 +94,18 @@ async function frames(page, selector, script, kinds, prefix) {
   const out = [];
   for (const beat of script.beats.filter(one => kinds.includes(one.kind))) {
     const at = (beat.startMs + beat.durationMs * 0.6) / 1000;
-    await page.evaluate(async ({ selector, at }) => { const video = document.querySelector(selector); video.pause(); video.controls = false; video.currentTime = at; await new Promise(resolve => video.addEventListener('seeked', resolve, { once: true })); }, { selector, at });
-    out.push(await shot(page, `${prefix}-${beat.index}-${beat.kind}`, selector));
+    // The decoded frame itself, drawn from the video element to a canvas: an element screenshot of a video inside the scrolling
+    // overlay caught the page behind it (found 2026-09-30), and this is what the student sees.
+    const url = await page.evaluate(async ({ selector, at }) => {
+      const video = document.querySelector(selector); video.pause(); video.controls = false; video.currentTime = at;
+      await new Promise(resolve => video.addEventListener('seeked', resolve, { once: true }));
+      const canvas = document.createElement('canvas'); canvas.width = video.videoWidth; canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+      return canvas.toDataURL('image/png');
+    }, { selector, at });
+    const path = `docs/evidence/end-sequence-${prefix}-${beat.index}-${beat.kind}.png`;
+    writeFileSync(path, Buffer.from(url.split(',')[1], 'base64'));
+    evidence.shots.push(path); out.push(path);
   }
   return out;
 }
@@ -155,7 +165,17 @@ try {
     assert.ok(own.duration > 70 && own.duration < 95, `${id}'s video is ${own.duration} s`);
     assert.equal(await hasEnding(page), false);
     ok(`${id}'s page played its own family's video by itself, over the whole screen: ${Math.round(own.duration)} s (the story's minute and the homecoming)`);
+    // Paused, as a student may pause it, so it does not run to its end at real speed while the proof photographs it. (The first
+    // family's may already have played to its end by itself while the second's was being made, as it should.)
+    await page.evaluate(() => document.querySelector('#finale-slot #flashback-video').pause());
   }
+  // A page reloaded in the middle comes back to its own video.
+  await two.reload();
+  await two.waitForFunction(() => window.__snapshot?.endSequence?.stage === 'family' && !document.querySelector('#finale').hidden, null, { timeout: 30000 });
+  await two.waitForFunction(() => { const video = document.querySelector('#finale-slot #flashback-video'); return video && !video.hidden && video.readyState >= 2; }, null, { timeout: 60000 });
+  await two.evaluate(() => document.querySelector('#finale-slot #flashback-video').pause());
+  ok('a student\'s page reloaded in the middle of the families\' videos came back to its own video');
+  assert.equal(await stageOf(host), 'family', 'the class moved on before the second family had seen its own');
   await shot(one, '2-student-own-video');
   const hostWords = await host.locator('#finale-families li').allTextContents();
   assert.ok(hostWords.length === 2 && hostWords.every(line => /is watching|video is being made|has seen it/.test(line)), `the Host's screen does not say where each family is: ${hostWords}`);
@@ -178,15 +198,10 @@ try {
   const words = await one.locator('#finale-slot #flashback-transcript li').allTextContents();
   assert.ok(words.some(line => /sat down at the table to count/.test(line)), 'the story in words has no counting at the table');
   ok(`the story in words below the video, ${words.length} lines, ends with the counting at the table`);
-  // A page reloaded in the middle comes back to its own video.
-  await two.reload();
-  await two.waitForFunction(() => window.__snapshot?.endSequence?.stage === 'family' && !document.querySelector('#finale').hidden, null, { timeout: 30000 });
-  await two.waitForFunction(() => { const video = document.querySelector('#finale-slot #flashback-video'); return video && !video.hidden && video.readyState >= 2; }, null, { timeout: 60000 });
-  ok('a student\'s page reloaded in the middle of the families\' videos came back to its own video');
   // Both played to their ends (faster than real time): the reveal.
   for (const page of [one, two]) {
     await page.evaluate(() => { const video = document.querySelector('#finale-slot #flashback-video'); video.currentTime = Math.max(0, video.duration - 2); video.play().catch(() => {}); });
-    await page.waitForFunction(() => window.__finale?.told?.includes('watched'), null, { timeout: 30000 });
+    await page.waitForFunction(() => window.__finale?.told?.includes('watched') || window.__snapshot?.endSequence?.watched, null, { timeout: 30000 });
     if (page === one) {
       assert.equal(await stageOf(host), 'family', 'the class was revealed before the second family had seen its video');
       await host.waitForFunction(() => document.querySelector('#finale-families').textContent.includes('has seen it'), null, { timeout: 10000 });

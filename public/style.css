@@ -700,6 +700,7 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .finale-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}
 .finale-controls button[hidden]{display:none}
 #flashback{border-bottom:1px solid #c5b286;padding-bottom:10px;margin-bottom:6px}
+#ending-body + #flashback{border-bottom:none;border-top:1px solid #c5b286;padding-top:8px;margin-top:12px}
 #flashback video{display:block;width:100%;aspect-ratio:854/480;background:#1c1610;border-radius:6px;margin:6px 0}
 #flashback video[hidden]{display:none}
 .flashback-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}

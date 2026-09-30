@@ -86,12 +86,16 @@ test('a burned farm has nothing to sell and counts glory instead, by whichever a
   assert.equal(farmAtEnd(world, household).kind, 'burned');
 });
 
-test('nothing is counted between periods, on the invented Gonzales country, or for a family nobody is left of; and no goods are priced', () => {
+test('nothing is counted while the class runs, between periods, on the invented Gonzales country, or for a family nobody is left of; and no goods are priced', () => {
   const { world, household } = farm('farm-sale-none');
   // Goods and crops in the house are not the farm: the owner asked only for the farm to be sold.
   const before = farmAtEnd(world, household).total;
   household.resources.food = 90; household.resources.cotton = 12; household.resources.powder = 4;
   assert.equal(farmAtEnd(world, household).total, before, 'goods held at the end were priced');
+  // Not while the class runs: the farm is sold at the end.
+  world.status = 'running';
+  assert.equal(farmAtEnd(world, household).kind, 'none', 'a farm was sold while the class ran');
+  world.status = 'ended';
   // Between periods: coin and land only (owner, 2026-09-28).
   world.director.milestones = { ...(world.director.milestones || {}), 'bexar-end': world.minute + 1 };
   assert.equal(farmAtEnd(world, household).kind, 'none');
