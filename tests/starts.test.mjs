@@ -203,6 +203,51 @@ test('only the start\'s own modules read a family\'s start: no price, trade, wor
   assert.ok(!/seguinFamily[^\n]*can:|can:[^\n]*seguinFamily/.test(tejano));
 });
 
+/** A class of ten with starts in which the family of `heritage` is a lone parent's, played, on its land, running. */
+function loneOf(heritage) {
+  for (let n = 0; n < 400; n++) {
+    const world = colonies(`lone-${heritage}-${n}`, 10);
+    const household = of(world, heritage)[0];
+    if (familyRoll(world.seed, household.id) > 3) continue;
+    rollFamily(world, household); household.played = true;
+    world.status = 'running';
+    until(world, () => !household.arriving, 400);
+    if (household.choosingSite) {
+      const home = world.map.sites[household.homeSiteId];
+      applyAction(world, household.id, { action: 'choose-site', x: home.x, y: home.y });
+      until(world, () => !household.arriving && !household.choosingSite, 60);
+    }
+    return { world, household };
+  }
+  throw new Error(`no lone ${heritage} family`);
+}
+
+test('a Tejano family is married by the priest from La Bahía; an Anglo-American or a free Black family by bond', () => {
+  // Owner, 2026-09-29: "Priest from La Bahía" (docs/FAMILY_CREATION.md, *The family's start*).
+  for (const heritage of ['tejano', 'free-black', 'anglo']) {
+    const { world, household } = loneOf(heritage);
+    applyAction(world, household.id, { action: 'ask-neighbours' });
+    const { script } = projectWorld(world, household.id, 'student', { includeMap: false }).courtship;
+    const wedding = script.scenes.find(scene => scene.id === 'wedding');
+    const words = wedding.lines.map(line => line.text).join(' ');
+    until(world, () => household.courtship?.stage === 'home', 200);
+    const told = world.events.filter(event => event.householdId === household.id && event.type === 'courtship').map(event => event.text).join(' ');
+    if (heritage === 'tejano') {
+      assert.equal(script.rite, 'priest');
+      assert.equal(script.cast.commissioner.name, 'The priest');
+      assert.match(words, /La Bahía/); assert.doesNotMatch(words, /bond|sign/i, 'a bond at a Tejano wedding');
+      assert.equal(wedding.history.claimId, 'HIST-TEX-781');
+      assert.match(wedding.history.text, /no priest of its own; a priest came from La Bahía/);
+      assert.match(told, /married by the priest from La Bahía/); assert.doesNotMatch(told, /married by bond/);
+    } else {
+      assert.equal(script.rite, 'bond');
+      assert.match(words, /bond/); assert.equal(wedding.history.claimId, 'HIST-TEX-740');
+      assert.match(told, /married by bond/);
+    }
+    validateWorld(world);
+  }
+});
+
 test('a company or a told line that could not have been does not open', () => {
   const world = colonies('valid-a', 12);
   const anglo = of(world, 'anglo')[0];
