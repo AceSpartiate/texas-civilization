@@ -288,9 +288,11 @@ export function goliadMassacre(world) {
 }
 
 /** Word of the massacre: the family learns what became of its own. */
-export function tellGoliad(world, { beginTravel }) {
+export function tellGoliad(world, { beginTravel }, only = null) {
   for (const person of Object.values(world.entities)) {
     const service = person.service;
+    // Given `only`, the families the word of the massacre has reached (sim/expresses.mjs `hearExpresses`).
+    if (only && !only.has(person.householdId)) continue;
     if (!person.householdId || service?.kind !== 'fannin' || !service.fate || service.told) continue;
     service.told = true;
     const home = world.households[person.householdId]?.homeSiteId;
@@ -328,9 +330,11 @@ export function fightSanJacinto(world, causeId, { inLine = null } = {}) {
 }
 
 /** Word of the victory: each family learns what became of its own; the army goes home. */
-export function tellSanJacinto(world, { beginTravel }) {
+export function tellSanJacinto(world, { beginTravel }, only = null) {
   for (const person of Object.values(world.entities)) {
     const service = person.service;
+    // Given `only`, the families the word of the victory has reached (sim/expresses.mjs `hearExpresses`).
+    if (only && !only.has(person.householdId)) continue;
     if (!person.householdId || service?.kind !== 'houston' || !(service.fate || service.absent) || service.told) continue;
     service.told = true;
     // A drilled man is said to be one (sim/camp.mjs): the family reads what the camp's work came to.

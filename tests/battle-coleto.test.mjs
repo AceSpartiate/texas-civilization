@@ -23,6 +23,7 @@ import { share } from '../sim/shares.mjs';
 import { TIMELINE } from '../sim/directors.mjs';
 import { PACES } from '../server/app.mjs';
 import { grownMen, momentOf, reseed, spring, until, withFannin } from './support/fannin.mjs';
+import { untilHeard } from './support/spring-word.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const copy = value => JSON.parse(JSON.stringify(value));
@@ -173,8 +174,8 @@ test('each man\'s fate falls at its moment inside the fighting, from the roll th
   // A prisoner is the family's to send nowhere.
   const prisoner = men.find(one => one !== rider && one !== killed);
   assert.throws(() => applyAction(world, prisoner.householdId, { action: 'chore', entityId: prisoner.id, chore: 'rest' }), /prisoner/);
-  // Word of the massacre: now he is dead, on the screen and in the journal.
-  until(world, () => world.director.milestones['massacre-word'], 2000);
+  // Word of the massacre, when it reaches his family (docs/COLONIES.md §5.4c): now he is dead, on the screen and in the journal.
+  untilHeard(world, [killed.householdId], 'goliad-massacre', { also: () => world.director.milestones['massacre-word'], limit: 2000 });
   assert.equal(killed.health.condition, 'dead');
   assert.equal(lyingOnField(world, killed), null);
   validateWorld(world);
@@ -229,7 +230,7 @@ test('Palm Sunday: each prisoner meets the record\'s share at its own moment; a 
   assert.equal(escaper.travel?.to, world.households[escaper.householdId].homeSiteId, 'the man who got away did not start home');
   const told = view(world, escaper.householdId).battleAccount;
   assert.ok(told && /broke and ran/.test(told.text) && /Palm Sunday/.test(told.text), 'he did not tell his own story');
-  until(world, () => world.director.milestones['massacre-word'], 3000);
+  untilHeard(world, [executed, spared].map(one => one.householdId), 'goliad-massacre', { also: () => world.director.milestones['massacre-word'], limit: 3000 });
   assert.equal(executed.health.condition, 'dead'); assert.equal(spared.health.condition, 'captured');
   assert.notEqual(escaper.health.condition, 'dead');
   validateWorld(world);
@@ -237,7 +238,8 @@ test('Palm Sunday: each prisoner meets the record\'s share at its own moment; a 
 
 test('afterwards every other family with a man there is told through whoever hears it at home - Coleto and Goliad together, the escapes, those spared, and "Remember Goliad"', () => {
   const { world, killed, executed, spared } = fanninClass();
-  until(world, () => world.director.milestones['massacre-word'], 6000);
+  // Each family as the word of the massacre reaches it (docs/COLONIES.md §5.4c).
+  untilHeard(world, [killed, executed, spared].map(one => one.householdId), 'goliad-massacre', { also: () => world.director.milestones['massacre-word'], limit: 6000 });
   for (const man of [killed, executed, spared]) {
     const account = view(world, man.householdId).battleAccount;
     assert.ok(account, `${man.name}'s family was not told`);

@@ -1,6 +1,6 @@
 {
   "record": "whole-game-browser",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "verdict": "PASS",
   "browser": "153.0.8010.53",
   "task": "One class from the lobby to the road home through all three periods, a student and the Host in the browser the whole way: nothing stalls, refuses wrongly or throws.",
@@ -10,32 +10,32 @@
     "the Host started the class with five families joined",
     "the family arrived and the house site was chosen on its grant at (99.0104, 22.799599999999998)",
     "7 of the family set to auto from the panel: Amos Proofwright, Mahala Proofwright, Nieves Proofwright, Jonas Proofwright, Lavinia Proofwright, Docia Proofwright, Teodoro Proofwright",
-    "3 orders given from the panel and taken",
+    "4 orders given from the panel and taken",
     "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Amos Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (2282 ticks, 250.6 s)",
+    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (2185 ticks, 239.5 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
     "Amos Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241920 (300 ticks, 33.5 s)",
+    "the second period ended on its own at minute 241920 (300 ticks, 33.7 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (2373 ticks, 260.9 s)",
+    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (2372 ticks, 261.9 s)",
     "no page errors on either page across the whole game"
   ],
   "measured": {
     "periods": {
       "first": {
-        "ticks": 2282,
-        "seconds": 250.6,
+        "ticks": 2185,
+        "seconds": 239.5,
         "endedAtMinute": 114060
       },
       "second": {
         "ticks": 300,
-        "seconds": 33.5,
+        "seconds": 33.7,
         "endedAtMinute": 241920
       },
       "third": {
-        "ticks": 2373,
-        "seconds": 260.9,
+        "ticks": 2372,
+        "seconds": 261.9,
         "endedAtMinute": 302580
       }
     },
@@ -67,7 +67,7 @@
       {
         "id": "hh-1-parent-2",
         "key": "cut-lane",
-        "took": "Mahala has stopped to talk with Simeon, who has nothing to do. Give Simeon something to do and Mahala goes back to work."
+        "took": true
       },
       {
         "id": "hh-1-child-1",
@@ -110,7 +110,7 @@
       "flight": "returning",
       "minute": 302580
     },
-    "totalSeconds": 545
+    "totalSeconds": 535.0999999999999
   },
   "screenshots": [
     "docs/evidence/whole-game-at-work.png",

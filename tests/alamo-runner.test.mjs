@@ -10,6 +10,7 @@ import { momentOf } from '../sim/directors.mjs';
 import { COURIER_CHOSEN, askCouriers, share } from '../sim/alamo.mjs';
 import { BESIDE_FEET, RUNNER_FEET_PER_TICK, TRAVIS_DOOR, onMap, runnerOf, runnerOpening } from '../sim/alamo-runner.mjs';
 import { alamoOnMap } from '../public/bexar-layout.js';
+import { untilHeard } from './support/spring-word.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -276,7 +277,8 @@ test('at the assault a fighter inside is killed and a woman and a boy are spared
   }
   assert.equal(courier.service.fate, undefined, 'a courier sent out was given a fate inside the walls');
   assert.notEqual(view(world, fighter.householdId).entities.find(e => e.id === fighter.id).health.condition, 'dead', 'the family saw the death before any word came');
-  untilMoment(world, 'fall-colonies');
+  // Each family hears of the fall as the express from Gonzales reaches it (docs/COLONIES.md §5.4c), in the spring if it is far off.
+  untilHeard(world, [courier, boy].map(person => person.householdId), 'alamo-fall', { also: () => world.director.milestones['fall-colonies'] });
   assert.equal(courier.health.condition === 'dead', false, 'a courier sent out died in the fall');
   if (boy.service.fate === 'spared') assert.ok(world.events.some(event => event.actorId === boy.id && /women and children spared/.test(event.text)), 'the boy\'s family was not told he was spared');
   validateWorld(world);

@@ -88,7 +88,7 @@ const BROWSER = [
   { name: 'nobody falls', file: 'public/battle-view.js',
     from: '      if (battle.noFalling?.includes(fall.side)) continue;', to: '      continue;', expect: 'the prisoners were not drawn falling' },
   { name: 'no account at the word', file: 'sim/directors.mjs',
-    from: 'tellGoliad(world, go); tellFannin(world); });', to: 'tellGoliad(world, go); });', expect: 'no account came through the family at the word' },
+    from: 'tellGoliad(world, go, massacre); tellFannin(world, massacre); }', to: 'tellGoliad(world, go, massacre); }', expect: 'no account came through the family at the word' },
 ];
 
 const CR = String.fromCharCode(13), LF = String.fromCharCode(10);

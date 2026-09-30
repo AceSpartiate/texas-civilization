@@ -370,6 +370,90 @@ rider is drawn where the server has him, as every journey is.
 (the approach, first light), which cannot wait for one family - but a rider talking with a played family holds the calendar at
 its slowest while he stands there (sim/clock.mjs `deciding`), so a queued one loses at most his ninety seconds of it.
 
+Since 2026-09-29 the spring's big news is carried by express riders too (§5.4c), and it is still a quiet mark in the journal:
+the express riders ride between the stops and are seen passing at their pace, as every rider is, and none of them reins in at
+a family's gate, so the rules above have nothing new to merge, queue or hold.
+
+### 5.4c The spring's word by express — 2026-09-29 (`FIC-GONZ-955`; triage 2.7, not released)
+
+**What was wrong.** VISION §19 says information moved slowly and unevenly, and in the autumn it did (§5.4, §6e). In the spring it
+did not: the fall of the Alamo reached every family away from Gonzales on the same evening, and Houston's retreat over the
+Colorado, Goliad, the Brazos, the massacre, Santa Anna over the Brazos and San Jacinto reached every family in the country on
+one tick (`sendWord` and `word` to `everyone`, marked with a `ceiling:`). Measured on a class of 15 and one of 30 on the real land:
+**0 hours** between the first family and the last to hear each of the six spring words, and the debrief's *widest gap* hook
+(sim/ending-story.mjs) fell back to the October cannon.
+
+**What is built.** Each word leaves by express from where the record has it come in, at the moment the timeline already had
+for it, and goes on the autumn's way exactly: a fresh rider on each road to the next stop (a settlement or one of the three
+crossings), **six hours** there while it is read and copied (`RELAY_MINUTES`), and on (sim/expresses.mjs `sendExpress`,
+sim/directors.mjs `carryWord`).
+
+| Word | Leaves | From | Status in the journal |
+| --- | --- | --- | --- |
+| The Alamo has fallen (`HIST-TEX-060`) | `fall-confirmed`, the morning of March 13 | Gonzales, where Mrs. Dickinson brought it; Gonzales's own families are told there as before (the rumour of the 11th, then confirmed) | unconfirmed, *"A rider from Gonzales"* |
+| Houston over the Colorado (`HIST-TEX-066`) | `houston-colorado`, March 17 | the army's camp of the day (`houstonCamp`: Beeson's) | confirmed, *"Word from the army"* |
+| Fannin's defeat (`HIST-TEX-063`, `-066`) | `goliad-word`, March 25 | the army's camp (Beeson's), where the record has the word come | confirmed |
+| The army at the Brazos, San Felipe burned (`HIST-TEX-066`) | `houston-san-felipe`, March 28 | the army's camp | confirmed |
+| The massacre (`HIST-TEX-064`) | `massacre-word`, about April 1 | the army's camp (Groce's) | unconfirmed, *"Word from the west"* |
+| Santa Anna over the Brazos (`HIST-TEX-067`) | `santa-anna-brazos`, April 11 | Fort Bend (`thompsons`) | confirmed, *"Word from the Brazos"* |
+| San Jacinto (`HIST-TEX-067`) | `santa-anna-taken`, April 22, once Santa Anna is brought in (the refugees began to turn back from the 22nd) | the army's camp at Lynchburg | confirmed, *"A rider from the army"* |
+
+- **Where it goes.** The stops the families are near when it leaves: each family's settlement, the refuge it is making for, and
+  the stop nearest each of its people (`springTargets`), by the first road found (`expressRoutes`, now from any place).
+- **When a family hears** (`hearExpresses`, every tick). Each of its people hears from **the stop nearest where they are** of those
+  the express goes to - its settlement's riders, as in the autumn, never a rider straight out from where the word came in: at the
+  stop itself the moment the express comes in; elsewhere once it has been read there (at once where the word came in) and a rider
+  has ridden out at the express's pace (`RIDER_SPEED`), by the road to a gate or a town, as the crow flies to somebody out on the
+  road. The family hears at the first of its people's times. **Families in flight hear where they are**: on the road east, at a
+  crossing, at their refuge. A prisoner of the war and somebody already dead whose family has not yet been told are not
+  anybody's ears; somebody taken at home in the Scrape still is.
+- **As a line in the journal, not a rider at the gate.** The one-rider rules (§5.4b) moved all the later news to the journal to
+  keep riders from piling up, and the owner's words were *"Players shouldn't miss anything, but also shouldn't be quickly
+  overwhelmed"*. So the word is written in the journal, with where it was carried on from (*"A rider from Gonzales, carried on
+  from San Felipe de Austin"*); the express riders ride the roads between the stops, are seen passing at their pace, and ride
+  home; nobody reins in to talk about it and no question is queued behind anybody.
+- **What it means for the family's own waits for the family's hearing** (`tellWhenHeard`): the Alamo's dead and spared once the
+  fall is more than a rumour to it; the men with Fannin once the massacre is heard of, from the day the record has it; the men
+  with Houston once the victory is, from the day the army goes home (`victory-word`); and a family at its refuge turns for home
+  when the victory reaches it - or, if it heard on the road, when it comes to its refuge (`turnHome` per family). The army's own
+  question with the word of Goliad (sim/camp.mjs) is still put at `goliad-word`: the men at the camp heard it there.
+- **The Host's page is unchanged**: its milestones and spotlights at the timeline's moments, and every express rider where he
+  truly is.
+- **The debrief's widest gap** counts from the first line a family's journal had of the word, a rumour included, not the last,
+  firmer account (sim/ending-story.mjs). The flashback's "how late" reads each family's own hearing, now days apart.
+
+**Measured** (in process, the scratch script of 2026-09-29, families nobody plays; with and without every family fleeing to the
+nearest refuge east when told): the first and last family to hear each word, before and after.
+
+| Word | Before (every run) | After: 15 staying | 15 fleeing | 30 staying | 30 fleeing |
+| --- | --- | --- | --- | --- | --- |
+| The Alamo's fall | 60 h (the rumour at Gonzales on the 11th to the rest of the country on the evening of the 13th) | 140 h (Gonzales the 11th, Mina the 14th, Liberty the 17th) | 140 h | 140 h | 140 h |
+| Houston over the Colorado | 0 h | 45 h | 45 h | 45 h | 53 h |
+| Fannin's defeat | 0 h | 48 h | 56 h | 48 h | 56 h |
+| The army at the Brazos | 0 h | 48 h | 48 h | 48 h | 48 h |
+| The massacre | 0 h | 52 h | 48 h | 48 h | 48 h |
+| Santa Anna over the Brazos | 0 h | 36 h | 44 h | 36 h | 44 h |
+| San Jacinto | 0 h | 48 h | 40 h (Lynchburg the 22nd, Nacogdoches and Washington the 24th) | 52 h | 48 h |
+
+Every family heard every word, none before it happened (checked in the script and by the tests); the last to hear of San
+Jacinto, a family that stayed on its land in the west, heard about four hours before the class ended.
+
+**These delays are modelled, not documented.** Nobody's record says when a given settlement heard of Goliad or San Jacinto; what
+is dated is when the word came to one place (Gonzales, the army, the government). The rest is the autumn's calibration
+(`FIC-GONZ-027`, fitted to the letters of September and October 1835) applied to the spring, with the stops, the six hours and
+the pace unchanged.
+
+`ceiling:` the stops are laid once, when the word leaves; a family that moves on hears from whichever of those stops is nearest
+it, and a place off them hears later than it might. `ceiling:` the massacre leaves from the army's camp, where the record's
+"about April 1" puts it; where the men who got away first told it, and by which road, is not in what was read. `ceiling:` the
+express riders ride into places the Mexican army holds as freely as anywhere else. `ceiling:` household knowledge, not person by
+person: what one of the family hears, the family knows, as with the Mexican advance (`FIC-GONZ-463`). `ceiling:` the Alamo's word
+can still be on the road when the second period ends; the seven hours the class skips to the dawn of March 14 are not ridden,
+so a far family hears up to seven hours later than it would have. `ceiling:` the autumn's and the winter's other news (Goliad
+taken, Concepción, the Grass Fight, Béxar, the winter's word, Travis's letter, the south, the declaration) is still told to the
+country on one day (`sendWord`, `word`); the same `carryWord` is the way out for each. The invented Gonzales country, which has
+no other settlements, is told as before.
+
 ### 5.5 After October 2: the gathering and the march
 
 - **Milestones** on the timeline, each from a claim (`HIST-TEX-007`): volunteers gathering at Gonzales (October 3–11);
@@ -994,6 +1078,8 @@ Decided by the owner by multiple choice (§7f). Research [alamo.md](battle-resea
   March 8 and start home; at Gonzales a rumour on the evening of the 11th (Houston thinks the riders spies), confirmed on the
   morning of the 13th, when a Gonzales family's dead are dead and it is told; elsewhere the word comes that evening
   (`unconfirmed`, from a rider from Gonzales). `ceiling:` the world knows at once; the families nearest learn first.
+  **Since 2026-09-29 (§5.4c)** the word leaves Gonzales by express when it is confirmed there, and each family away from Gonzales
+  hears it - and its dead are dead to it - as the express reaches it, from the 14th to the 17th, some of them in the spring.
 - **The south**: on February 27 nobody more goes south, and those there are split by a hashed share between Johnson's party
   (34 in 60) and Grant's. San Patricio (3 a.m. February 27) and Agua Dulce (the morning of March 2) roll each for killed
   (weighted by hidden strength and health), captured or escaped, at the record's shares (`SOUTH_RATES`: 8, 13 and 6 of 27;
@@ -1052,7 +1138,9 @@ Decided by the owner by multiple choice (§7g). Research [goliad-scrape-san-jaci
   told of a day before; rest mends twice as fast and halves the risk; the bound is **about three in a hundred over the whole
   flight** for all diseases together, mostly babies and small children, which replaces the one in a hundred above.
 - **The refuge and home**: the family camps at its refuge; with the word of San Jacinto (April 23) every family turns for home
-  (`turnHome`), and one that gets there is told the house and the field are burned.
+  (`turnHome`), and one that gets there is told the house and the field are burned. **Since 2026-09-29 (§5.4c)** the word leaves
+  the army's camp by express when Santa Anna is brought in on the 22nd, and each family turns for home when it reaches it - at
+  Lynchburg the 22nd, at Nacogdoches the 23rd or 24th - or when it comes to its refuge, if it heard on the road.
 - **Houston's army** (`sim/houston.mjs`, service kind `houston`, chore *Go and join General Houston's army*): joined at the camp
   of the day - Gonzales, Beeson's on the Colorado from March 17, San Felipe from the 28th (Groce's a place of its own since 2026-09-17, `HIST-TEX-086`), over the Brazos to Bernardo
   on the steamboat Yellow Stone from April 12 (2026-09-18, `HIST-TEX-089`; a class saved before Bernardo stays at Groce's),
@@ -1067,9 +1155,11 @@ Decided by the owner by multiple choice (§7g). Research [goliad-scrape-san-jaci
 - **Goliad**: those with Fannin can be sent for until six on the morning of March 19; Coleto at noon (`fightColeto`, 3 in 100
   killed and 20 wounded, all then prisoners); Palm Sunday (`goliadMassacre`, 89 in 100 shot, 7 got away, 5 spared to Matamoros,
   by a hashed share); the word of the defeat March 25 and of the massacre about April 1, when the family learns its own
-  (`tellGoliad`): the escaped start home.
+  (`tellGoliad`): the escaped start home. **Since 2026-09-29 (§5.4c)** both leave the army's camp by express on those days, and
+  each family learns its own as the word of the massacre reaches it.
 - **San Jacinto** (`fightSanJacinto`, half past four on April 21): 1 in 100 killed and 3 wounded (slightly), told with the
-  victory on the 23rd (`tellSanJacinto`), when the army goes home. Santa Anna taken on the 22nd.
+  victory on the 23rd (`tellSanJacinto`), when the army goes home. Santa Anna taken on the 22nd. Since 2026-09-29 (§5.4c) told to
+  each family from the 23rd once the word of the victory has reached it.
 - **Families nobody plays** flee at once with all the food that fits and the nearest refuge; about one grown man in seven joins
   Houston (`WINTER_SHARES.houston`).
 - **Stored**: `household.flight` (`status` ordered, fled, stayed, refuged, returning, home; `refuge`, `took`, `crossing`,

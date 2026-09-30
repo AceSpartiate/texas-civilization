@@ -123,10 +123,15 @@ const namedFamilies = world => Object.values(world.households).filter(household 
 export function classHooks(world) {
   const families = namedFamilies(world);
   const hooks = [];
-  // The widest gap in hearing the same news.
+  // The widest gap in hearing the same news. Since 2026-09-29 the spring's word goes by express, settlement by settlement
+  // (sim/expresses.mjs, docs/COLONIES.md §5.4c), so the Alamo, Goliad and San Jacinto reach families days apart as the cannon
+  // did. When a family heard is the first line its journal has of it - a rumour counts - not the last, firmer account.
+  const TOPICS = ['cannon-request', 'alamo-fall', 'goliad-massacre', 'san-jacinto'];
+  const first = new Map();
+  for (const event of world.events || []) if (event.type === 'information' && TOPICS.includes(event.topicId) && !first.has(`${event.householdId}:${event.topicId}`)) first.set(`${event.householdId}:${event.topicId}`, event.minute);
   let widest = null;
-  for (const topic of ['cannon-request', 'alamo-fall', 'goliad-massacre', 'san-jacinto']) {
-    const when = families.map(household => ({ household, minute: world.knowledge?.households?.[household.id]?.[topic]?.receivedMinute })).filter(one => Number.isFinite(one.minute)).sort((a, b) => a.minute - b.minute);
+  for (const topic of TOPICS) {
+    const when = families.map(household => ({ household, minute: first.get(`${household.id}:${topic}`) ?? world.knowledge?.households?.[household.id]?.[topic]?.receivedMinute })).filter(one => Number.isFinite(one.minute)).sort((a, b) => a.minute - b.minute);
     if (when.length < 2) continue;
     const gap = when.at(-1).minute - when[0].minute;
     if (!widest || gap > widest.gap) widest = { topic, gap, first: when[0], last: when.at(-1) };

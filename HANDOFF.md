@@ -1,5 +1,87 @@
 # Claude handoff — Astra foundation
 
+## The spring's big news by express, settlement by settlement — triage 2.7, 2026-09-29 (not released)
+
+**The ask.** Triage 2.7: *"Every family hears the spring's big news at the same moment"* (VISION §19: information moved slowly and
+unevenly - true in the autumn, not in the spring). `word()` and `sendWord()` told every family on one tick, marked by a
+`ceiling:`. Branch `tier2-spring-news` off origin/main 80842f72; not pushed. `FIC-GONZ-955`; the decision is docs/COLONIES.md
+§5.4c.
+
+- **How it travels** (`sim/expresses.mjs` `sendExpress`, `hearExpresses`; `sim/directors.mjs` `carryWord`). Each word leaves by
+  express, at the moment the timeline already had for it, from where the record has it come in: the Alamo's fall from Gonzales
+  once confirmed (the morning of March 13; Gonzales's own families told there as before); Houston over the Colorado, Fannin's
+  defeat, the army at the Brazos and the massacre from the army's camp of the day (`houstonCamp`); Santa Anna over the Brazos
+  from Fort Bend; San Jacinto from the camp at Lynchburg once Santa Anna is brought in (April 22). The autumn's machinery
+  exactly: a fresh rider on each road to the next settlement or crossing, six hours there (`RELAY_MINUTES`), on again.
+- **When a family hears.** Each of its people hears from the stop nearest where they are - its settlement's riders, never a rider
+  straight out from where the word came in - at the stop when the express comes in, elsewhere once it has been read and a rider
+  has ridden out (road miles to a gate or town, as the crow flies to somebody on the road). **Families in flight hear where they
+  are**: on the road east, at a crossing, at the refuge. Prisoners of the war and men already dead but not yet known are nobody's
+  ears.
+- **Journal line, not a rider conversation - the decision.** The one-rider builder moved all later news to the journal so riders
+  would not pile up, and the owner asked that players miss nothing and not be quickly overwhelmed. So the spring's word stays a
+  quiet journal line (*"Word from the army, carried on from San Felipe de Austin"*), now arriving at each family's own time; the
+  express riders ride between stops and are drawn passing at their pace like every rider; nobody reins in at a gate, and no
+  question queues behind anybody. Merging off screen, one conversation at a time and a rider leaving in time are untouched: this
+  adds no conversation.
+- **What the word means for the family waits for its hearing** (`tellWhenHeard`, every tick): the Alamo's dead and spared once the
+  fall is more than a rumour to it; the men with Fannin once the massacre reaches it (from `massacre-word`); the men with Houston
+  once the victory does (from `victory-word`, when the army goes home); and a family at its refuge **turns for home when the
+  victory reaches it**, or when it reaches its refuge if it heard on the road (`turnHome` now per family; it ran once before).
+  `tellFall`, `tellGoliad`, `tellFannin`, `tellSanJacintoAccounts`, `tellSanJacinto`, `turnHome` take an `only` set. The army's
+  own question with the word of Goliad is still put at `goliad-word`; the Host's milestones and spotlights are unchanged.
+- **The debrief's widest gap** (sim/ending-story.mjs, the hook only) counts from the first line a family's journal had of the
+  word, a rumour included, not its last firmer account. The flashback's "how late" reads each family's own hearing, now days apart.
+- **Old saves:** no save version. `from` and `word` are optional on an express (validated when present); a class saved before
+  that is past a word's moment keeps what it had, and one saved between the Alamo's confirmation and the evening is told at
+  `fall-colonies` as before (tested). The invented Gonzales country is told at once, as before.
+
+**Before and after** (in process, families nobody plays; hours between the first and the last family to hear; docs/COLONIES.md
+§5.4c has the whole table): the Alamo's fall **60 → 140 h** (Gonzales the 11th, Mina the 14th, Liberty the 17th); Houston over the
+Colorado **0 → 45-53 h**; Fannin's defeat **0 → 48-56 h**; the army at the Brazos **0 → 48 h**; the massacre **0 → 48-52 h**; Santa
+Anna over the Brazos **0 → 36-44 h**; San Jacinto **0 → 40-52 h** (Lynchburg the 22nd, Nacogdoches and Washington the 24th, a
+family that stayed at Gonzales the 25th). Classes of 15 and 30, each staying and each fleeing to the nearest refuge. Every family
+heard every word, none before it happened. Per tick the class costs 3.55 ms where it cost 3.05 (30 families, period 3; about 70
+more express riders over the spring).
+
+**Evidence** (same computer only; no Chromebook or LAN claim):
+
+- `tests/spring-news.test.mjs` (4 tests): the Alamo's fall - the farthest family hears at least a day after the nearest, in the
+  order the express reached their settlements, never before the assault nor (away from Gonzales) before the confirmation, from
+  its own stop after the six hours, with no rider sent to its door, and its dead man alive on its screen and the word absent from
+  what the server sends it until then; the victory reaches a Nacogdoches refuge at least twelve hours after a Lynchburg one, and
+  each family turns for home on the tick it hears; the widest gap counts from the first hearing; the express's state validated
+  and a class saved before it told at `fall-colonies`.
+- **`npm run test:spring-news-injections`: 10 of 10 caught by the test written for them**
+  ([record](docs/evidence/spring-news-injections.json)).
+- Tests changed for the rule, not weakened (they waited for the one tick everybody used to hear; now they wait until the families
+  they read have heard, `tests/support/spring-word.mjs`): `alamo` (and it now also holds the far family's man alive at the period's
+  end if the word had not reached it), `alamo-runner`, `houston` (3), `scrape`, `camp`, `battle-coleto` (3), `battle-san-jacinto`.
+  `scripts/battle-coleto-injections.mjs` and `scripts/san-jacinto-injections.mjs` point at the new calls.
+- `npm test`: **1802 tests, 1766 pass, 0 fail, 36 skipped** (the suspended tutorial).
+- Browser proofs (headless Chrome, at most two at once beside `npm test`): `test:relay`, `test:alamo`, `test:alamo-siege` 9,
+  `test:one-rider` 10, `test:scrape` 7, `test:ending` 10, `test:flashback` 11, `test:whole-game` 14 - all green first time;
+  `test:information` failed once beside the others at its known one-tick race with the courier at the gate (*"null !== 'home-2'"*:
+  he had ridden on before the pause; the invented map's cannon word, which this does not touch) and passed on its rerun.
+
+`ceiling:`s (docs/COLONIES.md §5.4c): the stops laid once when the word leaves; the massacre's first telling placed at the army;
+riders ride into places the Mexican army holds; household knowledge, not person by person; the seven hours skipped between the
+second and third periods are not ridden; the autumn's and winter's other words (Goliad taken, Concepción, the Grass Fight, Béxar,
+the winter's word, Travis's letter, the south, the declaration) still reach the country on one day - `carryWord` is the way out.
+
+**Open, for the owner** (built the conservative way; recommended first):
+
+1. *The class can end before a far family has heard of San Jacinto.* Measured, the last family (one that stayed at Gonzales)
+   heard about four hours before the end at dawn on April 25; another seed could miss it. (a) Hold the end until every played
+   family has heard, at most a day, as the autumn holds for the furthest family (`EXPRESS_GRACE_MINUTES`); (b) leave it - the
+   final reckoning says the war is won either way; (c) send San Jacinto's word from the battlefield on the evening of the 21st.
+2. *How fast the spring's word should go.* It uses the autumn's calibration, fitted to the committees' letters of 1835: six hours
+   at each stop and a courier's pace, so the spring's spreads are about two days. The Scrape had no committees and many more
+   people on the roads. (a) Keep the autumn's pace (as built); (b) a slower spring - twelve hours at a stop - for wider gaps;
+   (c) a faster spring - refugees carrying it - for narrower ones.
+3. *The rest of the one-day news.* Travis's letter, the south's fights, the declaration and the autumn's battles are still told to
+   the whole country on one day. (a) Carry them all by `carryWord` next; (b) only Travis's letter and the declaration; (c) leave them.
+
 ## The ending as the whole war, in sums a student can follow — triage 2.8–2.11, 3.6, 3.7 (not released)
 
 Branch `tier2-ending` off origin/main 80842f72; not pushed. The items of docs/audits/2026-09-29-triage.md that needed no owner

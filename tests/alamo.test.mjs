@@ -15,6 +15,7 @@ import { momentOf } from '../sim/directors.mjs';
 import { COURIER_CHOSEN, JOHNSON_SHARE, SOUTH_RATES, share } from '../sim/alamo.mjs';
 import { frailty } from '../sim/army.mjs';
 import { joinService } from '../sim/winter.mjs';
+import { hasHeard, untilHeard } from './support/spring-word.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -195,13 +196,17 @@ test('on March 6 every man inside dies and every woman is spared, and no family 
   untilMoment(world, 'fall-confirmed');
   assert.equal(man.health.condition, 'dead', 'the confirmed word did not make the death true for Gonzales');
   assert.equal(farMan.health.condition, 'well', 'a family away from Gonzales saw the death before its word came');
-  untilMoment(world, 'fall-colonies');
-  assert.equal(farMan.health.condition, 'dead');
+  // The rest of the country hears as the express from Gonzales reaches each family (docs/COLONIES.md §5.4c), and a death is
+  // true on a family's screen when its word is.
   assert.ok(world.events.some(event => event.householdId === man.householdId && /killed when the Alamo was stormed/.test(event.text)), 'the family was not told what became of theirs');
   until(world, () => world.director.complete);
+  if (!hasHeard(world, farMan.householdId, 'alamo-fall')) assert.equal(farMan.health.condition, 'well', 'a family the word had not reached saw the death');
   assert.equal(world.status, 'ended');
   assert.ok(world.minute >= momentOf(world, 'alamo-end'));
   assert.equal(projectWorld(world, undefined, 'host', { includeMap: false }).ending.host.interim, true, 'the second period was shown as the end of the story');
+  validateWorld(world);
+  untilHeard(world, [farMan.householdId], 'alamo-fall');
+  assert.equal(farMan.health.condition, 'dead', 'the word came and the death was not true');
   validateWorld(world);
 });
 

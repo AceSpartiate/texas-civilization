@@ -18,6 +18,7 @@ import { lightLoad, loadSpace, needsOf } from '../public/family-panel.js';
 import { beastsOf } from '../sim/beasts.mjs';
 import { burnMinute, farmFate } from '../sim/advance.mjs';
 import { thinkFor } from '../sim/neighbours.mjs';
+import { untilHeard } from './support/spring-word.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -154,8 +155,8 @@ test('the family loads what fits and sets out together for the east, leaving the
   assert.equal(household.flight.status, 'refuged', 'the family never reached its refuge');
   for (const one of goers) if (one.health.condition !== 'dead') assert.equal(one.location.siteId, refuge, `${one.name} is not at the refuge`);
   assert.equal(view(world, household.id).flight.status, 'refuged');
-  // Home with the victory.
-  untilMoment(world, 'victory-word');
+  // Home with the victory, when its word reaches the family at its refuge (docs/COLONIES.md §5.4c).
+  untilHeard(world, [household.id], 'san-jacinto');
   assert.equal(household.flight.status, 'returning', 'the family did not turn home with the news');
   // The game ends on April 25 with the families on the road home (owner, §7g); the road is run on past it here to see them arrive.
   until(world, () => world.director.complete);
