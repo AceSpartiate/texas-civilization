@@ -33,9 +33,9 @@ const S = 'sim/starts.mjs', STORY = 'sim/start-story.mjs', J = 'sim/tejano.mjs',
 const INJECTIONS = [
   // ------------------------------------------------------------------------------------------------ the deal
   { name: 'Victoria is not seated: a class of five has no Tejano family', expect: T.deal, edits: [
-    { file: 'sim/colonies-region.mjs', from: '  const counts = dealCounts(playerCount, starts ? STARTS_SEATED : undefined);', to: '  const counts = dealCounts(playerCount);' }] },
+    { file: S, from: '  if (families < BEXAR_FROM) return dealCounts(families, STARTS_SEATED);', to: '  if (families < BEXAR_FROM) return dealCounts(families);' }] },
   { name: 'Victoria\'s families are dealt as Anglo-American', expect: T.deal, edits: [
-    { file: S, from: "  const starts = places.map(place => (place.settlementId === TEJANO_AT ? 'tejano' : 'anglo'));", to: "  const starts = places.map(() => 'anglo');" }] },
+    { file: S, from: "  const starts = places.map(place => (TEJANO_PLACES.includes(place.settlementId) ? 'tejano' : 'anglo'));", to: "  const starts = places.map(() => 'anglo');" }] },
   { name: 'a class smaller than ten is dealt a free Black family', expect: T.deal, edits: [
     { file: S, from: '  if (places.length >= FREE_BLACK_FROM && liberty.length >= 2) ', to: '  if (liberty.length >= 1) ' }] },
   { name: 'the starts are left where the deal put them, often past the families students join', expect: T.deal, edits: [
@@ -98,6 +98,7 @@ const INJECTIONS = [
   { name: 'nobody waiting at a crossing sees the people waiting there', expect: T.road, spring: true, edits: [
     { file: STORY, from: '    if (!host && !families.includes(householdId)) continue;', to: '    if (!host) continue;' }] },
   // ------------------------------------------------------------------------------------------------ the owner's answers of 2026-09-29/30
+  { answers: true },
   { name: 'every family is married by bond', expect: "a Tejano family is married by the priest from La Bahía; an Anglo-American or a free Black family by bond", edits: [
     { file: 'sim/courtship.mjs', from: "export const riteFor = household => (household?.heritage === 'tejano' ? 'priest' : 'bond');", to: "export const riteFor = () => 'bond';" }] },
   { name: 'the priest\'s wedding is told as the bond', expect: "a Tejano family is married by the priest from La Bahía; an Anglo-American or a free Black family by bond", edits: [
@@ -162,7 +163,14 @@ const clean = runTests();
 if (clean.length) throw new Error(`The tests fail before any injection: ${clean.join('; ')}`);
 const record = [];
 const CR = String.fromCharCode(13), LF = String.fromCharCode(10);
-for (const injection of INJECTIONS) {
+// `--answers`: only the owner's answers of 2026-09-29/30 and the deal's two injections the Béxar start rewrote; the rest were proved
+// on the first build (docs/evidence/starts-injections.json) and touch code these did not change.
+const answersOnly = process.argv.includes('--answers');
+const marker = INJECTIONS.findIndex(one => one.answers);
+const REWRITTEN = ['Victoria is not seated: a class of five has no Tejano family', "Victoria's families are dealt as Anglo-American"];
+for (const [index, injection] of INJECTIONS.entries()) {
+  if (injection.answers) continue;
+  if (answersOnly && index < marker && !REWRITTEN.includes(injection.name)) continue;
   const originals = new Map();
   try {
     for (const edit of injection.edits) {
@@ -183,6 +191,6 @@ for (const injection of INJECTIONS) {
 }
 if (runTests().length) throw new Error('The tests fail after every file was put back');
 mkdirSync('docs/evidence', { recursive: true });
-const out = 'docs/evidence/starts-injections.json';
+const out = answersOnly ? 'docs/evidence/starts-injections-answers.json' : 'docs/evidence/starts-injections.json';
 writeFileSync(out, `${JSON.stringify({ record: 'starts-injections', date: new Date().toISOString().slice(0, 10), files: FILES, injections: record }, null, 2)}\n`);
 console.log(`\n${record.filter(r => r.caught).length} of ${record.length} caught by the test written for each (${record.filter(r => r.alone).length} by that test alone); wrote ${out}`);

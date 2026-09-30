@@ -26,7 +26,20 @@ Branch `starts-2` off local `integration-2026-09-28` 4131feb8; not pushed. Claim
   sim/wagon.mjs `vehicleWord`, the pack screen). Nothing to retire: no stand-in or request for it was open. `ceiling:` the flight
   card still says "in the cart" (sim/scrape.mjs `flightProjection`, left to the Scrape's builder).
 
-**Evidence** (same computer only; no Chromebook or LAN claim): EVIDENCE2
+**Evidence** (same computer only; no Chromebook or LAN claim; integration-2026-09-28 f7af9b91 merged in):
+
+- `tests/starts-bexar.test.mjs`, 7 tests (the Béxar deal, its story, Seguín's call from home, the word to leave and the foragers'
+  burning, Seguín's men riding out of the Alamo, a woman never one of them, the carreta); `tests/starts.test.mjs` 15 (the priest's
+  wedding new). **`node scripts/starts-injections.mjs --answers`: 27 of 27 caught by the test written for each**
+  ([record](docs/evidence/starts-injections-answers.json)); one ("an Anglo family's cart may be drawn as a carreta") was missed on
+  the harness run because its test's seed had no poor Anglo family, and was caught once the test chose a class with one (re-run by
+  hand). The first build's 31 are docs/evidence/starts-injections.json.
+- Browser, headless Chrome: `test:creation` 15 (new: the Béxar family's card), `test:lone-parent` 10, `test:battle-bexar` 15,
+  `test:alamo-siege` 9, `test:scrape` 7, `test:whole-game` 14, `test:riding` 16 - all green. **`test:battle-alamo` fails on the base
+  branch as it does here** (integration f7af9b91 in a clean worktree: a timeout on the courier's *stays* button before any check;
+  here, twice, once the same timeout and once "the card of the assault was gone before the Host could pause"): not this change.
+- `npm test`: **1883 tests, 1845 pass, 2 fail, 36 skipped**. `classroom-doors` (the known ping flake under load) passed alone on its rerun. `tests/battle-bexar.test.mjs` *"killed: ... told only when the word comes"* fails on the base branch too
+  (checked in the clean worktree); it is news-by-rider's.
 
 **Open, for the owner** (built the conservative way; recommended first):
 1. The Béxar family's wedding: (a) the priest from La Bahía, as for every Tejano family (as built); (b) Béxar's own parish priest.

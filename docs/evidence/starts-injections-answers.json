@@ -1,0 +1,377 @@
+{
+  "record": "starts-injections",
+  "date": "2026-09-30",
+  "files": [
+    "tests/starts.test.mjs",
+    "tests/starts-bexar.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "Victoria is not seated: a class of five has no Tejano family",
+      "files": [
+        "sim/starts.mjs"
+      ],
+      "expect": "a class that deals starts seats Victoria, whose families are Tejano; one of Liberty's is free Black from ten families; the first of each is among the first six to join",
+      "spring": false,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "a class that deals starts seats Victoria, whose families are Tejano; one of Liberty's is free Black from ten families; the first of each is among the first six to join",
+        "a lone parent's new husband or wife is of the family's start: tone, name and the family they come from",
+        "the start's story is told once, at its moment: the law to a free Black family only, and the ending's last line",
+        "a Tejano family is married by the priest from La Bahía; an Anglo-American or a free Black family by bond"
+      ]
+    },
+    {
+      "name": "Victoria's families are dealt as Anglo-American",
+      "files": [
+        "sim/starts.mjs"
+      ],
+      "expect": "a class that deals starts seats Victoria, whose families are Tejano; one of Liberty's is free Black from ten families; the first of each is among the first six to join",
+      "spring": false,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "a class that deals starts seats Victoria, whose families are Tejano; one of Liberty's is free Black from ten families; the first of each is among the first six to join",
+        "moving a start early exchanges only two families on the same side of the burn zone, and keeps every family's land",
+        "names are dealt from the start's own pools, and a Tejano family plants corn",
+        "a lone parent's new husband or wife is of the family's start: tone, name and the family they come from",
+        "the start's story is told once, at its moment: the law to a free Black family only, and the ending's last line",
+        "a Tejano family is married by the priest from La Bahía; an Anglo-American or a free Black family by bond"
+      ]
+    },
+    {
+      "name": "every family is married by bond",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "a Tejano family is married by the priest from La Bahía; an Anglo-American or a free Black family by bond",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a Tejano family is married by the priest from La Bahía; an Anglo-American or a free Black family by bond"
+      ]
+    },
+    {
+      "name": "the priest's wedding is told as the bond",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "a Tejano family is married by the priest from La Bahía; an Anglo-American or a free Black family by bond",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a Tejano family is married by the priest from La Bahía; an Anglo-American or a free Black family by bond"
+      ]
+    },
+    {
+      "name": "no family is dealt near Béxar",
+      "files": [
+        "sim/starts.mjs"
+      ],
+      "expect": "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town",
+      "spring": false,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town",
+        "a family near Béxar is told what it hears of the war at its door, once each, at its moment, and nobody else is",
+        "a family near Béxar is asked by Seguín from its own land when the army comes near, and its man rides from home to the army",
+        "near Béxar the word to leave comes from Seguín's men, and a rancho left in a rush is burned by Santa Anna's foragers, not the Texas army"
+      ]
+    },
+    {
+      "name": "the family near Béxar is dealt outside the burn zone",
+      "files": [
+        "sim/colonies-region.mjs"
+      ],
+      "expect": "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town"
+      ]
+    },
+    {
+      "name": "land by the missions is taken for the Béxar family",
+      "files": [
+        "sim/starts.mjs"
+      ],
+      "expect": "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town"
+      ]
+    },
+    {
+      "name": "the family near Béxar is dealt as Anglo-American",
+      "files": [
+        "sim/starts.mjs"
+      ],
+      "expect": "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town",
+      "spring": false,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town",
+        "a family near Béxar is told what it hears of the war at its door, once each, at its moment, and nobody else is",
+        "a family near Béxar is asked by Seguín from its own land when the army comes near, and its man rides from home to the army",
+        "near Béxar the word to leave comes from Seguín's men, and a rancho left in a rush is burned by Santa Anna's foragers, not the Texas army"
+      ]
+    },
+    {
+      "name": "Béxar has no store",
+      "files": [
+        "sim/town.mjs"
+      ],
+      "expect": "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town"
+      ]
+    },
+    {
+      "name": "every family is told the war at Béxar's door",
+      "files": [
+        "sim/start-story.mjs"
+      ],
+      "expect": "a family near Béxar is told what it hears of the war at its door, once each, at its moment, and nobody else is",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a family near Béxar is told what it hears of the war at its door, once each, at its moment, and nobody else is"
+      ]
+    },
+    {
+      "name": "the Béxar family is told each line again and again",
+      "files": [
+        "sim/start-story.mjs"
+      ],
+      "expect": "a family near Béxar is told what it hears of the war at its door, once each, at its moment, and nobody else is",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a family near Béxar is told what it hears of the war at its door, once each, at its moment, and nobody else is"
+      ]
+    },
+    {
+      "name": "the Béxar family does not know of the Alamo's fall till the express",
+      "files": [
+        "sim/start-story.mjs"
+      ],
+      "expect": "a family near Béxar is told what it hears of the war at its door, once each, at its moment, and nobody else is",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a family near Béxar is told what it hears of the war at its door, once each, at its moment, and nobody else is"
+      ]
+    },
+    {
+      "name": "the Béxar family's ending is De León's colony's",
+      "files": [
+        "sim/start-story.mjs"
+      ],
+      "expect": "a family near Béxar is told what it hears of the war at its door, once each, at its moment, and nobody else is",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a family near Béxar is told what it hears of the war at its door, once each, at its moment, and nobody else is"
+      ]
+    },
+    {
+      "name": "Seguín's call is answered at a gathering place that is not the family's land",
+      "files": [
+        "sim/calls.mjs"
+      ],
+      "expect": "a family near Béxar is asked by Seguín from its own land when the army comes near, and its man rides from home to the army",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a family near Béxar is asked by Seguín from its own land when the army comes near, and its man rides from home to the army"
+      ]
+    },
+    {
+      "name": "a man who answered Seguín at home never sets out after the army",
+      "files": [
+        "sim/army.mjs"
+      ],
+      "expect": "a family near Béxar is asked by Seguín from its own land when the army comes near, and its man rides from home to the army",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a family near Béxar is asked by Seguín from its own land when the army comes near, and its man rides from home to the army"
+      ]
+    },
+    {
+      "name": "the word to leave near Béxar says the Mexican army is coming",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expect": "near Béxar the word to leave comes from Seguín's men, and a rancho left in a rush is burned by Santa Anna's foragers, not the Texas army",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "near Béxar the word to leave comes from Seguín's men, and a rancho left in a rush is burned by Santa Anna's foragers, not the Texas army"
+      ]
+    },
+    {
+      "name": "the Texas army burns a rancho near Béxar",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expect": "near Béxar the word to leave comes from Seguín's men, and a rancho left in a rush is burned by Santa Anna's foragers, not the Texas army",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "near Béxar the word to leave comes from Seguín's men, and a rancho left in a rush is burned by Santa Anna's foragers, not the Texas army"
+      ]
+    },
+    {
+      "name": "the rancho hears the bell only within three miles",
+      "files": [
+        "sim/surprise.mjs"
+      ],
+      "expect": "near Béxar the word to leave comes from Seguín's men, and a rancho left in a rush is burned by Santa Anna's foragers, not the Texas army",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "near Béxar the word to leave comes from Seguín's men, and a rancho left in a rush is burned by Santa Anna's foragers, not the Texas army"
+      ]
+    },
+    {
+      "name": "a Tejano man in the garrison is not one of Seguín's men",
+      "files": [
+        "sim/tejano.mjs"
+      ],
+      "expect": "a Tejano man in the winter garrison is with Seguín's men, and on the night of February 25 rides out of the Alamo with Seguín",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a Tejano man in the winter garrison is with Seguín's men, and on the night of February 25 rides out of the Alamo with Seguín"
+      ]
+    },
+    {
+      "name": "nobody rides out with Seguín",
+      "files": [
+        "sim/directors.mjs"
+      ],
+      "expect": "a Tejano man in the winter garrison is with Seguín's men, and on the night of February 25 rides out of the Alamo with Seguín",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a Tejano man in the winter garrison is with Seguín's men, and on the night of February 25 rides out of the Alamo with Seguín"
+      ]
+    },
+    {
+      "name": "the Alamo's word calls him a courier with Travis's letters",
+      "files": [
+        "sim/alamo.mjs"
+      ],
+      "expect": "a Tejano man in the winter garrison is with Seguín's men, and on the night of February 25 rides out of the Alamo with Seguín",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a Tejano man in the winter garrison is with Seguín's men, and on the night of February 25 rides out of the Alamo with Seguín"
+      ]
+    },
+    {
+      "name": "a Tejano woman in the Alamo rides out with Seguín",
+      "files": [
+        "sim/tejano.mjs"
+      ],
+      "expect": "a woman of a Tejano family shut in the Alamo is not made one of Seguín's men and does not ride out with him",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a woman of a Tejano family shut in the Alamo is not made one of Seguín's men and does not ride out with him"
+      ]
+    },
+    {
+      "name": "a poor Tejano family comes with a cart",
+      "files": [
+        "sim/means.mjs"
+      ],
+      "expect": "a Tejano family of the poorest means comes with a carreta, drawn as Astra's carreta, that carries as the cart does",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a Tejano family of the poorest means comes with a carreta, drawn as Astra's carreta, that carries as the cart does"
+      ]
+    },
+    {
+      "name": "the carreta is drawn as a cart",
+      "files": [
+        "sim/world.mjs"
+      ],
+      "expect": "a Tejano family of the poorest means comes with a carreta, drawn as Astra's carreta, that carries as the cart does",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a Tejano family of the poorest means comes with a carreta, drawn as Astra's carreta, that carries as the cart does"
+      ]
+    },
+    {
+      "name": "the pack screen calls the carreta a cart",
+      "files": [
+        "sim/wagon.mjs"
+      ],
+      "expect": "a Tejano family of the poorest means comes with a carreta, drawn as Astra's carreta, that carries as the cart does",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a Tejano family of the poorest means comes with a carreta, drawn as Astra's carreta, that carries as the cart does"
+      ]
+    },
+    {
+      "name": "an Anglo family's cart may be drawn as a carreta",
+      "files": [
+        "sim/means.mjs"
+      ],
+      "expect": "a Tejano family of the poorest means comes with a carreta, drawn as Astra's carreta, that carries as the cart does",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a Tejano family of the poorest means comes with a carreta, drawn as Astra's carreta, that carries as the cart does"
+      ],
+      "note": "Missed on the harness run (the test found no poor Anglo family in its seed and skipped the check); the test was made to choose a class with one, and the injection re-run by hand on 2026-09-30 failed that test alone."
+    },
+    {
+      "name": "words are put in their mouths",
+      "files": [
+        "sim/start-story.mjs"
+      ],
+      "expect": "on the road east a family passes enslaved people, drawn where it is and told once, and hears of escapes at a crossing",
+      "spring": true,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "in the spring a Tejano family's man may join Seguín's company in Houston's army, and nobody else's may",
+        "on the road east a family passes enslaved people, drawn where it is and told once, and hears of escapes at a crossing"
+      ]
+    }
+  ]
+}

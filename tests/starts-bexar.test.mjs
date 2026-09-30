@@ -174,7 +174,9 @@ test('a Tejano family of the poorest means comes with a carreta, drawn as Astra\
     const candidate = colonies(`carreta-${n}`, 10);
     const one = Object.values(candidate.households).find(household => household.heritage === 'tejano');
     const roll = meansRoll(candidate.seed, one.id);
-    if (roll >= 3 && roll <= 6) { world = candidate; tejano = one; }
+    // A poor Anglo-American family in the same class too, to hold a cart that is not a carreta.
+    const poorAnglo = Object.values(candidate.households).some(household => household.heritage === 'anglo' && meansRoll(candidate.seed, household.id) >= 3 && meansRoll(candidate.seed, household.id) <= 6);
+    if (roll >= 3 && roll <= 6 && poorAnglo) { world = candidate; tejano = one; }
   }
   assert.ok(tejano, 'no poor Tejano family found');
   rollFamily(world, tejano);
@@ -186,10 +188,11 @@ test('a Tejano family of the poorest means comes with a carreta, drawn as Astra\
   assert.equal(seen.carreta, true, 'drawn as the carreta');
   // An Anglo-American family's cart is a cart.
   const anglo = Object.values(world.households).find(household => household.heritage === 'anglo' && meansRoll(world.seed, household.id) >= 3 && meansRoll(world.seed, household.id) <= 6);
-  if (anglo) { rollFamily(world, anglo); assert.equal(wagonsOf(world, anglo)[0].style, undefined); assert.equal(vehicleWord(anglo), 'cart'); }
+  rollFamily(world, anglo);
+  const [theirs] = wagonsOf(world, anglo);
+  assert.equal(theirs.cart, true); assert.equal(theirs.style, undefined); assert.equal(vehicleWord(anglo), 'cart');
   validateWorld(world);
-  const other = Object.values(world.households).find(household => household.heritage === 'anglo' && !household.roll);
-  rollFamily(world, other);
-  const theirs = wagonsOf(world, other)[0];
-  if (theirs) { theirs.cart = true; theirs.style = 'carreta'; assert.throws(() => validateWorld(world), /Invalid cart/); }
+  // An Anglo-American family's cart may not be made a carreta.
+  theirs.style = 'carreta';
+  assert.throws(() => validateWorld(world), /Invalid cart/);
 });
