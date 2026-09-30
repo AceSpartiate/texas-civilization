@@ -1,0 +1,141 @@
+{
+  "record": "tier2-classroom-injections",
+  "date": "2026-09-30",
+  "verdict": "PASS",
+  "tests": [
+    "tests/order-batch.test.mjs",
+    "tests/shared-address.test.mjs",
+    "tests/rejoin.test.mjs",
+    "tests/suggest.test.mjs",
+    "tests/qr.test.mjs"
+  ],
+  "results": [
+    {
+      "name": "orders made one at a time, not gathered",
+      "caught": true,
+      "failed": [
+        "thirty orders pressed together are answered and made exactly as one at a time would be, refusals and all, in fewer commits"
+      ]
+    },
+    {
+      "name": "one refused order refuses its whole batch",
+      "caught": true,
+      "failed": [
+        "thirty orders pressed together are answered and made exactly as one at a time would be, refusals and all, in fewer commits"
+      ]
+    },
+    {
+      "name": "a refused batch not put back before it is made again",
+      "caught": true,
+      "failed": [
+        "thirty orders pressed together are answered and made exactly as one at a time would be, refusals and all, in fewer commits"
+      ]
+    },
+    {
+      "name": "an order shown from inside its own commit",
+      "caught": true,
+      "failed": [
+        "thirty orders pressed together are answered and made exactly as one at a time would be, refusals and all, in fewer commits"
+      ]
+    },
+    {
+      "name": "the gap counted from the start of the last broadcast",
+      "caught": true,
+      "failed": [
+        "orders are shown by a timer that leaves the server half its time: never inside the order, and never sooner than the last took"
+      ]
+    },
+    {
+      "name": "wrong tries counted per address again",
+      "caught": true,
+      "failed": [
+        "guessing keys becomes expensive, and a key from an archived class opens nothing",
+        "one student mistyping five times waits; the rest of the room behind the same address comes back at once",
+        "a right answer clears only its own device, and a malformed cookie is a new device, not a way round the count",
+        "brute force stays expensive: a script that drops its cookie meets the address's count, which a right code never clears"
+      ]
+    },
+    {
+      "name": "no count behind the cookie: a script that drops it guesses freely",
+      "caught": true,
+      "failed": [
+        "brute force stays expensive: a script that drops its cookie meets the address's count, which a right code never clears"
+      ]
+    },
+    {
+      "name": "a right answer clears the address's count too",
+      "caught": true,
+      "failed": [
+        "brute force stays expensive: a script that drops its cookie meets the address's count, which a right code never clears"
+      ]
+    },
+    {
+      "name": "nothing suggested to survey",
+      "caught": true,
+      "failed": [
+        "ten acres to survey: open ground first, on the family's land, apart from each other, each accepted and each sendable",
+        "plots to clear and to fence: the family's own, the ones that work can go to now, nearest the house first"
+      ]
+    },
+    {
+      "name": "a site suggested without laying its lane",
+      "caught": true,
+      "failed": [
+        "house sites: up to three on the family's own land, each one the server accepts when it is looked at and when it is chosen"
+      ]
+    },
+    {
+      "name": "a plot offered whatever the work says of it",
+      "caught": true,
+      "failed": [
+        "plots to clear and to fence: the family's own, the ones that work can go to now, nearest the house first"
+      ]
+    },
+    {
+      "name": "the route answers without a family's land",
+      "caught": true,
+      "failed": [
+        "the server offers them to the family on /api/suggest, to its own land only, and refuses the Host and an unknown job"
+      ]
+    },
+    {
+      "name": "the QR code's blocks not interleaved",
+      "caught": true,
+      "failed": [
+        "every reference code is made bit for bit: the data, the error correction, the blocks, the patterns and the version"
+      ]
+    },
+    {
+      "name": "the QR code's format written without its mask",
+      "caught": true,
+      "failed": [
+        "every reference code is made bit for bit: the data, the error correction, the blocks, the patterns and the version",
+        "the mask chosen by itself is one of the eight, written in the format bits, at level M, and the rest of the code agrees with it"
+      ]
+    },
+    {
+      "name": "the join card shut in the lobby",
+      "caught": true,
+      "proof": "test:join-card",
+      "failed": "locator.waitFor: Timeout 15000ms exceeded. |   name: 'TimeoutError'"
+    },
+    {
+      "name": "the QR code without the class code",
+      "caught": true,
+      "proof": "test:join-card",
+      "failed": "AssertionError [ERR_ASSERTION]: the QR code on the page is the address with the class code, made by public/qr.js |   code: 'ERR_ASSERTION',"
+    },
+    {
+      "name": "no suggested places on the page",
+      "caught": true,
+      "proof": "test:keyboard-farm",
+      "failed": "page.waitForFunction: Timeout 15000ms exceeded. |   name: 'TimeoutError'"
+    },
+    {
+      "name": "Enter on the map does nothing",
+      "caught": true,
+      "proof": "test:keyboard-farm",
+      "failed": "page.waitForFunction: Timeout 15000ms exceeded. |   name: 'TimeoutError'"
+    }
+  ]
+}

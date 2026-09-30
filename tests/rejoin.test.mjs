@@ -172,14 +172,19 @@ test('guessing keys becomes expensive, and a key from an archived class opens no
     const host = await call('/api/host', { key: app.state.hostKey });
     const families = await fiveFamilies(call, app);
     const key = families[0].body.familyKey;
+    // One browser, which keeps the door's cookie it is given with its first wrong try, as a browser does (triage 2.15).
+    let door = null;
     for (let attempt = 0; attempt < 5; attempt++) {
-      assert.equal((await call('/api/rejoin', { key: '22222222' })).status, 403, `wrong key ${attempt + 1} is refused`);
+      const wrong = await call('/api/rejoin', { key: '22222222' }, door);
+      assert.equal(wrong.status, 403, `wrong key ${attempt + 1} is refused`);
+      door ??= wrong.cookie;
     }
-    const throttled = await call('/api/rejoin', { key: '33333333' });
+    assert.match(door, /^tr_door=[0-9a-f]{32}$/, 'the device is given its own count');
+    const throttled = await call('/api/rejoin', { key: '33333333' }, door);
     assert.equal(throttled.status, 429);
     assert.match(throttled.body.error, /Too many tries/);
     // A real key is throttled too: the cooldown is on the guessing, not on the guess.
-    assert.equal((await call('/api/rejoin', { key })).status, 429);
+    assert.equal((await call('/api/rejoin', { key }, door)).status, 429);
 
     // New Class rotates the session, and the key was derived from it.
     await call('/api/command', { id: 'host-new-class-rejoin', action: 'new-class' }, host.cookie);
@@ -336,7 +341,7 @@ test('a family somebody is playing is not on the away list and cannot be taken f
 });
 
 test('coming back wants the class code, and working through codes shuts the door', async () => {
-  // Its own classroom, because the cooldown is per address and this test deliberately trips it.
+  // Its own classroom, because this test deliberately trips the cooldown (per device since triage 2.15).
   const { app, dispose } = classroom();
   const call = caller(await app.listen());
   try {
@@ -348,15 +353,15 @@ test('coming back wants the class code, and working through codes shuts the door
     assert.match(noCode.body.error, /class code/);
     // And a run of wrong codes costs what a run of guessed keys costs: the door shuts, so the class's names cannot be
     // scraped by working through codes.
-    let shut = null;
+    let shut = null, door = noCode.cookie;
     for (let tries = 0; tries < 6 && !shut; tries++) {
-      const again = await call('/api/away', { code: 'NOPE' });
+      const again = await call('/api/away', { code: 'NOPE' }, door);
       if (again.status === 429) shut = again;
     }
     assert.ok(shut, 'a wrong class code can be tried for ever');
     assert.match(shut.body.error, /Too many tries/);
     // Shut for everything that door guards, the right code included, until it reopens.
-    const rightCode = await call('/api/away', { code: app.state.sessionCode });
+    const rightCode = await call('/api/away', { code: app.state.sessionCode }, door);
     assert.equal(rightCode.status, 429, 'the cooldown let the next try through');
   } finally { await dispose(); }
 });
