@@ -712,7 +712,8 @@ export function sickWords(person) {
 }
 
 /** A person who died of a sickness as a child: never named on the Host's projector (the owner, 2026-09-27). */
-export const diedAChild = person => person.health?.condition === 'dead' && Boolean(person.health.disease) && ageOf(person) < 16;
+// A child who died of hunger is never named there either (owner, 2026-09-30; sim/hunger.mjs, `health.starved`).
+export const diedAChild = person => person.health?.condition === 'dead' && Boolean(person.health.disease || person.health.starved) && ageOf(person) < 16;
 
 /** The class's sickness in words, for the Host's class panel: how many sick of each, never who (§3.12). */
 export function classSickness(world) {

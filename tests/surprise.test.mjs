@@ -19,6 +19,7 @@ import { beginSecondPeriod } from '../sim/periods.mjs';
 import { dateOf, momentOf } from '../sim/directors.mjs';
 import { hostEnding, familyEnding } from '../sim/ending.mjs';
 import { NEAR_BEXAR_MILES, REVEAL } from '../sim/surprise.mjs';
+import { feed } from './support/fed.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const host = world => projectWorld(world, undefined, 'host', { includeMap: false });
@@ -36,7 +37,8 @@ const winter = () => structuredClone(shared ??= (() => {
   beginSecondPeriod(world);
   world.status = 'running';
   until(world, () => world.director.milestones['winter-news']);
-  return world;
+  // Fed: the tests make these families played through the winter, and a played family can starve (tests/support/fed.mjs).
+  return feed(world);
 })());
 const alive = person => !['dead', 'captured'].includes(person.health.condition);
 const grownMan = person => person.householdId && person.kind === 'person' && person.sex === 'male' && (person.age ?? 30) >= 16 && alive(person);

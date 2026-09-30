@@ -30,6 +30,7 @@ import { lapseSupply, supplyAskFor } from './supplies.mjs';
 import { questionWaits, sendOnFrom } from './encounters.mjs';
 import { actingId } from './acting.mjs';
 import { STUDY_TICK_MS } from './crops.mjs';
+import { starveLimitKey, starveOnLimit } from './hunger.mjs';
 
 /** Real milliseconds an unanswered military question may stay open. A server option or `DECISION_BUDGET_MS` overrides it. */
 export const DECISION_BUDGET_MS = 90_000;
@@ -146,7 +147,7 @@ export function spendDecisionBudget(world, realMs, { budgetMs = DECISION_BUDGET_
 // - The page counts each down on its "!" from the real time left (`limitLeft`, projected as `leftMs`).
 
 /** Real milliseconds each question on a real-time limit waits for its student. A server option (`questionBudgets`) overrides any of them. */
-export const QUESTION_BUDGETS = Object.freeze({ rider: 90_000, flight: 180_000, alto: 30_000, road: 90_000, work: 90_000, grave: 60_000 });
+export const QUESTION_BUDGETS = Object.freeze({ rider: 90_000, flight: 180_000, alto: 30_000, road: 90_000, work: 90_000, grave: 60_000, starve: 60_000 });
 /**
  * The real time a question waiting behind a rider must still have in front of the student once he has gone, before the calendar
  * closes it (owner, 2026-09-29, "Rider leaves at dawn"; sim/encounters.mjs `riderMustGo`): the ninety seconds every other
@@ -227,6 +228,8 @@ export function openLimits(world) {
   for (const entity of Object.values(world.entities || {})) {
     if (workOnLimit(world, entity)) open.push({ key: workLimitKey(entity, entity.chore.ask), kind: 'work', personId: entity.id });
     if (graveOnLimit(world, entity)) open.push({ key: graveLimitKey(entity), kind: 'grave', personId: entity.id });
+    // Starving (owner, 2026-09-30; sim/hunger.mjs `starveHeld`, `FIC-GONZ-997`): the same minute, before hunger may kill them.
+    if (starveOnLimit(world, entity)) open.push({ key: starveLimitKey(entity), kind: 'starve', personId: entity.id });
   }
   return open;
 }

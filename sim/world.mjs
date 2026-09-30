@@ -102,6 +102,7 @@ import { fieldInvalid } from './crops.mjs';
 import { quickestOf, quickestWay, shownWays, waysFor } from './going.mjs';
 import { toolsInvalid } from './tools.mjs';
 import { fellingInvalid, logsLeftOut, logsProjection, recordFelling } from './felling.mjs';
+import { advanceHunger, diedQuietly, hungerInvalid, hungerShown, hungerStride, larderShown } from './hunger.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, defaultNames, familyProjection, familyRoll, FAMILY_DIE, FAMILY_TABLE, tableOf, compositionFor,rolledWords, householdName, kinFor, mainPersonId, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { clearedOf, improvementsOf, ruin } from './improvements.mjs';
@@ -603,7 +604,9 @@ export function progressTravel(world, entity, units = 1) {
   // tick's riding anyway, and a family a mile and a half off has always heard on the tick the
   // rider reached it. Nothing about a class on the invented country changes.
   const stretched = paced > units;
-  const reach = entity.courier && stretched && wasAt === 0 ? Math.min(travel.speed * paced, travel.distance / 2) : travel.speed * paced;
+  // Weak or starving with hunger, slower on the road; the family's road east at its weakest walker's pace (sim/hunger.mjs).
+  const stride = entity.householdId ? hungerStride(world, entity) : 1;
+  const reach = entity.courier && stretched && wasAt === 0 ? Math.min(travel.speed * paced, travel.distance / 2) : travel.speed * paced * stride;
   // Slower over hard ground where the journey has any (sim/ground.mjs); what is left past the end goes on with a relayed word.
   const moved = moveOnGround(travel.points, travel.pace, travel.distance, travel.progress, reach);
   travel.progress = moved.progress;
@@ -743,6 +746,9 @@ export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs
   sendMendedHome(world, { beginTravel });
   // The families on the road east (sim/scrape.mjs): the rivers, the food, the sickness, arriving.
   advanceFlight(world, calendar);
+  // What the eating at home and on the road left each played family's people (sim/hunger.mjs, owner 2026-09-30): a stage said
+  // once, and a death of hunger after a sustained stretch - never inside a real minute of their being said to be starving.
+  advanceHunger(world);
   // A family with nobody who can act is taken in by its nearest neighbours and goes where they go; and anybody of a family left
   // behind when it went is told where, and follows (sim/acting.mjs, 2026-09-28).
   advanceTakenIn(world, { beginTravel });
@@ -1289,9 +1295,13 @@ function projectHousehold(world, household) {
   delete shown.courtship;
   // The family's start is on the family book (`projectFamily`, fetched), not the tick: it never changes.
   delete shown.heritage;
+  // What the story has already said of the family's hunger (sim/hunger.mjs): the server's bookkeeping; the rows carry the stage.
+  delete shown.hungerTold;
   return { ...shown, ...(main !== household.principalId && { mainId: main }),
     ...(acting && acting.id !== main && { actingId: acting.id }), ...(acting?.how === 'child' && { steppedUp: true }),
-    ...(taken && { takenIn: { householdId: taken.id, name: householdName(world, taken), ids: [...household.takenIn.ids] } }) };
+    ...(taken && { takenIn: { householdId: taken.id, name: householdName(world, taken), ids: [...household.takenIn.ids] } }),
+    // The family's food as a gauge (sim/hunger.mjs `larderShown`): days it lasts at today's eating, and the worst stage among them.
+    ...(household.played && larderShown(world, household)) };
 }
 /**
  * Who of the family could nurse this very sick person right now, each with the work that would do it: nursing at home, or halting
@@ -1360,11 +1370,14 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
     // The sickness in words (sim/disease.mjs): the row's line, very sick for the "!", the warning for work, and who has had the
     // measles for the card. Never a chance or a weight.
     ...(e.kind === 'person' ? sicknessShown(world, e) : {}),
+    // Hungry, weak or starving (sim/hunger.mjs): the stage the row is coloured by, and while a starving person's minute runs, its
+    // real time left for the "!". Absent while fed.
+    ...(e.kind === 'person' ? hungerShown(world, e) : {}),
     // Somebody very sick: who of the family could nurse them now (design audit S34, 2026-09-28), which the sick person's "!" opens.
     ...(e.kind === 'person' && e.health?.grave && household && { nurses: nursesFor(world, household, e) }),
     // Somebody of the family who died of a sickness is told in one plain sentence and not drawn (the owner, 2026-09-27): sent with
     // no place, as somebody away is, so the page has nothing to draw them at and nothing to decide.
-    ...(e.kind === 'person' && e.health?.condition === 'dead' && e.health.disease && { location: null }),
+    ...(e.kind === 'person' && diedQuietly(e) && { location: null }),
     // Away with the family at the neighbours' farms (sim/courtship.mjs): sent with no place, as somebody away on the road is, so
     // the family's own map draws them nowhere until they are home.
     ...(e.visiting && { visiting: true, location: null }),
@@ -1732,7 +1745,7 @@ export function validateWorld(world) {
   if (badRunner) throw new Error(badRunner);
   const badChildren = childrenInvalid(world) || childhoodInvalid(world) || babiesInvalid(world) || flightWorkInvalid(world) || actingInvalid(world);
   if (badChildren) throw new Error(badChildren);
-  const badLedger = neighbourlyInvalid(world);
+  const badLedger = neighbourlyInvalid(world) || hungerInvalid(world);
   if (badLedger) throw new Error(badLedger);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');

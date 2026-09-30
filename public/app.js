@@ -4,7 +4,7 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
-import { actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace } from '/family-panel.js';
+import { actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { TIPS, tipToShow, tipsToReread } from '/tips.js';
 import { mountErrand } from '/errand.js';
@@ -4151,45 +4151,106 @@ $('#host-goto')?.addEventListener('change', event => {
   const townAt = drawnAt ? { x: site.x + median(drawnAt.map(p => p.x)), y: site.y + median(drawnAt.map(p => p.y)) } : null;
   if (site) applyMapView(siteId, { street: site.kind === 'town', at: site.kind === 'town' ? townAt : at });
 });
+// The food gauge's last level, for its flash when a worse one is reached (owner, 2026-09-30; docs/HUNGER.md §5), and the timer
+// that ends the flash. Up here, above the page's start-up, for the TDZ rule (tests/page-startup.test.mjs).
+let larderWas = null, larderFlashTimer = 0;
+/** The gauge's parts inside `#food`, made once: a sack, the number, and the bar of days. */
+function larderParts(box) {
+  if (!box.querySelector('.food-count')) {
+    const icon = element('span', '', 'food-icon'), count = element('span', '', 'food-count'), gauge = element('span', '', 'food-gauge');
+    icon.setAttribute('aria-hidden', 'true'); gauge.setAttribute('aria-hidden', 'true');
+    gauge.append(element('span', '', 'food-gauge-fill'));
+    box.replaceChildren(icon, count, gauge);
+    box.setAttribute('role', 'meter'); box.setAttribute('aria-valuemin', '0'); box.setAttribute('aria-valuemax', '14');
+  }
+  return { count: box.querySelector('.food-count'), fill: box.querySelector('.food-gauge-fill') };
+}
+/**
+ * The family's food (sim/hunger.mjs `larderShown`): "Food 15.5" as ever, a bar of the days it lasts at the family's eating, and the
+ * box coloured by where that stands - calm, amber, red, then glowing and pulsing as the family is hungry, weak and starving. It
+ * flashes once when a worse level is reached. Its words are only the hover and the screen reader's (`larderLabel`).
+ */
+function paintLarder(household) {
+  const box = $('#food');
+  if (!household) { if (!box.hidden) box.hidden = true; larderWas = null; return; }
+  const { count, fill } = larderParts(box);
+  if (box.hidden) box.hidden = false;
+  const food = Number(household.resources?.food || 0);
+  setText(count, `Food ${food.toFixed(1)}`);
+  const larder = household.larder || null;
+  const level = larderLevel(larder, food) || '';
+  setData(box, 'level', level);
+  const share = String(Math.round(larderFill(larder) * 100) / 100);
+  if (fill.style.getPropertyValue('--fill') !== share) fill.style.setProperty('--fill', share);
+  const label = larderLabel(larder, food, level);
+  if (box.getAttribute('aria-valuetext') !== label) { box.setAttribute('aria-valuetext', label); box.setAttribute('aria-label', 'Food'); box.title = label; }
+  const now = String(Math.min(14, Math.max(0, Number.isFinite(larder?.days) ? Math.round(larder.days) : 14)));
+  if (box.getAttribute('aria-valuenow') !== now) box.setAttribute('aria-valuenow', now);
+  if (larderWorse(larderWas, level)) {
+    setData(box, 'flash', 'true');
+    clearTimeout(larderFlashTimer);
+    larderFlashTimer = setTimeout(() => setData(box, 'flash', 'false'), 2600);
+  }
+  larderWas = level || null;
+}
+/** The line of seed, powder, coin and the field: each part its own span, highlighted by `level` (out, low, good, ready, idle). */
+function paintSupplies(parts) {
+  const box = $('#supplies');
+  const shape = parts.map(part => part.key).join('|');
+  if (box.dataset.parts !== shape) {
+    box.replaceChildren(...parts.flatMap((part, at) => {
+      const span = element('span', '', 'supply'); span.dataset.supply = part.key;
+      return at ? [document.createTextNode(' · '), span] : [span];
+    }));
+    box.dataset.parts = shape;
+  }
+  const spans = box.querySelectorAll('.supply');
+  parts.forEach((part, at) => { setText(spans[at], part.text); setData(spans[at], 'level', part.level || ''); });
+  if (box.hidden !== !parts.length) box.hidden = !parts.length;
+}
 function renderHousehold(world) {
   const household = world.household;
   if (!household) {
     // The Host's look at somebody stays open and follows them tick by tick (read only, `renderSelection`).
     if (hostView(world)) renderSelection(world); else $('#selection').hidden = true;
-    $('#family-panel').hidden = true; hidePanelTip(); $('#food').textContent = ''; $('#supplies').textContent = ''; return;
+    $('#family-panel').hidden = true; hidePanelTip(); paintLarder(null); paintSupplies([]); return;
   }
   $('#family-title').textContent = headingCase(familyCache?.name || 'Your family');
   renderFamilyBook();
   renderSurname();
-  $('#food').textContent = `Food ${Number(household.resources?.food || 0).toFixed(1)}`;
+  // The food as a gauge (owner, 2026-09-30; docs/HUNGER.md §5): the number as ever, a bar of the days it lasts, and a colour from
+  // calm to red that glows, then pulses, as the family goes hungry, weak and starving. No sentence.
+  paintLarder(household);
   // Seed, the field and the hoe are the three things that run out. They sit on the map
   // as one quiet line, because a student needs to notice them without being told to.
+  // Each is highlighted by where it stands (owner, 2026-09-30): run out in ember, low in amber, the crop ready in gold.
   const field = household.field, hoe = world.toolCondition?.hoe;
-  const supplies = [`Seed ${Number(household.resources?.seed || 0).toFixed(0)}`];
+  const seed = Number(household.resources?.seed || 0);
+  const supplies = [{ key: 'seed', text: `Seed ${seed.toFixed(0)}`, level: seed <= 0 ? (field?.state === 'bare' || !field ? 'out' : 'low') : seed < 2 ? 'low' : '' }];
   // Powder and cotton are shown only when a family has some. Powder because a house that
   // has run out needs to know before it sends somebody hunting; cotton because a corn
   // family never has any and a line reading "Cotton 0" all afternoon is furniture.
   const powder = Number(household.resources?.powder || 0);
-  supplies.push(`Powder ${powder.toFixed(0)}`);
+  supplies.push({ key: 'powder', text: `Powder ${powder.toFixed(0)}`, level: powder <= 0 ? 'out' : powder < 2 ? 'low' : '' });
   const cotton = Number(household.resources?.cotton || 0);
-  if (cotton > 0) supplies.push(`Cotton ${cotton.toFixed(0)}`);
+  if (cotton > 0) supplies.push({ key: 'cotton', text: `Cotton ${cotton.toFixed(0)}`, level: 'good' });
   // Coin is always shown, including none: it is scarce, and it is half of how a family ends.
   const coin = Number(household.resources?.money || 0);
-  supplies.push(coin === 1 ? '1 real' : `${coin} reales`);
-  if (field) supplies.push(field.state === 'ripe' ? `${field.crop} ready` : field.state === 'planted' ? `${field.crop} growing` : 'field bare');
-  if (hoe?.state === 'worn') supplies.push('hoe worn out');
-  if (household.load && household.tools?.hoe === undefined) supplies.push('no hoe');
+  supplies.push({ key: 'coin', text: coin === 1 ? '1 real' : `${coin} reales`, level: coin <= 0 ? 'low' : '' });
+  if (field) supplies.push({ key: 'field', text: field.state === 'ripe' ? `${field.crop} ready` : field.state === 'planted' ? `${field.crop} growing` : 'field bare', level: field.state === 'ripe' ? 'ready' : field.state === 'planted' ? 'good' : 'idle' });
+  if (hoe?.state === 'worn') supplies.push({ key: 'hoe', text: 'hoe worn out', level: 'out' });
+  if (household.load && household.tools?.hoe === undefined) supplies.push({ key: 'hoe', text: 'no hoe', level: 'out' });
   // Water, where it is carried from far off (sim/homesite.mjs): said while it slows the family, and gone once there is a well.
   const site = world.land?.site;
-  if (site?.needsWell && !site.well) supplies.push(site.water ? `water carried ${site.waterMiles} mi` : 'no running water near');
-  if (site?.well) supplies.push('well');
+  if (site?.needsWell && !site.well) supplies.push({ key: 'water', text: site.water ? `water carried ${site.waterMiles} mi` : 'no running water near', level: 'low' });
+  if (site?.well) supplies.push({ key: 'water', text: 'well', level: '' });
   // Logs: at the house, and still lying where they were felled (sim/felling.mjs). Said once there are any.
   const logs = world.land?.logs;
   if (logs) {
     const piled = logs.wall + logs.sill + logs.poor;
-    supplies.push(`logs ${piled} at the house${logs.lying ? `, ${logs.lying} lying out` : ''}`);
+    supplies.push({ key: 'logs', text: `logs ${piled} at the house${logs.lying ? `, ${logs.lying} lying out` : ''}`, level: '' });
   }
-  $('#supplies').textContent = supplies.join(' · ');
+  paintSupplies(supplies);
   $('#supplies').dataset.urgent = String(field?.state === 'ripe' || hoe?.state === 'worn');
   const people = entitiesOf(world).filter(entity => entity.kind === 'person' && (household.members || []).includes(entity.id))
     .sort((a, b) => Number(b.id === household.principalId) - Number(a.id === household.principalId));
@@ -4950,10 +5011,14 @@ function renderFamilyPanel(world) {
     if (row.attention.getAttribute('aria-label') !== needLabel) { row.attention.setAttribute('aria-label', needLabel); row.attention.title = needLabel; }
     const canLead = !(entity.age < 10) && !['dead', 'captured'].includes(entity.health?.condition);
     // What pressing it does, which is what the star does (owner, 2026-09-29).
-    const portraitLabel = `${entity.name}, ${role}${age}${focused ? ', your main person' : ''}${bar ? ', selected' : ''}. ${focused ? `Go back to ${entity.name}` : `Make ${entity.name} your main person`}, follow them and show their actions${need ? '; somebody is waiting on them' : ''}.`;
+    // Hungry, weak or starving (sim/hunger.mjs): the row's colour, the bowl on the portrait, and a word for the reader and the hover.
+    const hunger = hungerOf(entity);
+    setData(row.item, 'hunger', hunger);
+    if (row.hungerMark.hidden !== (hunger === 'fed')) row.hungerMark.hidden = hunger === 'fed';
+    const portraitLabel = `${entity.name}, ${role}${age}${HUNGER_WORDS[hunger] ? `, ${HUNGER_WORDS[hunger]}` : ''}${focused ? ', your main person' : ''}${bar ? ', selected' : ''}. ${focused ? `Go back to ${entity.name}` : `Make ${entity.name} your main person`}, follow them and show their actions${need ? '; somebody is waiting on them' : ''}.`;
     if (row.portrait.getAttribute('aria-label') !== portraitLabel) row.portrait.setAttribute('aria-label', portraitLabel);
     // What only the card said of them (owner 2026-09-29: the card is gone): a lasting wound, and having had the measles.
-    const about = [entity.name, ...(entity.marks || []), entity.hadMeasles && 'has had the measles'].filter(Boolean).join(' · ');
+    const about = [entity.name, HUNGER_WORDS[hunger], ...(entity.marks || []), entity.hadMeasles && 'has had the measles'].filter(Boolean).join(' · ');
     if (row.portrait.title !== about) row.portrait.title = about;
     row.portrait.setAttribute('aria-pressed', String(bar));
     const focusLabel = focused ? `Go back to ${entity.name}, your main person` : `Make ${entity.name} your main person`;
@@ -5236,7 +5301,10 @@ function renderHostLive(snapshot, host) {
       // The guided start, only when the student stopped it or took it back up (owner, 2026-09-22): a line of words, never
       // a banner, a sound or an alert, and not a live region either - the teacher reads it when they look.
       // A child lost to sickness, counted and not named (the owner, 2026-09-27; sim/host.mjs).
-      const lost = row.lost ? [element('p', `${row.lost === 1 ? 'A child' : `${row.lost} children`} of this family died of sickness.`, 'host-lost')] : [];
+      // And of hunger (owner, 2026-09-30; sim/hunger.mjs): the same count, said apart.
+      const children = n => (n === 1 ? 'A child' : `${n} children`);
+      const sickLost = (row.lost || 0) - (row.lostHunger || 0);
+      const lost = [...(sickLost > 0 ? [element('p', `${children(sickLost)} of this family died of sickness.`, 'host-lost')] : []), ...(row.lostHunger ? [element('p', `${children(row.lostHunger)} of this family died of hunger.`, 'host-lost')] : [])];
       item.append(head, ...(row.guided ? [element('p', row.guided, 'host-guided')] : []), people, ...lost);
       return item;
     }));
@@ -5546,7 +5614,14 @@ function panelRow(id) {
   sickCanvas.setAttribute('aria-hidden', 'true');
   sickMark.append(sickCanvas);
   sickMark.hidden = true;
-  portrait.append(canvas, star, idleMark, sickMark);
+  // Hunger on the portrait (sim/hunger.mjs, owner 2026-09-30): the face tinted and ringed by the stage, and an empty bowl in its
+  // corner coloured the same - amber hungry, ember weak, red and pulsing starving (public/style.css `data-hunger`). No words.
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-30 "the hunger mark" - a bowl drawn in the style sheet until Astra's
+  // `mark-hunger` is registered.
+  const hungerMark = element('span', '', 'panel-hunger-mark');
+  hungerMark.setAttribute('aria-hidden', 'true');
+  hungerMark.hidden = true;
+  portrait.append(canvas, star, idleMark, sickMark, hungerMark);
   // The "!": its own button beside the portrait (a button cannot hold a button), shown only while somebody waits on them.
   const attention = panelMark('button', '!', 'panel-attention', 'mark-need');
   attention.type = 'button';
@@ -5622,7 +5697,7 @@ function panelRow(id) {
   const makeMain = element('button', '', 'panel-make-main');
   makeMain.type = 'button';
   makeMain.dataset.focus = id;
-  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, idle, house, focus, auto, autoSays, life, sick, sickMark, word, note, why, away, makeMain, face: null, iconsKey: null };
+  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, idle, house, focus, auto, autoSays, life, sick, sickMark, hungerMark, word, note, why, away, makeMain, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }
@@ -7019,7 +7094,7 @@ function renderMilitaryNotice(world) {
   write('#military-eyebrow', notice.kind === 'call' && world.request?.kind !== 'call' ? 'Asked of the family' : EYEBROWS[notice.kind] || '');
   militaryDeadline = Number.isFinite(notice.leftMs) ? performance.now() + notice.leftMs : null;
   // Somebody very sick has a minute in which they cannot die (owner, 2026-09-29, C4): the time is the time to nurse them.
-  militaryLeftTo = notice.kind === 'sick' ? 'to nurse them' : 'to answer';
+  militaryLeftTo = notice.kind === 'sick' ? 'to nurse them' : notice.kind === 'hunger' ? 'to find food' : 'to answer';
   paintMilitaryLeft();
   const icon = $('#military-icon');
   if (icon && icon.dataset.drawn !== `${ICONS[notice.kind]}:${spriteFrame(ICONS[notice.kind]) ? 1 : 0}`) {

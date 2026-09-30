@@ -18,7 +18,9 @@ const view = (world, householdId) => projectWorld(world, householdId, 'student',
 const people = ids => ids.map(id => ({ id, name: id.toUpperCase(), kind: 'person' }));
 
 test('every "!" of the column is in one order, the most urgent first, numbered, with ties broken by the time left', () => {
-  assert.deepEqual(NEED_KINDS.slice(0, 6), ['alto', 'road', 'flight', 'sick', 'rider', 'call'], 'the owner\'s order is not the order');
+  // Somebody starving (owner, 2026-09-30; sim/hunger.mjs) goes in beside somebody very sick; the owner's order of the rest holds.
+  assert.deepEqual(NEED_KINDS.filter(kind => kind !== 'hunger').slice(0, 6), ['alto', 'road', 'flight', 'sick', 'rider', 'call'], 'the owner\'s order is not the order');
+  assert.equal(NEED_KINDS.indexOf('hunger'), NEED_KINDS.indexOf('sick') + 1, 'somebody starving is not ranked beside somebody very sick');
   assert.ok(NEED_KINDS.indexOf('call') < NEED_KINDS.indexOf('army'), 'the army\'s questions come before the call');
   const world = {
     role: 'student', household: { mainId: 'f', principalId: 'f' },

@@ -19,6 +19,7 @@ import { learn } from './knowledge.mjs';
 import { expireCalls } from './calls.mjs';
 import { momentOf } from './directors.mjs';
 import { eatenADay } from './family.mjs';
+import { recoverOverWinter } from './hunger.mjs';
 import { closeLessons } from './lesson.mjs';
 import { settleExpresses } from './expresses.mjs';
 
@@ -153,6 +154,8 @@ export function beginSecondPeriod(world) {
     const floor = Math.min(food, eaten * WINTER_FLOOR_DAYS);
     if (household.resources) household.resources.food = round(Math.max(floor, food - eaten * days));
   }
+  // An ordinary winter's eating: everybody comes out of it fed (sim/hunger.mjs, owner 2026-09-30).
+  recoverOverWinter(world);
   // The army went home in December; nobody is in it over the winter.
   if (world.army) world.army.members = [];
 

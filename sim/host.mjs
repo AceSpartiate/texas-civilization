@@ -147,6 +147,8 @@ export function familiesOverview(world, guidedOf = () => null) {
       name: person.name, role: person.kin?.role || (person.principal ? 'principal' : ''), where: whereWords(world, person, household),
     })),
     ...(household.members.some(id => diedAChild(world.entities[id] || {})) && { lost: household.members.filter(id => diedAChild(world.entities[id] || {})).length }),
+    // How many of them died of hunger (owner, 2026-09-30; sim/hunger.mjs), so the panel says which.
+    ...(household.members.some(id => diedAChild(world.entities[id] || {}) && world.entities[id].health.starved) && { lostHunger: household.members.filter(id => diedAChild(world.entities[id] || {}) && world.entities[id].health.starved).length }),
   }));
 }
 

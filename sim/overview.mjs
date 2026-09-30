@@ -17,6 +17,7 @@
 // being named here.
 import { seatOfTravel } from './company.mjs';
 import { householdName } from './family.mjs';
+import { diedQuietly } from './hunger.mjs';
 import { seenAs } from './town.mjs';
 import { interiorProjection } from './interior.mjs';
 import { facingOf, goneFromSight } from './encounters.mjs';
@@ -121,10 +122,11 @@ function overviewLand(world, household) {
  */
 export function hostOverview(world) {
   return {
-    // Somebody who died of a sickness is not drawn, nor named under a figure on the projector (the owner, 2026-09-27, sim/disease.mjs).
+    // Somebody who died of a sickness is not drawn, nor named under a figure on the projector (the owner, 2026-09-27, sim/disease.mjs);
+    // nor somebody who died of hunger (the owner, 2026-09-30, sim/hunger.mjs).
     // Not a messenger whose errand is done and who has gone (sim/town.mjs `observedBy` says the same for a student): a rider
     // ridden home, or Travis's runner back inside the colonel's quarters.
-    everyone: Object.values(world.entities).filter(entity => entity.location && !goneFromSight(entity) && !(entity.health?.condition === 'dead' && entity.health.disease)).map(entity => overviewEntity(world, entity)),
+    everyone: Object.values(world.entities).filter(entity => entity.location && !goneFromSight(entity) && !diedQuietly(entity)).map(entity => overviewEntity(world, entity)),
     lands: Object.fromEntries(Object.values(world.households).map(household => [household.id, overviewLand(world, household)])),
     ...(world.army && { army: { phase: world.army.phase, x: round(world.army.x), y: round(world.army.y), strength: world.army.members.length, ...(world.army.camp && { camp: world.army.camp }) } }),
   };

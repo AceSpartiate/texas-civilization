@@ -1981,3 +1981,16 @@ another icon sends it; a tap on the map after arming sends nothing; a mouse pres
 Same computer, emulated touch in headless Chrome: no touch Chromebook. The `leaves` warning in the popup is the note the hover
 already showed (the D-S14 row of docs/audits/2026-09-29-triage.md); no proof here builds a lone father with small children to
 see it tapped.
+
+## 22. Hunger on the row, and the food as a gauge — owner 2026-09-30 (not released)
+
+> "update the ui to better facilitate player awareness of where the family resources stand and the severity of consequences of
+> running out. do it with highlights, colors, etc. don't use text and over explain." — the owner, 2026-09-30
+
+The rules are [HUNGER.md](HUNGER.md); what the panel does (§5 there): the row carries `data-hunger` (`hungry`, `weak`, `starving`)
+from the server's `hunger.stage`, which rings and tints the portrait - amber, ember, a pulsing red - and shows an empty bowl in its
+top-right corner (`.panel-hunger-mark`, a stand-in drawn in the style sheet; the sick badge keeps the top-left, the idle mark the
+bottom-right). The portrait's hover and label gain one word. Somebody starving carries the "!" (kind `hunger`, ranked after very
+sick) with the real minute counted down, and the story card (*No food*, accent `hunger`). Above the column the food chip is a gauge
+of the days the food lasts, and the line of seed, powder, coin and the field lights each part by where it stands. No new sentence
+on the row. Proof: `npm run test:hunger`.

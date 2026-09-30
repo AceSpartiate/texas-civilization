@@ -1,5 +1,79 @@
 # Claude handoff — Astra foundation
 
+## A family can starve, and the food as a gauge — owner, 2026-09-30 (not released)
+
+Branch `starvation` off `integration-2026-09-28` (ba5ccc6a); not pushed. The owner changed an earlier answer: *"player
+characters *can* die of starvation. players should have to ensure there's enough food. when you update this, also update the ui to
+better facilitate player awareness of where the family resources stand and the severity of consequences of running out. do it with
+highlights, colors, etc. don't use text and over explain."* Amends the answer "Leave it" (docs/BALANCE.md §16.2) and the rule that
+nobody died of hunger at home. The design is [docs/HUNGER.md](docs/HUNGER.md); `FIC-GONZ-995` to `-999`. **Same computer only: no
+Chromebook, LAN or classroom claim.**
+
+- **The rule** (`sim/hunger.mjs`). Each person of a played family carries days of want, counted where the family's store is eaten
+  from (sim/routines.mjs at home, sim/scrape.mjs on the road - one call each) by the share of the day the store and the day's work
+  could not cover, times their weight. Hungry on a day short; **weak at 5** days (work ×1.5, road pace ×0.75, not sent to fight);
+  **starving at 10** (work ×2, pace ×0.5, the "!" and a story card); **dead at 16**, about a third of the record's weeks so it can
+  happen in class. A day fed wins two back. The weakest first: a baby 2.5, a child under six 2, under sixteen 1.25, sixty and over
+  1.5, sick ×1.5, very sick ×2, children fed first (×0.75) with a grown person eating with them.
+- **The minute**: nobody dies of hunger within **60 real seconds** of being said to be starving (`QUESTION_BUDGETS.starve`, the very
+  sick's clock). **The director's families**: a family nobody plays never starves; a family whose student has gone has its want
+  held where it stood (the director forages for it) until the student is back. The winter ends with everybody fed.
+- **The death** is the death by sickness: one sentence (*"… died of hunger at home, and was buried there."*), not drawn, a child
+  never named on the projector (`diedAChild` counts `health.starved`; the class panel says *"A child of this family died of
+  hunger."*), the flashback by who they were, the class's video counts it apart from sickness and the war (`diedQuietly`).
+- **The page** (no new sentences): the food chip is a gauge - a sack, *Food 15.5*, a bar of the days the food lasts - calm, gold,
+  amber, ember, red, a steady red glow while weak and a pulse while starving, flashing once when a worse level comes; seed, powder,
+  coin and the field each lit by where they stand; portraits ringed and tinted amber, ember and pulsing red with a bowl on the
+  face; the starving person's "!" counts the minute down and the story card (*No food*, "… is starving", *"About 1 min left to
+  find food."*). Reduced motion: no pulse or flash, a heavier ring. Stand-in: the bowl and the sack (docs/ART_REQUESTS.md, request
+  2026-09-30, B13).
+- **No save version.** `person.hunger`, `health.starved` and `household.hungerTold` are absent on every class saved before, which
+  reads as fed.
+
+**The measure** (`npm run study:hunger`, four classes of fifteen each way, all three periods; docs/HUNGER.md §8):
+
+| Per class | idle student | playing student |
+| --- | --- | --- |
+| Deaths by hunger | **161.8 of 161.8 people** (the first about day 18-23) | **3.3** - none at home, all on the road east, children under six |
+| Families losing somebody | 15 of 15 | 1 of 15 |
+
+**Evidence**
+
+- `tests/hunger.test.mjs`, 16 tests (and `need-ranking`, `family-commands` updated for the new "!" kind); `npm run test:hunger-injections`: **24 of 24 caught by the test written for them (16 by that test alone)**
+  ([record](docs/evidence/hunger-injections.json)).
+- `npm run test:hunger` ([record](docs/evidence/hunger-browser.json)): 8 checks - the gauge's colour at each of seven levels, the
+  portraits marked hungry, weak and starving, the "!" with its minute and the story card with its icon, reduced motion, clear of
+  everything at 1366x768, 1024x600 and 400x800, the first death 61-62 s after the family was first starving, no page errors.
+  Screenshots `docs/evidence/hunger-plenty-1366.png`, `-fair-`, `-low-`, `-short-`, `-empty-`, `-weak-`, `-starving-1366.png`,
+  `hunger-starving-card-1366.png`, `hunger-starving-reduced-motion-1366.png`, `hunger-starving-1024x600.png`,
+  `hunger-starving-phone.png`, `hunger-death-1366.png`.
+- Proofs: `test:whole-game` 15, `test:solo-game` 16, `test:family-panel` 23, `test:overlap` (197 screens, 0 faults), `test:scrape` 7,
+  `test:ending` 10 - all green. **`test:disease` fails at its second step** (the patient's sick line, 20 s), exactly as it does on
+  `ba5ccc6a` without this branch (run from a copy of that tree the same day): not this change's; its fixer is another builder.
+- `npm test`: **1891 tests, 1854 pass, 1 fail, 36 skipped** (the suspended tutorial). The one is `battle-bexar`'s *"killed: … is told only
+  when the word comes"* ("the word of the victory never reached his family"), which fails the same way on `ba5ccc6a` (run from a copy
+  of that tree): not this change's.
+- **Tests and proofs fed, not weakened**: a class stepped in process is the director's, which leaves families with an empty store;
+  the tests that make such families played and step them on for weeks now feed them (`tests/support/fed.mjs`: scrape-spring,
+  scrape-scene, bexar, and the spring classes of mexican-advance, scrape, road, surprise and starts). `test:whole-game` and
+  `test:solo-game` set one grown person to bring food in (fishing, small game, oysters or a bee tree) and check nobody of the family
+  starved by the spring: before that their family, everybody on auto at the first icon, **starved - seven of eight by the spring**.
+  road.test's "a real buys food" empties the store first, as the family had before it was fed.
+
+**Open, for the owner** (recommended first):
+
+1. *A student who gives no orders loses the whole family in the first period* (every family measured; the first store empty about
+   day 8, some 55 real minutes into the class at Study, and the first child dead about day 22, some 8 minutes after). (a) Keep it: it is what the owner asked, and the gauge, the rings and the
+   "!" say so for minutes before anyone dies; (b) a floor: working about the place always feeds the one doing it (0.35), so the
+   grown survive an idle autumn and the children are what is lost; (c) slower for an idle family - count want at half while
+   anybody is working about the place.
+2. *Small children still die on the road east for a family that plays as the director does* (3.3 a class, one family in fifteen).
+   (a) Keep it: the road was where the Scrape's families suffered, and fishing, hunting and trading on the road are there to be used;
+   (b) the refuges feed families a little (the relief the committees organised), so a family at a refuge cannot starve;
+   (c) the director's road policy fishes and hunts when short, which would bring the measure down but not a student's.
+3. *A family overtaken at a refuge loses its food with its goods and then starves there* unless it forages (seen in
+   tests/scrape.test.mjs). (a) Keep it; (b) the column leaves a family a few days' food.
+
 ## The art as WebP, a Tips button, and tap-then-send on touch — triage D14, D16, D17, owner 2026-09-29 (not released)
 
 Branch `webp-tips-touch` off origin/main 67d674bb, merged with origin/main ca6ac201 and again 8687a96b; not pushed. The owner

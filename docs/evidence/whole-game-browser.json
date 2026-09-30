@@ -12,30 +12,31 @@
     "8 of the family set to auto from the panel: Amos Proofwright, Mahala Proofwright, Nieves Proofwright, Jonas Proofwright, Simeon Proofwright, Lavinia Proofwright, Docia Proofwright, Teodoro Proofwright",
     "4 orders given from the panel and taken",
     "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Amos Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (2185 ticks, 240.2 s)",
+    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (2167 ticks, 244.5 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
     "Amos Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241920 (300 ticks, 34.4 s)",
+    "the second period ended on its own at minute 241920 (300 ticks, 51.9 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
+    "nobody of the family starved by the spring, Mahala Proofwright bringing food in on fish-the-water",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (1923 ticks, 367.6 s)",
+    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (931 ticks, 386.7 s)",
     "no page errors on either page across the whole game"
   ],
   "measured": {
     "periods": {
       "first": {
-        "ticks": 2185,
-        "seconds": 240.2,
+        "ticks": 2167,
+        "seconds": 244.5,
         "endedAtMinute": 114060
       },
       "second": {
         "ticks": 300,
-        "seconds": 34.4,
+        "seconds": 51.9,
         "endedAtMinute": 241920
       },
       "third": {
-        "ticks": 1923,
-        "seconds": 367.6,
+        "ticks": 931,
+        "seconds": 386.7,
         "endedAtMinute": 302580
       }
     },
@@ -59,6 +60,11 @@
       "Docia Proofwright",
       "Teodoro Proofwright"
     ],
+    "fisher": {
+      "id": "hh-1-parent-2",
+      "key": "fish-the-water",
+      "auto": true
+    },
     "orders": [
       {
         "id": "hh-1-parent-1",
@@ -67,7 +73,7 @@
       },
       {
         "id": "hh-1-parent-2",
-        "key": "cut-lane",
+        "key": "fish-the-water",
         "took": true
       },
       {
@@ -95,23 +101,24 @@
       "service": {
         "kind": "auxiliary-year",
         "status": "serving",
-        "since": 177840,
+        "since": 179280,
         "siteId": "san-felipe",
         "acres": 320
       }
     },
+    "starved": [],
     "flight": {
       "answeredBy": "hh-1-parent-2",
       "refuge": "lynchburg",
       "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer before the time on the “!” runs out, "
     },
     "ending": {
-      "host": "THE END OF THE STORY × The flashbacks This server keeps no videos: it was started without a save folder. Look up one family's flashback How the families finished the Proofwright family finished first, with a final number of 679. Family Who went Heard of the cannon Heard the Alamo fell In the spring ",
-      "family": "THE END OF THE STORY × Our story, looking back This server keeps no videos: it was started without a save folder. The story in words 1835–1836. This is the story of the Proofwright family, from the fall of 1835 to the spring of 1836. September 28, 1835. Amos and Mahala came to new land near Columbia",
+      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 643. Family Who went Heard of the cannon Heard the Alamo fell In the spring Farm Taken prisoner Coin Glory Land Final the Proofwright family Amos Proofwright, Mahala Proofwright October 2 M",
+      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 3 reales GLORY 208 FINAL NUMBER 643 3 reales × (1 + 208 glory) + 16 reales of land (320 acres promised) = 643 The family had 3 reales. The farm was burned, so there was nothing to sell; it counts 40 glory, which is in the glory below. 2",
       "flight": "returning",
       "minute": 302580
     },
-    "totalSeconds": 642.2
+    "totalSeconds": 683.0999999999999
   },
   "screenshots": [
     "docs/evidence/whole-game-at-work.png",

@@ -882,3 +882,14 @@ choice on the triage's C4, **"60 s minimum"**: *"cannot die within about 60 real
 Tested in `tests/owner-rules.test.mjs` (the same day's roll that kills a child nobody plays kills nobody inside the minute; the
 days wait; after the minute the chance applies; the clock starts, is shown on the "!" and the card, runs out, and is held for
 nobody at no screen), each seen failing by injection (`npm run test:owner-rules-injections`).
+
+## 12. Amendment, 2026-09-30 — hunger can kill (owner-decided; not released)
+
+> "player characters *can* die of starvation. players should have to ensure there's enough food." — the owner, 2026-09-30
+
+Until today hunger only doubled the weight of a sickness (§3.5, `homeContext`, `sicknessWeight`), and nobody died of hunger at home.
+That doubling stays; **hunger now also kills on its own**, in stages - hungry, weak, starving, dead after sixteen days of want for a
+grown person and sooner for the young, the old and the sick - with the very sick's real minute (§11) before any death by it.
+A death by hunger follows this document's death by sickness: one plain sentence, nothing drawn, and a child never named on the
+projector (`diedAChild` now counts `health.starved`). The design, the timings and the measurement are [HUNGER.md](HUNGER.md);
+the code is `sim/hunger.mjs`.

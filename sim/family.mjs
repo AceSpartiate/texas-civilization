@@ -527,8 +527,10 @@ export const cannotAnswerWhy = entity => `${entity.name} is too young to answer 
  * force, riding upriver to Gonzales, the winter's enlistments, the garrison, the expedition, the relief and Houston's army.
  * Going to see, helping, the vote's own rule, the road east and every chore are untouched.
  */
-export const canFight = entity => canAnswerCalls(entity) && entity.sex !== 'female';
-export const cannotFightWhy = entity => entity.sex === 'female' ? `${entity.name} does not go to the fighting; in 1835 that was the men's.` : cannotAnswerWhy(entity);
+// Nor somebody weak or starving with hunger (owner, 2026-09-30; sim/hunger.mjs `tooWeakToFight`, read here as the stage it stores).
+const weakWithHunger = entity => ['weak', 'starving'].includes(entity?.hunger?.stage);
+export const canFight = entity => canAnswerCalls(entity) && entity.sex !== 'female' && !weakWithHunger(entity);
+export const cannotFightWhy = entity => entity.sex === 'female' ? `${entity.name} does not go to the fighting; in 1835 that was the men's.` : weakWithHunger(entity) && canAnswerCalls(entity) ? `${entity.name} is too weak with hunger to fight.` : cannotAnswerWhy(entity);
 
 /**
  * How much longer the family's food lasts for the best housekeeper at home.

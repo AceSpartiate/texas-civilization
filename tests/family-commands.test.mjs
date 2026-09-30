@@ -98,7 +98,7 @@ test('a call and an army question are "!"s on whoever may answer them, and nothi
   // sick, a rider who will ride on, the call, the army, Houston's camp, Travis asking for riders, work asking, a small child whose
   // auto went off (owner, 2026-09-29), an offer.
   const everything = {
-    entities: [{ ...entity, autoOff: true, chore: { ask: { id: 'shot' } }, service: { kind: 'garrison', status: 'serving', besieged: true, courier: 'open', leave: 'open' }, sickness: { grave: true, line: 'Very sick with the measles.' } }], request: call, army: army('open'),
+    entities: [{ ...entity, autoOff: true, chore: { ask: { id: 'shot' } }, service: { kind: 'garrison', status: 'serving', besieged: true, courier: 'open', leave: 'open' }, sickness: { grave: true, line: 'Very sick with the measles.' }, hunger: { stage: 'starving' } }], request: call, army: army('open'),
     encounter: { status: 'open', listenerId: 'a', carrierName: 'Ben' }, offers: [{ direction: 'received', ourEntityId: 'a', theirName: 'Cy' }],
     flight: { status: 'ordered', ask: { id: 'bog', text: 'The wagon is fast in the mud.' } }, household: { mainId: 'a' },
   };

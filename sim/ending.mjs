@@ -21,6 +21,7 @@ import { findPath } from './geography.mjs';
 import { GLORY_MILES_STEP, GLORY_WEIGHT, distanceMultiplier } from './glory.mjs';
 import { automatic } from './neighbours.mjs';
 import { householdName } from './family.mjs';
+import { diedQuietly } from './hunger.mjs';
 import { dateOf } from './directors.mjs';
 import { canContinue, interimStandings, nextPeriodLabel } from './periods.mjs';
 import { landPromised } from './winter.mjs';
@@ -364,7 +365,8 @@ export const DISCUSSION = Object.freeze([
 // anybody under 18 here, wider than the class panel's sixteen (sim/disease.mjs `diedAChild`): the design audit (M23) found it for
 // the ten- to seventeen-year-olds a family can send (`SENT_FROM_AGE`, sim/family.mjs), and "Who went" is the war's list.
 export const UNNAMED_UNDER = 18;
-const unnamedOnProjector = person => person?.health?.condition === 'dead' && Boolean(person.health.disease) && (Number.isFinite(person.age) ? person.age : 30) < UNNAMED_UNDER;
+// A child who starved is left out the same way (owner, 2026-09-30, sim/hunger.mjs `diedQuietly`).
+const unnamedOnProjector = person => diedQuietly(person) && (Number.isFinite(person.age) ? person.age : 30) < UNNAMED_UNDER;
 
 /**
  * The Host's closing view: every family, in household order, with its three numbers and the facts

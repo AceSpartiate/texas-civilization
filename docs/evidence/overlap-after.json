@@ -69,8 +69,8 @@
   "summary": {
     "screens": 197,
     "faults": 0,
-    "allowed": 222,
-    "bubblesMeasured": 45,
+    "allowed": 226,
+    "bubblesMeasured": 27,
     "bubblesUnderAPanel": 1
   },
   "faults": [],
@@ -87,12 +87,11 @@
     "student story-cards 400x780: ability bar and map buttons share 263x9px",
     "student story-cards 400x780: ability bar and sound button share 33x9px",
     "student story-cards 400x780: ability bar and map framing share 147x17px",
-    "student story-cards 400x780: messages and first-meeting tip share 318x22px",
     "student story-cards 400x780: \"panel-name-hh-1-parent-1\" in family: row 1 under messages",
     "student story-cards 400x780: \"Let Paz Proofwright decide for themself:\" in family: row 1 under messages",
     "student story-cards 400x780: \"Go back to Paz Proofwright, your main pe\" in family: row 1 under messages",
     "student rooms-asked 400x780: status: session and messages share 125x4px",
-    "student rooms-asked 400x780: status: food and messages share 6x27px",
+    "student rooms-asked 400x780: status: food and messages share 78x27px",
     "student rooms-asked 400x780: status: supplies and messages share 225x27px",
     "student rooms-asked 400x780: family: fold and messages share 38x20px",
     "student rooms-asked 400x780: family: row 1 and messages share 299x44px",
@@ -123,15 +122,15 @@
   ],
   "bubbles": [
     {
-      "where": "student town-scene-asked 1366x657",
-      "what": "bubble \"Flatboat and canoes, every one\"",
-      "under": "site chooser",
-      "share": 0.25,
+      "where": "student town-scene-asked 1280x800",
+      "what": "bubble \"Some say give it back and have\"",
+      "under": "town scene",
+      "share": 0.05,
       "box": {
-        "x": 399,
-        "y": 478,
-        "w": 231,
-        "h": 42
+        "x": 650,
+        "y": 388,
+        "w": 227,
+        "h": 27
       }
     }
   ],
@@ -147,7 +146,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -186,7 +185,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -225,7 +224,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -264,7 +263,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -303,7 +302,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -341,7 +340,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -380,7 +379,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -417,7 +416,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -454,7 +453,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -491,7 +490,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -528,7 +527,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -564,7 +563,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -601,7 +600,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -640,7 +639,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -679,7 +678,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -718,7 +717,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -757,7 +756,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -794,7 +793,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -833,7 +832,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,209 109x20",
         "family: row 1 12,237 48x48",
@@ -874,7 +873,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,209 109x20",
         "family: row 1 12,237 48x48",
@@ -915,7 +914,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,209 109x20",
         "family: row 1 12,237 48x48",
@@ -956,7 +955,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,209 109x20",
         "family: row 1 12,237 48x48",
@@ -997,7 +996,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,209 109x20",
         "family: row 1 12,237 48x48",
@@ -1011,7 +1010,8 @@
         "messages 682,44 330x195",
         "error line 12,167 232x35",
         "person card 418,8 256x232",
-        "site chooser 129,209 281x145"
+        "site chooser 129,209 281x145",
+        "first-meeting tip 493,299 519x55"
       ],
       "overlaps": [],
       "covered": [],
@@ -1036,7 +1036,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,209 109x20",
         "family: row 1 12,237 48x48",
@@ -1077,7 +1077,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1117,7 +1117,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1157,7 +1157,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1197,7 +1197,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1237,7 +1237,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1276,7 +1276,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1316,7 +1316,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1359,7 +1359,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1398,7 +1398,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1437,7 +1437,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1476,7 +1476,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1515,7 +1515,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1558,7 +1558,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1597,7 +1597,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1671,7 +1671,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1744,7 +1744,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1818,7 +1818,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1891,7 +1891,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -1958,7 +1958,7 @@
       "drawn": [
         "status: session 12,12 178x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -2032,8 +2032,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,396 300x48",
         "family: row 2 12,449 300x48",
@@ -2070,8 +2070,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,256 300x48",
         "family: row 2 12,309 300x48",
@@ -2108,12 +2108,12 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,396 300x48",
-        "family: row 2 12,449 300x48",
-        "family: row 3 12,502 300x48",
+        "family: row 2 12,449 300x64",
+        "family: row 3 12,518 300x36",
         "lone parent ability 16,201 296x103",
         "house card 16,317 296x68",
         "ability bar 280,562 720x174",
@@ -2146,15 +2146,14 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
-        "family: row 1 12,256 300x48",
-        "family: row 2 12,309 300x64",
-        "family: row 3 12,378 300x50",
+        "family: row 1 12,256 300x111",
+        "family: row 2 12,371 300x72",
         "lone parent ability 16,196 147x54",
         "house card 171,196 137x35",
-        "ability bar 280,451 720x174",
+        "ability bar 560,451 160x174",
         "journal button 758,631 104x44",
         "map buttons 870,631 396x44",
         "sound button 704,631 46x44",
@@ -2184,12 +2183,12 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
-        "family: fold 12,169 100x20",
-        "family: row 1 12,256 300x98",
-        "lone parent ability 16,196 147x54",
-        "house card 171,196 137x35",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
+        "family: fold 12,167 100x9",
+        "family: row 1 12,243 300x111",
+        "lone parent ability 16,183 147x54",
+        "house card 171,183 137x35",
         "ability bar 432,362 160x174",
         "journal button 502,542 104x44",
         "map buttons 614,542 396x44",
@@ -2220,8 +2219,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,556 300x111",
         "family: row 2 12,672 300x80",
@@ -2258,8 +2257,8 @@
       "drawn": [
         "status: session 12,12 246x36",
         "status: world 264,16 83x27",
-        "status: food 12,54 74x27",
-        "status: supplies 12,87 345x27",
+        "status: food 12,54 146x27",
+        "status: supplies 12,87 349x27",
         "family: fold 12,123 100x20",
         "family: row 1 12,350 361x95",
         "family: row 2 12,449 361x44",
@@ -2301,8 +2300,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,354 300x111",
         "family: row 2 12,470 300x52",
@@ -2338,8 +2337,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,256 300x111",
         "family: row 2 12,371 300x40",
@@ -2375,8 +2374,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,354 300x111",
         "family: row 2 12,470 300x80",
@@ -2412,8 +2411,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: row 1 12,331 300x111",
         "lone parent ability 16,178 58x61",
         "house card 16,253 296x68",
@@ -2447,8 +2446,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: row 1 12,233 300x111",
         "family: row 2 12,348 300x6",
         "lone parent ability 16,173 46x54",
@@ -2483,8 +2482,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,439 300x111",
         "family: row 2 12,555 300x80",
@@ -2521,8 +2520,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,279 300x48",
         "family: row 2 12,332 300x80",
@@ -2538,8 +2537,8 @@
       "overlaps": [
         "status: session x lone parent scenes 252x38",
         "status: world x lone parent scenes 94x31",
-        "status: food x lone parent scenes 85x31",
-        "status: supplies x lone parent scenes 378x31",
+        "status: food x lone parent scenes 157x31",
+        "status: supplies x lone parent scenes 382x31",
         "family: fold x lone parent scenes 100x20",
         "family: row 1 x lone parent scenes 300x48",
         "family: row 2 x lone parent scenes 300x80",
@@ -2599,8 +2598,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,279 300x48",
         "family: row 2 12,332 300x80",
@@ -2611,14 +2610,13 @@
         "map buttons 956,599 396x44",
         "sound button 790,599 46x44",
         "map framing 12,634 147x17",
-        "first-meeting tip 551,363 576x55",
         "lone parent scenes 0,0 1366x657"
       ],
       "overlaps": [
         "status: session x lone parent scenes 252x38",
         "status: world x lone parent scenes 94x31",
-        "status: food x lone parent scenes 85x31",
-        "status: supplies x lone parent scenes 378x31",
+        "status: food x lone parent scenes 157x31",
+        "status: supplies x lone parent scenes 382x31",
         "family: fold x lone parent scenes 100x20",
         "family: row 1 x lone parent scenes 300x48",
         "family: row 2 x lone parent scenes 300x80",
@@ -2627,8 +2625,7 @@
         "journal button x lone parent scenes 104x44",
         "map buttons x lone parent scenes 396x44",
         "sound button x lone parent scenes 46x44",
-        "map framing x lone parent scenes 147x17",
-        "first-meeting tip x lone parent scenes 576x55"
+        "map framing x lone parent scenes 147x17"
       ],
       "covered": [
         "\"Paz Proofwright, mother, 40, your main p\" in family: row 1 under lone parent scenes",
@@ -2651,8 +2648,7 @@
         "\"Gonzales\" in map buttons under lone parent scenes",
         "\"Béxar\" in map buttons under lone parent scenes",
         "\"Zoom in\" in map buttons under lone parent scenes",
-        "\"Zoom out\" in map buttons under lone parent scenes",
-        "\"Got it: put this tip away\" in first-meeting tip under lone parent scenes"
+        "\"Zoom out\" in map buttons under lone parent scenes"
       ],
       "offScreen": [],
       "canvas": [],
@@ -2675,8 +2671,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,279 300x48",
         "family: row 2 12,332 300x80",
@@ -2693,8 +2689,8 @@
       "overlaps": [
         "status: session x lone parent scenes 252x38",
         "status: world x lone parent scenes 94x31",
-        "status: food x lone parent scenes 85x31",
-        "status: supplies x lone parent scenes 378x31",
+        "status: food x lone parent scenes 157x31",
+        "status: supplies x lone parent scenes 382x31",
         "family: fold x lone parent scenes 100x20",
         "family: row 1 x lone parent scenes 300x48",
         "family: row 2 x lone parent scenes 300x80",
@@ -2756,8 +2752,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,279 300x48",
         "family: row 2 12,332 300x80",
@@ -2768,13 +2764,14 @@
         "map buttons 870,631 396x44",
         "sound button 704,631 46x44",
         "map framing 12,666 147x17",
+        "first-meeting tip 508,395 576x55",
         "lone parent scenes 0,0 1280x689"
       ],
       "overlaps": [
         "status: session x lone parent scenes 252x38",
         "status: world x lone parent scenes 94x31",
-        "status: food x lone parent scenes 85x31",
-        "status: supplies x lone parent scenes 378x31",
+        "status: food x lone parent scenes 157x31",
+        "status: supplies x lone parent scenes 382x31",
         "family: fold x lone parent scenes 100x20",
         "family: row 1 x lone parent scenes 300x48",
         "family: row 2 x lone parent scenes 300x80",
@@ -2784,7 +2781,8 @@
         "journal button x lone parent scenes 104x44",
         "map buttons x lone parent scenes 396x44",
         "sound button x lone parent scenes 46x44",
-        "map framing x lone parent scenes 147x17"
+        "map framing x lone parent scenes 147x17",
+        "first-meeting tip x lone parent scenes 576x55"
       ],
       "covered": [
         "\"Paz Proofwright, mother, 40, your main p\" in family: row 1 under lone parent scenes",
@@ -2811,7 +2809,8 @@
         "\"Gonzales\" in map buttons under lone parent scenes",
         "\"Béxar\" in map buttons under lone parent scenes",
         "\"Zoom in\" in map buttons under lone parent scenes",
-        "\"Zoom out\" in map buttons under lone parent scenes"
+        "\"Zoom out\" in map buttons under lone parent scenes",
+        "\"Got it: put this tip away\" in first-meeting tip under lone parent scenes"
       ],
       "offScreen": [],
       "canvas": [],
@@ -2834,8 +2833,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,279 300x48",
         "family: row 2 12,332 300x29",
@@ -2851,8 +2850,8 @@
       "overlaps": [
         "status: session x lone parent scenes 252x38",
         "status: world x lone parent scenes 94x31",
-        "status: food x lone parent scenes 85x31",
-        "status: supplies x lone parent scenes 378x31",
+        "status: food x lone parent scenes 157x31",
+        "status: supplies x lone parent scenes 382x31",
         "family: fold x lone parent scenes 100x20",
         "family: row 1 x lone parent scenes 300x48",
         "family: row 2 x lone parent scenes 300x29",
@@ -2909,8 +2908,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 157x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,367 300x48",
         "family: row 2 12,420 300x80",
@@ -2921,13 +2920,14 @@
         "map buttons 1510,1022 396x44",
         "sound button 1344,1022 46x44",
         "map framing 12,1057 147x17",
+        "first-meeting tip 828,786 576x55",
         "lone parent scenes 0,0 1920x1080"
       ],
       "overlaps": [
         "status: session x lone parent scenes 252x38",
         "status: world x lone parent scenes 94x31",
-        "status: food x lone parent scenes 85x31",
-        "status: supplies x lone parent scenes 378x31",
+        "status: food x lone parent scenes 157x31",
+        "status: supplies x lone parent scenes 382x31",
         "family: fold x lone parent scenes 100x20",
         "family: row 1 x lone parent scenes 300x48",
         "family: row 2 x lone parent scenes 300x80",
@@ -2937,7 +2937,8 @@
         "journal button x lone parent scenes 104x44",
         "map buttons x lone parent scenes 396x44",
         "sound button x lone parent scenes 46x44",
-        "map framing x lone parent scenes 147x17"
+        "map framing x lone parent scenes 147x17",
+        "first-meeting tip x lone parent scenes 576x55"
       ],
       "covered": [
         "\"Paz Proofwright, mother, 40, your main p\" in family: row 1 under lone parent scenes",
@@ -2964,7 +2965,8 @@
         "\"Gonzales\" in map buttons under lone parent scenes",
         "\"Béxar\" in map buttons under lone parent scenes",
         "\"Zoom in\" in map buttons under lone parent scenes",
-        "\"Zoom out\" in map buttons under lone parent scenes"
+        "\"Zoom out\" in map buttons under lone parent scenes",
+        "\"Got it: put this tip away\" in first-meeting tip under lone parent scenes"
       ],
       "offScreen": [],
       "canvas": [],
@@ -2987,8 +2989,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 150x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,396 300x48",
         "family: row 2 12,449 300x48",
@@ -3026,8 +3028,8 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
-        "status: supplies 12,130 378x31",
+        "status: food 12,93 150x31",
+        "status: supplies 12,130 382x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,256 300x48",
         "family: row 2 12,309 300x45",
@@ -3064,8 +3066,8 @@
       "drawn": [
         "status: session 12,12 246x36",
         "status: world 264,16 83x27",
-        "status: food 12,54 74x27",
-        "status: supplies 12,87 345x27",
+        "status: food 12,54 140x27",
+        "status: supplies 12,87 349x27",
         "family: fold 12,123 100x20",
         "family: row 1 12,350 361x47",
         "family: row 2 12,401 361x44",
@@ -3077,8 +3079,7 @@
         "map buttons 129,728 263x44",
         "sound button 8,728 33x44",
         "map framing 127,708 147x17",
-        "messages 74,354 318x215",
-        "first-meeting tip 8,547 384x73"
+        "messages 74,354 318x215"
       ],
       "overlaps": [
         "family: row 1 x messages 299x43",
@@ -3087,8 +3088,7 @@
         "ability bar x journal button 78x9",
         "ability bar x map buttons 263x9",
         "ability bar x sound button 33x9",
-        "ability bar x map framing 147x17",
-        "messages x first-meeting tip 318x22"
+        "ability bar x map framing 147x17"
       ],
       "covered": [
         "\"panel-name-hh-1-parent-1\" in family: row 1 under messages",
@@ -3116,7 +3116,7 @@
       "drawn": [
         "status: session 12,12 193x38",
         "status: world 12,56 146x31",
-        "status: food 12,93 78x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -3176,7 +3176,7 @@
       "drawn": [
         "status: session 12,12 193x38",
         "status: world 12,56 146x31",
-        "status: food 12,93 78x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -3236,7 +3236,7 @@
       "drawn": [
         "status: session 12,12 193x38",
         "status: world 12,56 146x31",
-        "status: food 12,93 78x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -3255,6 +3255,7 @@
       "overlaps": [
         "status: session x inside the house 74x10",
         "status: world x inside the house 27x31",
+        "status: food x inside the house 31x31",
         "status: supplies x inside the house 129x31",
         "family: row 1 x inside the house 181x48",
         "family: row 2 x inside the house 181x48",
@@ -3300,7 +3301,7 @@
       "drawn": [
         "status: session 12,12 193x38",
         "status: world 12,56 146x31",
-        "status: food 12,93 78x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -3319,6 +3320,7 @@
       "overlaps": [
         "status: session x inside the house 74x16",
         "status: world x inside the house 27x31",
+        "status: food x inside the house 31x31",
         "status: supplies x inside the house 129x31",
         "family: row 1 x inside the house 181x48",
         "family: row 2 x inside the house 181x48",
@@ -3364,7 +3366,7 @@
       "drawn": [
         "status: session 12,12 193x38",
         "status: world 12,56 146x31",
-        "status: food 12,93 78x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -3383,7 +3385,7 @@
       "overlaps": [
         "status: session x inside the house 189x20",
         "status: world x inside the house 142x31",
-        "status: food x inside the house 74x31",
+        "status: food x inside the house 146x31",
         "status: supplies x inside the house 244x31",
         "family: fold x inside the house 96x20",
         "family: row 1 x inside the house 296x48",
@@ -3437,7 +3439,7 @@
       "drawn": [
         "status: session 12,12 193x38",
         "status: world 12,56 146x31",
-        "status: food 12,93 78x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -3476,8 +3478,8 @@
       "drawn": [
         "status: session 12,12 187x36",
         "status: world 205,16 131x27",
-        "status: food 12,54 68x27",
-        "status: supplies 86,54 225x27",
+        "status: food 12,54 140x27",
+        "status: supplies 158,54 225x27",
         "family: fold 12,89 100x20",
         "family: row 1 12,117 361x44",
         "family: row 2 12,165 361x44",
@@ -3494,7 +3496,7 @@
       ],
       "overlaps": [
         "status: session x messages 125x4",
-        "status: food x messages 6x27",
+        "status: food x messages 78x27",
         "status: supplies x messages 225x27",
         "family: fold x messages 38x20",
         "family: row 1 x messages 299x44",
@@ -3545,7 +3547,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x470",
         "rumor mill 12,573 267x72",
@@ -3582,7 +3584,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x326",
         "rumor mill 12,429 267x72",
@@ -3617,7 +3619,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x358",
         "rumor mill 12,461 267x72",
@@ -3653,7 +3655,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x345",
         "rumor mill 12,448 267x72",
@@ -3689,7 +3691,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x345",
         "rumor mill 12,448 267x72",
@@ -3725,7 +3727,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x470",
         "rumor mill 12,573 267x72",
@@ -3759,7 +3761,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x326",
         "rumor mill 12,429 267x72",
@@ -3791,7 +3793,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x358",
         "rumor mill 12,461 267x72",
@@ -3824,7 +3826,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x345",
         "rumor mill 12,448 267x72",
@@ -3856,7 +3858,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 198x31",
         "the class 12,95 267x345",
         "rumor mill 12,448 267x72",
@@ -3890,7 +3892,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 198x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -3927,7 +3929,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 198x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -3964,7 +3966,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 198x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4001,7 +4003,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 198x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4038,7 +4040,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 198x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4074,7 +4076,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 198x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4111,7 +4113,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 198x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "wagon button 12,167 189x34",
         "family: fold 12,209 100x20",
@@ -4148,7 +4150,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 198x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "wagon button 12,167 189x34",
         "family: fold 12,209 100x20",
@@ -4185,7 +4187,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 198x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "wagon button 12,167 189x34",
         "family: fold 12,209 100x20",
@@ -4222,7 +4224,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 198x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "wagon button 12,167 189x34",
         "family: fold 12,209 100x20",
@@ -4259,7 +4261,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 198x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "wagon button 12,167 189x34",
         "family: fold 12,209 100x20",
@@ -4295,7 +4297,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 198x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "wagon button 12,167 189x34",
         "family: fold 12,209 100x20",
@@ -4332,7 +4334,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4369,7 +4371,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4406,7 +4408,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4443,7 +4445,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4480,7 +4482,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4516,7 +4518,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4551,7 +4553,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 94x31",
         "the class 12,95 263x470",
         "rumor mill 12,573 263x72",
@@ -4588,7 +4590,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 94x31",
         "the class 12,95 263x326",
         "rumor mill 12,429 263x72",
@@ -4625,7 +4627,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 94x31",
         "the class 12,95 263x358",
         "rumor mill 12,461 263x72",
@@ -4662,7 +4664,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 94x31",
         "the class 12,95 263x345",
         "rumor mill 12,448 263x72",
@@ -4699,7 +4701,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 94x31",
         "the class 12,95 263x345",
         "rumor mill 12,448 263x72",
@@ -4738,7 +4740,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4775,7 +4777,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4812,7 +4814,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4849,7 +4851,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4886,7 +4888,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4922,7 +4924,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4959,7 +4961,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -4997,7 +4999,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5035,7 +5037,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5073,7 +5075,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5111,7 +5113,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5148,7 +5150,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5186,7 +5188,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,209 100x20",
         "family: row 1 12,237 300x48",
@@ -5225,7 +5227,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,209 100x20",
         "family: row 1 12,237 300x48",
@@ -5264,7 +5266,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,209 100x20",
         "family: row 1 12,237 300x48",
@@ -5303,7 +5305,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,209 100x20",
         "family: row 1 12,237 300x48",
@@ -5342,7 +5344,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,209 100x20",
         "family: row 1 12,237 300x48",
@@ -5380,7 +5382,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,209 100x20",
         "family: row 1 12,237 300x48",
@@ -5419,7 +5421,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5456,7 +5458,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5493,7 +5495,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5530,7 +5532,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5567,7 +5569,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5603,7 +5605,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5640,7 +5642,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5678,7 +5680,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5716,7 +5718,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5754,7 +5756,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5792,7 +5794,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5828,7 +5830,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5866,7 +5868,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -5947,7 +5949,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -6028,7 +6030,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 146x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -6066,7 +6068,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 146x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -6104,7 +6106,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 186x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -6154,7 +6156,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 186x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -6204,7 +6206,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 186x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -6254,7 +6256,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 186x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -6308,7 +6310,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 186x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -6326,6 +6328,7 @@
       "overlaps": [
         "status: session x ending 60x8",
         "status: world x ending 66x31",
+        "status: food x ending 37x31",
         "status: supplies x ending 128x31",
         "family: row 1 x ending 180x48",
         "family: row 2 x ending 180x48",
@@ -6373,7 +6376,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 186x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -6386,10 +6389,10 @@
         "sound button 1272,1022 46x44",
         "tips button 1326,1022 81x44",
         "map framing 12,1057 147x17",
-        "ending 580,110 760x860"
+        "ending 580,147 760x787"
       ],
       "overlaps": [
-        "ability bar x ending 80x47"
+        "ability bar x ending 80x10"
       ],
       "covered": [],
       "offScreen": [],
@@ -6413,7 +6416,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 186x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -6451,7 +6454,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 186x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -6489,7 +6492,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 186x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -6527,7 +6530,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 186x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -6565,7 +6568,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 186x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -6603,7 +6606,7 @@
       "drawn": [
         "status: session 12,12 180x38",
         "status: world 12,56 186x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -6639,7 +6642,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x470",
         "rumor mill 12,573 263x72",
@@ -6651,7 +6654,7 @@
         "map buttons 1441,1022 465x44",
         "journal button 1329,1022 104x44",
         "map framing 12,1057 147x17",
-        "ending 580,140 760x800"
+        "ending 580,124 760x832"
       ],
       "overlaps": [],
       "covered": [],
@@ -6674,7 +6677,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x326",
         "rumor mill 12,429 263x72",
@@ -6714,7 +6717,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x358",
         "rumor mill 12,461 263x72",
@@ -6752,7 +6755,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x345",
         "rumor mill 12,448 263x72",
@@ -6780,7 +6783,7 @@
         "\"The class\" in the class under ending",
         "\"The Rumor Mill\" in rumor mill under ending",
         "\"Study\" in pace under ending",
-        "\"Join 127.0.0.1:53954 · code 6C98BE\" in join links under ending"
+        "\"Join 127.0.0.1:49859 · code 6020CE\" in join links under ending"
       ],
       "offScreen": [],
       "canvas": [],
@@ -6801,7 +6804,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x345",
         "rumor mill 12,448 263x72",
@@ -6839,7 +6842,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x470",
         "rumor mill 12,573 263x72",
@@ -6874,7 +6877,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x326",
         "rumor mill 12,429 263x72",
@@ -6909,7 +6912,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x358",
         "rumor mill 12,461 263x72",
@@ -6944,7 +6947,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x345",
         "rumor mill 12,448 263x72",
@@ -6979,7 +6982,7 @@
       "following": false,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 210x38",
+        "status: session 12,12 209x38",
         "status: world 12,56 186x31",
         "the class 12,95 263x345",
         "rumor mill 12,448 263x72",
@@ -7014,7 +7017,7 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 212x38",
+        "status: session 12,12 206x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x470",
         "rumor mill 12,573 476x231",
@@ -7023,7 +7026,7 @@
         "teacher controls 1631,49 277x38",
         "pace 1726,99 182x30",
         "recover 1756,135 152x44",
-        "join links 1656,185 252x60",
+        "join links 1661,185 247x60",
         "late students 1684,251 224x65",
         "map buttons 1472,1022 434x44",
         "journal button 1360,1022 104x44",
@@ -7050,7 +7053,7 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 212x38",
+        "status: session 12,12 206x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x326",
         "rumor mill 12,429 476x91",
@@ -7059,7 +7062,7 @@
         "teacher controls 991,49 277x38",
         "pace 1086,99 182x30",
         "recover 1116,135 152x44",
-        "join links 1016,185 252x60",
+        "join links 1021,185 247x60",
         "late students 1044,251 224x65",
         "map buttons 832,662 434x44",
         "journal button 720,662 104x44",
@@ -7086,7 +7089,7 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 212x38",
+        "status: session 12,12 206x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x358",
         "rumor mill 12,461 476x139",
@@ -7095,7 +7098,7 @@
         "teacher controls 991,49 277x38",
         "pace 1086,99 182x30",
         "recover 1116,135 152x44",
-        "join links 1016,185 252x60",
+        "join links 1021,185 247x60",
         "late students 1044,251 224x65",
         "map buttons 832,742 434x44",
         "journal button 720,742 104x44",
@@ -7122,7 +7125,7 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 212x38",
+        "status: session 12,12 206x38",
         "status: world 12,56 94x31",
         "the class 12,95 447x345",
         "rumor mill 12,448 447x120",
@@ -7131,7 +7134,7 @@
         "teacher controls 735,49 277x38",
         "pace 830,99 182x30",
         "recover 860,135 152x44",
-        "join links 760,185 252x60",
+        "join links 765,185 247x60",
         "late students 788,251 224x65",
         "map buttons 576,710 434x44",
         "journal button 464,710 104x44",
@@ -7158,7 +7161,7 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 212x38",
+        "status: session 12,12 206x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x345",
         "rumor mill 12,448 476x120",
@@ -7167,7 +7170,7 @@
         "teacher controls 1077,49 277x38",
         "pace 1172,99 182x30",
         "recover 1202,135 152x44",
-        "join links 1102,185 252x60",
+        "join links 1107,185 247x60",
         "late students 1130,251 224x65",
         "map buttons 918,710 434x44",
         "journal button 806,710 104x44",
@@ -7196,7 +7199,7 @@
       "drawn": [
         "status: session 12,12 195x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -7233,7 +7236,7 @@
       "drawn": [
         "status: session 12,12 195x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -7270,7 +7273,7 @@
       "drawn": [
         "status: session 12,12 195x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -7307,7 +7310,7 @@
       "drawn": [
         "status: session 12,12 195x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -7344,7 +7347,7 @@
       "drawn": [
         "status: session 12,12 195x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -7381,7 +7384,7 @@
       "drawn": [
         "status: session 12,12 195x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -7418,7 +7421,7 @@
       "drawn": [
         "status: session 12,12 153x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -7457,7 +7460,7 @@
       "drawn": [
         "status: session 12,12 153x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -7496,7 +7499,7 @@
       "drawn": [
         "status: session 12,12 153x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -7535,7 +7538,7 @@
       "drawn": [
         "status: session 12,12 153x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -7574,7 +7577,7 @@
       "drawn": [
         "status: session 12,12 153x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -7613,7 +7616,7 @@
       "drawn": [
         "status: session 12,12 153x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -7652,7 +7655,7 @@
       "drawn": [
         "status: session 12,12 153x38",
         "status: world 12,56 146x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -7692,7 +7695,7 @@
       "drawn": [
         "status: session 12,12 153x38",
         "status: world 12,56 146x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -7712,19 +7715,7 @@
       "overlaps": [],
       "covered": [],
       "offScreen": [],
-      "canvas": [
-        {
-          "what": "bubble \"Flatboat and canoes, every one\"",
-          "under": "site chooser",
-          "share": 0.25,
-          "box": {
-            "x": 399,
-            "y": 478,
-            "w": 231,
-            "h": 42
-          }
-        }
-      ],
+      "canvas": [],
       "flags": {
         "panel": "false",
         "meeting": "false",
@@ -7744,7 +7735,7 @@
       "drawn": [
         "status: session 12,12 153x38",
         "status: world 12,56 146x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -7764,7 +7755,19 @@
       "overlaps": [],
       "covered": [],
       "offScreen": [],
-      "canvas": [],
+      "canvas": [
+        {
+          "what": "bubble \"Some say give it back and have\"",
+          "under": "town scene",
+          "share": 0.05,
+          "box": {
+            "x": 650,
+            "y": 388,
+            "w": 227,
+            "h": 27
+          }
+        }
+      ],
       "flags": {
         "panel": "false",
         "meeting": "false",
@@ -7784,7 +7787,7 @@
       "drawn": [
         "status: session 12,12 153x38",
         "status: world 12,56 146x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -7824,7 +7827,7 @@
       "drawn": [
         "status: session 12,12 153x38",
         "status: world 12,56 146x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -7864,7 +7867,7 @@
       "drawn": [
         "status: session 12,12 153x38",
         "status: world 12,56 146x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 157x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 109x20",
         "family: row 1 12,197 48x48",
@@ -7904,13 +7907,13 @@
       "drawn": [
         "status: session 12,12 147x36",
         "status: world 165,16 131x27",
-        "status: food 302,16 74x27",
-        "status: supplies 12,54 225x27",
-        "family: fold 12,89 109x20",
-        "family: row 1 12,117 44x44",
-        "family: row 2 12,165 44x44",
-        "family: row 3 12,213 44x44",
-        "family: row 4 12,261 44x44",
+        "status: food 12,54 146x27",
+        "status: supplies 12,87 225x27",
+        "family: fold 12,123 109x20",
+        "family: row 1 12,151 44x44",
+        "family: row 2 12,199 44x44",
+        "family: row 3 12,247 44x44",
+        "family: row 4 12,295 44x44",
         "ability bar 8,653 384x84",
         "journal button 112,728 78x44",
         "map buttons 195,728 197x44",
@@ -7955,7 +7958,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -7963,8 +7966,6 @@
         "family: row 3 12,303 300x48",
         "family: row 4 12,356 300x48",
         "family: row 5 12,409 300x48",
-        "family: row 6 12,462 300x48",
-        "family: row 7 12,515 300x7",
         "ability bar 443,530 480x174",
         "journal button 765,710 104x44",
         "map buttons 1021,710 331x44",
@@ -7996,7 +7997,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -8035,7 +8036,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -8043,8 +8044,6 @@
         "family: row 3 12,303 300x48",
         "family: row 4 12,356 300x48",
         "family: row 5 12,409 300x48",
-        "family: row 6 12,462 300x48",
-        "family: row 7 12,515 300x39",
         "ability bar 400,562 480x174",
         "journal button 679,742 104x44",
         "map buttons 935,742 331x44",
@@ -8079,7 +8078,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -8118,7 +8117,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -8155,7 +8154,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -8163,14 +8162,6 @@
         "family: row 3 12,303 300x48",
         "family: row 4 12,356 300x48",
         "family: row 5 12,409 300x48",
-        "family: row 6 12,462 300x48",
-        "family: row 7 12,515 300x48",
-        "family: row 8 12,568 300x48",
-        "family: row 9 12,621 300x48",
-        "family: row 10 12,674 300x48",
-        "family: row 11 12,727 300x48",
-        "family: row 12 12,780 300x48",
-        "family: row 13 12,833 300x1",
         "ability bar 720,842 480x174",
         "journal button 1319,1022 104x44",
         "map buttons 1575,1022 331x44",
@@ -8202,7 +8193,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -8210,14 +8201,12 @@
         "family: row 3 12,303 300x48",
         "family: row 4 12,356 300x48",
         "family: row 5 12,409 300x48",
-        "family: row 6 12,462 300x48",
-        "family: row 7 12,515 300x7",
         "ability bar 443,530 480x174",
-        "journal button 652,710 104x44",
-        "map buttons 908,710 444x44",
-        "sound button 598,710 46x44",
+        "journal button 671,710 104x44",
+        "map buttons 926,710 426x44",
+        "sound button 617,710 46x44",
         "map framing 12,745 147x17",
-        "solo controls 1186,12 168x34",
+        "solo controls 1179,12 175x34",
         "wagon load 954,64 400x450"
       ],
       "overlaps": [],
@@ -8243,7 +8232,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -8252,11 +8241,11 @@
         "family: row 4 12,356 300x48",
         "family: row 5 12,409 300x2",
         "ability bar 443,419 480x174",
-        "journal button 652,599 104x44",
-        "map buttons 908,599 444x44",
-        "sound button 598,599 46x44",
+        "journal button 671,599 104x44",
+        "map buttons 926,599 426x44",
+        "sound button 617,599 46x44",
         "map framing 12,634 147x17",
-        "solo controls 1186,12 168x34",
+        "solo controls 1179,12 175x34",
         "wagon load 954,64 400x339"
       ],
       "overlaps": [],
@@ -8282,7 +8271,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -8290,14 +8279,12 @@
         "family: row 3 12,303 300x48",
         "family: row 4 12,356 300x48",
         "family: row 5 12,409 300x48",
-        "family: row 6 12,462 300x48",
-        "family: row 7 12,515 300x39",
         "ability bar 400,562 480x174",
-        "journal button 566,742 104x44",
-        "map buttons 822,742 444x44",
-        "sound button 512,742 46x44",
+        "journal button 585,742 104x44",
+        "map buttons 840,742 426x44",
+        "sound button 531,742 46x44",
         "map framing 12,777 147x17",
-        "solo controls 1100,12 168x34",
+        "solo controls 1093,12 175x34",
         "wagon load 868,64 400x482"
       ],
       "overlaps": [],
@@ -8323,7 +8310,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -8332,11 +8319,11 @@
         "family: row 4 12,356 300x48",
         "family: row 5 12,409 300x34",
         "ability bar 400,451 480x174",
-        "journal button 566,631 104x44",
-        "map buttons 822,631 444x44",
-        "sound button 512,631 46x44",
+        "journal button 585,631 104x44",
+        "map buttons 840,631 426x44",
+        "sound button 531,631 46x44",
         "map framing 12,666 147x17",
-        "solo controls 1100,12 168x34",
+        "solo controls 1093,12 175x34",
         "wagon load 868,64 400x371"
       ],
       "overlaps": [],
@@ -8362,18 +8349,18 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
         "family: row 2 12,250 300x48",
         "family: row 3 12,303 300x48",
         "ability bar 272,362 480x174",
-        "journal button 310,542 104x44",
-        "map buttons 566,542 444x44",
-        "sound button 256,542 46x44",
+        "journal button 329,542 104x44",
+        "map buttons 584,542 426x44",
+        "sound button 275,542 46x44",
         "map framing 12,577 147x17",
-        "solo controls 844,12 168x34",
+        "solo controls 837,12 175x34",
         "wagon load 612,64 400x282"
       ],
       "overlaps": [],
@@ -8399,7 +8386,7 @@
       "drawn": [
         "status: session 12,12 218x38",
         "status: world 12,56 164x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 150x31",
         "status: supplies 12,130 248x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,197 300x48",
@@ -8407,20 +8394,12 @@
         "family: row 3 12,303 300x48",
         "family: row 4 12,356 300x48",
         "family: row 5 12,409 300x48",
-        "family: row 6 12,462 300x48",
-        "family: row 7 12,515 300x48",
-        "family: row 8 12,568 300x48",
-        "family: row 9 12,621 300x48",
-        "family: row 10 12,674 300x48",
-        "family: row 11 12,727 300x48",
-        "family: row 12 12,780 300x48",
-        "family: row 13 12,833 300x1",
         "ability bar 720,842 480x174",
-        "journal button 1206,1022 104x44",
-        "map buttons 1462,1022 444x44",
-        "sound button 1152,1022 46x44",
+        "journal button 1225,1022 104x44",
+        "map buttons 1480,1022 426x44",
+        "sound button 1171,1022 46x44",
         "map framing 12,1057 147x17",
-        "solo controls 1740,12 168x34",
+        "solo controls 1733,12 175x34",
         "wagon load 1508,64 400x934"
       ],
       "overlaps": [],

@@ -64,6 +64,7 @@ import { holdingOf } from './grants.mjs';
 import { TOOL_LIFE, allWorn, anyWorn, mendWorst, soundestFirst, toolCount } from './tools.mjs';
 import { plotNeeds } from './houseplot.mjs';
 import { WORK_PACE, hoursSaid, workHours, workPaceOf } from './work-pace.mjs';
+import { hungerPace } from './hunger.mjs';
 import { houseFront } from './house-placement.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
 import { HOUSES, SPELL_TICKS, buildRefusal, buildSpell, handsOn, helpRefusal, hostOf, houseBuilt, houseOf, houseSettled, pieced, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
@@ -2365,7 +2366,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       if (baby > 1 && state.doing && !state.doing.includes('the baby')) state.doing = `${state.doing}, with the baby to mind`;
       // Half as long as it was, for a family's work (owner, 2026-09-29; sim/work-pace.mjs): after the person's own pace, so the
       // halving is exact and the fraction carries into the next work (`over`) rather than rounding back up to a whole tick.
-      workFor(state, paceFor(ticks, skill, (chore.heavy ? heavyWorkPace(entity) : 1) * burden * baby) * workPaceOf(chore));
+      // Weak or starving with hunger, the work goes slower (sim/hunger.mjs `hungerPace`, owner 2026-09-30).
+      workFor(state, paceFor(ticks, skill, (chore.heavy ? heavyWorkPace(entity) : 1) * burden * baby) * workPaceOf(chore) * hungerPace(entity));
       return;
     }
     if (step.consume) {
@@ -2543,7 +2545,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       if (!stroll(world, household, entity, { x: tree.x, y: tree.y })) { state.step--; return; }
       state.felling = tree.id;
       state.doing = `felling ${/^[aeiou]/.test(KINDS[tree.kind].name) ? 'an' : 'a'} ${KINDS[tree.kind].name}`;
-      workFor(state, paceFor(fellAndCarryTicks(tree), skill, heavyWorkPace(entity) * waterBurden(household)) * workPaceOf(chore));
+      workFor(state, paceFor(fellAndCarryTicks(tree), skill, heavyWorkPace(entity) * waterBurden(household)) * workPaceOf(chore) * hungerPace(entity));
       state.step--;
       return;
     }

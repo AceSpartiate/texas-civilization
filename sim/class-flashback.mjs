@@ -24,6 +24,7 @@
 // tell has a shorter video. The same rules as a family's video hold (tests/class-flashback.test.mjs): no virtue words, no gore,
 // no glory and no final number, and nobody who died of a sickness named.
 import { householdName } from './family.mjs';
+import { diedQuietly } from './hunger.mjs';
 import { dateOf } from './clock.mjs';
 import { figure, flashbackReady } from './flashback.mjs';
 
@@ -194,7 +195,7 @@ export function classFlashbackScript(world, scripts) {
   }
 
   // ------------------------------------------------------------------------------------------------ sickness, counted
-  const sick = shown.filter(household => own(household.id).some(beat => beat.kind === 'sickness' || (beat.kind === 'loss' && /died of/.test(beat.caption))));
+  const sick = shown.filter(household => own(household.id).some(beat => beat.kind === 'sickness' || (beat.kind === 'loss' && /died of/.test(beat.caption) && !/died of hunger/.test(beat.caption))));
   if (sick.length) {
     const lost = shown.filter(household => household.members.some(id => world.entities[id]?.health?.condition === 'dead' && world.entities[id].health.disease));
     const firstSick = Math.min(...sick.map(household => own(household.id).find(beat => beat.kind === 'sickness' || beat.kind === 'loss')?.minute ?? Infinity));
@@ -203,11 +204,21 @@ export function classFlashbackScript(world, scripts) {
       scene: { type: 'homes', homes: sick.map(household => homeOf(world, household)).filter(Boolean) } });
   }
 
+  // ------------------------------------------------------------------------------------------------ hunger, counted
+  // Families that lost somebody to hunger (owner, 2026-09-30; sim/hunger.mjs): counted, never named, as the sickness is.
+  const hungry = shown.filter(household => household.members.some(id => world.entities[id]?.health?.starved));
+  if (hungry.length) {
+    const firstLost = Math.min(...hungry.map(household => own(household.id).find(beat => beat.kind === 'loss' && /died of hunger/.test(beat.caption))?.minute ?? Infinity));
+    add({ kind: 'hunger', weight: 54, minute: Number.isFinite(firstLost) ? firstLost : world.minute,
+      caption: `${cap(families(hungry.length))} ran out of food, and lost somebody to hunger.`,
+      scene: { type: 'homes', homes: hungry.map(household => homeOf(world, household)).filter(Boolean) } });
+  }
+
   // ------------------------------------------------------------------------------------------------ the homecoming
   const home = shown.map(household => ({ household, house: scripts?.[household.id]?.homecoming?.house || null, beat: own(household.id).find(beat => beat.kind === 'home') })).filter(one => one.beat);
   if (home.length) {
     const ashes = home.filter(one => one.house === 'burned'), standing = home.filter(one => one.house === 'standing');
-    const lostMen = shown.flatMap(household => household.members.map(id => world.entities[id]).filter(person => person?.health?.condition === 'dead' && !person.health.disease));
+    const lostMen = shown.flatMap(household => household.members.map(id => world.entities[id]).filter(person => person?.health?.condition === 'dead' && !diedQuietly(person)));
     add({ kind: 'home', weight: 92, minute: Math.min(...home.map(one => one.beat.minute)),
       caption: `After San Jacinto the families went home${standing.length ? `: ${families(standing.length)} to ${standing.length === 1 ? 'a house' : 'houses'} still standing` : ''}${ashes.length ? `${standing.length ? ', and' : ':'} ${families(ashes.length)} to ashes` : ''}.${lostMen.length ? ` ${cap(count(lostMen.length))} of the class's people did not come home from the war.` : ''}`,
       scene: { type: 'homes', homes: home.map(one => homeOf(world, one.household, { mark: one.house === 'burned' ? 'burned' : one.house === 'standing' ? 'standing' : null })).filter(Boolean) } });
@@ -235,7 +246,7 @@ export function classFlashbackScript(world, scripts) {
   let at = 0;
   for (const beat of beats) { beat.startMs = at; at += beat.durationMs; }
   // Nobody who died of a sickness is drawn with a name, as in a family's video (docs/DISEASE.md §4): they are left off the cards.
-  const figures = [...peopleUsed].map(id => world.entities[id]).filter(person => person && !(person.health?.condition === 'dead' && person.health.disease)).map(person => figure(world, person));
+  const figures = [...peopleUsed].map(id => world.entities[id]).filter(person => person && !diedQuietly(person)).map(person => figure(world, person));
   const transcript = beats.map(beat => `${beat.date} ${beat.caption}`);
   return { version: CLASS_SCRIPT_VERSION, householdId: CLASS_VIDEO_ID, name: 'The class', class: true, played: true, durationMs: at, people: figures, homeSiteId: shown[0]?.homeSiteId || null, beats, transcript };
 }

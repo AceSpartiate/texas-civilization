@@ -1,0 +1,244 @@
+{
+  "record": "Hunger, in a browser: docs/HUNGER.md",
+  "date": "2026-09-30",
+  "verdict": "PASS",
+  "note": "Same computer only, headless Chrome at 1366x768, 1024x600 and 400x800. The real land with rolled families, played in process to the campaign of October 1835; the first family set to rest with twenty-four days of its eating in the store before it was served, and drained by the rules. No LAN, Chromebook or classroom claim.",
+  "cast": {
+    "home": [
+      "hh-1-parent-1"
+    ],
+    "names": {
+      "hh-1-parent-1": "Keziah"
+    },
+    "ages": {
+      "hh-1-parent-1": 42
+    },
+    "food": 6.6,
+    "eat": 0.276,
+    "minute": 27480
+  },
+  "checks": [
+    "the gauge changed colour at every level: plenty rgba(57, 49, 33, 0.91)/rgb(169, 200, 116); fair rgba(57, 49, 33, 0.91)/rgb(220, 192, 99); low rgba(57, 49, 33, 0.91)/rgb(240, 167, 58); short rgba(112, 46, 20, 0.93)/rgb(240, 122, 60); empty rgba(138, 42, 28, 0.94)/rgb(255, 122, 92); weak rgba(122, 29, 20, 0.95)/rgb(255, 106, 74); starving rgba(110, 16, 12, 0.96)/rgb(255, 90, 68)",
+    "the portraits were marked hungry (1), weak (1) and starving (1) with a ring and a bowl; none while there was plenty",
+    "the starving person's \"!\" says \"Keziah Proofwright is starving. About 59s left. And 1 more. Go to Keziah Proofwright and answer.\" with 59 s left, and the story card is up in its own red",
+    "with reduced motion the starving box stands still (none) and keeps its ring",
+    "the food box is on the screen and on nothing else at 1366x768, 1024x600 and a phone of 400x800 (the page itself scrolls 11px sideways at the phone, by the action bar)",
+    "the first death by hunger came 60 s after the family was first starving: \"Keziah Proofwright died of hunger at home, and was buried there.\"",
+    "no page errors"
+  ],
+  "observed": {
+    "levels": {
+      "plenty": {
+        "level": "plenty",
+        "background": "rgba(57, 49, 33, 0.91)",
+        "border": "rgb(143, 130, 91)",
+        "shadow": "none",
+        "animation": "none",
+        "tone": "rgb(169, 200, 116)",
+        "fillWidth": 46,
+        "text": "Food 5.7",
+        "label": "Food 5.7, about 20 days",
+        "flash": false,
+        "portraits": [
+          {
+            "id": "hh-1-parent-1",
+            "hunger": "fed",
+            "mark": false,
+            "ring": "none"
+          }
+        ]
+      },
+      "fair": {
+        "level": "fair",
+        "background": "rgba(57, 49, 33, 0.91)",
+        "border": "rgb(143, 130, 91)",
+        "shadow": "none",
+        "animation": "larder-flash",
+        "tone": "rgb(220, 192, 99)",
+        "fillWidth": 48,
+        "text": "Food 3.8",
+        "label": "Food 3.8, about 13 days",
+        "flash": true,
+        "portraits": [
+          {
+            "id": "hh-1-parent-1",
+            "hunger": "fed",
+            "mark": false,
+            "ring": "none"
+          }
+        ]
+      },
+      "low": {
+        "level": "low",
+        "background": "rgba(57, 49, 33, 0.91)",
+        "border": "rgb(217, 149, 47)",
+        "shadow": "none",
+        "animation": "larder-flash",
+        "tone": "rgb(240, 167, 58)",
+        "fillWidth": 22,
+        "text": "Food 1.8",
+        "label": "Food 1.8, about 6 days, running low",
+        "flash": true,
+        "portraits": [
+          {
+            "id": "hh-1-parent-1",
+            "hunger": "fed",
+            "mark": false,
+            "ring": "none"
+          }
+        ]
+      },
+      "short": {
+        "level": "short",
+        "background": "rgba(112, 46, 20, 0.93)",
+        "border": "rgb(224, 112, 58)",
+        "shadow": "none",
+        "animation": "larder-flash",
+        "tone": "rgb(240, 122, 60)",
+        "fillWidth": 9,
+        "text": "Food 0.7",
+        "label": "Food 0.7, about 2 days, almost gone",
+        "flash": true,
+        "portraits": [
+          {
+            "id": "hh-1-parent-1",
+            "hunger": "fed",
+            "mark": false,
+            "ring": "none"
+          }
+        ]
+      },
+      "empty": {
+        "level": "empty",
+        "background": "rgba(138, 42, 28, 0.94)",
+        "border": "rgb(224, 88, 58)",
+        "shadow": "none",
+        "animation": "larder-flash",
+        "tone": "rgb(255, 122, 92)",
+        "fillWidth": 0,
+        "text": "Food 0.0",
+        "label": "Food 0.0, none left",
+        "flash": true,
+        "portraits": [
+          {
+            "id": "hh-1-parent-1",
+            "hunger": "hungry",
+            "mark": true,
+            "ring": "rgb(240, 167, 58) 0px 0px 0px 3px inset"
+          }
+        ]
+      },
+      "weak": {
+        "level": "weak",
+        "background": "rgba(122, 29, 20, 0.95)",
+        "border": "rgb(255, 122, 92)",
+        "shadow": "rgba(224, 88, 58, 0.533) 0px 0px 0px 2px, rgba(255, 106, 74, 0.4) 0px 0px 10px 3px",
+        "animation": "larder-flash",
+        "tone": "rgb(255, 106, 74)",
+        "fillWidth": 0,
+        "text": "Food 0.0",
+        "label": "Food 0.0, none left, weak with hunger",
+        "flash": true,
+        "portraits": [
+          {
+            "id": "hh-1-parent-1",
+            "hunger": "weak",
+            "mark": true,
+            "ring": "rgb(224, 88, 58) 0px 0px 0px 3px inset"
+          }
+        ]
+      },
+      "starving": {
+        "level": "starving",
+        "background": "rgba(110, 16, 12, 0.96)",
+        "border": "rgb(255, 138, 106)",
+        "shadow": "none",
+        "animation": "larder-flash, larder-pulse",
+        "tone": "rgb(255, 90, 68)",
+        "fillWidth": 0,
+        "text": "Food 0.0",
+        "label": "Food 0.0, none left, starving",
+        "flash": true,
+        "portraits": [
+          {
+            "id": "hh-1-parent-1",
+            "hunger": "starving",
+            "mark": true,
+            "ring": "rgb(252, 72, 52) 0px 0px 0px 3.86398px inset, rgba(214, 38, 28, 0.847) 0px 0px 15.4559px 5.72797px inset"
+          }
+        ]
+      }
+    },
+    "starving": "hh-1-parent-1",
+    "need": "Keziah Proofwright is starving. About 59s left. And 1 more. Go to Keziah Proofwright and answer.",
+    "card": {
+      "accent": "hunger",
+      "text": "Keep playing · 2\nNO FOOD\nKeziah is starving\n\nAbout 59s left to find food.\n\nKeziah Proofwright is starving.\n\nGo to Keziah Next message",
+      "icon": "icon-sell-food:1"
+    },
+    "reduced": {
+      "level": "starving",
+      "background": "rgba(150, 18, 12, 0.97)",
+      "border": "rgb(255, 138, 106)",
+      "shadow": "rgb(255, 138, 106) 0px 0px 0px 3px, rgba(255, 90, 68, 0.667) 0px 0px 12px 5px",
+      "animation": "none",
+      "tone": "rgb(255, 90, 68)",
+      "fillWidth": 0,
+      "text": "Food 0.0",
+      "label": "Food 0.0, none left, starving",
+      "flash": true
+    },
+    "fit": {
+      "1366": {
+        "inside": true,
+        "over": [],
+        "sideways": 0,
+        "past": [
+          "button.report-transcript"
+        ]
+      },
+      "1024x600": {
+        "inside": true,
+        "over": [],
+        "sideways": 0,
+        "past": [
+          "button.report-transcript"
+        ]
+      },
+      "phone": {
+        "inside": true,
+        "over": [],
+        "sideways": 11,
+        "past": [
+          "button.panel-icon",
+          "canvas.",
+          "span.panel-action-name",
+          "button.panel-icon",
+          "canvas.",
+          "span.panel-action-name"
+        ]
+      }
+    },
+    "died": {
+      "id": "hh-1-parent-1",
+      "name": "Keziah Proofwright",
+      "age": 42,
+      "afterRealSeconds": 60
+    },
+    "journal": "Keziah Proofwright died of hunger at home, and was buried there."
+  },
+  "screenshots": [
+    "docs/evidence/hunger-plenty-1366.png",
+    "docs/evidence/hunger-fair-1366.png",
+    "docs/evidence/hunger-low-1366.png",
+    "docs/evidence/hunger-short-1366.png",
+    "docs/evidence/hunger-empty-1366.png",
+    "docs/evidence/hunger-weak-1366.png",
+    "docs/evidence/hunger-starving-1366.png",
+    "docs/evidence/hunger-starving-card-1366.png",
+    "docs/evidence/hunger-starving-reduced-motion-1366.png",
+    "docs/evidence/hunger-starving-1024x600.png",
+    "docs/evidence/hunger-starving-phone.png",
+    "docs/evidence/hunger-death-1366.png"
+  ]
+}

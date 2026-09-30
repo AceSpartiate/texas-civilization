@@ -1,0 +1,305 @@
+{
+ "record": "hunger-injections",
+ "date": "2026-09-30",
+ "caught": 24,
+ "only": 16,
+ "of": 24,
+ "injections": [
+  {
+   "name": "a death at starving, without the sustained stretch",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "the stages: a grown person",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the stages: a grown person with nothing to eat is hungry, then weak at five days, starving at ten, and dead at sixteen",
+    "the neighbours: food brought by a family that remembers saves a starving family"
+   ]
+  },
+  {
+   "name": "weak two days later",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "the stages: a grown person",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the stages: a grown person with nothing to eat is hungry, then weak at five days, starving at ten, and dead at sixteen",
+    "the stages: eating one's fill wins the want back, and somebody weak who has eaten is said to be getting strength back"
+   ]
+  },
+  {
+   "name": "eating never wins the want back",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "the stages: eating one",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the stages: eating one's fill wins the want back, and somebody weak who has eaten is said to be getting strength back",
+    "the neighbours: food brought by a family that remembers saves a starving family"
+   ]
+  },
+  {
+   "name": "the eating at home counts no want",
+   "files": [
+    "sim/routines.mjs"
+   ],
+   "expected": "at home: the routine",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "at home: the routine's eating counts the want, and a family whose store is empty goes hungry",
+    "the neighbours: food brought by a family that remembers saves a starving family"
+   ]
+  },
+  {
+   "name": "the eating on the road counts no want",
+   "files": [
+    "sim/scrape.mjs"
+   ],
+   "expected": "on the road east:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "on the road east: what the wagon could not cover is want too"
+   ]
+  },
+  {
+   "name": "everybody goes down alike",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "who first: a baby",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "who first: a baby, then a small child and the old and the sick, and the grown and the older children last",
+    "who first: children fed first where somebody grown eats with them, and the sick harder hit"
+   ]
+  },
+  {
+   "name": "children not fed first",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "who first: children fed first",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "who first: a baby, then a small child and the old and the sick, and the grown and the older children last",
+    "who first: children fed first where somebody grown eats with them, and the sick harder hit"
+   ]
+  },
+  {
+   "name": "no minute: a starving person dies at once",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "the minute: a starving person",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the minute: a starving person of a family at its screen cannot die of hunger inside sixty real seconds",
+    "the director: a family whose student has gone is held where it stood, and a family nobody plays never starves"
+   ]
+  },
+  {
+   "name": "the minute never starts on the real clock",
+   "files": [
+    "sim/decision-budget.mjs"
+   ],
+   "expected": "the minute: a starving person",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the minute: a starving person of a family at its screen cannot die of hunger inside sixty real seconds"
+   ]
+  },
+  {
+   "name": "the row carries no time left",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "the minute: shown on the row",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the minute: shown on the row and the \"!\" as a real time left, with the story card for somebody starving"
+   ]
+  },
+  {
+   "name": "no \"!\" for somebody starving",
+   "files": [
+    "public/family-panel.js"
+   ],
+   "expected": "the minute: shown on the row",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the minute: shown on the row and the \"!\" as a real time left, with the story card for somebody starving"
+   ]
+  },
+  {
+   "name": "a family whose student has gone starves on",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "the director:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the director: a family whose student has gone is held where it stood, and a family nobody plays never starves"
+   ]
+  },
+  {
+   "name": "a family nobody plays counted hungry",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "the director:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the director: a family whose student has gone is held where it stood, and a family nobody plays never starves"
+   ]
+  },
+  {
+   "name": "the store left out of what the family had: the neighbours' food saves nobody",
+   "files": [
+    "sim/routines.mjs"
+   ],
+   "expected": "the neighbours:",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "at home: the routine's eating counts the want, and a family whose store is empty goes hungry",
+    "the neighbours: food brought by a family that remembers saves a starving family"
+   ]
+  },
+  {
+   "name": "the weak sent to fight",
+   "files": [
+    "sim/family.mjs"
+   ],
+   "expected": "weak: slower at work",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "weak: slower at work, slower on the road, and not sent to fight; the family's road goes at its weakest walker's pace"
+   ]
+  },
+  {
+   "name": "the weak work at the ordinary pace",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "weak: slower at work",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "weak: slower at work, slower on the road, and not sent to fight; the family's road goes at its weakest walker's pace"
+   ]
+  },
+  {
+   "name": "each on the road east at their own pace",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "weak: slower at work",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "weak: slower at work, slower on the road, and not sent to fight; the family's road goes at its weakest walker's pace"
+   ]
+  },
+  {
+   "name": "a child who starved named on the class panel",
+   "files": [
+    "sim/disease.mjs"
+   ],
+   "expected": "a child who died of hunger",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a child who died of hunger is never named on the projector, never drawn, and is remembered by who they were"
+   ]
+  },
+  {
+   "name": "a child who starved drawn on the Host's map",
+   "files": [
+    "sim/overview.mjs"
+   ],
+   "expected": "a child who died of hunger",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a child who died of hunger is never named on the projector, never drawn, and is remembered by who they were"
+   ]
+  },
+  {
+   "name": "the flashback says a child who starved died of a sickness",
+   "files": [
+    "sim/flashback.mjs"
+   ],
+   "expected": "a child who died of hunger",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a child who died of hunger is never named on the projector, never drawn, and is remembered by who they were"
+   ]
+  },
+  {
+   "name": "the gauge not sent",
+   "files": [
+    "sim/world.mjs"
+   ],
+   "expected": "the gauge:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the gauge: the days the store lasts at the family's eating, and its level from calm to starving"
+   ]
+  },
+  {
+   "name": "the gauge in the wrong colour for a few days left",
+   "files": [
+    "public/family-panel.js"
+   ],
+   "expected": "the gauge:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the gauge: the days the store lasts at the family's eating, and its level from calm to starving"
+   ]
+  },
+  {
+   "name": "the second period opens hungry",
+   "files": [
+    "sim/periods.mjs"
+   ],
+   "expected": "the winter nobody plays",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the winter nobody plays: everybody comes out of it fed"
+   ]
+  },
+  {
+   "name": "a hunger that cannot be is opened",
+   "files": [
+    "sim/world.mjs"
+   ],
+   "expected": "saves:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "saves: a class saved before hunger opens as fed, and a hunger that cannot be is refused"
+   ]
+  }
+ ]
+}

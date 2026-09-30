@@ -34,6 +34,10 @@ export async function untilLive(ctx, done, { label, timeoutMs = 600000, stallMs 
   throw new Error(`timed out after ${timeoutMs / 1000}s waiting for ${label}: tick ${world().tick}, minute ${world().minute}, status ${world().status}, phase ${world().director?.phase}`);
 }
 
+/** The works that bring food in (sim/gathering.mjs), one of which a grown person is set to (owner, 2026-09-30: a family can starve). */
+// The ones that spend no powder first: small game stops when the family's last shot is fired, and a family on auto then starves.
+const FOOD_WORK = Object.freeze(['fish-the-water', 'gather-oysters', 'cut-bee-tree', 'take-small-game']);
+
 export async function playWholeGame(ctx) {
   const { app, student, host, ok, measured, shot } = ctx;
   const world = () => app.state.world;
@@ -140,19 +144,39 @@ export async function playWholeGame(ctx) {
     const person = world().entities[id];
     if (person?.kind !== 'person' || tooYoung(person) || ['dead', 'captured'].includes(person.health?.condition)) continue;
     await asMain(student, id);
-    const key = await student.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon:not([aria-disabled="true"])[data-action="chore"]`)].map(b => b.dataset.key).find(k => !['hunt-land', 'fell-trees', 'survey-plot'].includes(k)) || null, id);
+    const keys = await student.evaluate(id => [...document.querySelectorAll(`.panel-row[data-entity-id="${id}"] .panel-icon:not([aria-disabled="true"])[data-action="chore"]`)].map(b => b.dataset.key).filter(k => !['hunt-land', 'fell-trees', 'survey-plot'].includes(k)), id);
+    // A family can starve since 2026-09-30 (owner; sim/hunger.mjs): one grown person who is not the one the call will take is set
+    // to bring food in - fishing, small game, oysters or a bee tree - and keeps at it on auto, as a student who has watched the
+    // food gauge would. Until then the first icon of each was pressed, and the family starved by the spring.
+    const food = !measured.fisher && id !== household().principalId ? FOOD_WORK.find(k => keys.includes(k)) : null;
+    const key = food || keys[0] || null;
     if (!key) continue;
-    // The icon can go from the bar between reading it and pressing it - the person called aside by a little one, their work
-    // changed - and a bar redrawn at every tick of this pace takes it away under the press (seen 2026-09-29 under load: a
-    // 30-second wait on a button no longer there). That order is not given; the next person's is.
-    const pressed = await student.locator(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`).click({ timeout: 5000 }).then(() => true, () => false);
-    if (!pressed) { given.push({ id, key, took: 'gone from the bar before it was pressed' }); continue; }
-    // A work that is a journey asks how they go first (owner, 2026-09-24): the server's suggestion, as a student most often takes.
-    await sendTheWay(student);
-    const took = await student.waitForFunction(({ id, key }) => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`)?.dataset.active === 'true' || (document.querySelector('#error')?.textContent || '').trim() || null, { id, key }, { timeout: 8000 }).then(h => h.jsonValue()).catch(() => 'no answer');
-    await closeTheWay();
+    // The food work is tried again if the press is lost (under load the bar redraws under it, seen 2026-09-30), since the family
+    // starves without it; any other order is given once.
+    let took = null;
+    for (let tries = food ? 3 : 1; tries > 0 && took !== true; tries--) {
+      // The icon can go from the bar between reading it and pressing it - the person called aside by a little one, their work
+      // changed - and a bar redrawn at every tick of this pace takes it away under the press (seen 2026-09-29 under load: a
+      // 30-second wait on a button no longer there). That order is not given; the next person's is.
+      if (took !== null) await asMain(student, id);
+      const pressed = await student.locator(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`).click({ timeout: 5000 }).then(() => true, () => false);
+      if (!pressed) { took = 'gone from the bar before it was pressed'; continue; }
+      // A work that is a journey asks how they go first (owner, 2026-09-24): the server's suggestion, as a student most often takes.
+      await sendTheWay(student);
+      took = await student.waitForFunction(({ id, key }) => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`)?.dataset.active === 'true' || (document.querySelector('#error')?.textContent || '').trim() || null, { id, key }, { timeout: 8000 }).then(h => h.jsonValue()).catch(() => 'no answer');
+      await closeTheWay();
+    }
+    if (food && took === true) measured.fisher = { id, key: food };
     given.push({ id, key, took });
   }
+  // The one bringing food in keeps at it on auto (the switch was pressed above for everybody who has one).
+  if (measured.fisher && !world().entities[measured.fisher.id]?.auto) {
+    const toggle = student.locator(`.panel-row[data-entity-id="${measured.fisher.id}"] .panel-auto`);
+    await toggle.scrollIntoViewIfNeeded().catch(() => {});
+    await toggle.click({ timeout: 5000 }).catch(() => {});
+    await student.waitForFunction(id => window.__familyPanel.find(one => one.id === id)?.auto, measured.fisher.id, { timeout: 15000 }).catch(() => {});
+  }
+  if (measured.fisher) measured.fisher.auto = Boolean(world().entities[measured.fisher.id]?.auto);
   ordersDone();
   measured.orders = given;
   assert.ok(given.some(one => one.took === true), `no order from the panel was taken: ${JSON.stringify(given)}`);
@@ -261,6 +285,11 @@ export async function playWholeGame(ctx) {
   await student.waitForFunction(() => window.__snapshot?.world.status === 'running', null, { timeout: 15000 });
   assert.equal(world().period, 3);
   ok(`the Host continued the class into the spring: period 3 opens on ${await student.locator('#world').textContent()}`);
+  // Nobody of the family starved through the autumn and the winter: one of them was set to bring food in (above).
+  const starved = household().members.map(id => world().entities[id]).filter(one => one?.health?.starved).map(one => one.name);
+  measured.starved = starved;
+  assert.deepEqual(starved, [], `the family starved with ${measured.fisher ? `${world().entities[measured.fisher.id]?.name} on ${measured.fisher.key}` : 'nobody set to bring food in'}`);
+  ok(`nobody of the family starved by the spring${measured.fisher ? `, ${world().entities[measured.fisher.id]?.name} bringing food in on ${measured.fisher.key}` : ''}`);
   // Told to leave: by hand, from the "!", so the card is pressed once in a whole game. Whoever answers for the family is taken off
   // auto first, or auto answers the order the tick it comes: since 2026-09-28 that is the one with the family (sim/acting.mjs) -
   // the main person when they are at home, and not a father away with the army, whose "!" carries no order to leave (interactions
@@ -297,7 +326,8 @@ export async function playWholeGame(ctx) {
       await student.locator('#selection-flight .flight-amount[data-take="food"]').fill(String(Math.min(have.have.food, Math.floor(have.room / have.space.food))));
       await student.locator('#selection-flight [data-action="flee"]').click();
       await student.locator('#selection-flight [data-action="flee"]', { hasText: 'Confirm' }).click();
-      await student.waitForFunction(() => window.__snapshot?.world.flight?.status === 'fled', null, { timeout: 15000 });
+      await student.waitForFunction(() => window.__snapshot?.world.flight?.status === 'fled', null, { timeout: 15000 })
+        .catch(async error => { throw new Error(`the family did not leave: ${JSON.stringify({ flight: household().flight?.status, food: household().resources?.food, said: await student.locator('#error').innerText().catch(() => ''), people: household().members.map(id => { const one = world().entities[id]; return `${one.name}:${one.health?.condition}${one.hunger ? `:${one.hunger.stage}` : ''}`; }) })} (${error.message.split('\n')[0]})`); });
       measured.flight = { answeredBy: answering, refuge: household().flight.refuge, card: card.slice(0, 160) };
       ok(`told to leave, the "!" opened the card and the family left for ${household().flight.refuge} with what fit; the farm burned behind it`);
       await shot(student, 'leaving');
