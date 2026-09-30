@@ -183,10 +183,27 @@ Four classes of each, fifteen families (seeds `hunger-1` to `-4`), measured 2026
 - `scripts/balance-measure.mjs` (the 210-class record, docs/BALANCE.md) measures families the director runs, which never starve
   (§6), so its numbers do not move and it was not run again.
 
+## 8a. The owner's answers, 2026-09-30 (owner-decided; not released)
+
+The three questions this document's first build put to the owner were answered the same day:
+
+1. *A student who gives no orders loses the whole family in the first period* - **"Keep it".** Nothing changed: running out has
+   to be managed, and the gauge, the rings and the "!" say so for minutes before anybody dies.
+2. *Small children still die on the road east for a family that plays as the director does* - **"Keep it".** Nothing changed:
+   fishing, hunting and trading on the road and at the refuges are there to be used.
+3. *A family overtaken by a Mexican column loses its food with its goods, and then starves where it stands* - **"Leave a few
+   days' food".** Built (branch `starvation-2`): the column still takes the wagon, the animals and everything in it, and leaves
+   the people it lets go **three days of their own eating** (`LEFT_FOOD_DAYS` in sim/road.mjs `overtake`: what those let go eat
+   in a day by their ages, `eatenADay`, times three, rounded up to a tenth), **never more than the family had** - a family down to
+   half a food keeps half a food. The prisoners taken are not counted: they eat the column's rations. The family is told in the
+   same sentence as the taking: *"They left the family 4.2 food, a few days' eating. The family went on on foot with that and
+   nothing more."* After those days the family must forage, fish, hunt or trade, or it goes hungry by the ordinary rule. Invented;
+   no source read gives what a column left a family (`FIC-GONZ-995`, as amended).
+
 ## 9. Evidence
 
-- `tests/hunger.test.mjs` (16 tests), each seen failing under `npm run test:hunger-injections`: 24 of 24 injections caught by
-  the test written for them, 16 by that test alone ([record](evidence/hunger-injections.json)).
+- `tests/hunger.test.mjs` (17 tests since the column's food, §8a), each seen failing under `npm run test:hunger-injections`:
+  29 of 29 injections caught by the test written for them, 20 by that test alone ([record](evidence/hunger-injections.json)).
 - `npm run test:hunger` ([record](evidence/hunger-browser.json)): the gauge at each level, the portraits, the "!" and the card,
   reduced motion, the fit at three sizes, and the first death after the minute; screenshots `docs/evidence/hunger-*.png`.
 

@@ -19,7 +19,8 @@ import { battleMinutes } from '../sim/military-pacing.mjs';
 import { CHORES } from '../sim/chores.mjs';
 import { WAGON_SPEED, WALK_SPEED } from '../sim/travel.mjs';
 import { share } from '../sim/scrape.mjs';
-import { BOG_SHARE, ROAD_FISH_FOOD, DIG_MILES, PRISONER_SHARE, SPENT_PACE, WARNING_MILES, columnHead, columns, dayOf, pursuit, weatherOf } from '../sim/road.mjs';
+import { BOG_SHARE, ROAD_FISH_FOOD, DIG_MILES, LEFT_FOOD_DAYS, PRISONER_SHARE, SPENT_PACE, WARNING_MILES, columnHead, columns, dayOf, pursuit, weatherOf } from '../sim/road.mjs';
+import { eatenADay } from '../sim/family.mjs';
 import { clockOf } from '../sim/advance.mjs';
 import { WATER_HIGH, WATER_SHUT, waterAt } from '../sim/weather.mjs';
 import { FORAGE } from '../sim/gathering.mjs';
@@ -318,7 +319,10 @@ test('a family that stays is overtaken: the wagon, the animals and the goods tak
   assert.ok(household.flight.overtaken, 'the family that stayed was never overtaken');
   // Taken by the soldiers who saw it and came after it (sim/pursuit.mjs), not by a distance from a column's head (gone 2026-09-27).
   assert.equal(household.flight.overtaken.column, household.flight.chase?.by ?? household.flight.pursued?.at(-1)?.by, 'the family was taken by soldiers who never came after it');
-  assert.deepEqual([household.resources.food, household.resources.seed, household.resources.cotton, household.resources.powder], [0, 0, 0, 0], 'the goods were not taken');
+  assert.deepEqual([household.resources.seed, household.resources.cotton, household.resources.powder], [0, 0, 0], 'the goods were not taken');
+  // Except a few days' food, left to those let go (owner, 2026-09-30: "Leave a few days' food"; sim/road.mjs `LEFT_FOOD_DAYS`).
+  const letGo = people(world, household).filter(one => one.health.condition !== 'dead' && one.health.condition !== 'captured' && one.location.siteId === 'san-felipe');
+  assert.ok(household.resources.food > 0 && household.resources.food <= Math.ceil(eatenADay(world, letGo) * LEFT_FOOD_DAYS * 10) / 10 + 1e-9, `the family was left ${household.resources.food} food, not a few days'`);
   assert.equal(household.resources.money, 2, 'the coin was taken');
   for (const role of ['wagon', 'animal', 'horse']) { const beast = world.entities[`${household.id}-${role}`]; assert.equal(beast.condition, 'taken', `the ${role} was not taken`); assert.ok(world.map.sites[beast.location.siteId], `the ${role} is nowhere`); }
   for (const one of before) {

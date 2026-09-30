@@ -44,7 +44,8 @@ const winter = () => structuredClone(shared ??= (() => {
   beginSecondPeriod(world);
   world.status = 'running';
   until(world, () => world.director.milestones['winter-news']);
-  return world;
+  // Fed: the tests make these families played through the spring, and a played family can starve (tests/support/fed.mjs).
+  return feed(world);
 })());
 const alive = person => !['dead', 'captured'].includes(person.health.condition);
 const men = world => Object.values(world.entities).filter(person => person.householdId && person.kind === 'person' && person.sex === 'male' && (person.age ?? 30) >= 16 && alive(person));
@@ -342,9 +343,6 @@ test('a family far down the road hears of the fall in the spring: dead only then
   const world = winter();
   const [man] = menOfFamilies(world, 8).sort((a, b) => expressMinutes(world, 'gonzales', world.households[b.householdId].settlementId) - expressMinutes(world, 'gonzales', world.households[a.householdId].settlementId));
   garrison(world, man, { post: { id: 'north', spot: 5 } });
-  // Fed through the winter and into the spring: the family is played and gives no orders, and a played family can starve
-  // (tests/support/fed.mjs) - with nobody left living at home, nobody would hear the word this test waits for.
-  feed(world, [world.households[man.householdId]]);
   untilMoment(world, 'alamo-siege');
   untilStaying(world, () => world.director.milestones['alamo-end']);
   const toldOf = () => world.events.find(event => event.actorId === man.id && /killed when the Alamo was stormed/.test(event.text));

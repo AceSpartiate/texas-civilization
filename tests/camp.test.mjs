@@ -43,7 +43,8 @@ const spring = () => structuredClone(shared ??= (() => {
   beginSecondPeriod(world); world.status = 'running';
   until(world, () => world.director.complete);
   beginThirdPeriod(world); world.status = 'running';
-  return world;
+  // Fed: the tests make these families played through the spring, and a played family can starve (tests/support/fed.mjs).
+  return feed(world);
 })());
 // Grown men who could ride to the camp. Not filtered on being well: since 2026-09-20 a norther on the road east counts
 // towards the day's sickness (`COLD_WEIGHT`, `FIC-GONZ-135`), so by the spring a few of any class are laid up at any
@@ -273,8 +274,6 @@ test('the fork of the road, April 16: asked of every man with Houston, closed th
   const world = spring();
   const [right, left, silent] = grownMen(world);
   for (const one of [right, left, silent]) serve(world, one, { leave: 'no' });
-  // Their families fed: played and giving no orders for weeks, they could starve (tests/support/fed.mjs), which is not what this tests.
-  feed(world, [right, left, silent].map(one => world.households[one.householdId]));
   untilMoment(world, 'which-road');
   for (const one of [right, left, silent]) assert.equal(one.service.road, 'open', `${one.name} was not asked which road`);
   // At Roberts', beyond Spring Creek, where the road forked for the Trinity and for Harrisburg (`HIST-TEX-082`, `HIST-TEX-088`).

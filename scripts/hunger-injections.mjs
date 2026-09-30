@@ -9,7 +9,7 @@ import { spawnSync } from 'node:child_process';
 
 const FILES = ['tests/hunger.test.mjs'];
 const T = {
-  stages: 'the stages: a grown person', fed: 'the stages: eating one', home: 'at home: the routine', road: 'on the road east:',
+  stages: 'the stages: a grown person', fed: 'the stages: eating one', home: 'at home: the routine', road: 'on the road east:', overtaken: 'overtaken: the column',
   who: 'who first: a baby', weights: 'who first: children fed first', minute: 'the minute: a starving person', shown: 'the minute: shown on the row',
   director: 'the director:', neighbours: 'the neighbours:', weak: 'weak: slower at work', child: 'a child who died of hunger', gauge: 'the gauge:',
   winter: 'the winter nobody plays', saves: 'saves:',
@@ -20,6 +20,12 @@ const INJECTIONS = [
   { name: 'weak two days later', edits: [one('sim/hunger.mjs', 'export const WEAK_AT = 5,', 'export const WEAK_AT = 7,')], expect: T.stages },
   { name: 'eating never wins the want back', edits: [one('sim/hunger.mjs', '    else want = Math.max(0, was - RECOVER_PER_DAY * days);', '    else want = was;')], expect: T.fed },
   { name: 'the eating at home counts no want', edits: [one('sim/routines.mjs', '    ate(world, household, present, eaten * days, household.resources.food + workers * WORK_FOOD_A_DAY * days, days);\n', '')], expect: T.home },
+  // The owner's answer of 2026-09-30 to question 3, "Leave a few days' food" (sim/road.mjs `overtake`, `LEFT_FOOD_DAYS`).
+  { name: 'the column takes every crumb again', edits: [one('sim/road.mjs', '  if (left > 0) household.resources.food = left;\n', '')], expect: T.overtaken },
+  { name: 'the column leaves a week, not a few days', edits: [one('sim/road.mjs', 'export const LEFT_FOOD_DAYS = 3;', 'export const LEFT_FOOD_DAYS = 7;')], expect: T.overtaken },
+  { name: 'the column leaves more food than the family had', edits: [one('sim/road.mjs', 'Math.min(hadFood, Math.ceil(', 'Math.max(hadFood, Math.ceil(')], expect: T.overtaken },
+  { name: 'the prisoners counted among those left food', edits: [one('sim/road.mjs', 'Math.ceil(eatenADay(world, letGo) * LEFT_FOOD_DAYS', 'Math.ceil(eatenADay(world, with_) * LEFT_FOOD_DAYS')], expect: T.overtaken },
+  { name: 'the food left is not told', edits: [one('sim/road.mjs', " They left the family ${round(left)} food, a few days' eating.", '')], expect: T.overtaken },
   { name: 'the eating on the road counts no want', edits: [one('sim/scrape.mjs', '      ate(world, household, alive, eatenADay(world, alive) * days, household.resources.food, days);\n', '')], expect: T.road },
   { name: 'everybody goes down alike', edits: [one('sim/hunger.mjs', 'let weight = age < 2 ? 2.5 : age < 6 ? 2 : age < 16 ? 1.25 : age >= 60 ? 1.5 : 1;', 'let weight = 1;')], expect: T.who },
   { name: 'children not fed first', edits: [one('sim/hunger.mjs', '  if (age < 16 && withGrown) weight *= CHILDREN_FIRST;\n', '')], expect: T.weights },

@@ -110,8 +110,8 @@
     },
     "harvest": "About 17 food of 20 standing; the rest has gone to stock in an unfenced field.",
     "food": {
-      "before": 3.9361,
-      "after": 19.6193
+      "before": 3.8932,
+      "after": 19.6162
     },
     "afterLine": {
       "hidden": false,
