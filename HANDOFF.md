@@ -27,7 +27,10 @@ only: no Chromebook, no school laptop, no classroom Wi-Fi, and nobody has listen
   pinned by SHA-256; 396 MB unpacked (model 310.5 MB, voices 26.9 MB, English-only espeak data 0.9 MB, programs 20.3 MB,
   licences and GPL source 37.7 MB); record `docs/evidence/voice-runtime-manifest.json`; `--check`. `scripts/package.ps1` checks
   the voice, builds the fixed sentences and refuses a package with any unspoken; the NeedsNode zip keeps `runtime/voice`.
-- **Package size**: ⟨PACKAGE⟩
+- **Package size** (`package.ps1 -SkipLauncher` to a scratch folder, not published): update zip **542.8 MB** (last release 153 MB),
+  NeedsNode zip **509.6 MB** (120 MB). Inside: `runtime/voice` 357.3 MB compressed, `public/voice` 31.5 MB. **Read-aloud adds
+  about 390 MB to every download**, 89% of it the full-precision model; the fixed text alone is 31.5 MB. The first small update
+  after this carries all of it.
 - **On the page** (`public/read-aloud.js`; `public/app.js` makes it above the first `connect`): a Read aloud button on the tip
   and the store's tip, each tip in the Tips list, the call's menu, the messages card, each line of a rider's or runner's
   conversation (in the speaker's voice), the questions on a person's card, the journal's newest line. **Not** the end-of-game
@@ -46,11 +49,17 @@ only: no Chromebook, no school laptop, no classroom Wi-Fi, and nobody has listen
   thirty, 10-30 s "Getting ready…" for a pressed line not yet made.
 - **Tests** (all failed under an injection first: **22 of 22**, `npm run test:read-aloud-injections`,
   `docs/evidence/read-aloud-injections.json`): `tests/read-aloud-text.test.mjs` (9), `tests/read-aloud-service.test.mjs` (8),
-  `tests/read-aloud-server.test.mjs` (3), `tests/audio-licenses.test.mjs` (+2). ⟨TESTS⟩
+  `tests/read-aloud-server.test.mjs` (3), `tests/audio-licenses.test.mjs` (+2). `npm test` on this branch: **1,897 tests, 1,860
+  pass, 1 fail, 36 skipped**; the one is `tests/battle-bexar.test.mjs` "killed: he falls at his staged moment…" (*the word of the
+  victory never reached his family*), which **fails the same on the base commit 4131feb8** - not this branch.
 - **Proof** `npm run test:read-aloud` (real Kokoro, headless Chrome): **6 checks** - a tip from the keyboard, all from the
   package, fetched as Ogg Opus and played to the end; the rider's opening in `am_fenrir`, two sentences made on the Host on the
   press with "Getting ready…" then "Stop"; a daughter's question in `af_kore`; one line at a time; Sound off; never the stock
-  voice. ⟨PROOFS⟩
+  voice. Others on this branch (headless Chrome, at most two at once): `test:audio` 11, `test:story-cards` 4, `test:one-rider`
+  10 (failed once under load, passed on the rerun), `test:overlap` green (a first page-load timeout under load, green on the
+  rerun), `test:tips` 16 - after a fix to the proof: its Escape check required the last tip put up not to be the call's, which
+  cannot be true when the child's tip happens to come first (seen 2 runs in 5; the base commit passed its one run by the
+  ordering); it now checks the call's tip is gone and was put up once.
 - **Open**: the owner's ear on the cast (`af_kore` or `af_bella`) and the place names (Texan or Spanish); the end-of-game
   breakdown; fp16 to halve the package; measure the burst on the real teacher laptop.
 

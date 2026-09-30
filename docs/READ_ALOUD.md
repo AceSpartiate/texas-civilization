@@ -102,13 +102,19 @@ espeak-ng gives the respelling, not by ear: [`evidence/read-aloud/pronunciation.
 **Size and time, measured 2026-09-30:**
 
 - **3,224 fixed sentences** (3,170 narrator, 36 rider, 9 man, 9 woman), 181,600 characters: about **3.2 hours** of speech.
-- **33.9 MB** of Opus in `public/voice/` (about 10.5 KB a sentence, 3 KB a second of speech), inside the research's estimate
+- **33.4 MB** of Opus in `public/voice/` (and a 0.5 MB manifest; about 10.9 KB a sentence, 3 KB a second of speech), inside the research's estimate
   of 25-35 MB a voice. It adds that to the installed game; Opus does not compress further in the zip.
 - **68 minutes** to speak all of it from nothing, six sentences at once, on the owner's desktop while other builders' suites
   held it at 40-100% load. After that only what changed: a later build found 3,206 of 3,224 already made and spoke 18.
 - **The voice itself** (`runtime/voice/`, for the Host's sentences): **396 MB** unpacked - Kokoro's model 310.5 MB, its 54 voices
   26.9 MB, espeak-ng's English data 0.9 MB (every other language left out: 17 MB → 0.9 MB), the programs 20.3 MB, and the
-  licences with the GPL source archives 37.7 MB. In the package: ⟨PACKAGE⟩
+  licences with the GPL source archives 37.7 MB.
+- **The package, measured** (`scripts/package.ps1 -SkipLauncher` to a scratch folder, not published, 2026-09-30): the update zip
+  is **542.8 MB** (the last release's was 153 MB) and the NeedsNode zip **509.6 MB** (120 MB). Inside the update zip:
+  `runtime/voice` **357.3 MB** compressed (the full-precision model barely compresses), `public/voice` **31.5 MB**, Node 33.0 MB,
+  the rest of the game 120.3 MB. So read-aloud adds **about 390 MB to every download**, 89% of it the model the owner chose;
+  the setup program (not built here: `-SkipLauncher`) grows the same. That is the price of full precision on the Host: the
+  fixed text alone is 31.5 MB (§9, question 4).
 
 ## 5. The Host's voice
 
@@ -198,7 +204,30 @@ using (CPU 39-55% before and during). Records:
 
 ## 8. Tests, proofs and evidence
 
-⟨TESTS⟩
+- **New tests, each failed under an injection first: 22 of 22** (`npm run test:read-aloud-injections`,
+  [`evidence/read-aloud-injections.json`](evidence/read-aloud-injections.json)):
+  - `tests/read-aloud-text.test.mjs` (9): the pronunciation table complete for every famous person and every name the pools deal,
+    no accented name unrespelled, respelling as whole words, plain ASCII to the voice, sentence splitting (abbreviations,
+    initials, quotes), a template's fixed sentences the same as the line it makes, one key per voice and saying, the same voices
+    and the same `voiceOfPerson` on page and server, the volume following Sound;
+  - `tests/read-aloud-service.test.mjs` (8, a fake synthesiser): the pressed line first, a waiting line moved up by a press, only
+    the game's words and the class's names, the package's sentences never spoken again, a page's asking limited, the server's
+    own queue capped and the cache pruned, a request answered at once, a sentence served as immutable Ogg Opus and nothing else;
+  - `tests/read-aloud-server.test.mjs` (3, the classroom): only a joined page may ask, a class with no voice says so, a line made
+    and served by its key, a rider's and the family's words begun as the server writes them in the speaker's voice;
+  - `tests/audio-licenses.test.mjs` (+2): the voices are the manifest's and the model Apache-2.0; every program of the voice
+    recorded with its licence file; the GPL one a separate process with its source shipped, no addon, no npm dependency.
+- **Browser proof** `npm run test:read-aloud` (`scripts/read-aloud-browser-proof.mjs`, real Kokoro, headless Chrome, a Play Solo
+  game on the real land, seed q6): 6 checks - [`evidence/read-aloud-browser-proof.json`](evidence/read-aloud-browser-proof.json),
+  screenshots `evidence/read-aloud-tip.png`, `evidence/read-aloud-rider.png`.
+  1. a tip (the sick's, three sentences) from the keyboard: every sentence the package's, fetched as Ogg Opus and played to its
+     end; nothing spoken on the Host; "Got it" and the click-through untouched;
+  2. the rider's opening in `am_fenrir`: four sentences, two made on the Host on the press (3.6 s and 4.6 s) while the button said
+     "Getting ready…", then "Stop"; each fetched and played to its end;
+  3. the daughter's question ("How many of them are there?") in `af_kore`, from the package;
+  4. one line at a time; 5. Sound off: "Sound is off", nothing fetched; 6. `speechSynthesis` never spoken to.
+- **Measurements**: `scripts/voice-burst.mjs` (§6), `docs/evidence/read-aloud/cast.json` (§2),
+  `docs/evidence/read-aloud/pronunciation.json` (§3), `docs/evidence/voice-runtime-manifest.json` (§5).
 
 ## 9. Limits, and questions for the owner
 
