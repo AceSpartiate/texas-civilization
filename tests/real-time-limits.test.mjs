@@ -47,6 +47,10 @@ function riderScene() {
 test('a student\'s rider waits ninety real seconds, the same at Study and at Quick, and every question starts them again', () => {
   for (const ms of [STUDY, QUICK]) {
     const { world, encounter } = riderScene();
+    // The rider's own clock, and only that: at Quick the neighbour's request behind him, which dawn closes, would send him on
+    // early to leave it its time (owner, 2026-09-29, "Rider leaves at dawn"; tests/rider-deadline.test.mjs), so it is given no
+    // closing minute here.
+    for (const table of [world.requests, world.rumors, world.marches]) for (const question of Object.values(table || {})) delete question.closes;
     assert.ok(riderOnLimit(world, encounter), 'the rider is not on the real clock for a played family at its screen');
     const ticks = ticksUntil(world, () => encounter.status !== 'open', ms);
     assert.equal(encounter.reason, 'unanswered', `the rider at ${ms} ms a tick ended ${encounter.reason}, not by waiting`);

@@ -27,9 +27,10 @@
 // spoken to their family in the world. Failing to click cannot unhear it.
 import { record } from './events.mjs';
 import { learn, wouldLearn } from './knowledge.mjs';
-import { TICK_MINUTES, calendarMinutes } from './clock.mjs';
+import { TICK_MINUTES, calendarAhead, calendarMinutes } from './clock.mjs';
 import { courierIfUnanswered } from './lapse.mjs';
-import { limitLeft, limitOut, riderLimitKey, riderOnLimit } from './decision-budget.mjs';
+import { QUEUED_QUESTION_MS, limitLeft, limitOut, riderLimitKey, riderOnLimit } from './decision-budget.mjs';
+import { STUDY_TICK_MS } from './crops.mjs';
 import { RIDER_SPEED } from './travel.mjs';
 
 /**
@@ -358,6 +359,33 @@ export function questionWaits(world, householdId, question) {
   const visit = openFor(world, householdId);
   return Boolean(visit && !visit.kind && question.offeredMinute >= visit.openedMinute);
 }
+/**
+ * Whether the rider talking with this family must ride on now, so that a question waiting behind him that the calendar closes
+ * (the neighbour at the door, the rumor, the march upriver: each carries `closes`) is still shown with its full real-time window
+ * (`QUEUED_QUESTION_MS`) before it does (owner, 2026-09-29, choosing "Rider leaves at dawn": at the Quick pace a rumor that came
+ * late in the days before the fight waited behind its rider's ninety seconds past the dawn that closes it, and the family was never
+ * asked; docs/COLONIES.md §5.4b, `FIC-GONZ-909`).
+ *
+ * Counted in real time from the calendar: the minutes left before it closes, over the minutes a tick will carry once he has gone
+ * (sim/clock.mjs `calendarAhead`), times the real length of a tick (the last one the rider's clock measured; a tick stepped in
+ * process is one at the Study pace). He goes while that is still the window and two ticks more - one for the tick he goes in, one
+ * for the rounding - so the question comes up with at least its window. A calendar that cannot give that much sends him on at
+ * once, and the question is shown at once. Nothing of what he said is lost: he spoke his word as he reined in, and the journal
+ * has it.
+ * ceiling: a request or rumor of a class saved before 2026-09-29 carries no `closes` and waits behind him as it did; the call,
+ * which the calendar never closes, waits as before with its minutes held (sim/decision-budget.mjs).
+ */
+export function riderMustGo(world, encounter) {
+  if (encounter.status !== 'open' || encounter.kind) return false;
+  const householdId = encounter.householdId;
+  const closes = [world.marches, world.calls, world.requests, world.rumors].map(table => table?.[householdId])
+    .filter(question => questionWaits(world, householdId, question) && Number.isFinite(question.closes)).map(question => question.closes);
+  if (!closes.length) return false;
+  const clock = world.decisionClock || {};
+  const tickMs = clock[riderLimitKey(encounter)]?.tickMs || Object.values(clock).find(entry => entry?.tickMs > 0)?.tickMs || STUDY_TICK_MS;
+  const leftMs = (Math.min(...closes) - world.minute) / Math.max(1, calendarAhead(world)) * tickMs;
+  return leftMs <= QUEUED_QUESTION_MS + 2 * tickMs;
+}
 /** Everything waiting on the family behind the rider it is talking with: a question, and riders with other word at the gate. */
 function waitingBehind(world, encounter) {
   const householdId = encounter.householdId;
@@ -550,7 +578,8 @@ export function advanceEncounters(world) {
     // as it takes, because by then the rider has nowhere else to be. A student reading him has ninety real seconds from the
     // last thing said, either way (owner, 2026-09-29; sim/decision-budget.mjs).
     const errand = carrier.report && carrier.report.audience !== encounter.householdId;
-    const waited = riderOnLimit(world, encounter) ? limitOut(world, riderLimitKey(encounter))
+    // And a rider a student has not yet sent on rides on in time for the question waiting behind him (`riderMustGo`).
+    const waited = riderOnLimit(world, encounter) ? limitOut(world, riderLimitKey(encounter)) || riderMustGo(world, encounter)
       : world.minute - encounter.lastSpokenMinute >= attention(world, errand ? PASSING_MINUTES : PATIENCE_MINUTES, encounter.householdId);
     if (waited) finish(world, encounter, 'unanswered');
   }

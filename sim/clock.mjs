@@ -109,14 +109,24 @@ export function calendarMinutes(world) {
  * bring their own dated decisions this wants to be a question the director answers - what is open
  * in front of anybody right now - rather than a list kept in the clock.
  */
-function deciding(world) {
+/**
+ * The minutes a tick will carry once nobody is standing talking with a rider: the calendar a question queued behind one will run
+ * on after he has gone (sim/encounters.mjs `riderMustGo`, owner 2026-09-29). The same rules as `calendarMinutes`, read ahead of
+ * the tick rather than inside it, with every open rider's hold left out.
+ */
+export function calendarAhead(world) {
+  if (!world?.map?.source) return battleMinutes(world, TICK_MINUTES);
+  const proposed = deciding(world, { riders: false }) ? TICK_MINUTES : CALENDAR_SCALE[world.director?.phase] || TICK_MINUTES;
+  return militaryMinutes(world, proposed);
+}
+function deciding(world, { riders = true } = {}) {
   // From dusk on the 1st, when the men at the ferry ask who goes up the river with them (sim/directors.mjs `upriver-call`).
   if ((world.director?.milestones?.['upriver-call'] || world.director?.milestones?.crossing) && !world.director?.milestones?.approach) return true;
   // Only a conversation somebody is actually reading. A family nobody plays answers a rider in
   // the same tick he speaks (sim/neighbours.mjs), and holding the whole class's calendar for one
   // of those put eighty-five minutes on a fifty-minute lesson when it was measured.
   // Nor for a family whose student has gone (sim/absence.mjs): the director answers for it in the same tick.
-  if (Object.values(world.encounters || {}).some(encounter => encounter.status === 'open' && world.households[encounter.householdId]?.played && !world.households[encounter.householdId].absent)) return true;
+  if (riders && Object.values(world.encounters || {}).some(encounter => encounter.status === 'open' && world.households[encounter.householdId]?.played && !world.households[encounter.householdId].absent)) return true;
   // A played family told to leave in the spring (sim/scrape.mjs): the calendar holds at the farming scale until it has gone - by
   // its word, or packed off when its three real minutes are out (sim/auto.mjs) - or the army has burned it out.
   // Only a family with somebody with it to answer (sim/acting.mjs `actingFor`): a family wiped out, with nobody at home but a man

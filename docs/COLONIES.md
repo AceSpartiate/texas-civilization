@@ -338,6 +338,21 @@ seeds measured, but it was shown several things at once:
 2. *A question already on the screen when a rider comes* - *"Stays up".* As built.
 3. *A firmer account of the same word after the six hours* - *"Own conversation".* As built.
 
+**A rider leaves in time for the question behind him** (owner-decided 2026-09-29, choosing *"Rider leaves at dawn"*). A
+question waiting behind a rider waits until the student has heard him out - up to his ninety real seconds. At the Quick pace, a
+second a tick, a rumor that came late in the days before the fight (after about minute 3,900 of the class) waited behind him past
+the fight's dawn, which is when the rumor's question closes, and the family was never asked. Generalised, as built: **a rider
+nobody has yet sent on rides on early enough that every question waiting behind him that the calendar closes is still shown with
+its full real-time window - ninety real seconds (`QUEUED_QUESTION_MS`) - before it closes; if the calendar cannot give that much,
+he rides on at once and the question is shown at once** (`sim/encounters.mjs` `riderMustGo`). The questions the calendar closes
+carry the minute they close (`closes`): the neighbour's request and the rumor at the fight's dawn (`approach`), the march upriver
+at its own last minute. The time left is counted from the calendar - the minutes before it closes over the minutes a tick will
+carry once he has gone (sim/clock.mjs `calendarAhead`) times the real length of a tick - and he goes with the window and two
+ticks to spare. He rides on as a rider left waiting does (*"would wait no longer and rode on"*); what he said as he reined in is
+the family's already, and still nothing is merged on the screen and conversations are still one at a time. The settlement's call,
+which the calendar never closes, keeps waiting behind him with its minutes held. `ceiling:` a request or rumor of a class saved
+before this carries no `closes` and waits as it did.
+
 **Where riders pile up, beyond the start.** The only news in this game carried by a person who stops to talk is the
 cannon-request and the fight's outcome (`CONVERSATIONS`), in the first period; both are covered above, at Gonzales and by
 express alike. Every later word - the siege and fall of the Alamo, Goliad, San Patricio and Agua Dulce, the declaration, the

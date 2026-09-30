@@ -1,6 +1,6 @@
 {
   "record": "one-rider-browser-after",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "verdict": "PASS",
   "browser": "153.0.8010.53",
   "environment": "Same computer: an in-process Play Solo classroom at 100 ms a tick, fifteen families on the real land (seed q2), headless Chrome at 1440x900. Not a Chromebook, not a LAN.",
@@ -9,11 +9,11 @@
     "the rider reins in (Silas Roe; 1 riders drawn in sight, never the one whose word will be taken into the visit), with one \"!\" on the family and the call waiting behind him (\"One more thing is waiting for your family after this.\")",
     "the conversation ends with one clear control (\"Done — let Silas Roe ride on\"), and says \"One more thing is waiting for your family after this. Ask what you like, then press Done. Nothing said is lost when he rides on.\"",
     "the same word, firmer, from Concepción Mora mid-conversation is known at once (confirmed, \"Concepción Mora, who rode from Gonzales\") and never becomes a second meeting; the call's clock has not started",
-    "Done closed the conversation and the call came up next, 295 ms later: \"The committee at Matagorda asks the volunteers of the town and the cou...\"",
+    "Done closed the conversation and the call came up next, 1300 ms later: \"The committee at Matagorda asks the volunteers of the town and the cou...\"",
     "the call's five minutes began when it was shown, not while it waited",
     "the same news is never a second meeting",
     "Escape ended the next conversation (Tobias Crow, the fight's outcome) and put it away",
-    "another family's rider rode past in view for 239 frames at no more than 1.20 of his heights a second (the server carried him at 1177.66), faded out once by, and was never drawn at the family's gate",
+    "another family's rider rode past in view for 179 frames at no more than 1.20 of his heights a second (the server carried him at 1177.66), faded out once by, and was never drawn at the family's gate",
     "no page errors"
   ],
   "measured": {
@@ -78,7 +78,7 @@
       "drawn": false
     },
     "next": {
-      "msAfterDone": 295,
+      "msAfterDone": 1300,
       "encounterHidden": true,
       "text": "The committee at Matagorda asks the volunteers of the town and the country east of it to gather at James Kerr's on the Lavaca as speedily as they can. The town is badly armed and its men are few. Does somebody from your family go?"
     },
@@ -88,12 +88,18 @@
         "topic": "cannon-request",
         "status": "unconfirmed",
         "opened": 4920
+      },
+      {
+        "carrier": "Tobias Crow",
+        "topic": "gonzales-outcome",
+        "status": "unconfirmed",
+        "opened": 8940
       }
     ],
     "passer": {
       "id": "courier-19",
-      "samples": 117,
-      "drawnInView": 239,
+      "samples": 67,
+      "drawnInView": 179,
       "fastestDrawnHeightsPerSecond": 1.2,
       "serverHeightsPerSecond": 1177.66,
       "gaitCeiling": 1.2,
@@ -105,6 +111,7 @@
     "docs/evidence/one-rider-after-arrival.png",
     "docs/evidence/one-rider-after-host-arrival.png",
     "docs/evidence/one-rider-after-conversation.png",
-    "docs/evidence/one-rider-after-next.png"
+    "docs/evidence/one-rider-after-next.png",
+    "docs/evidence/one-rider-after-duplicate.png"
   ]
 }

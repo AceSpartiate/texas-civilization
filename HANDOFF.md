@@ -1,5 +1,48 @@
 # Claude handoff — Astra foundation
 
+## A rider leaves in time for the question behind him — owner, 2026-09-29 (not released)
+
+**The ask.** A question a rider brings waits behind him until the student hears him out, up to his 90 real seconds. At Quick (a
+second a tick) a rumor arriving late in the Gonzales run-up (after about minute 3,900) waited past the fight's dawn, which closes
+its question, and the family was never asked. The owner chose *"Rider leaves at dawn"*; generalised as asked (docs/COLONIES.md
+§5.4b, `FIC-GONZ-909`). Branch `rider-deadline` off origin/main 38721b80.
+
+- **`sim/encounters.mjs` `riderMustGo`**: a rider on the real clock (a played family at its screen) whom the student has not
+  sent on rides on once the real time left before the earliest calendar deadline among the questions waiting behind him
+  (`questionWaits`) is down to `QUEUED_QUESTION_MS` (90 s, sim/decision-budget.mjs) and two ticks; at once if it already is. The
+  time left is the calendar minutes left over the minutes a tick will carry after he has gone (**`calendarAhead`**, sim/clock.mjs:
+  `calendarMinutes` without the riders' hold) times the real tick the rider's clock last measured (Study for a tick stepped in
+  process). He rides on with the reason `unanswered`, as a rider left waiting always has.
+- **The questions carry `closes`**: the neighbour's request and the rumor at `approach` (sim/directors.mjs); the march already had
+  it. The settlement's call has no calendar deadline and waits as before, its minutes held. No save version: a request or rumor
+  saved before has no `closes` and waits as it did (`ceiling:`).
+- Unchanged: nothing merged on screen, one conversation at a time, the rider's own 90 s, unplayed and absent families.
+
+**Evidence** (same computer only; no Chromebook or LAN claim):
+
+- `tests/rider-deadline.test.mjs` (5 tests, Quick pace, nobody answering): on the invented country a rumor arriving 2,600 minutes
+  before dawn - the rider stands, then rides on early, and the question comes up with at least 90 real seconds before dawn and
+  is answered (go and see); arriving 1,000 minutes before, and on the real land at minute 3,900 (the owner's case) and a day
+  earlier on its hour-long ticks, the rider is sent on at once and the question is shown and answered before dawn; a rider whose
+  question the calendar does not close soon still stands his 90 seconds.
+- **`npm run test:rider-deadline-injections`: 6 of 6 caught by the test written for them** (the defect itself, going only once the
+  question has no time, counting on the calendar held for the rider, the rumor without `closes`, sending every rider on at once,
+  sending him on with a far deadline) ([record](docs/evidence/rider-deadline-injections.json)).
+- `npm test`: **1798 tests, 1762 pass, 0 fail, 36 skipped** (the suspended tutorial). One existing test changed for the rule:
+  `tests/real-time-limits.test.mjs`'s rider-at-Quick case now gives the neighbour's request behind him no closing minute, since
+  at Quick on the real land the request put with the first rider has barely ninety seconds before dawn at all, and the rule
+  rightly sends him on at once - that test is about the rider's own clock.
+- Browser proofs: `test:one-rider` 10 checks, `test:battle-gonzales` 12, `test:relay`, `test:slice` 12, all green.
+  `test:battle-gonzales` and `test:slice` first failed: at their fast ticks the rider now rides on by himself before the proof
+  presses Done, so nothing opened the question's card; `scripts/support/riders.mjs` `untilPastRiders` now comes to the question
+  by the "!" of its first answerer, as a student does.
+- No browser check was added: the one-rider proof's family is asked a call, which the calendar never closes, and a rumor in the
+  browser needs a fixture of its own; the rule is proved in process at the Quick pace (the two Gonzales proofs above do now run
+  through it at their fast ticks).
+- `ceiling:` the time left is counted at the calendar's rate once the rider has gone, read now (`calendarAhead`): the slower
+  twenty-minute ticks from the evening the men gather at the ferry are not foreseen, so the estimate is short and a rider can be
+  sent on a little sooner than needed - never later. A schedule of the holds ahead is the way out if a class notices it.
+
 ## Released as v2026.09.29.2 — 2026-09-29
 
 Everything below marked *(released in v2026.09.29.2)* shipped in this release: Astra’s art always wins by subject (public/art-subjects.js) and failed sheets are asked for again, every family work at half its length, the lone parent’s path and wedding, one rider at a time with a clear Done and passing riders drawn, real-time limits on questions and the house burned when the order to leave runs out, small children until the day ends and follow-and-watch, the house card and story-card alerts, speech bubbles laid out together, portrait = star, the person card only for a matter, out-of-sight travellers greyed, the empty class pausing itself, any played family able to win, the lobby’s name and ready, the Tier 1 classroom and game items and TEACHER.md, and the store’s 24 food after the Scrape. Verified on a clean tree: `npm test` at f5745673 1793 tests, 1757 pass, 0 fail, 36 skipped (the suspended tutorial); 41 of 48 browser proofs green first time at f5745673, the other seven (errand, family-commands, children, ending, famous-people, battle-bexar, battle-gonzales) out-of-date proofs fixed at 7559cffe and cbbb57ce and green, with test:going, on a clean tree at cbbb57ce. Tagged at cbbb57ce. Same computer only; no Chromebook or LAN claim.

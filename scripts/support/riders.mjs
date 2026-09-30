@@ -24,7 +24,21 @@ export async function sendRiderOn(page) {
 export async function untilPastRiders(page, ready, { timeout = 150000, label = 'the page never got past its riders' } = {}) {
   const deadline = Date.now() + timeout;
   while (Date.now() < deadline) {
-    if (await page.evaluate(ready)) return;
+    if (await page.evaluate(ready)) {
+      // The question is come to as a student comes to it, by the "!" of the first of the family who may answer it (the father,
+      // at the top of the column), which puts that person's card up with the question on it; the call's one menu that also
+      // opens is put away. A rider who rode on by himself - early, to leave the question behind him its time (owner,
+      // 2026-09-29, "Rider leaves at dawn") - opened nothing, and one sent on may have left somebody else's card up.
+      {
+        const id = await page.evaluate(() => (window.__familyPanel || []).find(row => row.needs?.includes('call'))?.id).catch(() => null);
+        if (id) {
+          await page.locator(`.panel-row[data-entity-id="${id}"] .panel-attention`).click({ force: true, timeout: 5000 }).catch(() => {});
+          await page.waitForTimeout(400);
+          if (await page.locator('#call-menu').isVisible().catch(() => false)) await page.locator('#call-menu-close').click({ timeout: 3000 }).catch(() => {});
+        }
+      }
+      return;
+    }
     await sendRiderOn(page);
     await page.waitForTimeout(300);
   }

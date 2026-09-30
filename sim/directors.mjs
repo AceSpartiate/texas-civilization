@@ -351,7 +351,9 @@ function offerRequests(world) {
       ? "People in Gonzales are gathering food for the men here, and ask whether your family can give some of its own."
       : 'A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.';
     const id = record(world, 'pressure', { householdId: household.id, text, classification: 'FICTIONAL FOR GAMEPLAY', causes: [report.eventId], importance: 2 });
-    world.requests[household.id] = { id, text, status: 'open', offeredMinute: world.minute, where: inTown ? 'town' : 'home' };
+    // `closes`: the calendar minute it closes at, the fight's dawn (`approach`), for a rider it waits behind to leave it time
+    // (sim/encounters.mjs `riderMustGo`). A request of a class saved before has none, and waits as it did.
+    world.requests[household.id] = { id, text, status: 'open', offeredMinute: world.minute, where: inTown ? 'town' : 'home', closes: momentOf(world, 'approach') };
   }
 }
 /**
@@ -365,7 +367,7 @@ function offerRumor(world, household, report) {
   if (world.rumors[household.id]) return;
   const text = `The word that reached your family came ${handsSaid(report.hands ?? 2)}, and nobody who passed it on saw any of it. Does somebody go to Gonzales to see?`;
   const id = record(world, 'pressure', { householdId: household.id, text, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-020', causes: [report.eventId], importance: 2 });
-  world.rumors[household.id] = { id, text, status: 'open', offeredMinute: world.minute };
+  world.rumors[household.id] = { id, text, status: 'open', offeredMinute: world.minute, closes: momentOf(world, 'approach') };
 }
 // The second call, and the one that puts a family member where the fighting is. It is
 // only ever put to a household whose person actually stood in Gonzales when the force

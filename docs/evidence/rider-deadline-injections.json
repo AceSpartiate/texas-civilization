@@ -1,0 +1,83 @@
+{
+  "record": "rider-deadline-injections",
+  "date": "2026-09-30",
+  "files": [
+    "tests/rider-deadline.test.mjs"
+  ],
+  "caught": 6,
+  "only": 1,
+  "of": 6,
+  "injections": [
+    {
+      "name": "the rider stands his ninety seconds whatever waits behind him (the defect)",
+      "file": "sim/encounters.mjs",
+      "expected": "the rider riding on early to leave it its ninety seconds",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "at the Quick pace a rumor arriving late is still asked, the rider riding on early to leave it its ninety seconds before dawn",
+        "a rumor arriving too late for a rider's ninety seconds is shown at once, the rider sent on, and answered before dawn (the invented country)",
+        "a rumor arriving too late for a rider's ninety seconds is shown at once, the rider sent on, and answered before dawn (the real land, the owner's case: word at about minute 3,900)",
+        "a rumor arriving too late for a rider's ninety seconds is shown at once, the rider sent on, and answered before dawn (the real land a day earlier, on its hour-long ticks: counted on the calendar after he has gone)"
+      ]
+    },
+    {
+      "name": "the rider goes only once the question has no time left",
+      "file": "sim/encounters.mjs",
+      "expected": "the rider riding on early to leave it its ninety seconds",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "at the Quick pace a rumor arriving late is still asked, the rider riding on early to leave it its ninety seconds before dawn",
+        "a rumor arriving too late for a rider's ninety seconds is shown at once, the rider sent on, and answered before dawn (the invented country)",
+        "a rumor arriving too late for a rider's ninety seconds is shown at once, the rider sent on, and answered before dawn (the real land, the owner's case: word at about minute 3,900)",
+        "a rumor arriving too late for a rider's ninety seconds is shown at once, the rider sent on, and answered before dawn (the real land a day earlier, on its hour-long ticks: counted on the calendar after he has gone)"
+      ]
+    },
+    {
+      "name": "the time left is counted on the calendar held for the rider, not the one after him",
+      "file": "sim/encounters.mjs",
+      "expected": "counted on the calendar after he has gone",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a rumor arriving too late for a rider's ninety seconds is shown at once, the rider sent on, and answered before dawn (the real land a day earlier, on its hour-long ticks: counted on the calendar after he has gone)"
+      ]
+    },
+    {
+      "name": "the rumor carries no closing minute",
+      "file": "sim/directors.mjs",
+      "expected": "the rider riding on early to leave it its ninety seconds",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "at the Quick pace a rumor arriving late is still asked, the rider riding on early to leave it its ninety seconds before dawn",
+        "a rumor arriving too late for a rider's ninety seconds is shown at once, the rider sent on, and answered before dawn (the invented country)",
+        "a rumor arriving too late for a rider's ninety seconds is shown at once, the rider sent on, and answered before dawn (the real land, the owner's case: word at about minute 3,900)",
+        "a rumor arriving too late for a rider's ninety seconds is shown at once, the rider sent on, and answered before dawn (the real land a day earlier, on its hour-long ticks: counted on the calendar after he has gone)"
+      ]
+    },
+    {
+      "name": "every rider with a question behind him rides on at once",
+      "file": "sim/encounters.mjs",
+      "expected": "the rider riding on early to leave it its ninety seconds",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "at the Quick pace a rumor arriving late is still asked, the rider riding on early to leave it its ninety seconds before dawn",
+        "a rider whose question the calendar does not close soon keeps his ninety seconds"
+      ]
+    },
+    {
+      "name": "a question the calendar does not close soon sends him on too",
+      "file": "sim/encounters.mjs",
+      "expected": "keeps his ninety seconds",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "at the Quick pace a rumor arriving late is still asked, the rider riding on early to leave it its ninety seconds before dawn",
+        "a rider whose question the calendar does not close soon keeps his ninety seconds"
+      ]
+    }
+  ]
+}

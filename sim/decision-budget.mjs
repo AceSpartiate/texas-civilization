@@ -137,6 +137,12 @@ export function spendDecisionBudget(world, realMs, { budgetMs = DECISION_BUDGET_
 
 /** Real milliseconds each question on a real-time limit waits for its student. A server option (`questionBudgets`) overrides any of them. */
 export const QUESTION_BUDGETS = Object.freeze({ rider: 90_000, flight: 180_000, alto: 30_000, road: 90_000, work: 90_000 });
+/**
+ * The real time a question waiting behind a rider must still have in front of the student once he has gone, before the calendar
+ * closes it (owner, 2026-09-29, "Rider leaves at dawn"; sim/encounters.mjs `riderMustGo`): the ninety seconds every other
+ * question on the real clock is given.
+ */
+export const QUEUED_QUESTION_MS = 90_000;
 
 /** The person answering for a family now (sim/acting.mjs), or its main person, or the first of it still in the world. */
 function answererOf(world, household) {
