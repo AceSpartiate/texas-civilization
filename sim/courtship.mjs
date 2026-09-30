@@ -50,6 +50,7 @@ import { record } from './events.mjs';
 import { dateOf } from './clock.mjs';
 import { NAME_POOLS, ageBand, ageNow, compositionFor, dealTraits, householdName, listWords, tableOf } from './family.mjs';
 import { appearanceOf } from './appearance.mjs';
+import { poolsFor, skinChoices } from './starts.mjs';
 import { CLOTHING, HAIR, HEAD, SKIN } from './look-vocabulary.mjs';
 import { HOUSES, houseBuilt, houseSettled, pieced } from './houses.mjs';
 import { PIECES, planPieces } from './houseplot.mjs';
@@ -69,7 +70,15 @@ export const RAISED_PLAN = 'round-log';
 /** The kinds of wedding the game can show. Only the bond is used today (see the head of this file). */
 export const RITES = Object.freeze(['bond']);
 /** The claims: the bond is documented, everything else about the path is invented. */
-export const CLAIMS = Object.freeze({ rite: 'HIST-TEX-740', path: 'FIC-GONZ-950' });
+export const CLAIMS = Object.freeze({ rite: 'HIST-TEX-740', path: 'FIC-GONZ-950', tejanoRite: 'HIST-TEX-781' });
+/**
+ * What the record says under a Tejano family's wedding (sim/starts.mjs; `HIST-TEX-781`). The bond is the Handbook's practice of
+ * "Anglo-Texans unwilling or unable to seek a priest"; no source read says Tejano couples used it, and a Catholic family of De León's
+ * colony would more likely have waited for the priest who came from La Bahía. **The owner chose the bond for Victoria (2026-09-29),
+ * before families had starts**, so the scene is the bond as built and the line under it says what is and is not known; whether a
+ * Tejano family should have a priest's wedding instead is the owner's question (docs/FAMILY_CREATION.md, *The family's start*).
+ */
+export const TEJANO_RITE_WORDS = 'In Mexican Texas only a Catholic priest could marry a couple, and priests were few: De León’s colony had none of its own, and one came from La Bahía when he could. Anglo colonists signed a bond like this while they waited. Whether Tejano couples did is not known.';
 
 /**
  * The invented neighbour families (`FIC-GONZ-950`), on the terms `FIC-GONZ-001` and `-017` set for every invented name: not the
@@ -86,6 +95,45 @@ export const NEIGHBOUR_FAMILIES = Object.freeze([
   Object.freeze({ surname: 'Treviño', plural: 'Treviños', farm: 'ramada', where: 'beyond the live oaks' }),
   Object.freeze({ surname: 'Villa', plural: 'Villas', farm: 'ramada', where: 'up the draw' }),
 ]);
+/**
+ * In a class that deals starts (sim/starts.mjs, owner 2026-09-29), the neighbours are of the family's own country, and the family the
+ * new husband or wife comes from is of the family's own start, so the one who marries in is dealt a skin tone, a name and a surname
+ * that belong with the family's (the owner: skin tones "locked to what is realistic"; a new spouse "follows the same rule"). Invented,
+ * on the same terms as the list above (`FIC-GONZ-950`, `-984`): each start has a family of each farmstead, so the two visits are
+ * still two different homes.
+ *   - `second`: whom the spouse is born to - a family of the same start.
+ *   - `first`: the neighbours the family goes to first - for an Anglo-American family anybody of the colonies, as above; for a
+ *     Tejano family of De León's colony, Tejano; for a free Black family, its Anglo-American neighbours, who help with the house as
+ *     the Ashworths' neighbours stood by them (`HIST-TEX-783`).
+ */
+const ANGLO_NEIGHBOURS = Object.freeze([
+  ...NEIGHBOUR_FAMILIES.filter(family => family.farm === 'porch'),
+  Object.freeze({ surname: 'Pruett', plural: 'Pruetts', farm: 'ramada', where: 'past the ford' }),
+  Object.freeze({ surname: 'Hensley', plural: 'Hensleys', farm: 'ramada', where: 'up the draw' }),
+]);
+const TEJANO_NEIGHBOURS = Object.freeze([
+  ...NEIGHBOUR_FAMILIES.filter(family => family.farm === 'ramada'),
+  Object.freeze({ surname: 'Olivares', plural: 'Olivares family', farm: 'porch', where: 'over the rise' }),
+  Object.freeze({ surname: 'Serna', plural: 'Sernas', farm: 'porch', where: 'by the big pecan' }),
+]);
+const FREE_BLACK_NEIGHBOURS = Object.freeze([
+  Object.freeze({ surname: 'Tanner', plural: 'Tanners', farm: 'porch', where: 'down the bayou' }),
+  Object.freeze({ surname: 'Bledsoe', plural: 'Bledsoes', farm: 'ramada', where: 'across the bottom' }),
+]);
+/** The families the two visits are dealt from, for a family of this start: `null` (a class made before) keeps the one list. */
+export function neighbourPools(heritage) {
+  if (heritage === 'tejano') return { first: TEJANO_NEIGHBOURS, second: TEJANO_NEIGHBOURS };
+  if (heritage === 'free-black') return { first: ANGLO_NEIGHBOURS, second: FREE_BLACK_NEIGHBOURS };
+  if (heritage === 'anglo') return { first: NEIGHBOUR_FAMILIES, second: ANGLO_NEIGHBOURS };
+  return { first: NEIGHBOUR_FAMILIES, second: NEIGHBOUR_FAMILIES };
+}
+/** The start a neighbour family of a class that deals starts is of: its list's. */
+const heritageOfNeighbour = (family, heritage) => {
+  if (!heritage) return null;
+  if (FREE_BLACK_NEIGHBOURS.includes(family)) return 'free-black';
+  if (TEJANO_NEIGHBOURS.includes(family)) return 'tejano';
+  return 'anglo';
+};
 
 function hashOf(text) {
   let hash = 2166136261;
@@ -150,16 +198,17 @@ export function pathRefusal(world, household) {
 
 // ---------------------------------------------------------------- the neighbours and the spouse, rolled at the press
 
-const looksFor = (key, sex, age) => ({
-  skin: pick(SKIN, `${key}:skin`),
+const looksFor = (key, sex, age, skins = SKIN) => ({
+  // Within the range of the neighbour family's start, where the class deals starts (sim/starts.mjs); every tone otherwise.
+  skin: pick(skins, `${key}:skin`),
   hair: age >= 50 && hashOf(`${key}:grey`) % 3 ? 'grey' : pick(HAIR.filter(hair => hair !== 'grey'), `${key}:hair`),
   clothing: pick(CLOTHING, `${key}:clothing`),
   head: pick(HEAD[sex], `${key}:head`),
 });
 
 /** A first name from the pools, not one this family or these neighbours already use. */
-function nameFrom(role, key, taken) {
-  const pool = NAME_POOLS[role];
+function nameFrom(role, key, taken, pools = NAME_POOLS) {
+  const pool = pools[role];
   const start = hashOf(key) % pool.length;
   for (let i = 0; i < pool.length; i++) {
     const name = pool[(start + i) % pool.length];
@@ -175,15 +224,20 @@ function nameFrom(role, key, taken) {
 export function dealNeighbours(world, household, parent, taken) {
   const key = `${world.seed}:${household.id}:courtship`;
   const own = household.surname;
-  const usable = NEIGHBOUR_FAMILIES.filter(family => family.surname !== own);
+  // Of the family's own country, and the spouse's family of its own start, where the class deals starts (`neighbourPools`).
+  const heritage = household.heritage || null;
+  const pools = neighbourPools(heritage);
+  const usable = pools.first.filter(family => family.surname !== own);
   const first = pick(usable, `${key}:first`);
-  const second = pick(usable.filter(family => family.farm !== first.farm), `${key}:second`);
+  const second = pick(pools.second.filter(family => family.surname !== own && family.farm !== first.farm), `${key}:second`);
   const age = ageNow(world, parent) ?? parent.age ?? 30;
   const spouseSex = other(parent.sex);
+  let of = null;
   const person = (familyId, n, role, sex, years) => {
     const id = `${familyId}-p${n}`;
-    return { id, given: nameFrom(role, `${key}:${id}:name`, taken), role, sex, age: years, appearance: looksFor(`${key}:${id}`, sex, years) };
+    return { id, given: nameFrom(role, `${key}:${id}:name`, taken, poolsFor(of) || NAME_POOLS), role, sex, age: years, appearance: looksFor(`${key}:${id}`, sex, years, skinChoices(of)) };
   };
+  of = heritageOfNeighbour(first, heritage);
   // The first family: a couple of the parent's own time of life and a child or two to play with the family's own.
   const oneId = `${household.id}-nb-1`, twoId = `${household.id}-nb-2`;
   const husband = 26 + (hashOf(`${key}:one-age`) % 22);
@@ -199,6 +253,7 @@ export function dealNeighbours(world, household, parent, taken) {
   // lone parent"), and the one who will marry, rolled like a parent (`rollSpouse`).
   const father = age + 22 + (hashOf(`${key}:two-age`) % 8);
   const mother = Math.max(age + 18, father - (hashOf(`${key}:two-gap`) % 6));
+  of = heritageOfNeighbour(second, heritage);
   const two = { id: twoId, surname: second.surname, plural: second.plural, farm: second.farm, where: second.where,
     people: [person(twoId, 1, 'father', 'male', father), person(twoId, 2, 'mother', 'female', mother)] };
   return { one, two, spouseSex, age };
@@ -216,7 +271,8 @@ export function rollSpouse(world, household, parent, sex, age, taken) {
   const back = 1 + (hashOf(`${world.seed}:${id}:birthday`) % 364);
   const bornMs = Date.UTC(new Date(today).getUTCFullYear() - age, new Date(today).getUTCMonth(), new Date(today).getUTCDate()) - back * DAY_MS;
   const role = SEX_ROLE[sex].grown;
-  const given = nameFrom(role, `${world.seed}:${id}:name`, taken);
+  // A name from the pools of the family's start, where the class deals starts (sim/starts.mjs): the family they marry into is theirs.
+  const given = nameFrom(role, `${world.seed}:${id}:name`, taken, poolsFor(household.heritage) || NAME_POOLS);
   return { id, given, sex, role, age, born: isoDay(bornMs), traits: dealTraits(world.seed, id, sex, age) };
 }
 
@@ -330,7 +386,9 @@ export function comeHome(world, household) {
   });
   record(world, 'courtship', {
     actorId: spouse.id, householdId: household.id, importance: 2, claimId: CLAIMS.rite, classification: 'DOCUMENTED',
-    text: 'In Mexican Texas only a priest could marry a couple, and priests were few; couples in the colonies signed a bond before the local authority and witnesses, promising to be married by a priest when one came.',
+    text: household.heritage === 'tejano' ? TEJANO_RITE_WORDS
+      : 'In Mexican Texas only a priest could marry a couple, and priests were few; couples in the colonies signed a bond before the local authority and witnesses, promising to be married by a priest when one came.',
+    ...(household.heritage === 'tejano' && { claimId: CLAIMS.tejanoRite }),
   });
 }
 
@@ -585,7 +643,9 @@ export function courtshipScript(world, household) {
       say('commissioner', 'Then sign here, and your neighbours will sign as witnesses. You are married by bond.', 'read-paper'),
       say(b1.id, `The ${one.plural} brought cornbread and a ham, and we brought tamales. Let's eat - and somebody find the fiddle!`, 'laugh'),
     ],
-    history: { text: 'In Mexican Texas only a Catholic priest could marry a couple, and priests were few. Couples in the colonies often signed a bond like this before a local officer and witnesses, promising to be married by a priest when one came.', kind: 'documented', claimId: CLAIMS.rite },
+    history: household.heritage === 'tejano'
+      ? { text: TEJANO_RITE_WORDS, kind: 'documented', claimId: CLAIMS.tejanoRite }
+      : { text: 'In Mexican Texas only a Catholic priest could marry a couple, and priests were few. Couples in the colonies often signed a bond like this before a local officer and witnesses, promising to be married by a priest when one came.', kind: 'documented', claimId: CLAIMS.rite },
   };
   const after = {
     id: 'after', light: t3.light, farm: 'home', house: homeHouse, place: 'Your own land', when: 'Afterwards',

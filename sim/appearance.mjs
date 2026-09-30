@@ -14,6 +14,13 @@
  * and nothing about a person may be inferred from how they look. So every range here is offered to
  * every family, whatever its names, and a default is dealt from the seed alone.
  *
+ * **Amended by the owner, 2026-09-29** ("ensure that skin tone options based on the race of the characters is locked to what is
+ * realistic"): in a class that deals starts (sim/starts.mjs), a parent's skin tone is chosen from the range realistic for the
+ * family's start - Anglo-American, Tejano or free Black - and the ranges overlap where history had them (`SKIN_RANGES`,
+ * `FIC-GONZ-981`). The default is dealt within it, a child takes a tone between the parents and so inside it too, and a lone
+ * parent's new husband or wife is dealt within it (sim/courtship.mjs). Hair, clothes and head are offered to every family as
+ * before. Nothing reads the start or the tone to decide anything else. A class made before deals no starts and offers every tone.
+ *
  * Stored as `entity.appearance` on a parent only once somebody has chosen; everything else is
  * derived, so a class saved before this needs nothing and no save version moves.
  *
@@ -25,6 +32,7 @@
 import { rollRefusal } from './family.mjs';
 /** SKIN is ordered lightest to darkest, so "between the parents" means something. */
 import { SKIN, HAIR, CLOTHING, HEAD } from './look-vocabulary.mjs';
+import { heritageOf, skinChoices } from './starts.mjs';
 export { SKIN, HAIR, CLOTHING, HEAD, appearanceCode } from './look-vocabulary.mjs';
 
 const PARENT_ROLES = ['father', 'mother'];
@@ -44,7 +52,8 @@ function parentAppearance(world, entity) {
   const chosen = entity.appearance || {};
   const key = part => `${world.seed}:${entity.id}:appearance:${part}`;
   return {
-    skin: chosen.skin ?? pick(SKIN, key('skin')),
+    // Within the range of the family's start (sim/starts.mjs); every tone for a family with none, drawn exactly as before.
+    skin: chosen.skin ?? pick(skinChoices(heritageOf(world, entity)), key('skin')),
     hair: chosen.hair ?? pick(HAIR.filter(hair => hair !== 'grey' || entity.age >= 40), key('hair')),
     clothing: chosen.clothing ?? pick(CLOTHING, key('clothing')),
     head: chosen.head ?? pick(HEAD[sexOf(entity)], key('head')),
@@ -61,7 +70,7 @@ function parentAppearance(world, entity) {
 function childAppearance(world, entity) {
   const parents = (entity.kin?.parents || []).map(id => world.entities[id]).filter(Boolean).map(parent => parentAppearance(world, parent));
   const key = part => `${world.seed}:${entity.id}:appearance:${part}`;
-  if (!parents.length) return { skin: pick(SKIN, key('skin')), hair: 'dark brown', clothing: pick(CLOTHING, key('clothing')) };
+  if (!parents.length) return { skin: pick(skinChoices(heritageOf(world, entity)), key('skin')), hair: 'dark brown', clothing: pick(CLOTHING, key('clothing')) };
   const tones = parents.map(parent => SKIN.indexOf(parent.skin));
   const lo = Math.min(...tones), hi = Math.max(...tones);
   const coloured = parents.map(parent => parent.hair).filter(hair => hair !== 'grey');
@@ -90,8 +99,11 @@ export const LOOK_PARTS = Object.freeze(['skin', 'hair', 'clothing', 'head']);
 /** Whether a parent's looks have been chosen: every part, which the pop-up sends together. */
 export const lookChosen = entity => LOOK_PARTS.every(part => entity?.appearance?.[part] !== undefined);
 
-/** What may be chosen for one parent, for the page to offer. */
-export const choicesFor = entity => ({ skin: SKIN, hair: HAIR, clothing: CLOTHING, head: HEAD[sexOf(entity)] });
+/**
+ * What may be chosen for one parent, for the page to offer: the skin tones of the family's start, where the class deals starts
+ * (owner, 2026-09-29), and every tone otherwise. `world` is what says the family's start; without it, every tone.
+ */
+export const choicesFor = (entity, world = null) => ({ skin: skinChoices(heritageOf(world, entity)), hair: HAIR, clothing: CLOTHING, head: HEAD[sexOf(entity)] });
 
 /** Why this change may not be made, or null. */
 export function appearanceRefusal(world, household, entity, input) {
@@ -101,7 +113,7 @@ export function appearanceRefusal(world, household, entity, input) {
   if (!isParent(entity)) return `${entity.name} takes after their parents. Choose how the parents look.`;
   // Set once (owner, 2026-09-17: "Names on the panel only"): chosen in the pop-up after the family is named, and then kept.
   if (lookChosen(entity)) return `How ${entity.name} looks has already been chosen.`;
-  const choices = choicesFor(entity);
+  const choices = choicesFor(entity, world);
   for (const part of ['skin', 'hair', 'clothing', 'head']) {
     if (input[part] !== undefined && !choices[part].includes(input[part])) return `That is not one of the choices for ${part === 'head' ? 'a hat, beard, bonnet or hair' : part}.`;
   }
@@ -124,7 +136,7 @@ export function appearanceInvalid(world) {
   for (const entity of Object.values(world.entities)) {
     if (entity.appearance === undefined) continue;
     if (!isParent(entity)) return 'Only a parent has a chosen appearance';
-    const choices = choicesFor(entity);
+    const choices = choicesFor(entity, world);
     for (const [part, value] of Object.entries(entity.appearance)) {
       if (!choices[part]?.includes(value)) return 'Invalid appearance';
     }

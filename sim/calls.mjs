@@ -19,6 +19,7 @@ import { recordLapse } from './lapse.mjs';
 import { takeToWar, warRifleWords } from './keeping.mjs';
 import { leavesLittleOnes } from './acting.mjs';
 import { canAnswerCalls, canFight, cannotAnswerWhy, cannotFightWhy, tooYoung, tooYoungWhy } from './family.mjs';
+import { SEGUIN_CALL, joinSeguin, seguinFamily } from './tejano.mjs';
 
 /** What a volunteer takes of the family's powder: the settlers brought their own arms (`HIST-GONZ-020`), and powder was short. */
 export const VOLUNTEER_POWDER = 2;
@@ -120,8 +121,10 @@ export function callOptions(world, householdId, call, entity) {
   const tired = entity.health.condition === 'tired' ? ` ${entity.name} is already tired.` : '';
   // Who is left at home if he goes, when nobody of ten or more would be (sim/acting.mjs, design audit S14, 2026-09-28).
   const leaves = leavesLittleOnes(world, world.households[householdId], entity);
+  // A Tejano family's man rides to join the Tejano volunteers under Seguín (sim/tejano.mjs, owner 2026-09-29).
+  const seguin = seguinFamily(world, world.households[householdId]);
   return [
-    offer('turn-out', COAST.includes(call.settlementId) ? `Go: ride west to join them, toward ${place}` : `Go: ride for ${place}`, `${entity.name} takes the family's rifle and up to ${VOLUNTEER_POWDER} powder, and is away from the farm until called home.${tired}${leaves ? ` ${leaves}` : ''}`),
+    offer('turn-out', seguin ? SEGUIN_CALL.label(place) : COAST.includes(call.settlementId) ? `Go: ride west to join them, toward ${place}` : `Go: ride for ${place}`, `${seguin ? `${SEGUIN_CALL.note(entity.name)} ` : ''}${entity.name} takes the family's rifle and up to ${VOLUNTEER_POWDER} powder, and is away from the farm until called home.${tired}${leaves ? ` ${leaves}` : ''}`),
     COAST.includes(call.settlementId)
       ? offer('stay-put', 'Stay and keep the coast', `The coast has few men left on it. ${entity.name} stays, and the farm keeps its hands.`)
       : offer('stay-put', 'Stay home', `${entity.name} stays, and the farm keeps its hands.`),
@@ -166,10 +169,13 @@ export function handleCall(world, householdId, entity, action, { beginTravel, tr
     if (why) throw new Error(why);
   }
   const first = call.status === 'open', before = volunteersOf(call);
+  const seguin = going && seguinFamily(world, household);
   const choiceId = record(world, 'choice', {
-    actorId: entity.id, householdId, decision: action, causes: [call.id], importance: 2, claimId: 'FIC-GONZ-031',
-    text: going ? `${entity.name} will ride for ${place.name} with the volunteers.` : `${entity.name} will stay home.`,
+    actorId: entity.id, householdId, decision: action, causes: [call.id], importance: 2, claimId: seguin ? 'FIC-GONZ-983' : 'FIC-GONZ-031',
+    text: seguin ? SEGUIN_CALL.choice(entity.name, place.name) : going ? `${entity.name} will ride for ${place.name} with the volunteers.` : `${entity.name} will stay home.`,
   });
+  // Seguín's from the moment he chooses to ride with the Tejano volunteers (sim/tejano.mjs).
+  if (seguin) joinSeguin(entity);
   if (first) { call.status = going ? 'accepted' : 'refused'; call.actorId = entity.id; call.choiceId = choiceId; }
   if (!going) {
     const consequence = record(world, 'consequence', { actorId: entity.id, householdId, importance: 2, causes: [choiceId], text: COAST.includes(call.settlementId) ? `${entity.name} stayed to keep the coast, and the farm kept its hands.` : `${entity.name} stayed home when the settlement turned out.` });

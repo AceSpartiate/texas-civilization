@@ -20,6 +20,7 @@ import { sampleReliefGrid } from './terrain.mjs';
 import { WOODS_SOURCE } from './woods.mjs';
 import { coloniesProvince } from './province.mjs';
 import { burnSamples, inBurnZone } from './advance.mjs';
+import { STARTS_SEATED, dealStarts } from './starts.mjs';
 
 const round = value => { const fixed = +value.toFixed(2); return fixed === 0 ? 0 : fixed; };
 const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -170,7 +171,7 @@ export function creekRuns(course, inKept) {
  * `zone: false` deals the land as every class before 2026-09-26 was dealt, with no regard to the burn zone: what an old save's
  * map is, for the tests that hold an old save to its own land (tests/mexican-advance.test.mjs).
  */
-export function buildColoniesRegion(random, playerCount, { zone = true } = {}) {
+export function buildColoniesRegion(random, playerCount, { zone = true, starts = false } = {}) {
   const built = coloniesMap();
   const land = realTerrain();
   const sites = {}, routes = {}, terrain = [];
@@ -178,8 +179,9 @@ export function buildColoniesRegion(random, playerCount, { zone = true } = {}) {
   for (const place of Object.values(built.places)) sites[place.id] = siteOfPlace(place);
   for (const road of built.roads) { const route = routeOfRoad(road); routes[route.id] = route; }
 
-  // Who goes where: the counts, then which family, shuffled by the seed.
-  const counts = dealCounts(playerCount);
+  // Who goes where: the counts, then which family, shuffled by the seed. `starts` (a class made since 2026-09-29, sim/starts.mjs)
+  // seats Victoria as well, for its Tejano family.
+  const counts = dealCounts(playerCount, starts ? STARTS_SEATED : undefined);
   const seats = Object.entries(counts).flatMap(([id, count]) => Array(count).fill(id));
   for (let i = seats.length - 1; i > 0; i--) { const j = Math.floor(random() * (i + 1)); [seats[i], seats[j]] = [seats[j], seats[i]]; }
   let settled = [...new Set(seats)];
@@ -356,6 +358,10 @@ export function buildColoniesRegion(random, playerCount, { zone = true } = {}) {
     places = ordered.map(one => one.place);
     settled = [...new Set(places.map(place => place.settlementId))];
   }
+  // Who each family is, as well as where (sim/starts.mjs, owner 2026-09-29): Victoria's families Tejano, one of Liberty's free Black
+  // in a class large enough, and the first of each moved early in the order students join - only ever exchanging two families on
+  // the same side of the burn zone, so the zone's deal above stands whatever decides it.
+  const heritages = starts ? dealStarts(places, { sideOf: zoned ? inZone : null }) : null;
 
   // Each homestead's track runs straight to the nearest point of a road it can reach without crossing a big river
   // (smaller watercourses are waded, as the roads wade them).
@@ -472,5 +478,5 @@ export function buildColoniesRegion(random, playerCount, { zone = true } = {}) {
   else { const grow = (width / aspect - height) / 2; padded.minY -= grow; padded.maxY += grow; }
   // The Gulf has no height; the relief drawing reads it as the lowest ground there is.
   const relief = sampleReliefGrid({ heightAt: (x, y) => { const h = land.heightAt(x, y); return Number.isFinite(h) ? h : 0; } }, padded, 88);
-  return { sites, routes, terrain, homesteads, relief, homeBounds: padded, bounds: coloniesProvince().bounds, source: built.kind, woods: WOODS_SOURCE };
+  return { sites, routes, terrain, homesteads, relief, homeBounds: padded, bounds: coloniesProvince().bounds, source: built.kind, woods: WOODS_SOURCE, ...(heritages && { heritages }) };
 }

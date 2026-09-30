@@ -21,9 +21,12 @@
   <p id="creation-landscape-caption">A new home, on the edge of a changing world.</p>
 </div>
 <section id="creation-begin" hidden role="dialog" aria-modal="true" aria-labelledby="creation-begin-title">
-  <span class="creation-card-kicker">YOUR STORY BEGINS HERE</span>
+  <span class="creation-card-kicker" id="creation-begin-kicker">YOUR STORY BEGINS HERE</span>
   <h2 id="creation-begin-title">Who will your family be?</h2>
   <p class="creation-begin-lead">Autumn 1835. Your wagon has reached Texas. The people who step off it—and what they bring—are about to become your story.</p>
+  <!-- Who the family is and where it has come from, in a class that deals starts (sim/starts.mjs, owner 2026-09-29): the server's
+       words, shown in place of the line above. Anglo-American, Tejano or free Black; the dice still decide its size and means. -->
+  <p class="creation-begin-lead" id="creation-begin-start" hidden></p>
   <ol class="creation-begin-steps" aria-label="Make your family in four steps">
     <li><span>01</span> Roll your household</li>
     <li><span>02</span> Give it a surname</li>

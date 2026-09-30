@@ -185,6 +185,26 @@ family 1 is given land inside the Mexican columns' burn zone, family 2 outside i
 and the counts by 1834 population kept; students join families in that order, so the played families are half and half and an
 odd one over is inside. Dealt as before and then moved as little as it can, from a stream of its own.
 
+**Amended 2026-09-29 (owner: "build all of these as possible starts except for the native american options"; the family's start,
+[FAMILY_CREATION.md](FAMILY_CREATION.md), `FIC-GONZ-980`; not released).** A class made since (`world.starts`, sim/starts.mjs)
+**seats Victoria** with Gonzales and Liberty, so De León's colony - "the only predominantly Mexican colony in Texas"
+(`HIST-TEX-780`) - is a start in every class, and **every family dealt there is a Tejano family**; in a class of ten or more, one
+of Liberty's families is a **free Black family**. This amends the owner's "Victoria: left to the numbers" of 2026-09-14 for new
+classes only; a class made before keeps its counts. With Victoria seated:
+
+| Families | San Felipe | Columbia | Matagorda | Mina | Liberty | Gonzales | Victoria |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 5 | 1 | 1 | 0 | 0 | 1 | 1 | 1 |
+| 10 | 2 | 1 | 1 | 1 | 2 | 2 | 1 |
+| 15 | 3 | 3 | 2 | 2 | 2 | 2 | 1 |
+| 20 | 5 | 4 | 2 | 2 | 3 | 3 | 1 |
+| 30 | 7 | 6 | 4 | 3 | 4 | 4 | 2 |
+
+After the burn zone's deal, the first Tejano family and the free Black family are each moved to a place among the first six
+families to join, by exchanging land with a family **on the same side of the burn zone**, so every family's land and every side
+the zone deals stand whatever decides the zone (`dealStarts`). Béxar, Goliad and Nacogdoches are still places, not starts: a
+Tejano family at Béxar is the owner's open question (FAMILY_CREATION.md).
+
 ### 5.2 Places and roads on the real map
 
 - **Settlements** are sites at their coordinates, projected by `milesFrom` (`sim/terrain-data.mjs`): the seven starts and

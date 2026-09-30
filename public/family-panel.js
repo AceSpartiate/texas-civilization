@@ -60,6 +60,8 @@ export const PANEL_SUMMARIES = Object.freeze({
   'go-vote': 'Go into town and vote for the delegates to the convention.',
   'join-relief': 'Ride to Gonzales to go in to the Alamo with the men gathering there.',
   'join-houston': 'Go to the camp of General Houston\'s army and stay with it.',
+  // A Tejano family's men (sim/tejano.mjs, owner 2026-09-29).
+  'join-seguin': 'Go to Houston\'s army and join Juan Seguín\'s company of Tejanos, its rear guard.',
   'hunt-road': 'Halt the family on the road east and go out from the camp for game, powder in hand.',
   'tend-sick': 'Halt the family for a day and nurse whoever is sick, so nobody in their care dies and the sick mend sooner.',
   // The owner's "stopping to rest should help characters recover" (sim/disease.mjs, docs/DISEASE.md §3.7).
@@ -130,6 +132,9 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
     'enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'go-vote', 'join-relief', 'join-houston', 'winter-recall',
     'travel-gonzales', 'travel-home', 'visit', 'work', 'rest', 'stop-chore',
   ].map(key => [key, { sprite: `icon-${key}` }]),
+  // Seguín's company (sim/tejano.mjs). stand-in: docs/ART_REQUESTS.md, request 2026-09-29 "the family's start" - `icon-join-seguin`;
+  // until it is drawn, the joining of Houston's army, which it is.
+  ['join-seguin', { sprite: 'icon-join-houston' }],
   // The camp's four (sim/camp.mjs) select their registered `icon-<key>` sprites in drawIcon; glyphs remain load fallbacks.
   ['camp-drill', { glyph: 'drill' }], ['camp-forage', { glyph: 'forage' }], ['camp-guard', { glyph: 'guard' }], ['camp-scout', { glyph: 'scout' }],
   // The road's chores (sim/road.mjs, docs/ROAD_EAST.md) have registered `icon-<key>` frames; glyphs are load fallbacks.

@@ -54,6 +54,8 @@ export const VOTING_AGE = 21;
 /** The chores of the winter, by what their last step does. */
 export const WINTER_CHORES = Object.freeze({
   'enlist-regular': 'regular', 'enlist-auxiliary': 'auxiliary', 'join-garrison': 'garrison', 'join-matamoros': 'matamoros', 'go-vote': 'vote', 'join-relief': 'relief', 'join-houston': 'houston',
+  // Houston's army as Seguín's company, for a Tejano family's men (sim/tejano.mjs, owner 2026-09-29).
+  'join-seguin': 'houston',
 });
 
 const passed = (world, key) => Boolean(world.director?.milestones?.[key]);

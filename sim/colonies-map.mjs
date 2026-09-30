@@ -49,10 +49,11 @@ export const SEATED = Object.freeze(['gonzales', 'liberty']);
  * How many of a class's families start near each settlement: one at each seat, then the rest in proportion to
  * the weights by largest remainder, ties to the larger settlement (docs/COLONIES.md §5.1).
  */
-export function dealCounts(families) {
+export function dealCounts(families, seated = SEATED) {
   const ids = Object.keys(START_WEIGHTS);
   const counts = Object.fromEntries(ids.map(id => [id, 0]));
-  for (const id of SEATED.slice(0, families)) counts[id]++;
+  // `seated`: a class made since 2026-09-29 seats Victoria too, for its Tejano family (sim/starts.mjs `STARTS_SEATED`).
+  for (const id of seated.slice(0, families)) counts[id]++;
   const rest = families - Object.values(counts).reduce((a, b) => a + b, 0);
   const total = ids.reduce((sum, id) => sum + START_WEIGHTS[id], 0);
   const shares = ids.map(id => ({ id, exact: START_WEIGHTS[id] / total * rest }));
