@@ -269,6 +269,10 @@ try {
   // The word comes on April 1 (sim/directors.mjs `massacre-word`); the card must be on the page within seconds of it.
   for (let i = 0; i < 1200 && !world().director.milestones['massacre-word']; i++) await fighter.waitForTimeout(500);
   assert.ok(world().director.milestones['massacre-word'], 'the word of the massacre never came');
+  // Since 2026-09-29 the word leaves the army's camp by express and reaches each family when a rider could have brought it
+  // (docs/COLONIES.md §5.4c-d): the account comes with the family's own hearing, which is what the page is waited on for.
+  const heard = await fighter.waitForFunction(() => window.__snapshot?.world?.reports?.some(report => report.topicId === 'goliad-massacre'), null, { timeout: 600000 }).then(() => true, () => false);
+  assert.ok(heard, 'the word of the massacre never reached the family');
   const accounted = await fighter.waitForFunction(() => !document.querySelector('#military-notice').hidden && /What became of/.test(document.querySelector('#military-title').textContent), null, { timeout: 30000 }).then(() => true, () => false);
   assert.ok(accounted, 'no account came through the family at the word');
   const account = await fighter.evaluate(() => ({ title: document.querySelector('#military-title').textContent, words: document.querySelector('#military-words').textContent, journal: window.__snapshot.world.events.some(event => /Why it ended so/.test(event.text) && /Remember Goliad/.test(event.text)) }));

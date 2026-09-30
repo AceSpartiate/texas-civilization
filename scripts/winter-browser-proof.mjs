@@ -34,6 +34,10 @@ function inTheWinter(seed, playerCount) {
   beginSecondPeriod(world);
   world.status = 'running';
   for (let i = 0; i < 400 && !world.director.milestones['winter-news']; i++) stepWorld(world);
+  // The winter's news goes by express since 2026-09-29 (docs/COLONIES.md §5.4d), and its choices are offered once it has reached
+  // the family: on until it has reached every family.
+  const heard = () => Object.keys(world.households).every(id => ['winter-terms', 'winter-bexar'].every(topic => world.knowledge.households[id]?.[topic]));
+  for (let i = 0; i < 400 && !heard(); i++) stepWorld(world);
   // Every family finished its guided start in the first period, as a real class's have by the winter (sim/lesson.mjs): a family
   // whose house site the first period's automation never chose would otherwise be walked back to the wagon, every order but
   // the lesson's shut (found 2026-09-25: the winter proof had failed on this since the guided start of 2026-09-21).

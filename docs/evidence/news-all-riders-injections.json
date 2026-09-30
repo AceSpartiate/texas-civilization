@@ -6,8 +6,8 @@
     "tests/winter.test.mjs",
     "tests/battle-bexar.test.mjs"
   ],
-  "caught": 9,
-  "only": 6,
+  "caught": 10,
+  "only": 7,
   "of": 10,
   "injections": [
     {
@@ -90,9 +90,11 @@
       "name": "Travis's letter reaches the other settlements all on one day",
       "file": "sim/directors.mjs",
       "expected": "the winter's news and the spring's first word",
-      "caught": false,
-      "only": false,
-      "failed": []
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the winter's news and the spring's first word go by express from San Felipe, Béxar, Gonzales, Goliad and Washington, days apart and never early"
+      ]
     },
     {
       "name": "the winter's choices are offered before its news has reached the family",

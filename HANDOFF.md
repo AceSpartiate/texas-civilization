@@ -58,14 +58,25 @@ and fleeing to the nearest refuge).
   the second period's words from their five places, Travis's letter to the farthest after the old evening; a family told of its
   own men in the south only when the rumour reaches it, checked every tick; the end held for a played family (heard after dawn
   on the 25th, ended after it heard and within a day), and not past a day for a word that cannot come.
-- **`npm run test:news-all-riders-injections`: INJECTIONS_PLACEHOLDER** ([record](docs/evidence/news-all-riders-injections.json)).
+- **`npm run test:news-all-riders-injections`: 10 of 10 caught by the test written for them, 7 by it alone**
+  ([record](docs/evidence/news-all-riders-injections.json)). The first run missed three (the storming's and the south's tellings,
+  and Travis's letter all on one evening); the tests were sharpened (a killed man's family told only after its own hearing, in
+  tests/battle-bexar.test.mjs; the south checked every tick; the letter checked against the old evening's public report) and each
+  was then seen failing to its injection.
 - Tests changed for the rule, not weakened (they waited for the moment everybody used to hear): `winter` (now also proves the
   choices are not offered before the word, in words), `tests/support/south.mjs` (waits for the winter's word), `alamo`
   (Matamoros), `battle-south` (3), `battle-bexar` (killed: told after his family hears), `siege` (the rumour and the account by the
   family's own hearing), `storming` (played families hear before the end; the rest over the winter), `surprise` (the far family by
   express).
-- `npm test`: NPMTEST_PLACEHOLDER
-- Browser proofs: PROOFS_PLACEHOLDER
+- Also changed for the rule: `battle-concepcion` (every family has the word within a few days, not on the day), `war-rifle` and
+  `women` (wait for the winter's word to reach the families), `scripts/battle-coleto-browser-proof.mjs` (the account is waited
+  for with the family's own hearing of the massacre - it failed at that step until then) and `scripts/winter-browser-proof.mjs`.
+- `npm test` on the tree merged with origin/main ca6ac201: **1831 tests, 1792 pass, 2 fail, 36 skipped**; the failures were the
+  known-flaky `capacity`/`classroom-doors` and `save-retry` under load (a proof and the harness running beside it), and all three
+  files pass alone (7 of 7).
+- Browser proofs on the merged tree (headless Chrome, at most two at once): `test:relay`, `test:information` (PASS),
+  `test:one-rider` 10, `test:alamo` (PASS), `test:alamo-siege` 9, `test:scrape` 7, `test:ending` 10, `test:flashback` 11,
+  `test:whole-game` 14, `test:battle-south` 16, `test:battle-coleto` 17 (after its fix above), and `test:winter` 6.
 
 **Open, for the owner** (built the first option):
 
