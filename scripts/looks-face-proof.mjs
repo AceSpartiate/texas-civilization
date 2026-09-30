@@ -53,6 +53,15 @@ const FIGURES = {
   teal: { face: [.301, .667, .067, .280], skin: [173, 92, 45], hair: [[58, 40, 30]] },
   indigo: { face: [.324, .665, .073, .265], skin: [203, 107, 49], hair: [[63, 43, 32]] },
 };
+/**
+ * Her children's figures (2026-09-29, the family's start): dyed to the child's own tone since that day, where until then they were
+ * drawn as painted whatever their parents looked like. Measured on the art the same way, as the averages of their painted regions.
+ */
+const CHILDREN = {
+  girl: { face: [.279, .721, .081, .319], skin: [223, 124, 54], hair: [[70, 43, 27], [63, 36, 21], [69, 42, 27], [71, 44, 28], [74, 45, 26], [61, 39, 24]] },
+  boy: { face: [.273, .727, .101, .308], skin: [247, 164, 101], hair: [[198, 134, 66], [197, 133, 65]] },
+  smallchild: { face: [.243, .75, .11, .358], skin: [225, 127, 57], hair: [[77, 44, 24]] },
+};
 /** At most this share of a head's pixels may take the hair dye while painted in no hair colour (the release had 3.4-8.4%). */
 const STRAY_LIMIT = .005;
 /** At most this share of the face's own paint may be left undyed by the skin choice (the release had up to 15%). */
@@ -175,6 +184,28 @@ try {
     }
     observed.walks[variant] = Number((worst * 100).toFixed(2));
     ok(`${variant} (${heads.join(', ')}): no hair dye off the hair (${(strayShare * 100).toFixed(2)}% standing, ${(worst * 100).toFixed(2)}% at worst walking) and the face takes the skin (${(undyedShare * 100).toFixed(2)}% left)`);
+  }
+  // ---------------------------------------------------------------- her children, who take after their parents (2026-09-29)
+  // A free Black or Tejano family's children were drawn light-skinned beside their parents: the palette did not know her
+  // children's figures. Now each takes the skin choice on the face, and the hair choice only on the hair, standing and walking.
+  await page.evaluate(async () => { const art = await import('/art.js'); art.loadArt?.({ sheets: ['children'] }); });
+  for (const [variant, figure] of Object.entries(CHILDREN)) {
+    const standing = await measure(page, `${variant}-idle-s`, figure, figure.face);
+    assert.ok(!standing.missing, `${variant}-idle-s is not in the art`);
+    observed.figures[variant] = { child: true, ...standing };
+    const strayShare = standing.stray / standing.head, undyedShare = standing.undyed / standing.face;
+    assert.ok(standing.face > 200, `${variant}: only ${standing.face} pixels of the face's own paint were found`);
+    assert.ok(strayShare <= STRAY_LIMIT, `${variant}: the hair choice dyes ${standing.stray} of ${standing.head} head pixels painted in no hair colour (${(strayShare * 100).toFixed(1)}%), e.g. ${JSON.stringify(standing.strayAt)}`);
+    assert.ok(undyedShare <= UNDYED_LIMIT, `${variant}: ${standing.undyed} of ${standing.face} pixels of the face's own paint keep the painted skin when the skin choice changes (${(undyedShare * 100).toFixed(1)}%) - the child is not drawn in the family's tone`);
+    let worst = 0;
+    for (const frame of [1, 2, 3, 4]) {
+      const walk = await measure(page, `${variant}-walk-${frame}`, figure, null);
+      if (walk.missing) continue;
+      worst = Math.max(worst, walk.stray / walk.head);
+      assert.ok(walk.stray / walk.head <= STRAY_LIMIT, `${variant}-walk-${frame}: the hair choice dyes ${walk.stray} of ${walk.head} head pixels painted in no hair colour`);
+    }
+    observed.walks[variant] = Number((worst * 100).toFixed(2));
+    ok(`${variant} (a child): takes the family's tone on the face (${(undyedShare * 100).toFixed(2)}% left) and the hair choice only on the hair (${(strayShare * 100).toFixed(2)}% standing, ${(worst * 100).toFixed(2)}% at worst walking)`);
   }
   await context.close();
 

@@ -1,0 +1,415 @@
+{
+  "record": "starts-injections",
+  "date": "2026-09-30",
+  "files": [
+    "tests/starts.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "Victoria is not seated: a class of five has no Tejano family",
+      "files": [
+        "sim/colonies-region.mjs"
+      ],
+      "expect": "a class that deals starts seats Victoria, whose families are Tejano; one of Liberty's is free Black from ten families; the first of each is among the first six to join",
+      "spring": false,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "a class that deals starts seats Victoria, whose families are Tejano; one of Liberty's is free Black from ten families; the first of each is among the first six to join",
+        "a lone parent's new husband or wife is of the family's start: tone, name and the family they come from",
+        "the start's story is told once, at its moment: the law to a free Black family only, and the ending's last line"
+      ]
+    },
+    {
+      "name": "Victoria's families are dealt as Anglo-American",
+      "files": [
+        "sim/starts.mjs"
+      ],
+      "expect": "a class that deals starts seats Victoria, whose families are Tejano; one of Liberty's is free Black from ten families; the first of each is among the first six to join",
+      "spring": false,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "a class that deals starts seats Victoria, whose families are Tejano; one of Liberty's is free Black from ten families; the first of each is among the first six to join",
+        "moving a start early exchanges only two families on the same side of the burn zone, and keeps every family's land",
+        "a lone parent's new husband or wife is of the family's start: tone, name and the family they come from",
+        "the start's story is told once, at its moment: the law to a free Black family only, and the ending's last line"
+      ]
+    },
+    {
+      "name": "a class smaller than ten is dealt a free Black family",
+      "files": [
+        "sim/starts.mjs"
+      ],
+      "expect": "a class that deals starts seats Victoria, whose families are Tejano; one of Liberty's is free Black from ten families; the first of each is among the first six to join",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a class that deals starts seats Victoria, whose families are Tejano; one of Liberty's is free Black from ten families; the first of each is among the first six to join"
+      ]
+    },
+    {
+      "name": "the starts are left where the deal put them, often past the families students join",
+      "files": [
+        "sim/starts.mjs"
+      ],
+      "expect": "a class that deals starts seats Victoria, whose families are Tejano; one of Liberty's is free Black from ten families; the first of each is among the first six to join",
+      "spring": false,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "a class that deals starts seats Victoria, whose families are Tejano; one of Liberty's is free Black from ten families; the first of each is among the first six to join",
+        "moving a start early exchanges only two families on the same side of the burn zone, and keeps every family's land"
+      ]
+    },
+    {
+      "name": "a start is moved early across the burn zone",
+      "files": [
+        "sim/starts.mjs"
+      ],
+      "expect": "moving a start early exchanges only two families on the same side of the burn zone, and keeps every family's land",
+      "spring": false,
+      "caught": false,
+      "alone": false,
+      "failed": []
+    },
+    {
+      "name": "every class deals starts, a class made before too",
+      "files": [
+        "sim/world.mjs"
+      ],
+      "expect": "a class made without starts deals none, offers every tone and deals the mixed names, as before",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a class made without starts deals none, offers every tone and deals the mixed names, as before"
+      ]
+    },
+    {
+      "name": "every tone is offered to every family",
+      "files": [
+        "sim/appearance.mjs"
+      ],
+      "expect": "each start's parents are offered only its skin tones, dealt within them, refused outside them, and a tone outside them does not open",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "each start's parents are offered only its skin tones, dealt within them, refused outside them, and a tone outside them does not open"
+      ]
+    },
+    {
+      "name": "the default tone is dealt from every tone",
+      "files": [
+        "sim/appearance.mjs"
+      ],
+      "expect": "each start's parents are offered only its skin tones, dealt within them, refused outside them, and a tone outside them does not open",
+      "spring": false,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "each start's parents are offered only its skin tones, dealt within them, refused outside them, and a tone outside them does not open",
+        "children take a tone between their parents, so inside the start's range",
+        "a lone parent's new husband or wife is of the family's start: tone, name and the family they come from"
+      ]
+    },
+    {
+      "name": "the free Black range runs from the fairest tone",
+      "files": [
+        "sim/starts.mjs"
+      ],
+      "expect": "each start's parents are offered only its skin tones, dealt within them, refused outside them, and a tone outside them does not open",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "each start's parents are offered only its skin tones, dealt within them, refused outside them, and a tone outside them does not open"
+      ]
+    },
+    {
+      "name": "a child is dealt any tone, not one between the parents",
+      "files": [
+        "sim/appearance.mjs"
+      ],
+      "expect": "children take a tone between their parents, so inside the start's range",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "children take a tone between their parents, so inside the start's range"
+      ]
+    },
+    {
+      "name": "the names ignore the start",
+      "files": [
+        "sim/family.mjs"
+      ],
+      "expect": "names are dealt from the start's own pools, and a Tejano family plants corn",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "names are dealt from the start's own pools, and a Tejano family plants corn"
+      ]
+    },
+    {
+      "name": "a Tejano family plants cotton",
+      "files": [
+        "sim/world.mjs"
+      ],
+      "expect": "names are dealt from the start's own pools, and a Tejano family plants corn",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "names are dealt from the start's own pools, and a Tejano family plants corn"
+      ]
+    },
+    {
+      "name": "the spouse's family is dealt any tone",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "a lone parent's new husband or wife is of the family's start: tone, name and the family they come from",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a lone parent's new husband or wife is of the family's start: tone, name and the family they come from"
+      ]
+    },
+    {
+      "name": "the spouse is named from the mixed pools",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "a lone parent's new husband or wife is of the family's start: tone, name and the family they come from",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a lone parent's new husband or wife is of the family's start: tone, name and the family they come from"
+      ]
+    },
+    {
+      "name": "a Tejano spouse is born to any family of the colonies",
+      "files": [
+        "sim/courtship.mjs"
+      ],
+      "expect": "a lone parent's new husband or wife is of the family's start: tone, name and the family they come from",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a lone parent's new husband or wife is of the family's start: tone, name and the family they come from"
+      ]
+    },
+    {
+      "name": "the start rides on every tick",
+      "files": [
+        "sim/world.mjs"
+      ],
+      "expect": "the start is on the family's own book only: not on the tick, and not on another family's page",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the start is on the family's own book only: not on the tick, and not on another family's page"
+      ]
+    },
+    {
+      "name": "the law is told again every tick",
+      "files": [
+        "sim/start-story.mjs"
+      ],
+      "expect": "the start's story is told once, at its moment: the law to a free Black family only, and the ending's last line",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the start's story is told once, at its moment: the law to a free Black family only, and the ending's last line"
+      ]
+    },
+    {
+      "name": "the law is told to every family",
+      "files": [
+        "sim/start-story.mjs"
+      ],
+      "expect": "the start's story is told once, at its moment: the law to a free Black family only, and the ending's last line",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the start's story is told once, at its moment: the law to a free Black family only, and the ending's last line"
+      ]
+    },
+    {
+      "name": "the law is told before its day",
+      "files": [
+        "sim/start-story.mjs"
+      ],
+      "expect": "the start's story is told once, at its moment: the law to a free Black family only, and the ending's last line",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the start's story is told once, at its moment: the law to a free Black family only, and the ending's last line"
+      ]
+    },
+    {
+      "name": "the ending says nothing of afterwards",
+      "files": [
+        "sim/ending.mjs"
+      ],
+      "expect": "the start's story is told once, at its moment: the law to a free Black family only, and the ending's last line",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the start's story is told once, at its moment: the law to a free Black family only, and the ending's last line"
+      ]
+    },
+    {
+      "name": "the market reads a family's start",
+      "files": [
+        "sim/market.mjs"
+      ],
+      "expect": "only the start's own modules read a family's start: no price, trade, work, fate or director does",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "only the start's own modules read a family's start: no price, trade, work, fate or director does"
+      ]
+    },
+    {
+      "name": "an Anglo family's man can be marked Seguín's and the class still opens",
+      "files": [
+        "sim/tejano.mjs"
+      ],
+      "expect": "a company or a told line that could not have been does not open",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a company or a told line that could not have been does not open"
+      ]
+    },
+    {
+      "name": "a Tejano man is asked as any volunteer, with no word of Seguín",
+      "files": [
+        "sim/calls.mjs"
+      ],
+      "expect": "a Tejano family's man rides with Seguín's company in the autumn, and is told what it did and that it went home",
+      "spring": true,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a Tejano family's man rides with Seguín's company in the autumn, and is told what it did and that it went home"
+      ]
+    },
+    {
+      "name": "turning out does not make him Seguín's",
+      "files": [
+        "sim/calls.mjs"
+      ],
+      "expect": "a Tejano family's man rides with Seguín's company in the autumn, and is told what it did and that it went home",
+      "spring": true,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a Tejano family's man rides with Seguín's company in the autumn, and is told what it did and that it went home"
+      ]
+    },
+    {
+      "name": "the family is never told of the Salado",
+      "files": [
+        "sim/tejano.mjs"
+      ],
+      "expect": "a Tejano family's man rides with Seguín's company in the autumn, and is told what it did and that it went home",
+      "spring": true,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "a Tejano family's man rides with Seguín's company in the autumn, and is told what it did and that it went home"
+      ]
+    },
+    {
+      "name": "Seguín's company is put in front of every family's men",
+      "files": [
+        "sim/tejano.mjs"
+      ],
+      "expect": "in the spring a Tejano family's man may join Seguín's company in Houston's army, and nobody else's may",
+      "spring": true,
+      "caught": false,
+      "alone": false,
+      "failed": []
+    },
+    {
+      "name": "joining Seguín's company in the spring does not mark him Seguín's",
+      "files": [
+        "sim/tejano.mjs"
+      ],
+      "expect": "in the spring a Tejano family's man may join Seguín's company in Houston's army, and nobody else's may",
+      "spring": true,
+      "caught": false,
+      "alone": false,
+      "failed": []
+    },
+    {
+      "name": "the halted wagons are drawn on every family's page",
+      "files": [
+        "sim/start-story.mjs"
+      ],
+      "expect": "on the road east a family passes enslaved people, drawn where it is and told once, and hears of escapes at a crossing",
+      "spring": true,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "on the road east a family passes enslaved people, drawn where it is and told once, and hears of escapes at a crossing"
+      ]
+    },
+    {
+      "name": "a family is told of the halted wagons again and again",
+      "files": [
+        "sim/start-story.mjs"
+      ],
+      "expect": "on the road east a family passes enslaved people, drawn where it is and told once, and hears of escapes at a crossing",
+      "spring": true,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "on the road east a family passes enslaved people, drawn where it is and told once, and hears of escapes at a crossing"
+      ]
+    },
+    {
+      "name": "nobody waiting at a crossing sees the people waiting there",
+      "files": [
+        "sim/start-story.mjs"
+      ],
+      "expect": "on the road east a family passes enslaved people, drawn where it is and told once, and hears of escapes at a crossing",
+      "spring": true,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "on the road east a family passes enslaved people, drawn where it is and told once, and hears of escapes at a crossing"
+      ]
+    },
+    {
+      "name": "words are put in their mouths",
+      "files": [
+        "sim/start-story.mjs"
+      ],
+      "expect": "on the road east a family passes enslaved people, drawn where it is and told once, and hears of escapes at a crossing",
+      "spring": true,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "in the spring a Tejano family's man may join Seguín's company in Houston's army, and nobody else's may",
+        "on the road east a family passes enslaved people, drawn where it is and told once, and hears of escapes at a crossing"
+      ]
+    }
+  ]
+}

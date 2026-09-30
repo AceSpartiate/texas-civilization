@@ -51,15 +51,18 @@ test('a class that deals starts seats Victoria, whose families are Tejano; one o
 });
 
 test('moving a start early exchanges only two families on the same side of the burn zone, and keeps every family\'s land', () => {
-  const places = Array.from({ length: 12 }, (_, i) => ({ x: i, y: i * 2, settlementId: i === 9 ? 'victoria' : i === 10 || i === 11 ? 'liberty' : 'san-felipe' }));
-  const side = place => place.x % 3 === 0;
-  const before = structuredClone(places);
-  const starts = dealStarts(places, { sideOf: side });
-  assert.deepEqual([...places].sort((a, b) => a.x - b.x), before, 'the same land, only reordered');
-  places.forEach((place, i) => assert.equal(side(place), side(before[i]), `family ${i + 1} keeps its side of the zone`));
-  assert.ok(starts.indexOf('tejano') < EARLY && starts.indexOf('free-black') < EARLY);
-  assert.equal(places[starts.indexOf('tejano')].settlementId, 'victoria');
-  assert.equal(places[starts.indexOf('free-black')].settlementId, 'liberty');
+  // Forty layouts, so the seeded choice among the early families meets both sides many times over.
+  for (let k = 0; k < 40; k++) {
+    const places = Array.from({ length: 12 }, (_, i) => ({ x: i + k * 100, y: i * 2, settlementId: i === 9 ? 'victoria' : i === 10 || i === 11 ? 'liberty' : 'san-felipe' }));
+    const side = place => place.x % 3 === 0;
+    const before = structuredClone(places);
+    const starts = dealStarts(places, { sideOf: side });
+    assert.deepEqual([...places].sort((a, b) => a.x - b.x), before, 'the same land, only reordered');
+    places.forEach((place, i) => assert.equal(side(place), side(before[i]), `layout ${k}: family ${i + 1} keeps its side of the zone`));
+    assert.ok(starts.indexOf('tejano') < EARLY && starts.indexOf('free-black') < EARLY);
+    assert.equal(places[starts.indexOf('tejano')].settlementId, 'victoria');
+    assert.equal(places[starts.indexOf('free-black')].settlementId, 'liberty');
+  }
 });
 
 test('a class made without starts deals none, offers every tone and deals the mixed names, as before', () => {
@@ -257,8 +260,13 @@ test('in the spring a Tejano family\'s man may join Seguín\'s company in Housto
   const offered = entity => choresFor(world, world.households[entity.householdId], entity).find(chore => chore.id === 'join-seguin');
   until(world, () => !man.travel && man.location.siteId === tejano.homeSiteId && offered(man)?.can, 3000);
   assert.ok(offered(man)?.can, offered(man)?.why || 'not offered');
-  const anglo = of(world, 'anglo').map(household => parents(world, household).find(one => one.sex === 'male')).find(Boolean);
+  // An Anglo family's man who is offered Houston's army is not offered Seguín's company.
+  const houstonOf = entity => choresFor(world, world.households[entity.householdId], entity).find(chore => chore.id === 'join-houston');
+  const anglo = of(world, 'anglo').flatMap(household => parents(world, household).filter(one => one.sex === 'male')).find(one => houstonOf(one));
+  assert.ok(anglo, 'an Anglo family\'s man offered Houston\'s army');
   assert.equal(offered(anglo), undefined, 'not put in front of an Anglo family\'s man');
+  // As a Tejano man who stayed home in the autumn: joining in the spring is what makes him Seguín's.
+  delete man.company;
   applyAction(world, tejanoId, { action: 'chore', entityId: manId, chore: 'join-seguin', mode: 'foot' });
   until(world, () => man.service?.status === 'serving', 4000);
   assert.equal(man.service?.kind, 'houston');
