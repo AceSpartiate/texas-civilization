@@ -44,6 +44,9 @@ export const STUDENT_FURNITURE = [
   // The sound control beside the Journal, and its panel of sliders (public/audio.js, 2026-09-28).
   { name: 'sound button', selector: '#sound-toggle', kind: 'control' },
   { name: 'sound panel', selector: '#sound-panel', kind: 'popup' },
+  // The Tips button beside them, and the tips already seen, to read again (owner, 2026-09-29, triage D16).
+  { name: 'tips button', selector: '#tips-toggle', kind: 'control' },
+  { name: 'tips list', selector: '#tips-list', kind: 'popup' },
   { name: 'ending button', selector: '#ending-open', kind: 'control' },
   { name: 'map framing', selector: '#map-framing', kind: 'caption' },
   // Top right: the connection line, Play Solo's own controls, the guided start and the messages.

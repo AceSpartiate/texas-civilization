@@ -12,16 +12,20 @@
     "every available action has a readable name without hovering",
     "hovering an icon shows a small popup with one sentence: \"Rest\" - \"Sit still at home, which is the only thing that mends tiredness.\"",
     "focusing an icon from the keyboard shows the same popup, and Escape puts it away",
-    "pressing \"Practise at the mark\" sets hh-1-parent-2 to it on the server, and its icon glows",
-    "it glowed through the practice (86 samples) and went out when the server said it was done (powder 5 to 3)",
+    "pressing \"Practise at the mark\" sets hh-1-child-2 to it on the server, and its icon glows",
+    "it glowed through the practice (9 samples) and went out when the server said it was done (powder 5 to 3)",
     "the house card: \"Choose your house\", moss green and glowing (card-glow), under Hide names and over the rows; its button opens the houses and it comes back when they close",
     "one press on an adult's portrait makes hh-1-parent-1 the main person on the server (one set-main, the star's), gives them the bar and the map, and opens no card",
-    "the main person's portrait sends nothing, the star makes hh-1-parent-2 main again, and a child's portrait is refused as the star is: \"Prudence Proofwright is too young to be sent.\", and still gives them their bar",
-    "pressing a portrait moves the camera onto that person and zooms in (scale 678 to 2605, 0.000 miles off)",
+    "the main person's portrait sends nothing, the star makes hh-1-child-2 main again, and a child's portrait is refused as the star is: \"Prudence Proofwright is too young to be sent.\", and still gives them their bar",
+    "pressing a portrait moves the camera onto that person and zooms in (scale 678 to 2605, 0.001 miles off)",
     "all 14 names changed in place and saved themselves - left by Tab, and the last by a pause in typing: Asa, Keziah, Hiram, Delia, Obed, Minerva, Levi, Soledad, Jonas, Effie, Silas, Orpha, Enos, Tomasa",
     "a name with no letters is refused in the server’s words, and the box goes back to the name the world holds",
     "after a reload every new name is in its box on the panel and in the family book",
-    "on a 400 px phone the panel is a column of portraits with one row open, taking 15% of the screen and no row outside the column and that row, with the map on top at 51% of the 288 points the guided start leaves",
+    "on a touch screen the first tap on \"Plant the field\" shows \"Turn the rows of every cleared plot and put in seed.\" and \"Costs 3 seed.\" with a 44px Send, and sends nothing; the second tap sends it",
+    "Send on the tapped popup of \"travel-gonzales\" sends it",
+    "a tap on the map puts the armed popup away, and nothing is sent",
+    "a mouse press on \"travel-gonzales\" still sends at once, on the same touch screen",
+    "on a 400 px phone the panel is a column of portraits with one row open, taking 10% of the screen and no row outside the column and that row, with the map on top at 51% of the 288 points the guided start leaves",
     "on a phone, pressing another portrait opens that person’s row",
     "no page errors anywhere in the run"
   ],
@@ -54,8 +58,8 @@
       "summary": "Sit still at home, which is the only thing that mends tiredness."
     },
     "glow": {
-      "worker": "hh-1-parent-2",
-      "samplesGlowingWhileBusy": 86,
+      "worker": "hh-1-child-2",
+      "samplesGlowingWhileBusy": 9,
       "powderBefore": 5,
       "powderAfter": 3
     },
@@ -74,21 +78,37 @@
       "pressed": "hh-1-parent-1",
       "madeMain": true,
       "sent": 1,
-      "starBack": "hh-1-parent-2",
+      "starBack": "hh-1-child-2",
       "refusal": "Prudence Proofwright is too young to be sent."
     },
     "camera": {
       "before": {
-        "cx": 2.6521,
-        "cy": -10.6378,
+        "cx": 2.506,
+        "cy": -10.7786,
         "scale": 678.1713759617705
       },
       "after": {
-        "cx": 2.6493,
-        "cy": -10.7781,
+        "cx": 2.6488255600001334,
+        "cy": -10.777753680000878,
         "scale": 2605.263157894737
       },
-      "milesFromPerson": 0
+      "milesFromPerson": 0.0012
+    },
+    "touch": {
+      "icon": "plant-field",
+      "armed": {
+        "name": "Plant the field",
+        "summary": "Turn the rows of every cleared plot and put in seed.",
+        "note": "Costs 3 seed.",
+        "send": "Send",
+        "sendBox": {
+          "width": 250,
+          "height": 44
+        }
+      },
+      "secondTap": [
+        "chore"
+      ]
     },
     "phone": {
       "panel": {
@@ -100,12 +120,12 @@
       "openRows": 1,
       "columnRight": 56,
       "openRow": {
-        "y": 248,
-        "height": 95
+        "y": 344,
+        "height": 47
       },
       "stripBottom": 0,
       "sampled": 288,
-      "mapShare": 0.5138888888888888,
+      "mapShare": 0.5069444444444444,
       "strays": [],
       "bar": {
         "points": 36,
@@ -117,7 +137,7 @@
         "DIV.story-card-buttons",
         "BUTTON#house-open"
       ],
-      "covered": 0.1458513671875,
+      "covered": 0.1040900390625,
       "pageScrolls": false
     }
   },

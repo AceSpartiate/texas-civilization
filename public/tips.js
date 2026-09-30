@@ -138,3 +138,17 @@ export function tipToShow(world, { seen = [], showing = null, errandOpen = false
   }
   return { show: present.find(id => !done.has(id)) || null, retire: null };
 }
+
+/**
+ * The tips this student can read again (owner, 2026-09-29, triage D16 "Tips button"): every one the family has put away, the
+ * latest first, in its words, from the same `seen` list the page shows tips by (the server's `household.tipsSeen` and what this
+ * page has put away since). A reference that gates nothing: reading it shows no tip again, sends nothing and opens nothing.
+ *
+ * Never the guided start's `resume`: its words send the student to "Resume tutorial", and the tutorial is suspended (owner,
+ * 2026-09-28) - the teacher cannot bring it back (2026-09-27), and neither may this list. A tip nobody wrote is left out too.
+ */
+export const NOT_REREAD = Object.freeze(['resume']);
+export function tipsToReread(seen = []) {
+  const ids = [...new Set(seen)].filter(id => Object.hasOwn(TIPS, id) && !NOT_REREAD.includes(id));
+  return ids.reverse().map(id => ({ id, words: TIPS[id] }));
+}

@@ -178,7 +178,7 @@
     </div>
     <!-- Something happened that most of the class would miss: the Host's camera has gone there, and this says what. -->
     <div id="host-spotlight" role="status" hidden><span id="host-spotlight-date"></span><span id="host-spotlight-text"></span><button type="button" id="host-spotlight-back">Whole class</button></div>
-    <p id="panel-tip" role="tooltip" hidden><span id="panel-tip-name"></span><span id="panel-tip-summary"></span><span id="panel-tip-note"></span></p>
+    <p id="panel-tip" role="tooltip" hidden><span id="panel-tip-name"></span><span id="panel-tip-summary"></span><span id="panel-tip-note"></span><!-- On a touch screen the first tap on an icon shows this with Send, and the second tap or Send sends (triage D17). --><button type="button" id="panel-tip-send" hidden>Send</button></p>
     <!-- The family's big moments (owner, 2026-09-29: "use that same style as the alert for when a family member is going through
          a major event like a battle"): one card, in the story cards' frame, its accent and icon the moment's own (`data-accent`). -->
     <section id="military-notice" class="story-card" hidden aria-label="Messages and military service">
@@ -281,6 +281,16 @@
       <!-- "How it ended" stands on the map's buttons, right-aligned above them (public/style.css), rather than across them:
            it was drawn over Gonzales, + and - (scripts/overlap-browser-proof.mjs, owner 2026-09-28). -->
       <button id="ending-open" hidden>How it ended</button>
+      <!-- The tips already seen, to read again (owner, 2026-09-29, triage D16; public/tips.js `tipsToReread`). A reference that
+           gates nothing: it shows no tip again, sends nothing, and never brings back the suspended guided start. -->
+      <button id="tips-toggle" type="button" aria-expanded="false" aria-controls="tips-list" title="Read again the tips you have seen" hidden>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2h5c0-.9.4-1.6 1.1-2.2A6 6 0 0 0 12 3Z"/></svg>
+        <span>Tips</span>
+      </button>
+      <section id="tips-list" hidden role="dialog" aria-labelledby="tips-list-title">
+        <header><h2 id="tips-list-title">Tips you have seen</h2><button type="button" id="tips-list-close" aria-label="Close the tips">×</button></header>
+        <ol id="tips-list-items"></ol>
+      </section>
       <button id="journal-toggle" aria-expanded="false" aria-controls="family-journal" title="Journal"><span id="journal-unread" hidden aria-hidden="true"></span>
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5c-3-2-7-2-10-1v15c3-1 7-1 10 1 3-2 7-2 10-1V4c-3-1-7-1-10 1Z"/><path d="M12 5v15M5 8h4M5 11h4M15 8h4M15 11h4"/></svg>
         <span>Journal</span>

@@ -475,6 +475,18 @@ try {
         await page.locator('#sound-toggle').click().catch(() => {});
       } else notReached.push('student sound-panel: no sound control');
 
+      // The tips already seen, opened from the Tips button beside the Journal (owner, 2026-09-29, triage D16). A tip standing is
+      // put away first, so there is one to read again.
+      await page.setViewportSize(STUDENT_SIZES[0]);
+      if (await page.locator('#tip .tip-close').isVisible().catch(() => false)) await page.locator('#tip .tip-close').click();
+      await page.locator('#tips-toggle').waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+      if (await page.locator('#tips-toggle').isVisible().catch(() => false)) {
+        await page.locator('#tips-toggle').click();
+        await page.waitForTimeout(300);
+        if (await page.locator('#tips-list').isVisible()) await walk(page, 'tips-list', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'tips list' });
+        await page.locator('#tips-toggle').click().catch(() => {});
+      } else notReached.push('student tips-list: no tip had been put away, so no Tips button');
+
       await sayARefusal(page);
       await walk(page, 'at-home-refused', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'error line' });
       await unsay(page);

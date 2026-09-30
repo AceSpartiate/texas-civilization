@@ -4,9 +4,9 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
-import { actingOf, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace } from '/family-panel.js';
+import { actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
-import { TIPS, tipToShow } from '/tips.js';
+import { TIPS, tipToShow, tipsToReread } from '/tips.js';
 import { mountErrand } from '/errand.js';
 import { reconnector, reconnectWords } from '/reconnect.js';
 import { mountClassPanel } from '/class-panel.js';
@@ -5654,15 +5654,28 @@ function describeIcon(button, icon, lesson = null) {
   if (icon.active) button.setAttribute('aria-current', 'true'); else button.removeAttribute('aria-current');
   button.setAttribute('aria-label', [`${icon.name}.`, icon.summary, note, lesson?.pointed ? 'This is the step to do now.' : ''].filter(Boolean).join(' '));
 }
-/** The small popup over an icon: what it is, its one sentence, and the server's price or reason. */
-function showPanelTip(button) {
+/**
+ * The small popup over an icon: what it is, its one sentence, and the server's price or reason - and, **armed** by a first tap
+ * on a touch screen (triage D17, public/family-panel.js `iconPress`), a Send button that sends the order. Shown again for the
+ * same icon (a hover, a focus, the row drawn again) it stays armed; for another icon, or refused now, it is not.
+ */
+function showPanelTip(button, { armed = false } = {}) {
   const tip = $('#panel-tip');
   if (!button) { hidePanelTip(); return; }
-  panelTipFor = { entityId: button.dataset.entityId, key: button.dataset.key };
-  $('#panel-tip-name').textContent = button.dataset.name;
-  $('#panel-tip-summary').textContent = button.dataset.summary;
-  $('#panel-tip-note').textContent = button.dataset.note || '';
-  tip.dataset.refused = String(button.getAttribute('aria-disabled') === 'true' && button.dataset.active !== 'true');
+  const refused = button.getAttribute('aria-disabled') === 'true';
+  const same = panelTipFor?.entityId === button.dataset.entityId && panelTipFor?.key === button.dataset.key;
+  panelTipFor = { entityId: button.dataset.entityId, key: button.dataset.key, armed: !refused && (armed || Boolean(same && panelTipFor.armed)) };
+  setText($('#panel-tip-name'), button.dataset.name);
+  setText($('#panel-tip-summary'), button.dataset.summary);
+  setText($('#panel-tip-note'), button.dataset.note || '');
+  tip.dataset.refused = String(refused && button.dataset.active !== 'true');
+  setData(tip, 'armed', String(panelTipFor.armed));
+  const send = $('#panel-tip-send');
+  if (send) {
+    send.hidden = !panelTipFor.armed;
+    send.setAttribute('aria-label', `Send: ${button.dataset.name}`);
+  }
+  tip.setAttribute('role', panelTipFor.armed ? 'group' : 'tooltip');
   tip.hidden = false;
   const box = button.getBoundingClientRect(), stage = $('.map-stage').getBoundingClientRect();
   const left = Math.max(8, Math.min(stage.width - tip.offsetWidth - 8, box.left - stage.left + box.width / 2 - tip.offsetWidth / 2));
@@ -5670,7 +5683,32 @@ function showPanelTip(button) {
   tip.style.left = `${left}px`;
   tip.style.top = `${below + tip.offsetHeight < stage.height - 8 ? below : Math.max(8, above)}px`;
 }
-function hidePanelTip() { panelTipFor = null; const tip = $('#panel-tip'); if (tip) tip.hidden = true; }
+function hidePanelTip() { panelTipFor = null; const tip = $('#panel-tip'); if (tip) { tip.hidden = true; setData(tip, 'armed', 'false'); } }
+/**
+ * Whether a press on an icon came from a touch screen (triage D17): the press's own pointer where the browser says it (a tap is
+ * `touch`, a stylus `pen`), else the pointer that last went down, else whether this is a touch screen at all - `pointer: coarse`,
+ * or a touch seen. A keyboard's press has no pointer (`detail` 0) and is never a tap.
+ */
+let lastPointer = '', touchSeen = matchMedia('(pointer: coarse)').matches;
+document.addEventListener('pointerdown', event => { lastPointer = event.pointerType || ''; if (event.pointerType === 'touch') touchSeen = true; }, true);
+document.addEventListener('touchstart', () => { touchSeen = true; }, { capture: true, passive: true });
+function touchPress(event) {
+  if (!event || event.detail === 0) return false;
+  const pointer = event.pointerType || lastPointer;
+  return pointer ? pointer === 'touch' || pointer === 'pen' : touchSeen;
+}
+// An armed popup goes when anything else is pressed: another icon arms its own, the map or a panel puts it away.
+document.addEventListener('pointerdown', event => {
+  if (!panelTipFor?.armed || event.target.closest?.('#panel-tip')) return;
+  const icon = event.target.closest?.('.panel-icon');
+  if (icon && icon.dataset.entityId === panelTipFor.entityId && icon.dataset.key === panelTipFor.key) return;
+  hidePanelTip();
+}, true);
+// Send: the order the armed icon gives, sent exactly as a second tap on it sends it.
+$('#panel-tip-send')?.addEventListener('click', () => {
+  const icon = panelTipFor?.armed && panelRows.get(panelTipFor.entityId)?.icons.querySelector(`[data-key="${panelTipFor.key}"]`);
+  if (icon) icon.click(); else hidePanelTip();
+});
 /**
  * Folding the panel down to a column of faces (owner, 2026-09-21: the interface covered too much of a Chromebook screen).
  *
@@ -5702,9 +5740,10 @@ $('#family-collapse')?.addEventListener('click', () => {
 // After the module body, so the placement boxes this clears already exist.
 queueMicrotask(() => setPanelFolded(panelFolded()));
 $('#family-panel')?.addEventListener('pointerover', event => { const icon = event.target.closest('.panel-icon'); if (icon) showPanelTip(icon); });
-$('#family-panel')?.addEventListener('pointerout', event => { const icon = event.target.closest('.panel-icon'); if (icon && !icon.contains(event.relatedTarget)) hidePanelTip(); });
+// A popup armed by a tap (triage D17) stays when the finger lifts or the focus moves to its Send; a press elsewhere puts it away.
+$('#family-panel')?.addEventListener('pointerout', event => { const icon = event.target.closest('.panel-icon'); if (icon && !icon.contains(event.relatedTarget) && !panelTipFor?.armed) hidePanelTip(); });
 $('#family-panel')?.addEventListener('focusin', event => { const icon = event.target.closest('.panel-icon'); if (icon) showPanelTip(icon); else hidePanelTip(); });
-$('#family-panel')?.addEventListener('focusout', event => { if (!event.relatedTarget?.closest?.('.panel-icon')) hidePanelTip(); });
+$('#family-panel')?.addEventListener('focusout', event => { if (!event.relatedTarget?.closest?.('.panel-icon') && !panelTipFor?.armed) hidePanelTip(); });
 // A row or the panel scrolled under the popup: it follows its icon rather than floating where the icon was.
 $('#family-panel')?.addEventListener('scroll', () => {
   if (!panelTipFor) return;
@@ -7022,6 +7061,7 @@ function renderTip(world, { hidden = false } = {}) {
   const panel = $('#tip'), inline = $('#errand-tip');
   if (!panel) return;
   if ((world?.householdId || null) !== tipFamily) { tipFamily = world?.householdId || null; tipShowing = null; tipPutAway = new Set(); }
+  renderTipsList(world);
   // Behind the curtain of making a family nothing is shown, and the tip standing is kept for when the curtain lifts: it is the
   // same showing, not a second one.
   // Nor on a page watching another family (sim/watching.mjs): there is nothing of theirs to do that a tip could be about.
@@ -7151,6 +7191,75 @@ for (const selector of ['#tip', '#errand-tip']) {
     dismissTip();
   });
 }
+/**
+ * The Tips button and its list (owner, 2026-09-29, triage D16 "Tips button"; public/tips.js `tipsToReread`, docs/LESSON.md §9):
+ * every first-meeting tip this student has put away, latest first, to read again. It gates nothing - it shows no tip again,
+ * sends nothing, and never names "Resume tutorial" - so the suspended guided start cannot come back through it. The button is
+ * there once a tip has been put away, on a family's own page (never the Host's, never while watching another family); the list
+ * opens above the map's buttons where the sound's sliders do, one of the two at a time, and closes on its ×, the button again,
+ * or Escape, which gives the keyboard back to the button.
+ */
+let tipsListKey = '';
+function renderTipsList(world) {
+  const button = $('#tips-toggle'), list = $('#tips-list');
+  if (!button || !list) return;
+  const own = world && world.role !== 'host' && world.householdId && !world.watching;
+  const tips = own ? tipsToReread([...(world.household?.tipsSeen || []), ...tipPutAway]) : [];
+  if (button.hidden !== !tips.length) button.hidden = !tips.length;
+  if (!tips.length && !list.hidden) closeTipsList();
+  if (!list.hidden) placeTipsList();
+  const key = tips.map(tip => tip.id).join(' ');
+  if (key === tipsListKey) return;
+  tipsListKey = key;
+  const items = $('#tips-list-items');
+  items.replaceChildren(...tips.map(tip => { const item = document.createElement('li'); item.dataset.tip = tip.id; setText(item, tip.words); return item; }));
+}
+function openTipsList() {
+  const list = $('#tips-list');
+  if (!list) return;
+  // One panel over the map's buttons at a time: the sound's sliders fold away.
+  const sound = $('#sound-panel');
+  if (sound && !sound.hidden) { sound.hidden = true; $('#sound-toggle')?.setAttribute('aria-expanded', 'false'); }
+  list.hidden = false;
+  placeTipsList();
+  $('#tips-toggle')?.setAttribute('aria-expanded', 'true');
+  $('#tips-list-close')?.focus({ preventScroll: true });
+}
+/**
+ * The list keeps below whatever the student has open above the map's buttons - the card beside a person with its question, the
+ * messages, a popup - by being shorter, and scrolls (the proof at 1024x768: it stood on the ¡Alto! card's answers).
+ * ceiling: never shorter than 140px, where it would show one tip; below that it stands where it is, over what is there.
+ */
+function placeTipsList() {
+  const list = $('#tips-list'), tools = $('#map-tools');
+  if (!list || list.hidden || !tools) return;
+  list.style.maxHeight = '';
+  const box = list.getBoundingClientRect(), floor = tools.getBoundingClientRect().top - 8;
+  const above = TIP_CLEAR_OF.map(selector => $(selector)).filter(one => one && !one.hidden && getComputedStyle(one).display !== 'none')
+    .map(one => one.getBoundingClientRect()).filter(one => one.width > 1 && one.left < box.right && box.left < one.right && one.top < box.bottom && box.top < one.bottom && one.bottom < floor);
+  if (!above.length) return;
+  const room = Math.floor(floor - Math.max(...above.map(one => one.bottom)) - 8);
+  if (room >= 140) list.style.maxHeight = `${room}px`;
+}
+function closeTipsList({ focus = false } = {}) {
+  const list = $('#tips-list');
+  if (!list || list.hidden) return;
+  list.hidden = true;
+  $('#tips-toggle')?.setAttribute('aria-expanded', 'false');
+  if (focus) $('#tips-toggle')?.focus({ preventScroll: true });
+  // The tip over the map waited while the list stood (public/style.css): it is placed again now there is room.
+  if (tipShowing && window.__snapshot?.world) renderTip(window.__snapshot.world);
+}
+$('#tips-toggle')?.addEventListener('click', () => { if ($('#tips-list')?.hidden) openTipsList(); else closeTipsList(); });
+$('#tips-list-close')?.addEventListener('click', () => closeTipsList({ focus: true }));
+$('#tips-list')?.addEventListener('keydown', event => {
+  if (event.key !== 'Escape') return;
+  event.preventDefault(); event.stopPropagation();
+  closeTipsList({ focus: true });
+});
+addEventListener('resize', () => placeTipsList());
+// The sound's button opening its sliders folds the list away, as the list folds them.
+document.addEventListener('click', event => { if (event.target.closest?.('#sound-toggle')) closeTipsList(); }, true);
 /** The camera on a fight's field: both sides and the gun in the frame if they are drawn, or the field's middle close in. */
 /**
  * The family's own chase framed (`chaseWatch`): what a "!" or a story card does for somebody out of sight while soldiers are after
@@ -7999,7 +8108,15 @@ document.addEventListener('click', async event => {
   // which, so it opens the person's card at the list of homesteads, as a chore sent to a place starts choosing the place.
   const panelButton = event.target.closest('.panel-icon');
   if (panelButton) {
-    if (panelButton.getAttribute('aria-disabled') === 'true') { showPanelTip(panelButton); return; }
+    // Tap, then send (owner, 2026-09-29, triage D17; public/family-panel.js `iconPress`): on a touch screen the first tap shows
+    // the cost, any warning and Send; the second tap, or Send, sends. A mouse or the keyboard sends at once, as before.
+    const step = iconPress({
+      touch: touchPress(event), refused: panelButton.getAttribute('aria-disabled') === 'true',
+      armed: Boolean(panelTipFor?.armed && panelTipFor.entityId === panelButton.dataset.entityId && panelTipFor.key === panelButton.dataset.key),
+      opensChooser: panelButton.dataset.chore === 'visit-shop' || Boolean(panelButton.dataset.visit) || panelButton.dataset.key === 'winter-recall' || panelButton.dataset.action === 'survey-start',
+    });
+    if (step === 'explain') { showPanelTip(panelButton); return; }
+    if (step === 'arm') { showPanelTip(panelButton, { armed: true }); window.__panelArmed = (window.__panelArmed || 0) + 1; return; }
     // Sending for somebody who serves is asked twice, on their card, where there is room to say what it costs.
     // Going to town to trade asks first what to buy and sell (docs/TOWNS.md §4b, owner 2026-09-24): the popup sends the order.
     // The tip over the map waits at once, not on the next second's look (public/tips.js `tipToShow`): never over the popup.
