@@ -2,7 +2,8 @@
 // a character, it needs to happen in such a way that their character arrives in time to participate and does participate").
 //
 // A class on the colonies map with rolled families, played in process through the first period and continued into the winter
-// to the morning its news comes (as scripts/alamo-siege-browser-proof.mjs does); then served live. Through the real join flow
+// to the morning its news comes (as scripts/alamo-siege-browser-proof.mjs does), the three families the students play fed
+// (planted: a played family can starve, and the director leaves every store empty); then served live. Through the real join flow
 // three students make their families on the page; two press "Go south to join the Matamoros men" for their fathers on the
 // family panel and send them the way the chooser offers; the third sends nobody. The seed puts one father in Johnson's party
 // and the other with Grant. It holds:
@@ -26,12 +27,24 @@ import { beginSecondPeriod } from '../sim/periods.mjs';
 import { battleState } from '../sim/battle-stage.mjs';
 import { sendTheWay } from './support/going.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { feed } from '../tests/support/fed.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const pass = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 const evidence = { samples: [] };
+/** Where in a sent snapshot a text appears, as paths (`world.events[3].text`), so a leak names the field that carried it. */
+function whereIn(value, text, path = 'world', found = []) {
+  if (typeof value === 'string') { if (value.includes(text)) found.push(path); }
+  else if (value && typeof value === 'object') {
+    for (const [key, inner] of Object.entries(value)) {
+      if (key.includes(text)) found.push(`${path} key ${key}`);
+      whereIn(inner, text, Array.isArray(value) ? `${path}[${key}]` : `${path}.${key}`, found);
+    }
+  }
+  return found;
+}
 const SEED = 'battle-south-33';
 
 function inTheWinter(seed, playerCount) {
@@ -46,6 +59,12 @@ function inTheWinter(seed, playerCount) {
   // whose house site the first period's automation never chose would otherwise be walked back to the wagon, every order but
   // the lesson's shut (found 2026-09-25: the winter proof had failed on this since the guided start of 2026-09-21).
   for (const household of Object.values(world.households)) household.lesson = { step: 'done', at: 0 };
+  // The three families the students play are fed (planted, and said so; tests/support/fed.mjs): the director ran them to here,
+  // which never starves a family nobody plays and leaves every store empty, and the students give no orders for food. Unfed, a
+  // played family starves by the end of February (owner, 2026-09-30, sim/hunger.mjs: "Keep it"), and its student is given its
+  // nearest neighbours' page to watch (sim/watching.mjs) - here hh-2's, whose man rides with Grant - so "the family with nobody
+  // there" would no longer be that family's page (found 2026-09-30: the proof read hh-2's father on hh-3's watching page).
+  feed(world, ['hh-1', 'hh-2', 'hh-3'].map(id => world.households[id]));
   world.status = 'lobby';
   return world;
 }
@@ -182,9 +201,11 @@ try {
   const nothing = async label => {
     const raw = await stayer.evaluate(async () => (await fetch('/api/state')).text());
     const world = JSON.parse(raw).world;
+    // Its own page still, not a neighbour's it was given to watch (sim/watching.mjs): otherwise this reads another family's.
+    assert.ok(!world.watching, `the family with nobody there is no longer its own page (${label}): ${world.watching?.line}`);
     assert.equal(world.battle, null, `the family with nobody there was sent the battle (${label})`);
     assert.ok(!world.battleAlert && !world.battleAccount, `the family with nobody there was sent an alert or an account (${label})`);
-    for (const id of Object.values(fathers)) assert.ok(!raw.includes(id), `the family with nobody there was sent ${id} (${label})`);
+    for (const id of Object.values(fathers)) assert.ok(!raw.includes(id), `the family with nobody there was sent ${id} (${label}) at ${whereIn(world, id).join(', ')}`);
     assert.ok(!/"memberFates"|"memberUnits"|"participants"|"fates"/.exec(raw), `the family with nobody there was sent part of the fight (${label})`);
     assert.equal(await stayer.evaluate(() => window.__battleView), null, `its page drew a battle (${label})`);
   };
@@ -269,6 +290,7 @@ try {
   writeFileSync('docs/evidence/battle-south-browser.json', `${JSON.stringify({
     record: 'battle-south-browser', date: new Date().toISOString().slice(0, 10), browser: await browser.version(), seed: SEED,
     environment: 'Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x768. Not physical LAN or district acceptance.',
+    planted: 'The three played families fed (tests/support/fed.mjs) when the class is served, so none starves while the proof runs.',
     checks: pass, joinedAt, screenshots: ['san-patricio-houses-1366', 'san-patricio-after-1366', 'agua-dulce-charge-1024', 'agua-dulce-after-1024', 'host-agua-dulce', 'san-patricio-account', 'agua-dulce-account'].map(name => `docs/evidence/battle-south/${name}.png`), ...evidence,
   }, null, 2)}\n`);
   console.log(`\n${pass.length} checks passed. Wrote docs/evidence/battle-south-browser.json`);

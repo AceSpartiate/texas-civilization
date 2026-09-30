@@ -1,5 +1,43 @@
 # Claude handoff — Astra foundation
 
+## Five red release-candidate proofs: all stale, none a leak — 2026-09-30 (not released)
+
+Branch `proofs-world` off local `integration-2026-09-28` (e67e0f15); not pushed. The release candidate (bccea07c) failed
+`test:neighbours`, `test:mexican-advance`, `test:battle-south`, `test:famous-people` and `test:battle-grass`. Each was traced to
+the commit that changed what it assumed, in process on `git archive`d trees before and after (scripts in the session scratchpad,
+not kept). **No game code changed**: every one was the proof, and the two that read like leaks of server-filtered knowledge are not.
+
+| Proof | Cause | Offending commit | Fix (proof only) |
+|---|---|---|---|
+| `test:neighbours` | (1) D12 shuffled the burn-zone sides by seed, which moved whose land is where: `neighbours-proof-1`'s hh-4 went from 6.2 to 11.4 miles from hh-1, and no two San Felipe families of that seed are within `NEAR_MILES`. (2) End Game now begins the end sequence (class video, families' videos, reveal), so the breakdown is not up at once. (3) An award reads "Helping another family counts 1 × 2 (…) = 2 glory." where it read "(2)". | (1) b5313e3f (owner-rules, D12 `burnSides`); (2) 36a1af3e (end-sequence, D10); (3) 65c42459 (triage 2.10 sums) - all after v2026.09.29.3 | The seed and the two families chosen by the property: the first `neighbours-proof-<n>` dealing two San Felipe families within `NEAR_MILES` (now `-8`, hh-3 and hh-8, 3.3 miles), everybody joining in seat order; the Host presses *Skip ahead* on the finale to the reveal; the glory check reads the award's own sum line. |
+| `test:mexican-advance` | (1) D12: which of each pair of families is inside the burn zone is the seed's; `adv-proof-7` now puts hh-2 inside and hh-1 outside. (2) Played families with no food orders starve: both families (14 and 16 people, ~45 food) died of hunger on the road east before San Jacinto, so "the first family never came home". | (1) b5313e3f; (2) e0de7b5c (starvation merge) | The inside and outside family taken from the first pair by `farmFate`, asserting exactly one is inside; the two played families fed at the spring (`tests/support/fed.mjs`, as `tests/mexican-advance.test.mjs` does), said in the header and the record. |
+| `test:battle-south` | Not a leak. The stayer family (hh-3) was played from the winter with the empty store the director leaves and starved by the end of February; with everybody gone its student **watches its nearest neighbours** (owner D3, `sim/watching.mjs`) - hh-2, whose father rides with Grant - so hh-3's page carried hh-2's people (`world.watching.people`, `household.members`). The page watched is exactly hh-2's own projection. | e0de7b5c (starvation) | The three played families fed when served; the "nothing sent" check first asserts the page is still its own (`!world.watching`), so a starved family fails in those words and not as a leak; a leak now names the field that carried the id (`whereIn`). |
+| `test:famous-people` | Not a leak. The far family (hh-2, 15 people) starved between Feb 17 and the fall; it then watches its nearest neighbours, hh-1, whose man is in the Alamo, and hh-1's page sees the Esparzas and Santa Anna at Béxar within `FAMOUS_SIGHT_MILES` of him (checked in process: `famousSeen` for hh-1 is exactly what hh-2's watching page got). | e0de7b5c (starvation) | The two played families fed in the Alamo class; the far-off check asserts the page is its own first and names the family's people if it fails. The San Jacinto half, never reached on the candidate, failed once ("Neill was not drawn hurt") while `test:mexican-advance` ran beside it and passed alone and in two full runs: a sampling miss under load, not changed. |
+| `test:battle-grass` | (1) The settlement's call waits behind the rider who brought it (one rider, one visit: `questionWaits`), so the in-process `turnOut` found no answerers. (2) Then: the army's call for flour (D5, `supply-flour`, 9:00 on Nov 26) is open at every family's home an hour before the Grass Fight's alarm, and the page never puts the fight's Watch card over an open decision (`public/military-attention.js` `deciding`), so no Watch came before the fight had passed. | (1) 72050fee (one rider, released in v2026.09.29.2: the proof was red in both releases); (2) b5313e3f (D5) | The rider heard out before the call is answered (`tests/support/heard-out.mjs`, as the student's Done); each student sees to the home on the page before the fight - the rider's Done, then *Choose what to send* and *Keep what the family has* on the person's card - and the Watch card then comes before contact as it did. The proof prints the card and snapshot if Watch never comes. |
+
+**Evidence** (same computer, headless Chrome, at most two proofs at once; no LAN or classroom claim): each fixed proof **green
+twice** - `test:neighbours` 10 checks (×2), `test:mexican-advance` 10 (×2), `test:battle-south` 16 (×2), `test:famous-people` 22
+(×2), `test:battle-grass` 14 (×2). `npm test` (alone): **1966 tests, 1930 pass, 0 fail, 36 skipped**. Evidence files refreshed:
+`docs/evidence/{neighbours,battle-south,famous-people,battle-1835,mexican-advance}-browser.json` and their pictures.
+
+**Why none is a leak.** The only ways a family is sent a famous person or another family's person are its own projection and, once
+nobody of it is left to play, the watched family's own projection (`projectPage` → `projectWatching`, owner-decided "Follow and
+watch"). Both proofs' "far/nobody there" family had starved and was watching. The proofs now say so in words when it happens.
+
+**Owner questions.**
+
+1. The army's call for flour opens at 9:00 on November 26, an hour before the Grass Fight's alarm, and holds back the Watch card
+   for the family's own man in that fight until the student answers it (or it lapses after five real minutes, by which time at
+   the Quick pace the fight is over). **(a) Let the Watch card for the family's own man go up over the army's supply request, and
+   keep holding it for the call to arms, the road and ¡Alto! (recommended)**; (b) open the flour request the day after the fight;
+   (c) keep it as it is.
+2. A family the director has been running reaches its student with an empty store: every family in the winter classes these
+   proofs make had 0 food at the join, and a spring family of 14-16 had about 45. Played and given no food orders, such a family
+   starves in two or three weeks of the calendar - a few real minutes in the winter. That is a latecomer's family after the first
+   period, and probably a returning student's whose family the director ran while they were away (not measured here). **(a) Give a family passing from the
+   director to a student a few days' food, as a column leaves one (`LEFT_FOOD_DAYS`) (recommended)**; (b) have the director keep a
+   store in the families it runs; (c) keep it.
+
 ## Five red release-candidate proofs: `biome-game`, `travel-drawn`, `siege`, `concepcion`, `surprise-reveal` — 2026-09-30 (not released)
 
 Branch `proofs-map` off local `integration-2026-09-28` (e67e0f15); not pushed. Red on the release candidate (bccea07c). Each was

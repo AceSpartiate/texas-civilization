@@ -4,11 +4,12 @@
 //
 // tests/mexican-advance.test.mjs proves the rules. This proves what a class sees. A real spring class on the colonies map with
 // rolled families, played in process to dawn on March 14, then five students join through the join flow (two at the screen,
-// at 1366x768 and 1024x768) and the Host starts it. Seed `adv-proof-7` deals the first family its land inside the burn zone
-// near Matagorda and the second outside it near San Felipe. It holds:
+// at 1366x768 and 1024x768) and the Host starts it. The first two families are one pair of the deal: one's land inside the burn
+// zone and the other's outside it, which one the seed's (owner D12, 2026-09-29); the proof takes them by that, and calls them the
+// first family (inside) and the second (outside) below. It holds:
 //   - the Host sees the Mexican columns on the map and sees them move, at a column's pace, with their commanders and the
 //     record's strength; a student far from every column is sent none of them;
-//   - the first family, gone east to Nacogdoches, is sent nothing of its farm's burning while it is away - its page draws the
+//   - the first family, gone east to the farthest refuge, is sent nothing of its farm's burning while it is away - its page draws the
 //     farm as it left it, no smoke, no word in its record - while the Host sees the smoke at once;
 //   - the word reaches the family by people on the road, no sooner than it could have come, and from then its page draws the
 //     farm burned and its record says so in plain words;
@@ -28,6 +29,7 @@ import { rollFamily, stepWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { COLUMN_SIGHT_MILES, MAX_MARCH_MPH, WORD_MILES_A_DAY, columnsNow, farmFate, firesSeen, foragersOf } from '../sim/advance.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { feed } from '../tests/support/fed.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -47,6 +49,11 @@ function inTheSpring(seed, playerCount) {
   beginSecondPeriod(world); world.status = 'running';
   for (let i = 0; i < 9000 && !world.director.complete; i++) stepWorld(world);
   beginThirdPeriod(world);
+  // The two families the students play are fed (planted, and said so; tests/support/fed.mjs, as tests/mexican-advance.test.mjs
+  // feeds them): a played family can starve (owner, 2026-09-30, sim/hunger.mjs: "Keep it"), and one of fourteen or sixteen with
+  // the forty-odd food the director left it is dead of hunger on the road east before San Jacinto, so it never comes home
+  // (found 2026-09-30: "the first family never came home"; in process, unfed, every one of both families starved in six weeks).
+  feed(world, ['hh-1', 'hh-2'].map(id => world.households[id]));
   world.status = 'lobby';
   return world;
 }
@@ -57,13 +64,17 @@ assert.equal(app.state.world.period, 3, 'the class did not reach the spring');
 const world = () => live;
 const held = () => { const copy = app.state.world; assert.ok(copy.tick === live.tick && copy.minute === live.minute, 'the proof lost hold of the class\'s world'); };
 // Read fresh each time: a refused command restores the world from its last committed text (server/app.mjs `commit`).
-const inside = () => world().households['hh-1'], outside = () => world().households['hh-2'];
-assert.ok(farmFate(world(), inside()), 'the seed no longer deals the first family inside the burn zone');
-assert.ok(!farmFate(world(), outside()), 'the seed no longer deals the second family outside the burn zone');
+// The first two families in the join order are one pair of the deal, one inside the burn zone and one outside; which is which is
+// the seed's (owner, 2026-09-29, D12 "Shuffle by seed": sim/colonies-region.mjs `burnSides`). Until then family 1 was always
+// inside; the proof now takes whichever of the two the seed put inside, and holds that exactly one of them is.
+const [BURNED, STANDING] = ['hh-1', 'hh-2'].sort((a, b) => Number(Boolean(farmFate(world(), world().households[b]))) - Number(Boolean(farmFate(world(), world().households[a]))));
+const inside = () => world().households[BURNED], outside = () => world().households[STANDING];
+assert.ok(farmFate(world(), inside()), 'the seed deals neither of the first two families inside the burn zone');
+assert.ok(!farmFate(world(), outside()), 'the seed deals both of the first two families inside the burn zone');
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];
-const evidence = { seed: SEED, columns: [], frames: {} };
+const evidence = { seed: SEED, inside: BURNED, outside: STANDING, columns: [], frames: {} };
 async function pageFor(viewport, name) {
   const page = await (await browser.newContext({ viewport })).newPage();
   page.setDefaultTimeout(30000);
@@ -97,14 +108,16 @@ try {
   mkdirSync('docs/evidence', { recursive: true });
   // ------------------------------------------------------------------ a real class through the join flow
   const students = {};
-  for (const [householdId, viewport] of Object.entries({ 'hh-1': { width: 1366, height: 768 }, 'hh-2': { width: 1024, height: 768 } })) {
+  // Joined in seat order (hh-1, then hh-2); the family inside the zone is watched at 1366x768, the one outside at 1024x768.
+  for (const householdId of ['hh-1', 'hh-2']) {
+    const viewport = householdId === BURNED ? { width: 1366, height: 768 } : { width: 1024, height: 768 };
     const page = await pageFor(viewport, householdId);
     await page.goto(url);
     await page.locator('[name=name]').fill(`Student ${householdId}`);
     await page.locator('[name=code]').fill(app.state.sessionCode);
     await page.getByRole('button', { name: 'Join', exact: true }).click();
     await page.waitForFunction(id => window.__snapshot?.world.householdId === id, householdId);
-    await meetFamily(page, { 'hh-1': 'Burnside', 'hh-2': 'Standwell' }[householdId]);
+    await meetFamily(page, householdId === BURNED ? 'Burnside' : 'Standwell');
     students[householdId] = page;
   }
   for (let i = 3; i <= 5; i++) {
@@ -113,7 +126,7 @@ try {
   }
   // The three families with nobody at a screen are left to their main person's auto (sim/auto.mjs), as a class would be.
   for (let i = 3; i <= 5; i++) { const household = world().households[`hh-${i}`]; world().entities[household.mainId || household.principalId].auto = true; }
-  const { 'hh-1': burned, 'hh-2': standing } = students;
+  const burned = students[BURNED], standing = students[STANDING];
   const host = await pageFor({ width: 1366, height: 768 }, 'host');
   await host.goto(`${url}/host#${app.state.hostKey}`);
   await host.waitForFunction(() => window.__snapshot?.world.role === 'host');
@@ -162,9 +175,9 @@ try {
     assert.equal(await command(page, { action: 'set-auto', entityId: household().mainId || household().principalId, auto: true }), 'ok');
     return refuge.id;
   };
-  const firstRefuge = await flee(burned, 'hh-1', refuges => refuges.at(-1));
+  const firstRefuge = await flee(burned, BURNED, refuges => refuges.at(-1));
   // The second family goes the moment it is told, to the nearest refuge east, as a student would; it is waited for below.
-  const secondGoes = flee(standing, 'hh-2', refuges => refuges[0]);
+  const secondGoes = flee(standing, STANDING, refuges => refuges[0]);
   ok(`the first family, inside the zone, left for ${world().map.sites[firstRefuge].name} with what it could carry, and the rest left in the house`);
 
   // ------------------------------------------------------------------ the farm burns while the family is away: nothing on its page
@@ -246,7 +259,7 @@ try {
   ok('no page errors');
   writeFileSync('docs/evidence/mexican-advance-browser.json', `${JSON.stringify({
     record: 'The Mexican advance through the Runaway Scrape, in a browser: docs/SCRAPE.md', date: new Date().toISOString().slice(0, 10), verdict: 'PASS',
-    note: 'Same computer only: a real class on the colonies map with rolled families, played in process to dawn on March 14 and then served live to headless Chrome at 1366x768 (Host, first student) and 1024x768 (second student); five students joined by the class code. No LAN or district claim.',
+    note: 'Same computer only: a real class on the colonies map with rolled families, played in process to dawn on March 14 and then served live to headless Chrome at 1366x768 (Host, first student) and 1024x768 (second student); five students joined by the class code. Planted: the stores of the two played families fed (tests/support/fed.mjs), so neither starves on the road. No LAN or district claim.',
     checks: pass, evidence, screenshots: ['docs/evidence/mexican-advance-host.png', 'docs/evidence/mexican-advance-word.png'],
   }, null, 2)}\n`.replace(/\n/g, '\r\n'));
   console.log(`\n${pass.length} checks passed.`);

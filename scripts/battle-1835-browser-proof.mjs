@@ -30,6 +30,7 @@ import { applyAction, projectWorld, stepWorld } from '../sim/world.mjs';
 import { momentOf } from '../sim/directors.mjs';
 import { concepcionFate, grassFate } from '../sim/army.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { heardOut } from '../tests/support/heard-out.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -37,9 +38,15 @@ const which = process.argv[2] || 'all';
 const RISK = /kill|die|death|danger|risk|wound/i;
 
 const until = (world, done, limit = 4000) => { for (let tick = 0; tick < limit && !done() && world.status === 'running'; tick++) stepWorld(world); return done(); };
-/** Send a family's first grown person who can turn out, on the way given. Returns their id. */
+/**
+ * Send a family's first grown person who can turn out, on the way given. Returns their id. The call is put while the rider who
+ * brought it is still talking with the family, and waits behind him until he has gone (owner, 2026-09-29, one rider, one visit:
+ * sim/encounters.mjs `questionWaits`, `FIC-GONZ-909`): he is heard out first, as the student's Done does, and then the call is
+ * answered as the page shows it.
+ */
 function turnOut(world, householdId, mode) {
   until(world, () => world.calls?.[householdId]);
+  heardOut(world, householdId);
   const answerers = projectWorld(world, householdId, 'student', { includeMap: false }).request?.answerers || {};
   const found = Object.entries(answerers).find(([, options]) => options.find(option => option.id === 'turn-out')?.can);
   if (!found) throw new Error(`${householdId} has nobody who can turn out`);
@@ -139,6 +146,38 @@ async function prove(fight) {
     }
     ok(`${Object.keys(who).length} students joined on the page and the Host started the class`);
 
+    /**
+     * What the family is asked at home, seen to on the page as a student does: a rider's conversation ended with Done, and the
+     * army's request answered from its card's menu. Returns what was pressed, in order.
+     */
+    const seeToHome = async page => {
+      const pressed = [];
+      for (let i = 0; i < 8; i++) {
+        const state = await page.evaluate(() => ({ talking: !document.querySelector('#encounter').hidden, card: document.querySelector('#military-notice').hidden ? null : document.querySelector('#military-go')?.textContent }));
+        if (state.talking) {
+          await page.locator('#encounter-asks .ask-leave').click();
+          await page.waitForFunction(() => document.querySelector('#encounter').hidden, null, { timeout: 15000 });
+          pressed.push('Done');
+        } else if (state.card === 'Listen to the rider') {
+          await page.locator('#military-go').click();
+          await page.locator('#encounter').waitFor({ state: 'visible' });
+          pressed.push('Listen to the rider');
+        } else if (state.card === 'Choose what to send') {
+          // Answered on the card beside the person who answers (public/app.js: what to send, not who goes).
+          await page.locator('#military-go').click();
+          const keep = page.locator('#selection-call button[data-action="supply-none"]');
+          await keep.waitFor({ state: 'visible' });
+          const label = (await keep.innerText()).trim().split(/\s*\n/)[0];
+          await keep.click();
+          await page.waitForFunction(() => !(window.__snapshot?.world.request?.kind === 'supply' && window.__snapshot.world.request.status === 'open'), null, { timeout: 15000 });
+          pressed.push(`Choose what to send, then "${label}"`);
+        } else {
+          // A rider may be on the way with it yet: look again once before calling the home seen to.
+          if (i > 0 || !(await page.waitForFunction(() => { const card = document.querySelector('#military-notice'); return !document.querySelector('#encounter').hidden || (!card.hidden && ['Listen to the rider', 'Choose what to send'].includes(document.querySelector('#military-go')?.textContent)); }, null, { timeout: 5000 }).then(() => true, () => false))) break;
+        }
+      }
+      return pressed;
+    };
     /** Answer a question on the volunteer's own card by pressing it. */
     const press = async (page, personId, selector, open) => {
       await page.waitForFunction(open, personId, { timeout: 120000 });
@@ -169,6 +208,12 @@ async function prove(fight) {
       await press(students['hh-2'], proof.b, question(proof.b, 'yes'), open);
       await press(students['hh-3'], proof.c, question(proof.c, 'no'), open);
       ok(`at the alarm hh-1's rider and hh-2's man on foot pressed "go" and hh-3's pressed "stay in camp" ("${asked.slice(0, 90)}…")`);
+      // The army's call for flour reaches every family at home at nine that morning, an hour before the alarm (owner, 2026-09-29,
+      // D5: sim/supplies.mjs `supply-flour`), and the fight's Watch card is never put up over a decision the family has open
+      // (public/military-attention.js `deciding`). Each student sees to it on the card, as a student would: the rider heard out
+      // with Done, and the request answered in its menu (the family keeps what it has: its store is empty).
+      for (const id of ['hh-1', 'hh-2', 'hh-3']) evidence[`${id} before the fight`] = await seeToHome(students[id]);
+      ok(`the army's call for flour, open at each family's home that morning, answered on each page: ${['hh-1', 'hh-2', 'hh-3'].map(id => `${id} ${evidence[`${id} before the fight`].join(', ') || 'nothing open'}`).join('; ')}`);
       fated = proof.b;
     }
     // The fighting is watched a second a tick (the Host's own Quick), so a page can be sampled through it.
@@ -176,6 +221,7 @@ async function prove(fight) {
 
     // ---------------------------------------------------------------- the alert through the person, before contact, and Watch
     const alerted = await fighter.waitForFunction(() => !document.querySelector('#military-notice').hidden && document.querySelector('#military-go')?.textContent === 'Watch', null, { timeout: 120000 }).then(() => true, () => false);
+    if (!alerted) console.log('DIAG', JSON.stringify(await fighter.evaluate(() => ({ hidden: document.querySelector('#military-notice').hidden, title: document.querySelector('#military-title')?.textContent, words: document.querySelector('#military-words')?.textContent?.slice(0, 200), go: document.querySelector('#military-go')?.textContent, alert: window.__snapshot?.world.battleAlert, battle: window.__snapshot?.world.battle?.phase, hunger: window.__snapshot?.world.hunger, food: window.__snapshot?.world.resources?.food, encounter: Boolean(window.__snapshot?.world.encounter), minute: window.__snapshot?.world.minute }))));
     assert.ok(alerted, 'no alert with Watch came through the person before the fighting');
     const alert = await fighter.evaluate(() => ({ title: document.querySelector('#military-title').textContent, words: document.querySelector('#military-words').textContent, minute: window.__snapshot.world.minute, contact: window.__snapshot.world.battle?.contact || false }));
     assert.ok(/side/.test(alert.words), `the alert did not come through the person: ${alert.words}`);
