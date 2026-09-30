@@ -77,6 +77,10 @@ and fleeing to the nearest refuge).
 - Browser proofs on the merged tree (headless Chrome, at most two at once): `test:relay`, `test:information` (PASS),
   `test:one-rider` 10, `test:alamo` (PASS), `test:alamo-siege` 9, `test:scrape` 7, `test:ending` 10, `test:flashback` 11,
   `test:whole-game` 14, `test:battle-south` 16, `test:battle-coleto` 17 (after its fix above), and `test:winter` 6.
+- **Merged again with origin/main 8687a96b** (family starts; HANDOFF and HISTORY rows kept from both, the other branch's evidence
+  pictures taken): `npm test` **1845 tests, 1809 pass, 0 fail, 36 skipped**; all eleven proofs again green -
+  `test:information` on its second run (its known one-tick race at the gate, *"null !== 'home-2'"*) and `test:battle-coleto` 17
+  on its second run (the first stopped before any news, at the march-out Follow card, beside `npm test`).
 
 **Open, for the owner** (built the first option):
 
