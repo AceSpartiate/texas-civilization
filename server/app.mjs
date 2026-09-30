@@ -27,7 +27,10 @@ import { gunzipSync } from 'node:zlib';
 import { readSave, writeSave, acquireSaveLock, archiveSave } from './storage.mjs';
 // The end-of-game flashback's videos, kept beside the save (docs/FLASHBACK.md): the routes are `/api/flashback/...` below.
 import { bodyBytes, createFlashbackStore, flashbackPayload, scriptCache } from './flashback.mjs';
-import { flashbackReady } from '../sim/flashback.mjs';
+import { flashbackReady, SCRIPT_VERSION } from '../sim/flashback.mjs';
+// The end of the game as a sequence the class goes through together (owner, 2026-09-29, D10; sim/end-sequence.mjs).
+import { advanceEndSequence, beginEndSequence, dueStage, endSequenceStep, endSequenceView } from '../sim/end-sequence.mjs';
+import { CLASS_SCRIPT_VERSION, CLASS_VIDEO_ID } from '../sim/class-flashback.mjs';
 import { classSchedule } from './class-days.mjs';
 
 const token = () => randomBytes(24).toString('hex');
@@ -592,7 +595,10 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     // (owner, 2026-09-21). One boolean rather than a role of its own - a solo player is a student in every other way.
     if (solo) payload.solo = true;
     // The end-of-game flashbacks: which are made, for the Host every family's and for a student their own (server/flashback.mjs).
-    Object.assign(payload, flashbackPayload(flashbacks, state.sessionId, state.world, identity));
+    Object.assign(payload, flashbackPayload(flashbacks, state.sessionId, state.world, identity, { solo }));
+    // Where the class is in the end of the game (sim/end-sequence.mjs): the Host with where each family stands, a family its own.
+    const ending = endSequenceView(state.world, identity, identity.role === 'host' ? endFacts() : null, now());
+    if (ending) payload.endSequence = ending;
     // The class's size, name, the families a late student could take and how many class days the game takes (2026-09-28).
     if (identity.role === 'host') Object.assign(payload, {
       sessionCode: state.sessionCode, joinUrls, canStop: Boolean(onStopRequested), presence: presence(),
@@ -1027,7 +1033,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const identity = identify(req);
         if (!identity) return json(res, 401, { error: 'Join this class first.' });
         const householdId = url.searchParams.get('household') || '';
-        if (!state.world.households[householdId]) return json(res, 404, { error: 'No such family.' });
+        // The class's own video (sim/class-flashback.mjs) is the teacher's to make, and there is none in Play Solo.
+        if (householdId === CLASS_VIDEO_ID ? solo : !state.world.households[householdId]) return json(res, 404, { error: 'No such family.' });
         // The teacher's computer makes them; on Play Solo the player's computer is the teacher's, and makes its own.
         if (identity.role !== 'host' && !(solo && identity.householdId === householdId)) return json(res, 403, { error: 'Only the teacher’s computer makes the flashbacks.' });
         if (!flashbackReady(state.world)) return json(res, 409, { error: 'The class has not ended.' });
@@ -1207,7 +1214,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       if (req.method === 'GET' && (url.pathname === '/api/flashback/script' || url.pathname === '/api/flashback/video')) {
         const householdId = url.searchParams.get('household') || identity.householdId || '';
         if (identity.role !== 'host' && householdId !== identity.householdId) return json(res, 403, { error: 'Only your own family’s flashback.' });
-        if (!state.world.households[householdId]) return json(res, 404, { error: 'No such family.' });
+        if (householdId === CLASS_VIDEO_ID ? solo : !state.world.households[householdId]) return json(res, 404, { error: 'No such family.' });
         if (!flashbackReady(state.world)) return json(res, 409, { error: 'The class has not ended.' });
         if (url.pathname === '/api/flashback/video') return flashbacks.serve(req, res, state.sessionId, householdId);
         const script = flashbackScriptsOf(state.world)[householdId];
@@ -1353,6 +1360,15 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         stream.answeredAt = Date.now();
         return json(res, 200, { ok: true });
       }
+      // A page telling the end sequence where it has got to, or the teacher moving it on (sim/end-sequence.mjs): the class video
+      // begun and played, a family's own video played to its end, Skip ahead, and Play the ending again.
+      if (req.method === 'POST' && url.pathname === '/api/end-sequence') {
+        const input = await body(req);
+        if (typeof input.step !== 'string') return json(res, 400, { error: 'Which step?' });
+        commit(s => { endSequenceStep(s.world, { role: identity.role, householdId: identity.householdId || null, solo }, input.step, now()); }, { actor: identity });
+        endSequenceTick();
+        return json(res, 200, { ok: true, stage: state.world.endSequence?.stage || null });
+      }
       if (req.method === 'POST' && url.pathname === '/api/command') {
         const input = await body(req);
         if (typeof input.id !== 'string' || !/^[\w-]{8,80}$/.test(input.id)) return json(res, 400, { error: 'Command ID required' });
@@ -1390,7 +1406,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
               s.pace = input.pace;
             } else if (input.action === 'pause' && s.world.status === 'running') s.world.status = 'paused';
             else if (input.action === 'resume' && s.world.status === 'paused') s.world.status = runtimeFault?.resumeStatus || 'running';
-            else if (input.action === 'end') s.world.status = 'ended';
+            else if (input.action === 'end') { s.world.status = 'ended'; beginEnd(s.world); }
             // The second class period (sim/periods.mjs): the same class carried on into the winter, never a new one.
             else if (input.action === 'next-period') beginNextPeriod(s.world);
             // A class ended by mistake, part-way through a period, taken up again where it was, paused (owner, 2026-09-28: "Yes,
@@ -1573,6 +1589,32 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     console.log(`No student's page has been open for ${span}: the class is paused and saved (revision ${state.revision}). Resume carries it on.`);
     return true;
   }
+  /** Begin the end sequence as the class ends for good (sim/end-sequence.mjs): a server that keeps no videos goes to the reveal. */
+  function beginEnd(world) { beginEndSequence(world, { now: now(), solo, keeps: Boolean(flashbacks.dir) }); }
+  /**
+   * What the end sequence moves on by: the class's video and each family's, as kept (made when, how long), and whether a page of
+   * each family a student plays is open (presence: `here`, or `away` within its grace).
+   */
+  function endFacts() {
+    const made = flashbacks.dir ? flashbacks.list(state.sessionId) : {};
+    const video = (note, version) => note && note.scriptVersion === version ? { madeAt: Date.parse(note.madeAt) || 0, durationMs: note.durationMs } : null;
+    const households = presence().households;
+    const families = {};
+    for (const client of Object.values(state.clients)) {
+      const id = client.householdId;
+      if (!id || !state.world.households[id]?.played) continue;
+      families[id] = { here: ['here', 'away'].includes(households[id]), made: video(made[id], SCRIPT_VERSION) };
+    }
+    return { classVideo: video(made[CLASS_VIDEO_ID], CLASS_SCRIPT_VERSION), families };
+  }
+  /** Move the end sequence on when it is due, and say so to every page. */
+  function endSequenceTick() {
+    const sequence = state.world.endSequence;
+    if (!sequence || sequence.stage === 'reveal') return;
+    const facts = endFacts();
+    if (!dueStage(state.world, facts, now())) return;
+    commit(s => { advanceEndSequence(s.world, facts, now()); });
+  }
   function tick() {
     // Play Solo's clock waits while the player's family is being made (sim/family.mjs `familyMaking`): the whole world, the
     // neighbours too, as a class waits in its lobby. Still 'running', so the die, the name and the looks are taken.
@@ -1580,9 +1622,12 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       && !(solo && Object.values(state.clients).some(client => familyMaking(state.world, state.world.households[client.householdId])));
     // Measured before anything else, so a paused or waiting class is always a lap not run (`realTimeMeter`).
     const realMs = realTime.lap(running, Math.max(3 * pace, 2000));
+    // An ended class goes on through its end sequence in real time, on the same beat (sim/end-sequence.mjs).
+    if (state.world.status === 'ended') { try { endSequenceTick(); } catch (error) { console.error('The end sequence could not move on:', error.cause?.message || error.message); } }
     if (!running) { emptySince = null; return; }
     try { if (pauseIfEmpty()) return; } catch (error) { console.error('The class could not pause itself:', error.cause?.message || error.message); }
-    try { commit(s => { markAbsences(s.world); stepWorld(s.world, { realMs, decisionBudgetMs, callBudgetMs, ...(questionBudgets && { questionBudgets }) }); }, { when: 'tick' }); }
+    // The class's own end, whenever it falls (the last period's end, or held for the news), begins the end sequence in the same commit.
+    try { commit(s => { markAbsences(s.world); stepWorld(s.world, { realMs, decisionBudgetMs, callBudgetMs, ...(questionBudgets && { questionBudgets }) }); if (s.world.status === 'ended') beginEnd(s.world); }, { when: 'tick' }); }
     catch (error) { if (!runtimeFault) suspend('SIMULATION_FAILED'); console.error('Simulation paused:', error.cause?.message || error.message); }
   }
   let timer = setInterval(tick, pace);

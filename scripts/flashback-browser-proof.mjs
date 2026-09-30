@@ -103,16 +103,20 @@ try {
   // ---------------------------------------------------------------------------------------------- the Host makes them
   const host = await hostPage(browser, room, errors);
   await host.locator('#flashback').waitFor({ state: 'visible', timeout: 30000 });
-  const run = await makeAll(host, room, 5);
+  // Five families' and, since 2026-09-29 (owner, D10), the class's own, made first (docs/FLASHBACK.md §11).
+  const run = await makeAll(host, room, 6);
   evidence.runs.push({ families: 5, ...run, folder: undefined });
-  assert.equal(run.disk.length, 5, `expected five videos on disk, found ${run.disk.length}`);
+  assert.equal(run.disk.length, 6, `expected five families' videos and the class's on disk, found ${run.disk.length}`);
+  assert.equal(run.made.done[0].householdId, 'class', 'the class's own video was not made first');
   for (const file of run.disk) {
-    assert.ok(Math.abs(file.durationMs - 60000) <= 1500, `${file.file} is ${file.durationMs} ms long`);
+    // A family's: the story's minute and the homecoming after it (§12); the class's, at most two and a half minutes.
+    if (file.file === 'class.webm') assert.ok(file.durationMs >= 30000 && file.durationMs <= 151000, `${file.file} is ${file.durationMs} ms long`);
+    else assert.ok(file.durationMs >= 60000 && file.durationMs <= 95000, `${file.file} is ${file.durationMs} ms long`);
     assert.ok(file.bytes > 150 * 1024 && file.bytes < 15 * 1024 * 1024, `${file.file} is ${file.bytes} bytes`);
     assert.equal(file.codec, 'V_VP8');
     assert.ok(file.keyframes >= 25, `${file.file} has ${file.keyframes} keyframes`);
   }
-  ok(`the Host's page made all five videos in ${Math.round(run.seconds)} s (${run.made.how}), each about a minute: ${run.disk.map(file => `${file.file} ${Math.round(file.durationMs / 100) / 10} s ${Math.round(file.bytes / 1024)} KB`).join(', ')}`);
+  ok(`the Host's page made the class's video and all five families' in ${Math.round(run.seconds)} s (${run.made.how}): ${run.disk.map(file => `${file.file} ${Math.round(file.durationMs / 100) / 10} s ${Math.round(file.bytes / 1024)} KB`).join(', ')}`);
   ok(`the videos are on the Host's disk in the class's own folder: ${run.folder}`);
   await host.screenshot({ path: 'docs/evidence/flashback-host.png' });
 
@@ -134,12 +138,12 @@ try {
     return { src: video.currentSrc, duration: video.duration, advanced: video.currentTime - start, paused: video.paused, width: video.videoWidth, height: video.videoHeight };
   });
   assert.ok(/household=hh-1/.test(played1.src), `the student's page played ${played1.src}`);
-  assert.ok(Math.abs(played1.duration - 60) < 1.5, `the student's video is ${played1.duration} s`);
+  assert.ok(played1.duration >= 60 && played1.duration <= 95, `the student's video is ${played1.duration} s`);
   assert.ok(played1.advanced > 1, 'the student\'s video did not play by itself');
   ok(`the student's page played its own family's video by itself: ${Math.round(played1.duration * 10) / 10} s, ${played1.width}×${played1.height}, ${Math.round(played1.advanced * 10) / 10} s played in 2.5 s`);
   await student.locator('#flashback-transcript li').first().waitFor({ timeout: 15000 });
   const words = await student.locator('#flashback-transcript li').allTextContents();
-  assert.ok(words.length >= 10 && words.length <= 15, `${words.length} lines of the story in words`);
+  assert.ok(words.length >= 10 && words.length <= 20, `${words.length} lines of the story in words`);
   ok(`the captions are below the video as words, ${words.length} lines: "${words[1].slice(0, 90)}…"`);
   // Replay: back to the start, playing.
   await student.locator('#flashback-replay').click();
@@ -167,7 +171,8 @@ try {
   assert.deepEqual(idle, { hidden: true, src: '', playing: false, open: false, videos: 0, playAll: false }, `the Host's screen showed a video by itself: ${JSON.stringify(idle)}`);
   ok('with every video made, the Host\'s screen shows and plays none, and has no "play the whole class"; the look-up list is closed');
   await host.locator('#flashback-host summary').click();
-  await host.locator('#flashback-families button', { hasText: 'Watch' }).nth(2).click();
+  // The class's own video is the list's first row (§11); the third family's is the fourth.
+  await host.locator('#flashback-families button', { hasText: 'Watch' }).nth(3).click();
   await host.waitForFunction(() => /household=hh-3/.test(document.querySelector('#flashback-video').currentSrc || '') && document.querySelector('#flashback-now').textContent.startsWith('Watching'));
   const watched = await host.evaluate(async () => { const video = document.querySelector('#flashback-video'); const start = video.currentTime; await new Promise(resolve => setTimeout(resolve, 2000)); return { hidden: video.hidden, advanced: video.currentTime - start }; });
   assert.ok(!watched.hidden && watched.advanced > 0.5, `the family the Host chose did not play: ${JSON.stringify(watched)}`);

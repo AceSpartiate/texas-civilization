@@ -111,6 +111,8 @@ also said players "should have to trade or spend money". Both hold at once:
 
 ### What counts as "money" at the end
 
+*(Since 2026-09-29 the farm that stands at the end is sold and its price counted as coin, and a burned farm counts glory: §5a.)*
+
 **Default: coin on hand when the class ends.** Goods, crops, land and livestock do not count.
 That is the owner's word — "who has the most money" — and it gives the ending a decision of its
 own: a family can sell its stores for coin before the end, and in the later chapters a family
@@ -299,7 +301,7 @@ final = max(money, 1) × (1 − prisoners ÷ living people) × (1 + glory) + lan
 `sim/ending.mjs` (`FORMULA`, `finalNumber`) all carry, held together by `tests/ending-debrief.test.mjs` (triage 2026-09-29 3.7):
 
 ```
-final = round(max(coin, 1) × max(0, 1 − 1.5 × prisoners ÷ living people)) × (1 + max(glory, 0)) + land
+final = round(max(coin + farm sold, 1) × max(0, 1 − 1.5 × prisoners ÷ living people)) × (1 + max(glory, 0)) + land
 ```
 
 The weight of one and a half is the owner's of 2026-09-28 (below); glory below nothing counts as nothing (§2); and the coin
@@ -367,6 +369,42 @@ living can win, marked if the computer finished it.*
 
 ---
 
+### 5a. The farm at the end — owner decision, 2026-09-29 (built on branch `end-sequence`, not released)
+
+**The owner, 2026-09-29, answering the triage's D8** (*"Coin has no required use; crops and goods held at the end count nothing"*,
+docs/audits/2026-09-29-triage.md): *"if their house and farm wasn't burned and is intact then make selling it part of the end of the
+game cutscene. if there farm was burned then there's nothing to sell, but they get glory to compensate."*
+
+- **An intact farm is sold** (`sim/farm-sale.mjs`, `FIC-GONZ-970`). In the family's own video the head of household sits down to count
+  what is left and a land agent buys the farm (docs/FLASHBACK.md §12); at the ending the price is **coin in the house with the rest**,
+  so glory multiplies it like any real and the prisoners' share takes its part of it. The formula, written one way (`FORMULA`):
+  `final = round(max(coin + farm sold, 1) × max(0, 1 − 1.5 × prisoners ÷ living people)) × (1 + max(glory, 0)) + land`.
+  The family's breakdown says it: *"The family had 24 reales, and sold the farm for 55 reales: 24 + 55 = 79 reales."*
+- **A burned farm has nothing to sell** and counts **40 glory** (`BURNED_FARM_GLORY`, `FIC-GONZ-971`), by whichever army burned it, as
+  its own line of what earned glory: *"The farm was burned in the spring, so at the end there was nothing left to sell. A burned farm
+  counts 40 glory."*
+- **Nothing else is priced.** The owner asked for the farm to be sold, so the goods and crops still in the house (food, cotton, powder,
+  seed) are **not** counted at the store's price - the triage's recommended option A was not the owner's answer. A family nobody is left
+  of sells nothing. Between periods, and on the invented Gonzales country (which ends at the fight), nothing changes (`farmAtEnd`).
+
+**The prices** (MODELLED on `HIST-TEX-750`, at a real to the dollar as the stock pens, the wagon and the rifle are):
+
+| What | Price | Why |
+| --- | --- | --- |
+| The farm's labor (177 acres) | a real for every 20 acres: **9 reales** | five cents an acre - the ending's own rate for land promised for enlisting (owner, 2026-09-16); above the colonist's cost of "about four cents an acre" (1831) and below the Republic's land scrip "at not less than fifty cents an acre" (December 1836); the family has no title and sells into a country just emptied by the war, not at the boom prices of 1834-35 ($1 an acre wild, $5-15 the best, $5.50-6.50 prairie on the Brazos) |
+| The league of grazing land (a family with stock, 4,428 acres more) | a real for every 40 acres: **111 reales** | the 1825 law asked half as much an acre for pasture as for farm land (30 dollars a sitio against 2½ a labor, Art. 22) |
+| The house | a real for every 2½ spells of its work: jacal **10**, round-log **16**, hewn-log **26**, dog-run **48**; part raised, the part | its labour, as the house chooser counts it (sim/houses.mjs); **not found**: an 1836 price for a log cabin |
+| Ten acres cleared | **10 reales** (a real an acre) | the wild land's price of 1834 for ground the family broke itself |
+| Ten acres fenced | **5 more** | the rails |
+| A well | **5** | |
+
+**Measured** (docs/BALANCE.md §16; 28 classes of 5, 15 and 30 families, 320 families, the automatic families' strategies):
+a labor farm sold for 39 to 90 reales (median 70), a league and labor for 146 to 231 (median 226); the median intact family's final
+number rose by 3,164 (×1.70), and **40 glory** moves the median burned family's by 3,160 - the amount chosen for that match (matching
+the median *relative* gain instead would give 48). Families: 53% burned, 47% intact. Wins before: 14 burned, 14 intact; after: 13
+burned, 15 intact, the same for any compensation from 0 to 80 glory - the winners' glory is in the hundreds, so neither the sale nor the
+compensation decides who finishes first; it moves the middle of the table.
+
 ## 6. Decisions, all made
 
 | Question | Owner's answer, 2026-09-12 |
@@ -416,7 +454,7 @@ Bounded steps, each shippable and provable alone, in order. This mirrors
 
 **A family sees** its coin, its glory and its final number; the multiplication written out (`5 reales × (1 + 16 glory) = 85`, or with no coin `0 reales, counted as 1 real × (1 + 16 glory) = 17`); a short story — how many road miles it lived from Gonzales, the day word of the cannon reached it, and, if nobody went, that they stayed with the land; every sale, payment and trade that moved coin, dated, with the amount; and every award, dated, as a sentence (*Cipriano was there for the army made at Gonzales, 115 road miles from home.*). It sees nobody else's numbers. It can close the ending to look at the map and open it again.
 
-**The Host sees** every family in household order — never sorted — with road miles from Gonzales, the day it heard, who went, coin, glory and final number; the family that finished first named in a sentence, and highlighted; *Final number = coin × (1 + glory). A family with no coin is counted as having 1 real.*; and four questions for the class. *(As first built. Since 2026-09-29 the columns are the whole war's and the footer is the whole formula, `final = round(max(coin, 1) × max(0, 1 − 1.5 × prisoners ÷ living people)) × (1 + max(glory, 0)) + land`, in words: see "The ending as the whole war, in sums a student can follow" below.)* A tie names every family level on the highest number. A family nobody played is shown with its numbers and marked, and is never named first (owner, 2026-09-14).
+**The Host sees** every family in household order — never sorted — with road miles from Gonzales, the day it heard, who went, coin, glory and final number; the family that finished first named in a sentence, and highlighted; *Final number = coin × (1 + glory). A family with no coin is counted as having 1 real.*; and four questions for the class. *(As first built. Since 2026-09-29 the columns are the whole war's and the footer is the whole formula, `final = round(max(coin + farm sold, 1) × max(0, 1 − 1.5 × prisoners ÷ living people)) × (1 + max(glory, 0)) + land`, in words: see "The ending as the whole war, in sums a student can follow" below.)* A tie names every family level on the highest number. A family nobody played is shown with its numbers and marked, and is never named first (owner, 2026-09-14).
 
 **Where coin went.** Every event that moves coin now carries `coin` (a signed whole number): a sale at the store, a payment in town (a new event, *X paid 2 reales in town.*, since paying had no line of its own), and each side of a trade. Nothing projected changes shape; the field is read only by the ending. A class saved before this has untagged events and shows fewer lines, never a wrong number: the number is the coin in the house.
 

@@ -39,6 +39,10 @@ const RULES = [
   [/^farm-neighbour-porch/, 'cabin', ['cabin-wide', 'house-porch']],
   [/^farm-neighbour-ramada/, 'jacal with a ramada', ['jacal-ramada']],
   [/^wedding-table/, 'table', ['home-table']],
+  // The homecoming's scenes at the end of a family's video (request 2026-09-29): a wooden marker, and coin and a paper on the table,
+  // neither of which she has drawn.
+  [/^grave-marker/, 'a grave marker', ['grave-marker']],
+  [/^coins-and-paper/, 'coins and a paper', ['coins-and-paper']],
   [/^courtship-yard-/, 'a yard painted behind a scene', ['courtship-yard']],
   // The family: the eight grown cast figures (at work, at ease, holding the baby, sick, fighting, driving, riding in the wagon),
   // the three children and the baby. `blue-girl` and `rust-woman` before `blue` and `rust`.

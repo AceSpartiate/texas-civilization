@@ -57,6 +57,8 @@ export function continueEnded(world) {
   const why = continueRefusal(world);
   if (why) throw new Error(why);
   world.status = 'paused';
+  // The end sequence belonged to that ending (sim/end-sequence.mjs), as its videos did.
+  delete world.endSequence;
   record(world, 'lifecycle', { visibility: 'host', importance: 2, text: 'The teacher took the class up again where End Game had ended it, paused.' });
 }
 

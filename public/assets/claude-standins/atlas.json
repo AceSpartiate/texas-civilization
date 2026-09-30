@@ -2031,6 +2031,44 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
+    "claude-homecoming-marker": {
+      "image": "/assets/claude-standins/claude-homecoming-marker.png",
+      "width": 300,
+      "height": 300,
+      "bytes": 7423,
+      "sha256": "e25b27db781e71146d00720fcbec1c9521a18fcd698bb022c5513246874ac306",
+      "madeBy": "claude",
+      "module": "homecoming",
+      "request": "Request 2026-09-29 — the homecoming's scenes",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 300,
+          "h": 300
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-homecoming-coins": {
+      "image": "/assets/claude-standins/claude-homecoming-coins.png",
+      "width": 180,
+      "height": 90,
+      "bytes": 4000,
+      "sha256": "8c02a89c013eca075756678201e328c033ac2861fab13e87b53766bf4f9d0e97",
+      "madeBy": "claude",
+      "module": "homecoming",
+      "request": "Request 2026-09-29 — the homecoming's scenes",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 180,
+          "h": 90
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
     "claude-house-back": {
       "image": "/assets/claude-standins/claude-house-back.png",
       "width": 960,
@@ -20561,6 +20599,40 @@
       "source": "svg/home-tools/claude-home-auger.svg",
       "label": "home auger",
       "kind": "claude-home-tools"
+    },
+    "grave-marker": {
+      "sheet": "claude-homecoming-marker",
+      "x": 0,
+      "y": 0,
+      "w": 300,
+      "h": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.9533,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "homecoming",
+      "request": "Request 2026-09-29 — the homecoming's scenes",
+      "replaceWith": "grave-marker: item 1: prop contract, transparent, anchored at its base, a person's height as its logical height",
+      "source": "svg/homecoming/claude-grave-marker.svg",
+      "label": "grave marker",
+      "kind": "claude-homecoming-marker"
+    },
+    "coins-and-paper": {
+      "sheet": "claude-homecoming-coins",
+      "x": 0,
+      "y": 0,
+      "w": 180,
+      "h": 90,
+      "anchorX": 0.5,
+      "anchorY": 0.9111,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "homecoming",
+      "request": "Request 2026-09-29 — the homecoming's scenes",
+      "replaceWith": "coins-and-paper: item 2: prop contract, transparent, anchored at its base, laid on the table top (`home-table`)",
+      "source": "svg/homecoming/claude-coins-and-paper.svg",
+      "label": "coins and paper",
+      "kind": "claude-homecoming-coins"
     },
     "house-round-back-sill": {
       "sheet": "claude-house-back",

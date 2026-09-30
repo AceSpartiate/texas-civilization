@@ -29,6 +29,10 @@ import { surpriseReveal } from './surprise.mjs';
 import { classHooks, familyQuestions, flightLine, nobodyWentLine, springWords, warPrisoners } from './ending-story.mjs';
 // What families did for each other (sim/neighbourly.mjs, owner 2026-09-28: "helping is recorded in the ending").
 import { helpWhat, helpedLines, neighbourLines } from './neighbourly.mjs';
+// The farm at the end: sold if it stands, glory for it if it burned (owner, 2026-09-29, D8; sim/farm-sale.mjs).
+import { farmAtEnd } from './farm-sale.mjs';
+// The end as a sequence (owner, 2026-09-29, D10; sim/end-sequence.mjs): the numbers wait for its reveal.
+import { revealed } from './end-sequence.mjs';
 
 /**
  * The coin the final number multiplies: what is in the house, and never less than one real.
@@ -80,12 +84,14 @@ export const PRISONER_RULE = `Each person taken prisoner at home or on the road 
  * and the Host's footer all carry this line, and tests/ending.test.mjs holds the two documents to it - so a change to
  * `PRISONER_WEIGHT` or to `finalNumber` that is not written into them fails there.
  */
-export const FORMULA = `final = round(max(coin, 1) × max(0, 1 − ${PRISONER_WEIGHT} × prisoners ÷ living people)) × (1 + max(glory, 0)) + land`;
+// The farm sold at the end is coin in the house with the rest, and a burned farm's glory is glory (owner, 2026-09-29, D8): `coin` is
+// the coin in the house and the farm's price, `glory` every award and a burned farm's.
+export const FORMULA = `final = round(max(coin + farm sold, 1) × max(0, 1 − ${PRISONER_WEIGHT} × prisoners ÷ living people)) × (1 + max(glory, 0)) + land`;
 /** The same formula in the Host's words, under the table. */
 export const FORMULA_WORDS = [
   `Final number = coin counted × (1 + glory) + land.`,
-  `Coin counted: the coin in the house, a family with none counted as having 1 real, less ${PRISONER_WEIGHT} parts for each person taken prisoner in the spring out of one part for each of the family's living people, rounded to a whole real.`,
-  'Glory below nothing counts as nothing.',
+  `Coin counted: the coin in the house and what the farm sold for at the end, a family with none counted as having 1 real, less ${PRISONER_WEIGHT} parts for each person taken prisoner in the spring out of one part for each of the family's living people, rounded to a whole real.`,
+  'Glory below nothing counts as nothing. A farm burned in the spring had nothing to sell, and counts glory instead.',
   'Land promised for enlisting counts a real for every 20 acres, if the person is alive and served it out or is serving still; being sent for home forfeits it.',
 ].join(' ');
 const GONE_FOR_GOOD = 'dead';
@@ -236,8 +242,12 @@ function partsTaken(world, household) {
  * The final number said a step at a time, in whole numbers a student can check (triage 2026-09-29 2.10): the coin, what the
  * prisoners took from it, glory multiplying it, and the land added.
  */
-function sumSentences({ money, glory, final, counted, living, taken, lostParts, land }) {
-  const said = [money < COIN_FLOOR ? `The family had no coin, so it is counted as having ${reales(COIN_FLOOR)}.` : `The family had ${reales(money)}.`];
+function sumSentences({ money, glory, final, counted, living, taken, lostParts, land, farm }) {
+  const sale = farm?.kind === 'sale' ? farm.total : 0;
+  const said = [sale
+    ? `The family had ${reales(money)}, and sold the farm for ${reales(sale)}: ${money} + ${sale} = ${reales(money + sale)}.`
+    : money < COIN_FLOOR ? `The family had no coin, so it is counted as having ${reales(COIN_FLOOR)}.` : `The family had ${reales(money)}.`];
+  if (farm?.kind === 'burned') said.push(`The farm was burned, so there was nothing to sell; it counts ${farm.glory} glory, which is in the glory below.`);
   if (taken) said.push(`${taken === 1 ? 'The one person' : `The ${taken} people`} taken prisoner take${taken === 1 ? 's' : ''} ${lostParts} of the family's ${living} parts, so ${reales(counted)} ${counted === 1 ? 'is' : 'are'} counted.`);
   const product = counted * (1 + Math.max(0, glory));
   said.push(glory > 0
@@ -259,7 +269,13 @@ export function familyEnding(world, householdId) {
   if (!household) return null;
   const money = household.resources?.money ?? 0;
   const ledger = world.glory?.[householdId];
-  const glory = ledger?.total ?? 0;
+  // The farm (owner, 2026-09-29, D8; sim/farm-sale.mjs): sold for coin if it stands, counted glory if it burned. Nobody left of the
+  // family, nobody to sell it (`nobodyLeft`). Only at the ending proper: the interim standings count coin and land alone.
+  // On the real land of the colonies only, at the ending proper (`farmAtEnd`, and the `ceiling:` there).
+  const farm = farmAtEnd(world, household);
+  const sale = farm.kind === 'sale' ? farm.total : 0;
+  const farmGlory = farm.kind === 'burned' ? farm.glory : 0;
+  const glory = (ledger?.total ?? 0) + farmGlory;
   // The coin the family's means started it with (sim/means.mjs, owner 2026-09-25: three to ten reales) is the first line of the
   // account, so every real that came into the house is in it. Only the account: how the final number counts it is the owner's
   // open question (docs/MONEY_AND_GLORY.md, the amendment of 2026-09-25), and it is counted as all coin in the house always was.
@@ -275,13 +291,16 @@ export function familyEnding(world, householdId) {
       const far = award.miles >= 1 ? `, ${Math.round(award.miles)} road miles from home` : '';
       return { date: day(world, award.minute), points: award.points, role: award.role, text: `${name} ${PART_WORDS[award.role] || 'took part in'} ${what}${far}.${award.note ? ` ${award.note}` : ''}`, worth: worthLine(award) };
     });
+  // A burned farm's glory is the last line of what earned glory, in its own words (owner, 2026-09-29, D8).
+  if (farm.kind === 'burned') awards.push({ date: Number.isFinite(farm.minute) ? day(world, farm.minute) : day(world, world.minute), points: farmGlory, role: 'farm-burned',
+    text: 'The farm was burned in the spring, so at the end there was nothing left to sell.', worth: `A burned farm counts ${farmGlory} glory.` });
   const miles = milesFromGonzales(world, household);
   const heard = firstWord(world, household);
   const parts = partsTaken(world, household);
   const land = landPromised(world, household);
   const taken = scrapePrisoners(world, household);
   const kept = keptShare(world, household);
-  const final = finalNumber(money, glory, land.reales, kept);
+  const final = finalNumber(money + sale, glory, land.reales, kept);
   const prisoners = taken.map(one => ({ ...one, text: `${one.name} was taken prisoner ${one.where === 'home' ? 'at home' : 'on the road east'}.` }));
   const story = [
     miles === null ? null : `The family lived ${miles} road miles from Gonzales.`,
@@ -292,10 +311,10 @@ export function familyEnding(world, householdId) {
     ...warPrisoners(world, household).map(one => one.text),
   ].filter(Boolean);
   // The coin as it is counted: the floor of one real, then the prisoners' parts taken out of it, each step said.
-  const floored = money < COIN_FLOOR ? `${reales(money)}, counted as ${reales(COIN_FLOOR)}` : reales(money);
+  const floored = sale ? `${reales(money)} + ${reales(sale)} for the farm` : money < COIN_FLOOR ? `${reales(money)}, counted as ${reales(COIN_FLOOR)}` : reales(money);
   const living = livingOf(world, household);
   // A whole real (triage 2026-09-29 2.10): the coin counted is the coin the sum multiplies (`coinCounted`).
-  const counted = coinCounted(money, kept);
+  const counted = coinCounted(money + sale, kept);
   const lostParts = Math.round(PRISONER_WEIGHT * taken.length * 100) / 100;
   const coinWords = taken.length
     ? `${floored}, less ${lostParts} of ${living} parts for the ${taken.length === 1 ? 'one' : taken.length} taken prisoner, counted as ${reales(counted)}`
@@ -304,10 +323,12 @@ export function familyEnding(world, householdId) {
     householdId,
     name: householdName(world, household),
     money, glory, final, land: land.reales, acres: land.acres,
+    // The farm at the end (sim/farm-sale.mjs): its sale, or the glory for a burned one.
+    farm, sale, farmGlory,
     counted, kept, prisoners, ...(prisoners.length && { prisonerRule: PRISONER_RULE }),
     sum: `${coinWords} × (1 + ${glory < 0 ? `${glory} glory, counted as 0` : `${glory} glory`})${land.reales ? ` + ${reales(land.reales)} of land (${land.acres} acres promised)` : ''} = ${final}`,
     // The sum said in sentences, one step each, for a student to follow (triage 2026-09-29 2.10).
-    sumSaid: sumSentences({ money, glory, final, counted, living, taken: taken.length, lostParts, land }),
+    sumSaid: sumSentences({ money, glory, final, counted, living, taken: taken.length, lostParts, land, farm }),
     gloryRule: gloryRule(),
     story, coin, awards,
     // Questions for the family about its own story (S24), shown under it.
@@ -366,7 +387,7 @@ export function hostEnding(world) {
     return {
       householdId: household.id,
       name: own.name,
-      money: own.money, glory: own.glory, land: own.land, final: own.final, prisoners: own.prisoners.length,
+      money: own.money, sale: own.sale, farmGlory: own.farmGlory, glory: own.glory, land: own.land, final: own.final, prisoners: own.prisoners.length,
       automatic: automatic(world, household),
       // A family a student played that the director was running at the end: its student was away (sim/absence.mjs).
       ...(automatic(world, household) && household.played && { finishedByDirector: true }),
@@ -422,6 +443,9 @@ function heardAlamo(world, household) {
  */
 export function endingProjection(world, householdId, role) {
   if (world.status !== 'ended') return {};
+  // The end sequence (owner, 2026-09-29, D10): the class video, then each family's own, and only then the final table and each
+  // family's breakdown. Until its reveal no page is sent a number of the ending (sim/end-sequence.mjs).
+  if (!revealed(world)) return {};
   // The first and second class periods end with interim standings, not a winner (owner, 2026-09-16, docs/COLONIES.md §7e):
   // where the families stand with the war still to finish, and the Host offered the next period. **Without glory**: VISION §20,
   // "Glory is hidden from every student and from the Host until the ending", and the interim is not the ending (design audit

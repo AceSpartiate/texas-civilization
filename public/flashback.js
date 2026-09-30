@@ -18,7 +18,9 @@
 //
 // Nothing here decides anything about the story: the beats, their words and their order are the server's.
 import { muxWebM } from '/webm-writer.js';
-import { drawSprite, sheetsInFlight, loadArt, clipReady } from '/art.js';
+import { drawSprite, drawClip, spriteFrame, sheetsInFlight, loadArt, clipReady } from '/art.js';
+// The lone parent's scenes' figures (public/courtship.js): who a person is drawn as, and their pose, for the homecoming's yard.
+import { clipFor, figureOf } from '/courtship.js';
 import { drawArmy } from '/army-view.js';
 import { drawRoad } from '/landscape-art.js';
 import { placeSprite } from '/place-art.js';
@@ -38,6 +40,7 @@ export function bindFlashback(hooks) {
   art = hooks;
   document.querySelector('#flashback-replay')?.addEventListener('click', () => replay());
   document.querySelector('#flashback-make-again')?.addEventListener('click', () => { makeAgain = true; if (lastSnapshot) renderFlashback(lastSnapshot); });
+  bindFinale();
 }
 
 const make = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined && text !== null) node.textContent = text; if (className) node.className = className; return node; };
@@ -54,8 +57,16 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
  */
 function cameraOf(beat, script, world) {
   const scene = beat.scene || {};
-  const home = world.map?.sites?.[script.homeSiteId];
+  // A beat of the class's video is at a family's own home (`homeSiteId`), not the script's (sim/class-flashback.mjs).
+  const home = world.map?.sites?.[scene.homeSiteId || script.homeSiteId];
   const lift = view => ({ ...view, cy: view.cy + view.miles * (VIDEO.height / VIDEO.width) * 0.1 });
+  const around = (points, least) => {
+    const xs = points.map(p => p.x), ys = points.map(p => p.y);
+    const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
+    return lift({ cx: (minX + maxX) / 2, cy: (minY + maxY) / 2, miles: Math.max(least, (maxX - minX) * 1.35, (maxY - minY) * 1.5 * VIDEO.width / VIDEO.height) });
+  };
+  if (scene.type === 'homes' && scene.homes?.length) return around(scene.homes, 24);
+  if (scene.type === 'routes' && scene.routes?.length) return around(scene.routes.flatMap(route => route.points), 24);
   if (scene.type === 'battle' && scene.battle?.camera) return lift(scene.battle.camera);
   if (scene.type === 'road' && scene.route?.length > 1) {
     const xs = scene.route.map(p => p.x), ys = scene.route.map(p => p.y);
@@ -94,7 +105,7 @@ function label(ctx, words, x, y, size = 13, { colour = '#3d3222', halo = '#f2e6c
 /** One beat's picture made ready: its ground drawn once, larger than the frame, and the camera it was drawn with. */
 function prepareBeat(beat, script, world) {
   const scene = beat.scene || {};
-  if (scene.type === 'title' || scene.type === 'closing') return { beat };
+  if (scene.type === 'title' || scene.type === 'closing' || scene.type === 'yard') return { beat };
   const view = cameraOf(beat, script, world);
   const over = scene.type === 'battle' ? 1 : OVERSCAN;
   const canvas = document.createElement('canvas');
@@ -181,12 +192,13 @@ function drawColumns(ctx, prepared, crop, columns, t) {
 /** A home beat: the house as it stood then, the family before it, a rider come with word, smoke over a burning farm. */
 function drawHome(ctx, prepared, script, beat, local, t) {
   const crop = cropAt(prepared, local);
-  const home = prepared.camera && framePoint(prepared, crop, { x: script.home.x, y: script.home.y });
+  const site = beat.scene.homeSiteId && script.sites?.[beat.scene.homeSiteId] || script.home;
+  const home = prepared.camera && framePoint(prepared, crop, { x: site.x, y: site.y });
   const zoom = VIDEO.width / crop.w;
   const figure = prepared.camera.figure * zoom;
   const house = beat.scene.house || { shelter: 'house' };
   const size = prepared.camera.house.size * zoom;
-  art.homesteadHouse(ctx, home.x, home.y, size, script.homeSiteId, house);
+  art.homesteadHouse(ctx, home.x, home.y, size, beat.scene.homeSiteId || script.homeSiteId, house);
   if (beat.scene.wagon) art.miniWagon(ctx, home.x - size * 1.3, home.y + size * .25, figure * 1.55, { id: 'flashback-wagon', condition: 'sound', laden: true });
   if (beat.scene.smoke) smoke(ctx, home.x, home.y - size * .3, size * .7, t);
   if (beat.scene.neighbours) for (let i = 0; i < 3; i++) drawPerson(ctx, { id: `neighbour-${i}`, kind: 'person' }, home.x + size * (1.5 + i * .35), home.y + size * .55, figure);
@@ -264,6 +276,209 @@ function drawBattleBeat(ctx, prepared, script, beat, local, t, battleView) {
     if (alpha > 0.05 && person) { ctx.save(); ctx.globalAlpha = alpha; label(ctx, person.name, x, y + 16, 13, { colour: '#6b2a1a' }); ctx.restore(); }
   });
 }
+// ------------------------------------------------------------------------------------------------ the class's own map beats
+
+/** The class's homes on one map (sim/class-flashback.mjs `homes`): each a house, burned or standing, named, and a day where one is said. */
+function drawHomes(ctx, prepared, beat, local) {
+  const crop = cropAt(prepared, local);
+  const size = Math.max(22, Math.min(46, prepared.camera.figure * 3 * VIDEO.width / crop.w));
+  for (const [i, home] of (beat.scene.homes || []).entries()) {
+    const at = framePoint(prepared, crop, home);
+    // One after another, a beat's first half, so the eye goes round the class.
+    const shown = Math.max(0, Math.min(1, (local * 3 - i / Math.max(1, beat.scene.homes.length)) * 4));
+    if (shown <= 0) continue;
+    ctx.save(); ctx.globalAlpha = shown;
+    if (!(home.mark === 'burned' && drawSprite(ctx, 'cabin-ruin', at.x, at.y, size))) drawSprite(ctx, 'cabin-small', at.x, at.y, size);
+    if (home.mark === 'burned') smoke(ctx, at.x, at.y - size * .4, size * .45, local * 4000);
+    const words = home.note ? `${home.label}: ${home.note}` : home.label;
+    label(ctx, words, at.x, at.y + 16, 14, { colour: home.mark === 'went' ? '#6b2a1a' : '#3d3222' });
+    if (home.mark === 'went') { ctx.fillStyle = '#6b2a1a'; ctx.beginPath(); ctx.arc(at.x + size * .55, at.y - size * .7, 5, 0, Math.PI * 2); ctx.fill(); }
+    ctx.restore();
+  }
+}
+/** The families' roads east together (sim/class-flashback.mjs `routes`), each family going along its own. */
+function drawRoutes(ctx, prepared, beat, local) {
+  const crop = cropAt(prepared, local);
+  for (const route of beat.scene.routes || []) {
+    const points = route.points.map(point => framePoint(prepared, crop, point));
+    if (points.length < 2) continue;
+    ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.setLineDash([7, 6]); ctx.strokeStyle = 'rgba(122,54,34,.55)'; ctx.lineWidth = 3;
+    ctx.beginPath(); points.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y))); ctx.stroke();
+    ctx.restore();
+    const head = alongRoute(points, Math.min(1, local * 1.05));
+    const west = head.dx < 0;
+    if (route.wagon) art.miniWagon(ctx, head.x, head.y, 34, { id: `class-wagon-${route.householdId}`, condition: 'sound', laden: true, travel: { points: [{ x: 0, y: 0 }, { x: west ? -1 : 1, y: 0 }], progress: 0.5, distance: 1, mode: 'wagon' } }, west);
+    else drawPerson(ctx, { id: `class-walker-${route.householdId}`, kind: 'person' }, head.x, head.y, 26, { walking: west ? 'w' : 'e' });
+    label(ctx, route.label, points[0].x, points[0].y + 16, 13, { colour: '#6b2a1a' });
+  }
+}
+
+// ------------------------------------------------------------------------------------------------ the homecoming, in the yard
+
+/**
+ * The homecoming's scenes after the story's minute (sim/flashback.mjs `epilogue`; owner, 2026-09-29, D10): the family in its own
+ * yard, drawn large as the lone parent's scenes are (public/courtship.js), with Astra's figures and furniture - her cast in their
+ * delivered poses, her cabins, the burned cabin, the house going up, her table, the elder for the land agent. What she has not
+ * drawn is Claude's stand-in art: the wooden marker (`grave-marker`) and the coin and paper on the table (`coins-and-paper`),
+ * each drawn in canvas until its sheet has come. stand-in: docs/ART_REQUESTS.md, request 2026-09-29 - the homecoming's scenes.
+ */
+const YARD_LIGHT = Object.freeze({ morning: ['#b9d3dc', '#f3e2bd'], noon: ['#a8c8d8', '#e6e3cf'], evening: ['#e7a86e', '#f6d59a'] });
+/** A grown person's drawn height in the yard, and where the ground they stand on is. */
+const YARD_PERSON = 0.27, YARD_GROUND = 0.74;
+const BAND = Object.freeze({ infant: 0.36, small: 0.52, child: 0.7, youth: 0.9, adult: 1 });
+/** The family's own house in the yard: Astra's whole-house pictures, and her burned cabin. */
+const YARD_HOUSE = Object.freeze({ 'round-log': 'house-round-log', 'hewn-log': 'house-hewn-log', 'dog-run': 'house-dog-run', jacal: 'house-jacal' });
+
+function paintYard(ctx, light, t) {
+  const W = VIDEO.width, H = VIDEO.height;
+  const backdrop = `courtship-yard-${light === 'noon' ? 'noon' : light === 'evening' ? 'evening' : 'morning'}`;
+  const frame = spriteFrame(backdrop);
+  if (frame && drawSprite(ctx, backdrop, W / 2 + (frame.anchorX - 0.5) * frame.w * Math.max(W / frame.w, H / frame.h), H - (1 - (frame.anchorY ?? 1)) * frame.h * Math.max(W / frame.w, H / frame.h), (frame.logicalHeight || frame.h) * Math.max(W / frame.w, H / frame.h)) > 0) return;
+  const tones = YARD_LIGHT[light] || YARD_LIGHT.morning;
+  const sky = ctx.createLinearGradient(0, 0, 0, H * 0.6);
+  sky.addColorStop(0, tones[0]); sky.addColorStop(1, tones[1]);
+  ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
+  const line = H * 0.47;
+  for (let pass = 0; pass < 2; pass++) {
+    ctx.fillStyle = pass ? '#6f7f45' : '#56683a';
+    for (let i = 0; i < 26; i++) {
+      const x = (i / 25) * W * 1.1 - W * 0.05 + (pass ? W * 0.02 : 0), r = H * (0.05 + ((i * 37 + pass * 11) % 7) / 90);
+      ctx.beginPath(); ctx.ellipse(x, line - r * 0.3 + pass * H * 0.02, r * 1.3, r, 0, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+  const ground = ctx.createLinearGradient(0, line, 0, H);
+  ground.addColorStop(0, '#9aa35e'); ground.addColorStop(1, '#6f7a3e');
+  ctx.fillStyle = ground; ctx.fillRect(0, line, W, H - line);
+  ctx.fillStyle = 'rgba(176,150,98,.5)';
+  ctx.beginPath(); ctx.ellipse(W / 2, H * 0.72, W * 0.42, H * 0.1, 0, 0, Math.PI * 2); ctx.fill();
+}
+/** The evening's warmth, a lantern's glow about the table, and the storybook edge. */
+function gradeYard(ctx, light, glowAt) {
+  const W = VIDEO.width, H = VIDEO.height;
+  ctx.save();
+  if (light === 'evening') { ctx.fillStyle = 'rgba(255,146,62,.14)'; ctx.fillRect(0, 0, W, H); }
+  if (glowAt) {
+    const glow = ctx.createRadialGradient(glowAt.x, glowAt.y, 0, glowAt.x, glowAt.y, W * 0.3);
+    glow.addColorStop(0, 'rgba(255,200,120,.28)'); glow.addColorStop(1, 'rgba(255,200,120,0)');
+    ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+  }
+  const edge = ctx.createRadialGradient(W / 2, H * 0.55, Math.min(W, H) * 0.35, W / 2, H * 0.55, Math.max(W, H) * 0.75);
+  edge.addColorStop(0, 'rgba(40,24,10,0)'); edge.addColorStop(1, 'rgba(40,24,10,.4)');
+  ctx.fillStyle = edge; ctx.fillRect(0, 0, W, H);
+  ctx.restore();
+}
+/** A person of the family in the yard: Astra's cast figure in a delivered pose, facing `face`; a child's own figure. */
+function yardPerson(ctx, person, x, y, h, pose, face, t, { paused = true } = {}) {
+  if (!person) return 0;
+  const { figure, grown, appearance } = figureOf(person);
+  const size = h * (BAND[person.band] ?? 1);
+  let clip;
+  if (pose === 'back') clip = { id: grown ? `${figure}-listen-n` : `${figure}-idle-n`, flip: false };
+  else if (pose === 'front' || !grown) clip = { id: `${figure}-idle-${grown ? 's' : face === 'n' ? 'n' : 's'}`, flip: false };
+  else clip = clipFor(person, pose, face === 'w' ? 'w' : 'e');
+  ctx.save(); ctx.fillStyle = 'rgba(40,30,15,.22)';
+  ctx.beginPath(); ctx.ellipse(x, y, size * 0.2, size * 0.05, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+  const drawn = drawClip(ctx, clip.id, x, y, size, { timeMs: t, seed: person.id, paused, flip: clip.flip, appearance });
+  // A figure whose sheet has not come yet is drawn as the map draws people, never left out.
+  if (!drawn) drawPerson(ctx, person, x, y, size * 0.8);
+  return size;
+}
+/**
+ * A wooden marker on a low mound, with a few flowers: Claude's `grave-marker` where its sheet has come, drawn here until then. `person`
+ * is a grown person's height in the scene, which the frame's logical height is (scripts/claude-art/areas/homecoming.mjs).
+ */
+function marker(ctx, x, y, person) {
+  if (drawSprite(ctx, 'grave-marker', x, y, person)) return;
+  const h = person * 0.75;
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-29 - the homecoming's scenes, item 1 (the wooden marker), until the sheet loads.
+  ctx.save();
+  ctx.fillStyle = '#7b6247';
+  ctx.beginPath(); ctx.ellipse(x, y - h * 0.03, h * 0.34, h * 0.08, 0, Math.PI, 0); ctx.fill();
+  ctx.fillStyle = '#9b7a52'; ctx.strokeStyle = '#4b3a24'; ctx.lineWidth = Math.max(1, h * 0.02);
+  const w = h * 0.2, top = y - h * 0.62;
+  ctx.beginPath(); ctx.moveTo(x - w / 2, y - h * 0.05); ctx.lineTo(x - w / 2, top + w * 0.3); ctx.quadraticCurveTo(x, top - w * 0.15, x + w / 2, top + w * 0.3); ctx.lineTo(x + w / 2, y - h * 0.05); ctx.closePath(); ctx.fill(); ctx.stroke();
+  for (const [dx, colour] of [[-0.22, '#e8d36b'], [0.18, '#d98cb3'], [0.27, '#f3efe2']]) { ctx.fillStyle = colour; ctx.beginPath(); ctx.arc(x + dx * h, y - h * 0.06, h * 0.022, 0, Math.PI * 2); ctx.fill(); }
+  ctx.restore();
+}
+/** The coin and a paper on the table: Claude's `coins-and-paper` where its sheet has come, drawn here until then; `person` as above. */
+function coins(ctx, x, y, person) {
+  if (drawSprite(ctx, 'coins-and-paper', x, y, person)) return;
+  const h = person * 0.22;
+  // stand-in: docs/ART_REQUESTS.md, request 2026-09-29 - the homecoming's scenes, item 2 (the coin and the bill of sale), until the sheet loads.
+  ctx.save();
+  ctx.fillStyle = '#f2ead3'; ctx.strokeStyle = '#8c7248'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(x - h * 0.9, y - h * 0.1); ctx.lineTo(x - h * 0.1, y - h * 0.22); ctx.lineTo(x + h * 0.05, y); ctx.lineTo(x - h * 0.75, y + h * 0.1); ctx.closePath(); ctx.fill(); ctx.stroke();
+  for (let i = 0; i < 4; i++) { ctx.fillStyle = i % 2 ? '#c9c9c4' : '#dcdcd6'; ctx.strokeStyle = '#7c7c74'; ctx.beginPath(); ctx.ellipse(x + h * 0.35, y - i * h * 0.07, h * 0.16, h * 0.06, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); }
+  ctx.restore();
+}
+function drawYard(ctx, script, beat, local, t) {
+  const scene = beat.scene;
+  const W = VIDEO.width, H = VIDEO.height;
+  const h = H * YARD_PERSON, ground = H * YARD_GROUND;
+  paintYard(ctx, scene.light, t);
+  const people = (scene.people || []).map(id => personOf(script, id)).filter(Boolean);
+  const head = scene.head ? personOf(script, scene.head) : null;
+  const others = people.filter(person => person !== head);
+  const house = scene.house || {};
+  const layout = house.layout && YARD_HOUSE[house.layout] ? house.layout : 'round-log';
+  const houseAt = (x, height = h * 2.2) => {
+    if (house.shelter === 'ruined') { if (!drawSprite(ctx, 'cabin-ruin', x, ground - h * 0.25, height * 0.8)) art.homesteadHouse(ctx, x, ground - h * 0.25, height * 0.8, script.homeSiteId, { shelter: 'ruined' }); return; }
+    if (house.shelter === 'camp') { art.homesteadHouse(ctx, x, ground - h * 0.25, height * 0.6, script.homeSiteId, { shelter: 'camp' }); return; }
+    if (!drawSprite(ctx, YARD_HOUSE[layout], x, ground - h * 0.25, height)) art.homesteadHouse(ctx, x, ground - h * 0.25, height, script.homeSiteId, { shelter: 'house', layout });
+  };
+  let glow = null;
+  if (scene.part === 'home') {
+    // Home, and what is left: the house (or the ashes) before them, the family turned to it, their backs to us.
+    houseAt(W * 0.5);
+    if (house.shelter === 'ruined') smoke(ctx, W * 0.5, ground - h * 0.9, h * 0.2, t);
+    const step = Math.min(h * 0.46, (W * 0.8) / Math.max(1, people.length));
+    people.forEach((person, i) => yardPerson(ctx, person, W / 2 + (i - (people.length - 1) / 2) * step, ground + h * 0.18, h, 'back', 'n', t));
+  } else if (scene.part === 'rebuild') {
+    // The ashes to one side, and the first logs of a new house going up beside them: Astra's house site and walls.
+    drawSprite(ctx, 'cabin-ruin', W * 0.2, ground - h * 0.28, h * 1.5);
+    const stage = local < 0.5 ? 'site' : 'walls';
+    if (!drawSprite(ctx, `house-${layout}-${stage}`, W * 0.62, ground - h * 0.22, h * 1.9)) drawSprite(ctx, `house-round-log-${stage}`, W * 0.62, ground - h * 0.22, h * 1.9);
+    const working = new Set(scene.working || []);
+    let k = 0;
+    people.forEach((person, i) => {
+      if (working.has(person.id)) {
+        // The grown at work: carrying up the logs, and at the notching (Astra's carry and repair).
+        const carrying = k++ % 2 === 0;
+        const x = carrying ? W * (0.32 + ((local * 0.35 + k * 0.13) % 0.25)) : W * (0.8 + (k % 3) * 0.05);
+        yardPerson(ctx, person, x, ground + h * 0.1 + (k % 2) * h * 0.06, h, carrying ? 'carry' : 'repair', carrying ? 'e' : 'w', t, { paused: false });
+      } else yardPerson(ctx, person, W * (0.4 + i * 0.05), ground + h * 0.26, h, 'front', 's', t);
+    });
+  } else if (scene.part === 'burial') {
+    // Under the trees by the house at evening: a wooden marker for each they lost, the family before them, the head kneeling.
+    drawSprite(ctx, 'live-oak-large', W * 0.84, ground - h * 0.2, h * 3) || drawSprite(ctx, 'oak-spreading', W * 0.84, ground - h * 0.2, h * 3);
+    const n = Math.max(1, scene.markers || 1);
+    for (let i = 0; i < n; i++) marker(ctx, W * 0.58 + (i - (n - 1) / 2) * h * 0.55, ground - h * 0.12, h);
+    if (head) yardPerson(ctx, head, W * 0.58 - (n - 1) * h * 0.3 - h * 0.55, ground + h * 0.02, h, 'care', 'e', t);
+    const step = Math.min(h * 0.42, (W * 0.7) / Math.max(1, others.length));
+    others.forEach((person, i) => yardPerson(ctx, person, W * 0.48 + (i - (others.length - 1) / 2) * step, ground + h * 0.3, h, 'back', 'n', t));
+    glow = { x: W * 0.58, y: ground - h * 0.3 };
+  } else if (scene.part === 'count' || scene.part === 'sale') {
+    houseAt(W * 0.24, h * 2);
+    if (scene.part === 'count') {
+      // The head of household sits down at the table (Astra's seated rest pose, the table before them) to count what is left.
+      if (head) yardPerson(ctx, head, W * 0.47, ground, h, 'rest', 'e', t);
+      drawSprite(ctx, 'home-table', W * 0.55, ground + h * 0.04, h * 0.68);
+      coins(ctx, W * 0.58, ground - h * 0.52, h);
+      glow = { x: W * 0.55, y: ground - h * 0.4 };
+    } else {
+      // The farm sold: the head of household and the land agent (Astra's elder) across the table, the agent holding out the purse.
+      drawSprite(ctx, 'home-table', W * 0.56, ground + h * 0.04, h * 0.68);
+      coins(ctx, W * 0.58, ground - h * 0.52, h);
+      if (head) yardPerson(ctx, head, W * 0.46, ground + h * 0.02, h, 'speak', 'e', t, { paused: false });
+      yardPerson(ctx, { id: 'land-agent', official: true, band: 'adult', sex: 'male' }, W * 0.7, ground + h * 0.02, h, 'trade', 'w', t, { paused: false });
+    }
+    const step = Math.min(h * 0.4, (W * 0.3) / Math.max(1, others.length));
+    others.forEach((person, i) => yardPerson(ctx, person, W * (scene.part === 'count' ? 0.78 : 0.34) + (i - (others.length - 1) / 2) * step * 0.9, ground + h * 0.3, h * 0.92, 'front', 's', t));
+  }
+  gradeYard(ctx, scene.light, glow);
+}
+
 /** The card the video opens on, and the one it closes on: parchment, the family's name, its people standing in a row. */
 function drawCard(ctx, script, beat) {
   const wash = ctx.createLinearGradient(0, 0, VIDEO.width, VIDEO.height);
@@ -273,8 +488,9 @@ function drawCard(ctx, script, beat) {
   ctx.fillStyle = '#4b3e28'; ctx.textAlign = 'center';
   const closing = beat.kind === 'closing';
   ctx.font = '15px Georgia, serif'; ctx.fillText(closing ? 'SPRING, 1836' : 'TEXAS, 1835 – 1836', VIDEO.width / 2, 58);
-  ctx.font = 'bold 34px Georgia, serif'; ctx.fillText(script.name.replace(/^the /, 'The '), VIDEO.width / 2, 100);
-  const people = script.people;
+  ctx.font = 'bold 34px Georgia, serif'; ctx.fillText(script.class ? 'Our class, looking back' : script.name.replace(/^the /, 'The '), VIDEO.width / 2, 100);
+  // The class's cards stand the families' heads in a row (sim/class-flashback.mjs); a family's, all of its people.
+  const people = beat.scene?.people && script.class ? beat.scene.people.map(id => personOf(script, id)).filter(Boolean) : script.people;
   const home = new Set(beat.scene?.home || people.map(person => person.name));
   const gap = Math.min(118, 700 / Math.max(3, people.length)), size = Math.min(130, gap * 1.35);
   people.forEach((person, i) => {
@@ -348,7 +564,7 @@ function drawWords(ctx, beat, local) {
  */
 export function flashbackPainter(script, world) {
   const home = world.map?.sites?.[script.homeSiteId] || { x: 0, y: 0 };
-  const film = { ...script, home };
+  const film = { ...script, home, sites: world.map?.sites || {} };
   let prepared = [];
   // The battle renderer keeps its smoke and its fallen from frame to frame, by the time it is given: a pass that goes back to
   // the start of the video starts it afresh, or smoke born later than now would be drawn at a negative age.
@@ -372,6 +588,9 @@ export function flashbackPainter(script, world) {
         else if (type === 'home') drawHome(ctx, ready, film, beat, local, t);
         else if (type === 'road') drawRoadBeat(ctx, ready, film, beat, local, t);
         else if (type === 'battle') drawBattleBeat(ctx, ready, film, beat, local, t, battleView);
+        else if (type === 'yard') drawYard(ctx, film, beat, local, t);
+        else if (type === 'homes') drawHomes(ctx, ready, beat, local);
+        else if (type === 'routes') drawRoutes(ctx, ready, beat, local);
         else drawMapBeat(ctx, ready, film, beat, local, t);
         drawWords(ctx, beat, local);
         // A fade up from black at each beat's start, and down at the very end.
@@ -517,11 +736,18 @@ async function makeOne(householdId, world) {
   making.how = video.how;
   making.done.push({ householdId, madeMs, bytes: saved.bytes, durationMs: saved.durationMs, frames: video.frames, how: video.how, warm: video.warm, paintMs: video.paintMs });
 }
-/** The families still wanting a video, the families students played first: they are waiting for theirs. */
+/**
+ * The videos still wanted, in the order they are wanted: on the Host's page the class's own first - it plays first (owner,
+ * 2026-09-29, D10) - then the families students played, then the rest; on a Play Solo player's page its own.
+ */
 function wanted(snapshot) {
   const flashback = snapshot.flashback;
-  if (snapshot.world.role === 'host') return flashback.families.filter(family => (!family.made || family.made.stale || makeAgain) && !making.failed.has(family.householdId) && !making.done.some(one => one.householdId === family.householdId)).sort((a, b) => Number(b.played) - Number(a.played)).map(family => family.householdId);
-  return (!flashback.made || flashback.made.stale) && !making.failed.has(flashback.householdId) && !making.done.some(one => one.householdId === flashback.householdId) ? [flashback.householdId] : [];
+  const want = (id, made) => (!made || made.stale || makeAgain) && !making.failed.has(id) && !making.done.some(one => one.householdId === id);
+  if (snapshot.world.role === 'host') {
+    const families = flashback.families.filter(family => want(family.householdId, family.made)).sort((a, b) => Number(b.played) - Number(a.played)).map(family => family.householdId);
+    return flashback.classVideo && want('class', flashback.classVideo.made) ? ['class', ...families] : families;
+  }
+  return want(flashback.householdId, flashback.made) ? [flashback.householdId] : [];
 }
 async function makeMissing() {
   if (making.running || !art) return;
@@ -532,7 +758,7 @@ async function makeMissing() {
       if (!snapshot?.flashback?.ready || !snapshot.world.map?.sites) break;
       const next = wanted(snapshot)[0];
       if (!next) break;
-      making.current = next; making.share = 0; renderStatus();
+      making.current = next; making.share = 0; renderStatus(); renderFinale(snapshot);
       try { await makeOne(next, snapshot.world); }
       catch (error) {
         making.failed.set(next, error.message || String(error));
@@ -542,14 +768,15 @@ async function makeMissing() {
       }
     }
   } finally {
-    making.running = false; making.current = null; makeAgain = false; renderStatus();
+    making.running = false; making.current = null; makeAgain = false; renderStatus(); if (lastSnapshot) renderFinale(lastSnapshot);
   }
 }
 
 // --------------------------------------------------------------------------------------------------------------- playing
 
 let lastSnapshot = null, autoplayed = false, shownKey = '', transcriptOf = null;
-const nameOf = (snapshot, householdId) => snapshot.world.ending?.host?.families?.find(family => family.householdId === householdId)?.name || snapshot.world.ending?.family?.name || householdId;
+const nameOf = (snapshot, householdId) => householdId === 'class' ? 'The class'
+  : snapshot.flashback?.families?.find(family => family.householdId === householdId)?.name || snapshot.world.ending?.host?.families?.find(family => family.householdId === householdId)?.name || snapshot.world.ending?.family?.name || householdId;
 const videoUrl = (householdId, made) => `/api/flashback/video?household=${encodeURIComponent(householdId)}&v=${made?.bytes || 0}`;
 
 async function showTranscript(householdId) {
@@ -602,22 +829,164 @@ function renderStatus() {
 function renderHostList(snapshot) {
   const list = document.querySelector('#flashback-families');
   if (!list) return;
-  const key = JSON.stringify(snapshot.flashback.families) + [...making.failed.keys()].join();
+  const rows = [...(snapshot.flashback.classVideo ? [{ householdId: 'class', played: true, made: snapshot.flashback.classVideo.made }] : []), ...snapshot.flashback.families];
+  const key = JSON.stringify(rows) + [...making.failed.keys()].join();
   if (key === list.dataset.key) return;
   list.dataset.key = key;
-  list.replaceChildren(...snapshot.flashback.families.map(family => {
+  list.replaceChildren(...rows.map(family => {
     const row = make('li');
     row.append(make('span', `${nameOf(snapshot, family.householdId)}${family.played ? '' : ' (nobody played them)'}`, 'flashback-family'));
     if (family.made) {
       row.append(make('span', ` · ${Math.round(family.made.durationMs / 1000)} s · ${round1(family.made.bytes / 1048576)} MB `, 'flashback-facts'));
-      // Only when the teacher chooses one: the Host's screen plays nothing by itself (owner, 2026-09-28: "players see it in
-      // their screens, not the host screen. host can look up and watch one though").
+      // Only when the teacher chooses one: at the end the Host's screen plays the class's own video by itself, and no family's
+      // (owner, 2026-09-28: "host can look up and watch one though"; 2026-09-29, D10).
       const button = make('button', 'Watch');
       button.addEventListener('click', () => { document.querySelector('#flashback-now').textContent = `Watching: ${nameOf(snapshot, family.householdId)}`; play(family.householdId, family.made); });
       row.append(button);
     } else row.append(make('span', making.failed.has(family.householdId) ? ` · not made: ${making.failed.get(family.householdId)}` : ' · waiting to be made', 'flashback-facts'));
     return row;
   }));
+}
+
+// ------------------------------------------------------------------------------------------------------------ the finale
+
+/**
+ * The end of the game as the class goes through it together (owner, 2026-09-29, D10; sim/end-sequence.mjs): over the whole screen
+ * until the reveal. The stage is the server's (`snapshot.endSequence`); this page only follows it, and tells the server when its
+ * video has played (`POST /api/end-sequence`).
+ *
+ *   class    the Host's screen plays the class's own video, large, by itself; a student's says to look at the class screen.
+ *   family   a student's screen plays its family's own video by itself (the flashback section, moved up here), with the story
+ *            in words below; the Host's says where each family is. Play Solo begins here.
+ *   reveal   nothing over the screen: the ending panel shows the Host's table and each family's breakdown (public/ending.js).
+ */
+const told = new Set();
+async function tell(step) {
+  const key = `${lastSnapshot?.sessionId}:${lastSnapshot?.endSequence?.since}:${step}`;
+  if (['class-playing', 'class-watched', 'watched'].includes(step)) { if (told.has(key)) return; told.add(key); }
+  try {
+    const response = await fetch('/api/end-sequence', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ step }) });
+    if (!response.ok) told.delete(key);
+  } catch { told.delete(key); }
+}
+/** Presentation evidence for the proofs (scripts/end-sequence-browser-proof.mjs), read by nothing in the page. */
+const finaleSeen = { stage: null, playing: null, told: [] };
+window.__finale = finaleSeen;
+
+const STATE_WORDS = Object.freeze({ watched: 'has seen it', watching: 'is watching', waiting: 'its video is being made', away: 'page closed: not waited for', timed: 'has had time to see it' });
+function hostFamilyList(snapshot) {
+  const list = document.querySelector('#finale-families');
+  const families = snapshot.endSequence?.families || [];
+  list.hidden = !families.length;
+  const key = JSON.stringify(families);
+  if (list.dataset.key === key) return;
+  list.dataset.key = key;
+  list.replaceChildren(...families.map(one => make('li', `${nameOf(snapshot, one.householdId)}: ${STATE_WORDS[one.state] || one.state}`, `finale-state-${one.state}`)));
+}
+function playClass(snapshot, { autoplay }) {
+  const video = document.querySelector('#finale-video');
+  const made = snapshot.flashback?.classVideo?.made;
+  if (!made) { video.hidden = true; return false; }
+  const source = videoUrl('class', made);
+  if (video.dataset.src !== source) { video.dataset.src = source; video.src = source; if (autoplay) video.play().catch(() => {}); }
+  video.hidden = false;
+  return true;
+}
+export function renderFinale(snapshot) {
+  const root = document.querySelector('#finale');
+  if (!root) return;
+  const stage = snapshot.flashback?.ready ? snapshot.endSequence?.stage || 'reveal' : null;
+  const host = snapshot.world.role === 'host';
+  const solo = Boolean(snapshot.solo);
+  const section = document.querySelector('#flashback');
+  const slot = document.querySelector('#finale-slot');
+  finaleSeen.stage = stage;
+  // The flashback section lives in the ending panel; for a family's own video it is moved up over the whole screen, and back.
+  const ownVideo = !host && stage === 'family';
+  if (ownVideo && section.parentElement !== slot) slot.append(section);
+  if (!ownVideo && section.parentElement === slot) document.querySelector('#ending').insertBefore(section, document.querySelector('#ending-body'));
+  if (!stage || stage === 'reveal') {
+    root.hidden = true;
+    document.body.dataset.finale = '';
+    const video = document.querySelector('#finale-video');
+    if (!video.paused && video.dataset.replay !== 'true') video.pause();
+    return;
+  }
+  root.hidden = false;
+  document.body.dataset.finale = stage;
+  const title = document.querySelector('#finale-title'), words = document.querySelector('#finale-words');
+  const video = document.querySelector('#finale-video');
+  const skip = document.querySelector('#finale-skip'), again = document.querySelector('#finale-again'), replayClass = document.querySelector('#finale-replay');
+  skip.hidden = !(host || solo);
+  skip.textContent = stage === 'class' ? 'Skip ahead to the families’ videos' : 'Skip ahead to the final numbers';
+  again.hidden = !(host || solo) || stage === 'class';
+  replayClass.hidden = true;
+  if (host && stage === 'class') {
+    title.textContent = 'Our class, looking back';
+    const playing = playClass(snapshot, { autoplay: true });
+    finaleSeen.playing = playing ? 'class' : null;
+    replayClass.hidden = !playing;
+    words.textContent = playing ? 'The story of the whole class. Each family’s own story comes next, on its own screen.'
+      : making.current === 'class' ? `The class’s story is being made on this computer: ${Math.round(making.share * 100)}%.`
+        : !snapshot.flashback?.keeps ? 'This server keeps no videos.' : making.failed.has('class') ? `The class’s story could not be made (${making.failed.get('class')}). Skip ahead to the families’ videos.` : 'The class’s story is being made on this computer.';
+    document.querySelector('#finale-families').hidden = true;
+  } else if (host && stage === 'family') {
+    title.textContent = 'Each family is watching its own story';
+    const families = snapshot.endSequence?.families || [];
+    const done = families.filter(one => ['watched', 'away', 'timed'].includes(one.state)).length;
+    words.textContent = `${done} of ${families.length} ${families.length === 1 ? 'family has' : 'families have'} seen ${families.length === 1 ? 'its' : 'their'} own. The final numbers come when every family has${making.current && making.current !== 'class' ? ` · making ${nameOf(snapshot, making.current)}’s video, ${Math.round(making.share * 100)}%` : ''}.`;
+    if (video.dataset.replay !== 'true') { video.hidden = true; if (!video.paused) video.pause(); }
+    replayClass.hidden = !snapshot.flashback?.classVideo?.made;
+    replayClass.textContent = 'Play the class video again';
+    hostFamilyList(snapshot);
+    finaleSeen.playing = video.dataset.replay === 'true' ? 'class' : null;
+  } else if (stage === 'class') {
+    title.textContent = 'Look up at the class screen';
+    words.textContent = 'Your teacher’s screen is showing the story of the whole class. Your own family’s story comes next, here on your screen.';
+    video.hidden = true;
+    document.querySelector('#finale-families').hidden = true;
+    finaleSeen.playing = null;
+  } else {
+    title.textContent = 'Our story, looking back';
+    words.textContent = snapshot.endSequence?.watched ? `${solo ? 'Press Skip ahead when you are ready,' : 'When every family has seen its own story,'} the final numbers come${solo ? '.' : ', here and on the class screen.'}` : '';
+    video.hidden = true;
+    document.querySelector('#finale-families').hidden = true;
+    finaleSeen.playing = snapshot.flashback?.made ? snapshot.flashback.householdId : null;
+  }
+}
+function bindFinale() {
+  const video = document.querySelector('#finale-video');
+  if (!video) return;
+  // The Host's page tells the server when the class's video begins and when it has played to its end (sim/end-sequence.mjs).
+  video.addEventListener('play', () => { if (lastSnapshot?.endSequence?.stage === 'class' && video.dataset.replay !== 'true') { finaleSeen.told.push('class-playing'); tell('class-playing'); } });
+  video.addEventListener('ended', () => {
+    if (video.dataset.replay === 'true') { video.dataset.replay = ''; if (lastSnapshot) renderFinale(lastSnapshot); return; }
+    if (lastSnapshot?.endSequence?.stage === 'class') { finaleSeen.told.push('class-watched'); tell('class-watched'); }
+  });
+  // A family's own video played to its end, on its own page, while the families are watching theirs.
+  document.querySelector('#flashback-video')?.addEventListener('ended', () => {
+    if (lastSnapshot?.world.role !== 'host' && lastSnapshot?.endSequence?.stage === 'family') { finaleSeen.told.push('watched'); tell('watched'); }
+  });
+  document.querySelector('#finale-skip').addEventListener('click', () => tell('skip'));
+  document.querySelector('#finale-again').addEventListener('click', event => {
+    // Asked twice: the first press says what it does.
+    const button = event.currentTarget;
+    if (button.dataset.confirming !== 'true') { button.dataset.confirming = 'true'; button.textContent = 'Play it all again from the start?'; return; }
+    button.dataset.confirming = ''; button.textContent = 'Play the ending again';
+    tell('restart');
+  });
+  document.querySelector('#finale-replay').addEventListener('click', () => {
+    const stage = lastSnapshot?.endSequence?.stage;
+    if (stage === 'family') video.dataset.replay = 'true';
+    if (!playClass(lastSnapshot, { autoplay: false })) return;
+    video.hidden = false; video.currentTime = 0; video.play().catch(() => {});
+  });
+  document.querySelector('#flashback-again')?.addEventListener('click', event => {
+    const button = event.currentTarget;
+    if (button.dataset.confirming !== 'true') { button.dataset.confirming = 'true'; button.textContent = 'Play it all again from the start?'; return; }
+    button.dataset.confirming = ''; button.textContent = 'Play the ending again';
+    tell('restart');
+  });
 }
 
 /** Draw the flashback's part of the ending, and make whatever videos this page is the one to make. */
@@ -628,26 +997,32 @@ export function renderFlashback(snapshot) {
   const flashback = snapshot.flashback;
   if (!flashback?.ready) {
     section.hidden = true;
+    renderFinale(snapshot);
     // A class ended by mistake and taken up again (docs/HOST_PAGE.md §2.8): what this page made or failed to make, played and
     // read belongs to that ending, and its videos are gone from the server. When the class ends again it all starts afresh.
     if (!making.running && (making.done.length || making.failed.size || shownKey || transcriptOf)) {
-      making.done.length = 0; making.failed.clear(); shownKey = ''; autoplayed = false; transcriptOf = null;
+      making.done.length = 0; making.failed.clear(); shownKey = ''; autoplayed = false; transcriptOf = null; told.clear();
     }
     return;
   }
+  const stage = snapshot.endSequence?.stage || 'reveal';
   section.hidden = false;
   const host = snapshot.world.role === 'host';
   document.querySelector('#flashback-host').hidden = !host;
-  document.querySelector('#flashback-title').textContent = host ? 'The families’ flashbacks' : 'Our story, looking back';
-  // The story in words is the family's from the moment the class ends, video or no video; the Host's, once a family is chosen.
-  document.querySelector('#flashback-words').hidden = host && !transcriptOf;
-  if (!host) showTranscript(flashback.householdId);
+  const again = document.querySelector('#flashback-again');
+  if (again) again.hidden = !(host || snapshot.solo) || stage !== 'reveal' || Boolean(snapshot.endSequence?.noVideos);
+  document.querySelector('#flashback-title').textContent = host ? 'The flashbacks' : 'Our story, looking back';
+  // The story in words is the family's from the moment its own video's turn comes, video or no video; the Host's, once one is chosen.
+  document.querySelector('#flashback-words').hidden = host ? !transcriptOf : stage === 'class';
+  if (!host && stage !== 'class') showTranscript(flashback.householdId);
   if (host) renderHostList(snapshot);
-  else if (flashback.made) {
-    const key = `${flashback.householdId}:${flashback.made.bytes}`;
-    if (key !== shownKey) { shownKey = key; play(flashback.householdId, flashback.made, { autoplay: !autoplayed }); autoplayed = true; }
+  else if (flashback.made && stage !== 'class') {
+    // A family's own video plays by itself when its turn comes (the families' stage), and again after the reveal only when asked.
+    const key = `${flashback.householdId}:${flashback.made.bytes}:${stage === 'family' ? `family-${snapshot.endSequence?.since}` : 'after'}`;
+    if (key !== shownKey) { shownKey = key; play(flashback.householdId, flashback.made, { autoplay: stage === 'family' || !autoplayed }); autoplayed = true; }
   }
   renderStatus();
+  renderFinale(snapshot);
   // The Host's page makes every family's; a Play Solo player's page makes its own, its computer being the Host's.
   if (flashback.keeps && (host || snapshot.solo) && wanted(snapshot).length) makeMissing();
 }

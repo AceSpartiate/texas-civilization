@@ -11,18 +11,21 @@ import { beginSecondPeriod, beginThirdPeriod } from '../../sim/periods.mjs';
 import { nameFamily } from '../../sim/family.mjs';
 import { choicesFor, isParent, setAppearance } from '../../sim/appearance.mjs';
 
-export function endedClass(seed = 'flashback-1', families = 5, { played = 2, surname = 'Flashwright', onTick = null } = {}) {
+// `surnames`: more than one family made as a student makes one (the end sequence's proof has two students), the first `surname`.
+export function endedClass(seed = 'flashback-1', families = 5, { played = 2, surname = 'Flashwright', surnames = null, onTick = null } = {}) {
   const world = createGonzalesWorld(seed, families, { map: 'colonies', neighbours: true });
   const ids = Object.keys(world.households);
-  const first = world.households[ids[0]];
-  rollFamily(world, first);
-  nameFamily(world, first, surname);
-  for (const id of first.members) {
-    const person = world.entities[id];
-    if (!isParent(person)) continue;
-    const choices = choicesFor(person);
-    setAppearance(world, first, { entityId: id, skin: choices.skin[2], hair: choices.hair[1], clothing: choices.clothing[person.sex === 'female' ? 3 : 1], head: choices.head[0] });
-  }
+  (surnames || [surname]).forEach((name, index) => {
+    const household = world.households[ids[index]];
+    rollFamily(world, household);
+    nameFamily(world, household, name);
+    for (const id of household.members) {
+      const person = world.entities[id];
+      if (!isParent(person)) continue;
+      const choices = choicesFor(person);
+      setAppearance(world, household, { entityId: id, skin: choices.skin[(2 + index) % choices.skin.length], hair: choices.hair[(1 + index) % choices.hair.length], clothing: choices.clothing[(person.sex === 'female' ? 3 : 1) + index * 0], head: choices.head[0] });
+    }
+  });
   for (const id of ids.slice(0, played)) { world.households[id].played = true; world.households[id].absent = true; }
   world.status = 'running';
   const run = () => { for (let t = 0; t < 12000 && !world.director.complete && world.status === 'running'; t++) { stepWorld(world); onTick?.(world); } };

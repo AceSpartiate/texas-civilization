@@ -1,6 +1,8 @@
 # The flashback: a family's story as a minute of video, made on the Host's computer
 
-**Status: owner-asked 2026-09-28, built 2026-09-28 on a worktree branch (not released).** Fixes the design audit's **B3** (no
+**Status: owner-asked 2026-09-28, built 2026-09-28 on a worktree branch (not released). Extended 2026-09-29 (owner, D10 and D8;
+branch `end-sequence`, not released): the end of the class as one sequence - the class's own video on the class screen, then each
+family's own with the homecoming after its minute, then the reveal - §11 and §12, which supersede §6 for the class's own video.** Fixes the design audit's **B3** (no
 epilogue, no revelation, no dead) and **B6** (the homecoming almost never happens in class time), and with them **S24**, **S25**
 and **S27** (docs/audits/2026-09-28-design.md). The owner's answers to its questions are §10.
 
@@ -127,7 +129,8 @@ made once per revision of the class (`scriptCache`); the world and the save neve
 - **A student's page**, in the ending panel: *"Our story, looking back"* - the video plays by itself (muted, so the browser allows
   it; captions are in the picture), with **Replay**, and **the story in words** below it (every caption and "meanwhile", for
   accessibility and for reading). Until it is made: *"Your family's flashback is being made on the teacher's computer."*
-- **The Host's page shows the class no video.** Owner, 2026-09-28, answering §10: *"keep as built. videos are prepared and saved on
+- **The Host's page shows the class no family's video.** *(Since 2026-09-29 it plays the class's own video by itself at the end, §11;
+  what follows still holds for the families' videos.)* Owner, 2026-09-28, answering §10: *"keep as built. videos are prepared and saved on
   host computer. play3rs see it in their screens, not the host screen. host can look up and watch one though. automatically plays
   for players."* So the Host's page makes the videos by itself as soon as the class has ended - students' families first - with its
   progress in words, and plays none: its video stays hidden and nothing plays until the teacher opens **Look up one family's
@@ -207,3 +210,79 @@ teacher PC with cores to spare; (C) a smaller picture (640 × 360) for a faster 
 
 (e) **What the Matamoros prisoners' families are told.** The record found says they were marched to Matamoros (`HIST-TEX-059`) and
 nothing of their release. (A) leave it there (built); (B) research and add what became of them.
+
+---
+
+## 11. The end of the class as one sequence — owner-decided 2026-09-29 (built on branch `end-sequence`, not released)
+
+**The owner, 2026-09-29, answering the triage's D10** (docs/audits/2026-09-29-triage.md): *"a flashback video plays from on the
+classview (unless solo play) showing key highlights from the adventure from the various players points of view. once that's finished
+players see their own personalized video play on their screens. they see their family return home, see what's left, begin to rebuild
+if necessary, ceremonially bury lost family members, and then the head of household sits down to count up what they have left. once
+the last video finishes, the classview reveals the final rankings and the players get to see on their screens a full breakdown of
+their scores."*
+
+**This supersedes §6's "the Host's page shows the class no video", for the class's own video only.** The Host's screen still plays no
+family's video by itself; the teacher can still look one family up and Watch it.
+
+**The server holds the stage** (`sim/end-sequence.mjs`, `world.endSequence`), and every page only follows it:
+
+| Stage | The class screen (Host) | Each student's screen | Over when |
+| --- | --- | --- | --- |
+| `class` | the class's own video, large, by itself (made first on this computer) | *"Look up at the class screen"*: a calm card, no video | the Host's page says it played to its end; or the teacher skips ahead; or 60 s past its length since it was made or began playing (the Host page closed); or 10 min with no video made |
+| `family` | *"Each family is watching its own story"*: each played family's state - watching, has seen it, its video being made, page closed | the family's own video by itself, over the whole screen, the story in words below | every family a student plays has played its own to the end, or has no page open, or has had its video's length and 60 s more since it could first play; or 20 min in all; or the teacher skips ahead |
+| `reveal` | the final table and the winner (public/ending.js) | the full breakdown of the score (sim/ending.mjs award lines and sums) | - |
+
+- **Begun as the class ends for good**, in the same commit that ends it - the last period's own end, whenever it falls (another builder
+  is holding the end until every family has heard of San Jacinto; the sequence starts from the class's actual end), or the teacher's
+  End Game. Not between periods. A class taken up again (Continue) drops its sequence with its videos. A class that ended before this
+  opens at `reveal` (it was revealed when it ended); no save version moves.
+- **Nothing of the final numbers is sent to any page before `reveal`** (`endingProjection` returns nothing), not the Host's table, not a
+  family's breakdown. Proved in `tests/end-sequence.test.mjs` with a planted glory.
+- **Play Solo** begins at `family`: no class video; the player's own page makes and plays its own; the player may skip ahead.
+- **The teacher** can *Skip ahead* at each stage, *Play the class video again* while the families watch theirs, and after the reveal
+  *Play the ending again* (asked twice) from the start - the numbers go away again until its reveal. **A student** replays their own
+  video with *Replay* in the ending panel after the reveal. **A page reloaded** comes back to the stage the server holds, its video
+  from the start.
+- **A server that keeps no videos** (no save folder) goes straight to `reveal`.
+- **The order the videos are made in**: the class's own first (it plays first), then the families students played, then the rest.
+
+**The class's own video** (`sim/class-flashback.mjs`): chosen from the families' own scripts and the world, from the families a student
+played (every family, in a class nobody played), each moment told from the families it happened to, by name - the arrival (the class's
+homes on one map), the first call (whose men rode for Gonzales, how many families kept to their farms), each fight a family's person was
+in (the battle engine's own projection, with everybody of the class who was there and what came of them), the widest gap between two
+families in hearing the Alamo had fallen and San Jacinto (each home marked with the day), the flight east (the families' roads drawn
+together) and the families that stayed, the burnings and by whom, the spring's prisoners counted by family, a wedding, sickness counted
+and never named, and the homecoming (houses standing, and ashes). **Two and a half minutes at most** (`CLASS_MS`): a beat is 8.5 s, a
+fight 10 s, at most sixteen beats; a class with less to tell has a shorter video (104 s for the six-family test class). Kept as
+`class.webm` beside the families' (`server/flashback.mjs`, up to 240 s); served to the Host only. Same words' rules as a family's.
+
+## 12. The homecoming's scenes (built 2026-09-29, not released)
+
+A family's video is now **the story's minute** (§2, unchanged) **and the homecoming after it** (`sim/flashback.mjs` `epilogue`,
+`EPILOGUE_MS`), drawn as scenes in the family's own yard at the size of the lone parent's scenes (public/flashback.js `drawYard`), with
+Astra's cast recoloured to the family's looks:
+
+1. **Home, and what is left** (6 s): the house standing or in ashes (her `cabin-ruin`), the family turned to it. *(Was the story's last
+   beat, on the map.)*
+2. **Beginning again**, only where the farm burned (6 s): the ashes to one side, her house site and walls going up, the grown carrying
+   and notching.
+3. **Remembering the dead**, only where somebody died (8 s): *"The family gathered under the trees by the house to remember Nicolás,
+   and set up a wooden marker in their memory."* A marker for each; the head kneeling. No body, no coffin: the war's dead were not
+   brought home. Somebody who died of a sickness is said by who they were, never named (docs/DISEASE.md §4).
+4. **The head of household counts** (7 s): the father if home, else the mother, else the eldest, seated at the table: *"Serafina sat down
+   at the table to count what the family had left: 221 reales in coin, and two head of cattle and five hogs on the range."* A burned farm:
+   *"The farm was ashes: there was nothing left of it to sell."*
+5. **The farm sold** (7 s), only where it stands (docs/MONEY_AND_GLORY.md §5a): *"A land agent from Liberty came out and bought the farm,
+   the land, the round-log cabin and 30 acres of cleared field, fenced, for 181 reales. With the coin in the house, the family had 402
+   reales."* The price is the ending's own.
+
+So a family's video is **74 to 94 seconds**. Still no glory and no final number in it: a burned farm is said to have had nothing to
+sell, and what that counts is the ending's to say. The closing card follows. `SCRIPT_VERSION` 2: a video made from an older script is
+made again. **Art** (docs/ART_REQUESTS.md, *Request 2026-09-29 — the homecoming's scenes*): Astra's figures, cabins, burned cabin, house
+stages, table and trees throughout; Claude's temporary `grave-marker` and `coins-and-paper` (scripts/claude-art/areas/homecoming.mjs)
+for the two things she has not drawn; her nearest poses standing in for counting, kneeling, mourning, the land agent and raising logs.
+
+**Evidence** (same computer only; no Chromebook or LAN claim): `tests/end-sequence.test.mjs` (5), `tests/end-scenes.test.mjs` (4),
+`tests/farm-sale.test.mjs` (3); `npm run test:end-sequence`, the Host and two students and a Play Solo game through the whole sequence
+in headless Chrome, pictures in `docs/evidence/end-sequence-*.png`; injected regressions in `docs/evidence/end-sequence-injections.json`.

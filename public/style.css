@@ -654,6 +654,27 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 .ending-table th,.ending-table td{border-bottom:1px solid #d6c59d;padding:5px 6px;text-align:left;vertical-align:top}
 .ending-table th{font-size:11px;letter-spacing:.05em;color:#84714c}
 .ending-table tr[data-first="true"] td{background:#ecd9a8;font-weight:600}
+/* The end of the game, over the whole screen until the reveal (public/flashback.js `renderFinale`; owner, 2026-09-29, D10). */
+#finale{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-start;justify-content:center;background:radial-gradient(ellipse at 50% 40%,#3a2f22 0%,#17120c 80%);padding:16px;overflow-y:auto}
+#finale[hidden]{display:none}
+#finale-card{width:min(1180px,100%);margin:auto;color:#f4ead2;text-align:center}
+#finale .eyebrow{color:#d9c28e;letter-spacing:.14em}
+#finale-title{font:600 clamp(22px,3.2vw,38px)/1.2 Georgia,serif;margin:6px 0 4px;color:#fff3d6}
+#finale-words{font:clamp(15px,1.6vw,20px)/1.45 Georgia,serif;margin:4px auto 10px;max-width:880px;color:#eadfc4}
+#finale-video{display:block;width:min(100%,calc(78vh * 854 / 480));aspect-ratio:854/480;margin:8px auto;background:#0d0a06;border-radius:6px;box-shadow:0 10px 40px #0008}
+#finale-video[hidden]{display:none}
+#finale-families{list-style:none;padding:0;margin:8px auto;max-width:720px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px 16px;text-align:left;font:15px/1.4 Georgia,serif}
+#finale-families[hidden]{display:none}
+#finale-families .finale-state-watched,#finale-families .finale-state-timed{color:#b9d59a}
+#finale-families .finale-state-away{color:#b5a88e}
+#finale-slot #flashback{border:none;margin:0;padding:0;color:#f4ead2;max-width:min(1100px,100%);margin:0 auto}
+#finale-slot #flashback video{width:min(100%,calc(64vh * 854 / 480));margin:6px auto}
+#finale-slot .flashback-meanwhile{color:#c9bb98}
+#finale-slot #flashback-status{color:#eadfc4}
+#finale-slot #flashback-title{display:none}
+#finale-slot #flashback-words{text-align:left;max-width:860px;margin:6px auto;color:#eadfc4}
+.finale-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.finale-controls button[hidden]{display:none}
 #flashback{border-bottom:1px solid #c5b286;padding-bottom:10px;margin-bottom:6px}
 #flashback video{display:block;width:100%;aspect-ratio:854/480;background:#1c1610;border-radius:6px;margin:6px 0}
 #flashback video[hidden]{display:none}

@@ -14,7 +14,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { endedClass } from './support/ended-class.mjs';
-import { FLASHBACK_MS, FEWEST_BEATS, GORE_WORDS, MOST_BEATS, VIRTUE_WORDS, flashbackReady, flashbackScript, flashbackScripts, happenings } from '../sim/flashback.mjs';
+import { EPILOGUE_MS, FLASHBACK_MS, FEWEST_BEATS, GORE_WORDS, MOST_BEATS, VIRTUE_WORDS, flashbackReady, flashbackScript, flashbackScripts, happenings } from '../sim/flashback.mjs';
 import { homecomings } from '../sim/homecoming.mjs';
 import { record } from '../sim/events.mjs';
 
@@ -25,13 +25,17 @@ const SCRIPTS = flashbackScripts(fresh());
 const words = script => script.beats.flatMap(beat => [beat.caption, beat.meanwhile?.text, beat.meanwhile?.heard]).filter(Boolean);
 const hasWord = (text, word) => new RegExp(`\\b${word}\\b`, 'i').test(text);
 
-test('every family gets a story of ten to fifteen beats that share out exactly one minute, in the order it happened', () => {
+test('every family gets a story of ten to fifteen beats that share out exactly one minute, in the order it happened, and the homecoming after it', () => {
   assert.equal(Object.keys(SCRIPTS).length, Object.keys(ENDED.households).length);
   for (const [id, script] of Object.entries(SCRIPTS)) {
-    assert.ok(script.beats.length >= FEWEST_BEATS && script.beats.length <= MOST_BEATS, `${id} has ${script.beats.length} beats`);
+    // The story's minute (owner, 2026-09-28), then the homecoming's scenes each at its own length (owner, 2026-09-29, D10).
+    const story = script.beats.filter(beat => !beat.epilogue), after = script.beats.filter(beat => beat.epilogue);
+    assert.ok(story.length >= FEWEST_BEATS && story.length <= MOST_BEATS, `${id} has ${story.length} beats`);
     assert.equal(script.beats[0].kind, 'title');
     assert.equal(script.beats.at(-1).kind, 'closing');
-    assert.equal(script.beats.reduce((sum, beat) => sum + beat.durationMs, 0), FLASHBACK_MS, `${id} is not a minute`);
+    assert.equal(story.reduce((sum, beat) => sum + beat.durationMs, 0), FLASHBACK_MS, `${id}'s story is not a minute`);
+    assert.equal(script.durationMs, FLASHBACK_MS + after.reduce((sum, beat) => sum + EPILOGUE_MS[beat.kind], 0), `${id}'s homecoming is not its scenes' lengths`);
+    assert.equal(script.beats.reduce((sum, beat) => sum + beat.durationMs, 0), script.durationMs, `${id}'s beats do not add up to its length`);
     let at = 0;
     for (const beat of script.beats) { assert.equal(beat.startMs, at, `${id}: beat ${beat.index} does not follow the last`); at += beat.durationMs; assert.ok(beat.durationMs >= 2500, `${id}: a beat of ${beat.durationMs} ms cannot be read`); }
     const minutes = script.beats.slice(1, -1).map(beat => beat.minute);
@@ -77,6 +81,23 @@ test('a death in battle is one plain sentence, and nothing about it is a reward'
     for (const word of GORE_WORDS) assert.ok(!hasWord(text, word), `"${word}" in "${text}"`);
   }
   assert.match(script.beats.at(-1).caption, /did not come home/);
+});
+
+test('a death in battle is told once, in its fight\'s own beat, never again as the day the family heard', () => {
+  // Found by the end sequence's proof (2026-09-29): a man killed at the Alamo was told in the fight's beat, and again ten days later -
+  // the day his family heard - as "killed at Travis drew a line in the sand", a phrase of the history after the record's first sentence.
+  let fallen = 0;
+  for (const [id, script] of Object.entries(SCRIPTS)) {
+    for (const person of ENDED.households[id].members.map(pid => ENDED.entities[pid]).filter(one => one.health?.condition === 'dead' && !one.health.disease)) {
+      const first = person.name.split(' ')[0];
+      const told = script.beats.filter(beat => !beat.epilogue && beat.kind !== 'closing' && new RegExp(`\\b${first} was killed\\b`).test(beat.caption));
+      if (!told.length) continue;
+      fallen++;
+      assert.equal(told.length, 1, `${id}: ${first}'s death told ${told.length} times: ${told.map(beat => beat.caption).join(' | ')}`);
+      for (const beat of told) assert.doesNotMatch(beat.caption, /killed at [A-Z][a-z]+ [a-z]/, `${id}: ${beat.caption}`);
+    }
+  }
+  assert.ok(fallen >= 1, 'nobody in this class fell in a fight: the test tries nothing');
 });
 
 test('a death of sickness is told without the name of who died', () => {

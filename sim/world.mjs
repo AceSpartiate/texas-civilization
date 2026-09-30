@@ -84,6 +84,7 @@ import { advanceExpresses, expressesInvalid } from './expresses.mjs';
 import { callsInvalid, handleCall } from './calls.mjs';
 import { answerQuestion, answerDetachment, armyInvalid, armyProjection, callHome, callHomeRefusal, sendMendedHome } from './army.mjs';
 import { endingProjection } from './ending.mjs';
+import { endSequenceInvalid } from './end-sequence.mjs';
 import { hostOverview } from './overview.mjs';
 import { appearanceInvalid, setAppearance } from './appearance.mjs';
 import { furnitureInvalid } from './furniture.mjs';
@@ -1511,6 +1512,8 @@ export function validateWorld(world) {
   if (world.wagonsBySize !== undefined && world.wagonsBySize !== true) throw new Error('Invalid wagon rule');
   // Absent on every class made before the means were rolled (2026-09-25), whose families have none (sim/means.mjs).
   { const badMeans = meansInvalid(world); if (badMeans) throw new Error(badMeans); }
+  // Absent on every class that has not ended for good, and on every class that ended before there was one (sim/end-sequence.mjs).
+  { const badEnd = endSequenceInvalid(world); if (badEnd) throw new Error(badEnd); }
   const ids = new Set();
   for (const [id, entity] of Object.entries(world.entities)) {
     if (id !== entity.id || ids.has(id)) throw new Error('Duplicate or mismatched entity ID');
