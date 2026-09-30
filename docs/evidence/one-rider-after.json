@@ -7,13 +7,13 @@
   "checks": [
     "a solo game on the real land, fifteen families, the player's family at matagorda",
     "the rider reins in (Silas Roe; 1 riders drawn in sight, never the one whose word will be taken into the visit), with one \"!\" on the family and the call waiting behind him (\"One more thing is waiting for your family after this.\")",
-    "the conversation ends with one clear control (\"Done — let Silas Roe ride on\"), and says \"One more thing is waiting for your family after this. Ask what you like, then press Done. Nothing said is lost when he rides on.\"",
-    "the same word, firmer, from Concepción Mora mid-conversation is known at once (confirmed, \"Concepción Mora, who rode from Gonzales\") and never becomes a second meeting; the call's clock has not started",
-    "Done closed the conversation and the call came up next, 852 ms later: \"The committee at Matagorda asks the volunteers of the town and the cou...\"",
+    "the conversation ends with one clear control (\"Done — let Silas Roe ride on\"), and says \"2 more things are waiting for your family after this. Ask what you like, then press Done. Nothing said is lost when he rides on.\"",
+    "the same word, firmer, from Abner Teel mid-conversation is known at once (confirmed, \"Abner Teel, who rode from Gonzales\") and never becomes a second meeting; the call's clock has not started",
+    "Done closed the conversation and the call came up next, 762 ms later: \"The committee at Matagorda asks the volunteers of the town and the cou...\"",
     "the call's five minutes began when it was shown, not while it waited",
     "the same news is never a second meeting",
-    "Escape ended the next conversation (Tobias Crow, the fight's outcome) and put it away",
-    "another family's rider rode past in view for 196 frames at no more than 1.20 of his heights a second (the server carried him at 1177.66), faded out once by, and was never drawn at the family's gate",
+    "Escape ended the next conversation (Concepción Mora, the fight's outcome) and put it away",
+    "another family's rider rode past in view for 179 frames at no more than 1.20 of his heights a second (the server carried him at 1177.66), faded out once by, and was never drawn at the family's gate",
     "no page errors"
   ],
   "measured": {
@@ -26,15 +26,15 @@
       "callPutMinute": 4920
     },
     "secondRider": {
-      "id": "courier-18",
-      "name": "Concepción Mora"
+      "id": "courier-19",
+      "name": "Abner Teel"
     },
     "arrival": {
       "ridersDrawn": [
         "Silas Roe"
       ],
       "riderIds": [
-        "courier-16"
+        "courier-17"
       ],
       "needs": [
         {
@@ -56,29 +56,29 @@
       "end": [
         "Done — let Silas Roe ride on"
       ],
-      "note": "One more thing is waiting for your family after this. Ask what you like, then press Done. Nothing said is lost when he rides on.",
+      "note": "2 more things are waiting for your family after this. Ask what you like, then press Done. Nothing said is lost when he rides on.",
       "close": "Done: let Silas Roe ride on"
     },
     "duplicate": {
       "knownStatus": "confirmed",
-      "knownSource": "Concepción Mora, who rode from Gonzales",
+      "knownSource": "Abner Teel, who rode from Gonzales",
       "receivedMinute": 4920,
       "firstStillOpen": true,
       "visits": 1,
       "secondStillCarrying": false,
       "joined": [
         {
-          "carrierId": "courier-18",
-          "name": "Concepción Mora",
+          "carrierId": "courier-19",
+          "name": "Abner Teel",
           "status": "confirmed",
           "minute": 4920,
-          "eventId": "ev-2644"
+          "eventId": "ev-2670"
         }
       ],
       "drawn": false
     },
     "next": {
-      "msAfterDone": 852,
+      "msAfterDone": 762,
       "encounterHidden": true,
       "text": "The committee at Matagorda asks the volunteers of the town and the country east of it to gather at James Kerr's on the Lavaca as speedily as they can. The town is badly armed and its men are few. Does somebody from your family go?"
     },
@@ -90,16 +90,16 @@
         "opened": 4920
       },
       {
-        "carrier": "Tobias Crow",
+        "carrier": "Concepción Mora",
         "topic": "gonzales-outcome",
         "status": "unconfirmed",
-        "opened": 9040
+        "opened": 9860
       }
     ],
     "passer": {
-      "id": "courier-19",
-      "samples": 66,
-      "drawnInView": 196,
+      "id": "courier-20",
+      "samples": 65,
+      "drawnInView": 179,
       "fastestDrawnHeightsPerSecond": 1.2,
       "serverHeightsPerSecond": 1177.66,
       "gaitCeiling": 1.2,

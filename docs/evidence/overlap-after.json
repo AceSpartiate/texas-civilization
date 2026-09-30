@@ -70,12 +70,13 @@
     "screens": 197,
     "faults": 0,
     "allowed": 222,
-    "bubblesMeasured": 45,
+    "bubblesMeasured": 28,
     "bubblesUnderAPanel": 1
   },
   "faults": [],
   "pendingElsewhere": [],
   "phoneRecorded": [
+    "student lone-parent-ability 400x780: family: row 3 and first-meeting tip share 361x38px",
     "student lone-parent-ability 400x780: ability bar and journal button share 78x9px",
     "student lone-parent-ability 400x780: ability bar and map buttons share 263x9px",
     "student lone-parent-ability 400x780: ability bar and sound button share 33x9px",
@@ -87,7 +88,6 @@
     "student story-cards 400x780: ability bar and map buttons share 263x9px",
     "student story-cards 400x780: ability bar and sound button share 33x9px",
     "student story-cards 400x780: ability bar and map framing share 147x17px",
-    "student story-cards 400x780: messages and first-meeting tip share 318x22px",
     "student story-cards 400x780: \"panel-name-hh-1-parent-1\" in family: row 1 under messages",
     "student story-cards 400x780: \"Let Paz Proofwright decide for themself:\" in family: row 1 under messages",
     "student story-cards 400x780: \"Go back to Paz Proofwright, your main pe\" in family: row 1 under messages",
@@ -98,6 +98,7 @@
     "student rooms-asked 400x780: family: row 1 and messages share 299x44px",
     "student rooms-asked 400x780: family: row 2 and messages share 299x44px",
     "student rooms-asked 400x780: family: row 3 and messages share 299x44px",
+    "student rooms-asked 400x780: family: row 4 and messages share 299x7px",
     "student rooms-asked 400x780: ability bar and journal button share 78x9px",
     "student rooms-asked 400x780: ability bar and map buttons share 197x9px",
     "student rooms-asked 400x780: ability bar and sound button share 33x9px",
@@ -123,15 +124,15 @@
   ],
   "bubbles": [
     {
-      "where": "student town-scene-asked 1366x657",
-      "what": "bubble \"Flatboat and canoes, every one\"",
-      "under": "site chooser",
-      "share": 0.25,
+      "where": "student town-scene-asked 1280x800",
+      "what": "bubble \"Some say give it back and have\"",
+      "under": "town scene",
+      "share": 0.05,
       "box": {
-        "x": 399,
-        "y": 478,
-        "w": 231,
-        "h": 42
+        "x": 650,
+        "y": 388,
+        "w": 227,
+        "h": 27
       }
     }
   ],
@@ -159,9 +160,9 @@
         "map buttons 956,710 396x44",
         "sound button 790,710 46x44",
         "map framing 12,745 147x17",
-        "messages 1024,44 330x215",
+        "messages 1024,44 330x224",
         "site chooser 129,169 384x344",
-        "first-meeting tip 650,467 576x55"
+        "first-meeting tip 650,447 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -198,9 +199,9 @@
         "map buttons 956,599 396x44",
         "sound button 790,599 46x44",
         "map framing 12,634 147x17",
-        "messages 1024,44 330x215",
+        "messages 1024,44 330x224",
         "site chooser 129,169 384x242",
-        "first-meeting tip 650,356 576x55"
+        "first-meeting tip 650,336 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -237,9 +238,9 @@
         "map buttons 870,742 396x44",
         "sound button 704,742 46x44",
         "map framing 12,777 147x17",
-        "messages 938,44 330x215",
+        "messages 938,44 330x224",
         "site chooser 129,169 383x344",
-        "first-meeting tip 606,499 576x55"
+        "first-meeting tip 606,479 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -276,9 +277,9 @@
         "map buttons 870,631 396x44",
         "sound button 704,631 46x44",
         "map framing 12,666 147x17",
-        "messages 938,44 330x215",
+        "messages 938,44 330x224",
         "site chooser 129,169 383x274",
-        "first-meeting tip 606,388 576x55"
+        "first-meeting tip 606,368 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -314,9 +315,9 @@
         "map buttons 614,542 396x44",
         "sound button 448,542 46x44",
         "map framing 12,577 147x17",
-        "messages 682,44 330x215",
+        "messages 682,44 330x224",
         "site chooser 129,169 281x185",
-        "first-meeting tip 427,299 576x55"
+        "first-meeting tip 427,279 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -353,9 +354,9 @@
         "map buttons 1510,1022 396x44",
         "sound button 1344,1022 46x44",
         "map framing 12,1057 147x17",
-        "messages 1578,44 330x215",
+        "messages 1578,44 330x224",
         "site chooser 129,169 384x344",
-        "first-meeting tip 733,779 576x55"
+        "first-meeting tip 733,759 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -613,9 +614,9 @@
         "map buttons 910,710 442x44",
         "sound button 744,710 46x44",
         "map framing 12,745 147x17",
-        "call menu 914,60 440x347",
+        "call menu 914,60 440x387",
         "site chooser 129,169 384x344",
-        "first-meeting tip 650,467 576x55"
+        "first-meeting tip 650,447 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -652,9 +653,9 @@
         "map buttons 910,599 442x44",
         "sound button 744,599 46x44",
         "map framing 12,634 147x17",
-        "call menu 914,60 440x347",
+        "call menu 914,60 440x351",
         "site chooser 129,169 384x242",
-        "first-meeting tip 521,336 385x75"
+        "first-meeting tip 521,277 385x134"
       ],
       "overlaps": [],
       "covered": [],
@@ -691,9 +692,9 @@
         "map buttons 824,742 442x44",
         "sound button 658,742 46x44",
         "map framing 12,777 147x17",
-        "call menu 828,60 440x347",
+        "call menu 828,60 440x387",
         "site chooser 129,169 383x344",
-        "first-meeting tip 606,499 576x55"
+        "first-meeting tip 606,479 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -730,9 +731,9 @@
         "map buttons 824,631 442x44",
         "sound button 658,631 46x44",
         "map framing 12,666 147x17",
-        "call menu 828,60 440x347",
+        "call menu 828,60 440x383",
         "site chooser 129,169 383x274",
-        "first-meeting tip 520,309 300x134"
+        "first-meeting tip 520,305 300x138"
       ],
       "overlaps": [],
       "covered": [],
@@ -806,9 +807,9 @@
         "map buttons 1464,1022 442x44",
         "sound button 1298,1022 46x44",
         "map framing 12,1057 147x17",
-        "call menu 1468,60 440x347",
+        "call menu 1468,60 440x387",
         "site chooser 129,169 384x344",
-        "first-meeting tip 733,779 576x55"
+        "first-meeting tip 733,759 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -845,11 +846,11 @@
         "map buttons 910,710 442x44",
         "sound button 744,710 46x44",
         "map framing 12,745 147x17",
-        "messages 1024,44 330x195",
+        "messages 1024,44 330x205",
         "error line 12,167 232x35",
-        "person card 664,156 260x366",
+        "person card 664,150 260x372",
         "site chooser 129,209 384x313",
-        "first-meeting tip 932,447 422x75"
+        "first-meeting tip 932,388 422x134"
       ],
       "overlaps": [],
       "covered": [],
@@ -886,11 +887,11 @@
         "map buttons 910,599 442x44",
         "sound button 744,599 46x44",
         "map framing 12,634 147x17",
-        "messages 1024,44 330x195",
+        "messages 1024,44 330x205",
         "error line 12,167 232x35",
-        "person card 664,45 260x366",
+        "person card 664,39 260x372",
         "site chooser 129,209 384x202",
-        "first-meeting tip 932,336 422x75"
+        "first-meeting tip 932,277 422x134"
       ],
       "overlaps": [],
       "covered": [],
@@ -927,11 +928,11 @@
         "map buttons 824,742 442x44",
         "sound button 658,742 46x44",
         "map framing 12,777 147x17",
-        "messages 938,44 330x195",
+        "messages 938,44 330x205",
         "error line 12,167 232x35",
-        "person card 621,188 260x366",
+        "person card 621,182 260x372",
         "site chooser 129,209 383x344",
-        "first-meeting tip 889,460 379x94"
+        "first-meeting tip 889,435 379x119"
       ],
       "overlaps": [],
       "covered": [],
@@ -968,11 +969,11 @@
         "map buttons 824,631 442x44",
         "sound button 658,631 46x44",
         "map framing 12,666 147x17",
-        "messages 938,44 330x195",
+        "messages 938,44 330x205",
         "error line 12,167 232x35",
-        "person card 621,77 260x366",
+        "person card 621,71 260x372",
         "site chooser 129,209 383x234",
-        "first-meeting tip 889,349 379x94"
+        "first-meeting tip 889,324 379x119"
       ],
       "overlaps": [],
       "covered": [],
@@ -1008,10 +1009,11 @@
         "map buttons 568,542 442x44",
         "sound button 402,542 46x44",
         "map framing 12,577 147x17",
-        "messages 682,44 330x195",
+        "messages 682,44 330x205",
         "error line 12,167 232x35",
         "person card 418,8 256x232",
-        "site chooser 129,209 281x145"
+        "site chooser 129,209 281x145",
+        "first-meeting tip 493,279 519x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -1048,11 +1050,11 @@
         "map buttons 1464,1022 442x44",
         "sound button 1298,1022 46x44",
         "map framing 12,1057 147x17",
-        "messages 1578,44 330x195",
+        "messages 1578,44 330x205",
         "error line 12,167 232x35",
-        "person card 941,335 260x366",
+        "person card 941,332 260x372",
         "site chooser 129,209 384x344",
-        "first-meeting tip 733,779 576x55"
+        "first-meeting tip 733,759 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -1089,10 +1091,10 @@
         "map buttons 910,710 442x44",
         "sound button 744,710 46x44",
         "map framing 12,745 147x17",
-        "messages 1024,44 330x195",
-        "person card 664,156 260x366",
+        "messages 1024,44 330x205",
+        "person card 664,150 260x372",
         "site chooser 129,169 384x344",
-        "first-meeting tip 932,447 422x75"
+        "first-meeting tip 932,388 422x134"
       ],
       "overlaps": [],
       "covered": [],
@@ -1129,10 +1131,10 @@
         "map buttons 910,599 442x44",
         "sound button 744,599 46x44",
         "map framing 12,634 147x17",
-        "messages 1024,44 330x195",
-        "person card 664,45 260x366",
+        "messages 1024,44 330x205",
+        "person card 664,39 260x372",
         "site chooser 129,169 384x242",
-        "first-meeting tip 932,336 422x75"
+        "first-meeting tip 932,277 422x134"
       ],
       "overlaps": [],
       "covered": [],
@@ -1169,10 +1171,10 @@
         "map buttons 824,742 442x44",
         "sound button 658,742 46x44",
         "map framing 12,777 147x17",
-        "messages 938,44 330x195",
-        "person card 621,188 260x366",
+        "messages 938,44 330x205",
+        "person card 621,182 260x372",
         "site chooser 129,169 383x344",
-        "first-meeting tip 889,460 379x94"
+        "first-meeting tip 889,435 379x119"
       ],
       "overlaps": [],
       "covered": [],
@@ -1209,10 +1211,10 @@
         "map buttons 824,631 442x44",
         "sound button 658,631 46x44",
         "map framing 12,666 147x17",
-        "messages 938,44 330x195",
-        "person card 621,77 260x366",
+        "messages 938,44 330x205",
+        "person card 621,71 260x372",
         "site chooser 129,169 383x274",
-        "first-meeting tip 889,349 379x94"
+        "first-meeting tip 889,324 379x119"
       ],
       "overlaps": [],
       "covered": [],
@@ -1248,10 +1250,10 @@
         "map buttons 568,542 442x44",
         "sound button 402,542 46x44",
         "map framing 12,577 147x17",
-        "messages 682,44 330x195",
+        "messages 682,44 330x205",
         "person card 418,8 256x232",
         "site chooser 129,169 281x185",
-        "first-meeting tip 493,299 519x55"
+        "first-meeting tip 493,279 519x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -1288,10 +1290,10 @@
         "map buttons 1464,1022 442x44",
         "sound button 1298,1022 46x44",
         "map framing 12,1057 147x17",
-        "messages 1578,44 330x195",
-        "person card 941,335 260x366",
+        "messages 1578,44 330x205",
+        "person card 941,332 260x372",
         "site chooser 129,169 384x344",
-        "first-meeting tip 733,779 576x55"
+        "first-meeting tip 733,759 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -1328,11 +1330,11 @@
         "map buttons 910,710 442x44",
         "sound button 744,710 46x44",
         "map framing 12,745 147x17",
-        "messages 1024,44 330x195",
-        "person card 664,156 260x366",
+        "messages 1024,44 330x205",
+        "person card 664,150 260x372",
         "site chooser 129,169 384x344",
         "icon tip 349,627 272x88",
-        "first-meeting tip 932,447 422x75"
+        "first-meeting tip 932,388 422x134"
       ],
       "overlaps": [
         "ability bar x icon tip 178x77"
@@ -1371,9 +1373,9 @@
         "map buttons 975,710 377x44",
         "sound button 810,710 46x44",
         "map framing 12,745 147x17",
-        "messages 1024,44 330x195",
+        "messages 1024,44 330x205",
         "site chooser 129,169 384x353",
-        "first-meeting tip 650,467 576x55"
+        "first-meeting tip 650,447 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -1410,9 +1412,9 @@
         "map buttons 975,599 377x44",
         "sound button 810,599 46x44",
         "map framing 12,634 147x17",
-        "messages 1024,44 330x195",
+        "messages 1024,44 330x205",
         "site chooser 129,169 384x242",
-        "first-meeting tip 650,356 576x55"
+        "first-meeting tip 650,336 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -1449,9 +1451,9 @@
         "map buttons 889,742 377x44",
         "sound button 724,742 46x44",
         "map framing 12,777 147x17",
-        "messages 938,44 330x195",
+        "messages 938,44 330x205",
         "site chooser 129,169 383x385",
-        "first-meeting tip 606,499 576x55"
+        "first-meeting tip 606,479 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -1488,9 +1490,9 @@
         "map buttons 889,631 377x44",
         "sound button 724,631 46x44",
         "map framing 12,666 147x17",
-        "messages 938,44 330x195",
+        "messages 938,44 330x205",
         "site chooser 129,169 383x274",
-        "first-meeting tip 606,388 576x55"
+        "first-meeting tip 606,368 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -1526,10 +1528,10 @@
         "map buttons 633,542 377x44",
         "sound button 468,542 46x44",
         "map framing 12,577 147x17",
-        "messages 682,44 330x195",
+        "messages 682,44 330x205",
         "site chooser 129,169 281x185",
         "icon tip 574,459 272x106",
-        "first-meeting tip 427,299 576x55"
+        "first-meeting tip 427,279 576x75"
       ],
       "overlaps": [
         "ability bar x icon tip 178x77",
@@ -1570,9 +1572,9 @@
         "map buttons 1529,1022 377x44",
         "sound button 1364,1022 46x44",
         "map framing 12,1057 147x17",
-        "messages 1578,44 330x195",
+        "messages 1578,44 330x205",
         "site chooser 129,169 384x437",
-        "first-meeting tip 733,779 576x55"
+        "first-meeting tip 733,759 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -1609,14 +1611,14 @@
         "map buttons 975,710 377x44",
         "sound button 810,710 46x44",
         "map framing 12,745 147x17",
-        "messages 1024,44 330x195",
+        "messages 1024,44 330x205",
         "site chooser 129,169 384x353",
-        "first-meeting tip 521,447 389x75",
+        "first-meeting tip 521,388 389x134",
         "journal 918,100 430x586"
       ],
       "overlaps": [
         "ability bar x journal 5x156",
-        "messages x journal 324x139"
+        "messages x journal 324x149"
       ],
       "covered": [
         "\"Ramón, father, your main person, selecte\" in family: row 1 under #journal-backdrop",
@@ -1644,10 +1646,12 @@
         "\"Zoom in\" in map buttons under #journal-backdrop",
         "\"Zoom out\" in map buttons under #journal-backdrop",
         "\"Keep playing · 1\" in messages under #journal-backdrop",
+        "\"Read this aloud (a computer voice)\" in messages under journal",
         "\"Choose who goes\" in messages under journal",
         "\"South-west of the wagon: open ground, wa\" in site chooser under #journal-backdrop",
         "\"South of the wagon: brush, water close b\" in site chooser under #journal-backdrop",
         "\"South-east of the wagon: brush, water cl\" in site chooser under #journal-backdrop",
+        "\"Read this aloud (a computer voice)\" in first-meeting tip under #journal-backdrop",
         "\"Got it: put this tip away\" in first-meeting tip under #journal-backdrop"
       ],
       "offScreen": [],
@@ -1683,14 +1687,14 @@
         "map buttons 975,599 377x44",
         "sound button 810,599 46x44",
         "map framing 12,634 147x17",
-        "messages 1024,44 330x195",
+        "messages 1024,44 330x205",
         "site chooser 129,169 384x242",
-        "first-meeting tip 521,336 389x75",
+        "first-meeting tip 521,277 389x134",
         "journal 918,100 430x475"
       ],
       "overlaps": [
         "ability bar x journal 5x156",
-        "messages x journal 324x139"
+        "messages x journal 324x149"
       ],
       "covered": [
         "\"Ramón, father, your main person, selecte\" in family: row 1 under #journal-backdrop",
@@ -1718,9 +1722,11 @@
         "\"Zoom in\" in map buttons under #journal-backdrop",
         "\"Zoom out\" in map buttons under #journal-backdrop",
         "\"Keep playing · 1\" in messages under #journal-backdrop",
+        "\"Read this aloud (a computer voice)\" in messages under journal",
         "\"Choose who goes\" in messages under journal",
         "\"South-west of the wagon: open ground, wa\" in site chooser under #journal-backdrop",
         "\"South of the wagon: brush, water close b\" in site chooser under #journal-backdrop",
+        "\"Read this aloud (a computer voice)\" in first-meeting tip under #journal-backdrop",
         "\"Got it: put this tip away\" in first-meeting tip under #journal-backdrop"
       ],
       "offScreen": [],
@@ -1756,14 +1762,14 @@
         "map buttons 889,742 377x44",
         "sound button 724,742 46x44",
         "map framing 12,777 147x17",
-        "messages 938,44 330x195",
+        "messages 938,44 330x205",
         "site chooser 129,169 383x385",
-        "first-meeting tip 520,420 304x134",
+        "first-meeting tip 520,416 304x138",
         "journal 832,100 430x618"
       ],
       "overlaps": [
         "ability bar x journal 48x156",
-        "messages x journal 324x139"
+        "messages x journal 324x149"
       ],
       "covered": [
         "\"Ramón, father, your main person, selecte\" in family: row 1 under #journal-backdrop",
@@ -1791,10 +1797,12 @@
         "\"Zoom in\" in map buttons under #journal-backdrop",
         "\"Zoom out\" in map buttons under #journal-backdrop",
         "\"Keep playing · 1\" in messages under #journal-backdrop",
+        "\"Read this aloud (a computer voice)\" in messages under journal",
         "\"Choose who goes\" in messages under journal",
         "\"South-west of the wagon: open ground, wa\" in site chooser under #journal-backdrop",
         "\"South of the wagon: brush, water close b\" in site chooser under #journal-backdrop",
         "\"South-east of the wagon: brush, water cl\" in site chooser under #journal-backdrop",
+        "\"Read this aloud (a computer voice)\" in first-meeting tip under #journal-backdrop",
         "\"Got it: put this tip away\" in first-meeting tip under #journal-backdrop"
       ],
       "offScreen": [],
@@ -1830,14 +1838,14 @@
         "map buttons 889,631 377x44",
         "sound button 724,631 46x44",
         "map framing 12,666 147x17",
-        "messages 938,44 330x195",
+        "messages 938,44 330x205",
         "site chooser 129,169 383x274",
-        "first-meeting tip 520,309 304x134",
+        "first-meeting tip 520,305 304x138",
         "journal 832,100 430x507"
       ],
       "overlaps": [
         "ability bar x journal 48x156",
-        "messages x journal 324x139"
+        "messages x journal 324x149"
       ],
       "covered": [
         "\"Ramón, father, your main person, selecte\" in family: row 1 under #journal-backdrop",
@@ -1865,9 +1873,11 @@
         "\"Zoom in\" in map buttons under #journal-backdrop",
         "\"Zoom out\" in map buttons under #journal-backdrop",
         "\"Keep playing · 1\" in messages under #journal-backdrop",
+        "\"Read this aloud (a computer voice)\" in messages under journal",
         "\"Choose who goes\" in messages under journal",
         "\"South-west of the wagon: open ground, wa\" in site chooser under #journal-backdrop",
         "\"South of the wagon: brush, water close b\" in site chooser under #journal-backdrop",
+        "\"Read this aloud (a computer voice)\" in first-meeting tip under #journal-backdrop",
         "\"Got it: put this tip away\" in first-meeting tip under #journal-backdrop"
       ],
       "offScreen": [],
@@ -1902,13 +1912,13 @@
         "map buttons 633,542 377x44",
         "sound button 468,542 46x44",
         "map framing 12,577 147x17",
-        "messages 682,44 330x195",
+        "messages 682,44 330x205",
         "site chooser 129,169 281x185",
         "journal 576,100 430x418"
       ],
       "overlaps": [
         "ability bar x journal 176x156",
-        "messages x journal 324x139"
+        "messages x journal 324x149"
       ],
       "covered": [
         "\"Ramón, father, your main person, selecte\" in family: row 1 under #journal-backdrop",
@@ -1935,6 +1945,7 @@
         "\"Zoom in\" in map buttons under #journal-backdrop",
         "\"Zoom out\" in map buttons under #journal-backdrop",
         "\"Keep playing · 1\" in messages under #journal-backdrop",
+        "\"Read this aloud (a computer voice)\" in messages under journal",
         "\"Choose who goes\" in messages under journal"
       ],
       "offScreen": [],
@@ -1970,13 +1981,13 @@
         "map buttons 1529,1022 377x44",
         "sound button 1364,1022 46x44",
         "map framing 12,1057 147x17",
-        "messages 1578,44 330x195",
+        "messages 1578,44 330x205",
         "site chooser 129,169 384x437",
-        "first-meeting tip 733,779 576x55",
+        "first-meeting tip 733,759 576x75",
         "journal 1472,100 430x898"
       ],
       "overlaps": [
-        "messages x journal 324x139"
+        "messages x journal 324x149"
       ],
       "covered": [
         "\"Ramón, father, your main person, selecte\" in family: row 1 under #journal-backdrop",
@@ -2004,11 +2015,13 @@
         "\"Zoom in\" in map buttons under #journal-backdrop",
         "\"Zoom out\" in map buttons under #journal-backdrop",
         "\"Keep playing · 1\" in messages under #journal-backdrop",
+        "\"Read this aloud (a computer voice)\" in messages under journal",
         "\"Choose who goes\" in messages under journal",
         "\"South-west of the wagon: open ground, wa\" in site chooser under #journal-backdrop",
         "\"South of the wagon: brush, water close b\" in site chooser under #journal-backdrop",
         "\"South-east of the wagon: brush, water cl\" in site chooser under #journal-backdrop",
         "\"Set the house here\" in site chooser under #journal-backdrop",
+        "\"Read this aloud (a computer voice)\" in first-meeting tip under #journal-backdrop",
         "\"Got it: put this tip away\" in first-meeting tip under #journal-backdrop"
       ],
       "offScreen": [],
@@ -2045,7 +2058,7 @@
         "map buttons 956,710 396x44",
         "sound button 790,710 46x44",
         "map framing 12,745 147x17",
-        "first-meeting tip 551,467 576x55"
+        "first-meeting tip 551,447 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -2083,7 +2096,7 @@
         "map buttons 956,599 396x44",
         "sound button 790,599 46x44",
         "map framing 12,634 147x17",
-        "first-meeting tip 551,356 576x55"
+        "first-meeting tip 551,336 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -2112,8 +2125,8 @@
         "status: supplies 12,130 378x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,396 300x48",
-        "family: row 2 12,449 300x48",
-        "family: row 3 12,502 300x48",
+        "family: row 2 12,449 300x64",
+        "family: row 3 12,518 300x36",
         "lone parent ability 16,201 296x103",
         "house card 16,317 296x68",
         "ability bar 280,562 720x174",
@@ -2121,7 +2134,7 @@
         "map buttons 870,742 396x44",
         "sound button 704,742 46x44",
         "map framing 12,777 147x17",
-        "first-meeting tip 508,499 576x55"
+        "first-meeting tip 508,479 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -2149,17 +2162,16 @@
         "status: food 12,93 85x31",
         "status: supplies 12,130 378x31",
         "family: fold 12,169 100x20",
-        "family: row 1 12,256 300x48",
-        "family: row 2 12,309 300x64",
-        "family: row 3 12,378 300x50",
+        "family: row 1 12,256 300x111",
+        "family: row 2 12,371 300x72",
         "lone parent ability 16,196 147x54",
         "house card 171,196 137x35",
-        "ability bar 280,451 720x174",
+        "ability bar 560,451 160x174",
         "journal button 758,631 104x44",
         "map buttons 870,631 396x44",
         "sound button 704,631 46x44",
         "map framing 12,666 147x17",
-        "first-meeting tip 508,388 576x55"
+        "first-meeting tip 508,368 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -2186,16 +2198,16 @@
         "status: world 12,56 94x31",
         "status: food 12,93 85x31",
         "status: supplies 12,130 378x31",
-        "family: fold 12,169 100x20",
-        "family: row 1 12,256 300x98",
-        "lone parent ability 16,196 147x54",
-        "house card 171,196 137x35",
+        "family: fold 12,167 100x9",
+        "family: row 1 12,243 300x111",
+        "lone parent ability 16,183 147x54",
+        "house card 171,183 137x35",
         "ability bar 432,362 160x174",
         "journal button 502,542 104x44",
         "map buttons 614,542 396x44",
         "sound button 448,542 46x44",
         "map framing 12,577 147x17",
-        "first-meeting tip 380,299 576x55"
+        "first-meeting tip 380,279 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -2233,7 +2245,7 @@
         "map buttons 1510,1022 396x44",
         "sound button 1344,1022 46x44",
         "map framing 12,1057 147x17",
-        "first-meeting tip 828,779 576x55"
+        "first-meeting tip 828,759 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -2271,9 +2283,10 @@
         "map buttons 129,728 263x44",
         "sound button 8,728 33x44",
         "map framing 127,708 147x17",
-        "first-meeting tip 8,547 384x73"
+        "first-meeting tip 8,503 384x117"
       ],
       "overlaps": [
+        "family: row 3 x first-meeting tip 361x38",
         "ability bar x journal button 78x9",
         "ability bar x map buttons 263x9",
         "ability bar x sound button 33x9",
@@ -2313,7 +2326,7 @@
         "map buttons 956,710 396x44",
         "sound button 790,710 46x44",
         "map framing 12,745 147x17",
-        "first-meeting tip 551,467 576x55"
+        "first-meeting tip 551,447 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -2350,7 +2363,7 @@
         "map buttons 956,599 396x44",
         "sound button 790,599 46x44",
         "map framing 12,634 147x17",
-        "first-meeting tip 551,356 576x55"
+        "first-meeting tip 551,336 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -2387,7 +2400,7 @@
         "map buttons 870,742 396x44",
         "sound button 704,742 46x44",
         "map framing 12,777 147x17",
-        "first-meeting tip 508,499 576x55"
+        "first-meeting tip 508,479 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -2422,7 +2435,7 @@
         "map buttons 870,631 396x44",
         "sound button 704,631 46x44",
         "map framing 12,666 147x17",
-        "first-meeting tip 508,388 576x55"
+        "first-meeting tip 508,368 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -2458,7 +2471,7 @@
         "map buttons 614,542 396x44",
         "sound button 448,542 46x44",
         "map framing 12,577 147x17",
-        "first-meeting tip 380,299 576x55"
+        "first-meeting tip 380,279 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -2496,7 +2509,7 @@
         "map buttons 1510,1022 396x44",
         "sound button 1344,1022 46x44",
         "map framing 12,1057 147x17",
-        "first-meeting tip 828,779 576x55"
+        "first-meeting tip 828,759 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -2611,7 +2624,6 @@
         "map buttons 956,599 396x44",
         "sound button 790,599 46x44",
         "map framing 12,634 147x17",
-        "first-meeting tip 551,363 576x55",
         "lone parent scenes 0,0 1366x657"
       ],
       "overlaps": [
@@ -2627,8 +2639,7 @@
         "journal button x lone parent scenes 104x44",
         "map buttons x lone parent scenes 396x44",
         "sound button x lone parent scenes 46x44",
-        "map framing x lone parent scenes 147x17",
-        "first-meeting tip x lone parent scenes 576x55"
+        "map framing x lone parent scenes 147x17"
       ],
       "covered": [
         "\"Paz Proofwright, mother, 40, your main p\" in family: row 1 under lone parent scenes",
@@ -2651,8 +2662,7 @@
         "\"Gonzales\" in map buttons under lone parent scenes",
         "\"Béxar\" in map buttons under lone parent scenes",
         "\"Zoom in\" in map buttons under lone parent scenes",
-        "\"Zoom out\" in map buttons under lone parent scenes",
-        "\"Got it: put this tip away\" in first-meeting tip under lone parent scenes"
+        "\"Zoom out\" in map buttons under lone parent scenes"
       ],
       "offScreen": [],
       "canvas": [],
@@ -2687,7 +2697,7 @@
         "map buttons 870,742 396x44",
         "sound button 704,742 46x44",
         "map framing 12,777 147x17",
-        "first-meeting tip 508,506 576x55",
+        "first-meeting tip 508,486 576x75",
         "lone parent scenes 0,0 1280x800"
       ],
       "overlaps": [
@@ -2705,7 +2715,7 @@
         "map buttons x lone parent scenes 396x44",
         "sound button x lone parent scenes 46x44",
         "map framing x lone parent scenes 147x17",
-        "first-meeting tip x lone parent scenes 576x55"
+        "first-meeting tip x lone parent scenes 576x75"
       ],
       "covered": [
         "\"Paz Proofwright, mother, 40, your main p\" in family: row 1 under lone parent scenes",
@@ -2733,6 +2743,7 @@
         "\"Béxar\" in map buttons under lone parent scenes",
         "\"Zoom in\" in map buttons under lone parent scenes",
         "\"Zoom out\" in map buttons under lone parent scenes",
+        "\"Read this aloud (a computer voice)\" in first-meeting tip under lone parent scenes",
         "\"Got it: put this tip away\" in first-meeting tip under lone parent scenes"
       ],
       "offScreen": [],
@@ -2768,6 +2779,7 @@
         "map buttons 870,631 396x44",
         "sound button 704,631 46x44",
         "map framing 12,666 147x17",
+        "first-meeting tip 508,375 576x75",
         "lone parent scenes 0,0 1280x689"
       ],
       "overlaps": [
@@ -2784,7 +2796,8 @@
         "journal button x lone parent scenes 104x44",
         "map buttons x lone parent scenes 396x44",
         "sound button x lone parent scenes 46x44",
-        "map framing x lone parent scenes 147x17"
+        "map framing x lone parent scenes 147x17",
+        "first-meeting tip x lone parent scenes 576x75"
       ],
       "covered": [
         "\"Paz Proofwright, mother, 40, your main p\" in family: row 1 under lone parent scenes",
@@ -2811,7 +2824,9 @@
         "\"Gonzales\" in map buttons under lone parent scenes",
         "\"Béxar\" in map buttons under lone parent scenes",
         "\"Zoom in\" in map buttons under lone parent scenes",
-        "\"Zoom out\" in map buttons under lone parent scenes"
+        "\"Zoom out\" in map buttons under lone parent scenes",
+        "\"Read this aloud (a computer voice)\" in first-meeting tip under lone parent scenes",
+        "\"Got it: put this tip away\" in first-meeting tip under lone parent scenes"
       ],
       "offScreen": [],
       "canvas": [],
@@ -2845,7 +2860,6 @@
         "map buttons 614,542 396x44",
         "sound button 448,542 46x44",
         "map framing 12,577 147x17",
-        "first-meeting tip 380,306 576x55",
         "lone parent scenes 0,0 1024x600"
       ],
       "overlaps": [
@@ -2861,8 +2875,7 @@
         "journal button x lone parent scenes 104x44",
         "map buttons x lone parent scenes 396x44",
         "sound button x lone parent scenes 46x44",
-        "map framing x lone parent scenes 147x17",
-        "first-meeting tip x lone parent scenes 576x55"
+        "map framing x lone parent scenes 147x17"
       ],
       "covered": [
         "\"Paz Proofwright, mother, 40, your main p\" in family: row 1 under lone parent scenes",
@@ -2885,8 +2898,7 @@
         "\"Gonzales\" in map buttons under lone parent scenes",
         "\"Béxar\" in map buttons under lone parent scenes",
         "\"Zoom in\" in map buttons under lone parent scenes",
-        "\"Zoom out\" in map buttons under lone parent scenes",
-        "\"Got it: put this tip away\" in first-meeting tip under lone parent scenes"
+        "\"Zoom out\" in map buttons under lone parent scenes"
       ],
       "offScreen": [],
       "canvas": [],
@@ -2907,16 +2919,17 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 252x38",
+        "status: session 12,12 226x38",
         "status: world 12,56 94x31",
         "status: food 12,93 85x31",
         "status: supplies 12,130 378x31",
         "family: fold 12,169 100x20",
-        "family: row 1 12,367 300x48",
-        "family: row 2 12,420 300x80",
-        "family: row 3 12,505 300x65",
-        "house card 16,201 296x157",
-        "ability bar 840,849 240x167",
+        "family: row 1 12,269 304x48",
+        "family: row 2 12,322 304x48",
+        "family: row 3 12,375 304x48",
+        "family: row 4 12,428 304x48",
+        "house card 16,201 296x58",
+        "ability bar 680,815 560x201",
         "journal button 1398,1022 104x44",
         "map buttons 1510,1022 396x44",
         "sound button 1344,1022 46x44",
@@ -2924,41 +2937,56 @@
         "lone parent scenes 0,0 1920x1080"
       ],
       "overlaps": [
-        "status: session x lone parent scenes 252x38",
+        "status: session x lone parent scenes 226x38",
         "status: world x lone parent scenes 94x31",
         "status: food x lone parent scenes 85x31",
         "status: supplies x lone parent scenes 378x31",
         "family: fold x lone parent scenes 100x20",
-        "family: row 1 x lone parent scenes 300x48",
-        "family: row 2 x lone parent scenes 300x80",
-        "family: row 3 x lone parent scenes 300x65",
-        "house card x lone parent scenes 296x157",
-        "ability bar x lone parent scenes 240x167",
+        "family: row 1 x lone parent scenes 304x48",
+        "family: row 2 x lone parent scenes 304x48",
+        "family: row 3 x lone parent scenes 304x48",
+        "family: row 4 x lone parent scenes 304x48",
+        "house card x lone parent scenes 296x58",
+        "ability bar x lone parent scenes 560x201",
         "journal button x lone parent scenes 104x44",
         "map buttons x lone parent scenes 396x44",
         "sound button x lone parent scenes 46x44",
         "map framing x lone parent scenes 147x17"
       ],
       "covered": [
-        "\"Paz Proofwright, mother, 40, your main p\" in family: row 1 under lone parent scenes",
-        "\"panel-name-hh-1-parent-1\" in family: row 1 under lone parent scenes",
-        "\"Let Paz Proofwright decide for themself:\" in family: row 1 under lone parent scenes",
-        "\"Go back to Paz Proofwright, your main pe\" in family: row 1 under lone parent scenes",
-        "\"Travel to Gonzales. Go into the town of \" in ability bar under lone parent scenes",
-        "\"Return home. Come back to the family’s o\" in ability bar under lone parent scenes",
-        "\"Go to a neighbour’s homestead. Choose a \" in ability bar under lone parent scenes",
-        "\"Work about the place. Do the everyday wo\" in ability bar under lone parent scenes",
-        "\"Rest. Sit still at home, which is the on\" in ability bar under lone parent scenes",
-        "\"Adela Proofwright, daughter, 7. Make Ade\" in family: row 2 under lone parent scenes",
-        "\"panel-name-hh-1-child-1\" in family: row 2 under lone parent scenes",
-        "\"Let Adela Proofwright decide for themsel\" in family: row 2 under lone parent scenes",
-        "\"Make Adela Proofwright your main person\" in family: row 2 under lone parent scenes",
-        "\"Loreta Proofwright, daughter, 5. Make Lo\" in family: row 3 under lone parent scenes",
-        "\"panel-name-hh-1-child-2\" in family: row 3 under lone parent scenes",
-        "\"Let Loreta Proofwright decide for themse\" in family: row 3 under lone parent scenes",
-        "\"Make Loreta Proofwright your main person\" in family: row 3 under lone parent scenes",
-        "\"Choose your house\" in house card under lone parent scenes",
-        "\"Choose a house\" in house card under lone parent scenes",
+        "\"Cipriano Kittredge, father, 40, your mai\" in family: row 1 under lone parent scenes",
+        "\"panel-name-hh-1-spouse\" in family: row 1 under lone parent scenes",
+        "\"Go inside the house to set out the furni\" in family: row 1 under lone parent scenes",
+        "\"Let Cipriano Kittredge decide for themse\" in family: row 1 under lone parent scenes",
+        "\"Go back to Cipriano Kittredge, your main\" in family: row 1 under lone parent scenes",
+        "\"Paz Kittredge, mother, 40, selected. Mak\" in family: row 2 under lone parent scenes",
+        "\"panel-name-hh-1-parent-1\" in family: row 2 under lone parent scenes",
+        "\"Let Paz Kittredge decide for themself: r\" in family: row 2 under lone parent scenes",
+        "\"Make Paz Kittredge your main person\" in family: row 2 under lone parent scenes",
+        "\"Make Paz the main person. Only the main \" in ability bar under lone parent scenes",
+        "\"Survey ten acres. Walk out to a place yo\" in ability bar under lone parent scenes",
+        "\"Cut the lane to the road. Cut the brush \" in ability bar under lone parent scenes",
+        "\"Dig a well. Dig down by the house until \" in ability bar under lone parent scenes",
+        "\"Plant the field. Turn the rows of every \" in ability bar under lone parent scenes",
+        "\"Fence a cleared plot. Split rails and fe\" in ability bar under lone parent scenes",
+        "\"Go to town to trade. Choose what they sh\" in ability bar under lone parent scenes",
+        "\"Make furniture. Make a piece of furnitur\" in ability bar under lone parent scenes",
+        "\"Buy furniture from the carpenter. Go to \" in ability bar under lone parent scenes",
+        "\"Fell trees. Go out with the felling axe \" in ability bar under lone parent scenes",
+        "\"Hunt on our land. Hunt at a place you ch\" in ability bar under lone parent scenes",
+        "\"Take small game. An hour after squirrels\" in ability bar under lone parent scenes",
+        "\"Fish the creek. Sit down at the water wi\" in ability bar under lone parent scenes",
+        "\"Cut a bee tree. Take the axe to the tree\" in ability bar under lone parent scenes",
+        "\"Adela Kittredge, daughter, 7. Make Adela\" in family: row 3 under lone parent scenes",
+        "\"panel-name-hh-1-child-1\" in family: row 3 under lone parent scenes",
+        "\"Let Adela Kittredge decide for themself:\" in family: row 3 under lone parent scenes",
+        "\"Make Adela Kittredge your main person\" in family: row 3 under lone parent scenes",
+        "\"Loreta Kittredge, daughter, 5. Make Lore\" in family: row 4 under lone parent scenes",
+        "\"panel-name-hh-1-child-2\" in family: row 4 under lone parent scenes",
+        "\"Let Loreta Kittredge decide for themself\" in family: row 4 under lone parent scenes",
+        "\"Make Loreta Kittredge your main person\" in family: row 4 under lone parent scenes",
+        "\"Your house\" in house card under lone parent scenes",
+        "\"Your house\" in house card under lone parent scenes",
         "\"Following\" in map buttons under lone parent scenes",
         "\"Go to my land\" in map buttons under lone parent scenes",
         "\"Gonzales\" in map buttons under lone parent scenes",
@@ -2987,7 +3015,7 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 78x31",
         "status: supplies 12,130 378x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,396 300x48",
@@ -3000,8 +3028,8 @@
         "map buttons 956,710 396x44",
         "sound button 790,710 46x44",
         "map framing 12,745 147x17",
-        "messages 1024,44 330x215",
-        "first-meeting tip 551,467 576x55"
+        "messages 1024,44 330x224",
+        "first-meeting tip 551,447 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -3026,7 +3054,7 @@
       "drawn": [
         "status: session 12,12 252x38",
         "status: world 12,56 94x31",
-        "status: food 12,93 85x31",
+        "status: food 12,93 78x31",
         "status: supplies 12,130 378x31",
         "family: fold 12,169 100x20",
         "family: row 1 12,256 300x48",
@@ -3038,8 +3066,8 @@
         "map buttons 614,542 396x44",
         "sound button 448,542 46x44",
         "map framing 12,577 147x17",
-        "messages 682,44 330x215",
-        "first-meeting tip 380,299 576x55"
+        "messages 682,44 330x224",
+        "first-meeting tip 380,279 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -3064,7 +3092,7 @@
       "drawn": [
         "status: session 12,12 246x36",
         "status: world 264,16 83x27",
-        "status: food 12,54 74x27",
+        "status: food 12,54 68x27",
         "status: supplies 12,87 345x27",
         "family: fold 12,123 100x20",
         "family: row 1 12,350 361x47",
@@ -3077,8 +3105,7 @@
         "map buttons 129,728 263x44",
         "sound button 8,728 33x44",
         "map framing 127,708 147x17",
-        "messages 74,354 318x215",
-        "first-meeting tip 8,547 384x73"
+        "messages 74,354 318x224"
       ],
       "overlaps": [
         "family: row 1 x messages 299x43",
@@ -3087,8 +3114,7 @@
         "ability bar x journal button 78x9",
         "ability bar x map buttons 263x9",
         "ability bar x sound button 33x9",
-        "ability bar x map framing 147x17",
-        "messages x first-meeting tip 318x22"
+        "ability bar x map framing 147x17"
       ],
       "covered": [
         "\"panel-name-hh-1-parent-1\" in family: row 1 under messages",
@@ -3129,7 +3155,7 @@
         "sound button 765,710 46x44",
         "tips button 819,710 81x44",
         "map framing 12,745 147x17",
-        "messages 1024,44 330x215",
+        "messages 1024,44 330x224",
         "inside the house 174,38 680x691"
       ],
       "overlaps": [
@@ -3189,7 +3215,7 @@
         "sound button 765,599 46x44",
         "tips button 819,599 81x44",
         "map framing 12,634 147x17",
-        "messages 1024,44 330x215",
+        "messages 1024,44 330x224",
         "inside the house 174,33 680x591"
       ],
       "overlaps": [
@@ -3249,7 +3275,7 @@
         "sound button 679,742 46x44",
         "tips button 733,742 81x44",
         "map framing 12,777 147x17",
-        "messages 938,44 330x215",
+        "messages 938,44 330x224",
         "inside the house 131,40 680x720"
       ],
       "overlaps": [
@@ -3313,7 +3339,7 @@
         "sound button 679,631 46x44",
         "tips button 733,631 81x44",
         "map framing 12,666 147x17",
-        "messages 938,44 330x215",
+        "messages 938,44 330x224",
         "inside the house 131,34 680x620"
       ],
       "overlaps": [
@@ -3377,7 +3403,7 @@
         "sound button 423,542 46x44",
         "tips button 477,542 81x44",
         "map framing 12,577 147x17",
-        "messages 682,44 330x215",
+        "messages 682,44 330x224",
         "inside the house 16,30 654x540"
       ],
       "overlaps": [
@@ -3450,7 +3476,7 @@
         "sound button 1319,1022 46x44",
         "tips button 1373,1022 81x44",
         "map framing 12,1057 147x17",
-        "messages 1578,44 330x215",
+        "messages 1578,44 330x224",
         "inside the house 620,157 680x766"
       ],
       "overlaps": [],
@@ -3489,8 +3515,8 @@
         "sound button 8,728 33x44",
         "tips button 46,728 61x44",
         "map framing 127,708 147x17",
-        "messages 74,44 318x215",
-        "inside the house 16,267 368x501"
+        "messages 74,44 318x224",
+        "inside the house 16,276 368x492"
       ],
       "overlaps": [
         "status: session x messages 125x4",
@@ -3500,7 +3526,8 @@
         "family: row 1 x messages 299x44",
         "family: row 2 x messages 299x44",
         "family: row 3 x messages 299x44",
-        "family: row 4 x inside the house 357x38",
+        "family: row 4 x messages 299x7",
+        "family: row 4 x inside the house 357x29",
         "ability bar x journal button 78x9",
         "ability bar x map buttons 197x9",
         "ability bar x sound button 33x9",
@@ -4344,7 +4371,7 @@
         "map buttons 1021,710 331x44",
         "sound button 855,710 46x44",
         "map framing 12,745 147x17",
-        "first-meeting tip 551,467 576x55"
+        "first-meeting tip 551,447 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -4381,7 +4408,7 @@
         "map buttons 1021,599 331x44",
         "sound button 855,599 46x44",
         "map framing 12,634 147x17",
-        "first-meeting tip 551,356 576x55"
+        "first-meeting tip 551,336 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -4418,7 +4445,7 @@
         "map buttons 935,742 331x44",
         "sound button 769,742 46x44",
         "map framing 12,777 147x17",
-        "first-meeting tip 508,499 576x55"
+        "first-meeting tip 508,479 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -4455,7 +4482,7 @@
         "map buttons 935,631 331x44",
         "sound button 769,631 46x44",
         "map framing 12,666 147x17",
-        "first-meeting tip 508,388 576x55"
+        "first-meeting tip 508,368 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -4491,7 +4518,7 @@
         "map buttons 679,542 331x44",
         "sound button 513,542 46x44",
         "map framing 12,577 147x17",
-        "first-meeting tip 380,299 576x55"
+        "first-meeting tip 380,279 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -4528,7 +4555,7 @@
         "map buttons 1575,1022 331x44",
         "sound button 1409,1022 46x44",
         "map framing 12,1057 147x17",
-        "first-meeting tip 828,779 576x55"
+        "first-meeting tip 828,759 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -4971,7 +4998,7 @@
         "map buttons 1021,710 331x44",
         "sound button 765,710 46x44",
         "tips button 819,710 81x44",
-        "tips list 1092,560 260x142",
+        "tips list 1092,542 260x160",
         "map framing 12,745 147x17"
       ],
       "overlaps": [],
@@ -5009,7 +5036,7 @@
         "map buttons 1021,599 331x44",
         "sound button 765,599 46x44",
         "tips button 819,599 81x44",
-        "tips list 1092,449 260x142",
+        "tips list 1092,431 260x160",
         "map framing 12,634 147x17"
       ],
       "overlaps": [],
@@ -5047,7 +5074,7 @@
         "map buttons 935,742 331x44",
         "sound button 679,742 46x44",
         "tips button 733,742 81x44",
-        "tips list 1006,592 260x142",
+        "tips list 1006,574 260x160",
         "map framing 12,777 147x17"
       ],
       "overlaps": [],
@@ -5085,7 +5112,7 @@
         "map buttons 935,631 331x44",
         "sound button 679,631 46x44",
         "tips button 733,631 81x44",
-        "tips list 1006,481 260x142",
+        "tips list 1006,463 260x160",
         "map framing 12,666 147x17"
       ],
       "overlaps": [],
@@ -5122,7 +5149,7 @@
         "map buttons 679,542 331x44",
         "sound button 423,542 46x44",
         "tips button 477,542 81x44",
-        "tips list 768,392 242x142",
+        "tips list 768,374 242x160",
         "map framing 12,577 147x17"
       ],
       "overlaps": [],
@@ -5160,7 +5187,7 @@
         "map buttons 1575,1022 331x44",
         "sound button 1319,1022 46x44",
         "tips button 1373,1022 81x44",
-        "tips list 1646,872 260x142",
+        "tips list 1646,854 260x160",
         "map framing 12,1057 147x17"
       ],
       "overlaps": [],
@@ -5924,6 +5951,7 @@
         "\"Gonzales\" in map buttons under #journal-backdrop",
         "\"Zoom in\" in map buttons under #journal-backdrop",
         "\"Zoom out\" in map buttons under #journal-backdrop",
+        "\"Read this aloud (a computer voice)\" in first-meeting tip under #journal-backdrop",
         "\"Got it: put this tip away\" in first-meeting tip under #journal-backdrop"
       ],
       "offScreen": [],
@@ -6005,6 +6033,7 @@
         "\"Gonzales\" in map buttons under #journal-backdrop",
         "\"Zoom in\" in map buttons under #journal-backdrop",
         "\"Zoom out\" in map buttons under #journal-backdrop",
+        "\"Read this aloud (a computer voice)\" in first-meeting tip under #journal-backdrop",
         "\"Got it: put this tip away\" in first-meeting tip under #journal-backdrop"
       ],
       "offScreen": [],
@@ -6386,10 +6415,10 @@
         "sound button 1272,1022 46x44",
         "tips button 1326,1022 81x44",
         "map framing 12,1057 147x17",
-        "ending 580,110 760x860"
+        "ending 580,147 760x787"
       ],
       "overlaps": [
-        "ability bar x ending 80x47"
+        "ability bar x ending 80x10"
       ],
       "covered": [],
       "offScreen": [],
@@ -6651,7 +6680,7 @@
         "map buttons 1441,1022 465x44",
         "journal button 1329,1022 104x44",
         "map framing 12,1057 147x17",
-        "ending 580,140 760x800"
+        "ending 580,124 760x832"
       ],
       "overlaps": [],
       "covered": [],
@@ -6780,7 +6809,7 @@
         "\"The class\" in the class under ending",
         "\"The Rumor Mill\" in rumor mill under ending",
         "\"Study\" in pace under ending",
-        "\"Join 127.0.0.1:53954 · code 6C98BE\" in join links under ending"
+        "\"Join 127.0.0.1:53081 · code EE5A2B\" in join links under ending"
       ],
       "offScreen": [],
       "canvas": [],
@@ -7014,7 +7043,7 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 212x38",
+        "status: session 12,12 206x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x470",
         "rumor mill 12,573 476x231",
@@ -7023,7 +7052,7 @@
         "teacher controls 1631,49 277x38",
         "pace 1726,99 182x30",
         "recover 1756,135 152x44",
-        "join links 1656,185 252x60",
+        "join links 1659,185 249x60",
         "late students 1684,251 224x65",
         "map buttons 1472,1022 434x44",
         "journal button 1360,1022 104x44",
@@ -7050,7 +7079,7 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 212x38",
+        "status: session 12,12 206x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x326",
         "rumor mill 12,429 476x91",
@@ -7059,7 +7088,7 @@
         "teacher controls 991,49 277x38",
         "pace 1086,99 182x30",
         "recover 1116,135 152x44",
-        "join links 1016,185 252x60",
+        "join links 1019,185 249x60",
         "late students 1044,251 224x65",
         "map buttons 832,662 434x44",
         "journal button 720,662 104x44",
@@ -7086,7 +7115,7 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 212x38",
+        "status: session 12,12 206x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x358",
         "rumor mill 12,461 476x139",
@@ -7095,7 +7124,7 @@
         "teacher controls 991,49 277x38",
         "pace 1086,99 182x30",
         "recover 1116,135 152x44",
-        "join links 1016,185 252x60",
+        "join links 1019,185 249x60",
         "late students 1044,251 224x65",
         "map buttons 832,742 434x44",
         "journal button 720,742 104x44",
@@ -7122,7 +7151,7 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 212x38",
+        "status: session 12,12 206x38",
         "status: world 12,56 94x31",
         "the class 12,95 447x345",
         "rumor mill 12,448 447x120",
@@ -7131,7 +7160,7 @@
         "teacher controls 735,49 277x38",
         "pace 830,99 182x30",
         "recover 860,135 152x44",
-        "join links 760,185 252x60",
+        "join links 763,185 249x60",
         "late students 788,251 224x65",
         "map buttons 576,710 434x44",
         "journal button 464,710 104x44",
@@ -7158,7 +7187,7 @@
       "following": true,
       "unreachable": [],
       "drawn": [
-        "status: session 12,12 212x38",
+        "status: session 12,12 206x38",
         "status: world 12,56 94x31",
         "the class 12,95 476x345",
         "rumor mill 12,448 476x120",
@@ -7167,7 +7196,7 @@
         "teacher controls 1077,49 277x38",
         "pace 1172,99 182x30",
         "recover 1202,135 152x44",
-        "join links 1102,185 252x60",
+        "join links 1105,185 249x60",
         "late students 1130,251 224x65",
         "map buttons 918,710 434x44",
         "journal button 806,710 104x44",
@@ -7208,7 +7237,7 @@
         "map buttons 1021,710 331x44",
         "sound button 711,710 46x44",
         "map framing 12,745 147x17",
-        "first-meeting tip 551,474 576x55"
+        "first-meeting tip 551,454 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -7245,7 +7274,7 @@
         "map buttons 1021,599 331x44",
         "sound button 711,599 46x44",
         "map framing 12,634 147x17",
-        "first-meeting tip 551,363 576x55"
+        "first-meeting tip 551,343 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -7282,7 +7311,7 @@
         "map buttons 935,742 331x44",
         "sound button 625,742 46x44",
         "map framing 12,777 147x17",
-        "first-meeting tip 508,506 576x55"
+        "first-meeting tip 508,486 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -7319,7 +7348,7 @@
         "map buttons 935,631 331x44",
         "sound button 625,631 46x44",
         "map framing 12,666 147x17",
-        "first-meeting tip 508,395 576x55"
+        "first-meeting tip 508,375 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -7356,7 +7385,7 @@
         "map buttons 679,542 331x44",
         "sound button 369,542 46x44",
         "map framing 12,577 147x17",
-        "first-meeting tip 380,306 576x55"
+        "first-meeting tip 380,286 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -7393,7 +7422,7 @@
         "map buttons 1575,1022 331x44",
         "sound button 1265,1022 46x44",
         "map framing 12,1057 147x17",
-        "first-meeting tip 828,786 576x55"
+        "first-meeting tip 828,766 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -7430,9 +7459,9 @@
         "map buttons 975,710 377x44",
         "sound button 810,710 46x44",
         "map framing 12,745 147x17",
-        "messages 1024,44 330x178",
+        "messages 1024,44 330x187",
         "site chooser 129,169 384x344",
-        "first-meeting tip 650,474 576x55"
+        "first-meeting tip 650,454 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -7469,9 +7498,9 @@
         "map buttons 975,599 377x44",
         "sound button 810,599 46x44",
         "map framing 12,634 147x17",
-        "messages 1024,44 330x178",
+        "messages 1024,44 330x187",
         "site chooser 129,169 384x249",
-        "first-meeting tip 650,363 576x55"
+        "first-meeting tip 650,343 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -7508,9 +7537,9 @@
         "map buttons 889,742 377x44",
         "sound button 724,742 46x44",
         "map framing 12,777 147x17",
-        "messages 938,44 330x178",
+        "messages 938,44 330x187",
         "site chooser 129,169 383x344",
-        "first-meeting tip 606,506 576x55"
+        "first-meeting tip 606,486 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -7547,9 +7576,9 @@
         "map buttons 889,631 377x44",
         "sound button 724,631 46x44",
         "map framing 12,666 147x17",
-        "messages 938,44 330x178",
+        "messages 938,44 330x187",
         "site chooser 129,169 383x281",
-        "first-meeting tip 606,395 576x55"
+        "first-meeting tip 606,375 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -7586,9 +7615,9 @@
         "map buttons 633,542 377x44",
         "sound button 468,542 46x44",
         "map framing 12,577 147x17",
-        "messages 682,44 330x178",
+        "messages 682,44 330x187",
         "site chooser 129,169 281x192",
-        "first-meeting tip 427,306 576x55"
+        "first-meeting tip 427,286 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -7625,9 +7654,9 @@
         "map buttons 1529,1022 377x44",
         "sound button 1364,1022 46x44",
         "map framing 12,1057 147x17",
-        "messages 1578,44 330x178",
+        "messages 1578,44 330x187",
         "site chooser 129,169 384x344",
-        "first-meeting tip 733,786 576x55"
+        "first-meeting tip 733,766 576x75"
       ],
       "overlaps": [],
       "covered": [],
@@ -7665,8 +7694,8 @@
         "sound button 720,710 46x44",
         "tips button 774,710 81x44",
         "map framing 12,745 147x17",
-        "messages 1024,44 330x178",
-        "town scene 952,230 400x464",
+        "messages 1024,44 330x187",
+        "town scene 952,239 400x455",
         "site chooser 129,169 384x344"
       ],
       "overlaps": [],
@@ -7705,26 +7734,14 @@
         "sound button 720,599 46x44",
         "tips button 774,599 81x44",
         "map framing 12,634 147x17",
-        "messages 1024,44 330x178",
-        "town scene 952,230 400x353",
+        "messages 1024,44 330x187",
+        "town scene 952,239 400x344",
         "site chooser 129,169 384x330"
       ],
       "overlaps": [],
       "covered": [],
       "offScreen": [],
-      "canvas": [
-        {
-          "what": "bubble \"Flatboat and canoes, every one\"",
-          "under": "site chooser",
-          "share": 0.25,
-          "box": {
-            "x": 399,
-            "y": 478,
-            "w": 231,
-            "h": 42
-          }
-        }
-      ],
+      "canvas": [],
       "flags": {
         "panel": "false",
         "meeting": "false",
@@ -7757,14 +7774,26 @@
         "sound button 634,742 46x44",
         "tips button 688,742 81x44",
         "map framing 12,777 147x17",
-        "messages 938,44 330x178",
-        "town scene 866,230 400x496",
+        "messages 938,44 330x187",
+        "town scene 866,239 400x487",
         "site chooser 129,169 383x344"
       ],
       "overlaps": [],
       "covered": [],
       "offScreen": [],
-      "canvas": [],
+      "canvas": [
+        {
+          "what": "bubble \"Some say give it back and have\"",
+          "under": "town scene",
+          "share": 0.05,
+          "box": {
+            "x": 650,
+            "y": 388,
+            "w": 227,
+            "h": 27
+          }
+        }
+      ],
       "flags": {
         "panel": "false",
         "meeting": "false",
@@ -7797,8 +7826,8 @@
         "sound button 634,631 46x44",
         "tips button 688,631 81x44",
         "map framing 12,666 147x17",
-        "messages 938,44 330x178",
-        "town scene 866,230 400x385",
+        "messages 938,44 330x187",
+        "town scene 866,239 400x376",
         "site chooser 129,169 383x344"
       ],
       "overlaps": [],
@@ -7837,8 +7866,8 @@
         "sound button 378,542 46x44",
         "tips button 432,542 81x44",
         "map framing 12,577 147x17",
-        "messages 682,44 330x178",
-        "town scene 610,230 400x212",
+        "messages 682,44 330x187",
+        "town scene 610,239 400x203",
         "site chooser 129,169 281x273"
       ],
       "overlaps": [],
@@ -7877,8 +7906,8 @@
         "sound button 1274,1022 46x44",
         "tips button 1328,1022 81x44",
         "map framing 12,1057 147x17",
-        "messages 1578,44 330x178",
-        "town scene 1506,230 400x560",
+        "messages 1578,44 330x187",
+        "town scene 1506,239 400x560",
         "site chooser 129,169 384x344"
       ],
       "overlaps": [],
@@ -7966,9 +7995,9 @@
         "family: row 6 12,462 300x48",
         "family: row 7 12,515 300x7",
         "ability bar 443,530 480x174",
-        "journal button 765,710 104x44",
+        "journal button 909,710 104x44",
         "map buttons 1021,710 331x44",
-        "sound button 711,710 46x44",
+        "sound button 855,710 46x44",
         "map framing 12,745 147x17",
         "solo controls 1299,12 55x34",
         "wagon load 954,64 400x450"
@@ -8005,9 +8034,9 @@
         "family: row 4 12,356 300x48",
         "family: row 5 12,409 300x2",
         "ability bar 443,419 480x174",
-        "journal button 765,599 104x44",
+        "journal button 909,599 104x44",
         "map buttons 1021,599 331x44",
-        "sound button 711,599 46x44",
+        "sound button 855,599 46x44",
         "map framing 12,634 147x17",
         "solo controls 1299,12 55x34",
         "wagon load 954,64 400x339"
@@ -8046,9 +8075,9 @@
         "family: row 6 12,462 300x48",
         "family: row 7 12,515 300x39",
         "ability bar 400,562 480x174",
-        "journal button 679,742 104x44",
+        "journal button 823,742 104x44",
         "map buttons 935,742 331x44",
-        "sound button 625,742 46x44",
+        "sound button 769,742 46x44",
         "map framing 12,777 147x17",
         "solo controls 1213,12 55x34",
         "wagon load 868,64 400x482",
@@ -8088,9 +8117,9 @@
         "family: row 4 12,356 300x48",
         "family: row 5 12,409 300x34",
         "ability bar 400,451 480x174",
-        "journal button 679,631 104x44",
+        "journal button 823,631 104x44",
         "map buttons 935,631 331x44",
-        "sound button 625,631 46x44",
+        "sound button 769,631 46x44",
         "map framing 12,666 147x17",
         "solo controls 1213,12 55x34",
         "wagon load 868,64 400x371"
@@ -8125,9 +8154,9 @@
         "family: row 2 12,250 300x48",
         "family: row 3 12,303 300x48",
         "ability bar 272,362 480x174",
-        "journal button 423,542 104x44",
+        "journal button 567,542 104x44",
         "map buttons 679,542 331x44",
-        "sound button 369,542 46x44",
+        "sound button 513,542 46x44",
         "map framing 12,577 147x17",
         "solo controls 957,12 55x34",
         "wagon load 612,64 400x282"
@@ -8168,13 +8197,11 @@
         "family: row 8 12,568 300x48",
         "family: row 9 12,621 300x48",
         "family: row 10 12,674 300x48",
-        "family: row 11 12,727 300x48",
-        "family: row 12 12,780 300x48",
-        "family: row 13 12,833 300x1",
+        "family: row 11 12,727 300x62",
         "ability bar 720,842 480x174",
-        "journal button 1319,1022 104x44",
+        "journal button 1463,1022 104x44",
         "map buttons 1575,1022 331x44",
-        "sound button 1265,1022 46x44",
+        "sound button 1409,1022 46x44",
         "map framing 12,1057 147x17",
         "solo controls 1853,12 55x34",
         "wagon load 1508,64 400x934"
@@ -8213,11 +8240,11 @@
         "family: row 6 12,462 300x48",
         "family: row 7 12,515 300x7",
         "ability bar 443,530 480x174",
-        "journal button 652,710 104x44",
-        "map buttons 908,710 444x44",
-        "sound button 598,710 46x44",
+        "journal button 827,710 104x44",
+        "map buttons 939,710 413x44",
+        "sound button 773,710 46x44",
         "map framing 12,745 147x17",
-        "solo controls 1186,12 168x34",
+        "solo controls 1179,12 175x34",
         "wagon load 954,64 400x450"
       ],
       "overlaps": [],
@@ -8252,11 +8279,11 @@
         "family: row 4 12,356 300x48",
         "family: row 5 12,409 300x2",
         "ability bar 443,419 480x174",
-        "journal button 652,599 104x44",
-        "map buttons 908,599 444x44",
-        "sound button 598,599 46x44",
+        "journal button 827,599 104x44",
+        "map buttons 939,599 413x44",
+        "sound button 773,599 46x44",
         "map framing 12,634 147x17",
-        "solo controls 1186,12 168x34",
+        "solo controls 1179,12 175x34",
         "wagon load 954,64 400x339"
       ],
       "overlaps": [],
@@ -8293,11 +8320,11 @@
         "family: row 6 12,462 300x48",
         "family: row 7 12,515 300x39",
         "ability bar 400,562 480x174",
-        "journal button 566,742 104x44",
-        "map buttons 822,742 444x44",
-        "sound button 512,742 46x44",
+        "journal button 741,742 104x44",
+        "map buttons 853,742 413x44",
+        "sound button 687,742 46x44",
         "map framing 12,777 147x17",
-        "solo controls 1100,12 168x34",
+        "solo controls 1093,12 175x34",
         "wagon load 868,64 400x482"
       ],
       "overlaps": [],
@@ -8332,11 +8359,11 @@
         "family: row 4 12,356 300x48",
         "family: row 5 12,409 300x34",
         "ability bar 400,451 480x174",
-        "journal button 566,631 104x44",
-        "map buttons 822,631 444x44",
-        "sound button 512,631 46x44",
+        "journal button 741,631 104x44",
+        "map buttons 853,631 413x44",
+        "sound button 687,631 46x44",
         "map framing 12,666 147x17",
-        "solo controls 1100,12 168x34",
+        "solo controls 1093,12 175x34",
         "wagon load 868,64 400x371"
       ],
       "overlaps": [],
@@ -8369,11 +8396,11 @@
         "family: row 2 12,250 300x48",
         "family: row 3 12,303 300x48",
         "ability bar 272,362 480x174",
-        "journal button 310,542 104x44",
-        "map buttons 566,542 444x44",
-        "sound button 256,542 46x44",
+        "journal button 485,542 104x44",
+        "map buttons 597,542 413x44",
+        "sound button 431,542 46x44",
         "map framing 12,577 147x17",
-        "solo controls 844,12 168x34",
+        "solo controls 837,12 175x34",
         "wagon load 612,64 400x282"
       ],
       "overlaps": [],
@@ -8412,15 +8439,13 @@
         "family: row 8 12,568 300x48",
         "family: row 9 12,621 300x48",
         "family: row 10 12,674 300x48",
-        "family: row 11 12,727 300x48",
-        "family: row 12 12,780 300x48",
-        "family: row 13 12,833 300x1",
+        "family: row 11 12,727 300x62",
         "ability bar 720,842 480x174",
-        "journal button 1206,1022 104x44",
-        "map buttons 1462,1022 444x44",
-        "sound button 1152,1022 46x44",
+        "journal button 1381,1022 104x44",
+        "map buttons 1493,1022 413x44",
+        "sound button 1327,1022 46x44",
         "map framing 12,1057 147x17",
-        "solo controls 1740,12 168x34",
+        "solo controls 1733,12 175x34",
         "wagon load 1508,64 400x934"
       ],
       "overlaps": [],

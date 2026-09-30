@@ -241,7 +241,9 @@ async function firstPeriod() {
     await student.locator('#tip .tip-close').focus();
     assert.equal(await student.evaluate(() => document.activeElement?.classList.contains('tip-close')), true, 'the keyboard cannot reach "Got it"');
     await student.keyboard.press('Escape');
-    await until(student, 'Escape did not put the tip away', () => window.__tip !== 'call' && !(window.__tipsShown || []).slice(-1).includes('call'));
+    // Gone, and put up only the once. (Not "the last tip put up is another": when the child's tip came before the call's, nothing
+    // follows the call's and the last put up stays the call's - a race in this proof, found 2026-09-30 on the read-aloud branch.)
+    await until(student, 'Escape did not put the tip away', () => window.__tip !== 'call' && (window.__tipsShown || []).filter(id => id === 'call').length === 1);
     for (let i = 0; i < 40 && !seenOnServer(world()).includes('call'); i++) await student.waitForTimeout(100);
     assert.ok(seenOnServer(world()).includes('call'), `the server did not keep the call's tip as seen: ${JSON.stringify(seenOnServer(world()))}`);
     ok('Escape put the tip away, and the server keeps it as seen');

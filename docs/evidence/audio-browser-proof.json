@@ -1,16 +1,16 @@
 {
-  "date": "2026-09-28",
+  "date": "2026-09-30",
   "pass": [
     "before any gesture no page has an AudioContext; each student's first press started its engine at the quiet default (master 30%: effects 0.21, music 0.068 against the Host's 0.64 and 0.216); the Host starts on",
     "the Host's press of Start unlocked sound: one AudioContext, \"farm\" music playing (28 sources started)",
     "a student turned sound off with the button beside the Journal; after a reload the saved choice won over the quiet default, and the page made no AudioContext even after a press",
-    "the Gonzales fight's own projection: 46 shots drawn were heard as 23 muskets, 1 volleys and 1 cannon (15 folded or refused by the mixer); the music went to \"battle\"; the page's sound took 0.1 ms a frame (median), 0.3 ms p95",
-    "a chase on the road: its shot and ¡Alto! were heard (alto, musket), and the music went to the Scrape's",
+    "the Gonzales fight's own projection: 56 shots drawn were heard as 35 muskets, 0 volleys and 1 cannon (20 folded or refused by the mixer); the music went to \"battle\"; the page's sound took 0 ms a frame (median), 0.2 ms p95",
+    "a chase on the road: its shot and ¡Alto! were heard (card, alto, musket), and the music went to the Scrape's",
     "a storm over the family: rain at 1 and thunder, wind at 0.314",
     "the family's own man at Béxar heard the bell: bell",
     "the family's baby crying was heard",
     "the muted student page was given the same fight, chase, storm, bell and baby: it saw them (alto, bell, baby) and played nothing - no AudioContext, no source started",
-    "every effect (24) and a stretch of every piece (7) rendered in Chrome's own Web Audio engine: all make sound, none out of proportion",
+    "every effect (24) and a stretch of every piece (8) rendered in Chrome's own Web Audio engine: all make sound, none out of proportion",
     "no page error on any page"
   ],
   "evidence": {
@@ -48,21 +48,21 @@
         "dawn-skirmish 5795",
         "lull 5800"
       ],
-      "shotsDrawn": 46,
+      "shotsDrawn": 56,
       "heard": {
-        "volley": 1,
-        "musket": 23,
+        "musket": 35,
         "cannon": 1
       },
-      "dropped": 15,
+      "dropped": 20,
       "soundFrameMs": {
-        "median": 0.1,
-        "p95": 0.3,
-        "max": 1.2,
-        "frames": 105
+        "median": 0,
+        "p95": 0.2,
+        "max": 1.1,
+        "frames": 143
       }
     },
     "chase": [
+      "card",
       "alto",
       "musket"
     ],
@@ -261,6 +261,11 @@
           "rms": 0.1184,
           "finite": true
         },
+        "bond-at-the-cabin": {
+          "peak": 0.286,
+          "rms": 0.0748,
+          "finite": true
+        },
         "auld-lang-syne": {
           "peak": 0.276,
           "rms": 0.0802,
@@ -269,9 +274,9 @@
       }
     },
     "listener": {
-      "played": 40,
+      "played": 53,
       "contexts": 1,
-      "sourcesStarted": 354
+      "sourcesStarted": 392
     }
   }
 }

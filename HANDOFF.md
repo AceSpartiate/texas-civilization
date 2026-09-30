@@ -1,5 +1,59 @@
 # Claude handoff — Astra foundation
 
+## Read aloud in natural voices — triage D15, owner-decided 2026-09-30 (not released)
+
+Branch `read-aloud` off `integration-2026-09-28` (4131feb8), with `read-aloud-research` (2f4185a4) merged in; not pushed. The
+owner chose **Kokoro-82M v1.0, full precision**, **"Man and woman"**, and the research's hybrid architecture
+([docs/READ_ALOUD.md](docs/READ_ALOUD.md), which now leads with the build and keeps the research as §R1-R9). **Same computer
+only: no Chromebook, no school laptop, no classroom Wi-Fi, and nobody has listened.**
+
+- **Voices** (`server/voice/text.mjs` `VOICES`; one rule: the author's grade C+ or better and UTMOS22 4.3 or better, American):
+  narrator `af_heart` (the only A, UTMOS 4.46), woman `af_kore` (4.45), man `am_puck` (4.34), rider `am_fenrir` (4.37). A page
+  asks for a role; `voiceOfPerson` gives a woman or a girl the woman's voice, anybody else the man's, the same on page and server.
+  Casting evidence `docs/evidence/read-aloud/cast.json`, samples `docs/evidence/read-aloud/cast/`.
+- **Fixed text at package time** (`npm run build:voice`, `scripts/build-voice.mjs`; `server/voice/inventory.mjs` reads every
+  string of `sim/` and the page's text modules, `${...}` as holes): **3,224 sentences, 33.9 MB of Opus** (24 kbit/s), about 3.2
+  hours of speech, 68 min to speak from nothing on six processes, incremental after (shared cache in
+  `%LOCALAPPDATA%\TexasRevolution\voice-build`). `public/voice/` is made, not in git.
+- **The Host's voice** (`server/voice/service.mjs`, given by `server/main.mjs`): k2-fsa's standalone
+  `sherpa-onnx-offline-tts.exe` then Xiph's `opusenc.exe`, **a separate process a sentence**, two threads (one on ≤4 cores); no
+  Python, no npm package. Lines begun as the server writes them (`voiceNotice` after each commit: a rider's and the family's
+  person's words, each played family's newest important record line); a pressed line jumps the queue; cached by content in
+  `<class data>\voice-cache` (256 MB cap); only words the game writes or the class's own names are spoken. Routes
+  `GET/POST /api/voice`, `GET /voice/<key>.opus`, joined pages only. **Below-normal priority was measured and dropped**: on this
+  hybrid CPU it made a sentence 5x slower and three at once stall. **The command line must be ASCII**: `spoken()` respells, then
+  strips accents and curly quotes.
+- **`runtime/voice/`** (`npm run bundle:voice`, `scripts/bundle-voice.mjs`; like `runtime/node.exe`, not in git): every download
+  pinned by SHA-256; 396 MB unpacked (model 310.5 MB, voices 26.9 MB, English-only espeak data 0.9 MB, programs 20.3 MB,
+  licences and GPL source 37.7 MB); record `docs/evidence/voice-runtime-manifest.json`; `--check`. `scripts/package.ps1` checks
+  the voice, builds the fixed sentences and refuses a package with any unspoken; the NeedsNode zip keeps `runtime/voice`.
+- **Package size**: ⟨PACKAGE⟩
+- **On the page** (`public/read-aloud.js`; `public/app.js` makes it above the first `connect`): a Read aloud button on the tip
+  and the store's tip, each tip in the Tips list, the call's menu, the messages card, each line of a rider's or runner's
+  conversation (in the speaker's voice), the questions on a person's card, the journal's newest line. **Not** the end-of-game
+  breakdown (another builder is changing `public/ending.js`). "Getting ready…", "Stop", "Sound is off", "Can't read this"; one
+  `<audio>`, one line at a time; volume √(master), silent when muted; never `speechSynthesis`; Tab/Enter/Space; never on the Host.
+- **Pronunciation** (`server/voice/pronunciation.mjs`): people in their own language, places the Texan way (Béxar BAY-har,
+  Refugio reh-FURY-oh), Bowie BOO-ee; every respelling checked by printed phonemes (`docs/evidence/read-aloud/pronunciation.json`).
+  The test holds it complete for every person in `sim/people.mjs`, the Tejano and old pools, and every accented name dealt.
+- **Licences** (docs/AUDIO_LICENSES.md, `public/assets/audio/licenses.json` `kind: "speech"`, `speechModel`, `speechRuntime`):
+  speech project-owned; Kokoro Apache-2.0, attributed; **espeak-ng GPL-3.0** runs only inside the separate voice program, its
+  source (and sherpa-onnx's and piper-phonemize's) ships in `runtime/voice/LICENSES/source/` with a written offer; opusinfo
+  (GPL-2.0) not shipped. `tests/audio-licenses.test.mjs` holds all of it.
+- **Host CPU, 30 families at once** (`npm run measure:voice-burst`, READ_ALOUD.md §6): all thirty named lines ready in **118 s**
+  (two threads) / 159 s (one); a student's press on the 25th ready **5.2 s** later (spoken second); the class's tick 87 → 93 → 86 ms
+  median before/during/after, event-loop p99 92 → 102 → 96 ms. **School laptop, estimated**: 8-16 s a sentence, 4-8 min for
+  thirty, 10-30 s "Getting ready…" for a pressed line not yet made.
+- **Tests** (all failed under an injection first: **22 of 22**, `npm run test:read-aloud-injections`,
+  `docs/evidence/read-aloud-injections.json`): `tests/read-aloud-text.test.mjs` (9), `tests/read-aloud-service.test.mjs` (8),
+  `tests/read-aloud-server.test.mjs` (3), `tests/audio-licenses.test.mjs` (+2). ⟨TESTS⟩
+- **Proof** `npm run test:read-aloud` (real Kokoro, headless Chrome): **6 checks** - a tip from the keyboard, all from the
+  package, fetched as Ogg Opus and played to the end; the rider's opening in `am_fenrir`, two sentences made on the Host on the
+  press with "Getting ready…" then "Stop"; a daughter's question in `af_kore`; one line at a time; Sound off; never the stock
+  voice. ⟨PROOFS⟩
+- **Open**: the owner's ear on the cast (`af_kore` or `af_bella`) and the place names (Texan or Spanish); the end-of-game
+  breakdown; fp16 to halve the package; measure the burst on the real teacher laptop.
+
 ## The art as WebP, a Tips button, and tap-then-send on touch — triage D14, D16, D17, owner 2026-09-29 (not released)
 
 Branch `webp-tips-touch` off origin/main 67d674bb, merged with origin/main ca6ac201 and again 8687a96b; not pushed. The owner
