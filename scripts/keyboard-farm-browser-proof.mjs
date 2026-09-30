@@ -47,14 +47,6 @@ try {
   for (let i = 2; i <= 5; i++) await post('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
   await post('/api/command', { id: `proof-start-${crypto.randomUUID()}`, action: 'start' }, hostCookie);
   await page.waitForFunction(() => window.__snapshot?.world.status === 'running');
-  // Everybody but the one this proof orders about is put on auto, from the student's own page, so no idle child stops the
-  // surveyor to talk (a real rule, and not what this proves): the order the keyboard sends is the one the server hears.
-  await page.evaluate(async () => {
-    const { household } = window.__snapshot.world;
-    for (const id of household.members.filter(member => member !== household.principalId)) {
-      await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `auto-${id}-${Date.now()}`, action: 'set-auto', entityId: id, auto: true }) });
-    }
-  });
 
   const active = () => page.evaluate(() => { const one = document.activeElement; return one ? `${one.tagName.toLowerCase()}${one.id ? `#${one.id}` : ''}${one.dataset?.chore ? `[${one.dataset.chore}]` : ''} "${(one.textContent || '').trim().slice(0, 60)}"` : 'nothing'; });
   const focusedIn = selector => page.evaluate(found => Boolean(document.activeElement?.matches(found)), selector);
@@ -65,6 +57,42 @@ try {
       await page.keyboard.press('Tab');
     }
     throw new Error(`Tab never reached ${selector}; the focus is on ${await active()}`);
+  };
+  /**
+   * Send the panel's order with the keyboard, and deal with what the game puts in the way as a student must, by the keyboard. A
+   * small child with nothing to do goes and talks to the parent, whose work stands until the child is given something (the
+   * idle-child rule, sim/childhood.mjs; a child's own auto goes off by its hidden roll, sometimes within a few ticks). The server
+   * then refuses the order in those words (*"Asa has stopped to talk with Basilio … Give Basilio something to do"*), so the
+   * student Tabs to that child's **Auto** on the family panel, presses Enter, and sends again. Every step is a key. While a place
+   * is being chosen the column is folded to its faces (docs/FAMILY_PANEL.md), which hides the Auto buttons, so the student
+   * first opens it with **Show names** - the page's own way, honoured while the panel is open - as a pointer student would.
+   */
+  const handled = [];
+  const sendByKeyboard = async (principalId, job) => {
+    for (let attempt = 0; attempt < 4; attempt++) {
+      await tabTo('#survey-send', 250);
+      await page.keyboard.press('Enter');
+      const outcome = await page.waitForFunction(({ id, wanted }) => {
+        const entity = window.__snapshot?.world.entities.find(one => one.id === id);
+        if (entity?.chore?.id === wanted) return 'sent';
+        const talk = document.querySelector('#survey-note')?.textContent.match(/has stopped to talk with (\S+), who has nothing to do/);
+        return talk ? `talk:${talk[1]}` : false;
+      }, { id: principalId, wanted: job }, { timeout: 15000 }).then(handle => handle.jsonValue());
+      if (outcome === 'sent') return;
+      const childName = outcome.slice(5);
+      const child = await page.evaluate(first => window.__snapshot.world.entities.find(one => one.householdId === window.__snapshot.world.householdId && (one.given || one.name.split(' ')[0]) === first)?.id, childName);
+      assert.ok(child, `the child the server named, ${childName}, is on the family panel`);
+      if (await page.locator('#family-panel').getAttribute('data-collapsed') === 'true') {
+        await tabTo('#family-collapse');
+        await page.keyboard.press('Enter');
+        await page.waitForFunction(() => document.querySelector('#family-panel').dataset.collapsed === 'false', null, { timeout: 5000 });
+      }
+      await tabTo(`.panel-row[data-entity-id="${child}"] .panel-auto`);
+      await page.keyboard.press('Enter');
+      await page.waitForFunction(id => window.__snapshot?.world.entities.find(one => one.id === id)?.auto === true, child, { timeout: 15000 });
+      handled.push(childName);
+    }
+    throw new Error(`the ${job} was refused four times; the note says ${await page.locator('#survey-note').textContent()}`);
   };
 
   // ------------------------------------------------------------- the house site, from a suggested place
@@ -118,17 +146,25 @@ try {
   const looked = (await page.locator('#survey-text').textContent()).trim();
   ok(`the arrow keys move the map and Enter looks at its middle, in the server's words: "${looked.slice(0, 90)}"`);
 
-  // Then a suggested place, sent.
+  // Then a suggested place, sent - once one of the family's small children, left with nothing to do, has come and stopped the
+  // surveyor to talk, so that the keyboard has to deal with it (above: the server refuses the survey and names the child). This
+  // family is rolled with two children of six and seven; the idle-child rule brings one within an hour of the class's time.
+  const small = Object.values(app.state.world.entities).filter(one => one.householdId === 'hh-1' && one.age >= 2 && one.age <= 9 && one.health?.condition !== 'dead');
+  assert.ok(small.length, 'the rolled family has a small child, whom the idle-child rule sends to the surveyor');
+  for (let waited = 0; app.state.world.entities[principal].aside?.kind !== 'talk'; waited += 250) {
+    assert.ok(waited < 60000, 'no child came to talk within a minute');
+    await page.waitForTimeout(250);
+  }
   await tabTo('#survey-suggested button[data-index="0"]');
   await page.keyboard.press('Enter');
   await page.waitForFunction(() => document.querySelector('#survey-suggested button[data-index="0"]')?.getAttribute('aria-pressed') === 'true' && !document.querySelector('#survey-send').hidden, null, { timeout: 15000 })
     .catch(async error => { throw new Error(`${error.message}: ${await page.evaluate(() => JSON.stringify({ text: document.querySelector('#survey-text').textContent, note: document.querySelector('#survey-note').textContent, pressed: [...document.querySelectorAll('#survey-suggested button')].map(b => b.getAttribute('aria-pressed')), send: document.querySelector('#survey-send').hidden, panel: document.querySelector('#survey-choose').hidden }))}, focus ${await active()}`); });
-  await tabTo('#survey-send', 20);
-  await page.keyboard.press('Enter');
-  await page.waitForFunction(id => { const entity = window.__snapshot?.world.entities.find(one => one.id === id); return entity?.chore?.id === 'survey-plot' || entity?.task === 'travel'; }, principal, { timeout: 15000 })
-    .catch(async error => { throw new Error(`${error.message}: ${await page.evaluate(id => JSON.stringify({ text: document.querySelector('#survey-text').textContent, note: document.querySelector('#survey-note').textContent, error: document.querySelector('#error').textContent, panel: document.querySelector('#survey-choose').hidden, chore: window.__snapshot?.world.entities.find(one => one.id === id)?.chore, task: window.__snapshot?.world.entities.find(one => one.id === id)?.task }), principal)}; server: ${JSON.stringify({ chore: app.state.world.entities[principal].chore, task: app.state.world.entities[principal].task })}`); });
+  await sendByKeyboard(principal, 'survey-plot')
+    .then(() => assert.ok(handled.length, 'the child who had stopped the surveyor was given something to do by the keyboard'))
+    .catch(async error => { throw new Error(`${error.message}: ${await page.evaluate(id => JSON.stringify({ text: document.querySelector('#survey-text').textContent, note: document.querySelector('#survey-note').textContent, error: document.querySelector('#error').textContent, panel: document.querySelector('#survey-choose').hidden, chore: window.__snapshot?.world.entities.find(one => one.id === id)?.chore, task: window.__snapshot?.world.entities.find(one => one.id === id)?.task }), principal)}; server: ${JSON.stringify({ chore: app.state.world.entities[principal].chore, task: app.state.world.entities[principal].task, aside: app.state.world.entities[principal].aside, family: app.state.world.households['hh-1'].members.map(id => app.state.world.entities[id]).map(one => ({ name: one.name, age: one.age, auto: one.auto, childAuto: one.childAuto, autoNotice: one.autoNotice, chore: one.chore?.id, talk: one.talk })), tick: app.state.world.tick, story: app.state.world.events.filter(e => e.householdId === 'hh-1').slice(-8).map(e => `${e.tick}: ${e.text}`) })}`); });
   assert.equal(app.state.world.entities[principal].chore?.id, 'survey-plot', 'the server sent the surveyor');
-  ok('Tab to the first suggested place, Enter, Tab to "Survey it" and Enter: the surveyor is sent');
+  ok(`Tab to the first suggested place, Enter, Tab to "Survey it" and Enter: the surveyor is sent${handled.length ? ` (after putting ${handled.join(' and ')} on Auto from the panel by the keyboard, when the server said a child had stopped them)` : ''}`);
+  handled.length = 0;
 
   // ------------------------------------------------------------------------- the staked plot cleared, from a suggestion
   const clearIcon = `.panel-row[data-entity-id="${principal}"] .panel-icon[data-chore="clear-plot"]`;
@@ -142,10 +178,8 @@ try {
   await page.keyboard.press('Enter');
   await page.waitForFunction(() => !document.querySelector('#survey-send').hidden, null, { timeout: 15000 });
   assert.equal((await page.locator('#survey-send').textContent()).trim(), 'Clear it');
-  await tabTo('#survey-send', 20);
-  await page.keyboard.press('Enter');
-  await page.waitForFunction(id => window.__snapshot?.world.entities.find(one => one.id === id)?.chore?.id === 'clear-plot', principal, { timeout: 15000 });
-  ok(`the plot the survey staked is offered to clear (${plots.map(label => `"${label}"`).join(', ')}), and Enter, Tab, Enter sets the clearing going`);
+  await sendByKeyboard(principal, 'clear-plot');
+  ok(`the plot the survey staked is offered to clear (${plots.map(label => `"${label}"`).join(', ')}), and Enter, Tab, Enter sets the clearing going${handled.length ? ` (after putting ${handled.join(' and ')} on Auto by the keyboard)` : ''}`);
 
   assert.deepEqual(errors, [], `page errors: ${errors.join('; ')}`);
   ok('no page errors');

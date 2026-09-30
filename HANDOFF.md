@@ -1,5 +1,25 @@
 # Claude handoff — Astra foundation
 
+## `test:keyboard-farm` on the merged tree: the idle child dealt with by the keyboard — 2026-09-29 (not released)
+
+Branch `keyboard-farm-fix` off `integration-2026-09-28` f468d719; not pushed. On the merged tree the proof failed every time at
+*Survey it*: the server refused it with *"Asa has stopped to talk with Basilio, who has nothing to do…"*.
+
+- **Cause: the proof, not the page.** It put the family's other members on auto with one `fetch` after Start, to keep the
+  idle-child rule (sim/childhood.mjs) out of its way. But a small child's own auto goes off by their hidden roll - Basilio's at
+  tick 4, Silvano's at tick 16 in the failing run - and the children then came to talk to their lone father. On `tier2-classroom`
+  the proof passed only by timing; with the ending, page and news merged the timing moved. Nothing in `tier2-page`'s action bar
+  or family-key card was involved.
+- **Fix, the proof only, made stronger.** The `fetch` is gone: every step is now a key. Before sending the survey, the proof waits
+  for one of the children to stop the surveyor, so the interruption is met every run; the order is refused in the server's words
+  and the proof does what a keyboard student must - **Show names** (the column is folded to faces while a place is chosen, which
+  hides the Auto buttons), Tab to the named child's **Auto**, Enter, and send again (`sendByKeyboard`, up to four tries, the clear
+  step the same). The page already allowed all of it; no page change.
+- Evidence (same computer, headless Chrome): `test:keyboard-farm` **10 checks, green 3 of 3** ("the surveyor is sent (after
+  putting Basilio and Silvano on Auto from the panel by the keyboard…)"); `test:overlap` green; `test:join-card` 8; `test:family-panel`
+  19. The two keyboard-farm injections of `test:tier2-classroom-injections` (no suggested places; Enter on the map does nothing)
+  still fail it.
+
 ## Thirty orders at once, the join address large, suggested places, and wrong tries per device — 2026-09-29 (not released)
 
 Branch `tier2-classroom` off origin/main 80842f72; not pushed. The triage's items 1.6, what was left of 1.8, 2.13 and 2.15
@@ -40,7 +60,7 @@ Branch `tier2-classroom` off origin/main 80842f72; not pushed. The triage's item
 - New proofs: `npm run test:join-card` (8 checks: 1920x1080, 1366x768, 1024x768; the QR on the page is `public/qr.js`'s; folded
   and reopened by the keyboard; a scanned address; no request off the class server) and `npm run test:keyboard-farm` (10 checks:
   Tab, Enter and the arrows alone from the wagon to a suggested house site, the map's Enter, ten acres surveyed, the staked plot
-  cleared), green 5 of 5 runs after an idle child's talk was taken out of its way.
+  cleared); since `keyboard-farm-fix` (below) it also meets and deals with an idle child by the keyboard.
 - `npm test`: **1812 tests, 1776 pass, 0 fail, 36 skipped** (the suspended tutorial), twice. Browser proofs green: `test:host-live` 11, `test:host-bell` 11, `test:host-lobby` 9, `test:reconnect` 12,
   `test:classes` 16, `test:farm`, `test:panels` 14, `house-plot-browser-proof`, and `test:overlap` - which first failed on this
   branch (*host fight 1024x768: the caption 24% under the class*: the folded join line was 340 px wide and narrowed the caption's

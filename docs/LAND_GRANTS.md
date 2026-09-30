@@ -410,5 +410,6 @@ at all, and a touch screen or a slow reader had to hunt the map for a place the 
 Proof: `tests/suggest.test.mjs` (every suggestion accepted when looked at and when sent, none before the choice is open, the
 route the family's own) and `npm run test:keyboard-farm` (the real land's first hour with Tab, Enter and the arrow keys alone:
 a suggested house site set, the map moved and Enter looking at its middle, ten acres surveyed from a suggestion, and the plot
-it staked cleared from a suggestion). Each was seen failing under an injected regression (`npm run
+it staked cleared from a suggestion, with the small child who stops the surveyor given something to do from the panel,
+also by the keyboard). Each was seen failing under an injected regression (`npm run
 test:tier2-classroom-injections`). Same computer, headless Chrome: no Chromebook, and no screen reader was tried.
