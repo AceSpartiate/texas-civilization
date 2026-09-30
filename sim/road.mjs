@@ -33,7 +33,7 @@ import { dateOf } from './clock.mjs';
 import { REGIONS, WATER_SHUT, rainingAt, waterAt, weatherAt, weatherOn } from './weather.mjs';
 import { record } from './events.mjs';
 import { familyAnsweredFor, recordLapse } from './lapse.mjs';
-import { canAnswerCalls, householdName, mainPersonId, tooYoung } from './family.mjs';
+import { canAnswerCalls, eatenADay, householdName, mainPersonId, tooYoung } from './family.mjs';
 // Who is with the family and answers for it (sim/acting.mjs, 2026-09-28): the road's questions are theirs.
 import { actingId } from './acting.mjs';
 import { WAGON_SPEED, WALK_SPEED, propertyId } from './travel.mjs';
@@ -94,6 +94,13 @@ export const ROAD_PATIENCE_TICKS = 12;
 export const WARNING_MILES = 20;
 /** Grown men of an overtaken family are taken prisoner at this share (`HIST-TEX-073`: men, workmen and a boy taken; no count). */
 export const PRISONER_SHARE = 0.5;
+/**
+ * The days of its own eating an overtaken family is left in food (owner, 2026-09-30, answering the starvation builder's third
+ * question: "Leave a few days' food"; `FIC-GONZ-995` as amended): three days for the people let go, at what they eat by their
+ * ages (sim/family.mjs `eatenADay`), never more than the family had. After that it must forage or trade, as the families on the
+ * road did. Invented; no source read gives what a column left a family.
+ */
+export const LEFT_FOOD_DAYS = 3;
 /** Among the families camped at a crossing or a refuge, a real buys this much food: dear, because bread was scarce on the road. */
 export const CAMP_FOOD_PER_REAL = 2;
 /** The food a hunt from the camp brings in when the shot goes home, before skill. */
@@ -459,6 +466,7 @@ export function overtake(world, household, near) {
   flight.overtakenBy = [...(flight.overtakenBy || []), near.id];
   flight.overtaken = { minute: world.minute, column: near.id };
   delete flight.ask; delete flight.bog; delete flight.danger; delete flight.oxSpentUntil;
+  const hadFood = household.resources?.food || 0;
   const taken = Object.entries(household.resources || {}).filter(([good, amount]) => good in FLIGHT_SPACE && amount > 0).map(([good, amount]) => `${round(amount)} ${good}`);
   for (const good of Object.keys(FLIGHT_SPACE)) if (household.resources) household.resources[good] = 0;
   // And the household goods it carried (owner, 2026-09-29, D9 (a); sim/flight-goods.mjs): taken with the wagon, as everything was.
@@ -483,6 +491,11 @@ export function overtake(world, household, near) {
     } else if (person.travel) { person.travel.mode = 'foot'; person.travel.speed = WALK_SPEED; delete person.travel.halted; }
   }
   if (flight.crossing) { flight.crossed = [...(flight.crossed || []), flight.crossing.siteId]; delete flight.crossing; }
+  // A few days' food left to those let go (owner, 2026-09-30, `LEFT_FOOD_DAYS`): the store was taken with the wagon, and a family
+  // left with nothing starved where it stood (seen in tests/scrape.test.mjs). Never more than it had; told in the same sentence.
+  const letGo = with_.filter(person => !prisoners.includes(person));
+  const left = household.resources ? Math.min(hadFood, Math.ceil(eatenADay(world, letGo) * LEFT_FOOD_DAYS * 10) / 10) : 0;
+  if (left > 0) household.resources.food = left;
   // On foot from here, whether caught on the road or at a refuge: the wagon and the ox are the column's. A family caught at its
   // refuge was once left 'wagon' and went home in 'the wagon' the soldiers took - hidden while a question nobody answered pressed
   // it on east on foot (auto's answer), and found when such a question began to lapse (2026-09-27).
@@ -490,7 +503,7 @@ export function overtake(world, household, near) {
   // The cow taken, nobody is held to her pace any longer.
   cowPace(world, household);
   const where = flight.status === 'refuged' ? `at ${world.map.sites[flight.refuge].name}` : 'on the road';
-  const text = `${near.name} came up with the family ${where}. The soldiers took ${animals.length ? animals.join(', ') : 'what animals there were'}${taken.length ? ` and everything in the wagon: ${taken.join(', ')}` : ''}. ${prisoners.length ? `${prisoners.map(one => one.name).join(' and ')} ${prisoners.length > 1 ? 'were' : 'was'} taken prisoner and marched off with the column${with_.length > prisoners.length ? '; the rest were let go' : ''}.` : 'Nobody was taken.'}${flight.status === 'fled' && with_.length > prisoners.length ? ' The family went on on foot with nothing.' : ''}`;
+  const text = `${near.name} came up with the family ${where}. The soldiers took ${animals.length ? animals.join(', ') : 'what animals there were'}${taken.length ? ` and everything in the wagon: ${taken.join(', ')}` : ''}. ${prisoners.length ? `${prisoners.map(one => one.name).join(' and ')} ${prisoners.length > 1 ? 'were' : 'was'} taken prisoner and marched off with the column${with_.length > prisoners.length ? '; the rest were let go' : ''}.` : 'Nobody was taken.'}${left > 0 ? ` They left the family ${round(left)} food, a few days' eating.` : ''}${flight.status === 'fled' && with_.length > prisoners.length ? ` The family went on on foot with ${left > 0 ? 'that and nothing more' : 'nothing'}.` : ''}`;
   const eventId = record(world, 'consequence', { householdId: household.id, importance: 3, claimId: 'HIST-TEX-073', classification: 'FICTIONAL FOR GAMEPLAY', text });
   // Caught costs the family glory as a desertion does (owner, 2026-09-17: "Keep as it is, but with a minus glory
   // consequence", "Like a desertion"): twice what enlisting is worth, by the miles from home, once for each column.

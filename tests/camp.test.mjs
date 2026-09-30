@@ -26,6 +26,7 @@ import { coloniesMap } from '../sim/colonies-map.mjs';
 import { isIdle, needsOf, panelActions } from '../public/family-panel.js';
 import { THINK_EVERY } from '../sim/neighbours.mjs';
 import { untilHeard } from './support/spring-word.mjs';
+import { feed } from './support/fed.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -42,7 +43,8 @@ const spring = () => structuredClone(shared ??= (() => {
   beginSecondPeriod(world); world.status = 'running';
   until(world, () => world.director.complete);
   beginThirdPeriod(world); world.status = 'running';
-  return world;
+  // Fed: the tests make these families played through the spring, and a played family can starve (tests/support/fed.mjs).
+  return feed(world);
 })());
 // Grown men who could ride to the camp. Not filtered on being well: since 2026-09-20 a norther on the road east counts
 // towards the day's sickness (`COLD_WEIGHT`, `FIC-GONZ-135`), so by the spring a few of any class are laid up at any

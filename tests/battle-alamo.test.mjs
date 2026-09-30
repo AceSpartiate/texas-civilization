@@ -18,6 +18,7 @@ import { calendarMinutes } from '../sim/clock.mjs';
 import { MODES } from '../sim/travel.mjs';
 import { PACES } from '../server/app.mjs';
 import { createDamageState, isWalkable } from '../public/alamo-layout.js';
+import { feed } from './support/fed.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const host = world => projectWorld(world, undefined, 'host', { includeMap: false });
@@ -43,7 +44,8 @@ const winter = () => structuredClone(shared ??= (() => {
   beginSecondPeriod(world);
   world.status = 'running';
   until(world, () => world.director.milestones['winter-news']);
-  return world;
+  // Fed: the tests make these families played through the spring, and a played family can starve (tests/support/fed.mjs).
+  return feed(world);
 })());
 const alive = person => !['dead', 'captured'].includes(person.health.condition);
 const men = world => Object.values(world.entities).filter(person => person.householdId && person.kind === 'person' && person.sex === 'male' && (person.age ?? 30) >= 16 && alive(person));

@@ -7,8 +7,9 @@ import { readFileSync } from 'node:fs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { beginSecondPeriod } from '../sim/periods.mjs';
-import { flee, flightProjection } from '../sim/scrape.mjs';
-import { canFight, sexOf } from '../sim/family.mjs';
+import { flee, flightProjection, share } from '../sim/scrape.mjs';
+import { canAnswerCalls, canFight, eatenADay, sexOf } from '../sim/family.mjs';
+import { LEFT_FOOD_DAYS, PRISONER_SHARE, overtake } from '../sim/road.mjs';
 import { settleMeans } from '../sim/means.mjs';
 import { diedAChild } from '../sim/disease.mjs';
 import { familiesOverview } from '../sim/host.mjs';
@@ -127,6 +128,46 @@ test('on the road east: what the wagon could not cover is want too', () => {
   household.resources.food = 0;
   for (let tick = 0; tick < 200 && !members(world, household).some(person => person.hunger); tick++) stepWorld(world);
   assert.ok(members(world, household).some(person => person.hunger?.want > 0), 'a family on the road with nothing went on unhungry');
+});
+
+test('overtaken: the column takes the wagon\'s food and leaves the family a few days\' eating, never more than it had', () => {
+  const world = landed('hunger-overtaken', 6);
+  world.period = 3;
+  // A family one of whose men the column will take (sim/road.mjs, `PRISONER_SHARE` by the hashed share), so the prisoner - who eats
+  // the column's rations - is seen not to be counted in the food left.
+  // The families of this class are the founding kind, with no stored sex; the man of the one picked is a man.
+  const taken = person => canAnswerCalls(person) && sexOf(person) === 'male' && share(world, person.id, 'overtaken') < PRISONER_SHARE;
+  const household = Object.values(world.households).find(one => members(world, one).some(taken));
+  assert.ok(household, 'no family of this class has a man the column would take');
+  for (const person of members(world, household)) if (taken(person)) person.sex = 'male';
+  household.played = true;
+  household.flight = { status: 'ordered', orderedMinute: world.minute };
+  const refuge = [...flightProjection(world, household).refuges].sort((a, b) => a.miles - b.miles)[0].id;
+  flee(world, household, { take: {}, refuge });
+  household.resources.food = 60;
+  const column = { id: 'santa-anna', name: 'Santa Anna’s column', toward: 'san-felipe' };
+  overtake(world, household, column);
+  // Three days of what the people let go eat, by their ages (owner, 2026-09-30: "Leave a few days' food").
+  const letGo = members(world, household).filter(person => alive(person));
+  assert.ok(members(world, household).some(person => person.health.condition === 'captured'), 'nobody was taken prisoner');
+  const days = household.resources.food / eatenADay(world, letGo);
+  assert.equal(LEFT_FOOD_DAYS, 3);
+  assert.ok(days >= 3 && days < 3.2, `the family was left ${household.resources.food} food, ${days.toFixed(2)} days of its eating`);
+  assert.equal(household.resources.seed, 0, 'the column left the seed');
+  const said = world.events.filter(event => event.householdId === household.id && /came up with the family/.test(event.text)).at(-1).text;
+  assert.match(said, /They left the family [\d.]+ food, a few days' eating\./);
+  // A family with less than that keeps what it had, and no more.
+  const poor = Object.values(world.households).find(one => one !== household);
+  poor.played = true;
+  poor.flight = { status: 'ordered', orderedMinute: world.minute };
+  flee(world, poor, { take: {}, refuge: [...flightProjection(world, poor).refuges].sort((a, b) => a.miles - b.miles)[0].id });
+  poor.resources.food = 0.5;
+  overtake(world, poor, { ...column, id: 'sesma' });
+  assert.equal(poor.resources.food, 0.5, 'the column left a family more food than it had');
+  // And after the few days it must forage or trade: with nothing brought in it goes hungry.
+  for (let tick = 0; tick < 400 && !members(world, household).some(person => person.hunger); tick++) stepWorld(world);
+  assert.ok(members(world, household).some(person => person.hunger), 'the food the column left never ran out');
+  validateWorld(world);
 });
 
 // ------------------------------------------------------------------------------------------------ who first

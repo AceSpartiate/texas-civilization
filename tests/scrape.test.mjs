@@ -165,7 +165,8 @@ test('the family loads what fits and sets out together for the east, leaving the
   assert.equal(view(world, household.id).flight.status, 'refuged');
   // Home with the victory, when its word reaches the family at its refuge (docs/COLONIES.md §5.4c).
   // Kept fed at the refuge, as by trading among the families camped there: a family the Mexican army overtakes there loses its
-  // food with its goods, and this test is of the road home, not of hunger (tests/support/fed.mjs).
+  // food with its goods but a few days' eating (sim/road.mjs `LEFT_FOOD_DAYS`), and this test is of the road home, not of hunger
+  // (tests/support/fed.mjs).
   untilHeard(world, [household.id], 'san-jacinto', { also: () => { feed(world, [household]); return true; } });
   assert.equal(household.flight.status, 'returning', 'the family did not turn home with the news');
   // The game ends on April 25 with the families on the road home (owner, §7g); the road is run on past it here to see them arrive.

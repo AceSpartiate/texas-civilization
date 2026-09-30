@@ -1,5 +1,33 @@
 # Claude handoff — Astra foundation
 
+## Starvation, the owner's three answers: keep the idle family's and the road's losses, a few days' food left by a column — owner, 2026-09-30 (not released)
+
+Branch `starvation-2` off `integration-2026-09-28` (e0de7b5c, which has `starvation` merged); not pushed. The owner answered the
+three questions of the section below the same day, by multiple choice; recorded in docs/HUNGER.md §8a, docs/BALANCE.md §19 and
+HISTORY.md (`FIC-GONZ-995`, an amendment row).
+
+1. *A student who gives no orders loses the whole family in the first period*: **"Keep it"**. Nothing changed.
+2. *Small children still die on the road east for a family that plays reasonably*: **"Keep it"**. Nothing changed.
+3. *A family overtaken by a Mexican column loses its food and starves where it stands*: **"Leave a few days' food"**. Built:
+   `sim/road.mjs` `overtake` still takes the wagon, the animals and everything in it, and now leaves the people it lets go
+   **three days of their own eating** (`LEFT_FOOD_DAYS = 3`, by their ages with `eatenADay`, rounded up to a tenth), **never more
+   than the family had**; the prisoners eat the column's rations and are not counted. Told in the same sentence: *"They left the
+   family 4.2 food, a few days' eating. The family went on on foot with that and nothing more."* After that the family forages or
+   trades, or goes hungry by the ordinary rule. The same for a family caught in the chase (sim/pursuit.mjs calls `overtake`). No save
+   version: nothing new is stored.
+
+**Evidence** (same computer only):
+
+- `tests/hunger.test.mjs` *overtaken* (a new test): a family with 60 food is left 3 to 3.2 days of the eating of those let go, with
+  one of its men taken and not counted; a family with half a food keeps half a food; the sentence says it; and with nothing brought
+  in the family goes hungry after. `npm run test:hunger-injections`: **29 of 29 caught by the test written for them (20 by that test alone)** ([record](docs/evidence/hunger-injections.json)); the
+  five new ones: the column takes every crumb again, leaves a week, leaves more than the family had, counts the prisoners, does not
+  say it.
+- The merge: the food gauge and the supply highlights beside per-plot crops' field chips (`#field-summary`) - looked at in
+  `docs/evidence/hunger-*-1366.png` (the gauge above, the supplies line with the field chip to its right, nothing covered).
+  `npm run test:hunger` 7 checks, `test:mixed-field` 11, `test:overlap` 197 screens and 0 faults - all green on this branch.
+- `npm test`: **1927 tests, 1891 pass, 0 fail, 36 skipped** (the suspended tutorial). Two tests the merge of `starvation` into the integration branch had turned red (they pass on 27a710f2, fail on e0de7b5c) are green again by feeding their classes as the others were: `battle-alamo`'s *a family far down the road hears of the fall in the spring* (the family had starved before the word came) and `camp`'s *the fork of the road* (the family had starved, and its road question fell to the man with Houston) - tests/support/fed.mjs in their fixtures. `road`'s *a family that stays is overtaken* now expects the few days' food.
+
 ## A family can starve, and the food as a gauge — owner, 2026-09-30 (not released)
 
 Branch `starvation` off `integration-2026-09-28` (ba5ccc6a); not pushed. The owner changed an earlier answer: *"player
@@ -60,7 +88,7 @@ Chromebook, LAN or classroom claim.**
   starved by the spring: before that their family, everybody on auto at the first icon, **starved - seven of eight by the spring**.
   road.test's "a real buys food" empties the store first, as the family had before it was fed.
 
-**Open, for the owner** (recommended first):
+**Open, for the owner** (recommended first) - **answered 2026-09-30: "Keep it", "Keep it", "Leave a few days' food"** (the section above):
 
 1. *A student who gives no orders loses the whole family in the first period* (every family measured; the first store empty about
    day 8, some 55 real minutes into the class at Study, and the first child dead about day 22, some 8 minutes after). (a) Keep it: it is what the owner asked, and the gauge, the rings and the

@@ -1,9 +1,9 @@
 {
  "record": "hunger-injections",
  "date": "2026-09-30",
- "caught": 24,
- "only": 16,
- "of": 24,
+ "caught": 29,
+ "only": 20,
+ "of": 29,
  "injections": [
   {
    "name": "a death at starving, without the sustained stretch",
@@ -58,15 +58,76 @@
    ]
   },
   {
+   "name": "the column takes every crumb again",
+   "files": [
+    "sim/road.mjs"
+   ],
+   "expected": "overtaken: the column",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "overtaken: the column takes the wagon's food and leaves the family a few days' eating, never more than it had"
+   ]
+  },
+  {
+   "name": "the column leaves a week, not a few days",
+   "files": [
+    "sim/road.mjs"
+   ],
+   "expected": "overtaken: the column",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "overtaken: the column takes the wagon's food and leaves the family a few days' eating, never more than it had"
+   ]
+  },
+  {
+   "name": "the column leaves more food than the family had",
+   "files": [
+    "sim/road.mjs"
+   ],
+   "expected": "overtaken: the column",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "overtaken: the column takes the wagon's food and leaves the family a few days' eating, never more than it had"
+   ]
+  },
+  {
+   "name": "the prisoners counted among those left food",
+   "files": [
+    "sim/road.mjs"
+   ],
+   "expected": "overtaken: the column",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "overtaken: the column takes the wagon's food and leaves the family a few days' eating, never more than it had"
+   ]
+  },
+  {
+   "name": "the food left is not told",
+   "files": [
+    "sim/road.mjs"
+   ],
+   "expected": "overtaken: the column",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "overtaken: the column takes the wagon's food and leaves the family a few days' eating, never more than it had"
+   ]
+  },
+  {
    "name": "the eating on the road counts no want",
    "files": [
     "sim/scrape.mjs"
    ],
    "expected": "on the road east:",
    "caught": true,
-   "only": true,
+   "only": false,
    "failed": [
-    "on the road east: what the wagon could not cover is want too"
+    "on the road east: what the wagon could not cover is want too",
+    "overtaken: the column takes the wagon's food and leaves the family a few days' eating, never more than it had"
    ]
   },
   {

@@ -1190,3 +1190,7 @@ The owner, 2026-09-30: *"player characters *can* die of starvation. players shou
   family by the end of the first period (161.8 deaths a class of 161.8 people; the first about day 18-23); a student who farms,
   hunts and forages as the director does loses **nobody at home** and **3.3 a class on the road east** (small children, one family
   in fifteen, in three classes of four).
+
+- **The owner's answers, 2026-09-30:** the idle family's losses and the road east's, "Keep it" both; a family overtaken by a
+  column is left three days' food (HUNGER.md §8a). The measure above was not run again for it: it counts only the family the
+  column overtakes, for the days before it forages.
