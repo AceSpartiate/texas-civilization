@@ -19501,6 +19501,34 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's home-auger"
     },
+    "grave-marker": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "homecoming",
+      "area": "places",
+      "sheet": "claude-homecoming-marker",
+      "request": "Request 2026-09-29 — the homecoming's scenes",
+      "prompt": "A plain wooden grave marker set up by a family on its own land in 1836: a rounded-top board of weathered pine, about four feet high, with no words or symbol on it, standing at the head of a low mound of bare earth, a few yellow, white and pink wildflowers laid on the mound and growing at its edge. Quiet and dignified, never frightening; no body, no coffin, no text. Three-quarter view at the scale of the people who stand beside it; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground.",
+      "source": "public/assets/claude-standins/svg/homecoming/claude-grave-marker.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's grave-marker"
+    },
+    "coins-and-paper": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "homecoming",
+      "area": "places",
+      "sheet": "claude-homecoming-coins",
+      "request": "Request 2026-09-29 — the homecoming's scenes",
+      "prompt": "What a family counts at the table after the war: a short stack of silver reales and two loose coins, a folded sheet of paper (a bill of sale) with lines of handwriting too small to read, and a small drawstring leather purse, lying together on a table top. At the scale of a person seated at the table; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no legible text.",
+      "source": "public/assets/claude-standins/svg/homecoming/claude-coins-and-paper.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's coins-and-paper"
+    },
     "house-round-back-sill": {
       "kind": "frame",
       "madeBy": "claude",

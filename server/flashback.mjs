@@ -15,10 +15,17 @@
 import { createReadStream, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, statSync, writeFileSync, openSync, fsyncSync, closeSync } from 'node:fs';
 import { join } from 'node:path';
 import { readWebmFacts } from './webm.mjs';
+import { householdName } from '../sim/family.mjs';
 import { flashbackReady, flashbackScripts, SCRIPT_VERSION } from '../sim/flashback.mjs';
+// The class's own highlights video, kept beside the families' as `class.webm` (owner, 2026-09-29, D10; sim/class-flashback.mjs).
+import { CLASS_SCRIPT_VERSION, CLASS_VIDEO_ID, classFlashbackScript } from '../sim/class-flashback.mjs';
 
-export const FLASHBACK_LIMITS = Object.freeze({ maxBytes: 40 * 1024 * 1024, minMs: 20000, maxMs: 120000 });
-const HOUSEHOLD = /^hh-\d{1,3}$/;
+// A family's video is the story's minute and the homecoming after it (at most about a minute and a half); the class's, at most
+// two and a half minutes (sim/class-flashback.mjs `CLASS_MS`).
+export const FLASHBACK_LIMITS = Object.freeze({ maxBytes: 40 * 1024 * 1024, minMs: 20000, maxMs: 120000, classMaxMs: 240000 });
+const HOUSEHOLD = /^(hh-\d{1,3}|class)$/;
+/** The script version a kept video must have been made from, or it is made again. */
+export const versionFor = id => id === CLASS_VIDEO_ID ? CLASS_SCRIPT_VERSION : SCRIPT_VERSION;
 const SESSION = /^[\w-]{4,64}$/;
 
 /** The class's store of videos under `dir` (null: this server keeps none, and says so). */
@@ -40,7 +47,7 @@ export function createFlashbackStore(dir) {
     const at = join(dir, sessionId);
     if (existsSync(at)) {
       for (const name of readdirSync(at)) {
-        const match = /^(hh-\d{1,3})\.json$/.exec(name);
+        const match = /^(hh-\d{1,3}|class)\.json$/.exec(name);
         if (!match || !existsSync(join(at, `${match[1]}.webm`))) continue;
         try { found[match[1]] = JSON.parse(readFileSync(join(at, name), 'utf8')); } catch { /* a half-written note: the video is made again */ }
       }
@@ -49,12 +56,13 @@ export function createFlashbackStore(dir) {
     return found;
   }
   /** Keep one family's video, after checking it is what it says. Returns what it is. */
-  function save(sessionId, householdId, bytes, { scriptVersion = SCRIPT_VERSION, madeMs = null } = {}) {
+  function save(sessionId, householdId, bytes, { scriptVersion = versionFor(householdId), madeMs = null } = {}) {
     const path = file(sessionId, householdId);
     if (bytes.length > FLASHBACK_LIMITS.maxBytes) throw Object.assign(new Error(`A flashback may be at most ${FLASHBACK_LIMITS.maxBytes / 1048576} MB.`), { status: 413 });
     const read = readWebmFacts(bytes);
     if (read.error) throw Object.assign(new Error(read.error), { status: 415 });
-    if (!(read.durationMs >= FLASHBACK_LIMITS.minMs && read.durationMs <= FLASHBACK_LIMITS.maxMs)) throw Object.assign(new Error(`A flashback is about a minute long; this one is ${Math.round((read.durationMs || 0) / 1000)} seconds.`), { status: 422 });
+    const most = householdId === CLASS_VIDEO_ID ? FLASHBACK_LIMITS.classMaxMs : FLASHBACK_LIMITS.maxMs;
+    if (!(read.durationMs >= FLASHBACK_LIMITS.minMs && read.durationMs <= most)) throw Object.assign(new Error(`A flashback is ${FLASHBACK_LIMITS.minMs / 1000} to ${most / 1000} seconds long; this one is ${Math.round((read.durationMs || 0) / 1000)} seconds.`), { status: 422 });
     mkdirSync(folder(sessionId), { recursive: true });
     const note = { householdId, bytes: bytes.length, durationMs: read.durationMs, codec: read.codec, width: read.width, height: read.height, blocks: read.blocks, keyframes: read.keyframes, scriptVersion, madeAt: new Date().toISOString(), ...(Number.isFinite(madeMs) && { madeMs: Math.round(madeMs) }) };
     // Written whole and then put in place, so a page asking for the video mid-write never gets half of one.
@@ -125,7 +133,12 @@ export function scriptCache() {
   let kept = { key: null, scripts: null };
   return world => {
     const key = `${world.tick}:${world.minute}:${world.status}:${world.events.length}`;
-    if (kept.key !== key) kept = { key, scripts: flashbackScripts(world) };
+    if (kept.key !== key) {
+      const scripts = flashbackScripts(world);
+      // The class's highlights, chosen from the families' own (sim/class-flashback.mjs), kept under `class`.
+      if (flashbackReady(world)) scripts[CLASS_VIDEO_ID] = classFlashbackScript(world, scripts);
+      kept = { key, scripts };
+    }
     return kept.scripts;
   };
 }
@@ -134,13 +147,15 @@ export function scriptCache() {
  * What a page is told of the flashbacks with each snapshot: nothing before the end; then, for the Host, every family's - made or
  * not, and who a student played - and for a student, their own family's alone.
  */
-export function flashbackPayload(store, sessionId, world, identity) {
+export function flashbackPayload(store, sessionId, world, identity, { solo = false } = {}) {
   if (!flashbackReady(world)) return {};
   const made = store?.dir ? store.list(sessionId) : {};
-  const brief = note => note && { bytes: note.bytes, durationMs: note.durationMs, stale: note.scriptVersion !== SCRIPT_VERSION };
+  const brief = (note, id) => note && { bytes: note.bytes, durationMs: note.durationMs, stale: note.scriptVersion !== versionFor(id) };
   if (identity.role === 'host') {
-    return { flashback: { ready: true, keeps: Boolean(store?.dir), families: Object.values(world.households).map(household => ({ householdId: household.id, played: Boolean(household.played), made: brief(made[household.id]) || null })) } };
+    return { flashback: { ready: true, keeps: Boolean(store?.dir), families: Object.values(world.households).map(household => ({ householdId: household.id, name: householdName(world, household), played: Boolean(household.played), made: brief(made[household.id], household.id) || null })),
+      // The class's own video (owner, 2026-09-29, D10), made first; none in Play Solo, which has no class screen.
+      ...(!solo && { classVideo: { made: brief(made[CLASS_VIDEO_ID], CLASS_VIDEO_ID) || null } }) } };
   }
   if (!identity.householdId) return {};
-  return { flashback: { ready: true, keeps: Boolean(store?.dir), householdId: identity.householdId, made: brief(made[identity.householdId]) || null } };
+  return { flashback: { ready: true, keeps: Boolean(store?.dir), householdId: identity.householdId, made: brief(made[identity.householdId], identity.householdId) || null } };
 }

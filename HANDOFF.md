@@ -1,5 +1,87 @@
 # Claude handoff — Astra foundation
 
+## The end of the class as one sequence, and the farm sold or glory for a burned one — owner D10 and D8, 2026-09-29 (not released)
+
+**The ask.** The owner's answers to the triage's D10 and D8 (docs/audits/2026-09-29-triage.md), verbatim in docs/FLASHBACK.md §11 and
+docs/MONEY_AND_GLORY.md §5a. Branch `end-sequence` off origin/main c03faa58, origin/main ca6ac201 merged in; not pushed. Claims
+`HIST-TEX-750`, `FIC-GONZ-970` to `-973`.
+
+- **One sequence, held by the server** (`sim/end-sequence.mjs`, `world.endSequence`; the pages only follow it). Begun in the same
+  commit that ends the class for good - the last period's own end whenever it falls, or End Game - and never between periods:
+  1. `class`: the class's own highlights video plays by itself on the Host's screen, large (`#finale`); students' screens say to look
+     up at the class screen. Not in Play Solo.
+  2. `family`: each student's own video plays by itself over their screen, the story in words below; the Host's screen lists each
+     played family's state (watching, has seen it, being made, page closed).
+  3. `reveal`: the Host's final table and winner, each student's full breakdown. **No page is sent any number of the ending before
+     it** (`endingProjection` returns nothing until `revealed`).
+  Moves on when the Host's page says the class video ended (or 60 s past its length; 10 min if never made); when every family a
+  student plays has played its own to the end, or has no page open, or had its length and 60 s more (20 min in all at most); or on
+  the teacher's **Skip ahead**. **Play the ending again** (after the reveal, asked twice) runs it from the start; **Play the class video
+  again** while the families watch theirs; a student's **Replay** after the reveal. A page reloaded comes back to the stage. A server
+  with no save folder goes straight to the reveal; a class saved ended before this opens at its reveal; Continue drops the sequence.
+  No save version.
+- **The class's own video** (`sim/class-flashback.mjs`, kept as `class.webm`, made first): at most 2.5 minutes (8.5 s a beat, 10 s a
+  fight, 16 beats); the arrival, the first call, each fight a played family's person was in (by name, the battle engine's projection),
+  the widest gap in hearing the Alamo's fall and San Jacinto, the flight east (the families' roads together), burnings and by whom, the
+  spring's prisoners counted, a wedding, sickness counted and never named, the homecoming. 104-112 s in the classes tried.
+- **Each family's video** keeps its story's minute and adds the homecoming (`sim/flashback.mjs` `epilogue`, `public/flashback.js`
+  `drawYard`, scenes in the family's yard at the lone parent's scenes' size): home and what is left (6 s); the first logs of a new
+  house if it burned (6 s); the family remembering its dead at wooden markers, a sickness's dead never named (8 s); the head of
+  household - father, else mother, else eldest - counting coin and stock at the table (7 s); the farm sold to a land agent if it
+  stands (7 s). 74-94 s. `SCRIPT_VERSION` 2.
+- **D8, the farm** (`sim/farm-sale.mjs`): an intact farm sells for coin in the house with the rest (glory multiplies it; the formula
+  is now `final = round(max(coin + farm sold, 1) × …)`, VISION §20 and MONEY_AND_GLORY §5 updated): land a real for 20 acres (the
+  labor), half that for a league of grazing land, a house a real for 2.5 spells of its work (jacal 10, round-log 16, hewn 26, dog-run
+  48), 10 reales a cleared plot, 5 more fenced, 5 a well - MODELLED on `HIST-TEX-750` at a real to the dollar. A burned farm counts
+  **40 glory** (the median-gain match over 28 classes, docs/BALANCE.md §17). **Goods and crops held at the end are still not priced**:
+  the owner asked only for the farm. Real land only, at the ending proper (`ceiling:` the invented Gonzales country).
+- **Found and fixed by the proof:** a family's video told a death at the Alamo twice, the second ten days later as "killed at Travis
+  drew a line in the sand" (a phrase of the history after the record's first sentence); now once (`tests/flashback.test.mjs`).
+- **Art** (docs/ART_REQUESTS.md, *Request 2026-09-29 — the homecoming's scenes*): Astra's cast in her poses (seated rest at her table,
+  kneeling nursing pose at the marker, listening back view, carry and repair raising the house, the elder's trade for the land agent),
+  her cabins, `cabin-ruin`, `house-*-site`/`-walls`, `home-table`, `live-oak-large`; Claude's temporary `grave-marker` and
+  `coins-and-paper` (scripts/claude-art/areas/homecoming.mjs, declared in public/art-subjects.js), and Claude's existing painted
+  yards. Requested: `<cast>-count`, `<cast>-remember`, `<cast>-mourn`, `land-agent-*`, `<cast>-raise-log`, and the two props.
+
+**Evidence** (same computer only; no Chromebook or LAN claim):
+
+- New tests: `tests/end-sequence.test.mjs` (5), `tests/farm-sale.test.mjs` (3), `tests/end-scenes.test.mjs` (4), and one more in
+  `tests/flashback.test.mjs`. **`node scripts/end-sequence-injections.mjs`: 26 of 26 caught by their own test** (a first run caught 22 of
+  25; the three it missed needed a stronger test - a planted sickness death on the class screen - and a second guard injected with the
+  first); `node scripts/flashback-injections.mjs` 16 of 16 (one pointed at the new length check) ([record](docs/evidence/end-sequence-injections.json)).
+- Changed for the owner's rules, not weakened: `tests/flashback.test.mjs` (a minute of story, then the homecoming), `tests/ending-debrief.test.mjs`
+  (the formula read with `farm sold`), `tests/glory-words.test.mjs` (sim/farm-sale.mjs is the ending's), `scripts/flashback-browser-proof.mjs`
+  (the class video made first, longer family videos, the class in the look-up list), `scripts/flashback-injections.mjs`.
+- `npm test`: **1839 tests, 1803 pass, 0 fail, 36 skipped** (the suspended tutorial); a first run on the merged tree failed four: `classes` and `winter` (fixed below), and the known-flaky `classroom-doors` ping and `capacity`, which passed in the second. Changed for the owner's rule: `tests/classes.test.mjs` (End Game begins the sequence; skipped to the
+  reveal before it reads the ending), `tests/winter.test.mjs` passes again once the farm is reckoned only at the end.
+- **`npm run test:end-sequence`** (new): the Host and two students through the whole sequence, then Play Solo - **22 checks**. The class
+  video made first (112 s, made in 14-48 s) and played by itself on the Host; students told to look up, no video, no numbers; each
+  student's own (87 and 88 s) by itself; the Host's list of who has seen theirs; a student's page reloaded mid-stage back to its video;
+  the class waiting for the second family; the reveal on every screen with the sale or the burned farm's glory in the breakdown; a
+  student's replay; the teacher's Play the ending again and Skip ahead; a student refused Skip; Play Solo with no class video. Pictures:
+  `docs/evidence/end-sequence-1-*.png` (class stage), `-2-*` (families' stage), `-3-*` (reveal), `-4-*` (Play Solo),
+  `-class-frame-*` (frames of the class video), `-scene-hh-*` (the homecoming's scenes, decoded from the students' videos).
+- Browser proofs, two at a time: `test:flashback` 11, `test:ending` 10, `test:ending-spring` 9 (after allowing the burned farm's own
+  award line), `test:whole-game` 14, `test:solo-game` 16, `test:host-live` 11, `test:overlap` 191 screens in 35 states, 0 faults (it now
+  skips the sequence to the reveal before measuring the ending). The first `test:end-sequence` runs found: the element screenshot of a
+  video inside the scrolling overlay caught the page behind it (frames are now drawn from the decoded video), the Host's class video not
+  restarting on Play the ending again (fixed, `since`), and videos playing to their ends at real speed while the proof photographed them.
+- **Measured** (`docs/BALANCE.md` §16, [record](docs/evidence/farm-sale-measure.json)): 28 classes, 320 families; labor farms sold for
+  39-90 reales (median 70), league farms 146-231 (226); the median intact family's final +3,164; 40 glory moves the median burned
+  family's +3,160; class wins 14/14 before, 13/15 after at any compensation from 0 to 80.
+
+**Open, for the owner** (built the first way; recommended first):
+
+1. *Stock families sell their farm for three times a labor family's* (226 against 70 reales median), because a league of grazing land
+   is 26 times the acres. (a) Keep it: it is the land they held; (b) sell only the labor and the improvements, the league not being
+   titled; (c) count the league at a quarter of the farm rate.
+2. *The class video on the projector names who was killed in each fight.* It follows the ending's rule (the war's dead named, sickness's
+   never). (a) Keep; (b) count deaths in the class video and name them only in each family's own.
+3. *How long the class waits for a student whose page is open but who is not watching.* (a) 60 s past the video's length (built);
+   (b) until the teacher skips; (c) 30 s.
+4. *The Host's controls are under the end's overlay until the reveal* (New Class, Stop Server). (a) Keep - Skip ahead reaches them;
+   (b) a small "Controls" button on the overlay.
+
 ## The owner's six answers of 2026-09-29: a minute to nurse, the army's request, no glory for the fork, 0.3 food, birthdays, the burn zone by seed (not released)
 
 **The ask.** The owner answered six of the triage's decisions on 2026-09-29, choosing the recommended option each time

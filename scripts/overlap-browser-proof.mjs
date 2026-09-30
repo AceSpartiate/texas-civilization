@@ -526,6 +526,10 @@ try {
       // The end: the ending over the map, then closed, with its way back.
       await send('/api/command', { id: `overlap-end-${Date.now()}`, action: 'end' });
       await page.waitForFunction(() => window.__snapshot?.world.status === 'ended', null, { timeout: 20000 }).catch(() => {});
+      // The end sequence (owner, 2026-09-29, D10; sim/end-sequence.mjs): the class video and each family's own come first, over the
+      // whole screen (scripts/end-sequence-browser-proof.mjs proves them); the teacher skips ahead to the ending this measures.
+      for (let i = 0; i < 2; i++) await send('/api/end-sequence', { step: 'skip' });
+      await page.waitForFunction(() => window.__snapshot?.endSequence?.stage === 'reveal', null, { timeout: 20000 }).catch(() => {});
       await page.locator('#ending').waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
       if (await page.locator('#ending').isVisible()) {
         await walk(page, 'ending', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, expect: 'ending' });

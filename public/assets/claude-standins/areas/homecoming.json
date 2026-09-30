@@ -1,0 +1,112 @@
+{
+  "module": "homecoming",
+  "area": "places",
+  "date": "2026-09-29",
+  "sheets": {
+    "claude-homecoming-marker": {
+      "image": "/assets/claude-standins/claude-homecoming-marker.png",
+      "width": 300,
+      "height": 300,
+      "bytes": 7423,
+      "sha256": "e25b27db781e71146d00720fcbec1c9521a18fcd698bb022c5513246874ac306",
+      "madeBy": "claude",
+      "module": "homecoming",
+      "request": "Request 2026-09-29 — the homecoming's scenes",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 300,
+          "h": 300
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    },
+    "claude-homecoming-coins": {
+      "image": "/assets/claude-standins/claude-homecoming-coins.png",
+      "width": 180,
+      "height": 90,
+      "bytes": 4000,
+      "sha256": "8c02a89c013eca075756678201e328c033ac2861fab13e87b53766bf4f9d0e97",
+      "madeBy": "claude",
+      "module": "homecoming",
+      "request": "Request 2026-09-29 — the homecoming's scenes",
+      "layout": {
+        "rows": 1,
+        "columns": 1,
+        "cell": {
+          "w": 180,
+          "h": 90
+        },
+        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
+      }
+    }
+  },
+  "frames": {
+    "grave-marker": {
+      "sheet": "claude-homecoming-marker",
+      "x": 0,
+      "y": 0,
+      "w": 300,
+      "h": 300,
+      "anchorX": 0.5,
+      "anchorY": 0.9533,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "homecoming",
+      "request": "Request 2026-09-29 — the homecoming's scenes",
+      "replaceWith": "grave-marker: item 1: prop contract, transparent, anchored at its base, a person's height as its logical height",
+      "source": "svg/homecoming/claude-grave-marker.svg",
+      "label": "grave marker",
+      "kind": "claude-homecoming-marker"
+    },
+    "coins-and-paper": {
+      "sheet": "claude-homecoming-coins",
+      "x": 0,
+      "y": 0,
+      "w": 180,
+      "h": 90,
+      "anchorX": 0.5,
+      "anchorY": 0.9111,
+      "logicalHeight": 300,
+      "madeBy": "claude",
+      "module": "homecoming",
+      "request": "Request 2026-09-29 — the homecoming's scenes",
+      "replaceWith": "coins-and-paper: item 2: prop contract, transparent, anchored at its base, laid on the table top (`home-table`)",
+      "source": "svg/homecoming/claude-coins-and-paper.svg",
+      "label": "coins and paper",
+      "kind": "claude-homecoming-coins"
+    }
+  },
+  "clips": {},
+  "provenance": {
+    "grave-marker": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "homecoming",
+      "area": "places",
+      "sheet": "claude-homecoming-marker",
+      "request": "Request 2026-09-29 — the homecoming's scenes",
+      "prompt": "A plain wooden grave marker set up by a family on its own land in 1836: a rounded-top board of weathered pine, about four feet high, with no words or symbol on it, standing at the head of a low mound of bare earth, a few yellow, white and pink wildflowers laid on the mound and growing at its edge. Quiet and dignified, never frightening; no body, no coffin, no text. Three-quarter view at the scale of the people who stand beside it; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground.",
+      "source": "public/assets/claude-standins/svg/homecoming/claude-grave-marker.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's grave-marker"
+    },
+    "coins-and-paper": {
+      "kind": "frame",
+      "madeBy": "claude",
+      "date": "2026-09-29",
+      "module": "homecoming",
+      "area": "places",
+      "sheet": "claude-homecoming-coins",
+      "request": "Request 2026-09-29 — the homecoming's scenes",
+      "prompt": "What a family counts at the table after the war: a short stack of silver reales and two loose coins, a folded sheet of paper (a bill of sale) with lines of handwriting too small to read, and a small drawstring leather purse, lying together on a table top. At the scale of a person seated at the table; warm hand-drawn storybook style, dark olive-brown outline, flat shade, transparent ground, no legible text.",
+      "source": "public/assets/claude-standins/svg/homecoming/claude-coins-and-paper.svg",
+      "method": "generated SVG (scripts/claude-art/)",
+      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
+      "status": "temporary: replace with Astra's coins-and-paper"
+    }
+  }
+}

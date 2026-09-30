@@ -113,12 +113,13 @@ test('nobody under 18 who died of a sickness is named under "Who went" on the pr
 
 test('the final number is written one way: the code, VISION.md, docs/MONEY_AND_GLORY.md and the Host\'s footer (3.7)', () => {
   // The written formula, read as arithmetic, is the code's number for every case tried.
+  // The farm sold at the end is coin with the rest (owner, 2026-09-29, D8; sim/farm-sale.mjs): `farm sold` is read as `sold`.
   const js = FORMULA.replace(/^final = /, '').replace(/round\(/g, 'Math.round(').replace(/max\(/g, 'Math.max(')
-    .replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-').replace(/living people/g, 'living');
-  const written = new Function('coin', 'glory', 'land', 'prisoners', 'living', `return ${js};`);
-  for (const [coin, glory, land, prisoners, living] of [[0, 0, 0, 0, 4], [21, 5, 0, 1, 5], [7, 16, 40, 2, 6], [3, -4, 0, 0, 3], [50, 9, 10, 3, 4], [13, 2, 0, 1, 7]]) {
+    .replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-').replace(/living people/g, 'living').replace(/farm sold/g, 'sold');
+  const written = new Function('coin', 'sold', 'glory', 'land', 'prisoners', 'living', `return ${js};`);
+  for (const [coin, sold, glory, land, prisoners, living] of [[0, 0, 0, 0, 0, 4], [21, 0, 5, 0, 1, 5], [7, 33, 16, 40, 2, 6], [3, 0, -4, 0, 0, 3], [50, 12, 9, 10, 3, 4], [13, 64, 2, 0, 1, 7], [0, 25, 0, 0, 0, 2]]) {
     const kept = prisoners ? Math.max(0, 1 - (PRISONER_WEIGHT * prisoners) / living) : 1;
-    assert.equal(written(coin, glory, land, prisoners, living), finalNumber(coin, glory, land, kept), `the written formula and the code differ at ${[coin, glory, land, prisoners, living]}`);
+    assert.equal(written(coin, sold, glory, land, prisoners, living), finalNumber(coin + sold, glory, land, kept), `the written formula and the code differ at ${[coin, sold, glory, land, prisoners, living]}`);
   }
   const flat = path => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8').replace(/\s+/g, ' ');
   for (const path of ['VISION.md', 'docs/MONEY_AND_GLORY.md']) assert.ok(flat(path).includes(FORMULA), `${path} does not carry the formula as the code counts it: ${FORMULA}`);

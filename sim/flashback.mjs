@@ -33,6 +33,8 @@ import { columnsNow } from './advance.mjs';
 import { findWay } from './ways.mjs';
 import { thinLine } from './flight-route.mjs';
 import { neighbourLines } from './neighbourly.mjs';
+// The farm at the end, sold or burned (owner, 2026-09-29, D8): the family's count and its sale are the video's last scenes.
+import { farmAtEnd } from './farm-sale.mjs';
 
 /** The video's length, which every family's beats share out. The owner's "1 minute video". */
 export const FLASHBACK_MS = 60000;
@@ -42,7 +44,16 @@ export const TITLE_MS = 3500, CLOSING_MS = 5500;
 /** A battle is drawn from the engine's own projection at this many moments of the fight, one after another. */
 export const BATTLE_FRAMES = 7;
 /** Bumped when a script changes shape, so a video made from an older script is made again (server/flashback.mjs). */
-export const SCRIPT_VERSION = 1;
+// 2 since 2026-09-29: the homecoming's scenes after the story's minute (the owner's D10).
+export const SCRIPT_VERSION = 2;
+/**
+ * The homecoming after the story's minute (owner, 2026-09-29, the triage's D10: "they see their family return home, see what's
+ * left, begin to rebuild if necessary, ceremonially bury lost family members, and then the head of household sits down to count
+ * up what they have left"), each scene its own length: seeing what is left, the first logs of a new house over a burned one, the
+ * family remembering its dead, the head of household counting at the table, and the farm sold (D8) where it stands. A family's
+ * video is the story's minute and 20 to 34 seconds of these.
+ */
+export const EPILOGUE_MS = Object.freeze({ home: 6000, rebuild: 6000, burial: 8000, count: 7000, sale: 7000 });
 
 /**
  * Words a flashback caption may never use. The virtue words are the ending's own list (docs/MONEY_AND_GLORY.md §7.1); the rest
@@ -72,7 +83,7 @@ const spellOut = text => sentence(String(text).replace(/^(\d+)\b/, (whole, n) =>
 const people = (world, household) => household.members.map(id => world.entities[id]).filter(entity => entity?.kind === 'person');
 const ROLE_WORD = Object.freeze({ father: 'the father', mother: 'the mother', son: 'a son', daughter: 'a daughter' });
 /** Who somebody was to the family, for a death of sickness, which is told without a name. */
-function whoTo(person) {
+export function whoTo(person) {
   const role = person.kin?.role;
   const band = bandOf(person);
   if (role === 'father' || role === 'mother') return ROLE_WORD[role];
@@ -190,7 +201,7 @@ function fateOf(world, person) {
 const DISEASE_WORDS = Object.freeze({ measles: 'the measles', whooping: 'the whooping cough', 'whooping-cough': 'the whooping cough', ague: 'the chills and fever', flux: 'the flux', 'lung-fever': 'a chill on the chest' });
 
 /** A figure the page draws: the person as the page's own figures are drawn (public/app.js `miniPerson`). */
-function figure(world, person) {
+export function figure(world, person) {
   // How they look, as every projection sends it (sim/town.mjs `seenAs`): the parents as chosen, the children after them.
   const looks = appearanceOf(world, person);
   return { id: person.id, name: person.name, kind: 'person', sex: sexOf(person), ...(Number.isFinite(person.age) && { age: person.age }), band: bandOf(person), ...(person.kin?.role && { role: person.kin.role }), ...(looks && { appearance: looks }), ...(person.principal && { principal: true }) };
@@ -256,6 +267,7 @@ function roadBetween(world, from, to, mode = 'foot') {
  */
 function candidates(world, household, trip) {
   const found = [];
+  let homeBeat = null;
   const add = beat => { if (beat && Number.isFinite(beat.minute)) found.push(beat); };
   const events = world.events.filter(event => event.householdId === household.id && event.text);
   const members = people(world, household);
@@ -355,14 +367,18 @@ function candidates(world, household, trip) {
   for (const person of members) {
     const fate = fates[person.id];
     if (!fate || !Number.isFinite(fate.minute)) continue;
-    const told = found.some(beat => beat.kind === 'fight' && beat.people?.includes(person.id) && Math.abs(beat.minute - fate.minute) <= 10 * DAY && (beat.death || /taken prisoner/.test(beat.caption)));
+    // Told once: a fight's beat that already says so. A death's record is often the day the family heard (the Alamo's dead were
+    // told ten days after the fall), so the fight's minute and the record's are not held to a window (found 2026-09-29, the end
+    // sequence's proof: "Nicolás was killed at Travis drew a line in the sand" ten days after his fight's own beat).
+    const told = found.some(beat => beat.kind === 'fight' && beat.people?.includes(person.id) && ((fate.kind === 'dead' && beat.death) || (fate.kind === 'captured' && /taken prisoner/.test(beat.caption))));
     if (told) continue;
     const spot = place(world, person.location?.siteId) || home;
     if (fate.kind === 'dead' && fate.sickness) {
       add({ kind: 'loss', weight: 92, minute: fate.minute, place: spot, death: true, sickness: true, caption: sentence(`${whoTo(person)} died of ${DISEASE_WORDS[fate.disease] || 'a sickness'}${person.location?.siteId && person.location.siteId !== household.homeSiteId ? ` at ${world.map.sites[person.location.siteId]?.name}` : ''}.`),
         scene: { type: 'map', miles: 18, people: at(fate.minute + 1) } });
     } else if (fate.kind === 'dead') {
-      const where = fate.text && /at ([A-Z][^,.]+)/.exec(fate.text)?.[1];
+      // Where, from the record's own first sentence only: "killed at Coleto", never a place-like phrase from the history after it.
+      const where = fate.text && /\bkilled at (?:the )?([A-Z][\wÀ-ÿ'’]+(?: [A-Z][\wÀ-ÿ'’]+)*)/.exec(firstSentence(fate.text))?.[1];
       add({ kind: 'loss', weight: 93, minute: fate.minute, place: spot, death: true, caption: `${firstName(person)} was killed${where ? ` at ${where}` : ''}.`, scene: { type: 'map', miles: 18, people: at(fate.minute + 1) } });
     } else if (fate.kind === 'captured') {
       const atHomeTaken = fate.text && /at home/.test(fate.text);
@@ -483,17 +499,18 @@ function candidates(world, household, trip) {
       const stockWords = stock ? (/Nothing was found/.test(stock) ? ' None of the stock left on the range was found.' : ` They found ${stock.match(/Of the stock left on the range, (.*?) were found again/)?.[1] || 'some of the stock'} again.`) : '';
       const cacheWords = cache ? ' They dug up what they had hidden by the river.' : '';
       const apart = trip.apart.filter(one => one.arrivedMinute).map(one => { const who = firstName(world.entities[one.personId]), when = shortDay(world, one.arrivedMinute); return one.arrivedMinute > whenHome + DAY / 2 ? `${who} came home later, on ${when}.` : one.arrivedMinute < whenHome - DAY / 2 ? `${who} was already there, home since ${when}.` : `${who} came home with them.`; }).join(" ");
-      add({ kind: 'home', weight: 97, minute: whenHome, place: home, homecoming: true,
+      // Not one of the story's beats: the first scene of the homecoming after its minute (`epilogue`), drawn as a scene in the yard.
+      homeBeat = { kind: 'home', minute: whenHome, place: home, homecoming: true,
         caption: `${trip.status === 'stayed' ? 'The family had stayed home.' : 'The family came home.'} ${house}${cacheWords}${stockWords}${apart ? ` ${apart}` : ''}`,
-        scene: { type: 'home', house: { shelter: trip.house === 'burned' ? 'ruined' : trip.house === 'standing' ? 'house' : 'camp', layout: houseLayout }, people: withFamilyAt(world, household, world.minute, fates) } });
+        scene: { type: 'yard', part: 'home', light: 'morning', house: { shelter: trip.house === 'burned' ? 'ruined' : trip.house === 'standing' ? 'house' : 'camp', layout: houseLayout }, people: withFamilyAt(world, household, world.minute, fates) } };
     }
   }
-  return { found, fates };
+  return { found, fates, homeBeat };
 }
 
 /** The "meanwhile" for a beat: something true and important happening near that moment that the family did not know yet. */
 function meanwhileFor(world, beat, pool, used) {
-  if (['title', 'closing', 'news'].includes(beat.kind)) return null;
+  if (['title', 'closing', 'news'].includes(beat.kind) || beat.scene?.type === 'yard') return null;
   const options = pool.filter(one => !used.has(one.topicId) && one.minute <= beat.minute + DAY / 2 && one.minute >= beat.minute - 12 * DAY && !(Number.isFinite(one.heardMinute) && one.heardMinute <= beat.minute));
   if (!options.length) return null;
   const pick = options.sort((a, b) => (b.major - a.major) || (Math.abs(a.minute - beat.minute) - Math.abs(b.minute - beat.minute)))[0];
@@ -505,7 +522,7 @@ function meanwhileFor(world, beat, pool, used) {
 /** Who is who at the close: home, still away with the army, prisoners, and those lost, each said plainly. */
 function closing(world, household, trip, fates) {
   const members = people(world, household);
-  const home = [], lines = [];
+  const home = [], homeIds = [], lines = [];
   // Home, or - a family the road home did not bring in (sim/homecoming.mjs `stuck`) - still on the way.
   const gotHome = !trip || trip.status !== 'trip' && trip.status !== 'stuck' || Number.isFinite(trip.arrivedMinute);
   for (const person of members) {
@@ -514,7 +531,7 @@ function closing(world, household, trip, fates) {
     if (fate?.kind === 'dead') continue;
     if (fate?.kind === 'captured') { lines.push(`${firstName(person)} was still a prisoner${fate.war ? ' of the Mexican army' : ''}.`); continue; }
     if (apart?.still === 'army') { lines.push(`${firstName(person)} was still with the army.`); continue; }
-    home.push(person.name);
+    home.push(person.name); homeIds.push(person.id);
   }
   const lost = members.filter(person => fates[person.id]?.kind === 'dead');
   const sickLost = lost.filter(person => fates[person.id].sickness), warLost = lost.filter(person => !fates[person.id].sickness);
@@ -523,7 +540,68 @@ function closing(world, household, trip, fates) {
   const where = gotHome ? 'home' : 'on the road home';
   // Named when there are few enough to read; counted when there are more.
   const who = home.length <= 4 ? list(home.map(name => name.split(' ')[0])) : lines.length ? `The other ${NUMBER_WORDS[home.length] || home.length} of the family` : `All ${NUMBER_WORDS[home.length] || home.length} of the family`;
-  return { home, lines, caption: `${home.length ? `${who} ${home.length === 1 ? 'was' : 'were'} ${where} in the spring of 1836.` : `Nobody of the family was ${where} in the spring of 1836.`}${lines.length ? ` ${lines.join(' ')}` : ''}` };
+  return { home, homeIds, gotHome, lines, caption: `${home.length ? `${who} ${home.length === 1 ? 'was' : 'were'} ${where} in the spring of 1836.` : `Nobody of the family was ${where} in the spring of 1836.`}${lines.length ? ` ${lines.join(' ')}` : ''}` };
+}
+
+/** The head of household among those home: the father, else the mother, else the eldest. */
+function headOf(world, ids) {
+  const home = ids.map(id => world.entities[id]).filter(Boolean);
+  return home.find(person => person.kin?.role === 'father') || home.find(person => person.kin?.role === 'mother')
+    || [...home].sort((a, b) => (b.age ?? 0) - (a.age ?? 0))[0] || null;
+}
+const reales = amount => `${amount} ${amount === 1 ? 'real' : 'reales'}`;
+const herdWords = herd => [herd?.cattle ? `${NUMBER_WORDS[herd.cattle] || herd.cattle} head of cattle` : null, herd?.hogs ? `${NUMBER_WORDS[herd.hogs] || herd.hogs} hogs` : null].filter(Boolean);
+/** A thing sold, as it reads inside a sentence: "the land", "the round-log cabin", "30 acres of cleared field". */
+const itemWords = item => item.what.replace(/^The land, .*$/, 'the land').replace(/^The /, 'the ');
+
+/**
+ * The homecoming's scenes after the story's minute (owner, 2026-09-29, D10; `EPILOGUE_MS`): drawn as scenes in the family's own
+ * yard (public/flashback.js `drawYard`), each its own length - seeing what is left, the first logs of a new house over a burned
+ * one, the family remembering its dead, the head of household counting at the table, and the farm sold where it stands (D8).
+ * Nothing here is glory or a final number: a burned farm is said to have had nothing left to sell, and what that counts is the
+ * ending's to say (docs/FLASHBACK.md §2, *Glory is not in the flashback*). Only a family some of whom came home has them; the rest
+ * end on the closing card, as before. The dates of the scenes after the arrival are the season's, since no record dates them.
+ */
+function epilogue(world, household, trip, fates, homeBeat, close) {
+  if (!homeBeat || !close.gotHome || !close.homeIds.length) return [];
+  const homeIds = close.homeIds;
+  const head = headOf(world, homeIds);
+  const layout = homeBeat.scene.house.layout;
+  const burned = trip?.house === 'burned';
+  const house = { shelter: burned ? 'ruined' : homeBeat.scene.house.shelter, layout };
+  const at = homeBeat.minute;
+  const later = 'Spring, 1836';
+  const beats = [{ ...homeBeat, scene: { ...homeBeat.scene, people: homeIds }, durationMs: EPILOGUE_MS.home }];
+  const grown = homeIds.filter(id => !['infant', 'small', 'child'].includes(bandOf(world.entities[id])));
+  if (burned) {
+    beats.push({ kind: 'rebuild', minute: at, date: later, homecoming: true, place: homeBeat.place, durationMs: EPILOGUE_MS.rebuild,
+      caption: 'In the days after, they raked out the ashes and began again: the first logs of a new house went up where the old one had stood.',
+      scene: { type: 'yard', part: 'rebuild', light: 'noon', house, people: homeIds, working: grown } });
+  }
+  const lost = people(world, household).filter(person => fates[person.id]?.kind === 'dead');
+  if (lost.length) {
+    // Somebody who died of a sickness is said by who they were to the family, never by name (docs/DISEASE.md §4).
+    const remembered = lost.map(person => fates[person.id].sickness ? whoTo(person) : firstName(person));
+    beats.push({ kind: 'burial', minute: at, date: later, homecoming: true, place: homeBeat.place, durationMs: EPILOGUE_MS.burial,
+      caption: `The family gathered under the trees by the house to remember ${list(remembered)}, and set up ${lost.length === 1 ? 'a wooden marker' : `${NUMBER_WORDS[lost.length] || lost.length} wooden markers`} in their memory.`,
+      scene: { type: 'yard', part: 'burial', light: 'evening', people: homeIds, markers: lost.length, ...(head && { head: head.id }) } });
+  }
+  if (head) {
+    const money = household.resources?.money ?? 0;
+    const herd = herdWords(trip?.herd);
+    const farm = farmAtEnd(world, household);
+    const counted = `${firstName(head)} sat down at the table to count what the family had left: ${reales(money)} in coin${herd.length ? `, and ${list(herd)} on the range` : ''}.`;
+    beats.push({ kind: 'count', minute: at, date: later, homecoming: true, place: homeBeat.place, durationMs: EPILOGUE_MS.count,
+      caption: burned ? `${counted} The farm was ashes: there was nothing left of it to sell.` : counted,
+      scene: { type: 'yard', part: 'count', light: 'evening', house, people: homeIds, head: head.id } });
+    if (farm.kind === 'sale') {
+      const town = world.map.sites[household.settlementId]?.name;
+      beats.push({ kind: 'sale', minute: at, date: later, homecoming: true, place: homeBeat.place, durationMs: EPILOGUE_MS.sale, sale: farm.total,
+        caption: `A land agent${town ? ` from ${named(town)}` : ''} came out and bought the farm, ${list(farm.items.map(itemWords))}, for ${reales(farm.total)}. With the coin in the house, the family had ${reales(money + farm.total)}.`,
+        scene: { type: 'yard', part: 'sale', light: 'noon', house, people: homeIds, head: head.id, agent: true } });
+    }
+  }
+  return beats;
 }
 
 /**
@@ -534,11 +612,13 @@ export function flashbackScript(world, householdId, { trips = null } = {}) {
   const household = world.households?.[householdId];
   if (!household || !flashbackReady(world)) return null;
   const trip = (trips || homecomings(world).trips)[householdId] || null;
-  const { found, fates } = candidates(world, household, trip);
+  const { found, fates, homeBeat } = candidates(world, household, trip);
   const name = householdName(world, household);
   const title = { kind: 'title', weight: 100, minute: 0, place: place(world, household.homeSiteId), caption: `This is the story of ${name}, from the fall of 1835 to the spring of 1836.`, scene: { type: 'title', people: people(world, household).map(person => person.id) } };
   const close = closing(world, household, trip, fates);
-  const end = { kind: 'closing', weight: 100, minute: Math.max(world.minute, ...found.map(beat => beat.minute)), place: place(world, household.homeSiteId), caption: close.caption, scene: { type: 'closing', people: people(world, household).map(person => person.id), home: close.home } };
+  // The homecoming's scenes after the story's minute (owner, 2026-09-29, D10).
+  const tail = epilogue(world, household, trip, fates, homeBeat, close);
+  const end = { kind: 'closing', weight: 100, minute: Math.max(world.minute, ...found.map(beat => beat.minute), ...tail.map(beat => beat.minute)), place: place(world, household.homeSiteId), caption: close.caption, scene: { type: 'closing', people: people(world, household).map(person => person.id), home: close.home } };
   // The most that matters, then in the order it happened; one beat of each kind except the fights and the losses.
   const seen = new Set();
   const chosen = [...found].sort((a, b) => b.weight - a.weight || a.minute - b.minute).filter(beat => {
@@ -560,25 +640,32 @@ export function flashbackScript(world, householdId, { trips = null } = {}) {
     const byName = said.split(person.name).join(whoTo(person));
     return firstNames.filter(name => name === first).length === 1 ? byName.replace(new RegExp(`\\b${first}\\b`, 'g'), whoTo(person)) : byName;
   }, text);
-  const beats = [title, ...chosen, end].map((beat, index) => {
+  const beats = [title, ...chosen, ...tail, end].map((beat, index) => {
     const meanwhile = meanwhileFor(world, beat, pool, used);
     const at = beat.place || (beat.scene?.route?.length ? beat.scene.route[Math.floor(beat.scene.route.length * ((beat.scene.from + beat.scene.to) / 2 || 0))] : null) || place(world, household.homeSiteId);
     const columns = beat.minute >= 240000 && ['map', 'road', 'home'].includes(beat.scene.type) ? columnsNear(world, beat.minute, at) : [];
-    return { index, kind: beat.kind, minute: beat.minute, date: beat.kind === 'title' ? '1835–1836' : day(world, beat.minute), caption: scrub(beat.caption), place: at ? { x: round(at.x), y: round(at.y), ...(at.name && { name: at.name }), ...(at.siteId && { siteId: at.siteId }) } : null,
-      scene: { ...beat.scene, ...(columns.length && { columns }) }, ...(meanwhile && { meanwhile }), ...(beat.death && { death: true }), ...(beat.homecoming && { homecoming: true }), ...(beat.reveal && { reveal: true }) };
+    return { index, kind: beat.kind, minute: beat.minute, date: beat.kind === 'title' ? '1835–1836' : beat.date || day(world, beat.minute), caption: scrub(beat.caption), place: at ? { x: round(at.x), y: round(at.y), ...(at.name && { name: at.name }), ...(at.siteId && { siteId: at.siteId }) } : null,
+      scene: { ...beat.scene, ...(columns.length && { columns }) }, ...(meanwhile && { meanwhile }), ...(beat.death && { death: true }), ...(beat.homecoming && { homecoming: true }), ...(beat.reveal && { reveal: true }),
+      ...(Number.isFinite(beat.durationMs) && { epilogue: true, durationMs: beat.durationMs }), ...(beat.sale && { sale: beat.sale }),
+      // What the class's own video (sim/class-flashback.mjs) reads a beat by: the fight it is of, and whose it is.
+      ...(beat.event && { event: beat.event }), ...(beat.people && { people: beat.people }) };
   });
-  // The minute shared out: the title and the close their own, the rest evenly, a fight or a loss a little longer to be read.
-  const middle = beats.slice(1, -1);
-  const weights = middle.map(beat => (['fight', 'loss', 'home'].includes(beat.kind) || beat.meanwhile ? 1.2 : 1));
+  // The minute shared out: the title and the close their own, the rest evenly, a fight or a loss a little longer to be read. The
+  // homecoming's scenes after it each have their own length (`EPILOGUE_MS`), and the close follows them.
+  const middle = beats.slice(1, -1).filter(beat => !beat.epilogue);
+  const after = beats.filter(beat => beat.epilogue);
+  const weights = middle.map(beat => (['fight', 'loss'].includes(beat.kind) || beat.meanwhile ? 1.2 : 1));
   const total = weights.reduce((sum, value) => sum + value, 0);
   const share = FLASHBACK_MS - TITLE_MS - CLOSING_MS;
   let at = 0;
   beats[0].startMs = 0; beats[0].durationMs = TITLE_MS; at = TITLE_MS;
   middle.forEach((beat, i) => { const ms = i === middle.length - 1 ? FLASHBACK_MS - CLOSING_MS - at : Math.round(share * weights[i] / total); beat.startMs = at; beat.durationMs = ms; at += ms; });
-  beats.at(-1).startMs = at; beats.at(-1).durationMs = FLASHBACK_MS - at;
+  for (const beat of after) { beat.startMs = at; at += beat.durationMs; }
+  const durationMs = FLASHBACK_MS + after.reduce((sum, beat) => sum + beat.durationMs, 0);
+  beats.at(-1).startMs = at; beats.at(-1).durationMs = durationMs - at;
   const figures = people(world, household).map(person => unnamed.has(person.id) ? { ...figure(world, person), name: whoTo(person), unnamed: true } : figure(world, person));
   const transcript = beats.map(beat => [beat.date, beat.caption, beat.meanwhile ? `Meanwhile: ${beat.meanwhile.text} ${beat.meanwhile.heard}` : null].filter(Boolean).join(' '));
-  return { version: SCRIPT_VERSION, householdId, name, played: Boolean(household.played), durationMs: FLASHBACK_MS, people: figures, homeSiteId: household.homeSiteId, beats, transcript, ...(trip && { homecoming: { status: trip.status, arrivedMinute: trip.arrivedMinute ?? null, house: trip.house } }) };
+  return { version: SCRIPT_VERSION, householdId, name, played: Boolean(household.played), durationMs, storyMs: FLASHBACK_MS, people: figures, homeSiteId: household.homeSiteId, beats, transcript, ...(trip && { homecoming: { status: trip.status, arrivedMinute: trip.arrivedMinute ?? null, house: trip.house } }) };
 }
 
 /** Every family's flashback, the class's homecoming worked out once for all of them. */

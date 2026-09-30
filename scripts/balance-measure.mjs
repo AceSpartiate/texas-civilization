@@ -108,7 +108,7 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
   const { herdOf } = await import('../sim/stock.mjs');
   const { GLORY_WEIGHT, distanceMultiplier } = await import('../sim/glory.mjs');
   const { LINE_MOST: ERRAND_MOST } = await import('../sim/errands.mjs');
-  const { scrapePrisoners } = await import('../sim/ending.mjs');
+  const { scrapePrisoners, keptShare } = await import('../sim/ending.mjs');
 
   const round2 = value => Math.round(value * 100) / 100;
   const started = Date.now();
@@ -324,6 +324,10 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
       settlement: household.settlementId || null, miles: Number.isFinite(miles) ? Math.round(miles) : null,
       burnZone: Boolean(farmFate(world, household)), rolledCrop: rolledCrop[household.id],
       coin: row.money, glory: row.glory, land: row.land, final: row.final,
+      // The farm at the end (owner, 2026-09-29, D8; sim/farm-sale.mjs): its price, sold with the coin, or a burned farm's glory
+      // (in `glory` above); and the final number the family would have had without either, for docs/BALANCE.md §16.
+      sale: row.sale ?? 0, farmGlory: row.farmGlory ?? 0, farm: household.flight?.burned ? 'burned' : row.sale ? 'sale' : 'none', stock: Boolean(household.stock),
+      finalBefore: finalNumber(row.money, row.glory - (row.farmGlory ?? 0), row.land, keptShare(world, household)),
       rank: rankOf(row.final), winner: ending.winners.includes(household.id), winners: ending.winners.length,
       went: row.went.length, fought: awards.some(award => award.role === 'fought'), tookPart: awards.length > 0,
       warPart: awards.some(award => !['voted'].includes(award.role)),
@@ -459,7 +463,7 @@ export function rescore(classes, weight) {
   return classes.map(one => {
     const families = one.families.map(family => {
       if (!family.prisoners) throw new Error(`${one.seed}: a record from before the prisoners were counted cannot be rescored`);
-      return { ...family, final: finalNumber(family.coin, family.glory, family.land, keptFor(family.prisoners.home + family.prisoners.road, family.living, weight)) };
+      return { ...family, final: finalNumber(family.coin + (family.sale ?? 0), family.glory, family.land, keptFor(family.prisoners.home + family.prisoners.road, family.living, weight)) };
     });
     const best = Math.max(...families.map(family => family.final));
     const winners = families.filter(family => family.final === best).map(family => family.id);

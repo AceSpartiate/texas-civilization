@@ -1,5 +1,5 @@
 {
- "at": "2026-09-28T14:02:16.109Z",
+ "at": "2026-09-30T06:35:36.674Z",
  "results": [
   {
    "file": "sim/flashback.mjs",
@@ -52,7 +52,7 @@
    "test": "tests/flashback.test.mjs",
    "expected": "every family gets a story of ten to fifteen beats",
    "failed": [
-    "every family gets a story of ten to fifteen beats that share out exactly one minute, in the order it happened"
+    "every family gets a story of ten to fifteen beats that share out exactly one minute, in the order it happened, and the homecoming after it"
    ],
    "ok": true
   },
@@ -61,8 +61,9 @@
    "test": "tests/flashback.test.mjs",
    "expected": "the trip home is deterministic and leaves the saved class as it was",
    "failed": [
-    "every family gets a story of ten to fifteen beats that share out exactly one minute, in the order it happened",
+    "every family gets a story of ten to fifteen beats that share out exactly one minute, in the order it happened, and the homecoming after it",
     "no word in any family's flashback is a virtue or gore, and glory is never in it",
+    "a death in battle is told once, in its fight's own beat, never again as the day the family heard",
     "every \"meanwhile\" is a true happening, dated as it happened, that the family had not yet heard of",
     "the trip home is deterministic and leaves the saved class as it was",
     "every family on the road comes home, to the house as it truly stands"

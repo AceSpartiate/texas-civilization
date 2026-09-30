@@ -34,6 +34,8 @@ const WORD = /glory/i;
 const ALLOWED = [
   { file: 'public/ending.js' },
   { file: 'sim/ending.mjs' },
+  // The farm at the end (owner, 2026-09-29, D8): a burned farm's glory, read only by sim/ending.mjs at the ending proper.
+  { file: 'sim/farm-sale.mjs' },
   { file: 'sim/glory.mjs', text: 'glory' },
 ];
 const allowed = (file, text) => ALLOWED.some(entry => entry.file === file && (entry.text === undefined || entry.text === text));

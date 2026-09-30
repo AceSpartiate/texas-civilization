@@ -9,17 +9,17 @@
     "server/main.mjs --solo deals its game on the real land of the colonies (5 families, lobby)",
     "the solo game opens joined as hh-1 in matagorda, rolled, and running once the wagon was packed, no join form, no teacher's Start; the other four families automatic",
     "the solo class view opens from its Host address with the game already running",
-    "the family arrived and the house site was chosen on its grant at (92.8896, 50.81)",
-    "6 of the family set to auto from the panel: Asa Proofwright, Sarah Proofwright, Ramona Proofwright, Hiram Proofwright, Marcos Proofwright, Prudence Proofwright",
-    "3 orders given from the panel and taken",
-    "the call came (\"The committee at Matagorda asks the volunteers of the town and the country east of it to g…\") and Asa Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (1869 ticks, 241.1 s)",
+    "the family arrived and the house site was chosen on its grant at (92.5296, 47.0504)",
+    "16 of the family set to auto from the panel: Anselmo Proofwright, Temperance Proofwright, Delia Proofwright, Eli Proofwright, Ruperto Proofwright, Adela Proofwright, Hiram Proofwright, Docia Proofwright, Jonas Proofwright, Teodoro Proofwright, Rosa Proofwright, Soledad Proofwright, Obed Proofwright, Minerva Proofwright, Paulita Proofwright, Simeon Proofwright",
+    "7 orders given from the panel and taken",
+    "the call came (\"The committee at Matagorda asks the volunteers of the town and the country east of it to g…\") and Anselmo Proofwright was sent from the one menu",
+    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (1647 ticks, 224.2 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "Asa Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241920 (300 ticks, 66.5 s)",
-    "the Host continued the class into the spring: period 3 opens on 1836-03-15",
+    "Anselmo Proofwright was sent to enlist auxiliary from the panel",
+    "the second period ended on its own at minute 241920 (300 ticks, 34.2 s)",
+    "the Host continued the class into the spring: period 3 opens on 1836-03-14",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (1096 ticks, 254.4 s)",
+    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (814 ticks, 91.5 s)",
     "after the ending, a new solo game is dealt with the old pages open, and opens joined in its own lobby from the beginning",
     "no page errors on any page across the whole solo game"
   ],
@@ -31,36 +31,60 @@
     },
     "periods": {
       "first": {
-        "ticks": 1869,
-        "seconds": 241.1,
+        "ticks": 1647,
+        "seconds": 224.2,
         "endedAtMinute": 114060
       },
       "second": {
         "ticks": 300,
-        "seconds": 66.5,
+        "seconds": 34.2,
         "endedAtMinute": 241920
       },
       "third": {
-        "ticks": 1096,
-        "seconds": 254.4,
+        "ticks": 814,
+        "seconds": 91.5,
         "endedAtMinute": 302580
       }
     },
     "family": [
-      "Asa Proofwright (father, 44)",
-      "Sarah Proofwright (mother, 45)",
-      "Ramona Proofwright (daughter, 10)",
-      "Hiram Proofwright (son, 7)",
-      "Marcos Proofwright (son, 5)",
-      "Prudence Proofwright (daughter, 3)"
+      "Anselmo Proofwright (father, 41)",
+      "Temperance Proofwright (mother, 40)",
+      "Delia Proofwright (daughter, 20)",
+      "Eli Proofwright (son, 19)",
+      "Ruperto Proofwright (son, 18)",
+      "Adela Proofwright (daughter, 17)",
+      "Hiram Proofwright (son, 16)",
+      "Docia Proofwright (daughter, 14)",
+      "Jonas Proofwright (son, 13)",
+      "Teodoro Proofwright (son, 12)",
+      "Rosa Proofwright (daughter, 11)",
+      "Silvano Proofwright (son, 9)",
+      "Soledad Proofwright (daughter, 8)",
+      "Obed Proofwright (son, 6)",
+      "Minerva Proofwright (daughter, 5)",
+      "Petra Proofwright (daughter, 4)",
+      "Paulita Proofwright (daughter, 3)",
+      "Simeon Proofwright (son, 2)",
+      "Effie Proofwright (daughter, 1)",
+      "Nieves Proofwright (daughter, 0)"
     ],
     "onAuto": [
-      "Asa Proofwright",
-      "Sarah Proofwright",
-      "Ramona Proofwright",
+      "Anselmo Proofwright",
+      "Temperance Proofwright",
+      "Delia Proofwright",
+      "Eli Proofwright",
+      "Ruperto Proofwright",
+      "Adela Proofwright",
       "Hiram Proofwright",
-      "Marcos Proofwright",
-      "Prudence Proofwright"
+      "Docia Proofwright",
+      "Jonas Proofwright",
+      "Teodoro Proofwright",
+      "Rosa Proofwright",
+      "Soledad Proofwright",
+      "Obed Proofwright",
+      "Minerva Proofwright",
+      "Paulita Proofwright",
+      "Simeon Proofwright"
     ],
     "orders": [
       {
@@ -77,23 +101,63 @@
         "id": "hh-1-child-1",
         "key": "cut-lane",
         "took": true
+      },
+      {
+        "id": "hh-1-child-2",
+        "key": "cut-lane",
+        "took": true
+      },
+      {
+        "id": "hh-1-child-3",
+        "key": "cut-lane",
+        "took": "no answer"
+      },
+      {
+        "id": "hh-1-child-4",
+        "key": "plant-field",
+        "took": true
+      },
+      {
+        "id": "hh-1-child-5",
+        "key": "plant-field",
+        "took": true
+      },
+      {
+        "id": "hh-1-child-6",
+        "key": "plant-field",
+        "took": true
+      },
+      {
+        "id": "hh-1-child-7",
+        "key": "plant-field",
+        "took": "no answer"
+      },
+      {
+        "id": "hh-1-child-8",
+        "key": "plant-field",
+        "took": "no answer"
+      },
+      {
+        "id": "hh-1-child-9",
+        "key": "plant-field",
+        "took": "no answer"
       }
     ],
     "call": {
       "text": "The committee at Matagorda asks the volunteers of the town and the country east of it to gather at James Kerr's on the Lavaca as speedily as they can. The town is badly armed and its men are few. Does somebody from your family go?",
-      "sent": "Asa Proofwright"
+      "sent": "Anselmo Proofwright"
     },
     "winter": {
       "key": "enlist-auxiliary",
       "id": "hh-1-parent-1",
-      "name": "Asa Proofwright"
+      "name": "Anselmo Proofwright"
     },
     "winterOutcome": {
       "voted": false,
       "service": {
         "kind": "auxiliary-year",
         "status": "serving",
-        "since": 180900,
+        "since": 178560,
         "siteId": "san-felipe",
         "acres": 320
       }
@@ -104,12 +168,12 @@
       "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer before the time on the “!” runs out, "
     },
     "ending": {
-      "host": "THE END OF THE STORY × The families’ flashbacks This server keeps no videos: it was started without a save folder. Look up one family's flashback How the families finished the Proofwright family finished first, with a final number of 598. Family Who went Heard of the cannon Heard the Alamo fell In t",
-      "family": "THE END OF THE STORY × Our story, looking back This server keeps no videos: it was started without a save folder. The story in words 1835–1836. This is the story of the Proofwright family, from the fall of 1835 to the spring of 1836. September 28, 1835. Asa and Sarah came to new land near Matagorda ",
+      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 466. Family Who went Heard of the cannon Heard the Alamo fell In the spring Farm Taken prisoner Coin Glory Land Final the Proofwright family Anselmo Proofwright, Temperance Proofwright Octo",
+      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 3 reales GLORY 149 FINAL NUMBER 466 3 reales, less 3 of 18 parts for the 2 taken prisoner, counted as 3 reales × (1 + 149 glory) + 16 reales of land (320 acres promised) = 466 The family had 3 reales. The farm was burned, so there was n",
       "flight": "returning",
       "minute": 302580
     },
-    "totalSeconds": 562
+    "totalSeconds": 349.9
   },
   "screenshots": [
     "docs/evidence/solo-game-at-work.png",

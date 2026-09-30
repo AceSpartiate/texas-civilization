@@ -8,13 +8,13 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
-| A — People at work and ambient poses | 23 | 7 | 18 | 0 |
+| A — People at work and ambient poses | 26 | 7 | 18 | 0 |
 | B — Children, babies and sickness | 11 | 5 | 11 | 2 |
 | C — Soldiers, battles and famous people | 20 | 1 | 19 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 15 | 4 |
-| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 18 | 2 | 18 | 3 |
+| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 19 | 2 | 19 | 3 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 11 | 2 | 11 | 17 |
-| **Total** | **98** | **19** | **92** | **27** |
+| **Total** | **102** | **19** | **93** | **27** |
 
 ## How a builder works
 
@@ -33,7 +33,7 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 ## A — People at work and ambient poses
 
-Scope: the eight grown cast figures' action poses at home and in town, ambient life, the Gonzales town scenes, layered people; the wood pile. 23 to make, 0 skipped.
+Scope: the eight grown cast figures' action poses at home and in town, ambient life, the Gonzales town scenes, layered people; the wood pile. 26 to make, 0 skipped.
 
 - [ ] **A1** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-chop`, `teal-chop`, `elder-chop`, `blue-chop`, `rust-woman-chop`, `indigo-chop`, `ochre-chop`, `blue-girl-chop`)
   - **Deliver:** `<cast>-chop` (felling with an axe) for each of the eight: `<figure>-chop-1`..`-4`, clip `<figure>-chop`, the axe landing on frame 3
@@ -117,6 +117,16 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Frames:** the cast’s full set. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `avatarVariant` in `public/avatar-art.js`; `public/person-palette.js`
   - **Stands in now:** the cast and her children recoloured by the palette to the chosen tone (the painted light and shade kept, the hair’s shape the painted one) (Astra's library art reused)
+- [ ] **A24** (priority 2) — [Request 2026-09-29 — the homecoming's scenes](ART_REQUESTS.md#request-2026-09-29--the-homecomings-scenes), item 3
+  - **Deliver:** `<cast>-count` (seated at a table, counting coin from one hand into a stack, an account book open; the table not drawn, the figure seated at its height) for each of the eight
+  - **Frames:** 2 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `drawYard` (`count`) in `public/flashback.js`
+  - **Stands in now:** the seated rest (`-rest`) behind Astra's `home-table`, Claude's `coins-and-paper` on it (Astra's library art reused)
+- [ ] **A25** (priority 2) — [Request 2026-09-29 — the homecoming's scenes](ART_REQUESTS.md#request-2026-09-29--the-homecomings-scenes), item 4
+  - **Deliver:** `<cast>-remember` (kneeling on one knee at a grave marker, hat held against the chest, head bowed) and `<cast>-mourn` (standing, head bowed, hands folded or hat in hand, seen from behind and from the front) for each of the eight
+  - **Frames:** 1 each; kneeling east, standing n and s. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `drawYard` (`burial`) in `public/flashback.js`
+  - **Stands in now:** kneeling: the nursing pose (`-care`); standing: the listening back view (`-listen-n`), children their own `-idle-n` (Astra's library art reused)
 - [ ] **A13** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 6 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-carpentry`, `teal-carpentry`, `elder-carpentry`, `blue-carpentry`, `rust-woman-carpentry`, `indigo-carpentry`, `ochre-carpentry`, `blue-girl-carpentry`)
   - **Deliver:** `<cast>-carpentry` (at a shaving horse drawing a drawknife, 2 frames, then boring with an auger, 2)
   - **Frames:** 4 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
@@ -152,6 +162,11 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Frames:** 2 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** the wedding scene in `public/courtship.js`
   - **Stands in now:** the Béxar fandango fiddler, `fiddler-play` (Astra's library art reused)
+- [ ] **A26** (priority 3) — [Request 2026-09-29 — the homecoming's scenes](ART_REQUESTS.md#request-2026-09-29--the-homecomings-scenes), item 5
+  - **Deliver:** `land-agent-idle`, `land-agent-trade` (a townsman buying land after the war: a dark frock coat, a tall hat, a satchel of papers; standing, and holding out a purse), and `<cast>-raise-log` (two grown people lifting a log up onto a wall, 2 frames)
+  - **Frames:** 1 and 2; 2 each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `drawYard` (`sale`, `rebuild`) in `public/flashback.js`
+  - **Stands in now:** the land agent: Astra's `elder` in his `-trade` pose; raising the logs: the carrying cycle (`-carry`) and the notching (`-repair`) (Astra's library art reused)
 
 ## B — Children, babies and sickness
 
@@ -423,7 +438,7 @@ Skipped:
 
 ## E — Buildings, houses, towns, Béxar, the Alamo, interiors
 
-Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 18 to make, 3 skipped.
+Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 19 to make, 3 skipped.
 
 - [ ] **E1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 2 — **Claude stand-in in place** (`bexar-man-walk`, `bexar-man-walk-s`, `bexar-man-walk-n`, `bexar-man-idle-s`, `bexar-man-idle-e`, `bexar-man-idle-w`, `bexar-man-idle-n`, `bexar-man-listen-s`, `bexar-man-listen-n`, `bexar-man-speak`, `bexar-man-carry`, `bexar-woman-walk`, `bexar-woman-walk-s`, `bexar-woman-walk-n`, `bexar-woman-idle-s`, `bexar-woman-idle-e`, `bexar-woman-idle-w`, `bexar-woman-idle-n`, `bexar-woman-listen-s`, `bexar-woman-listen-n`, `bexar-woman-speak`, `bexar-woman-carry`, `bexar-girl-walk`, `bexar-girl-walk-s`, `bexar-girl-walk-n`, `bexar-girl-idle-s`, `bexar-girl-idle-e`, `bexar-girl-idle-w`, `bexar-girl-idle-n`, `bexar-girl-listen-s`, `bexar-girl-listen-n`, `bexar-girl-speak`, `bexar-girl-carry`, `bexar-boy-walk`, `bexar-boy-walk-s`, `bexar-boy-walk-n`, `bexar-boy-idle-s`, `bexar-boy-idle-e`, `bexar-boy-idle-w`, `bexar-boy-idle-n`, `bexar-boy-listen-s`, `bexar-boy-listen-n`, `bexar-boy-speak`, `bexar-boy-carry`); Astra's replaces it
   - **Deliver:** Tejano townspeople of Béxar - a man, a woman in a rebozo, a girl and a boy - each `walk`, `idle-s`, `carry` (loading a cart), `speak`, `listen`, in 1830s Béxar dress (`bexar-man-*`, `bexar-woman-*`, `bexar-girl-*`, `bexar-boy-*`); also the storming's townspeople of 1835 walking out of a house (request 2026-09-25 the storming of Béxar, item 6)
@@ -488,6 +503,11 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Frames:** 1 each. **Size:** 960×540, a whole painting the page draws to cover the scene, anchored at its foot
   - **Plugs into:** `BACKDROP` in `public/courtship.js`
   - **Stands in now:** Claude's three yards; without them the sky and ground painted in canvas (Claude-drawn)
+- [ ] **E20** (priority 2) — [Request 2026-09-29 — the homecoming's scenes](ART_REQUESTS.md#request-2026-09-29--the-homecomings-scenes), items 1-2 — **Claude stand-in in place** (`grave-marker`, `coins-and-paper`); Astra's replaces it
+  - **Deliver:** `grave-marker` (a plain rounded-top wooden board about four feet high at the head of a low mound, wildflowers, no text, no symbol) and `coins-and-paper` (a short stack of silver coins and two loose, a folded bill of sale, a small leather purse, lying on a table top)
+  - **Frames:** 1 each. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside; a grown person's height as its logical height, as the wedding's pieces
+  - **Plugs into:** `marker` and `coins` in `drawYard`, `public/flashback.js`
+  - **Stands in now:** Claude's `grave-marker` and `coins-and-paper`; without them drawn in canvas (`marker`, `coins`) (Claude-drawn)
 - [ ] **E10** (priority 3) — [Request 2026-09-26 — the Mexican advance](ART_REQUESTS.md#request-2026-09-26--the-mexican-advance), item 4 — **Claude stand-in in place** (`plantation-sugar`, `blockhouse-village`, `townsite-bay`, `tavern-house`); Astra's replaces it
   - **Deliver:** `plantation-sugar`, `blockhouse-village`, `townsite-bay`, `tavern-house`
   - **Frames:** 1 each. **Size:** Map cutout as `public/place-art.js` gives the places past the box

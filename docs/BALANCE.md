@@ -1104,3 +1104,30 @@ fifteen or thirty was won by one.
 node scripts/balance-measure.mjs --sizes 5,15,30 --classes 10,10,10 --workers 6 --out <file>   # about 40 minutes beside other work
 ```
 The old yield is `WORK_FOOD_A_DAY = 1` in `sim/routines.mjs`, nothing else.
+## 17. The farm at the end: sold, or glory for a burned one (2026-09-29, not released)
+
+The owner, 2026-09-29, answering the triage's D8: *"if their house and farm wasn't burned and is intact then make selling it part of
+the end of the game cutscene. if there farm was burned then there's nothing to sell, but they get glory to compensate."* Built on
+branch `end-sequence` (`sim/farm-sale.mjs`, docs/MONEY_AND_GLORY.md §5a). The question the measure answers: **how much glory for a
+burned farm moves a family's final number about as much as the sale of a typical intact farm does.**
+
+28 classes (16 of five families, 8 of fifteen, 4 of thirty; 320 families; `node scripts/balance-measure.mjs --sizes 5,15,30
+--classes 16,8,4 --workers 10`), the families playing the measure's strategies as in §9; each family's final number worked again with
+and without the farm (`node scripts/farm-sale-measure.mjs docs/evidence/farm-sale-measure.json`; [record](evidence/farm-sale-measure.json)).
+
+| | |
+| --- | --- |
+| Families burned / intact / nobody left | 170 / 149 / 1 |
+| An intact farm sold for: labor (no stock) / league and labor | 39-90, median 70 / 146-231, median 226 reales |
+| The median intact family's final number, moved by the sale | **+3,164** (×1.70) |
+| Glory for a burned farm that moves the median burned family's by as much | **40** (+3,160 by the average of the two middle families; 41 by the lower one) |
+| The same, matched by the median *relative* gain instead | 48 |
+| Classes won: before (no sale, no glory) / after, at 0, 20, 40, 60 or 80 glory | burned 14, intact 14 / burned 13, intact 15 (every one) |
+
+- **40 glory**, the absolute match, is built (`BURNED_FARM_GLORY`). It is a family's worth of the middle of the table, not of its top:
+  the winners' glory runs to hundreds, so neither the sale nor the compensation decides who finishes first in these classes - one
+  class of 28 moved from a burned family to an intact one, and would at any compensation from 0 to 80.
+- **Stock families sell for more.** A league of grazing land is 26 times a labor's acres at half the price, so a family that drove
+  stock in and kept its farm sells for about three times a farm without (226 against 70). That is the land it held; it is also a
+  second reason the lobby's stock choice matters at the end. Put to the owner.
+- Not measured here: the 210-class record of §14 was not run again; these classes play at §15's half-work pace.

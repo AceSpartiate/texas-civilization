@@ -587,6 +587,21 @@
       </div>
     </section>
 
+    <!-- The end of the game as the class goes through it together (public/flashback.js `renderFinale`, sim/end-sequence.mjs; owner,
+         2026-09-29, D10): over the whole screen until the reveal - on the Host's screen the class's own video, then where each
+         family is with its own; on a student's, a card to look at the class screen, then their family's own video (the flashback
+         section below, moved up here). The final numbers are the ending panel's, after. -->
+    <section id="finale" hidden role="dialog" aria-labelledby="finale-title">
+      <div id="finale-card">
+        <span class="eyebrow" id="finale-eyebrow">THE END OF THE STORY</span>
+        <h2 id="finale-title"></h2>
+        <p id="finale-words" role="status"></p>
+        <video id="finale-video" hidden playsinline muted preload="auto"></video>
+        <ol id="finale-families" hidden></ol>
+        <div id="finale-slot"></div>
+        <div class="finale-controls"><button id="finale-replay" hidden>Replay</button><button id="finale-skip" hidden>Skip ahead</button><button id="finale-again" hidden>Play the ending again</button></div>
+      </div>
+    </section>
     <!-- The end of the game (public/ending.js): a family's own coin, glory and final number, or
          on the Host every family's and the family that finished first. Sent only once the class
          has ended. -->
@@ -604,7 +619,7 @@
         <p id="flashback-status" role="status"></p>
         <video id="flashback-video" hidden controls playsinline muted preload="auto" aria-describedby="flashback-words"></video>
         <div class="flashback-controls"><button id="flashback-replay" hidden>Replay</button><span id="flashback-now"></span></div>
-        <details id="flashback-host" hidden><summary>Look up one family's flashback</summary><ol id="flashback-families"></ol></details>
+        <details id="flashback-host" hidden><summary>Look up one family's flashback</summary><ol id="flashback-families"></ol><button id="flashback-again" hidden>Play the ending again</button></details>
         <details id="flashback-words" open><summary>The story in words</summary><ol id="flashback-transcript"></ol></details>
       </section>
       <div id="ending-body"></div>
