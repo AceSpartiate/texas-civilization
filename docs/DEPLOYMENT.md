@@ -49,24 +49,35 @@ expected rather than discovered in front of a room.
 .\TexasRevolution.exe --uninstall                          # asks about saved classes first
 ```
 
-## The small setup — 2026-09-30 (not released)
+## The small setup, `TexasRevolutionInstaller.exe` — 2026-09-30 (not released)
 
 Owner, 2026-09-30: *"The file for installing the game is far too large. Why can't it be a super small, easily sharable
 file? Then when it's used it downloads and installs the full game as it does now? I should be able to email someone the
 .exe and they run it after downloading it."* And, on the first draft: *"I don't want them to have go to github at all. I
 just want it to be a small file that is able to be emailed. Once used, game installs and updates as normal."*
 
-**`TexasRevolutionWebSetup.exe`, 173,568 bytes (169.5 KB)** as built on 2026-09-30, against 457,514,234 bytes for
+**`TexasRevolutionInstaller.exe`, 173,568 bytes (169.5 KB)** as built on 2026-09-30, against 457,514,234 bytes for
 `TexasRevolutionSetup.exe` in v2026.09.29.3. Of the 169.5 KB, 137.6 KB is the setup icon (the same
 `launcher/TexasRevolutionSetup.ico`, so it looks like the same thing in a Downloads folder); the program is about 32 KB.
 
-*Why that name.* It sorts beside `TexasRevolutionSetup.exe` in a release and reads as the same product's setup; "web setup"
-is what Windows software has long called the small setup that downloads the rest; it has no spaces, so the stable link
-needs no escaping; and it can never be taken by an installed launcher, which looks for exactly
-`TexasRevolutionSetup.exe` (`launcher/Updates.cs`, held by `tests/launcher` "assets" with the small setup listed first,
-and seen failing under `scripts/launcher-delta-injections.ps1` when the match is loosened to any name ending `Setup.exe`).
-**`TexasRevolutionSetup.exe` is unchanged and always means the whole setup**, because launchers already in classrooms
-download exactly that name to update themselves.
+**The owner's answers, 2026-09-30, by multiple choice** (owner-decided):
+
+1. **The name is `TexasRevolutionInstaller.exe`.** It was built as `TexasRevolutionWebSetup.exe`; renamed everywhere on
+   branch `web-setup-2`. The source folder keeps its working name, `websetup/`, with `scripts/build-web-setup.ps1`,
+   `npm run test:web-setup` and the `evidence/web-setup*.json` records: nobody who installs the game sees them, and a
+   folder called `installer/` beside `launcher/Installer.cs` (the whole setup's own installing code) would be the
+   confusing one.
+2. **Unsigned for now.** SmartScreen warns once, on this file (below).
+3. **A setup closed without installing: its download is deleted**, as built (the next run downloads it again).
+4. **The full setup icon stays**, at 169.5 KB for the file.
+
+*The name and installed launchers.* An installed launcher looks for exactly `TexasRevolutionSetup.exe`
+(`launcher/Updates.cs`), so it can never take the installer for its update. Held by `tests/launcher` "assets", which lists
+`TexasRevolutionInstaller.exe` before the whole setup, and seen failing under `scripts/launcher-delta-injections.ps1` when
+the match is loosened to any `TexasRevolution*.exe`. **`TexasRevolutionSetup.exe` is unchanged and always means the whole
+setup**, because launchers already in classrooms download exactly that name to update themselves. The installer's own
+choice is the same rule from the other side: it takes only the asset named exactly `TexasRevolutionSetup.exe`, and
+`test:web-setup` "api-asset" fails when it would take any `.exe` (the installer is listed first).
 
 *What it is.* `websetup/` — C# 5 on .NET Framework 4.8, which every Windows 10 and 11 computer has in the box, built by
 `scripts/build-web-setup.ps1` with the C# compiler Windows itself carries
@@ -115,9 +126,9 @@ receives the file should never be sent there):
 | Wrong size, wrong SHA-256, not a program | The download arrived damaged. | Thrown away, nothing installed; Try again. |
 | Windows or antivirus would not start the downloaded setup | The game downloaded, but Windows would not start its setup. | Ask IT to allow it; where it was saved (kept, so they can). Try again uses it without downloading again when GitHub's SHA-256 says it is still the release's (not driven by a test). |
 
-Pictures of each, drawn by Windows from the running program: [evidence/web-setup/](evidence/web-setup/)
-(`web-setup-downloading.png`, `-unreachable`, `-no-internet`, `-disk-full`, `-damaged`, `-blocked`; made by
-`node scripts/verify-web-setup.mjs --shots docs/evidence/web-setup` against the local release, so the disk-full picture
+Pictures of each, drawn by Windows from the running program: [evidence/installer/](evidence/installer/)
+(`installer-downloading.png`, `-unreachable`, `-no-internet`, `-disk-full`, `-damaged`, `-blocked`; made by
+`node scripts/verify-web-setup.mjs --shots docs/evidence/installer` against the local release, so the disk-full picture
 asks for a petabyte and the damaged one is one byte short).
 
 **SmartScreen warns once.** The small file is no more signed than the whole setup, so a browser may call it *"not commonly
@@ -128,7 +139,7 @@ blocks unsigned programs with no *Run anyway*; that is as true of the whole setu
 
 **Email.** Gmail, Outlook and most school accounts refuse any `.exe` attachment, even zipped; the docs say to send the file
 by Google Drive, OneDrive, Teams or a USB stick, and give the stable link
-`https://github.com/AceSpartiate/texas-civilization/releases/latest/download/TexasRevolutionWebSetup.exe` only as a last
+`https://github.com/AceSpartiate/texas-civilization/releases/latest/download/TexasRevolutionInstaller.exe` only as a last
 resort (it downloads the file with no page shown). That link works only while **every release carries the small setup**;
 `scripts/package.ps1` builds it into the destination (with or without `-SkipLauncher`, since it carries no game) and its
 printed release command includes it.
@@ -161,9 +172,9 @@ A double-click passes none.
 - **The real thing**: the built file run with no arguments against GitHub's v2026.09.29.3 (three times, the last with the
   final build) downloaded 457,514,234 bytes whose SHA-256 (`f45a65ea…d105`) matched GitHub's record, and the real setup
   opened in setup mode on its own window (*"A copy is already installed here…"*, **Update**, the default folder) —
-  [evidence/web-setup/web-setup-real-installer.png](evidence/web-setup/web-setup-real-installer.png) — with no SmartScreen
+  [evidence/installer/installer-real-setup-window.png](evidence/installer/installer-real-setup-window.png) — with no SmartScreen
   prompt, 7.7 to 8.6 s after the start on this computer's connection
-  ([`web-setup-real-checking.png`](evidence/web-setup/web-setup-real-checking.png), 2.5 s in, is already checking the
+  ([`installer-real-checking.png`](evidence/installer/installer-real-checking.png), 2.5 s in, is already checking the
   whole download). Each time it was closed without installing; the small setup then removed the download and its folder
   and ended with exit 0. Not proved: a school network, a filtering proxy, a Windows 10
   computer, an email or shared-drive round trip, a teacher who has never seen it.
@@ -605,14 +616,14 @@ its `.zip` whose name does **not** contain `NeedsNode` (`launcher/Updates.cs`). 
    is what gets stamped into `release.txt` and the list, so it must equal the release tag; an
    updating launcher refuses a build or a list whose stamp differs.
 2. Every output attached: `TexasRevolutionSetup.exe` (what updates the launcher, and the fallback),
-   `TexasRevolutionWebSetup.exe` (the small setup teachers pass on; *The small setup*, above — on every release, or the
+   `TexasRevolutionInstaller.exe` (the small setup teachers pass on; *The small setup*, above — on every release, or the
    stable link to it stops answering), `TexasRevolution-Gonzales-<stamp>.zip` (the update archive older launchers take), the
    `-NeedsNode.zip`, and everything in `changes-<stamp>\` (`TexasRevolution-manifest.json` and the
    `TexasRevolution-Changes-From-<tag>.patch` sets). From the destination folder:
 
    ```powershell
    $s = '<yyyy.mm.dd.n>'
-   $assets = @('TexasRevolutionSetup.exe', 'TexasRevolutionWebSetup.exe', "TexasRevolution-Gonzales-$s.zip", "TexasRevolution-Gonzales-$s-NeedsNode.zip") + @(Get-ChildItem "changes-$s" -File | ForEach-Object FullName)
+   $assets = @('TexasRevolutionSetup.exe', 'TexasRevolutionInstaller.exe', "TexasRevolution-Gonzales-$s.zip", "TexasRevolution-Gonzales-$s-NeedsNode.zip") + @(Get-ChildItem "changes-$s" -File | ForEach-Object FullName)
    gh release create "v$s" @assets -R AceSpartiate/texas-civilization --target main --title "..." --notes-file notes.md --latest
    ```
 

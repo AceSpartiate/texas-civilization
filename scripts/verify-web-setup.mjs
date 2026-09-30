@@ -1,8 +1,8 @@
-// The small setup a teacher can email (TexasRevolutionWebSetup.exe, websetup/, docs/DEPLOYMENT.md "The small setup"),
+// The small setup a teacher can email (TexasRevolutionInstaller.exe, websetup/, docs/DEPLOYMENT.md "The small setup"),
 // built and run against a release served from this computer. Nothing is fetched from GitHub and nothing is installed:
 // the "full setup" it downloads is a stand-in that writes down how it was started and closes.
 //
-//   node scripts/verify-web-setup.mjs [--evidence docs/evidence/web-setup.json] [--shots docs/evidence/web-setup]
+//   node scripts/verify-web-setup.mjs [--evidence docs/evidence/web-setup.json] [--shots docs/evidence/installer]
 //
 // One PASS or FAIL line per check; exits non-zero on any FAIL. scripts/web-setup-injections.mjs breaks the small
 // setup one way at a time and checks that the check written for that break, and only it, fails.
@@ -57,7 +57,7 @@ if ($p.MainWindowHandle -eq 0) { throw 'The window never appeared.' }
 const same = (a, b) =>path.resolve(a).replace(/[\\/]+$/, '').toLowerCase() === path.resolve(b).replace(/[\\/]+$/, '').toLowerCase();
 
 // ------------------------------------------------------------------ build it
-const exe = path.join(scratch, 'TexasRevolutionWebSetup.exe');
+const exe = path.join(scratch, 'TexasRevolutionInstaller.exe');
 const built = spawnSync('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', path.join(root, 'scripts', 'build-web-setup.ps1'), '-Out', exe], { encoding: 'utf8' });
 if (built.status !== 0 || !fs.existsSync(exe)) {
   console.log(`BUILD FAILED\n${built.stdout}\n${built.stderr}`);
@@ -109,7 +109,7 @@ const server = http.createServer((req, res) => {
   if (req.url === '/api') return scenario.api(req, res);
   if (req.url === '/latest/TexasRevolutionSetup.exe') return scenario.fallback ? scenario.fallback(req, res) : redirect(res, '/blob/setup');
   if (req.url === '/release/TexasRevolutionSetup.exe') return redirect(res, '/blob/setup');
-  if (req.url === '/release/TexasRevolutionWebSetup.exe') return redirect(res, '/blob/decoy');
+  if (req.url === '/release/TexasRevolutionInstaller.exe') return redirect(res, '/blob/decoy');
   if (req.url === '/release/not-a-program/TexasRevolutionSetup.exe') return serve(req, res, notAProgram);
   if (req.url === '/blob/setup') return scenario.blob ? scenario.blob(req, res) : serve(req, res, setupBytes);
   if (req.url === '/blob/decoy') return serve(req, res, decoyBytes);
@@ -136,7 +136,7 @@ const release = (...assets) => (req, res) => { res.writeHead(200, { 'Content-Typ
 const broken = (req, res) => { res.writeHead(500).end(); };
 const normal = release(asset('TexasRevolutionSetup.exe', '/release/TexasRevolutionSetup.exe', setupBytes), asset('TexasRevolution-Gonzales-test.zip', '/release/zip', Buffer.alloc(10)));
 // The small setup is listed first, as GitHub may list it: only the exact name may be taken.
-const withSmall = release(asset('TexasRevolutionWebSetup.exe', '/release/TexasRevolutionWebSetup.exe', decoyBytes), asset('TexasRevolutionSetup.exe', '/release/TexasRevolutionSetup.exe', setupBytes),
+const withSmall = release(asset('TexasRevolutionInstaller.exe', '/release/TexasRevolutionInstaller.exe', decoyBytes), asset('TexasRevolutionSetup.exe', '/release/TexasRevolutionSetup.exe', setupBytes),
   asset('TexasRevolution-Gonzales-test.zip', '/release/zip', Buffer.alloc(10)));
 
 // ------------------------------------------------------------------ run it
@@ -174,7 +174,7 @@ if (!shotsDir) {
 
   const picked = await runSetup({ api: withSmall }).done;
   check('api-asset: the release\'s TexasRevolutionSetup.exe is found by its exact name, and the small setup beside it is not taken',
-    picked.code === 0 && picked.marker && !picked.requests.some(r => r.url.includes('decoy') || r.url.includes('WebSetup')) && picked.requests.some(r => r.url === '/release/TexasRevolutionSetup.exe'), said(picked));
+    picked.code === 0 && picked.marker && !picked.requests.some(r => r.url.includes('decoy') || r.url.includes('Installer')) && picked.requests.some(r => r.url === '/release/TexasRevolutionSetup.exe'), said(picked));
 
   const viaFallback = await runSetup({ api: broken }).done;
   check('fallback: with the release\'s list unreachable, the stable latest-release address is downloaded and run',
@@ -268,7 +268,7 @@ async function takeShots(dir) {
     // An error is written to stderr as the window shows it; the download is pictured part way.
     while (Date.now() - started < 60_000 && !(after ? Date.now() - started > after : running.stderrNow().includes(':'))) await new Promise(r => setTimeout(r, 200));
     await new Promise(r => setTimeout(r, 600));
-    const file = path.join(out, `web-setup-${name}.png`);
+    const file = path.join(out, `installer-${name}.png`);
     const shot = spawnSync('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', shotScript, '-Id', String(running.child.pid), '-Path', file], { encoding: 'utf8' });
     check(`shot ${name}`, shot.status === 0 && fs.existsSync(file), shot.stdout + shot.stderr);
     running.child.kill();

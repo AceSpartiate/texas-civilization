@@ -5,7 +5,7 @@ One page for the teacher. How to install it is in [README.md](README.md); what t
 
 ## Sharing the game with a colleague
 
-Send them the small file, **`TexasRevolutionWebSetup.exe`** (about 170 KB): by Google Drive, OneDrive, Teams, a USB stick,
+Send them the small file, **`TexasRevolutionInstaller.exe`** (about 170 KB): by Google Drive, OneDrive, Teams, a USB stick,
 or email where email allows it. They run it, it downloads the game (about 460 MB) and opens the same setup you used, and
 from then on their copy installs, starts and updates exactly as yours does.
 
@@ -17,7 +17,7 @@ from then on their copy installs, starts and updates exactly as yours does.
 - **It needs the internet the first time**, for the one download. If a school network blocks it, the small file says so and
   names, for your IT staff, where the download comes from.
 - **A last resort** if the file cannot be passed on at all: this link downloads it straight away, with no page to read -
-  <https://github.com/AceSpartiate/texas-civilization/releases/latest/download/TexasRevolutionWebSetup.exe>.
+  <https://github.com/AceSpartiate/texas-civilization/releases/latest/download/TexasRevolutionInstaller.exe>.
 
 ## How many class days
 

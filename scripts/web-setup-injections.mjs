@@ -19,10 +19,10 @@ const INJECTIONS = [
     guards: ['size'],
   },
   {
-    name: 'any file whose name ends Setup.exe is taken for the whole setup - including the small one',
+    name: 'any .exe in the release is taken for the whole setup - including the small installer listed first',
     file: 'websetup/Download.cs',
     from: 'if (!string.Equals(Text(entry, "name"), SetupName, StringComparison.OrdinalIgnoreCase)) continue;',
-    to: 'if (!(Text(entry, "name") ?? "").EndsWith("Setup.exe", StringComparison.OrdinalIgnoreCase)) continue;',
+    to: 'if (!(Text(entry, "name") ?? "").EndsWith(".exe", StringComparison.OrdinalIgnoreCase)) continue;',
     guards: ['api-asset'],
   },
   {
