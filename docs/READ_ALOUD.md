@@ -21,6 +21,10 @@ devices so they don't have to download anything (unless that'd work better?)."*
 - **"Unless that'd work better?"** It would not (§R6c): every Chromebook would download 330 MB of model over classroom Wi-Fi and
   run it on the slowest CPU in the room.
 
+- **Then, having listened to `af_kore` and `af_bella`, the owner answered the build's four questions (2026-09-30,
+  owner-decided):** the woman's voice **"af_kore"**; place names **"Texan way"**; the model **"Full quality, as decided"**
+  (+390 MB); the end-of-game breakdown **"Yes, add it"** (§7a, §9).
+
 ## 2. The voices
 
 Four roles; a page asks for a role and the server decides the Kokoro voice (`server/voice/text.mjs` `VOICES`), so the cast can
@@ -189,8 +193,9 @@ using (CPU 39-55% before and during). Records:
 
 - **Where the button is**: the tip over the map and the store's tip; each tip in the Tips list; the call's menu; the messages
   card (its title and its words); each line of a rider's or a runner's conversation, in the speaker's voice; the questions on a
-  person's card (the army's, the road's, the sick); the journal's newest line. **Not the end-of-game breakdown**: it is being
-  changed by another builder (`public/ending.js`), and it is numbers and names more than reading (§9, question 3).
+  person's card (the army's, the road's, the sick); the journal's newest line; and, since the owner's "Yes, add it", every part
+  of a family's end-of-game breakdown (§7a). The messages card reads its eyebrow, title and words each once (`cardLines`), so
+  the starving card (sim/hunger.mjs) reads "No food. Paz is starving." rather than the name twice.
 - **States**: *Read aloud*; *Getting ready…* while the Host speaks a sentence the package lacks (the page asks again every 0.7 s,
   and plays each sentence as soon as it is ready, in order); *Stop* while it plays; *Sound is off*; *Can't read this*. A line in
   a list shows the speaker alone until it is busy, so the line reads as before.
@@ -201,6 +206,25 @@ using (CPU 39-55% before and during). Records:
 - **Keyboard and touch**: a real `<button>`, reached with Tab, pressed with Enter or Space (which never reach the card behind);
   36-40 px tall; a tip's words still let a click through to the map.
 - **The network**: about 3 KB a second of speech; a 5-second line is 15-20 KB, against the class's 112 KB a tick.
+
+### 7a. The end of the game (owner-decided 2026-09-30: "Yes, add it"; branch `read-aloud-2`, not released)
+
+- **A button on every part of the family's own breakdown** (`public/ending.js`): the family's name and numbers, *Our story* (and
+  its questions), *Where the coin came from and went*, *Taken prisoner*, *What earned glory*, *Neighbours*, and what nobody in
+  Texas knew. Between periods, the numbers only. Never on the Host's page, whose table is a projector's.
+- **What it reads** (`endingReading`, tested): the heading, then every line under it in the server's words and the order shown.
+  A sum is said in words ("4 reales times 1 plus 3 glory, equals 16"), coin "came in" or "went out" instead of + and −.
+- **A line at a time.** A family's story is longer than one asking may hold (`ASK`), so the page asks for each line on its own,
+  every line at the press, and plays them in order as they are ready. A sentence the Host will not speak is passed over and
+  the rest read; with nothing to read the button says *Can't read this*.
+- **Each page in turn** (`nextPressed`, server/voice/service.mjs). At the reveal thirty students may press their story at once,
+  and most of a breakdown has the family's names and numbers, so it is spoken on the Host. The pressed queue now takes each
+  page's first sentence before any page's second, rather than first come, first spoken: on this desktop (§6, about 4 s a
+  sentence) every family's first sentence is ready within about two minutes of thirty presses, and each story then plays about
+  as fast as it is made. On a school laptop, estimated, 4-8 minutes for every family's first sentence. `ceiling:` if that is too
+  slow at the reveal, speak each family's breakdown in the background during the end sequence's videos, which run for minutes
+  before the reveal (sim/end-sequence.mjs); not built, because the owner has not seen the wait.
+- **The Host's word check** accepts a name's possessive ("Trinidad's family"), found by the new test on a real ending.
 
 ## 8. Tests, proofs and evidence
 
@@ -238,15 +262,13 @@ using (CPU 39-55% before and during). Records:
 - **The model loads per sentence** (§5); **a boy reads in a man's voice**; **Spanish sentences in an English voice** (§3).
 - **Size**: the full-precision model is most of what the package grows by (§4).
 
-Questions (recommended first):
+The four questions asked here were **answered by the owner on 2026-09-30, owner-decided** (after listening to `af_kore` and
+`af_bella`), verbatim:
 
-1. **The woman's voice**: keep `af_kore` (both proxies good), or `af_bella` (the author's A-, the proxies disagree)? Listen to
-   `cast/af_kore-mother.opus` and `cast/af_bella-mother.opus`.
-2. **Place names**: keep the Texan way (Refugio reh-FURY-oh, Gonzales gun-ZAH-les, San Jacinto juh-SIN-toh), or Spanish
-   throughout (reh-FOO-hyo, gohn-SAH-les, hah-SEEN-toh)?
-3. **The end-of-game breakdown**: add read-aloud to it once `public/ending.js` settles, or leave it to the teacher's debrief?
-4. **The package's size** (§4): keep full precision as decided, or measure Kokoro's official fp16 build (about half the size)
-   by ear against it?
+1. **The woman's voice: "af_kore"** - kept.
+2. **Place names: "Texan way"** - kept (§3).
+3. **The package's size: "Full quality, as decided"** - the full-precision model ships (+390 MB, §4).
+4. **The end-of-game breakdown: "Yes, add it"** - built on branch `read-aloud-2` (§7a).
 
 ## Research: how the voice was chosen (2026-09-30)
 

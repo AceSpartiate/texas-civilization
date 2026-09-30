@@ -5,10 +5,11 @@
     "tests/read-aloud-text.test.mjs",
     "tests/read-aloud-service.test.mjs",
     "tests/read-aloud-server.test.mjs",
-    "tests/audio-licenses.test.mjs"
+    "tests/audio-licenses.test.mjs",
+    "tests/read-aloud-ending.test.mjs"
   ],
-  "caught": 22,
-  "of": 22,
+  "caught": 31,
+  "of": 31,
   "injections": [
     {
       "name": "a Tejano pool name nobody checked (Cayetano's row gone)",
@@ -232,6 +233,98 @@
       "only": true,
       "failed": [
         "the voice's programs are recorded, and the GPL one runs apart from the game with its source beside it"
+      ]
+    },
+    {
+      "name": "the breakdown's neighbours left unread",
+      "file": "public/ending.js",
+      "expected": "every part of a family's breakdown is read",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "every part of a family's breakdown is read, in the server's words, in the order shown, with no sign read as a symbol"
+      ]
+    },
+    {
+      "name": "coin in and out read as a sign",
+      "file": "public/ending.js",
+      "expected": "every part of a family's breakdown is read",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "every part of a family's breakdown is read, in the server's words, in the order shown, with no sign read as a symbol"
+      ]
+    },
+    {
+      "name": "the sum read as symbols",
+      "file": "public/ending.js",
+      "expected": "every part of a family's breakdown is read",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "every part of a family's breakdown is read, in the server's words, in the order shown, with no sign read as a symbol"
+      ]
+    },
+    {
+      "name": "a name's possessive refused",
+      "file": "server/voice/service.mjs",
+      "expected": "the Host will speak every sentence of a real family",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Host will speak every sentence of a real family's breakdown: none is refused as words the game never writes"
+      ]
+    },
+    {
+      "name": "a long reading asked all at once",
+      "file": "public/read-aloud.js",
+      "expected": "a long reading is asked for a line at a time",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a long reading is asked for a line at a time, every line at the press, and read in order",
+        "a sentence the Host will not speak is passed over and the rest is read; with none to read, the button says so"
+      ]
+    },
+    {
+      "name": "a refused sentence stops the reading",
+      "file": "public/read-aloud.js",
+      "expected": "a sentence the Host will not speak is passed over",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a sentence the Host will not speak is passed over and the rest is read; with none to read, the button says so"
+      ]
+    },
+    {
+      "name": "a page's turns forgotten: first come, first spoken",
+      "file": "server/voice/service.mjs",
+      "expected": "when many pages press at once",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "when many pages press at once, each hears its first sentence before any hears its second",
+        "two students pressing at once take turns: each page's first sentence before either's second (the end of the game)"
+      ]
+    },
+    {
+      "name": "the classroom never says whose page asked",
+      "file": "server/app.mjs",
+      "expected": "two students pressing at once take turns",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "two students pressing at once take turns: each page's first sentence before either's second (the end of the game)"
+      ]
+    },
+    {
+      "name": "the card's title said twice",
+      "file": "public/read-aloud.js",
+      "expected": "the messages card reads its eyebrow",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the messages card reads its eyebrow, title and words, each thing once: the starving card is \"No food. Paz is starving.\""
       ]
     }
   ]

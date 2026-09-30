@@ -53,7 +53,7 @@ const INJECTIONS = [
   { name: 'a refused sentence stops the reading', file: 'public/read-aloud.js', from: 'if (!part?.ready) { skipped++; continue; }', to: 'if (!part?.ready) { skipped++; return; }', expect: T.skip },
   { name: 'a page\'s turns forgotten: first come, first spoken', file: 'server/voice/service.mjs', from: 'const rank = (turns.get(job.who) || 0) + (ahead.get(job.who) || 0);', to: 'const rank = at;', expect: T.turns },
   { name: 'the classroom never says whose page asked', file: 'server/app.mjs', from: ", who: identity.householdId || identity.role }));", to: ' }));', expect: T.students },
-  { name: 'the card\'s title said twice', file: 'public/read-aloud.js', from: '    if (!said || out.some(one => plain(one).includes(said))) continue;', to: '    if (!said) continue;', expect: T.card },
+  { name: 'the card\'s title said twice', file: 'public/read-aloud.js', from: '    if (!said || out.some(one => plain(one).includes(said))) continue;\n    for (let at = out.length - 1; at >= 0; at--) if (said.includes(plain(out[at]))) out.splice(at, 1);', to: '    if (!said) continue;', expect: T.card },
 ];
 
 const failing = output => [...new Set([...output.matchAll(/^\s*✖ (.+?) \(\d/gm)].map(match => match[1].trim()).filter(name => !/^tests[\\/]/.test(name) && name !== 'failing tests:'))];
