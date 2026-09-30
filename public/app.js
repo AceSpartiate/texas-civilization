@@ -4654,9 +4654,13 @@ function renderFlight(world, chosen, running) {
   // the spinning wheel the family has, by the names the server gives them.
   const named = good => flight.names?.[good] || good;
   const goods = Object.keys(flight.space).filter(good => !['food', 'seed', 'cotton', 'powder'].includes(good));
-  wrap.append(element('p', `Room for ${flight.room}${flight.mode === 'wagon' ? carrier : ', carried on foot'}. Food takes ${flight.space.food} each, seed ${flight.space.seed}, cotton ${flight.space.cotton}, powder ${flight.space.powder}.${goods.length ? ` ${goods.map(good => `the ${named(good)} ${flight.space[good]}`).join(', ').replace(/^t/, 'T')}. What is not loaded is left in the house.` : ''}`, 'work-note flight-space'));
+  // Each tool and good says its own room on its line; the sentence keeps to the stores, so the card stays readable with every good
+  // a family with the wagons for it can bring (owner, 2026-09-30).
+  wrap.append(element('p', `Room for ${flight.room}${flight.mode === 'wagon' ? carrier : ', carried on foot'}. Food takes ${flight.space.food} each, seed ${flight.space.seed}, cotton ${flight.space.cotton}, powder ${flight.space.powder}.${goods.length ? ' Each tool and thing for the house says its room below. What is not loaded is left in the house.' : ''}`, 'work-note flight-space'));
   const form = element('div', '', 'flight-form');
   for (const good of Object.keys(flight.space)) {
+    // The bedding, the pot, the books and the rest, offered only with a wagon (sim/scrape.mjs `loadCard`), under their own line.
+    if (good === flight.extras?.[0]) form.append(element('p', 'For the house, only in a wagon, if there is room:', 'work-note flight-extras'));
     const label = element('label', '', 'flight-take');
     label.append(element('span', haveWords(good)));
     const input = document.createElement('input');
@@ -4684,7 +4688,10 @@ function renderFlight(world, chosen, running) {
     const take = Object.fromEntries([...form.querySelectorAll('.flight-amount')].map(input => [input.dataset.take, Number(input.value) || 0]));
     const used = loadSpace(flight.space, take), light = lightLoad(flight, take);
     // A load far under what the family could take is said so, beside the room (design audit 2026-09-28 B7).
-    setText(room, `Loaded ${Math.round(used * 100) / 100} of ${flight.room}.${light === 'empty' ? ' Nothing is loaded: everything would be left behind.' : light === 'light' ? ' Most of what the family could carry would be left behind.' : ''}`);
+    // Said plainly when there is no room left, or too much is loaded (owner, 2026-09-30: "if they don't, then no").
+    const over = used > flight.room + 1e-9, full = !over && flight.room - used < Math.min(...Object.values(flight.space)) - 1e-9;
+    const whole = flight.mode === 'wagon' ? `The ${flight.vehicle || (flight.wagons ? 'wagons' : 'wagon')} ${flight.wagons ? 'are' : 'is'} full` : 'Everybody is carrying all they can';
+    setText(room, `Loaded ${Math.round(used * 100) / 100} of ${flight.room}.${over ? ' That is more than there is room for: take something out.' : full ? ` ${whole}: there is no room left for anything more.` : ''}${light === 'empty' ? ' Nothing is loaded: everything would be left behind.' : light === 'light' ? ' Most of what the family could carry would be left behind.' : ''}`);
     room.dataset.over = String(used > flight.room + 1e-9);
     room.dataset.light = light || '';
   };

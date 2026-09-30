@@ -13,7 +13,7 @@
 // Every date a settlement was told to leave, every day the armies passed, the room in the wagon, the wait at a crossing and
 // the sickness are this game's own (`FIC-GONZ-046`); the record gives the days towns were found empty and no count of the dead.
 import { record } from './events.mjs';
-import { findStockAgain, leaveStock } from './stock.mjs';
+import { findStockAgain, herdOf, herdWords, leaveStock } from './stock.mjs';
 import { weatherAt } from './weather.mjs';
 import { ruin } from './improvements.mjs';
 import { findWay } from './ways.mjs';
@@ -46,10 +46,9 @@ import { roadSickness } from './disease.mjs';
 import { lentRoom } from './deeds.mjs';
 // The tools, the chest and the spinning wheel in the load (owner, 2026-09-29, D9 (a); sim/flight-goods.mjs), leaving before the
 // order on news the family has heard (D9 (b); sim/early-word.mjs), and the crop that leaving early costs.
-import { HOUSEHOLD_GOODS, HOUSEHOLD_SPACE, goodCount, goodWords, goodsWords, householdGoods, isHouseholdGood, removeGood, restoreGood } from './flight-goods.mjs';
+import { GOOD_NAMES, HOUSEHOLD_GOODS, HOUSEHOLD_SPACE, WAGON_ONLY, goodCount, goodWords, goodsWords, householdGoods, isHouseholdGood, removeGood, restoreGood } from './flight-goods.mjs';
 import { EARLY_COST, NO_WORD_YET, earlyWord, readyingInvalid, takeReadying } from './early-word.mjs';
 import { keepPlots } from './fields.mjs';
-import { wagonItem } from './wagon.mjs';
 
 const GONE = ['dead', 'captured'];
 const DAY = 1440;
@@ -171,7 +170,10 @@ function ownRoom(world, household) {
   const loaded = beastsOf(world, household, 'wagon').filter(standing).slice(0, drawn);
   const roomOf = wagon => (wagon.cart ? CART_SPACE : wagon.carreta ? CARRETA_SPACE : WAGON_SPACE);
   const room = Math.round(loaded.reduce((sum, wagon) => sum + FLIGHT_ROOM * roomOf(wagon) / WAGON_SPACE, 0) * 100) / 100;
-  if (drawn) return { room, mode: 'wagon', ...(drawn > 1 && { wagons: drawn }), ...(loaded[0].cart && { cart: true }), ...(drawn === 1 && loaded[0].carreta && { carreta: true }) };
+  // A cart a family's means gave it under the name of a carreta (a Tejano family's "Family carreta", sim/means.mjs) is called one on
+  // the card and in the story; its room is still the cart's.
+  const cartIsCarreta = drawn > 0 && loaded[0].cart && /carreta/i.test(loaded[0].name || '');
+  if (drawn) return { room, mode: 'wagon', ...(drawn > 1 && { wagons: drawn }), ...(loaded[0].cart && !cartIsCarreta && { cart: true }), ...(drawn === 1 && (loaded[0].carreta || cartIsCarreta) && { carreta: true }) };
   // On foot: what the grown people carry, and the bundles the children made up (sim/flight-work.mjs `flee-bundle`).
   return { room: Math.round((atHome(world, household).filter(canAnswerCalls).length * CARRIED_ROOM + bundleRoom(household, atHome(world, household))) * 100) / 100, mode: 'foot' };
 }
@@ -200,7 +202,10 @@ export function fleeRefusal(world, household, { take = {}, refuge, route } = {})
     if (!(good in LOAD_SPACE) || !Number.isInteger(amount) || amount < 0) return 'Say how much of each thing, in whole amounts.';
     if (amount > haveOf(household, good)) return isHouseholdGood(good) ? `The family has not got ${goodWords(good, amount)} to take.` : `There is not that much ${good} in the house.`;
   }
-  const { room } = flightRoom(world, household);
+  const { room, mode } = flightRoom(world, household);
+  // The bedding, the pot, the books and the rest go only in a wagon (owner, 2026-09-30; sim/flight-goods.mjs `WAGON_ONLY`).
+  const wagonOnly = Object.entries(take).find(([good, amount]) => amount > 0 && WAGON_ONLY.includes(good));
+  if (wagonOnly && mode !== 'wagon') return `${goodWords(wagonOnly[0], wagonOnly[1]).replace(/^./, c => c.toUpperCase())} can go only in a wagon, and the family is going on foot.`;
   if (spaceOf(take) > room + 1e-9) return `That will not fit. There is room for ${room} and this takes ${Math.round(spaceOf(take) * 100) / 100}.`;
   if (!atHome(world, household).length) return 'Nobody of the family is at home to go.';
   return null;
@@ -257,10 +262,15 @@ export function burnByForagers(world, household, fate, column) {
   // that comes up with a family on the road takes none (sim/road.mjs `overtake`); not who is taken, which is as it was (D1).
   const stayed = !['fled', 'refuged', 'returning', 'home'].includes(flight.status);
   const taken = stayed ? takeStayersGoods(household) : {};
-  // What the family's page keeps showing until the family knows: the land as they left it, and the goods the foragers took.
-  flight.unseen = structuredClone({ improvements: household.improvements ?? null, field: household.field ?? null, plots: household.plots ?? null, furniture: household.furniture ?? null, interior: household.interior ?? null, ...(Object.keys(taken).length && { taken }) });
+  // And they drive off the whole herd of a family that stayed, as a fleeing family's left on the range is driven off (owner,
+  // 2026-09-30: "Yes, all of it"; `FIC-GONZ-992`). All of it: a family that stayed never comes home to find a quarter of it again.
+  const herd = stayed ? { ...herdOf(household) } : null;
+  const drove = herd && (herd.cattle > 0 || herd.hogs > 0) ? herdWords({ herd }) : null;
+  if (drove) household.herd = { cattle: 0, hogs: 0 };
+  // What the family's page keeps showing until the family knows: the land as they left it, and the goods and the herd the foragers took.
+  flight.unseen = structuredClone({ improvements: household.improvements ?? null, field: household.field ?? null, plots: household.plots ?? null, furniture: household.furniture ?? null, interior: household.interior ?? null, ...(Object.keys(taken).length && { taken }), ...(drove && { herd }) });
   const name = column?.name || 'The Mexican army';
-  ruin(world, household, ['cabin', 'field', 'fence'], { visibility: 'sealed', text: `Foragers of ${name} came to the farm${Object.keys(taken).length ? `, took what the family had in the house - ${goodsWords(taken)} -` : ''} and burned the house, the field and the fences.` });
+  ruin(world, household, ['cabin', 'field', 'fence'], { visibility: 'sealed', text: `Foragers of ${name} came to the farm${Object.keys(taken).length ? `, took what the family had in the house - ${goodsWords(taken)} -` : ''}${drove ? `, drove off the whole herd (${drove})` : ''} and burned the house, the field and the fences.` });
   household.furniture = {};
   delete household.interior;
   delete household.herdLookedDay;
@@ -271,7 +281,7 @@ export function burnByForagers(world, household, fate, column) {
   if (household.herdLeft) household.herdLeft.driven = true;
   flight.burned = world.minute;
   const took = Object.entries(taken).map(([good, amount]) => goodWords(good, amount));
-  flight.burnedBy = { hand: 'mexican', columnId: fate.columnId, name, ...(lost.length && { lost }), ...(took.length && { taken: took }) };
+  flight.burnedBy = { hand: 'mexican', columnId: fate.columnId, name, ...(lost.length && { lost }), ...(took.length && { taken: took }), ...(drove && { drove }) };
   if (flight.status === 'ordered') flight.status = 'stayed';
   recordFarmBurned(world, household);
   const place = world.map.sites[household.homeSiteId]?.settlementId ? `near ${world.map.sites[world.map.sites[household.homeSiteId].settlementId]?.name}` : 'on its land';
@@ -733,13 +743,17 @@ export function flightProjection(world, household) {
 function loadCard(world, household) {
   const home = world.map.sites[household.homeSiteId];
   const { room, mode, wagons, cart, carreta } = flightRoom(world, household);
-  const goods = householdGoods(household);
+  // The bedding, the pot, the books and the rest only with a wagon to put them in (owner, 2026-09-30: "if they have enough wagons,
+  // let them bring it all. if they don't, then no."); on foot the card does not offer them at all.
+  const goods = Object.fromEntries(Object.entries(householdGoods(household)).filter(([good]) => mode === 'wagon' || !WAGON_ONLY.includes(good)));
+  const extras = Object.keys(goods).filter(good => WAGON_ONLY.includes(good));
   return {
+    ...(extras.length && { extras }),
     // What carries it, for the card's words: the cart of a family of the poorest means, or how many wagons (sim/means.mjs).
     room, mode, ...(wagons && { wagons }), ...(cart && { vehicle: 'cart' }), ...(carreta && { vehicle: 'carreta' }),
     space: { ...FLIGHT_SPACE, ...Object.fromEntries(Object.keys(goods).map(good => [good, HOUSEHOLD_SPACE[good]])) },
     have: { ...Object.fromEntries(Object.keys(FLIGHT_SPACE).map(good => [good, Math.floor(household.resources?.[good] ?? 0)])), ...goods },
-    ...(Object.keys(goods).length && { names: Object.fromEntries(Object.keys(goods).map(good => [good, good === 'axe' ? 'felling axe' : wagonItem(good)?.name.toLowerCase() || good])) }),
+    ...(Object.keys(goods).length && { names: Object.fromEntries(Object.keys(goods).map(good => [good, GOOD_NAMES[good] || good])) }),
     refuges: REFUGES.filter(id => world.map.sites[id] && world.map.sites[id].x > home.x + 2).map(id => ({ id, name: world.map.sites[id].name, miles: Math.round(Math.hypot(world.map.sites[id].x - home.x, world.map.sites[id].y - home.y)) })),
     // Every place the family may make for instead, with stops on the way (sim/flight-route.mjs): ids, whose names and points
     // are on the page's own map.
@@ -775,6 +789,9 @@ export function scrapeInvalid(world) {
     if (flight.left !== undefined && (!flight.left || typeof flight.left !== 'object' || Object.entries(flight.left).some(([good, amount]) => !(good in LOAD_SPACE) || !Number.isInteger(amount) || amount < 0))) return 'Invalid goods left at home';
     // What foragers took from a family that stayed (`burnByForagers`, 2026-09-29): absent on every class saved before, which is none.
     if (flight.burnedBy?.taken !== undefined && (!Array.isArray(flight.burnedBy.taken) || flight.burnedBy.taken.some(words => typeof words !== 'string'))) return 'Invalid goods taken';
+    // The herd foragers drove off from a family that stayed (2026-09-30): absent on every class saved before, which is none.
+    if (flight.burnedBy?.drove !== undefined && (typeof flight.burnedBy.drove !== 'string' || !flight.burnedBy.drove)) return 'Invalid herd driven off';
+    if (flight.unseen?.herd !== undefined && (!flight.unseen.herd || !Number.isInteger(flight.unseen.herd.cattle) || !Number.isInteger(flight.unseen.herd.hogs))) return 'Invalid herd driven off';
     if (flight.unseen?.taken !== undefined && (!flight.unseen.taken || Object.entries(flight.unseen.taken).some(([good, amount]) => !(good in LOAD_SPACE) || !Number.isInteger(amount) || amount < 1))) return 'Invalid goods taken';
     if (flight.unseen !== undefined && (!Number.isFinite(flight.burned) || !flight.unseen || typeof flight.unseen !== 'object')) return 'Invalid unseen farm';
     if (flight.burnedBy !== undefined && (!Number.isFinite(flight.burned) || !['mexican', 'texian'].includes(flight.burnedBy?.hand))) return 'Invalid burning';

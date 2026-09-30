@@ -1,5 +1,39 @@
 # Claude handoff — Astra foundation
 
+## The Scrape's four open questions answered — owner 2026-09-30 (not released)
+
+Branch `owner-scrape-2` off local `integration-2026-09-28` 3ff1bec5 (which holds `owner-scrape`); not pushed. The owner answered the
+four questions the D9 build left (the section below). docs/SCRAPE.md §21, docs/MONEY_AND_GLORY.md §5b; `FIC-GONZ-992` and `-991`
+amended, `FIC-GONZ-993` new (both answers of the goods under one claim). **Same computer only: no Chromebook, LAN or classroom claim.**
+
+- **A stayer's herd: "Yes, all of it."** Foragers who reach a farm where the family stayed drive off its whole herd, cattle and hogs
+  (sim/scrape.mjs `burnByForagers`, `burnedBy.drove`); the journal and the ending say how many; the page shows the herd until the
+  family knows (`unseen.herd`).
+- **Families nobody plays leaving early: "No."** Recorded; no code changed; a test holds it.
+- **The rest of the wagon's goods: by the room.** Bedding 2.5, iron pot 1.25, books 1.25, mosquito bars 1.25, tinware 1.25, chairs 2.5
+  (flight units; a wagon holds 20) are in the load, **only in a wagon** (sim/flight-goods.mjs `WAGON_ONLY`): not offered on foot,
+  refused in words, left with a wagon in the mud. A family with two wagons, or little food, brings it all; one wagon full of food
+  does not; the packing is still food first. The card: each good's room on its own line, the extras under *"For the house, only in a
+  wagon, if there is room:"*, and *"The wagon is full: there is no room left for anything more."* / *"That is more than there is room
+  for: take something out."*. Note: the default load's bedding and pot are now in the load too, so a family that packs all food
+  leaves them in the house.
+- **Goods glory: "A little glory."** 1 glory, once, flat, for a family that went east and still has at the end something kept for the
+  house it loaded (chest, wheel or any of the goods above; not tools, not stores, not what the road or a column took, nothing for a
+  stayer); added beside the burned farm's glory at the ending proper, in its own line and a step of the sum (sim/ending.mjs,
+  `keptThrough`). It is the smallest award the ending has - one supply gift's weight - so "well below supplies" is not possible in
+  whole glory: it equals one gift. A fractional award would want the sums in fractions.
+- **The carreta by its name** (the coordinator's note): a cart named as a carreta - a poor Tejano family's "Family carreta" from the
+  starts work, not yet on this branch - is called a carreta on the card and in the story, with the cart's room (sim/scrape.mjs
+  `ownRoom`).
+- **Tests.** Five new tests in `tests/owner-scrape.test.mjs` (13 in all). **Every new test failed under an injection first: 40 of
+  40**, 15 of them new (`npm run test:owner-scrape-injections`, [record](docs/evidence/owner-scrape-injections.json)). `npm test`:
+  **1,890 tests, 1,853 pass, 1 fail, 36 skipped** - the fail is `tests/save-retry.test.mjs` under load, which passes alone (1 of 1);
+  the carreta test and the files it touches were run again after (62, 61 pass, 1 skipped).
+- **Proofs.** `npm run test:owner-scrape` **7 checks**, green (one new: the tally says *"The cart is full: there is no room left for
+  anything more."* and, with the bedding on top, *"That is more than there is room for: take something out."*; the card shows the
+  bedding and the pot under their own line); `test:scrape` 7 and `test:ending` 10, green. Screenshot
+  `docs/evidence/owner-scrape-early-load.png`.
+
 ## The Runaway Scrape's own choices: household goods in the load, leaving early on real news, foragers who take a stayer's goods — triage D9, owner 2026-09-29 (not released)
 
 Branch `owner-scrape` off local `integration-2026-09-28` 4131feb8; not pushed. The owner chose the recommended option of each of
@@ -39,11 +73,7 @@ no Chromebook, LAN or classroom claim.**
   screenshots `docs/evidence/owner-scrape-early-card.png`, `-early-load.png`, `-early-road.png`): a San Felipe family with no news
   has no card and no hiding; the express brings the Alamo's fall and the card opens early; the hiding is done before any order; the
   family leaves with the chest and the hoe, the corn lost, the axe and wheel hidden. Run two at a time on this tree: `test:scrape` 7, `test:scrape-pursuit` 15, `test:road` 7, `test:wagons` 4, `test:errand` 16, `test:ending` 10, `test:flashback` 11, `test:whole-game` 14, `test:solo-game` 16, `test:overlap` green - all pass. **`test:end-sequence` red** at its last step (*"Play Solo began anywhere but the player's own video"*: `reveal`, not `family`) after 19 checks, **the same on 4131feb8**; its evidence was left as it was.
-- **Open questions for the owner** (recommended first): (1) should foragers also drive off a stayer's herd, as the record's "cattle
-  and hogs taken" and as they do a fleeing family's (A: yes, as a fleeing family's, B: half, C: no); (2) should a family nobody plays
-  ever leave early (A: no, B: on the fall of the Alamo when its farm is in the burn zone); (3) the rest of the wagon's goods - bedding,
-  the pot, books, chairs - into the load too (A: no, B: bedding and the pot only, C: all); (4) goods saved worth anything at the
-  ending (A: no, as chosen, B: a line of glory for the chest and the wheel brought home).
+- **Open questions for the owner**: all four answered on 2026-09-30 and built on `owner-scrape-2` (the section above).
 
 ## The end sequence without a wait: every family's video at once, a Play button, and Controls — owner, 2026-09-30 (not released)
 

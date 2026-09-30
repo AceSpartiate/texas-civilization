@@ -412,6 +412,26 @@ the median *relative* gain instead would give 48). Families: 53% burned, 47% int
 burned, 15 intact, the same for any compensation from 0 to 80 glory - the winners' glory is in the hundreds, so neither the sale nor the
 compensation decides who finishes first; it moves the middle of the table.
 
+### 5b. Household goods brought home through the Scrape — owner decision, 2026-09-30 (not released)
+
+**The owner, 2026-09-30, by multiple choice: "A little glory"** (the fourth question left by docs/SCRAPE.md §18, which put the tools,
+the chest and the spinning wheel in the flight's load and told, but did not score, what was saved). `FIC-GONZ-993`; docs/SCRAPE.md §21.
+
+- A family that went east in the spring and still has with it at the end something **kept for the house** that it loaded as it left -
+  the chest, the spinning wheel, the bedding, the iron pot, the books, the mosquito bars, the tinware or the chairs - counts
+  **1 glory** (`KEPT_GLORY`, sim/flight-goods.mjs `keptThrough`, read only by sim/ending.mjs).
+- **Flat and capped**: once, however many it carried, and no miles. It is the smallest award the ending has - the weight of one gift of
+  supplies (`supplied`, 1 a gift) and far under any fight - and it is added to glory beside the burned farm's, not written into the
+  glory ledger (nothing reads glory before the end; VISION §11).
+- **Not** tools or stores, not goods lost on the road or taken by a column (the family must still have them), and nothing for a family
+  that stayed. Only at the ending proper, for a family somebody of is left (the farm's own guard, `farmAtEnd`).
+- **Said in plain words**: its own line under what earned glory (*"The family loaded the chest, the spinning wheel and the bedding as it
+  left in the spring, and carried them all the way home."* - *"Household goods brought home through the Scrape count 1 glory, once,
+  however many."*), and a step of the sum (*"Bringing the chest, the spinning wheel and the bedding home through the Scrape counts 1
+  glory, which is in the glory below."*).
+- This is the owner's direct choice and nothing more: it widens no other glory, and the owner's own plan for how a family that does not
+  fight can win is separate (not built).
+
 ## 6. Decisions, all made
 
 | Question | Owner's answer, 2026-09-12 |

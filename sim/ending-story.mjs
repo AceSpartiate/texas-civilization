@@ -36,8 +36,10 @@ export function flightLine(world, household) {
   if (flight.status === 'stayed') {
     // The foragers took a stayer's goods before they burned the farm (owner, 2026-09-29, D9 (c); sim/scrape.mjs `burnByForagers`).
     const taken = flight.burnedBy?.taken?.length ? ` They took everything in the house first: ${flight.burnedBy.taken.join(', ')}.` : '';
+    // And the whole herd (owner, 2026-09-30: "Yes, all of it").
+    const drove = flight.burnedBy?.drove ? ` They drove off the whole herd: ${flight.burnedBy.drove}.` : '';
     return burned
-      ? `They were told to leave in the spring and stayed on the farm. On ${day(world, flight.burned)} ${burnedBy} burned it.${taken}`
+      ? `They were told to leave in the spring and stayed on the farm. On ${day(world, flight.burned)} ${burnedBy} burned it.${taken}${drove}`
       : 'They were told to leave in the spring and stayed on the farm. The Mexican army never came that way, and the house stands.';
   }
   // A family still on the road had not reached its refuge: it was making for it. One that went before any order, on the word it

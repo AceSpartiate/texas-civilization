@@ -33,6 +33,8 @@ import { helpWhat, helpedLines, neighbourLines } from './neighbourly.mjs';
 import { afterWords } from './start-story.mjs';
 // The farm at the end: sold if it stands, glory for it if it burned (owner, 2026-09-29, D8; sim/farm-sale.mjs).
 import { farmAtEnd } from './farm-sale.mjs';
+// The small glory for household goods brought home through the Scrape (owner, 2026-09-30, "A little glory"; sim/flight-goods.mjs).
+import { KEPT_GLORY, goodsWords as keepsakeWords, keptThrough } from './flight-goods.mjs';
 // The end as a sequence (owner, 2026-09-29, D10; sim/end-sequence.mjs): the numbers wait for its reveal.
 import { revealed } from './end-sequence.mjs';
 
@@ -249,12 +251,13 @@ function partsTaken(world, household) {
  * The final number said a step at a time, in whole numbers a student can check (triage 2026-09-29 2.10): the coin, what the
  * prisoners took from it, glory multiplying it, and the land added.
  */
-function sumSentences({ money, glory, final, counted, living, taken, lostParts, land, farm }) {
+function sumSentences({ money, glory, final, counted, living, taken, lostParts, land, farm, keepsakes }) {
   const sale = farm?.kind === 'sale' ? farm.total : 0;
   const said = [sale
     ? `The family had ${reales(money)}, and sold the farm for ${reales(sale)}: ${money} + ${sale} = ${reales(money + sale)}.`
     : money < COIN_FLOOR ? `The family had no coin, so it is counted as having ${reales(COIN_FLOOR)}.` : `The family had ${reales(money)}.`];
   if (farm?.kind === 'burned') said.push(`The farm was burned, so there was nothing to sell; it counts ${farm.glory} glory, which is in the glory below.`);
+  if (keepsakes) said.push(`Bringing ${keepsakes.words} home through the Scrape counts ${keepsakes.glory} glory, which is in the glory below.`);
   if (taken) said.push(`${taken === 1 ? 'The one person' : `The ${taken} people`} taken prisoner take${taken === 1 ? 's' : ''} ${lostParts} of the family's ${living} parts, so ${reales(counted)} ${counted === 1 ? 'is' : 'are'} counted.`);
   const product = counted * (1 + Math.max(0, glory));
   said.push(glory > 0
@@ -282,7 +285,12 @@ export function familyEnding(world, householdId) {
   const farm = farmAtEnd(world, household);
   const sale = farm.kind === 'sale' ? farm.total : 0;
   const farmGlory = farm.kind === 'burned' ? farm.glory : 0;
-  const glory = (ledger?.total ?? 0) + farmGlory;
+  // What the family kept for the house and carried through the Scrape (owner, 2026-09-30: "A little glory"; `FIC-GONZ-993`): the
+  // one small flat award, at the ending proper and only for a family somebody of is left - the farm's own guard (`farmAtEnd`).
+  const carried = farm.kind !== 'none' ? keptThrough(household) : null;
+  const keepsakes = carried && { ...carried, words: keepsakeWords(Object.fromEntries(carried.goods.map(good => [good, 1]))) };
+  const goodsGlory = keepsakes?.glory ?? 0;
+  const glory = (ledger?.total ?? 0) + farmGlory + goodsGlory;
   // The coin the family's means started it with (sim/means.mjs, owner 2026-09-25: three to ten reales) is the first line of the
   // account, so every real that came into the house is in it. Only the account: how the final number counts it is the owner's
   // open question (docs/MONEY_AND_GLORY.md, the amendment of 2026-09-25), and it is counted as all coin in the house always was.
@@ -301,6 +309,10 @@ export function familyEnding(world, householdId) {
   // A burned farm's glory is the last line of what earned glory, in its own words (owner, 2026-09-29, D8).
   if (farm.kind === 'burned') awards.push({ date: Number.isFinite(farm.minute) ? day(world, farm.minute) : day(world, world.minute), points: farmGlory, role: 'farm-burned',
     text: 'The farm was burned in the spring, so at the end there was nothing left to sell.', worth: `A burned farm counts ${farmGlory} glory.` });
+  // The household goods brought home, the one line, after the farm's (owner, 2026-09-30).
+  if (keepsakes) awards.push({ date: day(world, world.minute), points: goodsGlory, role: 'goods-home',
+    text: `The family loaded ${keepsakes.words} as it left in the spring, and carried ${keepsakes.goods.length === 1 ? 'it' : 'them'} all the way home.`,
+    worth: `Household goods brought home through the Scrape count ${KEPT_GLORY} glory, once, however many.` });
   const miles = milesFromGonzales(world, household);
   const heard = firstWord(world, household);
   const parts = partsTaken(world, household);
@@ -333,10 +345,12 @@ export function familyEnding(world, householdId) {
     money, glory, final, land: land.reales, acres: land.acres,
     // The farm at the end (sim/farm-sale.mjs): its sale, or the glory for a burned one.
     farm, sale, farmGlory,
+    // The glory for household goods brought home (owner, 2026-09-30), and which.
+    goodsGlory, ...(keepsakes && { keepsakes: keepsakes.goods }),
     counted, kept, prisoners, ...(prisoners.length && { prisonerRule: PRISONER_RULE }),
     sum: `${coinWords} × (1 + ${glory < 0 ? `${glory} glory, counted as 0` : `${glory} glory`})${land.reales ? ` + ${reales(land.reales)} of land (${land.acres} acres promised)` : ''} = ${final}`,
     // The sum said in sentences, one step each, for a student to follow (triage 2026-09-29 2.10).
-    sumSaid: sumSentences({ money, glory, final, counted, living, taken: taken.length, lostParts, land, farm }),
+    sumSaid: sumSentences({ money, glory, final, counted, living, taken: taken.length, lostParts, land, farm, keepsakes }),
     gloryRule: gloryRule(),
     story, coin, awards,
     // Questions for the family about its own story (S24), shown under it.
@@ -395,7 +409,7 @@ export function hostEnding(world) {
     return {
       householdId: household.id,
       name: own.name,
-      money: own.money, sale: own.sale, farmGlory: own.farmGlory, glory: own.glory, land: own.land, final: own.final, prisoners: own.prisoners.length,
+      money: own.money, sale: own.sale, farmGlory: own.farmGlory, goodsGlory: own.goodsGlory, glory: own.glory, land: own.land, final: own.final, prisoners: own.prisoners.length,
       automatic: automatic(world, household),
       // A family a student played that the director was running at the end: its student was away (sim/absence.mjs).
       ...(automatic(world, household) && household.played && { finishedByDirector: true }),
