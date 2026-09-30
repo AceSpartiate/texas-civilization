@@ -1,6 +1,10 @@
 # Claude handoff — Astra foundation
 
-## Five release proofs green: famous people, ending, Béxar, Gonzales, children, family commands — 2026-09-29 (not released)
+## Released as v2026.09.29.2 — 2026-09-29
+
+Everything below marked *(released in v2026.09.29.2)* shipped in this release: Astra’s art always wins by subject (public/art-subjects.js) and failed sheets are asked for again, every family work at half its length, the lone parent’s path and wedding, one rider at a time with a clear Done and passing riders drawn, real-time limits on questions and the house burned when the order to leave runs out, small children until the day ends and follow-and-watch, the house card and story-card alerts, speech bubbles laid out together, portrait = star, the person card only for a matter, out-of-sight travellers greyed, the empty class pausing itself, any played family able to win, the lobby’s name and ready, the Tier 1 classroom and game items and TEACHER.md, and the store’s 24 food after the Scrape. Verified on a clean tree: `npm test` at f5745673 1793 tests, 1757 pass, 0 fail, 36 skipped (the suspended tutorial); 41 of 48 browser proofs green first time at f5745673, the other seven (errand, going, family-commands, children, ending, famous-people, battle-bexar, battle-gonzales) out-of-date proofs fixed at 7559cffe and cbbb57ce and green on a clean tree at cbbb57ce. Tagged at cbbb57ce. Same computer only; no Chromebook or LAN claim.
+
+## Five release proofs green: famous people, ending, Béxar, Gonzales, children, family commands — 2026-09-29 (released in v2026.09.29.2)
 
 Branch `release-proofs` off origin/main 7559cffe; not pushed. Each failed on a clean checkout of f5745673. **All five causes were
 the proofs; no game bug was found**, so no game change and no node test.
@@ -43,7 +47,7 @@ classroom claim.
 Open, for the owner: a rider left unheard now holds any question he brought for up to ninety real seconds. At Quick a rumor put late
 in the Gonzales run-up (after about minute 3,900) could reach dawn before he rides on, and the family would never be asked it.
 
-## `test:going` green again: the proof answers which piece — 2026-09-29 (not released)
+## `test:going` green again: the proof answers which piece — 2026-09-29 (released in v2026.09.29.2)
 
 Branch `going-proof` off origin/main f5745673; not pushed. `scripts/going-browser-proof.mjs` stopped at its last step (*"the next
 person: one way left … they walk straight away"*), as the section below records: the order went out on foot with no chooser, as
@@ -73,7 +77,7 @@ Evidence (same computer, headless Chrome): `npm test` **1793 tests, 1757 pass, 0
 `test:going` **7 of 7**, twice; `test:errand` **16 of 16**, twice; `test:furniture` 5, `test:work` 5, `test:family-panel` 19.
 No Chromebook, LAN or classroom claim.
 
-## Merging the story cards with portrait = star; warn, then allow; a traveller out of sight greyed — owner, 2026-09-29 (not released)
+## Merging the story cards with portrait = star; warn, then allow; a traveller out of sight greyed — owner, 2026-09-29 (released in v2026.09.29.2)
 
 Branch `cards-merge-fix` off `integration-2026-09-28` (37838614: `house-card` merged with `bubbles-portrait-star`); not pushed.
 
@@ -125,7 +129,7 @@ next person: one way left … they walk straight away"* - the order goes out on 
 *make-furniture* at step 0 with no journey, so the proof's wait for a foot journey times out. A server change from another branch. (The proof's, not the game's: the
 real-time limits' ninety seconds for a work question; answered on `going-proof`, the section above.)
 
-## Four red proofs green: `test:solo-game`, `test:family-commands`, `test:travel-sight` and the house plot — 2026-09-29 (not released)
+## Four red proofs green: `test:solo-game`, `test:family-commands`, `test:travel-sight` and the house plot — 2026-09-29 (released in v2026.09.29.2)
 
 Branch `red-proofs` off `integration-2026-09-28` 88446353; not pushed. Each was red here and reported red on origin/main today.
 Bisected over the first-parent merges since v2026.09.29.1 in scratch worktrees (`git log --merges v2026.09.29.1..HEAD`).
@@ -186,7 +190,7 @@ the map is the top thing at only 39%"*) - identically, twice, on a clean worktre
 the phone's map (the `cards-merge-fix` branch's work). Evidence files rewritten by these runs are committed; the failing
 family-panel run's picture is not.
 
-## One rider, one visit: no pack of riders, no second telling, one conversation at a time — owner, 2026-09-29 (not released)
+## One rider, one visit: no pack of riders, no second telling, one conversation at a time — owner, 2026-09-29 (released in v2026.09.29.2)
 
 **The ask.** Owner, 2026-09-29: *"At the start of the game, there's multiple riders that arrive at the same time. If they're all
 carrying similar news, why does the family receive multiples? Why don't we integrate and simplify things?"*, refined the same
@@ -281,7 +285,7 @@ and the pile.
    behind it before a rider who reined in since (`moveOn`, in the order it came).
 2. **A question already on the screen when a rider comes** - *"Stays up".* As built.
 3. **The same word, firmer, after six hours** - *"Own conversation".* As built.
-## A watching student keeps their own man's fight and the word of him: `test:battle-south` fixed, `test:battle-coleto` re-run — 2026-09-29 (not released)
+## A watching student keeps their own man's fight and the word of him: `test:battle-south` fixed, `test:battle-coleto` re-run — 2026-09-29 (released in v2026.09.29.2)
 
 Branch `south-news-proofs` off origin/main 7b099ab5; not pushed. `npm run test:battle-south` failed on main (*"no account of San
 Patricio came"*, 13 checks then the failure), and `test:battle-coleto` was reported failing at the word, or on main at an earlier card.
@@ -318,7 +322,7 @@ again, trace the page's first snapshot time against the march-out.
 `test:information` passed; the evidence files are from these runs. `npm test` 1784 / 1748 pass / 0 fail / 36 skipped (an earlier
 run, before the watching-road line, had the known save-retry flake, 1 of 1 alone).
 
-## The house's card, and a family member's big moments as story cards — owner, 2026-09-29 (not released)
+## The house's card, and a family member's big moments as story cards — owner, 2026-09-29 (released in v2026.09.29.2)
 
 Branch `house-card` off origin/main c92e715f (origin/main 7b099ab5 merged in); not pushed. The owner: *"The choosing of a house
 button is hard to miss"* (easy to miss) - *"I like what you did with the ask the neighbors for help one. Let's do the same thing with
@@ -367,7 +371,7 @@ page's steps through `#house-open` pass), on origin/main earlier, at the sills' 
 `sim/`. `scripts/house-plot-regression-proof.mjs` passes (8 of 8). `test:battle-bexar` failed once at a portrait press here and passed on both re-runs;
 origin/main's own run failed at *"the Host's camera was not on the town in the afternoon"* - timing, both ways.
 
-## Speech bubbles laid out together; a portrait is the star; the card beside a person only for a matter — owner, 2026-09-29 (not released)
+## Speech bubbles laid out together; a portrait is the star; the card beside a person only for a matter — owner, 2026-09-29 (released in v2026.09.29.2)
 
 Branch `bubbles-portrait-star` off origin/main (af25547a; origin/main merged at c92e715f, d5f4d391 and 7b099ab5); not pushed. Three owner
 reports of 2026-09-29, verbatim: *"When playing, text boxes for npc and player characters overlap frequently."* - *"When clicking
@@ -444,7 +448,7 @@ card-fold step is marked stale (skipped while the lesson is off). Battle bubbles
 the layout (another builder's files; ambient talk is quiet in both). The full `test:chatter-injections` (the six older ones) was not
 re-run; its pile-up injection was re-aimed at the layout.
 
-## Astra's art always wins, by subject: Claude's temporary art only where she has drawn nothing — owner, 2026-09-29 (not released)
+## Astra's art always wins, by subject: Claude's temporary art only where she has drawn nothing — owner, 2026-09-29 (released in v2026.09.29.2)
 
 Branch `astra-art-wins` off origin/main (3dd5209d, origin/main af25547a merged in); not pushed. The owner played the released
 v2026.09.29.1 (installed files identical to the release): *"serious graphical issues. a lot of astra art has been replaced with
@@ -550,7 +554,7 @@ Patricio came", 13 checks pass first, identical on a clean checkout of c92e715f)
 through the family at the word" after 16 checks; on the clean checkout it fails earlier, "no Follow card came through the man when
 the column marched out") - both a news card not arriving, after every drawing check has passed.
 
-## The character creator's solid-colour tiles — owner, 2026-09-29 (not released)
+## The character creator's solid-colour tiles — owner, 2026-09-29 (released in v2026.09.29.2)
 
 Branch `looks-solid-tiles`, off origin/main (3dd5209d); not pushed. The owner, on the released v2026.09.29.1: *"multiple choices
 in the character creator screens are just solid colors."* Also from the owner-side check: with Fair hair the father's
@@ -609,7 +613,7 @@ and `-preview.png` (the Moustache choice).
 branch and identically on clean origin/main (3dd5209d): it expects the title card to be announced as "Your family" and it
 reads "Who will your family be?" - not touched here.
 
-## Every family work at half its length — owner, 2026-09-29 (not released)
+## Every family work at half its length — owner, 2026-09-29 (released in v2026.09.29.2)
 
 Branch `work-halved`, off origin/main (af25547a); not pushed. The owner, verbatim: *"Tasks are taking far too long. Cutting down
 trees, fishing, building a house, all of those types of tasks are taking too long. Reduce the variables need to complete these tasks
@@ -710,7 +714,7 @@ not the work's. Its high end was already pessimistic after the real-time limits 
 **Docs**: WOODS_AND_BUILDING §6.8 (new) and §7, BALANCE §15, GAME.md (a paragraph, the gathering hours, a fence's words),
 SETTLING_IN's dog-run row, HISTORY `FIC-GONZ-908`.
 
-## An order to leave that runs out burns the house — owner, 2026-09-29 (not released)
+## An order to leave that runs out burns the house — owner, 2026-09-29 (released in v2026.09.29.2)
 
 **The ask.** Owner, 2026-09-29, answering the `flightWaited` ceiling of the real-time limits: *"72 s at quick, but if the
 student doesn't respond, burn their house. They should have been paying attention."* Claim `FIC-GONZ-907`. Branch
@@ -750,7 +754,7 @@ student doesn't respond, burn their house. They should have been paying attentio
   None of them lets an order to leave lapse on a watched family, so the card's warning line and the burned house are proven in
   process, not in a browser.
 
-## The lone parent's path: two neighbours' farms, a wedding by bond, and a house the neighbours raise — owner, 2026-09-29 (not released)
+## The lone parent's path: two neighbours' farms, a wedding by bond, and a house the neighbours raise — owner, 2026-09-29 (released in v2026.09.29.2)
 
 Branch `lone-parent-wedding`, off origin/main (3dd5209d); not pushed. The owner: *"if a player is unlucky enough to have a lone
 parent, the following path is made available. a special ability appears when they reach their land ... we see the family visit and
@@ -813,7 +817,7 @@ built. Three more tests (16 in all), **5 more injections, each caught by its own
 `test:lone-parent` now walks a lone mother and gains a check - the page reads *"The Whitlow family"* and the new husband has the star
 (**10 checks**, `docs/evidence/lone-parent-10-his-name.png`); `test:family-panel` 18 and `test:ending` 10 re-run green.
 
-## Small children until the day ends; follow and watch — owner, 2026-09-29 (not released)
+## Small children until the day ends; follow and watch — owner, 2026-09-29 (released in v2026.09.29.2)
 
 Branch `owner-children-watch`, off origin/main (1859f219, which has `audit-triage-2026-09-29` in it); not pushed. The owner's answers
 to the triage's D1 to D4 ([audits/2026-09-29-triage.md](docs/audits/2026-09-29-triage.md)), by multiple choice; the triage marks
@@ -865,7 +869,7 @@ Browser proofs re-run green: `test:children` **16** (it now calls play off from 
 **Left:** the full `test:children-injections` evidence file was not re-run end to end (the new and changed injections were, above);
 `test:overlap` has no watching state; D3(b) and (c) were not asked again (seven, and a warning, as built).
 
-## Real-time limits: a rider 90 s, the order to leave 3 min, ¡Alto! 30 s with the chase held — owner, 2026-09-29 (not released)
+## Real-time limits: a rider 90 s, the order to leave 3 min, ¡Alto! 30 s with the chase held — owner, 2026-09-29 (released in v2026.09.29.2)
 
 **The ask.** Owner, 2026-09-29, answering the triage's C2 with A (docs/audits/2026-09-29-triage.md 1.2 and 1.3): *"real-time
 budgets: a rider 90 s, the order to leave 3 min, ¡Alto! about 30 s with the chase held, and road and hunt questions timed in
@@ -928,7 +932,7 @@ is therefore too high by up to about a fifth; re-measure with the audit's mix be
 estimate. Found in passing, on both trees alike: seed `measure-c` (30 idle families) ran P3 for 13,656 and 13,462 ticks before the
 director completed - not caused by this change, and worth its own look.
 
-## "Done packing" back on its own card at 1366x768, and the creation-screen proof green again — 2026-09-29 (not released)
+## "Done packing" back on its own card at 1366x768, and the creation-screen proof green again — 2026-09-29 (released in v2026.09.29.2)
 
 Branch `wagon-done-fold` off origin/main (3dd5209d); not pushed. `npm run test:creation-screen` failed at 1366x768 - *"the
 button that ends the wagon at 1366x768 step is below the fold of its own card: #wagon-done "Done packing" is 58px past it"* -
@@ -955,7 +959,7 @@ then passes with the injection removed. `test:creation` 10 checks pass; `test:ov
 `family-column`, `surname`, `wagon-load`, `classroom-doors`, `asset-http`, `lobby-ready`) 38 of 38; `npm test` **1737 tests,
 1701 pass, 0 fail, 36 skipped** (the suspended tutorial).
 
-## The empty class pauses itself, any played family can win, the lobby shows who is ready — owner, 2026-09-29 (not released)
+## The empty class pauses itself, any played family can win, the lobby shows who is ready — owner, 2026-09-29 (released in v2026.09.29.2)
 
 Branch `owner-pause-win-lobby`, off origin/main (0ffa9663) with `audit-triage-2026-09-29` merged in; not pushed. The owner's
 three answers to the triage's quick confirmations ([audits/2026-09-29-triage.md](docs/audits/2026-09-29-triage.md) C1, C3,
@@ -1002,7 +1006,7 @@ tutorial). Browser proofs re-run green: `test:ending` 10, `test:host-bell` 9, `t
 **Left:** the overlap proof has no state with `#host-paused` shown (it is listed in the Host's furniture); the concurrent
 server/app.mjs branch (pace saved, class code O/0, duplicate names, 4th tab) must be merged with this one.
 
-## Tier 1 classroom items: the pace kept, the class code's look-alikes, one name one student, a fourth tab and a Chromebook asleep — 2026-09-29 (not released)
+## Tier 1 classroom items: the pace kept, the class code's look-alikes, one name one student, a fourth tab and a Chromebook asleep — 2026-09-29 (released in v2026.09.29.2)
 
 **The ask.** The triage of 2026-09-29 ([docs/audits/2026-09-29-triage.md](docs/audits/2026-09-29-triage.md)) ranked four classroom
 findings Tier 1 that need no owner decision: **1.5** the pace forgotten overnight (C-M1, D-M1), **1.8** the class code's O/0 and
@@ -1069,7 +1073,7 @@ I/1 and two students with the same name (C-M2, C-M3), and **1.9** a fourth tab a
   pings); a class's Host will see a sleeping student's row go *away* about 30 s after the lid shuts, where before it stayed
   *here* until TCP gave up.
 
-## Tier 1 of the triage, the game's own items — 2026-09-29 (not released)
+## Tier 1 of the triage, the game's own items — 2026-09-29 (released in v2026.09.29.2)
 
 **The ask.** Owner's request, 2026-09-29: fix the Tier 1 items of [docs/audits/2026-09-29-triage.md](docs/audits/2026-09-29-triage.md)
 that need no owner decision (1.10, 1.11, 1.12, 1.13, and 2.3's danger half). Branch `tier1-game` off `origin/main` 0ffa9663 with
@@ -1122,7 +1126,7 @@ driver injection caught by its own test alone.
 because the `flightProjection` line it replaces in `sim/world.mjs` no longer exists. Not fixed here. The rest of 2.3 (a child
 alone writing *"set out: play"* dozens of times) is open.
 
-## Small loose ends of Claude's temporary art: the wagon and its ox as one drawing, the wagon's open tail, children turned as they go, the burial's sheet ahead — owner, 2026-09-29 (not released)
+## Small loose ends of Claude's temporary art: the wagon and its ox as one drawing, the wagon's open tail, children turned as they go, the burial's sheet ahead — owner, 2026-09-29 (released in v2026.09.29.2)
 
 **The ask.** Owner, 2026-09-29: *"clean up the small loose ends."* Four, from areas B, C and D of docs/CLAUDE_ART_PLAN.md.
 
@@ -1180,7 +1184,7 @@ whoever rides in the open tail. Side-on, a whole seated rider's legs are drawn o
 seat, rows and yoke height are the kit's numbers and one look at the preview, not a seat anchor in the manifest. The water
 carrier's line is the page's own few steps, not a path to a well. Every frame named here stays on Astra's list.
 
-## The famous people's map frames: steady frames and the first-draw hitch — owner, 2026-09-29 (not released)
+## The famous people's map frames: steady frames and the first-draw hitch — owner, 2026-09-29 (released in v2026.09.29.2)
 
 **The ask.** `test:famous-people` failed now and then: "the Host's map with the famous people draws too slowly: 75 ms at the
 95th percentile" (75 and 84 ms seen; other runs 3.2 ms). The Host's sample held 2-7 frames, so its p95 was its slowest frame.
@@ -1219,7 +1223,7 @@ carrier's line is the page's own few steps, not a path to a well. Every frame na
   is fewer or smaller sheets at Start, or `ImageBitmap.close()` of long-unused sheets (the `ceiling:` on `loadImage`) leaving
   the budget room to prepare ahead. Not measured on a Chromebook.
 
-## The store's food after the Scrape: 24 a family — owner, 2026-09-29 (branch `food-limit-24` off origin/main 0ffa9663; not released)
+## The store's food after the Scrape: 24 a family — owner, 2026-09-29 (branch `food-limit-24` off origin/main 0ffa9663; released in v2026.09.29.2)
 
 The owner's answer to BALANCE.md §14.4: **"Lower to 24 food"** - from the Runaway Scrape the store wants 24 food a family (32 until now),
 four bales' eight reales at a real for three food, so food and cotton are the same coin's worth (`sim/market.mjs`, `FIC-GONZ-722`); corn is
