@@ -117,10 +117,13 @@
       <div id="session"></div>
       <div id="world"></div>
       <div id="food"></div>
-      <div id="supplies"></div>
       <!-- The field crop by crop (owner, 2026-09-30, each plot its own crop; public/app.js `renderFieldSummary`): a picture and a count
-           for each crop growing and ripe, and the bare plots. Its own element, beside the supplies line. -->
-      <div id="field-summary" role="img" hidden></div>
+           for each crop growing and ripe, and the bare plots. Its own element, beside the supplies line on the same row, so the
+           family's column below keeps its height (the overlap proof: a row more folded the lone parent's card at 1366x768). -->
+      <div id="supplies-row">
+        <div id="supplies"></div>
+        <div id="field-summary" role="img" hidden></div>
+      </div>
       <!-- The lines the page says - a refusal in the server's words, a save fault, the server stopping, the Host's notice - stand
            in this column under the status lines, where nothing else is (owner, 2026-09-28: "Check for UI elements that block
            others"). In the middle of the top they fell under the guided start's strip, the card and the land chooser. -->

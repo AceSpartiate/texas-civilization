@@ -246,7 +246,13 @@ body:has(#errand:not([hidden])) #military-notice{display:none}
 .work-stop:hover:enabled{background:#6a5940}
 #supplies[data-urgent=true]{background:#7a4726;color:#fdf0dd}
 #supplies{max-width:100%;white-space:normal;overflow-wrap:anywhere}
-/* The field crop by crop (owner, 2026-09-30; public/app.js `renderFieldSummary`): a picture and a count for each, ripe ones lit. */
+/* The field crop by crop (owner, 2026-09-30; public/app.js `renderFieldSummary`): a picture and a count for each, ripe ones lit,
+   on the supplies' own row so the column below keeps its height. */
+#supplies-row{display:flex;gap:6px;align-items:center;max-width:100%;padding:0;background:none}
+@media (max-width:760px){#supplies-row #supplies{font-size:12px;padding:4px 10px}}
+#supplies-row #supplies{flex:0 1 auto;min-width:0}
+#supplies-row #field-summary{flex:none}
+#supplies-row:not(:has(#supplies:not(:empty))):not(:has(#field-summary:not([hidden]))){display:none}
 #field-summary{display:flex;gap:4px;flex-wrap:wrap;align-items:center;background:var(--shade);border:1px solid #8f825b;border-radius:4px;padding:3px 6px;color:#f2f0e2;font-size:15px;font-weight:650;font-variant-numeric:tabular-nums}
 #field-summary .crop-chip{display:inline-flex;align-items:center;gap:2px;padding:1px 6px 1px 2px;border-radius:11px;background:rgba(255,255,255,.08);border:1px solid transparent;line-height:1}
 #field-summary .crop-chip canvas{width:26px;height:26px}

@@ -242,6 +242,8 @@ bare, sown and ripe plots), `sim/chores.mjs` (planting and the harvest), `sim/au
   count; the words are its label and each chip's title. The supplies line no longer says "field bare".
 - **Old saves**: a class saved with one crop for the whole field reads that crop, state and minutes for every sown plot, and each is
   written down as its own the first tick it grows or the first time the field changes (`keepCrops`). No save version.
+- **Balance** (docs/BALANCE.md §18, 14 classes): a cotton family with a corn plot ends with about a quarter less than one all in
+  cotton, and goes hungry about half as often in the winter (13 of 84 families a day without food, against 22).
 - `ceiling:` the crop is chosen for the plots of one planting together (one crop for every bare plot, or one plot); a planting of
   several plots in several crops is auto's and the director's only. A student who wants two plots of corn and two of cotton taps
   and plants twice. `ceiling:` a harvest brings in every ripe plot; which to bring in is not chosen.

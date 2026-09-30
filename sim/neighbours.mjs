@@ -169,7 +169,8 @@ export function judgeOffer(view, offer, mouths = view.household.members.length) 
   const resources = view.household.resources;
   const after = good => (resources[good] || 0) - (offer.weGive[good] || 0) + (offer.weGet[good] || 0);
   if (offer.weGive.food && after('food') < mouths * FOOD_KEPT_PER_PERSON) return { take: false, why: "We can't spare the food; there are too many of us to feed." };
-  if (offer.weGive.seed && view.household.field?.state === 'bare' && after('seed') < 2) return { take: false, why: "We can't spare seed before the field is in." };
+  // Before the field is in: any plot still bare, each plot its own crop since 2026-09-30 (a view without the summary: the old way).
+  if (offer.weGive.seed && (view.land?.crops ? (view.land.crops.bare ?? 0) > 0 : view.household.field?.state === 'bare') && after('seed') < 2) return { take: false, why: "We can't spare seed before the field is in." };
   if (offer.weGive.powder && after('powder') < 1) return { take: false, why: "That's the last powder in the house." };
   if (worth(offer.weGet) < worth(offer.weGive)) return { take: false, why: "That's not a fair trade for us." };
   return { take: true };
