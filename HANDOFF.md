@@ -1,5 +1,62 @@
 # Claude handoff — Astra foundation
 
+## Five red release-candidate proofs: `biome-game`, `travel-drawn`, `siege`, `concepcion`, `surprise-reveal` — 2026-09-30 (not released)
+
+Branch `proofs-map` off local `integration-2026-09-28` (e67e0f15); not pushed. Red on the release candidate (bccea07c). Each was
+bisected by running the proof on code-only trees of earlier commits (same computer, headless Chrome). **All five were the
+proof out of date, not the game**; no game rule changed. **Same computer only: no Chromebook or LAN claim.**
+
+- **`test:siege`** - *proof out of date since 72050fee* (one rider, one visit, 2026-09-29; red in v2026.09.29.3 too). Its class
+  answered the settlement's call in process while a rider was still talking with the family; the call waits behind him
+  (`questionWaits`, `FIC-GONZ-909`), so the projection had no request and the setup threw on `.answerers`. Green at c92e715f
+  (its parent), red at 72050fee. **Fix:** the rider is sent on (`leave-rider`) as a student sends him, then the call is
+  answered - the same fix `test:storming` got in 5d5bfc39. Green **2 of 2** (8 checks).
+- **`test:concepcion`** - *proof out of date since 3efc12bc* (a traveller out of sight greyed, owner 2026-09-29; red in the tag).
+  At the Salado the army is halted in the middle of its journey to Béxar, which the page draws nothing of, so the volunteer's row
+  is greyed and his portrait held (`aria-disabled`); the proof pressed the portrait. Green at bed10685, red at 3efc12bc.
+  **Fix:** the question is opened from the "!" on his row (docs/FAMILY_PANEL.md §20c: the "!" is never held), asserted to be
+  the army's question, pressed with `force` as `test:one-rider` presses the pulsing mark. Green **2 of 2** (6 checks).
+- **`test:biome-game`** - *proof out of date since 834966aa* (every family work at half its length, 2026-09-29; red in the tag).
+  The fence's time is `hoursSaid` - to the half hour, minutes under an hour - and the proof asked for whole hours: "about 1.5
+  hours". Green at af25547a ("about 3 hours"), red at 834966aa. **Fix:** the regex takes `hoursSaid`'s forms (and the wood
+  pile's sentence), and a new check holds the time said to `hoursSaid(workHours(fenceBy(...).ticks))`, the family's pace.
+  **Injection** (the old whole-hours formula back in `fenceWords`): caught by that check only. Green **2 of 2** (6 checks).
+- **`test:surprise-reveal`** - *proof out of date since 06b82e6a* (design audit B4, 2026-09-28: standings between periods are
+  coin and land only, "none of the ending's story"). The proof wanted the snow-march reveal when the second period stops on
+  March 13, which is now the interim. Green at 04947177, red at 06b82e6a (and in both 09-29 releases). **Fix:** the proof now
+  proves both halves: (1) at the second period's stop the Host and both families see THE STORY SO FAR with no reveal on the
+  screen or the wire; (2) the same class continued in process through the spring (`beginThirdPeriod`, the teacher's Continue)
+  to April 24, started, ended by itself, the teacher skips the end sequence to the final numbers, and the Host (1366) and both
+  families (1366, 1024) carry the reveal, nothing sideways. **Injection** (`interimHost` passing the reveal): caught by (1).
+  Green **2 of 2** (6 checks). `docs/battle-research/surprise-at-bexar.md` said "the second period's close"; corrected.
+- **`test:travel-drawn`** - *proof out of date with its own deal*: latent since 7ca3bdea ("land already walked is behind them",
+  2026-09-27), shown whenever Play Solo deals a long road with a small stretch of the family's land under it (the deal is fresh
+  each run, so no single commit turns it red). On a long road the family's own view is zoomed out so far that the server's pace
+  is under the gait: drawn whole where the server has them, they cross their land in view in the first second or two, before
+  the proof presses close in; from then the schedule's land is behind them and the faded lead is the hundred yards alone, read as
+  "0 of their own land" (118.74 miles on the RC; reproduced here at 133.4 and 148.0 miles with debug frames). The game kept the
+  rule: never faded on their land, never over the gait. **Fix:** the page reports where the road leaves the family's land
+  whichever schedule is in force (`seen.ownLand`, `seen.paced` - presentation evidence in public/app.js `sightOf`, no
+  behaviour change); the proof samples every frame from the moment they set out and holds that the land is there (over fifty
+  yards), that every frame drawn on it is a whole figure, and that any faded-schedule frame on it has a lead past the land. It
+  also puts an idle child's Auto on when the server refuses the journey for "stopped to talk with …, who has nothing to do"
+  (as `test:keyboard-farm` does; seen once in six runs). **Injections:** the grant not given to the schedule (caught: 0 miles of
+  land); the schedule ignoring the land (caught on a short-land deal only as "0 frames on it" - the page-side rule itself is held
+  by `tests/travel-drawn.test.mjs`). Green **2 of 2** (82.98 and 96.72 miles, 0.085 miles of land walked whole over 525 and 547
+  frames - both deals the old check failed). Also seen once in six debug runs, not fixed: a deal whose family view is already as
+  close as the portrait's, so "pressed close in the server would carry them 1.16" failed the over-the-gait precondition.
+- `npm test`: **1966 tests, 1930 pass, 0 fail, 36 skipped** (the suspended tutorial).
+
+**Owner questions.**
+1. *The snow-march reveal when a class stops after the winter.* Since B4 the second period's close shows coin and land only, so a
+   class that never continues into the spring never sees the reveal. (a) Keep it at the class's own end only, as now
+   (recommended: B4's "none of the ending's story"); (b) show it at the second period's close too, beside the coin and land;
+   (c) show it at the second period's close only when the teacher ends the class there for good.
+2. *A volunteer camped with the army in the middle of its march* (the Salado) is greyed "On the road to Béxar — back in view when
+   they arrive", while one camped at the journey's end (the old mill) is live. (a) Keep it greyed but say where he is: "With the
+   army at the Salado" (recommended); (b) leave it as it is; (c) treat a halted army as drawn and live (the portrait takes the
+   camera to the camp).
+
 ## A small setup to email: `TexasRevolutionWebSetup.exe`, 169.5 KB — owner, 2026-09-30 (not released)
 
 Branch `web-setup` off local `integration-2026-09-28` (cb5c1fb4); not pushed, nothing published. Owner: *"The file for

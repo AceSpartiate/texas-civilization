@@ -166,7 +166,10 @@ enemy appeared in sight we had not three bushels of corn" — then "80 or 90 bus
   before (`alamo-siege`, the 25th at Gonzales, the 26th elsewhere).
 
 **At the ending** (`surpriseReveal`, `sim/surprise.mjs`; the Host's closing view and each family's, once a class that lived
-February 23 has ended — the second period's close and the third's): *What nobody in Texas knew: the snow, and the surprise at
+February 23 has ended for good — the third period's close, or the teacher's End Game part-way through a period after February 23 (sim/periods.mjs
+`interimStandings`); since 2026-09-28 the
+second period's close is standings of coin and land only, with none of the ending's story (design audit B4, 06b82e6a;
+`test:surprise-reveal` proves both, 2026-09-30)): *What nobody in Texas knew: the snow, and the surprise at
 Béxar* — what the Texians believed (the grass, Houston's "by the rise of grass", Travis's March 15, Santa Anna fed by Coahuila and
 Nuevo León on mule back); the warnings (the San Felipe express, Herrera and the council, the Tejano families leaving, the
 fandango and the Medina's rain); the bell, the false alarm, Sutherland and Smith, the corn, the note to Gonzales; the snow of 13–14

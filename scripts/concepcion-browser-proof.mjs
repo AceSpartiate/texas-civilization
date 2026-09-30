@@ -78,8 +78,18 @@ try {
 
   // October 22: the question, on the volunteer's own card.
   await page.waitForFunction(id => window.__snapshot?.world.army?.ours?.find(one => one.id === id)?.detachment === 'open', volunteer, { timeout: 60000 });
-  await page.locator(`.panel-row[data-entity-id="${volunteer}"] .panel-portrait`).click();
-  const go = page.locator('#selection-army button[data-action="detachment-go"]');
+  // Opened from the "!" on the volunteer's row, as a student opens what is waiting on somebody. The army's halt at the Salado
+  // is the middle of its journey to Béxar, which the page draws nothing of, so the row is greyed and the portrait held
+  // (3efc12bc, owner 2026-09-29, docs/FAMILY_PANEL.md §20c: "the '!' and story cards still open what waits on them"); this
+  // proof pressed the portrait and was red from then until 2026-09-30.
+  observed.portraitHeld = await page.locator(`.panel-row[data-entity-id="${volunteer}"] .panel-portrait`).getAttribute('aria-disabled') === 'true';
+  const mark = page.locator(`.panel-row[data-entity-id="${volunteer}"] .panel-attention`);
+  await mark.waitFor({ state: 'visible', timeout: 15000 });
+  observed.mark = await mark.getAttribute('aria-label');
+  assert.match(observed.mark, /The army is asking/, `the volunteer's "!" is not the army's question: "${observed.mark}"`);
+  // The "!" pulses, so it is never "stable" to Playwright; pressed where it stands, as test:one-rider presses it.
+  await mark.click({ force: true });
+  const go =page.locator('#selection-army button[data-action="detachment-go"]');
   await go.waitFor({ state: 'visible' });
   observed.question = (await page.locator('#selection-army').innerText()).trim();
   assert.match(observed.question, /Bowie and Fannin/);

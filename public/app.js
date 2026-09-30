@@ -1117,6 +1117,9 @@ function sightOf(entity, height, marks) {
   seen.heightsPerSecond = drawnHeightsPerSecond({ milesATick, tickMs: marks.tickMs, scale: marks.scale, heightPx: height });
   seen.shownHeightsPerSecond = sight.rate * seen.heightsPerSecond;
   seen.faded = sight.faded; seen.lead = sight.lead; seen.tail = sight.tail;
+  // Presentation evidence: where this road leaves the family's own land, as the schedule was given it (`landRuns`), whichever
+  // schedule is in force - `lead` is only the walked lead while the road is faded, and nothing of the land once it is behind them.
+  seen.ownLand = runs.leaves; seen.paced = Boolean(sight.paced);
   seen.at = alongRoute(journey.points, sight.miles - (journey.base || 0)) || null;
   return seen;
 }
