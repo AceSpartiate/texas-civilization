@@ -449,3 +449,37 @@ card now waits behind the order to leave, the road's question and ¡Alto! as it 
 **Evidence.** `tests/tips.test.mjs`, `tests/need-ranking.test.mjs` and the four new tests in `tests/lesson.test.mjs`, each
 injected against in [tips-injections.json](evidence/tips-injections.json) (`npm run test:tips-injections`);
 [tips-browser.json](evidence/tips-browser.json) (`npm run test:tips`).
+
+### 9a. The Tips button — owner-decided, 2026-09-29 (triage D16, option A)
+
+**The decision.** Each tip shows once, and "Got it" is often pressed by habit, so a student had nowhere to read one again. The
+owner had ruled out the teacher reopening the tutorial (2026-09-27); a reference that gates nothing was not ruled out. From the
+triage of 2026-09-29 the owner chose the recommended **A: a Tips button that lists the tips already seen**.
+
+**As built.**
+
+- **Where.** A **Tips** button (a lamp and the word) in the map's buttons at the bottom right, between the sound and the Journal
+  (`#tips-toggle`, public/index.html). It is there once the family has put a tip away, on the family's own page only: never the
+  Host's (so never the projector), and not while watching another family.
+- **What it lists.** `tipsToReread` (public/tips.js): every tip put away - the server's `household.tipsSeen` and what this page
+  has put away since - **latest first**, each once, in the tip's own words, numbered. A tip still standing is on the screen and
+  not yet in the list.
+- **It gates nothing, and never brings the guided start back.** The list's only control is its ×. Opening or reading it sends
+  nothing (no `seen-tip`, no order), shows no tip again and changes no state; the tips' rules are untouched. The guided start's
+  own tip, `resume` ("Resume tutorial"), is **never listed** (`NOT_REREAD`): the tutorial is suspended (2026-09-28) and a list
+  naming its button would send a student looking for it. No save field, action or projection changed; no save version moved.
+- **Keyboard and touch.** The button is in the tab order; Enter or a tap opens the list and puts the keyboard on its ×; Escape,
+  the ×, or the button again closes it, Escape giving the keyboard back to the button. The × is 36px.
+- **Clear of the rest.** The list opens above the map's buttons at the right, where the sound's sliders do, and the two are never
+  open together. While it stands the bar narrows to keep clear of it and the tip over the map waits (as for the sliders,
+  public/style.css). Where a card, the messages or a popup stands above the map's buttons, the list is made shorter and scrolls,
+  never shorter than 140px (`placeTipsList`, `ceiling:` in public/app.js; found by the proof at 1024x768, where it stood on the
+  ¡Alto! card's answers).
+
+**Evidence.** `tests/tips-touch.test.mjs` (the list's order, once each, never `resume`, no word nobody wrote; its only control
+the ×, its code sending nothing, the Host given no button, the words written through `setText`), each test failed under an
+injection first ([webp-tips-touch-injections.json](evidence/webp-tips-touch-injections.json),
+`npm run test:webp-tips-touch-injections`). `npm run test:tips` walks it with the keyboard at 1366x768 and with a finger at
+1024x768 ([tips-browser.json](evidence/tips-browser.json); [keyboard](evidence/tips-list-keyboard.png),
+[touch](evidence/tips-list-touch.png)); `npm run test:overlap` walks the open list at every student size. Same computer,
+headless Chrome: no Chromebook or touch screen.

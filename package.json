@@ -142,6 +142,7 @@
     "test:one-rider-injections": "node scripts/one-rider-injections.mjs",
     "test:one-rider-browser-injections": "node scripts/one-rider-browser-injections.mjs",
     "test:rider-deadline-injections": "node scripts/rider-deadline-injections.mjs",
-    "test:spring-news-injections": "node scripts/spring-news-injections.mjs"
+    "test:spring-news-injections": "node scripts/spring-news-injections.mjs",
+    "test:webp-tips-touch-injections": "node scripts/webp-tips-touch-injections.mjs"
   }
 }

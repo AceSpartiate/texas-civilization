@@ -7227,14 +7227,21 @@ function openTipsList() {
 }
 /**
  * The list keeps below whatever the student has open above the map's buttons - the card beside a person with its question, the
- * messages, a popup - by being shorter, and scrolls (the proof at 1024x768: it stood on the ¡Alto! card's answers).
- * ceiling: never shorter than 140px, where it would show one tip; below that it stands where it is, over what is there.
+ * messages, a popup - by being shorter, and scrolls (the proof at 1024x768: it stood on the ¡Alto! card's answers); and beside the
+ * bar, where the bar cannot narrow further, by being narrower (the overlap proof at 1024x600: 10px of the bar under it).
+ * ceiling: never shorter than 140px, where it would show one tip, nor narrower than 200px; past those it stands where it is.
  */
 function placeTipsList() {
   const list = $('#tips-list'), tools = $('#map-tools');
   if (!list || list.hidden || !tools) return;
-  list.style.maxHeight = '';
-  const box = list.getBoundingClientRect(), floor = tools.getBoundingClientRect().top - 8;
+  list.style.maxHeight = ''; list.style.width = '';
+  let box = list.getBoundingClientRect();
+  const floor = tools.getBoundingClientRect().top - 8;
+  const bar = $('.panel-row[data-focused=true] .panel-icons')?.getBoundingClientRect();
+  if (bar && bar.width > 1 && bar.right + 8 > box.left && bar.left < box.right && bar.top < box.bottom && box.top < bar.bottom) {
+    const width = Math.floor(box.right - bar.right - 8);
+    if (width >= 200) { list.style.width = `${width}px`; box = list.getBoundingClientRect(); }
+  }
   const above = TIP_CLEAR_OF.map(selector => $(selector)).filter(one => one && !one.hidden && getComputedStyle(one).display !== 'none')
     .map(one => one.getBoundingClientRect()).filter(one => one.width > 1 && one.left < box.right && box.left < one.right && one.top < box.bottom && box.top < one.bottom && one.bottom < floor);
   if (!above.length) return;
