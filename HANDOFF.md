@@ -304,7 +304,8 @@ and fleeing to the nearest refuge).
   `test:information` on its second run (its known one-tick race at the gate, *"null !== 'home-2'"*) and `test:battle-coleto` 17
   on its second run (the first stopped before any news, at the march-out Follow card, beside `npm test`).
 
-**Open, for the owner** (built the first option):
+**Answered by the owner on 2026-09-30** (both as built; recorded in docs/COLONIES.md §5.4d and `FIC-GONZ-956`, `-957`): 1 *"Hold
+up to a day"*, 2 *"Keep record dates"*. The questions as they were put:
 
 1. *The autumn's end held too.* The victory at Béxar reaches San Felipe on December 15, the evening before the first period
    ends, so farther families would not hear before it ends. (a) Hold that end a day for played families as well (built);
