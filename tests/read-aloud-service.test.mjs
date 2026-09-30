@@ -27,7 +27,7 @@ function fake() {
     writeFileSync(opus, 'OggS-fake');
   };
   // Let the sentence being spoken finish.
-  const next = async () => { while (!gates.length) await new Promise(resolve => setImmediate(resolve)); gates.shift()(); await new Promise(resolve => setImmediate(resolve)); await new Promise(resolve => setImmediate(resolve)); };
+  const next = async () => { const until = Date.now() + 5000; while (!gates.length) { if (Date.now() > until) throw new assert.AssertionError({ message: 'no sentence was begun' }); await new Promise(resolve => setImmediate(resolve)); } gates.shift()(); await new Promise(resolve => setImmediate(resolve)); await new Promise(resolve => setImmediate(resolve)); };
   return { synth, spoken, next };
 }
 function voiceWith(options = {}) {

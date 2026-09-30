@@ -43,7 +43,7 @@ const INJECTIONS = [
 ];
 
 const failing = output => [...new Set([...output.matchAll(/^\s*✖ (.+?) \(\d/gm)].map(match => match[1].trim()).filter(name => !/^tests[\\/]/.test(name) && name !== 'failing tests:'))];
-const run = () => { const result = spawnSync(process.execPath, ['--test', ...FILES], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }); return failing(`${result.stdout}${result.stderr}`); };
+const run = () => { const result = spawnSync(process.execPath, ['--test', '--test-timeout=60000', ...FILES], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, timeout: 600000 }); return failing(`${result.stdout}${result.stderr}`); };
 
 for (const injection of INJECTIONS) {
   const original = readFileSync(injection.file, 'utf8');

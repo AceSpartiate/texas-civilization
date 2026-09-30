@@ -43,7 +43,10 @@ const packageDir = join(root, 'public', 'voice');
 if (!existsSync(join(packageDir, 'manifest.json'))) throw new Error('No package voice: run node scripts/build-voice.mjs first.');
 const packaged = JSON.parse(readFileSync(join(packageDir, 'manifest.json'), 'utf8')).lines;
 const cacheDir = mkdtempSync(join(tmpdir(), 'read-aloud-proof-'));
-const voice = createVoice({ runtimeDir: join(root, 'runtime', 'voice'), packageDir, cacheDir, threads: 2 });
+// No lines begun by the server on its own (`soonCap: 0`): each sentence the package lacks is made only when pressed, so the
+// button's "Getting ready…" is seen every run. That the server begins a rider's words as they are said is proved by
+// tests/read-aloud-server.test.mjs; here, the voice itself, the wait and the playing.
+const voice = createVoice({ runtimeDir: join(root, 'runtime', 'voice'), packageDir, cacheDir, threads: 2, soonCap: 0 });
 if (!voice.hostVoice) throw new Error('No voice in runtime/voice: run node scripts/bundle-voice.mjs first.');
 
 // Stepped in process to a few ticks before the rider reaches the family (as scripts/one-rider-browser-proof.mjs does).
@@ -86,7 +89,7 @@ try {
     // Each <audio> play, with what it played and whether it played to its end.
     window.__plays = [];
     const play = HTMLMediaElement.prototype.play;
-    HTMLMediaElement.prototype.play = function () { const entry = { src: this.currentSrc || this.src, ended: false, volume: this.volume }; window.__plays.push(entry); this.addEventListener('ended', () => { entry.ended = true; entry.duration = this.duration; }, { once: true }); return play.call(this); };
+    HTMLMediaElement.prototype.play = function () { const entry = { src: this.src || this.currentSrc, ended: false, volume: this.volume }; window.__plays.push(entry); this.addEventListener('ended', () => { entry.ended = true; entry.duration = this.duration; }, { once: true }); return play.call(this); };
   });
   await student.goto(url + game.path);
   await student.waitForFunction(() => window.__snapshot?.world?.householdId === 'hh-1', null, { timeout: 30000 });
@@ -161,9 +164,10 @@ try {
   const riderLog = voice.stats.log.filter(one => riderKeys.includes(one.key));
   assert.equal(riderLog.length, riderMade.length, 'the Host did not speak exactly the rider\'s sentences the package lacks');
   assert.ok(riderMade.length >= 1, 'the rider\'s opening had nothing for the Host to make: the proof proves nothing about "Getting ready"');
-  // Made when the server wrote the line (`soon`) or when the student pressed (`pressed`): either way before it could play.
-  if ([...states].every(one => !one.startsWith('waiting'))) assert.ok(riderLog.every(one => one.priority === 'soon'), 'the rider\'s sentences were not ready and the button never said "Getting ready…"');
-  else assert.ok([...states].includes('waiting:Getting ready…'), `the button's waiting words: ${[...states].join(', ')}`);
+  // Made when the student pressed, and not before: the button said so while it waited.
+  assert.ok(riderLog.every(one => one.priority === 'pressed'), 'a rider\'s sentence was made before it was pressed');
+  assert.ok([...states].includes('waiting:Getting ready…'), `the button never said "Getting ready…" while the Host spoke: ${[...states].join(', ')}`);
+  assert.ok([...states].includes('playing:Stop'), `the button never said "Stop" while it played: ${[...states].join(', ')}`);
   assert.equal(VOICES.rider.id, 'am_fenrir');
   measured.riderLine = { text: opening, sentences: riderKeys.length, madeOnHost: riderMade.length, hostLog: riderLog, states: [...states], voice: VOICES.rider.id };
   await shot(student, 'rider');

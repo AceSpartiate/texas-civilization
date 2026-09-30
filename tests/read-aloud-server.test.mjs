@@ -53,7 +53,12 @@ async function classroom({ voice = 'fake', worldFactory } = {}) {
   const made = voice === 'fake' ? createVoice({ cacheDir: join(dir, 'voice-cache'), synthesiser, vocabulary: WORDS, log: { warn() {} } }) : null;
   const app = createClassroom({ seed: 'read-aloud', playerCount: 5, tickMs: 10000, savePath: join(dir, 'classroom.json'), voice: made, ...(worldFactory && { worldFactory }) });
   const port = await app.listen(0, '127.0.0.1');
-  const next = async () => { while (!gates.length) await new Promise(resolve => setTimeout(resolve, 5)); gates.shift()(); await new Promise(resolve => setTimeout(resolve, 20)); };
+  // Let the sentence being spoken finish; a sentence never begun fails the test rather than waiting for ever.
+  const next = async () => {
+    const until = Date.now() + 5000;
+    while (!gates.length) { if (Date.now() > until) throw new assert.AssertionError({ message: 'no sentence was begun' }); await new Promise(resolve => setTimeout(resolve, 5)); }
+    gates.shift()(); await new Promise(resolve => setTimeout(resolve, 20));
+  };
   return { app, port, spoken, next, dispose: async () => { await app.close(); rmSync(dir, { recursive: true, force: true }); } };
 }
 
