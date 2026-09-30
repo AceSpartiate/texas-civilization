@@ -53,14 +53,34 @@ export const BEXAR_FROM = 20;
  */
 export const MISSION_CLEAR = 1.5;
 export const MISSION_OFFSETS = Object.freeze([{ dx: 1.24, dy: 7.35 }, { dx: 0.06, dy: 2.32 }]);
+/**
+ * **Downriver only** (owner, 2026-09-30, of where the Béxar rancho lies: "Downriver only"; `FIC-GONZ-988`): the rancho lies down the
+ * San Antonio River toward Goliad, where the ranchos of the record were - "a belt of ranches that extended along the San Antonio River
+ * between Bexar and Goliad" (`HIST-TEX-790`) - never above the town or off to either side of it. Measured along the line from Béxar's
+ * plaza toward Goliad's (the map's own places, `DOWNRIVER`), the land lies at least `DOWNRIVER_FROM` miles down it: past Concepción,
+ * where the river leaves the town. ceiling: a straight line toward Goliad, not the river's own bends; the river runs south past the
+ * missions and then south-east, and every point this allows is by it (the land's own rule keeps a house within half a mile of water).
+ */
+export const DOWNRIVER = Object.freeze((() => { const dx = 5.3 - -61.63, dy = 58.09 - 4.6, length = Math.hypot(dx, dy); return { x: dx / length, y: dy / length }; })());
+export const DOWNRIVER_FROM = 3;
+export const downriver = (at, settlement) => (at.x - settlement.x) * DOWNRIVER.x + (at.y - settlement.y) * DOWNRIVER.y >= DOWNRIVER_FROM;
+/** Where the Béxar family's land may lie: clear of the missions' camps, and down the river (both above). Anywhere, for any other place. */
 export const clearOfMissions = (at, settlement) => settlement?.id !== BEXAR_AT
-  || MISSION_OFFSETS.every(m => Math.hypot(at.x - (settlement.x + m.dx), at.y - (settlement.y + m.dy)) >= MISSION_CLEAR);
+  || (downriver(at, settlement) && MISSION_OFFSETS.every(m => Math.hypot(at.x - (settlement.x + m.dx), at.y - (settlement.y + m.dy)) >= MISSION_CLEAR));
 /** The places whose families are Tejano. */
 export const TEJANO_PLACES = Object.freeze([TEJANO_AT, BEXAR_AT]);
 /** How many of a class's families start near each place, with its starts: the colonies' deal, and one at Béxar from `BEXAR_FROM`. */
 export function startCounts(families, dealCounts) {
   if (families < BEXAR_FROM) return dealCounts(families, STARTS_SEATED);
   return { ...dealCounts(families - 1, STARTS_SEATED), [BEXAR_AT]: 1 };
+}
+/**
+ * The colony a class's Béxar seat goes back to when the land has no rancho down the river for it (sim/colonies-region.mjs): the one
+ * whose count the colonies' deal of the whole class has one more of than the deal of one family fewer.
+ */
+export function colonySeatFor(families, dealCounts) {
+  const all = dealCounts(families, STARTS_SEATED), fewer = dealCounts(families - 1, STARTS_SEATED);
+  return Object.keys(all).find(id => all[id] > (fewer[id] || 0));
 }
 /** The settlement one of whose families may be free Black: Liberty, the country of the Ashworths (`HIST-TEX-783`). */
 export const FREE_BLACK_AT = 'liberty';

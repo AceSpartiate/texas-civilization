@@ -1294,7 +1294,7 @@ to newcomers.
 a rancho 2 to 12 miles from Béxar by the San Antonio River, at least a mile and a half from the army's camps at Concepción and Espada
 (so its farm is never on a battle's ground), **always inside the burn zone** (Santa Anna came to Béxar), and moved among the first six
 families to join on its side of the zone. There is room near Béxar for exactly one family inside the zone, which is why it is one.
-Measured: the land comes out 3 to 4 miles from the town, north or south of it on the river; the card says "near Béxar", not "below".
+Measured: the land comes out 3 to 4 miles from the town, north or south of it on the river; the card says "near Béxar", not "below". **Since the owner's "Downriver only" (2026-09-30), south only: 3.1 to 4.4 miles down the river toward Goliad.**
 
 **What it plays like, and when** (every day and hour is the game's; the events are the record's):
 
@@ -1340,3 +1340,9 @@ had ridden out with Seguín and was not inside when it fell. A woman of the fami
    (b) a Béxar family that stays is not taken, only its farm burned.
 4. **The Béxar family's rancho on the map.** (a) Near Béxar, where the land allows (as built, 3-4 miles, north or south); (b) only down
    the river toward Goliad, where the ranchos of the record lay, which may need the land rule loosened.
+
+**Owner-decided, 2026-09-30:** 1 **"Priest from La Bahía"**, 2 **"Mentioned only"** and 3 **"Taken prisoner"**, all as built; 4
+**"Downriver only"**, built on branch `starts-3` (not released): the rancho lies at least 3 miles down the line from Béxar toward
+Goliad (sim/starts.mjs `downriver`), keeping the burn zone, the missions' clearance and the join slots. The land rule did not need
+loosening: in 25 seeds of 20-30 families every class had its Béxar family, 3.1 to 4.4 miles down the river between Concepción and
+Espada; a map with none would give the seat back to its colony (`colonySeatFor`). The measurements are docs/COLONIES.md §5.1's.
