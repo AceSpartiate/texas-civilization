@@ -26,6 +26,7 @@ import { coloniesMap } from '../sim/colonies-map.mjs';
 import { isIdle, needsOf, panelActions } from '../public/family-panel.js';
 import { THINK_EVERY } from '../sim/neighbours.mjs';
 import { untilHeard } from './support/spring-word.mjs';
+import { feed } from './support/fed.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -272,6 +273,8 @@ test('the fork of the road, April 16: asked of every man with Houston, closed th
   const world = spring();
   const [right, left, silent] = grownMen(world);
   for (const one of [right, left, silent]) serve(world, one, { leave: 'no' });
+  // Their families fed: played and giving no orders for weeks, they could starve (tests/support/fed.mjs), which is not what this tests.
+  feed(world, [right, left, silent].map(one => world.households[one.householdId]));
   untilMoment(world, 'which-road');
   for (const one of [right, left, silent]) assert.equal(one.service.road, 'open', `${one.name} was not asked which road`);
   // At Roberts', beyond Spring Creek, where the road forked for the Trinity and for Harrisburg (`HIST-TEX-082`, `HIST-TEX-088`).
