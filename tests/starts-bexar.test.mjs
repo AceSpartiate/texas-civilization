@@ -23,6 +23,7 @@ import { SEGUIN, seguinRidesOut } from '../sim/tejano.mjs';
 import { MISSIONS } from '../sim/army.mjs';
 import { meansRoll } from '../sim/family.mjs';
 import { wagonsOf, vehicleWord } from '../sim/wagon.mjs';
+import { feed } from './support/fed.mjs';
 import { heardOut } from './support/heard-out.mjs';
 
 const colonies = (seed, n) => createGonzalesWorld(seed, n, { map: 'colonies', starts: true });
@@ -115,6 +116,9 @@ test('a family near Béxar is asked by Seguín from its own land when the army c
   const household = bexarOf(world);
   for (const one of Object.values(world.households)) rollFamily(world, one);
   household.played = true;
+  // Fed: played and given no orders for the weeks until the call, the family could go hungry and its man too weak to be sent to
+  // fight (sim/hunger.mjs; tests/support/fed.mjs), which is not what this tests.
+  feed(world, [household]);
   world.status = 'running';
   until(world, () => world.calls?.[household.id]);
   assert.ok(world.director.milestones['leave-cibolo'], 'asked only once the army has left the Cibolo');
