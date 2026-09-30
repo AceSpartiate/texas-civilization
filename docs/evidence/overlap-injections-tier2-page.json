@@ -1,0 +1,39 @@
+{
+  "record": "overlap-injections",
+  "date": "2026-09-30",
+  "proof": "scripts/overlap-browser-proof.mjs",
+  "note": "Owner, 2026-09-28: \"Check for UI elements that block others. Move them somewhere else.\" Each injection puts one moved piece back where it stood on something else; `byItsOwnCheck` is whether the fault the proof printed is the one written for it. Same computer, headless Chrome.",
+  "clean": "passes",
+  "injections": [
+    {
+      "name": "the town's scene and the rooms of the house no longer step aside for the army's question (triage 2026-09-29, 2.2)",
+      "file": "public/app.js",
+      "caught": true,
+      "byItsOwnCheck": true,
+      "ownFaults": [
+        "over the question: messages and inside the house share  while the messages ask something that will not wait",
+        "over the question: messages and town scene share  while the messages ask something that will not wait"
+      ],
+      "otherFaults": [
+        "over the question: \"Close, to look at the map\" in inside the house is under messages while the messages ask something that will not wait",
+        "over the question: \"Close\" in town scene is under messages while the messages ask something that will not wait"
+      ],
+      "failed": "21 things on the screen stand on something else"
+    },
+    {
+      "name": "the family's row labels back at 9.5 px (triage 2026-09-29, 2.12)",
+      "file": "public/style.css",
+      "caught": true,
+      "byItsOwnCheck": true,
+      "ownFaults": [
+        "small type: label.panel-label \"father\" is set at 9.5px, under 12px",
+        "small type: label.panel-label \"mother\" is set at 9.5px, under 12px",
+        "small type: label.panel-label \"daughter\" is set at 9.5px, under 12px",
+        "small type: label.panel-label \"son\" is set at 9.5px, under 12px"
+      ],
+      "otherFaults": [],
+      "failed": "25 things on the screen stand on something else"
+    }
+  ],
+  "after": "passes"
+}

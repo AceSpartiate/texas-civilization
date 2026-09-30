@@ -43,7 +43,9 @@ mkdirSync('test-results', { recursive: true });
 try {
   const host = await post('/api/host', { key: app.state.hostKey });
   const hostCookie = host.headers.get('set-cookie').split(';')[0];
-  const context = await browser.newContext({ reducedMotion: 'no-preference', viewport: { width: 1440, height: 950 } });
+  // FAMILY_PANEL_VIEWPORT=1366x768 (or 1024x600) walks the same class at a Chromebook's size (triage 2026-09-29, 2.12's re-check).
+  const [width, height] = (process.env.FAMILY_PANEL_VIEWPORT || '1440x950').split('x').map(Number);
+  const context = await browser.newContext({ reducedMotion: 'no-preference', viewport: { width, height } });
   const page = await context.newPage();
   page.on('pageerror', error => errors.push(error.message));
 
@@ -361,16 +363,18 @@ try {
   await small.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
   await small.locator('#family-panel').waitFor({ state: 'visible' });
   if (await small.locator('#tutorial-skip').isVisible()) await small.locator('#tutorial-skip').click();
-  // A rider may have come to the door while the family was being made; the card is closed before the panel is measured.
-  if (await small.locator('#selection-close').isVisible()) await small.locator('#selection-close').click();
-  // And the messages card put away with its own "Keep playing", as a student would: since 2026-09-29 a question to the family (the
+  // The messages card put away with its own "Keep playing", as a student would: since 2026-09-29 a question to the family (the
   // call, a request) is a story card there as well as the "!" on its row (docs/FAMILY_PANEL.md §20b), and since portrait = star a
-  // matter comes up in it rather than in the person card closed above. Open, it is the moment's own alert, 318x212 of a 400 px
+  // matter comes up in it rather than in the person card closed below. Open, it is the moment's own alert, 318x212 of a 400 px
   // phone; what is measured below is the panel. Folded, it is still on the screen, which is held here.
+  // First, since 2026-09-29: open, on a phone, it lay over the close of a rider's card docked below it, and the press on that close
+  // timed out on origin/main 80842f72 as well as with the 12 px type (the person card is being taken away by another builder).
   if (await small.locator('#military-message').isVisible()) {
     await small.locator('#military-toggle').click();
     await small.waitForFunction(() => document.querySelector('#military-message').hidden && !document.querySelector('#military-notice').hidden && /^Open messages/.test(document.querySelector('#military-toggle').textContent), null, { timeout: 5000 });
   }
+  // A rider may have come to the door while the family was being made; the card is closed before the panel is measured.
+  if (await small.locator('#selection-close').isVisible()) await small.locator('#selection-close').click();
   await small.waitForTimeout(600);
   // docs/FAMILY_PANEL.md §7, the phone rule in the owner's own words: the panel "takes no more than the left portrait
   // column and one row, so the map stays visible".

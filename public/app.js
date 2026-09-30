@@ -10,6 +10,7 @@ import { TIPS, tipToShow } from '/tips.js';
 import { mountErrand } from '/errand.js';
 import { reconnector, reconnectWords } from '/reconnect.js';
 import { mountClassPanel } from '/class-panel.js';
+import { qrSvg } from '/qr.js';
 import { asksTheWay, mountGoing } from '/going.js';
 import {drawBexarGround,bexarDrawables} from '/bexar-art.js';
 import {alamoOnMap,bexarToSite} from '/bexar-layout.js';
@@ -44,7 +45,7 @@ import { DEFAULT_GROUND, groundClass, groundClassAt, markFor } from '/ground-cla
 import { decodeLand, decodeOutside, decodeProvince, emptyMiddle, landWeights, lineBand, tileGrid, withoutClaims } from '/land-levels.js';
 import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
 const $ = selector => document.querySelector(selector);
-import { EYEBROWS, ICONS, militaryNotices } from '/military-attention.js';
+import { EYEBROWS, ICONS, URGENT, militaryNotices } from '/military-attention.js';
 import { createBattleView, personArt } from '/battle-view.js';
 import { createChaseView } from '/chase-view.js';
 import { activityOf, drawnStroke, drawsAtWork, drawWorkLayer, fetchPose, fetchStep, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
@@ -1603,6 +1604,8 @@ function renderInteriorPanel(world) {
   const land = host ? Object.values(world.overview?.lands || {}).find(entry => entry.homeSiteId === interiorSiteId) : world.land;
   if (!land) { interiorSiteId = null; panel.hidden = true; return; }
   panel.hidden = false;
+  // Clear of a question that will not wait before the rooms are drawn at the width that leaves them (triage 2026-09-29, 2.2).
+  clearOfNotice();
   const shown = JSON.stringify([interiorSiteId, land.interior, panel.clientWidth]);
   if (panel.dataset.shown === shown && !panel.dataset.dirty) return;
   panel.dataset.shown = shown; delete panel.dataset.dirty;
@@ -2238,8 +2241,18 @@ function installMapNavigation() {
     handOnMap(WHEEL_SETTLE_MS); requestMapDraw();
   }, { passive: false });
   // The map focused: arrows pan and + and - zoom, for a student whose pointer is not helping.
+  // The ring Enter looks through comes and goes with the map's focus (`drawKeyTarget`).
+  canvas.addEventListener('focus', () => requestMapDraw());
+  canvas.addEventListener('blur', () => requestMapDraw());
   canvas.addEventListener('keydown', event => {
     if (event.altKey || event.ctrlKey || event.metaKey) return;
+    // Enter (or the space bar) while a place is being chosen - the house site, ten acres, a plot, the house's own place - picks
+    // the spot in the map's middle, as a tap there would (triage 2.13): with the arrow keys, the map for a keyboard alone.
+    if ((event.key === 'Enter' || event.key === ' ') && (siteLooking() || surveyLooking() || housePlacement)) {
+      event.preventDefault();
+      tapAt({ x: canvas.width / 2, y: canvas.height / 2 });
+      return;
+    }
     const view = currentView(); if (!view) return;
     const next = keyView(view, event.key, size(), view.limits);
     if (!next) return;
@@ -3139,6 +3152,26 @@ function drawSitePick(ctx, world, camera) {
   ctx.restore();
   window.__sitePick = { x: at.x, y: at.y, can: Boolean(sitePick.facts?.can) };
 }
+/**
+ * Where Enter would look (triage 2.13): a ring and cross in the map's middle while the map has the keyboard's focus and a place is
+ * being chosen, so a student moving the map with the arrow keys can see the spot Enter picks (`tapAt` in the map's keys).
+ */
+function drawKeyTarget(ctx, camera) {
+  const canvas = $('#world-map');
+  const aiming = document.activeElement === canvas && (siteLooking() || surveyLooking() || Boolean(housePlacement && !housePlacement.locked));
+  window.__keyTarget = aiming;
+  if (!aiming) return;
+  const at = camera.toScreen({ x: camera.cx, y: camera.cy }), r = 14;
+  ctx.save();
+  for (const [width, colour] of [[4, 'rgba(255,248,226,.9)'], [2, '#4b3e28']]) {
+    ctx.lineWidth = width; ctx.strokeStyle = colour;
+    ctx.beginPath(); ctx.arc(at.x, at.y, r, 0, Math.PI * 2);
+    ctx.moveTo(at.x - r * 1.6, at.y); ctx.lineTo(at.x - r * .5, at.y); ctx.moveTo(at.x + r * .5, at.y); ctx.lineTo(at.x + r * 1.6, at.y);
+    ctx.moveTo(at.x, at.y - r * 1.6); ctx.lineTo(at.x, at.y - r * .5); ctx.moveTo(at.x, at.y + r * .5); ctx.lineTo(at.x, at.y + r * 1.6);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
 function drawHolding(ctx, world, camera) {
   // The Host sees every family's line, thinner, and names none of them here: the family's name is over its house.
   if (hostView(world)) {
@@ -4025,6 +4058,7 @@ function drawWorldNow(world) {
   window.__viewObserved = shownObserved;
   // The stake goes in over everything else on the ground, so the place being looked at is never hidden under a road or a cow.
   drawSitePick(ctx, world, camera);
+  drawKeyTarget(ctx, camera);
   // The air, over everything: the rain actually falling in front of the reader, the dust and leaves a norther drives north
   // to south, a distant storm's lightning, and the colour the light has gone. Thin enough to see the whole country
   // through - it says what the day is, it never hides what is in it (public/weather-art.js).
@@ -6522,7 +6556,7 @@ function renderSurvey(world) {
   if (!panel) return;
   const person = surveyLooking() && world.entities.find(entity => entity.id === surveyFor);
   panel.hidden = !person || world.role === 'host';
-  if (panel.hidden) { if (!person) { surveyFor = null; plotPick = null; } return; }
+  if (panel.hidden) { if (!person) { surveyFor = null; plotPick = null; } delete $('#survey-suggested').dataset.key; return; }
   const facts = plotPick?.facts, words = PLOT_JOB_WORDS[plotJob];
   $('#survey-eyebrow').textContent = plotJob === 'survey-plot' ? 'SURVEY' : plotJob === 'clear-plot' ? 'CLEARING' : plotJob === 'hunt-land' ? 'HUNTING' : plotJob === 'fell-trees' ? 'FELLING' : 'FENCING';
   $('#survey-title').textContent = words.title(person.name);
@@ -6533,6 +6567,8 @@ function renderSurvey(world) {
   $('#survey-send').textContent = words.send;
   $('#survey-send').hidden = !facts?.can;
   $('#survey-send').disabled = plotSendPending;
+  const plots = JSON.stringify((world.land?.plots || []).map(plot => [plot.id, plot.state, plot.fence || '']));
+  renderSuggested($('#survey-suggested'), plotJob, `${plotJob}:${surveyFor}:${window.__snapshot?.sessionId}:${plots}`, plotPick?.point, lookAtPlot);
 }
 $('#survey-send')?.addEventListener('click', async () => {
   if (!plotPick?.facts?.can || plotSendPending) return;
@@ -6544,12 +6580,68 @@ $('#survey-send')?.addEventListener('click', async () => {
   finally { plotSendPending = false; if (window.__snapshot) render(window.__snapshot); }
 });
 $('#survey-cancel')?.addEventListener('click', () => { surveyFor = null; plotPick = null; if (window.__snapshot) render(window.__snapshot); });
+/**
+ * Suggested places (triage 2.13, classroom audit S8, 2026-09-29): up to three buttons under the panel's words, from the server
+ * (`/api/suggest`, sim/suggest.mjs), for the house site, ten acres to survey and the plot to clear or fence. Choosing a place was
+ * a tap on the map and nothing else, so a student with only a keyboard could not farm, and a touch screen or a slow reader had
+ * to hunt the map for somewhere the server would take. Pressing one moves the map there and looks at it exactly as a tap there
+ * does; the panel's own button still sends it, and the server decides both times. Asked for once each time a choice opens (the
+ * `key`), never on a tick. On the map itself the arrow keys move it and Enter looks at the spot in its middle (`tapAt`).
+ */
+let suggested = { key: '', places: [] }, suggestedAsking = '', suggestedFocus = false;
+const SUGGESTED_JOBS = new Set(['site', 'survey-plot', 'clear-plot', 'fence-plot']);
+async function askSuggested(job, key) {
+  suggestedAsking = key;
+  let places = [];
+  try { ({ places } = await api(`/api/suggest?job=${encodeURIComponent(job)}`)); } catch { places = []; }
+  if (suggestedAsking !== key) return;
+  suggestedAsking = '';
+  suggested = { key, places: places || [] };
+  if (window.__snapshot) render(window.__snapshot);
+}
+/** The map's middle on a place, at the zoom it has, as a student panning there would leave it. */
+function centreMapOn(point) {
+  const snapshot = window.__snapshot; if (!snapshot) return;
+  const view = cameraFor(snapshot.world, $('#world-map'));
+  stopWatching();
+  manualView = { cx: point.x, cy: point.y, scale: view.scale };
+  requestMapDraw();
+}
+function renderSuggested(root, job, key, picked, look) {
+  if (!root) return;
+  if (!SUGGESTED_JOBS.has(job)) { root.hidden = true; suggestedFocus = false; return; }
+  // Asked for, and until the answer comes nothing is offered: the last choice's places are never shown under this one's.
+  if (suggested.key !== key) { if (suggestedAsking !== key) askSuggested(job, key); root.hidden = true; if (root.childElementCount) root.replaceChildren(); delete root.dataset.key; return; }
+  const places = suggested.places;
+  root.hidden = !places.length;
+  if (root.dataset.key !== key) {
+    root.dataset.key = key;
+    const focused = document.activeElement?.closest?.('.suggested') === root ? document.activeElement.dataset.index : null;
+    root.replaceChildren(element('p', 'Suggested places', 'suggested-label'), ...places.map((place, index) => {
+      const button = element('button', place.label);
+      button.type = 'button'; button.dataset.index = String(index);
+      if (place.words) button.title = place.words;
+      button.addEventListener('click', () => { centreMapOn(place); look({ x: place.x, y: place.y }); });
+      return button;
+    }), element('p', 'Or move the map with the arrow keys and press Enter for the spot in its middle.', 'suggested-label'));
+    if (focused !== null) root.querySelector(`button[data-index="${focused}"]`)?.focus();
+    // The keyboard is taken to the first place when the student opened the choice from a work button (`survey-start`), or when
+    // nothing else has it (the house site's panel opens by itself as the wagon comes in): never from under a student typing.
+    else if (places.length && (suggestedFocus || [document.body, $('#world-map'), null].includes(document.activeElement))) root.querySelector('button')?.focus();
+    suggestedFocus = false;
+  }
+  for (const button of root.querySelectorAll('button')) {
+    const place = places[Number(button.dataset.index)];
+    const on = String(Boolean(picked && place && Math.abs(picked.x - place.x) < 1e-6 && Math.abs(picked.y - place.y) < 1e-6));
+    if (button.getAttribute('aria-pressed') !== on) button.setAttribute('aria-pressed', on);
+  }
+}
 function renderSite(world) {
   const panel = $('#site-choose');
   if (!panel) return;
   const choosing = world.land?.choosingSite;
   panel.hidden = !choosing || world.role === 'host';
-  if (panel.hidden) { sitePick = null; return; }
+  if (panel.hidden) { sitePick = null; delete $('#site-suggested').dataset.key; return; }
   // The house waits for its site, and these words say so: its card comes when the place is chosen (`houseCard`).
   houseCard({ shown: false });
   const facts = sitePick?.facts;
@@ -6559,6 +6651,8 @@ function renderSite(world) {
     : facts.can ? facts.words : facts.why;
   $('#site-build').hidden = !facts?.can;
   $('#site-build').disabled = siteSetPending;
+  if (choosing.can) renderSuggested($('#site-suggested'), 'site', `site:${window.__snapshot?.sessionId}:${window.__snapshot?.mapRevision || 0}`, sitePick?.point, lookAtSite);
+  else $('#site-suggested').hidden = true;
 }
 $('#site-build')?.addEventListener('click', async () => {
   if (!sitePick?.facts?.can || siteSetPending) return;
@@ -6852,7 +6946,10 @@ function renderMilitaryNotice(world) {
   const panel = $('#military-notice');
   const notices = militaryNotices(world);
   panel.hidden = !notices.length;
-  if (!notices.length) return;
+  // A question that will not wait among them (triage 2026-09-29, 2.2): the messages stand above the town's scene and the rooms of
+  // the house, which make room for them (`clearOfNotice`).
+  if (notices.some(one => URGENT.has(one.kind))) setData(panel, 'urgent', 'true'); else if (panel.dataset.urgent) delete panel.dataset.urgent;
+  if (!notices.length) { clearOfNotice(); return; }
   const session = `${window.__snapshot?.sessionId}:${world.householdId}:military-notices`;
   if (session !== militarySession) {
     militarySession = session;
@@ -6916,6 +7013,67 @@ function placeMilitaryNotice() {
   const left = faces.length ? `${Math.round(Math.max(...faces))}px` : '';
   if (panel.style.left !== left) panel.style.left = left;
   if (panel.style.top !== `${top}px`) panel.style.top = `${top}px`;
+  clearOfNotice();
+}
+/**
+ * The town's scene and the inside of the house stand clear of the messages (triage 2026-09-29, 2.2: a student in Gonzales never
+ * saw the army's ninety-second question, because the scene's card and the rooms were drawn over the card that asks it). The
+ * messages keep their place at the head of the right-hand side, and above both (public/style.css); the scene's card stands
+ * under them - or beside them, where a long message leaves no room under - and the rooms step to the left of them, or below
+ * them on a phone. The rooms make way only for a question that will not wait (`URGENT`, public/military-attention.js): a
+ * reminder - somebody inside the Alamo, a fight's account - stays behind the dialog the student opened, as it always has.
+ * Worked out after the messages are placed and whenever the scene or the rooms open; written only when it changes, and taken
+ * off when the messages go.
+ */
+function clearOfNotice() {
+  const notice = $('#military-notice');
+  const box = notice && !notice.hidden ? notice.getBoundingClientRect() : null;
+  const standing = box && box.height > 1 && box.width > 1 ? box : null;
+  standClear($('#town-scene'), standing, 'scene');
+  // The rooms are drawn at the width they are given (public/interior.js): given another, they are drawn again at it.
+  if (standClear($('#interior'), standing && notice.dataset.urgent === 'true' ? standing : null, 'rooms') && !$('#interior').hidden && window.__snapshot) renderInteriorPanel(window.__snapshot.world);
+}
+const CLEAR_STYLES = ['left', 'right', 'top', 'width', 'maxHeight', 'transform'], clearWritten = new WeakMap();
+function standClear(panel, notice, kind) {
+  if (!panel) return;
+  const want = {};
+  if (notice && !panel.hidden) {
+    const foot = parseFloat(document.body.style.getPropertyValue('--right-foot')) || 74;
+    const below = Math.round(notice.bottom + 8);
+    if (kind === 'scene') {
+      // Under the messages while there is a readable card's room there; else to their left, clear of the family's column.
+      const column = innerWidth > 760 ? $('#family-panel')?.getBoundingClientRect() : null;
+      const across = Math.round(notice.left - 8 - Math.max(12, column?.width ? column.right + 8 : 12));
+      if (innerHeight - below - foot >= 200 || across < 260) {
+        want.top = `${below}px`;
+        want.maxHeight = `max(120px, min(66vh, 560px, calc(100% - ${below}px - var(--right-foot, 74px))))`;
+      } else {
+        want.right = `${Math.round(innerWidth - notice.left + 8)}px`;
+        want.width = `${Math.min(400, across)}px`;
+      }
+    } else {
+      // The rooms where they stand by themselves: in the middle, as wide as they can be up to 680.
+      const width = Math.min(680, innerWidth - 32), left = (innerWidth - width) / 2;
+      if (left + width > notice.left - 8) {
+        const across = Math.round(notice.left - 12 - 16);
+        if (innerWidth > 760 && across >= 420) {
+          const wide = Math.min(680, across);
+          want.left = `${Math.round(16 + (across - wide) / 2)}px`; want.width = `${wide}px`; want.transform = 'translateY(-50%)';
+        } else {
+          want.top = `${below}px`; want.transform = 'translateX(-50%)'; want.maxHeight = `calc(100% - ${below}px - 12px)`;
+        }
+      }
+    }
+  }
+  // Compared with what was last written here, not with the style read back: the browser writes a `calc()` back in its own
+  // words, and a comparison with those moved the rooms on every render, each render drawing them again (a loop, found by the
+  // overlap proof, 2026-09-29).
+  const key = JSON.stringify(want);
+  if ((clearWritten.get(panel) || '{}') === key) return false;
+  clearWritten.set(panel, key);
+  for (const one of CLEAR_STYLES) panel.style[one] = want[one] || '';
+  if (key !== '{}') setData(panel, 'clearOf', 'messages'); else delete panel.dataset.clearOf;
+  return true;
 }
 $('#military-toggle')?.addEventListener('click', () => {
   // Folded to make room for a card: opening them is the student's choice, and it stands for as long as that card does.
@@ -7308,7 +7466,16 @@ bindFlashback({
   withClock: (ms, draw) => { const was = flashbackClock; flashbackClock = ms; try { return draw(); } finally { flashbackClock = was; } },
   landSettled: () => landMaking === 0 && !landLevels.pending,
 });
-bindNeighbours({ command: order => api('/api/command', { ...order, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }) });
+bindNeighbours({
+  command: order => api('/api/command', { ...order, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }),
+  // *Offer a trade* on the Neighbours sheet (triage 2026-09-29, 2.6): the trade with their person, as a press on them in the roster
+  // of who is here opens it - the card beside them with the offer (`populateTrade`), sent through the same trade flow.
+  trade: id => {
+    selectedId = id; selectionDismissed = false;
+    const world = window.__snapshot?.world;
+    if (world) { drawWorld(world); renderSelection(world); }
+  },
+});
 bindCreation({
   command: order => api('/api/command', { ...order, id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}` }),
   refresh: () => { forgetFamily(); if (window.__snapshot) render(window.__snapshot); },
@@ -7427,15 +7594,46 @@ $('#recover-show')?.addEventListener('click', async () => {
     revealTimer = setTimeout(clearRevealedKey, 30000);
   } catch (error) { $('#recover-key').textContent = ''; $('#recover-note').textContent = error.message; }
 });
+/**
+ * How students join, on the Host's page (triage 1.8, classroom audit M2, 2026-09-29): the address to type, large enough to read
+ * across a room from a projector, the class code, and a QR code of the address that a Chromebook's camera can read, made on this
+ * computer by public/qr.js with no network service. The QR code carries the class code too (`?code=`), so a student who scans
+ * it types only their name. Open in the lobby; once the class runs it folds to one line, and the teacher opens it again for a
+ * latecomer or a student coming back. The addresses are the server's own (`joinUrls`, server/deployment.mjs): which network the
+ * students can reach is the teacher's to know, so the others are listed under the first. A server that found none (a test's) is
+ * reached at this page's own address.
+ */
+let joinCardOpen = null, joinCardShown = '';
 function renderJoinLinks(snapshot) {
-  const host = snapshot.world.role === 'host'; $('#join-links').hidden = !host;
+  const host = snapshot.world.role === 'host', panel = $('#join-links');
+  panel.hidden = !host;
   if (!host) return;
-  const urls = snapshot.joinUrls || [];
-  $('#join-links').replaceChildren(...urls.map((entry, index) => {
-    const p = element('p', `${index === 0 ? 'Preferred student URL' : 'Alternative'}${entry.label ? ` (${entry.label})` : ''}: `);
-    const a = element('a', entry.url); a.href = entry.url; p.append(a); return p;
-  }));
+  const urls = snapshot.joinUrls?.length ? snapshot.joinUrls : [{ url: `${location.origin}/`, label: '' }];
+  const address = urls[0].url, code = snapshot.sessionCode || '';
+  const open = joinCardOpen ?? snapshot.world.status === 'lobby';
+  const shown = JSON.stringify([urls, code, open]);
+  if (shown === joinCardShown) return;
+  joinCardShown = shown;
+  const plain = address.replace(/\/$/, '');
+  $('#join-card-toggle').setAttribute('aria-expanded', String(open));
+  // Folded, one short line as wide as its words: at 1024 px a wider one narrowed the room the fight's caption has between the
+  // class and the teacher's controls until the caption fell back to the middle, over the class (test:overlap).
+  $('#join-card-label').textContent = open ? 'How students join' : 'Join';
+  $('#join-card-short').textContent = open ? '' : ` ${plain.replace(/^https?:\/\//, '')} · code ${code}`;
+  $('#join-card').hidden = !open;
+  $('#join-address').textContent = plain;
+  $('#join-code').textContent = code;
+  const scan = `${address}${address.includes('?') ? '&' : '?'}code=${encodeURIComponent(code)}`;
+  try { $('#join-qr').innerHTML = qrSvg(scan, { label: `QR code for ${plain}, class code ${code}` }); }
+  catch { $('#join-qr').replaceChildren(); }
+  // The next two the server ranked (a laptop has a VPN's and a virtual machine's addresses too, which students rarely reach).
+  const others = urls.slice(1, 3).map(entry => `${entry.url.replace(/\/$/, '')}${entry.label ? ` (${entry.label})` : ''}`);
+  $('#join-others').textContent = others.length ? `If that does not open, try ${others.join(' or ')}${urls.length > 3 ? ', or another the launcher lists' : ''}.` : '';
 }
+$('#join-card-toggle')?.addEventListener('click', () => {
+  joinCardOpen = $('#join-card-toggle').getAttribute('aria-expanded') !== 'true';
+  if (window.__snapshot) renderJoinLinks(window.__snapshot);
+});
 /**
  * The card of the Gonzales scene the student clicked (public/town-scenes.js `renderSceneCard`), kept open while the scene is
  * there and redrawn only when what it says changes, so a button under a finger is not replaced every tick. It closes by
@@ -7463,6 +7661,8 @@ function renderTownScene(world) {
       catch (error) { say(error.message); }
     },
   });
+  // Under the messages, or beside them, never over them (triage 2026-09-29, 2.2).
+  clearOfNotice();
 }
 /**
  * A student with no family left to play, or whose little ones were taken in, watches another family (owner, 2026-09-29, "Follow
@@ -7583,7 +7783,8 @@ function render(snapshot) {
   renderFlashback(snapshot);
   renderNeighbours(world);
   // Making the family comes before the world is seen (public/creation.js): the curtain, and no map drawn behind it.
-  const creating = renderCreation(world, familyCache);
+  // The family's key comes last, once (triage 2026-09-29, 2.4); Play Solo has no way back in by a key, so none is shown there.
+  const creating = renderCreation(world, familyCache, { familyKey: snapshot.solo ? null : snapshot.familyKey });
   renderLooks(familyCache, { blocked: creating !== 'looks' });
   // A snapshot that lands while a hand is on the map is drawn when the hand stops (`handOnMap`), not in the middle of the
   // gesture: a whole draw there is the stall a student feels as the map sticking under their finger.
@@ -7946,7 +8147,7 @@ document.addEventListener('click', async event => {
   say('');
   const action = button.dataset.action;
   // The person's panel is put away so the land is there to tap; the survey panel names who is going.
-  if (action === 'survey-start') { surveyFor = button.dataset.entityId; plotJob = button.dataset.chore; plotPick = null; selectedId = null; selectionDismissed = true; if (window.__snapshot) render(window.__snapshot); return; }
+  if (action === 'survey-start') { surveyFor = button.dataset.entityId; plotJob = button.dataset.chore; plotPick = null; selectedId = null; selectionDismissed = true; suggestedFocus = true; if (window.__snapshot) render(window.__snapshot); return; }
   if (action !== 'start') startAnyway = false;
   if (confirmLabel[confirmKeyOf(button)] && button.dataset.confirming !== 'true') {
     resetConfirm(confirming);
@@ -8136,6 +8337,13 @@ reducedMotion.addEventListener('change', () => { if (window.__snapshot) drawWorl
 let housePlacement = null;
 onArtReady((status, sheet) => { redrawForArrival(sheet); repaintFamilyPanel(); });
 loadArt();
+// The class code a scanned QR code carries (`renderJoinLinks`): put in the join and the away forms, and taken out of the address
+// bar, so the student types only their name and the code is not left on the screen.
+if (!hostPage && /[?&]code=/.test(location.search)) {
+  const scanned = new URLSearchParams(location.search).get('code')?.trim().slice(0, 6) || '';
+  for (const input of document.querySelectorAll('#join [name=code], #away [name=away-code]')) if (!input.value) input.value = scanned;
+  history.replaceState(null, '', location.pathname);
+}
 try {
   if (hostPage && location.hash) { await api('/api/host', { key: location.hash.slice(1) }); history.replaceState(null, '', '/host'); }
   connect(await api('/api/state'));

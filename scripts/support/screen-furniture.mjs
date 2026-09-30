@@ -114,6 +114,32 @@ export const HOST_FURNITURE = [
   { name: 'reconnecting', selector: '#reconnecting', kind: 'dialog' },
 ];
 
+/**
+ * The least type a student's page may set (triage 2026-09-29, 2.12, from the classroom audit's M6: labels in 9–10 px type were
+ * hard to read on a Chromebook). Every piece of text **really drawn** on the page - its own words, not a box around other
+ * words - in a smaller computed size is returned, with where it is and what it says. The Host's page is not held to it: the
+ * teacher's screen and the projector have their own proofs.
+ */
+export const LEAST_TYPE = 12;
+export const readSmallText = (page, least = LEAST_TYPE) => page.evaluate(least => {
+  const small = [];
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const seen = new Set();
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    const element = node.parentElement;
+    if (!element || seen.has(element) || !node.data.trim()) continue;
+    seen.add(element);
+    if (element.closest('script,style,noscript,template')) continue;
+    if (element.checkVisibility && !element.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })) continue;
+    const box = element.getBoundingClientRect();
+    // A line read out to a screen reader and kept off the screen (a box of a pixel, or clipped away) is not type anybody sees.
+    if (box.width < 3 || box.height < 3 || box.right < 0 || box.bottom < 0 || box.left > innerWidth || box.top > innerHeight) continue;
+    const size = parseFloat(getComputedStyle(element).fontSize);
+    if (size < least - 0.05) small.push({ at: element.id ? `#${element.id}` : `${element.tagName.toLowerCase()}.${[...element.classList].join('.')}`, size, text: node.data.trim().replace(/\s+/g, ' ').slice(0, 40) });
+  }
+  return small;
+}, least);
+
 /** Everything a student or a teacher presses or types into. */
 const CONTROL_SELECTOR = 'button,select,input,summary,a[href],.panel-icon,[role=button]';
 
@@ -293,6 +319,8 @@ export const measureScreen = (page, furniture) => page.evaluate(({ list, control
     flags: {
       panel: document.body.dataset.panel || null, meeting: document.body.dataset.meeting || null, placing: document.body.dataset.placing || null,
       backdrop: shown(document.querySelector('#panel-backdrop')), journalBackdrop: shown(document.querySelector('#journal-backdrop')),
+      // The messages carrying a question that will not wait (triage 2026-09-29, 2.2): nothing the student opened may stand on it.
+      urgent: shown(document.querySelector('#military-notice')) && document.querySelector('#military-notice').dataset.urgent === 'true',
     },
   };
 }, { list: furniture, controls: CONTROL_SELECTOR });

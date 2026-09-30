@@ -1,23 +1,37 @@
 {
   "record": "Help between families, remembered and repaid, in a browser: sim/neighbourly.mjs, owner 2026-09-28 (\"Yes: they remember and repay\")",
-  "date": "2026-09-28",
+  "date": "2026-09-30",
   "verdict": "PASS",
   "note": "Same computer only. A real class on the colonies map with rolled families; the raising played live in the browser, the months to the spring played in process with the two families set down as unplayed, and the spring and the ending live. Planted and said: the helped house at its last course with its logs, and each family's stores at the spring. No LAN or district claim.",
   "checks": [
-    "the Neighbours list shows the family 6.2 miles off raising its walls, and \"Send Amos there\" sends them",
-    "there, \"Help raise the walls\" puts Amos Hale to it: 6 hours, written in the ledger",
+    "the bar's \"Go to a neighbour's homestead\" opens the Neighbours list, and no card",
+    "the Neighbours list shows the family 6.2 miles off raising its walls, with \"Send Amos there\" and \"Offer a trade\", which sends them",
+    "on arrival the trade opens with Feliciano Walker (\"Offer Feliciano Walker of the Walker family a trade. Asked by Amos Hale We give \"), the sheet is put away, and the offer ({\"seed\":1} for {\"food\":1}) reaches the server and the other family's page",
+    "there, \"Help raise the walls\" puts Amos Hale to it: 3 hours, written in the ledger",
     "told to leave, the helped family is asked: \"The Hale family have more than their wagon will carry east. Offer them room for 8 in your wagon? Your family remembers Amos Hale helping raise your walls. Offer\"",
     "the helper is offered it by name and accepts: \"Feliciano Walker of the Walker family offers room for 8 in their wagon: they remember Amos Hale helping raise their walls. AcceptSay no\"; the wagon's room goes from 20 to 28, the lender's from 40 to 32",
     "at phone width, with the Neighbours sheet open, the page does not scroll sideways",
-    "the ending names it: family \"Neighbours September 28: Amos Hale helped the Walker family raise their walls (6 hours). March 27: The Walker family kept room for 8 of the family's goods in their wagon on the road east.\"; Host \"Who helped whom The Hale family → the Walker family: helped raise their walls (6 hours). The Walker family → the Hale family: kept room for 8 in their wagon.\"",
+    "the ending names it: family \"Neighbours September 28: Amos Hale helped the Walker family raise their walls (3 hours). March 27: The Walker family kept room for 8 of the family's goods in their wagon on the road east.\"; Host \"Who helped whom The Hale family → the Walker family: helped raise their walls (3 hours). The Walker family → the Hale family: kept room for 8 in their wagon.\"",
     "and counts it: \"September 28: Amos Hale helped the Walker family raise their walls, 10 road miles from home. (1)\" and \"March 27: Feliciano Walker helped the Hale family with room in the wagon on the road east, 10 road miles from home. (1)\" under What earned glory",
     "no page errors"
   ],
   "observed": {
-    "row": "The neighbours at Family 1 home · 6.2 miles\n\nRaising their walls now\n\nSend Amos there",
+    "row": "The neighbours at Family 1 home · 6.2 miles\n\nRaising their walls now\n\nSend Amos thereOffer a trade",
     "goButton": "Send Amos there",
+    "tradeButton": "Offer a trade",
+    "onTheWay": "Amos is on the way. The trade opens when they get there.",
+    "tradeCard": "Offer Feliciano Walker of the Walker family a trade. Asked by Amos Hale We give food seed powder cotton reales for food seed powder cotton reales Offer it to Feliciano Walker of the Walker family",
+    "offer": {
+      "give": {
+        "seed": 1
+      },
+      "ask": {
+        "food": 1
+      },
+      "to": "Feliciano Walker"
+    },
     "raised": {
-      "hours": 6,
+      "hours": 3,
       "person": "Amos Hale"
     },
     "own": {
@@ -28,13 +42,14 @@
     "asked": "The Hale family have more than their wagon will carry east. Offer them room for 8 in your wagon? Your family remembers Amos Hale helping raise your walls. Offer itNot this time",
     "offered": "Feliciano Walker of the Walker family offers room for 8 in their wagon: they remember Amos Hale helping raise their walls. AcceptSay no",
     "lent": "The Walker family are keeping room for 8 of your goods in their wagon on the road east. It is counted in your wagon's room until either family leaves.",
-    "helperEnding": "Neighbours September 28: Amos Hale helped the Walker family raise their walls (6 hours). March 27: The Walker family kept room for 8 of the family's goods in their wagon on the road east.",
-    "helpedEnding": "Neighbours September 28: Amos Hale of the Hale family helped raise the family's walls (6 hours). March 27: The family kept room for 8 of the Hale family's goods in its wagon on the road east.",
-    "hostEnding": "Who helped whom The Hale family → the Walker family: helped raise their walls (6 hours). The Walker family → the Hale family: kept room for 8 in their wagon.",
+    "helperEnding": "Neighbours September 28: Amos Hale helped the Walker family raise their walls (3 hours). March 27: The Walker family kept room for 8 of the family's goods in their wagon on the road east.",
+    "helpedEnding": "Neighbours September 28: Amos Hale of the Hale family helped raise the family's walls (3 hours). March 27: The family kept room for 8 of the Hale family's goods in its wagon on the road east.",
+    "hostEnding": "Who helped whom The Hale family → the Walker family: helped raise their walls (3 hours). The Walker family → the Hale family: kept room for 8 in their wagon.",
     "helperGlory": "September 28: Amos Hale helped the Walker family raise their walls, 10 road miles from home. (1)",
     "helpedGlory": "March 27: Feliciano Walker helped the Hale family with room in the wagon on the road east, 10 road miles from home. (1)"
   },
   "screenshots": [
+    "docs/evidence/neighbours-trade.png",
     "docs/evidence/neighbours-raising.png",
     "docs/evidence/neighbours-asked.png",
     "docs/evidence/neighbours-room.png",
