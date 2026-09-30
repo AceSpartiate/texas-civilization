@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { EYEBROWS, ICONS, MOMENTS, militaryNotices } from '../public/military-attention.js';
+import { EYEBROWS, ICONS, MOMENTS, URGENT, militaryNotices } from '../public/military-attention.js';
 const person={id:'p',householdId:'h',name:'Elena',service:{status:'serving',besieged:true}};
 const view=(entities=[person])=>({role:'student',householdId:'h',entities});
 test('military invitations expose only the owning household and no sealed outcome',()=>{
@@ -69,4 +69,13 @@ test('the family\'s big moments are cards of their own kind, ¡Alto! first, each
   for (const kind of ['alto', 'road', 'flight', 'call', 'sick', 'rider', 'courier', 'orders', 'battle', 'account', 'siege']) {
     assert.ok(EYEBROWS[kind], `${kind} has no eyebrow`); assert.ok(ICONS[kind], `${kind} has no icon`);
   }
+});
+test('the army\'s rider and every question with a clock are the ones that will not wait, which the town\'s scene and the rooms make way for; a fight, its account and the siege are not (triage 2026-09-29, 2.2)', () => {
+  // The rider standing with the family's own person: the ninety-second question a student in town never saw.
+  const rider = militaryNotices(home({ encounter: { id: 'e', status: 'open', listenerId: 'k' } }));
+  assert.equal(rider[0].kind, 'rider');
+  assert.ok(URGENT.has(rider[0].kind), 'the army\'s rider is not counted a question that will not wait');
+  for (const kind of ['alto', 'road', 'flight', 'call', 'rider', 'courier', 'orders', 'sick']) assert.ok(URGENT.has(kind), `${kind} is not counted a question that will not wait`);
+  for (const kind of ['battle', 'account', 'siege']) assert.ok(!URGENT.has(kind), `${kind} would move the rooms aside, and it asks nothing`);
+  assert.ok([...URGENT].every(kind => EYEBROWS[kind]), 'a kind that will not wait is no card kind');
 });

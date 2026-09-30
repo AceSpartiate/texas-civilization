@@ -15,6 +15,7 @@ import { dateOf } from '../sim/directors.mjs';
 import { choreCatalogue, modeCatalogue } from '../sim/chores.mjs';
 import { GOODS } from '../sim/trade.mjs';
 import { siteFactsFor } from '../sim/homesite.mjs';
+import { SUGGEST_JOBS, suggestPlaces } from '../sim/suggest.mjs';
 import { plotFacts } from '../sim/survey.mjs';
 import { wagonCatalogue } from '../sim/wagon.mjs';
 import { houseCatalogue } from '../sim/houses.mjs';
@@ -132,6 +133,8 @@ const files = new Map([
   // Coming back after the server was out of reach, and the teacher's class controls (2026-09-28).
   ['/reconnect.js', ['../public/reconnect.js', 'text/javascript']],
   ['/class-panel.js', ['../public/class-panel.js', 'text/javascript']],
+  // The join address's QR code on the Host's page, made on this computer (triage 1.8, 2026-09-29).
+  ['/qr.js', ['../public/qr.js', 'text/javascript']],
   ['/alamo-workshop.html', ['../public/alamo-workshop.html', 'text/html']],
   ['/alamo-workshop.js', ['../public/alamo-workshop.js', 'text/javascript']],
   ['/alamo-workshop.css', ['../public/alamo-workshop.css', 'text/css']],
@@ -229,6 +232,12 @@ export const STREAMS = Object.freeze({ perFamily: 3, pingMs: 10000, staleMs: 300
 const SAVE_EVERY_TICKS = 3;
 /** The solo player's own controls, sent from their page as orders (`/api/command`). */
 const SOLO_CONTROLS = new Set(['solo-pause', 'solo-resume', 'solo-save']);
+/**
+ * How long a student's order waits to be shown (`broadcastSoon`, triage 1.6): until `gap` after the last broadcast ended, or as
+ * long again as that broadcast took if it took longer, so that showing orders takes at most half the server's time while they
+ * keep coming. Never less than nothing: an order is never shown from inside its own commit.
+ */
+export const broadcastWait = (lastEnded, lastTookMs, now, gap) => Math.max(0, lastEnded + Math.max(gap, lastTookMs) - now);
 /** What every page is told when the teacher stops the class for today (Host's *Stop for today*, docs/HOST_PAGE.md §2.8). */
 export const STOPPED_FOR_TODAY = 'Your teacher stopped the class for today. It was saved and paused just as it stands, and it goes on from here next class.';
 /**
@@ -421,23 +430,58 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       setAbsent(world, household, gone);
     }
   }
-  // Guessing a key is cheap to attempt, so attempting it becomes expensive. Per address,
-  // in memory, and bounded by the number of devices that can reach a classroom LAN.
-  // ceiling: one counter per remote address, so devices sharing one address share a
-  // cooldown. True on a LAN where each device has its own; per-key counters if a class
-  // ever arrives through a proxy.
-  const REJOIN_TRIES = 5, REJOIN_COOLDOWN_MS = 30000;
-  const rejoinTries = new Map();
-  /** How long this address must wait, as the refusal a page shows, or null when it may try. */
-  function rejoinCooldown(address) {
+  /**
+   * Guessing a key or a code is cheap to attempt, so attempting it becomes expensive: the three doors back into a class (a
+   * family key, the away list, the claim) share one count of wrong tries. In memory only.
+   *
+   * **Per device, not per address** (triage 2.15, classroom audit M8, 2026-09-29). The count was one per remote address, and
+   * behind a district's shared address - a proxy or a NAT, which is every device in the room at once - five wrong codes from
+   * anybody locked the whole room out for 30 s, just when the away list is how students come back (B3). Now each browser is
+   * given a `tr_door` cookie the first time it gets a try wrong, and its five tries and its 30 s wait are its own: a student
+   * who mistypes waits, and the rest of the room does not.
+   *
+   * **Brute force stays expensive.** A cookie is the browser's to keep or throw away, so a script that drops it, or makes up a
+   * new one each time, is a new device every try. Behind the doors' own counts stands one per address that a right answer
+   * never clears: `ADDRESS_TRIES` wrong tries from one address in `REJOIN_COOLDOWN_MS` shut the doors to that address until
+   * the window ends. A room of thirty mistyping never comes near it; a guesser gets about three tries a second, which is
+   * weeks to walk the 16.7 million class codes and far longer for a family key's 2^40. A right answer clears only its own
+   * device's count, so knowing the class code (it is on the Host's screen) no longer resets a guesser's count for a key.
+   *
+   * ceiling: one student who deliberately throws `ADDRESS_TRIES` wrong tries in half a minute from behind the shared address
+   * still shuts the doors for the room for the rest of that half minute. Counting by the class code or family key a guess
+   * names cannot tell a guesser from a room either; a teacher who sees it happen is the answer.
+   */
+  const REJOIN_TRIES = 5, REJOIN_COOLDOWN_MS = 30000, ADDRESS_TRIES = 100;
+  const DOOR_COOKIE = 'tr_door';
+  const rejoinTries = new Map(), addressTries = new Map();
+  /** Which device is knocking: its `tr_door` cookie when it sent a well-formed one, or a new one it will be given. */
+  function doorOf(req) {
+    const sent = cookie(req, DOOR_COOKIE);
+    if (sent && /^[0-9a-f]{32}$/.test(sent)) return { id: sent, fresh: false, address: req.socket.remoteAddress || 'unknown' };
+    return { id: randomBytes(16).toString('hex'), fresh: true, address: req.socket.remoteAddress || 'unknown' };
+  }
+  /** How long this device (or this whole address) must wait, as the refusal a page shows, or null when it may try. */
+  function rejoinCooldown(door) {
     const now = Date.now();
     for (const [seen, tries] of rejoinTries) if (now - tries.at >= REJOIN_COOLDOWN_MS) rejoinTries.delete(seen);
-    const attempt = rejoinTries.get(address);
+    for (const [seen, tries] of addressTries) if (now - tries.since >= REJOIN_COOLDOWN_MS) addressTries.delete(seen);
+    const wait = ms => ({ error: `Too many tries. Wait ${Math.ceil(ms / 1000)} seconds and try again.` });
+    const room = addressTries.get(door.address);
+    if (room && room.count >= ADDRESS_TRIES) return wait(REJOIN_COOLDOWN_MS - (now - room.since));
+    const attempt = !door.fresh && rejoinTries.get(door.id);
     if (!attempt || attempt.count < REJOIN_TRIES) return null;
-    return { error: `Too many tries. Wait ${Math.ceil((REJOIN_COOLDOWN_MS - (now - attempt.at)) / 1000)} seconds and try again.` };
+    return wait(REJOIN_COOLDOWN_MS - (now - attempt.at));
   }
-  const countRejoinTry = address => rejoinTries.set(address, { count: (rejoinTries.get(address)?.count || 0) + 1, at: Date.now() });
-  const clearRejoinTries = address => rejoinTries.delete(address);
+  /** A wrong try: counted against the device - given its cookie now, if it had none - and against its address. */
+  function countRejoinTry(door, res) {
+    const now = Date.now();
+    rejoinTries.set(door.id, { count: (rejoinTries.get(door.id)?.count || 0) + 1, at: now });
+    const room = addressTries.get(door.address);
+    if (room) room.count++; else addressTries.set(door.address, { count: 1, since: now });
+    // For the length of a class day; the count itself lasts only while it is being added to.
+    if (door.fresh) res.setHeader('Set-Cookie', setCookie(DOOR_COOKIE, door.id, 86400));
+  }
+  const clearRejoinTries = door => rejoinTries.delete(door.id);
   /**
    * The class code as a student types it (classroom audit M2, 2026-09-29). Codes are six hex symbols (`sessionCode`), so a
    * letter O can only be a zero and an I or an L only a one; they are read as those, with the case and any spaces forgiven,
@@ -654,26 +698,44 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
    * closing, go through `broadcastSoon`, so that thirty orders pressed in the same second are shown in a handful of
    * broadcasts rather than thirty, each of which projected the class for every page (docs/PERFORMANCE_SERVER.md). Whoever
    * sent an order still waiting to be shown is always sent a snapshot (`send`'s `force`).
+   *
+   * The gap is counted from the end of the last broadcast, and is never shorter than that broadcast took (triage 1.6,
+   * 2026-09-29): late in a class of 30 a broadcast projects 31 pages in 0.3-0.45 s, and with the gap counted from its start
+   * every order found the gap already passed and broadcast again at once, inside its own commit, so thirty orders pressed
+   * together were thirty broadcasts end to end and the last answered after 12 s (docs/PERFORMANCE_SERVER.md). Now at most
+   * half the server's time goes to showing orders while they keep coming, and an order's broadcast is never made inside the
+   * order: it waits for a timer, so the orders already waiting are answered first.
    */
   const BROADCAST_GAP_MS = 200;
-  let lastBroadcast = 0, broadcastTimer = null, waiting = [];
+  let lastBroadcast = 0, lastBroadcastMs = 0, broadcastTimer = null, waiting = [];
   function broadcast(force = null) {
     clearTimeout(broadcastTimer); broadcastTimer = null;
     const actors = force ? [...waiting, force] : waiting;
     waiting = [];
     if (closing) return;
-    lastBroadcast = Date.now();
+    const started = performance.now();
     const made = new Map();
     for (const stream of streams) send(stream, made, actors);
+    lastBroadcastMs = performance.now() - started;
+    lastBroadcast = Date.now();
   }
-  // ceiling: an order is shown up to BROADCAST_GAP_MS after another page's order was; ticks are never held. A per-family
-  // record of what changed, so only the pages it touched are projected, is the way out if a class's orders outrun this.
-  function broadcastSoon(actor = null) {
-    if (actor) waiting.push(actor);
+  // ceiling: an order is shown up to BROADCAST_GAP_MS - or as long as the last broadcast took, if that was longer - after the
+  // last broadcast ended; ticks are never held. A per-family record of what changed, so only the pages it touched are
+  // projected, is the way out if a class's orders outrun this.
+  function broadcastSoon(actors = []) {
+    waiting.push(...actors);
     if (broadcastTimer) return;
-    const wait = lastBroadcast + BROADCAST_GAP_MS - Date.now();
-    if (wait <= 0) broadcast();
-    else broadcastTimer = setTimeout(() => broadcast(), wait);
+    const wait = broadcastWait(lastBroadcast, lastBroadcastMs, Date.now(), BROADCAST_GAP_MS);
+    broadcastTimer = setTimeout(() => {
+      if (!sent && timings) {
+        // Measurement only: a broadcast made by the timer is nobody's commit, so it is its own record.
+        sent = { project: 0, stringify: 0, bytes: {}, count: {} };
+        const started = performance.now();
+        broadcast();
+        timings({ revision: state.revision, when: 'broadcast', broadcast: performance.now() - started, ...sent });
+        sent = null;
+      } else broadcast();
+    }, wait);
   }
   function suspend(code) {
     const resumeStatus = runtimeFault?.resumeStatus || (state.world.status === 'paused' ? 'running' : state.world.status);
@@ -732,7 +794,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
    * last of 30 orders pressed together was answered after 2.5 s on a fast desktop, against under 1 s now
    * (docs/PERFORMANCE_SERVER.md).
    */
-  function commit(mutate, { actor = null, when = 'now' } = {}) {
+  function commit(mutate, { actor = null, actors = actor ? [actor] : [], when = 'now' } = {}) {
     const at = timings ? [performance.now()] : null;
     let text;
     try { mutate(state); at?.push(performance.now()); validateWorld(state.world); at?.push(performance.now()); state.revision++; text = JSON.stringify(state); at?.push(performance.now()); }
@@ -743,8 +805,72 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     else saveTimer ??= setTimeout(() => { try { flush(); } catch (error) { console.error('Saving failed:', error.cause?.message || error.message); } }, saveWithinMs);
     at?.push(performance.now());
     if (at) sent = { project: 0, stringify: 0, bytes: {}, count: {} };
-    if (when === 'order') broadcastSoon(actor); else broadcast(actor);
-    if (at) { timings({ revision: state.revision, when, mutate: at[1] - at[0], validate: at[2] - at[1], serialise: at[3] - at[2], save: at[4] - at[3], broadcast: performance.now() - at[4], ...sent }); sent = null; }
+    if (when === 'order') broadcastSoon(actors); else broadcast(actor);
+    if (at) { timings({ revision: state.revision, when, orders: actors.length, mutate: at[1] - at[0], validate: at[2] - at[1], serialise: at[3] - at[2], save: at[4] - at[3], broadcast: performance.now() - at[4], ...sent }); sent = null; }
+  }
+  /**
+   * Students' orders, made together (triage 1.6, 2026-09-29). Every commit checks the whole class and serialises it - its
+   * rollback copy and its save text - which by the spring of a class of 30 is 10 ms and 32 ms (a 12 MB class, 34,000 events),
+   * so thirty orders pressed in the same second were thirty of each, end to end. Orders that arrive in the same moment are
+   * gathered (`queueOrder`, one turn of the server's loop) and made one after another in a single commit: checked once and
+   * serialised once.
+   *
+   * **Valid refusal is kept exactly.** Nothing of a batch is answered or shown until its commit has gone through. If an order
+   * in it is refused (it throws), the commit puts the class back to before the batch, and the batch is made again: the orders
+   * before the refused one together, the refused one alone - refused in its own commit, with its own words, exactly as it was
+   * refused before - and the orders after it together. So every answer is what the orders made one at a time in that order
+   * would have given, with no assumption that making an order twice gives the same result: the first making is thrown away.
+   * A batch the checks refuse as a whole (`validateWorld`) is made again one order at a time, so the order that broke it is
+   * the one refused. `ceiling:` a batch with a refusal in it costs one parse of the class more than the orders alone did.
+   *
+   * The two ways out the triage named were weighed: checking only what an order touched needs every action to declare what
+   * it touches, and serialising only on the save timer leaves a refused order nothing exact to be put back to. Gathering
+   * needs neither, and changes nothing an order does.
+   */
+  let orderQueue = [], orderDrain = null;
+  function queueOrder(identity, input, res) {
+    orderQueue.push({ identity, input, res });
+    orderDrain ??= setImmediate(drainOrders);
+  }
+  /** One student's order, made on the class: the same checks, the same action and the same ledger as any command. */
+  function makeOrder(s, { identity, input }, at) {
+    const client = s.clients[identity.credentialHash];
+    if (!client) throw Object.assign(new Error('Join this class first.'), { status: 401 });
+    // Two copies of one order in the same batch (a page retrying): the second is the duplicate it would have been.
+    if (client.commands.includes(input.id)) return { ok: true, duplicate: true };
+    // The lobby is not dead time. A family may set its own people to work while the class fills up, and none of it moves
+    // until the teacher starts; which actions that means is `LOBBY_ACTIONS`, beside the actions themselves.
+    if (!['running', 'lobby'].includes(s.world.status)) throw new Error('Wait until the class is running.');
+    applyAction(s.world, identity.householdId, input, { now: at, ...(lessonResumeMs !== undefined && { resumeWindowMs: lessonResumeMs }) });
+    client.commands.push(input.id); if (client.commands.length > 256) client.commands.shift();
+    return { ok: true };
+  }
+  const answerOrder = ({ res }, status, body) => { if (!res.headersSent && !res.destroyed) json(res, status, body); };
+  /** Orders made in one commit, or, when one is refused, split round it (above). */
+  function makeOrders(list, at) {
+    if (!list.length) return;
+    let reached = 0;
+    const answers = [];
+    try {
+      commit(s => { for (reached = 0; reached < list.length; reached++) answers.push(makeOrder(s, list[reached], at)); }, { actors: list.map(order => order.identity), when: 'order' });
+    } catch (error) {
+      // The class could not be written: nothing of the batch stands, and every order in it hears why, as one alone would.
+      if (error.status === 503) { for (const order of list) answerOrder(order, 503, { error: error.message }); return; }
+      if (list.length === 1) { answerOrder(list[0], error.status || 400, { error: error.message }); return; }
+      // Every order was made and the class as a whole was refused: one at a time finds which.
+      if (reached >= list.length) { for (const order of list) makeOrders([order], at); return; }
+      makeOrders(list.slice(0, reached), at);
+      makeOrders([list[reached]], at);
+      makeOrders(list.slice(reached + 1), at);
+      return;
+    }
+    list.forEach((order, index) => answerOrder(order, 200, answers[index]));
+  }
+  function drainOrders() {
+    orderDrain = null;
+    const list = orderQueue;
+    orderQueue = [];
+    makeOrders(list, now());
   }
   // A graceful stop tells the class before the streams end, so a closed browser is
   // never the only evidence that the teacher stopped the server deliberately.
@@ -1127,17 +1253,17 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       // whichever device is holding that family's key.
       if (req.method === 'POST' && url.pathname === '/api/rejoin') {
         const supplied = readKey((await body(req)).key);
-        const address = req.socket.remoteAddress || 'unknown';
+        const door = doorOf(req);
         // The same cooldown the away list and the claim meet, kept in one place since 2026-09-21 so the three doors
         // into a class cannot drift apart.
-        const cooling = rejoinCooldown(address);
+        const cooling = rejoinCooldown(door);
         if (cooling) return json(res, 429, cooling);
         const found = supplied.length === KEY_LENGTH && Object.entries(state.clients).find(([, client]) => equal(familyKey(client.householdId), supplied));
         if (!found) {
-          countRejoinTry(address);
+          countRejoinTry(door, res);
           return json(res, 403, { error: 'That family key does not match any family in this class. Check the letters and try again.' });
         }
-        clearRejoinTries(address);
+        clearRejoinTries(door);
         const [previousHash, client] = found;
         // A family being played right now is not a family that got locked out. Refusing
         // here is what stops a key read off a neighbour's screen from evicting them.
@@ -1158,7 +1284,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
        * know either. So: they read their own name off a list and tap it (`FIC-GONZ-186`).
        *
        * **What guards it.** The class code, which is the same door a join goes through and is on the Host's screen; the
-       * same per-address cooldown a guessed key meets; and **only families nobody is playing are listed at all**, so a
+       * same cooldown a guessed key meets (per device, and per address behind it: `rejoinCooldown`); and **only families nobody is playing are listed at all**, so a
        * family in front of its own student can never be taken from them. The Host is told publicly when a family moves
        * device (`/api/claim`).
        *
@@ -1168,11 +1294,11 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
        */
       if (req.method === 'POST' && url.pathname === '/api/away') {
         const asked = await body(req);
-        const address = req.socket.remoteAddress || 'unknown';
-        const cooling = rejoinCooldown(address);
+        const door = doorOf(req);
+        const cooling = rejoinCooldown(door);
         if (cooling) return json(res, 429, cooling);
-        if (!codeMatches(asked.code)) { countRejoinTry(address); return json(res, 403, { error: 'Check the class code on the Host screen.' }); }
-        clearRejoinTries(address);
+        if (!codeMatches(asked.code)) { countRejoinTry(door, res); return json(res, 403, { error: 'Check the class code on the Host screen.' }); }
+        clearRejoinTries(door);
         const here = streaming();
         const families = Object.values(state.clients)
           .filter(client => client.householdId && !here.has(client.householdId))
@@ -1183,13 +1309,13 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       /** That one is me: the family is moved to this device, as a rejoin does, without anybody having to know a key. */
       if (req.method === 'POST' && url.pathname === '/api/claim') {
         const asked = await body(req);
-        const address = req.socket.remoteAddress || 'unknown';
-        const cooling = rejoinCooldown(address);
+        const door = doorOf(req);
+        const cooling = rejoinCooldown(door);
         if (cooling) return json(res, 429, cooling);
-        if (!codeMatches(asked.code)) { countRejoinTry(address); return json(res, 403, { error: 'Check the class code on the Host screen.' }); }
+        if (!codeMatches(asked.code)) { countRejoinTry(door, res); return json(res, 403, { error: 'Check the class code on the Host screen.' }); }
         const found = Object.entries(state.clients).find(([, client]) => client.householdId === asked.householdId);
-        if (!found) { countRejoinTry(address); return json(res, 404, { error: 'No family in this class is waiting for that name.' }); }
-        clearRejoinTries(address);
+        if (!found) { countRejoinTry(door, res); return json(res, 404, { error: 'No family in this class is waiting for that name.' }); }
+        clearRejoinTries(door);
         const [previousHash, client] = found;
         // The same refusal the key path gives, and for the same reason: a family being played is not a family that got
         // locked out, and this must never take one out from under the student holding it.
@@ -1281,6 +1407,15 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         const tile = woodsTile(state.world, url.searchParams.get('level'), Number(url.searchParams.get('tx')), Number(url.searchParams.get('ty')));
         if (!tile) return json(res, 404, { error: 'This class has no woods to show there.' });
         return json(res, 200, { mapId: mapKey(), tile });
+      }
+      // Suggested places for a choice made on the map (triage 2.13, sim/suggest.mjs): the house site, ten acres to survey, the
+      // plot to clear or fence. The family's own land only; reads the world and changes nothing.
+      // ceiling: a house site's suggestions lay up to three lanes, as three taps would; asked once as the panel opens, never a tick.
+      if (req.method === 'GET' && url.pathname === '/api/suggest') {
+        if (!identity.householdId) return json(res, 403, { error: 'Only a family chooses places on its land.' });
+        const job = url.searchParams.get('job');
+        if (!SUGGEST_JOBS.includes(job)) return json(res, 400, { error: 'Nothing is suggested for that.' });
+        return json(res, 200, { mapId: mapKey(), places: suggestPlaces(state.world, state.world.households[identity.householdId], job) });
       }
       if (req.method === 'GET' && url.pathname === '/api/site') {
         if (!identity.householdId) return json(res, 403, { error: 'Only a family chooses where its house stands.' });
@@ -1374,6 +1509,9 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
         if (typeof input.id !== 'string' || !/^[\w-]{8,80}$/.test(input.id)) return json(res, 400, { error: 'Command ID required' });
         const commands = identity.role === 'host' ? state.hostCommands : state.clients[identity.credentialHash].commands;
         if (commands.includes(input.id)) return json(res, 200, { ok: true, duplicate: true });
+        // A student's order - not Play Solo's own Pause, Resume, Save or Start - is made with the others that arrive in the same
+        // moment, in one commit, and answered when it has gone through (`queueOrder`, triage 1.6).
+        if (identity.role === 'student' && !SOLO_CONTROLS.has(input.action) && input.action !== 'begin-solo') return queueOrder(identity, input, res);
         let archived = null, rotatedSession = null, stopping = false, wantedPace = null, forToday = false, continued = null, deleted = null;
         const priorSession = state.sessionId;
         // The solo player's own Pause, Resume and Save (owner, 2026-09-27: "i shouldn't need to open the class view to pause,
@@ -1529,13 +1667,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
             }
             // 'solo-save' changes nothing: this commit is written and fsynced before it is answered, and with it everything
             // shown and not yet written.
-          } else {
-            // The lobby is not dead time. A family may set its own people to work while
-            // the class fills up, and none of it moves until the teacher starts; which
-            // actions that means is `LOBBY_ACTIONS`, beside the actions themselves.
-            if (!['running', 'lobby'].includes(s.world.status)) throw new Error('Wait until the class is running.');
-            applyAction(s.world, identity.householdId, input, { now: now(), ...(lessonResumeMs !== undefined && { resumeWindowMs: lessonResumeMs }) });
           }
+          // Every other order a student gives is made in `makeOrder`, with the orders around it (`queueOrder`, above).
           const ledger = identity.role === 'host' ? s.hostCommands : s.clients[identity.credentialHash].commands;
           ledger.push(input.id); if (ledger.length > 256) ledger.shift();
         }, { actor: identity, when: identity.role === 'host' || soloControl ? 'now' : 'order' });
@@ -1667,6 +1800,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       if (solo && !closing && (state.world.status === 'running' || runtimeFault)) {
         try { commit(s => { if (s.world.status === 'running') s.world.status = 'paused'; }); } catch (error) { console.error('The solo game could not be saved paused:', error.message); }
       }
+      // Orders still gathering are made first, so what a student pressed as the server stopped is kept and answered.
+      if (orderDrain) { clearImmediate(orderDrain); drainOrders(); }
       closing = true; clearInterval(timer); clearTimeout(broadcastTimer); clearTimeout(soloTimer);
       // Whatever was shown and not yet written is written before the save is let go (`commit`).
       try { flush(); } catch (error) { console.error('The last changes could not be saved:', error.cause?.message || error.message); }

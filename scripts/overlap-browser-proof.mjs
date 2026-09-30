@@ -39,7 +39,23 @@ import { familyRoll } from '../sim/family.mjs';
 import { chooseSite } from '../sim/homesite.mjs';
 import { on, sceneClock } from '../sim/town-scenes.mjs';
 import { playedToTheCall, startClassroom, openClass, openEncounter, openCallMenu, openSite } from './support/panel-states.mjs';
-import { STUDENT_FURNITURE, HOST_FURNITURE, measureScreen } from './support/screen-furniture.mjs';
+import { STUDENT_FURNITURE, HOST_FURNITURE, LEAST_TYPE, measureScreen, readSmallText } from './support/screen-furniture.mjs';
+import { projectWorld } from '../sim/world.mjs';
+import { URGENT, militaryNotices } from '../public/military-attention.js';
+
+/**
+ * `OVERLAP_ONLY` (a pattern) runs only the classes whose names match - call, lone, cards, home, rooms, fight, town, solo - for an
+ * injection that needs one of them (scripts/overlap-injections.mjs `only`). A gate run sets none and runs every one.
+ */
+const ONLY = process.env.OVERLAP_ONLY ? new RegExp(process.env.OVERLAP_ONLY) : null;
+const section = name => !ONLY || ONLY.test(name);
+/**
+ * The two things a student opens over the right-hand side and the middle that stood on the army's question (triage 2026-09-29,
+ * 2.2): while the messages carry a question that will not wait (`flags.urgent`), neither may share a pixel with them or lie over
+ * one of their buttons - not by the dialog's allowance, and not on a phone.
+ */
+const OVER_THE_QUESTION = /^(town scene|inside the house)$/;
+const overTheQuestion = (a, b) => (a === 'messages' && OVER_THE_QUESTION.test(b)) || (b === 'messages' && OVER_THE_QUESTION.test(a));
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -127,6 +143,46 @@ function lonelyAtTheCall(seed, playerCount) {
   world.status = 'lobby';
   return world;
 }
+/** Whether the first family's page would carry a question that will not wait (public/military-attention.js `URGENT`). */
+const askedOfTheFirst = world => militaryNotices(projectWorld(world, 'hh-1', 'student', { includeMap: false })).some(one => URGENT.has(one.kind));
+/**
+ * A class at home under its roofs (tests/support/settled.mjs), played in process to the morning a rider stops at the first family
+ * (about ninety ticks in): the rooms of the house can be opened while the army's rider waits (triage 2026-09-29, 2.2).
+ */
+function housedWithARider(seed, playerCount) {
+  const world = taught(keepFoundingFamilies(createSettledWorld(seed, playerCount)));
+  world.status = 'running';
+  for (let i = 0; i < 3000 && !askedOfTheFirst(world); i++) stepWorld(world);
+  world.status = 'lobby';
+  return world;
+}
+/** Open one of Gonzales's scenes where the page drew it (as scripts/gonzales-town-browser-proof.mjs `openCard` does). */
+async function openTownScene(page) {
+  await page.waitForFunction(() => Object.keys(window.__townSceneSpots || {}).length, null, { timeout: 20000 }).catch(() => {});
+  const points = await page.evaluate(() => {
+    const canvas = document.querySelector('#world-map'), rect = canvas.getBoundingClientRect();
+    const toPage = (x, y) => ({ x: rect.left + x * rect.width / canvas.width, y: rect.top + y * rect.height / canvas.height });
+    return Object.entries(window.__townSceneSpots || {}).flatMap(([id, spot]) => [
+      ...(window.__townCast || []).filter(one => one.sceneId === id && Number.isFinite(one.sx)).map(one => toPage(one.sx, one.sy)),
+      toPage(spot.x, spot.y - (window.__camera?.figure || 18) * .4),
+    ]).filter(p => p.x > 0 && p.y > 0 && p.x < innerWidth && p.y < innerHeight);
+  });
+  for (const point of points) {
+    await page.mouse.click(point.x, point.y);
+    if (await page.waitForFunction(() => !document.querySelector('#town-scene').hidden, null, { timeout: 1500 }).then(() => true, () => false)) return true;
+    if (await page.locator('#selection-close').isVisible().catch(() => false)) await page.locator('#selection-close').click();
+  }
+  return false;
+}
+/**
+ * A first-meeting tip put away before a class is paused to be measured: paused, the town's talk stands still where it was said,
+ * and a tip coming up after that stood on a bubble that could no longer step aside. Tips are measured in their own states.
+ */
+async function tipsAway(page) {
+  for (let i = 0; i < 4 && await page.locator('#tip .tip-close').isVisible().catch(() => false); i++) { await page.locator('#tip .tip-close').click(); await page.waitForTimeout(300); }
+}
+const urgentUp = page => page.waitForFunction(() => { const one = document.querySelector('#military-notice'); return one && !one.hidden && one.dataset.urgent === 'true'; }, null, { timeout: 30000 }).then(() => true, () => false);
+
 /** A phone, for the cards: the family's column across the top and the cards in it. */
 const PHONE = { width: 400, height: 780 };
 
@@ -177,10 +233,12 @@ async function walk(page, state, { sizes, furniture, host = false, settle = 450,
     const seen = await measureScreen(page, furniture);
     const at = `${size.width}x${size.height}`;
     // Trap (a): a state whose own panel is not on the screen measured nothing, and would read as clean.
-    if (expect) assert.ok(seen.drawn.some(one => one.name === expect), `${host ? 'host' : 'student'} ${state} ${at}: "${expect}" is not drawn, so this state measured nothing`);
+    for (const one of [expect].flat().filter(Boolean)) assert.ok(seen.drawn.some(piece => piece.name === one), `${host ? 'host' : 'student'} ${state} ${at}: "${one}" is not drawn, so this state measured nothing`);
     const shot = join(SHOTS, `${host ? 'host' : 'student'}-${state}-${at}.png`);
     await page.screenshot({ path: shot });
-    record.push({ page: host ? 'host' : 'student', state, at, shot, ...seen });
+    // The student's page sets no type under 12 px (triage 2026-09-29, 2.12): every word drawn, in every state and at every size.
+    const small = host ? [] : await readSmallText(page);
+    record.push({ page: host ? 'host' : 'student', state, at, shot, small, ...seen });
   }
 }
 
@@ -226,7 +284,7 @@ try {
   // The real land, played in process to the morning the settlement's call reaches the family while a rider stands with
   // somebody of it (scripts/support/panel-states.mjs): the guided start, the messages, the meeting, the call's menu and the
   // site chooser all belong to this morning.
-  {
+  if (section('call')) {
     const room = await startClassroom((seed, count) => playedToTheCall(seed, count), 'overlap-call');
     try {
       const { page, errors: pageErrors, context } = await openClass(room.app, browser, STUDENT_SIZES[0], room);
@@ -299,7 +357,7 @@ try {
   }
 
   // ================================================== the lone parent's path: the ability at the head of the column, and the scenes
-  {
+  if (section('lone')) {
     const room = await startClassroom(lonelyOnTheLand, LONE_SEED);
     try {
       const { page, errors: pageErrors, context } = await openClass(room.app, browser, STUDENT_SIZES[0], room);
@@ -320,7 +378,7 @@ try {
     } finally { await room.app.close(); }
   }
   // ================================ the story cards together (owner, 2026-09-29): the neighbours', the house's and the call to arms
-  {
+  if (section('cards')) {
     const room = await startClassroom(lonelyAtTheCall, LONE_SEED);
     try {
       const { page, errors: pageErrors, context } = await openClass(room.app, browser, STUDENT_SIZES[0], room);
@@ -333,9 +391,30 @@ try {
       await context.close();
     } finally { await room.app.close(); }
   }
+  // ============================ the rooms of the house open while the army's rider waits (triage 2026-09-29, 2.2): he is not hidden
+  if (section('rooms')) {
+    const room = await startClassroom(housedWithARider, 'overlap-rooms');
+    try {
+      const { page, errors: pageErrors, context } = await openClass(room.app, browser, STUDENT_SIZES[0], room);
+      const asked = await urgentUp(page);
+      const house = page.locator('.panel-house:not([hidden])').first();
+      if (asked && await house.isVisible().catch(() => false)) {
+        await house.click();
+        await page.locator('#interior').waitFor({ state: 'visible', timeout: 10000 }).catch(() => {});
+        await tipsAway(page);
+        // Paused by the teacher while it is measured, so the rider does not ride on in the middle of it.
+        await room.post('/api/command', { id: `overlap-rooms-pause-${Date.now()}`, action: 'pause' }, room.hostCookie);
+        await page.waitForFunction(() => window.__snapshot?.world.status === 'paused', null, { timeout: 15000 }).catch(() => {});
+        if (await page.locator('#interior').isVisible() && await urgentUp(page)) await walk(page, 'rooms-asked', { sizes: [...STUDENT_SIZES, PHONE], furniture: STUDENT_FURNITURE, expect: ['inside the house', 'messages'] });
+        else notReached.push('student rooms-asked: the rooms or the question were gone before they were measured');
+      } else notReached.push(`student rooms-asked: ${asked ? 'no House on the main person\'s row' : 'no question that will not wait reached the family'}`);
+      errors.push(...pageErrors);
+      await context.close();
+    } finally { await room.app.close(); }
+  }
 
   // ========================================================================== a class past its guided start, at home
-  {
+  if (section('home')) {
     // The Host's spotlight is lit in the world as the class is made, with the real words of the first one a class sees
     // (sim/directors.mjs, the dawn at Gonzales): the banner is what is measured, and waiting for the fight takes an hour.
     // Saved to a folder of its own, so the Host has its Classes list (server/app.mjs `shelfDir`), which a class kept only in
@@ -467,7 +546,7 @@ try {
   // ================================================================================== a fight, as the Host watches it
   // The class at Gonzales played in process to first light on October 2 (tests/support/battle.mjs), and handed to the
   // browser running: the Host sees the fight drawn with its caption over the top of the map, and the spotlight's banner.
-  {
+  if (section('fight')) {
     const app = createClassroom({ seed: 'overlap-fight', playerCount: 5, tickMs: 4000, worldFactory: seed => {
       const world = gonzalesClass(seed, { fighters: 'first' });
       stepUntil(world, () => battleState(world, 'gonzales')?.phase?.id === 'dawn-skirmish', 3000);
@@ -501,7 +580,7 @@ try {
   // The class scripts/gonzales-town-browser-proof.mjs builds: the real land, played to the morning of September 29 with the
   // first family's main person walked into town, where the town's scenes are said in bubbles over the speakers
   // (public/speech.js). Measured, not held: a bubble goes where its speaker stands.
-  {
+  if (section('town')) {
     const app = createClassroom({ seed: 'gonzales-town-proof', playerCount: 5, tickMs: 1400, worldFactory: playedToTheTown });
     const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
     try {
@@ -525,12 +604,24 @@ try {
       const talking = await page.waitForFunction(() => (window.__townSaid || []).some(line => line.box), null, { timeout: 45000, polling: 100 }).then(() => true, () => false);
       if (talking) await walk(page, 'town-talk', { sizes: STUDENT_SIZES, furniture: STUDENT_FURNITURE, settle: 250 });
       else notReached.push('student town-talk: nobody spoke in Gonzales within 45s');
+      // A scene's card open while the family is asked something that will not wait (triage 2026-09-29, 2.2): the family in this
+      // class is asked from the day its man reaches the town. Paused while it is measured, so the scene does not end under it.
+      await page.setViewportSize(STUDENT_SIZES[0]);
+      const asked = await urgentUp(page);
+      await tipsAway(page);
+      if (asked && await openTownScene(page)) {
+        await tipsAway(page);
+        await poster(url, hostCookie)('/api/command', { id: `overlap-town-pause-${Date.now()}`, action: 'pause' });
+        await page.waitForFunction(() => window.__snapshot?.world.status === 'paused', null, { timeout: 15000 }).catch(() => {});
+        if (await page.locator('#town-scene').isVisible() && await urgentUp(page)) await walk(page, 'town-scene-asked', { sizes: [...STUDENT_SIZES, PHONE], furniture: STUDENT_FURNITURE, expect: ['town scene', 'messages'] });
+        else notReached.push('student town-scene-asked: the scene or the question were gone before they were measured');
+      } else notReached.push(`student town-scene-asked: ${asked ? 'no scene could be opened' : 'no question that will not wait reached the family'}`);
       await context.close();
     } finally { await app.close(); }
   }
 
   // ================================================================================ Play Solo: Pause, Resume and Save
-  {
+  if (section('solo')) {
     const app = createClassroom({ seed: 'overlap-solo', playerCount: 15, tickMs: 700, solo: true });
     const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
     try {
@@ -566,7 +657,10 @@ const allowed = [];
 const held = [];
 for (const one of record) {
   const where = `${one.page} ${one.state} ${one.at}`;
+  // Type under the least a student's page may set (2.12), one fault for each piece of text wherever it was seen.
+  for (const entry of one.small || []) faults.push({ where, what: 'small type', text: `${entry.at} "${entry.text}" is set at ${entry.size}px, under ${LEAST_TYPE}px` });
   for (const pair of one.overlaps) {
+    if (one.flags?.urgent && overTheQuestion(pair.a, pair.b)) { faults.push({ where, what: 'over the question', text: `${pair.a} and ${pair.b} share ${pair.shared.w}x${pair.shared.h}px at ${pair.at.x},${pair.at.y} while the messages ask something that will not wait` }); continue; }
     const rule = deliberate(pair, one.flags);
     const theirs = pending(pair, where);
     if (rule) allowed.push({ where, a: pair.a, b: pair.b, shared: pair.shared, why: rule.why });
@@ -576,6 +670,7 @@ for (const one of record) {
   }
   for (const entry of one.covered) {
     if (!entry.centre && entry.points < 3) continue;
+    if (one.flags?.urgent && entry.by.some(by => overTheQuestion(entry.in, by))) { faults.push({ where, what: 'over the question', text: `"${entry.control}" in ${entry.in} is under ${entry.by.join(', ')} while the messages ask something that will not wait` }); continue; }
     if (entry.by.every(by => DELIBERATE_COVER.test(by))) continue;
     const theirs = entry.by.every(by => pending({ a: entry.in, b: by }, where));
     if (theirs) { held.push({ where, a: entry.in, b: entry.by.join(', '), shared: { w: 0, h: 0 }, owner: pending({ a: entry.in, b: entry.by[0] }, where).owner, control: entry.control }); continue; }
@@ -622,5 +717,7 @@ writeFileSync(OUT, `${JSON.stringify({
 console.log(`wrote ${OUT}`);
 
 assert.deepEqual(errors, [], `the pages threw: ${errors.join(' | ')}`);
+// The army's question over the town's scene and over the rooms (2.2) is not a state this proof may quietly fail to reach.
+assert.deepEqual(notReached.filter(line => /(rooms|town-scene)-asked/.test(line)), [], 'the question over the scene or the rooms was not measured');
 assert.deepEqual(faults.map(one => `${one.where}: ${one.what}: ${one.text}`), [], `${faults.length} things on the screen stand on something else`);
 console.log('PASS nothing on the screen stands on anything else, at every size and in every state reached');

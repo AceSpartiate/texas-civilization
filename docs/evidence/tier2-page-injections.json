@@ -1,0 +1,79 @@
+{
+  "record": "tier2-page-injections",
+  "date": "2026-09-30",
+  "note": "Triage 2026-09-29, Tier 2 items 2.2, 2.4 and 2.6: each injection puts one regression back; `byItsOwnTest` is whether the test written for it, and only that test, failed. Same computer, node --test.",
+  "injections": [
+    {
+      "name": "the family's key is never shown at the end of making the family (2.4)",
+      "file": "public/creation.js",
+      "test": "tests/creation.test.mjs",
+      "caught": true,
+      "byItsOwnTest": true,
+      "failed": [
+        "the family's key comes last, once, on the page that made the family, and never where there is no key (triage 2026-09-29, 2.4)"
+      ]
+    },
+    {
+      "name": "the family's key shown again after it was put away (2.4)",
+      "file": "public/creation.js",
+      "test": "tests/creation.test.mjs",
+      "caught": true,
+      "byItsOwnTest": true,
+      "failed": [
+        "the family's key comes last, once, on the page that made the family, and never where there is no key (triage 2026-09-29, 2.4)"
+      ]
+    },
+    {
+      "name": "a trade asked for on the Neighbours sheet opens before the one sent has arrived (2.6)",
+      "file": "public/neighbours.js",
+      "test": "tests/neighbours-page.test.mjs",
+      "caught": true,
+      "byItsOwnTest": true,
+      "failed": [
+        "a trade asked for on the Neighbours sheet opens when the one sent stands with them, and not before"
+      ]
+    },
+    {
+      "name": "a trade asked for is forgotten on the snapshot before the one sent sets out (2.6)",
+      "file": "public/neighbours.js",
+      "test": "tests/neighbours-page.test.mjs",
+      "caught": true,
+      "byItsOwnTest": true,
+      "failed": [
+        "a trade asked for on the Neighbours sheet opens when the one sent stands with them, and not before"
+      ]
+    },
+    {
+      "name": "a neighbour's person counted a trade partner with none of the family standing there (2.6)",
+      "file": "public/neighbours.js",
+      "test": "tests/neighbours-page.test.mjs",
+      "caught": true,
+      "byItsOwnTest": true,
+      "failed": [
+        "Offer a trade is offered at once only when somebody of theirs stands with one of the family on their land"
+      ]
+    },
+    {
+      "name": "the neighbour looked for among the family's own people, where the server never sends another family (2.6; the first cut of this, found by test:neighbours)",
+      "file": "public/neighbours.js",
+      "test": "tests/neighbours-page.test.mjs",
+      "caught": true,
+      "byItsOwnTest": true,
+      "failed": [
+        "Offer a trade is offered at once only when somebody of theirs stands with one of the family on their land",
+        "a trade asked for on the Neighbours sheet opens when the one sent stands with them, and not before",
+        "the neighbour found for a trade is the one the server sends a page, standing with one of the family on their land"
+      ]
+    },
+    {
+      "name": "the army's question no longer counted as one that will not wait (2.2)",
+      "file": "public/military-attention.js",
+      "test": "tests/military-attention.test.mjs",
+      "caught": true,
+      "byItsOwnTest": true,
+      "failed": [
+        "the army's rider and every question with a clock are the ones that will not wait, which the town's scene and the rooms make way for; a fight, its account and the siege are not (triage 2026-09-29, 2.2)"
+      ]
+    }
+  ]
+}

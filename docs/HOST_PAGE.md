@@ -298,6 +298,28 @@ the packing (a family still packing goes with the default load and stock). The o
 - No saved class carries `packed`, so a class saved before this opens with nobody marked packed, which is what its lobby
   would show; no `saveVersion` moved.
 
+### 2.13 How students join, shown large; wrong tries counted per device (2026-09-29)
+
+The triage's items 1.8 (what was left of it) and 2.15, from the classroom audit's M2 and M8.
+
+- **The join address, large, with a QR code.** Down the teacher's column, *How students join*: the address to type (the first
+  the server found, `joinUrls`, server/deployment.mjs) in 22 px on one line, the class code in 26 px, and a QR code of the
+  address - 180 px, carrying the class code as `?code=` - made in the page by `public/qr.js` with no library and no network
+  service. The next two addresses the server ranked are named under it (*If that does not open, try …*). It is open in the
+  lobby; once the class runs it folds to one line that still says the address and the code (*How students join
+  192.168.4.38:3000 · code 6744EF*), and the teacher opens it again for a latecomer. A student who scans it lands on the join
+  form with the class code already in, and the code is taken out of the address bar. `renderJoinLinks` in public/app.js.
+  `ceiling:` which of a laptop's networks the students can reach is still the teacher's to know: the first address is only the
+  server's best guess (DEPLOYMENT.md, *Join-address discovery*), and no Chromebook camera has read the code here.
+- **Wrong tries are counted per device, not per address.** Behind a district's shared address - every device in the room at
+  once - five wrong codes from anybody locked the whole room out of the family key, the away list and the claim for 30 s. Each
+  browser is now given a `tr_door` cookie with its first wrong try, and its five tries and 30 s wait are its own. A script that
+  drops or invents the cookie meets a count per address that a right answer never clears: 100 wrong tries from one address in
+  half a minute shut the three doors to it until the half minute ends (`rejoinCooldown` in server/app.mjs). A room of thirty
+  mistyping never comes near it; a guesser gets about three tries a second - weeks for the class code, far longer for a key -
+  and knowing the class code no longer resets a guesser's count for a key. `ceiling:` one student throwing 100 wrong tries in
+  half a minute from behind the shared address still shuts the doors for the room for what is left of it.
+
 ## 3. Proof
 
 - `tests/absence.test.mjs` (4): the marker; the director's, questions answered at once, nothing held; back again; the
@@ -338,6 +360,14 @@ the packing (a family still packing goes with the default load and stock). The o
   `npm run test:host-lobby` (`scripts/host-lobby-pause-browser-proof.mjs`, same computer: a student's page pressing Done
   packing marks the Host's row ready, the last page closed and the Host's words, Resume). Each regression injected in
   `scripts/owner-pause-win-lobby-injections.mjs` ([evidence](evidence/owner-pause-win-lobby-injections.json)).
+- §2.13: `tests/qr.test.mjs` (the encoder bit for bit against an independent one, versions 1-13; the SVG), `npm run
+  test:join-card` (the card at 1920x1080, 1366x768 and 1024x768, the QR code on the page the one `public/qr.js` makes for the
+  address with the code, folded once the class runs and opened again by the keyboard, a scanned address filling in the code, no
+  request leaving the class server), `tests/shared-address.test.mjs` (a mistyping student waits and a classmate at the same
+  address does not; a right answer clears only its own device; a script that drops its cookie meets the address's count, which
+  the class code does not reset) and `tests/rejoin.test.mjs` (its throttling tests now keep the cookie, as a browser does). Each
+  seen failing under an injected regression: `npm run test:tier2-classroom-injections`
+  ([evidence](evidence/tier2-classroom-injections.json)).
 - §2.10: `npm run test:overlap` (the Host's page at five sizes in five states, nothing sharing pixels that is not meant to)
   and `npm run test:overlap-injections`.
 

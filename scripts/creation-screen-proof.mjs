@@ -26,6 +26,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { FINGER, measureStep, tabOrder } from './support/creation-geometry.mjs';
+import { LEAST_TYPE, readSmallText } from './support/screen-furniture.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -64,6 +65,8 @@ const STEPS = [
   { stage: 'names', card: '#names', endOf: '#names-done', controls: 11, refusal: true },
   { stage: 'looks-first', card: '#looks', endOf: '#looks-done', controls: 10, refusal: true },
   { stage: 'looks-second', card: '#looks', endOf: '#looks-done', controls: 10, refusal: true },
+  // The family's key, once, large, at the end (triage 2026-09-29, 2.4). Nothing to answer wrongly, so no refusal line.
+  { stage: 'key', card: '#key-card', endOf: '#key-card-done', controls: 1, heading: 'Write this down' },
   { stage: 'wagon', card: '#wagon-load', endOf: '#wagon-done', controls: 6, world: true, refusal: true },
 ];
 const stepOf = stage => STEPS.find(one => one.stage === stage);
@@ -94,6 +97,9 @@ const holds = async (page, stage, screen) => {
   assert.ok(seen.announced.heading, `the ${where} card has no heading of its own to be announced by`);
   if (step.heading) assert.equal(seen.announced.heading, step.heading, `the ${where} card is announced as "${seen.announced.heading}"`);
   if (step.refusal) assert.ok(seen.announced.errorLine.length, `the ${where} card has no line that announces a refusal`);
+  // No type under the least a student's page sets (triage 2026-09-29, 2.12), on the card or anywhere else on the screen.
+  const small = await readSmallText(page);
+  assert.deepEqual(small.map(one => `${one.at} "${one.text}" ${one.size}px`), [], `type under ${LEAST_TYPE}px at the ${where} step`);
   // (7) and (8): the keyboard, and the world behind the curtain. The wagon is a panel of the world itself and has no
   // curtain to be behind, so it is held to the rest and not to these.
   const tab = await tabOrder(page, step.card);
@@ -162,6 +168,12 @@ try {
       if (await page.locator('#looks').isHidden()) break;
     }
     await page.screenshot({ path: `test-results/creation-proof-${screen.width}-looks.png` });
+
+    // The family's key, the last card of the curtain.
+    await page.locator('#key-card').waitFor({ state: 'visible', timeout: 20000 });
+    await holds(page, 'key', screen);
+    await page.screenshot({ path: `test-results/creation-proof-${screen.width}-${screen.height}-key.png` });
+    await page.locator('#key-card-done').click();
 
     // The curtain comes down, and the wagon is what a student meets next.
     await page.locator('#creation').waitFor({ state: 'hidden', timeout: 30000 });
