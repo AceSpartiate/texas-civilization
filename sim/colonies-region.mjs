@@ -167,6 +167,33 @@ export function creekRuns(course, inKept) {
 }
 
 /**
+ * Which families are dealt land inside the burn zone, by join order (index 0 is family 1): **shuffled with the class's seed**
+ * (owner, 2026-09-29, by multiple choice on the triage's D12: "Shuffle by seed"; `FIC-GONZ-963`). Until then family 1 was
+ * always inside, family 2 outside, and so on, so a class that played twice could learn which place to join in.
+ *
+ * Half inside is kept (docs/SCRAPE.md §2, `FIC-GONZ-464`), and kept **however many join**, since students join families in
+ * order (server/app.mjs `/api/join`): the families go in twos down the join order - 1 and 2, 3 and 4 - and the seed says which
+ * of each two is inside. Every even number of played families is exactly half inside; an odd one over at the end of the class
+ * is inside, as before. `key` is a string made from the seed's own draws (the land already dealt), hashed into a stream of its
+ * own, so every draw the class's seed makes after this is the draw it always was.
+ * ceiling: an odd number of *played* families in a larger class is half and a half-family over or under - which of the last
+ * pair's two joined is the seed's. Family 1 always inside would make every prefix at least half, and would give back to a
+ * class that plays twice exactly the place this was built to hide.
+ */
+export function burnSides(count, key) {
+  let state = 2166136261;
+  for (const char of `${key}:burn-sides`) state = Math.imul(state ^ char.charCodeAt(0), 16777619);
+  const next = () => { state ^= state << 13; state ^= state >>> 17; state ^= state << 5; return (state >>> 0) / 4294967296; };
+  const sides = [];
+  for (let first = 0; first < count; first += 2) {
+    if (first + 1 >= count) { sides.push(true); break; }
+    const firstInside = next() < 0.5;
+    sides.push(firstInside, !firstInside);
+  }
+  return sides;
+}
+
+/**
  * `zone: false` deals the land as every class before 2026-09-26 was dealt, with no regard to the burn zone: what an old save's
  * map is, for the tests that hold an old save to its own land (tests/mexican-advance.test.mjs).
  */
@@ -264,10 +291,10 @@ export function buildColoniesRegion(random, playerCount, { zone = true } = {}) {
 
   // Half the families inside the burn zone and half outside it (owner, 2026-09-26, by multiple choice: "Place land at the
   // start"; docs/SCRAPE.md §2, `FIC-GONZ-464`). The zone is the country the Mexican columns' foragers reached while they
-  // advanced (sim/advance.mjs), worked out on this map's own roads before any family's track is laid. Family 1 is inside,
-  // family 2 outside, and so on down the class: students join families in that order (server/app.mjs `/api/join`), so
-  // however many join, the played families are half and half, and an odd one over goes inside - at least half of every
-  // class's farms burn, which is the owner's "ensure that 50%".
+  // advanced (sim/advance.mjs), worked out on this map's own roads before any family's track is laid. Two by two down the class,
+  // one of each two inside and which one the seed's (`burnSides`, owner 2026-09-29, D12): students join families in that order
+  // (server/app.mjs `/api/join`), so however many join, the played families are half and half, and an odd one over at the end of
+  // the class goes inside - at least half of every class's farms burn, which is the owner's "ensure that 50%".
   //
   // It is done after the land is dealt as it always was, and moves as little as it can: a family whose land already lies on
   // its side keeps it, a seat is exchanged with a later family's only where a settlement has no room on the side a family
@@ -275,7 +302,8 @@ export function buildColoniesRegion(random, playerCount, { zone = true } = {}) {
   // own, so the seed's other draws - every crop, load and timber band after this - are the draws they always were.
   const zoneMap = { sites, routes };
   const zoned = zone && Boolean(sites['san-felipe']) && burnSamples(zoneMap).all.length > 0;
-  const inside = index => index % 2 === 0;
+  const sides = burnSides(places.length, JSON.stringify(places));
+  const inside = index => sides[index];
   const inZone = point => inBurnZone(zoneMap, point);
   if (zoned) {
     // Where each settlement can take a family inside the zone and where outside: its ring of land, on a half-mile grid, where

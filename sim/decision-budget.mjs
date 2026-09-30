@@ -26,6 +26,7 @@ import { decideDetachmentFor, decideQuestionFor } from './army.mjs';
 import { decideCampQuestionFor } from './camp.mjs';
 import { answeredFor } from './lapse.mjs';
 import { lapseCall } from './calls.mjs';
+import { lapseSupply, supplyAskFor } from './supplies.mjs';
 import { questionWaits, sendOnFrom } from './encounters.mjs';
 import { actingId } from './acting.mjs';
 import { STUDY_TICK_MS } from './crops.mjs';
@@ -74,6 +75,15 @@ export function openDecisions(world, { heldFor } = {}) {
     const personId = [household.mainId, household.principalId, ...(household.members || [])].find(id => world.entities[id]);
     if (!personId) continue;
     open.push({ key: `call:${householdId}`, personId, call: true, held: Boolean(heldFor?.(household)) || questionWaits(world, householdId, call), expire: () => { lapseCall(world, householdId); sendOnFrom(world, householdId); } });
+  }
+  // What the army before Béxar asks of a played family at its screen (sim/supplies.mjs, owner 2026-09-29, D5): on the call's own
+  // clock and by its rules - five real minutes from when it is shown, none of them while it waits behind a rider.
+  for (const householdId of Object.keys(world.supplies || {})) {
+    const household = world.households?.[householdId], ask = supplyAskFor(world, householdId);
+    if (!ask || !household?.played || household.absent) continue;
+    const personId = [household.mainId, household.principalId, ...(household.members || [])].find(id => world.entities[id]);
+    if (!personId) continue;
+    open.push({ key: `call:supply:${householdId}:${ask.askId}`, personId, call: true, held: Boolean(heldFor?.(household)) || questionWaits(world, householdId, ask), expire: () => { lapseSupply(world, householdId); sendOnFrom(world, householdId); } });
   }
   return open;
 }
@@ -136,7 +146,7 @@ export function spendDecisionBudget(world, realMs, { budgetMs = DECISION_BUDGET_
 // - The page counts each down on its "!" from the real time left (`limitLeft`, projected as `leftMs`).
 
 /** Real milliseconds each question on a real-time limit waits for its student. A server option (`questionBudgets`) overrides any of them. */
-export const QUESTION_BUDGETS = Object.freeze({ rider: 90_000, flight: 180_000, alto: 30_000, road: 90_000, work: 90_000 });
+export const QUESTION_BUDGETS = Object.freeze({ rider: 90_000, flight: 180_000, alto: 30_000, road: 90_000, work: 90_000, grave: 60_000 });
 /**
  * The real time a question waiting behind a rider must still have in front of the student once he has gone, before the calendar
  * closes it (owner, 2026-09-29, "Rider leaves at dawn"; sim/encounters.mjs `riderMustGo`): the ninety seconds every other
@@ -180,6 +190,29 @@ export const riderLimitKey = encounter => `rider:${encounter.id}:${encounter.ask
 export const flightLimitKey = household => `flight:${household.id}`;
 export const roadLimitKey = (household, ask) => `${ask.id === 'alto' ? 'alto' : 'road'}:${household.id}:${ask.openedTick}`;
 export const workLimitKey = (entity, ask) => `work:${entity.id}:${ask.openedMinute}`;
+/** One very sick spell of one person: forgotten when they are past the worst or dead, so a second spell starts at nothing. */
+export const graveLimitKey = entity => `grave:${entity.id}`;
+
+/**
+ * **A minute to nurse the very sick** (owner, 2026-09-29, by multiple choice on the triage's C4: "60 s minimum"; triage 2.1,
+ * the design audit's S21; `FIC-GONZ-960`). In the second and third periods a day of the calendar passes in ten or twenty real
+ * seconds, so a child announced very sick could die before the student had found the "!". Now somebody very sick in a played
+ * family at its screen cannot die of it until **sixty real seconds** (`QUESTION_BUDGETS.grave`) have passed since they were
+ * said to be very sick, on this module's clock - suspended while the Host has paused, kept in the save, a tick stepped in process
+ * counting one at the Study pace - and the "!" and the story card count the time down (`leftMs`). While it runs, their very sick
+ * days wait with it (sim/disease.mjs `sicknessDay`), so the minute is added in front of the days the record's rates give, not
+ * taken out of them; nursing still brings them past the worst at once. Nothing is held for anybody else: a family nobody plays,
+ * or whose student has gone, has no reader to give a minute to, and its sick go by the calendar as before. The calendar itself
+ * is not held (the owner's option B, not chosen). In the first period nobody dies of a sickness at all (`deathsAllowed`), and
+ * nothing is counted.
+ */
+export function graveOnLimit(world, entity) {
+  if (entity?.kind !== 'person' || entity.health?.condition !== 'sick' || !entity.health.grave) return false;
+  if ((world.period || 1) < 2) return false; // sim/disease.mjs `deathsAllowed`: nobody dies of a sickness in the first period.
+  return watched(world.households?.[entity.householdId]);
+}
+/** Whether this very sick person's minute is still running: they cannot die of it yet. */
+export const graveHeld = (world, entity) => graveOnLimit(world, entity) && !limitOut(world, graveLimitKey(entity));
 
 /** Every question on a real-time limit open now, each with its key, its kind and who it is put to. */
 export function openLimits(world) {
@@ -193,6 +226,7 @@ export function openLimits(world) {
   }
   for (const entity of Object.values(world.entities || {})) {
     if (workOnLimit(world, entity)) open.push({ key: workLimitKey(entity, entity.chore.ask), kind: 'work', personId: entity.id });
+    if (graveOnLimit(world, entity)) open.push({ key: graveLimitKey(entity), kind: 'grave', personId: entity.id });
   }
   return open;
 }

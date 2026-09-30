@@ -494,8 +494,9 @@ export function needsOf(world, entityId) {
   for (const offer of world.offers || []) {
     if (offer.direction === 'received' && offer.ourEntityId === entityId) { needs.push({ kind: 'offer', text: `${offer.theirName || 'A neighbour'} has offered ${name} a trade.` }); break; }
   }
-  // Turned very sick (sim/disease.mjs): the moment to answer, with a day to do it - nurse, keep warm, rest. The server's own line.
-  if (entity.sickness?.grave) needs.push({ kind: 'sick', text: `${name}: ${entity.sickness.line || 'very sick.'}` });
+  // Turned very sick (sim/disease.mjs): the moment to answer - nurse, keep warm, rest. The server's own line, and since 2026-09-29
+  // (owner, C4: "60 s minimum") the minute in which they cannot die, counted down while it runs (`leftMs`).
+  if (entity.sickness?.grave) needs.push({ kind: 'sick', text: `${name}: ${entity.sickness.line || 'very sick.'}`, ...ms(entity.sickness.leftMs) });
   return needs.sort(byUrgency);
 }
 
@@ -671,7 +672,8 @@ export function callMenu(request, { people = [], entities = [] } = {}) {
     const person = book.get(id) || {};
     const go = options.find(option => GO_ANSWERS.includes(option.id)), stay = options.find(option => STAY_ANSWERS.includes(option.id));
     if (!go) continue;
-    const age = Number.isFinite(person.age ?? entity.age) ? (person.age ?? entity.age) === 0 ? 'under a year' : String(person.age ?? entity.age) : '';
+    const shownAge = entity?.age ?? person.age;
+    const age = Number.isFinite(shownAge) ? shownAge === 0 ? 'under a year' : String(shownAge) : '';
     const role = person.role ? person.role[0].toUpperCase() + person.role.slice(1) : 'Of this family';
     rows.push({ id, name: entity.name, who: [role, age].filter(Boolean).join(', '), go: { id: go.id, label: go.label, note: go.note, can: Boolean(go.can), why: go.why || '' },
       stay: stay ? { id: stay.id, label: stay.label, note: stay.note, can: Boolean(stay.can), why: stay.why || '' } : null });

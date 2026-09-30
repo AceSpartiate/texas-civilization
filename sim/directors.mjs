@@ -34,6 +34,7 @@ import { findWay } from './ways.mjs';
 import { advanceSouth, grantRides, southProjection, tellSouthAccount } from './south.mjs';
 import { MODES } from './travel.mjs';
 import { questionWaits } from './encounters.mjs';
+import { supplyOptions, supplyProjection } from './supplies.mjs';
 
 /**
  * What the gathering, the organisation of the army and the march for Béxar rest on.
@@ -1632,11 +1633,20 @@ export function directorProjection(world, householdId, role, { seen = [] } = {})
   const rumor = householdId && world.rumors?.[householdId];
   // A family far from Gonzales is only ever asked its settlement's call (sim/calls.mjs).
   const call = householdId && world.calls?.[householdId];
-  const asked = (march && march.status === 'open' ? march : null) || call || (householdId && world.requests[householdId]) || (rumor && rumor.status !== 'overtaken' ? rumor : null);
+  // What the army before Béxar asks (sim/supplies.mjs, owner 2026-09-29, D5), while it is open: the settlement's call is long
+  // answered by then, and stays the family's request in the record behind it.
+  const supply = householdId ? supplyProjection(world, householdId) : null;
+  const asked = (march && march.status === 'open' ? march : null) || supply || call || (householdId && world.requests[householdId]) || (rumor && rumor.status !== 'overtaken' ? rumor : null);
   // Put while a rider is still talking with the family, it waits until he has gone (sim/encounters.mjs `questionWaits`, owner
   // 2026-09-29, `FIC-GONZ-909`): the rider's meeting says one more thing is waiting, and this comes up when it ends.
   const request = asked && questionWaits(world, householdId, asked) ? null : asked;
-  const shown = request ? { id: request.id, text: request.text, status: request.status, kind: request === march ? 'march' : request === call ? 'call' : request === rumor ? 'rumor' : 'supplies' } : null;
+  const shown = request ? { id: request.id, text: request.text, status: request.status, kind: request === march ? 'march' : request === supply ? 'supply' : request === call ? 'call' : request === rumor ? 'rumor' : 'supplies' } : null;
+  // The army's request lapses after the call's five real minutes, counted from when it is shown (sim/decision-budget.mjs).
+  if (shown?.kind === 'supply' && world.households[householdId]?.played) {
+    const clock = world.decisionClock?.[`call:supply:${householdId}:${supply.askId}`];
+    shown.lapses = 'If nobody answers within a few minutes, the request lapses and nothing is sent. The minutes do not run while the class is paused.';
+    if (clock) { shown.leftMs = Math.max(0, Math.round(clock.of - clock.spent)); if (clock.spent >= clock.of * (2 / 3)) shown.pressing = true; }
+  }
   // A played family's settlement call lapses after its five real minutes (sim/decision-budget.mjs `CALL_BUDGET_MS`): said
   // before it happens, pressing once most of them are gone, and said after if it did.
   if (shown?.kind === 'call' && world.households[householdId]?.played) {
@@ -1658,11 +1668,13 @@ export function directorProjection(world, householdId, role, { seen = [] } = {})
     // give to whichever parent or grown child it chooses, and the march is put to the one
     // who carried the food. `options` stays as the principal's, or the march's person's.
     const household = world.households[householdId];
-    const people = shown.kind === 'march' ? [march.actorId] : household.members.filter(id => canAnswerCalls(world.entities[id]));
+    // The army's request is answered by somebody at home, who hands it over: nobody away is shown it.
+    const home = id => world.entities[id]?.location?.siteId === household.homeSiteId && !world.entities[id].travel && !['dead', 'captured'].includes(world.entities[id].health?.condition);
+    const people = shown.kind === 'march' ? [march.actorId] : household.members.filter(id => canAnswerCalls(world.entities[id]) && (shown.kind !== 'supply' || home(id)));
     // A settlement's call answered after the army has marched says, honestly, when the man would catch it up (sim/army.mjs
     // `armyArrivalWords`, staging.md §1.6 fix 5): the offer stands either way.
     const honest = (options, entity) => options.map(option => option.id === 'turn-out' ? { ...option, note: `${option.note}${armyArrivalWords(world, entity, call.gather, momentOf(world, 'detachment-out'))}` } : option);
-    shown.answerers = Object.fromEntries(people.map(id => [id, shown.kind === 'call' ? honest(callOptions(world, householdId, call, world.entities[id]), world.entities[id]) : requestOptions(world, householdId, shown, shown.kind, world.entities[id])]));
+    shown.answerers = Object.fromEntries(people.map(id => [id, shown.kind === 'call' ? honest(callOptions(world, householdId, call, world.entities[id]), world.entities[id]) : shown.kind === 'supply' ? supplyOptions(world, householdId, world.entities[id]) : requestOptions(world, householdId, shown, shown.kind, world.entities[id])]));
     shown.options = shown.answerers[shown.actorId || household.principalId] || Object.values(shown.answerers)[0] || [];
   }
   // San Jacinto (sim/san-jacinto.mjs): the same four things, for the spring's battle, from its own director.

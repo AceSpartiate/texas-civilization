@@ -172,6 +172,7 @@ in the fighting counts for more than supporting it. Every number below is invent
 | --- | --- | --- | --- |
 | Support | Answering the call and carrying food or powder to Gonzales | 1 | Yes — `handleChoice` in `sim/directors.mjs` |
 | Support | Carrying word onward that reached another family | 1 | Yes — the relay chain in `sim/world.mjs` |
+| Support | Sending the army before Béxar food, powder or a horse when it asks (October 26, November 26) | 1 (`supplied`), times the miles from Béxar | **Yes, owner-decided 2026-09-29** (triage D5, *"Supply request"*; `sim/supplies.mjs`, `FIC-GONZ-962`, `HIST-TEX-960`): once for each ask; keeping everything earns nothing. No other weight moved (the owner's own plan for how a family that sends nobody wins, D4, comes later) |
 | Support | Helping a neighbour who asked; sheltering or feeding another household | 1 (children taken in: 2) | **Yes, since 2026-09-28** (owner, by multiple choice: *"Any help"*, `FIC-GONZ-761`): the ledger's deeds (`sim/neighbourly.mjs`, `sim/deeds.mjs` `HELP_ROLE`) - a raising, food carried, room kept in a wagon at 1 (`helped`), children taken in at 2 (`sheltered`), times the distance multiplier from the family helped. Once per family helped and kind of help; a trade earns nothing (it was even), nor the neighbours' call (it earned its own part at Gonzales). Said in *What earned glory* at the ending, never in who went to the war. `ceiling:` the two weights are a first guess, to be moved by a balance measure |
 | Present | Being where a documented event happened when it happened | 2 | Yes — `witnessing()` in `sim/directors.mjs` |
 | Present | Going upriver to the camp | 2 | Yes — `handleMarch` |
@@ -244,6 +245,12 @@ Austin orders Béxar stormed on November 21 earns their family a `willing` award
 storm never came. A volunteer who runs home from the Grass Fight has the fight's award taken away (the ordinary award, turned
 negative), with the note shown in the ending labelled as the game's own reading: no man in the record was punished for going
 home (`HIST-TEX-027`, `FIC-GONZ-040`).
+
+**No glory for the "right" answer at the fork — owner-decided 2026-09-29** (triage D6, by multiple choice: *"Drop 'forward'"*;
+`FIC-GONZ-961`). A man with Houston who called for the right-hand road at the fork on April 16 earned `forward` (2); the award
+and its weight are gone, because the ending's worth lines taught anybody who played again which answer pays. His answer is still
+his part in the record. `willing` above is kept: it is the owner's rule. A class saved with a `forward` award keeps it
+("Counted as N glory").
 
 **Automatic neighbours are never ranked** (owner, 2026-09-14, `docs/COLONIES.md` §5.9): when the ending is built it ranks only families with `household.played`; an automatic family's money and glory are counted but it is never named winner or placed in a ranking. A played family the director finishes because its student is away at the end is ranked (owner, 2026-09-29, §5 *Who can finish first*).
 

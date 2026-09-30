@@ -1,0 +1,424 @@
+{
+  "record": "owner-rules-injections",
+  "date": "2026-09-30",
+  "caught": 27,
+  "only": 21,
+  "of": 27,
+  "injections": [
+    {
+      "name": "D7 working about the place yields a food a day again",
+      "files": [
+        "sim/routines.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D7: somebody working about the place",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D7: somebody working about the place brings in 0.3 food a day, where it was one"
+      ]
+    },
+    {
+      "name": "D7 the yield not used: a worker counted as one food",
+      "files": [
+        "sim/routines.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D7: somebody working about the place",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D7: somebody working about the place brings in 0.3 food a day, where it was one"
+      ]
+    },
+    {
+      "name": "D11 the tick never moves an age",
+      "files": [
+        "sim/world.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D11: a baby turns two",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D11: a baby turns two and is a baby no longer; a child of nine turns ten and may be sent; stepping the class moves them"
+      ]
+    },
+    {
+      "name": "D11 no birthday ever passes",
+      "files": [
+        "sim/ages.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D11: a boy of fifteen",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "D11: a boy of fifteen turns sixteen on his birthday, and may then answer a call and go to the fighting",
+        "D11: a baby turns two and is a baby no longer; a child of nine turns ten and may be sent; stepping the class moves them",
+        "D11: an old save has ages at the class start and no birth dates; each is given a stable one, the same every time it opens"
+      ]
+    },
+    {
+      "name": "D11 the derived birth date not written down, so an old save ages again when opened",
+      "files": [
+        "sim/ages.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D11: an old save",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D11: an old save has ages at the class start and no birth dates; each is given a stable one, the same every time it opens"
+      ]
+    },
+    {
+      "name": "D11 the page shows the family book's age before the tick's",
+      "files": [
+        "public/family-panel.js"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D11: a boy of fifteen",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D11: a boy of fifteen turns sixteen on his birthday, and may then answer a call and go to the fighting"
+      ]
+    },
+    {
+      "name": "C4 nothing held: a very sick child can die inside the minute",
+      "files": [
+        "sim/disease.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "C4: a very sick child of a played family cannot die",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "C4: a very sick child of a played family cannot die in the minute after they are said to be very sick; after it, they can"
+      ]
+    },
+    {
+      "name": "C4 the very sick days do not wait with the minute",
+      "files": [
+        "sim/disease.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "C4: a very sick child of a played family cannot die",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "C4: a very sick child of a played family cannot die in the minute after they are said to be very sick; after it, they can"
+      ]
+    },
+    {
+      "name": "C4 the minute never starts on the real clock",
+      "files": [
+        "sim/decision-budget.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "C4: the minute runs on the real clock",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "C4: the minute runs on the real clock from when they are very sick, is shown on the \"!\" and the card, and is nobody's to hold for a family nobody plays or in the first period"
+      ]
+    },
+    {
+      "name": "C4 a minute held for a family nobody is at the screen for",
+      "files": [
+        "sim/decision-budget.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "C4: the minute runs on the real clock",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "C4: a very sick child of a played family cannot die in the minute after they are said to be very sick; after it, they can",
+        "C4: the minute runs on the real clock from when they are very sick, is shown on the \"!\" and the card, and is nobody's to hold for a family nobody plays or in the first period"
+      ]
+    },
+    {
+      "name": "C4 the row carries no time left",
+      "files": [
+        "sim/disease.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "C4: the minute runs on the real clock",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "C4: the minute runs on the real clock from when they are very sick, is shown on the \"!\" and the card, and is nobody's to hold for a family nobody plays or in the first period"
+      ]
+    },
+    {
+      "name": "C4 the \"!\" does not count it down",
+      "files": [
+        "public/family-panel.js"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "C4: the minute runs on the real clock",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "C4: the minute runs on the real clock from when they are very sick, is shown on the \"!\" and the card, and is nobody's to hold for a family nobody plays or in the first period"
+      ]
+    },
+    {
+      "name": "D5 the autumn ask put to a family whose man is serving",
+      "files": [
+        "sim/supplies.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D5: in the last week of October",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D5: in the last week of October the army asks every family with nobody in it, and not a family whose man is serving"
+      ]
+    },
+    {
+      "name": "D5 asked before the committee's word of October 26",
+      "files": [
+        "sim/supplies.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D5: in the last week of October",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "D5: in the last week of October the army asks every family with nobody in it, and not a family whose man is serving",
+        "D5: sending is a real cost and earns `supplied` from Béxar; keeping earns nothing; what the family has not got is refused with the reason on the control",
+        "D5: the ask waits behind a rider and its minutes with it, lapses after the call's five real minutes with nothing sent, and the flour ask goes to every family at home"
+      ]
+    },
+    {
+      "name": "D5 the ask never shown as the family's request",
+      "files": [
+        "sim/directors.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D5: in the last week of October",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "D5: in the last week of October the army asks every family with nobody in it, and not a family whose man is serving",
+        "D5: sending is a real cost and earns `supplied` from Béxar; keeping earns nothing; what the family has not got is refused with the reason on the control",
+        "D5: the ask waits behind a rider and its minutes with it, lapses after the call's five real minutes with nothing sent, and the flour ask goes to every family at home"
+      ]
+    },
+    {
+      "name": "D5 the story card says only \"Your family is being asked\"",
+      "files": [
+        "public/military-attention.js"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D5: in the last week of October",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D5: in the last week of October the army asks every family with nobody in it, and not a family whose man is serving"
+      ]
+    },
+    {
+      "name": "D5 sending earns nothing",
+      "files": [
+        "sim/supplies.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D5: sending is a real cost",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D5: sending is a real cost and earns `supplied` from Béxar; keeping earns nothing; what the family has not got is refused with the reason on the control"
+      ]
+    },
+    {
+      "name": "D5 the powder sent costs nothing",
+      "files": [
+        "sim/supplies.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D5: sending is a real cost",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D5: sending is a real cost and earns `supplied` from Béxar; keeping earns nothing; what the family has not got is refused with the reason on the control"
+      ]
+    },
+    {
+      "name": "D5 food the family has not got is offered",
+      "files": [
+        "sim/supplies.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D5: sending is a real cost",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D5: sending is a real cost and earns `supplied` from Béxar; keeping earns nothing; what the family has not got is refused with the reason on the control"
+      ]
+    },
+    {
+      "name": "D5 the horse sent stays at home",
+      "files": [
+        "sim/supplies.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D5: sending is a real cost",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D5: sending is a real cost and earns `supplied` from Béxar; keeping earns nothing; what the family has not got is refused with the reason on the control"
+      ]
+    },
+    {
+      "name": "D5 its minutes run while it waits behind a rider",
+      "files": [
+        "sim/decision-budget.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D5: the ask waits behind a rider",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D5: the ask waits behind a rider and its minutes with it, lapses after the call's five real minutes with nothing sent, and the flour ask goes to every family at home"
+      ]
+    },
+    {
+      "name": "D5 it never lapses on the real clock",
+      "files": [
+        "sim/decision-budget.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D5: the ask waits behind a rider",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D5: the ask waits behind a rider and its minutes with it, lapses after the call's five real minutes with nothing sent, and the flour ask goes to every family at home"
+      ]
+    },
+    {
+      "name": "D6 the fork's \"yes\" earns `forward` again",
+      "files": [
+        "sim/camp.mjs",
+        "sim/glory.mjs"
+      ],
+      "tests": [
+        "tests/camp.test.mjs"
+      ],
+      "expected": "the fork of the road, April 16",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the fork of the road, April 16: asked of every man with Houston, closed the next day; calling for the enemy's road is a part in the record"
+      ]
+    },
+    {
+      "name": "D6 the weight left in, so the ending still teaches it",
+      "files": [
+        "sim/glory.mjs"
+      ],
+      "tests": [
+        "tests/camp.test.mjs"
+      ],
+      "expected": "the fork of the road, April 16",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the fork of the road, April 16: asked of every man with Houston, closed the next day; calling for the enemy's road is a part in the record"
+      ]
+    },
+    {
+      "name": "D12 dealt by join order again",
+      "files": [
+        "sim/colonies-region.mjs"
+      ],
+      "tests": [
+        "tests/mexican-advance.test.mjs"
+      ],
+      "expected": "exactly half of every class",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "exactly half of every class's land is inside the burn zone, two by two as students join, which of each two by the seed, the odd one over inside"
+      ]
+    },
+    {
+      "name": "D12 the seed never chooses: the first of each two always inside",
+      "files": [
+        "sim/colonies-region.mjs"
+      ],
+      "tests": [
+        "tests/mexican-advance.test.mjs"
+      ],
+      "expected": "burnSides:",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "exactly half of every class's land is inside the burn zone, two by two as students join, which of each two by the seed, the odd one over inside",
+        "burnSides: one of each two in join order, the odd one over inside, the same for the same key and not the same for every key"
+      ]
+    },
+    {
+      "name": "D12 the odd one over outside",
+      "files": [
+        "sim/colonies-region.mjs"
+      ],
+      "tests": [
+        "tests/mexican-advance.test.mjs"
+      ],
+      "expected": "burnSides:",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "exactly half of every class's land is inside the burn zone, two by two as students join, which of each two by the seed, the odd one over inside",
+        "burnSides: one of each two in join order, the odd one over inside, the same for the same key and not the same for every key"
+      ]
+    }
+  ]
+}

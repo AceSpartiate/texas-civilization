@@ -943,6 +943,44 @@ Researched in [battle-research/grass-fight.md](battle-research/grass-fight.md) a
 - Tests: `tests/siege.test.mjs` (8, each proven by injection, 24 drills); browser: `npm run test:siege`
   ([evidence](evidence/siege-browser.json)).
 
+### 6k-a. The army's request for supplies — owner-decided 2026-09-29 (`FIC-GONZ-962`, `HIST-TEX-960`; not released)
+
+**The ask.** Triage D5 (the design audit's S9): *a family that sent nobody has no war decision from October 13 to December 15* -
+forty-five to sixty real minutes at the Study pace. The owner chose, by multiple choice, **"Supply request"**: *"the army asks for
+supplies during the siege (food, horses, powder), which earns `supplied`"*. The owner's separate plan for how a family that sends
+nobody can win (D4) is his own and later: nothing else about glory moved.
+
+**The record** (`HIST-TEX-960`). The army before Béxar asked the settlements for what it lacked, through their committees: bread
+short by October 22, the council at San Felipe gathering blankets, shoes, powder and lead in the last week of October, and on
+November 22 "the army is now out of Flour and the corn is exhausted", with Austin writing for flour, beans and hard biscuit. No
+letter read asks a family for a horse: the horse is the game's.
+
+**As built** (`sim/supplies.mjs`):
+
+- **Two asks, as word from the committee.** From nine in the morning of **October 26** to the councils' vote of November 2, every
+  family with **nobody in the army** (`volunteersOf`); from nine in the morning of **November 26** (Austin's letter come to the
+  settlements) to the morning of December 4, **every family with somebody at home**. So a family that sent nobody is asked twice,
+  and a family whose man is serving once.
+- **One decision with a cost**, answered for the family by anybody at home who may answer a call: **send 6 food**, **send 2
+  powder**, **send the horse**, or **keep what the family has** - a whole answer. Each is refused with its reason on the control when
+  the family has not got it (less than 6 food, less than 2 powder, no horse at home and free). What is sent goes west with the
+  committee's wagons and is gone for good; nobody of the family goes with it.
+- **Glory**: sending earns `supplied` - the support weight, 1 - times the miles from Béxar, once for each ask (sim/glory.mjs;
+  carrying food to Gonzales is times the miles from Gonzales). Keeping earns nothing.
+- **One rider, one visit** (§5.4b). The ask brings no rider of its own, so nothing piles up at the gate; put while a rider is
+  talking with the family it waits until he has gone (`questionWaits`), unseen and with its minutes held, and his conversation
+  counts it among what waits (*"One more thing is waiting for your family after this."*). Shown, it is the family's request: the
+  story card (*"The army asks for supplies"*, *"Choose what to send"*), the "!" on each of the family at home who may answer, and the
+  card's own four answers.
+- **Real time.** On the settlement call's clock: five real minutes from when it is shown, suspended while paused, and on lapse
+  nothing is sent and the journal says so. A family nobody plays, or whose student has gone, is answered by the neighbours' director
+  at once: half give, food if they have three times the ask, else powder if they have twice.
+- **Old saves**: `world.supplies` absent reads as nobody asked yet; a class saved past October 26 is asked on its next tick if the
+  ask is still open. No save version.
+
+`ceiling:` the balance measure's policies leave the ask to the director's share (every measured family is `absent` during a tick),
+so a family that always sends is not measured on its own; docs/BALANCE.md §16 has the share that was.
+
 ### 6l. As built: step 6, the storming of Béxar (2026-09-16)
 
 Researched in [battle-research/bexar-storming.md](battle-research/bexar-storming.md) and decided by the owner by multiple

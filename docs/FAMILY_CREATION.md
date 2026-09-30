@@ -1041,3 +1041,39 @@ With a lone mother Bernarda, two daughters, the Montañez family and the Kittred
 **Evidence.** `tests/courtship.test.mjs` (16 tests; the last three for the owner's answers of 2026-09-29, the husband's name and his leading), each proved by `node scripts/lone-parent-injections.mjs`
 ([record](evidence/lone-parent-injections.json)); `npm run test:lone-parent` ([record](evidence/lone-parent-browser.json)), with a
 screenshot of every scene and a fade (`docs/evidence/lone-parent-*.png`). Same computer only: no Chromebook, LAN or classroom claim.
+
+## Amendment, 2026-09-29 — ages advance with the calendar (owner-decided; not released)
+
+**The ask.** Triage D11 (the design audit's M8): *ages never advance* - a boy who turns sixteen before San Jacinto could never go,
+and a baby was a baby all game; eligibility read the stored age and only eating used `ageNow`. The owner chose, by multiple choice,
+**"Advance with calendar"** (`FIC-GONZ-965`).
+
+**As built** (`sim/ages.mjs` `advanceAges`, run by `stepWorld` before anything is asked or set):
+
+- **The birth date is the truth.** Everybody rolled since 2026-09-22 has `born`; anybody older has the one `bornOf` has always
+  derived - the stored `age` as the age on the class's first day, and a birthday hashed from the class seed and the person's id, the
+  same every time the class opens. On the day somebody's age on the calendar (`ageNow`) passes their stored `age`, the derived date is
+  written down as `born` (so it is never derived again from an age that has moved) and `age` becomes the calendar's.
+- **Everything that reads an age follows at once**, because it reads `age`: sent anywhere at ten (`tooYoung`), answering a call and
+  going to the fighting at sixteen (`canAnswerCalls`, `canFight`), the oldest child of seven stepping up (sim/acting.mjs), a baby
+  put down to walk at two (sim/babies.mjs `isBaby`), the children's works by age (sim/children.mjs), what each eats, how they are
+  drawn (`ageBand`), and the age on the family panel (the page shows the tick's age over the family book fetched earlier, and
+  fetches the book again when an age changes).
+- **Said in the journal**: a child's birthday (*"It is Sam's birthday: 8 years old today."*), and the two that change what the
+  family may do (*"… is ten today, and old enough now to be sent on errands and set to any work of the place."*; *"… is sixteen
+  today, and old enough now to answer for the family and to go to the fighting if he is sent."*). A grown person's passes quietly.
+- **At ten** a child's own automation (sim/childhood.mjs, for children under ten) is put away: from then on they are set to work as
+  anybody grown is. **At two** the baby's own state is put away.
+- `ceiling:` a baby being carried keeps the age the journey was planned for until set down, so no journey planned for a baby is
+  walked by a two-year-old halfway.
+- **Old saves**: no save version. A class saved before this never moved an age, so its stored ages are the ages at the class start,
+  which is what the birth date is derived from; the first tick after it opens writes the date down and catches up a birthday
+  already past.
+- **Why `age` moves rather than every reader asking `ageNow`**: about 140 places read `age`, many with no world to ask the
+  calendar; moving the stored age on each birthday made all of them follow with one change, and kept `sim/family.mjs` untouched for
+  the other work in it.
+
+Tested in `tests/owner-rules.test.mjs` (a boy of fifteen can fight after his sixteenth birthday and is told so once, and the page
+shows sixteen over the book's fifteen; a baby of one and a child of nine turn two and ten by the class's own ticks; an old save's
+derived date is stable and written down, and opening it again moves nothing), each seen failing by injection
+(`npm run test:owner-rules-injections`).

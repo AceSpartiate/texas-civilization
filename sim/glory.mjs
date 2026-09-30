@@ -34,14 +34,18 @@ import { findPath } from './geography.mjs';
 // `enlisted` is somebody who signed on for land in the winter of 1836 and `voted` a man who voted on February 1 (owner,
 // 2026-09-16, docs/COLONIES.md §7e, sim/winter.mjs): enlisting is worth being present; voting, a little.
 // `served` is the camp's work with Houston's army in the spring of 1836 - drilling, foraging, guard, the scouts - awarded once
-// the first time a man does any of it and weighted like carrying supplies, so it never rivals the fight's own award; `forward`
-// is a man who called for the right-hand road to Harrisburg and the enemy at the fork on April 16, weighted like `willing`
-// (owner, 2026-09-16, docs/HOUSTON_CAMP.md, sim/camp.mjs).
+// the first time a man does any of it and weighted like carrying supplies, so it never rivals the fight's own award (owner,
+// 2026-09-16, docs/HOUSTON_CAMP.md, sim/camp.mjs). `forward`, a man who called for the right-hand road at the fork on April 16,
+// was weighted like `willing` until the owner dropped it (2026-09-29, triage D6: "Drop 'forward'"; `FIC-GONZ-961`): glory for
+// the answer the record calls right taught a class that played again which answer pays. A class saved with one keeps it, and
+// the ending says it as "Counted as N glory" (sim/ending.mjs `worthLine`); nothing awards it now.
+// `supplied` is also what a family earns for what it gives the army before Béxar when asked (owner, 2026-09-29, triage D5:
+// "Supply request"; sim/supplies.mjs, `FIC-GONZ-962`), at the same weight as carrying food to Gonzales.
 // `helped` and `sheltered` are help given to another family (owner, 2026-09-28, by multiple choice: "Any help"; sim/deeds.mjs
 // `HELP_ROLE`): the support tier of docs/MONEY_AND_GLORY.md §4 - a raising, food, room in a wagon at the support weight, and
 // children taken in at the weight of being present. ceiling: the two weights are this game's own first guess (`FIC-GONZ-761`); a
 // balance measure (docs/BALANCE.md) that finds help outweighing the war, or a lone mother still unable to win, is the way to move them.
-export const GLORY_WEIGHT = Object.freeze({ supplied: 1, present: 2, fought: 3, willing: 2, enlisted: 2, voted: 1, served: 1, forward: 2, helped: 1, sheltered: 2 });
+export const GLORY_WEIGHT = Object.freeze({ supplied: 1, present: 2, fought: 3, willing: 2, enlisted: 2, voted: 1, served: 1, helped: 1, sheltered: 2 });
 /** Every fifteen road miles a family lived from where it happened multiplies the part once more. */
 export const GLORY_MILES_STEP = 15;
 

@@ -302,7 +302,9 @@ function ensureChores(snapshot) {
 let familyCache = null, familyCacheId = null, familyPending = null, familyMembers = null;
 function ensureFamily(snapshot) {
   if (!snapshot.mapId || snapshot.world?.role === 'host' || !snapshot.world?.householdId) return;
-  const members = (snapshot.world.household?.members || []).join(',');
+  // With each one's age, so a birthday (sim/ages.mjs) fetches the book again and the family's list says the age today.
+  const ages = new Map((snapshot.world.entities || []).map(entity => [entity.id, entity.age]));
+  const members = (snapshot.world.household?.members || []).map(id => `${id}:${ages.get(id) ?? ''}`).join(',');
   if (familyCache && familyMembers !== members) familyCacheId = null;
   if ((familyCache && familyCacheId === snapshot.mapId) || familyPending === snapshot.mapId) return;
   familyPending = snapshot.mapId; familyMembers = members;
@@ -4879,7 +4881,9 @@ function renderFamilyPanel(world) {
     const row = panelRows.get(id) || panelRow(id);
     if (list.children[at] !== row.item) list.insertBefore(row.item, list.children[at] || null);
     const principal = id === household.principalId && entity.principal;
-    const age = !Number.isFinite(person?.age ?? entity.age) ? '' : (person?.age ?? entity.age) === 0 ? ', under a year' : `, ${person?.age ?? entity.age}`;
+    // The age today is the tick's (`entity.age`, moved on each birthday: sim/ages.mjs); the family's book is fetched once and may be older.
+    const shownAge = entity.age ?? person?.age;
+    const age = !Number.isFinite(shownAge) ? '' : shownAge === 0 ? ', under a year' : `, ${shownAge}`;
     const role = person?.role || (principal ? 'principal' : 'of this family');
     const focused = id === focusedId, bar = id === barId;
     setData(row.item, 'role', person?.role || '');
@@ -5364,7 +5368,8 @@ function openNeed(id, kind = null) {
     // The conversation itself, not its first question: the questions are drawn again every tick, and a focused one would be
     // replaced under the keyboard.
     target = $('#encounter');
-  } else if (need.kind === 'call') {
+  } else if (need.kind === 'call' && world.request?.kind !== 'supply') {
+    // (The army's request for supplies is answered on the person's card, below: what to send, not who goes.)
     // One menu for the whole family's call, whichever "!" was pressed (docs/FAMILY_PANEL.md §11.2).
     callMenuFor = { id, requestId: world.request?.id, checked: new Set(), key: null };
     renderCallMenu(world);
@@ -6838,13 +6843,13 @@ $('#tutorial-skip')?.addEventListener('click', () => {
 // LIVING_INFORMATION.md's attention gate forbids outright. So the world puts up an
 // invitation - a mark over the person, a line in the roster, a prompt on the map - and
 // the student decides when to go and listen.
-let militarySession = null, militarySeen = new Set(), militaryCollapsed = false, militarySelected = null, militaryDeadline = null;
+let militarySession = null, militarySeen = new Set(), militaryCollapsed = false, militarySelected = null, militaryDeadline = null, militaryLeftTo = 'to answer';
 /** The card's time left, counted down on this page's clock between ticks as the "!"s are (`paintNeedBadge`). */
 function paintMilitaryLeft() {
   const line = $('#military-left');
   if (!line) return;
   const left = militaryDeadline === null ? null : leftWords(Math.max(0, militaryDeadline - performance.now()));
-  const words = left ? `About ${left} left to answer.` : '';
+  const words = left ? `About ${left} left ${militaryLeftTo}.` : '';
   if (line.textContent !== words) line.textContent = words;
   if (line.hidden !== !words) line.hidden = !words;
 }
@@ -6877,6 +6882,8 @@ function renderMilitaryNotice(world) {
   setData(panel, 'accent', notice.kind);
   write('#military-eyebrow', notice.kind === 'call' && world.request?.kind !== 'call' ? 'Asked of the family' : EYEBROWS[notice.kind] || '');
   militaryDeadline = Number.isFinite(notice.leftMs) ? performance.now() + notice.leftMs : null;
+  // Somebody very sick has a minute in which they cannot die (owner, 2026-09-29, C4): the time is the time to nurse them.
+  militaryLeftTo = notice.kind === 'sick' ? 'to nurse them' : 'to answer';
   paintMilitaryLeft();
   const icon = $('#military-icon');
   if (icon && icon.dataset.drawn !== `${ICONS[notice.kind]}:${spriteFrame(ICONS[notice.kind]) ? 1 : 0}`) {
@@ -7345,6 +7352,8 @@ function renderSlice(world) {
       : request.kind === 'call'
       // A played family's call lapses after its minutes (sim/decision-budget.mjs `CALL_BUDGET_MS`): the server's words for it.
       ? { open: `Your family can choose how to respond.${request.pressing ? ' The call will not stand much longer.' : ''}${request.lapses ? ` ${request.lapses}` : ''}`, accepted: 'Somebody from your family went with the volunteers.', refused: 'Your family stayed home.', expired: request.lapsed ? 'Nobody answered in time, and the call lapsed: nobody from your family turned out.' : 'Nobody from your family answered.' }
+      : request.kind === 'supply'
+      ? { open: `Your family can choose what to send, or keep everything.${request.pressing ? ' The request will not stand much longer.' : ''}${request.lapses ? ` ${request.lapses}` : ''}` }
       : request.kind === 'rumor'
       ? { open: 'Your family can choose how to respond.', accepted: 'Your family went to see for itself.', refused: 'Your family stayed home.', expired: 'Nobody went to find out.' }
       : { open: 'Your family can choose how to respond.', accepted: 'Your family chose to help.', refused: 'Your family chose to stay home.', expired: 'This request has passed.' };

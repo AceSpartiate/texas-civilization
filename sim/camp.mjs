@@ -250,9 +250,9 @@ function settleCampAnswer(world, key, entity, answer, how, { beginTravel, modeWi
     if (entity.chore) abandonChore(world, household, entity);
     try { recallFromService(world, household, entity, { beginTravel, modeWith: modeOf }); } catch (error) { entity.service.leave = 'no'; tell(world, entity, `${entity.name} could not leave: ${error.message} They stayed with the army.`, { claimId: 'FIC-GONZ-054' }); }
   }
-  if (key === 'road' && answer === 'yes') {
-    awardGlory(world, { event: 'which-road', claimId: spec.claimId, personId: entity.id, householdId: entity.householdId, role: 'forward', fromSiteId: 'harrisburg', causes: [eventId] });
-  }
+  // Calling for the enemy's road at the fork earns nothing (owner, 2026-09-29, by multiple choice on the triage's D6: "Drop
+  // 'forward'"; `FIC-GONZ-961`): glory for the answer the record calls right taught anybody who played again which answer
+  // pays. The answer is still the man's part in the record (`eventId` above), and being with the army is still `served`.
 }
 
 /** Close a question: for anybody not answered for in time it lapses, and nothing is done (`decideCampQuestionFor`). */

@@ -101,10 +101,10 @@ test('felling is one press: the nearest timber on the family\'s land, the logs o
 });
 
 test('a family whose land has no timber fells at the nearest timber off it, with the ox and wagon, and it glows as felling', () => {
-  const { world, household } = onTheLand('t3', 'hh-8', 12);
+  const { world, household } = onTheLand('t3', 'hh-7', 12); // hh-7: the burn zone's deal by the seed (owner, 2026-09-29, D12) moved hh-8 onto timber
   assert.equal(fellingGround(world, household), null, 'nothing stands to fell on this land');
   const [axe] = grown(world, household);
-  applyAction(world, 'hh-8', { action: 'chore', entityId: axe.id, chore: 'fell-trees' });
+  applyAction(world, 'hh-7', { action: 'chore', entityId: axe.id, chore: 'fell-trees' });
   assert.equal(axe.chore.id, 'fetch-logs', 'fetching logs from the timber off the land, begun by Fell trees');
   assert.equal(axe.chore.mode, 'wagon');
   const icons = panelActions({ entity: axe, offered: choresFor(world, household, axe), main: false });

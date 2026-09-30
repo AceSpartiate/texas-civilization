@@ -28,6 +28,14 @@ export const RESTED_MILES = 7;
 // Rest is the only thing that undoes it: about four and a half miles an hour of sitting
 // still. Working does not mend it, which is what gives the Rest verb something to do.
 export const REST_MILES_PER_MINUTE = 0.075;
+/**
+ * The food a day one person working about the place brings in: the garden, the milk, the odd squirrel (`FIC-GONZ-313`).
+ * **0.3** since the owner's answer of 2026-09-29 (triage D7, by multiple choice: "0.3 a day"; `FIC-GONZ-964`), where it was 1:
+ * a grown person eats 0.35 a day (sim/family.mjs `ADULT_RATION`), so at one a day everybody working about the place fed
+ * themselves and more, and food bit only on the road east. At 0.3 working about the place nearly feeds the one doing it and
+ * nobody else, and the field, the hunt and the herd are what feed the family (docs/BALANCE.md §16).
+ */
+export const WORK_FOOD_A_DAY = 0.3;
 
 /**
  * Routine life over `minutes` of the calendar (sim/clock.mjs, docs/COLONIES.md §5.7).
@@ -59,7 +67,7 @@ export function advanceRoutine(world, minutes) {
     const furnished = furnitureShares(household, shelterOf(world, household).kind === 'house');
     // Each by their age today, in quarters of a grown share summed before anything is rounded (FIC-GONZ-360).
     const eaten = eatenADay(world, present) * (1 - housekeepingSaving(present)) * furnished.eaten;
-    const fed = Math.max(0, household.resources.food + (workers - eaten) * days);
+    const fed = Math.max(0, household.resources.food + (workers * WORK_FOOD_A_DAY - eaten) * days);
     // A little of the food spoils in a camp or a draughty house; nothing in a tight one, or in the
     // cabin every class saved before houses always had (sim/houses.mjs, FIC-GONZ-024).
     const spoiling = shelterOf(world, household).spoilagePerDay * furnished.spoil;

@@ -18,6 +18,7 @@ import { createClassroom } from '../server/app.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld } from '../sim/world.mjs';
+import { heardOut } from '../tests/support/heard-out.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -35,6 +36,8 @@ function playedToTheMuster(seed, playerCount) {
   const step = limit => { for (let i = 0; i < limit && !world.director.complete; i++) stepWorld(world); };
   for (let i = 0; i < 1200 && !world.calls?.[household.id] && !world.director.complete; i++) stepWorld(world);
   if (world.calls?.[household.id]) {
+    // The call waits behind the rider who brought it until he has gone (docs/COLONIES.md §5.4b): let him go, as Done does.
+    heardOut(world, household.id);
     const answerers = projectWorld(world, household.id, 'student', { includeMap: false }).request.answerers;
     const found = Object.entries(answerers).find(([, options]) => options.find(o => o.id === 'turn-out')?.can);
     if (found) applyAction(world, household.id, { action: 'turn-out', entityId: found[0], mode: 'horse' });

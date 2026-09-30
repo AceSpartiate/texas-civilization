@@ -96,8 +96,9 @@ export const MOMENTS = Object.freeze({
   road: { title: () => 'The road is asking', action: () => 'Answer' },
   flight: { title: () => 'Told to leave for the east', action: () => 'Choose what to do' },
   // The settlement's call to turn out is a call to arms; the food wanted in Gonzales, the march upriver and the rumour are asked too.
-  call: { title: (person, world) => (world?.request?.kind === 'call' ? 'A call to arms' : world?.request?.kind === 'march' ? 'The march upriver' : 'Your family is being asked'),
-    action: (person, world) => (world?.request?.kind === 'call' ? 'Choose who goes' : 'Choose who answers') },
+  // What the army before Béxar asks of the family at home (sim/supplies.mjs, owner 2026-09-29, D5) is put up the same way.
+  call: { title: (person, world) => (world?.request?.kind === 'call' ? 'A call to arms' : world?.request?.kind === 'march' ? 'The march upriver' : world?.request?.kind === 'supply' ? 'The army asks for supplies' : 'Your family is being asked'),
+    action: (person, world) => (world?.request?.kind === 'call' ? 'Choose who goes' : world?.request?.kind === 'supply' ? 'Choose what to send' : 'Choose who answers') },
   sick: { title: person => `${first(person)} is very sick`, action: person => `Go to ${first(person)}` },
 });
 /** Each kind's eyebrow, over its title. */

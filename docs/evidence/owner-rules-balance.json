@@ -1,0 +1,837 @@
+{
+ "record": "owner-rules-balance",
+ "date": "2026-09-29",
+ "note": "docs/BALANCE.md §16. Same computer only. The balance look: node scripts/balance-measure.mjs --sizes 5,15,30 --classes 10,10,10, on the owner-rules tree with WORK_FOOD_A_DAY = 1 (before) and 0.3 (after). The idle probe: fifteen families on the real land, all played, no orders given, run to the end of period 1; food per family.",
+ "measure": {
+  "before": {
+   "5": {
+    "classes": 10,
+    "families": 50,
+    "winnerMedian": 24859,
+    "familyFinalMedian": 1669,
+    "coinMean": 174.7,
+    "p1": {
+     "endMean": 23.4,
+     "leastMedian": 7.1,
+     "anyZero": 7,
+     "zeroDaysMean": 0.9,
+     "zeroDaysAmongStarved": 6.5
+    },
+    "p2": {
+     "endMean": 20.5,
+     "anyZero": 4
+    },
+    "p3": {
+     "endMean": 24.3,
+     "anyZero": 23
+    },
+    "deaths": 6,
+    "supplies": {
+     "kept": 50,
+     "food": 21,
+     "powder": 4
+    },
+    "suppliedGlory": 6,
+    "warNoneWins": 1
+   },
+   "15": {
+    "classes": 10,
+    "families": 150,
+    "winnerMedian": 55609,
+    "familyFinalMedian": 3041,
+    "coinMean": 188.1,
+    "p1": {
+     "endMean": 20.6,
+     "leastMedian": 5.9,
+     "anyZero": 37,
+     "zeroDaysMean": 1.3,
+     "zeroDaysAmongStarved": 5.1
+    },
+    "p2": {
+     "endMean": 20,
+     "anyZero": 21
+    },
+    "p3": {
+     "endMean": 19,
+     "anyZero": 66
+    },
+    "deaths": 16,
+    "supplies": {
+     "kept": 159,
+     "food": 40,
+     "powder": 32
+    },
+    "suppliedGlory": 5.8,
+    "warNoneWins": 0
+   },
+   "30": {
+    "classes": 10,
+    "families": 300,
+    "winnerMedian": 114735,
+    "familyFinalMedian": 2933,
+    "coinMean": 182.6,
+    "p1": {
+     "endMean": 22.3,
+     "leastMedian": 6.8,
+     "anyZero": 60,
+     "zeroDaysMean": 1.1,
+     "zeroDaysAmongStarved": 5.3
+    },
+    "p2": {
+     "endMean": 21.7,
+     "anyZero": 39
+    },
+    "p3": {
+     "endMean": 17.6,
+     "anyZero": 158
+    },
+    "deaths": 38,
+    "supplies": {
+     "kept": 299,
+     "food": 96,
+     "powder": 44
+    },
+    "suppliedGlory": 6.2,
+    "warNoneWins": 0
+   }
+  },
+  "after": {
+   "5": {
+    "classes": 10,
+    "families": 50,
+    "winnerMedian": 19764,
+    "familyFinalMedian": 1637,
+    "coinMean": 173.4,
+    "p1": {
+     "endMean": 22.8,
+     "leastMedian": 7.3,
+     "anyZero": 7,
+     "zeroDaysMean": 0.9,
+     "zeroDaysAmongStarved": 6.5
+    },
+    "p2": {
+     "endMean": 20.4,
+     "anyZero": 4
+    },
+    "p3": {
+     "endMean": 24.6,
+     "anyZero": 21
+    },
+    "deaths": 7,
+    "supplies": {
+     "kept": 53,
+     "food": 19,
+     "powder": 4
+    },
+    "suppliedGlory": 5.9,
+    "warNoneWins": 1
+   },
+   "15": {
+    "classes": 10,
+    "families": 150,
+    "winnerMedian": 57443.5,
+    "familyFinalMedian": 2921,
+    "coinMean": 186.8,
+    "p1": {
+     "endMean": 21.2,
+     "leastMedian": 6.2,
+     "anyZero": 34,
+     "zeroDaysMean": 1.3,
+     "zeroDaysAmongStarved": 5.9
+    },
+    "p2": {
+     "endMean": 19.9,
+     "anyZero": 22
+    },
+    "p3": {
+     "endMean": 18.8,
+     "anyZero": 65
+    },
+    "deaths": 16,
+    "supplies": {
+     "kept": 158,
+     "food": 43,
+     "powder": 31
+    },
+    "suppliedGlory": 6.1,
+    "warNoneWins": 0
+   },
+   "30": {
+    "classes": 10,
+    "families": 300,
+    "winnerMedian": 109069.5,
+    "familyFinalMedian": 2994,
+    "coinMean": 181.9,
+    "p1": {
+     "endMean": 22.6,
+     "leastMedian": 7.2,
+     "anyZero": 64,
+     "zeroDaysMean": 1.1,
+     "zeroDaysAmongStarved": 5.4
+    },
+    "p2": {
+     "endMean": 21.8,
+     "anyZero": 41
+    },
+    "p3": {
+     "endMean": 17.8,
+     "anyZero": 154
+    },
+    "deaths": 40,
+    "supplies": {
+     "kept": 299,
+     "food": 94,
+     "powder": 45
+    },
+    "suppliedGlory": 6.1,
+    "warNoneWins": 0
+   }
+  }
+ },
+ "idle": {
+  "before": [
+   {
+    "seed": "idle-a",
+    "starving": 1,
+    "of": 15,
+    "meanEnd": 29,
+    "firstZeroDays": [
+     null,
+     null,
+     null,
+     null,
+     53,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null
+    ],
+    "rows": [
+     {
+      "id": "hh-1",
+      "people": 2,
+      "start": 32,
+      "least": 21.1,
+      "end": 21.1,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-2",
+      "people": 1,
+      "start": 16,
+      "least": 15.9,
+      "end": 22,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-3",
+      "people": 7,
+      "start": 9,
+      "least": 8,
+      "end": 19.1,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-4",
+      "people": 17,
+      "start": 23,
+      "least": 23,
+      "end": 110.5,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-5",
+      "people": 15,
+      "start": 19,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 27,
+      "firstZeroDay": 53
+     },
+     {
+      "id": "hh-6",
+      "people": 5,
+      "start": 48,
+      "least": 36.8,
+      "end": 36.8,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-7",
+      "people": 10,
+      "start": 16,
+      "least": 10.8,
+      "end": 10.9,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-8",
+      "people": 8,
+      "start": 10,
+      "least": 8,
+      "end": 11,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-9",
+      "people": 11,
+      "start": 36,
+      "least": 24.2,
+      "end": 24.2,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-10",
+      "people": 15,
+      "start": 19,
+      "least": 19,
+      "end": 83.8,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-11",
+      "people": 2,
+      "start": 8,
+      "least": 8,
+      "end": 13.6,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-12",
+      "people": 6,
+      "start": 8,
+      "least": 7.9,
+      "end": 27.1,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-13",
+      "people": 2,
+      "start": 8,
+      "least": 8,
+      "end": 19.4,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-14",
+      "people": 2,
+      "start": 4,
+      "least": 4,
+      "end": 19.9,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-15",
+      "people": 13,
+      "start": 32,
+      "least": 15.9,
+      "end": 15.9,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     }
+    ]
+   },
+   {
+    "seed": "idle-b",
+    "starving": 5,
+    "of": 15,
+    "meanEnd": 26.8,
+    "firstZeroDays": [
+     50,
+     null,
+     46,
+     null,
+     null,
+     39,
+     null,
+     null,
+     null,
+     null,
+     null,
+     16,
+     21,
+     null,
+     null
+    ],
+    "rows": [
+     {
+      "id": "hh-1",
+      "people": 11,
+      "start": 32,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 30,
+      "firstZeroDay": 50
+     },
+     {
+      "id": "hh-2",
+      "people": 14,
+      "start": 18,
+      "least": 18,
+      "end": 99.3,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-3",
+      "people": 2,
+      "start": 12,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 34,
+      "firstZeroDay": 46
+     },
+     {
+      "id": "hh-4",
+      "people": 14,
+      "start": 18,
+      "least": 18,
+      "end": 60.6,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-5",
+      "people": 19,
+      "start": 26,
+      "least": 25.9,
+      "end": 62.7,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-6",
+      "people": 5,
+      "start": 16,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 41,
+      "firstZeroDay": 39
+     },
+     {
+      "id": "hh-7",
+      "people": 13,
+      "start": 17,
+      "least": 7.2,
+      "end": 7.2,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-8",
+      "people": 6,
+      "start": 9,
+      "least": 8.9,
+      "end": 21.1,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-9",
+      "people": 8,
+      "start": 24,
+      "least": 10,
+      "end": 10,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-10",
+      "people": 5,
+      "start": 8,
+      "least": 7.9,
+      "end": 29.5,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-11",
+      "people": 20,
+      "start": 25,
+      "least": 25,
+      "end": 82.7,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-12",
+      "people": 1,
+      "start": 4,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 64,
+      "firstZeroDay": 16
+     },
+     {
+      "id": "hh-13",
+      "people": 10,
+      "start": 12,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 59,
+      "firstZeroDay": 21
+     },
+     {
+      "id": "hh-14",
+      "people": 3,
+      "start": 16,
+      "least": 12.5,
+      "end": 12.5,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-15",
+      "people": 2,
+      "start": 4,
+      "least": 3.4,
+      "end": 16.3,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     }
+    ]
+   }
+  ],
+  "after": [
+   {
+    "seed": "idle-a",
+    "starving": 13,
+    "of": 15,
+    "meanEnd": 0.1,
+    "firstZeroDays": [
+     null,
+     null,
+     9,
+     17,
+     9,
+     59,
+     12,
+     8,
+     20,
+     11,
+     22,
+     12,
+     48,
+     43,
+     16
+    ],
+    "rows": [
+     {
+      "id": "hh-1",
+      "people": 2,
+      "start": 32,
+      "least": 0.5,
+      "end": 0.5,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-2",
+      "people": 1,
+      "start": 16,
+      "least": 1.1,
+      "end": 1.1,
+      "zeroDays": 0,
+      "firstZeroDay": null
+     },
+     {
+      "id": "hh-3",
+      "people": 7,
+      "start": 9,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 70,
+      "firstZeroDay": 9
+     },
+     {
+      "id": "hh-4",
+      "people": 17,
+      "start": 23,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 63,
+      "firstZeroDay": 17
+     },
+     {
+      "id": "hh-5",
+      "people": 15,
+      "start": 19,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 71,
+      "firstZeroDay": 9
+     },
+     {
+      "id": "hh-6",
+      "people": 5,
+      "start": 48,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 21,
+      "firstZeroDay": 59
+     },
+     {
+      "id": "hh-7",
+      "people": 10,
+      "start": 16,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 67,
+      "firstZeroDay": 12
+     },
+     {
+      "id": "hh-8",
+      "people": 8,
+      "start": 10,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 71,
+      "firstZeroDay": 8
+     },
+     {
+      "id": "hh-9",
+      "people": 11,
+      "start": 36,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 60,
+      "firstZeroDay": 20
+     },
+     {
+      "id": "hh-10",
+      "people": 15,
+      "start": 19,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 68,
+      "firstZeroDay": 11
+     },
+     {
+      "id": "hh-11",
+      "people": 2,
+      "start": 8,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 58,
+      "firstZeroDay": 22
+     },
+     {
+      "id": "hh-12",
+      "people": 6,
+      "start": 8,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 67,
+      "firstZeroDay": 12
+     },
+     {
+      "id": "hh-13",
+      "people": 2,
+      "start": 8,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 32,
+      "firstZeroDay": 48
+     },
+     {
+      "id": "hh-14",
+      "people": 2,
+      "start": 4,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 37,
+      "firstZeroDay": 43
+     },
+     {
+      "id": "hh-15",
+      "people": 13,
+      "start": 32,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 63,
+      "firstZeroDay": 16
+     }
+    ]
+   },
+   {
+    "seed": "idle-b",
+    "starving": 15,
+    "of": 15,
+    "meanEnd": 0,
+    "firstZeroDays": [
+     16,
+     15,
+     30,
+     10,
+     12,
+     21,
+     9,
+     11,
+     16,
+     14,
+     10,
+     12,
+     7,
+     30,
+     16
+    ],
+    "rows": [
+     {
+      "id": "hh-1",
+      "people": 11,
+      "start": 32,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 63,
+      "firstZeroDay": 16
+     },
+     {
+      "id": "hh-2",
+      "people": 14,
+      "start": 18,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 64,
+      "firstZeroDay": 15
+     },
+     {
+      "id": "hh-3",
+      "people": 2,
+      "start": 12,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 50,
+      "firstZeroDay": 30
+     },
+     {
+      "id": "hh-4",
+      "people": 14,
+      "start": 18,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 69,
+      "firstZeroDay": 10
+     },
+     {
+      "id": "hh-5",
+      "people": 19,
+      "start": 26,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 67,
+      "firstZeroDay": 12
+     },
+     {
+      "id": "hh-6",
+      "people": 5,
+      "start": 16,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 58,
+      "firstZeroDay": 21
+     },
+     {
+      "id": "hh-7",
+      "people": 13,
+      "start": 17,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 71,
+      "firstZeroDay": 9
+     },
+     {
+      "id": "hh-8",
+      "people": 6,
+      "start": 9,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 68,
+      "firstZeroDay": 11
+     },
+     {
+      "id": "hh-9",
+      "people": 8,
+      "start": 24,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 63,
+      "firstZeroDay": 16
+     },
+     {
+      "id": "hh-10",
+      "people": 5,
+      "start": 8,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 65,
+      "firstZeroDay": 14
+     },
+     {
+      "id": "hh-11",
+      "people": 20,
+      "start": 25,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 70,
+      "firstZeroDay": 10
+     },
+     {
+      "id": "hh-12",
+      "people": 1,
+      "start": 4,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 67,
+      "firstZeroDay": 12
+     },
+     {
+      "id": "hh-13",
+      "people": 10,
+      "start": 12,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 73,
+      "firstZeroDay": 7
+     },
+     {
+      "id": "hh-14",
+      "people": 3,
+      "start": 16,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 50,
+      "firstZeroDay": 30
+     },
+     {
+      "id": "hh-15",
+      "people": 2,
+      "start": 4,
+      "least": 0,
+      "end": 0,
+      "zeroDays": 63,
+      "firstZeroDay": 16
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -42,10 +42,16 @@ test('the field ripens on its own and the crop can then be brought in', () => {
   // Growth is time passing, not labour: nobody is working and it still comes on.
   runUntil(world, () => household.field.state === 'ripe');
   assert.ok(world.tick - plantedAt >= RIPEN_TICKS, 'the crop is not ready early');
-  const foodBefore = household.resources.food;
+  // What the harvest brought in, against the same days with nobody bringing it in. This class's crop is cotton, which nobody eats:
+  // the store's food only ever rose here because two people working about the place made a food a day each, and since the owner's
+  // 0.3 a day (2026-09-29, D7) they no longer feed the family (found by that change).
+  const idle = structuredClone(world);
   send(world, 'hh-1', 'rosa', 'harvest-field');
+  const from = world.tick;
   runUntil(world, () => household.field.state === 'bare');
-  assert.ok(household.resources.food > foodBefore, 'the harvest fed the family');
+  for (let tick = from; tick < world.tick; tick++) stepWorld(idle);
+  const had = idle.households['hh-1'].resources;
+  assert.ok(household.resources.food > had.food || (household.resources.cotton ?? 0) > (had.cotton ?? 0), 'the harvest brought nothing in');
   validateWorld(world);
 });
 
