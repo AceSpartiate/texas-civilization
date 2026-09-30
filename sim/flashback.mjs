@@ -312,6 +312,8 @@ function candidates(world, household, trip) {
   const orderMinute = household.flight?.orderedMinute ?? household.flight?.early?.minute ?? Infinity;
   const fieldEvents = events.filter(event => /The field is (\d+) acres now/.test(event.text) && event.minute < orderMinute);
   const crops = new Set(events.filter(event => /\b(chose|will|decided alone): plant (corn|cotton)\b|will plant (corn|cotton)/.test(event.text)).map(event => event.text.match(/plant (corn|cotton)/)[1]));
+  // Since 2026-09-30 the crop is chosen before anybody goes, plot by plot, and the story says what went in (sim/chores.mjs `sowPlots`).
+  for (const event of events) if (/ put in (corn|cotton) on /.test(event.text || '')) for (const [, crop] of event.text.matchAll(/(corn|cotton) on /g)) crops.add(crop);
   if (fieldEvents.length) {
     const last = fieldEvents.at(-1), acres = Number(last.text.match(/The field is (\d+) acres now/)[1]);
     add({ kind: 'fields', weight: 62, minute: last.minute, place: home, caption: `They cleared ${acres} acres of field${crops.size ? ` and planted ${list([...crops])}` : ''}.`, scene: { type: 'home', house: { shelter: built && last.minute >= built.minute ? 'house' : 'camp', layout: houseLayout }, people: at(last.minute), field: acres } });

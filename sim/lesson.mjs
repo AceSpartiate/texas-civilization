@@ -279,7 +279,7 @@ export const STEPS = Object.freeze([
     title: 'Put in a crop',
     first: 'put a crop in the ground.',
     says: () => 'Send somebody to plant the field. At the rows they will ask which crop goes in - corn, which the family eats, or cotton, which the store buys. It is your choice. If there is not seed enough, somebody can buy more at the store in town.',
-    allow: () => ['chore:plant-field', 'chore:visit-shop'],
+    allow: () => ['chore:plant-field', 'plant-field', 'chore:visit-shop'],
     done: (world, household) => planted(household),
     did: (world, household) => `The ${household.field?.crop === 'cotton' ? 'cotton' : 'corn'} is in the ground, and it will be a few minutes ripening.`,
   },

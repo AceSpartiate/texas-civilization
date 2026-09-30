@@ -366,6 +366,10 @@ test('families nobody plays dig out, hunt from the camp when short, and press on
   // 2026-09-20 this family had spent its three shots hunting before it got here.
   household.resources.food = 1;
   household.resources.powder = 3;
+  // And a rifle in the house: which of the family has gone to the war with its one rifle is the class's own story to here (since
+  // each plot has its own crop, 2026-09-30, the director's farm runs differently and on this seed a son enlisted with it), and a
+  // second keeps the condition under test the hunger and the shot, not the war.
+  household.rifles = (Number.isInteger(household.rifles) ? household.rifles : 1) + 1;
   // Given time for the wagon to be out of the mud: a bogged family digs before it hunts, and since 2026-09-20 the weather
   // is its own country's, so the wet stretch it is standing in may hold a few days (sim/weather.mjs).
   until(world, () => people(world, household).some(one => one.chore?.id === 'hunt-road'), 60);

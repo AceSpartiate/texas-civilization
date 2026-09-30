@@ -1,5 +1,49 @@
 # Claude handoff — Astra foundation
 
+## Each plot its own crop: corn to eat beside cotton to sell — owner 2026-09-30 (not released)
+
+Branch `per-plot-crops` off `integration-2026-09-28` (ba5ccc6a); not pushed. The owner: *"players can still plow new and extra fields
+right? so i as a player could have corn growing for food as well as cotton to sell?"*; confirmed "Keep it". Lifts docs/LAND_GRANTS.md
+§5.1's `ceiling:` (one crop for the whole field). Specified in docs/LAND_GRANTS.md **§5.2**; GAME.md, docs/FAMILY_PANEL.md
+(amendment 2026-09-30), docs/BALANCE.md **§18**; claim `FIC-GONZ-1000`. **Same computer only: no Chromebook, touch or LAN claim.**
+
+- **The model** (sim/crops.mjs, sim/fields.mjs): each cleared plot stores `sown`, `crop`, `grownMs`, `ripe`; each stands its own real
+  minutes (corn 4, cotton 6, a third as fast in winter) and ripens alone. A plot brought in keeps `crop` (what it last grew).
+  `household.field` stays as a summary (`crop` = the family's last choice; `state` ripe/planted/bare over the plots) for everything
+  that reads the field whole. **Old saves**: sown plots with no `grownMs` read the old one-field state and are written down plot by
+  plot the first tick they grow (`keepCrops`). No saveVersion.
+- **The student**: *Plant the field* opens the plot chooser ("What Ann plants"): nothing tapped = every bare plot, or tap one plot;
+  then **Plant corn** / **Plant cotton** (order `plant-field { entityId, crop, x?, y? }`). Bare plots are also offered as buttons for
+  the keyboard. Seed a plot (2 corn, 3 cotton) spent at the field nearest first; short, it plants what it can and says so. The old
+  `chore` order still plants every bare plot and asks the crop at the field. *Bring in the crop* brings in every ripe plot only, each
+  plot its own yield and fence; the wagon from three plots brought in at once.
+- **Auto** (sim/auto.mjs `fieldTask`): planting and harvest are one task: ripe plots first, then each bare plot with the crop it last
+  grew, else the family's own. **Director** (sim/neighbours.mjs `directorCrops`): each plot its own crop, and the nearest bare plot in
+  corn when nothing is in corn and the family has 2+ plots or is short of food.
+- **The page**: each plot drawn with its own crop and stage in Astra's crop art, a ripe plot washed gold (corn) or white (cotton).
+  The field line is its own element `#field-summary`, on the supplies' row (`#supplies-row`): chips with the crop's picture and a
+  count for growing, ripe (lit, with a tick) and bare; words only as label/title. "field bare" is gone from the supplies text (kept
+  only for a server that sends no summary). `renderFieldSummary` is a hoisted function (no TDZ risk) that rebuilds the chips only when
+  their key changes and writes label/titles only when they differ.
+- **Balance** (§18, 14 classes, quick look): cotton families with a corn plot vs all cotton: final median 8,850 vs 11,069, coin
+  211 vs 279; a day without food in the winter 13 vs 22 of 84 families (0.51 vs 1.22 days each). Nobody dies of hunger today; with
+  the starvation rules being added, the mixed field is the safer farm and all cotton the richer.
+
+**Evidence.** `npm test`: **1,885 tests, 1,848 pass, 1 fail, 36 skipped** (the fail is battle-bexar "killed: he falls", which fails on the base ba5ccc6a too). `tests/per-plot-crops.test.mjs` (10 tests); **27 of 27 injections caught** (`node scripts/per-plot-crops-injections.mjs`,
+[record](docs/evidence/per-plot-crops-injections.json)). Changed for the new rule, not weakened: `tests/crop-minutes.test.mjs` (grown
+time per plot), `tests/improvements.test.mjs` (a planting short of seed begins; the land's `crops`), `tests/clearing.test.mjs`,
+`tests/auto-repeat.test.mjs` (resets the plots), `tests/road.test.mjs` (a second rifle: on seed road-1638 a son now enlists with the
+family's only one, a class-story change, not the hunger rule under test). Proofs (headless Chrome): new `npm run test:mixed-field`
+11 checks, screenshots [chooser](docs/evidence/mixed-field-chooser.png), [growing](docs/evidence/mixed-field-growing.png),
+[corn ripe](docs/evidence/mixed-field-corn-ripe.png), [cotton ripe](docs/evidence/mixed-field-cotton-ripe.png); `test:farm` green,
+`test:auto` green (season counted by the field, either person may plant or harvest), `test:work` 5, `test:family-panel` 23,
+`test:whole-game` 14, `test:solo-game` 15, `test:overlap` 197 screens 0 faults (first failed: the field line on its own row pushed
+the lone parent's card; fixed by sharing the supplies' row), `test:keyboard-farm` 10.
+
+**Still open / known.** `tests/battle-bexar.test.mjs` "killed: he falls…" fails on the base too (not this branch). The auto proof's
+hunt step failed three runs on base and branch alike ("stopped to talk with Nieves") and then passed. The coordinator should note:
+other builders' HUD field boxes should read `world.land.crops` / per-plot `crop`/`ripe`, not `household.field.state` alone.
+
 ## The owner's answers on the family's start: the priest from La Bahía, a rancho near Béxar, Seguín's men in the Alamo, the carreta — 2026-09-30 (not released)
 
 **The ask.** The owner answered the six questions of the family's start (docs/FAMILY_CREATION.md, the amendment of 2026-09-29/30):

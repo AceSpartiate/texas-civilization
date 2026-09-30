@@ -85,7 +85,7 @@ import { defaultLoad, donePacking, householdFromLoad, loadForWagons, loadInvalid
 import { editPlot, houseInvalid, houseProjection, noteLandSeen, planHouse, recordHelpDone } from './houses.mjs';
 import { grantInvalid, grantProjection, layOutGrants, setStock } from './grants.mjs';
 import { chooseSite, siteInvalid, siteProjection } from './homesite.mjs';
-import { plotProjection, plotRefusal, plotsInvalid } from './survey.mjs';
+import { plotProjection, plotRefusal, plotWorkRefusal, plotsInvalid } from './survey.mjs';
 import { advanceExpresses, expressesInvalid } from './expresses.mjs';
 import { callsInvalid, handleCall } from './calls.mjs';
 import { answerQuestion, answerDetachment, armyInvalid, armyProjection, callHome, callHomeRefusal, sendMendedHome } from './army.mjs';
@@ -98,7 +98,7 @@ import { interiorInvalid, interiorProjection, placeItem } from './interior.mjs';
 import { gearExertionShare, shopsInvalid, wagonSpeedShare } from './shops.mjs';
 import { errandOffers, errandQuote, errandsInvalid } from './errands.mjs';
 import { marketsInvalid } from './market.mjs';
-import { fieldInvalid } from './crops.mjs';
+import { CROPS, cropSummary, fieldInvalid } from './crops.mjs';
 import { quickestOf, quickestWay, shownWays, waysFor } from './going.mjs';
 import { toolsInvalid } from './tools.mjs';
 import { fellingInvalid, logsLeftOut, logsProjection, recordFelling } from './felling.mjs';
@@ -905,7 +905,7 @@ export function advanceRelays(world) {
  * offer made to an empty chair - and the historical choices, which do not exist until the
  * news that prompts them has arrived.
  */
-export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'place-piece', 'remove-piece', 'clear-plot', 'fence-plot','roll-family', 'set-appearance', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel', 'set-main', 'set-auto']);
+export const LOBBY_ACTIONS = new Set(['survey-plot', 'hunt-land', 'fell-trees', 'place-piece', 'remove-piece', 'clear-plot', 'fence-plot', 'plant-field', 'roll-family', 'set-appearance', 'load-wagon', 'bring-stock', 'plan-house', 'chore', 'stop-chore', 'answer-chore', 'rename', 'work', 'rest', 'travel', 'set-main', 'set-auto']);
 /**
  * One order from a student's family.
  *
@@ -1082,6 +1082,26 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
     beginChore(world, household, entity, input.action, { beginTravel, modeAvailability }, DEFAULT_MODE, { plotId: plot?.id });
     // On auto, the plot and then the next nearest the house (owner, 2026-09-28; sim/auto.mjs `plotFor`).
     noteOrder(entity, input.action, DEFAULT_MODE, { plotId: plot?.id }, household);
+    return;
+  }
+  // Planting with the crop chosen before anybody goes (owner, 2026-09-30: "i as a player could have corn growing for food as well
+  // as cotton to sell"; docs/LAND_GRANTS.md §5.2): one plot, by a point inside it on the map, or every bare plot; corn or cotton
+  // for them all, or `crops`, a crop for each plot by id (the neighbours' director). The crop a student chooses is the family's
+  // own from then on, what a plot never sown is given by auto (sim/crops.mjs `cropOf`).
+  if (input.action === 'plant-field') {
+    const one = input.x !== undefined && input.y !== undefined;
+    const plot = one ? plotAt(world, household, { x: Number(input.x), y: Number(input.y) }) : null;
+    if (one && !plot) throw new Error('Choose one of your bare plots.');
+    // The plot tapped is refused in its own words first: not cleared, or already in crop.
+    { const why = plot && plotWorkRefusal(world, household, 'plant-field', plot, { entity }); if (why) throw new Error(why); }
+    const crops = input.crops && typeof input.crops === 'object' ? Object.fromEntries(Object.entries(input.crops).filter(([, crop]) => Object.hasOwn(CROPS, crop))) : null;
+    if (!crops && !Object.hasOwn(CROPS, String(input.crop))) throw new Error('Choose corn or cotton.');
+    const extra = { ...(plot && { plots: [plot.id], strict: true }), ...(crops ? { plots: plot ? [plot.id] : Object.keys(crops), sow: crops } : { sow: input.crop }) };
+    try { beginChore(world, household, entity, 'plant-field', { beginTravel, modeAvailability }, DEFAULT_MODE, extra); }
+    catch (error) { if (waitForTask(world, household, entity, 'plant-field', DEFAULT_MODE, error)) return; throw error; }
+    if (!crops && !household.absent) household.field = { ...(household.field || { state: 'bare', changedTick: 0 }), crop: input.crop };
+    noteOrder(entity, 'plant-field', DEFAULT_MODE, {}, household);
+    released(world, entity);
     return;
   }
   // Trading is a household's own business and any member standing there can do it. It is
@@ -1390,7 +1410,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // As the family knows it (sim/scrape.mjs `householdAsKnown`): a farm the Mexican army's foragers burned while nobody of the
   // family could see is drawn as they left it until the smoke or the word reaches them.
   const known = household && householdAsKnown(household);
-  const land = household ? { ...improvementProjection(known), ...shelterProjection(known), ...houseProjection(world, known), ...grantProjection(world, known), ...siteProjection(world, known), ...plotProjection(world, known), ...logsProjection(world, known, logsOut), interior: interiorProjection(known) } : null;
+  const land = household ? { ...improvementProjection(known), ...shelterProjection(known), ...houseProjection(world, known), ...grantProjection(world, known), ...siteProjection(world, known), ...plotProjection(world, known), crops: cropSummary(world, known), ...logsProjection(world, known, logsOut), interior: interiorProjection(known) } : null;
   // What is in the wagon, and whether it can still be repacked. The catalogue comes once, from /api/chores.
   const wagon = household ? wagonProjection(world, household) : null;
 
@@ -1510,7 +1530,7 @@ function ownWar(world, household, view) {
 }
 const townScenesView = (world, householdId, role) => { const townScenes = townScenesFor(world, householdId, role); return townScenes ? { townScenes } : {}; };
 /** The orders refused to somebody called aside by the family's little ones: their own work and their own journeys. */
-const ASIDE_REFUSED = new Set(['chore', 'travel', 'work', 'survey-plot', 'fell-trees', 'hunt-land', 'clear-plot', 'fence-plot', 'town-help']);
+const ASIDE_REFUSED = new Set(['chore', 'travel', 'work', 'survey-plot', 'fell-trees', 'hunt-land', 'clear-plot', 'fence-plot', 'plant-field', 'town-help']);
 /**
  * The orders refused to somebody away with the family at the neighbours' farms (sim/courtship.mjs): the same work and journeys,
  * and a trade, which is made standing with another family. The game's own questions are not refused: they are the game's.

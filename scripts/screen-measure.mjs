@@ -30,7 +30,7 @@ const SCREEN = { width: 1366, height: 768 };
  * here: its children are.
  */
 const PARTS = [
-  '#session', '#world', '#food', '#supplies', '#connection', '#wagon-open', '#house-open',
+  '#session', '#world', '#food', '#supplies', '#field-summary', '#connection', '#wagon-open', '#house-open',
   '.panel-row .panel-portrait', '.panel-row .panel-body', '.panel-icons', '.panel-attention',
   '#family-collapse', '#lesson', '#tutorial', '#selection', '#panel-tip', '#call-menu', '#encounter',
   '#map-tools', '#host-controls', '#host-pace', '#recover', '#join-links', '#error', '#host-live', '#host-spotlight',

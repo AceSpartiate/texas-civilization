@@ -4,9 +4,9 @@
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768. A real class through the join flow on the invented country (seed work-proof-3). The well, the house, the felling, the mark and the water are the server's own chore state set in process; working about the place is the server's own. No LAN or district claim.",
   "checks": [
-    "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 2/3/0/1, dust on the strike, 20 different pictures in 2.4 s",
+    "Barnabas Proofwright working about the place is drawn hoeing (rust-work): frames 0/1/2/3, dust on the strike, 20 different pictures in 2.4 s",
     "three sent to the house (\"raising the walls\") are drawn round it (738,409 / 859,384 / 617,384, a figure 77 px), each facing it, swinging an axe with the chips flying (chopnotch in rust-work with a drawn axe, chopnotch in teal-work with a drawn axe, chopnotch in rust-work with a drawn axe; stand-in: Request 2026-09-28 — people at work, item 1)",
-    "at the mark Serafina Proofwright is drawn with the rifle up and a puff of smoke once a cycle (marks 4/1/5); surveying, Barnabas Proofwright paces the ground to and fro (23 places, turning both ways)",
+    "at the mark Serafina Proofwright is drawn with the rifle up and a puff of smoke once a cycle (marks 1/5/4); surveying, Barnabas Proofwright paces the ground to and fro (20 places, turning both ways)",
     "thirty-five logs on the pile are drawn as Astra's logs, 4 in a row, not Claude's pile (null; projected {\"wall\":28,\"sill\":4,\"poor\":3,\"lying\":0})",
     "no page errors"
   ],
@@ -98,14 +98,14 @@
         "rust-work"
       ],
       "frames": [
-        2,
-        3,
         0,
-        1
+        1,
+        2,
+        3
       ],
       "marks": [
-        1,
-        0
+        0,
+        1
       ],
       "shifts": [
         0
@@ -143,14 +143,14 @@
           "rust-work"
         ],
         "frames": [
-          2,
-          3,
           0,
-          1
+          1,
+          2,
+          3
         ],
         "marks": [
-          3,
-          2
+          2,
+          3
         ],
         "shifts": [
           0
@@ -185,14 +185,14 @@
           "teal-work"
         ],
         "frames": [
-          2,
-          3,
           0,
-          1
+          1,
+          2,
+          3
         ],
         "marks": [
-          3,
-          2
+          2,
+          3
         ],
         "shifts": [
           0
@@ -227,14 +227,14 @@
           "rust-work"
         ],
         "frames": [
-          0,
           2,
           3,
+          0,
           1
         ],
         "marks": [
-          2,
-          3
+          3,
+          2
         ],
         "shifts": [
           0
@@ -271,7 +271,8 @@
           "pace"
         ],
         "clips": [
-          "rust-walk"
+          "rust-walk",
+          "rust-rest"
         ],
         "frames": [
           0
@@ -280,33 +281,30 @@
           0
         ],
         "shifts": [
-          -15.1,
-          -16.9,
-          -18.3,
+          18.2,
+          19.3,
+          19.7,
+          19,
+          16.6,
+          14.4,
+          11.8,
+          5.7,
+          2.3,
+          -1.1,
+          -7.8,
+          -10.9,
+          -13.6,
+          -17.7,
+          -19,
           -19.7,
           -19.3,
-          -18.4,
-          -15.6,
-          -13.2,
-          -10.7,
-          -8,
-          -2.1,
-          0.9,
-          4,
-          9.7,
-          12.2,
-          14.5,
-          16.4,
-          19.1,
-          19.7,
-          19.8,
-          19.4,
-          17.3,
-          15.6
+          -18.2,
+          -16.6,
+          -11.8
         ],
         "flips": [
-          true,
-          false
+          false,
+          true
         ],
         "tools": [
           null
@@ -337,9 +335,9 @@
           0
         ],
         "marks": [
-          4,
           1,
-          5
+          5,
+          4
         ],
         "shifts": [
           0
@@ -356,7 +354,7 @@
         "arts": [
           "stand-in"
         ],
-        "prints": 23,
+        "prints": 24,
         "at": {
           "x": 653,
           "y": 362,

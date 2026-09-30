@@ -114,7 +114,7 @@ function plotSuggestions(world, household, job) {
 }
 
 /** The jobs a place is suggested for. */
-export const SUGGEST_JOBS = Object.freeze(['site', 'survey-plot', 'clear-plot', 'fence-plot']);
+export const SUGGEST_JOBS = Object.freeze(['site', 'survey-plot', 'clear-plot', 'fence-plot', 'plant-field']);
 
 /**
  * Up to three suggested places for this family and this choice, each `{ x, y, label, words }` (and `plotId` for a plot), or an
@@ -125,6 +125,6 @@ export function suggestPlaces(world, household, job) {
   if (job === 'site') return siteSuggestions(world, household);
   if (world.status === 'lobby' || household.choosingSite) return [];
   if (job === 'survey-plot') return surveySuggestions(world, household);
-  if (job === 'clear-plot' || job === 'fence-plot') return plotSuggestions(world, household, job);
+  if (job === 'clear-plot' || job === 'fence-plot' || job === 'plant-field') return plotSuggestions(world, household, job);
   return [];
 }

@@ -227,7 +227,9 @@ try {
   };
   // A student's order first, by hand, and then the switch: the order given is the task auto repeats.
   await asMain(page, planterId);
+  // Planting opens the choice of plot and crop (owner, 2026-09-30, each plot its own crop): nothing tapped is every bare plot.
   await page.locator(`.panel-row[data-entity-id="${planterId}"] .panel-icon[data-key="plant-field"]`).click();
+  await page.locator('#plant-crops [data-crop=corn]').click();
   await page.waitForFunction(id => window.__familyPanel?.find(row => row.id === id)?.active?.includes('plant-field'), planterId, { timeout: 10000 });
   await onAuto(planterId);
   await page.waitForFunction(id => /^Auto: plant the field/.test(window.__familyPanel?.find(row => row.id === id)?.autoSays || ''), planterId, { timeout: 10000 });
@@ -248,7 +250,10 @@ try {
   const SEASON_MS = 180000;
   const seasonStarted = Date.now();
   const finishedCount = (id, name) => world().events.filter(event => event.actorId === id && event.text.endsWith(`finished: ${name}.`)).length;
-  while ((finishedCount(planterId, 'plant the field') < 2 || finishedCount(reaperId, 'bring in the crop') < 1 || household().field.state !== 'planted') && Date.now() - seasonStarted < SEASON_MS) {
+  // Since 2026-09-30 the field is one task on auto (sim/auto.mjs `fieldTask`): either of the two may plant or bring in, so the season
+  // is counted by the field - planted twice - and by the harvest, whoever brought it in.
+  const both = name => finishedCount(planterId, name) + finishedCount(reaperId, name);
+  while ((fieldStates.filter(one => one === 'planted').length < 2 || both('bring in the crop') < 1 || household().field.state !== 'planted') && Date.now() - seasonStarted < SEASON_MS) {
     await page.waitForTimeout(120);
     const state = household().field?.state;
     if ((measured.seedTrace ??= []).at(-1) !== household().resources.seed) measured.seedTrace.push(household().resources.seed);
@@ -273,10 +278,12 @@ try {
   if (household().field?.state && fieldStates.at(-1) !== household().field.state) fieldStates.push(household().field.state);
   measured.season = { seconds: Math.round((Date.now() - seasonStarted) / 100) / 10, fieldStates, plantings: finishedCount(planterId, 'plant the field'), harvests: finishedCount(reaperId, 'bring in the crop'), said: { planter: [...said.planter], reaper: [...said.reaper] }, glowSeen };
   assert.deepEqual(fieldStates.slice(0, 5), ['bare', 'planted', 'ripe', 'bare', 'planted'], `the field went ${fieldStates.join(' > ')} in ${measured.season.seconds} s (planter ${JSON.stringify(world().entities[planterId].order)} ${world().entities[planterId].task} ${JSON.stringify(world().entities[planterId].chore)}; seed ${JSON.stringify(measured.seedTrace)}, cleared ${clearedOf(household())}; ${world().events.filter(event => event.actorId === planterId).slice(-4).map(event => event.text).join(' / ')})`);
-  assert.ok(finishedCount(planterId, 'plant the field') >= 2 && finishedCount(reaperId, 'bring in the crop') >= 1, `planted ${finishedCount(planterId, 'plant the field')}, brought in ${finishedCount(reaperId, 'bring in the crop')}`);
+  assert.ok(finishedCount(planterId, 'plant the field') >= 1 && both('plant the field') >= 2 && both('bring in the crop') >= 1, `planted ${finishedCount(planterId, 'plant the field')} and ${finishedCount(reaperId, 'plant the field')}, brought in ${finishedCount(planterId, 'bring in the crop')} and ${finishedCount(reaperId, 'bring in the crop')}`);
   ok(`the field planted, grown, brought in and planted again with nobody pressing anything: ${fieldStates.join(' > ')} in ${measured.season.seconds} s`);
   assert.ok([...said.planter].some(line => /^waiting: Auto: plant the field\. The field is already planted\. Working about the place/.test(line)), `the planter's row never said why he waited: ${[...said.planter].join(' / ')}`);
-  assert.ok([...said.reaper].some(line => /^waiting: Auto: bring in the crop\. The field is not ready\. Working about the place/.test(line)), `the reaper's row never said why she waited: ${[...said.reaper].join(' / ')}`);
+  // Since 2026-09-30 the field is one task on auto (sim/auto.mjs `fieldTask`): nothing ripe and nothing bare, she waits on the crop
+  // standing, and says when it will be ready.
+  assert.ok([...said.reaper].some(line => /^waiting: Auto: bring in the crop\. The (field|corn|cotton) is not ready(\.|: it will be (within the minute|in about \d+ minutes)\.) Working about the place/.test(line)), `the reaper's row never said why she waited: ${[...said.reaper].join(' / ')}`);
   assert.ok([...said.planter].some(line => /^at it: Auto: plant the field, over and over\./.test(line)) && [...said.reaper].some(line => /^at it: Auto: bring in the crop, over and over\./.test(line)), 'a row never said what auto was doing');
   ok('each row said what auto was doing and, while it waited, why, in the server\'s words');
   assert.ok(glowSeen, 'the two switches were never seen on together with one waiting');

@@ -27,6 +27,8 @@ export const STUDENT_FURNITURE = [
   { name: 'status: world', selector: '#world', kind: 'status' },
   { name: 'status: food', selector: '#food', kind: 'status' },
   { name: 'status: supplies', selector: '#supplies', kind: 'status' },
+  // The field crop by crop, its own line under the supplies (owner, 2026-09-30; public/app.js `renderFieldSummary`).
+  { name: 'status: field', selector: '#field-summary', kind: 'status' },
   { name: 'wagon button', selector: '#wagon-open', kind: 'control' },
 
   // Down the left (owner-decided, docs/FAMILY_PANEL.md §7).

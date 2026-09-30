@@ -1131,3 +1131,49 @@ and without the farm (`node scripts/farm-sale-measure.mjs docs/evidence/farm-sal
   stock in and kept its farm sells for about three times a farm without (226 against 70). That is the land it held; it is also a
   second reason the lobby's stock choice matters at the end. Put to the owner.
 - Not measured here: the 210-class record of §14 was not run again; these classes play at §15's half-work pace.
+
+## 18. Each plot its own crop: a corn plot kept, against all cotton (2026-09-30, not released)
+
+The owner, 2026-09-30: *"players can still plow new and extra fields right? so i as a player could have corn growing for food as
+well as cotton to sell?"* Built on `per-plot-crops` (docs/LAND_GRANTS.md §5.2, `FIC-GONZ-1000`): every cleared plot its own crop, and
+the families the director runs keep their nearest bare plot in corn when none of their field is in corn and they have two plots or
+more, or are short of food. The question: **what a mixed field costs a cotton family, and what it buys it in food**, with the new
+starvation rules another builder is adding in mind.
+
+A quick look, not the 210: 14 classes (8 of five families, 4 of fifteen, 2 of thirty; 160 families; `--sizes 5,15,30 --classes
+8,4,2`), run twice on this tree - as built, and with `MEASURE_CROPS=own`, where the measure plants every plot its own crop, so a
+cotton family's field is all cotton (the harness only, `scripts/balance-measure.mjs`; nothing in the game reads it). The comparison is
+the 84 families the measure deals the cotton strategy; the rest are below. Summed in [evidence/per-plot-crops-balance.json](evidence/per-plot-crops-balance.json).
+
+| Cotton families (84 of 160) | **a corn plot kept (as built)** | all cotton |
+| --- | --- | --- |
+| Final number, median | **8,850** | 11,069 |
+| Coin at the end, mean | **210.6** | 278.7 |
+| Cotton grown, mean bales | **136.7** | 193.2 |
+| Families with a day of no food: period 1 / 2 / 3 | **17 / 13 / 40** | 29 / 22 / 47 |
+| Days with no food, mean: period 1 / 2 / 3 | **2.08 / 0.51 / 3.16** | 2.15 / 1.22 / 3.92 |
+| Food held at each period's end, mean | **19.6 / 19.1 / 17.8** | 18.7 / 14.9 / 16.0 |
+| Deaths | 8 | 8 |
+| Classes won by a cotton family (of 14) | 9 | 11 |
+
+- **All cotton pays about a third more coin** (279 against 211 reales) and a quarter more at the end (median 11,069 against 8,850):
+  a plot of cotton is five bales at two reales, a plot of corn ten food at three a real, and the corn is mostly eaten.
+- **A corn plot is the food**: through the autumn and the winter (periods 1 and 2) 17 and 13 of 84 cotton families went a day
+  without food with a plot in corn, 29 and 22 without; the winter's days without food half (0.51 against 1.22 a family), and they come
+  out of each period with more in the house. On the road east (period 3) the field is left behind and the gap narrows (40 against 47).
+- **Today nobody dies of it** (8 deaths both ways; hunger at home kills nobody, §16.2). With starvation that does, the mixed field is
+  the safer farm and all cotton the richer one: the choice the owner's question describes. The director keeps a plot in corn; a
+  student chooses. Put to the owner in HANDOFF.md.
+- **Not comparable**: the measure's families on their own crop that were rolled to cotton (37). Under `MEASURE_CROPS=own` the
+  director still fetches seed for its own plan - a corn plot when short of food - and the harness plants cotton, so a one-plot family
+  with two seed can neither plant nor fetch (coin 15.5 against 121.2 as built). A harness artefact, not a rule; the families rolled
+  to corn are the same both ways (coin 27.7).
+- As built, the class winners' medians (five / fifteen / thirty) were 33,775 / 92,894 / 229,446 over these 14 classes; too few to set
+  beside §14's 210.
+
+### 18.1 Re-running it
+
+```
+node scripts/balance-measure.mjs --sizes 5,15,30 --classes 8,4,2 --workers 6 --out <file>                     # as built, about 16 minutes
+MEASURE_CROPS=own node scripts/balance-measure.mjs --sizes 5,15,30 --classes 8,4,2 --workers 6 --out <file>   # all cotton
+```

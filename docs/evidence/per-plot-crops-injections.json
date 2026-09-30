@@ -1,0 +1,250 @@
+{
+ "at": "2026-09-30T16:08:56.813Z",
+ "caught": 27,
+ "of": 27,
+ "results": [
+  {
+   "file": "sim/crops.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "corn on one plot and cotton on another",
+   "failed": [
+    "corn on one plot and cotton on another: each its own crop, its own minutes and its own harvest"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/chores.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "corn on one plot and cotton on another",
+   "failed": [
+    "corn on one plot and cotton on another: each its own crop, its own minutes and its own harvest"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/chores.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "corn on one plot and cotton on another",
+   "failed": [
+    "corn on one plot and cotton on another: each its own crop, its own minutes and its own harvest"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/improvements.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "a harvest of both crops",
+   "failed": [
+    "a harvest of both crops: each plot its own yield and its own fence, food and bales"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/chores.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "a harvest of both crops",
+   "failed": [
+    "a harvest of both crops: each plot its own yield and its own fence, food and bales"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/chores.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "every bare plot, or the one tapped",
+   "failed": [
+    "every bare plot, or the one tapped; seed a plot, and a planting short of seed plants the nearest and says so"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/chores.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "every bare plot, or the one tapped",
+   "failed": [
+    "every bare plot, or the one tapped; seed a plot, and a planting short of seed plants the nearest and says so"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/survey.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "every bare plot, or the one tapped",
+   "failed": [
+    "every bare plot, or the one tapped; seed a plot, and a planting short of seed plants the nearest and says so"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/world.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "every bare plot, or the one tapped",
+   "failed": [
+    "every bare plot, or the one tapped; seed a plot, and a planting short of seed plants the nearest and says so"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/chores.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "every bare plot, or the one tapped",
+   "failed": [
+    "every bare plot, or the one tapped; seed a plot, and a planting short of seed plants the nearest and says so"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/chores.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "two sent to plant",
+   "failed": [
+    "two sent to plant: the second plants what the first is not planting, and joins the first on the first's plots"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/improvements.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "the wagon from three plots",
+   "failed": [
+    "the wagon from three plots brought in at once, counted by what is ripe"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/auto.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "on auto, the field",
+   "failed": [
+    "on auto, the field: ripe plots first, then each bare plot with the crop it last grew"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/chores.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "on auto, the field",
+   "failed": [
+    "on auto, the field: ripe plots first, then each bare plot with the crop it last grew"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/crops.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "the families nobody plays keep a plot in corn",
+   "failed": [
+    "the families nobody plays keep a plot in corn to eat, and the rest in their own crop"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/neighbours.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "the families nobody plays keep a plot in corn",
+   "failed": [
+    "the families nobody plays keep a plot in corn to eat, and the rest in their own crop"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/neighbours.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "the families nobody plays keep a plot in corn",
+   "failed": [
+    "the families nobody plays keep a plot in corn to eat, and the rest in their own crop"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/crops.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "a class saved with one crop for the whole field",
+   "failed": [
+    "a class saved with one crop for the whole field: every sown plot reads it, and is written down as its own when it grows"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/crops.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "a class saved with one crop for the whole field",
+   "failed": [
+    "a class saved with one crop for the whole field: every sown plot reads it, and is written down as its own when it grows"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/fields.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "a class saved with one crop for the whole field",
+   "failed": [
+    "a class saved with one crop for the whole field: every sown plot reads it, and is written down as its own when it grows"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/crops.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "what cannot have been sown does not open",
+   "failed": [
+    "what cannot have been sown does not open, and the page is told each plot's crop but never its milliseconds"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/crops.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "what cannot have been sown does not open",
+   "failed": [
+    "what cannot have been sown does not open, and the page is told each plot's crop but never its milliseconds"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/survey.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "what cannot have been sown does not open",
+   "failed": [
+    "what cannot have been sown does not open, and the page is told each plot's crop but never its milliseconds"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/crops.mjs",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "what cannot have been sown does not open",
+   "failed": [
+    "what cannot have been sown does not open, and the page is told each plot's crop but never its milliseconds"
+   ],
+   "ok": true
+  },
+  {
+   "file": "public/family-panel.js",
+   "test": "tests/per-plot-crops.test.mjs",
+   "expected": "the harvest icon says each crop",
+   "failed": [
+    "the harvest icon says each crop it would bring in, and a field of corn alone is read as food as it always was"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/world.mjs",
+   "test": "tests/improvements.test.mjs",
+   "expected": "the class is told what is standing on its land",
+   "failed": [
+    "the class is told what is standing on its land, and never left to guess"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/chores.mjs",
+   "test": "tests/improvements.test.mjs",
+   "expected": "a bigger field swallows more seed",
+   "failed": [
+    "a bigger field swallows more seed, and the control says so before it is chosen"
+   ],
+   "ok": true
+  }
+ ]
+}

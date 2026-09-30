@@ -9,33 +9,33 @@
     "the student joined as hh-1 in columbia and rolled a family of 8: Amos Proofwright (father, 31), Mahala Proofwright (mother, 34), Nieves Proofwright (daughter, 12), Jonas Proofwright (son, 10), Simeon Proofwright (son, 8), Lavinia Proofwright (daughter, 6), Docia Proofwright (daughter, 3), Teodoro Proofwright (son, 2)",
     "the Host started the class with five families joined",
     "the family arrived and the house site was chosen on its grant at (99.0104, 22.799599999999998)",
-    "5 of the family set to auto from the panel: Amos Proofwright, Mahala Proofwright, Nieves Proofwright, Jonas Proofwright, Teodoro Proofwright",
+    "8 of the family set to auto from the panel: Amos Proofwright, Mahala Proofwright, Nieves Proofwright, Jonas Proofwright, Simeon Proofwright, Lavinia Proofwright, Docia Proofwright, Teodoro Proofwright",
     "4 orders given from the panel and taken",
     "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Amos Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 115500: interim standings on both pages, no winner named (1863 ticks, 254.4 s)",
+    "the first period ended on its own at minute 115500: interim standings on both pages, no winner named (2045 ticks, 263.4 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
     "Amos Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241920 (300 ticks, 62.9 s)",
+    "the second period ended on its own at minute 241920 (300 ticks, 52.8 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (1382 ticks, 670.9 s)",
+    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (1601 ticks, 566.2 s)",
     "no page errors on either page across the whole game"
   ],
   "measured": {
     "periods": {
       "first": {
-        "ticks": 1863,
-        "seconds": 254.4,
+        "ticks": 2045,
+        "seconds": 263.4,
         "endedAtMinute": 115500
       },
       "second": {
         "ticks": 300,
-        "seconds": 62.9,
+        "seconds": 52.8,
         "endedAtMinute": 241920
       },
       "third": {
-        "ticks": 1382,
-        "seconds": 670.9,
+        "ticks": 1601,
+        "seconds": 566.2,
         "endedAtMinute": 302580
       }
     },
@@ -54,6 +54,9 @@
       "Mahala Proofwright",
       "Nieves Proofwright",
       "Jonas Proofwright",
+      "Simeon Proofwright",
+      "Lavinia Proofwright",
+      "Docia Proofwright",
       "Teodoro Proofwright"
     ],
     "orders": [
@@ -92,7 +95,7 @@
       "service": {
         "kind": "auxiliary-year",
         "status": "serving",
-        "since": 181440,
+        "since": 181020,
         "siteId": "san-felipe",
         "acres": 320
       }
@@ -108,7 +111,7 @@
       "flight": "returning",
       "minute": 302580
     },
-    "totalSeconds": 988.2
+    "totalSeconds": 882.4000000000001
   },
   "screenshots": [
     "docs/evidence/whole-game-at-work.png",

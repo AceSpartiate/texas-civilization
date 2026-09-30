@@ -24,6 +24,8 @@ function realLand(seed) {
 }
 const first = world => Object.values(world.households)[0];
 const grown = (world, household) => household.members.map(id => world.entities[id]).filter(person => !Number.isFinite(person.age) || person.age >= 16);
+// Since 2026-09-30 each plot has its own crop (sim/crops.mjs): the real time the sown plot has stood.
+const grownIn = household => (household.plots || []).find(plot => plot.sown)?.grownMs;
 const sown = (world, household, crop) => { household.field = { ...household.field, crop, state: 'planted', changedTick: world.tick, grownMs: 0 }; };
 /** Step until the field is ripe, each tick `ms` of real time; the ticks it took, or null. */
 const ticksToRipe = (world, household, ms, limit = 400) => { for (let t = 1; t <= limit; t++) { stepWorld(world, { realMs: ms }); if (household.field.state === 'ripe') return t; } return null; };
@@ -67,7 +69,7 @@ test('the class\'s speed changes the ticks a crop takes and never its minutes; a
   for (let t = 0; t < 30; t++) stepWorld(changing, { realMs: 4000 });
   stepWorld(changing, { realMs: 0 });
   for (let t = 0; t < 10; t++) stepWorld(changing, { realMs: STUDY_TICK_MS });
-  assert.equal(field.field.grownMs, 30 * 4000 + 10 * STUDY_TICK_MS, 'the minutes a crop has stood are not the real time its ticks took');
+  assert.equal(grownIn(field), 30 * 4000 + 10 * STUDY_TICK_MS, 'the minutes a crop has stood are not the real time its ticks took');
   assert.equal(field.field.state, 'planted');
   assert.equal(ticksToRipe(changing, field, 1000), Math.ceil((4 * MINUTE - 30 * 4000 - 10 * STUDY_TICK_MS) / 1000));
 });
@@ -163,17 +165,17 @@ test('in the winter a crop grows at a third of its pace, and one that stands acr
   sown(world, household, 'corn');
   // Two real minutes in November: half of corn's four.
   growCrop(world, household, 2 * MINUTE);
-  assert.equal(household.field.grownMs, 2 * MINUTE);
+  assert.equal(grownIn(household), 2 * MINUTE);
   // Into December: three real minutes are one minute's growing.
   world.minute = at(1835, 12, 1);
   assert.equal(inWinter(world), true);
   assert.deepEqual([minutesNow(world, 'corn'), minutesNow(world, 'cotton')], [12, 18]);
   growCrop(world, household, 3 * MINUTE);
-  assert.equal(household.field.grownMs, 3 * MINUTE, 'December grew the crop at its full pace');
+  assert.equal(grownIn(household), 3 * MINUTE, 'December grew the crop at its full pace');
   const words = view(world, household.id).work[household.members[0]].find(work => work.id === 'harvest-field').why;
   assert.match(words, /it will be in about 3 minutes\./, `the winter's pace is not in the harvest's words: ${words}`);
   growCrop(world, household, 3 * MINUTE);
-  assert.equal(household.field.grownMs, 4 * MINUTE);
+  assert.equal(grownIn(household), 4 * MINUTE);
   stepWorld(world, { realMs: 0 });
   assert.equal(household.field.state, 'ripe', 'two November minutes and six December ones did not bring corn in');
   // A whole crop sown in January: twelve real minutes of corn, and not eleven.
@@ -183,7 +185,7 @@ test('in the winter a crop grows at a third of its pace, and one that stands acr
   sown(other, family, 'corn');
   for (let m = 1; m <= 12; m++) {
     growCrop(other, family, MINUTE);
-    assert.equal(family.field.grownMs >= growMs('corn') - 1e-6, m === 12, `corn in January was ripe after ${m} minutes`);
+    assert.equal(grownIn(family) >= growMs('corn') - 1e-6, m === 12, `corn in January was ripe after ${m} minutes`);
   }
   // The invented country's September afternoon is never winter.
   const invented = running('minutes-winter-invented');

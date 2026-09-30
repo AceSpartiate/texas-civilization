@@ -21,8 +21,9 @@ import { COVER_PACE, landAround, onRealLand } from './ground.mjs';
 import { holdingOf } from './grants.mjs';
 import { choosing } from './homesite.mjs';
 import { housesOnLand } from './house-placement.mjs';
-import { CLEARING_SPELLS, GROUNDS, PLOT_SIDE, clearingSpells, clearingTool, fenceWords, groundAt, keepPlots, overlaps, plotAt, plotsOf, squareOf } from './fields.mjs';
+import { CLEARING_SPELLS, GROUNDS, PLOT_SIDE, clearingSpells, clearingTool, cropOf, cropState, fenceWords, groundAt, keepPlots, overlaps, plotAt, plotsOf, squareOf } from './fields.mjs';
 import { fenceBy } from './woodpile.mjs';
+import { plotCropInvalid, plotReadyWords } from './crops.mjs';
 export { PLOT_ACRES, PLOT_SIDE, groundAt, plotsOf } from './fields.mjs';
 
 /** A plot comes no nearer the house than this: the yard, the woodpile and the path to the door. */
@@ -92,7 +93,7 @@ export function plotRefusal(world, household, point, { ignoring = null } = {}) {
 }
 
 /** The work sent to a plot the family already has, and what each is called in a refusal. */
-export const PLOT_JOBS = Object.freeze({ 'clear-plot': 'clears', 'fence-plot': 'fences' });
+export const PLOT_JOBS = Object.freeze({ 'clear-plot': 'clears', 'fence-plot': 'fences', 'plant-field': 'plants' });
 
 /**
  * Why this plot cannot be cleared or fenced now, or null: checked when the student looks, when the person is sent, and
@@ -102,7 +103,16 @@ export function plotWorkRefusal(world, household, job, plot, { entity = null } =
   if (!household) return 'No family to work for.';
   if (world.status === 'lobby') return 'The family works its land once the class has begun.';
   if (choosing(household)) return 'Choose where the house will stand first.';
-  if (!plot) return job === 'clear-plot' ? 'Choose one of your staked plots.' : 'Choose one of your cleared plots.';
+  if (!plot) return job === 'clear-plot' ? 'Choose one of your staked plots.' : job === 'plant-field' ? 'Choose one of your bare plots.' : 'Choose one of your cleared plots.';
+  // Planting one plot (owner, 2026-09-30; sim/crops.mjs): a cleared plot with nothing in it. The seed, the hoe and who else is at
+  // it are the work's own refusals (sim/chores.mjs), asked when the person is sent.
+  if (job === 'plant-field') {
+    if (plot.state !== 'cleared') return 'Clear that ground before it is planted.';
+    const state = cropState(household, plot), crop = cropOf(household, plot);
+    if (state === 'ripe') return `The ${crop} on that plot is ripe: bring it in first.`;
+    if (state === 'planted') return `That plot is already in ${crop}, ready ${plotReadyWords(world, household, plot)}.`;
+    return null;
+  }
   if (job === 'clear-plot') {
     if (plot.state === 'cleared') return 'That ground is already cleared.';
     const tool = clearingTool(plot);
@@ -122,8 +132,16 @@ export function plotWorkRefusal(world, household, job, plot, { entity = null } =
 }
 
 /** What a plot is, in words, for the family choosing it: its ground, where it lies, and how far the clearing has got. */
-export function plotWords(world, household, plot) {
+export function plotWords(world, household, plot, job = null) {
   const what = `Ten acres of ${plot.ground} ${whereFromHouse(world, household, plot)}`;
+  // For planting, what is in it: growing, ripe, or bare and what it last grew (sim/crops.mjs).
+  if (job === 'plant-field' && plot.state === 'cleared') {
+    const state = cropState(household, plot), crop = cropOf(household, plot);
+    const fenced = plot.fence === 'sound' ? 'fenced' : 'with no fence (the stock take a third of what grows)';
+    const growing = state === 'ripe' ? `Ripe ${crop}, ready to bring in.` : state === 'planted' ? `${crop === 'cotton' ? 'Cotton' : 'Corn'} growing, ready ${plotReadyWords(world, household, plot)}.`
+      : plot.crop ? `Bare; it last grew ${crop}.` : 'Bare.';
+    return `${what}, cleared, ${fenced}. ${growing}`;
+  }
   // A plot still to fence says how its fence would go up, and how long it would take (sim/fields.mjs `fenceWork`), rails from the
   // family's own wood pile where the timber is far (sim/woodpile.mjs `fenceBy`).
   if (plot.state === 'cleared') return `${what}, cleared${plot.fence === 'sound' ? ' and fenced' : plot.fence === 'ruined' ? ', the rails pulled down' : ', with no fence'}.${plot.fence === 'sound' ? '' : ` ${fenceWords(fenceBy(world, household, plot))}`}`;
@@ -139,7 +157,7 @@ export function plotFacts(world, household, point, job = null) {
   if (job && PLOT_JOBS[job]) {
     const plot = plotAt(world, household, point);
     const why = plotWorkRefusal(world, household, job, plot);
-    return why ? { can: false, why, ...(plot && { plotId: plot.id, words: plotWords(world, household, plot) }) } : { can: true, plotId: plot.id, words: plotWords(world, household, plot) };
+    return why ? { can: false, why, ...(plot && { plotId: plot.id, words: plotWords(world, household, plot, job) }) } : { can: true, plotId: plot.id, words: plotWords(world, household, plot, job) };
   }
   const why = plotRefusal(world, household, point);
   if (why) return { can: false, why };
@@ -147,9 +165,13 @@ export function plotFacts(world, household, point, job = null) {
   return { can: true, ground, spells: CLEARING_SPELLS[ground], words: `Ten acres of ${ground} ${whereFromHouse(world, household, point)}.` };
 }
 
-/** The cleared plots in the order a person walks them from the house: nearest first, then the nearest to that. */
-function fieldRound(world, household) {
-  const left = plotsOf(world, household).filter(plot => plot.state === 'cleared');
+/**
+ * The cleared plots in the order a person walks them from the house: nearest first, then the nearest to that. Only the plots this
+ * work is for (`ids`, the chore's `plots`: those being planted, or brought in) when it says; every cleared plot for work begun
+ * before crops were per plot (2026-09-30).
+ */
+export function fieldRound(world, household, ids = null) {
+  const left = plotsOf(world, household).filter(plot => plot.state === 'cleared' && (!ids || ids.includes(plot.id)));
   const order = [];
   let at = world.map.sites[household.homeSiteId];
   while (left.length) {
@@ -164,14 +186,14 @@ export function strollTarget(world, household, entity, towards) {
   if (towards === 'plot') return entity.chore?.plot || null;
   if (towards === 'ground') return entity.chore?.ground || null;
   if (towards === 'fields') {
-    const next = fieldRound(world, household)[entity.chore?.visited || 0];
+    const next = fieldRound(world, household, entity.chore?.plots || null)[entity.chore?.visited || 0];
     return next ? { x: next.x, y: next.y } : null;
   }
   const home = world.map.sites[household.homeSiteId];
   return { x: round(home.x - .025), y: round(home.y + .035) };
 }
 /** Whether a round of the fields has another plot to walk to after the one just reached. */
-export const moreFields = (world, household, entity) => (entity.chore?.visited || 0) + 1 < fieldRound(world, household).length;
+export const moreFields = (world, household, entity) => (entity.chore?.visited || 0) + 1 < fieldRound(world, household, entity.chore?.plots || null).length;
 
 /**
  * One tick's walk about the family's own land: towards the place, at walking pace, slower through timber and brush on the
@@ -208,7 +230,13 @@ export function stakePlot(world, household, entity) {
 }
 
 /** For the family's own land line: every plot, its old field read as plots when it has never changed one. */
-export const plotProjection = (world, household) => ({ plots: plotsOf(world, household).map(plot => ({ ...plot, ...(plot.state === 'staked' && { spells: clearingSpells(plot) }) })) });
+// Each sown plot with its own crop and whether it is ripe (sim/crops.mjs), never its milliseconds: the ground is drawn again when a
+// plot changes (public/map-base.js `groundInputs`), which would otherwise be every tick a crop stands.
+export const plotProjection = (world, household) => ({ plots: plotsOf(world, household).map(plot => {
+  const { grownMs: _grown, ripe: _ripe, crop: _crop, sown: _sown, ...kept } = plot;
+  const state = cropState(household, plot);
+  return { ...kept, ...(plot.state === 'staked' && { spells: clearingSpells(plot) }), ...(state !== 'bare' && { sown: true, crop: cropOf(household, plot), ...(state === 'ripe' && { ripe: true }) }) };
+}) });
 
 /** Stored plots are ten-acre squares on the family's own land that do not overlap. */
 export function plotsInvalid(world, household) {
@@ -221,6 +249,7 @@ export function plotsInvalid(world, household) {
     if (plot.work !== undefined && (plot.state !== 'staked' || !Number.isInteger(plot.work) || plot.work < 1 || plot.work >= clearingSpells(plot))) return 'Invalid clearing';
     if (plot.fence !== undefined && (plot.state !== 'cleared' || !['sound', 'ruined'].includes(plot.fence))) return 'Invalid plot fence';
     if (plot.sown !== undefined && (plot.state !== 'cleared' || plot.sown !== true)) return 'Invalid sowing';
+    { const bad = plotCropInvalid(plot); if (bad) return bad; }
     ids.add(plot.id);
     if (household.plots.slice(0, index).some(other => overlaps(squareOf(other), squareOf(plot)))) return 'Plots overlap';
   }

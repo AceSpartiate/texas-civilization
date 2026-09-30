@@ -133,7 +133,7 @@ Built on both maps, in `sim/survey.mjs`; tests `tests/survey.test.mjs`, evidence
 - **The field is the cleared plots.** Planting puts seed in every cleared plot (the existing seed per clearing
   becomes seed per plot); a harvest yields per plot; the ox and wagon are needed from three plots, as now. Plots
   far from the house cost the walk there and back — the decision the old rule never had.
-  `ceiling:` one crop state for the whole field, not per plot; per-plot planting when crops differ.
+  ~~`ceiling:` one crop state for the whole field, not per plot; per-plot planting when crops differ.~~ Lifted 2026-09-30 (§5.2).
 - **Fencing is per plot.** *Fence this plot* rails one plot; a harvest loses the unfenced share only on unfenced
   plots. A plot cleared after the fence went up is unfenced.
 - **Ruin** (`HIST-GONZ-019`, nothing in Gonzales calls it) returns every plot to staked-and-uncleared and takes the
@@ -186,9 +186,67 @@ Built on both maps, in `sim/fields.mjs` (the plots as the field), `sim/improveme
   until a plot changes (staking, clearing, fencing, ruin), so every class saved before opens as it was and no save version
   moved. Somebody saved in the middle of *Break new ground* or *Fence the field* leaves off the work, and the story says so.
   `CLEARING_MAX` survives only as `OLD_PATCHES`, the bound on an old save's `field.cleared`.
-- `ceiling:` one crop for the whole field and planting all-or-nothing — per-plot planting (and a partial planting when seed is
-  short) when crops differ; a neighbour's cleared plots are not drawn (what they have cleared is known only by going to look);
+- `ceiling:` ~~one crop for the whole field and planting all-or-nothing — per-plot planting (and a partial planting when seed is
+  short) when crops differ~~ (lifted 2026-09-30, §5.2); a neighbour's cleared plots are not drawn (what they have cleared is known only by going to look);
   the rails want no axe or maul; plots cannot be pulled up or moved; automatic families keep three plots.
+
+### 5.2 Each plot its own crop — owner-decided 2026-09-30
+
+> "players can still plow new and extra fields right? so i as a player could have corn growing for food as well as cotton to sell?"
+>
+> — the owner, 2026-09-30
+
+They could clear and fence extra plots, but the whole field held one crop (§5.1's `ceiling:`). Lifted: **every cleared plot has its
+own crop**. Built in `sim/crops.mjs` (the crop in each plot, its growth, the summary), `sim/fields.mjs` (`cropState`, `cropOf`, the
+bare, sown and ripe plots), `sim/chores.mjs` (planting and the harvest), `sim/auto.mjs` (`fieldTask`), `sim/neighbours.mjs`
+(`directorCrops`), the page (`public/app.js`, `public/field-surface.js`, `public/family-panel.js`); tests
+`tests/per-plot-crops.test.mjs`, proof `npm run test:mixed-field` ([record](evidence/mixed-field-browser.json)). `FIC-GONZ-1000`.
+
+- **A plot is bare, or sown with corn or cotton**, and a sown plot stands its own real minutes from the tick it went in (corn four,
+  cotton six, a third as fast December to February; `FIC-GONZ-721`) and is ripe by itself. Stored on the plot: `sown`, `crop`,
+  `grownMs`, `ripe`; a plot brought in keeps `crop`, the crop it last grew. `household.field` stays as the family's summary: `crop`
+  the crop it last chose, `state` ripe while any plot is ripe, planted while any stands, bare otherwise.
+- **Planting, for the student**: the *Plant the field* icon opens the plot chooser (as clearing and fencing do) titled *What Ann
+  plants*: *"Every bare plot: 3 plots, corn to eat or cotton to sell. Or tap one plot on the map to plant only that one."* and two
+  buttons, **Plant corn** (gold) and **Plant cotton** (white). Nothing tapped plants every bare plot; a plot tapped plants that one
+  (*"Ten acres of prairie a quarter mile east of the house, cleared, with no fence (the stock take a third of what grows). Bare."*),
+  and *Every bare plot instead* goes back. The bare plots are offered as buttons too, for a keyboard (sim/suggest.mjs). The crop the
+  student chooses becomes the family's own. The order is `plant-field { entityId, crop, x?, y? }`; the old `chore` order still plants
+  every bare plot and asks the crop at the field. Refused in the plot's words: *"Clear that ground before it is planted."*, *"That
+  plot is already in corn, ready in about 2 minutes."*, *"The cotton on that plot is ripe: bring it in first."*
+- **Seed a plot**, two for corn and three for cotton, spent at the field **a plot at a time, nearest the house first**, as far as
+  the seed goes; the plots it will not pay for wait, and the story says so: *"There was seed for 2 plots of the 3: Ann planted the
+  nearest, and one plot waits for seed."* Seed for one plot of corn is enough to begin; a crop the seed will not pay for one plot of
+  is refused before anybody goes (*"Cotton wants 3 seed a plot, and there is not that much in the house."*). The walk goes only to
+  the plots being planted.
+- **Two sent to plant**: the second takes the bare plots the first is not planting; sent to a plot somebody is already planting, they
+  work alongside them (their crop). As before, the work is joined and done once.
+- **The harvest brings in every ripe plot** and nothing else, each with its own yield (corn ten food, cotton five bales) and its own
+  fence (a third less off an unfenced plot): *"Ann brought in 10 food and 3.33 cotton. The rest had gone to stock in an unfenced
+  field. The cotton nobody can eat; it has to go to the store."* A plot that ripens while the harvest is out waits for the next. The
+  ox and wagon from **three plots brought in at once**; the icon says what stands (*"About 10 food and 3 cotton standing"*), and
+  while nothing is ripe, when the first will be (*"The corn is not ready: it will be in about 2 minutes."*).
+- **Unchanged**: fencing per plot, clearing, the prices and yields a plot, and *a plot cleared while a crop grows is not in it* - it
+  is simply bare.
+- **Auto** (sim/auto.mjs `fieldTask`): planting and the harvest are one task. A person on auto given either **brings in any ripe
+  plot first, then plants the bare plots, each with the crop it last grew**, a plot never sown with the family's own crop (the one
+  the student last chose). Nothing is planted the student has not grown on that plot or chosen for the family. Neither can be done:
+  they work about the place, and the row says why in the refusal's words.
+- **Families nobody plays** (sim/neighbours.mjs `directorCrops`) plant each bare plot its own crop, and **keep the nearest bare
+  plot in corn** when none of their field stands or is going into corn and they have two plots or more, or are short of food. Seed
+  is fetched for what the plan wants.
+- **Drawn**: each plot with its own crop and stage in Astra's crop art (`corn-young`, `corn-mature`, `cotton-young`,
+  `cotton-mature`), a ripe plot washed in its colour (corn gold, cotton white) so a mixed field reads plot by plot. The Host's map
+  the same, every family's. **The field line** is its own element under the supplies (`#field-summary`): a chip for each crop
+  growing (its ripe plant, faded) and each crop ripe (lit, with a tick), and one for the bare plots (turned earth), each with a
+  count; the words are its label and each chip's title. The supplies line no longer says "field bare".
+- **Old saves**: a class saved with one crop for the whole field reads that crop, state and minutes for every sown plot, and each is
+  written down as its own the first tick it grows or the first time the field changes (`keepCrops`). No save version.
+- **Balance** (docs/BALANCE.md §18, 14 classes): a cotton family with a corn plot ends with about a quarter less than one all in
+  cotton, and goes hungry about half as often in the winter (13 of 84 families a day without food, against 22).
+- `ceiling:` the crop is chosen for the plots of one planting together (one crop for every bare plot, or one plot); a planting of
+  several plots in several crops is auto's and the director's only. A student who wants two plots of corn and two of cotton taps
+  and plants twice. `ceiling:` a harvest brings in every ripe plot; which to bring in is not chosen.
 
 ## 6. Old saves
 

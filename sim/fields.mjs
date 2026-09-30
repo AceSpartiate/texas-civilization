@@ -68,8 +68,30 @@ export function keepPlots(world, household) {
 }
 
 export const clearedPlots = household => fieldPlots(household).filter(plot => plot.state === 'cleared');
+
+// Each plot its own crop (owner, 2026-09-30: "so i as a player could have corn growing for food as well as cotton to sell?";
+// docs/LAND_GRANTS.md §5.2, sim/crops.mjs). A sown plot keeps its crop, the real time it has stood (`grownMs`) and whether it is
+// ripe; a plot brought in keeps the crop it last had (`crop`), which is what auto puts back in it. A class saved before this has
+// one crop state for the whole field (`household.field`): a plot it sowed has no `grownMs`, and reads that one state until the
+// crop is next touched (sim/crops.mjs `keepCrops`), so no save version moved.
+const oneField = plot => plot.sown === true && !Number.isFinite(plot.grownMs);
+/** Whether a plot is bare, has a crop growing in it, or has a ripe crop: 'bare', 'planted' or 'ripe'. */
+export function cropState(household, plot) {
+  if (plot?.state !== 'cleared' || plot.sown !== true) return 'bare';
+  if (oneField(plot)) return ['planted', 'ripe'].includes(household.field?.state) ? household.field.state : 'bare';
+  return plot.ripe === true ? 'ripe' : 'planted';
+}
+/** The crop in a plot, or for a bare plot the one it last had, else the family's own (the last it chose): corn or cotton. */
+export const cropOf = (household, plot) => {
+  const own = oneField(plot) ? household.field?.crop : plot?.crop || household.field?.crop;
+  return own === 'cotton' ? 'cotton' : 'corn';
+};
 /** What is growing, or waiting to be brought in: the plots that were planted. */
-export const sownPlots = household => (household.field?.state ?? 'bare') === 'bare' ? [] : fieldPlots(household).filter(plot => plot.sown);
+export const sownPlots = household => fieldPlots(household).filter(plot => cropState(household, plot) !== 'bare');
+/** The plots whose crop has come on. */
+export const ripePlots = household => fieldPlots(household).filter(plot => cropState(household, plot) === 'ripe');
+/** Cleared plots with nothing in them. */
+export const barePlots = household => clearedPlots(household).filter(plot => cropState(household, plot) === 'bare');
 
 /** The plot a point on the map falls in, or null. */
 export function plotAt(world, household, point) {

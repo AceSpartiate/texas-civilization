@@ -101,7 +101,7 @@ function overviewLand(world, household) {
     ...(pieced(household) && { pieces: household.house.pieces.map(p => [p.type, p.x, p.y, p.stage, p.progress]) }),
     grant: holdingOf(world, household).bounds,
     ...(lane && { lane: { miles: lane.miles, cut: lane.cut } }),
-    plots: plotProjection(world, household).plots.map(plot => ({ id: plot.id, x: plot.x, y: plot.y, state: plot.state, ...(plot.work && { work: plot.work }), ...(plot.spells && { spells: plot.spells }), ...(plot.fence && { fence: plot.fence }), ...(plot.sown && { sown: true }) })),
+    plots: plotProjection(world, household).plots.map(plot => ({ id: plot.id, x: plot.x, y: plot.y, state: plot.state, ...(plot.work && { work: plot.work }), ...(plot.spells && { spells: plot.spells }), ...(plot.fence && { fence: plot.fence }), ...(plot.sown && { sown: true, crop: plot.crop, ...(plot.ripe && { ripe: true }) }) })),
     ...(household.field && { field: { crop: household.field.crop, state: household.field.state } }),
     ...(logs && { logs }),
     ...(household.stock && { stock: true }),

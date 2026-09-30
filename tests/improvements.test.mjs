@@ -120,10 +120,13 @@ test('a bigger field swallows more seed, and the control says so before it is ch
   assert.equal(before - household.resources.seed, perPlot * 3, 'three times the ground took one patch worth of seed');
   assert.equal(household.field.state, 'planted');
 
-  // And a family that cannot pay is told, rather than quietly planting a smaller field.
+  // A family short of seed for its whole field plants what it can, nearest first, and is told what waits (owner, 2026-09-30:
+  // each plot its own crop; tests/per-plot-crops.test.mjs). Without seed for one plot it is told, and nothing is planted.
   const poor = running('seed-poor');
   poor.households['hh-1'].field = { ...poor.households['hh-1'].field, cleared: 4 };
   poor.households['hh-1'].resources.seed = 2;
+  assert.equal(choreAvailability(poor, poor.households['hh-1'], person(poor, 'hh-1', 'thomas'), 'plant-field').can, true, 'seed for one plot of corn is not enough to begin');
+  poor.households['hh-1'].resources.seed = 1;
   const refused = choreAvailability(poor, poor.households['hh-1'], person(poor, 'hh-1', 'thomas'), 'plant-field');
   assert.equal(refused.can, false);
   assert.match(refused.why, /Not enough seed/);
@@ -246,9 +249,11 @@ test('the class is told what is standing on its land, and never left to guess', 
   const world = running('projection');
   const view = () => projectWorld(world, 'hh-1', 'student', { includeMap: false }).land;
   // The grant is its own concern (tests/grants.test.mjs) and so is the interior (tests/interior.test.mjs); everything else on the land line is this.
-  const { grant, plots, interior, ...rest } = view();
+  const { grant, plots, interior, crops, ...rest } = view();
   assert.equal(grant.kind, 'labor');
   assert.deepEqual(rest, { cabin: 'sound', cleared: 1, fenced: 0, harvestShare: 1 - UNFENCED_LOSS, needsWagon: false, shelter: 'house' });
+  // What stands in the field, crop by crop (owner, 2026-09-30; sim/crops.mjs `cropSummary`): one bare plot.
+  assert.deepEqual(crops, { bare: 1 });
   assert.deepEqual(plots.map(plot => plot.state), ['cleared'], 'the first patch, as a plot');
   clearAnother(world, 'hh-1', 'hh-1-thomas');
   fenceAll(world, 'hh-1', 'hh-1-thomas');

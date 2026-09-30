@@ -152,8 +152,8 @@ test('the field is the cleared plots: each is sown and walked to, and a plot cle
   until(world, () => !world.entities['hh-1-thomas'].chore);
   assert.equal(third.state, 'cleared');
   assert.equal(third.sown, undefined, 'cleared after the seed went in, and nothing growing on it');
-  // Cotton, so nothing is eaten out of what is counted while the harvest goes on.
-  household.field = { ...household.field, state: 'ripe', crop: 'cotton' };
+  // Cotton, so nothing is eaten out of what is counted while the harvest goes on. Each plot its own crop since 2026-09-30.
+  for (const plot of household.plots) if (plot.sown) Object.assign(plot, { crop: 'cotton', ripe: true });
   household.tools.hoe = 0;
   const crop = 'cotton';
   const before = household.resources[crop] ?? 0;
