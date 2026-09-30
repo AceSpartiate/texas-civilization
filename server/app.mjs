@@ -30,7 +30,7 @@ import { readSave, writeSave, acquireSaveLock, archiveSave } from './storage.mjs
 import { bodyBytes, createFlashbackStore, flashbackPayload, scriptCache } from './flashback.mjs';
 import { flashbackReady, SCRIPT_VERSION } from '../sim/flashback.mjs';
 // The end of the game as a sequence the class goes through together (owner, 2026-09-29, D10; sim/end-sequence.mjs).
-import { advanceEndSequence, beginEndSequence, dueStage, endSequenceStep, endSequenceView } from '../sim/end-sequence.mjs';
+import { advanceEndSequence, beginEndSequence, dueChange, endSequenceStep, endSequenceView } from '../sim/end-sequence.mjs';
 import { CLASS_SCRIPT_VERSION, CLASS_VIDEO_ID } from '../sim/class-flashback.mjs';
 import { classSchedule } from './class-days.mjs';
 
@@ -1512,7 +1512,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       if (req.method === 'POST' && url.pathname === '/api/end-sequence') {
         const input = await body(req);
         if (typeof input.step !== 'string') return json(res, 400, { error: 'Which step?' });
-        commit(s => { endSequenceStep(s.world, { role: identity.role, householdId: identity.householdId || null, solo }, input.step, now()); }, { actor: identity });
+        commit(s => { endSequenceStep(s.world, { role: identity.role, solo }, input.step, now()); }, { actor: identity });
         endSequenceTick();
         return json(res, 200, { ok: true, stage: state.world.endSequence?.stage || null });
       }
@@ -1738,7 +1738,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   function beginEnd(world) { beginEndSequence(world, { now: now(), solo, keeps: Boolean(flashbacks.dir) }); }
   /**
    * What the end sequence moves on by: the class's video and each family's, as kept (made when, how long), and whether a page of
-   * each family a student plays is open (presence: `here`, or `away` within its grace).
+   * each family a student plays is open now (presence `here`): a closed page holds nothing (owner, 2026-09-30).
    */
   function endFacts() {
     const made = flashbacks.dir ? flashbacks.list(state.sessionId) : {};
@@ -1748,7 +1748,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     for (const client of Object.values(state.clients)) {
       const id = client.householdId;
       if (!id || !state.world.households[id]?.played) continue;
-      families[id] = { here: ['here', 'away'].includes(households[id]), made: video(made[id], SCRIPT_VERSION) };
+      families[id] = { here: households[id] === 'here', made: video(made[id], SCRIPT_VERSION) };
     }
     return { classVideo: video(made[CLASS_VIDEO_ID], CLASS_SCRIPT_VERSION), families };
   }
@@ -1757,7 +1757,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     const sequence = state.world.endSequence;
     if (!sequence || sequence.stage === 'reveal') return;
     const facts = endFacts();
-    if (!dueStage(state.world, facts, now())) return;
+    if (!dueChange(state.world, facts, now())) return;
     commit(s => { advanceEndSequence(s.world, facts, now()); });
   }
   function tick() {
@@ -1767,8 +1767,6 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       && !(solo && Object.values(state.clients).some(client => familyMaking(state.world, state.world.households[client.householdId])));
     // Measured before anything else, so a paused or waiting class is always a lap not run (`realTimeMeter`).
     const realMs = realTime.lap(running, Math.max(3 * pace, 2000));
-    // An ended class goes on through its end sequence in real time, on the same beat (sim/end-sequence.mjs).
-    if (state.world.status === 'ended') { try { endSequenceTick(); } catch (error) { console.error('The end sequence could not move on:', error.cause?.message || error.message); } }
     if (!running) { emptySince = null; return; }
     try { if (pauseIfEmpty()) return; } catch (error) { console.error('The class could not pause itself:', error.cause?.message || error.message); }
     // The class's own end, whenever it falls (the last period's end, or held for the news), begins the end sequence in the same commit.
@@ -1776,6 +1774,13 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     catch (error) { if (!runtimeFault) suspend('SIMULATION_FAILED'); console.error('Simulation paused:', error.cause?.message || error.message); }
   }
   let timer = setInterval(tick, pace);
+  // An ended class goes on through its end sequence in real time (sim/end-sequence.mjs), on a second's beat of its own: the class's
+  // pace can be 9.5 s a tick, and every family's video starting together wants the second, not the tick.
+  const endTimer = setInterval(() => {
+    if (state.world.status !== 'ended' || closing) return;
+    try { endSequenceTick(); } catch (error) { console.error('The end sequence could not move on:', error.cause?.message || error.message); }
+  }, 1000);
+  endTimer.unref?.();
   /**
    * Change the pace of a running class.
    *
@@ -1814,7 +1819,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       }
       // Orders still gathering are made first, so what a student pressed as the server stopped is kept and answered.
       if (orderDrain) { clearImmediate(orderDrain); drainOrders(); }
-      closing = true; clearInterval(timer); clearTimeout(broadcastTimer); clearTimeout(soloTimer);
+      closing = true; clearInterval(timer); clearInterval(endTimer); clearTimeout(broadcastTimer); clearTimeout(soloTimer);
       // Whatever was shown and not yet written is written before the save is let go (`commit`).
       try { flush(); } catch (error) { console.error('The last changes could not be saved:', error.cause?.message || error.message); }
       for (const s of streams) s.res.destroy(); streams.clear();

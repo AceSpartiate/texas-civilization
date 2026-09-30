@@ -11,11 +11,13 @@
 // begins it, and handed to a classroom server with two students' families. In headless Chrome, the Host's page and both students':
 //   1. the Host's page makes the class's own video first and plays it by itself, large; the students' screens say to look at the
 //      class screen; no page has a number of the ending;
-//   2. played to its end, each student's page plays its own family's video by itself - the story, then the homecoming's scenes,
-//      the farm sold or nothing left to sell - with the story in words; the Host's screen says where each family is; a student's
-//      page reloaded in the middle comes back to its own video;
-//   3. when both have played, the Host's screen shows the final table and the winner, and each student's their breakdown, the farm's
-//      sale or the burned farm's glory in it;
+//   2. played to its end, every student's page plays its own family's video by itself at the same moment (owner, 2026-09-30: "there
+//      shouldn't be a wait. the videos are supposed to autoplay") - the story, then the homecoming's scenes, the farm sold or nothing
+//      left to sell - with the story in words; the Host's Controls button opens its own controls over the ending; the Host's screen
+//      counts down and says where each family is; a page reloaded in the middle joins where the class is; a page whose browser
+//      refuses to start the video gets a large Play button; and nothing waits for any page;
+//   3. when the longest video has played its length, the Host's screen shows the final table and the winner, and each student's
+//      their breakdown, the farm's sale or the burned farm's glory in it;
 //   4. the teacher plays the ending again from the start and skips ahead through it; a student replays their own video;
 //   5. Play Solo: no class video, the player's own video, then the breakdown.
 // Screenshots of every stage in docs/evidence/end-sequence-*.png. Same computer only: headless Chrome.
@@ -156,34 +158,67 @@ try {
   for (const page of [host, one, two]) await page.waitForFunction(() => window.__snapshot?.endSequence?.stage === 'family', null, { timeout: 60000 });
   ok('when the class video had played to its end, every screen went on to the families\' own videos');
 
-  // ------------------------------------------------------------------------------------------------ 2. each family's own
+  // ------------------------------------------------------------------------------------------------ 2. every family's own, at once
+  // The teacher's own controls during the ending (owner, 2026-09-30: "Controls button"), opened over it without leaving it.
+  await host.locator('#finale-controls').click();
+  const controls = await host.evaluate(() => {
+    const shown = [...document.querySelectorAll('#hud-right button')].filter(one => one.getBoundingClientRect().width > 0 && getComputedStyle(one).visibility !== 'hidden');
+    const on = shown.filter(one => { const r = one.getBoundingClientRect(); return one.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)); });
+    return { shown: shown.map(one => one.textContent.trim()), onTop: on.map(one => one.textContent.trim()), finale: !document.querySelector('#finale').hidden, stage: window.__snapshot.endSequence.stage };
+  });
+  assert.ok(controls.onTop.length && controls.onTop.length === controls.shown.length, `the Host's controls are not over the ending: ${JSON.stringify(controls)}`);
+  assert.ok(controls.finale, 'opening the controls left the ending');
+  await shot(host, '2-host-controls');
+  await host.locator('#finale-controls').click();
+  assert.equal(await host.evaluate(() => document.body.dataset.finaleControls || ''), '');
+  ok(`the Controls button opens the teacher's own controls over the ending, which goes on (${controls.onTop.join(', ')}), and closes them`);
+  // Every family's video starts by itself on its student's page at the same moment (owner, 2026-09-30).
+  for (const page of [one, two]) await page.waitForFunction(() => window.__finale?.started, null, { timeout: 400000, polling: 500 });
+  const starts = await Promise.all([one, two].map(page => page.evaluate(() => window.__finale.started)));
+  const apart = Math.abs(starts[0].wall - starts[1].wall);
+  assert.ok(apart < 1500, `the families' videos started ${apart} ms apart`);
   for (const [page, id] of [[one, 'hh-1'], [two, 'hh-2']]) {
-    await page.waitForFunction(() => window.__snapshot?.flashback?.made, null, { timeout: 400000, polling: 1000 });
-    await page.waitForFunction(id => { const video = document.querySelector('#finale-slot #flashback-video'); return video && !video.hidden && new RegExp(`household=${id}`).test(video.currentSrc) && video.readyState >= 2; }, id, { timeout: 60000 });
     const own = await playing(page, '#finale-slot #flashback-video');
     assert.ok(own.advanced > 1 && own.visible, `${id}'s own video did not play by itself: ${JSON.stringify(own)}`);
+    assert.ok(new RegExp(`household=${id}`).test(own.src), `${id}'s page played ${own.src}`);
     assert.ok(own.duration > 70 && own.duration < 95, `${id}'s video is ${own.duration} s`);
     assert.equal(await hasEnding(page), false);
-    ok(`${id}'s page played its own family's video by itself, over the whole screen: ${Math.round(own.duration)} s (the story's minute and the homecoming)`);
-    // Paused, as a student may pause it, so it does not run to its end at real speed while the proof photographs it. (The first
-    // family's may already have played to its end by itself while the second's was being made, as it should.)
-    await page.evaluate(() => document.querySelector('#finale-slot #flashback-video').pause());
   }
-  // A page reloaded in the middle comes back to its own video.
-  await two.reload();
-  await two.waitForFunction(() => window.__snapshot?.endSequence?.stage === 'family' && !document.querySelector('#finale').hidden, null, { timeout: 30000 });
-  await two.waitForFunction(() => { const video = document.querySelector('#finale-slot #flashback-video'); return video && !video.hidden && video.readyState >= 2; }, null, { timeout: 60000 });
-  await two.evaluate(() => document.querySelector('#finale-slot #flashback-video').pause());
-  ok('a student\'s page reloaded in the middle of the families\' videos came back to its own video');
-  assert.equal(await stageOf(host), 'family', 'the class moved on before the second family had seen its own');
+  // When the stage ends, as the page worked it out when the start came (its own clock, the server's `endsIn`).
+  const stageEnds = await one.evaluate(() => window.__finale.clock.endWall);
+  ok(`both students' own videos started by themselves ${apart} ms apart, over the whole screen, without a word from either page (${Math.round((await one.evaluate(() => document.querySelector('#finale-slot #flashback-video').duration)))} and ${Math.round((await two.evaluate(() => document.querySelector('#finale-slot #flashback-video').duration)))} s)`);
   await shot(one, '2-student-own-video');
+  await host.waitForFunction(() => /are playing: the final numbers in \d+ s/.test(document.querySelector('#finale-words').textContent), null, { timeout: 5000 });
   const hostWords = await host.locator('#finale-families li').allTextContents();
-  assert.ok(hostWords.length === 2 && hostWords.every(line => /is watching|video is being made|has seen it/.test(line)), `the Host's screen does not say where each family is: ${hostWords}`);
+  assert.ok(hostWords.length === 2 && hostWords.every(line => /watching|has seen it/.test(line)), `the Host's screen does not say where each family is: ${hostWords}`);
   await shot(host, '2-host-families-watching');
-  ok(`the Host's screen says where each family is: ${hostWords.join('; ')}`);
-  // The homecoming's scenes, photographed from the student's own video, and said in words below it.
+  ok(`the Host's screen counts down to the final numbers and says where each family is: ${hostWords.join('; ')}`);
+  // A page reloaded in the middle starts where the class is, not at the beginning.
+  await two.reload();
+  await two.waitForFunction(() => window.__finale?.started, null, { timeout: 30000 });
+  const rejoined = await two.evaluate(() => window.__finale.started);
+  assert.ok(rejoined.from > 3, `the reloaded page started at ${rejoined.from} s, not where the class is`);
+  ok(`a student's page reloaded in the middle joined its video where the class is (${rejoined.from} s in)`);
+  // A browser that will not start a video by itself: the large Play button, which starts it where the class is; nothing waits.
+  await one.context().addInitScript(() => {
+    const real = HTMLMediaElement.prototype.play;
+    HTMLMediaElement.prototype.play = function () { if (this.id === 'flashback-video' && !window.__refusedOnce) { window.__refusedOnce = true; return Promise.reject(new DOMException('The user has not interacted with the page.', 'NotAllowedError')); } return real.call(this); };
+  });
+  await one.reload();
+  await one.locator('#finale-play').waitFor({ state: 'visible', timeout: 30000 });
+  await shot(one, '2-student-play-button');
+  assert.equal(await stageOf(host), 'family');
+  await one.locator('#finale-play').click();
+  const pressed = await playing(one, '#finale-slot #flashback-video');
+  assert.ok(pressed.advanced > 1 && pressed.visible, `the Play button did not play the video: ${JSON.stringify(pressed)}`);
+  assert.equal(await one.locator('#finale-play').isVisible(), false);
+  ok(`autoplay refused (the page's play() rejected, as a browser's policy would): a large Play button, pressed, played the video from ${Math.round(await one.evaluate(() => document.querySelector('#finale-slot #flashback-video').currentTime))} s, where the class is`);
+  // The homecoming's scenes, photographed from the students' own videos, and said in words below them.
   const oneScript = (await (await one.context().request.get(`${room.url}/api/flashback/script?household=hh-1`)).json()).script;
   const twoScript = (await (await two.context().request.get(`${room.url}/api/flashback/script?household=hh-2`)).json()).script;
+  const words = await one.locator('#finale-slot #flashback-transcript li').allTextContents();
+  assert.ok(words.some(line => /sat down at the table to count/.test(line)), 'the story in words has no counting at the table');
+  ok(`the story in words below the video, ${words.length} lines, ends with the counting at the table`);
   const scenes = [...await frames(one, '#finale-slot #flashback-video', oneScript, ['home', 'rebuild', 'burial', 'count', 'sale'], 'scene-hh-1'),
     ...await frames(two, '#finale-slot #flashback-video', twoScript, ['home', 'rebuild', 'burial', 'count', 'sale'], 'scene-hh-2')];
   const kinds = new Set([...oneScript.beats, ...twoScript.beats].filter(beat => beat.epilogue).map(beat => beat.kind));
@@ -195,20 +230,13 @@ try {
     if (reckoned[id].kind === 'burned') assert.ok(!sale && /nothing left of it to sell/.test(count.caption), `${id}'s burned farm was sold`);
   }
   ok(`the homecoming's scenes (${[...kinds].join(', ')}) photographed: ${scenes.length} frames; the farm sold where it stands and nothing to sell where it burned`);
-  const words = await one.locator('#finale-slot #flashback-transcript li').allTextContents();
-  assert.ok(words.some(line => /sat down at the table to count/.test(line)), 'the story in words has no counting at the table');
-  ok(`the story in words below the video, ${words.length} lines, ends with the counting at the table`);
-  // Both played to their ends (faster than real time): the reveal.
-  for (const page of [one, two]) {
-    await page.evaluate(() => { const video = document.querySelector('#finale-slot #flashback-video'); video.currentTime = Math.max(0, video.duration - 2); video.play().catch(() => {}); });
-    await page.waitForFunction(() => window.__finale?.told?.includes('watched') || window.__snapshot?.endSequence?.watched, null, { timeout: 30000 });
-    if (page === one) {
-      assert.equal(await stageOf(host), 'family', 'the class was revealed before the second family had seen its video');
-      await host.waitForFunction(() => document.querySelector('#finale-families').textContent.includes('has seen it'), null, { timeout: 10000 });
-      ok('one family finished: the class waited for the other, and the Host\'s screen says who has seen theirs');
-    }
-  }
-  for (const page of [host, one, two]) await page.waitForFunction(() => window.__snapshot?.endSequence?.stage === 'reveal', null, { timeout: 30000 });
+  // The reveal on the server's clock: the longest video's length and the buffer, whatever the pages did (they were paused, sought,
+  // reloaded and refused here), and not before.
+  assert.equal(await stageOf(host), 'family', 'the class was revealed before the longest video had played');
+  for (const page of [host, one, two]) await page.waitForFunction(() => window.__snapshot?.endSequence?.stage === 'reveal', null, { timeout: Math.max(30000, stageEnds - Date.now() + 20000) });
+  const late = Date.now() - stageEnds;
+  assert.ok(late > -2000, `the reveal came ${-late} ms before the stage's end`);
+  ok(`the reveal came on the server's clock, ${Math.round(late / 100) / 10} s after the stage's stated end (the server looks each second): no page's word was waited for`);
 
   // ------------------------------------------------------------------------------------------------ 3. the reveal
   await host.locator('#ending').waitFor({ state: 'visible', timeout: 15000 });
@@ -218,7 +246,7 @@ try {
   const rows = await host.locator('.ending-table tbody tr').count();
   assert.equal(rows, 5);
   await shot(host, '3-host-final-rankings');
-  ok(`once both families had seen theirs, the class screen revealed the final table (${rows} families) and the winner: "${winner}"`);
+  ok(`at the reveal the class screen showed the final table (${rows} families) and the winner: "${winner}"`);
   for (const [page, id] of [[one, 'hh-1'], [two, 'hh-2']]) {
     await page.locator('#ending').waitFor({ state: 'visible', timeout: 15000 });
     const sum = await page.locator('#ending .ending-said').first().textContent();
@@ -267,15 +295,17 @@ try {
   await solo.waitForFunction(() => window.__flashback?.done?.length || window.__flashback?.failed?.size, null, { timeout: 300000, polling: 1000 });
   assert.equal(await solo.evaluate(() => window.__flashback.done[0]?.householdId), 'hh-1', 'the solo page made something else first');
   await solo.waitForFunction(() => { const video = document.querySelector('#finale-slot #flashback-video'); return video && !video.hidden && video.readyState >= 2; }, null, { timeout: 60000 });
+  // It starts at the stage's own moment, START_MS after it was made (sim/end-sequence.mjs), not the moment it has loaded.
+  await solo.waitForFunction(() => window.__finale?.started, null, { timeout: 60000 });
+  assert.equal(await stageOf(solo), 'family', 'Play Solo left the player\'s own video before it started');
   const soloPlay = await playing(solo, '#finale-slot #flashback-video');
   assert.ok(soloPlay.advanced > 1);
   await shot(solo, '4-solo-own-video');
   ok('Play Solo: no class video; the player\'s page made its own family\'s video and played it by itself');
-  await solo.evaluate(() => { const video = document.querySelector('#finale-slot #flashback-video'); video.currentTime = Math.max(0, video.duration - 2); video.play().catch(() => {}); });
-  await solo.waitForFunction(() => window.__snapshot?.endSequence?.stage === 'reveal' && window.__snapshot.world.ending?.family, null, { timeout: 30000 });
+  await solo.waitForFunction(() => window.__snapshot?.endSequence?.stage === 'reveal' && window.__snapshot.world.ending?.family, null, { timeout: 180000 });
   await solo.locator('#ending').waitFor({ state: 'visible', timeout: 15000 });
   await shot(solo, '4-solo-breakdown');
-  ok('Play Solo: when its video had played, the player\'s screen showed the full breakdown');
+  ok('Play Solo: when its video had played its length, the player\'s screen showed the full breakdown');
 
   assert.deepEqual(errors.filter(line => !/\b(409|404)\b/.test(line)), []);
   ok('no page error on any page');

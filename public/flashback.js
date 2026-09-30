@@ -777,7 +777,7 @@ async function makeMissing() {
 
 // --------------------------------------------------------------------------------------------------------------- playing
 
-let lastSnapshot = null, autoplayed = false, shownKey = '', transcriptOf = null;
+let lastSnapshot = null, shownKey = '', transcriptOf = null;
 const nameOf = (snapshot, householdId) => householdId === 'class' ? 'The class'
   : snapshot.flashback?.families?.find(family => family.householdId === householdId)?.name || snapshot.world.ending?.host?.families?.find(family => family.householdId === householdId)?.name || snapshot.world.ending?.family?.name || householdId;
 const videoUrl = (householdId, made) => `/api/flashback/video?household=${encodeURIComponent(householdId)}&v=${made?.bytes || 0}`;
@@ -855,52 +855,115 @@ function renderHostList(snapshot) {
 
 /**
  * The end of the game as the class goes through it together (owner, 2026-09-29, D10; sim/end-sequence.mjs): over the whole screen
- * until the reveal. The stage is the server's (`snapshot.endSequence`); this page only follows it, and tells the server when its
- * video has played (`POST /api/end-sequence`).
+ * until the reveal. The stage is the server's (`snapshot.endSequence`); this page only follows it.
  *
- *   class    the Host's screen plays the class's own video, large, by itself; a student's says to look at the class screen.
- *   family   a student's screen plays its family's own video by itself (the flashback section, moved up here), with the story
- *            in words below; the Host's says where each family is. Play Solo begins here.
- *   reveal   nothing over the screen: the ending panel shows the Host's table and each family's breakdown (public/ending.js).
+ *   class    the Host's screen plays the class's own video, large, by itself, and tells the server when it has played to its end;
+ *            a student's says to look at the class screen.
+ *   family   every student's page plays its family's own video by itself, all at the same moment - the server's `playIn`, taken
+ *            against this page's own clock when the snapshot came - with the story in words below (the flashback section, moved up
+ *            here); a page that opens late starts where the others are. Nothing is told back: the stage ends on the server's
+ *            clock (owner, 2026-09-30: "there shouldn't be a wait. the videos are supposed to autoplay"). The Host's screen counts
+ *            down and says where each family is. Play Solo begins here.
+ *   reveal   nothing over the screen: the ending panel shows the Host's table and each family's breakdown (public/ending.js), the
+ *            videos below it to watch again.
+ *
+ * A video the browser will not start by itself (its autoplay policy) gets a large **Play** button, which starts it where the class
+ * is, and nothing waits for it. Every video here is silent (VP8 alone; the captions are in the picture) and muted, which Chrome's
+ * policy lets play without a gesture; the button is for a browser that still says no.
  */
-const told = new Set();
 async function tell(step) {
-  const key = `${lastSnapshot?.sessionId}:${lastSnapshot?.endSequence?.since}:${step}`;
-  if (['class-playing', 'class-watched', 'watched'].includes(step)) { if (told.has(key)) return; told.add(key); }
-  try {
-    const response = await fetch('/api/end-sequence', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ step }) });
-    if (!response.ok) told.delete(key);
-  } catch { told.delete(key); }
+  try { await fetch('/api/end-sequence', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ step }) }); } catch { /* the server's clock moves the class on anyway */ }
 }
+const told = new Set();
+const tellOnce = step => { const key = `${lastSnapshot?.sessionId}:${lastSnapshot?.endSequence?.since}:${step}`; if (told.has(key)) return; told.add(key); finaleSeen.told.push(step); tell(step); };
 /** Presentation evidence for the proofs (scripts/end-sequence-browser-proof.mjs), read by nothing in the page. */
-const finaleSeen = { stage: null, playing: null, told: [] };
+const finaleSeen = { stage: null, playing: null, told: [], started: null, blocked: 0 };
 window.__finale = finaleSeen;
 
-const STATE_WORDS = Object.freeze({ watched: 'has seen it', watching: 'is watching', waiting: 'its video is being made', away: 'page closed: not waited for', timed: 'has had time to see it' });
-function hostFamilyList(snapshot) {
+/**
+ * When every family's video starts and the families' stage ends, on this page's clock: `performance.now()` at the snapshot that
+ * first carried this start, plus the server's `playIn` and `endsIn`. Kept for one start (`playAt`): a later snapshot is no better.
+ */
+let clock = null;
+function clockOf(snapshot) {
+  const sequence = snapshot.endSequence;
+  if (sequence?.stage !== 'family' || !Number.isFinite(sequence.playIn)) return null;
+  if (clock?.playAt !== sequence.playAt) {
+    clock = { playAt: sequence.playAt, startAt: performance.now() + sequence.playIn, endAt: performance.now() + sequence.endsIn };
+    finaleSeen.clock = { startWall: Date.now() + sequence.playIn, endWall: Date.now() + sequence.endsIn };
+  }
+  return clock;
+}
+const seconds = ms => Math.max(0, Math.ceil(ms / 1000));
+
+const STATE_WORDS = Object.freeze({ away: 'page closed', making: 'its video is being made', ready: 'ready', playing: 'watching', played: 'has seen it' });
+function hostFamilyList(snapshot, at) {
   const list = document.querySelector('#finale-families');
-  const families = snapshot.endSequence?.families || [];
+  const families = (snapshot.endSequence?.families || []).map(one => ({ ...one, state: at && ['ready', 'playing'].includes(one.state) && performance.now() >= at.startAt ? 'playing' : one.state }));
   list.hidden = !families.length;
   const key = JSON.stringify(families);
   if (list.dataset.key === key) return;
   list.dataset.key = key;
   list.replaceChildren(...families.map(one => make('li', `${nameOf(snapshot, one.householdId)}: ${STATE_WORDS[one.state] || one.state}`, `finale-state-${one.state}`)));
 }
+/** Play a video from `from` seconds; a refusal shows the large Play button (`onRefused`), and nothing else waits for it. */
+function start(video, from, onRefused) {
+  const go = () => {
+    if (Number.isFinite(from)) video.currentTime = Math.max(0, Math.min(from, Math.max(0, (video.duration || from) - 0.25)));
+    video.play().then(() => hidePlayButton()).catch(() => { finaleSeen.blocked++; onRefused(); });
+  };
+  if (video.readyState >= 1) go(); else video.addEventListener('loadedmetadata', go, { once: true });
+}
+function showPlayButton(action) {
+  const button = document.querySelector('#finale-play');
+  button.hidden = false;
+  button.onclick = () => { hidePlayButton(); action(); };
+}
+function hidePlayButton() { const button = document.querySelector('#finale-play'); if (button) button.hidden = true; }
+
 function playClass(snapshot, { autoplay }) {
   const video = document.querySelector('#finale-video');
   const made = snapshot.flashback?.classVideo?.made;
   if (!made) { video.hidden = true; return false; }
   const source = videoUrl('class', made);
-  if (video.dataset.src !== source) { video.dataset.src = source; video.src = source; if (autoplay) video.play().catch(() => {}); }
+  const again = () => start(video, video.currentTime, () => showPlayButton(again));
+  if (video.dataset.src !== source) { video.dataset.src = source; video.src = source; if (autoplay) start(video, 0, () => showPlayButton(again)); }
   // The class stage begun again (Play the ending again): the same video, from the start.
   const since = String(snapshot.endSequence?.since ?? '');
   if (autoplay && video.dataset.since !== since) {
     video.dataset.since = since;
-    if (video.currentTime > 0 || video.ended) { video.currentTime = 0; video.play().catch(() => {}); }
+    if (video.currentTime > 0 || video.ended) start(video, 0, () => showPlayButton(again));
   }
   video.hidden = false;
   return true;
 }
+
+/**
+ * The family's own video in the families' stage: loaded as soon as it is made, and started at the class's moment, from where the
+ * class is (a page opened late, or reloaded, joins in the middle). Once for each start of the stage.
+ */
+let ownTimer = null, ownKey = '';
+function scheduleOwn(snapshot) {
+  const flashback = snapshot.flashback;
+  const video = document.querySelector('#flashback-video');
+  if (!flashback?.made) return;
+  // Loaded now, played at the moment: `preload` has the page fetching the file while it waits.
+  play(flashback.householdId, flashback.made, { autoplay: false });
+  const at = clockOf(snapshot);
+  if (!at) return;
+  const key = `${at.playAt}:${flashback.made.bytes}`;
+  if (key === ownKey) return;
+  ownKey = key;
+  clearTimeout(ownTimer);
+  const go = () => {
+    const from = (performance.now() - at.startAt) / 1000;
+    finaleSeen.started = { householdId: flashback.householdId, from: Math.round(from * 10) / 10, at: Math.round(performance.now()), wall: Date.now() };
+    const late = () => start(video, (performance.now() - at.startAt) / 1000, () => showPlayButton(late));
+    start(video, from, () => showPlayButton(late));
+  };
+  ownTimer = setTimeout(go, Math.max(0, at.startAt - performance.now()));
+}
+
 export function renderFinale(snapshot) {
   const root = document.querySelector('#finale');
   if (!root) return;
@@ -916,9 +979,15 @@ export function renderFinale(snapshot) {
   // At the reveal the numbers come first (the breakdown, the Host's table), and the videos after them to be watched again.
   const ending = document.querySelector('#ending');
   if (!ownVideo && (section.parentElement === slot || (stage === 'reveal' && ending.lastElementChild !== section))) ending.append(section);
+  // The Host's own controls (owner, 2026-09-30: "Controls button"): New Class, Stop Server and the rest, over the ending.
+  const controls = document.querySelector('#finale-controls');
+  controls.hidden = !host || !stage || stage === 'reveal';
+  if (controls.hidden) delete document.body.dataset.finaleControls;
+  if (stage !== 'family') { clearTimeout(ownTimer); ownKey = ''; }
   if (!stage || stage === 'reveal') {
     root.hidden = true;
     document.body.dataset.finale = '';
+    hidePlayButton();
     const video = document.querySelector('#finale-video');
     if (!video.paused && video.dataset.replay !== 'true') video.pause();
     return;
@@ -932,6 +1001,8 @@ export function renderFinale(snapshot) {
   skip.textContent = stage === 'class' ? 'Skip ahead to the families’ videos' : 'Skip ahead to the final numbers';
   again.hidden = !(host || solo) || stage === 'class';
   replayClass.hidden = true;
+  const at = clockOf(snapshot);
+  const countdown = at ? (performance.now() < at.startAt ? `start in ${seconds(at.startAt - performance.now())} s` : `are playing: the final numbers in ${seconds(at.endAt - performance.now())} s`) : null;
   if (host && stage === 'class') {
     title.textContent = 'Our class, looking back';
     const playing = playClass(snapshot, { autoplay: true });
@@ -942,14 +1013,13 @@ export function renderFinale(snapshot) {
         : !snapshot.flashback?.keeps ? 'This server keeps no videos.' : making.failed.has('class') ? `The class’s story could not be made (${making.failed.get('class')}). Skip ahead to the families’ videos.` : 'The class’s story is being made on this computer.';
     document.querySelector('#finale-families').hidden = true;
   } else if (host && stage === 'family') {
-    title.textContent = 'Each family is watching its own story';
-    const families = snapshot.endSequence?.families || [];
-    const done = families.filter(one => ['watched', 'away', 'timed'].includes(one.state)).length;
-    words.textContent = `${done} of ${families.length} ${families.length === 1 ? 'family has' : 'families have'} seen ${families.length === 1 ? 'its' : 'their'} own. The final numbers come when every family has${making.current && making.current !== 'class' ? ` · making ${nameOf(snapshot, making.current)}’s video, ${Math.round(making.share * 100)}%` : ''}.`;
+    title.textContent = 'Each family’s own story, on its own screen';
+    words.textContent = countdown ? `Every family’s story ${countdown}.`
+      : `The families’ stories are being made on this computer${making.current && making.current !== 'class' ? `: ${nameOf(snapshot, making.current)}, ${Math.round(making.share * 100)}%` : ''}. They start together when every family whose page is open has its own.`;
     if (video.dataset.replay !== 'true') { video.hidden = true; if (!video.paused) video.pause(); }
     replayClass.hidden = !snapshot.flashback?.classVideo?.made;
     replayClass.textContent = 'Play the class video again';
-    hostFamilyList(snapshot);
+    hostFamilyList(snapshot, at);
     finaleSeen.playing = video.dataset.replay === 'true' ? 'class' : null;
   } else if (stage === 'class') {
     title.textContent = 'Look up at the class screen';
@@ -959,45 +1029,49 @@ export function renderFinale(snapshot) {
     finaleSeen.playing = null;
   } else {
     title.textContent = 'Our story, looking back';
-    words.textContent = snapshot.endSequence?.watched ? `${solo ? 'Press Skip ahead when you are ready,' : 'When every family has seen its own story,'} the final numbers come${solo ? '.' : ', here and on the class screen.'}` : '';
+    const now = performance.now();
+    words.textContent = !at ? (snapshot.flashback?.made ? 'Your family’s story starts when every family’s is ready.' : 'Your family’s story is being made. It starts with every family’s.')
+      : now < at.startAt ? `Your family’s story starts in ${seconds(at.startAt - now)} s, with every family’s.`
+        : `Your family’s story, with every family’s. The final numbers in ${seconds(at.endAt - now)} s.`;
     video.hidden = true;
     document.querySelector('#finale-families').hidden = true;
     finaleSeen.playing = snapshot.flashback?.made ? snapshot.flashback.householdId : null;
+    scheduleOwn(snapshot);
   }
 }
 function bindFinale() {
   const video = document.querySelector('#finale-video');
   if (!video) return;
   // The Host's page tells the server when the class's video begins and when it has played to its end (sim/end-sequence.mjs).
-  video.addEventListener('play', () => { if (lastSnapshot?.endSequence?.stage === 'class' && video.dataset.replay !== 'true') { finaleSeen.told.push('class-playing'); tell('class-playing'); } });
+  video.addEventListener('play', () => { if (lastSnapshot?.endSequence?.stage === 'class' && video.dataset.replay !== 'true') tellOnce('class-playing'); });
   video.addEventListener('ended', () => {
     if (video.dataset.replay === 'true') { video.dataset.replay = ''; if (lastSnapshot) renderFinale(lastSnapshot); return; }
-    if (lastSnapshot?.endSequence?.stage === 'class') { finaleSeen.told.push('class-watched'); tell('class-watched'); }
-  });
-  // A family's own video played to its end, on its own page, while the families are watching theirs.
-  document.querySelector('#flashback-video')?.addEventListener('ended', () => {
-    if (lastSnapshot?.world.role !== 'host' && lastSnapshot?.endSequence?.stage === 'family') { finaleSeen.told.push('watched'); tell('watched'); }
+    if (lastSnapshot?.endSequence?.stage === 'class') tellOnce('class-watched');
   });
   document.querySelector('#finale-skip').addEventListener('click', () => tell('skip'));
-  document.querySelector('#finale-again').addEventListener('click', event => {
+  const twice = event => {
     // Asked twice: the first press says what it does.
     const button = event.currentTarget;
     if (button.dataset.confirming !== 'true') { button.dataset.confirming = 'true'; button.textContent = 'Play it all again from the start?'; return; }
     button.dataset.confirming = ''; button.textContent = 'Play the ending again';
     tell('restart');
-  });
+  };
+  document.querySelector('#finale-again').addEventListener('click', twice);
+  document.querySelector('#flashback-again')?.addEventListener('click', twice);
   document.querySelector('#finale-replay').addEventListener('click', () => {
-    const stage = lastSnapshot?.endSequence?.stage;
-    if (stage === 'family') video.dataset.replay = 'true';
+    if (lastSnapshot?.endSequence?.stage === 'family') video.dataset.replay = 'true';
     if (!playClass(lastSnapshot, { autoplay: false })) return;
-    video.hidden = false; video.currentTime = 0; video.play().catch(() => {});
+    video.hidden = false;
+    start(video, 0, () => showPlayButton(() => start(video, 0, () => {})));
   });
-  document.querySelector('#flashback-again')?.addEventListener('click', event => {
-    const button = event.currentTarget;
-    if (button.dataset.confirming !== 'true') { button.dataset.confirming = 'true'; button.textContent = 'Play it all again from the start?'; return; }
-    button.dataset.confirming = ''; button.textContent = 'Play the ending again';
-    tell('restart');
+  document.querySelector('#finale-controls').addEventListener('click', event => {
+    const open = document.body.dataset.finaleControls !== 'open';
+    if (open) document.body.dataset.finaleControls = 'open'; else delete document.body.dataset.finaleControls;
+    event.currentTarget.setAttribute('aria-expanded', String(open));
+    event.currentTarget.textContent = open ? 'Close controls' : 'Controls';
   });
+  // The countdown said in seconds, and the Host's list of who is watching, while the families' stories run.
+  setInterval(() => { if (lastSnapshot?.endSequence?.stage === 'family') renderFinale(lastSnapshot); }, 1000);
 }
 
 /** Draw the flashback's part of the ending, and make whatever videos this page is the one to make. */
@@ -1012,7 +1086,7 @@ export function renderFlashback(snapshot) {
     // A class ended by mistake and taken up again (docs/HOST_PAGE.md §2.8): what this page made or failed to make, played and
     // read belongs to that ending, and its videos are gone from the server. When the class ends again it all starts afresh.
     if (!making.running && (making.done.length || making.failed.size || shownKey || transcriptOf)) {
-      making.done.length = 0; making.failed.clear(); shownKey = ''; autoplayed = false; transcriptOf = null; told.clear();
+      making.done.length = 0; making.failed.clear(); shownKey = ''; transcriptOf = null; told.clear(); clock = null;
     }
     return;
   }
@@ -1027,10 +1101,11 @@ export function renderFlashback(snapshot) {
   document.querySelector('#flashback-words').hidden = host ? !transcriptOf : stage === 'class';
   if (!host && stage !== 'class') showTranscript(flashback.householdId);
   if (host) renderHostList(snapshot);
-  else if (flashback.made && stage !== 'class') {
-    // A family's own video plays by itself when its turn comes (the families' stage), and again after the reveal only when asked.
-    const key = `${flashback.householdId}:${flashback.made.bytes}:${stage === 'family' ? `family-${snapshot.endSequence?.since}` : 'after'}`;
-    if (key !== shownKey) { shownKey = key; play(flashback.householdId, flashback.made, { autoplay: stage === 'family' || !autoplayed }); autoplayed = true; }
+  else if (flashback.made && stage === 'reveal') {
+    // After the reveal the family's own video is there to watch again, with Replay; it does not start by itself (it played with the
+    // class's). The families' stage plays it on the class's clock (`scheduleOwn`, from `renderFinale`).
+    const key = `${flashback.householdId}:${flashback.made.bytes}:after`;
+    if (key !== shownKey) { shownKey = key; play(flashback.householdId, flashback.made, { autoplay: false }); }
   }
   renderStatus();
   renderFinale(snapshot);

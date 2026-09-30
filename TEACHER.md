@@ -83,13 +83,15 @@ When the spring ends (or at End Game) the class goes through the end together, a
    computer makes it first, so it may take a minute to start. The students' screens say to look up at the class screen.
 2. **Each student's own video** then plays on their own screen: their family's story, then the family coming home, seeing what is
    left, rebuilding if the farm was burned, remembering anybody they lost, and the head of the household counting what is left - and
-   selling the farm to a land agent if it still stands. Your screen shows which families have finished theirs.
-3. **The final numbers**: once every student's video has played (or after a wait, for a student who is away), every page shows
-   **the ending**. It can be closed to look at the map again, and opened again with **How it ended**.
+   selling the farm to a land agent if it still stands. Every student's video starts by itself at the same moment, as soon as your
+   computer has made them all; your screen counts down to the start and then to the final numbers. Nothing waits for a student who is
+   away, and a student who opens their page late joins where the class is.
+3. **The final numbers**: when the longest video has played, every page shows **the ending**. It can be closed to look at the map again, and opened again with **How it ended**.
 
 **Skip ahead** moves the class on at any step, **Play the class video again** replays it while the students watch theirs, and after the
 numbers **Play the ending again** (under *Look up one family's flashback*) runs it all from the start. A student can replay their own
-video. Nothing is lost by reloading a page: it comes back to the step the class is at.
+video. Nothing is lost by reloading a page: it comes back to the step the class is at. **Controls** (top left) opens your own buttons -
+Classes and New Class, Stop Server, the pace - over the ending without stopping it.
 
 - **Each student** sees their own family: its coin (and what the farm sold for, or the glory a burned farm counts), its glory and its final number, **Our story** with questions about what their
   family did, where the coin came from and went, what earned glory, and what they did for their neighbours. Glory is hidden from

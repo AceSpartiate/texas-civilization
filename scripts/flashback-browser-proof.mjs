@@ -131,6 +131,10 @@ try {
   await student.waitForFunction(() => window.__snapshot?.flashback?.made);
   await student.locator('#flashback-video').waitFor({ state: 'visible', timeout: 30000 });
   await student.waitForFunction(() => { const video = document.querySelector('#flashback-video'); return video.readyState >= 2 && Number.isFinite(video.duration); }, null, { timeout: 30000 });
+  // This class opens at its reveal (it was saved ended, before the end sequence): the video played by itself in the families' stage
+  // (scripts/end-sequence-browser-proof.mjs proves that), so here it waits in the ending panel for Replay (owner, 2026-09-30).
+  assert.equal(await student.evaluate(() => document.querySelector('#flashback-video').paused), true, 'the video started again by itself after the reveal');
+  await student.locator('#flashback-replay').click();
   const played1 = await student.evaluate(async () => {
     const video = document.querySelector('#flashback-video');
     const start = video.currentTime;
@@ -140,7 +144,7 @@ try {
   assert.ok(/household=hh-1/.test(played1.src), `the student's page played ${played1.src}`);
   assert.ok(played1.duration >= 60 && played1.duration <= 95, `the student's video is ${played1.duration} s`);
   assert.ok(played1.advanced > 1, 'the student\'s video did not play by itself');
-  ok(`the student's page played its own family's video by itself: ${Math.round(played1.duration * 10) / 10} s, ${played1.width}×${played1.height}, ${Math.round(played1.advanced * 10) / 10} s played in 2.5 s`);
+  ok(`the student's page has its own family's video ready at the reveal, and plays it with Replay: ${Math.round(played1.duration * 10) / 10} s, ${played1.width}×${played1.height}, ${Math.round(played1.advanced * 10) / 10} s played in 2.5 s`);
   await student.locator('#flashback-transcript li').first().waitFor({ timeout: 15000 });
   const words = await student.locator('#flashback-transcript li').allTextContents();
   assert.ok(words.length >= 10 && words.length <= 20, `${words.length} lines of the story in words`);
