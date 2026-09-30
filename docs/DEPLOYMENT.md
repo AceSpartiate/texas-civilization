@@ -49,6 +49,130 @@ expected rather than discovered in front of a room.
 .\TexasRevolution.exe --uninstall                          # asks about saved classes first
 ```
 
+## The small setup — 2026-09-30 (not released)
+
+Owner, 2026-09-30: *"The file for installing the game is far too large. Why can't it be a super small, easily sharable
+file? Then when it's used it downloads and installs the full game as it does now? I should be able to email someone the
+.exe and they run it after downloading it."* And, on the first draft: *"I don't want them to have go to github at all. I
+just want it to be a small file that is able to be emailed. Once used, game installs and updates as normal."*
+
+**`TexasRevolutionWebSetup.exe`, 173,568 bytes (169.5 KB)** as built on 2026-09-30, against 457,514,234 bytes for
+`TexasRevolutionSetup.exe` in v2026.09.29.3. Of the 169.5 KB, 137.6 KB is the setup icon (the same
+`launcher/TexasRevolutionSetup.ico`, so it looks like the same thing in a Downloads folder); the program is about 32 KB.
+
+*Why that name.* It sorts beside `TexasRevolutionSetup.exe` in a release and reads as the same product's setup; "web setup"
+is what Windows software has long called the small setup that downloads the rest; it has no spaces, so the stable link
+needs no escaping; and it can never be taken by an installed launcher, which looks for exactly
+`TexasRevolutionSetup.exe` (`launcher/Updates.cs`, held by `tests/launcher` "assets" with the small setup listed first,
+and seen failing under `scripts/launcher-delta-injections.ps1` when the match is loosened to any name ending `Setup.exe`).
+**`TexasRevolutionSetup.exe` is unchanged and always means the whole setup**, because launchers already in classrooms
+download exactly that name to update themselves.
+
+*What it is.* `websetup/` — C# 5 on .NET Framework 4.8, which every Windows 10 and 11 computer has in the box, built by
+`scripts/build-web-setup.ps1` with the C# compiler Windows itself carries
+(`%WINDIR%\Microsoft.NET\Framework64\v4.0.30319\csc.exe`): no SDK, no NuGet, nothing downloaded to build it and nothing a
+school computer lacks to run it. Its manifest asks for no administrator (a file named *Setup* that says nothing is put
+behind a UAC prompt by Windows' installer detection). It lives outside `launcher/`, so it does not change the launcher id
+and a release that adds it can still be *Only what changed*.
+
+*What it does.*
+
+1. **Finds the download.** It asks GitHub's latest-release endpoint (the same one the launcher asks) for the asset named
+   exactly `TexasRevolutionSetup.exe`, and takes its address, its size and GitHub's own SHA-256 of it (the asset's
+   `digest`, which GitHub records at upload; present on every asset of v2026.09.29.3). If the endpoint cannot be asked — a
+   network that lets `github.com` through but not `api.github.com`, or GitHub's sixty-an-hour limit for one school's
+   address — it downloads `https://github.com/AceSpartiate/texas-civilization/releases/latest/download/TexasRevolutionSetup.exe`
+   instead and takes the size from the download.
+2. **Downloads it** to `%LOCALAPPDATA%\TexasRevolution\setup-download\`. Not `%TEMP%`: the game itself runs from
+   `%LOCALAPPDATA%\Programs`, so a computer that will run the game will run a program from under `%LOCALAPPDATA%`, while
+   a common school policy refuses programs in `%TEMP%`. TLS 1.2 or better (the program is marked for .NET 4.8, so Windows
+   chooses; TLS 1.2 is added if .NET was told to use a fixed older list); a school proxy is answered with the teacher's own
+   Windows sign-in. A connection cut off part way is **resumed** with a Range request from where it stopped, up to five
+   times in a row with a pause that grows, and a connection that brought more before it dropped starts the count again.
+   The window reads *"Texas Revolution: downloading the game (457 MB)…"*, *"33 MB of 457 MB — about 2 minutes left"*, a
+   progress bar and **Cancel** (the window's X is Cancel too).
+3. **Checks it** before anything runs it: a download whose size is not the size the release gives is refused as soon as
+   the server says its size and nothing of it is kept; the finished file must be that size exactly, must be a Windows
+   program (`MZ`), and must hash to GitHub's SHA-256 when GitHub gave one. A web page where the file should be (a filter's
+   block page) is called the network, not damage. Free space is looked at before the download starts.
+4. **Runs it exactly as a double-click would**: through the shell, with no arguments, in its own folder. The full setup
+   decides it is a setup rather than the launcher because there is no `server` folder beside it
+   (`launcher/Installer.cs` `IsInsideInstallation`), and this folder never has one. So the install, its folder, the
+   shortcuts, the Add/Remove entry and every update after it are what they always were. The small window shows *"Starting
+   the game's setup…"* and hides as soon as the setup's own window is up.
+5. **Tidies up**: it waits, hidden, for the setup to close, then deletes what it downloaded and the folder, and ends. It is
+   never installed and never becomes the launcher; nothing of it is left on the computer but the file itself, wherever the
+   teacher saved it.
+
+*When it cannot* — each in plain words with **Try again** and **Close**, and never a link to GitHub (owner: the person who
+receives the file should never be sent there):
+
+| What happened | Headline | What it says to do |
+| --- | --- | --- |
+| No network, or a name that cannot be looked up while Windows says there is no internet | This computer is not connected to the internet. | Connect, then Try again. |
+| Anything else between here and the download: refused, timed out, a filter's page, a certificate a proxy swapped, cut off six times | The game could not be downloaded. | Check the connection and Try again; a school network may block large downloads; try another network or ask IT. *For your IT staff:* github.com, objects.githubusercontent.com and release-assets.githubusercontent.com over HTTPS. |
+| Less free space than the download | There is not enough room on this computer. | How much it needs and has; empty the Recycle Bin or old downloads. |
+| Wrong size, wrong SHA-256, not a program | The download arrived damaged. | Thrown away, nothing installed; Try again. |
+| Windows or antivirus would not start the downloaded setup | The game downloaded, but Windows would not start its setup. | Ask IT to allow it; where it was saved (kept, so they can). Try again uses it without downloading again when GitHub's SHA-256 says it is still the release's (not driven by a test). |
+
+Pictures of each, drawn by Windows from the running program: [evidence/web-setup/](evidence/web-setup/)
+(`web-setup-downloading.png`, `-unreachable`, `-no-internet`, `-disk-full`, `-damaged`, `-blocked`; made by
+`node scripts/verify-web-setup.mjs --shots docs/evidence/web-setup` against the local release, so the disk-full picture
+asks for a petabyte and the damaged one is one byte short).
+
+**SmartScreen warns once.** The small file is no more signed than the whole setup, so a browser may call it *"not commonly
+downloaded"* and SmartScreen says *"Windows protected your PC"* (**More info ▸ Run anyway**) — README.md and TEACHER.md
+say so. The whole setup it downloads carries no mark of the Web (it was not saved by a browser), so it does not warn again;
+seen on this computer in the real run below. **Smart App Control**, on a Windows 11 computer that has it switched on,
+blocks unsigned programs with no *Run anyway*; that is as true of the whole setup, and was not tested here.
+
+**Email.** Gmail, Outlook and most school accounts refuse any `.exe` attachment, even zipped; the docs say to send the file
+by Google Drive, OneDrive, Teams or a USB stick, and give the stable link
+`https://github.com/AceSpartiate/texas-civilization/releases/latest/download/TexasRevolutionWebSetup.exe` only as a last
+resort (it downloads the file with no page shown). That link works only while **every release carries the small setup**;
+`scripts/package.ps1` builds it into the destination (with or without `-SkipLauncher`, since it carries no game) and its
+printed release command includes it.
+
+*Deliberately not checked:* the downloaded setup's product name or version. The small file is kept in inboxes and shared
+drives for months and must accept any later release; GitHub's size and SHA-256 of the asset named
+`TexasRevolutionSetup.exe` are what say it is the release's setup.
+
+*For a test only:* `--test-api <url> --test-fallback <url> --test-folder <dir> [--test-unattended] [--test-offline]`, all
+three together and only for `http` on this computer (127.0.0.1, ::1, localhost); any other argument is refused (exit 64).
+A double-click passes none.
+
+**Proved, on this computer only.**
+
+- `npm run test:web-setup` (`scripts/verify-web-setup.mjs`, [evidence](evidence/web-setup.json)): builds it, checks it is
+  under 1 MB, and runs it against a release served from 127.0.0.1 in the shape of GitHub's, with a small real Windows
+  program standing in for the whole setup: it writes down how it was started and keeps a window open for 6.5 s, longer
+  than the small setup would go on trying to delete a file in use, so tidying up early cannot pass. **14 checks**: size;
+  started as a double-click (no arguments, its own folder, no game beside it); the download removed only after the setup
+  closed; the exact asset taken with the small setup listed before it; the stable address when the release list fails;
+  a connection cut at 40% resumed with a Range request (through a redirect, as GitHub's downloads are); a size mismatch,
+  a SHA-256 mismatch, a filter's HTML page, a release too large for the disk, a setup Windows will not start, a server
+  refusing connections and a computer with no internet, each refused as its own kind with nothing run; and test
+  addresses refused unless on this computer.
+- `npm run test:web-setup-injections` (`scripts/web-setup-injections.mjs`, [evidence](evidence/web-setup-injections.json)):
+  **15 of 15** seen failing under the regression each guards, and only that check. Two needed the checks made stricter
+  first: the stand-in had no window, so the small setup's wait for a window already waited for it to close and hid a
+  missing `WaitForExit`; and the first draft of the waiting loop could throw when the setup closed between two questions
+  about it, which the checks caught as a real bug (fixed).
+- **The real thing**: the built file run with no arguments against GitHub's v2026.09.29.3 (three times, the last with the
+  final build) downloaded 457,514,234 bytes whose SHA-256 (`f45a65ea…d105`) matched GitHub's record, and the real setup
+  opened in setup mode on its own window (*"A copy is already installed here…"*, **Update**, the default folder) —
+  [evidence/web-setup/web-setup-real-installer.png](evidence/web-setup/web-setup-real-installer.png) — with no SmartScreen
+  prompt, 7.7 to 8.6 s after the start on this computer's connection
+  ([`web-setup-real-checking.png`](evidence/web-setup/web-setup-real-checking.png), 2.5 s in, is already checking the
+  whole download). Each time it was closed without installing; the small setup then removed the download and its folder
+  and ended with exit 0. Not proved: a school network, a filtering proxy, a Windows 10
+  computer, an email or shared-drive round trip, a teacher who has never seen it.
+
+ceiling: a teacher who closes the setup without installing downloads it again next time; a half-finished download is
+resumed within one run (and its Try again) but not after the small window is closed; on the stable-address fallback there
+is no SHA-256 to check, only the size the download announces. Each is marked in `websetup/Download.cs` or here with what
+would justify more.
+
 ## The launcher application
 
 `TexasRevolution.exe` is a small WinForms application in the package root. It does not
@@ -481,13 +605,14 @@ its `.zip` whose name does **not** contain `NeedsNode` (`launcher/Updates.cs`). 
    is what gets stamped into `release.txt` and the list, so it must equal the release tag; an
    updating launcher refuses a build or a list whose stamp differs.
 2. Every output attached: `TexasRevolutionSetup.exe` (what updates the launcher, and the fallback),
-   `TexasRevolution-Gonzales-<stamp>.zip` (the update archive older launchers take), the
+   `TexasRevolutionWebSetup.exe` (the small setup teachers pass on; *The small setup*, above — on every release, or the
+   stable link to it stops answering), `TexasRevolution-Gonzales-<stamp>.zip` (the update archive older launchers take), the
    `-NeedsNode.zip`, and everything in `changes-<stamp>\` (`TexasRevolution-manifest.json` and the
    `TexasRevolution-Changes-From-<tag>.patch` sets). From the destination folder:
 
    ```powershell
    $s = '<yyyy.mm.dd.n>'
-   $assets = @('TexasRevolutionSetup.exe', "TexasRevolution-Gonzales-$s.zip", "TexasRevolution-Gonzales-$s-NeedsNode.zip") + @(Get-ChildItem "changes-$s" -File | ForEach-Object FullName)
+   $assets = @('TexasRevolutionSetup.exe', 'TexasRevolutionWebSetup.exe', "TexasRevolution-Gonzales-$s.zip", "TexasRevolution-Gonzales-$s-NeedsNode.zip") + @(Get-ChildItem "changes-$s" -File | ForEach-Object FullName)
    gh release create "v$s" @assets -R AceSpartiate/texas-civilization --target main --title "..." --notes-file notes.md --latest
    ```
 

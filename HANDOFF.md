@@ -1,5 +1,38 @@
 # Claude handoff — Astra foundation
 
+## A small setup to email: `TexasRevolutionWebSetup.exe`, 169.5 KB — owner, 2026-09-30 (not released)
+
+Branch `web-setup` off local `integration-2026-09-28` (cb5c1fb4); not pushed, nothing published. Owner: *"The file for
+installing the game is far too large. Why can't it be a super small, easily sharable file? … I should be able to email
+someone the .exe and they run it"*, then *"I don't want them to have go to github at all … Once used, game installs and
+updates as normal."* Full account: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md), *The small setup*.
+
+- **The file**: `TexasRevolutionWebSetup.exe`, **173,568 bytes** (137.6 KB of it the setup icon), against 457,514,234 for
+  `TexasRevolutionSetup.exe` in v2026.09.29.3. `websetup/` (C# 5, .NET Framework 4.8, in every Windows 10/11), built by
+  `scripts/build-web-setup.ps1` with Windows' own `csc.exe`; `scripts/package.ps1` builds it into the destination (also
+  with `-SkipLauncher`), refuses one of 1 MB or more, and its printed release command attaches it. **`TexasRevolutionSetup.exe`
+  is unchanged** and still what installed launchers update from; `launcher/` is untouched, so the launcher id is the same.
+- **What it does**: asks GitHub's latest release for the asset named exactly `TexasRevolutionSetup.exe` (size and GitHub's
+  SHA-256 `digest`), else the stable `releases/latest/download/TexasRevolutionSetup.exe`; downloads to
+  `%LOCALAPPDATA%\TexasRevolution\setup-download\` with resume on a dropped connection; refuses a wrong size, wrong SHA-256,
+  non-program or filter page; starts it as a double-click (shell, no arguments, its own folder, so the setup's
+  `IsInsideInstallation` says setup); hides, waits for it to close, deletes the download. Errors in plain words with **Try
+  again** and no GitHub link; IT staff get the three host names. Never installed.
+- **Docs**: README.md and TEACHER.md lead with "send the small file" (Drive, OneDrive, Teams, USB; Gmail, Outlook and school
+  email refuse `.exe`, even zipped; the direct link only as a last resort); SmartScreen warns once, on the small file.
+- **Proof, this computer only**: `npm run test:web-setup` **14 of 14** ([evidence](docs/evidence/web-setup.json));
+  `npm run test:web-setup-injections` **15 of 15** caught ([evidence](docs/evidence/web-setup-injections.json));
+  `tests/launcher` "assets" now lists the small setup first and a launcher that took any `*Setup.exe` fails it
+  (`scripts/launcher-delta-injections.ps1` **21 of 21**). Pictures of every state: `docs/evidence/web-setup/`. **One real
+  run against GitHub** (v2026.09.29.3): 457,514,234 bytes, SHA-256 matched GitHub's, the real setup opened in setup mode with
+  **Update** and no SmartScreen prompt, closed without installing, download removed, exit 0; the setup's window was up 7.7-8.6 s after the start on this
+  connection.
+  `npm test`: **1,951 tests, 1,915 pass, 0 fail, 36 skipped** (the suspended tutorial).
+- **Not proved**: a school network or filtering proxy, Windows 10, Smart App Control, a real email or Drive round trip.
+- **Open for the owner**: the name (`TexasRevolutionWebSetup.exe`, or something else a teacher reads more easily); whether
+  to pay for code signing, which would remove the one SmartScreen warning over time; whether a setup closed without
+  installing should keep its download for next time (today it is deleted).
+
 ## Read aloud in natural voices — triage D15, owner-decided 2026-09-30 (not released)
 
 Branch `read-aloud` off `integration-2026-09-28` (4131feb8), with `read-aloud-research` (2f4185a4) merged in; not pushed. The
