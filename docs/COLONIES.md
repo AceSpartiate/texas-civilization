@@ -487,7 +487,7 @@ told to the country on one day~~ - carried the same way since the owner's "All o
 own arrival with a schedule and so changed the spring's numbers above (§5.4d has them). The invented Gonzales country, which has
 no other settlements, is told as before.
 
-### 5.4d All the rest of the news by express, and the end held for it — owner-decided 2026-09-29 (`FIC-GONZ-956` to `-958`; not released)
+### 5.4d All the rest of the news by express, and the end held for it — owner-decided 2026-09-29, its two open questions confirmed 2026-09-30 (`FIC-GONZ-956` to `-958`; not released)
 
 **The owner's answers** to the three questions of §5.4c, 2026-09-29: (1) *"Hold the end"* - the class's end at dawn on April 25
 waits up to one game day until every played family has heard of San Jacinto, as the autumn waited for its furthest family;
@@ -517,7 +517,9 @@ Coleto and the massacre were already carried (§5.4c). **Refugio** (`HIST-TEX-06
 - **A word the record dates where it was heard** leaves where it came from in time to be heard there then (`leaveInTime`,
   sim/expresses.mjs `expressMinutes`): San Felipe's dates for the Grass Fight and the storming are kept at San Felipe, and a
   family nearer Béxar now hears first, one beyond San Felipe after. The Host's report stays on the record's date. The word's
-  own date stands as each was: every other word leaves at the moment the timeline already had.
+  own date stands as each was: every other word leaves at the moment the timeline already had. **Confirmed by the owner on
+  2026-09-30** (*"Keep record dates"*), over timing these words from the fight itself and letting San Felipe's date fall where
+  the model puts it.
 - **A schedule, not the riders' own arrival** (sim/expresses.mjs `schedule`, `keepSchedules`). The autumn's and winter's calendar
   runs at twelve hours a tick, and a courier's first stretched tick is held to half his leg (sim/world.mjs `progressTravel`), so
   a word riding on its riders took a day a stop and reached the last family a week late. Each stop's time is now worked out when
@@ -533,9 +535,9 @@ Coleto and the massacre were already carried (§5.4c). **Refugio** (`HIST-TEX-06
   to be is nobody's ears, as the dead are not.
 - **Hold the end** (`holdForWord`, `WORD_HOLD_MINUTES` = a day): the spring's end waits for every played family that anybody of
   can hear (sim/expresses.mjs `canHear`) to hear of San Jacinto, and never more than a day; the last line says the day it ends,
-  April 25 or 26. **Kept the same way for the autumn's end** (the builder's choice, listed for the owner in HANDOFF): the victory
-  at Béxar reaches San Felipe on the 15th, the evening before the first period ends, so the end waits the same day at most for
-  played families.
+  April 25 or 26. **Kept the same way for the autumn's end** - built as the builder's choice, **confirmed by the owner on
+  2026-09-30** (*"Hold up to a day"*): the victory at Béxar reaches San Felipe on the 15th, the evening before the first period
+  ends, so the end waits the same day at most for played families to hear it.
 - **Over the winter** (sim/periods.mjs `beginSecondPeriod`, sim/expresses.mjs `settleExpresses`): a word still on the road when
   the first period ends has come in by January, to every family that had not heard it, as *"Word that came over the winter"*;
   its riders are let go home. The families nobody plays that the end did not wait for hear the victory at Béxar this way.
@@ -1102,8 +1104,8 @@ letter read asks a family for a horse: the horse is the game's.
   powder**, **send the horse**, or **keep what the family has** - a whole answer. Each is refused with its reason on the control when
   the family has not got it (less than 6 food, less than 2 powder, no horse at home and free). What is sent goes west with the
   committee's wagons and is gone for good; nobody of the family goes with it.
-- **Glory**: sending earns `supplied` - the support weight, 1 - times the miles from Béxar, once for each ask (sim/glory.mjs;
-  carrying food to Gonzales is times the miles from Gonzales). Keeping earns nothing.
+- **Glory**: sending earns `supplied` - the support weight, 1 - **flat**, once for each ask (owner, 2026-09-30, *"Flat"*: not times the miles from Béxar, as
+  carrying food to Gonzales is times the miles, because nobody of the family went with it; sim/glory.mjs `flat`). Keeping earns nothing.
 - **One rider, one visit** (§5.4b). The ask brings no rider of its own, so nothing piles up at the gate; put while a rider is
   talking with the family it waits until he has gone (`questionWaits`), unseen and with its minutes held, and his conversation
   counts it among what waits (*"One more thing is waiting for your family after this."*). Shown, it is the family's request: the

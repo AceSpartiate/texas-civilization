@@ -40,7 +40,8 @@ import { findPath } from './geography.mjs';
 // the answer the record calls right taught a class that played again which answer pays. A class saved with one keeps it, and
 // the ending says it as "Counted as N glory" (sim/ending.mjs `worthLine`); nothing awards it now.
 // `supplied` is also what a family earns for what it gives the army before Béxar when asked (owner, 2026-09-29, triage D5:
-// "Supply request"; sim/supplies.mjs, `FIC-GONZ-962`), at the same weight as carrying food to Gonzales.
+// "Supply request"; sim/supplies.mjs, `FIC-GONZ-962`), at the same weight as carrying food to Gonzales - and since 2026-09-30
+// (owner: "Flat") counted once, not times the miles from Béxar, because nobody of the family went with it (`flat`).
 // `helped` and `sheltered` are help given to another family (owner, 2026-09-28, by multiple choice: "Any help"; sim/deeds.mjs
 // `HELP_ROLE`): the support tier of docs/MONEY_AND_GLORY.md §4 - a raising, food, room in a wagon at the support weight, and
 // children taken in at the weight of being present. ceiling: the two weights are this game's own first guess (`FIC-GONZ-761`); a
@@ -60,7 +61,11 @@ export const distanceMultiplier = miles => 1 + Math.floor(Math.max(0, miles) / G
  * *why*. A casualty earns nothing extra: the award is for the part somebody took, and nothing
  * here reads their health.
  */
-export function awardGlory(world, { event, claimId, personId, householdId, role, fromSiteId, causes = [], adjust = null, note = null }) {
+/**
+ * `flat`: the part is counted once, not times the miles - for what a family sent and nobody of it went with (the army's request
+ * for supplies, owner 2026-09-30: "Flat"; sim/supplies.mjs). The miles are what the family's own going cost it, and there was none.
+ */
+export function awardGlory(world, { event, claimId, personId, householdId, role, fromSiteId, causes = [], adjust = null, note = null, flat = false }) {
   const weight = GLORY_WEIGHT[role];
   const household = world.households[householdId];
   if (!weight || !household || !world.entities[personId]) return 0;
@@ -68,7 +73,7 @@ export function awardGlory(world, { event, claimId, personId, householdId, role,
   const ledger = world.glory[householdId] ??= { total: 0, awards: {} };
   const key = `${event}:${personId}`;
   if (ledger.awards[key]) return 0;
-  const miles = findPath(world.map, fromSiteId, household.homeSiteId)?.distance ?? 0;
+  const miles = flat ? 0 : findPath(world.map, fromSiteId, household.homeSiteId)?.distance ?? 0;
   // `adjust` is the one rule that changes what a part is worth after the fact: a woman sent to fight who does not come
   // through (docs/MONEY_AND_GLORY.md §4, owner 2026-09-14), whose award is taken away twice over. It never adds.
   const times = distanceMultiplier(miles);
@@ -81,7 +86,7 @@ export function awardGlory(world, { event, claimId, personId, householdId, role,
   });
   // `times` is kept so the ending can say the sum as it was worked (triage 2026-09-29 2.10): `miles` is rounded to a tenth, and a
   // multiplier read back from it could be one off at a fifteen-mile line. An award saved before has none and is read from `miles`.
-  ledger.awards[key] = { event, claimId, personId, role, miles: Math.round(miles * 10) / 10, times, points, minute: world.minute, eventId, ...(note && { note }) };
+  ledger.awards[key] = { event, claimId, personId, role, miles: Math.round(miles * 10) / 10, times, points, minute: world.minute, eventId, ...(note && { note }), ...(flat && { flat: true }) };
   ledger.total += points;
   return points;
 }
