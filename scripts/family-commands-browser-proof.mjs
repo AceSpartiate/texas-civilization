@@ -187,7 +187,9 @@ try {
   ok(`a rider stopped for ${listener}: an "!" on that row alone ("${riderLabel}"); pressing it took the camera to them (${riderOpened.miles.toFixed(3)} mi) and opened the conversation, the keyboard on "${riderOpened.focused}"`);
   await page.locator('#encounter .ask-leave').click();
   await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-attention`)?.hidden || document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-attention`)?.dataset.need !== 'rider', listener, { timeout: 15000 });
-  if (await page.locator('#encounter-close').isVisible()) await page.locator('#encounter-close').click();
+  // Whatever was waiting behind him may come up as he goes, or he may already have ridden on by himself ("Rider leaves at
+  // dawn"), so a card still up is put away if it can be; the "!" cleared above is what this step proves.
+  if (await page.locator('#encounter-close').isVisible()) await page.locator('#encounter-close').click({ timeout: 3000 }).catch(() => {});
   ok('letting the rider ride on clears the "!"');
 
   // -------------------------------------------------------------------------------------------------------------- a call
