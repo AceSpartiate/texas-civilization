@@ -1,5 +1,36 @@
 # Claude handoff — Astra foundation
 
+## The Béxar rancho down the river only, and the Béxar start's four answers — owner-decided 2026-09-30 (not released)
+
+**The ask.** The owner answered the four questions of the Béxar start (docs/FAMILY_CREATION.md, the amendment of 2026-09-29/30):
+the wedding **"Priest from La Bahía"**, the foragers **"Mentioned only"** and a family that stays **"Taken prisoner"** - all as built -
+and the rancho **"Downriver only"**. Branch `starts-3` off local `integration-2026-09-28` 9577722a; not pushed. Recorded in
+docs/COLONIES.md §5.1, FAMILY_CREATION.md and the `HIST-TEX-790` and `FIC-GONZ-988` rows. (The carreta's claim is `FIC-GONZ-994` since
+the merge.)
+
+- **Downriver only** (sim/starts.mjs `downriver`, `DOWNRIVER` - the map's own line from Béxar's plaza to Goliad's - and
+  `DOWNRIVER_FROM`, 3 miles): the rancho lies at least 3 miles down that line, past Concepción, never above the town or beside it. It
+  keeps the burn zone, the mile and a half clear of the camps at Concepción and Espada, and the first six join slots; one condition
+  added to the land rule both deals read (`clearOfMissions`).
+- **Measured**: 25 seeds of 20, 22, 25, 28 and 30 families - every class has its Béxar family, Tejano, 3.1 to 4.4 miles down the
+  river (1.3-2.0 miles east and 3.4-4.5 south of the plaza), inside the zone, among the first six. The land that passes every rule lies
+  in that one reach between Concepción and Espada; the land rule did not need loosening.
+- **A map with no such land** (none found): before placing anybody, sim/colonies-region.mjs looks on the half-mile grid for a point
+  that fits the rancho's rules inside the zone; with none, the Béxar seat goes back to the colony the class's deal would have given it
+  without Béxar (`colonySeatFor`) and the class has no Béxar family. A class is never refused, and the seats' count, and so the seed's
+  draws, are unchanged. `ceiling:` a straight line toward Goliad, not the river's bends; the twelve-mile land rule keeps the rancho far
+  short of the record's Floresville ranchos, about thirty miles down.
+
+**Evidence** (same computer only; no Chromebook or LAN claim):
+
+- `tests/starts-bexar.test.mjs` 8 tests, one new: the line is Béxar to Goliad on the map; points above the town and to either side refused;
+  10 seeds of 20-30 families each with its Béxar family down the river, in the zone, off the missions, early to join; and
+  `colonySeatFor` giving the seat back to the colony the deal would have had. **`node scripts/starts-injections.mjs --downriver`: 4 of 4
+  caught by that test** (3 by it alone; measuring up the river also fails the deal test) ([record](docs/evidence/starts-injections-downriver.json)).
+- `test:creation` 15 checks, the Béxar family's card among them.
+- `npm test`: **1911 tests, 1873 pass, 2 fail, 36 skipped**; the two are `classroom-doors` and `save-retry`, the known flakes under load,
+  which passed alone on their rerun (6 of 6).
+
 ## A family can starve, and the food as a gauge — owner, 2026-09-30 (not released)
 
 Branch `starvation` off `integration-2026-09-28` (ba5ccc6a); not pushed. The owner changed an earlier answer: *"player

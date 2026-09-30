@@ -218,6 +218,27 @@ table above.
 | 20 | 4 | 4 | 2 | 2 | 3 | 3 | 1 | 1 |
 | 30 | 7 | 6 | 4 | 3 | 4 | 3 | 2 | 1 |
 
+**Owner-decided, 2026-09-30 — the Béxar start's four questions** (FAMILY_CREATION.md, the amendment of 2026-09-29/30, its *Forks*):
+
+| Question | Owner's answer | What it is |
+| --- | --- | --- |
+| The Béxar family's wedding | **Priest from La Bahía** | As built: the priest from La Bahía, as for every Tejano family (`FIC-GONZ-987`). |
+| What the Mexican foragers take | **Mentioned only** | As built: told in the journal, nothing taken from the family's stores. |
+| A Béxar family that stays when the foragers come | **Taken prisoner** | As built: the one rule for every family (sim/scrape.mjs). |
+| Where the rancho lies | **"Downriver only"** | **Changed** (branch `starts-3`, not released): the rancho lies only down the San Antonio River toward Goliad, where the ranchos of the record were, never above the town or beside it. |
+
+**Downriver only** (sim/starts.mjs `downriver`, `DOWNRIVER`, `DOWNRIVER_FROM`): measured along the line from Béxar's plaza toward
+Goliad's, the land lies at least **3 miles down it** - past Concepción, where the river leaves the town - and keeps every other rule
+of the start: 2 to 12 miles from the town, a mile and a half clear of the camps at Concepción and Espada, inside the burn zone, among
+the first six to join. Measured over 25 seeds of 20, 22, 25, 28 and 30 families, every class had its Béxar family, 3.1 to 4.4 miles
+down the river (1.3-2.0 miles east of the plaza and 3.4-4.5 south of it), between Concepción and Espada, inside the
+zone. The half-mile grid has 301 points inside the zone that pass the downriver and mission rules before the water, level and road
+rules; the land that passes all of them lies in that one reach. **Where a map had none** (none found), the Béxar seat goes back to
+the colony the class's deal would have given it without Béxar (`colonySeatFor`) and the class has no Béxar family - a class is never
+refused for it, and the seats' count, and so the seed's draws, are unchanged. `ceiling:` a straight line toward Goliad, not the
+river's own bends; and the land rule's twelve miles keep the rancho far short of the Floresville ranchos of the record, some thirty
+miles down.
+
 ### 5.2 Places and roads on the real map
 
 - **Settlements** are sites at their coordinates, projected by `milesFrom` (`sim/terrain-data.mjs`): the seven starts and

@@ -28,6 +28,7 @@ const T = {
   road: 'on the road east a family passes enslaved people, drawn where it is and told once, and hears of escapes at a crossing',
 };
 const SPRING = [T.autumn, T.spring, T.road];
+const DOWNRIVER_TEST = 'the rancho lies down the San Antonio River toward Goliad only, on every seed tried, never above the town or beside it';
 const S = 'sim/starts.mjs', STORY = 'sim/start-story.mjs', J = 'sim/tejano.mjs', A = 'sim/appearance.mjs', W = 'sim/world.mjs', C = 'sim/courtship.mjs';
 
 const INJECTIONS = [
@@ -147,6 +148,15 @@ const INJECTIONS = [
     { file: 'sim/wagon.mjs', from: "(household.heritage === 'tejano' ? 'carreta' : 'cart')", to: "'cart'" }] },
   { name: 'an Anglo family\'s cart may be drawn as a carreta', expect: "a Tejano family of the poorest means comes with a carreta, drawn as Astra\'s carreta, that carries as the cart does", file: 'tests/starts-bexar.test.mjs', edits: [
     { file: 'sim/means.mjs', from: " || world.households[entity.householdId]?.heritage !== 'tejano')) return 'Invalid cart';", to: ")) return 'Invalid cart';" }] },
+  // ------------------------------------------------------------------------------------------------ "Downriver only" (owner, 2026-09-30)
+  { name: 'the rancho may lie anywhere round Béxar', downriver: true, expect: DOWNRIVER_TEST, file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: S, from: '  || (downriver(at, settlement) && MISSION_OFFSETS.every(', to: '  || (MISSION_OFFSETS.every(' }] },
+  { name: 'the rancho is measured up the river, away from Goliad', downriver: true, expect: DOWNRIVER_TEST, file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: S, from: 'const dx = 5.3 - -61.63, dy = 58.09 - 4.6,', to: 'const dx = -61.63 - 5.3, dy = 4.6 - 58.09,' }] },
+  { name: 'the rancho may lie by the town itself, not down the river', downriver: true, expect: DOWNRIVER_TEST, file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: S, from: 'export const DOWNRIVER_FROM = 3;', to: 'export const DOWNRIVER_FROM = -12;' }] },
+  { name: 'with no rancho the seat goes to the wrong colony', downriver: true, expect: DOWNRIVER_TEST, file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: S, from: '  return Object.keys(all).find(id => all[id] > (fewer[id] || 0));', to: "  return 'gonzales';" }] },
   { name: 'words are put in their mouths', expect: T.road, spring: true, edits: [
     { file: STORY, from: "  return { id, kind: 'enslaved', people, pairs: [] };", to: "  return { id, kind: 'enslaved', people, pairs: [{ key: id, ids: [people[0].id, people[1].id], talking: true }] };" }] },
 ];
@@ -165,12 +175,14 @@ const record = [];
 const CR = String.fromCharCode(13), LF = String.fromCharCode(10);
 // `--answers`: only the owner's answers of 2026-09-29/30 and the deal's two injections the Béxar start rewrote; the rest were proved
 // on the first build (docs/evidence/starts-injections.json) and touch code these did not change.
-const answersOnly = process.argv.includes('--answers');
+const answersOnly = process.argv.includes('--answers'), downriverOnly = process.argv.includes('--downriver');
 const marker = INJECTIONS.findIndex(one => one.answers);
 const REWRITTEN = ['Victoria is not seated: a class of five has no Tejano family', "Victoria's families are dealt as Anglo-American"];
 for (const [index, injection] of INJECTIONS.entries()) {
   if (injection.answers) continue;
   if (answersOnly && index < marker && !REWRITTEN.includes(injection.name)) continue;
+  // `--downriver`: only the owner's "Downriver only" of 2026-09-30.
+  if (downriverOnly && !injection.downriver) continue;
   const originals = new Map();
   try {
     for (const edit of injection.edits) {
@@ -191,6 +203,6 @@ for (const [index, injection] of INJECTIONS.entries()) {
 }
 if (runTests().length) throw new Error('The tests fail after every file was put back');
 mkdirSync('docs/evidence', { recursive: true });
-const out = answersOnly ? 'docs/evidence/starts-injections-answers.json' : 'docs/evidence/starts-injections.json';
+const out = downriverOnly ? 'docs/evidence/starts-injections-downriver.json' : answersOnly ? 'docs/evidence/starts-injections-answers.json' : 'docs/evidence/starts-injections.json';
 writeFileSync(out, `${JSON.stringify({ record: 'starts-injections', date: new Date().toISOString().slice(0, 10), files: FILES, injections: record }, null, 2)}\n`);
 console.log(`\n${record.filter(r => r.caught).length} of ${record.length} caught by the test written for each (${record.filter(r => r.alone).length} by that test alone); wrote ${out}`);

@@ -1,0 +1,66 @@
+{
+  "record": "starts-injections",
+  "date": "2026-09-30",
+  "files": [
+    "tests/starts.test.mjs",
+    "tests/starts-bexar.test.mjs"
+  ],
+  "injections": [
+    {
+      "name": "the rancho may lie anywhere round Béxar",
+      "files": [
+        "sim/starts.mjs"
+      ],
+      "expect": "the rancho lies down the San Antonio River toward Goliad only, on every seed tried, never above the town or beside it",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rancho lies down the San Antonio River toward Goliad only, on every seed tried, never above the town or beside it"
+      ]
+    },
+    {
+      "name": "the rancho is measured up the river, away from Goliad",
+      "files": [
+        "sim/starts.mjs"
+      ],
+      "expect": "the rancho lies down the San Antonio River toward Goliad only, on every seed tried, never above the town or beside it",
+      "spring": false,
+      "caught": true,
+      "alone": false,
+      "failed": [
+        "the rancho lies down the San Antonio River toward Goliad only, on every seed tried, never above the town or beside it",
+        "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town",
+        "a family near Béxar is told what it hears of the war at its door, once each, at its moment, and nobody else is",
+        "a family near Béxar is asked by Seguín from its own land when the army comes near, and its man rides from home to the army",
+        "near Béxar the word to leave comes from Seguín's men, and a rancho left in a rush is burned by Santa Anna's foragers, not the Texas army"
+      ]
+    },
+    {
+      "name": "the rancho may lie by the town itself, not down the river",
+      "files": [
+        "sim/starts.mjs"
+      ],
+      "expect": "the rancho lies down the San Antonio River toward Goliad only, on every seed tried, never above the town or beside it",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rancho lies down the San Antonio River toward Goliad only, on every seed tried, never above the town or beside it"
+      ]
+    },
+    {
+      "name": "with no rancho the seat goes to the wrong colony",
+      "files": [
+        "sim/starts.mjs"
+      ],
+      "expect": "the rancho lies down the San Antonio River toward Goliad only, on every seed tried, never above the town or beside it",
+      "spring": false,
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "the rancho lies down the San Antonio River toward Goliad only, on every seed tried, never above the town or beside it"
+      ]
+    }
+  ]
+}

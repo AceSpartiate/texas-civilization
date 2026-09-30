@@ -20,7 +20,7 @@ import { sampleReliefGrid } from './terrain.mjs';
 import { WOODS_SOURCE } from './woods.mjs';
 import { coloniesProvince } from './province.mjs';
 import { burnSamples, inBurnZone } from './advance.mjs';
-import { BEXAR_AT, clearOfMissions, dealStarts, startCounts } from './starts.mjs';
+import { BEXAR_AT, clearOfMissions, colonySeatFor, dealStarts, startCounts } from './starts.mjs';
 
 const round = value => { const fixed = +value.toFixed(2); return fixed === 0 ? 0 : fixed; };
 const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -270,6 +270,21 @@ export function buildColoniesRegion(random, playerCount, { zone = true, starts =
       // On its own settlement's side of the big rivers, in effect: a way to its town by road that is not a journey round the colony.
       && roadMilesToTown(at, settlement) <= ROAD_TO_TOWN;
   };
+  // The rancho near Béxar only where the land has one down the river, inside the burn zone (sim/starts.mjs, owner 2026-09-30:
+  // "Downriver only"). Measured on 25 seeds of 20-30 families, it always has: the land lies 3 to 4.5 miles down the river. If a map
+  // ever had none, the seat goes back to the colony that would have had it without Béxar and the class has no Béxar family, rather
+  // than no class; the seats' count, and so the seed's draws, are unchanged.
+  if (starts && seats.includes(BEXAR_AT)) {
+    const town = sites[BEXAR_AT], zoneMap = { sites, routes };
+    let found = false;
+    for (let x = town.x - LAND_FROM_TOWN.farthest; x <= town.x + LAND_FROM_TOWN.farthest && !found; x += 0.5) {
+      for (let y = town.y - LAND_FROM_TOWN.farthest; y <= town.y + LAND_FROM_TOWN.farthest && !found; y += 0.5) {
+        const at = { x: round(x), y: round(y) };
+        found = fit(at, town, [], 0) && (!zone || inBurnZone(zoneMap, at));
+      }
+    }
+    if (!found) { seats[seats.indexOf(BEXAR_AT)] = colonySeatFor(playerCount, dealCounts); settled = [...new Set(seats)]; }
+  }
 
   // Land for each family near its settlement. League-sized elbow room first, closing up only if a crowded
   // settlement needs it, as the invented map's scatter did.

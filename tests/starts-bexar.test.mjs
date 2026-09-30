@@ -11,7 +11,7 @@ import { applyAction, projectFamily, projectWorld, rollFamily, stepWorld, valida
 import { beginSecondPeriod } from '../sim/periods.mjs';
 import { dealCounts } from '../sim/colonies-map.mjs';
 import { inBurnZone } from '../sim/advance.mjs';
-import { BEXAR_FROM, EARLY, MISSION_CLEAR, MISSION_OFFSETS, STARTS_SEATED, clearOfMissions, startCounts } from '../sim/starts.mjs';
+import { BEXAR_FROM, DOWNRIVER, DOWNRIVER_FROM, EARLY, MISSION_CLEAR, MISSION_OFFSETS, STARTS_SEATED, clearOfMissions, colonySeatFor, startCounts } from '../sim/starts.mjs';
 import { BEXAR_AFTER, BEXAR_WORD, advanceStarts } from '../sim/start-story.mjs';
 import { momentOf } from '../sim/directors.mjs';
 import { offerCalls } from '../sim/calls.mjs';
@@ -29,6 +29,34 @@ const colonies = (seed, n) => createGonzalesWorld(seed, n, { map: 'colonies', st
 const bexarOf = world => Object.values(world.households).find(household => household.settlementId === 'bexar');
 const until = (world, done, limit = 12000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); return done(); };
 const men = (world, household) => household.members.map(id => world.entities[id]).filter(one => one.sex === 'male' && one.age >= 16);
+
+test('the rancho lies down the San Antonio River toward Goliad only, on every seed tried, never above the town or beside it', () => {
+  // Owner, 2026-09-30: "Downriver only". The line toward Goliad is the map's own two places.
+  const probe = colonies('bx-downriver-map', 20), town = probe.map.sites.bexar, goliad = probe.map.sites.goliad;
+  const length = Math.hypot(goliad.x - town.x, goliad.y - town.y);
+  assert.ok(Math.abs(DOWNRIVER.x - (goliad.x - town.x) / length) < 1e-9 && Math.abs(DOWNRIVER.y - (goliad.y - town.y) / length) < 1e-9, 'the line is Béxar to Goliad on the map');
+  // Above the town, and off to either side, are not the rancho's.
+  for (const [dx, dy] of [[0, -4], [-4, 0], [4, -2], [-3, 3]]) assert.equal(clearOfMissions({ x: town.x + dx, y: town.y + dy }, town), false, `${dx},${dy} is not downriver`);
+  // Every seed tried gives the class its Béxar family, down the river, in the zone, off the missions, early to join.
+  for (let k = 0; k < 10; k++) {
+    const n = [20, 22, 25, 28, 30][k % 5];
+    const world = colonies(`bx-downriver-${k}`, n);
+    const household = bexarOf(world);
+    assert.ok(household, `bx-downriver-${k}: no family near Béxar`);
+    const home = world.map.sites[household.homeSiteId];
+    const along = (home.x - town.x) * DOWNRIVER.x + (home.y - town.y) * DOWNRIVER.y;
+    assert.ok(along >= DOWNRIVER_FROM, `bx-downriver-${k}: ${along.toFixed(2)} miles down the river`);
+    assert.ok(inBurnZone(world.map, home));
+    for (const m of Object.values(MISSIONS)) assert.ok(Math.hypot(home.x - town.x - m.dx, home.y - town.y - m.dy) >= MISSION_CLEAR);
+    assert.ok(Number(household.id.slice(3)) - 1 < EARLY);
+  }
+  // Where a map has no rancho down the river, its seat goes back to the colony that would have had it: a class, with no Béxar family.
+  for (const n of [20, 25, 30]) {
+    const id = colonySeatFor(n, dealCounts);
+    const back = { ...startCounts(n, dealCounts) }; delete back.bexar; back[id] += 1;
+    assert.deepEqual(back, dealCounts(n, STARTS_SEATED), `${n}: the seat goes back to ${id}`);
+  }
+});
 
 test('from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town', () => {
   assert.equal(MISSION_OFFSETS.length, 2);
