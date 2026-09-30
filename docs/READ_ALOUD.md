@@ -228,7 +228,7 @@ using (CPU 39-55% before and during). Records:
 
 ## 8. Tests, proofs and evidence
 
-- **New tests, each failed under an injection first: 22 of 22** (`npm run test:read-aloud-injections`,
+- **New tests, each failed under an injection first: 31 of 31** (22 on `read-aloud`, 9 more on `read-aloud-2`) (`npm run test:read-aloud-injections`,
   [`evidence/read-aloud-injections.json`](evidence/read-aloud-injections.json)):
   - `tests/read-aloud-text.test.mjs` (9): the pronunciation table complete for every famous person and every name the pools deal,
     no accented name unrespelled, respelling as whole words, plain ASCII to the voice, sentence splitting (abbreviations,
@@ -239,17 +239,20 @@ using (CPU 39-55% before and during). Records:
     own queue capped and the cache pruned, a request answered at once, a sentence served as immutable Ogg Opus and nothing else;
   - `tests/read-aloud-server.test.mjs` (3, the classroom): only a joined page may ask, a class with no voice says so, a line made
     and served by its key, a rider's and the family's words begun as the server writes them in the speaker's voice;
+  - `tests/read-aloud-ending.test.mjs` (6) and one more in the server test: the breakdown read part by part (§7a), a real family's
+    breakdown all speakable, a line at a time, a refused sentence passed over, each page in turn, the card read once;
   - `tests/audio-licenses.test.mjs` (+2): the voices are the manifest's and the model Apache-2.0; every program of the voice
     recorded with its licence file; the GPL one a separate process with its source shipped, no addon, no npm dependency.
 - **Browser proof** `npm run test:read-aloud` (`scripts/read-aloud-browser-proof.mjs`, real Kokoro, headless Chrome, a Play Solo
-  game on the real land, seed q6): 6 checks - [`evidence/read-aloud-browser-proof.json`](evidence/read-aloud-browser-proof.json),
+  game on the real land, seed q6): 7 checks - [`evidence/read-aloud-browser-proof.json`](evidence/read-aloud-browser-proof.json),
   screenshots `evidence/read-aloud-tip.png`, `evidence/read-aloud-rider.png`.
   1. a tip (the sick's, three sentences) from the keyboard: every sentence the package's, fetched as Ogg Opus and played to its
      end; nothing spoken on the Host; "Got it" and the click-through untouched;
   2. the rider's opening in `am_fenrir`: four sentences, two made on the Host on the press (3.6 s and 4.6 s) while the button said
      "Getting ready…", then "Stop"; each fetched and played to its end;
   3. the daughter's question ("How many of them are there?") in `af_kore`, from the package;
-  4. one line at a time; 5. Sound off: "Sound is off", nothing fetched; 6. `speechSynthesis` never spoken to.
+  4. one line at a time; 4b. at the end of the class, a button on every part of the breakdown and "Our story" read to its end, a
+     line asked at a time, the sentences naming the family made on the Host, none refused; 5. Sound off: "Sound is off", nothing fetched; 6. `speechSynthesis` never spoken to.
 - **Measurements**: `scripts/voice-burst.mjs` (§6), `docs/evidence/read-aloud/cast.json` (§2),
   `docs/evidence/read-aloud/pronunciation.json` (§3), `docs/evidence/voice-runtime-manifest.json` (§5).
 

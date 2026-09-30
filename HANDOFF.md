@@ -1,5 +1,42 @@
 # Claude handoff — Astra foundation
 
+## Read aloud: the owner's four answers, and the end-of-game breakdown read aloud — owner-decided 2026-09-30 (not released)
+
+Branch `read-aloud-2` off `integration-2026-09-28` (e6d9fe8b, then cb5c1fb4 merged in for its Béxar test fix); not pushed.
+Having listened to `af_kore` and `af_bella`, **the owner answered the read-aloud build's four questions (2026-09-30,
+owner-decided)**, verbatim: the woman's voice **"af_kore"** (kept); place names **"Texan way"** (kept); the model **"Full quality,
+as decided"** (the full-precision model ships, +390 MB a download); the end-of-game breakdown **"Yes, add it"** (built here).
+Recorded in [docs/READ_ALOUD.md](docs/READ_ALOUD.md) §1, §7a and §9. **Same computer only.**
+
+- **The breakdown read aloud** (`public/ending.js` `endingReading`, `setEndingReader`; wired in `public/app.js`): a button on each
+  part of a family's own breakdown - its name and numbers, *Our story* with its questions, the coin, prisoners, glory,
+  neighbours, what nobody knew; between periods the numbers only; never on the Host's page. It reads the heading and every line
+  in the server's words and order; sums are said in words ("times", "plus", "equals"), coin "came in" / "went out" for + / −.
+- **A long reading, a line at a time** (`public/read-aloud.js`): every line is asked for on its own at the press (a story is more
+  than one asking may hold) and played in order as it is ready; a sentence the Host will not speak is passed over and the rest
+  read, and *Can't read this* only when nothing can be.
+- **Each page in turn on the Host** (`server/voice/service.mjs` `nextPressed`; `server/app.mjs` names the asking page): thirty
+  students pressing their story at the reveal each hear their first sentence before any hears its second. Most of a breakdown
+  names the family, so it is spoken on the Host: on this desktop about two minutes until every family's first sentence of thirty
+  presses; a school laptop, estimated, 4-8 minutes. `ceiling:` speak each breakdown in the background during the end sequence's
+  videos if that wait is seen to matter (not built).
+- **The starving card** (sim/hunger.mjs) already had the messages card's button; it now reads the card's eyebrow, title and words
+  each once (`cardLines`): "No food. Paz is starving." rather than the name twice. Every card benefits.
+- **The Host's word check** accepts a name's possessive ("Trinidad's family"), found by the new test on a real ending.
+- **Voice package** rebuilt: 3,273 fixed sentences (59 new since the first build, from starvation, the starts and this), 34.1 MB.
+- **Tests** - every new one failed under an injection first: **31 of 31** (`npm run test:read-aloud-injections`, 9 new):
+  `tests/read-aloud-ending.test.mjs` (6: every part read in order with no symbol; a real family's breakdown all speakable; a long
+  reading a line at a time; a refused sentence passed over; each page in turn; the card read once), and one more in
+  `tests/read-aloud-server.test.mjs` (two students take turns). `npm test`: **1,958 tests, 1,921 pass, 1 fail, 36 skipped** - the
+  one `tests/starts-bexar.test.mjs` (Seguín's call), fixed on the integration branch by cb5c1fb4 after this branch was cut;
+  merged, it passes (8/8).
+- **Proofs** (headless Chrome, at most two at once): `test:read-aloud` **7** (new: at the end of the class, a button on every part
+  of the breakdown, and "Our story" read to its end - 5 lines asked one at a time, 6 sentences, 2 made on the Host, none
+  refused); `test:ending` **10**; `test:end-sequence` **25** (it failed once with a null video `duration` while `npm test` ran
+  beside it, and passed alone).
+- **Not done**: the end sequence's *family* stage (the story in words below each family's video) has no button; the Host's table
+  none, by design.
+
 ## Read aloud in natural voices — triage D15, owner-decided 2026-09-30 (not released)
 
 Branch `read-aloud` off `integration-2026-09-28` (4131feb8), with `read-aloud-research` (2f4185a4) merged in; not pushed. The
