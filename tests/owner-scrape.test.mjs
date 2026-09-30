@@ -16,6 +16,8 @@ import { burnMinute, farmFate } from '../sim/advance.mjs';
 import { learn } from '../sim/knowledge.mjs';
 import { flightLine } from '../sim/ending-story.mjs';
 import { toolCount } from '../sim/tools.mjs';
+import { clearedPlots, keepPlots, sownPlots } from '../sim/fields.mjs';
+import { sowPlot } from '../sim/crops.mjs';
 import { spring, until } from './support/scrape-spring.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
@@ -202,6 +204,28 @@ test('D9 (b): on real news the family is told once, may make ready, and may leav
   assert.equal(early.flight.orderedMinute, undefined, 'the settlement\'s order came to a family already gone');
   assert.match(flightLine(leaving, early), /They went before any order came, on the word they had heard, and lost the corn in the field\./);
   validateWorld(leaving);
+});
+
+test('D9 (b) with each plot its own crop: leaving early loses every plot standing, corn and cotton both, and says so', () => {
+  const world = spring();
+  const household = later(world);
+  // Two cleared plots, laid out from the family's field as a class saved before plots were written down would have them.
+  delete household.plots;
+  household.field = { ...household.field, state: 'bare', cleared: 2 };
+  keepPlots(world, household);
+  const plots = clearedPlots(household);
+  assert.ok(plots.length >= 2, 'the family has too few cleared plots to plant two crops');
+  plots.forEach((plot, index) => sowPlot(plot, index % 2 ? 'cotton' : 'corn'));
+  learn(world, household.id, 'alamo-fall', { status: 'unconfirmed', source: 'A rider from Gonzales' });
+  stepWorld(world); stepWorld(world);
+  assert.equal(view(world, household.id).early?.crop, 'corn and cotton', 'the early card named one crop of a mixed field');
+  const refuge = view(world, household.id).early.packed.refuge;
+  applyAction(world, household.id, { action: 'flee', entityId: main(world, household).id, take: { food: 0 }, refuge, route: { stops: [refuge], ways: ['road'] } });
+  assert.equal(household.flight.early?.crop, 'corn and cotton');
+  assert.deepEqual(sownPlots(household), [], 'a plot of the crop was left standing when the family went early');
+  assert.equal(household.field.state, 'bare');
+  assert.ok(texts(world, household).some(text => /The corn and cotton in the field is left standing .* and is lost\./.test(text)));
+  validateWorld(world);
 });
 
 test('D9 (b): the news of the Mexican army\'s advance counts - a column come to a place, a town burned - and Houston\'s own movements do not', () => {

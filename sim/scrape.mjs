@@ -48,7 +48,8 @@ import { lentRoom } from './deeds.mjs';
 // order on news the family has heard (D9 (b); sim/early-word.mjs), and the crop that leaving early costs.
 import { HOUSEHOLD_GOODS, HOUSEHOLD_SPACE, goodCount, goodWords, goodsWords, householdGoods, isHouseholdGood, removeGood, restoreGood } from './flight-goods.mjs';
 import { EARLY_COST, NO_WORD_YET, earlyWord, readyingInvalid, takeReadying } from './early-word.mjs';
-import { keepPlots } from './fields.mjs';
+import { cropOf, keepPlots, sownPlots } from './fields.mjs';
+import { keepCrops, reapPlot, settleField } from './crops.mjs';
 import { wagonItem } from './wagon.mjs';
 
 const GONE = ['dead', 'captured'];
@@ -439,12 +440,18 @@ export function flee(world, household, { take = {}, refuge, route }) {
  * Harris's father planted corn on March 1, left, and found it standing when the family came home (docs/SCRAPE.md §19).
  */
 export function loseCrop(world, household) {
-  const field = household.field;
-  if (!['planted', 'ripe'].includes(field?.state)) return null;
-  const { grownMs: _grown, ...rest } = field;
-  household.field = { ...rest, state: 'bare', changedTick: world.tick };
-  for (const plot of keepPlots(world, household)) delete plot.sown;
-  return field.crop === 'cotton' ? 'cotton' : 'corn';
+  const crop = standingCrop(world, household);
+  if (!crop) return null;
+  // Each plot its own crop (sim/crops.mjs): every plot standing is lost, and the field as a whole follows its plots.
+  for (const plot of sownPlots(household)) reapPlot(plot);
+  settleField(world, household);
+  return crop;
+}
+/** What stands in the field, as its words: 'corn', 'cotton', or both when the plots hold both; null when nothing does. */
+export function standingCrop(world, household) {
+  keepCrops(world, household);
+  const crops = new Set(sownPlots(household).map(plot => cropOf(household, plot)));
+  return crops.size > 1 ? 'corn and cotton' : crops.size ? [...crops][0] : null;
 }
 
 /** The crossings on this family's road: the ferries and fords over the big rivers, in the order the road meets them. */
@@ -764,7 +771,7 @@ export function earlyProjection(world, household) {
   const word = earlyWord(world, household);
   if (!word) return null;
   const card = { status: 'early', heard: word.text, cost: EARLY_COST, ...loadCard(world, household),
-    ...(household.field && ['planted', 'ripe'].includes(household.field.state) && { crop: household.field.crop === 'cotton' ? 'cotton' : 'corn' }),
+    ...(standingCrop(world, household) && { crop: standingCrop(world, household) }),
     // The milk cow already on a rope, drawn beside her child (sim/flight-work.mjs).
     ...(household.readying?.cow && { cow: { by: household.readying.cow.by } }) };
   if (card.refuges.length) card.packed = packFlight(card);

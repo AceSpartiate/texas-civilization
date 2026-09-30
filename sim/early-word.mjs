@@ -98,7 +98,7 @@ export function readyingInvalid(world) {
       if (readying.heard !== undefined && (!isEarlyTopic(readying.heard?.topicId) || !Number.isFinite(readying.heard.minute))) return 'Invalid readying';
     }
     const early = household.flight?.early;
-    if (early !== undefined && (!early || !isEarlyTopic(early.topicId) || !Number.isFinite(early.minute) || (early.crop !== undefined && !['corn', 'cotton'].includes(early.crop)))) return 'Invalid early leaving';
+    if (early !== undefined && (!early || !isEarlyTopic(early.topicId) || !Number.isFinite(early.minute) || (early.crop !== undefined && !['corn', 'cotton', 'corn and cotton'].includes(early.crop)))) return 'Invalid early leaving';
   }
   return null;
 }
