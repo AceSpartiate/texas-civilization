@@ -87,6 +87,8 @@ const files = new Map([
   // The end-of-game flashback, drawn and recorded on the Host's page and played on every page (docs/FLASHBACK.md).
   ['/flashback.js', ['../public/flashback.js', 'text/javascript']],
   ['/webm-writer.js', ['../public/webm-writer.js', 'text/javascript']],
+  // Which flashback videos the Host's computer makes next (owner, 2026-09-30: "make two at once").
+  ['/making-plan.js', ['../public/making-plan.js', 'text/javascript']],
   // The family's neighbours and help offered back between families (sim/neighbourly.mjs, owner 2026-09-28).
   ['/neighbours.js', ['../public/neighbours.js', 'text/javascript']],
   // The lone parent's path, as scenes over the whole screen (sim/courtship.mjs, owner 2026-09-29).

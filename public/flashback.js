@@ -21,6 +21,8 @@ import { muxWebM } from '/webm-writer.js';
 import { drawSprite, drawClip, spriteFrame, sheetsInFlight, loadArt, clipReady } from '/art.js';
 // The lone parent's scenes' figures (public/courtship.js): who a person is drawn as, and their pose, for the homecoming's yard.
 import { clipFor, figureOf } from '/courtship.js';
+// Which videos to make next: the class's alone, then families two at a time (owner, 2026-09-30: "make two at once").
+import { toStart } from '/making-plan.js';
 import { drawArmy } from '/army-view.js';
 import { drawRoad } from '/landscape-art.js';
 import { placeSprite } from '/place-art.js';
@@ -721,7 +723,9 @@ export async function recordFlashback(script, world, { onProgress = () => {} } =
 
 // ------------------------------------------------------------------------------------------------ making the class's videos
 
-const making = { running: false, current: null, share: 0, done: [], failed: new Map(), how: null };
+// `now`: every video being made, with how far it has got. `current` and `share` are the first of them, as the page has always
+// said it; `peak` is the most made at once (presentation evidence for the proofs, read by nothing in the page).
+const making = { running: false, now: new Map(), get current() { return this.now.keys().next().value ?? null; }, get share() { return this.now.values().next().value ?? 0; }, peak: 0, done: [], failed: new Map(), how: null };
 let makeAgain = false;
 /** Presentation evidence for the browser proof (scripts/flashback-browser-proof.mjs), read by nothing in the page. */
 window.__flashback = making;
@@ -731,13 +735,13 @@ async function makeOne(householdId, world) {
   const result = await response.json();
   if (!response.ok) throw new Error(result.error || 'The script could not be read.');
   const started = performance.now();
-  const video = await recordFlashback(result.script, world, { onProgress: share => { making.share = share; renderStatus(); } });
+  const video = await recordFlashback(result.script, world, { onProgress: share => { making.now.set(householdId, share); renderStatus(); } });
   const madeMs = Math.round(performance.now() - started);
   const upload = await fetch(`/api/flashback/video?household=${encodeURIComponent(householdId)}&version=${result.script.version}&madeMs=${madeMs}`, { method: 'POST', headers: { 'Content-Type': 'video/webm' }, body: video.bytes });
   const saved = await upload.json();
   if (!upload.ok) throw new Error(saved.error || 'The video could not be saved.');
   making.how = video.how;
-  making.done.push({ householdId, madeMs, bytes: saved.bytes, durationMs: saved.durationMs, frames: video.frames, how: video.how, warm: video.warm, paintMs: video.paintMs });
+  making.done.push({ householdId, at: Date.now(), madeMs, bytes: saved.bytes, durationMs: saved.durationMs, frames: video.frames, how: video.how, warm: video.warm, paintMs: video.paintMs });
 }
 /**
  * The videos still wanted, in the order they are wanted: on the Host's page the class's own first - it plays first (owner,
@@ -752,26 +756,38 @@ function wanted(snapshot) {
   }
   return want(flashback.householdId, flashback.made) ? [flashback.householdId] : [];
 }
+/** Make one video, and say so whatever came of it. */
+async function makeAndKeep(id, world) {
+  making.now.set(id, 0);
+  making.peak = Math.max(making.peak, making.now.size);
+  renderStatus(); if (lastSnapshot) renderFinale(lastSnapshot);
+  try { await makeOne(id, world); }
+  catch (error) {
+    making.failed.set(id, error.message || String(error));
+    // Where it went wrong, for whoever reads the console (and the browser proof, which reads it too).
+    making.stacks = { ...(making.stacks || {}), [id]: String(error.stack || '').split('\n').slice(0, 6).join(' | ') };
+    console.error('Flashback not made:', id, error);
+  } finally { making.now.delete(id); }
+}
+/**
+ * Make every video still wanted: the class's alone first, then the families' two at a time (`toStart`, public/making-plan.js), a
+ * new one begun as each finishes, until none is wanted.
+ */
 async function makeMissing() {
   if (making.running || !art) return;
   making.running = true;
+  const going = new Map();
   try {
     for (;;) {
       const snapshot = lastSnapshot;
       if (!snapshot?.flashback?.ready || !snapshot.world.map?.sites) break;
-      const next = wanted(snapshot)[0];
-      if (!next) break;
-      making.current = next; making.share = 0; renderStatus(); renderFinale(snapshot);
-      try { await makeOne(next, snapshot.world); }
-      catch (error) {
-        making.failed.set(next, error.message || String(error));
-        // Where it went wrong, for whoever reads the console (and the browser proof, which reads it too).
-        making.stacks = { ...(making.stacks || {}), [next]: String(error.stack || '').split('\n').slice(0, 6).join(' | ') };
-        console.error('Flashback not made:', next, error);
-      }
+      // What is wanted and not being made; a video finished is out of `wanted` (done or failed) before its promise settles.
+      for (const id of toStart(wanted(snapshot).filter(one => !going.has(one)), [...going.keys()])) going.set(id, makeAndKeep(id, snapshot.world).finally(() => going.delete(id)));
+      if (!going.size) break;
+      await Promise.race(going.values());
     }
   } finally {
-    making.running = false; making.current = null; makeAgain = false; renderStatus(); if (lastSnapshot) renderFinale(lastSnapshot);
+    making.running = false; makeAgain = false; renderStatus(); if (lastSnapshot) renderFinale(lastSnapshot);
   }
 }
 
@@ -819,9 +835,10 @@ function renderStatus() {
   if (!status || !lastSnapshot?.flashback) return;
   const host = lastSnapshot.world.role === 'host';
   const flashback = lastSnapshot.flashback;
-  if (making.current) {
-    const left = wanted(lastSnapshot).length;
-    status.textContent = `${host ? 'Making the flashbacks on this computer' : 'Making your family’s flashback on this computer'}: ${host ? `${nameOf(lastSnapshot, making.current)}, ` : ''}${Math.round(making.share * 100)}%${host && left > 1 ? ` · ${left - 1} more after this` : ''}.`;
+  if (making.now.size) {
+    const left = wanted(lastSnapshot).length - making.now.size;
+    const now = [...making.now].map(([id, share]) => `${host ? `${nameOf(lastSnapshot, id)}, ` : ''}${Math.round(share * 100)}%`).join(' and ');
+    status.textContent = `${host ? 'Making the flashbacks on this computer' : 'Making your family’s flashback on this computer'}: ${now}${host && left > 0 ? ` · ${left} more after ${making.now.size > 1 ? 'these' : 'this'}` : ''}.`;
   } else if (!flashback.keeps) status.textContent = 'This server keeps no videos: it was started without a save folder.';
   else if (host) {
     const made = flashback.families.filter(family => family.made).length;
@@ -1015,7 +1032,7 @@ export function renderFinale(snapshot) {
   } else if (host && stage === 'family') {
     title.textContent = 'Each family’s own story, on its own screen';
     words.textContent = countdown ? `Every family’s story ${countdown}.`
-      : `The families’ stories are being made on this computer${making.current && making.current !== 'class' ? `: ${nameOf(snapshot, making.current)}, ${Math.round(making.share * 100)}%` : ''}. They start together when every family whose page is open has its own.`;
+      : `The families’ stories are being made on this computer${making.now.size && !making.now.has('class') ? `: ${[...making.now].map(([id, share]) => `${nameOf(snapshot, id)}, ${Math.round(share * 100)}%`).join(' and ')}` : ''}. They start together when every family whose page is open has its own.`;
     if (video.dataset.replay !== 'true') { video.hidden = true; if (!video.paused) video.pause(); }
     replayClass.hidden = !snapshot.flashback?.classVideo?.made;
     replayClass.textContent = 'Play the class video again';
@@ -1046,7 +1063,7 @@ function bindFinale() {
   video.addEventListener('play', () => { if (lastSnapshot?.endSequence?.stage === 'class' && video.dataset.replay !== 'true') tellOnce('class-playing'); });
   video.addEventListener('ended', () => {
     if (video.dataset.replay === 'true') { video.dataset.replay = ''; if (lastSnapshot) renderFinale(lastSnapshot); return; }
-    if (lastSnapshot?.endSequence?.stage === 'class') tellOnce('class-watched');
+    if (lastSnapshot?.endSequence?.stage === 'class') { finaleSeen.classEnded = Date.now(); tellOnce('class-watched'); }
   });
   document.querySelector('#finale-skip').addEventListener('click', () => tell('skip'));
   const twice = event => {

@@ -282,6 +282,18 @@ to autoplay."* So the families' stage no longer waits for any page to say its vi
   page as it waits for a video, 10 minutes at most - the race that sent Play Solo straight to the reveal in about 3 runs of 5.
 - `ceiling:` the server looks at its clock once a second (its own timer, not the class's tick, which can be 9.5 s at Study).
 
+**Two at once, and after the class video — owner-decided 2026-09-30** (answering whether a class of thirty waits too long for the
+last video: *"make two at once, and student videos don't start playing until after the class video finishes playing"*):
+
+- **Two at once.** The Host's computer makes the class's own video first and alone (it plays first), then the families' **two at a
+  time**, the families students played first, a new one begun as each finishes (`public/making-plan.js` `toStart`, `MAKE_AT_ONCE`).
+  The proof measures the class video playing while two are made: @@BESIDE@@. `ceiling:` two, not the computer's cores.
+- **Never before the class video has finished.** The families' stage begins only when the class video has ended (the Host's page
+  says so), run out its time, or been skipped by the teacher; the families' start is **the later of that moment and 8 s after the last
+  of their videos was made** (`playAt = max(now, lastMade + START_MS)`): videos made while the class video played start as it ends,
+  their loading time already past; one made just before it ended, or after, 8 s after it was made. The 10-minute cap, the closed
+  page that holds nothing and the solo page waited for are as above.
+
 ## 12. The homecoming's scenes (built 2026-09-29, not released)
 
 A family's video is now **the story's minute** (§2, unchanged) **and the homecoming after it** (`sim/flashback.mjs` `epilogue`,

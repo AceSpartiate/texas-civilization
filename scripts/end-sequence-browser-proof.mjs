@@ -148,6 +148,25 @@ try {
   assert.ok(classPlay.advanced > 1 && classPlay.visible, `the class video did not play by itself on the Host: ${JSON.stringify(classPlay)}`);
   ok(`the Host's page made the class's own video first (${Math.round(firstMade.durationMs / 1000)} s, made in ${Math.round(firstMade.madeMs / 1000)} s) and played it by itself, large, on the class screen`);
   await shot(host, '1-host-class-video');
+  // Two families' videos made at once while the class video plays (owner, 2026-09-30: "make two at once"), and the class video
+  // playing on smoothly beside them: its clock against the wall's, and the frames the browser dropped, over six seconds.
+  await host.waitForFunction(() => window.__flashback.now.size >= 2 && !window.__flashback.now.has('class'), null, { timeout: 60000, polling: 100 });
+  const beside = await host.evaluate(async () => {
+    const video = document.querySelector('#finale-video');
+    const q0 = video.getVideoPlaybackQuality(), t0 = video.currentTime, w0 = performance.now();
+    const making = new Set(window.__flashback.now.keys());
+    let least = window.__flashback.now.size;
+    const watch = setInterval(() => { least = Math.min(least, window.__flashback.now.size); }, 100);
+    await new Promise(resolve => setTimeout(resolve, 6000));
+    clearInterval(watch);
+    const q1 = video.getVideoPlaybackQuality();
+    return { wall: (performance.now() - w0) / 1000, advanced: video.currentTime - t0, paused: video.paused, dropped: q1.droppedVideoFrames - q0.droppedVideoFrames, frames: q1.totalVideoFrames - q0.totalVideoFrames, making: [...making], least };
+  });
+  evidence.twoAtOnce = beside;
+  assert.equal(beside.making.length, 2, `the Host's page was not making two at once: ${JSON.stringify(beside)}`);
+  assert.ok(!beside.paused && beside.advanced >= beside.wall * 0.9, `the class video stalled while two were made: ${beside.advanced.toFixed(2)} s played in ${beside.wall.toFixed(2)} s`);
+  assert.ok(beside.dropped <= Math.max(3, beside.frames * 0.1), `the class video dropped ${beside.dropped} of ${beside.frames} frames while two were made`);
+  ok(`two families' videos made at once (${beside.making.join(', ')}) while the class video played: ${beside.advanced.toFixed(2)} s of it in ${beside.wall.toFixed(2)} s, ${beside.dropped} of ${beside.frames} frames dropped`);
   const classScript = (await (await host.context().request.get(`${room.url}/api/flashback/script?household=class`)).json()).script;
   evidence.classVideo = { durationMs: classScript.durationMs, beats: classScript.beats.map(beat => `${beat.kind}: ${beat.caption}`) };
   const classFrames = await frames(host, '#finale-video', classScript, ['arrival', 'fight', 'news', 'flight', 'burned', 'home'], 'class-frame');
@@ -156,6 +175,7 @@ try {
   await host.evaluate(() => { const video = document.querySelector('#finale-video'); video.currentTime = Math.max(0, video.duration - 3); });
   await hurry(host, '#finale-video', 4);
   for (const page of [host, one, two]) await page.waitForFunction(() => window.__snapshot?.endSequence?.stage === 'family', null, { timeout: 60000 });
+  const classEnded = await host.evaluate(() => window.__finale.classEnded);
   ok('when the class video had played to its end, every screen went on to the families\' own videos');
 
   // ------------------------------------------------------------------------------------------------ 2. every family's own, at once
@@ -177,6 +197,13 @@ try {
   const starts = await Promise.all([one, two].map(page => page.evaluate(() => window.__finale.started)));
   const apart = Math.abs(starts[0].wall - starts[1].wall);
   assert.ok(apart < 1500, `the families' videos started ${apart} ms apart`);
+  // Never before the class video had finished (owner, 2026-09-30); the families' made so far that their START_MS was past start
+  // as it ends, the rest START_MS after the last was made.
+  const afterClass = Math.min(...starts.map(one => one.wall)) - classEnded;
+  assert.ok(afterClass >= -300, `a family's video started ${-afterClass} ms before the class video had finished`);
+  const lastMadeWall = await host.evaluate(() => Math.max(...window.__flashback.done.filter(one => ['hh-1', 'hh-2'].includes(one.householdId)).map(one => one.at || 0)));
+  evidence.start = { afterClassMs: afterClass, lastMadeBeforeClassEndMs: classEnded - lastMadeWall };
+  ok(`the families' videos started ${(afterClass / 1000).toFixed(1)} s after the class video finished (their last made ${((classEnded - lastMadeWall) / 1000).toFixed(1)} s before it finished)`);
   for (const [page, id] of [[one, 'hh-1'], [two, 'hh-2']]) {
     const own = await playing(page, '#finale-slot #flashback-video');
     assert.ok(own.advanced > 1 && own.visible, `${id}'s own video did not play by itself: ${JSON.stringify(own)}`);
