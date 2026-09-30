@@ -57,6 +57,20 @@ had already worked (the page goes straight into the world with the family it has
   E, an unanswered throw given up after 12 s and said on the card; a refused one said on the card; the real throw after both.
   Injections: without the join roll, A fails (*the die never landed*); without the 12 s watch, E fails (*left the die spinning*);
   with the refusal kept off the card, E fails.
+- `npm test`: **1954 tests, 1918 pass, 0 fail, 36 skipped** (the suspended tutorial). `test:creation` 15, `test:lone-parent` 10,
+  `test:means` green, `test:classes` 16, `test:reconnect` 12.
+- **`test:family-commands` is red, and was red before this branch**: at cb5c1fb4 with none of this change it stops at the same place
+  - *hh-1-child-4 could not be made the main person* with the survey chooser (`#survey-choose`) open and the panel folded -
+  exactly as it does here. Not investigated further; a job of its own.
+
+**Owner questions.**
+
+1. A late student whose family the computer has already been playing (joined after its arrival - most latecomers after the first
+   few minutes) plays that family as dealt: no die, no last name, no looks. Should they get the rest of the making? **(a) Yes: the
+   last name and the parents' looks, but not the die - its people already have a history (recommended)**; (b) keep it as it is;
+   (c) roll anyway and replace its people (breaks stable person IDs; not recommended).
+2. A lobby student whom Start rolled for (never pressed Roll) goes straight to the last name. **(a) Show them the die too, thrown on
+   the number Start gave them, as a latecomer now gets (recommended)**; (b) leave it.
 
 ## Read aloud in natural voices — triage D15, owner-decided 2026-09-30 (not released)
 
