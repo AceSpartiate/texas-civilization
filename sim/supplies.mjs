@@ -13,8 +13,8 @@
 //   settlements. Open from nine in the morning of November 26 to the morning the army was ordered into winter quarters.
 //
 // Each is **one decision with a cost**: six food out of the store, two powder out of the house, or the family's horse - or nothing,
-// which is a whole answer. Whatever is sent earns `supplied` (sim/glory.mjs, the support weight: one, times the miles from
-// Béxar, as carrying food to Gonzales is times the miles from Gonzales), once for each ask, and is gone for good: it goes west with
+// which is a whole answer. Whatever is sent earns `supplied` (sim/glory.mjs, the support weight: one, counted once and not
+// times the miles, since nobody of the family went with it: owner, 2026-09-30, "Flat"), once for each ask, and is gone for good: it goes west with
 // the committee's wagons and nobody of the family goes with it. The first two are the record's; a horse is this game's own - the
 // army needed horses for its scouts and horsemen, and took and appraised them, but no letter read asks a family for one.
 //
@@ -165,8 +165,9 @@ function settle(world, household, askId, action, entity, how) {
     household.property = (household.property || []).filter(id => id !== horse.id);
     delete world.entities[horse.id];
   }
-  // The family's part in the siege (`HIST-TEX-960`), at the support weight, once for each ask (sim/glory.mjs).
-  awardGlory(world, { event: askId, claimId: 'HIST-TEX-960', personId: entity.id, householdId: household.id, role: 'supplied', fromSiteId: 'bexar', causes: [choiceId] });
+  // The family's part in the siege (`HIST-TEX-960`), at the support weight, once for each ask (sim/glory.mjs) - and **flat** (owner,
+  // 2026-09-30, "Flat"): counted once, not times the miles from Béxar, because nobody of the family travelled with it.
+  awardGlory(world, { event: askId, claimId: 'HIST-TEX-960', personId: entity.id, householdId: household.id, role: 'supplied', fromSiteId: 'bexar', causes: [choiceId], flat: true });
 }
 
 /** An ask nobody answered in time: closed, and nothing sent. On its real-time budget (sim/decision-budget.mjs) or on its day. */

@@ -1095,7 +1095,7 @@ the family; this is what happens when none of them is used. Questions for the ow
 In the same 30 classes (as built): of 746 asks put to the measure's families (all answered at the director's share - every
 measured family is absent during a tick, so the director gives for it half the time), **156 sent food, 80 powder, none the horse**
 (the director never sends one), 510 kept. `supplied` from the siege averaged **about 6 glory a family** (the support weight times
-the miles from Béxar, 5 to 17). A family that sent nobody won one class of five, as before; no class of
+the miles from Béxar, 5 to 17 - flat, one a gift, since 2026-09-30 (owner, *"Flat"*), which would have made it 2 at most a family). A family that sent nobody won one class of five, as before; no class of
 fifteen or thirty was won by one.
 
 ### 16.4 Re-running it

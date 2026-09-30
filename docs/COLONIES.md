@@ -1089,8 +1089,8 @@ letter read asks a family for a horse: the horse is the game's.
   powder**, **send the horse**, or **keep what the family has** - a whole answer. Each is refused with its reason on the control when
   the family has not got it (less than 6 food, less than 2 powder, no horse at home and free). What is sent goes west with the
   committee's wagons and is gone for good; nobody of the family goes with it.
-- **Glory**: sending earns `supplied` - the support weight, 1 - times the miles from Béxar, once for each ask (sim/glory.mjs;
-  carrying food to Gonzales is times the miles from Gonzales). Keeping earns nothing.
+- **Glory**: sending earns `supplied` - the support weight, 1 - **flat**, once for each ask (owner, 2026-09-30, *"Flat"*: not times the miles from Béxar, as
+  carrying food to Gonzales is times the miles, because nobody of the family went with it; sim/glory.mjs `flat`). Keeping earns nothing.
 - **One rider, one visit** (§5.4b). The ask brings no rider of its own, so nothing piles up at the gate; put while a rider is
   talking with the family it waits until he has gone (`questionWaits`), unseen and with its minutes held, and his conversation
   counts it among what waits (*"One more thing is waiting for your family after this."*). Shown, it is the family's request: the
