@@ -2003,3 +2003,24 @@ bottom-right). The portrait's hover and label gain one word. Somebody starving c
 sick) with the real minute counted down, and the story card (*No food*, accent `hunger`). Above the column the food chip is a gauge
 of the days the food lasts, and the line of seed, powder, coin and the field lights each part by where it stands. No new sentence
 on the row. Proof: `npm run test:hunger`.
+
+## Amendment, 2026-09-30 — a row's tools wrap inside the column; the house site chooser folds while the land is off the screen (not released)
+
+Found by the browser proofs on the release candidate, not an owner decision; recorded in HANDOFF.md, *Red proofs on the release
+candidate*.
+
+- **A row fits its column.** Since the 12 px type of 2026-09-29 (the amendment above) a row with *Idle*, *House*, *Auto* and the
+  star was 11 px wider than the 19rem column at every screen size: the column cut the star in half, the name was squeezed to
+  nothing, and at 1024x768 the travel chooser stood over the row's end (`test:going`). The row's tools (`.panel-tools`) now wrap
+  onto a second line inside the row, and the name keeps at least 4.5rem (`.panel-body`'s middle column). A row with all four
+  tools is one line taller; a row with *Auto* and the star is as it was. `test:going` holds every row inside the column with room
+  for the name at 1366x768 and 1024x768.
+- **The house site chooser folds while the family's land is off the screen** (`foldSiteChooser` in `public/app.js`, read on every
+  frame drawn from the wagon's mark the server sends). It opens by itself as the wagon comes in, wherever the student is looking;
+  with the suggested places (triage 2.13) it stood 340 px tall beside the faces, over the middle of the map, and a student
+  watching Gonzales could not click the cannon's men under it (`test:gonzales-town`). Folded, it is its title and *Your land is
+  not on the screen.* with **Go to your land** (the map's *Land*), 118 px tall; with the land back on the screen it opens again
+  with its words and places.
+- **On a phone the column stops above a standing tip** (`fitColumn`). The tip stands the screen's width just above the bar there,
+  and covered the column's last 90 px: the youngest of twenty could not be scrolled out from under it. The family-twenty gate now
+  counts the tip, which takes no clicks and was looked through, as covering.

@@ -191,8 +191,20 @@ try {
     const helpScene = principal.sex === 'female' ? 'flag' : 'cannon';
     if (!helped && (helpScene === 'flag' ? now.beats.includes('flag-cloth') : now.beats.includes('shop-mount'))) {
       helped = true;
+      // The family's own house site chooser, up since its wagon came in, is folded to its title and a way back while the student
+      // watches the town: open, with its suggested places, it stood over the town's middle and took the click meant for the
+      // cannon's men (2026-09-30). Measured here, where the click is, not left to where the men happen to stand.
+      const chooserNow = () => page.evaluate(() => {
+        const panel = document.querySelector('#site-choose'), box = panel?.getBoundingClientRect();
+        const shown = selector => { const one = document.querySelector(selector); return Boolean(one && one.getClientRects().length && getComputedStyle(one).display !== 'none'); };
+        return panel && !panel.hidden ? { away: panel.dataset.away || '', words: shown('#site-text'), places: shown('#site-suggested'), back: shown('#site-go'), box: { x: Math.round(box.left), y: Math.round(box.top), w: Math.round(box.width), h: Math.round(box.height) } } : null;
+      });
+      const inTown = await chooserNow();
+      evidence.siteChooser = { inTown };
+      assert.ok(inTown, "the family's house site chooser was not up while its person was in Gonzales: this proof's family has not chosen its site");
+      assert.ok(inTown.away === 'true' && !inTown.words && !inTown.places && inTown.back, `the house site chooser stands open over the town: ${JSON.stringify(inTown)}`);
       const card = await openCard(page, helpScene);
-      assert.ok(card.opened, `clicking the ${helpScene} did not open its card`);
+      assert.ok(card.opened, `clicking the ${helpScene} did not open its card: ${JSON.stringify(card)}`);
       const button = page.locator(`#town-scene button[data-town-help="${principalId}"]`);
       await button.waitFor({ state: 'visible', timeout: 5000 });
       assert.ok(await button.isEnabled(), `${principal.name} cannot help with the ${helpScene}: ${await page.locator('#town-scene').innerText()}`);
@@ -202,6 +214,16 @@ try {
       const drawn = await page.evaluate(id => (window.__townWalkers || []).find(one => one.id === id), principalId);
       evidence.help = { scene: helpScene, card: card.title, drawn };
       await shot(page, `help-${helpScene}`);
+      // Its way back: the land on the screen, and the chooser open on it again with its words and places.
+      await page.locator('#site-go').click();
+      await page.waitForFunction(() => document.querySelector('#site-choose')?.dataset.away === 'false', null, { timeout: 10000 });
+      await page.waitForTimeout(300);
+      evidence.siteChooser.onLand = await chooserNow();
+      assert.ok(evidence.siteChooser.onLand.words && !evidence.siteChooser.onLand.back, `back on the land the house site chooser did not open again: ${JSON.stringify(evidence.siteChooser.onLand)}`);
+      await shot(page, 'site-on-land');
+      await page.locator('#map-nav [data-view=gonzales]').click();
+      await page.waitForTimeout(300);
+      ok(`the house site chooser, up since the wagon came in, was folded to its title and "Go to your land" over the town (${inTown.box.w}x${inTown.box.h}), and opened again on the land (${evidence.siteChooser.onLand.box.w}x${evidence.siteChooser.onLand.box.h})`);
     }
     // The Host's page, read while the women make the flag and the town is at its busiest: what it was sent and how many of
     // the town's people it drew. Looked at on every pass until it has drawn somebody, never waited on: a wait here would
@@ -343,7 +365,8 @@ async function openCard(page, sceneId) {
     await page.mouse.click(point.x, point.y);
     try { await page.waitForFunction(id => !document.querySelector('#town-scene').hidden && document.querySelector('#town-scene').dataset.scene === id, sceneId, { timeout: 1500 }); opened = true; break; } catch { /* the next */ }
   }
-  if (!opened) return { opened: false, scene: sceneId, tried: points.length };
+  // What each point a student would click lands on, so a card that does not open says why.
+  if (!opened) return { opened: false, scene: sceneId, tried: points.length, hits: await page.evaluate(list => list.map(point => { const hit = document.elementFromPoint(point.x, point.y); return { x: Math.round(point.x), y: Math.round(point.y), hit: hit ? (hit.id || hit.closest('[id]')?.id || hit.className || hit.tagName) : null }; }), points), selected: await page.evaluate(() => document.querySelector('#selection')?.dataset.entityId || null) };
   return page.evaluate(() => {
     const root = document.querySelector('#town-scene'), box = root.getBoundingClientRect();
     const family = document.querySelector('#family-panel'), fbox = family && !family.hidden ? family.getBoundingClientRect() : null;

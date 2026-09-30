@@ -17,8 +17,8 @@
     "the order to leave: its tip (\"Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and it leaves in a rush and the house is lost.\"), put away with a tap, and the \"!\" on the main person with \"3 min\" left on it",
     "on the road: the route's tip (\"On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.\"), put away with a tap",
     "¡Alto!: its tip (\"Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, and running risks their shots. No answer means you halt.\"), the \"!\" with \"30s\" on it, put away with a tap",
-    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, order, flight, house, road, rest, route, star, alto)",
-    "the Tips button by touch: 9 tips put away, \"alto\" first, none of the guided start's; clear of the bar, the column and the map's buttons; nothing sent, no tip shown again; closed by a tap on ×"
+    "after a reload with the soldiers still waiting, none of the flight, the route or ¡Alto! is shown again (this page showed: enlist, order, flight, house, field, rest, route, road, star, alto)",
+    "the Tips button by touch: 10 tips put away, \"alto\" first, none of the guided start's; clear of the bar, the column and the map's buttons; nothing sent, no tip shown again; closed by a tap on ×"
   ],
   "observed": {
     "start": {
@@ -43,8 +43,8 @@
       "enlist",
       "order",
       "house",
-      "road",
       "rest",
+      "road",
       "star"
     ],
     "call": {
@@ -53,7 +53,7 @@
       "text": "Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.",
       "box": {
         "left": 324,
-        "top": 368,
+        "top": 428,
         "right": 747,
         "bottom": 522
       },
@@ -114,7 +114,7 @@
       "text": "Someone is sick, and resting helps them mend. Have another grown-up choose “Nurse the sick”: nobody dies while being nursed. A very sick person can die within a day.",
       "box": {
         "left": 324,
-        "top": 368,
+        "top": 428,
         "right": 747,
         "bottom": 522
       },
@@ -134,7 +134,7 @@
         "text": "Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and it leaves in a rush and the house is lost.",
         "box": {
           "left": 380,
-          "top": 416,
+          "top": 435,
           "right": 956,
           "bottom": 510
         },
@@ -156,7 +156,7 @@
       "text": "On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.",
       "box": {
         "left": 681,
-        "top": 345,
+        "top": 349,
         "right": 1012,
         "bottom": 483
       },
@@ -176,7 +176,7 @@
         "text": "Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, and running risks their shots. No answer means you halt.",
         "box": {
           "left": 324,
-          "top": 299,
+          "top": 303,
           "right": 535,
           "bottom": 497
         },
@@ -198,9 +198,10 @@
         "order",
         "flight",
         "house",
-        "road",
+        "field",
         "rest",
         "route",
+        "road",
         "star",
         "alto"
       ],
@@ -210,9 +211,10 @@
       "ids": [
         "alto",
         "star",
+        "road",
         "route",
         "rest",
-        "road",
+        "field",
         "house",
         "flight",
         "order",
@@ -221,9 +223,10 @@
       "words": [
         "Soldiers shout “¡Alto!”, which means “Halt!”. Press the “!” and answer fast: halting loses the wagon and goods, and running risks their shots. No answer means you halt.",
         "The ★ is your main person: the family’s big choices, like leaving, come to them. Tap ☆ on another row to change who. A “!” means someone needs an answer.",
+        "The road is asking your family something. Press the “!” to answer - each answer says what it costs. No answer in time, and nothing is done.",
         "On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.",
         "“Stop and rest a day”: the sick mend twice as fast, but the family makes no miles and the Mexican army keeps coming.",
-        "The road is asking your family something. Press the “!” to answer - each answer says what it costs. No answer in time, and nothing is done.",
+        "To farm, clear ground and set someone to “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.",
         "Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.",
         "Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and it leaves in a rush and the house is lost.",
         "Tap one of your family on the left, then tap a job along the bottom to set them to it. “Idle” means they have nothing to do.",

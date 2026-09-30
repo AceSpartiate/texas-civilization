@@ -3351,6 +3351,7 @@ function drawWorldNow(world) {
   drawnCamera = { cx: camera.cx, cy: camera.cy, scale: camera.scale, width: canvas.width, height: canvas.height };
   mapDrawWanted = false; lastMapDraw = performance.now(); gesturePicture = null;
   window.__camera = { kind: camera.kind, scale: camera.scale, named: camera.named, cx: camera.cx, cy: camera.cy, following: camera.following, watching: camera.watching ?? null, figure: camera.figure, house: camera.house };
+  foldSiteChooser(world, camera, canvas);
   // The ground is drawn again only when something it is drawn from changed (`groundInputs`, public/map-base.js): not for a
   // snapshot in which only people moved, nor for a click that renders one. The pick being made on the land is drawn into it.
   const pick = surveyLooking() && plotPick ? JSON.stringify([plotJob, plotPick.point, plotPick.facts?.can ?? null, plotPick.facts?.plotId ?? null]) : null;
@@ -5335,7 +5336,12 @@ function fitColumn() {
   if (document.body.style.getPropertyValue('--right-foot') !== rightFoot) document.body.style.setProperty('--right-foot', rightFoot);
   const box = panel.getBoundingClientRect();
   const tools = $('#map-tools')?.getBoundingClientRect();
-  const room = columnRoom({ height: stage.bottom, column: { left: box.left, right: box.right }, bar, others: tools ? [tools] : [] });
+  // On a phone the tip over the map stands the screen's width, just above the bar (`placeTip`: it is kept clear of the column
+  // only where the column is beside the map), so there the column stops above it while it stands - it covered the column's
+  // last 90 px, and the youngest of a large family could not be scrolled out from under it (the family-twenty proof,
+  // 2026-09-30). Elsewhere the tip stands to the right of the column and `columnRoom` passes it by.
+  const tip = phone && $('#tip') && !$('#tip').hidden ? $('#tip').getBoundingClientRect() : null;
+  const room = columnRoom({ height: stage.bottom, column: { left: box.left, right: box.right }, bar, others: [tools, tip].filter(Boolean) });
   const roomText = `${room}px`;
   if (phone) {
     document.body.style.removeProperty('--column-room');
@@ -6079,11 +6085,18 @@ function renderSelection(world) {
   // them, or a trade with them. Choosing a person - portrait, star, map, roster - with none of those opens nothing: how they are
   // is on their row, a neighbour's homestead is the Neighbours list (the bar's *Go to a neighbour's homestead* opens it).
   // The Host's read-only look at anybody in the class is kept as it was.
-  if (!hostView(world) && !selectionMatter()) { panel.hidden = true; delete panel.dataset.entityId; releaseCrowding(); return; }
+  if (!hostView(world) && !selectionMatter(world)) { panel.hidden = true; delete panel.dataset.entityId; releaseCrowding(); return; }
   positionSelection(world, chosen);
 }
-/** Whether the card has anything but its name on it: a section with something in it, or a rider waiting (see renderSelection). */
-function selectionMatter() {
+/**
+ * Whether the card has anything but its name on it: a section with something in it, or a rider waiting (see renderSelection).
+ * Never on a page watching another family (sim/watching.mjs): the stylesheet takes every section of the card off that page
+ * (`body[data-watching=true]`), so a section with words in it - the watched family's flight, sent to show where it goes - left
+ * a card with a name and a close button and nothing else (the watching proof, 2026-09-30, once the early-leaving card of
+ * 2026-09-29 put a question on a neighbour family that had heard the Alamo had fallen).
+ */
+function selectionMatter(world) {
+  if (world?.watching) return false;
   const filled = selector => { const one = $(selector); return Boolean(one && !one.hidden && one.childElementCount); };
   return ['#selection-call', '#selection-flight', '#selection-nurse', '#selection-army', '#selection-work', '#selection-trade'].some(filled) || !$('#listen-rider')?.hidden;
 }
@@ -6949,6 +6962,22 @@ function renderSite(world) {
   if (choosing.can) renderSuggested($('#site-suggested'), 'site', `site:${window.__snapshot?.sessionId}:${window.__snapshot?.mapRevision || 0}`, sitePick?.point, lookAtSite);
   else $('#site-suggested').hidden = true;
 }
+/**
+ * The house site's chooser folded while the family's land is off the screen, and open again once it is back (the gonzales-town
+ * proof, 2026-09-30). It opens by itself as the wagon comes in, wherever the student is looking; since the suggested places
+ * (triage 2.13) it stood 340 px tall beside the family's faces, and a student watching Gonzales could not click the cannon's men
+ * under it. Measured on every frame drawn, from the wagon's mark the server sends: the camera moves between snapshots.
+ * ceiling: the land counts as on the screen when its mark is; a land whose edge alone is in view folds the chooser.
+ */
+function foldSiteChooser(world, camera, canvas) {
+  const panel = $('#site-choose');
+  if (!panel || panel.hidden) return;
+  const mark = world.land?.choosingSite?.mark;
+  const at = mark && camera.toScreen(mark);
+  const away = String(Boolean(at) && (at.x < 0 || at.y < 0 || at.x > canvas.width || at.y > canvas.height));
+  if (panel.dataset.away !== away) panel.dataset.away = away;
+}
+$('#site-go')?.addEventListener('click', () => $('#map-nav [data-view=home]')?.click());
 $('#site-build')?.addEventListener('click', async () => {
   if (!sitePick?.facts?.can || siteSetPending) return;
   siteSetPending = true; $('#site-note').textContent = '';
@@ -7457,7 +7486,16 @@ function renderReadAloud() {
 }
 /** The popups a tip over the map is placed clear of, or waits behind (the errand is held in public/tips.js `tipToShow`). */
 const TIP_HELD_BY = ['#house-plan', '#house-plot', '#going', '#wagon-load', '#site-choose', '#survey-choose'];
-function renderTip(world, { hidden = false } = {}) {
+function renderTip(world, options = {}) {
+  const panel = $('#tip');
+  const was = panel?.hidden;
+  try { placeTipFor(world, options); } finally {
+    // The phone's column stops above a standing tip (`fitColumn`): fitted again whenever the tip comes or goes, which happens
+    // between snapshots too (the page's own look for a tip).
+    if (panel && panel.hidden !== was) queueColumnFit();
+  }
+}
+function placeTipFor(world, { hidden = false } = {}) {
   const panel = $('#tip'), inline = $('#errand-tip');
   if (!panel) return;
   if ((world?.householdId || null) !== tipFamily) { tipFamily = world?.householdId || null; tipShowing = null; tipPutAway = new Set(); }

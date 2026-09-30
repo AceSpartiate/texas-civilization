@@ -9,7 +9,7 @@
 //      the mother, and her "run" is taken - the family is not caught by a question nobody could answer.
 //   2. **A family of children.** Everybody of ten or more taken: the "!" is on the nine-year-old, the oldest, whose card says he
 //      answers for the family; he gives the order to leave, and on the road he answers "¡Alto!".
-//   3. **Very sick.** A girl of twelve very sick at home: her "!" opens her card at who can nurse her, and pressing one sends them
+//   3. **Very sick.** A girl of thirteen (twelve at the October start; birthdays count since 2026-09-29) very sick at home: her "!" opens her card at who can nurse her, and pressing one sends them
 //      to it (design audit S34) - not at her own work, all of which is refused to somebody too sick to get up.
 //
 // Nothing on the page scrolls sideways and no page error is thrown. Same computer only: headless Chrome. Run: npm run test:acting
@@ -41,6 +41,10 @@ const serve = (world, man) => {
   const siteId = houstonCamp(world), site = world.map.sites[siteId];
   Object.assign(man, { travel: null, chore: null, task: 'rest', service: { kind: 'houston', status: 'serving', since: world.minute, siteId }, location: { x: site.x, y: site.y, siteId } });
 };
+
+// The girl who falls very sick: dealt at twelve in October, thirteen by the spring now that birthdays count (owner, 2026-09-29).
+// Either age finds her (the family's only child of twelve or thirteen), so her birthday passing does not lose her.
+const isTheGirl = one => one.age === 12 || one.age === 13;
 
 // The class's own world as the server holds it: the scenes below are put into it between two ticks, as the tests put them.
 let live = null;
@@ -199,12 +203,12 @@ try {
   await run({
     tag: 'nurse',
     prepare: (world, household) => {
-      const sick = household.members.map(id => world.entities[id]).find(one => one.age === 12);
+      const sick = household.members.map(id => world.entities[id]).find(isTheGirl);
       sick.health = { condition: 'sick', disease: 'measles', recoversAt: world.minute + 7 * 1440, grave: true, graveDay: Math.floor(world.minute / 1440) };
     },
     prove: async ({ app, student, world, household, shot, noSideways }) => {
       app.setPace(8000);
-      const sick = household().members.map(id => world().entities[id]).find(one => one.age === 12);
+      const sick = household().members.map(id => world().entities[id]).find(isTheGirl);
       await until(student, 'no "!" on the very sick girl\'s row', id => { const mark = document.querySelector(`[data-attention="${id}"]`); return mark && !mark.hidden; }, sick.id, { timeout: 30000 });
       await student.locator(`[data-attention="${sick.id}"]`).click({ force: true });
       await student.locator('#selection-nurse [data-chore]').first().waitFor({ state: 'visible', timeout: 10000 });

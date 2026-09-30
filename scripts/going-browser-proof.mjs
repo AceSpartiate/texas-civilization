@@ -63,7 +63,15 @@ const measure = page => page.evaluate(() => {
     const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
     return !(hit && (hit === button || button.contains(hit)));
   }).map(button => button.id || button.dataset.way || button.textContent);
-  return { screen: { w: innerWidth, h: innerHeight }, going, fits: Boolean(going) && going.x >= 0 && going.y >= 0 && going.r <= innerWidth && going.b <= innerHeight, overColumn: overlap(column), bar, covered };
+  // Every row inside the column it is drawn in, and every name given room to be read (the going proof, 2026-09-30: after the 12 px
+  // type a row with Idle, House, Auto and the star ran 11 px past the column, which cut the star and squeezed the name to nothing).
+  const panel = document.querySelector('#family-panel').getBoundingClientRect();
+  const rows = [...document.querySelectorAll('#family-rows .panel-row')].map(row => {
+    const r = row.getBoundingClientRect(), name = row.querySelector('.panel-name')?.getBoundingClientRect();
+    return { id: row.dataset.entityId, right: Math.round(r.right), name: name ? Math.round(name.width) : null };
+  });
+  const rowsOut = rows.filter(row => row.right > panel.right + 1 || (row.name !== null && row.name < 48));
+  return { screen: { w: innerWidth, h: innerHeight }, going, fits: Boolean(going) && going.x >= 0 && going.y >= 0 && going.r <= innerWidth && going.b <= innerHeight, overColumn: overlap(column), bar, covered, panelRight: Math.round(panel.right), rowsOut };
 });
 const press = async (page, id, key) => {
   const icon = page.locator(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="${key}"]`);
@@ -164,12 +172,14 @@ try {
   const shut1366 = await measure(page);
   observed.taken1366 = shut1366;
   assert.ok(shut1366.fits && !shut1366.covered.length && shut1366.overColumn === 0, `at 1366x768 the chooser does not fit or is covered: ${JSON.stringify(shut1366)}`);
+  assert.deepEqual(shut1366.rowsOut, [], `at 1366x768 a row of the family runs past its column or has no room for the name (column ends at ${shut1366.panelRight} px)`);
   await page.setViewportSize({ width: 1024, height: 768 });
   await page.waitForTimeout(400);
   await page.screenshot({ path: join(SHOTS, 'going-taken-1024.png') });
   const narrow = await measure(page);
   observed.taken1024 = narrow;
   assert.ok(narrow.fits && !narrow.covered.length && narrow.overColumn === 0, `at 1024x768 the chooser does not fit or is covered: ${JSON.stringify(narrow)}`);
+  assert.deepEqual(narrow.rowsOut, [], `at 1024x768 a row of the family runs past its column or has no room for the name (column ends at ${narrow.panelRight} px)`);
   await page.setViewportSize({ width: 1366, height: 768 });
   await page.locator('#going [data-way="foot"]').focus();
   await page.keyboard.press('Escape');

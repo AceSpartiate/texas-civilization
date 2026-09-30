@@ -1,5 +1,40 @@
 # Claude handoff — Astra foundation
 
+## Red proofs on the release candidate: nine proofs, four page bugs fixed — 2026-09-30 (not released)
+
+Branch `proofs-page` off local `integration-2026-09-28` (e67e0f15); not pushed, nothing published. Nine browser proofs failed on
+the release candidate (integration at bccea07c). Each was run here, its cause found and bisected against earlier integration
+commits and `v2026.09.29.3` (exported trees with `git archive`, same proof, same Chrome), and the game fixed where it was wrong.
+Same computer only: headless Chrome; no Chromebook, phone, LAN or classroom claim. Runs are `npm run test:<name>` with the
+workstation Playwright and Chrome.
+
+| Proof | Verdict | Cause | Offending commit | Fix | Runs green |
+|---|---|---|---|---|---|
+| `going` | **Game wrong** | A family row with *Idle*, *House*, *Auto* and the star was 11 px wider than the 19rem column at **every** size since the 12 px type: the column cut the star in half and squeezed the name to nothing (Prudence's row read *Daughter IDLE House AUTO*), and at 1024x768 the travel chooser stood over the row's end | 7a4b9127 (Tier 2, 12 px type); passes at its parent 80842f72 | `.panel-tools` wrap inside the row, the name keeps 4.5rem (public/style.css). The proof now also holds every row inside the column with room for its name at 1366 and 1024 | 2 (+ 1 with the injection red at 1366: `hh-1-rosa`, name 12 px) |
+| `gonzales-town` | **Game wrong** (flaky in the proof, certain on the page) | The house site chooser opens by itself as the wagon comes in, wherever the student looks; with the suggested places it stood 384x344 beside the faces over the middle of the map, and the cannon's men were under it whenever the town drew them there (3 of 5 click points hit `#site-suggested`) | cb7193f9 (suggested places); passed at its parent 80842f72, failed at cb7193f9 and at e67e0f15 (2 of 3) | While the family's land is off the screen the chooser folds to its title and **Go to your land** (`foldSiteChooser`, public/app.js; 384x118); back on the land it opens with its words and places. The proof now measures the fold where the click is and presses the way back; a failed click names what it hit | 2 (+ injection: fold removed, fails at once "stands open over the town", 384x344) |
+| `watching` | **Game wrong** | A watching student's portrait press opened an empty card (name and ×; on a class with voices a read-aloud button too): the early-leaving card sends the watched family's flight question, which the stylesheet hides on a watching page but `selectionMatter` still counted | 9e41f278 (Scrape's own choices, `world.early`) | `selectionMatter(world)` is false on a watching page (public/app.js) | 2 (base red on the same check) |
+| `family-twenty` | **Not reproduced; a real phone bug found beside it** | The release candidate's "onTop:false" was not seen again in 6 runs (2 beside other proofs, 1 at bccea07c). Looking for it: the tip over the map takes no clicks, so `elementFromPoint` looked through it, and on a 400x800 phone it stood over the column's last 90 px - the youngest of twenty, scrolled as far as the column goes, was under it (face 594-638, tip from 548) | the phone tip has stood full-width since the tips; the proof's blind spot since its gate (2026-09-27) | On a phone the column stops above a standing tip (`fitColumn`, refitted when the tip comes or goes; public/app.js). The proof counts the tip as covering, and names whatever covers the child | 2 (before the fix the strengthened proof failed: `over: tip`) |
+| `trade-animation` | Proof stale | It chose one of the family's own people from the roster and waited for his card; since the owner's "the card opens only for a matter" nothing opens for him | c0e4b11a (released in v2026.09.29.2; red at v2026.09.29.3 too, green at 8695499f) | Now asserts the card does **not** open for him, then uses the family panel as before | 2 |
+| `host-bell` | Proof stale | End Game now begins the end sequence (the class video first); the table is sent to no page before the reveal, so the wait for `ending.host` timed out | 7c3e22df (end sequence); green at c03faa58 | Waits for the ended class at the `class` stage and the finale, reaches Classes through the finale's **Controls**; after Continue also checks the finale and the end sequence are gone | 2 |
+| `ending-spring` | Proof stale (three changes) | "The last list in #ending" is now the flashback's words (15cb6aa9 puts the videos after the numbers at the reveal); supplies count flat (0fd7995e, owner "Flat"); household goods brought home count once (8cfff2e0) | 15cb6aa9, 0fd7995e, 8cfff2e0 | The questions read from the "For the class" section; every award line must equal the server's `worth` in order, and each still a sum or one of the owner's three named lines | 2 |
+| `acting` | Proof stale | It looked for "the girl of twelve"; birthdays now count, and Loreta (born December 1822) is thirteen by the spring | 54b23d2a / 220e1a27 (owner's birthdays) | Finds the family's one child of twelve or thirteen | 2 |
+| `movement` | Proof stale (not load: red alone, and at v2026.09.29.3) | Since the owner's "each at their own pace on the land", a walk the class carries faster than the figure's gait fades off the family's land; zoomed out (figure at its 7 px floor) the walker was gone after one whole tick at the 2000 ms tick | 7ca3bdea (bisected: green at its parent ed4147b4) | The wide run at the Study pace (9500 ms), where the whole walk is drawn where the server has it: four ticks measured, each longer (the harder case for a burst) | 2 |
+
+Also run after the layout changes: `test:overlap` (3 times green), `test:family-panel` (2), `test:panels`, `test:lone-parent`,
+`test:children`, `test:tips`. `scripts/design-blockers-injections.mjs`'s two anchors on `selectionMatter` follow its new signature
+(not run). docs/FAMILY_PANEL.md has an amendment for the row and the chooser. `npm test`: **1966 tests, 1930 pass, 0 fail, 36
+skipped** (the suspended tutorial), before and again after the phone tip fix; `node scripts/check-doc-links.mjs` 1440 links.
+
+**Owner questions.**
+
+1. A row with Idle, House, Auto and the star is now two lines. **(a) Keep it (recommended)**; (b) drop the *Idle* word on the row
+   where the portrait already carries the idle mark, so the row is one line again; (c) widen the column from 19rem to 20rem at the
+   cost of 16 px of map.
+2. The house site chooser folded over another place. **(a) Fold to its title and "Go to your land" (as built, recommended)**;
+   (b) hide it entirely until the land is on the screen; (c) leave it open everywhere and move the suggested places under a button.
+3. On a phone, while a tip stands, the family column is shorter. **(a) Keep it (recommended)**; (b) put the tip beside the column
+   on a phone too, narrower and taller.
+
 ## Five red release-candidate proofs: all stale, none a leak — 2026-09-30 (not released)
 
 Branch `proofs-world` off local `integration-2026-09-28` (e67e0f15); not pushed. The release candidate (bccea07c) failed

@@ -1,6 +1,6 @@
 {
   "proof": "npm run test:lone-parent",
-  "when": "2026-09-30T11:38:50.726Z",
+  "when": "2026-09-30T23:15:42.733Z",
   "pass": [
     "on the land, before the house site is chosen: the ability is there, says to choose the site first, and cannot be pressed",
     "on the land the ability waits, glowing (card-glow), with the land marked on the map, standing on nothing: \"Take the children to the farms nearby and ask the neighbours to help Serafina raise a house.\"",
@@ -10,7 +10,7 @@
     "the four scenes in order, 26 presses of Continue, 6 fades to and from black, every figure and building drawn",
     "home: 4 people, two parents on the panel, a round-log house standing, and the ability gone",
     "the family took his name - the page reads \"The Whitlow family\" - and Amos, the new husband, is its main person and principal",
-    "fades to black take 1117, 1117 ms; with less motion asked for, 291 ms - shorter, never a cut",
+    "fades to black take 1115, 1118 ms; with less motion asked for, 297 ms - shorter, never a cut",
     "no page errors on the student's, the other student's or the Host's page"
   ],
   "observed": {
@@ -38,7 +38,7 @@
       "glow": "card-glow",
       "shadow": "rgb(255, 243, 207) 0px 0px 0px 1px inset, rgba(194, 88, 44, ",
       "marker": {
-        "x": 694,
+        "x": 693,
         "y": 335,
         "r": 12
       },
@@ -46,9 +46,9 @@
     },
     "cardBox": {
       "left": 16,
-      "top": 200.625,
+      "top": 207.78125,
       "right": 312,
-      "bottom": 303.46875
+      "bottom": 310.625
     },
     "between": {
       "mode": "between",
@@ -56,8 +56,8 @@
       "between": "Serafina and the children walk to the nearest farm."
     },
     "fades": [
-      0.35,
-      0.64
+      0.44,
+      0.58
     ],
     "reload": {
       "scene": "second",
@@ -161,7 +161,7 @@
           },
           {
             "step": 1,
-            "who": "Serafina Whitlow",
+            "who": "Serafina Hollister",
             "said": "Then you know why we've come. I'm asking for a day's help with a house."
           },
           {
@@ -176,7 +176,7 @@
           },
           {
             "step": 4,
-            "who": "Serafina Whitlow",
+            "who": "Serafina Hollister",
             "said": "Then I hope she's right about you."
           },
           {
@@ -253,12 +253,12 @@
       },
       {
         "id": "wedding",
-        "where": "Your own land · Night",
+        "where": "Your own land · Morning",
         "lines": [
           {
             "step": 0,
             "who": "",
-            "said": "By night a cabin stands where you camped."
+            "said": "By mid-morning a cabin stands where you camped."
           },
           {
             "step": 1,
@@ -272,7 +272,7 @@
           },
           {
             "step": 3,
-            "who": "Serafina Whitlow",
+            "who": "Serafina Hollister",
             "said": "I will."
           },
           {
@@ -287,7 +287,7 @@
           },
           {
             "step": 6,
-            "who": "Serafina Whitlow",
+            "who": "Serafina Hollister",
             "said": "I take you, Amos, to be my husband, and I will keep faith with you alone."
           },
           {
@@ -388,7 +388,7 @@
             "drawn": true
           }
         ],
-        "backdrop": "courtship-yard-evening",
+        "backdrop": "courtship-yard-morning",
         "buildings": [
           "house-round-log",
           "home-table"
@@ -459,7 +459,7 @@
             "drawn": true
           }
         ],
-        "backdrop": "courtship-yard-evening",
+        "backdrop": "courtship-yard-morning",
         "buildings": [
           "house-round-log"
         ],
@@ -500,11 +500,11 @@
     },
     "fadeMs": {
       "full": [
-        1117,
-        1117
+        1115,
+        1118
       ],
       "reduced": [
-        291
+        297
       ]
     }
   },

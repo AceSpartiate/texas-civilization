@@ -178,14 +178,16 @@
         "x": 433,
         "y": 56,
         "w": 500,
-        "h": 261,
+        "h": 296,
         "r": 933,
-        "b": 317
+        "b": 352
       },
       "fits": true,
       "overColumn": 0,
       "bar": null,
-      "covered": []
+      "covered": [],
+      "panelRight": 316,
+      "rowsOut": []
     },
     "ridden": {
       "seat": "horse",
@@ -283,7 +285,9 @@
       "fits": true,
       "overColumn": 0,
       "bar": null,
-      "covered": []
+      "covered": [],
+      "panelRight": 316,
+      "rowsOut": []
     },
     "taken1024": {
       "screen": {
@@ -301,7 +305,9 @@
       "fits": true,
       "overColumn": 0,
       "bar": null,
-      "covered": []
+      "covered": [],
+      "panelRight": 316,
+      "rowsOut": []
     },
     "oneWayPiece": "benches",
     "oneWay": {

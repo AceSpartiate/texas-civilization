@@ -644,6 +644,13 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #site-choose p{margin:6px 0 0;font-size:14px;line-height:1.45}
 #site-note:empty{display:none}
 #site-build{margin-top:9px}
+/* While the family's land is off the screen - the student is watching Gonzales, say - the chooser folds to its title and a way
+   back (public/app.js `foldSiteChooser`): at full size, with its suggested places, it stood 340 px tall over the middle of the
+   map and took the clicks meant for the town (the gonzales-town proof, 2026-09-30). Its words and places come back with the land. */
+#site-choose[data-away=true]{width:auto;max-width:min(24rem,calc(100% - 24px))}
+#site-choose[data-away=true]>:not(header):not(#site-away){display:none!important}
+#site-choose:not([data-away=true]) #site-away{display:none}
+#site-away button{margin-left:4px;min-height:32px;padding:3px 10px;font-size:13px}
 @media (max-width:760px){#site-choose{left:8px;right:8px;width:auto;top:56px}}
 @media (max-width:760px){#house-plan{left:8px;right:8px;width:auto;top:56px}}
 /* The house plot (public/house-plot.js). */
@@ -879,7 +886,11 @@ body[data-finale-controls="open"] #hud-right{z-index:61;pointer-events:auto;back
 .panel-idle-mark[data-drawn=true]{padding:0;background:transparent;width:24px;height:24px;right:-2px;bottom:-1px;filter:drop-shadow(0 0 2px #29251b)}
 .panel-row[data-idle=true] .panel-idle-mark{display:block}
 .panel-row[data-idle=true] .panel-portrait canvas{filter:saturate(.45) brightness(.92)}
-.panel-tools{grid-row:1;grid-column:3;display:flex;align-items:center;gap:4px;justify-self:end}
+/* The row's tools wrap onto a second line rather than push the row wider than the column (the going proof, 2026-09-30): since
+   the 12 px type of 2026-09-29 (triage 2.12) a row with Idle, House, Auto and the star was 11 px wider than the 19rem column at
+   every screen size, so the column cut the star in half, the name was squeezed to nothing, and at 1024x768 the travel chooser
+   stood over the row's end. The name keeps room for itself (`.panel-body`'s middle column), and the tools take what is left. */
+.panel-tools{grid-row:1;grid-column:3;display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:3px 4px;justify-self:end;min-width:0}
 .panel-idle{font:600 12px/1 system-ui;letter-spacing:.06em;text-transform:uppercase;color:#3b3427;background:#e8c46a;border-radius:9px;padding:3px 6px}
 .panel-house,.panel-focus{min-height:0;height:24px;padding:0 7px;border-radius:5px;border:1px solid #b09a6d;background:#f3ead2;color:#3b3427;font:600 12px/1 system-ui;box-shadow:none}
 .panel-focus{width:26px;padding:0;font-size:15px;color:#8f825b}
@@ -933,7 +944,7 @@ body[data-finale-controls="open"] #hud-right{z-index:61;pointer-events:auto;back
    multiple choice: "Show a short word"; docs/CHILDREN.md §9): "napping", "crawling", "crying", "held". The sentence is its title. */
 .panel-life-word{display:none;font:600 12px/1 system-ui;letter-spacing:.04em;color:#cfd9e3;background:#33404dcc;border:1px solid #6b7c8c;border-radius:9px;padding:2px 6px;white-space:nowrap}
 #family-panel[data-tight=true] .panel-row:not([data-focused=true]) .panel-life-word:not([hidden]){display:inline-block}
-.panel-body{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;column-gap:5px;min-width:0;margin-left:-3px;padding:2px 6px 3px 8px;background:var(--shade);border:1px solid #8f825b;border-left:none;border-radius:0 6px 6px 0}
+.panel-body{display:grid;grid-template-columns:auto minmax(4.5rem,1fr) auto;grid-template-rows:auto auto;align-items:center;column-gap:5px;min-width:0;margin-left:-3px;padding:2px 6px 3px 8px;background:var(--shade);border:1px solid #8f825b;border-left:none;border-radius:0 6px 6px 0}
 .panel-label{grid-row:1;grid-column:1;font-size:12px;letter-spacing:.02em;text-transform:capitalize;color:#d8c9a2;white-space:nowrap}
 .panel-standing{grid-row:2;grid-column:1 / -1;font:italic 12px/1.2 Georgia,serif;color:#cdbb92;padding:0 1px}
 /* Why this person can do nothing at all (docs/FAMILY_PANEL.md §14, owner 2026-09-21): the server's own sentence, once,

@@ -1,14 +1,14 @@
 {
   "record": "acting-browser",
-  "date": "2026-09-28",
+  "date": "2026-09-30",
   "environment": "Same computer: a local classroom server and headless Chrome at 1366x768.",
   "pass": [
     "serving: Gregorio Proofwright is with Houston's army; the order to leave is a \"!\" on Bernarda Proofwright's row, and opens her card",
     "serving: Bernarda Proofwright gave the order and the family left; Gregorio Proofwright stayed with the army",
     "serving: \"¡Alto!\" was on Bernarda Proofwright's card with Gregorio Proofwright on auto in the camp, and she answered \"run\" - no lapse, no capture unasked",
-    "children: everybody of ten or more taken, the order is a \"!\" on Jasper Proofwright, 9, whose card says the oldest answers for the family",
-    "children: Jasper Proofwright gave the order to leave, and the children set out",
-    "children: \"¡Alto!\" was on Jasper Proofwright's card, and his \"halt\" was taken",
+    "children: everybody of ten or more taken, the order is a \"!\" on Orpha Proofwright, 7, whose card says the oldest answers for the family",
+    "children: Orpha Proofwright gave the order to leave, and the children set out",
+    "children: \"¡Alto!\" was on Orpha Proofwright's card, and his \"halt\" was taken",
     "nurse: Loreta Proofwright's \"!\" opened a card offering nursing; Gregorio Proofwright was sent to nurse her (nurse-home)"
   ],
   "observed": {

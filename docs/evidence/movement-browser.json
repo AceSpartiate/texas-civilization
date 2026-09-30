@@ -1,8 +1,9 @@
 {
   "record": "movement-browser",
-  "date": "2026-09-27",
+  "date": "2026-09-30",
   "ownerDirection": "\"It still looks too fast. I don't want to change the rate at which players actually cover ground. Could we change the animation so it appears slower, without actually changing how much ground is covered?\"",
   "tickMs": 2000,
+  "wideTickMs": 9500,
   "readThis": "firstQuarterShare is the share of a tick's drawn walk painted in its first quarter (an even walk is about 0.25); stillFromShare is how far through the tick the figure last moved (1 is all the way); bodiesPerSecond scales with the tick, so at the Study pace of 9500ms divide by 4.75.",
   "beforeThisChange": {
     "commit": "ee0beef, same script, same machine, PROOF_OBSERVE_ONLY=1",
@@ -14,61 +15,61 @@
     "quietClose": [
       {
         "tick": 1,
-        "spanMs": 947,
+        "spanMs": 933,
         "screenPx": 6.5,
         "firstQuarterShare": 0.19,
         "largestStepPx": 0.6,
         "jumpRatio": 1.1,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 1,
+        "clip": "rust-walk",
+        "revisions": 1
+      },
+      {
+        "tick": 2,
+        "spanMs": 2027,
+        "screenPx": 14.1,
+        "firstQuarterShare": 0.22,
+        "largestStepPx": 0.6,
+        "jumpRatio": 1,
         "stillFromShare": 1,
         "bodiesPerSecond": 0.99,
         "clip": "rust-walk",
         "revisions": 1
       },
       {
-        "tick": 2,
-        "spanMs": 2014,
+        "tick": 3,
+        "spanMs": 2011,
+        "screenPx": 14.1,
+        "firstQuarterShare": 0.22,
+        "largestStepPx": 0.6,
+        "jumpRatio": 1,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 1,
+        "clip": "rust-walk",
+        "revisions": 1
+      },
+      {
+        "tick": 4,
+        "spanMs": 2007,
+        "screenPx": 14.1,
+        "firstQuarterShare": 0.25,
+        "largestStepPx": 0.6,
+        "jumpRatio": 1.1,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 1,
+        "clip": "teal-walk",
+        "revisions": 1
+      },
+      {
+        "tick": 5,
+        "spanMs": 2003,
         "screenPx": 14.1,
         "firstQuarterShare": 0.23,
         "largestStepPx": 0.7,
         "jumpRatio": 1.1,
         "stillFromShare": 1,
         "bodiesPerSecond": 1,
-        "clip": "rust-walk",
-        "revisions": 1
-      },
-      {
-        "tick": 3,
-        "spanMs": 1989,
-        "screenPx": 14.1,
-        "firstQuarterShare": 0.22,
-        "largestStepPx": 0.6,
-        "jumpRatio": 1,
-        "stillFromShare": 1,
-        "bodiesPerSecond": 1.01,
-        "clip": "rust-walk",
-        "revisions": 1
-      },
-      {
-        "tick": 4,
-        "spanMs": 2017,
-        "screenPx": 14.1,
-        "firstQuarterShare": 0.22,
-        "largestStepPx": 0.6,
-        "jumpRatio": 1.1,
-        "stillFromShare": 1,
-        "bodiesPerSecond": 1,
-        "clip": "rust-walk",
-        "revisions": 1
-      },
-      {
-        "tick": 5,
-        "spanMs": 1989,
-        "screenPx": 14.1,
-        "firstQuarterShare": 0.22,
-        "largestStepPx": 0.6,
-        "jumpRatio": 1,
-        "stillFromShare": 1,
-        "bodiesPerSecond": 1.01,
         "clip": "rust-walk",
         "revisions": 1
       }
@@ -76,34 +77,34 @@
     "busyClose": [
       {
         "tick": 1,
-        "spanMs": 941,
-        "screenPx": 6.4,
+        "spanMs": 947,
+        "screenPx": 6.5,
         "firstQuarterShare": 0.19,
-        "largestStepPx": 0.6,
-        "jumpRatio": 1.1,
+        "largestStepPx": 0.7,
+        "jumpRatio": 1.2,
         "stillFromShare": 1,
-        "bodiesPerSecond": 0.98,
+        "bodiesPerSecond": 0.99,
         "clip": "rust-walk",
         "revisions": 2
       },
       {
         "tick": 2,
-        "spanMs": 2011,
+        "spanMs": 1997,
         "screenPx": 14.1,
         "firstQuarterShare": 0.22,
         "largestStepPx": 0.6,
         "jumpRatio": 1.1,
         "stillFromShare": 1,
-        "bodiesPerSecond": 1,
+        "bodiesPerSecond": 1.01,
         "clip": "rust-walk",
         "revisions": 2
       },
       {
         "tick": 3,
-        "spanMs": 2006,
+        "spanMs": 2015,
         "screenPx": 14.1,
         "firstQuarterShare": 0.22,
-        "largestStepPx": 0.6,
+        "largestStepPx": 0.7,
         "jumpRatio": 1.1,
         "stillFromShare": 1,
         "bodiesPerSecond": 1,
@@ -112,23 +113,23 @@
       },
       {
         "tick": 4,
-        "spanMs": 2009,
+        "spanMs": 2015,
         "screenPx": 14.1,
-        "firstQuarterShare": 0.23,
+        "firstQuarterShare": 0.25,
         "largestStepPx": 0.7,
         "jumpRatio": 1.2,
         "stillFromShare": 1,
         "bodiesPerSecond": 1,
-        "clip": "rust-walk",
+        "clip": "teal-walk",
         "revisions": 2
       },
       {
         "tick": 5,
-        "spanMs": 2011,
+        "spanMs": 2000,
         "screenPx": 14.1,
         "firstQuarterShare": 0.23,
         "largestStepPx": 0.7,
-        "jumpRatio": 1.1,
+        "jumpRatio": 1.2,
         "stillFromShare": 1,
         "bodiesPerSecond": 1,
         "clip": "rust-walk",
@@ -138,35 +139,59 @@
     "busyWide": [
       {
         "tick": 1,
-        "spanMs": 1260,
-        "screenPx": 8.7,
-        "firstQuarterShare": 0.21,
-        "largestStepPx": 0.6,
-        "jumpRatio": 1,
-        "stillFromShare": 0.99,
-        "bodiesPerSecond": 0.99,
+        "spanMs": 8761,
+        "screenPx": 57.6,
+        "firstQuarterShare": 0.24,
+        "largestStepPx": 0.7,
+        "jumpRatio": 1.1,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 0.94,
         "clip": "rust-walk",
         "revisions": 2
       },
       {
         "tick": 2,
-        "spanMs": 2011,
-        "screenPx": 14.1,
-        "firstQuarterShare": 0.22,
+        "spanMs": 9510,
+        "screenPx": 62.5,
+        "firstQuarterShare": 0.24,
+        "largestStepPx": 0.6,
+        "jumpRatio": 1.1,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 0.94,
+        "clip": "rust-walk",
+        "revisions": 2
+      },
+      {
+        "tick": 3,
+        "spanMs": 9516,
+        "screenPx": 62.5,
+        "firstQuarterShare": 0.24,
         "largestStepPx": 0.7,
         "jumpRatio": 1.1,
         "stillFromShare": 1,
-        "bodiesPerSecond": 1,
+        "bodiesPerSecond": 0.94,
         "clip": "rust-walk",
+        "revisions": 2
+      },
+      {
+        "tick": 4,
+        "spanMs": 9503,
+        "screenPx": 62.5,
+        "firstQuarterShare": 0.25,
+        "largestStepPx": 0.6,
+        "jumpRatio": 1,
+        "stillFromShare": 1,
+        "bodiesPerSecond": 0.94,
+        "clip": "teal-walk",
         "revisions": 2
       }
     ]
   },
   "pass": [
     "the page raised no errors",
-    "quietClose: every tick's walk is spread across the tick, not drawn in a burst (0.19, 0.23, 0.22, 0.22, 0.22 in the first quarter)",
-    "busyClose: every tick's walk is spread across the tick, not drawn in a burst (0.19, 0.22, 0.22, 0.23, 0.23 in the first quarter)",
-    "busyWide: every tick's walk is spread across the tick, not drawn in a burst (0.21, 0.22 in the first quarter)",
+    "quietClose: every tick's walk is spread across the tick, not drawn in a burst (0.19, 0.22, 0.22, 0.25, 0.23 in the first quarter)",
+    "busyClose: every tick's walk is spread across the tick, not drawn in a burst (0.19, 0.22, 0.22, 0.25, 0.23 in the first quarter)",
+    "busyWide: every tick's walk is spread across the tick, not drawn in a burst (0.24, 0.24, 0.24, 0.25 in the first quarter)",
     "the busy run really did receive a second snapshot inside a tick"
   ],
   "notMeasuredHere": [
@@ -174,6 +199,6 @@
     "A compressed calendar (MAP=colonies, news phase). The fix is proved in tests/movement.test.mjs; before it every such tick was drawn as a jump."
   ],
   "limitations": [
-    "Same computer, headless Chrome at a 2000ms tick: frame timing is the headless browser's, and nothing here says anything about a classroom network or a projector."
+    "Same computer, headless Chrome at a 2000ms tick (the wide run at the Study pace, 9500 ms): frame timing is the headless browser's, and nothing here says anything about a classroom network or a projector."
   ]
 }

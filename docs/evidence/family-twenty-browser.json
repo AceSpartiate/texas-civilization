@@ -1,20 +1,20 @@
 {
   "record": "family-twenty-browser",
-  "date": "2026-09-27",
+  "date": "2026-09-30",
   "seed": "twenty-4",
   "environment": "Same computer: a local classroom server and headless Chrome. Not a physical LAN, a classroom, a Chromebook or a real phone.",
   "pass": [
     "the server rolls this family a 20",
     "the names card holds all 20 names and its Continue can be reached at 1366 by 768",
-    "at 1366 by 768 twenty rows scroll inside a 304 px panel that ends at 575 px, and the map is on top at 82% of the screen",
+    "at 1366 by 768 twenty rows scroll inside a 304 px panel that ends at 576 px, and the map is on top at 82% of the screen",
     "the youngest child, last of twenty, scrolls into view inside the panel and nothing covers them",
-    "with the class running at 1366 by 768, the panel ends at 470 px above the ability bar at 478 px, and the youngest child's portrait can be pressed",
+    "with the class running at 1366 by 768, the panel ends at 522 px above the ability bar at 530 px, and the youngest child's portrait can be pressed",
     "at 1366 by 768, the column tight, 1 baby’s row shows one short word beside the name (\"crawling\") and the sentence as its title",
-    "with the class running at 1440 by 950, the panel ends at 652 px above the ability bar at 660 px, and the youngest child's portrait can be pressed",
+    "with the class running at 1440 by 950, the panel ends at 704 px above the ability bar at 712 px, and the youngest child's portrait can be pressed",
     "at 1440 by 950, the column tight, 1 baby’s row shows one short word beside the name (\"crawling\") and the sentence as its title",
-    "with the class running at 1024 by 768, the panel ends at 470 px above the ability bar at 478 px, and the youngest child's portrait can be pressed",
+    "with the class running at 1024 by 768, the panel ends at 522 px above the ability bar at 530 px, and the youngest child's portrait can be pressed",
     "at 1024 by 768, the column tight, 1 baby’s row shows one short word beside the name (\"crawling\") and the sentence as its title",
-    "on a 400 by 800 phone all six hold: 20 rows; the panel ends at 645 of 800 px; the page itself does not scroll; the panel is on top at 20% of the screen (asked: under 30%); the map is on top at 48% below the guided start (asked: over 40%); the last child can be brought into view ({\"inside\":true,\"onTop\":true,\"scrollTop\":703,\"id\":\"hh-1-child-18\"})",
+    "on a 400 by 800 phone all six hold: 20 rows; the panel ends at 539 of 800 px; the page itself does not scroll; the panel is on top at 23% of the screen (asked: under 30%); the map is on top at 56% below the guided start (asked: over 40%); the last child can be brought into view ({\"inside\":true,\"onTop\":true,\"scrollTop\":664,\"id\":\"hh-1-child-18\",\"tip\":{\"id\":\"child\",\"top\":548}})",
     "no page error in either"
   ],
   "measured": {
@@ -29,16 +29,16 @@
       "rows": 20,
       "panel": {
         "left": 12,
-        "top": 247,
+        "top": 214,
         "width": 304,
-        "bottom": 575
+        "bottom": 576
       },
       "scrolls": true,
-      "scrollHeight": 1292,
-      "clientHeight": 328,
-      "mapShare": 0.8229166666666666,
+      "scrollHeight": 1646,
+      "clientHeight": 362,
+      "mapShare": 0.8177083333333334,
       "stripBottom": 0,
-      "panelShare": 0.10416666666666667,
+      "panelShare": 0.109375,
       "pageScrolls": false,
       "viewport": {
         "width": 1366,
@@ -48,13 +48,13 @@
     "desktopLast": {
       "inside": true,
       "onTop": true,
-      "scrollTop": 959,
+      "scrollTop": 1280,
       "id": "hh-1-child-18"
     },
     "bar-1366x768": {
-      "panelBottom": 470,
-      "barTop": 478,
-      "barLeft": 435,
+      "panelBottom": 522,
+      "barTop": 530,
+      "barLeft": 363,
       "overlapsBar": false,
       "lastOnTop": true,
       "covering": "CANVAS."
@@ -76,9 +76,9 @@
       ]
     },
     "bar-1440x950": {
-      "panelBottom": 652,
-      "barTop": 660,
-      "barLeft": 472,
+      "panelBottom": 704,
+      "barTop": 712,
+      "barLeft": 400,
       "overlapsBar": false,
       "lastOnTop": true,
       "covering": "CANVAS."
@@ -100,9 +100,9 @@
       ]
     },
     "bar-1024x768": {
-      "panelBottom": 470,
-      "barTop": 478,
-      "barLeft": 264,
+      "panelBottom": 522,
+      "barTop": 530,
+      "barLeft": 192,
       "overlapsBar": false,
       "lastOnTop": true,
       "covering": "CANVAS."
@@ -127,16 +127,16 @@
       "rows": 20,
       "panel": {
         "left": 12,
-        "top": 364,
+        "top": 131,
         "width": 376,
-        "bottom": 645
+        "bottom": 539
       },
       "scrolls": true,
-      "scrollHeight": 988,
-      "clientHeight": 281,
-      "mapShare": 0.4765625,
-      "stripBottom": 245,
-      "panelShare": 0.203125,
+      "scrollHeight": 1076,
+      "clientHeight": 408,
+      "mapShare": 0.5572916666666666,
+      "stripBottom": 0,
+      "panelShare": 0.234375,
       "pageScrolls": false,
       "viewport": {
         "width": 400,
@@ -146,8 +146,12 @@
     "phoneLast": {
       "inside": true,
       "onTop": true,
-      "scrollTop": 703,
-      "id": "hh-1-child-18"
+      "scrollTop": 664,
+      "id": "hh-1-child-18",
+      "tip": {
+        "id": "child",
+        "top": 548
+      }
     },
     "phoneGate": {
       "gate": true,
@@ -159,7 +163,7 @@
         },
         {
           "held": true,
-          "what": "the panel ends at 645 of 800 px"
+          "what": "the panel ends at 539 of 800 px"
         },
         {
           "held": true,
@@ -167,15 +171,15 @@
         },
         {
           "held": true,
-          "what": "the panel is on top at 20% of the screen (asked: under 30%)"
+          "what": "the panel is on top at 23% of the screen (asked: under 30%)"
         },
         {
           "held": true,
-          "what": "the map is on top at 48% below the guided start (asked: over 40%)"
+          "what": "the map is on top at 56% below the guided start (asked: over 40%)"
         },
         {
           "held": true,
-          "what": "the last child can be brought into view ({\"inside\":true,\"onTop\":true,\"scrollTop\":703,\"id\":\"hh-1-child-18\"})"
+          "what": "the last child can be brought into view ({\"inside\":true,\"onTop\":true,\"scrollTop\":664,\"id\":\"hh-1-child-18\",\"tip\":{\"id\":\"child\",\"top\":548}})"
         }
       ]
     }
