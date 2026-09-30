@@ -765,6 +765,9 @@ export function familyProjection(world, household) {
     ...(household.courtship?.formerName && { formerly: household.courtship.formerName }),
     roll: household.roll ?? null,
     canRoll: !household.roll && rollRefusal(world, household) === null,
+    // Thrown by the server as a late student joined (server/app.mjs `/api/join`, 2026-09-30): the page still throws the die for
+    // them, on this number, before the last name (public/creation.js).
+    ...(household.rolledAtJoin && { rolledAtJoin: true }),
     people: household.members.map(id => {
       const entity = world.entities[id];
       const kin = entity?.kin || {};

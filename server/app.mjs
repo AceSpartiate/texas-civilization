@@ -1304,6 +1304,20 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
           if (late) {
             const household = s.world.households[identity.householdId];
             setAbsent(s.world, household, false);
+            // **The die thrown as the student sits down** (classroom, 2026-09-30: "student tried to join late and it was stuck on
+            // the rolling for the family part. wouldn't let him past."). A family nobody has played yet may still be on its road
+            // in, untouched, and could roll - so the page offered the die. But the world goes on while a Chromebook opens the
+            // page and a student reads the title card, and the family's own arrival on its land, a tick or a few later, closed
+            // the die (sim/family.mjs `rollRefusal`): every press after that was refused, and the page, which fetches the
+            // family once, went on offering it. So the die is thrown here, in the join's own commit, while nothing can yet have
+            // happened to the family - the same courtesy Start does for a student who joined and never rolled. Its number is
+            // the seed's either way (`familyRoll`); the page throws the die on it when the student presses Roll
+            // (`rolledAtJoin`, public/creation.js). A family that has already begun - the director has worked it, or a
+            // student has - keeps the people it has, and its student goes straight in.
+            if (!solo && !household.roll && rollRefusal(s.world, household) === null) {
+              rollFamily(s.world, household);
+              household.rolledAtJoin = true;
+            }
             tellClass(s.world, seat.previous
               ? `${name} joined the class and is playing ${householdName(s.world, household)}, which was ${seat.previous.name}'s.`
               : `${name} joined the class late and is playing ${householdName(s.world, household)}.`);

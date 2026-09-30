@@ -38,7 +38,7 @@ import { bindNeighbours, openNeighbours, renderNeighbours } from '/neighbours.js
 import { bindLooks, renderLooks } from '/appearance.js';
 import { avatarVariant, drawAvatar, drawAvatarPortrait } from '/avatar-art.js';
 import { decodeAppearance } from '/look-vocabulary.js';
-import { bindCreation, creationStep, renderCreation, showTitle } from '/creation.js';
+import { bindCreation, creationStep, metFamily, renderCreation, showTitle } from '/creation.js';
 import { aroundHole, groundInputs, applyDrawState, canvasRatio, creekOpacity, distanceToSegments, ramp, readDrawState, sameLayerKey, scatterItem, scatterLevels, segmentsNear, setText, smoothCover, WATER, waterWidth, landPictureData, landUpscale, away, wadesOf } from '/map-base.js';
 import { canSmoothOffThread, smoothOffThread, toBitmap } from '/smooth-worker.js';
 import { DEFAULT_GROUND, groundClass, groundClassAt, markFor } from '/ground-classes.js';
@@ -6413,6 +6413,22 @@ let tutorialStep = null;
 // A twenty-sided die (owner, 2026-09-14): drawn as its outline with the face's number, since no font has twenty faces.
 const DIE_SIDES = 20;
 let rollState = 'idle', tumble = null, rollStarted = 0;
+/**
+ * The die never hangs (classroom, 2026-09-30: "student tried to join late and it was stuck on the rolling for the family part.
+ * wouldn't let him past."). A throw the class has not answered in this long is given up, said on the card, and the family asked
+ * for again; and a refusal is said on the card itself - `say` writes to the world's own line, which is behind the curtain - and
+ * the family fetched again at once, so a die the family can no longer throw is not offered and the page goes on.
+ */
+const ROLL_WAIT_MS = 12000;
+let rollWatch = null, rollProblem = '';
+async function refreshFamily() {
+  forgetFamily();
+  try {
+    const result = await api('/api/family');
+    if (result?.family) { familyCache = result.family; familyCacheId = result.mapId; }
+  } catch { /* the next tick asks again (`ensureFamily`) */ }
+  if (window.__snapshot) render(window.__snapshot);
+}
 function stopTumble() { clearInterval(tumble); tumble = null; $('#family-die')?.classList.remove('rolling'); $('#means-die')?.classList.remove('rolling'); }
 /**
  * The second die (owner, 2026-09-25: "introduce rolling for starting wealth"; sim/means.mjs): thrown by the same press in a class
@@ -6443,7 +6459,9 @@ function renderFamilyRoll(world) {
     stopTumble();
     rollState = 'rolled';
   }
-  if ((rollState === 'idle' && !family.canRoll) || rollState === 'done') { panel.hidden = true; setRollScene(false); return; }
+  // A family the server rolled as a late student joined (`rolledAtJoin`) is still thrown here; whether it is still to be thrown
+  // is creationStep's, below.
+  if ((rollState === 'idle' && !family.canRoll && !family.rolledAtJoin) || rollState === 'done') { panel.hidden = true; setRollScene(false); return; }
   // Not before the title screen has been answered (public/creation.js); once the die is in the air it stays until the family
   // has been met, which is what carries the page from the roll to the last name.
   if (rollState === 'idle' && creationStep(world, family) !== 'roll') { panel.hidden = true; setRollScene(false); return; }
@@ -6460,7 +6478,7 @@ function renderFamilyRoll(world) {
     button.textContent = 'Meet your family';
     button.disabled = false;
   } else {
-    $('#family-roll-result').textContent = rollState === 'rolling' ? 'Rolling\u2026' : '';
+    $('#family-roll-result').textContent = rollState === 'rolling' ? 'Rolling\u2026' : rollProblem;
     button.textContent = 'Roll the die';
     button.disabled = rollState === 'rolling';
   }
@@ -6468,6 +6486,7 @@ function renderFamilyRoll(world) {
 $('#roll-family')?.addEventListener('click', async () => {
   if (rollState === 'rolled') {
     rollState = 'done';
+    metFamily();
     $('#family-roll').hidden = true;
     // The family is met in the pop-ups that follow (the last name, then how the parents look), not in the journal.
     if (window.__snapshot) render(window.__snapshot);
@@ -6481,17 +6500,35 @@ $('#roll-family')?.addEventListener('click', async () => {
     for (const one of both) one.classList.add('rolling');
     tumble = setInterval(() => { for (const one of both) one.textContent = String(1 + Math.floor(Math.random() * DIE_SIDES)); }, 90);
   } else for (const one of both) one.textContent = '?';
+  rollProblem = '';
   if (window.__snapshot) renderFamilyRoll(window.__snapshot.world);
+  // Thrown already, by the server, as this student joined late (server/app.mjs `/api/join`): the die lands on its number and
+  // there is nothing to ask the class - which also holds while the teacher has it paused.
+  if (!familyCache?.canRoll && familyCache?.roll) {
+    setTimeout(() => { if (window.__snapshot) render(window.__snapshot); }, 950);
+    return;
+  }
+  clearTimeout(rollWatch);
+  rollWatch = setTimeout(() => {
+    if (rollState !== 'rolling' || familyCache?.roll) return;
+    stopTumble(); rollState = 'idle';
+    rollProblem = 'The die did not come back from the class. Press Roll the die again.';
+    refreshFamily();
+  }, ROLL_WAIT_MS);
   try {
     await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'roll-family' });
-    forgetFamily();
+    // Asked for at once rather than on the next tick, which a paused class does not send.
+    refreshFamily();
     // Let the dice tumble for a moment even when the server answers at once.
     setTimeout(() => { if (window.__snapshot) render(window.__snapshot); }, 950);
-    if (window.__snapshot) render(window.__snapshot);
   } catch (error) {
+    clearTimeout(rollWatch);
     stopTumble(); rollState = 'idle';
+    rollProblem = error.message;
     say(error.message);
-    if (window.__snapshot) renderFamilyRoll(window.__snapshot.world);
+    // The family may have changed under the page while the die was offered - it had begun, or was rolled: asked for again, so a
+    // die it can no longer throw is not offered and the page goes on to what comes next.
+    refreshFamily();
   }
 });
 /**

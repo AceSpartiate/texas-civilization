@@ -1,5 +1,63 @@
 # Claude handoff — Astra foundation
 
+## A late student stuck on the die: thrown at the join, and never a silent hang — classroom report 2026-09-30 (not released)
+
+**The report.** From the owner's real classroom on the live release v2026.09.29.3: *"student tried to join late and it was stuck on
+the rolling for the family part. wouldn't let him past."* The class had been started and was running. Branch `late-join-roll` off
+local `integration-2026-09-28` (cb5c1fb4); not pushed.
+
+**The cause, reproduced in headless Chrome on both v2026.09.29.3 (a `git archive` of the tag) and integration-2026-09-28.**
+
+1. A student who joins after Start is given the first family nobody plays (`seatFor`). In the first minutes of a class that family
+   is still on its road in and nothing has happened to it, so `rollRefusal` (sim/family.mjs) lets it roll - `played` is set by the
+   join - and the family book says `canRoll: true`. The page shows the die.
+2. The world goes on. **The family's own arrival on its land** - measured: tick 1 to 18 after Start on the colonies map, 9.5 s a
+   tick at the Study pace, so up to about three minutes - writes an `arrival` event into the family's record, and a record holding
+   anything but its founding closes the die: *"A family is rolled before anybody in it is named or set to work."* A Chromebook
+   taking its time to open the page (13-58 s here on a fast computer) and a student reading the title card are enough.
+3. The press is refused, and the refusal goes to `say()`, whose lines are **behind the creation curtain** - nothing on the card
+   changed. The page fetches the family once (`ensureFamily`, refetched only on a new map or a change of members), so it kept
+   `canRoll: true` and kept offering the die. Every press was refused, silently. Reproduced exactly: family untouched at the join,
+   the die up, the arrival 40 s later, four presses each answered 400 with that sentence, the card unchanged (screenshot matched the
+   classroom's: *Roll for your family*, button live, nothing said).
+
+Not the cause, checked: the dice animation (it stops on its own), a paused class (refused plainly by `makeOrder`, but also behind
+the curtain), the lesson gate (`roll-family` is in `ALWAYS`), a full class (refused on the join form, in words), a family the director
+had already worked (the page goes straight into the world with the family it has; no die).
+
+**The fix.**
+
+- **The die is thrown in the join** (server/app.mjs `/api/join`): a late student's family that can still roll is rolled in the join's
+  own commit, before anything can happen to it - the courtesy Start already does for a lobby student who never rolled - and marked
+  `rolledAtJoin`. The number is the seed's either way (`familyRoll`). The family book says `rolledAtJoin` (sim/family.mjs
+  `familyProjection`); `validateWorld` holds it to true, on a rolled, played family. No save version moved: absent is every family
+  before.
+- **The student still throws it.** `creationStep` (public/creation.js) keeps the page on the die for a `rolledAtJoin` family until it
+  has been met (`metFamily`, remembered per family like `begun`) or named; pressing Roll tumbles both dice and lands them on the
+  server's numbers with nothing asked of the class - so it works while the teacher has the class paused too.
+- **Never a silent hang** (public/app.js): a refused throw is said **on the die's own card** (`rollProblem` in `#family-roll-result`)
+  and the family is asked for again at once (`refreshFamily`), so a die the family can no longer throw is not offered and the page goes
+  on; a throw not answered in 12 s (`ROLL_WAIT_MS`) is given up, said on the card (*"The die did not come back from the class. Press
+  Roll the die again."*) and the family asked for again; after a throw the family is fetched at once rather than on the next tick.
+- A late student whose family had already begun still gets no die and plays the family it has (no surname or looks step: the curtain
+  asks those only of a rolled family) - unchanged, and an owner question below.
+
+**Evidence** (same computer only, headless Chrome at 1366x768; no Chromebook, LAN or classroom claim):
+
+- `tests/late-join.test.mjs`, two new tests: a latecomer joining before the family's arrival is rolled at the join, the arrival
+  comes and the family is still the rolled one with `rolledAtJoin`, and naming it works; a latecomer whose family had begun (joined
+  while paused) is not rolled and is never offered a die. `tests/creation.test.mjs`, one new test: the die step for a `rolledAtJoin`
+  family until met, then the last name; none for a family that cannot roll. **Each failed on its own injection** (join roll removed;
+  `rolledAtJoin` dropped from the book; a begun family rolled at the join - the join then fails; the creation step removed), and only
+  that test.
+- **`npm run test:late-join`** (new, `scripts/late-join-browser-proof.mjs`, [record](docs/evidence/late-join-browser.json)): **9 of 9**.
+  A, the classroom's case on the classroom's world (30 families, colonies, starts, Study pace): joined before the family arrived,
+  waited 65 s on the die while it did, threw it, reached and took the last name. B, paused before the first tick: the die lands.
+  C, a family already begun: straight into the world, no die. D, no family left: the join form says so and to ask the teacher.
+  E, an unanswered throw given up after 12 s and said on the card; a refused one said on the card; the real throw after both.
+  Injections: without the join roll, A fails (*the die never landed*); without the 12 s watch, E fails (*left the die spinning*);
+  with the refusal kept off the card, E fails.
+
 ## Read aloud in natural voices — triage D15, owner-decided 2026-09-30 (not released)
 
 Branch `read-aloud` off `integration-2026-09-28` (4131feb8), with `read-aloud-research` (2f4185a4) merged in; not pushed. The

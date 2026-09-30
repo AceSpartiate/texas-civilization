@@ -44,6 +44,23 @@ test('the steps come in one order, the same in a class and in Play Solo, and the
   assert.equal(at('hh-7', book({ people: [{ id: 'k', role: 'son', given: 'Luis' }] })), null, 'a child was asked how they look');
 });
 
+// The classroom, 2026-09-30 (tests/late-join.test.mjs): a latecomer's family is rolled by the server as they join, and the die
+// is still theirs to throw on the page - on that number - before the last name. A family that had begun before they came, with
+// no roll, goes straight to the world.
+test('a family rolled at a late join still shows its die until it is met, and one with no roll goes to the world', async () => {
+  const stored = new Map();
+  globalThis.sessionStorage = { getItem: key => (/begun/.test(key) ? '1' : stored.get(key) ?? null), setItem: (key, value) => stored.set(key, value) };
+  const { metFamily } = await import('../public/creation.js');
+  const at = (id, family) => creationStep({ role: 'student', householdId: id }, family);
+  const late = book({ named: false, surname: undefined, rolledAtJoin: true });
+  assert.equal(at('hh-20', late), 'roll', 'the die thrown at the join was never shown');
+  assert.equal(at('hh-20', late), 'roll');
+  metFamily();
+  assert.equal(at('hh-20', late), 'surname', 'the die came back after the family was met');
+  assert.equal(at('hh-21', book({ rolledAtJoin: true })), null, 'a family already named was offered its die again');
+  assert.equal(at('hh-22', book({ canRoll: false, roll: null, named: false, surname: undefined })), null, 'a family that cannot roll held the page');
+});
+
 test('the title screen names the game, the curtain covers the map, and the map is not drawn behind it', () => {
   const html = readFileSync(new URL('../public/index.html', import.meta.url), 'utf8');
   assert.match(html, /<h1 id="creation-name">Family: Texas <span>1835\/36<\/span><\/h1>/);
