@@ -1,0 +1,66 @@
+{
+  "recordedAt": "2026-09-30T19:39:19.907Z",
+  "machine": "development computer",
+  "script": "scripts/verify-web-setup.mjs",
+  "smallSetupBytes": 173568,
+  "limitBytes": 1048576,
+  "standInSetupBytes": 1505632,
+  "checks": [
+    {
+      "name": "size: the small setup is under 1 MB",
+      "ok": true
+    },
+    {
+      "name": "launch: it is started as a double-click would: no arguments, in its own folder, with no game beside it",
+      "ok": true
+    },
+    {
+      "name": "cleanup: once the full setup has closed, and not before, the download is removed",
+      "ok": true
+    },
+    {
+      "name": "api-asset: the release's TexasRevolutionSetup.exe is found by its exact name, and the small setup beside it is not taken",
+      "ok": true
+    },
+    {
+      "name": "fallback: with the release's list unreachable, the stable latest-release address is downloaded and run",
+      "ok": true
+    },
+    {
+      "name": "resume: a connection cut off part way is resumed from where it stopped, not begun again",
+      "ok": true
+    },
+    {
+      "name": "size-mismatch: a download that is not the size the release gives is refused, not run, and not kept",
+      "ok": true
+    },
+    {
+      "name": "digest-mismatch: a download whose SHA-256 is not GitHub's record of the setup is refused, not run, and not kept",
+      "ok": true
+    },
+    {
+      "name": "filter-page: a network filter's page in place of the file is said to be the network, and nothing is run",
+      "ok": true
+    },
+    {
+      "name": "disk-full: a download the disk cannot hold is refused before it starts, as not enough room",
+      "ok": true
+    },
+    {
+      "name": "blocked: a downloaded setup Windows will not start is reported as that, and kept for IT to allow",
+      "ok": true
+    },
+    {
+      "name": "unreachable: on the internet but unable to reach the download is said as that",
+      "ok": true
+    },
+    {
+      "name": "offline: with Windows saying there is no internet, it says the computer is not connected",
+      "ok": true
+    },
+    {
+      "name": "test-only: the download address can be changed only for a test, and only to this computer",
+      "ok": true
+    }
+  ]
+}

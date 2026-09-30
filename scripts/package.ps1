@@ -4,7 +4,10 @@
 #
 #   TexasRevolutionSetup.exe   the whole thing - a setup program that carries the game and
 #                              becomes the launcher once it has installed it; what an installed
-#                              launcher downloads when the small update cannot be used
+#                              launcher downloads when the small update cannot be used - so this
+#                              name always means the whole setup
+#   TexasRevolutionWebSetup.exe  the small setup (websetup/), about 170 KB, to email to a colleague:
+#                              it downloads the latest TexasRevolutionSetup.exe and runs it
 #   ...-Gonzales-<stamp>.zip   the game with its runtime and no launcher: what launchers from
 #                              before 2026-09-16 download when they update
 #   ...-NeedsNode.zip          the game alone, for a machine that already has Node 22+ and
@@ -172,6 +175,15 @@ if (-not $SkipLauncher) {
   Copy-Item -LiteralPath $built -Destination $setup -Force
 }
 
+# ---------------------------------------------------------------- the small setup
+# TexasRevolutionWebSetup.exe (websetup/, owner 2026-09-30): about 170 KB, the file a teacher emails to a colleague. It
+# downloads the latest release's TexasRevolutionSetup.exe and runs it. Built with the C# compiler inside Windows'
+# own .NET Framework, so it needs no SDK - and it is built even with -SkipLauncher, because it carries no game.
+# Attached to every release, so releases/latest/download/TexasRevolutionWebSetup.exe always answers.
+$webSetup = Join-Path $Destination 'TexasRevolutionWebSetup.exe'
+& (Join-Path $PSScriptRoot 'build-web-setup.ps1') -Out $webSetup -Tag $Tag | Out-Null
+if ((Get-Item -LiteralPath $webSetup).Length -ge 1MB) { throw 'The small setup is a megabyte or more; it is meant to be emailed.' }
+
 # ---------------------------------------------------------------- the small update
 # The list, and a set of changes from each recent release with the same launcher. Before the
 # smaller package below, because that one drops the runtime the list names.
@@ -200,6 +212,7 @@ Remove-Item -LiteralPath $stage -Recurse -Force
 foreach ($file in @($setup, $update, $needsNode)) {
   if (Test-Path -LiteralPath $file) { '{0}  {1} MB' -f $file, [math]::Round((Get-Item -LiteralPath $file).Length / 1MB, 1) }
 }
+'{0}  {1} KB' -f $webSetup, [math]::Ceiling((Get-Item -LiteralPath $webSetup).Length / 1KB)
 "launcher id $launcherId; $($manifest.Files.Count) files listed"
 foreach ($entry in $made) {
   if ($entry.PSObject.Properties['Skipped']) { "  no set of changes from $($entry.From): $($entry.Skipped)" }
@@ -208,5 +221,5 @@ foreach ($entry in $made) {
 if (-not @($made | Where-Object { -not $_.PSObject.Properties['Skipped'] }).Count) { '  no sets of changes: every launcher takes the whole download for this release' }
 # The exact command, so nothing the small update needs is left off the release.
 "Publish from $Destination with:"
-"  `$assets = @('TexasRevolutionSetup.exe', 'TexasRevolution-Gonzales-$Stamp.zip', 'TexasRevolution-Gonzales-$Stamp-NeedsNode.zip') + @(Get-ChildItem 'changes-$Stamp' -File | ForEach-Object FullName)"
+"  `$assets = @('TexasRevolutionSetup.exe', 'TexasRevolutionWebSetup.exe', 'TexasRevolution-Gonzales-$Stamp.zip', 'TexasRevolution-Gonzales-$Stamp-NeedsNode.zip') + @(Get-ChildItem 'changes-$Stamp' -File | ForEach-Object FullName)"
 "  gh release create $Tag @assets -R $Repo --target main --title ""..."" --notes-file notes.md --latest"
