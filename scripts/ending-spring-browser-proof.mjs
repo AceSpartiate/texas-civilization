@@ -74,7 +74,11 @@ try {
     if (world.households[family.householdId].flight?.status === 'fled') assert.equal(family.spring, 'Fled; still on the road east');
   }
   ok(`the Host's table has the spring beside October: ${sent.families.map(family => `${family.name}: ${family.spring}, farm ${family.farm}, heard the Alamo ${family.heardAlamo}`).join('; ')}`);
-  const questions = await host.locator('#ending ol').last().locator('li').allInnerTexts();
+  // The questions are the list under "For the class" in the ending's body. Not "the last list in the ending": since the end
+  // sequence (2026-09-30) the flashbacks come after the numbers at the reveal, and their story-in-words list is last.
+  const forTheClass = host.locator('#ending-body section').filter({ has: host.locator('h3', { hasText: /^For the class$/ }) });
+  assert.equal(await forTheClass.count(), 1, 'the Host\'s ending has no one "For the class" section');
+  const questions = await forTheClass.locator('ol > li').allInnerTexts();
   assert.deepEqual(questions, sent.discussion, 'the questions on the page are not the server\'s');
   assert.deepEqual(questions.slice(-DISCUSSION.length), [...DISCUSSION], 'the standing questions do not follow the class\'s own');
   for (const question of questions) assert.doesNotMatch(question, /coin|glory|scor|points/i, `a question for the class is about the scoring: ${question}`);
@@ -116,8 +120,14 @@ try {
   assert.deepEqual(own, JSON.parse(JSON.stringify({ ...familyEnding(world, 'hh-1'), interim: false })), 'the family\'s ending on the wire is not the server\'s');
   const worths = await student.locator('#ending .ending-awards .ending-worth').allInnerTexts();
   assert.equal(worths.length, own.awards.length, 'an award has no line of its own');
-  // A part's sum, or - since 2026-09-29 (owner, D8; sim/farm-sale.mjs) - the burned farm's own line.
-  for (const line of worths) assert.match(line, /^(.+ counts \d+ × \d+ \((\d+ road miles from home|close to home)\) = \d+(, (taken away( twice over)?|counted as -?\d+))?(: -?\d+)?|A burned farm counts \d+) glory\.$/, line);
+  // Each line the server's own (sim/ending.mjs `worthLine`), in its order: the page adds and drops nothing.
+  assert.deepEqual(worths, own.awards.map(award => award.worth), 'an award\'s line on the page is not the server\'s');
+  // And each a sum a student can follow, never a bare number: a part's sum, or - since 2026-09-29 (owner, D8; sim/farm-sale.mjs) -
+  // the burned farm's own line, or - since 2026-09-30 - supplies sent with nobody of the family, counted once and saying why, not
+  // times the miles (owner, "Flat"), and household goods brought home through the Scrape, once however many (owner, the Scrape's
+  // four answers).
+  const SUM = /^(?:(.+ counts \d+ × \d+ \((\d+ road miles from home|close to home)\) = \d+(, (taken away( twice over)?|counted as -?\d+))?(: -?\d+)?|Carrying supplies counts (?<once>\d+), once: nobody of the family went with it = \k<once>|A burned farm counts \d+) glory\.|Household goods brought home through the Scrape count \d+ glory, once, however many\.)$/;
+  for (const line of worths) assert.match(line, SUM, line);
   const familyText = await student.locator('#ending').innerText();
   assert.doesNotMatch(familyText, /\(\d+\)\s*$/m, 'an award still ends in a bare number');
   assert.doesNotMatch(familyText, /\d\.\d+ reales?/, 'the coin is not in whole reales');

@@ -1,6 +1,6 @@
 {
   "record": "watching-browser",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "environment": "Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x768.",
   "pass": [
     "gone-1366: everybody died; the page says so and follows Anselmo's family, whose people are the column - no \"!\", no bar, no Auto, no star, no tip, nothing of the Host's",
@@ -10,7 +10,7 @@
     "gone-1024: a portrait of the watched family opens no card and offers nothing to do",
     "gone-1024: an order sent anyway is refused: \"Nobody of your family is left to give an order to.\"",
     "taken-in: the little ones were taken in by Anselmo's family; the page follows that family and they are on its map",
-    "taken-in: Loreta Proofwright came for the little ones, and the page is the family's own again"
+    "taken-in: Jasper Proofwright came for the little ones, and the page is the family's own again"
   ],
   "observed": {
     "gone-1366": {
@@ -25,17 +25,17 @@
           {
             "id": "hh-3-parent-1",
             "role": "father",
-            "age": 32
+            "age": 33
           },
           {
             "id": "hh-3-parent-2",
             "role": "mother",
-            "age": 30
+            "age": 31
           },
           {
             "id": "hh-3-child-1",
             "role": "daughter",
-            "age": 13
+            "age": 14
           },
           {
             "id": "hh-3-child-2",
@@ -50,7 +50,7 @@
           {
             "id": "hh-3-child-4",
             "role": "son",
-            "age": 7
+            "age": 8
           },
           {
             "id": "hh-3-child-5",
@@ -111,17 +111,17 @@
           {
             "id": "hh-3-parent-1",
             "role": "father",
-            "age": 32
+            "age": 33
           },
           {
             "id": "hh-3-parent-2",
             "role": "mother",
-            "age": 30
+            "age": 31
           },
           {
             "id": "hh-3-child-1",
             "role": "daughter",
-            "age": 13
+            "age": 14
           },
           {
             "id": "hh-3-child-2",
@@ -136,7 +136,7 @@
           {
             "id": "hh-3-child-4",
             "role": "son",
-            "age": 7
+            "age": 8
           },
           {
             "id": "hh-3-child-5",
@@ -197,17 +197,17 @@
           {
             "id": "hh-3-parent-1",
             "role": "father",
-            "age": 32
+            "age": 33
           },
           {
             "id": "hh-3-parent-2",
             "role": "mother",
-            "age": 30
+            "age": 31
           },
           {
             "id": "hh-3-child-1",
             "role": "daughter",
-            "age": 13
+            "age": 14
           },
           {
             "id": "hh-3-child-2",
@@ -222,7 +222,7 @@
           {
             "id": "hh-3-child-4",
             "role": "son",
-            "age": 7
+            "age": 8
           },
           {
             "id": "hh-3-child-5",

@@ -66,7 +66,13 @@ const lastRowReachable = page => page.evaluate(async () => {
   const face = (last.querySelector('.panel-portrait') || last).getBoundingClientRect(), box = panel.getBoundingClientRect();
   const inside = face.top >= box.top - 1 && face.bottom <= box.bottom + 1 && face.bottom <= window.innerHeight + 1 && face.height > 0;
   const top = document.elementFromPoint(face.left + face.width / 2, face.top + face.height / 2);
-  return { inside, onTop: Boolean(top && last.contains(top)), scrollTop: panel.scrollTop, id: last.dataset.entityId };
+  // What stands over the child when something does, so a failure names it.
+  const over = top && !last.contains(top) ? (top.closest('[id]')?.id || top.className || top.tagName) : null;
+  // And the tip over the map, which takes no clicks and so is looked through by `elementFromPoint`: standing over the child, it
+  // hides them as surely as anything that does (found 2026-09-30: on the phone it stood over the column's last 90 px).
+  const tip = document.querySelector('#tip'), tipBox = tip && !tip.hidden ? tip.getBoundingClientRect() : null;
+  const underTip = Boolean(tipBox?.height) && face.left < tipBox.right && tipBox.left < face.right && face.top < tipBox.bottom && tipBox.top < face.bottom;
+  return { inside, onTop: Boolean(top && last.contains(top)) && !underTip, scrollTop: panel.scrollTop, id: last.dataset.entityId, ...((over || underTip) && { over: over || 'tip', face: { top: Math.round(face.top), bottom: Math.round(face.bottom) } }), ...(tipBox?.height && { tip: { id: tip.dataset.tip, top: Math.round(tipBox.top) } }) };
 });
 
 try {

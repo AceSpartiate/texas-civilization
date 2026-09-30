@@ -42,11 +42,17 @@ try {
   for (let i = 2; i <= 5; i++) await post('/api/join', { name: `Reader ${i}`, code: app.state.sessionCode });
   await command('start');
   await page.waitForFunction(() => window.__snapshot?.world.status === 'running' && window.__animation?.timeMs > 500);
-  const choose = async id => {
+  // A person chosen from the journal's roster. The card beside them opens only for a matter it alone holds (owner, 2026-09-29,
+  // docs/FAMILY_PANEL.md amendment): a trade with another family's person is one; one of our own with nothing to answer is not.
+  const choose = async (id, { card = true } = {}) => {
     await page.locator('#journal-toggle').click();
     await page.locator(`[data-select="${id}"]`).click();
     await page.locator('#journal-close').click();
-    await page.locator('#selection').waitFor({ state: 'visible' });
+    if (card) await page.locator('#selection').waitFor({ state: 'visible' });
+    else {
+      await page.waitForTimeout(600);
+      assert.equal(await page.locator('#selection').isVisible(), false, `choosing ${id}, with nothing to answer, opened the card beside them`);
+    }
   };
   await choose('hh-2-elena');
   await page.locator('#trade-from').selectOption('hh-1-elena');
@@ -78,7 +84,8 @@ try {
   assert.deepEqual(offer.ask, { seed: 3 });
   assert.equal(offer.fromEntityId, 'hh-1-elena');
   assert.equal(offer.toEntityId, 'hh-2-elena');
-  await choose('hh-1-thomas');
+  // Thomas, one of ours with nothing to answer: no card (owner, 2026-09-29); his work is on the family panel instead.
+  await choose('hh-1-thomas', { card: false });
   // Thomas's "Plant the field" on the family panel (docs/FAMILY_PANEL.md).
   await asMain(page, 'hh-1-thomas');
   const work = page.locator('.panel-row[data-entity-id="hh-1-thomas"] .panel-icon[data-key="plant-field"]');

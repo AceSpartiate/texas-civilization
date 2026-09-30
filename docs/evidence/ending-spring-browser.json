@@ -1,20 +1,20 @@
 {
- "at": "2026-09-30T06:01:11.488Z",
+ "at": "2026-09-30T23:08:22.901Z",
  "flights": {
-  "hh-1": "returning",
-  "hh-2": "fled",
+  "hh-1": "fled",
+  "hh-2": "returning",
   "hh-3": "returning",
   "hh-4": "returning",
   "hh-5": "returning"
  },
  "pass": [
-  "a class of five families was played headless to April in 17 s: {\"hh-1\":\"returning\",\"hh-2\":\"fled\",\"hh-3\":\"returning\",\"hh-4\":\"returning\",\"hh-5\":\"returning\"}",
-  "the Host's table has the spring beside October: the Springwright family: Fled; on the road home, farm Burned April 7, heard the Alamo March 15; Bartolo's family: Fled; still on the road east, farm Standing, heard the Alamo March 15; Anselmo's family: Fled; on the road home, farm Burned April 13, heard the Alamo March 14; Amos's family: Fled; on the road home, farm Standing, heard the Alamo March 16; Trinidad's family: Fled; on the road home, farm Burned March 15, heard the Alamo March 13",
+  "a class of five families was played headless to April in 13 s: {\"hh-1\":\"fled\",\"hh-2\":\"returning\",\"hh-3\":\"returning\",\"hh-4\":\"returning\",\"hh-5\":\"returning\"}",
+  "the Host's table has the spring beside October: the Springwright family: Fled; still on the road east, farm Standing, heard the Alamo March 14; Bartolo's family: Fled; on the road home, farm Burned April 7, heard the Alamo March 14; Anselmo's family: Fled; on the road home, farm Burned April 13, heard the Alamo March 14; Amos's family: Fled; on the road home, farm Standing, heard the Alamo March 15; Trinidad's family: Fled; on the road home, farm Burned March 15, heard the Alamo March 13",
   "the questions for the class: 1 of the class's own first, then 3 standing ones, none about the scoring",
   "the footer is the whole formula as the server counts it, prisoners' share and all; no \"Road miles from Gonzales\" and no virtue word",
-  "\"Who went\" names nobody under 18 who died of a sickness (0 such in this class): Hiram Springwright, Ignacio Springwright | Bartolo | Anselmo, Charity | Amos | Trinidad",
-  "the family sees 5 awards each with its own sum (\"Being there counts 2 × 7 (98 road miles from home) = 14 glory.\"), and its number said: \"The family had 1 real. The farm was burned, so there was nothing to sell; it counts 40 glory, which is in the glory below. 118 glory multiplies it by 119 (1 + 118): 1 × 119 = 119.\"",
-  "its spring as it was: \"They fled east in the spring, to Liberty. While they were gone, foragers of Santa Anna’s column burned the farm, on April 7. When the class ended they were on the road home.\"",
+  "\"Who went\" names nobody under 18 who died of a sickness (0 such in this class): Hiram Springwright, Ignacio Springwright | Bartolo, Mahala | Anselmo, Charity | Amos | Trinidad, Cayetano",
+  "the family sees 6 awards each with its own sum (\"Being there counts 2 × 14 (200 road miles from home) = 28 glory.\"), and its number said: \"The family had 14 reales, and sold the farm for 75 reales: 14 + 75 = 89 reales. Bringing the bedding and the iron pot home through the Scrape counts 1 glory, which is in the glory below. 127 glory multiplies it by 128 (1 + 127): 89 × 128 = 11392.\"",
+  "its spring as it was: \"They fled east in the spring, making for Nacogdoches. They took a hoe, a felling axe, the bedding and the iron pot with them. The farm they left was never burned. When the class ended they were still on the road east.\"",
   "a family with no award reads \"No award was earned.\", not \"the events of that October\"",
   "no page error on either page"
  ],
@@ -28,7 +28,7 @@
  ],
  "host": {
   "discussion": [
-   "The Springwright family heard that soldiers had come for the cannon at Gonzales on October 1; Bartolo's family not until October 2. Why did the same news reach them so far apart, and what did each do in between?",
+   "Bartolo's family heard what had happened to Fannin's men at Goliad on April 1; the Springwright family not until April 3. Why did the same news reach them so far apart, and what did each do in between?",
    "Which families heard the news first, and did hearing first change what they did?",
    "Why did some families flee east in the spring and others stay, and what did each choice cost them?",
    "What did a family give up at home when somebody went, and what did staying home cost?"
@@ -40,30 +40,31 @@
      "Hiram Springwright",
      "Ignacio Springwright"
     ],
-    "heard": "October 3",
-    "heardAlamo": "March 15",
-    "spring": "Fled; on the road home",
-    "farm": "Burned April 7",
+    "heard": "October 8",
+    "heardAlamo": "March 14",
+    "spring": "Fled; still on the road east",
+    "farm": "Standing",
     "prisoners": 0,
-    "money": 1,
-    "glory": 118,
+    "money": 14,
+    "glory": 127,
     "land": 0,
-    "final": 119
+    "final": 11392
    },
    {
     "name": "Bartolo's family",
     "went": [
-     "Bartolo"
+     "Bartolo",
+     "Mahala"
     ],
-    "heard": "October 8",
-    "heardAlamo": "March 15",
-    "spring": "Fled; still on the road east",
-    "farm": "Standing",
+    "heard": "October 2",
+    "heardAlamo": "March 14",
+    "spring": "Fled; on the road home",
+    "farm": "Burned April 7",
     "prisoners": 0,
-    "money": 43,
-    "glory": 234,
+    "money": 52,
+    "glory": 181,
     "land": 40,
-    "final": 53855
+    "final": 9504
    },
    {
     "name": "Anselmo's family",
@@ -76,10 +77,10 @@
     "spring": "Fled; on the road home",
     "farm": "Burned April 13",
     "prisoners": 0,
-    "money": 241,
-    "glory": 67,
+    "money": 111,
+    "glory": 63,
     "land": 0,
-    "final": 16388
+    "final": 7104
    },
    {
     "name": "Amos's family",
@@ -87,29 +88,30 @@
      "Amos"
     ],
     "heard": "October 2",
-    "heardAlamo": "March 16",
+    "heardAlamo": "March 15",
     "spring": "Fled; on the road home",
     "farm": "Standing",
     "prisoners": 0,
-    "money": 40,
-    "glory": 45,
+    "money": 39,
+    "glory": 46,
     "land": 0,
-    "final": 10396
+    "final": 10575
    },
    {
     "name": "Trinidad's family",
     "went": [
-     "Trinidad"
+     "Trinidad",
+     "Cayetano"
     ],
     "heard": "September 29",
     "heardAlamo": "March 13",
     "spring": "Fled; on the road home",
     "farm": "Burned March 15",
     "prisoners": 0,
-    "money": 15,
-    "glory": 87,
+    "money": 28,
+    "glory": 39,
     "land": 0,
-    "final": 1320
+    "final": 1120
    }
   ]
  }

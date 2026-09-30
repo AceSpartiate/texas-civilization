@@ -130,9 +130,12 @@ try {
   const beforeEnd = { minute: app.state.world.minute, date: (await host.locator('#world').textContent()).trim() };
   await button(host, 'end').click();
   await button(host, 'end').click();
-  await host.waitForFunction(() => window.__snapshot?.world.status === 'ended' && window.__snapshot.world.ending?.host, null, { timeout: 10000 });
-  await host.locator('#ending').waitFor({ state: 'visible', timeout: 10000 });
-  if (await host.locator('#ending-close').isVisible()) await host.locator('#ending-close').click();
+  // Since the end of the game became one sequence (owner, 2026-09-29, D10; sim/end-sequence.mjs), End Game begins the ending with
+  // the class's own video on the Host's screen, and the final table comes after the videos: the ending shown is the finale, and
+  // the table is sent to no page before its reveal. The teacher reaches Classes through the Controls over it (owner, 2026-09-30).
+  await host.waitForFunction(() => window.__snapshot?.world.status === 'ended' && window.__snapshot.endSequence?.stage === 'class', null, { timeout: 10000 });
+  await host.locator('#finale').waitFor({ state: 'visible', timeout: 10000 });
+  await host.locator('#finale-controls').click();
   await host.locator('#classes-toggle').click();
   const again = host.locator('[data-class-continue]');
   await again.waitFor({ state: 'visible', timeout: 15000 });
@@ -146,6 +149,8 @@ try {
   await host.waitForFunction(() => window.__snapshot?.world.status === 'paused' && !window.__snapshot.world.ending, null, { timeout: 15000 });
   assert.equal(app.state.world.minute, beforeEnd.minute, 'the class was not taken up again where it was ended');
   assert.equal(await host.locator('#ending').isVisible(), false, 'the ending is still on the Host page');
+  assert.equal(await host.locator('#finale').isVisible(), false, 'the finale is still over the Host page');
+  assert.equal(await host.evaluate(() => window.__snapshot.endSequence ?? null), null, 'the class taken up again still carries its end sequence');
   measured.continued = { note: (await host.locator('#classes-note').textContent()).trim(), date: (await host.locator('#world').textContent()).trim(), controls: await shown(host) };
   assert.ok(measured.continued.controls.includes('resume'), `Resume is not offered after Continue: ${measured.continued.controls}`);
   await shot(host, 'continued');

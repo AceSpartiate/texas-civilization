@@ -156,14 +156,14 @@ const INJECTIONS = [
   {
     name: 'owner 2026-09-29: the card beside a person opens on everybody chosen again (family panel)',
     file: 'public/app.js',
-    from: "  if (!hostView(world) && !selectionMatter()) { panel.hidden = true; delete panel.dataset.entityId; releaseCrowding(); return; }",
+    from: "  if (!hostView(world) && !selectionMatter(world)) { panel.hidden = true; delete panel.dataset.entityId; releaseCrowding(); return; }",
     to: "  if (false) { panel.hidden = true; delete panel.dataset.entityId; releaseCrowding(); return; }",
     browser: 'test:family-panel',
   },
   {
     name: 'owner 2026-09-29: the card beside a person opens on everybody chosen again (overlap)',
     file: 'public/app.js',
-    from: "  if (!hostView(world) && !selectionMatter()) { panel.hidden = true; delete panel.dataset.entityId; releaseCrowding(); return; }",
+    from: "  if (!hostView(world) && !selectionMatter(world)) { panel.hidden = true; delete panel.dataset.entityId; releaseCrowding(); return; }",
     to: "  if (false) { panel.hidden = true; delete panel.dataset.entityId; releaseCrowding(); return; }",
     browser: 'test:overlap',
   },

@@ -26,19 +26,27 @@ import { meetFamily } from './support/meet-family.mjs';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const TICK_MS = Number(process.env.PROOF_TICK_MS || 2000);
+// The wide run at the class's Study pace (server/app.mjs `PACES.study`). Since 2026-09-27 (owner: everybody on the family's own
+// land at their own pace, never hurried; public/motion.js `pacedSight`) a walk the class carries faster than the figure's gait is
+// walked in view across the family's land and a hundred yards past it, and the middle of the road is crossed with nobody drawn.
+// Zoomed out, where a figure is drawn at its least height, that gait is the most ground a second, and at the 2000 ms tick the
+// walker was gone after one whole tick: nothing left on the screen to measure. At the Study pace the class carries a walker no
+// faster than the figure walks, so the whole road is drawn where the server has it, and the wide view's spread is measured over
+// four ticks as before - each of them longer, which is the harder case for a walk drawn in a burst.
+const WIDE_TICK_MS = Number(process.env.PROOF_WIDE_TICK_MS || 9500);
 const WRITE = process.env.PROOF_NO_WRITE ? null : 'docs/evidence/movement-browser.json';
 
 const pass = [];
 const ok = (label, condition = true) => { assert.ok(condition, label); pass.push(label); console.log('PASS', label); };
 
-async function run({ label, interrupt, zoom = 0 }) {
+async function run({ label, interrupt, zoom = 0, tickMs = TICK_MS }) {
   const worldFactory = (seed, count) => {
     const world = keepFoundingFamilies(createSettledWorld(seed, count));
     return world;
   };
   // The three camera runs must walk the same route. Different seeds can put the
   // homestead so close to Gonzales that the wide run ends before two whole ticks.
-  const app = createClassroom({ seed: 'movement-quiet', playerCount: 5, tickMs: TICK_MS, worldFactory });
+  const app = createClassroom({ seed: 'movement-quiet', playerCount: 5, tickMs, worldFactory });
   const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
   const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
   const errors = [];
@@ -98,10 +106,10 @@ async function run({ label, interrupt, zoom = 0 }) {
     const ticks = 4;
     const started = Date.now();
     for (let i = 0; i < ticks; i++) {
-      await new Promise(resolve => setTimeout(resolve, TICK_MS * (i === 0 ? 0.4 : 1)));
+      await new Promise(resolve => setTimeout(resolve, tickMs * (i === 0 ? 0.4 : 1)));
       if (interrupt) await page.evaluate(async n => { const kin = window.__snapshot.world.entities.find(e => e.householdId === 'hh-1' && e.kind === 'person' && e.id !== 'hh-1-thomas'); await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `rename-${crypto.randomUUID()}`, action: 'rename', entityId: kin.id, name: `Kin ${String.fromCharCode(65 + n)}` }) }); }, i);
     }
-    await new Promise(resolve => setTimeout(resolve, Math.max(0, TICK_MS * (ticks + 0.8) - (Date.now() - started))));
+    await new Promise(resolve => setTimeout(resolve, Math.max(0, tickMs * (ticks + 0.8) - (Date.now() - started))));
     const samples = await page.evaluate(() => window.__movementSamples.slice());
     return { samples, errors };
   } finally {
@@ -143,7 +151,7 @@ function analyse(samples) {
 const runs = {
   quietClose: await run({ label: 'quiet', interrupt: false, zoom: 8 }),
   busyClose: await run({ label: 'busy', interrupt: true, zoom: 8 }),
-  busyWide: await run({ label: 'wide', interrupt: true, zoom: 2 }),
+  busyWide: await run({ label: 'wide', interrupt: true, zoom: 2, tickMs: WIDE_TICK_MS }),
 };
 const result = Object.fromEntries(Object.entries(runs).map(([name, r]) => [name, analyse(r.samples)]));
 console.log(JSON.stringify(result));
@@ -167,6 +175,7 @@ if (!process.env.PROOF_OBSERVE_ONLY) {
       date: new Date().toISOString().slice(0, 10),
       ownerDirection: '"It still looks too fast. I don\'t want to change the rate at which players actually cover ground. Could we change the animation so it appears slower, without actually changing how much ground is covered?"',
       tickMs: TICK_MS,
+      wideTickMs: WIDE_TICK_MS,
       readThis: 'firstQuarterShare is the share of a tick\'s drawn walk painted in its first quarter (an even walk is about 0.25); stillFromShare is how far through the tick the figure last moved (1 is all the way); bodiesPerSecond scales with the tick, so at the Study pace of 9500ms divide by 4.75.',
       beforeThisChange: {
         commit: 'ee0beef, same script, same machine, PROOF_OBSERVE_ONLY=1',
@@ -180,7 +189,7 @@ if (!process.env.PROOF_OBSERVE_ONLY) {
         'The walk cycle\'s rate. The page exposes which clips were drawn, not which frame; the stride-matched rate is proved in tests/movement.test.mjs.',
         'A compressed calendar (MAP=colonies, news phase). The fix is proved in tests/movement.test.mjs; before it every such tick was drawn as a jump.',
       ],
-      limitations: ['Same computer, headless Chrome at a 2000ms tick: frame timing is the headless browser\'s, and nothing here says anything about a classroom network or a projector.'],
+      limitations: ['Same computer, headless Chrome at a 2000ms tick (the wide run at the Study pace, 9500 ms): frame timing is the headless browser\'s, and nothing here says anything about a classroom network or a projector.'],
     }, null, 2) + '\n');
     console.log(`\nwrote ${WRITE}`);
   }
