@@ -1,9 +1,9 @@
 {
   "record": "owner-scrape-injections",
   "date": "2026-09-30",
-  "caught": 25,
-  "only": 21,
-  "of": 25,
+  "caught": 40,
+  "only": 29,
+  "of": 40,
   "injections": [
     {
       "name": "(a) the card offers only the four stores",
@@ -12,9 +12,10 @@
       ],
       "expected": "D9 (a): the card offers",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
-        "D9 (a): the card offers the tools, the chest and the spinning wheel with the room each takes, food still packed first"
+        "D9 (a): the card offers the tools, the chest and the spinning wheel with the room each takes, food still packed first",
+        "2026-09-30 other goods: the bedding, the pot, the books and the chairs go in the load by room, only in a wagon, and come home or burn as the rest"
       ]
     },
     {
@@ -24,9 +25,10 @@
       ],
       "expected": "D9 (a): the card offers",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
-        "D9 (a): the card offers the tools, the chest and the spinning wheel with the room each takes, food still packed first"
+        "D9 (a): the card offers the tools, the chest and the spinning wheel with the room each takes, food still packed first",
+        "2026-09-30 other goods: the bedding, the pot, the books and the chairs go in the load by room, only in a wagon, and come home or burn as the rest"
       ]
     },
     {
@@ -39,7 +41,8 @@
       "only": false,
       "failed": [
         "D9 (a): what is carried stays the family's, what is left is out of its hands in the house, found at home if it stands, lost if it burns",
-        "D9 (a): left with the wagon in the mud what the backs cannot carry, taken with it by a column; the chest hidden and dug up"
+        "D9 (a): left with the wagon in the mud what the backs cannot carry, taken with it by a column; the chest hidden and dug up",
+        "2026-09-30 other goods: the bedding, the pot, the books and the chairs go in the load by room, only in a wagon, and come home or burn as the rest"
       ]
     },
     {
@@ -49,9 +52,10 @@
       ],
       "expected": "D9 (a): what is carried stays",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
-        "D9 (a): what is carried stays the family's, what is left is out of its hands in the house, found at home if it stands, lost if it burns"
+        "D9 (a): what is carried stays the family's, what is left is out of its hands in the house, found at home if it stands, lost if it burns",
+        "2026-09-30 other goods: the bedding, the pot, the books and the chairs go in the load by room, only in a wagon, and come home or burn as the rest"
       ]
     },
     {
@@ -61,9 +65,10 @@
       ],
       "expected": "D9 (a): what is carried stays",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
-        "D9 (a): what is carried stays the family's, what is left is out of its hands in the house, found at home if it stands, lost if it burns"
+        "D9 (a): what is carried stays the family's, what is left is out of its hands in the house, found at home if it stands, lost if it burns",
+        "2026-09-30 other goods: the bedding, the pot, the books and the chairs go in the load by room, only in a wagon, and come home or burn as the rest"
       ]
     },
     {
@@ -85,9 +90,10 @@
       ],
       "expected": "D9 (a): left with the wagon in the mud",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
-        "D9 (a): left with the wagon in the mud what the backs cannot carry, taken with it by a column; the chest hidden and dug up"
+        "D9 (a): left with the wagon in the mud what the backs cannot carry, taken with it by a column; the chest hidden and dug up",
+        "2026-09-30 other goods: the bedding, the pot, the books and the chairs go in the load by room, only in a wagon, and come home or burn as the rest"
       ]
     },
     {
@@ -97,9 +103,10 @@
       ],
       "expected": "D9 (a): left with the wagon in the mud",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
-        "D9 (a): left with the wagon in the mud what the backs cannot carry, taken with it by a column; the chest hidden and dug up"
+        "D9 (a): left with the wagon in the mud what the backs cannot carry, taken with it by a column; the chest hidden and dug up",
+        "2026-09-30 goods glory: a family that brought household goods home through the Scrape counts a little glory, once, flat, in plain words"
       ]
     },
     {
@@ -308,6 +315,190 @@
       "only": true,
       "failed": [
         "D9 (c): a stayer with nobody at home sees its goods where they were until the word comes; the world has them gone"
+      ]
+    },
+    {
+      "name": "(30) the stayer's herd left on the range",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "2026-09-30 herd:",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "2026-09-30 herd: foragers drive off the whole herd of a family that stayed, and it is told in the journal and the ending"
+      ]
+    },
+    {
+      "name": "(30) the herd not told in the journal",
+      "files": [
+        "sim/advance-word.mjs"
+      ],
+      "expected": "2026-09-30 herd:",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "2026-09-30 herd: foragers drive off the whole herd of a family that stayed, and it is told in the journal and the ending"
+      ]
+    },
+    {
+      "name": "(30) the herd not told at the ending",
+      "files": [
+        "sim/ending-story.mjs"
+      ],
+      "expected": "2026-09-30 herd:",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "2026-09-30 herd: foragers drive off the whole herd of a family that stayed, and it is told in the journal and the ending"
+      ]
+    },
+    {
+      "name": "(30) the page shows the herd gone before the family knows",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "2026-09-30 herd:",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "2026-09-30 herd: foragers drive off the whole herd of a family that stayed, and it is told in the journal and the ending"
+      ]
+    },
+    {
+      "name": "(30) a family nobody plays ordered out on the news",
+      "files": [
+        "sim/directors.mjs",
+        "sim/directors.mjs"
+      ],
+      "expected": "2026-09-30 computer families:",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "2026-09-30 computer families: a family nobody plays that has heard real news still waits for its order"
+      ]
+    },
+    {
+      "name": "(30) the other goods never in the load",
+      "files": [
+        "sim/flight-goods.mjs"
+      ],
+      "expected": "2026-09-30 other goods:",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "D9 (a): left with the wagon in the mud what the backs cannot carry, taken with it by a column; the chest hidden and dug up",
+        "D9 (b): on real news the family is told once, may make ready, and may leave early - losing the crop in the field, the house left empty",
+        "2026-09-30 other goods: the bedding, the pot, the books and the chairs go in the load by room, only in a wagon, and come home or burn as the rest",
+        "2026-09-30 goods glory: a family that brought household goods home through the Scrape counts a little glory, once, flat, in plain words"
+      ]
+    },
+    {
+      "name": "(30) the other goods offered on foot",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "2026-09-30 other goods:",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "2026-09-30 other goods: the bedding, the pot, the books and the chairs go in the load by room, only in a wagon, and come home or burn as the rest"
+      ]
+    },
+    {
+      "name": "(30) the other goods allowed on foot",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "2026-09-30 other goods:",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "2026-09-30 other goods: the bedding, the pot, the books and the chairs go in the load by room, only in a wagon, and come home or burn as the rest"
+      ]
+    },
+    {
+      "name": "(30) the other goods carried on foot when the wagon is left",
+      "files": [
+        "sim/road.mjs"
+      ],
+      "expected": "2026-09-30 other goods:",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "2026-09-30 other goods: the bedding, the pot, the books and the chairs go in the load by room, only in a wagon, and come home or burn as the rest"
+      ]
+    },
+    {
+      "name": "(30) no glory for goods brought home",
+      "files": [
+        "sim/ending.mjs"
+      ],
+      "expected": "2026-09-30 goods glory:",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "2026-09-30 goods glory: a family that brought household goods home through the Scrape counts a little glory, once, flat, in plain words"
+      ]
+    },
+    {
+      "name": "(30) the goods glory counted for every good",
+      "files": [
+        "sim/flight-goods.mjs"
+      ],
+      "expected": "2026-09-30 goods glory:",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "2026-09-30 goods glory: a family that brought household goods home through the Scrape counts a little glory, once, flat, in plain words"
+      ]
+    },
+    {
+      "name": "(30) tools counted as goods kept",
+      "files": [
+        "sim/flight-goods.mjs"
+      ],
+      "expected": "2026-09-30 goods glory:",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "2026-09-30 goods glory: a family that brought household goods home through the Scrape counts a little glory, once, flat, in plain words"
+      ]
+    },
+    {
+      "name": "(30) goods counted though the column took them",
+      "files": [
+        "sim/flight-goods.mjs"
+      ],
+      "expected": "2026-09-30 goods glory:",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "2026-09-30 goods glory: a family that brought household goods home through the Scrape counts a little glory, once, flat, in plain words"
+      ]
+    },
+    {
+      "name": "(30) a family carreta called a cart",
+      "files": [
+        "sim/scrape.mjs"
+      ],
+      "expected": "2026-09-30 the carreta:",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "2026-09-30 the carreta: a cart that is a family's carreta is called one on the card, with the cart's room"
+      ]
+    },
+    {
+      "name": "(30) the goods glory not said in the sums",
+      "files": [
+        "sim/ending.mjs"
+      ],
+      "expected": "2026-09-30 goods glory:",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "2026-09-30 goods glory: a family that brought household goods home through the Scrape counts a little glory, once, flat, in plain words"
       ]
     }
   ]

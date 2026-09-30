@@ -7,6 +7,7 @@
     "before any news, the family has no card to leave and no hiding on the bar, and no order",
     "the word comes, and the main person's card opens early: \"Nobody has told the family to leave yet, but it has heard: The Alamo has fallen. It was stormed at dawn on March 6, and nearly every defender was killed, Travis, Bowie an…\"",
     "the hiding is on the bar on the news, and done before any order: the mark waits for the flight",
+    "the tally says plainly when nothing more fits (\"Loaded 14.95 of 15. The cart is full: there is no room left for anything more.\") and when the bedding is too much (\"Loaded 17.45 of 15. That is more than there is room for: take something out.\")",
     "asked twice (\"Confirm: leave now, and lose the crop\"), the family leaves before its order with 25 food, 4 seed, the hoe and the chest; the corn is lost; the axe and the wheel are hidden in the river bottom",
     "at phone width the page does not scroll sideways",
     "no page errors"
@@ -26,19 +27,25 @@
         "minute": 242760
       }
     ],
-    "card": "Nobody has told the family to leave yet, but it has heard: The Alamo has fallen. It was stormed at dawn on March 6, and nearly every defender was killed, Travis, Bowie and Crockett among them. Joe, a man Travis held as a slave, who fought beside him, was spared with Mrs. Dickinson and her child, and they have come in to Gonzales. It may make ready and go now, before any order comes. Going now: The crop in the field is left standing with nobody to tend it or bring it in, and is lost; the house is left empty, with whatever is not loaded in it, for whoever comes. There is corn in the field now. Room for 15 in the cart. Food takes 0.25 each, seed 1, cotton 0.5, powder 0.1. The hoe 0.5, the felling axe 1, the chest 4, the spinning wheel 3. What is not loaded is left in the house. food (57 in the house) seed (4 in the house) cotton (0 in the house) powder (2 in the house) hoe (1 in the house, 0.5 each) felling axe (1 in the house, 1 each) chest (1 in the house, 4 each) spinning wheel (1 in the house, 3 each) Loaded 14.95 of 15. Make for San Felipe de Austin · about 6 miles Washington · about 36 miles Lynchburg · about 68 miles Liberty · about 86 miles Nacogdoches · about 155 miles Anahuac Beeson's crossing Bernardo Béxar Brazoria Brigham's ferry Burnett's Columbia Donoho's Gaines's ferry Goliad Gonzales Groce's Groce's ferry Harrisburg Lynch's ferry Matagorda McCarley's Mina Mrs. Powell's New Washington Old Fort Refugio Robbins's ferry Roberts' Robinson's ferry San Patricio Stafford's The Atascosito crossing The Colorado crossing The ferry at Matagorda The ferry at Matamoros The ferry at Victoria The Harrisburg ferry The lower Colorado crossing The San Felipe ferry Thompson's Thompson's ferry Velasco Victoria Vince's bridge How By the road (quicker, seen from further off) Across country (slower, seen from half as far) Leave now, before the order",
+    "card": "Nobody has told the family to leave yet, but it has heard: The Alamo has fallen. It was stormed at dawn on March 6, and nearly every defender was killed, Travis, Bowie and Crockett among them. Joe, a man Travis held as a slave, who fought beside him, was spared with Mrs. Dickinson and her child, and they have come in to Gonzales. It may make ready and go now, before any order comes. Going now: The crop in the field is left standing with nobody to tend it or bring it in, and is lost; the house is left empty, with whatever is not loaded in it, for whoever comes. There is corn in the field now. Room for 15 in the cart. Food takes 0.25 each, seed 1, cotton 0.5, powder 0.1. Each tool and thing for the house says its room below. What is not loaded is left in the house. food (57 in the house) seed (4 in the house) cotton (0 in the house) powder (2 in the house) hoe (1 in the house, 0.5 each) felling axe (1 in the house, 1 each) chest (1 in the house, 4 each) spinning wheel (1 in the house, 3 each) For the house, only in a wagon, if there is room: bedding (1 in the house, 2.5 each) iron pot (1 in the house, 1.25 each) Loaded 14.95 of 15. The cart is full: there is no room left for anything more. Make for San Felipe de Austin · about 6 miles Washington · about 36 miles Lynchburg · about 68 miles Liberty · about 86 miles Nacogdoches · about 155 miles Anahuac Beeson's crossing Bernardo Béxar Brazoria Brigham's ferry Burnett's Columbia Donoho's Gaines's ferry Goliad Gonzales Groce's Groce's ferry Harrisburg Lynch's ferry Matagorda McCarley's Mina Mrs. Powell's New Washington Old Fort Refugio Robbins's ferry Roberts' Robinson's ferry San Patricio Stafford's The Atascosito crossing The Colorado crossing The ferry at Matagorda The ferry at Matamoros The ferry at Victoria The Harrisburg ferry The lower Colorado crossing The San Felipe ferry Thompson's Thompson's ferry Velasco Victoria Vince's bridge How By the road (quicker, seen from further off) Across country (slower, seen from half as far) Leave now, before the order",
     "tally": {
-      "text": "Loaded 14.95 of 15.",
+      "text": "Loaded 14.95 of 15. The cart is full: there is no room left for anything more.",
       "over": "false"
+    },
+    "overBedding": {
+      "text": "Loaded 17.45 of 15. That is more than there is room for: take something out.",
+      "over": "true"
     },
     "confirm": "Confirm: leave now, and lose the crop",
     "left": {
       "cache": {
         "axe": 1,
-        "spinning-wheel": 1
+        "spinning-wheel": 1,
+        "pot": 1
       },
       "left": {
-        "food": 32
+        "food": 32,
+        "bedding": 1
       },
       "early": {
         "topicId": "alamo-fall",

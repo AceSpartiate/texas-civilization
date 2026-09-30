@@ -43,7 +43,7 @@ function inTheSpring(seed, playerCount) {
   household.improvements = { ...(household.improvements || {}), cabin: 'sound' };
   household.resources = { ...household.resources, food: 60, seed: 4, powder: 2, cotton: 0 };
   household.tools = { hoe: 0, axe: 0 };
-  household.belongings = [...new Set([...(household.belongings || []), 'chest', 'spinning-wheel'])];
+  household.belongings = ['bedding', 'pot', 'chest', 'spinning-wheel'];
   household.field = { ...household.field, crop: 'corn', state: 'planted', grownMs: 0, changedTick: world.tick };
   world.status = 'lobby';
   return world;
@@ -100,7 +100,12 @@ try {
   assert.match(observed.card, /Nobody has told the family to leave yet, but it has heard: /);
   assert.match(observed.card, /Going now: The crop in the field is left standing with nobody to tend it or bring it in, and is lost; the house is left empty/);
   assert.match(observed.card, /There is corn in the field now\./);
-  assert.match(observed.card, /The hoe 0\.5, the felling axe 1, the chest 4, the spinning wheel 3\. What is not loaded is left in the house\./);
+  assert.match(observed.card, /Each tool and thing for the house says its room below\. What is not loaded is left in the house\./);
+  assert.match(observed.card, /hoe \(1 in the house, 0\.5 each\)/);
+  assert.match(observed.card, /felling axe \(1 in the house, 1 each\)/);
+  // The rest of what the wagon brought in, only with a wagon (owner, 2026-09-30), under its own line.
+  assert.match(observed.card, /For the house, only in a wagon, if there is room: bedding \(1 in the house, 2\.5 each\)/);
+  assert.match(observed.card, /iron pot \(1 in the house, 1\.25 each\)/);
   assert.match(observed.card, /chest \(1 in the house, 4 each\)/);
   assert.match(observed.card, /spinning wheel \(1 in the house, 3 each\)/);
   assert.equal(await student.locator('#selection-flight [data-action="flee"]').textContent(), 'Leave now, before the order');
@@ -122,11 +127,19 @@ try {
   await student.locator('#selection-flight [data-action="flee"]').waitFor({ state: 'visible', timeout: 15000 });
   const room = await student.evaluate(() => window.__snapshot.world.early.room);
   const have = await student.evaluate(() => window.__snapshot.world.early.have);
-  const food = Math.min(have.food - 2, Math.floor((room - have.seed - 0.1 * have.powder - 0.5 - 4) / 0.25));
+  const food = Math.min(have.food - 2, Math.floor((room - have.seed - 0.1 * have.powder - 0.5 - 4 + 1e-9) / 0.25));
   const set = async (good, n) => student.locator(`#selection-flight .flight-amount[data-take="${good}"]`).fill(String(n));
   await set('food', food); await set('seed', have.seed); await set('powder', have.powder); await set('cotton', 0); await set('hoe', 1); await set('chest', 1); await set('axe', 0); await set('spinning-wheel', 0);
   observed.tally = await student.locator('#flight-room').evaluate(one => ({ text: one.textContent, over: one.dataset.over }));
   assert.equal(observed.tally.over, 'false', `the load does not fit: ${observed.tally.text}`);
+  // No room left, said plainly; and the bedding on top of it is too much, said so (owner, 2026-09-30).
+  assert.match(observed.tally.text, /is full: there is no room left for anything more\./, `the full cart was not said to be full: ${observed.tally.text}`);
+  await set('bedding', 1);
+  observed.overBedding = await student.locator('#flight-room').evaluate(one => ({ text: one.textContent, over: one.dataset.over }));
+  assert.equal(observed.overBedding.over, 'true');
+  assert.match(observed.overBedding.text, /That is more than there is room for: take something out\./);
+  await set('bedding', 0);
+  ok(`the tally says plainly when nothing more fits ("${observed.tally.text}") and when the bedding is too much ("${observed.overBedding.text}")`);
   await student.screenshot({ path: 'docs/evidence/owner-scrape-early-load.png' }); shots.push('docs/evidence/owner-scrape-early-load.png');
   await student.locator('#selection-flight [data-action="flee"]').click();
   observed.confirm = await student.locator('#selection-flight [data-action="flee"]').textContent();

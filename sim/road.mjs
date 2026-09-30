@@ -41,7 +41,7 @@ import { beastsOf } from './beasts.mjs';
 import { findWay } from './ways.mjs';
 import { CARRIED_ROOM, FLIGHT_SPACE, REFUGES, share } from './scrape.mjs';
 // The tools, the chest and the spinning wheel in the load (owner, 2026-09-29, D9 (a)): carried on, left with the wagon, or taken.
-import { HOUSEHOLD_SPACE, goodWords, householdGoods, removeGood } from './flight-goods.mjs';
+import { HOUSEHOLD_SPACE, WAGON_ONLY, goodWords, householdGoods, removeGood } from './flight-goods.mjs';
 import { spotlight } from './host.mjs';
 import { awardGlory } from './glory.mjs';
 import { COLUMNS, ORDER_GRACE_MINUTES, ROAD_DETOUR, clockOf, columnLeg as advanceLeg, headAt } from './advance.mjs';
@@ -417,9 +417,10 @@ export function abandonWagon(world, household) {
   const lost = Object.entries(kept).filter(([good, amount]) => (household.resources?.[good] ?? 0) > amount).map(([good, amount]) => `${round((household.resources[good] ?? 0) - amount)} ${good}`);
   for (const [good, amount] of Object.entries(kept)) household.resources[good] = amount;
   // Then the household goods in the wagon, the tools before the chest and the wheel, as far as the backs left have room
-  // (sim/flight-goods.mjs); the rest stays with the wagon.
+  // (sim/flight-goods.mjs); the rest stays with the wagon - and the bedding, the pot, the books and the rest always do, since they
+  // go only in a wagon (owner, 2026-09-30, `WAGON_ONLY`).
   for (const [good, have] of Object.entries(householdGoods(household))) {
-    const fits = Math.min(have, Math.floor(left / HOUSEHOLD_SPACE[good] + 1e-9));
+    const fits = WAGON_ONLY.includes(good) ? 0 : Math.min(have, Math.floor(left / HOUSEHOLD_SPACE[good] + 1e-9));
     if (fits > 0) { kept[good] = fits; left = round(left - fits * HOUSEHOLD_SPACE[good]); }
     if (have > fits) { removeGood(household, good, have - fits); lost.push(goodWords(good, have - fits)); }
   }

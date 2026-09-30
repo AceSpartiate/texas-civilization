@@ -68,9 +68,10 @@ export const HIDE_ROOM = 6;
 /**
  * What is hidden, in the order it is chosen: the powder and the seed a family cannot begin again without, then (since 2026-09-29,
  * `FIC-GONZ-990`) the tools it would begin again with, the chest - the Roses hid "a big chest" of bedding and clothes in the river
- * bottom (`HIST-TEX-640`) - and the spinning wheel, and the cotton last.
+ * bottom (`HIST-TEX-640`) - and the spinning wheel, then (since 2026-09-30) the bedding, the pot and the rest of what the wagon
+ * brought in, and the cotton last.
  */
-export const HIDDEN_GOODS = Object.freeze(['powder', 'seed', 'hoe', 'axe', 'broadaxe', 'froe', 'auger', 'chest', 'spinning-wheel', 'cotton']);
+export const HIDDEN_GOODS = Object.freeze(['powder', 'seed', 'hoe', 'axe', 'broadaxe', 'froe', 'auger', 'chest', 'spinning-wheel', 'bedding', 'pot', 'books', 'mosquito-bars', 'tinware', 'chairs', 'cotton']);
 /** What a child's bundle carries, in the wagon's units: a shawl's worth, two fifths of a grown person's pack (`CARRIED_ROOM`). */
 export const BUNDLE_ROOM = 0.5;
 /** How far off a lookout sees riders on the road behind, in miles, against the road's twenty (sim/road.mjs `WARNING_MILES`). */

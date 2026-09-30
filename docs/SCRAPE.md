@@ -491,9 +491,10 @@ Code: `sim/flight-goods.mjs`, `sim/scrape.mjs` (`LOAD_SPACE`, `flee`, `packFligh
   in the river bottom (`HIST-TEX-640`).
 - **The rifle is not in the load**: it goes in a man's hand, as the coin in a pocket, or with him to the war (sim/keeping.mjs).
 - **Home with no felling axe** to a burned farm, the flashback's first logs go up *"with one lent by a neighbour"*.
-- **Not counted in the final number** (the owner chose A, not C): what is saved is told, not scored.
-- `ceiling:` the other goods the wagon brought in - bedding, the iron pot, tinware, books, chairs, mosquito bars - still go with the
-  family unasked and are never lost; the owner named the tools, the wheel and the chest.
+- **Not counted in the final number** (the owner chose A, not C) - except the one small glory for goods kept for the house brought
+  home, the owner's answer of 2026-09-30 (§21).
+- The other goods the wagon brought in - bedding, the iron pot, tinware, books, chairs, mosquito bars - are in the load since
+  2026-09-30, only in a wagon (§21).
 - `ceiling:` a tool found again or dug up comes back sound (sim/tools.mjs `addTool` knows no wear); only the hoe wears.
 - `ceiling:` the felling axe carried off the land by somebody at work when the family goes is counted as at home.
 - `ceiling:` the interior view lists what the lobby load brought (sim/interior.mjs), so a chest lost may still be set out there.
@@ -531,8 +532,8 @@ crop left, the house left empty); and the preparation works on the same news. `F
 - **Its order never comes**: the settlement's day passes a family already gone. The flashback shows *"The family did not wait for an
   order to leave..."*, and the ending *"They went before any order came, on the word they had heard, and lost the corn in the
   field."*
-- `ceiling:` only a family whose student chooses it leaves early. A family nobody plays, absent or on auto still waits for its
-  order; an automatic early leave would want a rule for when a family deciding alone has heard enough.
+- **Only a family whose student chooses it leaves early.** A family nobody plays, absent or on auto still waits for its order -
+  the owner's answer of 2026-09-30 (*"No"*, §21), no longer a corner cut.
 - **The record**: families did go on the news (Covington, TSHA *Runaway Scrape*: *"when they received that news, people all over
   Texas began to leave everything"*; by February 20 *"every family in our neighborhood was preparing to go"*, Harris). **That leaving
   early cost the crop is not the record's**: Dr. Rose planted corn on March 1, left, and found it standing and wanting the plough
@@ -549,8 +550,8 @@ one in two). `FIC-GONZ-992`. Code: `sim/scrape.mjs` `burnByForagers`, `takeStaye
 
 - **What they take**: from a farm in the burn zone where the family stayed (or was still deciding), before they burn it, **every
   store** - food, seed, cotton, powder - and **every household good** of §18: the tools, the chest and the spinning wheel. **Not the
-  coin** (a column that comes up with a family on the road takes none either) and **not the herd** (docs/STOCK.md; an open
-  question). Whoever is at home is taken at one in two, as before.
+  coin** (a column that comes up with a family on the road takes none either). **Since 2026-09-30 the whole herd too** (§21).
+  Whoever is at home is taken at one in two, as before.
 - **Told plainly**: in the journal when the family learns its farm burned - by its own eyes, the smoke, the word or coming home -
   *"Before they burned it they took everything in the house: 30 food, 2 seed, a hoe, the chest..."*; and in the ending: *"They were
   told to leave in the spring and stayed on the farm. On April 13 foragers of Urrea's column burned it. They took everything in the
@@ -558,3 +559,35 @@ one in two). `FIC-GONZ-992`. Code: `sim/scrape.mjs` `burnByForagers`, `takeStaye
 - **Until the family knows**, its page shows the goods where they were (`unseen.taken`, read by `householdAsKnown`): the world has
   them gone, the family's own view does not.
 - A family that went is not stripped as a stayer: what it left burns with the house (§18).
+
+## 21. The four questions §18-§20 left — owner-decided 2026-09-30 (built 2026-09-30, not released)
+
+Asked with the report of §18-§20; the owner answered each on 2026-09-30. Claims `FIC-GONZ-992` (amended), `-993` (the goods and their glory), and
+`FIC-GONZ-991`'s amendment. Tests: `tests/owner-scrape.test.mjs` (the four *2026-09-30* tests), each failing under its injections
+(`npm run test:owner-scrape-injections`).
+
+1. **A stayer's herd: "Yes, all of it."** Foragers who reach a farm where the family stayed drive off its **whole herd**, cattle and
+   hogs, as they drive off a fleeing family's herd left on the range - and all of it, since a family that stayed never comes home to
+   find a quarter again (`burnByForagers`, `burnedBy.drove`). The journal says it when the family learns of the burning (*"They drove
+   off the whole herd with them: 8 cattle and 5 hogs."*) and the ending says it (*"They drove off the whole herd: 8 cattle and 5
+   hogs."*); until the family knows, its page shows the herd where it was (`unseen.herd`).
+2. **Families nobody plays leaving early: "No."** They wait for their order, as built (§19's corner is now the owner's rule). No code
+   changed; a test holds it (a family nobody plays that has heard is still without a flight a day before its order).
+3. **The rest of the wagon's goods: by the room the family has.** The owner: *"let it depend on how much storage they have. if they
+   have enough wagons, let them bring it all. if they don't, then no."* The bedding (2.5), the iron pot (1.25), the books (1.25), the
+   mosquito bars (1.25), the tinware (1.25) and the chairs (2.5) are in the load beside the tools, the chest and the wheel - the
+   lobby's room for each, a quarter again in the flight's units (`FIC-GONZ-993`). **Only in a wagon, cart or carreta**
+   (`WAGON_ONLY`): a family on foot is not offered them and is refused them in words (*"The iron pot can go only in a wagon, and the
+   family is going on foot."*); a family that leaves its wagon in the mud leaves them with it. Everything a family can have brought
+   comes to 19.5 of the flight's room with a tool of each kind, the chest and the wheel, against a wagon's 20: a family with two wagons, or one
+   with little food, brings it all, and a family with one wagon full of food does not. The packing is still food first. **On the
+   card** each good says its own room on its line, the extras come under their own line (*"For the house, only in a wagon, if there
+   is room:"*), and the tally says plainly when nothing more will go in (*"The wagon is full: there is no room left for anything
+   more."*) or when too much is loaded (*"That is more than there is room for: take something out."*). Carried, they come home; left,
+   they lie in the house, found if it stands and burned if it burns; the hiding takes them after the wheel.
+4. **Goods brought home: "A little glory."** A family that went east and still has with it at the end something kept for the house
+   that it loaded as it left - the chest, the spinning wheel, or any good of 3 - counts **1 glory, once, however many**, at the ending
+   proper (`KEPT_GLORY`, sim/flight-goods.mjs `keptThrough`; docs/MONEY_AND_GLORY.md §5b; `FIC-GONZ-993`). Tools and stores do not
+   count, nor goods the road or a column took, nor anything of a family that stayed. The ending says it in its own line and in the
+   sum (*"Bringing the chest, the spinning wheel and the bedding home through the Scrape counts 1 glory, which is in the glory
+   below."*). One glory is the smallest award the ending has: the weight of one gift of supplies, and far under any fight.

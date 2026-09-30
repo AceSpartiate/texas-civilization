@@ -15,9 +15,13 @@
 //     river bottom first (sim/flight-work.mjs `flee-hide`) is dug up at home, the chest among it, as the Roses' was (`HIST-TEX-640`).
 //
 // The rifle is not in the load: it goes in a man's hand, as the coin goes in a pocket (sim/scrape.mjs), or with him to the war
-// (sim/keeping.mjs `takeToWar`). ceiling: the other goods the wagon brought in - bedding, the iron pot, tinware, books, chairs,
-// mosquito bars - still go with the family unasked and are never lost; the owner named the tools, the spinning wheel and the chest.
-// A family that wants the rest weighed is the way out.
+// (sim/keeping.mjs `takeToWar`).
+//
+// **Everything else the wagon brought in, since 2026-09-30** (owner, answering the question left open on 2026-09-29: *"let it depend
+// on how much storage they have. if they have enough wagons, let them bring it all. if they don't, then no."*; docs/SCRAPE.md §21,
+// `FIC-GONZ-993`): the bedding, the iron pot, the books, the mosquito bars, the tinware and the chairs are in the load too, each with
+// its room, and **only in a wagon** (`WAGON_ONLY`): a family on foot is not offered them, and one that leaves its wagon in the mud
+// leaves them with it. A family with the wagons for it brings everything; one with one wagon and a house full of food does not.
 //
 // **The room each takes** is the game's own (`FIC-GONZ-990`), in the flight's units, where a wagon holds 20 and a food takes a
 // quarter: so the felling axe is four food's room, the chest sixteen and the spinning wheel twelve. Chosen so that a wagon can
@@ -26,7 +30,17 @@
 import { TOOL_WORDS, addTool, loseTool, toolCount } from './tools.mjs';
 
 /** The room each household good takes in the flight's load, beside the stores (sim/scrape.mjs `FLIGHT_SPACE`). */
-export const HOUSEHOLD_SPACE = Object.freeze({ hoe: 0.5, axe: 1, broadaxe: 0.5, froe: 0.25, auger: 0.25, chest: 4, 'spinning-wheel': 3 });
+export const HOUSEHOLD_SPACE = Object.freeze({ hoe: 0.5, axe: 1, broadaxe: 0.5, froe: 0.25, auger: 0.25, chest: 4, 'spinning-wheel': 3,
+  // The rest of what the wagon brought in (2026-09-30, `FIC-GONZ-993`): the lobby's room for each (sim/wagon.mjs), in the flight's
+  // units - a wagon's sixteen there are its twenty here, so each is a quarter again.
+  bedding: 2.5, pot: 1.25, books: 1.25, 'mosquito-bars': 1.25, tinware: 1.25, chairs: 2.5 });
+/** The goods that go only in a wagon, cart or carreta: never on a family's backs (owner, 2026-09-30). */
+export const WAGON_ONLY = Object.freeze(['bedding', 'pot', 'books', 'mosquito-bars', 'tinware', 'chairs']);
+/** The goods kept for the house, not tools: what the ending's small glory for goods brought home counts (`keptThrough`). */
+export const KEEPSAKES = Object.freeze(['chest', 'spinning-wheel', ...WAGON_ONLY]);
+/** What the card calls each good. */
+export const GOOD_NAMES = Object.freeze({ hoe: 'hoe', axe: 'felling axe', broadaxe: 'broadaxe', froe: 'froe', auger: 'auger', chest: 'chest', 'spinning-wheel': 'spinning wheel',
+  bedding: 'bedding', pot: 'iron pot', books: 'books', 'mosquito-bars': 'mosquito bars', tinware: 'tinware', chairs: 'chairs' });
 export const HOUSEHOLD_GOODS = Object.freeze(Object.keys(HOUSEHOLD_SPACE));
 /** The household goods that are tools (counted, sim/tools.mjs); the rest are belongings brought in the wagon (one each). */
 const TOOLS = Object.freeze(['hoe', 'axe', 'broadaxe', 'froe', 'auger']);
@@ -60,7 +74,8 @@ export function restoreGood(household, good, amount = 1) {
   }
 }
 
-const THE = Object.freeze({ chest: 'the chest', 'spinning-wheel': 'the spinning wheel' });
+const THE = Object.freeze({ chest: 'the chest', 'spinning-wheel': 'the spinning wheel', bedding: 'the bedding', pot: 'the iron pot', books: 'the books',
+  'mosquito-bars': 'the mosquito bars', tinware: 'the tinware', chairs: 'the chairs' });
 /** One good in words: "40 food", "a hoe", "2 felling axes", "the chest". */
 export function goodWords(good, amount) {
   if (THE[good]) return THE[good];
@@ -78,3 +93,19 @@ export function goodsWords(goods) {
 }
 /** The household goods of a list of goods, in words, or '' when there are none: what the ending and the homecoming say. */
 export const householdWords = goods => goodsWords(Object.fromEntries(Object.entries(goods || {}).filter(([good]) => isHouseholdGood(good))));
+
+/**
+ * The small glory for household goods brought home through the Scrape (owner, 2026-09-30, answering the question left open on
+ * 2026-09-29: **"A little glory"**; docs/MONEY_AND_GLORY.md §5b, `FIC-GONZ-993`): a family that went east and still has with it at
+ * the end something kept for the house that it loaded as it left - the chest, the spinning wheel, the bedding, the pot, the books,
+ * the mosquito bars, the tinware, the chairs; not a tool, and not a store - counts `KEPT_GLORY`, **once, however many it carried**.
+ * Flat (no miles) and capped at the one: the smallest award there is, a single gift of supplies, and far under any fight. Returns
+ * `{ glory, goods }`, or null. Read only by the ending (sim/ending.mjs), at the ending proper.
+ */
+export const KEPT_GLORY = 1;
+export function keptThrough(household) {
+  const flight = household?.flight;
+  if (!flight || !['fled', 'refuged', 'returning', 'home'].includes(flight.status)) return null;
+  const goods = KEEPSAKES.filter(good => (flight.took?.[good] ?? 0) > 0 && goodCount(household, good) > 0);
+  return goods.length ? { glory: KEPT_GLORY, goods } : null;
+}
