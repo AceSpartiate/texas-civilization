@@ -7,11 +7,13 @@
 // composition, and a CC-BY entry with no attribution - each failed only its own test here.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { BEDS, SOUNDS } from '../public/audio-mix.js';
 import { TUNES } from '../public/audio-music.js';
+import { MODEL, VOICES } from '../server/voice/text.mjs';
+import { DOWNLOADS } from '../scripts/bundle-voice.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const audioRoot = join(root, 'public', 'assets', 'audio');
@@ -44,7 +46,14 @@ test('the manifest allows only licences a sold game can carry', () => {
 });
 
 test('every audio file shipped under public/ is in the manifest', () => {
-  const shipped = walk(join(root, 'public')).filter(path => AUDIO.test(path)).map(path => relative(join(root, 'public'), path).split('\\').join('/'));
+  // Read-aloud's sentences (public/voice/, made by scripts/build-voice.mjs and not kept in git) are covered by their voice's
+  // entry: each must be listed in the build's own manifest, in a voice the licence manifest records.
+  const voiceDir = join(root, 'public', 'voice');
+  const built = existsSync(join(voiceDir, 'manifest.json')) ? JSON.parse(readFileSync(join(voiceDir, 'manifest.json'), 'utf8')) : { lines: {} };
+  const spokenIn = new Set(manifest.entries.filter(entry => entry.kind === 'speech').map(entry => entry.id.replace(/^voice-/, '')));
+  const speech = manifest.entries.find(entry => entry.kind === 'speech')?.directory;
+  const shipped = walk(join(root, 'public')).filter(path => AUDIO.test(path)).map(path => relative(join(root, 'public'), path).split('\\').join('/'))
+    .filter(file => !(speech && file.startsWith(speech) && spokenIn.has(built.lines[file.slice(speech.length).replace(/\.opus$/, '')]?.voice)));
   const listed = new Set(manifest.entries.map(entry => entry.file).filter(Boolean));
   const missing = shipped.filter(file => !listed.has(file));
   assert.deepEqual(missing, [], `audio files with no licence entry: ${missing.join(', ')}`);
@@ -65,6 +74,42 @@ test('every tune is a public-domain composition or the project\'s own, and says 
     assert.equal(entry.compositionStatus === 'project-owned', tune.source.kind === 'original', `${id}: the manifest and the tune disagree about whose composition it is`);
     assert.ok(entry.compositionEvidence, `${id}: no evidence for the composition's status`);
   }
+});
+
+test('read-aloud speaks only in voices the manifest records, from a model whose licence lets the game be sold', () => {
+  const recorded = Object.fromEntries(manifest.entries.filter(entry => entry.kind === 'speech').map(entry => [entry.id.replace(/^voice-/, ''), entry.voice]));
+  assert.deepEqual(recorded, Object.fromEntries(Object.entries(VOICES).map(([role, voice]) => [role, voice.id])), 'server/voice/text.mjs VOICES and the manifest\'s speech entries differ');
+  assert.equal(manifest.speechModel.id, MODEL, 'the manifest records another model than the one the voice speaks with');
+  assert.doesNotMatch(manifest.speechModel.licence, REFUSED);
+  assert.equal(manifest.speechModel.licence, 'Apache-2.0');
+  for (const entry of manifest.entries.filter(one => one.kind === 'speech')) assert.ok(entry.attribution, `${entry.id}: the voice's attribution is not recorded`);
+  // What the package build made, when it has been made here: this model and these voices, and nothing else.
+  const built = join(root, 'public', 'voice', 'manifest.json');
+  if (existsSync(built)) {
+    const made = JSON.parse(readFileSync(built, 'utf8'));
+    assert.equal(made.model, MODEL);
+    assert.deepEqual(made.voices, recorded, 'public/voice was spoken in other voices: run node scripts/build-voice.mjs');
+  }
+});
+
+test('the voice\'s programs are recorded, and the GPL one runs apart from the game with its source beside it', () => {
+  const byId = Object.fromEntries(manifest.speechRuntime.map(one => [one.id, one]));
+  for (const id of ['sherpa-onnx', 'espeak-ng', 'piper-phonemize', 'onnxruntime', 'opus-tools']) {
+    const one = byId[id];
+    assert.ok(one, `${id} is not recorded in speechRuntime`);
+    for (const field of ['what', 'licence', 'author', 'source', 'checked', 'licenceFile']) assert.ok(one[field], `${id}: no ${field}`);
+    assert.match(one.licenceFile, /^runtime\/voice\/LICENSES\//);
+  }
+  for (const one of manifest.speechRuntime.filter(item => /GPL/.test(item.licence))) {
+    assert.equal(one.separateProcess, true, `${one.id} is GPL and must run as a separate program`);
+    const name = one.sourceShipped.split('/').pop();
+    assert.ok(DOWNLOADS.some(download => download.source && download.name === name), `${one.id}'s source ${name} is not shipped by scripts/bundle-voice.mjs`);
+  }
+  // Separate means separate: the server starts the voice as a program, and never loads it into node.exe.
+  const service = readFileSync(join(root, 'server', 'voice', 'service.mjs'), 'utf8');
+  assert.match(service, /from 'node:child_process'/);
+  assert.doesNotMatch(service, /process\.dlopen|\.node['"]|require\(|sherpa-onnx-node/);
+  assert.ok(!Object.keys(JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).dependencies || {}).length, 'the game took on an npm dependency');
 });
 
 test('audio files are binary to git, so a CRLF checkout cannot corrupt them', () => {

@@ -349,6 +349,58 @@ scratch folder outside this repository and read: **qrcode-generator 2.0.4** (Kaz
 "QR Code" is a registered trademark of DENSO WAVE INCORPORATED; the standard is open, and no licence is needed to make one.
 
 
+## 10. Local text-to-speech (Kokoro, Supertonic, Piper, and eight others): read for read-aloud; Kokoro built (2026-09-30, not released)
+
+Read on 2026-09-30 after the owner decided on 2026-09-29 that read-aloud should use a free, legally downloadable voice
+that does not sound robotic, and never the browser's stock voice. **This was research only.** On 2026-09-30 the owner chose
+**Kokoro-82M v1.0, full precision, "Man and woman"**, and it was built as this section recommended (READ_ALOUD.md §1-8). Two
+things turned out otherwise than read here, both recorded there: below-normal priority throttles the voice's program on a hybrid
+CPU (§6), and its command line wants plain ASCII (§3). Before that choice, the owner picked a voice
+before anything is built. The full write-up, the shortlist and the samples are in [READ_ALOUD.md](READ_ALOUD.md).
+
+The method:
+
+- Eleven engines were read at source for licence.
+- Eight were run on this machine, CPU only, through **sherpa-onnx** (Apache-2.0, k2-fsa). One runtime could drive
+  Kokoro, Piper, Kitten, MeloTTS, Pocket TTS and Supertonic, so the comparison is of voices, not of glue code.
+- Every clip was scored by a speech recogniser, for whether it said the words, and by UTMOS22, a predictor of how
+  natural it sounds. Both are proxies: nobody listened.
+
+| Question | Finding | Verdict |
+| --- | --- | --- |
+| **Kokoro-82M v1.0**, full precision | Apache-2.0. The most natural of those run (UTMOS 4.45 for `af_heart`). RTF 0.70 on one thread. 310 MB. Its Spanish voices are weak. | **Shortlisted first**, as the narrator voice, pending the owner's ear |
+| Kokoro int8 | Measurably worse (UTMOS −0.4 to −0.8) and *slower* on this CPU | **Refused** |
+| **Supertonic 3** | OpenRAIL-M. UTMOS 4.39-4.48, RTF 0.36, 138 MB, native Spanish, no espeak-ng. | **Shortlisted**, if the owner accepts OpenRAIL-M's pass-through use restrictions and disclosure clause, which the audio rule does not list |
+| **Piper**, Bryce Beattie's public-domain voices (`kristin`, `john`) | The cleanest licence found. RTF 0.08. Flatter VITS phrasing. | **Shortlisted as the fallback** |
+| Piper voices fine-tuned from `lessac`, and the NC-data voices | A research-only (Blizzard 2013) or non-commercial ancestry | **Refused** |
+| Kitten TTS, MeloTTS | Good or mixed sound, but the training data is undisclosed | **Refused** on the audio rule's "unclear" |
+| Pocket TTS | CC-BY 4.0 weights, and CC0 or CC-BY voices exist. The int8 export gives different speech on every run and was unreliable here. | **Held.** Its voice cloning is the only route to a custom narrator. |
+| XTTS v2, F5-TTS | Non-commercial weights | **Refused** |
+| Parler-TTS, Chatterbox, NeuTTS Air, StyleTTS 2 checkpoints | Too heavy for a laptop's CPU in class, cloning-only, or superseded by Kokoro | **Refused** |
+| Synthesis on the Chromebook | 110-330 MB of model per device, over classroom Wi-Fi, on the slowest CPUs in the room | **Refused** |
+| **Pre-generate fixed text at package time; speak only name-bearing sentences on the Host; Chromebooks play Opus files** | About 2 hours of fixed speech, 25-35 MB per voice. About 1 Mbit/s even if all 30 listen at once. The Host's CPU is the real budget. | **Built** 2026-09-30 (owner-decided, not released): READ_ALOUD.md |
+
+**Three findings would hold whichever voice is chosen:**
+
+1. **espeak-ng is GPL-3.0 and built into sherpa-onnx**, and Kokoro and Piper both need it.
+   - Package-time generation ships none of it. That is the strongest argument for doing as much as possible at package
+     time.
+   - Runtime generation should call a separate `sherpa-onnx-offline-tts.exe` (20 MB, tried, RTF 0.41 on two threads),
+     never an addon inside `node.exe`.
+2. **Every engine mispronounces the Tejano names.** espeak-ng says Seguín as "SEG-win" and Béxar as "BAKE-sar",
+   confirmed by printing its phonemes rather than by ear. The game needs its own pronunciation table, which HISTORY.md
+   will have opinions about.
+3. **Read-aloud is a rounding error on the network.** A line is about 25 KB, against the 112 KB per tick the class
+   already sends.
+
+Access limitations:
+
+- UTMOS scores clean studio speech above real home recordings (3.9 and 2.4-3.5 for the human references here). It
+  separates bad from good, not good from best.
+- The timings were taken on a shared machine at 30-100% load, and a school laptop was **not** measured.
+- The leaderboard standing attributed to Kokoro comes from secondary sites and was not verified.
+
+
 ## What was actually taken
 
 
@@ -379,6 +431,8 @@ scratch folder outside this repository and read: **qrcode-generator 2.0.4** (Kaz
 | Flanking, facing, formations, high ground | Total War | **Rejected** — VISION.md §16 forbids a general-purpose tactical war game by name |
 | Veterancy: people improve with use | Total War | **Rejected** — skill is fixed at founding so a family without the handy member must ask a neighbour; veterancy would let one snowball inside a lesson |
 | A QR code of the join address | qrcode-generator and jsQR, read | **Implemented without them** — `public/qr.js` from the standard; their output and decoding are its test evidence (§9) |
+| Read-aloud with a natural local voice: fixed text pre-generated at package time, name-bearing sentences on the Host, Opus to the Chromebooks | Kokoro, Supertonic 3, Piper (public-domain voices), via sherpa-onnx | **Implemented** (2026-09-30, not released): Kokoro-82M fp32 through sherpa-onnx's standalone program, a separate process; `server/voice/`, `public/read-aloud.js` (§10, READ_ALOUD.md) |
+| Synthesis on the student's device; the browser's stock voice | (considered) | **Rejected** — model downloads over classroom Wi-Fi; the owner refused the stock voice |
 
 ## Access limitations
 

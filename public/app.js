@@ -46,6 +46,8 @@ import { decodeLand, decodeOutside, decodeProvince, emptyMiddle, landWeights, li
 import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, tapSlop, wheelZoomFactor, worldAt, zoomAbout } from '/map-camera.js';
 const $ = selector => document.querySelector(selector);
 import { EYEBROWS, ICONS, URGENT, militaryNotices } from '/military-attention.js';
+// Read aloud (owner, 2026-09-30, D15; docs/READ_ALOUD.md): a button on the words, played in a voice made on the teacher's laptop.
+import { createReadAloud, voiceOfPerson } from '/read-aloud.js';
 import { createBattleView, personArt } from '/battle-view.js';
 import { createChaseView } from '/chase-view.js';
 import { activityOf, drawnStroke, drawsAtWork, drawWorkLayer, fetchPose, fetchStep, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
@@ -90,6 +92,15 @@ import('/audio.js').then(({ createSoundscape }) => {
   soundscape.mount($('#map-tools'));
   if (window.__snapshot) soundscape.observe(window.__snapshot);
 }).catch(error => console.warn('The page has no sound:', error));
+// Read aloud (owner, 2026-09-30, D15; public/read-aloud.js): one button on each thing a student reads - the tip, the call, the
+// messages card, each line a rider and the family's person say, the journal's newest line - and one <audio> for all of them.
+// Never on the Host's page, which is a projector. As loud as the Sound setting. Up here, above the page's first `connect`, for
+// the same TDZ guard.
+const readAloud = hostPage ? null : createReadAloud({ ask: (path, input) => api(path, input), settings: () => soundscape?.settings || null, hostPage });
+// The buttons on lines that are drawn again and again (a rider's conversation, the tips list), kept by line so the one playing
+// is the same button after every render.
+const readButtons = new Map();
+mountReadAloud();
 // The lone parent's path as scenes over the whole screen (public/courtship.js, sim/courtship.mjs): opened by the snapshot that
 // carries them, and telling the sound to look again when the wedding's tune should start or stop. Up here, above the page's first
 // `connect`, for the TDZ guard.
@@ -7350,6 +7361,52 @@ $('#military-go')?.addEventListener('click', async () => {
  * page (public/tips.js shows the Host nothing), so never on the projector.
  */
 let tipShowing = null, tipFamily = null, tipPutAway = new Set(), tipBottom = null;
+/**
+ * Read aloud's buttons on the page's standing panels (owner, 2026-09-30, D15; public/read-aloud.js, docs/READ_ALOUD.md): the tip
+ * over the map and the store's, the call's menu, the messages card, the questions on a person's card, and the journal's
+ * newest line. Each reads what its panel shows at the press, in the narrator's voice. Made once; each is shown only while the
+ * class can read aloud and its panel has words. A rider's lines and the tips list have theirs made as they are drawn.
+ */
+function mountReadAloud() {
+  if (!readAloud) return;
+  const narrate = text => (text && text.trim() ? [{ text: text.trim(), voice: 'narrator' }] : []);
+  for (const selector of ['#tip', '#errand-tip']) {
+    const panel = $(selector);
+    panel?.querySelector('.tip-close')?.before(readAloud.button(() => narrate(TIPS[panel.dataset.tip] || ''), { className: 'read-aloud-tip' }));
+  }
+  $('#call-menu-text')?.after(readAloud.button(() => narrate($('#call-menu-text').textContent), { when: () => Boolean($('#call-menu-text')?.textContent) }));
+  // The card's title and its words: "A call to arms." then what is asked.
+  $('#military-words')?.after(readAloud.button(() => [...narrate(`${$('#military-title').textContent.replace(/[.!?]?$/, m => m || '.')}`), ...narrate($('#military-words').textContent)],
+    { className: 'read-aloud-card', when: () => Boolean($('#military-words')?.textContent) }));
+  // What a person's card asks - the army's questions, the road's, the call's, the sick - every question drawn on it now.
+  const asked = () => [...($('#selection')?.querySelectorAll('.ask-text') || [])].filter(one => !one.closest('[hidden]') && one.textContent.trim());
+  $('#selection-close')?.before(readAloud.button(() => asked().flatMap(one => narrate(one.textContent)), { compact: true, className: 'read-aloud-selection', when: () => asked().length > 0 }));
+  // The journal's newest line, as the record keeps it (without the "into the story" the list adds).
+  const newest = () => window.__snapshot?.world?.events?.at(-1);
+  $('#event-log')?.previousElementSibling?.append(readAloud.button(() => narrate(newest()?.text || ''), { compact: true, className: 'read-aloud-journal', when: () => Boolean(newest()?.text) }));
+  // These panels are drawn between snapshots too (a person chosen, a card opened): each change to one looks again, once.
+  let looking = false;
+  const look = () => { if (looking) return; looking = true; queueMicrotask(() => { looking = false; readAloud.refresh(); }); };
+  const watcher = new MutationObserver(look);
+  for (const selector of ['#selection', '#call-menu', '#military-notice', '#tip', '#errand-tip', '#event-log']) {
+    const panel = $(selector);
+    if (panel) watcher.observe(panel, { subtree: true, childList: true, attributes: true, attributeFilter: ['hidden'] });
+  }
+}
+/** A button for one line of a list that is drawn again (a rider's words, a tip in the list), the same button every time. */
+function readLine(key, lines) {
+  if (!readAloud) return null;
+  if (!readButtons.has(key)) readButtons.set(key, readAloud.button(lines, { compact: true }));
+  return readButtons.get(key);
+}
+/** Every render: ask once whether the class reads aloud, show the buttons that have words, and forget the ones gone. */
+function renderReadAloud() {
+  if (!readAloud) return;
+  readAloud.ensure();
+  readAloud.refresh();
+  readAloud.tidy();
+  for (const [key, button] of readButtons) if (!button.isConnected) readButtons.delete(key);
+}
 /** The popups a tip over the map is placed clear of, or waits behind (the errand is held in public/tips.js `tipToShow`). */
 const TIP_HELD_BY = ['#house-plan', '#house-plot', '#going', '#wagon-load', '#site-choose', '#survey-choose'];
 function renderTip(world, { hidden = false } = {}) {
@@ -7507,7 +7564,12 @@ function renderTipsList(world) {
   if (key === tipsListKey) return;
   tipsListKey = key;
   const items = $('#tips-list-items');
-  items.replaceChildren(...tips.map(tip => { const item = document.createElement('li'); item.dataset.tip = tip.id; setText(item, tip.words); return item; }));
+  items.replaceChildren(...tips.map(tip => {
+    const item = document.createElement('li'); item.dataset.tip = tip.id; setText(item, tip.words);
+    const read = readLine(`tip:${tip.id}`, () => [{ text: tip.words, voice: 'narrator' }]);
+    if (read) item.append(read);
+    return item;
+  }));
 }
 function openTipsList() {
   const list = $('#tips-list');
@@ -7665,10 +7727,13 @@ function renderEncounter(world) {
   const shown = lines.slice(0, sayCount);
   const speakingNow = sayCount < lines.length ? lines[sayCount] : null;
   const who = line => line.speaker === 'rider' ? encounter.carrierName : name;
-  $('#encounter-said').replaceChildren(...shown.map(line => {
+  $('#encounter-said').replaceChildren(...shown.map((line, index) => {
     const item = element('li', line.text);
     item.dataset.speaker = line.speaker;
     item.prepend(element('span', who(line), 'said-who'));
+    // Read aloud in the speaker's own voice: the rider's (or Travis's runner's) and the family's person's, a man's or a woman's.
+    const read = readLine(`said:${encounter.id}:${index}`, () => [{ text: line.text, voice: line.speaker === 'rider' ? 'rider' : voiceOfPerson(listener) }]);
+    if (read) item.append(read);
     return item;
   }), ...(speakingNow ? [(() => {
     // Somebody is about to say something. Named, so it is plainly a person taking their
@@ -8119,6 +8184,7 @@ function render(snapshot) {
   // After the panels, so the tip is placed above the bar as it is drawn this time; never over the curtain of making a family.
   // Nor over the lone parent's scenes, which are the whole screen while they last (public/courtship.js).
   renderTip(world, { hidden: Boolean(creating) || courtshipScenes.open });
+  renderReadAloud();
   soundscape?.observe(snapshot);
 }
 /**

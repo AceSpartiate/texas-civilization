@@ -1,0 +1,54 @@
+{
+ "manifestVersion": 1,
+ "application": "texas-revolution-foundation",
+ "what": "The read-aloud voice (docs/READ_ALOUD.md)",
+ "model": "Kokoro-82M v1.0 fp32",
+ "onnxRuntime": "1.28.2",
+ "bundledAtUtc": "2026-09-30T11:41:07.729Z",
+ "downloads": [
+  {
+   "name": "sherpa-onnx-v1.13.8-win-x64-shared-MT-Release.tar.bz2",
+   "url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.13.8/sherpa-onnx-v1.13.8-win-x64-shared-MT-Release.tar.bz2",
+   "sha256": "6dffdc715a4465b989446a6105265d2cb345e7101591a17d35534b6758f6e8df",
+   "what": "the voice program (sherpa-onnx 1.13.8, Apache-2.0, with ONNX Runtime, MIT, and espeak-ng, GPL-3.0)"
+  },
+  {
+   "name": "kokoro-multi-lang-v1_0.tar.bz2",
+   "url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-multi-lang-v1_0.tar.bz2",
+   "sha256": "c5f7e2d2caf082bc1d20fb70334a61d99d20b484500aad32e7cf84c128ea3298",
+   "what": "Kokoro-82M v1.0, full precision, and its 54 voices (Apache-2.0; hexgrad/Kokoro-82M, packed by k2-fsa)"
+  },
+  {
+   "name": "opus-tools-0.2-win64.zip",
+   "url": "https://archive.mozilla.org/pub/opus/win64/opus-tools-0.2-win64.zip",
+   "sha256": "84e643f1cc3fd26fc743ea7830392de765507f72846e24719804d3d07f1ad96f",
+   "what": "opusenc (Xiph.Org opus-tools 0.2, BSD-2-Clause; libopus BSD-3-Clause), linked from opus-codec.org/downloads"
+  },
+  {
+   "name": "espeak-ng-ed530aa113046142eb5115cf2fc9157854d0ffe1.zip",
+   "url": "https://github.com/csukuangfj/espeak-ng/archive/ed530aa113046142eb5115cf2fc9157854d0ffe1.zip",
+   "sha256": "e4e262cbe34f7fe21f91f1ba3397f2728e1f30eafbae7853f2b753a9ed13f0dd",
+   "what": "the source of the espeak-ng built into the voice program (GPL-3.0): the commit and hash sherpa-onnx 1.13.8 pins in cmake/espeak-ng-for-piper.cmake"
+  },
+  {
+   "name": "piper-phonemize-f3ff95afc03640bc1399e113e83361192a2fafb4.zip",
+   "url": "https://github.com/csukuangfj/piper-phonemize/archive/f3ff95afc03640bc1399e113e83361192a2fafb4.zip",
+   "sha256": "d9cca4e2bdc7d6dd8dffb96a4668283dbd3f77a9c194a3e530c1e8eba9406a5d",
+   "what": "the source of piper-phonemize (MIT), which joins espeak-ng to the voice program: pinned in cmake/piper-phonemize.cmake"
+  },
+  {
+   "name": "sherpa-onnx-1.13.8.tar.gz",
+   "url": "https://github.com/k2-fsa/sherpa-onnx/archive/refs/tags/v1.13.8.tar.gz",
+   "sha256": "b0374cc56dbc186d442ae73d5de743bb092470b640c4c50ce7b029044c0c4fa8",
+   "what": "the source of the voice program itself (sherpa-onnx 1.13.8, Apache-2.0), with the build scripts that name every other part"
+  },
+  {
+   "name": "onnxruntime-LICENSE.txt",
+   "url": "https://raw.githubusercontent.com/microsoft/onnxruntime/v1.28.2/LICENSE",
+   "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c",
+   "what": "the ONNX Runtime licence (MIT)"
+  }
+ ],
+ "bytes": 415528425,
+ "files": 260
+}

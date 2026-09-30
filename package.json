@@ -13,6 +13,8 @@
     "build:art": "node scripts/build-atlas-manifest.mjs",
     "build:standins": "node scripts/build-claude-standins.mjs",
     "build:webp": "node scripts/build-webp.mjs",
+    "build:voice": "node scripts/build-voice.mjs",
+    "bundle:voice": "node scripts/bundle-voice.mjs",
     "art:plan": "node scripts/claude-art/write-plan.mjs",
     "art:compare": "node scripts/claude-art/compare.mjs",
     "art:rig": "node scripts/claude-art/proof-rig.mjs",
@@ -156,6 +158,9 @@
     "test:rider-deadline-injections": "node scripts/rider-deadline-injections.mjs",
     "test:spring-news-injections": "node scripts/spring-news-injections.mjs",
     "test:news-all-riders-injections": "node scripts/news-all-riders-injections.mjs",
-    "test:webp-tips-touch-injections": "node scripts/webp-tips-touch-injections.mjs"
+    "test:webp-tips-touch-injections": "node scripts/webp-tips-touch-injections.mjs",
+    "test:read-aloud": "node scripts/read-aloud-browser-proof.mjs",
+    "test:read-aloud-injections": "node scripts/read-aloud-injections.mjs",
+    "measure:voice-burst": "node scripts/voice-burst.mjs"
   }
 }

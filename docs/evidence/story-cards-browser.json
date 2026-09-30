@@ -1,6 +1,6 @@
 {
   "proof": "npm run test:story-cards",
-  "when": "2026-09-30T11:02:17.825Z",
+  "when": "2026-09-30T16:35:04.057Z",
   "pass": [
     "the neighbours' card (rgb(217, 164, 65)) first and the house's (rgb(127, 154, 63)) under it, both glowing, under Hide names and over the rows",
     "every moment in its own card: alto \"¡Alto! Soldiers on the road\", road \"The road is asking\", flight \"Told to leave for the east\", call \"A call to arms\", sick \"Vicente is very sick\", supply \"The army asks for supplies\", rider \"A rider has stopped to speak\", courier \"A call for riders at the Alamo\", orders \"Your family member is being asked\", battle \"The fight at Concepción\", account \"After Concepción\", siege \"Inside the Alamo\" - 9 accents, the account still, the others glowing",

@@ -74,6 +74,15 @@ under it. Once the class is running the card folds to one line; press it to show
 - **Gone for a while:** after two minutes with their page closed, a family goes on by itself, run by the computer, until the
   student comes back and plays it again.
 
+## Read aloud
+
+Every tip, message card, call, rider's line and the journal's newest line has a **Read aloud** button. It reads the words in a
+natural computer voice - a narrator, a woman's voice for a woman, a man's for a man, and the rider's own - made on your computer,
+with nothing sent to the internet and nothing installed on the Chromebooks. Most lines are ready at once. A line with a family's
+own names in it is spoken by your computer the first time, and its button says **Getting ready…** for a few seconds, longer when
+many families get news at once. It is as loud as the student's Sound setting, and silent when their sound is off: headphones
+help in a full room.
+
 ## The debrief
 
 When the spring ends (or at End Game) the class goes through the end together, and the computer runs it by itself:

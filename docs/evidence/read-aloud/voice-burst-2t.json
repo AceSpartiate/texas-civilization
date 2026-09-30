@@ -1,0 +1,77 @@
+{
+ "date": "2026-09-30",
+ "machine": "12th Gen Intel(R) Core(TM) i9-12900KF, 24 logical cores, 64 GB",
+ "shared": "Measured on the owner's desktop while other builders' test suites ran on it (load recorded).",
+ "cpuLoadPercent": {
+  "before": 55,
+  "during": [
+   43,
+   45,
+   39
+  ],
+  "after": 39
+ },
+ "threads": 2,
+ "lines": 30,
+ "sentences": 30,
+ "sample": "Thomas Crane reached Gonzales, where volunteers from the settlements are gathering and waiting to be made into an army.",
+ "readySeconds": {
+  "first": 4.1,
+  "median": 62.1,
+  "last": 117.5
+ },
+ "perSentenceMs": {
+  "mean": 3913,
+  "n": 30,
+  "median": 3713,
+  "p95": 4835,
+  "max": 5343
+ },
+ "pressedTwentyFifth": {
+  "waitedSeconds": 5.2,
+  "orderSpoken": 2
+ },
+ "opusBytes": {
+  "total": 675477,
+  "perSentence": 22516
+ },
+ "roughAudioSeconds": 239,
+ "tickMs": {
+  "before": {
+   "n": 39,
+   "median": 86.9,
+   "p95": 172.4,
+   "max": 178.2
+  },
+  "during": {
+   "n": 114,
+   "median": 93,
+   "p95": 152.6,
+   "max": 165.8
+  },
+  "after": {
+   "n": 39,
+   "median": 85.5,
+   "p95": 103.7,
+   "max": 122.3
+  }
+ },
+ "eventLoopDelayMs": {
+  "before": {
+   "p50": 15.5,
+   "p99": 92.1,
+   "max": 194
+  },
+  "during": {
+   "p50": 15.5,
+   "p99": 101.5,
+   "max": 1542.5
+  },
+  "after": {
+   "p50": 15.5,
+   "p99": 96.1,
+   "max": 137.6
+  }
+ },
+ "failed": 0
+}

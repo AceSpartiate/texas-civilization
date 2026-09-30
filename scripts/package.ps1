@@ -67,6 +67,20 @@ if ($LASTEXITCODE -ne 0) { throw 'The WebP copies of the art could not be made (
 & $node (Join-Path $root 'scripts\build-webp.mjs') --check | Select-Object -Last 1
 if ($LASTEXITCODE -ne 0) { throw 'A picture has no current WebP (npm run build:webp -- --check).' }
 
+# ---------------------------------------------------------------- the voice that reads aloud
+# Owner, 2026-09-30 (D15, docs/READ_ALOUD.md): natural voices, never the stock one. Two halves, both checked here:
+#   runtime\voice\  Kokoro-82M and the programs that run it (scripts/bundle-voice.mjs, like node.exe: fetched, not in git),
+#                   which the Host uses for the sentences with a family's names in them;
+#   public\voice\   every fixed sentence of the game spoken once, here, at package time (scripts/build-voice.mjs; made, not
+#                   in git, like the WebP art), so a class never waits for a tip, a call or the timeline's news.
+# A package never ships a voice that does not match its record, or text the voice has not spoken.
+& $node (Join-Path $root 'scripts\bundle-voice.mjs') --check
+if ($LASTEXITCODE -ne 0) { throw 'The read-aloud voice is missing or altered in runtime\voice (node scripts/bundle-voice.mjs).' }
+& $node (Join-Path $root 'scripts\build-voice.mjs')
+if ($LASTEXITCODE -ne 0) { throw 'The fixed sentences could not all be spoken (npm run build:voice).' }
+& $node (Join-Path $root 'scripts\build-voice.mjs') --check
+if ($LASTEXITCODE -ne 0) { throw 'A fixed sentence has no current speech (npm run build:voice -- --check).' }
+
 # ---------------------------------------------------------------- the game itself
 $ship = @(
   'server', 'sim', 'public', 'runtime',
@@ -173,9 +187,10 @@ if ($BaseManifests) {
 $made = Write-ReleaseChanges $app $manifest $bases $changes (Get-Item -LiteralPath $update).Length
 
 # ---------------------------------------------------------------- the smaller package
-# No runtime and no launcher: for a machine that already has Node, using Launch.vbs as it
+# No Node runtime and no launcher: for a machine that already has Node, using Launch.vbs as it
 # always has. No list either - it would name a runtime that is not there, and nothing reads it.
-Remove-Item -LiteralPath (Join-Path $app 'runtime') -Recurse -Force
+# The read-aloud voice stays (runtime\voice): it is not Node, and without it the names in a line are never read.
+foreach ($item in @(Get-ChildItem -LiteralPath (Join-Path $app 'runtime') -Force | Where-Object { $_.Name -ne 'voice' })) { Remove-Item -LiteralPath $item.FullName -Recurse -Force }
 Remove-Item -LiteralPath (Join-Path $app $script:ManifestInPackage) -Force
 $needsNode = Join-Path $Destination "TexasRevolution-Gonzales-$Stamp-NeedsNode.zip"
 if (Test-Path -LiteralPath $needsNode) { Remove-Item -LiteralPath $needsNode -Force }

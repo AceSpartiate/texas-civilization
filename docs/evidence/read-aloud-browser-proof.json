@@ -1,0 +1,83 @@
+{
+  "proof": "read-aloud",
+  "date": "2026-09-30",
+  "pass": [
+    "a tip (\"sick\", 3 sentences) read aloud from the keyboard: every sentence the package's, fetched as Ogg Opus and played to its end at volume 0.89; nothing spoken on the Host; \"Got it\" and the click-through untouched",
+    "the rider's opening read in the rider's voice (am_fenrir, a man's): 4 sentences, 2 spoken on the Host (pressed, 3625 ms; pressed, 4649 ms), the button \"Getting ready…\" then \"Stop\" then \"\"; each fetched and played to its end",
+    "Effie Proofwright's question (\"How many of them are there?\") read in the woman's voice (af_kore), from the package",
+    "one line at a time: pressing the daughter's line stopped the rider's, and pressing it again stopped it",
+    "sound off: the button says \"Sound is off\" and nothing is fetched or played",
+    "the browser's own voice (speechSynthesis) was never spoken to"
+  ],
+  "measured": {
+    "volumeSetting": null,
+    "hostSpokeMeanwhile": 0,
+    "tip": {
+      "id": "sick",
+      "sentences": 3,
+      "fromPackage": true,
+      "played": 3,
+      "volume": 0.8944271909999159,
+      "layout": {
+        "passesThrough": true,
+        "closeReached": true,
+        "button": {
+          "width": 112,
+          "height": 40
+        }
+      }
+    },
+    "rider": {
+      "carrier": "Perla Zamarripa",
+      "listener": "Effie Proofwright",
+      "listenerSex": "female"
+    },
+    "riderLine": {
+      "text": "I've come from San Felipe de Austin, and I did not see any of this myself. Tobias Crow put it in my hands there, and had it from another rider before that, out of Gonzales. There are Mexican soldiers on the far bank of the Guadalupe, across from the town. They came for the cannon, and the town has told them no.",
+      "sentences": 4,
+      "madeOnHost": 2,
+      "hostLog": [
+        {
+          "key": "6ffb90b197dde87f976916d76fb6fd5d",
+          "priority": "pressed",
+          "waitedMs": 0,
+          "tookMs": 3625,
+          "chars": 74
+        },
+        {
+          "key": "2605dd2ebd30467f6cb3c195d0c819b6",
+          "priority": "pressed",
+          "waitedMs": 3602,
+          "tookMs": 4649,
+          "chars": 97
+        }
+      ],
+      "states": [
+        "waiting:Getting ready…",
+        "playing:Stop",
+        "idle:"
+      ],
+      "voice": "am_fenrir"
+    },
+    "womanLine": {
+      "text": "How many of them are there?",
+      "speaker": "Effie Proofwright",
+      "voice": "af_kore",
+      "fromPackage": true
+    },
+    "fetched": {
+      "count": 10,
+      "bytes": null,
+      "allOgg": true
+    },
+    "host": {
+      "spoken": 2,
+      "failed": 0,
+      "msPerSentence": 4137
+    }
+  },
+  "shots": [
+    "docs/evidence/read-aloud-tip.png",
+    "docs/evidence/read-aloud-rider.png"
+  ]
+}

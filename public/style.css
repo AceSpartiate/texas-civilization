@@ -1598,3 +1598,21 @@ body[data-lesson=true] #family-journal[data-open=true]{top:max(100px,calc(18px +
   .panel-row[data-hunger=starving] .panel-portrait::after{animation:none;box-shadow:inset 0 0 0 4px #ff4a36,inset 0 0 14px 5px #d8261cdd}
   .food-gauge-fill,#supplies .supply,.panel-portrait::after{transition:none}
 }
+
+/* Read aloud (owner, 2026-09-30, D15; public/read-aloud.js, docs/READ_ALOUD.md): a quiet button on the words it reads, never
+   louder than them. Its states: "Getting ready…" while the line is made on the teacher's laptop, "Stop" while it plays. */
+.read-aloud{pointer-events:auto;flex:none;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:5px 10px;border-radius:5px;background:#f3e7c7;color:#3e3524;border:1px solid #9c8259;font-size:13px;font-weight:600;line-height:1.2;box-shadow:none;cursor:pointer}
+.read-aloud:hover:enabled,.read-aloud:focus-visible{background:#ead9ac}
+.read-aloud-icon{width:18px;height:18px;flex:none}
+.read-aloud[data-state=playing]{background:#4f6b3f;color:#fff9e9;border-color:#3c5230}
+.read-aloud[data-state=waiting]{background:#fff3cf}
+.read-aloud[data-state=waiting] .read-aloud-icon{animation:read-aloud-wait 1.2s ease-in-out infinite}
+@keyframes read-aloud-wait{50%{opacity:.35}}
+@media (prefers-reduced-motion: reduce){.read-aloud[data-state=waiting] .read-aloud-icon{animation:none}}
+.read-aloud[data-state=cannot],.read-aloud[data-state=muted]{background:#f4ece0;color:#7a5a3a}
+.read-aloud-compact{min-height:36px;min-width:36px;padding:4px 7px;margin-left:6px;vertical-align:middle;background:transparent;border-color:transparent;font-size:12px}
+.read-aloud-compact .read-aloud-words:empty{display:none}
+#encounter-said .read-aloud-compact{float:right;margin:-4px 0 0 6px}
+.read-aloud-card{margin:2px 0 8px}
+.read-aloud-selection{margin-left:auto}
+#tips-list-items .read-aloud-compact{margin-left:4px}
