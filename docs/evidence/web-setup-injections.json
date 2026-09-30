@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-09-30T19:37:41.619Z",
+  "recordedAt": "2026-09-30T22:07:05.680Z",
   "machine": "development computer",
   "script": "scripts/web-setup-injections.mjs",
   "checks": "scripts/verify-web-setup.mjs",
@@ -18,7 +18,7 @@
       "caught": true
     },
     {
-      "injection": "any file whose name ends Setup.exe is taken for the whole setup - including the small one",
+      "injection": "any .exe in the release is taken for the whole setup - including the small installer listed first",
       "file": "websetup/Download.cs",
       "expected": [
         "api-asset"

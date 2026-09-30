@@ -1,5 +1,5 @@
 ﻿{
-    "recordedAt":  "2026-09-30T18:15:26.0019899Z",
+    "recordedAt":  "2026-09-30T22:08:30.5095370Z",
     "machine":  "development computer",
     "script":  "scripts/launcher-delta-injections.ps1",
     "tests":  "tests/launcher (dotnet run)",
@@ -170,7 +170,7 @@
                            "caught":  true
                        },
                        {
-                           "injection":  "the small setup taken for the whole one (any name ending Setup.exe)",
+                           "injection":  "the small installer taken for the whole setup (any TexasRevolution*.exe)",
                            "file":  "launcher\\Updates.cs",
                            "expected":  "assets",
                            "failed":  [

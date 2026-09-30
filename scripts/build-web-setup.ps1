@@ -1,6 +1,6 @@
-# Builds the small setup a teacher can email: TexasRevolutionWebSetup.exe (websetup/, docs/DEPLOYMENT.md).
+# Builds the small setup a teacher can email: TexasRevolutionInstaller.exe (websetup/, docs/DEPLOYMENT.md).
 #
-#   powershell -NoProfile -ExecutionPolicy Bypass -File scripts\build-web-setup.ps1 -Out <path\TexasRevolutionWebSetup.exe> [-Tag v...]
+#   powershell -NoProfile -ExecutionPolicy Bypass -File scripts\build-web-setup.ps1 -Out <path\TexasRevolutionInstaller.exe> [-Tag v...]
 #
 # Compiled by the C# compiler that ships inside Windows' own .NET Framework 4.8, so it needs no SDK,
 # no NuGet and nothing downloaded, and what it builds needs nothing a Windows 10 or 11 computer does

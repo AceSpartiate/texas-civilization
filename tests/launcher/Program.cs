@@ -280,11 +280,11 @@ Test("assets: the list and sets are found, and no launcher from before takes a s
 {
     // The sets are listed first, as GitHub may order them: a launcher from before 2026-09-16
     // takes the first .zip without NeedsNode as the whole game. The small setup a teacher emails
-    // (TexasRevolutionWebSetup.exe, from 2026-09-30) is listed before the whole one: it is not a
+    // (TexasRevolutionInstaller.exe, from 2026-09-30) is listed before the whole one: it is not a
     // launcher, and a launcher that took it for its update would unpack nothing.
     var json = $$"""
         {"tag_name":"v2","html_url":"page","name":"v2","assets":[
-          {"name":"TexasRevolutionWebSetup.exe","browser_download_url":"u/websetup","size":173568},
+          {"name":"TexasRevolutionInstaller.exe","browser_download_url":"u/installer","size":173568},
           {"name":"{{DeltaUpdate.PatchAssetName("v1")}}","browser_download_url":"u/patch","size":412},
           {"name":"{{ReleaseManifest.AssetName}}","browser_download_url":"u/manifest","size":40},
           {"name":"TexasRevolution-Gonzales-2.zip","browser_download_url":"u/zip","size":170000000},

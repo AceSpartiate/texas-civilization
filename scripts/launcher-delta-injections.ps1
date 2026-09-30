@@ -33,7 +33,7 @@ $injections = @(
   @('a retired file is deleted rather than kept for rollback', 'launcher\UpdateSwap.cs', 'Note\("retired:" \+ name\);', 'Delete(Path.Combine(backup, name));', 'swap-rollback'),
   @('a launch ignores an interrupted swap', 'launcher\UpdateSwap.cs', 'if \(File\.Exists\(Path\.Combine\(backup, Marker\)\)\) \{ Rollback\(target\); rolledBack = true; \}', 'if (false) { Rollback(target); rolledBack = true; }', 'interrupted-swap'),
   @('a set of changes named .zip, which old launchers take for the game', 'launcher\DeltaUpdate.cs', 'PatchSuffix = "\.patch";', 'PatchSuffix = ".zip";', 'assets'),
-  @('the small setup taken for the whole one (any name ending Setup.exe)', 'launcher\Updates.cs', 'assetName\.Equals\("TexasRevolutionSetup\.exe", StringComparison\.OrdinalIgnoreCase\)', 'assetName.EndsWith("Setup.exe", StringComparison.OrdinalIgnoreCase)', 'assets'),
+  @('the small installer taken for the whole setup (any TexasRevolution*.exe)', 'launcher\Updates.cs', 'assetName\.Equals\("TexasRevolutionSetup\.exe", StringComparison\.OrdinalIgnoreCase\)', 'assetName.StartsWith("TexasRevolution", StringComparison.OrdinalIgnoreCase) && assetName.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)', 'assets'),
   @('the check promises the whole size when only the changes come', 'launcher\DeltaUpdate.cs', 'return \(patch\.Size \+ release\.ManifestSize, true\);', 'return (release.SetupSize, true);', 'estimate'),
   @('sizes under a megabyte said in megabytes', 'launcher\DeltaUpdate.cs', 'bytes < 1024 \* 1024 \?', 'bytes < 1024 ?', 'plain-sizes')
 )
