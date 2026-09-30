@@ -1,6 +1,6 @@
 {
   "record": "The parents' faces in How We Look: no hair dye off the hair, the face takes the skin (2026-09-28)",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "verdict": "PASS",
   "note": "Same computer, headless Chrome. Measured through public/art.js drawSprite, the call the preview, the swatches, the family portrait and the map make. Colours and face boxes measured on the art, not read from the code under test. No LAN or district claim.",
   "limits": {
@@ -14,6 +14,9 @@
     "rust-woman (female: bonnet, female: headscarf): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
     "teal (female: pinned hair): no hair dye off the hair (0.00% standing, 0.02% at worst walking) and the face takes the skin (0.00% left)",
     "indigo (female: braid, female: loose hair, female: straw hat): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
+    "girl (a child): takes the family's tone on the face (0.00% left) and the hair choice only on the hair (0.03% standing, 0.01% at worst walking)",
+    "boy (a child): takes the family's tone on the face (0.22% left) and the hair choice only on the hair (0.10% standing, 0.15% at worst walking)",
+    "smallchild (a child): takes the family's tone on the face (0.00% left) and the hair choice only on the hair (0.00% standing, 0.00% at worst walking)",
     "at 1366x768 both parents' pop-ups draw the preview, the figure and every swatch (How Ezra looks; How Rhoda looks)",
     "at 1280x800 both parents' pop-ups draw the preview, the figure and every swatch (How Asa looks; How Serafina looks)",
     "at 1024x600 both parents' pop-ups draw the preview, the figure and every swatch (How Caleb looks; How Patience looks)",
@@ -131,6 +134,95 @@
         "face": 1925,
         "undyed": 0,
         "strayAt": []
+      },
+      "girl": {
+        "child": true,
+        "head": 9205,
+        "stray": 3,
+        "face": 3058,
+        "undyed": 0,
+        "strayAt": [
+          [
+            55,
+            49,
+            141,
+            81,
+            41
+          ],
+          [
+            56,
+            49,
+            140,
+            80,
+            39
+          ],
+          [
+            55,
+            50,
+            139,
+            78,
+            40
+          ]
+        ]
+      },
+      "boy": {
+        "child": true,
+        "head": 11486,
+        "stray": 11,
+        "face": 2272,
+        "undyed": 5,
+        "strayAt": [
+          [
+            52,
+            32,
+            245,
+            197,
+            126
+          ],
+          [
+            53,
+            32,
+            243,
+            194,
+            126
+          ],
+          [
+            53,
+            33,
+            241,
+            189,
+            117
+          ],
+          [
+            114,
+            36,
+            242,
+            182,
+            103
+          ],
+          [
+            52,
+            77,
+            238,
+            181,
+            137
+          ],
+          [
+            53,
+            78,
+            237,
+            178,
+            133
+          ]
+        ]
+      },
+      "smallchild": {
+        "child": true,
+        "head": 9428,
+        "stray": 0,
+        "face": 2491,
+        "undyed": 0,
+        "strayAt": []
       }
     },
     "walks": {
@@ -139,7 +231,10 @@
       "ochre": 0,
       "rust-woman": 0,
       "teal": 0.02,
-      "indigo": 0
+      "indigo": 0,
+      "girl": 0.01,
+      "boy": 0.15,
+      "smallchild": 0
     },
     "screens": [
       {

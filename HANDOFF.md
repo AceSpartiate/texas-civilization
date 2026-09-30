@@ -32,7 +32,18 @@ claims `HIST-TEX-780` to `-789`, `FIC-GONZ-980` to `-986`.
   entity, trade or reward.
 - **Art**: request 2026-09-29 "the family's start" (A21-A23, C20) with four stand-ins in use.
 
-**Evidence** (same computer only; no Chromebook or LAN claim): EVIDENCE
+**Evidence** (same computer only; no Chromebook or LAN claim; merged with origin/main ca6ac201):
+
+- `tests/starts.test.mjs`, 14 tests (the last three play a class of ten to the spring). **`npm run test:starts-injections`: 31 of 31
+  caught by the test written for each, 26 by it alone** ([record](docs/evidence/starts-injections.json)); three were missed on the
+  first run and their tests strengthened (forty layouts for the burn-zone exchange; an Anglo man who *is* offered Houston's army;
+  a Tejano man who stayed home in the autumn).
+- Browser, headless Chrome: `test:creation` 14 (new: the Tejano, free Black and Anglo cards, `docs/evidence/creation-start-*.png`),
+  `test:looks` 12 (new: each start's tones offered with pictures, the children inside them, `docs/evidence/looks-start-*.png`),
+  `test:looks-face` 15 (new: her girl, boy and small child take the tone on the face and the hair only on the hair; the check
+  **fails, 100% undyed, with the children's palette rows removed**), `test:creation-screen` 4, `test:family`, `test:family-panel`,
+  `test:means`, `test:lone-parent` 10, `test:battle-bexar` 15, `test:scrape` 7, `test:whole-game` 14 - all green.
+- `npm test`: **1840 tests, 1803 pass, 1 fail, 36 skipped** (the suspended tutorial); the one fail is `save-retry`, the known flake under load, which passed on its rerun alone.
 
 **Open, for the owner** (built the conservative way; recommended first; the whole of each in FAMILY_CREATION.md):
 1. A Tejano family's wedding: (a) a priest's wedding by the priest from La Bahía; (b) the bond, as built, with a truthful line;

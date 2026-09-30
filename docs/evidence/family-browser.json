@@ -1,6 +1,6 @@
 {
   "record": "family-browser",
-  "date": "2026-09-27",
+  "date": "2026-09-30",
   "browser": "153.0.8010.53",
   "task": "HANDOFF next task 2: let a student name their own family, and make family relationships exist and be visible.",
   "started": "The first person to play this asked who the mother and the father were, and the game had no answer.",
@@ -14,7 +14,7 @@
     "what a student types is cleaned before anybody else reads it: \"<b>Bad</b> 1234 😀\" became \"bBadb\"",
     "and a name with no letters in it is refused, in words",
     "and the last name, once given, is kept: a second one is refused in words",
-    "and it is fetched once: 8 ticks passed and nothing asked again (a tick is 29522 bytes without the map)",
+    "and it is fetched once: 9 ticks passed and nothing asked again (a tick is 28996 bytes without the map)",
     "no page errors anywhere in the run"
   ],
   "measured": {
@@ -128,9 +128,9 @@
         "of": "Son of Alvin Hollis and Refugia Hollis."
       }
     ],
-    "tickBytes": 29522,
+    "tickBytes": 28996,
     "familyFetchesDuringPlay": 0,
-    "ticksWatched": 8
+    "ticksWatched": 9
   },
   "notProved": [
     "That a class names anything. The controls are there and work; whether a room of twelve-year-olds uses them is a classroom question.",

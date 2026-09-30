@@ -70,9 +70,11 @@
       ],
       "expect": "moving a start early exchanges only two families on the same side of the burn zone, and keeps every family's land",
       "spring": false,
-      "caught": false,
-      "alone": false,
-      "failed": []
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "moving a start early exchanges only two families on the same side of the burn zone, and keeps every family's land"
+      ]
     },
     {
       "name": "every class deals starts, a class made before too",
@@ -343,9 +345,11 @@
       ],
       "expect": "in the spring a Tejano family's man may join Seguín's company in Houston's army, and nobody else's may",
       "spring": true,
-      "caught": false,
-      "alone": false,
-      "failed": []
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "in the spring a Tejano family's man may join Seguín's company in Houston's army, and nobody else's may"
+      ]
     },
     {
       "name": "joining Seguín's company in the spring does not mark him Seguín's",
@@ -354,9 +358,11 @@
       ],
       "expect": "in the spring a Tejano family's man may join Seguín's company in Houston's army, and nobody else's may",
       "spring": true,
-      "caught": false,
-      "alone": false,
-      "failed": []
+      "caught": true,
+      "alone": true,
+      "failed": [
+        "in the spring a Tejano family's man may join Seguín's company in Houston's army, and nobody else's may"
+      ]
     },
     {
       "name": "the halted wagons are drawn on every family's page",

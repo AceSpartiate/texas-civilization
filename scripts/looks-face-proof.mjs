@@ -59,7 +59,8 @@ const FIGURES = {
  */
 const CHILDREN = {
   girl: { face: [.279, .721, .081, .319], skin: [223, 124, 54], hair: [[70, 43, 27], [63, 36, 21], [69, 42, 27], [71, 44, 28], [74, 45, 26], [61, 39, 24]] },
-  boy: { face: [.273, .727, .101, .308], skin: [247, 164, 101], hair: [[198, 134, 66], [197, 133, 65]] },
+  // The boy's sandy hair has dark brown strands painted through it, at the crown and the fringe (measured at the top of his head).
+  boy: { face: [.273, .727, .101, .308], skin: [247, 164, 101], hair: [[198, 134, 66], [197, 133, 65], [122, 75, 31], [94, 59, 29], [142, 88, 37], [128, 79, 34]] },
   smallchild: { face: [.243, .75, .11, .358], skin: [225, 127, 57], hair: [[77, 44, 24]] },
 };
 /** At most this share of a head's pixels may take the hair dye while painted in no hair colour (the release had 3.4-8.4%). */
