@@ -8,11 +8,11 @@
   },
   "note": "Same computer, headless Chrome. No Chromebook, LAN or classroom claim. A is the classroom's own world and pace.",
   "checks": [
-    "A: a latecomer at the Study pace waited 63 s on the die while the family arrived, threw it (You rolled a 14 for your family and a 10 for what it has.) and reached the last name",
+    "A: a latecomer at the Study pace waited 64 s on the die while the family arrived, threw it (You rolled a 14 for your family and a 10 for what it has.) and reached the last name",
     "A: the last name is taken, and the die is not offered again",
     "B: with the class paused the die still lands (You rolled a 12 for your family and a 2 for what it has.) and the last name follows",
     "D: a class with no family left says so on the join form, with what to do: \"Every family in this class already has a student. Ask your teacher to choose a family for you on the Host's page.\"",
-    "C: a latecomer whose family had begun (hh-6) goes straight into the world with the family it has - no die, no hang",
+    "C: a latecomer whose family the computer had played (hh-6) gets no die, names it (Latimer), renames Ambrosio Latimer, dresses 2 parent(s), and its 6 past lines and its people's ids are untouched",
     "E: an unanswered throw is given up after 12.1 s and said on the card: \"The die did not come back from the class. Press Roll the die again.\"",
     "E: a refused throw is said on the die's own card, not on a line behind the curtain",
     "E: after both, the real throw lands (You rolled a 2 for your family and a 12 for what it has.)",
@@ -21,7 +21,7 @@
   "observed": {
     "a": {
       "householdId": "hh-4",
-      "waitedOnDieMs": 62621,
+      "waitedOnDieMs": 64250,
       "card": {
         "step": "roll",
         "curtain": true,
@@ -37,19 +37,16 @@
       "result": "You rolled a 12 for your family and a 2 for what it has."
     },
     "d": "Every family in this class already has a student. Ask your teacher to choose a family for you on the Host's page.",
+    "cBegun": "Your family was already here before you joined, so there is no die to roll. What it has done so far stays in its journal under the names it had then; from now on it goes by the names you give it.",
     "c": {
       "householdId": "hh-6",
-      "roll": null,
-      "card": {
-        "step": "begin",
-        "curtain": false,
-        "die": false,
-        "button": "Roll the die",
-        "result": ""
-      }
+      "surname": "Latimer",
+      "renamed": "Ambrosio Latimer",
+      "dressed": 2,
+      "pastLinesKept": 6
     },
     "e": {
-      "unansweredGivenUpAfterMs": 12146,
+      "unansweredGivenUpAfterMs": 12113,
       "card": {
         "step": "roll",
         "curtain": true,
@@ -71,6 +68,7 @@
     }
   },
   "screenshots": [
-    "docs/evidence/late-join-surname.png"
+    "docs/evidence/late-join-surname.png",
+    "docs/evidence/late-join-begun-surname.png"
   ]
 }

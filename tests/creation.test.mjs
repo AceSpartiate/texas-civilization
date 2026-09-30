@@ -61,6 +61,20 @@ test('a family rolled at a late join still shows its die until it is met, and on
   assert.equal(at('hh-22', book({ canRoll: false, roll: null, named: false, surname: undefined })), null, 'a family that cannot roll held the page');
 });
 
+// The owner's answer, 2026-09-30 ("Name and looks"): a late student who takes over a family the computer played has no die, and
+// is asked its last name, the first names, and the parents' looks, as a student who rolled is.
+test('a family taken over late is asked its name, names and looks with no die', () => {
+  globalThis.sessionStorage = { getItem: key => (/begun/.test(key) ? '1' : null), setItem: () => {} };
+  const at = (id, family) => creationStep({ role: 'student', householdId: id }, family);
+  const taken = extra => book({ roll: null, canRoll: false, joinedBegun: true, ...extra });
+  assert.equal(at('hh-30', taken({ named: false, surname: undefined })), 'surname', 'the taken-over family was not asked its last name');
+  const parent = [{ id: 'p', role: 'father', given: 'Tomás', choices: { skin: [] }, chosen: false }];
+  assert.equal(at('hh-31', taken({ people: parent })), 'names');
+  globalThis.sessionStorage = { getItem: () => '1', setItem: () => {} };
+  assert.equal(at('hh-32', taken({ people: parent })), 'looks');
+  assert.equal(at('hh-33', taken()), null, 'a taken-over family already made held the page');
+});
+
 test('the title screen names the game, the curtain covers the map, and the map is not drawn behind it', () => {
   const html = readFileSync(new URL('../public/index.html', import.meta.url), 'utf8');
   assert.match(html, /<h1 id="creation-name">Family: Texas <span>1835\/36<\/span><\/h1>/);

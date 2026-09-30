@@ -45,7 +45,7 @@
   <form id="names-form">
     <!-- Every box is already filled in with the name the game dealt, so nothing here is required. Said out loud since
          2026-09-21: a card headed "Name each of them" with ten filled boxes reads as ten things to do. -->
-    <p id="names-hint">Step 3 of 4. They are already named: change any you like, or press Continue and keep them. You can
+    <p id="names-hint"><span id="names-step">Step 3 of 4.</span> They are already named: change any you like, or press Continue and keep them. You can
       rename anybody later on the family panel.</p>
     <ul id="names-list"></ul>
     <p id="names-error" role="alert"></p>
@@ -656,8 +656,12 @@
     <!-- The last name is set once (sim/family.mjs `nameFamily` refuses a second one), which until 2026-09-21 a student only
          found out by trying; and the list of names under the box carried no words saying what it was. -->
     <section id="surname" hidden role="dialog" aria-modal="true" aria-labelledby="surname-title">
-      <span class="eyebrow">STEP 2 OF 4</span>
+      <span class="eyebrow" id="surname-step">STEP 2 OF 4</span>
       <h2 id="surname-title">Name your family</h2>
+      <!-- A family a late student took over from the computer (owner, 2026-09-30, "Name and looks"): no die, and said what a new
+           name changes and what it does not. -->
+      <p id="surname-begun" hidden>Your family was already here before you joined, so there is no die to roll. What it has done
+        so far stays in its journal under the names it had then; from now on it goes by the names you give it.</p>
       <form id="surname-form">
         <label for="surname-input">Family Last Name</label>
         <input id="surname-input" maxlength="24" autocomplete="off" spellcheck="false" required>

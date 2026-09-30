@@ -6,6 +6,8 @@ decides who can be sent to fight.
 
 **Since 2026-09-25 the die is thrown with a second one, for the family's means** (the amendment at the foot of this file, `sim/means.mjs`).
 
+**Since 2026-09-30 a student who joins late** has their family's die thrown at the join, or - if the computer has already played the family - names it and chooses the parents' looks with no die (the last amendment, *a late student's family*).
+
 **Since 2026-09-29 a family has a start as well** - Anglo-American, Tejano at Victoria, or free Black near Liberty - dealt with its land, and its parents' skin tones are locked to the start's range (the last amendment, *The family's start*; `sim/starts.mjs`).
 
 **The words on the wizard's screens were reviewed 2026-09-21** — the amendment at the foot of this file is the record of
@@ -1346,3 +1348,40 @@ had ridden out with Seguín and was not inside when it fell. A woman of the fami
 Goliad (sim/starts.mjs `downriver`), keeping the burn zone, the missions' clearance and the join slots. The land rule did not need
 loosening: in 25 seeds of 20-30 families every class had its Béxar family, 3.1 to 4.4 miles down the river between Concepción and
 Espada; a map with none would give the seat back to its colony (`colonySeatFor`). The measurements are docs/COLONIES.md §5.1's.
+
+## Amendment, 2026-09-30 — a late student's family: the die at the join, or name and looks with no die (owner-decided; not released)
+
+From the classroom (2026-09-30: *"student tried to join late and it was stuck on the rolling for the family part. wouldn't let him
+past."*) and the owner's answer the same day, by multiple choice, **"Name and looks"**. A student who joins after Start is given the
+first family nobody plays, or the family the teacher chose (docs/HOST_PAGE.md §2.7). What they make of it depends on whether anything
+has happened to it yet:
+
+- **Nothing has happened to it** (still on its road in, in the first minutes of a class): **the die is thrown in the join itself**
+  (server/app.mjs `/api/join`, `rolledAtJoin`), the courtesy Start does for a lobby student who never rolled, so the family's own
+  arrival cannot close it; the student throws the die on the page on that number, then the last name, the names and the looks, as
+  any student.
+- **The computer has already played it** (it has arrived, been set to work, been spoken to): **no die** - its people's ids are in
+  its record, its journal, other families' journals and the Host's, and §2's rule that a roll replaces only people nothing yet refers
+  to holds. But its student is asked **its last name, everybody's first names and each parent's looks**, as a student who rolled is:
+  three steps (*Step 1 of 3* ... *Step 3 of 3*), with the words *"Your family was already here before you joined, so there is no die
+  to roll. What it has done so far stays in its journal under the names it had then; from now on it goes by the names you give it."*
+  Marked `joinedBegun` on the household, set only for a family nobody had played before, with no roll and no last name; `nameFamily`
+  accepts a last name without a roll for it alone. A lobby student whom Start rolled for is unchanged (owner, the same day: "Leave it").
+
+**What a new name changes, and what it does not** (the same rules as a name changed on the family panel, docs/FAMILY_PANEL.md §5):
+
+- **Kept:** every person's id, so every reference to them - the record, their work, their journeys, a rider's conversation, the
+  Host's panel - is to the same person; every line already written, in this family's journal and anybody else's, exactly as it was
+  written (*"Silas Roe ... spoke with Rebecca."* stays so); the family's land, stores, work under way and history.
+- **Changed from now on:** the name everything is drawn and written with - the panel, the map's labels, the journal's new lines, the
+  Host's class panel, the ending. The change is itself written into the journal - *"The family took the last name Treviño."*, and for
+  a first name *"Elias Treviño is called Ambrosio Treviño now."* - and the last name is set once, like every family's.
+- **Looks:** each parent's pop-up opens on how the class has been seeing them (the dealt look), so Done keeps it; a changed look is
+  how the parent is drawn from then on, on every page and in the family's video at the end. Children take after their parents.
+- A last name the family already has is kept, and nothing is asked.
+- `ceiling:` a student who takes over a family whose earlier student is away (`student-away`) is not asked: that family was its
+  student's, and may have been named by them. A class paused when the student joins refuses the last name until the teacher resumes
+  it (*"Wait until the class is running."*, on the card), as it does any order.
+
+Evidence: `tests/late-join.test.mjs`, `tests/creation.test.mjs` and `npm run test:late-join` (C), each failed on its injection
+(HANDOFF.md, *Name and looks for a late student*).

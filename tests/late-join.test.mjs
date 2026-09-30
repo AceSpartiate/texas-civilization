@@ -201,5 +201,77 @@ test('a latecomer whose family has already begun keeps it, is never offered a di
     assert.equal(book.canRoll, false, 'the page offers a die the server will refuse');
     assert.equal(book.roll, null);
     assert.equal(book.rolledAtJoin, undefined);
+    // Name and looks, no die (owner, 2026-09-30): the book says so, and the page asks for them (public/creation.js).
+    assert.equal(household.joinedBegun, true, 'the family the computer played is not marked for its new student to name');
+    assert.equal(book.joinedBegun, true);
+    assert.equal(book.named, false);
+    assert.ok(book.people.some(person => person.choices && !person.chosen), 'no parent is left for the student to choose the looks of');
+  } finally { await dispose(); }
+});
+
+// The owner's answer, 2026-09-30, by multiple choice: a late student given a family the computer has already played chooses its
+// last name and the parents' looks - "Name and looks" - but gets no die. Its people keep their ids; what it did before keeps the
+// names it was written with; the new names are said in its journal; nobody else can name a family without a die.
+test('a latecomer who takes over a family the computer played names it and chooses the parents\' looks, and its people and past stay whole', async () => {
+  const { createGonzalesWorld } = await import('../sim/gonzales.mjs');
+  const { app, host, join: joinAs, dispose } = await classroom({ playerCount: 8, tickMs: 40, worldFactory: createGonzalesWorld });
+  try {
+    for (let i = 0; i < 5; i++) await joinAs(`Student ${i}`);
+    await command(host, 'start');
+    for (let i = 0; i < 300 && !app.state.world.events.some(event => event.householdId === 'hh-6' && event.type === 'arrival'); i++) await delay(40);
+    await command(host, 'pause');
+    const before = app.state.world;
+    const people = before.households['hh-6'].members;
+    const names = Object.fromEntries(people.map(id => [id, before.entities[id].name]));
+    const history = before.events.filter(event => event.householdId === 'hh-6').map(event => [event.id, event.text]);
+    assert.ok(history.length > 1, 'the family has no history to keep');
+    const late = await joinAs('Takes over');
+    assert.equal(late.answer.body.world.householdId, 'hh-6');
+    await command(host, 'resume');
+    const named = await command(late.student, 'rename', { surname: 'Treviño' });
+    assert.equal(named.status, 200, named.body.error);
+    const book = (await late.student.call('/api/family')).body.family;
+    assert.equal(book.named, true);
+    assert.equal(book.surname, 'Treviño');
+    const after = app.state.world;
+    assert.deepEqual(after.households['hh-6'].members, people, 'the people were replaced: their ids are in the record');
+    for (const id of people) {
+      assert.equal(after.entities[id].given, names[id], `${id} lost the first name the class knew`);
+      assert.equal(after.entities[id].name, `${names[id]} Treviño`);
+    }
+    // Every line written before is exactly as it was written: the past keeps the names it had.
+    const kept = new Map(after.events.filter(event => event.householdId === 'hh-6').map(event => [event.id, event.text]));
+    for (const [id, text] of history) assert.equal(kept.get(id), text, 'a line of the family\'s past was rewritten');
+    assert.ok(after.events.some(event => event.householdId === 'hh-6' && event.text === 'The family took the last name Treviño.'), 'the journal does not say the family took its name');
+    // Set once, as any family's.
+    assert.match((await command(late.student, 'rename', { surname: 'Other' })).body.error, /last name is Treviño, and it is kept/);
+    // A first name changed says so in the journal, as it does on the panel (docs/FAMILY_PANEL.md §5).
+    const first = people[0];
+    assert.equal((await command(late.student, 'rename', { entityId: first, name: 'Ambrosio' })).status, 200);
+    assert.ok(app.state.world.events.some(event => event.actorId === first && event.text === `${names[first]} Treviño is called Ambrosio Treviño now.`));
+    // The looks: each parent, once, starting from how the class has been seeing them.
+    const parents = book.people.filter(person => person.choices);
+    assert.ok(parents.length >= 1);
+    for (const parent of parents) {
+      const choice = { skin: parent.choices.skin.at(-1), hair: parent.choices.hair[0], clothing: parent.choices.clothing[0], head: parent.choices.head[0] };
+      const chose = await command(late.student, 'set-appearance', { entityId: parent.id, ...choice });
+      assert.equal(chose.status, 200, chose.body.error);
+      assert.match((await command(late.student, 'set-appearance', { entityId: parent.id, ...choice })).body.error, /already been chosen/);
+    }
+    const done = (await late.student.call('/api/family')).body.family;
+    assert.ok(done.people.filter(person => person.choices).every(person => person.chosen), 'a parent is still waiting');
+    assert.equal(app.state.world.households['hh-6'].roll, undefined, 'it was rolled after all');
+  } finally { await dispose(); }
+});
+
+test('only a family taken over late is named without a die: a student in the lobby still rolls first, and no lobby family is marked', async () => {
+  const { app, host, join: joinAs, dispose } = await classroom({ playerCount: 6 });
+  try {
+    const first = await joinAs('In the lobby');
+    assert.match((await command(first.student, 'rename', { surname: 'Early' })).body.error, /Roll the die/);
+    for (let i = 1; i < 5; i++) await joinAs(`Student ${i}`);
+    await command(host, 'start');
+    await delay(200);
+    for (const household of Object.values(app.state.world.households)) if (household.played) assert.equal(household.joinedBegun, undefined, `${household.id} was joined in the lobby and marked as taken over`);
   } finally { await dispose(); }
 });

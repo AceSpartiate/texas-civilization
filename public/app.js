@@ -6235,6 +6235,9 @@ function renderSurname() {
     if (show) setTimeout(() => $('#surname-input')?.focus(), 0);
   }
   if (!show) return;
+  // No die for a family a late student took over from the computer (owner, 2026-09-30): three steps, and said why.
+  $('#surname-step').textContent = family.joinedBegun ? 'STEP 1 OF 3' : 'STEP 2 OF 4';
+  $('#surname-begun').hidden = !family.joinedBegun;
   const first = family.people.map(person => person.given || person.name);
   const typed = $('#surname-input').value.trim();
   $('#surname-people').textContent = typed ? first.map(name => `${name} ${typed}`).join(', ') : first.join(', ');

@@ -93,7 +93,9 @@ class address* and can type today's code on the spot, or open the address on the
   family at a time, because the Host page may be on the projector.
 - **Late, or absent on the first day:** they join at the join address, and are given the first family nobody is playing, or the
   family you choose for them under **Late students**. If nothing has happened to that family yet they still roll the die for it;
-  if the computer has been playing it for a while, they take it as it is.
+  if the computer has been playing it for a while, there is no die - they keep its people and what it has done - but they give it
+  its last name, may rename its people, and choose how the parents look. If the class is paused, the last name waits until you
+  press Resume.
 - **Gone for a while:** after two minutes with their page closed, a family goes on by itself, run by the computer, until the
   student comes back and plays it again.
 

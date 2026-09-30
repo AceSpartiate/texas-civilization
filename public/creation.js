@@ -110,7 +110,9 @@ function stepOf(world, family) {
   // The die while it is theirs to roll. A family that has not rolled and may not - the class has begun and Start will roll it -
   // waits in the world, as it always did, and is asked its name as soon as it has been rolled.
   if (family.canRoll) return 'roll';
-  if (!family.roll) return null;
+  // A family a late student took over from the computer (`joinedBegun`, owner 2026-09-30: "Name and looks") has no die, and is
+  // named and dressed like any other; one that has not rolled and is not that goes to the world, as it always did.
+  if (!family.roll && !family.joinedBegun) return null;
   // A family the server rolled as its student joined late (server/app.mjs `/api/join`, classroom 2026-09-30): the die is still
   // the student's to throw on this page, on the server's number, until the family has been met or named.
   if (family.rolledAtJoin && !family.named && !state.met) return 'roll';
@@ -209,6 +211,8 @@ function renderNames(family) {
     }));
   }
   $('#names-family').textContent = family.surname ? `The ${family.surname} family` : family.name;
+  // Three steps for a family a late student took over from the computer, which has no die (owner, 2026-09-30).
+  if ($('#names-step')) $('#names-step').textContent = family.joinedBegun ? 'Step 2 of 3.' : 'Step 3 of 4.';
 }
 
 /**

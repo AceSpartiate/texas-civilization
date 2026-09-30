@@ -1,5 +1,46 @@
 # Claude handoff — Astra foundation
 
+## Name and looks for a late student; `test:family-commands` green again — owner-decided 2026-09-30 (not released)
+
+Branch `late-join-2` off local `integration-2026-09-28` (e67e0f15); not pushed.
+
+**The owner's answers** to the two questions of the late-join fix below, by multiple choice: a late student given a family the
+computer already played - **"Name and looks"**: they choose the last name and the parents' looks, but get no die; a lobby student
+Start rolled for - **"Leave it"** (unchanged). docs/FAMILY_CREATION.md, the amendment of 2026-09-30; TEACHER.md.
+
+- **Built.** At the late join, a family nobody had played before, with no roll and no last name and that can no longer roll, is
+  marked `joinedBegun` (server/app.mjs `/api/join`; `validateWorld` holds it to true on a played, unrolled family). The family book
+  says so; `creationStep` (public/creation.js) then asks its last name, the first names and each parent's looks as it does a rolled
+  family's, counted *Step 1 of 3* ... *Step 3 of 3*, and the last-name card says *"Your family was already here before you joined,
+  so there is no die to roll. What it has done so far stays in its journal under the names it had then; from now on it goes by the
+  names you give it."* `nameFamily` (sim/family.mjs) accepts a last name without a roll for that family alone.
+- **What a rename keeps and changes** (FAMILY_CREATION.md, the amendment; the panel's rule in docs/FAMILY_PANEL.md §5): every
+  person's id and every line already written stay; the name drawn and written from now on changes, and the journal says so (*"The
+  family took the last name ..."*, *"X is called Y now."*). The looks pop-up opens on the dealt look the class has been seeing.
+- **Evidence** (same computer only; no Chromebook or LAN claim): `tests/late-join.test.mjs`, two new tests and one extended - the
+  taken-over family marked and its book saying so; named, renamed and dressed, with the same member ids, its given names under the
+  surname, every past line of its record byte for byte, the journal's two new lines, the last name and looks set once, no roll; a
+  lobby student still refused a last name before rolling and no lobby family marked. `tests/creation.test.mjs`, one new test (the
+  three steps for `joinedBegun`); `tests/creation-words.test.mjs` holds the three-step counters. **Injections, each failing only its
+  own test(s):** the marker never set (the two late-join tests); `nameFamily` without its roll guard (the lobby test); the book
+  without `joinedBegun` (the extended test); `creationStep` ignoring it (the creation test). **`test:late-join` 9 of 9**, case C
+  rewritten: a family worked by the computer (6 past lines), joined while paused, resumed, named *Latimer*, one person renamed on the
+  card, two parents dressed, then the world - ids and past lines checked on the server
+  ([record](docs/evidence/late-join-browser.json), [screenshot](docs/evidence/late-join-begun-surname.png)). Injections: without the
+  server's marker C fails (*not asked its last name*); with the looks pop-up for rolled families only, C times out.
+
+**`test:family-commands` - a stale proof, not a game bug.** It failed at *"hh-1-child-4 could not be made the main person"* with
+`#survey-choose` open, on `cb5c1fb4` and on integration. The cause is **8eabc1d2** *(Per-plot crops: each cleared plot its own crop,
+owner 2026-09-30)*: the Plant icon, which the proof pressed as a one-press order, now opens the planting chooser to ask which crop;
+while any place chooser is open the family column folds to faces by design (8de42122), so the next person's star could not be
+pressed. A student is not stuck: the chooser has *Not now* and the crop buttons, and *Show names* opens the column. The proof now
+answers the chooser as a student does (corn for every bare plot, or *Not now*). Behind it, the stale-order check then picked *Visit a
+shop*, which opens the errand popup and sends nothing; it now skips the icons that open a chooser, by the page's own rule
+(`opensChooser`). **23 of 23, twice.**
+
+- `npm test`: **1969 tests, 1932 pass, 1 fail, 36 skipped**; the one, `save-retry`, the known flake under load, passes alone (2 of 2).
+  `test:creation` 15, `test:looks` 12, `test:late-join` 9, `test:family-commands` 23 (twice).
+
 ## A small setup to email: `TexasRevolutionWebSetup.exe`, 169.5 KB — owner, 2026-09-30 (not released)
 
 Branch `web-setup` off local `integration-2026-09-28` (cb5c1fb4); not pushed, nothing published. Owner: *"The file for

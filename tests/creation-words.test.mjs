@@ -122,7 +122,11 @@ test('every step of the wizard says which step it is, in the order creationStep 
   assert.match(panel('family-roll'), /STEP 1 OF 4/);
   assert.match(panel('surname'), /STEP 2 OF 4/);
   assert.match(panel('names'), /Step 3 of 4/);
-  assert.match(appearance, /Step 4 of 4/, 'the looks pop-up does not say which step it is');
+  assert.match(appearance, /Step \$\{steps\} of \$\{steps\}/, 'the looks pop-up does not say which step it is');
+  // Four steps, or three for a family a late student took over from the computer, which has no die (owner, 2026-09-30).
+  assert.match(appearance, /steps: family\?\.joinedBegun \? 3 : 4/, 'the looks pop-up does not count four steps, or three without a die');
+  assert.match(app, /\$\('#surname-step'\)\.textContent = family\.joinedBegun \? 'STEP 1 OF 3' : 'STEP 2 OF 4';/);
+  assert.match(creation, /family\.joinedBegun \? 'Step 2 of 3\.' : 'Step 3 of 4\.'/);
   // The looks pop-up counts over every parent of the family, not over the ones still waiting, or the total would shrink
   // to "Parent 1 of 1" the moment the first was answered.
   assert.match(appearance, /const parentsOf = family =>[^\n]*person\.choices\)/, 'the looks counter no longer has a fixed total');

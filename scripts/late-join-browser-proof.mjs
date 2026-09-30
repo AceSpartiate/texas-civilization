@@ -11,7 +11,8 @@
 //   A. The classroom's case on the classroom's own world (thirty families on the colonies, starts dealt, the Study pace): join
 //      while the family is on the road, wait on the die until the family has arrived, press Roll, and reach the last name.
 //   B. The same while the teacher has the class paused, before the first tick: the die still lands.
-//   C. A latecomer whose family has already begun (the director has worked it): straight into the world, no die, no hang.
+//   C. A latecomer whose family has already begun (the director has worked it): no die, but its last name, first names and the
+//      parents' looks (owner, 2026-09-30, "Name and looks"), and its people's ids and its past lines untouched.
 //   D. A class with no family left: the join form says so, and what to do.
 //   E. A throw the class never answers, and one it refuses: said on the card, in bounded time, and never a die left spinning.
 //
@@ -150,19 +151,64 @@ try {
     await three.early(5);
     await three.command('start');
     const since = Date.now();
-    while (!['hh-6', 'hh-7', 'hh-8'].every(id => arrived(three.app, id)) && Date.now() - since < 30000) await new Promise(done => setTimeout(done, 100));
+    // Arrived, and worked by the director for a while - hh-6, the first family nobody plays, with some history of its own.
+    const lines = id => three.app.state.world.events.filter(event => event.householdId === id).length;
+    while ((!['hh-6', 'hh-7', 'hh-8'].every(id => arrived(three.app, id)) || lines('hh-6') < 5) && Date.now() - since < 60000) await new Promise(done => setTimeout(done, 100));
     await three.command('pause');
+    const before = three.app.state.world;
     const page = await joinPage(three, 'Day two latecomer');
     await page.waitForFunction(() => window.__snapshot?.world.householdId, null, { timeout: 30000 });
     const householdId = await page.evaluate(() => window.__snapshot.world.householdId);
+    const people = before.households[householdId].members;
+    const given = Object.fromEntries(people.map(id => [id, before.entities[id].name]));
+    const past = before.events.filter(event => event.householdId === householdId).map(event => [event.id, event.text]);
+    // The teacher resumes the class, as on a second day; a last name sent while it is paused is refused until then.
+    await three.command('resume');
     await page.locator('#creation-begin-button').waitFor({ state: 'visible', timeout: 30000 });
     await page.locator('#creation-begin-button').click();
+    // Name and looks, no die (owner, 2026-09-30): the last name first, said as step 1 of 3, with what a new name changes.
+    await page.locator('#surname').waitFor({ state: 'visible', timeout: 15000 })
+      .catch(async () => { throw new Error(`C: the taken-over family was not asked its last name - ${JSON.stringify(await onCard(page))}`); });
+    assert.equal((await onCard(page)).die, false, 'C: a die is offered to a family that had begun');
+    assert.equal((await page.locator('#surname-step').innerText()).trim(), 'STEP 1 OF 3');
+    observed.cBegun = (await page.locator('#surname-begun').innerText()).replace(/\s+/g, ' ').trim();
+    assert.equal(await page.locator('#surname-begun').isVisible(), true);
+    assert.match(observed.cBegun, /no die to roll.*stays in its journal under the names it had then/);
+    await page.screenshot({ path: 'docs/evidence/late-join-begun-surname.png' });
+    shots.push('docs/evidence/late-join-begun-surname.png');
+    await page.locator('#surname-input').fill('Latimer');
+    await page.locator('#surname-save').click();
+    await page.locator('#names').waitFor({ state: 'visible', timeout: 15000 });
+    assert.match(await page.locator('#names-hint').innerText(), /^Step 2 of 3\./);
+    const renamed = people[people.length - 1];
+    await page.locator(`#name-${renamed}`).fill('Ambrosio');
+    await page.locator('#names-done').click();
+    await page.locator('#looks').waitFor({ state: 'visible', timeout: 15000 });
+    assert.match(await page.locator('#looks-step').innerText(), /^Step 3 of 3\./);
+    let dressed = 0;
+    while (await page.locator('#looks').isVisible()) {
+      const who = await page.locator('#looks').getAttribute('data-entity-id');
+      await page.locator('#looks-parts button[data-part="clothing"]').last().click();
+      await page.locator('#looks-done').click();
+      dressed++;
+      await page.waitForFunction(id => document.querySelector('#looks').hidden || document.querySelector('#looks').dataset.entityId !== id, who, { timeout: 15000 });
+    }
+    if (await page.locator('#key-card').isVisible()) await page.locator('#key-card-done').click();
     await page.waitForFunction(() => document.querySelector('#creation')?.hidden, null, { timeout: 15000 })
       .catch(async () => { throw new Error(`C: the page never let the student into the world - ${JSON.stringify(await onCard(page))}`); });
-    observed.c = { householdId, roll: three.app.state.world.households[householdId].roll ?? null, card: await onCard(page) };
-    assert.equal(observed.c.roll, null, 'C: a family that had begun was rolled');
-    assert.equal(observed.c.card.die, false);
-    ok(`C: a latecomer whose family had begun (${householdId}) goes straight into the world with the family it has - no die, no hang`);
+    const after = three.app.state.world, household = after.households[householdId];
+    assert.equal(household.roll, undefined, 'C: a family that had begun was rolled');
+    assert.equal(household.surname, 'Latimer');
+    assert.deepEqual(household.members, people, 'C: the people were replaced');
+    for (const id of people) assert.equal(after.entities[id].given, id === renamed ? 'Ambrosio' : given[id], `C: ${id}'s first name`);
+    const now = new Map(after.events.map(event => [event.id, event.text]));
+    for (const [id, text] of past) assert.equal(now.get(id), text, 'C: a line of the family\'s past was rewritten');
+    assert.ok(after.events.some(event => event.actorId === renamed && event.text === `${given[renamed]} Latimer is called Ambrosio Latimer now.`), 'C: the journal does not say the new first name');
+    const parents = people.filter(id => after.entities[id].kin?.role === 'father' || after.entities[id].kin?.role === 'mother');
+    assert.equal(dressed, parents.length);
+    for (const id of parents) assert.ok(after.entities[id].appearance?.clothing, `C: ${id}'s looks were not chosen`);
+    observed.c = { householdId, surname: household.surname, renamed: after.entities[renamed].name, dressed, pastLinesKept: past.length };
+    ok(`C: a latecomer whose family the computer had played (${householdId}) gets no die, names it (${household.surname}), renames ${after.entities[renamed].name}, dresses ${dressed} parent(s), and its ${past.length} past lines and its people's ids are untouched`);
   }
 
   // ------------------------------------------------------------------ E. a throw never answered, and one refused

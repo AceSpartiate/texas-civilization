@@ -726,7 +726,9 @@ export function rename(world, household, input) {
  * naming is asked for by a box the page will not close until it is answered, once the die is rolled.
  */
 export function nameFamily(world, household, raw) {
-  if (!household.roll && household.played) throw new Error('Roll the die to find out who your family is before naming it.');
+  // A family a late student took over from the computer (`joinedBegun`, server/app.mjs `/api/join`, owner 2026-09-30) is named
+  // without a die: it keeps the people it has.
+  if (!household.roll && household.played && !household.joinedBegun) throw new Error('Roll the die to find out who your family is before naming it.');
   const surname = sanitiseName(raw);
   const was = household.surname;
   if (surname === was) return surname;
@@ -768,6 +770,8 @@ export function familyProjection(world, household) {
     // Thrown by the server as a late student joined (server/app.mjs `/api/join`, 2026-09-30): the page still throws the die for
     // them, on this number, before the last name (public/creation.js).
     ...(household.rolledAtJoin && { rolledAtJoin: true }),
+    // Taken over from the computer by a late student (owner, 2026-09-30, "Name and looks"): named and dressed, never rolled.
+    ...(household.joinedBegun && { joinedBegun: true }),
     people: household.members.map(id => {
       const entity = world.entities[id];
       const kin = entity?.kin || {};

@@ -1318,6 +1318,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
           // Taking over a family whose student is not here signs that student's old device out, as a family key does.
           if (seat.previous) delete s.clients[seat.previous.credentialHash];
           s.clients[hash(credential)] = identity;
+          // Nobody's until now - the director's, or never played (`joinedBegun`, below).
+          const nobodys = !s.world.households[identity.householdId]?.played;
           markPlayed(s.world, identity.householdId);
           if (s.lateSeat === identity.householdId) s.lateSeat = null;
           if (late) {
@@ -1336,6 +1338,12 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
             if (!solo && !household.roll && rollRefusal(s.world, household) === null) {
               rollFamily(s.world, household);
               household.rolledAtJoin = true;
+            } else if (!solo && nobodys && !household.roll && !household.surname && !household.name) {
+              // **Name and looks, no die** (owner, 2026-09-30, by multiple choice). A family the computer has already been
+              // playing keeps its people - their ids are in its record, its journal, the other families' and the Host's - so it
+              // is not rolled; but its new student gives it its last name, may rename its people, and chooses how the parents
+              // look, as a student who rolled does (public/creation.js; docs/FAMILY_CREATION.md, the amendment of 2026-09-30).
+              household.joinedBegun = true;
             }
             tellClass(s.world, seat.previous
               ? `${name} joined the class and is playing ${householdName(s.world, household)}, which was ${seat.previous.name}'s.`

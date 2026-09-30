@@ -39,10 +39,11 @@ const parentsOf = family => (family?.people || []).filter(person => person.choic
 /** Where this parent stands among all of them, for the pop-up's own counter. */
 const placeOf = (family, id) => {
   const all = parentsOf(family);
-  return { index: Math.max(0, all.findIndex(person => person.id === id)), of: all.length };
+  // Three steps, not four, for a family a late student took over from the computer: it has no die (owner, 2026-09-30).
+  return { index: Math.max(0, all.findIndex(person => person.id === id)), of: all.length, steps: family?.joinedBegun ? 3 : 4 };
 };
 
-function draw(person, { index = 0, of = 1 } = {}) {
+function draw(person, { index = 0, of = 1, steps = 4 } = {}) {
   const box = document.querySelector('#looks');
   document.querySelector('#looks-title').textContent = `How ${person.given || person.name} looks`;
   document.querySelector('#looks-role').textContent = person.role ? capital(person.role) : '';
@@ -52,7 +53,7 @@ function draw(person, { index = 0, of = 1 } = {}) {
   const step = document.querySelector('#looks-step');
   if (step) {
     const last = index + 1 >= of;
-    step.textContent = `Step 4 of 4. ${of > 1 ? `Parent ${index + 1} of ${of}. ` : ''}Done ${last ? 'finishes your family' : 'brings up the next parent'}.`;
+    step.textContent = `Step ${steps} of ${steps}. ${of > 1 ? `Parent ${index + 1} of ${of}. ` : ''}Done ${last ? 'finishes your family' : 'brings up the next parent'}.`;
   }
   drawAvatarPortrait(document.querySelector('#looks-preview'), picked, person.sex);
   drawAvatarFigure(document.querySelector('#looks-figure'), picked, person.sex);
@@ -85,8 +86,9 @@ function draw(person, { index = 0, of = 1 } = {}) {
 export function renderLooks(family, { blocked = false } = {}) {
   const box = document.querySelector('#looks');
   if (!box) return;
-  // Only for a rolled family that has its last name: the looks come next after the name.
-  const next = blocked || !family?.roll || family.canRoll || !family.named ? null : waiting(family)[0];
+  // Only for a rolled family that has its last name - or one a late student took over from the computer, which has no die
+  // (`joinedBegun`, owner 2026-09-30) - the looks come next after the name.
+  const next = blocked || !(family?.roll || family?.joinedBegun) || family.canRoll || !family.named ? null : waiting(family)[0];
   if (!next) { box.hidden = true; showing = null; return; }
   if (showing !== next.id) {
     showing = next.id;

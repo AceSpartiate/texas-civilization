@@ -262,6 +262,18 @@ try {
       // A journey asks how they go first (owner, 2026-09-24): sent on foot, as every order here went before the question, so the
       // trip to the carpenter is still under way when a stale order is pressed below (on the horse it is home already).
       await sendTheWay(page, { way: 'foot' });
+      // Planting asks which crop before anybody goes (owner, 2026-09-30, each plot its own crop; 8eabc1d2): the planting chooser
+      // opens on the map, and while it is open the family column folds to faces (8de42122), so the next person's star cannot
+      // be pressed until it is answered. Until this line the proof took a planting press for a one-press order, left the chooser
+      // open, and failed on the next person ("could not be made the main person", `#survey-choose` open). Answered as a student
+      // does: corn, for every bare plot; with nothing bare to plant, "Not now", and the next work is tried.
+      if (await page.locator('#survey-choose').isVisible()) {
+        const crops = page.locator('#plant-crops');
+        if (key === 'plant-field' && await crops.isVisible()) await crops.locator('.plant-crop[data-crop="corn"]').click();
+        else await page.locator('#survey-cancel').click();
+        await page.locator('#survey-choose').waitFor({ state: 'hidden', timeout: 8000 });
+        measured.chooserAnswered = [...(measured.chooserAnswered || []), { id, key, planted: key === 'plant-field' }];
+      }
       presses++;
       // The server's answer: the order taken (the icon glows) or refused (its sentence on the error line).
       const answer = await page.waitForFunction(({ id, key }) => {
@@ -334,12 +346,17 @@ try {
     .map(icon => ({ key: icon.dataset.key, disabled: icon.getAttribute('aria-disabled') === 'true', active: icon.dataset.active === 'true' })), busyId);
   assert.deepEqual(busyBar.filter(icon => icon.disabled && !icon.active), [], `a refused order is drawn on ${busyId}'s bar: ${JSON.stringify(busyBar)}`);
   const choreBefore = world().entities[busyId].chore?.id;
-  const stale = await page.evaluate(id => {
+  // Not an icon that opens a chooser before anything is sent - the town errand's list (`visit-shop`, `buy-furniture`), a
+  // neighbour's, the ground on the map - since pressing it sends nothing and there is no refusal to read. The page's own rule
+  // (public/app.js `opensChooser`), and the errands this proof already knows.
+  const opensChooser = { chores: ['visit-shop', ...errands] };
+  const stale = await page.evaluate(({ id, opensChooser }) => {
     const row = document.querySelector(`.panel-row[data-entity-id="${id}"]`);
     const drawn = new Set([...row.querySelectorAll('.panel-icon')].map(icon => icon.dataset.key));
+    const chooses = icon => opensChooser.chores.includes(icon.dataset.chore) || opensChooser.chores.includes(icon.dataset.key) || Boolean(icon.dataset.visit);
     // An order the page draws open for somebody else, which it does not draw for this person.
     const open = [...document.querySelectorAll('.panel-icon[data-action="chore"]:not([aria-disabled="true"]):not([data-active="true"])')]
-      .find(icon => icon.dataset.entityId !== id && !drawn.has(icon.dataset.key));
+      .find(icon => icon.dataset.entityId !== id && !drawn.has(icon.dataset.key) && !chooses(icon));
     if (!open) return null;
     const icon = open.cloneNode(true);
     icon.dataset.entityId = id;
@@ -347,9 +364,10 @@ try {
     row.querySelector('.panel-icons').append(icon);
     icon.click();
     return { id, key: icon.dataset.key };
-  }, busyId);
+  }, { id: busyId, opensChooser });
   assert.ok(stale, `no order to put back on ${busyId}'s bar`);
-  await page.waitForFunction(() => (document.querySelector('#error')?.textContent || '').trim().length > 0, null, { timeout: 10000 });
+  await page.waitForFunction(() => (document.querySelector('#error')?.textContent || '').trim().length > 0, null, { timeout: 10000 })
+    .catch(async error => { console.log('the stale order sent no refusal:', JSON.stringify(stale), JSON.stringify(await page.evaluate(() => ({ open: ['#survey-choose', '#site-choose', '#going', '#errand', '#house-plan', '#selection'].filter(s => document.querySelector(s) && !document.querySelector(s).hidden), error: document.querySelector('#error')?.textContent })))); throw error; });
   stale.server = (await page.locator('#error').textContent()).trim();
   assert.doesNotMatch(stale.server, /^Not yet/, 'the lesson refused it, not the person’s work');
   assert.equal(world().entities[busyId].chore?.id, choreBefore, `${busyId}'s work changed on a refused order`);
