@@ -1,6 +1,6 @@
 {
   "record": "The family-creation wizard walked in a browser at the classroom screen (2026-09-21)",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "verdict": "PASS",
   "viewport": {
     "width": 1366,
@@ -15,8 +15,9 @@
     "the names card says nothing is required, every box holds the dealt name, and an emptied box comes back as \"Anselmo\"",
     "the looks pop-up counts the parents (Step 4 of 4. Parent 1 of 2. Done brings up the next parent.) and says appearance decides nothing, is chosen once, and skips the children",
     "the looks counter keeps its total over every parent (Step 4 of 4. Parent 1 of 2. Done brings up the next parent. | Step 4 of 4. Parent 2 of 2. Done finishes your family.)",
+    "the last card of making the family shows the key, \"NEVX MFRB\", at 46px with what it is for (\"This key brings you back to your family on any Chromebook. If this one forgets you, or you sit at another, choose “I already have a family key” and type it in.\"), and goes when it is written down",
     "the wagon panel says the land, the herd and the deadline, its load buttons say what pressing does, and Done packing is reachable at 1366x768",
-    "reloaded, the world is there with nothing asked again; a new tab sees the title screen and then the world, and no step is asked twice",
+    "reloaded, the world is there with nothing asked again; a new tab sees the title screen and then the world, and no step is asked twice - the key card included, which is shown once",
     "no page errors"
   ],
   "observed": {
@@ -42,6 +43,10 @@
     "looksNote": "Choose the portrait, clothes and headwear together. Chosen once, their look stays with them. Children are not asked for; they take after their parents. Appearance changes nothing in the game.",
     "looksStep1": "Step 4 of 4. Parent 1 of 2. Done brings up the next parent.",
     "looksStep2": "Step 4 of 4. Parent 2 of 2. Done finishes your family.",
+    "keyShown": "NEVX MFRB",
+    "keySize": 46,
+    "keyFor": "This key brings you back to your family on any Chromebook. If this one forgets you, or you sit at another, choose “I already have a family key” and type it in.",
+    "journalKey": "NEVX MFRB",
     "wagonText": "What you load is what the family arrives with. Tools, seed and powder can be bought in a town later, if there is coin; the things for the house cannot be bought anywhere.",
     "wagonWhen": "You can change all of this until your teacher presses Start. After that the ox's packs are packed.",
     "stockNo": "No stock. The family holds a labor of land, 177 acres, and brings no animals.",
@@ -71,6 +76,7 @@
     "docs/evidence/creation-surname.png",
     "docs/evidence/creation-names.png",
     "docs/evidence/creation-looks.png",
+    "docs/evidence/creation-key.png",
     "docs/evidence/creation-wagon.png"
   ]
 }

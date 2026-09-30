@@ -7,21 +7,28 @@
 //   2. the die (`#family-roll`, docs/FAMILY_CREATION.md);
 //   3. the family's last name (`#surname`);
 //   4. everybody's first name, all on one card, already filled in;
-//   5. how each parent looks, one at a time (`#looks`). Children take after their parents and are not chosen.
+//   5. how each parent looks, one at a time (`#looks`). Children take after their parents and are not chosen;
+//   6. the family's key, once, large, with what it is for (`#key-card`, triage 2026-09-29, 2.4) - in a class, on the page that
+//      made the family. It stays in the journal as well.
 // The map is not drawn at all while the curtain is up: public/app.js skips `drawWorld`, so a slow computer spends nothing on
 // a world nobody is looking at yet.
 //
 // The finished title landscape is a CSS background on #creation; it stays behind every creation step without canvas work.
 
 let actions = null;
-/** Where this page has got to: the title screen is behind it once `begun`, the names once `named`. Kept per family. */
-const state = { begun: false, named: false, householdId: null, focused: null };
+/**
+ * Where this page has got to: the title screen is behind it once `begun`, the names once `named`; `making` once this page has
+ * rolled, named or dressed the family, and `keyed` once its key has been shown and put away. Kept per family.
+ */
+const state = { begun: false, named: false, making: false, keyed: false, householdId: null, focused: null };
 
 /**
  * The cards of the wizard that live inside the map's own stage rather than beside it. They are drawn *above* the curtain
  * (public/style.css, `body[data-creating=true]`), so sealing the world behind it has to leave them out.
  */
 const WIZARD_CARDS = new Set(['family-roll', 'surname', 'looks']);
+/** The steps that make the family: a page that has shown one of them is the page that made it, and shows its key at the end. */
+const MAKING = new Set(['roll', 'surname', 'names', 'looks']);
 
 /**
  * While the curtain is up, the world behind it is `inert`: not focusable, not clickable, not read out. Measured
@@ -76,7 +83,7 @@ function remember(key, value) {
 function recall(householdId) {
   if (state.householdId === householdId) return;
   state.householdId = householdId;
-  for (const key of ['begun', 'named']) {
+  for (const key of ['begun', 'named', 'making', 'keyed']) {
     try { state[key] = sessionStorage.getItem(`creation:${householdId}:${key}`) === '1'; } catch { state[key] = false; }
   }
 }
@@ -85,7 +92,16 @@ function recall(householdId) {
  * Which step this page is on, or null once the family is made and the world may be seen.
  * `join` is the title screen before a class is joined; `begin` is the title screen for somebody already in.
  */
-export function creationStep(world, family) {
+export function creationStep(world, family, { familyKey = null } = {}) {
+  const step = stepOf(world, family);
+  if (MAKING.has(step) && !state.making) remember('making', true);
+  // The family's key, once, large, at the end of making the family (triage 2026-09-29, 2.4: a student on a cart or guest
+  // Chromebook who had lost it needed the teacher, since it was only ever in the journal). Only on the page that made the
+  // family, and only where there is a key to come back by - a class; Play Solo is given none.
+  if (!step && state.making && !state.keyed && familyKey) return 'key';
+  return step;
+}
+function stepOf(world, family) {
   if (!world || world.role === 'host') return null;
   if (!world.householdId) { showTitle(); return 'join'; }
   recall(world.householdId);
@@ -117,11 +133,12 @@ export function showTitle() {
   sealTheCurtain(true);
   $('#creation-begin').hidden = true;
   $('#names').hidden = true;
+  if ($('#key-card')) $('#key-card').hidden = true;
 }
 
 /** Draw the curtain and whichever step belongs to it; returns the step, or null when the world may be drawn. */
-export function renderCreation(world, family) {
-  const step = creationStep(world, family);
+export function renderCreation(world, family, { familyKey = null } = {}) {
+  const step = creationStep(world, family, { familyKey });
   const veil = $('#creation');
   if (!veil) return null;
   veil.hidden = !step;
@@ -130,13 +147,19 @@ export function renderCreation(world, family) {
   // proof on a phone, 2026-09-17).
   $('#creation-begin').hidden = step !== 'begin';
   $('#names').hidden = step !== 'names';
+  const keyCard = $('#key-card');
+  if (keyCard) keyCard.hidden = step !== 'key';
+  if (step === 'key') {
+    const shown = `${familyKey.slice(0, 4)} ${familyKey.slice(4)}`;
+    if ($('#key-card-key').textContent !== shown) $('#key-card-key').textContent = shown;
+  }
   // Nothing of the world behind the curtain may be tabbed to, clicked or read out while a step is up.
   sealTheCurtain(Boolean(step));
   if (!step) { state.focused = null; return null; }
   // The title screen is the whole of the first two steps; after that the scene is a quiet band behind the cards.
   veil.dataset.step = step;
   if (step === 'names') renderNames(family);
-  announceStep(step, $({ join: '#join', begin: '#creation-begin', roll: '#family-roll', surname: '#surname', names: '#names', looks: '#looks' }[step]));
+  announceStep(step, $({ join: '#join', begin: '#creation-begin', roll: '#family-roll', surname: '#surname', names: '#names', looks: '#looks', key: '#key-card' }[step]));
   return step;
 }
 
@@ -172,6 +195,8 @@ function renderNames(family) {
 export function bindCreation({ command, refresh, family }) {
   actions = { command, refresh, family };
   $('#creation-begin-button')?.addEventListener('click', () => { remember('begun', true); refresh(); });
+  // The key put away: shown once, and in the journal from now on.
+  $('#key-card-done')?.addEventListener('click', () => { remember('keyed', true); refresh(); });
   $('#names-form')?.addEventListener('submit', async event => {
     event.preventDefault();
     const book = actions.family();
