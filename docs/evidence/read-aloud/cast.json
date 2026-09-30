@@ -1,0 +1,650 @@
+{
+ "date": "2026-09-30",
+ "what": "Casting the read-aloud voices: every plausible Kokoro-82M v1.0 fp32 English voice on four of the game's kinds of line, scored as the research scored (docs/evidence/read-aloud/scripts/cast.py): Parakeet TDT 0.6B v2 word error rate and UTMOS22 predicted MOS. Proxies: nobody listened.",
+ "lines": {
+  "news": "A rider has come in from Gonzales. The Mexican soldiers came for the cannon, and the settlers told them to come and take it.",
+  "army": "The volunteers are gathering on the Guadalupe. Will you send someone to join them, or keep everyone home to bring in the corn?",
+  "rider": "I rode from Gonzales this morning. They have buried the cannon in a peach orchard, and they mean to keep it.",
+  "mother": "Take the children to the wagon. We leave before dark, and we will not see this house again."
+ },
+ "authorGrades": {
+  "af_heart": "A",
+  "af_bella": "A-",
+  "af_nicole": "B-",
+  "af_aoede": "C+",
+  "af_kore": "C+",
+  "af_sarah": "C+",
+  "bf_emma": "B-",
+  "bf_isabella": "C",
+  "am_fenrir": "C+",
+  "am_michael": "C+",
+  "am_puck": "C+",
+  "am_echo": "D",
+  "am_eric": "D",
+  "am_liam": "D",
+  "am_onyx": "D",
+  "bm_george": "C",
+  "bm_fable": "C",
+  "bm_lewis": "D+",
+  "bm_daniel": "D"
+ },
+ "chosen": {
+  "narrator": "af_heart",
+  "woman": "af_kore",
+  "man": "am_puck",
+  "rider": "am_fenrir"
+ },
+ "rule": "author grade C+ or better and UTMOS 4.3 or better, American",
+ "summary": {
+  "af_heart": {
+   "utmosMean": 4.462,
+   "werMean": 0.043
+  },
+  "af_bella": {
+   "utmosMean": 3.977,
+   "werMean": 0.033
+  },
+  "af_nicole": {
+   "utmosMean": 3.029,
+   "werMean": 0.065
+  },
+  "af_sarah": {
+   "utmosMean": 4.431,
+   "werMean": 0.043
+  },
+  "af_kore": {
+   "utmosMean": 4.446,
+   "werMean": 0.043
+  },
+  "af_aoede": {
+   "utmosMean": 4.325,
+   "werMean": 0.055
+  },
+  "bf_emma": {
+   "utmosMean": 4.32,
+   "werMean": 0.011
+  },
+  "bf_isabella": {
+   "utmosMean": 4.315,
+   "werMean": 0.054
+  },
+  "am_fenrir": {
+   "utmosMean": 4.372,
+   "werMean": 0.033
+  },
+  "am_michael": {
+   "utmosMean": 3.983,
+   "werMean": 0.043
+  },
+  "am_puck": {
+   "utmosMean": 4.342,
+   "werMean": 0.043
+  },
+  "am_echo": {
+   "utmosMean": 4.128,
+   "werMean": 0.043
+  },
+  "am_eric": {
+   "utmosMean": 4.35,
+   "werMean": 0.022
+  },
+  "am_liam": {
+   "utmosMean": 4.333,
+   "werMean": 0.043
+  },
+  "am_onyx": {
+   "utmosMean": 4.066,
+   "werMean": 0.032
+  },
+  "bm_george": {
+   "utmosMean": 4.164,
+   "werMean": 0.011
+  },
+  "bm_fable": {
+   "utmosMean": 4.128,
+   "werMean": 0.011
+  },
+  "bm_lewis": {
+   "utmosMean": 3.79,
+   "werMean": 0.021
+  },
+  "bm_daniel": {
+   "utmosMean": 4.165,
+   "werMean": 0.033
+  }
+ },
+ "rows": [
+  {
+   "voice": "af_heart",
+   "line": "news",
+   "wer": 0.083,
+   "utmos": 4.444,
+   "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it."
+  },
+  {
+   "voice": "af_heart",
+   "line": "army",
+   "wer": 0.043,
+   "utmos": 4.466,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them, or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "af_heart",
+   "line": "rider",
+   "wer": 0.048,
+   "utmos": 4.434,
+   "hyp": "I rode from Gonzalez this morning. They have buried the cannon in a peach orchard and they mean to keep it."
+  },
+  {
+   "voice": "af_heart",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.504,
+   "hyp": "Take the children to the wagon. We leave before dark and we will not see this house again."
+  },
+  {
+   "voice": "af_bella",
+   "line": "news",
+   "wer": 0.083,
+   "utmos": 3.924,
+   "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it."
+  },
+  {
+   "voice": "af_bella",
+   "line": "army",
+   "wer": 0,
+   "utmos": 3.988,
+   "hyp": "The volunteers are gathering on the Guadalupe. Will you send someone to join them, or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "af_bella",
+   "line": "rider",
+   "wer": 0.048,
+   "utmos": 3.932,
+   "hyp": "I rode from Gonzalez this morning. They have buried the cannon in a peach orchard, and they mean to keep it."
+  },
+  {
+   "voice": "af_bella",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.065,
+   "hyp": "Take the children to the wagon. We leave before dark, and we will not see this house again."
+  },
+  {
+   "voice": "af_nicole",
+   "line": "news",
+   "wer": 0.083,
+   "utmos": 3.163,
+   "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it."
+  },
+  {
+   "voice": "af_nicole",
+   "line": "army",
+   "wer": 0.13,
+   "utmos": 2.889,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send some one to join them, or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "af_nicole",
+   "line": "rider",
+   "wer": 0.048,
+   "utmos": 2.869,
+   "hyp": "I rode from Gonzalez this morning. They have buried the cannon in a peach orchard, and they mean to keep it."
+  },
+  {
+   "voice": "af_nicole",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 3.196,
+   "hyp": "take the children to the wagon. We leave before dark, and we will not see this house again."
+  },
+  {
+   "voice": "af_sarah",
+   "line": "news",
+   "wer": 0.083,
+   "utmos": 4.4,
+   "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it."
+  },
+  {
+   "voice": "af_sarah",
+   "line": "army",
+   "wer": 0.043,
+   "utmos": 4.44,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "af_sarah",
+   "line": "rider",
+   "wer": 0.048,
+   "utmos": 4.413,
+   "hyp": "I rode from Gonzalez this morning. They have buried the cannon in a peach orchard and they mean to keep it."
+  },
+  {
+   "voice": "af_sarah",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.472,
+   "hyp": "Take the children to the wagon. We leave before dark and we will not see this house again."
+  },
+  {
+   "voice": "af_kore",
+   "line": "news",
+   "wer": 0.083,
+   "utmos": 4.439,
+   "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon and the settlers told them to come and take it."
+  },
+  {
+   "voice": "af_kore",
+   "line": "army",
+   "wer": 0.043,
+   "utmos": 4.467,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "af_kore",
+   "line": "rider",
+   "wer": 0.048,
+   "utmos": 4.413,
+   "hyp": "I rode from Gonzalez this morning. They have buried the cannon in a peach orchard and they mean to keep it."
+  },
+  {
+   "voice": "af_kore",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.465,
+   "hyp": "Take the children to the wagon. We leave before dark and we will not see this house again."
+  },
+  {
+   "voice": "af_aoede",
+   "line": "news",
+   "wer": 0.083,
+   "utmos": 4.329,
+   "hyp": "A writer has come in from Gonzalez, the Mexican soldiers came for the cannon, and the settlers told them to come and take it."
+  },
+  {
+   "voice": "af_aoede",
+   "line": "army",
+   "wer": 0.043,
+   "utmos": 4.282,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them, or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "af_aoede",
+   "line": "rider",
+   "wer": 0.095,
+   "utmos": 4.316,
+   "hyp": "I wrote from Gonzalez this morning. They have buried the cannon in a peach orchard, and they mean to keep it."
+  },
+  {
+   "voice": "af_aoede",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.374,
+   "hyp": "Take the children to the wagon, we leave before dark and we will not see this house again."
+  },
+  {
+   "voice": "bf_emma",
+   "line": "news",
+   "wer": 0,
+   "utmos": 4.322,
+   "hyp": "A rider has come in from Gonzales. The Mexican soldiers came for the cannon, and the settlers told them to come and take it."
+  },
+  {
+   "voice": "bf_emma",
+   "line": "army",
+   "wer": 0.043,
+   "utmos": 4.305,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "bf_emma",
+   "line": "rider",
+   "wer": 0,
+   "utmos": 4.28,
+   "hyp": "I rode from Gonzales this morning. They have buried the cannon in a peach orchard, and they mean to keep it."
+  },
+  {
+   "voice": "bf_emma",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.372,
+   "hyp": "Take the children to the wagon, we leave before dark and we will not see this house again."
+  },
+  {
+   "voice": "bf_isabella",
+   "line": "news",
+   "wer": 0,
+   "utmos": 4.352,
+   "hyp": "A rider has come in from Gonzales, the Mexican soldiers came for the cannon, and the settlers told them to come and take it."
+  },
+  {
+   "voice": "bf_isabella",
+   "line": "army",
+   "wer": 0.217,
+   "utmos": 4.352,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send some one to join them, or keep every one home to bring in the corn?"
+  },
+  {
+   "voice": "bf_isabella",
+   "line": "rider",
+   "wer": 0,
+   "utmos": 4.337,
+   "hyp": "I rode from Gonzales this morning. They have buried the cannon in a peach orchard, and they mean to keep it."
+  },
+  {
+   "voice": "bf_isabella",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.22,
+   "hyp": "Take the children to the wagon we leave before dark, and we will not see this house again."
+  },
+  {
+   "voice": "am_fenrir",
+   "line": "news",
+   "wer": 0.083,
+   "utmos": 4.386,
+   "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon and the settlers told them to come and take it."
+  },
+  {
+   "voice": "am_fenrir",
+   "line": "army",
+   "wer": 0,
+   "utmos": 4.363,
+   "hyp": "The volunteers are gathering on the Guadalupe. Will you send someone to join them or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "am_fenrir",
+   "line": "rider",
+   "wer": 0.048,
+   "utmos": 4.308,
+   "hyp": "I rode from Gonzalez this morning. They have buried the cannon in a peach orchard and they mean to keep it."
+  },
+  {
+   "voice": "am_fenrir",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.429,
+   "hyp": "Take the children to the wagon. We leave before dark and we will not see this house again."
+  },
+  {
+   "voice": "am_michael",
+   "line": "news",
+   "wer": 0.083,
+   "utmos": 4.074,
+   "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it."
+  },
+  {
+   "voice": "am_michael",
+   "line": "army",
+   "wer": 0.043,
+   "utmos": 3.954,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them, or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "am_michael",
+   "line": "rider",
+   "wer": 0.048,
+   "utmos": 3.917,
+   "hyp": "I rode from Gonzalez this morning. They have buried the cannon in a peach orchard, and they mean to keep it."
+  },
+  {
+   "voice": "am_michael",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 3.987,
+   "hyp": "Take the children to the wagon. We leave before dark and we will not see this house again."
+  },
+  {
+   "voice": "am_puck",
+   "line": "news",
+   "wer": 0.083,
+   "utmos": 4.364,
+   "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon and the settlers told them to come and take it."
+  },
+  {
+   "voice": "am_puck",
+   "line": "army",
+   "wer": 0.043,
+   "utmos": 4.325,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "am_puck",
+   "line": "rider",
+   "wer": 0.048,
+   "utmos": 4.306,
+   "hyp": "I rode from Gonzalez this morning. They have buried the cannon in a peach orchard and they mean to keep it."
+  },
+  {
+   "voice": "am_puck",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.372,
+   "hyp": "Take the children to the wagon. We leave before dark and we will not see this house again."
+  },
+  {
+   "voice": "am_echo",
+   "line": "news",
+   "wer": 0.083,
+   "utmos": 4.214,
+   "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it."
+  },
+  {
+   "voice": "am_echo",
+   "line": "army",
+   "wer": 0.043,
+   "utmos": 4.108,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them, or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "am_echo",
+   "line": "rider",
+   "wer": 0.048,
+   "utmos": 4.003,
+   "hyp": "I rode from Gonzalez this morning. They have buried the cannon in a peach orchard and they mean to keep it."
+  },
+  {
+   "voice": "am_echo",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.187,
+   "hyp": "Take the children to the wagon. We leave before dark and we will not see this house again."
+  },
+  {
+   "voice": "am_eric",
+   "line": "news",
+   "wer": 0.042,
+   "utmos": 4.307,
+   "hyp": "A rider has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it."
+  },
+  {
+   "voice": "am_eric",
+   "line": "army",
+   "wer": 0,
+   "utmos": 4.339,
+   "hyp": "The volunteers are gathering on the Guadalupe. Will you send someone to join them, or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "am_eric",
+   "line": "rider",
+   "wer": 0.048,
+   "utmos": 4.328,
+   "hyp": "I rode from Gonzalez this morning. They have buried the cannon in a peach orchard and they mean to keep it."
+  },
+  {
+   "voice": "am_eric",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.425,
+   "hyp": "Take the children to the wagon. We leave before dark and we will not see this house again."
+  },
+  {
+   "voice": "am_liam",
+   "line": "news",
+   "wer": 0.083,
+   "utmos": 4.328,
+   "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon and the settlers told them to come and take it."
+  },
+  {
+   "voice": "am_liam",
+   "line": "army",
+   "wer": 0.043,
+   "utmos": 4.308,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "am_liam",
+   "line": "rider",
+   "wer": 0.048,
+   "utmos": 4.253,
+   "hyp": "I rode from Gonzalez this morning. They have buried the cannon in a peach orchard and they mean to keep it."
+  },
+  {
+   "voice": "am_liam",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.444,
+   "hyp": "Take the children to the wagon. We leave before dark and we will not see this house again."
+  },
+  {
+   "voice": "am_onyx",
+   "line": "news",
+   "wer": 0.083,
+   "utmos": 4.122,
+   "hyp": "A writer has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it."
+  },
+  {
+   "voice": "am_onyx",
+   "line": "army",
+   "wer": 0.043,
+   "utmos": 4.042,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "am_onyx",
+   "line": "rider",
+   "wer": 0,
+   "utmos": 3.957,
+   "hyp": "I rode from Gonzales this morning. They have buried the cannon in a peach orchard, and they mean to keep it."
+  },
+  {
+   "voice": "am_onyx",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.145,
+   "hyp": "Take the children to the wagon. We leave before dark and we will not see this house again."
+  },
+  {
+   "voice": "bm_george",
+   "line": "news",
+   "wer": 0,
+   "utmos": 4.03,
+   "hyp": "A rider has come in from Gonzales. The Mexican soldiers came for the cannon and the settlers told them to come and take it."
+  },
+  {
+   "voice": "bm_george",
+   "line": "army",
+   "wer": 0.043,
+   "utmos": 4.124,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "bm_george",
+   "line": "rider",
+   "wer": 0,
+   "utmos": 4.182,
+   "hyp": "I rode from Gonzales this morning. They have buried the cannon in a peach orchard and they mean to keep it."
+  },
+  {
+   "voice": "bm_george",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.321,
+   "hyp": "Take the children to the wagon. We leave before dark and we will not see this house again."
+  },
+  {
+   "voice": "bm_fable",
+   "line": "news",
+   "wer": 0,
+   "utmos": 4.12,
+   "hyp": "A rider has come in from Gonzales. The Mexican soldiers came for the cannon, and the settlers told them to come and take it."
+  },
+  {
+   "voice": "bm_fable",
+   "line": "army",
+   "wer": 0.043,
+   "utmos": 4.142,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them, or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "bm_fable",
+   "line": "rider",
+   "wer": 0,
+   "utmos": 3.98,
+   "hyp": "I rode from Gonzales this morning. They have buried the cannon in a peach orchard, and they mean to keep it."
+  },
+  {
+   "voice": "bm_fable",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.27,
+   "hyp": "Take the children to the wagon. We leave before dark and we will not see this house again."
+  },
+  {
+   "voice": "bm_lewis",
+   "line": "news",
+   "wer": 0.042,
+   "utmos": 3.852,
+   "hyp": "A rider has come in from Gonzalez. The Mexican soldiers came for the cannon, and the settlers told them to come and take it."
+  },
+  {
+   "voice": "bm_lewis",
+   "line": "army",
+   "wer": 0.043,
+   "utmos": 3.631,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send someone to join them or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "bm_lewis",
+   "line": "rider",
+   "wer": 0,
+   "utmos": 3.72,
+   "hyp": "I rode from Gonzales this morning. They have buried the cannon in a peach orchard, and they mean to keep it."
+  },
+  {
+   "voice": "bm_lewis",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 3.956,
+   "hyp": "Take the children to the wagon. We leave before dark and we will not see this house again."
+  },
+  {
+   "voice": "bm_daniel",
+   "line": "news",
+   "wer": 0,
+   "utmos": 4.105,
+   "hyp": "A rider has come in from Gonzales. The Mexican soldiers came for the cannon and the settlers told them to come and take it."
+  },
+  {
+   "voice": "bm_daniel",
+   "line": "army",
+   "wer": 0.13,
+   "utmos": 4.163,
+   "hyp": "The volunteers are gathering on the Guadeloupe. Will you send some one to join them or keep everyone home to bring in the corn?"
+  },
+  {
+   "voice": "bm_daniel",
+   "line": "rider",
+   "wer": 0,
+   "utmos": 4.098,
+   "hyp": "I rode from Gonzales this morning. They have buried the cannon in a peach orchard and they mean to keep it."
+  },
+  {
+   "voice": "bm_daniel",
+   "line": "mother",
+   "wer": 0,
+   "utmos": 4.296,
+   "hyp": "Take the children to the wagon. We leave before dark and we will not see this house again."
+  }
+ ]
+}

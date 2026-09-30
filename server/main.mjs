@@ -4,6 +4,9 @@ import { readSave, writeSave } from './storage.mjs';
 import { createClassroom, EMPTY_PAUSE_MS, PACES } from './app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { resolveDataDir, resolveSavePath, joinCandidates, soloPaths } from './deployment.mjs';
+import { createVoice } from './voice/service.mjs';
+import { fileURLToPath } from 'node:url';
+import { cpus } from 'node:os';
 
 // `--solo` is Solo Mode (docs/DEPLOYMENT.md): the owner's playtest server. Its own folder, save
 // and port, bound to this computer only, and no join addresses because nobody else joins.
@@ -23,6 +26,15 @@ if (solo && !existsSync(`${savePath}.lock`) && existsSync(savePath)) {
   } catch (error) { console.error(`The last solo game could not be kept: ${error.message}`); }
   rmSync(savePath, { force: true });
 }
+// Read-aloud (owner, 2026-09-30, D15; docs/READ_ALOUD.md): the package's own sentences (public/voice/), and the voice in
+// runtime/voice/ for the ones with a family's names in them, kept in the class data folder. A copy with neither reads nothing
+// aloud and says so; one with only the package's reads the fixed lines.
+const root = fileURLToPath(new URL('..', import.meta.url));
+const voice = createVoice({
+  runtimeDir: join(root, 'runtime', 'voice'), packageDir: join(root, 'public', 'voice'), cacheDir: join(dataDir, 'voice-cache'),
+  // Threads for Kokoro on this computer: two, or one on a machine with four cores or fewer (docs/READ_ALOUD.md §6).
+  threads: Number(process.env.VOICE_THREADS) > 0 ? Number(process.env.VOICE_THREADS) : cpus().length > 4 ? 2 : 1,
+});
 let stopping = false;
 async function shutdown(reason) {
   if (stopping) return;
@@ -54,6 +66,7 @@ const app = createClassroom({
   // colonies, a Tejano family at Victoria, and in a class of ten or more a free Black family near Liberty. STARTS=0 deals none.
   worldFactory: (seed, playerCount) => createGonzalesWorld(seed, playerCount, { map: process.env.MAP || 'colonies', neighbours: true, starts: process.env.STARTS !== '0' }),
   onStopRequested: () => shutdown('Host requested a graceful stop'),
+  voice,
   // Play Solo saves, pauses and stops itself when its player's page has gone (server/app.mjs `SOLO_WATCH`, owner 2026-09-27).
   // SOLO_LEAVE_MS shortens the wait after the page closes, for a browser proof; nobody else needs it.
   ...(solo && { soloWatch: Number(process.env.SOLO_LEAVE_MS) > 0 ? { leaveMs: Number(process.env.SOLO_LEAVE_MS) } : {} }),

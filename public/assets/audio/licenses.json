@@ -1,5 +1,5 @@
 {
-  "about": "Every sound and piece of music the game plays or ships, with its licence (docs/AUDIO_LICENSES.md). tests/audio-licenses.test.mjs refuses a shipped audio file or a sound in the game that is not listed here, and any licence not in `allowed`. A downloaded file is listed with its `file` (path under public/assets/audio/), `source` URL, `author`, `licence`, `checked` date and any `attribution`.",
+  "about": "Every sound and piece of music the game plays or ships, with its licence (docs/AUDIO_LICENSES.md). tests/audio-licenses.test.mjs refuses a shipped audio file or a sound in the game that is not listed here, and any licence not in `allowed`. A downloaded file is listed with its `file` (path under public/assets/audio/), `source` URL, `author`, `licence`, `checked` date and any `attribution`. Read-aloud speech (docs/READ_ALOUD.md) is listed by voice (`kind: \"speech\"`), its files being every .opus under `directory` that scripts/build-voice.mjs lists in public/voice/manifest.json; the model and the programs that make it are under `speechModel` and `speechRuntime`. Read-aloud speech (docs/READ_ALOUD.md) is listed by voice (`kind: \"speech\"`), its files being every .opus under `directory` that scripts/build-voice.mjs lists in public/voice/manifest.json; the model and the programs that make it are under `speechModel` and `speechRuntime`.",
   "allowed": [
     "project-owned",
     "CC0-1.0",
@@ -475,6 +475,125 @@
       "checked": "2026-09-28",
       "attribution": null,
       "file": null
+    },
+    {
+      "id": "voice-narrator",
+      "kind": "speech",
+      "what": "Read-aloud: the narrator - tips, the record, the story cards, news nobody in particular says, in Kokoro's af_heart (American woman).",
+      "made": "scripts/build-voice.mjs at package time and server/voice/service.mjs on the Host, from the game's own text (server/voice/text.mjs VOICES.narrator)",
+      "licence": "project-owned",
+      "voice": "af_heart",
+      "author": "Spoken for this game by Kokoro-82M v1.0 (hexgrad, Apache-2.0), voice af_heart",
+      "source": "https://huggingface.co/hexgrad/Kokoro-82M",
+      "checked": "2026-09-30",
+      "attribution": "Voices: Kokoro-82M by hexgrad (Apache-2.0). Read by a computer voice.",
+      "directory": "voice/",
+      "file": null
+    },
+    {
+      "id": "voice-woman",
+      "kind": "speech",
+      "what": "Read-aloud: a line a woman or a girl of the game says, in Kokoro's af_kore (American woman).",
+      "made": "scripts/build-voice.mjs at package time and server/voice/service.mjs on the Host, from the game's own text (server/voice/text.mjs VOICES.woman)",
+      "licence": "project-owned",
+      "voice": "af_kore",
+      "author": "Spoken for this game by Kokoro-82M v1.0 (hexgrad, Apache-2.0), voice af_kore",
+      "source": "https://huggingface.co/hexgrad/Kokoro-82M",
+      "checked": "2026-09-30",
+      "attribution": "Voices: Kokoro-82M by hexgrad (Apache-2.0). Read by a computer voice.",
+      "directory": "voice/",
+      "file": null
+    },
+    {
+      "id": "voice-man",
+      "kind": "speech",
+      "what": "Read-aloud: a line a man or a boy of the game says, in Kokoro's am_puck (American man).",
+      "made": "scripts/build-voice.mjs at package time and server/voice/service.mjs on the Host, from the game's own text (server/voice/text.mjs VOICES.man)",
+      "licence": "project-owned",
+      "voice": "am_puck",
+      "author": "Spoken for this game by Kokoro-82M v1.0 (hexgrad, Apache-2.0), voice am_puck",
+      "source": "https://huggingface.co/hexgrad/Kokoro-82M",
+      "checked": "2026-09-30",
+      "attribution": "Voices: Kokoro-82M by hexgrad (Apache-2.0). Read by a computer voice.",
+      "directory": "voice/",
+      "file": null
+    },
+    {
+      "id": "voice-rider",
+      "kind": "speech",
+      "what": "Read-aloud: a rider or a runner at the family's side, in Kokoro's am_fenrir (American man).",
+      "made": "scripts/build-voice.mjs at package time and server/voice/service.mjs on the Host, from the game's own text (server/voice/text.mjs VOICES.rider)",
+      "licence": "project-owned",
+      "voice": "am_fenrir",
+      "author": "Spoken for this game by Kokoro-82M v1.0 (hexgrad, Apache-2.0), voice am_fenrir",
+      "source": "https://huggingface.co/hexgrad/Kokoro-82M",
+      "checked": "2026-09-30",
+      "attribution": "Voices: Kokoro-82M by hexgrad (Apache-2.0). Read by a computer voice.",
+      "directory": "voice/",
+      "file": null
+    }
+  ],
+  "speechModel": {
+    "id": "kokoro-82m-v1.0-fp32",
+    "what": "Kokoro-82M v1.0, full precision, with its 54 voices, as k2-fsa's sherpa-onnx packs it (kokoro-multi-lang-v1_0)",
+    "licence": "Apache-2.0",
+    "author": "hexgrad",
+    "source": "https://huggingface.co/hexgrad/Kokoro-82M",
+    "packedFrom": "https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-multi-lang-v1_0.tar.bz2",
+    "checked": "2026-09-30",
+    "training": "Stated by the author as permissive/non-copyrighted audio and synthetic audio from commercial speech services (docs/READ_ALOUD.md research §5.4). The weights are Apache-2.0; the residual risk that the stated provenance is inaccurate is recorded, not dismissed.",
+    "output": "The speech it makes is the game's own: no licence claims it.",
+    "ships": "runtime/voice/kokoro/ (the Host speaks a family's names with it), with its LICENSE in runtime/voice/LICENSES/Kokoro-82M-LICENSE.txt"
+  },
+  "speechRuntime": [
+    {
+      "id": "sherpa-onnx",
+      "what": "sherpa-onnx-offline-tts.exe 1.13.8, the program that runs Kokoro",
+      "licence": "Apache-2.0",
+      "author": "k2-fsa (Xiaomi Corp. and contributors)",
+      "source": "https://github.com/k2-fsa/sherpa-onnx",
+      "checked": "2026-09-30",
+      "licenceFile": "runtime/voice/LICENSES/sherpa-onnx-LICENSE.txt"
+    },
+    {
+      "id": "espeak-ng",
+      "what": "espeak-ng, built into sherpa-onnx-offline-tts.exe: turns English words into sounds",
+      "licence": "GPL-3.0-or-later",
+      "author": "the espeak-ng contributors (k2-fsa's fork, commit ed530aa)",
+      "source": "https://github.com/csukuangfj/espeak-ng/tree/ed530aa113046142eb5115cf2fc9157854d0ffe1",
+      "checked": "2026-09-30",
+      "licenceFile": "runtime/voice/LICENSES/espeak-ng-COPYING-GPL-3.0.txt",
+      "separateProcess": true,
+      "sourceShipped": "runtime/voice/LICENSES/source/espeak-ng-ed530aa113046142eb5115cf2fc9157854d0ffe1.zip",
+      "writtenOffer": "runtime/voice/LICENSES/README.txt",
+      "why": "GPL-3.0 applies to the program it is built into, which the game runs as a separate process and never links or loads into node.exe; the program's complete source ships beside it with a written offer for the rest. Selling the game is not restricted by it."
+    },
+    {
+      "id": "piper-phonemize",
+      "what": "the glue between espeak-ng and sherpa-onnx, built into the same program",
+      "licence": "MIT",
+      "author": "Michael Hansen; k2-fsa's fork",
+      "source": "https://github.com/csukuangfj/piper-phonemize",
+      "checked": "2026-09-30",
+      "licenceFile": "runtime/voice/LICENSES/piper-phonemize-LICENSE.txt"
+    },
+    {
+      "id": "onnxruntime",
+      "what": "onnxruntime.dll and onnxruntime_providers_shared.dll",
+      "licence": "MIT",
+      "author": "Microsoft Corporation",
+      "source": "https://github.com/microsoft/onnxruntime",
+      "checked": "2026-09-30",
+      "licenceFile": "runtime/voice/LICENSES/onnxruntime-LICENSE.txt"
+    },
+    {
+      "id": "opus-tools",
+      "what": "opusenc.exe 0.2 (with libopus): the WAV spoken to the Ogg Opus a Chromebook plays",
+      "licence": "BSD-2-Clause",
+      "author": "Xiph.Org Foundation",
+      "source": "https://opus-codec.org/downloads/",
+      "checked": "2026-09-30",
+      "licenceFile": "runtime/voice/LICENSES/opus-tools-LICENSE.txt"
     }
   ]
 }

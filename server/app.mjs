@@ -29,6 +29,9 @@ import { readSave, writeSave, acquireSaveLock, archiveSave } from './storage.mjs
 // The end-of-game flashback's videos, kept beside the save (docs/FLASHBACK.md): the routes are `/api/flashback/...` below.
 import { bodyBytes, createFlashbackStore, flashbackPayload, scriptCache } from './flashback.mjs';
 import { flashbackReady, SCRIPT_VERSION } from '../sim/flashback.mjs';
+// Read-aloud (owner, 2026-09-30, D15; docs/READ_ALOUD.md): the Host's voice, given by server/main.mjs, and its words.
+import { ASK, packageOnlyVoice, wordsFrom } from './voice/service.mjs';
+import { ROLES, voiceOfPerson } from './voice/text.mjs';
 // The end of the game as a sequence the class goes through together (owner, 2026-09-29, D10; sim/end-sequence.mjs).
 import { advanceEndSequence, beginEndSequence, dueStage, endSequenceStep, endSequenceView } from '../sim/end-sequence.mjs';
 import { CLASS_SCRIPT_VERSION, CLASS_VIDEO_ID } from '../sim/class-flashback.mjs';
@@ -121,6 +124,8 @@ const files = new Map([
   ['/lesson.js', ['../public/lesson.js', 'text/javascript']],
   // Tips at first meeting (owner, 2026-09-28; public/tips.js): the words, and when each thing has first appeared. Decides nothing.
   ['/tips.js', ['../public/tips.js', 'text/javascript']],
+  // Read aloud (owner, 2026-09-30, D15; public/read-aloud.js): the button on the words, and the one <audio> that plays them.
+  ['/read-aloud.js', ['../public/read-aloud.js', 'text/javascript']],
   // The errand to town, on the screen (docs/TOWNS.md §4b, public/errand.js): it draws the server's list and sends one order.
   ['/errand.js', ['../public/errand.js', 'text/javascript']],
   // How they will go, asked before anybody leaves (docs/FAMILY_PANEL.md §15, public/going.js): it draws the server's ways and
@@ -294,7 +299,7 @@ export const WOODS_BATCH_MAX = 64;
  * `LESSON_RESUME_MS`, five minutes when not given). Both are options only so a test or a browser proof can hold the clock,
  * jump it, or shorten the window; a real class passes neither.
  */
-export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, decisionBudgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, questionBudgets = null, now = Date.now, lessonResumeMs, soloWatch = null, flashbackDir, streamTimings = STREAMS, emptyPauseMs = null } = {}) {
+export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, decisionBudgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, questionBudgets = null, now = Date.now, lessonResumeMs, soloWatch = null, flashbackDir, streamTimings = STREAMS, emptyPauseMs = null, voice: givenVoice } = {}) {
   const { perFamily: streamsPerFamily, pingMs: streamPingMs, staleMs: streamStaleMs } = { ...STREAMS, ...streamTimings };
   if (!Number.isInteger(streamsPerFamily) || streamsPerFamily < 1 || !(streamPingMs > 0) || !(streamStaleMs > streamPingMs)) throw new Error('Stream timings must be a positive count, a ping and a longer stale time');
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
@@ -357,6 +362,50 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
   // none unless it is given a folder, and its pages are told so.
   const flashbacks = createFlashbackStore(flashbackDir !== undefined ? flashbackDir : savePath ? join(dirname(savePath), 'flashbacks') : null);
   const flashbackScriptsOf = scriptCache();
+  /**
+   * Read-aloud (owner, 2026-09-30, D15; server/voice/service.mjs, docs/READ_ALOUD.md): the lines a student is likeliest to
+   * press play on are begun as the server writes them, so the sound is usually there before the press - what a rider or a
+   * runner and a family's person say to each other, and each played family's newest line in its record (importance 2 or
+   * more). Only a family a student is playing, and only the sentences the package does not already hold. Queued behind every
+   * line a student has pressed, in the voice's own process; this reads the class and changes nothing in it, and a voice that
+   * fails is said in the log and never stops a commit.
+   */
+  // The voice server/main.mjs gives the real class; `null` for none; given nothing, the package's own sentences alone
+  // (server/voice/service.mjs `packageOnlyVoice`), so a test's class shows the buttons as a real one does and starts no voice.
+  const voice = givenVoice === undefined ? packageOnlyVoice() : givenVoice;
+  const voiceSeen = { session: null, event: -1, said: new Set() };
+  function voiceNotice() {
+    if (!voice?.hostVoice) return;
+    try {
+      const world = state.world;
+      if (voiceSeen.session !== state.sessionId) Object.assign(voiceSeen, { session: state.sessionId, event: Number(String(world.events.at(-1)?.id || 'ev--1').slice(3)), said: new Set() });
+      const played = id => Boolean(world.households[id]?.played && !world.households[id]?.absent);
+      const lines = [];
+      for (const encounter of Object.values(world.encounters || {})) {
+        if (encounter.status !== 'open' || !played(encounter.householdId)) continue;
+        encounter.said.forEach((line, index) => {
+          const id = `${encounter.id}:${index}`;
+          if (voiceSeen.said.has(id)) return;
+          voiceSeen.said.add(id);
+          lines.push({ text: line.text, voice: line.speaker === 'rider' ? 'rider' : voiceOfPerson(world.entities[encounter.listenerId]) });
+        });
+      }
+      const newest = new Map();
+      let top = voiceSeen.event;
+      for (let index = world.events.length - 1; index >= 0; index--) {
+        const event = world.events[index], number = Number(event.id.slice(3));
+        if (!(number > voiceSeen.event)) break;
+        top = Math.max(top, number);
+        if (newest.has(event.householdId) || !event.text || event.visibility === 'sealed' || event.ambient || (event.importance || 1) < 2 || !played(event.householdId)) continue;
+        newest.set(event.householdId, event.text);
+      }
+      voiceSeen.event = top;
+      for (const text of newest.values()) lines.push({ text, voice: 'narrator' });
+      if (!lines.length) return;
+      let words; const names = () => (words ??= wordsFrom(world));
+      for (let at = 0; at < lines.length; at += ASK.lines) voice.request(lines.slice(at, at + ASK.lines), { priority: 'soon', names });
+    } catch (error) { console.warn('Read-aloud could not queue the new lines:', error.message); }
+  }
   // Cookies are host/path scoped, not port scoped; separate class namespaces prevent
   // collisions. A new class rotates the session ID, so the names are read per request.
   const hostCookie = () => `tr_host_${state.sessionId}`, studentCookie = () => `tr_student_${state.sessionId}`;
@@ -818,6 +867,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     at?.push(performance.now());
     if (at) sent = { project: 0, stringify: 0, bytes: {}, count: {} };
     if (when === 'order') broadcastSoon(actors); else broadcast(actor);
+    voiceNotice();
     if (at) { timings({ revision: state.revision, when, orders: actors.length, mutate: at[1] - at[0], validate: at[2] - at[1], serialise: at[3] - at[2], save: at[4] - at[3], broadcast: performance.now() - at[4], ...sent }); sent = null; }
   }
   /**
@@ -1347,6 +1397,20 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       const identity = identify(req);
       if (!identity) return json(res, 401, { error: 'Join this class first.' });
       if (req.method === 'GET' && url.pathname === '/api/state') return json(res, 200, snapshot(identity));
+      // Read-aloud (owner, 2026-09-30, D15; docs/READ_ALOUD.md): whether this computer can read aloud, a page's lines (each
+      // sentence ready, being made, or not the game's words), and a spoken sentence by its key. Presentation only: nothing here
+      // touches the class, and a class with no voice installed says so and plays nothing.
+      if (url.pathname === '/api/voice' && req.method === 'GET') return json(res, 200, { available: Boolean(voice?.available), host: Boolean(voice?.hostVoice), voices: ROLES });
+      if (url.pathname === '/api/voice' && req.method === 'POST') {
+        if (!voice?.available) return json(res, 503, { error: 'Read-aloud is not installed on this computer.' });
+        const input = await body(req);
+        return json(res, 200, voice.request(input.lines, { priority: 'pressed', names: () => wordsFrom(state.world) }));
+      }
+      const spokenKey = /^\/voice\/([0-9a-f]{32})\.opus$/.exec(url.pathname)?.[1];
+      if (spokenKey && (req.method === 'GET' || req.method === 'HEAD')) {
+        if (!voice) return json(res, 404, { error: 'Not found' });
+        return voice.serve(req, res, spokenKey);
+      }
       // The flashback (docs/FLASHBACK.md): a family's script, which the page that makes the video draws, and the video itself. The
       // Host any family's; a student their own and no other. Nothing before the class has ended for good.
       if (req.method === 'GET' && (url.pathname === '/api/flashback/script' || url.pathname === '/api/flashback/video')) {
@@ -1794,6 +1858,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     get state() { return structuredClone(state); },
     get savePath() { return savePath; },
     recoveredLock,
+    voice,
     snapshot,
     requestStop,
     setPace,
@@ -1815,6 +1880,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       // Orders still gathering are made first, so what a student pressed as the server stopped is kept and answered.
       if (orderDrain) { clearImmediate(orderDrain); drainOrders(); }
       closing = true; clearInterval(timer); clearTimeout(broadcastTimer); clearTimeout(soloTimer);
+      // The voice's own process is stopped with the server: a sentence half-spoken is spoken again next time.
+      voice?.close?.();
       // Whatever was shown and not yet written is written before the save is let go (`commit`).
       try { flush(); } catch (error) { console.error('The last changes could not be saved:', error.cause?.message || error.message); }
       for (const s of streams) s.res.destroy(); streams.clear();

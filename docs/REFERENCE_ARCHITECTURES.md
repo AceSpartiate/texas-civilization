@@ -349,10 +349,13 @@ scratch folder outside this repository and read: **qrcode-generator 2.0.4** (Kaz
 "QR Code" is a registered trademark of DENSO WAVE INCORPORATED; the standard is open, and no licence is needed to make one.
 
 
-## 10. Local text-to-speech (Kokoro, Supertonic, Piper, and eight others): read for read-aloud, and nothing is in the game yet
+## 10. Local text-to-speech (Kokoro, Supertonic, Piper, and eight others): read for read-aloud; Kokoro built (2026-09-30, not released)
 
 Read on 2026-09-30 after the owner decided on 2026-09-29 that read-aloud should use a free, legally downloadable voice
-that does not sound robotic, and never the browser's stock voice. **This was research only.** The owner picks a voice
+that does not sound robotic, and never the browser's stock voice. **This was research only.** On 2026-09-30 the owner chose
+**Kokoro-82M v1.0, full precision, "Man and woman"**, and it was built as this section recommended (READ_ALOUD.md §1-8). Two
+things turned out otherwise than read here, both recorded there: below-normal priority throttles the voice's program on a hybrid
+CPU (§6), and its command line wants plain ASCII (§3). Before that choice, the owner picked a voice
 before anything is built. The full write-up, the shortlist and the samples are in [READ_ALOUD.md](READ_ALOUD.md).
 
 The method:
@@ -375,7 +378,7 @@ The method:
 | XTTS v2, F5-TTS | Non-commercial weights | **Refused** |
 | Parler-TTS, Chatterbox, NeuTTS Air, StyleTTS 2 checkpoints | Too heavy for a laptop's CPU in class, cloning-only, or superseded by Kokoro | **Refused** |
 | Synthesis on the Chromebook | 110-330 MB of model per device, over classroom Wi-Fi, on the slowest CPUs in the room | **Refused** |
-| **Pre-generate fixed text at package time; speak only name-bearing sentences on the Host; Chromebooks play Opus files** | About 2 hours of fixed speech, 25-35 MB per voice. About 1 Mbit/s even if all 30 listen at once. The Host's CPU is the real budget. | **Recommended**, not built |
+| **Pre-generate fixed text at package time; speak only name-bearing sentences on the Host; Chromebooks play Opus files** | About 2 hours of fixed speech, 25-35 MB per voice. About 1 Mbit/s even if all 30 listen at once. The Host's CPU is the real budget. | **Built** 2026-09-30 (owner-decided, not released): READ_ALOUD.md |
 
 **Three findings would hold whichever voice is chosen:**
 
@@ -428,7 +431,7 @@ Access limitations:
 | Flanking, facing, formations, high ground | Total War | **Rejected** — VISION.md §16 forbids a general-purpose tactical war game by name |
 | Veterancy: people improve with use | Total War | **Rejected** — skill is fixed at founding so a family without the handy member must ask a neighbour; veterancy would let one snowball inside a lesson |
 | A QR code of the join address | qrcode-generator and jsQR, read | **Implemented without them** — `public/qr.js` from the standard; their output and decoding are its test evidence (§9) |
-| Read-aloud with a natural local voice: fixed text pre-generated at package time, name-bearing sentences on the Host, Opus to the Chromebooks | Kokoro, Supertonic 3, Piper (public-domain voices), via sherpa-onnx | **Researched, not built** — the owner picks a voice (§10, READ_ALOUD.md) |
+| Read-aloud with a natural local voice: fixed text pre-generated at package time, name-bearing sentences on the Host, Opus to the Chromebooks | Kokoro, Supertonic 3, Piper (public-domain voices), via sherpa-onnx | **Implemented** (2026-09-30, not released): Kokoro-82M fp32 through sherpa-onnx's standalone program, a separate process; `server/voice/`, `public/read-aloud.js` (§10, READ_ALOUD.md) |
 | Synthesis on the student's device; the browser's stock voice | (considered) | **Rejected** — model downloads over classroom Wi-Fi; the owner refused the stock voice |
 
 ## Access limitations

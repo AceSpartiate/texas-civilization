@@ -25,3 +25,7 @@ tests/launcher/obj/
 # The WebP copies of the art, made from the PNG masters by `npm run build:webp` (scripts/build-webp.mjs, triage D14) and
 # shipped by scripts/package.ps1. Made, not kept: the PNGs are the art.
 public/assets/webp/
+
+# The read-aloud sentences spoken at package time (scripts/build-voice.mjs, docs/READ_ALOUD.md), shipped by
+# scripts/package.ps1. Made, not kept: the game's own text is the source of them.
+public/voice/
