@@ -380,3 +380,36 @@ read as five people wide at every zoom; the yard put the ox a fifth of a mile fr
   from the going; its climbs and creeks stay. The uncut stretch is drawn as a line of stakes, the cut one as track. Neighbours
   cut theirs. `ceiling:` whoever is cutting is drawn no further than a third of a mile down the lane from the house, however far
   the cutting has got; the lane's route is chosen for the family, and a student drawing their own is the way out if wanted.
+
+## 9. Suggested places, and the map by the keyboard (2026-09-29)
+
+From the classroom audit (S8) and the triage's item 2.13: choosing the house site (§8.2), ten acres to survey (§4) and the plot
+to clear or fence (§5) each wanted a tap on the map and nothing else, so a student who can use only the keyboard could not farm
+at all, and a touch screen or a slow reader had to hunt the map for a place the server would take.
+
+- **Suggested places, from the server** (`sim/suggest.mjs`, `GET /api/suggest?job=site|survey-plot|clear-plot|fence-plot`, the
+  family's own land only). Up to three buttons under the panel's words, each labelled in a few plain words - *"North-west of the
+  wagon: open ground, water close by"*, *"Prairie, a quarter mile north-east of the house"* - with the server's full words as the
+  button's title. A house site is judged at a seven-by-seven grid of spots on the holding: water that runs all year close by
+  first, then out of the river bottom, open ground, timber near, nearest the wagon; the best three spread apart are each checked
+  in full, lane and all (`siteFactsFor`), so a suggestion is never refused when it is looked at. Ten acres to survey: a grid half
+  a plot apart within a mile and a quarter of the house, at most 120 spots, the least clearing first, three that do not overlap.
+  A plot to clear or fence: the family's own plots the work can go to now (`plotFacts`), nearest the house first.
+- **Pressing one does what a tap there does**: the map goes there, the page looks at the place (`/api/site`, `/api/plot`), and
+  the panel's own button (*Set the house here*, *Survey it*, *Clear it*, *Fence it*) still sends it. The server decides both
+  times, as for a tap. The suggestions are asked for once as the choice opens, never on a tick. Opening a choice from a work
+  button, or the house site's panel coming up with nothing else focused, puts the keyboard on the first suggestion.
+- **The map by the keyboard.** Tab reaches the map (it always has); the arrow keys move it and + and - zoom (they always have);
+  and now, while a place is being chosen, **Enter** (or the space bar) picks the spot in the map's middle, as a tap there would,
+  and a ring and cross mark that spot while the map has the focus (`drawKeyTarget`). The same Enter holds the house's own
+  placement (`house-placement`) where the ring is (not in the proof below).
+- `ceiling:` the grids are coarse - a spot they miss is tapped, or reached with the arrows and Enter. Finer grids cost the
+  server's one thread for every student who opens a choice. Hunting ground and felling are not suggested: felling is one press,
+  and a hunt's ground is the student's call.
+
+Proof: `tests/suggest.test.mjs` (every suggestion accepted when looked at and when sent, none before the choice is open, the
+route the family's own) and `npm run test:keyboard-farm` (the real land's first hour with Tab, Enter and the arrow keys alone:
+a suggested house site set, the map moved and Enter looking at its middle, ten acres surveyed from a suggestion, and the plot
+it staked cleared from a suggestion, with the small child who stops the surveyor given something to do from the panel,
+also by the keyboard). Each was seen failing under an injected regression (`npm run
+test:tier2-classroom-injections`). Same computer, headless Chrome: no Chromebook, and no screen reader was tried.

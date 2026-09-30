@@ -332,6 +332,23 @@ spent). Those are accurate as descriptions of the games; nothing here is a claim
 implemented, and no code was read.
 
 
+## 9. QR code libraries (qrcode-generator, jsQR) — read for the join address, and neither is in the game
+
+Read on 2026-09-29 for the triage's item 1.8 (the join address shown large on the Host, with a QR code a Chromebook's camera
+can read). The owner's brief allowed "a small vendored QR encoder … if licence-clean". Two packages were fetched from npm into a
+scratch folder outside this repository and read: **qrcode-generator 2.0.4** (Kazuhiko Arase, MIT, 52 KB as an ES module) and
+**jsQR 1.4.0** (Cosmo Wolfe, Apache-2.0, a decoder).
+
+| Question | Finding | Verdict |
+| --- | --- | --- |
+| Vendor the encoder? | MIT, so it could be. But 52 KB for one small code on one page, where the byte mode, one error-correction level and the forty versions are about 250 lines, as `public/webm-writer.js` is the WebM format from its published specification. | **Refused as code.** `public/qr.js` is written here from the standard (ISO/IEC 18004), with no library. |
+| Trust our own encoder? | A QR code wrong in one module still looks like one. | **Taken as evidence, not code:** qrcode-generator's *output* for nine texts (versions 1-13, one UTF-8) is `tests/fixtures/qr-reference.json`, and `tests/qr.test.mjs` holds `public/qr.js` to it bit for bit with the mask forced to the one it chose. Output of an MIT program; its source is not in the tree. |
+| Does what we make read? | jsQR decoded every code `public/qr.js` made for thirteen texts, versions 1 to 40, with its own choice of mask (run once, 2026-09-29, in the scratch folder). | **Used once, not kept**: Apache-2.0 would be fine, but a decoder is test-only and 250 KB. |
+| A network QR service? | Any hosted "make me a QR code" image. | **Refused outright:** the join address is the class's own network, and the Host's page makes no request outside the class server (`npm run test:join-card` holds it). |
+
+"QR Code" is a registered trademark of DENSO WAVE INCORPORATED; the standard is open, and no licence is needed to make one.
+
+
 ## What was actually taken
 
 
@@ -361,6 +378,7 @@ implemented, and no code was read.
 | The unit as the object of control | Total War | **Rejected outright** — it would replace the family perspective, not extend it |
 | Flanking, facing, formations, high ground | Total War | **Rejected** — VISION.md §16 forbids a general-purpose tactical war game by name |
 | Veterancy: people improve with use | Total War | **Rejected** — skill is fixed at founding so a family without the handy member must ask a neighbour; veterancy would let one snowball inside a lesson |
+| A QR code of the join address | qrcode-generator and jsQR, read | **Implemented without them** — `public/qr.js` from the standard; their output and decoding are its test evidence (§9) |
 
 ## Access limitations
 
