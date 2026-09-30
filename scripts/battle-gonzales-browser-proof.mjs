@@ -21,6 +21,7 @@ import { join } from 'node:path';
 import { createClassroom } from '../server/app.mjs';
 import { sendTheWay } from './support/going.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { untilPastRiders } from './support/riders.mjs';
 import { createSettledWorld, keepFoundingFamilies } from '../tests/support/settled.mjs';
 
 const require = createRequire(import.meta.url);
@@ -71,15 +72,16 @@ try {
 
   // ------------------------------------------------------------------ the calls, answered by pressing them
   for (const [page, action] of [[fighter, 'help'], [townsman, 'help'], [stayer, 'stay']]) {
-    try {
-      await page.waitForFunction(() => window.__snapshot.world.request?.status === 'open' && ['supplies', 'rumor'].includes(window.__snapshot.world.request.kind), null, { timeout: 150000 });
-    } catch (error) { throw new Error(`no call reached ${await page.evaluate(() => `${window.__snapshot.world.householdId} by minute ${window.__snapshot.world.minute} (${window.__snapshot.world.status}): ${JSON.stringify(window.__snapshot.world.request)}`)}`); }
+    // The word comes by a rider, and the question it raises waits until he has gone (one rider, one visit: sim/encounters.mjs
+    // `questionWaits`, FIC-GONZ-909): the student hears him out with Done, as scripts/slice-browser-proof.mjs does. Left at the
+    // door he rides on after his ninety real seconds, which at this proof's 300 ms tick is past the dawn the rumor closes at.
+    await untilPastRiders(page, () => window.__snapshot.world.request?.status === 'open' && ['supplies', 'rumor'].includes(window.__snapshot.world.request.kind), { label: 'no call reached the family' });
     // Word that came third-hand is a rumor: the family goes to Gonzales to see, and is asked there.
     if (await page.evaluate(() => window.__snapshot.world.request.kind === 'rumor')) {
       await page.locator(`#selection-call button[data-action=${action === 'help' ? 'go-see' : 'stay-home'}]`).click();
       if (action !== 'help') continue;
       await sendTheWay(page, { way: 'foot' });
-      await page.waitForFunction(() => window.__snapshot.world.request?.status === 'open' && window.__snapshot.world.request.kind === 'supplies', null, { timeout: 150000 });
+      await untilPastRiders(page, () => window.__snapshot.world.request?.status === 'open' && window.__snapshot.world.request.kind === 'supplies', { label: 'no call in town after going to see' });
     }
     await page.locator(`#selection-call button[data-action=${action}]`).click();
     if (action === 'help') await sendTheWay(page, { way: 'foot' });

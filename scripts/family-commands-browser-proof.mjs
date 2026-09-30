@@ -632,7 +632,17 @@ try {
   if (await page2.locator('#wagon-done').isVisible()) await page2.locator('#wagon-done').click({ timeout: 5000 }).catch(() => {});
   if (await page2.locator('#tutorial-skip').isVisible()) await page2.locator('#tutorial-skip').click({ timeout: 5000 }).catch(() => {});
   await page2.locator('#family-panel').waitFor({ state: 'visible' });
-  await page2.waitForFunction(() => (window.__familyPanel || []).filter(row => row.needs.includes('call')).length >= 2, null, { timeout: 30000, polling: 100 });
+  // The call came with the rider who brought San Felipe's word, and waits until he has gone (one rider, one visit:
+  // sim/encounters.mjs `questionWaits`, FIC-GONZ-909); until then nobody is marked for it. He is let go as the student lets
+  // him go, from the conversation (`leave-rider` on the student's own cookie), and the marks are waited for after.
+  const studentCookie2 = (await far.cookies()).map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
+  const callMarks = () => page2.evaluate(() => (window.__familyPanel || []).filter(row => row.needs.includes('call')).length);
+  for (const until = Date.now() + 60000; (await callMarks()) < 2;) {
+    assert.ok(Date.now() < until, `the call never marked two people: ${JSON.stringify({ request: app2.state.world.calls?.['hh-1']?.status, riders: Object.values(app2.state.world.encounters || {}).filter(e => e.householdId === 'hh-1' && e.status === 'open').length })}`);
+    const listener = Object.values(app2.state.world.encounters || {}).find(e => e.householdId === 'hh-1' && e.status === 'open' && !e.kind)?.listenerId;
+    if (listener) await post2('/api/command', { id: `proof-leave-${crypto.randomUUID()}`, action: 'leave-rider', entityId: listener }, studentCookie2);
+    await page2.waitForTimeout(300);
+  }
   // The call can open while the family is still on the road in, when nobody may go yet ("Wait until this person arrives"); the
   // menu is proved once two of them have arrived and may.
   await page2.waitForFunction(() => Object.values(window.__snapshot?.world.request?.answerers || {}).filter(options => options.find(option => option.id === 'turn-out')?.can).length >= 2, null, { timeout: 60000, polling: 200 });
@@ -644,7 +654,6 @@ try {
   ok(`the settlement's call marks ${marked2.length} people (${marked2.join(', ')}), and ${canGo.length} of them may turn out`);
   // A rider standing with somebody is the more pressing need and their "!" opens the conversation instead; the riders are let
   // go (as the student would, from the conversation) until a row's first need is the call, and that "!" is the one pressed.
-  const studentCookie2 = (await far.cookies()).map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
   for (let i = 0; i < 20; i++) {
     const rows = await page2.evaluate(() => window.__familyPanel);
     if (rows.some(row => row.need === 'call')) break;

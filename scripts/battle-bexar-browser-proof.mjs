@@ -24,6 +24,7 @@ import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld } from '../sim/world.mjs';
 import { momentOf } from '../sim/directors.mjs';
+import { heardOut } from '../tests/support/heard-out.mjs';
 import { stormingFate } from '../sim/army.mjs';
 import { schedule } from '../sim/battle-stage.mjs';
 import { BEXAR_STORMING } from '../sim/battles/bexar-storming.mjs';
@@ -43,7 +44,12 @@ function playedToDecember(seed, playerCount) {
   const household = world.households['hh-1'];
   for (let i = 0; i < 1200 && !world.calls?.[household.id] && !world.director.complete; i++) stepWorld(world);
   if (world.calls?.[household.id]) {
-    const answerers = projectWorld(world, household.id, 'student', { includeMap: false }).request.answerers;
+    // The call is put while the rider who brought the word is still talking with the family, and waits until he has gone (one
+    // rider, one visit: sim/encounters.mjs `questionWaits`, FIC-GONZ-909); he is let go as a student's Done does.
+    heardOut(world, household.id);
+    const request = projectWorld(world, household.id, 'student', { includeMap: false }).request;
+    assert.equal(request?.kind, 'call', 'hh-1 was not shown its settlement’s call once its rider had gone');
+    const answerers = request.answerers;
     const found = Object.entries(answerers).find(([, options]) => options.find(o => o.id === 'turn-out')?.can);
     if (found) applyAction(world, household.id, { action: 'turn-out', entityId: found[0], mode: 'horse' });
   }

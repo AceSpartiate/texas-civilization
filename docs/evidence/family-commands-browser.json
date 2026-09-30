@@ -1,6 +1,6 @@
 {
   "record": "family-commands-browser",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "verdict": "PASS",
   "browser": "153.0.8010.53",
   "task": "docs/FAMILY_PANEL.md §11: orders from the panel in a press each, idle shown, an \"!\" for every person something waits on that takes the camera there and opens it, a main person held by the server (set-main) whose row alone has the journeys, and one menu for a call with a tick per person who may answer.",
@@ -11,7 +11,7 @@
   ],
   "checks": [
     "before anybody is chosen the main person is the principal (hh-1-parent-1), starred on the panel, and the household holds nobody",
-    "a rider stopped for hh-1-child-1: an \"!\" on that row alone (\"Answer this first. Ned Falk has stopped to speak with Jasper Proofwright. About 2 min left. And 1 more. Go to Jasper Proofwright and answer.\"); pressing it took the camera to them (0.000 mi) and opened the conversation, the keyboard on \"encounter\"",
+    "a rider stopped for hh-1-child-1: an \"!\" on that row alone (\"Ned Falk has stopped to speak with Jasper Proofwright. About 2 min left. Go to Jasper Proofwright and answer.\"); pressing it took the camera to them (0.000 mi) and opened the conversation, the keyboard on \"encounter\"",
     "letting the rider ride on clears the \"!\"",
     "a call to the family marks the 8 people the server lets answer it; pressing hh-1-child-6's \"!\" opened the one menu for it (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.\") with a row each, the keyboard on hh-1-parent-1's",
     "answering from the menu (nobody goes) clears the \"!\" from everybody who could have answered, and the menu goes",
@@ -37,7 +37,7 @@
   "measured": {
     "rider": {
       "listener": "hh-1-child-1",
-      "label": "Answer this first. Ned Falk has stopped to speak with Jasper Proofwright. About 2 min left. And 1 more. Go to Jasper Proofwright and answer.",
+      "label": "Ned Falk has stopped to speak with Jasper Proofwright. About 2 min left. Go to Jasper Proofwright and answer.",
       "opened": {
         "id": "hh-1-child-1",
         "kind": "rider",

@@ -338,10 +338,16 @@ try {
     serve(world, man, 'lynchburg');
     for (const id of ['hh-1', 'hh-2']) world.households[id].lesson = { ...world.households[id].lesson, step: 'done', stopped: true, at: world.minute };
     // The family kept far off has nobody with the army: any man of it serving is back with his family (in process, said here).
-    const home = world.households['hh-2'].members.map(id => world.entities[id]).find(one => !one.service && one.location)?.location;
+    // Since work was halved (834966aa) this family has fled Lynch's ferry ahead of Santa Anna by now and is on the road to
+    // Liberty, so "with his family" is on that road: he takes a copy of their journey, not their place on it without one (a
+    // person off a site with no journey is no valid world: sim/world.mjs validateWorld).
+    const family = world.households['hh-2'].members.map(id => world.entities[id]).find(one => !one.service && one.location);
     for (const id of world.households['hh-2'].members) {
       const one = world.entities[id];
-      if (one.service?.kind === 'houston') { delete one.service; one.travel = null; one.chore = null; if (home) one.location = { ...home }; }
+      if (one.service?.kind !== 'houston') continue;
+      delete one.service; one.chore = null;
+      one.travel = family?.travel ? structuredClone(family.travel) : null;
+      if (family) { one.location = { ...family.location }; one.task = family.task; }
     }
     world.status = 'lobby';
     return world;

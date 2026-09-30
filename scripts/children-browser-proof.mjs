@@ -177,6 +177,11 @@ try {
   // The doll is put down first: play lasts until the day ends (2026-09-29).
   await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="stop-chore"]').click();
   await page.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, kid.id, { timeout: 30000 });
+  // The hens are one tick's work (sim/children.mjs `CHILD_WORK_TICKS`), and an order is shown up to 200 ms after it is taken
+  // (server/app.mjs `broadcastSoon`): pressed just before a tick, the work is begun and done before any snapshot shows it.
+  // Pressed just after one, as here, the page has the rest of the tick to show it.
+  const tickNow = await page.evaluate(() => window.__snapshot.world.tick);
+  await page.waitForFunction(tick => window.__snapshot.world.tick > tick, tickNow, { timeout: 15000 });
   await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="child-hens"]').click();
   await page.waitForFunction(id => window.__snapshot.world.entities.find(one => one.id === id)?.chore?.id === 'child-hens', kid.id, { timeout: 15000 });
   await page.waitForFunction(id => /-sow$/.test(window.__workDrawn?.[id]?.clip || ''), kid.id, { timeout: 60000 })
@@ -228,9 +233,19 @@ try {
   assert.equal(await lifeOf(page, baby.id), 'Napping.');
   // Roomy, the baby's row has its sentence and not the short word the tight column shows instead (owner, 2026-09-27: "Show a
   // short word"; the tight column is scripts/family-twenty-browser-proof.mjs's, a family of twenty).
-  const roomy = await page.evaluate(id => { const word = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-life-word`), line = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-life-line`); return { tight: document.querySelector('#family-panel').dataset.tight === 'true', word: word?.textContent ?? null, wordShown: Boolean(word) && word.getClientRects().length > 0, lineShown: Boolean(line) && line.getClientRects().length > 0 }; }, baby.id);
-  observed.roomyWord = roomy;
+  // Since the house card (7aa293e9) stands at the head of the column until a house is chosen, this family's four rows, the
+  // card and a child's "Nothing to do" line can overfill the column at 1366x768 above the child's two-row bar, and the
+  // column is then tight by its own rule (public/app.js `fitColumn`). So: at 1366x768 the row shows exactly one of the two, as
+  // the column's state says; in a column made roomy by a taller window, the sentence and not the word.
+  const babyWords = () => page.evaluate(id => { const word = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-life-word`), line = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-life-line`); return { tight: document.querySelector('#family-panel').dataset.tight === 'true', word: word?.textContent ?? null, wordShown: Boolean(word) && word.getClientRects().length > 0, lineShown: Boolean(line) && line.getClientRects().length > 0 }; }, baby.id);
+  const here = await babyWords();
+  assert.deepEqual(here, { tight: here.tight, word: 'napping', wordShown: here.tight, lineShown: !here.tight }, 'at 1366x768 the baby’s row does not show the one its column’s state calls for');
+  await page.setViewportSize({ width: 1366, height: 1000 });
+  await page.waitForFunction(() => document.querySelector('#family-panel').dataset.tight === 'false', null, { timeout: 10000 }).catch(() => {});
+  const roomy = await babyWords();
+  observed.roomyWord = { at768: here, at1000: roomy };
   assert.deepEqual(roomy, { tight: false, word: 'napping', wordShown: false, lineShown: true }, 'in a roomy column the baby’s row shows the short word, or not its sentence');
+  await page.setViewportSize({ width: 1366, height: 768 });
   ok(`the baby crawled (${crawl.places} places in three seconds), cried and was picked up by ${carer.name.split(' ')[0]}, ${carer.age}, who said "${held.said.join('" / "')}" and was drawn ${held.clip}; the baby was put down to nap and she went back to where she stood, at "${was.task}"`);
 
   // 4b. On foot with the baby on her hip (owner, 2026-09-27: "goes a quarter slower on foot"; docs/CHILDREN.md §6). The mother is

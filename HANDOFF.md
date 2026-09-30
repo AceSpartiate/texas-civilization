@@ -1,5 +1,48 @@
 # Claude handoff — Astra foundation
 
+## Five release proofs green: famous people, ending, Béxar, Gonzales, children, family commands — 2026-09-29 (not released)
+
+Branch `release-proofs` off origin/main 7559cffe; not pushed. Each failed on a clean checkout of f5745673. **All five causes were
+the proofs; no game bug was found**, so no game change and no node test.
+
+- **`test:famous-people`, *"Entity needs a canonical site"*: the San Jacinto world factory.** Offending commit **834966aa** (work
+  halved), found by `git bisect run` over v2026.09.29.1..origin/main with the factory run in process. With work at half its length
+  the far family hh-2 has fled Lynch's ferry ahead of Santa Anna by April 21 and is on the road to Liberty (`flight.status: fled`),
+  where at the release it still stood at `lynchburg`. The factory takes hh-2's men out of Houston's army and puts them "with the
+  family" by copying a family member's **location**, which on the road has no site, and set their `travel` to null: two people off
+  a site with no journey, which `validateWorld` rightly refuses. The game never made that state: the same class stepped through all
+  three periods with every entity checked after every tick had none. **Fix**: the man takes a copy of the family's journey (and its
+  place and task) when it is on the road, and its place when it is at a site.
+- **`test:ending` and `test:battle-bexar`, *"reading 'answerers'"*: the fast-forward helpers.** Since one rider (`questionWaits`,
+  FIC-GONZ-909) San Felipe's call is put while the rider who brought it is still talking with hh-1, and is not projected until he
+  has gone, so `projectWorld(...).request` was null. The helpers now let him go as Done does (`tests/support/heard-out.mjs`) and
+  **assert** the call is then shown, where before a missing call would have been skipped silently by the `if (found)`.
+- **`test:battle-gonzales`, *"no call reached hh-1 by minute 6760"*: the proof.** hh-1's word was a rumor (third-hand), put at
+  minute 1860 while its rider stood at the door (one rider). The proof never heard him out, and at its 300 ms tick his ninety real
+  seconds (`QUESTION_BUDGETS.rider`) outlast the whole run to dawn, so the rumor question closed at the approach unshown
+  (by design, FIC-GONZ-020) and the family, never having gone to see, was never asked. The game does not lose the call: a rumor family
+  is only ever called once firmer word reaches it, which it never did. Even at the fastest real pace (Quick, 1000 ms a tick) a rider left
+  unheard goes after 90 ticks (about 1,800 minutes at the farming scale), long before dawn for a rumor put at minute 1860. **Fix**: the proof hears riders out with Done
+  (`untilPastRiders`, as `test:slice` does) while waiting for the rumor and for the call in town.
+- **`test:children`, *"in a roomy column the baby's row shows the short word"*: the proof's premise, not the row.** Not setText and
+  not greyed rows: at 1366x768 the column is honestly tight. The house card (**7aa293e9**) stands at the head of the column until a
+  house is chosen (82 px), and with four rows, the child's "Nothing to do" line and the child's two-row bar reserving 236 px at the
+  foot, the rows overfill by the baby's one line, so the column shows the short word by its own rule. The proof now holds that at
+  1366x768 the row shows exactly the one its column's state calls for, and at 1366x1000 (roomy) the sentence and not the word.
+  Found on the way, a race: the hens are one tick's work and an order is shown up to 200 ms after it is taken, so pressed just
+  before a tick the work began and ended unseen (1 run in 3). The proof now presses it just after a tick.
+- **`test:family-commands`, the 30 s wait at the call-menu section: the proof.** Same cause as the ending: the world is stopped the
+  tick San Felipe's call is put, with its rider talking, so no row was marked for the call. The proof lets the rider go from the
+  student's own cookie (`leave-rider`) until two rows are marked, then goes on as before.
+
+Evidence (same computer, headless Chrome, at most two proofs at once): `test:famous-people` **22 of 22, twice**; `test:ending` **10,
+twice**; `test:battle-bexar` **15, twice**; `test:battle-gonzales` **12, twice**; `test:children` **16, twice**;
+`test:family-commands` **23, twice**; `test:going` **7 of 7**; `test:errand` **16 of 16**. `npm test` **1793 tests, 1757 pass, 0 fail, 36 skipped**. No Chromebook, LAN or
+classroom claim.
+
+Open, for the owner: a rider left unheard now holds any question he brought for up to ninety real seconds. At Quick a rumor put late
+in the Gonzales run-up (after about minute 3,900) could reach dawn before he rides on, and the family would never be asked it.
+
 ## `test:going` green again: the proof answers which piece — 2026-09-29 (not released)
 
 Branch `going-proof` off origin/main f5745673; not pushed. `scripts/going-browser-proof.mjs` stopped at its last step (*"the next

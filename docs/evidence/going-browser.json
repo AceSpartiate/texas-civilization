@@ -1,6 +1,6 @@
 {
   "record": "going-browser",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "browser": "153.0.8010.53",
   "ownerDirection": [
     "\"when sending someone to travel, the game should ask how they'll travel.\" (2026-09-24)",
@@ -10,7 +10,7 @@
     "Travel to Gonzales asks first and sends nobody: \"How will Ezra go?\", three ways with the server's facts, the horse marked quickest and chosen",
     "the student picks walking and presses Enter: Ezra walks to Gonzales, the horse stays home, and the bar is back",
     "the hunt in the timber asks with the horse chosen; Send sends Keziah, and the map draws them riding it (horse)",
-    "buying furniture has two ways open and asks, with the horse shut (\"Keziah has the horse, on the road to the timber on the Guadalupe River.\"); it fits at 1366x768 (500x251) and 1024x768 (500x251); Escape sends nobody",
+    "buying furniture has two ways open and asks, with the horse shut (\"Keziah has the horse, reading the ground at the edge of the timber.\"); it fits at 1366x768 (500x251) and 1024x768 (500x251); Escape sends nobody",
     "asked again, the student picks the wagon over walking, the quickest, and Prudence drives it",
     "Eli, with the horse and the wagon both out (\"Prudence has the ox and wagon, on the road to Gonzales.\"), is sent to make furniture on foot straight away: no chooser drawn, the one way sent with the order, and once the benches is chosen they walk to the timber",
     "no page errors anywhere in the run"
@@ -198,10 +198,10 @@
       "ways": [
         {
           "way": "horse",
-          "label": "On the horse5 miles an hour · about 3.5 hours there · carries 7Keziah has the horse, on the road to the timber on the Guadalupe River.",
+          "label": "On the horse5 miles an hour · about 3.5 hours there · carries 7Keziah has the horse, reading the ground at the edge of the timber.",
           "open": false,
           "pressed": false,
-          "why": "Keziah has the horse, on the road to the timber on the Guadalupe River."
+          "why": "Keziah has the horse, reading the ground at the edge of the timber."
         },
         {
           "way": "foot",
@@ -236,7 +236,7 @@
             "hours": 3.5,
             "time": "about 3.5 hours",
             "can": false,
-            "why": "Keziah has the horse, on the road to the timber on the Guadalupe River."
+            "why": "Keziah has the horse, reading the ground at the edge of the timber."
           },
           {
             "id": "foot",
