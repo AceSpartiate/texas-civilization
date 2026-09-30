@@ -118,15 +118,25 @@ const rooms = [];
 try {
   // ------------------------------------------------------------------------------------------------ a class, played to its end
   const began = Date.now();
-  const world = endedClass('end-sequence-proof', 5, { played: 3, surnames: ['Flashwright', 'Harrowgate'] });
+  const world = endedClass('end-sequence-proof', 8, { played: 3, surnames: ['Flashwright', 'Harrowgate'] });
   const reckoned = Object.fromEntries(['hh-1', 'hh-2'].map(id => [id, farmAtEnd(world, world.households[id])]));
-  evidence.class = { families: 5, seconds: Math.round((Date.now() - began) / 1000), farms: Object.fromEntries(Object.entries(reckoned).map(([id, farm]) => [id, farm.kind === 'sale' ? `sold for ${farm.total}` : farm.kind])) };
-  ok(`a class of five families (three played, two with students) was played headless to its end in ${evidence.class.seconds} s; the students' farms: ${JSON.stringify(evidence.class.farms)}`);
+  evidence.class = { families: 8, seconds: Math.round((Date.now() - began) / 1000), farms: Object.fromEntries(Object.entries(reckoned).map(([id, farm]) => [id, farm.kind === 'sale' ? `sold for ${farm.total}` : farm.kind])) };
+  ok(`a class of eight families (three played, two with students) was played headless to its end in ${evidence.class.seconds} s; the students' farms: ${JSON.stringify(evidence.class.farms)}`);
   const room = await classroomOn(world, 'class', ['hh-1', 'hh-2']);
   rooms.push(room);
 
   // ------------------------------------------------------------------------------------------------ 1. the class's own video
   const host = await hostPage(browser, room, errors);
+  // From the start, every tenth of a second: what the Host's page is making and where the class video is, so two being made beside
+  // the class video is measured however quickly this computer makes them (a fast one made every family's before a later look).
+  await host.evaluate(() => {
+    window.__samples = [];
+    setInterval(() => {
+      const video = document.querySelector('#finale-video'), making = window.__flashback, q = video.getVideoPlaybackQuality();
+      window.__samples.push({ w: performance.now(), size: making?.now?.size || 0, ids: [...(making?.now?.keys() || [])], cls: Boolean(making?.now?.has('class')), t: video.currentTime,
+        playing: /household=class/.test(video.currentSrc) && !video.paused && !video.ended && video.readyState >= 2 && video.playbackRate === 1, dropped: q.droppedVideoFrames, total: q.totalVideoFrames });
+    }, 100);
+  });
   const one = await studentPage(browser, room, 'hh-1', 'Flashwright', errors);
   const two = await studentPage(browser, room, 'hh-2', 'Harrowgate', errors);
   for (const page of [host, one, two]) assert.equal(await stageOf(page), 'class');
@@ -144,36 +154,6 @@ try {
   assert.equal(firstMade.householdId, 'class', `the Host's page made ${firstMade.householdId} before the class's video`);
   assert.ok(firstMade.durationMs >= 60000 && firstMade.durationMs <= 150000, `the class video is ${firstMade.durationMs} ms`);
   await host.waitForFunction(() => { const video = document.querySelector('#finale-video'); return !video.hidden && /household=class/.test(video.currentSrc) && video.readyState >= 2; }, null, { timeout: 60000 });
-  // Two families' videos made at once while the class video plays (owner, 2026-09-30: "make two at once"), and the class video
-  // playing on smoothly beside them: its clock against the wall's, over every tenth of a second in which two were being made, and
-  // the frames the browser dropped meanwhile. From the moment it can play until the families' are made (30 s at most).
-  const beside = await host.evaluate(async () => {
-    const video = document.querySelector('#finale-video');
-    const making = window.__flashback;
-    let wall = 0, advanced = 0, peak = 0, dropped = 0, frames = 0, stalls = 0;
-    const seen = new Set();
-    let last = { t: video.currentTime, w: performance.now(), two: making.now.size >= 2 && !making.now.has('class'), q: video.getVideoPlaybackQuality() };
-    const began = performance.now();
-    while (performance.now() - began < 30000 && (making.running || making.now.size)) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-      const now = { t: video.currentTime, w: performance.now(), two: making.now.size >= 2 && !making.now.has('class'), q: video.getVideoPlaybackQuality() };
-      for (const id of making.now.keys()) seen.add(id);
-      peak = Math.max(peak, making.now.size);
-      if (last.two && now.two && !video.paused && !video.ended) {
-        wall += (now.w - last.w) / 1000; advanced += now.t - last.t;
-        dropped += now.q.droppedVideoFrames - last.q.droppedVideoFrames; frames += now.q.totalVideoFrames - last.q.totalVideoFrames;
-        if (now.t - last.t < (now.w - last.w) / 1000 * 0.5) stalls++;
-      }
-      last = now;
-    }
-    return { wall, advanced, peak, dropped, frames, stalls, seen: [...seen].filter(id => id !== 'class'), done: making.done.map(one => one.householdId), failed: [...making.failed], stacks: making.stacks || null, running: making.running };
-  });
-  evidence.twoAtOnce = beside;
-  assert.equal(beside.peak, 2, `the Host's page did not make two at once: ${JSON.stringify(beside)}`);
-  assert.ok(beside.wall >= 2, `two were made at once for only ${beside.wall.toFixed(1)} s while the class video played: too little to judge`);
-  assert.ok(beside.advanced >= beside.wall * 0.9, `the class video stalled while two were made: ${beside.advanced.toFixed(2)} s played in ${beside.wall.toFixed(2)} s`);
-  assert.ok(beside.dropped <= Math.max(3, beside.frames * 0.1), `the class video dropped ${beside.dropped} of ${beside.frames} frames while two were made`);
-  ok(`two families' videos made at once while the class video played (${beside.seen.join(', ')}): ${beside.advanced.toFixed(1)} s of it played in ${beside.wall.toFixed(1)} s of two at once, ${beside.dropped} of ${beside.frames} frames dropped, ${beside.stalls} tenths of a second at under half speed`);
   const classPlay = await playing(host, '#finale-video');
   assert.ok(classPlay.advanced > 1 && classPlay.visible, `the class video did not play by itself on the Host: ${JSON.stringify(classPlay)}`);
   ok(`the Host's page made the class's own video first (${Math.round(firstMade.durationMs / 1000)} s, made in ${Math.round(firstMade.madeMs / 1000)} s) and played it by itself, large, on the class screen`);
@@ -231,6 +211,33 @@ try {
     assert.equal(await hasEnding(page), false);
   }
   // When the stage ends, as the page worked it out when the start came (its own clock, the server's `endsIn`).
+  // Two families' videos made at once while the class video plays (owner, 2026-09-30: "make two at once"), and the class video
+  // playing on smoothly beside them: its clock against the wall's, over every tenth of a second in which two were being made, and
+  // the frames the browser dropped meanwhile. Read from the samples taken since the Host's page opened, once every video is made.
+  await host.waitForFunction(() => !window.__flashback.running && window.__flashback.done.length >= 9, null, { timeout: 600000, polling: 500 });
+  const beside = await host.evaluate(() => {
+    const samples = window.__samples;
+    let wall = 0, advanced = 0, peak = 0, dropped = 0, frames = 0, stalls = 0;
+    const seen = new Set();
+    for (let i = 1; i < samples.length; i++) {
+      const last = samples[i - 1], now = samples[i];
+      peak = Math.max(peak, now.size);
+      const two = one => one.size >= 2 && !one.cls;
+      if (two(now)) now.ids.forEach(id => seen.add(id));
+      if (!(two(last) && two(now) && last.playing && now.playing)) continue;
+      const w = (now.w - last.w) / 1000, t = now.t - last.t;
+      wall += w; advanced += t; dropped += now.dropped - last.dropped; frames += now.total - last.total;
+      if (t < w * 0.5) stalls++;
+    }
+    const making = window.__flashback;
+    return { wall, advanced, peak, dropped, frames, stalls, seen: [...seen], done: making.done.map(one => one.householdId), failed: [...making.failed] };
+  });
+  evidence.twoAtOnce = beside;
+  assert.equal(beside.peak, 2, `the Host's page did not make two at once: ${JSON.stringify(beside)}`);
+  assert.ok(beside.wall >= 2, `two were made at once for only ${beside.wall.toFixed(1)} s while the class video played: too little to judge`);
+  assert.ok(beside.advanced >= beside.wall * 0.9, `the class video stalled while two were made: ${beside.advanced.toFixed(2)} s played in ${beside.wall.toFixed(2)} s`);
+  assert.ok(beside.dropped <= Math.max(3, beside.frames * 0.1), `the class video dropped ${beside.dropped} of ${beside.frames} frames while two were made`);
+  ok(`two families' videos made at once while the class video played (${beside.seen.join(', ')}): ${beside.advanced.toFixed(1)} s of it played in ${beside.wall.toFixed(1)} s of two at once, ${beside.dropped} of ${beside.frames} frames dropped, ${beside.stalls} tenths of a second at under half speed`);
   const stageEnds = await one.evaluate(() => window.__finale.clock.endWall);
   ok(`both students' own videos started by themselves ${apart} ms apart, over the whole screen, without a word from either page (${Math.round((await one.evaluate(() => document.querySelector('#finale-slot #flashback-video').duration)))} and ${Math.round((await two.evaluate(() => document.querySelector('#finale-slot #flashback-video').duration)))} s)`);
   await shot(one, '2-student-own-video');
@@ -290,7 +297,7 @@ try {
   const winner = await host.locator('.ending-winner').textContent();
   assert.match(winner, /finished first/);
   const rows = await host.locator('.ending-table tbody tr').count();
-  assert.equal(rows, 5);
+  assert.equal(rows, 8);
   await shot(host, '3-host-final-rankings');
   ok(`at the reveal the class screen showed the final table (${rows} families) and the winner: "${winner}"`);
   for (const [page, id] of [[one, 'hh-1'], [two, 'hh-2']]) {
