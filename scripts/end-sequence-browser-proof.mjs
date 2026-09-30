@@ -295,6 +295,9 @@ try {
   await solo.waitForFunction(() => window.__flashback?.done?.length || window.__flashback?.failed?.size, null, { timeout: 300000, polling: 1000 });
   assert.equal(await solo.evaluate(() => window.__flashback.done[0]?.householdId), 'hh-1', 'the solo page made something else first');
   await solo.waitForFunction(() => { const video = document.querySelector('#finale-slot #flashback-video'); return video && !video.hidden && video.readyState >= 2; }, null, { timeout: 60000 });
+  // It starts at the stage's own moment, START_MS after it was made (sim/end-sequence.mjs), not the moment it has loaded.
+  await solo.waitForFunction(() => window.__finale?.started, null, { timeout: 60000 });
+  assert.equal(await stageOf(solo), 'family', 'Play Solo left the player\'s own video before it started');
   const soloPlay = await playing(solo, '#finale-slot #flashback-video');
   assert.ok(soloPlay.advanced > 1);
   await shot(solo, '4-solo-own-video');

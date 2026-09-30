@@ -6,9 +6,9 @@
   "task": "docs/HOST_PAGE.md: the class panel in words with presence and what waits; an absent family playing itself and back; the Rumor Mill; the spotlight taking the camera to the fight at Gonzales; the student sent none of it.",
   "environment": "Same computer: a local classroom server at 100 ms a tick with a 2500 ms absence grace (the build ships 120 s), five families, and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.",
   "checks": [
-    "the class panel lists all five families in words: the student's family here, the four joined with no page open gone; Asa on the road home",
+    "the class panel lists all five families in words: the student's family here, the four joined with no page open gone; Asa at home: working",
     "the student's page has no class panel and is sent no live page",
-    "the student's page closed: after 2622 ms the row says the family is playing itself, and the world has it absent",
+    "the student's page closed: after 2617 ms the row says the family is playing itself, and the world has it absent",
     "the absent family goes on by itself: somebody of it is at work or on a road with nobody at the screen",
     "the page opened again: the row says here the next tick, the family is the student's again, and the record says so",
     "the fight at Gonzales lit the spotlight: the camera went to the field and the banner reads \"October 2: On Williams’s land above Gonzales, the Texians fire the cann…\"",
@@ -24,16 +24,16 @@
         "id": "hh-1",
         "presence": "here",
         "people": [
-          "Asa on the road home",
-          "Temperance on the road home",
-          "Basilio on the road home",
-          "Rufino on the road home",
-          "Silvano on the road home",
-          "Pablo on the road home",
-          "Marcela on the road home",
-          "Jonas on the road home",
-          "Minerva on the road home",
-          "Levi on the road home"
+          "Asa at home: working",
+          "Temperance at home: working",
+          "Basilio at home",
+          "Rufino at home",
+          "Silvano at home",
+          "Pablo at home",
+          "Marcela at home",
+          "Jonas at home",
+          "Minerva at home",
+          "Levi at home"
         ]
       },
       {
@@ -111,21 +111,21 @@
         ]
       }
     ],
-    "absentAfterMs": 2622,
+    "absentAfterMs": 2617,
     "spotlight": {
       "date": "October 2",
       "text": "On Williams’s land above Gonzales, the Texians fire the cannon and advance, and the Mexican dragoons wheel and ride away toward Béxar. The war has begun.",
       "camera": {
         "kind": "battle",
-        "scale": 1247.672774678905,
+        "scale": 907.0564581098656,
         "named": true,
-        "cx": 0.806574142255494,
-        "cy": 1.7899695174198649,
+        "cx": 0.8010907074673306,
+        "cy": 1.995028498747665,
         "following": true,
         "watching": null,
-        "figure": 23.705782718899194,
+        "figure": 17.234072704087446,
         "house": {
-          "size": 78.22908297236734,
+          "size": 56.872439923488564,
           "one": false
         }
       }

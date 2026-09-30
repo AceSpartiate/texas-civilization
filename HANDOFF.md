@@ -1,5 +1,58 @@
 # Claude handoff — Astra foundation
 
+## The end sequence without a wait: every family's video at once, a Play button, and Controls — owner, 2026-09-30 (not released)
+
+**The ask.** The owner's answers to the four questions of the end sequence (below). Branch `end-sequence-2` off
+`integration-2026-09-28` 4131feb8, ba5ccc6a merged in; not pushed.
+
+1. *Farm price*: **"Keep it"** - the grazing league sells as built. No change.
+2. *Names on the class video*: **"Name them"** - as built. No change.
+3. *Waiting for students*: **"there shouldn't be a wait. the videos are supposed to autoplay."** Built (docs/FLASHBACK.md §11a):
+   - **One start for every family** (`sim/end-sequence.mjs` `playAt`), set by the server once the video of every family whose page is
+     open has been made (the Host's computer makes them while the class video plays), **8 s ahead** (`START_MS`): the page of the family
+     made last needs its first keyframe cluster, under half a megabyte, and every other page has been loading its own since it was
+     made; 8 s is that for five pages at once at 2 Mbit/s each, a busy school access point's share. Pages are told the start as time
+     from the snapshot (`playIn`), so no clocks need agree.
+   - **The stage lasts the longest video's length and 10 s** (`END_MS`), then the reveal. Nothing waits for a page to say it has
+     watched (the `watched` step is gone); a closed page (presence `here` only now) holds nothing; a page opened late or reloaded joins
+     where the class is. At most 10 minutes for a video never made; the teacher can still skip.
+   - **Autoplay.** The videos are silent VP8 and muted, which Chrome plays without a gesture; a refused `play()` shows a large **Play**
+     button that starts the video where the class is, and nothing waits for it.
+   - After the reveal the family's own video waits in the ending panel with **Replay** (it no longer starts by itself a second time).
+   - The server looks at the sequence once a second on a timer of its own (the class's tick can be 9.5 s at Study).
+4. *Host buttons*: **"Controls button"** - a small **Controls** button at the top left of the ending (Host only) raises the Host's own
+   controls (the pace, Recover a student, the join card, Classes with New Class, Stop Server when it can stop) over the ending without
+   leaving it; **Close controls** puts them back.
+
+**The Play Solo race** (another builder's report: the proof's solo step went straight to the reveal in about 3 runs of 5): a family
+with no page open counted as done, and the solo classroom could look before the player's page came. Now **no student page open at
+all** waits for a page as it waits for a video (10 minutes at most); a class with some pages open still waits for nobody closed.
+
+**Evidence** (same computer only; no Chromebook or LAN claim):
+
+- `tests/end-sequence.test.mjs` rewritten for the clock: one start START_MS after the last open page's video, the stage the longest
+  video and END_MS, the view's `playIn`/`endsIn`, `watched` refused, the 10-minute cap, nobody open waits; on the server with an
+  injected wall clock (`now`), the start set within the server's second and the reveal at the end and not a second before.
+  `tests/flashback.test.mjs`' told-once test now plants the late word itself (this tree's class had no such death).
+- **`node scripts/end-sequence-injections.mjs`: 34 of 34 caught by their own test**, nine of them new for the clock.
+- `npm test`: **1875 tests, 1836 pass, 3 fail, 36 skipped** (the suspended tutorial): `classroom-doors` (the ping) and `capacity`, the known flakes under load, which pass alone (6 of 6); and `battle-bexar`, which fails on the base branch too (below).
+- **`npm run test:end-sequence`** 23 checks: the Controls button's controls on top of the ending, which goes on; both students' videos
+  started by themselves 72-85 ms apart with no word from either page; the Host's countdown and list; a reloaded page joining 5 s in;
+  a refused `play()` (the page's own `play` made to reject once) showing the Play button, which started the video 10-12 s in; the
+  reveal 0.4 s after the stage's stated end; Play Solo started and revealed on the clock. **Five runs in a row with the proof fixed, 5 of 5 green (23 checks each).** Of the first four runs, two passed and two failed at the Play Solo step with *"soloPlay.advanced > 1"* - the proof looked for the video playing before its start moment, not the old race; none went straight to the reveal.
+  New pictures: `docs/evidence/end-sequence-2-host-controls.png`, `end-sequence-2-student-play-button.png`.
+- `test:ending` 10, `test:flashback` 11 (the student's video, at the reveal, plays from Replay), `test:host-live` 11, `test:overlap` 197 screens in 36 states, 0 faults (proofs two at a time).
+- **Found on the base branch, not this change:** `tests/battle-bexar.test.mjs` *"killed: ... told only when the word comes"* fails
+  with *"the word of the victory never reached his family"* on `integration-2026-09-28` itself (run on a clean export of its tree);
+  it is news-by-rider's.
+
+**Open, for the owner** (recommended first):
+
+1. *The start waits for every open page's video to be made.* In a class of thirty the Host's computer makes them one at a time while
+   the class video plays; measured at 10-50 s each, the last may come some minutes after the class video ends, with the class looking
+   at "being made". (a) Keep one start for all (as built); (b) start each family's the moment its own is made, ending together;
+   (c) make two at once on the teacher's computer.
+
 ## The art as WebP, a Tips button, and tap-then-send on touch — triage D14, D16, D17, owner 2026-09-29 (not released)
 
 Branch `webp-tips-touch` off origin/main 67d674bb, merged with origin/main ca6ac201 and again 8687a96b; not pushed. The owner

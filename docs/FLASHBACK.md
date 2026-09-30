@@ -230,7 +230,7 @@ family's video by itself; the teacher can still look one family up and Watch it.
 | Stage | The class screen (Host) | Each student's screen | Over when |
 | --- | --- | --- | --- |
 | `class` | the class's own video, large, by itself (made first on this computer) | *"Look up at the class screen"*: a calm card, no video | the Host's page says it played to its end; or the teacher skips ahead; or 60 s past its length since it was made or began playing (the Host page closed); or 10 min with no video made |
-| `family` | *"Each family is watching its own story"*: each played family's state - watching, has seen it, its video being made, page closed | the family's own video by itself, over the whole screen, the story in words below | every family a student plays has played its own to the end, or has no page open, or has had its video's length and 60 s more since it could first play; or 20 min in all; or the teacher skips ahead |
+| `family` | *"Each family's own story, on its own screen"*: a countdown to the start and then to the final numbers, and each played family's state - its video being made, ready, watching, has seen it, page closed | the family's own video starts by itself **at the same moment as every other family's**, over the whole screen, the story in words below; a page opened late joins where the class is | **on the server's clock** (owner, 2026-09-30, §11a): the longest video's length and 10 s after the start; the start is 8 s after the last video of a family whose page is open is made (10 min at most if one is never made); or the teacher skips ahead |
 | `reveal` | the final table and the winner (public/ending.js) | the full breakdown of the score (sim/ending.mjs award lines and sums) | - |
 
 - **Begun as the class ends for good**, in the same commit that ends it - the last period's own end, whenever it falls (another builder
@@ -242,8 +242,9 @@ family's video by itself; the teacher can still look one family up and Watch it.
 - **Play Solo** begins at `family`: no class video; the player's own page makes and plays its own; the player may skip ahead.
 - **The teacher** can *Skip ahead* at each stage, *Play the class video again* while the families watch theirs, and after the reveal
   *Play the ending again* (asked twice) from the start - the numbers go away again until its reveal. **A student** replays their own
-  video with *Replay* in the ending panel after the reveal. **A page reloaded** comes back to the stage the server holds, its video
-  from the start.
+  video with *Replay* in the ending panel after the reveal. **A page reloaded** comes back to the stage the server holds; in the
+  families' stage its video starts where the class is. **Controls** (the Host, from 2026-09-30) opens the teacher's own controls -
+  New Class under Classes, Stop Server, the pace, Recover a student - over the ending without leaving it.
 - **A server that keeps no videos** (no save folder) goes straight to `reveal`.
 - **The order the videos are made in**: the class's own first (it plays first), then the families students played, then the rest.
 - **At the reveal the numbers come first**: the ending panel shows the breakdown (or the Host's table) and the videos below it, to be
@@ -258,6 +259,28 @@ together) and the families that stayed, the burnings and by whom, the spring's p
 and never named, and the homecoming (houses standing, and ashes). **Two and a half minutes at most** (`CLASS_MS`): a beat is 8.5 s, a
 fight 10 s, at most sixteen beats; a class with less to tell has a shorter video (104 s for the six-family test class, 112 s in the browser proof's class of five). Kept as
 `class.webm` beside the families' (`server/flashback.mjs`, up to 240 s); served to the Host only. Same words' rules as a family's.
+
+### 11a. No wait: every family's video at once — owner, 2026-09-30
+
+The owner, answering the question of how long the class waits for a student: *"there shouldn't be a wait. the videos are supposed
+to autoplay."* So the families' stage no longer waits for any page to say its video has played (the `watched` step is gone):
+
+- **One start for every family** (`playAt`): set by the server once the video of every family whose student's page is open has been
+  made - the Host's computer makes them while the class video plays - **8 s ahead** (`START_MS`), so the page of the family made last
+  has the start of its file: a video is 4.3-4.6 MB for about 85 s, a page plays once it has its first keyframe cluster (well under half
+  a megabyte), and every other page has been loading its own since it was made (`preload`), so only the last few fetch at that moment;
+  eight seconds is that half megabyte for five pages at once at 2 Mbit/s each, a busy school access point's share, with room over.
+  Each page is told the start as time from the snapshot (`playIn`), so it needs no agreement between clocks; the proof measured two
+  students' starts 72-85 ms apart.
+- **The stage lasts as long as the longest video, and 10 s** (`END_MS`) for a video that stalled loading. Then the reveal, whatever
+  any page did. A closed page holds nothing, and neither does a page whose video is paused.
+- **A page opened late, or reloaded,** starts its video where the class is.
+- **Autoplay.** Every video is silent (VP8 alone; the captions are in the picture) and muted, which Chrome's autoplay policy lets play
+  without any gesture; if a browser still refuses (`play()` rejected), a large **Play** button starts it where the class is, and
+  nothing waits for it. There is no sound to unlock: the game's own sound is the page's soundscape, not the video.
+- **No student's page open at all** (a Play Solo player's page not come yet, every Chromebook between two connections) waits for a
+  page as it waits for a video, 10 minutes at most - the race that sent Play Solo straight to the reveal in about 3 runs of 5.
+- `ceiling:` the server looks at its clock once a second (its own timer, not the class's tick, which can be 9.5 s at Study).
 
 ## 12. The homecoming's scenes (built 2026-09-29, not released)
 
