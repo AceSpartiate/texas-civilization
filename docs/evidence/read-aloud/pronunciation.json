@@ -1,0 +1,1604 @@
+{
+ "date": "2026-09-30",
+ "engine": "Kokoro-82M v1.0 fp32 via sherpa-onnx 1.13.8, espeak-ng en-us",
+ "rows": [
+  {
+   "written": "Seguín",
+   "as_written": "/sˈɛɡwɪn/",
+   "respelled": "Seh-gheen",
+   "respelled_ipa": "/sˈeɪɡˈiːn/"
+  },
+  {
+   "written": "Seguin",
+   "as_written": "/sˈɛɡwɪn/",
+   "respelled": "Seh-gheen",
+   "respelled_ipa": "/sˈeɪɡˈiːn/"
+  },
+  {
+   "written": "Santa Anna",
+   "as_written": "/sˈæntə ˈænə/",
+   "respelled": "Sahntah Ahnah",
+   "respelled_ipa": "/sˈɑːntə ˈɑːnə/"
+  },
+  {
+   "written": "Castañeda",
+   "as_written": "/kˈæsteɪnjdə/",
+   "respelled": "Kahss-tahn-yeh-dah",
+   "respelled_ipa": "/kˈɑːstˈɑːnjˈeɪdˈɑː/"
+  },
+  {
+   "written": "Castrillón",
+   "as_written": "/kˌæstɹɪlˈɑːn/",
+   "respelled": "Kahs-tree-yohn",
+   "respelled_ipa": "/kˈɑːztɹˈiːjˈoʊn/"
+  },
+  {
+   "written": "Músquiz",
+   "as_written": "/mˈʌskwɪz/",
+   "respelled": "Moos-kees",
+   "respelled_ipa": "/mˈuːzkˈiːz/"
+  },
+  {
+   "written": "Sánchez",
+   "as_written": "/sˈænʃeɪ/",
+   "respelled": "Sahn-chess",
+   "respelled_ipa": "/sˈɑːntʃˈɛs/"
+  },
+  {
+   "written": "Ramírez",
+   "as_written": "/ɹˈæmaɪɚz/",
+   "respelled": "Rah-mee-ress",
+   "respelled_ipa": "/ɹˈɑːmˈiːɹˈɛs/"
+  },
+  {
+   "written": "Urrea",
+   "as_written": "/ɜːɹˈiə/",
+   "respelled": "Oo-reh-ah",
+   "respelled_ipa": "/ˈuːɹˈɛˈɑː/"
+  },
+  {
+   "written": "Almonte",
+   "as_written": "/ˈɔlmɔnt/",
+   "respelled": "Al-mohn-teh",
+   "respelled_ipa": "/ˈælmˈoʊntˈeɪ/"
+  },
+  {
+   "written": "Gaona",
+   "as_written": "/ɡˈeɪɑːnə/",
+   "respelled": "Gah-oh-nah",
+   "respelled_ipa": "/ɡˈɑːˈoʊnˈɑː/"
+  },
+  {
+   "written": "Tolsa",
+   "as_written": "/tˈɑːlsə/",
+   "respelled": "Tole-sah",
+   "respelled_ipa": "/tˈoʊlsˈɑː/"
+  },
+  {
+   "written": "Barragán",
+   "as_written": "/bˌæɹɐɡˈɑːn/",
+   "respelled": "Bah-rah-gahn",
+   "respelled_ipa": "/bˈɑːɹˈɑːɡˈɑːn/"
+  },
+  {
+   "written": "Nepomuceno",
+   "as_written": "/nˌɛpəmjuːsˈiːnoʊ/",
+   "respelled": "Neh-po-moo-seh-no",
+   "respelled_ipa": "/nˈeɪpˈoʊmˈuːsˈeɪnˈoʊ/"
+  },
+  {
+   "written": "Zavala",
+   "as_written": "/zɐvˈɑːlə/",
+   "respelled": "Sah-vah-lah",
+   "respelled_ipa": "/sˈɑːvˈɑːlˈɑː/"
+  },
+  {
+   "written": "Fernández",
+   "as_written": "/fɜːnˈændɛz/",
+   "respelled": "Fair-nahn-dess",
+   "respelled_ipa": "/fˈɛɹnˈɑːndˈɛs/"
+  },
+  {
+   "written": "López",
+   "as_written": "/lˈoʊpɛz/",
+   "respelled": "Lo-pess",
+   "respelled_ipa": "/lˈoʊpˈɛs/"
+  },
+  {
+   "written": "Martín",
+   "as_written": "/mˈɑːɹtɪn/",
+   "respelled": "Mar-teen",
+   "respelled_ipa": "/mˈɑːɹtˈiːn/"
+  },
+  {
+   "written": "Joaquín",
+   "as_written": "/dʒˈoʊkwɪn/",
+   "respelled": "Wah-keen",
+   "respelled_ipa": "/wˈɑːkˈiːn/"
+  },
+  {
+   "written": "Eugenio",
+   "as_written": "/juːdʒˈiːnɪˌoʊ/",
+   "respelled": "Eh-oo-heh-nee-oh",
+   "respelled_ipa": "/ˈeɪˈuːhˈɛhnˈiːˈoʊ/"
+  },
+  {
+   "written": "Salazar",
+   "as_written": "/sˈælɐzˌɑːɹ/",
+   "respelled": "Sah-lah-sar",
+   "respelled_ipa": "/sˈɑːlˈɑːsˈɑːɹ/"
+  },
+  {
+   "written": "Plácido",
+   "as_written": "/plæsˈiːdoʊ/",
+   "respelled": "Plah-see-doh",
+   "respelled_ipa": "/plˈɑːsˈiːdˈoʊ/"
+  },
+  {
+   "written": "León",
+   "as_written": "/lɛˈɑːn/",
+   "respelled": "Leh-own",
+   "respelled_ipa": "/lˈeɪˈoʊn/"
+  },
+  {
+   "written": "Peña",
+   "as_written": "/pˈɛnjə/",
+   "respelled": "Pen-yah",
+   "respelled_ipa": "/pˈɛnjˈɑː/"
+  },
+  {
+   "written": "Jiménez",
+   "as_written": "/dʒɪmˈeɪnɛz/",
+   "respelled": "Hee-meh-ness",
+   "respelled_ipa": "/hˈiːmˈɛnˈɛs/"
+  },
+  {
+   "written": "Montañez",
+   "as_written": "/mˈɔnteɪnjˌɛz/",
+   "respelled": "Mohn-tahn-yes",
+   "respelled_ipa": "/mˈoʊntˈɑːnjˈɛs/"
+  },
+  {
+   "written": "Terán",
+   "as_written": "/təɹˈɑːn/",
+   "respelled": "Teh-rahn",
+   "respelled_ipa": "/tˈeɪɹˈɑːn/"
+  },
+  {
+   "written": "Pérez",
+   "as_written": "/pˈɛɹɛz/",
+   "respelled": "Peh-ress",
+   "respelled_ipa": "/pˈeɪɹˈɛs/"
+  },
+  {
+   "written": "Bowie",
+   "as_written": "/bˈoʊi/",
+   "respelled": "Boo-ee",
+   "respelled_ipa": "/bˈuːˈiː/"
+  },
+  {
+   "written": "Milam",
+   "as_written": "/mˈɪlæm/",
+   "respelled": "My-lum",
+   "respelled_ipa": "/maɪlˈʌm/"
+  },
+  {
+   "written": "Mirabeau",
+   "as_written": "/mˈɜːɹeɪbˌaʊ/",
+   "respelled": "Meer-uh-bo",
+   "respelled_ipa": "/mˈɪɹˈʌbˈoʊ/"
+  },
+  {
+   "written": "Deaf Smith",
+   "as_written": "/dˈɛf smˈɪθ/",
+   "respelled": "Deef Smith",
+   "respelled_ipa": "/dˈiːf smˈɪθ/"
+  },
+  {
+   "written": "(Deaf)",
+   "as_written": "/dˈɛf/",
+   "respelled": "(Deef)",
+   "respelled_ipa": "/dˈiːf/"
+  },
+  {
+   "written": "Micajah",
+   "as_written": "/mˈɪkædʒə/",
+   "respelled": "My-kay-juh",
+   "respelled_ipa": "/maɪkˈeɪdʒˈʌ/"
+  },
+  {
+   "written": "Obed",
+   "as_written": "/ˈoʊbd/",
+   "respelled": "Oh-bed",
+   "respelled_ipa": "/ˈoʊbˈɛd/"
+  },
+  {
+   "written": "Barnabas",
+   "as_written": "/bɑːɹnˈɑːbəz/",
+   "respelled": "Bar-nuh-bus",
+   "respelled_ipa": "/bˈɑːɹnˈʌbˈʌs/"
+  },
+  {
+   "written": "Asa",
+   "as_written": "/ɐsˈæ/",
+   "respelled": "Aisa",
+   "respelled_ipa": "/ˈeɪsə/",
+   "note": "Ay-suh was first tried and gave /ˈaɪsˈʌ/; Aisa probed separately on 2026-09-30"
+  },
+  {
+   "written": "Eli",
+   "as_written": "/ᵻli/",
+   "respelled": "Ee-lie",
+   "respelled_ipa": "/ˈiːlˈaɪ/"
+  },
+  {
+   "written": "Simeon",
+   "as_written": "/sˈaɪmɑːn/",
+   "respelled": "Sim-ee-un",
+   "respelled_ipa": "/sˈɪmˈiːˈʌn/"
+  },
+  {
+   "written": "Levi",
+   "as_written": "/lˈɛvi/",
+   "respelled": "Lee-vye",
+   "respelled_ipa": "/lˈiːvˈaɪ/"
+  },
+  {
+   "written": "José",
+   "as_written": "/hoʊsˈeɪ/",
+   "respelled": "Ho-say",
+   "respelled_ipa": "/hˈoʊsˈeɪ/"
+  },
+  {
+   "written": "Jesús",
+   "as_written": "/dʒˈɛsəs/",
+   "respelled": "Heh-soos",
+   "respelled_ipa": "/hˈɛhsˈuːz/"
+  },
+  {
+   "written": "María",
+   "as_written": "/mˈæɹiə/",
+   "respelled": "Mah-ree-ah",
+   "respelled_ipa": "/mˈɑːɹˈiːˈɑː/"
+  },
+  {
+   "written": "Manuel",
+   "as_written": "/mænwˈɛl/",
+   "respelled": "Mahn-well",
+   "respelled_ipa": "/mˈɑːnwˈɛl/"
+  },
+  {
+   "written": "Ignacio",
+   "as_written": "/ɪɡnˈæsɪˌoʊ/",
+   "respelled": "Eeg-nah-see-oh",
+   "respelled_ipa": "/ˈiːɡnˈɑːsˈiːˈoʊ/"
+  },
+  {
+   "written": "Nicolás",
+   "as_written": "/nˌɪkəlˈɑːz/",
+   "respelled": "Nee-koh-lahs",
+   "respelled_ipa": "/nˈiːkˈoʊlˈɑːz/"
+  },
+  {
+   "written": "Bartolo",
+   "as_written": "/bˈɑːɹɾəlˌoʊ/",
+   "respelled": "Bar-toe-lo",
+   "respelled_ipa": "/bˈɑːɹtˈoʊlˈoʊ/"
+  },
+  {
+   "written": "Feliciano",
+   "as_written": "/fɛlˈɪʃənˌoʊ/",
+   "respelled": "Feh-lee-see-ah-no",
+   "respelled_ipa": "/fˈeɪlˈiːsˈiːˈɑːnˈoʊ/"
+  },
+  {
+   "written": "Ramón",
+   "as_written": "/ɹæmˈɑːn/",
+   "respelled": "Rah-mone",
+   "respelled_ipa": "/ɹˈɑːmˈoʊn/"
+  },
+  {
+   "written": "Vicente",
+   "as_written": "/vˈaɪsənt/",
+   "respelled": "Vee-sen-teh",
+   "respelled_ipa": "/vˈiːsˈɛntˈeɪ/"
+  },
+  {
+   "written": "Cipriano",
+   "as_written": "/sˌɪpɹiˈɑːnoʊ/",
+   "respelled": "See-pree-ah-no",
+   "respelled_ipa": "/sˈiːpɹˈiːˈɑːnˈoʊ/"
+  },
+  {
+   "written": "Gregorio",
+   "as_written": "/ɡɹɛɡˈoːɹɪˌoʊ/",
+   "respelled": "Greh-go-ree-oh",
+   "respelled_ipa": "/ɡɹˈeɪɡˌoʊɹˈiːˈoʊ/"
+  },
+  {
+   "written": "Trinidad",
+   "as_written": "/tɹˈɪnɪdˌæd/",
+   "respelled": "Tree-nee-dahd",
+   "respelled_ipa": "/tɹˈiːnˈiːdˈɑːd/"
+  },
+  {
+   "written": "Luis",
+   "as_written": "/lˈuːɪs/",
+   "respelled": "Loo-ees",
+   "respelled_ipa": "/lˈuːˈiːz/"
+  },
+  {
+   "written": "Rafael",
+   "as_written": "/ɹˌɑːfaɪˈɛl/",
+   "respelled": "Rah-fah-el",
+   "respelled_ipa": "/ɹˈɑːfˈɑːˌɛl/"
+  },
+  {
+   "written": "Santiago",
+   "as_written": "/sˌæntɪˈɑːɡoʊ/",
+   "respelled": "Sahn-tee-ah-go",
+   "respelled_ipa": "/sˈɑːntˈiːˈɑːɡˈoʊ/"
+  },
+  {
+   "written": "Josefa",
+   "as_written": "/dʒˈoʊsfə/",
+   "respelled": "Ho-seh-fah",
+   "respelled_ipa": "/hˈoʊsˈeɪfˈɑː/"
+  },
+  {
+   "written": "Manuela",
+   "as_written": "/mænwˈeɪlə/",
+   "respelled": "Mahn-weh-lah",
+   "respelled_ipa": "/mˈɑːnwˈeɪlˈɑː/"
+  },
+  {
+   "written": "Refugia",
+   "as_written": "/ɹɛfjˈuːdʒə/",
+   "respelled": "Reh-foo-hee-ah",
+   "respelled_ipa": "/ɹˈɛfˈuːhˈiːˈɑː/"
+  },
+  {
+   "written": "Dorotea",
+   "as_written": "/doːɹˈoʊɾiə/",
+   "respelled": "Doh-roh-teh-ah",
+   "respelled_ipa": "/dˈoʊɹˈoʊtˈeɪˈɑː/"
+  },
+  {
+   "written": "Ysabel",
+   "as_written": "/ˈʌseɪbəl/",
+   "respelled": "Ee-sah-bel",
+   "respelled_ipa": "/ˈiːsˈɑːbˈɛl/"
+  },
+  {
+   "written": "Bernarda",
+   "as_written": "/bˈɜːnɚdə/",
+   "respelled": "Ber-nar-dah",
+   "respelled_ipa": "/bˈɜːnˈɑːɹdˈɑː/"
+  },
+  {
+   "written": "Serafina",
+   "as_written": "/sˈɛɹɐfˌaɪnə/",
+   "respelled": "Seh-rah-fee-nah",
+   "respelled_ipa": "/sˈeɪɹˈɑːfˈiːnˈɑː/"
+  },
+  {
+   "written": "Paz",
+   "as_written": "/pˈæz/",
+   "respelled": "Pahs",
+   "respelled_ipa": "/pˈɑːz/"
+  },
+  {
+   "written": "Gertrudis",
+   "as_written": "/ɡɜːtɹˈuːdiz/",
+   "respelled": "Hair-troo-dees",
+   "respelled_ipa": "/hˈɛɹtɹˈuːdˈiːz/"
+  },
+  {
+   "written": "Concepción",
+   "as_written": "/kənsˌɛpsɪˈɑːn/",
+   "respelled": "Kohn-sep-see-own",
+   "respelled_ipa": "/kˈoʊnsˈɛpsˈiːˈoʊn/"
+  },
+  {
+   "written": "Rafaela",
+   "as_written": "/ɹˈæfeɪlə/",
+   "respelled": "Rah-fah-eh-lah",
+   "respelled_ipa": "/ɹˈɑːfˈɑːˈeɪlˈɑː/"
+  },
+  {
+   "written": "Francisca",
+   "as_written": "/fɹˈænsɪskə/",
+   "respelled": "Frahn-sees-kah",
+   "respelled_ipa": "/fɹˈɑːnsˈiːzkˈɑː/"
+  },
+  {
+   "written": "Teresa",
+   "as_written": "/tɚɹˈiːsə/",
+   "respelled": "Teh-reh-sah",
+   "respelled_ipa": "/tˈeɪɹˈɛsˈɑː/"
+  },
+  {
+   "written": "Luisa",
+   "as_written": "/ljˈuːɪsə/",
+   "respelled": "Loo-ee-sah",
+   "respelled_ipa": "/lˈuːˈiːsˈɑː/"
+  },
+  {
+   "written": "Micaela",
+   "as_written": "/mˈɪkeɪlə/",
+   "respelled": "Mee-kah-eh-lah",
+   "respelled_ipa": "/mˈiːkˈɑːˈeɪlˈɑː/"
+  },
+  {
+   "written": "Encarnación",
+   "as_written": "/ɛŋkˌɑːɹnɐsɪˈɑːn/",
+   "respelled": "En-kar-nah-see-own",
+   "respelled_ipa": "/ˈɛŋkˈɑːɹnˈɑːsˈiːˈoʊn/"
+  },
+  {
+   "written": "Paulita",
+   "as_written": "/pɔːlˈiːɾə/",
+   "respelled": "Pow-lee-tah",
+   "respelled_ipa": "/pˈaʊlˈiːtˈɑː/"
+  },
+  {
+   "written": "Loreta",
+   "as_written": "/lˈoːɹɛɾə/",
+   "respelled": "Lo-reh-tah",
+   "respelled_ipa": "/lˈoʊɹˈɛtˈɑː/"
+  },
+  {
+   "written": "Marcela",
+   "as_written": "/mɑːɹsˈɛlə/",
+   "respelled": "Mar-seh-lah",
+   "respelled_ipa": "/mˈɑːɹsˈeɪlˈɑː/"
+  },
+  {
+   "written": "Soledad",
+   "as_written": "/sˈoʊldæd/",
+   "respelled": "Soh-leh-dahd",
+   "respelled_ipa": "/sˈoʊlˈeɪdˈɑːd/"
+  },
+  {
+   "written": "Tomasa",
+   "as_written": "/təmˈɑːsə/",
+   "respelled": "Toh-mah-sah",
+   "respelled_ipa": "/tˈoʊmˈɑːsˈɑː/"
+  },
+  {
+   "written": "Nieves",
+   "as_written": "/nˈiːvz/",
+   "respelled": "Nee-eh-ves",
+   "respelled_ipa": "/nˈiːˈeɪvˈɛs/"
+  },
+  {
+   "written": "Benita",
+   "as_written": "/bᵻnˈiːɾə/",
+   "respelled": "Beh-nee-tah",
+   "respelled_ipa": "/bˈeɪnˈiːtˈɑː/"
+  },
+  {
+   "written": "Luz",
+   "as_written": "/lˈʌz/",
+   "respelled": "Loos",
+   "respelled_ipa": "/lˈuːz/"
+  },
+  {
+   "written": "Candelaria",
+   "as_written": "/kˌændɪlˈɛɹiə/",
+   "respelled": "Kahn-deh-lah-ree-ah",
+   "respelled_ipa": "/kˈɑːndˈeɪlˈɑːɹˈiːˈɑː/"
+  },
+  {
+   "written": "Catarina",
+   "as_written": "/kˌæɾɑːɹɹˈiːnə/",
+   "respelled": "Kah-tah-ree-nah",
+   "respelled_ipa": "/kˈɑːtˈɑːɹˈiːnˈɑː/"
+  },
+  {
+   "written": "Inés",
+   "as_written": "/ɪnˌiːɐkjˈuːtz/",
+   "respelled": "Ee-ness",
+   "respelled_ipa": "/ˈiːnˈɛs/"
+  },
+  {
+   "written": "Pilar",
+   "as_written": "/pˈɪlɚ/",
+   "respelled": "Pee-lar",
+   "respelled_ipa": "/pˈiːlˈɑːɹ/"
+  },
+  {
+   "written": "Teodoro",
+   "as_written": "/tɪˈoʊdɚɹˌoʊ/",
+   "respelled": "Teh-oh-doh-ro",
+   "respelled_ipa": "/tˈeɪˈoʊdˈoʊɹˈoʊ/"
+  },
+  {
+   "written": "Andrés",
+   "as_written": "/ændɹˈeɪz/",
+   "respelled": "Ahn-dress",
+   "respelled_ipa": "/ˈɑːndɹˈɛs/"
+  },
+  {
+   "written": "Basilio",
+   "as_written": "/bæzˈɪlɪˌoʊ/",
+   "respelled": "Bah-see-lee-oh",
+   "respelled_ipa": "/bˈɑːsˈiːlˈiːˈoʊ/"
+  },
+  {
+   "written": "Marcos",
+   "as_written": "/mˈɑːɹkoʊz/",
+   "respelled": "Mar-kose",
+   "respelled_ipa": "/mˈɑːɹkˈoʊs/"
+  },
+  {
+   "written": "Cayetano",
+   "as_written": "/kˌeɪɪtˈɑːnoʊ/",
+   "respelled": "Kah-yeh-tah-no",
+   "respelled_ipa": "/kˈɑːjˈeɪtˈɑːnˈoʊ/"
+  },
+  {
+   "written": "Emeterio",
+   "as_written": "/ɪmɪtˈɪɹiˌoʊ/",
+   "respelled": "Eh-meh-teh-ree-oh",
+   "respelled_ipa": "/ˈeɪmˈɛtˈeɪɹˈiːˈoʊ/"
+  },
+  {
+   "written": "Ruperto",
+   "as_written": "/ɹˈuːpɚtˌoʊ/",
+   "respelled": "Roo-pair-toe",
+   "respelled_ipa": "/ɹˈuːpˈɛɹtˈoʊ/"
+  },
+  {
+   "written": "Tomás",
+   "as_written": "/təmˈɑːz/",
+   "respelled": "Toh-mahs",
+   "respelled_ipa": "/tˈoʊmˈɑːz/"
+  },
+  {
+   "written": "Julián",
+   "as_written": "/dʒˌuːlɪˈɑːn/",
+   "respelled": "Hoo-lee-ahn",
+   "respelled_ipa": "/hˈuːlˈiːˈɑːn/"
+  },
+  {
+   "written": "Agustín",
+   "as_written": "/ˈæɡəstˌɪn/",
+   "respelled": "Ah-gooss-teen",
+   "respelled_ipa": "/ˈɑːɡˈuːstˈiːn/"
+  },
+  {
+   "written": "Fermín",
+   "as_written": "/fˈɜːmɪn/",
+   "respelled": "Fair-meen",
+   "respelled_ipa": "/fˈɛɹmˈiːn/"
+  },
+  {
+   "written": "Ambrosio",
+   "as_written": "/æmbɹˈoʊsɪˌoʊ/",
+   "respelled": "Ahm-bro-see-oh",
+   "respelled_ipa": "/ˈɑːmbɹˈoʊsˈiːˈoʊ/"
+  },
+  {
+   "written": "Alejo",
+   "as_written": "/ɐlˈiːdʒoʊ/",
+   "respelled": "Ah-leh-ho",
+   "respelled_ipa": "/ˈɑːlˈeɪhˈoʊ/"
+  },
+  {
+   "written": "Elena",
+   "as_written": "/ᵻlˈiːnə/",
+   "respelled": "Eh-leh-nah",
+   "respelled_ipa": "/ˈeɪlˈeɪnˈɑː/"
+  },
+  {
+   "written": "Lucía",
+   "as_written": "/lˈuːʃə/",
+   "respelled": "Loo-see-ah",
+   "respelled_ipa": "/lˈuːsˈiːˈɑː/"
+  },
+  {
+   "written": "Villegas",
+   "as_written": "/vˈɪlɛɡəz/",
+   "respelled": "Vee-yeh-gahs",
+   "respelled_ipa": "/vˈiːjˈeɪɡˈɑːz/"
+  },
+  {
+   "written": "Cárdenas",
+   "as_written": "/kɑːɹdˈiːnəz/",
+   "respelled": "Kar-deh-nahs",
+   "respelled_ipa": "/kˈɑːɹdˈeɪnˈɑːz/"
+  },
+  {
+   "written": "Rosales",
+   "as_written": "/ɹˈoʊzeɪlz/",
+   "respelled": "Roh-sah-less",
+   "respelled_ipa": "/ɹˈoʊsˈɑːlˈɛs/"
+  },
+  {
+   "written": "Ibarra",
+   "as_written": "/ˈaɪbæɹə/",
+   "respelled": "Ee-bah-rah",
+   "respelled_ipa": "/ˈiːbˈɑːɹˈɑː/"
+  },
+  {
+   "written": "Arocha",
+   "as_written": "/ˈæɹɑːtʃə/",
+   "respelled": "Ah-roh-chah",
+   "respelled_ipa": "/ˈɑːɹˈoʊtʃˈɑː/"
+  },
+  {
+   "written": "Cantú",
+   "as_written": "/kˈæntuː/",
+   "respelled": "Kahn-too",
+   "respelled_ipa": "/kˈɑːntˈuː/"
+  },
+  {
+   "written": "Benavides",
+   "as_written": "/bˈɛnɐvˌaɪdz/",
+   "respelled": "Beh-nah-vee-dess",
+   "respelled_ipa": "/bˈeɪnˈɑːvˈiːdˈɛs/"
+  },
+  {
+   "written": "Treviño",
+   "as_written": "/tɹᵻvˈɪnjoʊ/",
+   "respelled": "Treh-veen-yo",
+   "respelled_ipa": "/tɹˈeɪvˈiːnjˈoʊ/"
+  },
+  {
+   "written": "Huizar",
+   "as_written": "/hjˈuːɪzˌɑːɹ/",
+   "respelled": "Wee-sar",
+   "respelled_ipa": "/wˈiːsˈɑːɹ/"
+  },
+  {
+   "written": "Ybarbo",
+   "as_written": "/ɪbˈɑːɹboʊ/",
+   "respelled": "Ee-bar-bo",
+   "respelled_ipa": "/ˈiːbˈɑːɹbˈoʊ/"
+  },
+  {
+   "written": "Villarreal",
+   "as_written": "/vˈɪlɐɹˌiːəl/",
+   "respelled": "Vee-yah-reh-ahl",
+   "respelled_ipa": "/vˈiːjˈɑːɹˈɛˈɑːl/"
+  },
+  {
+   "written": "Béxar",
+   "as_written": "/bˈeɪksɑːɹ/",
+   "respelled": "Bayhar",
+   "respelled_ipa": "/bˈeɪhɑːɹ/"
+  },
+  {
+   "written": "Bexar",
+   "as_written": "/bᵻksˈɑːɹ/",
+   "respelled": "Bayhar",
+   "respelled_ipa": "/bˈeɪhɑːɹ/"
+  },
+  {
+   "written": "Bejar",
+   "as_written": "/bᵻdʒˈɑːɹ/",
+   "respelled": "Bayhar",
+   "respelled_ipa": "/bˈeɪhɑːɹ/"
+  },
+  {
+   "written": "Refugio",
+   "as_written": "/ɹɛfjˈuːdʒɪˌoʊ/",
+   "respelled": "Reh-fury-oh",
+   "respelled_ipa": "/ɹˈɛfjˈʊɹɹiˈoʊ/"
+  },
+  {
+   "written": "Tejano",
+   "as_written": "/tᵻhˈɑːnoʊ/",
+   "respelled": "Teh-hah-no",
+   "respelled_ipa": "/tˈeɪhˈɑːnˈoʊ/"
+  },
+  {
+   "written": "Tejanos",
+   "as_written": "/tᵻhˈɑːnoʊz/",
+   "respelled": "Teh-hah-nohs",
+   "respelled_ipa": "/tˈeɪhˈɑːnˈoʊz/"
+  },
+  {
+   "written": "tejano",
+   "as_written": "/tᵻhˈɑːnoʊ/",
+   "respelled": "teh-hah-no",
+   "respelled_ipa": "/tˈeɪhˈɑːnˈoʊ/"
+  },
+  {
+   "written": "tejanos",
+   "as_written": "/tᵻhˈɑːnoʊz/",
+   "respelled": "teh-hah-nohs",
+   "respelled_ipa": "/tˈeɪhˈɑːnˈoʊz/"
+  },
+  {
+   "written": "Anahuac",
+   "as_written": "/ˈænɐhjˌuːæk/",
+   "respelled": "Ann-uh-wack",
+   "respelled_ipa": "/ˈænˈʌwˈæk/"
+  },
+  {
+   "written": "Coleto",
+   "as_written": "/kɑːlˈiːɾoʊ/",
+   "respelled": "Koh-let-oh",
+   "respelled_ipa": "/kˈoʊlˈɛtˈoʊ/"
+  },
+  {
+   "written": "Laredo",
+   "as_written": "/lˈɛɹdoʊ/",
+   "respelled": "Lah-ray-doh",
+   "respelled_ipa": "/lˈɑːɹˈeɪdˈoʊ/"
+  },
+  {
+   "written": "Lavaca",
+   "as_written": "/lˈæveɪkə/",
+   "respelled": "Luh-vack-uh",
+   "respelled_ipa": "/lˈʌvˈækˈʌ/"
+  },
+  {
+   "written": "Nueces",
+   "as_written": "/nˈuːsᵻz/",
+   "respelled": "New-way-sis",
+   "respelled_ipa": "/nˈuːwˈeɪsˈɪs/"
+  },
+  {
+   "written": "Palacios",
+   "as_written": "/pælˈæsɪˌoʊz/",
+   "respelled": "Puh-lash-us",
+   "respelled_ipa": "/pˈʌlˈæʃˌʌs/"
+  },
+  {
+   "written": "Papalote",
+   "as_written": "/pˈæpɐlˌoʊt/",
+   "respelled": "Pah-pah-low-tay",
+   "respelled_ipa": "/pˈɑːpˈɑːlˈoʊtˈeɪ/"
+  },
+  {
+   "written": "Banquete",
+   "as_written": "/bˈæŋkwiːt/",
+   "respelled": "Ban-ket-ee",
+   "respelled_ipa": "/bˈæŋkˈɛtˈiː/"
+  },
+  {
+   "written": "Bahía",
+   "as_written": "/bˈæhiə/",
+   "respelled": "Bah-hee-ah",
+   "respelled_ipa": "/bˈɑːhˈiːˈɑː/"
+  },
+  {
+   "written": "Bahia",
+   "as_written": "/bæˈiːə/",
+   "respelled": "Bah-hee-ah",
+   "respelled_ipa": "/bˈɑːhˈiːˈɑː/"
+  },
+  {
+   "written": "Agua Dulce",
+   "as_written": "/ˈɑːɡwə dˈʌls/",
+   "respelled": "Ah-gwah Dool-say",
+   "respelled_ipa": "/ˈɑːɡwˈɑː dˈuːlsˈeɪ/"
+  },
+  {
+   "written": "Medina",
+   "as_written": "/mˈɛdɪnə/",
+   "respelled": "Meh-dee-nah",
+   "respelled_ipa": "/mˈɛdˈiːnˈɑː/"
+  },
+  {
+   "written": "Salado",
+   "as_written": "/sælˈɑːdoʊ/",
+   "respelled": "Sah-lah-doh",
+   "respelled_ipa": "/sˈɑːlˈɑːdˈoʊ/"
+  },
+  {
+   "written": "Cibolo",
+   "as_written": "/sˈɪbəlˌoʊ/",
+   "respelled": "See-bo-low",
+   "respelled_ipa": "/sˈiːbˈoʊlˈoʊ/"
+  },
+  {
+   "written": "Río",
+   "as_written": "/ɹˈiːoʊ/",
+   "respelled": "Ree-oh",
+   "respelled_ipa": "/ɹˈiːˈoʊ/"
+  },
+  {
+   "written": "Paso de Francia",
+   "as_written": "/pˈæsoʊ də fɹˈænʃə/",
+   "respelled": "Pah-so deh Frahn-see-ah",
+   "respelled_ipa": "/pˈɑːsˌoʊ dˈeɪ fɹˈɑːnsˈiːˈɑː/"
+  },
+  {
+   "written": "Alazán",
+   "as_written": "/ɐlɐzˈɑːn/",
+   "respelled": "Ah-lah-sahn",
+   "respelled_ipa": "/ˈɑːlˈɑːsˈɑːn/"
+  },
+  {
+   "written": "¡Alto!",
+   "as_written": "/ˈæltoʊ/",
+   "respelled": "Ahl-toe!",
+   "respelled_ipa": "/ˈɑːltˈoʊ/"
+  },
+  {
+   "written": "Alto",
+   "as_written": "/ˈæltoʊ/",
+   "respelled": "Ahl-toe",
+   "respelled_ipa": "/ˈɑːltˈoʊ/"
+  },
+  {
+   "written": "Dr.",
+   "as_written": "/dˈɑːktɚ/",
+   "respelled": "Doctor",
+   "respelled_ipa": "/dˈɑːktɚ/"
+  },
+  {
+   "written": "Col.",
+   "as_written": "/kˈɑːl/",
+   "respelled": "Colonel",
+   "respelled_ipa": "/kˈɜːnəl/"
+  },
+  {
+   "written": "Capt.",
+   "as_written": "/kˈæpt/",
+   "respelled": "Captain",
+   "respelled_ipa": "/kˈæptɪn/"
+  },
+  {
+   "written": "Gen.",
+   "as_written": "/dʒˈɛn/",
+   "respelled": "General",
+   "respelled_ipa": "/dʒˈɛnɚɹəl/"
+  },
+  {
+   "written": "Lt.",
+   "as_written": "/ˌɛltˈiː/",
+   "respelled": "Lieutenant",
+   "respelled_ipa": "/luːtˈɛnənt/"
+  },
+  {
+   "written": "Maj.",
+   "as_written": "/mˈædʒ/",
+   "respelled": "Major",
+   "respelled_ipa": "/mˈeɪdʒɚ/"
+  },
+  {
+   "written": "Sgt.",
+   "as_written": "/ˌɛsdʒˌiːtˈiː/",
+   "respelled": "Sergeant",
+   "respelled_ipa": "/sˈɑːɹdʒənt/"
+  },
+  {
+   "written": "Jr.",
+   "as_written": "/dʒˌeɪˈɑːɹ/",
+   "respelled": "Junior",
+   "respelled_ipa": "/dʒˈuːnjɚ/"
+  },
+  {
+   "written": "Rev.",
+   "as_written": "/ɹˈɛv/",
+   "respelled": "Reverend",
+   "respelled_ipa": "/ɹˈɛvɚɹˌɛnd/"
+  },
+  {
+   "written": "St.",
+   "as_written": "/sənt/",
+   "respelled": "Saint",
+   "respelled_ipa": "/sˈeɪnt/"
+  },
+  {
+   "written": "Juan",
+   "as_written": "/hwˈɑːn/",
+   "respelled": null
+  },
+  {
+   "written": "Francisco",
+   "as_written": "/fɹænsˈɪskoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Antonio",
+   "as_written": "/æntˈoʊnɪˌoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Anselmo",
+   "as_written": "/ænsˈɛlmoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Pedro",
+   "as_written": "/pˈɛdɹoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Miguel",
+   "as_written": "/miːɡˈɛl/",
+   "respelled": null
+  },
+  {
+   "written": "Antonia",
+   "as_written": "/æntˈoʊniə/",
+   "respelled": null
+  },
+  {
+   "written": "Juana",
+   "as_written": "/hwˈɑːnə/",
+   "respelled": null
+  },
+  {
+   "written": "Rosa",
+   "as_written": "/ɹˈoʊsə/",
+   "respelled": null
+  },
+  {
+   "written": "Chana",
+   "as_written": "/tʃˈɑːnə/",
+   "respelled": null
+  },
+  {
+   "written": "Petra",
+   "as_written": "/pˈɛtɹə/",
+   "respelled": null
+  },
+  {
+   "written": "Ramona",
+   "as_written": "/ɹɐmˈoʊnə/",
+   "respelled": null
+  },
+  {
+   "written": "Carmen",
+   "as_written": "/kˈɑːɹmɛn/",
+   "respelled": null
+  },
+  {
+   "written": "Dolores",
+   "as_written": "/dəlˈoːɹɪs/",
+   "respelled": null
+  },
+  {
+   "written": "Juanita",
+   "as_written": "/hwɑːnˈiːɾə/",
+   "respelled": null
+  },
+  {
+   "written": "Rita",
+   "as_written": "/ɹˈiːɾə/",
+   "respelled": null
+  },
+  {
+   "written": "Mateo",
+   "as_written": "/mɐtˈeɪoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Pablo",
+   "as_written": "/pˈɑːbloʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Rufino",
+   "as_written": "/ɹuːfˈiːnoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Silvano",
+   "as_written": "/sɪlvˈɑːnoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Diego",
+   "as_written": "/dɪˈeɪɡoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Lorenzo",
+   "as_written": "/lɔːɹˈɛnzoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Enrique",
+   "as_written": "/ɛnɹˈiːkeɪ/",
+   "respelled": null
+  },
+  {
+   "written": "Esparza",
+   "as_written": "/ɛspˈɑːɹzə/",
+   "respelled": null
+  },
+  {
+   "written": "Ana",
+   "as_written": "/ˈɑːnə/",
+   "respelled": null
+  },
+  {
+   "written": "Navarro",
+   "as_written": "/nævˈɑːɹɹoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Sesma",
+   "as_written": "/sˈɛsmə/",
+   "respelled": null
+  },
+  {
+   "written": "Filisola",
+   "as_written": "/fˌɪlɪsˈoʊlə/",
+   "respelled": null
+  },
+  {
+   "written": "Cos",
+   "as_written": "/kˈɑːs/",
+   "respelled": null
+  },
+  {
+   "written": "Condelle",
+   "as_written": "/kəndˈɛl/",
+   "respelled": null
+  },
+  {
+   "written": "Garza",
+   "as_written": "/ɡˈɑːɹzə/",
+   "respelled": null
+  },
+  {
+   "written": "Lozano",
+   "as_written": "/ləzˈɑːnoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Lerma",
+   "as_written": "/lˈɜːmə/",
+   "respelled": null
+  },
+  {
+   "written": "Sosa",
+   "as_written": "/sˈoʊsə/",
+   "respelled": null
+  },
+  {
+   "written": "Felipe",
+   "as_written": "/fᵻlˈiːpeɪ/",
+   "respelled": null
+  },
+  {
+   "written": "Marta",
+   "as_written": "/mˈɑːɹɾə/",
+   "respelled": null
+  },
+  {
+   "written": "Castro",
+   "as_written": "/kˈæstɹoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Perfecto",
+   "as_written": "/pɚfˈɛktoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Angelina",
+   "as_written": "/ˌændʒɪlˈiːnə/",
+   "respelled": null
+  },
+  {
+   "written": "Guadalupe",
+   "as_written": "/ɡwˈɑːdɐlˌuːp/",
+   "respelled": null
+  },
+  {
+   "written": "Gonzales",
+   "as_written": "/ɡənzˈɑːləs/",
+   "respelled": null
+  },
+  {
+   "written": "Goliad",
+   "as_written": "/ɡˈoʊlɪˌæd/",
+   "respelled": null
+  },
+  {
+   "written": "Nacogdoches",
+   "as_written": "/nˌækədˈoʊtʃəz/",
+   "respelled": null
+  },
+  {
+   "written": "Matamoros",
+   "as_written": "/mˌæɾɐmˈoːɹoʊz/",
+   "respelled": null
+  },
+  {
+   "written": "Velasco",
+   "as_written": "/vɛlˈæskoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Mina",
+   "as_written": "/mˈiːnə/",
+   "respelled": null
+  },
+  {
+   "written": "Alamo",
+   "as_written": "/ˈæləmˌoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Travis",
+   "as_written": "/tɹˈævɪs/",
+   "respelled": null
+  },
+  {
+   "written": "Crockett",
+   "as_written": "/kɹˈɑːkɪt/",
+   "respelled": null
+  },
+  {
+   "written": "Bonham",
+   "as_written": "/bˈɑːnæm/",
+   "respelled": null
+  },
+  {
+   "written": "Dickinson",
+   "as_written": "/dˈɪkɪnsən/",
+   "respelled": null
+  },
+  {
+   "written": "Almeron",
+   "as_written": "/ˈɔlmɚɹən/",
+   "respelled": null
+  },
+  {
+   "written": "Susanna",
+   "as_written": "/suːzˈænə/",
+   "respelled": null
+  },
+  {
+   "written": "Joe",
+   "as_written": "/dʒˈoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Ben",
+   "as_written": "/bˈɛn/",
+   "respelled": null
+  },
+  {
+   "written": "Kimbell",
+   "as_written": "/kˈɪmbɛl/",
+   "respelled": null
+  },
+  {
+   "written": "Martin",
+   "as_written": "/mˈɑːɹtɪn/",
+   "respelled": null
+  },
+  {
+   "written": "Smith",
+   "as_written": "/smˈɪθ/",
+   "respelled": null
+  },
+  {
+   "written": "Sutherland",
+   "as_written": "/sˈʌðɜːlənd/",
+   "respelled": null
+  },
+  {
+   "written": "Moore",
+   "as_written": "/mˈʊɹ/",
+   "respelled": null
+  },
+  {
+   "written": "Smither",
+   "as_written": "/smˈɪðɚ/",
+   "respelled": null
+  },
+  {
+   "written": "Austin",
+   "as_written": "/ˈɔːstɪn/",
+   "respelled": null
+  },
+  {
+   "written": "Burleson",
+   "as_written": "/bˈɜːlɛsən/",
+   "respelled": null
+  },
+  {
+   "written": "Fannin",
+   "as_written": "/fˈænɪn/",
+   "respelled": null
+  },
+  {
+   "written": "Johnson",
+   "as_written": "/dʒˈɑːnsən/",
+   "respelled": null
+  },
+  {
+   "written": "Karnes",
+   "as_written": "/kˈɑːɹnz/",
+   "respelled": null
+  },
+  {
+   "written": "Neill",
+   "as_written": "/nˈiːl/",
+   "respelled": null
+  },
+  {
+   "written": "Grant",
+   "as_written": "/ɡɹˈænt/",
+   "respelled": null
+  },
+  {
+   "written": "Horton",
+   "as_written": "/hˈɔːɹtən/",
+   "respelled": null
+  },
+  {
+   "written": "Houston",
+   "as_written": "/hjˈuːstən/",
+   "respelled": null
+  },
+  {
+   "written": "Rusk",
+   "as_written": "/ɹˈʌsk/",
+   "respelled": null
+  },
+  {
+   "written": "Sherman",
+   "as_written": "/ʃˈɜːmən/",
+   "respelled": null
+  },
+  {
+   "written": "Lamar",
+   "as_written": "/lɐmˈɑːɹ/",
+   "respelled": null
+  },
+  {
+   "written": "Hockley",
+   "as_written": "/hˈɑːkli/",
+   "respelled": null
+  },
+  {
+   "written": "McCulloch",
+   "as_written": "/mə kˈʌlɑːk/",
+   "respelled": null
+  },
+  {
+   "written": "Emily",
+   "as_written": "/ˈɛmᵻli/",
+   "respelled": null
+  },
+  {
+   "written": "West",
+   "as_written": "/wˈɛst/",
+   "respelled": null
+  },
+  {
+   "written": "Twin",
+   "as_written": "/twˈɪn/",
+   "respelled": null
+  },
+  {
+   "written": "Sisters",
+   "as_written": "/sˈɪstɚz/",
+   "respelled": null
+  },
+  {
+   "written": "William",
+   "as_written": "/wˈɪljəm/",
+   "respelled": null
+  },
+  {
+   "written": "Barret",
+   "as_written": "/bˈæɹɪt/",
+   "respelled": null
+  },
+  {
+   "written": "James",
+   "as_written": "/dʒˈeɪmz/",
+   "respelled": null
+  },
+  {
+   "written": "David",
+   "as_written": "/dˈeɪvɪd/",
+   "respelled": null
+  },
+  {
+   "written": "Butler",
+   "as_written": "/bˈʌtlɚ/",
+   "respelled": null
+  },
+  {
+   "written": "George",
+   "as_written": "/dʒˈɔːɹdʒ/",
+   "respelled": null
+  },
+  {
+   "written": "Albert",
+   "as_written": "/ˈælbɚt/",
+   "respelled": null
+  },
+  {
+   "written": "John",
+   "as_written": "/dʒˈɑːn/",
+   "respelled": null
+  },
+  {
+   "written": "Stephen",
+   "as_written": "/stˈiːvən/",
+   "respelled": null
+  },
+  {
+   "written": "Edward",
+   "as_written": "/ˈɛdwɚd/",
+   "respelled": null
+  },
+  {
+   "written": "Walker",
+   "as_written": "/wˈɔːkɚ/",
+   "respelled": null
+  },
+  {
+   "written": "Benjamin",
+   "as_written": "/bˈɛndʒəmɪn/",
+   "respelled": null
+  },
+  {
+   "written": "Rush",
+   "as_written": "/ɹˈʌʃ/",
+   "respelled": null
+  },
+  {
+   "written": "Francis",
+   "as_written": "/fɹˈænsɪs/",
+   "respelled": null
+  },
+  {
+   "written": "Henry",
+   "as_written": "/hˈɛnɹi/",
+   "respelled": null
+  },
+  {
+   "written": "Wax",
+   "as_written": "/wˈæks/",
+   "respelled": null
+  },
+  {
+   "written": "Erastus",
+   "as_written": "/ɪɹˈæstəs/",
+   "respelled": null
+  },
+  {
+   "written": "Clinton",
+   "as_written": "/klˈɪntən/",
+   "respelled": null
+  },
+  {
+   "written": "Sam",
+   "as_written": "/sˈæm/",
+   "respelled": null
+  },
+  {
+   "written": "Thomas",
+   "as_written": "/tˈɑːməs/",
+   "respelled": null
+  },
+  {
+   "written": "Sidney",
+   "as_written": "/sˈɪdni/",
+   "respelled": null
+  },
+  {
+   "written": "Launcelot",
+   "as_written": "/lˈɔːnsɪlˌɑːt/",
+   "respelled": null
+  },
+  {
+   "written": "Captain",
+   "as_written": "/kˈæptɪn/",
+   "respelled": null
+  },
+  {
+   "written": "Colonel",
+   "as_written": "/kˈɜːnəl/",
+   "respelled": null
+  },
+  {
+   "written": "Reverend",
+   "as_written": "/ɹˈɛvɚɹˌɛnd/",
+   "respelled": null
+  },
+  {
+   "written": "Mrs.",
+   "as_written": "/mˈɪsɪz/",
+   "respelled": null
+  },
+  {
+   "written": "Gregorio’s",
+   "as_written": "/ɡɹɛɡˈoːɹɪˌoʊz/",
+   "respelled": null
+  },
+  {
+   "written": "Ana’s",
+   "as_written": "/ˈɑːnəz/",
+   "respelled": null
+  },
+  {
+   "written": "Ezra",
+   "as_written": "/ˈɛzɹə/",
+   "respelled": null
+  },
+  {
+   "written": "Caleb",
+   "as_written": "/kˈælɛb/",
+   "respelled": null
+  },
+  {
+   "written": "Amos",
+   "as_written": "/ˈeɪmɑːs/",
+   "respelled": null
+  },
+  {
+   "written": "Elias",
+   "as_written": "/ᵻlˈaɪəs/",
+   "respelled": null
+  },
+  {
+   "written": "Jethro",
+   "as_written": "/dʒˈɛθɹoʊ/",
+   "respelled": null
+  },
+  {
+   "written": "Hollis",
+   "as_written": "/hˈɑːliz/",
+   "respelled": null
+  },
+  {
+   "written": "Alvin",
+   "as_written": "/ˈælvɪn/",
+   "respelled": null
+  },
+  {
+   "written": "Sarah",
+   "as_written": "/sˈɛɹə/",
+   "respelled": null
+  },
+  {
+   "written": "Patience",
+   "as_written": "/pˈeɪʃəns/",
+   "respelled": null
+  },
+  {
+   "written": "Lucinda",
+   "as_written": "/luːsˈɪndə/",
+   "respelled": null
+  },
+  {
+   "written": "Mahala",
+   "as_written": "/mæhˈɑːlə/",
+   "respelled": null
+  },
+  {
+   "written": "Rhoda",
+   "as_written": "/ɹˈoʊdə/",
+   "respelled": null
+  },
+  {
+   "written": "Keziah",
+   "as_written": "/kɛzˈaɪə/",
+   "respelled": null
+  },
+  {
+   "written": "Temperance",
+   "as_written": "/tˈɛmpɚɹəns/",
+   "respelled": null
+  },
+  {
+   "written": "Charity",
+   "as_written": "/tʃˈæɹᵻɾi/",
+   "respelled": null
+  },
+  {
+   "written": "Almira",
+   "as_written": "/ɔlmˈiəɹə/",
+   "respelled": null
+  },
+  {
+   "written": "Drusilla",
+   "as_written": "/dɹuːsˈɪlə/",
+   "respelled": null
+  },
+  {
+   "written": "Delia",
+   "as_written": "/dˈiːliə/",
+   "respelled": null
+  },
+  {
+   "written": "Effie",
+   "as_written": "/ˈɛfi/",
+   "respelled": null
+  },
+  {
+   "written": "Winnie",
+   "as_written": "/wˈɪni/",
+   "respelled": null
+  },
+  {
+   "written": "Adela",
+   "as_written": "/ɐdˈɛlə/",
+   "respelled": null
+  },
+  {
+   "written": "Minerva",
+   "as_written": "/mɪnˈɜːvə/",
+   "respelled": null
+  },
+  {
+   "written": "Lavinia",
+   "as_written": "/lævˈɪniə/",
+   "respelled": null
+  },
+  {
+   "written": "Orpha",
+   "as_written": "/ˈɔːɹfə/",
+   "respelled": null
+  },
+  {
+   "written": "Prudence",
+   "as_written": "/pɹˈuːdəns/",
+   "respelled": null
+  },
+  {
+   "written": "Docia",
+   "as_written": "/dˈoʊʃə/",
+   "respelled": null
+  },
+  {
+   "written": "Jonas",
+   "as_written": "/dʒˈoʊnəz/",
+   "respelled": null
+  },
+  {
+   "written": "Hiram",
+   "as_written": "/hˈaɪɹəm/",
+   "respelled": null
+  },
+  {
+   "written": "Zadok",
+   "as_written": "/zˈædɑːk/",
+   "respelled": null
+  },
+  {
+   "written": "Jasper",
+   "as_written": "/dʒˈæspɚ/",
+   "respelled": null
+  },
+  {
+   "written": "Enos",
+   "as_written": "/ˈiːnoʊz/",
+   "respelled": null
+  },
+  {
+   "written": "Espada",
+   "as_written": "/ɛspˈɑːdə/",
+   "respelled": null
+  },
+  {
+   "written": "Esteban",
+   "as_written": "/ˈɛstɛbən/",
+   "respelled": null
+  },
+  {
+   "written": "Cincinnati",
+   "as_written": "/sˌɪnsɪnˈæɾi/",
+   "respelled": null
+  },
+  {
+   "written": "Mexican",
+   "as_written": "/mˈɛksɪkən/",
+   "respelled": null
+  },
+  {
+   "written": "Handbook",
+   "as_written": "/hˈændbʊk/",
+   "respelled": null
+  }
+ ]
+}

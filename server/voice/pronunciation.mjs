@@ -61,7 +61,7 @@ export const RESPELL = Object.freeze({
   'Micajah': 'My-kay-juh',
   'Obed': 'Oh-bed',
   'Barnabas': 'Bar-nuh-bus',
-  'Asa': 'Ay-suh', 'Eli': 'Ee-lie', 'Simeon': 'Sim-ee-un', 'Levi': 'Lee-vye',
+  'Asa': 'Aisa', 'Eli': 'Ee-lie', 'Simeon': 'Sim-ee-un', 'Levi': 'Lee-vye',
   // ------------------------------------------------------------------ given names the game deals (sim/starts.mjs, sim/family.mjs)
   'José': 'Ho-say', 'Jesús': 'Heh-soos',
   'María': 'Mah-ree-ah',

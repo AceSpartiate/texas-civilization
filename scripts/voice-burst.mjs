@@ -37,9 +37,10 @@ const lines = given.map((first, i) => { const name = `${first} ${surnames[i]}`; 
 const world = createGonzalesWorld('voice-burst', 30, { map: 'colonies', neighbours: true });
 for (const household of Object.values(world.households)) rollFamily(world, household);
 world.status = 'running';
-for (let i = 0; i < 20; i++) stepWorld(world);
+// Warmed past its first heavy hours, so before, during and after are the same kind of tick.
+for (let i = 0; i < 60; i++) stepWorld(world);
 const loop = monitorEventLoopDelay({ resolution: 10 });
-const ticks = { before: [], during: [] };
+const ticks = { before: [], during: [], after: [] };
 let phase = 'before';
 const tick = () => { const started = performance.now(); stepWorld(world); ticks[phase].push(performance.now() - started); };
 const stats = list => { const sorted = [...list].sort((a, b) => a - b); const at = q => sorted[Math.min(sorted.length - 1, Math.floor(q * sorted.length))]; return { n: sorted.length, median: +at(0.5).toFixed(1), p95: +at(0.95).toFixed(1), max: +sorted.at(-1).toFixed(1) }; };
@@ -47,7 +48,7 @@ const stats = list => { const sorted = [...list].sort((a, b) => a - b); const at
 const loadBefore = cpuLoad();
 loop.enable();
 const timer = setInterval(tick, 1000);
-await new Promise(resolve => setTimeout(resolve, 15000));
+await new Promise(resolve => setTimeout(resolve, 40000));
 const delayBefore = { p50: +(loop.percentile(50) / 1e6).toFixed(1), p99: +(loop.percentile(99) / 1e6).toFixed(1), max: +(loop.max / 1e6).toFixed(1) };
 loop.reset();
 phase = 'during';
@@ -68,22 +69,28 @@ while (keys.some(set => set.some(key => !voice.ready(key)))) {
 }
 for (const set of keys) for (const key of set) if (!readyAt.has(key)) readyAt.set(key, performance.now() - started);
 const total = performance.now() - started;
-clearInterval(timer);
 const delayDuring = { p50: +(loop.percentile(50) / 1e6).toFixed(1), p99: +(loop.percentile(99) / 1e6).toFixed(1), max: +(loop.max / 1e6).toFixed(1) };
+// And as long again after, with the voice quiet: the class moves on, so before and after bracket what the voice did.
+loop.reset();
+phase = 'after';
+await new Promise(resolve => setTimeout(resolve, 40000));
+clearInterval(timer);
+const delayAfter = { p50: +(loop.percentile(50) / 1e6).toFixed(1), p99: +(loop.percentile(99) / 1e6).toFixed(1), max: +(loop.max / 1e6).toFixed(1) };
 loop.disable();
+const loadAfter = cpuLoad();
 const times = [...readyAt.values()].sort((a, b) => a - b);
 const log = voice.stats.log;
 const audioSeconds = log.reduce((sum, one) => sum + one.chars, 0) / 15;
 const result = {
   date: new Date().toISOString().slice(0, 10), machine: `${cpus()[0].model}, ${cpus().length} logical cores, ${Math.round(totalmem() / 2 ** 30)} GB`,
-  shared: 'Measured on the owner\'s desktop while other builders\' test suites ran on it (load recorded).', cpuLoadPercent: { before: loadBefore, during: loadDuring },
+  shared: 'Measured on the owner\'s desktop while other builders\' test suites ran on it (load recorded).', cpuLoadPercent: { before: loadBefore, during: loadDuring, after: loadAfter },
   threads, lines: lines.length, sentences: keys.flat().length, sample: lines[0].text,
   readySeconds: { first: +(times[0] / 1000).toFixed(1), median: +(times[Math.floor(times.length / 2)] / 1000).toFixed(1), last: +(times.at(-1) / 1000).toFixed(1) },
   perSentenceMs: { mean: Math.round(voice.stats.msTotal / Math.max(1, voice.stats.spoken)), ...stats(log.map(one => one.tookMs)) },
   pressedTwentyFifth: { waitedSeconds: +(((readyAt.get(pressedKey) ?? total) - (pressedAt - started)) / 1000).toFixed(1), orderSpoken: log.findIndex(one => one.key === pressedKey) + 1 },
   opusBytes: { total: voice.stats.audioBytes, perSentence: Math.round(voice.stats.audioBytes / Math.max(1, voice.stats.spoken)) },
   roughAudioSeconds: Math.round(audioSeconds),
-  tickMs: { before: stats(ticks.before), during: stats(ticks.during) }, eventLoopDelayMs: { before: delayBefore, during: delayDuring },
+  tickMs: { before: stats(ticks.before), during: stats(ticks.during), after: stats(ticks.after) }, eventLoopDelayMs: { before: delayBefore, during: delayDuring, after: delayAfter },
   failed: voice.stats.failed,
 };
 voice.close();

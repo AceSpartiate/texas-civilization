@@ -42,8 +42,8 @@ export { voiceOfPerson } from '../../public/read-aloud.js';
 // A full stop after one of these, or after a single capital (J. W. Smith), does not end a sentence.
 const ABBREVIATIONS = new Set(['Mr', 'Mrs', 'Ms', 'Dr', 'Col', 'Capt', 'Gen', 'Lt', 'Maj', 'Sgt', 'St', 'Jr', 'Sr', 'Rev', 'No', 'vs', 'etc', 'Mt', 'Ft']);
 /** A stand-in for a template's `${...}` while its source is read (server/voice/inventory.mjs); never in a real line. */
-export const HOLE = '';
-const BOUNDARY = /[.!?…]+["'”’»)]*(?=\s+["'“‘«(¡¿]?[\p{Lu}\p{N}]|\s*)/gu;
+export const HOLE = '\u{E000}';
+const BOUNDARY = /[.!?…]+["'”’»)]*(?=\s+["'“‘«(¡¿]?[\p{Lu}\p{N}\u{E000}]|\s*\u{E000})/gu;
 /** The longest sentence given to the voice at once; longer ones are cut at a semicolon, a dash or a comma. */
 export const LONGEST = 320;
 
