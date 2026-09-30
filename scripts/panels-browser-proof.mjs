@@ -27,7 +27,9 @@ const pass = [];
 const ok = label => { pass.push(label); console.log('PASS', label); };
 const shots = [];
 /** The Chromebook the school buys first, then the narrower supported desktop size. */
-const SCREENS = [{ width: 1366, height: 768 }, { width: 1024, height: 768 }];
+// PANELS_SIZES=1366x768,1024x600 measures other sizes (triage 2026-09-29, 2.12's re-check); a gate run uses these two.
+const SCREENS = process.env.PANELS_SIZES ? process.env.PANELS_SIZES.split(',').map(one => { const [width, height] = one.split('x').map(Number); return { width, height }; })
+  : [{ width: 1366, height: 768 }, { width: 1024, height: 768 }];
 /** Smaller than any of the four really is, and larger than any of them collapsed. */
 const PANEL = { width: 120, height: 60 };
 

@@ -29,7 +29,36 @@ export function helperAt(world, siteId) {
     && (world.work?.[entity.id] || []).some(work => work.id === 'help-raise' && work.can)) || null;
 }
 
+/**
+ * Somebody of a neighbour's family standing on their land with one of ours, to offer a trade to (sim/trade.mjs: a trade is said
+ * face to face). The server sends another family's person - among `others`, with a `condition` - only while they stand with one
+ * of ours (sim/town.mjs `observedBy`), so this is null until then.
+ */
+export function tradePartnerAt(world, householdId, siteId) {
+  const here = entity => entity.kind === 'person' && entity.location?.siteId === siteId && !entity.travel;
+  if (!(world?.entities || []).some(entity => here(entity) && entity.householdId === world.householdId && !GONE.includes(entity.health?.condition))) return null;
+  return (world.others || []).find(entity => here(entity) && entity.householdId === householdId && !entity.resident && !GONE.includes(entity.condition)) || null;
+}
+/**
+ * Where a trade the student asked for on this sheet has got to (triage 2026-09-29, 2.6): the one sent is `going`, or has not set
+ * out yet (`waiting`); is there with somebody of theirs, and the trade `open`s with them; is there and `nobody` of theirs is; or is
+ * `lost` - sent somewhere else, gone, or taken. `seenGoing` is whether they have been seen on the road there, since the snapshot
+ * after the order can still show them at home.
+ */
+export function tradeArrival(world, awaited) {
+  const goer = (world?.entities || []).find(entity => entity.id === awaited.entityId);
+  if (!goer || GONE.includes(goer.health?.condition)) return { state: 'lost' };
+  if (goer.travel) return { state: goer.travel.to === awaited.siteId ? 'going' : 'lost' };
+  if (goer.location?.siteId !== awaited.siteId) return { state: awaited.seenGoing ? 'lost' : 'waiting' };
+  const partner = tradePartnerAt(world, awaited.householdId, awaited.siteId);
+  return partner ? { state: 'open', partnerId: partner.id } : { state: 'nobody' };
+}
+
 let send = null;
+let openTrade = null;
+/** The trade asked for and not yet opened: who was sent, to which family's land. `ceiling:` kept by this page only, so a reload on the
+ * way forgets it and the student opens the trade from the sheet once they are there; keep it on the server if a class meets that. */
+let awaited = null;
 let open = false;
 let seenAsks = new Set();
 let shownKey = '';
@@ -44,8 +73,8 @@ function setOpen(value) {
 async function order(input, note) {
   const said = $('#neighbours-note');
   if (said) said.textContent = '';
-  try { await send(input); if (said && note) said.textContent = note; }
-  catch (error) { if (said) said.textContent = error.message; }
+  try { await send(input); if (said && note) said.textContent = note; return true; }
+  catch (error) { if (said) said.textContent = error.message; return false; }
 }
 
 /**
@@ -69,7 +98,16 @@ export function renderNeighbours(world) {
   const actor = actorFor(world);
   const here = Object.fromEntries(neighbours.map(one => [one.householdId, helperAt(world, one.siteId)?.id || null]));
   const standing = Object.fromEntries(neighbours.map(one => [one.householdId, (world.entities || []).some(entity => entity.householdId === world.householdId && entity.location?.siteId === one.siteId && !entity.travel)]));
-  const key = JSON.stringify([asks, neighbours, lent, actor?.id, here, standing]);
+  const partners = Object.fromEntries(neighbours.map(one => [one.householdId, tradePartnerAt(world, one.householdId, one.siteId)?.id || null]));
+  // A trade asked for: opened the moment the one sent stands with somebody of theirs (triage 2026-09-29, 2.6).
+  if (awaited) {
+    const now = tradeArrival(world, awaited);
+    if (now.state === 'going') awaited.seenGoing = true;
+    else if (now.state === 'open') { awaited = null; setOpen(false); openTrade?.(now.partnerId); }
+    else if (now.state === 'nobody') { awaited = null; say('Nobody of that family is at home to trade with just now.'); }
+    else if (now.state === 'lost') awaited = null;
+  }
+  const key = JSON.stringify([asks, neighbours, lent, actor?.id, here, standing, partners]);
   if (key === shownKey) return;
   shownKey = key;
 
@@ -109,15 +147,35 @@ export function renderNeighbours(world) {
       go.type = 'button'; go.dataset.go = one.siteId; go.dataset.entity = actor.id;
       buttons.append(go);
     }
+    // Offering them a trade (triage 2026-09-29, 2.6: trading between students was hard to find - it needed one of yours and one of
+    // theirs at the same place, then a press on their person). Somebody of theirs standing with one of yours: the trade opens now.
+    // Otherwise it sends the same person *Send … there* would, and the trade opens when they arrive.
+    if (partners[one.householdId]) {
+      const trade = make('button', 'Offer a trade');
+      trade.type = 'button'; trade.dataset.tradeWith = partners[one.householdId];
+      buttons.append(trade);
+    } else if (!standing[one.householdId] && actor) {
+      const trade = make('button', 'Offer a trade');
+      trade.type = 'button'; trade.dataset.trade = one.siteId; trade.dataset.entity = actor.id; trade.dataset.tradeHousehold = one.householdId;
+      trade.title = `Sends ${actor.given || actor.name} there; the trade opens when they arrive.`;
+      buttons.append(trade);
+    }
     if (buttons.childElementCount) item.append(buttons);
     return item;
   }));
   $('#neighbours-empty').hidden = neighbours.length > 0;
 }
 
-/** Wired once: the toggle, the close, and every button the list draws. `command` sends one order to the server. */
-export function bindNeighbours({ command }) {
+/** A line on the sheet, below its list: what an order did, or why it was refused. */
+function say(words) { const said = $('#neighbours-note'); if (said) said.textContent = words; }
+
+/**
+ * Wired once: the toggle, the close, and every button the list draws. `command` sends one order to the server; `trade(entityId)`
+ * opens the trade with another family's person, as a press on them does (public/app.js, the card's trade).
+ */
+export function bindNeighbours({ command, trade = null }) {
   send = command;
+  openTrade = trade;
   $('#neighbours-toggle')?.addEventListener('click', () => setOpen(!open));
   $('#neighbours-close')?.addEventListener('click', () => setOpen(false));
   $('#neighbours')?.addEventListener('click', event => {
@@ -129,6 +187,16 @@ export function bindNeighbours({ command }) {
     if (ask && button.dataset.answer && actor) {
       button.disabled = true;
       order({ action: 'neighbour-answer', entityId: actor.id, askId: ask.dataset.ask, answer: button.dataset.answer });
+    } else if (button.dataset.tradeWith) {
+      setOpen(false);
+      openTrade?.(button.dataset.tradeWith);
+    } else if (button.dataset.trade) {
+      const goer = (world?.entities || []).find(entity => entity.id === button.dataset.entity);
+      const asked = { entityId: button.dataset.entity, siteId: button.dataset.trade, householdId: button.dataset.tradeHousehold, seenGoing: false };
+      awaited = asked;
+      // Refused (the server's words are on the sheet): nothing is on the way, so nothing opens.
+      order({ action: 'travel', entityId: asked.entityId, destination: asked.siteId }, `${goer?.given || goer?.name || 'They'} ${goer ? 'is' : 'are'} on the way. The trade opens when they get there.`)
+        .then(sent => { if (!sent && awaited === asked) awaited = null; });
     } else if (button.dataset.go) {
       order({ action: 'travel', entityId: button.dataset.entity, destination: button.dataset.go }, 'On the way.');
     } else if (button.dataset.help) {

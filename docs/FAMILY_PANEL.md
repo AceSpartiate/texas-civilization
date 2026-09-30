@@ -1922,3 +1922,26 @@ card), `test:watching` (a watched family's portrait opens no card); `test:diseas
 row and the portrait instead of the card. Injections in `scripts/design-blockers-injections.mjs`: the card opening on everybody
 again (caught by `test:family-panel` and by `test:overlap`), the bar's way to a neighbour opening the card again (`test:neighbours`).
 
+
+## Amendment, 2026-09-29 — Offer a trade on the Neighbours list, and no type under 12 px (triage 2.6 and 2.12)
+
+**Offer a trade** (triage 2026-09-29, 2.6; design audit S7). A trade still needs one of yours and one of theirs standing at the
+same place (`sim/trade.mjs`, unchanged), and was found only by pressing their person there. Each neighbour on the Neighbours list
+now has *Offer a trade* beside *Send … there*: with somebody of theirs already standing with one of the family, it opens the card
+beside that person at its trade (`#selection-trade`, a matter the card still opens for); otherwise it sends the same person *Send …
+there* would, says *"… is on the way. The trade opens when they get there."*, and opens the trade when they stand with somebody of
+that family on its land - or says nobody of that family is at home (public/neighbours.js `tradeArrival`, `tradePartnerAt`).
+`ceiling:` the trade waited for is kept by the page only, so a reload on the way forgets it and the student presses *Offer a trade*
+again once they are there. Proof: `tests/neighbours-page.test.mjs`, `npm run test:neighbours` (pressed, walked six miles, opened,
+offered, and the other family's page shown the offer).
+
+**No type under 12 px on the student's page** (triage 2026-09-29, 2.12; classroom audit M6). The row labels, *Show names*, the
+action names under the bar's icons, the eyebrows, the roll's labels and every other rule under 12 px in public/style.css are set at
+12 px (the Host's own lines are not held to it). What that moved, and how it was put back: the row's role label is set in words
+(*Father, 39*) rather than letter-spaced capitals, which at 12 px left the name beside it no room; the bar's columns are 80 px, not
+62, so the names break between words and keep the lines they had at 10 px (at 62 px *neighbour's homestead* broke over five lines
+mid-word, the bar stood 35 px higher and the lone parent's column went tight at 1366x768), and only while the sound's sliders are
+open does the bar narrow back to its 62 px columns to stay clear of them, the first-meeting tip waiting meanwhile; and the rolled
+die's card is tightened for a window 680 px high or less, where *Meet your family* already stood 92 px below the card's fold on main. `npm run test:overlap` reads every piece of text drawn on a student's screen in
+every state and size it measures and fails any under 12 px (`readSmallText`, scripts/support/screen-furniture.mjs), and
+`npm run test:creation-screen` does the same on every card of making the family.

@@ -88,6 +88,13 @@ export function militaryNotices(world) {
   // person after the fight, before its account.
   return notices.sort((a, b) => ORDER[a.kind] - ORDER[b.kind]);
 }
+/**
+ * The kinds that ask something of the family with a clock on it - a question that lapses, somebody very sick - as against a
+ * fight to watch, its account, or the quiet reminder that somebody is inside the Alamo. While one of these is among the
+ * messages nothing the student opens may stand on them: the town's scene and the rooms of the house make way (triage
+ * 2026-09-29, 2.2; `clearOfNotice` in public/app.js).
+ */
+export const URGENT = Object.freeze(new Set(['alto', 'road', 'flight', 'call', 'rider', 'courier', 'orders', 'sick']));
 const ORDER = Object.freeze({ alto: -3, road: -2, flight: -2, call: -1, rider: 0, courier: 0, orders: 0, battle: 1, sick: 1.5, account: 2, siege: 3 });
 const first = person => person.given || String(person.name || '').split(' ')[0] || 'them';
 /** The family's moments put up as cards, by the kind of their "!": what the card is headed and what its button says. */

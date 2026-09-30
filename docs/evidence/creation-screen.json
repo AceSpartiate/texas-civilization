@@ -1,6 +1,6 @@
 {
   "record": "The family-creation wizard as a thing on a screen (2026-09-21)",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "verdict": "PASS",
   "seed": "wizard-17",
   "finger": 44,
@@ -15,6 +15,10 @@
       "height": 768
     },
     {
+      "width": 1024,
+      "height": 600
+    },
+    {
       "width": 390,
       "height": 844
     }
@@ -23,6 +27,7 @@
   "checks": [
     "every step of the wizard is reachable at 1366x768: nothing covered, nothing off the screen, no target under 44px, every step's button on its own card, focus on every card and the world behind the curtain sealed",
     "every step of the wizard is reachable at 1024x768: nothing covered, nothing off the screen, no target under 44px, every step's button on its own card, focus on every card and the world behind the curtain sealed",
+    "every step of the wizard is reachable at 1024x600: nothing covered, nothing off the screen, no target under 44px, every step's button on its own card, focus on every card and the world behind the curtain sealed",
     "every step of the wizard is reachable at 390x844: nothing covered, nothing off the screen, no target under 44px, every step's button on its own card, focus on every card and the world behind the curtain sealed",
     "no page errors"
   ],
@@ -42,7 +47,7 @@
         "x": 868,
         "y": 218,
         "w": 430,
-        "h": 488
+        "h": 489
       },
       "controls": 1,
       "scrolls": 1,
@@ -51,7 +56,7 @@
         "label": "Make my family →",
         "box": {
           "x": 898,
-          "y": 625,
+          "y": 626,
           "w": 370,
           "h": 52
         },
@@ -71,9 +76,9 @@
       },
       "card": {
         "x": 313,
-        "y": 173,
+        "y": 172,
         "w": 740,
-        "h": 468
+        "h": 471
       },
       "controls": 1,
       "scrolls": 1,
@@ -82,7 +87,7 @@
         "label": "Roll the die",
         "box": {
           "x": 795,
-          "y": 567,
+          "y": 568,
           "w": 208,
           "h": 48
         },
@@ -102,9 +107,9 @@
       },
       "card": {
         "x": 313,
-        "y": 123,
+        "y": 122,
         "w": 740,
-        "h": 568
+        "h": 571
       },
       "controls": 1,
       "scrolls": 1,
@@ -113,7 +118,7 @@
         "label": "Meet your family",
         "box": {
           "x": 795,
-          "y": 617,
+          "y": 618,
           "w": 208,
           "h": 48
         },
@@ -135,7 +140,7 @@
         "x": 473,
         "y": 193,
         "w": 420,
-        "h": 382
+        "h": 383
       },
       "controls": 2,
       "scrolls": 0,
@@ -152,7 +157,7 @@
         "inView": true
       },
       "tightestGap": {
-        "gap": 159.8,
+        "gap": 160.5,
         "between": [
           "#surname-input",
           "#surname-save"
@@ -197,7 +202,7 @@
         "h": 614
       },
       "controls": 21,
-      "scrolls": 679,
+      "scrolls": 682,
       "endOfStep": {
         "control": "#names-done",
         "label": "Continue",
@@ -223,13 +228,13 @@
         "boxes": [
           {
             "x": 606,
-            "y": 202,
+            "y": 204,
             "w": 298,
             "h": 44
           },
           {
             "x": 606,
-            "y": 257,
+            "y": 259,
             "w": 298,
             "h": 44
           }
@@ -256,7 +261,7 @@
         "h": 744
       },
       "controls": 36,
-      "scrolls": 249,
+      "scrolls": 265,
       "endOfStep": {
         "control": "#looks-done",
         "label": "Done",
@@ -282,13 +287,13 @@
         "boxes": [
           {
             "x": 312,
-            "y": 341,
+            "y": 344,
             "w": 72,
             "h": 82
           },
           {
             "x": 393,
-            "y": 341,
+            "y": 344,
             "w": 72,
             "h": 82
           }
@@ -315,7 +320,7 @@
         "h": 744
       },
       "controls": 36,
-      "scrolls": 249,
+      "scrolls": 265,
       "endOfStep": {
         "control": "#looks-done",
         "label": "Done",
@@ -341,13 +346,13 @@
         "boxes": [
           {
             "x": 312,
-            "y": 404,
+            "y": 403,
             "w": 72,
             "h": 82
           },
           {
             "x": 393,
-            "y": 404,
+            "y": 403,
             "w": 72,
             "h": 82
           }
@@ -359,6 +364,37 @@
       },
       "heading": "How Sarah looks",
       "focusOnArrival": "#looks",
+      "behindTheCurtain": 0
+    },
+    {
+      "stage": "key",
+      "screen": {
+        "width": 1366,
+        "height": 768
+      },
+      "card": {
+        "x": 443,
+        "y": 211,
+        "w": 480,
+        "h": 347
+      },
+      "controls": 1,
+      "scrolls": 0,
+      "endOfStep": {
+        "control": "#key-card-done",
+        "label": "I have written it down",
+        "box": {
+          "x": 464,
+          "y": 494,
+          "w": 438,
+          "h": 44
+        },
+        "below": -19,
+        "inView": true
+      },
+      "tightestGap": null,
+      "heading": "Write this down",
+      "focusOnArrival": "#key-card",
       "behindTheCurtain": 0
     },
     {
@@ -430,7 +466,7 @@
         "x": 602,
         "y": 234,
         "w": 390,
-        "h": 440
+        "h": 442
       },
       "controls": 1,
       "scrolls": 1,
@@ -459,9 +495,9 @@
       },
       "card": {
         "x": 142,
-        "y": 173,
+        "y": 172,
         "w": 740,
-        "h": 468
+        "h": 471
       },
       "controls": 1,
       "scrolls": 1,
@@ -470,7 +506,7 @@
         "label": "Roll the die",
         "box": {
           "x": 624,
-          "y": 567,
+          "y": 568,
           "w": 208,
           "h": 48
         },
@@ -490,9 +526,9 @@
       },
       "card": {
         "x": 142,
-        "y": 123,
+        "y": 122,
         "w": 740,
-        "h": 568
+        "h": 571
       },
       "controls": 1,
       "scrolls": 1,
@@ -501,7 +537,7 @@
         "label": "Meet your family",
         "box": {
           "x": 624,
-          "y": 617,
+          "y": 618,
           "w": 208,
           "h": 48
         },
@@ -523,7 +559,7 @@
         "x": 302,
         "y": 193,
         "w": 420,
-        "h": 382
+        "h": 383
       },
       "controls": 2,
       "scrolls": 0,
@@ -540,7 +576,7 @@
         "inView": true
       },
       "tightestGap": {
-        "gap": 159.8,
+        "gap": 160.5,
         "between": [
           "#surname-input",
           "#surname-save"
@@ -585,7 +621,7 @@
         "h": 614
       },
       "controls": 21,
-      "scrolls": 679,
+      "scrolls": 682,
       "endOfStep": {
         "control": "#names-done",
         "label": "Continue",
@@ -611,13 +647,13 @@
         "boxes": [
           {
             "x": 435,
-            "y": 202,
+            "y": 204,
             "w": 298,
             "h": 44
           },
           {
             "x": 435,
-            "y": 257,
+            "y": 259,
             "w": 298,
             "h": 44
           }
@@ -644,7 +680,7 @@
         "h": 744
       },
       "controls": 36,
-      "scrolls": 244,
+      "scrolls": 260,
       "endOfStep": {
         "control": "#looks-done",
         "label": "Done",
@@ -670,13 +706,13 @@
         "boxes": [
           {
             "x": 141,
-            "y": 336,
+            "y": 339,
             "w": 72,
             "h": 82
           },
           {
             "x": 222,
-            "y": 336,
+            "y": 339,
             "w": 72,
             "h": 82
           }
@@ -703,7 +739,7 @@
         "h": 744
       },
       "controls": 36,
-      "scrolls": 244,
+      "scrolls": 260,
       "endOfStep": {
         "control": "#looks-done",
         "label": "Done",
@@ -750,6 +786,37 @@
       "behindTheCurtain": 0
     },
     {
+      "stage": "key",
+      "screen": {
+        "width": 1024,
+        "height": 768
+      },
+      "card": {
+        "x": 272,
+        "y": 211,
+        "w": 480,
+        "h": 347
+      },
+      "controls": 1,
+      "scrolls": 0,
+      "endOfStep": {
+        "control": "#key-card-done",
+        "label": "I have written it down",
+        "box": {
+          "x": 293,
+          "y": 494,
+          "w": 438,
+          "h": 44
+        },
+        "below": -19,
+        "inView": true
+      },
+      "tightestGap": null,
+      "heading": "Write this down",
+      "focusOnArrival": "#key-card",
+      "behindTheCurtain": 0
+    },
+    {
       "stage": "wagon",
       "screen": {
         "width": 1024,
@@ -759,16 +826,16 @@
         "x": 612,
         "y": 64,
         "w": 400,
-        "h": 503
+        "h": 505
       },
       "controls": 22,
-      "scrolls": 1148,
+      "scrolls": 1146,
       "endOfStep": {
         "control": "#wagon-done",
         "label": "Done packing",
         "box": {
           "x": 627,
-          "y": 509,
+          "y": 511,
           "w": 370,
           "h": 44
         },
@@ -796,7 +863,7 @@
             "x": 636,
             "y": 381,
             "w": 352,
-            "h": 97
+            "h": 99
           }
         ],
         "tags": [
@@ -811,14 +878,405 @@
     {
       "stage": "title-begin",
       "screen": {
+        "width": 1024,
+        "height": 600
+      },
+      "card": {
+        "x": 602,
+        "y": 150,
+        "w": 390,
+        "h": 442
+      },
+      "controls": 1,
+      "scrolls": 1,
+      "endOfStep": {
+        "control": "#creation-begin-button",
+        "label": "Make my family →",
+        "box": {
+          "x": 632,
+          "y": 510,
+          "w": 330,
+          "h": 52
+        },
+        "below": -29,
+        "inView": true
+      },
+      "tightestGap": null,
+      "heading": "Who will your family be?",
+      "focusOnArrival": "#creation-begin",
+      "behindTheCurtain": 0
+    },
+    {
+      "stage": "die",
+      "screen": {
+        "width": 1024,
+        "height": 600
+      },
+      "card": {
+        "x": 142,
+        "y": 131,
+        "w": 740,
+        "h": 387
+      },
+      "controls": 1,
+      "scrolls": 1,
+      "endOfStep": {
+        "control": "#roll-family",
+        "label": "Roll the die",
+        "box": {
+          "x": 624,
+          "y": 453,
+          "w": 208,
+          "h": 48
+        },
+        "below": -16,
+        "inView": true
+      },
+      "tightestGap": null,
+      "heading": "Roll for your family",
+      "focusOnArrival": "#family-roll",
+      "behindTheCurtain": 0
+    },
+    {
+      "stage": "die-rolled",
+      "screen": {
+        "width": 1024,
+        "height": 600
+      },
+      "card": {
+        "x": 142,
+        "y": 82,
+        "w": 740,
+        "h": 484
+      },
+      "controls": 1,
+      "scrolls": 1,
+      "endOfStep": {
+        "control": "#roll-family",
+        "label": "Meet your family",
+        "box": {
+          "x": 624,
+          "y": 502,
+          "w": 208,
+          "h": 48
+        },
+        "below": -16,
+        "inView": true
+      },
+      "tightestGap": null,
+      "heading": "Roll for your family",
+      "focusOnArrival": "#family-roll",
+      "behindTheCurtain": 0
+    },
+    {
+      "stage": "surname",
+      "screen": {
+        "width": 1024,
+        "height": 600
+      },
+      "card": {
+        "x": 302,
+        "y": 109,
+        "w": 420,
+        "h": 383
+      },
+      "controls": 2,
+      "scrolls": 0,
+      "endOfStep": {
+        "control": "#surname-save",
+        "label": "Name the family",
+        "box": {
+          "x": 321,
+          "y": 428,
+          "w": 382,
+          "h": 44
+        },
+        "below": -19,
+        "inView": true
+      },
+      "tightestGap": {
+        "gap": 160.5,
+        "between": [
+          "#surname-input",
+          "#surname-save"
+        ],
+        "labels": [
+          "",
+          "Name the family"
+        ],
+        "boxes": [
+          {
+            "x": 321,
+            "y": 224,
+            "w": 382,
+            "h": 44
+          },
+          {
+            "x": 321,
+            "y": 428,
+            "w": 382,
+            "h": 44
+          }
+        ],
+        "tags": [
+          "input",
+          "button"
+        ]
+      },
+      "heading": "Name your family",
+      "focusOnArrival": "#surname-input",
+      "behindTheCurtain": 0
+    },
+    {
+      "stage": "names",
+      "screen": {
+        "width": 1024,
+        "height": 600
+      },
+      "card": {
+        "x": 272,
+        "y": 60,
+        "w": 480,
+        "h": 480
+      },
+      "controls": 21,
+      "scrolls": 817,
+      "endOfStep": {
+        "control": "#names-done",
+        "label": "Continue",
+        "box": {
+          "x": 291,
+          "y": 477,
+          "w": 442,
+          "h": 44
+        },
+        "below": -19,
+        "inView": true
+      },
+      "tightestGap": {
+        "gap": 11,
+        "between": [
+          "#name-hh-1-parent-1",
+          "#name-hh-1-parent-2"
+        ],
+        "labels": [
+          "",
+          ""
+        ],
+        "boxes": [
+          {
+            "x": 435,
+            "y": 188,
+            "w": 298,
+            "h": 44
+          },
+          {
+            "x": 435,
+            "y": 243,
+            "w": 298,
+            "h": 44
+          }
+        ],
+        "tags": [
+          "input",
+          "input"
+        ]
+      },
+      "heading": "Name each of them",
+      "focusOnArrival": "#names",
+      "behindTheCurtain": 0
+    },
+    {
+      "stage": "looks-first",
+      "screen": {
+        "width": 1024,
+        "height": 600
+      },
+      "card": {
+        "x": 117,
+        "y": 12,
+        "w": 790,
+        "h": 576
+      },
+      "controls": 36,
+      "scrolls": 428,
+      "endOfStep": {
+        "control": "#looks-done",
+        "label": "Done",
+        "box": {
+          "x": 141,
+          "y": 522,
+          "w": 742,
+          "h": 44
+        },
+        "below": -22,
+        "inView": true
+      },
+      "tightestGap": {
+        "gap": 9,
+        "between": [
+          "#looks-parts",
+          "#looks-parts"
+        ],
+        "labels": [
+          "Fair",
+          "Light"
+        ],
+        "boxes": [
+          {
+            "x": 141,
+            "y": 339,
+            "w": 72,
+            "h": 82
+          },
+          {
+            "x": 222,
+            "y": 339,
+            "w": 72,
+            "h": 82
+          }
+        ],
+        "tags": [
+          "button",
+          "button"
+        ]
+      },
+      "heading": "How Hollis looks",
+      "focusOnArrival": "#looks-parts",
+      "behindTheCurtain": 0
+    },
+    {
+      "stage": "looks-second",
+      "screen": {
+        "width": 1024,
+        "height": 600
+      },
+      "card": {
+        "x": 117,
+        "y": 12,
+        "w": 790,
+        "h": 576
+      },
+      "controls": 36,
+      "scrolls": 428,
+      "endOfStep": {
+        "control": "#looks-done",
+        "label": "Done",
+        "box": {
+          "x": 141,
+          "y": 522,
+          "w": 742,
+          "h": 44
+        },
+        "below": -22,
+        "inView": true
+      },
+      "tightestGap": {
+        "gap": 9,
+        "between": [
+          "#looks-parts",
+          "#looks-parts"
+        ],
+        "labels": [
+          "Rust",
+          "Indigo"
+        ],
+        "boxes": [
+          {
+            "x": 141,
+            "y": 299,
+            "w": 72,
+            "h": 82
+          },
+          {
+            "x": 222,
+            "y": 299,
+            "w": 72,
+            "h": 82
+          }
+        ],
+        "tags": [
+          "button",
+          "button"
+        ]
+      },
+      "heading": "How Sarah looks",
+      "focusOnArrival": "#looks",
+      "behindTheCurtain": 0
+    },
+    {
+      "stage": "key",
+      "screen": {
+        "width": 1024,
+        "height": 600
+      },
+      "card": {
+        "x": 272,
+        "y": 127,
+        "w": 480,
+        "h": 347
+      },
+      "controls": 1,
+      "scrolls": 0,
+      "endOfStep": {
+        "control": "#key-card-done",
+        "label": "I have written it down",
+        "box": {
+          "x": 293,
+          "y": 410,
+          "w": 438,
+          "h": 44
+        },
+        "below": -19,
+        "inView": true
+      },
+      "tightestGap": null,
+      "heading": "Write this down",
+      "focusOnArrival": "#key-card",
+      "behindTheCurtain": 0
+    },
+    {
+      "stage": "wagon",
+      "screen": {
+        "width": 1024,
+        "height": 600
+      },
+      "card": {
+        "x": 612,
+        "y": 64,
+        "w": 400,
+        "h": 337
+      },
+      "controls": 22,
+      "scrolls": 1314,
+      "endOfStep": {
+        "control": "#wagon-done",
+        "label": "Done packing",
+        "box": {
+          "x": 627,
+          "y": 343,
+          "w": 370,
+          "h": 44
+        },
+        "below": -14,
+        "inView": true
+      },
+      "tightestGap": null,
+      "heading": "Pack the wagon",
+      "focusOnArrival": "the page itself",
+      "behindTheCurtain": 0
+    },
+    {
+      "stage": "title-begin",
+      "screen": {
         "width": 390,
         "height": 844
       },
       "card": {
         "x": 14,
-        "y": 394,
+        "y": 392,
         "w": 362,
-        "h": 426
+        "h": 428
       },
       "controls": 1,
       "scrolls": 1,
@@ -847,9 +1305,9 @@
       },
       "card": {
         "x": 11,
-        "y": 235,
+        "y": 213,
         "w": 368,
-        "h": 424
+        "h": 468
       },
       "controls": 1,
       "scrolls": 1,
@@ -858,7 +1316,7 @@
         "label": "Roll the die",
         "box": {
           "x": 210,
-          "y": 593,
+          "y": 615,
           "w": 150,
           "h": 48
         },
@@ -878,9 +1336,9 @@
       },
       "card": {
         "x": 11,
-        "y": 179,
+        "y": 157,
         "w": 368,
-        "h": 536
+        "h": 580
       },
       "controls": 1,
       "scrolls": 1,
@@ -889,7 +1347,7 @@
         "label": "Meet your family",
         "box": {
           "x": 210,
-          "y": 649,
+          "y": 671,
           "w": 150,
           "h": 48
         },
@@ -911,7 +1369,7 @@
         "x": 16,
         "y": 231,
         "w": 358,
-        "h": 382
+        "h": 383
       },
       "controls": 2,
       "scrolls": 0,
@@ -928,7 +1386,7 @@
         "inView": true
       },
       "tightestGap": {
-        "gap": 159.8,
+        "gap": 160.5,
         "between": [
           "#surname-input",
           "#surname-save"
@@ -973,7 +1431,7 @@
         "h": 675
       },
       "controls": 21,
-      "scrolls": 1054,
+      "scrolls": 1057,
       "endOfStep": {
         "control": "#names-done",
         "label": "Continue",
@@ -987,7 +1445,7 @@
         "inView": true
       },
       "tightestGap": {
-        "gap": 25.2,
+        "gap": 22.3,
         "between": [
           "#name-hh-1-child-4",
           "#names-done"
@@ -999,7 +1457,7 @@
         "boxes": [
           {
             "x": 35,
-            "y": 627,
+            "y": 630,
             "w": 320,
             "h": 44
           },
@@ -1032,7 +1490,7 @@
         "h": 828
       },
       "controls": 36,
-      "scrolls": 663,
+      "scrolls": 712,
       "endOfStep": {
         "control": "#looks-done",
         "label": "Done",
@@ -1058,15 +1516,15 @@
         "boxes": [
           {
             "x": 27,
-            "y": 302,
+            "y": 308,
             "w": 67,
-            "h": 82
+            "h": 94
           },
           {
             "x": 103,
-            "y": 302,
+            "y": 308,
             "w": 67,
-            "h": 82
+            "h": 94
           }
         ],
         "tags": [
@@ -1091,7 +1549,7 @@
         "h": 828
       },
       "controls": 36,
-      "scrolls": 645,
+      "scrolls": 693,
       "endOfStep": {
         "control": "#looks-done",
         "label": "Done",
@@ -1117,13 +1575,13 @@
         "boxes": [
           {
             "x": 27,
-            "y": 271,
+            "y": 274,
             "w": 67,
             "h": 82
           },
           {
             "x": 103,
-            "y": 271,
+            "y": 274,
             "w": 67,
             "h": 82
           }
@@ -1135,6 +1593,37 @@
       },
       "heading": "How Sarah looks",
       "focusOnArrival": "#looks",
+      "behindTheCurtain": 0
+    },
+    {
+      "stage": "key",
+      "screen": {
+        "width": 390,
+        "height": 844
+      },
+      "card": {
+        "x": 16,
+        "y": 245,
+        "w": 358,
+        "h": 355
+      },
+      "controls": 1,
+      "scrolls": 0,
+      "endOfStep": {
+        "control": "#key-card-done",
+        "label": "I have written it down",
+        "box": {
+          "x": 37,
+          "y": 536,
+          "w": 316,
+          "h": 44
+        },
+        "below": -19,
+        "inView": true
+      },
+      "tightestGap": null,
+      "heading": "Write this down",
+      "focusOnArrival": "#key-card",
       "behindTheCurtain": 0
     },
     {

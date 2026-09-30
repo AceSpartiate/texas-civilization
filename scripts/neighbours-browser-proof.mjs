@@ -2,8 +2,9 @@
 // "Yes: they remember and repay" (sim/neighbourly.mjs, public/neighbours.js).
 //
 // tests/neighbourly.test.mjs proves the rules. This proves what two students do and see: in the autumn of 1835 one family's
-// student opens Neighbours, sees the family six miles off raising its walls, sends its main person there and puts them to the
-// raising; in the spring, told to leave, the family that was helped is asked whether to offer room in its wagon and says yes;
+// student opens Neighbours, sees the family six miles off raising its walls, presses *Offer a trade* (triage 2026-09-29, 2.6),
+// which sends its main person there and opens the trade with somebody of that family when they arrive, makes an offer the other
+// student's page is shown, and puts them to the raising; in the spring, told to leave, the family that was helped is asked whether to offer room in its wagon and says yes;
 // the helper's student is offered it by name, remembering the walls, and accepts, and its wagon holds more; and when the class
 // ends, both families' pages and the Host's say who helped whom.
 //
@@ -139,10 +140,43 @@ try {
   const go = row.locator('button[data-go]');
   const goer = await go.getAttribute('data-entity');
   observed.goButton = await go.innerText();
-  await go.click();
-  ok(`the Neighbours list shows the family ${observed.row.match(/[\d.]+ miles?/)?.[0]} off raising its walls, and "${observed.goButton}" sends them`);
+  // *Offer a trade* beside it (triage 2026-09-29, 2.6): it sends the same person, and the trade opens when they arrive.
+  const trade = row.locator('button[data-trade]');
+  observed.tradeButton = await trade.innerText();
+  assert.equal(observed.tradeButton, 'Offer a trade');
+  assert.equal(await trade.getAttribute('data-entity'), goer, '"Offer a trade" does not send the person "Send … there" does');
+  await trade.click();
+  ok(`the Neighbours list shows the family ${observed.row.match(/[\d.]+ miles?/)?.[0]} off raising its walls, with "${observed.goButton}" and "${observed.tradeButton}", which sends them`);
   const homeSite = world().households[HELPED].homeSiteId;
+  await helper.waitForFunction(([id, site]) => window.__snapshot?.world.entities.find(e => e.id === id)?.travel?.to === site, [goer, homeSite], { timeout: 30000 });
+  observed.onTheWay = (await helper.locator('#neighbours-note').innerText()).trim();
+  assert.match(observed.onTheWay, /on the way\. The trade opens when they get there/);
   await helper.waitForFunction(([id, site]) => window.__snapshot?.world.entities.find(e => e.id === id)?.location?.siteId === site, [goer, homeSite], { timeout: 120000 });
+  // On arrival: the card beside the neighbour's person with the offer on it, and the sheet put away.
+  await helper.locator('#selection-trade .trade-offer').waitFor({ state: 'visible', timeout: 20000 });
+  const partner = await helper.locator('#selection').getAttribute('data-entity-id');
+  assert.equal(world().entities[partner]?.householdId, HELPED, 'the trade opened with somebody not of the neighbour\'s family');
+  assert.notEqual(await helper.locator('#neighbours').getAttribute('data-open'), 'true', 'the sheet was left open over the trade');
+  observed.tradeCard = (await helper.locator('#selection-trade').innerText()).replace(/\s+/g, ' ').trim();
+  // An offer the family can make: one of something it has, for one of something else.
+  const stores = world().households[HELPER].resources;
+  const give = ['seed', 'food', 'powder', 'money'].find(good => (stores[good] || 0) >= 1);
+  const ask = ['food', 'seed', 'cotton'].find(good => good !== give);
+  await helper.locator('#trade-give-good').selectOption(give);
+  await helper.locator('#trade-give-amount').fill('1');
+  await helper.locator('#trade-ask-good').selectOption(ask);
+  await helper.locator('#trade-ask-amount').fill('1');
+  await helper.screenshot({ path: 'docs/evidence/neighbours-trade.png' });
+  await helper.locator('#selection-trade .trade-offer').click();
+  const started0 = Date.now();
+  while (!Object.values(world().offers || {}).some(offer => offer.fromHouseholdId === HELPER && offer.toHouseholdId === HELPED) && Date.now() - started0 < 15000) await helper.waitForTimeout(250);
+  const made = Object.values(world().offers || {}).find(offer => offer.fromHouseholdId === HELPER && offer.toHouseholdId === HELPED);
+  assert.ok(made, 'the offer made from the trade the sheet opened never reached the server');
+  await helped.waitForFunction(() => window.__snapshot?.world.offers?.some(offer => offer.direction === 'received'), null, { timeout: 15000 });
+  observed.offer = { give: made.give, ask: made.ask, to: world().entities[made.toEntityId].name };
+  ok(`on arrival the trade opens with ${observed.offer.to} ("${observed.tradeCard.slice(0, 80)}"), the sheet is put away, and the offer (${JSON.stringify(made.give)} for ${JSON.stringify(made.ask)}) reaches the server and the other family's page`);
+  await helper.locator('#selection-close').click().catch(() => {});
+  await openNeighbours(helper);
   const help = row.locator('button[data-help]');
   await help.waitFor({ state: 'visible', timeout: 30000 });
   await helper.screenshot({ path: 'docs/evidence/neighbours-raising.png' });
@@ -248,7 +282,7 @@ try {
     date: new Date().toISOString().slice(0, 10), verdict: 'PASS',
     note: 'Same computer only. A real class on the colonies map with rolled families; the raising played live in the browser, the months to the spring played in process with the two families set down as unplayed, and the spring and the ending live. Planted and said: the helped house at its last course with its logs, and each family\'s stores at the spring. No LAN or district claim.',
     checks: pass, observed,
-    screenshots: ['docs/evidence/neighbours-raising.png', 'docs/evidence/neighbours-asked.png', 'docs/evidence/neighbours-room.png', 'docs/evidence/neighbours-ending.png', 'docs/evidence/neighbours-ending-host.png'],
+    screenshots: ['docs/evidence/neighbours-trade.png', 'docs/evidence/neighbours-raising.png', 'docs/evidence/neighbours-asked.png', 'docs/evidence/neighbours-room.png', 'docs/evidence/neighbours-ending.png', 'docs/evidence/neighbours-ending-host.png'],
   }, null, 2)}\n`);
   console.log(`\n${pass.length} checks passed.`);
 } finally {

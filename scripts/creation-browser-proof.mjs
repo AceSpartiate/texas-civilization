@@ -188,8 +188,30 @@ try {
   await page.locator('#looks').waitFor({ state: 'hidden', timeout: 15000 });
   ok(`the looks counter keeps its total over every parent (${Object.keys(observed).filter(key => key.startsWith('looksStep') && key !== 'looksStep').map(key => observed[key]).join(' | ') || 'one parent, no counter'})`);
 
+  // ---------------------------------------------------------------- the family's key, once, large (triage 2026-09-29, 2.4)
+  // It was only ever in the journal: a student on a cart or guest Chromebook who had lost it needed the teacher. Now it is the last
+  // card of making the family, with a plain line of what it is for, and still in the journal after.
+  observed.keyShown = await readable(page, '#key-card-key');
+  const familyKey = await page.evaluate(() => window.__snapshot?.familyKey);
+  assert.ok(familyKey, 'the page was given no family key, so the card proves nothing');
+  assert.equal(observed.keyShown.replace(/\s/g, ''), familyKey, 'the card shows a key that is not the family\'s');
+  observed.keySize = await page.locator('#key-card-key').evaluate(node => parseFloat(getComputedStyle(node).fontSize));
+  assert.ok(observed.keySize >= 32, `the key is set at ${observed.keySize}px, which is not large`);
+  observed.keyFor = await readable(page, '#key-card-for');
+  assert.match(observed.keyFor, /brings you back to your family/, 'the card does not say what the key is for');
+  assert.match(observed.keyFor, /I already have a family key/, 'the card does not say where the key is typed');
+  assert.match(await readable(page, '#key-card-journal'), /Journal/, 'the card does not say the key is kept in the journal');
+  await fits(page, '#key-card', '#key-card-done', CHROMEBOOK);
+  await page.screenshot({ path: 'docs/evidence/creation-key.png' });
+  shots.push('docs/evidence/creation-key.png');
+  await page.locator('#key-card-done').click();
+  await page.locator('#key-card').waitFor({ state: 'hidden', timeout: 15000 });
+  ok(`the last card of making the family shows the key, "${observed.keyShown}", at ${observed.keySize}px with what it is for ("${observed.keyFor}"), and goes when it is written down`);
+
   // ---------------------------------------------------------------- the wagon and the stock
   await page.locator('#creation').waitFor({ state: 'hidden', timeout: 20000 });
+  observed.journalKey = (await page.locator('#family-key').textContent()).trim();
+  assert.equal(observed.journalKey.replace(/\s/g, ''), familyKey, 'the key is no longer in the journal');
   await page.locator('#wagon-load').waitFor({ state: 'visible', timeout: 20000 });
   observed.wagonText = await readable(page, '#wagon-load-text');
   assert.doesNotMatch(observed.wagonText, /Anything left out is not coming/, 'the wagon panel still says nothing left out is coming');
@@ -239,7 +261,7 @@ try {
   await page.reload();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
   await page.waitForTimeout(1500);
-  for (const selector of ['#creation', '#family-roll', '#surname', '#names', '#looks']) {
+  for (const selector of ['#creation', '#family-roll', '#surname', '#names', '#looks', '#key-card']) {
     assert.equal(await page.locator(selector).isHidden(), true, `${selector} is up again after the family is made`);
   }
   const fresh = await context.newPage();
@@ -250,11 +272,11 @@ try {
   observed.newTabCard = (await fresh.locator('#creation-begin').innerText()).replace(/\s+/g, ' ').trim();
   await fresh.locator('#creation-begin-button').click();
   await fresh.waitForTimeout(1500);
-  for (const selector of ['#family-roll', '#surname', '#names', '#looks']) {
+  for (const selector of ['#family-roll', '#surname', '#names', '#looks', '#key-card']) {
     assert.equal(await fresh.locator(selector).isHidden(), true, `${selector} is asked again in a new tab after the family is made`);
   }
   await fresh.close();
-  ok('reloaded, the world is there with nothing asked again; a new tab sees the title screen and then the world, and no step is asked twice');
+  ok('reloaded, the world is there with nothing asked again; a new tab sees the title screen and then the world, and no step is asked twice - the key card included, which is shown once');
 
   assert.deepEqual(errors, [], `the page threw: ${errors.join(' | ')}`);
   ok('no page errors');

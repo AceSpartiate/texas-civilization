@@ -101,3 +101,65 @@ At the end of a 30-family game, on this desktop:
 5. **The save file grows without limit** (0.6 MB → 9 MB). Serialising and writing it grows with it.
 
 None of this has been measured on a school laptop, a Chromebook, or a classroom network. The contended runs are a same-computer stand-in and nothing more.
+
+
+## Thirty orders at once, late in a class of 30 — 2026-09-29 (triage 1.6)
+
+The triage of the 2026-09-28 audits (item 1.6, classroom audit C-S4 and C-M10) found the class above never measured again at the
+size a class now is: 30 families by default, each rolled (about ten people a family, not the founding four), with 78 commits in
+`sim/` since. The audit had seen 30 orders at once in period 3 take up to 15 s. Measured again, then changed. **Same computer,
+the desktop above; no school laptop, Chromebook or classroom network.**
+
+**Method.** `node scripts/perf-server-measure.mjs --only class --rolled` as above: 30 rolled families on the real land, every one
+run by the director (an upper bound on the step), 30 student pages and the Host's open, 12 ticks at 1.5 s, then all 30 students
+send `set-auto` at the same moment straight after a tick. Added to the script: each order's commit split (the order, the check,
+the serialisation), how many orders a commit made, the broadcasts that showed them, and the process's memory. `PERF_SERVER`
+points it at another copy of the server, so **the before (origin/main at 80842f72) and the after were run alternately in one
+sitting, twice each**, with the machine otherwise quiet (the four points played forward in 81-86 s each run). Raw:
+`docs/evidence/perf-server-tier2-before.json`, `-tier2-before-2.json`, `-tier2-after.json`, `-tier2-after-2.json`.
+
+**What was found.** The answer was not the order's own cost. Every order's commit checked the class (`validateWorld`, 10-12 ms
+in the spring) and serialised it (33-35 ms, a 12 MB class, 34,000 events), and that is 1.3 s for thirty. But each order's
+broadcast, which projects all 31 pages (0.3 s in the spring), ran **inside the order's commit**: the gap between broadcasts
+(`BROADCAST_GAP_MS`) was counted from the *start* of the last one, so by the time a 0.3 s broadcast ended the gap had passed and
+the next order broadcast again at once. Thirty orders were thirty broadcasts end to end.
+
+**Thirty orders pressed at once** (slowest and median answer, server busy, two runs each):
+
+| point | slowest before | slowest after | median before → after | busy before → after | commits for 30 orders |
+|---|---|---|---|---|---|
+| arriving (period 1) | 0.29 s, 0.45 s | 0.06 s, 0.04 s | 0.15-0.32 s → 0.04-0.06 s | 0.40-0.70 s → 0.17-0.34 s | 30 → 2 |
+| late period 1 | 0.91 s, 0.75 s | 0.07 s, 0.07 s | 0.50-0.65 s → 0.07 s | 1.2-1.4 s → 0.31-0.33 s | 30 → 2 |
+| period 2 (winter) | **7.3 s, 7.4 s** | **0.11 s, 0.08 s** | 3.9-4.0 s → 0.08-0.11 s | 7.7 s → 0.29-0.40 s | 30 → 2 |
+| period 3 (spring) | **12.8 s, 12.3 s** | **0.62 s, 0.71 s** | 6.7-7.0 s → 0.62-0.71 s | 13.0-13.7 s → 1.5 s | 26 → 6 |
+
+(In the spring a tick, 0.47 s, lands inside the burst in both; its time is in *busy*, and the before made 26 of the orders' commits
+before the burst's window closed.)
+
+**The rest, per tick, at the spring, both runs** (ms of the server's one thread): the whole tick 457-564 (step 86-108, check
+10-15, serialise 33-42, projecting 31 pages 308-376); every commit's check 10-16 ms and serialisation 33-40 ms, before and after -
+the after's are per *batch* of orders. The longest the server could not answer anybody while ticking: 0.53-0.77 s. The save file
+at the spring: 11.8 MB. Memory of the measuring process at the spring point: 1.2-1.7 GB resident, 0.6-1.4 GB of heap - **an
+upper bound on a real server's**, because this process also holds the four played-forward worlds and the page-reading worker.
+
+**What changed** (server/app.mjs; nothing in `sim/`, no save version):
+
+1. **An order is never shown from inside its own commit, and the gap is counted from the end of the last broadcast, never
+   shorter than it took** (`broadcastWait`). While orders keep coming, showing them takes at most half the server's time.
+   `ceiling:` an order can now be shown as long after the last broadcast as that broadcast took (0.3-0.4 s in the spring), where
+   before it was 0.2 s - but before, the thirtieth order waited twelve seconds to be answered at all.
+2. **Orders that arrive in the same moment are made in one commit** (`queueOrder`, `makeOrders`): checked once and serialised
+   once, 30 orders in 2 commits. **Valid refusal is kept exactly**: nothing of a batch is answered or shown until its commit has
+   gone through; an order that is refused puts the whole batch back, and it is made again with the orders before it together, the
+   refused one alone - refused in its own commit with its own words - and the orders after it together. Every answer is the
+   one the orders made one at a time in that order would have given (`tests/order-batch.test.mjs` holds thirty orders, two
+   refused and one sent twice, pressed at once in one class and one at a time in another dealt from the same seed: every answer
+   word for word and the world after the same).
+3. The triage's two suggestions were weighed and not built: *checking only what an order touched* needs every action to say
+   what it touches; *serialising on the save timer only* leaves a refused order nothing exact to be put back to. Gathering gives
+   the saving of both without either.
+
+**What remains.** A tick of a 30-family class in the spring is 0.46-0.56 s of the server's thread here, of which projecting the
+31 pages is 0.31-0.38 s; at Quick (a tick a second) that is half the thread, and a school laptop is slower. The next step is still
+the one above: project only the pages a change touched. 30 house-site checks at once (`/api/site`) and the battle views on a
+Chromebook were not measured.

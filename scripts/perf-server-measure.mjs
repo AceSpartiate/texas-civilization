@@ -77,7 +77,8 @@ if (isMainThread) {
   const { tmpdir, cpus } = await import('node:os');
   const { join } = await import('node:path');
   const { monitorEventLoopDelay, performance } = await import('node:perf_hooks');
-  const { createClassroom } = await import('../server/app.mjs');
+  // PERF_SERVER: another copy of the server to measure beside this one (a before and an after in the same sitting).
+  const { createClassroom } = await import(process.env.PERF_SERVER ? new URL(process.env.PERF_SERVER, new URL('../', import.meta.url)).href : '../server/app.mjs');
   const { writeSave } = await import('../server/storage.mjs');
   const { createGonzalesWorld } = await import('../sim/gonzales.mjs');
   const { stepWorld, rollFamily } = await import('../sim/world.mjs');
@@ -130,8 +131,9 @@ if (isMainThread) {
     world.status = 'running';
     writeSave(savePath, { saveVersion: 3, revision: 0, hostKey, sessionId, sessionCode: 'PERF01', clients, hostCommands: [], world });
     const saveBytes = statSync(savePath).size;
-    const records = [];
-    const app = createClassroom({ savePath, tickMs, playerCount: families, timings: record => records.push(record) });
+    // Ticks in `records`; the orders' commits and the broadcasts a timer makes for them (server/app.mjs `broadcastSoon`) apart.
+    const records = [], extra = [];
+    const app = createClassroom({ savePath, tickMs, playerCount: families, timings: record => (record.when === 'tick' ? records : extra).push(record) });
     const port = await app.listen(0, '127.0.0.1');
     const worker = new Worker(new URL(import.meta.url), { workerData: { role: 'clients', port, clients: pages } });
     const ask = message => new Promise(resolve => { const answer = value => { worker.off('message', answer); resolve(value); }; worker.on('message', answer); worker.postMessage(message); });
@@ -159,7 +161,7 @@ if (isMainThread) {
       const last = records.length;
       while (records.length === last) await new Promise(r => setTimeout(r, 5));
       await ask('reset');
-      const before = records.length;
+      const before = extra.length;
       const burstElu = performance.eventLoopUtilization();
       const orders = pages.filter(page => page.role === 'student').map((page, index) => {
         const household = world.households[`hh-${index + 1}`];
@@ -169,17 +171,26 @@ if (isMainThread) {
       const { answers } = await ask({ burst: orders });
       await new Promise(r => setTimeout(r, 300));
       const burstUsed = performance.eventLoopUtilization(burstElu);
-      const commits = records.slice(before);
+      const commits = extra.slice(before).filter(r => r.when === 'order'), shown = extra.slice(before).filter(r => r.when === 'broadcast');
       const got = await ask('stats');
       burst = {
         orders: orders.length, accepted: answers.filter(a => a.status === 200).length, refused: answers.filter(a => a.status !== 200).length,
         slowestAnswerMs: round(Math.max(...answers.map(a => a.ms))), medianAnswerMs: round(answers.map(a => a.ms).sort((a, b) => a - b)[Math.floor(answers.length / 2)]),
         commits: commits.length, serverBusyMs: round(burstUsed.active),
         commitMs: round(mean(commits.map(r => partsOf(r).reduce((a, b) => a + b, 0)))),
+        // Each order's commit, split (triage 1.6, 2026-09-29): the order itself, checking the world, serialising the class.
+        ordersPerCommit: round(mean(commits.map(r => r.orders || 1))),
+        orderMutateMs: round(mean(commits.map(r => r.mutate || 0))),
+        orderValidateMs: round(mean(commits.map(r => r.validate || 0))),
+        orderSerialiseMs: round(mean(commits.map(r => r.serialise || 0))),
+        // The broadcasts that showed the orders, made by a timer since 2026-09-29 (before, inside the orders' own commits).
+        broadcasts: shown.length, broadcastMs: round(mean(shown.map(r => r.broadcast || 0))),
         snapshotsSentToStudentPages: got.student?.messages || 0, snapshotsSentToHost: got.host?.messages || 0,
       };
       console.log(JSON.stringify({ burst }));
     }
+    // The server's memory with the class open and every page connected (triage 1.6): the whole process, and the heap.
+    const memory = process.memoryUsage();
     await ask('close');
     await worker.terminate();
     const finalSaveBytes = statSync(savePath).size;
@@ -198,6 +209,7 @@ if (isMainThread) {
       burst,
       mainThread: { busyMsPerTick: round(used.active / ticks.length), utilisation: round(used.utilization), eventLoopDelayMs: { p50: round(delay.percentile(50) / 1e6), p99: round(delay.percentile(99) / 1e6), max: round(delay.max / 1e6) } },
       saveBytes: Math.max(saveBytes, finalSaveBytes),
+      memoryMB: { rss: round(memory.rss / 1048576), heapUsed: round(memory.heapUsed / 1048576) },
       serverBytesPerTick: { student: round(mean(ticks.map(r => (r.bytes.student || 0) / (r.count.student || 1)))), host: round(mean(ticks.map(r => r.bytes.host || 0))) },
       received: Object.fromEntries(Object.entries(received).map(([role, s]) => [role, { messagesPerPagePerTick: round(s.messages / (role === 'host' ? 1 : students) / ticks.length), meanBytes: Math.round(s.bytes / Math.max(1, s.messages)), maxBytes: s.max, bytesPerSecondAllPages: Math.round(s.bytes / (wall / 1000)) }])),
     };

@@ -675,6 +675,9 @@ nobody plays (which also hold their going east half a day for a wagon answer, an
 `takesIn` / `recordTakenIn` are the connection for "the oldest child steps up, or a neighbour takes them in". The page's
 **Neighbours** sheet (public/neighbours.js) lists families within 8 miles or already dealt with, whose walls are going up, what
 lies between them and a "Send … there" / "Help raise the walls" button (S7); a journal line says a near raising has begun.
+Since 2026-09-29 (triage 2.6) each neighbour also has **Offer a trade**: with somebody of theirs already standing with one of the
+family, it opens the trade with them at once; otherwise it sends the same person *Send … there* would, and opens the trade (the
+card's offer, `sim/trade.mjs` unchanged) when they stand with somebody of that family on its land, or says nobody is at home.
 `ceiling:` food is carried over in the telling (nobody drawn on the road with it); room lent is counted whole once the helped
 family has gone, though it may have loaded less; the word of a raising reaches near families at once; no seat for people in
 another family's wagon, no loan of a tool or a horse (owner questions).
