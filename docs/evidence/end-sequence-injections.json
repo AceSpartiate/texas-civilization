@@ -1,7 +1,7 @@
 {
- "at": "2026-09-30T11:01:10.583Z",
- "caught": 33,
- "of": 33,
+ "at": "2026-09-30T11:28:47.469Z",
+ "caught": 34,
+ "of": 34,
  "results": [
   {
    "file": "sim/ending.mjs",
@@ -20,6 +20,15 @@
    "failed": [
     "the class video, then the families' own, then the reveal: what moves each stage on, and when",
     "on the server: the Host ends the class, the class video first, the student's own next, and the reveal when it has played"
+   ],
+   "ok": true
+  },
+  {
+   "file": "sim/end-sequence.mjs",
+   "test": "tests/end-sequence.test.mjs",
+   "expected": "the class video, then the families",
+   "failed": [
+    "the class video, then the families' own, then the reveal: what moves each stage on, and when"
    ],
    "ok": true
   },
