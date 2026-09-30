@@ -144,8 +144,8 @@ award at one and marks it; `sim/ending.mjs` says it as *"Carrying supplies count
 glory."* and the story line as *"… sent supplies to the army before Béxar, when it asked the settlements in October."* - the two asks
 now have names at the ending). `FIC-GONZ-962`, docs/MONEY_AND_GLORY.md §4, docs/COLONIES.md §6k-a, docs/BALANCE.md §16.3 amended. No
 save version: an award saved before keeps what it was given. Evidence: `tests/owner-rules.test.mjs` (the sending test now holds
-flat against a family whose miles would multiply it, and the ending's words); **`npm run test:owner-rules-injections`: RESULT_INJ**;
-`npm test` RESULT_TEST; `test:story-cards` RESULT_SC, `test:ending` RESULT_END, `test:end-sequence` RESULT_ES.
+flat against a family whose miles would multiply it, and the ending's words); **`npm run test:owner-rules-injections`: 31 of 31 caught** (the three new: the miles put back, a flat award multiplied anyway, the ending saying it as miles);
+`npm test` **1875 tests, 1838 pass, 1 fail, 36 skipped** - the one, `battle-bexar` "killed: he falls … told only when the word comes" ("the word of the victory never reached his family"), fails the same on `integration-2026-09-28` without this change; `test:story-cards` 4, `test:ending` 10, `test:end-sequence` 22 - green. `test:end-sequence` failed twice at its Play Solo step ("began anywhere but the player's own video": `reveal`) and passed twice with this change, and failed once with the base's own `sim/` files: a race between the solo room's first tick and the page arriving (a family with no page open counts as done, `familyStates` `away`), not this branch's.
 
 ## The owner's six answers of 2026-09-29: a minute to nurse, the army's request, no glory for the fork, 0.3 food, birthdays, the burn zone by seed (not released)
 

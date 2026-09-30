@@ -1,13 +1,28 @@
 {
- "at": "2026-09-30T11:08:28.149Z",
+ "at": "2026-09-30T11:41:53.218Z",
  "pass": [
-  "a class of five families (three played, two with students) was played headless to its end in 66 s; the students' farms: {\"hh-1\":\"sold for 181\",\"hh-2\":\"burned\"}",
+  "a class of five families (three played, two with students) was played headless to its end in 21 s; the students' farms: {\"hh-1\":\"sold for 181\",\"hh-2\":\"burned\"}",
   "the class ended: every screen is at the class video; the students' say to look at the class screen and play nothing; no page has a number of the ending",
-  "the Host's page made the class's own video first (132 s, made in 39 s) and played it by itself, large, on the class screen",
+  "the Host's page made the class's own video first (132 s, made in 10 s) and played it by itself, large, on the class screen",
   "frames of the class video photographed: 11",
   "when the class video had played to its end, every screen went on to the families' own videos",
   "hh-1's page played its own family's video by itself, over the whole screen: 88 s (the story's minute and the homecoming)",
-  "hh-2's page played its own family's video by itself, over the whole screen: 87 s (the story's minute and the homecoming)"
+  "hh-2's page played its own family's video by itself, over the whole screen: 87 s (the story's minute and the homecoming)",
+  "a student's page reloaded in the middle of the families' videos came back to its own video",
+  "the Host's screen says where each family is: the Flashwright family: is watching; the Harrowgate family: is watching",
+  "the homecoming's scenes (home, burial, count, sale, rebuild) photographed: 8 frames; the farm sold where it stands and nothing to sell where it burned",
+  "the story in words below the video, 19 lines, ends with the counting at the table",
+  "one family finished: the class waited for the other, and the Host's screen says who has seen theirs",
+  "once both families had seen theirs, the class screen revealed the final table (5 families) and the winner: \"Anselmo's family finished first, with a final number of 45267.\"",
+  "hh-1's screen shows its full breakdown: \"The family had 277 reales, and sold the farm for 181 reales: 277 + 181 = 458 reales. 97 glory multiplies it by 98 (1 + 97): 458 × 98 = 44884…\"",
+  "hh-2's screen shows its full breakdown: \"The family had no coin, so it is counted as having 1 real. The farm was burned, so there was nothing to sell; it counts 40 glory, which is i…\"",
+  "a student replays their own video after the reveal",
+  "the teacher played the ending again from the start: the class video on the class screen, the numbers gone from every screen",
+  "the teacher skipped ahead, stage by stage, to the final numbers",
+  "a student's page cannot move the class on",
+  "Play Solo: no class video; the player's page made its own family's video and played it by itself",
+  "Play Solo: when its video had played, the player's screen showed the full breakdown",
+  "no page error on any page"
  ],
  "errors": [],
  "shots": [
@@ -23,11 +38,26 @@
   "docs/evidence/end-sequence-class-frame-9-burned.png",
   "docs/evidence/end-sequence-class-frame-11-fight.png",
   "docs/evidence/end-sequence-class-frame-12-news.png",
-  "docs/evidence/end-sequence-class-frame-13-home.png"
+  "docs/evidence/end-sequence-class-frame-13-home.png",
+  "docs/evidence/end-sequence-2-student-own-video.png",
+  "docs/evidence/end-sequence-2-host-families-watching.png",
+  "docs/evidence/end-sequence-scene-hh-1-14-home.png",
+  "docs/evidence/end-sequence-scene-hh-1-15-burial.png",
+  "docs/evidence/end-sequence-scene-hh-1-16-count.png",
+  "docs/evidence/end-sequence-scene-hh-1-17-sale.png",
+  "docs/evidence/end-sequence-scene-hh-2-14-home.png",
+  "docs/evidence/end-sequence-scene-hh-2-15-rebuild.png",
+  "docs/evidence/end-sequence-scene-hh-2-16-burial.png",
+  "docs/evidence/end-sequence-scene-hh-2-17-count.png",
+  "docs/evidence/end-sequence-3-host-final-rankings.png",
+  "docs/evidence/end-sequence-3-student-breakdown-hh-1.png",
+  "docs/evidence/end-sequence-3-student-breakdown-hh-2.png",
+  "docs/evidence/end-sequence-4-solo-own-video.png",
+  "docs/evidence/end-sequence-4-solo-breakdown.png"
  ],
  "class": {
   "families": 5,
-  "seconds": 66,
+  "seconds": 21,
   "farms": {
    "hh-1": "sold for 181",
    "hh-2": "burned"
@@ -51,6 +81,20 @@
    "news: Word that Houston's army had won at San Jacinto reached the Flashwright family on April 22, and Anselmo's family only on April 24, two days later.",
    "home: After San Jacinto the families went home: one family to a house still standing, and one family to ashes. Three of the class's people did not come home from the war.",
    "closing: Five of the class's people went to the war. Every family has its own story, and each of you will now see yours, on your own screen."
+  ]
+ },
+ "homecoming": {
+  "hh-1": [
+   "home: The family came home. The house was still standing. They found 3 cattle and 5 hogs again.",
+   "burial: The family gathered under the trees by the house to remember Feliciano and Cayetano, and set up two wooden markers in their memory.",
+   "count: Manuela sat down at the table to count what the family had left: 277 reales in coin, and three head of cattle and five hogs on the range.",
+   "sale: A land agent from Columbia came out and bought the farm, the land, the round-log cabin and 30 acres of cleared field, fenced, for 181 reales. With the coin in the house, the family had 458 reales."
+  ],
+  "hh-2": [
+   "home: The family came home. The house was ashes, burned by Mexican foragers. Jethro was already there, home since May 2.",
+   "rebuild: In the days after, they raked out the ashes and began again: the first logs of a new house went up where the old one had stood.",
+   "burial: The family gathered under the trees by the house to remember Jasper, and set up a wooden marker in their memory.",
+   "count: Jethro sat down at the table to count what the family had left: 0 reales in coin. The farm was ashes: there was nothing left of it to sell."
   ]
  }
 }
