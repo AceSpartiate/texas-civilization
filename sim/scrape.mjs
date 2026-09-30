@@ -24,6 +24,7 @@ import { drawnVehicles, riddenHorses, setOut } from './company.mjs';
 import { CARRETA_SPACE, CART_SPACE, WAGON_SPACE } from './wagon.mjs';
 import { frailty } from './army.mjs';
 import { canAnswerCalls, eatenADay, householdName } from './family.mjs';
+import { ate } from './hunger.mjs';
 import { spotlight } from './host.mjs';
 // The road's own doings - the rain and the bog, the camp, the pursuit - live in sim/road.mjs (docs/ROAD_EAST.md) and write
 // their fields onto `household.flight` beside these; a cycle, safe because each side uses the other only inside functions.
@@ -523,7 +524,11 @@ export function advanceFlight(world, minutes) {
     // Not a man serving with the army who happens to camp where his family took refuge (Lynchburg, San Felipe): he eats the
     // army's rations and is sick or well with it (`FIC-GONZ-442`).
     const alive = people(world, household).filter(person => !GONE.includes(person.health?.condition) && person.service?.status !== 'serving' && (person.travel?.purpose === 'flee' || person.travel?.purpose === 'return' || person.location?.siteId === flight.refuge));
-    if (flight.status !== 'returning' && household.resources) household.resources.food = Math.max(0, Math.round((household.resources.food - eatenADay(world, alive) * days) * 10000) / 10000);
+    if (flight.status !== 'returning' && household.resources) {
+      // What the wagon could not cover is want (sim/hunger.mjs, owner 2026-09-30).
+      ate(world, household, alive, eatenADay(world, alive) * days, household.resources.food, days);
+      household.resources.food = Math.max(0, Math.round((household.resources.food - eatenADay(world, alive) * days) * 10000) / 10000);
+    }
     // The milk cow's day of milk, once a day, if a child drove her along (sim/flight-work.mjs `milkCow`).
     milkCow(world, household);
     const hungry = (household.resources?.food ?? 0) <= 0;

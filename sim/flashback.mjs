@@ -189,8 +189,9 @@ function fateOf(world, person) {
   const mine = world.events.filter(event => event.actorId === person.id && (event.importance ?? 1) >= 3 && event.text);
   if (person.health?.condition === 'dead') {
     const said = [...mine].reverse().find(event => /\b(killed|died|put to death|among the prisoners)\b/i.test(event.text)) || [...world.events].reverse().find(event => event.householdId === person.householdId && event.text?.startsWith(`${person.name} `) && /\b(killed|died)\b/.test(event.text));
-    const sickness = said?.sickness === 'died' || /\bdied of\b/.test(said?.text || '');
-    return { kind: 'dead', minute: said?.minute ?? null, sickness, disease: person.health.disease || null, text: said?.text || null, war: person.service?.status === 'fell' };
+    // Died of hunger (owner, 2026-09-30; sim/hunger.mjs): remembered as the sick are, by who they were and never by name.
+    const sickness = said?.sickness === 'died' || said?.hunger === 'died' || Boolean(person.health.starved) || /\bdied of\b/.test(said?.text || '');
+    return { kind: 'dead', minute: said?.minute ?? null, sickness, disease: person.health.disease || null, ...(person.health.starved && { starved: true }), text: said?.text || null, war: person.service?.status === 'fell' };
   }
   if (person.health?.condition === 'captured') {
     const said = [...mine].reverse().find(event => /taken prisoner|prisoner/i.test(event.text));
@@ -376,7 +377,7 @@ function candidates(world, household, trip) {
     if (told) continue;
     const spot = place(world, person.location?.siteId) || home;
     if (fate.kind === 'dead' && fate.sickness) {
-      add({ kind: 'loss', weight: 92, minute: fate.minute, place: spot, death: true, sickness: true, caption: sentence(`${whoTo(person)} died of ${DISEASE_WORDS[fate.disease] || 'a sickness'}${person.location?.siteId && person.location.siteId !== household.homeSiteId ? ` at ${world.map.sites[person.location.siteId]?.name}` : ''}.`),
+      add({ kind: 'loss', weight: 92, minute: fate.minute, place: spot, death: true, sickness: true, caption: sentence(`${whoTo(person)} died of ${fate.starved ? 'hunger' : DISEASE_WORDS[fate.disease] || 'a sickness'}${person.location?.siteId && person.location.siteId !== household.homeSiteId ? ` at ${world.map.sites[person.location.siteId]?.name}` : ''}.`),
         scene: { type: 'map', miles: 18, people: at(fate.minute + 1) } });
     } else if (fate.kind === 'dead') {
       // Where, from the record's own first sentence only: "killed at Coleto", never a place-like phrase from the history after it.
@@ -542,9 +543,11 @@ function closing(world, household, trip, fates) {
     home.push(person.name); homeIds.push(person.id);
   }
   const lost = members.filter(person => fates[person.id]?.kind === 'dead');
-  const sickLost = lost.filter(person => fates[person.id].sickness), warLost = lost.filter(person => !fates[person.id].sickness);
+  const sickLost = lost.filter(person => fates[person.id].sickness && !fates[person.id].starved), warLost = lost.filter(person => !fates[person.id].sickness);
+  const hungerLost = lost.filter(person => fates[person.id].starved);
   if (warLost.length) lines.push(`${list(warLost.map(firstName))} did not come home.`);
   if (sickLost.length) lines.push(`The family lost ${sickLost.length === 1 ? whoTo(sickLost[0]) : `${sickLost.length} of its people`} to sickness.`);
+  if (hungerLost.length) lines.push(`The family lost ${hungerLost.length === 1 ? whoTo(hungerLost[0]) : `${hungerLost.length} of its people`} to hunger.`);
   const where = gotHome ? 'home' : 'on the road home';
   // Named when there are few enough to read; counted when there are more.
   const who = home.length <= 4 ? list(home.map(name => name.split(' ')[0])) : lines.length ? `The other ${NUMBER_WORDS[home.length] || home.length} of the family` : `All ${NUMBER_WORDS[home.length] || home.length} of the family`;

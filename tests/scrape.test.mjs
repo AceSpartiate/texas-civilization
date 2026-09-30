@@ -19,6 +19,7 @@ import { beastsOf } from '../sim/beasts.mjs';
 import { burnMinute, farmFate } from '../sim/advance.mjs';
 import { thinkFor } from '../sim/neighbours.mjs';
 import { untilHeard } from './support/spring-word.mjs';
+import { feed } from './support/fed.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -36,7 +37,8 @@ const spring = () => structuredClone(shared ??= (() => {
   until(world, () => world.director.complete);
   assert.equal(canContinue(world), true, 'the second period did not offer the spring');
   beginThirdPeriod(world); world.status = 'running';
-  return world;
+  // Into the spring fed: the tests make these families played, and a played family can starve (tests/support/fed.mjs).
+  return feed(world);
 })());
 const families = (world, settlementId) => Object.values(world.households).filter(household => (household.settlementId || 'gonzales') === settlementId);
 const main = (world, household) => world.entities[household.mainId || household.principalId];
@@ -146,6 +148,9 @@ test('the family loads what fits and sets out together for the east, leaving the
   assert.equal(world.entities[`${household.id}-wagon`].travel?.purpose, 'flee', 'the wagon stayed');
   assert.equal(world.entities[`${household.id}-wagon`].laden, true);
   assert.equal(calendarMinutes(world), 240, 'the calendar did not move on once the family had gone');
+  // Fed from here: five weeks on the road and at the refuge with forty food would starve it (sim/hunger.mjs), and this test is of
+  // the road, not of hunger (tests/support/fed.mjs).
+  feed(world, [household]);
   // The rivers.
   until(world, () => household.flight.crossing, 3000);
   assert.ok(household.flight.crossing, 'the family was never held at a crossing');
@@ -159,7 +164,9 @@ test('the family loads what fits and sets out together for the east, leaving the
   for (const one of goers) if (one.health.condition !== 'dead') assert.equal(one.location.siteId, refuge, `${one.name} is not at the refuge`);
   assert.equal(view(world, household.id).flight.status, 'refuged');
   // Home with the victory, when its word reaches the family at its refuge (docs/COLONIES.md §5.4c).
-  untilHeard(world, [household.id], 'san-jacinto');
+  // Kept fed at the refuge, as by trading among the families camped there: a family the Mexican army overtakes there loses its
+  // food with its goods, and this test is of the road home, not of hunger (tests/support/fed.mjs).
+  untilHeard(world, [household.id], 'san-jacinto', { also: () => { feed(world, [household]); return true; } });
   assert.equal(household.flight.status, 'returning', 'the family did not turn home with the news');
   // The game ends on April 25 with the families on the road home (owner, §7g); the road is run on past it here to see them arrive.
   until(world, () => world.director.complete);

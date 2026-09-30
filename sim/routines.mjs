@@ -9,6 +9,7 @@ import { fallSick } from './disease.mjs';
 import { share } from './shares.mjs';
 import { campRestShare } from './shops.mjs';
 import { calledAside } from './aside.mjs';
+import { ate } from './hunger.mjs';
 
 // Fatigue, and the only thing that mends it.
 //
@@ -68,6 +69,8 @@ export function advanceRoutine(world, minutes) {
     // Each by their age today, in quarters of a grown share summed before anything is rounded (FIC-GONZ-360).
     const eaten = eatenADay(world, present) * (1 - housekeepingSaving(present)) * furnished.eaten;
     const fed = Math.max(0, household.resources.food + (workers * WORK_FOOD_A_DAY - eaten) * days);
+    // What the store and the day's work could not cover is want, for whoever ate here (sim/hunger.mjs, owner 2026-09-30).
+    ate(world, household, present, eaten * days, household.resources.food + workers * WORK_FOOD_A_DAY * days, days);
     // A little of the food spoils in a camp or a draughty house; nothing in a tight one, or in the
     // cabin every class saved before houses always had (sim/houses.mjs, FIC-GONZ-024).
     const spoiling = shelterOf(world, household).spoilagePerDay * furnished.spoil;

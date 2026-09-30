@@ -72,6 +72,13 @@ A short optional walk-through offers itself once, in that lobby. It explains the
 
 **Powder and lead is the one thing the farm and the fight both spend.** Your family keeps some in the house. A shot in the timber spends one. Whoever goes upriver with the militia takes what is there with them — the volunteers at Gonzales were settlers who brought their own arms, and so is your family. Run out and you can still farm, still trade, still go; you cannot shoot. More costs food and an afternoon in town, or a neighbour who has some and wants something you have.
 
+**Food is life, and a family can starve** (owner, 2026-09-30; [docs/HUNGER.md](docs/HUNGER.md)). Working about the place barely
+feeds the one doing it; the field, the hunt, the water, the herd, the store and the neighbours feed the family. When the food runs
+out the family goes hungry, then weak - slower at work and on the road, and nobody weak is sent to fight - then starving, and after
+a long stretch with nothing, people die of it, the youngest and the sick first. The food chip is a gauge that turns from calm to
+amber to red as the days of food run down, and glows and pulses as the family weakens; the faces of the hungry are ringed in the
+same colours. A starving person has an "!" and at least a real minute before anything worse can happen.
+
 **Children are drawn smaller than grown people, and mothers and daughters as women.** The art for children does not exist yet, so for now a child is a smaller copy of a grown figure; a family's principal wears the rust coat whether that is a father or a mother.
 
 **You choose what the wagon brings.** After you roll for your family, before the class begins, you pack the wagon. It holds sixteen spaces' worth: barrels of meal, sacks of seed, powder and lead, the tools a house will need, and the things a family keeps — bedding, a pot, a chest, a spinning wheel, a few books, mosquito bars, tinware, chairs in pieces. The hoe is on the list too: leave it behind and nobody can work the field until one is bought in Gonzales. Each says how much room it takes and what it does before you choose it. What you pack is exactly what your family has; what you leave behind is not coming. If you never open it, the wagon is packed sensibly for you. When the family reaches its land, the story says what they unloaded.

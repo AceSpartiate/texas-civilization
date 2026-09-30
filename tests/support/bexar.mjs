@@ -11,6 +11,7 @@ import { applyAction, stepWorld } from '../../sim/world.mjs';
 import { TIMELINE, momentOf } from '../../sim/directors.mjs';
 import { SIEGE_CAMPS, marchOut, moveCamp } from '../../sim/army.mjs';
 import { settle } from './settled.mjs';
+import { feed } from './fed.mjs';
 
 let base = null;
 /** The class at the day the army is made: made once per test process, and cloned for each class asked for. */
@@ -39,6 +40,8 @@ export function bexarClass(seed, roles = ['fighter', 'reserve', 'reinforce', 'ho
   roles.forEach((role, index) => {
     const household = households[index];
     household.played = true; delete household.absent;
+    // Fed: a played family can starve, and this one is stepped on for weeks without an order (tests/support/fed.mjs).
+    feed(world, [household]);
     const person = grownMan(world, household);
     people[role] ??= [];
     people[role].push({ household, person });

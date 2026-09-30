@@ -30,6 +30,7 @@ import { waitingOn, whereWords } from '../sim/host.mjs';
 import { needsOf } from '../public/family-panel.js';
 import { QUESTION_BUDGETS } from '../sim/decision-budget.mjs';
 import { STUDY_TICK_MS } from '../sim/crops.mjs';
+import { feed } from './support/fed.mjs';
 
 const SEED = 'road-1638';
 const DAY = 1440;
@@ -53,7 +54,8 @@ function build(options = {}) {
   beginSecondPeriod(world); world.status = 'running';
   until(world, () => world.director.complete, 9000);
   beginThirdPeriod(world); world.status = 'running';
-  return world;
+  // Into the spring fed: the tests make these families played, and a played family can starve (tests/support/fed.mjs).
+  return feed(world);
 }
 /** The first family, a student's, told to leave and gone with the wagon and forty food. */
 function fled(world, { auto = false } = {}) {
@@ -67,6 +69,9 @@ function fled(world, { auto = false } = {}) {
   applyAction(world, household.id, { action: 'flee', entityId: main(world, household).id, take: { food: 40, seed: 4, cotton: 2, powder: 3 }, refuge: 'san-felipe' });
   assert.equal(household.flight.status, 'fled');
   assert.equal(household.flight.mode, 'wagon');
+  // Weeks on the road and at the refuge with forty food would starve it (sim/hunger.mjs); these tests are of the road, not of
+  // hunger, so the family is fed once it has gone (tests/support/fed.mjs).
+  feed(world, [household]);
   return household;
 }
 
@@ -427,6 +432,9 @@ test('nursing the sick keeps them alive that day and mends them sooner, and a re
   const buyer = people(world, household).find(one => one.id !== nurse.id && !one.chore && (one.kin?.role === 'father' || one.kin?.role === 'mother' || one.age >= 16)) || nurse;
   until(world, () => !buyer.chore, 12);
   household.resources.money = 2;
+  // Out of food, as a family that buys it among the others is (and as this one was by the crossing before it was fed once gone,
+  // tests/support/fed.mjs): so what the family eats while the real is spent does not come off the two it buys.
+  household.resources.food = 0;
   const food = household.resources.food;
   applyAction(world, household.id, { action: 'chore', entityId: buyer.id, chore: 'trade-crossing' });
   until(world, () => !buyer.chore, 8);

@@ -9,16 +9,17 @@
     "server/main.mjs --solo deals its game on the real land of the colonies (5 families, lobby)",
     "the solo game opens joined as hh-1 in gonzales, rolled, and running once the wagon was packed, no join form, no teacher's Start; the other four families automatic",
     "the solo class view opens from its Host address with the game already running",
-    "the family arrived and the house site was chosen on its grant at (-3.1399999999999997, -0.09960000000000002)",
-    "14 of the family set to auto from the panel: Thomas Proofwright, Keziah Proofwright, Silvano Proofwright, Chana Proofwright, Delia Proofwright, Petra Proofwright, Tomasa Proofwright, Emeterio Proofwright, Loreta Proofwright, Soledad Proofwright, Zadok Proofwright, Docia Proofwright, Pablo Proofwright, Ramona Proofwright",
+    "the family arrived and the house site was chosen on its grant at (-4.7104, -5.8096)",
+    "13 of the family set to auto from the panel: Feliciano Proofwright, Charity Proofwright, Adela Proofwright, Enos Proofwright, Lavinia Proofwright, Marcos Proofwright, Simeon Proofwright, Zadok Proofwright, Hiram Proofwright, Eli Proofwright, Chana Proofwright, Andrés Proofwright, Benita Proofwright",
     "7 orders given from the panel and taken",
-    "the call came (\"Volunteers are coming into Gonzales from every settlement, and there is talk of making the…\") and Thomas Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (940 ticks, 181.2 s)",
+    "the call came (\"Volunteers are coming into Gonzales from every settlement, and there is talk of making the…\") and Feliciano Proofwright was sent from the one menu",
+    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (837 ticks, 176.7 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "Thomas Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241920 (300 ticks, 81.8 s)",
+    "Feliciano Proofwright was sent to enlist auxiliary from the panel",
+    "the second period ended on its own at minute 241920 (300 ticks, 45.4 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-15",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (431 ticks, 277.1 s)",
+    "nobody of the family starved by the spring, Charity Proofwright bringing food in on fish-the-water",
+    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (430 ticks, 95.5 s)",
     "after the ending, a new solo game is dealt with the old pages open, and opens joined in its own lobby from the beginning",
     "no page errors on any page across the whole solo game"
   ],
@@ -30,56 +31,62 @@
     },
     "periods": {
       "first": {
-        "ticks": 940,
-        "seconds": 181.2,
+        "ticks": 837,
+        "seconds": 176.7,
         "endedAtMinute": 114060
       },
       "second": {
         "ticks": 300,
-        "seconds": 81.8,
+        "seconds": 45.4,
         "endedAtMinute": 241920
       },
       "third": {
-        "ticks": 431,
-        "seconds": 277.1,
+        "ticks": 430,
+        "seconds": 95.5,
         "endedAtMinute": 302580
       }
     },
     "family": [
-      "Thomas Proofwright (father, 42)",
-      "Keziah Proofwright (mother, 40)",
-      "Silvano Proofwright (son, 22)",
-      "Chana Proofwright (daughter, 21)",
-      "Delia Proofwright (daughter, 19)",
-      "Petra Proofwright (daughter, 17)",
-      "Tomasa Proofwright (daughter, 16)",
-      "Emeterio Proofwright (son, 15)",
-      "Loreta Proofwright (daughter, 13)",
-      "Soledad Proofwright (daughter, 11)",
-      "Zadok Proofwright (son, 10)",
-      "Docia Proofwright (daughter, 8)",
-      "Nieves Proofwright (daughter, 6)",
-      "Pablo Proofwright (son, 4)",
-      "Ramona Proofwright (daughter, 3)",
-      "Marcos Proofwright (son, 1)",
-      "Ruperto Proofwright (son, 0)"
+      "Feliciano Proofwright (father, 41)",
+      "Charity Proofwright (mother, 42)",
+      "Adela Proofwright (daughter, 21)",
+      "Enos Proofwright (son, 19)",
+      "Lavinia Proofwright (daughter, 18)",
+      "Marcos Proofwright (son, 16)",
+      "Simeon Proofwright (son, 15)",
+      "Zadok Proofwright (son, 14)",
+      "Hiram Proofwright (son, 13)",
+      "Eli Proofwright (son, 11)",
+      "Chana Proofwright (daughter, 10)",
+      "Soledad Proofwright (daughter, 9)",
+      "Pablo Proofwright (son, 8)",
+      "Orpha Proofwright (daughter, 6)",
+      "Andrés Proofwright (son, 5)",
+      "Minerva Proofwright (daughter, 4)",
+      "Benita Proofwright (daughter, 3)",
+      "Effie Proofwright (daughter, 1)",
+      "Delia Proofwright (daughter, 0)"
     ],
     "onAuto": [
-      "Thomas Proofwright",
-      "Keziah Proofwright",
-      "Silvano Proofwright",
-      "Chana Proofwright",
-      "Delia Proofwright",
-      "Petra Proofwright",
-      "Tomasa Proofwright",
-      "Emeterio Proofwright",
-      "Loreta Proofwright",
-      "Soledad Proofwright",
+      "Feliciano Proofwright",
+      "Charity Proofwright",
+      "Adela Proofwright",
+      "Enos Proofwright",
+      "Lavinia Proofwright",
+      "Marcos Proofwright",
+      "Simeon Proofwright",
       "Zadok Proofwright",
-      "Docia Proofwright",
-      "Pablo Proofwright",
-      "Ramona Proofwright"
+      "Hiram Proofwright",
+      "Eli Proofwright",
+      "Chana Proofwright",
+      "Andrés Proofwright",
+      "Benita Proofwright"
     ],
+    "fisher": {
+      "id": "hh-1-parent-2",
+      "key": "fish-the-water",
+      "auto": true
+    },
     "orders": [
       {
         "id": "hh-1-parent-1",
@@ -88,7 +95,7 @@
       },
       {
         "id": "hh-1-parent-2",
-        "key": "cut-lane",
+        "key": "fish-the-water",
         "took": true
       },
       {
@@ -104,7 +111,7 @@
       {
         "id": "hh-1-child-3",
         "key": "cut-lane",
-        "took": "no answer"
+        "took": true
       },
       {
         "id": "hh-1-child-4",
@@ -123,49 +130,50 @@
       },
       {
         "id": "hh-1-child-7",
-        "key": "dig-well",
+        "key": "plant-field",
         "took": true
       },
       {
         "id": "hh-1-child-8",
-        "key": "dig-well",
+        "key": "plant-field",
         "took": true
       },
       {
         "id": "hh-1-child-9",
-        "key": "dig-well",
-        "took": true
+        "key": "plant-field",
+        "took": "no answer"
       }
     ],
     "call": {
       "text": "Volunteers are coming into Gonzales from every settlement, and there is talk of making them into an army and marching on Béxar. Does somebody from your family join them?",
-      "sent": "Thomas Proofwright"
+      "sent": "Feliciano Proofwright"
     },
     "winter": {
       "key": "enlist-auxiliary",
       "id": "hh-1-parent-1",
-      "name": "Thomas Proofwright"
+      "name": "Feliciano Proofwright"
     },
     "winterOutcome": {
       "voted": false,
       "service": {
         "kind": "auxiliary-year",
         "status": "serving",
-        "since": 181380,
+        "since": 181560,
         "siteId": "san-felipe",
         "acres": 320
       }
     },
+    "starved": [],
     "flight": {
       "status": "fled"
     },
     "ending": {
-      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 1024. Family Who went Heard of the cannon Heard the Alamo fell In the spring Farm Taken prisoner Coin Glory Land Final the Proofwright family Thomas Proofwright, Keziah Proofwright Septembe",
-      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 7 reales GLORY 143 FINAL NUMBER 1024 7 reales × (1 + 143 glory) + 16 reales of land (320 acres promised) = 1024 The family had 7 reales. The farm was burned, so there was nothing to sell; it counts 40 glory, which is in the glory below.",
+      "host": "THE END OF THE STORY × How the families finished the Proofwright family finished first, with a final number of 16. Family Who went Heard of the cannon Heard the Alamo fell In the spring Farm Taken prisoner Coin Glory Land Final the Proofwright family Feliciano Proofwright, Charity Proofwright Septem",
+      "family": "THE END OF THE STORY × the Proofwright family COIN IN THE HOUSE 5 reales GLORY 75 FINAL NUMBER 16 5 reales + 19 reales for the farm, less 3 of 3 parts for the 2 taken prisoner, counted as 0 reales × (1 + 75 glory) + 16 reales of land (320 acres promised) = 16 The family had 5 reales, and sold the fa",
       "flight": "returning",
       "minute": 302580
     },
-    "totalSeconds": 540.1
+    "totalSeconds": 317.6
   },
   "screenshots": [
     "docs/evidence/solo-game-at-work.png",

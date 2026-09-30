@@ -21,6 +21,7 @@ import { familyEnding } from '../sim/ending.mjs';
 import { ambientFor } from '../sim/ambient.mjs';
 import { FREE_BLACK_WORD, ROAD_WORDS, advanceStarts, minuteOn, roadGroups } from '../sim/start-story.mjs';
 import { heardOut } from './support/heard-out.mjs';
+import { feed } from './support/fed.mjs';
 
 const colonies = (seed, n, starts = true) => createGonzalesWorld(seed, n, { map: 'colonies', starts });
 const people = (world, household) => household.members.map(id => world.entities[id]);
@@ -272,6 +273,10 @@ function springClass() {
   const tejano = of(world, 'tejano')[0], free = of(world, 'free-black')[0];
   tejano.played = true; free.played = true;
   world.status = 'running';
+  // Fed for the two periods they are stepped through with no order given (a played family can starve; tests/support/fed.mjs):
+  // after the first tick, which gives every family its means (sim/means.mjs `settleMeans`) and so its store.
+  stepWorld(world);
+  feed(world, [tejano, free], 400);
   until(world, () => world.calls?.[tejano.id]);
   heardOut(world, tejano.id);
   const answerers = projectWorld(world, tejano.id, 'student', { includeMap: false }).request?.answerers || {};
@@ -282,6 +287,8 @@ function springClass() {
   until(world, () => world.director.complete);
   const autumn = world.events.filter(event => event.householdId === tejano.id).map(event => event.text);
   beginSecondPeriod(world); world.status = 'running';
+  // And again for the second period: the winter leaves a family a fortnight's food, and these give no orders.
+  feed(world, [tejano, free], 400);
   until(world, () => world.director.complete);
   beginThirdPeriod(world); world.status = 'running';
   played = { world, tejanoId: tejano.id, freeId: free.id, manId, call, company, autumn };

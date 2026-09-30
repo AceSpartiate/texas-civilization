@@ -76,6 +76,9 @@ export function stowAway(world, household, at = 'nacogdoches') {
     one.location = { x: site.x, y: site.y, siteId: at };
   }
   household.played = true; delete household.absent;
+  // Fed while it waits for its scene: a played family can starve (owner, 2026-09-30; sim/hunger.mjs), and weeks at the camp with
+  // what the class had left it would kill it before the soldiers came. The scene sets its own food (`placeFamily`).
+  household.resources = { ...household.resources, food: Math.max(household.resources?.food || 0, 400) };
   // The family together at its camp: not taken in by neighbours while it was stepped here unplayed (sim/acting.mjs).
   delete household.takenIn;
   household.flight = { status: 'refuged', refuge: at, orderedMinute: world.minute, leftMinute: world.minute, arrivedMinute: world.minute, mode: 'wagon', took: {}, crossed: [] };

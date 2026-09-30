@@ -446,7 +446,7 @@ export function meetingFor(world, entity) {
  * work that has stopped to ask, a small child whose own auto went off (2026-09-29), an offer. A person with more than one shows the first, and across the whole column the rows
  * are ranked by it (`rankNeeds`). Also which card section answers each (`NEED_SECTIONS` in public/app.js).
  */
-export const NEED_KINDS = Object.freeze(['alto', 'road', 'flight', 'sick', 'rider', 'call', 'army', 'camp', 'courier', 'asking', 'child', 'offer']);
+export const NEED_KINDS = Object.freeze(['alto', 'road', 'flight', 'sick', 'hunger', 'rider', 'call', 'army', 'camp', 'courier', 'asking', 'child', 'offer']);
 
 /**
  * Who is with the family and answers its own decisions - the order to leave, the route, the road's questions, "¡Alto!" - as the
@@ -507,6 +507,8 @@ export function needsOf(world, entityId) {
   // Turned very sick (sim/disease.mjs): the moment to answer - nurse, keep warm, rest. The server's own line, and since 2026-09-29
   // (owner, C4: "60 s minimum") the minute in which they cannot die, counted down while it runs (`leftMs`).
   if (entity.sickness?.grave) needs.push({ kind: 'sick', text: `${name}: ${entity.sickness.line || 'very sick.'}`, ...ms(entity.sickness.leftMs) });
+  // Starving (sim/hunger.mjs, owner 2026-09-30): the family must find food, and the minute in which they cannot die of it yet.
+  if (entity.hunger?.stage === 'starving') needs.push({ kind: 'hunger', text: `${name} is starving.`, ...ms(entity.hunger.leftMs) });
   return needs.sort(byUrgency);
 }
 
@@ -1113,3 +1115,39 @@ export function barPerson({ viewedId = null, mainId = null, entities = new Map()
   const viewed = viewedId ? entities.get(viewedId) : null;
   return viewed && !['dead', 'captured'].includes(viewed.health?.condition) ? viewedId : mainId;
 }
+
+// ------------------------------------------------------------------------------------------------ the family's food, as a gauge
+
+/**
+ * The food gauge's levels, calm to dangerous (owner, 2026-09-30: "better facilitate player awareness of where the family resources
+ * stand and the severity of consequences of running out ... do it with highlights, colors, etc. don't use text and over explain";
+ * docs/HUNGER.md §5). The first four are the days the store lasts at the family's eating (sim/hunger.mjs `larderShown`); the last
+ * three are the worst of its people when it has run out.
+ */
+export const LARDER_LEVELS = Object.freeze(['plenty', 'fair', 'low', 'short', 'empty', 'weak', 'starving']);
+/** The days of food that fill the gauge: a fortnight. */
+export const LARDER_FULL_DAYS = 14;
+/** Where the family's food stands: a level of `LARDER_LEVELS`, or null when the server sent no gauge (a family nobody plays). */
+export function larderLevel(larder, food = 0) {
+  if (!larder) return null;
+  if (larder.stage === 'starving' || larder.stage === 'weak') return larder.stage;
+  if (larder.stage === 'hungry' || (!(food > 0) && larder.days !== null && larder.days !== undefined)) return 'empty';
+  const days = larder.days;
+  if (days === null || days === undefined) return 'plenty';
+  return days < 3 ? 'short' : days < 7 ? 'low' : days < LARDER_FULL_DAYS ? 'fair' : 'plenty';
+}
+/** How full the gauge is drawn, 0 to 1: the days the store lasts against a fortnight, full while nothing runs it down. */
+export const larderFill = larder => (!larder || larder.days === null || larder.days === undefined ? 1 : Math.max(0, Math.min(1, larder.days / LARDER_FULL_DAYS)));
+/** The gauge's hover and screen-reader label: a few words, never an explanation. */
+export function larderLabel(larder, food = 0, level = larderLevel(larder, food)) {
+  const amount = `Food ${Number(food || 0).toFixed(1)}`;
+  const said = { plenty: '', fair: '', low: 'running low', short: 'almost gone', empty: 'none left', weak: 'none left, weak with hunger', starving: 'none left, starving' }[level] || '';
+  const days = Number.isFinite(larder?.days) && larder.days > 0 ? `about ${Math.max(1, Math.floor(larder.days))} day${Math.floor(larder.days) === 1 ? '' : 's'}` : '';
+  return [amount, days, said].filter(Boolean).join(', ');
+}
+/** Whether the gauge has got worse: a flash is for a stage reached, not for one left behind. */
+export const larderWorse = (was, now) => Boolean(was && now && LARDER_LEVELS.indexOf(now) > LARDER_LEVELS.indexOf(was));
+/** A person's hunger on their row (sim/hunger.mjs): 'fed', 'hungry', 'weak' or 'starving'. */
+export const hungerOf = entity => (['hungry', 'weak', 'starving'].includes(entity?.hunger?.stage) ? entity.hunger.stage : 'fed');
+/** Its word for the portrait's hover and a screen reader; nothing while fed. */
+export const HUNGER_WORDS = Object.freeze({ fed: '', hungry: 'hungry', weak: 'weak with hunger', starving: 'starving' });

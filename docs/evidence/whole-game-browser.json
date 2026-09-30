@@ -12,30 +12,31 @@
     "8 of the family set to auto from the panel: Amos Proofwright, Mahala Proofwright, Nieves Proofwright, Jonas Proofwright, Simeon Proofwright, Lavinia Proofwright, Docia Proofwright, Teodoro Proofwright",
     "4 orders given from the panel and taken",
     "the call came (\"Volunteers from Columbia and the lower Brazos are to gather at James Kerr's on the Lavaca …\") and Amos Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 115500: interim standings on both pages, no winner named (2045 ticks, 263.4 s)",
+    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (2167 ticks, 244.5 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
     "Amos Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241920 (300 ticks, 52.8 s)",
+    "the second period ended on its own at minute 241920 (300 ticks, 51.9 s)",
     "the Host continued the class into the spring: period 3 opens on 1836-03-14",
+    "nobody of the family starved by the spring, Mahala Proofwright bringing food in on fish-the-water",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (1601 ticks, 566.2 s)",
+    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (931 ticks, 386.7 s)",
     "no page errors on either page across the whole game"
   ],
   "measured": {
     "periods": {
       "first": {
-        "ticks": 2045,
-        "seconds": 263.4,
-        "endedAtMinute": 115500
+        "ticks": 2167,
+        "seconds": 244.5,
+        "endedAtMinute": 114060
       },
       "second": {
         "ticks": 300,
-        "seconds": 52.8,
+        "seconds": 51.9,
         "endedAtMinute": 241920
       },
       "third": {
-        "ticks": 1601,
-        "seconds": 566.2,
+        "ticks": 931,
+        "seconds": 386.7,
         "endedAtMinute": 302580
       }
     },
@@ -59,6 +60,11 @@
       "Docia Proofwright",
       "Teodoro Proofwright"
     ],
+    "fisher": {
+      "id": "hh-1-parent-2",
+      "key": "fish-the-water",
+      "auto": true
+    },
     "orders": [
       {
         "id": "hh-1-parent-1",
@@ -67,7 +73,7 @@
       },
       {
         "id": "hh-1-parent-2",
-        "key": "cut-lane",
+        "key": "fish-the-water",
         "took": true
       },
       {
@@ -95,11 +101,12 @@
       "service": {
         "kind": "auxiliary-year",
         "status": "serving",
-        "since": 181020,
+        "since": 179280,
         "siteId": "san-felipe",
         "acres": 320
       }
     },
+    "starved": [],
     "flight": {
       "answeredBy": "hh-1-parent-2",
       "refuge": "lynchburg",
@@ -111,7 +118,7 @@
       "flight": "returning",
       "minute": 302580
     },
-    "totalSeconds": 882.4000000000001
+    "totalSeconds": 683.0999999999999
   },
   "screenshots": [
     "docs/evidence/whole-game-at-work.png",

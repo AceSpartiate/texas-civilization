@@ -23,6 +23,7 @@ import { advanceAdvanceWord } from '../sim/advance-word.mjs';
 import { FOUND_AFTER_FORAGERS, findStockAgain } from '../sim/stock.mjs';
 import { advanceArmiesPassing } from '../sim/scrape.mjs';
 import { COLUMN_WATCH_MILES, MILITARY_TRAVEL_MINUTES, columnWatched, militaryMinutes } from '../sim/military-pacing.mjs';
+import { feed } from './support/fed.mjs';
 
 const view = (world, householdId, role = 'student') => projectWorld(world, householdId, role, { includeMap: false });
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -40,7 +41,8 @@ const spring = () => structuredClone(shared ??= (() => {
   beginSecondPeriod(world); world.status = 'running';
   until(world, () => world.director.complete);
   beginThirdPeriod(world); world.status = 'running';
-  return world;
+  // Into the spring fed: the tests make these families played, and a played family can starve (tests/support/fed.mjs).
+  return feed(world);
 })());
 
 // The record's dates, written here from docs/battle-research/mexican-advance.md §3 and not read from the data they check.
@@ -295,6 +297,8 @@ test('the burned farm is burned when the family comes home; a farm outside the z
     household.resources = { ...household.resources, food: 80, seed: 5 };
     const main = world.entities[household.mainId || household.principalId];
     applyAction(world, household.id, { action: 'flee', entityId: main.id, take: { food: 20 }, refuge: view(world, household.id).flight.refuges[0].id });
+    // Fed once gone: weeks at the refuge on twenty food would starve it (sim/hunger.mjs), and this test is of the farm it left.
+    feed(world, [household]);
   }
   until(world, () => world.director.complete, 9000);
   world.status = 'running';

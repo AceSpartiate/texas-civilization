@@ -9,12 +9,12 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
 | A — People at work and ambient poses | 27 | 7 | 18 | 0 |
-| B — Children, babies and sickness | 11 | 5 | 11 | 2 |
+| B — Children, babies and sickness | 12 | 6 | 11 | 2 |
 | C — Soldiers, battles and famous people | 20 | 1 | 19 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 15 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 19 | 2 | 19 | 3 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 11 | 2 | 11 | 17 |
-| **Total** | **103** | **19** | **93** | **27** |
+| **Total** | **104** | **20** | **93** | **27** |
 
 ## How a builder works
 
@@ -175,7 +175,7 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
 
 ## B — Children, babies and sickness
 
-Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 11 to make, 2 skipped.
+Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the sick lying down, and their icons and marks. 12 to make, 2 skipped.
 
 - [ ] **B1** (priority 1) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 1 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-play-run`, `girl-play-run-s`, `girl-play-run-n`, `girl-play-gallop`, `girl-play-hide`, `girl-play-kneel`, `girl-play-sit-doll`, `girl-play-hoop`, `girl-scatter`, `boy-play-run`, `boy-play-run-s`, `boy-play-run-n`, `boy-play-gallop`, `boy-play-hide`, `boy-play-kneel`, `boy-play-sit-doll`, `boy-play-hoop`, `boy-scatter`, `smallchild-play-run`, `smallchild-play-run-s`, `smallchild-play-run-n`, `smallchild-play-gallop`, `smallchild-play-hide`, `smallchild-play-kneel`, `smallchild-play-sit-doll`, `smallchild-play-hoop`, `smallchild-scatter`)
   - **Deliver:** for `girl`, `boy`, `smallchild`: `-play-gallop` (stick horse, 4, east), `-play-run` (4, east, and `-n`/`-s`), `-play-hide` (1), `-play-kneel` (2), `-play-sit-doll` (1), `-play-hoop` (4, the hoop in the frame), `-scatter` (throwing corn, 2)
@@ -202,6 +202,11 @@ Scope: girl, boy, smallchild and infant poses, holding and carrying a baby, the 
   - **Frames:** 1 each. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40% (the request says 64 px; deliver at 128 as the other icons)
   - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
   - **Stands in now:** `icon-rest`, `icon-tend-sick` and a stroked glyph (Astra's library art reused)
+- [ ] **B13** (priority 1) — [Request 2026-09-30 — the hunger mark and the food gauge's sack](ART_REQUESTS.md#request-2026-09-30--the-hunger-mark-and-the-food-gauges-sack), items 1 and 2
+  - **Deliver:** `mark-hunger` (an empty bowl, in the panel's mark style) and `mark-food` (a filled sack, the food gauge's)
+  - **Frames:** 1 each. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px
+  - **Plugs into:** `.panel-hunger-mark` in `panelRow` and `.food-icon` in `paintLarder`, `public/app.js` and `public/style.css`
+  - **Stands in now:** a bowl and a sack drawn in the style sheet as masks, coloured by the stage (drawn in code (canvas or CSS))
 - [ ] **B6** (priority 2) — [Request 2026-09-26 — children at play, babies, and the Runaway Scrape's own work](ART_REQUESTS.md#request-2026-09-26--children-at-play-babies-and-the-runaway-scrapes-own-work), item 4 — **Claude stand-in held back: Astra has drawn the subject** (girl, boy, smallchild), so the page draws hers (`girl-speak`, `girl-tug`, `boy-speak`, `boy-tug`, `smallchild-speak`, `smallchild-tug`)
   - **Deliver:** `girl-speak`, `boy-speak`, `smallchild-speak` (2, east) and `-tug` (tugging at a grown person's sleeve, 2, east)
   - **Frames:** 2 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372

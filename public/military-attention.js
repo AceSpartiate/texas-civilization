@@ -94,8 +94,8 @@ export function militaryNotices(world) {
  * messages nothing the student opens may stand on them: the town's scene and the rooms of the house make way (triage
  * 2026-09-29, 2.2; `clearOfNotice` in public/app.js).
  */
-export const URGENT = Object.freeze(new Set(['alto', 'road', 'flight', 'call', 'rider', 'courier', 'orders', 'sick']));
-const ORDER = Object.freeze({ alto: -3, road: -2, flight: -2, call: -1, rider: 0, courier: 0, orders: 0, battle: 1, sick: 1.5, account: 2, siege: 3 });
+export const URGENT = Object.freeze(new Set(['alto', 'road', 'flight', 'call', 'rider', 'courier', 'orders', 'sick', 'hunger']));
+const ORDER = Object.freeze({ alto: -3, road: -2, flight: -2, call: -1, rider: 0, courier: 0, orders: 0, battle: 1, sick: 1.5, hunger: 1.5, account: 2, siege: 3 });
 const first = person => person.given || String(person.name || '').split(' ')[0] || 'them';
 /** The family's moments put up as cards, by the kind of their "!": what the card is headed and what its button says. */
 export const MOMENTS = Object.freeze({
@@ -107,8 +107,10 @@ export const MOMENTS = Object.freeze({
   call: { title: (person, world) => (world?.request?.kind === 'call' ? 'A call to arms' : world?.request?.kind === 'march' ? 'The march upriver' : world?.request?.kind === 'supply' ? 'The army asks for supplies' : 'Your family is being asked'),
     action: (person, world) => (world?.request?.kind === 'call' ? 'Choose who goes' : world?.request?.kind === 'supply' ? 'Choose what to send' : 'Choose who answers') },
   sick: { title: person => `${first(person)} is very sick`, action: person => `Go to ${first(person)}` },
+  // Somebody starving (sim/hunger.mjs, owner 2026-09-30): the story card's alarm, in as few words as the "!".
+  hunger: { title: person => `${first(person)} is starving`, action: person => `Go to ${first(person)}` },
 });
 /** Each kind's eyebrow, over its title. */
-export const EYEBROWS = Object.freeze({ alto: '¡Alto!', road: 'On the road', flight: 'The order to leave', call: 'A call to arms', sick: 'Very sick', rider: 'A rider', courier: 'Riders wanted', orders: 'In camp', battle: 'The fighting', account: 'After the fight', siege: 'Inside the Alamo' });
+export const EYEBROWS = Object.freeze({ alto: '¡Alto!', road: 'On the road', flight: 'The order to leave', call: 'A call to arms', sick: 'Very sick', hunger: 'No food', rider: 'A rider', courier: 'Riders wanted', orders: 'In camp', battle: 'The fighting', account: 'After the fight', siege: 'Inside the Alamo' });
 /** Each kind's icon, from the family panel's own icons (Astra's, and Claude's where hers is missing). */
-export const ICONS = Object.freeze({ alto: 'icon-flee-hide', road: 'icon-road-lookout', flight: 'icon-flee-bundle', call: 'icon-enlist-auxiliary', sick: 'icon-nurse-home', rider: 'mark-need-rider', courier: 'icon-join-relief', orders: 'icon-camp-drill', battle: 'icon-camp-guard', account: 'icon-travel-home', siege: 'icon-join-garrison' });
+export const ICONS = Object.freeze({ alto: 'icon-flee-hide', road: 'icon-road-lookout', flight: 'icon-flee-bundle', call: 'icon-enlist-auxiliary', sick: 'icon-nurse-home', hunger: 'icon-sell-food', rider: 'mark-need-rider', courier: 'icon-join-relief', orders: 'icon-camp-drill', battle: 'icon-camp-guard', account: 'icon-travel-home', siege: 'icon-join-garrison' });

@@ -1177,3 +1177,16 @@ the 84 families the measure deals the cotton strategy; the rest are below. Summe
 node scripts/balance-measure.mjs --sizes 5,15,30 --classes 8,4,2 --workers 6 --out <file>                     # as built, about 16 minutes
 MEASURE_CROPS=own node scripts/balance-measure.mjs --sizes 5,15,30 --classes 8,4,2 --workers 6 --out <file>   # all cotton
 ```
+## 19. A family can starve (2026-09-30, owner-decided; not released)
+
+The owner, 2026-09-30: *"player characters *can* die of starvation. players should have to ensure there's enough food."* This
+**amends §16.2's answer ("Leave it")**: running out of food at home now costs lives. The rules, the timings and the measure are
+[HUNGER.md](HUNGER.md); `sim/hunger.mjs`.
+
+- **The measure here does not move.** `scripts/balance-measure.mjs` runs families the director runs, and a family nobody plays
+  never starves (HUNGER.md §6), so §14's 210 classes and §16's thirty are what they were; they were not run again.
+- **What moves is a played family's**, measured by `scripts/hunger-balance.mjs` (four classes of fifteen each way, all three
+  periods, [evidence/hunger-balance.json](evidence/hunger-balance.json)): a student who gives no orders loses **every one** of the
+  family by the end of the first period (161.8 deaths a class of 161.8 people; the first about day 18-23); a student who farms,
+  hunts and forages as the director does loses **nobody at home** and **3.3 a class on the road east** (small children, one family
+  in fifteen, in three classes of four).

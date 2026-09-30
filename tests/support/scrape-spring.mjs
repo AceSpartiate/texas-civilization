@@ -6,6 +6,7 @@ import { rollFamily, stepWorld } from '../../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../../sim/periods.mjs';
 import { timelineOf } from '../../sim/advance.mjs';
 import { calendarMinutes, withCalendarStep } from '../../sim/clock.mjs';
+import { feed } from './fed.mjs';
 
 export const SPRING_SEED = 'road-1638';
 const until = (world, done, limit = 9000) => { for (let t = 0; t < limit && !done() && world.status === 'running'; t++) stepWorld(world); };
@@ -18,6 +19,10 @@ function build() {
   beginSecondPeriod(world); world.status = 'running';
   until(world, () => world.director.complete);
   beginThirdPeriod(world); world.status = 'running';
+  // The families come into the spring fed. The director ran every one of them through two periods, and a family nobody plays
+  // never starves, so several end the winter's work with an empty store; the tests make families played, and a played family
+  // can starve (owner, 2026-09-30; sim/hunger.mjs): tests/support/fed.mjs.
+  feed(world);
   return world;
 }
 /** A copy of the spring class, running, at the start of the third period. */
