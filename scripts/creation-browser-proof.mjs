@@ -278,6 +278,47 @@ try {
   await fresh.close();
   ok('reloaded, the world is there with nothing asked again; a new tab sees the title screen and then the world, and no step is asked twice - the key card included, which is shown once');
 
+  // ---------------------------------------------------------------- the family's start (owner, 2026-09-29; sim/starts.mjs)
+  // A class on the real land that deals starts: the card before the dice says who the family is and where it has come from, in the
+  // server's words, for a Tejano family, a free Black family and an Anglo-American one, and fits the Chromebook.
+  const startsApp = createClassroom({ seed: 'creation-starts', playerCount: 10, tickMs: 200, worldFactory: (seed, count) => createGonzalesWorld(seed, count, { map: 'colonies', starts: true }) });
+  const startsPort = await startsApp.listen(0, '127.0.0.1'), startsUrl = `http://127.0.0.1:${startsPort}`;
+  try {
+    const heritageAt = Object.fromEntries(Object.values(startsApp.state.world.households).map(household => [household.id, household.heritage]));
+    const wanted = new Set(['tejano', 'free-black', 'anglo']);
+    observed.startCards = {};
+    for (let n = 1; n <= 10 && wanted.size; n++) {
+      const context = await browser.newContext({ viewport: CHROMEBOOK });
+      const page = await context.newPage();
+      page.on('pageerror', error => errors.push(error.message));
+      await page.goto(startsUrl);
+      await page.locator('[name=name]').fill(`Start reader ${n}`);
+      await page.locator('[name=code]').fill(startsApp.state.sessionCode);
+      await page.getByRole('button', { name: 'Join', exact: true }).click();
+      await page.waitForFunction(() => window.__snapshot?.world.householdId);
+      const householdId = await page.evaluate(() => window.__snapshot.world.householdId);
+      const heritage = heritageAt[householdId];
+      if (!wanted.has(heritage)) { await context.close(); continue; }
+      wanted.delete(heritage);
+      await page.locator('#creation-begin-button').waitFor({ state: 'visible', timeout: 30000 });
+      const start = await page.evaluate(async () => (await (await fetch('/api/family')).json()).family.start);
+      assert.equal(start.heritage, heritage, `${householdId}: the server's start is not the family's`);
+      const lead = await readable(page, '#creation-begin-start');
+      const kicker = await readable(page, '#creation-begin-kicker');
+      assert.equal(lead, start.lead, `${heritage}: the card does not say the server's words`);
+      assert.equal(kicker, start.kicker);
+      assert.equal(await page.locator('#creation-begin .creation-begin-lead:not(#creation-begin-start)').isHidden(), true, `${heritage}: the general line is still shown beside the start`);
+      await fits(page, '#creation-begin', '#creation-begin-button', CHROMEBOOK);
+      const path = `docs/evidence/creation-start-${heritage}.png`;
+      await page.screenshot({ path });
+      shots.push(path);
+      observed.startCards[heritage] = `${kicker} - ${lead}`;
+      ok(`the ${heritage} family's card says who it is and where it came from, in the server's words, and fits: "${lead.slice(0, 110)}..."`);
+      await context.close();
+    }
+    assert.equal(wanted.size, 0, `no family of ${[...wanted].join(', ')} among the first ten to join`);
+  } finally { await startsApp.close(); }
+
   assert.deepEqual(errors, [], `the page threw: ${errors.join(' | ')}`);
   ok('no page errors');
 

@@ -1,6 +1,6 @@
 {
   "proof": "npm run test:lone-parent",
-  "when": "2026-09-30T06:40:29.916Z",
+  "when": "2026-09-30T05:44:46.411Z",
   "pass": [
     "on the land, before the house site is chosen: the ability is there, says to choose the site first, and cannot be pressed",
     "on the land the ability waits, glowing (card-glow), with the land marked on the map, standing on nothing: \"Take the children to the farms nearby and ask the neighbours to help Serafina raise a house.\"",
@@ -10,7 +10,7 @@
     "the four scenes in order, 26 presses of Continue, 6 fades to and from black, every figure and building drawn",
     "home: 4 people, two parents on the panel, a round-log house standing, and the ability gone",
     "the family took his name - the page reads \"The Whitlow family\" - and Amos, the new husband, is its main person and principal",
-    "fades to black take 1108, 1109 ms; with less motion asked for, 298 ms - shorter, never a cut",
+    "fades to black take 1108, 1108 ms; with less motion asked for, 284 ms - shorter, never a cut",
     "no page errors on the student's, the other student's or the Host's page"
   ],
   "observed": {
@@ -38,8 +38,8 @@
       "glow": "card-glow",
       "shadow": "rgb(255, 243, 207) 0px 0px 0px 1px inset, rgba(194, 88, 44, ",
       "marker": {
-        "x": 691,
-        "y": 336,
+        "x": 690,
+        "y": 335,
         "r": 12
       },
       "icon": "drawn"
@@ -56,8 +56,8 @@
       "between": "Serafina and the children walk to the nearest farm."
     },
     "fades": [
-      0.43,
-      0.59
+      0.37,
+      0.96
     ],
     "reload": {
       "scene": "second",
@@ -66,12 +66,12 @@
     "scenes": [
       {
         "id": "first",
-        "where": "The Salcedo farm, past the ford · Evening",
+        "where": "The Salcedo farm, past the ford · Midday",
         "lines": [
           {
             "step": 0,
             "who": "Jethro Salcedo",
-            "said": "Good evening! You must be the new family on the creek. Come in, come in."
+            "said": "Good day to you! You must be the new family on the creek. Come in, come in."
           },
           {
             "step": 1,
@@ -144,7 +144,7 @@
             "drawn": true
           }
         ],
-        "backdrop": "courtship-yard-evening",
+        "backdrop": "courtship-yard-noon",
         "buildings": [
           "jacal-ramada"
         ],
@@ -152,7 +152,7 @@
       },
       {
         "id": "second",
-        "where": "The Whitlow place, by the big pecan · Evening",
+        "where": "The Whitlow place, by the big pecan · Afternoon",
         "lines": [
           {
             "step": 0,
@@ -253,12 +253,12 @@
       },
       {
         "id": "wedding",
-        "where": "Your own land · Night",
+        "where": "Your own land · Evening",
         "lines": [
           {
             "step": 0,
             "who": "",
-            "said": "By nightfall a cabin stands where you camped."
+            "said": "By evening a cabin stands where you camped."
           },
           {
             "step": 1,
@@ -501,10 +501,10 @@
     "fadeMs": {
       "full": [
         1108,
-        1109
+        1108
       ],
       "reduced": [
-        298
+        284
       ]
     }
   },

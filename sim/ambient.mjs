@@ -36,6 +36,7 @@ import { townsfolkSex } from './town.mjs';
 import { isSmallChild } from './childhood.mjs';
 import { heldByBattle } from './battle-stage.mjs';
 import { activeBeats } from './town-scenes.mjs';
+import { roadGroups } from './start-story.mjs';
 
 /** The activities are invented for the game; the chatter's words are reconstructed; how far the war's word has walked. */
 export const AMBIENT_CLAIM = 'FIC-GONZ-820', CHATTER_CLAIM = 'FIC-GONZ-821', HEARSAY_CLAIM = 'FIC-GONZ-822', CROWD_CLAIM = 'FIC-GONZ-823';
@@ -634,6 +635,9 @@ export function ambientFor(world, householdId, role, view) {
   // The crowd at a refuge where one of this family is camped, or at every refuge in use for the Host.
   const mineAt = host ? null : new Set(world.households[householdId].members.map(id => world.entities[id]).filter(one => one && !one.travel && one.location?.siteId).map(one => one.location.siteId));
   const crowds = refugesInUse(world).filter(siteId => host || mineAt.has(siteId)).map(siteId => crowdAt(world, siteId, band));
+  // The enslaved people a family meets on the road east and at the crossings, in a class that deals starts (sim/start-story.mjs,
+  // owner 2026-09-29): drawn as a group with no fire and no words of their own, seen only where the family is.
+  crowds.push(...roadGroups(world, householdId, host));
   // The talk: none while this page watches a fight or a chase, or a rider is talking with one of the family.
   const quiet = Boolean(view.battle?.sides || view.flight?.chase || (!host && view.encounter?.status === 'open') || band === 'night');
   const townSceneSite = view.townScenes?.lines?.length ? view.townScenes.siteId : null;

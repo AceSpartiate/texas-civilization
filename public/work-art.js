@@ -167,6 +167,7 @@ export const WORK = Object.freeze({
   'join-relief': { stroke: 'wait', spread: 0.5 },
   'join-matamoros': { stroke: 'wait', spread: 0.5 },
   'join-houston': { stroke: 'wait', spread: 0.5 },
+  'join-seguin': { stroke: 'wait', spread: 0.5 },
   'go-vote': { stroke: 'wait', spread: 0.5 },
   // Houston's camp (sim/camp.mjs).
   'camp-drill': { stroke: 'drill', spread: 0.7 },

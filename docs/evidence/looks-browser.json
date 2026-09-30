@@ -12,6 +12,9 @@
     "after reload both parent portraits use the same layers and choices as the creation preview",
     "reloaded, nothing is asked again, and the journal says who is whose without editing: \"Alvin Navarro - father, 42. Married to Refugia Navarro. Father to Marcos Navarro, Levi Navarro, Delia Navarro, Jasper Navarro, Rufino Navarro, Petra Navarro, Basilio Navarro, Andrés Navarro, Simeon Navarro, Marcela Navarro, Adela Navarro, Prudence Navarro, Chana Navarro, Teodoro Navarro, Obed Navarro and Emeterio Navarro.\"",
     "at phone width the looks pop-up fits and the page does not scroll sideways",
+    "a anglo family's parents are offered only fair, light, warm light, olive, tan, each with its picture, and the children follow (father tan, mother fair, daughter light, daughter warm light, daughter light, daughter warm light, son tan, daughter fair, daughter olive, son warm light)",
+    "a free-black family's parents are offered only olive, tan, copper, brown, dark brown, deep brown, each with its picture, and the children follow (mother deep brown, son deep brown)",
+    "a tejano family's parents are offered only light, warm light, olive, tan, copper, brown, each with its picture, and the children follow (father brown, mother light, daughter warm light, son copper)",
     "no page errors"
   ],
   "observed": {
@@ -58,7 +61,15 @@
     ],
     "chose-father": "black hair, hat",
     "chose-mother": "dark brown hair, bonnet",
-    "kin": "Alvin Navarro - father, 42. Married to Refugia Navarro. Father to Marcos Navarro, Levi Navarro, Delia Navarro, Jasper Navarro, Rufino Navarro, Petra Navarro, Basilio Navarro, Andrés Navarro, Simeon Navarro, Marcela Navarro, Adela Navarro, Prudence Navarro, Chana Navarro, Teodoro Navarro, Obed Navarro and Emeterio Navarro."
+    "kin": "Alvin Navarro - father, 42. Married to Refugia Navarro. Father to Marcos Navarro, Levi Navarro, Delia Navarro, Jasper Navarro, Rufino Navarro, Petra Navarro, Basilio Navarro, Andrés Navarro, Simeon Navarro, Marcela Navarro, Adela Navarro, Prudence Navarro, Chana Navarro, Teodoro Navarro, Obed Navarro and Emeterio Navarro.",
+    "startTones": {
+      "anglo": "father tan, mother fair, daughter light, daughter warm light, daughter light, daughter warm light, son tan, daughter fair, daughter olive, son warm light",
+      "free-black": "mother deep brown, son deep brown",
+      "tejano": "father brown, mother light, daughter warm light, son copper"
+    },
+    "startShot-anglo": "docs/evidence/looks-start-anglo.png",
+    "startShot-free-black": "docs/evidence/looks-start-free-black.png",
+    "startShot-tejano": "docs/evidence/looks-start-tejano.png"
   },
   "screenshots": [
     "docs/evidence/looks-surname.png",

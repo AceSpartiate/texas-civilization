@@ -195,6 +195,64 @@ try {
   await small.screenshot({ path: 'docs/evidence/looks-popup-phone.png' });
   ok('at phone width the looks pop-up fits and the page does not scroll sideways');
 
+  // ---------------------------------------------------------------- skin tones locked to the family's start (owner, 2026-09-29)
+  // "ensure that skin tone options based on the race of the characters is locked to what is realistic". A class on the real land
+  // that deals starts: each parent of a Tejano, a free Black and an Anglo-American family is offered only the start's tones, each
+  // with its picture, the default among them; the children the server makes after them are inside the range too.
+  const RANGES = { anglo: ['fair', 'light', 'warm light', 'olive', 'tan'], tejano: ['light', 'warm light', 'olive', 'tan', 'copper', 'brown'], 'free-black': ['olive', 'tan', 'copper', 'brown', 'dark brown', 'deep brown'] };
+  const startsApp = createClassroom({ seed: 'looks-starts', playerCount: 10, tickMs: 200, worldFactory: (seed, count) => createGonzalesWorld(seed, count, { map: 'colonies', starts: true }) });
+  const startsPort = await startsApp.listen(0, '127.0.0.1'), startsUrl = `http://127.0.0.1:${startsPort}`;
+  observed.startTones = {};
+  try {
+    const heritageAt = Object.fromEntries(Object.values(startsApp.state.world.households).map(household => [household.id, household.heritage]));
+    const wanted = new Set(['tejano', 'free-black', 'anglo']);
+    for (let n = 1; n <= 10 && wanted.size; n++) {
+      const context = await browser.newContext({ viewport: { width: 1366, height: 768 } });
+      const student = await context.newPage();
+      student.on('pageerror', error => errors.push(error.message));
+      await student.goto(startsUrl);
+      await student.locator('[name=name]').fill(`Tone reader ${n}`);
+      await student.locator('[name=code]').fill(startsApp.state.sessionCode);
+      await student.getByRole('button', { name: 'Join', exact: true }).click();
+      await student.waitForFunction(() => window.__snapshot?.world.householdId);
+      const heritage = heritageAt[await student.evaluate(() => window.__snapshot.world.householdId)];
+      if (!wanted.has(heritage)) { await context.close(); continue; }
+      wanted.delete(heritage);
+      await student.locator('#creation-begin-button').waitFor({ state: 'visible', timeout: 30000 });
+      await student.locator('#creation-begin-button').click();
+      await student.locator('#roll-family').click();
+      await student.waitForFunction(() => document.querySelector('#roll-family')?.textContent === 'Meet your family', null, { timeout: 20000 });
+      await student.locator('#roll-family').click();
+      await student.locator('#surname-input').fill({ tejano: 'Garza', 'free-black': 'Carter', anglo: 'Hollis' }[heritage]);
+      await student.locator('#surname-save').click();
+      await student.locator('#names-done').click();
+      await student.locator('#looks').waitFor({ state: 'visible', timeout: 15000 });
+      const book = await family(student);
+      const parentsHere = book.people.filter(person => person.choices);
+      for (const [index, parent] of parentsHere.entries()) {
+        await student.waitForFunction(id => document.querySelector('#looks')?.dataset.entityId === id && !document.querySelector('#looks').hidden, parent.id, { timeout: 10000 });
+        const offered = await student.locator('#looks-parts button[data-part="skin"]').evaluateAll(buttons => buttons.map(b => b.dataset.value));
+        assert.deepEqual(offered, RANGES[heritage], `${heritage} ${parent.role}: offers ${offered.join(', ')}`);
+        assert.equal(await student.locator('#looks-parts button[data-part="skin"] canvas').count(), offered.length, 'a tone has no picture');
+        const pressed = await student.locator('#looks-parts button[data-part="skin"][aria-pressed="true"]').evaluateAll(b => b.map(x => x.dataset.value));
+        assert.ok(pressed.length === 1 && RANGES[heritage].includes(pressed[0]), `${heritage}: the default tone ${pressed} is outside the range`);
+        // The darkest tone the start has, for the father; the lightest, for the mother - both ends of the range drawn and kept.
+        const tone = index === 0 ? RANGES[heritage].at(-1) : RANGES[heritage][0];
+        await student.locator(`#looks-parts button[data-part="skin"][data-value="${tone}"]`).click();
+        if (index === 0) { const path = `docs/evidence/looks-start-${heritage}.png`; await student.screenshot({ path }); observed[`startShot-${heritage}`] = path; }
+        await student.locator('#looks-done').click();
+        await student.waitForFunction(async ([id, value]) => (await (await fetch('/api/family')).json()).family.people.find(one => one.id === id)?.appearance?.skin === value, [parent.id, tone], { timeout: 10000 });
+      }
+      await student.locator('#looks').waitFor({ state: 'hidden', timeout: 10000 });
+      const made = await family(student);
+      for (const person of made.people) assert.ok(RANGES[heritage].includes(person.appearance.skin), `${heritage}: ${person.role} ${person.given} is ${person.appearance.skin}`);
+      observed.startTones[heritage] = made.people.map(person => `${person.role} ${person.appearance.skin}`).join(', ');
+      ok(`a ${heritage} family's parents are offered only ${RANGES[heritage].join(', ')}, each with its picture, and the children follow (${observed.startTones[heritage]})`);
+      await context.close();
+    }
+    assert.equal(wanted.size, 0, `no family of ${[...wanted].join(', ')} among the first ten to join`);
+  } finally { await startsApp.close(); }
+
   assert.deepEqual(errors, [], `the page threw: ${errors.join(' | ')}`);
   ok('no page errors');
 

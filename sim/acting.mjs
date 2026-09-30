@@ -41,7 +41,7 @@ import { householdName, mainPersonId, tooYoung } from './family.mjs';
 /** The age a child is old enough to act for the family when nobody grown is with it (owner, 2026-09-28; `FIC-GONZ-730`). */
 export const STEPS_UP_FROM = 7;
 /** The chores that take a man to the army, the garrison or the expedition (sim/winter.mjs `WINTER_CHORES`, less the vote). */
-export const WAR_CHORES = Object.freeze(['enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'join-relief', 'join-houston']);
+export const WAR_CHORES = Object.freeze(['enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'join-relief', 'join-houston', 'join-seguin']);
 const WAR_PURPOSES = Object.freeze(['march', 'volunteer', 'follow']);
 const GONE = Object.freeze(['dead', 'captured']);
 

@@ -135,6 +135,7 @@
     "study:disease": "node scripts/disease-study.mjs",
     "test:tips": "node scripts/tips-browser-proof.mjs",
     "test:lone-parent": "node scripts/lone-parent-browser-proof.mjs",
+    "test:starts-injections": "node scripts/starts-injections.mjs",
     "test:story-cards": "node scripts/story-cards-browser-proof.mjs",
     "test:tips-injections": "node scripts/tips-injections.mjs",
     "test:real-time-limits-injections": "node scripts/real-time-limits-injections.mjs",

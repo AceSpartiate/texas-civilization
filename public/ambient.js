@@ -141,8 +141,11 @@ export function campMan(camp, index, { time = 0, reducedMotion = false, key = ''
 export function crowdDrawables(ctx, crowds, { toScreen, figure, time = 0, reducedMotion = false, heads, evidence = null }) {
   const items = [];
   for (const crowd of crowds || []) {
-    const fire = toScreen(crowd.fire);
-    items.push({ y: fire.y, draw: () => drawClip(ctx, 'fire-flicker', fire.x, fire.y, figure * .5, { timeMs: time, seed: crowd.siteId }) || drawSprite(ctx, 'campfire', fire.x, fire.y, figure * .44) });
+    // A refuge's crowd has its fire; the people of the road east (sim/start-story.mjs `roadGroups`) have none.
+    if (crowd.fire) {
+      const fire = toScreen(crowd.fire);
+      items.push({ y: fire.y, draw: () => drawClip(ctx, 'fire-flicker', fire.x, fire.y, figure * .5, { timeMs: time, seed: crowd.siteId }) || drawSprite(ctx, 'campfire', fire.x, fire.y, figure * .44) });
+    }
     for (const one of crowd.people) {
       const height = figure * (one.small || 1);
       const step = one.pace ? paced(one.id, time, reducedMotion) : { dx: 0, stepping: null };
@@ -150,8 +153,11 @@ export function crowdDrawables(ctx, crowds, { toScreen, figure, time = 0, reduce
       const p = toScreen({ x: one.x + step.dx * PERSON_WIDTH_MILES, y: one.y });
       const clip = figureClip(one, step.stepping);
       heads.set(one.id, { x: p.x, y: p.y - height, size: height });
-      items.push({ y: p.y, draw: () => { if (!drawClip(ctx, clip.id, p.x, p.y, height, { timeMs: time, seed: one.id, flip: clip.flip }) && !(clip.base && drawClip(ctx, clip.base, p.x, p.y, height, { timeMs: time, seed: one.id, flip: clip.baseFlip }))) fallback(ctx, p.x, p.y, height); } });
-      evidence?.push({ id: one.id, act: one.a, clip: clip.id });
+      // `look`: the palette's colours for a person the server dresses (the people of the road east), recolouring the cast figure
+      // as a family's own are; absent for the refuge's crowd, drawn as painted.
+      const dress = one.look ? { appearance: one.look } : {};
+      items.push({ y: p.y, draw: () => { if (!drawClip(ctx, clip.id, p.x, p.y, height, { timeMs: time, seed: one.id, flip: clip.flip, ...dress }) && !(clip.base && drawClip(ctx, clip.base, p.x, p.y, height, { timeMs: time, seed: one.id, flip: clip.baseFlip, ...dress }))) fallback(ctx, p.x, p.y, height); } });
+      evidence?.push({ id: one.id, act: one.a, clip: clip.id, ...(crowd.kind && { kind: crowd.kind }) });
     }
   }
   return items;

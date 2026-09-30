@@ -50,7 +50,9 @@ const app = createClassroom({
   // starts on the real land of the colonies (docs/COLONIES.md), where the whole game lives: the winter and the spring only
   // continue there, and until 2026-09-16 the launcher's Solo Mode and a class started from it dealt the invented Gonzales
   // country and could never reach either. MAP=gonzales still starts the invented country.
-  worldFactory: (seed, playerCount) => createGonzalesWorld(seed, playerCount, { map: process.env.MAP || 'colonies', neighbours: true }),
+  // And deals each family's start as well as its land (owner, 2026-09-29; sim/starts.mjs): Anglo-American families across the
+  // colonies, a Tejano family at Victoria, and in a class of ten or more a free Black family near Liberty. STARTS=0 deals none.
+  worldFactory: (seed, playerCount) => createGonzalesWorld(seed, playerCount, { map: process.env.MAP || 'colonies', neighbours: true, starts: process.env.STARTS !== '0' }),
   onStopRequested: () => shutdown('Host requested a graceful stop'),
   // Play Solo saves, pauses and stops itself when its player's page has gone (server/app.mjs `SOLO_WATCH`, owner 2026-09-27).
   // SOLO_LEAVE_MS shortens the wait after the page closes, for a browser proof; nobody else needs it.

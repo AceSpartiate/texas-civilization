@@ -58,7 +58,7 @@ export const TIPS = Object.freeze({
 export const TIP_ORDER = Object.freeze(['alto', 'road', 'flight', 'sick', 'call', 'army', 'watch', 'resume', 'rest', 'route', 'cow', 'milk', 'baby', 'child', 'enlist', 'trade', 'store', 'arrive', 'order', 'house', 'field', 'town', 'star']);
 
 /** The winter's joining, enlisting and voting (sim/winter.mjs `WINTER_CHORES`), as the page sees them on a work list. */
-const WINTER_WORK = new Set(['enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'go-vote', 'join-relief', 'join-houston']);
+const WINTER_WORK = new Set(['enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'go-vote', 'join-relief', 'join-houston', 'join-seguin']);
 const GONE = ['dead', 'captured'];
 
 /**
