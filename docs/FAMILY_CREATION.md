@@ -1053,8 +1053,11 @@ and a baby was a baby all game; eligibility read the stored age and only eating 
 
 - **The birth date is the truth.** Everybody rolled since 2026-09-22 has `born`; anybody older has the one `bornOf` has always
   derived - the stored `age` as the age on the class's first day, and a birthday hashed from the class seed and the person's id, the
-  same every time the class opens. On the day somebody's age on the calendar (`ageNow`) passes their stored `age`, the derived date is
-  written down as `born` (so it is never derived again from an age that has moved) and `age` becomes the calendar's.
+  same every time the class opens. Each tick counts the birthdays that fell between the minute the ages were last brought up to
+  (`world.agesMinute`) and now - one day's tick, or the weeks skipped between two periods - and adds them to the stored `age`,
+  writing a derived date down as `born` first (so it is never derived again from an age that has moved). Counting the birthdays
+  that pass, rather than setting `age` to the calendar's, moves only what a birthday moves: an age set any other way (a test's
+  fixture, a family rolled mid-class on its own day) is carried on from, never overwritten.
 - **Everything that reads an age follows at once**, because it reads `age`: sent anywhere at ten (`tooYoung`), answering a call and
   going to the fighting at sixteen (`canAnswerCalls`, `canFight`), the oldest child of seven stepping up (sim/acting.mjs), a baby
   put down to walk at two (sim/babies.mjs `isBaby`), the children's works by age (sim/children.mjs), what each eats, how they are
@@ -1065,11 +1068,9 @@ and a baby was a baby all game; eligibility read the stored age and only eating 
   today, and old enough now to answer for the family and to go to the fighting if he is sent."*). A grown person's passes quietly.
 - **At ten** a child's own automation (sim/childhood.mjs, for children under ten) is put away: from then on they are set to work as
   anybody grown is. **At two** the baby's own state is put away.
-- `ceiling:` a baby being carried keeps the age the journey was planned for until set down, so no journey planned for a baby is
-  walked by a two-year-old halfway.
-- **Old saves**: no save version. A class saved before this never moved an age, so its stored ages are the ages at the class start,
-  which is what the birth date is derived from; the first tick after it opens writes the date down and catches up a birthday
-  already past.
+- A baby being carried who turns two stays in the arms that carry them until set down; only their baby state waits for that.
+- **Old saves**: no save version. A class saved before this has no `agesMinute`: the first tick after it opens sets it to that
+  minute, so nobody's age jumps on opening, and counts on from there; its birth dates are the ones `bornOf` derives, stable.
 - **Why `age` moves rather than every reader asking `ageNow`**: about 140 places read `age`, many with no world to ask the
   calendar; moving the stored age on each birthday made all of them follow with one change, and kept `sim/family.mjs` untouched for
   the other work in it.

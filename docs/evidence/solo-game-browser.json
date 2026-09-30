@@ -1,25 +1,25 @@
 {
   "record": "solo-game-browser",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "verdict": "PASS",
   "browser": "153.0.8010.53",
   "task": "Solo Mode end to end: the real solo server dealing on the real land; a solo game played from its dealt start to the road home through all three periods, the solo class view continuing it; a new game dealt after the end.",
   "environment": "Same computer: an in-process solo classroom at 100 ms a tick (1000 ms, the Quick pace, while the student gives orders and answers the call, the winter's order and the order to leave) with five families, four automatic, and headless Chrome; server/main.mjs --solo run for real only to check what it deals. Not the launcher's window, a real phone or a weak computer.",
   "checks": [
     "server/main.mjs --solo deals its game on the real land of the colonies (5 families, lobby)",
-    "the solo game opens joined as hh-1 in san-felipe, rolled, and running once the wagon was packed, no join form, no teacher's Start; the other four families automatic",
+    "the solo game opens joined as hh-1 in matagorda, rolled, and running once the wagon was packed, no join form, no teacher's Start; the other four families automatic",
     "the solo class view opens from its Host address with the game already running",
-    "the family arrived and the house site was chosen on its grant at (90.14959999999999, -11.9552)",
-    "9 of the family set to auto from the panel: Feliciano Proofwright, Ysabel Proofwright, Minerva Proofwright, Docia Proofwright, Levi Proofwright, Tomasa Proofwright, Ramona Proofwright, Eli Proofwright, Zadok Proofwright",
-    "4 orders given from the panel and taken",
-    "the call came (\"An express has brought word to San Felipe that the Mexican troops are at Gonzales. The com…\") and Feliciano Proofwright was sent from the one menu",
-    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (2089 ticks, 245.7 s)",
+    "the family arrived and the house site was chosen on its grant at (92.8896, 50.81)",
+    "6 of the family set to auto from the panel: Asa Proofwright, Sarah Proofwright, Ramona Proofwright, Hiram Proofwright, Marcos Proofwright, Prudence Proofwright",
+    "3 orders given from the panel and taken",
+    "the call came (\"The committee at Matagorda asks the volunteers of the town and the country east of it to g…\") and Asa Proofwright was sent from the one menu",
+    "the first period ended on its own at minute 114060: interim standings on both pages, no winner named (1869 ticks, 241.1 s)",
     "the Host continued the class into the winter: period 2 opens on 1836-01-25",
-    "Feliciano Proofwright was sent to enlist auxiliary from the panel",
-    "the second period ended on its own at minute 241920 (300 ticks, 34.2 s)",
-    "the Host continued the class into the spring: period 3 opens on 1836-03-14",
+    "Asa Proofwright was sent to enlist auxiliary from the panel",
+    "the second period ended on its own at minute 241920 (300 ticks, 66.5 s)",
+    "the Host continued the class into the spring: period 3 opens on 1836-03-15",
     "told to leave, the \"!\" opened the card and the family left for lynchburg with what fit; the farm burned behind it",
-    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (1578 ticks, 175 s)",
+    "the game ended on the road home at minute 302580: the final reckoning on both pages, the Host naming who finished first (1096 ticks, 254.4 s)",
     "after the ending, a new solo game is dealt with the old pages open, and opens joined in its own lobby from the beginning",
     "no page errors on any page across the whole solo game"
   ],
@@ -31,43 +31,36 @@
     },
     "periods": {
       "first": {
-        "ticks": 2089,
-        "seconds": 245.7,
+        "ticks": 1869,
+        "seconds": 241.1,
         "endedAtMinute": 114060
       },
       "second": {
         "ticks": 300,
-        "seconds": 34.2,
+        "seconds": 66.5,
         "endedAtMinute": 241920
       },
       "third": {
-        "ticks": 1578,
-        "seconds": 175,
+        "ticks": 1096,
+        "seconds": 254.4,
         "endedAtMinute": 302580
       }
     },
     "family": [
-      "Feliciano Proofwright (father, 38)",
-      "Ysabel Proofwright (mother, 33)",
-      "Minerva Proofwright (daughter, 16)",
-      "Docia Proofwright (daughter, 14)",
-      "Levi Proofwright (son, 12)",
-      "Tomasa Proofwright (daughter, 10)",
-      "Ramona Proofwright (daughter, 7)",
-      "Eli Proofwright (son, 5)",
-      "Zadok Proofwright (son, 2)",
-      "Teodoro Proofwright (son, 0)"
+      "Asa Proofwright (father, 44)",
+      "Sarah Proofwright (mother, 45)",
+      "Ramona Proofwright (daughter, 10)",
+      "Hiram Proofwright (son, 7)",
+      "Marcos Proofwright (son, 5)",
+      "Prudence Proofwright (daughter, 3)"
     ],
     "onAuto": [
-      "Feliciano Proofwright",
-      "Ysabel Proofwright",
-      "Minerva Proofwright",
-      "Docia Proofwright",
-      "Levi Proofwright",
-      "Tomasa Proofwright",
+      "Asa Proofwright",
+      "Sarah Proofwright",
       "Ramona Proofwright",
-      "Eli Proofwright",
-      "Zadok Proofwright"
+      "Hiram Proofwright",
+      "Marcos Proofwright",
+      "Prudence Proofwright"
     ],
     "orders": [
       {
@@ -84,38 +77,23 @@
         "id": "hh-1-child-1",
         "key": "cut-lane",
         "took": true
-      },
-      {
-        "id": "hh-1-child-2",
-        "key": "cut-lane",
-        "took": true
-      },
-      {
-        "id": "hh-1-child-3",
-        "key": "cut-lane",
-        "took": "no answer"
-      },
-      {
-        "id": "hh-1-child-4",
-        "key": "cut-lane",
-        "took": "no answer"
       }
     ],
     "call": {
-      "text": "An express has brought word to San Felipe that the Mexican troops are at Gonzales. The committee asks the men to turn out, and the District of Washington is already turning out to march to Gonzales as fast as it can. Does somebody from your family go?",
-      "sent": "Feliciano Proofwright"
+      "text": "The committee at Matagorda asks the volunteers of the town and the country east of it to gather at James Kerr's on the Lavaca as speedily as they can. The town is badly armed and its men are few. Does somebody from your family go?",
+      "sent": "Asa Proofwright"
     },
     "winter": {
       "key": "enlist-auxiliary",
       "id": "hh-1-parent-1",
-      "name": "Feliciano Proofwright"
+      "name": "Asa Proofwright"
     },
     "winterOutcome": {
       "voted": false,
       "service": {
         "kind": "auxiliary-year",
         "status": "serving",
-        "since": 175680,
+        "since": 180900,
         "siteId": "san-felipe",
         "acres": 320
       }
@@ -126,12 +104,12 @@
       "card": "The family has been told to leave for the east. Load what the wagon will carry and go; what is left will be burned. Answer before the time on the “!” runs out, "
     },
     "ending": {
-      "host": "THE END OF THE STORY × The families’ flashbacks This server keeps no videos: it was started without a save folder. Look up one family's flashback How the families finished the Proofwright family finished first, with a final number of 796. Family Road miles from Gonzales Heard of the cannon Who went ",
-      "family": "THE END OF THE STORY × Our story, looking back This server keeps no videos: it was started without a save folder. The story in words 1835–1836. This is the story of the Proofwright family, from the fall of 1835 to the spring of 1836. September 28, 1835. Feliciano and Ysabel came to new land near San",
+      "host": "THE END OF THE STORY × The families’ flashbacks This server keeps no videos: it was started without a save folder. Look up one family's flashback How the families finished the Proofwright family finished first, with a final number of 598. Family Who went Heard of the cannon Heard the Alamo fell In t",
+      "family": "THE END OF THE STORY × Our story, looking back This server keeps no videos: it was started without a save folder. The story in words 1835–1836. This is the story of the Proofwright family, from the fall of 1835 to the spring of 1836. September 28, 1835. Asa and Sarah came to new land near Matagorda ",
       "flight": "returning",
       "minute": 302580
     },
-    "totalSeconds": 454.9
+    "totalSeconds": 562
   },
   "screenshots": [
     "docs/evidence/solo-game-at-work.png",

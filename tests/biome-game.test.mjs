@@ -489,7 +489,10 @@ test('a fence takes as long as its rails are far: at hand in the timber, carried
     household,
     near: seen.rails.find(entry => entry.household === household),
     out: seen.hauled.filter(entry => entry.household === household).sort((a, b) => b.work.ticks - a.work.ticks)[0],
-  })).find(entry => entry.near && entry.out && entry.out.work.ticks >= FENCE_TICKS + 2);
+  // The family whose far plot asks the most over the near one: at half the work (sim/work-pace.mjs) two ticks more of the country's
+  // asking is one tick of work, lost in the rounding, and the burn zone's deal by the seed (2026-09-29, D12) put this class's first
+  // such family at exactly that.
+  })).filter(entry => entry.near && entry.out && entry.out.work.ticks >= FENCE_TICKS + 2).sort((a, b) => b.out.work.ticks - a.out.work.ticks)[0];
   assert.ok(both, 'no family with both kinds of ground to fence');
   const { household } = both;
   const person = world.entities[household.principalId];

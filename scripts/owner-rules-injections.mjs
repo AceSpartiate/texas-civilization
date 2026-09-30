@@ -25,7 +25,8 @@ const INJECTIONS = [
   // D11
   { name: 'D11 the tick never moves an age', ...OWN, edits: [one('sim/world.mjs', '  advanceAges(world);\n', '')], expect: T.baby },
   { name: 'D11 no birthday ever passes', ...OWN, edits: [one('sim/ages.mjs', '    if (!(passed > 0)) continue;', '    if (true) continue;')], expect: T.boy },
-  { name: 'D11 the derived birth date not written down, so an old save ages again when opened', ...OWN, edits: [one('sim/ages.mjs', "    if (typeof person.born !== 'string') person.born = bornOf(world, person);\n", '')], expect: T.old },
+  { name: 'D11 the derived birth date not written down', ...OWN, edits: [one('sim/ages.mjs', "    if (typeof person.born !== 'string') person.born = born;\n", '')], expect: T.old },
+  { name: 'D11 an old save counted from the class start, so everybody ages when it is opened', ...OWN, edits: [one('sim/ages.mjs', '  const from = world.agesMinute, to = world.minute;', '  const from = world.agesMinute ?? 0, to = world.minute;')], expect: T.old },
   { name: 'D11 the page shows the family book\'s age before the tick\'s', ...OWN, edits: [one('public/family-panel.js', '    const shownAge = entity?.age ?? person.age;', '    const shownAge = person.age ?? entity?.age;')], expect: T.boy },
   // C4
   { name: 'C4 nothing held: a very sick child can die inside the minute', ...OWN, edits: [one('sim/disease.mjs', '  const held = graveHeld(world, person);', '  const held = false;')], expect: T.hold },

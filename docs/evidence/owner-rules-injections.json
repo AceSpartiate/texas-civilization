@@ -1,9 +1,9 @@
 {
   "record": "owner-rules-injections",
   "date": "2026-09-30",
-  "caught": 27,
-  "only": 21,
-  "of": 27,
+  "caught": 28,
+  "only": 22,
+  "of": 28,
   "injections": [
     {
       "name": "D7 working about the place yields a food a day again",
@@ -68,7 +68,22 @@
       ]
     },
     {
-      "name": "D11 the derived birth date not written down, so an old save ages again when opened",
+      "name": "D11 the derived birth date not written down",
+      "files": [
+        "sim/ages.mjs"
+      ],
+      "tests": [
+        "tests/owner-rules.test.mjs"
+      ],
+      "expected": "D11: an old save",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "D11: an old save has ages at the class start and no birth dates; each is given a stable one, the same every time it opens"
+      ]
+    },
+    {
+      "name": "D11 an old save counted from the class start, so everybody ages when it is opened",
       "files": [
         "sim/ages.mjs"
       ],

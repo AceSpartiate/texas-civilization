@@ -1,9 +1,9 @@
 {
   "proof": "npm run test:story-cards",
-  "when": "2026-09-30T03:37:55.009Z",
+  "when": "2026-09-30T06:03:41.037Z",
   "pass": [
     "the neighbours' card (rgb(217, 164, 65)) first and the house's (rgb(127, 154, 63)) under it, both glowing, under Hide names and over the rows",
-    "every moment in its own card: alto \"¡Alto! Soldiers on the road\", road \"The road is asking\", flight \"Told to leave for the east\", call \"A call to arms\", sick \"Vicente is very sick\", rider \"A rider has stopped to speak\", courier \"A call for riders at the Alamo\", orders \"Your family member is being asked\", battle \"The fight at Concepción\", account \"After Concepción\", siege \"Inside the Alamo\" - 9 accents, the account still, the others glowing",
+    "every moment in its own card: alto \"¡Alto! Soldiers on the road\", road \"The road is asking\", flight \"Told to leave for the east\", call \"A call to arms\", sick \"Vicente is very sick\", supply \"The army asks for supplies\", rider \"A rider has stopped to speak\", courier \"A call for riders at the Alamo\", orders \"Your family member is being asked\", battle \"The fight at Concepción\", account \"After Concepción\", siege \"Inside the Alamo\" - 9 accents, the account still, the others glowing",
     "with the order to leave open, its card stands and the Watch card is not put up at all, as before",
     "no page errors"
   ],
@@ -76,8 +76,20 @@
         "eyebrow": "Very sick",
         "title": "Vicente is very sick",
         "button": "Go to Vicente",
-        "left": null,
+        "left": "About 45s left to nurse them.",
         "icon": "icon-nurse-home:1",
+        "open": true
+      },
+      "supply": {
+        "hidden": false,
+        "accent": "call",
+        "glow": "card-glow",
+        "edge": "rgb(154, 58, 36)",
+        "eyebrow": "Asked of the family",
+        "title": "The army asks for supplies",
+        "button": "Choose what to send",
+        "left": "About 5 min left to answer.",
+        "icon": "icon-enlist-auxiliary:1",
         "open": true
       },
       "rider": {
@@ -165,6 +177,7 @@
     "docs/evidence/story-card-flight.png",
     "docs/evidence/story-card-call.png",
     "docs/evidence/story-card-sick.png",
+    "docs/evidence/story-card-supply.png",
     "docs/evidence/story-card-rider.png",
     "docs/evidence/story-card-courier.png",
     "docs/evidence/story-card-orders.png",
