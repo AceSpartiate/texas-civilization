@@ -1406,7 +1406,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
       if (url.pathname === '/api/voice' && req.method === 'POST') {
         if (!voice?.available) return json(res, 503, { error: 'Read-aloud is not installed on this computer.' });
         const input = await body(req);
-        return json(res, 200, voice.request(input.lines, { priority: 'pressed', names: () => wordsFrom(state.world) }));
+        return json(res, 200, voice.request(input.lines, { priority: 'pressed', names: () => wordsFrom(state.world), who: identity.householdId || identity.role }));
       }
       const spokenKey = /^\/voice\/([0-9a-f]{32})\.opus$/.exec(url.pathname)?.[1];
       if (spokenKey && (req.method === 'GET' || req.method === 'HEAD')) {

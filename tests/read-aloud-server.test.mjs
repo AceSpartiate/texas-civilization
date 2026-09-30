@@ -129,3 +129,16 @@ test('what a rider and the family\'s own person say is begun as the server write
     assert.deepEqual(asked.body.parts.map(part => part.ready), [true, true]);
   } finally { await dispose(); }
 });
+
+test('two students pressing at once take turns: each page\'s first sentence before either\'s second (the end of the game)', async () => {
+  const { app, port, spoken, next, dispose } = await classroom();
+  try {
+    const ana = client(port), ben = client(port);
+    await ana.call('/api/join', { name: 'Ana', code: app.state.sessionCode });
+    await ben.call('/api/join', { name: 'Ben', code: app.state.sessionCode });
+    await ana.call('/api/voice', { lines: [{ text: 'The soldiers went home.', voice: 'narrator' }, { text: 'The cannon went home.', voice: 'narrator' }] });
+    await ben.call('/api/voice', { lines: [{ text: 'The soldiers came for the cannon.', voice: 'narrator' }, { text: 'Did you see them yourself?', voice: 'narrator' }] });
+    for (let i = 0; i < 4; i++) await next();
+    assert.deepEqual(spoken.map(one => one.text), ['The soldiers went home.', 'The soldiers came for the cannon.', 'The cannon went home.', 'Did you see them yourself?']);
+  } finally { await dispose(); }
+});
