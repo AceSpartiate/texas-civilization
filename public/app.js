@@ -5997,7 +5997,7 @@ function placementBoxes() {
     // *below* it rather than above it. Counting it among the controls pushed the card up to the top of the screen and
     // straight under the strip, which is the one thing that has to stay readable while a step is running (2026-09-21).
     // Play Solo's Pause and Save, the connection line and the lines the page says (in the column above the family) too.
-    overhead: ['#lesson', '#lesson-resume', '#connection', '#solo-controls', '#session', '#world', '#food', '#supplies', '#error', '#save-fault', '#lifecycle'].map(selector => document.querySelector(selector)?.getBoundingClientRect()).filter(box => box?.height),
+    overhead: ['#lesson', '#lesson-resume', '#connection', '#solo-controls', '#session', '#world', '#food', '#supplies', '#field-summary', '#error', '#save-fault', '#lifecycle'].map(selector => document.querySelector(selector)?.getBoundingClientRect()).filter(box => box?.height),
     // Panels that stand down the right-hand side - the messages, packing the wagon, a town scene, the house plot, the
     // walk-through - are a wall the card turns back from, as it turns back from the screen's edge. (The messages were a
     // roof until 2026-09-28, and a card under a long message had 76px left above the map's buttons at 1280x689.)
@@ -7288,7 +7288,7 @@ const TIP_CLEAR_OF = ['#selection', '#call-menu', '#encounter', '#military-notic
   '#errand', '#going', '#site-choose', '#survey-choose', '#wagon-load', '#house-plan', '#house-plot', '#house-placement', '#town-scene',
   '#interior', '#ending', '#family-journal[data-open=true]', '#ask-neighbours',
   // And the status lines at the top left, which can run wider than the column (a long supplies line; the overlap proof, 2026-09-29).
-  '#session', '#world', '#food', '#supplies', '#wagon-open', '#house-card', ...TIP_HELD_BY];
+  '#session', '#world', '#food', '#supplies', '#field-summary', '#wagon-open', '#house-card', ...TIP_HELD_BY];
 function placeTip(panel) {
   const bar = document.querySelector('.panel-row[data-focused=true] .panel-icons');
   const barBox = bar ? bar.getBoundingClientRect() : null;

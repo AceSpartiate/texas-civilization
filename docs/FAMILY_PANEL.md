@@ -1981,3 +1981,13 @@ another icon sends it; a tap on the map after arming sends nothing; a mouse pres
 Same computer, emulated touch in headless Chrome: no touch Chromebook. The `leaves` warning in the popup is the note the hover
 already showed (the D-S14 row of docs/audits/2026-09-29-triage.md); no proof here builds a lone father with small children to
 see it tapped.
+
+## Amendment, 2026-09-30 — planting chooses the plot and the crop; the field is one task on auto (owner-decided)
+
+Each cleared plot has its own crop (owner, 2026-09-30; docs/LAND_GRANTS.md §5.2). **The *Plant the field* icon opens the plot
+chooser** (`ON_MAP`, as clearing and fencing do): every bare plot unless one is tapped on the map, and **Plant corn** or **Plant
+cotton** sends it (`plant-field`). Its sentence: *"Put in corn to eat or cotton to sell, on every bare plot or one you choose on the
+map."* The harvest icon says each crop it would bring in (*"About 10 food and 3 cotton standing"*). **On auto the field is one
+task** (sim/auto.mjs `fieldTask`): a person given planting or the harvest brings in any ripe plot first, then plants each bare plot
+with the crop it last grew, and the row says *"Auto: plant the field, over and over."* at either. The owner's picture of §16 - one
+on planting, one on the harvest - still keeps the field going; the two now help each other when both can.

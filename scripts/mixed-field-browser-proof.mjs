@@ -134,6 +134,10 @@ try {
   assert.equal(opened.crops, true, 'no corn or cotton to press');
   assert.equal(opened.send, false);
   ok(`the plant icon opens "${opened.title}": "${opened.text}", with a button for corn and one for cotton`);
+  // Without the map: the bare plots are offered as buttons, as the plots to clear and fence are (sim/suggest.mjs), for a keyboard.
+  await page.waitForFunction(() => document.querySelectorAll('#survey-suggested:not([hidden]) button').length === 3, null, { timeout: 10000 });
+  const offeredPlots = await page.locator('#survey-suggested button').allTextContents();
+  ok(`the bare plots are offered as buttons too, for a keyboard: ${offeredPlots.join(' / ')}`);
   await shot('chooser');
 
   // ------------------------------------------------------ one plot tapped, in cotton
@@ -209,7 +213,8 @@ try {
   ok(`"Bring in the crop" (${harvest}) brought in the two corn plots and left the cotton standing: food ${food.toFixed(1)} to ${foodAfter.toFixed(1)}`);
   await page.waitForTimeout(600);
   const afterLine = await chips();
-  assert.deepEqual(afterLine.chips.map(chip => [chip.crop, chip.stage, chip.n]), [['cotton', 'growing', '1'], ['bare', 'bare', '2']]);
+  // The cotton growing still, or come on while the corn was carried in (the clock runs forty times fast here).
+  assert.deepEqual(afterLine.chips.map(chip => [chip.crop, chip.crop === 'cotton' ? 'standing' : chip.stage, chip.n]), [['cotton', 'standing', '1'], ['bare', 'bare', '2']]);
   await page.waitForFunction(() => window.__snapshot.world.land.plots.find(plot => plot.id === 'plot-2')?.ripe, null, { timeout: 120000 });
   await page.waitForTimeout(600);
   await shot('cotton-ripe');
