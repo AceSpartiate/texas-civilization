@@ -3,9 +3,10 @@
   "date": "2026-09-30",
   "pass": [
     "a tip (\"sick\", 3 sentences) read aloud from the keyboard: every sentence the package's, fetched as Ogg Opus and played to its end at volume 0.89; nothing spoken on the Host; \"Got it\" and the click-through untouched",
-    "the rider's opening read in the rider's voice (am_fenrir, a man's): 4 sentences, 2 spoken on the Host (pressed, 3625 ms; pressed, 4649 ms), the button \"Getting ready…\" then \"Stop\" then \"\"; each fetched and played to its end",
+    "the rider's opening read in the rider's voice (am_fenrir, a man's): 4 sentences, 2 spoken on the Host (pressed, 6857 ms; pressed, 7205 ms), the button \"Getting ready…\" then \"Stop\" then \"\"; each fetched and played to its end",
     "Effie Proofwright's question (\"How many of them are there?\") read in the woman's voice (af_kore), from the package",
     "one line at a time: pressing the daughter's line stopped the rider's, and pressing it again stopped it",
+    "the end of the game: a read-aloud button on every part of the family's breakdown (the Proofwright family, Our story, Where the coin came from and went, What earned glory); \"Our story\" read to its end - 5 lines asked one at a time, 6 sentences played, 2 spoken on the Host, none refused",
     "sound off: the button says \"Sound is off\" and nothing is fetched or played",
     "the browser's own voice (speechSynthesis) was never spoken to"
   ],
@@ -41,14 +42,14 @@
           "key": "6ffb90b197dde87f976916d76fb6fd5d",
           "priority": "pressed",
           "waitedMs": 0,
-          "tookMs": 3625,
+          "tookMs": 6857,
           "chars": 74
         },
         {
           "key": "2605dd2ebd30467f6cb3c195d0c819b6",
           "priority": "pressed",
-          "waitedMs": 3602,
-          "tookMs": 4649,
+          "waitedMs": 6841,
+          "tookMs": 7205,
           "chars": 97
         }
       ],
@@ -65,19 +66,36 @@
       "voice": "af_kore",
       "fromPackage": true
     },
+    "ending": {
+      "buttons": [
+        "the Proofwright family",
+        "Our story",
+        "Where the coin came from and went",
+        "What earned glory"
+      ],
+      "storyLines": 5,
+      "sentencesPlayed": 6,
+      "madeOnHost": 2,
+      "hostMs": [
+        4376,
+        4537
+      ],
+      "skipped": 0
+    },
     "fetched": {
-      "count": 10,
+      "count": 16,
       "bytes": null,
       "allOgg": true
     },
     "host": {
-      "spoken": 2,
+      "spoken": 4,
       "failed": 0,
-      "msPerSentence": 4137
+      "msPerSentence": 5744
     }
   },
   "shots": [
     "docs/evidence/read-aloud-tip.png",
-    "docs/evidence/read-aloud-rider.png"
+    "docs/evidence/read-aloud-rider.png",
+    "docs/evidence/read-aloud-ending.png"
   ]
 }

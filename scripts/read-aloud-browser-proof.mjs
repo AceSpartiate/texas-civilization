@@ -12,6 +12,8 @@
 //      who gave him the word are spoken on the Host, the button says "Getting ready…" until they are, and then it plays;
 //   3. the daughter's question read aloud in a woman's voice (af_kore);
 //   4. one line at a time: a second button pressed stops the first;
+//   4b. the end of the game (owner, 2026-09-30: "Yes, add it"): a button on every part of the family's breakdown, and its
+//      story read to its end, a line asked at a time, the sentences with its names spoken on the Host, none refused;
 //   5. the Sound setting: sound off, the button says so and plays nothing;
 //   6. never the browser's own voice: speechSynthesis is never spoken to.
 //
@@ -204,16 +206,51 @@ try {
   await student.locator('#encounter-said li[data-speaker="listener"] .read-aloud').first().click();
   assert.equal(await student.evaluate(() => document.querySelector('#encounter-said li[data-speaker="listener"] .read-aloud').dataset.state), 'idle', 'pressing a reading button again does not stop it');
   ok('one line at a time: pressing the daughter\'s line stopped the rider\'s, and pressing it again stopped it');
+  await student.locator('#encounter-said li[data-speaker="listener"] .read-aloud').first().click().catch(() => {});
+  // The conversation put away, so nothing stands over the breakdown's controls.
+  await student.locator('#encounter-close').click();
+  await student.waitForFunction(() => document.querySelector('#encounter').hidden, null, { timeout: 10000 });
+
+  // ------------------------------------------------------------------ 4b. the end of the game (owner, 2026-09-30: "Yes, add it")
+  // The teacher ends the class; this server keeps no videos, so it goes straight to the families' breakdowns.
+  const hostCookie = (await fetch(`${url}/api/host`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: app.state.hostKey }) })).headers.get('set-cookie').split(';')[0];
+  const asHost = (path, body) => fetch(url + path, { method: 'POST', headers: { 'Content-Type': 'application/json', Cookie: hostCookie }, body: JSON.stringify(body) });
+  const ended = await asHost('/api/command', { id: `read-aloud-end-${Date.now()}`, action: 'end' });
+  assert.equal(ended.status, 200, `End Game: ${await ended.text()}`);
+  for (let i = 0; i < 2; i++) await asHost('/api/end-sequence', { step: 'skip' }).catch(() => {});
+  await student.waitForFunction(() => window.__snapshot?.world?.status === 'ended' && Boolean(window.__snapshot.world.ending?.family), null, { timeout: 60000 });
+  await student.locator('#ending').waitFor({ state: 'visible', timeout: 30000 });
+  await student.waitForFunction(() => [...document.querySelectorAll('#ending .read-aloud')].some(one => !one.hidden), null, { timeout: 15000 });
+  const endingButtons = await student.evaluate(() => [...document.querySelectorAll('#ending .read-aloud')].filter(one => !one.hidden).map(one => one.closest('h2, h3')?.firstChild?.textContent));
+  assert.ok(endingButtons.includes('Our story') && endingButtons.includes('What earned glory'), `the breakdown's parts have no read-aloud buttons: ${endingButtons.join(', ')}`);
+  const beforeStory = await student.evaluate(() => ({ ended: window.__readAloud.ended, asked: window.__readAloud.asked.length, played: window.__readAloud.played.length }));
+  const storyLog = voice.stats.log.length;
+  await student.locator('#ending h3', { hasText: 'Our story' }).locator('.read-aloud').click();
+  await until('the family\'s story read to its end', () => student.evaluate(n => window.__readAloud.ended > n, beforeStory.ended), 300000);
+  const story = await student.evaluate(before => ({ asked: window.__readAloud.asked.slice(before.asked), played: window.__readAloud.played.slice(before.played), pressed: window.__readAloud.pressed.at(-1), skipped: window.__readAloud.skipped || 0 }), beforeStory);
+  const storyLines = story.pressed.lines.length;
+  assert.ok(storyLines >= 2, 'the story read was a line or less');
+  assert.ok(story.asked.length >= storyLines && story.asked.every(one => one.of >= 1), 'the story was not asked for a line at a time');
+  assert.ok(story.played.length >= storyLines, `the story's ${storyLines} lines played ${story.played.length} sentences`);
+  assert.equal(story.skipped, 0, 'a sentence of the story was refused by the Host');
+  const storyMade = voice.stats.log.slice(storyLog);
+  measured.ending = { buttons: endingButtons, storyLines, sentencesPlayed: story.played.length, madeOnHost: storyMade.length, hostMs: storyMade.map(one => Math.round(one.tookMs)), skipped: story.skipped };
+  await shot(student, 'ending');
+  ok(`the end of the game: a read-aloud button on every part of the family's breakdown (${endingButtons.join(', ')}); "Our story" read to its end - ${storyLines} lines asked one at a time, ${story.played.length} sentences played, ${storyMade.length} spoken on the Host, none refused`);
 
   // ------------------------------------------------------------------ 5. Sound off
   const fetchedBefore = fetched.length;
   // Sound turned off the way a student does it: the speaker button, then "Sound on" unticked.
+  // The breakdown is put away to reach the speaker, and opened again after.
+  await student.locator('#ending-close').click();
   await student.locator('#sound-toggle').click();
   await student.locator('#sound-on').uncheck();
   await student.locator('#sound-toggle').click();
-  await student.locator('#encounter-said li[data-speaker="rider"] .read-aloud').first().click();
+  await student.locator('#ending-open').click();
+  const storyButton = student.locator('#ending h3', { hasText: 'Our story' }).locator('.read-aloud');
+  await storyButton.click();
   await student.waitForTimeout(500);
-  const muted = await student.evaluate(() => ({ state: document.querySelector('#encounter-said li[data-speaker="rider"] .read-aloud').dataset.state, words: document.querySelector('#encounter-said li[data-speaker="rider"] .read-aloud .read-aloud-words').textContent }));
+  const muted = await storyButton.evaluate(one => ({ state: one.dataset.state, words: one.querySelector('.read-aloud-words').textContent }));
   assert.deepEqual(muted, { state: 'muted', words: 'Sound is off' });
   assert.equal(fetched.length, fetchedBefore, 'a sound was fetched with sound off');
   ok('sound off: the button says "Sound is off" and nothing is fetched or played');

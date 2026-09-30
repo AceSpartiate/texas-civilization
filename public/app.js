@@ -31,7 +31,7 @@ const STEADY = Object.freeze({ fade: false });
 import { drawHousePlot, houseFootprint, plotCell, plotted, renderHousePlot } from '/house-plot.js';
 import { CABIN_PEOPLE, PERSON_MILES, houseOnGround, spacingRefusal, standingAt } from '/sim/house-footprint.mjs';
 import { drawWoodsCover, ensureWoods, stumpsVisible, timberAt, treesVisible, woodsLayersFor, woodsShown } from '/woods-view.js';
-import { bindEnding, renderEnding } from '/ending.js';
+import { bindEnding, renderEnding, setEndingReader } from '/ending.js';
 import { bindFlashback, renderFlashback } from '/flashback.js';
 import { createCourtship } from '/courtship.js';
 import { bindNeighbours, openNeighbours, renderNeighbours } from '/neighbours.js';
@@ -47,7 +47,7 @@ import { frameTransform, gestureView, isTap, keyView, nearestSpot, reproject, ta
 const $ = selector => document.querySelector(selector);
 import { EYEBROWS, ICONS, URGENT, militaryNotices } from '/military-attention.js';
 // Read aloud (owner, 2026-09-30, D15; docs/READ_ALOUD.md): a button on the words, played in a voice made on the teacher's laptop.
-import { createReadAloud, voiceOfPerson } from '/read-aloud.js';
+import { cardLines, createReadAloud, voiceOfPerson } from '/read-aloud.js';
 import { createBattleView, personArt } from '/battle-view.js';
 import { createChaseView } from '/chase-view.js';
 import { activityOf, drawnStroke, drawsAtWork, drawWorkLayer, fetchPose, fetchStep, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
@@ -7375,9 +7375,13 @@ function mountReadAloud() {
     panel?.querySelector('.tip-close')?.before(readAloud.button(() => narrate(TIPS[panel.dataset.tip] || ''), { className: 'read-aloud-tip' }));
   }
   $('#call-menu-text')?.after(readAloud.button(() => narrate($('#call-menu-text').textContent), { when: () => Boolean($('#call-menu-text')?.textContent) }));
-  // The card's title and its words: "A call to arms." then what is asked.
-  $('#military-words')?.after(readAloud.button(() => [...narrate(`${$('#military-title').textContent.replace(/[.!?]?$/, m => m || '.')}`), ...narrate($('#military-words').textContent)],
+  // The card's eyebrow, title and words, each said once (public/read-aloud.js `cardLines`): "A call to arms." then what is asked;
+  // the starving card (sim/hunger.mjs, owner 2026-09-30) "No food. Paz is starving."
+  $('#military-words')?.after(readAloud.button(() => narrate(cardLines({ eyebrow: $('#military-eyebrow')?.textContent, title: $('#military-title')?.textContent, words: $('#military-words')?.textContent })),
     { className: 'read-aloud-card', when: () => Boolean($('#military-words')?.textContent) }));
+  // The end of the game (owner, 2026-09-30: "Yes, add it"): each part of a family's own breakdown, read by the narrator, one
+  // button a part, drawn by public/ending.js. Never on the Host's page, where this is not made.
+  setEndingReader(read => readAloud.button(() => read().flatMap(narrate), { compact: true, className: 'read-aloud-ending' }));
   // What a person's card asks - the army's questions, the road's, the call's, the sick - every question drawn on it now.
   const asked = () => [...($('#selection')?.querySelectorAll('.ask-text') || [])].filter(one => !one.closest('[hidden]') && one.textContent.trim());
   $('#selection-close')?.before(readAloud.button(() => asked().flatMap(one => narrate(one.textContent)), { compact: true, className: 'read-aloud-selection', when: () => asked().length > 0 }));

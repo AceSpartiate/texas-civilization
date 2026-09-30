@@ -146,16 +146,18 @@ export function createVoice({
   /** Whether every word of a sentence is the game's or the class's. */
   function speakable(sentence, extra) {
     const all = known();
-    return wordsOf(sentence).every(word => all.has(word) || extra?.has(word) || /^\d+$/.test(word));
+    // A name's possessive is the name's ("Trinidad's family"), found at the end of the game.
+    const ours = word => all.has(word) || extra?.has(word) || /^\d+$/.test(word);
+    return wordsOf(sentence).every(word => ours(word) || ours(word.replace(/['’]s$/, '')));
   }
 
-  function enqueue(key, role, text, priority) {
+  function enqueue(key, role, text, priority, who = null) {
     if (!host || closed) return false;
     const fault = failed.get(key);
     if (fault && now() - fault < 60000) return false;
     let job = jobs.get(key);
     if (!job) {
-      job = { key, role, text, priority, queued: now() };
+      job = { key, role, text, priority, who, queued: now() };
       jobs.set(key, job);
       (priority === 'pressed' ? pressed : soon).push(job);
       if (soon.length > soonCap) { const drop = soon.shift(); jobs.delete(drop.key); stats.dropped++; }
@@ -163,15 +165,38 @@ export function createVoice({
       // Being spoken already, it is simply waited for; waiting in `soon`, it moves to the back of `pressed`.
       job.priority = 'pressed';
       const at = soon.indexOf(job);
-      if (at >= 0) { soon.splice(at, 1); job.queued = now(); pressed.push(job); }
+      if (at >= 0) { soon.splice(at, 1); job.queued = now(); job.who = who; pressed.push(job); }
     }
     pump();
     return true;
   }
 
+  /**
+   * The pressed sentence to speak next, **each page in turn** (owner, 2026-09-30: the end-of-game breakdown read aloud): the
+   * oldest of the sentences that are first in their own page's waiting, then of those second, and so on. So when thirty students
+   * press their family's story at the end, every family hears its first sentence before any hears its second, rather than the
+   * thirtieth waiting for twenty-nine whole stories. A page is `who` (its family, or the Host); sentences with none are one page.
+   */
+  const turns = new Map();
+  function nextPressed() {
+    // A page's turns are counted while it has sentences waiting, and forgotten once it has none.
+    for (const who of turns.keys()) if (!pressed.some(job => job.who === who)) turns.delete(who);
+    if (!pressed.length) return null;
+    const ahead = new Map();
+    let best = 0, bestRank = Infinity;
+    pressed.forEach((job, at) => {
+      const rank = (turns.get(job.who) || 0) + (ahead.get(job.who) || 0);
+      ahead.set(job.who, (ahead.get(job.who) || 0) + 1);
+      if (rank < bestRank) { best = at; bestRank = rank; }
+    });
+    const [job] = pressed.splice(best, 1);
+    turns.set(job.who, (turns.get(job.who) || 0) + 1);
+    return job;
+  }
+
   async function pump() {
     if (busy || closed || !synth) return;
-    const job = pressed.shift() || soon.shift();
+    const job = nextPressed() || soon.shift();
     if (!job) return;
     busy = job;
     const started = now();
@@ -212,7 +237,7 @@ export function createVoice({
    * whether it is being made. `priority` is 'pressed' for a line a student pressed play on and 'soon' for one the server
    * wrote. `names` is the class's own words (`wordsFrom`).
    */
-  function request(lines, { priority = 'pressed', names = null } = {}) {
+  function request(lines, { priority = 'pressed', names = null, who = null } = {}) {
     if (!Array.isArray(lines) || !lines.length || lines.length > ASK.lines) throw Object.assign(new Error('Ask for one to twelve lines.'), { status: 400 });
     const parts = [];
     // The class's words, worked out only if a sentence needs them - not for one ready or already being made, which is what a
@@ -227,9 +252,9 @@ export function createVoice({
       for (const sentence of splitSentences(text)) {
         const key = keyOf(role, sentence);
         if (ready(key)) { touch(key); parts.push({ key, ready: true }); continue; }
-        if (jobs.has(key)) { enqueue(key, role, sentence, priority); parts.push({ key, ready: false, making: true }); continue; }
+        if (jobs.has(key)) { enqueue(key, role, sentence, priority, who); parts.push({ key, ready: false, making: true }); continue; }
         const allowed = speakable(sentence, theirs());
-        const making = allowed && enqueue(key, role, sentence, priority);
+        const making = allowed && enqueue(key, role, sentence, priority, who);
         parts.push({ key, ready: false, making: Boolean(making), ...(!allowed && { refused: true }) });
       }
     }

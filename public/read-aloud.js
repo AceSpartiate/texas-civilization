@@ -35,6 +35,23 @@ export function voiceVolume(settings) {
   return Number.isFinite(master) ? Math.sqrt(master) : 0;
 }
 
+/**
+ * What a story card reads (the messages card: a call, ¡Alto!, somebody very sick, somebody starving): its eyebrow, its title and
+ * its words, each thing said once. A part another part already says is left out - "Paz is starving" over "Paz is starving." is
+ * said once, and "¡Alto!" once when the title begins with it - so the hunger card reads "No food. Paz is starving."
+ */
+export function cardLines({ eyebrow = '', title = '', words = '' } = {}) {
+  const plain = text => text.toLowerCase().replace(/[^\p{L}\p{N} ]+/gu, '').replace(/\s+/g, ' ').trim();
+  const out = [];
+  for (const text of [eyebrow, title, words].map(one => String(one ?? '').trim()).filter(Boolean)) {
+    const said = plain(text);
+    if (!said || out.some(one => plain(one).includes(said))) continue;
+    for (let at = out.length - 1; at >= 0; at--) if (said.includes(plain(out[at]))) out.splice(at, 1);
+    out.push(text);
+  }
+  return out.map(text => (/[.!?…]["'”’]?$/.test(text) ? text : `${text}.`)).join(' ');
+}
+
 /** What the button says in each state, to the eye and to a screen reader. */
 export const STATES = Object.freeze({
   idle: { words: 'Read aloud', label: 'Read this aloud (a computer voice)' },
@@ -111,31 +128,39 @@ export function createReadAloud({ ask, settings = () => null, win = globalThis.w
     if (voiceVolume(soundNow()) === 0) { setState(button, 'muted'); win.setTimeout(() => { if (button.dataset.state === 'muted') setState(button, 'idle'); }, 4000); return; }
     const run = current = { button, cancelled: false };
     setState(button, 'waiting');
-    let parts = null;
+    // Each line asked for on its own, and all of them at the press (owner, 2026-09-30: the end-of-game breakdown read aloud): the
+    // Host begins every one in the order pressed, and a long reading - a family's whole story - is never more than one asking may
+    // hold (server/voice/service.mjs `ASK`). Asked again while a sentence is being made; asking again moves nothing back.
+    const askLine = async line => {
+      const parts = (await ask('/api/voice', { lines: [line] })).parts || [];
+      evidence.asked.push({ at: Math.round(win.performance.now()), ready: parts.filter(part => part.ready).length, of: parts.length });
+      return parts;
+    };
+    let played = 0, skipped = 0;
     try {
-      for (let index = 0; ; index++) {
-        // Asked again while anything still to be played is not ready: the answer says which are, and asking moves them up.
-        if (!parts || parts.slice(index).some(part => !part.ready)) {
-          const answer = await ask('/api/voice', { lines: clean });
+      const answers = await Promise.all(clean.map(askLine));
+      for (let line = 0; line < clean.length; line++) {
+        for (let index = 0; index < answers[line].length; index++) {
           if (run.cancelled) return;
-          parts = answer.parts || [];
-          evidence.asked.push({ at: Math.round(win.performance.now()), ready: parts.filter(part => part.ready).length, of: parts.length });
-        }
-        if (index >= parts.length) break;
-        const part = parts[index];
-        if (!part.ready) {
-          if (part.refused || !part.making) { setState(button, 'cannot'); current = null; return; }
-          setState(button, 'waiting');
-          await wait(pollMs);
+          let part = answers[line][index];
+          while (part && !part.ready && part.making && !part.refused) {
+            setState(button, 'waiting');
+            await wait(pollMs);
+            if (run.cancelled) return;
+            answers[line] = await askLine(clean[line]);
+            if (run.cancelled) return;
+            part = answers[line][index];
+          }
+          // A sentence the Host will not or cannot speak is passed over, and the rest is read (never a stock voice in its place).
+          if (!part?.ready) { skipped++; continue; }
+          setState(button, 'playing');
+          await play(part.key, run);
           if (run.cancelled) return;
-          index--;
-          continue;
+          played++;
         }
-        setState(button, 'playing');
-        await play(part.key, run);
-        if (run.cancelled) return;
       }
-      if (current === run) { current = null; setState(button, 'idle'); evidence.ended++; }
+      evidence.skipped = (evidence.skipped || 0) + skipped;
+      if (current === run) { current = null; setState(button, played ? 'idle' : 'cannot'); if (played) evidence.ended++; }
     } catch (error) {
       if (current === run) { current = null; setState(button, 'cannot'); }
       console.warn('Read aloud:', error?.message || error);

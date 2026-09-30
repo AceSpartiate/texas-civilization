@@ -21,9 +21,9 @@ const signed = amount => `${amount > 0 ? '+' : '−'}${reales(Math.abs(amount))}
  * What nobody in Texas knew (sim/surprise.mjs, owner 2026-09-26: the true story of the snow march "At the ending"): the
  * Mexican army's snow and why Béxar was caught unprepared, as the server wrote it, once the class has lived February 23.
  */
-function revealView(reveal) {
+function revealView(reveal, lines = null) {
   const section = make('section', null, 'ending-reveal');
-  section.append(make('h3', reveal.title));
+  section.append(heading('h3', reveal.title, null, lines));
   for (const paragraph of reveal.paragraphs) section.append(make('p', paragraph));
   if (reveal.ask) section.append(make('p', reveal.ask, 'ending-ask'));
   return section;
@@ -39,8 +39,50 @@ export const familyLabel = family => family.finishedByDirector ? `${family.name}
 let shown = '';
 let closed = false;
 
+/**
+ * Read aloud on the family's breakdown (owner, 2026-09-30: "Yes, add it"; docs/READ_ALOUD.md §7). public/app.js hands in how to
+ * make a button (`setEndingReader`); none is made on the Host's page, which is a projector, or before read-aloud has loaded.
+ */
+let reader = null;
+export function setEndingReader(make) { reader = typeof make === 'function' ? make : null; shown = ''; }
+const said = text => { const line = String(text ?? '').trim(); return !line ? '' : /[.!?…]["'”’)]?$/.test(line) ? line : `${line}.`; };
+const coinSaid = amount => `${amount > 0 ? 'came in' : 'went out'}: ${reales(Math.abs(amount))}`;
+/** A sum as a voice says it: "4 reales × (1 + 3 glory) = 16" is "4 reales times 1 plus 3 glory, equals 16". */
+const mathSaid = text => String(text ?? '').replace(/\s*×\s*/g, ' times ').replace(/\s*=\s*/g, ', equals ').replace(/\s*\+\s*/g, ' plus ')
+  .replace(/\s*[−-]\s*(?=\d)/g, ' minus ').replace(/[()]/g, '').replace(/\s+/g, ' ').trim();
+/**
+ * What each part of a family's breakdown reads, in the server's words and in the order it is shown: its heading, then every
+ * line under it. A sign (+ / −) is said in words ("came in", "went out"); nothing is read that is not on the screen. One line a
+ * paragraph or an item, so the Host is asked for a long story a line at a time (public/read-aloud.js). Exported to be tested.
+ */
+export function endingReading(family) {
+  if (!family) return {};
+  if (family.interim) {
+    return { numbers: [said(family.name), 'This is where your family stands so far. The war is not over: the next class goes on from here.',
+      said(`Coin in the house: ${reales(family.money)}`), said(`Land promised: ${family.land ? `${family.acres} acres` : 'none'}`)] };
+  }
+  const reading = {
+    numbers: [said(family.name), said(`Coin in the house: ${reales(family.money)}`), said(`Glory: ${family.glory}`), said(`Final number: ${family.final}`), said(mathSaid(family.sum)), said(mathSaid(family.sumSaid))],
+    story: ['Our story.', ...(family.story || []).map(said), ...(family.questions || []).map(said)],
+    coin: ['Where the coin came from and went.', ...(family.coin?.length ? family.coin.map(line => said(`${line.date}: ${line.text}, ${coinSaid(line.coin)}`)) : ['Nothing was bought or sold for coin.'])],
+    glory: ['What earned glory.', ...(family.awards?.length ? [said(mathSaid(family.gloryRule)), ...family.awards.map(award => said(`${award.date}: ${award.text}${award.worth ? `. ${mathSaid(award.worth)}` : ''}`))] : ['No award was earned.'])],
+  };
+  if (family.prisoners?.length) reading.prisoners = ['Taken prisoner.', ...family.prisoners.map(one => said(one.text)), said(family.prisonerRule)];
+  if (family.neighbours?.length) reading.neighbours = ['Neighbours.', ...family.neighbours.map(line => said(`${line.date}: ${line.text}`))];
+  if (family.reveal) reading.reveal = [said(family.reveal.title), ...family.reveal.paragraphs.map(said), said(family.reveal.ask)];
+  for (const part of Object.keys(reading)) reading[part] = reading[part].filter(Boolean);
+  return reading;
+}
+/** A part's heading with its read-aloud button beside it, when there is a reader. */
+function heading(tag, text, className, lines) {
+  const node = make(tag, text, className);
+  if (reader && lines?.length) node.append(reader(() => lines));
+  return node;
+}
+
 function familyView(family) {
-  const parts = [make('h2', family.name, 'ending-title')];
+  const reading = endingReading(family);
+  const parts = [heading('h2', family.name, 'ending-title', reading.numbers)];
   const numbers = make('dl', null, 'ending-numbers');
   // Between periods, coin and land only (owner, 2026-09-28; sim/ending.mjs `interimFamily`, VISION §20): no glory, and none of
   // the ending's story, which is the end's to tell.
@@ -57,7 +99,7 @@ function familyView(family) {
   parts.push(numbers, make('p', family.sum, 'ending-sum'));
   if (family.sumSaid) parts.push(make('p', family.sumSaid, 'ending-said'));
   const story = make('section');
-  story.append(make('h3', 'Our story'));
+  story.append(heading('h3', 'Our story', null, reading.story));
   for (const line of family.story) story.append(make('p', line));
   // Questions about the family's own story (sim/ending-story.mjs), the server's words.
   if (family.questions?.length && !family.interim) {
@@ -67,7 +109,7 @@ function familyView(family) {
   }
   parts.push(story);
   const coin = make('section');
-  coin.append(make('h3', 'Where the coin came from and went'));
+  coin.append(heading('h3', 'Where the coin came from and went', null, reading.coin));
   if (family.coin.length) {
     const list = make('ul');
     for (const line of family.coin) list.append(make('li', `${line.date}: ${line.text} (${signed(line.coin)})`));
@@ -77,14 +119,14 @@ function familyView(family) {
   // Who was taken prisoner in the spring, and what it took from the count: the server's words (sim/ending.mjs), none of its own.
   if (family.prisoners?.length) {
     const taken = make('section', null, 'ending-prisoners');
-    taken.append(make('h3', 'Taken prisoner'));
+    taken.append(heading('h3', 'Taken prisoner', null, reading.prisoners));
     const list = make('ul');
     for (const one of family.prisoners) list.append(make('li', one.text));
     taken.append(list, make('p', family.prisonerRule, 'ending-sum'));
     parts.push(taken);
   }
   const glory = make('section');
-  glory.append(make('h3', 'What earned glory'));
+  glory.append(heading('h3', 'What earned glory', null, reading.glory));
   // Each award with its own sum, the part's weight times the miles' multiplier, and not a bare number (triage 2026-09-29 2.10);
   // and, with none, a line true of any period's ending, not only October's (3.6).
   if (family.awards.length) {
@@ -101,13 +143,13 @@ function familyView(family) {
   // What the family did for its neighbours and they for it (sim/neighbourly.mjs, owner 2026-09-28): the server's words.
   if (family.neighbours?.length) {
     const neighbours = make('section', null, 'ending-neighbours');
-    neighbours.append(make('h3', 'Neighbours'));
+    neighbours.append(heading('h3', 'Neighbours', null, reading.neighbours));
     const list = make('ul');
     for (const line of family.neighbours) list.append(make('li', `${line.date}: ${line.text}`));
     neighbours.append(list);
     parts.push(neighbours);
   }
-  if (family.reveal) parts.push(revealView(family.reveal));
+  if (family.reveal) parts.push(revealView(family.reveal, reading.reveal));
   return parts;
 }
 
