@@ -76,7 +76,8 @@ export const carted = household => household?.means?.cart === true;
 /** Whether this family came with no vehicle, its load on the ox (sim/means.mjs: the band that is hard up). */
 export const afoot = household => household?.means?.afoot === true;
 /** "cart", "wagon", "wagons" or "packs": what the family's vehicles are called on the pack screen and in its refusals. */
-export const vehicleWord = household => (afoot(household) ? 'packs' : carted(household) ? 'cart' : wagonCount(household) > 1 ? 'wagons' : 'wagon');
+// A Tejano family's cart is its carreta (sim/means.mjs `applyMeans`).
+export const vehicleWord = household => (afoot(household) ? 'packs' : carted(household) ? (household.heritage === 'tejano' ? 'carreta' : 'cart') : wagonCount(household) > 1 ? 'wagons' : 'wagon');
 /** Whether the vehicle word is said as many ("the wagons have", "the packs have"). */
 const many = household => afoot(household) || wagonCount(household) > 1;
 /**
@@ -329,7 +330,7 @@ export function wagonProjection(world, household) {
   // More than one wagon: how many, and the most of each store they take together, so the page's `+` stops where the server does.
   const most = wagons > 1 ? Object.fromEntries(WAGON_ITEMS.filter(entry => entry.kind === 'stores').map(entry => [entry.id, mostFor(household, entry)])) : null;
   // A cart (sim/means.mjs): the panel packs "the cart" and says so, with the cart's room.
-  return { used: spaceOf(household.load), space: wagonSpaceFor(household), can: !why, ...(why && { why }), ...(most && { wagons, most }), ...(carted(household) && { vehicle: 'cart' }), ...(afoot(household) && { vehicle: 'packs' }), ...(household.packs?.food && { packs: household.packs.food }) };
+  return { used: spaceOf(household.load), space: wagonSpaceFor(household), can: !why, ...(why && { why }), ...(most && { wagons, most }), ...(carted(household) && { vehicle: vehicleWord(household) }), ...(afoot(household) && { vehicle: 'packs' }), ...(household.packs?.food && { packs: household.packs.food }) };
 }
 
 /** A household's load record is well formed and fits the wagon. Absent is a class saved before step 3. */

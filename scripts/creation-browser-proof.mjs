@@ -281,11 +281,12 @@ try {
   // ---------------------------------------------------------------- the family's start (owner, 2026-09-29; sim/starts.mjs)
   // A class on the real land that deals starts: the card before the dice says who the family is and where it has come from, in the
   // server's words, for a Tejano family, a free Black family and an Anglo-American one, and fits the Chromebook.
-  const startsApp = createClassroom({ seed: 'creation-starts', playerCount: 10, tickMs: 200, worldFactory: (seed, count) => createGonzalesWorld(seed, count, { map: 'colonies', starts: true }) });
+  const startsApp = createClassroom({ seed: 'creation-starts', playerCount: 20, tickMs: 200, worldFactory: (seed, count) => createGonzalesWorld(seed, count, { map: 'colonies', starts: true }) });
   const startsPort = await startsApp.listen(0, '127.0.0.1'), startsUrl = `http://127.0.0.1:${startsPort}`;
   try {
-    const heritageAt = Object.fromEntries(Object.values(startsApp.state.world.households).map(household => [household.id, household.heritage]));
-    const wanted = new Set(['tejano', 'free-black', 'anglo']);
+    // A class of twenty, so one family is on a rancho near Béxar (owner, 2026-09-29: "Béxar at 20+"): its card is a fourth.
+    const heritageAt = Object.fromEntries(Object.values(startsApp.state.world.households).map(household => [household.id, household.settlementId === 'bexar' ? 'bexar' : household.heritage]));
+    const wanted = new Set(['tejano', 'free-black', 'anglo', 'bexar']);
     observed.startCards = {};
     for (let n = 1; n <= 10 && wanted.size; n++) {
       const context = await browser.newContext({ viewport: CHROMEBOOK });
@@ -302,7 +303,7 @@ try {
       wanted.delete(heritage);
       await page.locator('#creation-begin-button').waitFor({ state: 'visible', timeout: 30000 });
       const start = await page.evaluate(async () => (await (await fetch('/api/family')).json()).family.start);
-      assert.equal(start.heritage, heritage, `${householdId}: the server's start is not the family's`);
+      assert.equal(start.place === 'bexar' ? 'bexar' : start.heritage, heritage, `${householdId}: the server's start is not the family's`);
       const lead = await readable(page, '#creation-begin-start');
       const kicker = await readable(page, '#creation-begin-kicker');
       assert.equal(lead, start.lead, `${heritage}: the card does not say the server's words`);

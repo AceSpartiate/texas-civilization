@@ -10,7 +10,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
-const FILES = ['tests/starts.test.mjs'];
+const FILES = ['tests/starts.test.mjs', 'tests/starts-bexar.test.mjs'];
 const T = {
   deal: 'a class that deals starts seats Victoria, whose families are Tejano; one of Liberty\'s is free Black from ten families; the first of each is among the first six to join',
   sides: 'moving a start early exchanges only two families on the same side of the burn zone, and keeps every family\'s land',
@@ -97,14 +97,64 @@ const INJECTIONS = [
     { file: STORY, from: "    if (!told(world, household.id, 'road') && !flight.crossing && ", to: '    if (!flight.crossing && ' }] },
   { name: 'nobody waiting at a crossing sees the people waiting there', expect: T.road, spring: true, edits: [
     { file: STORY, from: '    if (!host && !families.includes(householdId)) continue;', to: '    if (!host) continue;' }] },
+  // ------------------------------------------------------------------------------------------------ the owner's answers of 2026-09-29/30
+  { name: 'every family is married by bond', expect: "a Tejano family is married by the priest from La Bahía; an Anglo-American or a free Black family by bond", edits: [
+    { file: 'sim/courtship.mjs', from: "export const riteFor = household => (household?.heritage === 'tejano' ? 'priest' : 'bond');", to: "export const riteFor = () => 'bond';" }] },
+  { name: 'the priest\'s wedding is told as the bond', expect: "a Tejano family is married by the priest from La Bahía; an Anglo-American or a free Black family by bond", edits: [
+    { file: 'sim/courtship.mjs', from: "    text: path.rite === 'priest'\n      ? `The ${one.plural}", to: "    text: false\n      ? `The ${one.plural}" }] },
+  { name: 'no family is dealt near Béxar', expect: "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/starts.mjs', from: '  return { ...dealCounts(families - 1, STARTS_SEATED), [BEXAR_AT]: 1 };', to: '  return dealCounts(families, STARTS_SEATED);' }] },
+  { name: 'the family near Béxar is dealt outside the burn zone', expect: "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/colonies-region.mjs', from: '    if (room[BEXAR_AT]) room[BEXAR_AT] = { in: ground[BEXAR_AT].in.length ? 1 : 0, out: 0 };', to: '    if (room[BEXAR_AT]) room[BEXAR_AT] = { in: 0, out: 1 };' }] },
+  { name: 'land by the missions is taken for the Béxar family', expect: "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/starts.mjs', from: '  || MISSION_OFFSETS.every(', to: '  || true || MISSION_OFFSETS.every(' }] },
+  { name: 'the family near Béxar is dealt as Anglo-American', expect: "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/starts.mjs', from: 'export const TEJANO_PLACES = Object.freeze([TEJANO_AT, BEXAR_AT]);', to: 'export const TEJANO_PLACES = Object.freeze([TEJANO_AT]);' }] },
+  { name: 'Béxar has no store', expect: "from twenty families one family is Tejano, on a rancho near Béxar: inside the burn zone, off the missions, early to join, with a store in town", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/town.mjs', from: "  bexar: { name: 'Josefa Quintanilla', pronoun: 'she', round: [{ x: .12, y: .10 }, { x: .02, y: .04 }, { x: .16, y: .02 }] },\n", to: '' }] },
+  { name: 'every family is told the war at Béxar\'s door', expect: "a family near Béxar is told what it hears of the war at its door, once each, at its moment, and nobody else is", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/start-story.mjs', from: "    if (household.settlementId !== 'bexar' || household.flight) continue;", to: '    if (household.flight) continue;' }] },
+  { name: 'the Béxar family is told each line again and again', expect: "a family near Béxar is told what it hears of the war at its door, once each, at its moment, and nobody else is", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/start-story.mjs', from: '      if (told(world, household.id, word.key)) continue;\n      const from = word.at', to: '      const from = word.at' }] },
+  { name: 'the Béxar family does not know of the Alamo\'s fall till the express', expect: "a family near Béxar is told what it hears of the war at its door, once each, at its moment, and nobody else is", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/start-story.mjs', from: "        learn(world, household.id, 'alamo-fall', {", to: "        if (false) learn(world, household.id, 'alamo-fall', {" }] },
+  { name: 'the Béxar family\'s ending is De León\'s colony\'s', expect: "a family near Béxar is told what it hears of the war at its door, once each, at its moment, and nobody else is", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/start-story.mjs', from: "  if (household?.heritage === 'tejano' && household.settlementId === 'bexar') return BEXAR_AFTER;\n", to: '' }] },
+  { name: 'Seguín\'s call is answered at a gathering place that is not the family\'s land', expect: "a family near Béxar is asked by Seguín from its own land when the army comes near, and its man rides from home to the army", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/calls.mjs', from: '    home: true,\n    afterArmy:', to: '    afterArmy:' }] },
+  { name: 'a man who answered Seguín at home never sets out after the army', expect: "a family near Béxar is asked by Seguín from its own land when the army comes near, and its man rides from home to the army", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/army.mjs', from: '      if (!FOLLOW_FROM.includes(at) && !again && !fromHome) continue;', to: '      if (!FOLLOW_FROM.includes(at) && !again) continue;' }] },
+  { name: 'the word to leave near Béxar says the Mexican army is coming', expect: "near Béxar the word to leave comes from Seguín\'s men, and a rancho left in a rush is burned by Santa Anna\'s foragers, not the Texas army", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/scrape.mjs', from: '${SETTLEMENT_DAYS[settlementOf(household)]?.word || ', to: '${false || ' }] },
+  { name: 'the Texas army burns a rancho near Béxar', expect: "near Béxar the word to leave comes from Seguín\'s men, and a rancho left in a rush is burned by Santa Anna\'s foragers, not the Texas army", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/scrape.mjs', from: "  const mexican = settlementOf(household) === 'bexar';", to: '  const mexican = false;' }] },
+  { name: 'the rancho hears the bell only within three miles', expect: "near Béxar the word to leave comes from Seguín\'s men, and a rancho left in a rush is burned by Santa Anna\'s foragers, not the Texas army", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/surprise.mjs', from: '      || (world.households[person.householdId]?.settlementId === BEXAR && ', to: '      || (false && ' }] },
+  { name: 'a Tejano man in the garrison is not one of Seguín\'s men', expect: "a Tejano man in the winter garrison is with Seguín\'s men, and on the night of February 25 rides out of the Alamo with Seguín", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/tejano.mjs', from: '      if (person.company !== SEGUIN) joinSeguin(person);\n', to: '' }] },
+  { name: 'nobody rides out with Seguín', expect: "a Tejano man in the winter garrison is with Seguín\'s men, and on the night of February 25 rides out of the Alamo with Seguín", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/directors.mjs', from: "if (day === 'courier-2') seguinRidesOut(", to: 'if (false) seguinRidesOut(' }] },
+  { name: 'the Alamo\'s word calls him a courier with Travis\'s letters', expect: "a Tejano man in the winter garrison is with Seguín\'s men, and on the night of February 25 rides out of the Alamo with Seguín", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/alamo.mjs', from: 'text = person.service.withSeguin ? seguinOutWords(person.name) : ', to: 'text = ' }] },
+  { name: 'a Tejano woman in the Alamo rides out with Seguín', expect: "a woman of a Tejano family shut in the Alamo is not made one of Seguín\'s men and does not ride out with him", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/tejano.mjs', from: ' || person.service.relief || !canFight(person)) continue;', to: ' || person.service.relief) continue;' }] },
+  { name: 'a poor Tejano family comes with a cart', expect: "a Tejano family of the poorest means comes with a carreta, drawn as Astra\'s carreta, that carries as the cart does", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/means.mjs', from: "  if (band.cart && wagon && household.heritage === 'tejano') {", to: '  if (false) {' }] },
+  { name: 'the carreta is drawn as a cart', expect: "a Tejano family of the poorest means comes with a carreta, drawn as Astra\'s carreta, that carries as the cart does", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/world.mjs', from: "...((e.carreta || e.style === 'carreta') && { carreta: true })", to: '...(e.carreta && { carreta: true })' }] },
+  { name: 'the pack screen calls the carreta a cart', expect: "a Tejano family of the poorest means comes with a carreta, drawn as Astra\'s carreta, that carries as the cart does", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/wagon.mjs', from: "(household.heritage === 'tejano' ? 'carreta' : 'cart')", to: "'cart'" }] },
+  { name: 'an Anglo family\'s cart may be drawn as a carreta', expect: "a Tejano family of the poorest means comes with a carreta, drawn as Astra\'s carreta, that carries as the cart does", file: 'tests/starts-bexar.test.mjs', edits: [
+    { file: 'sim/means.mjs', from: " || world.households[entity.householdId]?.heritage !== 'tejano')) return 'Invalid cart';", to: ")) return 'Invalid cart';" }] },
   { name: 'words are put in their mouths', expect: T.road, spring: true, edits: [
     { file: STORY, from: "  return { id, kind: 'enslaved', people, pairs: [] };", to: "  return { id, kind: 'enslaved', people, pairs: [{ key: id, ids: [people[0].id, people[1].id], talking: true }] };" }] },
 ];
 
 const failing = output => [...output.matchAll(/^✖ (.+?) \(\d/gm)].map(match => match[1]).filter((name, i, all) => name !== 'failing tests:' && all.indexOf(name) === i);
-const runTests = (spring = true) => {
+// Each injection runs the one file its test is in (the owner's answers are tests/starts-bexar.test.mjs), the clean runs both.
+const runTests = (spring = true, files = FILES) => {
   const skip = spring ? [] : SPRING.flatMap(name => ['--test-skip-pattern', name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')]);
-  const result = spawnSync(process.execPath, ['--test', ...skip, ...FILES], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  const result = spawnSync(process.execPath, ['--test', ...skip, ...files], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
   return failing(`${result.stdout}${result.stderr}`);
 };
 
@@ -123,9 +173,9 @@ for (const injection of INJECTIONS) {
       const crlf = !count(edit.from) && count(edit.from.split(LF).join(CR + LF));
       const from = crlf ? edit.from.split(LF).join(CR + LF) : edit.from, to = crlf ? edit.to.split(LF).join(CR + LF) : edit.to;
       if (count(from) < 1 || (count(from) > 1 && from !== 'import ')) throw new Error(`${injection.name}: the text to replace is in ${edit.file} ${count(from)} times`);
-      writeFileSync(edit.file, text.replace(from, to));
+      writeFileSync(edit.file, text.replace(from, () => to));
     }
-    const failed = runTests(Boolean(injection.spring));
+    const failed = runTests(Boolean(injection.spring), [injection.file || FILES[0]]);
     const caught = failed.includes(injection.expect);
     record.push({ name: injection.name, files: [...originals.keys()], expect: injection.expect, spring: Boolean(injection.spring), caught, alone: failed.length === 1 && caught, failed });
     console.log(`${caught ? 'caught' : 'MISSED'}${failed.length > 1 ? ` (and ${failed.length - 1} more)` : ''}: ${injection.name} -> ${failed.join(' | ') || 'nothing failed'}`);

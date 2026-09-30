@@ -167,7 +167,9 @@ export function followTheArmy(world, { beginTravel }) {
       if (['dead', 'captured', 'wounded'].includes(person.health?.condition) || withAForce(world, person.id)) continue;
       const at = person.location.siteId;
       const again = army.followers[person.id] && at === OBJECTIVE;
-      if (!FOLLOW_FROM.includes(at) && !again) continue;
+      // Or from home, where the call was answered there (Seguín's company near Béxar, sim/calls.mjs `SETTLEMENT_CALLS.bexar`).
+      const fromHome = at.startsWith('home-') && person.commitments.some(promise => promise.id === 'volunteer' && promise.status === 'active' && promise.gather === at);
+      if (!FOLLOW_FROM.includes(at) && !again && !fromHome) continue;
       if (Math.hypot(person.location.x - army.x, person.location.y - army.y) <= FALL_IN_MILES) continue;
       const causeId = record(world, 'army', {
         actorId: person.id, householdId: household.id, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-423',

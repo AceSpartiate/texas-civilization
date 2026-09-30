@@ -202,8 +202,21 @@ classes only; a class made before keeps its counts. With Victoria seated:
 
 After the burn zone's deal, the first Tejano family and the free Black family are each moved to a place among the first six
 families to join, by exchanging land with a family **on the same side of the burn zone**, so every family's land and every side
-the zone deals stand whatever decides the zone (`dealStarts`). Béxar, Goliad and Nacogdoches are still places, not starts: a
-Tejano family at Béxar is the owner's open question (FAMILY_CREATION.md).
+the zone deals stand whatever decides the zone (`dealStarts`). Goliad and Nacogdoches are still places, not starts.
+
+**Amended by the owner, 2026-09-29 ("Béxar at 20+"; `FIC-GONZ-988`; not released).** This amends the owner's answer of 2026-09-14,
+*"Only the empresario colonies are starts"*, for classes made since: in a class of **twenty or more families**, one family - taken
+from the colonies' deal above (`startCounts`) - is a **Tejano family on a rancho near Béxar**, on land 2 to 12 miles from the town
+by the San Antonio River, clear of the army's camps at Concepción and Espada, **always inside the burn zone**, and moved among the
+first six to join. Béxar is not an empresario colony, and the family's premise is a rancho taken up near the old town, not a grant
+with its title pending. Its call is Seguín's, from its own land, when the army leaves the Cibolo; its word to leave comes on March 14
+from Seguín's men; what it lives through is FAMILY_CREATION.md's amendment of 2026-09-29/30. A class of fewer than twenty keeps the
+table above.
+
+| Families | San Felipe | Columbia | Matagorda | Mina | Liberty | Gonzales | Victoria | Béxar |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 20 | 4 | 4 | 2 | 2 | 3 | 3 | 1 | 1 |
+| 30 | 7 | 6 | 4 | 3 | 4 | 3 | 2 | 1 |
 
 ### 5.2 Places and roads on the real map
 

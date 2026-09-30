@@ -11,7 +11,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectFamily, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { dealCounts } from '../sim/colonies-map.mjs';
-import { EARLY, FREE_BLACK_FROM, POOLS, SKIN_RANGES, STARTS_SEATED, dealStarts, skinChoices } from '../sim/starts.mjs';
+import { EARLY, FREE_BLACK_FROM, POOLS, SKIN_RANGES, STARTS_SEATED, TEJANO_PLACES, dealStarts, skinChoices, startCounts } from '../sim/starts.mjs';
 import { SKIN } from '../sim/look-vocabulary.mjs';
 import { NAME_POOLS, familyRoll } from '../sim/family.mjs';
 import { appearanceOf, setAppearance } from '../sim/appearance.mjs';
@@ -36,10 +36,11 @@ test('a class that deals starts seats Victoria, whose families are Tejano; one o
     assert.equal(world.starts, 1);
     const counts = {};
     for (const household of Object.values(world.households)) counts[household.settlementId] = (counts[household.settlementId] || 0) + 1;
-    assert.deepEqual(counts, Object.fromEntries(Object.entries(dealCounts(n, STARTS_SEATED)).filter(([, k]) => k)), `${n}: the counts, Victoria seated`);
+    // From twenty, one of them near Béxar (owner, 2026-09-29: "Béxar at 20+"; tests/starts-bexar.test.mjs).
+    assert.deepEqual(counts, Object.fromEntries(Object.entries(startCounts(n, dealCounts)).filter(([, k]) => k)), `${n}: the counts, Victoria seated`);
     assert.ok(counts.victoria >= 1, `${n}: Victoria has a family`);
     for (const household of Object.values(world.households)) {
-      assert.equal(household.heritage === 'tejano', household.settlementId === 'victoria', `${n}: ${household.id} at ${household.settlementId} is ${household.heritage}`);
+      assert.equal(household.heritage === 'tejano', TEJANO_PLACES.includes(household.settlementId), `${n}: ${household.id} at ${household.settlementId} is ${household.heritage}`);
       if (household.heritage === 'free-black') assert.equal(household.settlementId, 'liberty');
     }
     const free = of(world, 'free-black');
@@ -188,7 +189,9 @@ test('the start\'s story is told once, at its moment: the law to a free Black fa
 test('only the start\'s own modules read a family\'s start: no price, trade, work, fate or director does', () => {
   // VISION.md §15: nothing about a person is inferred from where their family came from. What a start may change is the names, the
   // tones, the card, the story's lines, a Tejano family's corn and Seguín's company, and the neighbours on the lone parent's path.
-  const allowed = new Set(['sim/appearance.mjs', 'sim/colonies-region.mjs', 'sim/courtship.mjs', 'sim/family.mjs', 'sim/start-story.mjs', 'sim/starts.mjs', 'sim/tejano.mjs', 'sim/world.mjs', 'public/creation.js']);
+  const allowed = new Set(['sim/appearance.mjs', 'sim/colonies-region.mjs', 'sim/courtship.mjs', 'sim/family.mjs', 'sim/start-story.mjs', 'sim/starts.mjs', 'sim/tejano.mjs', 'sim/world.mjs', 'public/creation.js',
+    // What a Tejano family's cart is called and how it is drawn (the owner, 2026-09-30), never what it carries.
+    'sim/means.mjs', 'sim/wagon.mjs']);
   const readers = [];
   for (const dir of ['sim', 'sim/battles', 'public', 'server']) {
     for (const name of readdirSync(new URL(`../${dir}/`, import.meta.url))) {

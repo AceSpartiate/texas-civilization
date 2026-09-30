@@ -37,7 +37,10 @@ export function atOrNearBexar(world) {
   const site = world.map?.sites?.[BEXAR];
   if (!site) return [];
   return Object.values(world.entities).filter(person => person.householdId && person.kind === 'person' && !GONE.includes(person.health?.condition)
-    && (person.location?.siteId === BEXAR || Math.hypot((person.location?.x ?? Infinity) - site.x, (person.location?.y ?? Infinity) - site.y) <= NEAR_BEXAR_MILES));
+    && (person.location?.siteId === BEXAR || Math.hypot((person.location?.x ?? Infinity) - site.x, (person.location?.y ?? Infinity) - site.y) <= NEAR_BEXAR_MILES
+      // A family on a rancho near Béxar, at home (sim/starts.mjs, owner 2026-09-29: "Béxar at 20+"): Herrera's warning was the
+      // Tejano ranchos' own news, and a rancho a few miles down the river saw the town empty on the 23rd (`FIC-GONZ-988`).
+      || (world.households[person.householdId]?.settlementId === BEXAR && person.location?.siteId === world.households[person.householdId].homeSiteId)));
 }
 /** One person for each family with somebody in or near Béxar: its first such person, in the class's own order. */
 function onePerFamily(people) {

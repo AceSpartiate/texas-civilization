@@ -176,7 +176,7 @@ export function drawnVehicles(movers) {
 export function seatWords(people, vehicles, horses = []) {
   const plan = seatPlan(people, vehicles, horses);
   const walk = people.filter(person => plan.get(person.id)?.afoot).length, ride = people.length - walk;
-  const beside = vehicles.length > 1 ? 'the wagons' : vehicles[0]?.cart ? 'the cart' : vehicles[0]?.carreta ? 'the carreta' : 'the wagon';
+  const beside = vehicles.length > 1 ? 'the wagons' : vehicles[0]?.cart ? (vehicles[0].style === 'carreta' ? 'the carreta' : 'the cart') : vehicles[0]?.carreta ? 'the carreta' : 'the wagon';
   if (!vehicles.length) {
     if (!ride) return people.length === 1 ? 'They walk.' : 'They all walk.';
     if (!walk) return people.length === 1 ? 'They ride the horse.' : `All ${people.length} ride.`;

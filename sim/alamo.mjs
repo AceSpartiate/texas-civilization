@@ -32,6 +32,7 @@ import { answeredFor, recordLapse } from './lapse.mjs';
 import { endShortOf, leaveBy, onMap, pointAlong, postLabel, wayOut } from './alamo-posts.mjs';
 import { MODES, milesADay, roadTicks } from './travel.mjs';
 import { findWay } from './ways.mjs';
+import { seguinOutWords } from './tejano.mjs';
 
 const GONE = ['dead', 'captured'];
 const BEXAR = 'bexar', GONZALES = 'gonzales';
@@ -228,7 +229,7 @@ export function sendCouriers(world, day, { beginTravel }) {
  * leaves on February 27, and go back in with it if his family sends him (Albert Martin did).
  * ceiling: the garrison's horse he is lent is not an entity; it is his pace and his seat.
  */
-function rideOut(world, person, eventId, beginTravel) {
+export function rideOut(world, person, eventId, beginTravel) {
   const here = { x: person.location.x, y: person.location.y };
   delete person.service.walk;
   try { beginTravel(world, person, GONZALES, eventId, 'home', modeWith(world, person)); } catch { /* ceiling: a courier with nowhere to ride stands where they are */ }
@@ -342,7 +343,8 @@ export function tellFall(world, households) {
       text = `${person.name} was among the women and children spared when the Alamo fell: in the church's sacristy while it was fought, and brought out when it was over. Santa Anna's officers questioned them at Músquiz's house in Béxar and let them go, and ${person.name} came away east as Mrs. Dickinson did.`;
     } else {
       claimId = 'HIST-TEX-431';
-      text = `${person.name} had ridden out of the Alamo as a courier with Travis's letters, and was not inside when it fell.`;
+      // Or with Seguín, a Tejano family's man of his company (sim/tejano.mjs `seguinRidesOut`, owner 2026-09-30).
+      text = person.service.withSeguin ? seguinOutWords(person.name) : `${person.name} had ridden out of the Alamo as a courier with Travis's letters, and was not inside when it fell.`;
     }
     const eventId = tell(world, person, `${text}\n\n${FALL_ACCOUNT}`, { claimId });
     // The same account on the family's card for a day (docs/BATTLES.md §2.8), through what the word brought.

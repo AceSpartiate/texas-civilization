@@ -142,7 +142,7 @@ export function teamWords(world, household) {
   // A family with no vehicle at all (sim/means.mjs) walks in, the ox under packs.
   if (!wagons && household.means?.afoot) return 'the ox under packs and the horse, on foot';
   // A family of the poorest means comes with a cart (sim/means.mjs).
-  if (wagons === 1 && wagonsOf(world, household)[0].cart) return 'the cart, the ox and the horse';
+  if (wagons === 1 && wagonsOf(world, household)[0].cart) return `the ${wagonsOf(world, household)[0].style === 'carreta' ? 'carreta' : 'cart'}, the ox and the horse`;
   if (wagons < 2) return 'the wagon, the ox and the horse';
   return `its ${NUMBER_WORDS[wagons] || wagons} wagons, an ox to each, and the horse`;
 }

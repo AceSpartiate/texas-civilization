@@ -569,7 +569,7 @@ const castOf = (world, household, path) => {
   }
   // Who marries them, at the place the page keeps for him (`commissioner`): the commissioner of the precinct, invented, unnamed, and
   // drawn as the elder figure reading the bond; or for a Tejano family the priest from La Bahía, invented and unnamed, in dark clothes
-  // (`priest`: the page recolours the elder for him; stand-in: docs/ART_REQUESTS.md, request 2026-09-29 "the family's start", item 5).
+  // (`priest`: the page recolours the elder for him; stand-in: the priest at a Tejano wedding, docs/ART_REQUESTS.md, item 5).
   cast.commissioner = path.rite === 'priest'
     ? { id: 'commissioner', name: 'The priest', given: 'The priest', sex: 'male', age: 55, band: 'adult', appearance: { skin: 'olive', hair: 'grey', clothing: 'navy', head: 'bareheaded' }, family: false, official: true, priest: true }
     : { id: 'commissioner', name: 'The commissioner', given: 'The commissioner', sex: 'male', age: 50, band: 'adult', appearance: { skin: 'tan', hair: 'grey', clothing: 'navy', head: 'hat' }, family: false, official: true };

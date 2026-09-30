@@ -8,13 +8,13 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
-| A — People at work and ambient poses | 26 | 7 | 18 | 0 |
+| A — People at work and ambient poses | 27 | 7 | 18 | 0 |
 | B — Children, babies and sickness | 11 | 5 | 11 | 2 |
 | C — Soldiers, battles and famous people | 20 | 1 | 19 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 15 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 19 | 2 | 19 | 3 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 11 | 2 | 11 | 17 |
-| **Total** | **102** | **19** | **93** | **27** |
+| **Total** | **103** | **19** | **93** | **27** |
 
 ## How a builder works
 
@@ -33,7 +33,7 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 ## A — People at work and ambient poses
 
-Scope: the eight grown cast figures' action poses at home and in town, ambient life, the Gonzales town scenes, layered people; the wood pile. 26 to make, 0 skipped.
+Scope: the eight grown cast figures' action poses at home and in town, ambient life, the Gonzales town scenes, layered people; the wood pile. 27 to make, 0 skipped.
 
 - [ ] **A1** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-chop`, `teal-chop`, `elder-chop`, `blue-chop`, `rust-woman-chop`, `indigo-chop`, `ochre-chop`, `blue-girl-chop`)
   - **Deliver:** `<cast>-chop` (felling with an axe) for each of the eight: `<figure>-chop-1`..`-4`, clip `<figure>-chop`, the axe landing on frame 3
@@ -127,6 +127,11 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Frames:** 1 each; kneeling east, standing n and s. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `drawYard` (`burial`) in `public/flashback.js`
   - **Stands in now:** kneeling: the nursing pose (`-care`); standing: the listening back view (`-listen-n`), children their own `-idle-n` (Astra's library art reused)
+- [ ] **A27** (priority 2) — [Request 2026-09-29 — the family's start: Tejano and free Black families, and the people of the road east](ART_REQUESTS.md#request-2026-09-29--the-familys-start-tejano-and-free-black-families-and-the-people-of-the-road-east), item 5
+  - **Deliver:** the priest at a Tejano wedding: `priest-read` (a Catholic priest in a dark cassock, bareheaded, reading from a small book, 2 frames, east) and `priest-idle-s`
+  - **Frames:** 2 and 1. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `figureOf` in `public/courtship.js`
+  - **Stands in now:** the elder recoloured in dark clothes, with the commissioner’s reading pose (Astra's library art reused)
 - [ ] **A13** (priority 3) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 6 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-carpentry`, `teal-carpentry`, `elder-carpentry`, `blue-carpentry`, `rust-woman-carpentry`, `indigo-carpentry`, `ochre-carpentry`, `blue-girl-carpentry`)
   - **Deliver:** `<cast>-carpentry` (at a shaving horse drawing a drawknife, 2 frames, then boring with an auger, 2)
   - **Frames:** 4 frames, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
