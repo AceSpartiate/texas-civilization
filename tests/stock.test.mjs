@@ -51,11 +51,13 @@ const withStock = household => {
   household.stock = true;
   delete household.herd;
   while (spaceOf(household.load) > WAGON_SPACE - STOCK_SPACE) {
-    const barrels = (household.load || []).find(entry => entry.id === 'provisions');
+    // A barrel of meal first; a family with none left takes out the last thing packed instead (the burn zone's deal by the seed,
+    // 2026-09-29, D12, moved which family this class's most-neighboured one is, and its load had no barrels to spare).
+    const barrels = (household.load || []).find(entry => entry.id === 'provisions') || (household.load || []).at(-1);
     if (!barrels) break;
     household.load = barrels.amount > 1
-      ? household.load.map(entry => (entry.id === 'provisions' ? { ...entry, amount: entry.amount - 1 } : entry))
-      : household.load.filter(entry => entry.id !== 'provisions');
+      ? household.load.map(entry => (entry === barrels ? { ...entry, amount: entry.amount - 1 } : entry))
+      : household.load.filter(entry => entry !== barrels);
   }
   return household;
 };

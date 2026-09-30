@@ -76,6 +76,8 @@ import { MEANS_TABLE, applyMeans, meansInvalid, meansProjection, settleMeans } f
 import { STARTS_RULE, startProjection, startsInvalid } from './starts.mjs';
 import { advanceStarts, startStoryInvalid } from './start-story.mjs';
 import { tejanoInvalid } from './tejano.mjs';
+import { advanceAges, agesInvalid } from './ages.mjs';
+import { SUPPLY_ANSWERS, advanceSupplies, answerSupply, suppliesInvalid } from './supplies.mjs';
 // The carreta a family makes at home (owner, 2026-09-25): its chore registers itself into the one table (sim/chores.mjs).
 import './carreta.mjs';
 import { seatOfTravel } from './company.mjs';
@@ -680,6 +682,8 @@ export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs
   // Every family of a class made since the means were rolled has them before anything moves: those nobody plays, and any
   // Start rolled for, are given theirs on the first running tick (sim/means.mjs `settleMeans`). Nothing to do after that.
   settleMeans(world);
+  // Birthdays (owner, 2026-09-29, D11: ages advance with the calendar; sim/ages.mjs): before anybody is asked or set to anything.
+  advanceAges(world);
   // The real seconds the server says passed since its last running tick are spent on every open military question, and a
   // question out of time is decided by its documented fallback before anything moves (sim/decision-budget.mjs). A tick
   // stepped in process carries none. The same seconds go on the real-time limits of a student's rider, order to leave, road
@@ -749,6 +753,8 @@ export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs
   // What a family's start adds to its story (sim/start-story.mjs, owner 2026-09-29): the law for a free Black family, Seguín's
   // company for a Tejano family's men, and the people nobody plays on the road east. Journal lines only; nothing is decided here.
   advanceStarts(world);
+  // What the army before Béxar asks of the families at home (owner, 2026-09-29, D5: "Supply request"; sim/supplies.mjs).
+  advanceSupplies(world);
   // Whatever somebody rode to the army marches with them (sim/keeping.mjs), once the army has moved.
   keepWithRiders(world);
   // Whoever went to the war with the rifle and is home again, or is dead or taken, has let it go (sim/keeping.mjs).
@@ -1109,7 +1115,7 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
   // The historical calls are answered by whichever parent or grown child the family sends
   // (docs/FAMILY_CREATION.md step 4). Each handler checks who may answer; travelling, the
   // yard and resting are the main person's (`mainPersonId`: the student's choice, the principal until one is made).
-  const answering = ['go-upriver', 'stay-in-town', 'go-see', 'stay-home', 'help', 'stay', 'turn-out', 'stay-put', 'send-for', 'detachment-go', 'detachment-stay', 'army-answer'].includes(input.action);
+  const answering = ['go-upriver', 'stay-in-town', 'go-see', 'stay-home', 'help', 'stay', 'turn-out', 'stay-put', 'send-for', 'detachment-go', 'detachment-stay', 'army-answer', ...SUPPLY_ANSWERS].includes(input.action);
   if (!answering && entity.id !== mainPersonId(world, household)) throw new Error('Only your main person can be asked that. Choose them with the star on their row.');
   if (['go-upriver', 'stay-in-town'].includes(input.action)) {
     // Going upriver abandons whatever work was in hand, for the same reason answering
@@ -1138,6 +1144,10 @@ function applyOneAction(world, householdId, input, { now = Date.now(), resumeWin
     const why = callHomeRefusal(world, householdId, entity);
     if (why) throw new Error(why);
     callHome(world, householdId, entity, { beginTravel });
+  }
+  else if (SUPPLY_ANSWERS.includes(input.action)) {
+    // What the army before Béxar asks for (sim/supplies.mjs): sent from home by whoever answers, so nobody's work is broken off.
+    answerSupply(world, householdId, entity, input.action);
   }
   else if (['turn-out', 'stay-put'].includes(input.action)) {
     // A far settlement's call (sim/calls.mjs): turning out costs the afternoon's work, as every call does.
@@ -1690,7 +1700,7 @@ export function validateWorld(world) {
   }
   const badExpress = expressesInvalid(world);
   if (badExpress) throw new Error(badExpress);
-  const badCall = callsInvalid(world);
+  const badCall = callsInvalid(world) || suppliesInvalid(world) || agesInvalid(world);
   if (badCall) throw new Error(badCall);
   const badShops = shopsInvalid(world) || errandsInvalid(world) || marketsInvalid(world);
   if (badShops) throw new Error(badShops);

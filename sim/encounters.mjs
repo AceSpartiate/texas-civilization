@@ -32,6 +32,7 @@ import { courierIfUnanswered } from './lapse.mjs';
 import { QUEUED_QUESTION_MS, limitLeft, limitOut, riderLimitKey, riderOnLimit } from './decision-budget.mjs';
 import { STUDY_TICK_MS } from './crops.mjs';
 import { RIDER_SPEED } from './travel.mjs';
+import { supplyAskFor } from './supplies.mjs';
 
 /**
  * How far the calendar has been stretched, as a multiplier (sim/clock.mjs, docs/COLONIES.md §5.7).
@@ -389,7 +390,8 @@ export function riderMustGo(world, encounter) {
 /** Everything waiting on the family behind the rider it is talking with: a question, and riders with other word at the gate. */
 function waitingBehind(world, encounter) {
   const householdId = encounter.householdId;
-  const questions = [world.marches, world.calls, world.requests, world.rumors].map(table => table?.[householdId]).filter(question => questionWaits(world, householdId, question));
+  // With what the army before Béxar asks (sim/supplies.mjs, owner 2026-09-29), which waits behind a rider as the call does.
+  const questions = [...[world.marches, world.calls, world.requests, world.rumors].map(table => table?.[householdId]), supplyAskFor(world, householdId)].filter(question => questionWaits(world, householdId, question));
   const home = world.households[householdId]?.homeSiteId;
   const riders = Object.values(world.entities).filter(one => one.id !== encounter.carrierId && one.report?.inPerson && one.report.audience === householdId
     && !one.travel && one.location?.siteId === home && wouldLearn(world, householdId, one.report.topicId, one.report.status));

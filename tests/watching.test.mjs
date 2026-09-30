@@ -15,6 +15,7 @@ import { armBattle } from '../sim/battle-stage.mjs';
 import { tellFannin } from '../sim/fannin.mjs';
 import { spring, until } from './support/scrape-spring.mjs';
 import { taught } from './support/settled.mjs';
+import { ageNow } from '../sim/family.mjs';
 
 const page = (world, householdId) => projectPage(world, householdId, 'student', { includeMap: false });
 const own = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
@@ -150,7 +151,8 @@ test('the rule: a student watching the family that took their little ones in is 
 test('the rule: somebody who reaches the refuge after the family has turned for home follows it home', () => {
   const { world, household } = played('hh-1');
   const father = world.entities[household.principalId];
-  const son = person(world, household, one => one.age === 15);
+  // The son rolled at fifteen: the spring class's people have had their birthdays since (owner, 2026-09-29, D11; sim/ages.mjs).
+  const son = person(world, household, one => ageNow(world, one, 0) === 15);
   until(world, () => household.flight?.status === 'ordered', 400);
   applyAction(world, household.id, { action: 'set-main', entityId: son.id });
   applyAction(world, household.id, { action: 'travel', entityId: son.id, destination: 'gonzales', mode: 'foot' });

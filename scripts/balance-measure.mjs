@@ -259,11 +259,23 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
     }
   }
 
+  // Food, period by period (docs/BALANCE.md §16, the owner's D7 of 2026-09-29: whether the field, the hunt and the herd feed a
+  // family once working about the place yields 0.3): the least each family held, the days it had none, and what it ended with.
+  const foodTrack = Object.fromEntries(households.map(household => [household.id, {}]));
+  const trackFood = (period, minutes) => {
+    for (const household of households) {
+      const food = household.resources?.food ?? 0, track = foodTrack[household.id][period] ??= { least: food, zeroDays: 0, end: food };
+      track.least = Math.min(track.least, food); track.end = food;
+      if (food <= 0.001 && !household.arriving) track.zeroDays += minutes / 1440;
+    }
+  };
   const run = period => {
     const from = world.tick;
     for (let t = 0; t < 20000 && !world.director.complete && world.status === 'running'; t++) {
       world.neighbours = false;
+      const was = world.minute;
       try { stepWorld(world); } finally { world.neighbours = true; }
+      trackFood(period, world.minute - was);
       households.forEach((household, index) => {
         if (household.arriving) return;
         quick(household);
@@ -338,6 +350,10 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
       // Every award, compact - [part, miles from home, points] - so docs/BALANCE.md can show what other scorings would have
       // done with the same classes, without changing the rule.
       awards: awards.map(award => [award.role, award.miles ?? 0, award.points]),
+      // Food by period: [least held, days with none, held at the period's end], rounded (§16).
+      food: Object.fromEntries(Object.entries(foodTrack[household.id]).map(([period, track]) => [period, [round2(track.least), round2(track.zeroDays), round2(track.end)]])),
+      // What the army before Béxar was sent (sim/supplies.mjs, D5): one entry for each ask, `sent` food, powder or horse, or kept.
+      supplies: Object.fromEntries(Object.entries(world.supplies?.[household.id] || {}).map(([ask, one]) => [ask, one.sent || one.status])),
     };
   });
   return {

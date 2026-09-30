@@ -46,6 +46,7 @@ import { registerChores } from './chores.mjs';
 import { COLD_WEIGHT, SICK_PER_DAY, coldSky, sicknessWeight } from './scrape.mjs';
 import { roadChoreRefusal, withFamily } from './road.mjs';
 import { fireKept } from './flight-work.mjs';
+import { graveHeld, graveLimitKey, graveOnLimit, limitLeft, limitOut } from './decision-budget.mjs';
 
 const DAY = 1440;
 /**
@@ -426,12 +427,17 @@ export function sicknessDay(world, household, person, { day, hungry = false, col
     return;
   }
   if (day <= health.graveDay) return;
+  // A minute to nurse them (owner, 2026-09-29, C4: "60 s minimum"; sim/decision-budget.mjs `graveHeld`, `FIC-GONZ-960`): while it
+  // runs they cannot die, and the very sick days wait with it - counted again from today - so the minute comes in front of the
+  // days the rates give. Nursed and resting, they are past the worst at once, as ever.
+  const held = graveHeld(world, person);
   if (nursedOn(person, day)) {
     if (activity === 'rest') { ease(world, person, 'nursed and resting'); return; }
-  } else if (deathsAllowed(world) && roll(world, person.id, `sick-death:${day}`) < chance(spec.death, weight)) {
+  } else if (!held && deathsAllowed(world) && roll(world, person.id, `sick-death:${day}`) < chance(spec.death, weight)) {
     die(world, household, person, where);
     return;
   }
+  if (held) { health.graveDay = day; return; }
   if (day - health.graveDay >= 2) ease(world, person, null);
 }
 
@@ -691,7 +697,9 @@ export function sicknessShown(world, person) {
     else if (activity === 'ride') line = `${what}: riding. Resting would mend it sooner.`;
     else line = `${what}: ${person.travel ? 'walking' : 'working'}. Resting would mend it sooner, and ${they(person)} may get worse.`;
   }
-  shown.sickness = { disease: spec.generic ? null : health.disease, name: spec.generic ? 'sick' : spec.short, line, activity, ...(health.grave && { grave: true }),
+  // The minute to nurse them, counted down on the "!" and the story card while it runs (sim/decision-budget.mjs `graveHeld`, C4).
+  const minute = health.grave && graveOnLimit(world, person) && !limitOut(world, graveLimitKey(person)) ? { leftMs: limitLeft(world, graveLimitKey(person), 'grave') } : {};
+  shown.sickness = { disease: spec.generic ? null : health.disease, name: spec.generic ? 'sick' : spec.short, line, activity, ...(health.grave && { grave: true }), ...minute,
     warn: health.grave ? `${person.name} is too sick to get up.` : `${person.name} is sick. Working slows ${them(person)} mending and ${they(person)} may get worse.` };
   return shown;
 }

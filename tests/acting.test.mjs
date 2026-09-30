@@ -15,6 +15,7 @@ import { orderOut } from '../sim/scrape.mjs';
 import { whoComes } from '../sim/babies.mjs';
 import { talkTarget } from '../sim/childhood.mjs';
 import { nearestNeighbour } from '../sim/acting.mjs';
+import { ageNow } from '../sim/family.mjs';
 import { deedsOf, noteDeed } from '../sim/neighbourly.mjs';
 import { needsOf } from '../public/family-panel.js';
 import { spring, until } from './support/scrape-spring.mjs';
@@ -23,6 +24,15 @@ import { taught } from './support/settled.mjs';
 
 const view = (world, householdId) => projectWorld(world, householdId, 'student', { includeMap: false });
 const person = (world, household, test) => household.members.map(id => world.entities[id]).find(test);
+/**
+ * The spring class's people have had their birthdays since the autumn (owner, 2026-09-29, D11: ages advance with the calendar;
+ * sim/ages.mjs), so a child is found by what the test needs of them, not by the age they were rolled at: the oldest child left
+ * under ten, and a child too young to step up. `rolled` is the age somebody had on the class's first day.
+ */
+const children = (world, household) => household.members.map(id => world.entities[id]).filter(one => one.age >= 2 && one.age < 10 && one.health?.condition !== 'captured').sort((a, b) => b.age - a.age);
+const oldestChild = (world, household) => { const one = children(world, household)[0]; assert.ok(one?.age >= 7, `no child of seven to nine is left in ${household.id}`); return one; };
+const tooSmall = (world, household) => { const one = children(world, household).find(child => child.age < 7); assert.ok(one, `no child under seven in ${household.id}`); return one; };
+const rolled = (world, one) => ageNow(world, one, 0);
 const kinds = (world, householdId, id) => needsOf(view(world, householdId), id).map(need => need.kind);
 /** With General Houston's army, where the army is: the spring's defining act (interactions audit B1). */
 function serve(world, man) {
@@ -84,7 +94,7 @@ test('B1: soldiers call "¡Alto!" on a family whose father is serving and on aut
 test('the oldest child steps up: with everybody of ten or more taken, the order, the road and "¡Alto!" are the seven-year-old\'s; a five-year-old is refused and told who answers', () => {
   const { world, household } = played('hh-3');
   for (const one of household.members.map(id => world.entities[id])) if (one.age >= 10) one.health = { condition: 'captured' };
-  const rufino = person(world, household, one => one.age === 7), small = person(world, household, one => one.age === 5);
+  const rufino = oldestChild(world, household), small = tooSmall(world, household);
   orderedOut(world, household);
   assert.equal(household.flight?.status, 'ordered');
   const shown = view(world, household.id).household;
@@ -104,7 +114,7 @@ test('the oldest child answers "¡Alto!" on the road for a family of children', 
   const household = world.households['hh-3'];
   for (const one of household.members.map(id => world.entities[id])) if (one.age >= 10) one.health = { condition: 'captured' };
   sceneFor(world, { kind: 'cavalry', how: 'wagon', ahead: 1.2, householdId: 'hh-3' });
-  const rufino = person(world, household, one => one.age === 7), small = person(world, household, one => one.age === 5);
+  const rufino = oldestChild(world, household), small = tooSmall(world, household);
   for (let t = 0; t < 60 && household.flight.ask?.id !== 'alto' && household.flight.chase?.phase !== 'caught'; t++) stepWorld(world);
   assert.equal(household.flight.ask?.id, 'alto', 'the children were never asked to halt');
   assert.throws(() => applyAction(world, household.id, { action: 'road-answer', entityId: small.id, option: 'halt' }), /too young to answer for the family/);
@@ -176,10 +186,12 @@ test('taken in at the neighbours\' own place, the father sent home from the army
 test('the oldest child at home may go for help: the neighbours take the family in', () => {
   const { world, household } = played('hh-5');
   for (const one of household.members.map(id => world.entities[id])) if (one.age >= 10) one.health = { condition: 'captured' };
-  const zadok = person(world, household, one => one.age === 9);
+  const zadok = oldestChild(world, household);
   const offered = view(world, household.id).work[zadok.id].find(entry => entry.id === 'child-help');
   assert.ok(offered?.can, `going for help is not offered the oldest child: ${offered?.why || 'not listed'}`);
-  assert.ok(!view(world, household.id).work[person(world, household, one => one.age === 8).id].some(entry => entry.id === 'child-help'), 'a younger child is offered it too');
+  // A younger child, where the birthdays since the autumn have left one under ten (sim/ages.mjs): not offered it.
+  const younger = children(world, household).find(one => one.id !== zadok.id);
+  if (younger) assert.ok(!view(world, household.id).work[younger.id].some(entry => entry.id === 'child-help'), 'a younger child is offered it too');
   applyAction(world, household.id, { action: 'chore', entityId: zadok.id, chore: 'child-help' });
   for (let t = 0; t < 200 && !household.takenIn; t++) stepWorld(world);
   assert.ok(household.takenIn, 'nobody took the family in');
@@ -190,7 +202,7 @@ test('the oldest child at home may go for help: the neighbours take the family i
 test('left behind: a son in town when the family goes is told where it went, and follows it there', () => {
   const { world, household } = played('hh-1');
   const father = world.entities[household.principalId];
-  const son = person(world, household, one => one.age === 15);
+  const son = person(world, household, one => rolled(world, one) === 15);
   orderedOut(world, household);
   applyAction(world, household.id, { action: 'set-main', entityId: son.id });
   applyAction(world, household.id, { action: 'travel', entityId: son.id, destination: 'gonzales', mode: 'foot' });
@@ -203,7 +215,7 @@ test('left behind: a son in town when the family goes is told where it went, and
 test('the wounded go with the family, in the wagon', () => {
   const { world, household } = played('hh-1');
   const father = world.entities[household.principalId];
-  const hurt = person(world, household, one => one.age === 12);
+  const hurt = person(world, household, one => rolled(world, one) === 12);
   orderedOut(world, household);
   hurt.health = { condition: 'wounded', until: world.minute + 10 * 1440 };
   applyAction(world, household.id, { action: 'flee', entityId: father.id, refuge: 'washington', take: {} });
@@ -279,6 +291,8 @@ test('the dead never speak: a mother who dies of a sickness in the tick is not h
   mother.traits = { ...(mother.traits || {}), strength: 1, health: 2 };
   mother.health = { condition: 'sick', disease: 'measles', recoversAt: world.minute + 7 * 1440, since: world.minute - 3 * 1440, grave: true, graveDay: day - 1, day: day - 1 };
   mother.task = 'work';
+  // Past the minute in which a played family's very sick cannot die (owner, 2026-09-29, C4; sim/decision-budget.mjs `graveHeld`).
+  world.decisionClock = { ...(world.decisionClock || {}), [`grave:${mother.id}`]: { personId: mother.id, spent: 60_000, of: 60_000, limit: 'grave' } };
   world.diseaseDay = day - 1;
   // Round to the next day, so the day's sickness is rolled this tick.
   world.minute = (day + 1) * 1440 - calendarMinutes(world) + 7 * 60;

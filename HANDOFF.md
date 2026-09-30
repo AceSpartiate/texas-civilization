@@ -1,5 +1,93 @@
 # Claude handoff — Astra foundation
 
+## The owner's six answers of 2026-09-29: a minute to nurse, the army's request, no glory for the fork, 0.3 food, birthdays, the burn zone by seed (not released)
+
+**The ask.** The owner answered six of the triage's decisions on 2026-09-29, choosing the recommended option each time
+(docs/audits/2026-09-29-triage.md, each row marked answered and built): **C4** "60 s minimum", **D5** "Supply request", **D6** "Drop
+'forward'", **D7** "0.3 a day", **D11** "Advance with calendar", **D12** "Shuffle by seed". Branch `owner-rules` off origin/main,
+origin/main ca6ac201 merged in; not pushed. Claims `HIST-TEX-960`, `FIC-GONZ-960` to `-965`.
+
+- **C4, a minute to nurse** (`FIC-GONZ-960`; docs/DISEASE.md §11). Somebody very sick in a played family at its screen cannot die of
+  it for **sixty real seconds** from being said very sick (`sim/decision-budget.mjs` `QUESTION_BUDGETS.grave`, `graveOnLimit`,
+  `graveHeld`), on the real-time clock the other questions use (paused with the class, kept in the save, a stepped tick one at
+  Study). Their very sick days wait with the minute (`sicknessDay`), so it comes before the days the rates give; nursing still
+  eases them at once. The row carries `leftMs`; the "!" and the story card count it down (*"About 40s left to nurse them."*). Not
+  held for a family nobody plays or whose student has gone, nor in period 1 (no sickness deaths there); the calendar is never held.
+- **D5, the army's request for supplies** (`sim/supplies.mjs`; `HIST-TEX-960`, `FIC-GONZ-962`; docs/COLONIES.md §6k-a). Word from
+  the committee, no rider of its own: from 9 a.m. **October 26** to every family with nobody in the army, and from 9 a.m. **November
+  26** (Austin's "out of Flour" letter of the 22nd come to the settlements) to every family with somebody at home. One answer for
+  the family, by somebody at home who may answer a call: **6 food**, **2 powder**, **the horse**, or **keep what the family has** -
+  each refused with its reason when the family has not got it. What is sent is gone for good; it earns `supplied` (weight 1) times
+  the miles from Béxar, once an ask. It waits behind a rider talking with the family, unseen and its minutes held, and counts among
+  what waits in his conversation; shown, it is the family's request - story card *"The army asks for supplies"* / *"Choose what to
+  send"*, the "!" on those at home, the card's four answers - on the call's five real minutes, and lapses with nothing sent. A
+  family nobody plays gives half the time. The horse is the game's (no letter read asks a family for one). No other glory weight
+  moved.
+- **D6, no glory for the fork** (`FIC-GONZ-961`). The award at the fork (`sim/camp.mjs`) and the `forward` weight (`sim/glory.mjs`)
+  are gone, so the ending's rule no longer names it; `willing` kept. A save with a `forward` award keeps it ("Counted as N glory").
+- **D7, 0.3 food a day** (`sim/routines.mjs` `WORK_FOOD_A_DAY`, `FIC-GONZ-964`; docs/BALANCE.md §16). See the numbers below.
+- **D11, birthdays** (`sim/ages.mjs`, `FIC-GONZ-965`; docs/FAMILY_CREATION.md, amendment of 2026-09-29). Each tick adds the birthdays
+  that fell since `world.agesMinute`, writing a derived birth date down as `born` first. The stored `age` moves, so everything that
+  reads it follows at once (about 140 places: ten to be sent, sixteen to answer and fight, the step-up at seven, babies at two, the
+  children's works, eating, drawing); the page shows the tick's age over the family book and refetches the book when an age
+  changes. A child's birthday and the ten and sixteen lines go in the journal; a grown person's passes quietly. `sim/family.mjs` is
+  untouched (the starts builder's file).
+- **D12, the burn zone by seed** (`sim/colonies-region.mjs` `burnSides`, `FIC-GONZ-963`; docs/SCRAPE.md §2). Two by two down the
+  join order, which of each two is inside is hashed from the land the seed dealt; the odd one over at the end of the class inside.
+  Every even number of played families is exactly half; the same seed deals the same sides, and no later draw of the seed moves.
+
+**Old saves:** no save version. `world.supplies`, `world.agesMinute` and the `grave:` clock entries are absent on every class saved
+before and read as nothing asked, ages not yet counted (an old save's ages do not jump when opened), and no minute running.
+
+**The balance** (docs/BALANCE.md §16; [evidence/owner-rules-balance.json](docs/evidence/owner-rules-balance.json)). The same 30
+classes (10 each of 5, 15, 30 families) with the old yield put back and as built:
+
+| | one a day | **0.3 a day** |
+| --- | --- | --- |
+| Winner, median: 5 / 15 / 30 | 24,859 / 55,609 / 114,735 | **19,764 / 57,444 / 109,070** |
+| Mean coin at the end | 174.7 / 188.1 / 182.6 | **173.4 / 186.8 / 181.9** |
+| Food at the end of period 1, mean | 23.4 / 20.6 / 22.3 | **22.8 / 21.2 / 22.6** |
+| Families with a day of no food in period 1 | 7 / 37 / 60 of 50 / 150 / 300 | **7 / 34 / 64** |
+| Deaths (500 families) | 60 | 63 |
+
+The measure's families are run by the director, which keeps every hand on a chore (paid by the chore, not by working about the
+place), so for them almost nothing moves. **Flagged: a family whose student gives no orders starves in period 1** - fifteen such
+families in a class, two seeds: **13 and 15 of 15 out of food** (1 and 5 at one a day), the first on about **day 14-16** (day 39-53
+before), all holding about 0 food on December 15 (27-29 before) (`node scripts/idle-food-probe.mjs idle-a`). At home that costs
+little (no hunger deaths at home; a hungry family's sick are weighed twice; the ending counts no food). The army's request in the
+same classes: of 746 asks answered at the director's share, 156 sent food, 80 powder, none the horse; about 6 glory a family.
+
+**Evidence** (same computer only; no Chromebook, LAN or classroom claim):
+
+- `tests/owner-rules.test.mjs` (9 tests), and the rules changed in `tests/camp.test.mjs` (the fork) and
+  `tests/mexican-advance.test.mjs` (the deal, and `burnSides`). **`npm run test:owner-rules-injections`: 28 of 28 caught by the test written for them (22 by that test alone), re-run after the merge**
+  ([record](docs/evidence/owner-rules-injections.json)).
+- Tests changed for the rules, not weakened: `acting` and `watching` find a child by what the test needs, or by the age rolled
+  (`ageNow(world, one, 0)`), since the spring class's people have had birthdays; `acting`'s dying mother is set past her minute;
+  `chores`' harvest compares against the same days unharvested (its crop is cotton: the food rose only by the old yield);
+  `auto-house`, `felling`, `stock` and `biome-game` pick land the new deal still suits (another family, seed, load item or the
+  farthest fence). `scripts/army-browser-proof.mjs` lets the rider go before answering the call (it had fallen behind the one-rider
+  rule on main).
+- `npm test`: **1836 tests, 1799 pass, 1 fail, 36 skipped** (the suspended tutorial); the one, `save-retry`, is the known flake under load and passes on its own.
+- Browser proofs (headless Chrome, at most two at once): `test:story-cards` 4, `test:camp` 9, `test:army` 6, `test:scrape` 7, `test:whole-game` 14, `test:solo-game` 16, `test:children` 16, `test:family-panel` 19, `test:ending` 10 - all green after the merge. **`test:disease` fails at its second step** (it waits for the patient's sick line, 20 s) after its first, the very sick "!", passes and now reads "About 1 min left"; it fails the same way with origin/main's `sim/` and with its `public/app.js`, so it is not this branch's (not chased: the other builders own the page). `test:story-cards` now also draws the very sick card with its
+  minute ("… left to nurse them") and the army's request card.
+
+**Open, for the owner** (built the conservative way; recommended first):
+
+1. *A family whose student gives no orders runs out of food by mid-October* (D7). (a) Leave it: the field, the hunt and the herd
+   are the answer, and the tips already point at farming; (b) a tip when a family's food falls under a week's eating, naming the
+   field, the hunt and fishing; (c) working about the place at 0.3 but a starting store of a month's eating.
+2. *Glory for the supply request is times the miles from Béxar* (5 to 17 a gift) (D5), as carrying food to Gonzales is times the
+   miles from Gonzales. (a) Keep it; (b) times one only, since nobody of the family travelled; (c) raise the support weight later
+   with the owner's D4 plan.
+3. *An odd number of played families in a larger class* is within half a family of half inside the zone (D12). (a) Keep it;
+   (b) family 1 always inside and the rest in shuffled pairs, so every number joined is at least half - but the first to join
+   always burns, which a class that plays twice learns.
+
+**Also:** the owner-rules builder's scratch copy was mistakenly written into another builder's `scratchpad/before/` folder
+(sim/, public/terrain/, scripts/balance-measure.mjs, package.json overwritten with this branch's files); a note
+`OVERWRITTEN-BY-OWNER-RULES.txt` is left there. Re-copy `sim/` before measuring from it.
+
 ## All the rest of the news by express, and the end held for it — owner, 2026-09-29 (not released)
 
 **The ask.** The owner answered the spring-news builder's three questions (2026-09-29): *"Hold the end"*, *"Keep it"*, *"All of

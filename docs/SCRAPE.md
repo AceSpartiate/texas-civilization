@@ -33,10 +33,17 @@ burning follows history, so it is fair and a class can see why.
   early enough that its parties are at a farm by the victory (April 21, 4:30 p.m., `FORAGING_ENDS`). It is worked out from the
   columns' own legs on the map's roads (`burnSamples`, `reachOf`), so the zone the land is dealt by and the burning that follows
   are one rule. Every settlement but Liberty has land on both sides of its edge.
-- **The rule:** family 1 inside, family 2 outside, family 3 inside, and so on. Students join families in that order
-  (`server/app.mjs` `/api/join`: `hh-1`, `hh-2`, …), so however many join, **the played families are half and half**, and an
-  **odd one over is inside**: at least half of every class's farms burn, which is the owner's "ensure that 50%". A solo game
-  (always `hh-1`) is inside.
+- **The rule** (as amended 2026-09-29, below): two by two down the join order - families 1 and 2, 3 and 4, and so on - one of
+  each two inside and one outside, **which one the class's seed says** (`burnSides`). Students join families in that order
+  (`server/app.mjs` `/api/join`: `hh-1`, `hh-2`, …), so however many join, **the played families are half and half** (an even
+  number exactly; an odd number within half a family), and an **odd one over at the end of the class is inside**: at least half
+  of every class's farms burn, which is the owner's "ensure that 50%".
+- **Shuffled by the seed — owner-decided 2026-09-29** (triage D12, the design audit's M16, by multiple choice: *"Shuffle by
+  seed"*; `FIC-GONZ-963`). Until then family 1 was always inside, family 2 outside and so on, so a class that played twice could
+  learn which place to join in (and a solo game, always `hh-1`, always burned). Which of each two is inside is hashed from the land
+  the seed already dealt, so it is the same every time the class is made from its seed and draws nothing from the class's own
+  stream. `ceiling:` an odd number of *played* families in a larger class is within half a family of half; family 1 always inside
+  would make every prefix at least half, and would hand back exactly the place this hides. Old saves keep their land.
 - **Every other land rule holds:** the ring of 2 to 12 miles round the family's own settlement, water within half a mile, level
   ground, league spacing (closing up only as the old deal did), a road reachable without crossing a big river, and **the
   settlements' counts by 1834 population** (`dealCounts`).

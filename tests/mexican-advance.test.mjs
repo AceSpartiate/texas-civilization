@@ -15,7 +15,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { dealCounts } from '../sim/colonies-map.mjs';
-import { LAND_FROM_TOWN } from '../sim/colonies-region.mjs';
+import { LAND_FROM_TOWN, burnSides } from '../sim/colonies-region.mjs';
 import { findPath } from '../sim/geography.mjs';
 import { armiesSeen } from '../sim/armies.mjs';
 import { BURNINGS, COLUMNS, COLUMN_SIGHT_MILES, MAX_MARCH_MPH, MAX_MILES_A_DAY, ORDER_GRACE_MINUTES, SMOKE_SIGHT_MILES, WORD_MILES_A_DAY, burnMinute, clockOf, farmFate, firesNow, firesSeen, headAt, inBurnZone, legsOf, on } from '../sim/advance.mjs';
@@ -131,18 +131,27 @@ test('the towns burn on their dates by the record\'s hand, and no town the recor
   assert.ok(!firesSeen(world, far.id, 'student').some(fire => fire.id === 'harrisburg'), 'a family a long way off was shown Harrisburg\'s smoke');
 });
 
-test('exactly half of every class\'s land is inside the burn zone, family by family as students join, the odd one over inside', () => {
+test('exactly half of every class\'s land is inside the burn zone, two by two as students join, which of each two by the seed, the odd one over inside', () => {
+  // Which of each two families is inside is the seed's (owner, 2026-09-29, triage D12: "Shuffle by seed"; `FIC-GONZ-963`), so
+  // the place a student joins in no longer says whether their farm burns: across these classes family 1 is inside in some and
+  // outside in others.
+  const firstInside = new Set();
   for (const families of [5, 6, 7, 11, 16, 23, 30]) {
     for (const seed of ['a', 'b', 'c']) {
       const world = createGonzalesWorld(`advance-deal-${seed}-${families}`, families, { map: 'colonies' });
       const ids = Object.keys(world.households).sort((a, b) => Number(a.slice(3)) - Number(b.slice(3)));
+      const inside = ids.map(id => inBurnZone(world.map, world.map.sites[world.households[id].homeSiteId]));
+      firstInside.add(inside[0]);
+      // The same seed deals the same sides: a class made again from its seed burns the same farms.
+      const again = createGonzalesWorld(`advance-deal-${seed}-${families}`, families, { map: 'colonies' });
+      assert.deepEqual(ids.map(id => inBurnZone(again.map, again.map.sites[again.households[id].homeSiteId])), inside, `${families} families, seed ${seed}: the same seed dealt other sides`);
       let count = 0;
       ids.forEach((id, index) => {
         const household = world.households[id], home = world.map.sites[household.homeSiteId];
-        assert.equal(inBurnZone(world.map, home), index % 2 === 0, `${families} families, seed ${seed}: ${id} is ${index % 2 === 0 ? 'outside' : 'inside'} the zone`);
-        if (index % 2 === 0) count++;
-        // However many have joined, half their farms are inside and an odd one over is inside too.
-        assert.equal(count, Math.ceil((index + 1) / 2));
+        if (inside[index]) count++;
+        // However many have joined, an even number is exactly half inside; the last of an odd class is inside.
+        if (index % 2 === 1) assert.equal(count, (index + 1) / 2, `${families} families, seed ${seed}: ${count} of the first ${index + 1} inside`);
+        if (index === ids.length - 1 && ids.length % 2) assert.equal(inside[index], true, `${families} families, seed ${seed}: the odd one over is outside`);
         // And the land is still the land's rule: a few miles from its own settlement.
         const town = near(home, world.map.sites[household.settlementId]);
         assert.ok(town >= LAND_FROM_TOWN.nearest - 0.01 && town <= LAND_FROM_TOWN.farthest + 0.01, `${id}'s land is ${town.toFixed(1)} miles from its settlement`);
@@ -153,6 +162,23 @@ test('exactly half of every class\'s land is inside the burn zone, family by fam
       assert.deepEqual(dealt, Object.fromEntries(Object.entries(dealCounts(families)).filter(([, n]) => n)), `${families} families, seed ${seed}: the counts moved`);
     }
   }
+  assert.deepEqual([...firstInside].sort(), [false, true], 'family 1 is on the same side in every class: join order still tells a class whose farm burns');
+});
+
+test('burnSides: one of each two in join order, the odd one over inside, the same for the same key and not the same for every key', () => {
+  const firsts = new Set();
+  for (let n = 0; n < 200; n++) {
+    for (const count of [1, 2, 5, 8, 30]) {
+      const sides = burnSides(count, `key-${n}`);
+      assert.equal(sides.length, count);
+      for (let first = 0; first + 1 < count; first += 2) assert.notEqual(sides[first], sides[first + 1], `pair ${first} of ${count}: both on one side`);
+      if (count % 2) assert.equal(sides[count - 1], true);
+      assert.deepEqual(burnSides(count, `key-${n}`), sides);
+      if (count === 30) firsts.add(sides.map(Number).join(''));
+    }
+  }
+  // Two hundred keys deal many different classes, not two patterns taking turns.
+  assert.ok(firsts.size > 150, `only ${firsts.size} different deals of thirty in two hundred keys`);
 });
 
 test('an old save keeps its land: nothing is dealt again, and its farms burn or stand by where they are', () => {

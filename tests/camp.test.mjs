@@ -15,6 +15,7 @@ import { DRILLED_STEADINESS, DRILL_TO_STEADY, GROCES_FROM, HOUSTON_CAMPS, HOUSTO
 import { CAMP_CHORES, CAMP_QUESTIONS, CAMP_SHARES, SCOUT_HURT, campChoice, campInvalid, campQuestionOpen, campRefusal, scoutHurt } from '../sim/camp.mjs';
 import { CHORES } from '../sim/chores.mjs';
 import { GLORY_WEIGHT } from '../sim/glory.mjs';
+import { gloryRule } from '../sim/ending.mjs';
 import { calendarMinutes, TICK_MINUTES } from '../sim/clock.mjs';
 import { setAbsent } from '../sim/absence.mjs';
 import { whereWords, waitingOn } from '../sim/host.mjs';
@@ -278,10 +279,12 @@ test('the fork of the road, April 16: asked of every man with Houston, closed th
   assert.deepEqual(needsOf(view(world, right.householdId), right.id).map(need => need.kind), ['camp']);
   applyAction(world, right.householdId, { action: 'houston-answer', entityId: right.id, question: 'road', answer: 'yes' });
   applyAction(world, left.householdId, { action: 'houston-answer', entityId: left.id, question: 'road', answer: 'no' });
-  const forward = world.glory[right.householdId].awards[`which-road:${right.id}`];
-  assert.ok(forward, 'calling for the right-hand road earned nothing');
-  assert.equal(forward.role, 'forward'); assert.equal(GLORY_WEIGHT.forward, 2);
-  assert.equal(world.glory[left.householdId]?.awards?.[`which-road:${left.id}`], undefined, 'the left-hand road earned a part');
+  // Neither answer earns glory (owner, 2026-09-29, triage D6: "Drop 'forward'"; `FIC-GONZ-961`): the answer is the man's part in
+  // the record and nothing more, and the ending's rule no longer names it.
+  assert.ok(world.events.some(event => event.actorId === right.id && event.decision === 'camp-road-yes'), 'calling for the right-hand road is not in the record');
+  for (const one of [right, left]) assert.equal(world.glory?.[one.householdId]?.awards?.[`which-road:${one.id}`], undefined, `${one.name}'s answer at the fork earned glory`);
+  assert.equal(GLORY_WEIGHT.forward, undefined, 'the fork still has a glory weight');
+  assert.doesNotMatch(gloryRule(), /enemy's road/, 'the ending still teaches the fork\'s answer');
   for (const one of [right, left]) assert.equal(one.service.status, 'serving', 'the fork sent somebody home');
   untilMoment(world, 'which-road-close');
   assert.notEqual(silent.service.road, 'open');

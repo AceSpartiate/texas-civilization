@@ -1042,3 +1042,65 @@ is still §14's 210 classes; ten classes a size is a look at the direction, and 
 node scripts/balance-measure.mjs --sizes 5,15,30 --classes 10,10,10 --workers 10 --out <file>   # this look, about 30 minutes
 ```
 The old pace is `WORK_PACE = 1` in `sim/work-pace.mjs`, nothing else.
+
+## 16. Working about the place yields 0.3 food a day, and the army's request for supplies (2026-09-29, not released)
+
+The owner, 2026-09-29, by multiple choice on the triage's D7: **"0.3 a day"** - *working about the place yields 0.3 food a day, so
+the field, the hunt and the herd feed the family* (`sim/routines.mjs` `WORK_FOOD_A_DAY`, `FIC-GONZ-964`; it was one). Built on
+`owner-rules` beside the same day's other answers (C4, D5, D6, D11, D12). `scripts/balance-measure.mjs` now records each family's
+food by period - the least it held, the days it had none, what it ended with - and what it sent the army (D5).
+
+### 16.1 The measure: the same 30 classes, the old yield and the new
+
+Ten classes each of five, fifteen and thirty families (`--sizes 5,15,30 --classes 10,10,10`), run on this tree twice: once with
+`WORK_FOOD_A_DAY = 1` put back (a copy of `sim/`, nothing else changed) and once as built. **Not re-recorded**:
+[evidence/balance-measure.json](evidence/balance-measure.json) is still §14's 210 classes; the two looks are summed in
+[evidence/owner-rules-balance.json](evidence/owner-rules-balance.json).
+
+| | one a day | **0.3 a day** |
+| --- | --- | --- |
+| Class winner, median: five / fifteen / thirty | 24,859 / 55,609 / 114,735 | **19,764 / 57,444 / 109,070** |
+| Median final of every family: five / fifteen / thirty | 1,669 / 3,041 / 2,933 | **1,637 / 2,921 / 2,994** |
+| Mean coin at the end: five / fifteen / thirty | 174.7 / 188.1 / 182.6 | **173.4 / 186.8 / 181.9** |
+| Food at the end of period 1, mean: five / fifteen / thirty | 23.4 / 20.6 / 22.3 | **22.8 / 21.2 / 22.6** |
+| Families with a day of no food in period 1 (of 50 / 150 / 300) | 7 / 37 / 60 | **7 / 34 / 64** |
+| … and in period 3, the road east | 23 / 66 / 158 | **21 / 65 / 154** |
+| Deaths (500 families) | 60 | 63 |
+
+- **For a family the director runs, almost nothing moves**, and that is the finding: the director keeps every hand on a chore - the
+  field, the hunt, the house, a forage when short (sim/neighbours.mjs) - and somebody on a chore is paid by the chore, not by working
+  about the place (`FIC-GONZ-313`). So the measure's families were already fed by the field, the hunt and the herd; coin and the
+  finals move within the noise of ten classes a size.
+
+### 16.2 Flagged: a family whose student gives no orders runs out of food in period 1
+
+The families above are all played by a policy. A family whose student sets nobody to anything keeps its grown people on what they
+were founded to - **working about the place** - and its children resting; that is where the yield bites. Measured on its own
+(fifteen such families in a class on the real land, period 1 to December 15, two seeds; the probe is
+`scripts/idle-food-probe.mjs idle-a`, and `idle-b`; recorded in the evidence file):
+
+| | one a day | **0.3 a day** |
+| --- | --- | --- |
+| Families with no food at some point in period 1 (seed a / seed b) | 1 / 5 of 15 | **13 / 15 of 15** |
+| The day of the class the first of them ran out (median) | day 53 (a), 39 (b) | **day 16 (a), 14 (b)** |
+| Food held on December 15, mean | 29.0 / 26.8 | **0.1 / 0** |
+
+**So a student who never plants, hunts or forages - who leaves the family "working about the place" - is out of food by the middle
+of October, and for most of period 1.** What that does at home is little: nobody dies of hunger at home, a hungry family's sick are
+weighed twice (`homeContext`), and the ending counts no food. The owner's option says the field, the hunt and the herd should feed
+the family; this is what happens when none of them is used. Questions for the owner, in HANDOFF.md.
+
+### 16.3 The army's request for supplies (D5)
+
+In the same 30 classes (as built): of 746 asks put to the measure's families (all answered at the director's share - every
+measured family is absent during a tick, so the director gives for it half the time), **156 sent food, 80 powder, none the horse**
+(the director never sends one), 510 kept. `supplied` from the siege averaged **about 6 glory a family** (the support weight times
+the miles from Béxar, 5 to 17). A family that sent nobody won one class of five, as before; no class of
+fifteen or thirty was won by one.
+
+### 16.4 Re-running it
+
+```
+node scripts/balance-measure.mjs --sizes 5,15,30 --classes 10,10,10 --workers 6 --out <file>   # about 40 minutes beside other work
+```
+The old yield is `WORK_FOOD_A_DAY = 1` in `sim/routines.mjs`, nothing else.

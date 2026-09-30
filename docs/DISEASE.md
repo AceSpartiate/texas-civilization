@@ -854,3 +854,31 @@ and lets go a child talking with them; nobody very sick or wounded is brought to
 very sick person's "!" opens their card at **who can nurse them** - one button for each of the family who could, sending them to
 `nurse-home` (or `tend-sick` on the road) - instead of their own work, all refused (docs/FAMILY_PANEL.md §19). Somebody on a road
 goes on to where they were going; the road east carries its sick in the wagon.
+
+## 11. Amendment, 2026-09-29 — a minute to nurse the very sick (owner-decided; not released)
+
+**The ask.** Triage 2.1 (the design audit's S21): *a very sick child can die within 10–20 real seconds in period 2* - a day of the
+calendar passes that fast there, and death can follow the day after the child is said to be very sick. The owner chose, by multiple
+choice on the triage's C4, **"60 s minimum"**: *"cannot die within about 60 real seconds, and the time is shown on the '!'"*
+(`FIC-GONZ-960`). Option B, holding the calendar, was not chosen.
+
+**As built.**
+
+- Somebody very sick in a **played family at its screen** cannot die of it until **sixty real seconds** have passed since they were
+  said to be very sick (`sim/decision-budget.mjs` `QUESTION_BUDGETS.grave`, `graveOnLimit`, `graveHeld`). The seconds are the other
+  questions' real ones (docs/audits/2026-09-29-triage.md C2): suspended while the Host has paused, kept in the save
+  (`world.decisionClock`), the first tick after Resume counting nothing, and a tick stepped in process counting one at the Study pace.
+- **The very sick days wait with the minute** (`sicknessDay`): on a day's roll inside it nobody dies, and the day very sick is counted
+  again from that day, so when the minute is out the person has the two days very sick the rates give (§3.6), each with its chance,
+  and then eases - the minute comes in front of the days, not out of them. Where a day of the calendar is longer than a real minute
+  nothing changes; it matters where the days run fast.
+- **Nursing still works at once**: nursed and resting, they are past the worst on the day's roll, minute or no minute.
+- **Shown**: the row's sickness carries `leftMs` while the minute runs, and the "!" (`needsOf`, kind `sick`) and the story card
+  count it down on the page's clock - *"About 40s left to nurse them."* Once it is out, no countdown is shown; the risk is the
+  ordinary one.
+- **Not held**: for a family nobody plays or whose student has gone (no reader to give a minute to), and in the first period, where
+  nobody dies of a sickness at all (`deathsAllowed`). The calendar is never held for it.
+
+Tested in `tests/owner-rules.test.mjs` (the same day's roll that kills a child nobody plays kills nobody inside the minute; the
+days wait; after the minute the chance applies; the clock starts, is shown on the "!" and the card, runs out, and is held for
+nobody at no screen), each seen failing by injection (`npm run test:owner-rules-injections`).

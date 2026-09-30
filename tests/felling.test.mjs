@@ -77,7 +77,7 @@ test('the family is told what stands to fell, and cannot fell off its land, with
 });
 
 test('the trees come down one at a time, wall timber first, each a stump with its logs on the pile, until none is left in reach', () => {
-  const { world, household, bounds } = onTheLand('fell-down-2');
+  const { world, household, bounds } = onTheLand('fell-down-3'); // -3: the burn zone's deal by the seed (owner, 2026-09-29, D12) left -2's first family no small stand
   const { point } = timberOn(world, household, bounds).find(entry => entry.facts.trees >= 2 && entry.facts.trees <= 6);
   const before = standingTrees(world, point);
   const axe = world.entities[household.principalId];

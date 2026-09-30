@@ -99,7 +99,10 @@ try {
     { kind: 'road', left: true, set: `w.flight = { status: 'fled', ask: { id: 'bog', openedMinute: w.minute, text: 'The wagon is bogged to the axles at the creek. Dig it out, or leave it?', leftMs: 90000, fallback: ['wait'], options: [{ id: 'dig', label: 'Unload and dig it out', note: 'Hours of work.' }, { id: 'wait', label: 'Wait for the ground to dry', note: 'Nothing spent.' }, { id: 'abandon', label: 'Leave the wagon and go on on foot', note: 'The wagon stays in the mud.' }] } };` },
     { kind: 'flight', left: true, set: `w.flight = ${JSON.stringify(orderedFlight())};` },
     { kind: 'call', left: true, set: `w.request = { id: 'call-proof', kind: 'call', status: 'open', text: 'Gonzales asks every man who can bear arms to turn out.', answerers: { [P]: [{ id: 'turn-out', label: 'Turn out' }] }, options: [{ id: 'turn-out', label: 'Turn out' }], leftMs: 90000 };` },
-    { kind: 'sick', left: false, set: `person.sickness = { grave: true, line: 'very sick with the measles: nurse them, keep them warm.' };` },
+    // Very sick, with the minute in which they cannot die counted down (owner, 2026-09-29, C4: "60 s minimum").
+    { kind: 'sick', left: 'nurse', set: `person.sickness = { grave: true, leftMs: 45000, line: 'very sick with the measles: nurse them, keep them warm.' };` },
+    // What the army before Béxar asks of the family (owner, 2026-09-29, D5: "Supply request"; sim/supplies.mjs).
+    { name: 'supply', kind: 'call', left: true, eyebrow: 'Asked of the family', title: 'The army asks for supplies', button: 'Choose what to send', set: `w.request = { id: 'supply-proof', kind: 'supply', status: 'open', text: 'Word has come from the army before Béxar, sent on by the committee: the camp is out of flour and the corn is gone. What can your family send?', answerers: { [P]: [{ id: 'supply-food', label: 'Send 6 food', note: '', can: true }, { id: 'supply-powder', label: 'Send 2 powder', note: '', can: true }, { id: 'supply-horse', label: 'Send the horse', note: '', can: false, why: 'The family has no horse at home that is free to go.' }, { id: 'supply-none', label: 'Keep what the family has', note: '', can: true }] }, options: [{ id: 'supply-food', label: 'Send 6 food', note: '', can: true }], leftMs: 300000 };` },
     { kind: 'rider', left: false, set: `w.encounter = { id: 'enc-proof', status: 'open', listenerId: P, carrierName: 'Silas Roe' };` },
     { kind: 'courier', left: false, set: `person.service = { status: 'serving', besieged: true, courier: 'open' };` },
     { kind: 'orders', left: false, set: `person.service = { status: 'serving', road: 'open' };` },
@@ -127,15 +130,17 @@ try {
         title: document.querySelector('#military-title').textContent, button: document.querySelector('#military-go').textContent, left: document.querySelector('#military-left').hidden ? null : document.querySelector('#military-left').textContent,
         icon: document.querySelector('#military-icon').dataset.drawn || '', open: !document.querySelector('#military-message').hidden };
     });
-    observed.cards[one.kind] = seen;
+    observed.cards[one.name || one.kind] = seen;
     assert.equal(seen.hidden, false, `${one.kind}: no card`);
     assert.equal(seen.open, true, `${one.kind}: the card came up folded`);
     assert.equal(seen.accent, one.kind, `${one.kind}: the card is in the ${seen.accent} accent`);
     assert.equal(seen.glow, one.kind === 'account' ? 'none' : 'card-glow', `${one.kind}: the card's glow is ${seen.glow}`);
-    assert.equal(seen.eyebrow, EYEBROWS[one.kind], `${one.kind}: the card's eyebrow says "${seen.eyebrow}"`);
+    assert.equal(seen.eyebrow, one.eyebrow ?? EYEBROWS[one.kind], `${one.kind}: the card's eyebrow says "${seen.eyebrow}"`);
+    if (one.title) assert.equal(seen.title, one.title, `${one.name}: the card is headed "${seen.title}"`);
+    if (one.button) assert.equal(seen.button, one.button, `${one.name}: the card's button says "${seen.button}"`);
     assert.ok(seen.icon.endsWith(':1'), `${one.kind}: no icon drawn`);
-    if (one.left) assert.match(seen.left || '', /^About .+ left to answer\.$/, `${one.kind}: no time left on the card`);
-    const path = `docs/evidence/story-card-${one.kind}.png`;
+    if (one.left) assert.match(seen.left || '', one.left === 'nurse' ? /^About .+ left to nurse them\.$/ : /^About .+ left to answer\.$/, `${one.kind}: no time left on the card ("${seen.left}")`);
+    const path = `docs/evidence/story-card-${one.name || one.kind}.png`;
     await page.screenshot({ path }); shots.push(path);
   }
   const edges = new Set(Object.values(observed.cards).map(card => card.edge));
