@@ -151,7 +151,10 @@ C keep PNG), and the owner chose the recommended **A: every atlas, Astra's and C
   the worst frame), 2.1% of `people-cast2-idle`, and **35.8%** of `people-walk` (a whole frame's parts in the worst case): lossy
   WebP keeps colour at half resolution, which moves exactly the edges the region growing follows (`STEP` 22). Everything else -
   land, towns, buildings, animals, wagons, soldiers, effects, the creation screen's two landscapes - is quality 90 (method 5,
-  alpha lossless).
+  alpha lossless). The rule follows the palette, not a list: when the family-starts work (merged 2026-09-30) began dyeing the
+  children's hair and skin, the next build found 11 sheets it had made lossy that now held recoloured children (`people-children-*`,
+  Claude's children's play, chores, riding and held-baby sheets), called them *must be lossless*, and made them again - 72 lossless
+  sheets became 83.
 - **Served only while current.** The page asks for `/assets/webp/<sheet>.webp?v=<the PNG's hash>` (`public/art.js`; manifests
   and every frame's rectangle unchanged, the retry after a failed sheet unchanged) and `url(assets/webp/…)` for the landscapes
   (`public/style.css`). `pictureFor` (`server/delivery.mjs`) sends the WebP while the record says it was made from the PNG now on
@@ -164,31 +167,33 @@ C keep PNG), and the owner chose the recommended **A: every atlas, Astra's and C
   update after this carries every WebP, about 100 MB.
 
 **Before and after** (`node scripts/perf-load-measure.mjs`, the same Play Solo game on seed `perf-load-1`, CPU throttled 6x,
-one run each unless said; [before](evidence/perf-load-webp-before.json), [after](evidence/perf-load-webp-after.json),
-[a second solo run after](evidence/perf-load-webp-after-solo2.json)):
+[before](evidence/perf-load-webp-before.json), and three runs after: [the first](evidence/perf-load-webp-after.json),
+[a second solo run](evidence/perf-load-webp-after-solo2.json), and [one on the tree merged with origin/main 8687a96b, 83 sheets
+lossless](evidence/perf-load-webp-after-merged.json)):
 
 | | before (PNG) | after (WebP) |
 |---|---|---|
-| The whole art set: 336 pictures | 318.4 MB | **101.1 MB** (-68%) |
-| of which the 72 recoloured sheets, lossless | 53.2 MB | 37.0 MB (-30%) |
-| of which the 264 others, quality 90 | 265.2 MB | 64.1 MB (-76%) |
+| The whole art set: 336 pictures | 318.4 MB | **105.4 MB** (-67%) |
+| of which the 83 recoloured sheets, lossless | 64.0 MB | 44.3 MB (-31%) |
+| of which the 253 others, quality 90 | 254.4 MB | 61.0 MB (-76%) |
 | The creation screen's two landscapes | 6.7 MB | 1.36 MB |
 | A cold first view, bytes on the wire (both profiles) | 34.9 MB | **12.0 MB** |
 | of which its 21 pictures | 33.3 MB | 10.4 MB (-69%) |
 | The same for thirty Chromebooks opening at once | about 1,050 MB | **about 360 MB** |
 | A reload (pinned, nothing asked) | 0.21 MB, no art | 0.21 MB, no art |
-| Classroom profile cold: map first drawn / last picture arrived | 4.2 s / 16.0 s | 3.4 s / **7.5 s** |
-| Solo profile cold: map first drawn / last picture arrived | 2.0 s / 3.0 s | 3.9 s / 6.6 s; again 3.7 s / 5.1 s |
-| Pictures decoded (other threads, cold solo) | 0.2 s | 1.9 s; again 0.6 s |
-| The package: update zip / NeedsNode zip / installed art | 352 / 319 / ~320 MB (v2026.09.29.3) | **149 / 116 / 106 MB** |
+| Classroom profile cold: map first drawn / last picture arrived | 4.2 s / 16.0 s | 3.4 s / **7.5 s**; merged 2.0 s / **5.9 s** |
+| Solo profile cold: map first drawn / last picture arrived | 2.0 s / 3.0 s | 3.9 s / 6.6 s; 3.7 s / 5.1 s; merged 1.4 s / 2.0 s |
+| Pictures decoded (other threads, cold solo) | 0.2 s | 1.9 s; 0.6 s; merged 0.5 s |
+| The package: update zip / NeedsNode zip / art installed | 352 / 319 / ~320 MB (v2026.09.29.3) | **153 / 120 / ~110 MB** |
 
 The art on disk has grown since the 15.6 MB cold view measured above (more sheets in the first view, 21 not 13), which is why
-"before" is larger than that figure. **What it costs:** WebP takes more work to decode than PNG. Over the classroom's Wi-Fi the
-bytes dominate and the last picture comes in half the time; in Play Solo, where the page and the server share the laptop and
-the bytes cost nothing, the first view drew about 1.7-1.9 s later in the two runs after, with more decoding on the other
-threads. Timings here move 10-20% between runs and the decode figure moved threefold, so this is a flag, not a measurement of
-the gap. `ceiling:` if Play Solo's first view on the school laptop is found slow, the lossy sheets at quality 80 or the
-first-view sheets as PNG on loopback are the ways out. Same computer, throttled headless Chrome: not a Chromebook.
+"before" is larger than that figure. **The bytes are certain; the timings are not.** This computer was shared with several
+other builders' proofs while these ran, and the three runs after disagree with each other more than with the one before: the
+solo first view drew 1.9 s later, 1.7 s later, then 0.6 s *sooner*, and the decoding on the other threads took 0.5-1.9 s against
+0.2 s. WebP does take more work to decode than PNG; how much that costs on a Chromebook, against the bytes it saves, is not
+measured here. Over the classroom's Wi-Fi the bytes dominate: the last picture came in at 7.5 s and 5.9 s against 16.0 s.
+`ceiling:` if Play Solo's first view on the school laptop is found slower, the lossy sheets at quality 80 or the first-view sheets
+as PNG on loopback are the ways out. Same computer, throttled headless Chrome: not a Chromebook.
 
 **Tests.** `tests/webp.test.mjs` (the lossless rule over both real libraries and the landscapes; the server's choice of WebP or
 PNG when never made, current, made from an older PNG, in a package with no PNG, and with bytes not the ones recorded; a PNG sent

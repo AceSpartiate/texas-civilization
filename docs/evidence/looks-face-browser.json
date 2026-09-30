@@ -15,8 +15,8 @@
     "teal (female: pinned hair): no hair dye off the hair (0.00% standing, 0.02% at worst walking) and the face takes the skin (0.00% left)",
     "indigo (female: braid, female: loose hair, female: straw hat): no hair dye off the hair (0.00% standing, 0.00% at worst walking) and the face takes the skin (0.00% left)",
     "girl (a child): takes the family's tone on the face (0.00% left) and the hair choice only on the hair (0.03% standing, 0.01% at worst walking)",
-    "boy (a child): takes the family's tone on the face (0.22% left) and the hair choice only on the hair (0.10% standing, 0.15% at worst walking)",
-    "smallchild (a child): takes the family's tone on the face (0.00% left) and the hair choice only on the hair (0.00% standing, 0.00% at worst walking)",
+    "boy (a child): takes the family's tone on the face (0.22% left) and the hair choice only on the hair (0.10% standing, 0.18% at worst walking)",
+    "smallchild (a child): takes the family's tone on the face (0.00% left) and the hair choice only on the hair (0.00% standing, 0.03% at worst walking)",
     "at 1366x768 both parents' pop-ups draw the preview, the figure and every swatch (How Ezra looks; How Rhoda looks)",
     "at 1280x800 both parents' pop-ups draw the preview, the figure and every swatch (How Asa looks; How Serafina looks)",
     "at 1024x600 both parents' pop-ups draw the preview, the figure and every swatch (How Caleb looks; How Patience looks)",
@@ -137,39 +137,39 @@
       },
       "girl": {
         "child": true,
-        "head": 9205,
+        "head": 9060,
         "stray": 3,
-        "face": 3058,
+        "face": 3054,
         "undyed": 0,
         "strayAt": [
           [
             55,
             49,
-            141,
+            140,
             81,
-            41
+            40
           ],
           [
             56,
             49,
-            140,
+            139,
             80,
-            39
+            38
           ],
           [
             55,
             50,
-            139,
+            138,
             78,
-            40
+            39
           ]
         ]
       },
       "boy": {
         "child": true,
-        "head": 11486,
+        "head": 11448,
         "stray": 11,
-        "face": 2272,
+        "face": 2289,
         "undyed": 5,
         "strayAt": [
           [
@@ -190,37 +190,37 @@
             53,
             33,
             241,
-            189,
+            188,
             117
           ],
           [
             114,
             36,
             242,
-            182,
+            181,
             103
           ],
           [
             52,
             77,
             238,
-            181,
-            137
+            180,
+            136
           ],
           [
             53,
             78,
             237,
-            178,
-            133
+            177,
+            132
           ]
         ]
       },
       "smallchild": {
         "child": true,
-        "head": 9428,
+        "head": 9333,
         "stray": 0,
-        "face": 2491,
+        "face": 2481,
         "undyed": 0,
         "strayAt": []
       }
@@ -233,8 +233,8 @@
       "teal": 0.02,
       "indigo": 0,
       "girl": 0.01,
-      "boy": 0.15,
-      "smallchild": 0
+      "boy": 0.18,
+      "smallchild": 0.03
     },
     "screens": [
       {

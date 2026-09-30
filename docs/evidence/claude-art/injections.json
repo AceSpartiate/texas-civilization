@@ -6,8 +6,7 @@
       "guards": "every Claude frame and clip has its provenance",
       "injected": "rust-chop-3 loses its written intent (the prompt) in the provenance record",
       "failed": [
-        "every Claude frame and clip has its provenance: made by Claude, the date, the written intent, the source, temporary",
-        "docs/CLAUDE_ART_PLAN.md and the \"What Astra still needs to make\" section are what the plan writes now"
+        "every Claude frame and clip has its provenance: made by Claude, the date, the written intent, the source, temporary"
       ]
     },
     {
