@@ -1,0 +1,200 @@
+{
+  "record": "webp-tips-touch-injections",
+  "date": "2026-09-30",
+  "files": [
+    "tests/webp.test.mjs",
+    "tests/delivery.test.mjs",
+    "tests/creation.test.mjs",
+    "tests/tips-touch.test.mjs",
+    "tests/tips.test.mjs",
+    "tests/family-panel.test.mjs",
+    "tests/asset-http.test.mjs"
+  ],
+  "caught": 18,
+  "of": 18,
+  "injections": [
+    {
+      "name": "every sheet quality 90, the recoloured people too",
+      "file": "scripts/build-webp.mjs",
+      "expected": "every sheet with a person the page recolours is lossless",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "every sheet with a person the page recolours is lossless, and everything else is quality 90"
+      ]
+    },
+    {
+      "name": "the creation screen's landscapes are not made",
+      "file": "scripts/build-webp.mjs",
+      "expected": "every sheet with a person the page recolours is lossless",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "every sheet with a person the page recolours is lossless, and everything else is quality 90"
+      ]
+    },
+    {
+      "name": "a WebP is sent whatever PNG it was made from",
+      "file": "server/delivery.mjs",
+      "expected": "the server sends the WebP only while it was made from the PNG",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the server sends the WebP only while it was made from the PNG beside it, and the PNG otherwise"
+      ]
+    },
+    {
+      "name": "a package with no PNG answers the PNG's URL with nothing",
+      "file": "server/delivery.mjs",
+      "expected": "the server sends the WebP only while it was made from the PNG",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the server sends the WebP only while it was made from the PNG beside it, and the PNG otherwise"
+      ]
+    },
+    {
+      "name": "a tree with no WebP made shows no art",
+      "file": "server/delivery.mjs",
+      "expected": "the server sends the WebP only while it was made from the PNG",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the server sends the WebP only while it was made from the PNG beside it, and the PNG otherwise",
+        "a WebP never made is answered with its PNG over HTTP, as a PNG, and revalidated"
+      ]
+    },
+    {
+      "name": "a PNG sent for a WebP is kept by the browser for good",
+      "file": "server/delivery.mjs",
+      "expected": "the server sends the WebP only while it was made from the PNG",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the server sends the WebP only while it was made from the PNG beside it, and the PNG otherwise",
+        "a WebP never made is answered with its PNG over HTTP, as a PNG, and revalidated"
+      ]
+    },
+    {
+      "name": "the page asks for the PNG again",
+      "file": "public/art.js",
+      "expected": "the page asks for each sheet by the hash its manifest records",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the page asks for each sheet by the hash its manifest records, and decodes it off the main thread"
+      ]
+    },
+    {
+      "name": "the title screen's landscape is the PNG again",
+      "file": "public/style.css",
+      "expected": "every sheet with a person the page recolours is lossless",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "the title screen names the game, the curtain covers the map, and the map is not drawn behind it",
+        "every sheet with a person the page recolours is lossless, and everything else is quality 90"
+      ]
+    },
+    {
+      "name": "the tips list is in the order they were seen, oldest first",
+      "file": "public/tips.js",
+      "expected": "the Tips list holds every tip put away",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Tips list holds every tip put away, latest first, in its words, and never the suspended guided start"
+      ]
+    },
+    {
+      "name": "the tips list offers \"Resume tutorial\" again",
+      "file": "public/tips.js",
+      "expected": "the Tips list holds every tip put away",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Tips list holds every tip put away, latest first, in its words, and never the suspended guided start"
+      ]
+    },
+    {
+      "name": "opening the tips list marks a tip seen on the server",
+      "file": "public/app.js",
+      "expected": "the Tips list gates nothing",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Tips list gates nothing: its only control closes it, it sends nothing, and it is never the Host's"
+      ]
+    },
+    {
+      "name": "the Host is given the Tips button",
+      "file": "public/app.js",
+      "expected": "the Tips list gates nothing",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the Tips list gates nothing: its only control closes it, it sends nothing, and it is never the Host's"
+      ]
+    },
+    {
+      "name": "a tap sends at once, as a mouse press does",
+      "file": "public/family-panel.js",
+      "expected": "on a touch screen the first tap on an icon",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "on a touch screen the first tap on an icon shows its cost and Send, and only the second tap or Send sends"
+      ]
+    },
+    {
+      "name": "a second tap arms again and never sends",
+      "file": "public/family-panel.js",
+      "expected": "on a touch screen the first tap on an icon",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "on a touch screen the first tap on an icon shows its cost and Send, and only the second tap or Send sends"
+      ]
+    },
+    {
+      "name": "a refused icon armed by a tap",
+      "file": "public/family-panel.js",
+      "expected": "on a touch screen the first tap on an icon",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "on a touch screen the first tap on an icon shows its cost and Send, and only the second tap or Send sends"
+      ]
+    },
+    {
+      "name": "the page never asks whether a press was a tap",
+      "file": "public/app.js",
+      "expected": "the page asks iconPress for every press on an icon",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the page asks iconPress for every press on an icon, a tap is told by its pointer, and Send presses the armed icon"
+      ]
+    },
+    {
+      "name": "the armed popup goes when the finger lifts",
+      "file": "public/app.js",
+      "expected": "the page asks iconPress for every press on an icon",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the page asks iconPress for every press on an icon, a tap is told by its pointer, and Send presses the armed icon"
+      ]
+    },
+    {
+      "name": "a keyboard press is taken for a tap",
+      "file": "public/app.js",
+      "expected": "the page asks iconPress for every press on an icon",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "the page asks iconPress for every press on an icon, a tap is told by its pointer, and Send presses the armed icon"
+      ]
+    }
+  ]
+}
