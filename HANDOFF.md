@@ -1,6 +1,10 @@
 # Claude handoff — Astra foundation
 
-## A rider leaves in time for the question behind him — owner, 2026-09-29 (not released)
+## Released as v2026.09.29.3 — 2026-09-29
+
+The rider who leaves in time for the question behind him (owner, "Rider leaves at dawn"), marked *(released in v2026.09.29.3)* below, and `test:family-commands` putting the rider’s card away only if it can. Verified on a clean tree at 9152f743: `npm test` 1798 tests, 1762 pass, 0 fail, 36 skipped; `test:one-rider`, `test:battle-gonzales`, `test:relay`, `test:slice`, `test:tips`, `test:solo-game`, `test:ending`, `test:whole-game` green; `test:information` green on one of two solo reruns (its known one-tick race with the courier at the gate); `test:family-commands` green twice after the fix at d9a8ac1f. Tagged at d9a8ac1f. Same computer only; no Chromebook or LAN claim.
+
+## A rider leaves in time for the question behind him — owner, 2026-09-29 (released in v2026.09.29.3)
 
 **The ask.** A question a rider brings waits behind him until the student hears him out, up to his 90 real seconds. At Quick (a
 second a tick) a rumor arriving late in the Gonzales run-up (after about minute 3,900) waited past the fight's dawn, which closes
