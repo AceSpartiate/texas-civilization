@@ -80,6 +80,8 @@ other builders' HUD field boxes should read `world.land.crops` / per-plot `crop`
 
 **At the merge with the Scrape's choices (2026-09-30):** leaving early (sim/scrape.mjs `loseCrop`) now loses every plot standing, each its own crop, and names a mixed field "corn and cotton" on the card, in the journal and at the ending (`standingCrop`). Before this, the merged tree left each plot's own crop behind on a bare field, which `validateWorld` refused ("Invalid plot crop") in the leave-early test. New test in tests/owner-scrape.test.mjs, seen failing against the old `loseCrop`.
 
+**The owner's answers on the four follow-ups (2026-09-30, by multiple choice):** one crop per planting, as built (*"Keep it simple"*); *Bring in the crop* takes every ripe plot (*"All ripe plots"*); the director's corn rule stays one corn plot at two or more plots or when short of food (*"Keep current rule"*); and §18's quick look is not re-run at 210 classes once starvation lands (*"Leave it"*). No code change.
+
 ## The owner's answers on the family's start: the priest from La Bahía, a rancho near Béxar, Seguín's men in the Alamo, the carreta — 2026-09-30 (not released)
 
 **The ask.** The owner answered the six questions of the family's start (docs/FAMILY_CREATION.md, the amendment of 2026-09-29/30):
