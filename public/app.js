@@ -5636,12 +5636,18 @@ function panelMark(tag, text, className, mark) {
   paintMark(node, mark);
   return node;
 }
-/** The sick badge: `mark-sick` where it can be drawn (then it is its own round token, `data-drawn`), else the nursing picture. */
+/**
+ * The sick badge: `mark-sick` where it can be drawn (then it is its own round token, `data-drawn`), else the nursing picture -
+ * which is what a page shows while Astra's art wins over Claude's `mark-sick` (public/art-subjects.js, "the sick mark": her
+ * `icon-tend-sick` in the cream disc). `data-picture` says which was drawn: `mark-sick`, `icon-tend-sick`, or the glyph before
+ * any sheet has come.
+ */
 function paintSickMark(node) {
   const canvas = node.querySelector('canvas');
   const drawn = drawMark(canvas, 'mark-sick', { drawSprite, spriteFrame });
   if (!drawn) drawIcon(canvas, 'tend-sick', { drawSprite, spriteFrame });
   setData(node, 'drawn', String(drawn));
+  setData(node, 'picture', drawn ? 'mark-sick' : spriteFrame('icon-tend-sick') ? 'icon-tend-sick' : 'glyph');
 }
 function paintMark(node, mark) {
   node.dataset.mark = mark;

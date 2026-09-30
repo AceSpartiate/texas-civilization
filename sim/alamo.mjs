@@ -393,8 +393,12 @@ export function tellSouth(world, fight, only = null) {
     const service = person.service;
     // Given `only`, the families the rumour has reached (sim/expresses.mjs `hearExpresses`, docs/COLONIES.md §5.4d).
     if (!person.householdId || (only && !only.has(person.householdId))) continue;
-    if (service?.kind === 'fannin' && service.escapedFrom === fight && !service.told) {
-      service.told = true;
+    // A man who got away is now Fannin's: his escape is told once (`escapeTold`), and `told` is left for what becomes of him at
+    // Goliad (sim/houston.mjs `tellGoliad`), which it used to shut out - the account named him shot, and his row stayed alive.
+    // A class saved before 2026-09-30 kept his escape in `told` (`goliadTold` reads it so), and is not told it twice.
+    if (service?.kind === 'fannin' && service.escapedFrom === fight) {
+      if (service.escapeTold || service.told) continue;
+      service.escapeTold = true;
       tell(world, person, `${person.name} got away when the Mexican cavalry struck at ${place}, and has gone to Fannin at Goliad.`, { claimId: 'HIST-TEX-059' });
       continue;
     }

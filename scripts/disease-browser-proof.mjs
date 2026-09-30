@@ -23,7 +23,7 @@
 // Same computer only: headless Chrome. Run: npm run test:disease
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { createClassroom } from '../server/app.mjs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { rollFamily, stepWorld } from '../sim/world.mjs';
@@ -31,6 +31,7 @@ import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { flee, flightProjection } from '../sim/scrape.mjs';
 import { fallSick } from '../sim/disease.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { namePrefixes, standinWithheld } from '../public/art-subjects.js';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -85,7 +86,14 @@ assert.equal(app.state.world.period, 3, 'the class did not reach the spring');
 const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const rowLine = (page, id) => page.evaluate(id => { const line = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-sick-line`); return line && !line.hidden ? { text: line.textContent, grave: line.dataset.grave === 'true' } : null; }, id);
-const badge = (page, id) => page.evaluate(id => { const mark = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-sick-mark`); if (!mark || mark.hidden) return null; const box = mark.getBoundingClientRect(); return { w: Math.round(box.width), h: Math.round(box.height), drawn: mark.dataset.drawn === 'true' }; }, id);
+const badge = (page, id) => page.evaluate(id => { const mark = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-sick-mark`); if (!mark || mark.hidden) return null; const box = mark.getBoundingClientRect(); return { w: Math.round(box.width), h: Math.round(box.height), drawn: mark.dataset.drawn === 'true', picture: mark.dataset.picture || null }; }, id);
+/**
+ * The picture the sick badge must be, by the art's own rule (public/art-subjects.js, owner 2026-09-29 "Astra's art always wins"):
+ * Astra's `mark-sick` if she has drawn one; Claude's `mark-sick` unless she has drawn the subject ("the sick mark": her
+ * `icon-tend-sick`), and then her `icon-tend-sick` in the cream disc. Read from the manifests on disk, as the page reads them.
+ */
+const astraFrames = Object.keys(JSON.parse(readFileSync(new URL('../public/assets/frontier-v1/atlas.json', import.meta.url), 'utf8')).frames);
+const badgePicture = astraFrames.includes('mark-sick') || !standinWithheld('mark-sick', namePrefixes(astraFrames)) ? 'mark-sick' : 'icon-tend-sick';
 const noOverflow = page => page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
 /** The days a sick person has to go, and the class's minute, as the family's own page is sent them. */
 const mending = (page, id) => page.evaluate(id => { const world = window.__snapshot?.world; const one = world?.entities.find(e => e.id === id); return one && { minute: world.minute, left: (one.health.recoversAt - world.minute) / 1440, sick: one.health.condition === 'sick', chore: one.chore?.id || null, progress: one.travel?.progress ?? null, halted: Boolean(one.travel?.halted), riding: Boolean(one.travel?.rides || one.travel?.drives || one.travel?.saddle || one.travel?.carried) }; }, id);
@@ -132,17 +140,19 @@ try {
   await page.waitForFunction(id => !document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-sick-line`)?.hidden, cast.patient, { timeout: 20000 });
   observed.rowMoving = await rowLine(page, cast.patient);
   assert.match(observed.rowMoving.text, /^Has a chill on the chest: (riding|walking)\. Resting would mend it sooner/);
-  // The badge is `mark-sick` (Claude-drawn until Astra's lands, public/app.js `paintSickMark`) once its sheet has arrived.
-  await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-sick-mark`)?.dataset.drawn === 'true', cast.patient, { timeout: 20000 });
+  // The badge is drawn from the art once its sheet has arrived (public/app.js `paintSickMark`), never left as the glyph: `mark-sick`,
+  // or - since Astra's art wins by subject (2026-09-29) and she has drawn the sick mark as her nursing icon - her `icon-tend-sick`.
+  await page.waitForFunction(id => ['mark-sick', 'icon-tend-sick'].includes(document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-sick-mark`)?.dataset.picture), cast.patient, { timeout: 20000 });
   observed.badge = await badge(page, cast.patient);
   assert.ok(observed.badge && observed.badge.w >= 16, 'no sick badge on the portrait');
-  assert.ok(observed.badge.drawn, 'the sick badge is not the drawn mark-sick');
+  assert.equal(observed.badge.picture, badgePicture, `the sick badge is ${observed.badge.picture}, not ${badgePicture} as the art's rule says`);
+  assert.equal(observed.badge.drawn, badgePicture === 'mark-sick', 'the badge is not styled as the picture it shows');
   // The card beside a person opens only for a matter since 2026-09-29 (owner: "just gets in the way"); the row says the sickness.
   await page.locator(`[data-portrait="${cast.patient}"]`).click({ force: true });
   await page.waitForTimeout(600);
   observed.card = await page.locator('#selection').isVisible() ? (await page.locator('#selection').innerText()).trim() : null;
   await shot(page, 'row-1366');
-  ok(`a sick person's row: "${observed.rowMoving.text}", the badge ${observed.badge.w}px on the portrait${observed.card ? `, and the card for what is to be done: "${observed.card.slice(0, 80)}"` : ', and no card'}`);
+  ok(`a sick person's row: "${observed.rowMoving.text}", the badge (${observed.badge.picture}) ${observed.badge.w}px on the portrait${observed.card ? `, and the card for what is to be done: "${observed.card.slice(0, 80)}"` : ', and no card'}`);
 
   // 3. The Host: the sickness named in the class panel and counted in words, while the family's sick are sick.
   await host.waitForFunction(() => /sick with a chill on the chest/.test(document.querySelector('#host-families')?.textContent || ''), null, { timeout: 20000 });

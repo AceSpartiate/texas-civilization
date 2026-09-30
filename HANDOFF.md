@@ -1,5 +1,42 @@
 # Claude handoff — Astra foundation
 
+## Red proofs, second round: `test:disease`, `test:battle-alamo`, the Béxar "killed" test, and the man who escaped to Fannin — 2026-09-30 (not released)
+
+Branch `red-proofs-2` off `integration-2026-09-28` 4131feb8; not pushed. **Same computer only: no Chromebook or LAN claim.**
+
+- **`test:disease` step 2 - the proof, out of date** (not the sick line, which was there: it timed out on the sick *badge*
+  being `mark-sick`). Since 57fab282 (*Astra's art wins by subject*, 2026-09-29) Claude's `mark-sick` is held back because
+  Astra has drawn the subject (her `icon-tend-sick`, public/art-subjects.js; docs/ART_REQUESTS.md B4 says so), so the badge is
+  her nursing icon in the cream disc and `data-drawn` is false. The badge now says what it drew (`data-picture`: `mark-sick`,
+  `icon-tend-sick` or `glyph`, public/app.js `paintSickMark`), and the proof works out from the manifests on disk, by the art's
+  own rule, which picture it must be and holds the badge to it - never the glyph. Green **2 of 2**.
+- **`test:battle-alamo` - the proof, out of date, and one game fix found by it.** Since dc3a3d87 (*the spring's big news by
+  express*, on origin/main) the fall's word leaves Gonzales on March 13 and reaches the proof's family (Matagorda, by Victoria)
+  some hours after the winter stops that night (`alamo-end`); only the autumn's and spring's ends are held for word
+  (`holdForWord`). The proof now waits for the word *or* the winter's stop, holds that nothing was told before it, has the Host
+  carry the class into the spring (`next-period`), and waits for the word there (March 14). **Game fix:** the Alamo's projection
+  was the second period's only (`onCalendar`), so a family that heard in the spring got the journal line and never the card
+  "The word from the Alamo"; it now gets it for its day (sim/alamo-battle.mjs `wordCard`). New test in
+  `tests/battle-alamo.test.mjs` (the family farthest by express). Green **2 of 2** (13 checks, the card asserted).
+- **`tests/battle-bexar.test.mjs` "killed: ... told only when the word comes" - the test, out of date.** Since 54b23d2a (D12,
+  the burn zone's sides by seed) the fighter's family is dealt land at Liberty, which the victory reaches after the autumn's end
+  has waited its one day; the word comes over the winter (`settleExpresses`) and he is told of on the winter's first tick. The
+  test now follows it into the winter when the autumn ends first, and holds that nothing in the autumn said he was killed.
+- **The man who escaped the south to Fannin - the game** (older than today; noted by news-all-riders). `tellSouth` told his
+  escape with `told`, which `tellGoliad` reads, so if he was shot at Goliad the account named him and his row was never marked
+  dead. The escape is now `escapeTold`; `goliadTold` (sim/houston.mjs) reads an old save's escape kept in `told` as not yet told
+  of Goliad. No save version. New `tests/escaped-to-fannin.test.mjs` (2).
+- **`test:storming` - the proof, out of date** (found red while re-running it here): its class answered the settlement's call
+  while a rider was still talking with the family, and since the one-rider rule the call waits behind him (`questionWaits`,
+  `FIC-GONZ-909`), so the projection had no request and the setup threw. The rider is now sent on (`leave-rider`) as a student
+  sends him before the call is answered. Green **2 of 2** (7 checks).
+- **Injections: 5 of 5 caught, each by its own test only** ([record](docs/evidence/red-proofs-2-injections.json)).
+- **Proofs** (headless Chrome, at most two at a time, beside other builders): `test:disease` 8 (2 of 2), `test:battle-alamo` 13
+  (2 of 2, the last two runs), `test:storming` 7 (2 of 2), `test:family-panel` (2 of 2), `test:battle-south` 16 (2 of 2),
+  `test:battle-coleto` 17 - passed, then failed once at *"no account came through the family at the word"* (the card not up
+  within 30 s of the family's hearing; the proof places its men with Fannin in the spring, which no change here reaches), then
+  passed twice in a row. `npm test`: **1878 tests, 1842 pass, 0 fail, 36 skipped**.
+
 ## The art as WebP, a Tips button, and tap-then-send on touch — triage D14, D16, D17, owner 2026-09-29 (not released)
 
 Branch `webp-tips-touch` off origin/main 67d674bb, merged with origin/main ca6ac201 and again 8687a96b; not pushed. The owner
@@ -256,7 +293,7 @@ it"*. Branch `news-all-riders` off origin/main c03faa58; not pushed. `FIC-GONZ-9
 - **The invented Gonzales country: left as it is, on purpose.** It cannot be continued past its first period (`canContinue`
   needs the real land) and its first period ends at the fight's outcome, which already goes by riders; none of these words is
   reached there in play. Carried, they would reach every family there in the same tick, one tick late.
-- **Found in passing, not fixed** (older than this branch): a man who got away from San Patricio or Agua Dulce to Fannin is
+- **Found in passing, not fixed here; fixed 2026-09-30 on `red-proofs-2`** (older than this branch): a man who got away from San Patricio or Agua Dulce to Fannin is
   marked `told` when his family hears of his escape, so if he is then shot at Goliad `tellGoliad` skips him - the account
   (`tellFannin`) still names him, but his row is not marked dead. Here the south's telling runs in the second period only, so it
   cannot add to it.

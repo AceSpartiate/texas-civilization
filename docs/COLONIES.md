@@ -1251,7 +1251,8 @@ Decided by the owner by multiple choice (§7f). Research [alamo.md](battle-resea
 - **News** besides: Fannin turned back (February 29), the declaration of independence and Houston named commander (March 4).
 - **The end** (`alamo-end`, 11 p.m. March 13): Houston has burned Gonzales and is falling back; the final reckoning.
 - **Stored** on `entity.service`: `besieged`, `riding`, `relief`, `courier` (open, volunteered, stays, passed, sent), `fate`,
-  `party`, `told`, `escapedFrom`; statuses `fell` and `captured`; kinds `relief` and `fannin`. The projection sends only
+  `party`, `told`, `escapedFrom`, `escapeTold` (a man got away to Fannin, his escape told; `told` is kept for what becomes of him
+  at Goliad, 2026-09-30); statuses `fell` and `captured`; kinds `relief` and `fannin`. The projection sends only
   `besieged`, `riding` and an open `courier` - never a fate. Validated; no save version moved.
 - Tests `tests/alamo.test.mjs` (6, proven by 23 injections), `tests/winter.test.mjs` (families nobody plays and the relief),
   `tests/family-commands.test.mjs` (the courier "!"); browser `npm run test:alamo-siege`

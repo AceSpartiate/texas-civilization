@@ -283,6 +283,13 @@ function lightTheHost(world, state) {
  * `members`; the moment one of them fell only once it has come, and only to that family and the Host.
  */
 export function alamoProjection(world, householdId, role) {
+  // The spring: the word of the fall goes by express from Gonzales on March 13 (sim/directors.mjs `fall-confirmed`, since
+  // 2026-09-29), and a family far down the road hears it after the winter's period has stopped - so its account comes to the card
+  // in the spring, as it comes to the journal (`wordCard`). Nothing else of the Alamo is sent after the winter.
+  if (world.period === 3) {
+    const card = role === 'student' && householdId && world.battles?.alamo ? wordCard(world, world.battles.alamo, householdId) : null;
+    return card ? { battleAccount: card } : null;
+  }
   const state = world.battles?.alamo ? battleState(world, 'alamo') : null;
   if (!state || state.before || !onCalendar(world)) return null;
   // Over: nothing more to watch, and only this family's own cards - what it watched, and the account when the word comes.
@@ -320,11 +327,14 @@ function cardsFor(world, householdId, state, watching) {
   if (debrief && world.minute - debrief.minute <= 4320 && world.entities[debrief.entityId]) {
     out.battleAccount = { id: `debrief:alamo:${householdId}`, entityId: debrief.entityId, title: 'What you saw from the walls', text: debrief.text };
   }
-  // The word, when it comes (sim/alamo.mjs `tellFall`): the family's account, for a day, on the card as in the journal.
-  const told = state.battle.told?.[householdId];
-  if (told && world.minute - told.minute <= 1440 && world.entities[told.entityId]) {
-    out.battleAccount = { id: `account:alamo:${householdId}`, entityId: told.entityId, title: 'The word from the Alamo', text: told.text };
-  }
+  const word = wordCard(world, state.battle, householdId);
+  if (word) out.battleAccount = word;
   return out;
+}
+/** The word, when it comes (sim/alamo.mjs `tellFall`): the family's account, for a day, on the card as in the journal. */
+function wordCard(world, battle, householdId) {
+  const told = battle.told?.[householdId];
+  if (!told || world.minute - told.minute > 1440 || !world.entities[told.entityId]) return null;
+  return { id: `account:alamo:${householdId}`, entityId: told.entityId, title: 'The word from the Alamo', text: told.text };
 }
 export { POSTS, spotOf, calendarMinutes };
