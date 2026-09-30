@@ -102,6 +102,7 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
   const { eatenADay, tooYoung, canFight, mainPersonId } = await import('../sim/family.mjs');
   const { CHORES } = await import('../sim/chores.mjs');
   const { COTTON_SEED_PER_PLOT } = await import('../sim/improvements.mjs');
+  const { ownCrops } = await import('../sim/crops.mjs');
   const { farmFate } = await import('../sim/advance.mjs');
   const { flightProjection, packFlight } = await import('../sim/scrape.mjs');
   const { findPath } = await import('../sim/geography.mjs');
@@ -225,8 +226,9 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
       }
     }
     // Cotton wants half again the seed a plot: fetched before the director would plant corn for want of it.
-    if (plan.crop === 'cotton' && projected.household.field?.state === 'bare'
-      && (household.resources.seed ?? 0) < COTTON_SEED_PER_PLOT * Math.max(1, projected.land?.cleared || 0)
+    // Counted by the bare plots since each plot has its own crop (2026-09-30): a field half in crop fetches for the rest.
+    if (plan.crop === 'cotton' && (projected.land?.crops?.bare ?? 0) > 0
+      && (household.resources.seed ?? 0) < COTTON_SEED_PER_PLOT * projected.land.crops.bare
       && !people.some(person => person.chore?.id === 'fetch-seed')) {
       for (const person of people) if (!person.chore && !person.travel && offered(person.id, 'fetch-seed') && tryAct(household, { action: 'chore', entityId: person.id, chore: 'fetch-seed' })) break;
     }
@@ -245,6 +247,10 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
           if (ask === 'cotton-counter' && plan.sell === 'yes') input = { ...input, option: 'coin' };
           if (ask === 'crop-choice' && plan.crop === 'cotton') input = { ...input, option: 'cotton' };
         }
+        // Each plot its own crop (2026-09-30): the director keeps a plot in corn to eat (sim/neighbours.mjs `directorCrops`). With
+        // MEASURE_CROPS=own the measure plants each plot its own crop instead - all cotton for a cotton family - which is the
+        // comparison docs/BALANCE.md §18 asks for: a mixed field against all cotton, the harness only, never a rule.
+        if (input.action === 'plant-field' && input.crops && process.env.MEASURE_CROPS === 'own') input = { ...input, crops: ownCrops(household, Object.keys(input.crops).map(id => ({ id, ...(household.plots || []).find(plot => plot.id === id) }))) };
         applyAction(world, household.id, input);
       },
     });
@@ -341,7 +347,8 @@ export async function runClass({ seed, size }, { keepWorld = false } = {}) {
       prisoners: { home: scrapePrisoners(world, household).filter(one => one.where === 'home').length, road: scrapePrisoners(world, household).filter(one => one.where === 'road').length },
       living: members.length - dead.length,
       // Cotton: grown (every harvest says what came in), and what it was sold for - coin, or food.
-      cottonGrown: round2(world.events.filter(event => event.householdId === household.id && /brought in [\d.]+ cotton/.test(event.text)).reduce((sum, event) => sum + Number(event.text.match(/brought in ([\d.]+) cotton/)[1]), 0)),
+      // A harvest of both crops says the food first (2026-09-30): "brought in 10 food and 3.33 cotton".
+      cottonGrown: round2(world.events.filter(event => event.householdId === household.id && /brought in (?:[\d.]+ food and )?[\d.]+ cotton/.test(event.text)).reduce((sum, event) => sum + Number(event.text.match(/brought in (?:[\d.]+ food and )?([\d.]+) cotton/)[1]), 0)),
       cottonCoin: coinEvents.filter(event => event.coin > 0 && / cotton /.test(event.text)).reduce((sum, event) => sum + event.coin, 0),
       cottonForFood: round2(world.events.filter(event => event.householdId === household.id && /sold [\d.]+ cotton .*(for|brought home) [\d.]+ food/.test(event.text)).reduce((sum, event) => sum + Number(event.text.match(/sold ([\d.]+) cotton/)[1]), 0)),
       flight: flight?.status ?? null, burned: Boolean(flight?.burned), burnedBy: flight?.burnedBy?.hand || (flight?.burned ? 'texian' : null),

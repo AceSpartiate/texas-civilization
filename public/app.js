@@ -3068,9 +3068,10 @@ function drawPlots(ctx, world, camera) {
     if (host && !onScreen(rectOf(plot))) continue;
     const whose = host ? { householdId } : {};
     if (plot.state === 'cleared') {
-      const growing = plot.sown && field && field.state !== 'bare' ? field : null;
+      // Each plot its own crop and stage (owner, 2026-09-30; sim/crops.mjs): a server of before sends the family's one field state.
+      const growing = !plot.sown ? null : plot.crop ? { crop: plot.crop, state: plot.ripe ? 'ripe' : 'planted' } : field && field.state !== 'bare' ? field : null;
       const corners = fieldPatch(ctx, camera, rectOf(plot), growing, plot.fence, `${householdId}:${plot.id}`);
-      drawn.push({ id: plot.id, ...whose, state: plot.state, ground: plot.ground, sown: Boolean(growing), fence: plot.fence || 'none', corners });
+      drawn.push({ id: plot.id, ...whose, state: plot.state, ground: plot.ground, sown: Boolean(growing), ...(growing && { crop: growing.crop, stage: growing.state }), fence: plot.fence || 'none', corners });
       continue;
     }
     // Staked: the clearing done so far, as a square of turned earth growing from the middle.
@@ -4151,12 +4152,70 @@ $('#host-goto')?.addEventListener('change', event => {
   const townAt = drawnAt ? { x: site.x + median(drawnAt.map(p => p.x)), y: site.y + median(drawnAt.map(p => p.y)) } : null;
   if (site) applyMapView(siteId, { street: site.kind === 'town', at: site.kind === 'town' ? townAt : at });
 });
+/**
+ * The field crop by crop (owner, 2026-09-30: each plot its own crop; "visual cues over explanation"): a chip for each crop growing,
+ * each crop ripe - lit, with a tick - and the bare plots, each a picture from Astra's crop art (`corn-young`, `cotton-mature`, as the
+ * map draws the rows) and a count. The words are its label and each chip's title, for a screen reader and a hover. The server's
+ * `land.crops` (sim/crops.mjs `cropSummary`); built again only when it changes, and each picture drawn again until its art is in.
+ */
+function renderFieldSummary(world) {
+  const root = $('#field-summary');
+  if (!root) return;
+  const crops = world.household && world.land?.crops;
+  const chips = !crops ? [] : [
+    ...['corn', 'cotton'].flatMap(crop => [
+      crops[crop]?.growing > 0 && { crop, stage: 'growing', n: crops[crop].growing, words: `${crop === 'corn' ? 'Corn' : 'Cotton'} growing on ${crops[crop].growing} ${crops[crop].growing === 1 ? 'plot' : 'plots'}${crops.next?.crop === crop ? `, the first ready ${crops.next.words}` : ''}` },
+      crops[crop]?.ripe > 0 && { crop, stage: 'ripe', n: crops[crop].ripe, words: `${crop === 'corn' ? 'Corn' : 'Cotton'} ripe on ${crops[crop].ripe} ${crops[crop].ripe === 1 ? 'plot' : 'plots'}: bring it in` },
+    ]),
+    crops.bare > 0 && { crop: 'bare', stage: 'bare', n: crops.bare, words: `${crops.bare} bare ${crops.bare === 1 ? 'plot' : 'plots'} to plant` },
+  ].filter(Boolean);
+  root.hidden = !chips.length;
+  const label = chips.length ? `Field: ${chips.map(chip => chip.words).join('; ')}.` : '';
+  const key = JSON.stringify(chips.map(({ crop, stage, n }) => [crop, stage, n]));
+  if (root.dataset.key !== key) {
+    root.dataset.key = key;
+    root.replaceChildren(...chips.map(chip => {
+      const span = element('span', '', 'crop-chip');
+      span.dataset.crop = chip.crop; span.dataset.stage = chip.stage;
+      const canvas = document.createElement('canvas'); canvas.width = canvas.height = 44; canvas.setAttribute('aria-hidden', 'true');
+      span.append(canvas, element('b', String(chip.n)));
+      return span;
+    }));
+  }
+  if (root.getAttribute('aria-label') !== label) root.setAttribute('aria-label', label);
+  for (const [index, span] of [...root.children].entries()) {
+    const chip = chips[index];
+    if (span.title !== chip.words) span.title = chip.words;
+    const canvas = span.querySelector('canvas');
+    if (canvas.dataset.drawn === 'true') continue;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, 44, 44);
+    if (chip.crop === 'bare') {
+      // Turned earth, as the map draws a bare plot: brown with the furrows across it.
+      ctx.fillStyle = '#8a6a44'; ctx.fillRect(6, 10, 32, 26);
+      ctx.strokeStyle = '#5e4630'; ctx.lineWidth = 2;
+      for (let y = 15; y < 36; y += 6) { ctx.beginPath(); ctx.moveTo(8, y); ctx.lineTo(36, y); ctx.stroke(); }
+      canvas.dataset.drawn = 'true';
+      continue;
+    }
+    // The crop by its ripe plant - the ear of corn, the open boll - which tells the two apart at this size; growing is the same plant
+    // faded, ripe it whole on a lit chip with a tick (the stylesheet).
+    const drawn = drawSprite(ctx, `${chip.crop}-mature`, 22, 43, 42, { alpha: chip.stage === 'ripe' ? 1 : 0.55 });
+    if (drawn) canvas.dataset.drawn = 'true';
+    else {
+      // Until the crop art is in: a stalk and, ripe, its colour - corn gold, cotton white.
+      ctx.strokeStyle = '#4f7a36'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(22, 40); ctx.lineTo(22, 12); ctx.stroke();
+      ctx.fillStyle = chip.stage === 'ripe' ? (chip.crop === 'cotton' ? '#f4efe0' : '#d9b243') : '#7fa252';
+      ctx.beginPath(); ctx.arc(22, 12, chip.stage === 'ripe' ? 9 : 6, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+}
 function renderHousehold(world) {
   const household = world.household;
   if (!household) {
     // The Host's look at somebody stays open and follows them tick by tick (read only, `renderSelection`).
     if (hostView(world)) renderSelection(world); else $('#selection').hidden = true;
-    $('#family-panel').hidden = true; hidePanelTip(); $('#food').textContent = ''; $('#supplies').textContent = ''; return;
+    $('#family-panel').hidden = true; hidePanelTip(); $('#food').textContent = ''; $('#supplies').textContent = ''; renderFieldSummary(world); return;
   }
   $('#family-title').textContent = headingCase(familyCache?.name || 'Your family');
   renderFamilyBook();
@@ -4176,7 +4235,10 @@ function renderHousehold(world) {
   // Coin is always shown, including none: it is scarce, and it is half of how a family ends.
   const coin = Number(household.resources?.money || 0);
   supplies.push(coin === 1 ? '1 real' : `${coin} reales`);
-  if (field) supplies.push(field.state === 'ripe' ? `${field.crop} ready` : field.state === 'planted' ? `${field.crop} growing` : 'field bare');
+  // The field is its own element since 2026-09-30, crop by crop in pictures (`renderFieldSummary`); a server of before sends no
+  // summary, and its one field state is said here as it always was.
+  if (field && !world.land?.crops) supplies.push(field.state === 'ripe' ? `${field.crop} ready` : field.state === 'planted' ? `${field.crop} growing` : 'field bare');
+  renderFieldSummary(world);
   if (hoe?.state === 'worn') supplies.push('hoe worn out');
   if (household.load && household.tools?.hoe === undefined) supplies.push('no hoe');
   // Water, where it is carried from far off (sim/homesite.mjs): said while it slows the family, and gone once there is a well.
@@ -4190,7 +4252,7 @@ function renderHousehold(world) {
     supplies.push(`logs ${piled} at the house${logs.lying ? `, ${logs.lying} lying out` : ''}`);
   }
   $('#supplies').textContent = supplies.join(' · ');
-  $('#supplies').dataset.urgent = String(field?.state === 'ripe' || hoe?.state === 'worn');
+  $('#supplies').dataset.urgent = String((field?.state === 'ripe' && !world.land?.crops) || hoe?.state === 'worn');
   const people = entitiesOf(world).filter(entity => entity.kind === 'person' && (household.members || []).includes(entity.id))
     .sort((a, b) => Number(b.id === household.principalId) - Number(a.id === household.principalId));
   // The roster is a text equivalent and a second way in: the canvas is never the only channel.
@@ -6582,7 +6644,11 @@ const PLOT_JOB_WORDS = {
   'fence-plot': { title: name => `Which plot ${name} fences`, hint: 'Tap one of your cleared plots to rail it in.', send: 'Fence it' },
   'fell-trees': { title: name => `Where ${name} fells`, hint: 'Tap timber on your land, inside the dashed line, to see what stands there to fell.', send: 'Fell there' },
   'hunt-land': { title: name => `Where ${name} hunts`, hint: 'Tap a place on your land, inside the dashed line, to see what game there is there.', send: 'Hunt there' },
+  // Each plot its own crop (owner, 2026-09-30): every bare plot unless one is tapped, and the crop is the button pressed.
+  'plant-field': { title: name => `What ${name} plants`, hint: '', send: '' },
 };
+/** The family's bare cleared plots, as its own land line shows them (sim/survey.mjs `plotProjection`). */
+const barePlotsShown = world => (world.land?.plots || []).filter(plot => plot.state === 'cleared' && !plot.sown);
 const surveyLooking = () => Boolean(surveyFor && window.__snapshot?.world?.entities?.some(entity => entity.id === surveyFor));
 async function lookAtPlot(point) {
   if (plotLookPending) return;
@@ -6602,16 +6668,22 @@ function renderSurvey(world) {
   panel.hidden = !person || world.role === 'host';
   if (panel.hidden) { if (!person) { surveyFor = null; plotPick = null; } delete $('#survey-suggested').dataset.key; return; }
   const facts = plotPick?.facts, words = PLOT_JOB_WORDS[plotJob];
-  $('#survey-eyebrow').textContent = plotJob === 'survey-plot' ? 'SURVEY' : plotJob === 'clear-plot' ? 'CLEARING' : plotJob === 'hunt-land' ? 'HUNTING' : plotJob === 'fell-trees' ? 'FELLING' : 'FENCING';
+  $('#survey-eyebrow').textContent = plotJob === 'survey-plot' ? 'SURVEY' : plotJob === 'clear-plot' ? 'CLEARING' : plotJob === 'hunt-land' ? 'HUNTING' : plotJob === 'fell-trees' ? 'FELLING' : plotJob === 'plant-field' ? 'PLANTING' : 'FENCING';
   $('#survey-title').textContent = words.title(person.name);
   // Survey's facts say what the clearing would be; a plot's words already carry it. A refusal still names the plot.
   const surveyWork = plotJob === 'survey-plot' && facts?.spells ? ` Clearing it would be ${facts.spells} spells of work.` : '';
-  $('#survey-text').textContent = !plotPick ? words.hint
+  // Planting with nothing tapped is every bare plot (owner, 2026-09-30): said, and the crop buttons plant them all.
+  const planting = plotJob === 'plant-field', bare = planting ? barePlotsShown(world).length : 0;
+  const hint = planting ? (bare ? `Every bare plot: ${bare === 1 ? 'one plot' : `${bare} plots`}, corn to eat or cotton to sell. Or tap one plot on the map to plant only that one.` : 'Every cleared plot has a crop in it.') : words.hint;
+  $('#survey-text').textContent = !plotPick ? hint
     : !facts ? 'Looking the ground over…' : facts.can ? `${facts.words}${surveyWork}` : [facts.words, facts.why].filter(Boolean).join(' ');
   $('#survey-send').textContent = words.send;
-  $('#survey-send').hidden = !facts?.can;
+  $('#survey-send').hidden = planting || !facts?.can;
   $('#survey-send').disabled = plotSendPending;
-  const plots = JSON.stringify((world.land?.plots || []).map(plot => [plot.id, plot.state, plot.fence || '']));
+  $('#plant-crops').hidden = !planting || (plotPick ? !facts?.can : !bare);
+  for (const button of document.querySelectorAll('#plant-crops .plant-crop')) button.disabled = plotSendPending;
+  $('#plant-all').hidden = !planting || !plotPick || bare < 2;
+  const plots = JSON.stringify((world.land?.plots || []).map(plot => [plot.id, plot.state, plot.fence || '', plot.sown ? plot.crop || 'sown' : '']));
   renderSuggested($('#survey-suggested'), plotJob, `${plotJob}:${surveyFor}:${window.__snapshot?.sessionId}:${plots}`, plotPick?.point, lookAtPlot);
 }
 $('#survey-send')?.addEventListener('click', async () => {
@@ -6624,6 +6696,18 @@ $('#survey-send')?.addEventListener('click', async () => {
   finally { plotSendPending = false; if (window.__snapshot) render(window.__snapshot); }
 });
 $('#survey-cancel')?.addEventListener('click', () => { surveyFor = null; plotPick = null; if (window.__snapshot) render(window.__snapshot); });
+// The crop for the plot tapped, or for every bare plot (owner, 2026-09-30; sim/world.mjs `plant-field`). The server decides.
+for (const button of document.querySelectorAll('#plant-crops .plant-crop')) button.addEventListener('click', async () => {
+  if (plotSendPending || plotJob !== 'plant-field' || (plotPick && !plotPick.facts?.can)) return;
+  plotSendPending = true; $('#survey-note').textContent = '';
+  try {
+    await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'plant-field', entityId: surveyFor, crop: button.dataset.crop,
+      ...(plotPick && { x: +plotPick.point.x.toFixed(3), y: +plotPick.point.y.toFixed(3) }) });
+    surveyFor = null; plotPick = null;
+  } catch (error) { $('#survey-note').textContent = error.message; }
+  finally { plotSendPending = false; if (window.__snapshot) render(window.__snapshot); }
+});
+$('#plant-all')?.addEventListener('click', () => { plotPick = null; $('#survey-note').textContent = ''; if (window.__snapshot) render(window.__snapshot); });
 /**
  * Suggested places (triage 2.13, classroom audit S8, 2026-09-29): up to three buttons under the panel's words, from the server
  * (`/api/suggest`, sim/suggest.mjs), for the house site, ten acres to survey and the plot to clear or fence. Choosing a place was
@@ -6633,7 +6717,7 @@ $('#survey-cancel')?.addEventListener('click', () => { surveyFor = null; plotPic
  * `key`), never on a tick. On the map itself the arrow keys move it and Enter looks at the spot in its middle (`tapAt`).
  */
 let suggested = { key: '', places: [] }, suggestedAsking = '', suggestedFocus = false;
-const SUGGESTED_JOBS = new Set(['site', 'survey-plot', 'clear-plot', 'fence-plot']);
+const SUGGESTED_JOBS = new Set(['site', 'survey-plot', 'clear-plot', 'fence-plot', 'plant-field']);
 async function askSuggested(job, key) {
   suggestedAsking = key;
   let places = [];

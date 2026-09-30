@@ -37,12 +37,12 @@ import { awayProjection, milesATick, tooFastToFollow } from './sight.mjs';
 import { purseHeld, purseOf, recordTrade, traderAt } from './town.mjs';
 import { carryCapacity, DEFAULT_MODE, MODES, propertyId } from './travel.mjs';
 import {
-  COTTON_SEED_PER_PLOT, SEED_PER_PLOT, clearSpell, clearedOf, harvestShare, needsWagonToHarvest, raiseFence, standingCrop,
+  SEED_PER_PLOT, clearSpell, clearedOf, cropYields, harvestShare, needsWagonToHarvest, raiseFence, standingCrop,
 } from './improvements.mjs';
-import { fenceWork, groundAt, plotsOf } from './fields.mjs';
+import { barePlots, cropOf, cropState, fenceWork, groundAt, plotsOf, ripePlots, sownPlots } from './fields.mjs';
 import { MOST_HANDS, crewPace, crowdedWhy, handShare } from './hands.mjs';
 import { FURNITURE_LOGS, fenceBy, furnitureFromPile, pileFull, shortOfSound, takeSpare } from './woodpile.mjs';
-import { CROPS, growCrop, inWinter, minutesNow, readyWords, ripe, seedFor } from './crops.mjs';
+import { CROPS, growCrop, inWinter, keepCrops, minutesNow, reapPlot, seedFor, settleField, soonestCrop, sowPlot } from './crops.mjs';
 import { marketRefusal, marketSale, marketWords, recordSale, spareFood } from './market.mjs';
 import { landAround, onRealLand } from './ground.mjs';
 import { distanceToPolyline } from './terrain.mjs';
@@ -280,8 +280,10 @@ export const ASKS = {
     options: (entity, world, household) => ['corn', 'cotton']
       .sort((a, b) => (a === (household.field?.crop || 'corn') ? -1 : b === (household.field?.crop || 'corn') ? 1 : 0))
       .map(crop => ({ id: crop, label: `Plant ${crop}`, note: cropNote(crop, world) })),
+    // Seed for one plot is enough to begin (owner, 2026-09-30, each plot its own crop): short of seed for them all, what it will
+    // plant is planted, nearest the house first, and the family is told what waits (`sowSeed`, docs/LAND_GRANTS.md §5.2).
     requires: Object.fromEntries(Object.keys(CROPS).map(crop => [crop, [
-      { test: household => (household.resources.seed ?? 0) >= seedFor(crop) * clearedOf(household), why: household => `${crop === 'corn' ? 'Corn' : 'Cotton'} wants ${seedFor(crop) * clearedOf(household)} seed for this field, and there is not that much in the house.` },
+      { test: household => (household.resources.seed ?? 0) >= seedFor(crop), why: () => `${crop === 'corn' ? 'Corn' : 'Cotton'} wants ${seedFor(crop)} seed a plot, and there is not that much in the house.` },
     ]])),
   },
   // Coin is the counter's own answer (owner, 2026-09-27, by multiple choice over docs/BALANCE.md §6: "Make coin the default"):
@@ -489,31 +491,39 @@ export const CHORES = {
   },
   // The field is every cleared plot, wherever the family staked them (docs/LAND_GRANTS.md §5): planting and harvest walk
   // out to each in turn and back, so ten acres a mile off cost the walk there that ten acres by the house do not.
+  //
+  // **Each plot its own crop** (owner, 2026-09-30; docs/LAND_GRANTS.md §5.2, sim/crops.mjs). Planting goes to the bare plots the
+  // student chose - one plot tapped on the map, or every bare plot - with the crop chosen for them before anybody goes (`plant-field`,
+  // sim/world.mjs), each plot's own for somebody on auto, or asked at the field when the work was sent with no crop (the old `chore`
+  // order). The steps keep their places from before per-plot crops, so work saved in the middle of a planting goes on where it was.
   'plant-field': {
     name: 'Plant the field', skill: 'farming', tool: 'hoe', where: 'home', heavy: true, crew: 'join',
-    // Two seed for every cleared plot: a family that clears more has more to put in, and more to find.
-    needsPerPlot: { seed: SEED_PER_PLOT }, field: 'bare',
-    describe: 'Walk out to every cleared plot, turn the rows and put in seed.',
+    // Two seed a plot of corn and three of cotton: a family that clears more has more to put in, and more to find.
+    needsPerPlot: { seed: SEED_PER_PLOT }, plants: true,
+    describe: 'Walk out to the bare plots, turn the rows and put in seed: corn to eat, or cotton to sell, plot by plot.',
     steps: [
       { stroll: 'fields', doing: 'walking out to the fields' },
+      // Asked only when nobody chose the crop before the work was sent (`sow`).
       { ask: 'crop-choice' },
       // Everything after the question is the crop's: when nothing could go in - the seed gone to somebody else planting the
       // same field first, or no crop in its season - nobody plants anything (found 2026-09-28 by the balance measure: six of a
       // family sent to plant at once, the later ones found no seed, fell to the first answer, and put cotton in in November).
-      { when: ['corn', 'cotton'], work: 4, doing: 'breaking the rows' },
-      { when: ['corn'], consumePerPlot: { seed: SEED_PER_PLOT } },
-      { when: ['cotton'], consumePerPlot: { seed: COTTON_SEED_PER_PLOT } },
+      { when: ['corn', 'cotton', 'sow'], work: 4, doing: 'breaking the rows' },
+      // The answer at the field goes into every plot this planting is for.
+      { when: ['corn', 'cotton'], sowAs: true },
+      // Seed a plot, nearest the house first, as far as it goes; short, the rest wait and the family is told.
+      { when: ['corn', 'cotton', 'sow'], sowSeed: true },
       { when: ['corn'], crop: 'corn' },
       { when: ['cotton'], crop: 'cotton' },
-      { when: ['corn', 'cotton'], work: 3, doing: 'putting in seed' },
-      { when: ['corn', 'cotton'], field: 'planted' },
-      { when: ['corn', 'cotton'], wear: 'hoe' },
+      { when: ['corn', 'cotton', 'sow'], work: 3, doing: 'putting in seed' },
+      { when: ['corn', 'cotton', 'sow'], field: 'planted' },
+      { when: ['corn', 'cotton', 'sow'], wear: 'hoe' },
       { stroll: 'yard', doing: 'coming in from the fields' },
     ],
   },
   'harvest-field': {
     name: 'Bring in the crop', skill: 'farming', tool: 'hoe', where: 'home', heavy: true, crew: 'join',
-    field: 'ripe', wantsWagon: true,
+    field: 'ripe', wantsWagon: true, reaps: true,
     // A crop that wants the wagon holds it and the ox in the field until it is in (owner, 2026-09-24; sim/keeping.mjs):
     // shared with everybody else bringing in the same crop, and nobody else's to drive away.
     takes: (world, household) => needsWagonToHarvest(household) && ownsVehicle(world, household) ? ['ox', 'wagon'] : [],
@@ -1411,7 +1421,9 @@ function handsPace(world, household, entity, chore, state) {
 
 /** A second pair of hands takes up a job somebody of the family is already at: alongside them, the job done once, faster. */
 function joinAlongside(world, household, entity, chore, choreId, lead, extra) {
-  entity.chore = { id: choreId, step: -1, wait: 0, doing: lead.chore.doing, alongside: lead.id, ...(extra.plotId && { plotId: extra.plotId }), ...(extra.plot && { plot: { ...extra.plot } }) };
+  // Alongside a planting, its plots and crops: what the work goes on as, if it falls to this person to finish (`workAlongside`).
+  entity.chore = { id: choreId, step: -1, wait: 0, doing: lead.chore.doing, alongside: lead.id, ...(extra.plotId && { plotId: extra.plotId }), ...(extra.plot && { plot: { ...extra.plot } }),
+    ...(chore.plants && lead.chore.plots && { plots: [...lead.chore.plots] }), ...(chore.plants && lead.chore.sow && { sow: { ...lead.chore.sow } }) };
   entity.task = 'work';
   standBeside(world, household, entity, lead);
   record(world, 'assignment', { actorId: entity.id, householdId: household.id, text: `${entity.name} went to work alongside ${lead.name}: ${chore.name.toLowerCase()}.` });
@@ -1439,7 +1451,7 @@ function workAlongside(world, household, entity, chore, deps) {
   const plotId = state.plotId;
   entity.chore = null;
   try {
-    beginChore(world, household, entity, state.id, deps, DEFAULT_MODE, plotId ? { plotId } : {});
+    beginChore(world, household, entity, state.id, deps, DEFAULT_MODE, plotId ? { plotId } : state.plots ? { plots: state.plots, ...(state.sow && { sow: state.sow }) } : {});
   } catch {
     entity.task = 'rest';
     record(world, 'consequence', { actorId: entity.id, householdId: household.id, text: `${entity.name} left off ${chore.name.toLowerCase()}: there is nobody to work alongside, and it cannot be taken up now.` });
@@ -1489,7 +1501,7 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (chore.where === 'home' && entity.location.siteId !== household.homeSiteId && !withTheFlight && !chore.alsoFrom?.includes(entity.location.siteId)) return { can: false, why: `${entity.name} is not at home.` };
   if (chore.helps) { const why = helpRefusal(world, entity); if (why) return { can: false, why }; }
   // On the real land the house, the field and the well wait for the family to say where the house stands (sim/homesite.mjs).
-  if ((chore.onSite || chore.house || chore.field || chore.plotWork || chore.fells) && choosing(household)) return { can: false, why: 'Choose where the house will stand first.' };
+  if ((chore.onSite || chore.house || chore.field || chore.plants || chore.plotWork || chore.fells) && choosing(household)) return { can: false, why: 'Choose where the house will stand first.' };
   if (chore.well) { const why = wellRefusal(household); if (why) return { can: false, why }; }
   if (chore.survey && world.status === 'lobby') return { can: false, why: 'The family surveys its land once the class has begun.' };
   if (chore.huntLand && world.status === 'lobby') return { can: false, why: 'The family hunts its land once the class has begun.' };
@@ -1518,17 +1530,20 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   }
   if (chore.hauling && !(logsOut ?? logsLeftOut(world, household))) return { can: false, why: 'No felled logs lie out to haul.' };
   if (chore.lane) { const why = laneRefusal(world, household); if (why) return { can: false, why }; }
-  if (chore.field && (household.field?.state ?? 'bare') !== chore.field) {
-    // The field is not ready: and when it will be, in real minutes (sim/crops.mjs).
-    const when = chore.field === 'ripe' && household.field?.state === 'planted' ? readyWords(world, household.field) : null;
-    if (when) return { can: false, why: `The ${household.field.crop} is not ready: it will be ${when}.` };
-    return { can: false, why: chore.field === 'ripe' ? 'The field is not ready.' : 'The field is already planted.' };
+  // Each plot its own crop (owner, 2026-09-30; sim/crops.mjs): the harvest wants a ripe plot, planting a bare one.
+  if (chore.reaps && !ripePlots(household).length) {
+    // Not ready: and when the first will be, in real minutes.
+    const next = soonestCrop(world, household);
+    if (next) return { can: false, why: `The ${next.crop} is not ready: it will be ${next.words}.` };
+    return { can: false, why: 'The field is not ready.' };
   }
+  if (chore.plants && clearedOf(household) && !barePlots(household).length) return { can: false, why: 'The field is already planted.' };
   // Which plot is chosen on the map; here, only whether there is any plot this work could be sent to.
   if (chore.plotWork && world.status === 'lobby') return { can: false, why: 'The family works its land once the class has begun.' };
   if (choreId === 'clear-plot' && !plotsOf(world, household).some(plot => plot.state === 'staked')) return { can: false, why: 'There is no staked ground to clear. Survey ten acres first.' };
   if (choreId === 'fence-plot' && !plotsOf(world, household).some(plot => plot.state === 'cleared' && plot.fence !== 'sound')) return { can: false, why: 'Every cleared plot is fenced.' };
-  if (chore.field === 'bare' && !clearedOf(household)) return { can: false, why: 'There is no cleared ground to plant. Clear a staked plot first.' };
+  if (chore.plants && !clearedOf(household)) return { can: false, why: 'There is no cleared ground to plant. Clear a staked plot first.' };
+  // Every bare plot already being planted by somebody of the family: they are joined, when this person is sent (`beginChore`).
   // A store that has all it can use of a good is not sent more of it (sim/market.mjs): said with how fast it sells on.
   if (choreId === 'sell-cotton' || choreId === 'sell-food') {
     const why = marketRefusal(world, townOf(household), 'store', choreId === 'sell-cotton' ? 'cotton' : 'food');
@@ -1563,7 +1578,7 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
     } else if (chore.needsTool === 'worn' && !anyWorn(household, 'hoe')) return { can: false, why: toolCount(household, 'hoe') > 1 ? 'Every hoe in the house is sound.' : 'The hoe is sound.' };
   }
   if (chore.tool && allWorn(household, chore.tool)) return { can: false, why: toolCount(household, chore.tool) > 1 ? 'Every hoe in the house is worn out and wants mending.' : 'The hoe is worn out and wants mending.' };
-  for (const [resource, amount] of Object.entries(needsOf(household, chore, world))) {
+  for (const [resource, amount] of Object.entries(needsOf(household, chore, world, { toBegin: true }))) {
     if ((household.resources[resource] ?? 0) < amount) return { can: false, why: resource === 'money' ? `It costs ${reales(amount)}, and there is not that much coin in the house.` : `Not enough ${resource}.` };
   }
   // Paid for one way or another at the counter: enough of any one of them will do.
@@ -1577,13 +1592,123 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
  * What this chore costs this household right now. Fixed for most; for planting it grows
  * with the ground, because a bigger field swallows more seed.
  */
-export function needsOf(household, chore, world = null) {
-  // Planting is quoted at the family's own crop: cotton wants twice the seed (docs/MONEY_AND_GLORY.md §8.1), so a cotton family
-  // gathers the seed for cotton before it sets out, and is not turned to corn at the field for want of it.
-  const crop = chore.field === 'bare' ? (household.field?.crop === 'cotton' ? 'cotton' : 'corn') : null;
-  const perPlot = Object.fromEntries(Object.entries(chore.needsPerPlot || {})
-    .map(([resource, amount]) => [resource, (resource === 'seed' && crop ? seedFor(crop) : amount) * clearedOf(household)]));
+export function needsOf(household, chore, world = null, { toBegin = false } = {}) {
+  // Planting is quoted plot by plot, each at the crop it would be given (owner, 2026-09-30; sim/crops.mjs `cropOf`): the crop it
+  // last grew, else the family's own. Cotton wants half again the seed (docs/MONEY_AND_GLORY.md §8.1). To begin, seed for one plot
+  // of the cheaper crop is enough: short of the rest, what it will plant is planted (`sowSeed`), and the crop chosen is checked
+  // against the seed when the person is sent (`planPlanting`).
+  if (chore.plants) {
+    const bare = barePlots(household);
+    if (toBegin) return { ...chore.needs, seed: bare.length ? Math.min(...Object.keys(CROPS).map(seedFor)) : 0 };
+    return { ...chore.needs, seed: bare.reduce((sum, plot) => sum + seedFor(cropOf(household, plot)), 0) };
+  }
+  const perPlot = Object.fromEntries(Object.entries(chore.needsPerPlot || {}).map(([resource, amount]) => [resource, amount * clearedOf(household)]));
   return { ...chore.needs, ...perPlot };
+}
+/**
+ * The bare plots somebody of the family other than this person is on the way to plant now: each planting's own plots, or every bare
+ * plot for one begun before crops were per plot. Only up to the moment the seed goes in (`field: 'planted'`).
+ */
+function plotsBeingPlanted(world, household, entity) {
+  const planting = new Map();
+  const sownAt = CHORES['plant-field'].steps.findIndex(step => step.field === 'planted');
+  for (const person of atWork(world, household, 'plant-field')) {
+    if (person === entity || person.chore.alongside || person.chore.step >= sownAt) continue;
+    for (const id of person.chore.plots || barePlots(household).map(plot => plot.id)) if (!planting.has(id)) planting.set(id, person);
+  }
+  return planting;
+}
+/**
+ * What a planting is for (owner, 2026-09-30: pick a plot, or every bare plot, and corn or cotton; docs/LAND_GRANTS.md §5.2):
+ * `extra.plots`, the ids chosen, or every bare plot; `extra.sow`, a crop for them all, a crop for each (`{ plotId: crop }`, the
+ * neighbours' director), 'own' - each plot the crop it last grew, else the family's own (auto) - or nothing, asked at the field.
+ * Plots somebody else of the family is planting are theirs: sent only to those, this person works alongside them (`lead`).
+ * A chosen plot that cannot be planted is refused in the plot's own words when it was chosen on the map (`strict`), and simply
+ * left out otherwise. Returns `{ plots, sow }`, or `{ lead }`.
+ */
+export function planPlanting(world, household, entity, extra = {}) {
+  const bare = byNearness(world, household, barePlots(household));
+  let wanted = bare;
+  if (Array.isArray(extra.plots)) {
+    if (extra.strict) {
+      for (const id of extra.plots) {
+        const plot = plotsOf(world, household).find(candidate => candidate.id === id);
+        const why = plot ? plotWorkRefusal(world, household, 'plant-field', plot, { entity }) : 'Choose one of your bare plots.';
+        if (why) throw new Error(why);
+      }
+    }
+    wanted = bare.filter(plot => extra.plots.includes(plot.id));
+  }
+  if (!wanted.length) throw new Error('The field is already planted.');
+  const taken = plotsBeingPlanted(world, household, entity);
+  const free = wanted.filter(plot => !taken.has(plot.id));
+  if (!free.length) return { lead: taken.get(wanted[0].id) };
+  const cropFor = plot => typeof extra.sow === 'string' ? (extra.sow === 'own' ? cropOf(household, plot) : extra.sow) : extra.sow?.[plot.id] || cropOf(household, plot);
+  const sow = extra.sow ? Object.fromEntries(free.map(plot => [plot.id, cropFor(plot) === 'cotton' ? 'cotton' : 'corn'])) : null;
+  // Seed for the nearest plot at least, in the crop it would get: the rest go in as far as the seed goes (`sowSeed`).
+  if (sow) {
+    const first = seedFor(sow[free[0].id]);
+    if ((household.resources?.seed ?? 0) < first && !free.some(plot => (household.resources?.seed ?? 0) >= seedFor(sow[plot.id]))) {
+      throw new Error(`${sow[free[0].id] === 'cotton' ? 'Cotton' : 'Corn'} wants ${first} seed a plot, and there is not that much in the house.`);
+    }
+  }
+  return { plots: free.map(plot => plot.id), ...(sow && { sow }) };
+}
+/**
+ * The seed goes in at the field: a plot at a time, nearest the house first, each at its own crop's seed, as far as the seed in the
+ * house goes (owner, 2026-09-30: "a partial planting when seed is short plants what it can, nearest first, and says so"). A plot
+ * somebody else has sown meanwhile is passed over. Remembers the plots it paid for (`sowing`); false when it could pay for none.
+ */
+function sowSeed(world, household, entity, state) {
+  const plan = state.sow || {};
+  const plots = byNearness(world, household, barePlots(household).filter(plot => plan[plot.id]));
+  let seed = household.resources.seed ?? 0;
+  const sowing = [];
+  for (const plot of plots) {
+    const need = seedFor(plan[plot.id]);
+    if (seed < need) continue;
+    seed = round(seed - need);
+    sowing.push(plot.id);
+  }
+  const wanted = Object.keys(plan).length;
+  if (!sowing.length) {
+    record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 2, text: `${entity.name} came out to plant and there was no seed in the house for it. Nothing was planted.` });
+    return false;
+  }
+  household.resources.seed = seed;
+  state.sowing = sowing;
+  const short = plots.length - sowing.length;
+  if (short > 0) {
+    record(world, 'consequence', {
+      actorId: entity.id, householdId: household.id, importance: 2,
+      text: `There was seed for ${sowing.length} ${sowing.length === 1 ? 'plot' : 'plots'} of the ${wanted}: ${entity.name} planted the nearest, and ${short === 1 ? 'one plot waits' : `${short} plots wait`} for seed.`,
+    });
+  }
+  return true;
+}
+/** The plots the seed was spent on are sown, each its own crop standing from nothing (sim/crops.mjs `sowPlot`). */
+function sowPlots(world, household, entity, state) {
+  // Work begun before per-plot crops spent the seed on every cleared plot and planted the crop answered at the field.
+  const crop = (state.flags || []).includes('cotton') ? 'cotton' : 'corn';
+  const sowing = state.sowing || barePlots(household).map(plot => plot.id);
+  const plan = state.sow || Object.fromEntries(sowing.map(id => [id, crop]));
+  const sown = { corn: 0, cotton: 0 };
+  for (const plot of keepCrops(world, household)) {
+    if (!sowing.includes(plot.id)) continue;
+    // Somebody else sowed it between the seed and now: the seed is back in the house.
+    if (plot.state !== 'cleared' || cropState(household, plot) !== 'bare') { household.resources.seed = round((household.resources.seed ?? 0) + seedFor(plan[plot.id])); continue; }
+    sowPlot(plot, plan[plot.id]);
+    sown[plot.crop]++;
+  }
+  settleField(world, household);
+  const said = Object.entries(sown).filter(([, n]) => n).map(([one, n]) => `${one} on ${n === 1 ? 'one plot' : `${n} plots`}`);
+  if (said.length) record(world, 'property', { actorId: entity.id, householdId: household.id, importance: 1, text: `${entity.name} put in ${said.join(' and ')}.` });
+}
+/** Plots nearest the house first, where they lie on the map; as they are listed where they do not (a class's old field). */
+function byNearness(world, household, plots) {
+  const home = world?.map?.sites?.[household.homeSiteId];
+  if (!home || !plots.every(plot => Number.isFinite(plot.x))) return plots;
+  return [...plots].sort((a, b) => Math.hypot(a.x - home.x, a.y - home.y) - Math.hypot(b.x - home.x, b.y - home.y) || String(a.id).localeCompare(String(b.id)));
 }
 
 /**
@@ -1859,6 +1984,18 @@ export function choreCatalogue() {
 }
 
 /**
+ * What the harvest's control says is standing: all of it and the share the stock leave (`grown`, `share`, as before), and each crop
+ * it would bring home after the stock's third on unfenced plots - `cotton` bales whenever there are any, and `food` from corn beside
+ * them (owner, 2026-09-30, each plot its own crop). A field of corn alone sends neither, and is read as food, as it always was: it
+ * rides on every person's row every tick (tests/family-roll.test.mjs holds the tick to its bytes).
+ */
+function harvestControl(household, skill) {
+  const kept = cropYields(household, undefined, { kept: true });
+  return { grown: round(yieldFor(standingCrop(household), skill)), share: harvestShare(household),
+    ...(kept.cotton && { cotton: round(yieldFor(kept.cotton, skill)), food: round(yieldFor(kept.food, skill)) }) };
+}
+
+/**
  * The changing half: whether this person can be sent on each chore right now, and why
  * not. This is a permission, so it stays on the server and is recomputed every tick.
  */
@@ -1933,8 +2070,9 @@ export function choresFor(world, household, entity, logsOut = null) {
       // When a man going to join the army would be with it (sim/houston.mjs `joinEstimate`): said before he is sent.
       : chore.estimate && can ? chore.estimate(world, household, entity)
       : chore.needsAny ? chore.needsAny.map(costWords).join(' or ') : costWords(needsOf(household, chore, world));
-    const crop = chore.wantsWagon
-      ? { grown: round(yieldFor(standingCrop(household), entity.skills?.[chore.skill] ?? 1)), share: harvestShare(household) }
+    // Only while something stands in the field (2026-09-30): a bare field has nothing to say it would bring in.
+    const crop = chore.wantsWagon && sownPlots(household).length
+      ? harvestControl(household, entity.skills?.[chore.skill] ?? 1)
       : null;
     // `level` used to ride here for every chore for every person and was read by nothing
     // at all - thirty-six copies a tick of a number with no reader.
@@ -2017,6 +2155,15 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   }
   const { can, why } = choreAvailability(world, household, entity, choreId);
   if (!can) throw new Error(why || 'That work is not available.');
+  // Planting goes to the bare plots chosen, with the crop chosen for each (owner, 2026-09-30; `planPlanting`): somebody sent to
+  // plots the family is already planting works alongside whoever is at it, and otherwise plants the rest. The harvest brings in
+  // the plots ripe now; a plot that comes on while it is out waits for the next.
+  if (chore.plants) {
+    const plan = planPlanting(world, household, entity, extra);
+    if (plan.lead) return joinAlongside(world, household, entity, chore, choreId, plan.lead, extra);
+    extra = { ...extra, plots: plan.plots, ...(plan.sow && { sow: plan.sow }) };
+  }
+  if (chore.reaps) extra = { ...extra, plots: ripePlots(household).map(plot => plot.id) };
   // Survey needs the place; it is sent as its own order with the place in it (sim/survey.mjs).
   if (chore.survey && !extra.plot) throw new Error('Choose a place on your land to survey.');
   // Felling with no place chosen goes to the nearest timber on the family's own land (owner, 2026-09-28: one press, and auto keeps
@@ -2036,7 +2183,7 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   }
   // A job somebody of the family is already at is joined, not begun again (owner, 2026-09-28: "If I add another person to the task
   // it should speed the task up"): the field is planted once, with the seed spent once, and quicker for every pair of hands.
-  if (chore.crew === 'join') {
+  if (chore.crew === 'join' && !chore.plants) {
     const lead = leadOf(world, household, entity, choreId, extra.plotId);
     if (lead) return joinAlongside(world, household, entity, chore, choreId, lead, extra);
   }
@@ -2078,7 +2225,7 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   const { held, shares } = heldBy(world, household, entity, chore, modeId, choreId, extra);
   // `spell`: play a child's own automation or a wander took up between jobs, which goes its old couple of hours and not the
   // whole day (owner, 2026-09-29; sim/childhood.mjs): the automation itself is what lasts until the day ends.
-  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(extra.spell && chore.play && { spell: true }), ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }), ...(errand && { errand }), ...(town && { town }), ...(held.length && { with: held }), ...(shares.length && { shares }) };
+  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(extra.spell && chore.play && { spell: true }), ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }), ...(extra.plots && { plots: [...extra.plots] }), ...(extra.sow && { sow: { ...extra.sow } }), ...(errand && { errand }), ...(town && { town }), ...(held.length && { with: held }), ...(shares.length && { shares }) };
   entity.task = 'work';
   // A chore kept in its own module may need to set something up as it begins: a road chore halts the family (sim/road.mjs).
   chore.begin?.(world, household, entity);
@@ -2235,6 +2382,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       beginTravel(world, entity, destination, null, 'chore', held ? wanted : DEFAULT_MODE);
       return;
     }
+    // The crop was chosen before anybody went (owner, 2026-09-30; `planPlanting`): nothing to ask at the field.
+    if (step.ask === 'crop-choice' && state.sow) { state.flags = [...(state.flags || []), 'sow']; continue; }
     if (step.ask) {
       // The work stops here and waits for the family. Nothing is decided and nothing is
       // spent; the person stands where they are until somebody answers or their own
@@ -2381,10 +2530,14 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       }
       continue;
     }
-    if (step.consumePerPlot) {
-      for (const [resource, amount] of Object.entries(step.consumePerPlot)) {
-        household.resources[resource] = round(Math.max(0, (household.resources[resource] ?? 0) - amount * clearedOf(household)));
-      }
+    // The crop answered at the field goes into every plot this planting is for (work begun before per-plot crops: every bare plot).
+    if (step.sowAs) {
+      const crop = (state.flags || []).includes('cotton') ? 'cotton' : 'corn';
+      state.sow = Object.fromEntries((state.plots || barePlots(household).map(plot => plot.id)).map(id => [id, crop]));
+      continue;
+    }
+    if (step.sowSeed) {
+      if (!sowSeed(world, household, entity, state)) { state.flags = [...(state.flags || []), 'empty']; state.step = chore.steps.length - 2; }
       continue;
     }
     if (step.sell) {
@@ -2598,20 +2751,27 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // What the field actually grew. A cotton field used to come in as food, so a family
       // ate its cotton - which is not a balance choice, it is the game not knowing what
       // the crop was. Corn is the staple this colony lived on and cotton is what it sold.
-      const crop = household.field?.crop === 'cotton' ? 'cotton' : 'food';
-      const grown = yieldFor(standingCrop(household), skill);
-      const kept = round(grown * harvestShare(household));
-      household.resources[crop] = round((household.resources[crop] ?? 0) + kept);
+      // Each plot its own crop (owner, 2026-09-30; sim/crops.mjs): the ripe plots this harvest went out to, each its own yield -
+      // corn food, cotton bales - and the stock's third out of each unfenced one, as a whole field always was.
+      const plots = ripePlots(household).filter(plot => !state.plots || state.plots.includes(plot.id));
+      state.reaped = plots.map(plot => plot.id);
+      const grown = cropYields(household, plots), kept = cropYields(household, plots, { kept: true });
+      const got = {};
+      for (const crop of ['food', 'cotton']) {
+        if (!grown[crop]) continue;
+        got[crop] = { grown: yieldFor(grown[crop], skill), kept: round(yieldFor(kept[crop], skill)) };
+        household.resources[crop] = round((household.resources[crop] ?? 0) + got[crop].kept);
+      }
       // Two things can be true of one harvest: the stock got into it, and it is a crop
       // nobody can eat. Said in one sentence rather than letting the fence swallow the
       // more important half - a family that comes home with cotton needs to know what it
       // is for whether or not the field was fenced.
-      const lost = kept < grown ? ' The rest had gone to stock in an unfenced field.' : '';
-      const inedible = crop === 'cotton' ? ' Nobody can eat it; it has to go to the store.' : '';
+      const lost = Object.values(got).some(one => one.kept < one.grown) ? ' The rest had gone to stock in an unfenced field.' : '';
+      const inedible = got.cotton ? (got.food ? ' The cotton nobody can eat; it has to go to the store.' : ' Nobody can eat it; it has to go to the store.') : '';
       if (lost || inedible) {
         record(world, 'consequence', {
           actorId: entity.id, householdId: household.id, importance: 2,
-          text: `${entity.name} brought in ${kept} ${crop}.${lost}${inedible}`,
+          text: `${entity.name} brought in ${Object.entries(got).map(([crop, one]) => `${one.kept} ${crop}`).join(' and ')}.${lost}${inedible}`,
         });
       }
       continue;
@@ -2665,14 +2825,13 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       continue;
     }
     if (step.field) {
-      // A crop in the ground counts the real time it has stood from nothing (sim/crops.mjs `growCrop`); a bare field keeps none.
-      const { grownMs: _grown, ...field } = household.field || {};
-      household.field = { ...field, state: step.field, changedTick: world.tick, ...(step.field === 'planted' && { grownMs: 0 }) };
-      // The seed went into the plots cleared now, and a plot cleared while it grows is not in crop. Written only where
-      // the plots are: a class's old field counts as sown whenever its crop is in (sim/fields.mjs).
-      if (household.plots) for (const plot of household.plots) {
-        if (step.field === 'planted' && plot.state === 'cleared') plot.sown = true;
-        if (step.field === 'bare') delete plot.sown;
+      // Each plot its own (sim/crops.mjs): the seed goes into the plots it was spent on, each standing from nothing; a harvest leaves
+      // the plots it brought in bare. A plot cleared while a crop grows is not in it, and one ripening while the harvest is out waits.
+      if (step.field === 'planted') sowPlots(world, household, entity, state);
+      else {
+        const reaped = state.reaped || ripePlots(household).map(plot => plot.id);
+        for (const plot of keepCrops(world, household)) if (reaped.includes(plot.id) && cropState(household, plot) === 'ripe') reapPlot(plot);
+        settleField(world, household);
       }
       continue;
     }
@@ -2784,11 +2943,9 @@ function finishChore(world, household, entity, chore) {
 export function advanceChores(world, { beginTravel, modeAvailability, realMs = null }) {
   for (const household of Object.values(world.households)) {
     // The crop stands its real minutes (sim/crops.mjs): this tick's real time, as the server measured it, is added to it first.
-    growCrop(world, household, realMs);
-    const field = household.field;
-    if (ripe(world, field)) {
-      household.field = { ...field, state: 'ripe', changedTick: world.tick };
-      record(world, 'property', { householdId: household.id, text: `The ${field.crop} is ready to bring in.`, importance: 2 });
+    // Each plot its own (owner, 2026-09-30): said once a tick for each crop that came on, however many plots of it.
+    for (const crop of new Set(growCrop(world, household, realMs).map(plot => plot.crop))) {
+      record(world, 'property', { householdId: household.id, text: `The ${crop} is ready to bring in.`, importance: 2 });
     }
     for (const id of household.members) {
       const entity = world.entities[id];

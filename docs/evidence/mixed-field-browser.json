@@ -1,0 +1,138 @@
+{
+  "record": "mixed-field-browser",
+  "date": "2026-09-30",
+  "browser": "153.0.8010.53",
+  "ownerDirection": "\"players can still plow new and extra fields right? so i as a player could have corn growing for food as well as cotton to sell?\" (2026-09-30)",
+  "checks": [
+    "the plant icon opens \"What Ignacio Proofwright plants\": \"Every bare plot: 3 plots, corn to eat or cotton to sell. Or tap one plot on the map to plant only that one.\", with a button for corn and one for cotton",
+    "a plot tapped on the map (\"Ten acres of prairie a quarter mile east of the house, cleared, with no fence (the stock take a third of what grows). Bare.\") and \"Plant cotton\": plot-2 is in cotton",
+    "with nothing tapped, \"Plant corn\" put corn in both bare plots: plot-1 corn, plot-2 cotton, plot-3 corn",
+    "the seed was spent plot by plot: 3 for the cotton, 2 for each plot of corn, 17 left",
+    "each plot drawn with its own crop and the field line in pictures: corn growing 2, cotton growing 1 (\"Field: Corn growing on 2 plots, the first ready in about 4 minutes; Cotton growing on 1 plot.\")",
+    "the corn ripe before the cotton, drawn so, and its chip lit with a tick: Field: Corn ripe on 2 plots: bring it in; Cotton growing on 1 plot, the first ready in about 2 minutes.",
+    "\"Bring in the crop\" (About 17 food of 20 standing; the rest has gone to stock in an unfenced field.) brought in the two corn plots and left the cotton standing: food 2.8 to 19.3",
+    "the cotton comes on after, by itself",
+    "the field line fits at 1024x768: 126x38 px",
+    "no page errors anywhere in the run"
+  ],
+  "screenshots": [
+    "docs/evidence/mixed-field-chooser.png",
+    "docs/evidence/mixed-field-growing.png",
+    "docs/evidence/mixed-field-corn-ripe.png",
+    "docs/evidence/mixed-field-cotton-ripe.png"
+  ],
+  "measured": {
+    "opened": {
+      "eyebrow": "PLANTING",
+      "title": "What Ignacio Proofwright plants",
+      "text": "Every bare plot: 3 plots, corn to eat or cotton to sell. Or tap one plot on the map to plant only that one.",
+      "crops": true,
+      "send": false
+    },
+    "tapped": "Ten acres of prairie a quarter mile east of the house, cleared, with no fence (the stock take a third of what grows). Bare.",
+    "sown": [
+      {
+        "id": "plot-1",
+        "sown": true,
+        "crop": "corn",
+        "ripe": false
+      },
+      {
+        "id": "plot-2",
+        "sown": true,
+        "crop": "cotton",
+        "ripe": false
+      },
+      {
+        "id": "plot-3",
+        "sown": true,
+        "crop": "corn",
+        "ripe": false
+      }
+    ],
+    "seedLeft": 17,
+    "growing": [
+      {
+        "id": "plot-1",
+        "crop": "corn",
+        "stage": "planted",
+        "fence": "none"
+      },
+      {
+        "id": "plot-2",
+        "crop": "cotton",
+        "stage": "planted",
+        "fence": "none"
+      },
+      {
+        "id": "plot-3",
+        "crop": "corn",
+        "stage": "planted",
+        "fence": "sound"
+      }
+    ],
+    "line": {
+      "hidden": false,
+      "label": "Field: Corn growing on 2 plots, the first ready in about 4 minutes; Cotton growing on 1 plot.",
+      "chips": [
+        {
+          "crop": "corn",
+          "stage": "growing",
+          "n": "2",
+          "drawn": true
+        },
+        {
+          "crop": "cotton",
+          "stage": "growing",
+          "n": "1",
+          "drawn": true
+        }
+      ]
+    },
+    "ripeLine": {
+      "hidden": false,
+      "label": "Field: Corn ripe on 2 plots: bring it in; Cotton growing on 1 plot, the first ready in about 2 minutes.",
+      "chips": [
+        {
+          "crop": "corn",
+          "stage": "ripe",
+          "n": "2",
+          "drawn": true
+        },
+        {
+          "crop": "cotton",
+          "stage": "growing",
+          "n": "1",
+          "drawn": true
+        }
+      ]
+    },
+    "harvest": "About 17 food of 20 standing; the rest has gone to stock in an unfenced field.",
+    "food": {
+      "before": 2.8003,
+      "after": 19.3277
+    },
+    "afterLine": {
+      "hidden": false,
+      "label": "Field: Cotton growing on 1 plot, the first ready in about 2 minutes; 2 bare plots to plant.",
+      "chips": [
+        {
+          "crop": "cotton",
+          "stage": "growing",
+          "n": "1",
+          "drawn": true
+        },
+        {
+          "crop": "bare",
+          "stage": "bare",
+          "n": "2",
+          "drawn": true
+        }
+      ]
+    }
+  },
+  "notProved": [
+    "A real class. Same computer, headless Chrome, one student; no Chromebook, touch screen or LAN claim.",
+    "That a student reads the chips without the words. The owner asked for pictures over explanation; the words are the label and each chip's title for a screen reader and a hover."
+  ]
+}

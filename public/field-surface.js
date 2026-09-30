@@ -85,6 +85,9 @@ export function drawFieldSurface(ctx, bounds, { identity, growing = null, figure
     if (growing && growing.state !== 'bare' && !clearing) {
       const ripe = growing.state === 'ripe', cotton = growing.crop === 'cotton';
       const crop = `${growing.crop}-${ripe ? 'mature' : 'young'}`;
+      // A ripe plot catches the eye among green ones (owner, 2026-09-30, each plot its own crop): a wash of its colour, corn gold and
+      // cotton white, under the plants, so a field of both reads plot by plot at any zoom.
+      if (ripe) { ctx.fillStyle = cotton ? 'rgba(246,240,222,.22)' : 'rgba(221,178,64,.22)'; ctx.fillRect(left, top, w, h); }
       const height = Math.min(figure * (ripe ? .8 : .55), detail * (ripe ? .078 : .055));
       if (detail < 70) {
         // At settlement scale, resolve rows instead of hundreds of subpixel leaves.

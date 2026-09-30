@@ -18,8 +18,8 @@ export const PANEL_SUMMARIES = Object.freeze({
   'survey-plot': 'Walk out to a place you choose on your land and stake out ten acres.',
   'cut-lane': 'Cut the brush and timber out of the lane between the house and the road.',
   'dig-well': 'Dig down by the house until there is water, so nobody has to carry it from the creek.',
-  'plant-field': 'Turn the rows of every cleared plot and put in seed.',
-  'harvest-field': 'Cut the ripe crop on every planted plot and carry it in.',
+  'plant-field': 'Put in corn to eat or cotton to sell, on every bare plot or one you choose on the map.',
+  'harvest-field': 'Cut the crop on every ripe plot and carry it in: corn is food, cotton goes to the store.',
   'clear-plot': 'Grub, cut and break a staked plot you choose on the map so it can be planted.',
   'fence-plot': 'Split rails and fence a cleared plot you choose on the map against the loose stock.',
   'build-house': 'Put work into the house the family has chosen until it stands.',
@@ -173,7 +173,7 @@ export const CAMP_CHORES = Object.freeze(['camp-drill', 'camp-forage', 'camp-gua
  * until 2026-09-28; it is one press now, to the nearest timber on the family's land (owner: "I should be able to set one person on
  * felling trees ... set each to auto, and eventually get a house").
  */
-export const ON_MAP = Object.freeze(['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land']);
+export const ON_MAP = Object.freeze(['survey-plot', 'clear-plot', 'fence-plot', 'hunt-land', 'plant-field']);
 /**
  * Work that glows as another on the row (sim/chores.mjs `partOf`): fetching logs from off the land, which *Fell trees* begins for a
  * family whose land has no timber, and the retired haul of a class saved in the middle of one, are both felling.
@@ -289,11 +289,16 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
       // With no way chosen yet - it is asked when they are sent (public/going.js, owner 2026-09-24) - what a good trip gives;
       // the chooser says what each way brings home of it.
       : entry.haul ? `A good trip gives about ${entry.haul.got} ${entry.haul.resource}; what comes home depends on how they go.` : '';
-    const crop = entry.crop
-      ? entry.crop.share < 1
+    // Each crop it would bring home, after the stock's third on unfenced plots (sim/chores.mjs `harvestControl`, owner 2026-09-30):
+    // sent where there is cotton; corn alone, and a server of before, send the whole, which is food.
+    const brings = entry.crop?.cotton
+      ? [entry.crop.food && `${Math.round(entry.crop.food)} food`, entry.crop.cotton && `${Math.round(entry.crop.cotton)} cotton`].filter(Boolean).join(' and ')
+      : null;
+    const crop = !entry.crop ? ''
+      : brings ? `About ${brings} standing${entry.crop.share < 1 ? '; the stock have had a third of each unfenced plot' : ''}.`
+      : entry.crop.share < 1
         ? `About ${Math.round(entry.crop.grown * entry.crop.share)} food of ${Math.round(entry.crop.grown)} standing; the rest has gone to stock in an unfenced field.`
-        : `About ${Math.round(entry.crop.grown)} food standing.`
-      : '';
+        : `About ${Math.round(entry.crop.grown)} food standing.`;
     // Refused work that somebody on auto may still be given, to wait for (sim/auto.mjs `waitingWork`): open to press, and its
     // popup says the server's reason and the server's words for what pressing it does.
     const waits = Boolean(entry.waits && !entry.can && active !== entry.id);

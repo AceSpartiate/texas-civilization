@@ -133,7 +133,7 @@ Built on both maps, in `sim/survey.mjs`; tests `tests/survey.test.mjs`, evidence
 - **The field is the cleared plots.** Planting puts seed in every cleared plot (the existing seed per clearing
   becomes seed per plot); a harvest yields per plot; the ox and wagon are needed from three plots, as now. Plots
   far from the house cost the walk there and back — the decision the old rule never had.
-  `ceiling:` one crop state for the whole field, not per plot; per-plot planting when crops differ.
+  ~~`ceiling:` one crop state for the whole field, not per plot; per-plot planting when crops differ.~~ Lifted 2026-09-30 (§5.2).
 - **Fencing is per plot.** *Fence this plot* rails one plot; a harvest loses the unfenced share only on unfenced
   plots. A plot cleared after the fence went up is unfenced.
 - **Ruin** (`HIST-GONZ-019`, nothing in Gonzales calls it) returns every plot to staked-and-uncleared and takes the
@@ -186,8 +186,8 @@ Built on both maps, in `sim/fields.mjs` (the plots as the field), `sim/improveme
   until a plot changes (staking, clearing, fencing, ruin), so every class saved before opens as it was and no save version
   moved. Somebody saved in the middle of *Break new ground* or *Fence the field* leaves off the work, and the story says so.
   `CLEARING_MAX` survives only as `OLD_PATCHES`, the bound on an old save's `field.cleared`.
-- `ceiling:` one crop for the whole field and planting all-or-nothing — per-plot planting (and a partial planting when seed is
-  short) when crops differ; a neighbour's cleared plots are not drawn (what they have cleared is known only by going to look);
+- `ceiling:` ~~one crop for the whole field and planting all-or-nothing — per-plot planting (and a partial planting when seed is
+  short) when crops differ~~ (lifted 2026-09-30, §5.2); a neighbour's cleared plots are not drawn (what they have cleared is known only by going to look);
   the rails want no axe or maul; plots cannot be pulled up or moved; automatic families keep three plots.
 
 ## 6. Old saves

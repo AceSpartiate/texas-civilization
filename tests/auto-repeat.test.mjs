@@ -26,6 +26,8 @@ const finished = (world, id, name) => story(world, id).filter(text => text.endsW
 const order = (world, id, chore) => applyAction(world, world.entities[id].householdId, { action: 'chore', entityId: id, chore });
 const autoOn = (world, id, on = true) => applyAction(world, world.entities[id].householdId, { action: 'set-auto', entityId: id, auto: on });
 const deps = { beginTravel, modeAvailability };
+// The crop taken off every plot at once (each plot its own crop since 2026-09-30, sim/crops.mjs): what a harvest leaves.
+const bare = household => { for (const plot of household.plots || []) { delete plot.sown; delete plot.grownMs; delete plot.ripe; } household.field = { ...household.field, state: 'bare' }; };
 
 test('planting and the harvest on auto, two people, across a season: the field is planted, grows, is brought in and planted again, and nobody is stuck', () => {
   const world = running('auto-season');
@@ -97,7 +99,7 @@ test('the exits: off, called away, dead, and the family on the road east', () =>
   order(world, thomas.id, 'plant-field');
   autoOn(world, thomas.id, false);
   for (let t = 0; t < 60 && thomas.chore; t++) stepWorld(world);
-  household.field = { ...household.field, state: 'bare' };
+  bare(household);
   for (let t = 0; t < 10; t++) stepWorld(world);
   assert.equal(thomas.chore, null, 'off, he went back to the field');
   assert.equal(shown(world, thomas.id).autoTask, undefined, 'off, the row still says what auto is doing');
@@ -124,7 +126,7 @@ test('the exits: off, called away, dead, and the family on the road east', () =>
 
   // The family on the road east: paused while it is gone, taken up again the tick it is home.
   for (let t = 0; t < 60 && thomas.chore; t++) stepWorld(world);
-  household.field = { ...household.field, state: 'bare' };
+  bare(household);
   household.flight = { status: 'fled' };
   advanceAuto(world, deps);
   assert.equal(thomas.chore, null, 'with the family fled, he started work at home');

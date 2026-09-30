@@ -46,7 +46,7 @@
 // a piece is wanted, and mending the hoe. A builder whose house wants logs the pile has not got says so - *"Waiting for logs."* -
 // and works about the place until the feller brings them.
 import { CHORES, beginChore, choreAvailability, choresFor, quickestForChore, workOf } from './chores.mjs';
-import { plotsOf } from './fields.mjs';
+import { barePlots, plotsOf, ripePlots } from './fields.mjs';
 import { houseWaitsForLogs } from './houses.mjs';
 import { plotWorkRefusal } from './survey.mjs';
 import { beastsOf, kept } from './beasts.mjs';
@@ -90,6 +90,20 @@ export const REPEATED = Object.freeze([
 const ON_MAP = Object.freeze(['hunt-land', 'clear-plot', 'fence-plot']);
 /** Work on a plot: taken up again on the plot it was given, and then the next nearest the house (`plotFor`, `FIC-GONZ-905`). */
 const PLOT_WORK = Object.freeze(['clear-plot', 'fence-plot']);
+/**
+ * The field's two works, which a person on auto works as one (owner, 2026-09-30, each plot its own crop; docs/LAND_GRANTS.md §5.2):
+ * given either, they bring in whatever plot is ripe first, then plant the bare plots, each with the crop the student last put in
+ * it, or the family's own (the crop it last chose) for a plot never sown (sim/crops.mjs `cropOf`). Nothing is planted that the
+ * student has not grown on that plot or chosen for the family.
+ */
+export const FIELD_WORK = Object.freeze(['plant-field', 'harvest-field']);
+/** The field work a person on auto takes up now: `{ chore, extra }`, or the task as given when neither can be done (its refusal waits). */
+export function fieldTask(world, household, person, order) {
+  if (!FIELD_WORK.includes(order.chore)) return { chore: order.chore, extra: null };
+  if (ripePlots(household).length && choreAvailability(world, household, person, 'harvest-field').can) return { chore: 'harvest-field', extra: {} };
+  if (barePlots(household).length && choreAvailability(world, household, person, 'plant-field').can) return { chore: 'plant-field', extra: { sow: 'own' } };
+  return { chore: order.chore, extra: order.chore === 'plant-field' ? { sow: 'own' } : null };
+}
 /** The hunts that go out with nothing to fire and leave the deer standing: held for a shot in the house, as a neighbour hunts. */
 const SHOOTS = Object.freeze(['hunt-timber', 'hunt-land']);
 const GONE = Object.freeze(['dead', 'captured']);
@@ -292,7 +306,9 @@ export function advanceAuto(world, { beginTravel, modeAvailability }) {
         order.held = why;
         record(world, 'consequence', { actorId: id, householdId: household.id, importance: 1, text: `${person.name} is working about the place until they can ${taskWords(order.chore)} again: ${why}` });
       };
-      const why = heldWhy(world, household, person, order);
+      // The field is one task: ripe plots first, then bare ones (`fieldTask`).
+      const field = fieldTask(world, household, person, order);
+      const why = heldWhy(world, household, person, { ...order, chore: field.chore });
       if (why) {
         // Every hoe worn out: mending one is the work about the house that makes the task possible again, and one person mends.
         const hoe = CHORES[order.chore]?.tool === 'hoe' && allWorn(household, 'hoe');
@@ -311,8 +327,8 @@ export function advanceAuto(world, { beginTravel, modeAvailability }) {
         // Felling is never sent back to the place it was given: each time it is the nearest timber left (sim/felling.mjs).
         const plot = PLOT_WORK.includes(order.chore) ? plotFor(world, household, order) : null;
         if (plot) order.plotId = plot.id;
-        const extra = plot ? { plotId: plot.id } : order.ground && order.chore !== 'fell-trees' ? { ground: { ...order.ground } } : {};
-        beginChore(world, household, person, order.chore, { beginTravel, modeAvailability }, quickestForChore(world, household, person, order.chore, modeAvailability), extra);
+        const extra = plot ? { plotId: plot.id } : field.extra ? field.extra : order.ground && order.chore !== 'fell-trees' ? { ground: { ...order.ground } } : {};
+        beginChore(world, household, person, field.chore, { beginTravel, modeAvailability }, quickestForChore(world, household, person, field.chore, modeAvailability), extra);
         delete order.held;
       } catch (error) { hold(error.message); }
     }
@@ -329,7 +345,9 @@ export function autoShown(world, household, person) {
   const task = taskWords(order.chore);
   const shown = (says, waiting = false) => ({ chore: order.chore, says, ...(waiting && { waiting: true }) });
   // Fetching logs from off the land is felling, for a family whose land has none (sim/chores.mjs `workOf`).
-  if (person.chore && workOf(person.chore.id) === order.chore) return shown(`Auto: ${task}, over and over.`);
+  // The field's two works are one task on auto (`fieldTask`): bringing in a ripe plot is the planter's work too.
+  const same = id => workOf(id) === order.chore || (FIELD_WORK.includes(order.chore) && FIELD_WORK.includes(id));
+  if (person.chore && same(person.chore.id)) return shown(`Auto: ${task}, over and over.`);
   if (person.chore?.id === 'mend-hoe' && order.held) return shown(`Auto: ${task}. ${order.held} Mending it first.`, true);
   if (person.chore) return shown(`Auto: ${task}, once the work in hand is done.`);
   if (!household || !homeAndFree(household, person)) return shown(`Auto: ${task}, taken up again when they are home.`);

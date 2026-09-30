@@ -14,12 +14,12 @@
 // Every threshold and valuation below is invented (`FIC-GONZ-028`).
 import { ADULT_RATION, mouthsOf, tooYoung } from './family.mjs';
 import { siteFacts } from './ground.mjs';
-import { overlaps, squareOf } from './fields.mjs';
+import { barePlots, clearedPlots, cropOf, overlaps, sownPlots, squareOf } from './fields.mjs';
+import { ownCrops, seedFor } from './crops.mjs';
 import { CHORES, logwoodGround } from './chores.mjs';
 import { LOOKED_TO_DAYS, herdOf } from './stock.mjs';
 import { share } from './shares.mjs';
 import { STOCK_SPACE, spaceOf, wagonRoom } from './wagon.mjs';
-import { COTTON_SEED_PER_PLOT, SEED_PER_PLOT } from './improvements.mjs';
 import { huntingPlace } from './hunting.mjs';
 import { packFlight } from './scrape.mjs';
 import { campChoice } from './camp.mjs';
@@ -427,9 +427,10 @@ export function thinkFor(world, household, { project, act }) {
       strayingSoon(world, view.household) && 'look-to-stock',
       'dig-well', 'mend-hoe', 'cut-lane',
       view.household.field?.state === 'planted' && unfenced && 'fence-plot',
-      // Seed enough for the family's own crop: cotton wants more a plot than corn (sim/improvements.mjs). Measured 2026-09-16: with
-      // corn's count written here, a cotton family never gathered enough, never planted, and its cotton economy collapsed.
-      view.household.field?.state === 'bare' && (resources.seed || 0) < (view.household.field?.crop === 'cotton' ? COTTON_SEED_PER_PLOT : SEED_PER_PLOT) * Math.max(1, land.cleared || 0) && 'fetch-seed',
+      // Seed enough for what goes into its bare plots, each at its crop (`directorCrops`): cotton wants more a plot than corn
+      // (sim/improvements.mjs). Measured 2026-09-16: with corn's count written here, a cotton family never gathered enough, never
+      // planted, and its cotton economy collapsed. Since 2026-09-30 counted plot by plot, so a field half in crop fetches for the rest.
+      barePlots(household).length && (resources.seed || 0) < seedWanted(directorCrops(world, household, mouths)) && 'fetch-seed',
       (resources.cotton || 0) >= 1 && 'sell-cotton',
       // And spare corn, as cotton is sold (owner, 2026-09-28: "Sell spare corn too"): what the family holds beyond three weeks of its
       // eating (sim/market.mjs `spareFood`), a lot or more, while the store wants it.
@@ -446,6 +447,8 @@ export function thinkFor(world, household, { project, act }) {
       : chore === 'survey-plot' ? surveyPlaces(home, land.grant?.bounds, plots).some(point => attempt({ action: 'survey-plot', entityId: person.id, ...point }))
       : chore === 'clear-plot' ? attempt({ action: 'clear-plot', entityId: person.id, x: staked.x, y: staked.y })
       : chore === 'fence-plot' ? attempt({ action: 'fence-plot', entityId: person.id, x: unfenced.x, y: unfenced.y })
+      // Planting with the crop for each bare plot chosen before anybody goes, as a student chooses it (`directorCrops`).
+      : chore === 'plant-field' ? attempt({ action: 'plant-field', entityId: person.id, crops: directorCrops(world, household, mouths) })
       : chore === 'visit-shop' ? attempt({ action: 'chore', entityId: person.id, chore, errand: [{ id: 'gunsmith:buy-rifle', n: 1, pay: rifle().pay }], ...(rifle().town !== (view.household.settlementId || 'gonzales') && { town: rifle().town }) })
       : CHORES[chore]?.steps.some(step => step.travel) ? ride({ action: 'chore', entityId: person.id, chore })
       : attempt({ action: 'chore', entityId: person.id, chore });
@@ -453,6 +456,26 @@ export function thinkFor(world, household, { project, act }) {
   }
   return tried;
 }
+
+/**
+ * What a family nobody plays puts in its bare plots (owner, 2026-09-30: families the director runs "plant sensibly, some corn for
+ * food"): each plot the crop it last grew, else the family's own (sim/crops.mjs `ownCrops`) - and **corn in the nearest bare plot
+ * when none of its field stands in corn or is going into it**, if it has two plots or more, or if its larder is below what it keeps
+ * for its people (`FOOD_KEPT_PER_PERSON`). A family eats what it grows before it sells what it grows; a cotton family keeps the rest
+ * in cotton. `FIC-GONZ-1000`. Returns `{ plotId: crop }`, nearest the house first.
+ */
+export function directorCrops(world, household, mouths = household.members.length) {
+  const home = world.map.sites[household.homeSiteId];
+  const far = plot => home && Number.isFinite(plot.x) ? Math.hypot(plot.x - home.x, plot.y - home.y) : 0;
+  const bare = [...barePlots(household)].sort((a, b) => far(a) - far(b));
+  const plan = ownCrops(household, bare);
+  const corn = sownPlots(household).some(plot => cropOf(household, plot) === 'corn') || Object.values(plan).includes('corn');
+  const short = (household.resources?.food || 0) < mouths * FOOD_KEPT_PER_PERSON;
+  if (bare.length && !corn && (clearedPlots(household).length >= 2 || short)) plan[bare[0].id] = 'corn';
+  return plan;
+}
+/** The seed a planting plan wants: each plot its crop's. */
+export const seedWanted = plan => Object.values(plan).reduce((sum, crop) => sum + seedFor(crop), 0);
 
 /**
  * Where a family nobody plays would stake its next ten acres, best first: close round the house, a quarter mile out and

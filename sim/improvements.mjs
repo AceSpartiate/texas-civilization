@@ -28,7 +28,7 @@
 // later would mean touching every save in existence.
 import { record } from './events.mjs';
 import { fellStanding } from './felling.mjs';
-import { clearedPlots, clearingSpells, fieldPlots, keepPlots, sownPlots } from './fields.mjs';
+import { clearedPlots, clearingSpells, cropOf, fieldPlots, keepPlots, ripePlots, sownPlots } from './fields.mjs';
 import { whereFromHouse } from './survey.mjs';
 
 /** What ten cleared acres of cotton yield when they are brought in: bales. */
@@ -40,14 +40,11 @@ export const YIELD_PER_PLOT = 5;
 export const CORN_YIELD_PER_PLOT = 10;
 /** What a plot of this crop yields. */
 export const yieldPerPlot = crop => crop === 'corn' ? CORN_YIELD_PER_PLOT : YIELD_PER_PLOT;
-/** Seed ten cleared acres swallow at planting. */
-export const SEED_PER_PLOT = 2;
 /**
- * Cotton takes half again the seed a plot: the dearer crop, and the more profitable, two reales a bale since 2026-09-27 (a real until then; owner, 2026-09-16,
- * docs/MONEY_AND_GLORY.md §8.1). Twice the seed was tried first and measured: a family nobody plays could no longer gather the
- * seed for its field between harvests, and the cotton economy collapsed to a load or two a class.
+ * Seed ten cleared acres swallow at planting, corn and cotton: kept with the crops since 2026-09-30 (sim/crops.mjs), which this
+ * module's plots now read, and still read from here by everything that always read them.
  */
-export const COTTON_SEED_PER_PLOT = 3;
+export { COTTON_SEED_PER_PLOT, SEED_PER_PLOT } from './crops.mjs';
 /**
  * What free-ranging stock take out of an unfenced crop, as a share of the harvest.
  *
@@ -79,21 +76,41 @@ export const isFenced = household => { const cleared = clearedPlots(household); 
 
 /**
  * The share of a harvest that actually reaches the family: the stock take a third of what grows on an unfenced plot.
- * Counted over what is in crop, or over the cleared plots when nothing is.
+ * Counted over the plots a harvest would bring in (`cropPlots`), or over the cleared plots when nothing is sown.
  */
-export function harvestShare(household) {
-  const growing = sownPlots(household).length ? sownPlots(household) : clearedPlots(household);
+export function harvestShare(household, plots = cropPlots(household)) {
+  const growing = plots.length ? plots : clearedPlots(household);
   if (!growing.length) return 1;
   return 1 - UNFENCED_LOSS * growing.filter(plot => plot.fence !== 'sound').length / growing.length;
 }
 
-/** The plots a harvest would bring in: those in crop, or the cleared ones before anything is planted. */
-const cropPlots = household => (household.field?.state ?? 'bare') === 'bare' ? clearedOf(household) : sownPlots(household).length;
-/** What bringing in this household's crop would yield, before anybody's skill touches it. */
-export const standingCrop = household => yieldPerPlot(household.field?.crop || 'corn') * cropPlots(household);
+/**
+ * The plots a harvest would bring in (owner, 2026-09-30, each plot its own crop: docs/LAND_GRANTS.md §5.2): the ripe ones; while
+ * none is ripe, those in crop, for the control that says what is coming; and the cleared ones before anything is planted.
+ */
+export const cropPlots = household => {
+  const ripe = ripePlots(household);
+  if (ripe.length) return ripe;
+  const sown = sownPlots(household);
+  return sown.length ? sown : clearedPlots(household);
+};
+/**
+ * What these plots would yield brought in, before anybody's skill touches it: food from corn, bales from cotton, each plot with its
+ * own crop's yield, and with a third less where it is unfenced when `kept` (the stock's share).
+ */
+export function cropYields(household, plots = cropPlots(household), { kept = false } = {}) {
+  const yields = { food: 0, cotton: 0 };
+  for (const plot of plots) {
+    const crop = cropOf(household, plot);
+    yields[crop === 'cotton' ? 'cotton' : 'food'] += yieldPerPlot(crop) * (kept && plot.fence !== 'sound' ? 1 - UNFENCED_LOSS : 1);
+  }
+  return yields;
+}
+/** What bringing in this household's crop would yield, before anybody's skill touches it: food and bales counted together. */
+export const standingCrop = household => { const { food, cotton } = cropYields(household); return food + cotton; };
 
-/** Whether this crop is more than the family can carry in without the wagon. */
-export const needsWagonToHarvest = household => cropPlots(household) >= WAGON_HARVEST_PLOTS;
+/** Whether this crop is more than the family can carry in without the wagon: three plots or more brought in at once. */
+export const needsWagonToHarvest = (household, plots = cropPlots(household)) => plots.length >= WAGON_HARVEST_PLOTS;
 
 export function setImprovement(world, household, kind, state) {
   if (!STATES.includes(state)) throw new Error('Invalid improvement state');
@@ -154,8 +171,9 @@ export function ruin(world, household, kinds, { by = null, text = null, visibili
     if (kind === 'field') {
       // Burnt ground is still ground, and the stakes are still in it. What is lost is the standing crop and the work of
       // clearing, not the land itself: every plot goes back to staked and uncleared (docs/LAND_GRANTS.md §5).
-      if (!clearedOf(household) && !fieldPlots(household).some(plot => plot.work) && (household.field?.state ?? 'bare') === 'bare') continue;
-      for (const plot of keepPlots(world, household)) { plot.state = 'staked'; delete plot.work; delete plot.sown; delete plot.fence; }
+      if (!clearedOf(household) && !fieldPlots(household).some(plot => plot.work) && !sownPlots(household).length) continue;
+      // Each plot's own crop goes with it (sim/crops.mjs), and what it last grew with the clearing.
+      for (const plot of keepPlots(world, household)) { plot.state = 'staked'; delete plot.work; delete plot.sown; delete plot.fence; delete plot.crop; delete plot.grownMs; delete plot.ripe; }
       { const { grownMs: _grown, ...field } = household.field || {}; household.field = { ...field, state: 'bare', changedTick: world.tick }; }
       ruined.push('field');
       continue;
