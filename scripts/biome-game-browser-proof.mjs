@@ -17,6 +17,8 @@ import { holdingOf } from '../sim/grants.mjs';
 import { siteFactsFor } from '../sim/homesite.mjs';
 import { huntFacts } from '../sim/hunting.mjs';
 import { fenceWork } from '../sim/fields.mjs';
+import { fenceBy } from '../sim/woodpile.mjs';
+import { hoursSaid, workHours } from '../sim/work-pace.mjs';
 import { plotFacts } from '../sim/survey.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { taught } from '../tests/support/settled.mjs';
@@ -172,7 +174,12 @@ try {
   for (const id of household().members) await command({ action: 'clear-plot', entityId: id, x: at.x, y: at.y });
   await until(() => staked()?.state === 'cleared', 'the plot cleared', 300000);
   const fence = await ask(at.x, at.y, 'fence-plot');
-  assert.match(fence.words || JSON.stringify(fence), /with no fence\. (Rails carried from the timber [\d.]+ miles off|Rails split from the timber at hand|Mesquite posts and brush from where it stands|No timber within 3 miles: the rails come from far off)(: |, )about \d+ hours\./);
+  // The time in the words of sim/work-pace.mjs `hoursSaid`, at the family's pace (834966aa, owner 2026-09-29: every family work
+  // at half its length): to the half hour, and under an hour in minutes. Until 2026-09-30 this asked for whole hours, and was red
+  // whenever the fence came to a half ("about 1.5 hours").
+  assert.match(fence.words || JSON.stringify(fence), /with no fence\. (Rails carried from the timber [\d.]+ miles off|Rails split from the timber at hand|Rails split from \d+ logs off the pile at the house|Mesquite posts and brush from where it stands|No timber within 3 miles: the rails come from far off)(: |, )about (\d+ minutes|half an hour|1 hour|\d+(\.5)? hours)\./);
+  const said = hoursSaid(workHours(fenceBy(world(), household(), at).ticks));
+  assert.ok(fence.words.endsWith(`about ${said}.`), `the fence's time is not the family's: "${fence.words}", where the work is ${said}`);
   ok(`a cleared plot says how its fence would go up: "${fence.words}"`);
 
   assert.deepEqual(errors, [], `page errors: ${errors.join(' | ')}`);

@@ -32,6 +32,11 @@ function playedToTheSiege(seed, playerCount) {
   const household = world.households['hh-1'];
   for (let i = 0; i < 1200 && !world.calls?.[household.id] && !world.director.complete; i++) stepWorld(world);
   if (world.calls?.[household.id]) {
+    // The call waits behind the rider still talking with the family (one rider, one conversation: sim/encounters.mjs
+    // `questionWaits`, `FIC-GONZ-909`, 72050fee, 2026-09-29): he is sent on as a student sends him, from the conversation, and
+    // the call is then the family's to answer. Red from 72050fee until 2026-09-30 (the same fix as test:storming's, 5d5bfc39).
+    const talking = projectWorld(world, household.id, 'student', { includeMap: false }).encounter;
+    if (talking?.listenerId) applyAction(world, household.id, { action: 'leave-rider', entityId: talking.listenerId });
     const answerers = projectWorld(world, household.id, 'student', { includeMap: false }).request.answerers;
     const found = Object.entries(answerers).find(([, options]) => options.find(o => o.id === 'turn-out')?.can);
     if (found) applyAction(world, household.id, { action: 'turn-out', entityId: found[0], mode: 'horse' });

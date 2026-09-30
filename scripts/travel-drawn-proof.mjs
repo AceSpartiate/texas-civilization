@@ -54,6 +54,7 @@ const FRAME = `(id => {
     alpha: seen ? seen.alpha : 1, shown: seen?.shownHeightsPerSecond ?? 0, server: seen?.heightsPerSecond ?? 0,
     miles: seen?.miles ?? null, serverMiles: seen?.serverMiles ?? null, distance: seen?.journey?.distance ?? null,
     lead: seen?.lead ?? null, frameMs: seen?.shownAt ?? null, leapt: Boolean(seen?.leapt),
+    ownLand: seen?.ownLand ?? null, paced: Boolean(seen?.paced),
     road: Boolean(seen?.drawn), faded: Boolean(seen?.faded),
     drawn: window.__drawnAt?.[id] ? 1 : 0, height: window.__drawnAt?.[id]?.size ?? null,
     // How far the figure was **actually painted** from where the schedule says it should be, in pixels. 'painted' is the
@@ -126,11 +127,30 @@ try {
   app.setPace(PACES.study);
   await page.waitForFunction(pace => window.__snapshot?.tickMs === pace, PACES.study, { timeout: 30000 });
   await closeBoxes();
+  // Every painted frame from the moment they set out, until the family's own view has been sampled: a road that crosses only a
+  // few dozen yards of the family's land leaves it within the first second of the walk, before any later sample begins.
+  await page.evaluate(({ id, FRAME }) => {
+    const read = eval(FRAME);
+    window.__early = []; window.__earlyOn = true;
+    const step = () => { if (!window.__earlyOn) return; const frame = read(id); if (frame.progress !== null) window.__early.push(frame); requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }, { id: main, FRAME });
   const sent = await page.evaluate(async id => {
     const command = body => fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `${body.action}-${crypto.randomUUID()}`, entityId: id, ...body }) });
     await command({ action: 'stop-chore' });
-    const response = await command({ action: 'travel', destination: 'gonzales', mode: 'foot' });
-    return { status: response.status, text: await response.text() };
+    // A small child with nothing to do comes and talks to the parent, whose orders wait until the child is given something
+    // (sim/childhood.mjs); the server says so, and a student puts that child's Auto on and sends again, as test:keyboard-farm does.
+    for (let attempt = 0; ; attempt++) {
+      const response = await command({ action: 'travel', destination: 'gonzales', mode: 'foot' });
+      const text = await response.text();
+      const talk = response.status !== 200 && text.match(/has stopped to talk with (\S+), who has nothing to do/);
+      if (!talk || attempt >= 3) return { status: response.status, text };
+      const world = window.__snapshot.world;
+      const child = world.entities.find(one => one.householdId === world.householdId && (one.given || one.name.split(' ')[0]) === talk[1]);
+      if (!child) return { status: response.status, text };
+      await fetch('/api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: `auto-${crypto.randomUUID()}`, action: 'set-auto', entityId: child.id, auto: true }) });
+      await new Promise(resolve => setTimeout(resolve, 1500));
+    }
   }, main);
   assert.equal(sent.status, 200, `sending ${main} to Gonzales: ${sent.text}`);
   await page.waitForFunction(id => window.__snapshot.world.entities.find(entity => entity.id === id)?.travel?.progress > 0, main, { timeout: 30000 });
@@ -143,6 +163,8 @@ try {
   // ------------------------------------------------------- 1. the family's own view: a whole figure, walking, never faded
   await page.waitForTimeout(2000);
   const follow = await sample(page, main, 3000);
+  const setOut = await page.evaluate(() => { window.__earlyOn = false; return window.__early; });
+  record.setOutFrames = setOut.length;
   record.follow = {
     frames: follow.length, serverHeightsPerSecond: +Math.max(...follow.map(frame => frame.server)).toFixed(3),
     scale: +follow.at(-1).scale.toFixed(1), figurePx: follow.at(-1).height,
@@ -255,6 +277,7 @@ try {
   // the last stretch is walked *during* the tick the server calls the arrival - at the Study pace, where a tick is nine and
   // a half seconds, the whole walk in falls inside it. What matters is that the figure is back, in view and walking before
   // it is drawn *at the destination*, which is what these read.
+  if (process.env.PROOF_DEBUG_LAND) console.log('LAND', JSON.stringify({ road, follow: follow.filter((f, i) => i % 10 === 0).map(f => [f.t, f.alpha, f.miles, f.serverMiles, f.faded, f.lead, f.ownLand, f.paced, f.leapt, f.scale && Math.round(f.scale), f.tickMs]), journey: journey.slice(0, 400).filter((f, i) => i % 4 === 0).map(f => [f.t, f.alpha, f.miles, f.serverMiles, f.faded, f.lead, f.ownLand, f.paced, f.leapt, f.scale && Math.round(f.scale), f.tickMs]) }));
   if (process.env.PROOF_DEBUG) console.log(JSON.stringify({ road, frames: journey.filter((frame, i) => i % 5 === 0 || frame.arrived).slice(-120).map(frame => [frame.t && Math.round(frame.t), frame.alpha, frame.miles, frame.serverMiles, frame.faded, frame.lead, frame.arrived, frame.leapt, frame.scale]) }));
   const walked = journey.filter(frame => frame.alpha === 1 && frame.miles !== null);
   const fading = journey.filter(frame => frame.alpha > 0 && frame.alpha < 1);
@@ -274,14 +297,29 @@ try {
     backInAt: +Math.min(...walked.filter(frame => frame.miles > road.distance / 2).map(frame => frame.miles), road.distance).toFixed(3) };
   ok(`they walk in view at the start (out to ${record.fade.walkedOutTo} miles) and again at the end (from ${record.fade.backInAt} of ${road.distance})`,
     record.fade.walkedOutTo > 0 && record.fade.backInAt < road.distance);
-  // The family's own land under the road, which only a played class can prove is wired up: the walked lead is the whole
-  // on-land stretch *plus* the hundred yards off it, so it must be well past a hundred yards on a road that starts at the
-  // house. Read from the page's own schedule, not worked out here.
-  const seenLead = Math.max(...journey.map(frame => (frame.faded && frame.lead !== null ? frame.lead : 0)));
+  // The family's own land under the road, which only a played class can prove is wired up. Where the road leaves their land is
+  // the page's own schedule (`seen.ownLand`, public/app.js `landRuns` over the grant's bounds), read and not worked out here, and
+  // it must be there at all: more than fifty yards of a road that starts at the house. Then every frame drawn on that land - from
+  // the moment they set out, in the family's own view and pressed close in - is a whole figure (walked in view, at the pace
+  // steps 1 and 2 hold),
+  // and wherever the faded schedule was in force on it, its walked lead reaches past the land.
+  //
+  // Until 2026-09-30 this read the land only from the walked lead of faded frames. On a long road the family's own view is
+  // zoomed out so far that the server's pace is under the gait: the schedule is `whole`, drawn where the server has them, and
+  // they cross their land in view before the proof presses close in. From then the land is behind them (public/app.js, "Land
+  // already walked is behind them", 7ca3bdea) and the faded lead is the hundred yards alone - which read as "0 of their own
+  // land" on a family dealt 118.74 miles from Gonzales. A proof out of date with its own deal, not a figure faded on its land.
+  const OFF = SEEN_YARDS / 1760;
+  const ownLand = Math.max(...[...setOut, ...follow, ...journey].map(frame => frame.ownLand ?? 0));
+  const onLand = [...setOut, ...follow, ...journey].filter(frame => frame.miles !== null && frame.miles < ownLand - 1e-6 && !frame.leapt && !frame.arrived);
+  const fadedOnLand = onLand.filter(frame => frame.faded);
+  const seenLead = Math.max(0, ...journey.map(frame => (frame.faded && frame.lead !== null ? frame.lead : 0)));
+  record.fade.ownLandMiles = +ownLand.toFixed(3);
   record.fade.walkedLeadMiles = +seenLead.toFixed(3);
-  record.fade.ownLandMiles = +(seenLead - SEEN_YARDS / 1760).toFixed(3);
-  ok(`and the family's own land under that road is walked in view with it: a lead of ${record.fade.walkedLeadMiles} miles, which is ${record.fade.ownLandMiles} of their own land and then the ${SEEN_YARDS} yards off it`,
-    seenLead > SEEN_YARDS / 1760 * 1.5);
+  record.fade.onLandFrames = onLand.length;
+  record.fade.fadedOnLandFrames = fadedOnLand.length;
+  ok(`and the family's own land under that road is walked in view with it: ${record.fade.ownLandMiles} miles of their own land, ${onLand.length} frames drawn on it and every one a whole figure; ${fadedOnLand.length} of them faded-schedule frames, each with a walked lead past the land (the most ${record.fade.walkedLeadMiles} miles, their land and the ${SEEN_YARDS} yards off it)`,
+    ownLand > OFF / 2 && onLand.length > 0 && onLand.every(frame => frame.alpha === 1) && fadedOnLand.every(frame => frame.lead >= ownLand - 1e-6));
   ok(`the middle is crossed wholly out of sight: ${blind.length} painted frames with nothing of them drawn`,
     blind.length > 10 && blind.every(frame => frame.drawn === 0));
   ok(`and only the road is drawn while they are gone (${blind.filter(frame => frame.road).length} of ${blind.length} frames)`,
