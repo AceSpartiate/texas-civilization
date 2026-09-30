@@ -244,7 +244,18 @@
           <p id="recover-note"></p>
         </div>
       </div>
-      <div id="join-links" hidden></div>
+      <!-- How students join (triage 1.8, 2026-09-29; `renderJoinLinks` in public/app.js): the address large enough to read across a
+           room, the class code, and a QR code made on this computer (public/qr.js). Open in the lobby, one line once the class runs. -->
+      <section id="join-links" hidden aria-label="How students join">
+        <button type="button" id="join-card-toggle" aria-expanded="true" aria-controls="join-card"><span id="join-card-label">How students join</span><span id="join-card-short"></span></button>
+        <div id="join-card">
+          <p class="join-step">Type this address, or scan the code with the camera:</p>
+          <p id="join-address"></p>
+          <p class="join-step">Class code <strong id="join-code"></strong></p>
+          <div id="join-qr"></div>
+          <p id="join-others"></p>
+        </div>
+      </section>
       <!-- The teacher's class controls (2026-09-28, public/class-panel.js): how many class days a game takes and where the
            class is; the class size, in the lobby; which family a late student is given; and every class kept on this
            computer, opened again or a new one started. -->
@@ -515,6 +526,9 @@
         <h2 id="survey-title">Where to survey</h2>
       </header>
       <p id="survey-text"></p>
+      <!-- Suggested places from the server (triage 2.13, sim/suggest.mjs): a keyboard, a touch screen or a slow reader chooses
+           without hunting the map. Pressing one looks at it, as a tap there does; the button below still sends. -->
+      <div class="suggested" id="survey-suggested" role="group" aria-label="Suggested places" hidden></div>
       <p id="survey-note" role="alert"></p>
       <button type="button" id="survey-send" hidden>Survey it</button>
       <button type="button" id="survey-cancel">Not now</button>
@@ -526,6 +540,7 @@
         <h2 id="site-choose-title">Where the house stands</h2>
       </header>
       <p id="site-text"></p>
+      <div class="suggested" id="site-suggested" role="group" aria-label="Suggested places" hidden></div>
       <p id="site-note" role="alert"></p>
       <button type="button" id="site-build" hidden>Set the house here</button>
     </section>

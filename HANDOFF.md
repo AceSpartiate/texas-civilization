@@ -1,5 +1,52 @@
 # Claude handoff — Astra foundation
 
+## Thirty orders at once, the join address large, suggested places, and wrong tries per device — 2026-09-29 (not released)
+
+Branch `tier2-classroom` off origin/main 80842f72; not pushed. The triage's items 1.6, what was left of 1.8, 2.13 and 2.15
+(docs/audits/2026-09-29-triage.md, each marked). **Same computer only: no Chromebook, school laptop, LAN or classroom claim.**
+
+- **1.6 Thirty orders at once, late in a class of 30** (server/app.mjs; docs/PERFORMANCE_SERVER.md, *Thirty orders at once*).
+  Measured before and after alternately, twice each, 30 rolled families: the slowest of 30 orders pressed together was
+  **7.3 s / 7.4 s in the winter and 12.8 s / 12.3 s in the spring; now 0.11 s / 0.08 s and 0.62 s / 0.71 s**. Not the order's own
+  cost (check 10-12 ms, serialise 33-35 ms) but its broadcast: all 31 pages projected (0.3 s) inside every order, one after
+  another, because the gap was counted from the broadcast's start. Now an order is shown by a timer, never inside itself, the
+  gap counted from the end and never shorter than the last broadcast took (`broadcastWait`); and orders arriving together are
+  made in one commit (`queueOrder`/`makeOrders`, 30 orders in 2 commits). A refused order puts its batch back and the batch is
+  made again round it, the refused one alone in its own commit, so every answer and the world are what one at a time gives.
+  The triage's "validate only what was touched / serialise on the timer" were weighed and not needed (the section says why).
+  `scripts/perf-server-measure.mjs` now splits the order commit, counts the broadcasts, records memory, and takes `PERF_SERVER`.
+  Memory of the measuring process at the spring: 1.2-1.7 GB resident (an upper bound: it holds four worlds). Still open: a spring
+  tick is 0.46-0.56 s here (projection 0.31-0.38 s), half the thread at Quick; `/api/site` ×30 and a school laptop unmeasured.
+- **1.8 The join address shown large on the Host** (`renderJoinLinks`, public/index.html `#join-links`, docs/HOST_PAGE.md §2.13,
+  TEACHER.md *How students join*). The address in 22 px on one line, the class code in 26 px, and a 180 px QR code of the address
+  with `?code=`, made in the page by **`public/qr.js`**, written here from the QR standard with no library and no network
+  service (docs/REFERENCE_ARCHITECTURES.md §9: qrcode-generator (MIT) and jsQR (Apache-2.0) were read, used for evidence only, and
+  are not in the tree). Open in the lobby; one short line once the class runs (*Join 192.168.4.38:3000 · code 6744EF*), opened
+  again by the teacher. A student who scans it has the code filled in; the query is taken off the address bar.
+- **2.13 A keyboard-only student can farm** (`sim/suggest.mjs`, `GET /api/suggest`, docs/LAND_GRANTS.md §9). Up to three
+  suggested places, as labelled buttons, for the house site, ten acres to survey and the plot to clear or fence - each one the
+  server accepts when looked at and sent - which take the keyboard when the choice is opened; pressing one does what a tap there
+  does. Enter (or space) on the map picks the spot in its middle while a place is chosen, with a ring marking it. No saved field.
+- **2.15 Wrong tries per device** (`doorOf`/`rejoinCooldown`, docs/HOST_PAGE.md §2.13). Counted per browser by a `tr_door`
+  cookie given with the first wrong try (5 tries, 30 s), behind it a count per address a right answer never clears (100 in 30 s),
+  so one student's wrong codes no longer lock the room out behind a shared address and brute force stays about 3 tries a second.
+
+**Evidence** (same computer, headless Chrome, at most two runs at once):
+
+- New tests, each seen failing under its injected regression: `tests/order-batch.test.mjs` (3), `tests/shared-address.test.mjs`
+  (3), `tests/suggest.test.mjs` (5), `tests/qr.test.mjs` (3, against `tests/fixtures/qr-reference.json`). `tests/rejoin.test.mjs`'s
+  two throttling tests now keep the door's cookie, as a browser does. **`npm run test:tier2-classroom-injections`: 18 of 18
+  caught** by the tests and proofs that guard them (14 node, 4 browser) ([record](docs/evidence/tier2-classroom-injections.json)).
+- New proofs: `npm run test:join-card` (8 checks: 1920x1080, 1366x768, 1024x768; the QR on the page is `public/qr.js`'s; folded
+  and reopened by the keyboard; a scanned address; no request off the class server) and `npm run test:keyboard-farm` (10 checks:
+  Tab, Enter and the arrows alone from the wagon to a suggested house site, the map's Enter, ten acres surveyed, the staked plot
+  cleared), green 5 of 5 runs after an idle child's talk was taken out of its way.
+- `npm test`: **1812 tests, 1776 pass, 0 fail, 36 skipped** (the suspended tutorial), twice. Browser proofs green: `test:host-live` 11, `test:host-bell` 11, `test:host-lobby` 9, `test:reconnect` 12,
+  `test:classes` 16, `test:farm`, `test:panels` 14, `house-plot-browser-proof`, and `test:overlap` - which first failed on this
+  branch (*host fight 1024x768: the caption 24% under the class*: the folded join line was 340 px wide and narrowed the caption's
+  room) and passes since the folded line is as wide as its words (the join-card proof holds it under 300 px).
+- Not claimed: a Chromebook camera reading the code, a screen reader on the suggestions, a school laptop, a shared district address.
+
 ## Tier 2 page items: the army's question over the town and the rooms, the family key, Offer a trade, 12 px type — 2026-09-29 (not released)
 
 Branch `tier2-page` off origin/main 80842f72; not pushed. Triage 2026-09-29 items 2.2, 2.4, 2.6 and 2.12
