@@ -18,8 +18,10 @@
 //   family  every family's own video starts by itself on its student's page **at the same moment** (`playAt`), and the stage
 //           lasts as long as the longest of them and a little more (`endsAt`). Nothing waits for a page to say it has watched,
 //           and a page that is closed holds nothing. `playAt` is set once the video of every family whose student's page is
-//           open has been made - the Host's page makes them while the class video plays - `START_MS` ahead, so each page has
-//           its file loading before it plays; or, a video never made, `MAKE_WAIT_MS` after the stage began, with those made.
+//           open has been made - the Host's page makes them, two at a time, while the class video plays - never before the class
+//           video has finished (the stage begins then) and never sooner than `START_MS` after the last was made, so each page has
+//           its file loading before it plays (owner, 2026-09-30); or, a video never made, `MAKE_WAIT_MS` after the stage began,
+//           with those made.
 //   reveal  the Host's screen shows the final table and the winner, and each student's screen the full breakdown of the score
 //           (sim/ending.mjs). Nothing of the final numbers is sent to any page before it (`endingProjection`).
 //
@@ -107,7 +109,12 @@ function familyClock(sequence, facts, now) {
   if ((!open.length || made.length < open.length) && now < sequence.since + MAKE_WAIT_MS) return null;
   // Nothing made to play by then: nothing to wait for.
   if (!made.length) return { reveal: true };
-  const playAt = now + START_MS;
+  // The start (owner, 2026-09-30: "student videos don't start playing until after the class video finishes playing"): this stage
+  // begins only when the class video has ended (the Host's page said so), run out its time, or been skipped by the teacher, so the
+  // start is never before that; and never sooner than START_MS after the last of these videos was made, so its page has its first
+  // seconds loaded. Videos made while the class video played have had their START_MS already: they start as it ends.
+  const lastMade = Math.max(...made.map(fact => fact.made.madeAt || 0));
+  const playAt = Math.max(now, lastMade + START_MS);
   return { playAt, endsAt: playAt + Math.max(...made.map(fact => fact.made.durationMs)) + END_MS };
 }
 

@@ -13,6 +13,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { projectWorld, validateWorld } from '../sim/world.mjs';
 import { CLASS_GRACE_MS, CLASS_WAIT_MS, END_MS, MAKE_WAIT_MS, START_MS, advanceEndSequence, beginEndSequence, dueStage, endSequenceStep, endSequenceView, familyStates } from '../sim/end-sequence.mjs';
 import { continueEnded } from '../sim/periods.mjs';
+import { CLASS_ID, MAKE_AT_ONCE, toStart } from '../public/making-plan.js';
 import { muxWebM } from '../public/webm-writer.js';
 import { createClassroom } from '../server/app.mjs';
 
@@ -63,7 +64,8 @@ test('the class video, then the families\' own, then the reveal: what moves each
   assert.equal(capped.endSequence.stage, 'family', 'Play Solo has no class video');
   const waiting = { classVideo: null, families: { 'hh-1': { here: true, made: { madeAt: 0, durationMs: 80000 } }, 'hh-2': { here: true, made: null } } };
   assert.equal(advanceEndSequence(capped, waiting, MAKE_WAIT_MS - 1), null);
-  assert.deepEqual(advanceEndSequence(capped, waiting, MAKE_WAIT_MS), { playAt: MAKE_WAIT_MS + START_MS, endsAt: MAKE_WAIT_MS + START_MS + 80000 + END_MS });
+  // The one made was made long before: its START_MS is past, so they start at once.
+  assert.deepEqual(advanceEndSequence(capped, waiting, MAKE_WAIT_MS), { playAt: MAKE_WAIT_MS, endsAt: MAKE_WAIT_MS + 80000 + END_MS });
   // Nobody's page open at all (a Play Solo player's page not yet come): no reveal at once; it waits for a page, MAKE_WAIT_MS at most.
   const empty = ended('end-seq-empty');
   beginEndSequence(empty, { now: 0, solo: true });
@@ -71,6 +73,55 @@ test('the class video, then the families\' own, then the reveal: what moves each
   assert.equal(advanceEndSequence(empty, nobody, 1), null, 'the stage ended before any page had opened');
   assert.equal(advanceEndSequence(empty, nobody, MAKE_WAIT_MS)?.stage, 'reveal');
   validateWorld(world); validateWorld(capped);
+});
+
+test('the families\' videos never start before the class video has finished, and start as it ends when they are ready (owner, 2026-09-30)', () => {
+  // Owner, 2026-09-30: "student videos don't start playing until after the class video finishes playing".
+  const class_ = { madeAt: 1000, durationMs: 120000 };
+  const early = { classVideo: class_, families: { 'hh-1': { here: true, made: { madeAt: 40000, durationMs: 85000 } }, 'hh-2': { here: true, made: { madeAt: 70000, durationMs: 88000 } } } };
+  const world = ended('end-seq-after-class');
+  beginEndSequence(world, { now: 0 });
+  // Every family's video made while the class video plays: nothing starts while it plays, whatever is ready.
+  for (const at of [70000, 100000, 120000]) {
+    assert.equal(advanceEndSequence(world, early, at), null, `the families' start was set at ${at} ms, while the class video played`);
+    assert.equal(world.endSequence.playAt, undefined);
+  }
+  // It ends (the Host's page says so) at 125 s: the families' start is that moment, their START_MS long past.
+  endSequenceStep(world, { role: 'host' }, 'class-watched', 125000);
+  advanceEndSequence(world, early, 125000);
+  assert.equal(world.endSequence.playAt, 125000, 'videos ready before the class video ended did not start as it ended');
+  assert.equal(world.endSequence.endsAt, 125000 + 88000 + END_MS);
+  // The last made three seconds before the class video ended: the rest of its START_MS still applies.
+  const late = ended('end-seq-after-class-late');
+  beginEndSequence(late, { now: 0 });
+  const lastMinute = { classVideo: class_, families: { ...early.families, 'hh-2': { here: true, made: { madeAt: 122000, durationMs: 88000 } } } };
+  endSequenceStep(late, { role: 'host' }, 'class-watched', 125000);
+  advanceEndSequence(late, lastMinute, 125000);
+  assert.equal(late.endSequence.playAt, 122000 + START_MS, 'the start came before the last video\'s START_MS');
+  // And one made after the class video ended: START_MS after it was made.
+  const after = ended('end-seq-after-class-after');
+  beginEndSequence(after, { now: 0 });
+  endSequenceStep(after, { role: 'host' }, 'class-watched', 125000);
+  const waiting = { classVideo: class_, families: { ...early.families, 'hh-2': { here: true, made: null } } };
+  assert.equal(advanceEndSequence(after, waiting, 130000), null);
+  waiting.families['hh-2'].made = { madeAt: 140000, durationMs: 88000 };
+  advanceEndSequence(after, waiting, 140500);
+  assert.equal(after.endSequence.playAt, 140000 + START_MS);
+  validateWorld(world); validateWorld(late); validateWorld(after);
+});
+
+test('the Host\'s computer makes the class\'s video alone and first, then the families\' two at a time (owner, 2026-09-30)', () => {
+  // Owner, 2026-09-30: "make two at once".
+  assert.equal(MAKE_AT_ONCE, 2);
+  const wanted = [CLASS_ID, 'hh-2', 'hh-4', 'hh-1', 'hh-3'];
+  assert.deepEqual(toStart(wanted, []), [CLASS_ID], 'the class video was not made first, or not alone');
+  assert.deepEqual(toStart(wanted.slice(1), [CLASS_ID]), [], 'a family\'s video was made beside the class\'s');
+  assert.deepEqual(toStart(wanted.slice(1), []), ['hh-2', 'hh-4'], 'the families\' were not made two at a time, in the order wanted');
+  assert.deepEqual(toStart(['hh-1', 'hh-3'], ['hh-4']), ['hh-1'], 'a finished video was not followed at once by the next');
+  assert.deepEqual(toStart(['hh-1', 'hh-3'], ['hh-2', 'hh-4']), [], 'a third was made at once');
+  assert.deepEqual(toStart([], ['hh-2']), []);
+  // A class video wanted again (the class made again) waits for the families' in hand, then goes alone.
+  assert.deepEqual(toStart([CLASS_ID, 'hh-1'], ['hh-2']), []);
 });
 
 test('no page is sent a number of the ending before the reveal, and every page is at the reveal', () => {
@@ -132,9 +183,10 @@ test('what a page may ask of the sequence: the teacher moves it on, and a family
 /** A class on the invented country, a student in hh-1, started and then ended by the Host, served with a save folder. */
 async function room(t, { savePath = true } = {}) {
   const folder = mkdtempSync(join(tmpdir(), 'end-sequence-'));
-  // The server's wall clock, moved on by the test (`clock.at`): the end sequence runs on it.
-  const clock = { at: Date.now() };
-  const app = createClassroom({ seed: 'end-sequence', playerCount: 5, tickMs: 10000, now: () => clock.at, ...(savePath && { savePath: join(folder, 'class.json') }) });
+  // The server's wall clock, real time moved on by the test (`clock.ahead`): the end sequence runs on it, and a video's `madeAt` is
+  // real time, as on a teacher's computer.
+  const clock = { ahead: 0 };
+  const app = createClassroom({ seed: 'end-sequence', playerCount: 5, tickMs: 10000, now: () => Date.now() + clock.ahead, ...(savePath && { savePath: join(folder, 'class.json') }) });
   t.after(async () => { await app.close(); rmSync(folder, { recursive: true, force: true }); });
   const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
   const hostLogin = await fetch(`${url}/api/host`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: app.state.hostKey }) });
@@ -187,14 +239,16 @@ test('on the server: the Host ends the class, the class video first, the student
   const started = Date.now();
   while (Date.now() - started < 5000 && !Number.isFinite((await r.state(r.student)).endSequence.playIn)) await new Promise(resolve => setTimeout(resolve, 200));
   mine = await r.state(r.student);
-  assert.equal(mine.endSequence.playIn, START_MS, 'the videos do not start START_MS after the last is made');
-  assert.equal(mine.endSequence.endsIn, START_MS + 85000 + END_MS);
+  // START_MS after it was made, less the moment the server took to see it (it looks each second) and to answer.
+  const playIn = mine.endSequence.playIn;
+  assert.ok(playIn > START_MS - 2000 && playIn <= START_MS, `the videos do not start START_MS after the last is made: in ${playIn} ms`);
+  assert.equal(mine.endSequence.endsIn, playIn + 85000 + END_MS);
   // Nothing the student's page says is needed, or accepted: the stage ends when the longest video has played, and the buffer.
   assert.equal((await r.step(r.student, 'watched')).status, 400);
-  r.clock.at += START_MS + 85000 + END_MS - 1000;
+  r.clock.ahead += playIn + 85000 + END_MS - 5000;
   await new Promise(resolve => setTimeout(resolve, 1600));
   assert.equal((await r.state(r.host)).endSequence.stage, 'family', 'the stage ended before the longest video had played');
-  r.clock.at += 1000;
+  r.clock.ahead += 5000;
   const ending = Date.now();
   while (Date.now() - ending < 5000 && (await r.state(r.host)).endSequence.stage !== 'reveal') await new Promise(resolve => setTimeout(resolve, 200));
   host = await r.state(r.host); mine = await r.state(r.student);

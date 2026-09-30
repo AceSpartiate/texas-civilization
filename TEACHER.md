@@ -83,8 +83,8 @@ When the spring ends (or at End Game) the class goes through the end together, a
    computer makes it first, so it may take a minute to start. The students' screens say to look up at the class screen.
 2. **Each student's own video** then plays on their own screen: their family's story, then the family coming home, seeing what is
    left, rebuilding if the farm was burned, remembering anybody they lost, and the head of the household counting what is left - and
-   selling the farm to a land agent if it still stands. Every student's video starts by itself at the same moment, as soon as your
-   computer has made them all; your screen counts down to the start and then to the final numbers. Nothing waits for a student who is
+   selling the farm to a land agent if it still stands. Every student's video starts by itself at the same moment, once the class video
+   has finished and your computer has made them all (it makes two at a time, while the class video plays); your screen counts down to the start and then to the final numbers. Nothing waits for a student who is
    away, and a student who opens their page late joins where the class is.
 3. **The final numbers**: when the longest video has played, every page shows **the ending**. It can be closed to look at the map again, and opened again with **How it ended**.
 
