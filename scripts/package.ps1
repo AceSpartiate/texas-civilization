@@ -55,6 +55,18 @@ New-Item -ItemType Directory -Force $stage | Out-Null
 $app = Join-Path $stage 'TexasRevolution'
 New-Item -ItemType Directory -Force $app | Out-Null
 
+# ---------------------------------------------------------------- the art as WebP
+# Owner, 2026-09-29 (triage D14, "All to WebP"): the page loads WebP made from the PNG masters, which a class of thirty
+# Chromebooks downloads at a fraction of the PNG's size. Made here (scripts/build-webp.mjs, Python with Pillow) where they
+# are missing or out of date - they are not committed - and checked: a package never ships a sheet whose WebP is not the
+# one made from its PNG.
+$node = Join-Path $root 'runtime\node.exe'
+if (-not (Test-Path -LiteralPath $node)) { $node = 'node' }
+& $node (Join-Path $root 'scripts\build-webp.mjs')
+if ($LASTEXITCODE -ne 0) { throw 'The WebP copies of the art could not be made (npm run build:webp).' }
+& $node (Join-Path $root 'scripts\build-webp.mjs') --check | Select-Object -Last 1
+if ($LASTEXITCODE -ne 0) { throw 'A picture has no current WebP (npm run build:webp -- --check).' }
+
 # ---------------------------------------------------------------- the game itself
 $ship = @(
   'server', 'sim', 'public', 'runtime',
@@ -71,6 +83,17 @@ foreach ($name in $ship) {
 $claudeSources = Join-Path $app 'public\assets\claude-standins\svg'
 if (Test-Path -LiteralPath $claudeSources) { Remove-Item -LiteralPath $claudeSources -Recurse -Force }
 if (@(Get-ChildItem -LiteralPath (Join-Path $app 'public') -Recurse -Force -Filter '*.svg' | Where-Object { $_.FullName -like '*claude-standins*' }).Count -ne 0) { throw 'Claude art SVG sources must not ship' }
+# The PNG of every picture that has its WebP stays home (triage D14): the page asks only for the WebP, and the server answers a
+# stray request for the PNG with it (server/delivery.mjs `pictureFor`). The record ships, since the server reads it.
+$assetsInPackage = Join-Path $app 'public\assets'
+$webpRecord = Get-Content -LiteralPath (Join-Path $assetsInPackage 'webp\record.json') -Raw | ConvertFrom-Json
+$pngsLeft = 0
+foreach ($made in $webpRecord.pictures.PSObject.Properties) {
+  if (-not (Test-Path -LiteralPath (Join-Path $assetsInPackage $made.Name))) { throw "$($made.Name) is recorded but not in the package" }
+  $png = Join-Path $assetsInPackage ($made.Name.Substring('webp/'.Length) -replace '\.webp$', '.png')
+  if (Test-Path -LiteralPath $png) { Remove-Item -LiteralPath $png -Force; $pngsLeft++ }
+}
+"$pngsLeft PNG masters left home for their WebP"
 # The launcher's own scripts, and only those: the browser proofs, the art pipeline and the
 # preflight tooling are development instruments. appinfo.mjs is not optional - stop.ps1 and
 # the launcher both ask it where this machine put the class data rather than guessing.

@@ -1,5 +1,57 @@
 # Claude handoff — Astra foundation
 
+## The art as WebP, a Tips button, and tap-then-send on touch — triage D14, D16, D17, owner 2026-09-29 (not released)
+
+Branch `webp-tips-touch` off origin/main 67d674bb, merged with origin/main ca6ac201 and again 8687a96b; not pushed. The owner
+chose the recommended option of each (docs/audits/2026-09-29-triage.md) and confirmed on 2026-09-30 quality 90 with lossless
+only where recolouring needs exact colours. **Same computer only: no Chromebook, touch screen, school laptop or LAN claim.**
+
+- **D14, "All to WebP"** (docs/PERFORMANCE_LOAD.md, *The art as WebP*; TECH.md). `npm run build:webp` (scripts/build-webp.mjs,
+  Pillow via scripts/webp-encode.py) makes every sheet's WebP under `public/assets/webp/` from the PNG masters, which are
+  untouched; **not committed** (.gitignore), with a record of the PNG each was made from. Quality 90, except every sheet a
+  recoloured person is on (`variantOf` in public/person-palette.js): lossless, and decoded again and compared with its PNG pixel
+  for pixel. Lossy was measured with the classifier itself first: up to 35.8% of `people-walk`'s dyed pixels changed part at q90.
+  The page asks for `/assets/webp/…webp?v=<PNG hash>` (public/art.js; manifests and frames unchanged; the retry unchanged) and the
+  creation screen's landscapes by their WebP (public/style.css). The server sends a WebP only while it is still the PNG's, pinned
+  by the PNG's hash, and otherwise the PNG, unpinned (`pictureFor`, server/delivery.mjs): a fresh checkout, or a sheet Astra
+  delivers before anybody builds, still shows the right picture. scripts/package.ps1 builds, refuses a package with any WebP out
+  of date, and **ships no PNG** for a picture with a WebP.
+- **Bytes.** Whole art set, 336 pictures: **318.4 MB PNG → 105.4 MB WebP** (83 lossless sheets 64.0 → 44.3 MB; 253 at q90
+  254.4 → 61.0 MB). A cold first view (the perf-load solo game, 21 pictures): **34.9 MB → 12.0 MB on the wire** (pictures 33.3 →
+  10.4 MB), so **about 1,050 MB → 360 MB for thirty Chromebooks**; a reload is still no art at all. Classroom profile: the last
+  picture at 16.0 s → 7.5 s and 5.9 s. **Timings are noisy, the bytes are not:** this computer was shared with other builders'
+  proofs, and Play Solo's first view drew 1.9 s later, 1.7 s later, then 0.6 s sooner in three runs after; WebP does decode
+  slower (0.5-1.9 s on other threads against 0.2 s), and what that costs on a Chromebook is unmeasured (`ceiling:` in the doc).
+  The package from the merged tree (`-SkipLauncher`, to a scratch folder, not published): update zip **153 MB**, NeedsNode zip
+  **120 MB**, no PNG shipped (v2026.09.29.3: 352 / 319 MB); its own server, unzipped, answers the WebP pinned and the PNG's old
+  URL with the WebP. The first small update after this carries every WebP.
+- **D16, "Tips button"** (docs/LESSON.md §9a). A **Tips** button beside the sound and the Journal, there once a tip has been put
+  away, never on the Host's page: every tip put away, latest first, to read again (`tipsToReread`, public/tips.js). It sends
+  nothing, shows no tip again, and never lists `resume` ("Resume tutorial"), so the suspended guided start cannot come back.
+  Keyboard (Enter opens on its ×, Escape closes back to the button) and touch; kept clear of the bar, the cards and the messages.
+- **D17, "Tap, then send"** (docs/FAMILY_PANEL.md, amendment 2026-09-29). On a touch press only (the press's pointer, else the
+  last pointer down, else `pointer: coarse` or a touch seen), the first tap on an open icon of the bar shows its popup with the
+  cost and the server's warning (`leaves`, S14) and a 44px **Send**, and sends nothing; the second tap or Send sends. A mouse and
+  the keyboard are as before. Refused icons only explain; icons that open their own chooser (errand, Neighbours, sending for a
+  soldier, work on the map) are not armed first (`iconPress`, public/family-panel.js).
+- **Tests.** New: `tests/webp.test.mjs`, `tests/tips-touch.test.mjs`; `tests/delivery.test.mjs` and `tests/creation.test.mjs`
+  updated; the eight house tests' fetch stubs answer a sheet by either name. **Every new test failed under an injection first:
+  18 of 18** (`npm run test:webp-tips-touch-injections`, [record](docs/evidence/webp-tips-touch-injections.json)). `npm test` on
+  the merged tree: **1,847 tests, 1,811 pass, 0 fail, 36 skipped**. `test:art` and `test:looks-face` asked for their withheld sheet
+  by the PNG's name; both now ask by either name (looks-face's lost-sheet retry: 2 requests, 37 and 37 pictures drawn).
+- **Proofs on the merged tree** (headless Chrome, WebPs built, one at a time): `test:art` green, `test:claude-art` green (every
+  injection caught, clean run 0 failing), `test:looks` 12, `test:looks-face` 15, `test:creation` 14, `test:creation-screen` 4,
+  `test:famous-people` 22, `test:riding` 16, `test:children` 16, `test:work` 5, `test:family-panel` 23 (four new touch checks),
+  `test:family-commands` 23, `test:tips` 16 (two new Tips-list checks and the Host's), `test:overlap` green (the open tips list at
+  every student size), `test:lone-parent` 10. `test:battle-alamo` red, see below.
+- **Merging origin/main 8687a96b** (family starts): its palette began dyeing the children, and the next build found the 11 sheets
+  it had made lossy that now held recoloured children, and made them lossless (72 → 83). Only proof evidence conflicted; taken
+  from main, then regenerated by the proofs above.
+- **Still open.** `test:battle-alamo` times out waiting for a man killed in the storming (13 March) - the same with origin/main's
+  own page and server swapped in, so not this branch. `test:famous-people` failed once (*Twin Sisters not named on the 20th*) and
+  passed on the re-run. Not proved: a Chromebook's decode time, a real touch screen, the `leaves` warning tapped (no proof builds a
+  lone father with little ones).
+
 ## The end of the class as one sequence, and the farm sold or glory for a burned one — owner D10 and D8, 2026-09-29 (not released)
 
 **The ask.** The owner's answers to the triage's D10 and D8 (docs/audits/2026-09-29-triage.md), verbatim in docs/FLASHBACK.md §11 and

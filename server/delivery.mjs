@@ -82,6 +82,51 @@ function facts(entry) {
   };
 }
 
+/**
+ * The WebP copies of the art and what each was made from (owner, 2026-09-29, triage D14): scripts/build-webp.mjs writes each
+ * picture's WebP to the same path under `webp/` and the record to `webp/record.json`, both under public/assets/. `find(name)`
+ * is the server's own checked path of a file under the assets root, or null. The record is read again only when it changes.
+ */
+export const WEBP_DIR = 'webp/';
+let record = { sha256: null, pictures: {} };
+export function webpRecord(find) {
+  const path = find(`${WEBP_DIR}record.json`);
+  if (!path) return {};
+  const facts = fileFacts(path, { keep: true });
+  if (record.sha256 !== facts.sha256) {
+    let pictures = {};
+    try { pictures = JSON.parse(facts.content.toString('utf8')).pictures || {}; } catch { /* a half-written record is no record */ }
+    record = { sha256: facts.sha256, pictures };
+  }
+  return record.pictures;
+}
+/**
+ * Which file answers a request for a sheet or a picture of the page, `rel` under the assets root (triage D14).
+ *
+ * The page asks for `webp/<sheet>.webp?v=<the PNG's hash>` (public/art.js). The WebP goes while the record says it was made
+ * from the PNG now at `<sheet>.png` - or, in a package that ships no PNG, from the PNG the record names - and is pinned by
+ * that PNG's hash, which is what the page knows. Otherwise the PNG goes, never pinned, so a sheet delivered since the WebPs
+ * were made, or a tree where they never were, shows the right picture, larger, and takes the WebP once it is made. A PNG
+ * asked for where only its WebP shipped goes as the WebP (a page from before the change, still open across an update). Any
+ * other file is itself.
+ *
+ * Returns { path, extension, pins } or null: `pins` are hashes a `v` may start with besides the file's own, and null means
+ * the answer is never pinned.
+ */
+export function pictureFor(rel, find) {
+  const extension = rel.endsWith('.webp') ? 'webp' : 'png';
+  const made = extension === 'webp' && rel.startsWith(WEBP_DIR);
+  const webpRel = made ? rel : extension === 'png' ? WEBP_DIR + rel.replace(/\.png$/, '.webp') : null;
+  const pngRel = made ? rel.slice(WEBP_DIR.length).replace(/\.webp$/, '.png') : extension === 'png' ? rel : null;
+  if (!webpRel) { const path = find(rel); return path ? { path, extension, pins: [] } : null; }
+  const png = find(pngRel);
+  if (!made && png) return { path: png, extension: 'png', pins: [] };
+  const entry = webpRecord(find)[webpRel], webp = entry ? find(webpRel) : null;
+  const current = Boolean(webp && fileFacts(webp).sha256 === entry.webp && (!png || fileFacts(png).sha256 === entry.png));
+  if (current) return { path: webp, extension: 'webp', pins: [entry.png] };
+  return made && png ? { path: png, extension: 'png', pins: null } : null;
+}
+
 /** The validator a response carries: a gzipped body is a different representation, so it gets its own. */
 export const etagFor = (req, facts, compressible) => compressible && facts.size >= COMPRESS_MIN_BYTES && acceptsGzip(req)
   ? `${facts.etag.slice(0, -1)}-gz"` : facts.etag;

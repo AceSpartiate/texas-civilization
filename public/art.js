@@ -10,6 +10,9 @@ import { namePrefixes, standinWithheld } from './art-subjects.js';
 // replaces a stand-in the moment it is registered - and no Claude frame of a subject she has drawn is taken at all
 // (public/art-subjects.js, `mergeStandins`). Missing or unreadable, it changes nothing.
 const STANDIN_MANIFEST = '/assets/claude-standins/atlas.json';
+/** Where the WebPs are (scripts/build-webp.mjs `WEBP_DIR`), and a sheet's path under /assets/: Astra's are relative to her library. */
+const WEBP_BASE = '/assets/webp/';
+const sheetPath = source => (source.startsWith('/') ? source : BASE + source).replace(/^\/assets\//, '');
 const CORE_SHEETS = ['nature', 'buildings', 'transport', 'civilians'];
 const MOTIONS = new Set(['none', 'sway', 'breathe', 'rock', 'recoil', 'drift', 'pulse']);
 const art = { status: 'idle', frames: {}, sheets: {}, images: {}, clips: {} };
@@ -163,7 +166,11 @@ function requestSheet(name) {
       // The manifest's own hash of the sheet pins the URL: the server lets the browser keep a pinned sheet for a year, so a
       // class's second day - or a reload - downloads no art at all, and a changed sheet has a new URL (server/delivery.mjs).
       const pin = typeof sha256 === 'string' && /^[0-9a-f]{64}$/.test(sha256) ? `?v=${sha256.slice(0, 16)}` : '';
-      const image = await loadImage(`${source.startsWith('/') ? source : BASE + source}${pin}`);
+      // The WebP made from the sheet (owner, 2026-09-29, triage D14 "All to WebP"; scripts/build-webp.mjs): the same picture at
+      // the same size, so every frame's rectangle holds, at about a third of the bytes - lossless for a sheet whose people are
+      // recoloured (public/person-palette.js reads their pixels). Pinned by the PNG master's hash, which is what the manifest
+      // records. The server sends the PNG where no current WebP was made (server/delivery.mjs `pictureFor`).
+      const image = await loadImage(`${WEBP_BASE}${sheetPath(source).replace(/\.png$/, '.webp')}${pin}`);
       sheetsLoading--;
       if (image) { art.images[name] = image; sheetFailures.delete(name); } else retrySheet(name);
       art.status = Object.keys(art.images).length ? 'ready' : 'unavailable';

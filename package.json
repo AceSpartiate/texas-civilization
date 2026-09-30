@@ -12,6 +12,7 @@
     "test": "node --test",
     "build:art": "node scripts/build-atlas-manifest.mjs",
     "build:standins": "node scripts/build-claude-standins.mjs",
+    "build:webp": "node scripts/build-webp.mjs",
     "art:plan": "node scripts/claude-art/write-plan.mjs",
     "art:compare": "node scripts/claude-art/compare.mjs",
     "art:rig": "node scripts/claude-art/proof-rig.mjs",
@@ -148,6 +149,7 @@
     "test:one-rider-browser-injections": "node scripts/one-rider-browser-injections.mjs",
     "test:rider-deadline-injections": "node scripts/rider-deadline-injections.mjs",
     "test:spring-news-injections": "node scripts/spring-news-injections.mjs",
-    "test:news-all-riders-injections": "node scripts/news-all-riders-injections.mjs"
+    "test:news-all-riders-injections": "node scripts/news-all-riders-injections.mjs",
+    "test:webp-tips-touch-injections": "node scripts/webp-tips-touch-injections.mjs"
   }
 }

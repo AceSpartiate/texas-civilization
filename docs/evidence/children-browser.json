@@ -55,8 +55,8 @@
         "kind": "reconstructed",
         "text": "Watch me, Mama! Watch this!",
         "box": {
-          "x": 491.18665610762673,
-          "y": 728.5555777639495,
+          "x": 435.48486328125,
+          "y": 729.1684713099318,
           "w": 186.85888671875,
           "h": 27,
           "tail": [
@@ -80,7 +80,7 @@
         "text": "The wind comes from the Gulf, I expect.",
         "box": {
           "x": 359.71826171875,
-          "y": 674.8471013565968,
+          "y": 675.3265284919348,
           "w": 197.28173828125,
           "h": 42,
           "tail": [
@@ -301,9 +301,9 @@
         false
       ],
       [
-        "w",
+        "e",
         "smallchild-walk",
-        true
+        false
       ],
       [
         "w",
@@ -346,9 +346,9 @@
         false
       ],
       [
-        "w",
+        "e",
         "smallchild-walk",
-        true
+        false
       ],
       [
         "w",
@@ -498,17 +498,17 @@
       "row": "Driving the milk cow along behind the family.",
       "drawn": {
         "by": "hh-1-child-4",
-        "x": 764,
-        "y": 390,
+        "x": 603,
+        "y": 487,
         "clip": "cattle-longhorn-red-idle",
         "child": {
-          "x": 844,
-          "y": 385
+          "x": 683,
+          "y": 481
         }
       },
       "child": {
-        "x": 844.4635164421087,
-        "y": 344.83359420443537,
+        "x": 683,
+        "y": 441.38192307692304,
         "size": 89.10000000000001
       },
       "herdLeft": {

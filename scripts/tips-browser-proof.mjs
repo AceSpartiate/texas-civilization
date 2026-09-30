@@ -95,6 +95,60 @@ function placed(where, tip) {
 
 // =============================================================================================== 1. the first period
 let first = null;
+/**
+ * The Tips button and its list (owner, 2026-09-29, triage D16): reached with the keyboard or a finger, it lists every tip put
+ * away, the latest first, never the guided start's; it stands clear of the bar, the column and the map's buttons; reading it
+ * sends nothing and shows no tip again; Escape (or its ×) closes it and gives the keyboard back to the button.
+ */
+async function tipsList(page, how, { expectFirst, expect = [] }) {
+  const sent = [];
+  const onRequest = request => { if (request.method() === 'POST' && request.url().includes('/api/command')) sent.push(request.postData()); };
+  const shownBefore = await page.evaluate(() => (window.__tipsShown || []).length);
+  await until(page, 'the Tips button never showed after a tip was put away', () => { const button = document.querySelector('#tips-toggle'); return button && !button.hidden && button.getBoundingClientRect().width > 0; });
+  page.on('request', onRequest);
+  if (how === 'keyboard') {
+    await page.locator('#tips-toggle').focus();
+    assert.equal(await page.evaluate(() => document.activeElement?.id), 'tips-toggle', 'the keyboard cannot reach the Tips button');
+    await page.keyboard.press('Enter');
+  } else await page.locator('#tips-toggle').tap();
+  await until(page, `the tips list did not open (${how})`, () => !document.querySelector('#tips-list').hidden);
+  await page.waitForTimeout(400);
+  const list = await page.evaluate(() => {
+    const box = one => { const r = one?.getBoundingClientRect(); return r && r.width > 1 ? { left: r.left, top: r.top, right: r.right, bottom: r.bottom } : null; };
+    const over = (a, b) => Boolean(a && b && a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom);
+    const at = box(document.querySelector('#tips-list'));
+    const others = { bar: '.panel-row[data-focused=true] .panel-icons', column: '#family-panel', 'map buttons': '#map-nav', journal: '#journal-toggle', 'sound button': '#sound-toggle', tip: '#tip', 'person card': '#selection', messages: '#military-notice', 'call menu': '#call-menu' };
+    return {
+      ids: [...document.querySelectorAll('#tips-list-items li')].map(item => item.dataset.tip),
+      words: [...document.querySelectorAll('#tips-list-items li')].map(item => item.textContent),
+      covers: Object.entries(others).filter(([, selector]) => { const one = document.querySelector(selector); return one && !one.hidden && getComputedStyle(one).display !== 'none' && over(at, box(one)); }).map(([name]) => name),
+      inView: Boolean(at && at.top >= 0 && at.left >= 0 && at.right <= innerWidth && at.bottom <= innerHeight),
+      focus: document.activeElement?.id, expanded: document.querySelector('#tips-toggle').getAttribute('aria-expanded'),
+    };
+  });
+  await shot(page, `list-${how}`);
+  assert.equal(list.ids[0], expectFirst, `the latest tip put away is not first: ${list.ids.join(', ')}`);
+  for (const id of expect) assert.ok(list.ids.includes(id), `the tips list has no ${id}: ${list.ids.join(', ')}`);
+  assert.ok(!list.ids.includes('resume') && list.words.every(words => !/tutorial/i.test(words)), 'the tips list brings back the guided start');
+  assert.deepEqual(list.covers, [], `the tips list stands on ${list.covers.join(', ')}`);
+  assert.ok(list.inView, 'the tips list runs off the screen');
+  assert.equal(list.expanded, 'true');
+  if (how === 'keyboard') {
+    assert.equal(list.focus, 'tips-list-close', 'opened from the keyboard, the list does not take the focus');
+    await page.keyboard.press('Escape');
+    await until(page, 'Escape did not close the tips list', () => document.querySelector('#tips-list').hidden);
+    assert.equal(await page.evaluate(() => document.activeElement?.id), 'tips-toggle', 'Escape did not give the keyboard back to the Tips button');
+  } else {
+    await page.locator('#tips-list-close').tap();
+    await until(page, 'a tap on × did not close the tips list', () => document.querySelector('#tips-list').hidden);
+  }
+  page.off('request', onRequest);
+  assert.deepEqual(sent, [], `opening and closing the tips list sent ${sent.join('; ')}`);
+  assert.equal(await page.evaluate(() => (window.__tipsShown || []).length), shownBefore, 'reading the tips list put a tip up again');
+  observed[`tipsList-${how}`] = list;
+  ok(`the Tips button by ${how}: ${list.ids.length} tips put away, "${list.ids[0]}" first, none of the guided start's; clear of the bar, the column and the map's buttons; nothing sent, no tip shown again; closed by ${how === 'keyboard' ? 'Escape, the keyboard back on the button' : 'a tap on ×'}`);
+}
+
 async function firstPeriod() {
   const app = createClassroom({ seed: 'tips-first', playerCount: 5, tickMs: 4000, worldFactory: seed => (first = createGonzalesWorld(seed, 5, { map: 'colonies' })) });
   const port = await app.listen(0, '127.0.0.1'), url = `http://127.0.0.1:${port}`;
@@ -197,6 +251,11 @@ async function firstPeriod() {
     assert.equal(world().calls['hh-1'].status, 'open', 'the call closed before the reload, so this proves nothing');
     assert.ok(!(await student.evaluate(() => window.__tipsShown || [])).includes('call'), 'the reload showed the call\'s tip again');
     ok('after a reload, with the call still open, its tip is not shown again');
+
+    // --------------------------------------------------------------- the Tips button (owner, 2026-09-29, triage D16), keyboard
+    await tipsList(student, 'keyboard', { expectFirst: 'call' });
+    assert.equal(await host.locator('#tips-toggle').isVisible(), false, 'the Host\'s page has a Tips button');
+    ok('the Host\'s page has no Tips button');
 
     // ------------------------------------------------------------------------------- nothing refuses a new family anything
     // With the guided start off, a family in its first hour is refused nothing by it: the sick nursed, food got, the enlisting
@@ -347,6 +406,8 @@ async function theSpring() {
     observed.reload = { stillAsked, shownBefore, shownAfter };
     ok(`after a reload${stillAsked ? ' with the soldiers still waiting' : ''}, none of the flight, the route or ¡Alto! is shown again (this page showed: ${shownBefore.join(', ')})`);
     assert.equal(await host.evaluate(() => Boolean(window.__tip)), false, 'the Host\'s page showed a tip');
+    // The Tips button with a finger: the three put away with a tap, the latest first.
+    await tipsList(student, 'touch', { expectFirst: 'alto', expect: ['flight', 'route', 'alto'] });
     await noSideways(student, 'the spring');
     await host.close();
   } finally {

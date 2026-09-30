@@ -1,6 +1,6 @@
 {
   "record": "The Claude stand-in tests proved by injection (scripts/claude-art/injections.mjs)",
-  "date": "2026-09-29",
+  "date": "2026-09-30",
   "results": [
     {
       "guards": "every Claude frame and clip has its provenance",

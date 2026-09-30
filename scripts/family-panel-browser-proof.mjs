@@ -351,8 +351,94 @@ try {
   await page.waitForTimeout(500);
   await page.screenshot({ path: 'test-results/family-panel-desktop.png' });
 
+  // ------------------------------------------------------------------ tap, then send (owner, 2026-09-29, triage D17)
+  // A Chromebook with a touch screen: the first tap on an icon shows its cost, any warning and Send, and sends nothing; the second
+  // tap on it, or Send, sends. A tap elsewhere puts it away. A mouse on the same screen still sends with one press.
+  {
+  const touch =await browser.newContext({ reducedMotion: 'no-preference', viewport: { width: 1366, height: 768 }, hasTouch: true });
+  await touch.addCookies(await context.cookies());
+  const tablet = await touch.newPage();
+  tablet.on('pageerror', error => errors.push(`touch: ${error.message}`));
+  const commands = [];
+  tablet.on('request', request => { if (request.method() === 'POST' && request.url().includes('/api/command')) commands.push(JSON.parse(request.postData() || '{}')); });
+  await tablet.goto(url);
+  // A new page opens on the title screen; its Begin goes straight to the family already made.
+  await tablet.locator('#creation-begin-button').waitFor({ state: 'visible', timeout: 10000 }).then(() => tablet.locator('#creation-begin-button').click()).catch(() => {});
+  await tablet.waitForFunction(() => document.body.dataset.creating !== 'true', null, { timeout: 20000 });
+  if (await tablet.locator('#tutorial-skip').isVisible()) await tablet.locator('#tutorial-skip').click();
+  await tablet.waitForFunction(id => document.querySelector('.panel-row[data-focused=true]')?.dataset.entityId === id, worker, { timeout: 30000 });
+  /** An open icon on the main person's bar that sends an order of its own (not the errand's list or the Neighbours list). */
+  // (and not work on the map, which asks for the ground to be tapped: those choosers are their own second step).
+  const openIcon = (skip = []) => tablet.evaluate(skipped => [...document.querySelectorAll('.panel-row[data-focused=true] .panel-icon:not([aria-disabled="true"])')]
+    .filter(icon => icon.dataset.action !== 'survey-start' && !icon.dataset.visit && icon.dataset.chore !== 'visit-shop')
+    .map(icon => icon.dataset.key).find(key => !skipped.includes(key) && key !== 'winter-recall') || null, skip);
+  const pressed = () => commands.filter(command => command.action !== 'seen-tip' && command.action !== 'set-main');
+  const sentOrAsked = async since => { await tablet.waitForTimeout(900); return pressed().length > since || await tablet.locator('#going').isVisible(); };
+  const closeGoing = async () => { if (await tablet.locator('#going').isVisible()) await tablet.keyboard.press('Escape'); await tablet.waitForTimeout(300); };
+  const first = await openIcon();
+  assert.ok(first, 'the main person has no open icon to tap');
+  const firstIcon = tablet.locator(`.panel-row[data-focused=true] .panel-icon[data-key="${first}"]`);
+  let before = pressed().length;
+  await firstIcon.tap();
+  await tablet.locator('#panel-tip-send').waitFor({ state: 'visible', timeout: 5000 });
+  await tablet.waitForTimeout(900);
+  const armed = await tablet.evaluate(() => ({
+    name: document.querySelector('#panel-tip-name').textContent, summary: document.querySelector('#panel-tip-summary').textContent,
+    note: document.querySelector('#panel-tip-note').textContent, send: document.querySelector('#panel-tip-send').textContent,
+    sendBox: (({ width, height }) => ({ width, height }))(document.querySelector('#panel-tip-send').getBoundingClientRect()),
+  }));
+  const noteOnIcon = await firstIcon.evaluate(icon => icon.dataset.note || '');
+  assert.equal(pressed().length, before, `the first tap sent ${JSON.stringify(pressed().slice(before))}`);
+  assert.equal(await tablet.locator('#going').isVisible(), false, 'the first tap opened how they will go');
+  assert.equal(armed.note, noteOnIcon, 'the tapped popup does not carry the cost and warning the hover shows');
+  assert.ok(armed.sendBox.height >= 40, `Send is ${armed.sendBox.height}px tall, too small for a finger`);
+  await tablet.screenshot({ path: 'docs/evidence/family-panel-touch-armed.png' });
+  // The finger lifted: the popup stays, armed.
+  await tablet.waitForTimeout(600);
+  assert.equal(await tablet.locator('#panel-tip-send').isVisible(), true, 'the popup went when the finger lifted');
+  await firstIcon.tap();
+  assert.ok(await sentOrAsked(before), `the second tap on "${armed.name}" sent nothing`);
+  assert.equal(await tablet.locator('#panel-tip').isVisible(), false, 'the popup stayed after the order was sent');
+  measured.touch = { icon: first, armed, secondTap: pressed().slice(before).map(command => command.action || command.chore) };
+  ok(`on a touch screen the first tap on "${armed.name}" shows "${armed.summary}"${armed.note ? ` and "${armed.note}"` : ''} with a ${Math.round(armed.sendBox.height)}px Send, and sends nothing; the second tap sends it`);
+  await closeGoing();
+
+  // Send, on another icon.
+  const second_ = await openIcon([first]) || first;
+  const secondIcon = tablet.locator(`.panel-row[data-focused=true] .panel-icon[data-key="${second_}"]`);
+  before = pressed().length;
+  await secondIcon.tap();
+  await tablet.locator('#panel-tip-send').waitFor({ state: 'visible', timeout: 5000 });
+  await tablet.waitForTimeout(500);
+  assert.equal(pressed().length, before, 'a first tap sent the order');
+  await tablet.locator('#panel-tip-send').tap();
+  assert.ok(await sentOrAsked(before), `Send on "${second_}" sent nothing`);
+  ok(`Send on the tapped popup of "${second_}" sends it`);
+  await closeGoing();
+
+  // A tap elsewhere puts an armed popup away and sends nothing.
+  const third = await openIcon() || first;
+  before = pressed().length;
+  await tablet.locator(`.panel-row[data-focused=true] .panel-icon[data-key="${third}"]`).tap();
+  await tablet.locator('#panel-tip-send').waitFor({ state: 'visible', timeout: 5000 });
+  await tablet.locator('#world-map').tap({ position: { x: 700, y: 120 } });
+  await tablet.waitForFunction(() => document.querySelector('#panel-tip').hidden, null, { timeout: 5000 });
+  await tablet.waitForTimeout(700);
+  assert.equal(pressed().length, before, 'tapping the map after arming an icon sent its order');
+  ok('a tap on the map puts the armed popup away, and nothing is sent');
+
+  // A mouse on the same touch screen: one press sends, as before.
+  const fourth = await openIcon() || first;
+  before = pressed().length;
+  await tablet.locator(`.panel-row[data-focused=true] .panel-icon[data-key="${fourth}"]`).click();
+  assert.ok(await sentOrAsked(before), 'a mouse press on a touch screen did not send at once');
+  ok(`a mouse press on "${fourth}" still sends at once, on the same touch screen`);
+  await closeGoing();
+  await touch.close();
+  }
+
   // ------------------------------------------------------------------------------------------------------ a phone's width
-  const phone = await browser.newContext({ reducedMotion: 'no-preference', viewport: { width: 400, height: 800 }, isMobile: true, hasTouch: true });
+  const phone =await browser.newContext({ reducedMotion: 'no-preference', viewport: { width: 400, height: 800 }, isMobile: true, hasTouch: true });
   const cookies = await context.cookies();
   await phone.addCookies(cookies);
   const small = await phone.newPage();

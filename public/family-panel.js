@@ -702,6 +702,24 @@ export function callPlan(menu, checked = [], clickedId = null) {
   return keeper ? [{ entityId: keeper.id, action: keeper.stay.id }] : [];
 }
 
+/**
+ * What a press on an icon of the bar does (owner, 2026-09-29, triage D17 "Tap, then send"): `'explain'` shows its popup and
+ * sends nothing, `'arm'` shows its popup with its cost, any warning and a **Send** button and sends nothing, `'send'` goes on to
+ * send the order (or to open the chooser that sends it).
+ *
+ * A touch screen has no hover, so one tap sent an order before its cost or the server's warning (`leaves`: who is left at home,
+ * design audit S14) had been seen. On a touch press the first tap arms, and the second tap on the same icon, or Send, sends.
+ * A mouse or the keyboard is as it was: hovering or focusing shows the popup, and a press sends. A refused icon only explains,
+ * however it is pressed. An icon that opens a chooser of its own before anything is sent - the town errand's list, the
+ * Neighbours list, the card that asks twice before sending for a soldier, the ground to be tapped on the map for work there - is
+ * not armed first: the chooser is the second step.
+ */
+export function iconPress({ touch = false, refused = false, armed = false, opensChooser = false } = {}) {
+  if (refused) return 'explain';
+  if (!touch || opensChooser || armed) return 'send';
+  return 'arm';
+}
+
 // ---------------------------------------------------------------------------------------------------- drawing, in a page
 
 /** Draw an icon's picture into its canvas: a library sprite fitted to the square, or a drawn glyph. */

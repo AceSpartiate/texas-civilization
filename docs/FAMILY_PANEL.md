@@ -1945,3 +1945,39 @@ open does the bar narrow back to its 62 px columns to stay clear of them, the fi
 die's card is tightened for a window 680 px high or less, where *Meet your family* already stood 92 px below the card's fold on main. `npm run test:overlap` reads every piece of text drawn on a student's screen in
 every state and size it measures and fails any under 12 px (`readSmallText`, scripts/support/screen-furniture.mjs), and
 `npm run test:creation-screen` does the same on every card of making the family.
+
+## Amendment, 2026-09-29 — tap, then send on a touch screen (owner-decided, triage D17, option A)
+
+**The decision.** §4 has an icon's popup - its sentence, the server's price, its refusal or warning - open on hover or focus. A
+touch screen has neither, so one tap sent the order before its cost had been seen, and the design audit's S14 warning (a lone
+father leaving small children: the server's `leaves` words on the call and the war chores, sim/acting.mjs `leavesLittleOnes`) was
+never read on a touch Chromebook. From the triage of 2026-09-29 the owner chose the recommended **A: on touch only, the first tap
+shows the cost and a second tap sends**.
+
+**As built** (`iconPress` in public/family-panel.js; `touchPress`, `showPanelTip` and the icon's branch of the click handler in
+public/app.js; `#panel-tip-send` in public/index.html):
+
+- **A tap arms.** On a touch press - the press's own pointer is `touch` or `pen`, else the pointer that last went down, else
+  `pointer: coarse` or a touch seen on this page - the first tap on an open icon shows its popup with its name, sentence and note
+  (the server's cost, and its `leaves` warning first where there is one: the same words the hover shows) and a **Send** button,
+  44px tall, and sends nothing.
+- **The second tap sends.** A second tap on the same icon, or **Send**, sends the order exactly as a press always did (Send
+  presses the icon), including asking how they will go (§15) where the order makes a journey.
+- **Put away.** The popup stays when the finger lifts; a press anywhere else (the map, a panel, a portrait) puts it away, and a tap
+  on another icon arms that one instead. Escape puts it away. Nothing was sent by any of these.
+- **Unchanged for a mouse and the keyboard.** Hover and focus show the popup and a press sends, on any screen - a mouse press on a
+  touch Chromebook included. A keyboard press has no pointer (`detail` 0) and is never a tap.
+- **Not armed first:** a refused icon (it only ever explains why, as before), and the icons that open a chooser of their own
+  before anything is sent - the town errand's list (§15, docs/TOWNS.md §4b), the Neighbours list, the card that asks twice before
+  sending for a soldier, and work on the map, which asks for the ground to be tapped. The chooser is the second step.
+- No save field, action or projection changed; no save version moved.
+
+**Evidence.** `tests/tips-touch.test.mjs` (`iconPress` for tap, second tap, mouse, keyboard, refused and chooser; the page asking it
+on every icon press, the keyboard never a tap, the armed popup kept when the finger lifts), each failed under an injection first
+([webp-tips-touch-injections.json](evidence/webp-tips-touch-injections.json)). `npm run test:family-panel` on a 1366x768 touch
+screen: a first tap on *Plant the field* shows *Costs 3 seed.* with Send and sends nothing, the second tap sends it; Send on
+another icon sends it; a tap on the map after arming sends nothing; a mouse press on the same touch screen sends at once
+([family-panel-browser.json](evidence/family-panel-browser.json), [the armed popup](evidence/family-panel-touch-armed.png)).
+Same computer, emulated touch in headless Chrome: no touch Chromebook. The `leaves` warning in the popup is the note the hover
+already showed (the D-S14 row of docs/audits/2026-09-29-triage.md); no proof here builds a lone father with small children to
+see it tapped.

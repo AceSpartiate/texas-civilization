@@ -53,7 +53,8 @@ test('the title screen names the game, the curtain covers the map, and the map i
   assert.match(css, /#creation\{position:fixed;inset:0/, 'the curtain does not cover the page');
   const app = readFileSync(new URL('../public/app.js', import.meta.url), 'utf8');
   assert.match(app, /if \(creating\) \{ \/\* the curtain is up: nothing of the world is drawn \*\/ \}/, 'the map is drawn behind the curtain');
-  assert.match(css, /creation-title-landscape\.png/, 'the title screen has no painted scene');
+  // Named by its WebP, made from the PNG master beside it (triage D14, scripts/build-webp.mjs; the server sends the PNG until it is made).
+  assert.match(css, /assets\/webp\/creation-title-landscape\.webp/, 'the title screen has no painted scene');
   const art = readFileSync(new URL('../public/assets/creation-title-landscape.png', import.meta.url));
   assert.ok(art.length > 100_000, 'the painted title scene was not shipped');
   const server = readFileSync(new URL('../server/app.mjs', import.meta.url), 'utf8');

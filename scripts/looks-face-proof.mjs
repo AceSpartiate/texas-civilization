@@ -292,7 +292,9 @@ try {
     const student = await screen.newPage();
     student.on('pageerror', error => errors.push(error.message));
     let lost = 0;
-    await student.route(/people-cast2-idle\.png/, route => (lost++ ? route.continue() : route.abort('connectionreset')));
+    // Either name: the page asks for the sheet's WebP (triage D14, public/art.js), which the server answers with the PNG
+    // where none is made; either way its first request is the one lost.
+    await student.route(/people-cast2-idle\.(png|webp)/, route => (lost++ ? route.continue() : route.abort('connectionreset')));
     await student.goto(url);
     await student.locator('[name=name]').fill('Lost sheet');
     await student.locator('[name=code]').fill(app.state.sessionCode);

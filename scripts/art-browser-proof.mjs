@@ -83,7 +83,8 @@ try {
   for(const [kind,name] of DELIVERED){deliveries[name]=await inked(catalog,kind,name);assert.ok(deliveries[name]>2000,`${name} drew ${deliveries[name]} pixels of its own in the catalog`);}
   // The control: the same page with one atlas refused. Its tile must go to nothing, or the count above means nothing.
   const dark=await browser.newPage({viewport:{width:1440,height:1000}});capture(dark);
-  await dark.route('**/atlases/people-mounted-cast1-e.png*',route=>route.abort());
+  // Either name: the page asks for the sheet's WebP (triage D14, public/art.js), the PNG where none is made.
+  await dark.route(/\/atlases\/people-mounted-cast1-e\.(png|webp)/,route=>route.abort());
   await dark.goto(`${url}/art-catalog.html`);await dark.waitForFunction(()=>window.__catalog?.clips>90);
   const withheld=await inked(dark,'clip','rust-ride-e'),neighbour=await inked(dark,'clip','blue-girl-ride-n');
   assert.ok(withheld<deliveries['rust-ride-e']/10,`a refused sheet still drew ${withheld} pixels (against ${deliveries['rust-ride-e']})`);
