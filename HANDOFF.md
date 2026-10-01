@@ -1,5 +1,37 @@
 # Claude handoff — Astra foundation
 
+## The snow march at the winter's close, and a volunteer's greyed row says where the army is — owner-decided 2026-09-30 (not released)
+
+Branch `proofs-map-2` off local `integration-2026-09-28` (646c8b6f); not pushed. The owner's answers to the two questions left by
+the red-proofs work below. **Same computer only: no Chromebook or LAN claim.**
+
+- **"Reveal at winter's end"** (asked first whether the winter ends just before the Alamo, "a great cliffhanger"; told it ends
+  March 13, a week after the fall). The winter's standings at March 13 now carry the reveal of the snow march and the surprise at
+  Béxar - the explanation of how Santa Anna's army arrived so fast - and the class's end carries it as well. **This amends B4's
+  "coin and land only" (2026-09-28) for this one reveal**: still no glory, no story, no account between periods; the autumn's
+  close has no reveal (it has not lived February 23). sim/ending.mjs `endingProjection` adds `reveal` to the interim of a class
+  that lived February 23; public/ending.js draws it under the Host's standings table and a family's coin and land, and reads it
+  aloud on the family's page (`endingReading`). Docs: `docs/battle-research/surprise-at-bexar.md`, `docs/COLONIES.md` §7e,
+  `docs/MONEY_AND_GLORY.md`.
+- **"Greyed, better words"**. A volunteer's row stays greyed while the army halts in the middle of its march (the page draws
+  nothing of him), but says where he is by the army's own place wherever it halts: *"With the army at the Salado"* (the siege
+  camp, else the place it stands at; *"With the army on the road to Béxar"* on the march), and the refusal line says the same.
+  public/family-panel.js `armyAwayWords`, used by public/app.js `awayWords`; docs/FAMILY_PANEL.md §20c. ceiling: the 1835
+  volunteer army only; Houston's army and the Alamo's garrison say their road as before.
+- **Tests, each proved by injection (the test named, and only it, failed):** `tests/periods.test.mjs` - the winter's interim
+  carries the reveal on the Host's and every family's projection and nothing else beyond coin and land, the autumn's none
+  (injection: no reveal in the interim); `tests/read-aloud-ending.test.mjs` - the winter's reveal is read as shown (injection:
+  interim reading without it); `tests/family-panel.test.mjs` - a real class to the Salado, the words are "With the army at the
+  Salado" (injection: `armyAwayWords` returning null, the old line).
+- **Proofs:** `test:surprise-reveal` now holds the reveal at March 13's close on the Host (1366x768) and both families (1366,
+  1024), coin and land and no glory on the wire, nothing sideways; and again at the class's end after the end sequence.
+  `test:concepcion` holds the greyed row's line "With the army at the Salado" on the page. Green **2 of 2** each
+  (surprise-reveal 6 checks; concepcion 7 - its first run with the new check read the row's `innerText`, which a folded line
+  hides, and now reads `.panel-away-line` as `test:travel-sight` does). Page-side injections, in a scratch copy: `awayWords`
+  not asking `armyAwayWords` - caught by concepcion ("On the road to Béxar — back in view when they arrive"); the Host's
+  interim view not drawing the reveal - caught by surprise-reveal at March 13. `npm test`: **1970 tests, 1934 pass, 0 fail, 36
+  skipped**.
+
 ## Five red release-candidate proofs: all stale, none a leak — 2026-09-30 (not released)
 
 Branch `proofs-world` off local `integration-2026-09-28` (e67e0f15); not pushed. The release candidate (bccea07c) failed

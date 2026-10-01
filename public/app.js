@@ -4,7 +4,7 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
-import { actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS } from '/family-panel.js';
+import { actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { TIPS, tipToShow, tipsToReread } from '/tips.js';
 import { mountErrand } from '/errand.js';
@@ -5498,6 +5498,9 @@ function goToPerson(id) {
 }
 /** What an unseen traveller's row says (owner, 2026-09-29): where they are going, and when they are back in view. */
 function awayWords(world, entity) {
+  // With the army: where the army is, by the server's own place name (owner, 2026-09-30, "Greyed, better words").
+  const army = armyAwayWords(world, entity.id);
+  if (army) return army;
   const to = entity.travel?.to;
   const where = !to ? 'On the road' : to === homeOf(world) ? 'On the road home' : `On the road to ${world.map?.sites?.[to]?.name || 'town'}`;
   return `${where} — back in view when they arrive`;

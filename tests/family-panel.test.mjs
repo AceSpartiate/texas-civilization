@@ -16,7 +16,7 @@ import { applyAction, projectFamily, projectWorld, rollFamily, stepWorld } from 
 import { CHORES, choreCatalogue } from '../sim/chores.mjs';
 import {
   DRILLED_ROW, ORDER_NAMES, PANEL_ICONS, PANEL_SUMMARIES, TRAVELLING_WORD, activeKey, isIdle, nameToSave, panelActions,
-  panelOrder, rowReason, standing, travellingLine, awayLine,
+  panelOrder, rowReason, standing, travellingLine, awayLine, armyAwayWords,
 } from '../public/family-panel.js';
 import { DRILL_TO_STEADY } from '../sim/houston.mjs';
 import { PRACTICE_COST } from '../sim/chores.mjs';
@@ -250,4 +250,28 @@ test('somebody serving in the winter has one icon on their row, sending for them
   assert.equal(icons[0].can, true);
   assert.match(icons[0].note, /deserted/);
   assert.equal(isIdle(entity, icons), false, 'somebody serving was shown idle');
+});
+
+test('a volunteer greyed while the army halts in the middle of its march says where he is, by the army\'s own place (owner, 2026-09-30)', () => {
+  // A real class to the Salado, hh-1's man in the army: the words are the server's place, not "On the road to Béxar".
+  const world = createGonzalesWorld('concepcion-proof', 5, { map: 'colonies' });
+  world.status = 'running';
+  const household = world.households['hh-1'];
+  for (let i = 0; i < 1200 && !world.calls?.[household.id]; i++) stepWorld(world);
+  // The call waits behind a rider still talking (sim/encounters.mjs `questionWaits`): he is sent on first, as a student sends him.
+  const asked = projectWorld(world, household.id, 'student', { includeMap: false });
+  if (!asked.request && asked.encounter?.listenerId) applyAction(world, household.id, { action: 'leave-rider', entityId: asked.encounter.listenerId });
+  const answerers = projectWorld(world, household.id, 'student', { includeMap: false }).request.answerers;
+  const found = Object.entries(answerers).find(([, options]) => options.find(o => o.id === 'turn-out')?.can);
+  applyAction(world, household.id, { action: 'turn-out', entityId: found[0], mode: 'horse' });
+  for (let i = 0; i < 3000 && world.army?.camp !== 'the Salado'; i++) stepWorld(world);
+  const view = projectWorld(world, household.id, 'student', { includeMap: false });
+  const volunteer = view.army.ours[0].id;
+  assert.ok(view.entities.find(one => one.id === volunteer).travel, 'the volunteer is not on the army\'s road, so the row would not be greyed at all');
+  assert.equal(armyAwayWords(view, volunteer), 'With the army at the Salado');
+  // Wherever it halts, by name; on the march, the road; and nothing for anybody not with the army.
+  assert.equal(armyAwayWords({ army: { at: 'the Cibolo', ours: [{ id: 'a' }] } }, 'a'), 'With the army at the Cibolo');
+  assert.equal(armyAwayWords({ army: { at: 'on the road', ours: [{ id: 'a' }] } }, 'a'), 'With the army on the road to Béxar');
+  assert.equal(armyAwayWords(view, household.members.find(id => id !== volunteer)), null);
+  assert.equal(armyAwayWords({}, 'a'), null);
 });

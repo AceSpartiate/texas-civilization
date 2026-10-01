@@ -84,6 +84,10 @@ test('every part of a family\'s breakdown is read, in the server\'s words, in th
   const interim = endingReading({ interim: true, name: 'The Crane family', money: 3, land: true, acres: 177 });
   assert.deepEqual(Object.keys(interim), ['numbers']);
   assert.ok(interim.numbers.includes('Land promised: 177 acres.') && interim.numbers.includes('Coin in the house: 3 reales.'));
+  // At the winter's close the snow march is shown too (owner, 2026-09-30, "Reveal at winter's end"), and read as shown.
+  const winter = endingReading({ interim: true, name: 'The Crane family', money: 3, land: true, acres: 177, reveal: { title: 'What nobody in Texas knew', paragraphs: ['The snow fell in Coahuila.'], ask: 'Why was Béxar caught unprepared?' } });
+  assert.deepEqual(Object.keys(winter), ['numbers', 'reveal']);
+  assert.deepEqual(winter.reveal, ['What nobody in Texas knew.', 'The snow fell in Coahuila.', 'Why was Béxar caught unprepared?']);
 });
 
 test('the Host will speak every sentence of a real family\'s breakdown: none is refused as words the game never writes', () => {

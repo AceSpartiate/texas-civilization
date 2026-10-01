@@ -25,7 +25,7 @@ const GLORY_KEYS = ['glory', 'final', 'sum', 'awards', 'winners', 'best'];
  * (design audit 2026-09-28 B4). No interim projection - the Host's or any family's - carries glory, the final number it
  * multiplies, the sum that shows it, what earned it or who leads by it, nor the word itself.
  */
-function noGloryInInterim(world) {
+function noGloryInInterim(world, { reveal = false } = {}) {
   const host = view(world, undefined, 'host').ending.host;
   assert.equal(host.interim, true);
   const shown = [['the Host', host], ...Object.keys(world.households).map(id => [id, view(world, id).ending.family])];
@@ -35,11 +35,16 @@ function noGloryInInterim(world) {
     assert.deepEqual(leaked, [], `${who}'s interim standings carry ${leaked.join(', ')}`);
     assert.doesNotMatch(JSON.stringify(ending), /glory/i, `${who}'s interim standings speak of glory`);
   }
-  // Coin and land only (owner, 2026-09-28, by multiple choice): the coin held and the land promised, and nothing more.
-  assert.deepEqual(Object.keys(host).sort(), ['canContinue', 'families', 'interim', 'nextLabel'], 'the Host\'s interim standings carry more than coin and land');
+  // Coin and land only (owner, 2026-09-28, by multiple choice): the coin held and the land promised, and nothing more - but for
+  // the snow march's reveal at the winter's close (owner, 2026-09-30, "Reveal at winter's end"), on every screen, and never at the
+  // autumn's.
+  const extra = reveal ? ['reveal'] : [];
+  assert.deepEqual(Object.keys(host).sort(), ['canContinue', 'families', 'interim', 'nextLabel', ...extra].sort(), 'the Host\'s interim standings carry more than coin and land');
+  if (reveal) assert.match(host.reveal.paragraphs.join(' '), /snow/, 'the Host\'s reveal at the winter\'s close is not the snow march');
   for (const family of host.families) assert.deepEqual(Object.keys(family).sort(), ['automatic', 'householdId', 'land', 'money', 'name'], `${family.name}'s row carries more than coin and land`);
   for (const [who, family] of shown.slice(1)) {
-    assert.deepEqual(Object.keys(family).sort(), ['acres', 'householdId', 'interim', 'land', 'money', 'name'], `${who}'s interim standing carries more than coin and land`);
+    assert.deepEqual(Object.keys(family).sort(), ['acres', 'householdId', 'interim', 'land', 'money', 'name', ...extra].sort(), `${who}'s interim standing carries more than coin and land`);
+    if (reveal) assert.match(family.reveal.paragraphs.join(' '), /snow/, `${who}'s reveal at the winter's close is not the snow march`);
     assert.equal(family.money, world.households[who].resources.money ?? 0, `${who} was shown coin it does not hold`);
   }
 }
@@ -156,7 +161,7 @@ test('the second period plays its own moments, none of 1835 again, and ends with
   // The second period ends interim too, with the spring to follow (docs/COLONIES.md §7g).
   assert.equal(host.interim, true, 'the end of the second period was shown as final');
   assert.equal(host.canContinue, true, 'the Host was not offered the spring');
-  noGloryInInterim(world);
+  noGloryInInterim(world, { reveal: true });
 });
 
 test('a saved class period that is not one of the three is refused', () => {

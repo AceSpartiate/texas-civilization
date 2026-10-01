@@ -402,6 +402,23 @@ export const travellingLine = entity => (entity?.travel && !entity.travel.away ?
 export const awayLine = (entity, icons = []) => (entity?.travel?.away ? rowReason(icons.filter(icon => icon.kind === 'chore' && !icon.active)) : null);
 
 /**
+ * The greyed row's line for one of the family who is with the army (owner, 2026-09-30, "Greyed, better words"; docs/FAMILY_PANEL.md
+ * §20c): the row stays greyed while the map draws nothing of them, but it says where they are - "With the army at the Salado" -
+ * and not "On the road to Béxar — back in view when they arrive", which they will not be. The place is the server's own, wherever
+ * the army halts (sim/army.mjs `armyProjection`: its siege camp, else the place it stands at); on the march, "on the road to Béxar".
+ * Null for anybody not in the family's part of the army, whose row says where they are going as before.
+ * ceiling: the volunteer army of 1835 (`world.army`) only; Houston's army and the Alamo's garrison say their road as before - words
+ * of their own if a class finds them wrong.
+ */
+export function armyAwayWords(world, entityId) {
+  const army = world?.army;
+  if (!army || !(army.ours || []).some(one => one.id === entityId)) return null;
+  if (army.camp) return `With the army at ${army.camp}`;
+  if (army.at && army.at !== 'on the road') return `With the army at ${army.at}`;
+  return 'With the army on the road to Béxar';
+}
+
+/**
  * The name to send for what somebody typed, or null when there is nothing to save: blank, or what the world already holds.
  * The server cleans and has the last word; this only avoids sending a rename that changes nothing.
  */
