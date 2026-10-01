@@ -999,15 +999,10 @@ export function fetchLogsFacts(world, household) {
   const where = `${wood.name.charAt(0).toLowerCase()}${wood.name.slice(1)}, ${miles < 0.2 ? 'beside the house' : `${Math.round(miles * 10) / 10} miles off`}`;
   return { can: true, miles: round(miles), hours, teamLeft, cost: teamLeft ? `about ${hours} ${hours === 1 ? 'hour' : 'hours'}, on foot to the ox and wagon left at ${where}, and home with them` : `the ox and wagon for about ${hours} ${hours === 1 ? 'hour' : 'hours'}, to ${where}` };
 }
-/**
- * A hunt refused because the rifle is not to be had - with somebody else, gone to the war, or lost - is kept on the bar, greyed,
- * with the rifle shown missing (owner, 2026-09-30; `short` in `choresFor`): a student whose man took the rifle to the army still sees
- * where hunting is, and why not now.
- */
-const rifleShort = (world, household, entity, why) => Boolean(why) && why === takenWhy(world, household, entity, 'hunt-land');
-CHORES['hunt-timber'].short = rifleShort;
+// A hunt is refused with no powder in the house (owner, 2026-09-30, "Refuse it"; `hunts` in `choreAvailability`).
+CHORES['hunt-timber'].hunts = true;
 CHORES['hunt-land'] = {
-  short: rifleShort,
+  hunts: true,
   takes: ['rifle'],
   name: 'Hunt on our land', skill: 'hunting', where: 'home', hauls: true, huntLand: true,
   describe: 'On foot to a place on the family\'s own land that you choose, and home again. Timber by the water is the best ground for deer and open prairie the poorest; the edge of the timber is better than the middle. What comes home is what they can carry.',
@@ -1030,13 +1025,15 @@ function forageCover(world, household) {
   return home ? groundAt(world, home) === 'prairie' ? null : groundAt(world, home) : null;
 }
 /** What this family could gather, work by work: the facts sim/gathering.mjs decides, with the house's own ground in them. */
-export function forageFor(world, household, kind) {
+export function forageFor(world, household, kind, { place = false } = {}) {
   const home = world.map.sites[household.homeSiteId];
   if (!home) return { can: false, why: 'The family has no house yet.' };
+  // `place`: whether the country holds it at all, whatever is in the house - the powder and the axe are gettable lacks
+  // (`lacking`), refused in `choreAvailability` and kept on the bar, not hidden (owner, 2026-09-30, "Every gettable lack").
   return forageFacts(world, household, kind, home, {
     cover: forageCover(world, household),
-    axe: household.tools?.axe !== undefined,
-    powder: !dryHouse(household),
+    axe: place || household.tools?.axe !== undefined,
+    powder: place || !dryHouse(household),
   });
 }
 /**
@@ -1105,7 +1102,7 @@ const forageBegin = kind => (world, household, entity) => {
   const ground = forageGround(world, household, kind);
   if (ground) entity.chore.ground = ground;
 };
-const forageOffered = kind => (world, household) => forageFor(world, household, kind).can;
+const forageOffered = kind => (world, household) => forageFor(world, household, kind, { place: true }).can;
 /** Said on the control before anybody is sent: the hours, where they would go, and the powder if it takes one. */
 function forageCost(world, household, choreId) {
   const chore = CHORES[choreId], facts = forageFor(world, household, chore.forage);
@@ -1466,6 +1463,24 @@ function workAlongside(world, household, entity, chore, deps) {
     record(world, 'consequence', { actorId: entity.id, householdId: household.id, text: `${entity.name} left off ${chore.name.toLowerCase()}: there is nobody to work alongside, and it cannot be taken up now.` });
   }
 }
+/**
+ * Every gettable lack (owner, 2026-09-30, "Every gettable lack"; docs/FAMILY_PANEL.md §23): a refusal for want of a thing the family
+ * could get - a tool (the hoe, the felling axe, the rifle), seed, powder, coin, food, a hide, logs - carries `lack`, what the family has
+ * of each against what it wants, `{ seed: [1, 2] }`. The bar keeps such work greyed with it and points at how to get the first thing
+ * missing; a refusal for anything else (the season, the age, the place, somebody busy) carries none and is hidden as before. Keys the
+ * page knows: `GOODS_LACKED`. `choresFor` turns it into `short: 1` on the person's entry and the household's `wants` (sim/wants.mjs).
+ */
+export const GOODS_LACKED = Object.freeze({ money: 'coin', seed: 'seed', powder: 'powder', food: 'food', hides: 'hide' });
+const lacking = (why, lack = null) => (lack && Object.keys(lack).length ? { can: false, why, lack } : { can: false, why });
+/** What the family has of these resources against what they cost, keyed as the page knows them; resources nobody can get left out. */
+function lackOf(household, costs) {
+  const lack = {};
+  for (const [resource, amount] of Object.entries(costs)) {
+    const key = GOODS_LACKED[resource];
+    if (key && Number.isFinite(amount) && amount > 0) lack[key] = [Math.min(Math.floor(household.resources?.[resource] ?? 0), Math.ceil(amount)), Math.ceil(amount)];
+  }
+  return lack;
+}
 export function choreAvailability(world, household, entity, choreId, logsOut = null) {
   const chore = CHORES[choreId];
   if (!chore) return { can: false, why: 'No such work.' };
@@ -1504,7 +1519,7 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (entity.service?.status === 'serving' && !chore.camp) return { can: false, why: servingWhy(world, entity) };
   if (chore.winter) { const why = winterRefusal(world, household, entity, choreId); if (why) return { can: false, why }; }
   // A chore registered from its own module carries its own refusal (`registerChores`).
-  if (chore.refusal) { const why = chore.refusal(world, household, entity); if (why) return { can: false, why }; }
+  if (chore.refusal) { const why = chore.refusal(world, household, entity); if (why) return lacking(why, chore.lacks?.(world, household, entity, why)); }
   // `alsoFrom`: a work that may be begun where it goes, too - a courier out of the Alamo standing in Gonzales may go back in
   // with the relief from there (docs/battle-research/staging.md §5.6 (d)).
   if (chore.where === 'home' && entity.location.siteId !== household.homeSiteId && !withTheFlight && !chore.alsoFrom?.includes(entity.location.siteId)) return { can: false, why: `${entity.name} is not at home.` };
@@ -1516,9 +1531,9 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   if (chore.huntLand && world.status === 'lobby') return { can: false, why: 'The family hunts its land once the class has begun.' };
   if (chore.shops && !Object.values(world.entities).some(one => one.shopSpot || one.deals?.includes('blacksmith'))) return { can: false, why: 'There are no shops in this country.' };
   if (chore.furniture && !wanting(household).length) return { can: false, why: 'The family has every piece of furniture it can use.' };
-  if (chore.furniture === 'make' && household.tools?.axe === undefined) return { can: false, why: 'Making furniture wants a felling axe, and there is none in the house.' };
+  if (chore.furniture === 'make' && household.tools?.axe === undefined) return lacking('Making furniture wants a felling axe, and there is none in the house.', { axe: [0, 1] });
   if (chore.furniture === 'buy' && !Object.values(world.entities).some(one => one.deals?.includes('furniture'))) return { can: false, why: 'There is no carpenter in this country.' };
-  if (chore.fells && household.tools?.axe === undefined) return { can: false, why: 'Felling wants an axe, and there is none in the house.' };
+  if (chore.fells && household.tools?.axe === undefined) return lacking('Felling wants an axe, and there is none in the house.', { axe: [0, 1] });
   // Nothing standing to fell on the family's own land: the felling goes to the nearest timber off it with the ox and wagon
   // (`fetch-logs`, begun in its place), and is refused in that work's own words when the team cannot go.
   if (chore.fells && world.status !== 'lobby' && countsTrees(woodsRule(world)) && !fellingGround(world, household)) {
@@ -1574,11 +1589,20 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   // they are doing with it.
   // Asked of a hand who would join a job already begun too (sim/hands.mjs): the felling axe carried off the land for a piece of
   // furniture is that one person's until home (docs/TOWNS.md §4b), so nobody joins them until it is back.
-  { const why = takenWhy(world, household, entity, choreId); if (why) return { can: false, why }; }
+  { const taken = takenWhat(world, household, entity, choreId); if (taken) return lacking(taken.why, ['rifle', 'axe'].includes(taken.item) ? { [taken.item]: [0, 1] } : null); }
+  // A hunt with no powder is refused before anybody goes (owner, 2026-09-30, "Refuse it"; docs/WOODS_AND_BUILDING.md §6.10): until
+  // then the hunter went out, found the game and could not take the shot. Every shot wants one.
+  // The gathering works' own wants (sim/gathering.mjs): the powder small game takes, the axe a bee tree takes.
+  if (chore.forage) {
+    const facts = forageFor(world, household, chore.forage);
+    if (!facts.can) return lacking(facts.why, FORAGE[chore.forage].powder && dryHouse(household) ? { powder: [Math.max(0, Math.floor(household.resources?.powder ?? 0)), SHOT_COST] }
+      : FORAGE[chore.forage].axe && household.tools?.axe === undefined ? { axe: [0, 1] } : null);
+  }
+  if (chore.hunts && dryHouse(household)) return lacking('There is no powder in the house to hunt with.', { powder: [Math.max(0, Math.floor(household.resources?.powder ?? 0)), SHOT_COST] });
   // A missing hoe used to read as a sound one. Now planting, harvest and breaking ground want it
   // in the house before they will start; mending wants it there to mend, but buying one is
   // exactly how a family without a hoe gets one, so that is not refused for want of a hoe.
-  if (chore.tool && household.tools?.[chore.tool] === undefined) return { can: false, why: 'There is no hoe in the house.' };
+  if (chore.tool && household.tools?.[chore.tool] === undefined) return lacking('There is no hoe in the house.', { hoe: [0, 1] });
   if (chore.needsTool) {
     const wear = household.tools?.hoe;
     if (wear === undefined) {
@@ -1586,13 +1610,13 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
     // Something to mend while any hoe is worn: a worn one beside a sound one waits to be mended (sim/tools.mjs).
     } else if (chore.needsTool === 'worn' && !anyWorn(household, 'hoe')) return { can: false, why: toolCount(household, 'hoe') > 1 ? 'Every hoe in the house is sound.' : 'The hoe is sound.' };
   }
-  if (chore.tool && allWorn(household, chore.tool)) return { can: false, why: toolCount(household, chore.tool) > 1 ? 'Every hoe in the house is worn out and wants mending.' : 'The hoe is worn out and wants mending.' };
+  if (chore.tool && allWorn(household, chore.tool)) return lacking(toolCount(household, chore.tool) > 1 ? 'Every hoe in the house is worn out and wants mending.' : 'The hoe is worn out and wants mending.', { hoe: [0, 1] });
   for (const [resource, amount] of Object.entries(needsOf(household, chore, world, { toBegin: true }))) {
-    if ((household.resources[resource] ?? 0) < amount) return { can: false, why: resource === 'money' ? `It costs ${reales(amount)}, and there is not that much coin in the house.` : `Not enough ${resource}.` };
+    if ((household.resources[resource] ?? 0) < amount) return lacking(resource === 'money' ? `It costs ${reales(amount)}, and there is not that much coin in the house.` : `Not enough ${resource}.`, lackOf(household, { [resource]: amount }));
   }
   // Paid for one way or another at the counter: enough of any one of them will do.
   if (chore.needsAny && !chore.needsAny.some(set => Object.entries(set).every(([resource, amount]) => (household.resources[resource] ?? 0) >= amount))) {
-    return { can: false, why: `It costs ${chore.needsAny.map(costWords).join(' or ')}.` };
+    return lacking(`It costs ${chore.needsAny.map(costWords).join(' or ')}.`, lackOf(household, Object.assign({}, ...chore.needsAny)));
   }
   return { can: true, why: '' };
 }
@@ -1785,23 +1809,29 @@ export function quickestForChore(world, household, entity, choreId, modeAvailabi
   return journey ? quickestWay(world, entity, journey, modeAvailability) || DEFAULT_MODE : DEFAULT_MODE;
 }
 /** Why the things this work takes cannot be had, because somebody else has them: their name, and what they are doing. */
-function takenWhy(world, household, entity, choreId, extra = {}) {
+function takenWhy(world, household, entity, choreId, extra = {}) { return takenWhat(world, household, entity, choreId, extra)?.why ?? null; }
+/**
+ * What this work would take that somebody else has, and why it is refused: `{ why, item }`, or null. `item` lets a refusal for the
+ * rifle or the felling axe - which the family could buy another of - be kept on the bar as a gettable lack (`lacking`).
+ */
+function takenWhat(world, household, entity, choreId, extra = {}) {
   const chore = CHORES[choreId];
   const axe = axeFor(world, household, choreId, extra);
   const own = [...(typeof chore.takes === 'function' ? chore.takes(world, household, entity) : chore.takes || []), ...(axe ? ['axe'] : [])];
   const shares = axe === 'home' ? ['axe'] : [];
   for (const item of own) {
     // A rifle lost at the war and not yet bought again (sim/keeping.mjs `homeAgain`).
-    if (item === 'rifle' && !toolCount(household, 'rifle')) return 'There is no rifle in the house. The gunsmith sells them.';
+    if (item === 'rifle' && !toolCount(household, 'rifle')) return { item, why: 'There is no rifle in the house. The gunsmith sells them.' };
     const holder = userOf(world, household, item, entity, { work: choreId, shares });
     if (!holder) continue;
     // Every felling axe in the family's hands (owner, 2026-09-28: "Each needs an axe"; docs/TOWNS.md §4b, amended): who has them,
     // and where another is to be had.
-    if (item === 'axe' && axe === 'own') return `There is no free felling axe: ${hasWords(holder, ['axe'], world, entity)} Buy another in town.`;
+    if (item === 'axe' && axe === 'own') return { item, why: `There is no free felling axe: ${hasWords(holder, ['axe'], world, entity)} Buy another in town.` };
     // Every copy out: named all at once ("Alvin and Mateo have both rifles.").
-    if (holder.kind === 'group') return hasWords(holder, [item], world, entity);
+    if (holder.kind === 'group') return { item, why: hasWords(holder, [item], world, entity) };
     const alsoHeld = own.filter(other => userOf(world, household, other, entity, { work: choreId, shares }) === holder);
-    return chore.wantsWagon ? `This much crop wants the wagon. ${hasWords(holder, alsoHeld, world, entity)}` : hasWords(holder, alsoHeld, world, entity);
+    // The beasts and the wagon are not a lack the family could buy its way out of today: waited for, not kept on the bar.
+    return { item: alsoHeld.length === 1 ? item : null, why: chore.wantsWagon ? `This much crop wants the wagon. ${hasWords(holder, alsoHeld, world, entity)}` : hasWords(holder, alsoHeld, world, entity) };
   }
   return null;
 }
@@ -2058,7 +2088,7 @@ export function choresFor(world, household, entity, logsOut = null) {
     && !(entity.service?.status === 'serving' && !chore.camp)
     // Nor survey or plot work before the class has begun, which would be a refusal for every person on every lobby tick.
     && !((chore.survey || chore.plotWork || chore.huntLand || chore.fells || chore.fetchesLogs) && world.status === 'lobby')).map(([id, chore]) => {
-    const { can, why } = choreAvailability(world, household, entity, id, logsOut);
+    const { can, why, lack } = choreAvailability(world, household, entity, id, logsOut);
     // `haul` is what this person's own hands would bring back from this trip, before any
     // cap. The cap itself is the mode's `carry`, which the projection sends alongside; the
     // control puts the two together so a student sees what a choice costs before making
@@ -2092,13 +2122,12 @@ export function choresFor(world, household, entity, logsOut = null) {
     const estimate = chore.estimate && can ? chore.estimate(world, household, entity) : null;
     // Going to the war leaves only children under ten at home: said plainly before he is sent (design audit S14), never refused.
     const leaves = can && WAR_CHORES.includes(id) ? leavesLittleOnes(world, household, entity) : null;
-    // Refused only for a thing the family has not got - the carreta's axe, logs or hide, the hunt's rifle (owner, 2026-09-30: "i
-    // never saw where i could hunt to get leather to make the little carts") - and so kept on the bar, greyed, with what it is
-    // short of (the household's `wants`, sim/wants.mjs). One byte of flag; the counts ride once on the household.
-    const short = !can && chore.short?.(world, household, entity, why);
+    // Refused only for a thing the family could get (`lacking`; owner, 2026-09-30, "Every gettable lack") - and so kept on the bar,
+    // greyed, with what it is short of. `lack` is the counts, which the projection lifts off every entry onto the household once
+    // (sim/wants.mjs `liftWants`), leaving one byte of flag per person.
     return can
       ? { id, can: true, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }), ...(estimate && { estimate }), ...(leaves && { leaves }) }
-      : { id, can: false, why, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }), ...(short && { short: 1 }) };
+      : { id, can: false, why, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }), ...(lack && { short: 1, lack }) };
   });
   // A hunt on the family's land refused for the same reason as the hunt in the timber says so once: the page reads it there.
   const timber = list.find(entry => entry.id === 'hunt-timber'), land = list.find(entry => entry.id === 'hunt-land');

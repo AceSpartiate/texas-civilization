@@ -1,6 +1,6 @@
 # The family panel: managing a family's people
 
-**Current action-bar rule (owner, 2026-09-22; amended 2026-09-30, §23):** Only actions the selected person can currently take are shown - except a *Make a carreta* refused only for the axe, the logs or a hide and a hunt refused only for the rifle, which stay greyed with what they want (§23). Active work remains visible as status. The supported desktop bar uses a compact grid of at most two rows, with no horizontal scrolling. Earlier sections below that describe dimmed/refused icons or a single scrolling row record previous behavior; this rule supersedes them. `panelActions` still computes all candidates, while `public/app.js` filters presentation using server availability and lesson permissions.
+**Current action-bar rule (owner, 2026-09-22; amended 2026-09-30, §23):** Only actions the selected person can currently take are shown - except work refused for want of a thing the family could get (a tool, seed, powder, coin, food, a hide, logs), which stays greyed with what it wants and the ways to get it, as many as two rows leave room for (§23, §23a). Active work remains visible as status. The supported desktop bar uses a compact grid of at most two rows, with no horizontal scrolling. Earlier sections below that describe dimmed/refused icons or a single scrolling row record previous behavior; this rule supersedes them. `panelActions` still computes all candidates, while `public/app.js` filters presentation using server availability and lesson permissions.
 
 **Status: decided by the owner 2026-09-15; built 2026-09-16** ([evidence](evidence/family-panel-browser.json)). It amends
 [SETTLING_IN.md](SETTLING_IN.md) in how a family's people are managed: the person panel's list of work and its travel, work
@@ -2072,3 +2072,39 @@ docs/LAND_GRANTS.md §5.3. What the panel does:
   [record](evidence/field-click-injections.json)). Same computer only.
 - `ceiling:` two works only. Widening "kept greyed with what it wants" to every refusal for want of a thing (a well with no hoe,
   furniture with no axe, a counter with no coin) is the owner's question in HANDOFF.md, not built.
+
+### 23a. Every gettable lack; the tanner; a dry hunt refused; Fence it — owner-decided 2026-09-30 (not released)
+
+The owner's four answers to §23's questions, the same day: *"Every gettable lack"*, *"Tanner sells"*, *"Refuse it"*, *"Add 'Fence
+it'"*. This widens §23 from two works to every one.
+
+- **Every gettable lack** (`sim/chores.mjs` `lacking`, `GOODS_LACKED`): every refusal in `choreAvailability` for want of a thing the
+  family could get carries `lack`, what it has of each against what the work takes, and `choresFor` flags the entry `short: 1`;
+  the projection lifts the counts onto the household once (`world.household.wants`, now **keyed by work**, sim/wants.mjs
+  `liftWants`) with `buy`, the wants the family's own town sells. The lacks: the carreta's axe, logs and hide; the rifle (none, with
+  somebody else, at the war); a free felling axe; the felling axe for felling and for making furniture; a hoe, or a hoe worn out
+  (mend it, or buy one); powder for a hunt, practice at the mark, small game and the road's hunt; the felling axe for a bee tree;
+  seed for planting; coin for a purchase (the road's trade for food); food for selling it. A refusal for anything else - the class
+  not begun, the house site not chosen, somebody busy, away, too young or too sick, the wrong season, the wrong place, the wagon
+  out with somebody - carries none and is hidden as before. *Take small game* and *Cut a bee tree* were not offered at all with
+  no powder or no axe; they are offered where the country holds them and refused for the powder or the axe (`forageFor` with
+  `place`). A well wants no hoe in this game (`dig-well` has no tool), so the owner's example of one has nothing to show.
+- **The ways** (`public/family-panel.js` `WANT_FROM`, `nextSteps`): the popup offers **every** way to the first thing missing that
+  is on the person's bar - a hide by **Go hunting** and **Buy one from the tanner**; logs by **Fell trees**; a hoe by **Mend the
+  hoe** and **Buy a hoe in town**; food by **Go hunting**, **Go fishing**, **Take small game**; and **Buy seed / powder / an axe / a
+  rifle in town**, **Sell in town for coin**. A buy is offered only where the family's own town sells the thing (`buy`), and opens
+  the town errand **with its line already on the list**, lit and scrolled into view (`errandWanted`, public/errand.js).
+- **Room** (*"Keep the bar readable at 1024x600"*): goals fill what the pressable icons leave of **two rows of 80 px columns** across
+  the bar's width (the screen less 220 px), **six at most** (`goalRoom`, `GOALS_MOST`); a phone's bar scrolls, and keeps six. Goals
+  beyond that are left off, the first in the server's order kept (`ceiling:`). A row with nothing to press keeps its reason (§14);
+  while the guided start shuts icons no goal is drawn. Proved at 1024x600 by `test:field-click` (two rows, every icon on the screen
+  and its name whole) and by `test:overlap`.
+- **A dry hunt is refused** (*"Refuse it"*): *Hunt on our land* and *Hunt in the timber* with no powder in the house are refused
+  before anybody goes, *"There is no powder in the house to hunt with."* (auto's own words since 2026-09-25), greyed with *Powder 0/1*
+  and **Buy powder in town** (docs/WOODS_AND_BUILDING.md §6.10).
+- **Fence it** (*"Add 'Fence it'"*): a cleared plot with no sound fence clicked on the map offers **Fence it** beside its crop, bare,
+  growing or ripe (docs/LAND_GRANTS.md §5.3).
+- **Gates**: `tests/field-click-hunt.test.mjs` (8), `tests/gathering.test.mjs` (small game offered and refused for powder, where it
+  was hidden), proof `npm run test:field-click`, every check proved by injection (`node scripts/field-click-injections.mjs`,
+  [record](evidence/field-click-injections.json)). Same computer only.
+

@@ -79,27 +79,18 @@ function carretaShortOf(household) {
 // ------------------------------------------------------------------------------------- shown before it can be made
 //
 // The owner, 2026-09-30, after playing: "i never saw where i could hunt to get leather to make the little carts, and i really
-// wanted one since i was using me wagon for something else." The bar draws only what can be pressed (docs/FAMILY_PANEL.md, the
-// rule of 2026-09-22), so a carreta refused for want of logs or a hide was never on it at all, and nothing said a hunt brings the
-// hide. Since then a carreta refused **only for what the family has not got** stays on the bar, greyed, with what it is short of
-// (owner-decided 2026-09-30, docs/WOODS_AND_BUILDING.md §6.6): the refused entry says so (`short`, sim/chores.mjs `choresFor`), and
-// the family's counts ride once on the household (`carretaWants`), not on every person's row.
+// wanted one since i was using me wagon for something else." A carreta refused only for what the family has not got - the axe,
+// the logs, a hide - is a gettable lack (sim/chores.mjs `lacking`, docs/WOODS_AND_BUILDING.md §6.6, §6.9): kept on the bar greyed,
+// with what the family has of each against what a carreta takes, and a pointer to how to get the first one missing.
 
-/** Whether this refusal is the carreta's want of the axe, the logs or a hide - the refusal the bar keeps greyed (`short`). */
+/** Whether this refusal is the carreta's want of the axe, the logs or a hide. */
 export const carretaShort = (world, household, entity, why) => Boolean(why) && carretaOffered(world) && why === carretaShortOf(household);
-/**
- * What the family has of what a carreta takes, against what it takes - `{ axe: [1, 1], logs: [2, 3], hide: [0, 1] }` - while it is
- * short of any of them and could otherwise make one; else null (nothing sent).
- */
-export function carretaWants(world, household) {
-  if (!carretaOffered(world) || world.status === 'lobby' || choosing(household)) return null;
-  if (beastsOf(world, household, 'wagon').length >= BEASTS_MOST || !carretaShortOf(household)) return null;
-  return {
-    axe: [household.tools?.axe === undefined ? 0 : 1, 1],
-    logs: [Math.min(logsIn(household), CARRETA_LOGS), CARRETA_LOGS],
-    hide: [Math.min(household.resources?.hides ?? 0, CARRETA_HIDES), CARRETA_HIDES],
-  };
-}
+/** What the family has of what a carreta takes, against what it takes: `{ axe: [1, 1], logs: [2, 3], hide: [0, 1] }`. */
+export const carretaCounts = household => ({
+  axe: [household.tools?.axe === undefined ? 0 : 1, 1],
+  logs: [Math.min(logsIn(household), CARRETA_LOGS), CARRETA_LOGS],
+  hide: [Math.min(household.resources?.hides ?? 0, CARRETA_HIDES), CARRETA_HIDES],
+});
 
 /**
  * The carreta made: the logs and the hide taken, and a new vehicle standing in the yard. Its id is the family wagon's when the
@@ -141,7 +132,7 @@ registerChores({
     name: 'Make a carreta', skill: 'hands', where: 'home', heavy: true, carreta: true, crew: 'join',
     offered: world => carretaOffered(world),
     refusal: (world, household, entity) => carretaRefusal(world, household, entity),
-    short: carretaShort,
+    lacks: (world, household, entity, why) => (carretaShort(world, household, entity, why) ? carretaCounts(household) : null),
     describe: `Make an ox cart at home: two solid wheels cut from a log, an axle and a frame from two more, lashed with rawhide. It wants the felling axe, ${CARRETA_LOGS} logs from the pile and a hide, and takes about ${hoursSaid(workHours(CARRETA_TICKS))}. An ox draws it; it carries ${CARRETA_CARRY} loads to a wagon's ${MODES.wagon.carry}, holds ${CARRETA_SPACE} to a cart's ${CART_SPACE} and a wagon's ${WAGON_SPACE} when the family has to leave, and seats two beside its driver.`,
     steps: [
       { walk: 'yard', doing: 'laying out the logs for a carreta' },

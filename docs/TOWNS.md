@@ -68,6 +68,7 @@ Coin in either direction is in the ending's account.
 | **Doctor** | see the doctor 2 / 3 | Tired: well at once. Hurt: mends in half the time left. Refused for somebody well. |
 | **Tavern** | a meal and the talk 1 / 1 | Eight miles off the legs, and the family learns every public report it has not had, as *Talk at the tavern*. |
 | **Tanner, saddler, cobbler** | sell hides, 1 real or 2 food each | A deer taken brings a hide home. |
+| | a rawhide 2 reales / 4 food (§4g, owner 2026-09-30) | A hide in the house: a carreta is lashed with one. Twice what he pays for one. |
 | | shoes 2 / 4 | A mile on foot tires the family 15% less. |
 | | a saddle 3 / 6 | A mile on the horse tires the rider a quarter less. Refused with no horse. |
 | **Wheelwright** | the wagon put in good order 2 / 4 | The ox and wagon go 15% faster. Refused with no wagon. |
@@ -423,6 +424,26 @@ amends §4c's measurement and §7's last line: the automatic neighbours use the 
 - **The families nobody plays** buy no wagon (owner: rifles only).
 - **Old saves.** A class saved before has the wheelwright it had, whose counter now also offers the wagon; nothing old is read
   another way, and no save version moved.
+
+### 4g. The tanner sells a rawhide (owner, 2026-09-30, "Tanner sells"; not released)
+
+The owner, after playing: *"i never saw where i could hunt to get leather to make the little carts"*; and of the four questions that
+followed, *"Tanner sells"*: **the tanner sells a rawhide for 2 reales or 4 food**, a second way to the hide a carreta is lashed with
+(docs/WOODS_AND_BUILDING.md §6.6, §6.9) beside a hunt.
+
+- **The offer** (`sim/shops.mjs` `tanner` → `rawhide`, `RAWHIDE_COIN`, `RAWHIDE_FOOD`): *Buy a rawhide*, *"2 reales or 4 food for 1
+  hide"*; *"A dried rawhide: a carreta is lashed together with one. The tanner sells it for twice what he pays for a hide."* Up to
+  four a trip. It adds one to the family's hides and comes home in the pack (`brings: { hides: 1 }`). Twice the tanner's price for a
+  hide (1 real or 2 food), so a hide is never bought and sold back at a profit. Invented, as every price at a counter is
+  (`FIC-GONZ-038`). The story: *"Delia bought 1 hide at the tanner's for 2 reales."*
+- **Where it shows**: in the town errand's list under *The tanner's*, wherever there is a tanner (Gonzales, San Felipe, Columbia;
+  §3). A carreta short of its hide offers **Buy one from the tanner** beside **Go hunting** in its popup (docs/FAMILY_PANEL.md §23)
+  only where the family's own town has a tanner (`world.household.buy`, sim/wants.mjs); pressed, the errand opens with *Buy a
+  rawhide* on the list, lit and scrolled into view (public/errand.js `open(entityId, { line })`). The same holds for every gettable
+  lack: the seed, the powder, a hoe, a felling axe and a rifle open the errand with their line on the list.
+- **Old saves**: the tanner's counter offers one more line; nothing stored changes, no save version.
+- Proof: `npm run test:field-click` (the errand opened from the carreta's popup with the rawhide on it); tests
+  `tests/field-click-hunt.test.mjs`.
 
 ## 5. How a student uses it
 

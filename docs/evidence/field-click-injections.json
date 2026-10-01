@@ -1,16 +1,16 @@
 {
- "at": "2026-10-01T01:07:44.730Z",
- "caught": 21,
- "of": 21,
+ "at": "2026-10-01T03:00:31.429Z",
+ "caught": 35,
+ "of": 35,
  "node": {
-  "caught": 13,
-  "of": 13,
-  "at": "2026-10-01T00:47:53.148Z"
+  "caught": 21,
+  "of": 21,
+  "at": "2026-10-01T02:39:15.352Z"
  },
  "browser": {
-  "caught": 8,
-  "of": 8,
-  "at": "2026-10-01T01:07:44.730Z"
+  "caught": 14,
+  "of": 14,
+  "at": "2026-10-01T03:00:31.429Z"
  },
  "results": [
   {
@@ -19,28 +19,29 @@
    "test": "tests/field-click-hunt.test.mjs",
    "expected": "a carreta short of its logs",
    "failed": [
-    "a carreta short of its logs or its hide is flagged short and counted on the household; one refused for anything else is not"
-   ],
-   "ok": true
-  },
-  {
-   "kind": "node",
-   "file": "sim/carreta.mjs",
-   "test": "tests/field-click-hunt.test.mjs",
-   "expected": "a carreta short of its logs",
-   "failed": [
-    "a carreta short of its logs or its hide is flagged short and counted on the household; one refused for anything else is not"
-   ],
-   "ok": true
-  },
-  {
-   "kind": "node",
-   "file": "sim/carreta.mjs",
-   "test": "tests/field-click-hunt.test.mjs",
-   "expected": "a carreta short of its logs",
-   "failed": [
     "a carreta short of its logs or its hide is flagged short and counted on the household; one refused for anything else is not",
+    "the tanner sells a rawhide for 2 reales or 4 food, shown in the town errand and named as bought where there is a tanner",
     "the carreta's tip comes when the family could make one but for what it has not got, and its wagon is busy"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "sim/carreta.mjs",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "a carreta short of its logs",
+   "failed": [
+    "a carreta short of its logs or its hide is flagged short and counted on the household; one refused for anything else is not"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "sim/wants.mjs",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "a carreta short of its logs",
+   "failed": [
+    "a carreta short of its logs or its hide is flagged short and counted on the household; one refused for anything else is not"
    ],
    "ok": true
   },
@@ -50,7 +51,57 @@
    "test": "tests/field-click-hunt.test.mjs",
    "expected": "a hunt whose rifle is at the war",
    "failed": [
-    "a hunt whose rifle is at the war is flagged short, and the rifle and the powder are counted until both are back"
+    "a hunt whose rifle is at the war is short of the rifle; with no powder it is refused before anybody goes, short of powder"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "sim/chores.mjs",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "a hunt whose rifle is at the war",
+   "failed": [
+    "a hunt whose rifle is at the war is short of the rifle; with no powder it is refused before anybody goes, short of powder"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "sim/chores.mjs",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "every gettable lack",
+   "failed": [
+    "every gettable lack is short and counted - seed, a hoe, the felling axe, powder - and what the family's town sells is named"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "sim/chores.mjs",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "every gettable lack",
+   "failed": [
+    "every gettable lack is short and counted - seed, a hoe, the felling axe, powder - and what the family's town sells is named"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "sim/chores.mjs",
+   "test": "tests/gathering.test.mjs",
+   "expected": "small game costs a shot",
+   "failed": [
+    "small game costs a shot, and the knack the long hunt wants is not needed for it"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "sim/shops.mjs",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "the tanner sells",
+   "failed": [
+    "the tanner sells a rawhide for 2 reales or 4 food, shown in the town errand and named as bought where there is a tanner"
    ],
    "ok": true
   },
@@ -58,9 +109,9 @@
    "kind": "node",
    "file": "sim/wants.mjs",
    "test": "tests/field-click-hunt.test.mjs",
-   "expected": "a hunt whose rifle is at the war",
+   "expected": "the tanner sells",
    "failed": [
-    "a hunt whose rifle is at the war is flagged short, and the rifle and the powder are counted until both are back"
+    "the tanner sells a rawhide for 2 reales or 4 food, shown in the town errand and named as bought where there is a tanner"
    ],
    "ok": true
   },
@@ -80,7 +131,7 @@
    "test": "tests/field-click-hunt.test.mjs",
    "expected": "the page keeps a short goal",
    "failed": [
-    "the page keeps a short goal on the bar greyed, with what it wants, and points a missing hide at the hunt"
+    "the page keeps a short goal on the bar greyed, with what it wants, and offers every way to the first thing missing"
    ],
    "ok": true
   },
@@ -90,7 +141,7 @@
    "test": "tests/field-click-hunt.test.mjs",
    "expected": "the page keeps a short goal",
    "failed": [
-    "the page keeps a short goal on the bar greyed, with what it wants, and points a missing hide at the hunt"
+    "the page keeps a short goal on the bar greyed, with what it wants, and offers every way to the first thing missing"
    ],
    "ok": true
   },
@@ -100,7 +151,37 @@
    "test": "tests/field-click-hunt.test.mjs",
    "expected": "the page keeps a short goal",
    "failed": [
-    "the page keeps a short goal on the bar greyed, with what it wants, and points a missing hide at the hunt"
+    "the page keeps a short goal on the bar greyed, with what it wants, and offers every way to the first thing missing"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "public/family-panel.js",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "the page keeps a short goal",
+   "failed": [
+    "the page keeps a short goal on the bar greyed, with what it wants, and offers every way to the first thing missing"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "public/family-panel.js",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "the page keeps a short goal",
+   "failed": [
+    "the page keeps a short goal on the bar greyed, with what it wants, and offers every way to the first thing missing"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "public/family-panel.js",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "the page keeps a short goal",
+   "failed": [
+    "the page keeps a short goal on the bar greyed, with what it wants, and offers every way to the first thing missing"
    ],
    "ok": true
   },
@@ -174,9 +255,27 @@
   {
    "kind": "browser",
    "file": "public/app.js",
-   "guards": "the field line's chip opens a plot from the keyboard",
-   "stoppedAfter": "a growing plot clicked says \"Corn growing\": \"Ten acres of prairie beside the house, cleared, with no fence (the stock take a third of what grows). Corn growing, ready in about 4 minutes.\", with nothing to send",
+   "guards": "Fence it offered on an unfenced plot",
+   "stoppedAfter": "off the plot it is not lit",
+   "expectedAfter": "off the plot it is not lit",
+   "exit": 1,
+   "ok": true
+  },
+  {
+   "kind": "browser",
+   "file": "public/app.js",
+   "guards": "Fence it sends somebody to fence",
+   "stoppedAfter": "a growing plot clicked says \"Corn growing\": \"Ten acres of prairie beside the house, cleared, with no fence (the stock take a third of what grows). Corn growing, ready in about 4 minutes.\", with nothing to send but Fence it",
    "expectedAfter": "a growing plot clicked",
+   "exit": 1,
+   "ok": true
+  },
+  {
+   "kind": "browser",
+   "file": "public/app.js",
+   "guards": "the field line's chip opens a plot from the keyboard",
+   "stoppedAfter": "\"Fence it\" on the unfenced plot sent Bartolo Proofwright to fence it; the fenced plot offered none",
+   "expectedAfter": "\"Fence it\" on the unfenced plot",
    "exit": 1,
    "ok": true
   },
@@ -192,8 +291,17 @@
   {
    "kind": "browser",
    "file": "public/app.js",
-   "guards": "Go hunting opens the hunt",
-   "stoppedAfter": "pressed, its popup says \"A carreta is lashed together with rawhide, and there is no hide in the house. A hunt brings one home.\", lists Felling axe 1/1, Logs 3/3, Hide 0/1, and points: \"Go hunting\"",
+   "guards": "both ways offered for a hide",
+   "stoppedAfter": "the carreta, short of its hide, is on the bar greyed with its wants: axe:true, logs:true, hide:false",
+   "expectedAfter": "the carreta, short of its hide",
+   "exit": 1,
+   "ok": true
+  },
+  {
+   "kind": "browser",
+   "file": "public/app.js",
+   "guards": "the errand opens with the rawhide on the list",
+   "stoppedAfter": "pressed, its popup says \"A carreta is lashed together with rawhide, and there is no hide in the house. A hunt brings one home.\", lists Felling axe 1/1, Logs 3/3, Hide 0/1, and offers: \"Go hunting\" and \"Buy one from the tanner\"",
    "expectedAfter": "pressed, its popup says",
    "exit": 1,
    "ok": true
@@ -201,9 +309,36 @@
   {
    "kind": "browser",
    "file": "public/app.js",
+   "guards": "Go hunting opens the hunt",
+   "stoppedAfter": "\"Buy one from the tanner\" opens the errand with \"Buy a rawhide\" on the list (2 reales or 4 food for 1 hide)",
+   "expectedAfter": "\"Buy one from the tanner\" opens",
+   "exit": 1,
+   "ok": true
+  },
+  {
+   "kind": "browser",
+   "file": "public/app.js",
    "guards": "hides on the supplies line",
-   "stoppedAfter": "a place clicked (\"Live oak mottes beside the house. Fair ground for game. Deer, turkey and mustangs keep to it. Waiting here, a deer: five…\") and \"Hunt there\": hh-1-parent-1 is out hunting",
+   "stoppedAfter": "a place clicked (\"Bottomland timber and cane, beside timber, beside the house. Good ground for deer: the wait should not be long. Deer, tu…\") and \"Hunt there\": hh-1-parent-1 is out hunting",
    "expectedAfter": "a place clicked",
+   "exit": 1,
+   "ok": true
+  },
+  {
+   "kind": "browser",
+   "file": "sim/chores.mjs",
+   "guards": "a hunt with no powder refused and greyed",
+   "stoppedAfter": "the hunt brought the hide of a deer home, and the supplies line says \"Hides 1\"",
+   "expectedAfter": "the hunt brought",
+   "exit": 1,
+   "ok": true
+  },
+  {
+   "kind": "browser",
+   "file": "public/app.js",
+   "guards": "the bar two rows at 1024x600",
+   "stoppedAfter": "with the last powder spent the hunt is greyed: \"There is no powder in the house to hunt with.\", Powder 0/1, \"Buy powder in town\"",
+   "expectedAfter": "with the last powder spent",
    "exit": 1,
    "ok": true
   },
@@ -211,8 +346,8 @@
    "kind": "browser",
    "file": "public/app.js",
    "guards": "Bring it in on a ripe plot",
-   "stoppedAfter": "the hunt brought the hide of a deer home, and the supplies line says \"Hides 1\"",
-   "expectedAfter": "the hunt brought",
+   "stoppedAfter": "at 1024x600 the bar is 2 rows of 14 icons, its goals (hunt-land, take-small-game) among them, all on the screen",
+   "expectedAfter": "at 1024x600",
    "exit": 1,
    "ok": true
   }
