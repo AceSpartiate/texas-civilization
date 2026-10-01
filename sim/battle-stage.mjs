@@ -396,6 +396,45 @@ export function battleStep(world) {
   return best;
 }
 
+/**
+ * **The real-time floor of a fight** (owner, 2026-09-30, after watching Gonzales in a real class on v2026.09.29.3: "it happened
+ * too fast"; docs/BATTLES.md §15.1, `FIC-GONZ-1050`). The fighting - every phase held at a `step` for every class, the phases
+ * §13.2 names as the fighting - is never watched in fewer real seconds than this, whatever the pace: at Quick (a second a tick)
+ * Gonzales's 34 ticks were 34 seconds, the parley's documented words and the cannon gone before a class could read them. The
+ * floor is spread evenly over the fight's ticks (`fightTicks`), so each tick lasts at least `seconds / ticks` real seconds;
+ * a pace already slower (Study, and Brisk for most fights) is never touched, and the calendar is not changed by a minute -
+ * only how long a tick of it is shown. Seconds, the game's: about three and a half real seconds a tick, long enough to read a
+ * bubble (public/speech.js holds one 3.8 s at least) and to see a musket loaded and fired, and each fight's total weighed by
+ * what it holds (docs/BATTLES.md §15.1 has the table and the reason for each).
+ */
+export const WATCH_SECONDS = Object.freeze({
+  gonzales: 120, concepcion: 105, 'grass-fight': 85, 'bexar-storming': 240, 'san-patricio': 90, 'agua-dulce': 75,
+  alamo: 180, coleto: 180, 'goliad-massacre': 90, 'san-jacinto': 150,
+});
+/** Whether a phase is part of the fighting held for every class: a step and not quiet (docs/BATTLES.md §13.2). */
+export const fightingPhase = phase => Boolean(phase?.step) && !phase.quiet;
+/** How many ticks the fighting of an engagement is watched in: its held, unquiet phases, each its minutes over its step. */
+export const fightTicks = def => def.phases.filter(fightingPhase).reduce((sum, phase) => sum + phase.minutes / phase.step, 0);
+/** The least real milliseconds a tick of this engagement's fighting is shown for (`WATCH_SECONDS` spread over `fightTicks`). */
+export function tickFloorOf(def) {
+  const seconds = WATCH_SECONDS[def.id], ticks = fightTicks(def);
+  return seconds > 0 && ticks > 0 ? Math.round(seconds * 1000 / ticks) : null;
+}
+/**
+ * The least real milliseconds the next tick may last, or null when no fight's fighting is being watched now. Read by the
+ * classroom server (server/app.mjs) only: nothing in the simulation depends on real time, so a class stepped in process is the
+ * same class. `scale` shortens it for a browser proof (a proof's whole class runs at a few hundred milliseconds a tick).
+ */
+export function battleTickFloorMs(world, { scale = 1 } = {}) {
+  let floor = null;
+  for (const state of clockStates(world)) {
+    if (!fightingPhase(state.phase)) continue;
+    const ms = tickFloorOf(state.def);
+    if (ms && (floor === null || ms > floor)) floor = ms;
+  }
+  return floor === null ? null : Math.max(1, Math.round(floor * scale));
+}
+
 const lerp = (a, b, part) => ({ x: a.x + (b.x - a.x) * part, y: a.y + (b.y - a.y) * part });
 const ease = part => part < 0 ? 0 : part > 1 ? 1 : part * part * (3 - 2 * part);
 /** Where a side stands at this moment: eased from its phase's `from` point to its `to`, both named points of the ground. */

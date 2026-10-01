@@ -56,7 +56,22 @@ const VOLLEY_MS = 11000, VOLLEY_WORDS_AT = [0, 1500, 2600];
 // ceiling: at most 170 puffs on the field at once, the oldest let go first, so a Chromebook's frame stays under a few
 // milliseconds (measured by scripts/battle-gonzales-browser-proof.mjs); a battle with far more men firing than Gonzales -
 // San Jacinto's eighteen minutes - may want the puffs merged into banks rather than a higher cap.
-const SMOKE_CAP = 170, SMOKE_LIFE_MS = 32000, CANNON_SMOKE_LIFE_MS = 45000;
+const SMOKE_CAP = 150, SMOKE_LIFE_MS = 14000, CANNON_SMOKE_LIFE_MS = 24000;
+/**
+ * **Black powder** (owner, 2026-09-30, after watching Gonzales in a real class: "i don't think there was enough smoke for black
+ * powder weapons"; docs/BATTLES.md §15.2, `FIC-GONZ-1051`). A puff above is the billow out of one muzzle, seen for its first
+ * quarter minute; every shot also feeds the **bank** lying on the field where it was fired (`view.banks`, `feedBank`). A bank
+ * thickens with every shot into it, so a line that keeps firing stands in a cloud of its own making and is hidden by it; it drifts
+ * on the day's wind, spreads, and thins slowly once the firing stops - a minute and more for a gun's (`CANNON_BANK_FADE_MS`), most
+ * of a minute for a musket line's. Banks merge (`BANK_MERGE_MILES`), so the cost is the number of banks, never the number of
+ * shots. Drawn over the figures, at a third of the screen's resolution and laid on in one stroke (`smokeLayer`), procedurally:
+ * the white-grey of powder smoke, never black. Times are real milliseconds, the game's.
+ * ceiling: at most `BANK_CAP` banks on the field; a shot beyond it thickens the nearest. A battle wanting more separate clouds
+ * than that (none of the ten does) would want a coarser merge, not a higher cap.
+ */
+const BANK_CAP = 56, BANK_MERGE_MILES = 0.03, BANK_FADE_MS = 13000, CANNON_BANK_FADE_MS = 20000, BANK_MAX = 6, BANK_GONE = 0.035;
+/** How thick a bank looks: 0 none to most of the way opaque (a line inside its own smoke is all but hidden). */
+const bankAlpha = density => Math.min(0.82, 1 - Math.exp(-0.75 * density));
 
 const hash = key => {
   let h = 2166136261;
@@ -232,7 +247,7 @@ export function regularity(points) {
 export function createBattleView(art) {
   const view = {
     key: null, minute: null, tickAt: 0, tickMs: 1000, sides: new Map(), layouts: new Map(),
-    smoke: [], flashes: [], shotsSeen: new Set(), linesSeen: new Map(), commandsAt: 0, fallenAt: new Map(),
+    smoke: [], banks: [], smokeLayer: null, flashes: [], shotsSeen: new Set(), linesSeen: new Map(), commandsAt: 0, fallenAt: new Map(),
     members: new Map(), memberSpots: new Map(), bubbles: [], cannonFiredAt: [], frameMs: [], evidence: null,
     // Each gun's shots as the page first saw them, a breach's moment of opening, a member's fall: all in the page's time.
     gunFiredAt: new Map(), breachAt: new Map(), memberFallAt: new Map(), skew: 0,
@@ -271,7 +286,7 @@ export function createBattleView(art) {
   function accept(battle, now, tickMs) {
     const key = `${battle.id}`;
     if (view.key !== key) {
-      view.key = key; view.sides.clear(); view.smoke = []; view.flashes = []; view.shotsSeen.clear(); view.linesSeen.clear(); view.fallenAt.clear(); view.cannonFiredAt = [];
+      view.key = key; view.sides.clear(); view.smoke = []; view.banks = []; view.flashes = []; view.shotsSeen.clear(); view.linesSeen.clear(); view.fallenAt.clear(); view.cannonFiredAt = [];
       view.gunFiredAt.clear(); view.breachAt.clear(); view.memberFallAt.clear(); view.peopleFellAt.clear(); view.fallenSpots.clear(); view.fallenSide.clear(); view.herd = null; view.pins.clear();
       view.cartTipStartedAt = null;
       view.minute = null;
@@ -348,10 +363,44 @@ export function createBattleView(art) {
       // ground's y is), and a little rise of the hot smoke up the page. A still fog morning barely moves it; a norther
       // carries it off the field.
       vx: w.x * 2.2e-6 + (Math.random() - 0.5) * 2e-7, vy: w.y * 2.2e-6 - 1.2e-7 - Math.random() * 1e-7,
-      size0: big ? 1.6 : 0.6, size1: big ? 7 : 3.1 + Math.random() * 1.4, alpha: big ? 0.85 : 0.62, scale: view.smokeScale ?? 1,
+      size0: big ? 1.6 : 0.6, size1: big ? 7 : 3.1 + Math.random() * 1.4, alpha: big ? 0.5 : 0.55, scale: view.smokeScale ?? 1,
       seed: Math.random(),
     });
     if (view.smoke.length > SMOKE_CAP) view.smoke.splice(0, view.smoke.length - SMOKE_CAP);
+    // A gun's discharge is four big puffs into one bank: a whole bank of smoke a shot.
+    feedBank(x, y, big ? 1.1 : 0.6, now, w, big);
+  }
+  /**
+   * Feed the bank of smoke lying where a shot was fired: the nearest bank within reach thickens (its middle drawn a little toward
+   * the new shot), or a new one begins there. Ground miles, so it stays put when the camera moves.
+   */
+  function feedBank(x, y, amount, now, w, big) {
+    settleBanks(now);
+    const reach = BANK_MERGE_MILES * (view.smokeScale ?? 1) * (big ? 1.6 : 1);
+    let near = null, best = Infinity;
+    for (const bank of view.banks) { const d = Math.hypot(bank.x - x, bank.y - y); if (d < reach && d < best) { best = d; near = bank; } }
+    if (!near && view.banks.length >= BANK_CAP) for (const bank of view.banks) { const d = Math.hypot(bank.x - x, bank.y - y); if (d < best) { best = d; near = bank; } }
+    if (near) {
+      const share = amount / (near.d + amount);
+      near.x += (x - near.x) * share * 0.5; near.y += (y - near.y) * share * 0.5;
+      near.d = Math.min(BANK_MAX, near.d + amount); near.fed = now; near.shots++; near.big ||= big;
+      return;
+    }
+    view.banks.push({
+      x, y, d: amount, born: now, fed: now, at: now, shots: 1, big, seed: Math.random(), scale: view.smokeScale ?? 1,
+      // Heavier than a fresh puff and hugging the ground: carried by the wind a little slower, hardly rising.
+      vx: w.x * 1.7e-6 + (Math.random() - 0.5) * 1.2e-7, vy: w.y * 1.7e-6 - 0.5e-7,
+    });
+  }
+  /** Every bank drifts on the wind and thins by the time since it was last settled; one too thin to see is gone. */
+  function settleBanks(now) {
+    for (const bank of view.banks) {
+      const dt = now - bank.at;
+      if (!(dt > 0)) continue;
+      bank.at = now; bank.x += bank.vx * dt; bank.y += bank.vy * dt;
+      bank.d *= Math.exp(-dt / (bank.big ? CANNON_BANK_FADE_MS : BANK_FADE_MS));
+    }
+    if (view.banks.some(bank => bank.d <= BANK_GONE)) view.banks = view.banks.filter(bank => bank.d > BANK_GONE);
   }
   function flash(x, y, facingRight, now, size) { view.flashes.push({ x, y, right: facingRight, born: now, size }); }
 
@@ -878,7 +927,7 @@ export function createBattleView(art) {
     // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 3 - Claude's drifting fog banks
     // (*Claude-drawn stand-ins*, area F) over a lighter veil; the veil alone without them.
     const fogShown = battle.fog > 0 ? drawFog(ctx, battle, camera, bounds, figurePx, time) : 0;
-    const smokeDrawn = drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds);
+    const smokeDrawn = drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds, battle);
     const bubbles = drawLines(ctx, battle, camera, figurePx, now, time, bounds, drawn, drawnBy);
     view.civiliansSeen = Math.max(view.civiliansSeen, civilians);
     view.shotsTotal += shots;
@@ -891,6 +940,9 @@ export function createBattleView(art) {
       id: battle.id, phase: battle.phase, minute: battle.minute, figures: { texian: drawn.texian.length, mexican: drawn.mexican.length },
       regularity: { texian: regularity(drawn.texian), mexican: regularity(drawn.mexican) },
       flashes, heard, shots, shotsTotal: view.shotsTotal, shotsBy: { ...view.shotsBy }, smoke: smokeDrawn.alive, smokeInView: smokeDrawn.inView, smokeCentre: smokeDrawn.centre, bubbles, linesShown: [...view.linesShown],
+      // The banks (§15.2): how many, how thick in all and at the thickest (`cover`, how much of what is behind the thickest hides),
+      // how long the stalest has lain since a shot last fed it (`lingerMs`), and the still haze drawn instead for less motion.
+      banks: smokeDrawn.banks, banksInView: smokeDrawn.banksInView, bankDensity: smokeDrawn.density, cover: smokeDrawn.cover, lingerMs: smokeDrawn.lingerMs, haze: smokeDrawn.haze,
       members: [...view.members.keys()], memberClips: [...view.memberClips],
       memberPoses: [...view.members.keys()].map(id => ({ id, drawn: view.memberSpots.has(id) })),
       cannon: cannonShown, flag: flagShown, cannonShots: view.cannonFiredAt.length, fallen: [...fallenSlots.values()].reduce((s, m) => s + m.size, 0),
@@ -1714,26 +1766,94 @@ export function createBattleView(art) {
     return { id: scene.id, kind: scene.kind, claimId: scene.claimId, moment: scene.moment, x: Math.round(p.x), y: Math.round(p.y) };
   }
 
-  function drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds) {
+  /**
+   * A bank's smoke this frame: three soft lobes round its middle in the colour of powder smoke, thicker at the core. Into the
+   * low-resolution layer when there is one (`ratio` under 1), straight onto the map when there is not (the tests' canvas).
+   */
+  function drawBank(target, at, radius, alpha, seed, ratio, dark) {
+    const tone = dark ? '150,150,158' : '238,236,228', core = dark ? '118,118,126' : '214,212,203';
+    for (let i = 0; i < 3; i++) {
+      const a = seed * 6.283 + i * 2.1, off = radius * (i ? 0.48 : 0.12);
+      const x = (at.x + Math.cos(a) * off) * ratio, y = (at.y - radius * 0.35 + Math.sin(a) * off * 0.45) * ratio, r = radius * (i ? 0.72 : 0.9) * ratio;
+      const g = target.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, `rgba(${core},${(alpha * (i ? 0.75 : 0.95)).toFixed(3)})`);
+      g.addColorStop(0.55, `rgba(${tone},${(alpha * (i ? 0.5 : 0.62)).toFixed(3)})`);
+      g.addColorStop(1, `rgba(${tone},0)`);
+      target.fillStyle = g; target.beginPath(); target.arc(x, y, r, 0, Math.PI * 2); target.fill();
+    }
+  }
+  /** The layer the banks are drawn into, a third of the map's resolution, laid over it in one stroke; null under node. */
+  function smokeLayer(bounds) {
+    if (!bounds || typeof document === 'undefined' || typeof document.createElement !== 'function') return null;
+    const width = Math.max(1, Math.ceil(bounds.width / 3)), height = Math.max(1, Math.ceil(bounds.height / 3));
+    const layer = view.smokeLayer ||= document.createElement('canvas');
+    if (layer.width !== width || layer.height !== height) { layer.width = width; layer.height = height; }
+    const lctx = layer.getContext('2d');
+    lctx.setTransform(1, 0, 0, 1, 0, 0); lctx.clearRect(0, 0, width, height);
+    return { layer, lctx, ratio: width / bounds.width };
+  }
+  function drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds, battle = null) {
     view.smoke = view.smoke.filter(s => now - s.born < s.life);
-    if (reducedMotion) return { alive: view.smoke.length, inView: 0 };
-    let inView = 0;
+    settleBanks(now);
+    const dark = Boolean(battle && (battle.light === 'night' || battle.light === 'dawn' || (typeof battle.light === 'number' && battle.light > 0.5)));
+    const inside = at => !bounds || (at.x >= -60 && at.y >= -60 && at.x <= bounds.width + 60 && at.y <= bounds.height + 60);
+    const density = +view.banks.reduce((sum, bank) => sum + bank.d, 0).toFixed(3);
+    const lingerMs = view.banks.length ? Math.round(Math.max(...view.banks.map(bank => now - bank.fed))) : 0;
+    let cover = 0, banksInView = 0, haze = 0;
+    const layer = smokeLayer(bounds), target = layer ? layer.lctx : ctx, ratio = layer ? layer.ratio : 1;
+    if (reducedMotion) {
+      // Less motion: no puff grows and nothing drifts. A still haze stands over each body that is firing, and before each gun that
+      // has fired, as thick as such fire leaves it - the field reads as a fight in its smoke without anything on it moving.
+      for (const body of battle ? bodiesOf(battle) : []) {
+        if (!body.fire || body.fire === 'none' || body.action === 'gone' || body.civilians) continue;
+        const shown = view.sides.get(body.key), centre = shown ? placeAt(shown, now) : body, facing = body.facing || { x: 1, y: 0 };
+        const at = camera.toScreen({ x: centre.x + facing.x * 0.02, y: centre.y + facing.y * 0.02 });
+        if (!inside(at)) continue;
+        const alpha = bankAlpha(body.fire === 'picket' ? 1 : 2.4) * 0.85;
+        drawBank(target, at, figurePx * 4.2 * (view.smokeScale ?? 1), alpha, hash(body.key), ratio, dark);
+        haze++; cover = Math.max(cover, alpha);
+      }
+      for (const gun of [...(battle?.guns || []), ...(battle?.cannon ? [battle.cannon] : [])]) {
+        if (!(gun.shots || []).length) continue;
+        const fx = gun.facing?.x ?? 1, fy = gun.facing?.y ?? 0, at = camera.toScreen({ x: gun.x + fx * 0.03, y: gun.y + fy * 0.03 });
+        if (!inside(at)) continue;
+        drawBank(target, at, figurePx * 5.5 * (view.smokeScale ?? 1), bankAlpha(3.5) * 0.85, hash(`gun:${gun.x}:${gun.y}`), ratio, dark);
+        haze++;
+      }
+      if (layer && haze) ctx.drawImage(layer.layer, 0, 0, bounds.width, bounds.height);
+      return { alive: view.smoke.length + view.banks.length, inView: haze, banks: view.banks.length, banksInView: 0, density, cover: +cover.toFixed(3), lingerMs, haze };
+    }
+    // The banks first, under the fresh billows: each grows as it ages and as it thickens, lying where the wind has taken it.
+    for (const bank of view.banks) {
+      const at = camera.toScreen(bank);
+      if (!inside(at)) continue;
+      banksInView++;
+      const age = now - bank.born, alpha = bankAlpha(bank.d);
+      const radius = figurePx * (bank.scale ?? 1) * ((bank.big ? 3.4 : 2.3) + 0.9 * Math.sqrt(bank.d) + 2.6 * (1 - Math.exp(-age / 25000)));
+      drawBank(target, at, radius, alpha, bank.seed, ratio, dark);
+      cover = Math.max(cover, alpha);
+    }
+    if (layer && banksInView) ctx.drawImage(layer.layer, 0, 0, bounds.width, bounds.height);
+    let inView = banksInView;
     for (const s of view.smoke) {
       const age = now - s.born, t = age / s.life;
       const at = camera.toScreen({ x: s.x + s.vx * age, y: s.y + s.vy * age });
       if (bounds && at.x >= 0 && at.y >= 0 && at.x <= bounds.width && at.y <= bounds.height) inView++;
       const size = figurePx * lerp(s.size0, s.size1, Math.sqrt(t)) * (s.scale ?? 1);
       const alpha = s.alpha * (t < 0.04 ? t / 0.04 : Math.pow(1 - t, 1.3));
-      const sprite = t < 0.08 ? 'smoke-growing' : s.seed < 0.5 ? 'smoke-dispersing' : 'smoke-dense';
-      if (!art.drawSprite(ctx, sprite, at.x, at.y - figurePx * 0.4, size, { alpha: sprite === 'smoke-dense' ? alpha * 0.7 : alpha, flip: s.seed > 0.7 })) {
+      // The fresh billow white out of the muzzle, then grey and breaking up into the bank (since 2026-09-30 never the library's
+      // dark-outlined `smoke-dense`, which read as a thundercloud over a line of muskets, not powder smoke).
+      const sprite = t < 0.22 ? 'smoke-growing' : 'smoke-dispersing';
+      if (!art.drawSprite(ctx, sprite, at.x, at.y - figurePx * 0.4, size, { alpha, flip: s.seed > 0.7 })) {
         const g = ctx.createRadialGradient(at.x, at.y - size * 0.4, 0, at.x, at.y - size * 0.4, size * 0.5);
         g.addColorStop(0, `rgba(226,224,216,${alpha})`); g.addColorStop(1, 'rgba(226,224,216,0)');
         ctx.fillStyle = g; ctx.beginPath(); ctx.arc(at.x, at.y - size * 0.4, size * 0.5, 0, Math.PI * 2); ctx.fill();
       }
     }
-    // Where the smoke lies now, on the ground: the middle of every puff where the wind has taken it (evidence only).
-    const centre = view.smoke.length ? view.smoke.reduce((sum, s) => ({ x: sum.x + s.x + s.vx * (now - s.born), y: sum.y + s.y + s.vy * (now - s.born) }), { x: 0, y: 0 }) : null;
-    return { alive: view.smoke.length, inView, centre: centre && { x: centre.x / view.smoke.length, y: centre.y / view.smoke.length } };
+    // Where the smoke lies now, on the ground: the middle of every puff and bank where the wind has taken it (evidence only).
+    const all = [...view.smoke.map(s => ({ x: s.x + s.vx * (now - s.born), y: s.y + s.vy * (now - s.born) })), ...view.banks];
+    const centre = all.length ? all.reduce((sum, s) => ({ x: sum.x + s.x, y: sum.y + s.y }), { x: 0, y: 0 }) : null;
+    return { alive: view.smoke.length + view.banks.length, inView, centre: centre && { x: centre.x / all.length, y: centre.y / all.length }, banks: view.banks.length, banksInView, density, cover: +cover.toFixed(3), lingerMs, haze };
   }
 
   /** Every line said this tick or lately, over whoever said it; the Mexican officer's words as each volley comes. */
@@ -1826,7 +1946,13 @@ export function createBattleView(art) {
     }
   }
 
+  /**
+   * Whether a family's person is drawn hit, taken or down now - only from the moment the page drew the fate the server sent at its
+   * minute (`memberFallAt`), so nothing that reads it can know sooner than the picture shows. The film (public/battle-cinema.js)
+   * does not follow him, and his name is dimmed.
+   */
+  const memberDown = (id, now = performance.now()) => { const fell = view.memberFallAt.get(id); return Boolean(fell && now >= fell.at && !['escaped', 'ran'].includes(fell.fate)); };
   /** Whether this person is drawn in the fight now (a family's person who fell is drawn only while it is). */
   const isMember = id => view.members.has(id);
-  return { draw, memberPose, memberDrawn, isMember, get evidence() { return view.evidence; }, get smoke() { return view.smoke.length; } };
+  return { draw, memberPose, memberDrawn, isMember, memberSpot: id => view.memberSpots.get(id) || null, memberDown,  get evidence() { return view.evidence; }, get smoke() { return view.smoke.length + view.banks.length; } };
 }

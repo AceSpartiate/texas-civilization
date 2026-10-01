@@ -66,6 +66,10 @@ const app = createClassroom({
   // colonies, a Tejano family at Victoria, and in a class of ten or more a free Black family near Liberty. STARTS=0 deals none.
   worldFactory: (seed, playerCount) => createGonzalesWorld(seed, playerCount, { map: process.env.MAP || 'colonies', neighbours: true, starts: process.env.STARTS !== '0' }),
   onStopRequested: () => shutdown('Host requested a graceful stop'),
+  // A fight's fighting is never watched faster than its real-time floor, whatever the pace (owner, 2026-09-30, after the Battle of
+  // Gonzales in a real class: "it happened too fast"; docs/BATTLES.md §15.1, sim/battle-stage.mjs `WATCH_SECONDS`). BATTLE_FLOORS=0
+  // turns it off for a developer; nobody else needs it.
+  battleFloors: process.env.BATTLE_FLOORS !== '0',
   voice,
   // Play Solo saves, pauses and stops itself when its player's page has gone (server/app.mjs `SOLO_WATCH`, owner 2026-09-27).
   // SOLO_LEAVE_MS shortens the wait after the page closes, for a browser proof; nobody else needs it.

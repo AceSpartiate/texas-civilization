@@ -1,0 +1,250 @@
+{
+  "record": "battle-cinema-injections",
+  "date": "2026-10-01",
+  "gates": {
+    "unit": "tests/battle-floor.test.mjs, tests/battle-smoke.test.mjs, tests/battle-cinema.test.mjs, tests/host-battle-knowledge.test.mjs: the named test and no other",
+    "browser": "scripts/battle-cinema-browser-proof.mjs"
+  },
+  "unit": [
+    {
+      "name": "a fight floored under three seconds a tick",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-floor.test.mjs",
+      "expect": "every fight has a floor, and at every pace its fighting is watched at least that long and never faster than before",
+      "caught": true,
+      "failed": [
+        "every fight has a floor, and at every pace its fighting is watched at least that long and never faster than before"
+      ]
+    },
+    {
+      "name": "the lead-ups floored too",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-floor.test.mjs",
+      "expect": "the clock asks for the floor exactly while the fighting is fought, and Gonzales at Quick lasts its two minutes",
+      "caught": true,
+      "failed": [
+        "the clock asks for the floor exactly while the fighting is fought, and Gonzales at Quick lasts its two minutes"
+      ]
+    },
+    {
+      "name": "the server tells the floor and never waits it",
+      "file": "server/app.mjs",
+      "test": "tests/battle-floor.test.mjs",
+      "expect": "the server waits the floor between the fighting ticks and tells the page the tick and the pace apart; a test class keeps its pace",
+      "caught": true,
+      "failed": [
+        "the server waits the floor between the fighting ticks and tells the page the tick and the pace apart; a test class keeps its pace"
+      ]
+    },
+    {
+      "name": "the real server not given the floor",
+      "file": "server/main.mjs",
+      "test": "tests/battle-floor.test.mjs",
+      "expect": "the real server floors its fights; the pace buttons read the pace, not the tick",
+      "caught": true,
+      "failed": [
+        "the real server floors its fights; the pace buttons read the pace, not the tick"
+      ]
+    },
+    {
+      "name": "the banks never thicker than half",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke.test.mjs",
+      "expect": "the smoke builds up under repeated fire until the firing line stands hidden in it, and is drawn over the men",
+      "caught": true,
+      "failed": [
+        "the smoke builds up under repeated fire until the firing line stands hidden in it, and is drawn over the men"
+      ]
+    },
+    {
+      "name": "the banks never thin",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke.test.mjs",
+      "expect": "the smoke drifts with the wind, lingers tens of seconds after the fire stops, and thins slowly away",
+      "caught": true,
+      "failed": [
+        "the smoke drifts with the wind, lingers tens of seconds after the fire stops, and thins slowly away"
+      ]
+    },
+    {
+      "name": "a gun's shot no more smoke than a musket's",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke.test.mjs",
+      "expect": "a gun makes a bank of its own that outlasts a musket's",
+      "caught": true,
+      "failed": [
+        "a gun makes a bank of its own that outlasts a musket's"
+      ]
+    },
+    {
+      "name": "a bank for every shot past the cap",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke.test.mjs",
+      "expect": "however long the firing, the smoke on the field stays bounded",
+      "caught": true,
+      "failed": [
+        "however long the firing, the smoke on the field stays bounded"
+      ]
+    },
+    {
+      "name": "no haze for less motion",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke.test.mjs",
+      "expect": "for less motion nothing grows or drifts: a still haze stands over the lines that are firing",
+      "caught": true,
+      "failed": [
+        "for less motion nothing grows or drifts: a still haze stands over the lines that are firing"
+      ]
+    },
+    {
+      "name": "no establishing shot from far off",
+      "file": "public/battle-cinema.js",
+      "test": "tests/battle-cinema.test.mjs",
+      "expect": "on the Host it starts by itself: a fade to black, the field from far off with a title, pushing in, and the fade up",
+      "caught": true,
+      "failed": [
+        "on the Host it starts by itself: a fade to black, the field from far off with a title, pushing in, and the fade up"
+      ]
+    },
+    {
+      "name": "the camera kept on a man shown hit",
+      "file": "public/battle-cinema.js",
+      "test": "tests/battle-cinema.test.mjs",
+      "expect": "it follows the field and each of the class's own people in turn, gliding, and never stays on one shown hit",
+      "caught": true,
+      "failed": [
+        "it follows the field and each of the class's own people in turn, gliding, and never stays on one shown hit"
+      ]
+    },
+    {
+      "name": "no hold on the field before the fade",
+      "file": "public/battle-cinema.js",
+      "test": "tests/battle-cinema.test.mjs",
+      "expect": "when the fighting is over it holds on the field while the smoke clears, fades, and puts the teacher's view back",
+      "caught": true,
+      "failed": [
+        "when the fighting is over it holds on the field while the smoke clears, fades, and puts the teacher's view back"
+      ]
+    },
+    {
+      "name": "a fight gone from the map cuts the film off",
+      "file": "public/battle-cinema.js",
+      "test": "tests/battle-cinema.test.mjs",
+      "expect": "when the fighting is over it holds on the field while the smoke clears, fades, and puts the teacher's view back",
+      "caught": true,
+      "failed": [
+        "when the fighting is over it holds on the field while the smoke clears, fades, and puts the teacher's view back"
+      ]
+    },
+    {
+      "name": "the film takes the camera back from the teacher",
+      "file": "public/battle-cinema.js",
+      "test": "tests/battle-cinema.test.mjs",
+      "expect": "the teacher takes the camera at any moment, keeps it for that fight, and can give it back; nothing is put back after",
+      "caught": true,
+      "failed": [
+        "the teacher takes the camera at any moment, keeps it for that fight, and can give it back; nothing is put back after"
+      ]
+    },
+    {
+      "name": "the film goes on over the end of the game",
+      "file": "public/battle-cinema.js",
+      "test": "tests/battle-cinema.test.mjs",
+      "expect": "the end of the game stops it at once; another fight sent in its place is cut to through black; less motion cuts",
+      "caught": true,
+      "failed": [
+        "the end of the game stops it at once; another fight sent in its place is cut to through black; less motion cuts"
+      ]
+    },
+    {
+      "name": "a student's camera taken without Watch",
+      "file": "public/battle-cinema.js",
+      "test": "tests/battle-cinema.test.mjs",
+      "expect": "a student's page never starts it by itself; Watch starts the follow on the family's own, with no fade and no title",
+      "caught": true,
+      "failed": [
+        "a student's page never starts it by itself; Watch starts the follow on the family's own, with no fade and no title"
+      ]
+    },
+    {
+      "name": "every family the same colour",
+      "file": "public/battle-cinema.js",
+      "test": "tests/battle-cinema.test.mjs",
+      "expect": "each family keeps one colour, told apart from the next",
+      "caught": true,
+      "failed": [
+        "each family keeps one colour, told apart from the next"
+      ]
+    },
+    {
+      "name": "a fate sent before its minute",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/host-battle-knowledge.test.mjs",
+      "expect": "the Host is shown a family's man in the fight from the start and his fate only from its minute: nothing on its wire says it sooner",
+      "caught": true,
+      "failed": [
+        "the Host is shown a family's man in the fight from the start and his fate only from its minute: nothing on its wire says it sooner"
+      ]
+    }
+  ],
+  "browser": [
+    {
+      "name": "the floor not kept by the server",
+      "file": "server/app.mjs",
+      "expect": "the fighting's ticks were not held to the floor",
+      "caught": true,
+      "failure": "the fighting's ticks were not held to the floor: [400] (floor 1765)",
+      "checksPassedFirst": 3
+    },
+    {
+      "name": "no fade to black into the fight",
+      "file": "public/battle-cinema.js",
+      "expect": "no fade to black before the fight",
+      "caught": true,
+      "failure": "no fade to black before the fight: [0,0,0,0,0,0,0]",
+      "checksPassedFirst": 2
+    },
+    {
+      "name": "every family the same colour on the class view",
+      "file": "public/app.js",
+      "expect": "names without their family or its colour",
+      "caught": true,
+      "failure": "names without their family or its colour: [{\"id\":\"hh-1-thomas\",\"name\":\"Amos\",\"family\":\"Amos's family\",\"colour\":\"#d64545\",\"householdId\":\"hh-1\",\"x\":511,\"y\":577,\"down\":false,\"followed\":false},{\"id\":\"hh-2-thomas\",\"name\":\"Trinidad\",\"family\":\"Trinidad's family\",\"colour\":\"#d64545\",\"householdId\":\"hh-2\",\"x\":767,\"y\":516,\"down\":false,\"followed\":false}]",
+      "checksPassedFirst": 3
+    },
+    {
+      "name": "Esc does nothing",
+      "file": "public/app.js",
+      "expect": "Esc did not take the camera",
+      "caught": true,
+      "failure": "Esc did not take the camera",
+      "checksPassedFirst": 5
+    },
+    {
+      "name": "faded for less motion",
+      "file": "public/battle-cinema.js",
+      "expect": "a page asking for less motion was faded",
+      "caught": true,
+      "failure": "a page asking for less motion was faded",
+      "checksPassedFirst": 8
+    },
+    {
+      "name": "the camera not put back",
+      "file": "public/app.js",
+      "expect": "the camera was not put back",
+      "caught": true,
+      "failure": "the camera was not put back: {\"cx\":-1.7040335634108745,\"cy\":-7.418414283776196,\"scale\":2023.1333538142462} against {\"cx\":2.1,\"cy\":0.5,\"scale\":960,\"following\":false}",
+      "checksPassedFirst": 9
+    },
+    {
+      "name": "the smoke gone soon after the firing",
+      "file": "public/battle-view.js",
+      "expect": "the smoke did not lie on the field twenty seconds",
+      "caught": true,
+      "failure": "the smoke did not lie on the field twenty seconds after the last shot: 8000 ms",
+      "checksPassedFirst": 10
+    }
+  ],
+  "cleanBrowserChecks": 12,
+  "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x600."
+}

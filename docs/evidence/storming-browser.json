@@ -1,6 +1,6 @@
 {
   "record": "The storming of Béxar, in a browser: docs/COLONIES.md build step 6",
-  "date": "2026-09-30",
+  "date": "2026-10-01",
   "verdict": "PASS",
   "note": "Same computer only. A real class on the colonies map, played in process to December 3 with hh-1's volunteer in the army, then served live; a student answered the winter-quarters question and Milam's call on the card and watched the wrong express and then the victory reach the family. The lasting mark was placed on the volunteer in process. No LAN or district claim.",
   "checks": [
@@ -22,7 +22,7 @@
       "source": "An express from the army",
       "observedMinute": 101320,
       "receivedMinute": 101330,
-      "eventId": "ev-618",
+      "eventId": "ev-623",
       "ageMinutes": 0,
       "observationAgeMinutes": 10
     },
@@ -33,7 +33,7 @@
       "source": "Word from the army",
       "observedMinute": 101320,
       "receivedMinute": 111080,
-      "eventId": "ev-689",
+      "eventId": "ev-716",
       "ageMinutes": 0,
       "observationAgeMinutes": 9760
     },

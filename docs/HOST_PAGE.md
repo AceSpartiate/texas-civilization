@@ -69,6 +69,8 @@ half a day - or until the next): the fight at Gonzales, Concepción, the Grass F
 February 23** (the army nobody expected, weeks early; `docs/battle-research/surprise-at-bexar.md`), **the fall of the Alamo**, Coleto, **the Goliad massacre**, San Jacinto, Santa Anna taken, and for a played family **its house and field
 burned** by the Texas army and **somebody of it taken prisoner at home** by the Mexican army. Each is written down as a
 public `spotlight` event with its claim. A student is never sent it.
+**A fight is filmed since 2026-09-30** (§2.15): its own spotlight no longer moves the camera; the film of the fight does, and puts
+the teacher's view back after.
 
 ### 2.4 Absent families
 
@@ -349,6 +351,33 @@ separates class periods (it changes with **New Class**), the owner chose, by mul
   a stranger on the network is the code in the address as it was the code on the screen; a class that needs more is a class
   password, which nobody has asked for.
 
+### 2.15 A fight on the class view is filmed (owner-decided 2026-09-30)
+
+The owner, 2026-09-30, after watching the Battle of Gonzales in a real class: *"when battles happ3n, we should have the classview
+cinematically zoom in and watch the battle. players should see their family members fighting and wonder if they'll survive."*
+Built as docs/BATTLES.md §15.3 (`FIC-GONZ-1052`); what the Host's page does:
+
+- **By itself.** When the server says a fight is being fought (`host.focus === 'battle'`), the camera fades to black from wherever
+  the teacher was looking, opens on the field from far off under a title (the day, the phase, the fight's name, and who of the class
+  is in it), pushes in, and then follows: the field, then each family's man in the fight in turn, close, then the field again.
+  Letterbox bars while it has the camera. Not a student's page: theirs is filmed only if the student presses Watch.
+- **Every man of the class in the fight named on the map**, over the smoke: his name, his family, his family's colour. **The
+  class panel shows each family's colour** - a dot before its name, on every row, the whole class - so a student knows their colour
+  before the fight. A man shown hit has his name dimmed, from the moment the fight shows it and not before; nothing on the Host's
+  wire says it sooner (`tests/host-battle-knowledge.test.mjs`).
+- **The teacher takes the camera back**: **Esc**, or the map's button **Take the camera (Esc)** (beside Whole class, only while a
+  fight is filmed), or any drag, zoom or map button. It stays where it was. The same button then reads **Watch the fight** and gives
+  it back to the film.
+- **After the fight** the film holds on the field while the smoke clears, fades to black, and puts the camera back where the
+  teacher had it before the fight (unless the teacher still has the camera then: theirs is theirs).
+- **Spotlights** (§2.3): the fight's own spotlight no longer moves the camera - the film does, and keeps the teacher's view to put
+  back. Another spotlight lit while a fight is filmed shows its banner and leaves the camera on the fight. The end of the game stops
+  the film at once.
+- **Pace** (§2.7): the pace buttons light the pace chosen, not how long a tick lasts: a fight's fighting is now never watched in
+  fewer real seconds than its floor (docs/BATTLES.md §15.1; Gonzales two minutes at Quick, where it was 34 seconds), and Study is
+  unchanged.
+- Same computer only: `npm run test:battle-cinema` (headless Chrome at 1366x768 and 1024x600). Not proved on a projector.
+
 ## 3. Proof
 
 - `tests/absence.test.mjs` (4): the marker; the director's, questions answered at once, nothing held; back again; the
@@ -357,6 +386,8 @@ separates class periods (it changes with **New Class**), the owner chose, by mul
 - `tests/host-live.test.mjs` (6): the panel in words and no coin or glory, nothing to a student; every word; what waits;
   the Rumor Mill; the spotlight lit, passing, and a family's own; the war's spotlights across all three periods.
 - `tests/host-page.test.mjs` (4): the page's words.
+- §2.15: `tests/battle-cinema.test.mjs`, `tests/host-battle-knowledge.test.mjs`, `tests/battle-floor.test.mjs`; `npm run
+  test:battle-cinema` (docs/BATTLES.md §15.3).
 - `tests/lesson.test.mjs`, *the Host's class panel says quietly that a family stopped and resumed the guided start; no
   student is told* (§2.5), proven by two injections in `scripts/lesson-injections.mjs`.
 - `tests/lifecycle.test.mjs`, *Stop for today saves the class paused and stops the server; the next launch opens the same class

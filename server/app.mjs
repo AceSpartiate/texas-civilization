@@ -37,6 +37,8 @@ import { ROLES, voiceOfPerson } from './voice/text.mjs';
 import { advanceEndSequence, beginEndSequence, dueChange, endSequenceStep, endSequenceView } from '../sim/end-sequence.mjs';
 import { CLASS_SCRIPT_VERSION, CLASS_VIDEO_ID } from '../sim/class-flashback.mjs';
 import { classSchedule } from './class-days.mjs';
+// A fight's real-time floor (owner, 2026-09-30, "it happened too fast"; docs/BATTLES.md §15.1).
+import { battleTickFloorMs } from '../sim/battle-stage.mjs';
 
 const token = () => randomBytes(24).toString('hex');
 const hash = value => createHash('sha256').update(value).digest('hex');
@@ -79,6 +81,7 @@ const files = new Map([
   ['/famous-view.js', ['../public/famous-view.js', 'text/javascript']],
   // The one battle renderer and the one speech bubble (docs/BATTLES.md §3): every fight drawn, every line said over its speaker.
   ['/battle-view.js', ['../public/battle-view.js', 'text/javascript']],
+  ['/battle-cinema.js', ['../public/battle-cinema.js', 'text/javascript']],
   // The famous people's poses on Claude's temporary sheets, behind Astra's (public/claude-person-art.js).
   ['/claude-person-art.js', ['../public/claude-person-art.js', 'text/javascript']],
   ['/chase-view.js', ['../public/chase-view.js', 'text/javascript']],
@@ -305,7 +308,7 @@ export const WOODS_BATCH_MAX = 64;
  * `LESSON_RESUME_MS`, five minutes when not given). Both are options only so a test or a browser proof can hold the clock,
  * jump it, or shorten the window; a real class passes neither.
  */
-export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, decisionBudgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, questionBudgets = null, now = Date.now, lessonResumeMs, soloWatch = null, flashbackDir, streamTimings = STREAMS, emptyPauseMs = null, voice: givenVoice } = {}) {
+export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tickMs = 200, savePath, joinUrls = [], worldFactory = createWorld, onStopRequested = null, stopDelayMs = 250, solo = false, absentMs = ABSENT_MS, soloGamesDir = null, timings = null, saveWithinMs = SAVE_WITHIN_MS, decisionBudgetMs = DECISION_BUDGET_MS, callBudgetMs = CALL_BUDGET_MS, questionBudgets = null, now = Date.now, lessonResumeMs, soloWatch = null, flashbackDir, streamTimings = STREAMS, emptyPauseMs = null, voice: givenVoice, battleFloors = false } = {}) {
   const { perFamily: streamsPerFamily, pingMs: streamPingMs, staleMs: streamStaleMs } = { ...STREAMS, ...streamTimings };
   if (!Number.isInteger(streamsPerFamily) || streamsPerFamily < 1 || !(streamPingMs > 0) || !(streamStaleMs > streamPingMs)) throw new Error('Stream timings must be a positive count, a ping and a longer stale time');
   if (!Number.isInteger(playerCount) || playerCount < 5 || playerCount > 30) throw new Error('Class size must be 5–30');
@@ -708,7 +711,7 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     // `tickMs` rides along because the renderer has to know how long a tick lasts to
     // spread one tick's movement across it. Without it the client guesses one second and a
     // slower class walks for a second and then stands still for the rest of the tick.
-    const payload = { sessionId: state.sessionId, connected: connected(), tickMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectPage(state.world, identity.householdId, identity.role, { includeMap: false, copy, now: now() }), mapId: mapKey(), ...(state.world.map.revision && { mapRevision: state.world.map.revision }), ...(state.world.woods?.revision && { woodsRevision: state.world.woods.revision }) };
+    const payload = { sessionId: state.sessionId, connected: connected(), tickMs: tickEvery(), paceMs: pace, fault: runtimeFault && structuredClone(runtimeFault), lifecycle: lifecycle && structuredClone(lifecycle), world: projectPage(state.world, identity.householdId, identity.role, { includeMap: false, copy, now: now() }), mapId: mapKey(), ...(state.world.map.revision && { mapRevision: state.world.map.revision }), ...(state.world.woods?.revision && { woodsRevision: state.world.woods.revision }) };
     // A page has to know it is a solo game: there is no teacher on it, so its own "Done packing" is the Start
     // (owner, 2026-09-21). One boolean rather than a role of its own - a solo player is a student in every other way.
     if (solo) payload.solo = true;
@@ -1877,14 +1880,32 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     const running = state.world.status === 'running'
       && !(solo && Object.values(state.clients).some(client => familyMaking(state.world, state.world.households[client.householdId])));
     // Measured before anything else, so a paused or waiting class is always a lap not run (`realTimeMeter`).
-    const realMs = realTime.lap(running, Math.max(3 * pace, 2000));
+    const realMs = realTime.lap(running, Math.max(3 * tickEvery(), 2000));
     if (!running) { emptySince = null; return; }
     try { if (pauseIfEmpty()) return; } catch (error) { console.error('The class could not pause itself:', error.cause?.message || error.message); }
     // The class's own end, whenever it falls (the last period's end, or held for the news), begins the end sequence in the same commit.
     try { commit(s => { markAbsences(s.world); stepWorld(s.world, { realMs, decisionBudgetMs, callBudgetMs, ...(questionBudgets && { questionBudgets }) }); if (s.world.status === 'ended') beginEnd(s.world); }, { when: 'tick' }); }
     catch (error) { if (!runtimeFault) suspend('SIMULATION_FAILED'); console.error('Simulation paused:', error.cause?.message || error.message); }
   }
-  let timer = setInterval(tick, pace);
+  /**
+   * How long the next tick lasts in real time: the class's pace, or longer while a fight's fighting is watched (docs/BATTLES.md
+   * §15.1, owner 2026-09-30: "it happened too fast"; `battleTickFloorMs`). Only ever longer, never shorter, and nothing in the
+   * world reads it: the same class at any pace is the same class. `battleFloors` is the real server's (server/main.mjs), as the
+   * empty-room watch is; `{ scale }` shortens it for a browser proof, and a class run in process by a test is left at its pace.
+   */
+  function tickEvery() {
+    if (!battleFloors || state.world.status !== 'running') return pace;
+    const floor = battleTickFloorMs(state.world, { scale: battleFloors.scale ?? 1 });
+    return floor ? Math.max(pace, floor) : pace;
+  }
+  // The interval the timer is set to now, rebuilt when the fight's floor (or the pace) changes it.
+  let interval = pace;
+  function ticked() {
+    tick();
+    const want = tickEvery();
+    if (want !== interval && !closing) { interval = want; clearInterval(timer); timer = setInterval(ticked, interval); }
+  }
+  let timer = setInterval(ticked, pace);
   // An ended class goes on through its end sequence in real time (sim/end-sequence.mjs), on a second's beat of its own: the class's
   // pace can be 9.5 s a tick, and every family's video starting together wants the second, not the tick.
   const endTimer = setInterval(() => {
@@ -1903,7 +1924,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     if (!Number.isInteger(milliseconds) || milliseconds < 10 || milliseconds > 10000) throw new Error('Pace must be 10–10000 milliseconds');
     pace = milliseconds;
     clearInterval(timer);
-    timer = setInterval(tick, pace);
+    interval = tickEvery();
+    timer = setInterval(ticked, interval);
   }
   return {
     server,
@@ -1915,6 +1937,8 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
     requestStop,
     setPace,
     get pace() { return pace; },
+    /** The real milliseconds the next tick lasts: the pace, or a fight's floor while its fighting is watched. */
+    get tickEvery() { return tickEvery(); },
     newSoloGame,
     async listen(port = 0, bind = '0.0.0.0') {
       // Whatever it is asked for, a solo server never listens beyond this computer.

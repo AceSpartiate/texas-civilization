@@ -1,5 +1,53 @@
 # Claude handoff — Astra foundation
 
+## Battles watched, not hurried: the floor, black-powder smoke and the film on the class view — owner-decided 2026-09-30 (not released)
+
+Branch `battle-cinema` off local `integration-2026-09-28`; not pushed, nothing published. The owner, 2026-09-30, verbatim, after
+watching the Battle of Gonzales in a real class on v2026.09.29.3: *"i was able to see the battle of Gonzales today. it happened too
+fast. i don't think there was enough smoke for black powder weapons. also, when battles happ3n, we should have the classview
+cinematically zoom in and watch the battle. players should see their family members fighting and wonder if they'll survive."*
+Recorded as owner-decided in docs/BATTLES.md §15 and docs/HOST_PAGE.md §2.15; claims `FIC-GONZ-1050`-`-1052` (HISTORY.md). Nothing in
+the history moved: no phase, date, step, line, outcome or fate. **Same computer only: no projector, Chromebook, LAN or classroom
+claim.**
+
+- **Too fast.** Measured (`scripts/battle-watch-time.mjs` → `docs/evidence/battle-watch-time.json`): at Quick every fight's fighting
+  was a second a tick - Gonzales 34 s, Agua Dulce 20 s, the Alamo's assault 42 s. Each fight now has a real-time floor
+  (sim/battle-stage.mjs `WATCH_SECONDS`, `battleTickFloorMs`): Gonzales 120 s, Concepción 105, the Grass Fight 85, Béxar 240, San
+  Patricio 90, Agua Dulce 75, the Alamo 180, Coleto 180, Palm Sunday 90, San Jacinto 150 - about 3.5 s a tick of fighting. The server's
+  timer waits it (server/app.mjs `tickEvery`; on in server/main.mjs, `BATTLE_FLOORS=0` off; never in classes run by tests). Study is
+  untouched; Brisk only the Alamo (168 → 180 s); Quick +16 real minutes over the whole game. Lead-ups and aftermaths keep §13's rule.
+  The page is told the tick (`tickMs`) and the pace (`paceMs`) apart, so the pace buttons and class days read the pace.
+- **Smoke.** public/battle-view.js: every shot feeds a bank of smoke where it was fired (`feedBank`), thickening under repeated fire
+  until the line is hidden, drifting on the wind, thinning by half in about 9 s (a gun's 14 s) once not fed - thick twenty seconds
+  after the last shot, clear in about two minutes - drawn over the figures in one low-resolution layer (at most 56 banks). The gun's
+  shot is a bank on its own. A still haze for reduced motion. The library's dark `smoke-dense` puff is no longer used. Procedural, no
+  art request.
+- **The film.** public/battle-cinema.js (new, served), driven by public/app.js `runCinema`/`drawCinema`: on the Host, when
+  `host.focus === 'battle'`: fade to black → the field from far off under a title (day, phase, name, who of the class is in it) pushing
+  in → following the field and each family's man in turn, close, gliding, never a man shown hit → after the fighting, hold on the
+  field while the smoke clears → fade → the camera back where the teacher had it. Every man of the class in the fight is tagged over
+  the smoke with his name, family and family colour (new: `familyColour`, also a dot on each class-panel row). The teacher takes the
+  camera with **Esc**, the new map button **Take the camera (Esc)** / **Watch the fight**, or any drag/zoom/map button. The end of the
+  game stops it; another fight sent in its place is cut to through black; a non-battle spotlight during a fight shows its banner only.
+  Students: unchanged unless they press Watch, which now runs the same follow on their own man (no fade/title). Nothing new is sent
+  to anybody (`tests/host-battle-knowledge.test.mjs`).
+
+**Evidence.** New: `tests/battle-floor.test.mjs` (4), `tests/battle-smoke.test.mjs` (5), `tests/battle-cinema.test.mjs` (7),
+`tests/host-battle-knowledge.test.mjs` (1); `npm run test:battle-cinema` (12 checks, `docs/evidence/battle-cinema-browser.json`,
+screenshots `docs/evidence/battle-cinema/`); every new check seen failing under its regression: `node scripts/battle-cinema-injections.mjs`
+(`docs/evidence/battle-cinema-injections.json`): **25 of 25 caught** (18 unit, 7 browser). `npm test` 1,986 tests, 1,950 pass, 0
+fail (the rest skipped as before). Rerun green: `test:battle-gonzales` (12), `-concepcion`, `-grass`, `-bexar` (15), `-alamo`,
+`-san-jacinto` (15), `-south` (16), `-coleto` (17), `test:storming` (7), `test:watching` (8), `test:story-cards` (4), `test:overlap`,
+`test:host-live` (11), `test:battle-cinema` (12). `test:battle-alamo` failed once ("Trinidad was never seen to fall") while three
+proofs and another session's proofs shared the computer, and passed alone at once: its 40 samples of 700 ms are timed by the wall
+clock, so under load the assault's last rooms can pass between two samples (worth making it sample by the class's clock, as
+battle-gonzales does since 2026-09-26). Gonzales's own class through the film: the battle drew in at most 3.9 ms at its 95th
+percentile at 1366x768 and 1024x600 (headless; not a Chromebook).
+
+**Open for the owner** (multiple choice, recommended first; built as the first): docs/BATTLES.md §15.5 - the floor at Brisk;
+whether the film also films the Alamo's siege days and San Jacinto's first day; holding on a man as he is hit; the families' colours
+on the class panel always; a student's page filmed by itself.
+
 ## Click a field to choose its crop; the carreta and the hunt found — owner-decided 2026-09-30 (not released)
 
 Branch `field-click-hunt` off local `integration-2026-09-28` (bd0b4efb); not pushed, nothing published. The owner, verbatim, after
