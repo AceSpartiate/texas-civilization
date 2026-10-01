@@ -2026,7 +2026,11 @@ function cameraFor(world, canvas, now = performance.now()) {
   const chaseFrame = chase && Number.isFinite(chase.x) && Number.isFinite(chase.y) ? { cx: chase.x, cy: chase.y, scale: chaseWatch.view.scale } : null;
   // The film of a fight, while it has the camera (public/battle-cinema.js): it beats every other frame until the teacher (or the
   // student who pressed Watch) takes the camera back.
-  const film = cinemaFor(world), filmView = film.driving ? film.view(now) : null;
+  // Only a view with a centre and a scale: a film that ever hands back less (the fight gone from the map during its establishing
+  // shot, fixed 2026-10-01 in public/battle-cinema.js and held by tests/battle-cinema.test.mjs) leaves the page its own camera
+  // rather than a class view that throws on every frame.
+  const film = cinemaFor(world), filmSaid = film.driving ? film.view(now) : null;
+  const filmView = filmSaid && [filmSaid.cx, filmSaid.cy, filmSaid.scale].every(Number.isFinite) ? filmSaid : null;
   // A gun's shot jolts the film's camera a few pixels (public/battle-cinema.js `shake`).
   const jolt = filmView ? film.shake(now) : null;
   const raw = (filmView && jolt && (jolt.x || jolt.y) ? { ...filmView, cx: filmView.cx + jolt.x / filmView.scale, cy: filmView.cy + jolt.y / filmView.scale } : filmView) || (at
@@ -3564,7 +3568,7 @@ function drawCinema(ctx, world, camera, canvas, now) {
   }
   ctx.restore();
   evidence.field = film.field ? { cx: +film.field.cx.toFixed(4), cy: +film.field.cy.toFixed(4), scale: Math.round(film.field.scale) } : null;
-  evidence.view = film.driving ? (() => { const v = film.view(now); return v && { cx: +v.cx.toFixed(4), cy: +v.cy.toFixed(4), scale: Math.round(v.scale) }; })() : null;
+  evidence.view = film.driving ? (() => { const v = film.view(now); return v && Number.isFinite(v.cx) ? { cx: +v.cx.toFixed(4), cy: +v.cy.toFixed(4), scale: Math.round(v.scale) } : null; })() : null;
   // Presentation evidence, read by scripts/battle-cinema-browser-proof.mjs and by nothing in the application.
   window.__cinema = evidence;
 }

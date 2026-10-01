@@ -71,11 +71,27 @@ async function tapPlace(page, siteId) {
     return { x, y, onMap: hit?.id === 'world-map', over: hit ? `${hit.tagName}#${hit.id}` : null, scale: c.scale, box: { left: r.left, top: r.top, width: r.width, height: r.height } };
   }, siteId);
   let at = await where();
-  const free = { x: at.box.left + at.box.width * 0.2, y: at.box.top + at.box.height * 0.82 };
+  // The open map, found on the page rather than assumed: the lowest-left spot where the map itself is under the pointer with
+  // forty pixels of map all round it. Until v2026.10.01.1 this was a fixed spot at 20% across and 82% down; the action bar has
+  // since grown a second row (the greyed things a person wants, docs/FAMILY_PANEL.md §23, and House) and at 1024x768 that spot is
+  // under it, where a student could not tap the map either (the release candidate's run, 2026-10-01: "over BUTTON#", the bar's
+  // "Go and join General Houston's army").
+  const open = await page.evaluate(() => {
+    const r = document.querySelector('#world-map').getBoundingClientRect();
+    const map = (x, y) => document.elementFromPoint(x, y)?.id === 'world-map';
+    const clear = (x, y) => [[0, 0], [-40, 0], [40, 0], [0, -40], [0, 40], [-40, -40], [40, 40], [-40, 40], [40, -40]].every(([dx, dy]) => map(x + dx, y + dy));
+    const spots = [];
+    for (let fy = 0.92; fy >= 0.3; fy -= 0.04) for (let fx = 0.08; fx <= 0.7; fx += 0.04) {
+      const x = r.left + r.width * fx, y = r.top + r.height * fy;
+      if (clear(x, y)) spots.push({ x, y });
+    }
+    return spots;
+  });
+  assert.ok(open.length >= 2, 'no open map to tap on, anywhere in its lower left: the cards and the bar cover it');
+  const free = open[0], start = open.find(spot => Math.hypot(spot.x - free.x, spot.y - free.y) > 80) || open.at(-1);
   for (let i = 0; i < 12 && at.scale > 40; i++) { await page.mouse.move(free.x, free.y); await page.mouse.wheel(0, 240); await page.waitForTimeout(200); at = await where(); }
   // Drag from a free spot of the map by the distance the place has to come.
-  const to = { x: free.x + 40, y: free.y - 30 };
-  const start = { x: at.box.left + at.box.width * 0.12, y: at.box.top + at.box.height * 0.9 };
+  const to = { x: free.x, y: free.y };
   await page.mouse.move(start.x, start.y); await page.mouse.down();
   for (let i = 1; i <= 10; i++) await page.mouse.move(start.x + (to.x - at.x) * i / 10, start.y + (to.y - at.y) * i / 10);
   await page.mouse.up(); await page.waitForTimeout(400);

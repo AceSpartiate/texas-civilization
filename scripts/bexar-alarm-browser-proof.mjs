@@ -44,6 +44,26 @@ async function pageFor(viewport) {
   const page = await (await browser.newContext({ viewport })).newPage();
   page.setDefaultTimeout(30000);
   page.on('pageerror', error => errors.push(error.message));
+  // Every one of Béxar's signs this page is sent, on the date it first came, read off each snapshot as it arrives. A sign lasts
+  // one or two of the calendar's twelve-hour ticks (the fandango one, 0.8 s at this proof's pace), and polling the page from
+  // here missed the volunteers on a loaded computer (the release candidate's run, 2026-10-01: "hh-1 was sent bx-packing,
+  // bx-leaving,bx-fandango"); a log kept by the page misses nothing it was sent, to either family.
+  await page.addInitScript(() => {
+    let latest;
+    window.__bexarSigns = { beats: {}, words: [] };
+    Object.defineProperty(window, '__snapshot', {
+      configurable: true,
+      get() { return latest; },
+      set(value) {
+        latest = value;
+        const scenes = value?.world?.townScenes;
+        if (scenes?.siteId !== 'bexar') return;
+        for (const scene of scenes.scenes || []) window.__bexarSigns.beats[scene.beat] ??= value.world.historicalDate;
+        for (const line of scenes.lines || []) window.__bexarSigns.words.push(line.text);
+        for (const card of Object.values(scenes.cards || {})) window.__bexarSigns.words.push([card.title, card.teller, ...card.said].join(' '));
+      },
+    });
+  });
   return page;
 }
 const shot = async (page, name) => { const path = `test-results/bexar-alarm-${name}.png`; await page.screenshot({ path }); evidence.screens.push(path); };
@@ -117,7 +137,12 @@ try {
     await inside.waitForTimeout(200);
   }
   // Seen and told by the family with its man there, on their dates; nothing of them to the family in the colonies; and nobody
-  // saying what any of it means.
+  // saying what any of it means. Every snapshot each page was sent counts, not only the ones sampled above.
+  for (const [who, page] of [['inside', inside], ['faraway', faraway]]) {
+    const logged = await page.evaluate(() => structuredClone(window.__bexarSigns));
+    for (const [beat, date] of Object.entries(logged.beats)) if (!signs[who].has(beat) || signs[who].get(beat) > date) signs[who].set(beat, date);
+    if (who === 'inside') signs.words.push(...logged.words);
+  }
   assert.deepEqual([...signs.inside.keys()].sort(), ['bx-fandango', 'bx-leaving', 'bx-packing', 'bx-volunteers'], `hh-1 was sent ${[...signs.inside.keys()]}`);
   assert.deepEqual([...signs.faraway.keys()], [], 'the family with nobody near Béxar was sent its signs');
   assert.ok(signs.inside.get('bx-volunteers') >= '1836-02-21' && signs.inside.get('bx-fandango') >= '1836-02-22', `the signs came off their dates: ${JSON.stringify([...signs.inside])}`);

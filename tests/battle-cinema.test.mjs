@@ -178,3 +178,22 @@ test("a gun's shot jolts the film's camera a few pixels for half a second; never
   still.thump(1000);
   assert.deepEqual(still.shake(1050), { x: 0, y: 0 }, 'jolted for less motion');
 });
+
+// Found by test:mexican-advance on the release candidate (2026-10-01): the executions at Goliad, filmed since 2026-09-30, were
+// over and gone from the Host's map before the establishing shot was done, and the camera the film then handed the page had no
+// centre and no scale - the class view threw on every frame (the sound's levels, the smoke's gradients, the film's own evidence)
+// until the next fight. The field as last framed is held instead, and the film ends as for any fight gone from the map.
+test('a fight gone from the map during the fade or the establishing shot: the camera stays on the field as last framed, and the film ends', () => {
+  const gone = input({ focus: false, battleId: null, field: null, members: [], live: false });
+  for (const leaves of [CINEMA.fadeOutMs / 2, CINEMA.fadeOutMs + CINEMA.establishMs / 2]) {
+    const film = createCinema({ mode: 'host' });
+    const seen = play(film, 0, leaves, () => input());
+    seen.push(...play(film, leaves + 50, leaves + 50 + CINEMA.establishMs + CINEMA.holdMs + CINEMA.fadeOutMs + CINEMA.fadeInMs + CINEMA.graceMs + 2000, () => gone));
+    for (const one of seen) {
+      if (!one.view) continue;
+      assert.ok([one.view.cx, one.view.cy, one.view.scale].every(Number.isFinite), `gone at ${leaves} ms: at ${one.t} (${one.state}) the film's camera is ${JSON.stringify(one.view)}`);
+    }
+    assert.ok(seen.some(one => one.state === 'establish' && one.view), `gone at ${leaves} ms: no establishing shot`);
+    assert.equal(seen.at(-1).state, 'off', `gone at ${leaves} ms: the film never ended (${seen.at(-1).state})`);
+  }
+});

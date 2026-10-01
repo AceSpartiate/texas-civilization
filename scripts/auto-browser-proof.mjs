@@ -163,15 +163,33 @@ try {
 
   // ------------------------------------------------------------------- a hunt from the panel: decided alone, and repeated
   await asMain(page, hunterId);
-  await page.locator(`.panel-row[data-entity-id="${hunterId}"] .panel-icon[data-key="hunt-timber"]`).click();
-  // How they go is asked first (owner, 2026-09-24; public/going.js): the quickest, as the chooser has it.
-  await sendTheWay(page);
-  // The server's answer: the order taken (the icon glows) or refused (its sentence on the error line).
-  const answer = await page.waitForFunction(id => {
-    const error = (document.querySelector('#error')?.textContent || '').trim();
-    if (error) return { error };
-    return document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="hunt-timber"]`)?.dataset.active === 'true' ? { glowed: true } : null;
-  }, hunterId, { timeout: 10000, polling: 50 }).then(handle => handle.jsonValue()).catch(() => ({}));
+  // A small child with nothing to do comes and talks to the hunter, whose orders wait until the child is given something
+  // (sim/childhood.mjs, sim/aside.mjs); the server refuses the hunt in those words, and a student puts that child's Auto on and
+  // sends again, as test:keyboard-farm and test:travel-drawn do. Seen on the release candidate's run (2026-10-01) and three
+  // times on the per-plot branch: a child's own auto goes off by its hidden roll, so whether one comes is the deal's.
+  let answer = {}, talked = [];
+  for (let attempt = 0; attempt < 4; attempt++) {
+    await page.locator(`.panel-row[data-entity-id="${hunterId}"] .panel-icon[data-key="hunt-timber"]`).click();
+    // How they go is asked first (owner, 2026-09-24; public/going.js): the quickest, as the chooser has it.
+    await sendTheWay(page);
+    // The server's answer: the order taken (the icon glows) or refused (its sentence on the error line).
+    answer = await page.waitForFunction(id => {
+      const error = (document.querySelector('#error')?.textContent || '').trim();
+      if (error) return { error };
+      return document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="hunt-timber"]`)?.dataset.active === 'true' ? { glowed: true } : null;
+    }, hunterId, { timeout: 10000, polling: 50 }).then(handle => handle.jsonValue()).catch(() => ({}));
+    const talk = answer.error?.match(/has stopped to talk with (\S+), who has nothing to do/);
+    if (!talk) break;
+    const childId = await page.evaluate(name => { const w = window.__snapshot.world; return w.entities.find(one => one.householdId === w.householdId && (one.given || one.name.split(' ')[0]) === name)?.id; }, talk[1]);
+    assert.ok(childId, `the server named a child who is not in the family: ${talk[1]}`);
+    talked.push(talk[1]);
+    console.log(`NOTE the hunt was refused: "${answer.error}" - ${talk[1]}'s Auto put on, and the hunt sent again`);
+    const childSwitch = page.locator(`.panel-row[data-entity-id="${childId}"] .panel-auto`);
+    if (await childSwitch.getAttribute('aria-pressed') !== 'true') await childSwitch.click();
+    await page.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.aside, hunterId, { timeout: 15000 }).catch(() => {});
+    await page.evaluate(() => { const line = document.querySelector('#error'); if (line) line.textContent = ''; });
+  }
+  measured.childrenGivenAuto = talked;
   assert.equal(answer.glowed, true, `the hunt was not taken: ${answer.error || 'no glow'} (server: ${JSON.stringify(hunter().chore)} ${hunter().task} ${JSON.stringify(hunter().location)})`);
   ok('a hunt sent from the panel with the switch on, and the icon glowing');
   const started = Date.now();

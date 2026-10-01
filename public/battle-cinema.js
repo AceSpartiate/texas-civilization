@@ -132,7 +132,11 @@ export function createCinema({ mode = 'host' } = {}) {
           if (over || !input.field) { c.returnView = null; go('off', now); }
           break;
         case 'opening':
-          if (now - c.since >= CINEMA.fadeOutMs) { c.cam = between(input.field, input.field, 0); go('establish', now); c.shots = shotList(input.members || []); c.shot = 0; }
+          // The field as last framed when the fight has already gone from the map (`c.field`): a short one - the executions at Goliad,
+          // filmed since 2026-09-30 - can be over and gone before the fade to black and the establishing shot are done. Read off
+          // `input.field` alone, the camera became `{}` and the class view drew nothing but errors (no centre, no scale) until the
+          // next fight: found by test:mexican-advance on the release candidate, 2026-10-01.
+          if (now - c.since >= CINEMA.fadeOutMs) { const at = input.field || c.field; c.cam = between(at, at, 0); go('establish', now); c.shots = shotList(input.members || []); c.shot = 0; }
           break;
         case 'recut':
           if (now - c.since >= CINEMA.fadeOutMs) { c.battleId = input.battleId; go('establish', now); c.shots = shotList(input.members || []); c.shot = 0; }
@@ -140,7 +144,7 @@ export function createCinema({ mode = 'host' } = {}) {
         case 'establish':
           // Another fight sent in its place while the title is up: this establishing shot is already the new one's.
           if (input.battleId && input.battleId !== c.battleId) c.battleId = input.battleId;
-          if (now - c.since >= (c.reduced ? 0 : CINEMA.establishMs)) { go('follow', now); c.shotSince = now; c.cam = { ...input.field }; }
+          if (now - c.since >= (c.reduced ? 0 : CINEMA.establishMs)) { go('follow', now); c.shotSince = now; c.cam = { ...(input.field || c.field) }; }
           break;
         case 'follow': {
           if (input.battleId && input.battleId !== c.battleId && mode === 'host') { if (c.reduced) { c.battleId = input.battleId; go('establish', now); } else go('recut', now); break; }

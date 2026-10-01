@@ -105,8 +105,14 @@ try {
   assert.deepEqual(observed.offered.map(entry => entry.id), ['camp-drill', 'camp-forage', 'camp-guard', 'camp-scout'], `the server offers him more or less than the camp's work: ${JSON.stringify(observed.offered)}`);
   const scout = observed.offered.find(entry => entry.id === 'camp-scout');
   if (!scout.can) assert.match(scout.why || '', /no horse at the camp/, 'the scouts are refused without saying why');
-  const drawable = [...observed.offered.filter(entry => entry.can).map(entry => entry.id), 'winter-recall'];
+  // And, once the family has a house, the page's own House last: the rooms inside, opened from whoever's bar is shown, sending
+  // nothing and moving nobody (owner, 2026-09-30, "Move Idle and House off"; docs/FAMILY_PANEL.md, amendment 2026-09-30). It
+  // was a button on the main person's row, wherever he was, and so not one of the row's icons this check read; on the bar since
+  // v2026.10.01.1, it is. The server offers it to nobody: it is not among `offered` above.
+  const housed = await student.evaluate(() => Boolean(window.__snapshot?.world.land?.interior?.kind));
+  const drawable = [...observed.offered.filter(entry => entry.can).map(entry => entry.id), 'winter-recall', ...(housed ? ['go-inside'] : [])];
   assert.deepEqual(observed.icons.map(one => one.key), drawable, JSON.stringify(observed.icons));
+  observed.housed = housed;
   assert.ok(['camp-drill', 'camp-forage', 'camp-guard'].every(key => drawable.includes(key)), 'the camp\'s work is refused');
   assert.ok(observed.icons.every(one => !one.refused), 'a refused icon is drawn');
   ok(`his row has the camp's work and sending for him: ${observed.icons.map(one => one.key).join(', ')}${scout.can ? '' : ` (the scouts refused: "${scout.why}")`}`);

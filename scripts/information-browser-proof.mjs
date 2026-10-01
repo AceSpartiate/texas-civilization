@@ -121,6 +121,15 @@ try {
   assert.equal(app.state.world.knowledge.households['hh-1'][TOPIC].text, RUMOR);
   const courierId = Object.values(app.state.world.entities).find(entity => entity.report?.topicId === TOPIC).id;
   const courierStart = structuredClone(app.state.world.entities[courierId]);
+  // Where the courier stood on the tick his word was delivered, read off the server between its ticks (they run every 150 ms
+  // in this process). Once delivered he rides home to his post the next tick (sim/world.mjs, as on v2026.09.29.3), so the
+  // place he is in when the Host's Pause lands depends on how quickly the browsers answer: on a loaded machine (the
+  // release candidate's run, 2026-10-01) he was already back on the road. The arrival is held where it happened instead.
+  let courierAtDelivery = null;
+  const courierWatch = setInterval(() => {
+    const courier = app.state.world.entities[courierId];
+    if (!courierAtDelivery && courier && !courier.report) courierAtDelivery = { siteId: courier.location.siteId, travel: courier.travel, minute: app.state.world.minute };
+  }, 5);
   assert.ok(courierStart.travel && courierStart.location.siteId === null);
   await host.getByRole('button', { name: 'Start', exact: true }).click();
   await first.waitForFunction(topic => window.__snapshot.world.tick >= 3 && window.__snapshot.world.reports.find(value => value.topicId === topic)?.status === 'rumor', TOPIC);
@@ -143,10 +152,15 @@ try {
   assert.equal(reportFor(firstAfter).status, 'rumor', 'Delivery to another household cannot upgrade a private rumor');
   assert.equal(reportFor(firstAfter).ageMinutes, firstAfter.world.minute);
   assertHostHeardOnly(hostAfter, 'Host after private delivery', delivered.receivedMinute);
-  const courierEnd = app.state.world.entities[courierId];
-  assert.equal(courierEnd.location.siteId, 'home-2');
-  assert.equal(courierEnd.travel, null);
+  clearInterval(courierWatch);
+  const courierEnd = structuredClone(app.state.world.entities[courierId]);
+  assert.ok(courierAtDelivery, 'the courier was never seen without his word');
+  assert.equal(courierAtDelivery.siteId, 'home-2', `the word was delivered with the courier at ${courierAtDelivery.siteId}, not at the family's home`);
+  assert.equal(courierAtDelivery.travel, null, 'the word was delivered with the courier still on the road');
+  assert.equal(courierAtDelivery.minute, delivered.receivedMinute, 'the family received the word on another tick than the courier arrived');
   assert.ok(!courierEnd.report, 'Delivered courier payload should be consumed');
+  // After it, at the home or riding back to his post, never with the word again.
+  assert.ok(courierEnd.location.siteId === 'home-2' || courierEnd.travel?.purpose === 'leave' || courierEnd.location.siteId === courierStart.base, `the courier went somewhere unexplained after delivering: ${JSON.stringify(courierEnd.location)} ${courierEnd.travel?.purpose}`);
   assert.equal(await second.locator(`#reports [data-topic-id="${TOPIC}"][data-status="confirmed"]`).count(), 1);
   assert.match(await second.locator('#reports').textContent(), /Received .*ago|Received just now/);
   await second.screenshot({ path: 'test-results/information-delivered.png', fullPage: true });
@@ -175,14 +189,14 @@ try {
   assert.deepEqual(reportFor(await snapshot(second)), delivered);
   assert.equal((await snapshot(second)).world.minute, savedMinute);
   assertHostHeardOnly(await snapshot(host), 'Restored Host', delivered.receivedMinute);
-  assert.equal(app.state.world.entities[courierId].location.siteId, 'home-2');
+  assert.deepEqual(app.state.world.entities[courierId].location, courierEnd.location, 'the courier was restored somewhere else than he was saved');
   assert.equal(app.state.world.truth[TOPIC].text, TRUTH);
   assert.deepEqual(errors, []);
   const evidence = {
     gate: 'C', area: 'Information browser acceptance', result: 'PASS', date: new Date().toISOString(), browser: await browser.version(), address,
     clients: 5, sameMachine: true, independentPhysicalDevices: 'NOT YET TESTED', districtNetwork: 'NOT YET TESTED',
     rumorIsolation: 'PASS', preDeliveryWireIsolation: 'PASS', privateCourierDelivery: 'PASS', physicalCourierMovement: 'PASS',
-    courierId, courierArrivalSite: courierEnd.location.siteId, deliveryMinute: delivered.receivedMinute,
+    courierId, courierArrivalSite: courierAtDelivery.siteId, courierAtPause: courierEnd.location.siteId, deliveryMinute: delivered.receivedMinute,
     rumorAgeMinutes: reportFor(firstAfter).ageMinutes, receivedAgeMinutes: delivered.ageMinutes, observationAgeMinutes: delivered.observationAgeMinutes,
     hostHearsOnlyWhatFamiliesHeard: 'PASS', clientMutationIsolation: 'PASS', knowledgeAging: 'PASS', serverRestartAndIdentity: 'PASS', liveBrowserShutdown: 'PASS',
     hostSnapshotsChecked: hostWire.length, recipientPreDeliverySnapshotsChecked: beforeDelivery.length, browserErrors: errors,

@@ -26,7 +26,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, rollFamily, stepWorld } from '../sim/world.mjs';
 import { on, sceneClock } from '../sim/town-scenes.mjs';
 import { sexOf } from '../sim/family.mjs';
-import { dateOf } from '../sim/clock.mjs';
+import { SIEGE_CAMPS } from '../sim/army.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 
 const require = createRequire(import.meta.url);
@@ -63,8 +63,12 @@ function inCamp(seed, playerCount) {
     men.push(man);
   }
   let guard = 0;
-  // The siege camp before Béxar (Mission Concepción, then the old mill): weeks in one place, where a camp's life is seen.
-  while (!(world.army?.camp && dateOf(world, world.minute).getUTCMonth() >= 10) && guard++ < 3000) {
+  // The siege camp before Béxar at the old mill, November 15 to the storming (sim/army.mjs `SIEGE_CAMPS`): weeks in one place,
+  // where a camp's life is seen. Until 2026-10-01 this stopped at the first camp in November, which is Concepción's last day or
+  // two (it is left on November 2, then the camp above the town, Concepción again, and the mill): the class was barely begun
+  // before the army marched on, its men faded out on the short road between camps, the camera let the man go, and the camp was
+  // never drawn ("clips: " empty, on the release candidate's run and on every commit back to the one this check was last green on).
+  while (!(world.army?.camp === SIEGE_CAMPS.mill.name) && guard++ < 3000) {
     for (const man of men) if (!world.army && !man.travel) { man.chore = null; man.task = 'work'; man.location = { x: town.x, y: town.y, siteId: 'gonzales' }; }
     stepWorld(world);
   }

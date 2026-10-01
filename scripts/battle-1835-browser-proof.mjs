@@ -31,6 +31,7 @@ import { momentOf } from '../sim/directors.mjs';
 import { concepcionFate, grassFate } from '../sim/army.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 import { heardOut } from '../tests/support/heard-out.mjs';
+import { CINEMA } from '../public/battle-cinema.js';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -212,8 +213,8 @@ async function prove(fight) {
 
     // ---------------------------------------------------------------- the fighting, sampled at several moments at two sizes
     const sample = async (page, label) => {
-      const one = await page.evaluate(() => ({ phase: window.__snapshot.world.battle?.phase, minute: window.__snapshot.world.minute, view: window.__battleView, camera: window.__camera?.kind, size: `${innerWidth}x${innerHeight}` }));
-      evidence.samples.push({ label, phase: one.phase, minute: one.minute, size: one.size, camera: one.camera, view: one.view && { groups: one.view.groups, regularityBy: one.view.regularityBy, shotsBy: one.view.shotsBy, smokeInView: one.view.smokeInView, fog: one.view.fog, bubbles: one.view.bubbles.map(b => b.text), members: one.view.members, memberClips: one.view.memberClips, memberFalls: one.view.memberFalls, gunShots: one.view.gunShots, frameMs: one.view.frameMs } });
+      const one = await page.evaluate(() => ({ phase: window.__snapshot.world.battle?.phase, minute: window.__snapshot.world.minute, view: window.__battleView, camera: window.__camera?.kind, followed: window.__cinema?.followed ?? null, film: window.__cinema?.state ?? null, size: `${innerWidth}x${innerHeight}` }));
+      evidence.samples.push({ label, phase: one.phase, minute: one.minute, size: one.size, camera: one.camera, followed: one.followed, film: one.film, view: one.view && { groups: one.view.groups, regularityBy: one.view.regularityBy, shotsBy: one.view.shotsBy, smokeInView: one.view.smokeInView, fog: one.view.fog, bubbles: one.view.bubbles.map(b => b.text), members: one.view.members, memberClips: one.view.memberClips, memberFalls: one.view.memberFalls, gunShots: one.view.gunShots, frameMs: one.view.frameMs } });
       return one;
     };
     const keepWatching = async page => { if (await page.locator('#military-go').isVisible().catch(() => false) && (await page.locator('#military-go').textContent()) === 'Watch') await page.locator('#military-go').click(); };
@@ -235,6 +236,22 @@ async function prove(fight) {
         const one = await sample(fighter, `${width} ${phase} ${i}`);
         if (one.phase !== phase) break;
         moments.push(one);
+        // Watch follows like a film since 2026-09-30 (public/battle-cinema.js, student mode): the field, then the family's own man
+        // close for 8 s, then the field. A phase whose moments all fall in a close shot shows him and what is round him, not the
+        // whole field - on the release candidate's run both sortie moments were close on hh-1-thomas, the sortie from the town out
+        // of the frame ("sortie": 0 drawn), and the ranks check below failed on a camera shot, not on the ranks: at this proof's
+        // second a tick the sortie is over in about five seconds. So a moment taken close, in a phase not yet seen on the field, is
+        // followed by the class held at the Host's slowest pace until the film is back on the field, seen there once, and the
+        // class put back at the proof's pace.
+        if (one.followed !== null && !moments.some(m => m.phase === phase && m.followed === null)) {
+          app.setPace(10000);
+          const onField = await fighter.waitForFunction(id => window.__snapshot.world.battle?.phase !== id || (window.__cinema?.followed ?? null) === null, phase, { timeout: 30000, polling: 100 }).then(() => true, () => false);
+          if (onField) await fighter.waitForTimeout(CINEMA.glideMs * 2);
+          const field = onField && await sample(fighter, `${width} ${phase} field`);
+          if (field && field.phase === phase) moments.push(field);
+          app.setPace(1000);
+          at = await fighter.evaluate(() => window.__snapshot.world.tick);
+        }
         if (i === 1) await shot(fighter, `${phase}-${width}`);
         // The Host, while it is being fought: live, framed on the field.
         if (i === 1 && !hostDuring && ['charges', 'ambush'].includes(phase)) { hostDuring = await host.evaluate(() => ({ battle: window.__snapshot.world.battle?.id, phase: window.__snapshot.world.battle?.phase, focus: window.__snapshot.world.host?.focus, camera: window.__camera?.kind, drawn: window.__battleView?.figures, smoke: window.__battleView?.smokeInView, seen: window.__spotlightSeen })); await shot(host, 'host'); }
@@ -262,7 +279,7 @@ async function prove(fight) {
       const column = moments.find(one => one.phase === 'bowie' && one.view.regularityBy?.jack);
       assert.ok(column && column.view.regularityBy.jack < 0.12, `Jack's infantry is not in double file on its way out: ${JSON.stringify(column?.view.regularityBy)}`);
       assert.ok(moments.some(one => one.phase === 'ambush' && one.view.groups?.ditch > 0), 'the men in the ditch were never drawn');
-      assert.ok(moments.some(one => one.phase === 'sortie' && one.view.groups?.sortie > 0 && one.view.regularityBy.sortie < 0.08), 'the sortie from the town was not drawn in its ranks');
+      assert.ok(moments.some(one => one.phase === 'sortie' && one.view.groups?.sortie > 0 && one.view.regularityBy.sortie < 0.08), `the sortie from the town was not drawn in its ranks: ${JSON.stringify(moments.map(one => ({ phase: one.phase, minute: one.minute, followed: one.followed, film: one.film, groups: one.view.groups, regularity: one.view.regularityBy?.sortie })))}`);
       ok(`the guard scattered in its creek bed (${bed.view.regularityBy.mexican.toFixed(3)}), Jack's men in double file (${column.view.regularityBy.jack.toFixed(3)}), the ditch and the sortie's ranks drawn`);
     }
     const allSaid = await fighter.evaluate(() => window.__battleView.linesShown);
