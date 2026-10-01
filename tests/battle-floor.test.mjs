@@ -60,7 +60,8 @@ test('the clock asks for the floor exactly while the fighting is fought, and Gon
     const asked = battleTickFloorMs(world);
     if (state?.live && fightingPhase(state.phase)) {
       fightingSeen++;
-      assert.equal(asked, floor, `the floor was not asked for in ${state.phase.id} at ${world.minute}`);
+      // The fight's floor at least; more where a tick's movement needs it (§16.1, tests/battle-motion.test.mjs).
+      assert.ok(asked >= floor, `the floor was not asked for in ${state.phase.id} at ${world.minute}`);
       floored++; realMs += Math.max(PACES.quick, asked);
     } else {
       assert.equal(asked, null, `a floor was asked for outside the fighting, in ${state?.phase?.id || 'no fight'} at ${world.minute}`);
@@ -75,7 +76,8 @@ test('the clock asks for the floor exactly while the fighting is fought, and Gon
   // Scaled for a proof, and never under a millisecond.
   const dawn = ENGAGEMENTS.gonzales.phases.findIndex(phase => phase.id === 'dawn-skirmish');
   world.minute = world.battles.gonzales.start + ENGAGEMENTS.gonzales.phases.slice(0, dawn).reduce((sum, phase) => sum + phase.minutes, 0) + 1;
-  assert.equal(battleTickFloorMs(world, { scale: 0.25 }), Math.round(floor * 0.25));
+  assert.equal(battleTickFloorMs(world, { scale: 0.25 }), Math.round(battleTickFloorMs(world) * 0.25));
+  assert.ok(battleTickFloorMs(world) >= floor);
 });
 
 test('the server waits the floor between the fighting ticks and tells the page the tick and the pace apart; a test class keeps its pace', async () => {
@@ -104,9 +106,9 @@ test('the server waits the floor between the fighting ticks and tells the page t
     const floored = await run({ battleFloors: { scale: 0.1 } }, 'floored');
     const free = await run({}, 'free');
     const floor = Math.round(tickFloorOf(ENGAGEMENTS.gonzales) * 0.1);
-    assert.equal(floored.shown.tickMs, floor, 'the page was not told how long a tick of the fighting lasts');
+    assert.ok(floored.shown.tickMs >= floor && floored.shown.tickMs > 200, 'the page was not told how long a tick of the fighting lasts');
     assert.equal(floored.shown.paceMs, 200, 'the page was not told the pace the teacher chose');
-    assert.equal(floored.every, floor);
+    assert.ok(floored.every >= floor);
     assert.equal(free.shown.tickMs, 200); assert.equal(free.every, 200);
     // In a second and a half: about four floored ticks (the first at the pace, then every 353 ms) against about seven.
     assert.ok(floored.ticks <= 5, `the floored class ran ${floored.ticks} ticks in 1.5 s`);

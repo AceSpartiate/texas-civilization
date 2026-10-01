@@ -378,6 +378,25 @@ Built as docs/BATTLES.md §15.3 (`FIC-GONZ-1052`); what the Host's page does:
   unchanged.
 - Same computer only: `npm run test:battle-cinema` (headless Chrome at 1366x768 and 1024x600). Not proved on a projector.
 
+### 2.16 What the class view films, and how a fight reads on it (owner-decided 2026-09-30, second round)
+
+The owner's answers (docs/BATTLES.md §16): *"major historical events, and events that would matter to the players"*; *"Hold a
+moment"*; *"i was playing on study earlier and it was too fast"* / *"i think you're correct about speed"*; *"more and more dramatic
+smoke plumes for weapons fire"*.
+
+- **What is filmed** is now the server's word to the Host (`host.film`, `major` or `family`; nobody else is told): the war's major
+  events whoever is in them - Gonzales, Concepción, the Grass Fight, Béxar, the Alamo's siege and fall, Coleto, Goliad, San
+  Jacinto - from the first shot to the last, and anything with a played family's man in it. Not a minor fight with nobody there.
+- **A man of the class hit while the camera is on him**: it holds still on him three seconds, no words, then moves on and never
+  comes back to him.
+- **The action reads at a man's speed at every pace** - a musket loaded over ten seconds, the officer's words each long enough to
+  read, men falling over seconds, a gun's crew ready before it fires - and nobody is drawn moving faster than a quick march or a
+  canter; the fight lasts as long as before at Study.
+- **The smoke** is much bigger - plumes out of every muzzle, a wall along a volley, a column from a gun with a jolt of the camera -
+  and builds until a long fight is half-shrouded; the class's own men are seen through it (the smoke thinned round each, their
+  names and family colours over it). After the fight the film holds on its smoke clearing before it fades back.
+- Same computer only: `npm run test:battle-cinema`; not proved on a projector.
+
 ## 3. Proof
 
 - `tests/absence.test.mjs` (4): the marker; the director's, questions answered at once, nothing held; back again; the

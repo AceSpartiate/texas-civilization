@@ -429,10 +429,78 @@ export function battleTickFloorMs(world, { scale = 1 } = {}) {
   let floor = null;
   for (const state of clockStates(world)) {
     if (!fightingPhase(state.phase)) continue;
-    const ms = tickFloorOf(state.def);
+    const ground = state.def.ground(world);
+    const ms = Math.max(tickFloorOf(state.def) || 0, ground ? motionFloorMs(state.def, ground, state.phase, Math.max(0, world.minute - state.phase.from)) : 0);
     if (ms && (floor === null || ms > floor)) floor = ms;
   }
   return floor === null ? null : Math.max(1, Math.round(floor * scale));
+}
+
+/**
+ * **How fast men may be seen to move in a fight** (owner, 2026-09-30, having played at Study: "i was playing on study earlier and
+ * it was too fast", and, told Study already gave Gonzales about five minutes, "i think you're correct about speed"; docs/BATTLES.md
+ * §16.1, `FIC-GONZ-1053`). A tick's movement is drawn across the whole tick, so a side carried a quarter of a mile in one tick of
+ * a second crosses the screen at a run however slow the tick before it was. In body lengths a real second on the screen (a person
+ * is drawn `PERSON_MILES` tall, and the page walks a traveller at about nine tenths of one): men on foot at most a quick march,
+ * horsemen at most a canter - a charge reads as a charge and never as a blur.
+ */
+export const MOTION_CAP = Object.freeze({ foot: 1.4, mounted: 3.2 });
+const PERSON_MILES_HERE = 0.019; // sim/house-footprint.mjs `PERSON_MILES`, the figure's drawn height in miles (held equal by tests/battle-floor.test.mjs)
+/**
+ * The least real milliseconds the tick from `into` minutes into `phase` may last so nothing in it is drawn faster than
+ * `MOTION_CAP`: each side, part, group and named person's furthest walk within the tick's minutes (sampled, so a charge out and
+ * back is counted both ways), over the cap for how it goes. Zero when nothing moves.
+ */
+export function motionFloorMs(def, ground, phase, into, minutes = phase.step || 1) {
+  const end = Math.min(phase.minutes, into + minutes);
+  if (!(end > into)) return 0;
+  const mountedSide = side => Boolean(phase[side].mounted ?? def.sides[side].mounted) || phase[side].style === 'mounted';
+  const walkers = [
+    ...SIDES.map(side => ({ spec: phase[side], mounted: mountedSide(side) })),
+    ...SIDES.flatMap(side => (phase[side].parts || []).map(part => ({ spec: part, mounted: mountedSide(side) || part.style === 'mounted' }))),
+    ...(phase.groups || []).map(group => ({ spec: group, mounted: Boolean(group.mounted) || group.style === 'mounted' || group.figure === 'rider' })),
+    ...(phase.people || []).filter(entry => !entry.with).map(entry => ({ spec: entry, mounted: ['ride', 'rideIdle'].includes(entry.pose) })),
+  ];
+  let ms = 0;
+  for (const { spec, mounted } of walkers) {
+    let miles = 0, was = null;
+    for (let i = 0; i <= 6; i++) {
+      const at = into + (end - into) * i / 6;
+      let place;
+      try { place = placeOf(ground, spec, phase.minutes, at); } catch { place = null; }
+      if (!place) { was = null; continue; }
+      if (was) miles += Math.hypot(place.x - was.x, place.y - was.y);
+      was = place;
+    }
+    const need = miles / PERSON_MILES_HERE / (mounted ? MOTION_CAP.mounted : MOTION_CAP.foot) * 1000;
+    if (need > ms) ms = need;
+  }
+  return Math.round(ms);
+}
+
+/**
+ * **What the class view films** (owner, 2026-09-30, asked what the class view should film: "major historical events, and events
+ * that would matter to the players"; docs/BATTLES.md §16.2, `FIC-GONZ-1054`). The major events of the war are filmed whether or
+ * not anybody's family is in them - from the first shot of the fighting to the last (`'fighting'`: the lulls and nights between
+ * inside it), and the Alamo from the army's coming to the burial (`'whole'`, "the Alamo's siege and fall"). Any other fight is
+ * filmed only while a played family has somebody in it or at it, from its first held phase. A minor fight with nobody there
+ * (San Patricio, Agua Dulce) is not filmed. What this returns is said to the Host alone, and says nothing of anybody's fate: a
+ * family that was there keeps the fight filmed after its man has fallen, so the film never stops on the minute he does.
+ */
+export const MAJOR_EVENTS = Object.freeze({ gonzales: 'fighting', concepcion: 'fighting', 'grass-fight': 'fighting', 'bexar-storming': 'fighting', alamo: 'whole', coleto: 'fighting', 'goliad-massacre': 'fighting', 'san-jacinto': 'fighting' });
+export function filmedAs(world, id) {
+  const state = battleState(world, id);
+  if (!state?.live || !state.phase) return null;
+  const fighting = state.phases.filter(fightingPhase);
+  const inSpan = fighting.length && world.minute >= fighting[0].from && world.minute < fighting.at(-1).to;
+  const major = MAJOR_EVENTS[id];
+  if (major === 'whole' || (major === 'fighting' && inSpan)) return 'major';
+  // A played family's: somebody in the force now, or ever in it this fight (so the film does not stop on his fall), or standing
+  // at it - while the fight is held to be watched.
+  const ever = Object.keys(state.battle?.participants || {}).some(personId => world.households?.[world.entities?.[personId]?.householdId]?.played);
+  const held = Boolean(state.phase.step || state.phase.background) || inSpan;
+  if (held && (ever || familyThere(world, state))) return 'family';
+  return null;
 }
 
 const lerp = (a, b, part) => ({ x: a.x + (b.x - a.x) * part, y: a.y + (b.y - a.y) * part });

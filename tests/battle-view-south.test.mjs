@@ -93,14 +93,15 @@ test('a night fight is dark but for the lit windows, the fire and the flashes', 
 
 test('a man who falls lies where he fell while the rest of his part is marched off', () => {
   const art = fakeArt(), view = createBattleView(art);
-  const make = minute => night(minute, [part('square', 8, minute < 5 ? 0 : 0.1, { moving: minute >= 5, pose: minute >= 5 ? 'surrender' : 'stand' })], {
-    fallen: minute >= 2 ? [{ side: 'texian', unit: 'square', count: 3, minute: 2, claimId: 'HIST-TEX-510' }] : [],
+  // Fallen at the first minute and the part marched off at the sixth: a fall takes seconds since 2026-09-30 (docs/BATTLES.md §16.1).
+  const make = minute => night(minute, [part('square', 8, minute < 6 ? 0 : 0.1, { moving: minute >= 6, pose: minute >= 6 ? 'surrender' : 'stand' })], {
+    fallen: [{ side: 'texian', unit: 'square', count: 3, minute: 0, claimId: 'HIST-TEX-510' }],
   });
-  run(view, make, { seconds: 4, art });
+  run(view, make, { seconds: 5.5, art });
   const lying = () => art.drawn.filter(one => one.sprite === 'volunteer-reclining').map(one => Math.round(one.x));
   const before = new Set(lying());
   art.drawn.length = 0;
-  run(view, make, { seconds: 8, from: 4000, art });
+  run(view, make, { seconds: 8, from: 5500, art });
   const after = new Set(lying());
   assert.ok(before.size >= 1, 'nobody was drawn lying');
   assert.deepEqual([...after].sort(), [...before].sort(), 'the fallen moved with their part');

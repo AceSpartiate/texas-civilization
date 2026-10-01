@@ -2,7 +2,7 @@
   "record": "battle-cinema-injections",
   "date": "2026-10-01",
   "gates": {
-    "unit": "tests/battle-floor.test.mjs, tests/battle-smoke.test.mjs, tests/battle-cinema.test.mjs, tests/host-battle-knowledge.test.mjs: the named test and no other",
+    "unit": "tests/battle-floor.test.mjs, tests/battle-smoke.test.mjs, tests/battle-cinema.test.mjs, tests/host-battle-knowledge.test.mjs, tests/battle-motion.test.mjs, tests/battle-film.test.mjs, tests/battle-choreography.test.mjs, tests/battle-plumes.test.mjs: the named test and no other",
     "browser": "scripts/battle-cinema-browser-proof.mjs"
   },
   "unit": [
@@ -47,6 +47,16 @@
       ]
     },
     {
+      "name": "a tick's movement not reckoned in its length",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-motion.test.mjs",
+      "expect": "nobody in a fight is drawn moving faster than a quick march on foot or a canter on a horse, at any pace",
+      "caught": true,
+      "failed": [
+        "nobody in a fight is drawn moving faster than a quick march on foot or a canter on a horse, at any pace"
+      ]
+    },
+    {
       "name": "the banks never thicker than half",
       "file": "public/battle-view.js",
       "test": "tests/battle-smoke.test.mjs",
@@ -58,6 +68,16 @@
     },
     {
       "name": "the banks never thin",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke.test.mjs",
+      "expect": "the smoke drifts with the wind, lingers tens of seconds after the fire stops, and thins slowly away",
+      "caught": true,
+      "failed": [
+        "the smoke drifts with the wind, lingers tens of seconds after the fire stops, and thins slowly away"
+      ]
+    },
+    {
+      "name": "the banks blind to the wind",
       "file": "public/battle-view.js",
       "test": "tests/battle-smoke.test.mjs",
       "expect": "the smoke drifts with the wind, lingers tens of seconds after the fire stops, and thins slowly away",
@@ -97,6 +117,116 @@
       ]
     },
     {
+      "name": "a shot's smoke not thrown out of the muzzle",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-plumes.test.mjs",
+      "expect": "a shot throws a plume bigger than the man who fired it, out of the muzzle the way he faces, and up",
+      "caught": true,
+      "failed": [
+        "a shot throws a plume bigger than the man who fired it, out of the muzzle the way he faces, and up"
+      ]
+    },
+    {
+      "name": "a volley's smoke lies in heaps, not a wall",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-plumes.test.mjs",
+      "expect": "a volley rolls out a wall of smoke along the rank",
+      "caught": true,
+      "failed": [
+        "a volley rolls out a wall of smoke along the rank"
+      ]
+    },
+    {
+      "name": "a gun's smoke a heap, not a column",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-plumes.test.mjs",
+      "expect": "a gun blasts a column of smoke that climbs and spreads",
+      "caught": true,
+      "failed": [
+        "a gun blasts a column of smoke that climbs and spreads"
+      ]
+    },
+    {
+      "name": "the smoke never more than thin",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-plumes.test.mjs",
+      "expect": "a long fight ends half-shrouded in its own smoke",
+      "caught": true,
+      "failed": [
+        "a long fight ends half-shrouded in its own smoke"
+      ]
+    },
+    {
+      "name": "the musket at the library clip's own speed",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-choreography.test.mjs",
+      "expect": "a man aims, fires and is seen loading over seconds, and fires about three times a minute",
+      "caught": true,
+      "failed": [
+        "a man aims, fires and is seen loading over seconds, and fires about three times a minute"
+      ]
+    },
+    {
+      "name": "the officer's words a blink apart",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-choreography.test.mjs",
+      "expect": "the officer's three words are each long enough to read, and a rank's turn comes round every twenty seconds",
+      "caught": true,
+      "failed": [
+        "the officer's three words are each long enough to read, and a rank's turn comes round every twenty seconds"
+      ]
+    },
+    {
+      "name": "a man falls in a frame",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-choreography.test.mjs",
+      "expect": "a man hit staggers and goes down over seconds, and the men of one fall go down a moment apart",
+      "caught": true,
+      "failed": [
+        "a man hit staggers and goes down over seconds, and the men of one fall go down a moment apart"
+      ]
+    },
+    {
+      "name": "the gun fires in a blink",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-choreography.test.mjs",
+      "expect": "a gun's crew stands ready before a shot the page knows is coming, and the gun recoils over more than a second and a half",
+      "caught": true,
+      "failed": [
+        "a gun's crew stands ready before a shot the page knows is coming, and the gun recoils over more than a second and a half"
+      ]
+    },
+    {
+      "name": "the Alamo filmed only for its assault",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-film.test.mjs",
+      "expect": "the major events are filmed with nobody's family there, from the first shot to the last, and the Alamo from the army's coming to the burial",
+      "caught": true,
+      "failed": [
+        "the major events are filmed with nobody's family there, from the first shot to the last, and the Alamo from the army's coming to the burial"
+      ]
+    },
+    {
+      "name": "the film stops when the family's man falls",
+      "file": "sim/battle-stage.mjs",
+      "test": "tests/battle-film.test.mjs",
+      "expect": "a minor fight is filmed only with a played family's man in it, and stays filmed after he falls",
+      "caught": true,
+      "failed": [
+        "a minor fight is filmed only with a played family's man in it, and stays filmed after he falls"
+      ]
+    },
+    {
+      "name": "the Host never told what to film",
+      "file": "sim/directors.mjs",
+      "test": "tests/battle-film.test.mjs",
+      "expect": "the Host is told what the class view films during Gonzales with no family in it; nobody else is told",
+      "caught": true,
+      "failed": [
+        "the Host is told what the class view films during Gonzales with no family in it; nobody else is told"
+      ]
+    },
+    {
       "name": "no establishing shot from far off",
       "file": "public/battle-cinema.js",
       "test": "tests/battle-cinema.test.mjs",
@@ -107,13 +237,13 @@
       ]
     },
     {
-      "name": "the camera kept on a man shown hit",
+      "name": "no hold on a man hit",
       "file": "public/battle-cinema.js",
       "test": "tests/battle-cinema.test.mjs",
-      "expect": "it follows the field and each of the class's own people in turn, gliding, and never stays on one shown hit",
+      "expect": "it follows the field and each of the class's own people in turn, gliding, and holds a moment on one shown hit, then never follows him again",
       "caught": true,
       "failed": [
-        "it follows the field and each of the class's own people in turn, gliding, and never stays on one shown hit"
+        "it follows the field and each of the class's own people in turn, gliding, and holds a moment on one shown hit, then never follows him again"
       ]
     },
     {
@@ -177,6 +307,16 @@
       ]
     },
     {
+      "name": "no jolt for a gun's shot",
+      "file": "public/battle-cinema.js",
+      "test": "tests/battle-cinema.test.mjs",
+      "expect": "a gun's shot jolts the film's camera a few pixels for half a second; never for less motion, never when the teacher has it",
+      "caught": true,
+      "failed": [
+        "a gun's shot jolts the film's camera a few pixels for half a second; never for less motion, never when the teacher has it"
+      ]
+    },
+    {
       "name": "a fate sent before its minute",
       "file": "sim/battle-stage.mjs",
       "test": "tests/host-battle-knowledge.test.mjs",
@@ -194,7 +334,7 @@
       "expect": "the fighting's ticks were not held to the floor",
       "caught": true,
       "failure": "the fighting's ticks were not held to the floor: [400] (floor 1765)",
-      "checksPassedFirst": 3
+      "checksPassedFirst": 4
     },
     {
       "name": "no fade to black into the fight",
@@ -205,12 +345,20 @@
       "checksPassedFirst": 2
     },
     {
+      "name": "the class view films only what the old camera framed",
+      "file": "public/app.js",
+      "expect": "the gathering with the class",
+      "caught": true,
+      "failure": "the gathering with the class's men in it was filmed as major",
+      "checksPassedFirst": 3
+    },
+    {
       "name": "every family the same colour on the class view",
       "file": "public/app.js",
       "expect": "names without their family or its colour",
       "caught": true,
-      "failure": "names without their family or its colour: [{\"id\":\"hh-1-thomas\",\"name\":\"Amos\",\"family\":\"Amos's family\",\"colour\":\"#d64545\",\"householdId\":\"hh-1\",\"x\":511,\"y\":577,\"down\":false,\"followed\":false},{\"id\":\"hh-2-thomas\",\"name\":\"Trinidad\",\"family\":\"Trinidad's family\",\"colour\":\"#d64545\",\"householdId\":\"hh-2\",\"x\":767,\"y\":516,\"down\":false,\"followed\":false}]",
-      "checksPassedFirst": 3
+      "failure": "names without their family or its colour: [{\"id\":\"hh-2-thomas\",\"name\":\"Trinidad\",\"family\":\"Trinidad's family\",\"colour\":\"#d64545\",\"householdId\":\"hh-2\",\"x\":1026,\"y\":204,\"down\":false,\"followed\":false},{\"id\":\"hh-1-thomas\",\"name\":\"Amos\",\"family\":\"Amos's family\",\"colour\":\"#d64545\",\"householdId\":\"hh-1\",\"x\":652,\"y\":279,\"down\":false,\"followed\":true}]",
+      "checksPassedFirst": 4
     },
     {
       "name": "Esc does nothing",
@@ -218,7 +366,7 @@
       "expect": "Esc did not take the camera",
       "caught": true,
       "failure": "Esc did not take the camera",
-      "checksPassedFirst": 5
+      "checksPassedFirst": 6
     },
     {
       "name": "faded for less motion",
@@ -226,25 +374,49 @@
       "expect": "a page asking for less motion was faded",
       "caught": true,
       "failure": "a page asking for less motion was faded",
-      "checksPassedFirst": 8
+      "checksPassedFirst": 9
     },
     {
       "name": "the camera not put back",
       "file": "public/app.js",
       "expect": "the camera was not put back",
       "caught": true,
-      "failure": "the camera was not put back: {\"cx\":-1.7040335634108745,\"cy\":-7.418414283776196,\"scale\":2023.1333538142462} against {\"cx\":2.1,\"cy\":0.5,\"scale\":960,\"following\":false}",
-      "checksPassedFirst": 9
+      "failure": "the camera was not put back: {\"cx\":-1.6486043311604337,\"cy\":-7.147391421167015,\"scale\":1492.5975505834735} against {\"cx\":2.1,\"cy\":0.5,\"scale\":960,\"following\":false}",
+      "checksPassedFirst": 10
     },
     {
       "name": "the smoke gone soon after the firing",
       "file": "public/battle-view.js",
       "expect": "the smoke did not lie on the field twenty seconds",
       "caught": true,
-      "failure": "the smoke did not lie on the field twenty seconds after the last shot: 8000 ms",
-      "checksPassedFirst": 10
+      "failure": "the smoke did not lie on the field twenty seconds after the last shot: 7996 ms",
+      "checksPassedFirst": 12
+    },
+    {
+      "name": "the smoke not thinned round the class's men",
+      "file": "public/battle-view.js",
+      "expect": "the smoke was thinned round the class's men",
+      "caught": true,
+      "failure": "the smoke was thinned round the class's men at only 0 of 385 looks",
+      "checksPassedFirst": 11
+    },
+    {
+      "name": "the gun's smoke never a plume",
+      "file": "public/battle-view.js",
+      "expect": "the gun's shots never went up as a plume",
+      "caught": true,
+      "failure": "the gun's shots never went up as a plume",
+      "checksPassedFirst": 11
+    },
+    {
+      "name": "the musket at the library clip's own speed, on the page",
+      "file": "public/battle-view.js",
+      "expect": "shots a man a minute",
+      "caught": true,
+      "failure": "the Texians fired 10.8 shots a man a minute",
+      "checksPassedFirst": 13
     }
   ],
-  "cleanBrowserChecks": 12,
+  "cleanBrowserChecks": 15,
   "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x600."
 }

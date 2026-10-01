@@ -75,10 +75,11 @@ test('men under a bank drop below the lip to load and climb to fire; fog lies ov
 });
 
 test('a man who fell lies where he fell while his side moves off, and one who fell in a group that has left the field is still there', () => {
-  const fallen = [{ side: 'mexican', count: 3, minute: 2, carried: false }, { side: 'texian', unit: 'coleman', count: 1, minute: 2, carried: false }];
+  // Fallen at the first minute: a fall takes seconds since 2026-09-30 (docs/BATTLES.md §16.1), and all are down before the line moves.
+  const fallen = [{ side: 'mexican', count: 3, minute: 0, carried: false }, { side: 'texian', unit: 'coleman', count: 1, minute: 0, carried: false }];
   // The Mexican line falls back a tenth of a mile from minute 6; Coleman's men leave the field at minute 7.
   const make = minute => battle(minute, {
-    fallen: minute >= 2 ? fallen : [],
+    fallen,
     sides: [side('texian', 'bank', 'scattered', -0.1, { drawn: 26, spread: { width: 0.22, depth: 0.06 } }), side('mexican', 'ranks', 'volley', minute >= 6 ? 0.22 : 0.12)],
     groups: minute < 7 ? [group('coleman', 'texian', 'loose', 'scattered', -0.1, { drawn: 5, y: -0.12, spread: { width: 0.09, depth: 0.05 } })] : [],
   });

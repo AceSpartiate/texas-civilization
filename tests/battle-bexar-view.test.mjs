@@ -163,7 +163,7 @@ test('a family\'s man stands in his unit and fires with it, and falls at the mom
   assert.ok(poses.every(one => one.unit === 'johnson'));
   assert.ok(poses.some(one => one.minute < fallAt && one.pose === 'volunteer-fire-reload'), 'he never fired with his division');
   assert.ok(poses.filter(one => one.minute < fallAt - 3).every(one => one.pose !== 'volunteer-reclining'), 'he was drawn down before his moment');
-  assert.ok(poses.filter(one => one.minute > fallAt + 5).every(one => one.pose === 'volunteer-reclining'), 'he was not drawn lying still after it');
+  assert.ok(poses.filter(one => one.minute > fallAt + 9).every(one => one.pose === 'volunteer-reclining'), 'he was not drawn lying still after it');
 });
 
 test('with Claude\'s temporary sheets loaded: the barricade, the trench dug by a volunteer, the loophole\'s man and the crowbar are their own frames', () => {

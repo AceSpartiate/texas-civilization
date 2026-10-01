@@ -237,7 +237,7 @@ on the campaign map under the normal sight rules).
 | `HIST-TEX-510`–`-529`, `FIC-GONZ-435`–`-444` | San Patricio / Agua Dulce, Coleto, Goliad, San Jacinto |
 | `FIC-GONZ-445`–`-449` | The engine itself: pacing, viewers, falling, talk rules |
 | `HIST-TEX-540`–`-579`, `FIC-GONZ-450`–`-459` | The famous people (§2c, §14); `HIST-TEX-560` and `FIC-GONZ-560` are the Yellow Rose picnic's |
-| `FIC-GONZ-1050`–`-1054` | The fights watched (§15, owner 2026-09-30): `-1050` the real-time floor, `-1051` black-powder smoke, `-1052` the film on the class view |
+| `FIC-GONZ-1050`–`-1054` | The fights watched (§15, §16, owner 2026-09-30): `-1050` the real-time floor, `-1051` black-powder smoke, `-1052` the film on the class view, `-1053` the speed inside the fight, `-1054` what is filmed and the hold on a man hit |
 
 ## 5. Build order
 
@@ -1210,6 +1210,9 @@ spotlight's banner at the foot of the map.
 
 ### 15.5 Put to the owner (multiple choice, the recommended answer first; built as the first until answered)
 
+**Answered 2026-09-30: §16** (1: Study too fast - the speed inside the fight; 2: "major historical events, and events that would
+matter to the players"; 3: "Hold a moment"; 4 and 5 as built).
+
 1. **The floor at Brisk.** (a) *As built:* the floor lifts Quick; Brisk is already at or above it for every fight but the Alamo
    (168 → 180 s). (b) Raise every floor by half (Gonzales 180 s), so Brisk slows too. (c) A teacher's "fight pace" beside Study,
    Brisk and Quick.
@@ -1222,3 +1225,120 @@ spotlight's banner at the foot of the map.
    while a fight is filmed.
 5. **A student's own page.** (a) *As built:* filmed only when the student presses Watch. (b) Filmed by itself when the student's
    own man is in the fight (the Watch card offering "Stop watching").
+
+## 16. The second round: the speed inside the fight, what is filmed, a man hit, and the smoke (owner-decided 2026-09-30; not released)
+
+The owner's answers on 2026-09-30 to §15.5, verbatim where quoted:
+
+1. **Fight pace.** *"i was playing on study earlier and it was too fast."* Told that Study already gave Gonzales's fighting about
+   five and a half minutes, so "too fast" was likely the action inside the fight: *"i think you're correct about speed"*.
+2. **What the class view films.** *"major historical events, and events that would matter to the players."*
+3. **A man hit on camera.** *"Hold a moment"*.
+4. **Students' pages**: only after pressing Watch, as built. (§15.5.5 (a).)
+5. The families' colours on the class panel were not asked; they stay always shown (§15.5.4 (a)).
+6. And: *"more and more dramatic smoke plumes for weapons fire."*
+
+Claims `FIC-GONZ-1053` (the speed inside the fight), `-1054` (what is filmed, and the hold); `-1051` is amended for the smoke.
+Nothing in the history moved: no phase, date, step, line, outcome or fate. Same computer only.
+
+### 16.1 The speed inside the fight (`FIC-GONZ-1053`)
+
+**What the owner saw, measured.** On the live tag v2026.09.29.3, exported and run with the same script (`scripts/battle-pace-audit.mjs`
+→ `docs/evidence/battle-pace-audit.json`, "before"), Gonzales's fighting at Study is 34 ticks, **323 real seconds** - the same as
+this build's: the fight was not short at Study. Run tick by tick through a class (`tests/support/battle.mjs`), the Host was framed
+on it 342 s, and a played family's man there watched 770 s from the gathering to the march home. What was fast was **the action
+inside the ticks**, the same at every pace because it runs in real time on the page:
+
+| In the fight | v2026.09.29.3 (all paces) | Now (all paces) |
+| --- | --- | --- |
+| A man's musket: aim, fire, load, ramrod | the library clip as drawn, 2.47 s, then a 3.5-12.5 s wait: **4-10 shots a man a minute**, the load a blur of 1.65 s | aim held 1.5 s, the shot, the cartridge bitten and poured over 4.2 s, the ball rammed over 5.6 s (`MUSKET`, `musketClip`: the clip's frames held longer), then a 2-9 s wait: **3-4 a minute**, seen loading most of the time he is in his cycle |
+| A rank's volley | every 11 s; "¡Preparen!" ... "¡Apunten!" ... "¡Fuego!" 1.5 s and 1.1 s apart, each word on the screen 1.3 s | every 20 s; the words 2.6 s and 2.2 s apart, each on the screen 2.2 s; the rank holds its aim from the second word to the third |
+| A man hit | tips over in 0.6 s; a fall of five men drops as one | struck and staggering 0.9 s, going down over 1.3 s, then lying still; the men of one fall each a moment apart within 2.4 s (`FALL`) |
+| A gun's shot | the recoil clip in 0.9 s, a flash of 0.13 s, the crew at their ramming | the crew stood ready, the gunner at the vent, for 1.8 s before a shot the page knows is coming; the recoil over 1.7 s; the flash 0.34 s; the class view's camera jolts (§16.3) (`GUN`) |
+| Men moving | as fast as a tick carried them: at Quick up to 26 body lengths a second (Coleto's caught column), 10.7 at Gonzales; at Study up to 2.7 | never faster than **1.4 body lengths a second on foot** (a quick march; the page walks a traveller at 0.9) **or 3.2 on a horse** (a canter), at any pace (`MOTION_CAP`, `motionFloorMs`) |
+
+The last is the one change to how long anything lasts: a tick of the fighting now also lasts long enough that nothing in it moves
+faster than its cap (`battleTickFloorMs` takes the larger of §15.1's floor and the movement's). At Study it adds seconds where a
+tick carried men far (Concepción's retreat, the Grass Fight's pursuit, San Patricio's houses); at Brisk and Quick it is the floor
+that matters. Fighting seconds, measured on the colonies map (Study / Brisk / Quick):
+
+| Fight | v2026.09.29.3 | §15 (battle-cinema) | Now |
+| --- | --- | --- | --- |
+| Gonzales | 323 / 136 / 34 | 323 / 136 / 120 | 323 / 138 / 123 |
+| Concepción | 257 / 108 / 27 | 257 / 108 / 105 | 263 / 133 / 130 |
+| The Grass Fight | 209 / 88 / 22 | 209 / 88 / 85 | 224 / 150 / 149 |
+| Béxar | 618 / 260 / 65 | 618 / 260 / 240 | 618 / 260 / 240 |
+| San Patricio | 238 / 100 / 25 | 238 / 100 / 90 | 257 / 156 / 150 |
+| Agua Dulce | 190 / 80 / 20 | 190 / 80 / 75 | 190 / 83 / 78 |
+| The Alamo | 399 / 168 / 42 | 399 / 180 / 180 | 399 / 180 / 180 |
+| Coleto | 466 / 196 / 49 | 466 / 196 / 180 | 468 / 216 / 203 |
+| Palm Sunday | 285 / 120 / 30 | 285 / 120 / 90 | 285 / 123 / 98 |
+| San Jacinto | 418 / 176 / 44 | 418 / 176 / 150 | 418 / 176 / 150 |
+
+The lead-ups and aftermaths (`quiet`) and the background paces are not touched: a long march up a river at a quick march would
+take minutes, and they keep §13's rule. ceiling: a quiet phase held because a family is there may still be drawn at a run (the
+march up the river at Gonzales, 8 body lengths a second at Study); the way out is the travel sight's fade for the middle of a long
+march, if a class notices.
+
+Proof: `tests/battle-choreography.test.mjs` (4: the musket, the volley and its words, falling, the gun), `tests/battle-motion.test.mjs`
+(every tick of every fight at every pace under the caps), `tests/battle-floor.test.mjs` (as §15, the floor now at least), and the
+browser proof (the Texian line firing under five shots a man a minute in the skirmish).
+
+### 16.2 What the class view films (`FIC-GONZ-1054`)
+
+The server now tells the Host what to film (`filmedAs`, sim/battle-stage.mjs; `host.film` in `directorProjection`, the Host's
+alone), and the film (§15.3) starts and ends on it rather than on the old framing (`host.focus`):
+
+- **Major events, whoever is in them** (`MAJOR_EVENTS`): the fight at Gonzales, Concepción, the Grass Fight, the storming of Béxar,
+  Coleto, the Goliad massacre and San Jacinto, each **from the first shot of its fighting to the last** - the lulls, nights and
+  quiet hours between inside that span are filmed with it (Gonzales from the outpost firing at three in the morning to the
+  advance; Béxar's four episodes and the days between). **The Alamo from the army's coming on February 23 to the burial on March
+  6**: "the Alamo's siege and fall".
+- **What matters to the class**: any other fight (San Patricio, Agua Dulce) while a played family has somebody in it or at it, from
+  its first held phase - and a major event's lead-up too (Gonzales's gathering over the river, when a family's man is there). Once
+  a played family had a man in the fight it stays filmed after he falls, so the film never stops on the minute he does.
+- **Not** a minor fight with nobody's family in it.
+- When the fighting is over the film holds on the field where the men were last firing (not where the column marches off) while
+  the smoke clears - the smoke of a fight gone from the map is still drawn, thinning, on the empty field - then fades back.
+- ceiling: inside the Alamo's siege the server shows the south's two fights instead while they are fought (§12); with nobody's
+  family in them the film waits half a minute on them and then ends, and begins again on the Alamo with a new title.
+
+Proof: `tests/battle-film.test.mjs` (3: every major event at every phase with nobody there, the Alamo whole; a minor fight only
+with a played family and still after he falls; the Host told through Gonzales and no student), and the browser proof (filmed as
+`family` from the gathering where the class's men are, `major` from first light).
+
+### 16.3 More and more dramatic smoke (`FIC-GONZ-1051`, amended)
+
+- **Each shot throws a plume** out of the muzzle the way the piece points, a jet that slows as it billows and rises, bigger than
+  the man who fired it (up to seven figure heights; a gun's eleven).
+- **Each volley rolls out a wall** along the rank: its men's smoke feeds banks drawn as five lobes strung along the line.
+- **A gun blasts a column** that climbs and spreads for its first half minute before it lies as a bank (`plume` shape), and jolts
+  the class view's camera a few pixels (never for less motion, never when the teacher has the camera).
+- **Banks keep building**: thicker shots (a musket feeds 0.85, a volley's man 1.0, a gun 1.3 for each of its four puffs), banks up to
+  nine deep, hiding up to 88% of what is behind the thickest, and slower to thin (half in about ten seconds, a gun's sixteen): a
+  long fight ends half-shrouded, and a fight gone from the map leaves its smoke lying there to clear.
+- **Readable through it**: the class's own men are drawn with the smoke thinned round each of them (a clearing a figure and a
+  half across in the smoke layer, and the plumes over them drawn at four tenths), their names and the ring of their family's colour
+  at their feet drawn over all of it, anchored where the figure is drawn.
+- **Within budget**: the caps raised to 96 banks and 160 plumes, measured on this computer in headless Chrome: the battle's drawing
+  at most 1.7 ms at its 95th percentile at 1366x768 and at 1024x600, the whole map frame about 4 ms. ceiling: not a Chromebook.
+- **Less motion**: the still haze stays, a wall of it over a line firing volleys and a still column before a gun that has fired.
+
+Before and after: `docs/evidence/battle-cinema/before-after-field.png`, `before-after-close.png`, `before-after-clearing.png` (the
+round before, `before/`, beside this one). Proof: `tests/battle-plumes.test.mjs` (4) and `tests/battle-smoke.test.mjs` (5, its build-up
+and caps brought to the new numbers), and the browser proof (the gun's plume, the clearings round the class's men at every look at
+the fighting, banked to 0.88, lying 52 s after the last shot).
+
+### 16.4 A man hit on camera (`FIC-GONZ-1054`)
+
+"Hold a moment": when one of the class's men the film is close on is shown hit - only from the moment the page draws the fate the
+server sent at its minute - the camera holds still on him for 3.2 seconds, with no words (his tag dims; "FOLLOWING" goes), then
+moves on and never comes back to him. This replaces §2b.1's "the camera stays on the wall, not on him" for the class view's film; a
+student's own Watch is held the same way. A man hit while the film is on the whole field is not cut to. `tests/battle-cinema.test.mjs`
+(the hold, still and wordless, then on and never back).
+
+### 16.5 Evidence and injections
+
+`npm test`; `npm run test:battle-cinema` (15 checks); `node scripts/battle-cinema-injections.mjs`: every check of §15 and §16 seen
+failing under the regression it guards, unit and browser (`docs/evidence/battle-cinema-injections.json`). The battle proofs rerun:
+see HANDOFF.

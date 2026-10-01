@@ -6,13 +6,13 @@
   "checks": [
     "a class on the colonies map through the join flow; Trinidad of hh-1 in the garrison at Béxar (set in process), hh-2 with nobody there",
     "on 1836-02-23 the card \"The bell at Béxar: the Mexican army is here\" came through Trinidad (arrival), and Watch framed the compound",
-    "the guns on 1836-02-24, 1836-02-27, 1836-03-01, 1836-03-03: Mexican batteries {\"eighteen\":33,\"battery-north-far\":66,\"battery-west\":93,\"north-gun\":20,\"battery-south\":74,\"battery-north-mid\":42,\"battery-north-close\":2}; smoke 39/176/186/196; the runner answered \"stay\" 2 times in the meeting",
+    "the guns on 1836-02-24, 1836-02-27, 1836-03-01, 1836-03-03: Mexican batteries {\"eighteen\":33,\"battery-north-far\":66,\"battery-west\":93,\"north-gun\":20,\"battery-south\":74,\"battery-north-mid\":42,\"battery-north-close\":3}; smoke 35/179/187/197; the runner answered \"stay\" 2 times in the meeting",
     "at the alarm on 1836-03-06 the card came at Trinidad's side: \"At Trinidad Garrison's side, on the guns at the back of the church: “They're coming - they…\", and Watch was pressed",
-    "fire and smoke on screen at all 12 sampled moments of the assault (repulse, north-wall, fallback, rooms; shots 554 -> 618; smoke in view 177-205)",
+    "fire and smoke on screen at all 12 sampled moments of the assault (repulse, north-wall, fallback, rooms; shots 523 -> 575; smoke in view 179-222)",
     "the columns come in files and the garrison stands along its walls: Duque's column 0.002, the north wall 0.016 (nearest-neighbour spread)",
     "words drawn over the speakers: a-bell, a-where, a-look, a-coming, a-corn, a-marchen, a-shut, r-flag, r-means, r-answer, d24-down, d24-fuego, d24-help, d25-close, h-huts, h-fire, h-atras, h-back, d26-cold, d26-wood, d27-closer, d27-fannin, d28-dirt, d29-north, rl-quien, rl-gonzales, rl-open, m1-help, m2-powder, m3-help, m3-close, line-sand, m4-wall, m5-quiet, v-silencio, al-viva, al-ana, al-travis, al-walls, rp-canister, rp-escalas, rp-again, rp-adelante, nw-arriba, nw-over, nw-back, fb-doors, fb-hold, rm-bayoneta, rm-church, e-enrique, e-negros",
     "Trinidad was drawn at his post and seen to go down in the rooms, the camera on the fight; the family's journal and record of him say nothing (well)",
-    "the battle draws in 4.2 ms at its slowest 95th percentile, of a map frame of 20.1 ms at most",
+    "the battle draws in 3.6 ms at its slowest 95th percentile, of a map frame of 17.6 ms at most",
     "the Host sees it live (end), its camera battle on the compound, its spotlight lit",
     "the family with nobody there was sent nothing of the Alamo - no battle, no card, no name - before and after a reload",
     "afterwards the card \"What you saw from the walls\" says what the student saw and that nobody at home knows; the journal says nothing of it",
@@ -29,17 +29,17 @@
         "battery-west": 2
       },
       "shotsBy": {
-        "texian": 2,
-        "mexican": 4
+        "mexican": 2,
+        "texian": 2
       },
-      "smoke": 39,
+      "smoke": 35,
       "groups": {
         "north": 9,
         "west": 7,
         "southwest": 3,
         "south": 5,
         "palisade": 4,
-        "church": 3,
+        "church": 2,
         "lines-north": 7,
         "lines-east": 5,
         "lines-south": 6,
@@ -58,17 +58,17 @@
         "battery-south": 23
       },
       "shotsBy": {
-        "texian": 13,
-        "mexican": 14
+        "mexican": 6,
+        "texian": 10
       },
-      "smoke": 176,
+      "smoke": 179,
       "groups": {
         "north": 3,
         "west": 3,
         "southwest": 1,
         "south": 2,
         "palisade": 2,
-        "church": 0,
+        "church": 1,
         "lines-north": 0,
         "lines-east": 5,
         "lines-south": 6,
@@ -88,17 +88,17 @@
         "battery-north-mid": 15
       },
       "shotsBy": {
-        "texian": 18,
-        "mexican": 17
+        "mexican": 7,
+        "texian": 12
       },
-      "smoke": 186,
+      "smoke": 187,
       "groups": {
         "north": 3,
         "west": 3,
         "southwest": 1,
         "south": 2,
         "palisade": 2,
-        "church": 0,
+        "church": 1,
         "relief": 8,
         "lines-north": 0,
         "lines-east": 5,
@@ -117,20 +117,20 @@
         "north-gun": 20,
         "battery-south": 74,
         "battery-north-mid": 42,
-        "battery-north-close": 2
+        "battery-north-close": 3
       },
       "shotsBy": {
-        "texian": 26,
-        "mexican": 25
+        "mexican": 10,
+        "texian": 19
       },
-      "smoke": 196,
+      "smoke": 197,
       "groups": {
         "north": 9,
         "west": 7,
         "southwest": 3,
         "south": 5,
         "palisade": 4,
-        "church": 1,
+        "church": 3,
         "lines-north": 5,
         "lines-east": 5,
         "lines-south": 6,
@@ -155,7 +155,7 @@
         "southwest": 3,
         "south": 5,
         "palisade": 4,
-        "church": 1,
+        "church": 3,
         "cos": 12,
         "duque": 14,
         "romero": 12,
@@ -180,26 +180,26 @@
         "lancers-south": "mounted"
       },
       "groupRegularity": {
-        "north": 0.015605900307488353,
-        "west": 0.0011507066746791646,
-        "southwest": 0.013406309651103792,
-        "south": 0.013914596746893411,
-        "palisade": 0.016395021858140128,
-        "church": null,
-        "cos": 0.0019119079340519697,
-        "duque": 0.0019659408491264096,
-        "romero": 0.0019119079340512075,
-        "morales": 0.0875856334860907,
-        "reserve": 0.0000751250802796846,
-        "lancers-east": 0.026090011788134332,
+        "north": 0.015605900307487581,
+        "west": 0.0011507066746789946,
+        "southwest": 0.013406309651106459,
+        "south": 0.013914596746899488,
+        "palisade": 0.016395021858136568,
+        "church": 0.018194532324077216,
+        "cos": 0.0019119079340524218,
+        "duque": 0.0019659408491271096,
+        "romero": 0.0019119079340509217,
+        "morales": 0.0875856334860904,
+        "reserve": 0.00007512508027973033,
+        "lancers-east": 0.026090011788133912,
         "lancers-south": null
       },
-      "shotsTotal": 554,
+      "shotsTotal": 523,
       "shotsBy": {
-        "texian": 33,
-        "mexican": 38
+        "mexican": 15,
+        "texian": 27
       },
-      "smokeInView": 177,
+      "smokeInView": 179,
       "bubbles": [
         "¡Silencio!",
         "¡Viva Santa Anna!",
@@ -217,8 +217,8 @@
           "pose": "fire",
           "drawnAs": "travis-ready",
           "first": "travis-idle",
-          "x": 669,
-          "y": 352,
+          "x": 663,
+          "y": 350,
           "labelled": true,
           "onScreen": true
         },
@@ -230,8 +230,8 @@
           "pose": "fire",
           "drawnAs": "volunteer-fire-reload",
           "first": null,
-          "x": 664,
-          "y": 355,
+          "x": 658,
+          "y": 352,
           "labelled": true,
           "onScreen": true
         },
@@ -241,10 +241,10 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "crockett-reload",
+          "drawnAs": "crockett-aim",
           "first": "crockett-idle",
-          "x": 719,
-          "y": 541,
+          "x": 714,
+          "y": 539,
           "labelled": true,
           "onScreen": true
         },
@@ -256,8 +256,8 @@
           "pose": "sick",
           "drawnAs": "bowie-sick-bed",
           "first": "bowie-idle",
-          "x": 678,
-          "y": 565,
+          "x": 672,
+          "y": 563,
           "labelled": true,
           "onScreen": true
         },
@@ -269,8 +269,8 @@
           "pose": "sick",
           "drawnAs": "susanna-dickinson-shelter-with-angelina",
           "first": null,
-          "x": 757,
-          "y": 496,
+          "x": 752,
+          "y": 494,
           "labelled": true,
           "onScreen": true
         },
@@ -282,8 +282,8 @@
           "pose": "seated",
           "drawnAs": "ana-esparza-seated",
           "first": "volunteer-march",
-          "x": 754,
-          "y": 495,
+          "x": 748,
+          "y": 493,
           "labelled": true,
           "onScreen": true
         },
@@ -295,8 +295,8 @@
           "pose": "seated",
           "drawnAs": "maria-de-jesus-seated-huddled",
           "first": "volunteer-march",
-          "x": 752,
-          "y": 497,
+          "x": 746,
+          "y": 495,
           "labelled": true,
           "onScreen": true
         },
@@ -308,8 +308,8 @@
           "pose": "seated",
           "drawnAs": "enrique-esparza-seated-huddled",
           "first": "volunteer-march",
-          "x": 755,
-          "y": 498,
+          "x": 750,
+          "y": 495,
           "labelled": true,
           "onScreen": true
         },
@@ -321,8 +321,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 752,
-          "y": 493,
+          "x": 747,
+          "y": 491,
           "labelled": true,
           "onScreen": true
         },
@@ -334,8 +334,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 755,
-          "y": 494,
+          "x": 750,
+          "y": 492,
           "labelled": true,
           "onScreen": true
         },
@@ -347,8 +347,8 @@
           "pose": "fire",
           "drawnAs": "almeron-dickinson-ram",
           "first": null,
-          "x": 785,
-          "y": 511,
+          "x": 780,
+          "y": 509,
           "labelled": true,
           "onScreen": true
         },
@@ -358,10 +358,10 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "bonham-aim",
+          "drawnAs": "bonham-reload",
           "first": "mounted-courier-e",
-          "x": 781,
-          "y": 503,
+          "x": 776,
+          "y": 501,
           "labelled": true,
           "onScreen": true
         },
@@ -373,8 +373,8 @@
           "pose": "fire",
           "drawnAs": "esparza-aim",
           "first": "volunteer-march",
-          "x": 778,
-          "y": 509,
+          "x": 773,
+          "y": 506,
           "labelled": true,
           "onScreen": true
         },
@@ -386,8 +386,8 @@
           "pose": "stand",
           "drawnAs": "santa-anna-idle",
           "first": null,
-          "x": 658,
-          "y": -40,
+          "x": 652,
+          "y": -43,
           "labelled": true,
           "onScreen": false
         },
@@ -399,19 +399,19 @@
           "pose": "walk",
           "drawnAs": "cos-walk-e",
           "first": "regular-march",
-          "x": 576,
-          "y": 326,
+          "x": 570,
+          "y": 324,
           "labelled": true,
           "onScreen": true
         }
       ],
       "light": 0.74,
       "frameMs": {
-        "last": 1.9,
+        "last": 1.7,
         "median": 1.4,
-        "p95": 3.1
+        "p95": 2.2
       },
-      "mapDrawMs": 15.100000023841858
+      "mapDrawMs": 15.399999976158142
     },
     {
       "label": "1",
@@ -429,7 +429,7 @@
         "southwest": 3,
         "south": 5,
         "palisade": 4,
-        "church": 1,
+        "church": 3,
         "cos": 12,
         "duque": 11,
         "romero": 12,
@@ -454,26 +454,26 @@
         "lancers-south": "mounted"
       },
       "groupRegularity": {
-        "north": 0.015605900307481275,
-        "west": 0.001150706674679178,
-        "southwest": 0.013406309651103518,
-        "south": 0.01391459674689519,
-        "palisade": 0.016395021858140946,
-        "church": null,
-        "cos": 0.0019119079340598488,
-        "duque": 0.058429957117692596,
-        "romero": 0.0019119079340284334,
-        "morales": 0.0875856334861307,
-        "reserve": 0.0005802005768090617,
-        "lancers-east": 0.026090011788134554,
+        "north": 0.015605900307488171,
+        "west": 0.0011507066746794616,
+        "southwest": 0.01340630965111754,
+        "south": 0.013914596746895094,
+        "palisade": 0.016395021858138584,
+        "church": 0.01819453232407901,
+        "cos": 0.001911907934059181,
+        "duque": 0.05842995711769297,
+        "romero": 0.0019119079340284887,
+        "morales": 0.08758563348612974,
+        "reserve": 0.0005802005768081673,
+        "lancers-east": 0.026090011788134197,
         "lancers-south": null
       },
-      "shotsTotal": 564,
+      "shotsTotal": 529,
       "shotsBy": {
-        "texian": 34,
-        "mexican": 43
+        "mexican": 16,
+        "texian": 29
       },
-      "smokeInView": 185,
+      "smokeInView": 186,
       "bubbles": [
         "¡Silencio!",
         "¡Viva Santa Anna!",
@@ -492,8 +492,8 @@
           "pose": "fire",
           "drawnAs": "travis-ready",
           "first": "travis-idle",
-          "x": 670,
-          "y": 355,
+          "x": 674,
+          "y": 357,
           "labelled": true,
           "onScreen": true
         },
@@ -505,8 +505,8 @@
           "pose": "fire",
           "drawnAs": "volunteer-fire-reload",
           "first": null,
-          "x": 665,
-          "y": 357,
+          "x": 670,
+          "y": 359,
           "labelled": true,
           "onScreen": true
         },
@@ -516,10 +516,10 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "crockett-aim",
+          "drawnAs": "crockett-fire",
           "first": "crockett-idle",
-          "x": 716,
-          "y": 528,
+          "x": 721,
+          "y": 531,
           "labelled": true,
           "onScreen": true
         },
@@ -531,8 +531,8 @@
           "pose": "sick",
           "drawnAs": "bowie-sick-bed",
           "first": "bowie-idle",
-          "x": 678,
-          "y": 550,
+          "x": 682,
+          "y": 553,
           "labelled": true,
           "onScreen": true
         },
@@ -544,8 +544,8 @@
           "pose": "sick",
           "drawnAs": "susanna-dickinson-shelter-with-angelina",
           "first": null,
-          "x": 751,
-          "y": 486,
+          "x": 756,
+          "y": 489,
           "labelled": true,
           "onScreen": true
         },
@@ -557,8 +557,8 @@
           "pose": "seated",
           "drawnAs": "ana-esparza-seated",
           "first": "volunteer-march",
-          "x": 748,
-          "y": 486,
+          "x": 752,
+          "y": 489,
           "labelled": true,
           "onScreen": true
         },
@@ -570,8 +570,8 @@
           "pose": "seated",
           "drawnAs": "maria-de-jesus-seated-huddled",
           "first": "volunteer-march",
-          "x": 746,
-          "y": 488,
+          "x": 750,
+          "y": 491,
           "labelled": true,
           "onScreen": true
         },
@@ -583,8 +583,8 @@
           "pose": "seated",
           "drawnAs": "enrique-esparza-seated-huddled",
           "first": "volunteer-march",
-          "x": 749,
-          "y": 488,
+          "x": 754,
+          "y": 491,
           "labelled": true,
           "onScreen": true
         },
@@ -596,8 +596,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 747,
-          "y": 484,
+          "x": 751,
+          "y": 487,
           "labelled": true,
           "onScreen": true
         },
@@ -609,8 +609,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 749,
-          "y": 485,
+          "x": 754,
+          "y": 488,
           "labelled": true,
           "onScreen": true
         },
@@ -620,10 +620,10 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "almeron-dickinson-fire",
+          "drawnAs": "almeron-dickinson-ram",
           "first": null,
-          "x": 776,
-          "y": 500,
+          "x": 781,
+          "y": 503,
           "labelled": true,
           "onScreen": true
         },
@@ -635,8 +635,8 @@
           "pose": "fire",
           "drawnAs": "bonham-reload",
           "first": "mounted-courier-e",
-          "x": 773,
-          "y": 493,
+          "x": 778,
+          "y": 496,
           "labelled": true,
           "onScreen": true
         },
@@ -648,8 +648,8 @@
           "pose": "fire",
           "drawnAs": "esparza-aim",
           "first": "volunteer-march",
-          "x": 770,
-          "y": 498,
+          "x": 775,
+          "y": 501,
           "labelled": true,
           "onScreen": true
         },
@@ -661,8 +661,8 @@
           "pose": "stand",
           "drawnAs": "santa-anna-idle",
           "first": null,
-          "x": 660,
-          "y": -4,
+          "x": 664,
+          "y": -3,
           "labelled": true,
           "onScreen": false
         },
@@ -674,8 +674,8 @@
           "pose": "stand",
           "drawnAs": "cos-idle",
           "first": "regular-march",
-          "x": 547,
-          "y": 292,
+          "x": 551,
+          "y": 294,
           "labelled": true,
           "onScreen": true
         },
@@ -687,8 +687,8 @@
           "pose": "stand",
           "drawnAs": "castrillon-idle",
           "first": null,
-          "x": 664,
-          "y": 262,
+          "x": 668,
+          "y": 264,
           "labelled": true,
           "onScreen": true
         }
@@ -697,14 +697,14 @@
       "frameMs": {
         "last": 1.9,
         "median": 1.5,
-        "p95": 3.2
+        "p95": 2.5
       },
-      "mapDrawMs": 15.699999928474426
+      "mapDrawMs": 14.399999976158142
     },
     {
       "label": "2",
       "phase": "repulse",
-      "minute": 230386,
+      "minute": 230384,
       "camera": "battle",
       "size": "1366x768",
       "figures": {
@@ -717,7 +717,7 @@
         "southwest": 3,
         "south": 5,
         "palisade": 4,
-        "church": 1,
+        "church": 3,
         "cos": 9,
         "duque": 11,
         "romero": 10,
@@ -742,26 +742,26 @@
         "lancers-south": "mounted"
       },
       "groupRegularity": {
-        "north": 0.015605900307482648,
-        "west": 0.0011507066746803915,
-        "southwest": 0.013406309651091011,
-        "south": 0.013914596746900668,
-        "palisade": 0.016395021858136353,
-        "church": null,
-        "cos": 0.0020726660538579493,
-        "duque": 0.05842995711758835,
-        "romero": 0.0676605739563909,
-        "morales": 0.08758563348613599,
-        "reserve": 0.0005802005768090229,
-        "lancers-east": 0.026090011788133183,
+        "north": 0.015605900307484075,
+        "west": 0.001150706674679264,
+        "southwest": 0.013406309651083782,
+        "south": 0.013914596746893644,
+        "palisade": 0.016395021858142168,
+        "church": 0.01819453232408638,
+        "cos": 0.002072666053828917,
+        "duque": 0.058429957117671766,
+        "romero": 0.0676605739563821,
+        "morales": 0.08758563348610954,
+        "reserve": 0.0005802005768083031,
+        "lancers-east": 0.02609001178813433,
         "lancers-south": null
       },
-      "shotsTotal": 574,
+      "shotsTotal": 537,
       "shotsBy": {
-        "texian": 39,
-        "mexican": 45
+        "mexican": 19,
+        "texian": 30
       },
-      "smokeInView": 193,
+      "smokeInView": 198,
       "bubbles": [
         "¡Silencio!",
         "¡Viva Santa Anna!",
@@ -769,8 +769,7 @@
         "Come on boys, the Mexicans are upon us, and we’ll give them Hell.",
         "To the walls! They’re at the walls!",
         "Canister! Load canister!",
-        "¡Escalas al frente!",
-        "They’re coming again!"
+        "¡Escalas al frente!"
       ],
       "memberFalls": [],
       "people": [
@@ -782,7 +781,7 @@
           "pose": "still",
           "drawnAs": "travis-still-ramp",
           "first": "travis-idle",
-          "x": 670,
+          "x": 667,
           "y": 356,
           "labelled": true,
           "onScreen": true
@@ -792,11 +791,11 @@
           "name": "Joe",
           "fell": false,
           "hurt": false,
-          "pose": "fire-hidden",
-          "drawnAs": "joe-fire-door",
+          "pose": "walk",
+          "drawnAs": "joe-walk",
           "first": null,
-          "x": 637,
-          "y": 371,
+          "x": 638,
+          "y": 370,
           "labelled": true,
           "onScreen": true
         },
@@ -806,9 +805,9 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "crockett-aim",
+          "drawnAs": "crockett-reload",
           "first": "crockett-idle",
-          "x": 715,
+          "x": 711,
           "y": 522,
           "labelled": true,
           "onScreen": true
@@ -821,8 +820,8 @@
           "pose": "sick",
           "drawnAs": "bowie-sick-bed",
           "first": "bowie-idle",
-          "x": 678,
-          "y": 542,
+          "x": 675,
+          "y": 543,
           "labelled": true,
           "onScreen": true
         },
@@ -834,7 +833,7 @@
           "pose": "sick",
           "drawnAs": "susanna-dickinson-shelter-with-angelina",
           "first": null,
-          "x": 748,
+          "x": 744,
           "y": 482,
           "labelled": true,
           "onScreen": true
@@ -847,8 +846,8 @@
           "pose": "seated",
           "drawnAs": "ana-esparza-seated",
           "first": "volunteer-march",
-          "x": 745,
-          "y": 481,
+          "x": 741,
+          "y": 482,
           "labelled": true,
           "onScreen": true
         },
@@ -860,8 +859,8 @@
           "pose": "seated",
           "drawnAs": "maria-de-jesus-seated-huddled",
           "first": "volunteer-march",
-          "x": 743,
-          "y": 483,
+          "x": 739,
+          "y": 484,
           "labelled": true,
           "onScreen": true
         },
@@ -873,8 +872,8 @@
           "pose": "seated",
           "drawnAs": "enrique-esparza-seated-huddled",
           "first": "volunteer-march",
-          "x": 746,
-          "y": 483,
+          "x": 743,
+          "y": 484,
           "labelled": true,
           "onScreen": true
         },
@@ -886,7 +885,7 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 744,
+          "x": 740,
           "y": 480,
           "labelled": true,
           "onScreen": true
@@ -899,8 +898,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 746,
-          "y": 480,
+          "x": 742,
+          "y": 481,
           "labelled": true,
           "onScreen": true
         },
@@ -912,8 +911,8 @@
           "pose": "fire",
           "drawnAs": "almeron-dickinson-ram",
           "first": null,
-          "x": 772,
-          "y": 495,
+          "x": 769,
+          "y": 496,
           "labelled": true,
           "onScreen": true
         },
@@ -925,7 +924,7 @@
           "pose": "fire",
           "drawnAs": "bonham-reload",
           "first": "mounted-courier-e",
-          "x": 769,
+          "x": 766,
           "y": 488,
           "labelled": true,
           "onScreen": true
@@ -938,7 +937,7 @@
           "pose": "fire",
           "drawnAs": "esparza-aim",
           "first": "volunteer-march",
-          "x": 766,
+          "x": 763,
           "y": 493,
           "labelled": true,
           "onScreen": true
@@ -951,8 +950,8 @@
           "pose": "stand",
           "drawnAs": "santa-anna-idle",
           "first": null,
-          "x": 661,
-          "y": 14,
+          "x": 657,
+          "y": 13,
           "labelled": true,
           "onScreen": true
         },
@@ -964,8 +963,8 @@
           "pose": "walk",
           "drawnAs": "cos-walk-e",
           "first": "regular-march",
-          "x": 580,
-          "y": 311,
+          "x": 553,
+          "y": 298,
           "labelled": true,
           "onScreen": true
         },
@@ -977,19 +976,19 @@
           "pose": "walk",
           "drawnAs": "castrillon-walk-e",
           "first": null,
-          "x": 664,
-          "y": 309,
+          "x": 661,
+          "y": 280,
           "labelled": true,
           "onScreen": true
         }
       ],
       "light": 0.74,
       "frameMs": {
-        "last": 5.8,
+        "last": 1.7,
         "median": 1.5,
-        "p95": 3.3
+        "p95": 2.5
       },
-      "mapDrawMs": 17.299999952316284
+      "mapDrawMs": 15.5
     },
     {
       "label": "3",
@@ -1007,7 +1006,7 @@
         "southwest": 3,
         "south": 5,
         "palisade": 4,
-        "church": 1,
+        "church": 3,
         "cos": 9,
         "duque": 9,
         "romero": 10,
@@ -1032,26 +1031,26 @@
         "lancers-south": "mounted"
       },
       "groupRegularity": {
-        "north": 0.021193480921043874,
-        "west": 0.001150706674679606,
-        "southwest": 0.013406309651088938,
-        "south": 0.013914596746898248,
-        "palisade": 0.016395021858146185,
-        "church": null,
-        "cos": 0.0020726660539038245,
-        "duque": 0.052825431164763355,
-        "romero": 0.06766057395637251,
-        "morales": 0.3142494011159105,
-        "reserve": 0.0005802005768309183,
-        "lancers-east": 0.026090011788133957,
-        "lancers-south": 0.009703731044836317
+        "north": 0.021193480921041483,
+        "west": 0.001150706674679185,
+        "southwest": 0.013406309651099213,
+        "south": 0.013914596746892363,
+        "palisade": 0.01639502185813617,
+        "church": 0.018194532324082593,
+        "cos": 0.0020726660539030924,
+        "duque": 0.05282543116476304,
+        "romero": 0.06766057395637277,
+        "morales": 0.31424940111590993,
+        "reserve": 0.0005802005768318103,
+        "lancers-east": 0.02609001178813423,
+        "lancers-south": 0.009703731044836194
       },
-      "shotsTotal": 579,
+      "shotsTotal": 543,
       "shotsBy": {
-        "texian": 39,
-        "mexican": 47
+        "mexican": 20,
+        "texian": 32
       },
-      "smokeInView": 201,
+      "smokeInView": 204,
       "bubbles": [
         "¡Silencio!",
         "¡Viva Santa Anna!",
@@ -1073,7 +1072,7 @@
           "pose": "still",
           "drawnAs": "travis-still-ramp",
           "first": "travis-idle",
-          "x": 671,
+          "x": 670,
           "y": 357,
           "labelled": true,
           "onScreen": true
@@ -1086,7 +1085,7 @@
           "pose": "fire-hidden",
           "drawnAs": "joe-fire-door",
           "first": null,
-          "x": 639,
+          "x": 638,
           "y": 372,
           "labelled": true,
           "onScreen": true
@@ -1099,7 +1098,7 @@
           "pose": "fire",
           "drawnAs": "crockett-reload",
           "first": "crockett-idle",
-          "x": 714,
+          "x": 713,
           "y": 518,
           "labelled": true,
           "onScreen": true
@@ -1125,8 +1124,8 @@
           "pose": "sick",
           "drawnAs": "susanna-dickinson-shelter-with-angelina",
           "first": null,
-          "x": 746,
-          "y": 479,
+          "x": 745,
+          "y": 480,
           "labelled": true,
           "onScreen": true
         },
@@ -1152,7 +1151,7 @@
           "drawnAs": "maria-de-jesus-seated-huddled",
           "first": "volunteer-march",
           "x": 741,
-          "y": 480,
+          "y": 481,
           "labelled": true,
           "onScreen": true
         },
@@ -1164,7 +1163,7 @@
           "pose": "seated",
           "drawnAs": "enrique-esparza-seated-huddled",
           "first": "volunteer-march",
-          "x": 745,
+          "x": 744,
           "y": 481,
           "labelled": true,
           "onScreen": true
@@ -1177,8 +1176,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 742,
-          "y": 477,
+          "x": 741,
+          "y": 478,
           "labelled": true,
           "onScreen": true
         },
@@ -1191,7 +1190,7 @@
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
           "x": 744,
-          "y": 477,
+          "y": 478,
           "labelled": true,
           "onScreen": true
         },
@@ -1203,8 +1202,8 @@
           "pose": "fire",
           "drawnAs": "almeron-dickinson-ram",
           "first": null,
-          "x": 770,
-          "y": 492,
+          "x": 769,
+          "y": 493,
           "labelled": true,
           "onScreen": true
         },
@@ -1216,7 +1215,7 @@
           "pose": "fire",
           "drawnAs": "bonham-reload",
           "first": "mounted-courier-e",
-          "x": 767,
+          "x": 766,
           "y": 485,
           "labelled": true,
           "onScreen": true
@@ -1229,7 +1228,7 @@
           "pose": "fire",
           "drawnAs": "esparza-aim",
           "first": "volunteer-march",
-          "x": 764,
+          "x": 763,
           "y": 490,
           "labelled": true,
           "onScreen": true
@@ -1255,7 +1254,7 @@
           "pose": "walk",
           "drawnAs": "cos-walk-e",
           "first": "regular-march",
-          "x": 642,
+          "x": 641,
           "y": 349,
           "labelled": true,
           "onScreen": true
@@ -1268,7 +1267,7 @@
           "pose": "stand",
           "drawnAs": "castrillon-idle",
           "first": null,
-          "x": 665,
+          "x": 664,
           "y": 351,
           "labelled": true,
           "onScreen": true
@@ -1276,11 +1275,11 @@
       ],
       "light": 0.74,
       "frameMs": {
-        "last": 1.9,
+        "last": 2.2,
         "median": 1.5,
-        "p95": 3.3
+        "p95": 2.7
       },
-      "mapDrawMs": 17
+      "mapDrawMs": 15.400000095367432
     },
     {
       "label": "4",
@@ -1298,7 +1297,7 @@
         "southwest": 3,
         "south": 5,
         "palisade": 4,
-        "church": 1,
+        "church": 3,
         "mass": 26,
         "morales": 4,
         "reserve": 8,
@@ -1319,24 +1318,24 @@
         "lancers-south": "mounted"
       },
       "groupRegularity": {
-        "north": 0.00582134540009132,
-        "west": 0.0011507066746804817,
-        "southwest": 0.013406309651100462,
-        "south": 0.013914596746899552,
-        "palisade": 0.01639502185813954,
-        "church": null,
-        "mass": 0.35882201987911144,
-        "morales": 0.31424940111611777,
-        "reserve": 0.0005802005768084655,
-        "lancers-east": 0.026090011788134602,
-        "lancers-south": 0.009703731044835717
+        "north": 0.005821345400086919,
+        "west": 0.001150706674679859,
+        "southwest": 0.013406309651089212,
+        "south": 0.013914596746896036,
+        "palisade": 0.016395021858134406,
+        "church": 0.018194532324079287,
+        "mass": 0.3588220198791127,
+        "morales": 0.314249401116118,
+        "reserve": 0.0005802005768077394,
+        "lancers-east": 0.026090011788134283,
+        "lancers-south": 0.009703731044836858
       },
-      "shotsTotal": 587,
+      "shotsTotal": 550,
       "shotsBy": {
-        "texian": 43,
-        "mexican": 48
+        "mexican": 24,
+        "texian": 32
       },
-      "smokeInView": 200,
+      "smokeInView": 214,
       "bubbles": [
         "¡Viva Santa Anna!",
         "Gregorio, the soldiers have jumped the wall. The fight’s begun.",
@@ -1358,7 +1357,7 @@
           "pose": "fire-hidden",
           "drawnAs": "joe-fire-door",
           "first": null,
-          "x": 633,
+          "x": 631,
           "y": 363,
           "labelled": true,
           "onScreen": true
@@ -1371,8 +1370,8 @@
           "pose": "fire",
           "drawnAs": "crockett-reload",
           "first": "crockett-idle",
-          "x": 707,
-          "y": 506,
+          "x": 705,
+          "y": 507,
           "labelled": true,
           "onScreen": true
         },
@@ -1384,7 +1383,7 @@
           "pose": "sick",
           "drawnAs": "bowie-sick-bed",
           "first": "bowie-idle",
-          "x": 672,
+          "x": 670,
           "y": 526,
           "labelled": true,
           "onScreen": true
@@ -1397,8 +1396,8 @@
           "pose": "sick",
           "drawnAs": "susanna-dickinson-shelter-with-angelina",
           "first": null,
-          "x": 739,
-          "y": 468,
+          "x": 737,
+          "y": 469,
           "labelled": true,
           "onScreen": true
         },
@@ -1410,7 +1409,7 @@
           "pose": "seated",
           "drawnAs": "ana-esparza-seated",
           "first": "volunteer-march",
-          "x": 736,
+          "x": 734,
           "y": 468,
           "labelled": true,
           "onScreen": true
@@ -1423,8 +1422,8 @@
           "pose": "seated",
           "drawnAs": "maria-de-jesus-seated-huddled",
           "first": "volunteer-march",
-          "x": 734,
-          "y": 469,
+          "x": 732,
+          "y": 470,
           "labelled": true,
           "onScreen": true
         },
@@ -1436,7 +1435,7 @@
           "pose": "seated",
           "drawnAs": "enrique-esparza-seated-huddled",
           "first": "volunteer-march",
-          "x": 737,
+          "x": 735,
           "y": 470,
           "labelled": true,
           "onScreen": true
@@ -1449,8 +1448,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 735,
-          "y": 466,
+          "x": 733,
+          "y": 467,
           "labelled": true,
           "onScreen": true
         },
@@ -1462,8 +1461,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 737,
-          "y": 466,
+          "x": 735,
+          "y": 467,
           "labelled": true,
           "onScreen": true
         },
@@ -1475,7 +1474,7 @@
           "pose": "fire",
           "drawnAs": "almeron-dickinson-ram",
           "first": null,
-          "x": 762,
+          "x": 760,
           "y": 481,
           "labelled": true,
           "onScreen": true
@@ -1486,9 +1485,9 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "bonham-aim",
+          "drawnAs": "bonham-reload",
           "first": "mounted-courier-e",
-          "x": 759,
+          "x": 757,
           "y": 474,
           "labelled": true,
           "onScreen": true
@@ -1501,7 +1500,7 @@
           "pose": "fire",
           "drawnAs": "esparza-aim",
           "first": "volunteer-march",
-          "x": 756,
+          "x": 754,
           "y": 479,
           "labelled": true,
           "onScreen": true
@@ -1514,8 +1513,8 @@
           "pose": "stand",
           "drawnAs": "santa-anna-idle",
           "first": null,
-          "x": 655,
-          "y": 263,
+          "x": 654,
+          "y": 264,
           "labelled": true,
           "onScreen": true
         },
@@ -1527,7 +1526,7 @@
           "pose": "stand",
           "drawnAs": "castrillon-idle",
           "first": null,
-          "x": 655,
+          "x": 653,
           "y": 346,
           "labelled": true,
           "onScreen": true
@@ -1540,19 +1539,19 @@
           "pose": "still",
           "drawnAs": "travis-still-ramp",
           "first": "travis-idle",
-          "x": 665,
-          "y": 348,
+          "x": 663,
+          "y": 349,
           "labelled": true,
           "onScreen": true
         }
       ],
       "light": 0.62,
       "frameMs": {
-        "last": 1.5,
+        "last": 2,
         "median": 1.6,
-        "p95": 3.4
+        "p95": 2.8
       },
-      "mapDrawMs": 16.399999976158142
+      "mapDrawMs": 15.200000047683716
     },
     {
       "label": "5",
@@ -1570,7 +1569,7 @@
         "southwest": 3,
         "south": 5,
         "palisade": 4,
-        "church": 1,
+        "church": 3,
         "mass": 26,
         "morales": 4,
         "reserve": 8,
@@ -1592,23 +1591,23 @@
       },
       "groupRegularity": {
         "north": null,
-        "west": 0.0011507066746807815,
-        "southwest": 0.013406309651106887,
-        "south": 0.013914596746899748,
-        "palisade": 0.016395021858141037,
-        "church": null,
-        "mass": 0.3588220198792316,
-        "morales": 0.31424940111601246,
-        "reserve": 0.0005802005768078388,
-        "lancers-east": 0.02609001178813411,
-        "lancers-south": 0.009703731044835313
+        "west": 0.001150706674680399,
+        "southwest": 0.013406309651100758,
+        "south": 0.013914596746894341,
+        "palisade": 0.01639502185813888,
+        "church": 0.01819453232407734,
+        "mass": 0.35882201987923296,
+        "morales": 0.3142494011160134,
+        "reserve": 0.0005802005768082216,
+        "lancers-east": 0.026090011788134315,
+        "lancers-south": 0.009703731044835316
       },
-      "shotsTotal": 590,
+      "shotsTotal": 555,
       "shotsBy": {
-        "texian": 43,
-        "mexican": 50
+        "mexican": 26,
+        "texian": 33
       },
-      "smokeInView": 201,
+      "smokeInView": 215,
       "bubbles": [
         "Gregorio, the soldiers have jumped the wall. The fight’s begun.",
         "Come on boys, the Mexicans are upon us, and we’ll give them Hell.",
@@ -1617,8 +1616,7 @@
         "¡Escalas al frente!",
         "They’re coming again!",
         "¡Adelante!",
-        "¡Arriba!",
-        "They’re over the north wall!"
+        "¡Arriba!"
       ],
       "memberFalls": [],
       "people": [
@@ -1630,8 +1628,8 @@
           "pose": "fire-hidden",
           "drawnAs": "joe-fire-door",
           "first": null,
-          "x": 630,
-          "y": 358,
+          "x": 626,
+          "y": 359,
           "labelled": true,
           "onScreen": true
         },
@@ -1643,8 +1641,8 @@
           "pose": "fire",
           "drawnAs": "crockett-reload",
           "first": "crockett-idle",
-          "x": 703,
-          "y": 500,
+          "x": 700,
+          "y": 501,
           "labelled": true,
           "onScreen": true
         },
@@ -1656,7 +1654,7 @@
           "pose": "sick",
           "drawnAs": "bowie-sick-bed",
           "first": "bowie-idle",
-          "x": 669,
+          "x": 665,
           "y": 520,
           "labelled": true,
           "onScreen": true
@@ -1669,8 +1667,8 @@
           "pose": "sick",
           "drawnAs": "susanna-dickinson-shelter-with-angelina",
           "first": null,
-          "x": 735,
-          "y": 462,
+          "x": 731,
+          "y": 463,
           "labelled": true,
           "onScreen": true
         },
@@ -1682,8 +1680,8 @@
           "pose": "seated",
           "drawnAs": "ana-esparza-seated",
           "first": "volunteer-march",
-          "x": 732,
-          "y": 462,
+          "x": 728,
+          "y": 463,
           "labelled": true,
           "onScreen": true
         },
@@ -1695,7 +1693,7 @@
           "pose": "seated",
           "drawnAs": "maria-de-jesus-seated-huddled",
           "first": "volunteer-march",
-          "x": 730,
+          "x": 726,
           "y": 464,
           "labelled": true,
           "onScreen": true
@@ -1708,8 +1706,8 @@
           "pose": "seated",
           "drawnAs": "enrique-esparza-seated-huddled",
           "first": "volunteer-march",
-          "x": 733,
-          "y": 464,
+          "x": 730,
+          "y": 465,
           "labelled": true,
           "onScreen": true
         },
@@ -1721,8 +1719,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 731,
-          "y": 460,
+          "x": 727,
+          "y": 461,
           "labelled": true,
           "onScreen": true
         },
@@ -1734,8 +1732,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 733,
-          "y": 461,
+          "x": 729,
+          "y": 462,
           "labelled": true,
           "onScreen": true
         },
@@ -1747,8 +1745,8 @@
           "pose": "fire",
           "drawnAs": "almeron-dickinson-ram",
           "first": null,
-          "x": 758,
-          "y": 475,
+          "x": 754,
+          "y": 476,
           "labelled": true,
           "onScreen": true
         },
@@ -1758,10 +1756,10 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "bonham-aim",
+          "drawnAs": "bonham-reload",
           "first": "mounted-courier-e",
-          "x": 755,
-          "y": 468,
+          "x": 751,
+          "y": 469,
           "labelled": true,
           "onScreen": true
         },
@@ -1773,8 +1771,8 @@
           "pose": "fire",
           "drawnAs": "esparza-aim",
           "first": "volunteer-march",
-          "x": 752,
-          "y": 473,
+          "x": 748,
+          "y": 474,
           "labelled": true,
           "onScreen": true
         },
@@ -1786,8 +1784,8 @@
           "pose": "stand",
           "drawnAs": "santa-anna-idle",
           "first": null,
-          "x": 652,
-          "y": 259,
+          "x": 648,
+          "y": 260,
           "labelled": true,
           "onScreen": true
         },
@@ -1799,8 +1797,8 @@
           "pose": "walk",
           "drawnAs": "castrillon-walk-e",
           "first": null,
-          "x": 652,
-          "y": 345,
+          "x": 648,
+          "y": 346,
           "labelled": true,
           "onScreen": true
         },
@@ -1812,24 +1810,24 @@
           "pose": "still",
           "drawnAs": "travis-still-ramp",
           "first": "travis-idle",
-          "x": 662,
-          "y": 343,
+          "x": 658,
+          "y": 344,
           "labelled": true,
           "onScreen": true
         }
       ],
       "light": 0.62,
       "frameMs": {
-        "last": 1.5,
+        "last": 1.6,
         "median": 1.6,
-        "p95": 3.5
+        "p95": 2.9
       },
-      "mapDrawMs": 18.200000047683716
+      "mapDrawMs": 16.100000023841858
     },
     {
       "label": "6",
       "phase": "fallback",
-      "minute": 230406,
+      "minute": 230404,
       "camera": "battle",
       "size": "1366x768",
       "figures": {
@@ -1838,8 +1836,8 @@
       },
       "groups": {
         "barrack": 9,
-        "church": 3,
-        "runners": 4,
+        "church": 4,
+        "runners": 5,
         "plaza": 26,
         "morales": 4,
         "low-barrack": 4,
@@ -1857,22 +1855,23 @@
         "lancers-south": "mounted"
       },
       "groupRegularity": {
-        "barrack": 0.1539153054421782,
-        "church": 0.2944069814853071,
-        "runners": 0.22482788780490437,
-        "plaza": 0.25608346858249686,
-        "morales": 0.15279424298911723,
-        "low-barrack": 0.12207040085783716,
-        "lancers-east": 0.026090011788155877,
-        "lancers-south": 0.00970373104483644
+        "barrack": 0.15391530544217338,
+        "church": 0.29101150908833123,
+        "runners": 0.22596323282568612,
+        "plaza": 0.2560834685823643,
+        "morales": 0.15279424298911573,
+        "low-barrack": 0.12207040085861337,
+        "lancers-east": 0.02609001178813387,
+        "lancers-south": 0.009703731044834995
       },
-      "shotsTotal": 596,
+      "shotsTotal": 558,
       "shotsBy": {
-        "texian": 43,
-        "mexican": 55
+        "mexican": 29,
+        "texian": 33
       },
-      "smokeInView": 201,
+      "smokeInView": 216,
       "bubbles": [
+        "Gregorio, the soldiers have jumped the wall. The fight’s begun.",
         "Come on boys, the Mexicans are upon us, and we’ll give them Hell.",
         "Canister! Load canister!",
         "¡Escalas al frente!",
@@ -1893,7 +1892,7 @@
           "drawnAs": "bowie-sick-bed",
           "first": "bowie-idle",
           "x": 667,
-          "y": 516,
+          "y": 517,
           "labelled": true,
           "onScreen": true
         },
@@ -1903,9 +1902,9 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "crockett-aim",
+          "drawnAs": "crockett-reload",
           "first": "crockett-idle",
-          "x": 701,
+          "x": 702,
           "y": 497,
           "labelled": true,
           "onScreen": true
@@ -1919,7 +1918,7 @@
           "drawnAs": "joe-fire-door",
           "first": null,
           "x": 629,
-          "y": 355,
+          "y": 356,
           "labelled": true,
           "onScreen": true
         },
@@ -1932,7 +1931,7 @@
           "drawnAs": "susanna-dickinson-shelter-with-angelina",
           "first": null,
           "x": 733,
-          "y": 459,
+          "y": 460,
           "labelled": true,
           "onScreen": true
         },
@@ -1957,8 +1956,8 @@
           "pose": "seated",
           "drawnAs": "maria-de-jesus-seated-huddled",
           "first": "volunteer-march",
-          "x": 728,
-          "y": 460,
+          "x": 729,
+          "y": 461,
           "labelled": true,
           "onScreen": true
         },
@@ -1970,7 +1969,7 @@
           "pose": "seated",
           "drawnAs": "enrique-esparza-seated-huddled",
           "first": "volunteer-march",
-          "x": 731,
+          "x": 732,
           "y": 461,
           "labelled": true,
           "onScreen": true
@@ -1984,7 +1983,7 @@
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
           "x": 729,
-          "y": 457,
+          "y": 458,
           "labelled": true,
           "onScreen": true
         },
@@ -1997,7 +1996,7 @@
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
           "x": 731,
-          "y": 457,
+          "y": 458,
           "labelled": true,
           "onScreen": true
         },
@@ -2069,11 +2068,11 @@
       ],
       "light": 0.5,
       "frameMs": {
-        "last": 3.2,
+        "last": 1.9,
         "median": 1.6,
-        "p95": 3.5
+        "p95": 2.9
       },
-      "mapDrawMs": 15.799999952316284
+      "mapDrawMs": 15.099999904632568
     },
     {
       "label": "7",
@@ -2087,8 +2086,8 @@
       },
       "groups": {
         "barrack": 9,
-        "church": 3,
-        "runners": 5,
+        "church": 4,
+        "runners": 4,
         "plaza": 23,
         "morales": 4,
         "low-barrack": 4,
@@ -2106,21 +2105,21 @@
         "lancers-south": "mounted"
       },
       "groupRegularity": {
-        "barrack": 0.1539153054421764,
-        "church": 0.29440698148531075,
-        "runners": 0.2259632328256302,
-        "plaza": 0.31857551721586813,
-        "morales": 0.15279424298912198,
-        "low-barrack": 0.12207040085783472,
-        "lancers-east": 0.026090011788098284,
-        "lancers-south": 0.009703731044835955
+        "barrack": 0.15391530544216914,
+        "church": 0.29101150908832957,
+        "runners": 0.5019471790028601,
+        "plaza": 0.3185755172158674,
+        "morales": 0.1527942429891227,
+        "low-barrack": 0.12207040085782594,
+        "lancers-east": 0.026090011788097337,
+        "lancers-south": 0.009703731044834832
       },
-      "shotsTotal": 602,
+      "shotsTotal": 560,
       "shotsBy": {
-        "texian": 44,
-        "mexican": 59
+        "mexican": 30,
+        "texian": 33
       },
-      "smokeInView": 200,
+      "smokeInView": 216,
       "bubbles": [
         "¡Escalas al frente!",
         "They’re coming again!",
@@ -2140,7 +2139,7 @@
           "pose": "sick",
           "drawnAs": "bowie-sick-bed",
           "first": "bowie-idle",
-          "x": 666,
+          "x": 663,
           "y": 514,
           "labelled": true,
           "onScreen": true
@@ -2153,8 +2152,8 @@
           "pose": "walk",
           "drawnAs": "crockett-walk-e",
           "first": "crockett-idle",
-          "x": 700,
-          "y": 495,
+          "x": 697,
+          "y": 494,
           "labelled": true,
           "onScreen": true
         },
@@ -2166,8 +2165,8 @@
           "pose": "fire-hidden",
           "drawnAs": "joe-fire-door",
           "first": null,
-          "x": 628,
-          "y": 354,
+          "x": 625,
+          "y": 353,
           "labelled": true,
           "onScreen": true
         },
@@ -2179,7 +2178,7 @@
           "pose": "sick",
           "drawnAs": "susanna-dickinson-shelter-with-angelina",
           "first": null,
-          "x": 732,
+          "x": 729,
           "y": 457,
           "labelled": true,
           "onScreen": true
@@ -2192,8 +2191,8 @@
           "pose": "seated",
           "drawnAs": "ana-esparza-seated",
           "first": "volunteer-march",
-          "x": 729,
-          "y": 457,
+          "x": 726,
+          "y": 456,
           "labelled": true,
           "onScreen": true
         },
@@ -2205,8 +2204,8 @@
           "pose": "seated",
           "drawnAs": "maria-de-jesus-seated-huddled",
           "first": "volunteer-march",
-          "x": 727,
-          "y": 459,
+          "x": 724,
+          "y": 458,
           "labelled": true,
           "onScreen": true
         },
@@ -2218,8 +2217,8 @@
           "pose": "seated",
           "drawnAs": "enrique-esparza-seated-huddled",
           "first": "volunteer-march",
-          "x": 730,
-          "y": 459,
+          "x": 727,
+          "y": 458,
           "labelled": true,
           "onScreen": true
         },
@@ -2231,7 +2230,7 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 728,
+          "x": 725,
           "y": 455,
           "labelled": true,
           "onScreen": true
@@ -2244,8 +2243,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 730,
-          "y": 456,
+          "x": 727,
+          "y": 455,
           "labelled": true,
           "onScreen": true
         },
@@ -2257,8 +2256,8 @@
           "pose": "fire",
           "drawnAs": "almeron-dickinson-ram",
           "first": null,
-          "x": 754,
-          "y": 470,
+          "x": 751,
+          "y": 469,
           "labelled": true,
           "onScreen": true
         },
@@ -2270,8 +2269,8 @@
           "pose": "fire",
           "drawnAs": "bonham-reload",
           "first": "mounted-courier-e",
-          "x": 752,
-          "y": 463,
+          "x": 749,
+          "y": 462,
           "labelled": true,
           "onScreen": true
         },
@@ -2283,8 +2282,8 @@
           "pose": "fire",
           "drawnAs": "esparza-aim",
           "first": "volunteer-march",
-          "x": 749,
-          "y": 468,
+          "x": 746,
+          "y": 467,
           "labelled": true,
           "onScreen": true
         },
@@ -2296,7 +2295,7 @@
           "pose": "stand",
           "drawnAs": "santa-anna-idle",
           "first": null,
-          "x": 661,
+          "x": 658,
           "y": 237,
           "labelled": true,
           "onScreen": true
@@ -2309,8 +2308,8 @@
           "pose": "still",
           "drawnAs": "travis-still-ramp",
           "first": "travis-idle",
-          "x": 659,
-          "y": 339,
+          "x": 656,
+          "y": 338,
           "labelled": true,
           "onScreen": true
         }
@@ -2319,9 +2318,9 @@
       "frameMs": {
         "last": 1.5,
         "median": 1.6,
-        "p95": 3.5
+        "p95": 2.9
       },
-      "mapDrawMs": 17.399999976158142
+      "mapDrawMs": 16.199999928474426
     },
     {
       "label": "8",
@@ -2335,7 +2334,7 @@
       },
       "groups": {
         "barrack": 7,
-        "church": 3,
+        "church": 4,
         "runners": 5,
         "plaza": 23,
         "morales": 4,
@@ -2354,21 +2353,21 @@
         "lancers-south": "mounted"
       },
       "groupRegularity": {
-        "barrack": 0.1293102846286715,
-        "church": 0.29440698148530825,
-        "runners": 0.22596323282557754,
-        "plaza": 0.31857551721586824,
-        "morales": 0.1527942429891166,
-        "low-barrack": 0.12207040085781692,
-        "lancers-east": 0.02609001178812604,
-        "lancers-south": 0.00970373104483649
+        "barrack": 0.1293102846286687,
+        "church": 0.2910115090883298,
+        "runners": 0.22596323282557768,
+        "plaza": 0.3185755172158665,
+        "morales": 0.15279424298911734,
+        "low-barrack": 0.12207040085782093,
+        "lancers-east": 0.02609001178812633,
+        "lancers-south": 0.009703731044835797
       },
-      "shotsTotal": 607,
+      "shotsTotal": 563,
       "shotsBy": {
-        "texian": 44,
-        "mexican": 61
+        "mexican": 31,
+        "texian": 33
       },
-      "smokeInView": 201,
+      "smokeInView": 218,
       "bubbles": [
         "¡Adelante!",
         "¡Arriba!",
@@ -2387,8 +2386,8 @@
           "pose": "still-bed",
           "drawnAs": "bowie-still-bed",
           "first": "bowie-idle",
-          "x": 666,
-          "y": 513,
+          "x": 670,
+          "y": 516,
           "labelled": true,
           "onScreen": true
         },
@@ -2400,8 +2399,8 @@
           "pose": "walk",
           "drawnAs": "crockett-walk-e",
           "first": "crockett-idle",
-          "x": 708,
-          "y": 472,
+          "x": 713,
+          "y": 475,
           "labelled": true,
           "onScreen": true
         },
@@ -2413,8 +2412,8 @@
           "pose": "fire-hidden",
           "drawnAs": "joe-fire-door",
           "first": null,
-          "x": 627,
-          "y": 353,
+          "x": 632,
+          "y": 356,
           "labelled": true,
           "onScreen": true
         },
@@ -2426,8 +2425,8 @@
           "pose": "sick",
           "drawnAs": "susanna-dickinson-shelter-with-angelina",
           "first": null,
-          "x": 731,
-          "y": 456,
+          "x": 736,
+          "y": 459,
           "labelled": true,
           "onScreen": true
         },
@@ -2439,8 +2438,8 @@
           "pose": "seated",
           "drawnAs": "ana-esparza-seated",
           "first": "volunteer-march",
-          "x": 728,
-          "y": 456,
+          "x": 733,
+          "y": 459,
           "labelled": true,
           "onScreen": true
         },
@@ -2452,8 +2451,8 @@
           "pose": "seated",
           "drawnAs": "maria-de-jesus-seated-huddled",
           "first": "volunteer-march",
-          "x": 726,
-          "y": 457,
+          "x": 731,
+          "y": 460,
           "labelled": true,
           "onScreen": true
         },
@@ -2465,8 +2464,8 @@
           "pose": "seated",
           "drawnAs": "enrique-esparza-seated-huddled",
           "first": "volunteer-march",
-          "x": 729,
-          "y": 458,
+          "x": 734,
+          "y": 461,
           "labelled": true,
           "onScreen": true
         },
@@ -2478,8 +2477,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 727,
-          "y": 454,
+          "x": 732,
+          "y": 457,
           "labelled": true,
           "onScreen": true
         },
@@ -2491,8 +2490,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 729,
-          "y": 455,
+          "x": 734,
+          "y": 458,
           "labelled": true,
           "onScreen": true
         },
@@ -2504,8 +2503,8 @@
           "pose": "fire",
           "drawnAs": "almeron-dickinson-ram",
           "first": null,
-          "x": 754,
-          "y": 469,
+          "x": 759,
+          "y": 472,
           "labelled": true,
           "onScreen": true
         },
@@ -2517,8 +2516,8 @@
           "pose": "fire",
           "drawnAs": "bonham-reload",
           "first": "mounted-courier-e",
-          "x": 751,
-          "y": 462,
+          "x": 756,
+          "y": 465,
           "labelled": true,
           "onScreen": true
         },
@@ -2530,8 +2529,8 @@
           "pose": "fire",
           "drawnAs": "esparza-aim",
           "first": "volunteer-march",
-          "x": 748,
-          "y": 467,
+          "x": 753,
+          "y": 470,
           "labelled": true,
           "onScreen": true
         },
@@ -2543,8 +2542,8 @@
           "pose": "stand",
           "drawnAs": "santa-anna-idle",
           "first": null,
-          "x": 660,
-          "y": 237,
+          "x": 665,
+          "y": 240,
           "labelled": true,
           "onScreen": true
         },
@@ -2556,24 +2555,24 @@
           "pose": "still",
           "drawnAs": "travis-still-ramp",
           "first": "travis-idle",
-          "x": 658,
-          "y": 338,
+          "x": 663,
+          "y": 341,
           "labelled": true,
           "onScreen": true
         }
       ],
       "light": 0.5,
       "frameMs": {
-        "last": 1.4,
+        "last": 2.1,
         "median": 1.6,
-        "p95": 3.5
+        "p95": 2.9
       },
-      "mapDrawMs": 16.300000071525574
+      "mapDrawMs": 17.600000023841858
     },
     {
       "label": "9",
       "phase": "rooms",
-      "minute": 230420,
+      "minute": 230418,
       "camera": "battle",
       "size": "1366x768",
       "figures": {
@@ -2582,7 +2581,7 @@
       },
       "groups": {
         "barrack": 5,
-        "church": 3,
+        "church": 4,
         "plaza": 17,
         "doors": 8,
         "church-door": 6,
@@ -2599,27 +2598,26 @@
         "lancers-south": "mounted"
       },
       "groupRegularity": {
-        "barrack": 0.3937888318142084,
-        "church": 0.2944069814853076,
-        "plaza": 0.22615070830319345,
-        "doors": 0.0542521760374852,
-        "church-door": 0.21172573059469119,
-        "lancers-east": 0.026090011788117404,
-        "lancers-south": 0.2500017590387372
+        "barrack": 0.3937888318142057,
+        "church": 0.29101150908833356,
+        "plaza": 0.22615070830319187,
+        "doors": 0.054252176037485424,
+        "church-door": 0.21172573059417532,
+        "lancers-east": 0.026090011788117276,
+        "lancers-south": 0.2500017590387375
       },
-      "shotsTotal": 611,
+      "shotsTotal": 566,
       "shotsBy": {
-        "texian": 45,
-        "mexican": 62
+        "mexican": 31,
+        "texian": 35
       },
-      "smokeInView": 201,
+      "smokeInView": 218,
       "bubbles": [
         "¡Arriba!",
         "They’re over the north wall!",
         "Fall back to the barracks!",
         "¡El cañón a las puertas!",
-        "Hold the door!",
-        "¡A la bayoneta!"
+        "Hold the door!"
       ],
       "memberFalls": [],
       "people": [
@@ -2632,7 +2630,7 @@
           "drawnAs": "joe-fire-door",
           "first": null,
           "x": 623,
-          "y": 337,
+          "y": 340,
           "labelled": true,
           "onScreen": true
         },
@@ -2645,7 +2643,7 @@
           "drawnAs": "crockett-reload",
           "first": "crockett-idle",
           "x": 706,
-          "y": 456,
+          "y": 458,
           "labelled": true,
           "onScreen": true
         },
@@ -2657,8 +2655,8 @@
           "pose": "sick",
           "drawnAs": "susanna-dickinson-shelter-with-angelina",
           "first": null,
-          "x": 726,
-          "y": 441,
+          "x": 727,
+          "y": 443,
           "labelled": true,
           "onScreen": true
         },
@@ -2671,7 +2669,7 @@
           "drawnAs": "ana-esparza-seated",
           "first": "volunteer-march",
           "x": 724,
-          "y": 440,
+          "y": 442,
           "labelled": true,
           "onScreen": true
         },
@@ -2683,8 +2681,8 @@
           "pose": "seated",
           "drawnAs": "maria-de-jesus-seated-huddled",
           "first": "volunteer-march",
-          "x": 722,
-          "y": 442,
+          "x": 723,
+          "y": 444,
           "labelled": true,
           "onScreen": true
         },
@@ -2696,8 +2694,8 @@
           "pose": "seated",
           "drawnAs": "enrique-esparza-seated-huddled",
           "first": "volunteer-march",
-          "x": 725,
-          "y": 442,
+          "x": 726,
+          "y": 445,
           "labelled": true,
           "onScreen": true
         },
@@ -2710,7 +2708,7 @@
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
           "x": 723,
-          "y": 439,
+          "y": 441,
           "labelled": true,
           "onScreen": true
         },
@@ -2723,7 +2721,7 @@
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
           "x": 725,
-          "y": 439,
+          "y": 441,
           "labelled": true,
           "onScreen": true
         },
@@ -2735,8 +2733,8 @@
           "pose": "fire",
           "drawnAs": "almeron-dickinson-ram",
           "first": null,
-          "x": 749,
-          "y": 453,
+          "x": 750,
+          "y": 456,
           "labelled": true,
           "onScreen": true
         },
@@ -2748,8 +2746,8 @@
           "pose": "fire",
           "drawnAs": "bonham-aim",
           "first": "mounted-courier-e",
-          "x": 746,
-          "y": 447,
+          "x": 747,
+          "y": 449,
           "labelled": true,
           "onScreen": true,
           "tag": "Place: a story told of him"
@@ -2763,7 +2761,7 @@
           "drawnAs": "esparza-aim",
           "first": "volunteer-march",
           "x": 744,
-          "y": 451,
+          "y": 454,
           "labelled": true,
           "onScreen": true
         },
@@ -2775,8 +2773,8 @@
           "pose": "stand",
           "drawnAs": "santa-anna-idle",
           "first": null,
-          "x": 656,
-          "y": 221,
+          "x": 657,
+          "y": 224,
           "labelled": true,
           "onScreen": true
         },
@@ -2789,7 +2787,7 @@
           "drawnAs": "travis-still-ramp",
           "first": "travis-idle",
           "x": 654,
-          "y": 323,
+          "y": 325,
           "labelled": true,
           "onScreen": true
         },
@@ -2801,8 +2799,8 @@
           "pose": "still-bed",
           "drawnAs": "bowie-still-bed",
           "first": "bowie-idle",
-          "x": 661,
-          "y": 498,
+          "x": 662,
+          "y": 500,
           "labelled": true,
           "onScreen": true
         }
@@ -2811,9 +2809,9 @@
       "frameMs": {
         "last": 1.7,
         "median": 1.6,
-        "p95": 3.6
+        "p95": 3
       },
-      "mapDrawMs": 19.699999928474426
+      "mapDrawMs": 16.700000047683716
     },
     {
       "label": "10",
@@ -2827,12 +2825,12 @@
       },
       "groups": {
         "barrack": 2,
-        "church": 3,
+        "church": 4,
         "plaza": 17,
         "doors": 6,
         "church-door": 6,
         "lancers-east": 6,
-        "lancers-south": 4
+        "lancers-south": 5
       },
       "groupStyles": {
         "barrack": "street",
@@ -2845,21 +2843,20 @@
       },
       "groupRegularity": {
         "barrack": null,
-        "church": 0.29440698148530803,
-        "plaza": 0.22615070830319292,
-        "doors": 0.24284771850530731,
-        "church-door": 0.21172573059327757,
-        "lancers-east": 0.02609001178811768,
-        "lancers-south": 0.2500017590387372
+        "church": 0.291011509088333,
+        "plaza": 0.22615070830319509,
+        "doors": 0.24284771850530767,
+        "church-door": 0.21172573059327812,
+        "lancers-east": 0.026090011788117696,
+        "lancers-south": 0.016945477341273014
       },
-      "shotsTotal": 614,
+      "shotsTotal": 572,
       "shotsBy": {
-        "texian": 45,
-        "mexican": 63
+        "mexican": 32,
+        "texian": 36
       },
-      "smokeInView": 202,
+      "smokeInView": 221,
       "bubbles": [
-        "¡Arriba!",
         "They’re over the north wall!",
         "Fall back to the barracks!",
         "¡El cañón a las puertas!",
@@ -2876,8 +2873,8 @@
           "pose": "fire-hidden",
           "drawnAs": "joe-fire-door",
           "first": null,
-          "x": 620,
-          "y": 328,
+          "x": 615,
+          "y": 326,
           "labelled": true,
           "onScreen": true
         },
@@ -2889,8 +2886,8 @@
           "pose": "fire",
           "drawnAs": "crockett-reload",
           "first": "crockett-idle",
-          "x": 703,
-          "y": 447,
+          "x": 697,
+          "y": 444,
           "labelled": true,
           "onScreen": true
         },
@@ -2902,8 +2899,8 @@
           "pose": "sick",
           "drawnAs": "susanna-dickinson-shelter-with-angelina",
           "first": null,
-          "x": 724,
-          "y": 432,
+          "x": 718,
+          "y": 429,
           "labelled": true,
           "onScreen": true
         },
@@ -2915,8 +2912,8 @@
           "pose": "seated",
           "drawnAs": "ana-esparza-seated",
           "first": "volunteer-march",
-          "x": 721,
-          "y": 431,
+          "x": 715,
+          "y": 429,
           "labelled": true,
           "onScreen": true
         },
@@ -2928,8 +2925,8 @@
           "pose": "seated",
           "drawnAs": "maria-de-jesus-seated-huddled",
           "first": "volunteer-march",
-          "x": 719,
-          "y": 433,
+          "x": 714,
+          "y": 431,
           "labelled": true,
           "onScreen": true
         },
@@ -2941,8 +2938,8 @@
           "pose": "seated",
           "drawnAs": "enrique-esparza-seated-huddled",
           "first": "volunteer-march",
-          "x": 722,
-          "y": 433,
+          "x": 717,
+          "y": 431,
           "labelled": true,
           "onScreen": true
         },
@@ -2954,8 +2951,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 720,
-          "y": 430,
+          "x": 714,
+          "y": 427,
           "labelled": true,
           "onScreen": true
         },
@@ -2967,8 +2964,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 722,
-          "y": 430,
+          "x": 716,
+          "y": 428,
           "labelled": true,
           "onScreen": true
         },
@@ -2980,8 +2977,8 @@
           "pose": "fire",
           "drawnAs": "almeron-dickinson-ram",
           "first": null,
-          "x": 747,
-          "y": 444,
+          "x": 741,
+          "y": 442,
           "labelled": true,
           "onScreen": true
         },
@@ -2993,8 +2990,8 @@
           "pose": "fire",
           "drawnAs": "bonham-aim",
           "first": "mounted-courier-e",
-          "x": 744,
-          "y": 437,
+          "x": 738,
+          "y": 435,
           "labelled": true,
           "onScreen": true,
           "tag": "Place: a story told of him"
@@ -3007,8 +3004,8 @@
           "pose": "fire",
           "drawnAs": "esparza-aim",
           "first": "volunteer-march",
-          "x": 741,
-          "y": 442,
+          "x": 735,
+          "y": 440,
           "labelled": true,
           "onScreen": true
         },
@@ -3020,8 +3017,8 @@
           "pose": "stand",
           "drawnAs": "santa-anna-idle",
           "first": null,
-          "x": 653,
-          "y": 212,
+          "x": 648,
+          "y": 210,
           "labelled": true,
           "onScreen": true
         },
@@ -3033,8 +3030,8 @@
           "pose": "still",
           "drawnAs": "travis-still-ramp",
           "first": "travis-idle",
-          "x": 651,
-          "y": 314,
+          "x": 646,
+          "y": 311,
           "labelled": true,
           "onScreen": true
         },
@@ -3046,19 +3043,19 @@
           "pose": "still-bed",
           "drawnAs": "bowie-still-bed",
           "first": "bowie-idle",
-          "x": 658,
-          "y": 488,
+          "x": 653,
+          "y": 486,
           "labelled": true,
           "onScreen": true
         }
       ],
       "light": 0.32,
       "frameMs": {
-        "last": 1.6,
-        "median": 1.6,
-        "p95": 3.6
+        "last": 1.9,
+        "median": 1.7,
+        "p95": 3
       },
-      "mapDrawMs": 18.300000071525574
+      "mapDrawMs": 15.899999976158142
     },
     {
       "label": "11",
@@ -3072,7 +3069,7 @@
       },
       "groups": {
         "barrack": 0,
-        "church": 3,
+        "church": 4,
         "plaza": 17,
         "doors": 6,
         "church-door": 6,
@@ -3090,19 +3087,19 @@
       },
       "groupRegularity": {
         "barrack": null,
-        "church": 0.29440698148531264,
-        "plaza": 0.22615070830319253,
-        "doors": 0.24284771850530698,
-        "church-door": 0.21172573059487815,
-        "lancers-east": 0.02609001178811804,
-        "lancers-south": 0.02609001178803716
+        "church": 0.2910115090883327,
+        "plaza": 0.2261507083031928,
+        "doors": 0.2428477185053074,
+        "church-door": 0.21172573059487534,
+        "lancers-east": 0.026090011788116978,
+        "lancers-south": 0.02609001178803694
       },
-      "shotsTotal": 618,
+      "shotsTotal": 575,
       "shotsBy": {
-        "texian": 45,
-        "mexican": 65
+        "mexican": 33,
+        "texian": 36
       },
-      "smokeInView": 205,
+      "smokeInView": 222,
       "bubbles": [
         "They’re over the north wall!",
         "Fall back to the barracks!",
@@ -3126,7 +3123,7 @@
           "pose": "fire-hidden",
           "drawnAs": "joe-fire-door",
           "first": null,
-          "x": 455,
+          "x": 454,
           "y": 329,
           "labelled": true,
           "onScreen": true
@@ -3137,10 +3134,10 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "crockett-aim",
+          "drawnAs": "crockett-reload",
           "first": "crockett-idle",
-          "x": 528,
-          "y": 433,
+          "x": 527,
+          "y": 434,
           "labelled": true,
           "onScreen": true
         },
@@ -3152,8 +3149,8 @@
           "pose": "sick",
           "drawnAs": "susanna-dickinson-shelter-with-angelina",
           "first": null,
-          "x": 546,
-          "y": 420,
+          "x": 545,
+          "y": 421,
           "labelled": true,
           "onScreen": true
         },
@@ -3165,7 +3162,7 @@
           "pose": "seated",
           "drawnAs": "ana-esparza-seated",
           "first": "volunteer-march",
-          "x": 544,
+          "x": 543,
           "y": 420,
           "labelled": true,
           "onScreen": true
@@ -3178,8 +3175,8 @@
           "pose": "seated",
           "drawnAs": "maria-de-jesus-seated-huddled",
           "first": "volunteer-march",
-          "x": 542,
-          "y": 421,
+          "x": 541,
+          "y": 422,
           "labelled": true,
           "onScreen": true
         },
@@ -3191,8 +3188,8 @@
           "pose": "seated",
           "drawnAs": "enrique-esparza-seated-huddled",
           "first": "volunteer-march",
-          "x": 545,
-          "y": 421,
+          "x": 544,
+          "y": 422,
           "labelled": true,
           "onScreen": true
         },
@@ -3204,8 +3201,8 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 543,
-          "y": 418,
+          "x": 542,
+          "y": 419,
           "labelled": true,
           "onScreen": true
         },
@@ -3217,7 +3214,7 @@
           "pose": "seated",
           "drawnAs": "smallchild-rest",
           "first": "smallchild-walk",
-          "x": 545,
+          "x": 544,
           "y": 419,
           "labelled": true,
           "onScreen": true
@@ -3230,8 +3227,8 @@
           "pose": "fire",
           "drawnAs": "almeron-dickinson-ram",
           "first": null,
-          "x": 566,
-          "y": 431,
+          "x": 565,
+          "y": 432,
           "labelled": true,
           "onScreen": true
         },
@@ -3241,10 +3238,10 @@
           "fell": false,
           "hurt": false,
           "pose": "fire",
-          "drawnAs": "bonham-reload",
+          "drawnAs": "bonham-fire",
           "first": "mounted-courier-e",
-          "x": 564,
-          "y": 425,
+          "x": 563,
+          "y": 426,
           "labelled": true,
           "onScreen": true,
           "tag": "Place: a story told of him"
@@ -3257,8 +3254,8 @@
           "pose": "fire",
           "drawnAs": "esparza-aim",
           "first": "volunteer-march",
-          "x": 561,
-          "y": 429,
+          "x": 560,
+          "y": 430,
           "labelled": true,
           "onScreen": true
         },
@@ -3270,7 +3267,7 @@
           "pose": "stand",
           "drawnAs": "santa-anna-idle",
           "first": null,
-          "x": 484,
+          "x": 483,
           "y": 227,
           "labelled": true,
           "onScreen": true
@@ -3283,7 +3280,7 @@
           "pose": "still",
           "drawnAs": "travis-still-ramp",
           "first": "travis-idle",
-          "x": 482,
+          "x": 481,
           "y": 316,
           "labelled": true,
           "onScreen": true
@@ -3296,19 +3293,19 @@
           "pose": "still-bed",
           "drawnAs": "bowie-still-bed",
           "first": "bowie-idle",
-          "x": 489,
-          "y": 470,
+          "x": 488,
+          "y": 471,
           "labelled": true,
           "onScreen": true
         }
       ],
       "light": 0.32,
       "frameMs": {
-        "last": 2.2,
-        "median": 1.6,
-        "p95": 3.6
+        "last": 2,
+        "median": 1.7,
+        "p95": 3
       },
-      "mapDrawMs": 19.200000047683716
+      "mapDrawMs": 16.100000023841858
     },
     {
       "label": "12",
@@ -3335,18 +3332,18 @@
         "at-joe": "loose"
       },
       "groupRegularity": {
-        "taken": 0.03481522834933004,
-        "plaza": 0.2084796210449458,
-        "church-door": 0.21172573059487723,
-        "officers": 0.12207040085807917,
+        "taken": 0.03481522834933082,
+        "plaza": 0.20847962104494352,
+        "church-door": 0.21172573059488173,
+        "officers": 0.12207040085807758,
         "at-joe": null
       },
-      "shotsTotal": 618,
+      "shotsTotal": 576,
       "shotsBy": {
-        "texian": 45,
-        "mexican": 65
+        "mexican": 34,
+        "texian": 36
       },
-      "smokeInView": 206,
+      "smokeInView": 223,
       "bubbles": [
         "¡El cañón a las puertas!",
         "Hold the door!",
@@ -3370,8 +3367,8 @@
           "pose": "emerge",
           "drawnAs": "joe-emerge",
           "first": null,
-          "x": 459,
-          "y": 330,
+          "x": 457,
+          "y": 329,
           "labelled": true,
           "onScreen": true
         },
@@ -3383,8 +3380,8 @@
           "pose": "walk",
           "drawnAs": "barragan-walk-e",
           "first": "regular-idle-w",
-          "x": 476,
-          "y": 374,
+          "x": 475,
+          "y": 376,
           "labelled": true,
           "onScreen": true
         },
@@ -3396,8 +3393,8 @@
           "pose": "stand",
           "drawnAs": "susanna-dickinson-hold-angelina",
           "first": null,
-          "x": 535,
-          "y": 421,
+          "x": 537,
+          "y": 426,
           "labelled": true,
           "onScreen": true
         },
@@ -3409,8 +3406,8 @@
           "pose": "walk",
           "drawnAs": "ana-esparza-walk-e",
           "first": "volunteer-march",
-          "x": 534,
-          "y": 419,
+          "x": 536,
+          "y": 423,
           "labelled": true,
           "onScreen": true
         },
@@ -3422,8 +3419,8 @@
           "pose": "walk",
           "drawnAs": "maria-de-jesus-walk-e",
           "first": "volunteer-march",
-          "x": 533,
-          "y": 421,
+          "x": 535,
+          "y": 425,
           "labelled": true,
           "onScreen": true
         },
@@ -3435,8 +3432,8 @@
           "pose": "walk",
           "drawnAs": "enrique-esparza-walk-e",
           "first": "volunteer-march",
-          "x": 536,
-          "y": 421,
+          "x": 537,
+          "y": 425,
           "labelled": true,
           "onScreen": true
         },
@@ -3448,8 +3445,8 @@
           "pose": "walk",
           "drawnAs": "smallchild-walk",
           "first": "smallchild-walk",
-          "x": 534,
-          "y": 418,
+          "x": 535,
+          "y": 422,
           "labelled": true,
           "onScreen": true
         },
@@ -3461,8 +3458,8 @@
           "pose": "walk",
           "drawnAs": "smallchild-walk",
           "first": "smallchild-walk",
-          "x": 535,
-          "y": 418,
+          "x": 537,
+          "y": 423,
           "labelled": true,
           "onScreen": true
         },
@@ -3474,8 +3471,8 @@
           "pose": "captive",
           "drawnAs": "crockett-captive",
           "first": "crockett-idle",
-          "x": 523,
-          "y": 422,
+          "x": 524,
+          "y": 426,
           "labelled": true,
           "onScreen": true,
           "tag": "One account (de la Peña) · disputed"
@@ -3488,8 +3485,8 @@
           "pose": "stand",
           "drawnAs": "castrillon-idle",
           "first": null,
-          "x": 532,
-          "y": 422,
+          "x": 534,
+          "y": 426,
           "labelled": true,
           "onScreen": true
         },
@@ -3501,8 +3498,8 @@
           "pose": "walk",
           "drawnAs": "santa-anna-walk-e",
           "first": null,
-          "x": 509,
-          "y": 398,
+          "x": 510,
+          "y": 401,
           "labelled": true,
           "onScreen": true
         },
@@ -3514,8 +3511,8 @@
           "pose": "still",
           "drawnAs": "travis-still-ramp",
           "first": "travis-idle",
-          "x": 484,
-          "y": 318,
+          "x": 483,
+          "y": 317,
           "labelled": true,
           "onScreen": true
         },
@@ -3527,8 +3524,8 @@
           "pose": "still-bed",
           "drawnAs": "bowie-still-bed",
           "first": "bowie-idle",
-          "x": 490,
-          "y": 460,
+          "x": 489,
+          "y": 466,
           "labelled": true,
           "onScreen": true
         },
@@ -3540,8 +3537,8 @@
           "pose": "still",
           "drawnAs": "bonham-still",
           "first": "mounted-courier-e",
-          "x": 559,
-          "y": 418,
+          "x": 562,
+          "y": 422,
           "labelled": true,
           "onScreen": true,
           "tag": "Place: a story told of him"
@@ -3554,8 +3551,8 @@
           "pose": "still",
           "drawnAs": "almeron-dickinson-still",
           "first": null,
-          "x": 561,
-          "y": 424,
+          "x": 564,
+          "y": 428,
           "labelled": true,
           "onScreen": true
         },
@@ -3567,19 +3564,19 @@
           "pose": "still",
           "drawnAs": "esparza-still",
           "first": "volunteer-march",
-          "x": 556,
-          "y": 422,
+          "x": 559,
+          "y": 426,
           "labelled": true,
           "onScreen": true
         }
       ],
       "light": 0.133,
       "frameMs": {
-        "last": 1.8,
+        "last": 3.1,
         "median": 1.7,
-        "p95": 4.2
+        "p95": 3.6
       },
-      "mapDrawMs": 20.100000023841858
+      "mapDrawMs": 9.299999952316284
     }
   ],
   "screens": [
@@ -3593,7 +3590,7 @@
   ],
   "runners": 4,
   "frameMs": {
-    "battleP95Max": 4.2,
+    "battleP95Max": 3.6,
     "battleMedian": [
       1.4,
       1.5,
@@ -3605,24 +3602,24 @@
       1.6,
       1.6,
       1.6,
-      1.6,
-      1.6,
+      1.7,
+      1.7,
       1.7
     ],
     "mapDrawMs": [
-      15.100000023841858,
-      15.699999928474426,
-      17.299999952316284,
-      17,
-      16.399999976158142,
-      18.200000047683716,
-      15.799999952316284,
-      17.399999976158142,
-      16.300000071525574,
-      19.699999928474426,
-      18.300000071525574,
-      19.200000047683716,
-      20.100000023841858
+      15.399999976158142,
+      14.399999976158142,
+      15.5,
+      15.400000095367432,
+      15.200000047683716,
+      16.100000023841858,
+      15.099999904632568,
+      16.199999928474426,
+      17.600000023841858,
+      16.700000047683716,
+      15.899999976158142,
+      16.100000023841858,
+      9.299999952316284
     ]
   },
   "word": {

@@ -1016,6 +1016,7 @@ function drawEntity(ctx, entity, point, named, size = 20, marks = {}) {
   if (figure > 0) {
     drawnAt.set(entity.id, { x, y: y - height * .45, size: height });
     if (marks.placed) townHeads.set(entity.id, { x, y: y - height, size: height });
+    marks.point = point;
     drawFigure(ctx, entity, x, y, size, height, seat, figure, marks);
   }
   // Something is being asked of this person. The mark is the invitation; clicking is the
@@ -1279,7 +1280,9 @@ function drawFigure(ctx, entity, x, y, size, height, seat, alpha, marks) {
     else if (entity.appearance) done = drawAvatar(ctx, x, y, drawnSize, entity.appearance, entity.sex, { phase: reducedMotion.matches ? 0 : performance.now() / 165, working: true, flip: pose.flip });
     else done = pose.sprite ? drawSprite(ctx, pose.sprite, x, y, drawnSize, { flip: pose.flip }) : animated(ctx, pose.clip, x, y, drawnSize, entity.id, { timeMs: pose.timeMs, flip: pose.flip });
     if (!done) miniPerson(ctx, x, y, size, { ...entity, observed: marks.observed });
-    if (marks.ground) battleView.memberDrawn(entity.id, marks.ground, size);
+    // Where he was drawn, on the ground - his cosmetic step aside included, so his shot's smoke, the clearing in the smoke round him
+    // and his name on the class view are all where the figure is (2026-09-30).
+    if (marks.ground) battleView.memberDrawn(entity.id, marks.scale > 0 && marks.point ? { x: marks.ground.x + (x - marks.point.x) / marks.scale, y: marks.ground.y + (y - marks.point.y) / marks.scale } : marks.ground, size);
     ctx.globalAlpha = alphaWas;
     return;
   }
@@ -2024,7 +2027,9 @@ function cameraFor(world, canvas, now = performance.now()) {
   // The film of a fight, while it has the camera (public/battle-cinema.js): it beats every other frame until the teacher (or the
   // student who pressed Watch) takes the camera back.
   const film = cinemaFor(world), filmView = film.driving ? film.view(now) : null;
-  const raw = filmView || (at
+  // A gun's shot jolts the film's camera a few pixels (public/battle-cinema.js `shake`).
+  const jolt = filmView ? film.shake(now) : null;
+  const raw = (filmView && jolt && (jolt.x || jolt.y) ? { ...filmView, cx: filmView.cx + jolt.x / filmView.scale, cy: filmView.cy + jolt.y / filmView.scale } : filmView) || (at
     ? { cx: at.x, cy: at.y, scale: clampTo(Math.max(auto.scale, limits.max * .55), limits) }
     : fieldView || chaseFrame || (following ? auto : manualView));
   const scale = clampTo(raw.scale, limits);
@@ -3394,9 +3399,12 @@ function cinemaInput(world, canvas) {
     return { id, x: at?.x, y: at?.y, fallen: battleView.memberDown(id, now) || Boolean(entity?.service?.seenFall) };
   }).filter(one => Number.isFinite(one.x));
   return {
-    focus: host ? world.host?.focus === 'battle' && Boolean(fight) : Boolean(fight && fieldWatch && manualView === fieldWatch.view),
+    // The Host's: what the server says the class view films (owner, 2026-09-30: "major historical events, and events that would
+    // matter to the players"; sim/battle-stage.mjs `filmedAs`). A student's: while Watch is on.
+    focus: host ? Boolean(world.host?.film) && Boolean(fight) : Boolean(fight && fieldWatch && manualView === fieldWatch.view),
     // On the Host the fight is framed a little above the middle, clear of the spotlight's banner at the foot of the map.
     battleId: fight?.id || null, field: field && { cx: field.cx, cy: field.cy + liftPx / field.scale, scale: field.scale }, members, live: Boolean(fight?.live && !fight.over), liftPx,
+    firing: Boolean(fight && [...fight.sides, ...(fight.groups || [])].some(body => body.fire && body.fire !== 'none' && body.action !== 'gone')),
     running: world.status === 'running', ended: world.status === 'ended' || Boolean(world.endSequence), reduced: reducedMotion.matches,
     current: drawnCamera ? { cx: drawnCamera.cx, cy: drawnCamera.cy, scale: drawnCamera.scale } : null,
     home: manualView ? { cx: manualView.cx, cy: manualView.cy, scale: manualView.scale } : null,
@@ -3447,7 +3455,7 @@ document.addEventListener('keydown', event => {
  */
 function drawCinema(ctx, world, camera, canvas, now) {
   const film = cinemaFor(world), fight = world.battle?.sides ? world.battle : null, host = world.role === 'host';
-  const evidence = { state: film.state, followed: film.followed, battle: fight?.id || null, tags: [], fade: 0, bars: 0, title: 0, log: film.log.slice(-12) };
+  const evidence = { state: film.state, followed: film.followed, holding: film.holding, film: world.host?.film || null, battle: fight?.id || null, tags: [], fade: 0, bars: 0, title: 0, log: film.log.slice(-12) };
   const scaleText = Math.max(0.85, Math.min(1.5, canvas.height / 768));
   if (fight && (host || film.driving)) {
     const people = new Map([...entitiesOf(world), ...observedOf(world)].map(entity => [entity.id, entity]));
@@ -3456,9 +3464,10 @@ function drawCinema(ctx, world, camera, canvas, now) {
     const boxes = [], tags = [];
     for (const id of fight.members || []) {
       if (!host && !own.has(id)) continue;
-      const entity = people.get(id), spot = battleView.memberSpot(id) || entity?.location;
-      if (!entity || !spot) continue;
-      const at = camera.toScreen(spot);
+      // Where the figure was drawn this frame (`drawnAt` keeps its middle and height), or where the server has him.
+      const entity = people.get(id), drawn = drawnAt.get(id), spot = battleView.memberSpot(id) || entity?.location;
+      if (!entity || (!drawn && !spot)) continue;
+      const at = drawn ? { x: drawn.x, y: drawn.y + drawn.size * 0.45 } : camera.toScreen(spot);
       if (at.x < -40 || at.y < -40 || at.x > canvas.width + 40 || at.y > canvas.height + 40) continue;
       tags.push({ id, entity, at, down: battleView.memberDown(id, now), followed: film.followed === id,
         family: host ? families.get(entity.householdId) || '' : familyCache?.name || '', colour: familyColour(entity.householdId) });
@@ -4288,8 +4297,12 @@ function drawWorldNow(world) {
   const battleSeen = window.__battleView = battleView.draw(ctx, fight, {
     camera, time: animationTime, now: frameNow, tickMs: window.__snapshot?.tickMs ?? 1000, wind: fightWind,
     reducedMotion: reducedMotion.matches, paused: world.status !== 'running', bounds: { width: canvas.width, height: canvas.height }, named: camera.named,
+    // The class's own men in it as drawn this frame: the smoke is thinned round them so they are seen (public/battle-view.js `clearings`).
+    clear: (fight?.members || []).map(id => drawnAt.get(id)).filter(Boolean).map(one => ({ x: one.x, y: one.y })),
   });
   if (fight) drawBattleCaption(ctx, fight, canvas);
+  // A gun fired on the screen this frame: the film's camera jolts (public/battle-cinema.js `thump`).
+  if (battleSeen?.thumps?.length) { const film = cinemaFor(world), last = Math.max(...battleSeen.thumps); if (last > (drawWorldNow.lastThump || 0)) { drawWorldNow.lastThump = last; film.thump(last); } }
   // Mexican troops after a family (public/chase-view.js): the student's own family's, and every one on the Host's map.
   const chases = host ? world.chases || [] : world.flight?.chase ? [world.flight.chase] : [];
   const chaseSeen = window.__chaseView = chaseView.draw(ctx, chases, { camera, now: frameNow, time: animationTime, tickMs: window.__snapshot?.tickMs ?? 1000, bounds: { width: canvas.width, height: canvas.height }, reducedMotion: reducedMotion.matches, paused: world.status !== 'running' });

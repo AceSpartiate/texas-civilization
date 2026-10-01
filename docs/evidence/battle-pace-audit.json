@@ -1,0 +1,296 @@
+{
+  "record": "battle-pace-audit",
+  "note": "Each fight's fighting (phases held at a step for every class, not quiet), tick by tick: real seconds at each pace (the pace, or the tree's floor), and the fastest anybody is drawn to move in body lengths a real second (a walk reads at about 0.9). Arithmetic on the schedule, on the colonies map; no browser.",
+  "before": {
+    "tree": "v2026.09.29.3 (the live build the owner played)",
+    "date": "2026-10-01",
+    "engagements": {
+      "gonzales": {
+        "ticks": 34,
+        "seconds": {
+          "study": 323,
+          "brisk": 136,
+          "quick": 34
+        },
+        "fastest": {
+          "study": 1.13,
+          "brisk": 2.68,
+          "quick": 10.72
+        },
+        "fastestWhere": "parley +0"
+      },
+      "concepcion": {
+        "ticks": 27,
+        "seconds": {
+          "study": 257,
+          "brisk": 108,
+          "quick": 27
+        },
+        "fastest": {
+          "study": 2.01,
+          "brisk": 4.78,
+          "quick": 19.12
+        },
+        "fastestWhere": "retreat +15"
+      },
+      "grass-fight": {
+        "ticks": 22,
+        "seconds": {
+          "study": 209,
+          "brisk": 88,
+          "quick": 22
+        },
+        "fastest": {
+          "study": 2.36,
+          "brisk": 5.62,
+          "quick": 22.46
+        },
+        "fastestWhere": "follow +0"
+      },
+      "bexar-storming": {
+        "ticks": 65,
+        "seconds": {
+          "study": 618,
+          "brisk": 260,
+          "quick": 65
+        },
+        "fastest": {
+          "study": 0.28,
+          "brisk": 0.68,
+          "quick": 2.7
+        },
+        "fastestWhere": "karnes +25"
+      },
+      "san-patricio": {
+        "ticks": 25,
+        "seconds": {
+          "study": 238,
+          "brisk": 100,
+          "quick": 25
+        },
+        "fastest": {
+          "study": 2.48,
+          "brisk": 5.88,
+          "quick": 23.54
+        },
+        "fastestWhere": "yield +2"
+      },
+      "agua-dulce": {
+        "ticks": 20,
+        "seconds": {
+          "study": 190,
+          "brisk": 80,
+          "quick": 20
+        },
+        "fastest": {
+          "study": 1.77,
+          "brisk": 4.21,
+          "quick": 16.83
+        },
+        "fastestWhere": "ambush +1"
+      },
+      "alamo": {
+        "ticks": 42,
+        "seconds": {
+          "study": 399,
+          "brisk": 168,
+          "quick": 42
+        },
+        "fastest": {
+          "study": 0.36,
+          "brisk": 0.86,
+          "quick": 3.44
+        },
+        "fastestWhere": "repulse +12"
+      },
+      "coleto": {
+        "ticks": 49,
+        "seconds": {
+          "study": 466,
+          "brisk": 196,
+          "quick": 49
+        },
+        "fastest": {
+          "study": 2.72,
+          "brisk": 6.46,
+          "quick": 25.85
+        },
+        "fastestWhere": "caught +4"
+      },
+      "goliad-massacre": {
+        "ticks": 30,
+        "seconds": {
+          "study": 285,
+          "brisk": 120,
+          "quick": 30
+        },
+        "fastest": {
+          "study": 2.05,
+          "brisk": 4.87,
+          "quick": 19.47
+        },
+        "fastestWhere": "escapes +10"
+      },
+      "san-jacinto": {
+        "ticks": 44,
+        "seconds": {
+          "study": 418,
+          "brisk": 176,
+          "quick": 44
+        },
+        "fastest": {
+          "study": 0.89,
+          "brisk": 2.12,
+          "quick": 8.49
+        },
+        "fastestWhere": "charge +2"
+      }
+    }
+  },
+  "after": {
+    "tree": "this branch",
+    "date": "2026-10-01",
+    "engagements": {
+      "gonzales": {
+        "ticks": 34,
+        "seconds": {
+          "study": 323,
+          "brisk": 138,
+          "quick": 123
+        },
+        "fastest": {
+          "study": 1.13,
+          "brisk": 2.68,
+          "quick": 3.04
+        },
+        "fastestWhere": "parley +0"
+      },
+      "concepcion": {
+        "ticks": 27,
+        "seconds": {
+          "study": 263,
+          "brisk": 133,
+          "quick": 130
+        },
+        "fastest": {
+          "study": 1.64,
+          "brisk": 1.98,
+          "quick": 1.98
+        },
+        "fastestWhere": "retreat +10"
+      },
+      "grass-fight": {
+        "ticks": 22,
+        "seconds": {
+          "study": 224,
+          "brisk": 150,
+          "quick": 149
+        },
+        "fastest": {
+          "study": 1.4,
+          "brisk": 1.4,
+          "quick": 1.4
+        },
+        "fastestWhere": "follow +0"
+      },
+      "bexar-storming": {
+        "ticks": 65,
+        "seconds": {
+          "study": 618,
+          "brisk": 260,
+          "quick": 240
+        },
+        "fastest": {
+          "study": 0.28,
+          "brisk": 0.68,
+          "quick": 0.73
+        },
+        "fastestWhere": "karnes +25"
+      },
+      "san-patricio": {
+        "ticks": 25,
+        "seconds": {
+          "study": 257,
+          "brisk": 156,
+          "quick": 150
+        },
+        "fastest": {
+          "study": 1.4,
+          "brisk": 1.4,
+          "quick": 1.4
+        },
+        "fastestWhere": "houses +3"
+      },
+      "agua-dulce": {
+        "ticks": 20,
+        "seconds": {
+          "study": 190,
+          "brisk": 83,
+          "quick": 78
+        },
+        "fastest": {
+          "study": 1.77,
+          "brisk": 3.2,
+          "quick": 3.2
+        },
+        "fastestWhere": "ambush +1"
+      },
+      "alamo": {
+        "ticks": 42,
+        "seconds": {
+          "study": 399,
+          "brisk": 180,
+          "quick": 180
+        },
+        "fastest": {
+          "study": 0.36,
+          "brisk": 0.8,
+          "quick": 0.8
+        },
+        "fastestWhere": "repulse +12"
+      },
+      "coleto": {
+        "ticks": 49,
+        "seconds": {
+          "study": 468,
+          "brisk": 216,
+          "quick": 203
+        },
+        "fastest": {
+          "study": 2.22,
+          "brisk": 2.22,
+          "quick": 2.22
+        },
+        "fastestWhere": "caught +4"
+      },
+      "goliad-massacre": {
+        "ticks": 30,
+        "seconds": {
+          "study": 285,
+          "brisk": 123,
+          "quick": 98
+        },
+        "fastest": {
+          "study": 2.05,
+          "brisk": 3.2,
+          "quick": 3.2
+        },
+        "fastestWhere": "escapes +10"
+      },
+      "san-jacinto": {
+        "ticks": 44,
+        "seconds": {
+          "study": 418,
+          "brisk": 176,
+          "quick": 150
+        },
+        "fastest": {
+          "study": 0.89,
+          "brisk": 2.12,
+          "quick": 2.49
+        },
+        "fastestWhere": "charge +2"
+      }
+    }
+  }
+}

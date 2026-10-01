@@ -8,7 +8,7 @@
   "checks": [
     "the class panel lists all five families in words: the student's family here, the four joined with no page open gone; Asa at home: working",
     "the student's page has no class panel and is sent no live page",
-    "the student's page closed: after 2677 ms the row says the family is playing itself, and the world has it absent",
+    "the student's page closed: after 2631 ms the row says the family is playing itself, and the world has it absent",
     "the absent family goes on by itself: somebody of it is at work or on a road with nobody at the screen",
     "the page opened again: the row says here the next tick, the family is the student's again, and the record says so",
     "the fight at Gonzales lit the spotlight: the camera went to the field and the banner reads \"October 2: On Williams’s land above Gonzales, the Texians fire the cann…\"",
@@ -40,11 +40,11 @@
         "id": "hh-2",
         "presence": "gone",
         "people": [
-          "Amos at home: working",
-          "Almira at home: working",
-          "Jonas at home",
-          "Soledad at home",
-          "Docia at home"
+          "Amos on the road home",
+          "Almira on the road home",
+          "Jonas on the road home",
+          "Soledad on the road home",
+          "Docia on the road home"
         ]
       },
       {
@@ -111,21 +111,21 @@
         ]
       }
     ],
-    "absentAfterMs": 2677,
+    "absentAfterMs": 2631,
     "spotlight": {
       "date": "October 2",
       "text": "On Williams’s land above Gonzales, the Texians fire the cannon and advance, and the Mexican dragoons wheel and ride away toward Béxar. The war has begun.",
       "camera": {
         "kind": "battle",
-        "scale": 1308.2159022659987,
+        "scale": 1264.3913357198085,
         "named": true,
-        "cx": 0.8056689852199086,
-        "cy": 1.802924577491682,
+        "cx": 0.8063155259596124,
+        "cy": 1.853778935942014,
         "following": false,
         "watching": null,
-        "figure": 24.856102143053974,
+        "figure": 24.02343537867636,
         "house": {
-          "size": 82.02513707207811,
+          "size": 79.27733674963198,
           "one": false
         }
       }

@@ -42,8 +42,8 @@ function run(view, make, { seconds, from = 0, wind = { x: 0, y: 0 }, ctx = null,
 
 test('the smoke builds up under repeated fire until the firing line stands hidden in it, and is drawn over the men', () => {
   const view = createBattleView(recorder().art);
-  const early = run(view, battle, { seconds: 4 });
-  const later = run(view, battle, { seconds: 26, from: 4000 });
+  const early = run(view, battle, { seconds: 2 });
+  const later = run(view, battle, { seconds: 28, from: 2000 });
   assert.ok(early.banks > 0, 'a shot left no bank on the field');
   assert.ok(later.bankDensity > early.bankDensity * 2, `the smoke did not build up: ${early.bankDensity} -> ${later.bankDensity}`);
   // Thick enough to hide most of what is behind it (0.82 is a bank at its thickest).
@@ -59,9 +59,16 @@ test('the smoke builds up under repeated fire until the firing line stands hidde
 });
 
 test('the smoke drifts with the wind, lingers tens of seconds after the fire stops, and thins slowly away', () => {
-  const still = run(createBattleView(recorder().art), battle, { seconds: 15 }).smokeCentre;
-  const westerly = run(createBattleView(recorder().art), battle, { seconds: 15, wind: { x: 1, y: 0 } }).smokeCentre;
-  assert.ok(westerly.x - still.x > 0.006, `the banks did not drift east on a westerly: ${(westerly.x - still.x).toFixed(4)} miles`);
+  // The drift read once the firing has stopped, so no new shot pulls a bank back to the line (each plume is thrown out a random
+  // way since §16.3, and a bank fed by a shot leans toward it): how far the smoke moves in the ten seconds after.
+  const drift = wind => {
+    const view = createBattleView(recorder().art);
+    run(view, battle, { seconds: 10, wind });
+    const from = run(view, quiet, { seconds: 2, from: 10000, wind }).bankCentre, to = run(view, quiet, { seconds: 10, from: 12000, wind }).bankCentre;
+    return to.x - from.x;
+  };
+  const still = drift({ x: 0, y: 0 }), westerly = drift({ x: 1, y: 0 });
+  assert.ok(westerly - still > 0.006, `the banks did not drift east on a westerly: ${(westerly - still).toFixed(4)} miles`);
   const view = createBattleView(recorder().art);
   const firing = run(view, battle, { seconds: 20 });
   const at20 = run(view, quiet, { seconds: 20, from: 20000 });
@@ -87,10 +94,16 @@ test('a gun makes a bank of its own that outlasts a musket\'s', () => {
 
 test('however long the firing, the smoke on the field stays bounded', () => {
   const view = createBattleView(recorder().art);
-  const heavy = minute => battle(minute, { sides: [side('texian', 'loose', 'scattered', -0.1, { drawn: 60, spread: { width: 0.9, depth: 0.4 } }), side('mexican', 'ranks', 'volley', 0.12, { drawn: 60 })] });
-  const last = run(view, heavy, { seconds: 90, wind: { x: 0.4, y: 0.1 } });
-  assert.ok(last.banks <= 56, `${last.banks} banks`);
-  assert.ok(last.smoke - last.banks <= 150, `${last.smoke - last.banks} puffs`);
+  // A field as busy as any the war has: both lines and four companies more firing across a mile, on a strong wind that carries each
+  // bank off and makes room for the next.
+  const company = (id, x, y) => ({ id, side: 'texian', name: id, drawn: 40, style: 'loose', fire: 'scattered', action: 'stand', moving: false, x, y, facing: { x: 1, y: 0 }, spread: { width: 0.5, depth: 0.3 } });
+  const heavy = minute => battle(minute, { sides: [side('texian', 'loose', 'scattered', -0.1, { drawn: 60, spread: { width: 0.9, depth: 0.4 } }), side('mexican', 'ranks', 'volley', 0.12, { drawn: 60 })],
+    groups: [company('a', -0.1, -0.35), company('b', -0.1, 0.35), company('c', 0.4, -0.35), company('d', 0.4, 0.35)] });
+  const last = run(view, heavy, { seconds: 90, wind: { x: 1.6, y: 0.3 } });
+  assert.ok(last.banks >= 80, `only ${last.banks} banks on a field that busy: the cap was never near`);
+  // The caps since 2026-09-30 (§16.3), raised with the frame time measured at 1366x768 and 1024x600: 96 banks, 160 plumes.
+  assert.ok(last.banks <= 96, `${last.banks} banks`);
+  assert.ok(last.smoke - last.banks <= 160, `${last.smoke - last.banks} puffs`);
   assert.ok(last.shotsTotal > 200, `only ${last.shotsTotal} shots in ninety seconds`);
 });
 

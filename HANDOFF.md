@@ -1,5 +1,51 @@
 # Claude handoff — Astra foundation
 
+## Battles, second round: the speed inside a fight, what the class view films, a hold on a man hit, dramatic smoke — owner-decided 2026-09-30 (not released)
+
+Branch `battle-cinema-2` off local `integration-2026-09-28` (6b2d19be, with `battle-cinema` merged); not pushed, nothing published.
+The owner's answers to the first round's questions, verbatim: at Study *"i was playing on study earlier and it was too fast"*, and,
+told the fight already lasted about five minutes at Study, *"i think you're correct about speed"*; the class view should film
+*"major historical events, and events that would matter to the players"*; a man hit on camera: *"Hold a moment"*; and *"more and more
+dramatic smoke plumes for weapons fire"*. Students' pages stay Watch-only; the families' colours stay shown. Recorded in
+docs/BATTLES.md §16 and docs/HOST_PAGE.md §2.16; claims `FIC-GONZ-1053`, `-1054`, `-1051` amended. Nothing in the history moved.
+**Same computer only: no projector, Chromebook, LAN or classroom claim.**
+
+- **What "too fast" was.** Measured on the live tag v2026.09.29.3 itself (exported with `git archive`, the same script:
+  `scripts/battle-pace-audit.mjs` → `docs/evidence/battle-pace-audit.json` "before"): Gonzales's fighting at Study was 323 s, the
+  Host framed on it 342 s - not short. What was fast was the action inside it, in real time at every pace: a man fired every 6-15 s
+  with a 1.65 s load, the volley's three words 1.1-1.5 s apart, a man fell in 0.6 s and five men as one, a gun's recoil 0.9 s, and
+  at Quick men crossed the screen at up to 26 body lengths a second.
+- **Now** (public/battle-view.js `MUSKET`/`musketClip`, `VOLLEY_MS`, `FALL`, `GUN`; sim/battle-stage.mjs `MOTION_CAP`/`motionFloorMs`):
+  a man aims 1.5 s, fires, loads 4.2 s, rams 5.6 s (3-4 shots a minute); a volley every 20 s, its words each 2.2 s on the screen;
+  a man staggers and goes down over 2.2 s, the men of one fall a moment apart; a gun's crew ready 1.8 s before its shot, the recoil
+  1.7 s, the camera jolted; nobody drawn faster than a quick march (1.4 body lengths a second) or a canter (3.2) at any pace. Fighting
+  seconds Study / Brisk / Quick, live tag → now: Gonzales 323/136/34 → 323/138/123; Concepción 257/108/27 → 263/133/130; Grass Fight
+  209/88/22 → 224/150/149; Béxar 618/260/65 → 618/260/240; San Patricio 238/100/25 → 257/156/150; Agua Dulce 190/80/20 → 190/83/78;
+  Alamo 399/168/42 → 399/180/180; Coleto 466/196/49 → 468/216/203; Palm Sunday 285/120/30 → 285/123/98; San Jacinto 418/176/44 →
+  418/176/150.
+- **What is filmed** (`filmedAs`, `host.film`, the Host's alone): Gonzales, Concepción, the Grass Fight, Béxar, Coleto, Goliad and San
+  Jacinto from the first shot to the last whoever is in them; the Alamo from the army's coming to the burial; anything with a played
+  family's man in or at it (a major event's lead-up too), still after he falls; not a minor fight with nobody there. After the fight
+  the film holds on the field where the men last fired, the smoke clearing (a fight gone from the map leaves its smoke), then fades.
+- **A man hit on camera**: held still 3.2 s, no words, then on, never back (public/battle-cinema.js).
+- **Smoke**: a plume out of every muzzle the way it points and up, bigger than the man; a wall along a volley; a gun's climbing
+  column; banks thicker (to 88%) and slower; a long fight half-shrouded; the class's men seen through it (smoke thinned round each;
+  names and colours over it, now anchored where the figure is drawn). Caps 96 banks, 160 plumes; the battle drew in at most 1.7 ms
+  (95th percentile) at 1366x768 and 1024x600 in headless Chrome. Before/after: `docs/evidence/battle-cinema/before-after-*.png`.
+- **Fixed on the way**: a page asking for less motion still had its men fire (flash and smoke) - the figure loop's own `still`
+  shadowed the page's (`holding`).
+
+**Evidence.** New: `tests/battle-choreography.test.mjs` (4), `tests/battle-motion.test.mjs` (1), `tests/battle-film.test.mjs` (3),
+`tests/battle-plumes.test.mjs` (4); changed: `tests/battle-cinema.test.mjs` (8: the hold, the jolt), `tests/battle-smoke.test.mjs`
+(drift read by the banks after the firing; caps), `tests/battle-floor.test.mjs` (the floor at least), five view tests whose falls
+now take seconds. `npm run test:battle-cinema` 15 checks. Injections: `node scripts/battle-cinema-injections.mjs` (`--only` for one)
+→ `docs/evidence/battle-cinema-injections.json`, **43 of 43** caught by the check written for each (32 unit, 11 browser).
+`npm test`: 2,011 tests, 1,975 pass, 0 fail (the rest skipped as before). Rerun green on this branch: `test:battle-gonzales`,
+`-concepcion`, `-grass`, `-bexar`, `-alamo`, `-san-jacinto`, `-south`, `-coleto`, `test:storming`, `test:watching`,
+`test:story-cards`, `test:overlap`, `test:host-live`, `test:battle-cinema`. `test:battle-coleto` failed once, honestly: its "both sides
+fired again between two moments 3.6 s apart" was written for the old 11 s volley; a face of the square now fires every 5 s, so the
+proof compares moments three apart (5.4 s) and passes. Same computer only.
+
 ## Idle and House off the family's rows; the site chooser's fold and the phone's tip kept — owner-decided 2026-09-30 (not released)
 
 Branch `row-slim` off local `integration-2026-09-28` (6b2d19be); not pushed. **Supersedes `column-wide`** (a2736bd3, never merged):

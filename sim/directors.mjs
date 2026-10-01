@@ -31,7 +31,7 @@ import { advanceBexarFight, bexarProjection } from './bexar-fight.mjs';
 import { COLETO } from './battles/coleto.mjs';
 import { GOLIAD_MASSACRE } from './battles/goliad-massacre.mjs';
 import { advanceColeto, advanceMassacre, fanninProjection, tellFannin } from './fannin.mjs';
-import { armBattle, battleState, looseSlot, phaseOffset, placeFrom, projectBattle, sidePlace } from './battle-stage.mjs';
+import { armBattle, battleState, filmedAs, looseSlot, phaseOffset, placeFrom, projectBattle, sidePlace } from './battle-stage.mjs';
 import { advanceAlamoBattle, alamoProjection } from './alamo-battle.mjs';
 import { findWay } from './ways.mjs';
 import { advanceSouth, grantRides, southProjection, tellSouthAccount } from './south.mjs';
@@ -1788,6 +1788,9 @@ export function directorProjection(world, householdId, role, { seen = [] } = {})
   if (jacinto?.battle) battle = jacinto.battle;
   if (jacinto?.host) host = jacinto.host;
   const alertShown = jacinto?.battleAlert || shownAlert, accountShown = jacinto?.battleAccount || shownAccount;
+  // What the class view films (owner, 2026-09-30: "major historical events, and events that would matter to the players";
+  // sim/battle-stage.mjs `filmedAs`): the Host's alone, and only for the fight it is being sent.
+  if (role === 'host' && battle?.id) { const film = filmedAs(world, battle.id); if (film) host = { ...host, film }; }
   return structuredClone({ request: shown, battle, ...(alertShown && { battleAlert: alertShown }), ...(accountShown && { battleAccount: accountShown }), host: role === 'host' ? host : null, slice: { title: 'Gonzales', complete: world.director.complete }, historicalDate: dateOf(world, world.minute).toISOString().slice(0, 10) });
 }
 /** The alert card, while the fight is coming or being fought and this family's person is going or there. */
