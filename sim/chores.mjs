@@ -999,7 +999,15 @@ export function fetchLogsFacts(world, household) {
   const where = `${wood.name.charAt(0).toLowerCase()}${wood.name.slice(1)}, ${miles < 0.2 ? 'beside the house' : `${Math.round(miles * 10) / 10} miles off`}`;
   return { can: true, miles: round(miles), hours, teamLeft, cost: teamLeft ? `about ${hours} ${hours === 1 ? 'hour' : 'hours'}, on foot to the ox and wagon left at ${where}, and home with them` : `the ox and wagon for about ${hours} ${hours === 1 ? 'hour' : 'hours'}, to ${where}` };
 }
+/**
+ * A hunt refused because the rifle is not to be had - with somebody else, gone to the war, or lost - is kept on the bar, greyed,
+ * with the rifle shown missing (owner, 2026-09-30; `short` in `choresFor`): a student whose man took the rifle to the army still sees
+ * where hunting is, and why not now.
+ */
+const rifleShort = (world, household, entity, why) => Boolean(why) && why === takenWhy(world, household, entity, 'hunt-land');
+CHORES['hunt-timber'].short = rifleShort;
 CHORES['hunt-land'] = {
+  short: rifleShort,
   takes: ['rifle'],
   name: 'Hunt on our land', skill: 'hunting', where: 'home', hauls: true, huntLand: true,
   describe: 'On foot to a place on the family\'s own land that you choose, and home again. Timber by the water is the best ground for deer and open prairie the poorest; the edge of the timber is better than the middle. What comes home is what they can carry.',
@@ -1981,6 +1989,9 @@ export function choreCatalogue() {
     scales: Boolean(chore.needsPerPlot),
     // Work with a road in it asks how they will go before it is sent (owner, 2026-09-24; sim/going.mjs, public/going.js).
     ...(makesJourney(chore) && { journey: true }),
+    // The seed a plot of each crop takes (sim/crops.mjs), for the plot chooser's own buttons ("Plant corn, 2 seed"): fetched once
+    // with the catalogue, never on the tick (owner, 2026-09-30: click a field to choose what is grown there).
+    ...(chore.plants && { seeds: Object.fromEntries(Object.keys(CROPS).map(crop => [crop, seedFor(crop)])) }),
   }));
 }
 
@@ -2081,9 +2092,13 @@ export function choresFor(world, household, entity, logsOut = null) {
     const estimate = chore.estimate && can ? chore.estimate(world, household, entity) : null;
     // Going to the war leaves only children under ten at home: said plainly before he is sent (design audit S14), never refused.
     const leaves = can && WAR_CHORES.includes(id) ? leavesLittleOnes(world, household, entity) : null;
+    // Refused only for a thing the family has not got - the carreta's axe, logs or hide, the hunt's rifle (owner, 2026-09-30: "i
+    // never saw where i could hunt to get leather to make the little carts") - and so kept on the bar, greyed, with what it is
+    // short of (the household's `wants`, sim/wants.mjs). One byte of flag; the counts ride once on the household.
+    const short = !can && chore.short?.(world, household, entity, why);
     return can
       ? { id, can: true, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }), ...(estimate && { estimate }), ...(leaves && { leaves }) }
-      : { id, can: false, why, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }) };
+      : { id, can: false, why, ...(cost && { cost }), ...(haul && { haul }), ...(crop && { crop }), ...(short && { short: 1 }) };
   });
   // A hunt on the family's land refused for the same reason as the hunt in the timber says so once: the page reads it there.
   const timber = list.find(entry => entry.id === 'hunt-timber'), land = list.find(entry => entry.id === 'hunt-land');

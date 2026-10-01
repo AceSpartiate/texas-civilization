@@ -757,6 +757,56 @@ at the Study pace (9.5 s a tick; HANDOFF.md has the whole table): a tree 2-4 tic
 invented country 72 ticks (11.4 min) → 36 (5.7 min); a round-log cabin 120 (19 min) → 60 (9.5 min), on the plot 102 (16 min) → 51 (8
 min) before its two-handed courses; ten acres of timber cleared 90 (14.3 min) → 45 (7.1 min).
 
+### 6.9 The carreta and the hunt found before they can be done — owner-decided 2026-09-30 (not released)
+
+> "i never saw where i could hunt to get leather to make the little carts, and i really wanted one since i was using me wagon for
+> something else."
+>
+> — the owner, 2026-09-30, after playing the release v2026.09.29.3
+
+**Why he never saw them.** Since 2026-09-22 the bar draws **only what can be pressed** (docs/FAMILY_PANEL.md's rule of that day). A
+family starts with the felling axe but **no logs on the pile and no hide**, so *Make a carreta* was refused (*"... There are 0. Fell
+some first."*) and **not drawn at all** - not until the logs and a hide were both in the house. Nothing on the screen ever said a
+carreta exists, that it wants a hide, or that a hunt brings one: the hunt's own sentence was *"Hunt at a place you choose on the
+family's own land, and carry home what they can"*, with no word of a hide, and hides showed nowhere on the supplies line. The hunt
+itself was on the bar (*Hunt on our land*) whenever the rifle was at home - but when a man had taken the family's one rifle to the
+war (docs/TOWNS.md §4c), or another of the family was out hunting with it, *Hunt on our land* was refused and so **vanished from the
+bar** too, with nothing saying where hunting had gone or why. (In the release the shops sell no hide - the tanner only buys them - so
+a hunt was the one way, and an invisible one.)
+
+**What changed** (`sim/wants.mjs`, `sim/carreta.mjs` `carretaShort`/`carretaWants`, `sim/chores.mjs` `short`; the page
+`public/family-panel.js` `barIcons`/`needsFor`/`nextStep`; docs/FAMILY_PANEL.md §23):
+
+- **Kept on the bar, greyed, while short of what it takes.** A carreta refused **only** for the felling axe, the logs or a hide, and a
+  hunt refused **only** for the rifle (with somebody else, gone to the war, or lost), are drawn on every grown person's bar like any
+  refused icon - greyed, still focusable - with a dashed edge and **a strip of beads along the icon's foot**: one a thing it wants,
+  green for what the family has, ember for what it has not (the carreta: axe, logs, hide). A refusal for anything else (the class
+  not begun, the site not chosen, the person busy, too young, too sick) is not kept; and a person with nothing at all to press keeps
+  their one line of reason instead (§14 of FAMILY_PANEL.md).
+- **Pressed, it says what is missing and points at the work that brings it.** Its popup has the server's refusal (*"A carreta is
+  lashed together with rawhide, and there is no hide in the house. A hunt brings one home."*), the wants as chips - *✓ Felling axe
+  1/1*, *✓ Logs 3/3*, *Hide 0/1* (ember) - and one button: **Go hunting** for a hide (the hunt's place chooser for the same person),
+  **Fell trees** for logs, **Buy one in town** / **Buy a rifle in town** / **Buy powder in town** (the town errand) for the axe, the
+  rifle and powder. The popup stays while the pointer goes to it; from the keyboard the button takes the focus.
+- **The hunt with the rifle away** is the same: *Hunt on our land* greyed with *Rifle 0/1* and the server's sentence (*"Jethro has
+  the rifle, gone with the volunteers to Gonzales."*), pointing at **Buy a rifle in town** (the gunsmith sells them, §4c). With the
+  rifle home and **no powder**, the hunt can still be sent (it finds game and cannot take the shot - the rule as it was), and its
+  strip shows *Powder* in ember, pointing at **Buy powder in town**. Not refused for powder: that would be a rule change, left to the
+  owner (HANDOFF.md).
+- **Hides on the supplies line** once there are any (*Hides 1*), as cotton is.
+- **A tip at the moment it matters** (`cart`, public/tips.js, once): when the family could make a carreta but for what it has not got
+  and **no wagon of its own stands free at home** (out on the road, in somebody's hands, or none): *"Wagon busy? Your family can
+  make a carreta, a small ox cart, at home: the axe, 3 logs and a hide. A hunt brings home a hide."*
+- **What is sent**: `short: 1` on such a refused entry of `world.work` (one flag), and the household's counts **once a tick, only
+  while it is short of something** (`world.household.wants`: `carreta { axe, logs, hide }`, `hunt { rifle, powder }`, each `[have,
+  need]`). Not stored: nothing saved changes, no save version. Invented presentation; no historical claim.
+- Proof `npm run test:field-click` ([record](evidence/field-click-browser.json)): the carreta greyed with its wants, *Go hunting*
+  opening the hunt's chooser, a hunt bringing a deer's hide, *Hides 1*, and the carreta then open and made. Tests
+  `tests/field-click-hunt.test.mjs`.
+- `ceiling:` only the carreta and the hunt are kept as goals. Another refused-for-want work (a well with no hoe, furniture with no
+  axe) is still hidden by the 2026-09-22 rule; widening it is the owner's call (HANDOFF.md). `ceiling:` the way on points at the
+  first thing missing only, in the order axe, logs, hide.
+
 ## 7. Old saves
 
 A class saved before this has no `woods`, no log pile and its house as `{ layout, work }`. It keeps exactly that: its

@@ -1,6 +1,6 @@
 # The family panel: managing a family's people
 
-**Current action-bar rule (owner, 2026-09-22):** Only actions the selected person can currently take are shown. Active work remains visible as status. The supported desktop bar uses a compact grid of at most two rows, with no horizontal scrolling. Earlier sections below that describe dimmed/refused icons or a single scrolling row record previous behavior; this rule supersedes them. `panelActions` still computes all candidates, while `public/app.js` filters presentation using server availability and lesson permissions.
+**Current action-bar rule (owner, 2026-09-22; amended 2026-09-30, §23):** Only actions the selected person can currently take are shown - except a *Make a carreta* refused only for the axe, the logs or a hide and a hunt refused only for the rifle, which stay greyed with what they want (§23). Active work remains visible as status. The supported desktop bar uses a compact grid of at most two rows, with no horizontal scrolling. Earlier sections below that describe dimmed/refused icons or a single scrolling row record previous behavior; this rule supersedes them. `panelActions` still computes all candidates, while `public/app.js` filters presentation using server availability and lesson permissions.
 
 **Status: decided by the owner 2026-09-15; built 2026-09-16** ([evidence](evidence/family-panel-browser.json)). It amends
 [SETTLING_IN.md](SETTLING_IN.md) in how a family's people are managed: the person panel's list of work and its travel, work
@@ -2024,3 +2024,39 @@ candidate*.
 - **On a phone the column stops above a standing tip** (`fitColumn`). The tip stands the screen's width just above the bar there,
   and covered the column's last 90 px: the youngest of twenty could not be scrolled out from under it. The family-twenty gate now
   counts the tip, which takes no clicks and was looked through, as covering.
+
+## 23. A goal kept on the bar, greyed, with what it wants; and a field clicked — owner-decided 2026-09-30 (not released)
+
+> "when i was playing earlier, there was no mechanism for choosing what crop is planted on each field. let me click on the fields so
+> i can select what is grown there. i never saw where i could hunt to get leather to make the little carts, and i really wanted one
+> since i was using me wagon for something else."
+>
+> — the owner, 2026-09-30, after playing the release v2026.09.29.3
+
+**This amends the action-bar rule of 2026-09-22** (only what can be pressed is drawn) for two works, and only for one kind of
+refusal. Why the owner could not find them, and the whole of what changed, is docs/WOODS_AND_BUILDING.md §6.9; the field clicked is
+docs/LAND_GRANTS.md §5.3. What the panel does:
+
+- **`goal`** (`panelActions`): a refused entry the server flags `short` - *Make a carreta* refused only for the felling axe, the logs
+  or a hide; *Hunt on our land* (or *Hunt in the timber*) refused only for the rifle - is an icon kept on the bar (`barIcons`):
+  greyed as a refusal always was (`aria-disabled`, focusable), with a **dashed edge** and a **strip of beads** along its foot, one a
+  thing it wants, green for what the family has, ember for what it has not (`needs`, from `world.household.wants`, sim/wants.mjs).
+  No words on the tile; the beads are read in the popup and in its accessible name (*"Has Felling axe 1 of 1, Logs 3 of 3, Hide 0
+  of 1."*).
+- **A row with nothing to press keeps its one line** (§14): goals are drawn only beside something that can be pressed, never in
+  place of the reason.
+- **Pressed** (a refused icon only ever explains, §D17), its popup is **pinned** - it stays while the pointer goes to it - and adds
+  the wants as chips and **one way on** (`nextStep`): the work on the same bar that brings the first thing missing - **Go hunting**
+  (`hunt-land`, `hunt-timber`) for a hide, **Fell trees** for logs, and the town errand (**Buy one in town**, **Buy a rifle in
+  town**, **Buy powder in town**) for the axe, the rifle and powder. Pressing it presses that icon exactly (the hunt opens its place
+  chooser). From the keyboard (Enter or Space on the goal) the way on takes the focus. A way on that is not on the bar is not offered.
+- **A hunt that can be sent with no powder** keeps its open icon and shows the powder bead in ember (the server's `wants.hunt`); its
+  popup points at **Buy powder in town** on a touch screen's armed popup.
+- **A field clicked** (docs/LAND_GRANTS.md §5.3): who a plot's work goes to is `plotHand` - the person whose bar is shown, then the
+  main person, then the panel's order, the first the server would send - and the chooser's **Who** list (`plotHands`) changes it.
+- **Gates**: `tests/field-click-hunt.test.mjs` (the flag, the household's counts, `barIcons`, `nextStep`, `plotHand`, the tip),
+  `tests/tips-touch.test.mjs` (a pinned popup is not put away by the pointer leaving the icon), proof `npm run test:field-click`
+  ([record](evidence/field-click-browser.json)), each check proved by injection (`node scripts/field-click-injections.mjs`,
+  [record](evidence/field-click-injections.json)). Same computer only.
+- `ceiling:` two works only. Widening "kept greyed with what it wants" to every refusal for want of a thing (a well with no hoe,
+  furniture with no axe, a counter with no coin) is the owner's question in HANDOFF.md, not built.

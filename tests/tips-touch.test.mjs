@@ -64,7 +64,8 @@ test('the page asks iconPress for every press on an icon, a tap is told by its p
   // A keyboard press has no pointer and is never a tap; a tap is told by its pointer, or the one that last went down.
   assert.match(app, /if \(!event \|\| event\.detail === 0\) return false;/);
   assert.match(app, /matchMedia\('\(pointer: coarse\)'\)/);
-  // The armed popup stays when the finger lifts: a touch's pointerout does not put it away.
-  assert.match(app, /!icon\.contains\(event\.relatedTarget\) && !panelTipFor\?\.armed\) hidePanelTip\(\)/);
+  // The armed popup stays when the finger lifts: a touch's pointerout does not put it away. Nor does a goal's popup pinned by a
+  // press (docs/FAMILY_PANEL.md §23), so the pointer can reach its way on.
+  assert.match(app, /!icon\.contains\(event\.relatedTarget\) && !panelTipFor\?\.armed && !panelTipFor\?\.pinned\) hidePanelTip\(\)/);
   assert.match(read('public/index.html'), /<p id="panel-tip"[^>]*>[\s\S]*<button type="button" id="panel-tip-send" hidden>Send<\/button><\/p>/);
 });

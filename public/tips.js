@@ -46,16 +46,20 @@ export const TIPS = Object.freeze({
   // The farm's first works, until the tutorial is rebuilt (owner, 2026-09-28: "Yes, add them"). Worded to stay true whichever
   // way the work goes - one wood pile or none, auto or by hand, crops ripening by the calendar or by the minute.
   house: 'Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.',
-  field: 'To farm, clear ground and set someone to “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.',
+  // Since 2026-09-30 a plot is tapped on the map to choose its crop (owner: "let me click on the fields").
+  field: 'To farm, clear ground, then tap a plot on the map or press “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.',
   town: '“Go to town to trade” sends someone to the store to buy and sell. They are away from the farm for the trip, and coin spent is gone from your score.',
   star: 'The ★ is your main person: the family’s big choices, like leaving, come to them. Tap ☆ on another row to change who. A “!” means someone needs an answer.',
+  // The carreta, met when the family's wagon is busy and it could make one but for what it has not got (owner, 2026-09-30: "i
+  // never saw where i could hunt to get leather to make the little carts, and i really wanted one since i was using me wagon").
+  cart: 'Wagon busy? Your family can make a carreta, a small ox cart, at home: the axe, 3 logs and a hide. A hunt brings home a hide.',
 });
 
 /**
  * Which tip goes first when several are due at once: the ones whose thing will not wait (¡Alto!, the road, the order to leave,
  * sickness, the call, the army) before the ones that will. The same order as the "!"s (public/family-panel.js `NEED_KINDS`).
  */
-export const TIP_ORDER = Object.freeze(['alto', 'road', 'flight', 'sick', 'call', 'army', 'watch', 'resume', 'rest', 'route', 'cow', 'milk', 'baby', 'child', 'enlist', 'trade', 'store', 'arrive', 'order', 'house', 'field', 'town', 'star']);
+export const TIP_ORDER = Object.freeze(['alto', 'road', 'flight', 'sick', 'call', 'army', 'watch', 'resume', 'rest', 'route', 'cow', 'milk', 'baby', 'child', 'enlist', 'trade', 'store', 'arrive', 'order', 'house', 'field', 'town', 'star', 'cart']);
 
 /** The winter's joining, enlisting and voting (sim/winter.mjs `WINTER_CHORES`), as the page sees them on a work list. */
 const WINTER_WORK = new Set(['enlist-regular', 'enlist-auxiliary', 'join-garrison', 'join-matamoros', 'go-vote', 'join-relief', 'join-houston', 'join-seguin']);
@@ -110,6 +114,10 @@ export function tipsPresent(world, { errandOpen = false } = {}) {
     // Going to town: the first time somebody can be sent (the errand's own tip, `store`, stands inside the errand once it opens).
     town: !leading && open('visit-shop'),
     star: world.status === 'running' && !(world.lesson && !world.lesson.done) && !world.land?.arriving && own.length > 1,
+    // The carreta: the family could make one but for what it has not got (the server's `wants`, sim/wants.mjs), and no wagon of
+    // its own stands free at home - out on the road, in somebody's hands, or none at all.
+    cart: !leading && Boolean(world.household.wants?.carreta) && !(world.entities || []).some(one => one.kind === 'wagon' && one.householdId === world.householdId
+      && !one.borrowedBy && !one.travel && one.location?.siteId === world.household.homeSiteId),
   };
   return TIP_ORDER.filter(id => present[id]);
 }

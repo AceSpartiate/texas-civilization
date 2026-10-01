@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-01T01:04:17.257Z",
+  "seed": "field-click-proof-3",
+  "checks": [
+    "a plot of the family's own field under the mouse is lit, and the pointer is a hand",
+    "off the plot it is not lit",
+    "a bare plot clicked with no work chosen opens \"What Hollis Proofwright plants\": \"Ten acres of prairie beside the house, cleared, with no fence (the stock take a third of what grows). Bare.\", Plant corn (2 seed) and Plant cotton (3 seed), Hollis Proofwright to go (2 who could)",
+    "Plant corn sowed plot-1 in corn, by Hollis Proofwright",
+    "a second plot tapped by touch opened the chooser and sent nothing; Plant cotton sowed it, by Hollis Proofwright",
+    "a growing plot clicked says \"Corn growing\": \"Ten acres of prairie beside the house, cleared, with no fence (the stock take a third of what grows). Corn growing, ready in about 4 minutes.\", with nothing to send",
+    "from the keyboard, the field line's cotton chip opens the cotton plot (\"Cotton growing\"), the focus on \"survey-cancel\"",
+    "the carreta, short of its hide, is on the bar greyed with its wants: axe:true, logs:true, hide:false",
+    "pressed, its popup says \"A carreta is lashed together with rawhide, and there is no hide in the house. A hunt brings one home.\", lists Felling axe 1/1, Logs 3/3, Hide 0/1, and points: \"Go hunting\"",
+    "\"Go hunting\" opens the hunt's place chooser for the same person",
+    "a place clicked (\"Live oak mottes beside the house. Fair ground for game. Deer, turkey and mustangs keep to it. Waiting here, a deer: five…\") and \"Hunt there\": hh-1-parent-1 is out hunting",
+    "the hunt brought the hide of a deer home, and the supplies line says \"Hides 1\"",
+    "a ripe plot clicked says \"Corn ripe\": \"Ten acres of prairie beside the house, cleared, with no fence (the stock take a third of what grows). Ripe corn, ready to bring in.\", and \"Bring it in\" sent Hollis Proofwright to bring it in",
+    "with the hide home the carreta is open; pressed, it is made, and the hide is gone into it"
+  ],
+  "shots": [
+    "docs/evidence/field-click-hover.png",
+    "docs/evidence/field-click-bare-chooser.png",
+    "docs/evidence/field-click-growing.png",
+    "docs/evidence/field-click-carreta-wants.png",
+    "docs/evidence/field-click-ripe.png",
+    "docs/evidence/field-click-carreta-made.png"
+  ],
+  "notProved": [
+    "Same computer only: headless Chrome with a touch screen emulated; no Chromebook, no LAN, no class.",
+    "The shot is answered by the command a \"!\" sends (proved by test:hunt), not by pressing the \"!\"."
+  ]
+}

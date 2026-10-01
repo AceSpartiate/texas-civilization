@@ -1,0 +1,220 @@
+{
+ "at": "2026-10-01T01:07:44.730Z",
+ "caught": 21,
+ "of": 21,
+ "node": {
+  "caught": 13,
+  "of": 13,
+  "at": "2026-10-01T00:47:53.148Z"
+ },
+ "browser": {
+  "caught": 8,
+  "of": 8,
+  "at": "2026-10-01T01:07:44.730Z"
+ },
+ "results": [
+  {
+   "kind": "node",
+   "file": "sim/carreta.mjs",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "a carreta short of its logs",
+   "failed": [
+    "a carreta short of its logs or its hide is flagged short and counted on the household; one refused for anything else is not"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "sim/carreta.mjs",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "a carreta short of its logs",
+   "failed": [
+    "a carreta short of its logs or its hide is flagged short and counted on the household; one refused for anything else is not"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "sim/carreta.mjs",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "a carreta short of its logs",
+   "failed": [
+    "a carreta short of its logs or its hide is flagged short and counted on the household; one refused for anything else is not",
+    "the carreta's tip comes when the family could make one but for what it has not got, and its wagon is busy"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "sim/chores.mjs",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "a hunt whose rifle is at the war",
+   "failed": [
+    "a hunt whose rifle is at the war is flagged short, and the rifle and the powder are counted until both are back"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "sim/wants.mjs",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "a hunt whose rifle is at the war",
+   "failed": [
+    "a hunt whose rifle is at the war is flagged short, and the rifle and the powder are counted until both are back"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "sim/chores.mjs",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "the chore catalogue carries the seed",
+   "failed": [
+    "the chore catalogue carries the seed a plot of each crop takes, for the plot chooser's buttons"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "public/family-panel.js",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "the page keeps a short goal",
+   "failed": [
+    "the page keeps a short goal on the bar greyed, with what it wants, and points a missing hide at the hunt"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "public/family-panel.js",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "the page keeps a short goal",
+   "failed": [
+    "the page keeps a short goal on the bar greyed, with what it wants, and points a missing hide at the hunt"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "public/family-panel.js",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "the page keeps a short goal",
+   "failed": [
+    "the page keeps a short goal on the bar greyed, with what it wants, and points a missing hide at the hunt"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "public/family-panel.js",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "a plot tapped on the map is read",
+   "failed": [
+    "a plot tapped on the map is read for what it is, and given to the person whose bar is shown when the server would send them"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "public/family-panel.js",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "a plot tapped on the map is read",
+   "failed": [
+    "a plot tapped on the map is read for what it is, and given to the person whose bar is shown when the server would send them"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "public/tips.js",
+   "test": "tests/field-click-hunt.test.mjs",
+   "expected": "the carreta's tip",
+   "failed": [
+    "the carreta's tip comes when the family could make one but for what it has not got, and its wagon is busy"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "node",
+   "file": "public/app.js",
+   "test": "tests/tips-touch.test.mjs",
+   "expected": "the page asks iconPress",
+   "failed": [
+    "the page asks iconPress for every press on an icon, a tap is told by its pointer, and Send presses the armed icon"
+   ],
+   "ok": true
+  },
+  {
+   "kind": "browser",
+   "file": "public/app.js",
+   "guards": "a plot under the mouse is lit",
+   "stoppedAfter": null,
+   "expectedAfter": null,
+   "exit": 1,
+   "ok": true
+  },
+  {
+   "kind": "browser",
+   "file": "public/app.js",
+   "guards": "a plot clicked opens the chooser",
+   "stoppedAfter": "off the plot it is not lit",
+   "expectedAfter": "off the plot it is not lit",
+   "exit": 1,
+   "ok": true
+  },
+  {
+   "kind": "browser",
+   "file": "public/app.js",
+   "guards": "each crop's seed on its button",
+   "stoppedAfter": "off the plot it is not lit",
+   "expectedAfter": "off the plot it is not lit",
+   "exit": 1,
+   "ok": true
+  },
+  {
+   "kind": "browser",
+   "file": "public/app.js",
+   "guards": "the field line's chip opens a plot from the keyboard",
+   "stoppedAfter": "a growing plot clicked says \"Corn growing\": \"Ten acres of prairie beside the house, cleared, with no fence (the stock take a third of what grows). Corn growing, ready in about 4 minutes.\", with nothing to send",
+   "expectedAfter": "a growing plot clicked",
+   "exit": 1,
+   "ok": true
+  },
+  {
+   "kind": "browser",
+   "file": "public/app.js",
+   "guards": "the carreta kept on the bar greyed",
+   "stoppedAfter": "from the keyboard, the field line's cotton chip opens the cotton plot (\"Cotton growing\"), the focus on \"survey-cancel\"",
+   "expectedAfter": "from the keyboard",
+   "exit": 1,
+   "ok": true
+  },
+  {
+   "kind": "browser",
+   "file": "public/app.js",
+   "guards": "Go hunting opens the hunt",
+   "stoppedAfter": "pressed, its popup says \"A carreta is lashed together with rawhide, and there is no hide in the house. A hunt brings one home.\", lists Felling axe 1/1, Logs 3/3, Hide 0/1, and points: \"Go hunting\"",
+   "expectedAfter": "pressed, its popup says",
+   "exit": 1,
+   "ok": true
+  },
+  {
+   "kind": "browser",
+   "file": "public/app.js",
+   "guards": "hides on the supplies line",
+   "stoppedAfter": "a place clicked (\"Live oak mottes beside the house. Fair ground for game. Deer, turkey and mustangs keep to it. Waiting here, a deer: five…\") and \"Hunt there\": hh-1-parent-1 is out hunting",
+   "expectedAfter": "a place clicked",
+   "exit": 1,
+   "ok": true
+  },
+  {
+   "kind": "browser",
+   "file": "public/app.js",
+   "guards": "Bring it in on a ripe plot",
+   "stoppedAfter": "the hunt brought the hide of a deer home, and the supplies line says \"Hides 1\"",
+   "expectedAfter": "the hunt brought",
+   "exit": 1,
+   "ok": true
+  }
+ ]
+}

@@ -258,7 +258,7 @@ const REST_WORK = Object.freeze(['rest-road']);
 /** The sickness line on a row (sim/disease.mjs `sicknessShown`): the server's words, or nothing. */
 export const sickLine = entity => (entity?.sickness?.line ? String(entity.sickness.line) : '');
 export function panelActions({ entity, offered = [], catalogue = new Map(), main = false, homeId = null, homesteads = [], atHome = false,
-  settable = true, carry = null } = {}) {
+  settable = true, carry = null, wants = null } = {}) {
   if (!entity || ['dead', 'captured'].includes(entity.health?.condition)) return [];
   // Somebody with the men in a fight (sim/battle-stage.mjs `heldByBattle`) is given no order until it is over and they come
   // back with the men; the server refuses any, and the reason is theirs (`held`).
@@ -312,6 +312,10 @@ export function panelActions({ entity, offered = [], catalogue = new Map(), main
       note: waits ? [why, entry.waits].filter(Boolean).join(' ') : [entry.leaves || '', warn, entry.cost ? `Costs ${entry.cost}.` : '', haul, crop, entry.estimate || ''].filter(Boolean).join(' '),
       can: Boolean(settable && (entry.can || waits)), why: entry.can ? '' : why || '',
       onMap: ON_MAP.includes(entry.id), active: active === entry.id, ...(waits && { waits: true }),
+      // Refused only for a thing the family has not got (the server's `short`): kept on the bar greyed, a goal (§23).
+      ...(!entry.can && !waits && entry.short && { goal: true }),
+      // What the family has of what it wants for this (`world.household.wants`): the strip on the icon, the list in its popup.
+      ...(needsFor(entry.id, wants) && { needs: needsFor(entry.id, wants) }),
     });
   }
   // Somebody doing a chore the server no longer lists (it happens: a field planted is a field not to plant) is still shown
@@ -1151,3 +1155,85 @@ export const larderWorse = (was, now) => Boolean(was && now && LARDER_LEVELS.ind
 export const hungerOf = entity => (['hungry', 'weak', 'starving'].includes(entity?.hunger?.stage) ? entity.hunger.stage : 'fed');
 /** Its word for the portrait's hover and a screen reader; nothing while fed. */
 export const HUNGER_WORDS = Object.freeze({ fed: '', hungry: 'hungry', weak: 'weak with hunger', starving: 'starving' });
+
+// ------------------------------------------------------------------------------- what a refused goal is short of
+// docs/FAMILY_PANEL.md §23 (owner, 2026-09-30: "i never saw where i could hunt to get leather to make the little carts, and i really
+// wanted one since i was using me wagon for something else"). A carreta refused only for the axe, the logs or a hide, and a hunt
+// refused only for the rifle, stay on the bar greyed (`goal`), with a strip of what they want (`needs`) and, in their popup, the work
+// that brings the first thing missing. The counts are the server's (`world.household.wants`, sim/wants.mjs); nothing here decides.
+
+/** Which of the household's wants each icon draws: the carreta's, and the hunt's on both hunts. */
+export const WANTS_OF = Object.freeze({ 'make-carreta': 'carreta', 'hunt-land': 'hunt', 'hunt-timber': 'hunt' });
+/** What each want is called, in the popup's list. */
+export const WANT_NAMES = Object.freeze({ axe: 'Felling axe', logs: 'Logs', hide: 'Hide', rifle: 'Rifle', powder: 'Powder' });
+/**
+ * The work that brings each want home, in the order tried, and the go button's words: a hide from a hunt (sim/hunting.mjs `GAME`:
+ * a deer, a bear, a mustang), logs from felling, and the axe, a rifle or powder from town (the blacksmith, the gunsmith, the store).
+ */
+export const WANT_FROM = Object.freeze({
+  hide: Object.freeze({ keys: Object.freeze(['hunt-land', 'hunt-timber']), label: 'Go hunting' }),
+  logs: Object.freeze({ keys: Object.freeze(['fell-trees']), label: 'Fell trees' }),
+  axe: Object.freeze({ keys: Object.freeze(['visit-shop']), label: 'Buy one in town' }),
+  rifle: Object.freeze({ keys: Object.freeze(['visit-shop']), label: 'Buy a rifle in town' }),
+  powder: Object.freeze({ keys: Object.freeze(['visit-shop']), label: 'Buy powder in town' }),
+});
+/** This icon's wants, in the server's order, each `{ want, have, need, met }`; null when the family is short of nothing for it. */
+export function needsFor(key, wants) {
+  const set = wants?.[WANTS_OF[key]];
+  if (!set) return null;
+  const list = Object.entries(set).filter(([, pair]) => Array.isArray(pair))
+    .map(([want, [have, need]]) => ({ want, have: Number(have) || 0, need: Number(need) || 1, met: Number(have) >= Number(need) }));
+  return list.length && list.some(one => !one.met) ? list : null;
+}
+/**
+ * Where the first thing missing is got, from the icons this person's bar has: `{ want, key, label }`, or null when none of them is
+ * on it (the work that brings it refused too, and not kept greyed - then the popup's reason is all there is).
+ */
+export function nextStep(needs, keysOnBar = []) {
+  for (const need of needs || []) {
+    if (need.met) continue;
+    const from = WANT_FROM[need.want];
+    const key = from?.keys.find(one => keysOnBar.includes(one));
+    if (key) return { want: need.want, key, label: from.label };
+  }
+  return null;
+}
+/**
+ * What the bar draws of a row's icons: what can be pressed or is going on, as since 2026-09-22 (`pressable`, the page's own test of
+ * that, the guided start's included), and - beside them - the goals refused only for something the family has not got (`goal`, the
+ * server's `short`). A row with nothing to press keeps its one line of reason (§14) and no goals, so a person who can do nothing is
+ * not shown a greyed carreta in place of why.
+ */
+export function barIcons(icons, pressable = icon => icon.active || icon.can) {
+  const open = icons.filter(pressable);
+  if (!open.length) return open;
+  return icons.filter(icon => open.includes(icon) || icon.goal);
+}
+
+// ------------------------------------------------------------------------------- a plot tapped on the map
+// docs/LAND_GRANTS.md §5.2, amendment of 2026-09-30 (owner: "let me click on the fields so i can select what is grown there"). A
+// plot of the family's own field tapped with no work chosen first opens the plot chooser on that plot: a bare plot to plant corn or
+// cotton, a growing one to say when it is ready, a ripe one to bring in, a staked one to clear.
+
+/** What a plot is now, for the chooser: 'staked', 'bare', 'growing' or 'ripe', from the family's own land line; null for no plot. */
+export function plotStage(plot) {
+  if (!plot) return null;
+  if (plot.state === 'staked') return 'staked';
+  if (plot.state !== 'cleared') return null;
+  return !plot.sown ? 'bare' : plot.ripe ? 'ripe' : 'growing';
+}
+/** The work the chooser looks at the plot for (`/api/plot?job=`): clearing for staked ground, planting - which says what grows - for the rest. */
+export const plotJobFor = plot => ({ staked: 'clear-plot', bare: 'plant-field', growing: 'plant-field', ripe: 'plant-field' })[plotStage(plot)] || null;
+/** The work a press in the chooser would send for this plot: clearing, planting, or bringing in the ripe crop; nothing while it grows. */
+export const plotWorkFor = plot => ({ staked: 'clear-plot', bare: 'plant-field', ripe: 'harvest-field' })[plotStage(plot)] || null;
+/**
+ * Who of the family a tapped plot's work would go to: the person whose bar is shown, then the main person, then the panel's order
+ * (father, mother, children oldest first) - the first the server says may be sent on it now (`world.work`). When nobody may, the
+ * person whose bar is shown, so the chooser says the server's reason in their name. Null with no rows at all.
+ */
+export function plotHand({ job, work = {}, barId = null, mainId = null, order = [] } = {}) {
+  const may = id => Boolean(id) && (work[id] || []).some(entry => entry.id === job && entry.can);
+  return [barId, mainId, ...order].find(may) || barId || mainId || order[0] || null;
+}
+/** Everybody who may be sent on this work now, in the panel's order: who the chooser offers to send instead. */
+export const plotHands = ({ job, work = {}, order = [] } = {}) => order.filter(id => (work[id] || []).some(entry => entry.id === job && entry.can));

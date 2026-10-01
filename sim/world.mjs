@@ -103,6 +103,7 @@ import { quickestOf, quickestWay, shownWays, waysFor } from './going.mjs';
 import { toolsInvalid } from './tools.mjs';
 import { fellingInvalid, logsLeftOut, logsProjection, recordFelling } from './felling.mjs';
 import { advanceHunger, diedQuietly, hungerInvalid, hungerShown, hungerStride, larderShown } from './hunger.mjs';
+import { wantsShown } from './wants.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, defaultNames, familyProjection, familyRoll, FAMILY_DIE, FAMILY_TABLE, tableOf, compositionFor,rolledWords, householdName, kinFor, mainPersonId, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { clearedOf, improvementsOf, ruin } from './improvements.mjs';
@@ -1321,7 +1322,9 @@ function projectHousehold(world, household) {
     ...(acting && acting.id !== main && { actingId: acting.id }), ...(acting?.how === 'child' && { steppedUp: true }),
     ...(taken && { takenIn: { householdId: taken.id, name: householdName(world, taken), ids: [...household.takenIn.ids] } }),
     // The family's food as a gauge (sim/hunger.mjs `larderShown`): days it lasts at today's eating, and the worst stage among them.
-    ...(household.played && larderShown(world, household)) };
+    ...(household.played && larderShown(world, household)),
+    // What the family is short of for a carreta or a hunt (sim/wants.mjs, owner 2026-09-30): only while it is short of something.
+    ...wantsShown(world, household) };
 }
 /**
  * Who of the family could nurse this very sick person right now, each with the work that would do it: nursing at home, or halting
