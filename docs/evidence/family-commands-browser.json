@@ -15,6 +15,7 @@
     "letting the rider ride on clears the \"!\"",
     "a call to the family marks the 8 people the server lets answer it; pressing hh-1-child-6's \"!\" opened the one menu for it (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.\") with a row each, the keyboard on hh-1-parent-1's",
     "answering from the menu (nobody goes) clears the \"!\" from everybody who could have answered, and the menu goes",
+    "every row of twenty stands on one line in the column with its name whole at 1440x950, 1366x768, 1024x768 and 1024x600 (1440x950: 20 rows, the least room for a name 70 px; 1366x768: 20 rows, the least room for a name 70 px; 1024x768: 20 rows, the least room for a name 70 px; 1024x600: 20 rows, the least room for a name 70 px)",
     "11 presses (0 refused in the server's words and another tried) set 11 of 20 people to work without finding anybody on the map; each icon glowed when the server took it, and the 9 still at it are not idle (1: work, 1: buy-furniture, 2: make-furniture, 3: plant-field, 4: practise-shooting, 5: make-furniture, 6: hunt-timber, 7: make-furniture, 8: make-furniture, 9: buy-furniture, 10: buy-furniture)",
     "of the 9 not given work, 6 are shown idle (something is open to them) and 3 are not (too young to be sent)",
     "hh-1-child-2, at make-furniture, has no refused order drawn; a stale \"fish-the-water\" put back on the bar and pressed is refused by the server, in its words: \"Minerva Proofwright is already deciding what to make.\", and the work goes on",
@@ -27,7 +28,8 @@
     "House is the last icon of hh-1-parent-2's bar, and opens the rooms; no row carries it",
     "after a reload the same person is starred, and with nobody chosen it is they who are chosen",
     "pressing the main person's star from Gonzales brings the camera back to them (0.000 mi); a double press on another's portrait makes hh-1-parent-1 the main person, as the star does",
-    "over 11 ticks the panel added 8 nodes and changed 393 attributes across 20 rows: kept, not rebuilt",
+    "over 11 ticks the panel added 10 nodes and changed 402 attributes across 20 rows: kept, not rebuilt",
+    "on a 400 by 800 phone the longest name of the twenty, Feliciano, opens on one line inside the column, whole (132 px for it)",
     "at 400 px the page does not scroll sideways, the \"!\" is on screen and big enough to press, and pressing it opens the offer on the docked card",
     "the settlement's call marks 2 people (hh-1-thomas, hh-1-elena), and 2 of them may turn out",
     "at 400 px the call's menu opens from an \"!\" on screen with 2 rows and its confirm within reach, and closes",
@@ -386,6 +388,53 @@
         }
       ]
     },
+    "rowFit": {
+      "1440x950": {
+        "rows": 20,
+        "out": [],
+        "leastRoom": 70,
+        "longest": "Feliciano"
+      },
+      "1366x768": {
+        "rows": 20,
+        "out": [],
+        "leastRoom": 70,
+        "longest": "Feliciano"
+      },
+      "1024x768": {
+        "rows": 20,
+        "out": [],
+        "leastRoom": 70,
+        "longest": "Feliciano"
+      },
+      "1024x600": {
+        "rows": 20,
+        "out": [],
+        "leastRoom": 70,
+        "longest": "Feliciano"
+      },
+      "phone": {
+        "longest": {
+          "id": "hh-1-parent-1",
+          "name": "Feliciano"
+        },
+        "rows": [
+          {
+            "id": "hh-1-parent-1",
+            "label": "father",
+            "name": "Feliciano",
+            "right": 352,
+            "column": 388,
+            "oneLine": true,
+            "box": 142,
+            "needs": 142,
+            "room": 132,
+            "tools": 2
+          }
+        ],
+        "out": []
+      }
+    },
     "refusal": {
       "id": "hh-1-child-2",
       "key": "fish-the-water",
@@ -435,8 +484,8 @@
     },
     "churn": {
       "ticks": 11,
-      "nodesAdded": 8,
-      "attributeChanges": 393,
+      "nodesAdded": 10,
+      "attributeChanges": 402,
       "rows": 20
     },
     "phone": {

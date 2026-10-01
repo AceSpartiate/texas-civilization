@@ -25,7 +25,7 @@
     "Send on the tapped popup of \"work\" sends it",
     "a tap on the map puts the armed popup away, and nothing is sent",
     "a mouse press on \"travel-gonzales\" still sends at once, on the same touch screen",
-    "on a 400 px phone the panel is a column of portraits with one row open, taking 9% of the screen and no row outside the column and that row, with the map on top at 49% of the 288 points the guided start leaves",
+    "on a 400 px phone the panel is a column of portraits with one row open, taking 8% of the screen and no row outside the column and that row, with the map on top at 49% of the 288 points the guided start leaves",
     "on a phone, pressing another portrait opens that person’s row",
     "no page errors anywhere in the run"
   ],
@@ -137,7 +137,7 @@
         "BUTTON#house-open",
         "DIV.story-card-buttons"
       ],
-      "covered": 0.0869025390625,
+      "covered": 0.08478523330688477,
       "pageScrolls": false
     }
   },

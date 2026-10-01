@@ -21,6 +21,7 @@ import { EYEBROWS } from '../public/military-attention.js';
 import { projectWorld } from '../sim/world.mjs';
 import { orderOut } from '../sim/scrape.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { rowsFit } from './support/row-fit.mjs';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
@@ -75,6 +76,20 @@ try {
   assert.notEqual(observed.column.askEdge, observed.column.houseEdge, 'the two cards cannot be told apart');
   await page.screenshot({ path: 'docs/evidence/story-cards-both.png' }); shots.push('docs/evidence/story-cards-both.png');
   ok(`the neighbours' card (${observed.column.askEdge}) first and the house's (${observed.column.houseEdge}) under it, both glowing, under Hide names and over the rows`);
+  // Under the cards, the family's rows on one line with the names whole (owner, 2026-09-30, "Move age off the row"): this family's
+  // Ramona was cut beside "Daughter, 15".
+  observed.rowFit = {};
+  for (const size of [{ width: 1366, height: 768 }, { width: 1024, height: 768 }, { width: 1024, height: 600 }]) {
+    await page.setViewportSize(size);
+    await page.waitForTimeout(500);
+    const fit = await rowsFit(page), at = `${size.width}x${size.height}`;
+    observed.rowFit[at] = { names: fit.rows.map(row => `${row.label} ${row.name} (${row.room} px)`), out: fit.out };
+    assert.ok(fit.rows.length, `at ${at} no family row was measured`);
+    assert.deepEqual(fit.out, [], `at ${at} a row under the story cards runs past its column, onto a second line, or cuts its name`);
+  }
+  await page.setViewportSize({ width: 1366, height: 768 });
+  await page.waitForTimeout(500);
+  ok(`the rows under the cards stand on one line with the names whole at 1366x768, 1024x768 and 1024x600: ${observed.rowFit['1024x600'].names.join(', ')}`);
 
   // ------------------------------------------------------------------ every moment, in its own card
   const moments = await page.evaluate(() => {

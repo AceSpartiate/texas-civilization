@@ -29,6 +29,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, stepWorld } from '../sim/world.mjs';
 import { pickSite } from '../sim/neighbours.mjs';
 import { meetFamily } from './support/meet-family.mjs';
+import { rowsFit } from './support/row-fit.mjs';
 // docs/FAMILY_PANEL.md §12 (owner, 2026-09-21): a person's work is on the screen only while they are the family's main
 // person, so this proof chooses them first, as a student does.
 import { asMain } from './support/main-person.mjs';
@@ -315,6 +316,21 @@ try {
   assert.deepEqual(idleRows.filter(row => row.idle !== row.says), [], 'a row the panel calls idle does not say so on its portrait');
   assert.deepEqual(idleRows.filter(row => row.word).map(row => row.id), [], 'a row still carries the word Idle');
   await shot(page, 'everyone-busy');
+  // Twenty names in the 19rem column, each on one line and whole, at every screen this class meets (owner, 2026-09-30, "Move Idle
+  // and House off" and "Move age off the row"). This family's are the names the crowded row cut: Prudence, Minerva.
+  measured.rowFit = {};
+  for (const size of [{ width: 1440, height: 950 }, { width: 1366, height: 768 }, { width: 1024, height: 768 }, { width: 1024, height: 600 }]) {
+    await page.setViewportSize(size);
+    await page.waitForTimeout(500);
+    const fit = await rowsFit(page);
+    const at = `${size.width}x${size.height}`;
+    measured.rowFit[at] = { rows: fit.rows.length, out: fit.out, leastRoom: Math.min(...fit.rows.map(row => row.room)), longest: fit.rows.reduce((a, b) => (b.name.length > a.name.length ? b : a)).name };
+    assert.ok(fit.rows.length >= 2, `at ${at} no family row was measured`);
+    assert.deepEqual(fit.out, [], `at ${at} a row of the family runs past its column, onto a second line, or cuts its name`);
+  }
+  await page.setViewportSize({ width: 1440, height: 950 });
+  await page.waitForTimeout(500);
+  ok(`every row of twenty stands on one line in the column with its name whole at 1440x950, 1366x768, 1024x768 and 1024x600 (${Object.entries(measured.rowFit).map(([at, one]) => `${at}: ${one.rows} rows, the least room for a name ${one.leastRoom} px`).join('; ')})`);
   ok(`${presses} presses (${refusals.length} refused in the server's words and another tried) set ${orderable.length} of ${busyPanel.length} people to work without finding anybody on the map; each icon glowed when the server took it, and the ${stillAtIt.length} still at it are not idle (${plan.map(e => `${e.id.split('-').pop()}: ${e.key}`).join(', ')})`);
   const unorderable = busyPanel.filter(row => !orderable.includes(row.id));
   if (unorderable.length) ok(`of the ${unorderable.length} not given work, ${unorderable.filter(row => row.idle).length} are shown idle (something is open to them) and ${unorderable.filter(row => !row.idle).length} are not (too young to be sent)`);
@@ -605,6 +621,18 @@ try {
   await offerFromNeighbour({ food: 1 }, { seed: 1 });
   await small.waitForFunction(id => !document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-attention`)?.hidden, tradedWith, { timeout: 15000 });
   await small.waitForTimeout(500);
+  // The longest name of the twenty, opened on the phone: its row on one line inside the column with the name whole.
+  const longest = await small.evaluate(() => [...document.querySelectorAll('#family-rows .panel-row')].map(row => ({ id: row.dataset.entityId, name: row.querySelector('.panel-name')?.value || '' })).reduce((a, b) => (b.name.length > a.name.length ? b : a)));
+  await small.locator(`.panel-row[data-entity-id="${longest.id}"] .panel-portrait`).click();
+  await small.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"]`)?.dataset.expanded === 'true', longest.id, { timeout: 10000 });
+  await small.waitForTimeout(400);
+  const phoneFit = await rowsFit(small);
+  measured.rowFit.phone = { longest, rows: phoneFit.rows, out: phoneFit.out };
+  assert.ok(phoneFit.rows.some(row => row.id === longest.id), `on the phone ${longest.name}'s row did not open`);
+  assert.deepEqual(phoneFit.out, [], `on a 400 by 800 phone ${longest.name}'s open row runs out, wraps or cuts the name`);
+  ok(`on a 400 by 800 phone the longest name of the twenty, ${longest.name}, opens on one line inside the column, whole (${phoneFit.rows.find(row => row.id === longest.id).room} px for it)`);
+  await small.locator(`.panel-row[data-focused=true] .panel-portrait`).click();
+  await small.waitForTimeout(400);
   const layout = await small.evaluate(id => {
     const mark = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-attention`).getBoundingClientRect();
     const open = document.querySelector('.panel-row[data-expanded=true]');

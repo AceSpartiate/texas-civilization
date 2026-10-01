@@ -42,7 +42,7 @@ export const TIPS = Object.freeze({
   // The first two a new student meets, since the guided start was switched off (owner, 2026-09-28: "The starting tutorial
   // needs to be removed for now"): with it gone, nothing else says how to give an order.
   arrive: 'Your family is on its way to its own land. When they get there, choose a house and set your family to work.',
-  order: 'Tap one of your family on the left, then tap a job along the bottom to set them to it. “Idle” means they have nothing to do.',
+  order: 'Tap one of your family on the left, then tap a job along the bottom to set them to it. A faded picture means nothing to do.',
   // The farm's first works, until the tutorial is rebuilt (owner, 2026-09-28: "Yes, add them"). Worded to stay true whichever
   // way the work goes - one wood pile or none, auto or by hand, crops ripening by the calendar or by the minute.
   house: 'Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.',
