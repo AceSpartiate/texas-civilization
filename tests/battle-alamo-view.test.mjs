@@ -88,7 +88,7 @@ test('a family\'s man at his post fires until the moment he falls, then goes dow
     view.memberDrawn(man.id, { x: 0.33, y: -0.11 }, 40);
     poses.push({ minute, pose: view.memberPose(man, t) });
   }
-  const before = poses.filter(one => one.minute < fell), after = poses.filter(one => one.minute > fell + 2);
+  const before = poses.filter(one => one.minute < fell), after = poses.filter(one => one.minute > fell + 6); // a fall takes seconds since 2026-09-30 (§16.1)
   assert.ok(before.some(one => one.pose.clip === 'volunteer-fire-reload'), 'he did not fire before he fell');
   assert.ok(before.every(one => !/idle/.test(one.pose.clip || '')), 'he stood idle at his post while the wall was attacked');
   assert.ok(before.every(one => !one.pose.fallen), 'he was drawn falling before his moment');

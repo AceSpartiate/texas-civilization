@@ -45,18 +45,51 @@ const SQUARE = Object.freeze({ outer: 0.09, rank: 0.018, across: 0.021 });
 const DIM = Object.freeze({ dusk: 'rgba(48,30,60,.24)', fog: 'rgba(222,226,228,.22)' });
 /** One load of a musket in the library's cycle: aim 700, fire 120, load 750, ramrod 900 (public/assets/frontier-v1/animation.json). */
 const FIRE_CLIP_MS = 2470, AIM_MS = 700;
+/**
+ * **A musket loaded and fired at the speed a man does it** (owner, 2026-09-30, at Study: "it was too fast" ... "i think you're
+ * correct about speed"; docs/BATTLES.md §16.1, `FIC-GONZ-1053`). The library's cycle is drawn in 2.47 s (aim 700, fire 120, load
+ * 750, ramrod 900 ms): a man aimed, fired and had his next ball rammed home in under three seconds, then stood. Now each part is
+ * shown at a man's own pace - the aim held a second and a half, the shot, the cartridge bitten and poured over four seconds, the
+ * ball rammed over five and a half - by holding each of the clip's frames longer (`musketClip`), whatever the class's pace: the
+ * cycle is real time, never the calendar. Then his own wait. About three shots a minute from a man in the open, as a practised hand
+ * fired; the record's volunteers were slower if anything. Every number is the game's.
+ */
+const MUSKET = Object.freeze({ aim: 1500, fire: 200, load: 4200, ramrod: 5600 });
+const MUSKET_MS = MUSKET.aim + MUSKET.fire + MUSKET.load + MUSKET.ramrod, SHOT_AT = MUSKET.aim;
+/** Where in the library's 2.47 s clip a man is, `t` real milliseconds after he brought his piece up (`aim` how long he held it). */
+export function musketClip(t, aim = MUSKET.aim) {
+  if (t < aim) return 700 * Math.max(0, t) / aim;
+  t -= aim;
+  if (t < MUSKET.fire) return 700 + 120 * t / MUSKET.fire;
+  t -= MUSKET.fire;
+  if (t < MUSKET.load) return 820 + 750 * t / MUSKET.load;
+  t -= MUSKET.load;
+  return Math.min(FIRE_CLIP_MS - 1, 1570 + 900 * t / MUSKET.ramrod);
+}
 /** How long a Texian waits, at his own pace, between loads: seconds, not a drill-book rate. `FIC-GONZ-446`. */
-const WAIT_MIN_MS = 3500, WAIT_SPAN_MS = 9000;
+const WAIT_MIN_MS = 2000, WAIT_SPAN_MS = 7000;
 /**
  * A rank's volley on the officer's word: the whole cycle, and when in it each word is said.
  * ceiling: the volley's rhythm is each page's own and is not dated by the server, as no musket's shot is; a volley that
  * matters to the history (a first volley at a dated minute) would be a server-dated shot, as the cannon's are.
  */
-const VOLLEY_MS = 11000, VOLLEY_WORDS_AT = [0, 1500, 2600];
+// Since 2026-09-30 (§16.1) the officer's three words a breath apart, the rank holding its aim from the second to the third, and a
+// rank's turn coming round every twenty seconds: "¡Preparen!" ... "¡Apunten!" ... "¡Fuego!", each long enough to read.
+/**
+ * A man falling (§16.1): struck and staggering (`struck`), going down (to `down`), then lying still; the men of one fall each a
+ * moment apart within `spread`. Real milliseconds, the game's; no blood, no gore (VISION.md §16).
+ */
+const FALL = Object.freeze({ struck: 900, down: 2200, spread: 2400 });
+/**
+ * A gun's shot (§16.1): the crew stood ready, the gunner at the vent, for `ready` before a shot the page knows is coming (a shot
+ * dated later in the tick it arrived in); the recoil over `recoil`, not the clip's own 0.9 s; the flash seen `flash`. Real ms.
+ */
+const GUN = Object.freeze({ ready: 1800, recoil: 1700, flash: 340 });
+const VOLLEY_MS = 20000, VOLLEY_WORDS_AT = [0, 2600, 4800], VOLLEY_AIM_MS = VOLLEY_WORDS_AT[2] - VOLLEY_WORDS_AT[1];
 // ceiling: at most 170 puffs on the field at once, the oldest let go first, so a Chromebook's frame stays under a few
 // milliseconds (measured by scripts/battle-gonzales-browser-proof.mjs); a battle with far more men firing than Gonzales -
 // San Jacinto's eighteen minutes - may want the puffs merged into banks rather than a higher cap.
-const SMOKE_CAP = 150, SMOKE_LIFE_MS = 14000, CANNON_SMOKE_LIFE_MS = 24000;
+const SMOKE_CAP = 160, SMOKE_LIFE_MS = 15000, CANNON_SMOKE_LIFE_MS = 30000;
 /**
  * **Black powder** (owner, 2026-09-30, after watching Gonzales in a real class: "i don't think there was enough smoke for black
  * powder weapons"; docs/BATTLES.md §15.2, `FIC-GONZ-1051`). A puff above is the billow out of one muzzle, seen for its first
@@ -69,9 +102,9 @@ const SMOKE_CAP = 150, SMOKE_LIFE_MS = 14000, CANNON_SMOKE_LIFE_MS = 24000;
  * ceiling: at most `BANK_CAP` banks on the field; a shot beyond it thickens the nearest. A battle wanting more separate clouds
  * than that (none of the ten does) would want a coarser merge, not a higher cap.
  */
-const BANK_CAP = 56, BANK_MERGE_MILES = 0.03, BANK_FADE_MS = 13000, CANNON_BANK_FADE_MS = 20000, BANK_MAX = 6, BANK_GONE = 0.035;
+const BANK_CAP = 96, BANK_MERGE_MILES = 0.03, BANK_FADE_MS = 15000, CANNON_BANK_FADE_MS = 24000, BANK_MAX = 9, BANK_GONE = 0.035;
 /** How thick a bank looks: 0 none to most of the way opaque (a line inside its own smoke is all but hidden). */
-const bankAlpha = density => Math.min(0.82, 1 - Math.exp(-0.75 * density));
+const bankAlpha = density => Math.min(0.88, 1 - Math.exp(-0.7 * density));
 
 const hash = key => {
   let h = 2166136261;
@@ -247,7 +280,7 @@ export function regularity(points) {
 export function createBattleView(art) {
   const view = {
     key: null, minute: null, tickAt: 0, tickMs: 1000, sides: new Map(), layouts: new Map(),
-    smoke: [], banks: [], smokeLayer: null, flashes: [], shotsSeen: new Set(), linesSeen: new Map(), commandsAt: 0, fallenAt: new Map(),
+    smoke: [], banks: [], smokeLayer: null, flashes: [], thumps: [], shotsSeen: new Set(), linesSeen: new Map(), commandsAt: 0, fallenAt: new Map(),
     members: new Map(), memberSpots: new Map(), bubbles: [], cannonFiredAt: [], frameMs: [], evidence: null,
     // Each gun's shots as the page first saw them, a breach's moment of opening, a member's fall: all in the page's time.
     gunFiredAt: new Map(), breachAt: new Map(), memberFallAt: new Map(), skew: 0,
@@ -286,7 +319,7 @@ export function createBattleView(art) {
   function accept(battle, now, tickMs) {
     const key = `${battle.id}`;
     if (view.key !== key) {
-      view.key = key; view.sides.clear(); view.smoke = []; view.banks = []; view.flashes = []; view.shotsSeen.clear(); view.linesSeen.clear(); view.fallenAt.clear(); view.cannonFiredAt = [];
+      view.key = key; view.sides.clear(); view.smoke = []; view.banks = []; view.flashes = []; view.thumps = []; view.shotsSeen.clear(); view.linesSeen.clear(); view.fallenAt.clear(); view.cannonFiredAt = [];
       view.gunFiredAt.clear(); view.breachAt.clear(); view.memberFallAt.clear(); view.peopleFellAt.clear(); view.fallenSpots.clear(); view.fallenSide.clear(); view.herd = null; view.pins.clear();
       view.cartTipStartedAt = null;
       view.minute = null;
@@ -354,27 +387,32 @@ export function createBattleView(art) {
     return { x: lerp(side.from.x, side.to.x, t), y: lerp(side.from.y, side.to.y, t) };
   }
 
-  /** Smoke from one discharge, in miles on the ground so it stays put when the camera moves and drifts with the wind. */
-  function puff(x, y, now, { big = false, wind } = {}) {
+  /**
+   * Smoke from one discharge, in miles on the ground so it stays put when the camera moves and drifts with the wind. Since
+   * 2026-09-30 (owner: "more and more dramatic smoke plumes for weapons fire"; §16.3) a **plume**: thrown out of the muzzle the way
+   * the piece points (`dir`) in a jet that slows as it billows, rising, bigger than the man who fired it; a gun's far bigger.
+   */
+  function puff(x, y, now, { big = false, wind, dir = 0, wall = false, plume = false } = {}) {
     const w = wind || { x: 0, y: 0 };
     view.smoke.push({
       x, y, born: now, life: big ? CANNON_SMOKE_LIFE_MS : SMOKE_LIFE_MS * (0.75 + 0.5 * Math.random()),
       // Miles a real millisecond: the wind's screen vector (public/weather-art.js `windVector`, y down the page as the
-      // ground's y is), and a little rise of the hot smoke up the page. A still fog morning barely moves it; a norther
-      // carries it off the field.
-      vx: w.x * 2.2e-6 + (Math.random() - 0.5) * 2e-7, vy: w.y * 2.2e-6 - 1.2e-7 - Math.random() * 1e-7,
-      size0: big ? 1.6 : 0.6, size1: big ? 7 : 3.1 + Math.random() * 1.4, alpha: big ? 0.5 : 0.55, scale: view.smokeScale ?? 1,
+      // ground's y is), and the hot smoke rising up the page. A still fog morning barely moves it; a norther carries it off.
+      vx: w.x * 2.2e-6 + (Math.random() - 0.5) * 2e-7, vy: w.y * 2.2e-6 - (big ? 3.2e-7 : 2.2e-7) - Math.random() * 1e-7,
+      // The jet: how far out of the muzzle the plume is thrown (miles), spent in its first second.
+      jet: dir * (big ? 0.05 : 0.024) * (0.8 + 0.4 * Math.random()), jetUp: (big ? 0.012 : 0.006) * (0.6 + 0.8 * Math.random()),
+      size0: big ? 2.6 : 1.1, size1: big ? 11 : 5 + Math.random() * 2.4, alpha: big ? 0.62 : 0.64, scale: view.smokeScale ?? 1,
       seed: Math.random(),
     });
     if (view.smoke.length > SMOKE_CAP) view.smoke.splice(0, view.smoke.length - SMOKE_CAP);
-    // A gun's discharge is four big puffs into one bank: a whole bank of smoke a shot.
-    feedBank(x, y, big ? 1.1 : 0.6, now, w, big);
+    // A gun's discharge is four big puffs into one bank: a whole bank of smoke a shot. A volley's men's into a wall along the rank.
+    feedBank(x + dir * (big ? 0.03 : 0.014), y, big ? 1.3 : wall ? 1.0 : 0.85, now, w, big, wall);
   }
   /**
    * Feed the bank of smoke lying where a shot was fired: the nearest bank within reach thickens (its middle drawn a little toward
    * the new shot), or a new one begins there. Ground miles, so it stays put when the camera moves.
    */
-  function feedBank(x, y, amount, now, w, big) {
+  function feedBank(x, y, amount, now, w, big, wall = false) {
     settleBanks(now);
     const reach = BANK_MERGE_MILES * (view.smokeScale ?? 1) * (big ? 1.6 : 1);
     let near = null, best = Infinity;
@@ -383,11 +421,11 @@ export function createBattleView(art) {
     if (near) {
       const share = amount / (near.d + amount);
       near.x += (x - near.x) * share * 0.5; near.y += (y - near.y) * share * 0.5;
-      near.d = Math.min(BANK_MAX, near.d + amount); near.fed = now; near.shots++; near.big ||= big;
+      near.d = Math.min(BANK_MAX, near.d + amount); near.fed = now; near.shots++; near.big ||= big; near.wall ||= wall;
       return;
     }
     view.banks.push({
-      x, y, d: amount, born: now, fed: now, at: now, shots: 1, big, seed: Math.random(), scale: view.smokeScale ?? 1,
+      x, y, d: amount, born: now, fed: now, at: now, shots: 1, big, wall, seed: Math.random(), scale: view.smokeScale ?? 1,
       // Heavier than a fresh puff and hugging the ground: carried by the wind a little slower, hardly rising.
       vx: w.x * 1.7e-6 + (Math.random() - 0.5) * 1.2e-7, vy: w.y * 1.7e-6 - 0.5e-7,
     });
@@ -431,7 +469,8 @@ export function createBattleView(art) {
     // `cast`: the same pose in the person's own cast figure (Claude's `<cast>-fire-reload`, `-load`, `-injured`, `-reclining`),
     // which public/app.js draws for a person with an appearance where it exists.
     if (fell && since >= 0 && fell.fate !== 'escaped') {
-      if (fell.fate === 'killed') return { sprite: since < 700 ? 'volunteer-injured' : 'volunteer-reclining', cast: since < 700 ? 'injured' : 'reclining', flip: !right, still: true, fallen: true };
+      // Struck and staggering for two seconds before he goes down (§16.1: a man falls over seconds, not a frame).
+      if (fell.fate === 'killed') return { sprite: since < FALL.down ? 'volunteer-injured' : 'volunteer-reclining', cast: since < FALL.down ? 'injured' : 'reclining', flip: !right, still: true, fallen: true };
       if (fell.grade !== 'slight' || since < 20000) return { sprite: 'volunteer-injured', cast: 'injured', flip: !right, still: true, fallen: true };
     }
     // His part's own pose (§6.13): asleep by the fire, hands up, or riding with Grant's party.
@@ -439,9 +478,9 @@ export function createBattleView(art) {
     if (member.pose === 'surrender') return { clip: 'volunteer-surrender', timeMs: time };
     if (member.mounted) return { clip: 'mounted-courier-e', flip: !right, timeMs: time, scale: 1.35 };
     if (!member.firing) return { clip: member.moving ? 'volunteer-march' : right ? 'volunteer-idle-e' : 'volunteer-idle-w', flip: member.moving ? !right : false, timeMs: time };
-    const cycle = FIRE_CLIP_MS + member.wait, t = (time + member.offset) % cycle;
+    const cycle = MUSKET_MS + member.wait, t = (time + member.offset) % cycle;
     if (t < member.wait) return { sprite: member.kneel ? 'volunteer-load' : right ? 'volunteer-e' : 'volunteer-w', ...(member.kneel && { cast: 'load' }), flip: member.kneel ? !right : false, still: true };
-    return { clip: 'volunteer-fire-reload', cast: 'fire-reload', flip: !right, timeMs: t - member.wait };
+    return { clip: 'volunteer-fire-reload', cast: 'fire-reload', flip: !right, timeMs: musketClip(t - member.wait) };
   }
   /**
    * Where a man of a body stands: where the layout puts him, or - once he has put his hands up - where he was then, pinned to
@@ -467,11 +506,20 @@ export function createBattleView(art) {
    * Draw one frame of the battle. `camera` is `{ toScreen, figure, scale }`; `time` the page's animation clock; `now` the
    * frame's performance.now(); `wind` the day's wind vector where the fight is (public/weather-art.js `weatherMix`).
    */
-  function draw(ctx, battle, { camera, time, now, tickMs, wind = null, reducedMotion = false, paused = false, bounds = null, named = false }) {
+  function draw(ctx, battle, { camera, time, now, tickMs, wind = null, reducedMotion = false, paused = false, bounds = null, named = false, clear = null }) {
     const started = performance.now();
     // Held still: nothing new is fired and no cycle moves, for somebody who asked for less motion or a class the Host paused.
     const still = reducedMotion || paused;
-    if (!battle) { view.key = null; view.members.clear(); view.evidence = null; return null; }
+    // The same, under a name the figure loop below does not shadow with its own `still` (a figure held in one frame): until
+    // 2026-09-30 the loop's shots read the figure's and a man fired, flash and smoke, on a page that had asked for less motion.
+    const holding = still;
+    if (!battle) {
+      view.key = null; view.members.clear(); view.evidence = null;
+      // The fight over and gone from the map, its smoke is not: it lies on the empty field and thins away (§16.3), so the class
+      // view's film holds on the smoke clearing. Nothing else of the fight is drawn.
+      if ((view.banks.length || view.smoke.length) && camera) drawSmoke(ctx, camera, Math.max(7, Math.min(60, camera.figure * 0.95)), now, reducedMotion, bounds, null, []);
+      return null;
+    }
     accept(battle, now, tickMs);
     if (battle.id === 'coleto' && battle.phase === 'small-hours') view.cartTipStartedAt ??= now;
     else view.cartTipStartedAt = null;
@@ -512,12 +560,12 @@ export function createBattleView(art) {
         continue;
       }
       if (!spot || !member.firing || still) continue;
-      const cycle = FIRE_CLIP_MS + member.wait, t = (time + member.offset) % cycle, shotAt = member.wait + AIM_MS;
+      const cycle = MUSKET_MS + member.wait, t = (time + member.offset) % cycle, shotAt = member.wait + SHOT_AT;
       const key = `${id}:${Math.floor((time + member.offset) / cycle)}`;
       if (t >= shotAt && t < shotAt + 400 && !view.shotsSeen.has(key)) {
         view.shotsSeen.add(key);
         const right = member.right ?? (((member.unit ? view.sides.get(member.unit) : texianSide)?.facing?.x ?? 1) >= 0);
-        puff(spot.x + (right ? 1 : -1) * 0.012, spot.y - 0.006, now, { wind });
+        puff(spot.x + (right ? 1 : -1) * 0.012, spot.y - 0.006, now, { wind, dir: right ? 1 : -1 });
         flash(spot.x + (right ? 1 : -1) * 0.012, spot.y, right, now, 1); shots++;
       }
     }
@@ -614,13 +662,13 @@ export function createBattleView(art) {
         // counted apart (`houses`) so a proof can tell the house's own fire from the men in the open.
         if (pose === 'hidden') {
           poses.hidden++;
-          if (still || side.fire === 'none') continue;
-          const wait = WAIT_MIN_MS + hash(`${seed}:hw`) * WAIT_SPAN_MS, round = FIRE_CLIP_MS + wait, shifted = time + hash(`${seed}:hp`) * 20000;
+          if (holding || side.fire === 'none') continue;
+          const wait = WAIT_MIN_MS + hash(`${seed}:hw`) * WAIT_SPAN_MS, round = MUSKET_MS + wait, shifted = time + hash(`${seed}:hp`) * 20000;
           const inRound = shifted % round, houseKey = `${seed}:h${Math.floor(shifted / round)}`;
-          if (inRound >= wait + AIM_MS && inRound < wait + AIM_MS + 400 && !view.shotsSeen.has(houseKey)) {
+          if (inRound >= wait + SHOT_AT && inRound < wait + SHOT_AT + 400 && !view.shotsSeen.has(houseKey)) {
             view.shotsSeen.add(houseKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1; view.shotsBy.houses = (view.shotsBy.houses || 0) + 1;
             const door = { x: centre.x + facing.x * 0.012 + (slot.across || 0) * 0.35, y: centre.y + facing.y * 0.012 + (slot.along || 0) * 0.2 };
-            puff(door.x + (right ? 1 : -1) * 0.004, door.y - 0.008, now, { wind }); flash(door.x, door.y - 0.004, right, now, 0.8);
+            puff(door.x + (right ? 1 : -1) * 0.004, door.y - 0.008, now, { wind, dir: right ? 1 : -1 }); flash(door.x, door.y - 0.004, right, now, 0.8);
           }
           continue;
         }
@@ -647,13 +695,13 @@ export function createBattleView(art) {
           // (`volunteer-mounted-fire`); the mounted courier otherwise.
           const horseman = { y: point.y, kind, side: side.side, point, size, clip: 'volunteer-mounted', sprite: null, timeMs: time, flip: !right, still: false, seed, fallback: { clip: 'mounted-courier-e', flip: !right } };
           figures.push(horseman);
-          if (!still && (side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 4 === 0))) {
+          if (!holding && (side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 4 === 0))) {
             const wait = 7000 + hash(`${seed}:rw`) * 12000, shifted = time + hash(`${seed}:rp`) * 25000, t = shifted % wait;
             const shotKey = `${seed}:r${Math.floor(shifted / wait)}`;
             if (t < 400 && !view.shotsSeen.has(shotKey)) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
-              puff(muzzle.x, muzzle.y, now, { wind }); flash(muzzle.x, muzzle.y, right, now, 1);
+              puff(muzzle.x, muzzle.y, now, { wind, dir: right ? 1 : -1 }); flash(muzzle.x, muzzle.y, right, now, 1);
             }
             // The rifle at the shoulder as the shot goes, then the recoil (the clip's beat is its second frame).
             if (t < 500 || wait - t < 700) Object.assign(horseman, { clip: 'volunteer-mounted-fire', timeMs: t < 500 ? t + 700 : 700 - (wait - t) });
@@ -719,14 +767,14 @@ export function createBattleView(art) {
           figures.push({ y: wall.y - 1, kind: 'cover', side: side.side, point: wall, size: figurePx * 2.4, sprite: 'house-loopholed', clip: null, flip: !right });
         }
         if (side.cover === 'loophole' && slot.index % 4 !== 0) {
-          if (still || side.fire === 'none') continue;
-          const pause = WAIT_MIN_MS + hash(`${seed}:lw`) * WAIT_SPAN_MS * 1.4, round = FIRE_CLIP_MS + pause;
+          if (holding || side.fire === 'none') continue;
+          const pause = WAIT_MIN_MS + hash(`${seed}:lw`) * WAIT_SPAN_MS * 1.4, round = MUSKET_MS + pause;
           const shifted = time + hash(`${seed}:lp`) * 24000, inRound = shifted % round;
           const loopKey = `${seed}:l${Math.floor(shifted / round)}`;
-          if (inRound >= pause + AIM_MS && inRound < pause + AIM_MS + 400 && !view.shotsSeen.has(loopKey)) {
+          if (inRound >= pause + SHOT_AT && inRound < pause + SHOT_AT + 400 && !view.shotsSeen.has(loopKey)) {
             view.shotsSeen.add(loopKey); shots++; view.loopholeShots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
             const hole = { x: ground.x + facing.x * 0.01, y: ground.y + facing.y * 0.01 - 0.006 };
-            puff(hole.x, hole.y, now, { wind }); flash(hole.x, hole.y, right, now, 0.8);
+            puff(hole.x, hole.y, now, { wind, dir: right ? 1 : -1 }); flash(hole.x, hole.y, right, now, 0.8);
           }
           continue;
         }
@@ -748,19 +796,19 @@ export function createBattleView(art) {
           // A dragoon firing his carbine from the saddle: the flash and the smoke from where his hands are, on his own long
           // wait between shots. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a dragoon firing from the saddle" - the
           // library has no mounted firing pose, so the rider holds his pose and only the shot is drawn.
-          if (!still && (side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 6 === 0))) {
+          if (!holding && (side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 6 === 0))) {
             const wait = 9000 + hash(`${seed}:dw`) * 16000, shifted = time + hash(`${seed}:dp`) * 25000, t = shifted % wait;
             const shotKey = `${seed}:d${Math.floor(shifted / wait)}`;
             if (t < 400 && !view.shotsSeen.has(shotKey)) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
-              puff(muzzle.x, muzzle.y, now, { wind }); flash(muzzle.x, muzzle.y, right, now, 1);
+              puff(muzzle.x, muzzle.y, now, { wind, dir: right ? 1 : -1 }); flash(muzzle.x, muzzle.y, right, now, 1);
             }
             // The carbine at the shoulder as the shot goes, then the recoil (the clip's beat is its second frame).
             if (!moving && !lancers && (t < 500 || wait - t < 700)) prefer = { clip: 'dragoon-fire', timeMs: t < 500 ? t + 700 : 700 - (wait - t), flip: !right };
           }
         } else if (side.fire === 'scattered' || (side.fire === 'picket' && slot.along > -0.03 && slot.index % 5 === 0)) {
-          const wait = slot.wait ?? (WAIT_MIN_MS + hash(`${seed}:w`) * WAIT_SPAN_MS), cycle = FIRE_CLIP_MS + wait;
+          const wait = slot.wait ?? (WAIT_MIN_MS + hash(`${seed}:w`) * WAIT_SPAN_MS), cycle = MUSKET_MS + wait;
           const t = (time + (slot.phase ?? hash(`${seed}:p`)) * 20000) % cycle;
           // Under a bank (Concepción's riverbank, the Grass Fight's creek beds): up the cut to fire over the lip, down to load.
           // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 2 - Claude's `volunteer-bank-climb`
@@ -772,7 +820,7 @@ export function createBattleView(art) {
           const loophole = side.cover === 'loophole' && (kind === 'volunteer' || kind === 'regular');
           // Lying in the tall grass (Coleto's cazadores at night): Claude's `regular-prone-*`.
           const prone = side.cover === 'grass' && kind === 'regular';
-          if (climbing && t >= wait - 500) { clip = 'volunteer-bank-climb'; timeMs = t - wait + 500; flip = !right; fallback = { clip: `${kind}-fire-reload`, timeMs: t - wait }; }
+          if (climbing && t >= wait - 500) { clip = 'volunteer-bank-climb'; timeMs = t < wait ? t - wait + 500 : musketClip(t - wait) + 500; flip = !right; fallback = { clip: `${kind}-fire-reload`, timeMs: musketClip(t - wait) }; }
           else if (t < wait) {
             sprite = slot.kneel ? `${kind}-load` : `${kind}-${right ? 'e' : 'w'}`; still = true; flip = slot.kneel ? !right : false;
             if (side.style === 'bank') { sprite = `${kind}-load`; flip = !right; dy = figurePx * 0.32; }
@@ -781,28 +829,28 @@ export function createBattleView(art) {
             if (prone) { sprite = 'regular-prone-lie'; flip = !right; fallback = { sprite: slot.kneel ? 'regular-load' : `regular-${right ? 'e' : 'w'}`, flip: slot.kneel ? !right : false }; }
           }
           else if (loophole) {
-            clip = `${kind}-loophole-fire`; timeMs = t - wait; flip = !right; fallback = { clip: `${kind}-fire-reload` };
+            clip = `${kind}-loophole-fire`; timeMs = musketClip(t - wait); flip = !right; fallback = { clip: `${kind}-fire-reload` };
           }
-          else if (prone) { clip = 'regular-prone-fire-cycle'; timeMs = t - wait; flip = !right; fallback = { clip: 'regular-fire-reload' }; }
+          else if (prone) { clip = 'regular-prone-fire-cycle'; timeMs = musketClip(t - wait); flip = !right; fallback = { clip: 'regular-fire-reload' }; }
           if (t >= wait) {
-            if (!climbing && !loophole && !prone) { clip = `${kind}-fire-reload`; timeMs = t - wait; }
+            if (!climbing && !loophole && !prone) { clip = `${kind}-fire-reload`; timeMs = musketClip(t - wait); }
             const shotKey = `${seed}:${Math.floor((time + (slot.phase ?? 0) * 20000) / cycle)}`;
-            if (t - wait >= AIM_MS && t - wait < AIM_MS + 400 && !view.shotsSeen.has(shotKey) && !still) {
+            if (t - wait >= SHOT_AT && t - wait < SHOT_AT + 400 && !view.shotsSeen.has(shotKey) && !holding) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.012, y: ground.y - 0.004 };
-              puff(muzzle.x, muzzle.y, now, { wind }); flash(muzzle.x, muzzle.y, right, now, 1);
+              puff(muzzle.x, muzzle.y, now, { wind, dir: right ? 1 : -1 }); flash(muzzle.x, muzzle.y, right, now, 1);
             }
           }
         } else if (volley && (slot.face === undefined ? slot.rank === firingRank : slot.rank === faceCycle(slot).rank) && (kind !== 'dragoon')) {
           const into = (slot.face === undefined ? cycleAt : faceCycle(slot).at) - VOLLEY_WORDS_AT[1];
-          if (into < 0 || into > FIRE_CLIP_MS) { sprite = `${kind}-${right ? 'e' : 'w'}`; still = true; flip = false; }
+          if (into < 0 || into > VOLLEY_AIM_MS + MUSKET_MS - MUSKET.aim) { sprite = `${kind}-${right ? 'e' : 'w'}`; still = true; flip = false; }
           else {
-            clip = `${kind}-fire-reload`; timeMs = into;
+            clip = `${kind}-fire-reload`; timeMs = musketClip(into, VOLLEY_AIM_MS);
             const shotKey = `${seed}:v${slot.face === undefined ? cycleNo : faceCycle(slot).no}`;
-            if (into >= AIM_MS && into < AIM_MS + 400 && !view.shotsSeen.has(shotKey) && !still) {
+            if (into >= VOLLEY_AIM_MS && into < VOLLEY_AIM_MS + 400 && !view.shotsSeen.has(shotKey) && !holding) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.012, y: ground.y - 0.004 };
-              puff(muzzle.x, muzzle.y, now, { wind }); flash(muzzle.x, muzzle.y, right, now, 1);
+              puff(muzzle.x, muzzle.y, now, { wind, dir: right ? 1 : -1, wall: true }); flash(muzzle.x, muzzle.y, right, now, 1);
             }
           }
         } else if (side.action === 'work') {
@@ -911,7 +959,7 @@ export function createBattleView(art) {
     // fight is shown; the country itself has no night yet.
     if (DIM[battle.light] && bounds) { ctx.save(); ctx.fillStyle = DIM[battle.light]; ctx.fillRect(0, 0, bounds.width, bounds.height); ctx.restore(); }
     // Flashes: a tenth of a second each, over the figures.
-    view.flashes = view.flashes.filter(f => now - f.born < 130);
+    view.flashes = view.flashes.filter(f => now - f.born < (f.size >= 2 ? GUN.flash : 150));
     // Each flash once, where it was drawn, for the page's sound (public/audio.js): a size of 2 or more is a gun.
     const heard = [];
     for (const f of view.flashes) {
@@ -927,7 +975,7 @@ export function createBattleView(art) {
     // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 3 - Claude's drifting fog banks
     // (*Claude-drawn stand-ins*, area F) over a lighter veil; the veil alone without them.
     const fogShown = battle.fog > 0 ? drawFog(ctx, battle, camera, bounds, figurePx, time) : 0;
-    const smokeDrawn = drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds, battle);
+    const smokeDrawn = drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds, battle, clear);
     const bubbles = drawLines(ctx, battle, camera, figurePx, now, time, bounds, drawn, drawnBy);
     view.civiliansSeen = Math.max(view.civiliansSeen, civilians);
     view.shotsTotal += shots;
@@ -943,6 +991,10 @@ export function createBattleView(art) {
       // The banks (§15.2): how many, how thick in all and at the thickest (`cover`, how much of what is behind the thickest hides),
       // how long the stalest has lain since a shot last fed it (`lingerMs`), and the still haze drawn instead for less motion.
       banks: smokeDrawn.banks, banksInView: smokeDrawn.banksInView, bankDensity: smokeDrawn.density, cover: smokeDrawn.cover, lingerMs: smokeDrawn.lingerMs, haze: smokeDrawn.haze,
+      // §16.3: a gun's banks going up as plumes, a volley's lying as walls, and the clearings thinned round the class's own men.
+      smokePlumes: smokeDrawn.plumes, smokeWalls: smokeDrawn.walls, clearings: smokeDrawn.clearings,
+      // A gun's shot, the moments the page drew it (the class view's film gives the camera a jolt for it: public/battle-cinema.js).
+      thumps: view.thumps.filter(t => now - t < 1000),
       members: [...view.members.keys()], memberClips: [...view.memberClips],
       memberPoses: [...view.members.keys()].map(id => ({ id, drawn: view.memberSpots.has(id) })),
       cannon: cannonShown, flag: flagShown, cannonShots: view.cannonFiredAt.length, fallen: [...fallenSlots.values()].reduce((s, m) => s + m.size, 0),
@@ -1131,10 +1183,12 @@ export function createBattleView(art) {
     return { lit };
   }
   function drawFallen(ctx, f, now) {
-    const since = now - f.down.at, kind = f.side === 'mexican' ? 'regular' : 'volunteer';
+    // Each man of a fall his own moment within it (`FALL.spread`), so five men hit at one minute do not drop as one.
+    const lag = f.down.wounded || typeof f.slot.index !== 'number' ? 0 : hash(`${f.slot.index}:${f.down.at}:lag`) * FALL.spread;
+    const since = now - f.down.at - lag, kind = f.side === 'mexican' ? 'regular' : 'volunteer';
     const x = f.point.x, y = f.point.y;
     if (view.key === 'goliad-massacre' && f.side === 'texian') {
-      const pose = f.down.wounded || since < 600 ? 'prisoner-injured' : 'prisoner-still';
+      const pose = f.down.wounded || since < FALL.down ? 'prisoner-injured' : 'prisoner-still';
       if (!art.drawSprite(ctx, pose, x, y, f.size)) art.miniPerson(ctx, x, y, f.size, { side: f.side });
       return;
     }
@@ -1157,9 +1211,14 @@ export function createBattleView(art) {
       for (const off of [-0.45, 0.45]) art.animated(ctx, `${kind}-march`, x + back + off * f.size, y + 2, f.size, `${f.slot.index}:${off}`, { flip: f.facingRight });
       return;
     }
-    if (since < 600) {
-      // Going down: the standing figure tips over about its feet.
-      ctx.save(); ctx.translate(x, y); ctx.rotate((f.side === 'mexican' ? 1 : -1) * (since / 600) * 1.2);
+    // Not yet: a man of a fall of several goes down after the first, a moment apart (§16.1), standing until then.
+    if (since < 0) { if (!art.drawSprite(ctx, `${kind}-${f.side === 'mexican' ? 'w' : 'e'}`, x, y, f.size)) art.miniPerson(ctx, x, y, f.size, { side: f.side }); return; }
+    // Struck: he staggers, hurt, for most of a second before he falls.
+    if (since < FALL.struck) { if (!art.drawSprite(ctx, `${kind}-injured`, x, y, f.size)) art.miniPerson(ctx, x, y, f.size, { side: f.side }); return; }
+    if (since < FALL.down) {
+      // Going down: the standing figure tips over about its feet, slowly, then all at once.
+      const tip = (since - FALL.struck) / (FALL.down - FALL.struck);
+      ctx.save(); ctx.translate(x, y); ctx.rotate((f.side === 'mexican' ? 1 : -1) * tip * tip * 1.2);
       if (!art.drawSprite(ctx, `${kind}-${f.side === 'mexican' ? 'w' : 'e'}`, 0, 0, f.size)) art.miniPerson(ctx, 0, 0, f.size, { side: f.side });
       ctx.restore();
       return;
@@ -1167,7 +1226,7 @@ export function createBattleView(art) {
     // Lying still. Carried: two comrades walk him back from the line (VISION.md §16 names both).
     // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the wounded carried" - a Texian carried while he is being carried is
     // Claude's `bearers-carry` (two men and a blanket); otherwise, and while it loads, two walking figures beside the lying one.
-    const carry = f.down.carried ? Math.min(1, (since - 600) / 20000) : 0;
+    const carry = f.down.carried ? Math.min(1, (since - FALL.down) / 20000) : 0;
     const dx = carry * f.size * 3 * (f.side === 'mexican' ? 1 : -1);
     if (carry > 0 && carry < 1 && f.side !== 'mexican' && art.animated(ctx, 'bearers-carry', x + dx, y, f.size, `${f.slot.index}:carry`, { flip: true })) return;
     if (!art.drawSprite(ctx, `${kind}-reclining`, x + dx, y, f.size)) { ctx.fillStyle = '#6b6153'; ctx.fillRect(x + dx - f.size * 0.4, y - f.size * 0.12, f.size * 0.8, f.size * 0.12); }
@@ -1188,11 +1247,12 @@ export function createBattleView(art) {
     const p = camera.toScreen(at), size = figurePx * 1.4;
     const last = view.cannonFiredAt.filter(t => t <= now).at(-1);
     const since = last === undefined ? Infinity : now - last;
+    const coming = view.cannonFiredAt.find(t => t > now), ready = coming !== undefined && coming - now < GUN.ready;
     const metal = gun.metal === 'bronze' ? 'bronze' : 'iron';
     const cartwheels = gun.claimId === 'HIST-TEX-475' && metal === 'bronze';
     const name = cartwheels ? `cannon-cartwheels-${right ? 'e' : 'w'}` : `cannon-${metal}-${right ? 'e' : 'w'}`;
-    const firing = since < 900;
-    if (firing) art.animated(ctx, cartwheels ? `cannon-cartwheels-${right ? 'e' : 'w'}-recoil` : `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since });
+    const firing = since < GUN.recoil;
+    if (firing) art.animated(ctx, cartwheels ? `cannon-cartwheels-${right ? 'e' : 'w'}-recoil` : `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since * 900 / GUN.recoil });
     else art.drawSprite(ctx, name, p.x, p.y, size) || (ctx.fillStyle = '#3b3a36', ctx.fillRect(p.x - size * 0.4, p.y - size * 0.3, size * 0.8, size * 0.22));
     // The crew: one ramming between shots, one bringing the charge, one at the touch-hole who pulls and covers his ears.
     // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "battles: the pieces the engine stands in for", item 4 - at the
@@ -1200,9 +1260,9 @@ export function createBattleView(art) {
     // library's gun-crew cycles of a carriage gun's crew. The cart-wheel gun itself is delivered and drawn above.
     const back = right ? -1 : 1;
     const crew = [
-      { clip: firing ? 'volunteer-gun-fire' : 'volunteer-gun-ram', settler: firing ? 'settler-gun-fire' : 'settler-gun-ram', dx: back * 0.75, t: firing ? since : time },
+      { clip: firing || ready ? 'volunteer-gun-fire' : 'volunteer-gun-ram', settler: firing || ready ? 'settler-gun-fire' : 'settler-gun-ram', dx: back * 0.75, t: firing ? since * 900 / GUN.recoil : ready ? 0 : time },
       { clip: 'volunteer-gun-shot-carry', settler: 'settler-gun-carry', dx: back * 1.35, t: time },
-      { clip: firing ? 'volunteer-gun-fire' : 'volunteer-idle-e', settler: firing ? 'settler-gun-fire' : null, dx: back * 0.2, dy: 0.35, t: firing ? since : time },
+      { clip: firing || ready ? 'volunteer-gun-fire' : 'volunteer-idle-e', settler: firing || ready ? 'settler-gun-fire' : null, dx: back * 0.2, dy: 0.35, t: firing ? since * 900 / GUN.recoil : ready ? 0 : time },
     ].slice(0, gun.crew || 3);
     for (const man of crew) {
       const at = [p.x + man.dx * figurePx, p.y + (man.dy || 0) * figurePx], opts = { timeMs: man.t, flip: !right, paused: reducedMotion };
@@ -1215,10 +1275,10 @@ export function createBattleView(art) {
       if (reducedMotion) continue;
       view.shotsTotal++;
       const muzzle = { x: at.x + (right ? 1 : -1) * 0.02, y: at.y - 0.004 };
-      flash(muzzle.x, muzzle.y, right, now, 2.4);
-      for (let i = 0; i < 4; i++) puff(muzzle.x + (right ? 1 : -1) * i * 0.008, muzzle.y + (Math.random() - 0.5) * 0.01, now, { big: true, wind });
+      flash(muzzle.x, muzzle.y, right, now, 2.4); view.thumps.push(now);
+      for (let i = 0; i < 4; i++) puff(muzzle.x + (right ? 1 : -1) * i * 0.008, muzzle.y + (Math.random() - 0.5) * 0.01, now, { big: true, wind, dir: right ? 1 : -1 });
     }
-    return { x: Math.round(p.x), y: Math.round(p.y), firing, shots: view.cannonFiredAt.filter(t => t <= now).length };
+    return { x: Math.round(p.x), y: Math.round(p.y), firing, ready, shots: view.cannonFiredAt.filter(t => t <= now).length };
   }
 
   /**
@@ -1297,6 +1357,7 @@ export function createBattleView(art) {
     const right = (gun.facing?.x ?? 1) >= 0;
     const fired = (view.gunFiredAt.get(gun.id) || []).filter(t => t <= now);
     const last = fired.at(-1), since = last === undefined ? Infinity : now - last;
+    const coming = (view.gunFiredAt.get(gun.id) || []).find(t => t > now), ready = coming !== undefined && coming - now < GUN.ready;
     const pending = fired.filter(t => !view.shotsSeen.has(`gunshot:${gun.id}:${t}`));
     for (const t of pending) {
       view.shotsSeen.add(`gunshot:${gun.id}:${t}`);
@@ -1304,8 +1365,8 @@ export function createBattleView(art) {
       view.shotsTotal++; view.gunShotsTotal++;
       const reach = 0.02 * (view.smokeScale ?? 1), fx = gun.facing?.x ?? (right ? 1 : -1), fy = gun.facing?.y ?? 0;
       const muzzle = { x: gun.x + fx * reach, y: gun.y + fy * reach - 0.004 * (view.smokeScale ?? 1) };
-      flash(muzzle.x, muzzle.y, right, now, 2.4);
-      for (let i = 0; i < 4; i++) puff(muzzle.x + fx * i * reach * 0.4, muzzle.y + fy * i * reach * 0.4 + (Math.random() - 0.5) * reach * 0.5, now, { big: true, wind });
+      flash(muzzle.x, muzzle.y, right, now, 2.4); view.thumps.push(now);
+      for (let i = 0; i < 4; i++) puff(muzzle.x + fx * i * reach * 0.4, muzzle.y + fy * i * reach * 0.4 + (Math.random() - 0.5) * reach * 0.5, now, { big: true, wind, dir: fx >= 0 ? 1 : -1 });
       // A few live puffs keep the shot legible while the authored canister cloud loads.
       if (gun.canister) for (let i = 0; i < 5; i++) { const spread = (i - 2) * 0.12, d = reach * (1 + i * 0.3); puff(muzzle.x + (fx - fy * spread) * d, muzzle.y + (fy + fx * spread) * d, now, { wind }); }
       view.gunShotsBy[gun.id] = (view.gunShotsBy[gun.id] || 0) + 1;
@@ -1320,8 +1381,8 @@ export function createBattleView(art) {
       : siegeBattery ? `cannon-siege-battery-${right ? 'e' : 'w'}`
       : alamo ? `cannon-alamo-${alamo}-${right ? 'e' : 'w'}`
       : twin ? `twin-sister-painted-${right ? 'e' : 'w'}` : `cannon-${metal}-${right ? 'e' : 'w'}`;
-    const firing = since < 900;
-    if (firing) art.animated(ctx, `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since }) || art.animated(ctx, `cannon-${metal}-${right ? 'e' : 'w'}-recoil`, p.x, p.y, size, 0, { timeMs: since });
+    const firing = since < GUN.recoil, recoilMs = since * 900 / GUN.recoil;
+    if (firing) art.animated(ctx, `${name}-recoil`, p.x, p.y, size, 0, { timeMs: recoilMs }) || art.animated(ctx, `cannon-${metal}-${right ? 'e' : 'w'}-recoil`, p.x, p.y, size, 0, { timeMs: recoilMs });
     else art.drawSprite(ctx, name, p.x, p.y, size) || art.drawSprite(ctx, `cannon-${metal}-${right ? 'e' : 'w'}`, p.x, p.y, size) || (ctx.fillStyle = '#3b3a36', ctx.fillRect(p.x - size * 0.4, p.y - size * 0.3, size * 0.8, size * 0.22));
     if (gun.canister && since >= 0 && since < 820 && !reducedMotion) {
       const reach = 0.02 * (view.smokeScale ?? 1), fx = gun.facing?.x ?? (right ? 1 : -1), fy = gun.facing?.y ?? 0;
@@ -1332,9 +1393,9 @@ export function createBattleView(art) {
     const who = gun.side === 'mexican' ? 'regular' : 'volunteer', back = right ? -1 : 1;
     const service = twin ? 'twin-crew' : who;
     const crew = [
-      { clip: firing ? `${service}-gun-fire` : `${service}-gun-ram`, dx: back * 0.75, t: firing ? since : time },
+      { clip: firing || ready ? `${service}-gun-fire` : `${service}-gun-ram`, dx: back * 0.75, t: firing ? recoilMs : ready ? 0 : time },
       { clip: `${service}-gun-shot-carry`, dx: back * 1.35, t: time },
-      { clip: firing ? `${service}-gun-fire` : twin ? 'twin-crew-gun-ready' : `${who}-idle-e`, dx: back * 0.2, dy: 0.35, t: firing ? since : time },
+      { clip: firing || ready ? `${service}-gun-fire` : twin ? 'twin-crew-gun-ready' : `${who}-idle-e`, dx: back * 0.2, dy: 0.35, t: firing ? recoilMs : ready ? 0 : time },
     ].slice(0, gun.crew ?? 3);
     for (const man of crew) art.animated(ctx, man.clip, p.x + man.dx * figurePx, p.y + (man.dy || 0) * figurePx, figurePx, `crew:${gun.id}:${man.dx}`, { timeMs: man.t, flip: !right, paused: reducedMotion });
     // A famous gun is named on the field as a famous person is (owner, 2026-09-26: "Treat the Twin Sisters in a similar
@@ -1346,7 +1407,7 @@ export function createBattleView(art) {
       ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(252,249,238,.92)'; ctx.strokeText(gun.name, p.x, p.y + font + 6); ctx.fillStyle = '#26382e'; ctx.fillText(gun.name, p.x, p.y + font + 6);
       ctx.restore();
     }
-    return { id: gun.id, x: Math.round(p.x), y: Math.round(p.y), firing, shots: fired.length, onScreen: true, ...(gun.named && { name: gun.name }) };
+    return { id: gun.id, x: Math.round(p.x), y: Math.round(p.y), firing, ready, shots: fired.length, onScreen: true, ...(gun.named && { name: gun.name }) };
   }
 
   /**
@@ -1503,9 +1564,9 @@ export function createBattleView(art) {
       return clip(mexican ? 'dragoon-march' : 'mounted-courier-e', time, { size: figurePx * 1.35 });
     }
     if (pose === 'fire') {
-      if (Array.isArray(named)) { const t = (time + hash(key) * 4000) % 3600; return sprite(named[t < 1500 ? 0 : t < 1800 ? 1 : 2]); }
-      if (named) return clip(named, time % FIRE_CLIP_MS);
-      return clip(`${kind}-fire-reload`, (time + hash(key) * FIRE_CLIP_MS) % FIRE_CLIP_MS);
+      if (Array.isArray(named)) { const t = (time + hash(key) * 12000) % 12000; return sprite(named[t < 1500 ? 0 : t < 1800 ? 1 : 2]); }
+      if (named) return clip(named, musketClip(time % MUSKET_MS));
+      return clip(`${kind}-fire-reload`, musketClip((time + hash(key) * MUSKET_MS) % MUSKET_MS));
     }
     // Joe, firing from the house he took cover in (his own account): hidden, with the flash and the smoke at its door.
     if (pose === 'fire-hidden') {
@@ -1767,20 +1828,25 @@ export function createBattleView(art) {
   }
 
   /**
-   * A bank's smoke this frame: three soft lobes round its middle in the colour of powder smoke, thicker at the core. Into the
-   * low-resolution layer when there is one (`ratio` under 1), straight onto the map when there is not (the tests' canvas).
+   * A bank's smoke this frame, in the colour of powder smoke, thicker at the core. Into the low-resolution layer when there is one
+   * (`ratio` under 1), straight onto the map when there is not (the tests' canvas). Its shape (§16.3): a heap of three soft lobes;
+   * a volley's `wall`, five strung out along the line; a gun's `plume`, a column going up and spreading as it climbs (`rise` 0 to 1).
    */
-  function drawBank(target, at, radius, alpha, seed, ratio, dark) {
+  function drawBank(target, at, radius, alpha, seed, ratio, dark, shape = 'heap', rise = 0) {
     const tone = dark ? '150,150,158' : '238,236,228', core = dark ? '118,118,126' : '214,212,203';
-    for (let i = 0; i < 3; i++) {
-      const a = seed * 6.283 + i * 2.1, off = radius * (i ? 0.48 : 0.12);
-      const x = (at.x + Math.cos(a) * off) * ratio, y = (at.y - radius * 0.35 + Math.sin(a) * off * 0.45) * ratio, r = radius * (i ? 0.72 : 0.9) * ratio;
+    const lobes = shape === 'wall' ? [[-1.25, 0, 0.62], [-0.62, -0.08, 0.7], [0, 0, 0.78], [0.62, -0.06, 0.7], [1.25, 0, 0.62]]
+      : shape === 'plume' ? [[0, 0, 0.8], [0.1, -0.9 * rise, 0.85 + 0.2 * rise], [-0.15, -1.8 * rise, 0.9 + 0.45 * rise], [0.2, -2.6 * rise, 0.95 + 0.7 * rise]]
+      : [[0, 0, 0.9], [Math.cos(seed * 6.283) * 0.48, Math.sin(seed * 6.283) * 0.22, 0.72], [Math.cos(seed * 6.283 + 2.1) * 0.48, Math.sin(seed * 6.283 + 2.1) * 0.22, 0.72], [Math.cos(seed * 6.283 + 4.2) * 0.48, Math.sin(seed * 6.283 + 4.2) * 0.22, 0.72]];
+    lobes.forEach(([dx, dy, size], i) => {
+      const wobble = (hash(`${seed}:${i}`) - 0.5) * 0.18;
+      const x = (at.x + (dx + wobble) * radius) * ratio, y = (at.y - radius * 0.35 + dy * radius) * ratio, r = radius * size * ratio;
+      const a = alpha * (i ? 0.78 : 0.95);
       const g = target.createRadialGradient(x, y, 0, x, y, r);
-      g.addColorStop(0, `rgba(${core},${(alpha * (i ? 0.75 : 0.95)).toFixed(3)})`);
-      g.addColorStop(0.55, `rgba(${tone},${(alpha * (i ? 0.5 : 0.62)).toFixed(3)})`);
+      g.addColorStop(0, `rgba(${core},${a.toFixed(3)})`);
+      g.addColorStop(0.55, `rgba(${tone},${(a * 0.66).toFixed(3)})`);
       g.addColorStop(1, `rgba(${tone},0)`);
       target.fillStyle = g; target.beginPath(); target.arc(x, y, r, 0, Math.PI * 2); target.fill();
-    }
+    });
   }
   /** The layer the banks are drawn into, a third of the map's resolution, laid over it in one stroke; null under node. */
   function smokeLayer(bounds) {
@@ -1789,62 +1855,94 @@ export function createBattleView(art) {
     const layer = view.smokeLayer ||= document.createElement('canvas');
     if (layer.width !== width || layer.height !== height) { layer.width = width; layer.height = height; }
     const lctx = layer.getContext('2d');
-    lctx.setTransform(1, 0, 0, 1, 0, 0); lctx.clearRect(0, 0, width, height);
+    lctx.setTransform(1, 0, 0, 1, 0, 0); lctx.globalCompositeOperation = 'source-over'; lctx.clearRect(0, 0, width, height);
     return { layer, lctx, ratio: width / bounds.width };
   }
-  function drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds, battle = null) {
+  /**
+   * The class's own men in the fight, where the smoke is thinned round them so they are still seen in it (owner, 2026-09-30: the
+   * smoke bigger, "keep the figures and name tags readable through it"; §16.3): each a soft clearing a figure and a half across.
+   */
+  function clearings(camera, figurePx) {
+    const out = [];
+    for (const id of view.members.keys()) { const spot = view.memberSpots.get(id); if (spot) { const p = camera.toScreen(spot); out.push({ x: p.x, y: p.y - figurePx * 0.5 }); } }
+    return out;
+  }
+  function drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds, battle = null, clearAt = null) {
     view.smoke = view.smoke.filter(s => now - s.born < s.life);
     settleBanks(now);
     const dark = Boolean(battle && (battle.light === 'night' || battle.light === 'dawn' || (typeof battle.light === 'number' && battle.light > 0.5)));
     const inside = at => !bounds || (at.x >= -60 && at.y >= -60 && at.x <= bounds.width + 60 && at.y <= bounds.height + 60);
     const density = +view.banks.reduce((sum, bank) => sum + bank.d, 0).toFixed(3);
     const lingerMs = view.banks.length ? Math.round(Math.max(...view.banks.map(bank => now - bank.fed))) : 0;
-    let cover = 0, banksInView = 0, haze = 0;
+    let cover = 0, banksInView = 0, haze = 0, plumes = 0, walls = 0;
     const layer = smokeLayer(bounds), target = layer ? layer.lctx : ctx, ratio = layer ? layer.ratio : 1;
+    // Where the page drew the class's men this frame (screen, their middles), or where this view last had them on the ground.
+    const clear = clearAt || clearings(camera, figurePx);
+    // Thin the layer round each of the class's men before it is laid over the map (only where there is a layer to thin).
+    const thin = () => {
+      if (!layer || !clear.length) return;
+      target.globalCompositeOperation = 'destination-out';
+      for (const at of clear) {
+        const r = figurePx * 1.5 * ratio, g = target.createRadialGradient(at.x * ratio, at.y * ratio, 0, at.x * ratio, at.y * ratio, r);
+        g.addColorStop(0, 'rgba(0,0,0,0.72)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+        target.fillStyle = g; target.beginPath(); target.arc(at.x * ratio, at.y * ratio, r, 0, Math.PI * 2); target.fill();
+      }
+      target.globalCompositeOperation = 'source-over';
+    };
     if (reducedMotion) {
-      // Less motion: no puff grows and nothing drifts. A still haze stands over each body that is firing, and before each gun that
-      // has fired, as thick as such fire leaves it - the field reads as a fight in its smoke without anything on it moving.
+      // Less motion: no puff grows and nothing drifts. A still haze stands over each body that is firing - a wall of it along a
+      // line firing volleys - and a still column before each gun that has fired: the field reads as a fight in its smoke with
+      // nothing on it moving.
       for (const body of battle ? bodiesOf(battle) : []) {
         if (!body.fire || body.fire === 'none' || body.action === 'gone' || body.civilians) continue;
         const shown = view.sides.get(body.key), centre = shown ? placeAt(shown, now) : body, facing = body.facing || { x: 1, y: 0 };
         const at = camera.toScreen({ x: centre.x + facing.x * 0.02, y: centre.y + facing.y * 0.02 });
         if (!inside(at)) continue;
-        const alpha = bankAlpha(body.fire === 'picket' ? 1 : 2.4) * 0.85;
-        drawBank(target, at, figurePx * 4.2 * (view.smokeScale ?? 1), alpha, hash(body.key), ratio, dark);
+        const alpha = bankAlpha(body.fire === 'picket' ? 1 : 3) * 0.85;
+        drawBank(target, at, figurePx * 4.6 * (view.smokeScale ?? 1), alpha, hash(body.key), ratio, dark, body.fire === 'volley' ? 'wall' : 'heap');
         haze++; cover = Math.max(cover, alpha);
       }
       for (const gun of [...(battle?.guns || []), ...(battle?.cannon ? [battle.cannon] : [])]) {
         if (!(gun.shots || []).length) continue;
         const fx = gun.facing?.x ?? 1, fy = gun.facing?.y ?? 0, at = camera.toScreen({ x: gun.x + fx * 0.03, y: gun.y + fy * 0.03 });
         if (!inside(at)) continue;
-        drawBank(target, at, figurePx * 5.5 * (view.smokeScale ?? 1), bankAlpha(3.5) * 0.85, hash(`gun:${gun.x}:${gun.y}`), ratio, dark);
+        drawBank(target, at, figurePx * 5.5 * (view.smokeScale ?? 1), bankAlpha(4) * 0.85, hash(`gun:${gun.x}:${gun.y}`), ratio, dark, 'plume', 0.7);
         haze++;
       }
+      thin();
       if (layer && haze) ctx.drawImage(layer.layer, 0, 0, bounds.width, bounds.height);
-      return { alive: view.smoke.length + view.banks.length, inView: haze, banks: view.banks.length, banksInView: 0, density, cover: +cover.toFixed(3), lingerMs, haze };
+      return { alive: view.smoke.length + view.banks.length, inView: haze, banks: view.banks.length, banksInView: 0, density, cover: +cover.toFixed(3), lingerMs, haze, plumes: 0, walls: 0, clearings: layer ? clear.length : 0 };
     }
-    // The banks first, under the fresh billows: each grows as it ages and as it thickens, lying where the wind has taken it.
+    // The banks first, under the fresh plumes: each grows as it ages and as it thickens, lying where the wind has taken it; a gun's
+    // goes up in a column for its first half minute, a volley's lies along the line.
     for (const bank of view.banks) {
       const at = camera.toScreen(bank);
       if (!inside(at)) continue;
       banksInView++;
       const age = now - bank.born, alpha = bankAlpha(bank.d);
-      const radius = figurePx * (bank.scale ?? 1) * ((bank.big ? 3.4 : 2.3) + 0.9 * Math.sqrt(bank.d) + 2.6 * (1 - Math.exp(-age / 25000)));
-      drawBank(target, at, radius, alpha, bank.seed, ratio, dark);
+      const radius = figurePx * (bank.scale ?? 1) * ((bank.big ? 4.4 : 3) + 1.1 * Math.sqrt(bank.d) + 4 * (1 - Math.exp(-age / 25000)));
+      const shape = bank.big && age < 40000 ? 'plume' : bank.wall ? 'wall' : 'heap';
+      if (shape === 'plume') plumes++; if (shape === 'wall') walls++;
+      drawBank(target, at, radius, alpha, bank.seed, ratio, dark, shape, shape === 'plume' ? 1 - Math.exp(-age / 7000) : 0);
       cover = Math.max(cover, alpha);
     }
+    thin();
     if (layer && banksInView) ctx.drawImage(layer.layer, 0, 0, bounds.width, bounds.height);
     let inView = banksInView;
     for (const s of view.smoke) {
       const age = now - s.born, t = age / s.life;
-      const at = camera.toScreen({ x: s.x + s.vx * age, y: s.y + s.vy * age });
+      // Thrown out of the muzzle and up in its first second, then carried by the wind with the rest.
+      const thrown = 1 - Math.exp(-age / 450), lifted = 1 - Math.exp(-age / 900);
+      const at = camera.toScreen({ x: s.x + (s.jet || 0) * thrown + s.vx * age, y: s.y - (s.jetUp || 0) * lifted + s.vy * age });
       if (bounds && at.x >= 0 && at.y >= 0 && at.x <= bounds.width && at.y <= bounds.height) inView++;
       const size = figurePx * lerp(s.size0, s.size1, Math.sqrt(t)) * (s.scale ?? 1);
-      const alpha = s.alpha * (t < 0.04 ? t / 0.04 : Math.pow(1 - t, 1.3));
+      let alpha = s.alpha * (t < 0.04 ? t / 0.04 : Math.pow(1 - t, 1.3));
+      // Thinner over one of the class's own men, so he is seen through it.
+      if (clear.some(c => Math.abs(c.x - at.x) < figurePx * 1.6 && Math.abs(c.y - (at.y - size * 0.4)) < figurePx * 1.8)) alpha *= 0.4;
       // The fresh billow white out of the muzzle, then grey and breaking up into the bank (since 2026-09-30 never the library's
       // dark-outlined `smoke-dense`, which read as a thundercloud over a line of muskets, not powder smoke).
       const sprite = t < 0.22 ? 'smoke-growing' : 'smoke-dispersing';
-      if (!art.drawSprite(ctx, sprite, at.x, at.y - figurePx * 0.4, size, { alpha, flip: s.seed > 0.7 })) {
+      if (!art.drawSprite(ctx, sprite, at.x, at.y - figurePx * 0.4, size, { alpha, flip: (s.jet || 0) < 0 || (!s.jet && s.seed > 0.7) })) {
         const g = ctx.createRadialGradient(at.x, at.y - size * 0.4, 0, at.x, at.y - size * 0.4, size * 0.5);
         g.addColorStop(0, `rgba(226,224,216,${alpha})`); g.addColorStop(1, 'rgba(226,224,216,0)');
         ctx.fillStyle = g; ctx.beginPath(); ctx.arc(at.x, at.y - size * 0.4, size * 0.5, 0, Math.PI * 2); ctx.fill();
@@ -1853,7 +1951,7 @@ export function createBattleView(art) {
     // Where the smoke lies now, on the ground: the middle of every puff and bank where the wind has taken it (evidence only).
     const all = [...view.smoke.map(s => ({ x: s.x + s.vx * (now - s.born), y: s.y + s.vy * (now - s.born) })), ...view.banks];
     const centre = all.length ? all.reduce((sum, s) => ({ x: sum.x + s.x, y: sum.y + s.y }), { x: 0, y: 0 }) : null;
-    return { alive: view.smoke.length + view.banks.length, inView, centre: centre && { x: centre.x / all.length, y: centre.y / all.length }, banks: view.banks.length, banksInView, density, cover: +cover.toFixed(3), lingerMs, haze };
+    return { alive: view.smoke.length + view.banks.length, inView, centre: centre && { x: centre.x / all.length, y: centre.y / all.length }, banks: view.banks.length, banksInView, density, cover: +cover.toFixed(3), lingerMs, haze, plumes, walls, clearings: layer ? clear.length : 0 };
   }
 
   /** Every line said this tick or lately, over whoever said it; the Mexican officer's words as each volley comes. */
@@ -1921,8 +2019,8 @@ export function createBattleView(art) {
       const cycleAt = (time + hash(`${battle.id}:${side.side}`) * VOLLEY_MS) % VOLLEY_MS;
       words.forEach((word, i) => {
         const since = cycleAt - VOLLEY_WORDS_AT[i];
-        if (since < 0 || since > 1300) return;
-        put({ ...word, id: side.side === 'mexican' ? `command:${i}` : `command:${side.side}:${i}`, side: side.side, role: 'officer', kind: word.kind || 'reconstructed' }, speakerAt({ side: side.side, role: 'officer', id: 'officer' }), speechAlpha(since, 900));
+        if (since < 0 || since > 2200) return;
+        put({ ...word, id: side.side === 'mexican' ? `command:${i}` : `command:${side.side}:${i}`, side: side.side, role: 'officer', kind: word.kind || 'reconstructed' }, speakerAt({ side: side.side, role: 'officer', id: 'officer' }), speechAlpha(since, 1700));
       });
     }
     return shown;

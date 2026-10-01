@@ -33,6 +33,11 @@ export const CINEMA = Object.freeze({
   glideMs: 1300,
   // How far out the establishing shot begins, and how close a shot of one person is, against the field's own frame.
   wideOut: 2.8, closeIn: 2.3,
+  // A man of the class hit while the camera is on him: it holds on him this long, without a word, then moves on and never comes back
+  // to him (owner, 2026-09-30, asked what the camera should do: "Hold a moment"; docs/BATTLES.md §16.4).
+  holdHitMs: 3200,
+  // A gun's shot shakes the class view's camera, a few pixels for half a second (docs/BATTLES.md §16.3).
+  shakePx: 6, shakeMs: 550,
 });
 
 const easeInOut = t => t <= 0 ? 0 : t >= 1 ? 1 : t * t * (3 - 2 * t);
@@ -48,18 +53,19 @@ export function createCinema({ mode = 'host' } = {}) {
   const c = {
     state: 'off', since: 0, battleId: null, returnView: null, restore: null, cam: null, lastNow: null,
     shots: [], shot: 0, shotSince: 0, followed: null, cutFrom: null, offSince: null, released: false, reduced: false, field: null,
-    endedForGame: false, log: [],
+    endedForGame: false, log: [], hit: null, seenHit: new Set(), thumpAt: -Infinity,
   };
   const go = (state, now) => { c.state = state; c.since = now; c.log.push({ state, at: Math.round(now) }); if (c.log.length > 60) c.log.shift(); };
   /** The shots of one pass: the field, then each of the class's own people in turn with the field between. */
   function shotList(members) {
-    const living = members.filter(one => !one.fallen);
+    const living = members.filter(one => !one.fallen && !c.seenHit.has(one.id));
     const list = ['field'];
     for (const one of living) list.push(one.id, 'field');
     return list;
   }
   function begin(input, now) {
     c.battleId = input.battleId; c.released = false; c.endedForGame = false;
+    c.seenHit = new Set(); c.hit = null; c.fought = null;
     c.cam = input.current ? { ...input.current } : { ...input.field };
     if (mode === 'host' && c.returnView === null) c.returnView = { view: input.home ?? null };
     if (input.reduced || mode === 'student') { c.shots = shotList(input.members || []); c.shot = 0; c.shotSince = now; go(mode === 'student' ? 'follow' : 'establish', now); if (mode === 'student') c.cam = { ...input.field }; return; }
@@ -68,8 +74,13 @@ export function createCinema({ mode = 'host' } = {}) {
   /** Where the current shot wants the camera. */
   function target(input) {
     const field = input.field;
+    // Held on a man of the class who was hit while the camera was on him: where it was, still, for a moment.
+    if (c.hit) { c.followed = null; return c.hit.view; }
     const id = c.shots[c.shot];
-    if (!id || id === 'field' || c.state === 'closing') { c.followed = null; return field; }
+    // Once the fight is over or quiet, the field as it was framed then, so the camera stays where the smoke is clearing rather than
+    // following the men marching off.
+    if (c.offSince !== null || c.state === 'closing') { c.followed = null; return c.still || field; }
+    if (!id || id === 'field') { c.followed = null; return field; }
     const one = (input.members || []).find(member => member.id === id);
     if (!one || one.fallen || !Number.isFinite(one.x)) { c.followed = null; return field; }
     c.followed = id;
@@ -84,6 +95,8 @@ export function createCinema({ mode = 'host' } = {}) {
   return {
     get state() { return c.state; },
     get followed() { return c.state === 'follow' ? c.followed : null; },
+    /** The man of the class the camera is holding on because he was hit while it was on him, or null. */
+    get holding() { return c.state === 'follow' && c.hit ? c.hit.id : null; },
     get battleId() { return c.battleId; },
     /** The view that frames the whole fight now (what a shot of one man is close against). */
     get field() { return c.field; },
@@ -103,11 +116,13 @@ export function createCinema({ mode = 'host' } = {}) {
       const dt = c.lastNow === null ? 0 : Math.max(0, Math.min(250, now - c.lastNow));
       c.lastNow = now; c.reduced = Boolean(input.reduced);
       if (input.field) c.field = input.field;
+      // The field as it was framed while men were last firing: where the smoke lies when the fighting is over.
+      if (input.field && input.firing) c.fought = input.field;
       // The end of the game takes the screen: the film stops at once, and nothing is put back (the end sequence has the camera).
       if (input.ended) { if (c.state !== 'off') { c.endedForGame = true; c.returnView = null; c.restore = null; go('off', now); } return; }
       // A paused class holds the shot where it is.
       if (!input.running) c.shotSince += dt;
-      if (input.focus) c.offSince = null; else if (c.state !== 'off' && c.offSince === null) c.offSince = now;
+      if (input.focus) { c.offSince = null; c.still = null; } else if (c.state !== 'off' && c.offSince === null) { c.offSince = now; c.still = c.fought || c.field ? { ...(c.fought || c.field) } : null; }
       const over = c.offSince !== null && now - c.offSince >= (input.live ? CINEMA.lullMs : CINEMA.graceMs);
       switch (c.state) {
         case 'off':
@@ -133,9 +148,14 @@ export function createCinema({ mode = 'host' } = {}) {
           // The fight no longer sent at all (over, and gone from the Host's map): the same ending, on the field as last framed.
           if (!input.field) { go('closing', now); break; }
           if (over) { go('closing', now); break; }
-          // Never kept on somebody who has fallen (docs/BATTLES.md §2b.1: the camera stays on the wall, not on him).
+          // A man hit while the camera is on him: it holds on him a moment, still and without words, then moves on and never comes
+          // back to him (owner, 2026-09-30: "Hold a moment"; until then, docs/BATTLES.md §2b.1's "the camera stays on the wall, not
+          // on him" moved it at once). Only once the page draws him hit, which is only from the minute the server sent it.
+          if (c.hit) { if (now - c.hit.at >= CINEMA.holdHitMs) { c.hit = null; nextShot(input, now); } break; }
           const id = c.shots[c.shot];
           const one = id && id !== 'field' ? (input.members || []).find(member => member.id === id) : null;
+          if (one?.fallen && !c.seenHit.has(id) && c.cam && !c.reduced) { c.seenHit.add(id); c.hit = { id, at: now, view: { ...c.cam } }; break; }
+          if (one?.fallen) c.seenHit.add(id);
           if (id && id !== 'field' && (!one || one.fallen)) { nextShot(input, now); break; }
           // While the server has stopped saying "battle" the camera waits on the field for the smoke to clear.
           if (c.offSince !== null && id !== 'field') { nextShot(input, now); break; }
@@ -194,6 +214,15 @@ export function createCinema({ mode = 'host' } = {}) {
       if (c.state === 'closing') return 1;
       if (c.state === 'reveal') return c.reduced ? 0 : Math.max(0, 1 - (now - c.since) / CINEMA.fadeInMs);
       return 0;
+    },
+    /** A gun fired on the screen now: the camera jolts. */
+    thump(now) { if (this.driving && !c.reduced) c.thumpAt = now; },
+    /** How far the camera is jolted now, in screen pixels (a gun's shot), {x, y}; nothing for less motion. */
+    shake(now) {
+      const t = now - c.thumpAt;
+      if (!(t >= 0 && t < CINEMA.shakeMs) || c.reduced || !this.driving) return { x: 0, y: 0 };
+      const k = CINEMA.shakePx * (1 - t / CINEMA.shakeMs);
+      return { x: Math.sin(t / 22) * k, y: Math.cos(t / 31) * k * 0.6 };
     },
     /** The view to put back, once, after the fight: `{ view }` (null for the whole class) - or null when nothing is put back. */
     takeRestore() { const r = c.restore; c.restore = null; return r; },

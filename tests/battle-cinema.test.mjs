@@ -38,7 +38,7 @@ test('on the Host it starts by itself: a fade to black, the field from far off w
   assert.equal(seen.at(-1).state, 'follow');
 });
 
-test('it follows the field and each of the class\'s own people in turn, gliding, and never stays on one shown hit', () => {
+test('it follows the field and each of the class\'s own people in turn, gliding, and holds a moment on one shown hit, then never follows him again', () => {
   const film = createCinema({ mode: 'host' });
   let fallen = false;
   const make = t => input({ members: members.map(one => one.id === 'p1' ? { ...one, fallen } : one) });
@@ -51,14 +51,21 @@ test('it follows the field and each of the class\'s own people in turn, gliding,
   assert.ok(close.view.scale > field.scale * 1.8 && Math.hypot(close.view.cx - 10.05, close.view.cy - 5.01) < 0.01, 'a shot of one man is not close on him');
   // A glide, never a jump: between two frames the camera moves a little.
   for (let i = 1; i < seen.length; i++) assert.ok(Math.abs(Math.log(seen[i].view.scale / seen[i - 1].view.scale)) < 0.1, `the camera jumped at ${seen[i].t}`);
-  // p1 is shown hit while the camera is on him: it goes on at once, and he is not followed again.
+  // p1 is shown hit while the camera is on him: it holds on him a moment, still and without words (owner, 2026-09-30: "Hold a
+  // moment"), then moves on, and he is not followed again.
   const t0 = seen.at(-1).t;
   let on = t0;
   for (; film.followed !== 'p1'; on += 50) film.update(make(on), on);
+  for (let i = 0; i < 60; i++, on += 50) film.update(make(on), on); // the camera has closed on him
+  const onHim = film.view(on);
   fallen = true;
-  film.update(make(on + 50), on + 50);
-  assert.notEqual(film.followed, 'p1', 'the camera stayed on a man shown hit');
-  const after = play(film, on + 100, on + 100 + 3 * (CINEMA.fieldMs + CINEMA.closeMs), make);
+  const held = play(film, on + 50, on + 50 + CINEMA.holdHitMs + 1500, make);
+  const holding = held.filter(one => one.t < on + 50 + CINEMA.holdHitMs - 100);
+  assert.ok(holding.every(one => film && one.followed === null), 'the man hit was still marked followed - words on the screen');
+  assert.ok(holding.every(one => Math.hypot(one.view.cx - onHim.cx, one.view.cy - onHim.cy) < 1e-6 && Math.abs(one.view.scale - onHim.scale) < 1e-6), 'the camera did not hold still on the man hit');
+  const leaving = held.at(-1);
+  assert.ok(Math.abs(leaving.view.scale - onHim.scale) > 1 || Math.hypot(leaving.view.cx - onHim.cx, leaving.view.cy - onHim.cy) > 1e-4, 'the camera stayed on him after the moment');
+  const after = play(film, on + CINEMA.holdHitMs + 1600, on + CINEMA.holdHitMs + 1600 + 3 * (CINEMA.fieldMs + CINEMA.closeMs), make);
   assert.ok(!after.some(one => one.followed === 'p1'), 'a man shown hit was followed again');
 });
 
@@ -155,4 +162,19 @@ test('each family keeps one colour, told apart from the next', () => {
   assert.equal(familyColour('hh-13'), FAMILY_COLOURS[0]);
   assert.equal(familyColour('hh-2'), familyColour('hh-2'));
   for (let n = 1; n < 12; n++) assert.notEqual(familyColour(`hh-${n}`), familyColour(`hh-${n + 1}`));
+});
+
+test("a gun's shot jolts the film's camera a few pixels for half a second; never for less motion, never when the teacher has it", () => {
+  const film = createCinema({ mode: 'host' });
+  play(film, 0, 9000, () => input());
+  film.thump(9000);
+  const jolt = film.shake(9100), after = film.shake(9000 + CINEMA.shakeMs + 10);
+  assert.ok(Math.hypot(jolt.x, jolt.y) > 1 && Math.hypot(jolt.x, jolt.y) <= CINEMA.shakePx, `the jolt was ${JSON.stringify(jolt)}`);
+  assert.deepEqual(after, { x: 0, y: 0 });
+  film.release(9200); film.thump(9300);
+  assert.deepEqual(film.shake(9350), { x: 0, y: 0 }, "the teacher's camera was jolted");
+  const still = createCinema({ mode: 'host' });
+  play(still, 0, 1000, () => input({ reduced: true }));
+  still.thump(1000);
+  assert.deepEqual(still.shake(1050), { x: 0, y: 0 }, 'jolted for less motion');
 });

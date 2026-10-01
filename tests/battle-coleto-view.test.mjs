@@ -210,7 +210,8 @@ test('the surrender is drawn with hands raised and a white flag at a corner; Pal
   const killing = fakeArt();
   const said = new Set(), killer = createBattleView(killing), camera = cameraOn(volleys, 500);
   let evidence = null;
-  for (let t = 0; t < 12000; t += 1000 / 60) {
+  // A rank's volley comes round every twenty seconds since 2026-09-30 (docs/BATTLES.md §16.1).
+  for (let t = 0; t < 24000; t += 1000 / 60) {
     evidence = killer.draw(fakeContext(), projected(GOLIAD_MASSACRE, 'volleys', Math.min(19, Math.floor(t / 1000))), { camera, time: t, now: t, tickMs: 1000, bounds });
     for (const bubble of evidence.bubbles) said.add(bubble.text);
   }

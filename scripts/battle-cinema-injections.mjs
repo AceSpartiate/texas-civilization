@@ -11,33 +11,62 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
 const FLOOR = 'tests/battle-floor.test.mjs', SMOKE = 'tests/battle-smoke.test.mjs', FILM = 'tests/battle-cinema.test.mjs', KNOW = 'tests/host-battle-knowledge.test.mjs';
+// Added 2026-09-30, second round (docs/BATTLES.md §16): speed, what is filmed, the hold on a man hit, and dramatic smoke.
+const MOTION = 'tests/battle-motion.test.mjs', FILMED = 'tests/battle-film.test.mjs', CHOREO = 'tests/battle-choreography.test.mjs', PLUMES = 'tests/battle-plumes.test.mjs';
 const UNIT = [
   // The floor.
   { name: 'a fight floored under three seconds a tick', file: 'sim/battle-stage.mjs', from: "'goliad-massacre': 90,", to: "'goliad-massacre': 60,",
     test: FLOOR, expect: 'every fight has a floor, and at every pace its fighting is watched at least that long and never faster than before' },
-  { name: 'the lead-ups floored too', file: 'sim/battle-stage.mjs', from: '    if (!fightingPhase(state.phase)) continue;', to: '    if (!state.phase?.step) continue;',
+  { name: 'the lead-ups floored too', file: 'sim/battle-stage.mjs', from: '    if (!fightingPhase(state.phase)) continue;\n    const ground', to: '    if (!state.phase?.step) continue;\n    const ground',
     test: FLOOR, expect: 'the clock asks for the floor exactly while the fighting is fought, and Gonzales at Quick lasts its two minutes' },
   { name: 'the server tells the floor and never waits it', file: 'server/app.mjs', from: '    const want = tickEvery();', to: '    const want = pace;',
     test: FLOOR, expect: 'the server waits the floor between the fighting ticks and tells the page the tick and the pace apart; a test class keeps its pace' },
   { name: 'the real server not given the floor', file: 'server/main.mjs', from: "  battleFloors: process.env.BATTLE_FLOORS !== '0',", to: '',
     test: FLOOR, expect: 'the real server floors its fights; the pace buttons read the pace, not the tick' },
+  // Movement (§16.1).
+  { name: 'a tick\'s movement not reckoned in its length', file: 'sim/battle-stage.mjs', from: '    const need = miles / PERSON_MILES_HERE / (mounted ? MOTION_CAP.mounted : MOTION_CAP.foot) * 1000;', to: '    const need = 0;',
+    test: MOTION, expect: 'nobody in a fight is drawn moving faster than a quick march on foot or a canter on a horse, at any pace' },
   // The smoke.
-  { name: 'the banks never thicker than half', file: 'public/battle-view.js', from: 'const bankAlpha = density => Math.min(0.82,', to: 'const bankAlpha = density => Math.min(0.5,',
+  { name: 'the banks never thicker than half', file: 'public/battle-view.js', from: 'const bankAlpha = density => Math.min(0.88,', to: 'const bankAlpha = density => Math.min(0.5,',
     test: SMOKE, expect: 'the smoke builds up under repeated fire until the firing line stands hidden in it, and is drawn over the men' },
   { name: 'the banks never thin', file: 'public/battle-view.js', from: '      bank.d *= Math.exp(-dt / (bank.big ? CANNON_BANK_FADE_MS : BANK_FADE_MS));', to: '      bank.d *= 1;',
     test: SMOKE, expect: 'the smoke drifts with the wind, lingers tens of seconds after the fire stops, and thins slowly away' },
-  { name: 'a gun\'s shot no more smoke than a musket\'s', file: 'public/battle-view.js', from: '    feedBank(x, y, big ? 1.1 : 0.6, now, w, big);', to: '    feedBank(x, y, 0.6, now, w, false);',
+  { name: 'a gun\'s shot no more smoke than a musket\'s', file: 'public/battle-view.js', from: '    feedBank(x + dir * (big ? 0.03 : 0.014), y, big ? 1.3 : wall ? 1.0 : 0.85, now, w, big, wall);', to: '    feedBank(x + dir * 0.014, y, wall ? 1.0 : 0.85, now, w, false, wall);',
     test: SMOKE, expect: 'a gun makes a bank of its own that outlasts a musket\'s' },
   { name: 'a bank for every shot past the cap', file: 'public/battle-view.js', from: '    if (!near && view.banks.length >= BANK_CAP)', to: '    if (false && !near && view.banks.length >= BANK_CAP)',
     test: SMOKE, expect: 'however long the firing, the smoke on the field stays bounded' },
   { name: 'no haze for less motion', file: 'public/battle-view.js', from: '    if (reducedMotion) {\n      // Less motion:', to: '    if (false) {\n      // Less motion:',
     test: SMOKE, expect: 'for less motion nothing grows or drifts: a still haze stands over the lines that are firing' },
+  // Dramatic smoke (§16.3).
+  { name: 'a shot\'s smoke not thrown out of the muzzle', file: 'public/battle-view.js', from: '      jet: dir * (big ? 0.05 : 0.024) * (0.8 + 0.4 * Math.random()),', to: '      jet: 0,',
+    test: PLUMES, expect: 'a shot throws a plume bigger than the man who fired it, out of the muzzle the way he faces, and up' },
+  { name: 'a volley\'s smoke lies in heaps, not a wall', file: 'public/battle-view.js', from: "      const shape = bank.big && age < 40000 ? 'plume' : bank.wall ? 'wall' : 'heap';", to: "      const shape = bank.big && age < 40000 ? 'plume' : 'heap';",
+    test: PLUMES, expect: 'a volley rolls out a wall of smoke along the rank' },
+  { name: 'a gun\'s smoke a heap, not a column', file: 'public/battle-view.js', from: "      const shape = bank.big && age < 40000 ? 'plume' : bank.wall ? 'wall' : 'heap';", to: "      const shape = bank.wall ? 'wall' : 'heap';",
+    test: PLUMES, expect: 'a gun blasts a column of smoke that climbs and spreads' },
+  { name: 'the smoke never more than thin', file: 'public/battle-view.js', from: 'const bankAlpha = density => Math.min(0.88,', to: 'const bankAlpha = density => Math.min(0.7,',
+    test: PLUMES, expect: 'a long fight ends half-shrouded in its own smoke' },
+  // The pace inside the fight (§16.1).
+  { name: 'the musket at the library clip\'s own speed', file: 'public/battle-view.js', from: 'const MUSKET = Object.freeze({ aim: 1500, fire: 200, load: 4200, ramrod: 5600 });', to: 'const MUSKET = Object.freeze({ aim: 700, fire: 120, load: 750, ramrod: 900 });',
+    test: CHOREO, expect: 'a man aims, fires and is seen loading over seconds, and fires about three times a minute' },
+  { name: 'the officer\'s words a blink apart', file: 'public/battle-view.js', from: 'const VOLLEY_MS = 20000, VOLLEY_WORDS_AT = [0, 2600, 4800],', to: 'const VOLLEY_MS = 11000, VOLLEY_WORDS_AT = [0, 1500, 2600],',
+    test: CHOREO, expect: 'the officer\'s three words are each long enough to read, and a rank\'s turn comes round every twenty seconds' },
+  { name: 'a man falls in a frame', file: 'public/battle-view.js', from: 'const FALL = Object.freeze({ struck: 900, down: 2200, spread: 2400 });', to: 'const FALL = Object.freeze({ struck: 0, down: 600, spread: 0 });',
+    test: CHOREO, expect: 'a man hit staggers and goes down over seconds, and the men of one fall go down a moment apart' },
+  { name: 'the gun fires in a blink', file: 'public/battle-view.js', from: 'const GUN = Object.freeze({ ready: 1800, recoil: 1700, flash: 340 });', to: 'const GUN = Object.freeze({ ready: 0, recoil: 900, flash: 130 });',
+    test: CHOREO, expect: 'a gun\'s crew stands ready before a shot the page knows is coming, and the gun recoils over more than a second and a half' },
+  // What is filmed (§16.2).
+  { name: 'the Alamo filmed only for its assault', file: 'sim/battle-stage.mjs', from: "alamo: 'whole', coleto:", to: "alamo: 'fighting', coleto:",
+    test: FILMED, expect: 'the major events are filmed with nobody\'s family there, from the first shot to the last, and the Alamo from the army\'s coming to the burial' },
+  { name: 'the film stops when the family\'s man falls', file: 'sim/battle-stage.mjs', from: '  const ever = Object.keys(state.battle?.participants || {}).some(personId => world.households?.[world.entities?.[personId]?.householdId]?.played);', to: '  const ever = false;',
+    test: FILMED, expect: 'a minor fight is filmed only with a played family\'s man in it, and stays filmed after he falls' },
+  { name: 'the Host never told what to film', file: 'sim/directors.mjs', from: "  if (role === 'host' && battle?.id) { const film = filmedAs(world, battle.id); if (film) host = { ...host, film }; }", to: '',
+    test: FILMED, expect: 'the Host is told what the class view films during Gonzales with no family in it; nobody else is told' },
   // The film.
   { name: 'no establishing shot from far off', file: 'public/battle-cinema.js', from: '        const wide = { ...c.field, scale: c.field.scale / CINEMA.wideOut };', to: '        const wide = { ...c.field };',
     test: FILM, expect: 'on the Host it starts by itself: a fade to black, the field from far off with a title, pushing in, and the fade up' },
-  { name: 'the camera kept on a man shown hit', file: 'public/battle-cinema.js', from: "          if (id && id !== 'field' && (!one || one.fallen)) { nextShot(input, now); break; }", to: '',
-    also: [{ from: '    if (!one || one.fallen || !Number.isFinite(one.x)) { c.followed = null; return field; }', to: '    if (!one || !Number.isFinite(one.x)) { c.followed = null; return field; }' }],
-    test: FILM, expect: 'it follows the field and each of the class\'s own people in turn, gliding, and never stays on one shown hit' },
+  { name: 'no hold on a man hit', file: 'public/battle-cinema.js', from: '          if (one?.fallen && !c.seenHit.has(id) && c.cam && !c.reduced) { c.seenHit.add(id); c.hit = { id, at: now, view: { ...c.cam } }; break; }', to: '',
+    test: FILM, expect: 'it follows the field and each of the class\'s own people in turn, gliding, and holds a moment on one shown hit, then never follows him again' },
   { name: 'no hold on the field before the fade', file: 'public/battle-cinema.js', from: '          if (now - c.since >= CINEMA.holdMs + (c.reduced ? 0 : CINEMA.fadeOutMs))', to: '          if (now - c.since >= (c.reduced ? 0 : CINEMA.fadeOutMs))',
     test: FILM, expect: 'when the fighting is over it holds on the field while the smoke clears, fades, and puts the teacher\'s view back' },
   { name: 'a fight gone from the map cuts the film off', file: 'public/battle-cinema.js', from: "          if (!input.field) { go('closing', now); break; }", to: "          if (!input.field) { go('off', now); break; }",
@@ -50,6 +79,8 @@ const UNIT = [
     test: FILM, expect: 'a student\'s page never starts it by itself; Watch starts the follow on the family\'s own, with no fade and no title' },
   { name: 'every family the same colour', file: 'public/battle-cinema.js', from: '  return FAMILY_COLOURS[(Number.isFinite(n) && n > 0 ? n - 1 : 0) % FAMILY_COLOURS.length];', to: '  return FAMILY_COLOURS[0];',
     test: FILM, expect: 'each family keeps one colour, told apart from the next' },
+  { name: 'no jolt for a gun\'s shot', file: 'public/battle-cinema.js', from: '    thump(now) { if (this.driving && !c.reduced) c.thumpAt = now; },', to: '    thump(now) {},',
+    test: FILM, expect: 'a gun\'s shot jolts the film\'s camera a few pixels for half a second; never for less motion, never when the teacher has it' },
   // What the Host may know.
   { name: 'a fate sent before its minute', file: 'sim/battle-stage.mjs', from: '    const fell = Object.fromEntries(members.filter(one => fates[one] && fates[one].minute <= world.minute)', to: '    const fell = Object.fromEntries(members.filter(one => fates[one])',
     test: KNOW, expect: 'the Host is shown a family\'s man in the fight from the start and his fate only from its minute: nothing on its wire says it sooner' },
@@ -57,12 +88,15 @@ const UNIT = [
 const BROWSER = [
   { name: 'the floor not kept by the server', file: 'server/app.mjs', from: "    if (!battleFloors || state.world.status !== 'running') return pace;", to: '    return pace;', expect: 'the fighting\'s ticks were not held to the floor' },
   { name: 'no fade to black into the fight', file: 'public/battle-cinema.js', from: "      if (c.state === 'opening' || c.state === 'recut') return Math.min(1, t / CINEMA.fadeOutMs);", to: '', expect: 'no fade to black before the fight' },
+  { name: 'the class view films only what the old camera framed', file: 'public/app.js', from: '    focus: host ? Boolean(world.host?.film) && Boolean(fight)', to: "    focus: host ? world.host?.focus === 'battle' && Boolean(fight)", expect: 'the gathering with the class' },
   { name: 'every family the same colour on the class view', file: 'public/app.js', from: "colour: familyColour(entity.householdId) });", to: "colour: familyColour('hh-1') });", expect: 'names without their family or its colour' },
   { name: 'Esc does nothing', file: 'public/app.js', from: "  if (event.key !== 'Escape' || event.defaultPrevented) return;", to: '  return;', expect: 'Esc did not take the camera' },
   { name: 'faded for less motion', file: 'public/battle-cinema.js', from: '      if (c.reduced) return 0;\n      const t = now - c.since;', to: '      const t = now - c.since;', expect: 'a page asking for less motion was faded' },
   { name: 'the camera not put back', file: 'public/app.js', from: '  if (back) { manualView = back.view', to: '  if (false) { manualView = back.view', expect: 'the camera was not put back' },
-  // Thick while it is fed, gone eight seconds after: the line hidden in its smoke as before, and nothing left lying on the field.
   { name: 'the smoke gone soon after the firing', file: 'public/battle-view.js', from: '    if (view.banks.some(bank => bank.d <= BANK_GONE)) view.banks = view.banks.filter(bank => bank.d > BANK_GONE);', to: '    view.banks = view.banks.filter(bank => bank.d > BANK_GONE && now - bank.fed < 8000);', expect: 'the smoke did not lie on the field twenty seconds' },
+  { name: 'the smoke not thinned round the class\'s men', file: 'public/battle-view.js', from: '    const clear = clearAt || clearings(camera, figurePx);', to: '    const clear = [];', expect: 'the smoke was thinned round the class\'s men' },
+  { name: 'the gun\'s smoke never a plume', file: 'public/battle-view.js', from: "      const shape = bank.big && age < 40000 ? 'plume' : bank.wall ? 'wall' : 'heap';", to: "      const shape = bank.wall ? 'wall' : 'heap';", expect: "the gun's shots never went up as a plume" },
+  { name: 'the musket at the library clip\'s own speed, on the page', file: 'public/battle-view.js', from: 'const MUSKET = Object.freeze({ aim: 1500, fire: 200, load: 4200, ramrod: 5600 });', to: 'const MUSKET = Object.freeze({ aim: 700, fire: 120, load: 750, ramrod: 900 });', expect: 'shots a man a minute' },
 ];
 
 const CR = String.fromCharCode(13), LF = String.fromCharCode(10);
@@ -131,7 +165,7 @@ function mergeByName(before = [], now = []) { const out = [...before]; for (cons
 mkdirSync('docs/evidence', { recursive: true });
 const merged = {
   record: 'battle-cinema-injections', date: new Date().toISOString().slice(0, 10),
-  gates: { unit: `${FLOOR}, ${SMOKE}, ${FILM}, ${KNOW}: the named test and no other`, browser: 'scripts/battle-cinema-browser-proof.mjs' },
+  gates: { unit: `${FLOOR}, ${SMOKE}, ${FILM}, ${KNOW}, ${MOTION}, ${FILMED}, ${CHOREO}, ${PLUMES}: the named test and no other`, browser: 'scripts/battle-cinema-browser-proof.mjs' },
   unit: only ? mergeByName(previous.unit, record.unit) : record.unit.length ? record.unit : previous.unit || [],
   browser: only ? mergeByName(previous.browser, record.browser) : record.browser.length ? record.browser : previous.browser || [],
   cleanBrowserChecks: record.cleanBrowserChecks ?? previous.cleanBrowserChecks ?? null,
