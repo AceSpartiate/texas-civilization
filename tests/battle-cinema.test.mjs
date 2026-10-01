@@ -89,6 +89,12 @@ test('when the fighting is over it holds on the field while the smoke clears, fa
   let restore = null;
   for (let t = 9050; t < 30000 && !restore; t += 50) { film2.update(input({ focus: false, home: null }), t); restore = film2.takeRestore(); }
   assert.deepEqual(restore, { view: teacher }, 'the camera was not put back where the teacher had it');
+  // A fight gone from the Host's map at once (over during a lull) ends the same way, on the field as it was last framed.
+  const gone = createCinema({ mode: 'host' });
+  play(gone, 0, 9000, () => input());
+  const ending = play(gone, 9050, 9050 + CINEMA.holdMs + CINEMA.fadeOutMs + CINEMA.fadeInMs + 400, () => input({ focus: false, field: null, battleId: null, home: null }));
+  assert.ok(ending.some(one => one.state === 'closing' && one.view) && ending.some(one => one.fade > 0.9), 'a fight gone from the map cut off the film with no hold and no fade');
+  assert.deepEqual(gone.takeRestore(), { view: teacher }, 'a fight gone from the map did not put the teacher\'s view back');
   assert.equal(film2.takeRestore(), null, 'the view was put back twice');
 });
 

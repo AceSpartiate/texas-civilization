@@ -127,7 +127,9 @@ export function createCinema({ mode = 'host' } = {}) {
           break;
         case 'follow': {
           if (input.battleId && input.battleId !== c.battleId && mode === 'host') { if (c.reduced) { c.battleId = input.battleId; go('establish', now); } else go('recut', now); break; }
-          if (!input.field || (mode === 'student' && !input.focus)) { go('off', now); break; }
+          if (mode === 'student' && (!input.field || !input.focus)) { go('off', now); break; }
+          // The fight no longer sent at all (over, and gone from the Host's map): the same ending, on the field as last framed.
+          if (!input.field) { go('closing', now); break; }
           if (over) { go('closing', now); break; }
           // Never kept on somebody who has fallen (docs/BATTLES.md §2b.1: the camera stays on the wall, not on him).
           const id = c.shots[c.shot];

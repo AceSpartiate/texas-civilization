@@ -6,15 +6,15 @@
   "checks": [
     "two students joined on the page, each family with a man up the river with the men, and the Host started the class",
     "the teacher looks at Gonzales (camera at 2.10, 0.50, 960 px a mile)",
-    "the Host's camera went by itself: a fade to black (0.94), the field from 256 px a mile pushing in to 1132, under a title and the bars",
+    "the Host's camera went by itself: a fade to black (0.97), the field from 256 px a mile pushing in to 1132, under a title and the bars",
     "each man of the class in the fight is named on the class view with his family and its colour: Amos (Amos's family, #d64545); Trinidad (Trinidad's family, #2f6fd6); the class panel carries the same colours",
     "the film follows the field and then each family's man in turn, close (hh-1-thomas, hh-2-thomas)",
     "Esc took the camera and it stayed where it was; \"Watch the fight\" gave it back; \"Take the camera (Esc)\" took it again; and back to the film",
     "the student pressed Watch and the same follow ran on their own page, on their own man hh-1-thomas, naming nobody else's",
-    "the battle draws in 3.9 ms (95th percentile) at 1366x768 and 3.8 ms at 1024x600, smoke and all",
-    "for less motion no fade and no glide (536 looks), and a still haze over the lines (3 banks of it)",
+    "the battle draws in 1.2 ms (95th percentile) at 1366x768 and 1.2 ms at 1024x600, smoke and all",
+    "for less motion no fade and no glide (516 looks), and a still haze over the lines (3 banks of it)",
     "the fighting over, the film held on the field 6.0 s while the smoke cleared, faded to black and put the camera back at Gonzales",
-    "black-powder smoke on the screen at 285 of 285 looks at the fighting, banked as thick as 0.82, and still lying on the field 49 s after the last shot",
+    "black-powder smoke on the screen at 290 of 290 looks at the fighting, banked as thick as 0.82, and still lying on the field 48 s after the last shot",
     "the server held each tick of the fighting to 1765 ms (Gonzales's floor scaled by 0.5) at a pace of 400 ms, and said the pace apart"
   ],
   "home": {
@@ -32,29 +32,29 @@
   "frames": {
     "1366x768": {
       "battle": {
-        "last": 3.6,
-        "median": 3,
-        "p95": 3.9
+        "last": 0.7,
+        "median": 0.9,
+        "p95": 1.2
       },
-      "map": 16.899999976158142,
-      "smokeInView": 104,
-      "banks": 32
+      "map": 4,
+      "smokeInView": 89,
+      "banks": 25
     },
     "1024x600": {
       "battle": {
-        "last": 2.2,
-        "median": 3,
-        "p95": 3.8
+        "last": 1.1,
+        "median": 0.9,
+        "p95": 1.2
       },
-      "map": 12.700000047683716,
-      "smokeInView": 112,
-      "banks": 38
+      "map": 5.5,
+      "smokeInView": 103,
+      "banks": 30
     }
   },
   "samples": [
     {
       "followed": "hh-1-thomas",
-      "scale": 1467,
+      "scale": 1470,
       "tag": {
         "id": "hh-1-thomas",
         "name": "Amos",
@@ -62,27 +62,27 @@
         "colour": "#d64545",
         "householdId": "hh-1",
         "x": 658,
-        "y": 381,
+        "y": 380,
         "down": false,
         "followed": true
       },
-      "smokeInView": 116
+      "smokeInView": 115
     },
     {
       "followed": "hh-2-thomas",
-      "scale": 2090,
+      "scale": 2085,
       "tag": {
         "id": "hh-2-thomas",
         "name": "Trinidad",
         "family": "Trinidad's family",
         "colour": "#2f6fd6",
         "householdId": "hh-2",
-        "x": 706,
-        "y": 346,
+        "x": 707,
+        "y": 347,
         "down": false,
         "followed": true
       },
-      "smokeInView": 21
+      "smokeInView": 20
     }
   ],
   "states": [

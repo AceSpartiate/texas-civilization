@@ -40,6 +40,8 @@ const UNIT = [
     test: FILM, expect: 'it follows the field and each of the class\'s own people in turn, gliding, and never stays on one shown hit' },
   { name: 'no hold on the field before the fade', file: 'public/battle-cinema.js', from: '          if (now - c.since >= CINEMA.holdMs + (c.reduced ? 0 : CINEMA.fadeOutMs))', to: '          if (now - c.since >= (c.reduced ? 0 : CINEMA.fadeOutMs))',
     test: FILM, expect: 'when the fighting is over it holds on the field while the smoke clears, fades, and puts the teacher\'s view back' },
+  { name: 'a fight gone from the map cuts the film off', file: 'public/battle-cinema.js', from: "          if (!input.field) { go('closing', now); break; }", to: "          if (!input.field) { go('off', now); break; }",
+    test: FILM, expect: 'when the fighting is over it holds on the field while the smoke clears, fades, and puts the teacher\'s view back' },
   { name: 'the film takes the camera back from the teacher', file: 'public/battle-cinema.js', from: "        case 'released':\n          if (over || !input.field)", to: "        case 'released':\n          if (true || over || !input.field)",
     test: FILM, expect: 'the teacher takes the camera at any moment, keeps it for that fight, and can give it back; nothing is put back after' },
   { name: 'the film goes on over the end of the game', file: 'public/battle-cinema.js', from: '      if (input.ended) {', to: '      if (false && input.ended) {',
