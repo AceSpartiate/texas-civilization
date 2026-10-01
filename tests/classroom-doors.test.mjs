@@ -175,7 +175,9 @@ test('a fourth tab of one family lets the oldest go and tells it why, and is nev
 });
 
 test('a page that stops answering its pings is let go, and its student claims the family at another device', async () => {
-  const { app, port, dispose } = await classroom({ streamTimings: { pingMs: 40, staleMs: 200 } });
+  const { app, port, dispose } = await classroom({ streamTimings: { pingMs: 100, staleMs: 800 } });
+  // Margins wide enough for a loaded machine: the full suite runs files in parallel, and at 40 ms pings and 200 ms staleness a busy
+  // event loop let an answering page go (flaked three times on 2026-09-30). The awake wait stays longer than two staleness spans.
   const open = [];
   try {
     const code = app.state.sessionCode;
@@ -187,13 +189,13 @@ test('a page that stops answering its pings is let go, and its student claims th
     const bare = await openStream(port, ana.cookie());
     open.push(chromebook, bare);
     // Awake and answering, it is kept however long it stays: the family is being played.
-    await delay(500);
+    await delay(2000);
     assert.ok(!chromebook.ended, 'a page answering its pings was let go');
     const cart = client(port);
     assert.equal((await cart.call('/api/claim', { code, householdId: joined.body.world.householdId })).status, 409, 'a family being played was taken');
     // The lid shut: the socket stays open, nothing answers.
     chromebook.sleep();
-    await until(() => chromebook.ended, 3000, 'the sleeping page to be let go');
+    await until(() => chromebook.ended, 8000, 'the sleeping page to be let go');
     const away = await cart.call('/api/away', { code });
     assert.ok(away.body.families.some(family => family.householdId === joined.body.world.householdId), 'the family is not on the away list');
     const claimed = await cart.call('/api/claim', { code, householdId: joined.body.world.householdId });
