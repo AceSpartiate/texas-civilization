@@ -773,6 +773,17 @@ async function makeAndKeep(id, world) {
  * Make every video still wanted: the class's alone first, then the families' two at a time (`toStart`, public/making-plan.js), a
  * new one begun as each finishes, until none is wanted.
  */
+/**
+ * Whether the class video is playing on the class screen, or about to (its stage, from the moment it is made until the Host's page
+ * says it has ended), or played again by the teacher: then the families' videos are made one at a time beside it.
+ */
+function classVideoPlaying(snapshot) {
+  if (snapshot.world.role !== 'host') return false;
+  if (snapshot.endSequence?.stage === 'class') return true;
+  const video = document.querySelector('#finale-video');
+  return Boolean(video && !video.hidden && !video.paused && !video.ended);
+}
+let wakeMaking = null;
 async function makeMissing() {
   if (making.running || !art) return;
   making.running = true;
@@ -782,9 +793,12 @@ async function makeMissing() {
       const snapshot = lastSnapshot;
       if (!snapshot?.flashback?.ready || !snapshot.world.map?.sites) break;
       // What is wanted and not being made; a video finished is out of `wanted` (done or failed) before its promise settles.
-      for (const id of toStart(wanted(snapshot).filter(one => !going.has(one)), [...going.keys()])) going.set(id, makeAndKeep(id, snapshot.world).finally(() => going.delete(id)));
+      // One at a time while the class video plays (owner, 2026-10-01: "One at a time"), two once it has ended (public/making-plan.js).
+      for (const id of toStart(wanted(snapshot).filter(one => !going.has(one)), [...going.keys()], { classPlaying: classVideoPlaying(snapshot) })) going.set(id, makeAndKeep(id, snapshot.world).finally(() => going.delete(id)));
       if (!going.size) break;
-      await Promise.race(going.values());
+      // Woken when a video is made, and when a snapshot comes (the class video ended: a second may begin at once).
+      await Promise.race([...going.values(), new Promise(resolve => { wakeMaking = resolve; })]);
+      wakeMaking = null;
     }
   } finally {
     making.running = false; makeAgain = false; renderStatus(); if (lastSnapshot) renderFinale(lastSnapshot);
@@ -1065,7 +1079,7 @@ function bindFinale() {
   // The Host's page tells the server when the class's video begins and when it has played to its end (sim/end-sequence.mjs).
   video.addEventListener('play', () => { if (lastSnapshot?.endSequence?.stage === 'class' && video.dataset.replay !== 'true') tellOnce('class-playing'); });
   video.addEventListener('ended', () => {
-    if (video.dataset.replay === 'true') { video.dataset.replay = ''; if (lastSnapshot) renderFinale(lastSnapshot); return; }
+    if (video.dataset.replay === 'true') { video.dataset.replay = ''; wakeMaking?.(); if (lastSnapshot) renderFinale(lastSnapshot); return; }
     if (lastSnapshot?.endSequence?.stage === 'class') { finaleSeen.classEnded = Date.now(); tellOnce('class-watched'); }
   });
   document.querySelector('#finale-skip').addEventListener('click', () => tell('skip'));
@@ -1097,6 +1111,7 @@ function bindFinale() {
 /** Draw the flashback's part of the ending, and make whatever videos this page is the one to make. */
 export function renderFlashback(snapshot) {
   lastSnapshot = snapshot;
+  wakeMaking?.();
   const section = document.querySelector('#flashback');
   if (!section) return;
   const flashback = snapshot.flashback;

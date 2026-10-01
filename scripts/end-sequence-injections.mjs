@@ -29,7 +29,11 @@ const INJECTIONS = [
   { file: 'public/making-plan.js', test: SEQ, fails: 'makes the class\'s video alone and first', from: 'export const MAKE_AT_ONCE = 2;', to: 'export const MAKE_AT_ONCE = 1;' },
   { file: 'public/making-plan.js', test: SEQ, fails: 'makes the class\'s video alone and first', from: '  if (making.has(CLASS_ID)) return [];\n', to: '' },
   { file: 'public/making-plan.js', test: SEQ, fails: 'makes the class\'s video alone and first', from: '  if (wanted.includes(CLASS_ID)) return making.size ? [] : [CLASS_ID];\n', to: '' },
-  { file: 'public/making-plan.js', test: SEQ, fails: 'makes the class\'s video alone and first', from: '.slice(0, Math.max(0, atOnce - making.size));', to: '.slice(0, atOnce);' },
+  { file: 'public/making-plan.js', test: SEQ, fails: 'makes the class\'s video alone and first', from: '.slice(0, Math.max(0, most - making.size));', to: '.slice(0, most);' },
+  // One at a time while the class video plays (owner, 2026-10-01: "One at a time").
+  { file: 'public/making-plan.js', test: SEQ, fails: 'makes the class\'s video alone and first', from: 'export const MAKE_BESIDE_CLASS_VIDEO = 1;', to: 'export const MAKE_BESIDE_CLASS_VIDEO = 2;' },
+  { file: 'public/making-plan.js', test: SEQ, fails: 'makes the class\'s video alone and first', from: 'const most = classPlaying ? MAKE_BESIDE_CLASS_VIDEO : MAKE_AT_ONCE;', to: 'const most = MAKE_AT_ONCE;' },
+  { file: 'public/making-plan.js', test: SEQ, fails: 'makes the class\'s video alone and first', from: 'const most = classPlaying ? MAKE_BESIDE_CLASS_VIDEO : MAKE_AT_ONCE;', to: 'const most = MAKE_BESIDE_CLASS_VIDEO;' },
   { file: 'sim/end-sequence.mjs', test: SEQ, fails: 'the class video, then the families', also: ['on the server', 'start as it ends'], from: 'Math.max(...made.map(fact => fact.made.durationMs))', to: 'Math.min(...made.map(fact => fact.made.durationMs))' },
   { file: 'sim/end-sequence.mjs', test: SEQ, fails: 'the class video, then the families', from: 'const open = Object.values(facts.families || {}).filter(fact => fact.here);', to: 'const open = Object.values(facts.families || {});' },
   { file: 'sim/end-sequence.mjs', test: SEQ, fails: 'the class video, then the families', from: 'if ((!open.length || made.length < open.length) && now < sequence.since + MAKE_WAIT_MS) return null;', to: 'if (!open.length || made.length < open.length) return null;' },

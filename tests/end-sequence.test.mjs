@@ -13,7 +13,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { projectWorld, validateWorld } from '../sim/world.mjs';
 import { CLASS_GRACE_MS, CLASS_WAIT_MS, END_MS, MAKE_WAIT_MS, START_MS, advanceEndSequence, beginEndSequence, dueStage, endSequenceStep, endSequenceView, familyStates } from '../sim/end-sequence.mjs';
 import { continueEnded } from '../sim/periods.mjs';
-import { CLASS_ID, MAKE_AT_ONCE, toStart } from '../public/making-plan.js';
+import { CLASS_ID, MAKE_AT_ONCE, MAKE_BESIDE_CLASS_VIDEO, toStart } from '../public/making-plan.js';
 import { muxWebM } from '../public/webm-writer.js';
 import { createClassroom } from '../server/app.mjs';
 
@@ -110,14 +110,21 @@ test('the families\' videos never start before the class video has finished, and
   validateWorld(world); validateWorld(late); validateWorld(after);
 });
 
-test('the Host\'s computer makes the class\'s video alone and first, then the families\' two at a time (owner, 2026-09-30)', () => {
-  // Owner, 2026-09-30: "make two at once".
+test('the Host\'s computer makes the class\'s video alone and first, then the families\' one at a time while it plays and two after (owner, 2026-09-30, 2026-10-01)', () => {
+  // Owner, 2026-09-30: "make two at once"; 2026-10-01, the class video dropping frames beside two: "One at a time" while it plays.
   assert.equal(MAKE_AT_ONCE, 2);
+  assert.equal(MAKE_BESIDE_CLASS_VIDEO, 1);
   const wanted = [CLASS_ID, 'hh-2', 'hh-4', 'hh-1', 'hh-3'];
   assert.deepEqual(toStart(wanted, []), [CLASS_ID], 'the class video was not made first, or not alone');
   assert.deepEqual(toStart(wanted.slice(1), [CLASS_ID]), [], 'a family\'s video was made beside the class\'s');
-  assert.deepEqual(toStart(wanted.slice(1), []), ['hh-2', 'hh-4'], 'the families\' were not made two at a time, in the order wanted');
-  assert.deepEqual(toStart(['hh-1', 'hh-3'], ['hh-4']), ['hh-1'], 'a finished video was not followed at once by the next');
+  // While the class video plays: one at a time, the next begun as each is made.
+  const playing = { classPlaying: true };
+  assert.deepEqual(toStart(wanted.slice(1), [], playing), ['hh-2'], 'more than one family\'s video was begun beside the class video');
+  assert.deepEqual(toStart(['hh-4', 'hh-1'], ['hh-2'], playing), [], 'a second was begun beside the class video');
+  assert.deepEqual(toStart(['hh-4', 'hh-1'], [], playing), ['hh-4'], 'a finished video was not followed at once by the next');
+  // Once it has ended: two at a time, in the order wanted; one in hand is joined by a second at once.
+  assert.deepEqual(toStart(wanted.slice(1), []), ['hh-2', 'hh-4'], 'the families\' were not made two at a time once the class video had ended');
+  assert.deepEqual(toStart(['hh-1', 'hh-3'], ['hh-4']), ['hh-1'], 'the class video ended and no second was begun beside the one in hand');
   assert.deepEqual(toStart(['hh-1', 'hh-3'], ['hh-2', 'hh-4']), [], 'a third was made at once');
   assert.deepEqual(toStart([], ['hh-2']), []);
   // A class video wanted again (the class made again) waits for the families' in hand, then goes alone.

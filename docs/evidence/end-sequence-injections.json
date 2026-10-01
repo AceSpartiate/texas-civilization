@@ -1,56 +1,14 @@
 {
- "at": "2026-09-30T16:06:29.825Z",
- "caught": 41,
- "of": 41,
+ "at": "2026-10-01T21:20:12.325Z",
+ "caught": 7,
+ "of": 7,
  "results": [
   {
-   "file": "sim/ending.mjs",
+   "file": "public/making-plan.js",
    "test": "tests/end-sequence.test.mjs",
-   "expected": "no page is sent a number of the ending before the reveal",
+   "expected": "makes the class's video alone and first",
    "failed": [
-    "no page is sent a number of the ending before the reveal, and every page is at the reveal",
-    "on the server: the Host ends the class, the class video first, the student's own next, and the reveal when it has played"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/end-sequence.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "the class video, then the families",
-   "failed": [
-    "the class video, then the families' own, then the reveal: what moves each stage on, and when",
-    "the families' videos never start before the class video has finished, and start as it ends when they are ready (owner, 2026-09-30)",
-    "on the server: the Host ends the class, the class video first, the student's own next, and the reveal when it has played"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/end-sequence.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "never start before the class video has finished",
-   "failed": [
-    "the class video, then the families' own, then the reveal: what moves each stage on, and when",
-    "the families' videos never start before the class video has finished, and start as it ends when they are ready (owner, 2026-09-30)"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/end-sequence.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "never start before the class video has finished",
-   "failed": [
-    "the class video, then the families' own, then the reveal: what moves each stage on, and when",
-    "the families' videos never start before the class video has finished, and start as it ends when they are ready (owner, 2026-09-30)",
-    "on the server: the Host ends the class, the class video first, the student's own next, and the reveal when it has played"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/end-sequence.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "never start before the class video has finished",
-   "failed": [
-    "the families' videos never start before the class video has finished, and start as it ends when they are ready (owner, 2026-09-30)"
+    "the Host's computer makes the class's video alone and first, then the families' one at a time while it plays and two after (owner, 2026-09-30, 2026-10-01)"
    ],
    "ok": true
   },
@@ -59,7 +17,7 @@
    "test": "tests/end-sequence.test.mjs",
    "expected": "makes the class's video alone and first",
    "failed": [
-    "the Host's computer makes the class's video alone and first, then the families' two at a time (owner, 2026-09-30)"
+    "the Host's computer makes the class's video alone and first, then the families' one at a time while it plays and two after (owner, 2026-09-30, 2026-10-01)"
    ],
    "ok": true
   },
@@ -68,7 +26,7 @@
    "test": "tests/end-sequence.test.mjs",
    "expected": "makes the class's video alone and first",
    "failed": [
-    "the Host's computer makes the class's video alone and first, then the families' two at a time (owner, 2026-09-30)"
+    "the Host's computer makes the class's video alone and first, then the families' one at a time while it plays and two after (owner, 2026-09-30, 2026-10-01)"
    ],
    "ok": true
   },
@@ -77,7 +35,7 @@
    "test": "tests/end-sequence.test.mjs",
    "expected": "makes the class's video alone and first",
    "failed": [
-    "the Host's computer makes the class's video alone and first, then the families' two at a time (owner, 2026-09-30)"
+    "the Host's computer makes the class's video alone and first, then the families' one at a time while it plays and two after (owner, 2026-09-30, 2026-10-01)"
    ],
    "ok": true
   },
@@ -86,301 +44,25 @@
    "test": "tests/end-sequence.test.mjs",
    "expected": "makes the class's video alone and first",
    "failed": [
-    "the Host's computer makes the class's video alone and first, then the families' two at a time (owner, 2026-09-30)"
+    "the Host's computer makes the class's video alone and first, then the families' one at a time while it plays and two after (owner, 2026-09-30, 2026-10-01)"
    ],
    "ok": true
   },
   {
-   "file": "sim/end-sequence.mjs",
+   "file": "public/making-plan.js",
    "test": "tests/end-sequence.test.mjs",
-   "expected": "the class video, then the families",
+   "expected": "makes the class's video alone and first",
    "failed": [
-    "the class video, then the families' own, then the reveal: what moves each stage on, and when",
-    "the families' videos never start before the class video has finished, and start as it ends when they are ready (owner, 2026-09-30)"
+    "the Host's computer makes the class's video alone and first, then the families' one at a time while it plays and two after (owner, 2026-09-30, 2026-10-01)"
    ],
    "ok": true
   },
   {
-   "file": "sim/end-sequence.mjs",
+   "file": "public/making-plan.js",
    "test": "tests/end-sequence.test.mjs",
-   "expected": "the class video, then the families",
+   "expected": "makes the class's video alone and first",
    "failed": [
-    "the class video, then the families' own, then the reveal: what moves each stage on, and when"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/end-sequence.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "the class video, then the families",
-   "failed": [
-    "the class video, then the families' own, then the reveal: what moves each stage on, and when"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/end-sequence.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "the class video, then the families",
-   "failed": [
-    "the class video, then the families' own, then the reveal: what moves each stage on, and when"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/end-sequence.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "the class video, then the families",
-   "failed": [
-    "the class video, then the families' own, then the reveal: what moves each stage on, and when",
-    "on the server: the Host ends the class, the class video first, the student's own next, and the reveal when it has played"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/end-sequence.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "the class video, then the families",
-   "failed": [
-    "the class video, then the families' own, then the reveal: what moves each stage on, and when"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/end-sequence.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "the class video, then the families",
-   "failed": [
-    "the class video, then the families' own, then the reveal: what moves each stage on, and when",
-    "on the server: the Host ends the class, the class video first, the student's own next, and the reveal when it has played"
-   ],
-   "ok": true
-  },
-  {
-   "file": "server/app.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "on the server: the Host ends the class",
-   "failed": [
-    "on the server: the Host ends the class, the class video first, the student's own next, and the reveal when it has played"
-   ],
-   "ok": true
-  },
-  {
-   "file": "server/app.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "on the server: the Host ends the class",
-   "failed": [
-    "on the server: the Host ends the class, the class video first, the student's own next, and the reveal when it has played"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/end-sequence.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "the class video, then the families",
-   "failed": [
-    "the class video, then the families' own, then the reveal: what moves each stage on, and when",
-    "what a page may ask of the sequence: the teacher moves it on, and a family's page asks nothing"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/end-sequence.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "what a page may ask of the sequence",
-   "failed": [
-    "what a page may ask of the sequence: the teacher moves it on, and a family's page asks nothing",
-    "on the server: the Host ends the class, the class video first, the student's own next, and the reveal when it has played"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/periods.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "what a page may ask of the sequence",
-   "failed": [
-    "what a page may ask of the sequence: the teacher moves it on, and a family's page asks nothing"
-   ],
-   "ok": true
-  },
-  {
-   "file": "server/app.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "on the server: the Host ends the class",
-   "failed": [
-    "on the server: the Host ends the class, the class video first, the student's own next, and the reveal when it has played"
-   ],
-   "ok": true
-  },
-  {
-   "file": "server/flashback.mjs",
-   "test": "tests/end-sequence.test.mjs",
-   "expected": "on the server: the Host ends the class",
-   "failed": [
-    "on the server: the Host ends the class, the class video first, the student's own next, and the reveal when it has played"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/farm-sale.mjs",
-   "test": "tests/farm-sale.test.mjs",
-   "expected": "an intact farm sells for its land",
-   "failed": [
-    "an intact farm sells for its land, its house, its cleared and fenced acres and its well, and the price is coin glory multiplies"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/farm-sale.mjs",
-   "test": "tests/farm-sale.test.mjs",
-   "expected": "an intact farm sells for its land",
-   "failed": [
-    "an intact farm sells for its land, its house, its cleared and fenced acres and its well, and the price is coin glory multiplies"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/ending.mjs",
-   "test": "tests/farm-sale.test.mjs",
-   "expected": "an intact farm sells for its land",
-   "failed": [
-    "an intact farm sells for its land, its house, its cleared and fenced acres and its well, and the price is coin glory multiplies"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/farm-sale.mjs",
-   "test": "tests/farm-sale.test.mjs",
-   "expected": "a burned farm has nothing to sell and counts glory instead",
-   "failed": [
-    "a burned farm has nothing to sell and counts glory instead, by whichever army burned it"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/ending.mjs",
-   "test": "tests/farm-sale.test.mjs",
-   "expected": "a burned farm has nothing to sell and counts glory instead",
-   "failed": [
-    "a burned farm has nothing to sell and counts glory instead, by whichever army burned it"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/farm-sale.mjs",
-   "test": "tests/farm-sale.test.mjs",
-   "expected": "nothing is counted while the class runs",
-   "failed": [
-    "nothing is counted while the class runs, between periods, on the invented Gonzales country, or for a family nobody is left of; and no goods are priced"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/farm-sale.mjs",
-   "test": "tests/farm-sale.test.mjs",
-   "expected": "nothing is counted while the class runs",
-   "failed": [
-    "nothing is counted while the class runs, between periods, on the invented Gonzales country, or for a family nobody is left of; and no goods are priced"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/farm-sale.mjs",
-   "test": "tests/farm-sale.test.mjs",
-   "expected": "nothing is counted while the class runs",
-   "failed": [
-    "nothing is counted while the class runs, between periods, on the invented Gonzales country, or for a family nobody is left of; and no goods are priced"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/ending.mjs",
-   "test": "tests/ending-debrief.test.mjs",
-   "expected": "the final number is written one way",
-   "failed": [
-    "the final number is written one way: the code, VISION.md, docs/MONEY_AND_GLORY.md and the Host's footer (3.7)"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/flashback.mjs",
-   "test": "tests/end-scenes.test.mjs",
-   "expected": "each family that came home sees what is left",
-   "failed": [
-    "each family that came home sees what is left, rebuilds where it burned, remembers its dead and counts what it has, in that order"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/flashback.mjs",
-   "test": "tests/end-scenes.test.mjs",
-   "expected": "each family that came home sees what is left",
-   "failed": [
-    "each family that came home sees what is left, rebuilds where it burned, remembers its dead and counts what it has, in that order"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/flashback.mjs",
-   "test": "tests/end-scenes.test.mjs",
-   "expected": "each family that came home sees what is left",
-   "failed": [
-    "each family that came home sees what is left, rebuilds where it burned, remembers its dead and counts what it has, in that order"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/flashback.mjs",
-   "test": "tests/end-scenes.test.mjs",
-   "expected": "a death of sickness is remembered at the burial without a name",
-   "failed": [
-    "each family that came home sees what is left, rebuilds where it burned, remembers its dead and counts what it has, in that order",
-    "a death of sickness is remembered at the burial without a name"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/class-flashback.mjs",
-   "test": "tests/end-scenes.test.mjs",
-   "expected": "the class's own video: two and a half minutes at most",
-   "failed": [
-    "the class's own video: two and a half minutes at most, in order, from several families, and none of the ending's numbers"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/class-flashback.mjs",
-   "test": "tests/end-scenes.test.mjs",
-   "expected": "the class's own video: two and a half minutes at most",
-   "failed": [
-    "the class's own video: two and a half minutes at most, in order, from several families, and none of the ending's numbers"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/class-flashback.mjs",
-   "test": "tests/end-scenes.test.mjs",
-   "expected": "the class's own video: two and a half minutes at most",
-   "failed": [
-    "the class's own video: two and a half minutes at most, in order, from several families, and none of the ending's numbers"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/class-flashback.mjs",
-   "test": "tests/end-scenes.test.mjs",
-   "expected": "the class's video exists only once the class has ended for good",
-   "failed": [
-    "the class's video exists only once the class has ended for good"
-   ],
-   "ok": true
-  },
-  {
-   "file": "sim/flashback.mjs",
-   "test": "tests/flashback.test.mjs",
-   "expected": "a death in battle is told once",
-   "failed": [
-    "a death in battle is told once, in its fight's own beat, never again as the day the family heard"
+    "the Host's computer makes the class's video alone and first, then the families' one at a time while it plays and two after (owner, 2026-09-30, 2026-10-01)"
    ],
    "ok": true
   }
