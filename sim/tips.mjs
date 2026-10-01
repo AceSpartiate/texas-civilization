@@ -16,7 +16,7 @@
  */
 export const TIP_IDS = Object.freeze([
   'alto', 'road', 'flight', 'route', 'sick', 'rest', 'call', 'army', 'watch', 'resume',
-  'cow', 'milk', 'baby', 'child', 'enlist', 'trade', 'store', 'arrive', 'order', 'house', 'field', 'town', 'star',
+  'cow', 'milk', 'baby', 'child', 'enlist', 'trade', 'store', 'arrive', 'order', 'house', 'field', 'town', 'star', 'cart',
 ]);
 
 /** The tips this family's student has seen, in the order they were put away. */

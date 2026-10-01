@@ -248,6 +248,42 @@ bare, sown and ripe plots), `sim/chores.mjs` (planting and the harvest), `sim/au
   several plots in several crops is auto's and the director's only. A student who wants two plots of corn and two of cotton taps
   and plants twice. `ceiling:` a harvest brings in every ripe plot; which to bring in is not chosen.
 
+### 5.3 Click a field to choose its crop — owner-decided 2026-09-30 (not released)
+
+> "when i was playing earlier, there was no mechanism for choosing what crop is planted on each field. let me click on the fields so
+> i can select what is grown there."
+>
+> — the owner, 2026-09-30, after playing the release v2026.09.29.3 (which had one crop for the whole field; §5.2 is on
+> integration and unreleased)
+
+§5.2 made each plot its own crop, but a plot was only chosen after pressing *Plant the field*. Now **a plot of the family's own
+field clicked or tapped on the map, with no work chosen first, opens the plot chooser right there on that plot**:
+
+- **Bare** - *What Ann plants*, the plot's own words (*"Ten acres of prairie beside the house, cleared, with no fence (the stock
+  take a third of what grows). Bare."*), **Plant corn** and **Plant cotton** each with **its seed on the button** (*2 seed*,
+  *3 seed*; amber when the house has less - the server still plants what the seed pays for, §5.2), and *Every bare plot instead*.
+- **Growing** - titled *Corn growing* (*Cotton growing*), eyebrow FIELD, the plot's words ending *"Corn growing, ready in about
+  3 minutes."*; nothing to send.
+- **Ripe** - titled *Corn ripe*, *"... Ripe corn, ready to bring in."*, and **Bring it in**, the harvest order (every ripe plot,
+  §5.2's `ceiling:`).
+- **Staked** - the clearing chooser on that plot (*Which plot Ann clears*, **Clear it**), as the clearing icon opens it.
+- **Who goes** (`public/family-panel.js` `plotHand`): the person whose bar is shown, then the main person, then the panel's order
+  (father, mother, children oldest first) - the first the server would send on that work now; a **Who** list in the chooser
+  changes it to anybody else who may. Nobody may: the bar's person, and the server's refusal in their name.
+- **Visual cue, not words** (the owner's standing preference): under the mouse the plot is lit (a gold edge and wash) and the
+  pointer is a hand; tapped, it is outlined as the chooser looks at it.
+- **Touch** (triage D17, "tap, then send"): a tap only opens the chooser; nothing is sent until a crop, *Bring it in* or *Clear it*
+  is pressed. **Keyboard**: the field line's chips (`#field-summary`) are buttons now - Enter on *bare*, a crop *growing* or a crop
+  *ripe* opens the chooser on the first such plot with the focus on its first button; the bare plots stay offered as suggested
+  places (§9).
+- **Unchanged**: *Plant the field* and its chooser, choosing a person by clicking them on the map (a person standing on a plot is
+  still chosen first), the house opened by clicking it, and every refusal, which is the server's.
+- Page only, with one catalogue field: the chore catalogue carries each crop's seed a plot (`seeds` on `plant-field`, fetched once).
+  No save, action or tick change. Proof `npm run test:field-click` ([record](evidence/field-click-browser.json)); tests
+  `tests/field-click-hunt.test.mjs`.
+- `ceiling:` the hover highlight is for a mouse; a touch screen sees the outline only once tapped. `ceiling:` a cleared plot with no
+  fence offers planting, not fencing; *Fence a cleared plot* still does that.
+
 ## 6. Old saves
 
 No `saveVersion` bump: every missing field has a correct value.

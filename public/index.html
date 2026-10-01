@@ -187,7 +187,7 @@
     </div>
     <!-- Something happened that most of the class would miss: the Host's camera has gone there, and this says what. -->
     <div id="host-spotlight" role="status" hidden><span id="host-spotlight-date"></span><span id="host-spotlight-text"></span><button type="button" id="host-spotlight-back">Whole class</button></div>
-    <p id="panel-tip" role="tooltip" hidden><span id="panel-tip-name"></span><span id="panel-tip-summary"></span><span id="panel-tip-note"></span><!-- On a touch screen the first tap on an icon shows this with Send, and the second tap or Send sends (triage D17). --><button type="button" id="panel-tip-send" hidden>Send</button></p>
+    <p id="panel-tip" role="tooltip" hidden><span id="panel-tip-name"></span><span id="panel-tip-summary"></span><span id="panel-tip-note"></span><!-- On a touch screen the first tap on an icon shows this with Send, and the second tap or Send sends (triage D17). --><!-- A goal refused only for what the family has not got (docs/FAMILY_PANEL.md §23): what it wants, and the work that brings the first thing missing. --><span id="panel-tip-needs" hidden></span><button type="button" id="panel-tip-go" hidden></button><button type="button" id="panel-tip-send" hidden>Send</button></p>
     <!-- The family's big moments (owner, 2026-09-29: "use that same style as the alert for when a family member is going through
          a major event like a battle"): one card, in the story cards' frame, its accent and icon the moment's own (`data-accent`). -->
     <section id="military-notice" class="story-card" hidden aria-label="Messages and military service">
@@ -549,7 +549,11 @@
            without hunting the map. Pressing one looks at it, as a tap there does; the button below still sends. -->
       <div class="suggested" id="survey-suggested" role="group" aria-label="Suggested places" hidden></div>
       <p id="survey-note" role="alert"></p>
+      <!-- A plot tapped on the map (owner, 2026-09-30): who goes, chosen from those who may. -->
+      <label id="plot-who-line" hidden>Who <select id="plot-who"></select></label>
       <button type="button" id="survey-send" hidden>Survey it</button>
+      <!-- A ripe plot tapped on the map: bring the crop in, sent by the one dispatcher as the harvest icon is. -->
+      <button type="button" id="plot-harvest" data-action="chore" data-chore="harvest-field" hidden>Bring it in</button>
       <!-- Planting (owner, 2026-09-30, each plot its own crop): the crop for the plot tapped, or for every bare plot. -->
       <span id="plant-crops" hidden>
         <button type="button" class="plant-crop" data-crop="corn">Plant corn</button>

@@ -1,5 +1,65 @@
 # Claude handoff — Astra foundation
 
+## Click a field to choose its crop; the carreta and the hunt found — owner-decided 2026-09-30 (not released)
+
+Branch `field-click-hunt` off local `integration-2026-09-28` (bd0b4efb); not pushed, nothing published. The owner, verbatim, after
+playing the live build v2026.09.29.3 (which has one crop for the whole field; per-plot crops are on integration, unreleased):
+*"when i was playing earlier, there was no mechanism for choosing what crop is planted on each field. let me click on the fields so i
+can select what is grown there. i never saw where i could hunt to get leather to make the little carts, and i really wanted one since
+i was using me wagon for something else."* Same computer only: headless Chrome (a touch screen emulated for one tap); no
+Chromebook, phone, LAN or classroom claim.
+
+**Why he could not find hunting or the cart** (docs/WOODS_AND_BUILDING.md §6.9). The bar has drawn only what can be pressed since
+2026-09-22. A family starts with the axe and no logs and no hide, so *Make a carreta* was refused and **never drawn** until logs *and*
+a hide were both in the house; nothing said a carreta exists, that it wants a hide, or that a hunt brings one (the hunt's sentence
+said "carry home what they can", hides were on no line, and the tanner only buys hides). *Hunt on our land* was on the bar while the
+rifle was home - but refused, and so gone from the bar, whenever a man had the family's one rifle at the war or somebody else was
+out hunting with it.
+
+**What a student sees now**
+
+- **A plot clicked or tapped** on the map with no work chosen first opens the plot chooser on it (docs/LAND_GRANTS.md §5.3): bare -
+  *Plant corn* / *Plant cotton*, each with its seed on the button (2 / 3, amber when short) and a **Who** list (the person whose bar
+  is shown, else the next the server would send); growing - *Corn growing ... ready in about 3 minutes*; ripe - *Bring it in*;
+  staked - *Clear it*. Under the mouse a plot is lit gold and the pointer is a hand. A tap only opens the chooser (D17). From the
+  keyboard the field line's chips are buttons that open the first plot of their kind. *Plant the field* is unchanged.
+- **The carreta greyed on the bar with what it wants** (docs/FAMILY_PANEL.md §23): beads along the icon's foot (axe, logs, hide;
+  green had, ember missing); pressed, its popup lists *✓ Felling axe 1/1 · ✓ Logs 3/3 · Hide 0/1* and **Go hunting**, which opens
+  the hunt's place chooser for that person. Logs point at *Fell trees*, the axe at town.
+- **The hunt greyed when the rifle is away** (*"Jethro has the rifle, gone with the volunteers to Gonzales."*, *Rifle 0/1*,
+  **Buy a rifle in town**); with no powder it can still be sent, as before, and shows the powder bead in ember (**Buy powder in
+  town**).
+- **Hides 1** on the supplies line once there are any; a one-time **tip** when the wagon is busy and a carreta is short of
+  something: *"Wagon busy? Your family can make a carreta, a small ox cart, at home: the axe, 3 logs and a hide. A hunt brings home
+  a hide."* The field tip now says *tap a plot on the map or press "Plant the field"*.
+
+**Built**: `sim/wants.mjs` (new: the household's `wants`, sent only while short), `sim/carreta.mjs` (`carretaShort`,
+`carretaWants`), `sim/chores.mjs` (`short` on a refused entry; the hunts' `rifleShort`; the catalogue's `seeds`), `sim/world.mjs`
+(the projection), `sim/tips.mjs` + `public/tips.js` (`cart`), `public/family-panel.js` (`barIcons`, `needsFor`, `nextStep`,
+`WANT_FROM`, `plotStage`, `plotJobFor`, `plotWorkFor`, `plotHand`, `plotHands`), `public/app.js` (the map's plot tap and hover, the
+chooser's states, seed and Who, the chips, the goal's beads and pinned popup, Hides), `public/index.html`, `public/style.css`. No save
+change, no save version, no new action. Per tick: one `short: 1` on such a refused entry and the household's counts while short.
+
+**Evidence**: `tests/field-click-hunt.test.mjs` (6); `npm run test:field-click` (14 checks, [record](docs/evidence/field-click-browser.json),
+screenshots `docs/evidence/field-click-*.png`); `node scripts/field-click-injections.mjs` - every new check watched failing
+([record](docs/evidence/field-click-injections.json)): **21 of 21 caught** - 13 node injections each failing only its own test, 8
+browser injections each stopping the proof at the step it guards. Runs here: `npm test` 1975 tests, 0 failed; `test:field-click`
+green 5 runs (one earlier red was the proof reading a short harvest off the page's snapshots, fixed to read the server); green
+once each after the change: `test:mixed-field`, `test:farm`, `test:family-panel`, `test:hunt`, `test:overlap`, `test:keyboard-farm`,
+`test:tips`. `node scripts/check-doc-links.mjs` clean.
+
+**Owner questions** (multiple choice, recommended first)
+
+1. *Keep goals greyed on the bar for other works short of a thing?* (a) **Only the carreta and the hunt, as built** - the bar stays
+   short; (b) every work refused for want of a thing the family could get (the well with no hoe, furniture with no axe, a counter
+   with no coin); (c) none, back to the 2026-09-22 rule and a tip only.
+2. *Should the tanner sell a rawhide, as a second way to the carreta?* (a) **Yes, 2 reales or 4 food** (twice what he pays) at every
+   town with a tanner; (b) no - a hunt is the only way; (c) yes, and the store too.
+3. *A hunt with no powder:* (a) **as now - it can be sent, finds game and cannot take the shot; the powder bead says so**; (b) refuse
+   it before anybody goes, *"There is no powder in the house."*
+4. *Clicking a cleared, unfenced plot:* (a) **planting only, as built** - *Fence a cleared plot* does fencing; (b) also a *Fence it*
+   button in the same chooser.
+
 ## The Watch card goes over the army's supply request — owner-decided 2026-09-30 (not released)
 
 Branch `watch-over-supply` off local `integration-2026-09-28` (bd0b4efb); not pushed. The owner answered the proofs-world

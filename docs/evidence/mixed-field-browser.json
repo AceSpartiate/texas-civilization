@@ -1,6 +1,6 @@
 {
   "record": "mixed-field-browser",
-  "date": "2026-09-30",
+  "date": "2026-10-01",
   "browser": "153.0.8010.53",
   "ownerDirection": "\"players can still plow new and extra fields right? so i as a player could have corn growing for food as well as cotton to sell?\" (2026-09-30)",
   "checks": [
@@ -11,7 +11,7 @@
     "the seed was spent plot by plot: 3 for the cotton, 2 for each plot of corn, 17 left",
     "each plot drawn with its own crop and the field line in pictures: corn growing 2, cotton growing 1 (\"Field: Corn growing on 2 plots, the first ready in about 4 minutes; Cotton growing on 1 plot.\")",
     "the corn ripe before the cotton, drawn so, and its chip lit with a tick: Field: Corn ripe on 2 plots: bring it in; Cotton growing on 1 plot, the first ready in about 2 minutes.",
-    "\"Bring in the crop\" (About 17 food of 20 standing; the rest has gone to stock in an unfenced field.) brought in the two corn plots and left the cotton standing: food 3.9 to 19.6",
+    "\"Bring in the crop\" (About 17 food of 20 standing; the rest has gone to stock in an unfenced field.) brought in the two corn plots and left the cotton standing: food 4.0 to 20.5",
     "the cotton comes on after, by itself",
     "the field line fits at 1024x768: 126x38 px",
     "no page errors anywhere in the run"
@@ -110,16 +110,16 @@
     },
     "harvest": "About 17 food of 20 standing; the rest has gone to stock in an unfenced field.",
     "food": {
-      "before": 3.8932,
-      "after": 19.6162
+      "before": 3.9916,
+      "after": 20.498
     },
     "afterLine": {
       "hidden": false,
-      "label": "Field: Cotton ripe on 1 plot: bring it in; 2 bare plots to plant.",
+      "label": "Field: Cotton growing on 1 plot, the first ready in about 2 minutes; 2 bare plots to plant.",
       "chips": [
         {
           "crop": "cotton",
-          "stage": "ripe",
+          "stage": "growing",
           "n": "1",
           "drawn": true
         },

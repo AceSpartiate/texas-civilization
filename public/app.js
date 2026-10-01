@@ -4,7 +4,7 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
-import { actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS } from '/family-panel.js';
+import { actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, barIcons, nextStep, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { TIPS, tipToShow, tipsToReread } from '/tips.js';
 import { mountErrand } from '/errand.js';
@@ -2193,13 +2193,26 @@ function installMapNavigation() {
     if (siteLooking() || surveyLooking()) {
       // Looking over the family's own land for a house site or ten acres to survey: a tap is a place, not a person.
       const view = currentView();
-      if (view) (siteLooking() ? lookAtSite : lookAtPlot)(worldAt(view, point, size()));
+      if (view) {
+        const at = worldAt(view, point, size());
+        // The chooser opened by a plot tapped on the map: another plot tapped is looked at for what it is now (owner, 2026-09-30).
+        const plot = plotFromMap && surveyLooking() && window.__snapshot && ownPlotAt(window.__snapshot.world, at);
+        if (plot) openPlotChooser(window.__snapshot.world, plot);
+        else (siteLooking() ? lookAtSite : lookAtPlot)(at);
+      }
       return;
     }
     const hit = entityAt(point);
     // Nobody under the tap, but the family's own house is: open the rooms inside (docs/SETTLING_IN.md step 7).
     const house = !hit && houseAt(point);
     if (house) { interiorSiteId = house; clearInteriorChoice(); const panel = $('#interior'); if (panel) delete panel.dataset.shown; if (window.__snapshot) renderInteriorPanel(window.__snapshot.world); }
+    // Nobody and no house, but a plot of the family's own field: what grows there, chosen right there (owner, 2026-09-30: "let me
+    // click on the fields so i can select what is grown there"; docs/LAND_GRANTS.md §5.2). A person on the plot is still chosen.
+    if (!hit && !house && window.__snapshot) {
+      const view = currentView();
+      const plot = view && ownPlotAt(window.__snapshot.world, worldAt(view, point, size()));
+      if (plot && openPlotChooser(window.__snapshot.world, plot)) return;
+    }
     selectedId = hit;
     selectionDismissed = !hit;
     if (window.__snapshot) { drawWorld(window.__snapshot.world); renderSelection(window.__snapshot.world); renderTutorial(window.__snapshot.world); }
@@ -2223,7 +2236,24 @@ function installMapNavigation() {
     else if (press) { press.pointers = Math.max(press.pointers, active.size); press.moving = true; }
     beginGesture();
   });
+  // A plot of the family's own field under a mouse is lit, and the pointer is a hand (owner, 2026-09-30: visual cues over
+  // explanation): it can be clicked for what grows there. Not while a place is being chosen, or a house placed.
+  const hoverPlot = event => {
+    const snapshot = window.__snapshot;
+    let id = null;
+    if (snapshot && !housePlacement && !routePicking && !siteLooking() && !(surveyLooking() && !plotFromMap) && event) {
+      if (performance.now() - measuredAt > 500) measure();
+      const view = currentView(), point = localPoint(event);
+      const plot = view && !entityAt(point) && ownPlotAt(snapshot.world, worldAt(view, point, size()));
+      id = plot ? plot.id : null;
+    }
+    if (id === plotHover) return;
+    plotHover = id; canvas.style.cursor = id ? 'pointer' : '';
+    requestMapDraw();
+  };
+  canvas.addEventListener('pointerleave', () => hoverPlot(null));
   canvas.addEventListener('pointermove', event => {
+    if (event.pointerType === 'mouse' && !active.size) hoverPlot(event);
     // Measured here too, as a wheel is: a pointer that has only hovered since the page opened is read against the canvas as
     // it was at start-up, hidden behind the title screen with no size, and put the preview at no number at all - nothing was
     // drawn until the first press on the map (2026-09-23, scripts/house-plot-browser-proof.mjs).
@@ -3067,7 +3097,7 @@ function drawPlots(ctx, world, camera) {
     ctx.beginPath(); corners.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath();
     if (style.fill) { ctx.fillStyle = style.fill; ctx.fill(); }
     ctx.setLineDash(style.dash || []);
-    ctx.lineWidth = Math.max(1.2, Math.min(3, camera.figure * .05)); ctx.strokeStyle = style.stroke; ctx.stroke();
+    ctx.lineWidth = style.width || Math.max(1.2, Math.min(3, camera.figure * .05)); ctx.strokeStyle = style.stroke; ctx.stroke();
     if (style.posts) {
       const post = Math.max(2, Math.min(9, camera.figure * .22));
       ctx.setLineDash([]); ctx.fillStyle = '#5a3f22';
@@ -3101,6 +3131,10 @@ function drawPlots(ctx, world, camera) {
     drawn.push({ id: plot.id, ...whose, state: plot.state, ground: plot.ground, work: plot.work || 0, spells: plot.spells, cleared: share, corners });
   }
   for (const person of host ? observedOf(world) : entitiesOf(world)) if (person.chore?.id === 'survey-plot' && person.chore.plot) square(person.chore.plot, { stroke: 'rgba(107,79,42,.7)', dash: [5, 4] });
+  // The plot under the mouse, lit, for a click on it (`hoverPlot`): a light edge and a wash, no words.
+  const lit = !host && plotHover && (world.land?.plots || []).find(plot => plot.id === plotHover);
+  if (lit) square(lit, { stroke: '#ffe27a', fill: 'rgba(255,232,140,.24)', width: 4 });
+  window.__plotHover = lit ? lit.id : null;
   if (plotPick && surveyLooking()) {
     // Surveying looks at new ground; clearing and fencing at the plot under the tap, outlined where the server found it.
     const target = plotJob === 'survey-plot' ? plotPick.point : (world.land?.plots || []).find(plot => plot.id === plotPick.facts?.plotId);
@@ -3354,7 +3388,9 @@ function drawWorldNow(world) {
   foldSiteChooser(world, camera, canvas);
   // The ground is drawn again only when something it is drawn from changed (`groundInputs`, public/map-base.js): not for a
   // snapshot in which only people moved, nor for a click that renders one. The pick being made on the land is drawn into it.
-  const pick = surveyLooking() && plotPick ? JSON.stringify([plotJob, plotPick.point, plotPick.facts?.can ?? null, plotPick.facts?.plotId ?? null]) : null;
+  // The plot lit under the mouse (`hoverPlot`) is drawn into it too: the ground is drawn again as the mouse goes onto a plot and off.
+  const picking = surveyLooking() && plotPick ? [plotJob, plotPick.point, plotPick.facts?.can ?? null, plotPick.facts?.plotId ?? null] : null;
+  const pick = picking || plotHover ? JSON.stringify([picking, plotHover]) : null;
   // The woods' revision is not in it: a tree felled anywhere in the class moves it, and what changes on the ground is the tile
   // that comes after, whose arrival draws the ground again (`redrawForArrival`).
   // The weather in the ground is the high water on the rivers, the wet earth and the lean the wind puts on the trees
@@ -4175,6 +4211,14 @@ $('#host-goto')?.addEventListener('change', event => {
  * map draws the rows) and a count. The words are its label and each chip's title, for a screen reader and a hover. The server's
  * `land.crops` (sim/crops.mjs `cropSummary`); built again only when it changes, and each picture drawn again until its art is in.
  */
+/** The first of the family's plots a field-line chip counts (bare, or this crop growing or ripe), opened in the plot chooser. */
+function openChipPlot(crop, stage, fromKeyboard) {
+  const world = window.__snapshot?.world;
+  const plot = world && (world.land?.plots || []).find(one => plotStage(one) === stage && (stage === 'bare' || (one.crop || 'corn') === crop));
+  if (!plot) return;
+  centreMapOn(plot);
+  openPlotChooser(world, plot, { focus: fromKeyboard });
+}
 function renderFieldSummary(world) {
   const root = $('#field-summary');
   if (!root) return;
@@ -4192,8 +4236,12 @@ function renderFieldSummary(world) {
   if (root.dataset.key !== key) {
     root.dataset.key = key;
     root.replaceChildren(...chips.map(chip => {
-      const span = element('span', '', 'crop-chip');
+      // A button since 2026-09-30 (owner: "let me click on the fields"): pressed, the plot chooser opens on the first plot of it -
+      // the way to a plot without the map, for a keyboard.
+      const span = element('button', '', 'crop-chip');
+      span.type = 'button';
       span.dataset.crop = chip.crop; span.dataset.stage = chip.stage;
+      span.addEventListener('click', event => openChipPlot(chip.crop, chip.stage, event.detail === 0));
       const canvas = document.createElement('canvas'); canvas.width = canvas.height = 44; canvas.setAttribute('aria-hidden', 'true');
       span.append(canvas, element('b', String(chip.n)));
       return span;
@@ -4310,6 +4358,9 @@ function renderHousehold(world) {
   supplies.push({ key: 'powder', text: `Powder ${powder.toFixed(0)}`, level: powder <= 0 ? 'out' : powder < 2 ? 'low' : '' });
   const cotton = Number(household.resources?.cotton || 0);
   if (cotton > 0) supplies.push({ key: 'cotton', text: `Cotton ${cotton.toFixed(0)}`, level: 'good' });
+  // Hides from the hunt, once there are any (owner, 2026-09-30): a carreta is lashed with one, and the tanner buys them.
+  const hides = Number(household.resources?.hides || 0);
+  if (hides > 0) supplies.push({ key: 'hides', text: `Hides ${hides.toFixed(0)}`, level: 'good' });
   // Coin is always shown, including none: it is scarce, and it is half of how a family ends.
   const coin = Number(household.resources?.money || 0);
   supplies.push({ key: 'coin', text: coin === 1 ? '1 real' : `${coin} reales`, level: coin <= 0 ? 'low' : '' });
@@ -5036,7 +5087,7 @@ function populateWork(world, chosen, running) {
  * it says changes. Every rule here is the projection's; public/family-panel.js orders, words and draws it.
  */
 const panelRows = new Map();
-let panelExpanded = null, panelTipFor = null;
+let panelExpanded = null, panelTipFor = null, panelBarId = null, panelOrderIds = [];
 function renderFamilyPanel(world) {
   const panel = $('#family-panel'), list = $('#family-rows');
   const household = world.household;
@@ -5067,6 +5118,8 @@ function renderFamilyPanel(world) {
   // Since 2026-09-28 (design audit B11) that is anybody's portrait, not only a child's: choosing a person shows their bar and never
   // makes them main (`barPerson`, public/family-panel.js).
   const barId = barPerson({ viewedId: panelExpanded, mainId: focusedId, entities: byId });
+  // Who a plot tapped on the map would go to first (`plotHand`): the person whose bar is shown, then the panel's order.
+  panelBarId = barId; panelOrderIds = order;
   const land = world.land;
   const house = Boolean(land?.interior?.kind);
   const army = new Set((world.army?.ours || []).map(one => one.id));
@@ -5197,7 +5250,7 @@ function renderFamilyPanel(world) {
     const carry = null;
     const offered = world.work?.[id] || [];
     const icons = panelActions({ entity, offered, catalogue: choreCache || new Map(), main: focused, homeId, homesteads,
-      atHome: entity.location?.siteId === homeId, settable, carry });
+      atHome: entity.location?.siteId === homeId, settable, carry, wants: world.watching ? null : household.wants });
     // The guided start shuts everything the step does not allow, and rings the one it asks for (public/lesson.js). It is
     // read here rather than decided here: `allow` is the server's list and the server refuses anything else in words.
     const shutting = lessonLocks(lesson);
@@ -5234,7 +5287,10 @@ function renderFamilyPanel(world) {
     setData(row.item, 'idle', String(idle));
     if (row.idle.hidden !== !idle) row.idle.hidden = !idle;
     seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), needRank: place?.rank ?? null, needLeftMs: need?.leftMs ?? null, idle, focused, auto: onAuto, autoSays: autoSays || null, autoWaiting: Boolean(onAuto && entity.autoTask?.waiting), reason: reason || null, why: silence || null, travelling: travelling || null, life: life || null, word: shortWord || null, switchShown: !noSwitch, bar });
-    const visibleIcons = icons.filter(icon => icon.active || (icon.can && (!shutting || allowsIcon(lesson, icon))));
+    // What can be pressed, as since 2026-09-22, and beside it the goals refused only for what the family has not got - a carreta
+    // short of its hide, a hunt whose rifle is at the war - greyed, with what they want (owner, 2026-09-30; docs/FAMILY_PANEL.md §23).
+    const visibleIcons = barIcons(icons, icon => icon.active || (icon.can && (!shutting || allowsIcon(lesson, icon))))
+      .filter(icon => !(icon.goal && shutting));
     // Somebody with the men in a fight says why nothing can be asked of them (sim/battle-stage.mjs `heldByBattle`).
     // A baby's bar says what the baby is doing (docs/CHILDREN.md §6): it is given no work, and "too young" is not news.
     const visibleReason = visibleIcons.length ? null : travelling || entity.held || (entity.baby && life) || reason || 'No actions available right now.';
@@ -5886,22 +5942,66 @@ function describeIcon(button, icon, lesson = null) {
   setData(button, 'waits', icon.waits ? 'true' : '');
   button.dataset.active = String(icon.active);
   if (icon.active) button.setAttribute('aria-current', 'true'); else button.removeAttribute('aria-current');
-  button.setAttribute('aria-label', [`${icon.name}.`, icon.summary, note, lesson?.pointed ? 'This is the step to do now.' : ''].filter(Boolean).join(' '));
+  // A goal refused only for what the family has not got (docs/FAMILY_PANEL.md §23): greyed like any refusal, and a strip along its
+  // foot of what it wants - lit for what the family has, ember for what it has not - with the counts in its popup and its name.
+  setData(button, 'goal', icon.goal ? 'true' : '');
+  const needs = icon.needs || null;
+  const needsKey = needs ? JSON.stringify(needs) : '';
+  if ((button.dataset.needs || '') !== needsKey) { button.dataset.needs = needsKey; paintNeeds(button, needs); }
+  const needWords = needs ? `Has ${needs.map(need => `${WANT_NAMES[need.want] || need.want} ${need.have} of ${need.need}`).join(', ')}.` : '';
+  button.setAttribute('aria-label', [`${icon.name}.`, icon.summary, note, needWords, lesson?.pointed ? 'This is the step to do now.' : ''].filter(Boolean).join(' '));
+}
+/** The strip of what a goal wants along an icon's foot: one bead a want, `data-met` lit or ember, no words (the popup has them). */
+function paintNeeds(button, needs) {
+  let strip = button.querySelector('.panel-needs');
+  if (!needs) { strip?.remove(); return; }
+  if (!strip) { strip = element('span', '', 'panel-needs'); strip.setAttribute('aria-hidden', 'true'); button.append(strip); }
+  strip.replaceChildren(...needs.map(need => {
+    const bead = element('i', '');
+    bead.dataset.want = need.want; bead.dataset.met = String(need.met);
+    return bead;
+  }));
 }
 /**
  * The small popup over an icon: what it is, its one sentence, and the server's price or reason - and, **armed** by a first tap
  * on a touch screen (triage D17, public/family-panel.js `iconPress`), a Send button that sends the order. Shown again for the
  * same icon (a hover, a focus, the row drawn again) it stays armed; for another icon, or refused now, it is not.
  */
-function showPanelTip(button, { armed = false } = {}) {
+function showPanelTip(button, { armed = false, pinned = false } = {}) {
   const tip = $('#panel-tip');
   if (!button) { hidePanelTip(); return; }
   const refused = button.getAttribute('aria-disabled') === 'true';
   const same = panelTipFor?.entityId === button.dataset.entityId && panelTipFor?.key === button.dataset.key;
-  panelTipFor = { entityId: button.dataset.entityId, key: button.dataset.key, armed: !refused && (armed || Boolean(same && panelTipFor.armed)) };
+  // What a goal wants, and the work that brings the first thing missing (docs/FAMILY_PANEL.md §23): a hide points at the hunt.
+  let needs = null;
+  try { needs = button.dataset.needs ? JSON.parse(button.dataset.needs) : null; } catch { needs = null; }
+  const onBar = [...(button.closest('.panel-icons')?.querySelectorAll('.panel-icon') || [])].map(one => one.dataset.key);
+  const next = nextStep(needs, onBar);
+  panelTipFor = { entityId: button.dataset.entityId, key: button.dataset.key, armed: !refused && (armed || Boolean(same && panelTipFor.armed)),
+    // Pressed (not hovered), a goal's popup stays while the pointer goes to its button.
+    pinned: Boolean(next) && (pinned || Boolean(same && panelTipFor.pinned)), go: next?.key || null };
   setText($('#panel-tip-name'), button.dataset.name);
   setText($('#panel-tip-summary'), button.dataset.summary);
   setText($('#panel-tip-note'), button.dataset.note || '');
+  const list = $('#panel-tip-needs');
+  if (list) {
+    const key = needs ? JSON.stringify(needs) : '';
+    if ((list.dataset.key || '') !== key) {
+      list.dataset.key = key;
+      list.replaceChildren(...(needs || []).map(need => {
+        const item = element('b', `${WANT_NAMES[need.want] || need.want} ${need.have}/${need.need}`);
+        item.dataset.want = need.want; item.dataset.met = String(need.met);
+        return item;
+      }));
+    }
+    list.hidden = !needs;
+  }
+  const go = $('#panel-tip-go');
+  if (go) {
+    go.hidden = !next;
+    if (next) { setText(go, next.label); go.dataset.key = next.key; go.dataset.want = next.want; }
+  }
+  setData(tip, 'pinned', String(panelTipFor.pinned));
   tip.dataset.refused = String(refused && button.dataset.active !== 'true');
   setData(tip, 'armed', String(panelTipFor.armed));
   const send = $('#panel-tip-send');
@@ -5917,7 +6017,7 @@ function showPanelTip(button, { armed = false } = {}) {
   tip.style.left = `${left}px`;
   tip.style.top = `${below + tip.offsetHeight < stage.height - 8 ? below : Math.max(8, above)}px`;
 }
-function hidePanelTip() { panelTipFor = null; const tip = $('#panel-tip'); if (tip) { tip.hidden = true; setData(tip, 'armed', 'false'); } }
+function hidePanelTip() { panelTipFor = null; const tip = $('#panel-tip'); if (tip) { tip.hidden = true; setData(tip, 'armed', 'false'); setData(tip, 'pinned', 'false'); } }
 /**
  * Whether a press on an icon came from a touch screen (triage D17): the press's own pointer where the browser says it (a tap is
  * `touch`, a stylus `pen`), else the pointer that last went down, else whether this is a touch screen at all - `pointer: coarse`,
@@ -5933,7 +6033,7 @@ function touchPress(event) {
 }
 // An armed popup goes when anything else is pressed: another icon arms its own, the map or a panel puts it away.
 document.addEventListener('pointerdown', event => {
-  if (!panelTipFor?.armed || event.target.closest?.('#panel-tip')) return;
+  if (!(panelTipFor?.armed || panelTipFor?.pinned) || event.target.closest?.('#panel-tip')) return;
   const icon = event.target.closest?.('.panel-icon');
   if (icon && icon.dataset.entityId === panelTipFor.entityId && icon.dataset.key === panelTipFor.key) return;
   hidePanelTip();
@@ -5942,6 +6042,13 @@ document.addEventListener('pointerdown', event => {
 $('#panel-tip-send')?.addEventListener('click', () => {
   const icon = panelTipFor?.armed && panelRows.get(panelTipFor.entityId)?.icons.querySelector(`[data-key="${panelTipFor.key}"]`);
   if (icon) icon.click(); else hidePanelTip();
+});
+// A goal's way on (docs/FAMILY_PANEL.md §23): the work that brings the first thing it wants, pressed on the same person's bar - the
+// hunt's place chooser for a hide, felling for logs, the town errand for an axe, a rifle or powder - exactly as pressing that icon.
+$('#panel-tip-go')?.addEventListener('click', () => {
+  const target = panelTipFor?.go && panelRows.get(panelTipFor.entityId)?.icons.querySelector(`[data-key="${panelTipFor.go}"]`);
+  hidePanelTip();
+  if (target) { target.focus(); target.click(); }
 });
 /**
  * Folding the panel down to a column of faces (owner, 2026-09-21: the interface covered too much of a Chromebook screen).
@@ -5975,9 +6082,9 @@ $('#family-collapse')?.addEventListener('click', () => {
 queueMicrotask(() => setPanelFolded(panelFolded()));
 $('#family-panel')?.addEventListener('pointerover', event => { const icon = event.target.closest('.panel-icon'); if (icon) showPanelTip(icon); });
 // A popup armed by a tap (triage D17) stays when the finger lifts or the focus moves to its Send; a press elsewhere puts it away.
-$('#family-panel')?.addEventListener('pointerout', event => { const icon = event.target.closest('.panel-icon'); if (icon && !icon.contains(event.relatedTarget) && !panelTipFor?.armed) hidePanelTip(); });
+$('#family-panel')?.addEventListener('pointerout', event => { const icon = event.target.closest('.panel-icon'); if (icon && !icon.contains(event.relatedTarget) && !panelTipFor?.armed && !panelTipFor?.pinned) hidePanelTip(); });
 $('#family-panel')?.addEventListener('focusin', event => { const icon = event.target.closest('.panel-icon'); if (icon) showPanelTip(icon); else hidePanelTip(); });
-$('#family-panel')?.addEventListener('focusout', event => { if (!event.relatedTarget?.closest?.('.panel-icon') && !panelTipFor?.armed) hidePanelTip(); });
+$('#family-panel')?.addEventListener('focusout', event => { if (!event.relatedTarget?.closest?.('.panel-icon') && !event.relatedTarget?.closest?.('#panel-tip') && !panelTipFor?.armed && !panelTipFor?.pinned) hidePanelTip(); });
 // A row or the panel scrolled under the popup: it follows its icon rather than floating where the icon was.
 $('#family-panel')?.addEventListener('scroll', () => {
   if (!panelTipFor) return;
@@ -6821,6 +6928,34 @@ async function lookAtSite(point) {
 // work, taps a place on the family's land - new ground to survey, or one of its plots to clear or fence - is told what it
 // is, and sends them. The server decides, both when looking and when sent.
 let surveyFor = null, plotJob = 'survey-plot', plotPick = null, plotLookPending = false, plotSendPending = false;
+// Opened by a plot tapped on the map (or its chip on the field line) rather than by a work icon (owner, 2026-09-30): the chooser then
+// says what the plot is now and offers its work, and another plot tapped is looked at for its own. `plotHover` is the plot lit under
+// a mouse; `plotFocus` takes the keyboard to the chooser's first button once the plot is looked at.
+let plotFromMap = false, plotHover = null, plotFocus = false, plotWhoKey = '';
+/** The family's own plot under a point of the map (world miles), from its land line; null off every plot, and on the Host's map. */
+function ownPlotAt(world, at) {
+  if (world.role === 'host' || world.watching || !world.household) return null;
+  return (world.land?.plots || []).find(plot => Math.abs(at.x - plot.x) <= PLOT_SIDE / 2 && Math.abs(at.y - plot.y) <= PLOT_SIDE / 2) || null;
+}
+/**
+ * The plot chooser opened on one plot of the family's field, with no work chosen first (owner, 2026-09-30: "let me click on the fields
+ * so i can select what is grown there"): planting for a bare plot, its crop and readiness for a growing one, bringing it in for a
+ * ripe one, clearing for a staked one. Who goes is the person whose bar is shown, else the next the server would send
+ * (public/family-panel.js `plotHand`), and the chooser can change it. Returns false when there is nobody to send at all.
+ */
+function openPlotChooser(world, plot, { focus = false } = {}) {
+  const job = plotJobFor(plot);
+  if (!job) return false;
+  const who = plotHand({ job: plotWorkFor(plot) || job, work: world.work || {}, barId: panelBarId, mainId: focusedId, order: panelOrderIds });
+  if (!who) return false;
+  surveyFor = who; plotJob = job; plotFromMap = true; plotPick = null; plotFocus = focus;
+  selectedId = null; selectionDismissed = true; hidePanelTip();
+  lookAtPlot({ x: plot.x, y: plot.y });
+  return true;
+}
+/** The plot the chooser is looking at, as the family's land line has it now, or null. */
+const pickedPlot = world => (plotPick?.facts?.plotId && (world.land?.plots || []).find(plot => plot.id === plotPick.facts.plotId)) || null;
+const CROP_WORD = { corn: 'Corn', cotton: 'Cotton' };
 const PLOT_JOB_WORDS = {
   'survey-plot': { title: name => `Where ${name} surveys`, hint: 'Tap a place on your land, inside the dashed line, to look at ten acres there.', send: 'Survey it' },
   'clear-plot': { title: name => `Which plot ${name} clears`, hint: 'Tap one of your staked plots to look at the clearing it wants.', send: 'Clear it' },
@@ -6849,36 +6984,91 @@ function renderSurvey(world) {
   if (!panel) return;
   const person = surveyLooking() && world.entities.find(entity => entity.id === surveyFor);
   panel.hidden = !person || world.role === 'host';
-  if (panel.hidden) { if (!person) { surveyFor = null; plotPick = null; } delete $('#survey-suggested').dataset.key; return; }
+  if (panel.hidden) { if (!person) { surveyFor = null; plotPick = null; plotFromMap = false; } delete $('#survey-suggested').dataset.key; return; }
   const facts = plotPick?.facts, words = PLOT_JOB_WORDS[plotJob];
-  $('#survey-eyebrow').textContent = plotJob === 'survey-plot' ? 'SURVEY' : plotJob === 'clear-plot' ? 'CLEARING' : plotJob === 'hunt-land' ? 'HUNTING' : plotJob === 'fell-trees' ? 'FELLING' : plotJob === 'plant-field' ? 'PLANTING' : 'FENCING';
-  $('#survey-title').textContent = words.title(person.name);
+  // A plot tapped on the map: what it is now - bare, growing, ripe or staked (owner, 2026-09-30).
+  const tapped = plotFromMap ? pickedPlot(world) : null, stage = plotStage(tapped);
+  const growingCrop = ['growing', 'ripe'].includes(stage) ? tapped.crop || 'corn' : null;
+  $('#survey-eyebrow').textContent = growingCrop ? 'FIELD' : plotJob === 'survey-plot' ? 'SURVEY' : plotJob === 'clear-plot' ? 'CLEARING' : plotJob === 'hunt-land' ? 'HUNTING' : plotJob === 'fell-trees' ? 'FELLING' : plotJob === 'plant-field' ? 'PLANTING' : 'FENCING';
+  $('#survey-title').textContent = growingCrop ? `${CROP_WORD[growingCrop] || growingCrop} ${stage === 'ripe' ? 'ripe' : 'growing'}` : words.title(person.name);
   // Survey's facts say what the clearing would be; a plot's words already carry it. A refusal still names the plot.
   const surveyWork = plotJob === 'survey-plot' && facts?.spells ? ` Clearing it would be ${facts.spells} spells of work.` : '';
   // Planting with nothing tapped is every bare plot (owner, 2026-09-30): said, and the crop buttons plant them all.
   const planting = plotJob === 'plant-field', bare = planting ? barePlotsShown(world).length : 0;
   const hint = planting ? (bare ? `Every bare plot: ${bare === 1 ? 'one plot' : `${bare} plots`}, corn to eat or cotton to sell. Or tap one plot on the map to plant only that one.` : 'Every cleared plot has a crop in it.') : words.hint;
   $('#survey-text').textContent = !plotPick ? hint
-    : !facts ? 'Looking the ground over…' : facts.can ? `${facts.words}${surveyWork}` : [facts.words, facts.why].filter(Boolean).join(' ');
+    : !facts ? 'Looking the ground over…' : facts.can ? `${facts.words}${surveyWork}`
+    // A growing or ripe plot's own words already say what is in it and when; the refusal to plant it would say it twice.
+    : growingCrop && facts.words ? facts.words : [facts.words, facts.why].filter(Boolean).join(' ');
   $('#survey-send').textContent = words.send;
   $('#survey-send').hidden = planting || !facts?.can;
   $('#survey-send').disabled = plotSendPending;
   $('#plant-crops').hidden = !planting || (plotPick ? !facts?.can : !bare);
-  for (const button of document.querySelectorAll('#plant-crops .plant-crop')) button.disabled = plotSendPending;
+  // Each crop's seed on its own button (owner, 2026-09-30): a plot's, or every bare plot's together, from the chore catalogue; amber
+  // when the house has less. The server still decides, and plants what the seed will when it is short (sim/chores.mjs `sowSeed`).
+  const seeds = choreCache?.get('plant-field')?.seeds || null, plotsToSow = plotPick ? 1 : bare, inHouse = Number(world.household?.resources?.seed || 0);
+  for (const button of document.querySelectorAll('#plant-crops .plant-crop')) {
+    button.disabled = plotSendPending;
+    const each = seeds?.[button.dataset.crop], cost = Number.isFinite(each) ? each * Math.max(1, plotsToSow) : null;
+    const label = `Plant ${button.dataset.crop}`, seedWords = cost === null ? '' : `${cost} seed`;
+    if (button.dataset.label !== `${label}|${seedWords}`) {
+      button.dataset.label = `${label}|${seedWords}`;
+      button.replaceChildren(document.createTextNode(label), ...(seedWords ? [element('small', seedWords, 'plant-seed')] : []));
+    }
+    setData(button, 'short', String(cost !== null && inHouse < cost));
+  }
   $('#plant-all').hidden = !planting || !plotPick || bare < 2;
+  // A ripe plot tapped: bring the crop in, as the harvest icon does (every ripe plot, by whoever is sent).
+  const harvest = $('#plot-harvest');
+  if (harvest) {
+    harvest.hidden = !(stage === 'ripe' && facts);
+    harvest.dataset.entityId = surveyFor || '';
+    harvest.disabled = plotSendPending;
+  }
+  renderPlotWho(world, stage);
   const plots = JSON.stringify((world.land?.plots || []).map(plot => [plot.id, plot.state, plot.fence || '', plot.sown ? plot.crop || 'sown' : '']));
-  renderSuggested($('#survey-suggested'), plotJob, `${plotJob}:${surveyFor}:${window.__snapshot?.sessionId}:${plots}`, plotPick?.point, lookAtPlot);
+  // Suggested places are bare plots to plant and staked ones to clear: not shown under a growing or a ripe plot.
+  renderSuggested($('#survey-suggested'), growingCrop ? 'none' : plotJob, `${plotJob}:${surveyFor}:${window.__snapshot?.sessionId}:${plots}`, plotPick?.point, lookAtPlot);
+  // Opened from the keyboard (the field line's chip): to the first thing to press, once the plot has been looked at.
+  if (plotFocus && facts) {
+    plotFocus = false;
+    [...panel.querySelectorAll('#plant-crops .plant-crop, #plot-harvest, #survey-send, #survey-cancel')].find(one => !one.hidden && !one.closest('[hidden]'))?.focus();
+  }
 }
+/**
+ * Who a plot tapped on the map goes to, and the others who could (owner, 2026-09-30): a list of the family the server would send on
+ * the plot's work now, in the panel's order, the one chosen first. Only for a plot opened from the map with work to send.
+ */
+function renderPlotWho(world, stage) {
+  const line = $('#plot-who-line'), select = $('#plot-who');
+  if (!line || !select) return;
+  const tapped = plotFromMap ? pickedPlot(world) : null;
+  const work = tapped && plotWorkFor(tapped);
+  const hands = work ? plotHands({ job: work, work: world.work || {}, order: panelOrderIds }) : [];
+  const ids = surveyFor && !hands.includes(surveyFor) ? [surveyFor, ...hands] : hands;
+  line.hidden = !work || stage === 'growing' || !ids.length;
+  if (line.hidden) return;
+  const named = id => world.entities.find(entity => entity.id === id)?.name || id;
+  const key = JSON.stringify(ids.map(id => [id, named(id)]));
+  if (plotWhoKey !== key) {
+    plotWhoKey = key;
+    select.replaceChildren(...ids.map(id => { const option = element('option', named(id)); option.value = id; return option; }));
+  }
+  if (select.value !== surveyFor) select.value = surveyFor;
+}
+$('#plot-who')?.addEventListener('change', event => { if (event.target.value) { surveyFor = event.target.value; if (window.__snapshot) render(window.__snapshot); } });
+// Bringing in a ripe plot tapped on the map: the button carries the harvest order and the one dispatcher sends it; the chooser closes.
+$('#plot-harvest')?.addEventListener('click', () => { setTimeout(() => { surveyFor = null; plotPick = null; plotFromMap = false; if (window.__snapshot) render(window.__snapshot); }); });
 $('#survey-send')?.addEventListener('click', async () => {
   if (!plotPick?.facts?.can || plotSendPending) return;
   plotSendPending = true; $('#survey-note').textContent = '';
   try {
     await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: plotJob, entityId: surveyFor, x: +plotPick.point.x.toFixed(3), y: +plotPick.point.y.toFixed(3) });
-    surveyFor = null; plotPick = null;
+    surveyFor = null; plotPick = null; plotFromMap = false;
   } catch (error) { $('#survey-note').textContent = error.message; }
   finally { plotSendPending = false; if (window.__snapshot) render(window.__snapshot); }
 });
-$('#survey-cancel')?.addEventListener('click', () => { surveyFor = null; plotPick = null; if (window.__snapshot) render(window.__snapshot); });
+$('#survey-cancel')?.addEventListener('click', () => { surveyFor = null; plotPick = null; plotFromMap = false; if (window.__snapshot) render(window.__snapshot); });
 // The crop for the plot tapped, or for every bare plot (owner, 2026-09-30; sim/world.mjs `plant-field`). The server decides.
 for (const button of document.querySelectorAll('#plant-crops .plant-crop')) button.addEventListener('click', async () => {
   if (plotSendPending || plotJob !== 'plant-field' || (plotPick && !plotPick.facts?.can)) return;
@@ -6886,7 +7076,7 @@ for (const button of document.querySelectorAll('#plant-crops .plant-crop')) butt
   try {
     await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'plant-field', entityId: surveyFor, crop: button.dataset.crop,
       ...(plotPick && { x: +plotPick.point.x.toFixed(3), y: +plotPick.point.y.toFixed(3) }) });
-    surveyFor = null; plotPick = null;
+    surveyFor = null; plotPick = null; plotFromMap = false;
   } catch (error) { $('#survey-note').textContent = error.message; }
   finally { plotSendPending = false; if (window.__snapshot) render(window.__snapshot); }
 });
@@ -8641,7 +8831,8 @@ document.addEventListener('click', async event => {
       armed: Boolean(panelTipFor?.armed && panelTipFor.entityId === panelButton.dataset.entityId && panelTipFor.key === panelButton.dataset.key),
       opensChooser: panelButton.dataset.chore === 'visit-shop' || Boolean(panelButton.dataset.visit) || panelButton.dataset.key === 'winter-recall' || panelButton.dataset.action === 'survey-start',
     });
-    if (step === 'explain') { showPanelTip(panelButton); return; }
+    // A refused goal's popup is pinned with its way on (docs/FAMILY_PANEL.md §23); from the keyboard, the way on takes the focus.
+    if (step === 'explain') { showPanelTip(panelButton, { pinned: true }); if (event.detail === 0 && panelTipFor?.go) $('#panel-tip-go')?.focus(); return; }
     if (step === 'arm') { showPanelTip(panelButton, { armed: true }); window.__panelArmed = (window.__panelArmed || 0) + 1; return; }
     // Sending for somebody who serves is asked twice, on their card, where there is room to say what it costs.
     // Going to town to trade asks first what to buy and sell (docs/TOWNS.md §4b, owner 2026-09-24): the popup sends the order.
@@ -8667,7 +8858,7 @@ document.addEventListener('click', async event => {
   say('');
   const action = button.dataset.action;
   // The person's panel is put away so the land is there to tap; the survey panel names who is going.
-  if (action === 'survey-start') { surveyFor = button.dataset.entityId; plotJob = button.dataset.chore; plotPick = null; selectedId = null; selectionDismissed = true; suggestedFocus = true; if (window.__snapshot) render(window.__snapshot); return; }
+  if (action === 'survey-start') { surveyFor = button.dataset.entityId; plotJob = button.dataset.chore; plotPick = null; plotFromMap = false; selectedId = null; selectionDismissed = true; suggestedFocus = true; if (window.__snapshot) render(window.__snapshot); return; }
   if (action !== 'start') startAnyway = false;
   if (confirmLabel[confirmKeyOf(button)] && button.dataset.confirming !== 'true') {
     resetConfirm(confirming);
