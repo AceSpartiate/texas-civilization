@@ -13,7 +13,7 @@ import { beginSecondPeriod, beginThirdPeriod } from '../sim/periods.mjs';
 import { dealCounts } from '../sim/colonies-map.mjs';
 import { EARLY, FREE_BLACK_FROM, POOLS, SKIN_RANGES, STARTS_SEATED, TEJANO_PLACES, dealStarts, skinChoices, startCounts } from '../sim/starts.mjs';
 import { SKIN } from '../sim/look-vocabulary.mjs';
-import { NAME_POOLS, familyRoll } from '../sim/family.mjs';
+import { familyRoll } from '../sim/family.mjs';
 import { appearanceOf, setAppearance } from '../sim/appearance.mjs';
 import { dealNeighbours, rollSpouse } from '../sim/courtship.mjs';
 import { choresFor } from '../sim/chores.mjs';
@@ -67,17 +67,23 @@ test('moving a start early exchanges only two families on the same side of the b
   }
 });
 
-test('a class made without starts deals none, offers every tone and deals the mixed names, as before', () => {
-  const world = colonies('old-way', 12, false);
+// The names of such a class were the mixed pools (`NAME_POOLS`) until the owner's word of 2026-10-01 ("the default names should be
+// appropriate for the race being played"): now the names of the family's place, Tejano at Victoria, Anglo-American elsewhere
+// (sim/starts.mjs `namingOf`; every way a name is dealt is held by tests/names-by-start.test.mjs).
+test('a class made without starts deals none and offers every tone, as before; its names are of each family\'s place', () => {
+  const world = colonies('old-way', 25, false);
   assert.equal(world.starts, undefined);
   for (const household of Object.values(world.households)) {
     assert.equal(household.heritage, undefined);
     rollFamily(world, household);
     for (const person of parents(world, household)) assert.deepEqual(projectFamily(world, household.id).people.find(one => one.id === person.id).choices.skin, SKIN);
-    for (const person of people(world, household)) assert.ok(NAME_POOLS[person.kin.role].includes(person.name), `${person.name} from the mixed pools`);
+    const pools = household.settlementId === 'victoria' ? POOLS.tejano : POOLS.anglo;
+    for (const person of people(world, household)) assert.ok(pools[person.kin.role].includes(person.name), `${household.settlementId}: ${person.name}`);
   }
   assert.equal(projectFamily(world, 'hh-1').start, undefined);
-  assert.equal(Object.values(world.households).filter(household => household.settlementId === 'victoria').length, dealCounts(12).victoria);
+  assert.equal(Object.values(world.households).filter(household => household.settlementId === 'victoria').length, dealCounts(25).victoria);
+  // Twenty-five families, so one of them is at Victoria and named as its place's people are (a class of twelve with no starts has none there).
+  assert.ok(Object.values(world.households).some(household => household.settlementId === 'victoria'), 'no family at Victoria to be named Tejano');
 });
 
 test('each start\'s parents are offered only its skin tones, dealt within them, refused outside them, and a tone outside them does not open', () => {

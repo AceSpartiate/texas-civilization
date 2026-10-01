@@ -125,10 +125,12 @@ test('the founding four and every town’s keepers on the real land are drawn as
   const proof = createGonzalesWorld('host-view-proof', 12, { map: 'colonies', neighbours: true });
   const overview = projectWorld(proof, null, 'host', { includeMap: false }).others;
   const figure = id => figureOf({ ...overview.find(e => e.id === id), observed: true }, true);
-  assert.equal(proof.entities['hh-9-elena'].name, 'Antonia');
-  assert.equal(FIGURES[figure('hh-9-elena')][0], 'female', `Antonia, the mother, is drawn as ${figure('hh-9-elena')}`);
-  assert.equal(proof.entities['hh-9-mateo'].name, 'Jonas');
-  assert.deepEqual(FIGURES[figure('hh-9-mateo')], ['male', 'youth'], `Jonas, the son, is drawn as ${figure('hh-9-mateo')}`);
+  // Antonia and Jonas until 2026-10-01, from the mixed pools; a family of Liberty in a class with no starts is named Anglo-American
+  // since (sim/starts.mjs `namingOf`, owner 2026-10-01). Who they are, and how they are drawn, is the same.
+  assert.equal(proof.entities['hh-9-elena'].name, 'Jane');
+  assert.equal(FIGURES[figure('hh-9-elena')][0], 'female', `Jane, the mother, is drawn as ${figure('hh-9-elena')}`);
+  assert.equal(proof.entities['hh-9-mateo'].name, 'Enos');
+  assert.deepEqual(FIGURES[figure('hh-9-mateo')], ['male', 'youth'], `Enos, the son, is drawn as ${figure('hh-9-mateo')}`);
 
   const keepers = Object.values(world.entities).filter(e => e.resident);
   assert.ok(keepers.length >= 40, `the towns have their keepers (${keepers.length})`);

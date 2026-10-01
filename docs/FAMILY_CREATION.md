@@ -837,7 +837,8 @@ ride.
 
 ### The cart and the carreta
 
-The game does not tell a Tejano family from an Anglo one - every name pool mixes both (sim/family.mjs `NAME_POOLS`) - so **the poor
+The game does not tell a Tejano family from an Anglo one - every name pool mixes both (sim/family.mjs `NAME_POOLS`; true when written,
+not since the starts of 2026-09-29 and the names of 2026-10-01, below) - so **the poor
 band's cart stays one kind of cart**, and the carreta is a thing **any** family can make at home. If the owner wants families of
 origins, the poor band's vehicle could be a carreta for a Tejano family and a cart for an Anglo one; nothing here decides that.
 
@@ -1158,8 +1159,9 @@ in Austin's colony. Texas is part of Mexico, and most of its new settlers, like 
   neighbours; the line under it now says what is and is not known (question 1).
 
 **A free Black family near Liberty:**
-- Names from the Anglo-American pools on a deck of its own (the free Black Texans of the record were Aaron, Abner, Moses, William,
-  Greenbury, Hendrick), tones olive to deep brown.
+- Names from the Anglo-American pools on a deck of its own (the free Black Texans of the record were William, Aaron, Abner and David
+  Ashworth, Greenbury Logan, Samuel McCulloch, Hendrick Arnold and Peter Allen, `HIST-TEX-792`; "Moses", written here until
+  2026-10-01, was not found in the record), tones olive to deep brown.
 - The card: *"Autumn 1835. Your family is free and Black. You have come west from Louisiana to land of your own near Liberty, in
   the Galveston Bay and Texas Land Company grant, as the Ashworths did a few years before you. Under Mexico's laws a free Black
   family may own land like any other. Not every neighbour is glad you came."*
@@ -1223,7 +1225,7 @@ Each has a stand-in marked `stand-in:` and a row under *Stand-ins in use*.
 | Gate | What it means |
 | --- | --- |
 | Dealt, and played | Victoria seated and Tejano; one free Black family at Liberty from ten families; the first of each among the first six; the zone's sides kept. |
-| Old classes open | A class made before deals no starts, offers every tone, deals the mixed names; no save version moved. |
+| Old classes open | A class made before deals no starts and offers every tone; no save version moved. Its names were the mixed pools until 2026-10-01, and are of each family's place since (the amendment of 2026-10-01); a name already dealt is kept. |
 | Tones locked | Each start's range offered, dealt, refused outside, not opened outside; children between the parents; the spouse within. |
 | Nothing else reads it | Only the start's own modules read a family's start. |
 | Told once, at its moment | The law's two lines to a free Black family only; the Salado, the leave, the spring's company; the road's two lines; the ending's line. |
@@ -1385,3 +1387,37 @@ has happened to it yet:
 
 Evidence: `tests/late-join.test.mjs`, `tests/creation.test.mjs` and `npm run test:late-join` (C), each failed on its injection
 (HANDOFF.md, *Name and looks for a late student*).
+
+## Amendment, 2026-10-01 — every default name is of the family's own people (owner-decided; not released)
+
+Shown three long names the game deals (*Candelaria*, *Temperance*, *Encarnación*), the owner said, verbatim: *"leave them, also the
+default names should be appropriate for the race being played. weren't most anglo?"* The long names stay. Most were Anglo: in a
+class that deals starts every family but the Tejano families of Victoria and below Béxar and the free Black family at Liberty is
+Anglo-American (`FIC-GONZ-980`, set against `HIST-TEX-011`), and those families were already dealt names from their start's own pools
+(`FIC-GONZ-982`). What was left mixed, and is now not (`FIC-GONZ-1060`):
+
+- **A class that deals no starts** (one saved before 2026-09-29, or one made with `STARTS=0` or on the invented Gonzales country)
+  dealt every family the mixed pools (sim/family.mjs `NAME_POOLS`), so one family could be Thomas, Refugia and Cayetano. Its families
+  are now named as the people of their place: Tejano at Victoria and below Béxar, Anglo-American everywhere else
+  (sim/starts.mjs `namingOf`). Only the names: such a family is still offered every skin tone.
+- **The neighbours a lone parent visits** are named as their own last name is - a Salcedo or a Treviño from the Tejano pools, an
+  Ashby or a Pruett from the Anglo-American - in every class (sim/courtship.mjs `namedAs`); in a class without starts they were the
+  mixed pools. The family the new husband or wife is born to, and their own name, are of the family's start or place
+  (`neighbourPools`, `rollSpouse`).
+- **Every place a name is dealt**: the founding four of a new class (sim/world.mjs `createWorld`), the rolled family - parents and
+  every child, a family the computer plays and a late student's alike (`rollFamily`, `rolledPeople`), a lone parent's new husband or
+  wife and the neighbour families of that visit. No child is born in play; a family has no default last name (its student gives it).
+  Asked with no start at all, the dealer gives the Anglo-American pools (`nameDealer`), never the mixed.
+- **A free Black family** is dealt from the Anglo-American pools on a deck of its own, as before: the free Black Texans of the record
+  bore the same names - William, Aaron, Abner and David Ashworth, Greenbury Logan, Samuel McCulloch, Hendrick Arnold, Peter Allen
+  (`HIST-TEX-792`). The earlier text here named a "Moses" among them, which was not found in the record and is withdrawn.
+- **No exception to document.** A lone parent marries into a family of the family's own start; the first neighbours visited, who may
+  be of another country, are not the family and are named as themselves.
+- **Kept:** every person's id, and every name already dealt - a name is stored on the person, so a class saved before keeps every
+  name it has, mixed or not; only names dealt from now on follow this. No save version moved.
+
+Evidence: `tests/names-by-start.test.mjs` (16 classes of 5 to 30 families, with starts and without, on both maps: every founding,
+rolled, spouse and neighbour name) failed on its injections - the released sim/family.mjs, sim/world.mjs and sim/courtship.mjs
+(*"an Anglo-American family was dealt the Tejano name Gregorio"*; an Anglo lone parent marrying into *"a Salcedo"* family), and the
+neighbours named by the family's start (*"a Villa father ... Alvin"*). `tests/starts.test.mjs`'s class without starts now holds the
+names of each family's place; scripts/starts-injections.mjs has an injection for it.

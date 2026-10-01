@@ -100,18 +100,18 @@ test('a rename changes the name and nothing else about the person', () => {
 
 test('a family may name its own people and nobody else’s', () => {
   const built = world('mine');
-  assert.throws(() => rename(built, 'hh-1', { entityId: 'hh-2-rosa', name: 'Delia' }), /Choose one of your family/);
+  assert.throws(() => rename(built, 'hh-1', { entityId: 'hh-2-rosa', name: 'Zerelda' }), /Choose one of your family/);
   // Directly as well as through the door. `applyAction` refuses somebody else's person
   // before it ever gets here, so this is the second of two locks - and the one that would
   // still be holding if a later caller reached the writer another way.
-  assert.throws(() => renameDirect(built, built.households['hh-1'], { entityId: 'hh-2-rosa', name: 'Delia' }), /Choose one of your family/);
-  assert.throws(() => renameDirect(built, built.households['hh-1'], { entityId: 'town-pike', name: 'Delia' }), /Choose one of your family/);
-  assert.notEqual(built.entities['hh-2-rosa'].name, 'Delia');
-  assert.throws(() => rename(built, 'hh-1', { entityId: 'town-ibarra', name: 'Delia' }), /Choose one of your family/);
-  assert.throws(() => rename(built, 'hh-1', { entityId: 'hh-1-wagon', name: 'Delia' }), /Choose one of your family/);
+  assert.throws(() => renameDirect(built, built.households['hh-1'], { entityId: 'hh-2-rosa', name: 'Zerelda' }), /Choose one of your family/);
+  assert.throws(() => renameDirect(built, built.households['hh-1'], { entityId: 'town-pike', name: 'Zerelda' }), /Choose one of your family/);
+  assert.notEqual(built.entities['hh-2-rosa'].name, 'Zerelda');
+  assert.throws(() => rename(built, 'hh-1', { entityId: 'town-ibarra', name: 'Zerelda' }), /Choose one of your family/);
+  assert.throws(() => rename(built, 'hh-1', { entityId: 'hh-1-wagon', name: 'Zerelda' }), /Choose one of your family/);
   const theirs = built.entities['hh-2-rosa'].name;
-  rename(built, 'hh-2', { entityId: 'hh-2-rosa', name: 'Delia' });
-  assert.equal(built.entities['hh-2-rosa'].name, 'Delia', 'a family cannot name its own');
+  rename(built, 'hh-2', { entityId: 'hh-2-rosa', name: 'Zerelda' });
+  assert.equal(built.entities['hh-2-rosa'].name, 'Zerelda', 'a family cannot name its own');
   assert.notEqual(theirs, undefined);
 });
 

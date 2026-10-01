@@ -73,7 +73,7 @@ import { OLD_PATCHES, plotAt } from './fields.mjs';
 import { advanceArrivals, putOnTheRoad, sayTheArrival, shelterProjection } from './settling.mjs';
 import { MEANS_TABLE, applyMeans, meansInvalid, meansProjection, settleMeans } from './means.mjs';
 // Who a family is as well as where it starts (owner, 2026-09-29; sim/starts.mjs, docs/FAMILY_CREATION.md *The family's start*).
-import { STARTS_RULE, startProjection, startsInvalid } from './starts.mjs';
+import { STARTS_RULE, namingOf, startProjection, startsInvalid } from './starts.mjs';
 import { advanceStarts, startStoryInvalid } from './start-story.mjs';
 import { tejanoInvalid } from './tejano.mjs';
 import { advanceAges, agesInvalid } from './ages.mjs';
@@ -172,7 +172,7 @@ export function createWorld(seed = 'gonzales', playerCount = 15, { map = 'gonzal
     // play this asked and the game could not answer. **Ids keep the founding names** and
     // never change, because skills and faces are derived from them and a rename must not
     // move either - so `hh-3-thomas` may be a student's Bartolo. See sim/family.mjs.
-    const names = defaultNames(world.seed, i - 1, household.heritage);
+    const names = defaultNames(world.seed, i - 1, namingOf(household));
     const kin = kinFor(householdId);
     for (const [j, person] of HOUSEHOLD_SHAPE.entries()) {
       const id = `${householdId}-${person.key}`;
@@ -238,8 +238,8 @@ export function rollFamily(world, household) {
   for (const id of household.members) delete world.entities[id];
   household.members = [];
   // Born counting back from the day the die is rolled, so everybody's age is their age that day (FIC-GONZ-361).
-  // Named from the pools of the family's start, where the class deals starts (sim/starts.mjs).
-  rolledPeople(world.seed, household.id, index, roll, FAMILY_TABLE, dateOf(world, world.minute), household.heritage).forEach((person, j) => {
+  // Named from the pools of the family's start, or of its place where the class deals none (sim/starts.mjs `namingOf`).
+  rolledPeople(world.seed, household.id, index, roll, FAMILY_TABLE, dateOf(world, world.minute), namingOf(household)).forEach((person, j) => {
     addPerson(world, household, site, j, { ...person, adult: person.age >= 16 });
   });
   household.principalId = household.members[0];

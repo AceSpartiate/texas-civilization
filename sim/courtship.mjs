@@ -56,9 +56,9 @@
 // sim/appearance.mjs) does not change on the wedding day; the new parent is their step-parent (`kin.stepchildren`).
 import { record } from './events.mjs';
 import { dateOf } from './clock.mjs';
-import { NAME_POOLS, ageBand, ageNow, compositionFor, dealTraits, householdName, listWords, tableOf } from './family.mjs';
+import { ageBand, ageNow, compositionFor, dealTraits, householdName, listWords, tableOf } from './family.mjs';
 import { appearanceOf } from './appearance.mjs';
-import { poolsFor, skinChoices } from './starts.mjs';
+import { namingOf, poolsFor, skinChoices } from './starts.mjs';
 import { CLOTHING, HAIR, HEAD, SKIN } from './look-vocabulary.mjs';
 import { HOUSES, houseBuilt, houseSettled, pieced } from './houses.mjs';
 import { PIECES, planPieces } from './houseplot.mjs';
@@ -135,13 +135,10 @@ export function neighbourPools(heritage) {
   if (heritage === 'anglo') return { first: NEIGHBOUR_FAMILIES, second: ANGLO_NEIGHBOURS };
   return { first: NEIGHBOUR_FAMILIES, second: NEIGHBOUR_FAMILIES };
 }
-/** The start a neighbour family of a class that deals starts is of: its list's. */
-const heritageOfNeighbour = (family, heritage) => {
-  if (!heritage) return null;
-  if (FREE_BLACK_NEIGHBOURS.includes(family)) return 'free-black';
-  if (TEJANO_NEIGHBOURS.includes(family)) return 'tejano';
-  return 'anglo';
-};
+/** Whose names a neighbour family is dealt: its list's, in every class, so its people's names go with its last name (owner, 2026-10-01). */
+const namedAs = family => (FREE_BLACK_NEIGHBOURS.includes(family) ? 'free-black' : TEJANO_NEIGHBOURS.includes(family) ? 'tejano' : 'anglo');
+/** The start a neighbour family of a class that deals starts is of: its list's. None in a class that deals none (every skin tone). */
+const heritageOfNeighbour = (family, heritage) => (heritage ? namedAs(family) : null);
 
 function hashOf(text) {
   let hash = 2166136261;
@@ -215,7 +212,7 @@ const looksFor = (key, sex, age, skins = SKIN) => ({
 });
 
 /** A first name from the pools, not one this family or these neighbours already use. */
-function nameFrom(role, key, taken, pools = NAME_POOLS) {
+function nameFrom(role, key, taken, pools) {
   const pool = pools[role];
   const start = hashOf(key) % pool.length;
   for (let i = 0; i < pool.length; i++) {
@@ -232,20 +229,22 @@ function nameFrom(role, key, taken, pools = NAME_POOLS) {
 export function dealNeighbours(world, household, parent, taken) {
   const key = `${world.seed}:${household.id}:courtship`;
   const own = household.surname;
-  // Of the family's own country, and the spouse's family of its own start, where the class deals starts (`neighbourPools`).
+  // Of the family's own country, and the spouse's family of its own start (`neighbourPools`): a family of a class that deals no
+  // starts by the names it was dealt (sim/starts.mjs `namingOf`; owner, 2026-10-01). The skin tones are a start's alone.
   const heritage = household.heritage || null;
-  const pools = neighbourPools(heritage);
+  const pools = neighbourPools(namingOf(household));
   const usable = pools.first.filter(family => family.surname !== own);
   const first = pick(usable, `${key}:first`);
   const second = pick(pools.second.filter(family => family.surname !== own && family.farm !== first.farm), `${key}:second`);
   const age = ageNow(world, parent) ?? parent.age ?? 30;
   const spouseSex = other(parent.sex);
-  let of = null;
+  let of = null, family = null;
+  // Each neighbour named from the pools of its own family's list, so a Salcedo is not called Caleb (`namedAs`).
   const person = (familyId, n, role, sex, years) => {
     const id = `${familyId}-p${n}`;
-    return { id, given: nameFrom(role, `${key}:${id}:name`, taken, poolsFor(of) || NAME_POOLS), role, sex, age: years, appearance: looksFor(`${key}:${id}`, sex, years, skinChoices(of)) };
+    return { id, given: nameFrom(role, `${key}:${id}:name`, taken, poolsFor(namedAs(family))), role, sex, age: years, appearance: looksFor(`${key}:${id}`, sex, years, skinChoices(of)) };
   };
-  of = heritageOfNeighbour(first, heritage);
+  family = first; of = heritageOfNeighbour(first, heritage);
   // The first family: a couple of the parent's own time of life and a child or two to play with the family's own.
   const oneId = `${household.id}-nb-1`, twoId = `${household.id}-nb-2`;
   const husband = 26 + (hashOf(`${key}:one-age`) % 22);
@@ -261,7 +260,7 @@ export function dealNeighbours(world, household, parent, taken) {
   // lone parent"), and the one who will marry, rolled like a parent (`rollSpouse`).
   const father = age + 22 + (hashOf(`${key}:two-age`) % 8);
   const mother = Math.max(age + 18, father - (hashOf(`${key}:two-gap`) % 6));
-  of = heritageOfNeighbour(second, heritage);
+  family = second; of = heritageOfNeighbour(second, heritage);
   const two = { id: twoId, surname: second.surname, plural: second.plural, farm: second.farm, where: second.where,
     people: [person(twoId, 1, 'father', 'male', father), person(twoId, 2, 'mother', 'female', mother)] };
   return { one, two, spouseSex, age };
@@ -279,8 +278,8 @@ export function rollSpouse(world, household, parent, sex, age, taken) {
   const back = 1 + (hashOf(`${world.seed}:${id}:birthday`) % 364);
   const bornMs = Date.UTC(new Date(today).getUTCFullYear() - age, new Date(today).getUTCMonth(), new Date(today).getUTCDate()) - back * DAY_MS;
   const role = SEX_ROLE[sex].grown;
-  // A name from the pools of the family's start, where the class deals starts (sim/starts.mjs): the family they marry into is theirs.
-  const given = nameFrom(role, `${world.seed}:${id}:name`, taken, poolsFor(household.heritage) || NAME_POOLS);
+  // A name from the pools the family is named from (sim/starts.mjs `namingOf`): the family they marry into is theirs.
+  const given = nameFrom(role, `${world.seed}:${id}:name`, taken, poolsFor(namingOf(household)));
   return { id, given, sex, role, age, born: isoDay(bornMs), traits: dealTraits(world.seed, id, sex, age) };
 }
 

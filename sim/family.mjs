@@ -47,7 +47,11 @@ export const HOUSEHOLD_SHAPE = Object.freeze([
 export const ROLES = HOUSEHOLD_SHAPE.map(person => person.role);
 
 /**
- * The pools every default name is dealt from.
+ * The mixed pools every default name was dealt from until 2026-10-01. **No longer dealt**: every name is now dealt from the pools
+ * of the family's start, or of its place in a class that deals no starts (sim/starts.mjs `POOLS`, `namingOf`; the owner,
+ * 2026-10-01: *"the default names should be appropriate for the race being played. weren't most anglo?"*). Kept because the
+ * names dealt from them live on, unchanged, in every class saved before - read aloud (tests/read-aloud-text.test.mjs) and shown.
+ * What follows is why they were mixed, as written then.
  *
  * Invented placeholders. Each pool mixes Anglo and Tejano names, so a family comes out
  * mixed the way DeWitt's colony was - it was in Mexican Texas and a household there was
@@ -98,11 +102,13 @@ function hashOf(text) {
  * households get fifteen different fathers. Thirty get each name twice, which is not a
  * flaw: two families in one settlement sharing a given name is what places are like.
  */
-export function nameDealer(seed, heritage = null) {
-  // A family of a start (sim/starts.mjs, owner 2026-09-29) is dealt from its own pools, on a deck of its own; a family with none -
-  // every class made before - from the mixed pools, shuffled exactly as it always was.
-  const pools = poolsFor(heritage) || NAME_POOLS;
-  const deck = poolsFor(heritage) ? `${deckFor(heritage)}:` : '';
+export function nameDealer(seed, heritage = 'anglo') {
+  // A family is dealt from the pools of its start (sim/starts.mjs, owner 2026-09-29), on a deck of its own; one of a class with no
+  // starts from the pools of its place (`namingOf`, owner 2026-10-01), which callers pass. Asked with no start at all, the
+  // Anglo-American pools, as most colonists were: never the mixed pools (`NAME_POOLS`) any more.
+  const named = poolsFor(heritage) ? heritage : 'anglo';
+  const pools = poolsFor(named);
+  const deck = `${deckFor(named)}:`;
   const decks = Object.fromEntries(Object.entries(pools).map(([role, pool]) => [
     role,
     [...pool].sort((a, b) => hashOf(`${seed}:${deck}${role}:${a}`) - hashOf(`${seed}:${deck}${role}:${b}`)),
@@ -119,7 +125,7 @@ export function nameDealer(seed, heritage = null) {
  * them to name the *household* so that "Thomas traded with Thomas" was not the whole
  * sentence.
  */
-export function defaultNames(seed, index, heritage = null) {
+export function defaultNames(seed, index, heritage = 'anglo') {
   const deal = nameDealer(seed, heritage);
   return HOUSEHOLD_SHAPE.map(person => deal(index, person.role));
 }

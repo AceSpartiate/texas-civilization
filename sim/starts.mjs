@@ -26,8 +26,9 @@
 // about a person is inferred from how they look or where their family came from (VISION.md §15). Held by a test that only these
 // modules read a family's start (tests/starts.test.mjs).
 //
-// **Old classes.** A class made before this carries no `world.starts`, deals no starts, offers every skin tone to every family and
-// mixes its names as it always did (sim/family.mjs `NAME_POOLS`). No save version moved.
+// **Old classes.** A class made before this carries no `world.starts`, deals no starts and offers every skin tone to every family.
+// Its names were mixed (sim/family.mjs `NAME_POOLS`) until 2026-10-01; any name it deals from now on is of its family's place
+// (`namingOf`), and every name it already has is kept. No save version moved.
 import { SKIN } from './look-vocabulary.mjs';
 
 /** The rule a class made since deals by, stored as `world.starts`. Absent on every class made before. */
@@ -111,7 +112,8 @@ export const heritageOf = (world, entity) => world?.households?.[entity?.househo
  * The names the game deals a family of each start (`FIC-GONZ-982`): twenty to a role, so a family of eighteen children never repeats
  * one. Invented placeholders on the terms of `FIC-GONZ-001` and `-017` - not the names of real colonists, and no register was matched
  * - chosen from given names common in the records of the period (`HIST-TEX-786`). A free Black family is dealt from the Anglo-American
- * pools, as the free Black Texans of the record were named (Aaron, Abner, Moses, William, Greenbury, Hendrick), on a deck of its own.
+ * pools, as the free Black Texans of the record were named (William, Aaron, Abner and David Ashworth,
+ * Greenbury Logan, Samuel McCulloch, Hendrick Arnold, Peter Allen: `HIST-TEX-792`), on a deck of its own.
  */
 export const POOLS = Object.freeze({
   anglo: Object.freeze({
@@ -135,8 +137,19 @@ export const POOLS = Object.freeze({
       'Ruperto', 'Tomás', 'Julián', 'Agustín', 'Diego', 'Lorenzo', 'Fermín', 'Ambrosio', 'Jesús', 'Alejo']),
   }),
 });
-/** The pools a family of this start is dealt from, or null for a family with no start (sim/family.mjs deals the mixed pools). */
+/** The pools a family of this start is dealt from, or null for no start (`namingOf` says which a family with none is named from). */
 export const poolsFor = heritage => (heritage === 'tejano' ? POOLS.tejano : heritage === 'anglo' || heritage === 'free-black' ? POOLS.anglo : null);
+/**
+ * Whose names a family is dealt: its start's; and for a family with none - a class made before starts, or one made with them off
+ * (`STARTS=0`, or the invented Gonzales country) - the names of the people of its place: Tejano for a family of De León's colony
+ * or the ranchos below Béxar (`TEJANO_PLACES`, `HIST-TEX-780`, `-790`), Anglo-American everywhere else, as most of the colonists
+ * of 1835 were (`HIST-TEX-011`). The owner, 2026-10-01: *"the default names should be appropriate for the race being played.
+ * weren't most anglo?"* (docs/FAMILY_CREATION.md, the amendment of 2026-10-01; `FIC-GONZ-1060`). Until then a family with no start
+ * was dealt the mixed pools (sim/family.mjs `NAME_POOLS`), so a Thomas, a Refugia and a Cayetano could be one family.
+ * Only the names: a family with no start is still offered every skin tone, and nothing else reads this. A name already dealt is
+ * never changed - it is stored on the person - so an old save keeps every name it has; only names dealt from now on follow it.
+ */
+export const namingOf = household => household?.heritage || (TEJANO_PLACES.includes(household?.settlementId) ? 'tejano' : 'anglo');
 /** The deck a family of this start is shuffled on: a free Black family's is its own, so it is not dealt the Anglo family's names beside it. */
 export const deckFor = heritage => (heritage === 'free-black' ? 'free-black' : heritage || '');
 

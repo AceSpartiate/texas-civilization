@@ -14,7 +14,7 @@ const FILES = ['tests/starts.test.mjs', 'tests/starts-bexar.test.mjs'];
 const T = {
   deal: 'a class that deals starts seats Victoria, whose families are Tejano; one of Liberty\'s is free Black from ten families; the first of each is among the first six to join',
   sides: 'moving a start early exchanges only two families on the same side of the burn zone, and keeps every family\'s land',
-  old: 'a class made without starts deals none, offers every tone and deals the mixed names, as before',
+  old: 'a class made without starts deals none and offers every tone, as before; its names are of each family\'s place',
   tones: 'each start\'s parents are offered only its skin tones, dealt within them, refused outside them, and a tone outside them does not open',
   children: 'children take a tone between their parents, so inside the start\'s range',
   names: 'names are dealt from the start\'s own pools, and a Tejano family plants corn',
@@ -56,13 +56,16 @@ const INJECTIONS = [
     { file: A, from: "    skin: SKIN[lo + (hash(key('skin')) % (hi - lo + 1))],", to: "    skin: SKIN[hash(key('skin')) % SKIN.length]," }] },
   // ------------------------------------------------------------------------------------------------ names, corn, the spouse
   { name: 'the names ignore the start', expect: T.names, edits: [
-    { file: 'sim/family.mjs', from: '  const pools = poolsFor(heritage) || NAME_POOLS;', to: '  const pools = NAME_POOLS;' }] },
+    { file: 'sim/family.mjs', from: '  const pools = poolsFor(named);', to: '  const pools = NAME_POOLS;' }] },
+  // The names of a class with no starts are of each family's place (owner, 2026-10-01; tests/names-by-start.test.mjs as well).
+  { name: 'a family of a class with no starts is named Anglo-American at Victoria too', expect: T.old, edits: [
+    { file: S, from: "export const namingOf = household => household?.heritage || (TEJANO_PLACES.includes(household?.settlementId) ? 'tejano' : 'anglo');", to: "export const namingOf = household => household?.heritage || 'anglo';" }] },
   { name: 'a Tejano family plants cotton', expect: T.names, edits: [
     { file: W, from: "    const crop = region.heritages?.[i - 1] === 'tejano' ? 'corn' : drawn;", to: '    const crop = drawn;' }] },
   { name: 'the spouse\'s family is dealt any tone', expect: T.spouse, edits: [
     { file: C, from: 'appearance: looksFor(`${key}:${id}`, sex, years, skinChoices(of)) };', to: 'appearance: looksFor(`${key}:${id}`, sex, years) };' }] },
   { name: 'the spouse is named from the mixed pools', expect: T.spouse, edits: [
-    { file: C, from: '  const given = nameFrom(role, `${world.seed}:${id}:name`, taken, poolsFor(household.heritage) || NAME_POOLS);', to: '  const given = nameFrom(role, `${world.seed}:${id}:name`, taken);' }] },
+    { file: C, from: '  const given = nameFrom(role, `${world.seed}:${id}:name`, taken, poolsFor(namingOf(household)));', to: "  const given = nameFrom(role, `${world.seed}:${id}:name`, taken, poolsFor('tejano'));" }] },
   { name: 'a Tejano spouse is born to any family of the colonies', expect: T.spouse, edits: [
     { file: C, from: "  if (heritage === 'tejano') return { first: TEJANO_NEIGHBOURS, second: TEJANO_NEIGHBOURS };", to: "  if (heritage === 'tejano') return { first: TEJANO_NEIGHBOURS, second: NEIGHBOUR_FAMILIES };" }] },
   // ------------------------------------------------------------------------------------------------ knowledge, the law, the ending

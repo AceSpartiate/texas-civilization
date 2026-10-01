@@ -1,5 +1,65 @@
 # Claude handoff — Astra foundation
 
+## Red proofs on v2026.10.01.1: one class-view bug fixed, eight stale proofs, end-sequence's numbers; every default name of the family's own people — 2026-10-01 (not released)
+
+Branch `proofs-r2` off local `integration-2026-09-28` (27e0f2f9 = origin/main); not pushed. The ten browser proofs that failed on the
+released build 8487eb7b (102 proofs run two at a time beside builders), each rerun **alone** here, bisected with the proof as it was
+at each commit on that commit's own tree (`git archive`), and judged. Same computer, headless Chrome 153: no Chromebook, projector,
+LAN or classroom claim.
+
+| Proof | Verdict | Cause | Commit | Fix | Runs after |
+| --- | --- | --- | --- | --- | --- |
+| `mexican-advance` | **Game bug, the class view** | The Host's film of a fight gone from the map during its establishing shot (the executions at Goliad, March 27, filmed since 2026-09-30) took `{ ...input.field }` of nothing as its camera: no centre, no scale, and the projector threw on every frame until the next fight (the sound's levels, the smoke's gradients, the film's evidence) | e631b857, *battle-cinema* (merged 6b2d19be): ee0ab8da green, 6b2d19be, f564e398 and 73b48f4b red | public/battle-cinema.js holds the field as last framed (`c.field`) in the fade and the establishing shot; public/app.js draws a film view only with a finite centre and scale | green 2 of 2 (354, 353 s) |
+| `bexar-alarm` | Stale proof, **no leak** | hh-1 was sent *fewer* signs (the volunteers missed), hh-2 none. A sign lasts one or two of the calendar's twelve-hour ticks (0.8-1.6 s at the proof's pace) and the proof sampled the page every 200 ms plus two whole-snapshot reads: on a loaded computer it missed one. The beats are tick for tick the same on v2026.09.29.3 | none | each page logs every Béxar sign of every snapshot it is sent (both families), the leak check included | green 2 of 2 |
+| `camp` | Stale proof (owner-decided) | *House* is on whoever's bar is shown once the family has a house (owner, 2026-09-30, "Move Idle and House off"); it was a row button on the main person's row wherever he was, outside the icons the check read | aecec6b2, *row-slim* (merged f564e398): 8088674c green, f564e398 red | the check expects *House* last when the family is housed; the server still offers him exactly the camp's work | green 2 of 2 |
+| `battle-grass` | Stale proof | Watch follows like a film (the field, then the family's man close for 8 s): the sortie (about five seconds at the proof's pace) fell inside a close shot of hh-1-thomas, the sortie from the town out of the frame (0 of its men drawn) | e631b857 (Watch follows); intermittent - f564e398 red, 73b48f4b green, this tree red 4 of 4 | a moment taken close, in a phase not yet seen on the field, holds the class at the slowest pace (10 s a tick) until the film is back on the field, samples there, and goes on | green 2 of 2; `battle-concepcion` (same script) green |
+| `end-sequence` | **Reproduces alone; owner-chosen two-at-once**, not a stall | The class video dropped 35/340 (RC), 33/323, one more failing run (its numbers overwritten), then 31/325 (9.5%) and a pass: 3 of 5 runs alone over the 10% bound. It never stalled: 15.8-16.1 s played in as many seconds of two at once, 0 tenths of a second under half speed. At the feature's own merge (dd3e9be6) 27/318 (8.5%); its HANDOFF recorded 0.3-9% | none (within the spread since the feature) | **none** - the bound was not loosened; owner question below | - |
+| `family-commands` | Load flake | the rider's card waited for under two proofs and builders; nothing changed | none | none | green 2 of 2 alone (168 s each) |
+| `scrape-pursuit` | Stale proof | at 1024x768 the bar's second row (the greyed *Make a carreta*, *Hunt from the camp*: every gettable lack on the bar) covers the fixed "open lower left" the proof tapped the map at | field-click-2 (merged e8fe2d51): 6b2d19be green, e8fe2d51 red | the proof finds open map on the page (the lowest-left spot with 40 px of map all round) | green 2 of 2 |
+| `auto` | Known flake | *"Ramón has stopped to talk with Nieves"* - a small child's own auto goes off by its hidden roll; HANDOFF has it failing three runs on the per-plot branch. The hunt without powder is refused, but the proof picks a hunter whose hunt icon is not greyed | none | the proof meets the refusal as a student would - the named child's Auto on, the hunt sent again - as test:keyboard-farm and travel-drawn do (logged as `NOTE`) | green 2 of 2; the refusal did not come in either, nor in two runs forcing children to talk at any hour |
+| `information` | Stale proof (race) | the courier rides home to his post the tick after delivering (the same on v2026.09.29.3); the RC's Pause landed after it, so `location.siteId` was null | none | the proof reads the courier off the server between its 150 ms ticks and holds where he was *on the tick of delivery*; after it, at the home or riding back | green 2 of 2 |
+| `chatter` | Stale fixture | the camp scene's class stopped at the first camp in November, Concepción's last day; the army marched on as the class began, its men faded on the short road between camps, the camera let the man go, and no camp was drawn (`clips:` empty). Fails on every commit tried back to e6d9cfcc, the one that last recorded it green (2026-09-29), and on both tags - not this release's. Why it passed on 09-29 was not found (the exports share this tree's `public/assets`) | none found | the fixture waits for the old mill (November 15 to the storming, sim/army.mjs `SIEGE_CAMPS`) | camp alone green; full 21 of 21 |
+
+**Injections** (each put back): the film's old transitions → the new `tests/battle-cinema.test.mjs` case fails, alone of the nine.
+`information`: a Pause 400 ms late → the released proof fails `null !== 'home-2'` (the RC's failure), the new passes; delivery halfway
+down the road → the new fails (*"delivered with the courier at null"*). `bexar-alarm`: polling every 2.5 s → the released proof fails
+(*"hh-1 was sent bx-packing,bx-leaving"*), the new passes; Béxar's signs sent to every family → the new fails (*"the family with
+nobody near Béxar was sent its signs"*). `camp`: *House* taken off the bar → fails. `battle-grass`: the sortie drawn `loose` → fails
+(30 drawn, regularity 0.58). `scrape-pursuit`: the released proof red at e8fe2d51, green at its parent.
+
+**Every default name is of the family's own people** (owner, 2026-10-01, shown *Candelaria*, *Temperance*, *Encarnación*: *"leave
+them, also the default names should be appropriate for the race being played. weren't most anglo?"*). The long names stay. A class
+that deals starts already named each family from its start's pools; what was still mixed: **a class with no starts** (saved before
+2026-09-29, `STARTS=0`, the Gonzales country) dealt the mixed `NAME_POOLS` - now each family's place's names, Tejano at Victoria and
+below Béxar, Anglo-American elsewhere (sim/starts.mjs `namingOf`); and **the neighbours of a lone parent's visit** in such a class -
+now named as their own last name is (sim/courtship.mjs `namedAs`), the spouse's family and the spouse of the family's own.
+`nameDealer` asked with no start deals the Anglo-American pools, never the mixed. Names already dealt are kept (stored on the
+person); ids unchanged; no save version. The free Black family keeps the Anglo-American pools on its own deck, grounded in a new
+claim `HIST-TEX-792` (William, Aaron, Abner and David Ashworth, Greenbury Logan, Samuel McCulloch, Hendrick Arnold, Peter Allen); a
+"Moses" the code and FAMILY_CREATION.md named among them was not found in the record and is withdrawn. `FIC-GONZ-1060`;
+docs/FAMILY_CREATION.md, the amendment of 2026-10-01. New `tests/names-by-start.test.mjs` (16 classes, 5-30 families, with and
+without starts, both maps: founding four, rolled families, spouses, neighbours) **failed on the released sim** (*"an Anglo-American
+family was dealt the Tejano name Gregorio"*, an Anglo lone parent marrying into *"a Salcedo"* family) and on the neighbours named by
+the family's start (*"a Villa father ... Alvin"*). `tests/starts.test.mjs`'s class without starts now holds the place's names, and is
+25 families, so one is at Victoria (a class of twelve with no starts has none
+there); `tests/family.test.mjs`'s rename test names a daughter *Zerelda* (the Anglo deal now gives hh-2's daughter *Delia*, the name
+it used); `tests/figures-match-people.test.mjs`'s far family of Liberty is *Jane* and *Enos* now, not *Antonia* and *Jonas*, drawn as
+before. scripts/starts-injections.mjs has the new injection and the moved lines; run, it caught every name injection once the class
+without starts had a Victoria family (by hand: `namingOf` put to Anglo-American everywhere fails both tests), then **stopped on an
+older injection whose text is gone from sim/calls.mjs** (*"a Tejano man is asked as any volunteer, with no word of Seguín"*) - not
+this branch's, left for whoever owns the Seguín calls; its record was not rewritten.
+
+`npm test`: **2016 tests, 1980 pass, 0 fail, 36 skipped** (the suspended tutorial).
+
+**Owner questions.**
+
+1. *House* on the bar of a man away at the army's camp (it opens the family's rooms, sends nobody home). **(a) Keep it on whoever's
+   bar is shown, as decided (recommended: it moves nobody, and it was on the main person's row wherever he was before)**; (b) only on
+   the bar of somebody at home.
+2. The class video drops 8.5-10.3% of its frames while two families' videos are made beside it (never a stall). **(a) Keep two at
+   once and hold the proof at 10%, a red run now and then on this computer (recommended)**; (b) make one at a time while the class
+   video plays, two once it ends.
+
 ## The age off the family's rows, and the first tip says what the faded picture means — owner-decided 2026-09-30 (not released)
 
 Branch `row-slim-2` off local `integration-2026-09-28` (8487eb7b); not pushed. The owner answered the two questions of *Idle and
