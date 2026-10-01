@@ -49,6 +49,8 @@ import { EYEBROWS, ICONS, URGENT, militaryNotices } from '/military-attention.js
 // Read aloud (owner, 2026-09-30, D15; docs/READ_ALOUD.md): a button on the words, played in a voice made on the teacher's laptop.
 import { cardLines, createReadAloud, voiceOfPerson } from '/read-aloud.js';
 import { createBattleView, personArt } from '/battle-view.js';
+// The class view watching a fight like a film (owner, 2026-09-30; docs/BATTLES.md §15.3, docs/HOST_PAGE.md §2.15).
+import { createCinema, familyColour } from '/battle-cinema.js';
 import { createChaseView } from '/chase-view.js';
 import { activityOf, drawnStroke, drawsAtWork, drawWorkLayer, fetchPose, fetchStep, strokeClock, strokeFace, strokeLean, strokeShift, workBeat, workSlot } from '/work-art.js';
 const say = message => { for (const id of ['#error', '#join-error', '#rejoin-error', '#away-error']) { const el = $(id); if (el) el.textContent = message; } };
@@ -78,6 +80,12 @@ const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 // `drawFigure` which pose a family's own person in the force is in. Declared up here, above the page's first `connect`, so a
 // page opened in the middle of a fight has it (the TDZ guard in tests/app-module.test.mjs).
 const battleView = createBattleView({ animated: (...args) => animated(...args), drawSprite: (...args) => drawSprite(...args), miniPerson: (...args) => miniPerson(...args), clipReady: name => clipReady(name) });
+/**
+ * The film of a fight (public/battle-cinema.js): the Host's starts by itself when the server says a fight is being fought, and a
+ * student's only from the Watch card. Each says where the camera looks while it has it; `cameraFor` draws that.
+ */
+const hostCinema = createCinema({ mode: 'host' }), studentCinema = createCinema({ mode: 'student' });
+const cinemaFor = world => world?.role === 'host' ? hostCinema : studentCinema;
 // Mexican troops after a family on the Scrape (public/chase-view.js, sim/pursuit.mjs), and the family's own route: the stops it
 // is choosing (`routeDraft`), whether a tap on the map adds one (`routePicking`), and the key its editor was last drawn for.
 // Up here with the battle's renderer, above the page's first `connect`, for the same TDZ guard.
@@ -2013,13 +2021,17 @@ function cameraFor(world, canvas, now = performance.now()) {
     ? autoView(world, canvas, { kind: 'battle', title: world.battle.name || 'The fight', points: fieldFrame(battlePoints(world)) }) : null;
   const chase = !watched && !fieldView && chaseWatch && manualView === chaseWatch.view ? world.flight?.chase : null;
   const chaseFrame = chase && Number.isFinite(chase.x) && Number.isFinite(chase.y) ? { cx: chase.x, cy: chase.y, scale: chaseWatch.view.scale } : null;
-  const raw = at
+  // The film of a fight, while it has the camera (public/battle-cinema.js): it beats every other frame until the teacher (or the
+  // student who pressed Watch) takes the camera back.
+  const film = cinemaFor(world), filmView = film.driving ? film.view(now) : null;
+  const raw = filmView || (at
     ? { cx: at.x, cy: at.y, scale: clampTo(Math.max(auto.scale, limits.max * .55), limits) }
-    : fieldView || chaseFrame || (following ? auto : manualView);
+    : fieldView || chaseFrame || (following ? auto : manualView));
   const scale = clampTo(raw.scale, limits);
   const { cx, cy } = clampCentre(raw.cx, raw.cy, scale, world, canvas);
+  const framed = filmView ? { ...auto, kind: 'battle', title: world.battle?.name || 'The fight' } : fieldView || auto;
   return {
-    ...(fieldView || auto), cx, cy, scale, following, limits, watching: watched?.id || null,
+    ...framed, cx, cy, scale, following: following && !filmView, limits, watching: watched?.id || null, film: film.driving ? film.state : null,
     toScreen: p => ({ x: canvas.width / 2 + (p.x - cx) * scale, y: canvas.height / 2 + (p.y - cy) * scale }),
     toWorld: s => ({ x: cx + (s.x - canvas.width / 2) / scale, y: cy + (s.y - canvas.height / 2) / scale }),
     // Detail follows the camera instead of a mode switch, so one view serves both scales.
@@ -2237,8 +2249,8 @@ function installMapNavigation() {
     if (active.size === 1) press.travelled = Math.max(press.travelled, cssDistance(at, press.at));
     if (!press.moving && press.travelled > tapSlop(press.pointerType)) press.moving = true;
     if (!press.moving) return;
-    // Taking hold of the map is taking the camera back.
-    stopWatching();
+    // Taking hold of the map is taking the camera back - from the film of a fight too.
+    stopWatching(); takeCamera();
     manualView = gestureView(anchor, centre(), spread(), size(), anchor.view.limits);
     handOnMap(HELD_STILL_MS); requestMapDraw();
   });
@@ -2254,7 +2266,7 @@ function installMapNavigation() {
     if (factor === 1) return;
     if (performance.now() - measuredAt > 500) measure();
     // Keep the point under the cursor still, so zooming feels like a map and not a slideshow.
-    stopWatching();
+    stopWatching(); takeCamera();
     manualView = zoomAbout(view, factor, localPoint(event), size(), view.limits);
     handOnMap(WHEEL_SETTLE_MS); requestMapDraw();
   }, { passive: false });
@@ -2275,7 +2287,7 @@ function installMapNavigation() {
     const next = keyView(view, event.key, size(), view.limits);
     if (!next) return;
     event.preventDefault();
-    stopWatching();
+    stopWatching(); takeCamera();
     manualView = next;
     requestMapDraw();
   });
@@ -2283,6 +2295,8 @@ function installMapNavigation() {
 function applyMapView(action, { street = false, at = null } = {}) {
   const snapshot = window.__snapshot; if (!snapshot) return;
   const world = snapshot.world, canvas = $('#world-map');
+  if (action === 'cinema') { toggleCinema(world); return; }
+  takeCamera(world);
   if (action === 'follow') { manualView = null; fieldWatch = null; stopWatching(); drawWorld(world); return; }
   const view = cameraFor(world, canvas);
   // Zooming or going somewhere leaves off watching, as the wheel and a drag do: watching beats a manual view in
@@ -3329,6 +3343,186 @@ function flashbackGround(ctx, world, camera) {
  * (scripts/famous-people-browser-proof.mjs `mapFrames`), and the snapshot's and the arrival's draws are in it as well as the
  * animation's own.
  */
+/**
+ * What the film of a fight is told this frame (public/battle-cinema.js `update`): whether a fight is being fought for this page,
+ * the view that frames it, and the class's own people in it where they are drawn - the Host's every family's (the server names
+ * them in `members`), a student's their own. A man shown hit (`memberDown`, from the minute the server sent it) is not followed.
+ */
+function cinemaInput(world, canvas) {
+  const fight = world.battle?.sides ? world.battle : null, host = world.role === 'host';
+  const field = fight ? autoView(world, canvas, { kind: 'battle', title: fight.name || 'The fight', points: fieldFrame(battlePoints(world)) }) : null;
+  const own = new Set(entitiesOf(world).map(entity => entity.id));
+  const people = new Map([...entitiesOf(world), ...observedOf(world)].map(entity => [entity.id, entity]));
+  const now = performance.now();
+  const members = (fight?.members || []).filter(id => host || own.has(id)).map(id => {
+    const spot = battleView.memberSpot(id), entity = people.get(id), at = spot || entity?.location;
+    return { id, x: at?.x, y: at?.y, fallen: battleView.memberDown(id, now) || Boolean(entity?.service?.seenFall) };
+  }).filter(one => Number.isFinite(one.x));
+  return {
+    focus: host ? world.host?.focus === 'battle' && Boolean(fight) : Boolean(fight && fieldWatch && manualView === fieldWatch.view),
+    battleId: fight?.id || null, field: field && { cx: field.cx, cy: field.cy, scale: field.scale }, members, live: Boolean(fight?.live && !fight.over),
+    running: world.status === 'running', ended: world.status === 'ended' || Boolean(world.endSequence), reduced: reducedMotion.matches,
+    current: drawnCamera ? { cx: drawnCamera.cx, cy: drawnCamera.cy, scale: drawnCamera.scale } : null,
+    home: manualView ? { cx: manualView.cx, cy: manualView.cy, scale: manualView.scale } : null,
+  };
+}
+/** Once a frame: the film moved on, and the teacher's own view put back when a fight it filmed is over (with the fade). */
+function runCinema(world, canvas, now) {
+  const film = cinemaFor(world);
+  // Only a page that could ever film: a student's waits for the Watch card, and costs nothing until then.
+  if (world.role !== 'host' && film.state === 'off') return;
+  film.update(cinemaInput(world, canvas), now);
+  const back = film.takeRestore();
+  if (back) { manualView = back.view ? { ...back.view } : null; fieldWatch = null; stopWatching(); }
+}
+/**
+ * The camera taken from the film by the one watching: it stays where the film had it, and is theirs (Esc, the button, a drag,
+ * a zoom, any of the map's buttons). Nothing is put back at the end of that fight.
+ */
+function takeCamera(world = window.__snapshot?.world) {
+  if (!world) return;
+  const film = cinemaFor(world);
+  if (!film.driving) return;
+  const at = film.release(performance.now());
+  if (at) manualView = { cx: at.cx, cy: at.cy, scale: at.scale };
+  if (world.role !== 'host') fieldWatch = null;
+}
+/** The film's button: take the camera, or give it back to the film. */
+function toggleCinema(world) {
+  const film = cinemaFor(world), canvas = $('#world-map');
+  if (film.driving) takeCamera(world);
+  else film.resume(cinemaInput(world, canvas), performance.now());
+  drawWorld(world);
+}
+// Esc takes the camera back from the film, wherever the focus is - unless something else open on the page takes Esc first.
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape' || event.defaultPrevented) return;
+  const world = window.__snapshot?.world;
+  if (!world || !cinemaFor(world).driving) return;
+  event.preventDefault();
+  takeCamera(world);
+  drawWorld(world);
+});
+/**
+ * Over everything on the map while a fight is drawn: each of the class's own people in it named, with their family's colour -
+ * the Host's every family's, a student's own while their film runs - then the film's bars, its title over the establishing shot,
+ * and its fade. The names are drawn over the smoke, so a man in the thick of it is still found; one shown hit has his name
+ * dimmed, never a word of his fate (the server sends that only from its minute, and the page draws only what it was sent).
+ */
+function drawCinema(ctx, world, camera, canvas, now) {
+  const film = cinemaFor(world), fight = world.battle?.sides ? world.battle : null, host = world.role === 'host';
+  const evidence = { state: film.state, followed: film.followed, battle: fight?.id || null, tags: [], fade: 0, bars: 0, title: 0, log: film.log.slice(-12) };
+  const scaleText = Math.max(0.85, Math.min(1.5, canvas.height / 768));
+  if (fight && (host || film.driving)) {
+    const people = new Map([...entitiesOf(world), ...observedOf(world)].map(entity => [entity.id, entity]));
+    const own = new Set(entitiesOf(world).map(entity => entity.id));
+    const families = new Map((world.live?.families || []).map(family => [family.id, family.name]));
+    const boxes = [], tags = [];
+    for (const id of fight.members || []) {
+      if (!host && !own.has(id)) continue;
+      const entity = people.get(id), spot = battleView.memberSpot(id) || entity?.location;
+      if (!entity || !spot) continue;
+      const at = camera.toScreen(spot);
+      if (at.x < -40 || at.y < -40 || at.x > canvas.width + 40 || at.y > canvas.height + 40) continue;
+      tags.push({ id, entity, at, down: battleView.memberDown(id, now), followed: film.followed === id,
+        family: host ? families.get(entity.householdId) || '' : familyCache?.name || '', colour: familyColour(entity.householdId) });
+    }
+    // The one followed last, so it is always drawn and on top; the rest step up out of each other's way, or wait their turn.
+    tags.sort((a, b) => Number(a.followed) - Number(b.followed) || b.at.y - a.at.y);
+    const close = camera.figure >= 16;
+    ctx.save();
+    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    for (const tag of tags) {
+      const nameFont = `bold ${Math.round(12 * scaleText)}px system-ui`, familyFont = `${Math.round(10.5 * scaleText)}px system-ui`;
+      ctx.font = nameFont;
+      const nameWidth = ctx.measureText(tag.entity.name).width;
+      ctx.font = familyFont;
+      const familyWidth = close && tag.family ? ctx.measureText(tag.family).width : 0;
+      const width = Math.max(nameWidth, familyWidth) + 20 * scaleText, height = (close && tag.family ? 30 : 18) * scaleText;
+      let x = tag.at.x - width / 2, y = tag.at.y - camera.figure * 1.25 - height - (tag.followed ? 14 * scaleText : 0);
+      let placed = false;
+      for (let tries = 0; tries < 4 && !placed; tries++) {
+        if (!boxes.some(b => x < b.x + b.w && b.x < x + width && y < b.y + b.h && b.y < y + height)) placed = true; else y -= height + 3;
+      }
+      if (!placed && !tag.followed) continue;
+      boxes.push({ x, y, w: width, h: height });
+      // A ring of the family's colour at his feet, over the smoke, so a man lost in it is still found.
+      if (close && !tag.down) {
+        ctx.globalAlpha = tag.followed ? 0.95 : 0.7; ctx.strokeStyle = tag.colour; ctx.lineWidth = tag.followed ? 3 : 2;
+        ctx.beginPath(); ctx.ellipse(tag.at.x, tag.at.y, camera.figure * 0.5, camera.figure * 0.18, 0, 0, Math.PI * 2); ctx.stroke();
+      }
+      ctx.globalAlpha = tag.down ? 0.6 : 1;
+      ctx.fillStyle = tag.down ? 'rgba(70,66,60,.82)' : 'rgba(30,25,19,.84)';
+      ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, y, width, height, 5 * scaleText) : ctx.rect(x, y, width, height); ctx.fill();
+      if (tag.followed) { ctx.lineWidth = 2.5; ctx.strokeStyle = tag.colour; ctx.stroke(); }
+      // The family's colour down the tag's left edge, and a pointer to the man.
+      ctx.fillStyle = tag.colour; ctx.fillRect(x, y + 3 * scaleText, 5 * scaleText, height - 6 * scaleText);
+      ctx.beginPath(); ctx.moveTo(tag.at.x - 5, y + height); ctx.lineTo(tag.at.x + 5, y + height); ctx.lineTo(tag.at.x, y + height + 6); ctx.closePath();
+      ctx.fillStyle = tag.down ? 'rgba(70,66,60,.82)' : 'rgba(30,25,19,.84)'; ctx.fill();
+      ctx.fillStyle = tag.down ? '#cfc8b8' : '#fff6e4'; ctx.font = nameFont;
+      ctx.fillText(tag.entity.name, x + 11 * scaleText, y + 13.5 * scaleText);
+      if (close && tag.family) { ctx.fillStyle = tag.down ? '#b8b1a2' : '#e9d9b4'; ctx.font = familyFont; ctx.fillText(tag.family, x + 11 * scaleText, y + 26 * scaleText); }
+      if (tag.followed) {
+        ctx.font = `bold ${Math.round(10 * scaleText)}px system-ui`; ctx.fillStyle = '#fff6e4'; ctx.strokeStyle = 'rgba(30,25,19,.9)'; ctx.lineWidth = 3;
+        ctx.strokeText('FOLLOWING', x, y - 4); ctx.fillText('FOLLOWING', x, y - 4);
+      }
+      ctx.globalAlpha = 1;
+      evidence.tags.push({ id: tag.id, name: tag.entity.name, family: tag.family, colour: tag.colour, householdId: tag.entity.householdId, x: Math.round(tag.at.x), y: Math.round(y), down: tag.down, followed: tag.followed });
+    }
+    ctx.restore();
+  }
+  // The film itself, on the Host's map: the bars, the title over the establishing shot, and the fade to and from black.
+  const bars = film.bars(now), title = film.title(now), fade = film.fade(now);
+  evidence.bars = +bars.toFixed(2); evidence.title = +title.toFixed(2); evidence.fade = +fade.toFixed(2);
+  ctx.save();
+  if (bars > 0) {
+    const h = Math.round(canvas.height * 0.045 * bars);
+    ctx.fillStyle = '#0b0906'; ctx.fillRect(0, 0, canvas.width, h); ctx.fillRect(0, canvas.height - h, canvas.width, h);
+  }
+  // The fade first and the title over it, so the title comes up over black and stays as the field fades in behind it.
+  if (fade > 0) { ctx.globalAlpha = Math.min(1, fade); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+  ctx.globalAlpha = 1;
+  if (title > 0 && fight) {
+    // The fight's name, its day and its hour, and who of the class is in it - the families' colours - to watch for.
+    const date = world.historicalDate ? new Date(`${world.historicalDate}T12:00:00Z`).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : '';
+    const names = evidence.tags.map(tag => tag);
+    ctx.globalAlpha = title;
+    // In the room between the class down the left and the teacher's controls down the right, as the fight's caption keeps to.
+    const frame = canvas.getBoundingClientRect(), k = canvas.width / (frame.width || 1);
+    let fromX = frame.left + 12, toX = frame.right - 12;
+    for (const one of document.querySelectorAll('#family-panel, #host-live, #hud-left > *, #hud-right > *')) {
+      if (one.hidden) continue;
+      const at = one.getBoundingClientRect();
+      if (!at.width || at.bottom < frame.top + frame.height * 0.55 || at.top > frame.top + frame.height * 0.75) continue;
+      if (at.left + at.width / 2 < frame.left + frame.width / 2) fromX = Math.max(fromX, at.right + 12); else toX = Math.min(toX, at.left - 12);
+    }
+    const room = toX - fromX >= 320 ? { middle: ((fromX + toX) / 2 - frame.left) * k, width: (toX - fromX) * k } : { middle: canvas.width / 2, width: canvas.width - 40 };
+    const w = Math.min(room.width - 40, 640 * scaleText), cx = room.middle, top = canvas.height * 0.58;
+    const h = (names.length ? 118 : 86) * scaleText;
+    const grad = ctx.createLinearGradient(0, top, 0, top + h);
+    grad.addColorStop(0, 'rgba(14,11,8,0)'); grad.addColorStop(0.25, 'rgba(14,11,8,.62)'); grad.addColorStop(0.75, 'rgba(14,11,8,.62)'); grad.addColorStop(1, 'rgba(14,11,8,0)');
+    ctx.fillStyle = grad; ctx.fillRect(cx - w / 2 - 20, top, w + 40, h);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+    ctx.fillStyle = '#f3e7cc'; ctx.font = `${Math.round(13 * scaleText)}px system-ui`;
+    ctx.fillText([date, fight.title].filter(Boolean).join('  ·  ').toUpperCase(), cx, top + 28 * scaleText);
+    ctx.font = `${Math.round(34 * scaleText)}px Georgia`; ctx.fillStyle = '#fff8e8';
+    ctx.fillText(fight.name || 'The fight', cx, top + 66 * scaleText);
+    if (names.length) {
+      ctx.font = `${Math.round(13 * scaleText)}px system-ui`;
+      const shown = names.slice(0, 6), more = names.length - shown.length;
+      const words = shown.map(tag => tag.name), text = `In the fight: ${words.join(', ')}${more > 0 ? `, and ${more} more` : ''}`;
+      ctx.fillStyle = '#efe3c6'; ctx.fillText(text, cx, top + 96 * scaleText);
+      // A dot of each family's colour under the line.
+      const step = 14 * scaleText, from = cx - (shown.length - 1) * step / 2;
+      shown.forEach((tag, i) => { ctx.fillStyle = tag.colour; ctx.beginPath(); ctx.arc(from + i * step, top + 107 * scaleText, 4 * scaleText, 0, Math.PI * 2); ctx.fill(); });
+    }
+  }
+  ctx.restore();
+  evidence.field = film.field ? { cx: +film.field.cx.toFixed(4), cy: +film.field.cy.toFixed(4), scale: Math.round(film.field.scale) } : null;
+  evidence.view = film.driving ? (() => { const v = film.view(now); return v && { cx: +v.cx.toFixed(4), cy: +v.cy.toFixed(4), scale: Math.round(v.scale) }; })() : null;
+  // Presentation evidence, read by scripts/battle-cinema-browser-proof.mjs and by nothing in the application.
+  window.__cinema = evidence;
+}
 export function drawWorld(world) {
   const log = window.__mapDraws;
   if (!Array.isArray(log)) { drawWorldNow(world); return; }
@@ -3347,6 +3541,7 @@ function drawWorldNow(world) {
   fitCanvas();
   // One moment for the frame: the camera and everybody drawn in it (`sightOf` too).
   const frameNow = performance.now();
+  runCinema(world, canvas, frameNow);
   const camera = cameraFor(world, canvas, frameNow);
   drawnCamera = { cx: camera.cx, cy: camera.cy, scale: camera.scale, width: canvas.width, height: canvas.height };
   mapDrawWanted = false; lastMapDraw = performance.now(); gesturePicture = null;
@@ -4092,6 +4287,7 @@ function drawWorldNow(world) {
       fog: +span.mix.fog.toFixed(2), water: +span.mix.water.toFixed(2), wind: [+span.mix.wind.x.toFixed(2), +span.mix.wind.y.toFixed(2)],
     })) };
   } else window.__weatherDrawn = null;
+  drawCinema(ctx, world, camera, canvas, frameNow);
   const travellers = entities.filter(entity => entity.travel);
   const here = entities.filter(entity => entity.location.siteId).map(entity => `${entity.name} (${entity.task || entity.kind})`);
   // Somebody away on the road is not in `entities` at all - the server sent no position for them (sim/sight.mjs) - so the
@@ -4121,6 +4317,14 @@ function drawWorldNow(world) {
     // should say why rather than leaving a student to wonder where everyone went.
     const watched = watchedId ? entities.find(entity => entity.id === watchedId) : null;
     setText(follow, host ? (camera.following ? 'Whole class' : 'Show whole class') : camera.following ? 'Following' : watched ? `Watching ${watched.name}` : 'Follow');
+  }
+  // The film's own button on the Host's map while a fight is being fought: take the camera, or give it back to the film.
+  const filmButton = $('#map-nav [data-view=cinema]');
+  if (filmButton) {
+    const film = cinemaFor(world), offered = host && (film.driving || film.released) && film.state !== 'closing';
+    if (filmButton.hidden !== !offered) filmButton.hidden = !offered;
+    setText(filmButton, film.driving ? 'Take the camera (Esc)' : 'Watch the fight');
+    setData(filmButton, 'active', String(film.driving));
   }
   renderHostGoto(world, landBySite);
   setText($('#map-title'), camera.title);
@@ -5402,7 +5606,9 @@ function renderHostLive(snapshot, host) {
       const item = element('li', '', 'host-family');
       item.dataset.householdId = row.id; item.dataset.presence = row.presence;
       const head = element('div', '', 'host-family-head');
-      head.append(element('span', row.name), element('span', row.settlement, 'host-family-settlement'));
+      // The family's colour, the one its people's names are marked with in a fight on the class view (public/battle-cinema.js).
+      const colour = element('span', '', 'host-colour'); colour.style.background = familyColour(row.id); colour.setAttribute('aria-hidden', 'true');
+      head.append(colour, element('span', row.name), element('span', row.settlement, 'host-family-settlement'));
       // Who plays it, and in the lobby a ready mark once it is rolled, named and packed (owner, 2026-09-29: "Show name + ready").
       if (row.student) head.append(element('span', row.student, 'host-student'));
       if (row.ready) { const ready = element('span', 'ready', 'host-ready'); ready.title = 'Rolled, named and packed'; head.append(ready); }
@@ -5443,7 +5649,9 @@ function renderHostLive(snapshot, host) {
       stopWatching();
       // A fight's spotlight follows the fight instead (`framingFor`, focus `battle`): both sides stay in the frame as they
       // move, which one fixed point at one zoom could not do across a charge and a withdrawal.
-      manualView = snapshot.world.host?.focus === 'battle' && snapshot.world.battle ? null : { cx: shown.x, cy: shown.y, scale: clampTo(Math.max(view.scale, view.limits.max * .45), view.limits) };
+      // Since 2026-09-30 the film of the fight takes the camera there (public/battle-cinema.js) and puts the teacher's own view
+      // back after, so the view is left as it is; a spotlight lit while the film has the camera is said by the banner alone.
+      if (!(snapshot.world.host?.focus === 'battle' && snapshot.world.battle) && !hostCinema.driving) manualView = { cx: shown.x, cy: shown.y, scale: clampTo(Math.max(view.scale, view.limits.max * .45), view.limits) };
       window.__spotlightSeen = (window.__spotlightSeen || []).concat(shown.key);
     }
     if (!shown) hostLiveKeys.spotlight = null;
@@ -7738,6 +7946,9 @@ function watchField(world, field) {
   } else if (field) manualView = { cx: field.x, cy: field.y, scale: clampTo(Math.max(view.scale, view.limits.max * .4), view.limits) };
   fieldWatch = { view: manualView };
   window.__watchedField = { at: performance.now(), view: { ...manualView } };
+  // And follows it as a film would - the field, then the family's own in it - for as long as the student leaves the camera be
+  // (public/battle-cinema.js, student mode: no fades, no title; a pan, a zoom, Follow or Esc ends it). Never started by itself.
+  if (world.battle?.sides) studentCinema.resume({ ...cinemaInput(world, canvas), current: { ...manualView } }, performance.now());
   drawWorld(world);
 }
 let encounterOpen = false, lastEncounterId = null;
@@ -8834,7 +9045,9 @@ function animateMap(now) {
   // heard it (measured 2026-09-17, CPU throttled six times: 840 ms from a finger landing to its pointerdown).
   // ceiling: the animation runs slower than twelve frames a second wherever a draw costs more than 42 ms; cheaper drawing
   // raises it again by itself.
-  if (active && now - lastMapDraw >= Math.max(1000 / 12, animationDrawMs * 2) && now >= handOnMapUntil) {
+  // While the film of a fight moves the camera, twice as often, so the glide is smooth (still never more than half the page's time).
+  const fps = cinemaFor(world).driving ? 24 : 12;
+  if (active && now - lastMapDraw >= Math.max(1000 / fps, animationDrawMs * 2) && now >= handOnMapUntil) {
     paintedFrame = now;
     drawingAnimation = true;
     const began = performance.now(); drawWorld(world); positionSelection(world);

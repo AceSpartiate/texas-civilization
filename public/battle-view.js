@@ -56,7 +56,7 @@ const VOLLEY_MS = 11000, VOLLEY_WORDS_AT = [0, 1500, 2600];
 // ceiling: at most 170 puffs on the field at once, the oldest let go first, so a Chromebook's frame stays under a few
 // milliseconds (measured by scripts/battle-gonzales-browser-proof.mjs); a battle with far more men firing than Gonzales -
 // San Jacinto's eighteen minutes - may want the puffs merged into banks rather than a higher cap.
-const SMOKE_CAP = 150, SMOKE_LIFE_MS = 18000, CANNON_SMOKE_LIFE_MS = 30000;
+const SMOKE_CAP = 150, SMOKE_LIFE_MS = 14000, CANNON_SMOKE_LIFE_MS = 24000;
 /**
  * **Black powder** (owner, 2026-09-30, after watching Gonzales in a real class: "i don't think there was enough smoke for black
  * powder weapons"; docs/BATTLES.md §15.2, `FIC-GONZ-1051`). A puff above is the billow out of one muzzle, seen for its first
@@ -1841,8 +1841,10 @@ export function createBattleView(art) {
       if (bounds && at.x >= 0 && at.y >= 0 && at.x <= bounds.width && at.y <= bounds.height) inView++;
       const size = figurePx * lerp(s.size0, s.size1, Math.sqrt(t)) * (s.scale ?? 1);
       const alpha = s.alpha * (t < 0.04 ? t / 0.04 : Math.pow(1 - t, 1.3));
-      const sprite = t < 0.08 ? 'smoke-growing' : s.seed < 0.5 ? 'smoke-dispersing' : 'smoke-dense';
-      if (!art.drawSprite(ctx, sprite, at.x, at.y - figurePx * 0.4, size, { alpha: sprite === 'smoke-dense' ? alpha * 0.7 : alpha, flip: s.seed > 0.7 })) {
+      // The fresh billow white out of the muzzle, then grey and breaking up into the bank (since 2026-09-30 never the library's
+      // dark-outlined `smoke-dense`, which read as a thundercloud over a line of muskets, not powder smoke).
+      const sprite = t < 0.22 ? 'smoke-growing' : 'smoke-dispersing';
+      if (!art.drawSprite(ctx, sprite, at.x, at.y - figurePx * 0.4, size, { alpha, flip: s.seed > 0.7 })) {
         const g = ctx.createRadialGradient(at.x, at.y - size * 0.4, 0, at.x, at.y - size * 0.4, size * 0.5);
         g.addColorStop(0, `rgba(226,224,216,${alpha})`); g.addColorStop(1, 'rgba(226,224,216,0)');
         ctx.fillStyle = g; ctx.beginPath(); ctx.arc(at.x, at.y - size * 0.4, size * 0.5, 0, Math.PI * 2); ctx.fill();
@@ -1944,7 +1946,13 @@ export function createBattleView(art) {
     }
   }
 
+  /**
+   * Whether a family's person is drawn hit, taken or down now - only from the moment the page drew the fate the server sent at its
+   * minute (`memberFallAt`), so nothing that reads it can know sooner than the picture shows. The film (public/battle-cinema.js)
+   * does not follow him, and his name is dimmed.
+   */
+  const memberDown = (id, now = performance.now()) => { const fell = view.memberFallAt.get(id); return Boolean(fell && now >= fell.at && !['escaped', 'ran'].includes(fell.fate)); };
   /** Whether this person is drawn in the fight now (a family's person who fell is drawn only while it is). */
   const isMember = id => view.members.has(id);
-  return { draw, memberPose, memberDrawn, isMember, memberSpot: id => view.memberSpots.get(id) || null, get evidence() { return view.evidence; }, get smoke() { return view.smoke.length + view.banks.length; } };
+  return { draw, memberPose, memberDrawn, isMember, memberSpot: id => view.memberSpots.get(id) || null, memberDown,  get evidence() { return view.evidence; }, get smoke() { return view.smoke.length + view.banks.length; } };
 }

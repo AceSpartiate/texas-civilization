@@ -80,6 +80,7 @@ const files = new Map([
   ['/famous-view.js', ['../public/famous-view.js', 'text/javascript']],
   // The one battle renderer and the one speech bubble (docs/BATTLES.md §3): every fight drawn, every line said over its speaker.
   ['/battle-view.js', ['../public/battle-view.js', 'text/javascript']],
+  ['/battle-cinema.js', ['../public/battle-cinema.js', 'text/javascript']],
   // The famous people's poses on Claude's temporary sheets, behind Astra's (public/claude-person-art.js).
   ['/claude-person-art.js', ['../public/claude-person-art.js', 'text/javascript']],
   ['/chase-view.js', ['../public/chase-view.js', 'text/javascript']],

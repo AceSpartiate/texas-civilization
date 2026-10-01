@@ -111,6 +111,7 @@
     "test:overlap-injections": "node scripts/overlap-injections.mjs",
     "test:gonzales-town": "node scripts/gonzales-town-browser-proof.mjs",
     "test:battle-gonzales": "node scripts/battle-gonzales-browser-proof.mjs",
+    "test:battle-cinema": "node scripts/battle-cinema-browser-proof.mjs",
     "test:audio": "node scripts/audio-browser-proof.mjs",
     "test:battle-bexar": "node scripts/battle-bexar-browser-proof.mjs",
     "test:battle-injections": "node scripts/battle-injections.mjs",
