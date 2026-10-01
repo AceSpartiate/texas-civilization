@@ -103,7 +103,7 @@ import { quickestOf, quickestWay, shownWays, waysFor } from './going.mjs';
 import { toolsInvalid } from './tools.mjs';
 import { fellingInvalid, logsLeftOut, logsProjection, recordFelling } from './felling.mjs';
 import { advanceHunger, diedQuietly, hungerInvalid, hungerShown, hungerStride, larderShown } from './hunger.mjs';
-import { wantsShown } from './wants.mjs';
+import { liftWants } from './wants.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, defaultNames, familyProjection, familyRoll, FAMILY_DIE, FAMILY_TABLE, tableOf, compositionFor,rolledWords, householdName, kinFor, mainPersonId, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
 export { HOUSEHOLD_SHAPE, ROLES, householdName, sanitiseName } from './family.mjs';
 export { clearedOf, improvementsOf, ruin } from './improvements.mjs';
@@ -1328,9 +1328,7 @@ function projectHousehold(world, household) {
     ...(acting && acting.id !== main && { actingId: acting.id }), ...(acting?.how === 'child' && { steppedUp: true }),
     ...(taken && { takenIn: { householdId: taken.id, name: householdName(world, taken), ids: [...household.takenIn.ids] } }),
     // The family's food as a gauge (sim/hunger.mjs `larderShown`): days it lasts at today's eating, and the worst stage among them.
-    ...(household.played && larderShown(world, household)),
-    // What the family is short of for a carreta or a hunt (sim/wants.mjs, owner 2026-09-30): only while it is short of something.
-    ...wantsShown(world, household) };
+    ...(household.played && larderShown(world, household)) };
 }
 /**
  * Who of the family could nurse this very sick person right now, each with the work that would do it: nursing at home, or halting
@@ -1425,6 +1423,9 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   const logsOut = household ? logsLeftOut(world, household) : 0;
   // Somebody on auto may also be given refused work that repeats, to wait for (sim/auto.mjs `waitingWork`, owner 2026-09-25).
   const work = household ? Object.fromEntries(household.members.map(id => [id, waitingWork(world.entities[id], choresFor(world, household, world.entities[id], logsOut))])) : {};
+  // What the family is short of for the work refused for want of a thing it could get (sim/wants.mjs, owner 2026-09-30, "Every
+  // gettable lack"): lifted off every entry onto the household once, and only while it is short of something.
+  const wants = household ? liftWants(world, household, work) : null;
   // Which ways each person could set out, on the same rule as the work: a permission, so
   // it is decided here and never guessed at by the client.
   // What the family has made of this land, and what state it is in. The renderer draws
@@ -1448,7 +1449,7 @@ export function projectWorld(world, householdId, role, { includeMap = true, copy
   // And, for the five real minutes after the X, the offer to take it back up (owner, 2026-09-22): when the window shuts by
   // the server's clock and how long that is from now. Absent the rest of the time, which is the whole of the page's cue.
   const lessonResume = household && role !== 'host' && !lesson ? lessonResumeOffer(world, household, now) : null;
-  const view = { tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: mapForPage(world.map) }), household: household && projectHousehold(world, household), entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role, { seen: (others || []).map(other => other.id) }),
+  const view = { tick: world.tick, minute: world.minute, status: world.status, role, householdId, ...(includeMap && { map: mapForPage(world.map) }), household: household && { ...projectHousehold(world, household), ...wants }, entities, others, offers, encounter, events, work, travelModes, land, wagon, toolCondition, reports: reportsFor(world, role === 'host' ? 'public' : householdId), ...directorProjection(world, householdId, role, { seen: (others || []).map(other => other.id) }),
     // The weather, region by region (sim/weather.mjs, docs/WEATHER.md): what kind of day it is in each of the three
     // countries, how high their rivers are running, and where the wind is from. The page draws it and says nothing
     // (owner, 2026-09-20: "Players should see the weather. If implemented correctly, no text should be required"), so the

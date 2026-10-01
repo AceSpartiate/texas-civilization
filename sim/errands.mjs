@@ -68,6 +68,8 @@ export const LINE_MOST = 20;
 export const STOCK = Object.freeze(['food', 'seed', 'powder', 'money', 'cotton', 'hides']);
 
 const round = value => Math.round(value * 10000) / 10000;
+/** "2 seed", "1 hide", "3 hides": an amount of a good as the list and the story say it (a rawhide from the tanner, 2026-09-30). */
+const goodWords = (good, amount) => `${amount} ${good === 'hides' && amount === 1 ? 'hide' : good}`;
 const reales = amount => `${amount} ${amount === 1 ? 'real' : 'reales'}`;
 const loads = amount => { const shown = Math.round(amount * 10) / 10; return `${shown} ${shown === 1 ? 'load' : 'loads'}`; };
 const cap = text => text.charAt(0).toUpperCase() + text.slice(1);
@@ -88,7 +90,7 @@ const mostOf = offer => offer.most ?? (offer.kind === 'sell' && offer.once ? 1 :
 function eachWords(offer) {
   if (offer.kind === 'service') return '1 food ground';
   if (offer.kind === 'buy') return per(offer) === 1 ? `1 ${offer.good === 'cotton' ? 'bale' : offer.good === 'hides' ? 'hide' : offer.good}` : `${per(offer)} ${offer.good}`;
-  return offer.brings ? Object.entries(offer.brings).map(([good, amount]) => `${amount} ${good}`).join(', ') : null;
+  return offer.brings ? Object.entries(offer.brings).map(([good, amount]) => goodWords(good, amount)).join(', ') : null;
 }
 function priceWords(offer, now = null) {
   if (offer.kind === 'service') return 'the miller takes his toll in meal';
@@ -196,7 +198,7 @@ function reckon(world, household, entity, list, town = null) {
       out += (offer.carried ?? 0) * n;
       if (offer.leads) for (let i = 0; i < n; i++) leads.push(offer.leads);
       for (const [kind, head] of Object.entries(offer.drives || {})) drives[kind] = (drives[kind] || 0) + head * n;
-      lines.push({ ...line, costs: pay === 'coin' ? reales(price * n) : `${price * n} food`, ...(offer.brings && { gives: Object.entries(offer.brings).map(([good, amount]) => `${amount * n} ${good}`).join(', ') }) });
+      lines.push({ ...line, costs: pay === 'coin' ? reales(price * n) : `${price * n} food`, ...(offer.brings && { gives: Object.entries(offer.brings).map(([good, amount]) => goodWords(good, amount * n)).join(', ') }) });
     } else if (offer.kind === 'buy') {
       const units = n * per(offer);
       if (have[offer.good] + 1e-9 < units) return { why: `There will not be ${units} ${offer.good} in the house to sell.` };
@@ -356,7 +358,7 @@ export function carryOutErrand(world, household, entity, state) {
       if (done) {
         carried ||= Boolean(offer.brings || offer.load);
         const paid = line.pay === 'coin' ? reales(offer.coin * done) : `${offer.food * done} food`;
-        const text = offer.brings ? `${entity.name} bought ${Object.entries(offer.brings).map(([good, amount]) => `${amount * done} ${good}`).join(', ')} at ${shop} for ${paid}.` : `${entity.name} paid ${paid} at ${shop}.`;
+        const text = offer.brings ? `${entity.name} bought ${Object.entries(offer.brings).map(([good, amount]) => goodWords(good, amount * done)).join(', ')} at ${shop} for ${paid}.` : `${entity.name} paid ${paid} at ${shop}.`;
         say(text, line.pay === 'coin' ? { coin: -offer.coin * done } : {});
       }
       if (done < line.n) say(`${entity.name} could ${done ? `do only ${done} of ${line.n}` : 'not'}: ${offer.label.toLowerCase()} - ${why || 'it could not be done'}${done ? '' : ' Nothing was paid for it.'}`);

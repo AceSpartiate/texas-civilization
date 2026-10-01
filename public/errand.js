@@ -57,7 +57,7 @@ export function stockKey(resources = {}) {
 
 /**
  * The popup itself. `deps`: `$`, `element`, `api` (GET), `say`, `send(input)` (public/app.js's, which gives the order its id
- * the way every command's is made) and `onSent(entityId)`. Returns `{ open(entityId), render(world), close() }`.
+ * the way every command's is made) and `onSent(entityId)`. Returns `{ open(entityId, { line }), render(world), close() }`; `line`, a line the list opens with on it.
  */
 export function mountErrand({ $, element, api, say, send: sendCommand, onSent = () => {} }) {
   const root = $('#errand');
@@ -79,6 +79,13 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
       if (!state || seq !== state.seq) return;
       state.facts = errand;
       state.quote = errand.quote || null;
+      // Opened from a goal's way on (docs/FAMILY_PANEL.md §23, owner 2026-09-30): the line it wants is put on the list once, as a
+      // press of its + would, and the list quoted - the tanner's rawhide for a carreta, the store's seed for the field.
+      const wanted = state.wanted && errand.lines?.find(one => one.id === state.wanted && !one.why);
+      if (state.wanted && !list?.length) {
+        state.wanted = null;
+        if (wanted) { state.counts.set(wanted.id, 1); state.highlight = wanted.id; draw(); fetchFacts(currentList()); return; }
+      }
       // A quote is only good for the list it was asked about: Send waits for the answer to the list on the screen.
       state.quotedKey = list?.length ? JSON.stringify([list, mode]) : null;
       state.error = '';
@@ -181,6 +188,9 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
       const count = state.counts.get(line.id) || 0;
       if (item.dataset.count !== String(count)) item.dataset.count = String(count);
       if (line.why) { if (item.dataset.shut !== 'true') item.dataset.shut = 'true'; } else if ('shut' in item.dataset) delete item.dataset.shut;
+      // The line a goal asked for (`wanted`), lit and in view once.
+      // Scrolled after the frame is laid out: the list's own box is not yet its size when the lines are first built.
+      if (state.highlight === line.id && item.dataset.wanted !== 'true') { item.dataset.wanted = 'true'; requestAnimationFrame(() => item.scrollIntoView?.({ block: 'center' })); }
       const words = item.querySelector('.errand-words');
       put(words.querySelector('.errand-label'), 'textContent', line.label);
       put(words.querySelector('.errand-price'), 'textContent', line.why || line.price);
@@ -289,8 +299,8 @@ export function mountErrand({ $, element, api, say, send: sendCommand, onSent = 
   });
 
   return {
-    open(entityId) {
-      state = { entityId, facts: null, quote: null, counts: new Map(), pays: new Map(), open: new Set(), mode: null, seq: 0, busy: false, error: '', key: null, quotedKey: null };
+    open(entityId, { line = null } = {}) {
+      state = { entityId, facts: null, quote: null, counts: new Map(), pays: new Map(), open: new Set(), mode: null, seq: 0, busy: false, error: '', key: null, quotedKey: null, wanted: line, highlight: null };
       draw();
       fetchFacts();
       root.querySelector('#errand-cancel')?.focus({ preventScroll: true });

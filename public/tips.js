@@ -116,7 +116,7 @@ export function tipsPresent(world, { errandOpen = false } = {}) {
     star: world.status === 'running' && !(world.lesson && !world.lesson.done) && !world.land?.arriving && own.length > 1,
     // The carreta: the family could make one but for what it has not got (the server's `wants`, sim/wants.mjs), and no wagon of
     // its own stands free at home - out on the road, in somebody's hands, or none at all.
-    cart: !leading && Boolean(world.household.wants?.carreta) && !(world.entities || []).some(one => one.kind === 'wagon' && one.householdId === world.householdId
+    cart: !leading && Boolean(world.household.wants?.['make-carreta']) && !(world.entities || []).some(one => one.kind === 'wagon' && one.householdId === world.householdId
       && !one.borrowedBy && !one.travel && one.location?.siteId === world.household.homeSiteId),
   };
   return TIP_ORDER.filter(id => present[id]);

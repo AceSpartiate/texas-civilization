@@ -158,6 +158,7 @@ button:disabled{opacity:.4;cursor:default}
 .errand-label{font-size:13.5px;color:#28392f}
 .errand-price{font-size:12px;color:#5b6a55;line-height:1.3}
 .errand-line[data-shut=true] .errand-price{color:#8a3b22}
+.errand-line[data-wanted=true]{box-shadow:inset 3px 0 0 #c2582c;background:#fff3dc}
 .errand-controls{display:flex;align-items:center;gap:4px}
 .errand-controls button{min-height:36px;min-width:36px;padding:2px 8px;font-size:13px;background:#f3ead2;color:#3f3524;border-color:#b09a6d}
 .errand-controls .errand-pay{min-width:0;font-size:12px}
@@ -647,7 +648,8 @@ body[data-panel=true] #house-plan,body[data-panel=true] #house-plot{z-index:13}
 #plant-crops .plant-crop[data-short=true] small{color:#c2582c;opacity:1}
 #plant-crops .plant-crop[data-crop=corn][data-short=true] small{color:#ffd0b0}
 #plot-harvest{margin-top:9px;margin-right:6px;font-weight:650;background:#7a4726;border-color:#5a321a;color:#fdf0dd}
-#plot-harvest[hidden],#plot-who-line[hidden]{display:none}
+#plot-fence{margin-top:9px;margin-right:6px;font-weight:650;background:#5a4a2c;border-color:#3d3220;color:#fdf0dd}
+#plot-harvest[hidden],#plot-who-line[hidden],#plot-fence[hidden]{display:none}
 #plot-who-line{display:flex;gap:6px;align-items:center;margin-top:7px;font-size:13px;font-weight:650;color:#4b3e28}
 #plot-who{font:inherit;font-weight:600;min-height:32px}
 @media (max-width:760px){#survey-choose{left:8px;right:8px;width:auto;top:56px}}
@@ -1039,8 +1041,9 @@ body[data-finale-controls="open"] #hud-right{z-index:61;pointer-events:auto;back
 #panel-tip-needs b{font-size:12px;font-weight:650;padding:1px 7px;border-radius:9px;border:1px solid #6f8f4a;background:#e3eccd;color:#2f4220;font-variant-numeric:tabular-nums}
 #panel-tip-needs b[data-met=true]::before{content:"\2713  "}
 #panel-tip-needs b[data-met=false]{border-color:#b5452f;background:#f6dccd;color:#7a2a17}
-#panel-tip-go{display:block;margin-top:7px;width:100%;min-height:40px;font-weight:650;background:#7a4726;color:#fdf0dd;border-color:#5a321a}
-#panel-tip-go[hidden]{display:none}
+#panel-tip #panel-tip-ways{display:flex;flex-direction:column;gap:5px;margin-top:7px}
+#panel-tip .panel-tip-go{display:block;width:100%;min-height:40px;font-weight:650;background:#7a4726;color:#fdf0dd;border-color:#5a321a}
+#panel-tip #panel-tip-ways[hidden]{display:none}
 @media(prefers-reduced-motion:reduce){.panel-icon[data-active=true],.panel-icon[data-pointed=true],.panel-attention,.panel-auto[aria-pressed=true]{animation:none}}
 @media (max-width:760px){
   /* A phone: a column of portraits, only the chosen person's name beside it, and the main person's work along the bottom

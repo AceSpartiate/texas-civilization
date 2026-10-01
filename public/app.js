@@ -4,7 +4,7 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
-import { actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, barIcons, nextStep, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands } from '/family-panel.js';
+import { actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, barIcons, nextSteps, goalRoom, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { TIPS, tipToShow, tipsToReread } from '/tips.js';
 import { mountErrand } from '/errand.js';
@@ -5293,7 +5293,7 @@ function populateWork(world, chosen, running) {
  * it says changes. Every rule here is the projection's; public/family-panel.js orders, words and draws it.
  */
 const panelRows = new Map();
-let panelExpanded = null, panelTipFor = null, panelBarId = null, panelOrderIds = [];
+let panelExpanded = null, panelTipFor = null, panelBarId = null, panelOrderIds = [], errandWanted = null;
 function renderFamilyPanel(world) {
   const panel = $('#family-panel'), list = $('#family-rows');
   const household = world.household;
@@ -5495,8 +5495,11 @@ function renderFamilyPanel(world) {
     seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), needRank: place?.rank ?? null, needLeftMs: need?.leftMs ?? null, idle, focused, auto: onAuto, autoSays: autoSays || null, autoWaiting: Boolean(onAuto && entity.autoTask?.waiting), reason: reason || null, why: silence || null, travelling: travelling || null, life: life || null, word: shortWord || null, switchShown: !noSwitch, bar });
     // What can be pressed, as since 2026-09-22, and beside it the goals refused only for what the family has not got - a carreta
     // short of its hide, a hunt whose rifle is at the war - greyed, with what they want (owner, 2026-09-30; docs/FAMILY_PANEL.md §23).
-    const visibleIcons = barIcons(icons, icon => icon.active || (icon.can && (!shutting || allowsIcon(lesson, icon))))
-      .filter(icon => !(icon.goal && shutting));
+    // As many goals as two rows of the bar's 80 px columns leave room for, at most six (owner, 2026-09-30: "Keep the bar readable at
+    // 1024x600"): the bar is as wide as the screen less the column and its margins (public/style.css), or scrolls on a phone.
+    const pressable = icon => icon.active || (icon.can && (!shutting || allowsIcon(lesson, icon)));
+    const phone = innerWidth <= 760;
+    const visibleIcons = barIcons(icons, pressable, shutting ? 0 : phone ? 6 : goalRoom(icons.filter(pressable).length + 1, innerWidth - 220));
     // Somebody with the men in a fight says why nothing can be asked of them (sim/battle-stage.mjs `heldByBattle`).
     // A baby's bar says what the baby is doing (docs/CHILDREN.md §6): it is given no work, and "too young" is not news.
     const visibleReason = visibleIcons.length ? null : travelling || entity.held || (entity.baby && life) || reason || 'No actions available right now.';
@@ -6186,10 +6189,12 @@ function showPanelTip(button, { armed = false, pinned = false } = {}) {
   let needs = null;
   try { needs = button.dataset.needs ? JSON.parse(button.dataset.needs) : null; } catch { needs = null; }
   const onBar = [...(button.closest('.panel-icons')?.querySelectorAll('.panel-icon') || [])].map(one => one.dataset.key);
-  const next = nextStep(needs, onBar);
+  // Every way on for the first thing missing (owner, 2026-09-30): a hide by a hunt and from the tanner, a buy only where the
+  // family's own town sells it (the server's `buy`).
+  const ways = nextSteps(needs, onBar, window.__snapshot?.world?.household?.buy || []);
   panelTipFor = { entityId: button.dataset.entityId, key: button.dataset.key, armed: !refused && (armed || Boolean(same && panelTipFor.armed)),
-    // Pressed (not hovered), a goal's popup stays while the pointer goes to its button.
-    pinned: Boolean(next) && (pinned || Boolean(same && panelTipFor.pinned)), go: next?.key || null };
+    // Pressed (not hovered), a goal's popup stays while the pointer goes to its buttons.
+    pinned: ways.length > 0 && (pinned || Boolean(same && panelTipFor.pinned)), go: ways[0]?.key || null };
   setText($('#panel-tip-name'), button.dataset.name);
   setText($('#panel-tip-summary'), button.dataset.summary);
   setText($('#panel-tip-note'), button.dataset.note || '');
@@ -6206,10 +6211,19 @@ function showPanelTip(button, { armed = false, pinned = false } = {}) {
     }
     list.hidden = !needs;
   }
-  const go = $('#panel-tip-go');
-  if (go) {
-    go.hidden = !next;
-    if (next) { setText(go, next.label); go.dataset.key = next.key; go.dataset.want = next.want; }
+  const host = $('#panel-tip-ways');
+  if (host) {
+    const key = JSON.stringify(ways);
+    if ((host.dataset.key || '') !== key) {
+      host.dataset.key = key;
+      host.replaceChildren(...ways.map(way => {
+        const go = element('button', way.label, 'panel-tip-go');
+        go.type = 'button'; go.dataset.key = way.key; go.dataset.want = way.want;
+        if (way.line) go.dataset.line = way.line;
+        return go;
+      }));
+    }
+    host.hidden = !ways.length;
   }
   setData(tip, 'pinned', String(panelTipFor.pinned));
   tip.dataset.refused = String(refused && button.dataset.active !== 'true');
@@ -6255,10 +6269,14 @@ $('#panel-tip-send')?.addEventListener('click', () => {
 });
 // A goal's way on (docs/FAMILY_PANEL.md §23): the work that brings the first thing it wants, pressed on the same person's bar - the
 // hunt's place chooser for a hide, felling for logs, the town errand for an axe, a rifle or powder - exactly as pressing that icon.
-$('#panel-tip-go')?.addEventListener('click', () => {
-  const target = panelTipFor?.go && panelRows.get(panelTipFor.entityId)?.icons.querySelector(`[data-key="${panelTipFor.go}"]`);
+$('#panel-tip-ways')?.addEventListener('click', event => {
+  const way = event.target.closest('.panel-tip-go');
+  const target = way && panelTipFor && panelRows.get(panelTipFor.entityId)?.icons.querySelector(`[data-key="${way.dataset.key}"]`);
   hidePanelTip();
+  // A buy opens the town errand with its line on the list (`errandWanted`): the tanner's rawhide, the store's seed or powder.
+  errandWanted = way?.dataset.line || null;
   if (target) { target.focus(); target.click(); }
+  errandWanted = null;
 });
 /**
  * Folding the panel down to a column of faces (owner, 2026-09-21: the interface covered too much of a Chromebook screen).
@@ -7236,13 +7254,23 @@ function renderSurvey(world) {
     harvest.disabled = plotSendPending;
   }
   renderPlotWho(world, stage);
+  // A cleared plot with no sound fence, tapped on the map: Fence it, beside whatever else it offers (owner, 2026-09-30, "Add 'Fence
+  // it'"). Sent to the person chosen when the server would send them on fencing, else the next who may (`plotHand`).
+  const fence = $('#plot-fence');
+  if (fence) {
+    const unfenced = Boolean(tapped && tapped.state === 'cleared' && tapped.fence !== 'sound' && facts);
+    const fencer = unfenced ? plotHand({ job: 'fence-plot', work: world.work || {}, barId: surveyFor, mainId: focusedId, order: panelOrderIds }) : null;
+    fence.hidden = !unfenced;
+    fence.dataset.entityId = fencer || '';
+    fence.disabled = plotSendPending;
+  }
   const plots = JSON.stringify((world.land?.plots || []).map(plot => [plot.id, plot.state, plot.fence || '', plot.sown ? plot.crop || 'sown' : '']));
   // Suggested places are bare plots to plant and staked ones to clear: not shown under a growing or a ripe plot.
   renderSuggested($('#survey-suggested'), growingCrop ? 'none' : plotJob, `${plotJob}:${surveyFor}:${window.__snapshot?.sessionId}:${plots}`, plotPick?.point, lookAtPlot);
   // Opened from the keyboard (the field line's chip): to the first thing to press, once the plot has been looked at.
   if (plotFocus && facts) {
     plotFocus = false;
-    [...panel.querySelectorAll('#plant-crops .plant-crop, #plot-harvest, #survey-send, #survey-cancel')].find(one => !one.hidden && !one.closest('[hidden]'))?.focus();
+    [...panel.querySelectorAll('#plant-crops .plant-crop, #plot-harvest, #plot-fence, #survey-send, #survey-cancel')].find(one => !one.hidden && !one.closest('[hidden]'))?.focus();
   }
 }
 /**
@@ -7266,6 +7294,16 @@ function renderPlotWho(world, stage) {
   }
   if (select.value !== surveyFor) select.value = surveyFor;
 }
+$('#plot-fence')?.addEventListener('click', async () => {
+  const button = $('#plot-fence');
+  if (plotSendPending || !plotPick || !button.dataset.entityId) return;
+  plotSendPending = true; $('#survey-note').textContent = '';
+  try {
+    await api('/api/command', { id: `cmd-${Math.random().toString(36).slice(2)}${Date.now()}`, action: 'fence-plot', entityId: button.dataset.entityId, x: +plotPick.point.x.toFixed(3), y: +plotPick.point.y.toFixed(3) });
+    surveyFor = null; plotPick = null; plotFromMap = false;
+  } catch (error) { $('#survey-note').textContent = error.message; }
+  finally { plotSendPending = false; if (window.__snapshot) render(window.__snapshot); }
+});
 $('#plot-who')?.addEventListener('change', event => { if (event.target.value) { surveyFor = event.target.value; if (window.__snapshot) render(window.__snapshot); } });
 // Bringing in a ripe plot tapped on the map: the button carries the harvest order and the one dispatcher sends it; the chooser closes.
 $('#plot-harvest')?.addEventListener('click', () => { setTimeout(() => { surveyFor = null; plotPick = null; plotFromMap = false; if (window.__snapshot) render(window.__snapshot); }); });
@@ -9046,12 +9084,12 @@ document.addEventListener('click', async event => {
       opensChooser: panelButton.dataset.chore === 'visit-shop' || Boolean(panelButton.dataset.visit) || panelButton.dataset.key === 'winter-recall' || panelButton.dataset.action === 'survey-start',
     });
     // A refused goal's popup is pinned with its way on (docs/FAMILY_PANEL.md §23); from the keyboard, the way on takes the focus.
-    if (step === 'explain') { showPanelTip(panelButton, { pinned: true }); if (event.detail === 0 && panelTipFor?.go) $('#panel-tip-go')?.focus(); return; }
+    if (step === 'explain') { showPanelTip(panelButton, { pinned: true }); if (event.detail === 0 && panelTipFor?.go) $('#panel-tip-ways .panel-tip-go')?.focus(); return; }
     if (step === 'arm') { showPanelTip(panelButton, { armed: true }); window.__panelArmed = (window.__panelArmed || 0) + 1; return; }
     // Sending for somebody who serves is asked twice, on their card, where there is room to say what it costs.
     // Going to town to trade asks first what to buy and sell (docs/TOWNS.md §4b, owner 2026-09-24): the popup sends the order.
     // The tip over the map waits at once, not on the next second's look (public/tips.js `tipToShow`): never over the popup.
-    if (panelButton.dataset.chore === 'visit-shop') { hidePanelTip(); errandPopup.open(panelButton.dataset.entityId); if (window.__snapshot?.world) renderTip(window.__snapshot.world); return; }
+    if (panelButton.dataset.chore === 'visit-shop') { hidePanelTip(); errandPopup.open(panelButton.dataset.entityId, { line: errandWanted }); if (window.__snapshot?.world) renderTip(window.__snapshot.world); return; }
     // A neighbour's homestead is chosen from the Neighbours list, whose *Send … there* is the journey (owner, 2026-09-29: the
     // card that held a list of homesteads and *Go there* is gone).
     if (panelButton.dataset.visit) { hidePanelTip(); openNeighbours(); return; }

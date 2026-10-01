@@ -803,9 +803,21 @@ a hunt was the one way, and an invisible one.)
 - Proof `npm run test:field-click` ([record](evidence/field-click-browser.json)): the carreta greyed with its wants, *Go hunting*
   opening the hunt's chooser, a hunt bringing a deer's hide, *Hides 1*, and the carreta then open and made. Tests
   `tests/field-click-hunt.test.mjs`.
-- `ceiling:` only the carreta and the hunt are kept as goals. Another refused-for-want work (a well with no hoe, furniture with no
-  axe) is still hidden by the 2026-09-22 rule; widening it is the owner's call (HANDOFF.md). `ceiling:` the way on points at the
-  first thing missing only, in the order axe, logs, hide.
+- ~~`ceiling:` only the carreta and the hunt are kept as goals.~~ Widened by the owner the same day to every gettable lack (§6.10,
+  docs/FAMILY_PANEL.md §23a). `ceiling:` the ways on are for the first thing missing only, in the order axe, logs, hide.
+
+### 6.10 The owner's answers: a rawhide from the tanner, and no hunt without powder — owner-decided 2026-09-30 (not released)
+
+- **"Tanner sells"**: the tanner sells a rawhide for 2 reales or 4 food (docs/TOWNS.md §4g). A carreta short of its hide offers
+  **Go hunting** and **Buy one from the tanner** (where the family's town has a tanner), the second opening the town errand with
+  the rawhide on the list.
+- **"Refuse it"**: a hunt - *Hunt on our land*, *Hunt in the timber* - with no powder in the house is refused before anybody goes,
+  *"There is no powder in the house to hunt with."* (`hunts` in sim/chores.mjs `choreAvailability`, the words auto has said since
+  2026-09-25), greyed on the bar with *Powder 0/1* and **Buy powder in town**. Until now the hunter went out, found the game and
+  could not take the shot (§5.1). The road's hunt from the camp and small
+  game always wanted their powder to begin. A family nobody plays is not sent on a dry hunt either: the same rule refuses its director.
+- **Every gettable lack** (docs/FAMILY_PANEL.md §23a): small game and the bee tree, which were hidden with no powder or no axe, are
+  now greyed with the powder or the axe they want; felling and furniture with no felling axe the same.
 
 ## 7. Old saves
 

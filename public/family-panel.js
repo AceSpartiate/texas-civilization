@@ -1174,57 +1174,78 @@ export const hungerOf = entity => (['hungry', 'weak', 'starving'].includes(entit
 export const HUNGER_WORDS = Object.freeze({ fed: '', hungry: 'hungry', weak: 'weak with hunger', starving: 'starving' });
 
 // ------------------------------------------------------------------------------- what a refused goal is short of
-// docs/FAMILY_PANEL.md §23 (owner, 2026-09-30: "i never saw where i could hunt to get leather to make the little carts, and i really
-// wanted one since i was using me wagon for something else"). A carreta refused only for the axe, the logs or a hide, and a hunt
-// refused only for the rifle, stay on the bar greyed (`goal`), with a strip of what they want (`needs`) and, in their popup, the work
-// that brings the first thing missing. The counts are the server's (`world.household.wants`, sim/wants.mjs); nothing here decides.
+// docs/FAMILY_PANEL.md §23 (owner, 2026-09-30: "i never saw where i could hunt to get leather to make the little carts", and the same
+// day "Every gettable lack"). Work refused for want of a thing the family could get - a tool, seed, powder, coin, food, a hide, logs -
+// stays on the bar greyed (`goal`), with a strip of what it wants (`needs`) and, in its popup, the ways to get the first thing missing.
+// The counts are the server's (`world.household.wants`, by work, and `buy`, what the family's own town sells; sim/wants.mjs).
 
-/** Which of the household's wants each icon draws: the carreta's, and the hunt's on both hunts. */
-export const WANTS_OF = Object.freeze({ 'make-carreta': 'carreta', 'hunt-land': 'hunt', 'hunt-timber': 'hunt' });
 /** What each want is called, in the popup's list. */
-export const WANT_NAMES = Object.freeze({ axe: 'Felling axe', logs: 'Logs', hide: 'Hide', rifle: 'Rifle', powder: 'Powder' });
+export const WANT_NAMES = Object.freeze({ axe: 'Felling axe', logs: 'Logs', hide: 'Hide', rifle: 'Rifle', powder: 'Powder', hoe: 'Hoe', seed: 'Seed', coin: 'Coin', food: 'Food' });
 /**
- * The work that brings each want home, in the order tried, and the go button's words: a hide from a hunt (sim/hunting.mjs `GAME`:
- * a deer, a bear, a mustang), logs from felling, and the axe, a rifle or powder from town (the blacksmith, the gunsmith, the store).
+ * The ways to get each want, in the order offered, and each button's words. `buy` ways are the town errand (`visit-shop`), offered only
+ * when a shop in the family's own town sells the thing (the server's `buy`), and open the errand with its line on the list (`line`):
+ * a hide by a hunt or from the tanner (owner, 2026-09-30, "Tanner sells": both offered), logs by felling, a worn hoe mended or a new one
+ * bought, food hunted or fished, and the rest bought.
  */
 export const WANT_FROM = Object.freeze({
-  hide: Object.freeze({ keys: Object.freeze(['hunt-land', 'hunt-timber']), label: 'Go hunting' }),
-  logs: Object.freeze({ keys: Object.freeze(['fell-trees']), label: 'Fell trees' }),
-  axe: Object.freeze({ keys: Object.freeze(['visit-shop']), label: 'Buy one in town' }),
-  rifle: Object.freeze({ keys: Object.freeze(['visit-shop']), label: 'Buy a rifle in town' }),
-  powder: Object.freeze({ keys: Object.freeze(['visit-shop']), label: 'Buy powder in town' }),
+  hide: Object.freeze([{ key: 'hunt-land', label: 'Go hunting' }, { key: 'hunt-timber', label: 'Go hunting' }, { key: 'visit-shop', label: 'Buy one from the tanner', buy: true, line: 'tanner:rawhide' }]),
+  logs: Object.freeze([{ key: 'fell-trees', label: 'Fell trees' }]),
+  axe: Object.freeze([{ key: 'visit-shop', label: 'Buy an axe in town', buy: true, line: 'blacksmith:tool-axe' }]),
+  rifle: Object.freeze([{ key: 'visit-shop', label: 'Buy a rifle in town', buy: true, line: 'gunsmith:buy-rifle' }]),
+  powder: Object.freeze([{ key: 'visit-shop', label: 'Buy powder in town', buy: true, line: 'store:powder' }]),
+  hoe: Object.freeze([{ key: 'mend-hoe', label: 'Mend the hoe' }, { key: 'visit-shop', label: 'Buy a hoe in town', buy: true, line: 'store:hoe' }]),
+  seed: Object.freeze([{ key: 'visit-shop', label: 'Buy seed in town', buy: true, line: 'store:seed' }]),
+  coin: Object.freeze([{ key: 'visit-shop', label: 'Sell in town for coin', buy: true }]),
+  food: Object.freeze([{ key: 'hunt-land', label: 'Go hunting' }, { key: 'hunt-timber', label: 'Go hunting' }, { key: 'fish-the-water', label: 'Go fishing' }, { key: 'take-small-game', label: 'Take small game' }]),
 });
 /** This icon's wants, in the server's order, each `{ want, have, need, met }`; null when the family is short of nothing for it. */
 export function needsFor(key, wants) {
-  const set = wants?.[WANTS_OF[key]];
+  const set = wants?.[key];
   if (!set) return null;
   const list = Object.entries(set).filter(([, pair]) => Array.isArray(pair))
     .map(([want, [have, need]]) => ({ want, have: Number(have) || 0, need: Number(need) || 1, met: Number(have) >= Number(need) }));
   return list.length && list.some(one => !one.met) ? list : null;
 }
 /**
- * Where the first thing missing is got, from the icons this person's bar has: `{ want, key, label }`, or null when none of them is
- * on it (the work that brings it refused too, and not kept greyed - then the popup's reason is all there is).
+ * The ways on from a goal: for the first thing missing that has any way on this person's bar (`keysOnBar`), every one of them -
+ * `{ want, key, label, line? }` each, one a label - and a buy only where the family's own town sells it (`buy`). Empty when none is
+ * on the bar (the work that brings it refused too, and not kept greyed): then the popup's reason is all there is.
  */
-export function nextStep(needs, keysOnBar = []) {
+export function nextSteps(needs, keysOnBar = [], buy = []) {
   for (const need of needs || []) {
     if (need.met) continue;
-    const from = WANT_FROM[need.want];
-    const key = from?.keys.find(one => keysOnBar.includes(one));
-    if (key) return { want: need.want, key, label: from.label };
+    const ways = [], seen = new Set();
+    for (const way of WANT_FROM[need.want] || []) {
+      if (!keysOnBar.includes(way.key) || seen.has(way.label) || (way.buy && !buy.includes(need.want))) continue;
+      seen.add(way.label);
+      ways.push({ want: need.want, key: way.key, label: way.label, ...(way.line && { line: way.line }) });
+    }
+    if (ways.length) return ways;
   }
-  return null;
+  return [];
 }
+/** The first way on, or null. */
+export const nextStep = (needs, keysOnBar = [], buy = []) => nextSteps(needs, keysOnBar, buy)[0] || null;
+/**
+ * How many goals the bar may hold beside what can be pressed (owner, 2026-09-30: "Keep the bar readable at 1024x600"). The bar is a
+ * grid of at most two rows (docs/FAMILY_PANEL.md, 2026-09-22) of 80 px columns, its names readable; `width` is what the page
+ * gives it. Goals fill what the pressable icons leave of those two rows, and never more than `GOALS_MOST`. ceiling: the goals kept are
+ * the first in the server's order; ranking which a family most needs is a question nobody has asked.
+ */
+export const GOALS_MOST = 6;
+export const goalRoom = (pressable, width = 1146) => Math.max(0, Math.min(GOALS_MOST, 2 * Math.max(1, Math.floor(width / 80)) - pressable));
+
 /**
  * What the bar draws of a row's icons: what can be pressed or is going on, as since 2026-09-22 (`pressable`, the page's own test of
  * that, the guided start's included), and - beside them - the goals refused only for something the family has not got (`goal`, the
  * server's `short`). A row with nothing to press keeps its one line of reason (§14) and no goals, so a person who can do nothing is
  * not shown a greyed carreta in place of why.
  */
-export function barIcons(icons, pressable = icon => icon.active || icon.can) {
+export function barIcons(icons, pressable = icon => icon.active || icon.can, room = GOALS_MOST) {
   const open = icons.filter(pressable);
   if (!open.length) return open;
-  return icons.filter(icon => open.includes(icon) || icon.goal);
+  const goals = new Set(icons.filter(icon => !open.includes(icon) && icon.goal).slice(0, Math.max(0, room)));
+  return icons.filter(icon => open.includes(icon) || goals.has(icon));
 }
 
 // ------------------------------------------------------------------------------- a plot tapped on the map

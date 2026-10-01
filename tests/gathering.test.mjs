@@ -16,7 +16,7 @@ import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { settleMeans } from '../sim/means.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
-import { CHORES, forageFor } from '../sim/chores.mjs';
+import { CHORES, choreAvailability, forageFor } from '../sim/chores.mjs';
 import { FORAGE, SALT_STANDS, fishingWater, onSaltWater } from '../sim/gathering.mjs';
 import { GAME, WINTER_MONTHS, WINTER_YIELD, huntingPlace, killYield, winterShare } from '../sim/hunting.mjs';
 import { SHOT_COST } from '../sim/chores.mjs';
@@ -144,12 +144,17 @@ test('small game costs a shot, and the knack the long hunt wants is not needed f
   assert.match(forage[0].text, /a squirrel or two/);
   validateWorld(world);
 
-  // With no powder in the house there is no shot, and the work is not offered at all.
+  // With no powder in the house there is no shot. Until 2026-09-30 the work was then not offered at all; since the owner's "Every
+  // gettable lack" (docs/FAMILY_PANEL.md §23) it is offered and refused for want of powder, which the family can buy, so the bar
+  // keeps it greyed with the powder it wants.
   household.resources.powder = 0;
   const facts = forageFor(world, household, 'smallgame');
   assert.equal(facts.can, false);
   assert.match(facts.why, /powder/);
-  assert.equal(CHORES['take-small-game'].offered(world, household), false, 'a dry house was still offered the rifle work');
+  assert.equal(CHORES['take-small-game'].offered(world, household), true, 'a dry house was not offered the rifle work to see what it wants');
+  const refused = choreAvailability(world, household, person, 'take-small-game');
+  assert.equal(refused.can, false, 'a dry house was sent after small game');
+  assert.deepEqual(refused.lack, { powder: [0, SHOT_COST] });
 });
 
 test('a bee tree wants an axe, and the oyster beds want nothing at all', () => {

@@ -1,5 +1,46 @@
 # Claude handoff — Astra foundation
 
+## Every gettable lack on the bar, a rawhide from the tanner, no hunt without powder, Fence it — owner-decided 2026-09-30 (not released)
+
+Branch `field-click-2` off local `integration-2026-09-28` (ee0ab8da); not pushed, nothing published. The owner's four answers to the
+questions below (*Click a field ...*), the same day: *"Every gettable lack"*, *"Tanner sells"*, *"Refuse it"*, *"Add 'Fence it'"*.
+Same computer only: headless Chrome; no Chromebook, phone, LAN or classroom claim. The column's width was not touched (`column-wide`
+is another builder's).
+
+- **Every gettable lack** (docs/FAMILY_PANEL.md §23a): every refusal for want of a thing the family could get - the carreta's axe,
+  logs and hide; the rifle; a free felling axe; the axe for felling, furniture and a bee tree; a hoe, or a worn one; powder for a
+  hunt, the mark, small game, the road's hunt; seed; coin - now carries its counts (`sim/chores.mjs` `lacking`), is flagged
+  `short: 1`, and stays on the bar greyed with beads and a popup of what it wants and **every way** to the first thing missing
+  (Go hunting / Buy one from the tanner; Mend the hoe / Buy a hoe in town; Go hunting / Go fishing / Take small game; Buy seed,
+  powder, an axe, a rifle in town; Sell in town for coin). A buy is offered only where the family's town sells it (`household.buy`)
+  and opens the town errand with that line on the list. `household.wants` is now keyed by work (sim/wants.mjs `liftWants`, the
+  counts lifted off every entry). Refusals the family cannot fix (busy, too young, the site, the season, the wagon out) stay hidden.
+  *Take small game* and *Cut a bee tree* were hidden with no powder or axe; they now show greyed. A well wants no hoe in this game,
+  so the owner's well example has nothing to show (said in §23a). **The bar at 1024x600**: goals fill what is left of two rows of
+  80 px columns, six at most (`goalRoom`); proved two rows, on screen, names whole at 1024x600.
+- **Tanner sells** (docs/TOWNS.md §4g): *Buy a rawhide*, 2 reales or 4 food, at every tanner (Gonzales, San Felipe, Columbia).
+- **Refuse it** (docs/WOODS_AND_BUILDING.md §6.10): *Hunt on our land* / *in the timber* with no powder is refused before anybody goes,
+  *"There is no powder in the house to hunt with."* (auto's own words), greyed with **Buy powder in town**. The director is refused too.
+- **Fence it** (docs/LAND_GRANTS.md §5.3): a cleared plot with no sound fence clicked on the map offers **Fence it** in the same
+  chooser, bare, growing or ripe.
+- **Tests changed to the owner's new rule**: `tests/gathering.test.mjs` held small game "not offered at all" with no powder; it is now
+  offered and refused for powder. `tests/auto-repeat.test.mjs` unchanged (the dry hunt's words are auto's own).
+
+**Evidence**: `tests/field-click-hunt.test.mjs` (8 tests); `npm run test:field-click` (18 checks, screenshots
+`docs/evidence/field-click-*.png`, among them `-tanner`, `-dry-hunt`, `-bar-1024`); `node scripts/field-click-injections.mjs`
+**35 of 35 caught** - 21 node injections each failing only its own test, 14 browser injections each stopping the proof at the step it
+guards ([record](docs/evidence/field-click-injections.json)). Runs here: `npm test` 1983 tests, 1 failed under load - the
+classroom-doors ping test, which also failed under load on the first branch and passes alone (3 of 3 runs); green once each:
+`test:field-click`, `test:hunt`, `test:shops`, `test:errand`, `test:overlap`, `test:panels`, `test:family-panel`,
+`test:keyboard-farm`, `test:tips`.
+
+**Owner questions** (multiple choice, recommended first)
+
+1. *More than six greyed goals at once:* (a) **the first six in the server's order, as built**; (b) the ones nearest done (fewest
+   things missing) first; (c) no cap - a third row on a big screen.
+2. *A dry hunt by somebody on auto*: (a) **waits, working about the place, as it did, and takes up the hunt when powder comes**;
+   (b) goes to town for powder by itself.
+
 ## Battles watched, not hurried: the floor, black-powder smoke and the film on the class view — owner-decided 2026-09-30 (not released)
 
 Branch `battle-cinema` off local `integration-2026-09-28`; not pushed, nothing published. The owner, 2026-09-30, verbatim, after

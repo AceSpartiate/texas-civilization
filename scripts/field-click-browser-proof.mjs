@@ -10,9 +10,13 @@
 //      is planted in cotton by the next free hand;
 //   2. a growing plot clicked says what grows and when; from the keyboard, the field line's chip opens it, the focus in the chooser;
 //   3. a ripe plot clicked says so and *Bring it in* brings it in;
-//   4. the carreta, short of its hide, is on the bar greyed with its wants; pressed, its popup lists them and points at the hunt;
-//      the way on opens the hunt's place chooser; a hunt there brings a hide home (the supplies line says so); the carreta is then
-//      open and made.
+//   4. the carreta, short of its hide, is on the bar greyed with its wants; pressed, its popup lists them and offers both ways
+//      (owner, 2026-09-30, "Tanner sells"): "Buy one from the tanner" opens the town errand with the rawhide on the list, and "Go
+//      hunting" opens the hunt's place chooser; a hunt there brings a hide home (the supplies line says so) and spends the last
+//      powder, after which the hunt is greyed, refused for want of powder, pointing at "Buy powder in town" ("Refuse it"); the
+//      carreta is then open and made;
+//   5. a cleared plot with no fence clicked offers "Fence it" beside its crop, and it sends somebody to fence it; a fenced plot
+//      does not ("Add 'Fence it'").
 // Same computer only: headless Chrome, no Chromebook, no LAN, no class.
 //
 // Run: npm run test:field-click (PLAYWRIGHT_MODULE and BROWSER_EXECUTABLE as for every browser proof).
@@ -26,6 +30,7 @@ import { settleMeans } from '../sim/means.mjs';
 import { holdingOf } from '../sim/grants.mjs';
 import { GAME, huntFacts } from '../sim/hunting.mjs';
 import { rainingAt } from '../sim/weather.mjs';
+import { tradesAt } from '../sim/shops.mjs';
 import { settle, taught } from '../tests/support/settled.mjs';
 import { meetFamily } from './support/meet-family.mjs';
 
@@ -54,7 +59,8 @@ function fixture(seed) {
     { id: 'plot-2', x: +(x + SIDE + 0.004).toFixed(3), y: +y.toFixed(3), ground: 'prairie', state: 'cleared', fence: 'sound' },
   ];
   household.resources.seed = 20;
-  household.resources.powder = 3;
+  // One shot's powder: the hunt below spends it, and the next hunt is refused for want of powder.
+  household.resources.powder = 1;
   household.resources.hides = 0;
   household.tools.hoe = 0;
   household.tools.axe = 0;
@@ -67,7 +73,9 @@ let seed = null;
 for (let n = 0; n < 40 && !seed; n++) {
   const world = fixture(`field-click-proof-${n}`);
   const home = world.map.sites[world.households['hh-1'].homeSiteId];
-  if (![0, 1, 2].some(day => rainingAt(world, home, day))) seed = `field-click-proof-${n}`;
+  // And a town with a tanner, whose rawhide the carreta's popup offers beside a hunt.
+  const town = world.households['hh-1'].settlementId || 'gonzales';
+  if (![0, 1, 2].some(day => rainingAt(world, home, day)) && tradesAt(world, town).includes('tanner')) seed = `field-click-proof-${n}`;
 }
 assert.ok(seed, 'no dry seed for the proof');
 
@@ -146,6 +154,7 @@ try {
     shown: !document.querySelector('#survey-choose').hidden, eyebrow: document.querySelector('#survey-eyebrow').textContent, title: document.querySelector('#survey-title').textContent,
     text: document.querySelector('#survey-text').textContent, crops: !document.querySelector('#plant-crops').hidden,
     buttons: [...document.querySelectorAll('#plant-crops .plant-crop')].map(button => button.textContent), harvest: !document.querySelector('#plot-harvest').hidden,
+    fence: !document.querySelector('#plot-fence').hidden,
     who: document.querySelector('#plot-who-line').hidden ? null : document.querySelector('#plot-who').selectedOptions[0]?.textContent || null,
     whoCount: document.querySelector('#plot-who').options.length,
   }));
@@ -174,6 +183,7 @@ try {
   assert.deepEqual(bare.buttons, ['Plant corn2 seed', 'Plant cotton3 seed'], `each crop's seed is not on its button: ${JSON.stringify(bare.buttons)}`);
   assert.ok(bare.who, 'the chooser does not say who would plant it');
   assert.match(bare.title, new RegExp(`^What ${bare.who} plants$`));
+  assert.equal(bare.fence, true, 'a cleared plot with no fence does not offer Fence it');
   await shot('bare-chooser');
   ok(`a bare plot clicked with no work chosen opens "${bare.title}": "${bare.text}", Plant corn (2 seed) and Plant cotton (3 seed), ${bare.who} to go (${bare.whoCount} who could)`);
   await page.locator('#plant-crops [data-crop=corn]').click();
@@ -193,6 +203,7 @@ try {
   assert.equal((await plots()).find(plot => plot.id === 'plot-2').sown, false, 'a tap planted the plot before a crop was pressed');
   // Who goes is the person whose bar is shown when the server would send them, else the next who may (`plotHand`).
   if (stillPlanting) assert.notEqual(tapped.who, bare.who, `${bare.who} is planting already and was given the second plot too`);
+  assert.equal(tapped.fence, false, 'a fenced plot offers Fence it');
   await page.locator('#plant-crops [data-crop=cotton]').click();
   await page.waitForFunction(() => window.__snapshot.world.land.plots.find(plot => plot.id === 'plot-2')?.crop === 'cotton', null, { timeout: 60000 });
   ok(`a second plot tapped by touch opened the chooser and sent nothing; Plant cotton sowed it, by ${tapped.who}${stillPlanting ? `, the next free hand while ${bare.who} planted` : ''}`);
@@ -207,9 +218,16 @@ try {
   assert.doesNotMatch(growing.text, /already in corn/, 'the growing plot says what grows twice');
   assert.equal(growing.crops, false, 'a growing plot offered to be planted');
   assert.equal(growing.who, null, 'a growing plot asked who');
+  assert.equal(growing.fence, true, 'a growing plot with no fence does not offer Fence it');
   await shot('growing');
-  ok(`a growing plot clicked says "${growing.title}": "${growing.text}", with nothing to send`);
-  await page.locator('#survey-cancel').click();
+  ok(`a growing plot clicked says "${growing.title}": "${growing.text}", with nothing to send but Fence it`);
+  // Fence it: somebody of the family sent to fence that plot (the server's state, read afresh).
+  await page.locator('#plot-fence').click();
+  let fencer = null;
+  for (let i = 0; i < 40 && !fencer; i++) { fencer = Object.values(app.state.world.entities).find(one => one.householdId === 'hh-1' && one.chore?.id === 'fence-plot')?.name || null; if (!fencer) await page.waitForTimeout(100); }
+  assert.ok(fencer, `nobody was sent to fence it: "${await page.locator('#survey-note').textContent()}"`);
+  await page.waitForFunction(() => document.querySelector('#survey-choose').hidden, null, { timeout: 5000 });
+  ok(`"Fence it" on the unfenced plot sent ${fencer} to fence it; the fenced plot offered none`);
   // The keyboard's way to a plot without the map: the field line's chip.
   const chip = page.locator('#field-summary .crop-chip[data-crop=cotton][data-stage=growing]');
   await chip.focus();
@@ -240,14 +258,27 @@ try {
   // A real press with the mouse (a refused icon is `aria-disabled`, which Playwright's own click will not press).
   const box = await carreta.boundingBox();
   await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
-  await page.locator('#panel-tip-go').waitFor({ state: 'visible', timeout: 5000 });
-  const popup = await page.evaluate(() => ({ note: document.querySelector('#panel-tip-note').textContent, needs: [...document.querySelectorAll('#panel-tip-needs b')].map(chip => chip.textContent), go: document.querySelector('#panel-tip-go').textContent }));
+  await page.locator('.panel-tip-go').first().waitFor({ state: 'visible', timeout: 5000 });
+  const popup = await page.evaluate(() => ({ note: document.querySelector('#panel-tip-note').textContent, needs: [...document.querySelectorAll('#panel-tip-needs b')].map(chip => chip.textContent), ways: [...document.querySelectorAll('#panel-tip-ways .panel-tip-go')].map(go => go.textContent) }));
   assert.match(popup.note, /no hide in the house\. A hunt brings one home\./);
   assert.deepEqual(popup.needs, ['Felling axe 1/1', 'Logs 3/3', 'Hide 0/1']);
-  assert.equal(popup.go, 'Go hunting');
+  assert.deepEqual(popup.ways, ['Go hunting', 'Buy one from the tanner']);
   await shot('carreta-wants');
-  ok(`pressed, its popup says "${popup.note}", lists ${popup.needs.join(', ')}, and points: "${popup.go}"`);
-  await page.locator('#panel-tip-go').click();
+  ok(`pressed, its popup says "${popup.note}", lists ${popup.needs.join(', ')}, and offers: ${popup.ways.map(way => `"${way}"`).join(' and ')}`);
+  // The tanner: the town errand opens with the rawhide already on the list.
+  await page.locator('.panel-tip-go', { hasText: 'Buy one from the tanner' }).click();
+  await page.waitForFunction(() => (window.__errand?.lines || []).some(line => line.id === 'tanner:rawhide' && line.count === 1), null, { timeout: 15000 });
+  await page.waitForFunction(() => /Buy a rawhide/.test(document.querySelector('[data-line="tanner:rawhide"][data-wanted=true]')?.textContent || ''), null, { timeout: 5000 });
+  const rawhide = await page.locator('[data-line="tanner:rawhide"] .errand-price').textContent();
+  await page.waitForTimeout(300);
+  const inView = await page.evaluate(() => { const line = document.querySelector('[data-line="tanner:rawhide"]').getBoundingClientRect(), list = document.querySelector('#errand-lines').getBoundingClientRect(); return line.top >= list.top - 1 && line.bottom <= list.bottom + 1; });
+  assert.ok(inView, 'the rawhide line is on the list but scrolled out of sight');
+  await shot('tanner');
+  ok(`"Buy one from the tanner" opens the errand with "Buy a rawhide" on the list (${rawhide})`);
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(() => document.querySelector('#errand').hidden, null, { timeout: 5000 });
+  { const again = await carreta.boundingBox(); await page.mouse.click(again.x + again.width / 2, again.y + again.height / 2); }
+  await page.locator('.panel-tip-go', { hasText: 'Go hunting' }).click();
   await page.waitForFunction(() => !document.querySelector('#survey-choose').hidden && document.querySelector('#survey-eyebrow').textContent === 'HUNTING', null, { timeout: 10000 });
   ok('"Go hunting" opens the hunt\'s place chooser for the same person');
 
@@ -289,6 +320,38 @@ try {
   await page.waitForFunction(() => (window.__snapshot.world.household.resources?.hides || 0) >= 1, null, { timeout: 180000 });
   await page.waitForFunction(() => /Hides 1/.test(document.querySelector('#supplies')?.textContent || ''), null, { timeout: 10000 });
   ok(`the hunt brought ${place.comes === 'bear' ? 'a bear\'s skin' : `the hide of ${GAME[place.comes].a}`} home, and the supplies line says "Hides 1"`);
+  // The shot spent the last powder: the hunt is refused before anybody goes, greyed, pointing at powder in town ("Refuse it").
+  await page.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, maker, { timeout: 120000 });
+  await page.locator(`.panel-portrait[data-portrait="${maker}"]`).click();
+  const huntIcon = page.locator(`.panel-row[data-entity-id="${maker}"] .panel-icon[data-key="hunt-land"]`);
+  await page.waitForFunction(id => document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="hunt-land"]`)?.dataset.goal === 'true', maker, { timeout: 20000 });
+  { const dry = await huntIcon.boundingBox(); await page.mouse.click(dry.x + dry.width / 2, dry.y + dry.height / 2); }
+  await page.locator('.panel-tip-go').first().waitFor({ state: 'visible', timeout: 5000 });
+  const dryPopup = await page.evaluate(() => ({ note: document.querySelector('#panel-tip-note').textContent, needs: [...document.querySelectorAll('#panel-tip-needs b')].map(chip => chip.textContent), ways: [...document.querySelectorAll('#panel-tip-ways .panel-tip-go')].map(go => go.textContent) }));
+  assert.equal(dryPopup.note, 'There is no powder in the house to hunt with.');
+  assert.deepEqual(dryPopup.needs, ['Powder 0/1']);
+  assert.deepEqual(dryPopup.ways, ['Buy powder in town']);
+  await shot('dry-hunt');
+  ok(`with the last powder spent the hunt is greyed: "${dryPopup.note}", ${dryPopup.needs.join(', ')}, "${dryPopup.ways[0]}"`);
+  await page.keyboard.press('Escape');
+  // At 1024x600 the bar with its goals stays two rows, on the screen, its names whole (owner, 2026-09-30: "Keep the bar readable").
+  await page.setViewportSize({ width: 1024, height: 600 });
+  await page.waitForTimeout(800);
+  const small = await page.evaluate(id => {
+    const bar = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icons`), box = bar.getBoundingClientRect();
+    const icons = [...bar.querySelectorAll('.panel-icon')];
+    const rows = new Set(icons.map(icon => Math.round(icon.getBoundingClientRect().top)));
+    const cut = icons.filter(icon => { const name = icon.querySelector('.panel-action-name'); return name.scrollWidth > name.clientWidth + 1 || icon.getBoundingClientRect().width < 56; }).map(icon => icon.dataset.key);
+    return { rows: rows.size, top: box.top, bottom: box.bottom, left: box.left, right: box.right, icons: icons.length, goals: icons.filter(icon => icon.dataset.goal === 'true').map(icon => icon.dataset.key), cut };
+  }, maker);
+  assert.ok(small.rows <= 2, `the bar is ${small.rows} rows at 1024x600`);
+  assert.ok(small.top >= 0 && small.bottom <= 600 && small.left >= 0 && small.right <= 1024, `the bar leaves the screen at 1024x600: ${JSON.stringify(small)}`);
+  assert.deepEqual(small.cut, [], `icons too narrow to read at 1024x600: ${small.cut}`);
+  assert.ok(small.goals.includes('hunt-land'), 'the greyed hunt is gone from the bar at 1024x600');
+  await shot('bar-1024');
+  ok(`at 1024x600 the bar is ${small.rows} rows of ${small.icons} icons, its goals (${small.goals.join(', ')}) among them, all on the screen`);
+  await page.setViewportSize({ width: 1440, height: 950 });
+  await page.waitForTimeout(500);
 
   // ------------------------------------------------------------------ 3. ripe: clicked, and brought in
   await page.waitForFunction(() => window.__snapshot.world.land.plots.find(plot => plot.id === 'plot-1')?.ripe, null, { timeout: 120000 });
@@ -317,7 +380,6 @@ try {
 
   // ------------------------------------------------------------------ the carreta, made
   await page.waitForFunction(id => !window.__snapshot.world.entities.find(one => one.id === id)?.chore, maker, { timeout: 120000 });
-  await page.locator(`.panel-portrait[data-portrait="${maker}"]`).click();
   await page.waitForFunction(id => { const button = document.querySelector(`.panel-row[data-entity-id="${id}"] .panel-icon[data-key="make-carreta"]`); return button && button.getAttribute('aria-disabled') !== 'true' && !button.dataset.goal; }, maker, { timeout: 20000 });
   assert.equal(await carreta.locator('.panel-needs').count(), 0, 'the carreta still shows wants with everything in the house');
   await carreta.click();

@@ -281,8 +281,10 @@ field clicked or tapped on the map, with no work chosen first, opens the plot ch
 - Page only, with one catalogue field: the chore catalogue carries each crop's seed a plot (`seeds` on `plant-field`, fetched once).
   No save, action or tick change. Proof `npm run test:field-click` ([record](evidence/field-click-browser.json)); tests
   `tests/field-click-hunt.test.mjs`.
-- `ceiling:` the hover highlight is for a mouse; a touch screen sees the outline only once tapped. `ceiling:` a cleared plot with no
-  fence offers planting, not fencing; *Fence a cleared plot* still does that.
+- **Fence it** (owner, 2026-09-30, *"Add 'Fence it'"*, the same day): a cleared plot with no sound fence - bare, growing or ripe -
+  also offers **Fence it** in the same chooser, sent as *Fence a cleared plot* sends it (`fence-plot` with the plot's point) to the
+  person chosen when the server would send them on fencing, else the next who may (`plotHand`). A fenced plot offers none.
+- `ceiling:` the hover highlight is for a mouse; a touch screen sees the outline only once tapped.
 
 ## 6. Old saves
 

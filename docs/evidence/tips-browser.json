@@ -156,9 +156,9 @@
       "text": "On the road east: by the road is quicker, but soldiers see you from farther off. Across country is slower and harder to see. “Change where we go” changes it.",
       "box": {
         "left": 681,
-        "top": 349,
+        "top": 383,
         "right": 1012,
-        "bottom": 483
+        "bottom": 517
       },
       "fontPx": 14,
       "onScreen": true,

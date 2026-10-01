@@ -90,6 +90,11 @@ export const MILL_RETURN = 1.2;
 /** A hide from a deer taken, sold to the tanner. */
 export const HIDE_COIN = 1, HIDE_FOOD = 2;
 /**
+ * A rawhide bought from the tanner (owner, 2026-09-30, "Tanner sells": "2 reales or 4 food"; docs/TOWNS.md §4g): twice what he pays
+ * for one, so a hide is never bought and sold back at a profit. A carreta is lashed with one (sim/carreta.mjs). `FIC-GONZ-038`.
+ */
+export const RAWHIDE_COIN = 2, RAWHIDE_FOOD = 4, RAWHIDE_MOST = 4;
+/**
  * What the store pays in coin for a whole bale of cotton (`FIC-GONZ-047`; sim/chores.mjs `COIN.cottonBale` is this number, for
  * the families nobody plays, who sell by the old errand).
  *
@@ -250,6 +255,13 @@ export const TRADES = Object.freeze({
         id: 'hides', kind: 'buy', label: 'Sell the hides', coinEach: HIDE_COIN, foodEach: HIDE_FOOD, good: 'hides',
         does: `${reales(HIDE_COIN)} or ${HIDE_FOOD} food for each hide from a deer taken.`,
         refuse: (world, household) => (household.resources.hides ?? 0) >= 1 ? null : 'There are no hides in the house. A deer taken brings one home.',
+      },
+      {
+        // Owner, 2026-09-30 ("Tanner sells"): the second way to the carreta's lashings, beside a hunt.
+        id: 'rawhide', kind: 'sell', label: 'Buy a rawhide', coin: RAWHIDE_COIN, food: RAWHIDE_FOOD, most: RAWHIDE_MOST, brings: { hides: 1 },
+        does: 'A dried rawhide: a carreta is lashed together with one. The tanner sells it for twice what he pays for a hide.',
+        refuse: () => null,
+        give: (world, household, entity) => { household.resources.hides = (household.resources.hides ?? 0) + 1; return `${entity.name} bought a rawhide from the tanner.`; },
       },
       {
         id: 'shoes', kind: 'sell', label: 'Buy shoes for the family', coin: 2, food: 4, once: true, load: 1, does: 'Good shoes: a mile on foot tires the family less.',

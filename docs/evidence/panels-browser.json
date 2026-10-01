@@ -1,6 +1,6 @@
 {
   "record": "panels-browser",
-  "date": "2026-09-30",
+  "date": "2026-10-01",
   "browser": "153.0.8010.53",
   "screens": [
     {
@@ -19,7 +19,7 @@
   "task": "The four panels scripts/screen-overlap-study.mjs could not reach honestly (docs/FAMILY_PANEL.md §12.11): #site-choose, #survey-choose, #encounter and #call-menu, reached in a real state with the server's own content in them and measured.",
   "environment": "Same computer: a local classroom server and headless Chrome. Not a physical LAN, a Chromebook, a classroom or a touch screen.",
   "checks": [
-    "1366x768: all four panels really drawn, with the server's own words in them (#encounter 520x538, #call-menu 440x328, #site-choose 384x287, #survey-choose 384x346)",
+    "1366x768: all four panels really drawn, with the server's own words in them (#encounter 520x538, #call-menu 440x328, #site-choose 384x346, #survey-choose 384x346)",
     "1366x768: all four fit the screen and none has anything drawn over its own controls",
     "1366x768: none of the four is drawn over the guided start, and nothing covers a word or a control of it",
     "1366x768: no ability bar under the meeting, and the bar is back the moment the meeting shuts",
@@ -96,7 +96,7 @@
               "label": "!2 min",
               "box": {
                 "x": 44,
-                "y": 249,
+                "y": 248,
                 "w": 32,
                 "h": 32
               },
@@ -240,28 +240,11 @@
           "covered": [],
           "partly": [
             {
-              "control": "#family-collapse",
-              "label": "Show names",
-              "box": {
-                "x": 12,
-                "y": 235,
-                "w": 109,
-                "h": 20
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 1,
-              "centreBlockedBy": null,
-              "by": [
-                "#world-map"
-              ]
-            },
-            {
               "control": "#family-rows",
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 263,
+                "y": 204,
                 "w": 48,
                 "h": 48
               },
@@ -278,7 +261,7 @@
               "label": "!1 · 5 min",
               "box": {
                 "x": 44,
-                "y": 252,
+                "y": 193,
                 "w": 32,
                 "h": 32
               },
@@ -296,7 +279,7 @@
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 316,
+                "y": 257,
                 "w": 48,
                 "h": 48
               },
@@ -313,7 +296,7 @@
               "label": "!2 · 5 min",
               "box": {
                 "x": 44,
-                "y": 308,
+                "y": 249,
                 "w": 32,
                 "h": 32
               },
@@ -386,28 +369,28 @@
               "box": {
                 "x": 12,
                 "y": 12,
-                "w": 304,
+                "w": 249,
                 "h": 510
               },
-              "overlapWidth": -598,
+              "overlapWidth": -653,
               "overlapHeight": 328,
               "shares": false
             },
             "faces": {
               "box": {
                 "x": 12,
-                "y": 263,
+                "y": 204,
                 "w": 48,
                 "h": 207
               },
               "overlapWidth": -854,
-              "overlapHeight": 125,
+              "overlapHeight": 184,
               "shares": false
             },
             "fold": {
               "box": {
                 "x": 12,
-                "y": 235,
+                "y": 176,
                 "w": 109,
                 "h": 20
               },
@@ -441,9 +424,9 @@
           "real": true,
           "panelBox": {
             "x": 129,
-            "y": 235,
+            "y": 176,
             "w": 384,
-            "h": 287
+            "h": 346
           },
           "panelFits": true,
           "ownControls": 4,
@@ -453,28 +436,11 @@
           "covered": [],
           "partly": [
             {
-              "control": "#family-collapse",
-              "label": "Show names",
-              "box": {
-                "x": 12,
-                "y": 235,
-                "w": 109,
-                "h": 20
-              },
-              "onScreen": true,
-              "points": 5,
-              "blocked": 1,
-              "centreBlockedBy": null,
-              "by": [
-                "#world-map"
-              ]
-            },
-            {
               "control": "#family-rows",
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 263,
+                "y": 204,
                 "w": 48,
                 "h": 48
               },
@@ -491,7 +457,7 @@
               "label": "!1 · 5 min",
               "box": {
                 "x": 44,
-                "y": 255,
+                "y": 195,
                 "w": 32,
                 "h": 32
               },
@@ -509,7 +475,7 @@
               "label": "★idle",
               "box": {
                 "x": 12,
-                "y": 316,
+                "y": 257,
                 "w": 48,
                 "h": 48
               },
@@ -526,7 +492,7 @@
               "label": "!2 · 5 min",
               "box": {
                 "x": 44,
-                "y": 308,
+                "y": 249,
                 "w": 32,
                 "h": 32
               },
@@ -547,7 +513,7 @@
               "label": "Set the house here",
               "box": {
                 "x": 144,
-                "y": 614,
+                "y": 555,
                 "w": 158,
                 "h": 44
               }
@@ -609,17 +575,17 @@
               "box": {
                 "x": 12,
                 "y": 12,
-                "w": 304,
+                "w": 249,
                 "h": 510
               },
-              "overlapWidth": 187,
-              "overlapHeight": 287,
+              "overlapWidth": 132,
+              "overlapHeight": 346,
               "shares": true
             },
             "faces": {
               "box": {
                 "x": 12,
-                "y": 263,
+                "y": 204,
                 "w": 48,
                 "h": 207
               },
@@ -630,7 +596,7 @@
             "fold": {
               "box": {
                 "x": 12,
-                "y": 235,
+                "y": 176,
                 "w": 109,
                 "h": 20
               },
@@ -847,12 +813,12 @@
             "strip": null,
             "bar": {
               "box": {
-                "x": 323,
+                "x": 283,
                 "y": 530,
-                "w": 720,
+                "w": 800,
                 "h": 174
               },
-              "overlapWidth": 190,
+              "overlapWidth": 230,
               "overlapHeight": -8,
               "shares": false
             },
@@ -933,7 +899,7 @@
               "label": "!2 min",
               "box": {
                 "x": 44,
-                "y": 247,
+                "y": 249,
                 "w": 32,
                 "h": 32
               },
@@ -1115,7 +1081,7 @@
               "label": "!1 · 5 min",
               "box": {
                 "x": 44,
-                "y": 253,
+                "y": 252,
                 "w": 32,
                 "h": 32
               },
@@ -1180,7 +1146,7 @@
               "control": "#reports",
               "label": "Read what Ned Falk said",
               "box": {
-                "x": 1887,
+                "x": 1880,
                 "y": 965,
                 "w": 149,
                 "h": 44
@@ -1734,12 +1700,12 @@
             "strip": null,
             "bar": {
               "box": {
-                "x": 152,
+                "x": 112,
                 "y": 530,
-                "w": 720,
+                "w": 800,
                 "h": 174
               },
-              "overlapWidth": 258,
+              "overlapWidth": 281,
               "overlapHeight": -8,
               "shares": false
             },
@@ -1779,11 +1745,11 @@
         "box": {
           "x": 12,
           "y": 12,
-          "w": 304,
+          "w": 249,
           "h": 510
         },
-        "overlapWidth": 187,
-        "overlapHeight": 287,
+        "overlapWidth": 132,
+        "overlapHeight": 346,
         "shares": true
       },
       "surveyOverTheColumn": {
