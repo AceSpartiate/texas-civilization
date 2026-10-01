@@ -52,7 +52,13 @@ export function militaryNotices(world) {
   const roadAsking = Boolean(world.flight && (world.flight.status === 'ordered' || world.flight.ask));
   // A page watching another family (sim/watching.mjs) answers nothing, so nothing on it is waiting on this student: the watched
   // family's road does not hold back the card through their own man.
-  const deciding = !world.watching && (notices.some(notice => notice.kind !== 'siege') || world.request?.status === 'open' || meeting?.status === 'open' || roadAsking);
+  // **The army's request for supplies is not one of them** (owner, 2026-09-30, "Watch goes over it"): the flour the army before
+  // Béxar asks for (and the autumn's ask of a family with nobody there) opens at home while the family's own man may be riding
+  // into a fight, and held the card back until the fight had passed. The card goes up over it; the request stays among the
+  // messages, behind the card (`rank`), to be answered, and its minutes do not run while the fight's card is up
+  // (sim/decision-budget.mjs `fightUp`). The call to arms, the rider, the road and ¡Alto! still hold it back.
+  const asking = world.request?.status === 'open' && world.request.kind !== 'supply';
+  const deciding = !world.watching && (notices.some(notice => notice.kind !== 'siege') || asking || meeting?.status === 'open' || roadAsking);
   // The family's other big moments, in the same card (owner, 2026-09-29: "use that same style as the alert for when a family member
   // is going through a major event"): ¡Alto!, the road's question, the order to leave, the settlement's call to arms and somebody
   // very sick - each the "!" on a row already (public/family-panel.js `needsOf`, whose words and time left they carry), put up here
@@ -86,7 +92,9 @@ export function militaryNotices(world) {
   // Decisions first, then the fight, then quiet reminders. Stable order keeps the queue calm. Among the decisions, the ones that will
   // not wait: ¡Alto!, then the road and the order to leave, then the call to arms - as the "!"s are ranked (`byUrgency`); a very sick
   // person after the fight, before its account.
-  return notices.sort((a, b) => ORDER[a.kind] - ORDER[b.kind]);
+  // The army's request for supplies comes after the fight's card, which goes up over it (owner, 2026-09-30).
+  const rank = notice => (notice.kind === 'call' && world.request?.kind === 'supply' ? SUPPLY_ORDER : ORDER[notice.kind]);
+  return notices.sort((a, b) => rank(a) - rank(b));
 }
 /**
  * The kinds that ask something of the family with a clock on it - a question that lapses, somebody very sick - as against a
@@ -96,6 +104,8 @@ export function militaryNotices(world) {
  */
 export const URGENT = Object.freeze(new Set(['alto', 'road', 'flight', 'call', 'rider', 'courier', 'orders', 'sick', 'hunger']));
 const ORDER = Object.freeze({ alto: -3, road: -2, flight: -2, call: -1, rider: 0, courier: 0, orders: 0, battle: 1, sick: 1.5, hunger: 1.5, account: 2, siege: 3 });
+/** Where the army's request for supplies stands among the messages: after the fight's card, before somebody very sick. */
+const SUPPLY_ORDER = 1.2;
 const first = person => person.given || String(person.name || '').split(' ')[0] || 'them';
 /** The family's moments put up as cards, by the kind of their "!": what the card is headed and what its button says. */
 export const MOMENTS = Object.freeze({

@@ -692,7 +692,12 @@ export function stepWorld(world, { realMs = null, decisionBudgetMs, callBudgetMs
   // question out of time is decided by its documented fallback before anything moves (sim/decision-budget.mjs). A tick
   // stepped in process carries none. The same seconds go on the real-time limits of a student's rider, order to leave, road
   // question, ¡Alto! and work question (owner, 2026-09-29), where a tick stepped in process counts as one at the Study pace.
-  spendDecisionBudget(world, realMs, { budgetMs: decisionBudgetMs, callBudgetMs, heldFor: household => inLesson(world, household), beginTravel, questionBudgets });
+  // The army's request for supplies waits, its minutes not running, while the family's own man's fight is on its page (owner,
+  // 2026-09-30, "Watch goes over it"): the card the page puts up over the request is the family's own `battleAlert`. Only a family
+  // with somebody away from home can have one (a volunteer in camp carries no `service`), so no other family's view is worked out.
+  const fightUp = household => household.members.some(id => { const one = world.entities[id]; return one?.location && (one.travel || one.location.siteId !== household.homeSiteId); })
+    && Boolean(directorProjection(world, household.id, 'student').battleAlert);
+  spendDecisionBudget(world, realMs, { budgetMs: decisionBudgetMs, callBudgetMs, heldFor: household => inLesson(world, household), fightUp, beginTravel, questionBudgets });
   for (const entity of Object.values(world.entities)) progressTravel(world, entity);
   // The sick mend by what they did this tick - rested where the road held them, rode or walked where it did not - wherever they
   // are (sim/disease.mjs `mendSickness`, docs/DISEASE.md build step 0 and §3.7).

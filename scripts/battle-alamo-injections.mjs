@@ -72,7 +72,7 @@ const UNIT = [
     from: "    if (flag.kind !== 'red' && art.animated(ctx, 'flag-come-and-take-it-wind',", to: "    if (art.animated(ctx, 'flag-come-and-take-it-wind',",
     test: VIEW, expect: 'the red flag of no quarter flies over Béxar as a plain red field, never as the Come and Take It flag' },
   { name: 'the reminder that he is inside hides the storming\'s card', file: 'public/military-attention.js',
-    from: "  const deciding = notices.some(notice => notice.kind !== 'siege') ||", to: '  const deciding = notices.length ||',
+    from: "  const deciding = !world.watching && (notices.some(notice => notice.kind !== 'siege') ||", to: '  const deciding = !world.watching && (notices.length ||',
     test: VIEW, expect: 'the storming\'s card goes up over the quiet reminder that somebody is inside, and not over a question' },
 ];
 

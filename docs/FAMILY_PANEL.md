@@ -1510,6 +1510,14 @@ which never did, still does not. Among the cards: ¡Alto!, then the road and the
 couriers and camp, then the fight, then somebody very sick, then the account, then the quiet reminder of the Alamo - the "!"s'
 own order (`byUrgency`) where they overlap.
 
+**Amended 2026-09-30, owner-decided ("Watch goes over it"):** the army's request for supplies (sim/supplies.mjs: the flour at nine
+on November 26, an hour before the Grass Fight's alarm, and the autumn's ask of a family with nobody in the army) **no longer holds
+the Watch card back**. The card through the family's own man goes up over it, and the request stays among the cards, ranked after
+the fight and before somebody very sick (`SUPPLY_ORDER`, public/military-attention.js), still answerable. Its five real minutes
+(sim/decision-budget.mjs) do not run while the family's own fight card is up (`fightUp`, sim/world.mjs: the family's own
+`battleAlert`), and run again from where they stood when it is down. The call to arms, a rider, the order to leave, the road's
+question and ¡Alto! still hold the Watch card back.
+
 Left as they were, and why: **the tips at first meeting** (they teach, they are not a moment); **the refusal line and the Host's
 notices** (a sentence, not an event); **the errand, the way of going, the call's menu and the meeting** (they are the answer, opened
 by a card's button, not the alert); **the fall of the Alamo and other news reaching the family** (they come as reports in the journal
