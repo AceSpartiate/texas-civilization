@@ -1,6 +1,10 @@
 # Claude handoff — Astra foundation
 
-## Battles, second round: the speed inside a fight, what the class view films, a hold on a man hit, dramatic smoke — owner-decided 2026-09-30 (not released)
+## Released as v2026.10.01.1 — 2026-10-01
+
+Main at 8487eb7b, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.01.1>): `TexasRevolutionSetup.exe` 627 MB, `TexasRevolutionInstaller.exe` 170 KB, the two zips (544 / 511 MB). The launcher changed, so every installed launcher takes the whole setup this once. `npm test` on 8487eb7b: 2013 tests, 0 fail. **Released on the owner's word at 98% of the week's usage, before the full browser-proof run on 8487eb7b finished**; its results are recorded below when they come. Same computer only: no Chromebook, LAN or classroom claim.
+
+## Battles, second round: the speed inside a fight, what the class view films, a hold on a man hit, dramatic smoke — owner-decided 2026-09-30 (released in v2026.10.01.1)
 
 Branch `battle-cinema-2` off local `integration-2026-09-28` (6b2d19be, with `battle-cinema` merged); not pushed, nothing published.
 The owner's answers to the first round's questions, verbatim: at Study *"i was playing on study earlier and it was too fast"*, and,
@@ -46,7 +50,7 @@ now take seconds. `npm run test:battle-cinema` 15 checks. Injections: `node scri
 fired again between two moments 3.6 s apart" was written for the old 11 s volley; a face of the square now fires every 5 s, so the
 proof compares moments three apart (5.4 s) and passes. Same computer only.
 
-## Idle and House off the family's rows; the site chooser's fold and the phone's tip kept — owner-decided 2026-09-30 (not released)
+## Idle and House off the family's rows; the site chooser's fold and the phone's tip kept — owner-decided 2026-09-30 (released in v2026.10.01.1)
 
 Branch `row-slim` off local `integration-2026-09-28` (6b2d19be); not pushed. **Supersedes `column-wide`** (a2736bd3, never merged):
 the owner first chose *"Widen the column"* on a 16 px estimate; measured, it cost 96 px of map (25rem), and shown that he chose
@@ -87,7 +91,7 @@ docs/FAMILY_PANEL.md, amendment 2026-09-30.
    reads whole when its box is focused.
 2. The tip that says *"“Idle” means they have nothing to do"*. **(a) Reword it for the portrait's mark (recommended)**; (b) leave it.
 
-## Every gettable lack on the bar, a rawhide from the tanner, no hunt without powder, Fence it — owner-decided 2026-09-30 (not released)
+## Every gettable lack on the bar, a rawhide from the tanner, no hunt without powder, Fence it — owner-decided 2026-09-30 (released in v2026.10.01.1)
 
 Branch `field-click-2` off local `integration-2026-09-28` (ee0ab8da); not pushed, nothing published. The owner's four answers to the
 questions below (*Click a field ...*), the same day: *"Every gettable lack"*, *"Tanner sells"*, *"Refuse it"*, *"Add 'Fence it'"*.
@@ -128,7 +132,7 @@ classroom-doors ping test, which also failed under load on the first branch and 
 2. *A dry hunt by somebody on auto*: (a) **waits, working about the place, as it did, and takes up the hunt when powder comes**;
    (b) goes to town for powder by itself.
 
-## Battles watched, not hurried: the floor, black-powder smoke and the film on the class view — owner-decided 2026-09-30 (not released)
+## Battles watched, not hurried: the floor, black-powder smoke and the film on the class view — owner-decided 2026-09-30 (released in v2026.10.01.1)
 
 Branch `battle-cinema` off local `integration-2026-09-28`; not pushed, nothing published. The owner, 2026-09-30, verbatim, after
 watching the Battle of Gonzales in a real class on v2026.09.29.3: *"i was able to see the battle of Gonzales today. it happened too
@@ -176,7 +180,7 @@ percentile at 1366x768 and 1024x600 (headless; not a Chromebook).
 whether the film also films the Alamo's siege days and San Jacinto's first day; holding on a man as he is hit; the families' colours
 on the class panel always; a student's page filmed by itself.
 
-## Click a field to choose its crop; the carreta and the hunt found — owner-decided 2026-09-30 (not released)
+## Click a field to choose its crop; the carreta and the hunt found — owner-decided 2026-09-30 (released in v2026.10.01.1)
 
 Branch `field-click-hunt` off local `integration-2026-09-28` (bd0b4efb); not pushed, nothing published. The owner, verbatim, after
 playing the live build v2026.09.29.3 (which has one crop for the whole field; per-plot crops are on integration, unreleased):
@@ -236,7 +240,7 @@ once each after the change: `test:mixed-field`, `test:farm`, `test:family-panel`
 4. *Clicking a cleared, unfenced plot:* (a) **planting only, as built** - *Fence a cleared plot* does fencing; (b) also a *Fence it*
    button in the same chooser.
 
-## The Watch card goes over the army's supply request — owner-decided 2026-09-30 (not released)
+## The Watch card goes over the army's supply request — owner-decided 2026-09-30 (released in v2026.10.01.1)
 
 Branch `watch-over-supply` off local `integration-2026-09-28` (bd0b4efb); not pushed. The owner answered the proofs-world
 question 1 by multiple choice: **"Watch goes over it"**. The army's call for flour (sim/supplies.mjs `supply-flour`, 9:00 on
@@ -273,7 +277,7 @@ docs/FAMILY_PANEL.md (amendment under the story cards' "Nothing about timing or 
   (one that steps no world went 288 to 468 s), and `tests/storming.test.mjs` with `tests/starts-bexar.test.mjs` take 37.7 s with
   `fightUp` and 37.8 s without, so the machine was loaded, not the tick.
 
-## A few days' food for a family handed to a student — owner, 2026-09-30 (not released)
+## A few days' food for a family handed to a student — owner, 2026-09-30 (released in v2026.10.01.1)
 
 Branch `handover-food` off `integration-2026-09-28` (646c8b6f); not pushed. Found by a proof builder: a family the director runs
 never starves (docs/HUNGER.md §6), so it could reach a student with little or no food - in a winter class often none - and a
@@ -302,7 +306,7 @@ computer played, its store emptied, finds three days' eating; the others keep no
 by leaving, plenty cut down to three days, a week, a family nobody plays fed). `npm run test:hunger` 7, `test:late-join` 9 - green.
 `npm test`: **1971 tests, 1935 pass, 0 fail, 36 skipped** (the suspended tutorial).
 
-## The snow march at the winter's close, and a volunteer's greyed row says where the army is — owner-decided 2026-09-30 (not released)
+## The snow march at the winter's close, and a volunteer's greyed row says where the army is — owner-decided 2026-09-30 (released in v2026.10.01.1)
 
 Branch `proofs-map-2` off local `integration-2026-09-28` (646c8b6f); not pushed. The owner's answers to the two questions left by
 the red-proofs work below. **Same computer only: no Chromebook or LAN claim.**
@@ -334,7 +338,7 @@ the red-proofs work below. **Same computer only: no Chromebook or LAN claim.**
   interim view not drawing the reveal - caught by surprise-reveal at March 13. `npm test`: **1970 tests, 1934 pass, 0 fail, 36
   skipped**.
 
-## Red proofs on the release candidate: nine proofs, four page bugs fixed — 2026-09-30 (not released)
+## Red proofs on the release candidate: nine proofs, four page bugs fixed — 2026-09-30 (released in v2026.10.01.1)
 
 Branch `proofs-page` off local `integration-2026-09-28` (e67e0f15); not pushed, nothing published. Nine browser proofs failed on
 the release candidate (integration at bccea07c). Each was run here, its cause found and bisected against earlier integration
@@ -372,7 +376,7 @@ estimate that was wrong: it would have cost 96 px; see *Idle and House off the f
 3. On a phone, while a tip stands, the family column is shorter. **(a) Keep it (recommended)**; (b) put the tip beside the column
    on a phone too, narrower and taller.
 
-## Five red release-candidate proofs: all stale, none a leak — 2026-09-30 (not released)
+## Five red release-candidate proofs: all stale, none a leak — 2026-09-30 (released in v2026.10.01.1)
 
 Branch `proofs-world` off local `integration-2026-09-28` (e67e0f15); not pushed. The release candidate (bccea07c) failed
 `test:neighbours`, `test:mexican-advance`, `test:battle-south`, `test:famous-people` and `test:battle-grass`. Each was traced to
@@ -410,7 +414,7 @@ watch"). Both proofs' "far/nobody there" family had starved and was watching. Th
    director to a student a few days' food, as a column leaves one (`LEFT_FOOD_DAYS`) (recommended)**; (b) have the director keep a
    store in the families it runs; (c) keep it.
 
-## Five red release-candidate proofs: `biome-game`, `travel-drawn`, `siege`, `concepcion`, `surprise-reveal` — 2026-09-30 (not released)
+## Five red release-candidate proofs: `biome-game`, `travel-drawn`, `siege`, `concepcion`, `surprise-reveal` — 2026-09-30 (released in v2026.10.01.1)
 
 Branch `proofs-map` off local `integration-2026-09-28` (e67e0f15); not pushed. Red on the release candidate (bccea07c). Each was
 bisected by running the proof on code-only trees of earlier commits (same computer, headless Chrome). **All five were the
@@ -467,7 +471,7 @@ proof out of date, not the game**; no game rule changed. **Same computer only: n
    army at the Salado" (recommended); (b) leave it as it is; (c) treat a halted army as drawn and live (the portrait takes the
    camera to the camp).
 
-## The small setup is `TexasRevolutionInstaller.exe`: the owner's four answers — owner-decided 2026-09-30 (not released)
+## The small setup is `TexasRevolutionInstaller.exe`: the owner's four answers — owner-decided 2026-09-30 (released in v2026.10.01.1)
 
 Branch `web-setup-2` off local `integration-2026-09-28` (e67e0f15, which has the small setup merged); not pushed. The owner
 answered the small setup's four questions (docs/DEPLOYMENT.md, *The small setup*):
@@ -486,7 +490,7 @@ and both were seen caught again. Results: `npm run test:web-setup` **14 of 14**,
 **15 of 15** caught, `scripts/launcher-delta-injections.ps1` **21 of 21** caught, `npm test` **1,966 tests, 1,930 pass, 0 fail, 36 skipped**. The file is 173,568 bytes,
 the same size as before (the name is not inside it).
 
-## A small setup to email: `TexasRevolutionInstaller.exe`, 169.5 KB — owner, 2026-09-30 (not released)
+## A small setup to email: `TexasRevolutionInstaller.exe`, 169.5 KB — owner, 2026-09-30 (released in v2026.10.01.1)
 
 Branch `web-setup` off local `integration-2026-09-28` (cb5c1fb4); not pushed, nothing published. Owner: *"The file for
 installing the game is far too large. Why can't it be a super small, easily sharable file? … I should be able to email
@@ -517,7 +521,7 @@ updates as normal."* Full account: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md), *Th
 - **Not proved**: a school network or filtering proxy, Windows 10, Smart App Control, a real email or Drive round trip.
 - **Answered by the owner, 2026-09-30**: see the section above.
 
-## Name and looks for a late student; `test:family-commands` green again — owner-decided 2026-09-30 (not released)
+## Name and looks for a late student; `test:family-commands` green again — owner-decided 2026-09-30 (released in v2026.10.01.1)
 
 Branch `late-join-2` off local `integration-2026-09-28` (e67e0f15); not pushed.
 
@@ -558,7 +562,7 @@ shop*, which opens the errand popup and sends nothing; it now skips the icons th
 - `npm test`: **1969 tests, 1932 pass, 1 fail, 36 skipped**; the one, `save-retry`, the known flake under load, passes alone (2 of 2).
   `test:creation` 15, `test:looks` 12, `test:late-join` 9, `test:family-commands` 23 (twice).
 
-## The class code inside the join address — owner-decided 2026-09-30 (not released)
+## The class code inside the join address — owner-decided 2026-09-30 (released in v2026.10.01.1)
 
 **The ask.** *"why do players need to enter a join code? if multiple hosts are on the same network, why dont we have different
 addresses for that?"* Told each Host laptop already has its own address and the code keeps out anybody not in the room and separates
@@ -599,7 +603,7 @@ fix below); not pushed. docs/HOST_PAGE.md §2.14, TEACHER.md.
   `test:code-address` 7, `test:join-card` 8, `test:reconnect` 12, `test:classes` 16, `test:lone-parent` 10. The launcher builds
   (`dotnet build`); no launcher verify was run.
 
-## A late student stuck on the die: thrown at the join, and never a silent hang — classroom report 2026-09-30 (not released)
+## A late student stuck on the die: thrown at the join, and never a silent hang — classroom report 2026-09-30 (released in v2026.10.01.1)
 
 **The report.** From the owner's real classroom on the live release v2026.09.29.3: *"student tried to join late and it was stuck on
 the rolling for the family part. wouldn't let him past."* The class had been started and was running. Branch `late-join-roll` off
@@ -671,7 +675,7 @@ had already worked (the page goes straight into the world with the family it has
 2. A lobby student whom Start rolled for (never pressed Roll) goes straight to the last name. **(a) Show them the die too, thrown on
    the number Start gave them, as a latecomer now gets (recommended)**; (b) leave it.
 
-## Read aloud: the owner's four answers, and the end-of-game breakdown read aloud — owner-decided 2026-09-30 (not released)
+## Read aloud: the owner's four answers, and the end-of-game breakdown read aloud — owner-decided 2026-09-30 (released in v2026.10.01.1)
 
 Branch `read-aloud-2` off `integration-2026-09-28` (e6d9fe8b, then cb5c1fb4 merged in for its Béxar test fix); not pushed.
 Having listened to `af_kore` and `af_bella`, **the owner answered the read-aloud build's four questions (2026-09-30,
@@ -708,7 +712,7 @@ Recorded in [docs/READ_ALOUD.md](docs/READ_ALOUD.md) §1, §7a and §9. **Same c
 - **Not done**: the end sequence's *family* stage (the story in words below each family's video) has no button; the Host's table
   none, by design.
 
-## Starvation, the owner's three answers: keep the idle family's and the road's losses, a few days' food left by a column — owner, 2026-09-30 (not released)
+## Starvation, the owner's three answers: keep the idle family's and the road's losses, a few days' food left by a column — owner, 2026-09-30 (released in v2026.10.01.1)
 
 Branch `starvation-2` off `integration-2026-09-28` (e0de7b5c, which has `starvation` merged); not pushed. The owner answered the
 three questions of the section below the same day, by multiple choice; recorded in docs/HUNGER.md §8a, docs/BALANCE.md §19 and
@@ -736,7 +740,7 @@ HISTORY.md (`FIC-GONZ-995`, an amendment row).
   `npm run test:hunger` 7 checks, `test:mixed-field` 11, `test:overlap` 197 screens and 0 faults - all green on this branch.
 - `npm test`: **1927 tests, 1891 pass, 0 fail, 36 skipped** (the suspended tutorial). Two tests the merge of `starvation` into the integration branch had turned red (they pass on 27a710f2, fail on e0de7b5c) are green again by feeding their classes as the others were: `battle-alamo`'s *a family far down the road hears of the fall in the spring* (the family had starved before the word came) and `camp`'s *the fork of the road* (the family had starved, and its road question fell to the man with Houston) - tests/support/fed.mjs in their fixtures. `road`'s *a family that stays is overtaken* now expects the few days' food.
 
-## Read aloud in natural voices — triage D15, owner-decided 2026-09-30 (not released)
+## Read aloud in natural voices — triage D15, owner-decided 2026-09-30 (released in v2026.10.01.1)
 
 Branch `read-aloud` off `integration-2026-09-28` (4131feb8), with `read-aloud-research` (2f4185a4) merged in; not pushed. The
 owner chose **Kokoro-82M v1.0, full precision**, **"Man and woman"**, and the research's hybrid architecture
@@ -799,7 +803,7 @@ only: no Chromebook, no school laptop, no classroom Wi-Fi, and nobody has listen
 - **Open**: the owner's ear on the cast (`af_kore` or `af_bella`) and the place names (Texan or Spanish); the end-of-game
   breakdown; fp16 to halve the package; measure the burst on the real teacher laptop.
 
-## Two videos made at once, and the families' after the class video — owner-decided 2026-09-30 (not released)
+## Two videos made at once, and the families' after the class video — owner-decided 2026-09-30 (released in v2026.10.01.1)
 
 **The ask.** The owner, answering the end sequence's open question (a class of thirty waiting for the last video to be made):
 *"make two at once, and student videos don't start playing until after the class video finishes playing"*. Branch `end-sequence-3`
@@ -832,7 +836,7 @@ off local `integration-2026-09-28` 3ff1bec5; not pushed. docs/FLASHBACK.md §11a
   the sampler now runs from the Host page's opening.
 - `npm test`: **1888 tests, 1850 pass, 1 fail, 36 skipped** (the suspended tutorial): `capacity`, the known flake under load (with `save-retry` slow beside it), passes alone (2 of 2).
 
-## The Béxar rancho down the river only, and the Béxar start's four answers — owner-decided 2026-09-30 (not released)
+## The Béxar rancho down the river only, and the Béxar start's four answers — owner-decided 2026-09-30 (released in v2026.10.01.1)
 
 **The ask.** The owner answered the four questions of the Béxar start (docs/FAMILY_CREATION.md, the amendment of 2026-09-29/30):
 the wedding **"Priest from La Bahía"**, the foragers **"Mentioned only"** and a family that stays **"Taken prisoner"** - all as built -
@@ -863,7 +867,7 @@ the merge.)
 - `npm test`: **1911 tests, 1873 pass, 2 fail, 36 skipped**; the two are `classroom-doors` and `save-retry`, the known flakes under load,
   which passed alone on their rerun (6 of 6).
 
-## A family can starve, and the food as a gauge — owner, 2026-09-30 (not released)
+## A family can starve, and the food as a gauge — owner, 2026-09-30 (released in v2026.10.01.1)
 
 Branch `starvation` off `integration-2026-09-28` (ba5ccc6a); not pushed. The owner changed an earlier answer: *"player
 characters *can* die of starvation. players should have to ensure there's enough food. when you update this, also update the ui to
@@ -937,7 +941,7 @@ Chromebook, LAN or classroom claim.**
 3. *A family overtaken at a refuge loses its food with its goods and then starves there* unless it forages (seen in
    tests/scrape.test.mjs). (a) Keep it; (b) the column leaves a family a few days' food.
 
-## The Scrape's four open questions answered — owner 2026-09-30 (not released)
+## The Scrape's four open questions answered — owner 2026-09-30 (released in v2026.10.01.1)
 
 Branch `owner-scrape-2` off local `integration-2026-09-28` 3ff1bec5 (which holds `owner-scrape`); not pushed. The owner answered the
 four questions the D9 build left (the section below). docs/SCRAPE.md §21, docs/MONEY_AND_GLORY.md §5b; `FIC-GONZ-992` and `-991`
@@ -971,7 +975,7 @@ amended, `FIC-GONZ-993` new (both answers of the goods under one claim). **Same 
   bedding and the pot under their own line); `test:scrape` 7 and `test:ending` 10, green. Screenshot
   `docs/evidence/owner-scrape-early-load.png`.
 
-## Each plot its own crop: corn to eat beside cotton to sell — owner 2026-09-30 (not released)
+## Each plot its own crop: corn to eat beside cotton to sell — owner 2026-09-30 (released in v2026.10.01.1)
 
 Branch `per-plot-crops` off `integration-2026-09-28` (ba5ccc6a); not pushed. The owner: *"players can still plow new and extra fields
 right? so i as a player could have corn growing for food as well as cotton to sell?"*; confirmed "Keep it". Lifts docs/LAND_GRANTS.md
@@ -1019,7 +1023,7 @@ other builders' HUD field boxes should read `world.land.crops` / per-plot `crop`
 
 **The owner's answers on the four follow-ups (2026-09-30, by multiple choice):** one crop per planting, as built (*"Keep it simple"*); *Bring in the crop* takes every ripe plot (*"All ripe plots"*); the director's corn rule stays one corn plot at two or more plots or when short of food (*"Keep current rule"*); and §18's quick look is not re-run at 210 classes once starvation lands (*"Leave it"*). No code change.
 
-## The owner's answers on the family's start: the priest from La Bahía, a rancho near Béxar, Seguín's men in the Alamo, the carreta — 2026-09-30 (not released)
+## The owner's answers on the family's start: the priest from La Bahía, a rancho near Béxar, Seguín's men in the Alamo, the carreta — 2026-09-30 (released in v2026.10.01.1)
 
 **The ask.** The owner answered the six questions of the family's start (docs/FAMILY_CREATION.md, the amendment of 2026-09-29/30):
 1 "Priest from La Bahía", 2 "Béxar at 20+", 3 "No control", 4 "Open", 5 "Join, then leave", 6 the carreta, "if not then yes".
@@ -1066,7 +1070,7 @@ Branch `starts-2` off local `integration-2026-09-28` 4131feb8; not pushed. Claim
 3. A Béxar family that stays when the foragers come: (a) taken prisoner as any family is (as built); (b) not taken, only burned.
 4. Where the Béxar rancho lies: (a) near Béxar where the land allows (as built); (b) only down the river toward Goliad.
 
-## The Runaway Scrape's own choices: household goods in the load, leaving early on real news, foragers who take a stayer's goods — triage D9, owner 2026-09-29 (not released)
+## The Runaway Scrape's own choices: household goods in the load, leaving early on real news, foragers who take a stayer's goods — triage D9, owner 2026-09-29 (released in v2026.10.01.1)
 
 Branch `owner-scrape` off local `integration-2026-09-28` 4131feb8; not pushed. The owner chose the recommended option of each of
 D9's three questions (docs/audits/2026-09-29-triage.md D9; the design audit's S16, S17, S18). Written up as owner-decided in
@@ -1107,7 +1111,7 @@ no Chromebook, LAN or classroom claim.**
   family leaves with the chest and the hoe, the corn lost, the axe and wheel hidden. Run two at a time on this tree: `test:scrape` 7, `test:scrape-pursuit` 15, `test:road` 7, `test:wagons` 4, `test:errand` 16, `test:ending` 10, `test:flashback` 11, `test:whole-game` 14, `test:solo-game` 16, `test:overlap` green - all pass. **`test:end-sequence` red** at its last step (*"Play Solo began anywhere but the player's own video"*: `reveal`, not `family`) after 19 checks, **the same on 4131feb8**; its evidence was left as it was.
 - **Open questions for the owner**: all four answered on 2026-09-30 and built on `owner-scrape-2` (the section above).
 
-## The end sequence without a wait: every family's video at once, a Play button, and Controls — owner, 2026-09-30 (not released)
+## The end sequence without a wait: every family's video at once, a Play button, and Controls — owner, 2026-09-30 (released in v2026.10.01.1)
 
 **The ask.** The owner's answers to the four questions of the end sequence (below). Branch `end-sequence-2` off
 `integration-2026-09-28` 4131feb8, ba5ccc6a merged in; not pushed.
@@ -1160,7 +1164,7 @@ all** waits for a page as it waits for a video (10 minutes at most); a class wit
    at "being made". (a) Keep one start for all (as built); (b) start each family's the moment its own is made, ending together;
    (c) make two at once on the teacher's computer.
 
-## Red proofs, second round: `test:disease`, `test:battle-alamo`, the Béxar "killed" test, and the man who escaped to Fannin — 2026-09-30 (not released)
+## Red proofs, second round: `test:disease`, `test:battle-alamo`, the Béxar "killed" test, and the man who escaped to Fannin — 2026-09-30 (released in v2026.10.01.1)
 
 Branch `red-proofs-2` off `integration-2026-09-28` 4131feb8; not pushed. **Same computer only: no Chromebook or LAN claim.**
 
@@ -1197,7 +1201,7 @@ Branch `red-proofs-2` off `integration-2026-09-28` 4131feb8; not pushed. **Same 
   within 30 s of the family's hearing; the proof places its men with Fannin in the spring, which no change here reaches), then
   passed twice in a row. `npm test`: **1878 tests, 1842 pass, 0 fail, 36 skipped**.
 
-## The art as WebP, a Tips button, and tap-then-send on touch — triage D14, D16, D17, owner 2026-09-29 (not released)
+## The art as WebP, a Tips button, and tap-then-send on touch — triage D14, D16, D17, owner 2026-09-29 (released in v2026.10.01.1)
 
 Branch `webp-tips-touch` off origin/main 67d674bb, merged with origin/main ca6ac201 and again 8687a96b; not pushed. The owner
 chose the recommended option of each (docs/audits/2026-09-29-triage.md) and confirmed on 2026-09-30 quality 90 with lossless
@@ -1249,7 +1253,7 @@ only where recolouring needs exact colours. **Same computer only: no Chromebook,
   passed on the re-run. Not proved: a Chromebook's decode time, a real touch screen, the `leaves` warning tapped (no proof builds a
   lone father with little ones).
 
-## The end of the class as one sequence, and the farm sold or glory for a burned one — owner D10 and D8, 2026-09-29 (not released)
+## The end of the class as one sequence, and the farm sold or glory for a burned one — owner D10 and D8, 2026-09-29 (released in v2026.10.01.1)
 
 **The ask.** The owner's answers to the triage's D10 and D8 (docs/audits/2026-09-29-triage.md), verbatim in docs/FLASHBACK.md §11 and
 docs/MONEY_AND_GLORY.md §5a. Branch `end-sequence` off origin/main c03faa58, origin/main ca6ac201 merged in; not pushed. Claims
@@ -1331,7 +1335,7 @@ docs/MONEY_AND_GLORY.md §5a. Branch `end-sequence` off origin/main c03faa58, or
 4. *The Host's controls are under the end's overlay until the reveal* (New Class, Stop Server). (a) Keep - Skip ahead reaches them;
    (b) a small "Controls" button on the overlay.
 
-## Supply glory flat — owner, 2026-09-30 (not released)
+## Supply glory flat — owner, 2026-09-30 (released in v2026.10.01.1)
 
 Branch `owner-rules-2` off `integration-2026-09-28` (4131feb8); not pushed. The owner answered the owner-rules builder's three
 questions (below): hunger **"Leave it"** (no change), the odd burn-zone family not answered (kept as built), and **supply glory
@@ -1344,7 +1348,7 @@ save version: an award saved before keeps what it was given. Evidence: `tests/ow
 flat against a family whose miles would multiply it, and the ending's words); **`npm run test:owner-rules-injections`: 31 of 31 caught** (the three new: the miles put back, a flat award multiplied anyway, the ending saying it as miles);
 `npm test` **1875 tests, 1838 pass, 1 fail, 36 skipped** - the one, `battle-bexar` "killed: he falls … told only when the word comes" ("the word of the victory never reached his family"), fails the same on `integration-2026-09-28` without this change; `test:story-cards` 4, `test:ending` 10, `test:end-sequence` 22 - green. `test:end-sequence` failed twice at its Play Solo step ("began anywhere but the player's own video": `reveal`) and passed twice with this change, and failed once with the base's own `sim/` files: a race between the solo room's first tick and the page arriving (a family with no page open counts as done, `familyStates` `away`), not this branch's.
 
-## The owner's six answers of 2026-09-29: a minute to nurse, the army's request, no glory for the fork, 0.3 food, birthdays, the burn zone by seed (not released)
+## The owner's six answers of 2026-09-29: a minute to nurse, the army's request, no glory for the fork, 0.3 food, birthdays, the burn zone by seed (released in v2026.10.01.1)
 
 **The ask.** The owner answered six of the triage's decisions on 2026-09-29, choosing the recommended option each time
 (docs/audits/2026-09-29-triage.md, each row marked answered and built): **C4** "60 s minimum", **D5** "Supply request", **D6** "Drop
@@ -1427,7 +1431,7 @@ same classes: of 746 asks answered at the director's share, 156 sent food, 80 po
 (sim/, public/terrain/, scripts/balance-measure.mjs, package.json overwritten with this branch's files); a note
 `OVERWRITTEN-BY-OWNER-RULES.txt` is left there. Re-copy `sim/` before measuring from it.
 
-## All the rest of the news by express, and the end held for it — owner, 2026-09-29 (not released)
+## All the rest of the news by express, and the end held for it — owner, 2026-09-29 (released in v2026.10.01.1)
 
 **The ask.** The owner answered the spring-news builder's three questions (2026-09-29): *"Hold the end"*, *"Keep it"*, *"All of
 it"*. Branch `news-all-riders` off origin/main c03faa58; not pushed. `FIC-GONZ-956` to `-958`; the decision is docs/COLONIES.md
@@ -1519,7 +1523,7 @@ up to a day"*, 2 *"Keep record dates"*. The questions as they were put:
    family nearer Béxar hears first. (a) Keep (built); (b) time them from the fight itself at the courier's pace, letting San
    Felipe's date fall where the model puts it.
 
-## The family's start: Anglo-American, Tejano and free Black; skin tones locked; the road east — 2026-09-29 (not released)
+## The family's start: Anglo-American, Tejano and free Black; skin tones locked; the road east — 2026-09-29 (released in v2026.10.01.1)
 
 **The ask.** The owner, 2026-09-29: *"build all of these as possible starts except for the native american options. those are too
 different and will require too much work for now. ensure that skin tone options based on the race of the characters is locked to
@@ -1573,7 +1577,7 @@ claims `HIST-TEX-780` to `-789`, `FIC-GONZ-980` to `-986`.
 5. Seguín's men in the winter's garrison: (a) left out, as built; (b) in with Seguín, leaving after February 25.
 6. The Tejano poor band's cart: (a) "cart", as built; (b) named and drawn as the carreta.
 
-## `test:keyboard-farm` on the merged tree: the idle child dealt with by the keyboard — 2026-09-29 (not released)
+## `test:keyboard-farm` on the merged tree: the idle child dealt with by the keyboard — 2026-09-29 (released in v2026.10.01.1)
 
 Branch `keyboard-farm-fix` off `integration-2026-09-28` f468d719; not pushed. On the merged tree the proof failed every time at
 *Survey it*: the server refused it with *"Asa has stopped to talk with Basilio, who has nothing to do…"*.
@@ -1593,7 +1597,7 @@ Branch `keyboard-farm-fix` off `integration-2026-09-28` f468d719; not pushed. On
   19. The two keyboard-farm injections of `test:tier2-classroom-injections` (no suggested places; Enter on the map does nothing)
   still fail it.
 
-## Thirty orders at once, the join address large, suggested places, and wrong tries per device — 2026-09-29 (not released)
+## Thirty orders at once, the join address large, suggested places, and wrong tries per device — 2026-09-29 (released in v2026.10.01.1)
 
 Branch `tier2-classroom` off origin/main 80842f72; not pushed. The triage's items 1.6, what was left of 1.8, 2.13 and 2.15
 (docs/audits/2026-09-29-triage.md, each marked). **Same computer only: no Chromebook, school laptop, LAN or classroom claim.**
@@ -1640,7 +1644,7 @@ Branch `tier2-classroom` off origin/main 80842f72; not pushed. The triage's item
   room) and passes since the folded line is as wide as its words (the join-card proof holds it under 300 px).
 - Not claimed: a Chromebook camera reading the code, a screen reader on the suggestions, a school laptop, a shared district address.
 
-## Tier 2 page items: the army's question over the town and the rooms, the family key, Offer a trade, 12 px type — 2026-09-29 (not released)
+## Tier 2 page items: the army's question over the town and the rooms, the family key, Offer a trade, 12 px type — 2026-09-29 (released in v2026.10.01.1)
 
 Branch `tier2-page` off origin/main 80842f72; not pushed. Triage 2026-09-29 items 2.2, 2.4, 2.6 and 2.12
 (docs/audits/2026-09-29-triage.md, each row marked fixed).
@@ -1694,7 +1698,7 @@ Branch `tier2-page` off origin/main 80842f72; not pushed. Triage 2026-09-29 item
 - Screenshots: docs/evidence/creation-key.png, docs/evidence/neighbours-trade.png, docs/evidence/tier2-page-*.png (the scene and
   the rooms with the question at 1366x768, 1024x600 and 400x780; at home and the lone parent's column at 12 px).
 
-## The spring's big news by express, settlement by settlement — triage 2.7, 2026-09-29 (not released)
+## The spring's big news by express, settlement by settlement — triage 2.7, 2026-09-29 (released in v2026.10.01.1)
 
 **The ask.** Triage 2.7: *"Every family hears the spring's big news at the same moment"* (VISION §19: information moved slowly and
 unevenly - true in the autumn, not in the spring). `word()` and `sendWord()` told every family on one tick, marked by a
@@ -1776,7 +1780,7 @@ the winter's word, Travis's letter, the south, the declaration) still reach the 
 3. *The rest of the one-day news.* Travis's letter, the south's fights, the declaration and the autumn's battles are still told to
    the whole country on one day. (a) Carry them all by `carryWord` next; (b) only Travis's letter and the declaration; (c) leave them.
 
-## The ending as the whole war, in sums a student can follow — triage 2.8–2.11, 3.6, 3.7 (not released)
+## The ending as the whole war, in sums a student can follow — triage 2.8–2.11, 3.6, 3.7 (released in v2026.10.01.1)
 
 Branch `tier2-ending` off origin/main 80842f72; not pushed. The items of docs/audits/2026-09-29-triage.md that needed no owner
 decision, all in the ending (sim/ending.mjs, sim/ending-story.mjs, public/ending.js; docs/MONEY_AND_GLORY.md §7.1 has the whole).
