@@ -31,6 +31,8 @@ const UNIT = [
     test: SMOKE, expect: 'the smoke builds up under repeated fire until the firing line stands hidden in it, and is drawn over the men' },
   { name: 'the banks never thin', file: 'public/battle-view.js', from: '      bank.d *= Math.exp(-dt / (bank.big ? CANNON_BANK_FADE_MS : BANK_FADE_MS));', to: '      bank.d *= 1;',
     test: SMOKE, expect: 'the smoke drifts with the wind, lingers tens of seconds after the fire stops, and thins slowly away' },
+  { name: 'the banks blind to the wind', file: 'public/battle-view.js', from: '      vx: w.x * 1.7e-6 + (Math.random() - 0.5) * 1.2e-7, vy: w.y * 1.7e-6 - 0.5e-7,', to: '      vx: (Math.random() - 0.5) * 1.2e-7, vy: -0.5e-7,',
+    test: SMOKE, expect: 'the smoke drifts with the wind, lingers tens of seconds after the fire stops, and thins slowly away' },
   { name: 'a gun\'s shot no more smoke than a musket\'s', file: 'public/battle-view.js', from: '    feedBank(x + dir * (big ? 0.03 : 0.014), y, big ? 1.3 : wall ? 1.0 : 0.85, now, w, big, wall);', to: '    feedBank(x + dir * 0.014, y, wall ? 1.0 : 0.85, now, w, false, wall);',
     test: SMOKE, expect: 'a gun makes a bank of its own that outlasts a musket\'s' },
   { name: 'a bank for every shot past the cap', file: 'public/battle-view.js', from: '    if (!near && view.banks.length >= BANK_CAP)', to: '    if (false && !near && view.banks.length >= BANK_CAP)',

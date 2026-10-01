@@ -77,6 +77,16 @@
       ]
     },
     {
+      "name": "the banks blind to the wind",
+      "file": "public/battle-view.js",
+      "test": "tests/battle-smoke.test.mjs",
+      "expect": "the smoke drifts with the wind, lingers tens of seconds after the fire stops, and thins slowly away",
+      "caught": true,
+      "failed": [
+        "the smoke drifts with the wind, lingers tens of seconds after the fire stops, and thins slowly away"
+      ]
+    },
+    {
       "name": "a gun's shot no more smoke than a musket's",
       "file": "public/battle-view.js",
       "test": "tests/battle-smoke.test.mjs",

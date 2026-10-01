@@ -162,11 +162,12 @@ try {
   const firing = moments.filter(one => /^assault-/.test(one.phase));
   assert.ok(firing.length >= 6, `only ${firing.length} moments of the assaults were sampled`);
   for (const one of firing) assert.equal(one.camera, 'battle', `at ${one.minute} Watch was not on the fight`);
-  // Every three and a half seconds or so both sides have fired again (the square by faces in turn, each face by its ranks;
-  // the owner's finding was a line that fired once and froze).
-  for (let i = 2; i < firing.length; i++) {
-    if (firing[i].phase !== firing[i - 2].phase) continue;
-    for (const side of ['texian', 'mexican']) assert.ok((firing[i].view.shotsBy[side] || 0) > (firing[i - 2].view.shotsBy[side] || 0), `no shot was fired by the ${side} side between two moments of the ${firing[i].phase}`);
+  // Every five and a half seconds or so both sides have fired again (the square by faces in turn, each face by its ranks;
+  // the owner's finding was a line that fired once and froze). Since 2026-09-30 a rank's volley comes round every twenty seconds
+  // and a face of the square every five (docs/BATTLES.md §16.1: "it was too fast"), so three moments apart, not two.
+  for (let i = 3; i < firing.length; i++) {
+    if (firing[i].phase !== firing[i - 3].phase) continue;
+    for (const side of ['texian', 'mexican']) assert.ok((firing[i].view.shotsBy[side] || 0) > (firing[i - 3].view.shotsBy[side] || 0), `no shot was fired by the ${side} side between two moments of the ${firing[i].phase}`);
   }
   for (const one of firing) assert.ok(one.view.smokeInView >= 3, `no smoke on screen at ${one.minute} in the ${one.phase}: ${one.view.smokeInView}`);
   ok(`fire from both sides and smoke on the screen at each of ${firing.length} sampled moments of the assaults (smoke in view ${Math.min(...firing.map(one => one.view.smokeInView))}-${Math.max(...firing.map(one => one.view.smokeInView))} puffs)`);

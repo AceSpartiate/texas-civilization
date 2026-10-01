@@ -59,9 +59,16 @@ test('the smoke builds up under repeated fire until the firing line stands hidde
 });
 
 test('the smoke drifts with the wind, lingers tens of seconds after the fire stops, and thins slowly away', () => {
-  const still = run(createBattleView(recorder().art), battle, { seconds: 15 }).smokeCentre;
-  const westerly = run(createBattleView(recorder().art), battle, { seconds: 15, wind: { x: 1, y: 0 } }).smokeCentre;
-  assert.ok(westerly.x - still.x > 0.006, `the banks did not drift east on a westerly: ${(westerly.x - still.x).toFixed(4)} miles`);
+  // The drift read once the firing has stopped, so no new shot pulls a bank back to the line (each plume is thrown out a random
+  // way since §16.3, and a bank fed by a shot leans toward it): how far the smoke moves in the ten seconds after.
+  const drift = wind => {
+    const view = createBattleView(recorder().art);
+    run(view, battle, { seconds: 10, wind });
+    const from = run(view, quiet, { seconds: 2, from: 10000, wind }).bankCentre, to = run(view, quiet, { seconds: 10, from: 12000, wind }).bankCentre;
+    return to.x - from.x;
+  };
+  const still = drift({ x: 0, y: 0 }), westerly = drift({ x: 1, y: 0 });
+  assert.ok(westerly - still > 0.006, `the banks did not drift east on a westerly: ${(westerly - still).toFixed(4)} miles`);
   const view = createBattleView(recorder().art);
   const firing = run(view, battle, { seconds: 20 });
   const at20 = run(view, quiet, { seconds: 20, from: 20000 });

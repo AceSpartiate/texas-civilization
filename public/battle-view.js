@@ -987,7 +987,7 @@ export function createBattleView(art) {
     view.evidence = {
       id: battle.id, phase: battle.phase, minute: battle.minute, figures: { texian: drawn.texian.length, mexican: drawn.mexican.length },
       regularity: { texian: regularity(drawn.texian), mexican: regularity(drawn.mexican) },
-      flashes, heard, shots, shotsTotal: view.shotsTotal, shotsBy: { ...view.shotsBy }, smoke: smokeDrawn.alive, smokeInView: smokeDrawn.inView, smokeCentre: smokeDrawn.centre, bubbles, linesShown: [...view.linesShown],
+      flashes, heard, shots, shotsTotal: view.shotsTotal, shotsBy: { ...view.shotsBy }, smoke: smokeDrawn.alive, smokeInView: smokeDrawn.inView, smokeCentre: smokeDrawn.centre, bankCentre: smokeDrawn.bankCentre, bubbles, linesShown: [...view.linesShown],
       // The banks (§15.2): how many, how thick in all and at the thickest (`cover`, how much of what is behind the thickest hides),
       // how long the stalest has lain since a shot last fed it (`lingerMs`), and the still haze drawn instead for less motion.
       banks: smokeDrawn.banks, banksInView: smokeDrawn.banksInView, bankDensity: smokeDrawn.density, cover: smokeDrawn.cover, lingerMs: smokeDrawn.lingerMs, haze: smokeDrawn.haze,
@@ -1951,7 +1951,10 @@ export function createBattleView(art) {
     // Where the smoke lies now, on the ground: the middle of every puff and bank where the wind has taken it (evidence only).
     const all = [...view.smoke.map(s => ({ x: s.x + s.vx * (now - s.born), y: s.y + s.vy * (now - s.born) })), ...view.banks];
     const centre = all.length ? all.reduce((sum, s) => ({ x: sum.x + s.x, y: sum.y + s.y }), { x: 0, y: 0 }) : null;
-    return { alive: view.smoke.length + view.banks.length, inView, centre: centre && { x: centre.x / all.length, y: centre.y / all.length }, banks: view.banks.length, banksInView, density, cover: +cover.toFixed(3), lingerMs, haze, plumes, walls, clearings: layer ? clear.length : 0 };
+    // And the banks alone, each by how thick it is: where the lying smoke has drifted (evidence only).
+    const weight = view.banks.reduce((sum, bank) => sum + bank.d, 0);
+    const bankCentre = weight ? { x: view.banks.reduce((sum, bank) => sum + bank.x * bank.d, 0) / weight, y: view.banks.reduce((sum, bank) => sum + bank.y * bank.d, 0) / weight } : null;
+    return { alive: view.smoke.length + view.banks.length, inView, centre: centre && { x: centre.x / all.length, y: centre.y / all.length }, bankCentre, banks: view.banks.length, banksInView, density, cover: +cover.toFixed(3), lingerMs, haze, plumes, walls, clearings: layer ? clear.length : 0 };
   }
 
   /** Every line said this tick or lately, over whoever said it; the Mexican officer's words as each volley comes. */
