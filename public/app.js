@@ -5398,7 +5398,8 @@ function renderFamilyPanel(world) {
     const portraitLabel = `${entity.name}, ${role}${age}${HUNGER_WORDS[hunger] ? `, ${HUNGER_WORDS[hunger]}` : ''}${focused ? ', your main person' : ''}${bar ? ', selected' : ''}. ${focused ? `Go back to ${entity.name}` : `Make ${entity.name} your main person`}, follow them and show their actions${need ? '; somebody is waiting on them' : ''}.`;
     if (row.portrait.getAttribute('aria-label') !== portraitLabel) row.portrait.setAttribute('aria-label', portraitLabel);
     // What only the card said of them (owner 2026-09-29: the card is gone): a lasting wound, and having had the measles.
-    const about = [entity.name, HUNGER_WORDS[hunger], ...(entity.marks || []), entity.hadMeasles && 'has had the measles'].filter(Boolean).join(' · ');
+    // And their role and age, the age no longer on the row (owner, 2026-09-30, "Move age off the row"): "Prudence · daughter, 20".
+    const about = [entity.name, `${role}${age}`, HUNGER_WORDS[hunger], ...(entity.marks || []), entity.hadMeasles && 'has had the measles'].filter(Boolean).join(' · ');
     if (row.portrait.title !== about) row.portrait.title = about;
     row.portrait.setAttribute('aria-pressed', String(bar));
     const focusLabel = focused ? `Go back to ${entity.name}, your main person` : `Make ${entity.name} your main person`;
@@ -5444,7 +5445,9 @@ function renderFamilyPanel(world) {
     const badgeLabel = entity.sickness ? sickSays : '';
     if (row.sickMark.title !== badgeLabel) row.sickMark.title = badgeLabel;
     // What the person has become goes on the row after what they are: the mark and the camp drill (docs/FAMILY_PANEL.md).
-    setText(row.label, `${role}${age}`);
+    // The role alone on the row; the age is on the portrait's hover and label and in the family book (owner, 2026-09-30, "Move age
+    // off the row"): ", 20" beside "daughter" cut names of more than about five letters in the 19rem column.
+    setText(row.label, role);
     // What they have become goes under the name: the mark and the camp drill (docs/FAMILY_PANEL.md §11).
     const become = standing(entity);
     setText(row.note, become);

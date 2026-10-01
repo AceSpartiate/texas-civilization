@@ -1,8 +1,9 @@
 {
   "proof": "npm run test:story-cards",
-  "when": "2026-10-01T04:37:45.910Z",
+  "when": "2026-10-01T10:37:44.219Z",
   "pass": [
     "the neighbours' card (rgb(217, 164, 65)) first and the house's (rgb(127, 154, 63)) under it, both glowing, under Hide names and over the rows",
+    "the rows under the cards stand on one line with the names whole at 1366x768, 1024x768 and 1024x600: father Vicente (88 px), daughter Ramona (70 px), son Basilio (101 px)",
     "every moment in its own card: alto \"¡Alto! Soldiers on the road\", road \"The road is asking\", flight \"Told to leave for the east\", call \"A call to arms\", sick \"Vicente is very sick\", supply \"The army asks for supplies\", rider \"A rider has stopped to speak\", courier \"A call for riders at the Alamo\", orders \"Your family member is being asked\", battle \"The fight at Concepción\", account \"After Concepción\", siege \"Inside the Alamo\" - 9 accents, the account still, the others glowing",
     "with the order to leave open, its card stands and the Watch card is not put up at all, as before",
     "no page errors"
@@ -18,6 +19,32 @@
       "order": true,
       "clearOfFold": true,
       "aboveRows": true
+    },
+    "rowFit": {
+      "1366x768": {
+        "names": [
+          "father Vicente (88 px)",
+          "daughter Ramona (70 px)",
+          "son Basilio (101 px)"
+        ],
+        "out": []
+      },
+      "1024x768": {
+        "names": [
+          "father Vicente (88 px)",
+          "daughter Ramona (70 px)",
+          "son Basilio (101 px)"
+        ],
+        "out": []
+      },
+      "1024x600": {
+        "names": [
+          "father Vicente (88 px)",
+          "daughter Ramona (70 px)",
+          "son Basilio (101 px)"
+        ],
+        "out": []
+      }
     },
     "cards": {
       "alto": {

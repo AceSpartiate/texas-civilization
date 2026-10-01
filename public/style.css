@@ -903,8 +903,9 @@ body[data-finale-controls="open"] #hud-right{z-index:61;pointer-events:auto;back
 /* The row's tools on one line: a baby's word, the auto switch and the star (owner, 2026-09-30, "Move Idle and House off"; the Idle
    word is the portrait's mark, the House the bar's last icon). Since the 12 px type of 2026-09-29 a row with Idle, House, Auto and
    the star was 393 px in this 19rem column; without the two the widest measured is under 300.
-   ceiling: beside the longest role and age ("Daughter, 20") a name of more than about five letters scrolls in its box; moving the
-   age off the row is the way out (docs/FAMILY_PANEL.md, amendment 2026-09-30). */
+   The age is off the row too (owner, 2026-09-30, "Move age off the row"): a daughter's name has 70 px, a mother's 81.
+   ceiling: three of the 161 dealt names (Candelaria, Temperance, Encarnación) and long typed names scroll in their box; shorter
+   role words or a smaller star are the way out (docs/FAMILY_PANEL.md, amendment 2026-09-30). */
 .panel-tools{grid-row:1;grid-column:3;display:flex;flex-wrap:nowrap;align-items:center;gap:4px;justify-self:end}
 .panel-focus{min-height:0;height:24px;padding:0 7px;border-radius:5px;border:1px solid #b09a6d;background:#f3ead2;color:#3b3427;font:600 12px/1 system-ui;box-shadow:none}
 .panel-focus{width:26px;padding:0;font-size:15px;color:#8f825b}

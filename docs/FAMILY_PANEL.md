@@ -2016,7 +2016,7 @@ sick) with the real minute counted down, and the story card (*No food*, accent `
 of the days the food lasts, and the line of seed, powder, coin and the field lights each part by where it stands. No new sentence
 on the row. Proof: `npm run test:hunger`.
 
-## Amendment, 2026-09-30 — Idle and House off the row; the house site chooser folds while the land is off the screen; the phone's column stops above a tip — owner-decided 2026-09-30 (not released)
+## Amendment, 2026-09-30 — Idle, House and the age off the row, the first tip reworded; the house site chooser folds while the land is off the screen; the phone's column stops above a tip — owner-decided 2026-09-30 (not released)
 
 Found by the browser proofs on the release candidate (HANDOFF.md, *Red proofs on the release candidate*) and decided by the owner
 the same day, by multiple choice.
@@ -2038,14 +2038,28 @@ the same day, by multiple choice.
     the sliders).
   - The row's tools are a baby's short word, *Auto* and the star, on one line (`.panel-tools` does not wrap). Summed from the parts
     measured on the page: the four-person family's widest row is 295 px, a family of twenty's (*daughter, 12*, *Lavinia*) 299 px, in
-    a column of 300. **Not every name is whole**: beside the longest role and age a name of more than about five letters still
-    scrolls inside its box (the family-commands proof's family of twenty at 1440x950: *Daughter, 20* *Pruden…*, *Minerv…*; the
-    story-cards proof's *Daughter, 15* *Ramon…*); the row is one line and nothing is cut but the name's end, which reads whole when
-    the box is focused. ceiling: the role word and the age beside the name; moving the age off the row (onto the portrait's hover,
-    or under the name) is the way out, an owner question (HANDOFF.md).
+    a column of 300. Beside the role and age, a name of more than about five letters still scrolled inside its box (*Daughter, 20*
+    *Pruden…*, *Minerv…*; *Daughter, 15* *Ramon…*), until the next answer.
   - `test:going` holds every row on one line inside the column with its name whole at 1366x768, 1024x768 and 1024x600;
     `test:family-twenty` holds the twenty rows the same way at 1366x768, 1440x950 and 1024x768, and the phone's open row. Both fail
     on the crowded row put back (wrapped onto two lines, or one line with the name cut).
+- **The age is off the row** (owner, 2026-09-30: *"Move age off the row"*). The row says the role alone (*Daughter*); the age is
+  on the portrait's hover (*Prudence · daughter, 20*) and its spoken label, and in the family book, as it was. The role word stays:
+  it fits. Measured in Chrome with the row's own type, the room a name has in the 19rem column with *Auto* and the star beside it
+  is **the same at 1440x950, 1366x768, 1024x768 and 1024x600** (the column is 304 px at each): a daughter's 70 px, a mother's 81,
+  a father's 87, a son's 100. Of the 161 names the game deals (every start's pools), **158 fit whole**; three do not, at any of
+  those widths: *Candelaria* (a daughter, 74 px), *Temperance* (a mother, 84) and *Encarnación* (a mother, 86). On a 400 px phone
+  the open row is wider (a father's name 132 px) and every dealt name fits. ceiling: those three, and any name a student types
+  longer than its room (up to 24 letters), scroll inside the box and read whole when it is focused; *Mother* and *Daughter* as
+  shorter words, or a smaller star, are the way out. The whole-name check now runs on the families whose names were cut:
+  `test:family-commands` (the twenty: *Prudence*, *Minerva*, *Tomasa*, *Adela*) at 1440x950, 1366x768, 1024x768 and 1024x600 and
+  the longest name opened on a phone, and `test:story-cards` (*Ramona*) at 1366x768, 1024x768 and 1024x600 (`scripts/support/
+  row-fit.mjs`). With the age put back on the row, both fail (*Ramona*: box 60 px, name 66; the twenty: *Prudence*, *Minerva*,
+  *Tomasa*, *Adela*).
+- **The first tip says what the mark means** (owner, 2026-09-30: *"Reword for the mark"*): *"Tap one of your family on the left,
+  then tap a job along the bottom to set them to it. A faded picture means nothing to do."* (public/tips.js `order`; it was
+  *"“Idle” means they have nothing to do"*, a word no row carries now). An idle person's portrait is faded and carries the idle
+  mark (`.panel-idle-mark`).
 - **The house site chooser folds while the family's land is off the screen** (owner: *"shrink it, as built"*; `foldSiteChooser` in
   `public/app.js`, read on every frame drawn from the wagon's mark the server sends). It opens by itself as the wagon comes in,
   wherever the student is looking; with the suggested places (triage 2.13) it stood 340 px tall beside the faces, over the middle of

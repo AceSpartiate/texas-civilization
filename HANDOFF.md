@@ -1,5 +1,35 @@
 # Claude handoff — Astra foundation
 
+## The age off the family's rows, and the first tip says what the faded picture means — owner-decided 2026-09-30 (not released)
+
+Branch `row-slim-2` off local `integration-2026-09-28` (8487eb7b); not pushed. The owner answered the two questions of *Idle and
+House off the family's rows* (below): **"Move age off the row"** and **"Reword for the mark"**. docs/FAMILY_PANEL.md, amendment
+2026-09-30; docs/LESSON.md §9's table.
+
+- **The row says the role alone** (*Daughter*); the age is on the portrait's hover (*Prudence · daughter, 20*) and spoken label,
+  and in the family book. The role word stays: it fits.
+- **What fits, measured** (Chrome, the row's own type, `Auto` and the star beside the name): the column is 304 px at 1440x950,
+  1366x768, 1024x768 and 1024x600 alike, so a name has the same room at each - a daughter's 70 px, a mother's 81, a father's 87, a
+  son's 100. **158 of the 161 names the game deals fit whole; three do not, at any of those widths, 1024x600 included:
+  *Candelaria* (daughter, 74 px), *Temperance* (mother, 84), *Encarnación* (mother, 86).** A 400 px phone's open row is wider (a
+  father's name 132 px) and every dealt name fits. Those three and long typed names scroll in the box (`ceiling:` in
+  public/style.css). Owner question below.
+- **The first tip**: *"Tap one of your family on the left, then tap a job along the bottom to set them to it. A faded picture means
+  nothing to do."* (public/tips.js `order`). Its read-aloud clip is spoken from the text at package time (`scripts/build-voice.mjs`).
+- **The whole-name check bites now** (`scripts/support/row-fit.mjs`): `test:family-commands` runs it on the family of twenty whose
+  names the crowded row cut (*Prudence*, *Minerva*, *Tomasa*, *Adela*) at 1440x950, 1366x768, 1024x768 and 1024x600, and opens the
+  longest name (*Feliciano*) on a 400 px phone; `test:story-cards` on *Ramona*'s family at 1366x768, 1024x768 and 1024x600.
+  **Injected the age back on the row**: `test:story-cards` fails at 1366x768 (*Ramona* under *daughter, 15*: box 60 px, name 66),
+  `test:family-commands` at 1440x950 (*Adela*, *Minerva*, *Prudence*, *Tomasa*). `test:going` and `test:family-twenty` keep theirs.
+- **Runs, twice each, all green:** `test:going`, `test:family-twenty`, `test:family-commands`, `test:story-cards`, `test:overlap`,
+  `test:family-panel`, `test:tips`. `npm test` **2013 tests, 1977 pass, 0 fail, 36 skipped**; an earlier run had one failure, the
+  save-retry timing test (*"tried again for about a third of a second"*, 1054 ms under the full suite's load), which passed three
+  times alone and in the full run after - this change touches no save.
+
+**Owner question.** Three dealt names (*Candelaria*, *Temperance*, *Encarnación*) still scroll in their box beside *Daughter* or
+*Mother*. **(a) Leave it: the name reads whole when its box is focused, and 158 of 161 fit (recommended)**; (b) take those three out
+of the pools; (c) shorten the role words to *Dau.* and *Mo.*; (d) a smaller star (26 px to 22).
+
 ## Battles, second round: the speed inside a fight, what the class view films, a hold on a man hit, dramatic smoke — owner-decided 2026-09-30 (not released)
 
 Branch `battle-cinema-2` off local `integration-2026-09-28` (6b2d19be, with `battle-cinema` merged); not pushed, nothing published.
@@ -80,7 +110,10 @@ docs/FAMILY_PANEL.md, amendment 2026-09-30.
 - **Not changed:** the tip *"“Idle” means they have nothing to do"* still names the word, now the portrait's mark (its voice
   clip is made from the text).
 
-**Owner questions.**
+**Owner questions** - answered 2026-09-30: 1 **"Move age off the row"**, 2 **"Reword for the mark"**; both built, see *The age off
+the row* above.
+
+**Owner questions (as put).**
 
 1. Names cut beside a long role and age. **(a) Move the age off the row, into the portrait's hover and the family book (recommended;
    it gives back the width of ", 20" on every row - to be measured on the page before any number of letters is promised)**; (b) shorten the role words (*Dau.*, *Son*); (c) leave it - the name

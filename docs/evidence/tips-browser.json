@@ -4,7 +4,7 @@
   "environment": "Same computer: a local classroom server and headless Chrome, 1366x768 with a keyboard and 1024x768 with a touch screen.",
   "pass": [
     "no guided start and no walk-through: the first thing said is the arrival's tip (\"Your family is on its way to its own land. When they get there, choose a house and set your family to work.\")",
-    "on the land, how to give an order: \"Tap one of your family on the left, then tap a job along the bottom to set them to it. “Idle” means they have nothing to do.\"",
+    "on the land, how to give an order: \"Tap one of your family on the left, then tap a job along the bottom to set them to it. A faded picture means nothing to do.\"",
     "the house: \"Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.\" - and with the plan open, the tip waited behind it and came back when it closed",
     "the field: \"To farm, clear ground, then tap a plot on the map or press “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.\"; going to town: \"“Go to town to trade” sends someone to the store to buy and sell. They are away from the farm for the trip, and coin spent is gone from your score.\"",
     "the call's tip is on the screen: \"Your settlement is calling for men: press the “!” and tick who goes. Each one leaves the farm with powder and the rifle. No answer in about 5 minutes, and the call closes.\" - above the bar, clear of the column and the guided start, 14px, and a click on its words reaches the map",
@@ -82,7 +82,7 @@
         "“Go to town to trade” sends someone to the store to buy and sell. They are away from the farm for the trip, and coin spent is gone from your score.",
         "To farm, clear ground, then tap a plot on the map or press “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.",
         "Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.",
-        "Tap one of your family on the left, then tap a job along the bottom to set them to it. “Idle” means they have nothing to do.",
+        "Tap one of your family on the left, then tap a job along the bottom to set them to it. A faded picture means nothing to do.",
         "Your family is on its way to its own land. When they get there, choose a house and set your family to work."
       ],
       "covers": [],
@@ -229,7 +229,7 @@
         "To farm, clear ground, then tap a plot on the map or press “Plant the field”: corn feeds the family, cotton sells. Planting uses seed, and the crop takes time to ripen.",
         "Press “Choose a house”, then set people to “Work on the house”. Where it needs logs, put one on “Fell trees” and turn on auto. Until it stands, the family camps.",
         "Your family is told to leave. Press the “!”, choose what to load and press “Leave for the east”, or choose to stay. No answer in time, and it leaves in a rush and the house is lost.",
-        "Tap one of your family on the left, then tap a job along the bottom to set them to it. “Idle” means they have nothing to do.",
+        "Tap one of your family on the left, then tap a job along the bottom to set them to it. A faded picture means nothing to do.",
         "A grown man can enlist, join a fight or go vote from his actions. He is gone from the farm until you “Send for” him, and a soldier takes the family’s rifle."
       ],
       "covers": [],
