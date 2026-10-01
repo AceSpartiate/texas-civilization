@@ -63,14 +63,18 @@ const measure = page => page.evaluate(() => {
     const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
     return !(hit && (hit === button || button.contains(hit)));
   }).map(button => button.id || button.dataset.way || button.textContent);
-  // Every row inside the column it is drawn in, and every name given room to be read (the going proof, 2026-09-30: after the 12 px
-  // type a row with Idle, House, Auto and the star ran 11 px past the column, which cut the star and squeezed the name to nothing).
+  // Every row on one line inside the column it is drawn in, with the whole name in its box (owner, 2026-09-30, "Move Idle and
+  // House off"): after the 12 px type a row with Idle, House, Auto and the star ran 11 px past the 19rem column, which cut the star
+  // and squeezed the name to nothing. One line: the tools stand level with the name. Whole: the name's box scrolls nothing.
   const panel = document.querySelector('#family-panel').getBoundingClientRect();
   const rows = [...document.querySelectorAll('#family-rows .panel-row')].map(row => {
-    const r = row.getBoundingClientRect(), name = row.querySelector('.panel-name')?.getBoundingClientRect();
-    return { id: row.dataset.entityId, right: Math.round(r.right), name: name ? Math.round(name.width) : null };
+    const r = row.getBoundingClientRect(), input = row.querySelector('.panel-name'), name = input?.getBoundingClientRect();
+    const tools = [...row.querySelectorAll('.panel-tools > *')].filter(one => one.getClientRects().length).map(one => one.getBoundingClientRect());
+    const middle = name ? (name.top + name.bottom) / 2 : 0;
+    return { id: row.dataset.entityId, right: Math.round(r.right), name: input?.value ?? null, box: input?.clientWidth ?? null, needs: input?.scrollWidth ?? null,
+      oneLine: tools.every(one => one.top <= middle && one.bottom >= middle) };
   });
-  const rowsOut = rows.filter(row => row.right > panel.right + 1 || (row.name !== null && row.name < 48));
+  const rowsOut = rows.filter(row => row.right > panel.right + 1 || !row.oneLine || (row.name !== null && row.needs > row.box + 1));
   return { screen: { w: innerWidth, h: innerHeight }, going, fits: Boolean(going) && going.x >= 0 && going.y >= 0 && going.r <= innerWidth && going.b <= innerHeight, overColumn: overlap(column), bar, covered, panelRight: Math.round(panel.right), rowsOut };
 });
 const press = async (page, id, key) => {
@@ -172,21 +176,29 @@ try {
   const shut1366 = await measure(page);
   observed.taken1366 = shut1366;
   assert.ok(shut1366.fits && !shut1366.covered.length && shut1366.overColumn === 0, `at 1366x768 the chooser does not fit or is covered: ${JSON.stringify(shut1366)}`);
-  assert.deepEqual(shut1366.rowsOut, [], `at 1366x768 a row of the family runs past its column or has no room for the name (column ends at ${shut1366.panelRight} px)`);
+  assert.deepEqual(shut1366.rowsOut, [], `at 1366x768 a row of the family runs past its column, onto a second line, or cuts its name (column ends at ${shut1366.panelRight} px)`);
   await page.setViewportSize({ width: 1024, height: 768 });
   await page.waitForTimeout(400);
   await page.screenshot({ path: join(SHOTS, 'going-taken-1024.png') });
   const narrow = await measure(page);
   observed.taken1024 = narrow;
   assert.ok(narrow.fits && !narrow.covered.length && narrow.overColumn === 0, `at 1024x768 the chooser does not fit or is covered: ${JSON.stringify(narrow)}`);
-  assert.deepEqual(narrow.rowsOut, [], `at 1024x768 a row of the family runs past its column or has no room for the name (column ends at ${narrow.panelRight} px)`);
+  assert.deepEqual(narrow.rowsOut, [], `at 1024x768 a row of the family runs past its column, onto a second line, or cuts its name (column ends at ${narrow.panelRight} px)`);
+  // And the short Chromebook screen, where the column is as wide and the chooser has the least height.
+  await page.setViewportSize({ width: 1024, height: 600 });
+  await page.waitForTimeout(400);
+  await page.screenshot({ path: join(SHOTS, 'going-taken-1024x600.png') });
+  const short = await measure(page);
+  observed.taken1024x600 = short;
+  assert.ok(short.fits && !short.covered.length && short.overColumn === 0, `at 1024x600 the chooser does not fit or is covered: ${JSON.stringify(short)}`);
+  assert.deepEqual(short.rowsOut, [], `at 1024x600 a row of the family runs past its column, onto a second line, or cuts its name (column ends at ${short.panelRight} px)`);
   await page.setViewportSize({ width: 1366, height: 768 });
   await page.locator('#going [data-way="foot"]').focus();
   await page.keyboard.press('Escape');
   await page.locator('#going').waitFor({ state: 'hidden', timeout: 10000 });
   await page.waitForTimeout(600);
   assert.equal(world().entities[driver.id].chore, null, 'Escape sent them anyway');
-  ok(`buying furniture has two ways open and asks, with the horse shut ("${shutHorse.why}"); it fits at 1366x768 (${shut1366.going.w}x${shut1366.going.h}) and 1024x768 (${narrow.going.w}x${narrow.going.h}); Escape sends nobody`);
+  ok(`buying furniture has two ways open and asks, with the horse shut ("${shutHorse.why}"); it fits at 1366x768 (${shut1366.going.w}x${shut1366.going.h}), 1024x768 (${narrow.going.w}x${narrow.going.h}) and 1024x600 (${short.going.w}x${short.going.h}), every row of the family on one line in a ${shut1366.panelRight - 12} px column with its name whole; Escape sends nobody`);
   await press(page, driver.id, 'buy-furniture');
   await page.locator('#going [data-way="wagon"]').click();
   await page.locator('#going-send').click();

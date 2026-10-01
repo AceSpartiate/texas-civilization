@@ -48,6 +48,7 @@ const LAYER = 'A full-view light layer the renderer lays over the ground and fig
 const CAST = '`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl`';
 const R = {
   hunger: "Request 2026-09-30 — the hunger mark and the food gauge's sack",
+  goInside: 'Request 2026-09-30 — the House icon on the bar',
   work: 'Request 2026-09-28 — people at work',
   ambient: 'Request 2026-09-28 — ambient life',
   help: 'Request 2026-09-28 — the oldest child going for help',
@@ -231,6 +232,8 @@ export const ITEMS = [
     frames: 'rest and recoil, both facings', size: PROP + ' (the field guns\' scale)', standIn: 'the reusable field-gun art and existing crews', kind: 'library', plugs: '`drawGun` in `public/battle-view.js`', status: 'open', research: 'which guns stood where (docs/ALAMO_LAYOUT.md); interpretive silhouettes' },
   { id: 'C20', area: 'C', priority: 2, request: R.starts, item: 'item 4', deliver: '`icon-join-seguin` (a Tejano horseman in a wide sombrero with a lance or a rifle, riding to join a line)', names: ['icon-join-seguin'],
     frames: '1', size: ICON, standIn: '`icon-join-houston`, the joining of Houston’s army, which it is', kind: 'library', plugs: '`PANEL_ICONS` in `public/family-panel.js`', status: 'open' },
+  { id: 'C21', area: 'C', priority: 2, request: R.goInside, item: 'the icon', deliver: '`icon-go-inside` (the cabin’s open door with the hearth’s light inside, a chair or a chest by it: going in to set out the rooms, not raising the house)', names: ['icon-go-inside'],
+    frames: '1', size: ICON, standIn: '`icon-build-house`, the house the family raises', kind: 'library', plugs: '`PANEL_ICONS` in `public/family-panel.js`', status: 'open' },
 
   // ---------------------------------------------------------------- D: riders, horses, wagons, carreta, ferry, steamboat
   { id: 'D1', area: 'D', priority: 1, request: R.cow, item: 'item 1', deliver: '`milk-cow-walk-e` (4), `milk-cow-walk-n`, `milk-cow-walk-s`, `milk-cow-graze` (2): a gentle dairy cow of the 1830s with a rope trailing from her horns', names: ['milk-cow-*'],

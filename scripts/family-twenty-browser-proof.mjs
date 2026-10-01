@@ -194,9 +194,22 @@ try {
   for (const size of [{ width: 1366, height: 768 }, { width: 1440, height: 950 }, { width: 1024, height: 768 }]) {
     const clear = await barClear(size);
     measured[`bar-${size.width}x${size.height}`] = clear;
+    // Twenty rows, each on one line inside the column with the whole name in its box (owner, 2026-09-30, "Move Idle and House
+    // off": the role and age, the name, a baby's word, Auto and the star - "daughter, 12", "Lavinia" - in the 19rem column).
+    const rowsOut = await page.evaluate(() => {
+      const panel = document.querySelector('#family-panel').getBoundingClientRect();
+      return [...document.querySelectorAll('#family-rows .panel-row')].map(row => {
+        const input = row.querySelector('.panel-name'), name = input.getBoundingClientRect(), middle = (name.top + name.bottom) / 2;
+        const tools = [...row.querySelectorAll('.panel-tools > *')].filter(one => one.getClientRects().length).map(one => one.getBoundingClientRect());
+        return { id: row.dataset.entityId, label: row.querySelector('.panel-label')?.textContent, name: input.value, right: Math.round(row.getBoundingClientRect().right), column: Math.round(panel.right),
+          oneLine: tools.every(one => one.top <= middle && one.bottom >= middle), box: input.clientWidth, needs: input.scrollWidth };
+      }).filter(row => row.right > row.column + 1 || !row.oneLine || row.needs > row.box + 1);
+    });
+    assert.deepEqual(rowsOut, [], `at ${size.width} by ${size.height} a row of twenty runs past the column, onto a second line, or cuts its name`);
     await page.screenshot({ path: `test-results/family-twenty-bar-${size.width}.png` });
     assert.ok(!clear.overlapsBar, `at ${size.width} by ${size.height} the panel runs down under the ability bar: ${JSON.stringify(clear)}`);
     assert.ok(clear.lastOnTop, `at ${size.width} by ${size.height} the youngest child's portrait is covered by ${clear.covering}`);
+    ok(`with the class running at ${size.width} by ${size.height}, every one of the twenty rows stands on one line in the column with its name whole`);
     ok(`with the class running at ${size.width} by ${size.height}, the panel ends at ${clear.panelBottom} px above the ability bar at ${clear.barTop} px, and the youngest child's portrait can be pressed`);
     const words = await babyWords();
     measured[`baby-words-${size.width}x${size.height}`] = words;
@@ -249,6 +262,19 @@ try {
   await small.screenshot({ path: 'test-results/family-twenty-phone-last.png' });
   for (const one of phoneChecks) assert.ok(one.held, `on a 400 by 800 phone: ${one.what}`);
   ok(`on a 400 by 800 phone all six hold: ${phoneChecks.map(one => one.what).join('; ')}`);
+  // The open row on one line inside the column with the name whole (owner, 2026-09-30, "Move Idle and House off": the row keeps to
+  // its column with only a baby's word, Auto and the star beside the name).
+  const openRow = await small.evaluate(() => {
+    const panel = document.querySelector('#family-panel').getBoundingClientRect();
+    return [...document.querySelectorAll('#family-rows .panel-row[data-expanded=true]')].map(row => {
+      const input = row.querySelector('.panel-name'), name = input.getBoundingClientRect(), middle = (name.top + name.bottom) / 2;
+      const tools = [...row.querySelectorAll('.panel-tools > *')].filter(one => one.getClientRects().length).map(one => one.getBoundingClientRect());
+      return { id: row.dataset.entityId, name: input.value, inside: row.getBoundingClientRect().right <= Math.min(panel.right, innerWidth) + 1, oneLine: tools.every(one => one.top <= middle && one.bottom >= middle), whole: input.scrollWidth <= input.clientWidth + 1 };
+    });
+  });
+  measured.phoneOpenRow = openRow;
+  assert.ok(openRow.length && openRow.every(one => one.inside && one.oneLine && one.whole), `on a 400 by 800 phone the open row runs out, wraps or cuts its name: ${JSON.stringify(openRow)}`);
+  ok(`on a 400 by 800 phone the open row (${openRow.map(one => one.name).join(', ')}) stands on one line inside the column with the name whole`);
 
   assert.deepEqual(errors, [], `page errors: ${errors.join('; ')}`);
   ok('no page error in either');

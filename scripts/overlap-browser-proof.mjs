@@ -397,7 +397,8 @@ try {
     try {
       const { page, errors: pageErrors, context } = await openClass(room.app, browser, STUDENT_SIZES[0], room);
       const asked = await urgentUp(page);
-      const house = page.locator('.panel-house:not([hidden])').first();
+      // House is the last icon of the bar (owner, 2026-09-30, "Move Idle and House off").
+      const house = page.locator('.panel-row[data-focused=true] .panel-icon[data-key="go-inside"]').first();
       if (asked && await house.isVisible().catch(() => false)) {
         await house.click();
         await page.locator('#interior').waitFor({ state: 'visible', timeout: 10000 }).catch(() => {});
@@ -407,7 +408,7 @@ try {
         await page.waitForFunction(() => window.__snapshot?.world.status === 'paused', null, { timeout: 15000 }).catch(() => {});
         if (await page.locator('#interior').isVisible() && await urgentUp(page)) await walk(page, 'rooms-asked', { sizes: [...STUDENT_SIZES, PHONE], furniture: STUDENT_FURNITURE, expect: ['inside the house', 'messages'] });
         else notReached.push('student rooms-asked: the rooms or the question were gone before they were measured');
-      } else notReached.push(`student rooms-asked: ${asked ? 'no House on the main person\'s row' : 'no question that will not wait reached the family'}`);
+      } else notReached.push(`student rooms-asked: ${asked ? 'no House on the main person\'s bar' : 'no question that will not wait reached the family'}`);
       errors.push(...pageErrors);
       await context.close();
     } finally { await room.app.close(); }

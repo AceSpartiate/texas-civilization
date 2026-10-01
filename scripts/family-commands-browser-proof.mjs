@@ -306,10 +306,14 @@ try {
   assert.deepEqual(idleLeft.filter(id => stillAtIt.includes(id)), [], `shown idle while at work: ${idleLeft}`);
   for (const id of stillAtIt) assert.ok(busyPanel.find(row => row.id === id).active.length, `${id} is at work and nothing glows`);
   // Read in one go, in the page: somebody finishing their work between two reads would be a difference that says nothing.
-  // Every row the panel calls idle says 'Idle' on it, and no row says it that the panel does not.
-  const idleRows = await page.evaluate(() => [...document.querySelectorAll('.panel-row')].map(row => ({
-    id: row.dataset.entityId, idle: row.dataset.idle === 'true', says: !row.querySelector('.panel-idle')?.hidden })));
-  assert.deepEqual(idleRows.filter(row => row.idle !== row.says), [], 'a row the panel calls idle does not say so');
+  // Every row the panel calls idle carries the idle mark on its portrait, and no row carries it that the panel does not. The word
+  // "Idle" is on no row (owner, 2026-09-30, "Move Idle and House off": the portrait's mark says it).
+  const idleRows = await page.evaluate(() => [...document.querySelectorAll('.panel-row')].map(row => {
+    const mark = row.querySelector('.panel-idle-mark');
+    return { id: row.dataset.entityId, idle: row.dataset.idle === 'true', says: Boolean(mark) && getComputedStyle(mark).display !== 'none', word: /Idle/i.test(row.querySelector('.panel-tools')?.textContent || '') };
+  }));
+  assert.deepEqual(idleRows.filter(row => row.idle !== row.says), [], 'a row the panel calls idle does not say so on its portrait');
+  assert.deepEqual(idleRows.filter(row => row.word).map(row => row.id), [], 'a row still carries the word Idle');
   await shot(page, 'everyone-busy');
   ok(`${presses} presses (${refusals.length} refused in the server's words and another tried) set ${orderable.length} of ${busyPanel.length} people to work without finding anybody on the map; each icon glowed when the server took it, and the ${stillAtIt.length} still at it are not idle (${plan.map(e => `${e.id.split('-').pop()}: ${e.key}`).join(', ')})`);
   const unorderable = busyPanel.filter(row => !orderable.includes(row.id));
@@ -394,12 +398,13 @@ try {
   }
   const idleShown = await page.evaluate(id => {
     const row = document.querySelector(`.panel-row[data-entity-id="${id}"]`);
-    return { tag: !row.querySelector('.panel-idle').hidden && getComputedStyle(row.querySelector('.panel-idle')).display !== 'none', mark: getComputedStyle(row.querySelector('.panel-idle-mark')).display };
+    // The portrait's mark says it, and the row carries no word for it (owner, 2026-09-30, "Move Idle and House off").
+    return { word: /Idle/i.test(row.querySelector('.panel-tools')?.textContent || ''), mark: getComputedStyle(row.querySelector('.panel-idle-mark')).display };
   }, toStop);
-  assert.ok(idleShown.tag && idleShown.mark !== 'none', `idle is not visible: ${JSON.stringify(idleShown)}`);
+  assert.ok(!idleShown.word && idleShown.mark !== 'none', `idle is not shown on the portrait alone: ${JSON.stringify(idleShown)}`);
   measured.idle = { calledOff: toStop, ...idleShown };
   await shot(page, 'idle');
-  ok(`${toStop} is left standing about (${measured.idleHow}), and the row says "Idle" and marks the portrait`);
+  ok(`${toStop} is left standing about (${measured.idleHow}), and the portrait carries the idle mark, the row no word`);
 
   // -------------------------------------------------------------------------------------------- work that stops to ask
   assert.ok(asker, 'nobody could be sent to the carpenter, so nothing will stop to ask');
@@ -531,14 +536,17 @@ try {
   assert.match(refusedWords, /Only your main person/, refusedWords);
   measured.mainPerson = { mother, principalJourneys, motherJourneys: journeysOpen(mother), rows: rowsNow, refused: refusedWords };
   ok(`the star makes ${mother} the main person on the server (household.mainId), the journeys, the yard and rest move to her row and off the principal's, and the principal sent to town is refused: "${refusedWords}"`);
-  // The rooms are opened from the main person's row.
-  await page.locator(`.panel-row[data-entity-id="${mother}"] .panel-house`).waitFor({ state: 'visible' });
-  assert.equal(await page.locator('.panel-house:not([hidden])').count(), 1, 'a House button on more than the main person');
-  await page.locator(`.panel-row[data-entity-id="${mother}"] .panel-house`).click();
+  // The rooms are opened from the bar (owner, 2026-09-30, "Move Idle and House off": it was a button on the main person's row).
+  const houseIcon = page.locator(`.panel-row[data-entity-id="${mother}"] .panel-icon[data-key="go-inside"]`);
+  await houseIcon.waitFor({ state: 'visible' });
+  assert.equal(await page.locator('.panel-icon[data-key="go-inside"]').evaluateAll(all => all.filter(one => one.getClientRects().length).length), 1, 'House is on more than the one bar shown');
+  assert.equal(await page.locator('.panel-tools button:not(.panel-auto):not(.panel-focus)').count(), 0, 'a row still carries a button besides Auto and the star');
+  await shot(page, 'house-on-bar');
+  await houseIcon.click();
   await page.locator('#interior').waitFor({ state: 'visible' });
   await shot(page, 'main-person-house');
   await page.locator('#interior-close').click();
-  ok(`${mother}'s row alone has House, which opens the rooms`);
+  ok(`House is the last icon of ${mother}'s bar, and opens the rooms; no row carries it`);
   // Kept by the server through a reload, and with nobody chosen it is they who are chosen.
   await page.reload();
   await page.waitForFunction(() => window.__snapshot?.world.householdId === 'hh-1');
