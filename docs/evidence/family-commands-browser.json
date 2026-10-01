@@ -1,6 +1,6 @@
 {
   "record": "family-commands-browser",
-  "date": "2026-09-30",
+  "date": "2026-10-01",
   "verdict": "PASS",
   "browser": "153.0.8010.53",
   "task": "docs/FAMILY_PANEL.md §11: orders from the panel in a press each, idle shown, an \"!\" for every person something waits on that takes the camera there and opens it, a main person held by the server (set-main) whose row alone has the journeys, and one menu for a call with a tick per person who may answer.",
@@ -15,19 +15,19 @@
     "letting the rider ride on clears the \"!\"",
     "a call to the family marks the 8 people the server lets answer it; pressing hh-1-child-6's \"!\" opened the one menu for it (\"A neighbour is at the door. They are carrying food to the people gathering near Gonzales, and ask whether somebody from your family can help take it.\") with a row each, the keyboard on hh-1-parent-1's",
     "answering from the menu (nobody goes) clears the \"!\" from everybody who could have answered, and the menu goes",
-    "11 presses (0 refused in the server's words and another tried) set 11 of 20 people to work without finding anybody on the map; each icon glowed when the server took it, and the 9 still at it are not idle (1: work, 1: buy-furniture, 2: make-furniture, 3: plant-field, 4: practise-shooting, 5: make-furniture, 6: make-furniture, 7: hunt-timber, 8: make-furniture, 9: buy-furniture, 10: buy-furniture)",
+    "11 presses (0 refused in the server's words and another tried) set 11 of 20 people to work without finding anybody on the map; each icon glowed when the server took it, and the 9 still at it are not idle (1: work, 1: buy-furniture, 2: make-furniture, 3: plant-field, 4: practise-shooting, 5: make-furniture, 6: hunt-timber, 7: make-furniture, 8: make-furniture, 9: buy-furniture, 10: buy-furniture)",
     "of the 9 not given work, 6 are shown idle (something is open to them) and 3 are not (too young to be sent)",
     "hh-1-child-2, at make-furniture, has no refused order drawn; a stale \"fish-the-water\" put back on the bar and pressed is refused by the server, in its words: \"Minerva Proofwright is already deciding what to make.\", and the work goes on",
-    "hh-1-child-3 is left standing about (their work finished), and the row says \"Idle\" and marks the portrait",
+    "hh-1-child-3 is left standing about (their work finished), and the portrait carries the idle mark, the row no word",
     "hh-1-child-1's work stopped to ask (\"The carpenter has pieces made. Jasper Proofwright can pay in coin or in food.\"): the \"!\" took the camera to them and opened the question on their card, the keyboard on \"Buy a bedstead for coin\"",
     "answering it clears the \"!\"",
     "an offer from the next family marks hh-1-parent-1; the \"!\" took the camera to them and opened the offer (\"Trinidad of Trinidad's family offers 1 food for 1 seed.\"), the keyboard on Accept",
     "declining it clears the \"!\"",
     "the star makes hh-1-parent-2 the main person on the server (household.mainId), the journeys, the yard and rest move to her row and off the principal's, and the principal sent to town is refused: \"Only your main person can be asked that. Choose them with the star on their row.\"",
-    "hh-1-parent-2's row alone has House, which opens the rooms",
+    "House is the last icon of hh-1-parent-2's bar, and opens the rooms; no row carries it",
     "after a reload the same person is starred, and with nobody chosen it is they who are chosen",
     "pressing the main person's star from Gonzales brings the camera back to them (0.000 mi); a double press on another's portrait makes hh-1-parent-1 the main person, as the star does",
-    "over 11 ticks the panel added 6 nodes and changed 398 attributes across 20 rows: kept, not rebuilt",
+    "over 11 ticks the panel added 8 nodes and changed 393 attributes across 20 rows: kept, not rebuilt",
     "at 400 px the page does not scroll sideways, the \"!\" is on screen and big enough to press, and pressing it opens the offer on the docked card",
     "the settlement's call marks 2 people (hh-1-thomas, hh-1-elena), and 2 of them may turn out",
     "at 400 px the call's menu opens from an \"!\" on screen with 2 rows and its confirm within reach, and closes",
@@ -188,12 +188,12 @@
         },
         {
           "id": "hh-1-child-6",
-          "key": "make-furniture",
+          "key": "hunt-timber",
           "glowed": true
         },
         {
           "id": "hh-1-child-7",
-          "key": "hunt-timber",
+          "key": "make-furniture",
           "glowed": true
         },
         {
@@ -287,19 +287,19 @@
           "id": "hh-1-child-6",
           "role": "daughter",
           "active": [
-            "make-furniture"
+            "hunt-timber"
           ],
           "idle": false,
-          "need": null
+          "need": "asking"
         },
         {
           "id": "hh-1-child-7",
           "role": "daughter",
           "active": [
-            "hunt-timber"
+            "make-furniture"
           ],
           "idle": false,
-          "need": "asking"
+          "need": null
         },
         {
           "id": "hh-1-child-8",
@@ -395,7 +395,7 @@
     "idleHow": "their work finished",
     "idle": {
       "calledOff": "hh-1-child-3",
-      "tag": true,
+      "word": false,
       "mark": "block"
     },
     "asking": {
@@ -426,7 +426,8 @@
           "travel-gonzales",
           "visit",
           "work",
-          "rest"
+          "rest",
+          "go-inside"
         ],
         "hh-1-parent-1": []
       },
@@ -434,8 +435,8 @@
     },
     "churn": {
       "ticks": 11,
-      "nodesAdded": 6,
-      "attributeChanges": 398,
+      "nodesAdded": 8,
+      "attributeChanges": 393,
       "rows": 20
     },
     "phone": {
@@ -489,6 +490,7 @@
     "docs/evidence/family-commands-asking-opened.png",
     "docs/evidence/family-commands-offer-mark.png",
     "docs/evidence/family-commands-offer-opened.png",
+    "docs/evidence/family-commands-house-on-bar.png",
     "docs/evidence/family-commands-main-person-house.png",
     "docs/evidence/family-commands-main-person.png",
     "docs/evidence/family-commands-phone.png",

@@ -146,6 +146,10 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
   // Fetching logs from the timber uses registered `icon-fetch-logs`; the glyph is a load fallback.
   ['fetch-logs', { glyph: 'fetch-logs' }],
   ['make-carreta', { sprite: 'icon-make-carreta' }],
+  // The house's rooms on the bar (owner, 2026-09-30, "Move Idle and House off"; public/app.js `HOUSE_ICON`). stand-in:
+  // docs/ART_REQUESTS.md, request 2026-09-30 "the House icon on the bar" - `icon-go-inside`; until it is drawn, the house the family
+  // raises, which it is.
+  ['go-inside', { sprite: 'icon-build-house' }],
   // The old walk to the shops, for a class saved in the middle of it: the same picture as going to town to trade.
   ['visit-shop-street', { sprite: 'icon-visit-shop' }],
   ['take-small-game', { sprite: 'icon-take-small-game' }], ['fish-the-water', { sprite: 'icon-fish-the-water' }],

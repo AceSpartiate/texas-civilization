@@ -2016,26 +2016,45 @@ sick) with the real minute counted down, and the story card (*No food*, accent `
 of the days the food lasts, and the line of seed, powder, coin and the field lights each part by where it stands. No new sentence
 on the row. Proof: `npm run test:hunger`.
 
-## Amendment, 2026-09-30 — a row's tools wrap inside the column; the house site chooser folds while the land is off the screen (not released)
+## Amendment, 2026-09-30 — Idle and House off the row; the house site chooser folds while the land is off the screen; the phone's column stops above a tip — owner-decided 2026-09-30 (not released)
 
-Found by the browser proofs on the release candidate, not an owner decision; recorded in HANDOFF.md, *Red proofs on the release
-candidate*.
+Found by the browser proofs on the release candidate (HANDOFF.md, *Red proofs on the release candidate*) and decided by the owner
+the same day, by multiple choice.
 
-- **A row fits its column.** Since the 12 px type of 2026-09-29 (the amendment above) a row with *Idle*, *House*, *Auto* and the
-  star was 11 px wider than the 19rem column at every screen size: the column cut the star in half, the name was squeezed to
-  nothing, and at 1024x768 the travel chooser stood over the row's end (`test:going`). The row's tools (`.panel-tools`) now wrap
-  onto a second line inside the row, and the name keeps at least 4.5rem (`.panel-body`'s middle column). A row with all four
-  tools is one line taller; a row with *Auto* and the star is as it was. `test:going` holds every row inside the column with room
-  for the name at 1366x768 and 1024x768.
-- **The house site chooser folds while the family's land is off the screen** (`foldSiteChooser` in `public/app.js`, read on every
-  frame drawn from the wagon's mark the server sends). It opens by itself as the wagon comes in, wherever the student is looking;
-  with the suggested places (triage 2.13) it stood 340 px tall beside the faces, over the middle of the map, and a student
-  watching Gonzales could not click the cannon's men under it (`test:gonzales-town`). Folded, it is its title and *Your land is
-  not on the screen.* with **Go to your land** (the map's *Land*), 118 px tall; with the land back on the screen it opens again
-  with its words and places.
-- **On a phone the column stops above a standing tip** (`fitColumn`). The tip stands the screen's width just above the bar there,
-  and covered the column's last 90 px: the youngest of twenty could not be scrolled out from under it. The family-twenty gate now
-  counts the tip, which takes no clicks and was looked through, as covering.
+- **The row is one line in the 19rem column, with Idle and House off it** (owner: *"Move Idle and House off"*). Since the 12 px type
+  of 2026-09-29 (the amendment above) a row with *Idle*, *House*, *Auto* and the star needed 393 px in a 304 px column: the column cut
+  the star in half, the name was squeezed to 10 px, and at 1024x768 the travel chooser stood over the row's end (`test:going`).
+  Asked first, the owner chose *"Widen the column"*; shown that this cost 96 px of map, not the 16 px first quoted, he chose this.
+  - **Idle** is the portrait's own mark (`.panel-idle-mark`, the drawn `mark-idle`, or the small *idle* tag on the face's corner until it loads),
+    as it already was; the word chip beside the name is gone.
+  - **House** - the rooms inside, where the furniture and the goods are set out - is the **last icon of the action bar**, *House*,
+    on whoever's bar is shown, once the family has a house (`HOUSE_ICON` in `public/app.js`; it sends nothing, opens the rooms as
+    tapping the house on the map does, and is never shut or glowing). It was a plain text button on the main person's row with no
+    glow of its own. **The house's highlighted prompt is unchanged**: *Choose your house*, the moss-green story card at the head of
+    the column that glows until a house is chosen and stays as *Your house* to open the plan again (§20b, *The house's card*).
+    Its picture is a stand-in (`icon-build-house`; docs/ART_REQUESTS.md, request 2026-09-30, *the House icon on the bar*).
+    One icon more can make a bar of seventeen: with the sound's sliders or the tips list open at 1024 wide, such a bar takes a third
+    row of columns at least 55 px wide rather than run under them (found by `test:overlap`, student sound-panel 1024x600: 27 px under
+    the sliders).
+  - The row's tools are a baby's short word, *Auto* and the star, on one line (`.panel-tools` does not wrap). Summed from the parts
+    measured on the page: the four-person family's widest row is 295 px, a family of twenty's (*daughter, 12*, *Lavinia*) 299 px, in
+    a column of 300. **Not every name is whole**: beside the longest role and age a name of more than about five letters still
+    scrolls inside its box (the family-commands proof's family of twenty at 1440x950: *Daughter, 20* *Pruden…*, *Minerv…*; the
+    story-cards proof's *Daughter, 15* *Ramon…*); the row is one line and nothing is cut but the name's end, which reads whole when
+    the box is focused. ceiling: the role word and the age beside the name; moving the age off the row (onto the portrait's hover,
+    or under the name) is the way out, an owner question (HANDOFF.md).
+  - `test:going` holds every row on one line inside the column with its name whole at 1366x768, 1024x768 and 1024x600;
+    `test:family-twenty` holds the twenty rows the same way at 1366x768, 1440x950 and 1024x768, and the phone's open row. Both fail
+    on the crowded row put back (wrapped onto two lines, or one line with the name cut).
+- **The house site chooser folds while the family's land is off the screen** (owner: *"shrink it, as built"*; `foldSiteChooser` in
+  `public/app.js`, read on every frame drawn from the wagon's mark the server sends). It opens by itself as the wagon comes in,
+  wherever the student is looking; with the suggested places (triage 2.13) it stood 340 px tall beside the faces, over the middle of
+  the map, and a student watching Gonzales could not click the cannon's men under it (`test:gonzales-town`). Folded, it is its title
+  and *Your land is not on the screen.* with **Go to your land** (the map's *Land*), 118 px tall; with the land back on the screen it
+  opens again with its words and places.
+- **On a phone the column stops above a standing tip** (owner: *"keep it, as built"*; `fitColumn`). The tip stands the screen's
+  width just above the bar there, and covered the column's last 90 px: the youngest of twenty could not be scrolled out from under
+  it. The family-twenty gate counts the tip, which takes no clicks and was looked through, as covering.
 
 ## 23. A goal kept on the bar, greyed, with what it wants; and a field clicked — owner-decided 2026-09-30 (not released)
 

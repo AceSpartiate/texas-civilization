@@ -898,13 +898,13 @@ body[data-finale-controls="open"] #hud-right{z-index:61;pointer-events:auto;back
 .panel-idle-mark[data-drawn=true]{padding:0;background:transparent;width:24px;height:24px;right:-2px;bottom:-1px;filter:drop-shadow(0 0 2px #29251b)}
 .panel-row[data-idle=true] .panel-idle-mark{display:block}
 .panel-row[data-idle=true] .panel-portrait canvas{filter:saturate(.45) brightness(.92)}
-/* The row's tools wrap onto a second line rather than push the row wider than the column (the going proof, 2026-09-30): since
-   the 12 px type of 2026-09-29 (triage 2.12) a row with Idle, House, Auto and the star was 11 px wider than the 19rem column at
-   every screen size, so the column cut the star in half, the name was squeezed to nothing, and at 1024x768 the travel chooser
-   stood over the row's end. The name keeps room for itself (`.panel-body`'s middle column), and the tools take what is left. */
-.panel-tools{grid-row:1;grid-column:3;display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:3px 4px;justify-self:end;min-width:0}
-.panel-idle{font:600 12px/1 system-ui;letter-spacing:.06em;text-transform:uppercase;color:#3b3427;background:#e8c46a;border-radius:9px;padding:3px 6px}
-.panel-house,.panel-focus{min-height:0;height:24px;padding:0 7px;border-radius:5px;border:1px solid #b09a6d;background:#f3ead2;color:#3b3427;font:600 12px/1 system-ui;box-shadow:none}
+/* The row's tools on one line: a baby's word, the auto switch and the star (owner, 2026-09-30, "Move Idle and House off"; the Idle
+   word is the portrait's mark, the House the bar's last icon). Since the 12 px type of 2026-09-29 a row with Idle, House, Auto and
+   the star was 393 px in this 19rem column; without the two the widest measured is under 300.
+   ceiling: beside the longest role and age ("Daughter, 20") a name of more than about five letters scrolls in its box; moving the
+   age off the row is the way out (docs/FAMILY_PANEL.md, amendment 2026-09-30). */
+.panel-tools{grid-row:1;grid-column:3;display:flex;flex-wrap:nowrap;align-items:center;gap:4px;justify-self:end}
+.panel-focus{min-height:0;height:24px;padding:0 7px;border-radius:5px;border:1px solid #b09a6d;background:#f3ead2;color:#3b3427;font:600 12px/1 system-ui;box-shadow:none}
 .panel-focus{width:26px;padding:0;font-size:15px;color:#8f825b}
 .panel-focus[aria-pressed=true]{color:#c98a12;background:#fff3c4;border-color:#f0b43a}
 .panel-focus[data-drawn=true]{padding:2px}
@@ -956,7 +956,7 @@ body[data-finale-controls="open"] #hud-right{z-index:61;pointer-events:auto;back
    multiple choice: "Show a short word"; docs/CHILDREN.md §9): "napping", "crawling", "crying", "held". The sentence is its title. */
 .panel-life-word{display:none;font:600 12px/1 system-ui;letter-spacing:.04em;color:#cfd9e3;background:#33404dcc;border:1px solid #6b7c8c;border-radius:9px;padding:2px 6px;white-space:nowrap}
 #family-panel[data-tight=true] .panel-row:not([data-focused=true]) .panel-life-word:not([hidden]){display:inline-block}
-.panel-body{display:grid;grid-template-columns:auto minmax(4.5rem,1fr) auto;grid-template-rows:auto auto;align-items:center;column-gap:5px;min-width:0;margin-left:-3px;padding:2px 6px 3px 8px;background:var(--shade);border:1px solid #8f825b;border-left:none;border-radius:0 6px 6px 0}
+.panel-body{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;column-gap:5px;min-width:0;margin-left:-3px;padding:2px 6px 3px 8px;background:var(--shade);border:1px solid #8f825b;border-left:none;border-radius:0 6px 6px 0}
 .panel-label{grid-row:1;grid-column:1;font-size:12px;letter-spacing:.02em;text-transform:capitalize;color:#d8c9a2;white-space:nowrap}
 .panel-standing{grid-row:2;grid-column:1 / -1;font:italic 12px/1.2 Georgia,serif;color:#cdbb92;padding:0 1px}
 /* Why this person can do nothing at all (docs/FAMILY_PANEL.md §14, owner 2026-09-21): the server's own sentence, once,
@@ -1230,8 +1230,10 @@ body[data-creating=true] #family-roll,body[data-creating=true] #surname,body[dat
    between words keep the names to the lines they had at 10 px, and the bar a little lower than it stood. */
 .panel-row[data-focused=true] .panel-icons .panel-action-name{overflow-wrap:break-word;line-height:1.05}
 /* While the sound's sliders are open at the bottom right, the bar keeps clear of them (100vw - 528px: 496px at 1024, the width its
-   62px columns had), never narrower than those columns; it widens again when they close (the overlap proof, 1024x600). */
-@media(min-width:761px){body:has(#sound-panel:not([hidden])) .panel-row[data-focused=true] .panel-icons{width:min(calc(var(--action-columns,1) * 80px),max(calc(100vw - 528px),min(calc(var(--action-columns,1) * 62px),calc(100vw - 220px))))}}
+   62px columns had); it widens again when they close (the overlap proof, 1024x600). A bar with more icons than two rows of 62px
+   columns hold there - seventeen, since House joined the bar (owner, 2026-09-30, "Move Idle and House off") - takes a third row
+   rather than running under the sliders: as many columns as fit at 55px (eight there, as before, the 62px columns less their gaps). */
+@media(min-width:761px){body:has(#sound-panel:not([hidden])) .panel-row[data-focused=true] .panel-icons{width:min(calc(var(--action-columns,1) * 80px),calc(100vw - 528px));grid-template-columns:repeat(auto-fill,minmax(55px,1fr))}}
 .panel-icons .panel-icon{width:100%;min-width:0;aspect-ratio:auto;display:flex;flex-direction:column;align-items:center;gap:1px;padding:2px;min-height:70px;box-sizing:border-box}
 .panel-icons .panel-icon canvas{width:32px;height:32px;flex:none}
 .panel-action-name{display:block;font-size:12px;line-height:1.1;text-align:center;color:#362d20;overflow-wrap:anywhere;pointer-events:none}
@@ -1353,7 +1355,7 @@ body:has(#sound-panel:not([hidden])) #tip{display:none}
 #tips-list h2{margin:0;font-size:14px}
 #tips-list-close{min-height:36px;min-width:36px;padding:0 8px;background:#efe4c8;color:#3b3427;border-color:#b7a279;font-size:18px;line-height:1}
 #tips-list-items{margin:0;padding:8px 12px 10px 30px;overflow-y:auto;display:grid;gap:8px;font-size:13px;line-height:1.4}
-@media(min-width:761px){body:has(#tips-list:not([hidden])) .panel-row[data-focused=true] .panel-icons{width:min(calc(var(--action-columns,1) * 80px),max(calc(100vw - 552px),min(calc(var(--action-columns,1) * 62px),calc(100vw - 220px))))}}
+@media(min-width:761px){body:has(#tips-list:not([hidden])) .panel-row[data-focused=true] .panel-icons{width:min(calc(var(--action-columns,1) * 80px),calc(100vw - 552px));grid-template-columns:repeat(auto-fill,minmax(55px,1fr))}}
 body:has(#tips-list:not([hidden])) #tip{display:none}
 @media (max-width:760px){#tips-toggle{padding:7px;font-size:12px}}
 /* Coming back by name (2026-09-28, public/app.js `#away`): the same card as the family key's door. */
@@ -1455,7 +1457,7 @@ body[data-placing=true] #site-choose,body[data-placing=true] #survey-choose{max-
    `!important`, as `[hidden]` is: this is a state of the whole page, and outranks every rule that places the bar or the card. */
 #watching{margin:0;padding:7px 12px;border-radius:8px;max-width:min(19rem,calc(100vw - 24px));font-size:13px;line-height:1.35;text-align:left;box-sizing:border-box;background:#efe6cf;color:#3b3427;border:2px solid #8f825b}
 body[data-watching=true] .panel-icons,body[data-watching=true] .panel-attention,body[data-watching=true] .panel-auto,body[data-watching=true] .panel-focus,
-body[data-watching=true] .panel-house,body[data-watching=true] .panel-make-main,body[data-watching=true] #selection-actions,body[data-watching=true] #selection-work,
+body[data-watching=true] .panel-make-main,body[data-watching=true] #selection-actions,body[data-watching=true] #selection-work,
 body[data-watching=true] #selection-trade,body[data-watching=true] #selection-call,body[data-watching=true] #selection-nurse,body[data-watching=true] #selection-army,
 body[data-watching=true] #selection-flight,body[data-watching=true] #wagon-open,body[data-watching=true] #house-card,
 body[data-watching=true] #call-menu,body[data-watching=true] #encounter,body[data-watching=true] #site-choose,body[data-watching=true] #survey-choose,

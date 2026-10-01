@@ -5430,9 +5430,6 @@ function renderFamilyPanel(world) {
     }
     const badgeLabel = entity.sickness ? sickSays : '';
     if (row.sickMark.title !== badgeLabel) row.sickMark.title = badgeLabel;
-    // The rooms of the house are set out from the main person's row: one place for the family's own detailed work.
-    const houseShown = focused && house;
-    if (row.house.hidden !== !houseShown) row.house.hidden = !houseShown;
     // What the person has become goes on the row after what they are: the mark and the camp drill (docs/FAMILY_PANEL.md).
     setText(row.label, `${role}${age}`);
     // What they have become goes under the name: the mark and the camp drill (docs/FAMILY_PANEL.md §11).
@@ -5491,7 +5488,6 @@ function renderFamilyPanel(world) {
     // Idle: nothing to do and something could be given them. Everybody else on the panel is visibly at something (a glow).
     const idle = isIdle(entity, icons, { withArmy: army.has(id) });
     setData(row.item, 'idle', String(idle));
-    if (row.idle.hidden !== !idle) row.idle.hidden = !idle;
     seen.push({ id, need: need?.kind || null, needs: needs.map(one => one.kind), needRank: place?.rank ?? null, needLeftMs: need?.leftMs ?? null, idle, focused, auto: onAuto, autoSays: autoSays || null, autoWaiting: Boolean(onAuto && entity.autoTask?.waiting), reason: reason || null, why: silence || null, travelling: travelling || null, life: life || null, word: shortWord || null, switchShown: !noSwitch, bar });
     // What can be pressed, as since 2026-09-22, and beside it the goals refused only for what the family has not got - a carreta
     // short of its hide, a hunt whose rifle is at the war - greyed, with what they want (owner, 2026-09-30; docs/FAMILY_PANEL.md §23).
@@ -5502,18 +5498,23 @@ function renderFamilyPanel(world) {
     const visibleReason = visibleIcons.length ? null : travelling || entity.held || (entity.baby && life) || reason || 'No actions available right now.';
     // Somebody chosen who is not the main person: their bar opens with the labelled way to make them main, and says why it matters.
     const makeMain = bar && !focused && canLead && settable ? `Make ${entity.given || entity.name} the main person` : '';
-    const key = JSON.stringify([visibleReason, travelling, visibleIcons, shutting ? [lesson.step, lesson.allow, lesson.shut, pointed] : null, makeMain]);
+    // The rooms of the house, as the last icon of the bar shown, whoever's it is, once the family has a house (owner, 2026-09-30,
+    // "Move Idle and House off": it was a button on the main person's row). Pressed, it opens the rooms as tapping the house on
+    // the map does (`[data-house]` below); it sends nothing, so nothing shuts it.
+    const homeIcon = bar && house ? HOUSE_ICON : null;
+    const key = JSON.stringify([visibleReason, travelling, visibleIcons, shutting ? [lesson.step, lesson.allow, lesson.shut, pointed] : null, makeMain, Boolean(homeIcon)]);
     if (row.iconsKey !== key) {
       row.iconsKey = key;
       row.icons.setAttribute('aria-label', `What ${entity.name} can do`);
       // Changed in place, icon by icon: the button a student has focused or is pointing at stays the same button while what
       // it says changes around it, so keyboard focus and the popup survive every tick.
       const kept = new Map([...row.icons.querySelectorAll('.panel-icon')].map(button => [button.dataset.key, button]));
-      row.icons.style.setProperty('--action-columns', Math.max(makeMain ? 3 : 1, Math.ceil(visibleIcons.length / 2)));
-      const wanted = visibleIcons.length ? visibleIcons.map(icon => {
+      const shownIcons = homeIcon ? [...visibleIcons, homeIcon] : visibleIcons;
+      row.icons.style.setProperty('--action-columns', Math.max(makeMain ? 3 : 1, Math.ceil(shownIcons.length / 2)));
+      const wanted = shownIcons.length ? shownIcons.map(icon => {
         const button = kept.get(icon.key) || panelIcon(id, icon);
         kept.delete(icon.key);
-        describeIcon(button, icon, lessonFor(icon.key));
+        describeIcon(button, icon, icon === homeIcon ? null : lessonFor(icon.key));
         return button;
       }) : [];
       if (!visibleIcons.length) {
@@ -6022,15 +6023,10 @@ function panelRow(id) {
   input.maxLength = 24; input.autocomplete = 'off'; input.spellcheck = false;
   input.dataset.rename = id;
   label.htmlFor = input.id;
+  // The row's tools: a baby's word, the auto switch and the star, and nothing else (owner, 2026-09-30, "Move Idle and House off").
+  // Idle is the portrait's own mark (`.panel-idle-mark`); the house's rooms are an icon on the bar (`HOUSE_ICON`). With the two
+  // there, a row with all four was 393 px in a 304 px column at the 12 px type, and cut its star and its name.
   const tools = element('span', '', 'panel-tools');
-  const idle = element('span', 'Idle', 'panel-idle');
-  idle.hidden = true;
-  const house = element('button', 'House', 'panel-house');
-  house.type = 'button';
-  house.dataset.house = id;
-  house.hidden = true;
-  house.setAttribute('aria-label', 'Go inside the house to set out the furniture and the goods');
-  house.title = 'Go inside the house to set out the furniture and the goods';
   const focus = panelMark('button', '☆', 'panel-focus', 'mark-main');
   focus.type = 'button';
   focus.dataset.focus = id;
@@ -6045,7 +6041,7 @@ function panelRow(id) {
   // sentence still says what it is doing without a line more. Shown only then (public/style.css).
   const word = element('span', '', 'panel-life-word');
   word.hidden = true;
-  tools.append(word, idle, house, auto, focus);
+  tools.append(word, auto, focus);
   // The ability bar (owner, 2026-09-21): the icons are a child of the row, not of the row's body, so the names can be
   // folded away without folding away the work, and so a row whose person is not the main one can hide them on their own.
   // Where they are *drawn* is the stylesheet's: the main person's group is taken to the bottom middle of the screen.
@@ -6079,7 +6075,7 @@ function panelRow(id) {
   const makeMain = element('button', '', 'panel-make-main');
   makeMain.type = 'button';
   makeMain.dataset.focus = id;
-  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, idle, house, focus, auto, autoSays, life, sick, sickMark, hungerMark, word, note, why, away, makeMain, face: null, iconsKey: null };
+  const row = { item, portrait, canvas, label, input, icons, attention, needBadge, needDeadline: null, needRank: null, focus, auto, autoSays, life, sick, sickMark, hungerMark, word, note, why, away, makeMain, face: null, iconsKey: null };
   panelRows.set(id, row);
   return row;
 }
@@ -6110,6 +6106,12 @@ function paintMark(node, mark) {
   node.dataset.mark = mark;
   setData(node, 'drawn', String(drawMark(node.querySelector('canvas'), mark, { drawSprite, spriteFrame })));
 }
+/**
+ * The house's rooms on the bar (owner, 2026-09-30, "Move Idle and House off"): made here, not sent by the server, because it is
+ * not an order - it opens the rooms inside, where the furniture and the goods are set out. Always open; never glows.
+ */
+const HOUSE_ICON = Object.freeze({ key: 'go-inside', name: 'House', house: true, can: true, active: false,
+  summary: 'Go inside the house to set out the furniture and the goods.', note: 'Opens the rooms inside the house.' });
 function panelIcon(entityId, icon) {
   const button = element('button', '', 'panel-icon');
   button.type = 'button';
@@ -6119,6 +6121,7 @@ function panelIcon(entityId, icon) {
   if (icon.kind === 'chore') { button.dataset.action = icon.onMap ? 'survey-start' : 'chore'; button.dataset.chore = icon.key; }
   else if (icon.visit) button.dataset.visit = 'true';
   else if (icon.destination) { button.dataset.action = 'travel'; button.dataset.destination = icon.destination; }
+  else if (icon.house) button.dataset.house = entityId;
   else button.dataset.action = icon.key;
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = 72;

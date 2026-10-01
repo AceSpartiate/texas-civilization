@@ -1,5 +1,46 @@
 # Claude handoff — Astra foundation
 
+## Idle and House off the family's rows; the site chooser's fold and the phone's tip kept — owner-decided 2026-09-30 (not released)
+
+Branch `row-slim` off local `integration-2026-09-28` (6b2d19be); not pushed. **Supersedes `column-wide`** (a2736bd3, never merged):
+the owner first chose *"Widen the column"* on a 16 px estimate; measured, it cost 96 px of map (25rem), and shown that he chose
+**"Move Idle and House off"**. His other two answers: the house site chooser **shrunk as built**, the phone's tip **kept as built**.
+docs/FAMILY_PANEL.md, amendment 2026-09-30.
+
+- **The column stays 19rem (304 px) and every row is one line** (the two-line wrap of `proofs-page` reverted). A row carries the
+  role and age, the name, a baby's short word, *Auto* and the star.
+- **Idle** is the portrait's mark only (`.panel-idle-mark`, as it already was); the word chip is gone.
+- **House** (the rooms inside: furniture and goods) is the **last icon of the action bar**, *House*, on whoever's bar is shown once
+  the family has a house (`HOUSE_ICON`, public/app.js): one press, opens the rooms as tapping the house does, sends nothing, never
+  shut. The old row button had no glow of its own; **the highlighted house prompt is untouched** - *Choose your house*, the
+  moss-green glowing story card at the head of the column ([screenshot](docs/evidence/story-cards-both.png)); the bar's House:
+  [screenshot](docs/evidence/family-commands-house-on-bar.png). Its picture is a stand-in, `icon-build-house` (docs/ART_REQUESTS.md,
+  *Request 2026-09-30 — the House icon on the bar*, plan item C21; *Stand-ins in use*).
+- **Found by `test:overlap` and fixed:** House can make a bar of seventeen icons, which at 1024x600 with the sound's sliders open ran
+  27 px under them; with the sliders or the tips list open the bar now takes a third row of columns at least 55 px wide (eight
+  columns there, as before) rather than run under them.
+- **Proved** (same computer, headless Chrome): `test:going` holds every row on one line inside the column with its name whole at
+  1366x768, 1024x768 and 1024x600; `test:family-twenty` the twenty rows at 1366x768, 1440x950 and 1024x768, and the phone's open row.
+  **Injected the old crowded row** (integration's `public/app.js` and `public/style.css`): as merged (wrapped), `test:going` fails at
+  1366 (*Prudence* `oneLine: false`, box 70 of 74); on one line (the release candidate's), it fails at 1366 (*Ezra* past the column,
+  right 327 of 316) and `test:family-twenty` fails at 1366 (14 rows). `test:family-commands` now holds the idle mark on the portrait
+  and no *Idle* word on any row, and House on the bar alone, opening the rooms.
+- **Not every name is whole.** Beside the longest role and age (*Daughter, 20*) a name of more than about five letters still
+  scrolls in its box: the family-commands proof's family of twenty at 1440x950 shows *Pruden…* and *Minerv…*, the story-cards
+  proof's *Ramon…*. One line holds; only the name's end is cut, and it reads whole when focused. `ceiling:` in public/style.css.
+- **Runs, twice each, all green:** `test:going`, `test:overlap`, `test:family-panel`, `test:family-twenty`, `test:field-click`,
+  `test:panels`, and the house proofs `test:story-cards`, `test:interior`, `test:family-commands` (its first run failed on the old
+  *Idle* chip check, updated; then green twice). `npm test` **1998 tests, 1962 pass, 0 fail, 36 skipped** (the suspended tutorial).
+- **Not changed:** the tip *"“Idle” means they have nothing to do"* still names the word, now the portrait's mark (its voice
+  clip is made from the text).
+
+**Owner questions.**
+
+1. Names cut beside a long role and age. **(a) Move the age off the row, into the portrait's hover and the family book (recommended;
+   it gives back the width of ", 20" on every row - to be measured on the page before any number of letters is promised)**; (b) shorten the role words (*Dau.*, *Son*); (c) leave it - the name
+   reads whole when its box is focused.
+2. The tip that says *"“Idle” means they have nothing to do"*. **(a) Reword it for the portrait's mark (recommended)**; (b) leave it.
+
 ## Battles watched, not hurried: the floor, black-powder smoke and the film on the class view — owner-decided 2026-09-30 (not released)
 
 Branch `battle-cinema` off local `integration-2026-09-28`; not pushed, nothing published. The owner, 2026-09-30, verbatim, after
@@ -231,7 +272,10 @@ Also run after the layout changes: `test:overlap` (3 times green), `test:family-
 (not run). docs/FAMILY_PANEL.md has an amendment for the row and the chooser. `npm test`: **1966 tests, 1930 pass, 0 fail, 36
 skipped** (the suspended tutorial), before and again after the phone tip fix; `node scripts/check-doc-links.mjs` 1440 links.
 
-**Owner questions.**
+**Owner questions** - answered 2026-09-30: 1 **"Move Idle and House off"** (after first choosing "Widen the column" on a 16 px
+estimate that was wrong: it would have cost 96 px; see *Idle and House off the family's rows* above), 2 (a) as built, 3 (a) as built.
+
+**Owner questions (as put).**
 
 1. A row with Idle, House, Auto and the star is now two lines. **(a) Keep it (recommended)**; (b) drop the *Idle* word on the row
    where the portrait already carries the idle mark, so the row is one line again; (c) widen the column from 19rem to 20rem at the

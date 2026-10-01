@@ -10,11 +10,11 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 | --- | ---: | ---: | ---: | ---: |
 | A — People at work and ambient poses | 27 | 7 | 18 | 0 |
 | B — Children, babies and sickness | 12 | 6 | 11 | 2 |
-| C — Soldiers, battles and famous people | 20 | 1 | 19 | 1 |
+| C — Soldiers, battles and famous people | 21 | 1 | 19 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 15 | 4 |
 | E — Buildings, houses, towns, Béxar, the Alamo, interiors | 19 | 2 | 19 | 3 |
 | F — Terrain, trees, the norther, fields, icons, marks and effects | 11 | 2 | 11 | 17 |
-| **Total** | **104** | **20** | **93** | **27** |
+| **Total** | **105** | **20** | **93** | **27** |
 
 ## How a builder works
 
@@ -244,7 +244,7 @@ Skipped:
 
 ## C — Soldiers, battles and famous people
 
-Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 20 to make, 1 skipped.
+Scope: the family's people and the armies fighting, at rest and carrying the wounded; battle works and props; the famous people and the Esparza family. 21 to make, 1 skipped.
 
 - [ ] **C1** (priority 1) — [Request 2026-09-25 — battles: the pieces the engine stands in for](ART_REQUESTS.md#request-2026-09-25--battles-the-pieces-the-engine-stands-in-for), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-fire-reload`, `teal-fire-reload`, `elder-fire-reload`, `blue-fire-reload`, `rust-woman-fire-reload`, `indigo-fire-reload`, `ochre-fire-reload`, `blue-girl-fire-reload`, `rust-injured`, `rust-reclining`, `teal-injured`, `teal-reclining`, `elder-injured`, `elder-reclining`, `blue-injured`, `blue-reclining`, `rust-woman-injured`, `rust-woman-reclining`, `indigo-injured`, `indigo-reclining`, `ochre-injured`, `ochre-reclining`, `blue-girl-injured`, `blue-girl-reclining`)
   - **Deliver:** every cast figure (`rust`, `teal`, `elder`, `blue`, `rust-woman`, `indigo`, `ochre`, `blue-girl`) in `<cast>-aim`, `<cast>-fire`, `<cast>-load` (kneeling), `<cast>-ramrod`, clip `<cast>-fire-reload`; and each cast's `-injured` and `-reclining`
@@ -325,6 +325,11 @@ Scope: the family's people and the armies fighting, at rest and carrying the wou
   - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
   - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
   - **Stands in now:** `icon-join-houston`, the joining of Houston’s army, which it is (Astra's library art reused)
+- [ ] **C21** (priority 2) — [Request 2026-09-30 — the House icon on the bar](ART_REQUESTS.md#request-2026-09-30--the-house-icon-on-the-bar), the icon
+  - **Deliver:** `icon-go-inside` (the cabin’s open door with the hearth’s light inside, a chair or a chest by it: going in to set out the rooms, not raising the house)
+  - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
+  - **Plugs into:** `PANEL_ICONS` in `public/family-panel.js`
+  - **Stands in now:** `icon-build-house`, the house the family raises (Astra's library art reused)
 - [ ] **C15** (priority 3) — [Request 2026-09-26 — the famous people: the roster's remaining figures and poses](ART_REQUESTS.md#request-2026-09-26--the-famous-people-the-rosters-remaining-figures-and-poses), Castrillón and the rest — **Claude stand-in held back: Astra has drawn the subject** (castrillon, crate), so the page draws hers (`castrillon-walk-s`, `castrillon-walk-n`, `ammunition-crate`)
   - **Deliver:** Castrillón's north and south walks and a scale-matched ammunition crate under his command pose; Travis in the officer's firing cycle at the north battery (request 2026-09-25 the Alamo, item 8); the remaining Tejano cast
   - **Frames:** as the famous sheets. **Size:** Famous sheets
