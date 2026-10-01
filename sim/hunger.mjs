@@ -206,6 +206,45 @@ export function hungerStride(world, entity) {
 /** Somebody who died of a sickness or of hunger: told in one plain sentence, not drawn, and a child never named on the projector. */
 export const diedQuietly = person => person?.health?.condition === 'dead' && Boolean(person.health.disease || person.health.starved);
 
+// ------------------------------------------------------------------------------------------------ a family handed to a student
+
+/**
+ * The days of its own eating a family is topped up to when a student takes it over from the director (owner, 2026-09-30, "A few
+ * days' food"; `FIC-GONZ-998` as amended): the same three days a Mexican column leaves an overtaken family (sim/road.mjs
+ * `LEFT_FOOD_DAYS`). A family the director runs never starves (above), so it can reach a student with an empty store - in a
+ * winter class often none at all - and a student who took it over could lose people within a few real minutes.
+ */
+export const HANDOVER_DAYS = 3;
+
+/**
+ * Tops a family a student is taking over from the director up to `HANDOVER_DAYS` of its own eating (`dailyDraw`, rounded up to a
+ * tenth): a late join into a family the director was running or had never played, and a student back at the screen of a family
+ * the director ran while they were away - after a claim from the away list, a family key, or the page simply opening again
+ * (sim/absence.mjs `setAbsent`, server/app.mjs `/api/join`). Returns the food added.
+ *
+ * **Never more than that, never less than the family has, and once a period.** Nothing is added to a family that already holds
+ * three days' eating, so it tops up only a family whose want is at risk; and a family topped up once in a period
+ * (`household.handoverFed`, the period) is not topped up again in it, so a student cannot farm food by closing the laptop for the
+ * two minutes that make a family absent and opening it again. A family that did not need it keeps the chance for later in the
+ * period. `ceiling:` once a period - a student who is away twice in one period and comes back both times to an empty store is fed
+ * only the first time; the minute before hunger can kill still holds for them, and a per-handover rule would want the director to
+ * have run the family for a while first, which is the way out if a class finds it.
+ */
+export function feedOnHandover(world, household) {
+  if (!household?.resources || !household.played || world.status === 'lobby') return 0;
+  const period = world.period || 1;
+  if (household.handoverFed === period) return 0;
+  const { eat } = dailyDraw(world, household);
+  const floor = Math.ceil(eat * HANDOVER_DAYS * 10) / 10;
+  const had = household.resources.food || 0;
+  if (!(floor > had)) return 0;
+  household.resources.food = floor;
+  household.handoverFed = period;
+  record(world, 'consequence', { householdId: household.id, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: CLAIMS.director,
+    text: `There is food in the house for a few days: ${Math.round(floor * 10) / 10} in all.` });
+  return floor - had;
+}
+
 // ------------------------------------------------------------------------------------------------ what the page is sent
 
 /** A person's stage, and while their minute runs its real time left, for the row and the "!"; nothing when fed. */
@@ -254,6 +293,7 @@ export function hungerInvalid(world) {
   for (const household of Object.values(world.households || {})) {
     const told = household.hungerTold;
     if (told !== undefined && (!told || typeof told !== 'object' || Object.values(told).some(stage => !STAGES.slice(1).includes(stage)))) return 'Invalid hunger';
+    if (household.handoverFed !== undefined && !Number.isInteger(household.handoverFed)) return 'Invalid hunger';
   }
   return null;
 }

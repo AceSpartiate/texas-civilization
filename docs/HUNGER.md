@@ -200,9 +200,36 @@ The three questions this document's first build put to the owner were answered t
    nothing more."* After those days the family must forage, fish, hunt or trade, or it goes hungry by the ordinary rule. Invented;
    no source read gives what a column left a family (`FIC-GONZ-995`, as amended).
 
+## 8b. A family handed to a student gets a few days' food (owner-decided 2026-09-30; not released)
+
+Found by a proof builder: a family the director runs never starves (§6), so it can reach a student with little or no food - in a
+winter class often none - and a student who took it over, joining late or coming back from being away, could lose people within
+a few real minutes. The owner chose **"A few days' food"**.
+
+- **What**: when a student takes a family over from the director, its store is topped up to **three days of its own eating**
+  (`HANDOVER_DAYS = 3`, sim/hunger.mjs `feedOnHandover`: the family's day of eating as the gauge counts it, `dailyDraw`, times
+  three, rounded up to a tenth) - the same measure a Mexican column leaves (§8a). **Never less than it has**: a family with more
+  keeps what it has.
+- **When** - every way a family passes to a student:
+  - a **late join** into a family the director was running or nobody had played, including the family the computer already played
+    that a late student names (server/app.mjs `/api/join`);
+  - a student **back at the screen** of a family the director ran while they were away - after a claim from the away list, a
+    family key, or the page simply opening again: all of these clear `absent` through sim/absence.mjs `setAbsent`, which tops up.
+  A family whose student is gone for less than the absence grace was never the director's, and is not topped up.
+- **No farming**: it tops up only a family **below** three days' eating - a family whose want is at risk - and **once a period**
+  (`household.handoverFed`, the period number, kept in the save and never sent to the page). A student who closes the laptop for
+  the two minutes that make a family absent and opens it again gets nothing more that period; a family that did not need it keeps
+  the chance for later in the period. `ceiling:` a student away twice in one period and back both times to an empty store is fed
+  only the first time (the minute before hunger can kill still holds for them); per handover, after the director has run the
+  family for a while, is the way out if a class finds it.
+- **Said plainly**, once, in the family's journal: *"There is food in the house for a few days: 4.2 in all."* The gauge shows the
+  rest.
+- Invented (`FIC-GONZ-998`, as amended). No save version: `handoverFed` is absent on every class saved before, which reads as not
+  yet fed.
+
 ## 9. Evidence
 
-- `tests/hunger.test.mjs` (17 tests since the column's food, §8a), each seen failing under `npm run test:hunger-injections`:
+- `tests/hunger.test.mjs` (19 tests since the column's food, §8a, and the handover, §8b), each seen failing under `npm run test:hunger-injections`:
   29 of 29 injections caught by the test written for them, 20 by that test alone ([record](evidence/hunger-injections.json)).
 - `npm run test:hunger` ([record](evidence/hunger-browser.json)): the gauge at each level, the portraits, the "!" and the card,
   reduced motion, the fit at three sizes, and the first death after the minute; screenshots `docs/evidence/hunger-*.png`.

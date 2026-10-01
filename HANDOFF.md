@@ -1,5 +1,34 @@
 # Claude handoff — Astra foundation
 
+## A few days' food for a family handed to a student — owner, 2026-09-30 (not released)
+
+Branch `handover-food` off `integration-2026-09-28` (646c8b6f); not pushed. Found by a proof builder: a family the director runs
+never starves (docs/HUNGER.md §6), so it could reach a student with little or no food - in a winter class often none - and a
+student taking it over could lose people within a few real minutes. The owner chose **"A few days' food"**. Owner-decided
+2026-09-30; docs/HUNGER.md §8b, `FIC-GONZ-998` (an amendment row in HISTORY.md).
+
+- **The rule** (`sim/hunger.mjs` `feedOnHandover`, `HANDOVER_DAYS = 3`): when a student takes a family over from the director,
+  its store is topped up to **three days of its own eating** (the gauge's day of eating, `dailyDraw`, rounded up to a tenth) - the
+  column's measure - and never below what it has.
+- **Every way a family passes to a student**: a **late join** (server/app.mjs `/api/join`) into a family the director was running
+  or nobody had played, including the new flow where a late student names a family the computer already played; and a student
+  **back** at a family the director ran while they were away - a claim from the away list, a family key or the page reopening -
+  all of which clear `absent` through sim/absence.mjs `setAbsent`, which now tops up.
+- **No farming**: only a family below three days' eating (its want at risk), and **once a period** (`household.handoverFed`, the
+  period; in the save, not on the wire). Leaving for the two minutes that make a family absent and coming back gets nothing more
+  that period; a family that did not need it keeps its chance. `ceiling:` a student away twice in a period and back both times to
+  an empty store is fed only the first time; the minute before hunger can kill still holds.
+- **Said once** in the family's journal: *"There is food in the house for a few days: 4.2 in all."* The gauge shows the rest.
+- No save version: `handoverFed` is absent on every class saved before, which reads as not yet fed.
+
+**Evidence** (same computer only): `tests/hunger.test.mjs` - *handed over: a student back …* (topped up to three days on return,
+not again in the period, a family with fifty food untouched and keeping its chance, again in the next period, never a family nobody
+plays, not on the wire) and *handed over: a student who joins late …* (a real classroom server: a late join into a family the
+computer played, its store emptied, finds three days' eating; the others keep nothing). `npm run test:hunger-injections`: **35 of
+35** caught by the test written for them (26 by that test alone; the six new: no top-up on return, none on a late join, food farmed
+by leaving, plenty cut down to three days, a week, a family nobody plays fed). `npm run test:hunger` 7, `test:late-join` 9 - green.
+`npm test`: **1971 tests, 1935 pass, 0 fail, 36 skipped** (the suspended tutorial).
+
 ## Five red release-candidate proofs: all stale, none a leak — 2026-09-30 (not released)
 
 Branch `proofs-world` off local `integration-2026-09-28` (e67e0f15); not pushed. The release candidate (bccea07c) failed

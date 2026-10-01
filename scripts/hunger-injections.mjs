@@ -9,7 +9,7 @@ import { spawnSync } from 'node:child_process';
 
 const FILES = ['tests/hunger.test.mjs'];
 const T = {
-  stages: 'the stages: a grown person', fed: 'the stages: eating one', home: 'at home: the routine', road: 'on the road east:', overtaken: 'overtaken: the column',
+  stages: 'the stages: a grown person', fed: 'the stages: eating one', home: 'at home: the routine', road: 'on the road east:', overtaken: 'overtaken: the column', handback: 'handed over: a student back', latejoin: 'handed over: a student who joins late',
   who: 'who first: a baby', weights: 'who first: children fed first', minute: 'the minute: a starving person', shown: 'the minute: shown on the row',
   director: 'the director:', neighbours: 'the neighbours:', weak: 'weak: slower at work', child: 'a child who died of hunger', gauge: 'the gauge:',
   winter: 'the winter nobody plays', saves: 'saves:',
@@ -26,6 +26,13 @@ const INJECTIONS = [
   { name: 'the column leaves more food than the family had', edits: [one('sim/road.mjs', 'Math.min(hadFood, Math.ceil(', 'Math.max(hadFood, Math.ceil(')], expect: T.overtaken },
   { name: 'the prisoners counted among those left food', edits: [one('sim/road.mjs', 'Math.ceil(eatenADay(world, letGo) * LEFT_FOOD_DAYS', 'Math.ceil(eatenADay(world, with_) * LEFT_FOOD_DAYS')], expect: T.overtaken },
   { name: 'the food left is not told', edits: [one('sim/road.mjs', " They left the family ${round(left)} food, a few days' eating.", '')], expect: T.overtaken },
+  // The owner's answer of 2026-09-30, "A few days' food" for a family handed from the director to a student (`feedOnHandover`).
+  { name: 'a student back from being away finds the store as the director left it', edits: [one('sim/absence.mjs', '  if (!absent) feedOnHandover(world, household);\n', '')], expect: T.handback },
+  { name: 'a late student finds the store as the director left it', edits: [one('server/app.mjs', '            feedOnHandover(s.world, household);\n', '')], expect: T.latejoin },
+  { name: 'food farmed by leaving and coming back', edits: [one('sim/hunger.mjs', '  if (household.handoverFed === period) return 0;\n', '')], expect: T.handback },
+  { name: 'a family with plenty cut down to three days', edits: [one('sim/hunger.mjs', '  if (!(floor > had)) return 0;\n', '')], expect: T.handback },
+  { name: 'a week handed over, not a few days', edits: [one('sim/hunger.mjs', 'export const HANDOVER_DAYS = 3;', 'export const HANDOVER_DAYS = 7;')], expect: T.handback },
+  { name: 'a family nobody plays fed as if handed over', edits: [one('sim/hunger.mjs', "  if (!household?.resources || !household.played || world.status === 'lobby') return 0;", "  if (!household?.resources || world.status === 'lobby') return 0;")], expect: T.handback },
   { name: 'the eating on the road counts no want', edits: [one('sim/scrape.mjs', '      ate(world, household, alive, eatenADay(world, alive) * days, household.resources.food, days);\n', '')], expect: T.road },
   { name: 'everybody goes down alike', edits: [one('sim/hunger.mjs', 'let weight = age < 2 ? 2.5 : age < 6 ? 2 : age < 16 ? 1.25 : age >= 60 ? 1.5 : 1;', 'let weight = 1;')], expect: T.who },
   { name: 'children not fed first', edits: [one('sim/hunger.mjs', '  if (age < 16 && withGrown) weight *= CHILDREN_FIRST;\n', '')], expect: T.weights },

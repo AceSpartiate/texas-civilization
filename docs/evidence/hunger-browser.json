@@ -1,6 +1,6 @@
 {
   "record": "Hunger, in a browser: docs/HUNGER.md",
-  "date": "2026-09-30",
+  "date": "2026-10-01",
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768, 1024x600 and 400x800. The real land with rolled families, played in process to the campaign of October 1835; the first family set to rest with twenty-four days of its eating in the store before it was served, and drained by the rules. No LAN, Chromebook or classroom claim.",
   "cast": {
@@ -22,7 +22,7 @@
     "the portraits were marked hungry (1), weak (1) and starving (1) with a ring and a bowl; none while there was plenty",
     "the starving person's \"!\" says \"Keziah Proofwright is starving. About 59s left. And 1 more. Go to Keziah Proofwright and answer.\" with 59 s left, and the story card is up in its own red",
     "with reduced motion the starving box stands still (none) and keeps its ring",
-    "the food box is on the screen and on nothing else at 1366x768, 1024x600 and a phone of 400x800 (the page itself scrolls 11px sideways at the phone, by the action bar)",
+    "the food box is on the screen and on nothing else at 1366x768, 1024x600 and a phone of 400x800 (the page itself does not scroll sideways)",
     "the first death by hunger came 61 s after the family was first starving: \"Keziah Proofwright died of hunger at home, and was buried there.\"",
     "no page errors"
   ],
@@ -76,8 +76,8 @@
         "animation": "larder-flash",
         "tone": "rgb(240, 167, 58)",
         "fillWidth": 22,
-        "text": "Food 1.6",
-        "label": "Food 1.6, about 5 days, running low",
+        "text": "Food 1.8",
+        "label": "Food 1.8, about 6 days, running low",
         "flash": true,
         "portraits": [
           {
@@ -164,7 +164,7 @@
             "id": "hh-1-parent-1",
             "hunger": "starving",
             "mark": true,
-            "ring": "rgb(254, 74, 54) 0px 0px 0px 3.97267px inset, rgba(216, 38, 28, 0.863) 0px 0px 15.8907px 5.94535px inset"
+            "ring": "rgb(254, 73, 53) 0px 0px 0px 3.95803px inset, rgba(215, 38, 28, 0.863) 0px 0px 15.8321px 5.91607px inset"
           }
         ]
       }
@@ -208,7 +208,7 @@
       "phone": {
         "inside": true,
         "over": [],
-        "sideways": 11,
+        "sideways": 0,
         "past": [
           "button.panel-icon",
           "canvas.",

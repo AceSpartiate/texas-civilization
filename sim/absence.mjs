@@ -11,6 +11,7 @@
 //
 // `household.absent` is true or absent (never false), so no class saved before this carries anything new.
 import { record } from './events.mjs';
+import { feedOnHandover } from './hunger.mjs';
 
 export const isAbsent = household => Boolean(household?.absent);
 
@@ -23,5 +24,7 @@ export function setAbsent(world, household, absent) {
       ? 'Nobody is at the screen for this family. It goes on by itself, as its neighbours do, until somebody comes back.'
       : 'Somebody is back at the screen. The family\'s choices are its own again.',
   });
+  // Back from the director with a few days' food if its store is low (owner, 2026-09-30; sim/hunger.mjs `feedOnHandover`).
+  if (!absent) feedOnHandover(world, household);
   return true;
 }
