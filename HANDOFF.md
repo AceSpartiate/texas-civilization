@@ -51,7 +51,7 @@ this branch's, left for whoever owns the Seguín calls; its record was not rewri
 
 `npm test`: **2016 tests, 1980 pass, 0 fail, 36 skipped** (the suspended tutorial).
 
-**Owner questions.**
+**Owner questions** - answered 2026-10-01: 1 **"Keep it"** (House stays on whoever's bar is shown, at camp too); 2 **"One at a time"** (one family video at a time while the class video plays; given to a builder on `end-sequence-4`).
 
 1. *House* on the bar of a man away at the army's camp (it opens the family's rooms, sends nobody home). **(a) Keep it on whoever's
    bar is shown, as decided (recommended: it moves nobody, and it was on the main person's row wherever he was before)**; (b) only on
