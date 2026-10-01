@@ -359,7 +359,10 @@ Also run after the layout changes: `test:overlap` (3 times green), `test:family-
 (not run). docs/FAMILY_PANEL.md has an amendment for the row and the chooser. `npm test`: **1966 tests, 1930 pass, 0 fail, 36
 skipped** (the suspended tutorial), before and again after the phone tip fix; `node scripts/check-doc-links.mjs` 1440 links.
 
-**Owner questions.**
+**Owner questions** - answered 2026-09-30: 1 **"Move Idle and House off"** (after first choosing "Widen the column" on a 16 px
+estimate that was wrong: it would have cost 96 px; see *Idle and House off the family's rows* above), 2 (a) as built, 3 (a) as built.
+
+**Owner questions (as put).**
 
 1. A row with Idle, House, Auto and the star is now two lines. **(a) Keep it (recommended)**; (b) drop the *Idle* word on the row
    where the portrait already carries the idle mark, so the row is one line again; (c) widen the column from 19rem to 20rem at the
