@@ -35,9 +35,18 @@ claim.**
 **Evidence.** New: `tests/battle-floor.test.mjs` (4), `tests/battle-smoke.test.mjs` (5), `tests/battle-cinema.test.mjs` (7),
 `tests/host-battle-knowledge.test.mjs` (1); `npm run test:battle-cinema` (12 checks, `docs/evidence/battle-cinema-browser.json`,
 screenshots `docs/evidence/battle-cinema/`); every new check seen failing under its regression: `node scripts/battle-cinema-injections.mjs`
-(`docs/evidence/battle-cinema-injections.json`). RESULTS_PLACEHOLDER
+(`docs/evidence/battle-cinema-injections.json`): **25 of 25 caught** (18 unit, 7 browser). `npm test` 1,986 tests, 1,950 pass, 0
+fail (the rest skipped as before). Rerun green: `test:battle-gonzales` (12), `-concepcion`, `-grass`, `-bexar` (15), `-alamo`,
+`-san-jacinto` (15), `-south` (16), `-coleto` (17), `test:storming` (7), `test:watching` (8), `test:story-cards` (4), `test:overlap`,
+`test:host-live` (11), `test:battle-cinema` (12). `test:battle-alamo` failed once ("Trinidad was never seen to fall") while three
+proofs and another session's proofs shared the computer, and passed alone at once: its 40 samples of 700 ms are timed by the wall
+clock, so under load the assault's last rooms can pass between two samples (worth making it sample by the class's clock, as
+battle-gonzales does since 2026-09-26). Gonzales's own class through the film: the battle drew in at most 3.9 ms at its 95th
+percentile at 1366x768 and 1024x600 (headless; not a Chromebook).
 
-**Open for the owner** (multiple choice, recommended first): see docs/BATTLES.md §15.5.
+**Open for the owner** (multiple choice, recommended first; built as the first): docs/BATTLES.md §15.5 - the floor at Brisk;
+whether the film also films the Alamo's siege days and San Jacinto's first day; holding on a man as he is hit; the families' colours
+on the class panel always; a student's page filmed by itself.
 
 ## Red proofs on the release candidate: nine proofs, four page bugs fixed — 2026-09-30 (not released)
 

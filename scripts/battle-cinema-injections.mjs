@@ -61,7 +61,8 @@ const BROWSER = [
   { name: 'Esc does nothing', file: 'public/app.js', from: "  if (event.key !== 'Escape' || event.defaultPrevented) return;", to: '  return;', expect: 'Esc did not take the camera' },
   { name: 'faded for less motion', file: 'public/battle-cinema.js', from: '      if (c.reduced) return 0;\n      const t = now - c.since;', to: '      const t = now - c.since;', expect: 'a page asking for less motion was faded' },
   { name: 'the camera not put back', file: 'public/app.js', from: '  if (back) { manualView = back.view', to: '  if (false) { manualView = back.view', expect: 'the camera was not put back' },
-  { name: 'the smoke gone soon after the firing', file: 'public/battle-view.js', from: 'BANK_MAX = 6, BANK_GONE = 0.035;', to: 'BANK_MAX = 6, BANK_GONE = 1.5;', expect: 'the smoke did not lie on the field twenty seconds' },
+  // Thick while it is fed, gone eight seconds after: the line hidden in its smoke as before, and nothing left lying on the field.
+  { name: 'the smoke gone soon after the firing', file: 'public/battle-view.js', from: '    if (view.banks.some(bank => bank.d <= BANK_GONE)) view.banks = view.banks.filter(bank => bank.d > BANK_GONE);', to: '    view.banks = view.banks.filter(bank => bank.d > BANK_GONE && now - bank.fed < 8000);', expect: 'the smoke did not lie on the field twenty seconds' },
 ];
 
 const CR = String.fromCharCode(13), LF = String.fromCharCode(10);
@@ -94,6 +95,9 @@ function runBrowser() {
 }
 
 const which = process.argv[2] || 'all';
+// `--only <words>`: just the injections whose name has them, merged by name into the record already written.
+const only = process.argv.includes('--only') ? process.argv[process.argv.indexOf('--only') + 1] : null;
+const chosen = list => (only ? list.filter(one => one.name.includes(only)) : list);
 const record = { unit: [], browser: [] };
 const evidencePath = 'docs/evidence/battle-cinema-injections.json';
 let previous = {};
@@ -101,7 +105,7 @@ try { previous = JSON.parse(readFileSync(evidencePath, 'utf8')); } catch { /* th
 if (which === 'all' || which === 'unit') {
   const files = [...new Set(UNIT.map(one => one.test))];
   for (const file of files) { const clean = runUnit(file); if (!clean.passed) throw new Error(`${file} fails before any injection: ${clean.failed.join('; ')}`); }
-  for (const injection of UNIT) {
+  for (const injection of chosen(UNIT)) {
     const seen = inject(injection, () => runUnit(injection.test));
     const expected = [].concat(injection.expect);
     const caught = !seen.passed && seen.failed.length === expected.length && expected.every(name => seen.failed.includes(name));
@@ -114,7 +118,7 @@ if (which === 'all' || which === 'browser') {
   const clean = runBrowser();
   if (!clean.passed) throw new Error(`The browser gate fails before any injection: ${clean.failure}`);
   record.cleanBrowserChecks = clean.checks;
-  for (const injection of BROWSER) {
+  for (const injection of chosen(BROWSER)) {
     const seen = inject(injection, runBrowser);
     const caught = !seen.passed && Boolean(seen.failure?.includes(injection.expect));
     record.browser.push({ name: injection.name, file: injection.file, expect: injection.expect, caught, failure: seen.failure?.slice(0, 400), checksPassedFirst: seen.checks });
@@ -123,12 +127,13 @@ if (which === 'all' || which === 'browser') {
   const after = runBrowser();
   if (!after.passed) throw new Error(`The browser gate fails after every file was put back: ${after.failure}`);
 }
+function mergeByName(before = [], now = []) { const out = [...before]; for (const one of now) { const at = out.findIndex(old => old.name === one.name); if (at >= 0) out[at] = one; else out.push(one); } return out; }
 mkdirSync('docs/evidence', { recursive: true });
 const merged = {
   record: 'battle-cinema-injections', date: new Date().toISOString().slice(0, 10),
   gates: { unit: `${FLOOR}, ${SMOKE}, ${FILM}, ${KNOW}: the named test and no other`, browser: 'scripts/battle-cinema-browser-proof.mjs' },
-  unit: record.unit.length ? record.unit : previous.unit || [],
-  browser: record.browser.length ? record.browser : previous.browser || [],
+  unit: only ? mergeByName(previous.unit, record.unit) : record.unit.length ? record.unit : previous.unit || [],
+  browser: only ? mergeByName(previous.browser, record.browser) : record.browser.length ? record.browser : previous.browser || [],
   cleanBrowserChecks: record.cleanBrowserChecks ?? previous.cleanBrowserChecks ?? null,
   environment: 'Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x600.',
 };

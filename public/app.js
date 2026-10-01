@@ -3351,6 +3351,7 @@ function flashbackGround(ctx, world, camera) {
 function cinemaInput(world, canvas) {
   const fight = world.battle?.sides ? world.battle : null, host = world.role === 'host';
   const field = fight ? autoView(world, canvas, { kind: 'battle', title: fight.name || 'The fight', points: fieldFrame(battlePoints(world)) }) : null;
+  const liftPx = host ? canvas.height * 0.08 : 0;
   const own = new Set(entitiesOf(world).map(entity => entity.id));
   const people = new Map([...entitiesOf(world), ...observedOf(world)].map(entity => [entity.id, entity]));
   const now = performance.now();
@@ -3360,7 +3361,8 @@ function cinemaInput(world, canvas) {
   }).filter(one => Number.isFinite(one.x));
   return {
     focus: host ? world.host?.focus === 'battle' && Boolean(fight) : Boolean(fight && fieldWatch && manualView === fieldWatch.view),
-    battleId: fight?.id || null, field: field && { cx: field.cx, cy: field.cy, scale: field.scale }, members, live: Boolean(fight?.live && !fight.over),
+    // On the Host the fight is framed a little above the middle, clear of the spotlight's banner at the foot of the map.
+    battleId: fight?.id || null, field: field && { cx: field.cx, cy: field.cy + liftPx / field.scale, scale: field.scale }, members, live: Boolean(fight?.live && !fight.over), liftPx,
     running: world.status === 'running', ended: world.status === 'ended' || Boolean(world.endSequence), reduced: reducedMotion.matches,
     current: drawnCamera ? { cx: drawnCamera.cx, cy: drawnCamera.cy, scale: drawnCamera.scale } : null,
     home: manualView ? { cx: manualView.cx, cy: manualView.cy, scale: manualView.scale } : null,

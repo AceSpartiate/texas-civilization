@@ -127,6 +127,16 @@
       ]
     },
     {
+      "name": "a fight gone from the map cuts the film off",
+      "file": "public/battle-cinema.js",
+      "test": "tests/battle-cinema.test.mjs",
+      "expect": "when the fighting is over it holds on the field while the smoke clears, fades, and puts the teacher's view back",
+      "caught": true,
+      "failed": [
+        "when the fighting is over it holds on the field while the smoke clears, fades, and puts the teacher's view back"
+      ]
+    },
+    {
       "name": "the film takes the camera back from the teacher",
       "file": "public/battle-cinema.js",
       "test": "tests/battle-cinema.test.mjs",
@@ -177,7 +187,64 @@
       ]
     }
   ],
-  "browser": [],
-  "cleanBrowserChecks": null,
+  "browser": [
+    {
+      "name": "the floor not kept by the server",
+      "file": "server/app.mjs",
+      "expect": "the fighting's ticks were not held to the floor",
+      "caught": true,
+      "failure": "the fighting's ticks were not held to the floor: [400] (floor 1765)",
+      "checksPassedFirst": 3
+    },
+    {
+      "name": "no fade to black into the fight",
+      "file": "public/battle-cinema.js",
+      "expect": "no fade to black before the fight",
+      "caught": true,
+      "failure": "no fade to black before the fight: [0,0,0,0,0,0,0]",
+      "checksPassedFirst": 2
+    },
+    {
+      "name": "every family the same colour on the class view",
+      "file": "public/app.js",
+      "expect": "names without their family or its colour",
+      "caught": true,
+      "failure": "names without their family or its colour: [{\"id\":\"hh-1-thomas\",\"name\":\"Amos\",\"family\":\"Amos's family\",\"colour\":\"#d64545\",\"householdId\":\"hh-1\",\"x\":511,\"y\":577,\"down\":false,\"followed\":false},{\"id\":\"hh-2-thomas\",\"name\":\"Trinidad\",\"family\":\"Trinidad's family\",\"colour\":\"#d64545\",\"householdId\":\"hh-2\",\"x\":767,\"y\":516,\"down\":false,\"followed\":false}]",
+      "checksPassedFirst": 3
+    },
+    {
+      "name": "Esc does nothing",
+      "file": "public/app.js",
+      "expect": "Esc did not take the camera",
+      "caught": true,
+      "failure": "Esc did not take the camera",
+      "checksPassedFirst": 5
+    },
+    {
+      "name": "faded for less motion",
+      "file": "public/battle-cinema.js",
+      "expect": "a page asking for less motion was faded",
+      "caught": true,
+      "failure": "a page asking for less motion was faded",
+      "checksPassedFirst": 8
+    },
+    {
+      "name": "the camera not put back",
+      "file": "public/app.js",
+      "expect": "the camera was not put back",
+      "caught": true,
+      "failure": "the camera was not put back: {\"cx\":-1.7040335634108745,\"cy\":-7.418414283776196,\"scale\":2023.1333538142462} against {\"cx\":2.1,\"cy\":0.5,\"scale\":960,\"following\":false}",
+      "checksPassedFirst": 9
+    },
+    {
+      "name": "the smoke gone soon after the firing",
+      "file": "public/battle-view.js",
+      "expect": "the smoke did not lie on the field twenty seconds",
+      "caught": true,
+      "failure": "the smoke did not lie on the field twenty seconds after the last shot: 8000 ms",
+      "checksPassedFirst": 10
+    }
+  ],
+  "cleanBrowserChecks": 12,
   "environment": "Same computer: node --test, and a local classroom server with headless Chrome at 1366x768 and 1024x600."
 }

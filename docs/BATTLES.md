@@ -1126,8 +1126,8 @@ fight was over before any of it had built up. Now (`public/battle-view.js` `feed
   thick smoke is still there twenty seconds after the last shot and the field is clear within about two minutes.
 - **Over the figures.** Drawn after every man, at a third of the screen's resolution into one layer laid over the map in one stroke,
   so the cost is the number of banks (at most 56, a shot past that thickens the nearest), never the number of shots. Measured on
-  this computer in headless Chrome during Gonzales: the battle's drawing at most 3.9 ms at its 95th percentile at 1366x768 and
-  3.8 ms at 1024x600. ceiling: a Chromebook's own frame is not measured here.
+  this computer in headless Chrome during Gonzales, across the proof's runs: the battle's drawing at most 3.9 ms at its 95th
+  percentile at 1366x768 and at 1024x600. ceiling: a Chromebook's own frame is not measured here.
 - **Less motion** (`prefers-reduced-motion`): nothing is fired, grows or drifts; a still haze stands over each body that is firing
   and before each gun that has fired.
 - Procedural: no new art, so nothing for `docs/ART_REQUESTS.md`. The colour is the white-grey of powder smoke, darker in the night
@@ -1192,7 +1192,9 @@ Proof: `tests/battle-cinema.test.mjs` (7), `tests/host-battle-knowledge.test.mjs
 Gonzales; the fade, the establishing shot pushing in under the title; both men named with family and colour; each followed close;
 Esc, the button both ways; the student's Watch on their own man; the battle's frame at 1366x768 and 1024x600; a Host page asking for
 less motion faded never and hazed; the field held, the fade, and the camera back at Gonzales. Every new check was seen failing
-under the regression it guards: `node scripts/battle-cinema-injections.mjs` (`docs/evidence/battle-cinema-injections.json`).
+under the regression it guards: `node scripts/battle-cinema-injections.mjs` (`docs/evidence/battle-cinema-injections.json`, 25 of
+25: 18 unit, 7 browser). On the Host the field and the close shots are framed a little above the middle (`liftPx`), clear of the
+spotlight's banner at the foot of the map.
 
 ### 15.4 Limits
 

@@ -73,7 +73,8 @@ export function createCinema({ mode = 'host' } = {}) {
     const one = (input.members || []).find(member => member.id === id);
     if (!one || one.fallen || !Number.isFinite(one.x)) { c.followed = null; return field; }
     c.followed = id;
-    return { cx: one.x, cy: one.y, scale: field.scale * CINEMA.closeIn };
+    const scale = field.scale * CINEMA.closeIn;
+    return { cx: one.x, cy: one.y + (input.liftPx || 0) / scale, scale };
   }
   function nextShot(input, now) {
     c.shot++;
@@ -94,7 +95,8 @@ export function createCinema({ mode = 'host' } = {}) {
     /**
      * Once a frame. `input`: `focus` (the server says a fight is being fought, or Watch is on for a student), `battleId`, `field`
      * (the view that frames the fight now), `members` ([{ id, x, y, fallen }] in ground miles: the class's own in the fight, as
-     * drawn), `live` (the fight is still going on, whether or not the camera is called to it now), `running` (the class is not paused), `ended` (the game's end has begun), `reduced` (less motion), `current` (where
+     * drawn), `liftPx` (screen pixels a close shot is framed above the middle, as `field` already is), `live` (the fight is still
+     * going on, whether or not the camera is called to it now), `running` (the class is not paused), `ended` (the game's end has begun), `reduced` (less motion), `current` (where
      * the camera is), `home` (what to put back after: the teacher's own view, or null for the whole class).
      */
     update(input, now) {

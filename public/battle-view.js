@@ -363,7 +363,7 @@ export function createBattleView(art) {
       // ground's y is), and a little rise of the hot smoke up the page. A still fog morning barely moves it; a norther
       // carries it off the field.
       vx: w.x * 2.2e-6 + (Math.random() - 0.5) * 2e-7, vy: w.y * 2.2e-6 - 1.2e-7 - Math.random() * 1e-7,
-      size0: big ? 1.6 : 0.6, size1: big ? 7 : 3.1 + Math.random() * 1.4, alpha: big ? 0.85 : 0.62, scale: view.smokeScale ?? 1,
+      size0: big ? 1.6 : 0.6, size1: big ? 7 : 3.1 + Math.random() * 1.4, alpha: big ? 0.5 : 0.55, scale: view.smokeScale ?? 1,
       seed: Math.random(),
     });
     if (view.smoke.length > SMOKE_CAP) view.smoke.splice(0, view.smoke.length - SMOKE_CAP);
