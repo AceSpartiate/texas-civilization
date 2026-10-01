@@ -1,0 +1,348 @@
+{
+  "record": "battle-watch-time",
+  "date": "2026-10-01",
+  "note": "Arithmetic on each engagement's schedule (sim/battle-stage.mjs): the fighting phases held for every class, a tick each `step`, at each pace (server/app.mjs PACES) before and after the floor (WATCH_SECONDS, owner 2026-09-30). Quiet lead-ups and aftermaths are held only while a played family is there, are not floored, and are given at the pace.",
+  "paces": {
+    "study": 9500,
+    "brisk": 4000,
+    "quick": 1000
+  },
+  "engagements": [
+    {
+      "id": "gonzales",
+      "name": "The fight at Gonzales",
+      "fightTicks": 34,
+      "phases": [
+        "contact 4",
+        "dawn-skirmish 12",
+        "parley 8",
+        "fight 10"
+      ],
+      "floorSeconds": 120,
+      "tickFloorMs": 3529,
+      "quietTicks": 38,
+      "seconds": {
+        "study": {
+          "before": 323,
+          "after": 323,
+          "quietWithAFamily": 361
+        },
+        "brisk": {
+          "before": 136,
+          "after": 136,
+          "quietWithAFamily": 152
+        },
+        "quick": {
+          "before": 34,
+          "after": 120,
+          "quietWithAFamily": 38
+        }
+      }
+    },
+    {
+      "id": "concepcion",
+      "name": "The fight at Concepción",
+      "fightTicks": 27,
+      "phases": [
+        "alarm 5",
+        "ringed 6",
+        "fog-lifts 2",
+        "charges 10",
+        "retreat 4"
+      ],
+      "floorSeconds": 105,
+      "tickFloorMs": 3889,
+      "quietTicks": 18,
+      "seconds": {
+        "study": {
+          "before": 256.5,
+          "after": 256.5,
+          "quietWithAFamily": 171
+        },
+        "brisk": {
+          "before": 108,
+          "after": 108,
+          "quietWithAFamily": 72
+        },
+        "quick": {
+          "before": 27,
+          "after": 105,
+          "quietWithAFamily": 18
+        }
+      }
+    },
+    {
+      "id": "grass-fight",
+      "name": "The Grass Fight",
+      "fightTicks": 22,
+      "phases": [
+        "bowie 10",
+        "ambush 5",
+        "sortie 4",
+        "follow 3"
+      ],
+      "floorSeconds": 85,
+      "tickFloorMs": 3864,
+      "quietTicks": 27,
+      "seconds": {
+        "study": {
+          "before": 209,
+          "after": 209,
+          "quietWithAFamily": 256.5
+        },
+        "brisk": {
+          "before": 88,
+          "after": 88,
+          "quietWithAFamily": 108
+        },
+        "quick": {
+          "before": 22,
+          "after": 85,
+          "quietWithAFamily": 27
+        }
+      }
+    },
+    {
+      "id": "bexar-storming",
+      "name": "The storming of Béxar",
+      "fightTicks": 65,
+      "phases": [
+        "feint 6",
+        "entry 9",
+        "cannonade 3",
+        "karnes 8",
+        "yard 5",
+        "milam 6",
+        "priests-house 16",
+        "flag 8",
+        "truce 4"
+      ],
+      "floorSeconds": 240,
+      "tickFloorMs": 3692,
+      "quietTicks": 21,
+      "seconds": {
+        "study": {
+          "before": 617.5,
+          "after": 617.5,
+          "quietWithAFamily": 199.5
+        },
+        "brisk": {
+          "before": 260,
+          "after": 260,
+          "quietWithAFamily": 84
+        },
+        "quick": {
+          "before": 65,
+          "after": 240,
+          "quietWithAFamily": 21
+        }
+      }
+    },
+    {
+      "id": "san-patricio",
+      "name": "San Patricio",
+      "fightTicks": 25,
+      "phases": [
+        "surprise 5",
+        "houses 5",
+        "yield 5",
+        "gathered 10"
+      ],
+      "floorSeconds": 90,
+      "tickFloorMs": 3600,
+      "quietTicks": 8,
+      "seconds": {
+        "study": {
+          "before": 237.5,
+          "after": 237.5,
+          "quietWithAFamily": 76
+        },
+        "brisk": {
+          "before": 100,
+          "after": 100,
+          "quietWithAFamily": 32
+        },
+        "quick": {
+          "before": 25,
+          "after": 90,
+          "quietWithAFamily": 8
+        }
+      }
+    },
+    {
+      "id": "agua-dulce",
+      "name": "Agua Dulce Creek",
+      "fightTicks": 20,
+      "phases": [
+        "ambush 20"
+      ],
+      "floorSeconds": 75,
+      "tickFloorMs": 3750,
+      "quietTicks": 23,
+      "seconds": {
+        "study": {
+          "before": 190,
+          "after": 190,
+          "quietWithAFamily": 218.5
+        },
+        "brisk": {
+          "before": 80,
+          "after": 80,
+          "quietWithAFamily": 92
+        },
+        "quick": {
+          "before": 20,
+          "after": 75,
+          "quietWithAFamily": 23
+        }
+      }
+    },
+    {
+      "id": "alamo",
+      "name": "The Alamo",
+      "fightTicks": 42,
+      "phases": [
+        "advance 6",
+        "alarm 3",
+        "repulse 8",
+        "north-wall 6",
+        "fallback 6",
+        "rooms 7",
+        "end 6"
+      ],
+      "floorSeconds": 180,
+      "tickFloorMs": 4286,
+      "quietTicks": 0,
+      "seconds": {
+        "study": {
+          "before": 399,
+          "after": 399,
+          "quietWithAFamily": 0
+        },
+        "brisk": {
+          "before": 168,
+          "after": 180,
+          "quietWithAFamily": 0
+        },
+        "quick": {
+          "before": 42,
+          "after": 180,
+          "quietWithAFamily": 0
+        }
+      }
+    },
+    {
+      "id": "coleto",
+      "name": "Coleto",
+      "fightTicks": 49,
+      "phases": [
+        "caught 5",
+        "square 4",
+        "assault-1 10",
+        "assault-2 10",
+        "assault-3 11",
+        "guns 9"
+      ],
+      "floorSeconds": 180,
+      "tickFloorMs": 3673,
+      "quietTicks": 36,
+      "seconds": {
+        "study": {
+          "before": 465.5,
+          "after": 465.5,
+          "quietWithAFamily": 342
+        },
+        "brisk": {
+          "before": 196,
+          "after": 196,
+          "quietWithAFamily": 144
+        },
+        "quick": {
+          "before": 49,
+          "after": 180,
+          "quietWithAFamily": 36
+        }
+      }
+    },
+    {
+      "id": "goliad-massacre",
+      "name": "Goliad, Palm Sunday",
+      "fightTicks": 30,
+      "phases": [
+        "muster 6",
+        "marched 6",
+        "volleys 10",
+        "escapes 4",
+        "inside 4"
+      ],
+      "floorSeconds": 90,
+      "tickFloorMs": 3000,
+      "quietTicks": 14,
+      "seconds": {
+        "study": {
+          "before": 285,
+          "after": 285,
+          "quietWithAFamily": 133
+        },
+        "brisk": {
+          "before": 120,
+          "after": 120,
+          "quietWithAFamily": 56
+        },
+        "quick": {
+          "before": 30,
+          "after": 90,
+          "quietWithAFamily": 14
+        }
+      }
+    },
+    {
+      "id": "san-jacinto",
+      "name": "San Jacinto",
+      "fightTicks": 44,
+      "phases": [
+        "parade 6",
+        "advance 12",
+        "guns 3",
+        "volley 2",
+        "charge 6",
+        "rout 10",
+        "killing 5"
+      ],
+      "floorSeconds": 150,
+      "tickFloorMs": 3409,
+      "quietTicks": 21,
+      "seconds": {
+        "study": {
+          "before": 418,
+          "after": 418,
+          "quietWithAFamily": 199.5
+        },
+        "brisk": {
+          "before": 176,
+          "after": 176,
+          "quietWithAFamily": 84
+        },
+        "quick": {
+          "before": 44,
+          "after": 150,
+          "quietWithAFamily": 21
+        }
+      }
+    }
+  ],
+  "total": {
+    "study": {
+      "before": 3401,
+      "after": 3401
+    },
+    "brisk": {
+      "before": 1432,
+      "after": 1444
+    },
+    "quick": {
+      "before": 358,
+      "after": 1315
+    }
+  }
+}

@@ -8232,7 +8232,8 @@ function render(snapshot) {
   // should have to hold in their head.
   const paces = { study: 9500, brisk: 4000, quick: 1000 };
   for (const button of $('#host-pace').querySelectorAll('button')) {
-    button.dataset.active = String(paces[button.dataset.pace] === snapshot.tickMs);
+    // The pace chosen (`paceMs`), not how long this tick lasts: a fight's floor holds a tick longer (docs/BATTLES.md §15.1).
+    button.dataset.active = String(paces[button.dataset.pace] === (snapshot.paceMs ?? snapshot.tickMs));
   }
   // The Host's button names the period that follows (sim/periods.mjs `nextPeriodLabel`).
   const next = $('#host-controls [data-action="next-period"]');

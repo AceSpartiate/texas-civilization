@@ -165,7 +165,7 @@ export function mountClassPanel({ $, api, command, element }) {
     last = snapshot;
     const status = snapshot.world.status;
     // How many class days, and where the class is (the owner's "Plan for several class days").
-    const words = classDaysWords(snapshot.schedule, { status, tickMs: snapshot.tickMs });
+    const words = classDaysWords(snapshot.schedule, { status, tickMs: snapshot.paceMs ?? snapshot.tickMs });
     const days = $('#class-days');
     if (days) {
       const text = words ? [words.where, words.left, words.whole].filter(Boolean).join(' ') : '';
