@@ -59,7 +59,9 @@ export function endingReading(family) {
   if (!family) return {};
   if (family.interim) {
     return { numbers: [said(family.name), 'This is where your family stands so far. The war is not over: the next class goes on from here.',
-      said(`Coin in the house: ${reales(family.money)}`), said(`Land promised: ${family.land ? `${family.acres} acres` : 'none'}`)] };
+      said(`Coin in the house: ${reales(family.money)}`), said(`Land promised: ${family.land ? `${family.acres} acres` : 'none'}`)],
+      // The snow march, at the winter's close (owner, 2026-09-30, "Reveal at winter's end"; sim/ending.mjs `endingProjection`).
+      ...(family.reveal && { reveal: [said(family.reveal.title), ...family.reveal.paragraphs.map(said), said(family.reveal.ask)].filter(Boolean) }) };
   }
   const reading = {
     numbers: [said(family.name), said(`Coin in the house: ${reales(family.money)}`), said(`Glory: ${family.glory}`), said(`Final number: ${family.final}`), said(mathSaid(family.sum)), said(mathSaid(family.sumSaid))],
@@ -94,7 +96,8 @@ function familyView(family) {
     pair.append(make('dt', term), make('dd', value));
     numbers.append(pair);
   }
-  if (family.interim) return [...parts, make('p', 'This is where your family stands so far. The war is not over: the next class goes on from here.', 'ending-sum'), numbers];
+  // With the one story the owner lets the winter's close tell (2026-09-30, "Reveal at winter's end"): the snow march.
+  if (family.interim) return [...parts, make('p', 'This is where your family stands so far. The war is not over: the next class goes on from here.', 'ending-sum'), numbers, ...(family.reveal ? [revealView(family.reveal, reading.reveal)] : [])];
   // The sum, then the same sum said a step at a time in whole numbers (triage 2026-09-29 2.10): the server's words.
   parts.push(numbers, make('p', family.sum, 'ending-sum'));
   if (family.sumSaid) parts.push(make('p', family.sumSaid, 'ending-said'));
@@ -173,7 +176,9 @@ function interimHostView(closing) {
   table.append(thead, body);
   wrap.append(table);
   return [make('h2', 'How the families stand so far', 'ending-title'),
-    make('p', `The war is not over. The class goes on from here: press ${closing.nextLabel || 'Continue'} when the class meets again.`, 'ending-sum'), wrap];
+    make('p', `The war is not over. The class goes on from here: press ${closing.nextLabel || 'Continue'} when the class meets again.`, 'ending-sum'), wrap,
+    // The snow march, at the winter's close (owner, 2026-09-30, "Reveal at winter's end"), and at the class's end as ever.
+    ...(closing.reveal ? [revealView(closing.reveal)] : [])];
 }
 
 function hostView(closing) {

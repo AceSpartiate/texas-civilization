@@ -83,6 +83,17 @@ try {
   // (3efc12bc, owner 2026-09-29, docs/FAMILY_PANEL.md §20c: "the '!' and story cards still open what waits on them"); this
   // proof pressed the portrait and was red from then until 2026-09-30.
   observed.portraitHeld = await page.locator(`.panel-row[data-entity-id="${volunteer}"] .panel-portrait`).getAttribute('aria-disabled') === 'true';
+  // Greyed, with better words (owner, 2026-09-30): the row says where he is, by the army's own place, and not "On the road to
+  // Béxar — back in view when they arrive" (public/family-panel.js `armyAwayWords`).
+  if (observed.portraitHeld) {
+    observed.greyedLine = await page.evaluate(id => window.__unseenOnRoad?.get(id) || '', volunteer);
+    assert.equal(observed.greyedLine, 'With the army at the Salado', `the greyed row does not say where he is: "${observed.greyedLine}"`);
+    // The row's own line, as test:travel-sight reads it (`.panel-away-line`, not hidden); and the row greyed.
+    const row = await page.locator(`.panel-row[data-entity-id="${volunteer}"]`).evaluate(item => { const line = item.querySelector('.panel-away-line'); return { unseen: item.dataset.unseen, line: line && !line.hidden ? line.textContent : '' }; });
+    assert.equal(row.unseen, 'true', 'his row is not greyed');
+    assert.equal(row.line, 'With the army at the Salado', `the row does not say where he is: "${row.line}"`);
+    ok(`his row is greyed and says "${observed.greyedLine}"`);
+  }
   const mark = page.locator(`.panel-row[data-entity-id="${volunteer}"] .panel-attention`);
   await mark.waitFor({ state: 'visible', timeout: 15000 });
   observed.mark = await mark.getAttribute('aria-label');

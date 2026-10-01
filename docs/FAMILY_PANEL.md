@@ -1562,7 +1562,11 @@ should be greyed out and the player shouldn't be able to select them until they'
   night, who is drawn and live. The fade depends on the zoom, so a family running flat out can be drawn in the family frame and
   out of sight close in; the row follows what is drawn.
 - **Greyed** - dimmed, not hidden: the portrait, name and tools at 45% and grey, with a line of its own: *"On the road to
-  Gonzales — back in view when they arrive"* (*"On the road home — …"*).
+  Gonzales — back in view when they arrive"* (*"On the road home — …"*). **One of the family with the army** says where he is
+  instead (owner, 2026-09-30, *"Greyed, better words"*): *"With the army at the Salado"* - the army's own place wherever it halts
+  (its siege camp, else the place it stands at; sim/army.mjs `armyProjection`), *"With the army on the road to Béxar"* on the
+  march (public/family-panel.js `armyAwayWords`; the refusal line says the same). Still greyed: the army halted in the middle of
+  its march is not drawn. ceiling: the volunteer army of 1835 only; Houston's army and the Alamo's garrison say their road.
 - **Not selectable** - the portrait, the star and *Make … the main person* are held (`aria-disabled`), and a press on any of them
   is refused in a quiet line: *"Amos cannot be chosen while out of sight. On the road to Gonzales — back in view when they
   arrive."* So is the journal's roster.

@@ -477,19 +477,25 @@ export function endingProjection(world, householdId, role) {
   // or shows it - the glory, the final number it multiplies, the sum, what earned it, who leads by it - goes on the wire until
   // the last period ends.
   const interim = interimStandings(world);
+  // **One amendment, the snow march** (owner, 2026-09-30, "Reveal at winter's end"): when the winter - the second period - closes
+  // on March 13, its standings carry the reveal of the snow march and the surprise at Béxar (sim/surprise.mjs `surpriseReveal`),
+  // as the explanation of how Santa Anna's army came so fast; the class's own end carries it as well. Nothing else of the ending's
+  // story comes before the end, and no glory: the reveal names none. The first period's close never has it (it has not lived
+  // February 23).
+  const reveal = interim ? surpriseReveal(world) : null;
   if (role === 'host') {
     const host = hostEnding(world);
-    return { ending: { host: { ...(interim ? interimHost(host) : host), interim, canContinue: canContinue(world), ...(canContinue(world) && { nextLabel: nextPeriodLabel(world) }) } } };
+    return { ending: { host: { ...(interim ? interimHost(host) : host), interim, canContinue: canContinue(world), ...(canContinue(world) && { nextLabel: nextPeriodLabel(world) }), ...(reveal && { reveal }) } } };
   }
   if (!householdId || !world.households[householdId]) return {};
   const family = familyEnding(world, householdId);
-  return { ending: { family: { ...(interim ? interimFamily(family) : family), interim } } };
+  return { ending: { family: { ...(interim ? interimFamily(family) : family), interim, ...(reveal && { reveal }) } } };
 }
 
 /**
  * The standings between periods: **coin and land only** (owner, 2026-09-28, by multiple choice). The coin a family holds and the
  * land it has been promised, and nothing else - no glory and nothing that shows it or lets it be worked out (the final number,
- * the sum, what earned it, who leads, the question about it), and none of the ending's story, which is the end's to tell.
+ * the sum, what earned it, who leads, the question about it), and none of the ending's story, which is the end's to tell - but for the snow march's reveal at the winter's close (owner, 2026-09-30; `endingProjection`).
  */
 export const interimFamily = family => ({ householdId: family.householdId, name: family.name, money: family.money, land: family.land, acres: family.acres });
 /** The Host's standings so far: every family's coin and land in household order, a family nobody played marked, nobody named. */

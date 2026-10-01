@@ -2,14 +2,13 @@
 // 2026-09-26: the true story of the snow march goes to the teacher "At the ending"; sim/surprise.mjs `surpriseReveal`,
 // public/ending.js `revealView`; docs/battle-research/surprise-at-bexar.md §6).
 //
-// **Where "the ending" is (2026-09-30).** Written on 2026-09-26, this proof had the reveal on the closing screens when the second
-// period stops on the night of March 13. Two days later the standings between periods became coin and land only (design audit
-// B4, owner 2026-09-28, 06b82e6a; sim/ending.mjs `interimFamily`, `interimHost`): "none of the ending's story, which is the end's
-// to tell". Since then the reveal comes only at the class's own ending, and this proof was red until 2026-09-30. It now proves
-// both halves of that:
+// **Where it is shown (owner, 2026-09-30, "Reveal at winter's end").** The standings between periods are coin and land only
+// (design audit B4, 06b82e6a, 2026-09-28), with one amendment: when the winter - the second period - closes on March 13, the
+// reveal comes with them, as the explanation of how Santa Anna's army arrived so fast; and it comes again at the class's end.
+// This proves both:
 //   1. a class played in process to the evening of March 13, a few minutes before the second period stops; two students join
 //      (1366x768 and 1024x768) and the Host starts it. When it stops, the Host's screen and each family's show the standings so
-//      far, and nothing of the reveal - not on the screen and not on the wire;
+//      far - coin and land, no glory on the wire - and the reveal with them, readable in the panel, nothing sideways;
 //   2. the same class played in process on through the spring (the Host's Continue, `beginThirdPeriod`, as the teacher's
 //      button does it) to a day before the class's own end on April 25; two students join, the Host starts it, it ends by itself,
 //      and the teacher skips ahead through the end sequence (sim/end-sequence.mjs) to the final numbers. Then the Host's closing
@@ -123,19 +122,22 @@ const revealOnWire = page => page.evaluate(() => { const ending = window.__snaps
 try {
   mkdirSync('test-results', { recursive: true });
 
-  // ---------------------------------------------------------------- 1. the second period stops: the standings so far, no reveal
+  // ------------------------------------------- 1. the winter's close on March 13: the standings so far, and the snow march with them
   const winter = await classOn(lateClass, 'winter');
   ok(`a class played in process to ${winter.date}, two students joined, the Host started it; no ending on the wire while it ran`);
-  for (const [page, width, who] of [[winter.host, 1366, 'the Host'], [winter.students['hh-1'], 1366, 'hh-1'], [winter.students['hh-2'], 1024, 'hh-2']]) {
+  for (const [page, width, who, name] of [[winter.host, 1366, 'the Host', 'host'], [winter.students['hh-1'], 1366, 'hh-1', 'hh-1'], [winter.students['hh-2'], 1024, 'hh-2', 'hh-2']]) {
     await panelOn(page, width);
     await page.waitForFunction(() => window.__snapshot?.world?.ending);
     assert.equal(await page.locator('#ending-eyebrow').textContent(), 'THE STORY SO FAR', `${who}'s screen is not the standings so far`);
-    assert.equal(await page.evaluate(() => Boolean((window.__snapshot.world.ending.host || window.__snapshot.world.ending.family).interim)), true, `${who}'s ending is not the interim`);
-    assert.equal(await page.locator('#ending .ending-reveal').count(), 0, `${who}'s standings so far show the reveal`);
-    assert.equal(await revealOnWire(page), false, `${who}'s page was sent the reveal between periods`);
+    const ending = await page.evaluate(() => window.__snapshot.world.ending.host || window.__snapshot.world.ending.family);
+    assert.equal(ending.interim, true, `${who}'s ending is not the interim`);
+    // Coin and land, and no glory: the one story the winter's close tells is the snow march (owner, 2026-09-30).
+    assert.doesNotMatch(JSON.stringify(ending), /glory|"final"|"awards"|"winners"/i, `${who}'s standings so far carry glory`);
+    const text = await revealOn(page, width);
+    for (const said of SAID) assert.match(text, said, `${who}'s reveal at the winter's close does not say ${said}`);
+    await shot(page, `winter-${name}-${width}`);
   }
-  await shot(winter.host, 'host-interim-1366');
-  ok('when the second period stops on March 13, the Host\'s screen and both families\' show the standings so far and nothing of the reveal, on the screen or on the wire (B4, coin and land only)');
+  ok('when the winter closes on March 13, the Host\'s screen and both families\' show the standings so far - coin and land, no glory - and the reveal of the snow march with them, in the panel at 1366x768 and 1024x768, nothing sideways (owner, 2026-09-30, "Reveal at winter\'s end")');
   for (const page of [winter.host, ...Object.values(winter.students)]) await page.context().close();
 
   // ---------------------------------------------------------------- 2. the class's own end: the end sequence, then the reveal

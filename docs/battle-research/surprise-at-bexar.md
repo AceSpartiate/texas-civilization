@@ -165,11 +165,13 @@ enemy appeared in sight we had not three bushels of corn" — then "80 or 90 bus
   Washington's 27th), with the note's first words; the public (the taverns) with them. Travis's letter of the 24th follows as
   before (`alamo-siege`, the 25th at Gonzales, the 26th elsewhere).
 
-**At the ending** (`surpriseReveal`, `sim/surprise.mjs`; the Host's closing view and each family's, once a class that lived
-February 23 has ended for good — the third period's close, or the teacher's End Game part-way through a period after February 23 (sim/periods.mjs
-`interimStandings`); since 2026-09-28 the
-second period's close is standings of coin and land only, with none of the ending's story (design audit B4, 06b82e6a;
-`test:surprise-reveal` proves both, 2026-09-30)): *What nobody in Texas knew: the snow, and the surprise at
+**At the winter's close and at the ending** (`surpriseReveal`, `sim/surprise.mjs`; the Host's closing view and each family's,
+once a class that lived February 23 has stopped — the winter's close on March 13, the third period's close, or the teacher's End
+Game after February 23). **Owner-decided 2026-09-30, "Reveal at winter's end"**: the standings between periods are coin and land
+only (design audit B4, 06b82e6a, 2026-09-28), and this reveal is the one amendment - shown when the winter closes, as the
+explanation of how Santa Anna's army arrived so fast, and kept at the class's end as well (sim/ending.mjs `endingProjection`;
+`tests/periods.test.mjs`, `test:surprise-reveal`). The owner asked whether the winter ends just before the Alamo, as a
+cliffhanger; it does not - it ends March 13, a week after the fall. *What nobody in Texas knew: the snow, and the surprise at
 Béxar* — what the Texians believed (the grass, Houston's "by the rise of grass", Travis's March 15, Santa Anna fed by Coahuila and
 Nuevo León on mule back); the warnings (the San Felipe express, Herrera and the council, the Tejano families leaving, the
 fandango and the Medina's rain); the bell, the false alarm, Sutherland and Smith, the corn, the note to Gonzales; the snow of 13–14

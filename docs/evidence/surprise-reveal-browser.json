@@ -5,14 +5,16 @@
   "environment": "Same computer: local classroom servers and headless Chrome at 1366x768 (Host, hh-1) and 1024x768 (hh-2), 300 ms a tick. A real class on the colonies map with rolled families, played in process through the first period and the second to the evening of March 13, 1836; and the same class continued in process through the spring to April 24, its end sequence skipped by the teacher to the final numbers. Not physical LAN or district acceptance.",
   "checks": [
     "a class played in process to 1836-03-13, two students joined, the Host started it; no ending on the wire while it ran",
-    "when the second period stops on March 13, the Host's screen and both families' show the standings so far and nothing of the reveal, on the screen or on the wire (B4, coin and land only)",
+    "when the winter closes on March 13, the Host's screen and both families' show the standings so far - coin and land, no glory - and the reveal of the snow march with them, in the panel at 1366x768 and 1024x768, nothing sideways (owner, 2026-09-30, \"Reveal at winter's end\")",
     "the same class carried on in process through the spring to 1836-04-24, two students joined, the Host started it; no ending on the wire while it ran",
     "at the class's own end, after the teacher skipped to the final numbers, the Host's closing view reveals it at 1366x768: \"What nobody in Texas knew: the snow, and the surprise at Béxar What the Texians believed. All that winter the Texians expected no Mexican army before the spring grass, because an army's horses, mules …\"",
     "hh-1's ending reveals it too, in its panel at 1366x768, nothing sideways",
     "hh-2's ending reveals it too, in its panel at 1024x768, nothing sideways"
   ],
   "screens": [
-    "test-results/surprise-reveal-host-interim-1366.png",
+    "test-results/surprise-reveal-winter-host-1366.png",
+    "test-results/surprise-reveal-winter-hh-1-1366.png",
+    "test-results/surprise-reveal-winter-hh-2-1024.png",
     "test-results/surprise-reveal-host-1366.png",
     "test-results/surprise-reveal-hh-1-1366.png",
     "test-results/surprise-reveal-hh-2-1024.png"

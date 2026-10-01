@@ -499,7 +499,9 @@ Now, by the owner's choice of the same day (multiple choice: **"Coin and land on
 family `interimFamily` - the coin it holds and the land it has been promised, nothing else - and the Host `interimHost` -
 every family's coin and land in household order, a family nobody played marked, nobody named or marked first. No `glory`,
 `final`, `sum`, `awards`, `winners` or `best` is on the wire, nor the ending's story, and the word itself is on neither page (`tests/periods.test.mjs` for both interims, `npm run test:ending` on both
-pages; injections in `scripts/design-blockers-injections.mjs`). Only the end of the last period reveals glory.
+pages; injections in `scripts/design-blockers-injections.mjs`). Only the end of the last period reveals glory. One amendment,
+owner 2026-09-30 (*"Reveal at winter's end"*): the winter's interim also carries `reveal`, the snow march (sim/surprise.mjs),
+which names no glory.
 
 **The ending as the whole war, in sums a student can follow (2026-09-29, not released; triage of 2026-09-29 2.8-2.11, 3.6,
 3.7).** No owner decision was needed; nothing about who wins changed except the rounding below.

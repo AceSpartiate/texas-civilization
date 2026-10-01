@@ -1187,7 +1187,9 @@ Decided by the owner by multiple choice (§7e). `FIC-GONZ-044`.
   it. The owner chose what they do carry the same day, by multiple choice: **"Coin and land only"** (`interimFamily`,
   `interimHost`). A family sees the coin it holds and the land it has been promised; the Host every family's coin and land in
   household order, nobody named. The story, the coin's account, the prisoners, the questions and glory are the final
-  reckoning's, the last period's alone. Only a real-land class that reached `bexar-end` has a
+  reckoning's, the last period's alone - but for one amendment (owner, 2026-09-30, *"Reveal at winter's end"*): the winter's
+  close on March 13 carries the reveal of the snow march and the surprise at Béxar (sim/surprise.mjs), to explain how Santa
+  Anna's army came so fast, and the ending carries it again. Only a real-land class that reached `bexar-end` has a
   second period (`sim/periods.mjs` `canContinue`); the invented Gonzales country ends at its fight as before.
 - **The Host continues the class** with *Continue to the winter of 1836* (host action `next-period`), offered only where
   the server says so. It is not *New Class*: the same save, session, class code, family keys, people and glory.
