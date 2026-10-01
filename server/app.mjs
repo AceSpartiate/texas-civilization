@@ -7,6 +7,7 @@ import { basename, dirname, isAbsolute, join, relative, resolve, sep } from 'nod
 import { fileURLToPath } from 'node:url';
 import { etagFor, fileFacts, notModified, pictureFor, PIN_LENGTH, PINNED_CACHE, REVALIDATE_CACHE, sendBody } from './delivery.mjs';
 import { setAbsent } from '../sim/absence.mjs';
+import { feedOnHandover } from '../sim/hunger.mjs';
 import { CALL_BUDGET_MS, DECISION_BUDGET_MS, QUESTION_BUDGETS, realTimeMeter } from '../sim/decision-budget.mjs';
 import { createWorld, stepWorld, projectPage, projectMap, applyAction, validateWorld, projectFamily, rollFamily, errandFor, goingFor } from '../sim/world.mjs';
 import { familyMaking, householdName, rollRefusal } from '../sim/family.mjs';
@@ -1345,6 +1346,9 @@ export function createClassroom({ seed = 'gonzales-1835', playerCount = 15, tick
               // look, as a student who rolled does (public/creation.js; docs/FAMILY_CREATION.md, the amendment of 2026-09-30).
               household.joinedBegun = true;
             }
+            // A few days' food for a family the director was running or nobody had played, if its store is low (owner, 2026-09-30;
+            // sim/hunger.mjs `feedOnHandover`). A family whose student had gone was fed by `setAbsent` just above, once a period.
+            feedOnHandover(s.world, household);
             tellClass(s.world, seat.previous
               ? `${name} joined the class and is playing ${householdName(s.world, household)}, which was ${seat.previous.name}'s.`
               : `${name} joined the class late and is playing ${householdName(s.world, household)}.`);

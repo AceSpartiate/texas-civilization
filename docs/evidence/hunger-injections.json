@@ -1,9 +1,9 @@
 {
  "record": "hunger-injections",
- "date": "2026-09-30",
- "caught": 29,
- "only": 20,
- "of": 29,
+ "date": "2026-10-01",
+ "caught": 35,
+ "only": 26,
+ "of": 35,
  "injections": [
   {
    "name": "a death at starving, without the sustained stretch",
@@ -115,6 +115,78 @@
    "only": true,
    "failed": [
     "overtaken: the column takes the wagon's food and leaves the family a few days' eating, never more than it had"
+   ]
+  },
+  {
+   "name": "a student back from being away finds the store as the director left it",
+   "files": [
+    "sim/absence.mjs"
+   ],
+   "expected": "handed over: a student back",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "handed over: a student back at a family the director ran finds a few days' food, once a period, never less than it had"
+   ]
+  },
+  {
+   "name": "a late student finds the store as the director left it",
+   "files": [
+    "server/app.mjs"
+   ],
+   "expected": "handed over: a student who joins late",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "handed over: a student who joins late into a family the computer was playing finds a few days' food"
+   ]
+  },
+  {
+   "name": "food farmed by leaving and coming back",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "handed over: a student back",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "handed over: a student back at a family the director ran finds a few days' food, once a period, never less than it had"
+   ]
+  },
+  {
+   "name": "a family with plenty cut down to three days",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "handed over: a student back",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "handed over: a student back at a family the director ran finds a few days' food, once a period, never less than it had"
+   ]
+  },
+  {
+   "name": "a week handed over, not a few days",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "handed over: a student back",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "handed over: a student back at a family the director ran finds a few days' food, once a period, never less than it had"
+   ]
+  },
+  {
+   "name": "a family nobody plays fed as if handed over",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "handed over: a student back",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "handed over: a student back at a family the director ran finds a few days' food, once a period, never less than it had"
    ]
   },
   {

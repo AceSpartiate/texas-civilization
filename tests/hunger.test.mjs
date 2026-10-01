@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
-import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
+import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { beginSecondPeriod } from '../sim/periods.mjs';
 import { flee, flightProjection, share } from '../sim/scrape.mjs';
 import { canAnswerCalls, canFight, eatenADay, sexOf } from '../sim/family.mjs';
@@ -19,8 +19,11 @@ import { flashbackScript } from '../sim/flashback.mjs';
 import { homeMiles, NEAR_MILES } from '../sim/neighbourly.mjs';
 import { QUESTION_BUDGETS } from '../sim/decision-budget.mjs';
 import {
-  DEATH_AT, STARVING_AT, WEAK_AT, advanceHunger, ate, hungerPace, hungerStride, hungerWeight, larderShown, recoverOverWinter,
+  DEATH_AT, HANDOVER_DAYS, STARVING_AT, WEAK_AT, advanceHunger, ate, dailyDraw, feedOnHandover, hungerPace, hungerStride, hungerWeight, larderShown,
+  recoverOverWinter,
 } from '../sim/hunger.mjs';
+import { setAbsent } from '../sim/absence.mjs';
+import { createClassroom } from '../server/app.mjs';
 import { larderLevel, larderFill, larderLabel, larderWorse, needsOf } from '../public/family-panel.js';
 import { MOMENTS, militaryNotices } from '../public/military-attention.js';
 import { settle } from './support/settled.mjs';
@@ -403,6 +406,75 @@ test('saves: a class saved before hunger opens as fed, and a hunger that cannot 
   delete person.hunger;
   person.health = { condition: 'well', starved: true };
   assert.throws(() => validateWorld(world), /Invalid hunger/);
+});
+
+// ------------------------------------------------------------------------------------------------ a family handed to a student
+
+test('handed over: a student back at a family the director ran finds a few days\' food, once a period, never less than it had', () => {
+  const world = landed('hunger-handover');
+  const household = Object.values(world.households)[0];
+  household.played = true;
+  household.resources.food = 0;
+  const three = Math.ceil(dailyDraw(world, household).eat * HANDOVER_DAYS * 10) / 10;
+  assert.equal(HANDOVER_DAYS, 3);
+  // The student goes; the director runs the family; the student comes back to an empty store.
+  setAbsent(world, household, true);
+  assert.equal(household.resources.food, 0, 'the family was fed as its student left');
+  setAbsent(world, household, false);
+  assert.equal(household.resources.food, three, `the family came back with ${household.resources.food} food, not three days' eating (${three})`);
+  assert.ok(world.events.some(event => event.householdId === household.id && /food in the house for a few days/.test(event.text)), 'the journal does not say so');
+  // Away and back again in the same period, down to nothing again: no second helping.
+  household.resources.food = 0;
+  setAbsent(world, household, true); setAbsent(world, household, false);
+  assert.equal(household.resources.food, 0, 'a student farmed food by leaving and coming back');
+  // Never less than it had: a family with a fortnight's food keeps it, and keeps its chance for later in the period.
+  const other = Object.values(world.households)[1];
+  other.played = true;
+  other.resources.food = 50;
+  setAbsent(world, other, true); setAbsent(world, other, false);
+  assert.equal(other.resources.food, 50);
+  assert.equal(other.handoverFed, undefined, 'a family that did not need food used up its handover');
+  // The next period, it may be fed again.
+  world.period = 2;
+  setAbsent(world, household, true); setAbsent(world, household, false);
+  assert.ok(household.resources.food > 0, 'a family was never fed again in a later period');
+  // A family nobody plays is not the student's, and gets nothing.
+  const nobody = Object.values(world.households)[2];
+  delete nobody.played; nobody.resources.food = 0;
+  assert.equal(feedOnHandover(world, nobody), 0);
+  assert.equal(nobody.resources.food, 0);
+  validateWorld(world);
+  // Never sent to the page.
+  assert.equal(projectWorld(world, household.id, 'student', { includeMap: false }).household.handoverFed, undefined);
+});
+
+test('handed over: a student who joins late into a family the computer was playing finds a few days\' food', async () => {
+  // A class under way, stepped in process, every family's store emptied, paused: the next student to join is late.
+  const factory = (seed, count) => {
+    const world = createGonzalesWorld(seed, count, { map: 'colonies' });
+    for (const household of Object.values(world.households)) rollFamily(world, household);
+    world.status = 'running';
+    for (let tick = 0; tick < 30; tick++) stepWorld(world);
+    for (const household of Object.values(world.households)) household.resources.food = 0;
+    world.status = 'paused';
+    return world;
+  };
+  const app = createClassroom({ seed: 'hunger-handover-join', playerCount: 5, tickMs: 1000, worldFactory: factory });
+  const port = await app.listen(0, '127.0.0.1');
+  try {
+    const response = await fetch(`http://127.0.0.1:${port}/api/join`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: 'Late Student', code: app.state.sessionCode }) });
+    assert.equal(response.status, 200);
+    const { world } = app.state;
+    const householdId = Object.values(app.state.clients)[0].householdId;
+    const household = world.households[householdId];
+    const three = Math.ceil(dailyDraw(world, household).eat * HANDOVER_DAYS * 10) / 10;
+    assert.equal(household.resources.food, three, `the late student's family has ${household.resources.food} food, not three days' eating (${three})`);
+    assert.equal(household.handoverFed, 1);
+    // The families nobody joined keep what the director left them.
+    for (const other of Object.values(world.households)) if (other.id !== householdId) assert.equal(other.resources.food, 0);
+  } finally {
+    await app.close();
+  }
 });
 
 test('the claims are registered', () => {

@@ -1317,6 +1317,7 @@ function projectHousehold(world, household) {
   delete shown.heritage;
   // What the story has already said of the family's hunger (sim/hunger.mjs): the server's bookkeeping; the rows carry the stage.
   delete shown.hungerTold;
+  delete shown.handoverFed;
   return { ...shown, ...(main !== household.principalId && { mainId: main }),
     ...(acting && acting.id !== main && { actingId: acting.id }), ...(acting?.how === 'child' && { steppedUp: true }),
     ...(taken && { takenIn: { householdId: taken.id, name: householdName(world, taken), ids: [...household.takenIn.ids] } }),
