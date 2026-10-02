@@ -43,7 +43,9 @@ import { spotlight } from './host.mjs';
 import { abandonWagon, answerRoad, breakCamp, familyPoint, milesWord, moveOn, nextRefuge, overtake, roadAutoAnswer, withFamily } from './road.mjs';
 import { acrossCountry } from './flight-route.mjs';
 import { heldToCow, loseCow, cowPace } from './flight-work.mjs';
-import { drawnVehicles } from './company.mjs';
+import { companyPace, drawnVehicles, riddenHorses, seatPlan } from './company.mjs';
+// A beast hit by a ball is lame until it mends (sim/beasts.mjs, triage 2026-09-29 3.2).
+import { LAME_DAYS, lame } from './beasts.mjs';
 import { recordLapse } from './lapse.mjs';
 // Who is with the family and answers for it (sim/acting.mjs, 2026-09-28).
 import { actingId } from './acting.mjs';
@@ -438,8 +440,9 @@ function strike(world, household, chase, target, n) {
     record(world, 'consequence', { householdId: household.id, importance: 2, claimId: 'FIC-GONZ-664', text: `The ${target.name} was shot down as the family ran.` });
     return 'killed';
   }
-  entity.hurt = true;
-  record(world, 'consequence', { householdId: household.id, importance: 2, claimId: 'FIC-GONZ-664', text: `The ${target.name} was hit by a ball and is lamed${target.name === 'ox' ? ': the wagon goes at half its pace' : ': nobody can ride it'}.` });
+  // Lame until it mends, about three weeks on (sim/beasts.mjs `LAME_DAYS`): until 2026-10-02 only while this chase lasted.
+  entity.hurt = world.minute + LAME_DAYS * 1440;
+  record(world, 'consequence', { householdId: household.id, importance: 2, claimId: 'FIC-GONZ-664', text: `The ${target.name} was hit by a ball and is lamed${target.name === 'ox' ? ': the wagon goes at half its pace' : ': nobody can ride it until it mends, in about three weeks'}.` });
   return 'lamed';
 }
 const nearestSite = (world, point) => point && Object.values(world.map.sites).reduce((best, site) => !best || Math.hypot(site.x - point.x, site.y - point.y) < Math.hypot(best.x - point.x, best.y - point.y) ? site : best, null)?.id;
@@ -461,9 +464,9 @@ function repace(world, household) {
     else for (const one of movers) one.travel.halted = true;
     return;
   }
-  const hurtOx = flight.mode === 'wagon' && beasts.some(beast => beast.hurt && beast.species !== 'horse' && beast.kind === 'animal');
+  const hurtOx = flight.mode === 'wagon' && beasts.some(beast => lame(world, beast) && beast.species !== 'horse' && beast.kind === 'animal');
   const mounted = people.filter(one => one.travel).every(one => one.travel.saddle || one.travel.carried);
-  for (const one of people) if (one.travel?.saddle) { const horse = beasts.find(beast => beast.id === one.travel.rides); if (!horse || horse.hurt) { delete one.travel.saddle; one.travel.afoot = true; } }
+  for (const one of people) if (one.travel?.saddle) { const horse = beasts.find(beast => beast.id === one.travel.rides); if (!horse || lame(world, horse)) { delete one.travel.saddle; one.travel.afoot = true; } }
   const stillMounted = mounted && people.filter(one => one.travel).every(one => one.travel.saddle || one.travel.carried);
   for (const one of movers) {
     if (hurtOx) one.travel.speed = Math.min(one.travel.speed, WAGON_SPEED / 2);
@@ -568,12 +571,18 @@ function endChase(world, household, chase, outcome, reason = null) {
     for (const one of [...people, ...beasts]) if (one.travel?.purpose === 'flee' && one.travel.speed === FAMILY_RUN_MPH / 3) one.travel.speed = HORSE_SPEED;
   }
 }
-/** The chase put away: into the family's short list of those it has met, and the question it held put back. */
-function closeChase(household) {
+/**
+ * The chase put away: into the family's short list of those it has met, and the question it held put back where it still applies -
+ * the bog while the wagon is still in the mud, the army close behind while a column still is (`flight.danger`). Put again with its
+ * own time from now, as though just asked: it had used some of it before the soldiers came. Until 2026-10-02 only the bog came
+ * back, and a family that got away was never asked about the army behind it again (design audit M29, triage 2026-09-29 3.12).
+ */
+function closeChase(world, household) {
   const flight = household.flight, chase = flight.chase;
   if (!chase) return;
   flight.pursued = [...(flight.pursued || []), { id: chase.id, by: chase.by, kind: chase.kind, outcome: chase.phase, minute: chase.ended ?? chase.began, shots: chase.shotCount, hits: chase.hits }].slice(-6);
-  if (chase.deferredAsk && !flight.ask && flight.bog && chase.deferredAsk.id === 'bog') flight.ask = chase.deferredAsk;
+  const back = chase.deferredAsk?.id;
+  if (back && !flight.ask && ((back === 'bog' && flight.bog) || (back === 'danger' && flight.danger))) flight.ask = { id: back, openedMinute: world.minute, openedTick: world.tick };
   delete flight.chase;
 }
 
@@ -658,7 +667,7 @@ export function advancePursuit(world, household) {
   let chase = flight.chase;
   if (chase && ['caught', 'escaped'].includes(chase.phase)) {
     chase.linger = (chase.linger || 0) + 1;
-    if (chase.linger > LINGER_TICKS || !attended(world, household)) closeChase(household);
+    if (chase.linger > LINGER_TICKS || !attended(world, household)) closeChase(world, household);
     chase = flight.chase;
     if (chase) { chase.step = CHASE_STEP; return chase.phase === 'caught'; }
     return false;
@@ -859,10 +868,20 @@ export function runMph(world, household, option = 'run') {
   const flight = household.flight;
   const { people, beasts } = withFamily(world, household);
   const leader = people.find(one => one.travel?.purpose === 'flee');
-  if (option === 'abandon-run') return flight.cow ? 2 : 3;
+  // Leaving the wagon, the family goes on at its slowest walker, with its seats dealt again for no wagon (sim/road.mjs `reseat`,
+  // triage 2026-09-29 3.1): a child of two to five on foot holds it to a mile and a half an hour, unless a horse carries the child;
+  // all on horseback, it runs as riders do (`repace`). Priced at the pace it will get. A class from before the means had no seats.
+  if (option === 'abandon-run') {
+    if (!world.meansRoll) return flight.cow ? 2 : 3;
+    const going = people.filter(one => !['dead', 'captured'].includes(one.health?.condition));
+    const plan = seatPlan(going, [], riddenHorses(world, beasts));
+    if (going.length && going.every(one => plan.get(one.id)?.saddle || plan.get(one.id)?.carried)) return FAMILY_RUN_MPH;
+    const mph = round(companyPace(going, plan, []) * 3, 1);
+    return flight.cow ? Math.min(mph, 2) : mph;
+  }
   if (option === 'cow-run') return 3;
   if (seenAs(world, household) === 'mounted') return FAMILY_RUN_MPH;
-  if (drawnVehicles(beasts).length) return beasts.some(beast => beast.hurt && beast.species !== 'horse' && beast.kind === 'animal') ? 1 : 2;
+  if (drawnVehicles(beasts).length) return beasts.some(beast => lame(world, beast) && beast.species !== 'horse' && beast.kind === 'animal') ? 1 : 2;
   if (leader?.travel) return round(leader.travel.speed * 3, 1);
   return 3;
 }

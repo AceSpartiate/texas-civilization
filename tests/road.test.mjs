@@ -168,7 +168,12 @@ test('a bogged family can wait for a dry day, or leave the wagon and go on on fo
   assert.equal(wagon.condition, 'lost'); assert.equal(ox.condition, 'lost');
   assert.equal(wagon.travel?.purpose, 'lost', 'the wagon did not stay where it was left');
   assert.equal(horse.travel?.purpose, 'flee', 'the horse was left with the wagon');
-  for (const one of people(world, household).filter(one => one.travel)) { assert.equal(one.travel.mode, 'foot'); assert.equal(one.travel.speed, WALK_SPEED); assert.equal(one.travel.halted, undefined); }
+  // On foot at its slowest walker (triage 2026-09-29 3.1: the seats dealt again, the horse carrying the youngest): a child of six to
+  // nine walks two miles an hour, still faster than the ox; until 2026-10-02 everybody went at a grown person's three.
+  const walkers = people(world, household).filter(one => one.travel?.afoot && !one.travel.carried);
+  const slowest = Math.min(...walkers.map(one => (!(one.age < 10) ? WALK_SPEED : one.age >= 6 ? 2 / 3 : 0.5)));
+  assert.ok(slowest > WAGON_SPEED, 'on foot is not faster than the wagon: the check proves nothing');
+  for (const one of people(world, household).filter(one => one.travel)) { assert.equal(one.travel.mode, 'foot'); assert.equal(one.travel.speed, slowest, `${one.name} does not go at the slowest walker's pace`); assert.equal(one.travel.halted, undefined); }
   assert.ok(household.resources.food <= grown * 1.25 / 0.25 + 1e-9 && household.resources.food > 0, `the family carries ${household.resources.food} food on foot`);
   assert.equal(household.resources.money, 2, 'the coin was lost with the wagon');
   assert.ok(world.events.some(event => event.householdId === household.id && /left the wagon and the ox/.test(event.text)));

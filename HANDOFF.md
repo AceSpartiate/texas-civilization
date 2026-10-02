@@ -1,5 +1,77 @@
 # Claude handoff — Astra foundation
 
+## Tier 3 of the triage, the road and the chase (not released) — 2026-10-02
+
+Branch `tier3-road` off local `integration-2026-09-28` (4c38be85 = origin/main); not pushed. The owner said "yes, start them" for
+eight rows of docs/audits/2026-09-29-triage.md Tier 3 and one "found while checking"; each was run again against today's code
+first (all still happened), given a node test that failed on the code as it was, fixed, and the fix proved by injection. Each row
+is marked in the triage. Same computer only: no Chromebook, LAN or classroom claim. No save version: every new field is absent
+until it happens.
+
+- **3.1 Seats kept on a wagon or horse the family no longer has.** `reseat` (sim/road.mjs) deals the seats again (sim/company.mjs
+  `setOut`, each journey kept where it is) after `overtake`, after `abandonWagon`, and as the family sets out again from its refuge
+  (`moveOn`, which dealt no seats at all). So the horse carries the youngest it can and the rest walk at the slowest walker:
+  **a child under ten on foot now holds a family that leaves its wagon to two miles an hour (six to nine) or a mile and a half (two
+  to five)**, as a family that set out on foot always was (`FIC-GONZ-395`). *Leave the wagon and run* is priced at that pace
+  (sim/pursuit.mjs `runMph`), all-mounted at the riders' run. Consequence: leaving the wagon to outrun infantry (2.5 mph) now works
+  only for a family whose walkers are all ten or more, or whose small children a horse can carry - owner question below.
+- **3.2 A horse "lamed: nobody can ride it" ridden on the next leg.** `beast.hurt` is now the minute it mends, three weeks on
+  (sim/beasts.mjs `LAME_DAYS`, `lame`); a lame horse is no seat (`riddenHorses`), no mount for an errand (sim/keeping.mjs
+  `beastFor`) and not sent to the army (sim/supplies.mjs `spareHorse`). The record of the shot says "until it mends, in about three
+  weeks". A class saved before wrote `true`: lame, with no day to mend by, as the family was told. `ceiling:` the lamed ox's half
+  pace is still the chase's. `FIC-GONZ-664` amended.
+- **3.3 The road home ate nothing.** sim/scrape.mjs `advanceFlight` drops the `returning` exclusion; the gauge reads the road home
+  as the road east (sim/hunger.mjs `dailyDraw`). Handover and the fed rules are untouched (they read `dailyDraw`, so a family taken
+  over on the road home is topped up by the road's eating). The flashback's copy of the road home eats too and runs no hunger tick,
+  so nobody dies of it there (sim/homecoming.mjs, its ceiling).
+- **3.4 Leaving the wagon said nowhere.** "Our story" says when they left the wagon and the ox (sim/ending-story.mjs
+  `wagonLeftEvent`, the event marked `road: 'wagon-left'`, and the old sentence for a class saved before); the flashback has a
+  beat of it, and **every road scene draws the wagon only while the family had it** - until now each read the flight's mode at the
+  end, so a family that left its wagon was drawn setting out from home on foot. Coin stays the score: no number changed.
+- **3.5 Liberty, Anahuac and Nacogdoches ordered out with no reason.** Each has its own words (`SETTLEMENT_DAYS[...].word`,
+  claim `HIST-TEX-065` on the event): the families from the west passing with word of the army behind them, no soldiers seen near,
+  nobody knowing how far they will come, the whole country going east. No battle is named, so no news arrives ahead of its rider.
+- **3.10 The gathering call after a refused food request.** sim/calls.mjs `offerCalls` skips the town's call for a family whose
+  request is `refused`; silence is not a no, and that family is still asked.
+- **3.11 No word that there is no recall.** The relief's description: "Until then they can be sent for; once they have ridden from
+  Gonzales, nobody can send for them." The Matamoros men's: "once fighting comes to them in the south, nobody can reach them to send
+  for them." Both as sim/winter.mjs `recallRefusal` has it; neither names a fight.
+- **3.12 The "close behind" question lost after a chase.** sim/pursuit.mjs `closeChase` puts back the bog while the wagon is still
+  in it and the danger while a column still is (`flight.danger`), each with its own time from now (the bog used to come back with
+  the time it had used, and could lapse at once).
+- **Found while checking: the 1.11 check could not fail.** tests/scrape-pursuit.test.mjs's "only the men and the animals" now reads
+  who is aboard from the scene (a one-wagon scene: whoever is neither walking nor in the saddle), the baby's carrier from its
+  parents, judges each shot by the family as it stood before and after that tick, and requires a driver it spared. **Injected - a
+  driver's seat written as no seat at all (`seatFields` dropping `drives`) - the check as it was passed and this one fails.**
+
+**Evidence** (same computer only):
+
+- New node tests, each seen failing on the code as it was: tests/scrape-pursuit.test.mjs (3.1, 3.2, 3.12; the paces test now has
+  Susannah alone outrun infantry on foot and hh-1, with a child of five walking, priced at 1.5 and caught), tests/hunger.test.mjs
+  (3.3), tests/ending-story.test.mjs (3.4), tests/scrape.test.mjs (3.5), tests/calls.test.mjs (3.10), tests/chores.test.mjs (3.11);
+  tests/road.test.mjs's leaving-the-wagon check now asks for the slowest walker's pace (it asked for a grown person's).
+- **Injections, each caught by its own test** (the file put back each time): `node scripts/scrape-pursuit-injections.mjs unit
+  "triage 3"` - 9 of 9 (two of them, the seats kept on leaving the wagon and the grown-pace price, also fail the paces test, as
+  expected); "a lamed ox pulls at its full pace", "the man driving...", "the horse a woman or a child is on", "the women among the
+  targets", "the wagon ... fired at" caught as recorded; "the children among the targets" now fails the women-and-children-alone
+  check too (8 shots on foot) and its expected set says so (docs/evidence/scrape-pursuit-injections.json). Outside the chase file,
+  ten more, each failing only its own test: the road home eating nothing, the gauge reading it as home, "Our story" silent, no
+  flashback beat, the wagon drawn by the mode at the end, the east's old words, the gathering call after a refusal, the relief's and
+  the Matamoros men's descriptions, and the mud's seats kept (tests/road.test.mjs).
+- `npm test`: **2024 tests, 1988 pass, 0 fail, 36 skipped** (the suspended tutorial). An earlier run of the same
+  code had `battle-floor` fail on timing (4 against 5), green alone (4 of 4) and green in the full run after.
+- Browser proofs, each run alone: `test:road` (343 s), `test:scrape-pursuit`, `test:wagons`, `test:ending`, `test:flashback`,
+  `test:riding` green; `test:scrape` red once (the cart's food read as 31.65, not 32: a tick of eating on the road **east** before
+  the proof read it - unchanged by this branch, and the same proof on unchanged HEAD went green twice) and then green 3 of 3.
+
+**Owner question** (multiple choice, recommended first): *A family that leaves its wagon to run, with a child of two to five and no
+horse to carry it, now goes at the child's pace (1.5 mph) and infantry (2.5) catches it; before this branch it ran at a grown
+person's 3 and got away.*
+- **A (recommended) As built**: the one rule for walkers everywhere (FIC-GONZ-395); a family with small children has a real reason
+  to keep its wagon, or to run for the timber.
+- B When running, each grown person carries one small child, so a family with enough grown people goes at a grown pace.
+- C Only when running from soldiers, everybody runs at a grown pace (the old behaviour, in the chase only).
+
 ## Released as v2026.10.02.1 — 2026-10-02
 
 Main at 7964210d, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.02.1>), with a small update from v2026.10.01.1 (865 KB, 16 files). On 5f749394: `npm test` 2016 tests, 1 fail (save-retry timing, fixed in 7964210d and proved by injection); 21 browser proofs for everything changed since v2026.10.01.1 all green. Same computer only: no Chromebook, LAN or classroom claim.

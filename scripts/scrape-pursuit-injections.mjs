@@ -26,6 +26,9 @@ const NAMES = {
   seen: 'the class\'s clock is held to the chase only for a family at its screen, and the chase is its own and the Host\'s to see, with its route its own alone',
   old: 'an old save opens: a flight with no route, no chase, no path fields validates and runs, and no save version moved',
   rest: 'rest and the chase (docs/DISEASE.md §3.7): a chase is never rest, no camp is made with soldiers after the family, a camp that runs goes, and a wound is the wound\'s',
+  reseat: 'overtaken, or leaving the wagon, nobody keeps a seat on a wagon or a horse the family no longer has, and the smallest walker sets the pace (triage 3.1)',
+  lame: 'a horse lamed in a chase carries nobody on the next leg, and mends in about three weeks (triage 3.2)',
+  askBack: 'a family that gets away from a chase is asked again the "close behind" question the chase put aside (triage 3.12)',
 };
 const UNIT = [
   { name: 'the family stops at its first stop and never goes on to the next', file: 'sim/flight-route.mjs',
@@ -43,7 +46,9 @@ const UNIT = [
     from: 'export const MOVING_SHARE = 0.6;', to: 'export const MOVING_SHARE = 1;', expect: NAMES.table },
   // Only at men and animals (owner, 2026-09-27): the two checks that hold it, and each regression that breaks it.
   { name: 'the children among the targets', file: 'sim/pursuit.mjs',
-    from: "const spared = one => !grown(one) || sexOf(one) !== 'male';", to: "const spared = one => sexOf(one) !== 'male';", expect: NAMES.menOnly },
+    // Run again 2026-10-02 (branch tier3-road), the check of women and children alone fails on it too ("8 shots were fired at women
+    // and children", the family on foot): both checks hold the rule. The record before had it caught by the first alone.
+    from: "const spared = one => !grown(one) || sexOf(one) !== 'male';", to: "const spared = one => sexOf(one) !== 'male';", expect: [NAMES.menOnly, NAMES.alone] },
   { name: 'the women among the targets', file: 'sim/pursuit.mjs',
     from: "const spared = one => !grown(one) || sexOf(one) !== 'male';", to: 'const spared = one => !grown(one);', expect: [NAMES.menOnly, NAMES.alone] },
   { name: 'the wagon the women and children ride in fired at', file: 'sim/pursuit.mjs',
@@ -58,7 +63,7 @@ const UNIT = [
   { name: 'the held fire never written down', file: 'sim/pursuit.mjs',
     from: "  if (!targets.length) { if (withFamily(world, household).people.some(one => one.health?.condition !== 'dead')) holdFire(world, household, chase); return null; }", to: '  if (!targets.length) return null;', expect: NAMES.alone },
   { name: 'a lamed ox pulls at its full pace', file: 'sim/pursuit.mjs',
-    from: "  const hurtOx = flight.mode === 'wagon' && beasts.some(beast => beast.hurt && beast.species !== 'horse' && beast.kind === 'animal');",
+    from: "  const hurtOx = flight.mode === 'wagon' && beasts.some(beast => lame(world, beast) && beast.species !== 'horse' && beast.kind === 'animal');",
     to: '  const hurtOx = false;', expect: NAMES.beasts },
   { name: 'the horsemen follow a family into the timber', file: 'sim/pursuit.mjs',
     from: "  if (point && chase.lead > TIMBER_YARDS && hidesIn(world, point)) return 'timber';", to: '', expect: NAMES.giveUp },
@@ -83,6 +88,29 @@ const UNIT = [
   { name: 'a wound from a chase taken for a sickness', file: 'sim/disease.mjs',
     from: "    if (!['well', 'tired'].includes(health.condition)) return;", to: "    if (!['well', 'tired', 'wounded'].includes(health.condition)) return;", expect: NAMES.rest },
 ];
+// Tier 3 of the triage of 2026-09-29, on branch tier3-road (2026-10-02). Run alone: node scripts/scrape-pursuit-injections.mjs unit "triage 3".
+UNIT.push(
+  { name: 'triage 3.1: the seats kept after the soldiers take the wagon', file: 'sim/road.mjs',
+    from: "  // Those let go walk, nobody keeping a place in the wagon or on a horse the soldiers took (`reseat`).\n  reseat(world, household);\n", to: '', expect: NAMES.reseat },
+  { name: 'triage 3.1: the seats kept after the family leaves the wagon', file: 'sim/road.mjs',
+    from: "  // Nobody keeps a place in the wagon left behind: the horse carries whoever it can, and the rest walk (`reseat`).\n  reseat(world, household);\n", to: '', expect: [NAMES.reseat, NAMES.paces] },
+  { name: 'triage 3.1: leaving the wagon priced at a grown pace', file: 'sim/pursuit.mjs',
+    from: '    if (!world.meansRoll) return flight.cow ? 2 : 3;', to: '    return flight.cow ? 2 : 3;', expect: [NAMES.reseat, NAMES.paces] },
+  { name: 'triage 3.2: a lamed horse ridden on the next leg', file: 'sim/company.mjs',
+    from: " && (!entity.condition || entity.condition === 'sound') && !lame(world, entity)) : []);", to: " && (!entity.condition || entity.condition === 'sound')) : []);", expect: NAMES.lame },
+  { name: 'triage 3.2: lame only while the chase lasts', file: 'sim/beasts.mjs',
+    from: 'export const LAME_DAYS = 21;', to: 'export const LAME_DAYS = 0;', expect: NAMES.lame },
+  { name: 'triage 3.2: lame for good', file: 'sim/pursuit.mjs',
+    from: '  entity.hurt = world.minute + LAME_DAYS * 1440;', to: '  entity.hurt = true;', expect: NAMES.lame },
+  { name: 'triage 3.12: the "close behind" question lost after a chase', file: 'sim/pursuit.mjs',
+    from: "((back === 'bog' && flight.bog) || (back === 'danger' && flight.danger))", to: "(back === 'bog' && flight.bog)", expect: NAMES.askBack },
+  { name: 'triage 3.12: the question put back with the time it had used', file: 'sim/pursuit.mjs',
+    from: 'flight.ask = { id: back, openedMinute: world.minute, openedTick: world.tick };', to: 'flight.ask = chase.deferredAsk;', expect: NAMES.askBack },
+  // Found while checking (triage 2026-09-29): the check of 1.11 built "with them" from the same seat ids the code reads, so a
+  // mistake in those ids passed both. Read now from the scene: a driver whose seat no longer says he drives is still aboard.
+  { name: 'triage 3 (1.11 independent): the driver\'s seat written as no seat at all', file: 'sim/company.mjs',
+    from: 'export const seatFields = seat => (!seat ? {} : { ...(seat.drives && { drives: seat.drives }), ', to: 'export const seatFields = seat => (!seat ? {} : { ', expect: NAMES.menOnly },
+);
 const BROWSER = [
   { name: 'another family\'s map drew the first family\'s path', file: 'sim/world.mjs',
     from: "    ...(household?.flight ? { flight: flightProjection(world, household) } : {}),",

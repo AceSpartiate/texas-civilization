@@ -1,6 +1,6 @@
 {
   "record": "scrape-pursuit-injections",
-  "date": "2026-09-28",
+  "date": "2026-10-02",
   "gates": {
     "unit": "node --test tests/scrape-pursuit.test.mjs, the named test and no other",
     "browser": "scripts/scrape-pursuit-browser-proof.mjs"
@@ -61,41 +61,6 @@
       ]
     },
     {
-      "name": "the children among the targets",
-      "file": "sim/pursuit.mjs",
-      "expect": "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss",
-      "caught": true,
-      "failed": [
-        "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss"
-      ]
-    },
-    {
-      "name": "the women among the targets",
-      "file": "sim/pursuit.mjs",
-      "expect": [
-        "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss",
-        "women and children alone: the soldiers fire at the animals or hold their fire, and say so, as Almonte did at New Washington"
-      ],
-      "caught": true,
-      "failed": [
-        "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss",
-        "women and children alone: the soldiers fire at the animals or hold their fire, and say so, as Almonte did at New Washington"
-      ]
-    },
-    {
-      "name": "the wagon the women and children ride in fired at",
-      "file": "sim/pursuit.mjs",
-      "expect": [
-        "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss",
-        "women and children alone: the soldiers fire at the animals or hold their fire, and say so, as Almonte did at New Washington"
-      ],
-      "caught": true,
-      "failed": [
-        "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss",
-        "women and children alone: the soldiers fire at the animals or hold their fire, and say so, as Almonte did at New Washington"
-      ]
-    },
-    {
       "name": "the soldiers hold their fire and nobody hears it",
       "file": "sim/pursuit.mjs",
       "expect": "women and children alone: the soldiers fire at the animals or hold their fire, and say so, as Almonte did at New Washington",
@@ -111,15 +76,6 @@
       "caught": true,
       "failed": [
         "women and children alone: the soldiers fire at the animals or hold their fire, and say so, as Almonte did at New Washington"
-      ]
-    },
-    {
-      "name": "a lamed ox pulls at its full pace",
-      "file": "sim/pursuit.mjs",
-      "expect": "a beast hit slows the train: a lamed ox halves the wagon's pace, and an ox shot down leaves a running family on foot",
-      "caught": true,
-      "failed": [
-        "a beast hit slows the train: a lamed ox halves the wagon's pace, and an ox shot down leaves a running family on foot"
       ]
     },
     {
@@ -217,11 +173,157 @@
       ]
     },
     {
+      "name": "triage 3.1: the seats kept after the soldiers take the wagon",
+      "file": "sim/road.mjs",
+      "expect": "overtaken, or leaving the wagon, nobody keeps a seat on a wagon or a horse the family no longer has, and the smallest walker sets the pace (triage 3.1)",
+      "caught": true,
+      "failed": [
+        "overtaken, or leaving the wagon, nobody keeps a seat on a wagon or a horse the family no longer has, and the smallest walker sets the pace (triage 3.1)"
+      ]
+    },
+    {
+      "name": "triage 3.1: the seats kept after the family leaves the wagon",
+      "file": "sim/road.mjs",
+      "expect": [
+        "overtaken, or leaving the wagon, nobody keeps a seat on a wagon or a horse the family no longer has, and the smallest walker sets the pace (triage 3.1)",
+        "the chase goes at the record's paces: an ox wagon slower than infantry, a family on foot or on horseback faster, cavalry faster than all"
+      ],
+      "caught": true,
+      "failed": [
+        "the chase goes at the record's paces: an ox wagon slower than infantry, a family on foot or on horseback faster, cavalry faster than all",
+        "overtaken, or leaving the wagon, nobody keeps a seat on a wagon or a horse the family no longer has, and the smallest walker sets the pace (triage 3.1)"
+      ]
+    },
+    {
+      "name": "triage 3.1: leaving the wagon priced at a grown pace",
+      "file": "sim/pursuit.mjs",
+      "expect": [
+        "overtaken, or leaving the wagon, nobody keeps a seat on a wagon or a horse the family no longer has, and the smallest walker sets the pace (triage 3.1)",
+        "the chase goes at the record's paces: an ox wagon slower than infantry, a family on foot or on horseback faster, cavalry faster than all"
+      ],
+      "caught": true,
+      "failed": [
+        "the chase goes at the record's paces: an ox wagon slower than infantry, a family on foot or on horseback faster, cavalry faster than all",
+        "overtaken, or leaving the wagon, nobody keeps a seat on a wagon or a horse the family no longer has, and the smallest walker sets the pace (triage 3.1)"
+      ]
+    },
+    {
+      "name": "triage 3.2: a lamed horse ridden on the next leg",
+      "file": "sim/company.mjs",
+      "expect": "a horse lamed in a chase carries nobody on the next leg, and mends in about three weeks (triage 3.2)",
+      "caught": true,
+      "failed": [
+        "a horse lamed in a chase carries nobody on the next leg, and mends in about three weeks (triage 3.2)"
+      ]
+    },
+    {
+      "name": "triage 3.2: lame only while the chase lasts",
+      "file": "sim/beasts.mjs",
+      "expect": "a horse lamed in a chase carries nobody on the next leg, and mends in about three weeks (triage 3.2)",
+      "caught": true,
+      "failed": [
+        "a horse lamed in a chase carries nobody on the next leg, and mends in about three weeks (triage 3.2)"
+      ]
+    },
+    {
+      "name": "triage 3.2: lame for good",
+      "file": "sim/pursuit.mjs",
+      "expect": "a horse lamed in a chase carries nobody on the next leg, and mends in about three weeks (triage 3.2)",
+      "caught": true,
+      "failed": [
+        "a horse lamed in a chase carries nobody on the next leg, and mends in about three weeks (triage 3.2)"
+      ]
+    },
+    {
+      "name": "triage 3.12: the \"close behind\" question lost after a chase",
+      "file": "sim/pursuit.mjs",
+      "expect": "a family that gets away from a chase is asked again the \"close behind\" question the chase put aside (triage 3.12)",
+      "caught": true,
+      "failed": [
+        "a family that gets away from a chase is asked again the \"close behind\" question the chase put aside (triage 3.12)"
+      ]
+    },
+    {
+      "name": "triage 3.12: the question put back with the time it had used",
+      "file": "sim/pursuit.mjs",
+      "expect": "a family that gets away from a chase is asked again the \"close behind\" question the chase put aside (triage 3.12)",
+      "caught": true,
+      "failed": [
+        "a family that gets away from a chase is asked again the \"close behind\" question the chase put aside (triage 3.12)"
+      ]
+    },
+    {
+      "name": "triage 3 (1.11 independent): the driver's seat written as no seat at all",
+      "file": "sim/company.mjs",
+      "expect": "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss",
+      "caught": true,
+      "failed": [
+        "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss"
+      ]
+    },
+    {
+      "name": "a lamed ox pulls at its full pace",
+      "file": "sim/pursuit.mjs",
+      "expect": "a beast hit slows the train: a lamed ox halves the wagon's pace, and an ox shot down leaves a running family on foot",
+      "caught": true,
+      "failed": [
+        "a beast hit slows the train: a lamed ox halves the wagon's pace, and an ox shot down leaves a running family on foot"
+      ]
+    },
+    {
       "name": "the horse a woman or a child is on fired at",
       "file": "sim/pursuit.mjs",
       "expect": "women and children alone: the soldiers fire at the animals or hold their fire, and say so, as Almonte did at New Washington",
       "caught": true,
       "failed": [
+        "women and children alone: the soldiers fire at the animals or hold their fire, and say so, as Almonte did at New Washington"
+      ]
+    },
+    {
+      "name": "the women among the targets",
+      "file": "sim/pursuit.mjs",
+      "expect": [
+        "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss",
+        "women and children alone: the soldiers fire at the animals or hold their fire, and say so, as Almonte did at New Washington"
+      ],
+      "caught": true,
+      "failed": [
+        "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss",
+        "women and children alone: the soldiers fire at the animals or hold their fire, and say so, as Almonte did at New Washington"
+      ]
+    },
+    {
+      "name": "the wagon the women and children ride in fired at",
+      "file": "sim/pursuit.mjs",
+      "expect": [
+        "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss",
+        "women and children alone: the soldiers fire at the animals or hold their fire, and say so, as Almonte did at New Washington"
+      ],
+      "caught": true,
+      "failed": [
+        "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss",
+        "women and children alone: the soldiers fire at the animals or hold their fire, and say so, as Almonte did at New Washington"
+      ]
+    },
+    {
+      "name": "the man driving the wagon the women and children ride in fired at",
+      "file": "sim/pursuit.mjs",
+      "expect": "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss",
+      "caught": true,
+      "failed": [
+        "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss"
+      ]
+    },
+    {
+      "name": "the children among the targets",
+      "file": "sim/pursuit.mjs",
+      "expect": [
+        "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss",
+        "women and children alone: the soldiers fire at the animals or hold their fire, and say so, as Almonte did at New Washington"
+      ],
+      "caught": true,
+      "failed": [
+        "only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss",
         "women and children alone: the soldiers fire at the animals or hold their fire, and say so, as Almonte did at New Washington"
       ]
     }

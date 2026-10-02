@@ -19,6 +19,7 @@ import { ROAD_ASKS, withFamily, familyPoint } from '../sim/road.mjs';
 import { activityOf, mendSickness, sicknessDay } from '../sim/disease.mjs';
 import { choreAvailability } from '../sim/chores.mjs';
 import { sexOf } from '../sim/family.mjs';
+import { SMALL_WALK_SPEED, CARRIED_UNDER, riddenHorses } from '../sim/company.mjs';
 import { spring, until } from './support/scrape-spring.mjs';
 import { placeFamily, sceneFor, stowAway } from './support/scrape-scene.mjs';
 
@@ -184,10 +185,19 @@ test('the chase goes at the record\'s paces: an ox wagon slower than infantry, a
   assert.equal(seen.outcome.outcome, 'caught', `a running wagon got away from infantry (${seen.outcome.outcome})`);
   assert.ok(seen.shots.length > 0, 'infantry never fired on a family that ran');
   assert.deepEqual(seen.lines.map(line => line.text).slice(0, 3), ['¡Alto!', '¡Alto, o hacemos fuego!', '¡Fuego!'], 'the orders are not called before the firing');
+  // A family on foot of walkers ten and over (Susannah, alone) gets away from infantry; one with a child under ten walking is held
+  // to the child's pace (sim/company.mjs `walkingPace`: two miles an hour at six to nine, a mile and a half at two to five), and
+  // since 2026-10-02 that is so when it leaves its wagon to run as much as when it set out on foot (triage 2026-09-29 3.1).
   world = spring();
-  scene = sceneFor(world, { kind: 'infantry', how: 'wagon' });
+  scene = sceneFor(world, { kind: 'infantry', how: 'wagon', householdId: 'hh-7' });
   seen = play(world, scene.household, scene.main, 'abandon-run');
   assert.equal(seen.outcome.outcome, 'escaped', 'a family on foot did not get away from infantry');
+  world = spring();
+  scene = sceneFor(world, { kind: 'infantry', how: 'wagon' });
+  until(world, () => scene.household.flight.ask?.id === 'alto', 30);
+  assert.equal(runMph(world, scene.household, 'abandon-run'), 1.5, 'leaving the wagon, a family with a child of five walking was not priced at the pace of the child');
+  seen = play(world, scene.household, scene.main, 'abandon-run');
+  assert.equal(seen.outcome.outcome, 'caught', 'a family held to the pace of a child of five got away from infantry');
   // A family all on horseback goes at a horse's pace, and runs at its farm horses' best, still slower than a trot.
   world = spring();
   scene = sceneFor(world, { kind: 'cavalry', how: 'mounted', householdId: 'hh-4' });
@@ -219,7 +229,7 @@ test('the shots are the researched table: by range, shooter and target, a moving
 });
 
 test('only the men and the animals are fired at: never a woman or a child, nor a man or horse with one of them, nor the wagon; most shots miss', () => {
-  let shots = 0, hits = 0, aimedAtPeople = 0;
+  let shots = 0, hits = 0, aimedAtPeople = 0, sparedDrivers = 0;
   for (const [kind, householdId, how] of [['infantry', 'hh-1', 'wagon'], ['infantry', 'hh-2', 'wagon'], ['infantry', 'hh-6', 'wagon'], ['infantry', 'hh-8', 'wagon'], ['cavalry', 'hh-2', 'wagon'], ['cavalry', 'hh-8', 'wagon'], ['cavalry', 'hh-4', 'mounted']]) {
     const world = spring();
     const scene = sceneFor(world, { kind, how, householdId });
@@ -229,21 +239,52 @@ test('only the men and the animals are fired at: never a woman or a child, nor a
     // Who is with them, as the shots are aimed (the seats as they were when the soldiers fired): the vehicle or horse they ride,
     // whoever carries a baby, and every man riding in or driving that vehicle (owner, 2026-09-27: never a man in the wagon the
     // women and children ride in - the father on the driver's bench is in it; interactions audit I-S5).
-    const withThem = new Set(), inTheWay = new Set();
+    //
+    // Read independently of the code it guards (triage 2026-09-29, "found while checking": this check once built "with them"
+    // from `rides` alone, as the code did, and so could not catch the driver). Not from the seat ids the code reads (`rides`,
+    // `drives`, `carried`), but from what the scene is: a 'wagon' scene has one vehicle, so everybody who is neither walking
+    // (`afoot`) nor in the saddle is aboard it - on the bench or in the bed - and a man aboard it is in it with the women and
+    // children aboard it; a baby under two is in its mother's arms, or its father's with no mother going (docs/SETTLING_IN.md
+    // §4b); a horse is the one a woman or a child is in the saddle of.
+    // Judged shot by shot, by the family as it stood both before and after the tick the shot was fired in: a seat can change inside
+    // a chase (the ox shot down, the wagon left, everybody on foot - and then a man walking is the soldiers' to aim at).
     const men = scene.household.members.map(id => world.entities[id]).filter(one => one.kind === 'person' && grown(one) && sexOf(one) === 'male');
-    const seen = play(world, scene.household, scene.main, 'run', { each: () => {
-      for (const one of spared) for (const seat of [one.travel?.rides, one.travel?.drives, one.travel?.carried]) if (seat) withThem.add(seat);
-      for (const man of men) for (const seat of [man.travel?.rides, man.travel?.drives]) if (seat && withThem.has(seat)) inTheWay.add(man.id);
+    const aboard = one => Boolean(one.travel) && !one.travel.afoot && !one.travel.saddle && how === 'wagon';
+    const members = scene.household.members.map(id => world.entities[id]).filter(one => one.kind === 'person');
+    const going = one => Boolean(one?.travel) && !['dead', 'captured'].includes(one.health?.condition);
+    const drivers = new Set();
+    const standing = () => {
+      const withThem = new Set(), inTheWay = new Set();
+      const womenAboard = spared.some(one => going(one) && aboard(one));
+      for (const man of men) if (going(man) && aboard(man) && womenAboard) { inTheWay.add(man.id); if (man.travel.drives) drivers.add(man.id); }
+      for (const baby of members.filter(one => going(one) && one.age < CARRIED_UNDER)) {
+        const parents = (baby.kin?.parents || []).map(id => world.entities[id]).filter(going);
+        const carrier = parents.find(parent => sexOf(parent) === 'female') || parents[0];
+        if (carrier) withThem.add(carrier.id);
+      }
+      for (const one of spared) if (going(one) && one.travel.saddle) withThem.add(one.travel.rides);
+      return { withThem, inTheWay };
+    };
+    let before = standing();
+    const judged = new Map();
+    const seen = play(world, scene.household, scene.main, 'run', { each: chase => {
+      const after = standing();
+      const both = key => new Set([...before[key]].filter(id => after[key].has(id)));
+      const now = { withThem: both('withThem'), inTheWay: both('inTheWay') };
+      for (const shot of chase.shots) if (!judged.has(shot.n)) judged.set(shot.n, now);
+      before = after;
     } });
+    sparedDrivers += drivers.size;
     shots += seen.shots.length; hits += seen.shots.filter(shot => shot.hit).length;
     for (const shot of seen.shots) {
+      const { withThem, inTheWay } = judged.get(shot.n);
       assert.notEqual(shot.target.kind, 'wagon', 'a shot was fired at the wagon the women and children ride in');
       if (shot.target.kind === 'beast') { assert.ok(!withThem.has(shot.target.id), `a shot was fired at the ${shot.target.name} a woman or a child was on`); continue; }
       // Every shot at a person was at a grown man of the family (the record's own shot, which keeps whom it was aimed at).
       const person = world.entities[shot.target.id];
       assert.ok(person && scene.household.members.includes(person.id) && grown(person) && sexOf(person) === 'male', `a shot was aimed at ${shot.target.name} (${person?.age}, ${sexOf(person)}), who is no grown man of the family`);
       assert.ok(!withThem.has(person.id), `a shot was aimed at ${person.name}, who was carrying a baby`);
-      assert.ok(!inTheWay.has(person.id), `a shot was aimed at ${person.name}, who ${person.travel?.drives ? 'drives' : 'rides in'} the wagon the women and children ride in`);
+      assert.ok(!inTheWay.has(person.id), `a shot was aimed at ${person.name}, who drove or rode in the wagon the women and children rode in`);
       aimedAtPeople++;
     }
     for (const one of spared) assert.ok(!['dead', 'wounded'].includes(one.health.condition), `${one.name} (${one.age}) was hurt in the chase`);
@@ -251,6 +292,8 @@ test('only the men and the animals are fired at: never a woman or a child, nor a
   }
   assert.ok(shots >= 20, `only ${shots} shots were fired in seven chases`);
   assert.ok(aimedAtPeople >= 5, `only ${aimedAtPeople} shots were aimed at anybody: the check would pass with nobody to check`);
+  // And there was a man on the bench of the wagon the women and children rode in to spare: the driver this check exists for.
+  assert.ok(sparedDrivers >= 1, 'no man drove the wagon the women and children rode in: the check would pass with nobody to check');
   assert.ok(hits / shots < 0.3, `${hits} of ${shots} shots hit`);
 });
 
@@ -570,4 +613,92 @@ test('one army: a family Santa Anna\'s dragoons stripped is not warned or taken 
   // Another army still can: a family Urrea's cavalry or Sesma's column stripped is chased by Santa Anna's, and warned of his column.
   assert.deepEqual(met('infantry', 'urrea-horse'), { chased: true, warned: 'santa-anna' }, 'a family Urrea\'s cavalry stripped was spared by Santa Anna\'s column');
   assert.equal(met('cavalry', 'sesma').chased, true, 'a family Sesma\'s column stripped was spared by Santa Anna\'s dragoons');
+});
+
+test('overtaken, or leaving the wagon, nobody keeps a seat on a wagon or a horse the family no longer has, and the smallest walker sets the pace (triage 3.1)', () => {
+  // Interactions audit I-M2: the children kept `rides` on the wagon the soldiers took or the family left in the road, so they were
+  // drawn riding, mended as riders, and a child of two walked at a grown person's pace.
+  for (const answer of ['halt', 'abandon-run']) {
+    const world = spring();
+    const { household, main } = sceneFor(world, { kind: 'cavalry', how: 'wagon', householdId: 'hh-3' });
+    until(world, () => household.flight.ask?.id === 'alto', 60);
+    assert.equal(household.flight.ask?.id, 'alto', 'the dragoons never called on the family to halt');
+    const priced = altoOptions(world, household).find(option => option.id === 'abandon-run');
+    applyAction(world, household.id, { action: 'road-answer', entityId: main.id, option: answer });
+    const { people, beasts } = withFamily(world, household);
+    const going = people.filter(one => one.travel);
+    assert.ok(going.length, `${answer}: nobody of the family is on the road`);
+    const with_ = new Set(beasts.map(beast => beast.id));
+    for (const one of going) for (const [how, seat] of [['rides', one.travel.rides], ['drives', one.travel.drives]]) {
+      if (seat) assert.ok(with_.has(seat), `${answer}: ${one.name} (${one.age}) still ${how} ${seat}, which is ${world.entities[seat]?.condition}`);
+    }
+    // Nobody is in the saddle of a horse the family does not have, and on foot every one walks or is carried.
+    assert.ok(going.every(one => !one.travel.saddle || with_.has(one.travel.rides)), `${answer}: somebody is drawn mounted on a horse the family no longer has`);
+    const small = going.filter(one => one.age >= CARRIED_UNDER && one.age < 6 && one.travel.afoot);
+    assert.ok(small.length, `${answer}: no child of two to five walks: the check would pass with nothing to check`);
+    for (const one of going) assert.equal(one.travel.speed, SMALL_WALK_SPEED, `${answer}: ${one.name} goes at ${one.travel.speed}, not at the pace of a child of ${small[0].age} on foot`);
+    // And the run on foot was priced at the pace it gets (sim/pursuit.mjs `runMph`).
+    if (answer === 'abandon-run') assert.match(priced.label, new RegExp(`\\(${SMALL_WALK_SPEED * 3} miles? an hour\\)`), `leaving the wagon was priced "${priced.label}", and the family goes at ${SMALL_WALK_SPEED * 3}`);
+    validateWorld(world);
+  }
+});
+
+test('a horse lamed in a chase carries nobody on the next leg, and mends in about three weeks (triage 3.2)', () => {
+  // Interactions audit I-M3: "lamed: nobody can ride it" lasted only the chase; the next leg put a rider back on it.
+  let world = spring();
+  let { household, main } = sceneFor(world, { kind: 'cavalry', how: 'mounted', householdId: 'hh-6', ahead: 0.6 });
+  // A horse is lamed only with the dragoons on top of the family: in every chase searched (seven families, both kinds of soldier,
+  // by day and at dusk) they took it in the same tick. So the tick before is kept, and the ball's work - the horse as the shot
+  // left it - is put on the same horse there; then the dragoons are set back out of reach and night comes on (as the check of the
+  // dark does), and the family gets away with its lamed horse.
+  let lamed = null, before = null;
+  for (let t = 0; t < 200 && !lamed; t++) {
+    before = structuredClone(world);
+    stepWorld(world);
+    const shot = household.flight.chase?.shots.find(one => one.fate === 'lamed' && one.target.kind === 'beast' && one.target.name === 'horse');
+    if (shot) lamed = world.entities[shot.target.id];
+    if (household.flight.ask?.id === 'alto') applyAction(world, household.id, { action: 'road-answer', entityId: main.id, option: 'run' });
+  }
+  assert.ok(lamed, 'no horse was lamed: the check would pass with nothing to check');
+  assert.ok(world.events.some(event => event.householdId === household.id && /horse was hit by a ball and is lamed: nobody can ride it/.test(event.text)));
+  // Mended in about three weeks, as the shot left it: not within two, and by three weeks and a day.
+  const sound = { ...lamed, condition: 'sound' };
+  assert.equal(riddenHorses({ ...world, minute: world.minute + 14 * 1440 }, [sound]).length, 0, 'the lamed horse mended within two weeks');
+  assert.equal(riddenHorses({ ...world, minute: world.minute + 22 * 1440 }, [sound]).length, 1, 'the lamed horse never mends');
+  world = before; household = world.households[household.id]; main = world.entities[main.id];
+  const horse = world.entities[lamed.id];
+  assert.ok(withFamily(world, household).people.some(one => one.travel?.saddle && one.travel.rides === horse.id), 'nobody rode the horse before it was lamed: nothing to check');
+  horse.hurt = lamed.hurt;
+  for (const soldier of household.flight.chase.soldiers) soldier.g = Math.max(soldier.g, 1500);
+  world.minute = Math.max(world.minute, on(1836, 4, 15, 19, 0) + clockOf(world));
+  until(world, () => !household.flight.chase, 20);
+  assert.equal(household.flight.pursued?.at(-1)?.outcome, 'escaped', 'the family did not get away');
+  // The next leg, chosen from where the family is: its seats are dealt again, and nobody is put on the lamed horse.
+  applyAction(world, household.id, { action: 'flight-route', entityId: main.id, route: { stops: ['lynchburg'], ways: ['road'] } });
+  const { people } = withFamily(world, household);
+  assert.ok(people.some(one => one.travel), 'the family did not set out again');
+  const riders = people.filter(one => one.travel?.saddle && one.travel.rides === horse.id);
+  assert.deepEqual(riders.map(one => one.name), [], 'the lamed horse is ridden on the next leg');
+  // (Not validated: the scene put a horse under each of thirteen people, more than a family may own.)
+});
+
+test('a family that gets away from a chase is asked again the "close behind" question the chase put aside (triage 3.12)', () => {
+  // Design audit M29: only a bog's question came back; the "army close behind" question was lost, already marked asked.
+  const world = spring();
+  const { household, main } = sceneFor(world, { kind: 'infantry', how: 'wagon', ahead: 1 });
+  until(world, () => household.flight.ask?.id === 'alto', 20);
+  assert.equal(household.flight.chase?.deferredAsk?.id, 'danger', 'the order to halt put no "close behind" question aside: nothing to check');
+  const hailed = world.tick;
+  applyAction(world, household.id, { action: 'road-answer', entityId: main.id, option: 'run' });
+  // Night comes on and the soldiers give it up.
+  world.minute = Math.max(world.minute, on(1836, 4, 18, 19, 0) + clockOf(world));
+  until(world, () => !household.flight.chase, 20);
+  assert.equal(household.flight.pursued?.at(-1)?.outcome, 'escaped', 'the family did not get away');
+  assert.ok(household.flight.danger, 'the column is no longer close behind: nothing to check');
+  assert.equal(household.flight.ask?.id, 'danger', 'the "army close behind" question the chase put aside was lost');
+  // Put again with its own time, not the time it had used before the chase (it would lapse at once).
+  assert.ok(household.flight.ask.openedTick > hailed, 'the question came back with the time it was first asked');
+  applyAction(world, household.id, { action: 'road-answer', entityId: main.id, option: 'press-on' });
+  assert.equal(household.flight.ask, undefined, 'the question put back could not be answered');
+  validateWorld(world);
 });

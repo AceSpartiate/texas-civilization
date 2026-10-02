@@ -76,6 +76,7 @@ export const SETTLEMENT_CALLS = Object.freeze({
   // where the volunteers are coming to, and its families are asked once the gathering has begun
   // (docs/COLONIES.md §5.5, build step 5). A family that carried food to town or went upriver in
   // the first days is asked this as well - that week is exactly when men went home and came back.
+  // A family that said no to the town's food request is not (`offerCalls`; VISION.md §11, no repeated requests).
   gonzales: {
     gather: 'gonzales',
     gathering: true,
@@ -103,6 +104,11 @@ export function offerCalls(world) {
   for (const household of Object.values(world.households)) {
     const call = callFor(household, gathering);
     if (!call || world.calls?.[household.id]) continue;
+    // The town's own call is not put to a family of Gonzales that said no to its food request (sim/directors.mjs `handleChoice`):
+    // a refusal reduces repeated requests (VISION.md §11), as a refused rumour keeps the request from the door. Design audit M11,
+    // triage 2026-09-29 3.10. A family that did not answer the request is asked: silence is not a no. The family can still send
+    // somebody to the war its own way - the winter's enlisting, the army's camp - and nothing asks it again.
+    if (call.gathering && world.requests?.[household.id]?.status === 'refused') continue;
     // The town's own call is asked on the gathering itself, which its families can see happening
     // around them; every other call waits on a rider (`FIC-GONZ-031`).
     // Seguín's call near Béxar is asked when the army comes near (`afterArmy`), not on a letter from the colonies.

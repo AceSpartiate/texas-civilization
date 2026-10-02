@@ -749,7 +749,9 @@ export const CHORES = {
     name: 'Ride to Gonzales to go in to the Alamo', skill: 'hands', where: 'home', winter: true, alsoFrom: ['gonzales'],
     // How long the road to Gonzales is, and whether it is in time, said before anybody goes (sim/alamo.mjs `reliefEstimate`).
     estimate: (world, household, entity) => reliefEstimate(world, household, entity),
-    describe: 'Travis has written that he is besieged. Men are gathering at Gonzales to ride through the Mexican lines into the Alamo; whoever is there by the afternoon of February 27 goes with them.',
+    // That there is no sending for them once they have ridden is said before anybody goes, as the garrison is told (sim/surprise.mjs;
+    // design audit M12, triage 2026-09-29 3.11): what it rests on is sim/winter.mjs `recallRefusal`, `riding` and `besieged`.
+    describe: 'Travis has written that he is besieged. Men are gathering at Gonzales to ride through the Mexican lines into the Alamo; whoever is there by the afternoon of February 27 goes with them. Until then they can be sent for; once they have ridden from Gonzales, nobody can send for them.',
     steps: [
       { travel: 'gonzales', doing: 'on the road to Gonzales' },
       { work: 1, doing: 'with the men gathering at Gonzales' },
@@ -760,7 +762,9 @@ export const CHORES = {
   'join-matamoros': {
     war: 'gone south to the Matamoros men',
     name: 'Go south to join the Matamoros men', skill: 'hands', where: 'home', winter: true,
-    describe: "Go south to San Patricio on the Nueces and join Johnson's and Grant's volunteers, who mean to carry the war to Matamoros. They stay until sent for.",
+    // And that nobody can reach them once fighting comes to them (sim/winter.mjs `recallRefusal`, a southern `fight` or `fate`;
+    // design audit M12, triage 2026-09-29 3.11). It names no fight: when, where and whether is the war's to tell.
+    describe: "Go south to San Patricio on the Nueces and join Johnson's and Grant's volunteers, who mean to carry the war to Matamoros. They stay until sent for; but once fighting comes to them in the south, nobody can reach them to send for them.",
     steps: [
       // `south`: San Patricio, or Refugio on a class whose map has no south (sim/south.mjs `southSite`, 2026-09-25).
       { travel: 'south', doing: 'on the road south to join the volunteers' },

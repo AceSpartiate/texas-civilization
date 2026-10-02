@@ -325,7 +325,14 @@ animals, holding their fire where women and children are in the way, as Almonte 
   horsemen at the gallop, one carbine shot each) and target, times 0.6 on the move. Every second man of a file stops to fire and
   load (20 seconds trained, 35 a recruit), the rest run on. A grown person hit is killed one time in five and otherwise wounded for
   three weeks; a beast killed one in four, else lamed - a lamed ox halves the wagon's pace, an ox down stops it and a running family
-  leaves it, a lamed horse puts its rider down. No blood; nobody is drawn falling.
+  leaves it, a lamed horse puts its rider down. No blood; nobody is drawn falling. *Since 2026-10-02 (triage 3.1, 3.2, 3.12; branch
+  `tier3-road`):* a lamed beast stays lame three weeks (sim/beasts.mjs `LAME_DAYS`) - the horse carries nobody until it mends, on
+  the next leg or anywhere; the ox's half pace is still the chase's (`ceiling:`). When the soldiers take the wagon, or the family
+  leaves it, or it sets out again from its refuge, its seats are dealt again (sim/road.mjs `reseat`): the horse carries the
+  youngest it can, and the rest walk at the slowest walker's pace, so a child under ten on foot holds a family that leaves its
+  wagon to two miles an hour or a mile and a half, as one that set out on foot always was; *Leave the wagon and run* is priced at
+  that pace. A question the order to halt put aside - the bog, or the army close behind - is put again when the family gets away,
+  if it still applies.
 - **The end.** Taken within 15 yards. Got away when the soldiers give up: after two miles or half an hour on foot, three or half an
   hour mounted (not with a hand almost on the family, within 100 yards), at dusk, at the timber's edge when the family is in timber
   enough to hide in and nobody within fifty yards, or when plainly outrun. Written in the family's record; a public line goes along

@@ -28,8 +28,12 @@
 // slowest walker. Walkers are tired by the road as a walker is (`afoot`: a mile beside the wagon costs a walked mile); riders and
 // drivers as the wagon's people always were; a carried baby, nothing.
 //
-// ceiling: the plan is made once, when the family sets out, and holds to the end of the road: somebody who falls sick on the way
-// east keeps the place they had. Replanning mid-road is a reason to redo it, not a thing a class of an hour has shown it needs.
+// The plan is made when the family sets out, and made again on the road when what it has changes under it (triage 2026-09-29 3.1,
+// interactions audit I-M2; sim/road.mjs `reseat`): when the soldiers take the wagon and the animals, when the family leaves the
+// wagon in the road, and when it sets out again from its refuge. Until 2026-10-02 the children kept their places in a wagon the
+// column had taken, were drawn riding, and a child of two walked at a grown person's pace.
+// ceiling: otherwise the plan holds to the end of the leg: somebody who falls sick on the way east keeps the place they had.
+// Replanning on a sickness is a reason to redo it, not a thing a class of an hour has shown it needs.
 // ceiling: tired walkers are made tired as any walker is (sim/routines.mjs) and are not made to stop: nobody rests on the road in
 // this game, riding or walking, and the day's seven hours of going (`ROAD_HOURS_A_DAY`) already has the nooning in it.
 // ceiling: the game has nobody old - a parent is 20 to 45 (docs/FAMILY_CREATION.md §3) - and does not model a woman carrying a
@@ -53,6 +57,7 @@
 // on the first table (`world.meansRoll === true`) keeps the horse led.
 import { WAGON_SPEED, WALK_SPEED } from './travel.mjs';
 import { SENT_FROM_AGE, sexOf } from './family.mjs';
+import { lame } from './beasts.mjs';
 
 /** Riders a wagon takes beside its driver (`FIC-GONZ-394`, invented): a loaded family wagon's bed had room for a few. */
 export const WAGON_RIDERS = 4;
@@ -87,7 +92,8 @@ export const ridersIn = vehicle => (vehicle?.cart || vehicle?.carreta ? CART_RID
  * The horses among these movers that carry a rider on the family's journey together: every sound horse, in a class on the second
  * table of means (`meansRoll` 2, sim/means.mjs; owner 2026-09-25: "the horse should carry a rider"), and none in a class before.
  */
-export const riddenHorses = (world, movers = []) => (world?.meansRoll === 2 ? movers.filter(entity => entity?.kind === 'animal' && entity.species === 'horse' && (!entity.condition || entity.condition === 'sound')) : []);
+// Not a horse lamed in a chase until it mends (sim/beasts.mjs `lame`, triage 2026-09-29 3.2).
+export const riddenHorses = (world, movers = []) => (world?.meansRoll === 2 ? movers.filter(entity => entity?.kind === 'animal' && entity.species === 'horse' && (!entity.condition || entity.condition === 'sound') && !lame(world, entity)) : []);
 
 /** Somebody the game gives no age sorts as their place says: a parent grown, a founding son or daughter an adolescent. */
 const ageFor = person => (Number.isFinite(person.age) ? person.age : person.kin?.role === 'father' || person.kin?.role === 'mother' ? 30 : 12);

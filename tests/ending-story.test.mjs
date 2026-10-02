@@ -81,3 +81,37 @@ test('a played family whose student is away at the end is still named in the cla
   assert.ok(hooks[0]?.includes(away), `the family the computer finished is not in the debrief: ${JSON.stringify(hooks)}`);
   assert.ok(!hooks.some(hook => hook.includes(nobody)), 'a family nobody played was named on the projector');
 });
+
+test('leaving the wagon in the road is said in "Our story" and shown in the flashback (triage 3.4)', async () => {
+  // Design audit M14: leaving the wagon cost nothing the ending counted or said. Coin stays the score (MONEY_AND_GLORY §3): the
+  // wagon left is said, not weighed.
+  const { applyAction } = await import('../sim/world.mjs');
+  const { flashbackScript } = await import('../sim/flashback.mjs');
+  const { spring, until } = await import('./support/scrape-spring.mjs');
+  const { sceneFor } = await import('./support/scrape-scene.mjs');
+  const play = answer => {
+    const w = spring();
+    const { household, main } = sceneFor(w, { kind: 'cavalry', how: 'wagon', householdId: 'hh-1' });
+    until(w, () => household.flight.ask?.id === 'alto', 60);
+    assert.equal(household.flight.ask?.id, 'alto', 'the dragoons never called on the family to halt');
+    applyAction(w, household.id, { action: 'road-answer', entityId: main.id, option: answer });
+    w.status = 'ended';
+    return { w, household };
+  };
+  const { w, household } = play('abandon-run');
+  const left = w.events.find(event => event.householdId === household.id && /^The family left the wagon/.test(event.text));
+  assert.ok(left, 'the family did not leave its wagon: nothing to check');
+  const ending = familyEnding(w, household.id);
+  assert.ok(ending.story.some(line => /left the wagon and the ox .* and went on on foot/.test(line)), `"Our story" does not say the wagon was left: ${ending.story.join(' | ')}`);
+  // The flashback: a beat of it, the wagon drawn on the road before it and not after.
+  const script = flashbackScript(w, household.id);
+  const beat = script.beats.find(one => /left the wagon/.test(one.caption));
+  assert.ok(beat, `the flashback does not show the wagon left: ${script.beats.map(one => one.caption).join(' | ')}`);
+  const road = script.beats.filter(one => one.scene?.type === 'road' && !one.epilogue && one !== beat);
+  assert.ok(road.some(one => one.minute < left.minute), 'no road beat before the wagon was left: nothing to check');
+  for (const one of road) assert.equal(Boolean(one.scene.wagon), one.minute < left.minute, `the ${one.kind} beat (${one.caption}) draws the wagon ${one.scene.wagon ? 'after it was left' : 'before it was left'}`);
+  // A family that kept its wagon is not said to have left it.
+  const kept = play('run');
+  assert.ok(!kept.w.events.some(event => event.householdId === household.id && /^The family left the wagon/.test(event.text)));
+  assert.ok(!familyEnding(kept.w, household.id).story.some(line => /left the wagon/.test(line)), 'a family that kept its wagon is said to have left it');
+});

@@ -37,6 +37,21 @@ export function roleOf(entity) {
   if (entity.kind !== 'animal') return null;
   return entity.species === 'horse' ? 'horse' : 'ox';
 }
+/**
+ * A horse or an ox hit by a ball in a chase (sim/pursuit.mjs `strike`, `FIC-GONZ-664`) is lame until it mends, `LAME_DAYS` after:
+ * a lame horse carries nobody - on the family's road, to town or to the army - and a lame ox draws the wagon at half its pace
+ * while the chase lasts. Until 2026-10-02 it was lame only while that chase lasted, and the horse "lamed: nobody can ride it" was
+ * ridden on the next leg (interactions audit I-M3, triage 2026-09-29 3.2). Three weeks is the game's own, a wound's time
+ * (`WOUND_DAYS`); no source read says how long a horse grazed by a musket ball went lame.
+ *
+ * `beast.hurt` is the minute it is sound again. A class saved before wrote `true`, with no day to mend by: it stays lame, as the
+ * family was told it was. Absent on every sound beast, so no save version moved.
+ * ceiling: the lamed ox's half pace is the chase's (sim/pursuit.mjs `repace`): the next leg sets the train's pace without asking
+ * after the ox. Reading it in sim/company.mjs `setOut` would want the minute there, which is the way out.
+ */
+export const LAME_DAYS = 21;
+export const lame = (world, beast) => beast?.hurt === true || (Number.isFinite(beast?.hurt) && (world?.minute ?? 0) < beast.hurt);
+
 /** One and many of each, in the words a sentence uses. */
 export const BEAST_WORDS = Object.freeze({ horse: ['horse', 'horses'], ox: ['ox', 'oxen'], wagon: ['wagon', 'wagons'] });
 
