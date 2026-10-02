@@ -1,0 +1,943 @@
+{
+ "measured": "2026-10-02",
+ "families": 15,
+ "seeds": [
+  "hunger-1",
+  "hunger-2",
+  "hunger-3",
+  "hunger-4",
+  "hunger-5",
+  "hunger-6"
+ ],
+ "summary": {
+  "idle": {
+   "kinds": {
+    "lone": {
+     "families": 11,
+     "hit": 11,
+     "deaths": 21
+    },
+    "big": {
+     "families": 63,
+     "hit": 63,
+     "deaths": 857
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "foodAtEnd": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "classes": 6,
+   "deathsPerClass": 160.7,
+   "period1": 160.7,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHitPerClass": 15,
+   "familiesHungryPerClass": 15,
+   "familiesWeakPerClass": 15,
+   "familiesStarvingPerClass": 15,
+   "hungryDaysMedian": 16.7,
+   "wipedPerClass": 15,
+   "peoplePerClass": 162,
+   "classesWithAnyDeath": 6,
+   "firstDeathDay": 11
+  },
+  "gathering": {
+   "kinds": {
+    "lone": {
+     "families": 11,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 63,
+     "hit": 55,
+     "deaths": 657
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "foodAtEnd": {
+    "1": 12.6,
+    "2": 10.4,
+    "3": 0
+   },
+   "classes": 6,
+   "deathsPerClass": 116,
+   "period1": 2.8,
+   "period2": 0.2,
+   "period3": 113,
+   "onRoad": 112.7,
+   "familiesHitPerClass": 10.7,
+   "familiesHungryPerClass": 12.2,
+   "familiesWeakPerClass": 11.7,
+   "familiesStarvingPerClass": 11.5,
+   "hungryDaysMedian": 25.8,
+   "wipedPerClass": 8.5,
+   "peoplePerClass": 162,
+   "classesWithAnyDeath": 6,
+   "firstDeathDay": 37
+  },
+  "playing": {
+   "kinds": {
+    "lone": {
+     "families": 11,
+     "hit": 1,
+     "deaths": 1
+    },
+    "big": {
+     "families": 63,
+     "hit": 3,
+     "deaths": 6
+    },
+    "war": {
+     "families": 68,
+     "hit": 3,
+     "deaths": 6
+    }
+   },
+   "foodAtEnd": {
+    "1": 47,
+    "2": 59.9,
+    "3": 26.1
+   },
+   "classes": 6,
+   "deathsPerClass": 1.2,
+   "period1": 0,
+   "period2": 0,
+   "period3": 1.2,
+   "onRoad": 1.2,
+   "familiesHitPerClass": 0.7,
+   "familiesHungryPerClass": 2.5,
+   "familiesWeakPerClass": 1.3,
+   "familiesStarvingPerClass": 0.8,
+   "hungryDaysMedian": 0,
+   "wipedPerClass": 0,
+   "peoplePerClass": 162,
+   "classesWithAnyDeath": 4,
+   "firstDeathDay": 178
+  }
+ },
+ "rows": [
+  {
+   "seed": "hunger-1",
+   "mode": "idle",
+   "families": 15,
+   "people": 144,
+   "ticks": 1349,
+   "deaths": 144,
+   "period1": 144,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHit": 15,
+   "wiped": 15,
+   "firstDay": 14,
+   "under6": 40,
+   "grown": 49,
+   "familiesHungry": 15,
+   "familiesWeak": 15,
+   "familiesStarving": 15,
+   "hungryDaysMedian": 16.7,
+   "foodAtEnd": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "kinds": {
+    "lone": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 11,
+     "hit": 11,
+     "deaths": 123
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 67,
+   "seconds": 7
+  },
+  {
+   "seed": "hunger-2",
+   "mode": "idle",
+   "families": 15,
+   "people": 116,
+   "ticks": 1334,
+   "deaths": 116,
+   "period1": 116,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHit": 15,
+   "wiped": 15,
+   "firstDay": 14,
+   "under6": 28,
+   "grown": 42,
+   "familiesHungry": 15,
+   "familiesWeak": 15,
+   "familiesStarving": 15,
+   "hungryDaysMedian": 16.5,
+   "foodAtEnd": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "kinds": {
+    "lone": {
+     "families": 6,
+     "hit": 6,
+     "deaths": 10
+    },
+    "big": {
+     "families": 7,
+     "hit": 7,
+     "deaths": 97
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 67,
+   "seconds": 6
+  },
+  {
+   "seed": "hunger-3",
+   "mode": "idle",
+   "families": 15,
+   "people": 203,
+   "ticks": 1334,
+   "deaths": 201,
+   "period1": 201,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHit": 15,
+   "wiped": 15,
+   "firstDay": 13,
+   "under6": 45,
+   "grown": 74,
+   "familiesHungry": 15,
+   "familiesWeak": 15,
+   "familiesStarving": 15,
+   "hungryDaysMedian": 16.9,
+   "foodAtEnd": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "kinds": {
+    "lone": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 13,
+     "hit": 13,
+     "deaths": 190
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 67,
+   "seconds": 7
+  },
+  {
+   "seed": "hunger-4",
+   "mode": "idle",
+   "families": 15,
+   "people": 184,
+   "ticks": 1329,
+   "deaths": 182,
+   "period1": 182,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHit": 15,
+   "wiped": 15,
+   "firstDay": 11,
+   "under6": 49,
+   "grown": 61,
+   "familiesHungry": 15,
+   "familiesWeak": 15,
+   "familiesStarving": 15,
+   "hungryDaysMedian": 16.7,
+   "foodAtEnd": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "kinds": {
+    "lone": {
+     "families": 1,
+     "hit": 1,
+     "deaths": 1
+    },
+    "big": {
+     "families": 13,
+     "hit": 13,
+     "deaths": 175
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 67,
+   "seconds": 6
+  },
+  {
+   "seed": "hunger-5",
+   "mode": "idle",
+   "families": 15,
+   "people": 154,
+   "ticks": 1333,
+   "deaths": 154,
+   "period1": 154,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHit": 15,
+   "wiped": 15,
+   "firstDay": 13,
+   "under6": 39,
+   "grown": 56,
+   "familiesHungry": 15,
+   "familiesWeak": 15,
+   "familiesStarving": 15,
+   "hungryDaysMedian": 16.7,
+   "foodAtEnd": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "kinds": {
+    "lone": {
+     "families": 1,
+     "hit": 1,
+     "deaths": 3
+    },
+    "big": {
+     "families": 8,
+     "hit": 8,
+     "deaths": 118
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 67,
+   "seconds": 6
+  },
+  {
+   "seed": "hunger-6",
+   "mode": "idle",
+   "families": 15,
+   "people": 171,
+   "ticks": 1336,
+   "deaths": 167,
+   "period1": 167,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHit": 15,
+   "wiped": 15,
+   "firstDay": 14,
+   "under6": 39,
+   "grown": 62,
+   "familiesHungry": 15,
+   "familiesWeak": 15,
+   "familiesStarving": 15,
+   "hungryDaysMedian": 16.6,
+   "foodAtEnd": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+   },
+   "kinds": {
+    "lone": {
+     "families": 3,
+     "hit": 3,
+     "deaths": 7
+    },
+    "big": {
+     "families": 11,
+     "hit": 11,
+     "deaths": 154
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 76,
+   "seconds": 6
+  },
+  {
+   "seed": "hunger-1",
+   "mode": "gathering",
+   "families": 15,
+   "people": 144,
+   "ticks": 1437,
+   "deaths": 85,
+   "period1": 0,
+   "period2": 0,
+   "period3": 85,
+   "onRoad": 85,
+   "familiesHit": 10,
+   "wiped": 8,
+   "firstDay": 179,
+   "under6": 23,
+   "grown": 32,
+   "familiesHungry": 12,
+   "familiesWeak": 12,
+   "familiesStarving": 12,
+   "hungryDaysMedian": 16,
+   "foodAtEnd": {
+    "1": 21.1,
+    "2": 16.7,
+    "3": 0
+   },
+   "kinds": {
+    "lone": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 11,
+     "hit": 7,
+     "deaths": 72
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 114,
+   "seconds": 65
+  },
+  {
+   "seed": "hunger-2",
+   "mode": "gathering",
+   "families": 15,
+   "people": 116,
+   "ticks": 1523,
+   "deaths": 83,
+   "period1": 2,
+   "period2": 0,
+   "period3": 81,
+   "onRoad": 81,
+   "familiesHit": 8,
+   "wiped": 7,
+   "firstDay": 59,
+   "under6": 20,
+   "grown": 28,
+   "familiesHungry": 8,
+   "familiesWeak": 8,
+   "familiesStarving": 8,
+   "hungryDaysMedian": 15.9,
+   "foodAtEnd": {
+    "1": 34.4,
+    "2": 30.7,
+    "3": 0
+   },
+   "kinds": {
+    "lone": {
+     "families": 6,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 7,
+     "hit": 7,
+     "deaths": 78
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 200,
+   "seconds": 50
+  },
+  {
+   "seed": "hunger-3",
+   "mode": "gathering",
+   "families": 15,
+   "people": 203,
+   "ticks": 1414,
+   "deaths": 164,
+   "period1": 8,
+   "period2": 0,
+   "period3": 156,
+   "onRoad": 156,
+   "familiesHit": 14,
+   "wiped": 11,
+   "firstDay": 37,
+   "under6": 39,
+   "grown": 57,
+   "familiesHungry": 15,
+   "familiesWeak": 14,
+   "familiesStarving": 14,
+   "hungryDaysMedian": 52,
+   "foodAtEnd": {
+    "1": 2.9,
+    "2": 2.7,
+    "3": 0
+   },
+   "kinds": {
+    "lone": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 13,
+     "hit": 12,
+     "deaths": 156
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 200,
+   "seconds": 329
+  },
+  {
+   "seed": "hunger-4",
+   "mode": "gathering",
+   "families": 15,
+   "people": 184,
+   "ticks": 1410,
+   "deaths": 114,
+   "period1": 4,
+   "period2": 0,
+   "period3": 110,
+   "onRoad": 108,
+   "familiesHit": 11,
+   "wiped": 7,
+   "firstDay": 37,
+   "under6": 39,
+   "grown": 35,
+   "familiesHungry": 14,
+   "familiesWeak": 14,
+   "familiesStarving": 13,
+   "hungryDaysMedian": 25.7,
+   "foodAtEnd": {
+    "1": 3.4,
+    "2": 2.7,
+    "3": 0
+   },
+   "kinds": {
+    "lone": {
+     "families": 1,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 13,
+     "hit": 11,
+     "deaths": 114
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 152,
+   "seconds": 103
+  },
+  {
+   "seed": "hunger-5",
+   "mode": "gathering",
+   "families": 15,
+   "people": 154,
+   "ticks": 1557,
+   "deaths": 112,
+   "period1": 2,
+   "period2": 1,
+   "period3": 109,
+   "onRoad": 109,
+   "familiesHit": 11,
+   "wiped": 9,
+   "firstDay": 51,
+   "under6": 31,
+   "grown": 38,
+   "familiesHungry": 11,
+   "familiesWeak": 11,
+   "familiesStarving": 11,
+   "hungryDaysMedian": 16.9,
+   "foodAtEnd": {
+    "1": 9.9,
+    "2": 7.4,
+    "3": 0
+   },
+   "kinds": {
+    "lone": {
+     "families": 1,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 8,
+     "hit": 8,
+     "deaths": 99
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 190,
+   "seconds": 65
+  },
+  {
+   "seed": "hunger-6",
+   "mode": "gathering",
+   "families": 15,
+   "people": 171,
+   "ticks": 1422,
+   "deaths": 138,
+   "period1": 1,
+   "period2": 0,
+   "period3": 137,
+   "onRoad": 137,
+   "familiesHit": 10,
+   "wiped": 9,
+   "firstDay": 65,
+   "under6": 28,
+   "grown": 53,
+   "familiesHungry": 13,
+   "familiesWeak": 11,
+   "familiesStarving": 11,
+   "hungryDaysMedian": 28.2,
+   "foodAtEnd": {
+    "1": 3.8,
+    "2": 2.3,
+    "3": 0
+   },
+   "kinds": {
+    "lone": {
+     "families": 3,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 11,
+     "hit": 10,
+     "deaths": 138
+    },
+    "war": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 124,
+   "seconds": 67
+  },
+  {
+   "seed": "hunger-1",
+   "mode": "playing",
+   "families": 15,
+   "people": 144,
+   "ticks": 2584,
+   "deaths": 0,
+   "period1": 0,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHit": 0,
+   "wiped": 0,
+   "firstDay": null,
+   "under6": 0,
+   "grown": 0,
+   "familiesHungry": 2,
+   "familiesWeak": 0,
+   "familiesStarving": 0,
+   "hungryDaysMedian": 0,
+   "foodAtEnd": {
+    "1": 42,
+    "2": 59.9,
+    "3": 28
+   },
+   "kinds": {
+    "lone": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 11,
+     "hit": 0,
+     "deaths": 0
+    },
+    "war": {
+     "families": 11,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": null,
+   "seconds": 154
+  },
+  {
+   "seed": "hunger-2",
+   "mode": "playing",
+   "families": 15,
+   "people": 116,
+   "ticks": 2595,
+   "deaths": 1,
+   "period1": 0,
+   "period2": 0,
+   "period3": 1,
+   "onRoad": 1,
+   "familiesHit": 1,
+   "wiped": 0,
+   "firstDay": 204,
+   "under6": 0,
+   "grown": 0,
+   "familiesHungry": 1,
+   "familiesWeak": 1,
+   "familiesStarving": 1,
+   "hungryDaysMedian": 0,
+   "foodAtEnd": {
+    "1": 33.5,
+    "2": 42.8,
+    "3": 25.9
+   },
+   "kinds": {
+    "lone": {
+     "families": 6,
+     "hit": 1,
+     "deaths": 1
+    },
+    "big": {
+     "families": 7,
+     "hit": 0,
+     "deaths": 0
+    },
+    "war": {
+     "families": 11,
+     "hit": 1,
+     "deaths": 1
+    }
+   },
+   "leastRealSecondsStarving": 1378,
+   "seconds": 141
+  },
+  {
+   "seed": "hunger-3",
+   "mode": "playing",
+   "families": 15,
+   "people": 203,
+   "ticks": 2573,
+   "deaths": 1,
+   "period1": 0,
+   "period2": 0,
+   "period3": 1,
+   "onRoad": 1,
+   "familiesHit": 1,
+   "wiped": 0,
+   "firstDay": 200,
+   "under6": 1,
+   "grown": 0,
+   "familiesHungry": 3,
+   "familiesWeak": 2,
+   "familiesStarving": 1,
+   "hungryDaysMedian": 0,
+   "foodAtEnd": {
+    "1": 66.6,
+    "2": 76.1,
+    "3": 25.5
+   },
+   "kinds": {
+    "lone": {
+     "families": 0,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 13,
+     "hit": 1,
+     "deaths": 1
+    },
+    "war": {
+     "families": 12,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": 200,
+   "seconds": 229
+  },
+  {
+   "seed": "hunger-4",
+   "mode": "playing",
+   "families": 15,
+   "people": 184,
+   "ticks": 2619,
+   "deaths": 3,
+   "period1": 0,
+   "period2": 0,
+   "period3": 3,
+   "onRoad": 3,
+   "familiesHit": 1,
+   "wiped": 0,
+   "firstDay": 197,
+   "under6": 3,
+   "grown": 0,
+   "familiesHungry": 2,
+   "familiesWeak": 1,
+   "familiesStarving": 1,
+   "hungryDaysMedian": 0,
+   "foodAtEnd": {
+    "1": 40.2,
+    "2": 62.5,
+    "3": 26.1
+   },
+   "kinds": {
+    "lone": {
+     "families": 1,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 13,
+     "hit": 1,
+     "deaths": 3
+    },
+    "war": {
+     "families": 12,
+     "hit": 1,
+     "deaths": 3
+    }
+   },
+   "leastRealSecondsStarving": 361,
+   "seconds": 202
+  },
+  {
+   "seed": "hunger-5",
+   "mode": "playing",
+   "families": 15,
+   "people": 154,
+   "ticks": 2722,
+   "deaths": 2,
+   "period1": 0,
+   "period2": 0,
+   "period3": 2,
+   "onRoad": 2,
+   "familiesHit": 1,
+   "wiped": 0,
+   "firstDay": 178,
+   "under6": 2,
+   "grown": 0,
+   "familiesHungry": 2,
+   "familiesWeak": 1,
+   "familiesStarving": 1,
+   "hungryDaysMedian": 0,
+   "foodAtEnd": {
+    "1": 56.9,
+    "2": 58.1,
+    "3": 31.8
+   },
+   "kinds": {
+    "lone": {
+     "families": 1,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 8,
+     "hit": 1,
+     "deaths": 2
+    },
+    "war": {
+     "families": 11,
+     "hit": 1,
+     "deaths": 2
+    }
+   },
+   "leastRealSecondsStarving": 200,
+   "seconds": 170
+  },
+  {
+   "seed": "hunger-6",
+   "mode": "playing",
+   "families": 15,
+   "people": 171,
+   "ticks": 2523,
+   "deaths": 0,
+   "period1": 0,
+   "period2": 0,
+   "period3": 0,
+   "onRoad": 0,
+   "familiesHit": 0,
+   "wiped": 0,
+   "firstDay": null,
+   "under6": 0,
+   "grown": 0,
+   "familiesHungry": 5,
+   "familiesWeak": 3,
+   "familiesStarving": 1,
+   "hungryDaysMedian": 0,
+   "foodAtEnd": {
+    "1": 43,
+    "2": 59.7,
+    "3": 19.5
+   },
+   "kinds": {
+    "lone": {
+     "families": 3,
+     "hit": 0,
+     "deaths": 0
+    },
+    "big": {
+     "families": 11,
+     "hit": 0,
+     "deaths": 0
+    },
+    "war": {
+     "families": 11,
+     "hit": 0,
+     "deaths": 0
+    }
+   },
+   "leastRealSecondsStarving": null,
+   "seconds": 191
+  }
+ ]
+}

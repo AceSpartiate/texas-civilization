@@ -1,5 +1,70 @@
 # Claude handoff — Astra foundation
 
+## Food only from real sources, one haul a day, and seed kept at the harvest — owner, 2026-10-02 (not released)
+
+Branch `food-sources` off `integration-2026-09-28` (894e3358 = origin/main); not pushed. The owner, playing v2026.10.02.1: *"Food
+generation is broken by the way. I was playing and generated hundreds of food just by having some adults working around the house on
+auto. I'm thinking that we need to limit food generation to crops, fishing, hunting, etc. Also, didn't farmers back then get seeds
+from their crops? Can we incorporate something that maybe reduces yield, but gives us enough seed for the next planting?"*
+Owner-decided 2026-10-02: docs/HUNGER.md §10, docs/LAND_GRANTS.md §5.2, docs/BALANCE.md §20, HISTORY.md `HIST-TEX-1070`,
+`FIC-GONZ-1070` to `-1072`. **Same computer only.**
+
+- **The bug** (reproduced on the v2026.10.02.1 code - integration has the same - by `scripts/hunger-balance.mjs`'s family and a
+  probe): not working about the place, which made 0.3 a day each, but **the gathering works on auto**. Their yield is paid by the
+  spell of work in ticks, the calendar ran at 20 minutes and an hour a tick through the class's first five days, and nothing stopped a
+  second trip the tick after the first: two grown people on auto at the creek made **1,261 food in 80 days, 1,200 in the first five
+  (213 a day, then 106)**; a bee tree 1,192. The student saw them "working about the place" between trips - auto's word for waiting.
+- **Now**: working about the place makes **no food** (sim/routines.mjs; supersedes D7's "0.3 a day"). Each gathering work pays a
+  person **once a calendar day** (sim/gathering.mjs `forageRefusal`, *"Asa has fished the water today; it will give more
+  tomorrow."*), and a trip that spans days of the campaign's calendar pays **a haul a day**, at most three (`forageDays`), what one can
+  carry still the cap. Food comes from the crop, the water and the timber, the herd, the milk cow on the road, the store, trade, the
+  army's rations and the neighbours.
+- **Seed at the harvest** (sim/crops.mjs `seedKept`, automatic): each plot brought in keeps its seed - **corn 2 of its 10**, **cotton
+  3 seed for 1 of its 5 bales** (the seed comes out of the gin; the bale is the seed cotton held back unginned) - never more than came
+  in, said in the harvest's line: *"… brought in 8 food and 4 cotton. 5 seed kept back for the next planting: 2 of the corn, and 1
+  bale of the cotton left unginned for it."* The *Seed* on the supplies line rises with it.
+- **The page**: while the food gauge is low or worse, the works that bring food in glow its amber on the action bar (public/family-panel.js
+  `feedsNow`: fish, small game, oysters, a bee tree, the hunt, plant and bring in, the stock, the road's fishing, hunting and trading,
+  the eggs); the *Work about the place* popup says it brings in no food. No other words.
+- **No save version**: `person.foraged` (the day of each work's last haul) and `chore.since` are absent on every class saved before.
+
+**The measure** (six classes of fifteen each way, all three periods; docs/HUNGER.md §10, [record](docs/evidence/food-sources-balance.json)):
+
+| Per class | before | **now** |
+| --- | --- | --- |
+| Plays sensibly (the director's policy): deaths by hunger | 1.7, all on the road | **1.2, all on the road; none at home** |
+| … lone parents / big families / a man at the war, families hit | 1/6, 1/31, 1/34 | **1/11, 3/63, 3/68** |
+| … median food at the end of periods 1 and 2 | 38.8, 43.4 | **47.0, 59.9** (no seed bought) |
+| Gives no orders: deaths | everybody, first day 18 | **everybody, first day 11** (59-61 real minutes at Study) |
+| One person on auto gathering, nothing else: deaths | 38.2 (the bug fed them) | **116: 3 at home, 113 on the road east** |
+
+Starting food and the handover's three days are unchanged: nothing measured asks for more.
+
+**Evidence**: `tests/food-sources.test.mjs` (9 tests: the bug - two on auto at the creek, a bee tree; one haul a day; working about
+the place; seed kept, and never more than came in; saves; the bar's glow; a haul for every day out), `npm run
+test:food-sources-injections` **18 of 18** caught by the test written for them (14 alone, [record](docs/evidence/food-sources-injections.json));
+owner-rules' D7 test rewritten for the amendment (and its injection). Tests changed for the seed kept, not weakened: clearing,
+per-plot-crops (the yields less the seed, the harvest's line), store (a cotton field fetches up to a third more than a corn field's
+food, both less their seed), gathering (the dry-house check made a day later, past the day's haul). `npm test`: **2025 tests, 1989
+pass, 0 fail, 36 skipped**. Browser: `test:hunger` 8 (the food works glow from low on, not at plenty), `test:mixed-field` 11 (food
+3.6 to 16.1 for two corn plots, four seed kept), `test:field-click` 18, `test:farm` 7, `test:auto` 14, `test:hunt` 15, `test:whole-game`
+15, `test:solo-game` 17 - all green.
+
+**Open, for the owner** (recommended first):
+
+1. *A family that sends one person to gather and gives no other order feeds a small household at home, not a big one, and dies on
+   the road east* (113 deaths a class, mostly big families). (a) Keep it: the field is the staple, the road's own fishing, hunting
+   and trading are there, and the gauge and the glowing works say so; (b) the milk cow and a cow at home give a little milk a day
+   (see 2); (c) the road east's auto fishes or hunts when the family is short (tier3-road's area).
+2. *Milk at home*: a family with cattle gets none at home, as docs/STOCK.md always had; one milk cow gives 0.2 a day on the road.
+   (a) Keep it: the herd is meat and coin, butchered when needed; (b) one cow's milk at home, 0.2-0.35 a day, for a family with
+   cattle (a little food without an order, which the owner's rule otherwise removed).
+3. *Cotton's seed*: (a) one bale for its three seed, as built; (b) free - the gin gave the seed with the lint, so cotton keeps all
+   its bales; (c) three bales for three seed, the same share as corn's ears (the cotton economy measured weaker in 2026-09-16's test of
+   twice the seed).
+4. *One haul a day*: (a) a person a day, as built - two of a family may each fish; (b) a family a day for each work (a creek gives the
+   family one mess, whoever goes).
+
 ## Released as v2026.10.02.1 — 2026-10-02
 
 Main at 7964210d, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.02.1>), with a small update from v2026.10.01.1 (865 KB, 16 files). On 5f749394: `npm test` 2016 tests, 1 fail (save-retry timing, fixed in 7964210d and proved by injection); 21 browser proofs for everything changed since v2026.10.01.1 all green. Same computer only: no Chromebook, LAN or classroom claim.

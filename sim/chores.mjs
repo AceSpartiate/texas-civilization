@@ -42,7 +42,7 @@ import {
 import { barePlots, cropOf, cropState, fenceWork, groundAt, plotsOf, ripePlots, sownPlots } from './fields.mjs';
 import { MOST_HANDS, crewPace, crowdedWhy, handShare } from './hands.mjs';
 import { FURNITURE_LOGS, fenceBy, furnitureFromPile, pileFull, shortOfSound, takeSpare } from './woodpile.mjs';
-import { CROPS, growCrop, inWinter, keepCrops, minutesNow, reapPlot, seedFor, settleField, soonestCrop, sowPlot } from './crops.mjs';
+import { CROPS, growCrop, inWinter, keepCrops, minutesNow, reapPlot, seedFor, seedKept, settleField, soonestCrop, sowPlot } from './crops.mjs';
 import { marketRefusal, marketSale, marketWords, recordSale, spareFood } from './market.mjs';
 import { landAround, onRealLand } from './ground.mjs';
 import { distanceToPolyline } from './terrain.mjs';
@@ -51,7 +51,7 @@ import { moreFields, plotWorkRefusal, stakePlot, stroll, strollTarget } from './
 import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
 import { GAME, gameDrawn, huntWait, huntingPlace, huntRefusal, killYield, placeWord, powderDamp, quarryGame, stillTicks } from './hunting.mjs';
 import { weatherAt } from './weather.mjs';
-import { FORAGE, FORAGE_REACH, fishingWater, forageFacts, onSaltWater } from './gathering.mjs';
+import { FORAGE, FORAGE_REACH, fishingWater, forageDays, forageFacts, forageRefusal, noteForaged, onSaltWater } from './gathering.mjs';
 import { BEEF_FAMILIES, BEEF_FOOD, BEEF_KEPT, BEEF_MILES, LOOKED_TO_DAYS, PORK_FOOD, butcherRefusal, divideBeef, herdOf, herdWords, killHog, lookedToStock } from './stock.mjs';
 import { fellAndCarryTicks, fellRefusal, fellTree, fellingGround, logsLeftOut, logsLying, nextTree, oxFree, recordFelling, stackLogs, takeUpLogs } from './felling.mjs';
 import { KINDS, countsTrees, woodsRule } from './woods.mjs';
@@ -1101,6 +1101,8 @@ function forageGround(world, household, kind) {
 const forageBegin = kind => (world, household, entity) => {
   const ground = forageGround(world, household, kind);
   if (ground) entity.chore.ground = ground;
+  // When the trip began, for a day's haul for every day out (sim/gathering.mjs `forageDays`, owner 2026-10-02).
+  entity.chore.since = world.minute;
 };
 const forageOffered = kind => (world, household) => forageFor(world, household, kind, { place: true }).can;
 /** Said on the control before anybody is sent: the hours, where they would go, and the powder if it takes one. */
@@ -1513,6 +1515,8 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   }
   // A chore kept in its own module carries its own refusal (`refuse`), asked here so this table never imports that module.
   if (chore.refuse) { const why = chore.refuse(world, household, entity, chore); if (why) return { can: false, why }; }
+  // One haul of each of the four works a person a day (owner, 2026-10-02; sim/gathering.mjs `forageRefusal`).
+  if (chore.forage) { const why = forageRefusal(world, entity, chore.forage); if (why) return { can: false, why }; }
   if (entity.task === 'help') return { can: false, why: `${entity.name} is away helping.` };
   // Somebody who has joined the army, the garrison or the expedition is in one place and does nothing else (sim/winter.mjs) -
   // except the camp's own work, which a chore kept in its own module marks `camp` and gates itself (sim/camp.mjs).
@@ -2806,18 +2810,31 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       for (const crop of ['food', 'cotton']) {
         if (!grown[crop]) continue;
         got[crop] = { grown: yieldFor(grown[crop], skill), kept: round(yieldFor(kept[crop], skill)) };
+      }
+      // Whether the stock had any of it, read before the seed is kept back: seed kept is not crop lost.
+      const grazed = Object.values(got).some(one => one.kept < one.grown);
+      // The seed for each plot kept back out of what it gave (owner, 2026-10-02; sim/crops.mjs `seedKept`): corn 2 of its ears, cotton
+      // a bale's worth unginned for its 3 seed. Told in the harvest's own line below.
+      const saved = seedKept(household, plots, { food: got.food?.kept || 0, cotton: got.cotton?.kept || 0 });
+      for (const crop of ['food', 'cotton']) {
+        if (!got[crop]) continue;
+        got[crop].kept = round(got[crop].kept - saved[crop]);
         household.resources[crop] = round((household.resources[crop] ?? 0) + got[crop].kept);
       }
+      if (saved.seed > 0) household.resources.seed = round((household.resources.seed ?? 0) + saved.seed);
       // Two things can be true of one harvest: the stock got into it, and it is a crop
       // nobody can eat. Said in one sentence rather than letting the fence swallow the
       // more important half - a family that comes home with cotton needs to know what it
       // is for whether or not the field was fenced.
-      const lost = Object.values(got).some(one => one.kept < one.grown) ? ' The rest had gone to stock in an unfenced field.' : '';
+      const lost = grazed ? ' The rest had gone to stock in an unfenced field.' : '';
       const inedible = got.cotton ? (got.food ? ' The cotton nobody can eat; it has to go to the store.' : ' Nobody can eat it; it has to go to the store.') : '';
-      if (lost || inedible) {
+      // The seed kept, in the same line (owner, 2026-10-02): "10 corn: 8 to eat, 2 kept for seed".
+      const seedFrom = [saved.food && `${saved.food} of the corn`, saved.cotton && `${saved.cotton} ${saved.cotton === 1 ? 'bale' : 'bales'} of the cotton left unginned for it`].filter(Boolean);
+      const seedWords = saved.seed > 0 ? ` ${saved.seed} seed kept back for the next planting: ${seedFrom.join(', and ')}.` : '';
+      if (lost || inedible || seedWords) {
         record(world, 'consequence', {
           actorId: entity.id, householdId: household.id, importance: 2,
-          text: `${entity.name} brought in ${Object.entries(got).map(([crop, one]) => `${one.kept} ${crop}`).join(' and ')}.${lost}${inedible}`,
+          text: `${entity.name} brought in ${Object.entries(got).map(([crop, one]) => `${one.kept} ${crop}`).join(' and ')}.${seedWords}${lost}${inedible}`,
         });
       }
       continue;
@@ -2840,8 +2857,10 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       // them, which is the same answer while no chore produces two things at once. If one
       // ever does, this has to become a budget spent in order.
       const capacity = chore.hauls ? vehicleCarry(world, entity, state.mode) : Infinity;
+      // A gathering trip's haul is a day's for each day it took, never less than one (sim/gathering.mjs `forageDays`).
+      const days = step.forage ? forageDays(world, state) : 1;
       for (const [resource, amount] of Object.entries(step.produce)) {
-        const got = yieldFor(amount, skill);
+        const got = yieldFor(amount * days, skill);
         const kept = round(Math.min(got, capacity));
         household.resources[resource] = round((household.resources[resource] ?? 0) + kept);
         if (kept < got) {
@@ -2860,6 +2879,7 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
         // (sim/gathering.mjs, `FIC-GONZ-173` to `-176`). Nothing here can fail, so this is the only
         // event these four works record: no miss, no refusal at the water, no empty-handed walk.
         if (step.forage) {
+          noteForaged(world, entity, step.forage);
           const work = FORAGE[step.forage];
           record(world, 'forage', {
             actorId: entity.id, householdId: household.id, importance: 1, forage: step.forage, food: kept,

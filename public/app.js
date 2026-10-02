@@ -4,7 +4,7 @@ import { drawArmy } from '/army-view.js';
 import { drawFamous, famousArt } from '/famous-view.js';
 import { ProjectionMotion, GaitClock, clipGait, STRIDE, entityClip, drawnClipName, travelHeading, travelDirection, figureScale, carriedWithRider, seatOf, teamDrivenBy, wagonTeams, seatedClip, seatLayout, wagonRigClip, rigReach, DrawnHeading, passengersOf, bedLayout, passengerClip, SEAT, walksBeside, mounted, MOUNTED_HEIGHT, figureOf, alongRoute, drawnHeightsPerSecond, drawnMilesASecond, fadeToward, FADE_STALE_MS, GAIT_CEILING, landRuns, paceMilesASecond, travelMilesATick, travelSight, passBegin, passRide, passStep, sameRoad, PASS_BEFORE_MILES, routeIndexAfter, sameJourney, gaitMilesASecond, trailHolds, walkToward } from '/motion.js';
 import { emptyPauseWords, familyRows, PRESENCE_LABELS, sicknessView, storyView, spotlightBanner } from '/live-page.js';
-import { actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, barIcons, nextSteps, goalRoom, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands } from '/family-panel.js';
+import { actingOf, iconPress, takenInWords, autoLabel, autoLine, callMenu, callPlan, columnRoom, drawIcon, drawMark, drawPortrait, focusFor, isIdle, leftWords, lifeLine, lifeWord, meetingFor, nameToSave, needsOf, panelActions, panelOrder, rankNeeds, requestFor, rowReason, scrollToShow, sickLine, standing, travellingLine, awayLine, armyAwayWords, RENAME_PAUSE_MS, barPerson, lightLoad, loadSpace, larderLevel, larderFill, larderLabel, larderWorse, hungerOf, HUNGER_WORDS, feedsNow, barIcons, nextSteps, goalRoom, WANT_NAMES, plotStage, plotJobFor, plotWorkFor, plotHand, plotHands } from '/family-panel.js';
 import { allowsIcon, lessonAnnouncement, lessonLocks, lessonShowing, lessonWords, lockedNote, pointedKey } from '/lesson.js';
 import { TIPS, tipToShow, tipsToReread } from '/tips.js';
 import { mountErrand } from '/errand.js';
@@ -5525,7 +5525,8 @@ function renderFamilyPanel(world) {
     // "Move Idle and House off": it was a button on the main person's row). Pressed, it opens the rooms as tapping the house on
     // the map does (`[data-house]` below); it sends nothing, so nothing shuts it.
     const homeIcon = bar && house ? HOUSE_ICON : null;
-    const key = JSON.stringify([visibleReason, travelling, visibleIcons, shutting ? [lesson.step, lesson.allow, lesson.shut, pointed] : null, makeMain, Boolean(homeIcon)]);
+    // The food gauge's level too: the ways to food glow on it (`feedsNow`), so a change of level redescribes the icons.
+    const key = JSON.stringify([visibleReason, travelling, visibleIcons, shutting ? [lesson.step, lesson.allow, lesson.shut, pointed] : null, makeMain, Boolean(homeIcon), larderWas]);
     if (row.iconsKey !== key) {
       row.iconsKey = key;
       row.icons.setAttribute('aria-label', `What ${entity.name} can do`);
@@ -6176,6 +6177,8 @@ function describeIcon(button, icon, lesson = null) {
   setData(button, 'pointed', lesson?.pointed ? 'true' : '');
   // Work somebody on auto is given to wait for (sim/auto.mjs `waitingWork`): sent as it is, the way chosen when it goes.
   setData(button, 'waits', icon.waits ? 'true' : '');
+  // A way to food glows while the food is low (owner, 2026-10-02; public/family-panel.js `feedsNow`): the gauge's own level.
+  setData(button, 'feeds', feedsNow(icon.key, larderWas) ? 'true' : '');
   button.dataset.active = String(icon.active);
   if (icon.active) button.setAttribute('aria-current', 'true'); else button.removeAttribute('aria-current');
   // A goal refused only for what the family has not got (docs/FAMILY_PANEL.md §23): greyed like any refusal, and a strip along its

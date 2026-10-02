@@ -102,6 +102,7 @@ import { CROPS, cropSummary, fieldInvalid } from './crops.mjs';
 import { quickestOf, quickestWay, shownWays, waysFor } from './going.mjs';
 import { toolsInvalid } from './tools.mjs';
 import { fellingInvalid, logsLeftOut, logsProjection, recordFelling } from './felling.mjs';
+import { foragedInvalid } from './gathering.mjs';
 import { advanceHunger, diedQuietly, hungerInvalid, hungerShown, hungerStride, larderShown } from './hunger.mjs';
 import { liftWants } from './wants.mjs';
 import { HOUSEHOLD_SHAPE, NAME_LIMIT, ROLES, TRAIT_RANGE, defaultNames, familyProjection, familyRoll, FAMILY_DIE, FAMILY_TABLE, tableOf, compositionFor,rolledWords, householdName, kinFor, mainPersonId, rename, rolledPeople, rollRefusal, tooYoung, tooYoungWhy } from './family.mjs';
@@ -1783,7 +1784,7 @@ export function validateWorld(world) {
   if (badRunner) throw new Error(badRunner);
   const badChildren = childrenInvalid(world) || childhoodInvalid(world) || babiesInvalid(world) || flightWorkInvalid(world) || actingInvalid(world);
   if (badChildren) throw new Error(badChildren);
-  const badLedger = neighbourlyInvalid(world) || hungerInvalid(world);
+  const badLedger = neighbourlyInvalid(world) || hungerInvalid(world) || foragedInvalid(world);
   if (badLedger) throw new Error(badLedger);
   const events = new Set(world.events.map(e => e.id));
   if (events.size !== world.events.length || world.events.some(e => e.causes.some(id => !events.has(id)))) throw new Error('Invalid event graph');

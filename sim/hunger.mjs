@@ -29,8 +29,6 @@ import { record } from './events.mjs';
 import { ageNow, eatenADay, housekeepingSaving, sexOf } from './family.mjs';
 import { shelterOf } from './houses.mjs';
 import { furnitureShares } from './furniture.mjs';
-import { calledAside } from './aside.mjs';
-import { WORK_FOOD_A_DAY } from './routines.mjs';
 import { limitLeft, limitOut } from './decision-budget.mjs';
 
 const DAY = 1440;
@@ -256,8 +254,9 @@ export function hungerShown(world, person) {
 }
 
 /**
- * What the family eats in a day and brings in by working about the place, as the store is drawn on: at home by whoever is there
- * (sim/routines.mjs), on the road east by everybody with it (sim/scrape.mjs). Whoever is serving eats the army's rations.
+ * What the family eats in a day, as the store is drawn on: at home by whoever is there (sim/routines.mjs), on the road east by
+ * everybody with it (sim/scrape.mjs). Whoever is serving eats the army's rations. `make` is what comes in without an order, which
+ * since 2026-10-02 is nothing (owner: working about the place makes no food; sim/routines.mjs).
  */
 export function dailyDraw(world, household) {
   const people = household.members.map(id => world.entities[id]).filter(person => alive(person) && person.service?.status !== 'serving' && !person.visiting);
@@ -265,8 +264,7 @@ export function dailyDraw(world, household) {
   if (onRoad) return { eat: eatenADay(world, people), make: 0 };
   const housed = shelterOf(world, household).kind === 'house';
   const eat = eatenADay(world, people) * (1 - housekeepingSaving(people)) * furnitureShares(household, housed).eaten;
-  const make = people.filter(person => person.location?.siteId === household.homeSiteId && person.task === 'work' && !person.chore && person.health?.condition === 'well' && !calledAside(person)).length * WORK_FOOD_A_DAY;
-  return { eat, make };
+  return { eat, make: 0 };
 }
 
 /**

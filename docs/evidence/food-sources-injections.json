@@ -1,0 +1,231 @@
+{
+ "record": "food-sources-injections",
+ "date": "2026-10-02",
+ "caught": 18,
+ "only": 14,
+ "of": 18,
+ "injections": [
+  {
+   "name": "the bug back: no limit on hauls a day",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "the bug: two grown people on auto at the creek",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the bug: two grown people on auto at the creek bring home a mess of fish a day each, not hundreds of food",
+    "the bug: a bee tree on auto is one comb a person a day too",
+    "one haul a day: once a work has paid a person today it is refused them in words, another of the family may go, and tomorrow they may"
+   ]
+  },
+  {
+   "name": "the haul never marked",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "one haul a day:",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the bug: two grown people on auto at the creek bring home a mess of fish a day each, not hundreds of food",
+    "the bug: a bee tree on auto is one comb a person a day too",
+    "one haul a day: once a work has paid a person today it is refused them in words, another of the family may go, and tomorrow they may"
+   ]
+  },
+  {
+   "name": "the haul a family's, not a person's",
+   "files": [
+    "sim/gathering.mjs"
+   ],
+   "expected": "one haul a day:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "one haul a day: once a work has paid a person today it is refused them in words, another of the family may go, and tomorrow they may"
+   ]
+  },
+  {
+   "name": "the haul a week, not a day",
+   "files": [
+    "sim/gathering.mjs"
+   ],
+   "expected": "one haul a day:",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "one haul a day: once a work has paid a person today it is refused them in words, another of the family may go, and tomorrow they may",
+    "a haul for every day out: a trip that spans days of the calendar brings home a haul a day, never less than one, at most three"
+   ]
+  },
+  {
+   "name": "one haul for a trip of days",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "a haul for every day out",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a haul for every day out: a trip that spans days of the calendar brings home a haul a day, never less than one, at most three"
+   ]
+  },
+  {
+   "name": "no cap on the days a trip is paid for",
+   "files": [
+    "sim/gathering.mjs"
+   ],
+   "expected": "a haul for every day out",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a haul for every day out: a trip that spans days of the calendar brings home a haul a day, never less than one, at most three"
+   ]
+  },
+  {
+   "name": "the start of the trip never written",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "a haul for every day out",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a haul for every day out: a trip that spans days of the calendar brings home a haul a day, never less than one, at most three"
+   ]
+  },
+  {
+   "name": "working about the place makes food again",
+   "files": [
+    "sim/routines.mjs"
+   ],
+   "expected": "working about the place makes no food",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "working about the place makes no food: a family whose grown work about the place eats down its store like one at rest"
+   ]
+  },
+  {
+   "name": "the gauge counts work about the place again",
+   "files": [
+    "sim/hunger.mjs"
+   ],
+   "expected": "working about the place makes no food",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "working about the place makes no food: a family whose grown work about the place eats down its store like one at rest"
+   ]
+  },
+  {
+   "name": "no seed kept at the harvest",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "seed kept: a corn plot",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "seed kept: a corn plot keeps two of its ears and a cotton plot a bale's worth, enough to plant each again, and the harvest says so"
+   ]
+  },
+  {
+   "name": "the seed kept costs the crop nothing",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "seed kept: a corn plot",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "seed kept: a corn plot keeps two of its ears and a cotton plot a bale's worth, enough to plant each again, and the harvest says so"
+   ]
+  },
+  {
+   "name": "the seed kept told as crop the stock ate",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "seed kept: a corn plot",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "seed kept: a corn plot keeps two of its ears and a cotton plot a bale's worth, enough to plant each again, and the harvest says so"
+   ]
+  },
+  {
+   "name": "cotton seed costs three bales",
+   "files": [
+    "sim/crops.mjs"
+   ],
+   "expected": "seed kept: a corn plot",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "seed kept: a corn plot keeps two of its ears and a cotton plot a bale's worth, enough to plant each again, and the harvest says so",
+    "seed kept: never more than came in, and nothing kept from a crop that gave nothing"
+   ]
+  },
+  {
+   "name": "the seed not said",
+   "files": [
+    "sim/chores.mjs"
+   ],
+   "expected": "seed kept: a corn plot",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "seed kept: a corn plot keeps two of its ears and a cotton plot a bale's worth, enough to plant each again, and the harvest says so"
+   ]
+  },
+  {
+   "name": "more seed kept than came in",
+   "files": [
+    "sim/crops.mjs"
+   ],
+   "expected": "seed kept: never more than came in",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "seed kept: never more than came in, and nothing kept from a crop that gave nothing"
+   ]
+  },
+  {
+   "name": "a haul day that cannot be is opened",
+   "files": [
+    "sim/world.mjs"
+   ],
+   "expected": "saves:",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "saves: a class saved before opens with nobody having foraged today, and a haul day that cannot be is refused"
+   ]
+  },
+  {
+   "name": "the ways to food never glow",
+   "files": [
+    "public/family-panel.js"
+   ],
+   "expected": "the ways to food glow",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the ways to food glow on the bar while the food is low, and nothing else does"
+   ]
+  },
+  {
+   "name": "everything glows as food",
+   "files": [
+    "public/family-panel.js"
+   ],
+   "expected": "the ways to food glow",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the ways to food glow on the bar while the food is low, and nothing else does"
+   ]
+  }
+ ]
+}

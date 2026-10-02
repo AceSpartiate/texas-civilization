@@ -123,7 +123,10 @@ test('a bale is worth twice what it weighs in corn, and only once it reaches tow
   const beforeTrip = cotton.resources.food;
   work(world, cotton.id, cotton.members[1], 'sell-cotton', 'wagon');
   const cottonFood = cotton.resources.food - beforeTrip;
-  assert.ok(cottonFood > cornFood * 0.75 && cottonFood < cornFood * 1.25,
+  // Since 2026-10-02 each plot keeps back its seed (sim/crops.mjs `seedKept`): the corn two food of each plot, the cotton a bale of
+  // each - a share each, and the store pays more a bale for fewer bales (sim/market.mjs) - so the cotton field fetches up to a third
+  // more than the corn field eats.
+  assert.ok(cottonFood > cornFood * 0.75 && cottonFood < cornFood * 1.35,
     `a cotton field fetched ${cottonFood.toFixed(1)} food against ${cornFood.toFixed(1)} from a corn field`);
   assert.ok(cottonFood > bales * 1.5, `a bale fetched ${(cottonFood / bales).toFixed(2)} food, not about two`);
 });

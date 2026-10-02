@@ -144,3 +144,49 @@ export function forageFacts(world, household, kind, home, { cover = null, axe = 
 // what a quarry is worth: `winterShare`, `WINTER_MONTHS`, `FIC-GONZ-177`. They are the same reading of Kuykendall as the
 // four works above, and they are there rather than here so that nothing imports this module to weigh a deer (sim/hunting.mjs
 // is imported by this one, and one direction is all a module graph should ever have).
+
+// ------------------------------------------------------------------------------------------------ one haul a day
+
+/**
+ * **One haul of each of the four works a person a calendar day** (owner, 2026-10-02: "I was playing and generated hundreds of food
+ * just by having some adults working around the house on auto"; docs/HUNGER.md §10, `FIC-GONZ-1070`). A work's yield is
+ * paid by the spell of work, in ticks, and the calendar runs at twenty minutes a tick in the first hours of a class and an hour a
+ * tick through the news (sim/clock.mjs `CALENDAR_SCALE`): a person on auto at the creek came home with three food every hour of
+ * 1835 - some seventy a day each, where a grown person eats 0.35 - and two of them made over a thousand in the first five days. The
+ * record's creek gives a mess of fish a day, and the record's tree one comb: so once each work has paid a person today, it waits for
+ * tomorrow, as the hens do (sim/children.mjs `eggsGathered`). Another of the family may still go, and another work still pays.
+ */
+export const dayOf = world => Math.floor((world.minute || 0) / 1440);
+/** Whether this person has already brought home this work's haul today. */
+export const foragedToday = (world, entity, kind) => entity?.foraged?.[kind] === dayOf(world);
+const AGAIN = Object.freeze({
+  smallgame: 'has had the small game near the house today; there will be more tomorrow',
+  fish: 'has fished the water today; it will give more tomorrow',
+  oysters: 'has been to the beds today; the tide will give more tomorrow',
+  honey: 'has cut a bee tree today; there will be another tomorrow',
+});
+/** Why this person may not go after this work again today, or null. */
+export const forageRefusal = (world, entity, kind) => (foragedToday(world, entity, kind) ? `${entity.name} ${AGAIN[kind] || 'has had this today; there will be more tomorrow'}.` : null);
+/** Marks the haul brought home (sim/chores.mjs, where a work's food is paid). */
+export function noteForaged(world, entity, kind) {
+  entity.foraged = { ...(entity.foraged || {}), [kind]: dayOf(world) };
+}
+/** A saved day of hauls that cannot be, or null. Absent on every class saved before, which reads as nothing brought home today. */
+export function foragedInvalid(world) {
+  for (const entity of Object.values(world.entities || {})) {
+    const foraged = entity.foraged;
+    if (foraged === undefined) continue;
+    if (!foraged || typeof foraged !== 'object' || Object.entries(foraged).some(([kind, day]) => !(kind in FORAGE) || !Number.isInteger(day))) return 'Invalid foraging day';
+  }
+  return null;
+}
+/**
+ * **A day's haul for every day out** (the same answer, the other way round): when the calendar runs at half a day a tick, as it does
+ * through the campaign, a trip to the creek of a few ticks spans two or three days of 1835, and one haul for it would starve a family
+ * that gathers and nothing else. So the haul is the work's food for each calendar day the trip took, never less than one day's
+ * (`forageDays`): a person at the creek brings home about a mess of fish a day in every phase of the class. `chore.since` is the
+ * minute the trip began (`forageBegin`, sim/chores.mjs); a trip saved before it was written counts one day.
+ * ceiling: at most `FORAGE_MOST_DAYS` days a trip, so a trip held up for a week (a crossing, a call) is not a week's food.
+ */
+export const FORAGE_MOST_DAYS = 3;
+export const forageDays = (world, chore) => (Number.isFinite(chore?.since) ? Math.min(FORAGE_MOST_DAYS, Math.max(1, ((world.minute || 0) - chore.since) / 1440)) : 1);

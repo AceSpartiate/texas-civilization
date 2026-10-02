@@ -82,9 +82,9 @@ the one sentence (§7).
 The owner asked for highlights and colour, not words. Every number that was there stays; nothing explains.
 
 - **The food box is a gauge** (`#food`, `paintLarder` in public/app.js; the level is `larderLevel` in public/family-panel.js). A
-  sack, *Food 15.5* as ever, and a bar of the days the food lasts at what the family eats less what working about the place brings
-  in (`larderShown`, sent as `household.larder`; `null` days while the work brings in as much as is eaten, drawn full). A fortnight
-  fills the bar.
+  sack, *Food 15.5* as ever, and a bar of the days the food lasts at what the family eats (`larderShown`, sent as
+  `household.larder`; until 2026-10-02 less what working about the place brought in, which is now nothing, §10). A fortnight fills
+  the bar.
 
   | Level | When | Look |
   | --- | --- | --- |
@@ -226,6 +226,72 @@ a few real minutes. The owner chose **"A few days' food"**.
   rest.
 - Invented (`FIC-GONZ-998`, as amended). No save version: `handoverFed` is absent on every class saved before, which reads as not
   yet fed.
+
+## 10. Food only from real sources, one haul a day, and seed at the harvest (owner-decided 2026-10-02; not released)
+
+> "Food generation is broken by the way. I was playing and generated hundreds of food just by having some adults working around the
+> house on auto. I'm thinking that we need to limit food generation to crops, fishing, hunting, etc. Also, didn't farmers back then
+> get seeds from their crops? Can we incorporate something that maybe reduces yield, but gives us enough seed for the next
+> planting?" — the owner, 2026-10-02, playing v2026.10.02.1
+
+**The bug.** Not working about the place: on v2026.10.02.1 a grown person at home on auto with nothing to do made 0.3 food a day,
+which was not much. What made hundreds was **the gathering works on auto**. A work's yield is paid by the spell of work, counted in
+ticks; the calendar runs at **twenty minutes a tick** in a class's first hours and **an hour a tick** through the news
+(sim/clock.mjs `CALENDAR_SCALE`), and the four gathering works (fish, small game, oysters, a bee tree: sim/gathering.mjs `FORAGE`)
+could be taken up again the tick after they paid, with nothing to say a creek had already given today. So somebody on auto at the
+creek brought home three food every hour of 1835 - about seventy a day each, where a grown person eats 0.35 - and the student saw
+them "working about the place" between trips, which is auto's word for waiting. Measured with `scripts/hunger-balance.mjs`'s family
+on the live tag's code: **two grown people on auto fishing made 1,261 food in the first 80 days (1,200 of it in the first five days:
+213 a day in the first phase, 106 in the news)**; on a bee tree, 1,192; working about the place alone, none above what was eaten.
+Hunting was bounded by its powder.
+
+**The rule now** (`FIC-GONZ-1070`, `-1072`):
+
+- **Working about the place makes no food** (sim/routines.mjs; supersedes D7's "0.3 a day", `FIC-GONZ-964`). Food comes from the
+  field (the corn harvest), the water and the timber (fishing, small game, oysters, honey, the hunt), the herd (a hog salted down, a
+  beef divided: docs/STOCK.md), the milk cow on the road (docs/STOCK.md §8), the store and the town's trades, trade between
+  families, the army's rations for whoever serves, and the neighbours' help. **No passive milk at home** (judgement, put to the
+  owner below): docs/STOCK.md's herd at home gives none, as it never did.
+- **One haul of each gathering work a person a calendar day** (sim/gathering.mjs `forageRefusal`): a second trip the same day is
+  refused in words - *"Asa has fished the water today; it will give more tomorrow."* - and a person on auto works about the place
+  until tomorrow. Another of the family may go, and another work still pays.
+- **A haul for every day out** (`forageDays`): when the calendar runs at half a day a tick (the campaign), a trip spans two days and
+  is paid two days' haul, up to three, and what one person can carry home on foot (five) still holds. So a person at the creek
+  brings home about a mess of fish a calendar day in every phase.
+- **Seed kept at the harvest** (`FIC-GONZ-1071`, `HIST-TEX-1070`; docs/LAND_GRANTS.md §5.2).
+- **Where food comes from, on the bar**: while the gauge is low or worse, the works that bring food in (fish, small game, oysters, a
+  bee tree, the hunt, plant and bring in the crop, the stock, the road's fishing, hunting and trading, the eggs) glow the gauge's amber
+  on the action bar (public/family-panel.js `feedsNow`); no words.
+
+**The measure** (`node scripts/hunger-balance.mjs`, six classes of fifteen each way - `hunger-1` to `-6`, all three periods, every
+family played and at its screen; before = integration 894e3358 with the same harness, three classes idle and playing, six gathering;
+[evidence/food-sources-balance.json](evidence/food-sources-balance.json)):
+
+| Per class of 15 families | idle, before | **idle, now** | one gatherer, before | **one gatherer, now** | playing, before | **playing, now** |
+| --- | --- | --- | --- | --- | --- | --- |
+| Deaths by hunger | 154.3 (everybody) | **160.7 (everybody)** | 38.2 | **116** | 1.7 | **1.2** |
+| … at home, periods 1-2 | 154.3 | 160.7 | 1.2 | **3.0** | 0 | **0** |
+| … the road east and refuges | 0 | 0 | 37 | **113** | 1.7 | **1.2** |
+| First death, day of the class | 18 | **11** | 141 | **37** | 198 | **178** |
+| Median food at the end of period 1 | 0 | 0 | 134.4 | **12.6** | 38.8 | **47.0** |
+| Lone parents hit / families | 6 / 6 | 11 / 11 | 0 / 11 | **0 / 11** | 1 / 6 | **1 / 11** |
+| Big families (8+) hit / families | 31 / 31 | 63 / 63 | 27 / 63 | **55 / 63** | 1 / 31 | **3 / 63** |
+| Families with a man at the war hit / families | - | - | - | - | 1 / 34 | **3 / 68** |
+
+- *idle*: gives no orders. *one gatherer*: one grown person put on auto at the first gathering work the land offers, nothing else
+  ever given (the student who does one thing about food). *playing*: farms, hunts, fishes and forages as the director does, and leaves
+  when told with the food that fits.
+- **A student who plays sensibly loses nobody at home**, lone parent, big family or a man at the war; on the road east 1.2 a class
+  (small children, as the owner kept on 2026-09-30). The seed kept at the harvest leaves such a family more food by the winter
+  (47 against 38.8 at the end of period 1, 59.9 against 43.4 at the end of period 2): it no longer buys seed.
+- **An idle family starves sooner**: its store is gone on day 6 (45-48 real minutes at Study) and the first person dies on day 11-14
+  (59-61 minutes), against 54-56 and 62-64 with the 0.3. Meant.
+- **One gatherer feeds a small family at home and not a big one, and none on the road east.** At home: 3 deaths a class (those of
+  big families in the first period). On the road: 113 a class - a family that sent one person fishing and gave no other order flees
+  when the order's time is out with what auto packs (sim/auto.mjs), about 13 food, and nobody fishes or hunts on the road for it. Before,
+  the bug had stocked those families with 134 food each by December. Put to the owner below.
+- **Starting food and the handover top-up are left as they are**: the arrival's floor (`ARRIVAL_DAYS`) and three days on taking a
+  family over (§8b) are both counted in days of eating, which no longer has anything added to it; nothing measured asks for more.
 
 ## 9. Evidence
 

@@ -148,6 +148,8 @@ test('small game costs a shot, and the knack the long hunt wants is not needed f
   // gettable lack" (docs/FAMILY_PANEL.md §23) it is offered and refused for want of powder, which the family can buy, so the bar
   // keeps it greyed with the powder it wants.
   household.resources.powder = 0;
+  // Tomorrow, so the one haul a day (owner, 2026-10-02; sim/gathering.mjs `forageRefusal`) is not what refuses them.
+  delete person.foraged;
   const facts = forageFor(world, household, 'smallgame');
   assert.equal(facts.can, false);
   assert.match(facts.why, /powder/);

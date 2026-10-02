@@ -207,7 +207,7 @@ export const WORK = Object.freeze({
   'share-food': { stroke: 'carry', spread: 0.6 },
   'ford-carry': { stroke: 'carry', spread: 0.6 },
   'camp-apart': { stroke: 'carry', spread: 0.6 },
-  // No chore: working about the place at home (sim/routines.mjs: "a little food a day"), or helping where a call sent them.
+  // No chore: working about the place at home (sim/routines.mjs: no food since 2026-10-02), or helping where a call sent them.
   'task:work': { stroke: 'about', spread: 0.9 },
   'task:help': { stroke: 'carry', spread: 0.7 },
 });

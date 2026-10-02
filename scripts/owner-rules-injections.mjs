@@ -12,7 +12,7 @@ const OWN = { files: ['tests/owner-rules.test.mjs'] };
 const FORK = { files: ['tests/camp.test.mjs'], pattern: 'fork of the road' };
 const DEAL = { files: ['tests/mexican-advance.test.mjs'], pattern: 'burn zone, two by two|burnSides' };
 const T = {
-  food: 'D7: somebody working about the place', boy: 'D11: a boy of fifteen', baby: 'D11: a baby turns two', old: 'D11: an old save',
+  food: 'D7, as amended 2026-10-02: somebody working about the place', boy: 'D11: a boy of fifteen', baby: 'D11: a baby turns two', old: 'D11: an old save',
   hold: 'C4: a very sick child of a played family cannot die', clock: 'C4: the minute runs on the real clock',
   asked: 'D5: in the last week of October', cost: 'D5: sending is a real cost', queue: 'D5: the ask waits behind a rider',
   fork: 'the fork of the road, April 16', deal: 'exactly half of every class', sides: 'burnSides:',
@@ -20,8 +20,8 @@ const T = {
 const one = (file, from, to) => ({ file, from, to });
 const INJECTIONS = [
   // D7
-  { name: 'D7 working about the place yields a food a day again', ...OWN, edits: [one('sim/routines.mjs', 'export const WORK_FOOD_A_DAY = 0.3;', 'export const WORK_FOOD_A_DAY = 1;')], expect: T.food },
-  { name: 'D7 the yield not used: a worker counted as one food', ...OWN, edits: [one('sim/routines.mjs', '(workers * WORK_FOOD_A_DAY - eaten)', '(workers - eaten)')], expect: T.food },
+  // D7 as amended by the owner on 2026-10-02: working about the place makes no food (docs/HUNGER.md §10).
+  { name: 'D7 working about the place yields 0.3 a day again', ...OWN, edits: [one('sim/routines.mjs', '    const fed = Math.max(0, household.resources.food - eaten * days);', '    const fed = Math.max(0, household.resources.food + (present.filter(e => e.task === \'work\' && !e.chore).length * 0.3 - eaten) * days);')], expect: T.food },
   // D11
   { name: 'D11 the tick never moves an age', ...OWN, edits: [one('sim/world.mjs', '  advanceAges(world);\n', '')], expect: T.baby },
   { name: 'D11 no birthday ever passes', ...OWN, edits: [one('sim/ages.mjs', '    if (!(passed > 0)) continue;', '    if (true) continue;')], expect: T.boy },
