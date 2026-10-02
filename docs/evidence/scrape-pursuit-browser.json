@@ -1,13 +1,13 @@
 {
   "record": "scrape-pursuit-browser",
-  "date": "2026-09-30",
+  "date": "2026-10-02",
   "environment": "Same computer: a local classroom server and headless Chrome at 1366x768 and 1024x768.",
   "pass": [
     "1366: the student chose two stops, one from the list and one by tapping the map, the first across country, and the family set out",
     "1366: the path is drawn thin on the student's own map, and not on another family's nor the Host's",
     "1366: the family is going across country, and the card says how far off Mexican troops could see it",
     "1366: changed on the road, the family turned for New Washington from where it was",
-    "1366: Bernarda Proofwright on auto and their portrait pressed in the chase: made main, warned \"Bernarda is on auto, so she will answer the soldiers herself.\", and Gregorio Proofwright made main again by their portrait",
+    "1366: Lucinda Proofwright on auto and their portrait pressed in the chase: made main, warned \"Lucinda is on auto, so she will answer the soldiers herself.\", and Hollis Proofwright made main again by their portrait",
     "1366: the dragoons came on and called \"¡Alto!\", with the English under it, over the lead horseman and on the card",
     "1366: the Host's map drew the chase",
     "1366: the family ran; the horsemen fired - 8 shots, flashes and smoke drawn - and it was taken",
@@ -25,24 +25,24 @@
       "points": 7,
       "stops": [
         {
-          "x": 182,
-          "y": 380
+          "x": -22,
+          "y": 487
         },
         {
-          "x": 313,
-          "y": 600
+          "x": 109,
+          "y": 707
         }
       ],
       "width": 1
     },
     "1366-card": {
-      "route": "Making for New Washington, by way of Lynchburg. Next, Lynchburg: 12.7 miles across country, at about 1.5 miles an hour.",
+      "route": "Making for New Washington, by way of Lynchburg. Next, Lynchburg: 13 miles across country, at about 1.5 miles an hour.",
       "seen": "Mexican troops could see the family from about 200 yards: people on foot off the road, in the open, in the rain."
     },
     "warnedAuto": {
       "son": "hh-1-parent-2",
       "main": "hh-1-parent-2",
-      "words": "Bernarda is on auto, so she will answer the soldiers herself.",
+      "words": "Lucinda is on auto, so she will answer the soldiers herself.",
       "backTo": "hh-1-parent-1"
     },
     "1366-alto": {
@@ -64,13 +64,7 @@
           "alto"
         ],
         "heard": [],
-        "spoken": [
-          {
-            "id": "alto",
-            "x": 394,
-            "y": 671
-          }
-        ]
+        "spoken": []
       },
       "ask": [
         "halt",
@@ -86,13 +80,13 @@
             "kind": "cavalry",
             "phase": "caught",
             "soldiers": 8,
-            "smoke": 7,
+            "smoke": 2,
             "shotsSent": 8
           }
         ],
-        "shotsSeen": 7,
-        "flashes": 7,
-        "dust": 7,
+        "shotsSeen": 2,
+        "flashes": 2,
+        "dust": 2,
         "lines": [
           "alto",
           "warn",
@@ -100,46 +94,21 @@
         ],
         "heard": [
           {
-            "x": 490,
-            "y": 534,
+            "x": 474,
+            "y": 543,
             "size": 1
           },
           {
-            "x": 505,
-            "y": 561,
-            "size": 1
-          },
-          {
-            "x": 522,
-            "y": 588,
-            "size": 1
-          },
-          {
-            "x": 405,
-            "y": 441,
-            "size": 1
-          },
-          {
-            "x": 386,
-            "y": 416,
-            "size": 1
-          },
-          {
-            "x": 459,
-            "y": 518,
-            "size": 1
-          },
-          {
-            "x": 417,
-            "y": 471,
+            "x": 489,
+            "y": 570,
             "size": 1
           }
         ],
         "spoken": [
           {
             "id": "fire",
-            "x": 469,
-            "y": 570
+            "x": 453,
+            "y": 580
           }
         ]
       },
@@ -280,7 +249,7 @@
           "shooter": "mounted",
           "target": {
             "kind": "person",
-            "name": "Mateo",
+            "name": "George",
             "id": "hh-1-child-1"
           },
           "p": 0.036,
@@ -322,7 +291,7 @@
           "shooter": "mounted",
           "target": {
             "kind": "person",
-            "name": "Mateo",
+            "name": "George",
             "id": "hh-1-child-1"
           },
           "p": 0.041,
@@ -388,18 +357,18 @@
       "points": 7,
       "stops": [
         {
-          "x": 114,
-          "y": 380
+          "x": -49,
+          "y": 487
         },
         {
-          "x": 245,
-          "y": 600
+          "x": 82,
+          "y": 707
         }
       ],
       "width": 1
     },
     "1024-card": {
-      "route": "Making for New Washington, by way of Lynchburg. Next, Lynchburg: 12.7 miles across country, at about 1.5 miles an hour.",
+      "route": "Making for New Washington, by way of Lynchburg. Next, Lynchburg: 13 miles across country, at about 1.5 miles an hour.",
       "seen": "Mexican troops could see the family from about 200 yards: people on foot off the road, in the open, in the rain."
     },
     "1024-alto": {
