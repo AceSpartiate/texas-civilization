@@ -51,6 +51,8 @@ Choose **Pause** on the Host and verify the class is paused without a fault. The
 
 Restart with the same save path and the same student address. Existing browser credentials reconnect to their saved households. A saved paused class remains paused; choose **Resume** when the class is ready. A saved running class starts advancing automatically on restart, even before the Host is reopened. Therefore a successfully checkpointed Pause is preferable before an intentional stop.
 
+**Updating mid-unit goes one way only.** A class saved by a newer release may not open in an older one: the older game does not know the newer save's fields and refuses the save rather than guess (triage 3.20). Update between units where you can, and do not go back to an older release while a class is in progress; if you must, that class has to start again with **New Class**. Releases made in the middle of a unit are kept to fixes.
+
 Closing a Host or student browser tab does not stop the server. **End Game** persists the ended game state; it does not exit the server or release the save lease. A saved ended class remains ended on restart — choose **Stop Server** to close the process, or **New Class** to archive it and return to a fresh lobby.
 
 ## Save failure during a class

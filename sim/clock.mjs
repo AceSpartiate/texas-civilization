@@ -41,8 +41,12 @@ export function withCalendarStep(world, minutes, advance) {
  * | ---         | ---          | ---                           | ---          |
  * | `home`      | 20 minutes   | dawn Sept 28 to Sept 29       | 0–13         |
  * | `news`      | an hour      | the cannon to the fight's end | 13–27        |
- * | `gathering` | four hours   | Oct 3 to the march, Oct 12    | to come with build step 5 |
- * | `campaign`  | half a day   | Oct 13 to Béxar, Dec 9        | to come with build step 6 |
+ * | `gathering` | four hours   | Oct 3 to the march, Oct 12    | at least 9 (54 ticks) |
+ * | `campaign`  | half a day   | Oct 13 to Béxar, Dec 9        | at least 18 (114 ticks) |
+ *
+ * The last two are their floors at the Study pace (9.5 s a tick, server/app.mjs `PACES`): whenever a question is open the
+ * calendar steps at 20 minutes (`deciding`), so a real class takes longer. The measured whole periods, holds and all, are
+ * server/class-days.mjs `PERIOD_TICKS` (triage 3.19, 2026-10-02).
  *
  * Every one divides the day whole - 72, 24, 6 and 2 ticks to it - so a day never ends in
  * the middle of a tick. `preserved` is the ended class, which steps no further.

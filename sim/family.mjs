@@ -1,5 +1,10 @@
 // Who these people are to each other, and what a student may call them.
 //
+// ceiling: a family is who it was dealt, plus the lone-parent wedding and the people war, sickness and hunger take. Over the seven
+// months there are no births, no other weddings and no deaths of old age or ordinary mishap (triage 3.18, design audit
+// D-M24, called acceptable scope). A class longer than one campaign, or a lesson about frontier family life itself, would
+// justify adding them; a birth would need a new person id minted mid-game and the panel's oldest-first order kept.
+//
 // The first person who played this asked who the mother and the father were, and the game
 // had no answer - four names in a list, a `relationships: {}` that nothing ever wrote to,
 // and every household in the class a copy of the same four names. VISION.md opens on
