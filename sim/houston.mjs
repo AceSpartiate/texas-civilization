@@ -22,6 +22,7 @@ import { share } from './scrape.mjs';
 import { findWay } from './ways.mjs';
 import { FORCED_MARCH_HOURS, MODES, WALK_SPEED, milesADay } from './travel.mjs';
 import { dateOf } from './clock.mjs';
+import { takeWound } from './disease.mjs';
 
 const GONE = ['dead', 'captured'];
 const MARCH_1 = 221760, APRIL_1 = 266400, DAY = 1440;
@@ -265,7 +266,7 @@ export function fightColeto(world, causeId) {
   for (const { person, fate } of rollFates(world, inService(world, 'fannin').filter(person => !marched(person.id)).map(person => person.id), { event: 'coleto', ...COLETO })) {
     awardGlory(world, { event: 'coleto', claimId: 'HIST-TEX-063', personId: person.id, householdId: person.householdId, role: 'fought', fromSiteId: 'goliad', causes: causeId ? [causeId] : [] });
     person.service = { ...person.service, coleto: fate, status: 'prisoner', prisonerSince: world.minute };
-    if (fate === 'wounded') person.health = { condition: WOUND_GRADES.severe.condition, grade: 'severe', recoversAt: world.minute + WOUND_GRADES.severe.minutes };
+    if (fate === 'wounded') takeWound(world, person, { condition: WOUND_GRADES.severe.condition, grade: 'severe', recoversAt: world.minute + WOUND_GRADES.severe.minutes });
   }
 }
 
@@ -353,7 +354,7 @@ export function tellSanJacinto(world, { beginTravel }, only = null) {
           : `${person.name} had not reached the army at San Jacinto when it attacked, and was not in the battle.`;
       tell(world, person, text, { claimId: 'HIST-TEX-067' });
     } else if (service.fate === 'killed') { service.status = 'fell'; person.health = { condition: 'dead' }; person.task = 'rest'; tell(world, person, `${person.name}${drilled} was killed in the charge at San Jacinto.`, { claimId: 'HIST-TEX-067' }); continue; }
-    else if (service.fate === 'wounded') { person.health = { condition: WOUND_GRADES.slight.condition, grade: 'slight', recoversAt: world.minute + WOUND_GRADES.slight.minutes }; tell(world, person, `${person.name}${drilled} was slightly hurt at San Jacinto, and is on their feet.`, { claimId: 'HIST-TEX-067' }); }
+    else if (service.fate === 'wounded') { tell(world, person, `${person.name}${drilled} was slightly hurt at San Jacinto, and is on their feet.`, { claimId: 'HIST-TEX-067' }); takeWound(world, person, { condition: WOUND_GRADES.slight.condition, grade: 'slight', recoversAt: world.minute + WOUND_GRADES.slight.minutes }); }
     else tell(world, person, `${person.name}${drilled} came through the fight at San Jacinto unhurt.`, { claimId: 'HIST-TEX-067' });
     person.service = { ...person.service, status: 'released', until: world.minute };
     const home = world.households[person.householdId]?.homeSiteId;

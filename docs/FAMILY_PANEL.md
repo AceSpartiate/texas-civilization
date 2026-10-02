@@ -1475,7 +1475,7 @@ told apart at a glance, and urgency shows in how fast the glow breathes.
 | The fighting (Watch/Follow), in camp (the army asks) | the messages card | steel blue | 3.2 s | `icon-camp-guard`, `icon-camp-drill` |
 | Somebody very sick | the messages card | sickroom green | 3 s | `icon-nurse-home` |
 | Inside the Alamo | the messages card | adobe | 4.2 s | `icon-join-garrison` |
-| After the fight (wounded, killed, taken: the account) | the messages card | charcoal | **still** | `icon-travel-home` |
+| After the fight (wounded, killed, taken: the account; since 2026-10-02 a death from wounds after the storming, *What became of …*, when the word of it comes, triage 3.9) | the messages card | charcoal | **still** | `icon-travel-home` |
 
 ### The house's card
 

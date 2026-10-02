@@ -48,6 +48,7 @@ import { recordLapse } from './lapse.mjs';
 // Who is with the family and answers for it (sim/acting.mjs, 2026-09-28).
 import { actingId } from './acting.mjs';
 import { limitOut, roadLimitKey, roadOnLimit } from './decision-budget.mjs';
+import { takeWound } from './disease.mjs';
 
 const YARDS = 1760;
 const round = (value, places = 2) => Math.round(value * 10 ** places) / 10 ** places;
@@ -427,7 +428,7 @@ function strike(world, household, chase, target, n) {
       record(world, 'consequence', { householdId: household.id, actorId: entity.id, importance: 3, claimId: 'FIC-GONZ-664', text: `${entity.name} was struck by a musket ball as the family ran from the soldiers of ${chase.name}, and was killed. They were buried where they fell.` });
       return 'killed';
     }
-    entity.health = { condition: 'wounded', recoversAt: world.minute + WOUND_DAYS * 1440 };
+    takeWound(world, entity, { condition: 'wounded', recoversAt: world.minute + WOUND_DAYS * 1440 });
     record(world, 'consequence', { householdId: household.id, actorId: entity.id, importance: 3, claimId: 'FIC-GONZ-664', text: `${entity.name} was hit by a musket ball as the family ran from the soldiers of ${chase.name}, and is wounded. It will be weeks mending.` });
     return 'wounded';
   }

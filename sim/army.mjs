@@ -19,6 +19,8 @@ import { calendarMinutes, dateOf } from './clock.mjs';
 import { modeWith } from './keeping.mjs';
 import { withAForce } from './battle-stage.mjs';
 import { MILL_OFFSET } from './battles/bexar-storming.mjs';
+// A wound on somebody already sick keeps the worse of the two (triage 3.15): used only inside functions, so the cycle is safe.
+import { takeWound } from './disease.mjs';
 
 /** Where the volunteers were made into an army, and where they went. */
 export const RENDEZVOUS = 'gonzales';
@@ -677,7 +679,7 @@ export function resolveConcepcionFighter(world, person, fate, { causeId = null, 
     const promise = person.commitments?.find(p => p.id === 'volunteer' && p.status === 'active');
     if (promise) promise.status = 'ended';
   } else if (hurt) {
-    person.health = { condition: 'minor-injury', recoversAt: world.minute + MEND_MINUTES };
+    takeWound(world, person, { condition: 'minor-injury', recoversAt: world.minute + MEND_MINUTES });
   }
 }
 
@@ -1001,7 +1003,7 @@ export function resolveGrassFighter(world, person, fate, { beginTravel, causeId 
     ...(runs && { adjust: points => -points, note: 'They ran from the field and went home, and it was held against the family. (This is the game’s own reading; the record punishes nobody for going home.)' }),
   });
   if (runs) leaveArmy(world, person, { beginTravel, text: null });
-  else if (fate === 'wounded') person.health = { condition: 'minor-injury', recoversAt: world.minute + MEND_MINUTES };
+  else if (fate === 'wounded') takeWound(world, person, { condition: 'minor-injury', recoversAt: world.minute + MEND_MINUTES });
   outcomes?.push({ id: person.id, fate });
 }
 /** Somebody who stayed in the camp at the mill while the others went out: present. */
@@ -1172,7 +1174,7 @@ export function resolveStormer(world, id, causeId, { at = null, when = null, whe
     outcome = { id, fate: 'killed', ...told };
   } else if (fate === 'wounded') {
     const spec = WOUND_GRADES[grade];
-    person.health = { condition: spec.condition, grade, recoversAt: world.minute + spec.minutes };
+    takeWound(world, person, { condition: spec.condition, grade, recoversAt: world.minute + spec.minutes });
     if (spec.mark && unit(`${world.seed}:${id}:mark`) < spec.mark) person.marks = [...(person.marks || []), MARKS[Math.floor(unit(`${world.seed}:${id}:which-mark`) * MARKS.length)]];
     if (spec.laterDeath && unit(`${world.seed}:${id}:later`) < spec.laterDeath) storming.later.push(id);
     // A wound worse than slight keeps somebody in Béxar under the surgeon (`HIST-TEX-042`): out of the ranks and lying in the town.
@@ -1204,6 +1206,16 @@ function layDead(world, person, at) {
  * A dangerous wound that proves fatal, days after (owner, §7c: rarely). Each was rolled on its own in the fight, at about 15 in
  * 100 dangerous wounds (the record: about 3 of 23 wounds fatal, 13%, bexar-storming.md §8), and every one rolled dies here,
  * with no limit (owner's correction, 2026-09-16).
+ *
+ * **No fate before the word** (triage 2026-09-29, 3.9; design audit M10; docs/ALAMO_FATES.md, `HIST-TEX-439`'s rule as the Alamo
+ * keeps it): the death is the record's from today (`died-of-wounds`, `storming.killed`), but the man lies wounded in Béxar on his
+ * family's screen until the word of the storming reaches it, and dies there then (`woundDeathTold`, from `tellStorming`) - with the
+ * journal's line and the account on the family's card, as the other deaths of the war are told. Until this he vanished from the
+ * family's rows a day after the capitulation, days before any word, and the word was a journal line only. A family that had the
+ * word before the wound killed is told now: the word of the death comes after it.
+ * ceiling: told at once to a family already told of the storming, as if the word of the later death travelled with nothing to
+ * carry it; an express of its own is the way out. It can only be a family near Béxar: the victory's express is timed to reach San
+ * Felipe four days after the capitulation, and `wound-deaths` is the day after it.
  */
 export function dieOfWounds(world) {
   const storming = world.army?.storming;
@@ -1219,14 +1231,39 @@ export function dieOfWounds(world) {
       ledger.total -= 3 * award.points; award.points = -2 * award.points;
       award.note = 'In 1835, sending a woman to fight was held against a family. (This is the game’s own reading of the period, not a documented judgement.)';
     }
-    layDead(world, person, person.location);
     storming.killed.push(id);
     const outcome = storming.outcomes.find(o => o.id === id);
-    if (outcome) outcome.fate = 'died-of-wounds';
+    if (outcome) { outcome.fate = 'died-of-wounds'; outcome.diedOn = dateWords(world); }
+    if (storming.told || storming.toldTo?.[person.householdId]) woundDeathTold(world, person, outcome, null);
     died.push(id);
   }
   storming.later = [];
   return died;
+}
+/** "December 10": the day, as a family's account says it. */
+const dateWords = world => { const date = dateOf(world, world.minute); return `${MONTHS[date.getUTCMonth()]} ${date.getUTCDate()}`; };
+/**
+ * The word of a death from wounds reaches the family: he dies where he lay (`layDead`), the journal says so, and the account is on
+ * the family's card for a day (`woundDeathCard`). Once only: a man already dead - a class saved before this, when the death came at
+ * once - is told and not killed again. Returns the line's event id.
+ */
+function woundDeathTold(world, person, outcome, causeId) {
+  const storming = world.army.storming;
+  if (person.health?.condition !== 'dead') layDead(world, person, person.location);
+  const said = `${person.name} was badly wounded in the storming of Béxar${outcome ? whenWords(outcome) : ''}, and died of the wound there${outcome?.diedOn ? ` on ${outcome.diedOn}` : ' some days after'}. ${person.name} was buried at Béxar.`;
+  const eventId = record(world, 'consequence', {
+    actorId: person.id, householdId: person.householdId, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-041', causes: causeId ? [causeId] : [], text: said,
+  });
+  storming.deathsTold = { ...(storming.deathsTold || {}), [person.householdId]: { eventId, minute: world.minute, entityId: person.id, text: said } };
+  return eventId;
+}
+/** The account of a death from wounds, on the family's card for a day after the word of it came (sim/directors.mjs). Only its own. */
+export function woundDeathCard(world, householdId) {
+  const told = world.army?.storming?.deathsTold?.[householdId];
+  if (!told || world.minute - told.minute > 1440) return null;
+  const person = world.entities[told.entityId];
+  if (!person) return null;
+  return { id: `account:wound-death:${householdId}:${person.id}`, entityId: person.id, title: `What became of ${person.name}`, text: told.text };
 }
 
 /** The army breaks up, December 14: "the rest of the army will retire to their homes" (Burleson). The wounded stay at Béxar. */
@@ -1271,6 +1308,12 @@ export function sendMendedHome(world, { beginTravel }) {
   }
 }
 
+/**
+ * The day and the place it happened, where the storming staged it (sim/bexar-fight.mjs): "on December 7, in a yard". A class saved
+ * before this kept a minute in `day` for a later death, which says nothing to a family: only words are told.
+ */
+const whenWords = outcome => [typeof outcome.day === 'string' ? ` on ${outcome.day}` : '', outcome.where ? `, ${outcome.where}` : ''].join('');
+
 /** Word of the victory reaches a family: what happened to their own person in the storming. */
 export function tellStorming(world, causeId, only = null) {
   const storming = world.army?.storming;
@@ -1281,17 +1324,16 @@ export function tellStorming(world, causeId, only = null) {
   const toldTo = storming.toldTo || {};
   const newly = new Set();
   const marksOf = person => person.marks?.length ? ` They have ${person.marks.join(' and ')}.` : '';
-  // The day and the place it happened, where the storming staged it (sim/bexar-fight.mjs): "on December 7, in a yard".
-  // A class saved before this kept a minute in `day` for a later death, which says nothing to a family: only words are told.
-  const when = outcome => [typeof outcome.day === 'string' ? ` on ${outcome.day}` : '', outcome.where ? `, ${outcome.where}` : ''].join('');
+  const when = whenWords;
   for (const outcome of storming.outcomes) {
     const person = world.entities[outcome.id];
     if (!person?.householdId || (only && (!only.has(person.householdId) || toldTo[person.householdId]))) continue;
     newly.add(person.householdId);
     const cause = causeId || world.knowledge?.households?.[person.householdId]?.['bexar-storming']?.eventId;
+    // A death from wounds: he dies on the family's screen now, with the word, and the account goes on its card (`woundDeathTold`).
+    if (outcome.fate === 'died-of-wounds') { woundDeathTold(world, person, outcome, cause); continue; }
     const text = {
       killed: () => `${person.name} was killed in the storming of Béxar${when(outcome)}, and was buried there.`,
-      'died-of-wounds': () => `${person.name} was badly wounded in the storming of Béxar${when(outcome)}, and died of the wound there some days after.`,
       wounded: () => outcome.grade === 'slight'
         ? `${person.name} was slightly hurt in the storming of Béxar${when(outcome)}, and was soon on their feet.`
         : `${person.name} was ${outcome.grade === 'dangerous' ? 'dangerously' : 'severely'} wounded in the storming of Béxar${when(outcome)}, and is lying in the town under the surgeon's care.${marksOf(person)}`,

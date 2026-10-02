@@ -1,0 +1,339 @@
+{
+  "record": "tier3-sick-injections",
+  "date": "2026-10-02",
+  "injections": [
+    {
+      "name": "the doctor cannot be brought to the wounded (as before: no such offer)",
+      "files": [
+        "sim/shops.mjs"
+      ],
+      "expected": [
+        "3.8: the doctor can be brought"
+      ],
+      "caught": true,
+      "failed": [
+        "3.8: the doctor can be brought to somebody lying wounded at home, and the wound mends in half the time left"
+      ]
+    },
+    {
+      "name": "the doctor comes and does nothing for the wound",
+      "files": [
+        "sim/shops.mjs"
+      ],
+      "expected": [
+        "3.8: the doctor can be brought"
+      ],
+      "caught": true,
+      "failed": [
+        "3.8: the doctor can be brought to somebody lying wounded at home, and the wound mends in half the time left"
+      ]
+    },
+    {
+      "name": "nursing is for the sick only (as before)",
+      "files": [
+        "sim/disease.mjs"
+      ],
+      "expected": [
+        "3.8: somebody lying wounded at home can be nursed"
+      ],
+      "caught": true,
+      "failed": [
+        "3.8: somebody lying wounded at home can be nursed, and is a day nearer mending for it"
+      ]
+    },
+    {
+      "name": "a death from wounds comes at once, before the word (as before)",
+      "files": [
+        "sim/army.mjs"
+      ],
+      "expected": [
+        "3.9: a death from wounds comes to the family with the word"
+      ],
+      "caught": true,
+      "failed": [
+        "3.9: a death from wounds comes to the family with the word, as an account on its card as well as in the journal - never before"
+      ]
+    },
+    {
+      "name": "the account of a death from wounds is never on the card (as before)",
+      "files": [
+        "sim/directors.mjs"
+      ],
+      "expected": [
+        "3.9: a death from wounds comes to the family with the word",
+        "3.9: a family that heard of the storming before the wound killed"
+      ],
+      "caught": true,
+      "failed": [
+        "3.9: a death from wounds comes to the family with the word, as an account on its card as well as in the journal - never before",
+        "3.9: a family that heard of the storming before the wound killed is told of the death when it comes, with its card"
+      ]
+    },
+    {
+      "name": "the account of a death from wounds is shown to every family",
+      "files": [
+        "sim/army.mjs"
+      ],
+      "expected": [
+        "3.9: a death from wounds comes to the family with the word"
+      ],
+      "caught": true,
+      "failed": [
+        "3.9: a death from wounds comes to the family with the word, as an account on its card as well as in the journal - never before"
+      ]
+    },
+    {
+      "name": "the flashback says a man dead of his wound was hurt and lived (as before)",
+      "files": [
+        "sim/flashback.mjs"
+      ],
+      "expected": [
+        "3.9: the flashback tells a death from wounds"
+      ],
+      "caught": true,
+      "failed": [
+        "3.9: the flashback tells a death from wounds as one: hurt in the storming, and died of it - not \"lived\", and not a sickness"
+      ]
+    },
+    {
+      "name": "the flashback counts a death from wounds as a sickness (as before)",
+      "files": [
+        "sim/flashback.mjs"
+      ],
+      "expected": [
+        "3.9: the flashback tells a death from wounds"
+      ],
+      "caught": true,
+      "failed": [
+        "3.9: the flashback tells a death from wounds as one: hurt in the storming, and died of it - not \"lived\", and not a sickness"
+      ]
+    },
+    {
+      "name": "a family told of the storming first is never told of the later death",
+      "files": [
+        "sim/army.mjs"
+      ],
+      "expected": [
+        "3.9: a family that heard of the storming before the wound killed"
+      ],
+      "caught": true,
+      "failed": [
+        "3.9: a family that heard of the storming before the wound killed is told of the death when it comes, with its card"
+      ]
+    },
+    {
+      "name": "the word over the winter does not tell the storming",
+      "files": [
+        "sim/periods.mjs"
+      ],
+      "expected": [
+        "3.9: a family the word never reached in the autumn"
+      ],
+      "caught": true,
+      "failed": [
+        "3.9: a family the word never reached in the autumn is told of a death from wounds over the winter, and he is not \"still lying wounded\""
+      ]
+    },
+    {
+      "name": "a man dead of his wound is told of as still lying wounded over the winter",
+      "files": [
+        "sim/periods.mjs"
+      ],
+      "expected": [
+        "3.9: a family the word never reached in the autumn"
+      ],
+      "caught": true,
+      "failed": [
+        "3.9: a family the word never reached in the autumn is told of a death from wounds over the winter, and he is not \"still lying wounded\""
+      ]
+    },
+    {
+      "name": "a child calls a nursing parent aside (as before)",
+      "files": [
+        "sim/childhood.mjs"
+      ],
+      "expected": [
+        "3.13: a child with nothing to do does not call a nursing parent aside"
+      ],
+      "caught": true,
+      "failed": [
+        "3.13: a child with nothing to do does not call a nursing parent aside"
+      ]
+    },
+    {
+      "name": "a child on the way keeps on to a parent sent to nurse",
+      "files": [
+        "sim/childhood.mjs"
+      ],
+      "expected": [
+        "3.13: a child already on the way"
+      ],
+      "caught": true,
+      "failed": [
+        "3.13: a child already on the way to a parent who is sent to nurse lets them go, and the nursing is never stood still"
+      ]
+    },
+    {
+      "name": "a very sick or wounded man in the camp is asked whether to go home (as before)",
+      "files": [
+        "sim/camp.mjs"
+      ],
+      "expected": [
+        "3.14: a very sick or wounded man in Houston"
+      ],
+      "caught": true,
+      "failed": [
+        "3.14: a very sick or wounded man in Houston's camp is not asked whether to go home, and the family is told why"
+      ]
+    },
+    {
+      "name": "\"go\" from a man turned very sick is taken, and fails after the answer (as before)",
+      "files": [
+        "sim/camp.mjs"
+      ],
+      "expected": [
+        "3.14: a very sick or wounded man in Houston"
+      ],
+      "caught": true,
+      "failed": [
+        "3.14: a very sick or wounded man in Houston's camp is not asked whether to go home, and the family is told why"
+      ]
+    },
+    {
+      "name": "a wound replaces a sickness outright (as before)",
+      "files": [
+        "sim/disease.mjs"
+      ],
+      "expected": [
+        "3.15: a slight hurt does not wipe a sickness",
+        "3.15: in the storming a wound that lays a man down"
+      ],
+      "caught": true,
+      "failed": [
+        "3.15: a slight hurt does not wipe a sickness: the sickness, the worse, is kept, for at least as long as the hurt",
+        "3.15: in the storming a wound that lays a man down is kept over his sickness, and that is said; a slight hurt keeps the sickness"
+      ]
+    },
+    {
+      "name": "a wound that lays a man down wipes his sickness without a word",
+      "files": [
+        "sim/disease.mjs"
+      ],
+      "expected": [
+        "3.15: in the storming a wound that lays a man down"
+      ],
+      "caught": true,
+      "failed": [
+        "3.15: in the storming a wound that lays a man down is kept over his sickness, and that is said; a slight hurt keeps the sickness"
+      ]
+    },
+    {
+      "name": "Concepción sets its hurt outright (as before)",
+      "files": [
+        "sim/army.mjs"
+      ],
+      "expected": [
+        "3.15: a slight hurt does not wipe a sickness",
+        "3.15: every wound in the game"
+      ],
+      "caught": true,
+      "failed": [
+        "3.15: a slight hurt does not wipe a sickness: the sickness, the worse, is kept, for at least as long as the hurt",
+        "3.15: every wound in the game - a chase, every battle, the scouts - is given through the one rule that keeps the worse"
+      ]
+    },
+    {
+      "name": "the storming sets its wound outright (as before)",
+      "files": [
+        "sim/army.mjs"
+      ],
+      "expected": [
+        "3.15: in the storming a wound that lays a man down",
+        "3.15: every wound in the game"
+      ],
+      "caught": true,
+      "failed": [
+        "3.15: in the storming a wound that lays a man down is kept over his sickness, and that is said; a slight hurt keeps the sickness",
+        "3.15: every wound in the game - a chase, every battle, the scouts - is given through the one rule that keeps the worse"
+      ]
+    },
+    {
+      "name": "a ball in a chase sets its wound outright (as before)",
+      "files": [
+        "sim/pursuit.mjs"
+      ],
+      "expected": [
+        "3.15: every wound in the game"
+      ],
+      "caught": true,
+      "failed": [
+        "3.15: every wound in the game - a chase, every battle, the scouts - is given through the one rule that keeps the worse"
+      ]
+    },
+    {
+      "name": "Coleto sets its wound outright (as before)",
+      "files": [
+        "sim/fannin.mjs"
+      ],
+      "expected": [
+        "3.15: every wound in the game"
+      ],
+      "caught": true,
+      "failed": [
+        "3.15: every wound in the game - a chase, every battle, the scouts - is given through the one rule that keeps the worse"
+      ]
+    },
+    {
+      "name": "the scouts set their hurt outright (as before)",
+      "files": [
+        "sim/camp.mjs"
+      ],
+      "expected": [
+        "3.15: every wound in the game"
+      ],
+      "caught": true,
+      "failed": [
+        "3.15: every wound in the game - a chase, every battle, the scouts - is given through the one rule that keeps the worse"
+      ]
+    },
+    {
+      "name": "a sickness comes out over a wound and wipes it (as before)",
+      "files": [
+        "sim/disease.mjs"
+      ],
+      "expected": [
+        "3.15: a sickness coming out never wipes a wound"
+      ],
+      "caught": true,
+      "failed": [
+        "3.15: a sickness coming out never wipes a wound: it waits until the wound has mended"
+      ]
+    },
+    {
+      "name": "carried on the road counts as nursing while the family goes on (as before)",
+      "files": [
+        "sim/disease.mjs"
+      ],
+      "expected": [
+        "3.16: a sick baby carried on the road"
+      ],
+      "caught": true,
+      "failed": [
+        "3.16: a sick baby carried on the road while the family goes on is not nursed by being carried"
+      ]
+    },
+    {
+      "name": "a moment held counts as a day's nursing (as before)",
+      "files": [
+        "sim/disease.mjs"
+      ],
+      "expected": [
+        "3.16: a sick baby held through a whole day"
+      ],
+      "caught": true,
+      "failed": [
+        "3.16: a sick baby held through a whole day at rest - the family halted - is nursed for it, and not before the day is out"
+      ]
+    }
+  ]
+}

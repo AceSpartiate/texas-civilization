@@ -179,6 +179,12 @@ const present = (household, person) => person && !GONE.includes(person.health?.c
 function idleChild(world, household, child) {
   return isSmallChild(child) && present(household, child) && !child.chore && !child.auto && !child.carriedBy;
 }
+/**
+ * Somebody nursing the sick (sim/disease.mjs `nurse-home`, sim/road.mjs `tend-sick`): a child with nothing to do does not call them
+ * aside, nor keeps them once they have begun (triage 2026-09-29, 3.13; design audit M31). The "!" that sent them asks for exactly
+ * that nursing, and a child at the elbow stood its days still with nothing on the row to say why.
+ */
+const nursing = person => Boolean(person.chore && CHORES[person.chore.id]?.nurses);
 /** Who a child with nothing to do goes to: the nearest parent at home, else the nearest of the family old enough to work. */
 export function talkTarget(world, household, child) {
   const here = child.location;
@@ -186,7 +192,7 @@ export function talkTarget(world, household, child) {
     // Not somebody too sick to get up or lying wounded (interactions S6, 2026-09-28): a child with nothing to do does not come to stop
     // their rest, and goes to the next nearest, or plays by themself.
     .filter(person => person && person.id !== child.id && present(household, person) && !tooYoung(person) && person.aside?.kind !== 'baby'
-      && !person.health?.grave && person.health?.condition !== 'wounded');
+      && !person.health?.grave && person.health?.condition !== 'wounded' && !nursing(person));
   const dist = person => Math.hypot(person.location.x - here.x, person.location.y - here.y);
   const nearest = list => list.sort((a, b) => dist(a) - dist(b) || a.id.localeCompare(b.id))[0] || null;
   return nearest(candidates.filter(person => (child.kin?.parents || []).includes(person.id))) || nearest(candidates);
@@ -249,7 +255,7 @@ export function advanceTalks(world, household, travel) {
       const grown = world.entities[child.talk.withId];
       // Given something to do: they go to it, and the grown-up goes back to theirs.
       if (child.chore || child.auto) { released(world, child); continue; }
-      if (!idleChild(world, household, child) || !present(household, grown) || grown.aside?.kind === 'baby' || quiet) {
+      if (!idleChild(world, household, child) || !present(household, grown) || grown.aside?.kind === 'baby' || nursing(grown) || quiet) {
         endTalk(world, child, grown && !present(household, grown) && firstToday(world, child, 'free') ? `${grown.name} had to go, and ${child.name} is left with nothing to do.` : null);
         child.idleSince = world.tick;
         continue;

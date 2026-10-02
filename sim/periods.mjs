@@ -22,6 +22,7 @@ import { eatenADay } from './family.mjs';
 import { recoverOverWinter } from './hunger.mjs';
 import { closeLessons } from './lesson.mjs';
 import { settleExpresses } from './expresses.mjs';
+import { tellStorming } from './army.mjs';
 
 /** The period a class is in: absent on every class saved before there were two, which were all the first. */
 export const periodOf = world => world.period || 1;
@@ -123,11 +124,15 @@ export function beginSecondPeriod(world) {
 
   // Everyone who went home arrives home; anyone still lying wounded stays where the surgeon has them until the wound mends.
   const lying = [];
+  // A man whose wound killed him after the storming, whose family the word had not reached by the evening the first period ended:
+  // he died in December, and the family hears it with the winter's word below (sim/army.mjs `tellStorming`; triage 3.9) - he is
+  // never told of as still lying wounded, nor brought home.
+  const diedOfWounds = new Set((world.army?.storming?.outcomes || []).filter(outcome => outcome.fate === 'died-of-wounds').map(outcome => outcome.id));
   for (const household of Object.values(world.households)) {
     const home = household.homeSiteId;
     for (const id of [...household.members, ...(household.property || [])]) {
       const entity = world.entities[id];
-      if (!entity || GONE.includes(entity.health?.condition)) continue;
+      if (!entity || GONE.includes(entity.health?.condition) || diedOfWounds.has(id)) continue;
       const mending = entity.health?.condition === 'wounded' && Number.isFinite(entity.health.recoversAt) && entity.health.recoversAt > opens;
       if (['wounded', 'minor-injury'].includes(entity.health?.condition) && !mending) entity.health = { condition: 'well' };
       if (entity.health?.condition === 'tired') entity.health = { condition: 'well' };
@@ -168,6 +173,9 @@ export function beginSecondPeriod(world) {
     visibility: 'public', importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-044',
     text: 'The winter has passed. It is January 25, 1836. The men who took Béxar are home, and the families are at work on their land again. The war is not over.',
   });
+  // What the storming meant for a family the word of it had not reached in the autumn, with the word that came over the winter
+  // (`settleExpresses` above): a death from wounds among it, with its account on the family's card as the class opens.
+  tellStorming(world, opened, new Set(Object.keys(world.households)));
   // Except a man still lying wounded (design audit S13): his family is told where he is, and that he comes home when he mends.
   for (const person of lying) record(world, 'consequence', { actorId: person.id, householdId: person.householdId, importance: 3, classification: 'FICTIONAL FOR GAMEPLAY', claimId: 'FIC-GONZ-041', causes: [opened], text: `${person.name} is still lying wounded at ${world.map.sites[person.location.siteId]?.name || 'the surgeon’s'}, and will start home when the wound mends.` });
   return opened;

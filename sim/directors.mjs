@@ -18,7 +18,7 @@ import { advanceEarlyWord } from './early-word.mjs';
 import { HOUSTON_WORD, catchUpCamp, fightColeto, followCamp, goliadMassacre, houstonCamp, takeInEnlisted, tellGoliad, tellSanJacinto } from './houston.mjs';
 import { closeCampQuestion, openCampQuestion } from './camp.mjs';
 import { calendarMinutes, dateOf } from './clock.mjs';
-import { advanceArmy, closeQuestion, countermandStorm, dieOfWounds, disbandArmy, fightConcepcion, fightGrass, fightStorming, formArmy, goForClothing, marchOut, moveCamp, openDetachment, openQuestion, questionOpen, recordPresent, returnFromClothing, tellGrassFight, tellStorming } from './army.mjs';
+import { advanceArmy, closeQuestion, countermandStorm, dieOfWounds, disbandArmy, fightConcepcion, fightGrass, fightStorming, formArmy, goForClothing, marchOut, moveCamp, openDetachment, openQuestion, questionOpen, recordPresent, returnFromClothing, tellGrassFight, tellStorming, woundDeathCard } from './army.mjs';
 import { GONZALES, gonzalesGround } from './battles/gonzales.mjs';
 import { SAN_JACINTO_BATTLE } from './battles/san-jacinto.mjs';
 import { advanceSanJacinto, sanJacintoField, sanJacintoProjection, strikeSanJacinto, tellSanJacintoAccounts } from './san-jacinto.mjs';
@@ -1731,7 +1731,9 @@ export function directorProjection(world, householdId, role, { seen = [] } = {})
   const alamo = alamoProjection(world, householdId, role);
   if (alamo?.battle && !battle) { battle = alamo.battle; if (role === 'host' && alamo.host) host = alamo.host; }
   const shownAlert = alamo?.battleAlert || bexar?.battleAlert || fannin?.battleAlert || battleAlert || south?.alert || null;
-  const shownAccount = alamo?.battleAccount || bexar?.battleAccount || fannin?.battleAccount || battleAccount || south?.account || null;
+  // A death from wounds after the storming, told with the word of it (sim/army.mjs `woundDeathTold`; triage 3.9): only the family's own.
+  const woundDeath = role === 'student' && householdId ? woundDeathCard(world, householdId) : null;
+  const shownAccount = woundDeath || alamo?.battleAccount || bexar?.battleAccount || fannin?.battleAccount || battleAccount || south?.account || null;
   // The upriver call takes the panel while it is open, because it is the one in front
   // of the family right now. The food call stays in the event log either way.
   const march = householdId && world.marches?.[householdId];

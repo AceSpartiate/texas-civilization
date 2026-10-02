@@ -85,15 +85,17 @@ export const CLAIMS = Object.freeze({
  * measured, and **"measles and cough lead"** - the two the record names at the Trinity are the Scrape's leading killers, so
  * the measles and whooping cough turn very sick and kill more, and go round the crowds more (`CROWD_CATCH`), while the flux
  * (`FLUX_PER_DAY`) and a chill on the chest were brought down to keep the whole flight at about three.
+ * Retuned again 2026-10-02 (docs/DISEASE.md §13; triage 3.16): once a baby carried along the road was no longer nursed by it, the
+ * mixed class lost 3.52 in a hundred; the measles' and whooping cough's worsening and dying came down a fifth and a quarter, to 3.12.
  */
 export const DISEASES = Object.freeze({
   measles: {
-    name: 'the measles', short: 'measles', days: 7, worsen: 0.09, death: 0.6, household: 0.9, weak: true, claimId: CLAIMS.scrape,
+    name: 'the measles', short: 'measles', days: 7, worsen: 0.07, death: 0.45, household: 0.9, weak: true, claimId: CLAIMS.scrape,
     // Babies and small children above all, and a grown person who never had it as a child (CDC: "<5 years" and adults).
     grave: age => (age < 2 ? 3 : age < 6 ? 2 : age >= 16 ? 2 : 1),
   },
   'whooping-cough': {
-    name: 'the whooping cough', short: 'whooping cough', days: 21, worsen: 0.07, death: 0.8, household: 0.8, under: 10, weak: true, claimId: CLAIMS.scrape,
+    name: 'the whooping cough', short: 'whooping cough', days: 21, worsen: 0.055, death: 0.6, household: 0.8, under: 10, weak: true, claimId: CLAIMS.scrape,
     // Dangerous to babies under a year above all (CDC); with no vaccine, to small children under five as well (the owner's
     // "measles and cough lead", 2026-09-27: RECONSTRUCTED, as the weight of the ages always was); to nobody older.
     grave: age => (age < 1 ? 6 : age < 2 ? 3 : age < 5 ? 1.5 : 0),
@@ -538,13 +540,24 @@ function homeContext(world, household, person, day) {
   return { hungry, cold };
 }
 
-/** Nursing marked as it happens (§3.8): whoever is nursing, and a sick baby held or carried, is nursed today. */
+/**
+ * Nursing marked as it happens (§3.8): whoever is nursing makes the sick with them nursed today; and **holding a sick baby for a
+ * whole day counts as that baby's nursing** (`FIC-GONZ-483`) - held in somebody's arms, or carried while the family is stopped
+ * (`activityOf` 'rest': a halt, a crossing, a day's rest), without a break for a day of the calendar (`health.heldSince`).
+ * Until 2026-10-02 any tick of it counted, and every baby on the road is carried (sim/company.mjs), so a sick baby on the road
+ * could not die of it while the family went on (triage 2026-09-29, 3.16; design audit M28) - the family that "pushes on hungry and
+ * cold" whose babies §3.6 says die most. Carried along the road while the family moves, a baby is riding with its carrier, not
+ * nursed: halting for it (`rest-road`, `tend-sick`) is the nursing.
+ */
 function markNursing(world, household, members, day) {
   const nurses = members.filter(person => ['tend-sick', 'nurse-home'].includes(person.chore?.id));
   for (const person of members) {
     if (person.health?.condition !== 'sick') continue;
-    const held = person.baby?.state === 'held' || person.carriedBy || person.travel?.carried;
-    if (held || nurses.some(nurse => together(world, household, nurse, person))) person.health.nursed = day;
+    const held = person.baby?.state === 'held' || ((person.carriedBy || person.travel?.carried) && activityOf(world, person) === 'rest');
+    if (!held) delete person.health.heldSince;
+    else if (!Number.isFinite(person.health.heldSince)) person.health.heldSince = world.minute;
+    const heldADay = held && world.minute - person.health.heldSince >= DAY;
+    if (heldADay || nurses.some(nurse => together(world, household, nurse, person))) person.health.nursed = day;
   }
 }
 
@@ -576,7 +589,8 @@ function mendTick(world, person, minutes) {
 function comesOut(world, household, person) {
   for (const [disease, at] of Object.entries(person.exposed || {})) {
     if (world.minute < at) continue;
-    if (person.health?.condition === 'sick') { person.exposed[disease] = at + DAY; continue; }
+    // Sick already, or lying wounded (the worse, `takeWound`: a sickness never wipes a wound): it waits a day, and again.
+    if (['sick', 'wounded'].includes(person.health?.condition)) { person.exposed[disease] = at + DAY; continue; }
     const where = CROWDS.find(one => one.id === person.caughtAt);
     delete person.caughtAt;
     if (hadIt(world, person, disease)) { delete person.exposed[disease]; continue; }
@@ -711,6 +725,40 @@ export function sickWords(person) {
   return `${person.health.grave ? 'very sick' : 'sick'}${spec.generic ? '' : ` with ${spec.name}`}, `;
 }
 
+// ------------------------------------------------------------------------------------------------ a wound on the sick
+
+/**
+ * A wound on somebody already sick keeps **the worse of the two** (triage 2026-09-29, 3.15; design audit M34): until this every
+ * wound - a ball in a chase, a hurt at Concepción or in the storming, Coleto, San Jacinto - replaced the person's health outright,
+ * and a sickness went with not a word, very sick or not. Every place a wound is given comes here (`wound` is the health it would
+ * give: `{ condition: 'wounded' | 'minor-injury', recoversAt, grade? }`):
+ *
+ * - **A wound that lays them down** (`wounded`: weeks abed, unable to travel, carried home or lying where the surgeon has them) is
+ *   the worse, and is kept, with what it means to the world - the lying at Béxar, the later death, the mending sent home. The
+ *   sickness is said to run its course in bed. ceiling: it is gone from that moment; under a lying wound the patient rests, and the
+ *   longest sickness at rest's pace (the whooping cough, ten and a half days) is shorter than the shortest lying wound (three weeks),
+ *   so only its danger is lost - a very sick man so wounded does not die of the sickness. Carrying the sickness under the wound, and
+ *   rolling its days, is the way out.
+ * - **A slight hurt** (`minor-injury`, three days) on somebody sick: the sickness is the worse - it can turn very sick, and kill - and
+ *   is kept, for at least as long as the hurt would have kept them down, and said.
+ *
+ * Returns the health kept. The other way round, a sickness never comes out on somebody lying wounded (`comesOut`).
+ */
+export function takeWound(world, person, wound) {
+  const health = person.health;
+  if (health?.condition !== 'sick') { person.health = wound; return wound; }
+  const spec = diseaseOf(person);
+  const sickWith = spec.generic ? 'sick' : `sick with ${spec.name}`;
+  if (wound.condition === 'wounded') {
+    person.health = wound;
+    tell(world, person, `${person.name} was ${health.grave ? 'very ' : ''}${sickWith} as well. Lying wounded, ${they(person)} will be over it in bed.`, { importance: 2, claimId: 'FIC-GONZ-734' });
+    return wound;
+  }
+  health.recoversAt = Math.max(health.recoversAt ?? world.minute, wound.recoversAt ?? world.minute);
+  tell(world, person, `${person.name} is still ${sickWith}, which is worse than the hurt.`, { importance: 2, claimId: 'FIC-GONZ-734', ...(health.disease && { disease: health.disease }) });
+  return health;
+}
+
 /** A person who died of a sickness as a child: never named on the Host's projector (the owner, 2026-09-27). */
 // A child who died of hunger is never named there either (owner, 2026-09-30; sim/hunger.mjs, `health.starved`).
 export const diedAChild = person => person.health?.condition === 'dead' && Boolean(person.health.disease || person.health.starved) && ageOf(person) < 16;
@@ -770,9 +818,15 @@ function apartRefusal(world, household, entity, chore) {
   if (campedApart(world, household)) return 'The family is camped apart from the others already.';
   return null;
 }
-/** Nursing at home: somebody sick at home to nurse. */
+/**
+ * Who nursing at home is for: the sick, and since 2026-10-02 the wounded lying abed (triage 3.8, design audit M9: VISION §8 names
+ * "caring for wounded people"). Nursing a wound brings it a day nearer mending, as it does a sickness; a wound kills nobody, so
+ * there is no day of it to be kept alive through.
+ */
+const needsNursing = one => ['sick', 'wounded'].includes(one?.health?.condition);
+/** Nursing at home: somebody sick or lying wounded at home to nurse. */
 function nurseHomeRefusal(world, household, entity) {
-  if (!household.members.map(id => world.entities[id]).some(one => one && one.id !== entity.id && one.health?.condition === 'sick' && together(world, household, one, entity))) return 'Nobody here is sick.';
+  if (!household.members.map(id => world.entities[id]).some(one => one && one.id !== entity.id && needsNursing(one) && together(world, household, one, entity))) return 'Nobody here is sick or wounded.';
   return null;
 }
 const haltWithFamily = (world, household) => { for (const one of [...withFamily(world, household).people, ...withFamily(world, household).beasts]) if (one.travel) one.travel.halted = true; };
@@ -813,12 +867,12 @@ export function registerDiseaseChores() {
     },
     'nurse-home': {
       name: 'Nurse the sick', skill: 'hands', where: 'home', nurses: true, refusal: nurseHomeRefusal,
-      offered: (world, household, entity) => !household.flight || household.flight.status === 'home' || household.flight.status === 'ordered' || household.flight.status === 'stayed' ? household.members.some(id => world.entities[id]?.health?.condition === 'sick') : false,
-      describe: 'Stay by whoever is sick and nurse them: nobody in their care dies while they nurse, a very sick person who is also resting is brought past the worst, and when the nursing is done the sick are a day nearer mending.',
+      offered: (world, household, entity) => !household.flight || household.flight.status === 'home' || household.flight.status === 'ordered' || household.flight.status === 'stayed' ? household.members.some(id => needsNursing(world.entities[id])) : false,
+      describe: 'Stay by whoever is sick or lying wounded and nurse them: nobody sick in their care dies while they nurse, a very sick person who is also resting is brought past the worst, and when the nursing is done the sick and the wounded are a day nearer mending.',
       steps: [{ work: 6, doing: 'nursing the sick' }],
       done: (world, household, entity) => {
         const day = Math.floor(world.minute / DAY);
-        const nursed = household.members.map(id => world.entities[id]).filter(one => one && one.health?.condition === 'sick' && Number.isFinite(one.health.recoversAt) && together(world, household, one, entity) && one.health.credited !== day);
+        const nursed = household.members.map(id => world.entities[id]).filter(one => one && needsNursing(one) && Number.isFinite(one.health.recoversAt) && together(world, household, one, entity) && one.health.credited !== day);
         for (const one of nursed) { one.health.recoversAt -= DAY; one.health.credited = day; }
         if (nursed.length) record(world, 'consequence', { actorId: entity.id, householdId: household.id, importance: 2, classification: 'FICTIONAL FOR GAMEPLAY', claimId: CLAIMS.nursing, text: `${entity.name} nursed ${nursed.map(one => one.name).join(' and ')}; ${nursed.length > 1 ? 'they are' : `${nursed[0].name} is`} a day nearer mending.` });
       },
@@ -839,7 +893,7 @@ export function diseaseInvalid(world) {
     if (health?.condition === 'sick') {
       if (health.grave !== undefined && health.grave !== true) return 'Invalid very sick';
       if (health.grave && !Number.isInteger(health.graveDay)) return 'Invalid very sick';
-      for (const key of ['since', 'day', 'nursed', 'credited']) if (health[key] !== undefined && !Number.isFinite(health[key])) return 'Invalid sickness';
+      for (const key of ['since', 'day', 'nursed', 'credited', 'heldSince']) if (health[key] !== undefined && !Number.isFinite(health[key])) return 'Invalid sickness';
     }
     if (person.had !== undefined && (!Array.isArray(person.had) || person.had.some(id => !DISEASE_IDS.includes(id)))) return 'Invalid sickness had';
     if (person.exposed !== undefined && (!person.exposed || typeof person.exposed !== 'object' || Object.entries(person.exposed).some(([id, at]) => !DISEASE_IDS.includes(id) || !Number.isFinite(at)))) return 'Invalid exposure';

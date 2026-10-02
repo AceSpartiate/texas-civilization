@@ -66,6 +66,7 @@ Coin in either direction is in the ending's account.
 | | a rifle 8 / 16 (§4c) | Another hunter out at once, or a rifle at home while a man is at the war. |
 | | the rifle put in order 2 / 4 | For the next ten shots, a hand without the knack makes the long shot; a tired hand still misses. Said on the shot. |
 | **Doctor** | see the doctor 2 / 3 | Tired: well at once. Hurt: mends in half the time left. Refused for somebody well. |
+| | bring the doctor to the wounded 3 / 5 | Since 2026-10-02 (triage 3.8, not released): somebody lying wounded cannot walk to town, so whoever goes brings the doctor out to the house. Every wound of the family lying there mends in half the time left. Refused with nobody lying wounded at home. |
 | **Tavern** | a meal and the talk 1 / 1 | Eight miles off the legs, and the family learns every public report it has not had, as *Talk at the tavern*. |
 | **Tanner, saddler, cobbler** | sell hides, 1 real or 2 food each | A deer taken brings a hide home. |
 | | a rawhide 2 reales / 4 food (§4g, owner 2026-09-30) | A hide in the house: a carreta is lashed with one. Twice what he pays for one. |

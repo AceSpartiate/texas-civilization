@@ -28,6 +28,7 @@ import { armBattle, battleState, fatesDue, placeFrom, projectBattle, sidePlace, 
 import { COLETO, coletoSlot } from './battles/coleto.mjs';
 import { GOLIAD_MASSACRE, massacrePlace } from './battles/goliad-massacre.mjs';
 import { COLETO as COLETO_RATES, MASSACRE } from './houston.mjs';
+import { takeWound } from './disease.mjs';
 
 const GONE = ['dead', 'captured'];
 /** Horton's thirty of about 360 in the column (`HIST-TEX-063`; `FIC-GONZ-437`). */
@@ -118,7 +119,7 @@ export function advanceColeto(world, { start, beginTravel }) {
     battle.fates[due.personId].applied = world.minute;
     if (!person || !entry) continue;
     person.service = { ...person.service, coleto: entry.fate };
-    if (entry.fate === 'wounded') person.health = { condition: WOUND_GRADES.severe.condition, grade: 'severe', recoversAt: world.minute + WOUND_GRADES.severe.minutes };
+    if (entry.fate === 'wounded') takeWound(world, person, { condition: WOUND_GRADES.severe.condition, grade: 'severe', recoversAt: world.minute + WOUND_GRADES.severe.minutes });
   }
   // Horton's horsemen, cut off in the timber when the column is caught, ride away (owner's K2).
   if (index > indexOf(COLETO, 'caught') || state.over) {
