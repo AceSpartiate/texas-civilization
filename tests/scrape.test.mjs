@@ -277,3 +277,25 @@ test('a saved flight or sickness that cannot be is refused', () => {
   world.entities[household.members[0]].health = { condition: 'sick' };
   assert.throws(() => validateWorld(world), /sickness/);
 });
+
+test('Liberty, Anahuac and Nacogdoches are told why they are ordered out with no column near: the panic of the time (triage 3.5)', async () => {
+  // Design audit M17: ordered out with no column ever coming near, and nothing said why. The order is the record's (HIST-TEX-065:
+  // the country round Nacogdoches and San Augustine emptied a little before April 13); the reason is the flight itself.
+  const { orderOut } = await import('../sim/scrape.mjs');
+  const world = createGonzalesWorld('scrape-east-word', 5, { map: 'colonies' });
+  const said = settlementId => {
+    const household = Object.values(world.households).find(one => !one.flight);
+    household.settlementId = settlementId;
+    orderOut(world, household);
+    return world.events.filter(event => event.householdId === household.id && event.type === 'pressure').at(-1);
+  };
+  for (const settlementId of ['liberty', 'anahuac', 'nacogdoches']) {
+    assert.equal(SETTLEMENT_DAYS[settlementId].enemy, null, `${settlementId}: a column comes there now, so this proves nothing`);
+    const event = said(settlementId);
+    assert.match(event?.text || '', /No soldiers have been seen/, `${settlementId}: the order does not say no soldiers are near: ${event?.text}`);
+    assert.match(event.text, /going east/, `${settlementId}: the order does not say why: ${event.text}`);
+    assert.equal(event.claimId, 'HIST-TEX-065', `${settlementId}: the reason is not the record's`);
+  }
+  // Where a column does come, the order says it is coming, as it always did.
+  assert.match(said('washington').text, /the Mexican army is coming/);
+});

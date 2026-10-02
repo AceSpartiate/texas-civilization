@@ -1,12 +1,12 @@
 {
   "record": "wagons-browser",
-  "date": "2026-09-30",
-  "browser": "153.0.8010.53",
+  "date": "2026-10-02",
+  "browser": "154.0.8037.93",
   "ownerDirection": "\"families should arrive with an appropriate number of wagons. larger families get more than one wagon based on their population.\" (2026-09-25)",
   "checks": [
     "a family of twelve packs two wagons: \"2 wagons: 24 of 32 space filled, 8 left.\"",
-    "both wagons on the track in, each drawn with its own driver (composite, composite), 197 px apart",
-    "in, both wagons stand in the yard 55 px apart",
+    "both wagons on the track in, each drawn with its own driver (composite, composite), 230 px apart",
+    "in, both wagons stand in the yard 63 px apart",
     "no page errors"
   ],
   "observed": {
@@ -18,14 +18,14 @@
         "wagon": {
           "part": "wagon",
           "x": 1152,
-          "y": 715,
-          "height": 97
+          "y": 722,
+          "height": 113
         },
         "ox": {
           "part": "ox",
-          "x": 1012,
-          "y": 715,
-          "height": 91
+          "x": 990,
+          "y": 722,
+          "height": 106
         }
       },
       {
@@ -33,29 +33,29 @@
         "art": null,
         "wagon": {
           "part": "wagon",
-          "x": 1349,
-          "y": 720,
-          "height": 97
+          "x": 1382,
+          "y": 729,
+          "height": 113
         },
         "ox": {
           "part": "ox",
-          "x": 1210,
-          "y": 720,
-          "height": 91
+          "x": 1220,
+          "y": 729,
+          "height": 106
         }
       }
     ],
-    "roadGap": 197,
+    "roadGap": 230,
     "inTheYard": {
       "first": {
-        "x": 1363.9230558590498,
-        "y": 740.4109584532497,
-        "size": 97.09667580834727
+        "x": 1487.932803829128,
+        "y": 806.4666385322048,
+        "size": 112.77656142754819
       },
       "second": {
-        "x": 1335.0108943280281,
-        "y": 694.1515000036153,
-        "size": 97.09667580834727
+        "x": 1454.3516937266324,
+        "y": 752.7368623682116,
+        "size": 112.77656142754819
       }
     },
     "onTheLand": [

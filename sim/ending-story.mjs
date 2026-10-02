@@ -25,6 +25,14 @@ const DAY = 1440;
 const day = (world, minute) => dateOf(world, minute).toLocaleDateString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' });
 const people = (world, household) => household.members.map(id => world.entities[id]).filter(entity => entity?.kind === 'person');
 
+/**
+ * The family's record of leaving its wagon in the road (sim/road.mjs `abandonWagon`, marked `road: 'wagon-left'`, `WAGON_LEFT`
+ * there), or null: in the mud, with the army close behind, or to run from the soldiers. A class saved before 2026-10-02 has the
+ * same sentence without the mark. Said in "Our story" and shown in the flashback (design audit M14, triage 2026-09-29 3.4); never
+ * weighed - coin stays the score (docs/MONEY_AND_GLORY.md §3).
+ */
+export const wagonLeftEvent = (world, household) => (world.events || []).find(event => event.householdId === household.id && (event.road === 'wagon-left' || /^The family left the wagon and the ox where they stood/.test(event.text || ''))) || null;
+
 /** The spring, in one or two plain sentences: stayed or went, what became of the farm, and where the family was at the end. */
 export function flightLine(world, household) {
   const flight = household.flight;
@@ -49,7 +57,10 @@ export function flightLine(world, household) {
   const carried = householdWords(flight.took);
   const leftToBurn = burned ? (flight.burnedBy?.lost || []).filter(words => !/^[\d.]+ (food|seed|cotton|powder)$/.test(words)) : [];
   const goods = `${carried ? ` They took ${carried} with them.` : ''}${leftToBurn.length ? ` ${leftToBurn.join(', ').replace(/^./, c => c.toUpperCase())} ${leftToBurn.length > 1 || /^\d/.test(leftToBurn[0]) ? 'were' : 'was'} left in the house, and burned with it.` : ''}`;
-  const went = `They fled east in the spring${refuge ? `, ${flight.status === 'fled' ? 'making for' : 'to'} ${refuge}` : ''}.${early}${goods}`;
+  // The wagon left in the road, and when (triage 2026-09-29 3.4).
+  const wagonLeft = wagonLeftEvent(world, household);
+  const leftIt = wagonLeft ? ` On ${day(world, wagonLeft.minute)} they left the wagon and the ox in the road and went on on foot, with only what they could carry.` : '';
+  const went = `They fled east in the spring${refuge ? `, ${flight.status === 'fled' ? 'making for' : 'to'} ${refuge}` : ''}.${early}${goods}${leftIt}`;
   // Nobody answered the order in time, and the house burned as they went (sim/scrape.mjs `burnForSilence`, `FIC-GONZ-907`).
   const farm = burned && flight.burnedBy?.lapsed
     ? ` Nobody answered the order in time, and they left in a rush: ${burnedBy} burned the farm behind them, on ${day(world, flight.burned)}.`

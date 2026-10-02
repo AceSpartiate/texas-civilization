@@ -78,6 +78,26 @@ test("each far family is asked its own settlement's call once the express has br
   for (const inland of ['san-felipe', 'mina', 'liberty', 'victoria']) assert.equal(SETTLEMENT_CALLS[inland].gather, 'gonzales');
 });
 
+test('a Gonzales family that said no to the food request is not asked the gathering call after it; one that did not is (triage 3.10)', () => {
+  // Design audit M11 (VISION.md §11, no repeated requests): the town's own call followed a refusal of the town's own request.
+  const world = colonies('calls-refused');
+  const town = Object.values(world.households).filter(household => household.settlementId === 'gonzales');
+  assert.ok(town.length >= 2, 'fewer than two families of Gonzales: nothing to compare');
+  until(world, () => town.every(household => world.requests?.[household.id]?.status === 'open'));
+  assert.ok(town.every(household => world.requests?.[household.id]?.status === 'open'), 'the food request was not put to every family of Gonzales');
+  const [refuser, other] = town;
+  heardOut(world, refuser.id);
+  const answerer = refuser.members.map(id => world.entities[id]).find(person => person.principal) || world.entities[refuser.members[0]];
+  applyAction(world, refuser.id, { action: 'stay', entityId: answerer.id });
+  assert.equal(world.requests[refuser.id].status, 'refused');
+  until(world, () => world.director.milestones['gathering-opens'] && world.calls?.[other.id]);
+  assert.ok(world.calls?.[other.id], 'a family of Gonzales that did not refuse was never asked the gathering call: nothing to compare');
+  for (let tick = 0; tick < 30; tick++) stepWorld(world);
+  assert.equal(world.calls?.[refuser.id], undefined, 'a family that refused the food request was asked the gathering call anyway');
+  assert.ok(!storyOf(world, refuser.id).some(event => event.text === SETTLEMENT_CALLS.gonzales.text), 'the gathering call is in the refusing family\'s record');
+  validateWorld(world);
+});
+
 test('turning out: the one sent rides for the gathering with the family powder, gets there, and the family remembers', () => {
   const world = colonies('calls-turn-out');
   const household = firstIn(world, ['san-felipe']);

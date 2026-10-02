@@ -50,7 +50,9 @@ import { bundleRoom, cowPace, lookoutMiles, lookoutOf, loseCow } from './flight-
 // The soldiers who can see a family, the order to halt and the chase (sim/pursuit.mjs, owner 2026-09-27), and the family's own
 // route (sim/flight-route.mjs): a cycle through these, safe because each side uses the other only inside functions.
 import { advancePursuit, altoOptions, altoText, answerAlto, chaseProjection, runRefusal, sightMiles, strippedBy } from './pursuit.mjs';
-import { flightPlaces, routeProjection } from './flight-route.mjs';
+import { flightPlaces, mountedPace, routeProjection } from './flight-route.mjs';
+// Who rides and who walks, dealt again when the wagon or the horses are gone (triage 2026-09-29 3.1).
+import { drawnVehicles, riddenHorses, setOut } from './company.mjs';
 import { limitLeft, limitOut, roadLimitKey, roadOnLimit } from './decision-budget.mjs';
 import { campedApart } from './disease.mjs';
 
@@ -213,6 +215,23 @@ export function familyPoint(world, household) {
   if (flight?.status === 'refuged') return world.map.sites[flight.refuge] || null;
   const leader = withFamily(world, household).people[0];
   return leader?.location || null;
+}
+/**
+ * The family's seats dealt again for what is still with it (sim/company.mjs `setOut`), each journey kept where it is: after the
+ * soldiers take the wagon and the animals (`overtake`), after the family leaves the wagon in the road (`abandonWagon`), and as it
+ * sets out again from its refuge (`moveOn`). Until 2026-10-02 the seats stayed as dealt at home: the children kept their places in
+ * a wagon the column had taken or the mud had kept, were drawn riding and mended as riders, and a child of two walked at a grown
+ * person's pace (interactions audit I-M2, triage 2026-09-29 3.1). Now a horse still with the family carries whoever it can, the
+ * rest walk, and the family goes at its slowest walker - or at a horse's pace, every one of it mounted (sim/flight-route.mjs
+ * `mountedPace`). Only a class made since the means were rolled has seats (`world.meansRoll`); one before goes as it always went.
+ */
+export function reseat(world, household) {
+  if (!world.meansRoll || !household.flight) return;
+  const { people: goers, beasts: with_ } = withFamily(world, household);
+  const movers = [...goers, ...with_].filter(one => one.travel);
+  if (!movers.some(one => one.kind === 'person')) return;
+  setOut(movers, household.flight.mode === 'wagon' ? drawnVehicles(movers) : [], entity => entity.travel, riddenHorses(world, movers));
+  mountedPace(world, movers);
 }
 const wagonWith = (world, household) => { const { beasts: with_ } = withFamily(world, household); return ['wagon', 'ox'].every(kind => with_.some(beast => beast.kind === kind || beast.species === kind)); };
 const oxSpent = household => Number.isFinite(household.flight?.oxSpentUntil);
@@ -402,11 +421,18 @@ export function moveOn(world, household, refuge) {
   // The refuge left is a crossing town; it is not waited at again on the way out of it.
   Object.assign(flight, { status: 'fled', refuge, mode, crossed: [at], leftMinute: world.minute });
   delete flight.arrivedMinute; delete flight.danger; delete flight.oxSpentUntil;
+  // Who rides and who walks, for what the family has at its refuge now (`reseat`).
+  reseat(world, household);
   // On foot with the milk cow, at her pace (sim/flight-work.mjs `cowPace`).
   cowPace(world, household);
   return true;
 }
 
+/**
+ * The mark on the family's record of leaving its wagon (`abandonWagon`), read by the ending's "Our story" and the flashback
+ * (sim/ending-story.mjs `wagonLeftEvent`; triage 2026-09-29 3.4). A class saved before has the same sentence without it.
+ */
+export const WAGON_LEFT = 'wagon-left';
 /**
  * The wagon and the ox are left where they stand (`HIST-TEX-069`: "We had to leave the sleigh"); what the grown people can
  * carry goes on with them, food first, and the rest is lost. On foot the family fords a river at once.
@@ -439,11 +465,13 @@ export function abandonWagon(world, household) {
   for (const one of goers) if (one.travel) { one.travel.mode = 'foot'; one.travel.speed = WALK_SPEED; delete one.travel.halted; }
   for (const beast of with_) if ((beast.kind === 'horse' || beast.species === 'horse') && beast.travel) { beast.travel.speed = WALK_SPEED; delete beast.travel.halted; }
   flight.mode = 'foot';
+  // Nobody keeps a place in the wagon left behind: the horse carries whoever it can, and the rest walk (`reseat`).
+  reseat(world, household);
   // On foot now: with the milk cow along, at her pace (sim/flight-work.mjs `cowPace`).
   cowPace(world, household);
   delete flight.bog; delete flight.oxSpentUntil;
   if (flight.crossing) { flight.crossed = [...(flight.crossed || []), flight.crossing.siteId]; delete flight.crossing; }
-  tell(world, household, `The family left the wagon and the ox where they stood and went on on foot, carrying ${Object.entries(kept).filter(([, amount]) => amount > 0).map(([good, amount]) => goodWords(good, amount)).join(', ') || 'nothing'}${lost.length ? `; ${lost.join(', ')} had to be left with the wagon` : ''}.`, { importance: 3, claimId: 'HIST-TEX-069' });
+  tell(world, household, `The family left the wagon and the ox where they stood and went on on foot, carrying ${Object.entries(kept).filter(([, amount]) => amount > 0).map(([good, amount]) => goodWords(good, amount)).join(', ') || 'nothing'}${lost.length ? `; ${lost.join(', ')} had to be left with the wagon` : ''}.`, { importance: 3, claimId: 'HIST-TEX-069', road: WAGON_LEFT });
 }
 
 // ---------------------------------------------------------------------------------------------------- overtaken
@@ -500,6 +528,8 @@ export function overtake(world, household, near) {
   // refuge was once left 'wagon' and went home in 'the wagon' the soldiers took - hidden while a question nobody answered pressed
   // it on east on foot (auto's answer), and found when such a question began to lapse (2026-09-27).
   flight.mode = 'foot';
+  // Those let go walk, nobody keeping a place in the wagon or on a horse the soldiers took (`reseat`).
+  reseat(world, household);
   // The cow taken, nobody is held to her pace any longer.
   cowPace(world, household);
   const where = flight.status === 'refuged' ? `at ${world.map.sites[flight.refuge].name}` : 'on the road';

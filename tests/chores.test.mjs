@@ -180,6 +180,14 @@ test('what a person may be asked to do is decided on the server, with a reason',
   assert.doesNotMatch(wire, /hh-2/, 'one household never sees another household in its projection');
 });
 
+test('the relief and the Matamoros men say before anybody goes that there is no sending for them once they are in it, as the garrison is told (triage 3.11)', () => {
+  // Design audit M12: the garrison is told nobody can be sent for once the town is shut (sim/surprise.mjs); the two war chores whose
+  // men cannot be reached once inside never said so, though the risk in them is hidden (VISION.md §16, the owner's amendment).
+  const said = Object.fromEntries(choreCatalogue().map(entry => [entry.id, entry.describe]));
+  assert.match(said['join-relief'], /once they have ridden from Gonzales, nobody can send for them/i, `the relief: ${said['join-relief']}`);
+  assert.match(said['join-matamoros'], /once fighting comes to them in the south, nobody can reach them to send for them/i, `the Matamoros men: ${said['join-matamoros']}`);
+});
+
 test('the chore catalogue is static and stays off the per-tick channel', () => {
   const world = running();
   const catalogue = choreCatalogue();

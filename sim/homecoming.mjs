@@ -15,7 +15,9 @@
 //   - somebody of the family apart from it and free - a man let go from the army after San Jacinto - walks home on his own;
 //   - the road home **rolls no sickness**. ceiling: a death on a road the class never played would be a death the reckoning
 //     never counted and the student never saw coming; the sickness of the road home is the way out if the owner wants it
-//     (docs/FLASHBACK.md, decision (c)).
+//     (docs/FLASHBACK.md, decision (c)). Since 2026-10-02 the family eats from its store on the road home as it does in the class
+//     (triage 2026-09-29 3.3, `advanceFlight`), but the copy runs no hunger's tick (sim/hunger.mjs `advanceHunger`), so nobody
+//     dies of hunger on it either, for the same reason.
 // Everybody still serving with the army, and every prisoner, stays where the class left them, and the flashback says so.
 import { advanceFlight, turnHome } from './scrape.mjs';
 import { progressTravel } from './world.mjs';

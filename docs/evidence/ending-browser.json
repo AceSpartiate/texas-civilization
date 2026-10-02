@@ -1,6 +1,6 @@
 {
   "record": "The end of the game, in a browser: docs/MONEY_AND_GLORY.md steps 4 and 5",
-  "date": "2026-09-30",
+  "date": "2026-10-02",
   "verdict": "PASS",
   "note": "Same computer only. A real class on the colonies map, played in process to three days before it ends, with hh-1's volunteer in the army, 5 reales placed in hh-2's house and one of hh-1's people at home made a prisoner, in process; then served live, a student joined as hh-1 and the Host page watched the last ticks and the ending arrive. No LAN or district claim.",
   "checks": [
@@ -17,10 +17,10 @@
   ],
   "observed": {
     "planted": {
-      "prisoner": "Serafina"
+      "prisoner": "Martha"
     },
     "family": {
-      "name": "Cipriano's family",
+      "name": "Isaac's family",
       "money": 3,
       "keys": [
         "householdId",
@@ -31,7 +31,7 @@
         "interim"
       ]
     },
-    "familyText": "THE STORY SO FAR\n×\nCipriano's family\n\nThis is where your family stands so far. The war is not over: the next class goes on from here.\n\nCOIN IN THE HOUSE\n3 reales\nLAND PROMISED\nnone",
+    "familyText": "THE STORY SO FAR\n×\nIsaac's family\n\nThis is where your family stands so far. The war is not over: the next class goes on from here.\n\nCOIN IN THE HOUSE\n3 reales\nLAND PROMISED\nnone",
     "host": {
       "keys": [
         "families",
@@ -40,14 +40,14 @@
         "nextLabel"
       ],
       "families": [
-        "Cipriano's family: 3 reales",
-        "Elias's family: 5 reales",
-        "Asa's family: 5 reales",
-        "Barnabas's family: 3 reales",
-        "Ezra's family: 9 reales"
+        "Isaac's family: 3 reales",
+        "Joel's family: 5 reales",
+        "Samuel's family: 5 reales",
+        "Hollis's family: 3 reales",
+        "Barnabas's family: 9 reales"
       ]
     },
-    "hostText": "THE STORY SO FAR\n×\nHow the families stand so far\n\nThe war is not over. The class goes on from here: press Continue to the winter of 1836 when the class meets again.\n\nFamily\tCoin\tLand\nCipriano's family\t3 reales\t—\nElias's family\t5 reales\t—\nAsa's family\t5 reales\t—\nBarnabas's family\t3 reales\t—\nEzra's family\t9 reales\t—",
+    "hostText": "THE STORY SO FAR\n×\nHow the families stand so far\n\nThe war is not over. The class goes on from here: press Continue to the winter of 1836 when the class meets again.\n\nFamily\tCoin\tLand\nIsaac's family\t3 reales\t—\nJoel's family\t5 reales\t—\nSamuel's family\t5 reales\t—\nHollis's family\t3 reales\t—\nBarnabas's family\t9 reales\t—",
     "winter": {
       "householdId": "hh-1",
       "date": "1836-01-25 · paused"

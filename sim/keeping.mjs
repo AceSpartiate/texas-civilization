@@ -48,7 +48,7 @@
 // (work) can all ask it without an import arrow between them.
 import { CARRETA_CARRY, DEFAULT_MODE, MODES } from './travel.mjs';
 import { TOOL_WORDS, loseTool, toolCount } from './tools.mjs';
-import { BEAST_WORDS, allBeasts, beastsOf, kept } from './beasts.mjs';
+import { BEAST_WORDS, allBeasts, beastsOf, kept, lame } from './beasts.mjs';
 import { record } from './events.mjs';
 
 /** The plain word for each piece of property, used in every sentence about it. */
@@ -146,7 +146,8 @@ export function beastFor(world, entity, role) {
   const household = world.households[entity.householdId];
   const leading = entity.leads || [];
   const beasts = beastsOf(world, household, role).filter(beast => !leading.includes(beast.id));
-  const sound = beast => !beast.condition || beast.condition === 'sound';
+  // A horse lamed in a chase carries nobody until it mends (sim/beasts.mjs `lame`, triage 2026-09-29 3.2).
+  const sound = beast => (!beast.condition || beast.condition === 'sound') && !(role === 'horse' && lame(world, beast));
   return beasts.find(beast => sound(beast) && holderOf(world, beast) === entity)
     || beasts.find(beast => sound(beast) && !holderOf(world, beast) && !beast.travel && beast.location?.siteId === entity.location?.siteId)
     || null;

@@ -35,6 +35,8 @@ import { thinLine } from './flight-route.mjs';
 import { neighbourLines } from './neighbourly.mjs';
 // The farm at the end, sold or burned (owner, 2026-09-29, D8): the family's count and its sale are the video's last scenes.
 import { farmAtEnd } from './farm-sale.mjs';
+// The wagon left in the road (sim/road.mjs `abandonWagon`, triage 2026-09-29 3.4).
+import { wagonLeftEvent } from './ending-story.mjs';
 
 /** The video's length, which every family's beats share out. The owner's "1 minute video". */
 export const FLASHBACK_MS = 60000;
@@ -407,10 +409,18 @@ function candidates(world, household, trip) {
     // The day it left home: the first leaving, not a later leg from a stop on its route (which moves `leftMinute` on).
     const left = events.find(event => /^The family loaded .* set out/.test(event.text));
     const leftMinute = left?.minute ?? flight.leftMinute;
+    // The wagon on the road while the family had it (triage 2026-09-29 3.4): from home with it, until it was left in the road or
+    // the soldiers took it. Until 2026-10-02 every road beat read the flight's mode at the end, so a family that left its wagon
+    // was drawn setting out from home on foot, and one that kept it to the end was drawn with it after the soldiers took it.
+    const wagonLeft = wagonLeftEvent(world, household);
+    const taken = events.find(event => event.claimId === 'HIST-TEX-073' && /came up with the family/.test(event.text) && /\bwagons?\b/.test(event.text));
+    const lost = [wagonLeft, taken].filter(Boolean).sort((a, b) => a.minute - b.minute)[0] || null;
+    const hadWagon = left ? / with the (ox and|\d+ wagons)/.test(firstSentence(left.text)) : flight.mode === 'wagon' || Boolean(lost);
+    const wagonAt = minute => hadWagon && !(lost && minute >= lost.minute);
     if (Number.isFinite(leftMinute)) {
       const road = roadBetween(world, household.homeSiteId, flight.refuge, flight.mode);
       add({ kind: 'flight', weight: 85, minute: leftMinute, place: home, caption: left ? firstSentence(left.text).replace(/^The family loaded (.*?) and set out/, 'They loaded $1 and set out') : `The family set out east for ${world.map.sites[flight.refuge]?.name || 'safety'}.`,
-        scene: { type: 'road', route: road, people: at(leftMinute), wagon: flight.mode === 'wagon', from: 0, to: 0.35 } });
+        scene: { type: 'road', route: road, people: at(leftMinute), wagon: wagonAt(leftMinute), from: 0, to: 0.35 } });
     } else if (flight.stayedMinute !== undefined || flight.status === 'stayed') {
       add({ kind: 'stayed', weight: 80, minute: flight.stayedMinute ?? flight.orderedMinute ?? 0, place: home, caption: 'The family did not leave. It stayed on the farm to take whatever came.', scene: { type: 'home', house: { shelter: 'house', layout: houseLayout }, people: at(flight.stayedMinute ?? flight.orderedMinute ?? 0) } });
     }
@@ -420,24 +430,28 @@ function candidates(world, household, trip) {
       const held = events.find(event => event.claimId === 'FIC-GONZ-665' && event.minute >= chase.minute);
       const soldiers = spellOut(firstSentence(chase.text)).replace(/about 0 yards off/, 'close by').replace(/, and are coming after it\./, '').replace(/ saw the family /, ' saw the family on the road, ');
       add({ kind: 'chase', weight: 80, minute: chase.minute, place: null, caption: `${soldiers}, and came after it.${held ? ' They held their fire.' : ''}`,
-        scene: { type: 'road', route: roadBetween(world, household.homeSiteId, flight.refuge, flight.mode), people: at(chase.minute), wagon: flight.mode === 'wagon', from: 0.3, to: 0.55, soldiers: true } });
+        scene: { type: 'road', route: roadBetween(world, household.homeSiteId, flight.refuge, flight.mode), people: at(chase.minute), wagon: wagonAt(chase.minute), from: 0.3, to: 0.55, soldiers: true } });
     } else {
       const word = events.find(event => event.claimId === 'FIC-GONZ-051');
       if (word) add({ kind: 'danger', weight: 58, minute: word.minute, place: null, caption: firstSentence(word.text.replace(/^Word along the road: /, 'People on the road said ')).replace(/ is (about|less than)/, ' was $1').replace(/ and coming this way, making for /, ', making for '),
-        scene: { type: 'road', route: roadBetween(world, household.homeSiteId, flight.refuge, flight.mode), people: at(word.minute), wagon: flight.mode === 'wagon', from: 0.25, to: 0.45 } });
+        scene: { type: 'road', route: roadBetween(world, household.homeSiteId, flight.refuge, flight.mode), people: at(word.minute), wagon: wagonAt(word.minute), from: 0.25, to: 0.45 } });
     }
     const flood = events.find(event => /^The river is up at /.test(event.text));
     if (flood) {
       const river = flood.text.match(/^The river is up at (.*?), and/)?.[1];
       add({ kind: 'crossing', weight: 52, minute: flood.minute, place: null, caption: `At ${named(river) || 'the river'} the water was high. The family waited its turn to cross with the other families.`,
-        scene: { type: 'road', route: roadBetween(world, household.homeSiteId, flight.refuge, flight.mode), people: at(flood.minute), wagon: flight.mode === 'wagon', from: 0.45, to: 0.5, crowd: true } });
+        scene: { type: 'road', route: roadBetween(world, household.homeSiteId, flight.refuge, flight.mode), people: at(flood.minute), wagon: wagonAt(flood.minute), from: 0.45, to: 0.5, crowd: true } });
+    }
+    if (wagonLeft) {
+      add({ kind: 'wagon-left', weight: 74, minute: wagonLeft.minute, place: null, caption: 'They left the wagon and the ox in the road and went on on foot, with only what they could carry.',
+        scene: { type: 'road', route: roadBetween(world, household.homeSiteId, flight.refuge, flight.mode), people: at(wagonLeft.minute), wagon: false, from: 0.4, to: 0.5 } });
     }
     const sick = events.filter(event => /has fallen sick|has the (measles|flux|whooping cough)|is very sick/.test(event.text) && event.minute >= (leftMinute ?? flight.orderedMinute ?? 0));
     if (sick.length) {
       const names = [...new Set(sick.map(event => event.text.split(' ')[0]))].filter(name => members.some(person => firstName(person) === name));
       const nursed = events.some(event => /\bnursed\b/.test(event.text) && event.minute >= sick[0].minute);
       add({ kind: 'sickness', weight: 54, minute: sick[0].minute, place: null, caption: `On the road, ${list(names.slice(0, 3))} fell sick.${nursed ? ' The family nursed them as it went.' : ''}`,
-        scene: { type: 'road', route: roadBetween(world, household.homeSiteId, flight.refuge, flight.mode), people: at(sick[0].minute), wagon: flight.mode === 'wagon', from: 0.5, to: 0.65 } });
+        scene: { type: 'road', route: roadBetween(world, household.homeSiteId, flight.refuge, flight.mode), people: at(sick[0].minute), wagon: wagonAt(sick[0].minute), from: 0.5, to: 0.65 } });
     }
     const helped = events.filter(event => event.claimId === 'FIC-GONZ-489' || /came to help raise the walls/.test(event.text) || event.claimId === 'FIC-GONZ-412');
     const gave = helped.find(event => /carried .* food over|helped the ferryman|carried the little ones|helped the (women|men) of Gonzales/.test(event.text));
@@ -445,7 +459,7 @@ function candidates(world, household, trip) {
     if (gave || took) {
       const words = [gave && firstSentence(gave.text).replace(/, and the family's turn will come .*$/, '.'), took && firstSentence(took.text)].filter(Boolean).join(' ');
       add({ kind: 'help', weight: 66, minute: (gave || took).minute, place: null, caption: words, scene: gave?.minute >= (leftMinute ?? Infinity) || took?.minute >= (leftMinute ?? Infinity)
-        ? { type: 'road', route: roadBetween(world, household.homeSiteId, flight.refuge, flight.mode), people: at((gave || took).minute), wagon: flight.mode === 'wagon', from: 0.6, to: 0.7, crowd: true }
+        ? { type: 'road', route: roadBetween(world, household.homeSiteId, flight.refuge, flight.mode), people: at((gave || took).minute), wagon: wagonAt((gave || took).minute), from: 0.6, to: 0.7, crowd: true }
         : { type: 'home', house: { shelter: built && (gave || took).minute >= built.minute ? 'house' : 'camp', layout: houseLayout }, people: at((gave || took).minute), neighbours: true } });
     }
   }

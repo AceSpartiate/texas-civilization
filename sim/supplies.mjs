@@ -31,6 +31,7 @@ import { recordLapse } from './lapse.mjs';
 import { awardGlory } from './glory.mjs';
 import { share } from './shares.mjs';
 import { canAnswerCalls } from './family.mjs';
+import { lame } from './beasts.mjs';
 import { volunteersOf } from './army.mjs';
 import { momentOf } from './directors.mjs';
 
@@ -68,7 +69,7 @@ export function spareHorse(world, household) {
   const ids = new Set(household.property || []);
   const horses = Object.values(world.entities).filter(beast => beast?.kind === 'animal' && beast.species === 'horse' && (ids.has(beast.id) || beast.householdId === household.id));
   const users = Object.values(world.entities).filter(one => one?.kind === 'person' && (one.travel || one.chore));
-  return horses.find(horse => !horse.travel && !horse.borrowedBy && (!horse.condition || horse.condition === 'sound') && !horse.hurt
+  return horses.find(horse => !horse.travel && !horse.borrowedBy && (!horse.condition || horse.condition === 'sound') && !lame(world, horse)
     && horse.location?.siteId === household.homeSiteId
     && !users.some(one => JSON.stringify([one.travel, one.chore]).includes(`"${horse.id}"`))) || null;
 }

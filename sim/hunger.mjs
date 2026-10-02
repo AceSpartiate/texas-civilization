@@ -261,7 +261,8 @@ export function hungerShown(world, person) {
  */
 export function dailyDraw(world, household) {
   const people = household.members.map(id => world.entities[id]).filter(person => alive(person) && person.service?.status !== 'serving' && !person.visiting);
-  const onRoad = household.flight && ['fled', 'refuged'].includes(household.flight.status);
+  // The road home is eaten as the road east is (sim/scrape.mjs `advanceFlight`, triage 2026-09-29 3.3).
+  const onRoad = household.flight && ['fled', 'refuged', 'returning'].includes(household.flight.status);
   if (onRoad) return { eat: eatenADay(world, people), make: 0 };
   const housed = shelterOf(world, household).kind === 'house';
   const eat = eatenADay(world, people) * (1 - housekeepingSaving(people)) * furnitureShares(household, housed).eaten;

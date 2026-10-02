@@ -78,9 +78,13 @@ export const SETTLEMENT_DAYS = Object.freeze({
   brazoria: { order: april(1), burn: april(3), enemy: april(20, 12) },
   velasco: { order: april(1), burn: april(3), enemy: april(20, 12) },
   matagorda: { order: april(1), burn: april(3), enemy: april(20, 12) },
-  nacogdoches: { order: april(12), burn: april(14), enemy: null },
-  liberty: { order: april(13), burn: april(15), enemy: null },
-  anahuac: { order: april(13), burn: april(15), enemy: null },
+  // Ordered out with no column ever near (design audit M17, triage 2026-09-29 3.5): the record has these settlements empty before
+  // April 13 (`HIST-TEX-065`), in the panic that ran ahead of the armies, and the order now says so - the families from the west
+  // passing through with word of the Mexican army behind them, and nobody knowing how far it would come. It names no battle: what
+  // a family has heard of the Alamo or Goliad is the news's to bring (sim/knowledge.mjs), not the order's.
+  nacogdoches: { order: april(12), burn: april(14), enemy: null, claimId: 'HIST-TEX-065', word: 'Word has gone round Nacogdoches: families from the west are passing through on the road east, and they say the Mexican army is coming on behind them. The country round Nacogdoches and San Augustine is emptying. No soldiers have been seen near here, and nobody knows how far they will come; but the whole country is going east, and every family is to leave. Load what the wagon will carry and go.' },
+  liberty: { order: april(13), burn: april(15), enemy: null, claimId: 'HIST-TEX-065', word: 'Word has come to Liberty: the families from the west are crossing the Trinity, and they say the Mexican army is coming on behind them. No soldiers have been seen near here, and nobody knows how far they will come; but the whole country is going east, and every family is to leave. Load what the wagon will carry and go.' },
+  anahuac: { order: april(13), burn: april(15), enemy: null, claimId: 'HIST-TEX-065', word: 'Word has come down the Trinity to Anahuac: the families from the west are crossing the river, and they say the Mexican army is coming on behind them. No soldiers have been seen near here, and nobody knows how far they will come; but the whole country is going east, and every family is to leave. Load what the wagon will carry and go.' },
   harrisburg: { order: april(14), burn: april(15, 12), enemy: april(15, 12) },
   // The rancho near Béxar (sim/starts.mjs, owner 2026-09-29: "Béxar at 20+"): the Mexican army has been in Béxar since February 23,
   // so the word is not that it is coming but that the ranchos' families are going east, guarded by Seguín's men (`HIST-TEX-791`:
@@ -225,7 +229,7 @@ export function orderOut(world, household, causeId) {
   if (!people(world, household).some(person => !GONE.includes(person.health?.condition))) return;
   // What the family made ready on the news before its order (sim/early-word.mjs `readying`) goes onto the flight.
   household.flight = { status: 'ordered', orderedMinute: world.minute, ...takeReadying(household) };
-  tell(world, household, `${SETTLEMENT_DAYS[settlementOf(household)]?.word || `Word has come from ${world.map.sites[settlementOf(household)].name}: the Mexican army is coming, and every family is to leave for the east. Load what the wagon will carry and go.`} ${advanceModelled(world) ? 'What is left behind stays in the house, and if the Mexican army comes this way it will be burned.' : 'What is left behind will be burned so the enemy cannot use it.'}`, { type: 'pressure', causes: causeId ? [causeId] : [] });
+  tell(world, household, `${SETTLEMENT_DAYS[settlementOf(household)]?.word || `Word has come from ${world.map.sites[settlementOf(household)].name}: the Mexican army is coming, and every family is to leave for the east. Load what the wagon will carry and go.`} ${advanceModelled(world) ? 'What is left behind stays in the house, and if the Mexican army comes this way it will be burned.' : 'What is left behind will be burned so the enemy cannot use it.'}`, { type: 'pressure', causes: causeId ? [causeId] : [], ...(SETTLEMENT_DAYS[settlementOf(household)]?.claimId && { claimId: SETTLEMENT_DAYS[settlementOf(household)].claimId }) });
 }
 
 /**
@@ -524,7 +528,9 @@ export function advanceFlight(world, minutes) {
     // Not a man serving with the army who happens to camp where his family took refuge (Lynchburg, San Felipe): he eats the
     // army's rations and is sick or well with it (`FIC-GONZ-442`).
     const alive = people(world, household).filter(person => !GONE.includes(person.health?.condition) && person.service?.status !== 'serving' && (person.travel?.purpose === 'flee' || person.travel?.purpose === 'return' || person.location?.siteId === flight.refuge));
-    if (flight.status !== 'returning' && household.resources) {
+    // On the road home as on the road east (design audit M15, triage 2026-09-29 3.3): until 2026-10-02 a family turned for home
+    // ate nothing however long its road, and could not go hungry on it.
+    if (household.resources) {
       // What the wagon could not cover is want (sim/hunger.mjs, owner 2026-09-30).
       ate(world, household, alive, eatenADay(world, alive) * days, household.resources.food, days);
       household.resources.food = Math.max(0, Math.round((household.resources.food - eatenADay(world, alive) * days) * 10000) / 10000);

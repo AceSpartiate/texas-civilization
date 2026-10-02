@@ -7,7 +7,7 @@ import { readFileSync } from 'node:fs';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
 import { beginSecondPeriod } from '../sim/periods.mjs';
-import { flee, flightProjection, share } from '../sim/scrape.mjs';
+import { flee, flightProjection, share, turnHome } from '../sim/scrape.mjs';
 import { canAnswerCalls, canFight, eatenADay, sexOf } from '../sim/family.mjs';
 import { LEFT_FOOD_DAYS, PRISONER_SHARE, overtake } from '../sim/road.mjs';
 import { settleMeans } from '../sim/means.mjs';
@@ -131,6 +131,41 @@ test('on the road east: what the wagon could not cover is want too', () => {
   household.resources.food = 0;
   for (let tick = 0; tick < 200 && !members(world, household).some(person => person.hunger); tick++) stepWorld(world);
   assert.ok(members(world, household).some(person => person.hunger?.want > 0), 'a family on the road with nothing went on unhungry');
+});
+
+test('on the road home: the family eats from what it carries and goes hungry when that is gone, as on the road east (triage 3.3)', () => {
+  // Design audit M15: a family turned for home ate nothing at all, however long the road.
+  const world = landed('hunger-home-road', 6);
+  world.period = 3;
+  const household = Object.values(world.households)[0];
+  household.played = true;
+  household.flight = { status: 'ordered', orderedMinute: world.minute };
+  const refuge = [...flightProjection(world, household).refuges].sort((a, b) => a.miles - b.miles)[0].id;
+  flee(world, household, { take: {}, refuge });
+  household.resources.food = 400;
+  for (let tick = 0; tick < 400 && household.flight.status !== 'refuged'; tick++) stepWorld(world);
+  assert.equal(household.flight.status, 'refuged', 'the family never reached its refuge');
+  turnHome(world, null, new Set([household.id]));
+  assert.equal(household.flight.status, 'returning', 'the family did not turn for home');
+  // The gauge reads the road's eating, as on the road east: what everybody eats, nothing made about the place.
+  // (Asked of a copy with one of them already home at work - a man let go from the army, say - which the home's reckoning would
+  // count as bringing food in.)
+  const copy = structuredClone(world), ahead = copy.entities[household.members.find(id => copy.entities[id].travel?.purpose === 'return')];
+  Object.assign(ahead, { travel: null, task: 'work', chore: null, location: { ...copy.map.sites[household.homeSiteId], siteId: household.homeSiteId } });
+  ahead.health = { condition: 'well' };
+  const road = dailyDraw(copy, copy.households[household.id]);
+  assert.equal(road.make, 0, 'the gauge counted work about the place for a family on the road home');
+  assert.equal(road.eat, eatenADay(copy, members(copy, copy.households[household.id]).filter(alive)), 'the road home is not eaten as the road east is');
+  // A tick on the road home eats from the store.
+  const had = household.resources.food;
+  stepWorld(world);
+  assert.equal(household.flight.status, 'returning', 'the family was home in a tick: nothing to check');
+  assert.ok(household.resources.food < had, `a family on the road home ate nothing (${had} before, ${household.resources.food} after)`);
+  // And with nothing left, it goes hungry.
+  household.resources.food = 0;
+  for (let tick = 0; tick < 200 && household.flight.status === 'returning' && !members(world, household).some(person => person.hunger); tick++) stepWorld(world);
+  assert.ok(members(world, household).some(person => person.hunger?.want > 0), 'a family on the road home with nothing went on unhungry');
+  validateWorld(world);
 });
 
 test('overtaken: the column takes the wagon\'s food and leaves the family a few days\' eating, never more than it had', () => {
