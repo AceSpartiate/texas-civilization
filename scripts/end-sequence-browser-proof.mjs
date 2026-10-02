@@ -114,9 +114,12 @@ async function frames(page, selector, script, kinds, prefix) {
 
 /**
  * The most of its frames the class video may drop while one family's video is made beside it (owner, 2026-10-01: "One at a time", so
- * the class video is smooth). Set from five runs alone on this computer (docs/FLASHBACK.md §11a): @@MEASURED@@.
+ * the class video is smooth). Set from five runs alone on this computer, 2026-10-01 (docs/FLASHBACK.md §11a): one at a time cost it
+ * 6.8, 8.0, 7.1, 8.2 and 8.0% of its frames (a sixth run, 4.2%), and nothing made beside it 0%; two at a time had cost it 8.5-10.3%.
+ * Nine per cent is the highest of the five and a little over, so a regression to two beside it fails here more often than not, and
+ * the count of videos made at once while it plays (never more than one) fails it every time.
  */
-const BESIDE_DROPPED_MOST = 0.1;
+const BESIDE_DROPPED_MOST = 0.09;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
 const errors = [];
 const rooms = [];
@@ -163,6 +166,10 @@ try {
   assert.ok(classPlay.advanced > 1 && classPlay.visible, `the class video did not play by itself on the Host: ${JSON.stringify(classPlay)}`);
   ok(`the Host's page made the class's own video first (${Math.round(firstMade.durationMs / 1000)} s, made in ${Math.round(firstMade.madeMs / 1000)} s) and played it by itself, large, on the class screen`);
   await shot(host, '1-host-class-video');
+  // The class video with nothing being made beside it, for the measure's baseline: once every video is made (or the class video is
+  // over), six seconds more of it at its own speed.
+  await host.waitForFunction(() => (!window.__flashback.running && window.__flashback.done.length >= 9) || window.__snapshot?.endSequence?.stage !== 'class', null, { timeout: 300000, polling: 250 });
+  await host.waitForTimeout(6000);
   const classScript = (await (await host.context().request.get(`${room.url}/api/flashback/script?household=class`)).json()).script;
   evidence.classVideo = { durationMs: classScript.durationMs, beats: classScript.beats.map(beat => `${beat.kind}: ${beat.caption}`) };
   const classFrames = await frames(host, '#finale-video', classScript, ['arrival', 'fight', 'news', 'flight', 'burned', 'home'], 'class-frame');
@@ -224,11 +231,14 @@ try {
   const beside = await host.evaluate(() => {
     const samples = window.__samples;
     let wall = 0, advanced = 0, dropped = 0, frames = 0, stalls = 0, mostInClass = 0, mostAfter = 0;
+    const base = { wall: 0, dropped: 0, frames: 0 };
     const seen = new Set();
     for (let i = 1; i < samples.length; i++) {
       const last = samples[i - 1], now = samples[i];
       if (now.stage === 'class' && !now.cls) mostInClass = Math.max(mostInClass, now.size);
       if (now.stage === 'family') mostAfter = Math.max(mostAfter, now.size);
+      // The baseline: the class video at its own speed with nothing being made.
+      if (last.size === 0 && now.size === 0 && last.playing && now.playing) { base.wall += (now.w - last.w) / 1000; base.dropped += now.dropped - last.dropped; base.frames += now.total - last.total; }
       const one = sample => sample.size === 1 && !sample.cls;
       if (!(one(last) && one(now) && last.playing && now.playing)) continue;
       now.ids.forEach(id => seen.add(id));
@@ -237,7 +247,7 @@ try {
       if (t < w * 0.5) stalls++;
     }
     const making = window.__flashback;
-    return { wall, advanced, dropped, frames, share: frames ? dropped / frames : 0, stalls, mostInClass, mostAfter, peak: making.peak, seen: [...seen], done: making.done.map(one => one.householdId), failed: [...making.failed] };
+    return { wall, advanced, dropped, frames, share: frames ? dropped / frames : 0, stalls, mostInClass, mostAfter, base: { ...base, share: base.frames ? base.dropped / base.frames : null }, peak: making.peak, seen: [...seen], done: making.done.map(one => one.householdId), failed: [...making.failed] };
   });
   evidence.beside = beside;
   console.log('BESIDE', JSON.stringify(beside));
@@ -245,7 +255,7 @@ try {
   assert.ok(beside.wall >= 2, `one was made beside the class video for only ${beside.wall.toFixed(1)} s: too little to judge`);
   assert.ok(beside.advanced >= beside.wall * 0.95, `the class video stalled while one was made: ${beside.advanced.toFixed(2)} s played in ${beside.wall.toFixed(2)} s`);
   assert.ok(beside.share <= BESIDE_DROPPED_MOST, `the class video dropped ${beside.dropped} of ${beside.frames} frames (${(beside.share * 100).toFixed(1)}%) while one was made beside it, more than ${(BESIDE_DROPPED_MOST * 100).toFixed(1)}%`);
-  ok(`one family's video at a time while the class video played (${beside.seen.join(', ')}): ${beside.advanced.toFixed(1)} s of it played in ${beside.wall.toFixed(1)} s, ${beside.dropped} of ${beside.frames} frames dropped (${(beside.share * 100).toFixed(1)}%), ${beside.stalls} tenths of a second at under half speed; after it, up to ${beside.mostAfter} at once`);
+  ok(`one family's video at a time while the class video played (${beside.seen.join(', ')}): ${beside.advanced.toFixed(1)} s of it played in ${beside.wall.toFixed(1)} s, ${beside.dropped} of ${beside.frames} frames dropped (${(beside.share * 100).toFixed(1)}%), ${beside.stalls} tenths of a second at under half speed; after it, up to ${beside.mostAfter} at once; with nothing made beside it, ${beside.base.dropped} of ${beside.base.frames} (${beside.base.share === null ? 'not measured' : `${(beside.base.share * 100).toFixed(1)}%`})`);
   const stageEnds = await one.evaluate(() => window.__finale.clock.endWall);
   ok(`both students' own videos started by themselves ${apart} ms apart, over the whole screen, without a word from either page (${Math.round((await one.evaluate(() => document.querySelector('#finale-slot #flashback-video').duration)))} and ${Math.round((await two.evaluate(() => document.querySelector('#finale-slot #flashback-video').duration)))} s)`);
   await shot(one, '2-student-own-video');
