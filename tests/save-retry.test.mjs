@@ -51,7 +51,9 @@ test('a save Windows refuses for a moment is tried again for about a third of a 
     const kept = held('renameSync', 'EPERM', 5000, () => writeSave(path, { saveVersion: 3, n: 4 }));
     const took = Date.now() - began;
     assert.equal(kept.error?.code, 'EPERM', 'a file held for seconds did not fail');
-    assert.ok(took >= SAVE_RETRY_MS - 20 && took < SAVE_RETRY_MS + 400, `gave up after ${took} ms`);
+    // Slack of 1.5 s, not 0.4: a busy Windows machine stalled one run to ~1.2 s (2026-10-02). A retry that never gives up waits out
+    // the whole 5 s hold, so it is still caught.
+    assert.ok(took >= SAVE_RETRY_MS - 20 && took < SAVE_RETRY_MS + 1500, `gave up after ${took} ms`);
     assert.equal(JSON.parse(readFileSync(path, 'utf8')).n, 3, 'a failed save changed the save');
     // Any other error is not retried: a missing folder or a full disk is not a program holding the file.
     const other = Date.now();
