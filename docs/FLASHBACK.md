@@ -282,12 +282,23 @@ to autoplay."* So the families' stage no longer waits for any page to say its vi
   page as it waits for a video, 10 minutes at most - the race that sent Play Solo straight to the reveal in about 3 runs of 5.
 - `ceiling:` the server looks at its clock once a second (its own timer, not the class's tick, which can be 9.5 s at Study).
 
-**Two at once, and after the class video — owner-decided 2026-09-30** (answering whether a class of thirty waits too long for the
+**Two at once, and after the class video — owner-decided 2026-09-30; one at a time while the class video plays, owner-decided 2026-10-01** (answering whether a class of thirty waits too long for the
 last video: *"make two at once, and student videos don't start playing until after the class video finishes playing"*):
 
-- **Two at once.** The Host's computer makes the class's own video first and alone (it plays first), then the families' **two at a
-  time**, the families students played first, a new one begun as each finishes (`public/making-plan.js` `toStart`, `MAKE_AT_ONCE`).
-  The proof samples the Host's page every tenth of a second: in five runs, while two were made and the class video played at real speed, it kept pace (2.3-37.1 s played in the same wall time, never a tenth of a second at under half speed but one) and dropped 0.3-9% of its frames. `ceiling:` two, not the computer's cores.
+- **Two at once - and, since 2026-10-01, one at a time while the class video plays.** The Host's computer makes the class's own video
+  first and alone (it plays first), then the families', the families students played first, a new one begun as each finishes
+  (`public/making-plan.js` `toStart`). Run alone, `test:end-sequence` found the class video dropping 8.5-10.3% of its frames while two
+  were made beside it (never a stall); shown that, **the owner chose (2026-10-01) "One at a time"**: while the class video plays (its
+  stage, and a teacher's *Play the class video again*), one family's video at a time (`MAKE_BESIDE_CLASS_VIDEO`); **once it has ended,
+  two at a time** (`MAKE_AT_ONCE`) - the builder's choice, which the owner left open: nothing plays on the class screen then but words,
+  and every family's start waits for the last video made, so two bring it sooner. The making loop wakes with each snapshot, so a second
+  begins the moment the class video ends.
+  Measured alone on this computer, eleven runs: one beside the class video cost it 6.8, 8.0, 7.1, 8.2 and 8.0% of its frames in a first
+  five (2026-10-01), 4.2% in a sixth, and 1.8-2.8% in the last five (2026-10-02) - the same code, so the computer's other work counts -
+  and the class video with nothing made beside it dropped none (0 of 544-726), never a tenth of a second at under half speed. The proof's limit is **9%**
+  (`BESIDE_DROPPED_MOST`), with **never more than one made while it plays** as the hard check (an injected regression to two failed it).
+  Honestly: one at a time is smoother than two, not drop-free; the frames go to the encoder's work beside it. `ceiling:` two after it,
+  not the computer's cores.
 - **Never before the class video has finished.** The families' stage begins only when the class video has ended (the Host's page
   says so), run out its time, or been skipped by the teacher; the families' start is **the later of that moment and 8 s after the last
   of their videos was made** (`playAt = max(now, lastMade + START_MS)`): videos made while the class video played start as it ends,

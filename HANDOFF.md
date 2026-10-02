@@ -1,5 +1,36 @@
 # Claude handoff — Astra foundation
 
+## One family video at a time while the class video plays — owner-decided 2026-10-01 (not released)
+
+**The ask.** Run alone, `test:end-sequence` (v2026.10.01.1) failed 3 runs in 5: the class highlights video dropped 8.5-10.3% of its
+frames while two family videos were made beside it (never a stall), against the proof's 10%. Shown that, **the owner chose "One at a
+time"**: while the class video plays, the teacher's computer makes one family video at a time, so the class video is smooth. Branch
+`end-sequence-4` off local `integration-2026-09-28` dd23d793; not pushed. docs/FLASHBACK.md §11a, TEACHER.md.
+
+- **One beside the class video, two after** (`public/making-plan.js` `toStart(wanted, busy, { classPlaying })`,
+  `MAKE_BESIDE_CLASS_VIDEO` 1, `MAKE_AT_ONCE` 2; `public/flashback.js` `classVideoPlaying`): one while the class stage lasts (the class
+  video playing, or made and about to play) and while a teacher's *Play the class video again* plays; **two once it has ended - my
+  choice, which the owner left open**: nothing plays on the class screen then but words, and every family's start waits for the last
+  video made, so two bring it sooner. The making loop now wakes with each snapshot, so the second begins the moment the class video ends.
+- **The class video's dropped-frame limit: 9%** (`BESIDE_DROPPED_MOST` in the proof, from 10%), with a new hard check: **never more
+  than one family video made while the class video plays**. Measured alone on this computer, eleven runs of the same code: 6.8, 8.0,
+  7.1, 8.2 and 8.0% in a first five (2026-10-01), 4.2% in a sixth, and **2.6, 2.8, 2.0, 1.8 and 2.4% in the last five** (2026-10-02); with
+  nothing made beside it the class video dropped none (0 of 544-726, a baseline the proof now measures); never a tenth of a second at
+  under half speed. The spread between the two fives is the computer's other work, not the code. Nine per cent is the highest of the
+  eleven and a little over; the hard check is the regression guard - **an injected regression to two beside the class video failed the
+  proof** (*"2 families' videos were made at once while the class video played"*).
+- In these classes of eight, every family's video was made while the class video played (one at a time, the last 47 s before it
+  ended), so two-after was not exercised in the browser; the node test holds it.
+
+**Evidence** (same computer only; no Chromebook or LAN claim):
+
+- `tests/end-sequence.test.mjs`: the making test now holds one at a time beside the class video and two after. **`node
+  scripts/end-sequence-injections.mjs`: 44 of 44 caught by their own test** (three new for one-at-a-time; one moved to `sim/ending.mjs`'s new glory line with
+  `goodsGlory`).
+- **`test:end-sequence` alone, 5 of 5 green** (25 checks each): the families' videos started 0.3 s after the class video ended in every
+  run.
+- `npm test`: **2016 tests, 1980 pass, 0 fail, 36 skipped** (the suspended tutorial).
+
 ## Red proofs on v2026.10.01.1: one class-view bug fixed, eight stale proofs, end-sequence's numbers; every default name of the family's own people — 2026-10-01 (not released)
 
 Branch `proofs-r2` off local `integration-2026-09-28` (27e0f2f9 = origin/main); not pushed. The ten browser proofs that failed on the

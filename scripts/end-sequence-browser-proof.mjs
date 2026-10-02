@@ -114,10 +114,10 @@ async function frames(page, selector, script, kinds, prefix) {
 
 /**
  * The most of its frames the class video may drop while one family's video is made beside it (owner, 2026-10-01: "One at a time", so
- * the class video is smooth). Set from five runs alone on this computer, 2026-10-01 (docs/FLASHBACK.md §11a): one at a time cost it
- * 6.8, 8.0, 7.1, 8.2 and 8.0% of its frames (a sixth run, 4.2%), and nothing made beside it 0%; two at a time had cost it 8.5-10.3%.
- * Nine per cent is the highest of the five and a little over, so a regression to two beside it fails here more often than not, and
- * the count of videos made at once while it plays (never more than one) fails it every time.
+ * the class video is smooth). Set from runs alone on this computer, 2026-10-01/02 (docs/FLASHBACK.md §11a): one at a time cost it 6.8,
+ * 8.0, 7.1, 8.2 and 8.0% of its frames in a first five, 4.2% in a sixth, and 2.6, 2.8, 2.0, 1.8 and 2.4% in the last five; with
+ * nothing made beside it, 0%; two at a time had cost it 8.5-10.3%. Nine per cent is the highest of them and a little over; the hard
+ * check is the count of videos made at once while it plays (never more than one), which an injected regression to two fails.
  */
 const BESIDE_DROPPED_MOST = 0.09;
 const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_EXECUTABLE && { executablePath: process.env.BROWSER_EXECUTABLE }) });
