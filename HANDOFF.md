@@ -1,6 +1,10 @@
 # Claude handoff — Astra foundation
 
-## One family video at a time while the class video plays — owner-decided 2026-10-01 (not released)
+## Released as v2026.10.02.1 — 2026-10-02
+
+Main at 7964210d, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.02.1>), with a small update from v2026.10.01.1 (865 KB, 16 files). On 5f749394: `npm test` 2016 tests, 1 fail (save-retry timing, fixed in 7964210d and proved by injection); 21 browser proofs for everything changed since v2026.10.01.1 all green. Same computer only: no Chromebook, LAN or classroom claim.
+
+## One family video at a time while the class video plays — owner-decided 2026-10-01 (released in v2026.10.02.1)
 
 **The ask.** Run alone, `test:end-sequence` (v2026.10.01.1) failed 3 runs in 5: the class highlights video dropped 8.5-10.3% of its
 frames while two family videos were made beside it (never a stall), against the proof's 10%. Shown that, **the owner chose "One at a
@@ -31,7 +35,7 @@ time"**: while the class video plays, the teacher's computer makes one family vi
   run.
 - `npm test`: **2016 tests, 1980 pass, 0 fail, 36 skipped** (the suspended tutorial).
 
-## Red proofs on v2026.10.01.1: one class-view bug fixed, eight stale proofs, end-sequence's numbers; every default name of the family's own people — 2026-10-01 (not released)
+## Red proofs on v2026.10.01.1: one class-view bug fixed, eight stale proofs, end-sequence's numbers; every default name of the family's own people — 2026-10-01 (released in v2026.10.02.1)
 
 Branch `proofs-r2` off local `integration-2026-09-28` (27e0f2f9 = origin/main); not pushed. The ten browser proofs that failed on the
 released build 8487eb7b (102 proofs run two at a time beside builders), each rerun **alone** here, bisected with the proof as it was
@@ -91,7 +95,7 @@ this branch's, left for whoever owns the Seguín calls; its record was not rewri
    once and hold the proof at 10%, a red run now and then on this computer (recommended)**; (b) make one at a time while the class
    video plays, two once it ends.
 
-## The age off the family's rows, and the first tip says what the faded picture means — owner-decided 2026-09-30 (not released)
+## The age off the family's rows, and the first tip says what the faded picture means — owner-decided 2026-09-30 (released in v2026.10.02.1)
 
 Branch `row-slim-2` off local `integration-2026-09-28` (8487eb7b); not pushed. The owner answered the two questions of *Idle and
 House off the family's rows* (below): **"Move age off the row"** and **"Reword for the mark"**. docs/FAMILY_PANEL.md, amendment
