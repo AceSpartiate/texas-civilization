@@ -1,5 +1,59 @@
 # Claude handoff — Astra foundation
 
+## Tier 3, the sick and the wounded: 3.8, 3.9, 3.13-3.16 — 2026-10-02 (not released)
+
+The sickness and wound rows of docs/audits/2026-09-29-triage.md Tier 3, the owner's "yes, start them". Branch `tier3-sick` off local
+`integration-2026-09-28` (4c38be85 = origin/main); not pushed. Each row re-checked against today's code first: all six still
+happened. Each has a test in `tests/tier3-sick.test.mjs` seen failing before its fix (15 tests), and **`node
+scripts/tier3-sick-injections.mjs`: 25 of 25 caught** by the test named for each ([record](docs/evidence/tier3-sick-injections.json)).
+Same computer only: no Chromebook, LAN or classroom claim.
+
+- **3.8 The wounded at home are nursed and doctored.** *Nurse the sick* (`nurse-home`) is offered for somebody lying wounded and
+  brings the wound a day nearer mending (sim/disease.mjs `needsNursing`). The doctor's second offer, *Bring the doctor to the wounded*
+  (3 reales or 5 food, invented), halves the time left of everybody lying wounded at the house (sim/shops.mjs `call`, docs/TOWNS.md).
+- **3.9 A death from wounds is told like the war's other deaths, never before the word.** The death is the record's on December 12
+  (`died-of-wounds`), but the man lies wounded on his family's screen until the word of the storming reaches it, and dies there then
+  (sim/army.mjs `woundDeathTold`, from `tellStorming`) - with the journal's line and the account on the family's card for a day,
+  *What became of …* (`woundDeathCard`, sim/directors.mjs). Before, he vanished from the rows a day after the capitulation, days
+  before any word, and the word was a journal line. A family already told is told when he dies (`ceiling:`); one the word never
+  reached is told over the winter (sim/periods.mjs), never "still lying wounded". The flashback no longer says he "was badly hurt,
+  and lived", nor counts him a sickness death (sim/flashback.mjs; "died of the wound" read as a sickness since the first build).
+  `tests/storming.test.mjs` now reads the death after the word.
+- **3.13** Nobody nursing is a child's `talkTarget`, and a child on the way to somebody sent to nurse lets them go (sim/childhood.mjs).
+- **3.14** A man very sick or lying wounded in Houston's camp is not asked whether to go home, and the family is told why he stays;
+  one who turns so after being asked has "go" refused in words before anything is done (sim/camp.mjs `abed`).
+- **3.15 A wound on the sick keeps the worse** (the row's first option): every wound - chase, Concepción, the Grass Fight, the
+  storming, Coleto, San Jacinto, the scouts - goes through sim/disease.mjs `takeWound`. A wound that lays somebody down beats a
+  sickness, which is said to run its course in bed (`ceiling:` its danger is lost); a slight hurt leaves the sickness, kept at least as
+  long as the hurt, and said; a sickness never comes out on somebody lying wounded. sim/pursuit.mjs touched on the wound line only
+  (and its import).
+- **3.16 Holding a sick baby for a whole day** is nursing, as DISEASE.md §3.8 said: in arms, or carried while the family is stopped,
+  a day without a break (`health.heldSince`, new and optional: no `saveVersion` change). Carried along the road while the family
+  goes on, a baby rides and is not nursed.
+- **Re-measured, and retuned to the owner's bound** (docs/DISEASE.md §13; `scripts/disease-study.mjs`, six classes, twelve mixed
+  flights, 1,986 people, [evidence](docs/evidence/disease-study.json)): today's tree before this 60 deaths, **3.02** in a hundred;
+  with 3.16 alone **3.52** (under two: 5 deaths of 31 very sick before, 15 after). Over "about three" for a mixed class, so the measles'
+  worsening and dying came down 0.09/0.6 to **0.07/0.45** and the whooping cough's 0.07/0.8 to **0.055/0.6**: **62, 3.12**; careful
+  1.01, careless 5.24; 41 of 62 under six; measles 34 and whooping cough 18 still lead. HISTORY.md: `FIC-GONZ-041`, `-054`, `-477`,
+  `-673`, `-674`, `-734` amended; no new claim IDs.
+
+**For the owner** (one real choice, the rest built as the rows recommend): *the deaths after 3.16.* (a) **Keep the retune, 3.12 in
+a hundred** (recommended: the owner's "about three", and babies carried by a family that pushes on now die as §3.6 meant);
+(b) the deeper cut, 2.97 (dying 0.35/0.5), which spares more of the older children and the grown than the babies; (c) no retune,
+3.52, if "about three" was meant loosely.
+
+**Evidence** (same computer only; no Chromebook or LAN claim):
+
+- `npm test`: **2031 tests, 1995 pass, 0 fail, 36 skipped** (the suspended tutorial), on the finished tree.
+- `node scripts/tier3-sick-injections.mjs`: **25 of 25** caught by their own tests (two first missed - the winter's "still lying"
+  fixture mended before January, and the carried baby was checked for one tick, not a day - and the tests were made to see them).
+- Browser proofs on the finished tree, each green alone: `test:disease` 8 of 8, `test:story-cards` 5 of 5, `test:camp` 9 of 9,
+  `test:children` 16 of 16, `test:hunger` 7 of 7, `test:scrape-pursuit` 15 of 15. Their screenshots and records were put back as they
+  were, to keep this branch clear of the other builders' evidence; nothing in them changed that the page draws.
+- `scripts/acting-injections.mjs`'s child-and-the-very-sick injection rewritten for the new `talkTarget` line (same regression).
+- Not built: nursing the wounded on the road (`tend-sick` is sim/road.mjs, the road builder's), and automatic families nursing
+  their wounded at home (sim/neighbours.mjs still nurses only the sick). The doctor comes only to the house, not to a refuge.
+
 ## Tier 3 of the triage, the road and the chase (not released) — 2026-10-02
 
 Branch `tier3-road` off local `integration-2026-09-28` (4c38be85 = origin/main); not pushed. The owner said "yes, start them" for

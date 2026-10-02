@@ -39,6 +39,9 @@ export const SICK_FOOD_PORTIONS = 3, SICK_FOOD_MOST = 2;
 
 const reales = amount => `${amount} ${amount === 1 ? 'real' : 'reales'}`;
 const round = value => Math.round(value * 10000) / 10000;
+/** The family's people lying wounded at its house, where the doctor can be brought to them (the `call` offer). */
+const lyingAtHome = (world, household) => household.members.map(id => world.entities[id])
+  .filter(one => one?.health?.condition === 'wounded' && !one.travel && one.location?.siteId === household.homeSiteId);
 
 /** The most of one tool on one trip to town: plenty for a family, and a load a tool (sim/errands.mjs). ceiling: a cap, not a rule. */
 export const TOOL_MOST = 4;
@@ -228,6 +231,23 @@ export const TRADES = Object.freeze({
         const left = Math.max(0, (entity.health.recoversAt ?? world.minute) - world.minute);
         entity.health = { ...entity.health, recoversAt: world.minute + Math.round(left / 2) };
         return `The doctor saw ${entity.name}, and the hurt will mend in half the time.`;
+      },
+    }, {
+      // Somebody lying wounded cannot walk to town (sim/world.mjs `beginTravel`), so whoever goes brings the doctor out to the house
+      // (triage 2026-09-29, 3.8; design audit M9: VISION §8 names "caring for wounded people"). He dresses the wound, as a doctor
+      // did, and it mends in half the time left, as a lesser hurt does when it walks in. Invented price (`FIC-GONZ-038`): a real
+      // more than seeing him in town, for the ride out. ceiling: the doctor is there at the counter's moment, not after the ride.
+      id: 'call', kind: 'sell', label: 'Bring the doctor to the wounded', coin: 3, food: 5, once: true,
+      does: 'The doctor rides out to the house and dresses the wound of whoever is lying wounded there: it mends in half the time left.',
+      refuse: (world, household) => lyingAtHome(world, household).length ? null : 'Nobody of the family is lying wounded at home.',
+      give: (world, household, entity) => {
+        const lying = lyingAtHome(world, household);
+        for (const one of lying) {
+          const left = Math.max(0, (one.health.recoversAt ?? world.minute) - world.minute);
+          one.health = { ...one.health, recoversAt: world.minute + Math.round(left / 2) };
+        }
+        const names = lying.map(one => one.name).join(' and ');
+        return `${entity.name} brought the doctor out to the house. The doctor dressed ${lying.length > 1 ? `the wounds of ${names}, and they` : `${names}'s wound, and it`} will mend in half the time.`;
       },
     }],
   },

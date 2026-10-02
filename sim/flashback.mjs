@@ -192,7 +192,8 @@ function fateOf(world, person) {
   if (person.health?.condition === 'dead') {
     const said = [...mine].reverse().find(event => /\b(killed|died|put to death|among the prisoners)\b/i.test(event.text)) || [...world.events].reverse().find(event => event.householdId === person.householdId && event.text?.startsWith(`${person.name} `) && /\b(killed|died)\b/.test(event.text));
     // Died of hunger (owner, 2026-09-30; sim/hunger.mjs): remembered as the sick are, by who they were and never by name.
-    const sickness = said?.sickness === 'died' || said?.hunger === 'died' || Boolean(person.health.starved) || /\bdied of\b/.test(said?.text || '');
+    // "Died of the wound" is the war's, not a sickness (triage 3.9, sim/army.mjs `woundDeathTold`): told by name, as the war's dead are.
+    const sickness = said?.sickness === 'died' || said?.hunger === 'died' || Boolean(person.health.starved) || (/\bdied of\b/.test(said?.text || '') && !/\bdied of (the|his|her|their) wound/.test(said?.text || ''));
     return { kind: 'dead', minute: said?.minute ?? null, sickness, disease: person.health.disease || null, ...(person.health.starved && { starved: true }), text: said?.text || null, war: person.service?.status === 'fell' };
   }
   if (person.health?.condition === 'captured') {
@@ -351,6 +352,8 @@ function candidates(world, household, trip) {
       const staged = world.battles?.[engagement]?.fates?.[person.id];
       const fate = fates[person.id];
       const here = fate && Number.isFinite(fate.minute) && fate.minute >= minute - DAY && fate.minute <= minute + 10 * DAY && !fate.sickness;
+      // Hurt in this fight, and dead of it days after (sim/army.mjs `dieOfWounds`, triage 3.9): never "lived". No "wound" (`GORE_WORDS`).
+      if (fate?.kind === 'dead' && event === 'bexar-storming' && world.army?.storming?.outcomes?.some(one => one.id === person.id && one.fate === 'died-of-wounds')) return { person, said: `${firstName(person)} was badly hurt, and died of it some days after.`, death: true };
       if ((staged?.fate === 'killed' || (here && fate.kind === 'dead')) && fate?.kind === 'dead') return { person, said: `${firstName(person)} was killed there.`, death: true };
       if (staged?.fate === 'captured' || (here && fate?.kind === 'captured')) return { person, said: `${firstName(person)} was taken prisoner.`, taken: true };
       if (staged?.fate === 'wounded') return { person, said: `${firstName(person)} was badly hurt, and lived.` };

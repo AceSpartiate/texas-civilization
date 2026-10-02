@@ -893,3 +893,39 @@ grown person and sooner for the young, the old and the sick - with the very sick
 A death by hunger follows this document's death by sickness: one plain sentence, nothing drawn, and a child never named on the
 projector (`diedAChild` now counts `health.starved`). The design, the timings and the measurement are [HUNGER.md](HUNGER.md);
 the code is `sim/hunger.mjs`.
+
+## 13. Amendment, 2026-10-02 — the wounded nursed, a wound on the sick, and the carried baby (triage Tier 3; not released)
+
+The sickness and wound rows of docs/audits/2026-09-29-triage.md Tier 3 (the owner: "yes, start them"), on branch `tier3-sick`.
+Each was seen failing in `tests/tier3-sick.test.mjs` before its fix, and each fix is held by its injection
+(`node scripts/tier3-sick-injections.mjs`, docs/evidence/tier3-sick-injections.json).
+
+- **The wounded at home are nursed and doctored (3.8).** *Nurse the sick* (`nurse-home`) is for somebody lying wounded too, and
+  brings the wound a day nearer mending; the doctor's second offer, *Bring the doctor to the wounded* (3 reales or 5 food), halves
+  the time left of everybody lying wounded at the house - a man who cannot walk to town is no longer out of the doctor's reach.
+- **A wound on the sick keeps the worse (3.15).** Every wound of the game goes through `takeWound`: a wound that lays somebody down
+  beats a sickness, which is said to run its course in bed (`ceiling:` its danger is lost; the longest sickness at rest's pace is
+  shorter than the shortest lying wound); a slight hurt does not, and the sickness is kept at least as long as the hurt; a sickness
+  caught never comes out on somebody lying wounded until the wound mends (`comesOut`).
+- **Holding a sick baby for a whole day (3.16)**, as §3.8 always said: held in somebody's arms, or carried while the family is
+  stopped, without a break for a day of the calendar (`health.heldSince`). Until now any tick of it counted as the day's nursing,
+  and every baby on the road is carried, so a very sick baby could not die while its family went on - the family that "pushes on
+  hungry and cold" (§3.6). Carried along the road, a baby rides with its carrier; halting for it is the nursing.
+- **Re-measured** (`scripts/disease-study.mjs`, the same six classes and twelve mixed flights, 1,986 people;
+  docs/evidence/disease-study.json). On today's tree before this change the flight lost **60, 3.02 in a hundred** (careful 1.01,
+  careless 5.04; under two, 5 of 31 very sick died). With the carried baby no longer nursed, **70, 3.52** (careful 1.31, careless
+  5.74; under two, 15 of 31). That is over the owner's "about three in a hundred" for a mixed class (§9.5), so the rates came down
+  as §3.6 says, the ages' ratios kept: the measles turning very sick 0.09 to **0.07** and dying 0.6 to **0.45**; the whooping cough
+  0.07 to **0.055** and 0.8 to **0.6**. Measured: see the table below. Lowering the dying alone hardly moved it (0.45 and 0.6: 3.27),
+  nor the worsening alone (0.07 and 0.055: 3.37) - once very sick and not nursed, a small child's weight makes death all but
+  certain - so both came down. A deeper cut (dying 0.35 and 0.5) gave 2.97, taking more of the grown and the older children than of
+  the babies.
+
+| 1,986 people, twelve mixed flights | Died | In a hundred | Careful | Careless | Under 2 | 2-5 | 6-15 | 16+ | Measles | Whooping cough | Chill | Flux |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Before (4c38be85) | 60 | 3.02 | 1.01 | 5.04 | 5 | 28 | 17 | 10 | 37 | 14 | 5 | 4 |
+| The carried baby not nursed, rates as they were | 70 | 3.52 | 1.31 | 5.74 | 15 | 28 | 17 | 10 | 40 | 20 | 6 | 4 |
+| **Retuned (the evidence)** | **62** | **3.12** | **1.01** | **5.24** | **14** | **27** | **12** | **9** | **34** | **18** | **6** | **4** |
+
+(Careful and careless in a hundred; the ages and diseases in deaths. 41 of the 62 were children under six; nobody died of a sickness
+in any autumn.) `tests/disease.test.mjs` step 8 holds the evidence to these rates.

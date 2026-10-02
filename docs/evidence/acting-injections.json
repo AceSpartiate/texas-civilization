@@ -1,6 +1,6 @@
 {
   "record": "acting-injections",
-  "date": "2026-09-29",
+  "date": "2026-10-02",
   "note": "Who acts for a family, the oldest child who steps up, a family taken in, the left behind, the baby and the war, very sick in bed, the family with nobody living and the dead who never speak (docs/FAMILY_PANEL.md §20, 2026-09-28). Each injection is run against tests/acting.test.mjs; \"alone\" means the test named for the rule was the only one to fail.",
   "injections": [
     {

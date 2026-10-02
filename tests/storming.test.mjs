@@ -14,7 +14,7 @@ import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, beginTravel, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { momentOf } from '../sim/directors.mjs';
-import { STORMING_DEATH_RISK, STORMING_WOUND_RISK, WOUND_GRADES, dieOfWounds, fightStorming, openQuestion, stormedIn, withTheArmy } from '../sim/army.mjs';
+import { STORMING_DEATH_RISK, STORMING_WOUND_RISK, WOUND_GRADES, dieOfWounds, fightStorming, openQuestion, stormedIn, tellStorming, withTheArmy } from '../sim/army.mjs';
 import { heardOut } from './support/heard-out.mjs';
 import { beginSecondPeriod } from '../sim/periods.mjs';
 
@@ -200,6 +200,9 @@ test('a wound worse than slight keeps somebody lying at Béxar, unable to travel
     const died = dieOfWounds(world);
     // Every later death rolled comes, whatever the fight already cost the class.
     assert.deepEqual(died, later, 'a later death rolled did not come');
+    // Dead in the record at once, and on the family's screen when the word comes (triage 3.9; tests/tier3-sick.test.mjs).
+    for (const id of died) assert.equal(world.army.storming.outcomes.find(one => one.id === id).fate, 'died-of-wounds');
+    tellStorming(world, null);
     for (const id of died) assert.equal(world.entities[id].health.condition, 'dead');
     assert.equal(world.army.storming.killed.length, before + died.length);
     laterDeaths += died.length;

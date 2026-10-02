@@ -40,7 +40,7 @@ const INJECTIONS = [
   // Very sick in bed (FIC-GONZ-734).
   { name: 'work goes on for somebody too sick to get up', file: BABIES, from: '      if (person.chore) {\n        const work = ', to: '      if (false) {\n        const work = ', expect: /^very sick is in bed/ },
   { name: 'a very sick woman is sent to the crying baby', file: BABIES, from: "  const free = people.filter(person => ofAge(person) && ableAt(person, place)", to: "  const free = people.filter(person => ofAge(person) && at(person, place)", expect: /^very sick is in bed/ },
-  { name: 'an idle child goes to stop a very sick parent\'s rest', file: CHILDHOOD, from: "\n      && !person.health?.grave && person.health?.condition !== 'wounded');", to: ');', expect: /^very sick is in bed/ },
+  { name: 'an idle child goes to stop a very sick parent\'s rest', file: CHILDHOOD, from: "\n      && !person.health?.grave && person.health?.condition !== 'wounded' && !nursing(person));", to: "\n      && !nursing(person));", expect: /^very sick is in bed/ },
   { name: 'nobody is offered to nurse the very sick', file: WORLD, from: "    .filter(one => one && one.id !== sick.id && one.kind === 'person' && choreAvailability(world, household, one, chore).can)", to: '    .filter(() => false)', expect: /^very sick is in bed/ },
   // A family with nobody living (playthrough 7).
   { name: 'a dead family is told to leave', file: SCRAPE, from: '  if (!people(world, household).some(person => !GONE.includes(person.health?.condition))) return;\n', to: '', expect: /^a family with nobody living/ },

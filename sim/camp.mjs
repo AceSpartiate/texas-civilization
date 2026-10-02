@@ -36,6 +36,7 @@ import { record } from './events.mjs';
 import { answeredFor, recordLapse } from './lapse.mjs';
 import { awardGlory } from './glory.mjs';
 import { WOUND_GRADES } from './army.mjs';
+import { takeWound } from './disease.mjs';
 import { modeWith } from './keeping.mjs';
 import { DRILL_TO_STEADY, MARCH_CAMPS, atGroces, campName, drilledSteady, houstonCamp } from './houston.mjs';
 import { recallFromService, recallRefusal } from './winter.mjs';
@@ -105,7 +106,7 @@ const RUNS = {
     const service = entity.service;
     service.scouted = (service.scouted || 0) + 1;
     const hurt = scoutHurt(world, entity, service.scouted);
-    if (hurt) entity.health = { condition: WOUND_GRADES.slight.condition, grade: 'slight', recoversAt: world.minute + WOUND_GRADES.slight.minutes };
+    if (hurt) takeWound(world, entity, { condition: WOUND_GRADES.slight.condition, grade: 'slight', recoversAt: world.minute + WOUND_GRADES.slight.minutes });
     const eventId = tell(world, entity, hurt
       ? `${entity.name} rode out with the scouts and ran into a Mexican patrol; they came back slightly hurt, and are on their feet.`
       : `${entity.name} rode out with the scouts and came back with word of where the enemy is.`, { claimId: 'HIST-TEX-083', importance: hurt ? 3 : 2 });
@@ -201,6 +202,8 @@ const autoAnswer = (world, key, entity) => share(world, entity.id, `camp-${key}`
 export const campQuestionOpen = world => Object.values(world.entities).some(entity => withHouston(entity) && ['open'].some(v => entity.service.leave === v || entity.service.road === v)
   && world.households[entity.householdId]?.played && !world.households[entity.householdId].absent);
 
+/** Why a man cannot get up to go anywhere, in words - very sick, or lying wounded - or null (sim/world.mjs `beginTravel`'s refusals). */
+const abed = entity => (entity.health?.grave ? `${entity.name} is too sick to get up` : entity.health?.condition === 'wounded' ? `${entity.name} is lying wounded` : null);
 /** Open a question to every man with Houston. A family that does not choose is answered at once. */
 export function openCampQuestion(world, key, causeId, { beginTravel } = {}) {
   const spec = CAMP_QUESTIONS[key];
@@ -209,6 +212,12 @@ export function openCampQuestion(world, key, causeId, { beginTravel } = {}) {
     if (!withHouston(entity) || entity.service[key] || GONE.includes(entity.health?.condition)) continue;
     const household = household_(world, entity);
     if (!household) continue;
+    // A man too sick to get up, or lying wounded, cannot go home (sim/world.mjs `beginTravel`): he is not asked a question whose
+    // "go" would fail after the answer (triage 2026-09-29, 3.14; design audit M33), and his family is told why he stays.
+    if (key === 'leave' && abed(entity)) {
+      tell(world, entity, `Word has come that Fannin's whole command is taken, and many of the men are leaving the army to see to their families. ${abed(entity)}, and cannot go: ${entity.name} stays in the camp.`, { claimId: 'FIC-GONZ-054', causes: causeId ? [causeId] : [] });
+      continue;
+    }
     if (!household.played || household.absent || entity.auto) { settleCampAnswer(world, key, entity, autoAnswer(world, key, entity), entity.auto ? 'auto' : 'unplayed', { beginTravel }); continue; }
     entity.service[key] = 'open';
     record(world, 'pressure', { actorId: entity.id, householdId: entity.householdId, importance: 3, classification: 'DOCUMENTED', claimId: spec.claimId, causes: causeId ? [causeId] : [], text: spec.ask(entity.name) });
@@ -222,6 +231,8 @@ export function campQuestionRefusal(world, household, entity, key, answer) {
   if (!entity || entity.householdId !== household.id) return 'That is not your family.';
   if (!withHouston(entity)) return `${entity.name} is not with General Houston's army.`;
   if (entity.service[key] !== 'open') return `${entity.name} has already been answered for.`;
+  // Asked while well, and turned very sick or wounded since: "go" is refused before anything is done (triage 3.14).
+  if (key === 'leave' && answer === 'yes' && abed(entity)) return `${abed(entity)}, and cannot go home.`;
   return null;
 }
 
