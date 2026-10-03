@@ -1,9 +1,9 @@
 {
  "record": "shelter-injections",
  "date": "2026-10-03",
- "caught": 28,
- "only": 19,
- "of": 28,
+ "caught": 33,
+ "only": 21,
+ "of": 33,
  "injections": [
   {
    "name": "a dry norther sends nobody in",
@@ -44,7 +44,7 @@
     "the companion: somebody free before anybody at work, an older child of ten to fifteen before a grown person, and never the timber",
     "with nobody of ten or more who can come, the children keep each other company, and the family is told once",
     "a family nobody plays: its children go in out of the rain, and nobody is called in to them",
-    "the first turn of the weather with no roof and no tent: whoever is free puts it up, and everybody else goes under the wagon meanwhile",
+    "a family with no roof and no tent all the same (a class saved before): whoever is free puts it up at the first turn of the weather, the rest under the wagon meanwhile",
     "with a roof the family goes into the house, and the page is told so; the shelter saves and opens again as it was"
    ]
   },
@@ -212,7 +212,7 @@
     "rain: everybody with no task and every child goes in under the tent; somebody at a task keeps at it; out again when it clears",
     "a student's order wins: the one with the children sent to new work goes to it, and is not called in again that day",
     "the companion: somebody free before anybody at work, an older child of ten to fifteen before a grown person, and never the timber",
-    "the first turn of the weather with no roof and no tent: whoever is free puts it up, and everybody else goes under the wagon meanwhile"
+    "a family with no roof and no tent all the same (a class saved before): whoever is free puts it up at the first turn of the weather, the rest under the wagon meanwhile"
    ]
   },
   {
@@ -244,11 +244,11 @@
    "files": [
     "sim/shelter.mjs"
    ],
-   "expected": "the first turn of the weather",
+   "expected": "a family with no roof and no tent all the same",
    "caught": true,
    "only": true,
    "failed": [
-    "the first turn of the weather with no roof and no tent: whoever is free puts it up, and everybody else goes under the wagon meanwhile"
+    "a family with no roof and no tent all the same (a class saved before): whoever is free puts it up at the first turn of the weather, the rest under the wagon meanwhile"
    ]
   },
   {
@@ -256,11 +256,11 @@
    "files": [
     "sim/shelter.mjs"
    ],
-   "expected": "the first turn of the weather",
+   "expected": "a family with no roof and no tent all the same",
    "caught": true,
    "only": true,
    "failed": [
-    "the first turn of the weather with no roof and no tent: whoever is free puts it up, and everybody else goes under the wagon meanwhile"
+    "a family with no roof and no tent all the same (a class saved before): whoever is free puts it up at the first turn of the weather, the rest under the wagon meanwhile"
    ]
   },
   {
@@ -268,23 +268,87 @@
    "files": [
     "sim/shelter.mjs"
    ],
-   "expected": "the tent: offered",
+   "expected": "the tent goes up by itself",
    "caught": true,
    "only": true,
    "failed": [
-    "the tent: offered to anybody of ten or more while there is no roof, put up by the camp, and struck when a pen is roofed"
+    "the tent goes up by itself as the family makes camp on its land, is on nobody's bar, and is struck when a pen is roofed"
    ]
   },
   {
    "name": "the tent put up away from the camp",
    "files": [
-    "sim/shelter.mjs"
+    "sim/settling.mjs"
    ],
-   "expected": "the tent: offered",
+   "expected": "the tent goes up by itself",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the tent goes up by itself as the family makes camp on its land, is on nobody's bar, and is struck when a pen is roofed",
+    "on the real land the tent waits for the site: none at the surveyor's mark, and up where the wagon is drawn up"
+   ]
+  },
+  {
+   "name": "no tent on arrival",
+   "files": [
+    "sim/settling.mjs"
+   ],
+   "expected": "the tent goes up by itself",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "the tent goes up by itself as the family makes camp on its land, is on nobody's bar, and is struck when a pen is roofed",
+    "on the real land the tent waits for the site: none at the surveyor's mark, and up where the wagon is drawn up"
+   ]
+  },
+  {
+   "name": "the tent put up at the surveyor's mark",
+   "files": [
+    "sim/settling.mjs"
+   ],
+   "expected": "on the real land the tent waits for the site",
    "caught": true,
    "only": true,
    "failed": [
-    "the tent: offered to anybody of ten or more while there is no roof, put up by the camp, and struck when a pen is roofed"
+    "on the real land the tent waits for the site: none at the surveyor's mark, and up where the wagon is drawn up"
+   ]
+  },
+  {
+   "name": "the tent's button back on the bar",
+   "files": [
+    "sim/shelter.mjs"
+   ],
+   "expected": "the tent goes up by itself",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "the tent goes up by itself as the family makes camp on its land, is on nobody's bar, and is struck when a pen is roofed"
+   ]
+  },
+  {
+   "name": "the tent tip back",
+   "files": [
+    "public/tips.js"
+   ],
+   "expected": "the house, the field and going to town",
+   "caught": true,
+   "only": false,
+   "failed": [
+    "every tip the server can remember has words on the page, and every one is short, plain and says what to do",
+    "the house, the field and going to town each have a tip the first time the family can do them, and not before",
+    "a retired tip saved as seen still opens, and is never shown or marked again"
+   ]
+  },
+  {
+   "name": "a class that saw the retired tip does not open",
+   "files": [
+    "sim/tips.mjs"
+   ],
+   "expected": "a retired tip saved as seen",
+   "caught": true,
+   "only": true,
+   "failed": [
+    "a retired tip saved as seen still opens, and is never shown or marked again"
    ]
   },
   {

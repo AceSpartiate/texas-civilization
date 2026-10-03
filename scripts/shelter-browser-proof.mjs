@@ -4,7 +4,8 @@
 // 1366x768 and 1024x768, on a real class whose own weather (seed shelter-proof-165, the invented country) is fair on the first
 // day, rains all the second and is fair again on the third:
 //
-//   - "Put up the tent" is on a grown person's bar while there is no roof; pressed, it glows, and the tent is drawn by the camp;
+//   - the tent goes up by itself as the family makes camp on its land, and is drawn by the camp; no "Put up the tent" anywhere on the
+//     panel (owner, 2026-10-03, "Automatic on arrival");
 //   - the rain comes: the children and whoever has no task walk in under the tent and are drawn sitting there, a roof-or-tent mark
 //     on each of their portraits; somebody of ten or more sits with the children, and their row says so; the father keeps at the
 //     house he was set to;
@@ -80,17 +81,20 @@ try {
   const [father] = grown;
   assert.ok(grown.length >= 2 && children.length >= 2, `the seed's family is not two grown people and children: ${JSON.stringify(people)}`);
 
-  // 1. The tent on the bar, pressed, glowing, drawn.
-  await choose(page, father.id);
-  await page.waitForFunction(() => document.querySelector('.panel-row[data-focused=true] .panel-icon[data-key="pitch-tent"]'), null, { timeout: 15000 });
-  await page.locator('.panel-row[data-focused=true] .panel-icon[data-key="pitch-tent"]').click();
-  await page.waitForFunction(() => window.__snapshot.world.land?.tent, null, { timeout: 20000 });
-  world = await snapshot(page);
+  // 1. The tent up with the camp, drawn, and no button for it.
+  assert.ok(world.land?.tent, 'the family made camp with no tent up');
   await page.waitForFunction(site => window.__tentsDrawn?.[site], world.household.homeSiteId, { timeout: 10000 });
-  observed.tent = { land: world.land.tent, drawn: await page.evaluate(site => window.__tentsDrawn[site], world.household.homeSiteId) };
-  assert.ok(!(await page.evaluate(() => [...document.querySelectorAll('.panel-row[data-focused=true] .panel-icon')].some(icon => icon.dataset.key === 'pitch-tent'))), 'the tent is still offered once it is up');
+  observed.tent = { land: world.land.tent, drawn: await page.evaluate(site => window.__tentsDrawn[site], world.household.homeSiteId),
+    arrival: world.events.find(event => event.type === 'arrival')?.text || null };
+  assert.match(observed.tent.arrival || '', /put up the tent/, 'the family\'s record does not say the tent went up');
+  for (const one of people) {
+    await choose(page, one.id);
+    const keys = await page.evaluate(() => [...document.querySelectorAll('.panel-icon')].map(icon => icon.dataset.key));
+    assert.ok(!keys.includes('pitch-tent'), `${one.name}'s bar has "Put up the tent"`);
+  }
+  await choose(page, father.id);
   await shot(page, 'tent-up-1366');
-  ok(`"Put up the tent" was on ${father.name}'s bar; pressed, the tent stood at the camp and was drawn there (${JSON.stringify(observed.tent.drawn)})`);
+  ok(`the tent went up as the family made camp ("${observed.tent.arrival.slice(0, 80)}...") and is drawn by the camp (${JSON.stringify(observed.tent.drawn)}); nobody's bar has "Put up the tent"`);
 
   // 2. The father to the house, the rest left free; then the rain.
   const planned = await command(page, { action: 'plan-house', layout: 'dog-run' });

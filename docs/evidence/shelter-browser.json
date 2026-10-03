@@ -4,7 +4,7 @@
   "verdict": "PASS",
   "note": "Same computer only, headless Chrome at 1366x768 and 1024x768. One real class through the join flow on the invented country (seed shelter-proof-165), its own weather: fair, rain, fair. No LAN or district claim.",
   "checks": [
-    "\"Put up the tent\" was on Isaac Proofwright's bar; pressed, the tent stood at the camp and was drawn there ({\"x\":572,\"y\":404,\"size\":84})",
+    "the tent went up as the family made camp (\"The family has reached its own land. There is no house yet, so they camp by the ...\") and is drawn by the camp ({\"x\":660,\"y\":379,\"size\":13}); nobody's bar has \"Put up the tent\"",
     "the rain came on day 1: Temperance (37), Aaron (11), Eli (8), Minerva (6), Matilda (3) went in under the tent; Aaron (11) sits with the children; Isaac kept at the house",
     "the children are drawn sitting at the tent (boy-rest, girl-rest, smallchild-rest), each portrait carries the tent mark, and Aaron's row says \"Inside with Eli, Minerva and Matilda, out of the weather.\"",
     "at 1024x768 the marks and the tent are shown and nothing scrolls sideways",
@@ -50,10 +50,11 @@
         "y": -15.7412
       },
       "drawn": {
-        "x": 572,
-        "y": 404,
-        "size": 84
-      }
+        "x": 660,
+        "y": 379,
+        "size": 13
+      },
+      "arrival": "The family has reached its own land. There is no house yet, so they camp by the wagon and put up the tent. They unload what they brought: 9 × barrel of meal and salt meat, 6 × sack of seed, 9 × powder and lead, hoe, felling axe, bedding and iron pot. A labor of land, 177 acres, is marked out for the family. No title has been issued."
     },
     "inTheRain": [
       {

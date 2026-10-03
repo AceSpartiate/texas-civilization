@@ -17,6 +17,14 @@ import { CANNOT_LEAVE, INCLEMENT, inclement, leavable, shelterPlace, tentPoint }
 import { choresFor } from '../sim/chores.mjs';
 import { readSave, writeSave } from '../server/storage.mjs';
 import { settle, taught } from './support/settled.mjs';
+import { holdingOf } from '../sim/grants.mjs';
+import { siteFactsFor } from '../sim/homesite.mjs';
+
+const grid = (bounds, side = 7) => {
+  const places = [];
+  for (let i = 0; i < side; i++) for (let j = 0; j < side; j++) places.push({ x: +(bounds.minX + (bounds.maxX - bounds.minX) * (i + 0.5) / side).toFixed(3), y: +(bounds.minY + (bounds.maxY - bounds.minY) * (j + 0.5) / side).toFixed(3) });
+  return places;
+};
 
 /**
  * A class on its land, every family rolled and `id` played, with no roof (or one, `housed`). `shelter-16`'s first family has rain
@@ -63,23 +71,43 @@ test('the weather that sends people in: rain, a storm and a norther, wet or dry;
   assert.equal(inclement(null), false, 'no reading is not foul weather');
 });
 
-test('the tent: offered to anybody of ten or more while there is no roof, put up by the camp, and struck when a pen is roofed', () => {
-  const { world, household, people } = family();
-  const [grown] = grownOf(people), [child] = childrenOf(people);
-  assert.ok(choresFor(world, household, grown).some(entry => entry.id === 'pitch-tent' && entry.can), 'a grown person is not offered the tent');
-  assert.ok(!choresFor(world, household, child).some(entry => entry.id === 'pitch-tent'), 'a child of nine or under is offered the tent');
-  applyAction(world, household.id, { action: 'chore', entityId: grown.id, chore: 'pitch-tent' });
-  for (let t = 0; t < 6 && grown.chore; t++) stepWorld(world);
-  assert.equal(grown.chore, null, 'putting up the tent took more than six ticks');
-  assert.deepEqual({ x: household.tent.x, y: household.tent.y }, tentPoint(world, household), 'the tent is not where the camp is');
-  assert.ok(world.events.some(event => event.actorId === grown.id && /put up the tent/.test(event.text)));
+test('the tent goes up by itself as the family makes camp on its land, is on nobody\'s bar, and is struck when a pen is roofed', () => {
+  // The owner, 2026-10-03, by multiple choice: "Automatic on arrival". The invented country: the family drives in and makes camp.
+  const world = createGonzalesWorld('shelter-arrive', 5);
+  for (const one of Object.values(world.households)) rollFamily(world, one);
+  world.status = 'running';
+  const household = world.households['hh-1'];
+  household.played = true;
+  assert.ok(household.arriving && !household.tent, 'the family began with its tent up, or already home');
+  for (let t = 0; t < 120 && household.arriving; t++) { stepWorld(world); if (household.arriving) assert.equal(household.tent, undefined, 'the tent went up on the road in'); }
+  assert.ok(!household.arriving, 'the family never reached its land');
+  assert.deepEqual({ x: household.tent?.x, y: household.tent?.y }, tentPoint(world, household), 'the tent did not go up at the camp on arrival');
+  assert.ok(world.events.some(event => event.householdId === household.id && event.type === 'arrival' && /camp by the wagon and put up the tent\./.test(event.text)), 'the arrival does not say the tent went up');
   assert.deepEqual(view(world, household).land.tent, { x: household.tent.x, y: household.tent.y }, 'the page is not told where the tent stands');
-  assert.ok(!choresFor(world, household, grown).some(entry => entry.id === 'pitch-tent'), 'a second tent is offered');
-  // A roof: the canvas goes back on the wagon, and nobody is offered a tent.
+  // No button: nobody is offered it, and nobody is set to it.
+  const people = household.members.map(id => world.entities[id]);
+  for (const person of people) assert.ok(!choresFor(world, household, person).some(entry => entry.id === 'pitch-tent'), `${person.name} is offered the tent`);
+  assert.ok(!people.some(person => person.chore?.id === 'pitch-tent'), 'somebody was set to put up a tent that is up');
+  // A roof: the canvas goes back on the wagon.
   household.improvements = { ...household.improvements, cabin: 'sound' };
   stepWorld(world);
   assert.equal(household.tent, undefined, 'the tent still stands with a roof over the family');
-  assert.ok(!choresFor(world, household, grown).some(entry => entry.id === 'pitch-tent'));
+  validateWorld(world);
+});
+
+test('on the real land the tent waits for the site: none at the surveyor\'s mark, and up where the wagon is drawn up', () => {
+  const world = createGonzalesWorld('shelter-site', 5, { map: 'colonies' });
+  world.status = 'running';
+  const household = world.households['hh-1'];
+  for (let t = 0; t < 200 && household.arriving; t++) stepWorld(world);
+  assert.equal(household.choosingSite, true, 'the family is not at the surveyor\'s mark');
+  assert.equal(household.tent, undefined, 'the tent went up at the mark, before the house\'s site was chosen');
+  const bounds = holdingOf(world, household).bounds;
+  const site = grid(bounds).find(point => siteFactsFor(world, household, point).can);
+  applyAction(world, 'hh-1', { action: 'choose-site', ...site });
+  for (let t = 0; t < 60 && (household.arriving || household.members.some(id => world.entities[id].travel)); t++) stepWorld(world);
+  assert.deepEqual({ x: household.tent?.x, y: household.tent?.y }, tentPoint(world, household), 'the tent did not go up at the chosen site');
+  assert.ok(world.events.some(event => event.householdId === household.id && event.purpose === 'site' && /puts up the tent\./.test(event.text)), 'the wagon drawn up does not say the tent went up');
   validateWorld(world);
 });
 
@@ -249,7 +277,7 @@ test('a family nobody plays: its children go in out of the rain, and nobody is c
   validateWorld(world);
 });
 
-test('the first turn of the weather with no roof and no tent: whoever is free puts it up, and everybody else goes under the wagon meanwhile', () => {
+test('a family with no roof and no tent all the same (a class saved before): whoever is free puts it up at the first turn of the weather, the rest under the wagon meanwhile', () => {
   const { world, household, people } = family();
   assert.equal(household.tent, undefined);
   assert.equal(shelterPlace(world, household).at, 'wagon', 'with no tent and no roof the wagon is not the place to go');

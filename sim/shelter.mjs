@@ -8,10 +8,12 @@
 //
 // Three things live here, run once a tick after the children and the babies and before auto (sim/world.mjs `stepWorld`):
 //
-//   1. **The tent** (`pitch-tent`, *Put up the tent*): a family whose house has no roof can put up its tent - the wagon sheet, or the
-//      sail cloth the emigrants' guides told a family to bring "until the house is built" (`HIST-GONZ-027`, `HIST-TEX-1090`). A quick
-//      work on the bar of anybody of ten or more; and the first time the weather turns with no roof and no tent, whoever of ten or more
-//      is standing free puts it up by themself. It comes down the day a pen is roofed: the canvas goes back on the wagon.
+//   1. **The tent**: a family whose house has no roof has its tent - the wagon sheet, or the sail cloth the emigrants' guides told a
+//      family to bring "until the house is built" (`HIST-GONZ-027`, `HIST-TEX-1090`). **It goes up by itself as the family makes camp
+//      on its land** (owner, 2026-10-03, "Automatic on arrival"; sim/settling.mjs `pitchTent`), with no button. A family with no roof
+//      and no tent all the same - a class saved before, or a family home again to ashes - has it put up the first time the weather
+//      turns, by whoever of ten or more is standing free (`pitch-tent`, a work on nobody's bar). It comes down the day a pen is roofed:
+//      the canvas goes back on the wagon.
 //   2. **Who goes in** (`INCLEMENT`: a rain day, a storm, a norther wet or dry): everybody at home with **no task** - nothing to do,
 //      working about the place, resting - and **every child under ten, always**, whatever they were set to. Somebody at a task goes on
 //      with it: every family work is out of doors, and the rain holds only what it held before (the roof and the daubing,
@@ -29,11 +31,12 @@
 import { CHORES, beginChore, registerChores } from './chores.mjs';
 import { record } from './events.mjs';
 import { ADULT_AT, listWords, tooYoung } from './family.mjs';
-import { housed } from './settling.mjs';
+import { housed, tentPoint } from './settling.mjs';
+
+export { tentPoint };
 import { wagonsOf } from './wagon.mjs';
 import { skyAtHome } from './houses.mjs';
 import { houseFront } from './house-placement.mjs';
-import { CABIN_PEOPLE, PERSON_MILES } from './house-footprint.mjs';
 import { calendarMinutes } from './clock.mjs';
 import { TALK_SCALE, awake, endTalk } from './childhood.mjs';
 import { inLesson } from './lesson.mjs';
@@ -80,17 +83,6 @@ export const leavable = person => {
   const chore = CHORES[person?.chore?.id];
   return Boolean(chore) && !CANNOT_LEAVE.some(flag => chore[flag]) && chore.where === 'home';
 };
-
-/**
- * Where the family's tent stands: beside the camp, a few yards off the surveyor's mark the camp is drawn at (public/app.js
- * `homesteadCamp`, a camp the size of a house to its left). Fixed for the land, so the tent never moves and is never a new place.
- * ceiling: the tent stands at the camp whatever the house's placement; a house placed hard against the mark is drawn over it.
- */
-export function tentPoint(world, household) {
-  const site = world.map.sites[household.homeSiteId];
-  if (!site) return null;
-  return { x: r4(site.x - 1.4 * CABIN_PEOPLE * PERSON_MILES), y: r4(site.y + 0.3 * CABIN_PEOPLE * PERSON_MILES) };
-}
 
 /** The house the family lives in: its first finished house, else the one standing, else (an older class) the cabin at the mark. */
 function houseDoor(world, household) {
@@ -273,10 +265,14 @@ export const shelterShown = entity => (entity?.shelter ? { shelter: { at: entity
 export const shelterLine = (world, entity) => (entity?.aside?.kind === 'shelter'
   ? `Inside with ${listWords(entity.aside.childIds.map(id => world.entities[id]?.given || world.entities[id]?.name || 'the children'))}, out of the weather.` : null);
 
-// ------------------------------------------------------------------------------------------------ the tent, a work on the bar
+// ------------------------------------------------------------------------------------------------ the tent put up late
 
-/** Whether the tent is offered: somebody of ten or more, the family at home on its land, and no roof and no tent. */
-const tentOffered = (world, household, entity) => !tooYoung(entity) && familyHome(household) && !housed(household) && !household.tent;
+/**
+ * On nobody's bar (owner, 2026-10-03: "Automatic on arrival" - the tent goes up with the camp, and the button went). The work is kept
+ * for the family that has no roof and no tent all the same, which puts it up at the first turn of the weather (`tentByItself`), and
+ * for anybody saved in the middle of putting it up.
+ */
+const tentOffered = () => false;
 function tentRefusal(world, household, entity) {
   const at = household.members.map(id => world.entities[id]).find(person => person?.chore?.id === 'pitch-tent' && person !== entity);
   if (at) return `${at.name} is putting up the tent.`;
@@ -303,7 +299,7 @@ export function registerShelter() {
   registerChores({
     'pitch-tent': {
       name: 'Put up the tent', skill: 'hands', where: 'home', tent: true,
-      describe: 'Stretch the wagon sheet over a ridge pole by the camp and peg it down: somewhere dry for the family to go in out of the rain until the house has a roof. About half an hour. When the weather turns with no tent up, whoever is free puts it up by themself.',
+      describe: 'Stretch the wagon sheet over a ridge pole by the camp and peg it down: somewhere dry for the family to go in out of the rain until the house has a roof. It goes up with the camp; a family that has none is given it by whoever is free the first time the weather turns.',
       offered: tentOffered,
       refusal: tentRefusal,
       steps: [{ run: toTheTent }, { work: TENT_TICKS, doing: 'putting up the tent' }, { run: pitch }],

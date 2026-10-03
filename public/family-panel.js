@@ -93,7 +93,8 @@ export const PANEL_SUMMARIES = Object.freeze({
   'flee-cow': 'Put a rope on one milk cow for them to drive behind the family, to be milked on the road.',
   'milk-cow': 'Milk the family\'s cow, once a day: a little food, and a job a child of seven can do.',
   'milk-road': 'Milk the cow driven along with the family, once a day at the halt: a little food.',
-  // The tent until the house stands (sim/shelter.mjs, owner 2026-10-02).
+  // The tent until the house stands (sim/shelter.mjs, owner 2026-10-02): on nobody's bar since it goes up on arrival (2026-10-03); a
+  // row glows with it only while somebody puts up a tent the family did not have at the first turn of the weather.
   'pitch-tent': 'Put up the wagon sheet as a tent by the camp, somewhere dry to go when it rains until the house has a roof.',
   'road-lookout': 'Set them to watch the road behind, so word of riders reaches the family sooner.',
   'road-sing': 'Have them sing on the road, so the walkers are worn less by it.',
