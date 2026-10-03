@@ -1,5 +1,9 @@
 # Claude handoff — Astra foundation
 
+## Released as v2026.10.03.1 — 2026-10-03
+
+Main at 75b17913, packaged from the verify tree and published as the latest release (<https://github.com/AceSpartiate/texas-civilization/releases/tag/v2026.10.03.1>). No small update this time: the launcher changed (the join words), so every launcher takes the whole setup program (about 660 MB); the notes tell teachers so. Contents: triage Tier 3 (road, sickness, carrying kids), food only from real sources with seed, milking, the hunt shot, the quicker house and the tent, paths and the fenced yard, herds and the herder, the mule, join words at playtexas.github.io, and Astra's art up to 0f81401f. The full proof run on a4cebef3 (108 browser proofs, two at a time) found four real faults, each fixed and re-proved alone: test:errand did not know the herd's sale lines at the pens; the mule's speed bar was set at 11px (test:overlap); a bought mule was drawn as a horse because Astra's Grass Fight pack mules withheld every Claude `mule-` frame (public/art-subjects.js, tests/astra-art-wins.test.mjs); and on the Host's page a person's card opened under the late students' box (the Host's column is now a wall the card is held off, both ways). On 75b17913: `npm test` 2182 tests, 2146 pass, 0 fail, 36 skipped; re-run alone and green: host-view, overlap, family-panel, panels, tips, art, looks, host-live, errand, shops, field-click (and battle-alamo, host-lobby, host-bell, join-card on 41ee59a5). field-click, battle-alamo, shops and host-view had also missed timing waits under the two-at-a-time load. Not run to the end: `test:claude-art` (the stand-in injection harness; stopped after 90 minutes to free the tree). Same computer only; no Chromebook, LAN or classroom claim.
+
 ## Ground fog banks — delivered 2026-10-03
 
 Four transparent frames add dense and thin low painted mist banks, each with two wisp poses. `fog-bank-dense` and `fog-bank-thin` are authored loops with 6000ms per pose. The existing numeric battle.fog rendering now draws three overlapping banks around the visible force centre and blends density variants continuously from the projected density. The existing radial veil is the fallback when clips are unavailable. No server visibility, information asymmetry, route, combat timing or historical outcome changes. No fog is introduced to phases that do not project numeric fog; Coleto's light='fog' wash remains its existing separate behavior.
@@ -109,7 +113,7 @@ Barragán now has his own 16-frame transparent atlas in `scripts/art-deliveries/
 
 Sánchez Navarro now has a dedicated 16-frame transparent atlas in `scripts/art-deliveries/famous-sanchez-navarro.mjs`. His roster art key and `PERSON_ART` bind the existing Béxar parley to his own idle, replacing the generic Mexican figure. East/south/north walks, open-palm parley, listening, dispatch holding/offering, reading, pointing and seated rest are registered. Four clips provide directional walking and a two-pose conversation gesture. East gait uses the first two frames; the other two repeat the same silhouette family and are retained as variants, not advertised as four unique gait phases. Dedicated conversation/document gestures remain available for future projected poses; no words, timeline or outcomes changed. Costume and likeness are interpretations, not historical portrait evidence. The PNG is copied unchanged from imagegen; exact prompt/source provenance and every frame/clip appear in the art records. Atlas checks retained every pixel with no overlap trimming. Renderer and roster/parley regression tests verify the integration. Barragán remains the next outstanding Mexican officer.
 
-## Astra's last seventeen commits merged: named riders, commanders, story actions, the Gonzales crew, cavalry, night and fog, the join page — 2026-10-03 (not released)
+## Astra's last seventeen commits merged: named riders, commanders, story actions, the Gonzales crew, cavalry, night and fog, the join page — 2026-10-03 (released in v2026.10.03.1)
 
 Branch `astra-merge-2` off local `integration-2026-09-28` (740a87e8), merging Astra's `main` at 3f080d9f (a92d7e5f) and then at
 **0f81401f**, her last; not pushed. Same computer only. Her sections are at the top of this file under its one title; this is ours.
@@ -161,7 +165,7 @@ the copy; hers still says `public/join-words.js`): take join-words' `index.html`
 
 **Results**: `npm test` **2160 tests, 2123 pass, 1 fail, 36 skipped** - the one, tests/save-retry.test.mjs's Windows retry timing under the whole suite's load, passes alone (twice). Browser, all green: `test:famous-people` 22 (a Joe-in-the-doorway sample missed once under a parallel run, green alone), `test:battle-gonzales` 12, `test:battle-bexar` 15, `test:battle-cinema` 15, `test:storming` 7, `test:battle-south` 16 (Agua Dulce's groves), `test:battle-coleto` 17, `test:battle-grass` 14, `test:battle-concepcion` 13, `test:battle-alamo` 13, `test:battle-san-jacinto` 15, `test:looks` 12, `test:family-age-art` 9, `test:hunt` 15, `test:work` 5, `test:overlap` (green), and her own proofs: famous cardinal 27 clips, field 24, gestures 30, story 26, cavalry 2, Coleto prone 1, Grass Fight mules 3, ground fog 2, live-oak motts 2, night lights 4, landscape, and the join page at four sizes. tests/claude-standins.test.mjs and tests/astra-art-wins.test.mjs green; every plan item's request heading exists.
 
-## Join words: "3 words ... related to the texas revolution", port 1835 — owner-decided 2026-10-03 (not released)
+## Join words: "3 words ... related to the texas revolution", port 1835 — owner-decided 2026-10-03 (released in v2026.10.03.1)
 
 Branch `join-words-2` off local `integration-2026-09-28` (b66067ee, with join-words and herds); not pushed, nothing published.
 Same computer only. The owner's answers to the two questions of *Join words* (below), verbatim: **"3 words, ensure they're short,
@@ -192,7 +196,7 @@ written by the test). `test:join-words` green at 1440x900, 1366x768, 1024x600 an
 `npm test`: **2147 tests, 2110 pass, 1 fail, 36 skipped** - the one is tests/errands.test.mjs's *the popup's facts are ... small*
 ("12451 bytes"), which fails the same at the base b66067ee with none of this branch (integration's own, since the herds merge).
 
-## The mule pulls, at a pace for the weight; and costs 8 — owner-decided 2026-10-03 (not released)
+## The mule pulls, at a pace for the weight; and costs 8 — owner-decided 2026-10-03 (released in v2026.10.03.1)
 
 Branch `mules-2` off local `integration-2026-09-28` (740a87e8, with `mules`); not pushed. Same computer only. The owner answered the
 two questions of the section below: (1) should a mule pull? *"yes, but speed should adjust if it's too heavy. mules would be perfect
@@ -232,7 +236,7 @@ for the carreta right though?"*; (2) its price: *"8"*. Recorded in docs/TOWNS.md
   tests, 2097 pass, 0 fail, 36 skipped** (the art plan and stand-in tests among them). Claims renumbered at the coordinator's word:
   the mule is `FIC-GONZ-1110` (the herds branch has 1130-1135), the pull rule `FIC-GONZ-1111`.
 
-## Join words and playtexas.github.io: "Fewest words, no server" — owner-decided 2026-10-03 (not released)
+## Join words and playtexas.github.io: "Fewest words, no server" — owner-decided 2026-10-03 (released in v2026.10.03.1)
 
 Branch `join-words` off local `integration-2026-09-28` (9d34d767); not pushed, nothing published. Same computer only: headless
 Chrome on this computer's own classroom address; no Chromebook, school network or GitHub Pages. Recorded in docs/HOST_PAGE.md §2.17,
@@ -279,7 +283,7 @@ test:code-address (6), test:join-card (8), test:creation (15), test:late-join (9
 *nothing in server/ imports public/* - this branch's, fixed by moving the module to sim/ - and tests/battle-floor.test.mjs's floor
 timing under load, which passed alone and in the final run.)
 
-## The herder, the herd on the land, and the herd that pays — owner-decided 2026-10-03 (not released)
+## The herder, the herd on the land, and the herd that pays — owner-decided 2026-10-03 (released in v2026.10.03.1)
 
 Branch `herds` off local `integration-2026-09-28` (9d34d767); not pushed. Same computer only: headless Chrome; no Chromebook, LAN or
 classroom claim. Claims `FIC-GONZ-1130` to `-1135`, `HIST-TEX-1130`, `-1131`; docs/STOCK.md §10 (the whole design), MONEY_AND_GLORY.md
@@ -328,7 +332,7 @@ the families nobody plays (ride the range only, never sell / keep a herder and s
 
 **The owner's answers (2026-10-03):** the herd at the end is sold with an intact farm (as built); a hand with stock is set at the start and learned by tending (as built); cattle are worked by anyone 12 and up (as built); a beef gives its meat and its hide, no tallow (as built); families nobody plays only ride the range (as built); and **a cattle drive to Natchitoches at twice the Texas price is to be built later, as its own journey** - a next task.
 
-## A mule at the stock pens, and riders in every vehicle requested — owner-decided 2026-10-03 (not released)
+## A mule at the stock pens, and riders in every vehicle requested — owner-decided 2026-10-03 (released in v2026.10.03.1)
 
 Branch `mules` off local `integration-2026-09-28` (9d34d767); not pushed. Same computer only: headless Chrome; no Chromebook, LAN or
 classroom claim. Kept clear of the `herds` branch's herd economics: a mule is no part of the herd (docs/STOCK.md §7). The owner,
@@ -375,7 +379,7 @@ they can ride. we should also add the ability to buy a mule in town. mules were 
 
 **At the merge with `herds` (2026-10-03):** the herd builder took `FIC-GONZ-1130` in parallel, so the mule claim is renumbered `FIC-GONZ-1110` (beside `HIST-TEX-1110`).
 
-## The owner's answers on paths and the yard: "Auto kids; fell trees" — owner-decided 2026-10-03 (not released)
+## The owner's answers on paths and the yard: "Auto kids; fell trees" — owner-decided 2026-10-03 (released in v2026.10.03.1)
 
 Branch `land-paths-2` off local `integration-2026-09-28`; not pushed. Same computer only: headless Chrome; no Chromebook, LAN or
 classroom claim. Renumbered at the land-paths merge (the shelter builder had the numbers first): claims `FIC-GONZ-1100` to `-1104`,
@@ -406,7 +410,7 @@ branch as cut: 2117 tests, 2077 pass, 3 fail - the art plan's heading test (`B16
 put right by 0348bfbb, onto which this branch is rebased) and two under the load of the whole suite (the save retry, the thirty-household
 capacity) with the battle floor's timing, each green alone: run again on the rebased branch, those three files, the art plan's and land-paths' are 25 tests, 25 pass.
 
-## The owner's four shelter answers; the tent up on arrival — owner-decided 2026-10-03 (not released)
+## The owner's four shelter answers; the tent up on arrival — owner-decided 2026-10-03 (released in v2026.10.03.1)
 
 Branch `shelter-2` off local `integration-2026-09-28` (96462b66, with shelter, land-paths, hunt-aim, milking-fix and Astra's art);
 not pushed. Same computer only. The owner answered the four questions of *The first house quicker, the tent, and going in out of the
@@ -474,7 +478,7 @@ Neill now has a dedicated 4×4 transparent atlas in `scripts/art-deliveries/famo
 
 Karnes now has his own 4×4 foot atlas and 2×2 mounted companion in `scripts/art-deliveries/famous-karnes.mjs`, with directional travel, musket, field gestures, and a two-frame iron crowbar cycle. `PERSON_ART.karnes` binds the sprites. During the Béxar door phase, the named Karnes performs the crowbar action; the duplicate generic worker is suppressed, and he returns to idle when that door opens. This changes presentation only, preserving the dated breach, York’s company, and the townspeople. Source/provenance and the complete sprite/clip inventory are in `docs/art-prompts.json`, `docs/art-provenance.json`, and `docs/ART_MANIFEST.md`. The outfit and horse are artistic interpretations, not portrait claims. A generic reusable crowbar worker and additional facings remain in `docs/ART_REQUESTS.md`.
 
-## The family figures' missing poses: test:hunt fixed, the art requested — 2026-10-03 (not released)
+## The family figures' missing poses: test:hunt fixed, the art requested — 2026-10-03 (released in v2026.10.03.1)
 
 Branch `astra-poses` off local `integration-2026-09-28` (0348bfbb, with astra-merge); not pushed. Same computer only. The owner's
 answer to astra-merge's question (2026-10-03): a child at a chore with no child pose is **Astra's child standing**, as built.
@@ -499,7 +503,7 @@ answer to astra-merge's question (2026-10-03): a child at a chore with no child 
   tests/astra-art-wins.test.mjs, tests/avatar-identity.test.mjs 24 of 24; `npm test` **2117 tests, 2081 pass, 0 fail, 36 skipped**.
 
 
-## Astra's family art and fifteen famous sheets merged into integration — 2026-10-02 (not released)
+## Astra's family art and fifteen famous sheets merged into integration — 2026-10-02 (released in v2026.10.03.1)
 
 Branch `astra-merge` off local `integration-2026-09-28` (c88a6ddb = origin/main), merging Astra's `main` at 63dcc3b2; not pushed.
 Same computer only. The merge base was 803109d9 (Moore), so it brought **fifteen** of her commits, not one: Austin, Urrea, Seguín's
@@ -569,7 +573,7 @@ sits under the town scene; nothing in this merge touches the bar or the town sce
 **Owner question**: a child at a chore her art has no pose for (the hens, the eggs, the milking) - (a) **her own young figure,
 standing, as Astra's rule says (as built, recommended)**; (b) her grown figure at the work, drawn at a child's size, as before.
 
-## Paths, nobody walking over a tree, and the fenced yard — owner-decided 2026-10-02 (not released)
+## Paths, nobody walking over a tree, and the fenced yard — owner-decided 2026-10-02 (released in v2026.10.03.1)
 
 Branch `land-paths` off local `integration-2026-09-28` (c88a6ddb); not pushed. Same computer only: headless Chrome at 1366x768; no
 Chromebook, LAN or classroom claim. The owner, verbatim: *"it's weird seeing characters walk over trees. paths should be cut to
@@ -659,7 +663,7 @@ families of one class, measured on this machine; the page reads only the tree ti
 
 **At the merge (2026-10-03):** the shelter branch had taken `FIC-GONZ-1090` to `-1093`, docs/CHILDREN.md §13 and docs/WOODS_AND_BUILDING.md §6.11 in parallel, so this work is renumbered `FIC-GONZ-1100` to `-1104`, CHILDREN §14 and WOODS §6.12.
 
-## The first house quicker, the tent, and going in out of the weather — owner-decided 2026-10-02 (not released)
+## The first house quicker, the tent, and going in out of the weather — owner-decided 2026-10-02 (released in v2026.10.03.1)
 
 Branch `shelter` off local `integration-2026-09-28` (c88a6ddb = origin/main); not pushed. Same computer only. The owner, verbatim:
 *"it takes too long to build the house at the start of the game. also, families should put up tents to get out of the rain if their
@@ -748,7 +752,7 @@ old saves, which read as no tent and nobody in. **No save version moved.** `shel
 **Answered by the owner 2026-10-03** (docs/SETTLING_IN.md §4c): 1 A, 2 A, 3 A, and 4 **B, "Automatic on arrival"** - built on
 `shelter-2` (above).
 
-## The shot aimed by the student: a sighting, and a first-person field — owner-decided 2026-10-02 (not released)
+## The shot aimed by the student: a sighting, and a first-person field — owner-decided 2026-10-02 (released in v2026.10.03.1)
 
 Branch `hunt-aim` off local `integration-2026-09-28` (c88a6ddb); not pushed. Same computer only. The owner, verbatim: *"when a character
 goes hunting, when they see an animal the player should see an alert. if players click on it in time, then a first person mini game
@@ -809,7 +813,7 @@ starts where they have to aim and hit the moving animal. if they miss, the anima
    the hunter alone would miss, and sooner than waiting for it to come closer; (B) a clean hit brings more (the whole of the meat, or a
    hide worth more at the tanner); (C) a hit in the field counts toward the hunter's hand, like an afternoon at the mark, to the same cap.
 
-## Milking fix: not a goal away from home — 2026-10-02 (not released)
+## Milking fix: not a goal away from home — 2026-10-02 (released in v2026.10.03.1)
 
 Branch `milking-fix` off local `integration-2026-09-28` (0649f922, with milking c88a6ddb); not pushed. Same computer only.
 
@@ -831,7 +835,7 @@ Branch `milking-fix` off local `integration-2026-09-28` (0649f922, with milking 
 - Runs: `test:overlap` twice (197 screens, 0 faults), `test:auto` twice (14), `test:children` 16, `test:field-click` 18, `npm test`
   **2072 tests, 2036 pass, 0 fail, 36 skipped**.
 
-## Milking the cow, and the owner's four food answers — owner-decided 2026-10-02 (not released)
+## Milking the cow, and the owner's four food answers — owner-decided 2026-10-02 (released in v2026.10.03.1)
 
 Branch `milking` off local `integration-2026-09-28` (ba1ece77, with food-sources, tier3-road, tier3-sick and carry-kids); not pushed.
 Same computer only. The owner answered the four questions of *Food only from real sources* (below), all **owner-decided 2026-10-02**
@@ -896,7 +900,7 @@ youngest free person of seven or more sent to the cow every day it can be):
 - `npm test`: **2059 tests, 2023 pass, 0 fail, 36 skipped**. Browser: `test:hunger` 8, `test:children` 16 (the road's bar has
   `milk-road`), `test:auto` 14, `test:field-click` 18 (the greyed milking among the bar's goals at 1024x600, two rows of 16) - all green.
 
-## Adults carry small kids — owner-decided 2026-10-02 (not released)
+## Adults carry small kids — owner-decided 2026-10-02 (released in v2026.10.03.1)
 
 Branch `carry-kids` off local `integration-2026-09-28` (0d605b0b, with tier3-road and tier3-sick); not pushed. The owner's answer to
 tier3-road's question: **"Adults carry small kids"**. docs/SCRAPE.md (the chase's section), `FIC-GONZ-1061`. Same computer only.
@@ -936,7 +940,7 @@ tier3-road's question: **"Adults carry small kids"**. docs/SCRAPE.md (the chase'
   now with enough small children that one walks).
 - `npm test`: **2043 tests, 2007 pass, 0 fail, 36 skipped** (the suspended tutorial).
 - Browser proofs, each alone: `test:road` (316 s), `test:scrape-pursuit` (68 s), `test:wagons` (15 s), `test:riding` (120 s): all green.
-## Food only from real sources, one haul a day, and seed kept at the harvest — owner, 2026-10-02 (not released)
+## Food only from real sources, one haul a day, and seed kept at the harvest — owner, 2026-10-02 (released in v2026.10.03.1)
 
 Branch `food-sources` off `integration-2026-09-28` (894e3358 = origin/main); not pushed. The owner, playing v2026.10.02.1: *"Food
 generation is broken by the way. I was playing and generated hundreds of food just by having some adults working around the house on
@@ -1002,7 +1006,7 @@ pass, 0 fail, 36 skipped**. Browser: `test:hunger` 8 (the food works glow from l
 4. *One haul a day*: (a) a person a day, as built - two of a family may each fish; (b) a family a day for each work (a creek gives the
    family one mess, whoever goes).
 
-## Tier 3, the sick and the wounded: 3.8, 3.9, 3.13-3.16 — 2026-10-02 (not released)
+## Tier 3, the sick and the wounded: 3.8, 3.9, 3.13-3.16 — 2026-10-02 (released in v2026.10.03.1)
 
 The sickness and wound rows of docs/audits/2026-09-29-triage.md Tier 3, the owner's "yes, start them". Branch `tier3-sick` off local
 `integration-2026-09-28` (4c38be85 = origin/main); not pushed. Each row re-checked against today's code first: all six still
@@ -1056,7 +1060,7 @@ a hundred** (recommended: the owner's "about three", and babies carried by a fam
 - Not built: nursing the wounded on the road (`tend-sick` is sim/road.mjs, the road builder's), and automatic families nursing
   their wounded at home (sim/neighbours.mjs still nurses only the sick). The doctor comes only to the house, not to a refuge.
 
-## Tier 3 of the triage, the road and the chase (not released) — 2026-10-02
+## Tier 3 of the triage, the road and the chase (released in v2026.10.03.1) — 2026-10-02
 
 Branch `tier3-road` off local `integration-2026-09-28` (4c38be85 = origin/main); not pushed. The owner said "yes, start them" for
 eight rows of docs/audits/2026-09-29-triage.md Tier 3 and one "found while checking"; each was run again against today's code
