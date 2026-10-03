@@ -1,0 +1,8 @@
+## Live-oak motts — delivered 2026-10-03
+
+Four transparent sprites supply a dense five-tree grove and an open three-tree grove, each with two foliage poses. `live-oak-mott-dense-wind` and `live-oak-mott-open-wind` are authored 1800ms-per-pose loops. Agua Dulce selects dense for its existing east grove and open for its existing west grove. The geographic spread controls visual scale; no placement, concealment, collision, battle timing or historical outcome changes. Other groves retain the existing rendering. Missing atlas/clip uses the old individual-tree fallback.
+
+These are original interpretive clusters, not surveyed locations or a botanical reconstruction. Fine trunk/leaf registration remains polish; the two-pose loop is restrained ambient motion rather than a complete wind rig. The composite is drawn as background scenery beneath actors; it does not supply a canopy-occlusion system. Do not use it to hide actors the server says are visible. Ground shade is baked within the sprite silhouette. Existing reconstruction boundaries for the positions of Agua Dulce's two groves remain applicable.
+
+Source PNG is copied unchanged. Exact prompt, source/reference paths, four frame IDs and two clips are recorded in scripts/art-deliveries/live-oak-mott-2026-10-03.mjs and the prompt/provenance files. Full manifest regenerated. Alpha audit: 38.2% clear alpha, zero overlap trimming, every measured object retained. Browser proof scripts/live-oak-mott-art-proof.mjs verifies both clips render and change pixels, with zero browser errors. Evidence is docs/evidence/live-oak-mott-art.png/.json. All ten tests in tests/live-oak-mott-art.test.mjs and tests/battle-view.test.mjs passed, including both live scene bindings and the unavailable-art fallback.
+

@@ -80,19 +80,15 @@ function campfireNight(frame) {
   return { svg: frameDoc(name, W, H, `a campfire burning at night, its light on the ground round it, frame ${frame + 1} of 3`, parts.join(''), MODULE), anchorX: 0.5, anchorY: +(gy / H).toFixed(4), logicalHeight: 140 };
 }
 
+// Retired 2026-10-03 when Astra's own art of the same names was merged (Astra's art wins): the campfire at night (`campfire-night`).
 export const SHEETS = {
   'claude-smoke-rise': { cell: { w: TOWN.w, h: TOWN.h }, columns: 8, request: ADVANCE, replaceWith: 'item 2: a looping 6-8 frame clip, readable at 30-160 px, anchored at the foot of the column',
     frames: [['farm', FARM], ['town', TOWN]].flatMap(([kind, spec]) => [...Array(8).keys()].map(f => ({ name: `${kind}-smoke-rise-${f + 1}`, height: kind === 'town' ? 4.4 : 3, compare: [['chimney-smoke', 1.2], ['smoke-column-far-2', 3]],
       prompt: `A ${kind === 'town' ? 'town' : 'farm'} burning twenty miles off, seen only as its smoke: ${kind === 'town' ? 'three broad dark columns merging' : 'one tall dark column'} leaning with the wind to the right, billowing and paling as it rises and thinning at the top, over a low orange glow at its foot - never the fire itself or what is burning (VISION.md §16). Frame ${f + 1} of 8, the billows rising through the column so the loop runs on. Outlined billows lit to the upper left, as Astra's smoke; transparent ground.`,
       draw: () => smokeFrame({ ...(kind === 'town' ? TOWN : FARM), w: TOWN.w, h: TOWN.h, gy: TOWN.h - 12, ox: (kind === 'town' ? TOWN : FARM).ox + (kind === 'town' ? 0 : 60) }, kind, f) }))) },
-  'claude-campfire-night': { cell: { w: 200, h: 170 }, columns: 3, request: SOUTH, replaceWith: 'item 2: a campfire burning at night, 2-4 frames, the light round it reading through the dark',
-    frames: [0, 1, 2].map(f => ({ name: `campfire-night-${f + 1}`, height: 0.9, compare: [['campfire', 0.9]],
-      prompt: `A campfire burning at night (San Patricio's camp, a moonless rain night): a ring of stones, three logs crossed and glowing at their ends, tall bright flames in three tongues with a yellow core, sparks going up, and a warm pool of firelight on the ground round it that reads through the dark wash over the field - light, not shadow. Frame ${f + 1} of 3 of the flicker. In the manner of Astra's campfire; transparent ground, no text.`,
-      draw: () => campfireNight(f) })) },
 };
 
 export const CLIPS = {
   'farm-smoke-rise': { frames: [1, 2, 3, 4, 5, 6, 7, 8].map(n => ({ sprite: `farm-smoke-rise-${n}`, duration: 260 })), loop: true, motion: 'none', direction: 'not applicable', prompt: 'The smoke of a burning farm seen from afar, rising and leaning with the wind over a low glow, looping.' },
   'town-smoke-rise': { frames: [1, 2, 3, 4, 5, 6, 7, 8].map(n => ({ sprite: `town-smoke-rise-${n}`, duration: 280 })), loop: true, motion: 'none', direction: 'not applicable', prompt: 'The smoke of a burning town seen from afar: three broad columns merging, rising and leaning with the wind, looping.' },
-  'campfire-night': { frames: [1, 2, 3, 2].map(n => ({ sprite: `campfire-night-${n}`, duration: 150 })), loop: true, motion: 'none', direction: 'not applicable', prompt: 'A campfire burning at night, its flames flickering and its light on the ground, looping.' },
 };

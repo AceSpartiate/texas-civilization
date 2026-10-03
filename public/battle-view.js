@@ -21,6 +21,7 @@ import { drawSpeech, speechAlpha } from './speech.js';
 import { CLAUDE_PERSON_ART } from './claude-person-art.js';
 // San Fernando's place in the town the map draws, for the red flag on its tower (`drawFlag`).
 import { BEXAR_LAYOUT, bexarToSite } from './bexar-layout.js';
+const NIGHT_BUILDING_CLIPS = Object.freeze({ 'adobe-flat': 'adobe-night-lit', 'house-jacal': 'jacal-night-lit', 'jacal-poor': 'jacal-night-lit', 'cabin-small': 'cabin-night-lit' });
 
 /** Miles between figures, by style. A person is drawn 0.019 miles tall (sim/house-footprint.mjs `PERSON_MILES`). */
 const LAYOUT = Object.freeze({
@@ -120,22 +121,29 @@ const clamp01 = value => Math.max(0, Math.min(1, value));
  * regular (public/battle-view.js `drawPerson`; stand-ins listed in docs/ART_REQUESTS.md, request 2026-09-26).
  */
 export const PERSON_ART = Object.freeze({
+  ...Object.fromEntries(['jw-smith', 'horton', 'kimbell', 'martin'].map(id => [id, {
+    stand: `${id}-idle`, command: `${id}-parley`, point: `${id}-point`, speak: `${id}-parley`, listen: `${id}-listen`, write: `${id}-read`, seated: `${id}-rest`, walk: `${id}-walk-e`, ride: `clip:${id}-mounted-walk-e`, rideIdle: `${id}-mounted-idle-e`, rideNorth: `clip:${id}-mounted-walk-n`, rideSouth: `clip:${id}-mounted-walk-s`,
+  }])),
+  smither: { stand: 'smither-idle', command: 'smither-stop', point: 'smither-dispatch', speak: 'smither-speak', listen: 'smither-listen', write: 'smither-read', seated: 'smither-rest', walk: 'smither-walk-e', ride: 'clip:smither-mounted-walk-e', rideIdle: 'smither-mounted-idle-e', rideNorth: 'clip:smither-mounted-walk-n', rideSouth: 'clip:smither-mounted-walk-s' },
+  'wp-smith': { stand: 'wp-smith-idle', command: 'clip:wp-smith-address', point: 'wp-smith-point', speak: 'wp-smith-exhort', listen: 'wp-smith-listen', write: 'wp-smith-read', seated: 'wp-smith-rest', walk: 'wp-smith-walk-e' },
+  barragan: { stand: 'barragan-idle', command: 'clip:barragan-intervene', point: 'barragan-point', speak: 'barragan-speak', listen: 'barragan-listen', seated: 'barragan-rest', walk: 'barragan-walk-e' },
+  'sanchez-navarro': { stand: 'sanchez-navarro-idle', command: 'sanchez-navarro-point', point: 'sanchez-navarro-point', write: 'sanchez-navarro-read', speak: 'sanchez-navarro-parley', listen: 'sanchez-navarro-listen', seated: 'sanchez-navarro-rest', walk: 'sanchez-navarro-walk-e' },
   condelle: { stand: 'condelle-idle', command: 'clip:condelle-command', point: 'condelle-point', write: 'condelle-read-map', speak: 'condelle-speak', listen: 'condelle-listen', seated: 'condelle-rest', walk: 'condelle-walk-e' },
-  travis: { stand: 'travis-idle', command: 'travis-command', write: 'travis-write', point: 'travis-command', fire: ['travis-aim', 'travis-fire', 'travis-ready'], wounded: 'travis-wounded-kneel', still: 'travis-still-ramp', walk: 'travis-walk-e' },
-  bowie: { stand: 'bowie-idle', command: 'bowie-command', sick: 'bowie-sick-bed', 'still-bed': 'bowie-still-bed', seated: 'bowie-sick-seated', walk: 'bowie-walk-e' },
-  crockett: { stand: 'crockett-idle', command: 'crockett-command', fire: ['crockett-aim', 'crockett-fire', 'crockett-reload'], seated: 'crockett-rest-seated', captive: 'clip:crockett-captive', still: 'crockett-still-side', walk: 'crockett-walk-e' },
+  travis: { speak: 'clip:travis-conversation-cycle', stand: 'travis-idle', command: 'clip:travis-command-cycle', write: 'travis-write', point: 'travis-command', fire: ['travis-aim', 'travis-fire', 'travis-ready'], wounded: 'travis-wounded-kneel', still: 'travis-still-ramp', walk: 'travis-walk-e', walkNorth: 'travis-foot-walk-n-v2', walkSouth: 'travis-foot-walk-s-v2' },
+  bowie: { stand: 'bowie-idle', command: 'clip:bowie-story-command', sick: 'clip:bowie-story-sick', 'still-bed': 'bowie-still-bed', seated: 'bowie-sick-seated', walk: 'bowie-walk-e', walkNorth: 'bowie-foot-walk-n-v2', walkSouth: 'bowie-foot-walk-s-v2' },
+  crockett: { stand: 'crockett-idle', command: 'clip:crockett-story-command', fire: ['crockett-aim', 'crockett-fire', 'crockett-reload'], seated: 'clip:crockett-story-rest', captive: 'clip:crockett-captive', still: 'crockett-still-side', walk: 'crockett-walk-e', walkNorth: 'crockett-foot-walk-n-v2', walkSouth: 'crockett-foot-walk-s-v2' },
   joe: { stand: 'clip:joe-idle', hide: 'clip:joe-hide', fireHidden: 'joe-fire-door', emerge: 'clip:joe-emerge', seated: 'clip:joe-rest', wounded: 'joe-hurt-e', walk: 'joe-walk' },
   seguin: { stand: 'seguin-idle', command: 'seguin-command', ride: 'clip:seguin-mounted-walk-e', rideNorth: 'clip:seguin-mounted-walk-n', rideSouth: 'clip:seguin-mounted-walk-s', rideIdle: 'seguin-mounted-e', walk: 'seguin-walk-e' },
-  'susanna-dickinson': { stand: 'susanna-dickinson-hold-angelina', carry: 'susanna-dickinson-carry-angelina', sick: 'susanna-dickinson-shelter-with-angelina', seated: 'susanna-dickinson-rest-with-angelina', walk: 'susanna-dickinson-walk-e' },
+  'susanna-dickinson': { stand: 'clip:susanna-child-hold', carry: 'susanna-dickinson-carry-angelina', sick: 'susanna-dickinson-shelter-with-angelina', seated: 'susanna-dickinson-rest-with-angelina', walk: 'susanna-child-walk-e', walkNorth: 'susanna-child-walk-n', walkSouth: 'susanna-child-walk-s' },
   'angelina-dickinson': { stand: 'angelina-dickinson-sit', seated: 'angelina-dickinson-sleep' },
-  ben: { stand: 'ben-idle', seated: 'ben-rest', carry: 'ben-pot-carry', speak: 'ben-speak', walk: 'ben-walk-e' },
-  milam: { stand: 'milam-idle', command: 'milam-rally', point: 'milam-point', fire: ['milam-cover', 'milam-advance', 'milam-cover'], still: 'milam-still', walk: 'milam-walk-e' },
-  fannin: { stand: 'fannin-idle', command: 'fannin-command', wounded: 'fannin-injured-seated', surrender: 'fannin-surrender', prisoner: 'fannin-prisoner-seated', walk: 'fannin-walk-e' },
+  ben: { stand: 'ben-idle', seated: 'ben-rest', carry: 'clip:ben-story-pot-walk', speak: 'clip:ben-story-conversation', walk: 'ben-walk-e', walkNorth: 'ben-foot-walk-n-v2', walkSouth: 'ben-foot-walk-s-v2' },
+  milam: { stand: 'milam-idle', command: 'clip:milam-story-rally', point: 'clip:milam-story-point', fire: ['milam-cover', 'milam-advance', 'milam-cover'], still: 'milam-still', walk: 'milam-walk-e', walkNorth: 'milam-foot-walk-n-v2', walkSouth: 'milam-foot-walk-s-v2' },
+  fannin: { stand: 'fannin-idle', command: 'clip:fannin-story-command', wounded: 'fannin-injured-seated', surrender: 'clip:fannin-story-surrender', prisoner: 'fannin-prisoner-seated', walk: 'fannin-walk-e', walkNorth: 'fannin-foot-walk-n-v2', walkSouth: 'fannin-foot-walk-s-v2' },
   bonham: { stand: 'bonham-idle', command: 'bonham-point', point: 'bonham-point', gun: 'bonham-serve-gun', fire: ['bonham-aim', 'bonham-fire', 'bonham-reload'], still: 'bonham-still', walk: 'bonham-walk-e' },
-  'almeron-dickinson': { stand: 'almeron-dickinson-idle', command: 'almeron-dickinson-command', gun: 'almeron-dickinson-serve-gun', carry: 'almeron-dickinson-shot-carry', fire: ['almeron-dickinson-ram', 'almeron-dickinson-fire', 'almeron-dickinson-ram'], still: 'almeron-dickinson-still', walk: 'almeron-dickinson-walk-e' },
-  esparza: { stand: 'esparza-idle', command: 'esparza-point', point: 'esparza-point', gun: 'esparza-serve-gun', carry: 'esparza-shot-carry', fire: ['esparza-aim', 'esparza-fire', 'esparza-aim'], still: 'esparza-still', walk: 'esparza-walk-e' },
-  houston: { stand: 'houston-idle', command: 'houston-command', wounded: 'houston-injured-seated', ride: 'clip:houston-mounted-walk-e', rideIdle: 'houston-mounted-idle-e', walk: 'houston-walk-e' },
-  'santa-anna': { stand: 'santa-anna-idle', command: 'santa-anna-command', prisoner: 'santa-anna-disguised-seated', ride: 'clip:santa-anna-mounted-walk-e', rideIdle: 'santa-anna-mounted-idle-e', walk: 'santa-anna-walk-e' },
+  'almeron-dickinson': { stand: 'almeron-dickinson-idle', command: 'almeron-dickinson-command', gun: 'clip:almeron-dickinson-story-ram', carry: 'clip:almeron-dickinson-story-shot-carry', fire: ['almeron-dickinson-ram', 'almeron-dickinson-fire', 'almeron-dickinson-ram'], still: 'almeron-dickinson-still', walk: 'almeron-dickinson-walk-e' },
+  esparza: { stand: 'esparza-idle', command: 'esparza-point', point: 'esparza-point', gun: 'clip:esparza-story-ram', carry: 'clip:esparza-story-shot-carry', fire: ['esparza-aim', 'esparza-fire', 'esparza-aim'], still: 'esparza-still', walk: 'esparza-walk-e' },
+  houston: { speak: 'clip:houston-conversation-cycle', stand: 'houston-idle', command: 'clip:houston-command-cycle', wounded: 'houston-injured-seated', ride: 'clip:houston-mounted-walk-e', rideIdle: 'houston-mounted-idle-e', rideNorth: 'clip:houston-mounted-walk-n', rideSouth: 'clip:houston-mounted-walk-s', walk: 'houston-walk-e' },
+  'santa-anna': { speak: 'clip:santa-anna-conversation-cycle', stand: 'santa-anna-idle', command: 'clip:santa-anna-command-cycle', prisoner: 'santa-anna-disguised-seated', ride: 'clip:santa-anna-mounted-walk-e', rideIdle: 'santa-anna-mounted-idle-e', rideNorth: 'clip:santa-anna-mounted-walk-n', rideSouth: 'clip:santa-anna-mounted-walk-s', walk: 'santa-anna-walk-e' },
   'emily-west': { stand: 'emily-west-idle', carry: 'emily-west-carry-bundle', seated: 'emily-west-sit-converse', walk: 'emily-west-walk-e' },
   // stand-in: docs/ART_REQUESTS.md, request 2026-09-26 "the Esparza family" - Ana Esparza is the library's second-cast woman
   // (`indigo`), María de Jesús its girl, Enrique its boy (fair-haired: the request asks for a Tejano boy of eight), Manuel and
@@ -146,24 +154,24 @@ export const PERSON_ART = Object.freeze({
   boy: { stand: 'clip:boy-idle-e', seated: 'clip:boy-rest', sick: 'clip:boy-rest', walk: 'boy-walk' },
   'small-child': { stand: 'clip:smallchild-idle-e', seated: 'clip:smallchild-rest', sick: 'clip:smallchild-rest', walk: 'smallchild-walk' },
   townsman: { stand: 'clip:rust-idle-e', walk: 'rust-walk', carry: 'clip:rust-walk' },
-  castrillon: { stand: 'castrillon-idle', command: 'castrillon-command', walk: 'castrillon-walk-e', fall: 'castrillon-fall', still: 'castrillon-still' },
-  almonte: { stand: 'almonte-idle', command: 'almonte-command', surrender: 'almonte-surrender', 'offer-sword': 'almonte-offer-sword', prisoner: 'almonte-prisoner', interpret: 'almonte-interpret', write: 'almonte-journal', walk: 'almonte-walk-e' },
-  burleson: { stand: 'burleson-idle', command: 'burleson-command', point: 'burleson-point', listen: 'burleson-listen', 'receive-sword': 'burleson-receive-sword', 'sword-down': 'burleson-sword-down', seated: 'burleson-rest', ride: 'clip:burleson-mounted-walk-e', rideIdle: 'burleson-mounted-idle-e', walk: 'burleson-walk-e' },
-  cos: { stand: 'cos-idle', command: 'cos-command', point: 'cos-point', write: 'cos-sign-terms', surrender: 'cos-sword-down', prisoner: 'cos-prisoner', ride: 'clip:cos-mounted-walk-e', rideIdle: 'cos-mounted-idle-e', walk: 'cos-walk-e' },
-  castaneda: { stand: 'castaneda-idle', command: 'castaneda-halt', speak: 'castaneda-parley', listen: 'castaneda-listen', point: 'castaneda-withdraw', ride: 'clip:castaneda-mounted-walk-e', rideIdle: 'castaneda-mounted-idle-e', walk: 'castaneda-walk-e' },
-  moore: { stand: 'moore-idle', command: 'moore-command', point: 'moore-point', speak: 'moore-parley', listen: 'moore-listen', walk: 'moore-walk-e' },
-  austin: { stand: 'austin-idle', command: 'austin-command', point: 'austin-point', speak: 'austin-speak', write: 'austin-write', walk: 'austin-walk-e' },
-  urrea: { stand: 'urrea-idle', command: 'urrea-command', point: 'urrea-point', speak: 'urrea-address', ride: 'clip:urrea-mounted-walk-e', rideIdle: 'urrea-mounted-idle-e', walk: 'urrea-walk-e' },
-  'deaf-smith': { stand: 'deaf-smith-idle', report: 'deaf-smith-report', point: 'deaf-smith-point', wounded: 'deaf-smith-wounded-seated', ride: 'clip:deaf-smith-mounted-walk-e', rideIdle: 'deaf-smith-mounted-idle-e', walk: 'deaf-smith-walk-e' },
-  karnes: { stand: 'karnes-idle', command: 'karnes-command', point: 'karnes-command', listen: 'karnes-listen', work: 'clip:karnes-crowbar-work', fire: ['karnes-aim', 'karnes-fire', 'karnes-aim'], ride: 'clip:karnes-mounted-walk-e', rideIdle: 'karnes-mounted-idle-e', walk: 'karnes-walk-e' },
-  neill: { stand: 'neill-idle', command: 'neill-command', point: 'neill-command', gun: 'clip:neill-gun-service', wounded: 'neill-wounded-seated', walk: 'neill-walk-e' },
-  lamar: { stand: 'lamar-idle', command: 'lamar-command', point: 'lamar-command', salute: 'lamar-salute', ride: 'clip:lamar-mounted-walk-e', rideIdle: 'lamar-mounted-idle-e', rideRescue: 'lamar-mounted-rescue-e', walk: 'lamar-walk-e' },
-  sherman: { stand: 'sherman-idle', command: 'sherman-command', point: 'sherman-point', rally: 'sherman-rally', ride: 'clip:sherman-mounted-walk-e', rideIdle: 'sherman-mounted-idle-e', rideRally: 'sherman-mounted-rally-e', walk: 'sherman-walk-e' },
-  rusk: { stand: 'rusk-idle', command: 'rusk-command', point: 'rusk-command', stop: 'clip:rusk-stop', write: 'rusk-write', ride: 'clip:rusk-mounted-walk-e', rideIdle: 'rusk-mounted-idle-e', walk: 'rusk-walk-e' },
-  hockley: { stand: 'hockley-idle', command: 'hockley-point', point: 'hockley-point', gun: 'clip:hockley-battery-command', walk: 'hockley-walk-e' },
+  castrillon: { stand: 'castrillon-idle', command: 'castrillon-command', 'crate-command': 'clip:castrillon-crate-command', walk: 'castrillon-walk-e', walkNorth: 'castrillon-walk-n', walkSouth: 'castrillon-walk-s', fall: 'castrillon-fall', still: 'castrillon-still' },
+  almonte: { speak: 'clip:almonte-conversation-cycle', stand: 'almonte-idle', command: 'clip:almonte-command-cycle', surrender: 'almonte-surrender', 'offer-sword': 'almonte-offer-sword', prisoner: 'almonte-prisoner', interpret: 'almonte-interpret', write: 'almonte-journal', walk: 'almonte-walk-e' },
+  burleson: { speak: 'clip:burleson-conversation-cycle', stand: 'burleson-idle', command: 'clip:burleson-command-cycle', point: 'burleson-point', listen: 'burleson-listen', 'receive-sword': 'burleson-receive-sword', 'sword-down': 'burleson-sword-down', seated: 'burleson-rest', ride: 'clip:burleson-mounted-walk-e', rideIdle: 'burleson-mounted-idle-e', rideNorth: 'clip:burleson-mounted-walk-n', rideSouth: 'clip:burleson-mounted-walk-s', walk: 'burleson-walk-e' },
+  cos: { speak: 'clip:cos-conversation-cycle', stand: 'cos-idle', command: 'clip:cos-command-cycle', point: 'cos-point', write: 'cos-sign-terms', surrender: 'cos-sword-down', prisoner: 'cos-prisoner', ride: 'clip:cos-mounted-walk-e', rideIdle: 'cos-mounted-idle-e', rideNorth: 'clip:cos-mounted-walk-n', rideSouth: 'clip:cos-mounted-walk-s', walk: 'cos-walk-e' },
+  castaneda: { stand: 'castaneda-idle', command: 'clip:castaneda-command-cycle', speak: 'clip:castaneda-conversation-cycle', listen: 'castaneda-listen', point: 'castaneda-withdraw', ride: 'clip:castaneda-mounted-walk-e', rideIdle: 'castaneda-mounted-idle-e', rideNorth: 'clip:castaneda-mounted-walk-n', rideSouth: 'clip:castaneda-mounted-walk-s', walk: 'castaneda-walk-e' },
+  moore: { stand: 'moore-idle', command: 'clip:moore-command-cycle', point: 'moore-point', speak: 'clip:moore-conversation-cycle', listen: 'moore-listen', walk: 'moore-walk-e' },
+  austin: { stand: 'austin-idle', command: 'clip:austin-command-cycle', point: 'austin-point', speak: 'clip:austin-conversation-cycle', write: 'austin-write', walk: 'austin-walk-e' },
+  urrea: { stand: 'urrea-idle', command: 'clip:urrea-command-cycle', point: 'urrea-point', speak: 'clip:urrea-conversation-cycle', ride: 'clip:urrea-mounted-walk-e', rideIdle: 'urrea-mounted-idle-e', rideNorth: 'clip:urrea-mounted-walk-n', rideSouth: 'clip:urrea-mounted-walk-s', walk: 'urrea-walk-e' },
+  'deaf-smith': { stand: 'deaf-smith-idle', report: 'deaf-smith-report', point: 'deaf-smith-point', wounded: 'deaf-smith-wounded-seated', ride: 'clip:deaf-smith-mounted-walk-e', rideIdle: 'deaf-smith-mounted-idle-e', rideNorth: 'clip:deaf-smith-mounted-walk-n', rideSouth: 'clip:deaf-smith-mounted-walk-s', walk: 'deaf-smith-walk-e' },
+  karnes: { stand: 'karnes-idle', speak: 'clip:karnes-field-conversation', command: 'clip:karnes-field-command', point: 'karnes-command', listen: 'karnes-listen', work: 'clip:karnes-crowbar-work', fire: ['karnes-aim', 'karnes-fire', 'karnes-aim'], ride: 'clip:karnes-mounted-walk-e', rideIdle: 'karnes-mounted-idle-e', rideNorth: 'clip:karnes-mounted-walk-n', rideSouth: 'clip:karnes-mounted-walk-s', walk: 'karnes-walk-e' },
+  neill: { stand: 'neill-idle', speak: 'clip:neill-field-conversation', command: 'clip:neill-field-command', point: 'neill-command', gun: 'clip:neill-gun-service', wounded: 'neill-wounded-seated', walk: 'neill-walk-e' },
+  lamar: { stand: 'lamar-idle', speak: 'clip:lamar-field-conversation', command: 'clip:lamar-field-command', point: 'lamar-command', salute: 'lamar-salute', ride: 'clip:lamar-mounted-walk-e', rideIdle: 'lamar-mounted-idle-e', rideNorth: 'clip:lamar-mounted-walk-n', rideSouth: 'clip:lamar-mounted-walk-s', rideRescue: 'lamar-mounted-rescue-e', walk: 'lamar-walk-e' },
+  sherman: { stand: 'sherman-idle', speak: 'clip:sherman-field-conversation', command: 'clip:sherman-field-command', point: 'sherman-point', rally: 'sherman-rally', ride: 'clip:sherman-mounted-walk-e', rideIdle: 'sherman-mounted-idle-e', rideNorth: 'clip:sherman-mounted-walk-n', rideSouth: 'clip:sherman-mounted-walk-s', rideRally: 'sherman-mounted-rally-e', walk: 'sherman-walk-e' },
+  rusk: { stand: 'rusk-idle', speak: 'clip:rusk-field-conversation', command: 'clip:rusk-field-command', point: 'rusk-command', stop: 'clip:rusk-stop', write: 'rusk-write', ride: 'clip:rusk-mounted-walk-e', rideIdle: 'rusk-mounted-idle-e', rideNorth: 'clip:rusk-mounted-walk-n', rideSouth: 'clip:rusk-mounted-walk-s', walk: 'rusk-walk-e' },
+  hockley: { stand: 'hockley-idle', speak: 'clip:hockley-field-conversation', command: 'clip:hockley-field-command', point: 'hockley-point', gun: 'clip:hockley-battery-command', walk: 'hockley-walk-e' },
   mcculloch: { stand: 'mcculloch-idle', gun: 'clip:mcculloch-gun-service', listen: 'mcculloch-listen', walk: 'mcculloch-walk-e' },
   johnson: { stand: 'johnson-idle', command: 'clip:johnson-command', point: 'johnson-point', escape: 'clip:johnson-escape-e', walk: 'johnson-walk-e' },
-  grant: { stand: 'grant-idle', point: 'grant-point-herd', write: 'grant-read-map', wounded: 'grant-bandaged-seated', ride: 'clip:grant-mounted-walk-e', rideIdle: 'grant-mounted-idle-e', rideGallop: 'grant-mounted-gallop-e', walk: 'grant-walk-e' },
+  grant: { stand: 'grant-idle', point: 'grant-point-herd', write: 'grant-read-map', wounded: 'grant-bandaged-seated', ride: 'clip:grant-mounted-walk-e', rideIdle: 'grant-mounted-idle-e', rideNorth: 'clip:grant-mounted-walk-n', rideSouth: 'clip:grant-mounted-walk-s', rideGallop: 'grant-mounted-gallop-e', walk: 'grant-walk-e' },
 });
 /**
  * A person's poses: Astra's `PERSON_ART` entry, with any pose it lacks filled from Claude's temporary sheets
@@ -656,7 +664,10 @@ export function createBattleView(art) {
         if (offScreen(point)) continue;
         // On a flat roof behind its parapet: drawn standing up on the house, not in the street below it.
         if (side.cover === 'roof') point.y -= figurePx * 0.5;
-        const size = kind === 'dragoon' || kind === 'rider' ? figurePx * 1.35 : figurePx;
+        // Lying in the grass: Coleto's marksmen at night (Astra's prone marksman, 2026-10-03), and any part the battle puts in
+        // the tall grass (`cover: 'grass'`).
+        const prone = kind === 'regular' && (side.cover === 'grass' || (battle.id === 'coleto' && ['dusk', 'night', 'small-hours'].includes(battle.phase) && side.side === 'mexican' && side.style === 'loose'));
+        const size = prone ? figurePx * 0.35 : kind === 'dragoon' || kind === 'rider' ? figurePx * 1.35 : figurePx;
         const seed = seedKey;
         // Which way this man faces: out of his face of a square, or the way his body of men faces.
         const right = slot.out ? (facing.x * slot.out.along - facing.y * slot.out.across) >= 0 : sideRight;
@@ -724,14 +735,15 @@ export function createBattleView(art) {
         }
         // The people of the town, let out of a house the men broke into: women, children and old men walking away unhurt. They
         // never fire and are never drawn falling (sim/battle-stage.mjs `checkEngagement`; `HIST-TEX-043`).
-        // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 6 - the Grass Fight's pack train is a
-        // horse with a pack on its back, until the mules under grass are drawn.
+        // The Grass Fight's existing pack-train projection now uses grass-laden mules.
         if (side.figure === 'packhorse') {
-          // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - Claude's mule under grass
-          // (`mule-packed-grass-walk-*`) where it is loaded, before the horse with a pack.
-          const vertical = Math.abs(facing.y) > Math.abs(facing.x) * 1.2;
-          const mule = vertical ? `mule-packed-grass-walk-${facing.y >= 0 ? 's' : 'n'}` : 'mule-packed-grass-walk-e';
-          figures.push({ y: point.y, kind: 'packhorse', side: side.side, point, size: figurePx * 1.3, clip: moving ? 'horse-walk' : 'horse-graze', flip: !right, seed, mule, muleFlip: vertical ? false : !right, moving });
+          const mule = battle.id === 'grass-fight';
+          const dir = Math.abs(facing.y) > Math.abs(facing.x) * 1.2 ? (facing.y >= 0 ? 's' : 'n') : 'e';
+          figures.push({ y: point.y, kind: 'packhorse', side: side.side, point, size: figurePx * 1.3,
+            clip: mule ? moving ? `mule-packed-grass-walk-${dir}` : null : moving ? 'horse-walk' : 'horse-graze',
+            sprite: mule && !moving ? `mule-packed-grass-idle-${dir}` : null,
+            mule, grassOpened: mule && battle.phase === 'grass' && slot.index % 5 === 0,
+            flip: mule ? dir === 'e' && !right : !right, seed });
           drawnBy[side.key].push(point);
           continue;
         }
@@ -744,7 +756,7 @@ export function createBattleView(art) {
           continue;
         }
         if (side.figure === 'alavez') {
-          figures.push({ y: point.y, kind: 'townsfolk', side: side.side, point, size: figurePx * 0.95, clip: moving ? 'alavez-walk-e' : null, sprite: moving ? null : 'alavez-idle-e', timeMs: time, flip: !right, seed });
+          figures.push({ y: point.y, kind: 'townsfolk', side: side.side, point, size: figurePx * 0.95, clip: moving ? 'alavez-walk-e' : 'alavez-story-beckon', sprite: null, timeMs: time, flip: !right, seed });
           drawnBy[side.key].push(point); civilians++;
           continue;
         }
@@ -797,21 +809,25 @@ export function createBattleView(art) {
           clip = `${kind === 'volunteer' ? 'volunteer' : 'regular'}-surrender`; flip = !right; surrendering++;
         } else if (kind === 'dragoon' || kind === 'rider') {
           // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the Alamo", item 7 - lancers (Ramírez y Sesma's, outside the
-          // Alamo's walls) are drawn as the library's dragoons, without lances, until a lancer set exists.
+          // Alamo's walls) walking or standing are drawn as the library's dragoons, without lances, until a lancer's walk and idle
+          // exist; charging, Astra's `lancer-charge` (2026-10-03).
           clip = kind === 'rider' ? (moving ? 'mounted-courier-e' : 'mounted-courier-listen') : moving ? 'dragoon-march' : right ? 'dragoon-idle-e' : 'dragoon-idle-w';
           flip = kind === 'rider' ? !right : moving ? !right : false;
           // stand-in: docs/ART_REQUESTS.md, "Claude-drawn stand-ins (replace with Astra's)" - where Claude's are loaded: a
-          // Texian horseman is `volunteer-mounted` (request 2026-09-25 "San Jacinto", item 3), Ramírez y Sesma's lancers carry
-          // lances (`lancer-march`, `lancer-idle`, `lancer-charge`), and a dragoon firing from the saddle is `dragoon-fire`.
+          // Texian horseman is `volunteer-mounted` (request 2026-09-25 "San Jacinto", item 3). Ramírez y Sesma's lancers charge in
+          // Astra's `lancer-charge`, and a dragoon firing from the saddle is her `dragoon-fire` (2026-10-03); their walk and idle
+          // are asked for by name and drawn as the dragoon until hers land.
           const lancers = kind === 'dragoon' && /lancer/i.test(`${side.name || ''} ${side.id || ''} ${side.key || ''}`);
           if (kind === 'rider') prefer = { clip: moving ? 'volunteer-mounted' : 'volunteer-mounted-idle', flip: !right };
           else if (lancers) prefer = { clip: side.action === 'charge' ? 'lancer-charge' : moving ? 'lancer-march' : 'lancer-idle', flip: !right };
-          // A dragoon firing his carbine from the saddle: the flash and the smoke from where his hands are, on his own long
-          // wait between shots. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a dragoon firing from the saddle" - the
-          // library has no mounted firing pose, so the rider holds his pose and only the shot is drawn.
+          // A dragoon firing his carbine from the saddle: Astra's `dragoon-fire` (2026-10-03), shoulder, recoil and lower on the
+          // shot's own clock, with the flash and the smoke from where his hands are, on his own long wait between shots.
           if (!holding && (side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 6 === 0))) {
             const wait = 9000 + hash(`${seed}:dw`) * 16000, shifted = time + hash(`${seed}:dp`) * 25000, t = shifted % wait;
             const shotKey = `${seed}:d${Math.floor(shifted / wait)}`;
+            if (kind === 'dragoon' && (t < 640 || t >= wait - 360)) {
+              clip = 'dragoon-fire'; timeMs = t >= wait - 360 ? t - (wait - 360) : t + 360; flip = !right;
+            }
             if (t < 400 && !view.shotsSeen.has(shotKey)) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
@@ -831,8 +847,7 @@ export function createBattleView(art) {
           // At a stone house's loophole (Béxar): the one man seen of its garrison fires through the wall. stand-in:
           // docs/ART_REQUESTS.md, request 2026-09-25 "a flat-roofed stone house with loopholes" - Claude's `*-loophole-fire`.
           const loophole = side.cover === 'loophole' && (kind === 'volunteer' || kind === 'regular');
-          // Lying in the tall grass (Coleto's cazadores at night): Claude's `regular-prone-*`.
-          const prone = side.cover === 'grass' && kind === 'regular';
+          // Lying in the tall grass (Coleto's cazadores at night): Astra's prone marksman (2026-10-03); `prone` above.
           if (climbing && t >= wait - 500) { clip = 'volunteer-bank-climb'; timeMs = t < wait ? t - wait + 500 : musketClip(t - wait) + 500; flip = !right; fallback = { clip: `${kind}-fire-reload`, timeMs: musketClip(t - wait) }; }
           else if (t < wait) {
             sprite = slot.kneel ? `${kind}-load` : `${kind}-${right ? 'e' : 'w'}`; still = true; flip = slot.kneel ? !right : false;
@@ -844,7 +859,8 @@ export function createBattleView(art) {
           else if (loophole) {
             clip = `${kind}-loophole-fire`; timeMs = musketClip(t - wait); flip = !right; fallback = { clip: `${kind}-fire-reload` };
           }
-          else if (prone) { clip = 'regular-prone-fire-cycle'; timeMs = musketClip(t - wait); flip = !right; fallback = { clip: 'regular-fire-reload' }; }
+          // Astra's prone marksman (2026-10-03): lying in the grass to load, the rifle up to fire.
+          else if (prone) { clip = 'regular-prone-fire-reload'; timeMs = musketClip(t - wait); flip = !right; fallback = { clip: 'regular-fire-reload' }; }
           if (t >= wait) {
             if (!climbing && !loophole && !prone) { clip = `${kind}-fire-reload`; timeMs = musketClip(t - wait); }
             const shotKey = `${seed}:${Math.floor((time + (slot.phase ?? 0) * 20000) / cycle)}`;
@@ -917,7 +933,12 @@ export function createBattleView(art) {
     for (const f of figures) {
       if (f.kind === 'fallen') { drawFallen(ctx, f, now); continue; }
       if (f.kind === 'packhorse') {
-        if (art.clipReady?.(f.mule) && art.animated(ctx, f.mule, f.point.x, f.point.y, f.size, f.seed, { timeMs: time, flip: f.muleFlip, paused: reducedMotion || !f.moving })) continue;
+        if (f.mule) {
+          if (f.clip) art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: time, flip: f.flip, paused: reducedMotion });
+          else art.drawSprite(ctx, f.sprite, f.point.x, f.point.y, f.size, { flip: f.flip });
+          if (f.grassOpened) art.drawSprite(ctx, 'grass-bundle-cut', f.point.x + f.size * 0.65, f.point.y + f.size * 0.08, f.size * 0.3);
+          continue;
+        }
         if (!art.animated(ctx, f.clip, f.point.x, f.point.y, f.size, f.seed, { timeMs: time, flip: f.flip, paused: reducedMotion })) { ctx.fillStyle = '#7a5a3a'; ctx.fillRect(f.point.x - f.size * 0.35, f.point.y - f.size * 0.45, f.size * 0.7, f.size * 0.25); }
         if (!art.drawSprite(ctx, 'packed-belongings', f.point.x, f.point.y - f.size * 0.42, f.size * 0.45)) { ctx.fillStyle = '#b9a46a'; ctx.fillRect(f.point.x - f.size * 0.2, f.point.y - f.size * 0.62, f.size * 0.4, f.size * 0.18); }
         continue;
@@ -985,9 +1006,7 @@ export function createBattleView(art) {
       flashes++;
     }
     // Fog lying over the field (the phase's `fog`, 0 to 1): Concepción's morning, thinning as it lifts about eight.
-    // stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 3 - Claude's drifting fog banks
-    // (*Claude-drawn stand-ins*, area F) over a lighter veil; the veil alone without them.
-    const fogShown = battle.fog > 0 ? drawFog(ctx, battle, camera, bounds, figurePx, time) : 0;
+    const fogShown = battle.fog > 0 ? drawFog(ctx, battle, camera, bounds, time, reducedMotion) : 0;
     const smokeDrawn = drawSmoke(ctx, camera, figurePx, now, reducedMotion, bounds, battle, clear);
     const bubbles = drawLines(ctx, battle, camera, figurePx, now, time, bounds, drawn, drawnBy);
     view.civiliansSeen = Math.max(view.civiliansSeen, civilians);
@@ -1091,21 +1110,29 @@ export function createBattleView(art) {
       // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the south's fights" items 2 and 5 - the library's jacal and cabin for
       // San Patricio's houses and its live oaks and mesquite for the groves at Agua Dulce.
       if (item.kind === 'grove') {
-        // The live oaks as one mott over its shade (Claude's `live-oak-mott`, *Claude-drawn stand-ins* area F, her live oaks
-        // placed), with the grove's mesquite round it; without that sheet, each tree on its own as before.
-        const mott = art.drawSprite(ctx, 'live-oak-mott', p.x, p.y, figurePx * 3.2);
+        // Cohesive oak mott art for the two existing Agua Dulce groves. The
+        // geographic spread still controls scale; this is scenery, not cover logic.
+        if (battle.id === 'agua-dulce' && art.animated(ctx,
+          `live-oak-mott-${item.id === 'grove-west' ? 'open' : 'dense'}-wind`,
+          p.x, p.y, Math.max(figurePx * 3.2, (item.spread || 0.08) * camera.scale),
+          item.id, { timeMs: time })) { count++; continue; }
+        // Elsewhere, and without her grove's sheet, each tree on its own. (Claude's `live-oak-mott` stood here until her groves
+        // landed, 2026-10-03: live oaks are her subject, so it is held back and no longer asked for.)
         for (let i = 0; i < (item.trees || 5); i++) {
-          if (mott && i % 3 !== 2) continue;
           const a = hash(`${item.id}:${i}:a`) * Math.PI * 2, r = Math.sqrt(hash(`${item.id}:${i}:r`)) * (item.spread || 0.08);
           const q = camera.toScreen({ x: item.x + Math.cos(a) * r, y: item.y + Math.sin(a) * r * 0.7 });
           if (!art.drawSprite(ctx, i % 3 === 2 ? 'mesquite-large' : 'live-oak-large', q.x, q.y, figurePx * 3.2)) { ctx.fillStyle = '#5d7148'; ctx.beginPath(); ctx.arc(q.x, q.y - figurePx, figurePx * 1.1, 0, Math.PI * 2); ctx.fill(); }
         }
       } else if (item.kind === 'campfire') {
-        // At night the fire burning in the dark (Claude's `campfire-night`, drawn again over the night's wash by `drawNight`).
-        // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the south's fights" item 2 - Claude-drawn (*Claude-drawn
-        // stand-ins*, area F); without it, the library's day campfire.
-        const dark = battle.light === 'night' || (typeof battle.light === 'number' && battle.light > 0.35);
-        if (!(dark && art.animated(ctx, 'campfire-night', p.x, p.y, figurePx * 0.9, item.id, { timeMs: time })) && !art.animated(ctx, 'campfire', p.x, p.y, figurePx * 0.9, item.id, { timeMs: time })) art.drawSprite(ctx, 'campfire', p.x, p.y, figurePx * 0.9);
+        // At night the fire burning in the dark (Astra's `campfire-night`, 2026-10-03, drawn again over the night's wash by
+        // `drawNight`); without it, the library's day campfire.
+        // Only a fire the battle says is lit burns (Astra, 2026-10-03: `item.lit`); a cold hearth is the day's campfire.
+        const dark = battle.light === 'night' || battle.light === 'dawn' || (typeof battle.light === 'number' && battle.light > 0.35);
+        if (!(item.lit && dark && art.animated(ctx, 'campfire-night', p.x, p.y, figurePx * 0.9, item.id, { timeMs: time })) && !art.animated(ctx, 'campfire', p.x, p.y, figurePx * 0.9, item.id, { timeMs: time })) art.drawSprite(ctx, 'campfire', p.x, p.y, figurePx * 0.9);
+      } else if (item.lit && ['night', 'dawn'].includes(battle.light) &&
+        NIGHT_BUILDING_CLIPS[item.sprite] &&
+        art.animated(ctx, NIGHT_BUILDING_CLIPS[item.sprite], p.x, p.y, figurePx * (item.size || 2.4), item.id, { timeMs: time, flip: item.flip })) {
+        // Astra's night-lit house (2026-10-03): only projected lamplight gets a night-lit replacement; actors remain in front.
       } else if (!art.drawSprite(ctx, item.sprite || 'cabin-small', p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip })
         // A piece with a `fallback` (Claude's ground pieces, sim/battles/concepcion.mjs and grass-fight.mjs) is drawn as the
         // library art it stood in for while its own sheet is missing; `fallback: 'none'` is simply left out.
@@ -1185,12 +1212,13 @@ export function createBattleView(art) {
       if (!item.lit) continue;
       const p = camera.toScreen(item);
       glow(ctx, p.x, p.y - figurePx * (item.kind === 'campfire' ? 0.2 : 0.6), figurePx * (item.kind === 'campfire' ? 2.6 : 1.8), 'rgba(255,184,96,.55)');
-      // A fire gives its own light: drawn again over the dark, so it burns bright in it rather than under it.
-      if (item.kind === 'campfire' && battle.light === 'night') art.animated(ctx, 'campfire-night', p.x, p.y, figurePx * 0.9, item.id, { timeMs: now });
+      // A fire gives its own light: drawn again over the dark, so it burns bright in it rather than under it (Astra's).
+      if (item.kind === 'campfire') art.animated(ctx, 'campfire-night', p.x, p.y, figurePx * 0.9, item.id, { timeMs: now });
       // The lamp in the house's window, laid over the house after the dark so it shines: an overlay registered to the house's
       // own picture. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the south's fights" item 2 - Claude-drawn stand-ins
       // `window-lit-*` (see *Claude-drawn stand-ins*); the glow alone while they have not loaded.
-      if (item.kind !== 'campfire' && item.sprite) art.drawSprite(ctx, `window-lit-${item.sprite}`, p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip });
+      // Not over a house Astra has painted lit (`NIGHT_BUILDING_CLIPS`): her lamplight is in its own picture.
+      if (item.kind !== 'campfire' && item.sprite && !NIGHT_BUILDING_CLIPS[item.sprite]) art.drawSprite(ctx, `window-lit-${item.sprite}`, p.x, p.y, figurePx * (item.size || 2.4), { flip: item.flip });
       lit++;
     }
     return { lit };
@@ -1268,19 +1296,18 @@ export function createBattleView(art) {
     if (firing) art.animated(ctx, cartwheels ? `cannon-cartwheels-${right ? 'e' : 'w'}-recoil` : `${name}-recoil`, p.x, p.y, size, 0, { timeMs: since * 900 / GUN.recoil });
     else art.drawSprite(ctx, name, p.x, p.y, size) || (ctx.fillStyle = '#3b3a36', ctx.fillRect(p.x - size * 0.4, p.y - size * 0.3, size * 0.8, size * 0.22));
     // The crew: one ramming between shots, one bringing the charge, one at the touch-hole who pulls and covers his ears.
-    // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "battles: the pieces the engine stands in for", item 4 - at the
-    // cart-wheel gun, Claude's three settlers (`settler-gun-ram`, `-carry`, `-fire`); elsewhere, and while they load, the
-    // library's gun-crew cycles of a carriage gun's crew. The cart-wheel gun itself is delivered and drawn above.
+    // The Gonzales cart-wheel gun has a civilian rammer, charge carrier and igniter - Astra's (2026-10-03), which retired Claude's
+    // `settler-gun-*` stand-ins of the same names; other guns keep their crews.
     const back = right ? -1 : 1;
+    // A carriage gun's crew stands ready (`ready`, the shot the page knows is coming) and the recoil is drawn over the gun's own
+    // recoil time (`GUN.recoil`); Astra's settlers keep their own clips' timing.
+    const recoilT = cartwheels ? since : since * 900 / GUN.recoil, standT = firing ? recoilT : ready && !cartwheels ? 0 : time;
     const crew = [
-      { clip: firing || ready ? 'volunteer-gun-fire' : 'volunteer-gun-ram', settler: firing || ready ? 'settler-gun-fire' : 'settler-gun-ram', dx: back * 0.75, t: firing ? since * 900 / GUN.recoil : ready ? 0 : time },
-      { clip: 'volunteer-gun-shot-carry', settler: 'settler-gun-carry', dx: back * 1.35, t: time },
-      { clip: firing || ready ? 'volunteer-gun-fire' : 'volunteer-idle-e', settler: firing || ready ? 'settler-gun-fire' : null, dx: back * 0.2, dy: 0.35, t: firing ? since * 900 / GUN.recoil : ready ? 0 : time },
+      { clip: cartwheels ? (firing ? 'settler-gun-rammer-cover' : 'settler-gun-ram') : (firing || ready ? 'volunteer-gun-fire' : 'volunteer-gun-ram'), dx: back * 0.75, t: standT, scale: cartwheels && firing ? 0.65 : 1 },
+      { clip: cartwheels ? 'settler-gun-carry' : 'volunteer-gun-shot-carry', dx: back * 1.35, t: time },
+      { clip: cartwheels ? (firing ? 'settler-gun-fire' : 'settler-gun-ready') : (firing || ready ? 'volunteer-gun-fire' : 'volunteer-idle-e'), dx: back * 0.2, dy: 0.35, t: standT },
     ].slice(0, gun.crew || 3);
-    for (const man of crew) {
-      const at = [p.x + man.dx * figurePx, p.y + (man.dy || 0) * figurePx], opts = { timeMs: man.t, flip: !right, paused: reducedMotion };
-      if (!(cartwheels && man.settler && art.animated(ctx, man.settler, at[0], at[1], figurePx, `crew:${man.settler}:${man.dx}`, opts))) art.animated(ctx, man.clip, at[0], at[1], figurePx, `crew:${man.clip}:${man.dx}`, opts);
-    }
+    for (const man of crew) art.animated(ctx, man.clip, p.x + man.dx * figurePx, p.y + (man.dy || 0) * figurePx, figurePx * (man.scale || 1), `crew:${man.clip}:${man.dx}`, { timeMs: man.t, flip: !right, paused: reducedMotion });
     // Each shot, once: the flash, and a bank of smoke that lies on the field long after.
     const pending = view.cannonFiredAt.filter(t => t <= now && !view.shotsSeen.has(`cannon:${t}`));
     for (const t of pending) {
@@ -1570,7 +1597,10 @@ export function createBattleView(art) {
     if (person.bears) return drawBearers(ctx, person, p, size, time, flip, key);
     const pose = hurt ? 'wounded' : person.moving && !['ride', 'escape'].includes(person.pose) ? 'walk' : person.pose || 'stand';
     const named = own?.[pose];
+    if (pose === 'crate-command' && own?.['crate-command']) return clip(own['crate-command'].slice(5), time, { size: figurePx * 1.18 });
     if (pose === 'walk') {
+      const directedWalk = person.heading === 'north' ? own?.walkNorth : person.heading === 'south' ? own?.walkSouth : null;
+      if (directedWalk) return clip(directedWalk, time, { flip: false });
       if (own?.walk) return clip(own.walk) || clip(`${kind}-march`);
       return clip(`${kind}-march`);
     }
@@ -1775,7 +1805,10 @@ export function createBattleView(art) {
       const namedSprite = who?.name === 'Houston' && who.pose === 'injured' ? 'houston-injured-seated'
         : who?.name === 'Santa Anna' && !who.mounted ? 'santa-anna-disguised-idle'
           : who?.mounted ? personArt(who.id)?.rideIdle : personArt(who.id)?.stand;
-      if (!(namedSprite && art.drawSprite(ctx, namedSprite, x, p.y, size, { flip: !faceRight }))
+      const namedDrawn = namedSprite?.startsWith('clip:')
+        ? art.animated(ctx, namedSprite.slice(5), x, p.y, size, `parley:${who.id}`, { timeMs: time, flip: !faceRight })
+        : namedSprite && art.drawSprite(ctx, namedSprite, x, p.y, size, { flip: !faceRight });
+      if (!namedDrawn
         && !art.animated(ctx, clip, x, p.y, size, `parley:${spot.side}`, { timeMs: time, ...(who?.pose === 'injured' && { flip: !faceRight }) })) {
         art.miniPerson(ctx, x, p.y, size, { side: spot.side });
       }
@@ -1789,28 +1822,28 @@ export function createBattleView(art) {
   }
 
   /** A pale veil of fog over the field, thickest at its middle, at the phase's density (0 to 1). Returns the density drawn. */
-  function drawFog(ctx, battle, camera, bounds, figurePx = 30, time = 0) {
+  function drawFog(ctx, battle, camera, bounds, time, paused) {
     const shown = [...battle.sides, ...(battle.groups || [])].filter(side => side.action !== 'gone');
     if (!shown.length) return 0;
     const centre = { x: shown.reduce((s, side) => s + side.x, 0) / shown.length, y: shown.reduce((s, side) => s + side.y, 0) / shown.length };
     const c = camera.toScreen(centre), edge = camera.toScreen({ x: centre.x + 0.9, y: centre.y });
     const radius = Math.max(80, Math.hypot(edge.x - c.x, edge.y - c.y));
-    // Banks of fog lying on the field round the fight, drifting, dense while it is thick and in wisps as it lifts, at the
-    // strength of the phase's fog; where they are drawn the veil over them is lighter. Placed by row and column, so stable.
-    // Scattered, not in rows: a bank a cell where a hash says so, moved about in it, at its own size (a grid of them read as
-    // rows of cartoon clouds in the first proof, test-results/battle-concepcion-ringed-1366.png, 2026-09-28).
-    const clip = battle.fog > 0.55 ? 'fog-bank-dense' : 'fog-bank-thin', cell = Math.max(60, figurePx * 5.5);
+    const density = Math.max(0, Math.min(1, battle.fog));
     let banks = 0;
-    for (let row = -3; row <= 3; row++) for (let col = -3; col <= 3; col++) {
-      const key = `fog:${row}:${col}`;
-      if (hash(`${key}:on`) < 0.45) continue;
-      const x = c.x + (col + hash(`${key}:x`) - 0.5) * cell, y = c.y + (row + hash(`${key}:y`) - 0.5) * cell * 0.45;
-      if (Math.hypot(x - c.x, (y - c.y) * 1.6) > radius * 0.85) continue;
-      const size = cell * (0.35 + 0.3 * hash(`${key}:s`));
-      if (art.animated(ctx, clip, x, y, size, key, { timeMs: time, flip: hash(`${key}:f`) < 0.5, alpha: Math.min(0.6, battle.fog * 0.65) })) banks++;
+    ctx.save();
+    for (let i = 0; i < 3; i++) {
+      const x = c.x + (i - 1) * radius * 0.42, y = c.y + (i - 1) * radius * 0.13;
+      for (const [variant, alpha] of [['dense', density * density * 0.45], ['thin', density * (1 - density) * 0.45]]) {
+        if (alpha <= 0) continue;
+        ctx.globalAlpha = alpha;
+        if (art.animated(ctx, `fog-bank-${variant}`, x, y, Math.min(radius * 0.34, 260), `fog:${i}`, { timeMs: time + i * 1300, paused })) banks++;
+      }
     }
+    ctx.restore();
     view.fogBanks = banks;
-    const veil = banks ? 0.55 : 1;
+    // Her banks are the fog; the veil only where they are not drawn.
+    if (banks) return battle.fog;
+    const veil = 1;
     const g = ctx.createRadialGradient(c.x, c.y, radius * 0.1, c.x, c.y, radius);
     g.addColorStop(0, `rgba(226,229,226,${0.78 * battle.fog * veil})`); g.addColorStop(0.6, `rgba(226,229,226,${0.6 * battle.fog * veil})`); g.addColorStop(1, 'rgba(226,229,226,0)');
     ctx.save(); ctx.fillStyle = g;
@@ -2083,3 +2116,4 @@ export function createBattleView(art) {
   const isMember = id => view.members.has(id);
   return { draw, memberPose, memberDrawn, isMember, memberSpot: id => view.memberSpots.get(id) || null, memberDown,  get evidence() { return view.evidence; }, get smoke() { return view.smoke.length + view.banks.length; } };
 }
+

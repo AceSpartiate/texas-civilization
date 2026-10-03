@@ -98,25 +98,6 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-prone": {
-      "image": "/assets/claude-standins/claude-prone.png",
-      "width": 1560,
-      "height": 400,
-      "bytes": 86658,
-      "sha256": "9bb6ff735dc3a98474feac408075f69f970828723fb25681f5e60c920416091e",
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — Coleto and Goliad",
-      "layout": {
-        "rows": 1,
-        "columns": 3,
-        "cell": {
-          "w": 520,
-          "h": 400
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-skirmisher": {
       "image": "/assets/claude-standins/claude-skirmisher.png",
       "width": 1920,
@@ -164,25 +145,6 @@
       "madeBy": "claude",
       "module": "battle-soldiers",
       "request": "Request 2026-09-25 — San Jacinto",
-      "layout": {
-        "rows": 2,
-        "columns": 4,
-        "cell": {
-          "w": 480,
-          "h": 400
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
-    "claude-settler-gun": {
-      "image": "/assets/claude-standins/claude-settler-gun.png",
-      "width": 1920,
-      "height": 800,
-      "bytes": 321178,
-      "sha256": "1cb62f36d3559bebf4b5587cca18540540415fa0815be8c8cf037c78554c7091",
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
       "layout": {
         "rows": 2,
         "columns": 4,
@@ -756,57 +718,6 @@
       "label": "volunteer parapet fire n 3",
       "kind": "claude-parapet"
     },
-    "regular-prone-lie": {
-      "sheet": "claude-prone",
-      "x": 0,
-      "y": 0,
-      "w": 520,
-      "h": 400,
-      "anchorX": 0.4808,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — Coleto and Goliad",
-      "replaceWith": "regular-prone-lie: item 1: `regular-prone-lie`, `regular-prone-aim`, `regular-prone-fire` (a cazador in the tall grass at night), east",
-      "source": "svg/battle-soldiers/claude-regular-prone-lie.svg",
-      "label": "regular prone lie",
-      "kind": "claude-prone"
-    },
-    "regular-prone-aim": {
-      "sheet": "claude-prone",
-      "x": 520,
-      "y": 0,
-      "w": 520,
-      "h": 400,
-      "anchorX": 0.4808,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — Coleto and Goliad",
-      "replaceWith": "regular-prone-aim: item 1: `regular-prone-lie`, `regular-prone-aim`, `regular-prone-fire` (a cazador in the tall grass at night), east",
-      "source": "svg/battle-soldiers/claude-regular-prone-aim.svg",
-      "label": "regular prone aim",
-      "kind": "claude-prone"
-    },
-    "regular-prone-fire": {
-      "sheet": "claude-prone",
-      "x": 1040,
-      "y": 0,
-      "w": 520,
-      "h": 400,
-      "anchorX": 0.4808,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — Coleto and Goliad",
-      "replaceWith": "regular-prone-fire: item 1: `regular-prone-lie`, `regular-prone-aim`, `regular-prone-fire` (a cazador in the tall grass at night), east",
-      "source": "svg/battle-soldiers/claude-regular-prone-fire.svg",
-      "label": "regular prone fire",
-      "kind": "claude-prone"
-    },
     "skirmisher-run-e-1": {
       "sheet": "claude-skirmisher",
       "x": 0,
@@ -1180,142 +1091,6 @@
       "source": "svg/battle-soldiers/claude-figure-wading-volunteer-4.svg",
       "label": "figure wading volunteer 4",
       "kind": "claude-wading"
-    },
-    "settler-gun-ram-1": {
-      "sheet": "claude-settler-gun",
-      "x": 0,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "settler-gun-ram-1: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-settler-gun-ram-1.svg",
-      "label": "settler gun ram 1",
-      "kind": "claude-settler-gun"
-    },
-    "settler-gun-ram-2": {
-      "sheet": "claude-settler-gun",
-      "x": 480,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "settler-gun-ram-2: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-settler-gun-ram-2.svg",
-      "label": "settler gun ram 2",
-      "kind": "claude-settler-gun"
-    },
-    "settler-gun-ram-3": {
-      "sheet": "claude-settler-gun",
-      "x": 960,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "settler-gun-ram-3: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-settler-gun-ram-3.svg",
-      "label": "settler gun ram 3",
-      "kind": "claude-settler-gun"
-    },
-    "settler-gun-ram-4": {
-      "sheet": "claude-settler-gun",
-      "x": 1440,
-      "y": 0,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "settler-gun-ram-4: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-settler-gun-ram-4.svg",
-      "label": "settler gun ram 4",
-      "kind": "claude-settler-gun"
-    },
-    "settler-gun-carry-1": {
-      "sheet": "claude-settler-gun",
-      "x": 0,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "settler-gun-carry-1: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-settler-gun-carry-1.svg",
-      "label": "settler gun carry 1",
-      "kind": "claude-settler-gun"
-    },
-    "settler-gun-carry-2": {
-      "sheet": "claude-settler-gun",
-      "x": 480,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "settler-gun-carry-2: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-settler-gun-carry-2.svg",
-      "label": "settler gun carry 2",
-      "kind": "claude-settler-gun"
-    },
-    "settler-gun-fire-1": {
-      "sheet": "claude-settler-gun",
-      "x": 960,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "settler-gun-fire-1: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-settler-gun-fire-1.svg",
-      "label": "settler gun fire 1",
-      "kind": "claude-settler-gun"
-    },
-    "settler-gun-fire-2": {
-      "sheet": "claude-settler-gun",
-      "x": 1440,
-      "y": 400,
-      "w": 480,
-      "h": 400,
-      "anchorX": 0.3958,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-soldiers",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "replaceWith": "settler-gun-fire-2: item 4: three settlers serving the Gonzales cart-wheel gun (`settler-gun-ram`, `-carry`, `-fire`), the `volunteer-*` height, east mirrored for west",
-      "source": "svg/battle-soldiers/claude-settler-gun-fire-2.svg",
-      "label": "settler gun fire 2",
-      "kind": "claude-settler-gun"
     }
   },
   "clips": {
@@ -1516,28 +1291,6 @@
       "madeBy": "claude",
       "module": "battle-soldiers"
     },
-    "regular-prone-fire-cycle": {
-      "frames": [
-        {
-          "sprite": "regular-prone-aim",
-          "duration": 700
-        },
-        {
-          "sprite": "regular-prone-fire",
-          "duration": 120
-        },
-        {
-          "sprite": "regular-prone-lie",
-          "duration": 1650
-        }
-      ],
-      "loop": false,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
     "skirmisher-run-e": {
       "frames": [
         {
@@ -1696,68 +1449,6 @@
         }
       ],
       "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "settler-gun-ram": {
-      "frames": [
-        {
-          "sprite": "settler-gun-ram-1",
-          "duration": 260
-        },
-        {
-          "sprite": "settler-gun-ram-2",
-          "duration": 240
-        },
-        {
-          "sprite": "settler-gun-ram-3",
-          "duration": 360
-        },
-        {
-          "sprite": "settler-gun-ram-4",
-          "duration": 300
-        }
-      ],
-      "loop": false,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "settler-gun-carry": {
-      "frames": [
-        {
-          "sprite": "settler-gun-carry-1",
-          "duration": 420
-        },
-        {
-          "sprite": "settler-gun-carry-2",
-          "duration": 420
-        }
-      ],
-      "loop": true,
-      "motion": "none",
-      "direction": "east; west by mirroring",
-      "authored": true,
-      "madeBy": "claude",
-      "module": "battle-soldiers"
-    },
-    "settler-gun-fire": {
-      "frames": [
-        {
-          "sprite": "settler-gun-fire-1",
-          "duration": 360
-        },
-        {
-          "sprite": "settler-gun-fire-2",
-          "duration": 700
-        }
-      ],
-      "loop": false,
       "motion": "none",
       "direction": "east; west by mirroring",
       "authored": true,
@@ -2228,48 +1919,6 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's volunteer-parapet-fire-n-3"
     },
-    "regular-prone-lie": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-prone",
-      "request": "Request 2026-09-25 — Coleto and Goliad",
-      "prompt": "A Mexican cazador of a light company at Coleto, the night of March 19, 1836 - the line's blue coatee and white crossbelts, the shako with the green pompom of the light companies (strongly supported by secondary sources) - lying still in the tall grass, the musket beside him, the head down, facing east. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-prone-lie.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's regular-prone-lie"
-    },
-    "regular-prone-aim": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-prone",
-      "request": "Request 2026-09-25 — Coleto and Goliad",
-      "prompt": "A Mexican cazador of a light company at Coleto, the night of March 19, 1836 - the line's blue coatee and white crossbelts, the shako with the green pompom of the light companies (strongly supported by secondary sources) - propped on his elbows in the grass, aiming the musket along the ground, facing east. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-prone-aim.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's regular-prone-aim"
-    },
-    "regular-prone-fire": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-prone",
-      "request": "Request 2026-09-25 — Coleto and Goliad",
-      "prompt": "A Mexican cazador of a light company at Coleto, the night of March 19, 1836 - the line's blue coatee and white crossbelts, the shako with the green pompom of the light companies (strongly supported by secondary sources) - the shot from the ground, the muzzle kicking up, facing east. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-regular-prone-fire.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's regular-prone-fire"
-    },
     "skirmisher-run-e-1": {
       "kind": "frame",
       "madeBy": "claude",
@@ -2578,118 +2227,6 @@
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's figure-wading-volunteer-4"
     },
-    "settler-gun-ram-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-settler-gun",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "A Gonzales settler of October 1835 in his own clothes (a rust shirt, braces, a black neckcloth, a felt hat, a short beard) serving the little bronze cannon on its cart wheels: standing with the rammer staff upright (frame 1 of 4). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-ram-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's settler-gun-ram-1"
-    },
-    "settler-gun-ram-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-settler-gun",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "A Gonzales settler of October 1835 in his own clothes (a rust shirt, braces, a black neckcloth, a felt hat, a short beard) serving the little bronze cannon on its cart wheels: bringing the staff down level toward the muzzle (frame 2 of 4). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-ram-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's settler-gun-ram-2"
-    },
-    "settler-gun-ram-3": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-settler-gun",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "A Gonzales settler of October 1835 in his own clothes (a rust shirt, braces, a black neckcloth, a felt hat, a short beard) serving the little bronze cannon on its cart wheels: the thrust: driving the charge home down the barrel (frame 3 of 4). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-ram-3.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's settler-gun-ram-3"
-    },
-    "settler-gun-ram-4": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-settler-gun",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "A Gonzales settler of October 1835 in his own clothes (a rust shirt, braces, a black neckcloth, a felt hat, a short beard) serving the little bronze cannon on its cart wheels: drawing the staff back out (frame 4 of 4). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-ram-4.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's settler-gun-ram-4"
-    },
-    "settler-gun-carry-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-settler-gun",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "A second Gonzales settler (a blue shirt with braces, a wide straw hat, trousers rolled at the shin) serving the cart-wheel gun: stooping to lift a round shot from the ground (frame 1 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-carry-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's settler-gun-carry-1"
-    },
-    "settler-gun-carry-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-settler-gun",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "A second Gonzales settler (a blue shirt with braces, a wide straw hat, trousers rolled at the shin) serving the cart-wheel gun: carrying the round shot to the gun in both hands (frame 2 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-carry-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's settler-gun-carry-2"
-    },
-    "settler-gun-fire-1": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-settler-gun",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "A third Gonzales settler (an ochre shirt under a brown waistcoat, bare-headed, a moustache) serving the cart-wheel gun: reaching the lit match on its linstock to the touch-hole, leaning away from the gun (frame 1 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-fire-1.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's settler-gun-fire-1"
-    },
-    "settler-gun-fire-2": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "sheet": "claude-settler-gun",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "A third Gonzales settler (an ochre shirt under a brown waistcoat, bare-headed, a moustache) serving the cart-wheel gun: turned from the shot with his hands over his ears (frame 2 of 2). Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-soldiers/claude-settler-gun-fire-2.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's settler-gun-fire-2"
-    },
     "bearers-carry": {
       "kind": "clip",
       "madeBy": "claude",
@@ -2815,21 +2352,6 @@
       ],
       "status": "temporary: replace with Astra's volunteer-parapet-fire-n"
     },
-    "regular-prone-fire-cycle": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "request": "Request 2026-09-25 — Coleto and Goliad",
-      "prompt": "A cazador lying in the grass: aiming, the shot, and down again to load, as the fire-reload clip is timed.",
-      "frames": [
-        "regular-prone-aim",
-        "regular-prone-fire",
-        "regular-prone-lie"
-      ],
-      "status": "temporary: replace with Astra's regular-prone-fire-cycle"
-    },
     "skirmisher-run-e": {
       "kind": "clip",
       "madeBy": "claude",
@@ -2927,50 +2449,6 @@
         "figure-wading-regular-4"
       ],
       "status": "temporary: replace with Astra's figure-wading"
-    },
-    "settler-gun-ram": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "A settler ramming the Gonzales gun: staff up, down, the thrust, back (the volunteer-gun-ram timing).",
-      "frames": [
-        "settler-gun-ram-1",
-        "settler-gun-ram-2",
-        "settler-gun-ram-3",
-        "settler-gun-ram-4"
-      ],
-      "status": "temporary: replace with Astra's settler-gun-ram"
-    },
-    "settler-gun-carry": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "A settler lifting and carrying round shot to the Gonzales gun.",
-      "frames": [
-        "settler-gun-carry-1",
-        "settler-gun-carry-2"
-      ],
-      "status": "temporary: replace with Astra's settler-gun-carry"
-    },
-    "settler-gun-fire": {
-      "kind": "clip",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-soldiers",
-      "area": "battles",
-      "request": "Request 2026-09-25 — battles: the pieces the engine stands in for",
-      "prompt": "A settler touching off the Gonzales gun with a linstock and turning away, hands over his ears.",
-      "frames": [
-        "settler-gun-fire-1",
-        "settler-gun-fire-2"
-      ],
-      "status": "temporary: replace with Astra's settler-gun-fire"
     }
   }
 }

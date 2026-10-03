@@ -137,7 +137,7 @@ test('Burleson commands in his own officer art', () => {
   const art = fakeArt(), view = createBattleView(art);
   const person = { id: 'burleson', art: 'burleson', name: 'Burleson', side: 'texian', x: 0, y: 0, right: true, pose: 'command' };
   run(view, minute => battle(minute, { people: [person] }), { seconds: 1 });
-  assert.ok(art.drawn.some(one => one.sprite === 'burleson-command'));
+  assert.ok(art.drawn.some(one => one.clip === 'burleson-command-cycle'));
 });
 
 test('Deaf Smith rides on his own scout sheet', () => {

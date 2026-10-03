@@ -1,0 +1,141 @@
+{
+  "verdict": "PASS",
+  "clips": [
+    {
+      "clip": "smither-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "smither-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "jw-smith-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "jw-smith-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "horton-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "horton-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "kimbell-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "kimbell-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "martin-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "martin-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "cos-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "cos-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "urrea-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "urrea-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "castaneda-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "castaneda-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "houston-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "houston-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "santa-anna-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "santa-anna-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "burleson-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "burleson-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "grant-mounted-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "grant-mounted-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "castrillon-walk-s",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "castrillon-walk-n",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "castrillon-crate-command",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

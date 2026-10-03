@@ -46,6 +46,98 @@ function run(view, make, { seconds, from = 0, tickMs = 1000, art = null, ctx = n
   return last;
 }
 
+test('named mounted people turn north and south with the projected route heading', () => {
+  for (const id of ['smither', 'jw-smith', 'horton', 'kimbell', 'martin', 'cos', 'urrea', 'castaneda', 'houston', 'santa-anna', 'burleson', 'grant', 'deaf-smith', 'karnes', 'lamar', 'sherman', 'rusk']) {
+    for (const [heading, dir] of [['north', 'n'], ['south', 's']]) {
+      const art = fakeArt(), view = createBattleView(art);
+      const rider = { id, art: id, name: id, side: 'texian', x: 0, y: 0, right: false, pose: 'ride', moving: true, heading };
+      run(view, minute => night(minute, [], { people: [rider] }), { seconds: 1 });
+      assert.ok(art.drawn.some(one => one.clip === `${id}-mounted-walk-${dir}` && one.flip === false), `${id}: ${heading}`);
+    }
+  }
+});
+
+test('named commanders use identity-specific authored gesture cycles', () => {
+  for (const id of ['travis', 'houston', 'santa-anna', 'austin', 'moore', 'almonte', 'burleson', 'cos', 'urrea', 'castaneda']) {
+    for (const [pose, cycle] of [['command', 'command'], ['speak', 'conversation']]) {
+      const art = fakeArt(), view = createBattleView(art);
+      run(view, minute => night(minute, [], { people: [{ id, art: id, x: 0, y: 0, pose, right: true }] }), { seconds: 1 });
+      assert.ok(art.drawn.some(one => one.clip === `${id}-${cycle}-cycle`), `${id}: ${pose}`);
+    }
+  }
+});
+
+test('story actions preserve named identities and Susanna carries Angelina while walking', () => {
+  const cases = [
+    ['fannin', 'command', 'fannin-story-command'], ['fannin', 'surrender', 'fannin-story-surrender'],
+    ['milam', 'command', 'milam-story-rally'], ['crockett', 'command', 'crockett-story-command'],
+    ['crockett', 'seated', 'crockett-story-rest'], ['bowie', 'sick', 'bowie-story-sick'],
+    ['ben', 'carry', 'ben-story-pot-walk'], ['esparza', 'gun', 'esparza-story-ram'],
+    ['almeron-dickinson', 'gun', 'almeron-dickinson-story-ram'],
+    ['susanna-dickinson', 'walk', 'susanna-child-walk-e'], ['susanna-dickinson', 'stand', 'susanna-child-hold'],
+  ];
+  for (const [id, pose, expected] of cases) {
+    const art = fakeArt(), view = createBattleView(art);
+    run(view, minute => night(minute, [], { people: [{ id, art: id, x: 0, y: 0, pose, right: true }] }), { seconds: 1 });
+    assert.ok(art.drawn.some(one => one.clip === expected), expected);
+  }
+  for (const [heading, dir] of [['north', 'n'], ['south', 's']]) {
+    const art = fakeArt(), view = createBattleView(art);
+    run(view, minute => night(minute, [], { people: [{ id: 'susanna-dickinson', art: 'susanna-dickinson', x: 0, y: 0, pose: 'walk', moving: true, heading, right: false }] }), { seconds: 1 });
+    assert.ok(art.drawn.some(one => one.clip === `susanna-child-walk-${dir}` && one.flip === false));
+  }
+});
+
+test('Castrillon walks cardinal directions and rallies above a crate', () => {
+  for (const [pose, heading, expected] of [['walk', 'north', 'castrillon-walk-n'], ['walk', 'south', 'castrillon-walk-s'], ['crate-command', 'east', 'castrillon-crate-command']]) {
+    const art = fakeArt(), view = createBattleView(art);
+    run(view, minute => night(minute, [], { people: [{ id: 'castrillon', art: 'castrillon', x: 0, y: 0, pose, heading, moving: pose === 'walk', right: true }] }), { seconds: 1 });
+    assert.ok(art.drawn.some(one => one.clip === expected), expected);
+  }
+});
+
+test('the remaining named riders use their own mounted identities', () => {
+  for (const id of ['jw-smith', 'horton', 'kimbell', 'martin']) {
+    const art = fakeArt(), view = createBattleView(art);
+    const rider = { id, art: id, name: id, side: 'texian', x: 0, y: 0, right: true, pose: 'ride', moving: true };
+    run(view, minute => night(minute, [], { people: [rider] }), { seconds: 1 });
+    assert.ok(art.drawn.some(one => one.clip === `${id}-mounted-walk-e`), id);
+  }
+});
+
+test('J. W. Smith has his own foot figure opposite Sánchez Navarro at parley', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  run(view, minute => night(minute, [], { parley: { x: 0, y: 0, people: [{ id: 'jw-smith', name: 'Smith', side: 'texian' }, { id: 'sanchez-navarro', name: 'Sánchez Navarro', side: 'mexican' }] } }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.sprite === 'jw-smith-idle'));
+});
+
+test('Smither rides his own horse in the Gonzales approach', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const rider = { id: 'smither', art: 'smither', name: 'Smither', side: 'texian', x: 0, y: 0, right: true, pose: 'ride', moving: true };
+  run(view, minute => night(minute, [], { people: [rider] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'smither-mounted-walk-e'));
+});
+
+test('W. P. Smith delivers his address with his own civilian art', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const speaker = { id: 'wp-smith', art: 'wp-smith', name: 'W. P. Smith', side: 'texian', x: 0, y: 0, right: true, pose: 'command' };
+  run(view, minute => night(minute, [], { people: [speaker] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'wp-smith-address'));
+});
+
+test('Barragán intervenes using his own protective gesture', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  const captain = { id: 'barragan', art: 'barragan', name: 'Barragán', side: 'mexican', x: 0, y: 0, right: true, pose: 'command' };
+  run(view, minute => night(minute, [], { people: [captain] }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.clip === 'barragan-intervene'));
+});
+
+test('Sánchez Navarro has his own figure in the Bexar parley', () => {
+  const art = fakeArt(), view = createBattleView(art);
+  run(view, minute => night(minute, [], { parley: { x: 0, y: 0, people: [{ id: 'jw-smith', name: 'Smith', side: 'texian' }, { id: 'sanchez-navarro', name: 'Sánchez Navarro', side: 'mexican' }] } }), { seconds: 1 });
+  assert.ok(art.drawn.some(one => one.sprite === 'sanchez-navarro-idle' && one.flip === true));
+});
+
 test('Condelle commands and walks using his own officer art', () => {
   const art = fakeArt(), view = createBattleView(art);
   const condelle = { id: 'condelle', art: 'condelle', name: 'Condelle', side: 'mexican', x: 0, y: 0, right: true, pose: 'command' };
@@ -150,10 +242,11 @@ test('the groves hide the dragoons, and a herd is driven and scattered; Grant\'s
   const evidence = run(view, battle, { seconds: 6, art });
   assert.ok(evidence.herd >= 20, `the herd is ${evidence.herd} horses`);
   assert.ok(art.drawn.some(one => one.clip === 'mustang-gallop'), 'the herd is not galloping');
-  // The grove's live oaks as one mott (Claude's `live-oak-mott`) with its mesquite round it; each tree alone without the mott.
-  assert.ok(art.drawn.some(one => one.sprite === 'live-oak-mott') && art.drawn.some(one => one.sprite === 'mesquite-large') && !art.drawn.some(one => one.sprite === 'live-oak-large'), 'the grove is not drawn as a mott');
-  const alone = fakeArt(), plain = alone.drawSprite;
-  alone.drawSprite = (c, sprite, ...rest) => (sprite === 'live-oak-mott' ? 0 : plain(c, sprite, ...rest));
+  // The grove as Astra's mott (2026-10-03, `live-oak-mott-dense-wind`; Claude's `live-oak-mott` before it); each tree alone
+  // without her sheet.
+  assert.ok(art.drawn.some(one => one.clip === 'live-oak-mott-dense-wind') && !art.drawn.some(one => one.sprite === 'live-oak-large'), 'the grove is not drawn as a mott');
+  const alone = fakeArt(), plainClip = alone.animated;
+  alone.animated = (c, clip, ...rest) => (/^live-oak-mott/.test(clip) ? 0 : plainClip(c, clip, ...rest));
   run(createBattleView(alone), battle, { seconds: 1, art: alone });
   assert.ok(alone.drawn.filter(one => one.sprite === 'live-oak-large' || one.sprite === 'mesquite-large').length >= 7, 'without the mott the grove is not drawn');
   assert.equal(evidence.poses.rider, 20, 'Grant\'s men are not drawn riding');

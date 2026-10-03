@@ -365,7 +365,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
         ...LINE_OFFICERS,
         { id: 'hockley', at: 'hockleyAt', face: 'breastwork', pose: 'gun' },
         { id: 'mcculloch', at: 'mccullochAt', face: 'breastwork', pose: 'gun' },
-        { id: 'castrillon', at: 'crate', face: 'close', pose: 'command', during: [3, 6] },
+        { id: 'castrillon', at: 'crate', face: 'close', pose: 'crate-command', during: [3, 6] },
       ],
       lines: [
         say('sj-formar', 1, MEX, 'officer', 'reconstructed', '¡A formar! ¡A formar!', { gloss: 'Form up! Form up!' }),
@@ -387,7 +387,7 @@ export const SAN_JACINTO_BATTLE = Object.freeze({
         ...LINE_OFFICERS,
         { id: 'hockley', at: 'hockleyAt', face: 'breastwork', pose: 'gun' },
         { id: 'mcculloch', at: 'mccullochAt', face: 'breastwork', pose: 'gun' },
-        { id: 'castrillon', at: 'crate', face: 'close', pose: 'command' },
+        { id: 'castrillon', at: 'crate', face: 'close', pose: 'crate-command' },
       ],
       falls: [{ side: MEX, count: 3, at: 1, claimId: 'HIST-TEX-067' }],
     },

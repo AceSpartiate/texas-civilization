@@ -1,0 +1,16 @@
+{
+  "verdict": "PASS",
+  "clips": [
+    {
+      "clip": "fog-bank-dense",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "fog-bank-thin",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

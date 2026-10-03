@@ -203,6 +203,9 @@ test('the surrender is drawn with hands raised and a white flag at a corner; Pal
   const drawnEve = fakeArt(), ctx = fakeContext();
   run(createBattleView(drawnEve), minute => projected(GOLIAD_MASSACRE, 'eve', 20 + minute), { seconds: 3, named: true, ctx, camera: cameraOn(eve, 900) });
   assert.ok(drawnEve.drawn.some(one => /^alavez-walk-/.test(one.clip || '') || /^alavez-idle-/.test(one.sprite || '')), 'Francita Alavez was not drawn with her own civilian art');
+  const beckonArt = fakeArt();
+  run(createBattleView(beckonArt), () => projected(GOLIAD_MASSACRE, 'eve', 5), { seconds: 1 });
+  assert.ok(beckonArt.drawn.some(one => one.clip === 'alavez-story-beckon'), 'stationary rescue staging should use her own beckoning gesture');
   assert.ok(ctx.calls.some(call => call[0] === 'fillText' && call[1] === 'Francita Alavez'), 'she was not named');
   assert.ok(!ctx.calls.some(call => call[0] === 'fillText' && /The guard · about/.test(call[1])), 'the guard was labelled with a count');
   assert.ok(drawnEve.drawn.some(one => /^prisoner-idle-/.test(one.sprite || '')), 'the prisoners in the presidio still carry the militia musket');

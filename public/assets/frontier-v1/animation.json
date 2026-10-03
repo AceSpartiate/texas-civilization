@@ -1922,6 +1922,54 @@
       "motion": "breathe",
       "direction": "north"
     },
+    "dragoon-fire": {
+      "frames": [
+        {
+          "sprite": "dragoon-fire-1",
+          "duration": 360
+        },
+        {
+          "sprite": "dragoon-fire-2",
+          "duration": 120
+        },
+        {
+          "sprite": "dragoon-carbine-lower",
+          "duration": 220
+        },
+        {
+          "sprite": "dragoon-carbine-rest",
+          "duration": 300
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
+    "lancer-charge": {
+      "frames": [
+        {
+          "sprite": "lancer-charge-1",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-2",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-3",
+          "duration": 160
+        },
+        {
+          "sprite": "lancer-charge-4",
+          "duration": 160
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
+    },
     "girl-walk-s": {
       "frames": [
         {
@@ -2545,6 +2593,30 @@
       "authored": true,
       "motion": "none",
       "direction": "east; mirror for west"
+    },
+    "regular-prone-fire-reload": {
+      "frames": [
+        {
+          "sprite": "regular-prone-aim",
+          "duration": 700
+        },
+        {
+          "sprite": "regular-prone-fire",
+          "duration": 120
+        },
+        {
+          "sprite": "regular-prone-lock",
+          "duration": 750
+        },
+        {
+          "sprite": "regular-prone-lock",
+          "duration": 900
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; west by mirroring"
     },
     "mother-scarf-walk": {
       "frames": [
@@ -4574,6 +4646,70 @@
       "motion": "none",
       "direction": "north"
     },
+    "barragan-walk-e": {
+      "frames": [
+        {
+          "sprite": "barragan-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "barragan-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "barragan-walk-s": {
+      "frames": [
+        {
+          "sprite": "barragan-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "barragan-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "barragan-walk-n": {
+      "frames": [
+        {
+          "sprite": "barragan-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "barragan-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "barragan-intervene": {
+      "frames": [
+        {
+          "sprite": "barragan-stop",
+          "duration": 800
+        },
+        {
+          "sprite": "barragan-protect",
+          "duration": 1000
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "twin-sisters-limbered": {
       "frames": [
         {
@@ -4901,6 +5037,53 @@
       "authored": true,
       "motion": "none",
       "direction": "east"
+    },
+    "castrillon-walk-s": {
+      "frames": [
+        {
+          "sprite": "castrillon-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "castrillon-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "castrillon-walk-n": {
+      "frames": [
+        {
+          "sprite": "castrillon-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "castrillon-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "castrillon-crate-command": {
+      "frames": [
+        {
+          "sprite": "castrillon-crate-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "castrillon-crate-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none"
     },
     "castrillon-walk-e": {
       "frames": [
@@ -5241,6 +5424,710 @@
       "authored": true,
       "motion": "none",
       "direction": "north"
+    },
+    "travis-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "travis-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "travis-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "travis-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "travis-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "travis-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "crockett-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "crockett-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "crockett-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "crockett-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "crockett-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "crockett-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "bowie-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "bowie-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "bowie-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "bowie-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "bowie-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "bowie-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "fannin-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "fannin-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "fannin-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "fannin-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "fannin-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "fannin-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "milam-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "milam-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "milam-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "milam-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "milam-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "milam-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "ben-foot-walk-s-v2": {
+      "frames": [
+        {
+          "sprite": "ben-foot-walk-s-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "ben-foot-walk-s-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "ben-foot-walk-n-v2": {
+      "frames": [
+        {
+          "sprite": "ben-foot-walk-n-v2-1",
+          "duration": 350
+        },
+        {
+          "sprite": "ben-foot-walk-n-v2-2",
+          "duration": 350
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "neill-field-command": {
+      "frames": [
+        {
+          "sprite": "neill-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "neill-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "neill-field-conversation": {
+      "frames": [
+        {
+          "sprite": "neill-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "neill-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "karnes-field-command": {
+      "frames": [
+        {
+          "sprite": "karnes-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "karnes-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "karnes-field-conversation": {
+      "frames": [
+        {
+          "sprite": "karnes-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "karnes-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "hockley-field-command": {
+      "frames": [
+        {
+          "sprite": "hockley-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "hockley-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "hockley-field-conversation": {
+      "frames": [
+        {
+          "sprite": "hockley-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "hockley-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "lamar-field-command": {
+      "frames": [
+        {
+          "sprite": "lamar-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "lamar-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "lamar-field-conversation": {
+      "frames": [
+        {
+          "sprite": "lamar-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "lamar-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "sherman-field-command": {
+      "frames": [
+        {
+          "sprite": "sherman-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "sherman-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "sherman-field-conversation": {
+      "frames": [
+        {
+          "sprite": "sherman-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "sherman-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "rusk-field-command": {
+      "frames": [
+        {
+          "sprite": "rusk-field-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "rusk-field-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "rusk-field-conversation": {
+      "frames": [
+        {
+          "sprite": "rusk-field-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "rusk-field-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "travis-command-cycle": {
+      "frames": [
+        {
+          "sprite": "travis-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "travis-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "travis-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "travis-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "travis-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "houston-command-cycle": {
+      "frames": [
+        {
+          "sprite": "houston-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "houston-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "houston-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "houston-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "houston-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "santa-anna-command-cycle": {
+      "frames": [
+        {
+          "sprite": "santa-anna-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "santa-anna-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "santa-anna-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "santa-anna-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "santa-anna-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "austin-command-cycle": {
+      "frames": [
+        {
+          "sprite": "austin-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "austin-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "austin-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "austin-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "austin-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "moore-command-cycle": {
+      "frames": [
+        {
+          "sprite": "moore-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "moore-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "moore-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "moore-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "moore-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "almonte-command-cycle": {
+      "frames": [
+        {
+          "sprite": "almonte-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "almonte-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "almonte-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "almonte-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "almonte-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "burleson-command-cycle": {
+      "frames": [
+        {
+          "sprite": "burleson-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "burleson-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "burleson-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "burleson-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "burleson-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "cos-command-cycle": {
+      "frames": [
+        {
+          "sprite": "cos-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "cos-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "cos-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "cos-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "cos-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "urrea-command-cycle": {
+      "frames": [
+        {
+          "sprite": "urrea-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "urrea-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "urrea-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "urrea-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "urrea-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "castaneda-command-cycle": {
+      "frames": [
+        {
+          "sprite": "castaneda-command-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "castaneda-command-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "castaneda-conversation-cycle": {
+      "frames": [
+        {
+          "sprite": "castaneda-conversation-gesture-1",
+          "duration": 900
+        },
+        {
+          "sprite": "castaneda-conversation-gesture-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
     },
     "grant-walk-e": {
       "frames": [
@@ -5794,6 +6681,390 @@
       "motion": "none",
       "direction": "north"
     },
+    "smither-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "smither-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "smither-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "smither-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "smither-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "smither-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "jw-smith-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "jw-smith-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "jw-smith-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "jw-smith-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "horton-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "horton-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "horton-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "horton-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "kimbell-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "kimbell-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "kimbell-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "kimbell-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "martin-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "martin-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "martin-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "martin-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "cos-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "cos-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "cos-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "cos-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "cos-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "cos-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "urrea-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "urrea-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "urrea-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "urrea-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "urrea-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "urrea-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "castaneda-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "castaneda-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "castaneda-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "castaneda-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "castaneda-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "castaneda-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "houston-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "houston-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "houston-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "houston-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "houston-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "houston-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "santa-anna-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "santa-anna-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "santa-anna-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "santa-anna-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "santa-anna-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "santa-anna-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "burleson-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "burleson-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "burleson-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "burleson-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "burleson-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "burleson-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "grant-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "grant-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "grant-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "grant-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "grant-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "grant-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
     "houston-mounted-walk-e": {
       "frames": [
         {
@@ -6298,6 +7569,262 @@
       "motion": "none",
       "direction": "east-facing; turns toward the battle"
     },
+    "jw-smith-walk-e": {
+      "frames": [
+        {
+          "sprite": "jw-smith-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "jw-smith-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "jw-smith-walk-s": {
+      "frames": [
+        {
+          "sprite": "jw-smith-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "jw-smith-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "jw-smith-walk-n": {
+      "frames": [
+        {
+          "sprite": "jw-smith-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "jw-smith-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "jw-smith-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "jw-smith-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "jw-smith-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "horton-walk-e": {
+      "frames": [
+        {
+          "sprite": "horton-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "horton-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "horton-walk-s": {
+      "frames": [
+        {
+          "sprite": "horton-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "horton-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "horton-walk-n": {
+      "frames": [
+        {
+          "sprite": "horton-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "horton-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "horton-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "horton-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "horton-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "kimbell-walk-e": {
+      "frames": [
+        {
+          "sprite": "kimbell-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "kimbell-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "kimbell-walk-s": {
+      "frames": [
+        {
+          "sprite": "kimbell-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "kimbell-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "kimbell-walk-n": {
+      "frames": [
+        {
+          "sprite": "kimbell-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "kimbell-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "kimbell-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "kimbell-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "kimbell-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "martin-walk-e": {
+      "frames": [
+        {
+          "sprite": "martin-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "martin-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "martin-walk-s": {
+      "frames": [
+        {
+          "sprite": "martin-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "martin-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "martin-walk-n": {
+      "frames": [
+        {
+          "sprite": "martin-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "martin-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "martin-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "martin-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "martin-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
     "rusk-walk-e": {
       "frames": [
         {
@@ -6385,6 +7912,230 @@
       "authored": true,
       "motion": "none",
       "direction": "east; mirror for west"
+    },
+    "sanchez-navarro-walk-e": {
+      "frames": [
+        {
+          "sprite": "sanchez-navarro-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "sanchez-navarro-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "sanchez-navarro-walk-s": {
+      "frames": [
+        {
+          "sprite": "sanchez-navarro-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "sanchez-navarro-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "sanchez-navarro-walk-n": {
+      "frames": [
+        {
+          "sprite": "sanchez-navarro-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "sanchez-navarro-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "sanchez-navarro-parley": {
+      "frames": [
+        {
+          "sprite": "sanchez-navarro-listen",
+          "duration": 900
+        },
+        {
+          "sprite": "sanchez-navarro-parley",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "deaf-smith-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "deaf-smith-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "deaf-smith-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "deaf-smith-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "deaf-smith-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "deaf-smith-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "karnes-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "karnes-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "karnes-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "karnes-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "karnes-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "karnes-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "lamar-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "lamar-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "lamar-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "lamar-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "lamar-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "lamar-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "sherman-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "sherman-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "sherman-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "sherman-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "sherman-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "sherman-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "rusk-mounted-walk-s": {
+      "frames": [
+        {
+          "sprite": "rusk-mounted-walk-s-1",
+          "duration": 300
+        },
+        {
+          "sprite": "rusk-mounted-walk-s-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "rusk-mounted-walk-n": {
+      "frames": [
+        {
+          "sprite": "rusk-mounted-walk-n-1",
+          "duration": 300
+        },
+        {
+          "sprite": "rusk-mounted-walk-n-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
     },
     "seguin-mounted-walk-e": {
       "frames": [
@@ -6522,6 +8273,326 @@
       "motion": "none",
       "direction": "east"
     },
+    "smither-walk-e": {
+      "frames": [
+        {
+          "sprite": "smither-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "smither-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "smither-walk-s": {
+      "frames": [
+        {
+          "sprite": "smither-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "smither-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "smither-walk-n": {
+      "frames": [
+        {
+          "sprite": "smither-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "smither-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "smither-mounted-walk-e": {
+      "frames": [
+        {
+          "sprite": "smither-mounted-walk-e-1",
+          "duration": 300
+        },
+        {
+          "sprite": "smither-mounted-walk-e-2",
+          "duration": 300
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "fannin-story-command": {
+      "frames": [
+        {
+          "sprite": "fannin-story-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "fannin-story-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "fannin-story-surrender": {
+      "frames": [
+        {
+          "sprite": "fannin-story-surrender-1",
+          "duration": 900
+        },
+        {
+          "sprite": "fannin-story-surrender-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "milam-story-rally": {
+      "frames": [
+        {
+          "sprite": "milam-story-rally-1",
+          "duration": 900
+        },
+        {
+          "sprite": "milam-story-rally-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "milam-story-point": {
+      "frames": [
+        {
+          "sprite": "milam-story-point-1",
+          "duration": 900
+        },
+        {
+          "sprite": "milam-story-point-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "crockett-story-command": {
+      "frames": [
+        {
+          "sprite": "crockett-story-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "crockett-story-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "crockett-story-rest": {
+      "frames": [
+        {
+          "sprite": "crockett-story-rest-1",
+          "duration": 1200
+        },
+        {
+          "sprite": "crockett-story-rest-2",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "bowie-story-command": {
+      "frames": [
+        {
+          "sprite": "bowie-story-command-1",
+          "duration": 900
+        },
+        {
+          "sprite": "bowie-story-command-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "bowie-story-sick": {
+      "frames": [
+        {
+          "sprite": "bowie-story-sick-1",
+          "duration": 1200
+        },
+        {
+          "sprite": "bowie-story-sick-2",
+          "duration": 1200
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "alavez-story-beckon": {
+      "frames": [
+        {
+          "sprite": "alavez-story-beckon-1",
+          "duration": 900
+        },
+        {
+          "sprite": "alavez-story-beckon-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "alavez-story-guide": {
+      "frames": [
+        {
+          "sprite": "alavez-story-guide-1",
+          "duration": 900
+        },
+        {
+          "sprite": "alavez-story-guide-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "ben-story-pot-walk": {
+      "frames": [
+        {
+          "sprite": "ben-story-pot-walk-1",
+          "duration": 280
+        },
+        {
+          "sprite": "ben-story-pot-walk-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "ben-story-conversation": {
+      "frames": [
+        {
+          "sprite": "ben-story-conversation-1",
+          "duration": 900
+        },
+        {
+          "sprite": "ben-story-conversation-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "esparza-story-ram": {
+      "frames": [
+        {
+          "sprite": "esparza-story-ram-1",
+          "duration": 650
+        },
+        {
+          "sprite": "esparza-story-ram-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "esparza-story-shot-carry": {
+      "frames": [
+        {
+          "sprite": "esparza-story-shot-carry-1",
+          "duration": 280
+        },
+        {
+          "sprite": "esparza-story-shot-carry-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "almeron-dickinson-story-ram": {
+      "frames": [
+        {
+          "sprite": "almeron-dickinson-story-ram-1",
+          "duration": 650
+        },
+        {
+          "sprite": "almeron-dickinson-story-ram-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "almeron-dickinson-story-shot-carry": {
+      "frames": [
+        {
+          "sprite": "almeron-dickinson-story-shot-carry-1",
+          "duration": 280
+        },
+        {
+          "sprite": "almeron-dickinson-story-shot-carry-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
     "urrea-walk-e": {
       "frames": [
         {
@@ -6593,6 +8664,70 @@
       "authored": true,
       "motion": "none",
       "direction": "east"
+    },
+    "wp-smith-walk-e": {
+      "frames": [
+        {
+          "sprite": "wp-smith-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "wp-smith-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "wp-smith-walk-s": {
+      "frames": [
+        {
+          "sprite": "wp-smith-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "wp-smith-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "wp-smith-walk-n": {
+      "frames": [
+        {
+          "sprite": "wp-smith-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "wp-smith-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "wp-smith-address": {
+      "frames": [
+        {
+          "sprite": "wp-smith-speak",
+          "duration": 850
+        },
+        {
+          "sprite": "wp-smith-exhort",
+          "duration": 1000
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
     },
     "flag-come-and-take-it-wind": {
       "frames": [
@@ -6721,6 +8856,142 @@
       "authored": true,
       "motion": "none",
       "direction": "east; west by mirroring"
+    },
+    "mule-packed-grass-walk-e": {
+      "frames": [
+        {
+          "sprite": "mule-packed-grass-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-e-2",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-e-3",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-e-4",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "mule-packed-grass-walk-s": {
+      "frames": [
+        {
+          "sprite": "mule-packed-grass-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-s-2",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-s-3",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-s-4",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "mule-packed-grass-walk-n": {
+      "frames": [
+        {
+          "sprite": "mule-packed-grass-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-n-2",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-n-3",
+          "duration": 280
+        },
+        {
+          "sprite": "mule-packed-grass-walk-n-4",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "fog-bank-dense": {
+      "frames": [
+        {
+          "sprite": "fog-bank-dense-1",
+          "duration": 6000
+        },
+        {
+          "sprite": "fog-bank-dense-2",
+          "duration": 6000
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "fog-bank-thin": {
+      "frames": [
+        {
+          "sprite": "fog-bank-thin-1",
+          "duration": 6000
+        },
+        {
+          "sprite": "fog-bank-thin-2",
+          "duration": 6000
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "live-oak-mott-dense-wind": {
+      "frames": [
+        {
+          "sprite": "live-oak-mott-dense-1",
+          "duration": 1800
+        },
+        {
+          "sprite": "live-oak-mott-dense-2",
+          "duration": 1800
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
+    },
+    "live-oak-mott-open-wind": {
+      "frames": [
+        {
+          "sprite": "live-oak-mott-open-1",
+          "duration": 1800
+        },
+        {
+          "sprite": "live-oak-mott-open-2",
+          "duration": 1800
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "not applicable"
     },
     "rust-ride-e": {
       "frames": [
@@ -7433,6 +9704,102 @@
       "authored": true,
       "motion": "rock",
       "direction": "east; west by mirroring"
+    },
+    "campfire-night": {
+      "frames": [
+        {
+          "sprite": "campfire-night-1",
+          "duration": 180
+        },
+        {
+          "sprite": "campfire-night-2",
+          "duration": 180
+        },
+        {
+          "sprite": "campfire-night-3",
+          "duration": 180
+        },
+        {
+          "sprite": "campfire-night-4",
+          "duration": 180
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "adobe-night-lit": {
+      "frames": [
+        {
+          "sprite": "adobe-night-lit-1",
+          "duration": 700
+        },
+        {
+          "sprite": "adobe-night-lit-2",
+          "duration": 700
+        },
+        {
+          "sprite": "adobe-night-lit-3",
+          "duration": 700
+        },
+        {
+          "sprite": "adobe-night-lit-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "jacal-night-lit": {
+      "frames": [
+        {
+          "sprite": "jacal-night-lit-1",
+          "duration": 700
+        },
+        {
+          "sprite": "jacal-night-lit-2",
+          "duration": 700
+        },
+        {
+          "sprite": "jacal-night-lit-3",
+          "duration": 700
+        },
+        {
+          "sprite": "jacal-night-lit-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
+    },
+    "cabin-night-lit": {
+      "frames": [
+        {
+          "sprite": "cabin-night-lit-1",
+          "duration": 700
+        },
+        {
+          "sprite": "cabin-night-lit-2",
+          "duration": 700
+        },
+        {
+          "sprite": "cabin-night-lit-3",
+          "duration": 700
+        },
+        {
+          "sprite": "cabin-night-lit-4",
+          "duration": 700
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "scenery"
     },
     "ox-packed-walk-e": {
       "frames": [
@@ -8273,6 +10640,166 @@
       "authored": false,
       "motion": "rock",
       "direction": "east; west by mirroring"
+    },
+    "susanna-child-walk-e": {
+      "frames": [
+        {
+          "sprite": "susanna-child-walk-e-1",
+          "duration": 280
+        },
+        {
+          "sprite": "susanna-child-walk-e-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east"
+    },
+    "susanna-child-hold": {
+      "frames": [
+        {
+          "sprite": "susanna-child-hold-1",
+          "duration": 900
+        },
+        {
+          "sprite": "susanna-child-hold-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "susanna-child-walk-s": {
+      "frames": [
+        {
+          "sprite": "susanna-child-walk-s-1",
+          "duration": 280
+        },
+        {
+          "sprite": "susanna-child-walk-s-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "south"
+    },
+    "susanna-child-walk-n": {
+      "frames": [
+        {
+          "sprite": "susanna-child-walk-n-1",
+          "duration": 280
+        },
+        {
+          "sprite": "susanna-child-walk-n-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "north"
+    },
+    "settler-gun-ram": {
+      "frames": [
+        {
+          "sprite": "settler-gun-ram-1",
+          "duration": 650
+        },
+        {
+          "sprite": "settler-gun-ram-2",
+          "duration": 650
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "settler-gun-rammer-cover": {
+      "frames": [
+        {
+          "sprite": "settler-gun-rammer-cover-1",
+          "duration": 450
+        },
+        {
+          "sprite": "settler-gun-rammer-cover-2",
+          "duration": 450
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "settler-gun-carry": {
+      "frames": [
+        {
+          "sprite": "settler-gun-carry-1",
+          "duration": 280
+        },
+        {
+          "sprite": "settler-gun-carry-2",
+          "duration": 280
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "settler-gun-charge-wait": {
+      "frames": [
+        {
+          "sprite": "settler-gun-charge-wait-1",
+          "duration": 900
+        },
+        {
+          "sprite": "settler-gun-charge-wait-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "settler-gun-fire": {
+      "frames": [
+        {
+          "sprite": "settler-gun-fire-1",
+          "duration": 450
+        },
+        {
+          "sprite": "settler-gun-fire-2",
+          "duration": 450
+        }
+      ],
+      "loop": false,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
+    },
+    "settler-gun-ready": {
+      "frames": [
+        {
+          "sprite": "settler-gun-ready-1",
+          "duration": 900
+        },
+        {
+          "sprite": "settler-gun-ready-2",
+          "duration": 900
+        }
+      ],
+      "loop": true,
+      "authored": true,
+      "motion": "none",
+      "direction": "east; mirror for west"
     },
     "pine-loblolly-pole-wind": {
       "frames": [

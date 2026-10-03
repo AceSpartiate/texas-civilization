@@ -79,25 +79,6 @@
         "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
       }
     },
-    "claude-grass-bundle": {
-      "image": "/assets/claude-standins/claude-grass-bundle.png",
-      "width": 400,
-      "height": 400,
-      "bytes": 34126,
-      "sha256": "5bb8abdea143e37dbd8d6e49580184613ccd00f0c5b97ffa38c6ef8f3fa6497f",
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "layout": {
-        "rows": 1,
-        "columns": 1,
-        "cell": {
-          "w": 400,
-          "h": 400
-        },
-        "method": "Fixed cells; each frame is one whole cell of the SVG it was drawn in."
-      }
-    },
     "claude-padre-carts": {
       "image": "/assets/claude-standins/claude-padre-carts.png",
       "width": 1600,
@@ -398,23 +379,6 @@
       "source": "svg/battle-works/claude-ammunition-crate.svg",
       "label": "ammunition crate",
       "kind": "claude-ammunition-crate"
-    },
-    "grass-bundle-cut": {
-      "sheet": "claude-grass-bundle",
-      "x": 0,
-      "y": 0,
-      "w": 400,
-      "h": 400,
-      "anchorX": 0.5,
-      "anchorY": 0.93,
-      "logicalHeight": 300,
-      "madeBy": "claude",
-      "module": "battle-works",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "replaceWith": "grass-bundle-cut: item 6: `grass-bundle-cut` (a pack slit open, grass spilling), at the scale of the mules that carried them",
-      "source": "svg/battle-works/claude-grass-bundle-cut.svg",
-      "label": "grass bundle cut",
-      "kind": "claude-grass-bundle"
     },
     "padre-carts-1": {
       "sheet": "claude-padre-carts",
@@ -1111,20 +1075,6 @@
       "method": "generated SVG (scripts/claude-art/)",
       "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
       "status": "temporary: replace with Astra's ammunition-crate"
-    },
-    "grass-bundle-cut": {
-      "kind": "frame",
-      "madeBy": "claude",
-      "date": "2026-09-28",
-      "module": "battle-works",
-      "area": "battles",
-      "sheet": "claude-grass-bundle",
-      "request": "Request 2026-09-25 — Concepción and the Grass Fight",
-      "prompt": "A mule's pack from the Grass Fight, November 26, 1835, slit open on the ground: a burlap bundle tied with rawhide, cut along its side, cut prairie grass (fodder, not the silver the Texians hoped for) spilling out of it. Warm hand-drawn storybook style after Astra's frontier-v1 sheets: thin dark olive-brown outline, flat shade with the light from the upper left, a restrained moss, rust, cream and ochre palette; transparent ground, no shadow, no text. Claude-drawn temporary stand-in, to be replaced by Astra's frame of the same name.",
-      "source": "public/assets/claude-standins/svg/battle-works/claude-grass-bundle-cut.svg",
-      "method": "generated SVG (scripts/claude-art/)",
-      "rasterised": "Playwright/Chrome screenshot of the inlined SVG, transparent ground (scripts/build-claude-standins.mjs)",
-      "status": "temporary: replace with Astra's grass-bundle-cut"
     },
     "padre-carts-1": {
       "kind": "frame",

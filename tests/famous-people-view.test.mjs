@@ -97,5 +97,6 @@ test('with Claude\'s temporary sheets loaded, the Esparza family, the burial par
   const carried = run('alamo', 'burial', 0, cameraOn('alamo', 'church-front', 1600), { seconds: 2, claude: true });
   assert.equal(carried.last.people.find(one => one.id === 'francisco-esparza')?.drawnAs, 'burial-party-walk-e', 'the burial party is not its own frames');
   const barragan = run('alamo', 'end', 12, cameraOn('alamo', 'joe-door', 2600), { seconds: 1, claude: true });
-  assert.equal(barragan.last.people.find(one => one.id === 'barragan')?.drawnAs, 'barragan-command');
+  // Astra's own Barragán since 2026-10-03 (his intervention at Joe's door), where Claude's command pose stood in.
+  assert.match(barragan.last.people.find(one => one.id === 'barragan')?.drawnAs || '', /^barragan-(intervene|command)$/);
 });

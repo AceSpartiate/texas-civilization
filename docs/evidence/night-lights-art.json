@@ -1,0 +1,26 @@
+{
+  "verdict": "PASS",
+  "clips": [
+    {
+      "clip": "campfire-night",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "adobe-night-lit",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "jacal-night-lit",
+      "drawn": true,
+      "changed": true
+    },
+    {
+      "clip": "cabin-night-lit",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

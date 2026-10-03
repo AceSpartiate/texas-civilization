@@ -1,0 +1,11 @@
+{
+  "verdict": "PASS",
+  "clips": [
+    {
+      "clip": "regular-prone-fire-reload",
+      "drawn": true,
+      "changed": true
+    }
+  ],
+  "errors": []
+}

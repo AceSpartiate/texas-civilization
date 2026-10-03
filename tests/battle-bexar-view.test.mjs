@@ -97,7 +97,8 @@ test('Johnson takes command in his own art at seven on the seventh', () => {
 test('Burleson rides into the Béxar talks on his own mounted sheet', () => {
   const art = fakeArt(), view = createBattleView(art);
   play(view, 'parley', { seconds: 2, into: tick => 55 + tick });
-  assert.ok(art.drawn.some(one => one.clip === 'burleson-mounted-walk-e'));
+  // Riding his own horse by the way he goes since Astra's cardinal riding (2026-10-03): east, north or south.
+  assert.ok(art.drawn.some(one => /^burleson-mounted-walk-[ens]$/.test(one.clip || '')), JSON.stringify([...new Set(art.drawn.map(one => one.clip).filter(Boolean))]));
   assert.ok(!art.drawn.some(one => one.clip === 'mounted-courier-e'));
 });
 

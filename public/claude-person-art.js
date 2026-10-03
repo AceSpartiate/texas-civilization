@@ -21,21 +21,14 @@ const famous = (id, { fires, falls, rides, mx, extra = {} } = {}) => ({
 // any of them is on the field, the siege and the assault, so it is here before the first frame of the burial.
 const BURIAL = Object.freeze({ burial: 'burial-party-walk-e' });
 export const CLAUDE_PERSON_ART = Object.freeze({
-  kimbell: famous('kimbell', { fires: true, falls: true, rides: true }),
-  martin: famous('martin', { fires: true, falls: true, rides: true }),
-  'jw-smith': famous('jw-smith', { fires: true, rides: true }),
-  horton: famous('horton', { fires: true, rides: true }),
-  'wp-smith': famous('wp-smith', { extra: { command: 'wp-smith-address', address: 'wp-smith-address', listen: 'wp-smith-listen' } }),
-  smither: famous('smither', { rides: true, extra: { call: 'smither-call' } }),
-  'sanchez-navarro': famous('sanchez-navarro', { mx: true, extra: { parley: 'sanchez-navarro-parley' } }),
-  barragan: famous('barragan', { mx: true, extra: { protect: 'barragan-protect' } }),
   'ana-esparza': { stand: 'ana-esparza-idle', seated: 'ana-esparza-seated', sick: 'ana-esparza-seated', shelter: 'ana-esparza-shelter-with-children', carry: 'clip:ana-esparza-carry-toddler', blanket: 'ana-esparza-hold-blanket', walk: 'ana-esparza-walk-e', fallback: 'woman', ...BURIAL },
   'maria-de-jesus': { stand: 'maria-de-jesus-idle', seated: 'maria-de-jesus-seated-huddled', sick: 'maria-de-jesus-seated-huddled', walk: 'maria-de-jesus-walk-e', fallback: 'girl', ...BURIAL },
   'enrique-esparza': { stand: 'enrique-esparza-idle', seated: 'enrique-esparza-seated-huddled', sick: 'enrique-esparza-seated-huddled', look: 'enrique-esparza-look', walk: 'enrique-esparza-walk-e', fallback: 'boy', ...BURIAL },
-  // Poses Astra's delivered sheets lack: Gregorio asleep sitting (night of March 5), Castrillón walking north and south. Held
-  // back (owner, 2026-09-29, public/art-subjects.js): she has drawn both men, so these Claude frames are never in the library and
-  // her own figure is drawn in its nearest pose, as before Claude's art. Kept so her own pose of the name is taken when it lands.
+  // A pose Astra's delivered sheet lacks: Gregorio asleep sitting (night of March 5). Held back (owner, 2026-09-29,
+  // public/art-subjects.js): she has drawn him, so this Claude frame is never in the library and her own figure is drawn in its
+  // nearest pose, as before Claude's art. Kept so her own pose of the name is taken when it lands. (Kimbell, Martin, J. W. Smith,
+  // Horton, W. P. Smith, Smither, Sánchez Navarro, Barragán and Castrillón's north and south walks are hers since 2026-10-03; their
+  // Claude lines were deleted when her delivery was merged.)
   esparza: { seated: 'esparza-seated', ...BURIAL },
-  castrillon: { walkSouth: 'castrillon-walk-s', walkNorth: 'castrillon-walk-n' },
   'francisco-esparza': { stand: 'francisco-esparza-idle', kneel: 'francisco-esparza-kneel-at-grave', walk: 'francisco-esparza-walk-e', carry: 'clip:burial-party-walk-e', bearers: 'burial-party-walk-e', fallback: 'townsman' },
 });

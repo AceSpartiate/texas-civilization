@@ -7,17 +7,17 @@
   "checks": [
     "the family answered the winter-quarters question and Milam's call \"yes\" on its man's own card, by pressing them",
     "the alert \"Into San Antonio\" came in the out before contact, through the man (\"At Hollis's side, a sergeant of the division: \"We go in now,...\"), and Watch put the camera 0.29 miles from the town",
-    "episode 1, the entry: fire and smoke at every one of 8 sampled moments (shots 10 -> 165, 16 through loopholes, 58 from the guns; smoke in view 28-179); groups reserve, johnson, roofs, loops, alamo, trench",
+    "episode 1, the entry: fire and smoke at every one of 8 sampled moments (shots 9 -> 161, 15 through loopholes, 58 from the guns; smoke in view 25-179); groups reserve, johnson, roofs, loops, alamo, trench",
     "the family's man hh-1-thomas walked in from the mill at three with Johnson’s division and is drawn in it, firing: volunteer-march, volunteer-load, volunteer-fire-reload",
     "the Host sees it live (pinned-5), camera battle, focus regional, spotlights bexar-entry:97860",
     "the family with nobody there was sent nothing of the storming - no battle, no alert, no name - before and after a reload",
     "the Host's camera is on the town in the karnes (focus battle), spotlit",
     "his own wound, staged for karnes minute 101181 (\"at the door Karnes broke in\"), was drawn on his family's page at its moment: volunteer-injured",
     "episode 2: fire and smoke at 5 moments of Karnes's door; the door broken, the family inside let out unhurt, and Milam down in the yard, named",
-    "episode 3, the Priest's House: fire and smoke at every one of 6 sampled moments (smoke in view 172-179)",
+    "episode 3, the Priest's House: fire and smoke at every one of 6 sampled moments (smoke in view 174-179)",
     "episode 4: the guns stop and a white flag comes to the plaza",
-    "words drawn over the speakers: b-milam, b-go, b-put, b-walled, b-companies, b-names, b-here, b-sound, b-closed, b-cold, b-neill, b-blankets, b-quien, b-armas, b-wall, b-door, b-azoteas, b-roof, command:0, b-knives, b-fuego, command:1, b-alamo, command:2, b-middle, b-loophole, b-vengan, b-getus, b-bar, b-trench, b-letout, b-water, b-sandbags, b-silenced, b-karnes, b-vienen, b-family, b-holdit, b-pouring, b-down, b-johnson, b-navarro, b-wet, b-companies-in, b-rooms, b-hole, b-column, b-six, b-whisper, b-spike, b-block, b-fuego2, b-caballo, b-going, b-condelle, b-bugle, b-call, b-white (Cold enough to freeze the powder. | That’s Neill’s gun. | Drop your blankets here. | ¿Quién vive? | ¡A las armas! | Keep to the wall! | The door - break it in! | ¡A las azoteas!)",
-    "the storming draws in 3.6 ms at its slowest 95th percentile (median at most 1.7 ms)",
+    "words drawn over the speakers: b-milam, b-go, b-put, b-walled, b-companies, b-names, b-here, b-sound, b-closed, b-cold, b-neill, b-blankets, b-quien, b-armas, b-wall, b-door, b-azoteas, command:0, b-roof, b-knives, b-fuego, command:1, command:2, b-alamo, b-middle, b-loophole, b-vengan, b-getus, b-bar, b-trench, b-letout, b-water, b-sandbags, b-silenced, b-karnes, b-vienen, b-family, b-holdit, b-pouring, b-down, b-johnson, b-navarro, b-wet, b-companies-in, b-rooms, b-hole, b-column, b-six, b-whisper, b-spike, b-block, b-fuego2, b-caballo, b-going, b-condelle, b-bugle, b-call, b-white (Cold enough to freeze the powder. | That’s Neill’s gun. | Drop your blankets here. | ¿Quién vive? | ¡A las armas! | Keep to the wall! | The door - break it in! | ¡A las azoteas!)",
+    "the storming draws in 9.0 ms at its slowest 95th percentile (median at most 2.7 ms)",
     "the account came through the man (\"What Hollis saw at Béxar\"): what happened, what he did, why it ended so, what comes next - and the journal keeps it",
     "no page errors"
   ],
@@ -40,15 +40,15 @@
           "sentinel": 1,
           "alamo": 8
         },
-        "shotsTotal": 10,
+        "shotsTotal": 9,
         "shotsBy": {
-          "mexican": 3,
+          "mexican": 2,
           "texian": 3
         },
         "loopholeShots": 0,
         "gunShots": 4,
-        "smoke": 28,
-        "smokeInView": 28,
+        "smoke": 25,
+        "smokeInView": 25,
         "bubbles": [
           "Cold enough to freeze the powder.",
           "That’s Neill’s gun.",
@@ -66,9 +66,9 @@
         "whiteFlag": null,
         "civiliansSeen": 0,
         "frameMs": {
-          "last": 0.9,
-          "median": 0.6,
-          "p95": 1.2
+          "last": 1.6,
+          "median": 1.4,
+          "p95": 2.6
         }
       }
     },
@@ -90,15 +90,15 @@
           "sentinel": 1,
           "alamo": 8
         },
-        "shotsTotal": 15,
+        "shotsTotal": 14,
         "shotsBy": {
-          "mexican": 3,
+          "mexican": 2,
           "texian": 3
         },
         "loopholeShots": 0,
         "gunShots": 9,
-        "smoke": 48,
-        "smokeInView": 48,
+        "smoke": 45,
+        "smokeInView": 45,
         "bubbles": [
           "That’s Neill’s gun.",
           "Drop your blankets here.",
@@ -116,9 +116,9 @@
         "whiteFlag": null,
         "civiliansSeen": 0,
         "frameMs": {
-          "last": 4.6,
-          "median": 0.7,
-          "p95": 3.4
+          "last": 3.7,
+          "median": 1.5,
+          "p95": 4.9
         }
       }
     },
@@ -142,15 +142,15 @@
           "loops": 3,
           "alamo": 8
         },
-        "shotsTotal": 31,
+        "shotsTotal": 30,
         "shotsBy": {
-          "mexican": 7,
-          "texian": 9
+          "mexican": 4,
+          "texian": 11
         },
         "loopholeShots": 0,
         "gunShots": 15,
-        "smoke": 87,
-        "smokeInView": 76,
+        "smoke": 85,
+        "smokeInView": 72,
         "bubbles": [
           "¿Quién vive?",
           "¡A las armas!"
@@ -168,9 +168,9 @@
         "whiteFlag": null,
         "civiliansSeen": 0,
         "frameMs": {
-          "last": 1.4,
-          "median": 0.8,
-          "p95": 2.6
+          "last": 1.7,
+          "median": 1.7,
+          "p95": 9
         }
       }
     },
@@ -196,12 +196,12 @@
         },
         "shotsTotal": 46,
         "shotsBy": {
-          "mexican": 10,
-          "texian": 15
+          "mexican": 9,
+          "texian": 16
         },
         "loopholeShots": 2,
         "gunShots": 21,
-        "smoke": 122,
+        "smoke": 121,
         "smokeInView": 88,
         "bubbles": [
           "¡A las armas!",
@@ -214,7 +214,8 @@
         ],
         "memberClips": [
           "volunteer-march",
-          "volunteer-load"
+          "volunteer-load",
+          "volunteer-fire-reload"
         ],
         "memberFalls": [],
         "breachesOpened": 0,
@@ -222,9 +223,9 @@
         "whiteFlag": null,
         "civiliansSeen": 0,
         "frameMs": {
-          "last": 1.2,
-          "median": 1.1,
-          "p95": 2.6
+          "last": 2.1,
+          "median": 1.9,
+          "p95": 8.6
         }
       }
     },
@@ -255,12 +256,13 @@
         },
         "loopholeShots": 2,
         "gunShots": 25,
-        "smoke": 151,
-        "smokeInView": 151,
+        "smoke": 152,
+        "smokeInView": 152,
         "bubbles": [
           "The door - break it in!",
           "¡A las azoteas!",
-          "Off the roof!"
+          "Off the roof!",
+          "¡Preparen!"
         ],
         "members": [
           "hh-1-thomas"
@@ -276,9 +278,9 @@
         "whiteFlag": null,
         "civiliansSeen": 0,
         "frameMs": {
-          "last": 1.7,
-          "median": 1.3,
-          "p95": 2.6
+          "last": 3.4,
+          "median": 2,
+          "p95": 4.7
         }
       }
     },
@@ -302,19 +304,20 @@
           "loops": 3,
           "alamo": 8
         },
-        "shotsTotal": 78,
+        "shotsTotal": 79,
         "shotsBy": {
-          "mexican": 19,
-          "texian": 30
+          "mexican": 18,
+          "texian": 32
         },
-        "loopholeShots": 4,
+        "loopholeShots": 5,
         "gunShots": 28,
         "smoke": 175,
         "smokeInView": 175,
         "bubbles": [
           "Off the roof!",
           "Cut a hole in it - get back inside!",
-          "¡Fuego!"
+          "¡Fuego!",
+          "¡Apunten!"
         ],
         "members": [
           "hh-1-thomas"
@@ -330,9 +333,9 @@
         "whiteFlag": null,
         "civiliansSeen": 0,
         "frameMs": {
-          "last": 1.9,
-          "median": 1.4,
-          "p95": 2.5
+          "last": 3.6,
+          "median": 2.3,
+          "p95": 4.7
         }
       }
     },
@@ -354,17 +357,16 @@
           "loops": 3,
           "alamo": 8
         },
-        "shotsTotal": 129,
+        "shotsTotal": 130,
         "shotsBy": {
-          "mexican": 52,
-          "texian": 36
+          "mexican": 50,
+          "texian": 39
         },
-        "loopholeShots": 10,
+        "loopholeShots": 11,
         "gunShots": 40,
         "smoke": 179,
         "smokeInView": 179,
         "bubbles": [
-          "Cut a hole in it - get back inside!",
           "¡Fuego!",
           "They’re firing from the Alamo too!",
           "¡Fuego!"
@@ -384,8 +386,8 @@
         "civiliansSeen": 0,
         "frameMs": {
           "last": 1.6,
-          "median": 1.5,
-          "p95": 2.2
+          "median": 2.6,
+          "p95": 4.9
         }
       }
     },
@@ -408,12 +410,12 @@
           "alamo": 8,
           "trench": 6
         },
-        "shotsTotal": 165,
+        "shotsTotal": 161,
         "shotsBy": {
-          "mexican": 59,
+          "mexican": 55,
           "texian": 47
         },
-        "loopholeShots": 16,
+        "loopholeShots": 15,
         "gunShots": 58,
         "smoke": 179,
         "smokeInView": 179,
@@ -435,9 +437,9 @@
         "whiteFlag": null,
         "civiliansSeen": 0,
         "frameMs": {
-          "last": 1,
-          "median": 1.4,
-          "p95": 2.1
+          "last": 2.3,
+          "median": 2.7,
+          "p95": 4.7
         }
       }
     },
@@ -461,15 +463,15 @@
           "york": 6,
           "townsfolk": 4
         },
-        "shotsTotal": 456,
+        "shotsTotal": 453,
         "shotsBy": {
-          "mexican": 139,
-          "texian": 133
+          "mexican": 138,
+          "texian": 131
         },
-        "loopholeShots": 82,
+        "loopholeShots": 78,
         "gunShots": 182,
-        "smoke": 182,
-        "smokeInView": 182,
+        "smoke": 181,
+        "smokeInView": 181,
         "bubbles": [
           "Their guns have stopped.",
           "Follow Karnes!"
@@ -488,9 +490,9 @@
         "whiteFlag": null,
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 1.4,
-          "median": 1.4,
-          "p95": 1.8
+          "last": 2.1,
+          "median": 2.5,
+          "p95": 4.1
         }
       }
     },
@@ -514,15 +516,15 @@
           "york": 8,
           "townsfolk": 2
         },
-        "shotsTotal": 468,
+        "shotsTotal": 464,
         "shotsBy": {
-          "mexican": 146,
+          "mexican": 142,
           "texian": 138
         },
-        "loopholeShots": 86,
+        "loopholeShots": 85,
         "gunShots": 182,
-        "smoke": 182,
-        "smokeInView": 182,
+        "smoke": 181,
+        "smokeInView": 181,
         "bubbles": [
           "Their guns have stopped.",
           "Follow Karnes!",
@@ -542,9 +544,9 @@
         "whiteFlag": null,
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 2,
-          "median": 1.4,
-          "p95": 1.9
+          "last": 2.9,
+          "median": 2.6,
+          "p95": 4.1
         }
       }
     },
@@ -568,15 +570,15 @@
           "york": 8,
           "townsfolk": 4
         },
-        "shotsTotal": 479,
+        "shotsTotal": 476,
         "shotsBy": {
-          "mexican": 148,
-          "texian": 146
+          "mexican": 149,
+          "texian": 142
         },
-        "loopholeShots": 91,
+        "loopholeShots": 86,
         "gunShots": 183,
-        "smoke": 182,
-        "smokeInView": 182,
+        "smoke": 181,
+        "smokeInView": 181,
         "bubbles": [
           "Their guns have stopped.",
           "Follow Karnes!",
@@ -597,9 +599,9 @@
         "whiteFlag": null,
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 1.5,
-          "median": 1.5,
-          "p95": 2
+          "last": 3.4,
+          "median": 2.6,
+          "p95": 3.9
         }
       }
     },
@@ -623,13 +625,13 @@
           "york": 11,
           "townsfolk": 4
         },
-        "shotsTotal": 489,
+        "shotsTotal": 483,
         "shotsBy": {
-          "mexican": 154,
-          "texian": 150
+          "mexican": 151,
+          "texian": 146
         },
-        "loopholeShots": 93,
-        "gunShots": 183,
+        "loopholeShots": 89,
+        "gunShots": 184,
         "smoke": 181,
         "smokeInView": 181,
         "bubbles": [
@@ -656,9 +658,9 @@
         "whiteFlag": null,
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 1.7,
-          "median": 1.5,
-          "p95": 2.2
+          "last": 3.1,
+          "median": 2.6,
+          "p95": 3.9
         }
       }
     },
@@ -682,12 +684,12 @@
           "york": 11,
           "townsfolk": 4
         },
-        "shotsTotal": 498,
+        "shotsTotal": 495,
         "shotsBy": {
-          "mexican": 156,
-          "texian": 155
+          "mexican": 154,
+          "texian": 154
         },
-        "loopholeShots": 96,
+        "loopholeShots": 93,
         "gunShots": 185,
         "smoke": 182,
         "smokeInView": 182,
@@ -715,9 +717,9 @@
         "whiteFlag": null,
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 1.6,
-          "median": 1.5,
-          "p95": 2.2
+          "last": 3.9,
+          "median": 2.6,
+          "p95": 3.9
         }
       }
     },
@@ -740,15 +742,15 @@
           "alamo": 8,
           "york": 3
         },
-        "shotsTotal": 564,
+        "shotsTotal": 558,
         "shotsBy": {
-          "mexican": 183,
-          "texian": 186
+          "mexican": 180,
+          "texian": 183
         },
-        "loopholeShots": 116,
+        "loopholeShots": 112,
         "gunShots": 193,
-        "smoke": 181,
-        "smokeInView": 181,
+        "smoke": 178,
+        "smokeInView": 178,
         "bubbles": [
           "Keep down crossing the yard."
         ],
@@ -774,9 +776,9 @@
         "whiteFlag": null,
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 1.6,
-          "median": 1.6,
-          "p95": 2.1
+          "last": 2.7,
+          "median": 2.4,
+          "p95": 3.9
         }
       }
     },
@@ -799,70 +801,13 @@
           "alamo": 8,
           "york": 3
         },
-        "shotsTotal": 574,
+        "shotsTotal": 569,
         "shotsBy": {
-          "mexican": 187,
-          "texian": 192
+          "mexican": 186,
+          "texian": 188
         },
-        "loopholeShots": 120,
+        "loopholeShots": 117,
         "gunShots": 193,
-        "smoke": 177,
-        "smokeInView": 177,
-        "bubbles": [],
-        "members": [
-          "hh-1-thomas"
-        ],
-        "memberClips": [
-          "volunteer-march",
-          "volunteer-load",
-          "volunteer-fire-reload",
-          "volunteer-injured"
-        ],
-        "memberFalls": [
-          {
-            "id": "hh-1-thomas",
-            "fate": "wounded"
-          }
-        ],
-        "breachesOpened": 2,
-        "namedFalls": [
-          "Milam"
-        ],
-        "whiteFlag": null,
-        "civiliansSeen": 5,
-        "frameMs": {
-          "last": 1.5,
-          "median": 1.6,
-          "p95": 2.1
-        }
-      }
-    },
-    {
-      "label": "1024 milam 2",
-      "phase": "milam",
-      "minute": 101395,
-      "size": "1024x768",
-      "camera": "battle",
-      "view": {
-        "figures": {
-          "texian": 7,
-          "mexican": 25
-        },
-        "groups": {
-          "reserve": 9,
-          "johnson": 24,
-          "roofs": 10,
-          "loops": 3,
-          "alamo": 8,
-          "york": 3
-        },
-        "shotsTotal": 585,
-        "shotsBy": {
-          "mexican": 195,
-          "texian": 194
-        },
-        "loopholeShots": 124,
-        "gunShots": 194,
         "smoke": 178,
         "smokeInView": 178,
         "bubbles": [],
@@ -888,9 +833,66 @@
         "whiteFlag": null,
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 1.7,
-          "median": 1.6,
-          "p95": 2
+          "last": 2.1,
+          "median": 2.4,
+          "p95": 3.9
+        }
+      }
+    },
+    {
+      "label": "1024 milam 2",
+      "phase": "milam",
+      "minute": 101395,
+      "size": "1024x768",
+      "camera": "battle",
+      "view": {
+        "figures": {
+          "texian": 7,
+          "mexican": 25
+        },
+        "groups": {
+          "reserve": 9,
+          "johnson": 24,
+          "roofs": 10,
+          "loops": 3,
+          "alamo": 8,
+          "york": 3
+        },
+        "shotsTotal": 580,
+        "shotsBy": {
+          "mexican": 193,
+          "texian": 191
+        },
+        "loopholeShots": 120,
+        "gunShots": 194,
+        "smoke": 179,
+        "smokeInView": 179,
+        "bubbles": [],
+        "members": [
+          "hh-1-thomas"
+        ],
+        "memberClips": [
+          "volunteer-march",
+          "volunteer-load",
+          "volunteer-fire-reload",
+          "volunteer-injured"
+        ],
+        "memberFalls": [
+          {
+            "id": "hh-1-thomas",
+            "fate": "wounded"
+          }
+        ],
+        "breachesOpened": 2,
+        "namedFalls": [
+          "Milam"
+        ],
+        "whiteFlag": null,
+        "civiliansSeen": 5,
+        "frameMs": {
+          "last": 2.1,
+          "median": 2.4,
+          "p95": 3.9
         }
       }
     },
@@ -915,14 +917,14 @@
           "greys": 14,
           "loopline": 3
         },
-        "shotsTotal": 747,
+        "shotsTotal": 744,
         "shotsBy": {
-          "mexican": 250,
-          "texian": 268
+          "mexican": 249,
+          "texian": 266
         },
-        "loopholeShots": 173,
+        "loopholeShots": 169,
         "gunShots": 227,
-        "smoke": 182,
+        "smoke": 183,
         "smokeInView": 179,
         "bubbles": [
           "More of them - a big column, going into the Alamo.",
@@ -950,9 +952,9 @@
         "whiteFlag": null,
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 1.6,
-          "median": 1.6,
-          "p95": 2.1
+          "last": 3.6,
+          "median": 2.6,
+          "p95": 3.8
         }
       }
     },
@@ -977,15 +979,15 @@
           "greys": 14,
           "loopline": 3
         },
-        "shotsTotal": 761,
+        "shotsTotal": 763,
         "shotsBy": {
-          "mexican": 259,
-          "texian": 273
+          "mexican": 258,
+          "texian": 276
         },
         "loopholeShots": 177,
         "gunShots": 227,
         "smoke": 182,
-        "smokeInView": 178,
+        "smokeInView": 177,
         "bubbles": [],
         "members": [
           "hh-1-thomas"
@@ -1009,9 +1011,9 @@
         "whiteFlag": null,
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 1.5,
-          "median": 1.6,
-          "p95": 2
+          "last": 2.7,
+          "median": 2.5,
+          "p95": 3.8
         }
       }
     },
@@ -1036,14 +1038,14 @@
           "greys": 14,
           "loopline": 3
         },
-        "shotsTotal": 782,
+        "shotsTotal": 777,
         "shotsBy": {
-          "mexican": 266,
-          "texian": 287
+          "mexican": 263,
+          "texian": 285
         },
-        "loopholeShots": 187,
+        "loopholeShots": 184,
         "gunShots": 227,
-        "smoke": 182,
+        "smoke": 183,
         "smokeInView": 177,
         "bubbles": [
           "Close to the wall. Not a sound."
@@ -1070,9 +1072,9 @@
         "whiteFlag": null,
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 1.5,
-          "median": 1.6,
-          "p95": 1.9
+          "last": 3.1,
+          "median": 2.6,
+          "p95": 3.8
         }
       }
     },
@@ -1097,15 +1099,15 @@
           "greys": 13,
           "loopline": 3
         },
-        "shotsTotal": 799,
+        "shotsTotal": 794,
         "shotsBy": {
-          "mexican": 275,
-          "texian": 295
+          "mexican": 271,
+          "texian": 294
         },
-        "loopholeShots": 193,
+        "loopholeShots": 190,
         "gunShots": 227,
-        "smoke": 182,
-        "smokeInView": 176,
+        "smoke": 183,
+        "smokeInView": 175,
         "bubbles": [
           "Close to the wall. Not a sound."
         ],
@@ -1131,9 +1133,9 @@
         "whiteFlag": null,
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 1.6,
-          "median": 1.6,
-          "p95": 1.8
+          "last": 2,
+          "median": 2.4,
+          "p95": 3.8
         }
       }
     },
@@ -1158,15 +1160,15 @@
           "greys": 14,
           "loopline": 3
         },
-        "shotsTotal": 816,
+        "shotsTotal": 818,
         "shotsBy": {
-          "mexican": 281,
-          "texian": 305
+          "mexican": 279,
+          "texian": 308
         },
         "loopholeShots": 202,
-        "gunShots": 228,
-        "smoke": 181,
-        "smokeInView": 173,
+        "gunShots": 229,
+        "smoke": 183,
+        "smokeInView": 174,
         "bubbles": [],
         "members": [
           "hh-1-thomas"
@@ -1190,9 +1192,9 @@
         "whiteFlag": null,
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 1.4,
-          "median": 1.6,
-          "p95": 1.8
+          "last": 1.9,
+          "median": 2.3,
+          "p95": 3.8
         }
       }
     },
@@ -1208,7 +1210,7 @@
           "mexican": 25
         },
         "groups": {
-          "reserve": 9,
+          "reserve": 8,
           "johnson": 6,
           "alamo": 8,
           "roofs": 10,
@@ -1217,15 +1219,15 @@
           "greys": 13,
           "loopline": 3
         },
-        "shotsTotal": 843,
+        "shotsTotal": 847,
         "shotsBy": {
-          "mexican": 285,
-          "texian": 323
+          "mexican": 284,
+          "texian": 328
         },
-        "loopholeShots": 216,
+        "loopholeShots": 219,
         "gunShots": 233,
-        "smoke": 182,
-        "smokeInView": 172,
+        "smoke": 183,
+        "smokeInView": 175,
         "bubbles": [
           "Spike it!",
           "Blankets, books, anything - block that door!",
@@ -1253,9 +1255,9 @@
         "whiteFlag": null,
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 1.8,
-          "median": 1.6,
-          "p95": 1.8
+          "last": 2,
+          "median": 2.3,
+          "p95": 3.6
         }
       }
     },
@@ -1277,17 +1279,16 @@
           "greys": 14,
           "alamo": 8
         },
-        "shotsTotal": 948,
+        "shotsTotal": 942,
         "shotsBy": {
-          "mexican": 294,
-          "texian": 352
+          "mexican": 292,
+          "texian": 348
         },
-        "loopholeShots": 238,
+        "loopholeShots": 233,
         "gunShots": 300,
-        "smoke": 182,
-        "smokeInView": 182,
+        "smoke": 183,
+        "smokeInView": 183,
         "bubbles": [
-          "¡A caballo!",
           "Horses - a lot of them - going south."
         ],
         "members": [
@@ -1312,9 +1313,9 @@
         "whiteFlag": null,
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 1.7,
-          "median": 1.7,
-          "p95": 2.2
+          "last": 2.4,
+          "median": 2.4,
+          "p95": 3.8
         }
       }
     },
@@ -1336,18 +1337,19 @@
           "greys": 14,
           "alamo": 8
         },
-        "shotsTotal": 950,
+        "shotsTotal": 944,
         "shotsBy": {
-          "mexican": 294,
-          "texian": 352
+          "mexican": 292,
+          "texian": 348
         },
-        "loopholeShots": 238,
+        "loopholeShots": 233,
         "gunShots": 302,
-        "smoke": 182,
-        "smokeInView": 182,
+        "smoke": 183,
+        "smokeInView": 183,
         "bubbles": [
           "(a bugle sounds for a parley)",
-          "What’s that call?"
+          "What’s that call?",
+          "A white flag! Hold your fire!"
         ],
         "members": [
           "hh-1-thomas"
@@ -1374,9 +1376,9 @@
         },
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 2,
-          "median": 1.7,
-          "p95": 2.2
+          "last": 3.6,
+          "median": 2.4,
+          "p95": 3.9
         }
       }
     },
@@ -1398,15 +1400,15 @@
           "greys": 14,
           "alamo": 8
         },
-        "shotsTotal": 950,
+        "shotsTotal": 944,
         "shotsBy": {
-          "mexican": 294,
-          "texian": 352
+          "mexican": 292,
+          "texian": 348
         },
-        "loopholeShots": 238,
+        "loopholeShots": 233,
         "gunShots": 302,
-        "smoke": 182,
-        "smokeInView": 182,
+        "smoke": 183,
+        "smokeInView": 183,
         "bubbles": [
           "(a bugle sounds for a parley)",
           "What’s that call?",
@@ -1437,9 +1439,9 @@
         },
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 1.5,
-          "median": 1.7,
-          "p95": 2.2
+          "last": 1.9,
+          "median": 2.5,
+          "p95": 3.9
         }
       }
     },
@@ -1460,15 +1462,15 @@
           "reinforce": 14,
           "alamo": 8
         },
-        "shotsTotal": 950,
+        "shotsTotal": 944,
         "shotsBy": {
-          "mexican": 294,
-          "texian": 352
+          "mexican": 292,
+          "texian": 348
         },
-        "loopholeShots": 238,
+        "loopholeShots": 233,
         "gunShots": 302,
-        "smoke": 182,
-        "smokeInView": 182,
+        "smoke": 183,
+        "smokeInView": 183,
         "bubbles": [
           "A white flag! Hold your fire!"
         ],
@@ -1497,9 +1499,9 @@
         },
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 4.3,
-          "median": 1.7,
-          "p95": 3.6
+          "last": 2.6,
+          "median": 2.4,
+          "p95": 3.8
         }
       }
     },
@@ -1520,15 +1522,15 @@
           "reinforce": 14,
           "alamo": 8
         },
-        "shotsTotal": 950,
+        "shotsTotal": 944,
         "shotsBy": {
-          "mexican": 294,
-          "texian": 352
+          "mexican": 292,
+          "texian": 348
         },
-        "loopholeShots": 238,
+        "loopholeShots": 233,
         "gunShots": 302,
-        "smoke": 182,
-        "smokeInView": 182,
+        "smoke": 183,
+        "smokeInView": 183,
         "bubbles": [],
         "members": [
           "hh-1-thomas"
@@ -1555,9 +1557,9 @@
         },
         "civiliansSeen": 5,
         "frameMs": {
-          "last": 1.3,
-          "median": 1.7,
-          "p95": 3.6
+          "last": 1.5,
+          "median": 2.4,
+          "p95": 3.8
         }
       }
     }
@@ -1585,7 +1587,7 @@
     "phase": "out",
     "contact": false,
     "cameraMilesFromTown": 0.293,
-    "scale": 1035
+    "scale": 1030
   },
   "fall": {
     "staged": {
@@ -1597,11 +1599,11 @@
       "fate": "wounded",
       "grade": "severe"
     },
-    "drawnAt": 101195
+    "drawnAt": 101200
   },
   "frameMs": {
-    "battleP95Max": 3.6,
-    "battleMedianMax": 1.7
+    "battleP95Max": 9,
+    "battleMedianMax": 2.7
   },
   "account": {
     "title": "What Hollis saw at Béxar",
