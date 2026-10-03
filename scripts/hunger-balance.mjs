@@ -5,6 +5,8 @@
 //
 //   idle     gives no orders at all: grown people stay at what they were founded to (working about the place), children rest,
 //            and the family never leaves in the spring unless the order's own lapse sends it (docs/BALANCE.md §16.2).
+//   gathering  does one thing about food: one grown person put on auto at the first of the gathering works the land offers (fishing,
+//            oysters, a bee tree, small game), nobody else ever given an order (owner, 2026-10-02: food only from real sources).
 //   playing  farms, hunts, fishes and forages as the director does for a family nobody plays (sim/neighbours.mjs `thinkFor`):
 //            the field first, the hunt or the four gathering works when the house is short, the herd at the last day or two,
 //            powder bought before the last shot, and at once east when told to leave with all the food that fits.
@@ -41,8 +43,34 @@ function runClass(seed, mode) {
   // The worst stage each family's people reached, and the days any of them spent hungry or worse.
   const worst = new Map(), hungryDays = new Map();
   const RANK = { hungry: 1, weak: 2, starving: 3 };
+  // The kinds of family the owner asked after (2026-10-02): a lone parent, a big family (eight or more), and a family that sent a man
+  // to the war (anybody of it in the army, a service or a company at any tick). A family may be more than one.
+  const parents = household => household.members.filter(id => ['father', 'mother'].includes(world.entities[id]?.kin?.role)).length;
+  const lone = new Set(households.filter(household => parents(household) < 2).map(household => household.id));
+  const big = new Set(households.filter(household => household.members.length >= 8).map(household => household.id));
+  const war = new Set();
+  // Food in the house at each period's end, the median family's.
+  const foodAtEnd = {};
   let ticks = 0;
+  // A student who does one thing about food (owner, 2026-10-02): one grown person, not the head of the family where there is another,
+  // sent to the first of the gathering works the family's land offers and put on auto, and nothing else ever given.
+  const FOOD_WORKS = ['fish-the-water', 'gather-oysters', 'cut-bee-tree', 'take-small-game'];
+  const gatherer = household => {
+    const view = projectWorld(world, household.id, 'student', { includeMap: false });
+    const alive = household.members.map(id => world.entities[id]).filter(one => one && !['dead', 'captured'].includes(one.health?.condition) && !one.service && (one.age ?? 30) >= 16);
+    if (alive.some(one => one.auto && one.order)) return;
+    for (const one of [...alive.filter(person => person.id !== household.principalId), ...alive.filter(person => person.id === household.principalId)]) {
+      const work = FOOD_WORKS.find(id => (view.work?.[one.id] || []).some(entry => entry.id === id && entry.can));
+      if (!work) continue;
+      household.mainId = one.id;
+      try { applyAction(world, household.id, { action: 'chore', entityId: one.id, chore: work }); applyAction(world, household.id, { action: 'set-auto', entityId: one.id, auto: true }); return; } catch { /* the next */ }
+    }
+  };
   const turn = () => {
+    if (mode === 'gathering') {
+      households.forEach((household, index) => { if (!household.arriving && (world.tick + index) % THINK_EVERY === 0) gatherer(household); });
+      return;
+    }
     if (mode !== 'playing') return;
     households.forEach((household, index) => {
       if (household.arriving || (world.tick + index) % THINK_EVERY !== 0) return;
@@ -59,6 +87,7 @@ function runClass(seed, mode) {
       for (const household of households) if (household.members.some(id => RANK[world.entities[id]?.hunger?.stage])) hungryDays.set(household.id, (hungryDays.get(household.id) || 0) + (world.minute - was) / DAY);
       for (const person of Object.values(world.entities)) {
         if (person.kind !== 'person' || !person.householdId) continue;
+        if (person.service || world.army?.members?.includes(person.id)) war.add(person.householdId);
         if (person.hunger?.stage === 'starving' && !starvingAt.has(person.id)) starvingAt.set(person.id, ticks);
         const rank = RANK[person.hunger?.stage] || 0;
         if (rank > (worst.get(person.householdId) || 0)) worst.set(person.householdId, rank);
@@ -71,6 +100,8 @@ function runClass(seed, mode) {
       }
       turn();
     }
+    const foods = households.map(household => household.resources?.food || 0).sort((a, b) => a - b);
+    foodAtEnd[period] = Math.round(foods[Math.floor(foods.length / 2)] * 10) / 10;
   };
   runPeriod(1);
   const afterFirst = deaths.length;
@@ -86,6 +117,8 @@ function runClass(seed, mode) {
     under6: deaths.filter(d => Number.isFinite(d.age) && d.age < 6).length, grown: deaths.filter(d => !Number.isFinite(d.age) || d.age >= 16).length,
     familiesHungry: [...worst.values()].filter(rank => rank >= 1).length, familiesWeak: [...worst.values()].filter(rank => rank >= 2).length, familiesStarving: [...worst.values()].filter(rank => rank >= 3).length,
     hungryDaysMedian: (() => { const days = households.map(household => hungryDays.get(household.id) || 0).sort((a, b) => a - b); return Math.round(days[Math.floor(days.length / 2)] * 10) / 10; })(),
+    foodAtEnd,
+    kinds: Object.fromEntries([['lone', lone], ['big', big], ['war', war]].map(([kind, set]) => [kind, { families: set.size, hit: [...hit].filter(id => set.has(id)).length, deaths: deaths.filter(d => set.has(d.householdId)).length }])),
     leastRealSecondsStarving: deaths.length ? Math.min(...deaths.map(d => d.realSecondsStarving ?? Infinity)) : null,
   };
 }
@@ -101,7 +134,8 @@ for (const mode of modes) for (const seed of seeds) {
 const summary = Object.fromEntries(modes.map(mode => {
   const mine = rows.filter(row => row.mode === mode);
   const mean = key => Math.round((mine.reduce((sum, row) => sum + row[key], 0) / mine.length) * 10) / 10;
-  return [mode, { classes: mine.length, deathsPerClass: mean('deaths'), period1: mean('period1'), period2: mean('period2'), period3: mean('period3'), onRoad: mean('onRoad'), familiesHitPerClass: mean('familiesHit'), familiesHungryPerClass: mean('familiesHungry'), familiesWeakPerClass: mean('familiesWeak'), familiesStarvingPerClass: mean('familiesStarving'), hungryDaysMedian: mean('hungryDaysMedian'), wipedPerClass: mean('wiped'), peoplePerClass: mean('people'), classesWithAnyDeath: mine.filter(row => row.deaths > 0).length }];
+  const kind = name => Object.fromEntries(['families', 'hit', 'deaths'].map(key => [key, mine.reduce((sum, row) => sum + row.kinds[name][key], 0)]));
+  return [mode, { kinds: { lone: kind('lone'), big: kind('big'), war: kind('war') }, foodAtEnd: Object.fromEntries([1, 2, 3].map(period => [period, Math.round(mine.reduce((sum, row) => sum + (row.foodAtEnd[period] || 0), 0) / mine.length * 10) / 10])), classes: mine.length, deathsPerClass: mean('deaths'), period1: mean('period1'), period2: mean('period2'), period3: mean('period3'), onRoad: mean('onRoad'), familiesHitPerClass: mean('familiesHit'), familiesHungryPerClass: mean('familiesHungry'), familiesWeakPerClass: mean('familiesWeak'), familiesStarvingPerClass: mean('familiesStarving'), hungryDaysMedian: mean('hungryDaysMedian'), wipedPerClass: mean('wiped'), peoplePerClass: mean('people'), classesWithAnyDeath: mine.filter(row => row.deaths > 0).length }];
 }));
 console.log(JSON.stringify(summary, null, 1));
 if (out) { mkdirSync('docs/evidence', { recursive: true }); writeFileSync(out, `${JSON.stringify({ measured: new Date().toISOString().slice(0, 10), families, seeds, summary, rows }, null, 1)}\n`); }

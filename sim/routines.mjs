@@ -8,7 +8,6 @@ import { SICK_PER_DAY, coldSky, sicknessWeight } from './scrape.mjs';
 import { fallSick } from './disease.mjs';
 import { share } from './shares.mjs';
 import { campRestShare } from './shops.mjs';
-import { calledAside } from './aside.mjs';
 import { ate } from './hunger.mjs';
 
 // Fatigue, and the only thing that mends it.
@@ -30,13 +29,11 @@ export const RESTED_MILES = 7;
 // still. Working does not mend it, which is what gives the Rest verb something to do.
 export const REST_MILES_PER_MINUTE = 0.075;
 /**
- * The food a day one person working about the place brings in: the garden, the milk, the odd squirrel (`FIC-GONZ-313`).
- * **0.3** since the owner's answer of 2026-09-29 (triage D7, by multiple choice: "0.3 a day"; `FIC-GONZ-964`), where it was 1:
- * a grown person eats 0.35 a day (sim/family.mjs `ADULT_RATION`), so at one a day everybody working about the place fed
- * themselves and more, and food bit only on the road east. At 0.3 working about the place nearly feeds the one doing it and
- * nobody else, and the field, the hunt and the herd are what feed the family (docs/BALANCE.md §16).
+ * **Working about the place makes no food** (owner, 2026-10-02: "I'm thinking that we need to limit food generation to crops,
+ * fishing, hunting, etc."; `FIC-GONZ-964` as amended by `FIC-GONZ-1072`, docs/HUNGER.md §10). It was one food a day until 2026-09-29 and 0.3 after
+ * (triage D7, "0.3 a day"). Food now comes only from the field, the water, the timber and the herd, the store, trade and the
+ * neighbours: a person working about the place keeps the homestead going and eats as everybody does.
  */
-export const WORK_FOOD_A_DAY = 0.3;
 
 /**
  * Routine life over `minutes` of the calendar (sim/clock.mjs, docs/COLONIES.md §5.7).
@@ -59,18 +56,14 @@ export function advanceRoutine(world, minutes) {
     // keep - "the pasturage is sufficiently good to dispense with feeding live stock" - so there is no eating here.
     advanceStock(world, household);
     const present = household.members.map(id => world.entities[id]).filter(e => e.location.siteId === household.homeSiteId && e.health.condition !== 'dead');
-    // Someone on a chore is paid by the chore's own yield. Counting them here as well
-    // would pay a family twice for the same afternoon's work.
-    // Nor somebody the little ones have called aside (sim/aside.mjs): talking with an idle child is not working about the place.
-    const workers = present.filter(e => e.task === 'work' && !e.chore && e.health.condition === 'well' && !calledAside(e)).length;
     // The best housekeeper at home makes what the family eats go further (FIC-GONZ-021).
     // Furniture under a roof does its small part (sim/furniture.mjs): a table stretches the food, shelves keep it.
     const furnished = furnitureShares(household, shelterOf(world, household).kind === 'house');
     // Each by their age today, in quarters of a grown share summed before anything is rounded (FIC-GONZ-360).
     const eaten = eatenADay(world, present) * (1 - housekeepingSaving(present)) * furnished.eaten;
-    const fed = Math.max(0, household.resources.food + (workers * WORK_FOOD_A_DAY - eaten) * days);
-    // What the store and the day's work could not cover is want, for whoever ate here (sim/hunger.mjs, owner 2026-09-30).
-    ate(world, household, present, eaten * days, household.resources.food + workers * WORK_FOOD_A_DAY * days, days);
+    const fed = Math.max(0, household.resources.food - eaten * days);
+    // What the store could not cover is want, for whoever ate here (sim/hunger.mjs, owner 2026-09-30).
+    ate(world, household, present, eaten * days, household.resources.food, days);
     // A little of the food spoils in a camp or a draughty house; nothing in a tight one, or in the
     // cabin every class saved before houses always had (sim/houses.mjs, FIC-GONZ-024).
     const spoiling = shelterOf(world, household).spoilagePerDay * furnished.spoil;

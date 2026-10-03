@@ -1,20 +1,20 @@
 {
   "record": "auto-browser",
-  "date": "2026-09-30",
+  "date": "2026-10-02",
   "verdict": "PASS",
-  "browser": "153.0.8010.53",
+  "browser": "154.0.8037.93",
   "task": "docs/FAMILY_PANEL.md §11.7: the auto switch on every row, held by the server (set-auto); a hunt on auto decided alone with no \"!\" and repeated when the hunter comes home; off, nobody goes again; and §16 (owner 2026-09-25): the switch reads \"Auto\" off and \"Auto ✓\" with a green glow on, at 1366x768 and 1024x768; one person on auto to plant and another given the unripe harvest to wait for, the field planted, grown, brought in and planted again with nobody pressing anything, and each row saying what auto is doing and why it waits, in the server words; nothing scrolling sideways at 400 px.",
   "environment": "Same computer: a local classroom server at 150 ms a tick and headless Chrome. Not a physical LAN, a classroom, a real phone or a weak computer.",
   "checks": [
     "every row has the switch, and nobody is on auto to begin with",
     "off, at 1366x768 and 1024x768: every switch shown reads \"Auto\" and nothing glows; the grown people's are on the screen with their names whole; no switch on a child under ten",
-    "the word \"auto\" pressed on Ramón Proofwright's row: the server holds it, the row shows pressed on the next snapshot, and the record says so",
+    "the word \"auto\" pressed on Amos Proofwright's row: the server holds it, the row shows pressed on the next snapshot, and the record says so",
     "a hunt sent from the panel with the switch on, and the icon glowing",
-    "Ramón Proofwright decided the shot alone with no \"!\" and went out again by themself: 2 hunts in 2.1 s",
+    "Amos Proofwright decided the shot alone with no \"!\" and went out again by themself: 2 hunts in 2 s",
     "pressed off: the hunt in hand finished and nobody went out again",
-    "Ramón Proofwright sent to plant the field from the panel, then put on auto: the row says \"Auto: plant the field\"",
-    "Ysabel Proofwright on auto and given the harvest before anything is ripe: it is her task, and she waits",
-    "the field planted, grown, brought in and planted again with nobody pressing anything: bare > planted > ripe > bare > planted in 19.7 s",
+    "Amos Proofwright sent to plant the field from the panel, then put on auto: the row says \"Auto: plant the field\"",
+    "Mary Proofwright on auto and given the harvest before anything is ripe: it is her task, and she waits",
+    "the field planted, grown, brought in and planted again with nobody pressing anything: bare > planted > ripe > bare > planted in 19.8 s",
     "each row said what auto was doing and, while it waited, why, in the server's words",
     "on, at 1366x768 and 1024x768: both switches read \"Auto ✓\", are pressed, and glow green; the others read \"Auto\" and do not",
     "pressed off: the line goes, and the switch reads \"Auto\" again",
@@ -92,7 +92,7 @@
           "background": "rgb(243, 234, 210)",
           "color": "rgb(59, 52, 39)",
           "line": null,
-          "nameFits": false
+          "nameFits": true
         }
       ],
       "1366": [
@@ -164,21 +164,23 @@
           "background": "rgb(243, 234, 210)",
           "color": "rgb(59, 52, 39)",
           "line": null,
-          "nameFits": false
+          "nameFits": true
         }
       ]
     },
-    "secondsToTwoHunts": 2.1,
+    "childrenGivenAuto": [],
+    "secondsToTwoHunts": 2,
     "huntsFinished": 2,
     "snapshotsAsking": 0,
     "glowResumed": 0,
     "huntsAfterOff": 0,
     "seedTrace": [
       4,
-      2
+      6,
+      4
     ],
     "season": {
-      "seconds": 19.7,
+      "seconds": 19.8,
       "fieldStates": [
         "bare",
         "planted",
@@ -244,7 +246,7 @@
             "background": "rgb(243, 234, 210)",
             "color": "rgb(59, 52, 39)",
             "line": null,
-            "nameFits": false
+            "nameFits": true
           },
           {
             "id": "hh-1-child-2",
@@ -272,7 +274,7 @@
             "background": "rgb(243, 234, 210)",
             "color": "rgb(59, 52, 39)",
             "line": null,
-            "nameFits": false
+            "nameFits": true
           }
         ],
         "lines": [
@@ -320,7 +322,7 @@
             "background": "rgb(243, 234, 210)",
             "color": "rgb(59, 52, 39)",
             "line": null,
-            "nameFits": false
+            "nameFits": true
           },
           {
             "id": "hh-1-child-2",
@@ -348,7 +350,7 @@
             "background": "rgb(243, 234, 210)",
             "color": "rgb(59, 52, 39)",
             "line": null,
-            "nameFits": false
+            "nameFits": true
           }
         ],
         "looks1024": [
@@ -392,7 +394,7 @@
             "background": "rgb(243, 234, 210)",
             "color": "rgb(59, 52, 39)",
             "line": null,
-            "nameFits": false
+            "nameFits": true
           },
           {
             "id": "hh-1-child-2",
@@ -420,7 +422,7 @@
             "background": "rgb(243, 234, 210)",
             "color": "rgb(59, 52, 39)",
             "line": null,
-            "nameFits": false
+            "nameFits": true
           }
         ]
       }

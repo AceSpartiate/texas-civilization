@@ -118,7 +118,7 @@ try {
     if (level === 'starving') firstStarving = Date.now();
     // The colours ease over 0.6 s (public/style.css): read them once they have settled.
     await page.waitForTimeout(900);
-    observed.levels[level] = { ...(await food(page)), portraits: await portraits(page) };
+    observed.levels[level] = { ...(await food(page)), portraits: await portraits(page), feeds: await page.evaluate(() => [...document.querySelectorAll('.panel-icon[data-feeds=true]')].map(button => button.dataset.key)) };
     await shot(page, `${level}-1366`);
   }
   const seen = order.map(level => observed.levels[level]);
@@ -127,6 +127,10 @@ try {
     const [was, now] = [seen[at - 1], seen[at]];
     assert.ok(was.background !== now.background || was.tone !== now.tone || was.shadow !== now.shadow, `${order[at - 1]} and ${order[at]} look the same`);
   }
+  // The ways to food glow on the bar while the food is low (owner, 2026-10-02; public/family-panel.js `feedsNow`), and not before.
+  assert.deepEqual(observed.levels.plenty.feeds, [], `food works glowed while there was plenty: ${observed.levels.plenty.feeds}`);
+  for (const level of ['low', 'empty', 'starving']) assert.ok(observed.levels[level].feeds.length, `no food work glowed at ${level}`);
+  ok(`the ways to food glowed on the bar from low on (${observed.levels.empty.feeds.join(', ')}), and not while there was plenty`);
   assert.ok(observed.levels.plenty.fillWidth > observed.levels.low.fillWidth && observed.levels.low.fillWidth > observed.levels.short.fillWidth, 'the gauge does not empty as the food goes');
   assert.notEqual(observed.levels.weak.shadow, 'none', 'the weak level does not glow');
   assert.equal(observed.levels.starving.animation.split(',').some(name => /larder-pulse/.test(name)), true, `the starving level does not pulse (${observed.levels.starving.animation})`);

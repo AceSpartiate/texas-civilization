@@ -105,7 +105,7 @@ export const PANEL_SUMMARIES = Object.freeze({
   'travel-gonzales': 'Go into the town of Gonzales and stay there until sent somewhere else.',
   'travel-home': 'Come back to the family’s own land.',
   visit: 'Choose a neighbour’s homestead and go there, to trade or to help raise their walls.',
-  work: 'Do the everyday work about the homestead, which brings in a little food each day.',
+  work: 'Do the everyday work about the homestead, which keeps it going but brings in no food.',
   rest: 'Sit still at home, which is the only thing that mends tiredness.',
   'stop-chore': 'Stop what they are doing and come away; what is already done stays done.',
 });
@@ -1176,6 +1176,17 @@ export const larderWorse = (was, now) => Boolean(was && now && LARDER_LEVELS.ind
 export const hungerOf = entity => (['hungry', 'weak', 'starving'].includes(entity?.hunger?.stage) ? entity.hunger.stage : 'fed');
 /** Its word for the portrait's hover and a screen reader; nothing while fed. */
 export const HUNGER_WORDS = Object.freeze({ fed: '', hungry: 'hungry', weak: 'weak with hunger', starving: 'starving' });
+/**
+ * Where food comes from (owner, 2026-10-02: "limit food generation to crops, fishing, hunting, etc."; docs/HUNGER.md §10): the works
+ * that bring food in. While the family's food is low or gone (`FEED_LEVELS`), each of these on the bar glows the gauge's amber, so a
+ * student looking at the red gauge sees which buttons answer it. No words: the icons' own names and popups say what each is.
+ */
+export const FOOD_WORKS = Object.freeze(new Set(['fish-the-water', 'take-small-game', 'gather-oysters', 'cut-bee-tree', 'hunt-timber', 'hunt-land',
+  'plant-field', 'harvest-field', 'butcher-hog', 'butcher-beef', 'fish-road', 'hunt-road', 'trade-crossing', 'child-eggs']));
+/** The gauge's levels at which the food works glow. */
+export const FEED_LEVELS = Object.freeze(new Set(['low', 'short', 'empty', 'weak', 'starving']));
+/** Whether this icon should glow as a way to food now. */
+export const feedsNow = (key, level) => FOOD_WORKS.has(key) && FEED_LEVELS.has(level);
 
 // ------------------------------------------------------------------------------- what a refused goal is short of
 // docs/FAMILY_PANEL.md §23 (owner, 2026-09-30: "i never saw where i could hunt to get leather to make the little carts", and the same

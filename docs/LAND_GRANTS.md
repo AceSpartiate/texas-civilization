@@ -248,6 +248,17 @@ bare, sown and ripe plots), `sim/chores.mjs` (planting and the harvest), `sim/au
   several plots in several crops is auto's and the director's only. A student who wants two plots of corn and two of cotton taps
   and plants twice. `ceiling:` a harvest brings in every ripe plot; which to bring in is not chosen.
 
+- **Seed kept at the harvest** (owner-decided 2026-10-02: *"didn't farmers back then get seeds from their crops? Can we incorporate
+  something that maybe reduces yield, but gives us enough seed for the next planting?"*; sim/crops.mjs `seedKept`, `FIC-GONZ-1071`,
+  `HIST-TEX-1070`). **Automatic**, not a choice: every plot brought in keeps back the seed to plant it again, out of what it gave -
+  **corn two of its ten** (eight to eat; the seed ears, as farmers kept the best ears), **cotton three seed for one of its five
+  bales** (the seed comes out at the gin with the lint - Austin's colony had four or five gins by 1828 - so the cost is a bale's worth
+  of seed cotton held back unginned for planting, not three bales). Never more than came in: a plot the stock ate down below its seed
+  keeps what there was. **Said in the harvest's own line**: *"Ann brought in 8 food and 4 cotton. 5 seed kept back for the next
+  planting: 2 of the corn, and 1 bale of the cotton left unginned for it."*; the seed shows on the supplies line's *Seed* and is what
+  the next planting spends, so a family that farms no longer has to buy seed. The harvest's control still says what stands (*"About 10
+  food standing"*). Tests `tests/food-sources.test.mjs` (*seed kept*), proved by `npm run test:food-sources-injections`.
+
 ### 5.3 Click a field to choose its crop — owner-decided 2026-09-30 (not released)
 
 > "when i was playing earlier, there was no mechanism for choosing what crop is planted on each field. let me click on the fields so

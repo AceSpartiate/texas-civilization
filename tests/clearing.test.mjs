@@ -15,6 +15,7 @@ import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, createWorld, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { CLEARING_SPELLS, plotsOf } from '../sim/fields.mjs';
 import { UNFENCED_LOSS, YIELD_PER_PLOT, clearedOf } from '../sim/improvements.mjs';
+import { COTTON_SEED_BALES } from '../sim/crops.mjs';
 import { plotFacts } from '../sim/survey.mjs';
 import { WORK_PACE } from '../sim/work-pace.mjs';
 import { createClassroom } from '../server/app.mjs';
@@ -162,7 +163,8 @@ test('the field is the cleared plots: each is sown and walked to, and a plot cle
   applyAction(world, 'hh-1', { action: 'chore', entityId: farmer.id, chore: 'harvest-field' });
   until(world, () => !farmer.chore);
   const grown = yieldFor(YIELD_PER_PLOT * 2);
-  assert.equal(household.resources[crop] - before, Math.round(grown * (1 - UNFENCED_LOSS / 2) * 10000) / 10000, 'two plots came in, and the stock had a third of the unfenced one');
+  // Each plot keeps back a bale's worth for its seed (owner, 2026-10-02; sim/crops.mjs `seedKept`).
+  assert.equal(household.resources[crop] - before, Math.round((Math.round(grown * (1 - UNFENCED_LOSS / 2) * 10000) / 10000 - 2 * COTTON_SEED_BALES) * 10000) / 10000, 'two plots came in, and the stock had a third of the unfenced one');
   assert.deepEqual(household.plots.map(plot => plot.sown), [undefined, undefined, undefined], 'and nothing is standing now');
   validateWorld(world);
 });

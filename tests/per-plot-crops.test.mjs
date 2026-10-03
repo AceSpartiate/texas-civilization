@@ -11,7 +11,7 @@ import assert from 'node:assert/strict';
 import { createSettledWorld } from './support/settled.mjs';
 import { applyAction, projectWorld, stepWorld, validateWorld } from '../sim/world.mjs';
 import { plotsOf, cropState } from '../sim/fields.mjs';
-import { STUDY_TICK_MS, growCrop, growMs, keepCrops } from '../sim/crops.mjs';
+import { COTTON_SEED_BALES, STUDY_TICK_MS, growCrop, growMs, keepCrops } from '../sim/crops.mjs';
 import { CORN_YIELD_PER_PLOT, COTTON_SEED_PER_PLOT, SEED_PER_PLOT, UNFENCED_LOSS, YIELD_PER_PLOT, needsWagonToHarvest } from '../sim/improvements.mjs';
 import { choreAvailability } from '../sim/chores.mjs';
 import { directorCrops } from '../sim/neighbours.mjs';
@@ -69,7 +69,8 @@ test('corn on one plot and cotton on another: each its own crop, its own minutes
   until(world, () => cropState(household, far) === 'ripe', 10, MINUTE);
   applyAction(world, 'hh-1', { action: 'chore', entityId: thomas.id, chore: 'harvest-field' });
   until(world, () => !thomas.chore);
-  assert.equal(household.resources.cotton - cotton, Math.round(yieldFor(YIELD_PER_PLOT, skillOf(thomas)) * (1 - UNFENCED_LOSS) * 10000) / 10000, 'one unfenced plot of cotton');
+  // Less the bale kept back unginned for the plot's seed (owner, 2026-10-02; sim/crops.mjs `seedKept`).
+  assert.equal(household.resources.cotton - cotton, Math.round((Math.round(yieldFor(YIELD_PER_PLOT, skillOf(thomas)) * (1 - UNFENCED_LOSS) * 10000) / 10000 - COTTON_SEED_BALES) * 10000) / 10000, 'one unfenced plot of cotton');
   assert.equal(household.field.state, 'bare');
   validateWorld(world);
 });
@@ -89,8 +90,10 @@ test('a harvest of both crops: each plot its own yield and its own fence, food a
   assert.equal(shown.crop.cotton, Math.round(yieldFor(YIELD_PER_PLOT * (1 - UNFENCED_LOSS), skill) * 10000) / 10000);
   applyAction(world, 'hh-1', { action: 'chore', entityId: thomas.id, chore: 'harvest-field' });
   until(world, () => !thomas.chore);
-  const food = yieldFor(CORN_YIELD_PER_PLOT, skill), bales = Math.round(yieldFor(YIELD_PER_PLOT * (1 - UNFENCED_LOSS), skill) * 10000) / 10000;
-  assert.ok(story(world, 'hh-1').includes(`${thomas.name} brought in ${food} food and ${bales} cotton. The rest had gone to stock in an unfenced field. The cotton nobody can eat; it has to go to the store.`),
+  // Each plot keeps back its seed (owner, 2026-10-02; sim/crops.mjs `seedKept`): the corn two, the cotton a bale for three.
+  const r4 = value => Math.round(value * 10000) / 10000;
+  const food = r4(yieldFor(CORN_YIELD_PER_PLOT, skill) - SEED_PER_PLOT), bales = r4(Math.round(yieldFor(YIELD_PER_PLOT * (1 - UNFENCED_LOSS), skill) * 10000) / 10000 - COTTON_SEED_BALES);
+  assert.ok(story(world, 'hh-1').includes(`${thomas.name} brought in ${food} food and ${bales} cotton. ${SEED_PER_PLOT + COTTON_SEED_PER_PLOT} seed kept back for the next planting: ${SEED_PER_PLOT} of the corn, and ${COTTON_SEED_BALES} bale of the cotton left unginned for it. The rest had gone to stock in an unfenced field. The cotton nobody can eat; it has to go to the store.`),
     story(world, 'hh-1').slice(-5).join(' | '));
   assert.deepEqual([cropState(household, corn), cropState(household, cotton)], ['bare', 'bare']);
 });

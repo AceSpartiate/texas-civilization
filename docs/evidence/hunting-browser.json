@@ -1,17 +1,17 @@
 {
   "record": "hunting-browser",
-  "date": "2026-10-01",
-  "browser": "153.0.8010.53",
+  "date": "2026-10-02",
+  "browser": "154.0.8037.93",
   "ownerDirection": [
     "\"when they're out hunting, maybe i should see them actually hunting?\"",
     "\"polish hunting. it needs to be more than just [tell character to hunt and boom they do].\""
   ],
-  "theQuestion": "Jasper is downwind of a deer, with a shot to take. It is not a close one.",
+  "theQuestion": "Moses is downwind of a deer, with a shot to take. It is not a close one.",
   "theAnswers": [
     {
       "option": "take",
       "label": "Take the shot",
-      "note": "One powder. it is a long shot, and Jasper has never had the knack of it"
+      "note": "One powder. it is a long shot, and Moses has never had the knack of it"
     },
     {
       "option": "wait",
@@ -26,17 +26,17 @@
   ],
   "checks": [
     "a poor shot can be taught: \"Practise at the mark: Costs 2 powder.\"",
-    "the hunt stops and asks: \"Jasper is downwind of a deer, with a shot to take. It is not a close one.\"",
-    "and every answer says what it would cost before it is pressed — Take the shot (One powder. it is a long shot, and Jasper has never had the knack of it); Wait for it to come closer (One powder, three more hours, and then the shot is a certainty); Leave it and come home (Nothing spent, nothing to carry, and the rest of the day is the family’s)",
+    "the hunt stops and asks: \"Moses is downwind of a deer, with a shot to take. It is not a close one.\"",
+    "and every answer says what it would cost before it is pressed — Take the shot (One powder. it is a long shot, and Moses has never had the knack of it); Wait for it to come closer (One powder, three more hours, and then the shot is a certainty); Leave it and come home (Nothing spent, nothing to carry, and the rest of the day is the family’s)",
     "the projected deer is visible and alert while the family decides, without inventing an escape",
     "and the person carries a mark, so a student looking at the map knows the hunt is waiting on them",
     "nothing moves while it waits: three ticks passed and the work had not gone a step further",
     "the family answers, and the hunt goes on",
     "a student watches four named stages of a hunt, not one: \"reading the ground at the edge of the timber\", \"working up through the timber\", \"waiting downwind, and still\", \"downwind, with the shot there to take\", \"letting it come closer\", \"the shot\"",
-    "and is painted working through the trees, not standing on one spot (78 places, 23px apart on screen)",
+    "and is painted working through the trees, not standing on one spot (84 places, 23px apart on screen)",
     "the hunter's own poses change with the stages: rust-search, rust-idle-s, rust-carry, rust-walk",
     "and they are drawn carrying something home, which the carry cycle had never been used for outside the harvest",
-    "on the road he is a figure, walking out (1071 frames) and carrying home (1105), drawn at no more than 0.73 of his heights a second, under 1.2, at 20.4 pixels a mile",
+    "on the road he is a figure, walking out (1014 frames) and carrying home (1047), drawn at no more than 0.73 of his heights a second, under 1.2, at 20.4 pixels a mile",
     "the shot is a puff of smoke in the trees; the server removes the projected deer after it",
     "no soldier appears in the timber: the militia firing sheets were not borrowed for a civilian",
     "no page errors anywhere in the run"
@@ -52,7 +52,7 @@
       "the shot",
       "carrying it home from the timber"
     ],
-    "placesPaintedInTheTimber": 78,
+    "placesPaintedInTheTimber": 84,
     "screenSpreadPixels": 23,
     "clipsBound": [
       "deer-alert",
@@ -80,8 +80,8 @@
     "smokeDrawn": true,
     "road": {
       "gaitCeiling": 1.2,
-      "walkingOutFrames": 1071,
-      "carryingHomeFrames": 1105,
+      "walkingOutFrames": 1014,
+      "carryingHomeFrames": 1047,
       "pixelsAMile": 20.4,
       "figurePixels": 7,
       "mostHeightsASecond": 0.728

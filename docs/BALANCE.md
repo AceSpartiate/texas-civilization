@@ -1194,3 +1194,26 @@ The owner, 2026-09-30: *"player characters *can* die of starvation. players shou
 - **The owner's answers, 2026-09-30:** the idle family's losses and the road east's, "Keep it" both; a family overtaken by a
   column is left three days' food (HUNGER.md §8a). The measure above was not run again for it: it counts only the family the
   column overtakes, for the days before it forages.
+
+## 20. Food only from real sources, one haul a day, seed at the harvest (2026-10-02, owner-decided; not released)
+
+The owner, playing v2026.10.02.1: *"I was playing and generated hundreds of food just by having some adults working around the house
+on auto. I'm thinking that we need to limit food generation to crops, fishing, hunting, etc."* - and seed from the crop. **This
+supersedes §16's "0.3 a day"**: working about the place makes no food (`FIC-GONZ-1072`). The bug was the gathering works on auto in
+the class's first phases, paid by the spell while the calendar ran at twenty minutes and an hour a tick (docs/HUNGER.md §10): two
+people fishing on auto made 1,261 food in 80 days. Now each gathering work pays a person once a calendar day, and a trip spanning days
+pays a haul a day (`FIC-GONZ-1070`); each plot brought in keeps its seed (`FIC-GONZ-1071`).
+
+Measured with `scripts/hunger-balance.mjs` (six classes of fifteen, all three periods; docs/HUNGER.md §10 has the whole table,
+[evidence/food-sources-balance.json](evidence/food-sources-balance.json)):
+
+| Per class | before | now |
+| --- | --- | --- |
+| A student who plays sensibly (the director's policy): deaths by hunger | 1.7, all on the road east | **1.2, all on the road east; none at home** |
+| … lone parents / big families / a man at the war, families hit | 1 of 6 / 1 of 31 / 1 of 34 | **1 of 11 / 3 of 63 / 3 of 68** |
+| … median food at the end of periods 1 and 2 | 38.8, 43.4 | **47.0, 59.9** (the seed kept: no seed bought) |
+| A student who gives no orders: deaths | everybody, first on day 18 | **everybody, first on day 11** (59-61 real minutes at Study) |
+| A student who sends one person to gather on auto and nothing else: deaths | 38.2 (the bug fed them 134 food by December) | **116: 3 at home, 113 on the road east** |
+
+The families the director runs are unchanged in kind: its hands are on chores, paid by the chore, so §14's 210-class record does not
+move with the 0.3 gone and was not run again. Starting food and the handover's three days are left as they are.

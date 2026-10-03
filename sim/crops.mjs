@@ -213,3 +213,38 @@ export function fieldInvalid(field) {
   if (field.grownMs !== undefined && (!Number.isFinite(field.grownMs) || field.grownMs < 0)) return 'Invalid field state';
   return null;
 }
+
+// ------------------------------------------------------------------------------------------------ seed kept at the harvest
+
+/**
+ * **Seed kept back at the harvest** (owner, 2026-10-02: "didn't farmers back then get seeds from their crops? Can we incorporate
+ * something that maybe reduces yield, but gives us enough seed for the next planting?"; docs/LAND_GRANTS.md §5.2, `FIC-GONZ-1071`,
+ * `HIST-TEX-1070`). Automatic: every plot brought in keeps back the seed to plant it again (`seedFor`: corn 2, cotton 3), taken out
+ * of what it gave:
+ *
+ * - **corn** keeps its seed ears out of the crop: a plot of ten food comes in as eight to eat and two kept for seed;
+ * - **cotton** is ginned, and the seed comes out of the gin with the lint: the seed for the plot (3) is kept at the cost of one bale
+ *   (`COTTON_SEED_BALES`), the seed cotton held back unginned for planting rather than a third of the crop.
+ *
+ * Never more than came in: a plot the stock ate down to less than its seed gives what it gave, as seed first for corn.
+ */
+export const COTTON_SEED_BALES = 1;
+/** What the plots brought in keep back: `{ seed, food, cotton }`, the seed kept and what it cost of each, from what was `kept`. */
+export function seedKept(household, plots, kept = { food: 0, cotton: 0 }) {
+  const out = { seed: 0, food: 0, cotton: 0 };
+  let food = kept.food || 0, cotton = kept.cotton || 0;
+  for (const plot of plots) {
+    const crop = cropOf(household, plot);
+    if (crop === 'cotton') {
+      const bales = Math.min(COTTON_SEED_BALES, cotton);
+      if (bales <= 0) continue;
+      cotton -= bales; out.cotton += bales; out.seed += seedFor('cotton');
+    } else {
+      const seed = Math.min(seedFor('corn'), food);
+      if (seed <= 0) continue;
+      food -= seed; out.food += seed; out.seed += seed;
+    }
+  }
+  const round = value => Math.round(value * 10000) / 10000;
+  return { seed: round(out.seed), food: round(out.food), cotton: round(out.cotton) };
+}

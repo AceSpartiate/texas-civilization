@@ -72,8 +72,11 @@ A short optional walk-through offers itself once, in that lobby. It explains the
 
 **Powder and lead is the one thing the farm and the fight both spend.** Your family keeps some in the house. A shot in the timber spends one. Whoever goes upriver with the militia takes what is there with them — the volunteers at Gonzales were settlers who brought their own arms, and so is your family. Run out and you can still farm, still trade, still go; you cannot shoot. More costs food and an afternoon in town, or a neighbour who has some and wants something you have.
 
-**Food is life, and a family can starve** (owner, 2026-09-30; [docs/HUNGER.md](docs/HUNGER.md)). Working about the place barely
-feeds the one doing it; the field, the hunt, the water, the herd, the store and the neighbours feed the family. When the food runs
+**Food is life, and a family can starve** (owner, 2026-09-30; [docs/HUNGER.md](docs/HUNGER.md)). Working about the place makes no
+food (owner, 2026-10-02); the field, the hunt, the water, the herd, the store and the neighbours feed the family. Each of the
+gathering works - fishing, small game, oysters, a bee tree - pays a person once a day, and a harvest keeps back the seed to plant
+each plot again: corn two of its ten, cotton three seed for one of its five bales. While the food is low, the works that bring it
+in glow on the bar. When the food runs
 out the family goes hungry, then weak - slower at work and on the road, and nobody weak is sent to fight - then starving, and after
 a long stretch with nothing, people die of it, the youngest and the sick first. The food chip is a gauge that turns from calm to
 amber to red as the days of food run down, and glows and pulses as the family weakens; the faces of the hungry are ringed in the

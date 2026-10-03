@@ -6,7 +6,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createGonzalesWorld } from '../sim/gonzales.mjs';
 import { applyAction, projectWorld, rollFamily, stepWorld, validateWorld } from '../sim/world.mjs';
-import { WORK_FOOD_A_DAY, advanceRoutine } from '../sim/routines.mjs';
+import { advanceRoutine } from '../sim/routines.mjs';
 import { advanceAges } from '../sim/ages.mjs';
 import { ageNow, bornOf, canAnswerCalls, canFight, sexOf, tooYoung } from '../sim/family.mjs';
 import { isBaby } from '../sim/babies.mjs';
@@ -44,8 +44,9 @@ function birthdayTomorrow(world, age) {
 
 // ------------------------------------------------------------------------------------------------ D7, "0.3 a day"
 
-test('D7: somebody working about the place brings in 0.3 food a day, where it was one', () => {
-  assert.equal(WORK_FOOD_A_DAY, 0.3);
+// D7's "0.3 a day" was superseded by the owner on 2026-10-02 ("we need to limit food generation to crops, fishing, hunting, etc.";
+// docs/HUNGER.md §10): working about the place makes no food at all, and two working are worth exactly two resting.
+test('D7, as amended 2026-10-02: somebody working about the place brings in no food', () => {
   const world = rolledClass('owner-rules-food');
   const household = Object.values(world.households).find(one => people(world, one).filter(person => !tooYoung(person)).length >= 2);
   const grown = people(world, household).filter(person => !tooYoung(person)).slice(0, 2);
@@ -62,7 +63,8 @@ test('D7: somebody working about the place brings in 0.3 food a day, where it wa
   };
   const idle = day(0), working = day(2), oneMore = day(0, 101);
   const worth = oneMore - idle;
-  assert.ok(Math.abs((working - idle) / worth - 2 * 0.3) < 1e-3, `two working about the place brought in ${((working - idle) / worth).toFixed(3)} food, not 0.6`);
+  assert.ok(worth > 0.9, `one food more in the store was worth ${worth} after the day`);
+  assert.ok(Math.abs(working - idle) < 1e-9, `two working about the place brought in ${((working - idle) / worth).toFixed(3)} food, not none`);
   // Two grown people working about the place no longer feed even themselves: 0.6 in against 0.7 eaten.
   const pair = structuredClone(world), home = pair.households[household.id];
   for (const id of home.members) if (!grown.some(person => person.id === id)) pair.entities[id].location = { ...pair.map.sites['san-felipe'], siteId: 'san-felipe' };

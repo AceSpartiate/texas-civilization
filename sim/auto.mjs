@@ -29,7 +29,7 @@
 //
 //   - **it can be done**: they take it up again (the way of going chosen again by the one rule, sim/going.mjs `quickestWay`);
 //   - **it cannot be done right now** - the field not ready, no seed, the rifle out with somebody else, the lesson's step
-//     not come to it - they **work about the place** (`task: 'work'`, sim/routines.mjs: a little food a day), the reason is
+//     not come to it - they **work about the place** (`task: 'work'`, sim/routines.mjs: no food since 2026-10-02), the reason is
 //     written down once, and the next tick asks again. The one exception is the hoe: work that wants it, refused because
 //     every hoe is worn out, sends them to mend it first, which is work about the house that makes the task possible again.
 //
