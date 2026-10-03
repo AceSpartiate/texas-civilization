@@ -3953,6 +3953,144 @@
       "refinements": [],
       "postProcessing": "None; PNG copied unchanged.",
       "review": "Two soft painted density variants, two poses each. Engine modulates opacity; source density/shape are illustrative, not volumetric fog. Frame morphing remains future polish."
+    },
+    {
+      "sheet": "military-camp-life",
+      "promptId": "frontier-v1/military-camp-life",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-actions.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5edeadcd-9c69-414f-b42a-176d7dd01633.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-5edeadcd-9c69-414f-b42a-176d7dd01633.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/military-camp-life.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Original interpretive costume, props and anatomy. Modest authored keyframes where appropriate, fixed structural states otherwise. Fine foot/body/prop registration remains polish; no graphic wounds. Mounted firing is an idle/fire/idle transition, not a full reload."
+    },
+    {
+      "sheet": "volunteer-engineer-actions",
+      "promptId": "frontier-v1/volunteer-engineer-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-actions.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2799f9a0-2389-4836-8845-73de4a676270.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-2799f9a0-2389-4836-8845-73de4a676270.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/volunteer-engineer-actions.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Original interpretive costume, props and anatomy. Modest authored keyframes where appropriate, fixed structural states otherwise. Fine foot/body/prop registration remains polish; no graphic wounds. Mounted firing is an idle/fire/idle transition, not a full reload."
+    },
+    {
+      "sheet": "volunteer-bearers",
+      "promptId": "frontier-v1/volunteer-bearers",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-actions.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3c2fd66a-b6d6-4a24-bde0-e1beb78b1453.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3c2fd66a-b6d6-4a24-bde0-e1beb78b1453.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/volunteer-bearers.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Original interpretive costume, props and anatomy. Modest authored keyframes where appropriate, fixed structural states otherwise. Fine foot/body/prop registration remains polish; no graphic wounds. Mounted firing is an idle/fire/idle transition, not a full reload."
+    },
+    {
+      "sheet": "regular-bearers",
+      "promptId": "frontier-v1/regular-bearers",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-actions.png",
+        "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-3c2fd66a-b6d6-4a24-bde0-e1beb78b1453.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-a2eb2934-e5df-4615-85b0-e51db9fe22e6.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-07f98f0f-c93f-47b7-9711-6afe69230855.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/regular-bearers.png",
+      "refinements": [
+        "Edit this four-frame transparent bearer atlas. Keep same three Mexican men, uniforms, blanket carry and four walking poses. Fix clipping: recompose all four groups SMALLER and centrally within their own 2x2 equal cells so each group including every boot toe has at least40px transparent margins on ALL sides. Specifically bottom-right leading man's right boot currently touches/crosses canvasedge: reconstruct complete boot. All four groups same scale. Transparent alpha backdrop no shadows text. Do not add or remove people or change poses."
+      ],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Original interpretive costume, props and anatomy. Modest authored keyframes where appropriate, fixed structural states otherwise. Fine foot/body/prop registration remains polish; no graphic wounds. Mounted firing is an idle/fire/idle transition, not a full reload."
+    },
+    {
+      "sheet": "dragoon-wounded-led",
+      "promptId": "frontier-v1/dragoon-wounded-led",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-fb71f2a9-4b04-41b8-a1de-6ba5ab69d842.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-fb71f2a9-4b04-41b8-a1de-6ba5ab69d842.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/dragoon-wounded-led.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Original interpretive costume, props and anatomy. Modest authored keyframes where appropriate, fixed structural states otherwise. Fine foot/body/prop registration remains polish; no graphic wounds. Mounted firing is an idle/fire/idle transition, not a full reload."
+    },
+    {
+      "sheet": "volunteer-mounted",
+      "promptId": "frontier-v1/volunteer-mounted",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-07092bf5-25f9-4e82-8e4a-1f0dfd3cecf1.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-07092bf5-25f9-4e82-8e4a-1f0dfd3cecf1.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/volunteer-mounted.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Original interpretive costume, props and anatomy. Modest authored keyframes where appropriate, fixed structural states otherwise. Fine foot/body/prop registration remains polish; no graphic wounds. Mounted firing is an idle/fire/idle transition, not a full reload."
+    },
+    {
+      "sheet": "field-cover-camp-props",
+      "promptId": "frontier-v1/field-cover-camp-props",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/fortifications.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ea7411e8-1318-48a8-83a8-57448408ef6d.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-ea7411e8-1318-48a8-83a8-57448408ef6d.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/field-cover-camp-props.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Original interpretive costume, props and anatomy. Modest authored keyframes where appropriate, fixed structural states otherwise. Fine foot/body/prop registration remains polish; no graphic wounds. Mounted firing is an idle/fire/idle transition, not a full reload."
+    },
+    {
+      "sheet": "house-loopholed",
+      "promptId": "frontier-v1/house-loopholed",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/fortifications.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-17a047c6-ce72-4590-9155-8ba1f0c332f7.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-17a047c6-ce72-4590-9155-8ba1f0c332f7.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/house-loopholed.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Original interpretive costume, props and anatomy. Modest authored keyframes where appropriate, fixed structural states otherwise. Fine foot/body/prop registration remains polish; no graphic wounds. Mounted firing is an idle/fire/idle transition, not a full reload."
+    },
+    {
+      "sheet": "volunteer-loophole-actions",
+      "promptId": "frontier-v1/volunteer-loophole-actions",
+      "tool": "built-in image_gen.imagegen",
+      "mode": "generate",
+      "referenced_image_paths": [
+        "C:/Users/zachw/Texas Civilization/public/assets/frontier-v1/atlases/military-actions.png"
+      ],
+      "originalSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e08c907f-fa8a-4763-9ab2-645731ffb6cd.png",
+      "generatedSourcePath": "C:/Users/zachw/.codex/generated_images/01a082eb-77f7-7f73-8400-ebcc7426ac7b/exec-e08c907f-fa8a-4763-9ab2-645731ffb6cd.png",
+      "runtimeFile": "public/assets/frontier-v1/atlases/volunteer-loophole-actions.png",
+      "refinements": [],
+      "postProcessing": "None; selected PNG copied unchanged.",
+      "review": "Original interpretive costume, props and anatomy. Modest authored keyframes where appropriate, fixed structural states otherwise. Fine foot/body/prop registration remains polish; no graphic wounds. Mounted firing is an idle/fire/idle transition, not a full reload."
     }
   ],
   "rejectedAttempts": [

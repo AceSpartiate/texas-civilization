@@ -162,7 +162,7 @@ test('a camp at rest (pose `rest`) is scattered and unformed, some standing and 
   const camp = layoutSide(side('mexican', 'camp', 'none', 0));
   const sitting = camp.filter(slot => slot.rest === 'sit').length;
   assert.ok(sitting > 8 && sitting < 40, `${sitting} of 60 sitting`);
-  assert.ok(art.drawn.some(one => one.clip === 'regular-injured-rest') && art.drawn.some(one => /^regular-idle-/.test(one.clip || '')), 'the camp is not drawn at rest');
+  assert.ok(art.drawn.some(one => one.clip === 'regular-rest-sit') && art.drawn.some(one => /^regular-idle-/.test(one.clip || '')), 'the camp is not drawn at rest');
   assert.equal(shown.styles.mexican, 'camp');
 });
 
@@ -218,12 +218,13 @@ test('a group of horse is drawn apart from its side, as riders, with its own fal
   assert.equal(e.figures.texian, 60, 'the group was counted in the side');
   assert.equal(e.fallenBy['g:sherman'], 1);
   assert.equal(e.fallenBy.texian, undefined);
-  assert.ok(art.drawn.some(one => /^mounted-courier/.test(one.clip || '')), 'the Texian horsemen are not drawn riding');
+  assert.ok(art.drawn.some(one => /^volunteer-mounted-idle-/.test(one.sprite || '')), 'the stationary Texian horsemen are not drawn mounted');
+  assert.ok(art.drawn.some(one => one.clip === 'volunteer-mounted-fire-cycle'), 'the mounted firing pose is missing');
   assert.ok(e.shotsBy.texian > 0, 'the horsemen did not fire');
   assert.ok(e.works > 20, `only ${e.works} pieces of works drawn`);
-  for (const piece of ['crate', 'sacks', 'barrel']) assert.ok(art.drawn.some(one => one.sprite === piece), `no ${piece} in the breastwork`);
+  for (const piece of ['breastwork-packs-left', 'breastwork-packs-right']) assert.ok(art.drawn.some(one => one.sprite === piece), `no ${piece} in the breastwork`);
   assert.ok(art.drawn.some(one => one.clip === 'reeds-wind') && art.drawn.some(one => one.clip === 'fire-flicker'));
   // The opening in the middle of the breastwork where the gun stood (`HIST-TEX-522`).
-  const pieces = art.drawn.filter(one => ['crate', 'sacks', 'barrel', 'packed-belongings'].includes(one.sprite)).map(one => one.y);
+  const pieces = art.drawn.filter(one => ['breastwork-packs-left', 'breastwork-packs-right'].includes(one.sprite)).map(one => one.y);
   assert.ok(!pieces.some(y => Math.abs(y - 384) < 0.015 * 1800), 'the breastwork has no opening for the gun');
 });

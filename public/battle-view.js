@@ -235,7 +235,7 @@ export function createBattleView(art) {
     // slide along with a side that runs on past them.
     pins: new Map(),
     // Where each sampled man fell, and whose he was, so he lies there after his side has moved on or gone (Concepción).
-    fallenSide: new Map(),
+    fallenSide: new Map(), fallenFigure: new Map(),
     // Presentation evidence across frames, read by scripts/battle-gonzales-browser-proof.mjs and by nothing in the page.
     shotsTotal: 0, shotsBy: {}, linesShown: new Set(), memberClips: new Set(),
     loopholeShots: 0, gunShotsTotal: 0, gunShotsBy: {}, peopleFellAt: new Map(), peopleSpots: {}, peopleShown: new Set(), civiliansSeen: 0, breachesSeen: new Set(), namedFalls: new Set(), unitsSeen: new Set(),
@@ -245,10 +245,7 @@ export function createBattleView(art) {
     hiddenShots: new Set(),
     cartTipStartedAt: null,
   };
-  // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "San Jacinto", item 3 - a Texian horseman (Sherman's, Lamar's, Deaf
-  // Smith's party) is the library's mounted courier, the only Texian-dressed rider it has, until a mounted volunteer exists.
-  // A Texian on horseback (Grant's party, `mounted` on the side) is drawn riding. stand-in: docs/ART_REQUESTS.md, request
-  // 2026-09-25 "the south's fights" item 3 - the mounted courier's riding clip, until a volunteer on horseback exists.
+  // Texian mounted units use volunteer riding art; named riders keep their own sheets.
   // A company given the figure `rider` (the Alamo's Gonzales men riding in) is drawn the same.
   const figureOf = (side, slot) => side.figure === 'rider' ? 'rider' : side.side === 'mexican'
     ? (side.style === 'mounted' && !(slot.rank < (side.dismounted || 0)) ? 'dragoon' : 'regular')
@@ -259,7 +256,7 @@ export function createBattleView(art) {
     const key = `${battle.id}`;
     if (view.key !== key) {
       view.key = key; view.sides.clear(); view.smoke = []; view.flashes = []; view.shotsSeen.clear(); view.linesSeen.clear(); view.fallenAt.clear(); view.cannonFiredAt = [];
-      view.gunFiredAt.clear(); view.breachAt.clear(); view.memberFallAt.clear(); view.peopleFellAt.clear(); view.fallenSpots.clear(); view.fallenSide.clear(); view.herd = null; view.pins.clear();
+      view.gunFiredAt.clear(); view.breachAt.clear(); view.memberFallAt.clear(); view.peopleFellAt.clear(); view.fallenSpots.clear(); view.fallenSide.clear(); view.fallenFigure.clear(); view.herd = null; view.pins.clear();
       view.cartTipStartedAt = null;
       view.minute = null;
     }
@@ -373,7 +370,7 @@ export function createBattleView(art) {
     // His part's own pose (§6.13): asleep by the fire, hands up, or riding with Grant's party.
     if (member.pose === 'asleep') return { sprite: 'volunteer-reclining', still: true };
     if (member.pose === 'surrender') return { clip: 'volunteer-surrender', timeMs: time };
-    if (member.mounted) return { clip: 'mounted-courier-e', flip: !right, timeMs: time, scale: 1.35 };
+    if (member.mounted) return { clip: 'volunteer-ride-e', flip: !right, timeMs: time, scale: 1.35 };
     if (!member.firing) return { clip: member.moving ? 'volunteer-march' : right ? 'volunteer-idle-e' : 'volunteer-idle-w', flip: member.moving ? !right : false, timeMs: time };
     const cycle = FIRE_CLIP_MS + member.wait, t = (time + member.offset) % cycle;
     if (t < member.wait) return { sprite: member.kneel ? 'volunteer-load' : right ? 'volunteer-e' : 'volunteer-w', flip: member.kneel ? !right : false, still: true };
@@ -501,11 +498,10 @@ export function createBattleView(art) {
       }
       const fallen = fallenSlots.get(side.key) || new Map();
       // Behind a street's palisade or a breastwork of sandbags: the cover drawn in front of the men.
-      // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a street barricade" and "a sandbag breastwork" - the library's
-      // palisade and sacks, until the ditch-bank-and-palisade with a gun embrasure is drawn.
+      // Authored barricade and sandbag cover follows the existing positions.
       if (['barricade', 'sandbags'].includes(side.cover) && side.action !== 'gone') {
         const front = camera.toScreen({ x: centre.x + facing.x * 0.012, y: centre.y + facing.y * 0.012 });
-        if (!offScreen(front)) figures.push({ y: front.y + 1, kind: 'cover', point: front, sprite: side.cover === 'barricade' ? 'palisade' : 'sacks', size: figurePx * (side.cover === 'barricade' ? 2.2 : 1.5), flip: !sideRight });
+        if (!offScreen(front)) figures.push({ y: front.y + 1, kind: 'cover', point: front, sprite: side.cover === 'barricade' ? 'barricade-street-embrasure' : 'sandbag-breastwork', size: figurePx * (side.cover === 'barricade' ? 0.9 : 0.7), flip: !sideRight });
       }
       const pose = side.pose && side.pose !== 'stand' ? side.pose : side.style === 'camp' ? 'asleep' : 'stand';
       for (const slot of slots) {
@@ -524,12 +520,13 @@ export function createBattleView(art) {
         // stand a few yards apart, only the one they are standing in is given up.
         if (!down && memberPoints.some(m => Math.hypot(m.x - ground.x, m.y - ground.y) < (side.style === 'wall' && side.spread?.width ? 0.004 : 0.014))) continue;
         const kind = figureOf(side, slot);
+        if (down) view.fallenFigure.set(seedKey, kind);
         const point = camera.toScreen(ground);
         if (offScreen(point)) continue;
         // On a flat roof behind its parapet: drawn standing up on the house, not in the street below it.
         if (side.cover === 'roof') point.y -= figurePx * 0.5;
         const prone = battle.id === 'coleto' && ['dusk', 'night', 'small-hours'].includes(battle.phase) && side.side === 'mexican' && side.style === 'loose' && kind === 'regular';
-        const size = prone ? figurePx * 0.35 : kind === 'dragoon' || kind === 'rider' ? figurePx * 1.35 : figurePx;
+        let size = prone ? figurePx * 0.35 : kind === 'dragoon' || kind === 'rider' ? figurePx * 1.35 : figurePx;
         const seed = seedKey;
         // Which way this man faces: out of his face of a square, or the way his body of men faces.
         const right = slot.out ? (facing.x * slot.out.along - facing.y * slot.out.across) >= 0 : sideRight;
@@ -539,7 +536,7 @@ export function createBattleView(art) {
           if (down.wounded && side.action === 'gone') continue;
           // Falling, then lying still: no blood, no gore (VISION.md §16), and carried off once the fighting is over.
           // Hurt inside a square, he is helped in among the carts, not back from a line that faces every way.
-          figures.push({ y: point.y, kind: 'fallen', side: side.side, point, size: figurePx, down, slot, ground, facingRight: right, ...(side.style === 'square' && { inward: camera.toScreen(centre) }) });
+          figures.push({ y: point.y, kind: 'fallen', figure: kind, side: side.side, point, size: figurePx, down, slot, ground, facingRight: right, ...(side.style === 'square' && { inward: camera.toScreen(centre) }) });
           continue;
         }
         if (side.action === 'gone') continue;
@@ -561,7 +558,7 @@ export function createBattleView(art) {
         if (pose === 'asleep') {
           // Asleep on the ground by the fire, rolled in a blanket.
           poses.asleep++;
-          figures.push({ y: point.y, kind, side: side.side, point, size: figurePx, clip: null, sprite: 'volunteer-reclining', timeMs, flip: slot.index % 2 === 0, still: true, seed });
+          figures.push({ y: point.y, kind, side: side.side, point, size: figurePx * 0.7, clip: `${side.side === 'mexican' ? 'regular' : 'volunteer'}-sleep`, sprite: null, timeMs, flip: slot.index % 2 === 0, still: true, seed });
           drawnBy[side.key].push(point); if (side.key === side.side || side.part) drawn[side.side].push(point);
           continue;
         }
@@ -574,10 +571,17 @@ export function createBattleView(art) {
         if (kind === 'rider') {
           // A man on horseback: riding, and his shot from where his hands are, as a dragoon's is.
           poses.rider++;
-          figures.push({ y: point.y, kind, side: side.side, point, size, clip: 'mounted-courier-e', sprite: null, timeMs: time, flip: !right, still: false, seed });
+          const volunteer = side.side === 'texian';
+          const dir = Math.abs(facing.y) > Math.abs(facing.x) * 1.2 ? (facing.y >= 0 ? 's' : 'n') : 'e';
+          const rider = { y: point.y, kind, side: side.side, point, size,
+            clip: volunteer ? moving ? `volunteer-ride-${dir}` : null : 'mounted-courier-e',
+            sprite: volunteer && !moving ? `volunteer-mounted-idle-${dir}` : null,
+            timeMs: time, flip: volunteer ? dir === 'e' && !right : !right, still: false, seed };
+          figures.push(rider);
           if (!still && (side.fire === 'scattered' || (side.fire === 'picket' && slot.index % 4 === 0))) {
             const wait = 7000 + hash(`${seed}:rw`) * 12000, shifted = time + hash(`${seed}:rp`) * 25000, t = shifted % wait;
             const shotKey = `${seed}:r${Math.floor(shifted / wait)}`;
+            if (volunteer && t < 400) { rider.clip = 'volunteer-mounted-fire-cycle'; rider.sprite = null; rider.timeMs = t + 300; rider.flip = !right; }
             if (t < 400 && !view.shotsSeen.has(shotKey)) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
               const muzzle = { x: ground.x + (right ? 1 : -1) * 0.014, y: ground.y - 0.012 };
@@ -664,6 +668,7 @@ export function createBattleView(art) {
           if (t < wait) {
             sprite = slot.kneel ? `${kind}-load` : `${kind}-${right ? 'e' : 'w'}`; still = true; flip = slot.kneel ? !right : false;
             if (prone) { sprite = 'regular-prone-lie'; flip = !right; }
+            if (side.cover === 'loophole' && kind === 'volunteer') { sprite = 'volunteer-loophole-load'; size = figurePx * 0.65; flip = !right; }
             // Under a bank (Concepción's riverbank, the Grass Fight's creek beds): dropped below the lip to load, up on the cut step
             // to fire. stand-in: docs/ART_REQUESTS.md, 2026-09-25 "Concepción and the Grass Fight" item 2 - the loading figure
             // drawn lower, kneeling, until a climbing pose exists.
@@ -672,6 +677,7 @@ export function createBattleView(art) {
           else {
             clip = `${kind}-fire-reload`; timeMs = t - wait;
             if (prone) clip = 'regular-prone-fire-reload';
+            if (side.cover === 'loophole' && kind === 'volunteer') { clip = 'volunteer-loophole-fire-reload'; size = figurePx * 0.65; }
             const shotKey = `${seed}:${Math.floor((time + (slot.phase ?? 0) * 20000) / cycle)}`;
             if (timeMs >= AIM_MS && timeMs < AIM_MS + 400 && !view.shotsSeen.has(shotKey) && !still) {
               view.shotsSeen.add(shotKey); shots++; view.shotsBy[side.side] = (view.shotsBy[side.side] || 0) + 1;
@@ -692,14 +698,13 @@ export function createBattleView(art) {
             }
           }
         } else if (side.action === 'work') {
-          // Digging a trench or filling sandbags at night. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "a trench across a
-          // street" - the library's settler at work (the volunteers were settlers in their own clothes), until a soldier digging.
-          clip = side.side === 'mexican' ? 'regular-idle-s' : slot.index % 2 ? 'rust-work' : 'teal-work'; flip = !right;
+          // Volunteer engineering work; Mexican work still needs a dedicated digging cycle.
+          clip = side.side === 'mexican' ? 'regular-idle-s' : 'volunteer-dig'; flip = !right;
         } else if (moving) { clip = `${kind}-march`; flip = !right; }
         else if (side.style === 'camp') {
-          // At rest in camp: standing about, or sitting. stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "San Jacinto",
-          // item 2 - a man sitting at rest is the library's seated soldier (`*-injured-rest`) until a resting pose exists.
-          clip = slot.rest === 'sit' ? `${kind}-injured-rest` : `${kind}-idle-${right ? 'e' : 'w'}`; flip = slot.rest === 'sit' ? !right : false;
+          // Healthy camp rest has distinct art from injury and death.
+          clip = slot.rest === 'sit' ? `${kind}-rest-sit` : `${kind}-idle-${right ? 'e' : 'w'}`; flip = slot.rest === 'sit' ? !right : false;
+          if (slot.rest === 'sit') size = figurePx * 0.7;
         } else { sprite = `${kind}-${right ? 'e' : 'w'}`; still = true; flip = false; }
         figures.push({ y: point.y, kind, side: side.side, point: dy ? { x: point.x, y: point.y + dy } : point, size, clip, sprite, timeMs, flip, still, seed });
         if (side.key === side.side || side.part) drawn[side.side].push(point);
@@ -721,7 +726,7 @@ export function createBattleView(art) {
         const ground = view.fallenSpots.get(`${key}:${index}`);
         if (!ground) continue;
         const point = camera.toScreen(ground);
-        figures.push({ y: point.y, kind: 'fallen', side: view.fallenSide.get(key) || 'texian', point, size: figurePx, down, slot: { index }, ground, facingRight: true });
+        figures.push({ y: point.y, kind: 'fallen', figure: view.fallenFigure.get(`${key}:${index}`), side: view.fallenSide.get(key) || 'texian', point, size: figurePx, down, slot: { index }, ground, facingRight: true });
       }
     }
     // Back to front, so a man nearer the camera stands in front of the one behind him.
@@ -965,10 +970,11 @@ export function createBattleView(art) {
     }
     if (f.down.wounded) {
       // Hit, and helped back from the line, sitting up: a wound, not a death (the record's own word where it is disputed).
-      // stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "the wounded carried" - a dragoon hit in the saddle is drawn as the
-      // library's seated wounded soldier helped back by two comrades on foot, until a mounted wounded pose exists.
+      // Living patients use authored blanket bearers or a led wounded dragoon.
       // Away from the enemy: the side faces right when the enemy is to its right, so the rear is to its left.
       const back = -Math.min(1, since / 25000) * f.size * 2.4 * (f.facingRight ? 1 : -1);
+      const transport = f.figure === 'dragoon' ? 'dragoon-wounded-led' : f.side === 'mexican' ? 'regular-bearers-carry' : 'bearers-carry';
+      if (art.animated(ctx, transport, x + back, y, f.size * (f.figure === 'dragoon' ? 1.35 : 1), `wounded:${f.slot.index}`, { timeMs: since, flip: f.facingRight, paused: since >= 25000 })) return;
       if (!art.drawSprite(ctx, `${kind}-injured`, x + back, y, f.size)) art.miniPerson(ctx, x + back, y, f.size, { side: f.side });
       for (const off of [-0.45, 0.45]) art.animated(ctx, `${kind}-march`, x + back + off * f.size, y + 2, f.size, `${f.slot.index}:${off}`, { flip: f.facingRight });
       return;
@@ -1034,9 +1040,8 @@ export function createBattleView(art) {
   /**
    * What stands on the ground (sim/battles/<id>.mjs `works`), laid across the line between the two camps: a breastwork with the
    * opening its gun stood in, a camp's fires, a marsh, open water. Stable: every piece is placed by its work's id.
-   * stand-in: docs/ART_REQUESTS.md, request 2026-09-25 "San Jacinto", items 2 and 4 - the breastwork is the library's crates,
-   * sacks, barrels and packed belongings in a line; the marsh its cordgrass, reeds and ripples; until a breastwork of packs and
-   * saddles and a marsh edge with men wading exist.
+   * The baggage breastwork uses authored pack/saddle sections. The marsh still uses cordgrass, reeds and ripples;
+   * marsh-edge tiles and wading poses remain requested in docs/ART_REQUESTS.md.
    * ceiling: the pieces are drawn over the map's own ground, whatever the map has there.
    */
   function drawWorks(ctx, battle, camera, figurePx, time, bounds) {
@@ -1047,13 +1052,13 @@ export function createBattleView(art) {
       const at = (t, d = 0) => ({ x: work.x + across.x * t + toward.x * d, y: work.y + across.y * t + toward.y * d });
       const put = (point, draw) => { const p = camera.toScreen(point); if (!seen(p)) return; draw(p); count++; };
       if (work.kind === 'breastwork') {
-        const pieces = ['crate', 'sacks', 'barrel', 'packed-belongings', 'sacks', 'crate'];
+        const pieces = ['breastwork-packs-left', 'breastwork-packs-right'];
         const n = Math.max(8, Math.round(work.width / 0.01));
         for (let i = 0; i < n; i++) {
           const t = (i / (n - 1) - 0.5) * work.width;
           // "leaving an opening in the centre of the breastwork, in which their artillery was placed" (`HIST-TEX-522`).
           if (Math.abs(t) < 0.02) continue;
-          const size = figurePx * (0.55 + 0.25 * hash(`${work.id}:${i}`));
+          const size = figurePx * (0.8 + 0.1 * hash(`${work.id}:${i}`));
           put(at(t, (hash(`${work.id}:${i}:d`) - 0.5) * 0.006), p => {
             if (!art.drawSprite(ctx, pieces[i % pieces.length], p.x, p.y, size)) { ctx.fillStyle = '#7a6548'; ctx.fillRect(p.x - size * 0.45, p.y - size * 0.45, size * 0.9, size * 0.45); }
           });
@@ -1617,4 +1622,3 @@ export function createBattleView(art) {
   const isMember = id => view.members.has(id);
   return { draw, memberPose, memberDrawn, isMember, get evidence() { return view.evidence; }, get smoke() { return view.smoke.length; } };
 }
-

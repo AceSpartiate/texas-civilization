@@ -173,7 +173,7 @@ test('a side in parts is drawn part by part: men asleep lying down, men in a hou
   assert.equal(evidence.poses.hidden, 9, 'the men in the house are drawn');
   assert.equal(evidence.poses.surrender, 9);
   assert.equal(evidence.figures.texian, 17, 'the hidden men were counted as drawn');
-  assert.ok(art.drawn.some(one => one.sprite === 'volunteer-reclining'), 'nobody was drawn lying asleep');
+  assert.ok(art.drawn.some(one => one.clip === 'regular-sleep' || one.clip === 'volunteer-sleep'), 'nobody was drawn lying asleep');
   assert.ok(art.drawn.some(one => one.clip === 'volunteer-surrender'), 'nobody was drawn with their hands up');
   // The house fires: Texian shots with nobody of the house drawn, each flash at the house.
   assert.ok((evidence.shotsBy.texian || 0) >= 5, `the house fired ${evidence.shotsBy.texian || 0} shots in twelve seconds`);
@@ -222,9 +222,9 @@ test('the groves hide the dragoons, and a herd is driven and scattered; Grant\'s
   const evidence = run(view, battle, { seconds: 6, art });
   assert.ok(evidence.herd >= 20, `the herd is ${evidence.herd} horses`);
   assert.ok(art.drawn.some(one => one.clip === 'mustang-gallop'), 'the herd is not galloping');
-  assert.ok(art.drawn.filter(one => one.sprite === 'live-oak-large' || one.sprite === 'mesquite-large').length >= 7, 'the grove is not drawn');
+  assert.ok(art.drawn.some(one => one.clip === 'live-oak-mott-dense-wind'), 'the east grove is not drawn');
   assert.equal(evidence.poses.rider, 20, 'Grant\'s men are not drawn riding');
-  assert.ok(art.drawn.some(one => one.clip === 'mounted-courier-e'));
+  assert.ok(art.drawn.some(one => one.clip?.startsWith('volunteer-ride-')));
 });
 
 test('a family\'s man is drawn in his part - asleep, in the house, giving up - and once his fate has come, in it', () => {

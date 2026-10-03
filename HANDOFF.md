@@ -1,3 +1,8 @@
+## Latest art delivery: military life and field defenses (2026-10-03)
+
+Nine atlases add **84 frames and 20 authored clips**: healthy camp rest/sleep, drinking/cleaning, volunteer engineering, both armies' blanket bearers, a led wounded dragoon, directional mounted volunteers, crouched loophole firing, field defenses and a generic roof-removable stone house. Existing battle states now select rest/sleep, digging, mounted movement/firing, wounded transport and dedicated cover. Named people, hidden fighters, casualty outcomes and historical clocks retain their existing rules.
+
+Read `docs/ART_DELIVERY_2026-10-03-MILITARY-LIFE.md` for exact live-versus-catalog scope and remaining integration. Source registration: `scripts/art-deliveries/military-life-2026-10-03.mjs`; full inventory: `docs/ART_MANIFEST.md`. Browser proof draws all 84 frames and verifies pixel changes in all 20 clips. Living blanket patients must not stand in for dead transported bodies. House actors still require occlusion masks/navigation; generic house art does not replace named Béxar or Alamo assemblies. North/south mounted firing, family-specific battle poses and Mexican digging remain outstanding.
 ## Ground fog banks — delivered 2026-10-03
 
 Four transparent frames add dense and thin low painted mist banks, each with two wisp poses. `fog-bank-dense` and `fog-bank-thin` are authored loops with 6000ms per pose. The existing numeric battle.fog rendering now draws three overlapping banks around the visible force centre and blends density variants continuously from the projected density. The existing radial veil is the fallback when clips are unavailable. No server visibility, information asymmetry, route, combat timing or historical outcome changes. No fog is introduced to phases that do not project numeric fog; Coleto's light='fog' wash remains its existing separate behavior.
@@ -4628,11 +4633,3 @@ Erastus “Deaf” Smith has a 16-frame directional scout sheet and a four-frame
 ## Art update — James Grant (2026-09-28)
 
 Grant now has distinct foot, mounted-walk and four-frame gallop sheets in `scripts/art-deliveries/famous-grant.mjs`. His roster and `PERSON_ART.grant` select them; the existing Agua Dulce horse-herd route uses the mounted walk and the visible ambush interval uses the gallop. Grant disappears from the stage before his later fate, which remains conveyed by the existing account text. No capture, surrender or killing was invented on screen. The foot sheet includes map/pointing poses and a clean, non-graphic bandage variant for Béxar; his face, clothing and horse are interpretations rather than portrait claims. Frames, clips and source records are in the generated art manifest and provenance JSON files. The battle-view regression checks walk versus ambush gallop.
-
-
-
-
-
-
-
-

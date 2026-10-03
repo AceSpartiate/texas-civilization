@@ -15595,6 +15595,792 @@
         ]
       }
     },
+    "military-camp-life": {
+      "image": "atlases/military-camp-life.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1457813,
+      "sha256": "2925a07c26b1b3bd85f64d872235de062474a50aabfd6d2325940d611784fac8",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.632388,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              81,
+              317
+            ],
+            "columns": [
+              [
+                39,
+                297
+              ],
+              [
+                349,
+                611
+              ],
+              [
+                631,
+                934
+              ],
+              [
+                948,
+                1234
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              354,
+              614
+            ],
+            "columns": [
+              [
+                41,
+                298
+              ],
+              [
+                356,
+                615
+              ],
+              [
+                651,
+                944
+              ],
+              [
+                961,
+                1240
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              638,
+              939
+            ],
+            "columns": [
+              [
+                38,
+                303
+              ],
+              [
+                351,
+                613
+              ],
+              [
+                637,
+                947
+              ],
+              [
+                956,
+                1240
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              949,
+              1228
+            ],
+            "columns": [
+              [
+                36,
+                304
+              ],
+              [
+                353,
+                618
+              ],
+              [
+                647,
+                941
+              ],
+              [
+                972,
+                1240
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "volunteer-engineer-actions": {
+      "image": "atlases/volunteer-engineer-actions.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1490159,
+      "sha256": "3722aa6700a99e2e6803ba86bd9cb969e169aa43b9dc1ab8bf0f485fee88c76c",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.638827,
+        "cornerAlpha": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              35,
+              339
+            ],
+            "columns": [
+              [
+                57,
+                271
+              ],
+              [
+                364,
+                555
+              ],
+              [
+                654,
+                907
+              ],
+              [
+                941,
+                1243
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              377,
+              650
+            ],
+            "columns": [
+              [
+                57,
+                339
+              ],
+              [
+                354,
+                606
+              ],
+              [
+                680,
+                928
+              ],
+              [
+                960,
+                1227
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              671,
+              979
+            ],
+            "columns": [
+              [
+                53,
+                265
+              ],
+              [
+                372,
+                576
+              ],
+              [
+                679,
+                875
+              ],
+              [
+                990,
+                1194
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              991,
+              1229
+            ],
+            "columns": [
+              [
+                48,
+                293
+              ],
+              [
+                363,
+                605
+              ],
+              [
+                667,
+                910
+              ],
+              [
+                978,
+                1210
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "volunteer-bearers": {
+      "image": "atlases/volunteer-bearers.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1164328,
+      "sha256": "7fd7c87573a7d40d0124e6cf93a6d0a7a02bdceb8c28b4bd84528d8ba3ae767e",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.69415,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              168,
+              566
+            ],
+            "columns": [
+              [
+                21,
+                645
+              ],
+              [
+                679,
+                1237
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              733,
+              1119
+            ],
+            "columns": [
+              [
+                16,
+                643
+              ],
+              [
+                672,
+                1236
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "regular-bearers": {
+      "image": "atlases/regular-bearers.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 852040,
+      "sha256": "bc116e5087aca60ef1b657fbfa53ad6eb61bd2e82999ef4e91813a4ef0bd5c82",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.785761,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              213,
+              544
+            ],
+            "columns": [
+              [
+                66,
+                598
+              ],
+              [
+                682,
+                1206
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              756,
+              1087
+            ],
+            "columns": [
+              [
+                59,
+                600
+              ],
+              [
+                677,
+                1212
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "dragoon-wounded-led": {
+      "image": "atlases/dragoon-wounded-led.png",
+      "width": 1774,
+      "height": 887,
+      "bytes": 1322772,
+      "sha256": "982c2f88f9e74658553579579aa25949a23197166357555fa153ef5ef4c086b9",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.669577,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              10,
+              429
+            ],
+            "columns": [
+              [
+                106,
+                824
+              ],
+              [
+                949,
+                1664
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              448,
+              863
+            ],
+            "columns": [
+              [
+                94,
+                830
+              ],
+              [
+                951,
+                1691
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "volunteer-mounted": {
+      "image": "atlases/volunteer-mounted.png",
+      "width": 1226,
+      "height": 1283,
+      "bytes": 1337896,
+      "sha256": "069700049349a5fb917945b6de7d32f629b48e057365eefd31df30af6ec0d21a",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.680272,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              16,
+              286
+            ],
+            "columns": [
+              [
+                27,
+                308
+              ],
+              [
+                318,
+                602
+              ],
+              [
+                617,
+                901
+              ],
+              [
+                918,
+                1204
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              302,
+              619
+            ],
+            "columns": [
+              [
+                91,
+                248
+              ],
+              [
+                396,
+                549
+              ],
+              [
+                700,
+                849
+              ],
+              [
+                1002,
+                1157
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              632,
+              934
+            ],
+            "columns": [
+              [
+                93,
+                230
+              ],
+              [
+                383,
+                531
+              ],
+              [
+                678,
+                831
+              ],
+              [
+                974,
+                1125
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              947,
+              1247
+            ],
+            "columns": [
+              [
+                28,
+                297
+              ],
+              [
+                387,
+                545
+              ],
+              [
+                687,
+                838
+              ],
+              [
+                930,
+                1199
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "field-cover-camp-props": {
+      "image": "atlases/field-cover-camp-props.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1651891,
+      "sha256": "c603ec428a91d281d4b084401e920dcc1eaf6ca3f290aad1768894ca69795aee",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.620134,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 4,
+        "columns": 4,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              94,
+              333
+            ],
+            "columns": [
+              [
+                17,
+                319
+              ],
+              [
+                335,
+                629
+              ],
+              [
+                645,
+                918
+              ],
+              [
+                937,
+                1232
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              403,
+              624
+            ],
+            "columns": [
+              [
+                9,
+                319
+              ],
+              [
+                339,
+                613
+              ],
+              [
+                632,
+                932
+              ],
+              [
+                947,
+                1243
+              ]
+            ]
+          },
+          {
+            "row": 3,
+            "yRange": [
+              699,
+              894
+            ],
+            "columns": [
+              [
+                9,
+                315
+              ],
+              [
+                326,
+                618
+              ],
+              [
+                629,
+                928
+              ],
+              [
+                942,
+                1243
+              ]
+            ]
+          },
+          {
+            "row": 4,
+            "yRange": [
+              914,
+              1210
+            ],
+            "columns": [
+              [
+                71,
+                267
+              ],
+              [
+                365,
+                591
+              ],
+              [
+                626,
+                946
+              ],
+              [
+                958,
+                1211
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "house-loopholed": {
+      "image": "atlases/house-loopholed.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 2777417,
+      "sha256": "0b3ebf168d1eeec409bc42c2ca92397c2881c47460271958c3a71487db10c68b",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.452878,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              42,
+              453
+            ],
+            "columns": [
+              [
+                48,
+                714
+              ],
+              [
+                815,
+                1481
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              542,
+              971
+            ],
+            "columns": [
+              [
+                48,
+                714
+              ],
+              [
+                815,
+                1481
+              ]
+            ]
+          }
+        ]
+      }
+    },
+    "volunteer-loophole-actions": {
+      "image": "atlases/volunteer-loophole-actions.png",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 989282,
+      "sha256": "46338f4ab6219e6abe48fea3b68be30c1d41ca806ea41a89ba13f41be31cf506",
+      "alpha": {
+        "threshold": 24,
+        "transparentFraction": 0.73054,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "layout": {
+        "rows": 2,
+        "columns": 2,
+        "method": "Connected alpha components grouped in reading order; measured bounds with two-pixel padding and audited overlap splits.",
+        "measuredRows": [
+          {
+            "row": 1,
+            "yRange": [
+              138,
+              567
+            ],
+            "columns": [
+              [
+                78,
+                619
+              ],
+              [
+                725,
+                1214
+              ]
+            ]
+          },
+          {
+            "row": 2,
+            "yRange": [
+              658,
+              1171
+            ],
+            "columns": [
+              [
+                107,
+                620
+              ],
+              [
+                747,
+                1155
+              ]
+            ]
+          }
+        ]
+      }
+    },
     "people-mounted-cast1-e": {
       "image": "atlases/people-mounted-cast1-e.png",
       "width": 1254,
@@ -63944,6 +64730,2038 @@
           362
         ],
         "visiblePixels": 200454,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-rest-sit-1": {
+      "sheet": "military-camp-life",
+      "x": 39,
+      "y": 81,
+      "w": 258,
+      "h": 232,
+      "anchorX": 0.6977,
+      "anchorY": 0.9267,
+      "logicalHeight": 236,
+      "label": "volunteer rest sit 1",
+      "kind": "military-camp-life",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          41,
+          83,
+          254,
+          228
+        ],
+        "visiblePixels": 31157,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-rest-sit-2": {
+      "sheet": "military-camp-life",
+      "x": 349,
+      "y": 81,
+      "w": 262,
+      "h": 236,
+      "anchorX": 0.5076,
+      "anchorY": 0.928,
+      "logicalHeight": 236,
+      "label": "volunteer rest sit 2",
+      "kind": "military-camp-life",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          351,
+          83,
+          258,
+          232
+        ],
+        "visiblePixels": 32474,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-sleep-1": {
+      "sheet": "military-camp-life",
+      "x": 631,
+      "y": 171,
+      "w": 303,
+      "h": 146,
+      "anchorX": 0.6601,
+      "anchorY": 0.9247,
+      "logicalHeight": 236,
+      "label": "volunteer sleep 1",
+      "kind": "military-camp-life",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          633,
+          173,
+          299,
+          142
+        ],
+        "visiblePixels": 28349,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-sleep-2": {
+      "sheet": "military-camp-life",
+      "x": 948,
+      "y": 167,
+      "w": 286,
+      "h": 149,
+      "anchorX": 0.7115,
+      "anchorY": 0.9262,
+      "logicalHeight": 236,
+      "label": "volunteer sleep 2",
+      "kind": "military-camp-life",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          950,
+          169,
+          282,
+          145
+        ],
+        "visiblePixels": 26712,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-camp-drink-1": {
+      "sheet": "military-camp-life",
+      "x": 41,
+      "y": 358,
+      "w": 257,
+      "h": 248,
+      "anchorX": 0.6887,
+      "anchorY": 0.9274,
+      "logicalHeight": 253,
+      "label": "volunteer camp drink 1",
+      "kind": "military-camp-life",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          43,
+          360,
+          253,
+          244
+        ],
+        "visiblePixels": 32252,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-camp-drink-2": {
+      "sheet": "military-camp-life",
+      "x": 356,
+      "y": 354,
+      "w": 259,
+      "h": 253,
+      "anchorX": 0.5328,
+      "anchorY": 0.9289,
+      "logicalHeight": 253,
+      "label": "volunteer camp drink 2",
+      "kind": "military-camp-life",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          358,
+          356,
+          255,
+          249
+        ],
+        "visiblePixels": 35559,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-camp-clean-1": {
+      "sheet": "military-camp-life",
+      "x": 651,
+      "y": 376,
+      "w": 293,
+      "h": 235,
+      "anchorX": 0.4829,
+      "anchorY": 0.9277,
+      "logicalHeight": 253,
+      "label": "volunteer camp clean 1",
+      "kind": "military-camp-life",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          653,
+          378,
+          289,
+          231
+        ],
+        "visiblePixels": 34308,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-camp-clean-2": {
+      "sheet": "military-camp-life",
+      "x": 961,
+      "y": 377,
+      "w": 279,
+      "h": 237,
+      "anchorX": 0.6864,
+      "anchorY": 0.9283,
+      "logicalHeight": 253,
+      "label": "volunteer camp clean 2",
+      "kind": "military-camp-life",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          963,
+          379,
+          275,
+          233
+        ],
+        "visiblePixels": 35212,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-rest-sit-1": {
+      "sheet": "military-camp-life",
+      "x": 38,
+      "y": 643,
+      "w": 265,
+      "h": 271,
+      "anchorX": 0.6887,
+      "anchorY": 0.9299,
+      "logicalHeight": 279,
+      "label": "regular rest sit 1",
+      "kind": "military-camp-life",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          40,
+          645,
+          261,
+          267
+        ],
+        "visiblePixels": 33417,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-rest-sit-2": {
+      "sheet": "military-camp-life",
+      "x": 351,
+      "y": 638,
+      "w": 262,
+      "h": 279,
+      "anchorX": 0.7061,
+      "anchorY": 0.9283,
+      "logicalHeight": 279,
+      "label": "regular rest sit 2",
+      "kind": "military-camp-life",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          353,
+          640,
+          258,
+          275
+        ],
+        "visiblePixels": 34550,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-sleep-1": {
+      "sheet": "military-camp-life",
+      "x": 637,
+      "y": 789,
+      "w": 310,
+      "h": 150,
+      "anchorX": 0.6823,
+      "anchorY": 0.9267,
+      "logicalHeight": 279,
+      "label": "regular sleep 1",
+      "kind": "military-camp-life",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          639,
+          791,
+          306,
+          146
+        ],
+        "visiblePixels": 28799,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-sleep-2": {
+      "sheet": "military-camp-life",
+      "x": 956,
+      "y": 789,
+      "w": 284,
+      "h": 150,
+      "anchorX": 0.6884,
+      "anchorY": 0.9267,
+      "logicalHeight": 279,
+      "label": "regular sleep 2",
+      "kind": "military-camp-life",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          958,
+          791,
+          280,
+          146
+        ],
+        "visiblePixels": 26769,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-camp-drink-1": {
+      "sheet": "military-camp-life",
+      "x": 36,
+      "y": 949,
+      "w": 268,
+      "h": 277,
+      "anchorX": 0.6828,
+      "anchorY": 0.9278,
+      "logicalHeight": 277,
+      "label": "regular camp drink 1",
+      "kind": "military-camp-life",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          38,
+          951,
+          264,
+          273
+        ],
+        "visiblePixels": 32801,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-camp-drink-2": {
+      "sheet": "military-camp-life",
+      "x": 353,
+      "y": 949,
+      "w": 265,
+      "h": 277,
+      "anchorX": 0.6849,
+      "anchorY": 0.9278,
+      "logicalHeight": 277,
+      "label": "regular camp drink 2",
+      "kind": "military-camp-life",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          355,
+          951,
+          261,
+          273
+        ],
+        "visiblePixels": 35083,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-camp-clean-1": {
+      "sheet": "military-camp-life",
+      "x": 647,
+      "y": 972,
+      "w": 294,
+      "h": 254,
+      "anchorX": 0.6446,
+      "anchorY": 0.9291,
+      "logicalHeight": 277,
+      "label": "regular camp clean 1",
+      "kind": "military-camp-life",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          649,
+          974,
+          290,
+          250
+        ],
+        "visiblePixels": 34273,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-camp-clean-2": {
+      "sheet": "military-camp-life",
+      "x": 972,
+      "y": 988,
+      "w": 268,
+      "h": 240,
+      "anchorX": 0.7239,
+      "anchorY": 0.9292,
+      "logicalHeight": 277,
+      "label": "regular camp clean 2",
+      "kind": "military-camp-life",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          974,
+          990,
+          264,
+          236
+        ],
+        "visiblePixels": 31715,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-dig-1": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 57,
+      "y": 35,
+      "w": 214,
+      "h": 303,
+      "anchorX": 0.493,
+      "anchorY": 0.934,
+      "label": "volunteer dig 1",
+      "kind": "volunteer-engineer-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          59,
+          37,
+          210,
+          299
+        ],
+        "visiblePixels": 31096,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-dig-2": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 364,
+      "y": 37,
+      "w": 191,
+      "h": 302,
+      "anchorX": 0.4974,
+      "anchorY": 0.9437,
+      "label": "volunteer dig 2",
+      "kind": "volunteer-engineer-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          366,
+          39,
+          187,
+          298
+        ],
+        "visiblePixels": 28615,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-dig-3": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 654,
+      "y": 56,
+      "w": 253,
+      "h": 283,
+      "anchorX": 0.3676,
+      "anchorY": 0.9399,
+      "label": "volunteer dig 3",
+      "kind": "volunteer-engineer-actions",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          656,
+          58,
+          249,
+          279
+        ],
+        "visiblePixels": 31833,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-dig-4": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 941,
+      "y": 47,
+      "w": 302,
+      "h": 292,
+      "anchorX": 0.3262,
+      "anchorY": 0.9281,
+      "label": "volunteer dig 4",
+      "kind": "volunteer-engineer-actions",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          943,
+          49,
+          298,
+          288
+        ],
+        "visiblePixels": 31616,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-crowbar-1": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 57,
+      "y": 385,
+      "w": 282,
+      "h": 265,
+      "anchorX": 0.3369,
+      "anchorY": 0.9358,
+      "label": "volunteer crowbar 1",
+      "kind": "volunteer-engineer-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          59,
+          387,
+          278,
+          261
+        ],
+        "visiblePixels": 29247,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-crowbar-2": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 354,
+      "y": 378,
+      "w": 252,
+      "h": 270,
+      "anchorX": 0.4087,
+      "anchorY": 0.9296,
+      "label": "volunteer crowbar 2",
+      "kind": "volunteer-engineer-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          356,
+          380,
+          248,
+          266
+        ],
+        "visiblePixels": 30207,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-crowbar-3": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 680,
+      "y": 377,
+      "w": 248,
+      "h": 273,
+      "anchorX": 0.506,
+      "anchorY": 0.9267,
+      "label": "volunteer crowbar 3",
+      "kind": "volunteer-engineer-actions",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          682,
+          379,
+          244,
+          269
+        ],
+        "visiblePixels": 28599,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-crowbar-4": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 960,
+      "y": 401,
+      "w": 267,
+      "h": 248,
+      "anchorX": 0.485,
+      "anchorY": 0.9274,
+      "label": "volunteer crowbar 4",
+      "kind": "volunteer-engineer-actions",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          962,
+          403,
+          263,
+          244
+        ],
+        "visiblePixels": 26794,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-sandbag-carry-1": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 53,
+      "y": 673,
+      "w": 212,
+      "h": 303,
+      "anchorX": 0.4646,
+      "anchorY": 0.9274,
+      "label": "volunteer sandbag carry 1",
+      "kind": "volunteer-engineer-actions",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          55,
+          675,
+          208,
+          299
+        ],
+        "visiblePixels": 28544,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-sandbag-carry-2": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 372,
+      "y": 671,
+      "w": 204,
+      "h": 308,
+      "anchorX": 0.5,
+      "anchorY": 0.9286,
+      "label": "volunteer sandbag carry 2",
+      "kind": "volunteer-engineer-actions",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          374,
+          673,
+          200,
+          304
+        ],
+        "visiblePixels": 28515,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-sandbag-carry-3": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 679,
+      "y": 674,
+      "w": 196,
+      "h": 304,
+      "anchorX": 0.4694,
+      "anchorY": 0.9276,
+      "label": "volunteer sandbag carry 3",
+      "kind": "volunteer-engineer-actions",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          681,
+          676,
+          192,
+          300
+        ],
+        "visiblePixels": 27718,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-sandbag-carry-4": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 990,
+      "y": 673,
+      "w": 204,
+      "h": 306,
+      "anchorX": 0.4902,
+      "anchorY": 0.9281,
+      "label": "volunteer sandbag carry 4",
+      "kind": "volunteer-engineer-actions",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          992,
+          675,
+          200,
+          302
+        ],
+        "visiblePixels": 28223,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-sandbag-fill-1": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 48,
+      "y": 991,
+      "w": 245,
+      "h": 237,
+      "anchorX": 0.5082,
+      "anchorY": 0.9283,
+      "label": "volunteer sandbag fill 1",
+      "kind": "volunteer-engineer-actions",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          50,
+          993,
+          241,
+          233
+        ],
+        "visiblePixels": 33556,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-sandbag-fill-2": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 363,
+      "y": 995,
+      "w": 242,
+      "h": 234,
+      "anchorX": 0.5083,
+      "anchorY": 0.9274,
+      "label": "volunteer sandbag fill 2",
+      "kind": "volunteer-engineer-actions",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          365,
+          997,
+          238,
+          230
+        ],
+        "visiblePixels": 34744,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-sandbag-fill-3": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 667,
+      "y": 991,
+      "w": 243,
+      "h": 238,
+      "anchorX": 0.5082,
+      "anchorY": 0.9286,
+      "label": "volunteer sandbag fill 3",
+      "kind": "volunteer-engineer-actions",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          669,
+          993,
+          239,
+          234
+        ],
+        "visiblePixels": 35417,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-sandbag-fill-4": {
+      "sheet": "volunteer-engineer-actions",
+      "x": 978,
+      "y": 1001,
+      "w": 232,
+      "h": 226,
+      "anchorX": 0.5065,
+      "anchorY": 0.9292,
+      "label": "volunteer sandbag fill 4",
+      "kind": "volunteer-engineer-actions",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          980,
+          1003,
+          228,
+          222
+        ],
+        "visiblePixels": 31092,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bearers-carry-1": {
+      "sheet": "volunteer-bearers",
+      "x": 21,
+      "y": 168,
+      "w": 624,
+      "h": 396,
+      "anchorX": 0.4976,
+      "anchorY": 0.9293,
+      "label": "bearers carry 1",
+      "kind": "volunteer-bearers",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          23,
+          170,
+          620,
+          392
+        ],
+        "visiblePixels": 108134,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bearers-carry-2": {
+      "sheet": "volunteer-bearers",
+      "x": 679,
+      "y": 175,
+      "w": 558,
+      "h": 391,
+      "anchorX": 0.5125,
+      "anchorY": 0.9284,
+      "label": "bearers carry 2",
+      "kind": "volunteer-bearers",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          681,
+          177,
+          554,
+          387
+        ],
+        "visiblePixels": 98020,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bearers-carry-3": {
+      "sheet": "volunteer-bearers",
+      "x": 16,
+      "y": 733,
+      "w": 627,
+      "h": 382,
+      "anchorX": 0.5008,
+      "anchorY": 0.9293,
+      "label": "bearers carry 3",
+      "kind": "volunteer-bearers",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          18,
+          735,
+          623,
+          378
+        ],
+        "visiblePixels": 105902,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "bearers-carry-4": {
+      "sheet": "volunteer-bearers",
+      "x": 672,
+      "y": 740,
+      "w": 564,
+      "h": 379,
+      "anchorX": 0.4991,
+      "anchorY": 0.9525,
+      "label": "bearers carry 4",
+      "kind": "volunteer-bearers",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          674,
+          742,
+          560,
+          375
+        ],
+        "visiblePixels": 104332,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-bearers-carry-1": {
+      "sheet": "regular-bearers",
+      "x": 66,
+      "y": 213,
+      "w": 532,
+      "h": 331,
+      "anchorX": 0.5113,
+      "anchorY": 0.9275,
+      "label": "regular bearers carry 1",
+      "kind": "regular-bearers",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          68,
+          215,
+          528,
+          327
+        ],
+        "visiblePixels": 70458,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-bearers-carry-2": {
+      "sheet": "regular-bearers",
+      "x": 682,
+      "y": 213,
+      "w": 524,
+      "h": 331,
+      "anchorX": 0.5153,
+      "anchorY": 0.9275,
+      "label": "regular bearers carry 2",
+      "kind": "regular-bearers",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          684,
+          215,
+          520,
+          327
+        ],
+        "visiblePixels": 71234,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-bearers-carry-3": {
+      "sheet": "regular-bearers",
+      "x": 59,
+      "y": 756,
+      "w": 541,
+      "h": 331,
+      "anchorX": 0.5111,
+      "anchorY": 0.9275,
+      "label": "regular bearers carry 3",
+      "kind": "regular-bearers",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          61,
+          758,
+          537,
+          327
+        ],
+        "visiblePixels": 72285,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "regular-bearers-carry-4": {
+      "sheet": "regular-bearers",
+      "x": 677,
+      "y": 756,
+      "w": 535,
+      "h": 331,
+      "anchorX": 0.514,
+      "anchorY": 0.9275,
+      "label": "regular bearers carry 4",
+      "kind": "regular-bearers",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          679,
+          758,
+          531,
+          327
+        ],
+        "visiblePixels": 72006,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "dragoon-wounded-led-1": {
+      "sheet": "dragoon-wounded-led",
+      "x": 106,
+      "y": 10,
+      "w": 718,
+      "h": 419,
+      "anchorX": 0.5292,
+      "anchorY": 0.9284,
+      "label": "dragoon wounded led 1",
+      "kind": "dragoon-wounded-led",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          108,
+          12,
+          714,
+          415
+        ],
+        "visiblePixels": 107210,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "dragoon-wounded-led-2": {
+      "sheet": "dragoon-wounded-led",
+      "x": 949,
+      "y": 10,
+      "w": 715,
+      "h": 417,
+      "anchorX": 0.5266,
+      "anchorY": 0.9281,
+      "label": "dragoon wounded led 2",
+      "kind": "dragoon-wounded-led",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          951,
+          12,
+          711,
+          413
+        ],
+        "visiblePixels": 107574,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "dragoon-wounded-led-3": {
+      "sheet": "dragoon-wounded-led",
+      "x": 94,
+      "y": 448,
+      "w": 736,
+      "h": 415,
+      "anchorX": 0.5245,
+      "anchorY": 0.9277,
+      "label": "dragoon wounded led 3",
+      "kind": "dragoon-wounded-led",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          96,
+          450,
+          732,
+          411
+        ],
+        "visiblePixels": 108169,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "dragoon-wounded-led-4": {
+      "sheet": "dragoon-wounded-led",
+      "x": 951,
+      "y": 449,
+      "w": 740,
+      "h": 414,
+      "anchorX": 0.5264,
+      "anchorY": 0.93,
+      "label": "dragoon wounded led 4",
+      "kind": "dragoon-wounded-led",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          953,
+          451,
+          736,
+          410
+        ],
+        "visiblePixels": 109689,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-ride-e-1": {
+      "sheet": "volunteer-mounted",
+      "x": 27,
+      "y": 17,
+      "w": 281,
+      "h": 267,
+      "anchorX": 0.4858,
+      "anchorY": 0.9288,
+      "label": "volunteer ride e 1",
+      "kind": "volunteer-mounted",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          29,
+          19,
+          277,
+          263
+        ],
+        "visiblePixels": 30387,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-ride-e-2": {
+      "sheet": "volunteer-mounted",
+      "x": 318,
+      "y": 18,
+      "w": 284,
+      "h": 268,
+      "anchorX": 0.4859,
+      "anchorY": 0.9366,
+      "label": "volunteer ride e 2",
+      "kind": "volunteer-mounted",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          320,
+          20,
+          280,
+          264
+        ],
+        "visiblePixels": 30161,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-ride-e-3": {
+      "sheet": "volunteer-mounted",
+      "x": 617,
+      "y": 17,
+      "w": 284,
+      "h": 267,
+      "anchorX": 0.4454,
+      "anchorY": 0.9288,
+      "label": "volunteer ride e 3",
+      "kind": "volunteer-mounted",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          619,
+          19,
+          280,
+          263
+        ],
+        "visiblePixels": 30884,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-ride-e-4": {
+      "sheet": "volunteer-mounted",
+      "x": 918,
+      "y": 16,
+      "w": 286,
+      "h": 266,
+      "anchorX": 0.5052,
+      "anchorY": 0.9474,
+      "label": "volunteer ride e 4",
+      "kind": "volunteer-mounted",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          920,
+          18,
+          282,
+          262
+        ],
+        "visiblePixels": 31035,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-ride-s-1": {
+      "sheet": "volunteer-mounted",
+      "x": 91,
+      "y": 304,
+      "w": 157,
+      "h": 311,
+      "anchorX": 0.5159,
+      "anchorY": 0.955,
+      "label": "volunteer ride s 1",
+      "kind": "volunteer-mounted",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          93,
+          306,
+          153,
+          307
+        ],
+        "visiblePixels": 23049,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-ride-s-2": {
+      "sheet": "volunteer-mounted",
+      "x": 396,
+      "y": 305,
+      "w": 153,
+      "h": 314,
+      "anchorX": 0.4477,
+      "anchorY": 0.9299,
+      "label": "volunteer ride s 2",
+      "kind": "volunteer-mounted",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          398,
+          307,
+          149,
+          310
+        ],
+        "visiblePixels": 22850,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-ride-s-3": {
+      "sheet": "volunteer-mounted",
+      "x": 700,
+      "y": 304,
+      "w": 149,
+      "h": 314,
+      "anchorX": 0.4362,
+      "anchorY": 0.965,
+      "label": "volunteer ride s 3",
+      "kind": "volunteer-mounted",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          702,
+          306,
+          145,
+          310
+        ],
+        "visiblePixels": 23539,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-ride-s-4": {
+      "sheet": "volunteer-mounted",
+      "x": 1002,
+      "y": 302,
+      "w": 155,
+      "h": 315,
+      "anchorX": 0.4742,
+      "anchorY": 0.9365,
+      "label": "volunteer ride s 4",
+      "kind": "volunteer-mounted",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          1004,
+          304,
+          151,
+          311
+        ],
+        "visiblePixels": 24160,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-ride-n-1": {
+      "sheet": "volunteer-mounted",
+      "x": 93,
+      "y": 632,
+      "w": 137,
+      "h": 300,
+      "anchorX": 0.5839,
+      "anchorY": 0.93,
+      "label": "volunteer ride n 1",
+      "kind": "volunteer-mounted",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          95,
+          634,
+          133,
+          296
+        ],
+        "visiblePixels": 21779,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-ride-n-2": {
+      "sheet": "volunteer-mounted",
+      "x": 383,
+      "y": 638,
+      "w": 148,
+      "h": 296,
+      "anchorX": 0.6385,
+      "anchorY": 0.9696,
+      "label": "volunteer ride n 2",
+      "kind": "volunteer-mounted",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          385,
+          640,
+          144,
+          292
+        ],
+        "visiblePixels": 21282,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-ride-n-3": {
+      "sheet": "volunteer-mounted",
+      "x": 678,
+      "y": 632,
+      "w": 153,
+      "h": 301,
+      "anchorX": 0.5621,
+      "anchorY": 0.9269,
+      "label": "volunteer ride n 3",
+      "kind": "volunteer-mounted",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          680,
+          634,
+          149,
+          297
+        ],
+        "visiblePixels": 22655,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-ride-n-4": {
+      "sheet": "volunteer-mounted",
+      "x": 974,
+      "y": 635,
+      "w": 151,
+      "h": 299,
+      "anchorX": 0.5364,
+      "anchorY": 0.9298,
+      "label": "volunteer ride n 4",
+      "kind": "volunteer-mounted",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          976,
+          637,
+          147,
+          295
+        ],
+        "visiblePixels": 21900,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-mounted-idle-e": {
+      "sheet": "volunteer-mounted",
+      "x": 28,
+      "y": 952,
+      "w": 269,
+      "h": 288,
+      "anchorX": 0.4201,
+      "anchorY": 0.9271,
+      "label": "volunteer mounted idle e",
+      "kind": "volunteer-mounted",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          30,
+          954,
+          265,
+          284
+        ],
+        "visiblePixels": 34157,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-mounted-idle-s": {
+      "sheet": "volunteer-mounted",
+      "x": 387,
+      "y": 947,
+      "w": 158,
+      "h": 296,
+      "anchorX": 0.4335,
+      "anchorY": 0.9662,
+      "label": "volunteer mounted idle s",
+      "kind": "volunteer-mounted",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          389,
+          949,
+          154,
+          292
+        ],
+        "visiblePixels": 21810,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-mounted-idle-n": {
+      "sheet": "volunteer-mounted",
+      "x": 687,
+      "y": 950,
+      "w": 151,
+      "h": 297,
+      "anchorX": 0.5265,
+      "anchorY": 0.9293,
+      "label": "volunteer mounted idle n",
+      "kind": "volunteer-mounted",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          689,
+          952,
+          147,
+          293
+        ],
+        "visiblePixels": 22562,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-mounted-fire": {
+      "sheet": "volunteer-mounted",
+      "x": 930,
+      "y": 952,
+      "w": 269,
+      "h": 288,
+      "anchorX": 0.4201,
+      "anchorY": 0.9271,
+      "label": "volunteer mounted fire",
+      "kind": "volunteer-mounted",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          932,
+          954,
+          265,
+          284
+        ],
+        "visiblePixels": 35171,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barricade-street-left": {
+      "sheet": "field-cover-camp-props",
+      "x": 17,
+      "y": 94,
+      "w": 302,
+      "h": 239,
+      "anchorX": 0.6656,
+      "anchorY": 0.9289,
+      "label": "barricade street left",
+      "kind": "field-cover-camp-props",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          19,
+          96,
+          298,
+          235
+        ],
+        "visiblePixels": 42870,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barricade-street-embrasure": {
+      "sheet": "field-cover-camp-props",
+      "x": 335,
+      "y": 137,
+      "w": 294,
+      "h": 182,
+      "anchorX": 0.4966,
+      "anchorY": 0.9286,
+      "label": "barricade street embrasure",
+      "kind": "field-cover-camp-props",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          337,
+          139,
+          290,
+          178
+        ],
+        "visiblePixels": 37100,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barricade-street-right": {
+      "sheet": "field-cover-camp-props",
+      "x": 645,
+      "y": 94,
+      "w": 273,
+      "h": 232,
+      "anchorX": 0.3626,
+      "anchorY": 0.9267,
+      "label": "barricade street right",
+      "kind": "field-cover-camp-props",
+      "row": 1,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          647,
+          96,
+          269,
+          228
+        ],
+        "visiblePixels": 39110,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "barricade-street-broken": {
+      "sheet": "field-cover-camp-props",
+      "x": 937,
+      "y": 124,
+      "w": 295,
+      "h": 200,
+      "anchorX": 0.6525,
+      "anchorY": 0.93,
+      "label": "barricade street broken",
+      "kind": "field-cover-camp-props",
+      "row": 1,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          939,
+          126,
+          291,
+          196
+        ],
+        "visiblePixels": 36741,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "sandbag-breastwork": {
+      "sheet": "field-cover-camp-props",
+      "x": 9,
+      "y": 436,
+      "w": 310,
+      "h": 159,
+      "anchorX": 0.7823,
+      "anchorY": 0.9245,
+      "label": "sandbag breastwork",
+      "kind": "field-cover-camp-props",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          11,
+          438,
+          306,
+          155
+        ],
+        "visiblePixels": 35881,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "sandbag-corner": {
+      "sheet": "field-cover-camp-props",
+      "x": 339,
+      "y": 403,
+      "w": 274,
+      "h": 203,
+      "anchorX": 0.5073,
+      "anchorY": 0.9261,
+      "label": "sandbag corner",
+      "kind": "field-cover-camp-props",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          341,
+          405,
+          270,
+          199
+        ],
+        "visiblePixels": 36555,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "sandbag-embrasure": {
+      "sheet": "field-cover-camp-props",
+      "x": 632,
+      "y": 442,
+      "w": 300,
+      "h": 156,
+      "anchorX": 0.4917,
+      "anchorY": 0.9295,
+      "label": "sandbag embrasure",
+      "kind": "field-cover-camp-props",
+      "row": 2,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          634,
+          444,
+          296,
+          152
+        ],
+        "visiblePixels": 38207,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "sandbag-loose-open": {
+      "sheet": "field-cover-camp-props",
+      "x": 947,
+      "y": 467,
+      "w": 296,
+      "h": 157,
+      "anchorX": 0.6064,
+      "anchorY": 0.9299,
+      "label": "sandbag loose open",
+      "kind": "field-cover-camp-props",
+      "row": 2,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          949,
+          469,
+          292,
+          153
+        ],
+        "visiblePixels": 24796,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "breastwork-packs-left": {
+      "sheet": "field-cover-camp-props",
+      "x": 9,
+      "y": 699,
+      "w": 306,
+      "h": 180,
+      "anchorX": 0.5343,
+      "anchorY": 0.9278,
+      "label": "breastwork packs left",
+      "kind": "field-cover-camp-props",
+      "row": 3,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          11,
+          701,
+          302,
+          176
+        ],
+        "visiblePixels": 42349,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "breastwork-packs-right": {
+      "sheet": "field-cover-camp-props",
+      "x": 326,
+      "y": 704,
+      "w": 292,
+      "h": 178,
+      "anchorX": 0.4743,
+      "anchorY": 0.927,
+      "label": "breastwork packs right",
+      "kind": "field-cover-camp-props",
+      "row": 3,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          328,
+          706,
+          288,
+          174
+        ],
+        "visiblePixels": 41760,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "breastwork-packs-opening": {
+      "sheet": "field-cover-camp-props",
+      "x": 629,
+      "y": 724,
+      "w": 299,
+      "h": 158,
+      "anchorX": 0.403,
+      "anchorY": 0.9241,
+      "label": "breastwork packs opening",
+      "kind": "field-cover-camp-props",
+      "row": 3,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          631,
+          726,
+          295,
+          154
+        ],
+        "visiblePixels": 32033,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "breastwork-packs-disturbed": {
+      "sheet": "field-cover-camp-props",
+      "x": 942,
+      "y": 751,
+      "w": 301,
+      "h": 143,
+      "anchorX": 0.6163,
+      "anchorY": 0.9231,
+      "label": "breastwork packs disturbed",
+      "kind": "field-cover-camp-props",
+      "row": 3,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          944,
+          753,
+          297,
+          139
+        ],
+        "visiblePixels": 26671,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "musket-stack-small": {
+      "sheet": "field-cover-camp-props",
+      "x": 71,
+      "y": 915,
+      "w": 196,
+      "h": 295,
+      "anchorX": 0.3776,
+      "anchorY": 0.9288,
+      "label": "musket stack small",
+      "kind": "field-cover-camp-props",
+      "row": 4,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          73,
+          917,
+          192,
+          291
+        ],
+        "visiblePixels": 18298,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "musket-stack-large": {
+      "sheet": "field-cover-camp-props",
+      "x": 365,
+      "y": 914,
+      "w": 226,
+      "h": 295,
+      "anchorX": 0.5509,
+      "anchorY": 0.9288,
+      "label": "musket stack large",
+      "kind": "field-cover-camp-props",
+      "row": 4,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          367,
+          916,
+          222,
+          291
+        ],
+        "visiblePixels": 26001,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "muskets-laid": {
+      "sheet": "field-cover-camp-props",
+      "x": 626,
+      "y": 1016,
+      "w": 320,
+      "h": 187,
+      "anchorX": 0.2234,
+      "anchorY": 0.9251,
+      "label": "muskets laid",
+      "kind": "field-cover-camp-props",
+      "row": 4,
+      "column": 3,
+      "audit": {
+        "sourceBounds": [
+          628,
+          1018,
+          316,
+          183
+        ],
+        "visiblePixels": 20833,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "camp-cookpot-tripod": {
+      "sheet": "field-cover-camp-props",
+      "x": 958,
+      "y": 916,
+      "w": 253,
+      "h": 275,
+      "anchorX": 0.4941,
+      "anchorY": 0.9309,
+      "label": "camp cookpot tripod",
+      "kind": "field-cover-camp-props",
+      "row": 4,
+      "column": 4,
+      "audit": {
+        "sourceBounds": [
+          960,
+          918,
+          249,
+          271
+        ],
+        "visiblePixels": 18847,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "house-loopholed": {
+      "sheet": "house-loopholed",
+      "x": 48,
+      "y": 42,
+      "w": 666,
+      "h": 411,
+      "anchorX": 0.5578,
+      "anchorY": 0.9294,
+      "label": "house loopholed",
+      "kind": "house-loopholed",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          50,
+          44,
+          662,
+          407
+        ],
+        "visiblePixels": 207972,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "house-loopholed-open": {
+      "sheet": "house-loopholed",
+      "x": 815,
+      "y": 42,
+      "w": 666,
+      "h": 411,
+      "anchorX": 0.5586,
+      "anchorY": 0.9294,
+      "label": "house loopholed open",
+      "kind": "house-loopholed",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          817,
+          44,
+          662,
+          407
+        ],
+        "visiblePixels": 208030,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "house-loopholed-breached": {
+      "sheet": "house-loopholed",
+      "x": 48,
+      "y": 553,
+      "w": 666,
+      "h": 412,
+      "anchorX": 0.5601,
+      "anchorY": 0.9296,
+      "label": "house loopholed breached",
+      "kind": "house-loopholed",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          50,
+          555,
+          662,
+          408
+        ],
+        "visiblePixels": 209240,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "house-loopholed-cutaway": {
+      "sheet": "house-loopholed",
+      "x": 815,
+      "y": 542,
+      "w": 666,
+      "h": 429,
+      "anchorX": 0.5691,
+      "anchorY": 0.9277,
+      "label": "house loopholed cutaway",
+      "kind": "house-loopholed",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          817,
+          544,
+          662,
+          425
+        ],
+        "visiblePixels": 215382,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-loophole-aim": {
+      "sheet": "volunteer-loophole-actions",
+      "x": 78,
+      "y": 140,
+      "w": 541,
+      "h": 427,
+      "anchorX": 0.3346,
+      "anchorY": 0.9297,
+      "label": "volunteer loophole aim",
+      "kind": "volunteer-loophole-actions",
+      "row": 1,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          80,
+          142,
+          537,
+          423
+        ],
+        "visiblePixels": 103240,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-loophole-fire": {
+      "sheet": "volunteer-loophole-actions",
+      "x": 725,
+      "y": 138,
+      "w": 489,
+      "h": 429,
+      "anchorX": 0.3681,
+      "anchorY": 0.9324,
+      "label": "volunteer loophole fire",
+      "kind": "volunteer-loophole-actions",
+      "row": 1,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          727,
+          140,
+          485,
+          425
+        ],
+        "visiblePixels": 98076,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-loophole-load": {
+      "sheet": "volunteer-loophole-actions",
+      "x": 107,
+      "y": 747,
+      "w": 513,
+      "h": 416,
+      "anchorX": 0.345,
+      "anchorY": 0.9399,
+      "label": "volunteer loophole load",
+      "kind": "volunteer-loophole-actions",
+      "row": 2,
+      "column": 1,
+      "audit": {
+        "sourceBounds": [
+          109,
+          749,
+          509,
+          412
+        ],
+        "visiblePixels": 94458,
+        "trimmedPixels": 0,
+        "retainedFraction": 1
+      }
+    },
+    "volunteer-loophole-ramrod": {
+      "sheet": "volunteer-loophole-actions",
+      "x": 747,
+      "y": 658,
+      "w": 408,
+      "h": 513,
+      "anchorX": 0.4583,
+      "anchorY": 0.9337,
+      "label": "volunteer loophole ramrod",
+      "kind": "volunteer-loophole-actions",
+      "row": 2,
+      "column": 2,
+      "audit": {
+        "sourceBounds": [
+          749,
+          660,
+          404,
+          509
+        ],
+        "visiblePixels": 99562,
         "trimmedPixels": 0,
         "retainedFraction": 1
       }

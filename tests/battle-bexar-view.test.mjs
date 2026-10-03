@@ -71,8 +71,8 @@ test('in the houses most men are out of sight: the fire is flashes and smoke at 
   const dated = battle.guns.reduce((sum, gun) => sum + gun.shots.length, 0);
   assert.ok(shown.gunShots <= 16 * dated, 'a gun fired more than the server dated');
   assert.ok(art.drawn.some(one => one.clip === 'regular-gun-ram' || one.clip === 'regular-gun-fire'), 'the Mexican guns are served by nobody');
-  assert.ok(art.drawn.some(one => one.sprite === 'palisade'), 'no palisade across the street');
-  assert.ok(art.drawn.some(one => one.clip === 'rust-work' || one.clip === 'teal-work'), 'nobody digs the trench at night');
+  assert.ok(art.drawn.some(one => one.sprite === 'barricade-street-embrasure'), 'no palisade across the street');
+  assert.ok(art.drawn.some(one => one.clip === 'volunteer-dig'), 'nobody digs the trench at night');
 });
 
 test('Neill serves his own gun during the Béxar feint', () => {
@@ -91,7 +91,7 @@ test('Johnson takes command in his own art at seven on the seventh', () => {
 test('Burleson rides into the Béxar talks on his own mounted sheet', () => {
   const art = fakeArt(), view = createBattleView(art);
   play(view, 'parley', { seconds: 2, into: tick => 55 + tick });
-  assert.ok(art.drawn.some(one => one.clip === 'burleson-mounted-walk-e'));
+  assert.ok(art.drawn.some(one => /^burleson-mounted-walk-[ens]$/.test(one.clip || '') || one.sprite === 'burleson-mounted-idle-e'));
   assert.ok(!art.drawn.some(one => one.clip === 'mounted-courier-e'));
 });
 
