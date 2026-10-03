@@ -1,10 +1,10 @@
 ﻿{
-    "recordedAt":  "2026-10-03T19:57:30.4319752Z",
+    "recordedAt":  "2026-10-03T20:51:38.9870283Z",
     "machine":  "development computer",
     "script":  "scripts/launcher-delta-injections.ps1",
     "tests":  "tests/launcher (dotnet run)",
-    "baselinePassed":  29,
-    "caught":  31,
+    "baselinePassed":  32,
+    "caught":  35,
     "injections":  [
                        {
                            "injection":  "damaged installed file treated as unchanged",
@@ -271,9 +271,10 @@
                        {
                            "injection":  "the setup installs itself whole, game and all",
                            "file":  "launcher\\SetupLayout.cs",
-                           "expected":  "setup-layout",
+                           "expected":  "setup-layout+setup-kind",
                            "failed":  [
-                                          "setup-layout"
+                                          "setup-layout",
+                                          "setup-kind"
                                       ],
                            "caught":  true
                        },
@@ -289,9 +290,48 @@
                        {
                            "injection":  "the setup unpacks over the class data",
                            "file":  "launcher\\SetupLayout.cs",
-                           "expected":  "setup-layout",
+                           "expected":  "setup-layout+setup-classic+setup-kind",
                            "failed":  [
-                                          "setup-layout"
+                                          "setup-layout",
+                                          "setup-classic",
+                                          "setup-kind"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "the classic setup installs itself although it carries the plain launcher",
+                           "file":  "launcher\\SetupLayout.cs",
+                           "expected":  "setup-classic",
+                           "failed":  [
+                                          "setup-classic"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a classic setup from before 2026-10-03 installs no launcher",
+                           "file":  "launcher\\SetupLayout.cs",
+                           "expected":  "setup-classic-old",
+                           "failed":  [
+                                          "setup-classic-old"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "the classic setup is not recognised as a setup",
+                           "file":  "launcher\\SetupLayout.cs",
+                           "expected":  "setup-classic",
+                           "failed":  [
+                                          "setup-classic"
+                                      ],
+                           "caught":  true
+                       },
+                       {
+                           "injection":  "a classic setup is unpacked as an appended one",
+                           "file":  "launcher\\SetupLayout.cs",
+                           "expected":  "setup-classic+setup-classic-old",
+                           "failed":  [
+                                          "setup-classic",
+                                          "setup-classic-old"
                                       ],
                            "caught":  true
                        }

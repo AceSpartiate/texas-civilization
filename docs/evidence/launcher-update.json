@@ -1,9 +1,10 @@
 ﻿{
-    "recordedAt":  "2026-10-03T19:29:43.3515324Z",
+    "recordedAt":  "2026-10-03T20:53:37.5670982Z",
     "machine":  "development computer (same-computer simulation)",
     "script":  "scripts/verify-update.ps1",
     "results":  [
-                    "PASS: the setup installed the plain launcher at its head (87595770 bytes), not itself (87596448 bytes, game appended).",
+                    "PASS: the appended setup still installs (v1 and its plain launcher), and an installed launcher updates from an appended setup (to v2, launcher swapped by hash).",
+                    "PASS: the classic setup installed the plain launcher it embeds (87596794 bytes), not itself (175194362 bytes).",
                     "PASS: the running launcher replaced itself: TexasRevolution.exe now hashes as the v2 build, the v1 build renamed to .old while it ran.",
                     "PASS: the game and release.txt moved to v2 with the launcher, and data\\classroom.json is byte-for-byte untouched.",
                     "PASS: the next launch deletes the renamed old launcher.",

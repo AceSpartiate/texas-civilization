@@ -2,10 +2,15 @@
 #
 # These come out of this, and a release attaches all of them:
 #
-#   TexasRevolutionSetup.exe   the whole thing - the plain launcher with the game appended
-#                              (launcher/SetupLayout.cs), which installs the game and the plain
-#                              launcher; what an installed launcher downloads when the small update
-#                              cannot be used - so this name always means the whole setup
+#   TexasRevolutionSetup.exe   the whole thing, classic container (launcher/SetupLayout.cs): the
+#                              launcher with the game and the plain launcher embedded as resources,
+#                              which installs the game and the plain launcher; what an installed
+#                              launcher downloads when the small update cannot be used, and what the
+#                              small setup downloads - so this name always means the whole setup
+#   TexasRevolutionSetup-Appended.exe  the same game and plain launcher, appended container (f8fb8653):
+#                              the plain launcher, the game zip, a trailer. About 84 MB smaller. For a
+#                              machine whose antivirus refuses the classic one (owner, 2026-10-03:
+#                              "keep supporting both"). No launcher downloads it by itself.
 #   TexasRevolutionInstaller.exe  the small setup (websetup/), about 170 KB, to email to a colleague:
 #                              it downloads the latest TexasRevolutionSetup.exe and runs it
 #   ...-Gonzales-<stamp>.zip   the game with its runtime and no launcher: what launchers from
@@ -19,7 +24,7 @@
 #     TexasRevolution-Launcher-And-Changes-From-<tag>.patch   the same plus the plain launcher (about
 #                                                   90 MB), from each recent release with another
 #                                                   launcher that can take one (from 2026-10-03)
-#   TexasRevolution-Launcher-<stamp>.exe   the plain launcher on its own, the head of the setup and
+#   TexasRevolution-Launcher-<stamp>.exe   the plain launcher on its own, what both setups install and
 #                              what those sets carry. Kept here to look at; not attached to a release.
 #
 # The sets of changes are made against the published releases' lists, fetched with gh (read
@@ -139,16 +144,16 @@ if (@(Get-ChildItem -LiteralPath (Join-Path $app 'docs') -Recurse -Force).Count 
 
 # ---------------------------------------------------------------- the plain launcher
 # The launcher with no game in it (owner, 2026-10-03: "Small launcher in patch"): about 90 MB,
-# mostly .NET. It is what the setup program installs, the head of the setup program itself, and
-# what a set of changes carries when the launcher changes - so a launcher change costs about 90 MB
-# instead of the whole setup program. Built before the list, which records its size and hash.
+# mostly .NET. It is what both setup programs install, and what a set of changes carries when the
+# launcher changes - so a launcher change costs about 90 MB instead of the whole setup program.
+# Built first, with no game beside the sources, and before the list, which records its size and hash.
 $launcherId = Get-LauncherId $launcherDir
 $plainLauncher = $null
+$payload = Join-Path $launcherDir 'payload.zip'
+$payloadLauncher = Join-Path $launcherDir 'payload-launcher.exe'
 if (-not $SkipLauncher) {
-  # A payload.zip left by a packaging run from before 2026-10-03 is no longer read by the project;
-  # removed anyway, so nothing that looks like a game sits beside the sources.
-  $stalePayload = Join-Path $launcherDir 'payload.zip'
-  if (Test-Path -LiteralPath $stalePayload) { Remove-Item -LiteralPath $stalePayload -Force }
+  # Left by an interrupted run, either would be built into what must be the plain launcher.
+  foreach ($stale in @($payload, $payloadLauncher)) { if (Test-Path -LiteralPath $stale) { Remove-Item -LiteralPath $stale -Force } }
   $published = Join-Path $launcherDir 'bin\package'
   if (Test-Path -LiteralPath $published) { Remove-Item -LiteralPath $published -Recurse -Force }
   Push-Location $launcherDir
@@ -185,15 +190,50 @@ $update = Join-Path $Destination "TexasRevolution-Gonzales-$Stamp.zip"
 if (Test-Path -LiteralPath $update) { Remove-Item -LiteralPath $update -Force }
 Compress-Archive -Path $app -DestinationPath $update -CompressionLevel Optimal
 
-# ---------------------------------------------------------------- the setup program
-# The plain launcher with the game appended (launcher/SetupLayout.cs, 2026-10-03): .NET is in the
-# download once, and the setup installs the plain launcher - never itself, game and all, as it did
-# until 2026-10-03. The game it carries is the update archive.
+# ---------------------------------------------------------------- the setup programs
+# Two containers for the same game (the update archive) and the same plain launcher, which is what
+# either installs - never itself, game and all, as every setup did until 2026-10-03
+# (launcher/SetupLayout.cs; owner, 2026-10-03: "keep supporting both").
+#
+# Classic, TexasRevolutionSetup.exe - the default, the one the small setup and every installed
+# launcher download: this project published again with the same flags and the game and the plain
+# launcher as embedded resources, the shape every setup up to v2026.10.03.1 had (plus the second
+# resource). Nothing is appended after its bundle. Both files are removed straight away, so an
+# ordinary `dotnet build` afterwards produces the plain launcher.
+#
+# Appended, TexasRevolutionSetup-Appended.exe - the plain launcher, the game zip and a trailer
+# (New-SetupProgram), the shape of f8fb8653: .NET once, so about 84 MB smaller. Kept beside it
+# because ThreatDown blocked the emailed small setup on a machine where the classic setup installs,
+# and which shape a given antivirus prefers is not something this computer can show.
 $setup = Join-Path $Destination 'TexasRevolutionSetup.exe'
+$setupAppended = Join-Path $Destination 'TexasRevolutionSetup-Appended.exe'
 $plainCopy = Join-Path $Destination "TexasRevolution-Launcher-$Stamp.exe"
+$setupWatch = [Diagnostics.Stopwatch]::StartNew()
 if (-not $SkipLauncher) {
-  New-SetupProgram $plainLauncher $update $setup
+  $classicOut = Join-Path $launcherDir 'bin\setup'
+  if (Test-Path -LiteralPath $classicOut) { Remove-Item -LiteralPath $classicOut -Recurse -Force }
+  Copy-Item -LiteralPath $update -Destination $payload -Force
+  Copy-Item -LiteralPath $plainLauncher -Destination $payloadLauncher -Force
+  Push-Location $launcherDir
+  try {
+    & dotnet publish -c Release -r win-x64 --self-contained true `
+      -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true `
+      "-p:InformationalVersion=$Tag" "-p:LauncherId=$launcherId" `
+      -o bin\setup -v quiet | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw 'The setup program did not build.' }
+  } finally {
+    Pop-Location
+    foreach ($made in @($payload, $payloadLauncher)) { if (Test-Path -LiteralPath $made) { Remove-Item -LiteralPath $made -Force } }
+  }
+  $builtSetup = Join-Path $classicOut 'TexasRevolution.exe'
+  if (-not (Test-Path -LiteralPath $builtSetup)) { throw 'The setup program built but produced no exe.' }
+  # Carrying the game and the plain launcher, it is at least as big as both; a publish that missed a
+  # resource would come out near the plain launcher's size.
+  if ((Get-Item -LiteralPath $builtSetup).Length -lt (Get-Item -LiteralPath $update).Length + (Get-Item -LiteralPath $plainLauncher).Length * 0.9) { throw 'The setup program is too small to carry the game and the plain launcher.' }
+  Copy-Item -LiteralPath $builtSetup -Destination $setup -Force
+  New-SetupProgram $plainLauncher $update $setupAppended
   Copy-Item -LiteralPath $plainLauncher -Destination $plainCopy -Force
+  "both setup programs made in {0:N0} s" -f $setupWatch.Elapsed.TotalSeconds
 }
 
 # ---------------------------------------------------------------- the small setup
@@ -230,7 +270,7 @@ if (Test-Path -LiteralPath $needsNode) { Remove-Item -LiteralPath $needsNode -Fo
 Compress-Archive -Path $app -DestinationPath $needsNode -CompressionLevel Optimal
 
 Remove-Item -LiteralPath $stage -Recurse -Force
-foreach ($file in @($setup, $plainCopy, $update, $needsNode)) {
+foreach ($file in @($setup, $setupAppended, $plainCopy, $update, $needsNode)) {
   if (Test-Path -LiteralPath $file) { '{0}  {1} MB' -f $file, [math]::Round((Get-Item -LiteralPath $file).Length / 1MB, 1) }
 }
 '{0}  {1} KB' -f $installer, [math]::Ceiling((Get-Item -LiteralPath $installer).Length / 1KB)
@@ -242,5 +282,5 @@ foreach ($entry in $made) {
 if (-not @($made | Where-Object { -not $_.PSObject.Properties['Skipped'] }).Count) { '  no sets of changes: every launcher takes the whole download for this release' }
 # The exact command, so nothing the small update needs is left off the release.
 "Publish from $Destination with:"
-"  `$assets = @('TexasRevolutionSetup.exe', 'TexasRevolutionInstaller.exe', 'TexasRevolution-Gonzales-$Stamp.zip', 'TexasRevolution-Gonzales-$Stamp-NeedsNode.zip') + @(Get-ChildItem 'changes-$Stamp' -File | ForEach-Object FullName)"
+"  `$assets = @('TexasRevolutionSetup.exe', 'TexasRevolutionSetup-Appended.exe', 'TexasRevolutionInstaller.exe', 'TexasRevolution-Gonzales-$Stamp.zip', 'TexasRevolution-Gonzales-$Stamp-NeedsNode.zip') + @(Get-ChildItem 'changes-$Stamp' -File | ForEach-Object FullName)"
 "  gh release create $Tag @assets -R $Repo --target main --title ""..."" --notes-file notes.md --latest"

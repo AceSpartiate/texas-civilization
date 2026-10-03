@@ -79,7 +79,7 @@ function New-Source([string]$Folder) {
   Copy-Item -LiteralPath (Join-Path $repo 'docs\evidence\voice-runtime-manifest.json') -Destination (Join-Path $Folder 'docs\evidence') -Force
   Copy-Item -LiteralPath $Runtime -Destination (Join-Path $Folder 'runtime') -Recurse -Force
   New-Item -ItemType Directory -Force (Join-Path $Folder 'launcher') | Out-Null
-  foreach ($item in Get-ChildItem -LiteralPath (Join-Path $repo 'launcher') | Where-Object { $_.Name -notin @('bin', 'obj', 'payload.zip') }) {
+  foreach ($item in Get-ChildItem -LiteralPath (Join-Path $repo 'launcher') | Where-Object { $_.Name -notin @('bin', 'obj', 'payload.zip', 'payload-launcher.exe') }) {
     Copy-Item -LiteralPath $item.FullName -Destination (Join-Path $Folder 'launcher') -Recurse -Force
   }
 }
@@ -255,7 +255,18 @@ try {
   $exeA = Hash $launcherA
   $exeB = Hash $launcherB
   if ($want['TexasRevolution.exe'] -ne $exeB) { throw 'A fresh install of B did not install B''s plain launcher' }
-  Pass "a fresh install of B installs its plain launcher ($((Get-Item -LiteralPath $launcherB).Length) bytes), not the $($numbers.setupBytes)-byte setup program."
+  Pass "a fresh install of B from its classic setup installs its plain launcher ($((Get-Item -LiteralPath $launcherB).Length) bytes), not the $($numbers.setupBytes)-byte setup program."
+  # The appended setup beside it (owner, 2026-10-03: "keep supporting both") installs the same thing.
+  $setupBAppended = Join-Path $relB 'TexasRevolutionSetup-Appended.exe'
+  $numbers.setupAppendedBytes = (Get-Item -LiteralPath $setupBAppended).Length
+  $freshAppended = Join-Path $Work 'fresh-B-appended'
+  if (Test-Path -LiteralPath $freshAppended) { Remove-Item -LiteralPath $freshAppended -Recurse -Force }
+  $made = Invoke-Exe $setupBAppended "--extract `"$freshAppended`""
+  if ($made.exit -ne 0) { throw "An install of B from its appended setup failed: $($made.output)" }
+  $differences = Compare-Tree (Get-Tree $freshAppended) $want
+  if ($differences.Count) { throw "B's appended setup installs something other than its classic setup: $($differences -join '; ')" }
+  Remove-Item -LiteralPath $freshAppended -Recurse -Force
+  Pass "B's appended setup ($($numbers.setupAppendedBytes) bytes) installs byte for byte what its classic setup ($($numbers.setupBytes) bytes) does, plain launcher included."
 
   # ---------------------------------------------------------------- changes
   $dir = Install-A 'changes'

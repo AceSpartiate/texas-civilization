@@ -16,10 +16,10 @@ internal static class Program
     /// </summary>
     /// <remarks>
     /// Sitting in a folder with a classroom beside it, this is the launcher. Sitting
-    /// anywhere else - a Downloads folder, a memory stick - with a game appended to it, it is
-    /// the setup program for that game (SetupLayout.cs); it installs itself without the game.
-    /// The alternative was two downloads, or a setup program that embeds a launcher that embeds
-    /// .NET, and both are worse.
+    /// anywhere else - a Downloads folder, a memory stick - carrying a game, it is the setup
+    /// program for that game, and installs the game and the plain launcher it carries
+    /// (SetupLayout.cs: the classic setup embeds both as resources, .NET in it twice; the
+    /// appended one has the game after its own bundle, .NET once).
     /// </remarks>
     [STAThread]
     private static int Main(string[] args)
