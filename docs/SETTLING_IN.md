@@ -8,6 +8,9 @@ of the map — father, mother, children oldest first, a portrait that takes the 
 glows while they carry it out, and names that save themselves. Where this document says "the person panel" for an order (§6's
 "Go to"), that order is now an icon on the principal's row.
 
+**Amended 2026-10-02** (owner-decided): a family with no roof puts up its tent, and in rain, a storm or a norther its people with no
+task and every child go in (§4c); the first house goes up quicker (docs/WOODS_AND_BUILDING.md §6.11).
+
 ---
 
 ## 1. What the owner asked for
@@ -285,6 +288,51 @@ second amendment of that day). Claims `FIC-GONZ-397`, `FIC-GONZ-398`, `HIST-TEX-
 - `ceiling:` a pack ox and a led horse keep the walkers' pace, as the family's beasts in the flight on foot always have.
 
 ---
+
+### 4c. The tent, and going in out of the weather — owner-decided 2026-10-02 (not released)
+
+> "families should put up tents to get out of the rain if their house isn't finished. when there's inclement weather, families that
+> have members that aren't on a specific task that needs them outdoors, those characters should seek shelter. kids should always
+> seek shelter, and a 10+yo character should have to accompany them and play with them since they can't play outdoors."
+>
+> — the owner, 2026-10-02
+
+**Status: built the same day** (`sim/shelter.mjs`, `tests/shelter.test.mjs`, browser `npm run test:shelter`; claims `HIST-TEX-1090`,
+`FIC-GONZ-1091` to `-1093`). The children's half is docs/CHILDREN.md §13. With it, the first house goes up quicker
+(docs/WOODS_AND_BUILDING.md §6.11).
+
+**The tent** (`pitch-tent`, *Put up the tent*). The emigrants' guides told a family to carry "tents or sail cloth, for covering,
+until the house is built" (`HIST-TEX-1090`, `HIST-GONZ-027`); the game's tent is the wagon sheet stretched over a ridge pole by the
+camp.
+
+- On the bar of anybody of ten or more while the family has **no roof and no tent** and is living on its land; about half an hour's
+  work at the family's pace. A tip at first meeting (`tent`) says so once.
+- **Put up by itself** the first time the weather turns on a family with no roof and no tent: whoever of ten or more is standing
+  free goes and puts it up, and everybody else waits under the wagon meanwhile. A family nobody plays does the same.
+- **Struck** the day a pen is roofed: the canvas goes back on the wagon.
+- Drawn by the camp at a fixed place on the land (`tentPoint`), on the family's own map and on the Host's. `stand-in:` the library's
+  canvas tent, until the wagon sheet is drawn (docs/ART_REQUESTS.md, request 2026-10-02).
+- `ceiling:` the tent is where the family goes in out of the weather and does nothing else: the camp's rest and spoilage (§4) and
+  the norther's cold at home (docs/WEATHER.md §10.5) are as they were. Every family has the cloth for one; a tent on the wagon's
+  list is the way out.
+
+**Going in** (`INCLEMENT`: a rain day, a storm, a norther wet or dry - never fog; a day is the weather's whole unit, so a wet day is wet
+from dawn to dark):
+
+- **Who**: everybody at home with **no task** - nothing to do, working about the place, resting - and **every child under ten**, always.
+  Somebody at a task keeps at it: every family work is out of doors, and the rain holds only what it held before, the roof and the
+  daubing (`FIC-GONZ-290`). Nothing else pauses; whether fieldwork should stop in a storm is a question for the owner (HANDOFF.md).
+- **Where**: into the **house** once a pen is roofed; else under the **tent**; else under a **wagon** standing at home; else they huddle
+  at the camp with nothing over them.
+- **When it clears**, everybody goes back to where they were and to what they were at; auto takes up its own as it always does.
+- **Not** a family told to leave (`ordered`): it packs to go in any weather, and the children's work for the road does not wait. Nor a
+  family on the road east, at a refuge or arriving.
+- **What a student sees**, without words: the figures walk to the door and are gone inside the house; under the tent or the wagon they
+  are drawn sitting in its mouth; a roof or a tent on each sheltering portrait (`stand-in:` drawn in the style sheet, request
+  2026-10-02). The one line is the companion's row, *"Inside with Tom and Ann, out of the weather."* The family's record says once a
+  day that the family went in (ambient: kept out of the news window, as the children's talk is).
+- **No save version moved**: `household.tent`, `entity.shelter`, `entity.shelterExcused`, the `shelter` kind of `aside` and
+  `household.shelterTold` are absent on every class saved before, which reads as no tent and nobody in.
 
 ## 5. Houses: layouts, construction methods, benefits and problems
 

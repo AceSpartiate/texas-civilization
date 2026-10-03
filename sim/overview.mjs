@@ -84,6 +84,8 @@ function overviewEntity(world, entity) {
     ...(entity.chore && { chore: { id: entity.chore.id, doing: entity.chore.doing, ...(entity.chore.quarry && { quarry: entity.chore.quarry }), ...(entity.chore.id === 'survey-plot' && entity.chore.plot && { plot: entity.chore.plot }) } }),
     condition: entity.health?.condition || entity.condition || 'well',
     ...(world.army?.members?.includes(entity.id) && { withArmy: true }),
+    // In out of the weather (sim/shelter.mjs): drawn going in, and not drawn inside a house.
+    ...(entity.shelter && { shelter: { at: entity.shelter.at, phase: entity.shelter.phase } }),
   };
 }
 
@@ -107,6 +109,8 @@ function overviewLand(world, household) {
     ...(logs && { logs }),
     ...(household.stock && { stock: true }),
     ...(household.arriving && { arriving: true }),
+    // The family's tent until its house has a roof (sim/shelter.mjs, owner 2026-10-02).
+    ...(household.tent && { tent: { x: household.tent.x, y: household.tent.y } }),
   };
 }
 

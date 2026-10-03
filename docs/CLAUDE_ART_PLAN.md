@@ -8,13 +8,13 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 | Area | Items to make | Priority 1 | With a Claude stand-in | Skipped |
 | --- | ---: | ---: | ---: | ---: |
-| A — People at work and ambient poses | 27 | 7 | 18 | 0 |
+| A — People at work and ambient poses | 28 | 7 | 18 | 0 |
 | B — Children, babies and sickness | 14 | 6 | 11 | 2 |
 | C — Soldiers, battles and famous people | 21 | 1 | 19 | 1 |
 | D — Riders, horses, wagons, carreta, ferry, steamboat | 15 | 2 | 15 | 4 |
-| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 19 | 2 | 19 | 3 |
-| F — Terrain, trees, the norther, fields, icons, marks and effects | 12 | 2 | 11 | 17 |
-| **Total** | **108** | **20** | **93** | **27** |
+| E — Buildings, houses, towns, Béxar, the Alamo, interiors | 20 | 2 | 19 | 3 |
+| F — Terrain, trees, the norther, fields, icons, marks and effects | 14 | 2 | 11 | 17 |
+| **Total** | **112** | **20** | **93** | **27** |
 
 ## How a builder works
 
@@ -33,7 +33,7 @@ Owner, 2026-09-28: *"Astra wrote this so that you can help make art. make all of
 
 ## A — People at work and ambient poses
 
-Scope: the eight grown cast figures' action poses at home and in town, ambient life, the Gonzales town scenes, layered people; the wood pile. 27 to make, 0 skipped.
+Scope: the eight grown cast figures' action poses at home and in town, ambient life, the Gonzales town scenes, layered people; the wood pile. 28 to make, 0 skipped.
 
 - [ ] **A1** (priority 1) — [Request 2026-09-28 — people at work](ART_REQUESTS.md#request-2026-09-28--people-at-work), item 1 — **Claude stand-in held back: Astra has drawn the subject** (rust, teal, elder, blue, rust-woman, indigo, ochre, blue-girl), so the page draws hers (`rust-chop`, `teal-chop`, `elder-chop`, `blue-chop`, `rust-woman-chop`, `indigo-chop`, `ochre-chop`, `blue-girl-chop`)
   - **Deliver:** `<cast>-chop` (felling with an axe) for each of the eight: `<figure>-chop-1`..`-4`, clip `<figure>-chop`, the axe landing on frame 3
@@ -172,6 +172,11 @@ Scope: the eight grown cast figures' action poses at home and in town, ambient l
   - **Frames:** 1 and 2; 2 each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
   - **Plugs into:** `drawYard` (`sale`, `rebuild`) in `public/flashback.js`
   - **Stands in now:** the land agent: Astra's `elder` in his `-trade` pose; raising the logs: the carrying cycle (`-carry`) and the notching (`-repair`) (Astra's library art reused)
+- [ ] **A30** (priority 3) — [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather), item 4
+  - **Deliver:** for each of the eight cast figures: `-pitch-tent` (knelt, driving a tent peg with a maul, 2 frames, east)
+  - **Frames:** 2 frames each, east. **Size:** People contract (request 2026-09-12): the figure's own logical height and foot baseline, east-facing and mirrored for west; Claude: `personFrame`, 400×400 cell, logical height 300, ground at y 372
+  - **Plugs into:** `WORK['pitch-tent']` in `public/work-art.js`
+  - **Stands in now:** the house's notching stroke (`notch`, the hoeing cycle with a drawn axe) (Astra's library art reused)
 
 ## B — Children, babies and sickness
 
@@ -463,7 +468,7 @@ Skipped:
 
 ## E — Buildings, houses, towns, Béxar, the Alamo, interiors
 
-Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 19 to make, 3 skipped.
+Scope: house pieces from their other sides, roofs, interiors, civic and researched buildings, places, and Béxar's own people and fandango. 20 to make, 3 skipped.
 
 - [ ] **E1** (priority 1) — [Request 2026-09-27 — the milk cow on the run, and Béxar before the bell](ART_REQUESTS.md#request-2026-09-27--the-milk-cow-on-the-run-and-béxar-before-the-bell), item 2 — **Claude stand-in in place** (`bexar-man-walk`, `bexar-man-walk-s`, `bexar-man-walk-n`, `bexar-man-idle-s`, `bexar-man-idle-e`, `bexar-man-idle-w`, `bexar-man-idle-n`, `bexar-man-listen-s`, `bexar-man-listen-n`, `bexar-man-speak`, `bexar-man-carry`, `bexar-woman-walk`, `bexar-woman-walk-s`, `bexar-woman-walk-n`, `bexar-woman-idle-s`, `bexar-woman-idle-e`, `bexar-woman-idle-w`, `bexar-woman-idle-n`, `bexar-woman-listen-s`, `bexar-woman-listen-n`, `bexar-woman-speak`, `bexar-woman-carry`, `bexar-girl-walk`, `bexar-girl-walk-s`, `bexar-girl-walk-n`, `bexar-girl-idle-s`, `bexar-girl-idle-e`, `bexar-girl-idle-w`, `bexar-girl-idle-n`, `bexar-girl-listen-s`, `bexar-girl-listen-n`, `bexar-girl-speak`, `bexar-girl-carry`, `bexar-boy-walk`, `bexar-boy-walk-s`, `bexar-boy-walk-n`, `bexar-boy-idle-s`, `bexar-boy-idle-e`, `bexar-boy-idle-w`, `bexar-boy-idle-n`, `bexar-boy-listen-s`, `bexar-boy-listen-n`, `bexar-boy-speak`, `bexar-boy-carry`); Astra's replaces it
   - **Deliver:** Tejano townspeople of Béxar - a man, a woman in a rebozo, a girl and a boy - each `walk`, `idle-s`, `carry` (loading a cart), `speak`, `listen`, in 1830s Béxar dress (`bexar-man-*`, `bexar-woman-*`, `bexar-girl-*`, `bexar-boy-*`); also the storming's townspeople of 1835 walking out of a house (request 2026-09-25 the storming of Béxar, item 6)
@@ -533,6 +538,11 @@ Scope: house pieces from their other sides, roofs, interiors, civic and research
   - **Frames:** 1 each. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside; a grown person's height as its logical height, as the wedding's pieces
   - **Plugs into:** `marker` and `coins` in `drawYard`, `public/flashback.js`
   - **Stands in now:** Claude's `grave-marker` and `coins-and-paper`; without them drawn in canvas (`marker`, `coins`) (Claude-drawn)
+- [ ] **E30** (priority 2) — [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather), item 1
+  - **Deliver:** `homestead-tent` (a wagon sheet stretched over a ridge pole between two forked posts, pegged down at the sides, the front open, a bedroll inside)
+  - **Frames:** 1. **Size:** Building: the house-modules or town-buildings style, corner-on three-quarter view, anchored at the base centre, seats and ground corners measurable
+  - **Plugs into:** the tent drawn at `world.land.tent` (`tentAt`) in `drawWorld`, `public/app.js`
+  - **Stands in now:** the library's canvas `tent` (a pegged A-tent of new canvas) (Astra's library art reused)
 - [ ] **E10** (priority 3) — [Request 2026-09-26 — the Mexican advance](ART_REQUESTS.md#request-2026-09-26--the-mexican-advance), item 4 — **Claude stand-in in place** (`plantation-sugar`, `blockhouse-village`, `townsite-bay`, `tavern-house`); Astra's replaces it
   - **Deliver:** `plantation-sugar`, `blockhouse-village`, `townsite-bay`, `tavern-house`
   - **Frames:** 1 each. **Size:** Map cutout as `public/place-art.js` gives the places past the box
@@ -575,7 +585,7 @@ Skipped:
 
 ## F — Terrain, trees, the norther, fields, icons, marks and effects
 
-Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 12 to make, 17 skipped.
+Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grades, smoke, work effects, the family panel's marks and portraits, the army camp. 14 to make, 17 skipped.
 
 - [ ] **F1** (priority 1) — [Request 2026-09-15 — face portraits for the family panel](ART_REQUESTS.md#request-2026-09-15--face-portraits-for-the-family-panel) — **Claude stand-in in place** (`portrait-rust`, `portrait-teal`, `portrait-elder`, `portrait-blue`, `portrait-rust-woman`, `portrait-indigo`, `portrait-ochre`, `portrait-blue-girl`, `portrait-girl`, `portrait-boy`, `portrait-smallchild`, `portrait-infant`); Astra's replaces it
   - **Deliver:** `portrait-rust`, `-teal`, `-elder`, `-blue`, `-rust-woman`, `-indigo`, `-ochre`, `-blue-girl`, `-girl`, `-boy`, `-smallchild`, `-infant`
@@ -607,6 +617,11 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 6 backdrops; 1 rifle. **Size:** Backdrop: 1600×900, opaque, the horizon at 51% of the height, the middle third clear of trunks; rifle: transparent, pivot at the muzzle
   - **Plugs into:** `paintField`, `paintNear` and `drawRifle` in `public/hunt-aim.js`
   - **Stands in now:** the field and the rifle painted in canvas (sky, crowns, trunks, brush and grass; a browned barrel and a cherry stock) (drawn in code (canvas or CSS))
+- [ ] **F30** (priority 2) — [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather), item 2
+  - **Deliver:** `icon-pitch-tent` (a wagon sheet tent going up: a person pegging down one side)
+  - **Frames:** 1. **Size:** Action icon: 128×128, transparent, one silhouette, thin dark outline, reads at 34–38 CSS px and dimmed to 40%
+  - **Plugs into:** `PANEL_ICONS['pitch-tent']` in `public/family-panel.js`
+  - **Stands in now:** a stroked tent (`LITTLE_GLYPHS['pitch-tent']`) (drawn in code (canvas or CSS))
 - [ ] **F5** (priority 3) — [Request 2026-09-20 — the country in a norther: trees and grass bent by the wind](ART_REQUESTS.md#request-2026-09-20--the-country-in-a-norther-trees-and-grass-bent-by-the-wind), remaining trees — **Claude stand-in held back: Astra has drawn the subject** (pine-loblolly-pole, cedar-pole, mesquite-pole, live-oak-pole, elm-pole, post-oak-pole, blackjack-pole, pecan-pole, hackberry-pole, sweetgum-pole, pine-loblolly-log, cedar-log, mesquite-log, live-oak-log, elm-log, post-oak-log, blackjack-log, pecan-log, hackberry-log, sweetgum-log, pine-loblolly-large, cedar-large, mesquite-large, live-oak-large, elm-large, post-oak-large, blackjack-large, pecan-large, hackberry-large, sweetgum-large, pine-longleaf-pole, pine-longleaf-log, pine-longleaf-large, palm-sabal-pole, palm-sabal-log, palm-sabal-large, cypress-bald-pole, cypress-bald-log, cypress-bald-large, magnolia-log, magnolia-large, beech-log, beech-large, cottonwood, scrub, reeds, prickly-pear, marsh-cordgrass, dune-grass, thicket-thorn-1, thicket-thorn-2, palmetto, yucca), so the page draws hers (`pine-loblolly-pole-wind`, `cedar-pole-wind`, `mesquite-pole-wind`, `live-oak-pole-wind`, `elm-pole-wind`, `post-oak-pole-wind`, `blackjack-pole-wind`, `pecan-pole-wind`, `hackberry-pole-wind`, `sweetgum-pole-wind`, `pine-loblolly-log-wind`, `cedar-log-wind`, `mesquite-log-wind`, `live-oak-log-wind`, `elm-log-wind`, `post-oak-log-wind`, `blackjack-log-wind`, `pecan-log-wind`, `hackberry-log-wind`, `sweetgum-log-wind`, `pine-loblolly-large-wind`, `cedar-large-wind`, `mesquite-large-wind`, `live-oak-large-wind`, `elm-large-wind`, `post-oak-large-wind`, `blackjack-large-wind`, `pecan-large-wind`, `hackberry-large-wind`, `sweetgum-large-wind`, `pine-longleaf-pole-wind`, `pine-longleaf-log-wind`, `pine-longleaf-large-wind`, `palm-sabal-pole-wind`, `palm-sabal-log-wind`, `palm-sabal-large-wind`, `cypress-bald-pole-wind`, `cypress-bald-log-wind`, `cypress-bald-large-wind`, `magnolia-log-wind`, `magnolia-large-wind`, `beech-log-wind`, `beech-large-wind`, `cottonwood-wind`, `scrub-wind`, `reeds-wind`, `prickly-pear-wind`, `marsh-cordgrass-wind`, `dune-grass-wind`, `thicket-thorn-1-wind`, `thicket-thorn-2-wind`, `palmetto-wind`, `yucca-wind`)
   - **Deliver:** a gale silhouette for each remaining tree kind and ground mark - pine, cedar, mesquite, live oak, elm, scrub, reeds, prickly pear, and every sized tree of `trees-colonies-1` and `-2` (`<tree>-wind`)
   - **Frames:** 1 each. **Size:** Exactly the scale and anchor of the upright sprite
@@ -639,6 +654,11 @@ Scope: trees and their gale poses, river banks, fog, marsh, night and dawn grade
   - **Frames:** 2-4; 1. **Size:** Prop: transparent, anchored at its base, at the scale of the sprites it stands beside
   - **Plugs into:** `drawScenery` in `public/battle-view.js`
   - **Stands in now:** a warm glow in canvas; `live-oak-large` and `mesquite-large` set close (Astra's library art reused)
+- [ ] **F31** (priority 3) — [Request 2026-10-02 — the tent, and going in out of the weather](ART_REQUESTS.md#request-2026-10-02--the-tent-and-going-in-out-of-the-weather), item 3
+  - **Deliver:** `mark-shelter-house` (a cabin's roof with rain slanting past it) and `mark-shelter-tent` (the wagon sheet tent with rain slanting past it)
+  - **Frames:** 2. **Size:** Mark: 96×96, transparent, no text, reads at 22–24 CSS px
+  - **Plugs into:** `.panel-shelter-mark` (`data-at`) in `public/style.css`, made in `panelRow`, `public/app.js`
+  - **Stands in now:** a roof and a tent drawn in the style sheet as masks (drawn in code (canvas or CSS))
 
 Skipped:
 - ~~F11~~ [Request 2026-09-19 — the country of 1836: trees and ground cover](ART_REQUESTS.md#request-2026-09-19--the-country-of-1836-trees-and-ground-cover) — skipped: delivered 2026-09-22 (the `stand-in:` comment in public/ground-classes.js is stale)

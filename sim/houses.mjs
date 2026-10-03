@@ -45,7 +45,7 @@ import {
 } from './houseplot.mjs';
 import { weatherAt } from './weather.mjs';
 import { countsTrees, woodsRule } from './woods.mjs';
-import { hoursSaid, workHours } from './work-pace.mjs';
+import { hoursSaid, houseHours } from './work-pace.mjs';
 
 /**
  * The day's weather where this family's house stands, or null before it has a place - which is the answer every caller
@@ -107,7 +107,8 @@ export const HOUSES = Object.freeze({
 export const HOUSE_IDS = Object.keys(HOUSES);
 /**
  * Ticks of ordinary work in one spell on a house, before the family's pace: since 2026-09-29 each spell goes at half of it
- * (sim/work-pace.mjs `WORK_PACE`), so a spell is half an hour of the calendar and the spells a house wants are unchanged.
+ * (sim/work-pace.mjs `WORK_PACE`), and since 2026-10-02 at half of that again (`HOUSE_PACE`), so a spell is a quarter of an hour of
+ * the calendar - never less than the tick it is begun in - and the spells a house wants are unchanged.
  */
 export const SPELL_TICKS = 3;
 /**
@@ -117,7 +118,7 @@ export const SPELL_TICKS = 3;
 export const CROWDED_SHARE = 0.8;
 
 /** The catalogue, for `/api/chores`: fixed for a class, so it is sent once and never on the tick. */
-export const houseCatalogue = () => Object.values(HOUSES).map(choice => ({ ...choice, hours: workHours(choice.work * SPELL_TICKS) }));
+export const houseCatalogue = () => Object.values(HOUSES).map(choice => ({ ...choice, hours: houseHours(choice.work * SPELL_TICKS) }));
 
 /** The house this family has chosen or built, or null. */
 export const houseOf = household => household.house ?? null;
@@ -240,8 +241,8 @@ export function recordHelpDone(world, helperHousehold, entity, host, spells) {
     });
     return;
   }
-  // Hours of the calendar, at the family's pace (sim/work-pace.mjs): a spell is half an hour since 2026-09-29.
-  const hours = workHours(spells * SPELL_TICKS);
+  // Hours of the calendar, at the house's pace (sim/work-pace.mjs `houseHours`): a spell is a quarter of an hour since 2026-10-02.
+  const hours = houseHours(spells * SPELL_TICKS);
   const done = !raising(host);
   noteDeed(world, { kind: 'raising', fromId: helperHousehold.id, toId: host.id, personId: entity.id, hours });
   record(world, 'raising', {
@@ -450,7 +451,7 @@ export function houseProjection(world, household) {
   const choosing = !houseBuilt(household) && !(plan && plan.work > 0) && !(!plan && improvementsOf(household).cabin === 'sound');
   return {
     // `work` and `total` are spells; `hours` what they come to at the family's pace (sim/work-pace.mjs), done and in all.
-    ...(plan && { house: { layout: plan.layout, work: plan.work, total: HOUSES[plan.layout].work, hours: [workHours(plan.work * SPELL_TICKS), workHours(HOUSES[plan.layout].work * SPELL_TICKS)], stage: stageOf(household, world), phase: phaseOf(household) } }),
+    ...(plan && { house: { layout: plan.layout, work: plan.work, total: HOUSES[plan.layout].work, hours: [houseHours(plan.work * SPELL_TICKS), houseHours(HOUSES[plan.layout].work * SPELL_TICKS)], stage: stageOf(household, world), phase: phaseOf(household) } }),
     // What the finished house does for the family, in numbers, on its own land line (`FIC-GONZ-008`).
     ...(shelter.layout && { home: { restShare: shelter.restShare, spoilagePerDay: shelter.spoilagePerDay, ...(shelter.crowded && { crowded: true }) } }),
     ...(choosing && { choices: HOUSE_IDS.map(id => { const why = planRefusal(world, household, id); return why ? { id, can: false, why } : { id, can: true }; }) }),

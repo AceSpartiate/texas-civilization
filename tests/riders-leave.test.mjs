@@ -10,12 +10,14 @@ import { applyAction, beginTravel, stepWorld, projectWorld, validateWorld, dispa
 import { EARSHOT_MILES, PATIENCE_MINUTES } from '../sim/encounters.mjs';
 import { findPath } from '../sim/geography.mjs';
 import { RELAY_MINUTES } from '../sim/expresses.mjs';
+import { fairWeather } from './support/weather.mjs';
 
 const TOPIC = 'cannon-request';
 const advance = (world, ticks) => { for (let i = 0; i < ticks; i++) stepWorld(world); };
 const apart = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
 function briefed(seed, players = 5) {
-  const world = createGonzalesWorld(seed, players);
+  // Fair weather: in the rain the family goes in under its tent (sim/shelter.mjs), and these meetings are about the rider, not the sky.
+  const world = fairWeather(createGonzalesWorld(seed, players));
   world.status = 'running';
   for (const id of Object.keys(world.households)) world.director.dispatches[id] = true;
   while (!world.truth[TOPIC]) stepWorld(world);

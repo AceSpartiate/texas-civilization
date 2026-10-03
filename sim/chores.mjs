@@ -20,7 +20,7 @@
 // hunted species is ever named.
 import { heavyWorkPace, tooYoung, tooYoungWhy } from './family.mjs';
 // A grown-up the family's little ones have called aside (docs/CHILDREN.md): their work waits, untouched, until they are back.
-import { asideWhy, calledAside } from './aside.mjs';
+import { asideRefuses, asideWhy, calledAside, heldIndoors } from './aside.mjs';
 import { castVote, joinService, servingWhy, winterOffered, winterRefusal } from './winter.mjs';
 import { reliefEstimate } from './alamo.mjs';
 import { houstonCamp, joinEstimateWords } from './houston.mjs';
@@ -65,7 +65,7 @@ import { beastsOf, kept, wagonWith } from './beasts.mjs';
 import { holdingOf } from './grants.mjs';
 import { TOOL_LIFE, allWorn, anyWorn, mendWorst, soundestFirst, toolCount } from './tools.mjs';
 import { plotNeeds } from './houseplot.mjs';
-import { WORK_PACE, hoursSaid, workHours, workPaceOf } from './work-pace.mjs';
+import { FELL_PACE, WORK_PACE, hoursSaid, workHours, workPaceOf } from './work-pace.mjs';
 import { hungerPace } from './hunger.mjs';
 import { houseFront } from './house-placement.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
@@ -1012,7 +1012,7 @@ export function fetchLogsFacts(world, household) {
   const miles = Math.hypot(wood.x - home.x, wood.y - home.y);
   // The wagon's pace is miles a tick of twenty minutes (sim/travel.mjs): there and back, and the felling; out on foot to a team
   // left at the timber.
-  const hours = Math.max(1, Math.round(((teamLeft ? miles / MODES.foot.speed : miles / MODES.wagon.speed) + miles / MODES.wagon.speed + FETCH_FELL_TICKS * WORK_PACE) / 3));
+  const hours = Math.max(1, Math.round(((teamLeft ? miles / MODES.foot.speed : miles / MODES.wagon.speed) + miles / MODES.wagon.speed + FETCH_FELL_TICKS * WORK_PACE * FELL_PACE) / 3));
   const where = `${wood.name.charAt(0).toLowerCase()}${wood.name.slice(1)}, ${miles < 0.2 ? 'beside the house' : `${Math.round(miles * 10) / 10} miles off`}`;
   return { can: true, miles: round(miles), hours, teamLeft, cost: teamLeft ? `about ${hours} ${hours === 1 ? 'hour' : 'hours'}, on foot to the ox and wagon left at ${where}, and home with them` : `the ox and wagon for about ${hours} ${hours === 1 ? 'hour' : 'hours'}, to ${where}` };
 }
@@ -1516,7 +1516,7 @@ export function choreAvailability(world, household, entity, choreId, logsOut = n
   // work is taken up until the child has something to do or the baby is down.
   // Away with the family at the neighbours' farms (sim/courtship.mjs, the lone parent's path): nothing is taken up until home.
   if (entity.visiting) return { can: false, why: `${entity.name} is away with the family at the neighbours' farms.` };
-  if (calledAside(entity)) return { can: false, why: asideWhy(entity, id => world.entities[id]?.given || world.entities[id]?.name || 'a child') };
+  if (asideRefuses(entity)) return { can: false, why: asideWhy(entity, id => world.entities[id]?.given || world.entities[id]?.name || 'a child') };
   if (entity.chore) return { can: false, why: `${entity.name} is already ${entity.chore.doing}.` };
   // The road's own chores (sim/road.mjs) are for somebody travelling east with the family, or camped with it at the refuge.
   // Somebody the class's clock is carrying faster than a student can follow is not on the map at all (sim/sight.mjs,
@@ -2449,6 +2449,8 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
   if (entity.travel && !(chore.road && (entity.travel.halted || chore.moving))) return;
   // Called aside by the family's little ones (sim/aside.mjs): the work stands exactly where it is, step, wait and all.
   if (calledAside(entity)) return;
+  // A child in out of the weather (sim/shelter.mjs, owner 2026-10-02): their job or their play waits for it to clear.
+  if (heldIndoors(entity)) return;
   const state = entity.chore;
   // A child who has not started yet (sim/obedience.mjs `beginsJob`): the job waits the ticks they dawdle, then goes on.
   if (state.dawdle > 0) { state.dawdle--; if (!state.dawdle) delete state.dawdle; return; }

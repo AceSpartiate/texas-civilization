@@ -1,5 +1,91 @@
 # Claude handoff — Astra foundation
 
+## The first house quicker, the tent, and going in out of the weather — owner-decided 2026-10-02 (not released)
+
+Branch `shelter` off local `integration-2026-09-28` (c88a6ddb = origin/main); not pushed. Same computer only. The owner, verbatim:
+*"it takes too long to build the house at the start of the game. also, families should put up tents to get out of the rain if their
+house isn't finished. when there's inclement weather, families that have members that aren't on a specific task that needs them
+outdoors, those characters should seek shelter. kids should always seek shelter, and a 10+yo character should have to accompany them
+and play with them since they can't play outdoors."* Built with parallel builders `land-paths` (the fenced yard and the children's
+disobedience are theirs) and `hunt-aim`; nothing of theirs touched.
+
+**The first house** (docs/WOODS_AND_BUILDING.md §6.11, `FIC-GONZ-1090`; sim/work-pace.mjs). Measured first
+(`scripts/house-time-measure.mjs`, six colonies classes of fifteen rolled families, round-log cabin, grown people on it on auto,
+children on their own auto): the felling was the larger share - one felling axe fells fifty logs and the builders share it - and a
+lone builder's two-handed courses half the walls. Now `HOUSE_PACE = 0.5` (every spell on a house, own or a neighbour's raising) and
+`FELL_PACE = 0.5` (every tree, and a wagon load fetched) on top of 2026-09-29's halving, consistent with `FIC-GONZ-908`'s ceiling
+("that work's own table is the place"), as factors so saved spells and progress keep their meaning; a step is still at least a tick,
+so a house-raising still helps. Words follow (`houseHours`: round-log chosen whole *"About 10 hours"*, the plan 8.5, the sills *"about
+half an hour's work"*).
+
+| Pen roofed, median (p90), six classes | before | **after** |
+| --- | --- | --- |
+| Pair, one felling + one building, on auto | 159 ticks (277): **25.2 min Study**, 10.6 Brisk, 2.7 Quick | **98 (172): 15.5 / 6.5 / 1.6** |
+| The family's grown people on it | 107 (240): **16.9 min Study**, 7.1, 1.8 | **82 (155): 13.0 / 5.5 / 1.4** |
+| One hand from a full pile | 93: 14.7 min Study | **47: 7.4** |
+
+Target: about 10-15 real minutes at Study for a family that works on it - inside the first quarter of a period, about when the first
+news comes (13 minutes). [record](docs/evidence/house-time-measure.json).
+
+**The tent** (docs/SETTLING_IN.md §4c, `HIST-TEX-1090` - Woodman 1835, p. 187, re-read: *"tents or sail cloth, for covering, until
+the house is built"* - and `FIC-GONZ-1091`; sim/shelter.mjs). *Put up the tent* (`pitch-tent`) on the bar of anybody of ten or more
+while there is no roof and no tent, about half an hour; a tip at first meeting (`tent`). The first time the weather turns with no
+roof and no tent, whoever is free puts it up by themself (director families too). Struck when a pen is roofed. Drawn by the camp
+(stand-in: the library's canvas `tent`, request 2026-10-02 in docs/ART_REQUESTS.md, items E30/F30/F31/A30 on Astra's list).
+`ceiling:` it changes no rest, spoilage or cold.
+
+**Going in** (`FIC-GONZ-1092`). On a day of rain, a storm or a norther (wet or dry; not fog) at home: everybody with no task and every
+child under ten goes into the house once a pen is roofed, else under the tent, else under a wagon at home, else huddles at the camp.
+Whoever is at a task keeps at it (every family work is outdoors; the rain still holds only roof and daub). Out again, back to where
+they were, when the day turns fair. Not a family told to leave (it packs in any weather), arriving, or on the road.
+
+**The children's companion** (docs/CHILDREN.md §13, `FIC-GONZ-1093`). Children's jobs and play wait inside (`heldIndoors`). Somebody of
+ten or more sits with them: the nearest already in; else the nearest older child of 10-15 at work near the house; else the nearest
+grown person at such work, whose work stands (`aside` kind `shelter`) and resumes when it clears. Never somebody hunting, gathering,
+felling, at the stock, nursing or on a road. **A student's order wins** (my choice, flagged below): the companion's bar is not shut;
+an order sends them and they are not called in again that day. Nobody to come: the children keep each other company, said once a
+day. Only in played families, awake, on calendars of an hour a tick or slower, not in a guided start (the talk's and the baby's terms).
+
+**What a student sees**: figures walk in and vanish into the house, or sit in the tent's / wagon's mouth; a roof or tent mark on each
+sheltering portrait (CSS stand-in; words only on hover/screen reader); the companion's row *"Inside with Eli, Minerva and Matilda, out
+of the weather."*; the family's record says once a day that the family went in (ambient). No weather text.
+
+**Saves**: `household.tent`, `entity.shelter`, `entity.shelterExcused`, `aside.kind 'shelter'`, `household.shelterTold` - all absent on
+old saves, which read as no tent and nobody in. **No save version moved.** `shelterInvalid` in `validateWorld`.
+
+**Evidence** (same computer only; no Chromebook, LAN or classroom claim):
+
+- New `tests/shelter.test.mjs` (10) and `tests/house-pace.test.mjs` (4). `npm run test:shelter-injections`: **28 of 28** caught by the
+  test written for them (19 alone) - [record](docs/evidence/shelter-injections.json).
+- New browser proof `npm run test:shelter` (6 checks, seed `shelter-proof-165` on the invented country, its own weather fair/rain/fair):
+  the tent pressed and drawn; rain - Temperance (37), Aaron (11), Eli, Minerva, Matilda in under the tent, Aaron with the children, the
+  father kept at the house; children drawn seated, tent marks on portraits, 1024 without sideways scroll; cleared - all out, marks
+  gone - [record](docs/evidence/shelter-browser.json), `docs/evidence/shelter-*.png`.
+- Tests changed for the rule, not weakened: work-pace (felling and the jacal at the new paces, floored at a tick), house-plot (the sills'
+  half hour), auto-house (the wait for logs is the first tick's; felling may now never run the pile dry again), chores (the tent counted
+  out with a roof), tips (the tent tip put away; new tent assertions). Made **fair-weather** with a new `tests/support/weather.mjs`
+  `fairWeather` because their seeds rain and their rules are an ordinary day's: childhood.test.mjs (the idle child goes to a parent),
+  riders-leave.test.mjs. save-text.test.mjs now leaves ambient lines out of its expected window, as the projection does (a test gap
+  the shelter's lines exposed).
+- Two real bugs found by the suite and fixed: a companion moved off the land by anything but a journey was put back home when let go
+  (alamo tests); a family told to leave had its children's flight work held by the rain (flight-work tests) - hence the `ordered` rule.
+- `npm test`: **2073 tests, 2037 pass, 0 fail, 36 skipped** (the suspended tutorial). Browser proofs green: `test:shelter`, `test:interior`, `test:farm`, `test:children`, `test:auto`,
+  `test:whole-game` (15). `test:overlap` fails with the same three town-scene faults at 1024x600 (the milking icon under the town
+  scene) as clean integration, which has four - not this branch's.
+- `ceiling:` the day is the weather's unit; a norther holds 2-4 days, and in November half the days are wet, so the companion costs a
+  building family most then. Measured on the first days: medians unmoved, slowest tenth 155 ticks against 131 without the shelter.
+
+**Questions for the owner** (recommended first):
+
+1. When nobody of ten or more is free, who sits with the children? **A. (as built)** the nearest at work near the house is called in,
+   an older child first; B. only somebody already free - otherwise the children are alone and nobody stops work.
+2. Should a student be able to send away whoever sits with the children? **A. (as built)** yes - an order wins, somebody else comes in;
+   B. no - refused until the weather clears, as a child's talk is.
+3. Should outdoor work stop in a storm (WEATHER.md §10.5's unbuilt "nothing outdoors")? **A. (as built)** no - work goes on, only the
+   roof and daub wait; B. a storm stops everything but the stock; C. rain stops fieldwork too.
+4. The tent: **A. (as built)** a quick work on the bar, put up by itself at the first turn of the weather; B. put up automatically on
+   arrival, no button.
+
 ## The shot aimed by the student: a sighting, and a first-person field — owner-decided 2026-10-02 (not released)
 
 Branch `hunt-aim` off local `integration-2026-09-28` (c88a6ddb); not pushed. Same computer only. The owner, verbatim: *"when a character

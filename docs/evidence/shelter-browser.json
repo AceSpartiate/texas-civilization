@@ -1,0 +1,154 @@
+{
+  "record": "Out of the weather: the tent, the family going in, and somebody with the children, in a browser (sim/shelter.mjs)",
+  "date": "2026-10-03",
+  "verdict": "PASS",
+  "note": "Same computer only, headless Chrome at 1366x768 and 1024x768. One real class through the join flow on the invented country (seed shelter-proof-165), its own weather: fair, rain, fair. No LAN or district claim.",
+  "checks": [
+    "\"Put up the tent\" was on Isaac Proofwright's bar; pressed, the tent stood at the camp and was drawn there ({\"x\":572,\"y\":404,\"size\":84})",
+    "the rain came on day 1: Temperance (37), Aaron (11), Eli (8), Minerva (6), Matilda (3) went in under the tent; Aaron (11) sits with the children; Isaac kept at the house",
+    "the children are drawn sitting at the tent (boy-rest, girl-rest, smallchild-rest), each portrait carries the tent mark, and Aaron's row says \"Inside with Eli, Minerva and Matilda, out of the weather.\"",
+    "at 1024x768 the marks and the tent are shown and nothing scrolls sideways",
+    "the rain cleared on day 2: nobody is sheltering, nobody sits with the children, and every mark is gone",
+    "no page errors"
+  ],
+  "observed": {
+    "family": [
+      {
+        "id": "hh-1-parent-1",
+        "name": "Isaac Proofwright",
+        "age": 38
+      },
+      {
+        "id": "hh-1-parent-2",
+        "name": "Temperance Proofwright",
+        "age": 37
+      },
+      {
+        "id": "hh-1-child-1",
+        "name": "Aaron Proofwright",
+        "age": 11
+      },
+      {
+        "id": "hh-1-child-2",
+        "name": "Eli Proofwright",
+        "age": 8
+      },
+      {
+        "id": "hh-1-child-3",
+        "name": "Minerva Proofwright",
+        "age": 6
+      },
+      {
+        "id": "hh-1-child-4",
+        "name": "Matilda Proofwright",
+        "age": 3
+      }
+    ],
+    "tent": {
+      "land": {
+        "x": 3.1122,
+        "y": -15.7412
+      },
+      "drawn": {
+        "x": 572,
+        "y": 404,
+        "size": 84
+      }
+    },
+    "inTheRain": [
+      {
+        "id": "hh-1-parent-2",
+        "name": "Temperance Proofwright",
+        "age": 37,
+        "at": "tent",
+        "minding": false
+      },
+      {
+        "id": "hh-1-child-1",
+        "name": "Aaron Proofwright",
+        "age": 11,
+        "at": "tent",
+        "minding": true
+      },
+      {
+        "id": "hh-1-child-2",
+        "name": "Eli Proofwright",
+        "age": 8,
+        "at": "tent",
+        "minding": false
+      },
+      {
+        "id": "hh-1-child-3",
+        "name": "Minerva Proofwright",
+        "age": 6,
+        "at": "tent",
+        "minding": false
+      },
+      {
+        "id": "hh-1-child-4",
+        "name": "Matilda Proofwright",
+        "age": 3,
+        "at": "tent",
+        "minding": false
+      }
+    ],
+    "clipsInTheRain": [
+      "boy-rest",
+      "girl-rest",
+      "smallchild-rest"
+    ],
+    "marks": {
+      "hh-1-parent-1": null,
+      "hh-1-parent-2": "tent",
+      "hh-1-child-1": "tent",
+      "hh-1-child-2": "tent",
+      "hh-1-child-3": "tent",
+      "hh-1-child-4": "tent"
+    },
+    "companionRow": "Inside with Eli, Minerva and Matilda, out of the weather.",
+    "afterTheRain": [
+      {
+        "id": "hh-1-parent-1",
+        "chore": null,
+        "task": "rest",
+        "aside": null
+      },
+      {
+        "id": "hh-1-parent-2",
+        "chore": null,
+        "task": "work",
+        "aside": null
+      },
+      {
+        "id": "hh-1-child-1",
+        "chore": null,
+        "task": "rest",
+        "aside": null
+      },
+      {
+        "id": "hh-1-child-2",
+        "chore": null,
+        "task": "rest",
+        "aside": null
+      },
+      {
+        "id": "hh-1-child-3",
+        "chore": null,
+        "task": "rest",
+        "aside": null
+      },
+      {
+        "id": "hh-1-child-4",
+        "chore": null,
+        "task": "rest",
+        "aside": null
+      }
+    ]
+  },
+  "screenshots": [
+    "docs/evidence/shelter-tent-up-1366.png",
+    "docs/evidence/shelter-rain-under-tent-1366.png",
+    "docs/evidence/shelter-rain-under-tent-1024.png",
+    "docs/evidence/shelter-cleared-1366.png"
+  ]
+}

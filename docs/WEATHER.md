@@ -1177,6 +1177,14 @@ tag on each stage, `weatherHold`):
 - `ceiling:` §10.5's storm column says "nothing outdoors". That is **not** built either. A storm holds the same two kinds
   of work a rain day holds and no more, because it is rain, and the wider rule is a separate decision.
 
+**Going in out of the weather — built 2026-10-02** (owner-decided; `sim/shelter.mjs`, docs/SETTLING_IN.md §4c, docs/CHILDREN.md §13,
+`FIC-GONZ-1091` to `-1093`). A new row of the table, for every kind but `fair` and `fog`: on a day of `rain`, a `storm` or a `norther`
+(wet or dry) a family living at home sends in everybody with no task and every child under ten - into the house once a pen is roofed,
+else under the tent the family puts up until then, else under the wagon - and somebody of ten or more sits with the children. Work
+in hand goes on: the rain still holds only the roofing and the daubing, and the storm column's "nothing outdoors" is still not built
+(a question for the owner, HANDOFF.md). Shown only by the picture: figures walking in, gone into the house or sitting in the tent's
+mouth, and a mark on their portraits.
+
 ### 10.6 What a class sees, and is told — NOT BUILT, superseded 2026-09-20
 
 **Read §10.8 instead.** This section was written before the owner answered the question it asks. They answered it on

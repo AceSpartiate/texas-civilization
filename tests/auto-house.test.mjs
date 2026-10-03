@@ -56,10 +56,11 @@ test('one person felling on auto and one building on auto, left alone, raise the
   stepWorld(world);
   assert.match(said(world, builder.id), /^Auto: work on the house\. Waiting for logs\. .* the log pile has not got them\. Working about the place meanwhile\.$/);
   assert.equal(builder.task, 'work');
-  let waitedForLogs = false, enough = false, most = 0;
+  // That first tick is her wait for logs (the match above); since felling went at half again (2026-10-02, sim/work-pace.mjs
+  // `FELL_PACE`) the pile may never run dry under her after it, so the loop no longer looks for a second one.
+  let enough = false, most = 0;
   for (let tick = 0; tick < 1500 && !houseBuilt(household); tick++) {
     stepWorld(world);
-    if (/Waiting for logs/.test(said(world, builder.id) || '')) waitedForLogs = true;
     if (/The log pile has enough/.test(said(world, feller.id) || '')) enough = true;
     most = Math.max(most, logsOnPile(household));
     // Nothing is left lying to be carried: every log is on the pile the moment its tree is down.
@@ -68,7 +69,6 @@ test('one person felling on auto and one building on auto, left alone, raise the
   }
   assert.ok(houseBuilt(household), 'the house stands, and nobody pressed anything after the first two orders');
   assert.equal(household.improvements.cabin, 'sound');
-  assert.ok(waitedForLogs, 'the builder waited for logs at least once');
   // The feller stopped when the pile held enough, rather than felling the whole holding.
   assert.ok(enough, 'the feller never said the pile had enough');
   assert.ok(most <= houseStillWants(world, { ...household, house: undefined, improvements: { cabin: 'none' } }) + WOOD_MARGIN + 20, `the pile ran to ${most} logs`);

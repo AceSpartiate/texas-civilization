@@ -91,6 +91,8 @@ export const PANEL_SUMMARIES = Object.freeze({
   'flee-cow': 'Put a rope on one milk cow for them to drive behind the family, to be milked on the road.',
   'milk-cow': 'Milk the family\'s cow, once a day: a little food, and a job a child of seven can do.',
   'milk-road': 'Milk the cow driven along with the family, once a day at the halt: a little food.',
+  // The tent until the house stands (sim/shelter.mjs, owner 2026-10-02).
+  'pitch-tent': 'Put up the wagon sheet as a tent by the camp, somewhere dry to go when it rains until the house has a roof.',
   'road-lookout': 'Set them to watch the road behind, so word of riders reaches the family sooner.',
   'road-sing': 'Have them sing on the road, so the walkers are worn less by it.',
   'road-little-ones': 'Have them keep the little ones walking by the hand, so the family goes at the pace of its older walkers.',
@@ -172,6 +174,8 @@ export const PANEL_ICONS = Object.freeze(Object.fromEntries([
     'flee-hide', 'flee-bundle', 'flee-cow', 'road-lookout', 'road-sing', 'road-little-ones', 'camp-fire', 'ferry-help', 'share-food', 'ford-carry',
     // stand-in: docs/ART_REQUESTS.md, request 2026-09-28 - the oldest child going for help (sim/acting.mjs).
     'child-help',
+    // stand-in: docs/ART_REQUESTS.md, request 2026-10-02 - the tent (sim/shelter.mjs): `icon-pitch-tent`, a stroked tent until drawn.
+    'pitch-tent',
   ].map(key => [key, { glyph: key }]),
 ]));
 /** The camp's work, the chores a man serving with Houston's army is offered (sim/camp.mjs); the only work a serving row shows. */
@@ -1023,6 +1027,8 @@ function drawGlyph(ctx, glyph, size) {
 const line = (ctx, ...points) => { ctx.beginPath(); ctx.moveTo(...points[0]); for (const point of points.slice(1)) ctx.lineTo(...point); ctx.stroke(); };
 const dot = (ctx, x, y, r, fill = true) => { ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); if (fill) ctx.fill(); else ctx.stroke(); };
 const LITTLE_GLYPHS = Object.freeze({
+  // A tent: the sheet over its ridge pole, pegged down, the door open (sim/shelter.mjs).
+  'pitch-tent': ctx => { line(ctx, [6, 40], [24, 9], [42, 40]); line(ctx, [24, 9], [24, 40]); line(ctx, [18, 40], [24, 26], [30, 40]); line(ctx, [3, 42], [45, 42]); },
   // A stick with a horse's head on it, and a string for a bridle.
   'child-stick-horse': ctx => { line(ctx, [12, 44], [30, 14]); ctx.beginPath(); ctx.ellipse(34, 11, 7, 4.5, -0.5, 0, Math.PI * 2); ctx.fill(); line(ctx, [30, 7], [29, 3]); line(ctx, [32, 16], [22, 26]); },
   // A doll in a husk skirt.

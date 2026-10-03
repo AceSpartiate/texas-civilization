@@ -2170,4 +2170,13 @@ The hunt and the field are docs/WOODS_AND_BUILDING.md §5.2. On the panel:
   (`aria-live`), and the result.
 - Gates: `tests/hunt-aim.test.mjs` (the need, the card's words and time), `tests/family-commands.test.mjs` (the sighting takes the work
   question's place in the column's order), `npm run test:hunt-aim` and `npm run test:story-cards` (the card photographed with the others).
+## Amendment, 2026-10-02 — in out of the weather: a mark on the portrait, and the one line of whoever sits with the children (owner-decided)
+
+docs/SETTLING_IN.md §4c and docs/CHILDREN.md §13 (`sim/shelter.mjs`). A person in out of the weather carries a small mark in the
+portrait's top right - a roof for the house, a tent for the tent, the wagon or the open camp (`.panel-shelter-mark`, `data-at`; the
+row carries `data-sheltering`) - with its words only on hover and for a screen reader (*"In out of the weather: under the tent, with
+the children."*). The person sitting with the children has one line on their row, the server's *"Inside with Tom and Ann, out of the
+weather."* (`shelterLine`, through `life`). Their bar is **not** shut: an order sends them, and somebody else comes in (docs/CHILDREN.md
+§13). *Put up the tent* (`pitch-tent`) is a new icon, a stroked tent until `icon-pitch-tent` is drawn. `stand-in:` the mark is drawn in
+the style sheet until `mark-shelter-house` and `mark-shelter-tent` are (docs/ART_REQUESTS.md, request 2026-10-02).
 
