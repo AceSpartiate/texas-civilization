@@ -47,7 +47,7 @@ import { marketRefusal, marketSale, marketWords, recordSale, spareFood } from '.
 import { landAround, onRealLand } from './ground.mjs';
 import { distanceToPolyline } from './terrain.mjs';
 import { OVERLAND_REACH } from './ways.mjs';
-import { moreFields, plotWorkRefusal, stakePlot, stroll, strollTarget, whereFromHouse } from './survey.mjs';
+import { moreFields, plotWorkRefusal, stakePlot, stroll, strollTarget } from './survey.mjs';
 import { choosing, cutLaneSpell, digWell, lanePoint, laneRefusal, laneState, waterBurden, wellRefusal, wellTicks } from './homesite.mjs';
 import { GAME, gameDrawn, huntWait, huntingPlace, huntRefusal, killYield, placeWord, powderDamp, quarryGame, stillTicks } from './hunting.mjs';
 // The shot aimed by the student (owner, 2026-10-02; sim/hunt-aim.mjs): the path the page draws and the server judges.
@@ -69,7 +69,7 @@ import { FELL_PACE, WORK_PACE, hoursSaid, workHours, workPaceOf } from './work-p
 import { hungerPace } from './hunger.mjs';
 import { houseFront } from './house-placement.mjs';
 // The way across the family's own land, its paths and its yard (owner, 2026-10-02; sim/land-paths.mjs).
-import { YARD_SHARE, clearStretch, cutPathPlan, cutPathWork, nextOnPath, raiseYard, stakePath, stepTo, treesInBox, yardBox, yardFenced, yardGround, yardMiddle, yardOf, yardRefusal } from './land-paths.mjs';
+import { YARD_SHARE, raiseYard, stepTo, treesInBox, yardBox, yardFenced, yardGround, yardMiddle, yardOf, yardRefusal } from './land-paths.mjs';
 import { BABY_BURDEN, FURNITURE, PIECES, buyRefusal, furnish, makeRefusal, mindingBaby, wanting } from './furniture.mjs';
 import { HOUSES, SPELL_TICKS, buildRefusal, buildSpell, handsOn, helpRefusal, hostOf, houseBuilt, houseOf, houseSettled, pieced, raising, recordHelpBegun, recordHelpDone, stageOf } from './houses.mjs';
 export { MODES } from './travel.mjs';
@@ -493,22 +493,9 @@ export const CHORES = {
       { walk: 'yard', doing: 'coming back up the lane' },
     ],
   },
-  // A path cut out to a place the student chose on the family's land (owner, 2026-10-02: "paths should be cut to facilitate quick,
-  // reasonable movement on a families land"; sim/land-paths.mjs, docs/LAND_GRANTS.md §10): a straight line from the house, a path or
-  // the lane, every tree whose trunk stands in it felled at felling's own time with its logs onto the pile, and the brush grubbed out
-  // a stretch at a time. Many hands may work at it. The work done stays on the path: called in, the next sent goes on from there.
-  'cut-path': {
-    name: 'Cut a path', skill: 'hands', where: 'home', heavy: true, onSite: true, cutsPath: true,
-    // Only once the family is on its land with its site chosen: not a refusal for every person on every tick of the road in.
-    offered: (world, household) => world.status !== 'lobby' && !household.arriving && !household.choosingSite,
-    refusal: (world, household) => (household.choosingSite ? 'Choose where the house will stand first.' : world.status === 'lobby' ? 'The family cuts its paths once the class has begun.' : null),
-    describe: 'Cut a path out from the house to a place you choose on the map: the trees standing in its way felled, their logs onto the pile, and the brush grubbed out. Walking a path is quicker than the open country, and much quicker than the timber or the brush. Choose the place on the map.',
-    steps: [
-      { stroll: 'pathFront', doing: 'walking out to where the path is being cut' },
-      { cutPath: true, doing: 'cutting the path' },
-      { stroll: 'yard', doing: 'walking back to the house' },
-    ],
-  },
+  // *Cut a path* (2026-10-02) is gone: the owner, 2026-10-03, "All automatic" - every path is trodden on its own from the house to
+  // what the family places, round the trees, nobody sent and nothing felled (sim/land-paths.mjs `advanceLandPaths`). Somebody left
+  // at it in a class saved before leaves off on the first tick, said so (`RETIRED`, `advanceChores`).
   // Rails round the house's own ground (owner, 2026-10-02: "there should be an option to fence in a yard too. if there's a fenced in
   // yard then kids on auto play will not be disobedient as often"; sim/land-paths.mjs, docs/CHILDREN.md §14). The rails are a
   // plot's, at half its work (`YARD_SHARE`): from the timber at hand, mesquite, the pile, or carried from far off.
@@ -1315,42 +1302,12 @@ const yardPoint = (world, household) => {
 
 // ------------------------------------------------------------------------------------------------ paths and the yard (2026-10-02)
 
-/** What a path through timber or brush is refused without (sim/land-paths.mjs). */
-export const PATH_AXE_WHY = 'Cutting a path through timber or brush wants an axe, and there is none in the house.';
 /** Where the yard's rails are reckoned from: its middle, standing or to be (sim/land-paths.mjs `yardBox`). */
 const yardPlace = (world, household) => { const box = yardOf(household) || yardBox(world, household); return box ? yardMiddle(box) : yardPoint(world, household); };
 /** A plot's fencing at the yard's share of it (`YARD_SHARE`, `FIC-GONZ-1103`): half the ticks, half the logs off the pile. */
 const yardShare = work => ({ ...work, ticks: Math.max(2, Math.round(work.ticks * YARD_SHARE)), ...(work.logs && { logs: Math.ceil(work.logs * YARD_SHARE) }) });
 /** How the yard's rails would go up, and what it costs: a plot's fence by the country (sim/woodpile.mjs `fenceBy`), at its share. */
 export const yardFenceBy = (world, household) => yardShare(fenceBy(world, household, yardPlace(world, household)));
-/** A path cut all the way to its place: said once, by whoever finished it, with the trees it took down. */
-function pathCut(world, household, entity, state) {
-  const path = (household.paths || []).find(one => one.id === state.pathId);
-  if (!path || state.pathSaid) return;
-  state.pathSaid = true;
-  const where = whereFromHouse(world, household, path.points.at(-1));
-  record(world, 'improvement', {
-    actorId: entity.id, householdId: household.id, importance: 2, claimId: 'FIC-GONZ-1102',
-    text: `${entity.name} cut a path ${where === 'beside the house' ? 'out from the house' : `out to ${where}`}.${state.trees ? ` ${state.trees === 1 ? 'One tree came down' : `${state.trees} trees came down`} in its way, and ${state.logs === 1 ? 'one log went' : `${state.logs} logs went`} onto the pile.` : ''}`,
-  });
-}
-/**
- * What cutting a path to a place would be, in the family's words, or why it cannot be (the place chooser, `/api/plot?job=cut-path`).
- * `from` is where it would begin, for the line the map draws while the student looks.
- */
-export function cutPathFacts(world, household, point) {
-  const plan = cutPathPlan(world, household, point);
-  if (plan.why) return { can: false, why: plan.why };
-  const work = cutPathWork(world, household, plan, fellAndCarryTicks);
-  const from = plan.path ? plan.path.points[0] : plan.from;
-  const line = { from: { x: from.x, y: from.y }, to: { x: plan.to.x, y: plan.to.y } };
-  const miles = Math.round(work.miles * 100) / 100;
-  const through = [['timber', 'timber'], ['brush', 'brush']].filter(([key]) => work.ground[key] > 0.005).map(([key, word]) => `${Math.round(work.ground[key] * 100) / 100} of a mile of ${word}`);
-  const words = `${plan.path ? 'The rest of the path' : 'A path'} of ${miles} of a mile ${whereFromHouse(world, household, plan.to)}${through.length ? `, through ${through.join(' and ')}` : ', through open grass'}.`
-    + `${work.trees ? ` ${work.trees === 1 ? 'One tree stands' : `${work.trees} trees stand`} in its way: ${work.logs === 1 ? 'one log' : `${work.logs} logs`} for the pile.` : ''} About ${hoursSaid(workHours(work.ticks))} of work.`;
-  if (work.wantsAxe && household.tools?.axe === undefined) return { can: false, why: PATH_AXE_WHY, words, lack: { axe: [0, 1] }, ...line };
-  return { can: true, words, trees: work.trees, logs: work.logs, ...line };
-}
 /**
  * The trees standing inside the yard and what felling them adds, in the family's words, or null where none stands there (owner,
  * 2026-10-03): "6 trees inside: about 4 hours more, 9 logs for the pile." An ordinary hand's felling time, at the family's pace.
@@ -2466,14 +2423,6 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   if (chore.reaps) extra = { ...extra, plots: ripePlots(household).map(plot => plot.id) };
   // Survey needs the place; it is sent as its own order with the place in it (sim/survey.mjs).
   if (chore.survey && !extra.plot) throw new Error('Choose a place on your land to survey.');
-  // A path needs the place it goes to (sim/land-paths.mjs): staked out at once from the house, a path or the lane, or the path
-  // already part cut to that place taken up again. It wants the axe wherever a tree or brush stands in its way.
-  if (chore.cutsPath) {
-    const plan = cutPathPlan(world, household, extra.place);
-    if (plan.why) throw new Error(plan.why);
-    if (cutPathWork(world, household, plan, fellAndCarryTicks).wantsAxe && household.tools?.axe === undefined) throw new Error(PATH_AXE_WHY);
-    extra = { pathId: stakePath(world, household, plan).id };
-  }
   // Felling with no place chosen goes to the nearest timber on the family's own land (owner, 2026-09-28: one press, and auto keeps
   // at it; sim/felling.mjs `fellingGround`), and where the land has none, to the nearest timber off it with the ox and wagon:
   // fetching logs, begun in its place and shown as felling (`partOf`). `choreAvailability` has already refused it when neither can.
@@ -2533,7 +2482,7 @@ export function beginChore(world, household, entity, choreId, { beginTravel, mod
   const { held, shares } = heldBy(world, household, entity, chore, modeId, choreId, extra);
   // `spell`: play a child's own automation or a wander took up between jobs, which goes its old couple of hours and not the
   // whole day (owner, 2026-09-29; sim/childhood.mjs): the automation itself is what lasts until the day ends.
-  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(extra.spell && chore.play && { spell: true }), ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.pathId && { pathId: extra.pathId }), ...(extra.ground && { ground: extra.ground }), ...(extra.plots && { plots: [...extra.plots] }), ...(extra.sow && { sow: { ...extra.sow } }), ...(errand && { errand }), ...(town && { town }), ...(held.length && { with: held }), ...(shares.length && { shares }) };
+  entity.chore = { id: choreId, step: -1, wait: 0, doing: 'setting out', ...(extra.spell && chore.play && { spell: true }), ...(modeId !== DEFAULT_MODE && { mode: modeId }), ...(extra.plot && { plot: { x: extra.plot.x, y: extra.plot.y } }), ...(extra.plotId && { plotId: extra.plotId }), ...(extra.ground && { ground: extra.ground }), ...(extra.plots && { plots: [...extra.plots] }), ...(extra.sow && { sow: { ...extra.sow } }), ...(errand && { errand }), ...(town && { town }), ...(held.length && { with: held }), ...(shares.length && { shares }) };
   entity.task = 'work';
   // A chore kept in its own module may need to set something up as it begins: a road chore halts the family (sim/road.mjs).
   chore.begin?.(world, household, entity);
@@ -2999,31 +2948,6 @@ function advanceChore(world, household, entity, { beginTravel, modeAvailability 
       state.step--;
       return;
     }
-    if (step.cutPath) {
-      // A path, a tree or a stretch at a time, until it reaches the place (sim/land-paths.mjs). The tree whose work is paid for
-      // comes down first, its logs onto the pile; the stretch whose work is paid for is cleared.
-      if (entity.location.siteId !== household.homeSiteId) return abandonChore(world, household, entity, chore);
-      if (state.felling) { fellTree(world, household, entity, state.felling); delete state.felling; }
-      if (state.stretch) { clearStretch(world, household, entity, state.pathId, state.stretch); delete state.stretch; }
-      const taken = new Set(Object.values(world.entities).filter(other => other !== entity && other.chore?.felling).map(other => other.chore.felling));
-      const next = nextOnPath(world, household, state.pathId, taken);
-      if (next.done) { pathCut(world, household, entity, state); continue; }
-      if (!stroll(world, household, entity, next.at)) { state.doing = 'walking out to where the path is being cut'; state.step--; return; }
-      const strength = heavyWorkPace(entity) * waterBurden(household);
-      if (next.wait) { state.doing = 'grubbing round the stumps of the path'; state.wait = 1; state.step--; return; }
-      if (next.tree) {
-        state.felling = next.tree.id;
-        state.doing = `felling ${/^[aeiou]/.test(KINDS[next.tree.kind].name) ? 'an' : 'a'} ${KINDS[next.tree.kind].name} in the way of the path`;
-        workFor(state, paceFor(fellAndCarryTicks(next.tree), skill, strength) * workPaceOf(chore) * hungerPace(entity));
-        state.step--;
-        return;
-      }
-      state.stretch = next.stretch;
-      state.doing = next.ground === 'brush' ? 'grubbing brush out of the path' : next.ground === 'timber' ? 'clearing the undergrowth out of the path' : 'marking the path through the grass';
-      workFor(state, Math.max(0.0001, next.ticks * (skill === 3 ? .7 : skill === 2 ? 1 : 1.35) * strength) * workPaceOf(chore) * hungerPace(entity));
-      state.step--;
-      return;
-    }
     if (step.dig === 'well') { digWell(world, household, entity); continue; }
     if (step.stake) { stakePlot(world, household, entity); continue; }
     if (step.stroll) {
@@ -3321,6 +3245,13 @@ function finishChore(world, household, entity, chore) {
 }
 
 /**
+ * Work retired since a class may have been saved in the middle of it, by the name said when whoever was at it leaves off
+ * (`advanceChores`): *Cut a path*, gone when the owner made every path automatic (2026-10-03, "All automatic"; sim/land-paths.mjs).
+ * The part of the path already cut stays a path (sim/land-paths.mjs `leaveOffCutting`).
+ */
+const RETIRED = Object.freeze({ 'cut-path': { name: 'Cutting the path' } });
+
+/**
  * The field comes on by itself once it is planted. Growth is time passing, not work, so
  * it belongs here and not in a chore: a household that plants and then goes to war still
  * has a crop standing when someone comes back for it.
@@ -3343,7 +3274,7 @@ export function advanceChores(world, { beginTravel, modeAvailability, realMs = n
       }
       // Work that no longer exists - breaking new ground and fencing the whole field, retired when the field became
       // plots (docs/LAND_GRANTS.md §5) - is left off in a class saved in the middle of it, and said so.
-      if (!CHORES[entity.chore.id]) { abandonChore(world, household, entity, null); continue; }
+      if (!CHORES[entity.chore.id]) { abandonChore(world, household, entity, RETIRED[entity.chore.id] || null); continue; }
       advanceChore(world, household, entity, { beginTravel, modeAvailability });
     }
   }

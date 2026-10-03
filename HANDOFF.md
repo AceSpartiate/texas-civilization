@@ -230,6 +230,106 @@ the copy; hers still says `public/join-words.js`): take join-words' `index.html`
 
 **Results**: `npm test` **2160 tests, 2123 pass, 1 fail, 36 skipped** - the one, tests/save-retry.test.mjs's Windows retry timing under the whole suite's load, passes alone (twice). Browser, all green: `test:famous-people` 22 (a Joe-in-the-doorway sample missed once under a parallel run, green alone), `test:battle-gonzales` 12, `test:battle-bexar` 15, `test:battle-cinema` 15, `test:storming` 7, `test:battle-south` 16 (Agua Dulce's groves), `test:battle-coleto` 17, `test:battle-grass` 14, `test:battle-concepcion` 13, `test:battle-alamo` 13, `test:battle-san-jacinto` 15, `test:looks` 12, `test:family-age-art` 9, `test:hunt` 15, `test:work` 5, `test:overlap` (green), and her own proofs: famous cardinal 27 clips, field 24, gestures 30, story 26, cavalry 2, Coleto prone 1, Grass Fight mules 3, ground fog 2, live-oak motts 2, night lights 4, landscape, and the join page at four sizes. tests/claude-standins.test.mjs and tests/astra-art-wins.test.mjs green; every plan item's request heading exists.
 
+## Paths all automatic: "All automatic" — owner-decided 2026-10-03 (not released)
+
+Branch `auto-paths` off `origin/main` (4b98b7d9); not pushed, not published. Same computer only: headless Chrome at 1366x768; no
+Chromebook, LAN or classroom claim. The owner, verbatim: *"i don't want players to have to micromanage the paths that we added
+earlier. this should be an automated thing based on where they put things."* Offered three options, the owner chose **"All
+automatic"**: *Remove the Cut a path button. Paths appear on their own from the house to everything the family places: water, each
+field, the yard gate, the woodpile and the stock pens. They wind round trees, and no one is sent to fell anything.* The rule:
+docs/LAND_GRANTS.md §10.2 and §10.4, docs/WOODS_AND_BUILDING.md §6.12; claim `FIC-GONZ-1101 (amended 2026-10-03)`, `FIC-GONZ-1102`
+withdrawn (HISTORY.md).
+
+**What a student sees**
+
+- **No *Cut a path*** on any row or the map's place chooser. A page loaded before, or an old command, sending it is refused in words:
+  *"Nobody needs to cut paths now: the family treads its own ways from the house to the water, each field, the yard gate, the woodpile
+  and the stock, round the trees."* (`/api/command` and `/api/plot?job=cut-path` alike).
+- **Once the house stands, a way from the door to**: running water near enough to carry (as before); every cleared plot (as before);
+  **the woodpile** (left of the house, where the page draws the logs); **where the cattle and where the hogs are brought in at night**,
+  each while the family has any; and **the yard's gate** once the yard is fenced. Laid round the trees, nobody sent, nothing felled.
+- **A fenced yard has a gate**, an opening in the front rail straight out before the door (slid along the rail clear of any standing
+  tree), drawn open in the rails. **The rails are a wall** to the way-finding but at the gate: every way out of the yard, and everybody
+  walking in or out, goes through it.
+- New ways appear on the tick after a thing is placed (a plot cleared, the rails up, stock bought); ways are laid again when the door
+  or the rails change; a way to something gone goes (the hogs all sold, the gate when the Scrape pulls the rails down).
+
+**Design decisions** (the honest reading where the brief left it open)
+
+- *The stock pens*: the family has none (docs/STOCK.md, an open range). The way goes to where the herd is **drawn coming in at night**
+  (public/herd-view.js, near the house): `stockGround` on the server is that very point, one per kind, now exported from the page as
+  `nightGround` and held equal by the test.
+- *The woodpile*: the server had no place for it; the page drew it at a camera offset. `woodpileAt` is that offset in world miles at
+  the zooms a land is worked at (`ceiling:` the page's figure floor/cap moves the drawn pile a little off the way's end zoomed far out
+  or in; drawing the pile at the server's point, as the tent is, is the way out).
+- *The well*: dug by the door (`dig-well` walks to the yard spot); a way to it would be a few steps, so none. *The tent*: stands only
+  until the house has a roof, and ways begin at the house, so none.
+- *Things gone*: the way goes at once (`ceiling:` not grown over through a season).
+- *Round the trees*: a trodden way counts a tree's cell at **100** times its ground (`WAY_TREE_COST`), somebody walking about still at
+  20 (`TREE_COST`). At 20, a way out of the fenced yard into thick timber was laid through a tree's cell (found in testing). The
+  smoothing of a found way now walks every grid cell its straight stretches cross (it sampled three times a cell, and clipped tree
+  cells' corners).
+- *Old saves* (no saveVersion bump): a class saved before opens as it was; its trodden ways are kept and laid again only where the rule
+  now lays them differently, and the new ones are trodden on its first ticks. **Somebody part way through cutting a path** (the chore no
+  longer exists) leaves off on the first tick, said (*"... left off cutting the path unfinished."*, `RETIRED` in sim/chores.mjs, the same
+  route retired field work took); the tree they were felling stands; the path keeps its cut part and the stakes of the rest come up
+  (`leaveOffCutting`). Dropped, not finished: finishing would keep the felling-along-a-line machinery alive for one old chore, against the
+  owner's decision, and nothing the family had is lost. Paths cut before stay. A yard without a kept `gate`, a way without a `gate`
+  mark: correct empty values. The validation check on a `cut-path` chore's path is gone (the chore is dropped anyway), so more old saves
+  open, none fewer.
+
+**Built**: `sim/land-paths.mjs` (`troddenTo`, `advanceLandPaths` rewritten, `layWay`, `leaveOffCutting`, `doorOf`, `yardGate`,
+`gateAlong`, `woodpileAt`, `stockGround`, `onRails` in `cellCost`, `WAY_TREE_COST`, `lineCost` by grid walk, `PATHS_TRODDEN_WHY`,
+`pathOrderRefusal`, projection with `to` and `yard.gate`, validation of `path.gate` and `yard.gate`; removed `cutPathPlan`,
+`cutPathWork`, `stakePath`, `nextOnPath`, `clearStretch`, `pathFront`, `pathStart`, `treesInTheWay`, `PATH_HALF`, `PATH_MOST`,
+`PATH_TICKS_PER_MILE`); `sim/chores.mjs` (`cut-path`, its step, `cutPathFacts`, `PATH_AXE_WHY` removed; `RETIRED`); `sim/world.mjs`
+(refusal first in `applyAction`; the `cut-path` action, its lobby/aside entries and its validation removed); `sim/lesson.mjs`
+(`LATER_WORK` the yard only); `sim/survey.mjs` (`pathFront` stroll gone); `server/app.mjs` (`/api/plot?job=cut-path` refused); page
+`public/app.js` (the chooser's line and words gone; `drawYardFence` leaves the gate open, `railFence(..., { open })`),
+`public/family-panel.js` (summary, icon, `ON_MAP`), `public/work-art.js`, `public/herd-view.js` (`nightGround`). Art: docs/ART_REQUESTS.md
+*Request 2026-10-02 — paths and the yard* item 1 (`icon-cut-path`) **withdrawn**, the yard icon and the trodden-path tile kept; plan item
+B16 trimmed, `npm run art:plan` rerun, `tests/claude-standins.test.mjs` 12 of 12.
+
+**Cost** (re-measured, scratch script over three families of class `smoke-paths`, this machine): a walk set out about the land 1.3 ms
+on average, 6.9 at worst (150 walks, with and without a yard); a trodden way 0.8 ms average / 3.2 worst found first (patches cold), 0.3
+/ 0.8 after, 0.5 / 1.3 out of a fenced yard; a tick of `advanceLandPaths` 1.5 ms at worst. Inside the 1.5-7 ms average and 45 ms worst
+of 2026-10-02 (that was a different scenario; these are not like for like).
+
+**Evidence**
+
+- `tests/land-paths.test.mjs`, 9 tests (was 7): *treads a way from the door* (water, plot, woodpile, both stock grounds = the page's
+  night ground, from the door, round the trees, nothing felled, nobody sent, laid once, on the projection with `to`); *the ways follow*
+  (a plot cleared later gets its way; the yard fenced: a way to the gate, every way laid again through it and never over the rails; the
+  hogs sold and the rails ruined: those ways go, the rest from the door again); *Cut a path is gone* (no chore, not on the row, not in
+  `PANEL_SUMMARIES`/`ON_MAP`/`FARM_WORK`; `cut-path` and `chore: cut-path` refused with the words, nothing staked; and through a real
+  server: `/api/plot?job=cut-path` and `/api/command`); *part way through cutting a path* (an old-shaped save validates, opens, the cutter
+  leaves off with the line, the cut part stays, stakes up, the tree stands); the yard test also holds the kept gate. The old *Cut a path*
+  test is gone with the feature; *walking a path is quicker* now fells its line's trees with a local helper.
+- `node scripts/land-paths-injections.mjs`: **33 of 33 caught**, 27 by their own test alone; the six that also fail a neighbour share its
+  machinery (the way-finding blind to trees or paths, no way trodden, a trodden way straight, the stock ground moved, the Scrape's rails)
+  - [record](docs/evidence/land-paths-injections.json). Three old *Cut a path* injections retired, sixteen new.
+- `npm run test:land-paths`: 8 checks green ([record](docs/evidence/land-paths-browser.json); `docs/evidence/land-paths-ways.png`,
+  `-yard.png`, `-round-the-trees.png`): the trodden ways drawn; the walk round the trees as before; no *Cut a path* on any row; the ways
+  to water, plot, woodpile, cattle and hogs drawn, none over a tree; the yard's gate drawn open, a way to it and all six ways through it,
+  none over the rails; the child kept in the yard. `node scripts/land-paths-browser-injections.mjs`: **5 of 5** caught, two new (the ways
+  not drawn, the gate not left open) - [record](docs/evidence/land-paths-browser-injections.json). The 2026-10-02 shots `-chooser`,
+  `-cutting`, `-on-the-path` are left as that day's record; nothing makes them now.
+- `npm test`: **2184 tests, 2148 pass, 0 fail, 36 skipped**. The first full run was red once, *offers survive save and reload*
+  (tests/trade.test.mjs): the trodden ways' "wants nothing more" memory is kept by household id for the process, and without the
+  path count in its key a class saved and opened again in the same process was not trodden its ways. Fixed (`lookedAt` keys the
+  paths too, as the 2026-10-02 version did); putting the old key back fails that test alone (watched). `node scripts/check-doc-links.mjs`
+  clean; `node --test tests/claude-standins.test.mjs` 12 of 12.
+- Browser, green: `test:land-paths` 8, `test:overlap`, `test:family-panel`, `test:auto` 14, `test:children` 16. **`test:field-click` red
+  twice** (once straight after the other proofs, once alone) at its carreta step (`field-click-browser-proof.mjs:386`, *the maker's
+  chore is make-carreta* within 15 s), **then green three times running** on the same code; green once on `origin/main` (f8fb8653).
+  Nothing in this branch touches the carreta; not proved either way whether it is load or this branch - left for whoever next sees it.
+  Only the land-paths and overlap evidence is committed; the other proofs' regenerated pictures were put back.
+
+**Not proved**: no Chromebook, LAN or classroom; the gate is mostly hidden under the parked family wagon in the yard screenshot (its
+place is proved by `__yardDrawn.gate`, not by eye); a class of thirty's way-finding cost (three families measured); the pile drawn at
+the way's end only at the zooms between the page's figure floor and cap; that a way to a plot deep in uncleared timber never squeezes
+past a trunk (only that it costs a hundred cells of detour first).
+
 ## Join words: "3 words ... related to the texas revolution", port 1835 — owner-decided 2026-10-03 (released in v2026.10.03.1)
 
 Branch `join-words-2` off local `integration-2026-09-28` (b66067ee, with join-words and herds); not pushed, nothing published.

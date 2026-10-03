@@ -110,15 +110,25 @@ export function herdFigures({ herd, home, bounds = null, hour = 12, seed = '', t
   return figures;
 }
 
+/** Which way from the house a kind's ground lies, for this family: the same every time. */
+const groundAngle = (kind, seed) => hashed(seed, kind, 'ground') * Math.PI * 2 + (kind === 'hogs' ? Math.PI * 0.7 : 0);
+/**
+ * Where a kind is brought in to at night, near the house (`NIGHT_OUT`): the family's stock's place, which the family's trodden way
+ * goes to (sim/land-paths.mjs `stockGround`, owner 2026-10-03, "All automatic"; tests/land-paths.test.mjs holds the two together).
+ */
+export function nightGround(kind, home, seed) {
+  const angle = groundAngle(kind, seed);
+  return { x: home.x + Math.cos(angle) * NIGHT_OUT, y: home.y + Math.sin(angle) * NIGHT_OUT * 0.6 };
+}
 /**
  * Where a kind stands: about the herder while somebody is out after the stock; near the house at night; else out on its own ground
  * - the cattle further out on the open land, the hogs nearer, and in the timber when the page can say where timber is.
  */
 function centreOf(kind, { home, night, seed, herder, timber, time }) {
   if (herder) return { x: herder.x + (kind === 'cattle' ? 0.03 : -0.03), y: herder.y + 0.015, driven: true };
-  const angle = hashed(seed, kind, 'ground') * Math.PI * 2 + (kind === 'hogs' ? Math.PI * 0.7 : 0);
+  const angle = groundAngle(kind, seed);
   const out = night ? NIGHT_OUT : OUT[kind];
-  let centre = { x: home.x + Math.cos(angle) * out, y: home.y + Math.sin(angle) * out * 0.6 };
+  let centre = night ? nightGround(kind, home, seed) : { x: home.x + Math.cos(angle) * out, y: home.y + Math.sin(angle) * out * 0.6 };
   if (!night && kind === 'hogs' && timber) {
     // The nearest of a few places round the house where timber stands: the hogs root in it.
     for (let turn = 0; turn < 8; turn++) {

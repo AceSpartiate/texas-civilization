@@ -18,7 +18,7 @@ import { record } from './events.mjs';
 import { TOOL_LIFE } from './tools.mjs';
 import { distanceToPolyline } from './terrain.mjs';
 import { landAround, onRealLand } from './ground.mjs';
-import { pathFront, walkLand } from './land-paths.mjs';
+import { walkLand } from './land-paths.mjs';
 import { holdingOf } from './grants.mjs';
 import { choosing } from './homesite.mjs';
 import { housesOnLand } from './house-placement.mjs';
@@ -184,8 +184,6 @@ export function fieldRound(world, household, ids = null) {
 export function strollTarget(world, household, entity, towards) {
   if (towards === 'plot') return entity.chore?.plot || null;
   if (towards === 'ground') return entity.chore?.ground || null;
-  // Out to where the cutting of a path has got (sim/land-paths.mjs, *Cut a path*).
-  if (towards === 'pathFront') return pathFront(household, entity.chore?.pathId);
   if (towards === 'fields') {
     const next = fieldRound(world, household, entity.chore?.plots || null)[entity.chore?.visited || 0];
     return next ? { x: next.x, y: next.y } : null;

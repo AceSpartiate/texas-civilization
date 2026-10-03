@@ -3,8 +3,8 @@
   "files": [
     "tests/land-paths.test.mjs"
   ],
-  "caught": 19,
-  "of": 19,
+  "caught": 33,
+  "of": 33,
   "results": [
     {
       "injection": "the way-finding does not see the trees (people walk over them, as before)",
@@ -12,7 +12,8 @@
       "only": false,
       "failed": [
         "a way across the family's land goes round the standing trees, and the person walks it, drawn along the points walked",
-        "once the house stands the family treads a way to its water and its plots; a class saved with none opens with none and validates"
+        "once the house stands the family treads a way from the door to its water, each plot, the woodpile and where its stock comes in at night - round the trees, nobody sent, nothing felled; a class saved with none opens with none",
+        "a new plot gets its way when it is cleared; a fenced yard gets a way to its gate and the ways out go through it; with the rails down, or the stock gone, the ways follow"
       ]
     },
     {
@@ -42,49 +43,159 @@
     {
       "injection": "the way-finding does not know where the paths run",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
-        "walking a path is quicker than the country it crosses, and the way found keeps to it"
+        "walking a path is quicker than the country it crosses, and the way found keeps to it",
+        "a new plot gets its way when it is cleared; a fenced yard gets a way to its gate and the ways out go through it; with the rails down, or the stock gone, the ways follow"
       ]
     },
     {
       "injection": "no way is trodden when the house stands",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
-        "once the house stands the family treads a way to its water and its plots; a class saved with none opens with none and validates"
+        "once the house stands the family treads a way from the door to its water, each plot, the woodpile and where its stock comes in at night - round the trees, nobody sent, nothing felled; a class saved with none opens with none",
+        "a new plot gets its way when it is cleared; a fenced yard gets a way to its gate and the ways out go through it; with the rails down, or the stock gone, the ways follow",
+        "a class saved with somebody part way through cutting a path opens: they leave off, said so; what was cut stays a path, its stakes come up, nothing is felled"
       ]
     },
     {
       "injection": "a trodden way is laid straight over the trees",
       "caught": true,
-      "only": true,
+      "only": false,
       "failed": [
-        "once the house stands the family treads a way to its water and its plots; a class saved with none opens with none and validates"
+        "once the house stands the family treads a way from the door to its water, each plot, the woodpile and where its stock comes in at night - round the trees, nobody sent, nothing felled; a class saved with none opens with none",
+        "a new plot gets its way when it is cleared; a fenced yard gets a way to its gate and the ways out go through it; with the rails down, or the stock gone, the ways follow"
       ]
     },
     {
-      "injection": "cutting a path walks past the trees in its way and fells none",
+      "injection": "a trodden way counts a tree as somebody walking does, and is laid through the timber out of a fenced yard (found 2026-10-03)",
       "caught": true,
       "only": true,
       "failed": [
-        "Cut a path: the trees in its way come down onto the pile, it wants an axe, it is held back in the lesson, and it is walked"
+        "a new plot gets its way when it is cleared; a fenced yard gets a way to its gate and the ways out go through it; with the rails down, or the stock gone, the ways follow"
       ]
     },
     {
-      "injection": "a path through the timber is cut without an axe",
+      "injection": "no way to the woodpile",
       "caught": true,
       "only": true,
       "failed": [
-        "Cut a path: the trees in its way come down onto the pile, it wants an axe, it is held back in the lesson, and it is walked"
+        "once the house stands the family treads a way from the door to its water, each plot, the woodpile and where its stock comes in at night - round the trees, nobody sent, nothing felled; a class saved with none opens with none"
       ]
     },
     {
-      "injection": "the lesson does not hold back paths and the yard",
+      "injection": "no way to where the stock comes in at night",
       "caught": true,
       "only": true,
       "failed": [
-        "Cut a path: the trees in its way come down onto the pile, it wants an axe, it is held back in the lesson, and it is walked"
+        "once the house stands the family treads a way from the door to its water, each plot, the woodpile and where its stock comes in at night - round the trees, nobody sent, nothing felled; a class saved with none opens with none",
+        "a new plot gets its way when it is cleared; a fenced yard gets a way to its gate and the ways out go through it; with the rails down, or the stock gone, the ways follow"
+      ]
+    },
+    {
+      "injection": "the stock's ground on the server is not where the page draws the herd at night",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "once the house stands the family treads a way from the door to its water, each plot, the woodpile and where its stock comes in at night - round the trees, nobody sent, nothing felled; a class saved with none opens with none",
+        "a new plot gets its way when it is cleared; a fenced yard gets a way to its gate and the ways out go through it; with the rails down, or the stock gone, the ways follow"
+      ]
+    },
+    {
+      "injection": "no way to the yard gate",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a new plot gets its way when it is cleared; a fenced yard gets a way to its gate and the ways out go through it; with the rails down, or the stock gone, the ways follow"
+      ]
+    },
+    {
+      "injection": "the yard's rails are no wall: the ways out cross them",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a new plot gets its way when it is cleared; a fenced yard gets a way to its gate and the ways out go through it; with the rails down, or the stock gone, the ways follow"
+      ]
+    },
+    {
+      "injection": "the ways laid before the yard went up are not laid again",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a new plot gets its way when it is cleared; a fenced yard gets a way to its gate and the ways out go through it; with the rails down, or the stock gone, the ways follow"
+      ]
+    },
+    {
+      "injection": "a way to stock the family no longer has stays",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a new plot gets its way when it is cleared; a fenced yard gets a way to its gate and the ways out go through it; with the rails down, or the stock gone, the ways follow"
+      ]
+    },
+    {
+      "injection": "a plot cleared later gets no way (the family is not looked at again)",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a new plot gets its way when it is cleared; a fenced yard gets a way to its gate and the ways out go through it; with the rails down, or the stock gone, the ways follow"
+      ]
+    },
+    {
+      "injection": "the order to cut a path is taken as it was",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "Cut a path is gone: not on anybody's row, its order and its place on the map refused in words, nowhere in the lesson or the panel"
+      ]
+    },
+    {
+      "injection": "the place chooser still asks what a path cut there would be",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "Cut a path is gone: not on anybody's row, its order and its place on the map refused in words, nowhere in the lesson or the panel"
+      ]
+    },
+    {
+      "injection": "Cut a path is still chosen on the map from the bar",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "Cut a path is gone: not on anybody's row, its order and its place on the map refused in words, nowhere in the lesson or the panel"
+      ]
+    },
+    {
+      "injection": "the lesson does not hold back the yard",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "Cut a path is gone: not on anybody's row, its order and its place on the map refused in words, nowhere in the lesson or the panel"
+      ]
+    },
+    {
+      "injection": "a class saved in the middle of cutting a path will not open",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a class saved with somebody part way through cutting a path opens: they leave off, said so; what was cut stays a path, its stakes come up, nothing is felled"
+      ]
+    },
+    {
+      "injection": "whoever was cutting leaves off without saying what",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a class saved with somebody part way through cutting a path opens: they leave off, said so; what was cut stays a path, its stakes come up, nothing is felled"
+      ]
+    },
+    {
+      "injection": "the stakes of a path left part cut stay in the ground",
+      "caught": true,
+      "only": true,
+      "failed": [
+        "a class saved with somebody part way through cutting a path opens: they leave off, said so; what was cut stays a path, its stakes come up, nothing is felled"
       ]
     },
     {
@@ -128,10 +239,19 @@
       ]
     },
     {
-      "injection": "the Scrape's burning leaves the yard's rails standing",
+      "injection": "the yard's gate is not kept when its rails go up",
       "caught": true,
       "only": true,
       "failed": [
+        "Fence a yard: half a plot's rails and the trees inside felled at felling's time, refused before the house and without an axe, drawn on the land, pulled down in the Scrape"
+      ]
+    },
+    {
+      "injection": "the Scrape's burning leaves the yard's rails standing",
+      "caught": true,
+      "only": false,
+      "failed": [
+        "a new plot gets its way when it is cleared; a fenced yard gets a way to its gate and the ways out go through it; with the rails down, or the stock gone, the ways follow",
         "Fence a yard: half a plot's rails and the trees inside felled at felling's time, refused before the house and without an axe, drawn on the land, pulled down in the Scrape"
       ]
     },

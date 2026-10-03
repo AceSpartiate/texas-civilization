@@ -330,9 +330,10 @@ export const STEPS = Object.freeze([
 
 /**
  * Farm work no step names, held back on every step all the same until the lesson is over (owner, 2026-10-02; sim/land-paths.mjs):
- * cutting a path and fencing the yard. A student taught one farm task at a time is not also offered the land's improvements.
+ * fencing the yard. A student taught one farm task at a time is not also offered the land's improvements. (Cutting a path was one
+ * until the owner made every path automatic, 2026-10-03: there is no such order now, sim/land-paths.mjs `pathOrderRefusal`.)
  */
-export const LATER_WORK = Object.freeze(['cut-path', 'chore:cut-path', 'chore:fence-yard']);
+export const LATER_WORK = Object.freeze(['chore:fence-yard']);
 /** Every action id the lesson knows about: what a family is told it may do once the lesson is over. */
 export const ALL_ACTIONS = Object.freeze([...new Set([...ALWAYS, ...STEPS.flatMap(step => step.allow()), ...LATER_WORK])]);
 

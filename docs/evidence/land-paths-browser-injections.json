@@ -1,7 +1,7 @@
 {
   "date": "2026-10-03",
-  "caught": 3,
-  "of": 3,
+  "caught": 5,
+  "of": 5,
   "results": [
     {
       "injection": "the page draws a land walk as the straight line between ticks",
@@ -17,6 +17,16 @@
       "injection": "the yard's rails are not drawn",
       "caught": true,
       "stopped": "page.waitForFunction: Timeout 15000ms exceeded.\r"
+    },
+    {
+      "injection": "the ways trodden on their own are not drawn",
+      "caught": true,
+      "stopped": "page.waitForFunction: Timeout 20000ms exceeded.\r"
+    },
+    {
+      "injection": "the yard's gate is not left open in the drawn rails",
+      "caught": true,
+      "stopped": "AssertionError [ERR_ASSERTION]: the gate left open in the drawn rails\r"
     }
   ]
 }

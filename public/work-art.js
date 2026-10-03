@@ -125,9 +125,7 @@ export const WORK = Object.freeze({
   'harvest-field': { stroke: 'reap', spread: 0.8, by: [[/carrying/, 'carry']] },
   'clear-plot': { stroke: 'grub', spread: 0.8, by: [[/felling|timber/, 'chop'], [/prairie sod|breaking/, 'hoe']] },
   'fence-plot': { stroke: 'split', spread: 0.8, by: [[/mesquite|cutting/, 'chop'], [/carrying/, 'carry']] },
-  // A path and the yard (owner, 2026-10-02; sim/land-paths.mjs): felling what stands in a path's way, grubbing its brush, marking
-  // it through the grass; and the yard's rails split as a plot's are.
-  'cut-path': { stroke: 'chop', spread: 0.6, by: [[/brush|grub|undergrowth/, 'grub'], [/marking|grass/, 'pace']] },
+  // The yard (owner, 2026-10-02; sim/land-paths.mjs): its rails split as a plot's are.
   'fence-yard': { stroke: 'split', spread: 0.8, by: [[/mesquite|cutting/, 'chop'], [/carrying/, 'carry']] },
   // The house's stage, in the server's words (sim/houses.mjs `stageOf`): felling for it first, then the walls and the roof.
   // The server walks them to the middle of the house's front (sim/house-placement.mjs `houseFront`): they stand along it.

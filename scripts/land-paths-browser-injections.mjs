@@ -13,6 +13,11 @@ const INJECTIONS = [
   // and this proof's child is never drawn near enough the rails for the clamp to matter (removing it, 2026-10-02, the proof passed).
   { name: 'the yard\'s rails are not drawn', expect: /window.__yardDrawn|Timeout/,
     file: 'public/app.js', from: "    try { drawYardFence(ground, world, camera); } catch { /* the ground without the yard's rails */ }", to: "" },
+  // Paths all automatic (owner, 2026-10-03, "All automatic").
+  { name: 'the ways trodden on their own are not drawn', expect: /Timeout/,
+    file: 'public/app.js', from: "  for (const path of land.paths || []) {", to: "  for (const path of []) {" },
+  { name: 'the yard\'s gate is not left open in the drawn rails', expect: /the gate left open in the drawn rails/,
+    file: 'public/app.js', from: "  const gate = yard.fence !== 'ruined' && yard.gate ? [", to: "  const gate = false && yard.gate ? [" },
 ];
 const run = () => { try { execFileSync(process.execPath, ['scripts/land-paths-browser-proof.mjs'], { encoding: 'utf8', stdio: 'pipe', timeout: 900000 }); return ''; } catch (error) { return `${error.stdout}\n${error.stderr}`; } };
 const results = [];
